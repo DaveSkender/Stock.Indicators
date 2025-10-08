@@ -12,86 +12,86 @@ public class StreamObservables : TestBase, ITestChainProvider
 
         int length = quotesList.Count;
 
-        // setup quote provider
-        QuoteHub<Quote> provider = new();
+        // setup quote provider hub
+        QuoteHub<Quote> quoteHub = new();
 
-        // prefill quotes to provider
-        provider.Add(quotesList);
+        // prefill quotes at provider
+        quoteHub.Add(quotesList);
 
         // initialize observer
-        QuotePartHub<Quote> observer = provider
-            .ToQuotePart(CandlePart.Close);
+        QuotePartHub<Quote> observer = quoteHub
+            .ToQuotePartHub(CandlePart.Close);
 
         // assert: prefilled
-        provider.Cache.Should().HaveCount(50);
+        quoteHub.Cache.Should().HaveCount(50);
         observer.Cache.Should().HaveCount(50);
 
         // assert: same dates
         for (int i = 0; i < 50; i++)
         {
             IReusable r = observer.Cache[i];
-            IReusable q = provider.Cache[i];
+            IReusable q = quoteHub.Cache[i];
 
             r.Timestamp.Should().Be(q.Timestamp);
         }
 
         observer.Unsubscribe();
-        provider.EndTransmission();
+        quoteHub.EndTransmission();
     }
 
     [TestMethod]
     public void Subscription()
     {
-        // setup quote provider, observer
-        QuoteHub<Quote> provider = new();
+        // setup quote provider hub, observer
+        QuoteHub<Quote> quoteHub = new();
 
         QuotePartHub<Quote> observer
-            = provider.ToQuotePart(CandlePart.OHLC4);
+            = quoteHub.ToQuotePartHub(CandlePart.OHLC4);
 
         // assert: subscribed
-        provider.ObserverCount.Should().Be(1);
-        provider.HasObservers.Should().BeTrue();
+        quoteHub.ObserverCount.Should().Be(1);
+        quoteHub.HasObservers.Should().BeTrue();
         observer.IsSubscribed.Should().BeTrue();
 
         // act: unsubscribe
         observer.Unsubscribe();
 
         // assert: not subscribed
-        provider.ObserverCount.Should().Be(0);
-        provider.HasObservers.Should().BeFalse();
+        quoteHub.ObserverCount.Should().Be(0);
+        quoteHub.HasObservers.Should().BeFalse();
         observer.IsSubscribed.Should().BeFalse();
 
         // act: resubscribe
-        provider.Subscribe(observer);
+        quoteHub.Subscribe(observer);
 
         // assert: subscribed
-        provider.ObserverCount.Should().Be(1);
-        provider.HasObservers.Should().BeTrue();
+        quoteHub.ObserverCount.Should().Be(1);
+        quoteHub.HasObservers.Should().BeTrue();
         observer.IsSubscribed.Should().BeTrue();
 
         // act: end all subscriptions
-        provider.EndTransmission();
+        quoteHub.EndTransmission();
 
         // assert: not subscribed
-        provider.ObserverCount.Should().Be(0);
-        provider.HasObservers.Should().BeFalse();
+        quoteHub.ObserverCount.Should().Be(0);
+        quoteHub.HasObservers.Should().BeFalse();
         observer.IsSubscribed.Should().BeFalse();
     }
 
     [TestMethod]
     public void ChainProvider()
     {
-        // setup quote provider
-        QuoteHub<Quote> provider = new();
+        // setup quote provider hub
+        QuoteHub<Quote> quoteHub = new();
 
         // initialize observer
-        EmaHub<QuotePart> observer = provider
-            .ToQuotePart(CandlePart.HL2)
-            .ToEma(11);
+        EmaHub<QuotePart> observer = quoteHub
+            .ToQuotePartHub(CandlePart.HL2)
+            .ToEmaHub(11);
 
-        // emulate adding quotes to provider
-        provider.Add(Quotes);
-        provider.EndTransmission();
+        // emulate adding quotes to provider hub
+        quoteHub.Add(Quotes);
+        quoteHub.EndTransmission();
 
         // stream results
         IReadOnlyList<EmaResult> streamList
@@ -107,6 +107,6 @@ public class StreamObservables : TestBase, ITestChainProvider
         streamList.Should().BeEquivalentTo(seriesList);
 
         observer.Unsubscribe();
-        provider.EndTransmission();
+        quoteHub.EndTransmission();
     }
 }

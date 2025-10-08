@@ -17,12 +17,12 @@ Created by Bill Williams, the Gator Oscillator is an expanded oscillator view of
 ```csharp
 // C# usage syntax
 IReadOnlyList<GatorResult> results =
-  quotes.GetGator();
+  quotes.ToGator();
 
 // with custom Alligator configuration
 IReadOnlyList<GatorResult> results = quotes
-  .GetAlligator([see Alligator docs])
-  .GetGator();
+  .ToAlligator([see Alligator docs])
+  .ToGator();
 ```
 
 ## Historical quotes requirements
@@ -73,7 +73,7 @@ This indicator may be generated from any chain-enabled indicator or method.
 // example
 var results = quotes
     .Use(CandlePart.HLC3)
-    .GetGator();
+    .ToGator();
 ```
 
 Results **cannot** be further chained with additional transforms.

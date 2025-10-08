@@ -17,7 +17,7 @@ Created by Munehisa Homma, [Heikin-Ashi](https://en.wikipedia.org/wiki/Candlesti
 ```csharp
 // C# usage syntax
 IReadOnlyList<HeikinAshiResult> results =
-  quotes.GetHeikinAshi();
+  quotes.ToHeikinAshi();
 ```
 
 ## Historical quotes requirements
@@ -59,7 +59,7 @@ IReadOnlyList<HeikinAshiResult>
 
   ```csharp
   IReadOnlyList<Quote> results = quotes
-    .GetHeikinAshi()
+    .ToHeikinAshi()
     .ToQuotes();
   ```
 
@@ -72,8 +72,8 @@ Results are based in `IQuote` and can be further used in any indicator.
 ```csharp
 // example
 var results = quotes
-    .GetHeikinAshi(..)
-    .GetRsi(..);
+    .ToHeikinAshi(..)
+    .ToRsi(..);
 ```
 
 This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.

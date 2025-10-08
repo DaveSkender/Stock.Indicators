@@ -17,7 +17,7 @@ Created by Laurence Connors, the [ConnorsRSI](https://alvarezquanttrading.com/wp
 ```csharp
 // C# usage syntax
 IReadOnlyList<ConnorsRsiResult> results =
-  quotes.GetConnorsRsi(rsiPeriods, streakPeriods, rankPeriods);
+  quotes.ToConnorsRsi(rsiPeriods, streakPeriods, rankPeriods);
 ```
 
 ## Parameters
@@ -76,7 +76,7 @@ This indicator may be generated from any chain-enabled indicator or method.
 // example
 var results = quotes
     .Use(CandlePart.HL2)
-    .GetConnorsRsi(..);
+    .ToConnorsRsi(..);
 ```
 
 Results can be further processed on `ConnorsRsi` with additional chain-enabled indicators.
@@ -84,6 +84,6 @@ Results can be further processed on `ConnorsRsi` with additional chain-enabled i
 ```csharp
 // example
 var results = quotes
-    .GetConnorsRsi(..)
-    .GetSma(..);
+    .ToConnorsRsi(..)
+    .ToSma(..);
 ```

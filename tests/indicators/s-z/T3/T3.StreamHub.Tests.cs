@@ -13,24 +13,24 @@ public class T3Hub : StreamHubTestBase, ITestChainProvider
 
         int length = quotesList.Count;
 
-        // setup quote provider
-        QuoteHub<Quote> provider = new();
+        // setup quote provider hub
+        QuoteHub<Quote> quoteHub = new();
 
-        // prefill quotes to provider
+        // prefill quotes at provider
         for (int i = 0; i < 50; i++)
         {
-            provider.Add(quotesList[i]);
+            quoteHub.Add(quotesList[i]);
         }
 
         // initialize observer
-        T3Hub<Quote> observer = provider
-            .ToT3(lookbackPeriods, volumeFactor);
+        T3Hub<Quote> observer = quoteHub
+            .ToT3Hub(lookbackPeriods, volumeFactor);
 
         // fetch initial results (early)
         IReadOnlyList<T3Result> streamList
             = observer.Results;
 
-        // emulate adding quotes to provider
+        // emulate adding quotes to provider hub
         for (int i = 50; i < length; i++)
         {
             // skip one (add later)
@@ -40,20 +40,20 @@ public class T3Hub : StreamHubTestBase, ITestChainProvider
             }
 
             Quote q = quotesList[i];
-            provider.Add(q);
+            quoteHub.Add(q);
 
             // resend duplicate quotes
             if (i is > 100 and < 105)
             {
-                provider.Add(q);
+                quoteHub.Add(q);
             }
         }
 
         // late arrival
-        provider.Insert(quotesList[80]);
+        quoteHub.Insert(quotesList[80]);
 
         // delete
-        provider.Remove(quotesList[400]);
+        quoteHub.Remove(quotesList[400]);
         quotesList.RemoveAt(400);
 
         // time-series, for comparison
@@ -65,7 +65,7 @@ public class T3Hub : StreamHubTestBase, ITestChainProvider
         streamList.Should().HaveCount(501);
 
         observer.Unsubscribe();
-        provider.EndTransmission();
+        quoteHub.EndTransmission();
     }
 
     [TestMethod]
@@ -79,22 +79,22 @@ public class T3Hub : StreamHubTestBase, ITestChainProvider
 
         int length = quotesList.Count;
 
-        // setup quote provider
-        QuoteHub<Quote> provider = new();
+        // setup quote provider hub
+        QuoteHub<Quote> quoteHub = new();
 
         // initialize observer
-        SmaHub<T3Result> observer = provider
-            .ToT3(t3Periods, volumeFactor)
+        SmaHub<T3Result> observer = quoteHub
+            .ToT3Hub(t3Periods, volumeFactor)
             .ToSma(smaPeriods);
 
         // emulate quote stream
         for (int i = 0; i < length; i++)
         {
-            provider.Add(quotesList[i]);
+            quoteHub.Add(quotesList[i]);
         }
 
         // delete
-        provider.Remove(quotesList[400]);
+        quoteHub.Remove(quotesList[400]);
         quotesList.RemoveAt(400);
 
         // final results
@@ -111,7 +111,7 @@ public class T3Hub : StreamHubTestBase, ITestChainProvider
         streamList.Should().HaveCount(501);
 
         observer.Unsubscribe();
-        provider.EndTransmission();
+        quoteHub.EndTransmission();
     }
 
     [TestMethod]
@@ -129,7 +129,7 @@ public class T3Hub : StreamHubTestBase, ITestChainProvider
 
         // setup t3 hub (2nd level)
         T3Hub<Quote> t3Hub = quoteHub
-            .ToT3(lookbackPeriods: 5, volumeFactor: 0.7);
+            .ToT3Hub(lookbackPeriods: 5, volumeFactor: 0.7);
 
         // setup child hub (3rd level)
         SmaHub<T3Result> childHub = t3Hub
@@ -137,7 +137,7 @@ public class T3Hub : StreamHubTestBase, ITestChainProvider
 
         // note: despite `quoteHub` being parentless,
         // it has default properties; it should not
-        // inherit its own empty provider settings
+        // inherit its own empty quoteHub settings
 
         // assert
         quoteHub.Properties.Settings.Should().Be(0b00000000, "it has default settings, not inherited");

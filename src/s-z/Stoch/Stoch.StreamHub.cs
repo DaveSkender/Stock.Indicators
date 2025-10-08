@@ -18,7 +18,7 @@ public static partial class Stoch
     /// <returns>A Stochastic Oscillator hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the quote provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when parameters are invalid.</exception>
-    public static StochHub<TIn> ToStoch<TIn>(
+    public static StochHub<TIn> ToStochHub<TIn>(
         this IStreamObservable<TIn> quoteProvider,
         int lookbackPeriods = 14,
         int signalPeriods = 3,

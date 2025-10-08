@@ -47,9 +47,49 @@ Historical price data can be provided as a `List`, `IReadOnlyList`, or `ICollect
 
 For additional configuration parameters, default values are provided when there is an industry standard.  You can, of course, override these and provide your own values.
 
+### Implementation pattern
+
+Each [indicator style](#indicator-styles-and-features) available (series, buffer list, and stream hub) will have a slightly different [implementation syntax](#example-usage); however, all will follow a common overall pattern.
+
+```csharp
+using Skender.Stock.Indicators;
+
+[..]
+
+// step 1: get quote(s) from your source
+// step 2: calculate indicator value(s)
+```
+
+See [usage examples](#example-usage) for additional details.
+
+## Indicator styles and features
+
+This library has three indicator styles available to support different uses cases.
+
+| style        | use case                                     | best for                       |
+| ------------ | -------------------------------------------- | ------------------------------ |
+| Series batch | convert full quote collections to indicators | once-and-done bulk conversions |
+| Buffer lists | standalone incrementing `ICollection` lists  | self-managed incrementing data |
+| Stream hub   | subscription based hub-observer pattern      | streaming or live data sources |
+
+### Feature comparison
+
+| feature        | Series batch | Buffer lists | Stream hub   |
+| -------------- | ------------ | ------------ | ------------ |
+| incrementing   | no           | yes          | yes          |
+| batch speed    | fastest      | faster       | fast         |
+| scaling        | low          | moderate     | high         |
+| class type     | static       | instance     | instance     |
+| base interface | `IReadOnlyList` | `ICollection` | `IStreamHub` |
+| complexity     | lowest       | moderate     | highest      |
+| chainable      | yes          | yes          | yes          |
+| pruning        | with utility | auto-preset  | auto-preset  |
+
 ### Example usage
 
-All indicator methods will produce all possible results for the provided historical quotes as a time series dataset -- it is not just a single data point returned.  For example, if you provide 3 years worth of historical quotes for the SMA method, you'll get 3 years of SMA result values.
+#### Series (batch) style usage example
+
+All series-style indicators will produce all possible results for the provided historical quotes as a time series dataset -- it is not just a single data point returned.  For example, if you provide 3 years worth of historical quotes for the SMA method, you'll get 3 years of SMA result values.
 
 ```csharp
 using Skender.Stock.Indicators;
@@ -61,7 +101,7 @@ IReadOnlyList<Quote> quotes = GetQuotesFromFeed("MSFT");
 
 // calculate 20-period SMA
 IReadOnlyList<SmaResult> results = quotes
-  .GetSma(20);
+  .ToSma(20);
 
 // use results as needed for your use case (example only)
 foreach (SmaResult r in results)
@@ -80,6 +120,14 @@ SMA on 4/26/2018 was $255.9705
 ..
 ```
 
+#### Buffers list style usage example
+
+<!-- TODO: add example usage -->
+
+#### Steam humb style usage example
+
+<!-- TODO: add example usage -->
+
 See [individual indicator pages]({{site.baseurl}}/indicators/) for specific usage guidance.
 
 More examples available:
@@ -91,14 +139,14 @@ More examples available:
 
 You must provide historical price quotes to the library in the standard OHLCV `IReadOnlyList<Quote>` or a compatible `List` or `ICollection` format.  It should have a consistent period frequency (day, hour, minute, etc).  See [using custom quote classes](#using-custom-quote-classes) if you prefer to use your own quote class.
 
-| name | type | notes
-| -- |-- |--
-| `Timestamp` | DateTime | Close date
-| `Open` | decimal | Open price
-| `High` | decimal | High price
-| `Low` | decimal | Low price
-| `Close` | decimal | Close price
-| `Volume` | decimal | Volume
+| name        | type     | notes       |
+| ----------- | -------- | ----------- |
+| `Timestamp` | DateTime | Close date  |
+| `Open`      | decimal  | Open price  |
+| `High`      | decimal  | High price  |
+| `Low`       | decimal  | Low price   |
+| `Close`     | decimal  | Close price |
+| `Volume`    | decimal  | Volume      |
 
 ### Where can I get historical quote data?
 
@@ -143,7 +191,7 @@ public class MyCustomQuote : IQuote
 IReadOnlyList<MyCustomQuote> myQuotes = GetQuotesFromFeed("MSFT");
 
 // example: get 20-period simple moving average
-IReadOnlyList<SmaResult> results = myQuotes.GetSma(20);
+IReadOnlyList<SmaResult> results = myQuotes.ToSma(20);
 ```
 
 #### Using custom quote property names
@@ -186,12 +234,12 @@ IReadOnlyList<Quote> quotes = GetQuotesFromFeed("SPY");
 // calculate RSI of OBV
 IReadOnlyList<RsiResult> results
   = quotes
-    .GetObv()
-    .GetRsi(14);
+    .ToObv()
+    .ToRsi(14);
 
 // or with two separate operations
-IReadOnlyList<ObvResult> obvResults = quotes.GetObv();
-IReadOnlyList<RsiResult> rsiOfObv = obvResults.GetRsi(14);
+IReadOnlyList<ObvResult> obvResults = quotes.ToObv();
+IReadOnlyList<RsiResult> rsiOfObv = obvResults.ToRsi(14);
 ```
 
 ## Candlestick patterns
@@ -204,22 +252,30 @@ IReadOnlyList<RsiResult> rsiOfObv = obvResults.GetRsi(14);
 
 When a candlestick pattern is recognized, it produces a matching signal.  In some cases, an intrinsic confirmation is also available after the signal.  In cases where previous bars were used to identify a pattern, they are indicated as the basis for the signal.  This `enum` can also be referenced as an `int` value.  [Documentation for each candlestick pattern]({{site.baseurl}}/indicators/#candlestick-pattern) will indicate whether confirmation and/or basis information is produced.
 
-| type | int | description
-|-- |--: |--
-| `Match.BullConfirmed` | 200 | Confirmation of a prior bull signal
-| `Match.BullSignal` | 100 | Bullish signal
-| `Match.BullBasis` | 10 | Bars supporting a bullish signal
-| `Match.Neutral` | 1 | Signal for non-directional patterns
-| `Match.None` | 0 | No match
-| `Match.BearBasis` | -10 | Bars supporting a bearish signal
-| `Match.BearSignal` | -100 | Bearish signal
-| `Match.BearConfirmed` | -200 | Confirmation of a prior bear signal
+| type                  |  int | description                         |
+| --------------------- | ---: | ----------------------------------- |
+| `Match.BullConfirmed` |  200 | Confirmation of a prior bull signal |
+| `Match.BullSignal`    |  100 | Bullish signal                      |
+| `Match.BullBasis`     |   10 | Bars supporting a bullish signal    |
+| `Match.Neutral`       |    1 | Signal for non-directional patterns |
+| `Match.None`          |    0 | No match                            |
+| `Match.BearBasis`     |  -10 | Bars supporting a bearish signal    |
+| `Match.BearSignal`    | -100 | Bearish signal                      |
+| `Match.BearConfirmed` | -200 | Confirmation of a prior bear signal |
 
 ### Candle
 
 The `CandleProperties` class is an extended version of `Quote`, and contains additional calculated properties.  `TQuote` classes can be converted to `CandleProperties` with the `.ToCandle()` [utility]({{site.baseurl}}/utilities/#extended-candle-properties), and further used as the basis for calculating indicators.
 
 {% include candle-properties.md %}
+
+## Incremental buffer style indicators
+
+<!-- TODO: add general description and usage examples of BufferStyle indicators -->
+
+## Streaming hub style indicators
+
+<!-- TODO: add general description and usage examples of StreamHub style indicators -->
 
 ## Utilities
 

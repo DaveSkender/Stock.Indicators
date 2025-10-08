@@ -22,7 +22,7 @@ public static class Simulate
 public class Go
 {
     private readonly bool verbose = true;
-    private static readonly QuoteHub<Quote> provider = new();
+    private static readonly QuoteHub<Quote> quoteHub = new();
 
     private static readonly IReadOnlyList<Quote> quotesList = Data.Data.GetDefault();
 
@@ -41,13 +41,13 @@ public class Go
         // prefill quotes to provider
         for (int i = 0; i < quotesLength; i++)
         {
-            provider.Add(quotesList[i]);
+            quoteHub.Add(quotesList[i]);
         }
     }
 
     internal void QuoteHub()
     {
-        EmaHub<Quote> emaHub = provider.ToEma(14);
+        EmaHub<Quote> emaHub = quoteHub.ToEmaHub(14);
 
         if (!verbose)
         {
@@ -64,7 +64,7 @@ public class Go
         for (int i = 0; i < quotesLength; i++)
         {
             Quote q = quotesList[i];
-            provider.Add(q);
+            quoteHub.Add(q);
 
             // wait for next quote
             Timewarp();
@@ -83,7 +83,7 @@ public class Go
 
     internal void EmaHub()
     {
-        EmaHub<Quote> emaHub = provider.ToEma(14);
+        EmaHub<Quote> emaHub = quoteHub.ToEmaHub(14);
 
         if (!verbose)
         {
@@ -100,7 +100,7 @@ public class Go
         for (int i = 0; i < quotesLength; i++)
         {
             Quote q = quotesList[i];
-            provider.Add(q);
+            quoteHub.Add(q);
 
             // wait for next quote
             Timewarp();
@@ -131,10 +131,10 @@ public class Go
 
     internal void MultipleSubscribers()
     {
-        SmaHub<Quote> smaHub = provider.ToSma(3);
-        EmaHub<Quote> emaHub = provider.ToEma(5);
-        EmaHub<QuotePart> useChain = provider.ToQuotePart(CandlePart.HL2).ToEma(7);
-        EmaHub<SmaResult> emaChain = provider.ToSma(4).ToEma(4);
+        SmaHub<Quote> smaHub = quoteHub.ToSma(3);
+        EmaHub<Quote> emaHub = quoteHub.ToEmaHub(5);
+        EmaHub<QuotePart> useChain = quoteHub.ToQuotePartHub(CandlePart.HL2).ToEmaHub(7);
+        EmaHub<SmaResult> emaChain = quoteHub.ToSma(4).ToEmaHub(4);
 
         if (!verbose)
         {
@@ -151,7 +151,7 @@ public class Go
         for (int i = 0; i < quotesLength; i++)
         {
             Quote q = quotesList[i];
-            provider.Add(q);
+            quoteHub.Add(q);
 
             // wait for next quote
             Timewarp();

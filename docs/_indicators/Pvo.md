@@ -17,7 +17,7 @@ The [Percentage Volume Oscillator](https://school.stockcharts.com/doku.php?id=te
 ```csharp
 // C# usage syntax
 IReadOnlyList<PvoResult> results =
-  quotes.GetPvo(fastPeriods, slowPeriods, signalPeriods);
+  quotes.ToPvo(fastPeriods, slowPeriods, signalPeriods);
 ```
 
 ## Parameters
@@ -73,8 +73,8 @@ Results can be further processed on `Pvo` with additional chain-enabled indicato
 ```csharp
 // example
 var results = quotes
-    .GetPvo(..)
-    .GetSlope(..);
+    .ToPvo(..)
+    .ToSlope(..);
 ```
 
 This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.

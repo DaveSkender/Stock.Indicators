@@ -15,26 +15,26 @@ public class QuoteHub : StreamHubTestBase, ITestChainProvider
         int length = Quotes.Count;
 
         // add base quotes (batch)
-        QuoteHub<Quote> provider = new();
+        QuoteHub<Quote> quoteHub = new();
 
-        provider.Add(quotesList.Take(200));
+        quoteHub.Add(quotesList.Take(200));
 
         // add incremental quotes
         for (int i = 200; i < length; i++)
         {
             Quote q = quotesList[i];
-            provider.Add(q);
+            quoteHub.Add(q);
         }
 
         QuoteHub<Quote> observer
-            = provider.ToQuote();
+            = quoteHub.ToQuoteHub();
 
         // close observations
-        provider.EndTransmission();
+        quoteHub.EndTransmission();
 
         // assert same as original
         observer.Cache.Should().HaveCount(length);
-        observer.Cache.Should().BeEquivalentTo(provider.Cache);
+        observer.Cache.Should().BeEquivalentTo(quoteHub.Cache);
     }
 
     [TestMethod]
@@ -46,22 +46,22 @@ public class QuoteHub : StreamHubTestBase, ITestChainProvider
 
         int length = quotesList.Count;
 
-        // setup quote provider
-        QuoteHub<Quote> provider = new();
+        // setup quote provider hub
+        QuoteHub<Quote> quoteHub = new();
 
         // initialize observer
         SmaHub<Quote> observer
-           = provider
+           = quoteHub
             .ToSma(smaPeriods);
 
         // emulate quote stream
         for (int i = 0; i < length; i++)
         {
-            provider.Add(quotesList[i]);
+            quoteHub.Add(quotesList[i]);
         }
 
         // delete
-        provider.RemoveAt(400);
+        quoteHub.RemoveAt(400);
         quotesList.RemoveAt(400);
 
         // final results
@@ -79,7 +79,7 @@ public class QuoteHub : StreamHubTestBase, ITestChainProvider
 
         // cleanup
         observer.Unsubscribe();
-        provider.EndTransmission();
+        quoteHub.EndTransmission();
     }
 
     [TestMethod]
@@ -105,30 +105,30 @@ public class QuoteHub : StreamHubTestBase, ITestChainProvider
         int length = Quotes.Count;
 
         // add base quotes (batch)
-        QuoteHub<Quote> provider = new();
+        QuoteHub<Quote> quoteHub = new();
 
-        provider.Add(quotesList.Take(200));
+        quoteHub.Add(quotesList.Take(200));
 
         // add incremental quotes
         for (int i = 200; i < length; i++)
         {
             Quote q = quotesList[i];
-            provider.Add(q);
+            quoteHub.Add(q);
         }
 
         // assert same as original
         for (int i = 0; i < length; i++)
         {
             Quote o = quotesList[i];
-            Quote q = provider.Cache[i];
+            Quote q = quoteHub.Cache[i];
 
             Assert.AreEqual(o, q);  // same ref
         }
 
         // confirm public interfaces
-        Assert.AreEqual(provider.Cache.Count, provider.Quotes.Count);
+        Assert.AreEqual(quoteHub.Cache.Count, quoteHub.Quotes.Count);
 
         // close observations
-        provider.EndTransmission();
+        quoteHub.EndTransmission();
     }
 }

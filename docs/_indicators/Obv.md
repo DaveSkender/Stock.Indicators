@@ -17,7 +17,7 @@ Popularized by Joseph Granville, [On-balance Volume](https://en.wikipedia.org/wi
 ```csharp
 // C# usage syntax
 IReadOnlyList<ObvResult> results =
-  quotes.GetObv();
+  quotes.ToObv();
 ```
 
 ## Historical quotes requirements
@@ -60,8 +60,8 @@ Results can be further processed on `Obv` with additional chain-enabled indicato
 ```csharp
 // example
 var results = quotes
-    .GetObv(..)
-    .GetRsi(..);
+    .ToObv(..)
+    .ToRsi(..);
 ```
 
 This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.
@@ -78,19 +78,19 @@ foreach (IQuote quote in quotes)  // simulating stream
   obvList.Add(quote);
 }
 
-// based on `List<ObvResult>`
+// based on `ICollection<ObvResult>`
 IReadOnlyList<ObvResult> results = obvList;
 ```
 
 Subscribe to a `QuoteHub` for advanced streaming scenarios:
 
 ```csharp
-QuoteHub<Quote> provider = new();
-ObvHub<Quote> observer = provider.ToObv();
+QuoteHub<Quote> quoteHub = new();
+ObvHub<Quote> observer = quoteHub.ToObv();
 
 foreach (Quote quote in quotes)  // simulating stream
 {
-  provider.Add(quote);
+  quoteHub.Add(quote);
 }
 
 IReadOnlyList<ObvResult> results = observer.Results;

@@ -17,7 +17,7 @@ Created by Larry Williams, the [Williams %R](https://en.wikipedia.org/wiki/Willi
 ```csharp
 // C# usage syntax
 IReadOnlyList<WilliamsResult> results =
-  quotes.GetWilliamsR(lookbackPeriods);
+  quotes.ToWilliamsR(lookbackPeriods);
 ```
 
 ## Parameters
@@ -63,8 +63,8 @@ Results can be further processed on `WilliamsR` with additional chain-enabled in
 ```csharp
 // example
 var results = quotes
-    .GetWilliamsR(..)
-    .GetSlope(..);
+    .ToWilliamsR(..)
+    .ToSlope(..);
 ```
 
 This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.

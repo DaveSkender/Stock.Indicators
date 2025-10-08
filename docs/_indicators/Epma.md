@@ -17,7 +17,7 @@ Endpoint Moving Average (EPMA), also known as Least Squares Moving Average (LSMA
 ```csharp
 // C# usage syntax
 IReadOnlyList<EpmaResult> results =
-  quotes.GetEpma(lookbackPeriods);
+  quotes.ToEpma(lookbackPeriods);
 ```
 
 ## Parameters
@@ -64,7 +64,7 @@ This indicator may be generated from any chain-enabled indicator or method.
 // example
 var results = quotes
     .Use(CandlePart.HL2)
-    .GetEpma(..);
+    .ToEpma(..);
 ```
 
 Results can be further processed on `Epma` with additional chain-enabled indicators.
@@ -72,8 +72,8 @@ Results can be further processed on `Epma` with additional chain-enabled indicat
 ```csharp
 // example
 var results = quotes
-    .GetEpma(..)
-    .GetRsi(..);
+    .ToEpma(..)
+    .ToRsi(..);
 ```
 
 ## Streaming
@@ -88,19 +88,19 @@ foreach (IQuote quote in quotes)  // simulating stream
   epmaList.Add(quote);
 }
 
-// based on `List<EpmaResult>`
+// based on `ICollection<EpmaResult>`
 IReadOnlyList<EpmaResult> results = epmaList;
 ```
 
 Subscribe to a `QuoteHub` for advanced streaming scenarios:
 
 ```csharp
-QuoteHub<Quote> provider = new();
-EpmaHub<Quote> observer = provider.ToEpma(lookbackPeriods);
+QuoteHub<Quote> quoteHub = new();
+EpmaHub<Quote> observer = quoteHub.ToEpma(lookbackPeriods);
 
 foreach (Quote quote in quotes)  // simulating stream
 {
-  provider.Add(quote);
+  quoteHub.Add(quote);
 }
 
 IReadOnlyList<EpmaResult> results = observer.Results;

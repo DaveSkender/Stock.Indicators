@@ -17,7 +17,7 @@ Created by Welles Wilder, the ATR Trailing Stop indicator attempts to determine 
 ```csharp
 // C# usage syntax
 IReadOnlyList<AtrStopResult> results =
-  quotes.GetAtrStop(lookbackPeriods, multiplier, endType);
+  quotes.ToAtrStop(lookbackPeriods, multiplier, endType);
 ```
 
 ## Parameters
@@ -85,12 +85,12 @@ This indicator is not chain-enabled and must be generated from `quotes`.  It **c
 Subscribe to a `QuoteHub` for streaming scenarios:
 
 ```csharp
-QuoteHub<Quote> provider = new();
-AtrStopHub<Quote> observer = provider.ToAtrStop(lookbackPeriods, multiplier: 3.0, endType: EndType.Close);
+QuoteHub<Quote> quoteHub = new();
+AtrStopHub<Quote> observer = quoteHub.ToAtrStop(lookbackPeriods, multiplier: 3.0, endType: EndType.Close);
 
 foreach (Quote quote in quotes)  // simulating stream
 {
-  provider.Add(quote);
+  quoteHub.Add(quote);
 }
 
 IReadOnlyList<AtrStopResult> results = observer.Results;

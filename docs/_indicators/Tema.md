@@ -19,7 +19,7 @@ Created by Patrick G. Mulloy, the [Triple exponential moving average](https://en
 ```csharp
 // C# usage syntax
 IReadOnlyList<TemaResult> results =
-  quotes.GetTema(lookbackPeriods);
+  quotes.ToTema(lookbackPeriods);
 ```
 
 ## Parameters
@@ -78,7 +78,7 @@ This indicator may be generated from any chain-enabled indicator or method.
 // example
 var results = quotes
     .Use(CandlePart.HL2)
-    .GetTema(..);
+    .ToTema(..);
 ```
 
 Results can be further processed on `Tema` with additional chain-enabled indicators.
@@ -86,8 +86,8 @@ Results can be further processed on `Tema` with additional chain-enabled indicat
 ```csharp
 // example
 var results = quotes
-    .GetTema(..)
-    .GetRsi(..);
+    .ToTema(..)
+    .ToRsi(..);
 ```
 
 ## Streaming
@@ -102,19 +102,19 @@ foreach (IQuote quote in quotes)  // simulating stream
   temaList.Add(quote);
 }
 
-// based on `List<TemaResult>`
+// based on `ICollection<TemaResult>`
 IReadOnlyList<TemaResult> results = temaList;
 ```
 
 Subscribe to a `QuoteHub` for advanced streaming scenarios:
 
 ```csharp
-QuoteHub<Quote> provider = new();
-TemaHub<Quote> observer = provider.ToTema(lookbackPeriods);
+QuoteHub<Quote> quoteHub = new();
+TemaHub<Quote> observer = quoteHub.ToTema(lookbackPeriods);
 
 foreach (Quote quote in quotes)  // simulating stream
 {
-  provider.Add(quote);
+  quoteHub.Add(quote);
 }
 
 IReadOnlyList<TemaResult> results = observer.Results;

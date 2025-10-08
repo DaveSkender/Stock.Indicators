@@ -17,7 +17,7 @@ layout: indicator
 ```csharp
 // C# usage syntax
 IReadOnlyList<RocResult> results =
-  quotes.GetRoc(lookbackPeriods);
+  quotes.ToRoc(lookbackPeriods);
 ```
 
 ## Parameters
@@ -66,7 +66,7 @@ This indicator may be generated from any chain-enabled indicator or method.
 // example
 var results = quotes
     .Use(CandlePart.HL2)
-    .GetRoc(..);
+    .ToRoc(..);
 ```
 
 Results can be further processed on `Roc` with additional chain-enabled indicators.
@@ -74,6 +74,6 @@ Results can be further processed on `Roc` with additional chain-enabled indicato
 ```csharp
 // example
 var results = quotes
-    .GetRoc(..)
-    .GetEma(..);
+    .ToRoc(..)
+    .ToEma(..);
 ```

@@ -6,7 +6,7 @@ namespace Skender.Stock.Indicators;
 public static partial class Mama
 {
     /// <summary>
-    /// Creates a MAMA hub from a chain provider.
+    /// Creates a MAMA streaming hub from a chain provider.
     /// </summary>
     /// <typeparam name="T">The type of the reusable data.</typeparam>
     /// <param name="chainProvider">The chain provider.</param>
@@ -15,7 +15,7 @@ public static partial class Mama
     /// <returns>A MAMA hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the chain provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the limits are invalid.</exception>
-    public static MamaHub<T> ToMama<T>(
+    public static MamaHub<T> ToMamaHub<T>(
         this IChainProvider<T> chainProvider,
         double fastLimit = 0.5,
         double slowLimit = 0.05)
@@ -24,7 +24,7 @@ public static partial class Mama
 }
 
 /// <summary>
-/// Represents a hub for MESA Adaptive Moving Average (MAMA) calculations.
+/// Streaming hub for MESA Adaptive Moving Average (MAMA) calculations.
 /// </summary>
 /// <typeparam name="TIn">The type of the input data.</typeparam>
 /// <remarks>

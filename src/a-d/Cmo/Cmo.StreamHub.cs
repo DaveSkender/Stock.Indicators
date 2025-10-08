@@ -6,7 +6,7 @@ namespace Skender.Stock.Indicators;
 public static partial class Cmo
 {
     /// <summary>
-    /// Creates a CMO hub from a chain provider.
+    /// Creates a CMO streaming hub from a chain provider.
     /// </summary>
     /// <typeparam name="T">The type of the reusable data.</typeparam>
     /// <param name="chainProvider">The chain provider.</param>
@@ -22,7 +22,7 @@ public static partial class Cmo
 }
 
 /// <summary>
-/// Represents a hub for Chande Momentum Oscillator (CMO) calculations.
+/// Streaming hub for Chande Momentum Oscillator (CMO) calculations.
 /// </summary>
 /// <typeparam name="TIn">The type of the input data.</typeparam>
 public class CmoHub<TIn>

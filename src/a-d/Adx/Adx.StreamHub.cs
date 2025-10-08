@@ -7,13 +7,11 @@ public static partial class Adx
     /// <summary>
     /// Creates a stream hub for ADX indicator calculations.
     /// </summary>
-    public static AdxHub<TIn> ToAdx<TIn>(
+    public static AdxHub<TIn> ToAdxHub<TIn>(
         this IQuoteProvider<TIn> quoteProvider,
         int lookbackPeriods = 14)
         where TIn : IQuote
-        => new(
-            quoteProvider,
-            lookbackPeriods);
+        => new(quoteProvider, lookbackPeriods);
 }
 
 /// <summary>

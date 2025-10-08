@@ -17,7 +17,7 @@ Created by Marc Chaikin, the [Chaikin Oscillator](https://en.wikipedia.org/wiki/
 ```csharp
 // C# usage syntax
 IReadOnlyList<ChaikinOscResult> results =
-  quotes.GetChaikinOsc(fastPeriods, slowPeriods);
+  quotes.ToChaikinOsc(fastPeriods, slowPeriods);
 ```
 
 ## Parameters
@@ -75,8 +75,8 @@ Results can be further processed on `Oscillator` with additional chain-enabled i
 ```csharp
 // example
 var results = quotes
-    .GetChaikinOsc(..)
-    .GetSlope(..);
+    .ToChaikinOsc(..)
+    .ToSlope(..);
 ```
 
 This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.

@@ -10,15 +10,15 @@ public class AtrStop : StreamHubTestBase
 
         int length = quotesList.Count;
 
-        // setup quote provider
-        QuoteHub<Quote> provider = new();
+        // setup quote provider hub
+        QuoteHub<Quote> quoteHub = new();
 
-        // prefill quotes to provider (batch)
-        provider.Add(quotesList.Take(20));
+        // prefill quotes at provider (batch)
+        quoteHub.Add(quotesList.Take(20));
 
         // initialize observer
-        AtrStopHub<Quote> observer = provider
-            .ToAtrStop();
+        AtrStopHub<Quote> observer = quoteHub
+            .ToAtrStopHub();
 
         observer.Results.Should().HaveCount(20);
 
@@ -26,7 +26,7 @@ public class AtrStop : StreamHubTestBase
         IReadOnlyList<AtrStopResult> streamList
             = observer.Results;
 
-        // emulate adding quotes to provider
+        // emulate adding quotes to provider hub
         for (int i = 20; i < length; i++)
         {
             // skip one (add later)
@@ -36,21 +36,21 @@ public class AtrStop : StreamHubTestBase
             }
 
             Quote q = quotesList[i];
-            provider.Add(q);
+            quoteHub.Add(q);
 
             // resend duplicate quotes
             if (i is > 100 and < 105)
             {
-                provider.Add(q);
+                quoteHub.Add(q);
             }
         }
 
         // late arrivals
-        provider.Insert(quotesList[30]);  // rebuilds complete series
-        provider.Insert(quotesList[80]);  // rebuilds from last reversal
+        quoteHub.Insert(quotesList[30]);  // rebuilds complete series
+        quoteHub.Insert(quotesList[80]);  // rebuilds from last reversal
 
         // delete
-        provider.Remove(quotesList[400]);
+        quoteHub.Remove(quotesList[400]);
         quotesList.RemoveAt(400);
 
         // time-series, for comparison
@@ -63,7 +63,7 @@ public class AtrStop : StreamHubTestBase
         streamList.Should().BeEquivalentTo(seriesList);
 
         observer.Unsubscribe();
-        provider.EndTransmission();
+        quoteHub.EndTransmission();
     }
 
     [TestMethod]
@@ -71,15 +71,15 @@ public class AtrStop : StreamHubTestBase
     {
         // simple test, just to check High/Low variant
 
-        // setup quote provider
-        QuoteHub<Quote> provider = new();
+        // setup quote provider hub
+        QuoteHub<Quote> quoteHub = new();
 
         // initialize observer
-        AtrStopHub<Quote> observer = provider
-            .ToAtrStop(endType: EndType.HighLow);
+        AtrStopHub<Quote> observer = quoteHub
+            .ToAtrStopHub(endType: EndType.HighLow);
 
-        // add quotes to provider
-        provider.Add(Quotes);
+        // add quotes to quoteHub
+        quoteHub.Add(Quotes);
 
         // stream results
         IReadOnlyList<AtrStopResult> streamList
@@ -95,7 +95,7 @@ public class AtrStop : StreamHubTestBase
         streamList.Should().BeEquivalentTo(seriesList);
 
         observer.Unsubscribe();
-        provider.EndTransmission();
+        quoteHub.EndTransmission();
     }
 
     [TestMethod]

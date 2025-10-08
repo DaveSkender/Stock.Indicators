@@ -17,7 +17,7 @@ Created by Marc Chaikin, the [Accumulation/Distribution Line/Index](https://en.w
 ```csharp
 // C# usage syntax
 IReadOnlyList<AdlResult> results =
-  quotes.GetAdl();
+  quotes.ToAdl();
 ```
 
 ## Historical quotes requirements
@@ -63,8 +63,8 @@ Results can be further processed on `Adl` with additional chain-enabled indicato
 ```csharp
 // example
 var results = quotes
-    .GetAdl()
-    .GetRsi(..);
+    .ToAdl()
+    .ToRsi(..);
 ```
 
 This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.
@@ -81,19 +81,19 @@ foreach (IQuote quote in quotes)  // simulating stream
   adlList.Add(quote);
 }
 
-// based on `List<AdlResult>`
+// based on `ICollection<AdlResult>`
 IReadOnlyList<AdlResult> results = adlList;
 ```
 
 Subscribe to a `QuoteHub` for advanced streaming scenarios:
 
 ```csharp
-QuoteHub<Quote> provider = new();
-AdlHub<Quote> observer = provider.ToAdl();
+QuoteHub<Quote> quoteHub = new();
+AdlHub<Quote> observer = quoteHub.ToAdl();
 
 foreach (Quote quote in quotes)  // simulating stream
 {
-  provider.Add(quote);
+  quoteHub.Add(quote);
 }
 
 IReadOnlyList<AdlResult> results = observer.Results;

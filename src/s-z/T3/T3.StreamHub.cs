@@ -6,7 +6,7 @@ namespace Skender.Stock.Indicators;
 public static partial class T3
 {
     /// <summary>
-    /// Creates a T3 hub from a chain provider.
+    /// Creates a T3 streaming hub from a chain provider.
     /// </summary>
     /// <typeparam name="T">The type of the reusable data.</typeparam>
     /// <param name="chainProvider">The chain provider.</param>
@@ -14,7 +14,7 @@ public static partial class T3
     /// <param name="volumeFactor">The volume factor for the calculation.</param>
     /// <returns>A T3 hub.</returns>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods or volume factor are invalid.</exception>
-    public static T3Hub<T> ToT3<T>(
+    public static T3Hub<T> ToT3Hub<T>(
         this IChainProvider<T> chainProvider,
         int lookbackPeriods = 5,
         double volumeFactor = 0.7)
@@ -23,7 +23,7 @@ public static partial class T3
 }
 
 /// <summary>
-/// Represents a hub for T3 Moving Average calculations.
+/// Streaming hub for T3 Moving Average calculations.
 /// </summary>
 /// <typeparam name="TIn">The type of the input data.</typeparam>
 public class T3Hub<TIn>

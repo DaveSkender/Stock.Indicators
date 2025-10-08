@@ -11,7 +11,7 @@ public static partial class QuoteParts
     /// <param name="quoteProvider">The quote provider.</param>
     /// <param name="candlePart">The candle part to select.</param>
     /// <returns>A QuotePartHub instance.</returns>
-    public static QuotePartHub<TIn> ToQuotePart<TIn>(
+    public static QuotePartHub<TIn> ToQuotePartHub<TIn>(
     this IQuoteProvider<TIn> quoteProvider,
     CandlePart candlePart)
     where TIn : IQuote
@@ -19,7 +19,7 @@ public static partial class QuoteParts
 }
 
 /// <summary>
-/// Represents a hub for managing quote parts.
+/// Streaming hub for managing quote parts.
 /// </summary>
 /// <typeparam name="TQuote">The type of the quote.</typeparam>
 public class QuotePartHub<TQuote>

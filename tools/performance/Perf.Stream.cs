@@ -8,7 +8,7 @@ public class StreamIndicators
     private static readonly IReadOnlyList<Quote> quotes
         = Data.GetDefault();
 
-    private readonly QuoteHub<Quote> provider = new();  // prepopulated
+    private readonly QuoteHub<Quote> quoteHub = new();  // prepopulated
 
     /* SETUP/CLEANUP - runs before and after each.
      *
@@ -21,104 +21,104 @@ public class StreamIndicators
      * without the overhead of the provider. */
 
     [GlobalSetup]
-    public void Setup() => provider.Add(quotes);
+    public void Setup() => quoteHub.Add(quotes);
 
     [GlobalCleanup]
     public void Cleanup()
     {
-        provider.EndTransmission();
-        provider.Cache.Clear();
+        quoteHub.EndTransmission();
+        quoteHub.Cache.Clear();
     }
 
     // BENCHMARKS
 
     [Benchmark]
-    public object AdlHub() => provider.ToAdl().Results;
+    public object AdlHub() => quoteHub.ToAdlHub().Results;
 
     [Benchmark]
-    public object AdxHub() => provider.ToAdx(14).Results;
+    public object AdxHub() => quoteHub.ToAdxHub(14).Results;
 
     [Benchmark]
-    public object AlligatorHub() => provider.ToAlligator().Results;
+    public object AlligatorHub() => quoteHub.ToAlligatorHub().Results;
 
     [Benchmark]
-    public object AlmaHub() => provider.ToAlma(10, 0.85, 6).Results;
+    public object AlmaHub() => quoteHub.ToAlmaHub(10, 0.85, 6).Results;
 
     [Benchmark]
-    public object AtrHub() => provider.ToAtr(14).Results;
+    public object AtrHub() => quoteHub.ToAtrHub(14).Results;
 
     [Benchmark]
-    public object AtrStopHub() => provider.ToAtrStop().Results;
+    public object AtrStopHub() => quoteHub.ToAtrStopHub().Results;
 
     [Benchmark]
-    public object BollingerBandsHub() => provider.ToBollingerBands(20, 2).Results;
+    public object BollingerBandsHub() => quoteHub.ToBollingerBandsHub(20, 2).Results;
 
     [Benchmark]
-    public object DemaHub() => provider.ToDema(14).Results;
+    public object DemaHub() => quoteHub.ToDemaHub(14).Results;
 
     [Benchmark]
-    public object EmaHub() => provider.ToEma(14).Results;
+    public object EmaHub() => quoteHub.ToEmaHub(14).Results;
 
     [Benchmark]
-    public object EpmaHub() => provider.ToEpma(14).Results;
+    public object EpmaHub() => quoteHub.ToEpmaHub(14).Results;
 
     [Benchmark]
-    public object HmaHub() => provider.ToHma(14).Results;
+    public object HmaHub() => quoteHub.ToHmaHub(14).Results;
 
     [Benchmark]
-    public object KamaHub() => provider.ToKama(10, 2, 30).Results;
+    public object KamaHub() => quoteHub.ToKamaHub(10, 2, 30).Results;
 
     [Benchmark]
-    public object MacdHub() => provider.ToMacd(12, 26, 9).Results;
+    public object MacdHub() => quoteHub.ToMacdHub(12, 26, 9).Results;
 
     [Benchmark]
-    public object MamaHub() => provider.ToMama(0.5, 0.05).Results;
+    public object MamaHub() => quoteHub.ToMamaHub(0.5, 0.05).Results;
 
     [Benchmark]
-    public object ObvHub() => provider.ToObv().Results;
+    public object ObvHub() => quoteHub.ToObvHub().Results;
 
     [Benchmark]
-    public object QuoteHub() => provider.ToQuote().Results;
+    public object QuoteHub() => quoteHub.ToQuoteHub().Results;
 
     [Benchmark]
-    public object QuotePartHub() => provider.ToQuotePart(CandlePart.OHL3).Results;
+    public object QuotePartHub() => quoteHub.ToQuotePartHub(CandlePart.OHL3).Results;
 
     [Benchmark]
-    public object RenkoHub() => provider.ToRenko(2.5m).Results;
+    public object RenkoHub() => quoteHub.ToRenkoHub(2.5m).Results;
 
     [Benchmark]
-    public object RsiHub() => provider.ToRsi(14).Results;
+    public object RsiHub() => quoteHub.ToRsiHub(14).Results;
 
     [Benchmark]
-    public object RocHub() => provider.ToRoc(20).Results;
+    public object RocHub() => quoteHub.ToRocHub(20).Results;
 
     [Benchmark]
-    public object SmaHub() => provider.ToSma(10).Results;
+    public object SmaHub() => quoteHub.ToSma(10).Results;
 
     [Benchmark]
-    public object SmmaHub() => provider.ToSmma(14).Results;
+    public object SmmaHub() => quoteHub.ToSmmaHub(14).Results;
 
     [Benchmark]
-    public object StochHub() => provider.ToStoch(14, 3, 3).Results;
+    public object StochHub() => quoteHub.ToStochHub(14, 3, 3).Results;
 
     [Benchmark]
-    public object StochRsiHub() => provider.ToStochRsi(14, 14, 3, 1).Results;
+    public object StochRsiHub() => quoteHub.ToStochRsiHub(14, 14, 3, 1).Results;
 
     [Benchmark]
-    public object T3Hub() => provider.ToT3(5, 0.7).Results;
+    public object T3Hub() => quoteHub.ToT3Hub(5, 0.7).Results;
 
     [Benchmark]
-    public object TemaHub() => provider.ToTema(14).Results;
+    public object TemaHub() => quoteHub.ToTemaHub(14).Results;
 
     [Benchmark]
-    public object TrHub() => provider.ToTr().Results;
+    public object TrHub() => quoteHub.ToTrHub().Results;
 
     [Benchmark]
-    public object UltimateHub() => provider.ToUltimate(7, 14, 28).Results;
+    public object UltimateHub() => quoteHub.ToUltimateHub(7, 14, 28).Results;
 
     [Benchmark]
-    public object VwmaHub() => provider.ToVwma(14).Results;
+    public object VwmaHub() => quoteHub.ToVwmaHub(14).Results;
 
     [Benchmark]
-    public object WmaHub() => provider.ToWma(14).Results;
+    public object WmaHub() => quoteHub.ToWmaHub(14).Results;
 }

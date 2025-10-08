@@ -17,7 +17,7 @@ Created by Carl Swenlin, the DecisionPoint [Price Momentum Oscillator](https://s
 ```csharp
 // C# usage syntax
 IReadOnlyList<PmoResult> results =
-  quotes.GetPmo(timePeriods, smoothPeriods, signalPeriods);
+  quotes.ToPmo(timePeriods, smoothPeriods, signalPeriods);
 ```
 
 ## Parameters
@@ -72,7 +72,7 @@ This indicator may be generated from any chain-enabled indicator or method.
 // example
 var results = quotes
     .Use(CandlePart.HL2)
-    .GetPmo(..);
+    .ToPmo(..);
 ```
 
 Results can be further processed on `Pmo` with additional chain-enabled indicators.
@@ -80,6 +80,6 @@ Results can be further processed on `Pmo` with additional chain-enabled indicato
 ```csharp
 // example
 var results = quotes
-    .GetPmo(..)
-    .GetRsi(..);
+    .ToPmo(..)
+    .ToRsi(..);
 ```

@@ -17,7 +17,7 @@ Created by Jack Hutson, [TRIX](https://en.wikipedia.org/wiki/Trix_(technical_ana
 ```csharp
 // C# usage syntax for Trix
 IReadOnlyList<TrixResult> results =
-  quotes.GetTrix(lookbackPeriods);
+  quotes.ToTrix(lookbackPeriods);
 ```
 
 ## Parameters
@@ -68,7 +68,7 @@ This indicator may be generated from any chain-enabled indicator or method.
 // example
 var results = quotes
     .Use(CandlePart.HL2)
-    .GetTrix(..);
+    .ToTrix(..);
 ```
 
 Results can be further processed on `Trix` with additional chain-enabled indicators.
@@ -76,6 +76,6 @@ Results can be further processed on `Trix` with additional chain-enabled indicat
 ```csharp
 // example
 var results = quotes
-    .GetTrix(..)
-    .GetRsi(..);
+    .ToTrix(..)
+    .ToRsi(..);
 ```

@@ -17,7 +17,7 @@ Volume Weighted Moving Average is the volume adjusted average price over a lookb
 ```csharp
 // C# usage syntax
 IReadOnlyList<VwmaResult> results =
-  quotes.GetVwma(lookbackPeriods);
+  quotes.ToVwma(lookbackPeriods);
 ```
 
 ## Parameters
@@ -63,8 +63,8 @@ Results can be further processed on `Vwma` with additional chain-enabled indicat
 ```csharp
 // example
 var results = quotes
-    .GetVwma(..)
-    .GetRsi(..);
+    .ToVwma(..)
+    .ToRsi(..);
 ```
 
 This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.
@@ -81,19 +81,19 @@ foreach (IQuote quote in quotes)  // simulating stream
   vwmaList.Add(quote);
 }
 
-// based on `List<VwmaResult>`
+// based on `ICollection<VwmaResult>`
 IReadOnlyList<VwmaResult> results = vwmaList;
 ```
 
 Subscribe to a `QuoteHub` for advanced streaming scenarios:
 
 ```csharp
-QuoteHub<Quote> provider = new();
-VwmaHub<Quote> observer = provider.ToVwma(lookbackPeriods);
+QuoteHub<Quote> quoteHub = new();
+VwmaHub<Quote> observer = quoteHub.ToVwma(lookbackPeriods);
 
 foreach (Quote quote in quotes)  // simulating stream
 {
-  provider.Add(quote);
+  quoteHub.Add(quote);
 }
 
 IReadOnlyList<VwmaResult> results = observer.Results;

@@ -201,7 +201,7 @@ public MyList MyBuffer()
 
 [Benchmark]
 public IReadOnlyList<MyResult> MyStream()
-    => provider.ToMyIndicator(14).Results;
+    => quoteHub.ToMyIndicator(14).Results;
 ```
 
 ## Troubleshooting

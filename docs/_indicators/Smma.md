@@ -17,7 +17,7 @@ layout: indicator
 ```csharp
 // C# usage syntax
 IReadOnlyList<SmmaResult> results =
-  quotes.GetSmma(lookbackPeriods);
+  quotes.ToSmma(lookbackPeriods);
 ```
 
 ## Parameters
@@ -66,7 +66,7 @@ This indicator may be generated from any chain-enabled indicator or method.
 // example
 var results = quotes
     .Use(CandlePart.HL2)
-    .GetSmma(..);
+    .ToSmma(..);
 ```
 
 Results can be further processed on `Smma` with additional chain-enabled indicators.
@@ -74,8 +74,8 @@ Results can be further processed on `Smma` with additional chain-enabled indicat
 ```csharp
 // example
 var results = quotes
-    .GetSmma(..)
-    .GetRsi(..);
+    .ToSmma(..)
+    .ToRsi(..);
 ```
 
 ## Streaming
@@ -90,19 +90,19 @@ foreach (IQuote quote in quotes)  // simulating stream
   smmaList.Add(quote);
 }
 
-// based on `List<SmmaResult>`
+// based on `ICollection<SmmaResult>`
 IReadOnlyList<SmmaResult> results = smmaList;
 ```
 
 Subscribe to a `QuoteHub` for advanced streaming scenarios:
 
 ```csharp
-QuoteHub<Quote> provider = new();
-SmmaHub<Quote> observer = provider.ToSmma(lookbackPeriods);
+QuoteHub<Quote> quoteHub = new();
+SmmaHub<Quote> observer = quoteHub.ToSmma(lookbackPeriods);
 
 foreach (Quote quote in quotes)  // simulating stream
 {
-  provider.Add(quote);
+  quoteHub.Add(quote);
 }
 
 IReadOnlyList<SmmaResult> results = observer.Results;

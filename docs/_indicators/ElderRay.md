@@ -17,7 +17,7 @@ Created by Alexander Elder, the [Elder-ray Index](https://www.investopedia.com/t
 ```csharp
 // C# usage syntax
 IReadOnlyList<ElderRayResult> results =
-  quotes.GetElderRay(lookbackPeriods);
+  quotes.ToElderRay(lookbackPeriods);
 ```
 
 ## Parameters
@@ -69,8 +69,8 @@ Results can be further processed on `(BullPower+BearPower)` with additional chai
 ```csharp
 // example
 var results = quotes
-    .GetElderRay(..)
-    .GetEma(..);
+    .ToElderRay(..)
+    .ToEma(..);
 ```
 
 This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.

@@ -17,7 +17,7 @@ The [Renko Chart](https://en.m.wikipedia.org/wiki/Renko_chart) is a Japanese pri
 ```csharp
 // C# usage syntax
 IReadOnlyList<RenkoResult> results =
-  quotes.GetRenko(brickSize, endType);
+  quotes.ToRenko(brickSize, endType);
 ```
 
 ## Parameters
@@ -45,8 +45,8 @@ Results are based in `IQuote` and can be further used in any indicator.
 ```csharp
 // example
 var results = quotes
-    .GetRenko(..)
-    .GetRsi(..);
+    .ToRenko(..)
+    .ToRsi(..);
 ```
 
 This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.
@@ -95,7 +95,7 @@ See [Utilities and helpers]({{site.baseurl}}/utilities#utilities-for-indicator-r
 ```csharp
 // C# usage syntax
 IReadOnlyList<RenkoResult> results =
-  quotes.GetRenkoAtr(atrPeriods, endType);
+  quotes.ToRenkoAtr(atrPeriods, endType);
 ```
 
 ### Parameters for ATR
@@ -124,12 +124,12 @@ IReadOnlyList<RenkoResult>
 Subscribe to a `QuoteHub` for streaming scenarios:
 
 ```csharp
-QuoteHub<Quote> provider = new();
-RenkoHub<Quote> observer = provider.ToRenko(brickSize);
+QuoteHub<Quote> quoteHub = new();
+RenkoHub<Quote> observer = quoteHub.ToRenko(brickSize);
 
 foreach (Quote quote in quotes)  // simulating stream
 {
-  provider.Add(quote);
+  quoteHub.Add(quote);
 }
 
 IReadOnlyList<RenkoResult> results = observer.Results;

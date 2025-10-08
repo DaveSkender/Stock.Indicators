@@ -24,7 +24,7 @@ layout: page
 // the standard Close price for RSI
 var results = quotes
   .Use(CandlePart.HL2)
-  .GetRsi(14);
+  .ToRsi(14);
 ```
 
 {% include candlepart-options.md %}
@@ -94,7 +94,7 @@ IReadOnlyList<Quote> validatedQuotes = quotes.Validate();
 var results = quotes
   .Validate()
   .Use(CandlePart.HL2)
-  .GetRsi(14);
+  .ToRsi(14);
 ```
 
 ## Utilities for indicator results
@@ -106,7 +106,7 @@ var results = quotes
 ```csharp
 // example: only show Marubozu signals
 IReadOnlyList<CandleResult> results
-  = quotes.GetMarubozu(..).Condense();
+  = quotes.ToMarubozu(..).Condense();
 ```
 
 > &#128681; **Warning**: In all cases, `.Condense()` will remove non-essential results and will produce fewer records than are in `quotes`.
@@ -117,7 +117,7 @@ IReadOnlyList<CandleResult> results
 
 ```csharp
 // calculate indicator series
-IReadOnlyList<SmaResult> results = quotes.GetSma(20);
+IReadOnlyList<SmaResult> results = quotes.ToSma(20);
 
 // find result on a specific date
 DateTime lookupDate = [..] // the date you want to find
@@ -133,12 +133,12 @@ SmaResult result = results.Find(lookupDate);
 ```csharp
 // auto remove recommended warmup periods
 IReadOnlyList<AdxResult> results =
-  quotes.GetAdx(14).RemoveWarmupPeriods();
+  quotes.ToAdx(14).RemoveWarmupPeriods();
 
 // remove a specific quantity of periods
 int n = 14;
 IReadOnlyList<AdxResult> results =
-  quotes.GetAdx(n).RemoveWarmupPeriods(n+100);
+  quotes.ToAdx(n).RemoveWarmupPeriods(n+100);
 ```
 
 See [individual indicator pages]({{site.baseurl}}/indicators/#content) for information on recommended pruning quantities.

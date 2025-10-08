@@ -17,7 +17,7 @@ Standard Deviation Channels are prices ranges based on an linear regression cent
 ```csharp
 // C# usage syntax
 IReadOnlyList<StdDevChannelsResult> results =
-  quotes.GetStdDevChannels(lookbackPeriods, stdDeviations);
+  quotes.ToStdDevChannels(lookbackPeriods, stdDeviations);
 ```
 
 ## Parameters
@@ -80,7 +80,7 @@ This indicator may be generated from any chain-enabled indicator or method.
 // example
 var results = quotesEval
     .Use(CandlePart.HL2)
-    .GetStdDevChannels(..);
+    .ToStdDevChannels(..);
 ```
 
 Results **cannot** be further chained with additional transforms.
