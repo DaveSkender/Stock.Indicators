@@ -1,7 +1,7 @@
 namespace BufferLists;
 
 [TestClass]
-public class Correlation : TestBase
+public class Correlation : BufferListTestBase, ITestReusableBufferList
 {
     private const int lookbackPeriods = 20;
 
@@ -19,7 +19,7 @@ public class Correlation : TestBase
        = quotesA.ToCorrelation(quotesB, lookbackPeriods);
 
     [TestMethod]
-    public void AddPairs()
+    public void AddReusableItems()
     {
         CorrelationList sut = new(lookbackPeriods);
 
@@ -33,7 +33,7 @@ public class Correlation : TestBase
     }
 
     [TestMethod]
-    public void AddPairsBatch()
+    public void AddReusableItemsBatch()
     {
         CorrelationList sut = new(lookbackPeriods);
 
@@ -58,6 +58,43 @@ public class Correlation : TestBase
     }
 
     [TestMethod]
+    public override void AddQuotes()
+    {
+        // Correlation uses paired series, so this test uses quotesA and quotesB as series
+        CorrelationList sut = new(lookbackPeriods);
+
+        for (int i = 0; i < quotesA.Count; i++)
+        {
+            sut.Add(quotesA[i], quotesB[i]);
+        }
+
+        sut.Should().HaveCount(quotesA.Count);
+        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+    }
+
+    [TestMethod]
+    public override void AddQuotesBatch()
+    {
+        // Correlation uses paired series, so this test uses quotesA and quotesB as series
+        CorrelationList sut = new(lookbackPeriods);
+
+        sut.Add(quotesA, quotesB);
+
+        sut.Should().HaveCount(quotesA.Count);
+        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+    }
+
+    [TestMethod]
+    public override void WithQuotesCtor()
+    {
+        // Correlation uses paired series, so this test uses quotesA and quotesB as series
+        CorrelationList sut = new(lookbackPeriods, quotesA, quotesB);
+
+        sut.Should().HaveCount(quotesA.Count);
+        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+    }
+
+    [TestMethod]
     public void WithSeriesCtor()
     {
         CorrelationList sut = new(lookbackPeriods, quotesA, quotesB);
@@ -76,7 +113,7 @@ public class Correlation : TestBase
     }
 
     [TestMethod]
-    public void ClearResetsState()
+    public override void ClearResetsState()
     {
         List<IReusable> subsetA = quotesA.Take(80).ToList();
         List<IReusable> subsetB = quotesB.Take(80).ToList();
@@ -98,7 +135,7 @@ public class Correlation : TestBase
     }
 
     [TestMethod]
-    public void AutoListPruning()
+    public override void AutoListPruning()
     {
         const int maxListSize = 120;
 

@@ -28,17 +28,7 @@ public class Dpo : BufferListTestBase, ITestReusableBufferList
         int expectedCount = Quotes.Count - offset;
 
         sut.Should().HaveCount(expectedCount);
-
-        // Compare the results (DPO list will be shorter due to lookahead delay)
-        for (int i = 0; i < sut.Count; i++)
-        {
-            DpoResult expected = series[i];
-            DpoResult actual = sut[i];
-
-            actual.Timestamp.Should().Be(expected.Timestamp);
-            actual.Dpo.Should().BeApproximately(expected.Dpo, 0.0001);
-            actual.Sma.Should().BeApproximately(expected.Sma, 0.0001);
-        }
+        sut.Should().BeEquivalentTo(series.Take(expectedCount), options => options.WithStrictOrdering());
     }
 
     [TestMethod]
@@ -55,16 +45,7 @@ public class Dpo : BufferListTestBase, ITestReusableBufferList
         int expectedCount = Quotes.Count - offset;
 
         sut.Should().HaveCount(expectedCount);
-
-        for (int i = 0; i < sut.Count; i++)
-        {
-            DpoResult expected = series[i];
-            DpoResult actual = sut[i];
-
-            actual.Timestamp.Should().Be(expected.Timestamp);
-            actual.Dpo.Should().BeApproximately(expected.Dpo, 0.0001);
-            actual.Sma.Should().BeApproximately(expected.Sma, 0.0001);
-        }
+        sut.Should().BeEquivalentTo(series.Take(expectedCount), options => options.WithStrictOrdering());
     }
 
     [TestMethod]
@@ -76,16 +57,7 @@ public class Dpo : BufferListTestBase, ITestReusableBufferList
         int expectedCount = Quotes.Count - offset;
 
         sut.Should().HaveCount(expectedCount);
-
-        for (int i = 0; i < sut.Count; i++)
-        {
-            DpoResult expected = series[i];
-            DpoResult actual = sut[i];
-
-            actual.Timestamp.Should().Be(expected.Timestamp);
-            actual.Dpo.Should().BeApproximately(expected.Dpo, 0.0001);
-            actual.Sma.Should().BeApproximately(expected.Sma, 0.0001);
-        }
+        sut.Should().BeEquivalentTo(series.Take(expectedCount), options => options.WithStrictOrdering());
     }
 
     [TestMethod]
@@ -102,16 +74,7 @@ public class Dpo : BufferListTestBase, ITestReusableBufferList
         int expectedCount = Quotes.Count - offset;
 
         sut.Should().HaveCount(expectedCount);
-
-        for (int i = 0; i < sut.Count; i++)
-        {
-            DpoResult expected = series[i];
-            DpoResult actual = sut[i];
-
-            actual.Timestamp.Should().Be(expected.Timestamp);
-            actual.Dpo.Should().BeApproximately(expected.Dpo, 0.0001);
-            actual.Sma.Should().BeApproximately(expected.Sma, 0.0001);
-        }
+        sut.Should().BeEquivalentTo(series.Take(expectedCount), options => options.WithStrictOrdering());
     }
 
     [TestMethod]
@@ -123,16 +86,7 @@ public class Dpo : BufferListTestBase, ITestReusableBufferList
         int expectedCount = Quotes.Count - offset;
 
         sut.Should().HaveCount(expectedCount);
-
-        for (int i = 0; i < sut.Count; i++)
-        {
-            DpoResult expected = series[i];
-            DpoResult actual = sut[i];
-
-            actual.Timestamp.Should().Be(expected.Timestamp);
-            actual.Dpo.Should().BeApproximately(expected.Dpo, 0.0001);
-            actual.Sma.Should().BeApproximately(expected.Sma, 0.0001);
-        }
+        sut.Should().BeEquivalentTo(series.Take(expectedCount), options => options.WithStrictOrdering());
     }
 
     [TestMethod]
@@ -144,16 +98,7 @@ public class Dpo : BufferListTestBase, ITestReusableBufferList
         int expectedCount = Quotes.Count - offset;
 
         sut.Should().HaveCount(expectedCount);
-
-        for (int i = 0; i < sut.Count; i++)
-        {
-            DpoResult expected = series[i];
-            DpoResult actual = sut[i];
-
-            actual.Timestamp.Should().Be(expected.Timestamp);
-            actual.Dpo.Should().BeApproximately(expected.Dpo, 0.0001);
-            actual.Sma.Should().BeApproximately(expected.Sma, 0.0001);
-        }
+        sut.Should().BeEquivalentTo(series.Take(expectedCount), options => options.WithStrictOrdering());
     }
 
     [TestMethod]
@@ -168,16 +113,7 @@ public class Dpo : BufferListTestBase, ITestReusableBufferList
         int expectedCount = subset.Count - offset;
 
         sut.Should().HaveCount(expectedCount);
-
-        for (int i = 0; i < sut.Count; i++)
-        {
-            DpoResult exp = expected[i];
-            DpoResult actual = sut[i];
-
-            actual.Timestamp.Should().Be(exp.Timestamp);
-            actual.Dpo.Should().BeApproximately(exp.Dpo, 0.0001);
-            actual.Sma.Should().BeApproximately(exp.Sma, 0.0001);
-        }
+        sut.Should().BeEquivalentTo(expected.Take(expectedCount), options => options.WithStrictOrdering());
 
         sut.Clear();
 
@@ -186,16 +122,7 @@ public class Dpo : BufferListTestBase, ITestReusableBufferList
         sut.Add(subset);
 
         sut.Should().HaveCount(expectedCount);
-
-        for (int i = 0; i < sut.Count; i++)
-        {
-            DpoResult exp = expected[i];
-            DpoResult actual = sut[i];
-
-            actual.Timestamp.Should().Be(exp.Timestamp);
-            actual.Dpo.Should().BeApproximately(exp.Dpo, 0.0001);
-            actual.Sma.Should().BeApproximately(exp.Sma, 0.0001);
-        }
+        sut.Should().BeEquivalentTo(expected.Take(expectedCount), options => options.WithStrictOrdering());
     }
 
     [TestMethod]
@@ -211,20 +138,16 @@ public class Dpo : BufferListTestBase, ITestReusableBufferList
 
         int offset = (lookbackPeriods / 2) + 1;
         int totalResults = Quotes.Count - offset;
+        int expectedCount = Math.Min(maxListSize, totalResults);
 
-        // After adding all quotes, we should have maxListSize items (pruned)
-        sut.Should().HaveCount(Math.Min(maxListSize, totalResults));
+        sut.Should().HaveCount(expectedCount);
 
-        // Compare with the last maxListSize results from series
-        int skipCount = Math.Max(0, totalResults - maxListSize);
-        for (int i = 0; i < sut.Count; i++)
-        {
-            DpoResult expected = series[skipCount + i];
-            DpoResult actual = sut[i];
+        // Compare with the last expectedCount results from series
+        IReadOnlyList<DpoResult> expected = series
+            .Skip(totalResults - expectedCount)
+            .Take(expectedCount)
+            .ToList();
 
-            actual.Timestamp.Should().Be(expected.Timestamp);
-            actual.Dpo.Should().BeApproximately(expected.Dpo, 0.0001);
-            actual.Sma.Should().BeApproximately(expected.Sma, 0.0001);
-        }
+        sut.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
     }
 }
