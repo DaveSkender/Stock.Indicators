@@ -1,7 +1,7 @@
 namespace StreamHub;
 
 [TestClass]
-public class AroonHub : StreamHubTestBase
+public class AroonHub : StreamHubTestBase, ITestChainProvider
 {
     [TestMethod]
     public override void QuoteObserver()
@@ -71,6 +71,42 @@ public class AroonHub : StreamHubTestBase
         AroonHub<Quote> observer = provider.ToAroon(25);
 
         observer.ToString().Should().Be("AROON(25)");
+
+        observer.Unsubscribe();
+        provider.EndTransmission();
+    }
+
+    [TestMethod]
+    public void ChainProvider()
+    {
+        List<Quote> quotesList = Quotes.ToList();
+        int length = quotesList.Count;
+
+        // Setup quote provider
+        QuoteHub<Quote> provider = new();
+
+        // Initialize observer - Aroon as provider feeding into EMA
+        EmaHub<AroonResult> observer = provider
+            .ToAroon(25)
+            .ToEma(12);
+
+        // Emulate quote stream
+        for (int i = 0; i < length; i++)
+        {
+            provider.Add(quotesList[i]);
+        }
+
+        // Final results
+        IReadOnlyList<EmaResult> streamList = observer.Results;
+
+        // Time-series, for comparison
+        IReadOnlyList<EmaResult> seriesList = quotesList
+            .ToAroon(25)
+            .ToEma(12);
+
+        // Assert, should equal series
+        streamList.Should().HaveCount(length);
+        streamList.Should().BeEquivalentTo(seriesList);
 
         observer.Unsubscribe();
         provider.EndTransmission();

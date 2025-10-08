@@ -28,7 +28,7 @@ public static partial class Aroon
 /// </summary>
 /// <typeparam name="TIn">The type of the input data.</typeparam>
 public class AroonHub<TIn>
-    : StreamHub<TIn, AroonResult>, IAroon
+    : ChainProvider<TIn, AroonResult>, IAroon
     where TIn : IQuote
 {
     private readonly string hubName;
