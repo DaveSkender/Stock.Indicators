@@ -1,7 +1,7 @@
 namespace BufferLists;
 
 [TestClass]
-public class Beta : BufferListTestBase
+public class Beta : BufferListTestBase, ITestNonStandardBufferListCache
 {
     private const int lookbackPeriods = 20;
     private const BetaType type = BetaType.Standard;
@@ -178,5 +178,31 @@ public class Beta : BufferListTestBase
         Action act = () => sut.Add(evalSubset, mrktSubset);
         act.Should().Throw<InvalidQuotesException>()
            .WithMessage("*should have the same number*");
+    }
+
+    [TestMethod]
+    public void AutoBufferPruning()
+    {
+        const int maxListSize = 200;
+        const int quotesSize = 502;
+
+        // Use test data that exceeds cache size threshold
+        List<IReusable> evalSubset = evalReusables.Take(quotesSize).ToList();
+        List<IReusable> mrktSubset = mrktReusables.Take(quotesSize).ToList();
+
+        // Expected results after pruning (tail end)
+        IReadOnlyList<BetaResult> expected = evalSubset
+            .ToBeta(mrktSubset, lookbackPeriods, type)
+            .Skip(quotesSize - maxListSize)
+            .ToList();
+
+        // Generate buffer list with pruning
+        BetaList sut = new(lookbackPeriods, type, evalSubset, mrktSubset) {
+            MaxListSize = maxListSize
+        };
+
+        // Verify expected results matching equivalent series values
+        sut.Count.Should().Be(maxListSize);
+        sut.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
     }
 }

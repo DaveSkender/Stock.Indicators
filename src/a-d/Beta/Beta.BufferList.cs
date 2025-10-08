@@ -200,6 +200,45 @@ public class BetaList : BufferList<BetaResult>
     }
 
     /// <summary>
+    /// Overrides the base pruning logic to coordinate pruning of internal state buffers.
+    /// </summary>
+    protected override void PruneList()
+    {
+        int overflow = Count - MaxListSize;
+
+        if (overflow > 0)
+        {
+            // Determine how many items we can safely remove from state buffers
+            // Keep at least LookbackPeriods + 1 items for calculations
+            int minBufferSize = LookbackPeriods + 1;
+            int removable = Math.Min(overflow, Math.Max(0, _evalReturns.Count - minBufferSize));
+
+            if (removable > 0)
+            {
+                PruneStateBuffers(removable);
+            }
+        }
+
+        // Call base implementation to prune the result list
+        base.PruneList();
+    }
+
+    /// <summary>
+    /// Prunes the internal state buffers to match result list pruning.
+    /// </summary>
+    /// <param name="removeCount">Number of items to remove from the beginning of state buffers.</param>
+    private void PruneStateBuffers(int removeCount)
+    {
+        if (removeCount <= 0 || removeCount >= _evalReturns.Count)
+        {
+            return;
+        }
+
+        _evalReturns.RemoveRange(0, removeCount);
+        _mrktReturns.RemoveRange(0, removeCount);
+    }
+
+    /// <summary>
     /// Calculates the Beta value for the current window of data.
     /// </summary>
     /// <param name="type">The type of Beta calculation.</param>
