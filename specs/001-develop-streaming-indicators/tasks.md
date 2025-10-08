@@ -1,7 +1,21 @@
 # Tasks: streaming indicators framework
 
 **Input**: Design documents from `/specs/001-develop-streaming-indicators/`
-**Prerequisites**: plan.md (required), data-model.md
+**Prerequisites**: plan.md (required) — data entities documented in plan.md §Data Model
+
+## Requirements Quality Validation
+
+Before implementing each indicator, review the corresponding checklist for requirements validation:
+
+- **BufferList style**: [checklists/buffer-list.md](checklists/buffer-list.md) — 113 validation items
+- **StreamHub style**: [checklists/stream-hub.md](checklists/stream-hub.md) — 115 validation items
+
+These checklists ensure:
+
+- Deterministic mathematical equality (no approximate equality assertions)
+- Proper test interface implementation (`ITestReusableBufferList`, `ITestNonStandardBufferListCache`)
+- Complete coverage of edge cases, error conditions, and performance expectations
+- Alignment with constitution principles and instruction file patterns
 
 ## Format: `[ID] Description`
 
@@ -32,10 +46,10 @@ The following indicators have series-style implementations but lack BufferList i
 - [x] T009 Implement Chop BufferList in `src/a-d/Chop/Chop.BufferList.cs`
 - [x] T010 Implement Cmf BufferList in `src/a-d/Cmf/Cmf.BufferList.cs`
 - [ ] T011 Implement ConnorsRsi BufferList in `src/a-d/ConnorsRsi/ConnorsRsi.BufferList.cs`
-- [ ] T012 Implement Correlation BufferList in `src/a-d/Correlation/Correlation.BufferList.cs`
-- [ ] T013 Implement Doji BufferList in `src/a-d/Doji/Doji.BufferList.cs`
-- [ ] T014 Implement Donchian BufferList in `src/a-d/Donchian/Donchian.BufferList.cs`
-- [ ] T015 Implement Dpo BufferList in `src/a-d/Dpo/Dpo.BufferList.cs`
+- [x] T012 Implement Correlation BufferList in `src/a-d/Correlation/Correlation.BufferList.cs` ✅ PR #1499
+- [x] T013 Implement Doji BufferList in `src/a-d/Doji/Doji.BufferList.cs` ✅ PR #1499
+- [x] T014 Implement Donchian BufferList in `src/a-d/Donchian/Donchian.BufferList.cs` ✅ PR #1499
+- [x] T015 Implement Dpo BufferList in `src/a-d/Dpo/Dpo.BufferList.cs` ✅ PR #1499
 - [ ] T016 Implement Dynamic BufferList in `src/a-d/Dynamic/Dynamic.BufferList.cs`
 
 ### BufferList E-K Group (12 indicators)
@@ -221,6 +235,8 @@ The following documentation tasks support the main implementation work:
 - [ ] **D005**: Update `docs/_indicators/BollingerBands.md` with streaming usage section and examples
 - [ ] **D006**: Update `README.md` with streaming overview paragraph and quick-start example
 - [ ] **D007**: Update `src/_common/ObsoleteV3.md` with streaming capability summary and migration guidance
+- [ ] **T108**: Update indicator documentation pages (`docs/_indicators/*.md`) for all streaming-enabled indicators with usage examples (NFR-005)
+- [ ] **T109**: Expand `src/_common/ObsoleteV3.md` with comprehensive streaming migration guidance including performance benefits and API patterns (NFR-006)
 
 ### Quality Gates
 

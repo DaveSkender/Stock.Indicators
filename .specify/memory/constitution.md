@@ -1,15 +1,20 @@
 <!--
 Sync Impact Report
-- Version change: 1.1.0 → 1.2.0 (MINOR: added formula sourcing hierarchy, documentation requirements, and reputation criteria to Principle 1)
-- Modified principles: Principle 1: Mathematical Precision (NON‑NEGOTIABLE) - expanded with Formula Sourcing Hierarchy, Documentation Requirements, and Reputation Criteria subsections
-- Added sections: Formula Sourcing Hierarchy, Documentation Requirements, Reputation Criteria
+- Version change: 1.2.1 → 1.2.2 (PATCH: clarified that all implementation styles must match precisely)
+- Modified principles: Principle 1: Mathematical Precision (NON‑NEGOTIABLE) - expanded streaming/batch parity rule to include all three implementation styles (Series, BufferList, StreamHub)
+- Added sections: None
 - Removed sections: None
 - Templates requiring updates:
-	- .specify/templates/plan-template.md (✅ no changes needed - existing gating rules already enforce mathematical precision)
-	- .specify/templates/spec-template.md (✅ no changes needed - specs already require formula sources)
+	- .specify/templates/plan-template.md (✅ no changes needed)
+	- .specify/templates/spec-template.md (✅ no changes needed)
 	- .specify/templates/tasks-template.md (✅ no changes needed)
-	- docs/contributing.md (✅ updated with Formula Sourcing and Validation subsection)
+	- specs/001-develop-streaming-indicators/spec.md (✅ already enforces three-way parity)
+	- specs/001-develop-streaming-indicators/plan.md (✅ already enforces deterministic equality across styles)
+	- specs/001-develop-streaming-indicators/tasks.md (✅ already references deterministic checklists)
+	- specs/001-develop-streaming-indicators/checklists/buffer-list.md (✅ enforces Series baseline parity)
+	- specs/001-develop-streaming-indicators/checklists/stream-hub.md (✅ enforces Series baseline parity)
 - Follow-up TODOs: None
+- Rationale: The previous phrasing "streaming and batch paths" was ambiguous about which implementation served as the baseline. The library has three implementation styles (Series/batch, BufferList/streaming, StreamHub/streaming), and Series is the validated baseline. All streaming implementations (BufferList and StreamHub) must match the Series results precisely—not just match each other. This clarification establishes the Series style as the mathematical source of truth for parity testing.
 -->
 
 # Stock Indicators Project Constitution
@@ -26,7 +31,7 @@ Rules:
 - No silent rounding or implicit unit conversions; use explicit casting when required.
 - Default numeric type is double; decimal ONLY when price-sensitive rounding would materially change output.
 - Results MUST match validated reference data (published examples, academic definitions, or vetted calculators).
-- Streaming and batch paths MUST converge to identical final values (within 1e-12 tolerance where floating point drift unavoidable).
+- All implementation styles (Series/batch, BufferList/streaming, StreamHub/streaming) MUST produce bit-for-bit identical final values for deterministic calculations; Series serves as the validated baseline and streaming implementations must match it precisely.
 - Any new indicator requires a written spec (math definition + parameter constraints) before implementation.
 - Breaking mathematical behavior changes require a MAJOR library version bump and release note callout.
 
@@ -214,4 +219,4 @@ Rules:
 
 Rationale: Consolidates long‑standing design tenets (Discussion #648) that were implicit but not yet enforceable as a formal principle.
 
-**Version**: 1.2.0 | **Ratified**: 2025-10-02 | **Last Amended**: 2025-10-07
+**Version**: 1.2.2 | **Ratified**: 2025-10-02 | **Last Amended**: 2025-10-07
