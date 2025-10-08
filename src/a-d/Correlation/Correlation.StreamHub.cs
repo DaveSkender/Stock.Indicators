@@ -54,7 +54,7 @@ public class CorrelationHub<TIn>
     {
         ArgumentNullException.ThrowIfNull(providerB);
         Correlation.Validate(lookbackPeriods);
-        
+
         LookbackPeriods = lookbackPeriods;
         _cacheB = providerB.GetCacheRef();
         hubName = $"CORRELATION({lookbackPeriods})";
