@@ -56,7 +56,7 @@ public class CorrelationHub : StreamHubTestBase, ITestChainObserver, ITestChainP
         RsiHub<CorrResult> rsiHub = quoteHub
             .ToSma(10)
             .ToCorrelationHub(quoteHub.ToSma(20), lookbackPeriods)
-            .ToRsi(14);
+            .ToRsiHub(14);
 
         // Emulate quote stream
         for (int i = 0; i < length; i++)
@@ -95,7 +95,7 @@ public class CorrelationHub : StreamHubTestBase, ITestChainObserver, ITestChainP
         EmaHub<CorrResult> emaHub = quoteHub
             .ToSma(10)
             .ToCorrelationHub(quoteHub.ToSma(20), lookbackPeriods)
-            .ToEma(12);
+            .ToEmaHub(12);
 
         // Emulate quote stream
         for (int i = 0; i < length; i++)

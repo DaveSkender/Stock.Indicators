@@ -80,7 +80,7 @@ public class AwesomeHub : StreamHubTestBase, ITestChainObserver, ITestChainProvi
 
         // initialize observer
         AwesomeHub<EmaResult> awesomeHub = quoteHub
-            .ToEma(emaPeriods)
+            .ToEmaHub(emaPeriods)
             .ToAwesomeHub(fastPeriods, slowPeriods);
 
         // emulate quote stream
@@ -124,7 +124,7 @@ public class AwesomeHub : StreamHubTestBase, ITestChainObserver, ITestChainProvi
         // initialize observer
         EmaHub<AwesomeResult> emaHub = quoteHub
             .ToAwesomeHub(fastPeriods, slowPeriods)
-            .ToEma(emaPeriods);
+            .ToEmaHub(emaPeriods);
 
         // emulate quote stream
         for (int i = 0; i < length; i++)

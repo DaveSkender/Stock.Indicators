@@ -88,7 +88,7 @@ public class AroonHub : StreamHubTestBase, ITestChainProvider
         // Initialize observer - Aroon as provider feeding into EMA
         EmaHub<AroonResult> emaHub = quoteHub
             .ToAroonHub(25)
-            .ToEma(12);
+            .ToEmaHub(12);
 
         // Emulate quote stream
         for (int i = 0; i < length; i++)
