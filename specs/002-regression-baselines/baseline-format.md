@@ -39,6 +39,9 @@ Baseline files contain a JSON array of indicator result objects that can be dire
 Each object in the array represents one date's calculation and maps directly to the indicator's result class:
 
 - **timestamp** (required): Date/time in ISO 8601 format
+  - Maps to `Timestamp` property in C# result classes (e.g., `SmaResult.Timestamp`)
+  - JSON uses camelCase via System.Text.Json's PropertyNamingPolicy.CamelCase
+  - Older indicators may use `Date` property name - both will serialize as "timestamp" or "date" in JSON
 - **indicator properties** (variable): All properties from the indicator's result class
   - Property names match C# property names (PascalCase in C#, camelCase in JSON)
   - Values are either `number` (double precision) or `null` (during warmup)
@@ -103,6 +106,12 @@ Baseline files are designed to deserialize directly to `List<TResult>` where `TR
 List<SmaResult> baseline = JsonSerializer.Deserialize<List<SmaResult>>(json);
 ```
 
+### Framework requirements
+
+- .NET 8.0+ (current multi-target: net9.0, net8.0)
+- System.Text.Json (included in framework, no separate package needed)
+- PropertyNamingPolicy.CamelCase supported in all target frameworks
+
 ### Property naming
 
 - JSON uses camelCase convention (System.Text.Json default with `PropertyNamingPolicy.CamelCase`)
@@ -119,7 +128,8 @@ List<SmaResult> baseline = JsonSerializer.Deserialize<List<SmaResult>>(json);
 
 - WriteIndented = true (human-readable with proper indentation)
 - UTF-8 encoding
-- ISO 8601 format for timestamps
+- ISO 8601 format for timestamps (System.Text.Json default: "yyyy-MM-ddTHH:mm:ss" for DateTime without timezone, or with timezone offset for DateTimeOffset)
+- DateTime.Kind should be specified (recommend Utc or Unspecified for consistency)
 
 ## Validation requirements
 
@@ -181,6 +191,7 @@ Valid baseline files must:
 - **Missing nulls**: Warmup nulls must be explicitly present
 - **Timestamp format**: Must use ISO 8601 format
 - **Type mismatches**: All numeric values must be valid doubles or null
+- **Timezone inconsistency**: Ensure test data uses consistent DateTime.Kind to avoid serialization format variations
 
 ---
 Last updated: October 6, 2025

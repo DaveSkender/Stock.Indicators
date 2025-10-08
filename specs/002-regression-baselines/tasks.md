@@ -1,7 +1,7 @@
 # Implementation tasks: static series regression baselines
 
 **Feature**: Static series regression baselines  
-**Updated**: 2025-01-09 (Simplified approach)  
+**Updated**: 2025-10-06 (Simplified approach)  
 **Based on**: [spec.md](./spec.md) and [plan.md](./plan.md)
 
 ## Task overview
