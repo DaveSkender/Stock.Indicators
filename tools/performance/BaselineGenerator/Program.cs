@@ -119,6 +119,7 @@ internal static class Program
         int successCount = 0;
         int failureCount = 0;
         int skippedCount = 0;
+        List<string> failures = [];
         object lockObj = new();
 
         Parallel.ForEach(seriesIndicators, listing =>
@@ -133,12 +134,22 @@ internal static class Program
                     Console.WriteLine($"[{successCount + failureCount + skippedCount}/{seriesIndicators.Count}] ✓ {listing.Uiid}");
                 }
             }
+            catch (NotSupportedException ex)
+            {
+                lock (lockObj)
+                {
+                    skippedCount++;
+                    Console.WriteLine($"[{successCount + failureCount + skippedCount}/{seriesIndicators.Count}] ⊘ {listing.Uiid}: {ex.Message}");
+                }
+            }
             catch (Exception ex)
             {
                 lock (lockObj)
                 {
                     failureCount++;
-                    Console.WriteLine($"[{successCount + failureCount + skippedCount}/{seriesIndicators.Count}] ✗ {listing.Uiid}: {ex.Message}");
+                    string errorMsg = $"{listing.Uiid}: {ex.Message}";
+                    failures.Add(errorMsg);
+                    Console.WriteLine($"[{successCount + failureCount + skippedCount}/{seriesIndicators.Count}] ✗ {errorMsg}");
                 }
             }
         });
@@ -148,6 +159,17 @@ internal static class Program
         Console.WriteLine($"  Success: {successCount}");
         Console.WriteLine($"  Failure: {failureCount}");
         Console.WriteLine($"  Skipped: {skippedCount}");
+
+        if (failures.Count > 0)
+        {
+            Console.WriteLine();
+            Console.WriteLine("Failed indicators:");
+            foreach (string failure in failures)
+            {
+                Console.WriteLine($"  - {failure}");
+            }
+        }
+
         Console.WriteLine();
 
         return failureCount > 0 ? 1 : 0;

@@ -27,6 +27,12 @@ internal static class IndicatorExecutor
             throw new InvalidOperationException($"Method name not specified for indicator '{listing.Uiid}'");
         }
 
+        // Check if this indicator uses SeriesParameter (requires IReusable lists) - not supported yet
+        if (listing.Parameters != null && listing.Parameters.Any(p => p.DataType == "IReadOnlyList<T> where T : IReusable"))
+        {
+            throw new NotSupportedException($"Indicator '{listing.Uiid}' uses SeriesParameter which is not yet supported for baseline generation");
+        }
+
         // Find all types in the indicators assembly
         Assembly indicatorsAssembly = typeof(Quote).Assembly;
         
@@ -56,14 +62,26 @@ internal static class IndicatorExecutor
         object?[] parameters = PrepareParameters(listing, genericMethod);
 
         // Invoke the method
-        object? result = genericMethod.Invoke(null, parameters);
-
-        if (result == null)
+        try
         {
-            throw new InvalidOperationException($"Indicator '{listing.Uiid}' returned null result");
-        }
+            object? result = genericMethod.Invoke(null, parameters);
 
-        return result;
+            if (result == null)
+            {
+                throw new InvalidOperationException($"Indicator '{listing.Uiid}' returned null result");
+            }
+
+            return result;
+        }
+        catch (TargetInvocationException ex)
+        {
+            // Unwrap the inner exception for clearer error messages
+            if (ex.InnerException != null)
+            {
+                throw ex.InnerException;
+            }
+            throw;
+        }
     }
 
     /// <summary>

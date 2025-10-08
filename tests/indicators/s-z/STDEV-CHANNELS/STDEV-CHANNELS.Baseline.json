@@ -1,0 +1,3516 @@
+[
+  {
+    "timestamp": "2017-01-03T00:00:00",
+    "centerline": null,
+    "upperChannel": null,
+    "lowerChannel": null,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-01-04T00:00:00",
+    "centerline": null,
+    "upperChannel": null,
+    "lowerChannel": null,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-01-05T00:00:00",
+    "centerline": 213.79928571428573,
+    "upperChannel": 215.7097872191268,
+    "lowerChannel": 211.88878420944465,
+    "breakPoint": true
+  },
+  {
+    "timestamp": "2017-01-06T00:00:00",
+    "centerline": 213.89346616541354,
+    "upperChannel": 215.80396767025462,
+    "lowerChannel": 211.98296466057246,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-01-09T00:00:00",
+    "centerline": 213.98764661654135,
+    "upperChannel": 215.89814812138243,
+    "lowerChannel": 212.07714511170028,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-01-10T00:00:00",
+    "centerline": 214.0818270676692,
+    "upperChannel": 215.99232857251027,
+    "lowerChannel": 212.17132556282812,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-01-11T00:00:00",
+    "centerline": 214.176007518797,
+    "upperChannel": 216.0865090236381,
+    "lowerChannel": 212.26550601395593,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-01-12T00:00:00",
+    "centerline": 214.27018796992482,
+    "upperChannel": 216.1806894747659,
+    "lowerChannel": 212.35968646508374,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-01-13T00:00:00",
+    "centerline": 214.36436842105263,
+    "upperChannel": 216.2748699258937,
+    "lowerChannel": 212.45386691621155,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-01-17T00:00:00",
+    "centerline": 214.45854887218047,
+    "upperChannel": 216.36905037702155,
+    "lowerChannel": 212.5480473673394,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-01-18T00:00:00",
+    "centerline": 214.55272932330828,
+    "upperChannel": 216.46323082814936,
+    "lowerChannel": 212.6422278184672,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-01-19T00:00:00",
+    "centerline": 214.6469097744361,
+    "upperChannel": 216.55741127927718,
+    "lowerChannel": 212.73640826959502,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-01-20T00:00:00",
+    "centerline": 214.74109022556394,
+    "upperChannel": 216.65159173040502,
+    "lowerChannel": 212.83058872072286,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-01-23T00:00:00",
+    "centerline": 214.83527067669175,
+    "upperChannel": 216.74577218153283,
+    "lowerChannel": 212.92476917185067,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-01-24T00:00:00",
+    "centerline": 214.92945112781956,
+    "upperChannel": 216.83995263266064,
+    "lowerChannel": 213.01894962297848,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-01-25T00:00:00",
+    "centerline": 215.02363157894737,
+    "upperChannel": 216.93413308378845,
+    "lowerChannel": 213.1131300741063,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-01-26T00:00:00",
+    "centerline": 215.1178120300752,
+    "upperChannel": 217.0283135349163,
+    "lowerChannel": 213.20731052523413,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-01-27T00:00:00",
+    "centerline": 215.21199248120303,
+    "upperChannel": 217.1224939860441,
+    "lowerChannel": 213.30149097636195,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-01-30T00:00:00",
+    "centerline": 215.30617293233084,
+    "upperChannel": 217.21667443717192,
+    "lowerChannel": 213.39567142748976,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-01-31T00:00:00",
+    "centerline": 215.40035338345865,
+    "upperChannel": 217.31085488829973,
+    "lowerChannel": 213.48985187861757,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-02-01T00:00:00",
+    "centerline": 215.4945338345865,
+    "upperChannel": 217.40503533942757,
+    "lowerChannel": 213.5840323297454,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-02-02T00:00:00",
+    "centerline": 215.5887142857143,
+    "upperChannel": 217.49921579055538,
+    "lowerChannel": 213.67821278087322,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-02-03T00:00:00",
+    "centerline": 216.28114285714284,
+    "upperChannel": 222.65821271719614,
+    "lowerChannel": 209.90407299708954,
+    "breakPoint": true
+  },
+  {
+    "timestamp": "2017-02-06T00:00:00",
+    "centerline": 216.81418045112778,
+    "upperChannel": 223.19125031118108,
+    "lowerChannel": 210.4371105910745,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-02-07T00:00:00",
+    "centerline": 217.34721804511275,
+    "upperChannel": 223.72428790516602,
+    "lowerChannel": 210.9701481850595,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-02-08T00:00:00",
+    "centerline": 217.88025563909773,
+    "upperChannel": 224.25732549915102,
+    "lowerChannel": 211.50318577904443,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-02-09T00:00:00",
+    "centerline": 218.41329323308267,
+    "upperChannel": 224.79036309313597,
+    "lowerChannel": 212.03622337302937,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-02-10T00:00:00",
+    "centerline": 218.94633082706764,
+    "upperChannel": 225.3234006871209,
+    "lowerChannel": 212.56926096701437,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-02-13T00:00:00",
+    "centerline": 219.4793684210526,
+    "upperChannel": 225.8564382811059,
+    "lowerChannel": 213.10229856099932,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-02-14T00:00:00",
+    "centerline": 220.01240601503756,
+    "upperChannel": 226.38947587509085,
+    "lowerChannel": 213.63533615498426,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-02-15T00:00:00",
+    "centerline": 220.54544360902253,
+    "upperChannel": 226.9225134690758,
+    "lowerChannel": 214.16837374896926,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-02-16T00:00:00",
+    "centerline": 221.0784812030075,
+    "upperChannel": 227.4555510630608,
+    "lowerChannel": 214.7014113429542,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-02-17T00:00:00",
+    "centerline": 221.61151879699244,
+    "upperChannel": 227.98858865704574,
+    "lowerChannel": 215.23444893693915,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-02-21T00:00:00",
+    "centerline": 222.1445563909774,
+    "upperChannel": 228.52162625103068,
+    "lowerChannel": 215.76748653092415,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-02-22T00:00:00",
+    "centerline": 222.67759398496239,
+    "upperChannel": 229.05466384501568,
+    "lowerChannel": 216.3005241249091,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-02-23T00:00:00",
+    "centerline": 223.21063157894733,
+    "upperChannel": 229.58770143900063,
+    "lowerChannel": 216.83356171889403,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-02-24T00:00:00",
+    "centerline": 223.7436691729323,
+    "upperChannel": 230.12073903298557,
+    "lowerChannel": 217.36659931287903,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-02-27T00:00:00",
+    "centerline": 224.27670676691727,
+    "upperChannel": 230.65377662697057,
+    "lowerChannel": 217.89963690686398,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-02-28T00:00:00",
+    "centerline": 224.80974436090222,
+    "upperChannel": 231.1868142209555,
+    "lowerChannel": 218.43267450084892,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-03-01T00:00:00",
+    "centerline": 225.3427819548872,
+    "upperChannel": 231.71985181494045,
+    "lowerChannel": 218.96571209483392,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-03-02T00:00:00",
+    "centerline": 225.87581954887216,
+    "upperChannel": 232.25288940892545,
+    "lowerChannel": 219.49874968881886,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-03-03T00:00:00",
+    "centerline": 226.4088571428571,
+    "upperChannel": 232.7859270029104,
+    "lowerChannel": 220.0317872828038,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-03-06T00:00:00",
+    "centerline": 224.51357142857142,
+    "upperChannel": 226.87601317388496,
+    "lowerChannel": 222.1511296832579,
+    "breakPoint": true
+  },
+  {
+    "timestamp": "2017-03-07T00:00:00",
+    "centerline": 224.42703759398495,
+    "upperChannel": 226.78947933929848,
+    "lowerChannel": 222.06459584867142,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-03-08T00:00:00",
+    "centerline": 224.3405037593985,
+    "upperChannel": 226.70294550471203,
+    "lowerChannel": 221.97806201408497,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-03-09T00:00:00",
+    "centerline": 224.25396992481203,
+    "upperChannel": 226.61641167012556,
+    "lowerChannel": 221.8915281794985,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-03-10T00:00:00",
+    "centerline": 224.16743609022555,
+    "upperChannel": 226.52987783553908,
+    "lowerChannel": 221.80499434491202,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-03-13T00:00:00",
+    "centerline": 224.0809022556391,
+    "upperChannel": 226.44334400095264,
+    "lowerChannel": 221.71846051032557,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-03-14T00:00:00",
+    "centerline": 223.99436842105263,
+    "upperChannel": 226.35681016636616,
+    "lowerChannel": 221.6319266757391,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-03-15T00:00:00",
+    "centerline": 223.90783458646615,
+    "upperChannel": 226.27027633177968,
+    "lowerChannel": 221.54539284115262,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-03-16T00:00:00",
+    "centerline": 223.8213007518797,
+    "upperChannel": 226.18374249719324,
+    "lowerChannel": 221.45885900656617,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-03-17T00:00:00",
+    "centerline": 223.73476691729323,
+    "upperChannel": 226.09720866260676,
+    "lowerChannel": 221.3723251719797,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-03-20T00:00:00",
+    "centerline": 223.64823308270675,
+    "upperChannel": 226.01067482802029,
+    "lowerChannel": 221.28579133739322,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-03-21T00:00:00",
+    "centerline": 223.5616992481203,
+    "upperChannel": 225.92414099343384,
+    "lowerChannel": 221.19925750280677,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-03-22T00:00:00",
+    "centerline": 223.47516541353383,
+    "upperChannel": 225.83760715884736,
+    "lowerChannel": 221.1127236682203,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-03-23T00:00:00",
+    "centerline": 223.38863157894735,
+    "upperChannel": 225.7510733242609,
+    "lowerChannel": 221.02618983363382,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-03-24T00:00:00",
+    "centerline": 223.3020977443609,
+    "upperChannel": 225.66453948967444,
+    "lowerChannel": 220.93965599904737,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-03-27T00:00:00",
+    "centerline": 223.21556390977443,
+    "upperChannel": 225.57800565508796,
+    "lowerChannel": 220.8531221644609,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-03-28T00:00:00",
+    "centerline": 223.12903007518796,
+    "upperChannel": 225.4914718205015,
+    "lowerChannel": 220.76658832987442,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-03-29T00:00:00",
+    "centerline": 223.0424962406015,
+    "upperChannel": 225.40493798591504,
+    "lowerChannel": 220.68005449528798,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-03-30T00:00:00",
+    "centerline": 222.95596240601503,
+    "upperChannel": 225.31840415132856,
+    "lowerChannel": 220.5935206607015,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-03-31T00:00:00",
+    "centerline": 222.86942857142856,
+    "upperChannel": 225.2318703167421,
+    "lowerChannel": 220.50698682611502,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-04-03T00:00:00",
+    "centerline": 221.89242857142852,
+    "upperChannel": 225.35284747670573,
+    "lowerChannel": 218.43200966615132,
+    "breakPoint": true
+  },
+  {
+    "timestamp": "2017-04-04T00:00:00",
+    "centerline": 222.07959398496234,
+    "upperChannel": 225.54001289023955,
+    "lowerChannel": 218.61917507968514,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-04-05T00:00:00",
+    "centerline": 222.2667593984962,
+    "upperChannel": 225.7271783037734,
+    "lowerChannel": 218.80634049321898,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-04-06T00:00:00",
+    "centerline": 222.45392481203004,
+    "upperChannel": 225.91434371730725,
+    "lowerChannel": 218.99350590675283,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-04-07T00:00:00",
+    "centerline": 222.64109022556386,
+    "upperChannel": 226.10150913084107,
+    "lowerChannel": 219.18067132028665,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-04-10T00:00:00",
+    "centerline": 222.8282556390977,
+    "upperChannel": 226.2886745443749,
+    "lowerChannel": 219.3678367338205,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-04-11T00:00:00",
+    "centerline": 223.01542105263152,
+    "upperChannel": 226.47583995790873,
+    "lowerChannel": 219.55500214735432,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-04-12T00:00:00",
+    "centerline": 223.20258646616537,
+    "upperChannel": 226.66300537144258,
+    "lowerChannel": 219.74216756088816,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-04-13T00:00:00",
+    "centerline": 223.3897518796992,
+    "upperChannel": 226.8501707849764,
+    "lowerChannel": 219.92933297442198,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-04-17T00:00:00",
+    "centerline": 223.57691729323304,
+    "upperChannel": 227.03733619851025,
+    "lowerChannel": 220.11649838795583,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-04-18T00:00:00",
+    "centerline": 223.76408270676686,
+    "upperChannel": 227.22450161204407,
+    "lowerChannel": 220.30366380148965,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-04-19T00:00:00",
+    "centerline": 223.9512481203007,
+    "upperChannel": 227.4116670255779,
+    "lowerChannel": 220.4908292150235,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-04-20T00:00:00",
+    "centerline": 224.13841353383452,
+    "upperChannel": 227.59883243911173,
+    "lowerChannel": 220.67799462855731,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-04-21T00:00:00",
+    "centerline": 224.32557894736837,
+    "upperChannel": 227.78599785264558,
+    "lowerChannel": 220.86516004209116,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-04-24T00:00:00",
+    "centerline": 224.51274436090222,
+    "upperChannel": 227.97316326617943,
+    "lowerChannel": 221.052325455625,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-04-25T00:00:00",
+    "centerline": 224.69990977443604,
+    "upperChannel": 228.16032867971325,
+    "lowerChannel": 221.23949086915883,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-04-26T00:00:00",
+    "centerline": 224.88707518796988,
+    "upperChannel": 228.3474940932471,
+    "lowerChannel": 221.42665628269268,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-04-27T00:00:00",
+    "centerline": 225.0742406015037,
+    "upperChannel": 228.5346595067809,
+    "lowerChannel": 221.6138216962265,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-04-28T00:00:00",
+    "centerline": 225.26140601503755,
+    "upperChannel": 228.72182492031476,
+    "lowerChannel": 221.80098710976034,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-05-01T00:00:00",
+    "centerline": 225.44857142857137,
+    "upperChannel": 228.90899033384858,
+    "lowerChannel": 221.98815252329416,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-05-02T00:00:00",
+    "centerline": 226.31457142857144,
+    "upperChannel": 229.05015381629073,
+    "lowerChannel": 223.57898904085215,
+    "breakPoint": true
+  },
+  {
+    "timestamp": "2017-05-03T00:00:00",
+    "centerline": 226.41077443609024,
+    "upperChannel": 229.14635682380953,
+    "lowerChannel": 223.67519204837095,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-05-04T00:00:00",
+    "centerline": 226.50697744360906,
+    "upperChannel": 229.24255983132835,
+    "lowerChannel": 223.77139505588977,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-05-05T00:00:00",
+    "centerline": 226.60318045112786,
+    "upperChannel": 229.33876283884715,
+    "lowerChannel": 223.86759806340856,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-05-08T00:00:00",
+    "centerline": 226.69938345864665,
+    "upperChannel": 229.43496584636594,
+    "lowerChannel": 223.96380107092736,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-05-09T00:00:00",
+    "centerline": 226.79558646616545,
+    "upperChannel": 229.53116885388474,
+    "lowerChannel": 224.06000407844616,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-05-10T00:00:00",
+    "centerline": 226.89178947368424,
+    "upperChannel": 229.62737186140353,
+    "lowerChannel": 224.15620708596495,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-05-11T00:00:00",
+    "centerline": 226.98799248120304,
+    "upperChannel": 229.72357486892233,
+    "lowerChannel": 224.25241009348375,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-05-12T00:00:00",
+    "centerline": 227.08419548872183,
+    "upperChannel": 229.81977787644112,
+    "lowerChannel": 224.34861310100254,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-05-15T00:00:00",
+    "centerline": 227.18039849624063,
+    "upperChannel": 229.91598088395992,
+    "lowerChannel": 224.44481610852134,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-05-16T00:00:00",
+    "centerline": 227.27660150375942,
+    "upperChannel": 230.0121838914787,
+    "lowerChannel": 224.54101911604013,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-05-17T00:00:00",
+    "centerline": 227.37280451127822,
+    "upperChannel": 230.1083868989975,
+    "lowerChannel": 224.63722212355893,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-05-18T00:00:00",
+    "centerline": 227.469007518797,
+    "upperChannel": 230.2045899065163,
+    "lowerChannel": 224.73342513107772,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-05-19T00:00:00",
+    "centerline": 227.5652105263158,
+    "upperChannel": 230.3007929140351,
+    "lowerChannel": 224.82962813859652,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-05-22T00:00:00",
+    "centerline": 227.6614135338346,
+    "upperChannel": 230.3969959215539,
+    "lowerChannel": 224.9258311461153,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-05-23T00:00:00",
+    "centerline": 227.7576165413534,
+    "upperChannel": 230.4931989290727,
+    "lowerChannel": 225.0220341536341,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-05-24T00:00:00",
+    "centerline": 227.8538195488722,
+    "upperChannel": 230.58940193659149,
+    "lowerChannel": 225.1182371611529,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-05-25T00:00:00",
+    "centerline": 227.950022556391,
+    "upperChannel": 230.68560494411028,
+    "lowerChannel": 225.2144401686717,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-05-26T00:00:00",
+    "centerline": 228.0462255639098,
+    "upperChannel": 230.78180795162908,
+    "lowerChannel": 225.3106431761905,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-05-30T00:00:00",
+    "centerline": 228.1424285714286,
+    "upperChannel": 230.8780109591479,
+    "lowerChannel": 225.40684618370932,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-05-31T00:00:00",
+    "centerline": 230.8422857142857,
+    "upperChannel": 232.44989107630713,
+    "lowerChannel": 229.2346803522643,
+    "breakPoint": true
+  },
+  {
+    "timestamp": "2017-06-01T00:00:00",
+    "centerline": 230.89546616541352,
+    "upperChannel": 232.50307152743494,
+    "lowerChannel": 229.2878608033921,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-06-02T00:00:00",
+    "centerline": 230.94864661654134,
+    "upperChannel": 232.55625197856276,
+    "lowerChannel": 229.34104125451992,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-06-05T00:00:00",
+    "centerline": 231.00182706766918,
+    "upperChannel": 232.6094324296906,
+    "lowerChannel": 229.39422170564777,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-06-06T00:00:00",
+    "centerline": 231.055007518797,
+    "upperChannel": 232.66261288081841,
+    "lowerChannel": 229.44740215677558,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-06-07T00:00:00",
+    "centerline": 231.1081879699248,
+    "upperChannel": 232.71579333194623,
+    "lowerChannel": 229.5005826079034,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-06-08T00:00:00",
+    "centerline": 231.16136842105263,
+    "upperChannel": 232.76897378307405,
+    "lowerChannel": 229.5537630590312,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-06-09T00:00:00",
+    "centerline": 231.21454887218044,
+    "upperChannel": 232.82215423420186,
+    "lowerChannel": 229.60694351015903,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-06-12T00:00:00",
+    "centerline": 231.26772932330826,
+    "upperChannel": 232.87533468532968,
+    "lowerChannel": 229.66012396128684,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-06-13T00:00:00",
+    "centerline": 231.3209097744361,
+    "upperChannel": 232.92851513645752,
+    "lowerChannel": 229.7133044124147,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-06-14T00:00:00",
+    "centerline": 231.37409022556392,
+    "upperChannel": 232.98169558758534,
+    "lowerChannel": 229.7664848635425,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-06-15T00:00:00",
+    "centerline": 231.42727067669173,
+    "upperChannel": 233.03487603871315,
+    "lowerChannel": 229.81966531467032,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-06-16T00:00:00",
+    "centerline": 231.48045112781955,
+    "upperChannel": 233.08805648984097,
+    "lowerChannel": 229.87284576579813,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-06-19T00:00:00",
+    "centerline": 231.53363157894736,
+    "upperChannel": 233.14123694096878,
+    "lowerChannel": 229.92602621692595,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-06-20T00:00:00",
+    "centerline": 231.58681203007518,
+    "upperChannel": 233.1944173920966,
+    "lowerChannel": 229.97920666805376,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-06-21T00:00:00",
+    "centerline": 231.63999248120302,
+    "upperChannel": 233.24759784322444,
+    "lowerChannel": 230.0323871191816,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-06-22T00:00:00",
+    "centerline": 231.69317293233084,
+    "upperChannel": 233.30077829435226,
+    "lowerChannel": 230.08556757030942,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-06-23T00:00:00",
+    "centerline": 231.74635338345865,
+    "upperChannel": 233.35395874548007,
+    "lowerChannel": 230.13874802143724,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-06-26T00:00:00",
+    "centerline": 231.79953383458647,
+    "upperChannel": 233.4071391966079,
+    "lowerChannel": 230.19192847256505,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-06-27T00:00:00",
+    "centerline": 231.85271428571428,
+    "upperChannel": 233.4603196477357,
+    "lowerChannel": 230.24510892369287,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-06-28T00:00:00",
+    "centerline": 229.7665714285714,
+    "upperChannel": 234.07055783654252,
+    "lowerChannel": 225.4625850206003,
+    "breakPoint": true
+  },
+  {
+    "timestamp": "2017-06-29T00:00:00",
+    "centerline": 230.10382706766916,
+    "upperChannel": 234.40781347564027,
+    "lowerChannel": 225.79984065969805,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-06-30T00:00:00",
+    "centerline": 230.4410827067669,
+    "upperChannel": 234.74506911473802,
+    "lowerChannel": 226.1370962987958,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-07-03T00:00:00",
+    "centerline": 230.77833834586465,
+    "upperChannel": 235.08232475383576,
+    "lowerChannel": 226.47435193789354,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-07-05T00:00:00",
+    "centerline": 231.1155939849624,
+    "upperChannel": 235.4195803929335,
+    "lowerChannel": 226.8116075769913,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-07-06T00:00:00",
+    "centerline": 231.45284962406015,
+    "upperChannel": 235.75683603203126,
+    "lowerChannel": 227.14886321608904,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-07-07T00:00:00",
+    "centerline": 231.7901052631579,
+    "upperChannel": 236.094091671129,
+    "lowerChannel": 227.4861188551868,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-07-10T00:00:00",
+    "centerline": 232.12736090225565,
+    "upperChannel": 236.43134731022676,
+    "lowerChannel": 227.82337449428454,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-07-11T00:00:00",
+    "centerline": 232.4646165413534,
+    "upperChannel": 236.7686029493245,
+    "lowerChannel": 228.16063013338228,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-07-12T00:00:00",
+    "centerline": 232.80187218045114,
+    "upperChannel": 237.10585858842225,
+    "lowerChannel": 228.49788577248003,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-07-13T00:00:00",
+    "centerline": 233.1391278195489,
+    "upperChannel": 237.44311422752,
+    "lowerChannel": 228.83514141157778,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-07-14T00:00:00",
+    "centerline": 233.4763834586466,
+    "upperChannel": 237.78036986661772,
+    "lowerChannel": 229.1723970506755,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-07-17T00:00:00",
+    "centerline": 233.81363909774436,
+    "upperChannel": 238.11762550571547,
+    "lowerChannel": 229.50965268977325,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-07-18T00:00:00",
+    "centerline": 234.1508947368421,
+    "upperChannel": 238.4548811448132,
+    "lowerChannel": 229.846908328871,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-07-19T00:00:00",
+    "centerline": 234.48815037593985,
+    "upperChannel": 238.79213678391096,
+    "lowerChannel": 230.18416396796874,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-07-20T00:00:00",
+    "centerline": 234.8254060150376,
+    "upperChannel": 239.1293924230087,
+    "lowerChannel": 230.5214196070665,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-07-21T00:00:00",
+    "centerline": 235.16266165413535,
+    "upperChannel": 239.46664806210646,
+    "lowerChannel": 230.85867524616424,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-07-24T00:00:00",
+    "centerline": 235.4999172932331,
+    "upperChannel": 239.8039037012042,
+    "lowerChannel": 231.195930885262,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-07-25T00:00:00",
+    "centerline": 235.83717293233082,
+    "upperChannel": 240.14115934030193,
+    "lowerChannel": 231.5331865243597,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-07-26T00:00:00",
+    "centerline": 236.17442857142856,
+    "upperChannel": 240.47841497939967,
+    "lowerChannel": 231.87044216345745,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-07-27T00:00:00",
+    "centerline": 236.32685714285714,
+    "upperChannel": 239.55845736565698,
+    "lowerChannel": 233.0952569200573,
+    "breakPoint": true
+  },
+  {
+    "timestamp": "2017-07-28T00:00:00",
+    "centerline": 236.13560902255637,
+    "upperChannel": 239.3672092453562,
+    "lowerChannel": 232.90400879975653,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-07-31T00:00:00",
+    "centerline": 235.94436090225562,
+    "upperChannel": 239.17596112505547,
+    "lowerChannel": 232.71276067945578,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-08-01T00:00:00",
+    "centerline": 235.75311278195488,
+    "upperChannel": 238.98471300475472,
+    "lowerChannel": 232.52151255915504,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-08-02T00:00:00",
+    "centerline": 235.5618646616541,
+    "upperChannel": 238.79346488445395,
+    "lowerChannel": 232.33026443885427,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-08-03T00:00:00",
+    "centerline": 235.37061654135337,
+    "upperChannel": 238.6022167641532,
+    "lowerChannel": 232.13901631855353,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-08-04T00:00:00",
+    "centerline": 235.17936842105263,
+    "upperChannel": 238.41096864385247,
+    "lowerChannel": 231.9477681982528,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-08-07T00:00:00",
+    "centerline": 234.98812030075186,
+    "upperChannel": 238.2197205235517,
+    "lowerChannel": 231.75652007795202,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-08-08T00:00:00",
+    "centerline": 234.79687218045112,
+    "upperChannel": 238.02847240325096,
+    "lowerChannel": 231.56527195765128,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-08-09T00:00:00",
+    "centerline": 234.60562406015038,
+    "upperChannel": 237.83722428295022,
+    "lowerChannel": 231.37402383735053,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-08-10T00:00:00",
+    "centerline": 234.4143759398496,
+    "upperChannel": 237.64597616264945,
+    "lowerChannel": 231.18277571704976,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-08-11T00:00:00",
+    "centerline": 234.22312781954886,
+    "upperChannel": 237.4547280423487,
+    "lowerChannel": 230.99152759674902,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-08-14T00:00:00",
+    "centerline": 234.03187969924812,
+    "upperChannel": 237.26347992204796,
+    "lowerChannel": 230.80027947644828,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-08-15T00:00:00",
+    "centerline": 233.84063157894735,
+    "upperChannel": 237.0722318017472,
+    "lowerChannel": 230.6090313561475,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-08-16T00:00:00",
+    "centerline": 233.6493834586466,
+    "upperChannel": 236.88098368144645,
+    "lowerChannel": 230.41778323584677,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-08-17T00:00:00",
+    "centerline": 233.45813533834587,
+    "upperChannel": 236.6897355611457,
+    "lowerChannel": 230.22653511554603,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-08-18T00:00:00",
+    "centerline": 233.2668872180451,
+    "upperChannel": 236.49848744084494,
+    "lowerChannel": 230.03528699524526,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-08-21T00:00:00",
+    "centerline": 233.07563909774436,
+    "upperChannel": 236.3072393205442,
+    "lowerChannel": 229.84403887494452,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-08-22T00:00:00",
+    "centerline": 232.88439097744362,
+    "upperChannel": 236.11599120024346,
+    "lowerChannel": 229.65279075464377,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-08-23T00:00:00",
+    "centerline": 232.69314285714285,
+    "upperChannel": 235.9247430799427,
+    "lowerChannel": 229.461542634343,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-08-24T00:00:00",
+    "centerline": 232.81471428571425,
+    "upperChannel": 237.47785689558583,
+    "lowerChannel": 228.15157167584266,
+    "breakPoint": true
+  },
+  {
+    "timestamp": "2017-08-25T00:00:00",
+    "centerline": 233.197954887218,
+    "upperChannel": 237.8610974970896,
+    "lowerChannel": 228.53481227734642,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-08-28T00:00:00",
+    "centerline": 233.58119548872176,
+    "upperChannel": 238.24433809859335,
+    "lowerChannel": 228.91805287885018,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-08-29T00:00:00",
+    "centerline": 233.96443609022552,
+    "upperChannel": 238.6275787000971,
+    "lowerChannel": 229.30129348035393,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-08-30T00:00:00",
+    "centerline": 234.3476766917293,
+    "upperChannel": 239.0108193016009,
+    "lowerChannel": 229.68453408185772,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-08-31T00:00:00",
+    "centerline": 234.73091729323306,
+    "upperChannel": 239.39405990310465,
+    "lowerChannel": 230.06777468336148,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-09-01T00:00:00",
+    "centerline": 235.11415789473682,
+    "upperChannel": 239.7773005046084,
+    "lowerChannel": 230.45101528486524,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-09-05T00:00:00",
+    "centerline": 235.49739849624058,
+    "upperChannel": 240.16054110611216,
+    "lowerChannel": 230.834255886369,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-09-06T00:00:00",
+    "centerline": 235.88063909774434,
+    "upperChannel": 240.54378170761592,
+    "lowerChannel": 231.21749648787275,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-09-07T00:00:00",
+    "centerline": 236.2638796992481,
+    "upperChannel": 240.92702230911968,
+    "lowerChannel": 231.6007370893765,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-09-08T00:00:00",
+    "centerline": 236.64712030075185,
+    "upperChannel": 241.31026291062344,
+    "lowerChannel": 231.98397769088027,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-09-11T00:00:00",
+    "centerline": 237.0303609022556,
+    "upperChannel": 241.6935035121272,
+    "lowerChannel": 232.36721829238402,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-09-12T00:00:00",
+    "centerline": 237.41360150375937,
+    "upperChannel": 242.07674411363095,
+    "lowerChannel": 232.75045889388778,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-09-13T00:00:00",
+    "centerline": 237.79684210526312,
+    "upperChannel": 242.4599847151347,
+    "lowerChannel": 233.13369949539154,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-09-14T00:00:00",
+    "centerline": 238.18008270676688,
+    "upperChannel": 242.84322531663847,
+    "lowerChannel": 233.5169400968953,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-09-15T00:00:00",
+    "centerline": 238.56332330827064,
+    "upperChannel": 243.22646591814222,
+    "lowerChannel": 233.90018069839905,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-09-18T00:00:00",
+    "centerline": 238.9465639097744,
+    "upperChannel": 243.60970651964598,
+    "lowerChannel": 234.2834212999028,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-09-19T00:00:00",
+    "centerline": 239.32980451127816,
+    "upperChannel": 243.99294712114974,
+    "lowerChannel": 234.66666190140657,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-09-20T00:00:00",
+    "centerline": 239.7130451127819,
+    "upperChannel": 244.3761877226535,
+    "lowerChannel": 235.04990250291033,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-09-21T00:00:00",
+    "centerline": 240.09628571428567,
+    "upperChannel": 244.75942832415726,
+    "lowerChannel": 235.43314310441409,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-09-22T00:00:00",
+    "centerline": 239.02371428571433,
+    "upperChannel": 243.4982627545545,
+    "lowerChannel": 234.54916581687417,
+    "breakPoint": true
+  },
+  {
+    "timestamp": "2017-09-25T00:00:00",
+    "centerline": 239.3919548872181,
+    "upperChannel": 243.86650335605827,
+    "lowerChannel": 234.91740641837794,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-09-26T00:00:00",
+    "centerline": 239.76019548872185,
+    "upperChannel": 244.23474395756202,
+    "lowerChannel": 235.28564701988168,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-09-27T00:00:00",
+    "centerline": 240.1284360902256,
+    "upperChannel": 244.60298455906576,
+    "lowerChannel": 235.65388762138542,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-09-28T00:00:00",
+    "centerline": 240.49667669172936,
+    "upperChannel": 244.97122516056953,
+    "lowerChannel": 236.0221282228892,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-09-29T00:00:00",
+    "centerline": 240.86491729323313,
+    "upperChannel": 245.3394657620733,
+    "lowerChannel": 236.39036882439297,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-10-02T00:00:00",
+    "centerline": 241.23315789473688,
+    "upperChannel": 245.70770636357705,
+    "lowerChannel": 236.7586094258967,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-10-03T00:00:00",
+    "centerline": 241.60139849624062,
+    "upperChannel": 246.0759469650808,
+    "lowerChannel": 237.12685002740045,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-10-04T00:00:00",
+    "centerline": 241.9696390977444,
+    "upperChannel": 246.44418756658456,
+    "lowerChannel": 237.49509062890422,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-10-05T00:00:00",
+    "centerline": 242.33787969924816,
+    "upperChannel": 246.81242816808833,
+    "lowerChannel": 237.863331230408,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-10-06T00:00:00",
+    "centerline": 242.70612030075193,
+    "upperChannel": 247.1806687695921,
+    "lowerChannel": 238.23157183191177,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-10-09T00:00:00",
+    "centerline": 243.07436090225568,
+    "upperChannel": 247.54890937109585,
+    "lowerChannel": 238.5998124334155,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-10-10T00:00:00",
+    "centerline": 243.44260150375942,
+    "upperChannel": 247.9171499725996,
+    "lowerChannel": 238.96805303491925,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-10-11T00:00:00",
+    "centerline": 243.8108421052632,
+    "upperChannel": 248.28539057410336,
+    "lowerChannel": 239.33629363642302,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-10-12T00:00:00",
+    "centerline": 244.17908270676696,
+    "upperChannel": 248.65363117560713,
+    "lowerChannel": 239.7045342379268,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-10-13T00:00:00",
+    "centerline": 244.54732330827073,
+    "upperChannel": 249.0218717771109,
+    "lowerChannel": 240.07277483943056,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-10-16T00:00:00",
+    "centerline": 244.91556390977448,
+    "upperChannel": 249.39011237861465,
+    "lowerChannel": 240.4410154409343,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-10-17T00:00:00",
+    "centerline": 245.28380451127822,
+    "upperChannel": 249.7583529801184,
+    "lowerChannel": 240.80925604243805,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-10-18T00:00:00",
+    "centerline": 245.652045112782,
+    "upperChannel": 250.12659358162216,
+    "lowerChannel": 241.17749664394182,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-10-19T00:00:00",
+    "centerline": 246.02028571428576,
+    "upperChannel": 250.49483418312593,
+    "lowerChannel": 241.5457372454456,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-10-20T00:00:00",
+    "centerline": 245.69528571428566,
+    "upperChannel": 247.73882651397625,
+    "lowerChannel": 243.65174491459507,
+    "breakPoint": true
+  },
+  {
+    "timestamp": "2017-10-23T00:00:00",
+    "centerline": 245.80478195488718,
+    "upperChannel": 247.84832275457777,
+    "lowerChannel": 243.7612411551966,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-10-24T00:00:00",
+    "centerline": 245.91427819548866,
+    "upperChannel": 247.95781899517925,
+    "lowerChannel": 243.87073739579807,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-10-25T00:00:00",
+    "centerline": 246.02377443609018,
+    "upperChannel": 248.06731523578077,
+    "lowerChannel": 243.9802336363996,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-10-26T00:00:00",
+    "centerline": 246.13327067669167,
+    "upperChannel": 248.17681147638226,
+    "lowerChannel": 244.08972987700108,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-10-27T00:00:00",
+    "centerline": 246.24276691729318,
+    "upperChannel": 248.28630771698377,
+    "lowerChannel": 244.1992261176026,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-10-30T00:00:00",
+    "centerline": 246.35226315789467,
+    "upperChannel": 248.39580395758526,
+    "lowerChannel": 244.30872235820408,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-10-31T00:00:00",
+    "centerline": 246.46175939849618,
+    "upperChannel": 248.50530019818677,
+    "lowerChannel": 244.4182185988056,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-11-01T00:00:00",
+    "centerline": 246.57125563909767,
+    "upperChannel": 248.61479643878826,
+    "lowerChannel": 244.52771483940708,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-11-02T00:00:00",
+    "centerline": 246.6807518796992,
+    "upperChannel": 248.72429267938978,
+    "lowerChannel": 244.6372110800086,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-11-03T00:00:00",
+    "centerline": 246.7902481203007,
+    "upperChannel": 248.8337889199913,
+    "lowerChannel": 244.7467073206101,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-11-06T00:00:00",
+    "centerline": 246.8997443609022,
+    "upperChannel": 248.94328516059278,
+    "lowerChannel": 244.8562035612116,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-11-07T00:00:00",
+    "centerline": 247.0092406015037,
+    "upperChannel": 249.0527814011943,
+    "lowerChannel": 244.96569980181312,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-11-08T00:00:00",
+    "centerline": 247.1187368421052,
+    "upperChannel": 249.16227764179578,
+    "lowerChannel": 245.0751960424146,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-11-09T00:00:00",
+    "centerline": 247.2282330827067,
+    "upperChannel": 249.2717738823973,
+    "lowerChannel": 245.18469228301612,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-11-10T00:00:00",
+    "centerline": 247.33772932330822,
+    "upperChannel": 249.3812701229988,
+    "lowerChannel": 245.29418852361763,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-11-13T00:00:00",
+    "centerline": 247.4472255639097,
+    "upperChannel": 249.4907663636003,
+    "lowerChannel": 245.40368476421912,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-11-14T00:00:00",
+    "centerline": 247.55672180451123,
+    "upperChannel": 249.60026260420182,
+    "lowerChannel": 245.51318100482064,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-11-15T00:00:00",
+    "centerline": 247.6662180451127,
+    "upperChannel": 249.7097588448033,
+    "lowerChannel": 245.62267724542212,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-11-16T00:00:00",
+    "centerline": 247.77571428571423,
+    "upperChannel": 249.81925508540482,
+    "lowerChannel": 245.73217348602364,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-11-17T00:00:00",
+    "centerline": 247.97085714285714,
+    "upperChannel": 253.50366791135448,
+    "lowerChannel": 242.4380463743598,
+    "breakPoint": true
+  },
+  {
+    "timestamp": "2017-11-20T00:00:00",
+    "centerline": 248.4220827067669,
+    "upperChannel": 253.95489347526424,
+    "lowerChannel": 242.88927193826956,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-11-21T00:00:00",
+    "centerline": 248.8733082706767,
+    "upperChannel": 254.40611903917403,
+    "lowerChannel": 243.34049750217935,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-11-22T00:00:00",
+    "centerline": 249.32453383458648,
+    "upperChannel": 254.85734460308382,
+    "lowerChannel": 243.79172306608913,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-11-24T00:00:00",
+    "centerline": 249.77575939849623,
+    "upperChannel": 255.30857016699358,
+    "lowerChannel": 244.2429486299989,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-11-27T00:00:00",
+    "centerline": 250.22698496240602,
+    "upperChannel": 255.75979573090336,
+    "lowerChannel": 244.69417419390868,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-11-28T00:00:00",
+    "centerline": 250.6782105263158,
+    "upperChannel": 256.2110212948131,
+    "lowerChannel": 245.14539975781847,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-11-29T00:00:00",
+    "centerline": 251.12943609022557,
+    "upperChannel": 256.6622468587229,
+    "lowerChannel": 245.59662532172823,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-11-30T00:00:00",
+    "centerline": 251.58066165413533,
+    "upperChannel": 257.11347242263264,
+    "lowerChannel": 246.04785088563798,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-12-01T00:00:00",
+    "centerline": 252.0318872180451,
+    "upperChannel": 257.56469798654246,
+    "lowerChannel": 246.49907644954777,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-12-04T00:00:00",
+    "centerline": 252.4831127819549,
+    "upperChannel": 258.0159235504522,
+    "lowerChannel": 246.95030201345756,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-12-05T00:00:00",
+    "centerline": 252.93433834586466,
+    "upperChannel": 258.467149114362,
+    "lowerChannel": 247.40152757736732,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-12-06T00:00:00",
+    "centerline": 253.38556390977445,
+    "upperChannel": 258.9183746782718,
+    "lowerChannel": 247.8527531412771,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-12-07T00:00:00",
+    "centerline": 253.83678947368423,
+    "upperChannel": 259.36960024218155,
+    "lowerChannel": 248.3039787051869,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-12-08T00:00:00",
+    "centerline": 254.288015037594,
+    "upperChannel": 259.8208258060913,
+    "lowerChannel": 248.75520426909665,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-12-11T00:00:00",
+    "centerline": 254.73924060150375,
+    "upperChannel": 260.27205137000107,
+    "lowerChannel": 249.2064298330064,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-12-12T00:00:00",
+    "centerline": 255.19046616541354,
+    "upperChannel": 260.7232769339109,
+    "lowerChannel": 249.6576553969162,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-12-13T00:00:00",
+    "centerline": 255.64169172932333,
+    "upperChannel": 261.17450249782064,
+    "lowerChannel": 250.10888096082599,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-12-14T00:00:00",
+    "centerline": 256.0929172932331,
+    "upperChannel": 261.6257280617304,
+    "lowerChannel": 250.56010652473574,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-12-15T00:00:00",
+    "centerline": 256.54414285714284,
+    "upperChannel": 262.07695362564016,
+    "lowerChannel": 251.0113320886455,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-12-18T00:00:00",
+    "centerline": 255.11000000000004,
+    "upperChannel": 263.08106887437316,
+    "lowerChannel": 247.1389311256269,
+    "breakPoint": true
+  },
+  {
+    "timestamp": "2017-12-19T00:00:00",
+    "centerline": 255.75205263157898,
+    "upperChannel": 263.7231215059521,
+    "lowerChannel": 247.78098375720583,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-12-20T00:00:00",
+    "centerline": 256.39410526315794,
+    "upperChannel": 264.3651741375311,
+    "lowerChannel": 248.4230363887848,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-12-21T00:00:00",
+    "centerline": 257.0361578947369,
+    "upperChannel": 265.00722676911005,
+    "lowerChannel": 249.06508902036376,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-12-22T00:00:00",
+    "centerline": 257.67821052631587,
+    "upperChannel": 265.649279400689,
+    "lowerChannel": 249.70714165194272,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-12-26T00:00:00",
+    "centerline": 258.3202631578948,
+    "upperChannel": 266.2913320322679,
+    "lowerChannel": 250.34919428352163,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-12-27T00:00:00",
+    "centerline": 258.96231578947373,
+    "upperChannel": 266.9333846638469,
+    "lowerChannel": 250.9912469151006,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-12-28T00:00:00",
+    "centerline": 259.60436842105264,
+    "upperChannel": 267.5754372954258,
+    "lowerChannel": 251.6332995466795,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2017-12-29T00:00:00",
+    "centerline": 260.2464210526316,
+    "upperChannel": 268.21748992700475,
+    "lowerChannel": 252.27535217825846,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-01-02T00:00:00",
+    "centerline": 260.88847368421057,
+    "upperChannel": 268.8595425585837,
+    "lowerChannel": 252.91740480983742,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-01-03T00:00:00",
+    "centerline": 261.53052631578953,
+    "upperChannel": 269.5015951901627,
+    "lowerChannel": 253.55945744141638,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-01-04T00:00:00",
+    "centerline": 262.1725789473685,
+    "upperChannel": 270.14364782174164,
+    "lowerChannel": 254.20151007299535,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-01-05T00:00:00",
+    "centerline": 262.81463157894746,
+    "upperChannel": 270.7857004533206,
+    "lowerChannel": 254.8435627045743,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-01-08T00:00:00",
+    "centerline": 263.45668421052636,
+    "upperChannel": 271.4277530848995,
+    "lowerChannel": 255.48561533615322,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-01-09T00:00:00",
+    "centerline": 264.09873684210527,
+    "upperChannel": 272.0698057164784,
+    "lowerChannel": 256.1276679677321,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-01-10T00:00:00",
+    "centerline": 264.74078947368423,
+    "upperChannel": 272.7118583480574,
+    "lowerChannel": 256.7697205993111,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-01-11T00:00:00",
+    "centerline": 265.3828421052632,
+    "upperChannel": 273.35391097963634,
+    "lowerChannel": 257.41177323089005,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-01-12T00:00:00",
+    "centerline": 266.02489473684216,
+    "upperChannel": 273.9959636112153,
+    "lowerChannel": 258.053825862469,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-01-16T00:00:00",
+    "centerline": 266.6669473684211,
+    "upperChannel": 274.63801624279427,
+    "lowerChannel": 258.695878494048,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-01-17T00:00:00",
+    "centerline": 267.3090000000001,
+    "upperChannel": 275.2800688743732,
+    "lowerChannel": 259.33793112562694,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-01-18T00:00:00",
+    "centerline": 276.34871428571415,
+    "upperChannel": 293.42386570524775,
+    "lowerChannel": 259.27356286618055,
+    "breakPoint": true
+  },
+  {
+    "timestamp": "2018-01-19T00:00:00",
+    "centerline": 275.1634812030074,
+    "upperChannel": 292.238632622541,
+    "lowerChannel": 258.0883297834738,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-01-22T00:00:00",
+    "centerline": 273.97824812030063,
+    "upperChannel": 291.05339953983423,
+    "lowerChannel": 256.90309670076704,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-01-23T00:00:00",
+    "centerline": 272.7930150375939,
+    "upperChannel": 289.8681664571275,
+    "lowerChannel": 255.71786361806028,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-01-24T00:00:00",
+    "centerline": 271.60778195488706,
+    "upperChannel": 288.68293337442066,
+    "lowerChannel": 254.53263053535346,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-01-25T00:00:00",
+    "centerline": 270.4225488721803,
+    "upperChannel": 287.4977002917139,
+    "lowerChannel": 253.3473974526467,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-01-26T00:00:00",
+    "centerline": 269.23731578947354,
+    "upperChannel": 286.31246720900714,
+    "lowerChannel": 252.16216436993994,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-01-29T00:00:00",
+    "centerline": 268.0520827067668,
+    "upperChannel": 285.1272341263004,
+    "lowerChannel": 250.97693128723319,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-01-30T00:00:00",
+    "centerline": 266.86684962406,
+    "upperChannel": 283.9420010435936,
+    "lowerChannel": 249.79169820452643,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-01-31T00:00:00",
+    "centerline": 265.68161654135326,
+    "upperChannel": 282.75676796088686,
+    "lowerChannel": 248.60646512181967,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-02-01T00:00:00",
+    "centerline": 264.4963834586465,
+    "upperChannel": 281.5715348781801,
+    "lowerChannel": 247.4212320391129,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-02-02T00:00:00",
+    "centerline": 263.3111503759397,
+    "upperChannel": 280.3863017954733,
+    "lowerChannel": 246.2359989564061,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-02-05T00:00:00",
+    "centerline": 262.12591729323293,
+    "upperChannel": 279.2010687127665,
+    "lowerChannel": 245.05076587369933,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-02-06T00:00:00",
+    "centerline": 260.9406842105262,
+    "upperChannel": 278.01583563005977,
+    "lowerChannel": 243.86553279099257,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-02-07T00:00:00",
+    "centerline": 259.7554511278194,
+    "upperChannel": 276.830602547353,
+    "lowerChannel": 242.68029970828582,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-02-08T00:00:00",
+    "centerline": 258.57021804511265,
+    "upperChannel": 275.64536946464625,
+    "lowerChannel": 241.49506662557906,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-02-09T00:00:00",
+    "centerline": 257.3849849624059,
+    "upperChannel": 274.4601363819395,
+    "lowerChannel": 240.3098335428723,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-02-12T00:00:00",
+    "centerline": 256.19975187969914,
+    "upperChannel": 273.27490329923273,
+    "lowerChannel": 239.12460046016554,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-02-13T00:00:00",
+    "centerline": 255.01451879699232,
+    "upperChannel": 272.0896702165259,
+    "lowerChannel": 237.93936737745872,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-02-14T00:00:00",
+    "centerline": 253.82928571428556,
+    "upperChannel": 270.90443713381916,
+    "lowerChannel": 236.75413429475196,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-02-15T00:00:00",
+    "centerline": 261.2604285714286,
+    "upperChannel": 266.9989733346939,
+    "lowerChannel": 255.52188380816324,
+    "breakPoint": true
+  },
+  {
+    "timestamp": "2018-02-16T00:00:00",
+    "centerline": 261.4862781954887,
+    "upperChannel": 267.22482295875403,
+    "lowerChannel": 255.74773343222336,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-02-20T00:00:00",
+    "centerline": 261.71212781954887,
+    "upperChannel": 267.4506725828142,
+    "lowerChannel": 255.97358305628353,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-02-21T00:00:00",
+    "centerline": 261.93797744360904,
+    "upperChannel": 267.6765222068744,
+    "lowerChannel": 256.1994326803437,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-02-22T00:00:00",
+    "centerline": 262.16382706766916,
+    "upperChannel": 267.9023718309345,
+    "lowerChannel": 256.4252823044038,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-02-23T00:00:00",
+    "centerline": 262.3896766917293,
+    "upperChannel": 268.1282214549946,
+    "lowerChannel": 256.65113192846394,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-02-26T00:00:00",
+    "centerline": 262.61552631578945,
+    "upperChannel": 268.3540710790548,
+    "lowerChannel": 256.8769815525241,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-02-27T00:00:00",
+    "centerline": 262.8413759398496,
+    "upperChannel": 268.57992070311496,
+    "lowerChannel": 257.1028311765843,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-02-28T00:00:00",
+    "centerline": 263.06722556390974,
+    "upperChannel": 268.8057703271751,
+    "lowerChannel": 257.3286808006444,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-03-01T00:00:00",
+    "centerline": 263.2930751879699,
+    "upperChannel": 269.03161995123526,
+    "lowerChannel": 257.5545304247046,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-03-02T00:00:00",
+    "centerline": 263.51892481203004,
+    "upperChannel": 269.2574695752954,
+    "lowerChannel": 257.7803800487647,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-03-05T00:00:00",
+    "centerline": 263.7447744360902,
+    "upperChannel": 269.48331919935555,
+    "lowerChannel": 258.0062296728249,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-03-06T00:00:00",
+    "centerline": 263.9706240601504,
+    "upperChannel": 269.7091688234157,
+    "lowerChannel": 258.23207929688505,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-03-07T00:00:00",
+    "centerline": 264.1964736842105,
+    "upperChannel": 269.93501844747584,
+    "lowerChannel": 258.45792892094516,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-03-08T00:00:00",
+    "centerline": 264.4223233082707,
+    "upperChannel": 270.160868071536,
+    "lowerChannel": 258.68377854500534,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-03-09T00:00:00",
+    "centerline": 264.6481729323308,
+    "upperChannel": 270.38671769559613,
+    "lowerChannel": 258.90962816906546,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-03-12T00:00:00",
+    "centerline": 264.87402255639097,
+    "upperChannel": 270.6125673196563,
+    "lowerChannel": 259.13547779312563,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-03-13T00:00:00",
+    "centerline": 265.09987218045114,
+    "upperChannel": 270.8384169437165,
+    "lowerChannel": 259.3613274171858,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-03-14T00:00:00",
+    "centerline": 265.32572180451126,
+    "upperChannel": 271.0642665677766,
+    "lowerChannel": 259.5871770412459,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-03-15T00:00:00",
+    "centerline": 265.55157142857144,
+    "upperChannel": 271.2901161918368,
+    "lowerChannel": 259.8130266653061,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-03-16T00:00:00",
+    "centerline": 258.43999999999994,
+    "upperChannel": 266.99024180944605,
+    "lowerChannel": 249.88975819055386,
+    "breakPoint": true
+  },
+  {
+    "timestamp": "2018-03-19T00:00:00",
+    "centerline": 258.1313157894736,
+    "upperChannel": 266.6815575989197,
+    "lowerChannel": 249.58107398002753,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-03-20T00:00:00",
+    "centerline": 257.8226315789473,
+    "upperChannel": 266.37287338839343,
+    "lowerChannel": 249.27238976950125,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-03-21T00:00:00",
+    "centerline": 257.513947368421,
+    "upperChannel": 266.0641891778671,
+    "lowerChannel": 248.9637055589749,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-03-22T00:00:00",
+    "centerline": 257.2052631578947,
+    "upperChannel": 265.7555049673408,
+    "lowerChannel": 248.65502134844863,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-03-23T00:00:00",
+    "centerline": 256.89657894736837,
+    "upperChannel": 265.4468207568145,
+    "lowerChannel": 248.3463371379223,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-03-26T00:00:00",
+    "centerline": 256.58789473684203,
+    "upperChannel": 265.13813654628814,
+    "lowerChannel": 248.03765292739595,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-03-27T00:00:00",
+    "centerline": 256.27921052631575,
+    "upperChannel": 264.82945233576186,
+    "lowerChannel": 247.72896871686967,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-03-28T00:00:00",
+    "centerline": 255.9705263157894,
+    "upperChannel": 264.5207681252355,
+    "lowerChannel": 247.42028450634334,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-03-29T00:00:00",
+    "centerline": 255.66184210526308,
+    "upperChannel": 264.2120839147092,
+    "lowerChannel": 247.111600295817,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-04-02T00:00:00",
+    "centerline": 255.35315789473677,
+    "upperChannel": 263.90339970418285,
+    "lowerChannel": 246.8029160852907,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-04-03T00:00:00",
+    "centerline": 255.04447368421046,
+    "upperChannel": 263.59471549365657,
+    "lowerChannel": 246.49423187476438,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-04-04T00:00:00",
+    "centerline": 254.73578947368412,
+    "upperChannel": 263.2860312831302,
+    "lowerChannel": 246.18554766423804,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-04-05T00:00:00",
+    "centerline": 254.42710526315784,
+    "upperChannel": 262.97734707260395,
+    "lowerChannel": 245.87686345371176,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-04-06T00:00:00",
+    "centerline": 254.1184210526315,
+    "upperChannel": 262.6686628620776,
+    "lowerChannel": 245.56817924318543,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-04-09T00:00:00",
+    "centerline": 253.8097368421052,
+    "upperChannel": 262.3599786515513,
+    "lowerChannel": 245.25949503265912,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-04-10T00:00:00",
+    "centerline": 253.5010526315789,
+    "upperChannel": 262.051294441025,
+    "lowerChannel": 244.9508108221328,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-04-11T00:00:00",
+    "centerline": 253.19236842105255,
+    "upperChannel": 261.74261023049866,
+    "lowerChannel": 244.64212661160647,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-04-12T00:00:00",
+    "centerline": 252.88368421052624,
+    "upperChannel": 261.4339260199723,
+    "lowerChannel": 244.33344240108016,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-04-13T00:00:00",
+    "centerline": 252.57499999999993,
+    "upperChannel": 261.12524180944604,
+    "lowerChannel": 244.02475819055385,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-04-16T00:00:00",
+    "centerline": 257.55071428571426,
+    "upperChannel": 263.0929885481448,
+    "lowerChannel": 252.00844002328373,
+    "breakPoint": true
+  },
+  {
+    "timestamp": "2018-04-17T00:00:00",
+    "centerline": 257.61242857142855,
+    "upperChannel": 263.15470283385906,
+    "lowerChannel": 252.070154308998,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-04-18T00:00:00",
+    "centerline": 257.67414285714284,
+    "upperChannel": 263.21641711957335,
+    "lowerChannel": 252.1318685947123,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-04-19T00:00:00",
+    "centerline": 257.7358571428571,
+    "upperChannel": 263.27813140528764,
+    "lowerChannel": 252.1935828804266,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-04-20T00:00:00",
+    "centerline": 257.7975714285714,
+    "upperChannel": 263.3398456910019,
+    "lowerChannel": 252.25529716614088,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-04-23T00:00:00",
+    "centerline": 257.8592857142857,
+    "upperChannel": 263.4015599767162,
+    "lowerChannel": 252.31701145185517,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-04-24T00:00:00",
+    "centerline": 257.921,
+    "upperChannel": 263.4632742624305,
+    "lowerChannel": 252.37872573756945,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-04-25T00:00:00",
+    "centerline": 257.9827142857143,
+    "upperChannel": 263.5249885481448,
+    "lowerChannel": 252.44044002328374,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-04-26T00:00:00",
+    "centerline": 258.04442857142857,
+    "upperChannel": 263.5867028338591,
+    "lowerChannel": 252.50215430899803,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-04-27T00:00:00",
+    "centerline": 258.10614285714286,
+    "upperChannel": 263.64841711957337,
+    "lowerChannel": 252.56386859471232,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-04-30T00:00:00",
+    "centerline": 258.16785714285714,
+    "upperChannel": 263.71013140528765,
+    "lowerChannel": 252.6255828804266,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-05-01T00:00:00",
+    "centerline": 258.22957142857143,
+    "upperChannel": 263.77184569100194,
+    "lowerChannel": 252.6872971661409,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-05-02T00:00:00",
+    "centerline": 258.2912857142857,
+    "upperChannel": 263.83355997671623,
+    "lowerChannel": 252.74901145185518,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-05-03T00:00:00",
+    "centerline": 258.353,
+    "upperChannel": 263.8952742624305,
+    "lowerChannel": 252.81072573756947,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-05-04T00:00:00",
+    "centerline": 258.4147142857143,
+    "upperChannel": 263.9569885481448,
+    "lowerChannel": 252.87244002328376,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-05-07T00:00:00",
+    "centerline": 258.4764285714286,
+    "upperChannel": 264.0187028338591,
+    "lowerChannel": 252.93415430899805,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-05-08T00:00:00",
+    "centerline": 258.5381428571429,
+    "upperChannel": 264.0804171195734,
+    "lowerChannel": 252.99586859471233,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-05-09T00:00:00",
+    "centerline": 258.59985714285716,
+    "upperChannel": 264.14213140528767,
+    "lowerChannel": 253.05758288042662,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-05-10T00:00:00",
+    "centerline": 258.66157142857145,
+    "upperChannel": 264.20384569100196,
+    "lowerChannel": 253.1192971661409,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-05-11T00:00:00",
+    "centerline": 258.72328571428574,
+    "upperChannel": 264.26555997671625,
+    "lowerChannel": 253.1810114518552,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-05-14T00:00:00",
+    "centerline": 261.64857142857136,
+    "upperChannel": 266.52596253448036,
+    "lowerChannel": 256.77118032266236,
+    "breakPoint": true
+  },
+  {
+    "timestamp": "2018-05-15T00:00:00",
+    "centerline": 261.95377443609016,
+    "upperChannel": 266.83116554199916,
+    "lowerChannel": 257.07638333018116,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-05-16T00:00:00",
+    "centerline": 262.25897744360896,
+    "upperChannel": 267.13636854951795,
+    "lowerChannel": 257.38158633769996,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-05-17T00:00:00",
+    "centerline": 262.56418045112775,
+    "upperChannel": 267.44157155703675,
+    "lowerChannel": 257.68678934521876,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-05-18T00:00:00",
+    "centerline": 262.86938345864655,
+    "upperChannel": 267.74677456455555,
+    "lowerChannel": 257.99199235273755,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-05-21T00:00:00",
+    "centerline": 263.17458646616535,
+    "upperChannel": 268.05197757207435,
+    "lowerChannel": 258.29719536025635,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-05-22T00:00:00",
+    "centerline": 263.47978947368415,
+    "upperChannel": 268.35718057959315,
+    "lowerChannel": 258.60239836777515,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-05-23T00:00:00",
+    "centerline": 263.78499248120295,
+    "upperChannel": 268.66238358711195,
+    "lowerChannel": 258.90760137529395,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-05-24T00:00:00",
+    "centerline": 264.09019548872175,
+    "upperChannel": 268.96758659463075,
+    "lowerChannel": 259.21280438281275,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-05-25T00:00:00",
+    "centerline": 264.39539849624055,
+    "upperChannel": 269.27278960214954,
+    "lowerChannel": 259.51800739033155,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-05-29T00:00:00",
+    "centerline": 264.70060150375934,
+    "upperChannel": 269.57799260966834,
+    "lowerChannel": 259.82321039785035,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-05-30T00:00:00",
+    "centerline": 265.00580451127814,
+    "upperChannel": 269.88319561718714,
+    "lowerChannel": 260.12841340536914,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-05-31T00:00:00",
+    "centerline": 265.31100751879694,
+    "upperChannel": 270.18839862470594,
+    "lowerChannel": 260.43361641288794,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-06-01T00:00:00",
+    "centerline": 265.61621052631574,
+    "upperChannel": 270.49360163222474,
+    "lowerChannel": 260.73881942040674,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-06-04T00:00:00",
+    "centerline": 265.92141353383454,
+    "upperChannel": 270.79880463974354,
+    "lowerChannel": 261.04402242792554,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-06-05T00:00:00",
+    "centerline": 266.22661654135334,
+    "upperChannel": 271.10400764726234,
+    "lowerChannel": 261.34922543544434,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-06-06T00:00:00",
+    "centerline": 266.53181954887214,
+    "upperChannel": 271.40921065478113,
+    "lowerChannel": 261.65442844296314,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-06-07T00:00:00",
+    "centerline": 266.83702255639093,
+    "upperChannel": 271.71441366229993,
+    "lowerChannel": 261.95963145048194,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-06-08T00:00:00",
+    "centerline": 267.14222556390973,
+    "upperChannel": 272.01961666981873,
+    "lowerChannel": 262.26483445800073,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-06-11T00:00:00",
+    "centerline": 267.44742857142853,
+    "upperChannel": 272.32481967733753,
+    "lowerChannel": 262.57003746551953,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-06-12T00:00:00",
+    "centerline": 267.9424285714286,
+    "upperChannel": 273.48332191095426,
+    "lowerChannel": 262.4015352319029,
+    "breakPoint": true
+  },
+  {
+    "timestamp": "2018-06-13T00:00:00",
+    "centerline": 267.79538345864665,
+    "upperChannel": 273.3362767981723,
+    "lowerChannel": 262.254490119121,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-06-14T00:00:00",
+    "centerline": 267.64833834586466,
+    "upperChannel": 273.1892316853903,
+    "lowerChannel": 262.107445006339,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-06-15T00:00:00",
+    "centerline": 267.5012932330827,
+    "upperChannel": 273.0421865726084,
+    "lowerChannel": 261.96039989355705,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-06-18T00:00:00",
+    "centerline": 267.3542481203008,
+    "upperChannel": 272.89514145982645,
+    "lowerChannel": 261.8133547807751,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-06-19T00:00:00",
+    "centerline": 267.20720300751884,
+    "upperChannel": 272.7480963470445,
+    "lowerChannel": 261.6663096679932,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-06-20T00:00:00",
+    "centerline": 267.06015789473685,
+    "upperChannel": 272.6010512342625,
+    "lowerChannel": 261.5192645552112,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-06-21T00:00:00",
+    "centerline": 266.9131127819549,
+    "upperChannel": 272.4540061214806,
+    "lowerChannel": 261.37221944242924,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-06-22T00:00:00",
+    "centerline": 266.76606766917297,
+    "upperChannel": 272.30696100869864,
+    "lowerChannel": 261.2251743296473,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-06-25T00:00:00",
+    "centerline": 266.619022556391,
+    "upperChannel": 272.15991589591664,
+    "lowerChannel": 261.0781292168653,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-06-26T00:00:00",
+    "centerline": 266.47197744360903,
+    "upperChannel": 272.0128707831347,
+    "lowerChannel": 260.93108410408337,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-06-27T00:00:00",
+    "centerline": 266.3249323308271,
+    "upperChannel": 271.86582567035276,
+    "lowerChannel": 260.78403899130143,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-06-28T00:00:00",
+    "centerline": 266.1778872180451,
+    "upperChannel": 271.71878055757077,
+    "lowerChannel": 260.63699387851943,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-06-29T00:00:00",
+    "centerline": 266.03084210526316,
+    "upperChannel": 271.5717354447888,
+    "lowerChannel": 260.4899487657375,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-07-02T00:00:00",
+    "centerline": 265.8837969924812,
+    "upperChannel": 271.4246903320069,
+    "lowerChannel": 260.34290365295556,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-07-03T00:00:00",
+    "centerline": 265.7367518796992,
+    "upperChannel": 271.2776452192249,
+    "lowerChannel": 260.19585854017356,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-07-05T00:00:00",
+    "centerline": 265.5897067669173,
+    "upperChannel": 271.13060010644296,
+    "lowerChannel": 260.0488134273916,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-07-06T00:00:00",
+    "centerline": 265.44266165413535,
+    "upperChannel": 270.983554993661,
+    "lowerChannel": 259.9017683146097,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-07-09T00:00:00",
+    "centerline": 265.2956165413534,
+    "upperChannel": 270.8365098808791,
+    "lowerChannel": 259.75472320182774,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-07-10T00:00:00",
+    "centerline": 265.1485714285714,
+    "upperChannel": 270.6894647680971,
+    "lowerChannel": 259.60767808904575,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-07-11T00:00:00",
+    "centerline": 270.54857142857145,
+    "upperChannel": 274.5786280038567,
+    "lowerChannel": 266.5185148532862,
+    "breakPoint": true
+  },
+  {
+    "timestamp": "2018-07-12T00:00:00",
+    "centerline": 270.8275639097744,
+    "upperChannel": 274.85762048505967,
+    "lowerChannel": 266.7975073344892,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-07-13T00:00:00",
+    "centerline": 271.10655639097746,
+    "upperChannel": 275.1366129662627,
+    "lowerChannel": 267.0764998156922,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-07-16T00:00:00",
+    "centerline": 271.3855488721805,
+    "upperChannel": 275.41560544746574,
+    "lowerChannel": 267.35549229689525,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-07-17T00:00:00",
+    "centerline": 271.66454135338347,
+    "upperChannel": 275.6945979286687,
+    "lowerChannel": 267.6344847780982,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-07-18T00:00:00",
+    "centerline": 271.94353383458645,
+    "upperChannel": 275.9735904098717,
+    "lowerChannel": 267.9134772593012,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-07-19T00:00:00",
+    "centerline": 272.2225263157895,
+    "upperChannel": 276.2525828910747,
+    "lowerChannel": 268.19246974050424,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-07-20T00:00:00",
+    "centerline": 272.5015187969925,
+    "upperChannel": 276.53157537227776,
+    "lowerChannel": 268.47146222170727,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-07-23T00:00:00",
+    "centerline": 272.7805112781955,
+    "upperChannel": 276.81056785348073,
+    "lowerChannel": 268.75045470291025,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-07-24T00:00:00",
+    "centerline": 273.0595037593985,
+    "upperChannel": 277.08956033468377,
+    "lowerChannel": 269.0294471841133,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-07-25T00:00:00",
+    "centerline": 273.3384962406015,
+    "upperChannel": 277.36855281588674,
+    "lowerChannel": 269.30843966531626,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-07-26T00:00:00",
+    "centerline": 273.61748872180453,
+    "upperChannel": 277.6475452970898,
+    "lowerChannel": 269.5874321465193,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-07-27T00:00:00",
+    "centerline": 273.8964812030075,
+    "upperChannel": 277.92653777829275,
+    "lowerChannel": 269.86642462772227,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-07-30T00:00:00",
+    "centerline": 274.17547368421054,
+    "upperChannel": 278.2055302594958,
+    "lowerChannel": 270.1454171089253,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-07-31T00:00:00",
+    "centerline": 274.4544661654136,
+    "upperChannel": 278.4845227406988,
+    "lowerChannel": 270.42440959012833,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-08-01T00:00:00",
+    "centerline": 274.73345864661655,
+    "upperChannel": 278.7635152219018,
+    "lowerChannel": 270.7034020713313,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-08-02T00:00:00",
+    "centerline": 275.01245112781953,
+    "upperChannel": 279.0425077031048,
+    "lowerChannel": 270.9823945525343,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-08-03T00:00:00",
+    "centerline": 275.29144360902256,
+    "upperChannel": 279.3215001843078,
+    "lowerChannel": 271.2613870337373,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-08-06T00:00:00",
+    "centerline": 275.5704360902256,
+    "upperChannel": 279.60049266551084,
+    "lowerChannel": 271.54037951494035,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-08-07T00:00:00",
+    "centerline": 275.8494285714286,
+    "upperChannel": 279.8794851467138,
+    "lowerChannel": 271.81937199614333,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-08-08T00:00:00",
+    "centerline": 274.45142857142855,
+    "upperChannel": 280.05277296362584,
+    "lowerChannel": 268.85008417923126,
+    "breakPoint": true
+  },
+  {
+    "timestamp": "2018-08-09T00:00:00",
+    "centerline": 274.86869924812027,
+    "upperChannel": 280.47004364031756,
+    "lowerChannel": 269.267354855923,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-08-10T00:00:00",
+    "centerline": 275.285969924812,
+    "upperChannel": 280.88731431700927,
+    "lowerChannel": 269.6846255326147,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-08-13T00:00:00",
+    "centerline": 275.7032406015037,
+    "upperChannel": 281.304584993701,
+    "lowerChannel": 270.1018962093064,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-08-14T00:00:00",
+    "centerline": 276.1205112781954,
+    "upperChannel": 281.7218556703927,
+    "lowerChannel": 270.5191668859981,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-08-15T00:00:00",
+    "centerline": 276.5377819548872,
+    "upperChannel": 282.13912634708447,
+    "lowerChannel": 270.9364375626899,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-08-16T00:00:00",
+    "centerline": 276.9550526315789,
+    "upperChannel": 282.5563970237762,
+    "lowerChannel": 271.3537082393816,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-08-17T00:00:00",
+    "centerline": 277.37232330827067,
+    "upperChannel": 282.97366770046796,
+    "lowerChannel": 271.7709789160734,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-08-20T00:00:00",
+    "centerline": 277.7895939849624,
+    "upperChannel": 283.39093837715967,
+    "lowerChannel": 272.1882495927651,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-08-21T00:00:00",
+    "centerline": 278.2068646616541,
+    "upperChannel": 283.8082090538514,
+    "lowerChannel": 272.6055202694568,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-08-22T00:00:00",
+    "centerline": 278.6241353383458,
+    "upperChannel": 284.2254797305431,
+    "lowerChannel": 273.0227909461485,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-08-23T00:00:00",
+    "centerline": 279.0414060150375,
+    "upperChannel": 284.6427504072348,
+    "lowerChannel": 273.44006162284023,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-08-24T00:00:00",
+    "centerline": 279.4586766917293,
+    "upperChannel": 285.0600210839266,
+    "lowerChannel": 273.857332299532,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-08-27T00:00:00",
+    "centerline": 279.875947368421,
+    "upperChannel": 285.4772917606183,
+    "lowerChannel": 274.2746029762237,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-08-28T00:00:00",
+    "centerline": 280.2932180451128,
+    "upperChannel": 285.89456243731007,
+    "lowerChannel": 274.6918736529155,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-08-29T00:00:00",
+    "centerline": 280.7104887218045,
+    "upperChannel": 286.3118331140018,
+    "lowerChannel": 275.1091443296072,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-08-30T00:00:00",
+    "centerline": 281.1277593984962,
+    "upperChannel": 286.7291037906935,
+    "lowerChannel": 275.5264150062989,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-08-31T00:00:00",
+    "centerline": 281.5450300751879,
+    "upperChannel": 287.1463744673852,
+    "lowerChannel": 275.94368568299063,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-09-04T00:00:00",
+    "centerline": 281.96230075187964,
+    "upperChannel": 287.56364514407693,
+    "lowerChannel": 276.36095635968235,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-09-05T00:00:00",
+    "centerline": 282.3795714285714,
+    "upperChannel": 287.9809158207687,
+    "lowerChannel": 276.7782270363741,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-09-06T00:00:00",
+    "centerline": 280.16842857142854,
+    "upperChannel": 283.72781882820004,
+    "lowerChannel": 276.609038314657,
+    "breakPoint": true
+  },
+  {
+    "timestamp": "2018-09-07T00:00:00",
+    "centerline": 280.4338045112782,
+    "upperChannel": 283.9931947680497,
+    "lowerChannel": 276.8744142545067,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-09-10T00:00:00",
+    "centerline": 280.6991804511278,
+    "upperChannel": 284.2585707078993,
+    "lowerChannel": 277.1397901943563,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-09-11T00:00:00",
+    "centerline": 280.96455639097746,
+    "upperChannel": 284.52394664774897,
+    "lowerChannel": 277.40516613420596,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-09-12T00:00:00",
+    "centerline": 281.22993233082707,
+    "upperChannel": 284.7893225875986,
+    "lowerChannel": 277.67054207405556,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-09-13T00:00:00",
+    "centerline": 281.4953082706767,
+    "upperChannel": 285.0546985274482,
+    "lowerChannel": 277.93591801390517,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-09-14T00:00:00",
+    "centerline": 281.7606842105263,
+    "upperChannel": 285.3200744672978,
+    "lowerChannel": 278.20129395375477,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-09-17T00:00:00",
+    "centerline": 282.02606015037594,
+    "upperChannel": 285.58545040714745,
+    "lowerChannel": 278.46666989360443,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-09-18T00:00:00",
+    "centerline": 282.29143609022555,
+    "upperChannel": 285.85082634699705,
+    "lowerChannel": 278.73204583345404,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-09-19T00:00:00",
+    "centerline": 282.5568120300752,
+    "upperChannel": 286.1162022868467,
+    "lowerChannel": 278.9974217733037,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-09-20T00:00:00",
+    "centerline": 282.8221879699248,
+    "upperChannel": 286.3815782266963,
+    "lowerChannel": 279.2627977131533,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-09-21T00:00:00",
+    "centerline": 283.0875639097744,
+    "upperChannel": 286.6469541665459,
+    "lowerChannel": 279.5281736530029,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-09-24T00:00:00",
+    "centerline": 283.352939849624,
+    "upperChannel": 286.91233010639553,
+    "lowerChannel": 279.7935495928525,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-09-25T00:00:00",
+    "centerline": 283.6183157894737,
+    "upperChannel": 287.1777060462452,
+    "lowerChannel": 280.0589255327022,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-09-26T00:00:00",
+    "centerline": 283.8836917293233,
+    "upperChannel": 287.4430819860948,
+    "lowerChannel": 280.3243014725518,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-09-27T00:00:00",
+    "centerline": 284.14906766917295,
+    "upperChannel": 287.70845792594446,
+    "lowerChannel": 280.58967741240144,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-09-28T00:00:00",
+    "centerline": 284.41444360902256,
+    "upperChannel": 287.97383386579406,
+    "lowerChannel": 280.85505335225105,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-10-01T00:00:00",
+    "centerline": 284.67981954887216,
+    "upperChannel": 288.23920980564367,
+    "lowerChannel": 281.12042929210065,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-10-02T00:00:00",
+    "centerline": 284.94519548872177,
+    "upperChannel": 288.5045857454933,
+    "lowerChannel": 281.38580523195026,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-10-03T00:00:00",
+    "centerline": 285.2105714285714,
+    "upperChannel": 288.76996168534293,
+    "lowerChannel": 281.6511811717999,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-10-04T00:00:00",
+    "centerline": 279.8577142857142,
+    "upperChannel": 294.75238645397627,
+    "lowerChannel": 264.9630421174522,
+    "breakPoint": true
+  },
+  {
+    "timestamp": "2018-10-05T00:00:00",
+    "centerline": 278.73800751879696,
+    "upperChannel": 293.632679687059,
+    "lowerChannel": 263.8433353505349,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-10-08T00:00:00",
+    "centerline": 277.61830075187964,
+    "upperChannel": 292.5129729201417,
+    "lowerChannel": 262.7236285836176,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-10-09T00:00:00",
+    "centerline": 276.4985939849623,
+    "upperChannel": 291.3932661532244,
+    "lowerChannel": 261.6039218167003,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-10-10T00:00:00",
+    "centerline": 275.37888721804507,
+    "upperChannel": 290.2735593863071,
+    "lowerChannel": 260.484215049783,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-10-11T00:00:00",
+    "centerline": 274.25918045112775,
+    "upperChannel": 289.1538526193898,
+    "lowerChannel": 259.3645082828657,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-10-12T00:00:00",
+    "centerline": 273.1394736842105,
+    "upperChannel": 288.03414585247253,
+    "lowerChannel": 258.24480151594844,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-10-15T00:00:00",
+    "centerline": 272.01976691729317,
+    "upperChannel": 286.9144390855552,
+    "lowerChannel": 257.1250947490311,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-10-16T00:00:00",
+    "centerline": 270.9000601503759,
+    "upperChannel": 285.79473231863795,
+    "lowerChannel": 256.00538798211386,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-10-17T00:00:00",
+    "centerline": 269.7803533834586,
+    "upperChannel": 284.67502555172064,
+    "lowerChannel": 254.88568121519654,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-10-18T00:00:00",
+    "centerline": 268.66064661654127,
+    "upperChannel": 283.5553187848033,
+    "lowerChannel": 253.76597444827922,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-10-19T00:00:00",
+    "centerline": 267.540939849624,
+    "upperChannel": 282.43561201788606,
+    "lowerChannel": 252.64626768136196,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-10-22T00:00:00",
+    "centerline": 266.4212330827067,
+    "upperChannel": 281.31590525096874,
+    "lowerChannel": 251.52656091444464,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-10-23T00:00:00",
+    "centerline": 265.30152631578943,
+    "upperChannel": 280.1961984840515,
+    "lowerChannel": 250.40685414752738,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-10-24T00:00:00",
+    "centerline": 264.1818195488721,
+    "upperChannel": 279.07649171713416,
+    "lowerChannel": 249.28714738061007,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-10-25T00:00:00",
+    "centerline": 263.06211278195485,
+    "upperChannel": 277.9567849502169,
+    "lowerChannel": 248.1674406136928,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-10-26T00:00:00",
+    "centerline": 261.9424060150375,
+    "upperChannel": 276.8370781832995,
+    "lowerChannel": 247.04773384677543,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-10-29T00:00:00",
+    "centerline": 260.8226992481202,
+    "upperChannel": 275.71737141638226,
+    "lowerChannel": 245.92802707985817,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-10-30T00:00:00",
+    "centerline": 259.70299248120295,
+    "upperChannel": 274.597664649465,
+    "lowerChannel": 244.8083203129409,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-10-31T00:00:00",
+    "centerline": 258.5832857142857,
+    "upperChannel": 273.47795788254774,
+    "lowerChannel": 243.68861354602365,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-11-01T00:00:00",
+    "centerline": 269.3267142857143,
+    "upperChannel": 278.56101122700875,
+    "lowerChannel": 260.0924173444198,
+    "breakPoint": true
+  },
+  {
+    "timestamp": "2018-11-02T00:00:00",
+    "centerline": 268.9165338345864,
+    "upperChannel": 278.1508307758809,
+    "lowerChannel": 259.68223689329193,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-11-05T00:00:00",
+    "centerline": 268.50635338345865,
+    "upperChannel": 277.7406503247531,
+    "lowerChannel": 259.27205644216417,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-11-06T00:00:00",
+    "centerline": 268.0961729323308,
+    "upperChannel": 277.33046987362525,
+    "lowerChannel": 258.8618759910363,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-11-07T00:00:00",
+    "centerline": 267.68599248120296,
+    "upperChannel": 276.92028942249743,
+    "lowerChannel": 258.4516955399085,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-11-08T00:00:00",
+    "centerline": 267.27581203007514,
+    "upperChannel": 276.5101089713696,
+    "lowerChannel": 258.04151508878067,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-11-09T00:00:00",
+    "centerline": 266.86563157894733,
+    "upperChannel": 276.0999285202418,
+    "lowerChannel": 257.63133463765286,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-11-12T00:00:00",
+    "centerline": 266.4554511278195,
+    "upperChannel": 275.689748069114,
+    "lowerChannel": 257.22115418652504,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-11-13T00:00:00",
+    "centerline": 266.0452706766917,
+    "upperChannel": 275.2795676179862,
+    "lowerChannel": 256.8109737353972,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-11-14T00:00:00",
+    "centerline": 265.6350902255639,
+    "upperChannel": 274.86938716685836,
+    "lowerChannel": 256.4007932842694,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-11-15T00:00:00",
+    "centerline": 265.224909774436,
+    "upperChannel": 274.4592067157305,
+    "lowerChannel": 255.99061283314157,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-11-16T00:00:00",
+    "centerline": 264.81472932330826,
+    "upperChannel": 274.04902626460273,
+    "lowerChannel": 255.5804323820138,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-11-19T00:00:00",
+    "centerline": 264.4045488721804,
+    "upperChannel": 273.63884581347486,
+    "lowerChannel": 255.17025193088594,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-11-20T00:00:00",
+    "centerline": 263.9943684210526,
+    "upperChannel": 273.2286653623471,
+    "lowerChannel": 254.76007147975818,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-11-21T00:00:00",
+    "centerline": 263.58418796992476,
+    "upperChannel": 272.81848491121923,
+    "lowerChannel": 254.3498910286303,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-11-23T00:00:00",
+    "centerline": 263.17400751879694,
+    "upperChannel": 272.4083044600914,
+    "lowerChannel": 253.9397105775025,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-11-26T00:00:00",
+    "centerline": 262.7638270676691,
+    "upperChannel": 271.9981240089636,
+    "lowerChannel": 253.52953012637468,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-11-27T00:00:00",
+    "centerline": 262.3536466165413,
+    "upperChannel": 271.5879435578358,
+    "lowerChannel": 253.11934967524687,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-11-28T00:00:00",
+    "centerline": 261.9434661654135,
+    "upperChannel": 271.17776310670797,
+    "lowerChannel": 252.70916922411905,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-11-29T00:00:00",
+    "centerline": 261.5332857142857,
+    "upperChannel": 270.76758265558016,
+    "lowerChannel": 252.29898877299124,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-11-30T00:00:00",
+    "centerline": 267.906857142857,
+    "upperChannel": 289.7472802156823,
+    "lowerChannel": 246.0664340700317,
+    "breakPoint": true
+  },
+  {
+    "timestamp": "2018-12-03T00:00:00",
+    "centerline": 266.21771428571424,
+    "upperChannel": 288.0581373585395,
+    "lowerChannel": 244.37729121288893,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-12-04T00:00:00",
+    "centerline": 264.52857142857135,
+    "upperChannel": 286.3689945013966,
+    "lowerChannel": 242.68814835574605,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-12-06T00:00:00",
+    "centerline": 262.83942857142847,
+    "upperChannel": 284.67985164425374,
+    "lowerChannel": 240.99900549860317,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-12-07T00:00:00",
+    "centerline": 261.1502857142856,
+    "upperChannel": 282.99070878711086,
+    "lowerChannel": 239.30986264146028,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-12-10T00:00:00",
+    "centerline": 259.4611428571427,
+    "upperChannel": 281.301565929968,
+    "lowerChannel": 237.6207197843174,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-12-11T00:00:00",
+    "centerline": 257.77199999999993,
+    "upperChannel": 279.6124230728252,
+    "lowerChannel": 235.93157692717463,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-12-12T00:00:00",
+    "centerline": 256.08285714285705,
+    "upperChannel": 277.9232802156823,
+    "lowerChannel": 234.24243407003175,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-12-13T00:00:00",
+    "centerline": 254.39371428571417,
+    "upperChannel": 276.23413735853944,
+    "lowerChannel": 232.55329121288887,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-12-14T00:00:00",
+    "centerline": 252.70457142857128,
+    "upperChannel": 274.54499450139656,
+    "lowerChannel": 230.86414835574598,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-12-17T00:00:00",
+    "centerline": 251.01542857142852,
+    "upperChannel": 272.8558516442538,
+    "lowerChannel": 229.1750054986032,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-12-18T00:00:00",
+    "centerline": 249.32628571428563,
+    "upperChannel": 271.1667087871109,
+    "lowerChannel": 227.48586264146033,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-12-19T00:00:00",
+    "centerline": 247.63714285714275,
+    "upperChannel": 269.477565929968,
+    "lowerChannel": 225.79671978431745,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-12-20T00:00:00",
+    "centerline": 245.94799999999987,
+    "upperChannel": 267.78842307282514,
+    "lowerChannel": 224.10757692717456,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-12-21T00:00:00",
+    "centerline": 244.2588571428571,
+    "upperChannel": 266.09928021568237,
+    "lowerChannel": 222.4184340700318,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-12-24T00:00:00",
+    "centerline": 242.5697142857142,
+    "upperChannel": 264.4101373585395,
+    "lowerChannel": 220.7292912128889,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-12-26T00:00:00",
+    "centerline": 240.88057142857133,
+    "upperChannel": 262.7209945013966,
+    "lowerChannel": 219.04014835574603,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-12-27T00:00:00",
+    "centerline": 239.19142857142845,
+    "upperChannel": 261.0318516442537,
+    "lowerChannel": 217.35100549860314,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-12-28T00:00:00",
+    "centerline": 237.50228571428556,
+    "upperChannel": 259.34270878711084,
+    "lowerChannel": 215.66186264146026,
+    "breakPoint": false
+  },
+  {
+    "timestamp": "2018-12-31T00:00:00",
+    "centerline": 235.8131428571428,
+    "upperChannel": 257.65356592996807,
+    "lowerChannel": 213.9727197843175,
+    "breakPoint": false
+  }
+]

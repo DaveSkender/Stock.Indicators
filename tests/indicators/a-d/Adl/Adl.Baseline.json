@@ -1,0 +1,3014 @@
+[
+  {
+    "timestamp": "2017-01-03T00:00:00",
+    "adl": 38577859.234973975,
+    "moneyFlowMultiplier": 0.39890710382515004,
+    "moneyFlowVolume": 38577859.234973975
+  },
+  {
+    "timestamp": "2017-01-04T00:00:00",
+    "adl": 96999881.6648809,
+    "moneyFlowMultiplier": 0.7009345794392569,
+    "moneyFlowVolume": 58422022.42990692
+  },
+  {
+    "timestamp": "2017-01-05T00:00:00",
+    "adl": 152839667.8187243,
+    "moneyFlowMultiplier": 0.6730769230768899,
+    "moneyFlowVolume": 55839786.1538434
+  },
+  {
+    "timestamp": "2017-01-06T00:00:00",
+    "adl": 184435799.79586795,
+    "moneyFlowMultiplier": 0.41714285714286753,
+    "moneyFlowVolume": 31596131.977143645
+  },
+  {
+    "timestamp": "2017-01-09T00:00:00",
+    "adl": 141162363.2797376,
+    "moneyFlowMultiplier": -0.8709677419355105,
+    "moneyFlowVolume": -43273436.51613036
+  },
+  {
+    "timestamp": "2017-01-10T00:00:00",
+    "adl": 116034331.22134204,
+    "moneyFlowMultiplier": -0.3722627737226483,
+    "moneyFlowVolume": -25128032.05839555
+  },
+  {
+    "timestamp": "2017-01-11T00:00:00",
+    "adl": 195049259.22134203,
+    "moneyFlowMultiplier": 1,
+    "moneyFlowVolume": 79014928
+  },
+  {
+    "timestamp": "2017-01-12T00:00:00",
+    "adl": 253312803.83672765,
+    "moneyFlowMultiplier": 0.7633136094674687,
+    "moneyFlowVolume": 58263544.615385614
+  },
+  {
+    "timestamp": "2017-01-13T00:00:00",
+    "adl": 254303625.98598045,
+    "moneyFlowMultiplier": 0.01492537313431443,
+    "moneyFlowVolume": 990822.1492528067
+  },
+  {
+    "timestamp": "2017-01-17T00:00:00",
+    "adl": 248666959.55119687,
+    "moneyFlowMultiplier": -0.08695652173914521,
+    "moneyFlowVolume": -5636666.434783567
+  },
+  {
+    "timestamp": "2017-01-18T00:00:00",
+    "adl": 299840920.7276661,
+    "moneyFlowMultiplier": 0.882352941176447,
+    "moneyFlowVolume": 51173961.17646922
+  },
+  {
+    "timestamp": "2017-01-19T00:00:00",
+    "adl": 273519609.5809993,
+    "moneyFlowMultiplier": -0.37333333333333485,
+    "moneyFlowVolume": -26321311.146666773
+  },
+  {
+    "timestamp": "2017-01-20T00:00:00",
+    "adl": 293051230.15242875,
+    "moneyFlowMultiplier": 0.1428571428571493,
+    "moneyFlowVolume": 19531620.57142945
+  },
+  {
+    "timestamp": "2017-01-23T00:00:00",
+    "adl": 304557872.24897945,
+    "moneyFlowMultiplier": 0.14482758620688357,
+    "moneyFlowVolume": 11506642.096550694
+  },
+  {
+    "timestamp": "2017-01-24T00:00:00",
+    "adl": 352467517.3016117,
+    "moneyFlowMultiplier": 0.4736842105263228,
+    "moneyFlowVolume": 47909645.05263229
+  },
+  {
+    "timestamp": "2017-01-25T00:00:00",
+    "adl": 441842445.3016117,
+    "moneyFlowMultiplier": 1,
+    "moneyFlowVolume": 89374928
+  },
+  {
+    "timestamp": "2017-01-26T00:00:00",
+    "adl": 436071781.30160874,
+    "moneyFlowMultiplier": -0.09090909090913789,
+    "moneyFlowVolume": -5770664.000002982
+  },
+  {
+    "timestamp": "2017-01-27T00:00:00",
+    "adl": 404870533.30160725,
+    "moneyFlowMultiplier": -0.49367088607597304,
+    "moneyFlowVolume": -31201248.000001498
+  },
+  {
+    "timestamp": "2017-01-30T00:00:00",
+    "adl": 428342618.08267087,
+    "moneyFlowMultiplier": 0.2781065088757225,
+    "moneyFlowVolume": 23472084.781063642
+  },
+  {
+    "timestamp": "2017-01-31T00:00:00",
+    "adl": 499367343.37192804,
+    "moneyFlowMultiplier": 0.8842975206611691,
+    "moneyFlowVolume": 71024725.28925717
+  },
+  {
+    "timestamp": "2017-02-01T00:00:00",
+    "adl": 485410044.7052619,
+    "moneyFlowMultiplier": -0.1666666666666606,
+    "moneyFlowVolume": -13957298.66666616
+  },
+  {
+    "timestamp": "2017-02-02T00:00:00",
+    "adl": 521361305.59782386,
+    "moneyFlowMultiplier": 0.48760330578512356,
+    "moneyFlowVolume": 35951260.89256196
+  },
+  {
+    "timestamp": "2017-02-03T00:00:00",
+    "adl": 573519086.3356851,
+    "moneyFlowMultiplier": 0.6116504854368605,
+    "moneyFlowVolume": 52157780.73786129
+  },
+  {
+    "timestamp": "2017-02-06T00:00:00",
+    "adl": 571865864.9302813,
+    "moneyFlowMultiplier": -0.027027027027002114,
+    "moneyFlowVolume": -1653221.4054038816
+  },
+  {
+    "timestamp": "2017-02-07T00:00:00",
+    "adl": 538419419.112098,
+    "moneyFlowMultiplier": -0.545454545454569,
+    "moneyFlowVolume": -33446445.81818326
+  },
+  {
+    "timestamp": "2017-02-08T00:00:00",
+    "adl": 578017672.2885702,
+    "moneyFlowMultiplier": 0.7254901960784609,
+    "moneyFlowVolume": 39598253.1764722
+  },
+  {
+    "timestamp": "2017-02-09T00:00:00",
+    "adl": 613699238.5107939,
+    "moneyFlowMultiplier": 0.5111111111111326,
+    "moneyFlowVolume": 35681566.22222372
+  },
+  {
+    "timestamp": "2017-02-10T00:00:00",
+    "adl": 651522001.5199684,
+    "moneyFlowMultiplier": 0.5412844036697262,
+    "moneyFlowVolume": 37822763.009174414
+  },
+  {
+    "timestamp": "2017-02-13T00:00:00",
+    "adl": 675858931.5199685,
+    "moneyFlowMultiplier": 0.4166666666666691,
+    "moneyFlowVolume": 24336930.000000145
+  },
+  {
+    "timestamp": "2017-02-14T00:00:00",
+    "adl": 750101732.8805108,
+    "moneyFlowMultiplier": 0.9863945578231029,
+    "moneyFlowVolume": 74242801.36054224
+  },
+  {
+    "timestamp": "2017-02-15T00:00:00",
+    "adl": 818579443.8623282,
+    "moneyFlowMultiplier": 0.7454545454545367,
+    "moneyFlowVolume": 68477710.98181738
+  },
+  {
+    "timestamp": "2017-02-16T00:00:00",
+    "adl": 848471545.1956615,
+    "moneyFlowMultiplier": 0.3333333333333333,
+    "moneyFlowVolume": 29892101.333333332
+  },
+  {
+    "timestamp": "2017-02-17T00:00:00",
+    "adl": 930189897.1956615,
+    "moneyFlowMultiplier": 1,
+    "moneyFlowVolume": 81718352
+  },
+  {
+    "timestamp": "2017-02-21T00:00:00",
+    "adl": 992394085.7670907,
+    "moneyFlowMultiplier": 0.6607142857142911,
+    "moneyFlowVolume": 62204188.57142908
+  },
+  {
+    "timestamp": "2017-02-22T00:00:00",
+    "adl": 1011038802.7820134,
+    "moneyFlowMultiplier": 0.28358208955219827,
+    "moneyFlowVolume": 18644717.01492271
+  },
+  {
+    "timestamp": "2017-02-23T00:00:00",
+    "adl": 1036111442.7820122,
+    "moneyFlowMultiplier": 0.31746031746030173,
+    "moneyFlowVolume": 25072639.99999876
+  },
+  {
+    "timestamp": "2017-02-24T00:00:00",
+    "adl": 1116602465.5512416,
+    "moneyFlowMultiplier": 0.9230769230769063,
+    "moneyFlowVolume": 80491022.76922931
+  },
+  {
+    "timestamp": "2017-02-27T00:00:00",
+    "adl": 1151442680.672121,
+    "moneyFlowMultiplier": 0.5824175824175859,
+    "moneyFlowVolume": 34840215.12087933
+  },
+  {
+    "timestamp": "2017-02-28T00:00:00",
+    "adl": 1149110147.2175744,
+    "moneyFlowMultiplier": -0.022727272727283736,
+    "moneyFlowVolume": -2332533.4545465843
+  },
+  {
+    "timestamp": "2017-03-01T00:00:00",
+    "adl": 1219469584.0871413,
+    "moneyFlowMultiplier": 0.4456521739130544,
+    "moneyFlowVolume": 70359436.86956695
+  },
+  {
+    "timestamp": "2017-03-02T00:00:00",
+    "adl": 1152032801.2034206,
+    "moneyFlowMultiplier": -0.9069767441860425,
+    "moneyFlowVolume": -67436782.88372064
+  },
+  {
+    "timestamp": "2017-03-03T00:00:00",
+    "adl": 1201166193.4925764,
+    "moneyFlowMultiplier": 0.5662650602409539,
+    "moneyFlowVolume": 49133392.28915577
+  },
+  {
+    "timestamp": "2017-03-06T00:00:00",
+    "adl": 1216242573.8354354,
+    "moneyFlowMultiplier": 0.25714285714289115,
+    "moneyFlowVolume": 15076380.342859136
+  },
+  {
+    "timestamp": "2017-03-07T00:00:00",
+    "adl": 1180351707.168768,
+    "moneyFlowMultiplier": -0.5208333333333445,
+    "moneyFlowVolume": -35890866.66666743
+  },
+  {
+    "timestamp": "2017-03-08T00:00:00",
+    "adl": 1118827496.2969742,
+    "moneyFlowMultiplier": -0.7435897435897312,
+    "moneyFlowVolume": -61524210.871793844
+  },
+  {
+    "timestamp": "2017-03-09T00:00:00",
+    "adl": 1167161053.4600954,
+    "moneyFlowMultiplier": 0.503546099290787,
+    "moneyFlowVolume": 48333557.16312122
+  },
+  {
+    "timestamp": "2017-03-10T00:00:00",
+    "adl": 1214089692.8675025,
+    "moneyFlowMultiplier": 0.5407407407407354,
+    "moneyFlowVolume": 46928639.40740695
+  },
+  {
+    "timestamp": "2017-03-13T00:00:00",
+    "adl": 1264422429.748856,
+    "moneyFlowMultiplier": 0.8305084745762337,
+    "moneyFlowVolume": 50332736.88135366
+  },
+  {
+    "timestamp": "2017-03-14T00:00:00",
+    "adl": 1286830245.7084532,
+    "moneyFlowMultiplier": 0.35353535353537324,
+    "moneyFlowVolume": 22407815.959597208
+  },
+  {
+    "timestamp": "2017-03-15T00:00:00",
+    "adl": 1342439504.7035263,
+    "moneyFlowMultiplier": 0.5467980295566427,
+    "moneyFlowVolume": 55609258.995073125
+  },
+  {
+    "timestamp": "2017-03-16T00:00:00",
+    "adl": 1316924164.395835,
+    "moneyFlowMultiplier": -0.30769230769229505,
+    "moneyFlowVolume": -25515340.30769126
+  },
+  {
+    "timestamp": "2017-03-17T00:00:00",
+    "adl": 1223126044.395835,
+    "moneyFlowMultiplier": -1,
+    "moneyFlowVolume": -93798120
+  },
+  {
+    "timestamp": "2017-03-20T00:00:00",
+    "adl": 1215216328.9672625,
+    "moneyFlowMultiplier": -0.14285714285715942,
+    "moneyFlowVolume": -7909715.4285723455
+  },
+  {
+    "timestamp": "2017-03-21T00:00:00",
+    "adl": 1086486345.5536509,
+    "moneyFlowMultiplier": -0.926701570680621,
+    "moneyFlowVolume": -128729983.41361155
+  },
+  {
+    "timestamp": "2017-03-22T00:00:00",
+    "adl": 1146237090.8509483,
+    "moneyFlowMultiplier": 0.5810810810810831,
+    "moneyFlowVolume": 59750745.29729751
+  },
+  {
+    "timestamp": "2017-03-23T00:00:00",
+    "adl": 1091723225.8812518,
+    "moneyFlowMultiplier": -0.5151515151515099,
+    "moneyFlowVolume": -54513864.96969642
+  },
+  {
+    "timestamp": "2017-03-24T00:00:00",
+    "adl": 1075472879.2416573,
+    "moneyFlowMultiplier": -0.13705583756345704,
+    "moneyFlowVolume": -16250346.639594533
+  },
+  {
+    "timestamp": "2017-03-27T00:00:00",
+    "adl": 1143230395.2964501,
+    "moneyFlowMultiplier": 0.7351598173515792,
+    "moneyFlowVolume": 67757516.05479278
+  },
+  {
+    "timestamp": "2017-03-28T00:00:00",
+    "adl": 1205925852.0237222,
+    "moneyFlowMultiplier": 0.6363636363636302,
+    "moneyFlowVolume": 62695456.72727212
+  },
+  {
+    "timestamp": "2017-03-29T00:00:00",
+    "adl": 1239520975.402363,
+    "moneyFlowMultiplier": 0.514563106796117,
+    "moneyFlowVolume": 33595123.378640816
+  },
+  {
+    "timestamp": "2017-03-30T00:00:00",
+    "adl": 1277207081.2847161,
+    "moneyFlowMultiplier": 0.6302521008403373,
+    "moneyFlowVolume": 37686105.882353015
+  },
+  {
+    "timestamp": "2017-03-31T00:00:00",
+    "adl": 1211304266.4999065,
+    "moneyFlowMultiplier": -0.8481012658227776,
+    "moneyFlowVolume": -65902814.78480956
+  },
+  {
+    "timestamp": "2017-04-03T00:00:00",
+    "adl": 1242253437.246176,
+    "moneyFlowMultiplier": 0.34328358208956194,
+    "moneyFlowVolume": 30949170.74626953
+  },
+  {
+    "timestamp": "2017-04-04T00:00:00",
+    "adl": 1290719490.9368973,
+    "moneyFlowMultiplier": 0.8144329896907144,
+    "moneyFlowVolume": 48466053.69072122
+  },
+  {
+    "timestamp": "2017-04-05T00:00:00",
+    "adl": 1195591263.855415,
+    "moneyFlowMultiplier": -0.8296296296296365,
+    "moneyFlowVolume": -95128227.08148226
+  },
+  {
+    "timestamp": "2017-04-06T00:00:00",
+    "adl": 1214163734.7573767,
+    "moneyFlowMultiplier": 0.2549019607843232,
+    "moneyFlowVolume": 18572470.901961476
+  },
+  {
+    "timestamp": "2017-04-07T00:00:00",
+    "adl": 1200181494.8814068,
+    "moneyFlowMultiplier": -0.17829457364342213,
+    "moneyFlowVolume": -13982239.875969877
+  },
+  {
+    "timestamp": "2017-04-10T00:00:00",
+    "adl": 1185929725.2814074,
+    "moneyFlowMultiplier": -0.19999999999999216,
+    "moneyFlowVolume": -14251769.59999944
+  },
+  {
+    "timestamp": "2017-04-11T00:00:00",
+    "adl": 1266987411.7181876,
+    "moneyFlowMultiplier": 0.8735632183907895,
+    "moneyFlowVolume": 81057686.43678021
+  },
+  {
+    "timestamp": "2017-04-12T00:00:00",
+    "adl": 1217359729.9482777,
+    "moneyFlowMultiplier": -0.5752212389380353,
+    "moneyFlowVolume": -49627681.76990997
+  },
+  {
+    "timestamp": "2017-04-13T00:00:00",
+    "adl": 1119474337.9482777,
+    "moneyFlowMultiplier": -1,
+    "moneyFlowVolume": -97885392
+  },
+  {
+    "timestamp": "2017-04-17T00:00:00",
+    "adl": 1191565825.9482777,
+    "moneyFlowMultiplier": 1,
+    "moneyFlowVolume": 72091488
+  },
+  {
+    "timestamp": "2017-04-18T00:00:00",
+    "adl": 1202038728.6348445,
+    "moneyFlowMultiplier": 0.11940298507462402,
+    "moneyFlowVolume": 10472902.686566915
+  },
+  {
+    "timestamp": "2017-04-19T00:00:00",
+    "adl": 1150323117.2062738,
+    "moneyFlowMultiplier": -0.7142857142857046,
+    "moneyFlowVolume": -51715611.42857073
+  },
+  {
+    "timestamp": "2017-04-20T00:00:00",
+    "adl": 1200098917.2062743,
+    "moneyFlowMultiplier": 0.5102040816326584,
+    "moneyFlowVolume": 49775800.00000052
+  },
+  {
+    "timestamp": "2017-04-21T00:00:00",
+    "adl": 1175169266.9205592,
+    "moneyFlowMultiplier": -0.21428571428572155,
+    "moneyFlowVolume": -24929650.28571513
+  },
+  {
+    "timestamp": "2017-04-24T00:00:00",
+    "adl": 1279398683.690928,
+    "moneyFlowMultiplier": 0.8296296296296173,
+    "moneyFlowVolume": 104229416.77036881
+  },
+  {
+    "timestamp": "2017-04-25T00:00:00",
+    "adl": 1303348685.4687057,
+    "moneyFlowMultiplier": 0.29629629629629434,
+    "moneyFlowVolume": 23950001.77777762
+  },
+  {
+    "timestamp": "2017-04-26T00:00:00",
+    "adl": 1222052164.6115646,
+    "moneyFlowMultiplier": -0.9107142857142658,
+    "moneyFlowVolume": -81296520.85714108
+  },
+  {
+    "timestamp": "2017-04-27T00:00:00",
+    "adl": 1239151109.8289576,
+    "moneyFlowMultiplier": 0.28260869565219876,
+    "moneyFlowVolume": 17098945.217392806
+  },
+  {
+    "timestamp": "2017-04-28T00:00:00",
+    "adl": 1193338836.1447475,
+    "moneyFlowMultiplier": -0.6842105263157832,
+    "moneyFlowVolume": -45812273.68421011
+  },
+  {
+    "timestamp": "2017-05-01T00:00:00",
+    "adl": 1193338836.1447453,
+    "moneyFlowMultiplier": -3.0893162424352603E-14,
+    "moneyFlowVolume": -2.177553241104474E-06
+  },
+  {
+    "timestamp": "2017-05-02T00:00:00",
+    "adl": 1216014150.1447468,
+    "moneyFlowMultiplier": 0.3750000000000222,
+    "moneyFlowVolume": 22675314.00000134
+  },
+  {
+    "timestamp": "2017-05-03T00:00:00",
+    "adl": 1241707104.811412,
+    "moneyFlowMultiplier": 0.3333333333333163,
+    "moneyFlowVolume": 25692954.666665353
+  },
+  {
+    "timestamp": "2017-05-04T00:00:00",
+    "adl": 1287465404.5545318,
+    "moneyFlowMultiplier": 0.706422018348631,
+    "moneyFlowVolume": 45758299.74311973
+  },
+  {
+    "timestamp": "2017-05-05T00:00:00",
+    "adl": 1350140668.0647345,
+    "moneyFlowMultiplier": 0.9591836734693676,
+    "moneyFlowVolume": 62675263.510202765
+  },
+  {
+    "timestamp": "2017-05-08T00:00:00",
+    "adl": 1366659546.656283,
+    "moneyFlowMultiplier": 0.32394366197181296,
+    "moneyFlowVolume": 16518878.591548376
+  },
+  {
+    "timestamp": "2017-05-09T00:00:00",
+    "adl": 1350271269.5186677,
+    "moneyFlowMultiplier": -0.30275229357799216,
+    "moneyFlowVolume": -16388277.137615249
+  },
+  {
+    "timestamp": "2017-05-10T00:00:00",
+    "adl": 1407490765.5186677,
+    "moneyFlowMultiplier": 1,
+    "moneyFlowVolume": 57219496
+  },
+  {
+    "timestamp": "2017-05-11T00:00:00",
+    "adl": 1455940253.1974993,
+    "moneyFlowMultiplier": 0.7372262773722537,
+    "moneyFlowVolume": 48449487.67883152
+  },
+  {
+    "timestamp": "2017-05-12T00:00:00",
+    "adl": 1444892329.7530537,
+    "moneyFlowMultiplier": -0.1944444444444653,
+    "moneyFlowVolume": -11047923.444445629
+  },
+  {
+    "timestamp": "2017-05-15T00:00:00",
+    "adl": 1490710040.9019878,
+    "moneyFlowMultiplier": 0.7021276595744359,
+    "moneyFlowVolume": 45817711.148934074
+  },
+  {
+    "timestamp": "2017-05-16T00:00:00",
+    "adl": 1482995323.187703,
+    "moneyFlowMultiplier": -0.14285714285712628,
+    "moneyFlowVolume": -7714717.714284819
+  },
+  {
+    "timestamp": "2017-05-17T00:00:00",
+    "adl": 1309490156.7059512,
+    "moneyFlowMultiplier": -0.9562043795620423,
+    "moneyFlowVolume": -173505166.48175156
+  },
+  {
+    "timestamp": "2017-05-18T00:00:00",
+    "adl": 1326925367.833224,
+    "moneyFlowMultiplier": 0.1545454545454549,
+    "moneyFlowVolume": 17435211.127272766
+  },
+  {
+    "timestamp": "2017-05-19T00:00:00",
+    "adl": 1343838241.507643,
+    "moneyFlowMultiplier": 0.1395348837209333,
+    "moneyFlowVolume": 16912873.67441898
+  },
+  {
+    "timestamp": "2017-05-22T00:00:00",
+    "adl": 1380580095.2219312,
+    "moneyFlowMultiplier": 0.5714285714286101,
+    "moneyFlowVolume": 36741853.714288205
+  },
+  {
+    "timestamp": "2017-05-23T00:00:00",
+    "adl": 1405325606.0790737,
+    "moneyFlowMultiplier": 0.48571428571427877,
+    "moneyFlowVolume": 24745510.857142504
+  },
+  {
+    "timestamp": "2017-05-24T00:00:00",
+    "adl": 1442153100.1843386,
+    "moneyFlowMultiplier": 0.7105263157895091,
+    "moneyFlowVolume": 36827494.10526499
+  },
+  {
+    "timestamp": "2017-05-25T00:00:00",
+    "adl": 1471456079.2032087,
+    "moneyFlowMultiplier": 0.4339622641509768,
+    "moneyFlowVolume": 29302979.01887018
+  },
+  {
+    "timestamp": "2017-05-26T00:00:00",
+    "adl": 1479456040.5985565,
+    "moneyFlowMultiplier": 0.16279069767440016,
+    "moneyFlowVolume": 7999961.3953479305
+  },
+  {
+    "timestamp": "2017-05-30T00:00:00",
+    "adl": 1481929293.6652226,
+    "moneyFlowMultiplier": 0.06666666666665404,
+    "moneyFlowVolume": 2473253.066666198
+  },
+  {
+    "timestamp": "2017-05-31T00:00:00",
+    "adl": 1509215661.2549675,
+    "moneyFlowMultiplier": 0.28205128205129576,
+    "moneyFlowVolume": 27286367.589744914
+  },
+  {
+    "timestamp": "2017-06-01T00:00:00",
+    "adl": 1580142524.6766534,
+    "moneyFlowMultiplier": 0.9759036144578189,
+    "moneyFlowVolume": 70926863.42168584
+  },
+  {
+    "timestamp": "2017-06-02T00:00:00",
+    "adl": 1647329555.9493785,
+    "moneyFlowMultiplier": 0.7190082644627854,
+    "moneyFlowVolume": 67187031.27272499
+  },
+  {
+    "timestamp": "2017-06-05T00:00:00",
+    "adl": 1639016471.243493,
+    "moneyFlowMultiplier": -0.1764705882353597,
+    "moneyFlowVolume": -8313084.705885442
+  },
+  {
+    "timestamp": "2017-06-06T00:00:00",
+    "adl": 1596285514.9508119,
+    "moneyFlowMultiplier": -0.8048780487804557,
+    "moneyFlowVolume": -42730956.29268122
+  },
+  {
+    "timestamp": "2017-06-07T00:00:00",
+    "adl": 1625913836.1815808,
+    "moneyFlowMultiplier": 0.5192307692307655,
+    "moneyFlowVolume": 29628321.23076902
+  },
+  {
+    "timestamp": "2017-06-08T00:00:00",
+    "adl": 1629704992.69067,
+    "moneyFlowMultiplier": 0.054545454545431055,
+    "moneyFlowVolume": 3791156.509089276
+  },
+  {
+    "timestamp": "2017-06-09T00:00:00",
+    "adl": 1622976149.3251534,
+    "moneyFlowMultiplier": -0.048275862068961194,
+    "moneyFlowVolume": -6728843.365516638
+  },
+  {
+    "timestamp": "2017-06-12T00:00:00",
+    "adl": 1704464292.9986205,
+    "moneyFlowMultiplier": 0.8979591836734451,
+    "moneyFlowVolume": 81488143.67346717
+  },
+  {
+    "timestamp": "2017-06-13T00:00:00",
+    "adl": 1761241877.823365,
+    "moneyFlowMultiplier": 0.8969072164948804,
+    "moneyFlowVolume": 56777584.824744485
+  },
+  {
+    "timestamp": "2017-06-14T00:00:00",
+    "adl": 1777809458.6233656,
+    "moneyFlowMultiplier": 0.2000000000000076,
+    "moneyFlowVolume": 16567580.800000628
+  },
+  {
+    "timestamp": "2017-06-15T00:00:00",
+    "adl": 1835466732.3648627,
+    "moneyFlowMultiplier": 0.8231292517006863,
+    "moneyFlowVolume": 57657273.74149702
+  },
+  {
+    "timestamp": "2017-06-16T00:00:00",
+    "adl": 1896140387.1017077,
+    "moneyFlowMultiplier": 0.6842105263158236,
+    "moneyFlowVolume": 60673654.73684513
+  },
+  {
+    "timestamp": "2017-06-19T00:00:00",
+    "adl": 1956405085.925238,
+    "moneyFlowMultiplier": 0.8823529411764818,
+    "moneyFlowVolume": 60264698.823530175
+  },
+  {
+    "timestamp": "2017-06-20T00:00:00",
+    "adl": 1898696261.197966,
+    "moneyFlowMultiplier": -0.9669421487603139,
+    "moneyFlowVolume": -57708824.727271736
+  },
+  {
+    "timestamp": "2017-06-21T00:00:00",
+    "adl": 1893454504.0551107,
+    "moneyFlowMultiplier": -0.08928571428568347,
+    "moneyFlowVolume": -5241757.142855333
+  },
+  {
+    "timestamp": "2017-06-22T00:00:00",
+    "adl": 1867852650.7845223,
+    "moneyFlowMultiplier": -0.5529411764705906,
+    "moneyFlowVolume": -25601853.270588346
+  },
+  {
+    "timestamp": "2017-06-23T00:00:00",
+    "adl": 1886118651.2645216,
+    "moneyFlowMultiplier": 0.2599999999999909,
+    "moneyFlowVolume": 18266000.47999936
+  },
+  {
+    "timestamp": "2017-06-26T00:00:00",
+    "adl": 1848952496.2645197,
+    "moneyFlowMultiplier": -0.6250000000000305,
+    "moneyFlowVolume": -37166155.00000182
+  },
+  {
+    "timestamp": "2017-06-27T00:00:00",
+    "adl": 1764444932.3660433,
+    "moneyFlowMultiplier": -0.9796954314720708,
+    "moneyFlowVolume": -84507563.89847626
+  },
+  {
+    "timestamp": "2017-06-28T00:00:00",
+    "adl": 1816022309.0468936,
+    "moneyFlowMultiplier": 0.7021276595744561,
+    "moneyFlowVolume": 51577376.680850185
+  },
+  {
+    "timestamp": "2017-06-29T00:00:00",
+    "adl": 1786965424.278091,
+    "moneyFlowMultiplier": -0.25905292479109004,
+    "moneyFlowVolume": -29056884.768802643
+  },
+  {
+    "timestamp": "2017-06-30T00:00:00",
+    "adl": 1733006858.3521655,
+    "moneyFlowMultiplier": -0.5925925925925887,
+    "moneyFlowVolume": -53958565.92592557
+  },
+  {
+    "timestamp": "2017-07-03T00:00:00",
+    "adl": 1691943462.3521655,
+    "moneyFlowMultiplier": -1,
+    "moneyFlowVolume": -41063396
+  },
+  {
+    "timestamp": "2017-07-05T00:00:00",
+    "adl": 1728019357.1361637,
+    "moneyFlowMultiplier": 0.6319999999999709,
+    "moneyFlowVolume": 36075894.78399834
+  },
+  {
+    "timestamp": "2017-07-06T00:00:00",
+    "adl": 1675906788.5398917,
+    "moneyFlowMultiplier": -0.7515527950310368,
+    "moneyFlowVolume": -52112568.59627197
+  },
+  {
+    "timestamp": "2017-07-07T00:00:00",
+    "adl": 1724770322.1840637,
+    "moneyFlowMultiplier": 0.8036809815950957,
+    "moneyFlowVolume": 48863533.644172005
+  },
+  {
+    "timestamp": "2017-07-10T00:00:00",
+    "adl": 1731373087.1537602,
+    "moneyFlowMultiplier": 0.17171717171716244,
+    "moneyFlowVolume": 6602764.969696613
+  },
+  {
+    "timestamp": "2017-07-11T00:00:00",
+    "adl": 1762016207.499439,
+    "moneyFlowMultiplier": 0.5802469135802438,
+    "moneyFlowVolume": 30643120.34567885
+  },
+  {
+    "timestamp": "2017-07-12T00:00:00",
+    "adl": 1798055820.487673,
+    "moneyFlowMultiplier": 0.5764705882352752,
+    "moneyFlowVolume": 36039612.98823411
+  },
+  {
+    "timestamp": "2017-07-13T00:00:00",
+    "adl": 1825290509.961358,
+    "moneyFlowMultiplier": 0.657894736842126,
+    "moneyFlowVolume": 27234689.473685067
+  },
+  {
+    "timestamp": "2017-07-14T00:00:00",
+    "adl": 1857291419.3284457,
+    "moneyFlowMultiplier": 0.5063291139240358,
+    "moneyFlowVolume": 32000909.36708767
+  },
+  {
+    "timestamp": "2017-07-17T00:00:00",
+    "adl": 1846421521.6557212,
+    "moneyFlowMultiplier": -0.3090909090908283,
+    "moneyFlowVolume": -10869897.672724431
+  },
+  {
+    "timestamp": "2017-07-18T00:00:00",
+    "adl": 1886765922.4557228,
+    "moneyFlowMultiplier": 0.9000000000000341,
+    "moneyFlowVolume": 40344400.80000153
+  },
+  {
+    "timestamp": "2017-07-19T00:00:00",
+    "adl": 1939150409.2642345,
+    "moneyFlowMultiplier": 0.9787234042553384,
+    "moneyFlowVolume": 52384486.80851167
+  },
+  {
+    "timestamp": "2017-07-20T00:00:00",
+    "adl": 1955628421.2642367,
+    "moneyFlowMultiplier": 0.33333333333337545,
+    "moneyFlowVolume": 16478012.000002082
+  },
+  {
+    "timestamp": "2017-07-21T00:00:00",
+    "adl": 2040691362.5213795,
+    "moneyFlowMultiplier": 0.9142857142857131,
+    "moneyFlowVolume": 85062941.25714275
+  },
+  {
+    "timestamp": "2017-07-24T00:00:00",
+    "adl": 2067361960.3395603,
+    "moneyFlowMultiplier": 0.5454545454545259,
+    "moneyFlowVolume": 26670597.81818086
+  },
+  {
+    "timestamp": "2017-07-25T00:00:00",
+    "adl": 2055087848.7985773,
+    "moneyFlowMultiplier": -0.21311475409834843,
+    "moneyFlowVolume": -12274111.540982902
+  },
+  {
+    "timestamp": "2017-07-26T00:00:00",
+    "adl": 2049543877.2430203,
+    "moneyFlowMultiplier": -0.11111111111114119,
+    "moneyFlowVolume": -5543971.555557056
+  },
+  {
+    "timestamp": "2017-07-27T00:00:00",
+    "adl": 2072044347.1796713,
+    "moneyFlowMultiplier": 0.3031674208144729,
+    "moneyFlowVolume": 22500469.936651085
+  },
+  {
+    "timestamp": "2017-07-28T00:00:00",
+    "adl": 2108048907.6740546,
+    "moneyFlowMultiplier": 0.6853932584269922,
+    "moneyFlowVolume": 36004560.49438338
+  },
+  {
+    "timestamp": "2017-07-31T00:00:00",
+    "adl": 2072756832.651832,
+    "moneyFlowMultiplier": -0.5111111111111167,
+    "moneyFlowVolume": -35292075.02222261
+  },
+  {
+    "timestamp": "2017-08-01T00:00:00",
+    "adl": 2104318792.2784963,
+    "moneyFlowMultiplier": 0.5466666666666242,
+    "moneyFlowVolume": 31561959.626664218
+  },
+  {
+    "timestamp": "2017-08-02T00:00:00",
+    "adl": 2140405103.6005306,
+    "moneyFlowMultiplier": 0.7288135593220413,
+    "moneyFlowVolume": 36086311.32203426
+  },
+  {
+    "timestamp": "2017-08-03T00:00:00",
+    "adl": 2137207446.2870972,
+    "moneyFlowMultiplier": -0.07462686567165698,
+    "moneyFlowVolume": -3197657.3134334865
+  },
+  {
+    "timestamp": "2017-08-04T00:00:00",
+    "adl": 2140444753.3640196,
+    "moneyFlowMultiplier": 0.051282051282041004,
+    "moneyFlowVolume": 3237307.076922428
+  },
+  {
+    "timestamp": "2017-08-07T00:00:00",
+    "adl": 2174000217.3640194,
+    "moneyFlowMultiplier": 1,
+    "moneyFlowVolume": 33555464
+  },
+  {
+    "timestamp": "2017-08-08T00:00:00",
+    "adl": 2136077884.0306857,
+    "moneyFlowMultiplier": -0.5858585858585931,
+    "moneyFlowVolume": -37922333.3333338
+  },
+  {
+    "timestamp": "2017-08-09T00:00:00",
+    "adl": 2195141265.408837,
+    "moneyFlowMultiplier": 0.8991596638655422,
+    "moneyFlowVolume": 59063381.378151
+  },
+  {
+    "timestamp": "2017-08-10T00:00:00",
+    "adl": 2073627022.3130498,
+    "moneyFlowMultiplier": -0.9616858237548022,
+    "moneyFlowVolume": -121514243.09578706
+  },
+  {
+    "timestamp": "2017-08-11T00:00:00",
+    "adl": 2051081253.1249337,
+    "moneyFlowMultiplier": -0.2871287128712537,
+    "moneyFlowVolume": -22545769.188116185
+  },
+  {
+    "timestamp": "2017-08-14T00:00:00",
+    "adl": 2096680012.4469666,
+    "moneyFlowMultiplier": 0.5932203389830378,
+    "moneyFlowVolume": 45598759.3220329
+  },
+  {
+    "timestamp": "2017-08-15T00:00:00",
+    "adl": 2087989459.446968,
+    "moneyFlowMultiplier": -0.14999999999997335,
+    "moneyFlowVolume": -8690552.999998456
+  },
+  {
+    "timestamp": "2017-08-16T00:00:00",
+    "adl": 2080762717.1665945,
+    "moneyFlowMultiplier": -0.12149532710280027,
+    "moneyFlowVolume": -7226742.280373625
+  },
+  {
+    "timestamp": "2017-08-17T00:00:00",
+    "adl": 1946005645.1665945,
+    "moneyFlowMultiplier": -1,
+    "moneyFlowVolume": -134757072
+  },
+  {
+    "timestamp": "2017-08-18T00:00:00",
+    "adl": 1875435174.5634177,
+    "moneyFlowMultiplier": -0.49206349206350686,
+    "moneyFlowVolume": -70570470.60317673
+  },
+  {
+    "timestamp": "2017-08-21T00:00:00",
+    "adl": 1913697646.4412806,
+    "moneyFlowMultiplier": 0.5572519083969498,
+    "moneyFlowVolume": 38262471.87786282
+  },
+  {
+    "timestamp": "2017-08-22T00:00:00",
+    "adl": 1968546157.6332006,
+    "moneyFlowMultiplier": 0.8282828282828401,
+    "moneyFlowVolume": 54848511.191919975
+  },
+  {
+    "timestamp": "2017-08-23T00:00:00",
+    "adl": 1963531647.918914,
+    "moneyFlowMultiplier": -0.09523809523810974,
+    "moneyFlowVolume": -5014509.714286477
+  },
+  {
+    "timestamp": "2017-08-24T00:00:00",
+    "adl": 1928183514.9262125,
+    "moneyFlowMultiplier": -0.6642335766423518,
+    "moneyFlowVolume": -35348132.99270158
+  },
+  {
+    "timestamp": "2017-08-25T00:00:00",
+    "adl": 1880235734.4133909,
+    "moneyFlowMultiplier": -0.7094017094017276,
+    "moneyFlowVolume": -47947780.51282175
+  },
+  {
+    "timestamp": "2017-08-28T00:00:00",
+    "adl": 1874616708.67754,
+    "moneyFlowMultiplier": -0.13207547169815367,
+    "moneyFlowVolume": -5619025.735850778
+  },
+  {
+    "timestamp": "2017-08-29T00:00:00",
+    "adl": 1913574117.7341442,
+    "moneyFlowMultiplier": 0.7264150943396307,
+    "moneyFlowVolume": 38957409.05660421
+  },
+  {
+    "timestamp": "2017-08-30T00:00:00",
+    "adl": 1954683214.8629775,
+    "moneyFlowMultiplier": 0.6319018404907826,
+    "moneyFlowVolume": 41109097.12883338
+  },
+  {
+    "timestamp": "2017-08-31T00:00:00",
+    "adl": 2027703468.5215125,
+    "moneyFlowMultiplier": 0.670731707317058,
+    "moneyFlowVolume": 73020253.65853493
+  },
+  {
+    "timestamp": "2017-09-01T00:00:00",
+    "adl": 1995704006.8707185,
+    "moneyFlowMultiplier": -0.4920634920634992,
+    "moneyFlowVolume": -31999461.650794115
+  },
+  {
+    "timestamp": "2017-09-05T00:00:00",
+    "adl": 1982792731.2788823,
+    "moneyFlowMultiplier": -0.13469387755101453,
+    "moneyFlowVolume": -12911275.591836171
+  },
+  {
+    "timestamp": "2017-09-06T00:00:00",
+    "adl": 1999800369.1988807,
+    "moneyFlowMultiplier": 0.2799999999999727,
+    "moneyFlowVolume": 17007637.919998344
+  },
+  {
+    "timestamp": "2017-09-07T00:00:00",
+    "adl": 2004933576.4759865,
+    "moneyFlowMultiplier": 0.08433734939754663,
+    "moneyFlowVolume": 5133207.277105772
+  },
+  {
+    "timestamp": "2017-09-08T00:00:00",
+    "adl": 1983197845.307158,
+    "moneyFlowMultiplier": -0.3246753246752834,
+    "moneyFlowVolume": -21735731.16882841
+  },
+  {
+    "timestamp": "2017-09-11T00:00:00",
+    "adl": 2047000501.8317478,
+    "moneyFlowMultiplier": 0.8524590163934369,
+    "moneyFlowVolume": 63802656.52458974
+  },
+  {
+    "timestamp": "2017-09-12T00:00:00",
+    "adl": 2099212567.3317442,
+    "moneyFlowMultiplier": 0.8749999999999389,
+    "moneyFlowVolume": 52212065.49999636
+  },
+  {
+    "timestamp": "2017-09-13T00:00:00",
+    "adl": 2155012260.891066,
+    "moneyFlowMultiplier": 0.8983050847457594,
+    "moneyFlowVolume": 55799693.55932183
+  },
+  {
+    "timestamp": "2017-09-14T00:00:00",
+    "adl": 2191280889.8765736,
+    "moneyFlowMultiplier": 0.36231884057971137,
+    "moneyFlowVolume": 36268628.98550737
+  },
+  {
+    "timestamp": "2017-09-15T00:00:00",
+    "adl": 2262006126.3983145,
+    "moneyFlowMultiplier": 0.7101449275362474,
+    "moneyFlowVolume": 70725236.52174067
+  },
+  {
+    "timestamp": "2017-09-18T00:00:00",
+    "adl": 2264418667.5983143,
+    "moneyFlowMultiplier": 0.04999999999999112,
+    "moneyFlowVolume": 2412541.199999572
+  },
+  {
+    "timestamp": "2017-09-19T00:00:00",
+    "adl": 2293915740.3983145,
+    "moneyFlowMultiplier": 0.6,
+    "moneyFlowVolume": 29497072.8
+  },
+  {
+    "timestamp": "2017-09-20T00:00:00",
+    "adl": 2342837312.070446,
+    "moneyFlowMultiplier": 0.7868852459016465,
+    "moneyFlowVolume": 48921571.6721316
+  },
+  {
+    "timestamp": "2017-09-21T00:00:00",
+    "adl": 2317680744.070446,
+    "moneyFlowMultiplier": -0.5,
+    "moneyFlowVolume": -25156568
+  },
+  {
+    "timestamp": "2017-09-22T00:00:00",
+    "adl": 2337953616.6221733,
+    "moneyFlowMultiplier": 0.37931034482764364,
+    "moneyFlowVolume": 20272872.55172721
+  },
+  {
+    "timestamp": "2017-09-25T00:00:00",
+    "adl": 2346823068.196642,
+    "moneyFlowMultiplier": 0.14893617021277197,
+    "moneyFlowVolume": 8869451.574468443
+  },
+  {
+    "timestamp": "2017-09-26T00:00:00",
+    "adl": 2325822280.8478055,
+    "moneyFlowMultiplier": -0.3720930232558001,
+    "moneyFlowVolume": -21000787.34883643
+  },
+  {
+    "timestamp": "2017-09-27T00:00:00",
+    "adl": 2363753582.899087,
+    "moneyFlowMultiplier": 0.4487179487179408,
+    "moneyFlowVolume": 37931302.051281385
+  },
+  {
+    "timestamp": "2017-09-28T00:00:00",
+    "adl": 2399700456.74524,
+    "moneyFlowMultiplier": 0.7692307692307608,
+    "moneyFlowVolume": 35946873.84615345
+  },
+  {
+    "timestamp": "2017-09-29T00:00:00",
+    "adl": 2476474605.797874,
+    "moneyFlowMultiplier": 0.8596491228070438,
+    "moneyFlowVolume": 76774149.05263393
+  },
+  {
+    "timestamp": "2017-10-02T00:00:00",
+    "adl": 2538070649.797874,
+    "moneyFlowMultiplier": 1,
+    "moneyFlowVolume": 61596044
+  },
+  {
+    "timestamp": "2017-10-03T00:00:00",
+    "adl": 2601256850.297874,
+    "moneyFlowMultiplier": 0.9062499999999987,
+    "moneyFlowVolume": 63186200.49999991
+  },
+  {
+    "timestamp": "2017-10-04T00:00:00",
+    "adl": 2622111447.440734,
+    "moneyFlowMultiplier": 0.35714285714290306,
+    "moneyFlowVolume": 20854597.142859824
+  },
+  {
+    "timestamp": "2017-10-05T00:00:00",
+    "adl": 2686536047.722426,
+    "moneyFlowMultiplier": 0.9718309859155183,
+    "moneyFlowVolume": 64424600.28169182
+  },
+  {
+    "timestamp": "2017-10-06T00:00:00",
+    "adl": 2704199613.549588,
+    "moneyFlowMultiplier": 0.2098765432098956,
+    "moneyFlowVolume": 17663565.8271621
+  },
+  {
+    "timestamp": "2017-10-09T00:00:00",
+    "adl": 2688292191.8466177,
+    "moneyFlowMultiplier": -0.42574257425743633,
+    "moneyFlowVolume": -15907421.702970693
+  },
+  {
+    "timestamp": "2017-10-10T00:00:00",
+    "adl": 2696581063.9631214,
+    "moneyFlowMultiplier": 0.18446601941744573,
+    "moneyFlowVolume": 8288872.116503506
+  },
+  {
+    "timestamp": "2017-10-11T00:00:00",
+    "adl": 2746333707.9631214,
+    "moneyFlowMultiplier": 1,
+    "moneyFlowVolume": 49752644
+  },
+  {
+    "timestamp": "2017-10-12T00:00:00",
+    "adl": 2735337385.2765536,
+    "moneyFlowMultiplier": -0.22388059701493804,
+    "moneyFlowVolume": -10996322.686567787
+  },
+  {
+    "timestamp": "2017-10-13T00:00:00",
+    "adl": 2734399853.8667183,
+    "moneyFlowMultiplier": -0.016393442622935545,
+    "moneyFlowVolume": -937531.409835192
+  },
+  {
+    "timestamp": "2017-10-16T00:00:00",
+    "adl": 2748904550.59399,
+    "moneyFlowMultiplier": 0.3636363636363362,
+    "moneyFlowVolume": 14504696.727271633
+  },
+  {
+    "timestamp": "2017-10-17T00:00:00",
+    "adl": 2775507379.6709146,
+    "moneyFlowMultiplier": 0.8076923076923666,
+    "moneyFlowVolume": 26602829.076925017
+  },
+  {
+    "timestamp": "2017-10-18T00:00:00",
+    "adl": 2774515035.01975,
+    "moneyFlowMultiplier": -0.023255813953534488,
+    "moneyFlowVolume": -992344.6511647585
+  },
+  {
+    "timestamp": "2017-10-19T00:00:00",
+    "adl": 2835477893.385948,
+    "moneyFlowMultiplier": 0.9436619718309966,
+    "moneyFlowVolume": 60962858.36619788
+  },
+  {
+    "timestamp": "2017-10-20T00:00:00",
+    "adl": 2924279374.3019786,
+    "moneyFlowMultiplier": 0.9541984732824411,
+    "moneyFlowVolume": 88801480.91603038
+  },
+  {
+    "timestamp": "2017-10-23T00:00:00",
+    "adl": 2865093412.048456,
+    "moneyFlowMultiplier": -0.8873239436619933,
+    "moneyFlowVolume": -59185962.25352256
+  },
+  {
+    "timestamp": "2017-10-24T00:00:00",
+    "adl": 2879064197.6484585,
+    "moneyFlowMultiplier": 0.20000000000003498,
+    "moneyFlowVolume": 13970785.600002443
+  },
+  {
+    "timestamp": "2017-10-25T00:00:00",
+    "adl": 2892287682.462939,
+    "moneyFlowMultiplier": 0.12217194570136165,
+    "moneyFlowVolume": 13223484.81448009
+  },
+  {
+    "timestamp": "2017-10-26T00:00:00",
+    "adl": 2843727175.7962713,
+    "moneyFlowMultiplier": -0.6666666666666788,
+    "moneyFlowVolume": -48560506.66666755
+  },
+  {
+    "timestamp": "2017-10-27T00:00:00",
+    "adl": 2918206236.8838286,
+    "moneyFlowMultiplier": 0.8341013824884742,
+    "moneyFlowVolume": 74479061.08755715
+  },
+  {
+    "timestamp": "2017-10-30T00:00:00",
+    "adl": 2893358770.2171636,
+    "moneyFlowMultiplier": -0.43859649122803956,
+    "moneyFlowVolume": -24847466.666664932
+  },
+  {
+    "timestamp": "2017-10-31T00:00:00",
+    "adl": 2898517271.8565063,
+    "moneyFlowMultiplier": 0.08196721311472813,
+    "moneyFlowVolume": 5158501.6393426275
+  },
+  {
+    "timestamp": "2017-11-01T00:00:00",
+    "adl": 2876761248.7795815,
+    "moneyFlowMultiplier": -0.3846153846154115,
+    "moneyFlowVolume": -21756023.0769246
+  },
+  {
+    "timestamp": "2017-11-02T00:00:00",
+    "adl": 2923810497.611798,
+    "moneyFlowMultiplier": 0.7986577181208333,
+    "moneyFlowVolume": 47049248.83221641
+  },
+  {
+    "timestamp": "2017-11-03T00:00:00",
+    "adl": 2980590385.263973,
+    "moneyFlowMultiplier": 0.9130434782608975,
+    "moneyFlowVolume": 56779887.65217565
+  },
+  {
+    "timestamp": "2017-11-06T00:00:00",
+    "adl": 3013062472.1973047,
+    "moneyFlowMultiplier": 0.6266666666666273,
+    "moneyFlowVolume": 32472086.933331292
+  },
+  {
+    "timestamp": "2017-11-07T00:00:00",
+    "adl": 3007607115.833669,
+    "moneyFlowMultiplier": -0.0909090909090781,
+    "moneyFlowVolume": -5455356.363635595
+  },
+  {
+    "timestamp": "2017-11-08T00:00:00",
+    "adl": 3049949471.912101,
+    "moneyFlowMultiplier": 0.8039215686274587,
+    "moneyFlowVolume": 42342356.07843178
+  },
+  {
+    "timestamp": "2017-11-09T00:00:00",
+    "adl": 3127807383.789023,
+    "moneyFlowMultiplier": 0.7846153846153752,
+    "moneyFlowVolume": 77857911.87692215
+  },
+  {
+    "timestamp": "2017-11-10T00:00:00",
+    "adl": 3163375363.3344774,
+    "moneyFlowMultiplier": 0.5681818181818211,
+    "moneyFlowVolume": 35567979.545454726
+  },
+  {
+    "timestamp": "2017-11-13T00:00:00",
+    "adl": 3195156551.9014063,
+    "moneyFlowMultiplier": 0.6062992125984196,
+    "moneyFlowVolume": 31781188.566928837
+  },
+  {
+    "timestamp": "2017-11-14T00:00:00",
+    "adl": 3247146912.401406,
+    "moneyFlowMultiplier": 0.8124999999999931,
+    "moneyFlowVolume": 51990360.49999956
+  },
+  {
+    "timestamp": "2017-11-15T00:00:00",
+    "adl": 3248800528.7151313,
+    "moneyFlowMultiplier": 0.01960784313725563,
+    "moneyFlowVolume": 1653616.3137255516
+  },
+  {
+    "timestamp": "2017-11-16T00:00:00",
+    "adl": 3281808660.981797,
+    "moneyFlowMultiplier": 0.46666666666665907,
+    "moneyFlowVolume": 33008132.26666613
+  },
+  {
+    "timestamp": "2017-11-17T00:00:00",
+    "adl": 3220762801.3362284,
+    "moneyFlowMultiplier": -0.7721518987341662,
+    "moneyFlowVolume": -61045859.64556875
+  },
+  {
+    "timestamp": "2017-11-20T00:00:00",
+    "adl": 3236441340.086228,
+    "moneyFlowMultiplier": 0.3124999999999889,
+    "moneyFlowVolume": 15678538.749999443
+  },
+  {
+    "timestamp": "2017-11-21T00:00:00",
+    "adl": 3293108574.4088073,
+    "moneyFlowMultiplier": 0.784946236559123,
+    "moneyFlowVolume": 56667234.322579436
+  },
+  {
+    "timestamp": "2017-11-22T00:00:00",
+    "adl": 3276873390.8451715,
+    "moneyFlowMultiplier": -0.3454545454545342,
+    "moneyFlowVolume": -16235183.563635834
+  },
+  {
+    "timestamp": "2017-11-24T00:00:00",
+    "adl": 3283437785.8129125,
+    "moneyFlowMultiplier": 0.22580645161287957,
+    "moneyFlowVolume": 6564394.967741248
+  },
+  {
+    "timestamp": "2017-11-27T00:00:00",
+    "adl": 3262222417.590693,
+    "moneyFlowMultiplier": -0.38888888888883627,
+    "moneyFlowVolume": -21215368.22221935
+  },
+  {
+    "timestamp": "2017-11-28T00:00:00",
+    "adl": 3362626320.883716,
+    "moneyFlowMultiplier": 0.9720930232558126,
+    "moneyFlowVolume": 100403903.29302311
+  },
+  {
+    "timestamp": "2017-11-29T00:00:00",
+    "adl": 3339598905.8180237,
+    "moneyFlowMultiplier": -0.28467153284670443,
+    "moneyFlowVolume": -23027415.065692548
+  },
+  {
+    "timestamp": "2017-11-30T00:00:00",
+    "adl": 3355989938.80048,
+    "moneyFlowMultiplier": 0.12280701754386009,
+    "moneyFlowVolume": 16391032.982456198
+  },
+  {
+    "timestamp": "2017-12-01T00:00:00",
+    "adl": 3463016568.67204,
+    "moneyFlowMultiplier": 0.6238532110091761,
+    "moneyFlowVolume": 107026629.87155995
+  },
+  {
+    "timestamp": "2017-12-04T00:00:00",
+    "adl": 3369405931.6258864,
+    "moneyFlowMultiplier": -0.953846153846152,
+    "moneyFlowVolume": -93610637.04615366
+  },
+  {
+    "timestamp": "2017-12-05T00:00:00",
+    "adl": 3300099590.8734093,
+    "moneyFlowMultiplier": -0.8514851485148727,
+    "moneyFlowVolume": -69306340.75247698
+  },
+  {
+    "timestamp": "2017-12-06T00:00:00",
+    "adl": 3302549301.306399,
+    "moneyFlowMultiplier": 0.0309278350515476,
+    "moneyFlowVolume": 2449710.4329897864
+  },
+  {
+    "timestamp": "2017-12-07T00:00:00",
+    "adl": 3344544222.0951304,
+    "moneyFlowMultiplier": 0.5211267605633713,
+    "moneyFlowVolume": 41994920.788731664
+  },
+  {
+    "timestamp": "2017-12-08T00:00:00",
+    "adl": 3423328325.0881352,
+    "moneyFlowMultiplier": 0.9860139860139591,
+    "moneyFlowVolume": 78784102.99300484
+  },
+  {
+    "timestamp": "2017-12-11T00:00:00",
+    "adl": 3497929989.832321,
+    "moneyFlowMultiplier": 0.8604651162790667,
+    "moneyFlowVolume": 74601664.74418579
+  },
+  {
+    "timestamp": "2017-12-12T00:00:00",
+    "adl": 3489325816.412966,
+    "moneyFlowMultiplier": -0.096774193548393,
+    "moneyFlowVolume": -8604173.419355365
+  },
+  {
+    "timestamp": "2017-12-13T00:00:00",
+    "adl": 3406622026.803776,
+    "moneyFlowMultiplier": -0.7701149425286845,
+    "moneyFlowVolume": -82703789.60918991
+  },
+  {
+    "timestamp": "2017-12-14T00:00:00",
+    "adl": 3308344604.0941,
+    "moneyFlowMultiplier": -0.9354838709677278,
+    "moneyFlowVolume": -98277422.70967594
+  },
+  {
+    "timestamp": "2017-12-15T00:00:00",
+    "adl": 3362170826.8865547,
+    "moneyFlowMultiplier": 0.35849056603774865,
+    "moneyFlowVolume": 53826222.79245475
+  },
+  {
+    "timestamp": "2017-12-18T00:00:00",
+    "adl": 3336113930.8865523,
+    "moneyFlowMultiplier": -0.3000000000000284,
+    "moneyFlowVolume": -26056896.000002466
+  },
+  {
+    "timestamp": "2017-12-19T00:00:00",
+    "adl": 3260422937.7354712,
+    "moneyFlowMultiplier": -0.8848920863309571,
+    "moneyFlowVolume": -75690993.151081
+  },
+  {
+    "timestamp": "2017-12-20T00:00:00",
+    "adl": 3213012431.406357,
+    "moneyFlowMultiplier": -0.594936708860764,
+    "moneyFlowVolume": -47410506.32911428
+  },
+  {
+    "timestamp": "2017-12-21T00:00:00",
+    "adl": 3179207334.949211,
+    "moneyFlowMultiplier": -0.48571428571432596,
+    "moneyFlowVolume": -33805096.45714566
+  },
+  {
+    "timestamp": "2017-12-22T00:00:00",
+    "adl": 3233313448.9773784,
+    "moneyFlowMultiplier": 0.661971830985893,
+    "moneyFlowVolume": 54106114.02816717
+  },
+  {
+    "timestamp": "2017-12-26T00:00:00",
+    "adl": 3238533077.4218183,
+    "moneyFlowMultiplier": 0.11111111111101754,
+    "moneyFlowVolume": 5219628.444440049
+  },
+  {
+    "timestamp": "2017-12-27T00:00:00",
+    "adl": 3229967072.850383,
+    "moneyFlowMultiplier": -0.14285714285725887,
+    "moneyFlowVolume": -8566004.571435528
+  },
+  {
+    "timestamp": "2017-12-28T00:00:00",
+    "adl": 3266400865.73927,
+    "moneyFlowMultiplier": 0.7777777777777497,
+    "moneyFlowVolume": 36433792.88888758
+  },
+  {
+    "timestamp": "2017-12-29T00:00:00",
+    "adl": 3189471476.69579,
+    "moneyFlowMultiplier": -0.7717391304348018,
+    "moneyFlowVolume": -76929389.04348017
+  },
+  {
+    "timestamp": "2018-01-02T00:00:00",
+    "adl": 3274152361.4016767,
+    "moneyFlowMultiplier": 0.9411764705882869,
+    "moneyFlowVolume": 84680884.70588699
+  },
+  {
+    "timestamp": "2018-01-03T00:00:00",
+    "adl": 3349198344.117723,
+    "moneyFlowMultiplier": 0.8024691358024388,
+    "moneyFlowVolume": 75045982.71604654
+  },
+  {
+    "timestamp": "2018-01-04T00:00:00",
+    "adl": 3375665819.937075,
+    "moneyFlowMultiplier": 0.3161290322580314,
+    "moneyFlowVolume": 26467475.819352068
+  },
+  {
+    "timestamp": "2018-01-05T00:00:00",
+    "adl": 3447840724.040295,
+    "moneyFlowMultiplier": 0.8322580645160628,
+    "moneyFlowVolume": 72174904.10322006
+  },
+  {
+    "timestamp": "2018-01-08T00:00:00",
+    "adl": 3488618635.07733,
+    "moneyFlowMultiplier": 0.685185185185151,
+    "moneyFlowVolume": 40777911.037035
+  },
+  {
+    "timestamp": "2018-01-09T00:00:00",
+    "adl": 3476519011.6437006,
+    "moneyFlowMultiplier": -0.20353982300886647,
+    "moneyFlowVolume": -12099623.433629325
+  },
+  {
+    "timestamp": "2018-01-10T00:00:00",
+    "adl": 3519661169.6436987,
+    "moneyFlowMultiplier": 0.5972222222221931,
+    "moneyFlowVolume": 43142157.9999979
+  },
+  {
+    "timestamp": "2018-01-11T00:00:00",
+    "adl": 3584410185.6436987,
+    "moneyFlowMultiplier": 1,
+    "moneyFlowVolume": 64749016
+  },
+  {
+    "timestamp": "2018-01-12T00:00:00",
+    "adl": 3660421928.4192095,
+    "moneyFlowMultiplier": 0.8061224489795977,
+    "moneyFlowVolume": 76011742.77551076
+  },
+  {
+    "timestamp": "2018-01-16T00:00:00",
+    "adl": 3594511891.993677,
+    "moneyFlowMultiplier": -0.5957446808510677,
+    "moneyFlowVolume": -65910036.42553234
+  },
+  {
+    "timestamp": "2018-01-17T00:00:00",
+    "adl": 3678735343.669352,
+    "moneyFlowMultiplier": 0.7162162162162089,
+    "moneyFlowVolume": 84223451.67567481
+  },
+  {
+    "timestamp": "2018-01-18T00:00:00",
+    "adl": 3659076609.8347697,
+    "moneyFlowMultiplier": -0.1879699248119896,
+    "moneyFlowVolume": -19658733.834582232
+  },
+  {
+    "timestamp": "2018-01-19T00:00:00",
+    "adl": 3805391953.8347697,
+    "moneyFlowMultiplier": 1,
+    "moneyFlowVolume": 146315344
+  },
+  {
+    "timestamp": "2018-01-22T00:00:00",
+    "adl": 3900210721.8347697,
+    "moneyFlowMultiplier": 1,
+    "moneyFlowVolume": 94818768
+  },
+  {
+    "timestamp": "2018-01-23T00:00:00",
+    "adl": 3947251502.10143,
+    "moneyFlowMultiplier": 0.4666666666666035,
+    "moneyFlowVolume": 47040780.2666603
+  },
+  {
+    "timestamp": "2018-01-24T00:00:00",
+    "adl": 3938598336.4287047,
+    "moneyFlowMultiplier": -0.06181818181816694,
+    "moneyFlowVolume": -8653165.67272519
+  },
+  {
+    "timestamp": "2018-01-25T00:00:00",
+    "adl": 3934694966.8287053,
+    "moneyFlowMultiplier": -0.04444444444443532,
+    "moneyFlowVolume": -3903369.5999991987
+  },
+  {
+    "timestamp": "2018-01-26T00:00:00",
+    "adl": 4042210280.1360974,
+    "moneyFlowMultiplier": 0.9610894941634152,
+    "moneyFlowVolume": 107515313.30739199
+  },
+  {
+    "timestamp": "2018-01-29T00:00:00",
+    "adl": 3965745617.7705073,
+    "moneyFlowMultiplier": -0.817204301075253,
+    "moneyFlowVolume": -76464662.36558992
+  },
+  {
+    "timestamp": "2018-01-30T00:00:00",
+    "adl": 3870884389.215934,
+    "moneyFlowMultiplier": -0.6932153392330479,
+    "moneyFlowVolume": -94861228.55457358
+  },
+  {
+    "timestamp": "2018-01-31T00:00:00",
+    "adl": 3863042981.7238693,
+    "moneyFlowMultiplier": -0.06349206349207244,
+    "moneyFlowVolume": -7841407.492064597
+  },
+  {
+    "timestamp": "2018-02-01T00:00:00",
+    "adl": 3840574131.9422097,
+    "moneyFlowMultiplier": -0.24017467248908578,
+    "moneyFlowVolume": -22468849.78165965
+  },
+  {
+    "timestamp": "2018-02-02T00:00:00",
+    "adl": 3663862606.333609,
+    "moneyFlowMultiplier": -0.9827956989247223,
+    "moneyFlowVolume": -176711525.60860056
+  },
+  {
+    "timestamp": "2018-02-05T00:00:00",
+    "adl": 3388292409.989238,
+    "moneyFlowMultiplier": -0.9006622516556302,
+    "moneyFlowVolume": -275570196.3443712
+  },
+  {
+    "timestamp": "2018-02-06T00:00:00",
+    "adl": 3718658760.177916,
+    "moneyFlowMultiplier": 0.8962264150943374,
+    "moneyFlowVolume": 330366350.18867844
+  },
+  {
+    "timestamp": "2018-02-07T00:00:00",
+    "adl": 3551660021.9566603,
+    "moneyFlowMultiplier": -0.96095444685465,
+    "moneyFlowVolume": -166998738.22125575
+  },
+  {
+    "timestamp": "2018-02-08T00:00:00",
+    "adl": 3297783892.967455,
+    "moneyFlowMultiplier": -0.992149165848873,
+    "moneyFlowVolume": -253876128.9892055
+  },
+  {
+    "timestamp": "2018-02-09T00:00:00",
+    "adl": 3476152085.340272,
+    "moneyFlowMultiplier": 0.6058252427184513,
+    "moneyFlowVolume": 178368192.37281692
+  },
+  {
+    "timestamp": "2018-02-12T00:00:00",
+    "adl": 3532479660.7488313,
+    "moneyFlowMultiplier": 0.37743190661477893,
+    "moneyFlowVolume": 56327575.408559255
+  },
+  {
+    "timestamp": "2018-02-13T00:00:00",
+    "adl": 3585088872.786448,
+    "moneyFlowMultiplier": 0.6238244514106471,
+    "moneyFlowVolume": 52609212.03761661
+  },
+  {
+    "timestamp": "2018-02-14T00:00:00",
+    "adl": 3692636583.8246975,
+    "moneyFlowMultiplier": 0.8579234972677441,
+    "moneyFlowVolume": 107547711.03824943
+  },
+  {
+    "timestamp": "2018-02-15T00:00:00",
+    "adl": 3807532433.9268847,
+    "moneyFlowMultiplier": 0.995133819951315,
+    "moneyFlowVolume": 114895850.1021871
+  },
+  {
+    "timestamp": "2018-02-16T00:00:00",
+    "adl": 3732749509.5187216,
+    "moneyFlowMultiplier": -0.4489795918367327,
+    "moneyFlowVolume": -74782924.40816294
+  },
+  {
+    "timestamp": "2018-02-20T00:00:00",
+    "adl": 3693644718.69905,
+    "moneyFlowMultiplier": -0.43606557377048494,
+    "moneyFlowVolume": -39104790.81967152
+  },
+  {
+    "timestamp": "2018-02-21T00:00:00",
+    "adl": 3595439022.0033965,
+    "moneyFlowMultiplier": -0.9565217391304492,
+    "moneyFlowVolume": -98205696.69565366
+  },
+  {
+    "timestamp": "2018-02-22T00:00:00",
+    "adl": 3531771031.808275,
+    "moneyFlowMultiplier": -0.5548780487804807,
+    "moneyFlowVolume": -63667990.19512114
+  },
+  {
+    "timestamp": "2018-02-23T00:00:00",
+    "adl": 3628089103.808275,
+    "moneyFlowMultiplier": 1,
+    "moneyFlowVolume": 96318072
+  },
+  {
+    "timestamp": "2018-02-26T00:00:00",
+    "adl": 3710436584.3516703,
+    "moneyFlowMultiplier": 0.9169811320754607,
+    "moneyFlowVolume": 82347480.54339524
+  },
+  {
+    "timestamp": "2018-02-27T00:00:00",
+    "adl": 3610824654.511123,
+    "moneyFlowMultiplier": -0.9681093394077479,
+    "moneyFlowVolume": -99611929.84054701
+  },
+  {
+    "timestamp": "2018-02-28T00:00:00",
+    "adl": 3502484933.1551895,
+    "moneyFlowMultiplier": -0.8559322033898402,
+    "moneyFlowVolume": -108339721.35593343
+  },
+  {
+    "timestamp": "2018-03-01T00:00:00",
+    "adl": 3406021424.524219,
+    "moneyFlowMultiplier": -0.5253256150506569,
+    "moneyFlowVolume": -96463508.63097064
+  },
+  {
+    "timestamp": "2018-03-02T00:00:00",
+    "adl": 3513103734.693713,
+    "moneyFlowMultiplier": 0.7415254237288302,
+    "moneyFlowVolume": 107082310.16949393
+  },
+  {
+    "timestamp": "2018-03-05T00:00:00",
+    "adl": 3587141587.786051,
+    "moneyFlowMultiplier": 0.7328094302553988,
+    "moneyFlowVolume": 74037853.09233752
+  },
+  {
+    "timestamp": "2018-03-06T00:00:00",
+    "adl": 3631546653.3259563,
+    "moneyFlowMultiplier": 0.5399061032863754,
+    "moneyFlowVolume": 44405065.53990532
+  },
+  {
+    "timestamp": "2018-03-07T00:00:00",
+    "adl": 3697375687.72317,
+    "moneyFlowMultiplier": 0.7282229965156893,
+    "moneyFlowVolume": 65829034.39721344
+  },
+  {
+    "timestamp": "2018-03-08T00:00:00",
+    "adl": 3755787352.2686253,
+    "moneyFlowMultiplier": 0.8409090909091056,
+    "moneyFlowVolume": 58411664.54545557
+  },
+  {
+    "timestamp": "2018-03-09T00:00:00",
+    "adl": 3873762936.2686253,
+    "moneyFlowMultiplier": 1,
+    "moneyFlowVolume": 117975584
+  },
+  {
+    "timestamp": "2018-03-12T00:00:00",
+    "adl": 3834726449.723172,
+    "moneyFlowMultiplier": -0.5227272727272522,
+    "moneyFlowVolume": -39036486.54545301
+  },
+  {
+    "timestamp": "2018-03-13T00:00:00",
+    "adl": 3769557886.1591897,
+    "moneyFlowMultiplier": -0.6824644549763205,
+    "moneyFlowVolume": -65168563.56398268
+  },
+  {
+    "timestamp": "2018-03-14T00:00:00",
+    "adl": 3701137381.6142955,
+    "moneyFlowMultiplier": -0.6222910216718489,
+    "moneyFlowVolume": -68420504.54489408
+  },
+  {
+    "timestamp": "2018-03-15T00:00:00",
+    "adl": 3659886265.4238195,
+    "moneyFlowMultiplier": -0.47619047619047106,
+    "moneyFlowVolume": -41251116.19047575
+  },
+  {
+    "timestamp": "2018-03-16T00:00:00",
+    "adl": 3566407605.985803,
+    "moneyFlowMultiplier": -0.900826446280991,
+    "moneyFlowVolume": -93478659.43801644
+  },
+  {
+    "timestamp": "2018-03-19T00:00:00",
+    "adl": 3526606788.8695245,
+    "moneyFlowMultiplier": -0.3524150268336278,
+    "moneyFlowVolume": -39800817.116278656
+  },
+  {
+    "timestamp": "2018-03-20T00:00:00",
+    "adl": 3528323390.8695254,
+    "moneyFlowMultiplier": 0.027777777777792032,
+    "moneyFlowVolume": 1716602.0000008808
+  },
+  {
+    "timestamp": "2018-03-21T00:00:00",
+    "adl": 3459490940.50711,
+    "moneyFlowMultiplier": -0.8456375838926062,
+    "moneyFlowVolume": -68832450.3624152
+  },
+  {
+    "timestamp": "2018-03-22T00:00:00",
+    "adl": 3322945520.5896626,
+    "moneyFlowMultiplier": -0.8874296435272006,
+    "moneyFlowVolume": -136545419.9174478
+  },
+  {
+    "timestamp": "2018-03-23T00:00:00",
+    "adl": 3144614020.503332,
+    "moneyFlowMultiplier": -0.9395683453237386,
+    "moneyFlowVolume": -178331500.08633047
+  },
+  {
+    "timestamp": "2018-03-26T00:00:00",
+    "adl": 3275805187.7897816,
+    "moneyFlowMultiplier": 0.8936535162950252,
+    "moneyFlowVolume": 131191167.28644933
+  },
+  {
+    "timestamp": "2018-03-27T00:00:00",
+    "adl": 3201345258.7154665,
+    "moneyFlowMultiplier": -0.5541069100391106,
+    "moneyFlowVolume": -74459929.07431513
+  },
+  {
+    "timestamp": "2018-03-28T00:00:00",
+    "adl": 3143153433.5348053,
+    "moneyFlowMultiplier": -0.3842239185750606,
+    "moneyFlowVolume": -58191825.18066112
+  },
+  {
+    "timestamp": "2018-03-29T00:00:00",
+    "adl": 3171597145.3515997,
+    "moneyFlowMultiplier": 0.2213740458015311,
+    "moneyFlowVolume": 28443711.81679446
+  },
+  {
+    "timestamp": "2018-04-02T00:00:00",
+    "adl": 3106596427.190231,
+    "moneyFlowMultiplier": -0.3374083129584338,
+    "moneyFlowVolume": -65000718.16136893
+  },
+  {
+    "timestamp": "2018-04-03T00:00:00",
+    "adl": 3200784639.930971,
+    "moneyFlowMultiplier": 0.7592592592592542,
+    "moneyFlowVolume": 94188212.7407401
+  },
+  {
+    "timestamp": "2018-04-04T00:00:00",
+    "adl": 3302453956.3256383,
+    "moneyFlowMultiplier": 0.7946666666666715,
+    "moneyFlowVolume": 101669316.39466728
+  },
+  {
+    "timestamp": "2018-04-05T00:00:00",
+    "adl": 3314230481.018973,
+    "moneyFlowMultiplier": 0.13777777777779315,
+    "moneyFlowVolume": 11776524.693334648
+  },
+  {
+    "timestamp": "2018-04-06T00:00:00",
+    "adl": 3218166919.4375772,
+    "moneyFlowMultiplier": -0.517441860465119,
+    "moneyFlowVolume": -96063561.58139585
+  },
+  {
+    "timestamp": "2018-04-09T00:00:00",
+    "adl": 3156413997.2986298,
+    "moneyFlowMultiplier": -0.5663157894736863,
+    "moneyFlowVolume": -61752922.1389476
+  },
+  {
+    "timestamp": "2018-04-10T00:00:00",
+    "adl": 3202150951.5688987,
+    "moneyFlowMultiplier": 0.4189189189189057,
+    "moneyFlowVolume": 45736954.27026883
+  },
+  {
+    "timestamp": "2018-04-11T00:00:00",
+    "adl": 3139027913.1835785,
+    "moneyFlowMultiplier": -0.6697247706421904,
+    "moneyFlowVolume": -63123038.38532002
+  },
+  {
+    "timestamp": "2018-04-12T00:00:00",
+    "adl": 3131789346.424218,
+    "moneyFlowMultiplier": -0.10160427807489525,
+    "moneyFlowVolume": -7238566.759360351
+  },
+  {
+    "timestamp": "2018-04-13T00:00:00",
+    "adl": 3100917700.108428,
+    "moneyFlowMultiplier": -0.3508771929824624,
+    "moneyFlowVolume": -30871646.315790024
+  },
+  {
+    "timestamp": "2018-04-16T00:00:00",
+    "adl": 3112752330.957209,
+    "moneyFlowMultiplier": 0.180487804878055,
+    "moneyFlowVolume": 11834630.848780895
+  },
+  {
+    "timestamp": "2018-04-17T00:00:00",
+    "adl": 3136571907.620622,
+    "moneyFlowMultiplier": 0.3560975609755889,
+    "moneyFlowVolume": 23819576.66341324
+  },
+  {
+    "timestamp": "2018-04-18T00:00:00",
+    "adl": 3120253802.229318,
+    "moneyFlowMultiplier": -0.2753623188405773,
+    "moneyFlowVolume": -16318105.391304206
+  },
+  {
+    "timestamp": "2018-04-19T00:00:00",
+    "adl": 3126785987.6455846,
+    "moneyFlowMultiplier": 0.08133971291863946,
+    "moneyFlowVolume": 6532185.41626627
+  },
+  {
+    "timestamp": "2018-04-20T00:00:00",
+    "adl": 3083458915.0707355,
+    "moneyFlowMultiplier": -0.4191616766466958,
+    "moneyFlowVolume": -43327072.57484918
+  },
+  {
+    "timestamp": "2018-04-23T00:00:00",
+    "adl": 3080968434.4829793,
+    "moneyFlowMultiplier": -0.03673469387756333,
+    "moneyFlowVolume": -2490480.5877559367
+  },
+  {
+    "timestamp": "2018-04-24T00:00:00",
+    "adl": 3023679407.5200167,
+    "moneyFlowMultiplier": -0.4907407407407382,
+    "moneyFlowVolume": -57289026.962962665
+  },
+  {
+    "timestamp": "2018-04-25T00:00:00",
+    "adl": 3098545133.2739606,
+    "moneyFlowMultiplier": 0.6971608832807623,
+    "moneyFlowVolume": 74865725.75394377
+  },
+  {
+    "timestamp": "2018-04-26T00:00:00",
+    "adl": 3124505734.11312,
+    "moneyFlowMultiplier": 0.3706293706293498,
+    "moneyFlowVolume": 25960600.83915938
+  },
+  {
+    "timestamp": "2018-04-27T00:00:00",
+    "adl": 3133786906.0681753,
+    "moneyFlowMultiplier": 0.15730337078650394,
+    "moneyFlowVolume": 9281171.955055417
+  },
+  {
+    "timestamp": "2018-04-30T00:00:00",
+    "adl": 3052869783.816679,
+    "moneyFlowMultiplier": -0.9520958083832265,
+    "moneyFlowVolume": -80917122.2514964
+  },
+  {
+    "timestamp": "2018-05-01T00:00:00",
+    "adl": 3123234182.986229,
+    "moneyFlowMultiplier": 0.9169550173010353,
+    "moneyFlowVolume": 70364399.16954997
+  },
+  {
+    "timestamp": "2018-05-02T00:00:00",
+    "adl": 3061058760.9932947,
+    "moneyFlowMultiplier": -0.6961130742049636,
+    "moneyFlowVolume": -62175421.992934346
+  },
+  {
+    "timestamp": "2018-05-03T00:00:00",
+    "adl": 3153906432.608679,
+    "moneyFlowMultiplier": 0.658653846153842,
+    "moneyFlowVolume": 92847671.61538404
+  },
+  {
+    "timestamp": "2018-05-04T00:00:00",
+    "adl": 3222625194.9573026,
+    "moneyFlowMultiplier": 0.7284403669724746,
+    "moneyFlowVolume": 68718762.34862362
+  },
+  {
+    "timestamp": "2018-05-07T00:00:00",
+    "adl": 3214278067.022168,
+    "moneyFlowMultiplier": -0.14594594594593432,
+    "moneyFlowVolume": -8347127.93513447
+  },
+  {
+    "timestamp": "2018-05-08T00:00:00",
+    "adl": 3258154867.022169,
+    "moneyFlowMultiplier": 0.6285714285714455,
+    "moneyFlowVolume": 43876800.000001185
+  },
+  {
+    "timestamp": "2018-05-09T00:00:00",
+    "adl": 3303741730.962469,
+    "moneyFlowMultiplier": 0.7388059701492798,
+    "moneyFlowVolume": 45586863.94030012
+  },
+  {
+    "timestamp": "2018-05-10T00:00:00",
+    "adl": 3352715002.7339005,
+    "moneyFlowMultiplier": 0.6571428571428927,
+    "moneyFlowVolume": 48973271.77143122
+  },
+  {
+    "timestamp": "2018-05-11T00:00:00",
+    "adl": 3391005044.3654776,
+    "moneyFlowMultiplier": 0.6184210526315475,
+    "moneyFlowVolume": 38290041.631577
+  },
+  {
+    "timestamp": "2018-05-14T00:00:00",
+    "adl": 3375303687.0160823,
+    "moneyFlowMultiplier": -0.2771084337348985,
+    "moneyFlowVolume": -15701357.349395253
+  },
+  {
+    "timestamp": "2018-05-15T00:00:00",
+    "adl": 3407659492.506276,
+    "moneyFlowMultiplier": 0.3594771241829832,
+    "moneyFlowVolume": 32355805.49019398
+  },
+  {
+    "timestamp": "2018-05-16T00:00:00",
+    "adl": 3428359398.3427534,
+    "moneyFlowMultiplier": 0.3710691823899272,
+    "moneyFlowVolume": 20699905.836477436
+  },
+  {
+    "timestamp": "2018-05-17T00:00:00",
+    "adl": 3418854939.2688603,
+    "moneyFlowMultiplier": -0.16256157635470214,
+    "moneyFlowVolume": -9504459.073892932
+  },
+  {
+    "timestamp": "2018-05-18T00:00:00",
+    "adl": 3400813743.306242,
+    "moneyFlowMultiplier": -0.2710280373831984,
+    "moneyFlowVolume": -18041195.96261821
+  },
+  {
+    "timestamp": "2018-05-21T00:00:00",
+    "adl": 3432943559.1172643,
+    "moneyFlowMultiplier": 0.5354330708661205,
+    "moneyFlowVolume": 32129815.811022345
+  },
+  {
+    "timestamp": "2018-05-22T00:00:00",
+    "adl": 3398393247.671111,
+    "moneyFlowMultiplier": -0.6307692307692147,
+    "moneyFlowVolume": -34550311.44615296
+  },
+  {
+    "timestamp": "2018-05-23T00:00:00",
+    "adl": 3463566149.6366267,
+    "moneyFlowMultiplier": 0.9741379310344572,
+    "moneyFlowVolume": 65172901.96551553
+  },
+  {
+    "timestamp": "2018-05-24T00:00:00",
+    "adl": 3514882295.873917,
+    "moneyFlowMultiplier": 0.652542372881385,
+    "moneyFlowVolume": 51316146.23729042
+  },
+  {
+    "timestamp": "2018-05-25T00:00:00",
+    "adl": 3508300076.1964984,
+    "moneyFlowMultiplier": -0.11290322580643979,
+    "moneyFlowVolume": -6582219.677418665
+  },
+  {
+    "timestamp": "2018-05-29T00:00:00",
+    "adl": 3477062195.0813446,
+    "moneyFlowMultiplier": -0.26060606060608105,
+    "moneyFlowVolume": -31237881.115153965
+  },
+  {
+    "timestamp": "2018-05-30T00:00:00",
+    "adl": 3522513917.050577,
+    "moneyFlowMultiplier": 0.6307692307692556,
+    "moneyFlowVolume": 45451721.96923256
+  },
+  {
+    "timestamp": "2018-05-31T00:00:00",
+    "adl": 3484903243.7172456,
+    "moneyFlowMultiplier": -0.3888888888888728,
+    "moneyFlowVolume": -37610673.33333178
+  },
+  {
+    "timestamp": "2018-06-01T00:00:00",
+    "adl": 3527417582.178786,
+    "moneyFlowMultiplier": 0.576923076923098,
+    "moneyFlowVolume": 42514338.46154001
+  },
+  {
+    "timestamp": "2018-06-04T00:00:00",
+    "adl": 3545148518.712117,
+    "moneyFlowMultiplier": 0.3777777777777357,
+    "moneyFlowVolume": 17730936.533331357
+  },
+  {
+    "timestamp": "2018-06-05T00:00:00",
+    "adl": 3564673824.3121157,
+    "moneyFlowMultiplier": 0.3692307692307363,
+    "moneyFlowVolume": 19525305.599998258
+  },
+  {
+    "timestamp": "2018-06-06T00:00:00",
+    "adl": 3622922566.916371,
+    "moneyFlowMultiplier": 0.897872340425529,
+    "moneyFlowVolume": 58248742.60425513
+  },
+  {
+    "timestamp": "2018-06-07T00:00:00",
+    "adl": 3627361445.034016,
+    "moneyFlowMultiplier": 0.05882352941174325,
+    "moneyFlowVolume": 4438878.11764544
+  },
+  {
+    "timestamp": "2018-06-08T00:00:00",
+    "adl": 3696113155.6222515,
+    "moneyFlowMultiplier": 0.9215686274509789,
+    "moneyFlowVolume": 68751710.58823518
+  },
+  {
+    "timestamp": "2018-06-11T00:00:00",
+    "adl": 3663591926.8843894,
+    "moneyFlowMultiplier": -0.5339805825242419,
+    "moneyFlowVolume": -32521228.73786225
+  },
+  {
+    "timestamp": "2018-06-12T00:00:00",
+    "adl": 3684481650.560061,
+    "moneyFlowMultiplier": 0.2792792792792267,
+    "moneyFlowVolume": 20889723.67567174
+  },
+  {
+    "timestamp": "2018-06-13T00:00:00",
+    "adl": 3624920448.387224,
+    "moneyFlowMultiplier": -0.7283950617283621,
+    "moneyFlowVolume": -59561202.17283681
+  },
+  {
+    "timestamp": "2018-06-14T00:00:00",
+    "adl": 3629457933.9807158,
+    "moneyFlowMultiplier": 0.05691056910563846,
+    "moneyFlowVolume": 4537485.593491741
+  },
+  {
+    "timestamp": "2018-06-15T00:00:00",
+    "adl": 3709494322.552144,
+    "moneyFlowMultiplier": 0.6476190476190471,
+    "moneyFlowVolume": 80036388.57142851
+  },
+  {
+    "timestamp": "2018-06-18T00:00:00",
+    "adl": 3755001052.5286155,
+    "moneyFlowMultiplier": 0.8352941176470737,
+    "moneyFlowVolume": 45506729.9764714
+  },
+  {
+    "timestamp": "2018-06-19T00:00:00",
+    "adl": 3832994694.3518753,
+    "moneyFlowMultiplier": 0.7767441860465537,
+    "moneyFlowVolume": 77993641.82326004
+  },
+  {
+    "timestamp": "2018-06-20T00:00:00",
+    "adl": 3815214239.6729774,
+    "moneyFlowMultiplier": -0.32110091743116875,
+    "moneyFlowVolume": -17780454.678897757
+  },
+  {
+    "timestamp": "2018-06-21T00:00:00",
+    "adl": 3777981342.9586926,
+    "moneyFlowMultiplier": -0.5089285714285633,
+    "moneyFlowVolume": -37232896.71428512
+  },
+  {
+    "timestamp": "2018-06-22T00:00:00",
+    "adl": 3741901152.8634553,
+    "moneyFlowMultiplier": -0.6190476190476019,
+    "moneyFlowVolume": -36080190.09523709
+  },
+  {
+    "timestamp": "2018-06-25T00:00:00",
+    "adl": 3719594176.4989924,
+    "moneyFlowMultiplier": -0.15717539863324442,
+    "moneyFlowVolume": -22306976.36446285
+  },
+  {
+    "timestamp": "2018-06-26T00:00:00",
+    "adl": 3713838631.9408536,
+    "moneyFlowMultiplier": -0.08139534883720008,
+    "moneyFlowVolume": -5755544.558138883
+  },
+  {
+    "timestamp": "2018-06-27T00:00:00",
+    "adl": 3613711041.646349,
+    "moneyFlowMultiplier": -0.9252747252747184,
+    "moneyFlowVolume": -100127590.29450476
+  },
+  {
+    "timestamp": "2018-06-28T00:00:00",
+    "adl": 3650802877.911334,
+    "moneyFlowMultiplier": 0.4700315457413339,
+    "moneyFlowVolume": 37091836.264984936
+  },
+  {
+    "timestamp": "2018-06-29T00:00:00",
+    "adl": 3561035338.2392025,
+    "moneyFlowMultiplier": -0.8934426229508233,
+    "moneyFlowVolume": -89767539.67213151
+  },
+  {
+    "timestamp": "2018-07-02T00:00:00",
+    "adl": 3617806464.003908,
+    "moneyFlowMultiplier": 0.8676470588235258,
+    "moneyFlowVolume": 56771125.76470564
+  },
+  {
+    "timestamp": "2018-07-03T00:00:00",
+    "adl": 3590485972.649069,
+    "moneyFlowMultiplier": -0.6290322580645269,
+    "moneyFlowVolume": -27320491.354839176
+  },
+  {
+    "timestamp": "2018-07-05T00:00:00",
+    "adl": 3645293966.7972145,
+    "moneyFlowMultiplier": 0.9351851851851396,
+    "moneyFlowVolume": 54807994.148145474
+  },
+  {
+    "timestamp": "2018-07-06T00:00:00",
+    "adl": 3695285457.4287925,
+    "moneyFlowMultiplier": 0.7302631578947222,
+    "moneyFlowVolume": 49991490.631577946
+  },
+  {
+    "timestamp": "2018-07-09T00:00:00",
+    "adl": 3742930292.64006,
+    "moneyFlowMultiplier": 0.9154929577464767,
+    "moneyFlowVolume": 47644835.21126749
+  },
+  {
+    "timestamp": "2018-07-10T00:00:00",
+    "adl": 3783353318.7733912,
+    "moneyFlowMultiplier": 0.755555555555519,
+    "moneyFlowVolume": 40423026.13333138
+  },
+  {
+    "timestamp": "2018-07-11T00:00:00",
+    "adl": 3739400401.2598815,
+    "moneyFlowMultiplier": -0.5540540540540042,
+    "moneyFlowVolume": -43952917.51350956
+  },
+  {
+    "timestamp": "2018-07-12T00:00:00",
+    "adl": 3797127154.922803,
+    "moneyFlowMultiplier": 0.93258426966292,
+    "moneyFlowVolume": 57726753.662921265
+  },
+  {
+    "timestamp": "2018-07-13T00:00:00",
+    "adl": 3820139873.361828,
+    "moneyFlowMultiplier": 0.4634146341463505,
+    "moneyFlowVolume": 23012718.43902484
+  },
+  {
+    "timestamp": "2018-07-16T00:00:00",
+    "adl": 3822251537.0214033,
+    "moneyFlowMultiplier": 0.04255319148938357,
+    "moneyFlowVolume": 2111663.6595755536
+  },
+  {
+    "timestamp": "2018-07-17T00:00:00",
+    "adl": 3857416351.3023944,
+    "moneyFlowMultiplier": 0.6528925619834602,
+    "moneyFlowVolume": 35164814.28099115
+  },
+  {
+    "timestamp": "2018-07-18T00:00:00",
+    "adl": 3893217739.9262476,
+    "moneyFlowMultiplier": 0.779816513761466,
+    "moneyFlowVolume": 35801388.623853125
+  },
+  {
+    "timestamp": "2018-07-19T00:00:00",
+    "adl": 3883020125.0875416,
+    "moneyFlowMultiplier": -0.16129032258058898,
+    "moneyFlowVolume": -10197614.838706125
+  },
+  {
+    "timestamp": "2018-07-20T00:00:00",
+    "adl": 3830017215.0875435,
+    "moneyFlowMultiplier": -0.6249999999999778,
+    "moneyFlowVolume": -53002909.999998115
+  },
+  {
+    "timestamp": "2018-07-23T00:00:00",
+    "adl": 3861701285.8845387,
+    "moneyFlowMultiplier": 0.6541353383459186,
+    "moneyFlowVolume": 31684070.796995096
+  },
+  {
+    "timestamp": "2018-07-24T00:00:00",
+    "adl": 3862446342.480283,
+    "moneyFlowMultiplier": 0.010638297872330775,
+    "moneyFlowVolume": 745056.5957440049
+  },
+  {
+    "timestamp": "2018-07-25T00:00:00",
+    "adl": 3924771695.7826076,
+    "moneyFlowMultiplier": 0.7674418604651049,
+    "moneyFlowVolume": 62325353.30232465
+  },
+  {
+    "timestamp": "2018-07-26T00:00:00",
+    "adl": 3894053480.8735123,
+    "moneyFlowMultiplier": -0.5151515151515882,
+    "moneyFlowVolume": -30718214.909095265
+  },
+  {
+    "timestamp": "2018-07-27T00:00:00",
+    "adl": 3862812131.891478,
+    "moneyFlowMultiplier": -0.39520958083830054,
+    "moneyFlowVolume": -31241348.982034124
+  },
+  {
+    "timestamp": "2018-07-30T00:00:00",
+    "adl": 3830290303.360504,
+    "moneyFlowMultiplier": -0.49557522123894204,
+    "moneyFlowVolume": -32521828.530973714
+  },
+  {
+    "timestamp": "2018-07-31T00:00:00",
+    "adl": 3841390134.807045,
+    "moneyFlowMultiplier": 0.15723270440251258,
+    "moneyFlowVolume": 11099831.44654066
+  },
+  {
+    "timestamp": "2018-08-01T00:00:00",
+    "adl": 3826529054.807044,
+    "moneyFlowMultiplier": -0.2680412371134223,
+    "moneyFlowVolume": -14861080.000001123
+  },
+  {
+    "timestamp": "2018-08-02T00:00:00",
+    "adl": 3884376449.942179,
+    "moneyFlowMultiplier": 0.8858858858858887,
+    "moneyFlowVolume": 57847395.135135315
+  },
+  {
+    "timestamp": "2018-08-03T00:00:00",
+    "adl": 3935599713.973191,
+    "moneyFlowMultiplier": 0.9224806201551071,
+    "moneyFlowVolume": 51223264.03101155
+  },
+  {
+    "timestamp": "2018-08-06T00:00:00",
+    "adl": 3960311199.1226172,
+    "moneyFlowMultiplier": 0.6091954022988814,
+    "moneyFlowVolume": 24711485.149426535
+  },
+  {
+    "timestamp": "2018-08-07T00:00:00",
+    "adl": 3954974563.9226155,
+    "moneyFlowMultiplier": -0.12000000000004245,
+    "moneyFlowVolume": -5336635.200001888
+  },
+  {
+    "timestamp": "2018-08-08T00:00:00",
+    "adl": 3957742090.475807,
+    "moneyFlowMultiplier": 0.06382978723404513,
+    "moneyFlowVolume": 2767526.553191601
+  },
+  {
+    "timestamp": "2018-08-09T00:00:00",
+    "adl": 3932394770.631145,
+    "moneyFlowMultiplier": -0.6893203883495681,
+    "moneyFlowVolume": -25347319.844662163
+  },
+  {
+    "timestamp": "2018-08-10T00:00:00",
+    "adl": 3928066501.9766006,
+    "moneyFlowMultiplier": -0.05454545454543826,
+    "moneyFlowVolume": -4328268.654544162
+  },
+  {
+    "timestamp": "2018-08-13T00:00:00",
+    "adl": 3879061504.4593587,
+    "moneyFlowMultiplier": -0.7241379310344879,
+    "moneyFlowVolume": -49004997.517241724
+  },
+  {
+    "timestamp": "2018-08-14T00:00:00",
+    "adl": 3909886360.264237,
+    "moneyFlowMultiplier": 0.6829268292683012,
+    "moneyFlowVolume": 30824855.804878432
+  },
+  {
+    "timestamp": "2018-08-15T00:00:00",
+    "adl": 3947960028.2815523,
+    "moneyFlowMultiplier": 0.3593073593073521,
+    "moneyFlowVolume": 38073668.01731525
+  },
+  {
+    "timestamp": "2018-08-16T00:00:00",
+    "adl": 3935661607.403505,
+    "moneyFlowMultiplier": -0.17073170731705795,
+    "moneyFlowVolume": -12298420.878047684
+  },
+  {
+    "timestamp": "2018-08-17T00:00:00",
+    "adl": 3972769700.92463,
+    "moneyFlowMultiplier": 0.5492957746478693,
+    "moneyFlowVolume": 37108093.52112554
+  },
+  {
+    "timestamp": "2018-08-20T00:00:00",
+    "adl": 3986741090.9246335,
+    "moneyFlowMultiplier": 0.3409090909091702,
+    "moneyFlowVolume": 13971390.00000325
+  },
+  {
+    "timestamp": "2018-08-21T00:00:00",
+    "adl": 3971995822.279473,
+    "moneyFlowMultiplier": -0.21290322580643978,
+    "moneyFlowVolume": -14745268.64516047
+  },
+  {
+    "timestamp": "2018-08-22T00:00:00",
+    "adl": 3971593024.9925146,
+    "moneyFlowMultiplier": -0.008695652173954306,
+    "moneyFlowVolume": -402797.28695843305
+  },
+  {
+    "timestamp": "2018-08-23T00:00:00",
+    "adl": 3945058118.8972745,
+    "moneyFlowMultiplier": -0.5238095238095606,
+    "moneyFlowVolume": -26534906.09523996
+  },
+  {
+    "timestamp": "2018-08-24T00:00:00",
+    "adl": 3990038433.1372714,
+    "moneyFlowMultiplier": 0.7599999999999454,
+    "moneyFlowVolume": 44980314.23999677
+  },
+  {
+    "timestamp": "2018-08-27T00:00:00",
+    "adl": 4036945559.6918983,
+    "moneyFlowMultiplier": 0.79831932773118,
+    "moneyFlowVolume": 46907126.554626994
+  },
+  {
+    "timestamp": "2018-08-28T00:00:00",
+    "adl": 4038410087.0858393,
+    "moneyFlowMultiplier": 0.030303030303061623,
+    "moneyFlowVolume": 1464527.3939409077
+  },
+  {
+    "timestamp": "2018-08-29T00:00:00",
+    "adl": 4084127314.1969504,
+    "moneyFlowMultiplier": 0.722222222222224,
+    "moneyFlowVolume": 45717227.11111122
+  },
+  {
+    "timestamp": "2018-08-30T00:00:00",
+    "adl": 4070619341.054095,
+    "moneyFlowMultiplier": -0.2142857142856877,
+    "moneyFlowVolume": -13507973.142855467
+  },
+  {
+    "timestamp": "2018-08-31T00:00:00",
+    "adl": 4093623916.72977,
+    "moneyFlowMultiplier": 0.33783783783783367,
+    "moneyFlowVolume": 23004575.675675392
+  },
+  {
+    "timestamp": "2018-09-04T00:00:00",
+    "adl": 4121878461.078765,
+    "moneyFlowMultiplier": 0.4765100671141155,
+    "moneyFlowVolume": 28254544.348994564
+  },
+  {
+    "timestamp": "2018-09-05T00:00:00",
+    "adl": 4144694678.4905314,
+    "moneyFlowMultiplier": 0.30588235294120125,
+    "moneyFlowVolume": 22816217.411766555
+  },
+  {
+    "timestamp": "2018-09-06T00:00:00",
+    "adl": 4140208348.3087125,
+    "moneyFlowMultiplier": -0.06611570247934874,
+    "moneyFlowVolume": -4486330.181818853
+  },
+  {
+    "timestamp": "2018-09-07T00:00:00",
+    "adl": 4131972047.33462,
+    "moneyFlowMultiplier": -0.10880829015542942,
+    "moneyFlowVolume": -8236300.974092432
+  },
+  {
+    "timestamp": "2018-09-10T00:00:00",
+    "adl": 4100407111.936387,
+    "moneyFlowMultiplier": -0.6106194690265995,
+    "moneyFlowVolume": -31564935.398232713
+  },
+  {
+    "timestamp": "2018-09-11T00:00:00",
+    "adl": 4132036684.9283867,
+    "moneyFlowMultiplier": 0.6079999999999928,
+    "moneyFlowVolume": 31629572.991999622
+  },
+  {
+    "timestamp": "2018-09-12T00:00:00",
+    "adl": 4140488371.8303466,
+    "moneyFlowMultiplier": 0.13725490196076828,
+    "moneyFlowVolume": 8451686.901959797
+  },
+  {
+    "timestamp": "2018-09-13T00:00:00",
+    "adl": 4172221011.513516,
+    "moneyFlowMultiplier": 0.6039603960396229,
+    "moneyFlowVolume": 31732639.683169313
+  },
+  {
+    "timestamp": "2018-09-14T00:00:00",
+    "adl": 4194171728.9328713,
+    "moneyFlowMultiplier": 0.3870967741935602,
+    "moneyFlowVolume": 21950717.419355508
+  },
+  {
+    "timestamp": "2018-09-17T00:00:00",
+    "adl": 4147595643.9890523,
+    "moneyFlowMultiplier": -0.6629213483145888,
+    "moneyFlowVolume": -46576084.943818964
+  },
+  {
+    "timestamp": "2018-09-18T00:00:00",
+    "adl": 4169280110.324076,
+    "moneyFlowMultiplier": 0.34010152284261413,
+    "moneyFlowVolume": 21684466.335023757
+  },
+  {
+    "timestamp": "2018-09-19T00:00:00",
+    "adl": 4165118850.465253,
+    "moneyFlowMultiplier": -0.08235294117646587,
+    "moneyFlowVolume": -4161259.858823291
+  },
+  {
+    "timestamp": "2018-09-20T00:00:00",
+    "adl": 4240941896.001377,
+    "moneyFlowMultiplier": 0.733840304182535,
+    "moneyFlowVolume": 75823045.5361243
+  },
+  {
+    "timestamp": "2018-09-21T00:00:00",
+    "adl": 4161038531.4796305,
+    "moneyFlowMultiplier": -0.7391304347826804,
+    "moneyFlowVolume": -79903364.52174687
+  },
+  {
+    "timestamp": "2018-09-24T00:00:00",
+    "adl": 4169000532.934174,
+    "moneyFlowMultiplier": 0.1454545454545135,
+    "moneyFlowVolume": 7962001.454543705
+  },
+  {
+    "timestamp": "2018-09-25T00:00:00",
+    "adl": 4144268950.478033,
+    "moneyFlowMultiplier": -0.5438596491228175,
+    "moneyFlowVolume": -24731582.456140827
+  },
+  {
+    "timestamp": "2018-09-26T00:00:00",
+    "adl": 4089786267.811365,
+    "moneyFlowMultiplier": -0.6666666666666804,
+    "moneyFlowVolume": -54482682.66666779
+  },
+  {
+    "timestamp": "2018-09-27T00:00:00",
+    "adl": 4068394895.3568196,
+    "moneyFlowMultiplier": -0.3522727272727317,
+    "moneyFlowVolume": -21391372.45454572
+  },
+  {
+    "timestamp": "2018-09-28T00:00:00",
+    "adl": 4079446531.0491304,
+    "moneyFlowMultiplier": 0.1538461538461942,
+    "moneyFlowVolume": 11051635.692310592
+  },
+  {
+    "timestamp": "2018-10-01T00:00:00",
+    "adl": 4065122850.127662,
+    "moneyFlowMultiplier": -0.22513089005239312,
+    "moneyFlowVolume": -14323680.921468329
+  },
+  {
+    "timestamp": "2018-10-02T00:00:00",
+    "adl": 4050063457.119261,
+    "moneyFlowMultiplier": -0.3109243697478558,
+    "moneyFlowVolume": -15059393.008401262
+  },
+  {
+    "timestamp": "2018-10-03T00:00:00",
+    "adl": 4011866276.4670863,
+    "moneyFlowMultiplier": -0.5760869565217482,
+    "moneyFlowVolume": -38197180.65217452
+  },
+  {
+    "timestamp": "2018-10-04T00:00:00",
+    "adl": 4010883567.8596373,
+    "moneyFlowMultiplier": -0.008595988538674108,
+    "moneyFlowVolume": -982708.6074489603
+  },
+  {
+    "timestamp": "2018-10-05T00:00:00",
+    "adl": 3988066270.2596364,
+    "moneyFlowMultiplier": -0.21012658227848896,
+    "moneyFlowVolume": -22817297.600000862
+  },
+  {
+    "timestamp": "2018-10-08T00:00:00",
+    "adl": 4051523248.2520866,
+    "moneyFlowMultiplier": 0.7056603773584618,
+    "moneyFlowVolume": 63456977.99245024
+  },
+  {
+    "timestamp": "2018-10-09T00:00:00",
+    "adl": 4020898286.997185,
+    "moneyFlowMultiplier": -0.4019607843137181,
+    "moneyFlowVolume": -30624961.254901398
+  },
+  {
+    "timestamp": "2018-10-10T00:00:00",
+    "adl": 3821307281.648719,
+    "moneyFlowMultiplier": -0.9069239500567481,
+    "moneyFlowVolume": -199591005.34846643
+  },
+  {
+    "timestamp": "2018-10-11T00:00:00",
+    "adl": 3658656525.3461976,
+    "moneyFlowMultiplier": -0.5774309723889569,
+    "moneyFlowVolume": -162650756.30252138
+  },
+  {
+    "timestamp": "2018-10-12T00:00:00",
+    "adl": 3755794234.424458,
+    "moneyFlowMultiplier": 0.5173913043478225,
+    "moneyFlowVolume": 97137709.0782602
+  },
+  {
+    "timestamp": "2018-10-15T00:00:00",
+    "adl": 3658836480.686632,
+    "moneyFlowMultiplier": -0.9250936329587849,
+    "moneyFlowVolume": -96957753.73782597
+  },
+  {
+    "timestamp": "2018-10-16T00:00:00",
+    "adl": 3758570161.101318,
+    "moneyFlowMultiplier": 0.8228941684665118,
+    "moneyFlowVolume": 99733680.4146855
+  },
+  {
+    "timestamp": "2018-10-17T00:00:00",
+    "adl": 3827893291.752746,
+    "moneyFlowMultiplier": 0.6114285714285675,
+    "moneyFlowVolume": 69323130.65142813
+  },
+  {
+    "timestamp": "2018-10-18T00:00:00",
+    "adl": 3767524787.784874,
+    "moneyFlowMultiplier": -0.43775100401606903,
+    "moneyFlowVolume": -60368503.96787214
+  },
+  {
+    "timestamp": "2018-10-19T00:00:00",
+    "adl": 3682415011.870439,
+    "moneyFlowMultiplier": -0.5935828877005103,
+    "moneyFlowVolume": -85109775.91443498
+  },
+  {
+    "timestamp": "2018-10-22T00:00:00",
+    "adl": 3631969585.759327,
+    "moneyFlowMultiplier": -0.5972222222222326,
+    "moneyFlowVolume": -50445426.11111199
+  },
+  {
+    "timestamp": "2018-10-23T00:00:00",
+    "adl": 3721573652.011375,
+    "moneyFlowMultiplier": 0.5973813420622067,
+    "moneyFlowVolume": 89604066.25204787
+  },
+  {
+    "timestamp": "2018-10-24T00:00:00",
+    "adl": 3564491772.300968,
+    "moneyFlowMultiplier": -0.8619909502262417,
+    "moneyFlowVolume": -157081879.71040675
+  },
+  {
+    "timestamp": "2018-10-25T00:00:00",
+    "adl": 3618073450.7715564,
+    "moneyFlowMultiplier": 0.3786764705882359,
+    "moneyFlowVolume": 53581678.47058832
+  },
+  {
+    "timestamp": "2018-10-26T00:00:00",
+    "adl": 3555853148.3150854,
+    "moneyFlowMultiplier": -0.3011764705882379,
+    "moneyFlowVolume": -62220302.45647112
+  },
+  {
+    "timestamp": "2018-10-29T00:00:00",
+    "adl": 3518033829.7574496,
+    "moneyFlowMultiplier": -0.22955665024630653,
+    "moneyFlowVolume": -37819318.55763565
+  },
+  {
+    "timestamp": "2018-10-30T00:00:00",
+    "adl": 3656621684.183677,
+    "moneyFlowMultiplier": 0.8606557377049049,
+    "moneyFlowVolume": 138587854.4262274
+  },
+  {
+    "timestamp": "2018-10-31T00:00:00",
+    "adl": 3568385628.6047297,
+    "moneyFlowMultiplier": -0.6710526315789496,
+    "moneyFlowVolume": -88236055.57894766
+  },
+  {
+    "timestamp": "2018-11-01T00:00:00",
+    "adl": 3657259442.9166574,
+    "moneyFlowMultiplier": 0.8715596330275347,
+    "moneyFlowVolume": 88873814.31192781
+  },
+  {
+    "timestamp": "2018-11-02T00:00:00",
+    "adl": 3634220830.4012313,
+    "moneyFlowMultiplier": -0.1833030852994542,
+    "moneyFlowVolume": -23038612.515426327
+  },
+  {
+    "timestamp": "2018-11-05T00:00:00",
+    "adl": 3669917991.0166154,
+    "moneyFlowMultiplier": 0.5307692307692243,
+    "moneyFlowVolume": 35697160.615384184
+  },
+  {
+    "timestamp": "2018-11-06T00:00:00",
+    "adl": 3720414535.656615,
+    "moneyFlowMultiplier": 0.8199999999999932,
+    "moneyFlowVolume": 50496544.63999958
+  },
+  {
+    "timestamp": "2018-11-07T00:00:00",
+    "adl": 3821425324.228044,
+    "moneyFlowMultiplier": 0.9591836734693955,
+    "moneyFlowVolume": 101010788.57142939
+  },
+  {
+    "timestamp": "2018-11-08T00:00:00",
+    "adl": 3840383962.9972754,
+    "moneyFlowMultiplier": 0.28205128205128954,
+    "moneyFlowVolume": 18958638.76923127
+  },
+  {
+    "timestamp": "2018-11-09T00:00:00",
+    "adl": 3844109671.9738626,
+    "moneyFlowMultiplier": 0.036789297658849016,
+    "moneyFlowVolume": 3725708.976587225
+  },
+  {
+    "timestamp": "2018-11-12T00:00:00",
+    "adl": 3763421440.7093225,
+    "moneyFlowMultiplier": -0.7898686679174491,
+    "moneyFlowVolume": -80688231.26454042
+  },
+  {
+    "timestamp": "2018-11-13T00:00:00",
+    "adl": 3702746203.724396,
+    "moneyFlowMultiplier": -0.6030150753768988,
+    "moneyFlowVolume": -60675236.98492607
+  },
+  {
+    "timestamp": "2018-11-14T00:00:00",
+    "adl": 3647388741.761001,
+    "moneyFlowMultiplier": -0.43094841930117067,
+    "moneyFlowVolume": -55357461.963395104
+  },
+  {
+    "timestamp": "2018-11-15T00:00:00",
+    "adl": 3763680682.2319593,
+    "moneyFlowMultiplier": 0.8398744113029857,
+    "moneyFlowVolume": 116291940.47095802
+  },
+  {
+    "timestamp": "2018-11-16T00:00:00",
+    "adl": 3818460310.948722,
+    "moneyFlowMultiplier": 0.4219653179190717,
+    "moneyFlowVolume": 54779628.71676256
+  },
+  {
+    "timestamp": "2018-11-19T00:00:00",
+    "adl": 3754024109.1881037,
+    "moneyFlowMultiplier": -0.610038610038614,
+    "moneyFlowVolume": -64436201.76061818
+  },
+  {
+    "timestamp": "2018-11-20T00:00:00",
+    "adl": 3685062511.7412944,
+    "moneyFlowMultiplier": -0.49468085106383464,
+    "moneyFlowVolume": -68961597.44680919
+  },
+  {
+    "timestamp": "2018-11-21T00:00:00",
+    "adl": 3607618343.7412944,
+    "moneyFlowMultiplier": -1,
+    "moneyFlowVolume": -77444168
+  },
+  {
+    "timestamp": "2018-11-23T00:00:00",
+    "adl": 3572981632.1623473,
+    "moneyFlowMultiplier": -0.7894736842105158,
+    "moneyFlowVolume": -34636711.5789469
+  },
+  {
+    "timestamp": "2018-11-26T00:00:00",
+    "adl": 3637512566.970858,
+    "moneyFlowMultiplier": 0.7872340425531935,
+    "moneyFlowVolume": 64530934.8085108
+  },
+  {
+    "timestamp": "2018-11-27T00:00:00",
+    "adl": 3714893910.970858,
+    "moneyFlowMultiplier": 1,
+    "moneyFlowVolume": 77381344
+  },
+  {
+    "timestamp": "2018-11-28T00:00:00",
+    "adl": 3845699654.970858,
+    "moneyFlowMultiplier": 1,
+    "moneyFlowVolume": 130805744
+  },
+  {
+    "timestamp": "2018-11-29T00:00:00",
+    "adl": 3845144420.497173,
+    "moneyFlowMultiplier": -0.0065789473684337236,
+    "moneyFlowVolume": -555234.47368528
+  },
+  {
+    "timestamp": "2018-11-30T00:00:00",
+    "adl": 3901303105.018911,
+    "moneyFlowMultiplier": 0.5579710144927423,
+    "moneyFlowVolume": 56158684.52173799
+  },
+  {
+    "timestamp": "2018-12-03T00:00:00",
+    "adl": 3926762438.125294,
+    "moneyFlowMultiplier": 0.24113475177305266,
+    "moneyFlowVolume": 25459333.106383298
+  },
+  {
+    "timestamp": "2018-12-04T00:00:00",
+    "adl": 3758555937.9649267,
+    "moneyFlowMultiplier": -0.9221076746849997,
+    "moneyFlowVolume": -168206500.16036755
+  },
+  {
+    "timestamp": "2018-12-06T00:00:00",
+    "adl": 3960980072.024872,
+    "moneyFlowMultiplier": 0.9673024523160751,
+    "moneyFlowVolume": 202424134.05994526
+  },
+  {
+    "timestamp": "2018-12-07T00:00:00",
+    "adl": 3832188947.748023,
+    "moneyFlowMultiplier": -0.7804295942720725,
+    "moneyFlowVolume": -128791124.276849
+  },
+  {
+    "timestamp": "2018-12-10T00:00:00",
+    "adl": 3935827584.5379915,
+    "moneyFlowMultiplier": 0.667711598746082,
+    "moneyFlowVolume": 103638636.78996873
+  },
+  {
+    "timestamp": "2018-12-11T00:00:00",
+    "adl": 3887531510.682479,
+    "moneyFlowMultiplier": -0.38783269961976563,
+    "moneyFlowVolume": -48296073.85551253
+  },
+  {
+    "timestamp": "2018-12-12T00:00:00",
+    "adl": 3791655148.6937776,
+    "moneyFlowMultiplier": -0.954802259887015,
+    "moneyFlowVolume": -95876361.98870149
+  },
+  {
+    "timestamp": "2018-12-13T00:00:00",
+    "adl": 3766284024.3035345,
+    "moneyFlowMultiplier": -0.2560975609755998,
+    "moneyFlowVolume": -25371124.39024292
+  },
+  {
+    "timestamp": "2018-12-14T00:00:00",
+    "adl": 3682256321.44079,
+    "moneyFlowMultiplier": -0.7009803921568569,
+    "moneyFlowVolume": -84027702.8627444
+  },
+  {
+    "timestamp": "2018-12-17T00:00:00",
+    "adl": 3600013487.622085,
+    "moneyFlowMultiplier": -0.4848920863309367,
+    "moneyFlowVolume": -82242833.81870529
+  },
+  {
+    "timestamp": "2018-12-18T00:00:00",
+    "adl": 3568571153.0255933,
+    "moneyFlowMultiplier": -0.22807017543860086,
+    "moneyFlowVolume": -31442334.596491832
+  },
+  {
+    "timestamp": "2018-12-19T00:00:00",
+    "adl": 3431868601.776613,
+    "moneyFlowMultiplier": -0.6204081632653085,
+    "moneyFlowVolume": -136702551.2489801
+  },
+  {
+    "timestamp": "2018-12-20T00:00:00",
+    "adl": 3360449113.6824946,
+    "moneyFlowMultiplier": -0.2764705882352983,
+    "moneyFlowVolume": -71419488.09411873
+  },
+  {
+    "timestamp": "2018-12-21T00:00:00",
+    "adl": 3138955386.8720226,
+    "moneyFlowMultiplier": -0.8513089005235642,
+    "moneyFlowVolume": -221493726.81047225
+  },
+  {
+    "timestamp": "2018-12-24T00:00:00",
+    "adl": 2992117741.6546326,
+    "moneyFlowMultiplier": -0.9782608695652107,
+    "moneyFlowVolume": -146837645.2173903
+  },
+  {
+    "timestamp": "2018-12-26T00:00:00",
+    "adl": 3214739789.6546326,
+    "moneyFlowMultiplier": 1,
+    "moneyFlowVolume": 222622048
+  },
+  {
+    "timestamp": "2018-12-27T00:00:00",
+    "adl": 3395417077.759436,
+    "moneyFlowMultiplier": 0.9519650655021836,
+    "moneyFlowVolume": 180677288.10480353
+  },
+  {
+    "timestamp": "2018-12-28T00:00:00",
+    "adl": 3321590432.162729,
+    "moneyFlowMultiplier": -0.4732510288065823,
+    "moneyFlowVolume": -73826645.5967075
+  },
+  {
+    "timestamp": "2018-12-31T00:00:00",
+    "adl": 3439986548.4174113,
+    "moneyFlowMultiplier": 0.8052434456928897,
+    "moneyFlowVolume": 118396116.25468251
+  }
+]
