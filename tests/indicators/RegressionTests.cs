@@ -12,8 +12,7 @@ namespace Tests.Indicators;
 [TestClass]
 public class RegressionTests : TestBase
 {
-    private static readonly JsonSerializerOptions JsonOptions = new()
-    {
+    private static readonly JsonSerializerOptions JsonOptions = new() {
         PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
         PropertyNameCaseInsensitive = true
     };
