@@ -31,7 +31,7 @@ These instructions apply to all files in the `src/` and `tests/` folders and cov
 - Run `dotnet restore` (or the **Restore: .NET Packages** task).
 - Run `dotnet format` to auto-correct stylistic issues.
 - Run `npm run lint:md:fix` whenever documentation changed.
-- If tooling changed, rerun `npm install` so markdown tooling stays in sync.
+- If tooling changed, delete `package-lock.json` and `node_modules/`, then run `npm install` to regenerate the lock file.
 
 ### Step 2 – Formatting and analyzer checks
 
