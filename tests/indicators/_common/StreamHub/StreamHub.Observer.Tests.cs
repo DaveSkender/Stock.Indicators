@@ -16,14 +16,14 @@ public class StreamObservers : TestBase
 
         length.Should().Be(qtyQuotes); // check rando
 
-        QuoteHub<Quote> provider = new();
+        QuoteHub<Quote> quoteHub = new();
 
-        QuotePartHub<Quote> observer = provider
-            .ToQuotePart(CandlePart.Close);
+        QuotePartHub<Quote> observer = quoteHub
+            .ToQuotePartHub(CandlePart.Close);
 
         for (int i = 0; i < length; i++)
         {
-            provider.Add(quotesList[i]);
+            quoteHub.Add(quotesList[i]);
         }
 
         // original results
@@ -33,7 +33,7 @@ public class StreamObservers : TestBase
         Quote q1000original = quotesList[1000] with { /* copy */ };
         QuotePart r1000original = observer.Cache[1000] with { /* copy */ };
 
-        // modify results (keeping provider intact)
+        // modify results (keeping quoteHub intact)
         Quote q1000modified = quotesList[1000] with { Close = 12345m };
         QuotePart r1000modified = q1000modified.ToQuotePart(CandlePart.Close);
 
@@ -42,7 +42,7 @@ public class StreamObservers : TestBase
         IReadOnlyList<QuotePart> modified = observer.Results.ToList();
 
         // precondition: prefilled, modified
-        provider.Cache.Should().HaveCount(length);
+        quoteHub.Cache.Should().HaveCount(length);
         observer.Cache.Should().HaveCount(length + 1);
 
         observer.Cache[1000].Value.Should().Be(12345);

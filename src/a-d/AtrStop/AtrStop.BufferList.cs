@@ -70,7 +70,7 @@ public class AtrStopList : BufferList<AtrStopResult>, IBufferList, IAtrStop
 
         // Add to ATR list to get ATR calculation
         _atrList.Add(quote);
-        AtrResult atrResult = _atrList[_atrList.Count - 1];
+        AtrResult atrResult = _atrList[^1];
 
         // Handle warmup periods - need LookbackPeriods values for initial ATR
         if (_atrList.Count < LookbackPeriods + 1)

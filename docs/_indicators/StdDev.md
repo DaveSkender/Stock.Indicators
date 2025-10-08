@@ -17,11 +17,11 @@ layout: indicator
 ```csharp
 // C# usage syntax
 IReadOnlyList<StdDevResult> results =
-  quotes.GetStdDev(lookbackPeriods);
+  quotes.ToStdDev(lookbackPeriods);
 
 // usage with optional SMA of SD (shown above)
 IReadOnlyList<StdDevResult> results =
-  quotes.GetStdDev(lookbackPeriods, smaPeriods);
+  quotes.ToStdDev(lookbackPeriods, smaPeriods);
 ```
 
 ## Parameters
@@ -72,7 +72,7 @@ This indicator may be generated from any chain-enabled indicator or method.
 // example
 var results = quotes
     .Use(CandlePart.HL2)
-    .GetStdDev(..);
+    .ToStdDev(..);
 ```
 
 Results can be further processed on `StdDev` with additional chain-enabled indicators.
@@ -80,6 +80,6 @@ Results can be further processed on `StdDev` with additional chain-enabled indic
 ```csharp
 // example
 var results = quotes
-    .GetStdDev(..)
-    .GetSlope(..);
+    .ToStdDev(..)
+    .ToSlope(..);
 ```

@@ -20,7 +20,7 @@ public class ChaikinOscList : BufferList<ChaikinOscResult>, IBufferList, IChaiki
         FastPeriods = fastPeriods;
         SlowPeriods = slowPeriods;
 
-        _adlList = new AdlList();
+        _adlList = [];
         _fastEmaList = new EmaList(fastPeriods);
         _slowEmaList = new EmaList(slowPeriods);
     }

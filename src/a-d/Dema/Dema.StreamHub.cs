@@ -6,7 +6,7 @@ namespace Skender.Stock.Indicators;
 public static partial class Dema
 {
     /// <summary>
-    /// Creates a DEMA hub from a chain provider.
+    /// Creates a DEMA streaming hub from a chain provider.
     /// </summary>
     /// <typeparam name="T">The type of the reusable data.</typeparam>
     /// <param name="chainProvider">The chain provider.</param>
@@ -14,7 +14,7 @@ public static partial class Dema
     /// <returns>A DEMA hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the chain provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
-    public static DemaHub<T> ToDema<T>(
+    public static DemaHub<T> ToDemaHub<T>(
         this IChainProvider<T> chainProvider,
         int lookbackPeriods = 14)
         where T : IReusable
@@ -22,7 +22,7 @@ public static partial class Dema
 }
 
 /// <summary>
-/// Represents a hub for Double Exponential Moving Average (DEMA) calculations.
+/// Streaming hub for Double Exponential Moving Average (DEMA) calculations.
 /// </summary>
 /// <typeparam name="TIn">The type of the input data.</typeparam>
 public class DemaHub<TIn>

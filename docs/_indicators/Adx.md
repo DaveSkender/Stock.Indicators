@@ -17,7 +17,7 @@ Created by J. Welles Wilder, the Directional Movement Index (DMI) and [Average D
 ```csharp
 // C# usage syntax
 IReadOnlyList<AdxResult> results =
-  quotes.GetAdx(lookbackPeriods);
+  quotes.ToAdx(lookbackPeriods);
 ```
 
 ## Parameters
@@ -71,8 +71,8 @@ Results can be further processed on `Adx` with additional chain-enabled indicato
 ```csharp
 // example
 var results = quotes
-    .GetAdx(..)
-    .GetRsi(..);
+    .ToAdx(..)
+    .ToRsi(..);
 ```
 
 This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.
@@ -89,19 +89,19 @@ foreach (IQuote quote in quotes)  // simulating stream
   adxList.Add(quote);
 }
 
-// based on `List<AdxResult>`
+// based on `ICollection<AdxResult>`
 IReadOnlyList<AdxResult> results = adxList;
 ```
 
 Subscribe to a `QuoteHub` for advanced streaming scenarios:
 
 ```csharp
-QuoteHub<Quote> provider = new();
-AdxHub<Quote> observer = provider.ToAdx(lookbackPeriods);
+QuoteHub<Quote> quoteHub = new();
+AdxHub<Quote> observer = quoteHub.ToAdx(lookbackPeriods);
 
 foreach (Quote quote in quotes)  // simulating stream
 {
-  provider.Add(quote);
+  quoteHub.Add(quote);
 }
 
 IReadOnlyList<AdxResult> results = observer.Results;

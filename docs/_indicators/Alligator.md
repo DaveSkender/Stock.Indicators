@@ -17,7 +17,7 @@ Created by Bill Williams, Alligator is a depiction of three smoothed moving aver
 ```csharp
 // C# usage syntax
 IReadOnlyList<AlligatorResult> results =
-  quotes.GetAlligator(jawPeriods,jawOffset,teethPeriods,teethOffset,lipsPeriods,lipsOffset);
+  quotes.ToAlligator(jawPeriods,jawOffset,teethPeriods,teethOffset,lipsPeriods,lipsOffset);
 ```
 
 ## Parameters
@@ -80,7 +80,7 @@ This indicator may be generated from any chain-enabled indicator or method.
 // example
 var results = quotes
     .Use(CandlePart.HL2)
-    .GetAlligator();
+    .ToAlligator();
 ```
 
 Results **cannot** be further chained with additional transforms.
@@ -90,12 +90,12 @@ Results **cannot** be further chained with additional transforms.
 Subscribe to a `QuoteHub` for streaming scenarios:
 
 ```csharp
-QuoteHub<Quote> provider = new();
-AlligatorHub<Quote> observer = provider.ToAlligator();
+QuoteHub<Quote> quoteHub = new();
+AlligatorHub<Quote> observer = quoteHub.ToAlligator();
 
 foreach (Quote quote in quotes)  // simulating stream
 {
-  provider.Add(quote);
+  quoteHub.Add(quote);
 }
 
 IReadOnlyList<AlligatorResult> results = observer.Results;

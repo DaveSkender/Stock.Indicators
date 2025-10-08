@@ -17,7 +17,7 @@ Created by Peter Martin, the [Ulcer Index](https://en.wikipedia.org/wiki/Ulcer_i
 ```csharp
 // C# usage syntax
 IReadOnlyList<UlcerIndexResult> results =
-  quotes.GetUlcerIndex(lookbackPeriods);
+  quotes.ToUlcerIndex(lookbackPeriods);
 ```
 
 ## Parameters
@@ -64,7 +64,7 @@ This indicator may be generated from any chain-enabled indicator or method.
 // example
 var results = quotes
     .Use(CandlePart.HL2)
-    .GetAlma(..);
+    .ToAlma(..);
 ```
 
 Results can be further processed on `UI` with additional chain-enabled indicators.
@@ -72,6 +72,6 @@ Results can be further processed on `UI` with additional chain-enabled indicator
 ```csharp
 // example
 var results = quotes
-    .GetAlma(..)
-    .GetRsi(..);
+    .ToAlma(..)
+    .ToRsi(..);
 ```

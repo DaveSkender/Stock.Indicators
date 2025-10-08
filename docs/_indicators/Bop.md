@@ -17,7 +17,7 @@ Created by Igor Levshin, the [Balance of Power](https://school.stockcharts.com/d
 ```csharp
 // C# usage syntax
 IReadOnlyList<BopResult> results =
-  quotes.GetBop(smoothPeriods);
+  quotes.ToBop(smoothPeriods);
 ```
 
 ## Parameters
@@ -63,8 +63,8 @@ Results can be further processed on `Bop` with additional chain-enabled indicato
 ```csharp
 // example
 var results = quotes
-    .GetBop(..)
-    .GetSlope(..);
+    .ToBop(..)
+    .ToSlope(..);
 ```
 
 This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.

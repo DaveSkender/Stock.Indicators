@@ -17,7 +17,7 @@ layout: indicator
 ```csharp
 // C# usage syntax
 IReadOnlyList<BetaResult> results = quotesEval
-  .GetBeta(quotesMarket, lookbackPeriods, type);
+  .ToBeta(quotesMarket, lookbackPeriods, type);
 ```
 
 ## Parameters
@@ -94,7 +94,7 @@ This indicator may be generated from any chain-enabled indicator or method.
 // example
 var results = quotesEval
     .Use(CandlePart.HL2)
-    .GetBeta(quotesMarket.Use(CandlePart.HL2), ..);
+    .ToBeta(quotesMarket.Use(CandlePart.HL2), ..);
 ```
 
 > &#128681; **Warning!** Both eval and market arguments must contain the same number of elements and be the results of a chainable indicator or `.Use()` method.
@@ -104,6 +104,6 @@ Results can be further processed on `Beta` with additional chain-enabled indicat
 ```csharp
 // example
 var results = quotesEval
-    .GetBeta(quotesMarket, ..)
-    .GetSlope(..);
+    .ToBeta(quotesMarket, ..)
+    .ToSlope(..);
 ```

@@ -17,7 +17,7 @@ layout: indicator
 ```csharp
 // C# usage syntax (with Close price)
 IReadOnlyList<WmaResult> results =
-  quotes.GetWma(lookbackPeriods);
+  quotes.ToWma(lookbackPeriods);
 ```
 
 ## Parameters
@@ -64,7 +64,7 @@ This indicator may be generated from any chain-enabled indicator or method.
 // example
 var results = quotes
     .Use(CandlePart.HL2)
-    .GetWma(..);
+    .ToWma(..);
 ```
 
 Results can be further processed on `Wma` with additional chain-enabled indicators.
@@ -72,8 +72,8 @@ Results can be further processed on `Wma` with additional chain-enabled indicato
 ```csharp
 // example
 var results = quotes
-    .GetWma(..)
-    .GetRsi(..);
+    .ToWma(..)
+    .ToRsi(..);
 ```
 
 ## Streaming
@@ -85,22 +85,22 @@ WmaList wmaList = new(lookbackPeriods);
 
 foreach (IQuote quote in quotes)  // simulating stream
 {
-  provider.Add(quote);
+  quoteHub.Add(quote);
 }
 
-// based on `List<WmaResult>`
+// based on `ICollection<WmaResult>`
 IReadOnlyList<WmaResult> results = wmaList;
 ```
 
 Subscribe to a `QuoteHub` for advanced streaming scenarios:
 
 ```csharp
-QuoteHub<Quote> provider = new();
-WmaHub<Quote> observer = provider.ToWma(lookbackPeriods);
+QuoteHub<Quote> quoteHub = new();
+WmaHub<Quote> observer = quoteHub.ToWma(lookbackPeriods);
 
 foreach (Quote quote in quotes)  // simulating stream
 {
-  provider.Add(quote);
+  quoteHub.Add(quote);
 }
 
 IReadOnlyList<WmaResult> results = observer.Results;

@@ -20,7 +20,7 @@ IReadOnlyList<QuotePart> results =
 
 // alternate syntax
 IReadOnlyList<QuotePart> results =
-  quotes.GetQuotePart(candlePart);
+  quotes.ToQuotePart(candlePart);
 ```
 
 ## Parameters
@@ -65,7 +65,7 @@ Results can be further processed on `Value` with additional chain-enabled indica
 // example
 var results = quotes
     .Use(CandlePart.OHLC4)
-    .GetRsi(..);
+    .ToRsi(..);
 ```
 
 This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.
@@ -75,12 +75,12 @@ This indicator must be generated from `quotes` and **cannot** be generated from 
 Subscribe to a `QuoteHub` for streaming scenarios:
 
 ```csharp
-QuoteHub<Quote> provider = new();
-QuotePartHub<Quote> observer = provider.ToQuotePart(CandlePart.HL2);
+QuoteHub<Quote> quoteHub = new();
+QuotePartHub<Quote> observer = quoteHub.ToQuotePart(CandlePart.HL2);
 
 foreach (Quote quote in quotes)  // simulating stream
 {
-  provider.Add(quote);
+  quoteHub.Add(quote);
 }
 
 IReadOnlyList<QuotePart> results = observer.Results;

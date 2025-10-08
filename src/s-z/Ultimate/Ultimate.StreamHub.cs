@@ -11,7 +11,7 @@ public static partial class Ultimate
     /// <param name="middlePeriods">The number of middle lookback periods. Default is 14.</param>
     /// <param name="longPeriods">The number of long lookback periods. Default is 28.</param>
     /// <returns>An instance of <see cref="UltimateHub{TIn}"/>.</returns>
-    public static UltimateHub<TIn> ToUltimate<TIn>(
+    public static UltimateHub<TIn> ToUltimateHub<TIn>(
         this IQuoteProvider<TIn> quoteProvider,
         int shortPeriods = 7,
         int middlePeriods = 14,
@@ -21,7 +21,7 @@ public static partial class Ultimate
 }
 
 /// <summary>
-/// Represents a hub for calculating the Ultimate Oscillator indicator.
+/// Streaming hub for calculating the Ultimate Oscillator indicator.
 /// </summary>
 /// <typeparam name="TIn">The type of the input quote.</typeparam>
 public class UltimateHub<TIn>

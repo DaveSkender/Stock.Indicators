@@ -66,7 +66,7 @@ public object ToMyIndicator() => quotes.ToMyIndicator(14);
 
 ```csharp
 [Benchmark]
-public object MyIndicatorHub() => provider.ToMyIndicator(14).Results;
+public object MyIndicatorHub() => quoteHub.ToMyIndicator(14).Results;
 ```
 
 ### Pattern for buffer indicators
@@ -92,7 +92,7 @@ public MyIndicatorList MyIndicatorBuffer()
 
 [Benchmark]
 public IReadOnlyList<MyResult> MyIndicatorStream()
-    => provider.ToMyIndicator(14).Results;
+    => quoteHub.ToMyIndicator(14).Results;
 ```
 
 ## Benchmark configuration
@@ -253,4 +253,4 @@ ls -la BenchmarkDotNet.Artifacts/results/
 
 ---
 
-Last updated: October 1, 2025
+Last updated: October 8, 2025

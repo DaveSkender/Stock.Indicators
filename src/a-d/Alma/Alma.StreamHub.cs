@@ -6,7 +6,7 @@ namespace Skender.Stock.Indicators;
 public static partial class Alma
 {
     /// <summary>
-    /// Creates an ALMA hub from a chain provider.
+    /// Creates an ALMA streaming hub from a chain provider.
     /// </summary>
     /// <typeparam name="T">The type of the reusable data.</typeparam>
     /// <param name="chainProvider">The chain provider.</param>
@@ -16,7 +16,7 @@ public static partial class Alma
     /// <returns>An ALMA hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the chain provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the parameters are invalid.</exception>
-    public static AlmaHub<T> ToAlma<T>(
+    public static AlmaHub<T> ToAlmaHub<T>(
         this IChainProvider<T> chainProvider,
         int lookbackPeriods = 9,
         double offset = 0.85,
@@ -26,7 +26,7 @@ public static partial class Alma
 }
 
 /// <summary>
-/// Represents a hub for Arnaud Legoux Moving Average (ALMA) calculations.
+/// Streaming hub for Arnaud Legoux Moving Average (ALMA) calculations.
 /// </summary>
 /// <typeparam name="TIn">The type of the input data.</typeparam>
 public class AlmaHub<TIn>

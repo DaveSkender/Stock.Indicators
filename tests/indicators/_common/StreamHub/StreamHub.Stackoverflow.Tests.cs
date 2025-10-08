@@ -14,28 +14,28 @@ public class Stackoverflow : TestBase
         // setup: many random quotes (massive)
         IReadOnlyList<Quote> quotesList = Data.GetRandom(qtyQuotes);
 
-        QuoteHub<Quote> provider = new();
+        QuoteHub<Quote> quoteHub = new();
 
         // setup: define ~10 subscribers (flat)
         List<(string label, IReadOnlyList<ISeries> results, bool irregular)> subscribers =
         [
-            HubRef(provider.ToAdl()),
-            HubRef(provider.ToEma(14))
+            HubRef(quoteHub.ToAdlHub()),
+            HubRef(quoteHub.ToEmaHub(14))
         ];
 
         // all USEs
         foreach (CandlePart candlePart in Enum.GetValues<CandlePart>())
         {
-            subscribers.Add(HubRef(provider.ToQuotePart(candlePart)));
+            subscribers.Add(HubRef(quoteHub.ToQuotePartHub(candlePart)));
         }
 
         // act: add quotes
         for (int i = 0; i < qtyQuotes; i++)
         {
-            provider.Add(quotesList[i]);
+            quoteHub.Add(quotesList[i]);
         }
 
-        subscribers.Insert(0, new(provider.ToString(), provider.Quotes, false));
+        subscribers.Insert(0, new(quoteHub.ToString(), quoteHub.Quotes, false));
 
         // assert: this just has to not fail, really
 
@@ -61,11 +61,11 @@ public class Stackoverflow : TestBase
             r.Timestamp.Should().Be(q.Timestamp);
         }
 
-        // act: clear provider cache (cascades to subscribers)
+        // act: clear quoteHub cache (cascades to subscribers)
         int cutoff = qtyQuotes / 2;
-        provider.RemoveRange(cutoff, notify: true);
+        quoteHub.RemoveRange(cutoff, notify: true);
 
-        provider.Quotes.Count.Should().Be(cutoff);
+        quoteHub.Quotes.Count.Should().Be(cutoff);
 
         Console.WriteLine("--------------------");
 
@@ -93,12 +93,12 @@ public class Stackoverflow : TestBase
         // setup: many random quotes (massive)
         IReadOnlyList<Quote> quotesList = Data.GetRandom(qtyQuotes);
 
-        QuoteHub<Quote> provider = new();
+        QuoteHub<Quote> quoteHub = new();
 
         // setup: subscribe a large chain depth
         List<(string label, IReadOnlyList<ISeries> results, bool irregular)> subscribers = new(chainDepth + 2);
 
-        SmaHub<Quote> init = provider.ToSma(1);
+        SmaHub<Quote> init = quoteHub.ToSma(1);
         SmaHub<SmaResult> sma = init.ToSma(2);
 
         subscribers.Add(HubRef(init));
@@ -118,10 +118,10 @@ public class Stackoverflow : TestBase
         // act: add quotes
         for (int i = 0; i < qtyQuotes; i++)
         {
-            provider.Add(quotesList[i]);
+            quoteHub.Add(quotesList[i]);
         }
 
-        subscribers.Insert(0, new(provider.ToString(), provider.Quotes, false));
+        subscribers.Insert(0, new(quoteHub.ToString(), quoteHub.Quotes, false));
 
         Console.WriteLine($"Subscribers: {subscribers.Count}");
         Console.WriteLine("--------------------");
@@ -147,11 +147,11 @@ public class Stackoverflow : TestBase
             r.Timestamp.Should().Be(q.Timestamp);
         }
 
-        // act: clear provider cache (cascades to subscribers)
+        // act: clear quoteHub cache (cascades to subscribers)
         int cutoff = qtyQuotes / 2;
-        provider.RemoveRange(cutoff, notify: true);
+        quoteHub.RemoveRange(cutoff, notify: true);
 
-        provider.Quotes.Count.Should().Be(cutoff);
+        quoteHub.Quotes.Count.Should().Be(cutoff);
 
         // assert: all have same count
         foreach ((string label, IReadOnlyList<ISeries> results, bool irregular) in subscribers)
@@ -168,7 +168,7 @@ public class Stackoverflow : TestBase
     public void ManySubscribers()
     {
         // goal: test that many indictors (all at once)
-        // can subscribe to the same quote provider
+        // can subscribe to the same quote quoteHub
         // without stack overflow; ~350 subscribers
 
         int qtyQuotes = 5000;
@@ -176,38 +176,38 @@ public class Stackoverflow : TestBase
         // setup: many random quotes
         IReadOnlyList<Quote> quotesList = Data.GetRandom(qtyQuotes);
 
-        QuoteHub<Quote> provider = new();
+        QuoteHub<Quote> quoteHub = new();
 
         // setup: define all possible subscribers
         // TODO: add to this as more Hubs come online
         List<(string label, IReadOnlyList<ISeries> results, bool irregular)> subscribers =
         [
-            HubRef(provider.ToAdl()),
-            HubRef(provider.ToAlligator()),
-            HubRef(provider.ToEma(14)),
-            //HubRef(provider.ToRenko(2.1m), irregular: true),
-            HubRef(provider.ToQuote())
+            HubRef(quoteHub.ToAdlHub()),
+            HubRef(quoteHub.ToAlligatorHub()),
+            HubRef(quoteHub.ToEmaHub(14)),
+            //HubRef(quoteHub.ToRenko(2.1m), irregular: true),
+            HubRef(quoteHub.ToQuoteHub())
         ];
 
         // all QuoteParts
         foreach (CandlePart candlePart in Enum.GetValues<CandlePart>())
         {
-            subscribers.Add(HubRef(provider.ToQuotePart(candlePart)));
+            subscribers.Add(HubRef(quoteHub.ToQuotePartHub(candlePart)));
         }
 
         // many SMAs
         for (int i = 1; i <= 300; i++)
         {
-            subscribers.Add(HubRef(provider.ToSma(i)));
+            subscribers.Add(HubRef(quoteHub.ToSma(i)));
         }
 
         // act: add quotes
         for (int i = 0; i < qtyQuotes; i++)
         {
-            provider.Add(quotesList[i]);
+            quoteHub.Add(quotesList[i]);
         }
 
-        subscribers.Insert(0, new(provider.ToString(), provider.Quotes, false));
+        subscribers.Insert(0, new(quoteHub.ToString(), quoteHub.Quotes, false));
 
         // assert: this just has to not fail, really
 
@@ -233,11 +233,11 @@ public class Stackoverflow : TestBase
             r.Timestamp.Should().Be(q.Timestamp);
         }
 
-        // act: clear provider cache (cascades to subscribers)
+        // act: clear quoteHub cache (cascades to subscribers)
         int cutoff = qtyQuotes / 2;
-        provider.RemoveRange(cutoff, notify: true);
+        quoteHub.RemoveRange(cutoff, notify: true);
 
-        provider.Quotes.Count.Should().Be(cutoff);
+        quoteHub.Quotes.Count.Should().Be(cutoff);
 
         Console.WriteLine("--------------------");
 

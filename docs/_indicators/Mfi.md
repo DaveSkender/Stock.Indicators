@@ -17,7 +17,7 @@ Created by Quong and Soudack, the [Money Flow Index](https://en.wikipedia.org/wi
 ```csharp
 // C# usage syntax
 IReadOnlyList<MfiResult> results =
-  quotes.GetMfi(lookbackPeriods);
+  quotes.ToMfi(lookbackPeriods);
 ```
 
 ## Parameters
@@ -63,8 +63,8 @@ Results can be further processed on `Mfi` with additional chain-enabled indicato
 ```csharp
 // example
 var results = quotes
-    .GetMfi(..)
-    .GetRsi(..);
+    .ToMfi(..)
+    .ToRsi(..);
 ```
 
 This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.

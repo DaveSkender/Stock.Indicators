@@ -18,7 +18,7 @@ public class CmfList : BufferList<CmfResult>, IBufferList, ICmf
         Cmf.Validate(lookbackPeriods);
         LookbackPeriods = lookbackPeriods;
 
-        _adlList = new AdlList();
+        _adlList = [];
         _volumeBuffer = new Queue<double>(lookbackPeriods);
         _mfvBuffer = new Queue<double?>(lookbackPeriods);
     }

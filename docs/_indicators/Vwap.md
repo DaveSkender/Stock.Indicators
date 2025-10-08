@@ -17,11 +17,11 @@ The [Volume Weighted Average Price](https://en.wikipedia.org/wiki/Volume-weighte
 ```csharp
 // C# usage syntax
 IReadOnlyList<VwapResult> results =
-  quotes.GetVwap();
+  quotes.ToVwap();
 
 // usage with optional anchored start date
 IReadOnlyList<VwapResult> results =
-  quotes.GetVwap(startDate);
+  quotes.ToVwap(startDate);
 ```
 
 ## Parameters
@@ -68,8 +68,8 @@ Results can be further processed on `Vwap` with additional chain-enabled indicat
 ```csharp
 // example
 var results = quotes
-    .GetVwap(..)
-    .GetRsi(..);
+    .ToVwap(..)
+    .ToRsi(..);
 ```
 
 This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.

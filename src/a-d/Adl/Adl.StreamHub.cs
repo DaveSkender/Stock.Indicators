@@ -11,14 +11,14 @@ public static partial class Adl
     /// <typeparam name="TIn">The type of the input quote.</typeparam>
     /// <param name="quoteProvider">The quote provider.</param>
     /// <returns>An instance of <see cref="AdlHub{TIn}"/>.</returns>
-    public static AdlHub<TIn> ToAdl<TIn>(
+    public static AdlHub<TIn> ToAdlHub<TIn>(
         this IQuoteProvider<TIn> quoteProvider)
         where TIn : IQuote
         => new(quoteProvider);
 }
 
 /// <summary>
-/// Represents a hub for the Accumulation/Distribution Line (ADL) indicator.
+/// Streaming hub for the Accumulation/Distribution Line (ADL) indicator.
 /// </summary>
 /// <typeparam name="TIn">The type of the input quote.</typeparam>
 public class AdlHub<TIn> : ChainProvider<TIn, AdlResult>

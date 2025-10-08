@@ -18,7 +18,7 @@ Created by William Blau, the [True Strength Index](https://en.wikipedia.org/wiki
 ```csharp
 // C# usage syntax
 IReadOnlyList<TsiResult> results =
-  quotes.GetTsi(lookbackPeriods, smoothPeriods, signalPeriods);
+  quotes.ToTsi(lookbackPeriods, smoothPeriods, signalPeriods);
 ```
 
 ## Parameters
@@ -74,7 +74,7 @@ This indicator may be generated from any chain-enabled indicator or method.
 // example
 var results = quotes
     .Use(CandlePart.HL2)
-    .GetTsi(..);
+    .ToTsi(..);
 ```
 
 Results can be further processed on `Tsi` with additional chain-enabled indicators.
@@ -82,6 +82,6 @@ Results can be further processed on `Tsi` with additional chain-enabled indicato
 ```csharp
 // example
 var results = quotes
-    .GetTsi(..)
-    .GetSlope(..);
+    .ToTsi(..)
+    .ToSlope(..);
 ```

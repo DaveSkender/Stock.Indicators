@@ -323,7 +323,7 @@ public sealed class [IndicatorName]StreamHub : IStreamingIndicator<Quote, [Indic
 **Inheritance patterns**:
 
 - BufferList implementations inherit from `BufferList<TResult>` base class
-- StreamHub implementations extend `ChainProvider<TIn, TResult>` or `QuoteProvider<TIn, TResult>`
+- StreamHub implementations extend `ChainProvider<TIn, TResult>` or less commonly `QuoteProvider<TIn, TResult>`
 
 Refer to `.github/instructions/buffer-indicators.instructions.md` and `.github/instructions/stream-indicators.instructions.md` for complete details.
 
@@ -349,47 +349,11 @@ Refer to `.github/instructions/buffer-indicators.instructions.md` and `.github/i
 
 ## Testing entities
 
-### Streaming parity test fixture
-
-**Purpose**: Validate streaming output matches batch calculation
-
-**Pattern**:
-
-```csharp
-[TestClass]
-public class [Indicator]ParityTests
-{
-    [TestMethod]
-    public void BufferList_MatchesBatch()
-    {
-        // Arrange
-        IEnumerable<Quote> quotes = TestData.GetDefault();
-        var expected = quotes.Get[Indicator]();
-        var streaming = new [Indicator]BufferList(period);
-
-        // Act
-        List<[Indicator]Result> actual = [];
-        foreach (var quote in quotes)
-        {
-            var result = streaming.Add(quote);
-            if (result != null)
-                actual.Add(result);
-        }
-
-        // Assert
-        Assert.AreEqual(expected.Count(), actual.Count);
-        for (int i = 0; i < actual.Count; i++)
-        {
-            Assert.AreEqual(expected.ElementAt(i).Date, actual[i].Date);
-            Assert.AreEqual(expected.ElementAt(i).[Property], actual[i].[Property], 1e-12);
-        }
-    }
-}
-```
+Refer to `.github/instructions/buffer-indicators.instructions.md` and `.github/instructions/stream-indicators.instructions.md` for complete details.
 
 ---
 
 *See plan.md for implementation roadmap and Phase 2 task generation approach*
 
 ---
-Last updated: October 6, 2025
+Last updated: October 8, 2025
