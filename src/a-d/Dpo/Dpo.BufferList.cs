@@ -8,8 +8,9 @@ public class DpoList : BufferList<DpoResult>, IBufferReusable
 {
     private readonly SmaList smaList;
     private readonly int offset;
-    private readonly List<double> valueBuffer;
-    private readonly List<DateTime> timestampBuffer;
+    private readonly Queue<double> valueBuffer;
+    private readonly Queue<DateTime> timestampBuffer;
+    private int inputCount;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="DpoList"/> class.
@@ -22,8 +23,9 @@ public class DpoList : BufferList<DpoResult>, IBufferReusable
 
         offset = (lookbackPeriods / 2) + 1;
         smaList = new SmaList(lookbackPeriods);
-        valueBuffer = [];
-        timestampBuffer = [];
+        valueBuffer = new Queue<double>(offset);
+        timestampBuffer = new Queue<DateTime>(offset);
+        inputCount = 0;
     }
 
     /// <summary>
@@ -43,40 +45,37 @@ public class DpoList : BufferList<DpoResult>, IBufferReusable
     /// <inheritdoc />
     public void Add(DateTime timestamp, double value)
     {
-        // Store value and timestamp
-        valueBuffer.Add(value);
-        timestampBuffer.Add(timestamp);
-
-        // Add to SMA calculation
+        // Add to SMA calculation first
         smaList.Add(timestamp, value);
 
-        // Calculate DPO for past values that now have enough future data
-        // We can calculate DPO for index (Count - offset - 1) because we now have SMA at (Count - 1)
-        int dpoIndex = valueBuffer.Count - offset - 1;
+        // Track total inputs to determine when we can emit
+        inputCount++;
 
-        if (dpoIndex >= 0)
+        // Calculate the index of the value we can now emit a DPO result for
+        int dpoIndex = inputCount - offset - 1;
+
+        // If we can emit a result, do so BEFORE updating buffers
+        // This ensures we use the correct oldest value before it gets dequeued
+        if (dpoIndex >= 0 && valueBuffer.Count == offset)
         {
-            double? dpoSma = null;
-            double? dpoVal = null;
+            // Get the oldest buffered value and timestamp (this is what we're calculating DPO for)
+            double oldestValue = valueBuffer.Peek();
+            DateTime oldestTimestamp = timestampBuffer.Peek();
 
-            // Check if we're in the valid calculation range
-            // Need: dpoIndex >= lookbackPeriods - offset - 1
-            if (dpoIndex >= LookbackPeriods - offset - 1)
-            {
-                int smaIndex = dpoIndex + offset;
-                if (smaIndex < smaList.Count)
-                {
-                    SmaResult smaResult = smaList[smaIndex];
-                    if (smaResult.Sma.HasValue)
-                    {
-                        dpoSma = smaResult.Sma;
-                        dpoVal = valueBuffer[dpoIndex] - smaResult.Sma;
-                    }
-                }
-            }
+            // Get the current SMA result (this is the "future" SMA for the oldest value)
+            SmaResult currentSma = smaList[^1];
 
-            AddInternal(new DpoResult(timestampBuffer[dpoIndex], dpoVal, dpoSma));
+            double? dpoSma = currentSma.Sma;
+            double? dpoVal = currentSma.Sma.HasValue
+                ? oldestValue - currentSma.Sma.Value
+                : null;
+
+            AddInternal(new DpoResult(oldestTimestamp, dpoVal, dpoSma));
         }
+
+        // Now update the buffers for the next iteration
+        valueBuffer.Update(offset, value);
+        timestampBuffer.Update(offset, timestamp);
     }
 
     /// <summary>
@@ -139,6 +138,8 @@ public class DpoList : BufferList<DpoResult>, IBufferReusable
         ClearInternal();
         smaList.Clear();
         valueBuffer.Clear();
+        timestampBuffer.Clear();
+        inputCount = 0;
     }
 }
 
