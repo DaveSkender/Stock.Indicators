@@ -25,6 +25,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <!-- Exclude BaselineGenerator subdirectory from this project -->
+    <Compile Remove="BaselineGenerator\**" />
+    <EmbeddedResource Remove="BaselineGenerator\**" />
+    <None Remove="BaselineGenerator\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="BenchmarkDotNet" />
   </ItemGroup>
 
