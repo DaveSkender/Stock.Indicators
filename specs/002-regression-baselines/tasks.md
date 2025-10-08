@@ -1,7 +1,7 @@
 # Implementation tasks: static series regression baselines
 
 **Feature**: Static series regression baselines  
-**Updated**: 2025-10-06  
+**Updated**: 2025-10-06 (Simplified approach)  
 **Based on**: [spec.md](./spec.md) and [plan.md](./plan.md)
 
 ## Task overview
@@ -11,92 +11,37 @@ This document provides actionable tasks for implementing the regression baseline
 **Key goals**:
 
 - Create baseline generator tool to capture canonical indicator outputs
-- Generate JSON baseline files for 200+ indicators
+- Generate JSON baseline files for 200+ indicators (colocated with tests)
 - Implement regression test suite with configurable tolerance
 - Integrate regression tests into CI pipeline
 - Document baseline regeneration and review procedures
 
-**Organization**: Tasks grouped by component (infrastructure, generator, comparer, tests, CI, docs)
+**Simplified approach**:
 
-## Phase 1: Infrastructure and baseline format (T001-T005)
+- Baseline files are JSON arrays of result objects (e.g., `List<SmaResult>`)
+- Direct deserialization using standard System.Text.Json
+- Files colocated with indicator tests (e.g., `tests/indicators/s-z/Sma/Sma.Baseline.json`)
+- No custom wrapper models or serialization utilities
+
+**Organization**: Tasks grouped by component (format, generator, comparer, tests, CI, docs)
+
+## Phase 1: Infrastructure and baseline format (T001)
 
 ### T001: Define baseline JSON file format
 
-**Description**: Define JSON schema for baseline files with metadata and results  
+**Description**: Define JSON format for baseline files using direct result class mapping  
 **Location**: `specs/002-regression-baselines/baseline-format.md` (documentation)  
 **Dependencies**: None  
 **Acceptance criteria**:
 
-- JSON schema documented with metadata fields (indicatorName, scenarioName, generatedAt, libraryVersion, warmupPeriodCount)
-- Results array structure defined (date, properties dictionary)
-- Example baseline JSON file provided
-- Property naming convention specified (camelCase)
-- Deterministic serialization rules documented
+- JSON format documented as direct array of result objects (e.g., `List<SmaResult>`)
+- Files colocated with indicator tests (e.g., `tests/indicators/s-z/Sma/Sma.Baseline.json`)
+- Direct deserialization using System.Text.Json with camelCase naming
+- Example baseline files provided for single-property (SMA) and multi-property (MACD) indicators
+- Property naming convention specified (camelCase in JSON, PascalCase in C#)
+- Explicit null serialization during warmup period
 
-### T002: Create baseline file models
-
-**Description**: Implement C# models for baseline file structure  
-**Location**: `tests/indicators/Baselines/Models/BaselineFile.cs`  
-**Dependencies**: T001  
-**Acceptance criteria**:
-
-- `BaselineFile` record with Metadata and Results properties
-- `BaselineMetadata` record with all required fields
-- `BaselineResult` record with Date and Properties dictionary
-- JSON serialization attributes configured for deterministic output
-- Models support round-trip serialization (serialize → deserialize → matches)
-
-### T003: Implement baseline JSON serialization
-
-**Description**: Create JSON serialization utilities for baseline files  
-**Location**: `tests/indicators/Baselines/BaselineWriter.cs`  
-**Dependencies**: T002  
-**Acceptance criteria**:
-
-- System.Text.Json configured with camelCase naming policy
-- WriteIndented = true for human readability
-- Deterministic property order (alphabetical)
-- Null values serialized (not omitted)
-- Writes to file with UTF-8 encoding
-
-### T003a: Validate baseline JSON readability
-
-**Description**: Verify generated JSON meets human-readability standards  
-**Location**: `tests/indicators/Baselines/` (integration test)  
-**Dependencies**: T003, T009  
-**Acceptance criteria**:
-
-- Verify WriteIndented=true produces 2-space indentation (not tabs)
-- Verify each result object appears on separate lines (one per date)
-- Verify line length does not exceed 120 characters for typical indicators
-- Verify diff-friendly structure (metadata at top, results array below)
-- Verify property order is alphabetical within each object
-- Generate sample baseline and perform visual code review validation
-
-### T004: Implement baseline JSON deserialization
-
-**Description**: Create JSON deserialization utilities for loading baseline files  
-**Location**: `tests/indicators/Baselines/BaselineReader.cs`  
-**Dependencies**: T002  
-**Acceptance criteria**:
-
-- Load baseline file from path
-- Deserialize JSON to BaselineFile model
-- Handle missing file gracefully (return null or throw descriptive exception)
-- Validate JSON schema on load (required fields present)
-- Clear error messages for malformed JSON
-
-### T005: Create baseline file directory structure
-
-**Description**: Set up `.baselines/` directory in tests project  
-**Location**: `tests/indicators/.baselines/`  
-**Dependencies**: None  
-**Acceptance criteria**:
-
-- Directory created in `tests/indicators/.baselines/`
-- `.gitignore` updated to NOT ignore baseline files (ensure they are committed)
-- Directory structure documented in contributing.md
-- README.md added to `.baselines/` explaining purpose and format
+**Status**: ✅ Complete
 
 ## Phase 2: Baseline generator tool (T006-T015)
 
@@ -122,7 +67,6 @@ This document provides actionable tasks for implementing the regression baseline
 
 - `--indicator <name>` flag for single indicator generation
 - `--all` flag for batch generation
-- `--output <dir>` flag for custom output directory (default: `tests/indicators/.baselines/`)
 - `--help` displays usage information
 - Invalid arguments display clear error messages
 
@@ -135,36 +79,22 @@ This document provides actionable tasks for implementing the regression baseline
 
 - Load TestData.GetDefault() for Standard scenario
 - Dynamically invoke indicator method (e.g., `quotes.ToSma(20)`)
-- Capture all result objects
-- Extract all result properties via reflection (excluding Date)
+- Capture result list (e.g., `List<SmaResult>`)
 - Handle indicators with multiple result properties (e.g., MACD with Macd, Signal, Histogram)
+- Determine output file path based on indicator location in test directory
 
-### T008a: Validate multi-property indicator handling
+### T009: Implement baseline file writing
 
-**Description**: Test generator with indicators that have multiple result properties  
-**Location**: `tools/performance/BaselineGenerator/` (integration test)  
-**Dependencies**: T008, T009  
+**Description**: Write baseline files using standard JSON serialization  
+**Location**: `tools/performance/BaselineGenerator/Program.cs`  
+**Dependencies**: T008  
 **Acceptance criteria**:
 
-- Execute generator for MACD indicator (has three properties: macd, signal, histogram)
-- Verify baseline JSON contains all three properties for each date
-- Execute generator for Stoch indicator (has two properties: k, d)
-- Verify baseline JSON contains both properties for each date
-- Validate properties dictionary structure matches multi-property pattern
-- Confirm all properties captured even when some are null during warmup
-
-### T009: Implement baseline generation logic
-
-**Description**: Generate BaselineFile from indicator execution results  
-**Location**: `tools/performance/BaselineGenerator/BaselineGenerator.cs`  
-**Dependencies**: T008, T003  
-**Acceptance criteria**:
-
-- Create BaselineMetadata (indicator name, scenario, timestamp, version, warmup count)
-- Create BaselineResult array from indicator outputs
-- Populate properties dictionary for each result
-- Handle null values during warmup period
-- Return BaselineFile ready for serialization
+- Serialize result list directly using `System.Text.Json`
+- Configure JsonSerializerOptions with camelCase naming and WriteIndented=true
+- Write to colocated file path (e.g., `tests/indicators/s-z/Sma/Sma.Baseline.json`)
+- Handle null values explicitly (not omitted)
+- Create parent directories if needed
 
 ### T010: Implement single indicator generation
 
@@ -175,8 +105,8 @@ This document provides actionable tasks for implementing the regression baseline
 
 - Accepts indicator name as argument
 - Generates baseline for specified indicator
-- Writes JSON file to output directory
-- Displays progress message ("Generating baseline for SMA...")
+- Writes JSON file to colocated test directory
+- Displays progress message ("Generating baseline for Sma...")
 - Displays completion message with file path
 
 ### T011: Implement batch generation for all indicators
@@ -186,7 +116,7 @@ This document provides actionable tasks for implementing the regression baseline
 **Dependencies**: T009  
 **Acceptance criteria**:
 
-- Discover all StaticSeries indicators from catalog or namespace
+- Discover all StaticSeries indicators using Catalog enumeration (for consistency with existing test patterns)
 - Generate baseline for each indicator
 - Parallel execution for performance (use Parallel.ForEach)
 - Display progress bar or completion count
@@ -209,13 +139,14 @@ This document provides actionable tasks for implementing the regression baseline
 
 **Description**: Validate generated baseline files meet format requirements  
 **Location**: `tools/performance/BaselineGenerator/BaselineValidator.cs`  
-**Dependencies**: T009, T004  
+**Dependencies**: T009  
 **Acceptance criteria**:
 
-- Validate all required metadata fields present
 - Validate results array not empty
-- Validate date sequence is ascending
+- Validate timestamp sequence is ascending
 - Validate property names match indicator output
+- Validate JSON can be deserialized back to result type
+- Validate property order is alphabetical within each result object (deterministic ordering)
 - Option to validate after generation (--validate flag)
 
 ### T014: Create generator tool documentation
@@ -234,36 +165,54 @@ This document provides actionable tasks for implementing the regression baseline
 ### T015: Generate initial baseline files for all indicators
 
 **Description**: Run generator tool to create initial baselines  
-**Location**: `tests/indicators/.baselines/`  
+**Location**: Colocated with indicator tests (e.g., `tests/indicators/s-z/Sma/Sma.Baseline.json`)  
 **Dependencies**: T011, T013  
 **Acceptance criteria**:
 
 - Execute `dotnet run --project tools/performance/BaselineGenerator -- --all`
-- Verify 200+ JSON files created in `.baselines/` directory
+- Verify 200+ JSON files created in indicator test directories
 - Validate baseline files with --validate flag
 - Commit baseline files to version control
 - Document commit message ("Add initial regression baselines for all StaticSeries indicators")
 
 ## Phase 3: Baseline comparer and regression tests (T016-T025)
 
-### T016: Implement baseline comparer core logic
+### T016: Write unit tests for baseline comparer (TDD)
 
-**Description**: Create comparison logic with tolerance support  
-**Location**: `tests/indicators/Baselines/BaselineComparer.cs`  
+**Description**: Write failing unit tests for comparison logic before implementation  
+**Location**: `tests/indicators/Baselines/BaselineComparer.Tests.cs`  
 **Dependencies**: T002  
 **Acceptance criteria**:
 
-- `Compare(expected, actual, tolerance)` method
+- Test identical results → expect IsMatch = true (FAILING initially)
+- Test results within tolerance → expect IsMatch = true (FAILING initially)
+- Test results exceeding tolerance → expect IsMatch = false with mismatches (FAILING initially)
+- Test strict mode with exact match → expect IsMatch = true (FAILING initially)
+- Test strict mode with any difference → expect IsMatch = false (FAILING initially)
+- Test null handling (null == null, null != value) (FAILING initially)
+- Test missing properties → expect mismatch reported (FAILING initially)
+- Test date misalignment → expect missing/extra dates reported (FAILING initially)
+- All tests documented with TDD Red phase intention
+
+### T016a: Implement baseline comparer core logic (TDD Green)
+
+**Description**: Implement comparison logic to make T016 tests pass  
+**Location**: `tests/indicators/Baselines/BaselineComparer.cs`  
+**Dependencies**: T016  
+**Acceptance criteria**:
+
+- `Compare(expected, actual, tolerance)` method implemented
 - Iterate both sequences in parallel (zip by date)
 - Compare each property with tolerance (`Math.Abs(expected - actual) > tolerance`)
 - Handle null values (null == null → match, null != value → mismatch)
 - Return ComparisonResult with IsMatch and Mismatches list
+- All T016 tests now pass (TDD Green phase)
 
 ### T017: Implement mismatch detection and reporting
 
 **Description**: Create detailed mismatch reporting for failed comparisons  
 **Location**: `tests/indicators/Baselines/BaselineComparer.cs`  
-**Dependencies**: T016  
+**Dependencies**: T016a  
 **Acceptance criteria**:
 
 - `MismatchDetail` record with Date, PropertyName, Expected, Actual, Delta
@@ -276,7 +225,7 @@ This document provides actionable tasks for implementing the regression baseline
 
 **Description**: Add zero-tolerance comparison for strict validation  
 **Location**: `tests/indicators/Baselines/BaselineComparer.cs`  
-**Dependencies**: T016  
+**Dependencies**: T016a  
 **Acceptance criteria**:
 
 - `CompareStrict(expected, actual)` method
@@ -284,21 +233,19 @@ This document provides actionable tasks for implementing the regression baseline
 - Same mismatch reporting as standard comparison
 - Clearly documented use case (after intentional algorithm changes)
 
-### T019: Add unit tests for BaselineComparer
+### T019: Refactor and extend comparer tests (TDD Refactor)
 
-**Description**: Comprehensive unit tests for comparison logic  
+**Description**: Refactor comparer tests for maintainability and add edge case coverage  
 **Location**: `tests/indicators/Baselines/BaselineComparer.Tests.cs`  
-**Dependencies**: T016, T017, T018  
+**Dependencies**: T016a, T017, T018  
 **Acceptance criteria**:
 
-- Test identical results → IsMatch = true
-- Test results within tolerance → IsMatch = true
-- Test results exceeding tolerance → IsMatch = false with mismatches
-- Test strict mode with exact match → IsMatch = true
-- Test strict mode with any difference → IsMatch = false
-- Test null handling (null == null, null != value)
-- Test missing properties → mismatch reported
-- Test date misalignment → missing/extra dates reported
+- Refactor test structure for clarity and maintainability
+- Add tests for strict mode (CompareStrict) implementation
+- Add tests for mismatch detection and reporting (T017)
+- Verify all edge cases covered (extreme values, empty sequences, single-element arrays)
+- Document test patterns for future comparer enhancements
+- All tests remain passing after refactor (TDD Refactor phase)
 
 ### T020: Implement regression test suite scaffold
 
@@ -324,7 +271,7 @@ This document provides actionable tasks for implementing the regression baseline
 - Execute indicator with Standard test data
 - Compare current outputs against baseline using BaselineComparer
 - Assert IsMatch = true with custom failure message
-- If baseline missing, call `Assert.Inconclusive("Baseline file not found")`
+- If baseline missing, call `Assert.Inconclusive("Baseline file not found: {indicatorName}.Standard.json")`
 
 ### T022: Implement test failure diagnostics
 
@@ -376,6 +323,19 @@ This document provides actionable tasks for implementing the regression baseline
 - Measure memory usage during tests
 - Document performance characteristics
 
+### T025a: Add cross-platform validation tests
+
+**Description**: Validate deterministic output across .NET target frameworks  
+**Location**: `tests/indicators/RegressionTests.cs`  
+**Dependencies**: T023  
+**Acceptance criteria**:
+
+- Run regression tests against baselines for both net8.0 and net9.0 targets
+- Verify identical outputs (within tolerance) across both frameworks
+- Document any framework-specific floating-point behavior differences
+- Add CI matrix testing for multi-target validation
+- Covers FR25 (version migration validation scenario)
+
 ## Phase 4: CI integration (T026-T030)
 
 ### T026: Update test-indicators workflow
@@ -398,8 +358,9 @@ This document provides actionable tasks for implementing the regression baseline
 **Dependencies**: T020  
 **Acceptance criteria**:
 
-- Check `RUN_REGRESSION_TESTS` environment variable in test initialization
-- Skip all regression tests if variable not set or false
+- Check `RUN_REGRESSION_TESTS` environment variable in test class initialization (ClassInitialize method)
+- Skip entire regression test class if variable not set or false (class-level gating)
+- Log message explaining why tests are skipped
 - Log message explaining why tests are skipped
 - Document environment variable in workflow README
 
@@ -522,10 +483,11 @@ This document provides actionable tasks for implementing the regression baseline
 - **T009 → T010, T011**: Generation logic complete before single/batch modes
 - **T010, T011 → T012**: Basic generation working before error handling
 - **T011 → T015**: Batch generation working before generating initial baselines
-- **T002 → T016**: Models must exist before comparison logic
-- **T016 → T017, T018**: Core comparison logic before mismatch detection and strict mode
-- **T016, T017, T018 → T019**: All comparison logic complete before unit tests
-- **T004, T016 → T020**: Reader and comparer exist before regression test scaffold
+- **T002 → T016**: Models must exist before writing comparer tests (TDD Red)
+- **T016 → T016a**: Tests written before implementing comparer (TDD Red→Green)
+- **T016a → T017, T018**: Core comparison logic implemented before mismatch detection and strict mode
+- **T016a, T017, T018 → T019**: All comparison features complete before test refactoring (TDD Refactor)
+- **T004, T016a → T020**: Reader and comparer exist before regression test scaffold
 - **T020 → T021**: Scaffold complete before per-indicator test methods
 - **T021 → T022**: Test methods exist before failure diagnostics
 - **T021 → T023**: Test method pattern defined before generating all tests
@@ -602,14 +564,15 @@ Command: /tasks run T031 T032 T033 T034 T035
 - Tasks marked with [P] are fully parallelizable (no blocking dependencies)
 - Infrastructure tasks (T001-T005) establish foundation for all other work
 - Generator tool (T006-T015) can proceed independently of comparer (T016-T019)
-- New validation tasks (T003a, T008a) verify quality attributes and edge cases
-- Regression tests (T020-T025) require both generator and comparer complete
+- **TDD workflow enforced**: T016 (write tests) → T016a (implement) → T019 (refactor)
+- New validation tasks (T003a, T008a, T025a) verify quality attributes and edge cases
+- Regression tests (T020-T025, T025a) require both generator and comparer complete
 - CI integration (T026-T030) requires regression tests working locally
 - Documentation (T031-T035) can run in parallel after implementation complete
 
 ## Validation checklist
 
-- [x] All entities from data-model defined in tasks (BaselineFile, Metadata, Result, Comparer)
+- [x] Baseline format specification complete (direct result class mapping)
 - [x] Generator tool fully specified (CLI, execution, batch processing)
 - [x] Comparison logic comprehensive (tolerance, strict mode, mismatch detection)
 - [x] Regression test suite complete (per-indicator tests, failure diagnostics)
@@ -618,16 +581,20 @@ Command: /tasks run T031 T032 T033 T034 T035
 - [x] Dependencies mapped correctly (no circular dependencies)
 - [x] Parallel tasks avoid file collisions
 - [x] Initial baseline generation task included (T015)
-- [x] Performance validation tasks present (T025)
+- [x] Performance validation tasks present (T025, T025a)
 - [x] Multi-property indicator validation included (T008a)
 - [x] JSON readability validation included (T003a)
+- [x] **TDD workflow enforced (T016→T016a→T019) per constitution**
+- [x] **Cross-platform validation included (T025a) for .NET version migration**
+- [x] **Documentation requirements mapped to FRs (FR20-FR24)**
 
 ---
 
-- **Total tasks**: 37 (added T003a, T008a)
+- **Total tasks**: 39 (added T016a for TDD Red→Green split, T025a for cross-platform validation)
 - **Parallelizable tasks**: 14 (marked with [P] in notes)
-- **Sequential tasks**: 23
+- **Sequential tasks**: 25
+- **TDD tasks**: 3 (T016 Red, T016a Green, T019 Refactor)
 - **Estimated completion**: 6-8 focused development sessions with testing and validation
 
 ---
-Last updated: October 6, 2025
+Last updated: October 7, 2025

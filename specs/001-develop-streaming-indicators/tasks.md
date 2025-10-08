@@ -1,6 +1,6 @@
 # Tasks: streaming indicators framework
 
-**Input**: Design documents from `/specs/001-develop-steaming-indicators/`
+**Input**: Design documents from `/specs/001-develop-streaming-indicators/`
 **Prerequisites**: plan.md (required), data-model.md
 
 ## Format: `[ID] Description`
@@ -21,10 +21,10 @@ The following indicators have series-style implementations but lack BufferList i
 
 ### BufferList A-D Group (16 indicators)
 
-- [ ] T001 Implement Alligator BufferList in `src/a-d/Alligator/Alligator.BufferList.cs`
-- [ ] T002 Implement Aroon BufferList in `src/a-d/Aroon/Aroon.BufferList.cs`
-- [ ] T003 Implement AtrStop BufferList in `src/a-d/AtrStop/AtrStop.BufferList.cs`
-- [ ] T004 Implement Awesome BufferList in `src/a-d/Awesome/Awesome.BufferList.cs`
+- [x] T001 Implement Alligator BufferList in `src/a-d/Alligator/Alligator.BufferList.cs` ✅ PR #1497
+- [x] T002 Implement Aroon BufferList in `src/a-d/Aroon/Aroon.BufferList.cs` ✅ PR #1497
+- [x] T003 Implement AtrStop BufferList in `src/a-d/AtrStop/AtrStop.BufferList.cs` ✅ PR #1497
+- [x] T004 Implement Awesome BufferList in `src/a-d/Awesome/Awesome.BufferList.cs` ✅ PR #1497
 - [ ] T005 Implement Beta BufferList in `src/a-d/Beta/Beta.BufferList.cs`
 - [x] T006 Implement Bop BufferList in `src/a-d/Bop/Bop.BufferList.cs`
 - [x] T007 Implement ChaikinOsc BufferList in `src/a-d/ChaikinOsc/ChaikinOsc.BufferList.cs`
@@ -200,13 +200,50 @@ Each task should follow these guidelines:
 - Follow pre-commit checklist from `.github/instructions/source-code-completion.instructions.md`
 - Update catalog entries and documentation as implementations are completed
 
+## Supporting Tasks (Infrastructure & Documentation)
+
+### Testing & Quality Assurance
+
+**Note**: Test implementation is embedded within each T001-T107 task. Each implementation task includes:
+
+- Unit tests in corresponding test file (e.g., `T001` includes `tests/indicators/a-d/Alligator/Alligator.BufferList.Tests.cs`)
+- Parity tests validating equivalence with Series implementation
+- Edge case tests (reset behavior, state management, error conditions)
+
+### Documentation Updates
+
+The following documentation tasks support the main implementation work:
+
+- [x] **D001**: Update `docs/_indicators/Sma.md` with streaming usage section and examples (already completed)
+- [x] **D002**: Update `docs/_indicators/Ema.md` with streaming usage section and examples (already completed)
+- [ ] **D003**: Update `docs/_indicators/Rsi.md` with streaming usage section and examples
+- [ ] **D004**: Update `docs/_indicators/Macd.md` with streaming usage section and examples
+- [ ] **D005**: Update `docs/_indicators/BollingerBands.md` with streaming usage section and examples
+- [ ] **D006**: Update `README.md` with streaming overview paragraph and quick-start example
+- [ ] **D007**: Update `src/_common/ObsoleteV3.md` with streaming capability summary and migration guidance
+
+### Quality Gates
+
+- [ ] **Q001**: Update public API approval test baselines for streaming additions (`tests/public-api/`)
+- [ ] **Q002**: Run performance benchmarks comparing BufferList vs Series for representative indicators
+- [ ] **Q003**: Run performance benchmarks comparing StreamHub vs Series for representative indicators
+- [ ] **Q004**: Validate memory overhead stays within <10KB per instance target (NFR-002)
+
+**Notes**:
+
+- Documentation tasks (D001-D007) can proceed in parallel with implementation
+- Quality gate tasks (Q001-Q004) should run after substantial implementation progress (e.g., post-Phase 1a completion)
+- Test infrastructure already exists; no additional scaffolding tasks required
+
 ## Summary
 
 - **Total BufferList tasks**: 55
 - **Total StreamHub tasks**: 52
 - **Total implementation tasks**: 107
-- **Current implementations**: BufferList (29), StreamHub (34)
+- **Current implementations**: BufferList (29), StreamHub (32)
 - **Target coverage**: All 84 series indicators with both BufferList and StreamHub styles
+- **Documentation tasks**: 7 (D001-D007)
+- **Quality gate tasks**: 4 (Q001-Q004)
 
 ---
 Last updated: October 7, 2025
