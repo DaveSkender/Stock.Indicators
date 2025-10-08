@@ -16,7 +16,7 @@ public static partial class Aroon
     /// <returns>An Aroon hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
-    public static AroonHub<T> ToAroon<T>(
+    public static AroonHub<T> ToAroonHub<T>(
         this IStreamObservable<T> provider,
         int lookbackPeriods = 25)
         where T : IQuote

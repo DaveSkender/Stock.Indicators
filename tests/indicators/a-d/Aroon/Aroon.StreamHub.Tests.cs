@@ -11,21 +11,21 @@ public class AroonHub : StreamHubTestBase, ITestChainProvider
         int length = quotesList.Count;
 
         // setup quote provider
-        QuoteHub<Quote> provider = new();
+        QuoteHub<Quote> quoteHub = new();
 
         // prefill quotes to provider
         for (int i = 0; i < 30; i++)
         {
-            provider.Add(quotesList[i]);
+            quoteHub.Add(quotesList[i]);
         }
 
         // initialize observer
-        AroonHub<Quote> observer = provider
-            .ToAroon(25);
+        AroonHub<Quote> aroonHub = quoteHub
+            .ToAroonHub(25);
 
         // fetch initial results (early)
         IReadOnlyList<AroonResult> streamList
-            = observer.Results;
+            = aroonHub.Results;
 
         // emulate adding quotes to provider
         for (int i = 30; i < length; i++)
@@ -37,20 +37,20 @@ public class AroonHub : StreamHubTestBase, ITestChainProvider
             }
 
             Quote q = quotesList[i];
-            provider.Add(q);
+            quoteHub.Add(q);
 
             // resend duplicate quotes
             if (i is > 100 and < 105)
             {
-                provider.Add(q);
+                quoteHub.Add(q);
             }
         }
 
         // late arrival
-        provider.Insert(quotesList[80]);
+        quoteHub.Insert(quotesList[80]);
 
         // delete
-        provider.Remove(quotesList[400]);
+        quoteHub.Remove(quotesList[400]);
         quotesList.RemoveAt(400);
 
         // time-series, for comparison
@@ -60,20 +60,20 @@ public class AroonHub : StreamHubTestBase, ITestChainProvider
         streamList.Should().HaveCount(length - 1);
         streamList.Should().BeEquivalentTo(seriesList);
 
-        observer.Unsubscribe();
-        provider.EndTransmission();
+        aroonHub.Unsubscribe();
+        quoteHub.EndTransmission();
     }
 
     [TestMethod]
     public override void CustomToString()
     {
-        QuoteHub<Quote> provider = new();
-        AroonHub<Quote> observer = provider.ToAroon(25);
+        QuoteHub<Quote> quoteHub = new();
+        AroonHub<Quote> aroonHub = quoteHub.ToAroonHub(25);
 
-        observer.ToString().Should().Be("AROON(25)");
+        aroonHub.ToString().Should().Be("AROON(25)");
 
-        observer.Unsubscribe();
-        provider.EndTransmission();
+        aroonHub.Unsubscribe();
+        quoteHub.EndTransmission();
     }
 
     [TestMethod]
@@ -83,21 +83,21 @@ public class AroonHub : StreamHubTestBase, ITestChainProvider
         int length = quotesList.Count;
 
         // Setup quote provider
-        QuoteHub<Quote> provider = new();
+        QuoteHub<Quote> quoteHub = new();
 
         // Initialize observer - Aroon as provider feeding into EMA
-        EmaHub<AroonResult> observer = provider
-            .ToAroon(25)
+        EmaHub<AroonResult> emaHub = quoteHub
+            .ToAroonHub(25)
             .ToEma(12);
 
         // Emulate quote stream
         for (int i = 0; i < length; i++)
         {
-            provider.Add(quotesList[i]);
+            quoteHub.Add(quotesList[i]);
         }
 
         // Final results
-        IReadOnlyList<EmaResult> streamList = observer.Results;
+        IReadOnlyList<EmaResult> streamList = emaHub.Results;
 
         // Time-series, for comparison
         IReadOnlyList<EmaResult> seriesList = quotesList
@@ -108,7 +108,7 @@ public class AroonHub : StreamHubTestBase, ITestChainProvider
         streamList.Should().HaveCount(length);
         streamList.Should().BeEquivalentTo(seriesList);
 
-        observer.Unsubscribe();
-        provider.EndTransmission();
+        emaHub.Unsubscribe();
+        quoteHub.EndTransmission();
     }
 }

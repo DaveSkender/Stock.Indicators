@@ -17,7 +17,7 @@ public static partial class Awesome
     /// <returns>An Awesome Oscillator hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the chain provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the periods are invalid.</exception>
-    public static AwesomeHub<T> ToAwesome<T>(
+    public static AwesomeHub<T> ToAwesomeHub<T>(
         this IChainProvider<T> chainProvider,
         int fastPeriods = 5,
         int slowPeriods = 34)

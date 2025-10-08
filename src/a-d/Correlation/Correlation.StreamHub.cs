@@ -20,7 +20,7 @@ public static partial class Correlation
     /// <returns>A Correlation hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when either provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
-    public static CorrelationHub<T> ToCorrelation<T>(
+    public static CorrelationHub<T> ToCorrelationHub<T>(
         this IChainProvider<T> providerA,
         IChainProvider<T> providerB,
         int lookbackPeriods)

@@ -11,21 +11,21 @@ public class AwesomeHub : StreamHubTestBase, ITestChainObserver, ITestChainProvi
         int length = quotesList.Count;
 
         // setup quote provider
-        QuoteHub<Quote> provider = new();
+        QuoteHub<Quote> quoteHub = new();
 
         // prefill quotes to provider
         for (int i = 0; i < 40; i++)
         {
-            provider.Add(quotesList[i]);
+            quoteHub.Add(quotesList[i]);
         }
 
         // initialize observer
-        AwesomeHub<Quote> observer = provider
-            .ToAwesome(5, 34);
+        AwesomeHub<Quote> awesomeHub = quoteHub
+            .ToAwesomeHub(5, 34);
 
         // fetch initial results (early)
         IReadOnlyList<AwesomeResult> streamList
-            = observer.Results;
+            = awesomeHub.Results;
 
         // emulate adding quotes to provider
         for (int i = 40; i < length; i++)
@@ -37,20 +37,20 @@ public class AwesomeHub : StreamHubTestBase, ITestChainObserver, ITestChainProvi
             }
 
             Quote q = quotesList[i];
-            provider.Add(q);
+            quoteHub.Add(q);
 
             // resend duplicate quotes
             if (i is > 100 and < 105)
             {
-                provider.Add(q);
+                quoteHub.Add(q);
             }
         }
 
         // late arrival
-        provider.Insert(quotesList[80]);
+        quoteHub.Insert(quotesList[80]);
 
         // delete
-        provider.Remove(quotesList[400]);
+        quoteHub.Remove(quotesList[400]);
         quotesList.RemoveAt(400);
 
         // time-series, for comparison
@@ -60,8 +60,8 @@ public class AwesomeHub : StreamHubTestBase, ITestChainObserver, ITestChainProvi
         streamList.Should().HaveCount(length - 1);
         streamList.Should().BeEquivalentTo(seriesList);
 
-        observer.Unsubscribe();
-        provider.EndTransmission();
+        awesomeHub.Unsubscribe();
+        quoteHub.EndTransmission();
     }
 
     [TestMethod]
@@ -76,22 +76,22 @@ public class AwesomeHub : StreamHubTestBase, ITestChainObserver, ITestChainProvi
         int length = quotesList.Count;
 
         // setup quote provider
-        QuoteHub<Quote> provider = new();
+        QuoteHub<Quote> quoteHub = new();
 
         // initialize observer
-        AwesomeHub<EmaResult> observer = provider
+        AwesomeHub<EmaResult> awesomeHub = quoteHub
             .ToEma(emaPeriods)
-            .ToAwesome(fastPeriods, slowPeriods);
+            .ToAwesomeHub(fastPeriods, slowPeriods);
 
         // emulate quote stream
         for (int i = 0; i < length; i++)
         {
-            provider.Add(quotesList[i]);
+            quoteHub.Add(quotesList[i]);
         }
 
         // final results
         IReadOnlyList<AwesomeResult> streamList
-            = observer.Results;
+            = awesomeHub.Results;
 
         // time-series, for comparison
         IReadOnlyList<AwesomeResult> seriesList
@@ -103,8 +103,8 @@ public class AwesomeHub : StreamHubTestBase, ITestChainObserver, ITestChainProvi
         streamList.Should().HaveCount(length);
         streamList.Should().BeEquivalentTo(seriesList);
 
-        observer.Unsubscribe();
-        provider.EndTransmission();
+        awesomeHub.Unsubscribe();
+        quoteHub.EndTransmission();
     }
 
     [TestMethod]
@@ -119,22 +119,22 @@ public class AwesomeHub : StreamHubTestBase, ITestChainObserver, ITestChainProvi
         int length = quotesList.Count;
 
         // setup quote provider
-        QuoteHub<Quote> provider = new();
+        QuoteHub<Quote> quoteHub = new();
 
         // initialize observer
-        EmaHub<AwesomeResult> observer = provider
-            .ToAwesome(fastPeriods, slowPeriods)
+        EmaHub<AwesomeResult> emaHub = quoteHub
+            .ToAwesomeHub(fastPeriods, slowPeriods)
             .ToEma(emaPeriods);
 
         // emulate quote stream
         for (int i = 0; i < length; i++)
         {
-            provider.Add(quotesList[i]);
+            quoteHub.Add(quotesList[i]);
         }
 
         // final results
         IReadOnlyList<EmaResult> streamList
-            = observer.Results;
+            = emaHub.Results;
 
         // time-series, for comparison
         IReadOnlyList<EmaResult> seriesList
@@ -146,19 +146,19 @@ public class AwesomeHub : StreamHubTestBase, ITestChainObserver, ITestChainProvi
         streamList.Should().HaveCount(length);
         streamList.Should().BeEquivalentTo(seriesList);
 
-        observer.Unsubscribe();
-        provider.EndTransmission();
+        emaHub.Unsubscribe();
+        quoteHub.EndTransmission();
     }
 
     [TestMethod]
     public override void CustomToString()
     {
-        QuoteHub<Quote> provider = new();
-        AwesomeHub<Quote> observer = provider.ToAwesome(5, 34);
+        QuoteHub<Quote> quoteHub = new();
+        AwesomeHub<Quote> awesomeHub = quoteHub.ToAwesomeHub(5, 34);
 
-        observer.ToString().Should().Be("AWESOME(5,34)");
+        awesomeHub.ToString().Should().Be("AWESOME(5,34)");
 
-        observer.Unsubscribe();
-        provider.EndTransmission();
+        awesomeHub.Unsubscribe();
+        quoteHub.EndTransmission();
     }
 }

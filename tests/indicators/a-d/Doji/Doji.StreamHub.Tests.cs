@@ -11,21 +11,21 @@ public class DojiHub : StreamHubTestBase
         int length = quotesList.Count;
 
         // setup quote provider
-        QuoteHub<Quote> provider = new();
+        QuoteHub<Quote> quoteHub = new();
 
         // prefill quotes to provider
         for (int i = 0; i < 20; i++)
         {
-            provider.Add(quotesList[i]);
+            quoteHub.Add(quotesList[i]);
         }
 
         // initialize observer
-        DojiHub<Quote> observer = provider
-            .ToDoji(0.1);
+        DojiHub<Quote> dojiHub = quoteHub
+            .ToDojiHub(0.1);
 
         // fetch initial results (early)
         IReadOnlyList<CandleResult> streamList
-            = observer.Results;
+            = dojiHub.Results;
 
         // emulate adding quotes to provider
         for (int i = 20; i < length; i++)
@@ -37,20 +37,20 @@ public class DojiHub : StreamHubTestBase
             }
 
             Quote q = quotesList[i];
-            provider.Add(q);
+            quoteHub.Add(q);
 
             // resend duplicate quotes
             if (i is > 100 and < 105)
             {
-                provider.Add(q);
+                quoteHub.Add(q);
             }
         }
 
         // late arrival
-        provider.Insert(quotesList[80]);
+        quoteHub.Insert(quotesList[80]);
 
         // delete
-        provider.Remove(quotesList[400]);
+        quoteHub.Remove(quotesList[400]);
         quotesList.RemoveAt(400);
 
         // time-series, for comparison
@@ -60,19 +60,19 @@ public class DojiHub : StreamHubTestBase
         streamList.Should().HaveCount(length - 1);
         streamList.Should().BeEquivalentTo(seriesList);
 
-        observer.Unsubscribe();
-        provider.EndTransmission();
+        dojiHub.Unsubscribe();
+        quoteHub.EndTransmission();
     }
 
     [TestMethod]
     public override void CustomToString()
     {
-        QuoteHub<Quote> provider = new();
-        DojiHub<Quote> observer = provider.ToDoji(0.1);
+        QuoteHub<Quote> quoteHub = new();
+        DojiHub<Quote> dojiHub = quoteHub.ToDojiHub(0.1);
 
-        observer.ToString().Should().Be("DOJI(0.1)");
+        dojiHub.ToString().Should().Be("DOJI(0.1)");
 
-        observer.Unsubscribe();
-        provider.EndTransmission();
+        dojiHub.Unsubscribe();
+        quoteHub.EndTransmission();
     }
 }

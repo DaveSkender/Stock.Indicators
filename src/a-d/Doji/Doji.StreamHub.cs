@@ -16,7 +16,7 @@ public static partial class Doji
     /// <returns>A Doji hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the maxPriceChangePercent is invalid.</exception>
-    public static DojiHub<T> ToDoji<T>(
+    public static DojiHub<T> ToDojiHub<T>(
         this IStreamObservable<T> provider,
         double maxPriceChangePercent = 0.1)
         where T : IQuote
