@@ -25,7 +25,7 @@ The following indicators have series-style implementations but lack BufferList i
 - [x] T002 Implement Aroon BufferList in `src/a-d/Aroon/Aroon.BufferList.cs` ✅ PR #1497
 - [x] T003 Implement AtrStop BufferList in `src/a-d/AtrStop/AtrStop.BufferList.cs` ✅ PR #1497
 - [x] T004 Implement Awesome BufferList in `src/a-d/Awesome/Awesome.BufferList.cs` ✅ PR #1497
-- [ ] T005 Implement Beta BufferList in `src/a-d/Beta/Beta.BufferList.cs`
+- [x] T005 Implement Beta BufferList in `src/a-d/Beta/Beta.BufferList.cs` ✅
 - [ ] T006 Implement Bop BufferList in `src/a-d/Bop/Bop.BufferList.cs`
 - [ ] T007 Implement ChaikinOsc BufferList in `src/a-d/ChaikinOsc/ChaikinOsc.BufferList.cs`
 - [ ] T008 Implement Chandelier BufferList in `src/a-d/Chandelier/Chandelier.BufferList.cs`
