@@ -385,6 +385,21 @@
       }
     },
     {
+      "label": "Generate: Regression test baselines (all)",
+      "detail": "Generate all regression test baseline JSON files",
+      "type": "shell",
+      "command": "dotnet run --project tools/baselining -- --all",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "group": "none",
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      }
+    },
+    {
       "label": "Verify: Code & Docs Lint",
       "detail": "Run .NET format check and markdown lint sequentially",
       "dependsOn": [
