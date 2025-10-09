@@ -98,12 +98,26 @@ public abstract class RegressionTestBase<TResult> : TestBase
 {
     protected IReadOnlyList<TResult> Expected { get; init; }
 
-    protected static readonly QuoteHub<Quote> quoteHub = new();
+    private static QuoteHub<Quote>? _sharedQuoteHub;
+    private static bool _quoteHubInitialized;
+
+    protected static QuoteHub<Quote> quoteHub
+    {
+        get
+        {
+            if (!_quoteHubInitialized)
+            {
+                _sharedQuoteHub = new QuoteHub<Quote>();
+                _sharedQuoteHub.Add(Quotes);
+                _quoteHubInitialized = true;
+            }
+            return _sharedQuoteHub!;
+        }
+    }
 
     protected RegressionTestBase(string filename)
     {
         Expected = Data.Results<TResult>(filename);
-        quoteHub.Add(Quotes);
     }
 
     public abstract void Series();

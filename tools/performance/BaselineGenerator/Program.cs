@@ -16,17 +16,19 @@ internal static class Program
         Console.WriteLine();
 
         // Change to test indicators directory so test data files can be found
+        // From tools/performance, go up to repo root, then to tests/indicators
+        string currentDir = Directory.GetCurrentDirectory();
         string testIndicatorsPath = Path.GetFullPath(Path.Combine(
-            Directory.GetCurrentDirectory(),
-            "..",
-            "..",
-            "..",
+            currentDir,
+            "..", // from performance
+            "..", // from tools
             "tests",
             "indicators"));
         
         if (!Directory.Exists(testIndicatorsPath))
         {
             Console.Error.WriteLine($"Error: Test indicators directory not found at {testIndicatorsPath}");
+            Console.Error.WriteLine($"Current directory: {currentDir}");
             return 1;
         }
 

@@ -9,5 +9,6 @@ internal static class Utilities
     => actual.Should().BeEquivalentTo(expected, options => options
         .WithStrictOrdering()
         .ComparingByMembers<T>()
+        .Excluding(ctx => ctx.Name == "Date") // Exclude obsolete Date property (alias for Timestamp)
         .WithTracing());
 }
