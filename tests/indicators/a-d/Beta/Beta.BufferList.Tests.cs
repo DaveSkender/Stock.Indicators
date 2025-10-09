@@ -1,7 +1,7 @@
 namespace BufferLists;
 
 [TestClass]
-public class Beta : BufferListTestBase, ITestNonStandardBufferListCache
+public class Beta : BufferListTestBase
 {
     private const int lookbackPeriods = 20;
     private const BetaType type = BetaType.Standard;
@@ -26,8 +26,7 @@ public class Beta : BufferListTestBase, ITestNonStandardBufferListCache
 
         for (int i = 0; i < evalReusables.Count; i++)
         {
-            sut.Add(evalReusables[i].Timestamp, evalReusables[i].Value,
-                    mrktReusables[i].Timestamp, mrktReusables[i].Value);
+            sut.Add(evalReusables[i].Timestamp, evalReusables[i].Value, mrktReusables[i].Value);
         }
 
         sut.Should().HaveCount(evalReusables.Count);
@@ -162,7 +161,10 @@ public class Beta : BufferListTestBase, ITestNonStandardBufferListCache
         DateTime evalTime = DateTime.Now;
         DateTime mrktTime = DateTime.Now.AddMinutes(1);
 
-        Action act = () => sut.Add(evalTime, 100.0, mrktTime, 100.0);
+        IReusable eval = new Quote { Timestamp = evalTime, Close = 100.0m };
+        IReusable mrkt = new Quote { Timestamp = mrktTime, Close = 100.0m };
+
+        Action act = () => sut.Add(eval, mrkt);
         act.Should().Throw<InvalidQuotesException>()
            .WithMessage("*Timestamp sequence does not match*");
     }
@@ -178,31 +180,5 @@ public class Beta : BufferListTestBase, ITestNonStandardBufferListCache
         Action act = () => sut.Add(evalSubset, mrktSubset);
         act.Should().Throw<InvalidQuotesException>()
            .WithMessage("*should have the same number*");
-    }
-
-    [TestMethod]
-    public void AutoBufferPruning()
-    {
-        const int maxListSize = 200;
-        const int quotesSize = 502;
-
-        // Use test data that exceeds cache size threshold
-        List<IReusable> evalSubset = evalReusables.Take(quotesSize).ToList();
-        List<IReusable> mrktSubset = mrktReusables.Take(quotesSize).ToList();
-
-        // Expected results after pruning (tail end)
-        IReadOnlyList<BetaResult> expected = evalSubset
-            .ToBeta(mrktSubset, lookbackPeriods, type)
-            .Skip(quotesSize - maxListSize)
-            .ToList();
-
-        // Generate buffer list with pruning
-        BetaList sut = new(lookbackPeriods, type, evalSubset, mrktSubset) {
-            MaxListSize = maxListSize
-        };
-
-        // Verify expected results matching equivalent series values
-        sut.Count.Should().Be(maxListSize);
-        sut.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
     }
 }

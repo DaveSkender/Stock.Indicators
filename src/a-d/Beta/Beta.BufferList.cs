@@ -6,8 +6,7 @@ namespace Skender.Stock.Indicators;
 public class BetaList : BufferList<BetaResult>
 {
     private readonly Queue<(DateTime Timestamp, double EvalValue, double MrktValue)> _buffer;
-    private readonly List<double> _evalReturns;
-    private readonly List<double> _mrktReturns;
+    private readonly Queue<(double EvalReturn, double MrktReturn)> _returns;
     private double _prevEval;
     private double _prevMrkt;
     private bool _isFirst = true;
@@ -17,20 +16,15 @@ public class BetaList : BufferList<BetaResult>
     /// </summary>
     /// <param name="lookbackPeriods">The number of periods to look back.</param>
     /// <param name="type">The type of Beta calculation. Default is <see cref="BetaType.Standard"/>.</param>
-    public BetaList(int lookbackPeriods = 20, BetaType type = BetaType.Standard)
+    public BetaList(int lookbackPeriods = 50, BetaType type = BetaType.Standard)
     {
-        if (lookbackPeriods <= 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
-                "Lookback periods must be greater than 0 for Beta.");
-        }
+        Beta.Validate<ISeries>([], [], lookbackPeriods);
 
         LookbackPeriods = lookbackPeriods;
         Type = type;
 
         _buffer = new Queue<(DateTime, double, double)>(lookbackPeriods + 1);
-        _evalReturns = new List<double>(lookbackPeriods + 1);
-        _mrktReturns = new List<double>(lookbackPeriods + 1);
+        _returns = new Queue<(double, double)>(lookbackPeriods + 1);
     }
 
     /// <summary>
@@ -61,21 +55,11 @@ public class BetaList : BufferList<BetaResult>
     /// <summary>
     /// Adds a new pair of values to the Beta list.
     /// </summary>
-    /// <param name="evalTimestamp">The timestamp of the evaluated asset.</param>
+    /// <param name="timestamp">The timestamp for both values.</param>
     /// <param name="evalValue">The evaluated asset value.</param>
-    /// <param name="mrktTimestamp">The timestamp of the market.</param>
     /// <param name="mrktValue">The market value.</param>
-    /// <exception cref="InvalidQuotesException">Thrown when timestamps do not match.</exception>
-    public void Add(DateTime evalTimestamp, double evalValue, DateTime mrktTimestamp, double mrktValue)
+    public void Add(DateTime timestamp, double evalValue, double mrktValue)
     {
-        if (evalTimestamp != mrktTimestamp)
-        {
-            throw new InvalidQuotesException(
-                nameof(evalTimestamp), evalTimestamp,
-                "Timestamp sequence does not match.  " +
-                "Beta requires matching dates in provided quotes.");
-        }
-
         // Calculate returns
         double evalReturn = _isFirst ? 0 : (evalValue / _prevEval) - 1d;
         double mrktReturn = _isFirst ? 0 : (mrktValue / _prevMrkt) - 1d;
@@ -84,17 +68,15 @@ public class BetaList : BufferList<BetaResult>
         _prevMrkt = mrktValue;
         _isFirst = false;
 
-        // Add to buffer
-        _buffer.Enqueue((evalTimestamp, evalValue, mrktValue));
-        _evalReturns.Add(evalReturn);
-        _mrktReturns.Add(mrktReturn);
+        // Add to buffers
+        _buffer.Enqueue((timestamp, evalValue, mrktValue));
+        _returns.Enqueue((evalReturn, mrktReturn));
 
         // Maintain buffer size
         if (_buffer.Count > LookbackPeriods + 1)
         {
             _buffer.Dequeue();
-            _evalReturns.RemoveAt(0);
-            _mrktReturns.RemoveAt(0);
+            _returns.Dequeue();
         }
 
         // Calculate results
@@ -136,7 +118,7 @@ public class BetaList : BufferList<BetaResult>
         }
 
         AddInternal(new BetaResult(
-            Timestamp: evalTimestamp,
+            Timestamp: timestamp,
             ReturnsEval: evalReturn,
             ReturnsMrkt: mrktReturn,
             Beta: beta,
@@ -153,11 +135,21 @@ public class BetaList : BufferList<BetaResult>
     /// <param name="eval">The evaluated asset value.</param>
     /// <param name="mrkt">The market value.</param>
     /// <exception cref="ArgumentNullException">Thrown when eval or mrkt is null.</exception>
+    /// <exception cref="InvalidQuotesException">Thrown when timestamps do not match.</exception>
     public void Add(IReusable eval, IReusable mrkt)
     {
         ArgumentNullException.ThrowIfNull(eval);
         ArgumentNullException.ThrowIfNull(mrkt);
-        Add(eval.Timestamp, eval.Value, mrkt.Timestamp, mrkt.Value);
+
+        if (eval.Timestamp != mrkt.Timestamp)
+        {
+            throw new InvalidQuotesException(
+                nameof(eval), eval.Timestamp,
+                "Timestamp sequence does not match.  " +
+                "Beta requires matching dates in provided quotes.");
+        }
+
+        Add(eval.Timestamp, eval.Value, mrkt.Value);
     }
 
     /// <summary>
@@ -192,8 +184,7 @@ public class BetaList : BufferList<BetaResult>
     {
         ClearInternal();
         _buffer.Clear();
-        _evalReturns.Clear();
-        _mrktReturns.Clear();
+        _returns.Clear();
         _prevEval = 0;
         _prevMrkt = 0;
         _isFirst = true;
@@ -204,38 +195,10 @@ public class BetaList : BufferList<BetaResult>
     /// </summary>
     protected override void PruneList()
     {
-        int overflow = Count - MaxListSize;
-
-        if (overflow > 0)
-        {
-            // Determine how many items we can safely remove from state buffers
-            // Keep at least LookbackPeriods + 1 items for calculations
-            int minBufferSize = LookbackPeriods + 1;
-            int removable = Math.Min(overflow, Math.Max(0, _evalReturns.Count - minBufferSize));
-
-            if (removable > 0)
-            {
-                PruneStateBuffers(removable);
-            }
-        }
-
-        // Call base implementation to prune the result list
+        // Queue-based buffers (_buffer and _returns) are bounded by design
+        // and automatically maintain their size during Add operations.
+        // Only need to prune the result list.
         base.PruneList();
-    }
-
-    /// <summary>
-    /// Prunes the internal state buffers to match result list pruning.
-    /// </summary>
-    /// <param name="removeCount">Number of items to remove from the beginning of state buffers.</param>
-    private void PruneStateBuffers(int removeCount)
-    {
-        if (removeCount <= 0 || removeCount >= _evalReturns.Count)
-        {
-            return;
-        }
-
-        _evalReturns.RemoveRange(0, removeCount);
-        _mrktReturns.RemoveRange(0, removeCount);
     }
 
     /// <summary>
@@ -253,18 +216,20 @@ public class BetaList : BufferList<BetaResult>
         List<double> dataB = new(LookbackPeriods);
 
         // Use returns from index 1 onwards (skip first which is 0)
-        for (int p = 1; p < _evalReturns.Count; p++)
+        int index = 0;
+        foreach ((double evalReturn, double mrktReturn) in _returns)
         {
-            double a = _mrktReturns[p];
-            double b = _evalReturns[p];
-
-            if (type is BetaType.Standard
-            || (type is BetaType.Down && a < 0)
-            || (type is BetaType.Up && a > 0))
+            if (index > 0) // Skip first return which is 0
             {
-                dataA.Add(a);
-                dataB.Add(b);
+                if (type is BetaType.Standard
+                || (type is BetaType.Down && mrktReturn < 0)
+                || (type is BetaType.Up && mrktReturn > 0))
+                {
+                    dataA.Add(mrktReturn);
+                    dataB.Add(evalReturn);
+                }
             }
+            index++;
         }
 
         if (dataA.Count <= 0)
@@ -297,7 +262,7 @@ public static partial class Beta
     /// <typeparam name="T">The type that implements IReusable.</typeparam>
     /// <param name="sourceEval">The evaluated asset values.</param>
     /// <param name="sourceMrkt">The market values.</param>
-    /// <param name="lookbackPeriods">The number of periods to look back. Default is 20.</param>
+    /// <param name="lookbackPeriods">The number of periods to look back. Default is 50.</param>
     /// <param name="type">The type of Beta calculation. Default is <see cref="BetaType.Standard"/>.</param>
     /// <returns>A BetaList instance pre-populated with historical data.</returns>
     /// <exception cref="ArgumentNullException">Thrown when sourceEval or sourceMrkt is null.</exception>
@@ -305,25 +270,14 @@ public static partial class Beta
     public static BetaList ToBetaList<T>(
         this IReadOnlyList<T> sourceEval,
         IReadOnlyList<T> sourceMrkt,
-        int lookbackPeriods = 20,
+        int lookbackPeriods = 50,
         BetaType type = BetaType.Standard)
         where T : IReusable
     {
         ArgumentNullException.ThrowIfNull(sourceEval);
         ArgumentNullException.ThrowIfNull(sourceMrkt);
 
-        if (lookbackPeriods <= 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
-                "Lookback periods must be greater than 0 for Beta.");
-        }
-
-        if (sourceEval.Count != sourceMrkt.Count)
-        {
-            throw new InvalidQuotesException(
-                nameof(sourceEval),
-                "Eval quotes should have the same number of Market quotes for Beta.");
-        }
+        Beta.Validate(sourceEval, sourceMrkt, lookbackPeriods);
 
         return new(
             lookbackPeriods,
