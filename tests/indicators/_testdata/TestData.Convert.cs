@@ -7,7 +7,7 @@ internal static class Convert
     private static readonly CultureInfo EnglishCulture = new("en-US", false);
 
     // importer / parser
-    internal static Quote QuoteFromCsv(this string csvLine)
+    internal static Quote QuoteFromCsv(string csvLine)
     {
         if (string.IsNullOrEmpty(csvLine))
         {
