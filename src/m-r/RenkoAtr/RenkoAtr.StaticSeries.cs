@@ -15,7 +15,7 @@ public static partial class RenkoAtr
     /// <returns>A list of Renko chart results.</returns>
     public static IReadOnlyList<RenkoResult> ToRenkoAtr<TQuote>(
         this IReadOnlyList<TQuote> quotes,
-        int atrPeriods,
+        int atrPeriods = 14,
         EndType endType = EndType.Close)
         where TQuote : IQuote
     {

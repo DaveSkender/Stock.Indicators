@@ -16,7 +16,7 @@ public static partial class Dpo
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
     public static IReadOnlyList<DpoResult> ToDpo<T>(
         this IReadOnlyList<T> source,
-        int lookbackPeriods)
+        int lookbackPeriods = 14)
         where T : IReusable
     {
         // check parameter arguments

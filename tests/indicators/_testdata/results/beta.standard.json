@@ -1,0 +1,5022 @@
+[
+  {
+    "timestamp": "2017-01-03T00:00:00",
+    "beta": null,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0,
+    "returnsMrkt": 0
+  },
+  {
+    "timestamp": "2017-01-04T00:00:00",
+    "beta": null,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.005921052631578938,
+    "returnsMrkt": 0.005921052631578938
+  },
+  {
+    "timestamp": "2017-01-05T00:00:00",
+    "beta": null,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0007941698589181145,
+    "returnsMrkt": -0.0007941698589181145
+  },
+  {
+    "timestamp": "2017-01-06T00:00:00",
+    "beta": null,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0035999812987985713,
+    "returnsMrkt": 0.0035999812987985713
+  },
+  {
+    "timestamp": "2017-01-09T00:00:00",
+    "beta": null,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0033075561352837735,
+    "returnsMrkt": -0.0033075561352837735
+  },
+  {
+    "timestamp": "2017-01-10T00:00:00",
+    "beta": null,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0,
+    "returnsMrkt": 0
+  },
+  {
+    "timestamp": "2017-01-11T00:00:00",
+    "beta": null,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0028043935498949235,
+    "returnsMrkt": 0.0028043935498949235
+  },
+  {
+    "timestamp": "2017-01-12T00:00:00",
+    "beta": null,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0024702866464693107,
+    "returnsMrkt": -0.0024702866464693107
+  },
+  {
+    "timestamp": "2017-01-13T00:00:00",
+    "beta": null,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0022895056536771374,
+    "returnsMrkt": 0.0022895056536771374
+  },
+  {
+    "timestamp": "2017-01-17T00:00:00",
+    "beta": null,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.003542958370239102,
+    "returnsMrkt": -0.003542958370239102
+  },
+  {
+    "timestamp": "2017-01-18T00:00:00",
+    "beta": null,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0021988304093567557,
+    "returnsMrkt": 0.0021988304093567557
+  },
+  {
+    "timestamp": "2017-01-19T00:00:00",
+    "beta": null,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.003687797591261255,
+    "returnsMrkt": -0.003687797591261255
+  },
+  {
+    "timestamp": "2017-01-20T00:00:00",
+    "beta": null,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0036545940120882303,
+    "returnsMrkt": 0.0036545940120882303
+  },
+  {
+    "timestamp": "2017-01-23T00:00:00",
+    "beta": null,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0025675738761029576,
+    "returnsMrkt": -0.0025675738761029576
+  },
+  {
+    "timestamp": "2017-01-24T00:00:00",
+    "beta": null,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.006412056538425581,
+    "returnsMrkt": 0.006412056538425581
+  },
+  {
+    "timestamp": "2017-01-25T00:00:00",
+    "beta": null,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.008649955820118072,
+    "returnsMrkt": 0.008649955820118072
+  },
+  {
+    "timestamp": "2017-01-26T00:00:00",
+    "beta": null,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0010604453870625141,
+    "returnsMrkt": -0.0010604453870625141
+  },
+  {
+    "timestamp": "2017-01-27T00:00:00",
+    "beta": null,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0015692790547401358,
+    "returnsMrkt": -0.0015692790547401358
+  },
+  {
+    "timestamp": "2017-01-30T00:00:00",
+    "beta": null,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.006194526627218977,
+    "returnsMrkt": -0.006194526627218977
+  },
+  {
+    "timestamp": "2017-01-31T00:00:00",
+    "beta": null,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -9.303190994502941E-05,
+    "returnsMrkt": -9.303190994502941E-05
+  },
+  {
+    "timestamp": "2017-02-01T00:00:00",
+    "beta": null,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0004186825455898546,
+    "returnsMrkt": 0.0004186825455898546
+  },
+  {
+    "timestamp": "2017-02-02T00:00:00",
+    "beta": null,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0006510113926994077,
+    "returnsMrkt": 0.0006510113926994077
+  },
+  {
+    "timestamp": "2017-02-03T00:00:00",
+    "beta": null,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.006877643013151191,
+    "returnsMrkt": 0.006877643013151191
+  },
+  {
+    "timestamp": "2017-02-06T00:00:00",
+    "beta": null,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0017999723081182362,
+    "returnsMrkt": -0.0017999723081182362
+  },
+  {
+    "timestamp": "2017-02-07T00:00:00",
+    "beta": null,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 4.623636027378808E-05,
+    "returnsMrkt": 4.623636027378808E-05
+  },
+  {
+    "timestamp": "2017-02-08T00:00:00",
+    "beta": null,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0013407924545749683,
+    "returnsMrkt": 0.0013407924545749683
+  },
+  {
+    "timestamp": "2017-02-09T00:00:00",
+    "beta": null,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.005910056330224345,
+    "returnsMrkt": 0.005910056330224345
+  },
+  {
+    "timestamp": "2017-02-10T00:00:00",
+    "beta": null,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.00394748921325605,
+    "returnsMrkt": 0.00394748921325605
+  },
+  {
+    "timestamp": "2017-02-13T00:00:00",
+    "beta": null,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.005440746159473209,
+    "returnsMrkt": 0.005440746159473209
+  },
+  {
+    "timestamp": "2017-02-14T00:00:00",
+    "beta": null,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.004001637033331784,
+    "returnsMrkt": 0.004001637033331784
+  },
+  {
+    "timestamp": "2017-02-15T00:00:00",
+    "beta": null,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.005208569228678961,
+    "returnsMrkt": 0.005208569228678961
+  },
+  {
+    "timestamp": "2017-02-16T00:00:00",
+    "beta": null,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0008560872307831202,
+    "returnsMrkt": -0.0008560872307831202
+  },
+  {
+    "timestamp": "2017-02-17T00:00:00",
+    "beta": null,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0015783540022547005,
+    "returnsMrkt": 0.0015783540022547005
+  },
+  {
+    "timestamp": "2017-02-21T00:00:00",
+    "beta": null,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.005988293561458802,
+    "returnsMrkt": 0.005988293561458802
+  },
+  {
+    "timestamp": "2017-02-22T00:00:00",
+    "beta": null,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0008951349415925458,
+    "returnsMrkt": -0.0008951349415925458
+  },
+  {
+    "timestamp": "2017-02-23T00:00:00",
+    "beta": null,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0006719526945302423,
+    "returnsMrkt": 0.0006719526945302423
+  },
+  {
+    "timestamp": "2017-02-24T00:00:00",
+    "beta": null,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0012534694242993805,
+    "returnsMrkt": 0.0012534694242993805
+  },
+  {
+    "timestamp": "2017-02-27T00:00:00",
+    "beta": null,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0015648752570867064,
+    "returnsMrkt": 0.0015648752570867064
+  },
+  {
+    "timestamp": "2017-02-28T00:00:00",
+    "beta": null,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0026784518548278458,
+    "returnsMrkt": -0.0026784518548278458
+  },
+  {
+    "timestamp": "2017-03-01T00:00:00",
+    "beta": null,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.013965355176581262,
+    "returnsMrkt": 0.013965355176581262
+  },
+  {
+    "timestamp": "2017-03-02T00:00:00",
+    "beta": null,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.006268485410320879,
+    "returnsMrkt": -0.006268485410320879
+  },
+  {
+    "timestamp": "2017-03-03T00:00:00",
+    "beta": null,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0006219181733373436,
+    "returnsMrkt": 0.0006219181733373436
+  },
+  {
+    "timestamp": "2017-03-06T00:00:00",
+    "beta": null,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.002974472807991013,
+    "returnsMrkt": -0.002974472807991013
+  },
+  {
+    "timestamp": "2017-03-07T00:00:00",
+    "beta": null,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0029833466916021623,
+    "returnsMrkt": -0.0029833466916021623
+  },
+  {
+    "timestamp": "2017-03-08T00:00:00",
+    "beta": null,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0018757536510204398,
+    "returnsMrkt": -0.0018757536510204398
+  },
+  {
+    "timestamp": "2017-03-09T00:00:00",
+    "beta": null,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.001297597207928769,
+    "returnsMrkt": 0.001297597207928769
+  },
+  {
+    "timestamp": "2017-03-10T00:00:00",
+    "beta": null,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.003485566181070654,
+    "returnsMrkt": 0.003485566181070654
+  },
+  {
+    "timestamp": "2017-03-13T00:00:00",
+    "beta": null,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0004898468115424048,
+    "returnsMrkt": 0.0004898468115424048
+  },
+  {
+    "timestamp": "2017-03-14T00:00:00",
+    "beta": null,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.003827836382249483,
+    "returnsMrkt": -0.003827836382249483
+  },
+  {
+    "timestamp": "2017-03-15T00:00:00",
+    "beta": null,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.008668066663688023,
+    "returnsMrkt": 0.008668066663688023
+  },
+  {
+    "timestamp": "2017-03-16T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0019490586932446874,
+    "returnsMrkt": -0.0019490586932446874
+  },
+  {
+    "timestamp": "2017-03-17T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0017753317651236777,
+    "returnsMrkt": -0.0017753317651236777
+  },
+  {
+    "timestamp": "2017-03-20T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.00111155573340449,
+    "returnsMrkt": -0.00111155573340449
+  },
+  {
+    "timestamp": "2017-03-21T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.012819371494703136,
+    "returnsMrkt": -0.012819371494703136
+  },
+  {
+    "timestamp": "2017-03-22T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0023446658851113966,
+    "returnsMrkt": 0.0023446658851113966
+  },
+  {
+    "timestamp": "2017-03-23T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0010796221322537658,
+    "returnsMrkt": -0.0010796221322537658
+  },
+  {
+    "timestamp": "2017-03-24T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0007205259839683231,
+    "returnsMrkt": -0.0007205259839683231
+  },
+  {
+    "timestamp": "2017-03-27T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.001036502929247507,
+    "returnsMrkt": -0.001036502929247507
+  },
+  {
+    "timestamp": "2017-03-28T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0073081607795371095,
+    "returnsMrkt": 0.0073081607795371095
+  },
+  {
+    "timestamp": "2017-03-29T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0009404809888486909,
+    "returnsMrkt": 0.0009404809888486909
+  },
+  {
+    "timestamp": "2017-03-30T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0031767337807606655,
+    "returnsMrkt": 0.0031767337807606655
+  },
+  {
+    "timestamp": "2017-03-31T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0023192542705500196,
+    "returnsMrkt": -0.0023192542705500196
+  },
+  {
+    "timestamp": "2017-04-03T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0017434842862890099,
+    "returnsMrkt": -0.0017434842862890099
+  },
+  {
+    "timestamp": "2017-04-04T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0006269592476488839,
+    "returnsMrkt": 0.0006269592476488839
+  },
+  {
+    "timestamp": "2017-04-05T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0029538131041890736,
+    "returnsMrkt": -0.0029538131041890736
+  },
+  {
+    "timestamp": "2017-04-06T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.002783014633270575,
+    "returnsMrkt": 0.002783014633270575
+  },
+  {
+    "timestamp": "2017-04-07T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0010295434198747122,
+    "returnsMrkt": -0.0010295434198747122
+  },
+  {
+    "timestamp": "2017-04-10T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0006273244611731954,
+    "returnsMrkt": 0.0006273244611731954
+  },
+  {
+    "timestamp": "2017-04-11T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0012090815458332127,
+    "returnsMrkt": -0.0012090815458332127
+  },
+  {
+    "timestamp": "2017-04-12T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.004393830703012913,
+    "returnsMrkt": -0.004393830703012913
+  },
+  {
+    "timestamp": "2017-04-13T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.006484733855714686,
+    "returnsMrkt": -0.006484733855714686
+  },
+  {
+    "timestamp": "2017-04-17T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.008884054029553168,
+    "returnsMrkt": 0.008884054029553168
+  },
+  {
+    "timestamp": "2017-04-18T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.003010153652619363,
+    "returnsMrkt": -0.003010153652619363
+  },
+  {
+    "timestamp": "2017-04-19T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0018475958722004027,
+    "returnsMrkt": -0.0018475958722004027
+  },
+  {
+    "timestamp": "2017-04-20T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.008171557562076659,
+    "returnsMrkt": 0.008171557562076659
+  },
+  {
+    "timestamp": "2017-04-21T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.003179436657561263,
+    "returnsMrkt": -0.003179436657561263
+  },
+  {
+    "timestamp": "2017-04-24T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.010961365678346713,
+    "returnsMrkt": 0.010961365678346713
+  },
+  {
+    "timestamp": "2017-04-25T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.005821187344472012,
+    "returnsMrkt": 0.005821187344472012
+  },
+  {
+    "timestamp": "2017-04-26T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0006185111552904354,
+    "returnsMrkt": -0.0006185111552904354
+  },
+  {
+    "timestamp": "2017-04-27T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0008399275009947083,
+    "returnsMrkt": 0.0008399275009947083
+  },
+  {
+    "timestamp": "2017-04-28T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.002164310954063664,
+    "returnsMrkt": -0.002164310954063664
+  },
+  {
+    "timestamp": "2017-05-01T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.002523128679562614,
+    "returnsMrkt": 0.002523128679562614
+  },
+  {
+    "timestamp": "2017-05-02T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.00035323207347226493,
+    "returnsMrkt": 0.00035323207347226493
+  },
+  {
+    "timestamp": "2017-05-03T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.001191737288135597,
+    "returnsMrkt": -0.001191737288135597
+  },
+  {
+    "timestamp": "2017-05-04T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0011489681382297334,
+    "returnsMrkt": 0.0011489681382297334
+  },
+  {
+    "timestamp": "2017-05-05T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.003928492606488643,
+    "returnsMrkt": 0.003928492606488643
+  },
+  {
+    "timestamp": "2017-05-08T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.00013190291945130994,
+    "returnsMrkt": -0.00013190291945130994
+  },
+  {
+    "timestamp": "2017-05-09T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.000923442240886585,
+    "returnsMrkt": -0.000923442240886585
+  },
+  {
+    "timestamp": "2017-05-10T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0018045774647887924,
+    "returnsMrkt": 0.0018045774647887924
+  },
+  {
+    "timestamp": "2017-05-11T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.002064935635517018,
+    "returnsMrkt": -0.002064935635517018
+  },
+  {
+    "timestamp": "2017-05-12T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.001672977018578825,
+    "returnsMrkt": -0.001672977018578825
+  },
+  {
+    "timestamp": "2017-05-15T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0055124360557416985,
+    "returnsMrkt": 0.0055124360557416985
+  },
+  {
+    "timestamp": "2017-05-16T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.000921012236305363,
+    "returnsMrkt": -0.000921012236305363
+  },
+  {
+    "timestamp": "2017-05-17T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.017734855136084415,
+    "returnsMrkt": -0.017734855136084415
+  },
+  {
+    "timestamp": "2017-05-18T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.004022166607078992,
+    "returnsMrkt": 0.004022166607078992
+  },
+  {
+    "timestamp": "2017-05-19T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0064987091605093195,
+    "returnsMrkt": 0.0064987091605093195
+  },
+  {
+    "timestamp": "2017-05-22T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.005085795153016104,
+    "returnsMrkt": 0.005085795153016104
+  },
+  {
+    "timestamp": "2017-05-23T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0022440269283230396,
+    "returnsMrkt": 0.0022440269283230396
+  },
+  {
+    "timestamp": "2017-05-24T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.002326806567740869,
+    "returnsMrkt": 0.002326806567740869
+  },
+  {
+    "timestamp": "2017-05-25T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.004774210503263099,
+    "returnsMrkt": 0.004774210503263099
+  },
+  {
+    "timestamp": "2017-05-26T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.00021795989537931604,
+    "returnsMrkt": -0.00021795989537931604
+  },
+  {
+    "timestamp": "2017-05-30T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0008720296490080104,
+    "returnsMrkt": -0.0008720296490080104
+  },
+  {
+    "timestamp": "2017-05-31T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0002618372245254408,
+    "returnsMrkt": -0.0002618372245254408
+  },
+  {
+    "timestamp": "2017-06-01T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.007988126937011675,
+    "returnsMrkt": 0.007988126937011675
+  },
+  {
+    "timestamp": "2017-06-02T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0033344881344188337,
+    "returnsMrkt": 0.0033344881344188337
+  },
+  {
+    "timestamp": "2017-06-05T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0007769001683284316,
+    "returnsMrkt": -0.0007769001683284316
+  },
+  {
+    "timestamp": "2017-06-06T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0031964062027557416,
+    "returnsMrkt": -0.0031964062027557416
+  },
+  {
+    "timestamp": "2017-06-07T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0018633271222427972,
+    "returnsMrkt": 0.0018633271222427972
+  },
+  {
+    "timestamp": "2017-06-08T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0005190311418685756,
+    "returnsMrkt": 0.0005190311418685756
+  },
+  {
+    "timestamp": "2017-06-09T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.001556285664879753,
+    "returnsMrkt": -0.001556285664879753
+  },
+  {
+    "timestamp": "2017-06-12T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0001731901627988197,
+    "returnsMrkt": -0.0001731901627988197
+  },
+  {
+    "timestamp": "2017-06-13T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0048934695998614774,
+    "returnsMrkt": 0.0048934695998614774
+  },
+  {
+    "timestamp": "2017-06-14T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0012928248222365823,
+    "returnsMrkt": -0.0012928248222365823
+  },
+  {
+    "timestamp": "2017-06-15T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0018985976267529292,
+    "returnsMrkt": -0.0018985976267529292
+  },
+  {
+    "timestamp": "2017-06-16T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.00021616013142544688,
+    "returnsMrkt": 0.00021616013142544688
+  },
+  {
+    "timestamp": "2017-06-19T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.008298755186721962,
+    "returnsMrkt": 0.008298755186721962
+  },
+  {
+    "timestamp": "2017-06-20T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.006730109739368939,
+    "returnsMrkt": -0.006730109739368939
+  },
+  {
+    "timestamp": "2017-06-21T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.000258944370117864,
+    "returnsMrkt": -0.000258944370117864
+  },
+  {
+    "timestamp": "2017-06-22T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0004316857327865131,
+    "returnsMrkt": -0.0004316857327865131
+  },
+  {
+    "timestamp": "2017-06-23T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0011660548477649968,
+    "returnsMrkt": 0.0011660548477649968
+  },
+  {
+    "timestamp": "2017-06-26T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0006901906651712864,
+    "returnsMrkt": 0.0006901906651712864
+  },
+  {
+    "timestamp": "2017-06-27T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.008061039744805432,
+    "returnsMrkt": -0.008061039744805432
+  },
+  {
+    "timestamp": "2017-06-28T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.008952240232932063,
+    "returnsMrkt": 0.008952240232932063
+  },
+  {
+    "timestamp": "2017-06-29T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0087866649437911,
+    "returnsMrkt": -0.0087866649437911
+  },
+  {
+    "timestamp": "2017-06-30T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0018685091035501866,
+    "returnsMrkt": 0.0018685091035501866
+  },
+  {
+    "timestamp": "2017-07-03T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0016915336571825534,
+    "returnsMrkt": 0.0016915336571825534
+  },
+  {
+    "timestamp": "2017-07-05T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.002294869019268342,
+    "returnsMrkt": 0.002294869019268342
+  },
+  {
+    "timestamp": "2017-07-06T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.009158458614135001,
+    "returnsMrkt": -0.009158458614135001
+  },
+  {
+    "timestamp": "2017-07-07T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0064963376351585556,
+    "returnsMrkt": 0.0064963376351585556
+  },
+  {
+    "timestamp": "2017-07-10T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0010829542993284758,
+    "returnsMrkt": 0.0010829542993284758
+  },
+  {
+    "timestamp": "2017-07-11T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0007356122890522787,
+    "returnsMrkt": -0.0007356122890522787
+  },
+  {
+    "timestamp": "2017-07-12T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.007491447624821346,
+    "returnsMrkt": 0.007491447624821346
+  },
+  {
+    "timestamp": "2017-07-13T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0016762657955815552,
+    "returnsMrkt": 0.0016762657955815552
+  },
+  {
+    "timestamp": "2017-07-14T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.004677107916756018,
+    "returnsMrkt": 0.004677107916756018
+  },
+  {
+    "timestamp": "2017-07-17T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.00012812847014598283,
+    "returnsMrkt": -0.00012812847014598283
+  },
+  {
+    "timestamp": "2017-07-18T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0005552945196702908,
+    "returnsMrkt": 0.0005552945196702908
+  },
+  {
+    "timestamp": "2017-07-19T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.005379098360655643,
+    "returnsMrkt": 0.005379098360655643
+  },
+  {
+    "timestamp": "2017-07-20T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0004670912951167949,
+    "returnsMrkt": 0.0004670912951167949
+  },
+  {
+    "timestamp": "2017-07-21T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0008913034251517571,
+    "returnsMrkt": -0.0008913034251517571
+  },
+  {
+    "timestamp": "2017-07-24T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0002548853016143271,
+    "returnsMrkt": -0.0002548853016143271
+  },
+  {
+    "timestamp": "2017-07-25T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0024220277045976513,
+    "returnsMrkt": 0.0024220277045976513
+  },
+  {
+    "timestamp": "2017-07-26T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 4.238904667031029E-05,
+    "returnsMrkt": 4.238904667031029E-05
+  },
+  {
+    "timestamp": "2017-07-27T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0009325194981349982,
+    "returnsMrkt": -0.0009325194981349982
+  },
+  {
+    "timestamp": "2017-07-28T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0011455239711496423,
+    "returnsMrkt": -0.0011455239711496423
+  },
+  {
+    "timestamp": "2017-07-31T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0005946565858216957,
+    "returnsMrkt": -0.0005946565858216957
+  },
+  {
+    "timestamp": "2017-08-01T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.002252539419439925,
+    "returnsMrkt": 0.002252539419439925
+  },
+  {
+    "timestamp": "2017-08-02T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.00046645746756013295,
+    "returnsMrkt": 0.00046645746756013295
+  },
+  {
+    "timestamp": "2017-08-03T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0019073453990591238,
+    "returnsMrkt": -0.0019073453990591238
+  },
+  {
+    "timestamp": "2017-08-04T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.001783590963139181,
+    "returnsMrkt": 0.001783590963139181
+  },
+  {
+    "timestamp": "2017-08-07T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0018651971174226123,
+    "returnsMrkt": 0.0018651971174226123
+  },
+  {
+    "timestamp": "2017-08-08T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0024540915630024696,
+    "returnsMrkt": -0.0024540915630024696
+  },
+  {
+    "timestamp": "2017-08-09T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -4.24160162877385E-05,
+    "returnsMrkt": -4.24160162877385E-05
+  },
+  {
+    "timestamp": "2017-08-10T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.014125132555673381,
+    "returnsMrkt": -0.014125132555673381
+  },
+  {
+    "timestamp": "2017-08-11T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.001505894501333982,
+    "returnsMrkt": 0.001505894501333982
+  },
+  {
+    "timestamp": "2017-08-14T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.009880998410447983,
+    "returnsMrkt": 0.009880998410447983
+  },
+  {
+    "timestamp": "2017-08-15T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -8.508103969018244E-05,
+    "returnsMrkt": -8.508103969018244E-05
+  },
+  {
+    "timestamp": "2017-08-16T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0017443097213358794,
+    "returnsMrkt": 0.0017443097213358794
+  },
+  {
+    "timestamp": "2017-08-17T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.015586511509385947,
+    "returnsMrkt": -0.015586511509385947
+  },
+  {
+    "timestamp": "2017-08-18T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.001596272488027961,
+    "returnsMrkt": -0.001596272488027961
+  },
+  {
+    "timestamp": "2017-08-21T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0007778065854291416,
+    "returnsMrkt": 0.0007778065854291416
+  },
+  {
+    "timestamp": "2017-08-22T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.010492227979274737,
+    "returnsMrkt": 0.010492227979274737
+  },
+  {
+    "timestamp": "2017-08-23T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.003589283425201928,
+    "returnsMrkt": -0.003589283425201928
+  },
+  {
+    "timestamp": "2017-08-24T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0023585917063339013,
+    "returnsMrkt": -0.0023585917063339013
+  },
+  {
+    "timestamp": "2017-08-25T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.002364167812929807,
+    "returnsMrkt": 0.002364167812929807
+  },
+  {
+    "timestamp": "2017-08-28T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 4.288348556968913E-05,
+    "returnsMrkt": 4.288348556968913E-05
+  },
+  {
+    "timestamp": "2017-08-29T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0011149228130360456,
+    "returnsMrkt": 0.0011149228130360456
+  },
+  {
+    "timestamp": "2017-08-30T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.004754561809303448,
+    "returnsMrkt": 0.004754561809303448
+  },
+  {
+    "timestamp": "2017-08-31T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.006010998848957616,
+    "returnsMrkt": 0.006010998848957616
+  },
+  {
+    "timestamp": "2017-09-01T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.001398423595220022,
+    "returnsMrkt": 0.001398423595220022
+  },
+  {
+    "timestamp": "2017-09-05T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.007151622868266205,
+    "returnsMrkt": -0.007151622868266205
+  },
+  {
+    "timestamp": "2017-09-06T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0034097689881509297,
+    "returnsMrkt": 0.0034097689881509297
+  },
+  {
+    "timestamp": "2017-09-07T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.00012743182397423336,
+    "returnsMrkt": -0.00012743182397423336
+  },
+  {
+    "timestamp": "2017-09-08T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0011895152725263092,
+    "returnsMrkt": -0.0011895152725263092
+  },
+  {
+    "timestamp": "2017-09-11T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.010675853855641959,
+    "returnsMrkt": 0.010675853855641959
+  },
+  {
+    "timestamp": "2017-09-12T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0033667199730662567,
+    "returnsMrkt": 0.0033667199730662567
+  },
+  {
+    "timestamp": "2017-09-13T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0005033134804126593,
+    "returnsMrkt": 0.0005033134804126593
+  },
+  {
+    "timestamp": "2017-09-14T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.00033537352226031825,
+    "returnsMrkt": -0.00033537352226031825
+  },
+  {
+    "timestamp": "2017-09-15T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0013419441415751798,
+    "returnsMrkt": 0.0013419441415751798
+  },
+  {
+    "timestamp": "2017-09-18T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0021358572744785143,
+    "returnsMrkt": 0.0021358572744785143
+  },
+  {
+    "timestamp": "2017-09-19T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0010029671110367566,
+    "returnsMrkt": 0.0010029671110367566
+  },
+  {
+    "timestamp": "2017-09-20T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0003339873919760983,
+    "returnsMrkt": 0.0003339873919760983
+  },
+  {
+    "timestamp": "2017-09-21T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0026710070531280605,
+    "returnsMrkt": -0.0026710070531280605
+  },
+  {
+    "timestamp": "2017-09-22T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.00020923128426164617,
+    "returnsMrkt": 0.00020923128426164617
+  },
+  {
+    "timestamp": "2017-09-25T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0020500376537528897,
+    "returnsMrkt": -0.0020500376537528897
+  },
+  {
+    "timestamp": "2017-09-26T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0006288517167651886,
+    "returnsMrkt": 0.0006288517167651886
+  },
+  {
+    "timestamp": "2017-09-27T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0038545332662978105,
+    "returnsMrkt": 0.0038545332662978105
+  },
+  {
+    "timestamp": "2017-09-28T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0012103505843070739,
+    "returnsMrkt": 0.0012103505843070739
+  },
+  {
+    "timestamp": "2017-09-29T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.003543290674892674,
+    "returnsMrkt": 0.003543290674892674
+  },
+  {
+    "timestamp": "2017-10-02T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.004320013292348657,
+    "returnsMrkt": 0.004320013292348657
+  },
+  {
+    "timestamp": "2017-10-03T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.002150715526511693,
+    "returnsMrkt": 0.002150715526511693
+  },
+  {
+    "timestamp": "2017-10-04T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.001155592241023573,
+    "returnsMrkt": 0.001155592241023573
+  },
+  {
+    "timestamp": "2017-10-05T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.005936186000494725,
+    "returnsMrkt": 0.005936186000494725
+  },
+  {
+    "timestamp": "2017-10-06T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0011474469305794432,
+    "returnsMrkt": -0.0011474469305794432
+  },
+  {
+    "timestamp": "2017-10-09T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.001641092967916702,
+    "returnsMrkt": -0.001641092967916702
+  },
+  {
+    "timestamp": "2017-10-10T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.002630064929727949,
+    "returnsMrkt": 0.002630064929727949
+  },
+  {
+    "timestamp": "2017-10-11T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0015984916796458748,
+    "returnsMrkt": 0.0015984916796458748
+  },
+  {
+    "timestamp": "2017-10-12T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.001514097475140197,
+    "returnsMrkt": -0.001514097475140197
+  },
+  {
+    "timestamp": "2017-10-13T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0012295081967212962,
+    "returnsMrkt": 0.0012295081967212962
+  },
+  {
+    "timestamp": "2017-10-16T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0013507981989355766,
+    "returnsMrkt": 0.0013507981989355766
+  },
+  {
+    "timestamp": "2017-10-17T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0006949270326617185,
+    "returnsMrkt": 0.0006949270326617185
+  },
+  {
+    "timestamp": "2017-10-18T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0009803921568627416,
+    "returnsMrkt": 0.0009803921568627416
+  },
+  {
+    "timestamp": "2017-10-19T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0002448579823701724,
+    "returnsMrkt": 0.0002448579823701724
+  },
+  {
+    "timestamp": "2017-10-20T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.005181558547531662,
+    "returnsMrkt": 0.005181558547531662
+  },
+  {
+    "timestamp": "2017-10-23T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.003896578317165278,
+    "returnsMrkt": -0.003896578317165278
+  },
+  {
+    "timestamp": "2017-10-24T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0017521698382299,
+    "returnsMrkt": 0.0017521698382299
+  },
+  {
+    "timestamp": "2017-10-25T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.004921900423039416,
+    "returnsMrkt": -0.004921900423039416
+  },
+  {
+    "timestamp": "2017-10-26T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0012672198830887549,
+    "returnsMrkt": 0.0012672198830887549
+  },
+  {
+    "timestamp": "2017-10-27T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.008165264962848084,
+    "returnsMrkt": 0.008165264962848084
+  },
+  {
+    "timestamp": "2017-10-30T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0037256013606543625,
+    "returnsMrkt": -0.0037256013606543625
+  },
+  {
+    "timestamp": "2017-10-31T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0015852369726037097,
+    "returnsMrkt": 0.0015852369726037097
+  },
+  {
+    "timestamp": "2017-11-01T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.001298648593807128,
+    "returnsMrkt": 0.001298648593807128
+  },
+  {
+    "timestamp": "2017-11-02T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.00040530134154748154,
+    "returnsMrkt": 0.00040530134154748154
+  },
+  {
+    "timestamp": "2017-11-03T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.003322124539156368,
+    "returnsMrkt": 0.003322124539156368
+  },
+  {
+    "timestamp": "2017-11-06T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0015748031496063408,
+    "returnsMrkt": 0.0015748031496063408
+  },
+  {
+    "timestamp": "2017-11-07T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0007256894049345597,
+    "returnsMrkt": -0.0007256894049345597
+  },
+  {
+    "timestamp": "2017-11-08T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0017348503187282205,
+    "returnsMrkt": 0.0017348503187282205
+  },
+  {
+    "timestamp": "2017-11-09T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0036247935881429383,
+    "returnsMrkt": -0.0036247935881429383
+  },
+  {
+    "timestamp": "2017-11-10T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.00032337604591936575,
+    "returnsMrkt": -0.00032337604591936575
+  },
+  {
+    "timestamp": "2017-11-13T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.000930006873963718,
+    "returnsMrkt": 0.000930006873963718
+  },
+  {
+    "timestamp": "2017-11-14T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0023430556677708214,
+    "returnsMrkt": -0.0023430556677708214
+  },
+  {
+    "timestamp": "2017-11-15T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.004980563654033099,
+    "returnsMrkt": -0.004980563654033099
+  },
+  {
+    "timestamp": "2017-11-16T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.008505270011801569,
+    "returnsMrkt": 0.008505270011801569
+  },
+  {
+    "timestamp": "2017-11-17T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.002945686385279589,
+    "returnsMrkt": -0.002945686385279589
+  },
+  {
+    "timestamp": "2017-11-20T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.001699785503257889,
+    "returnsMrkt": 0.001699785503257889
+  },
+  {
+    "timestamp": "2017-11-21T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.006545190093329545,
+    "returnsMrkt": 0.006545190093329545
+  },
+  {
+    "timestamp": "2017-11-22T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.000883073094368414,
+    "returnsMrkt": -0.000883073094368414
+  },
+  {
+    "timestamp": "2017-11-24T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0022899843316861457,
+    "returnsMrkt": 0.0022899843316861457
+  },
+  {
+    "timestamp": "2017-11-27T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.00048100048100041537,
+    "returnsMrkt": -0.00048100048100041537
+  },
+  {
+    "timestamp": "2017-11-28T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.01014597369265302,
+    "returnsMrkt": 0.01014597369265302
+  },
+  {
+    "timestamp": "2017-11-29T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0005954980348563677,
+    "returnsMrkt": -0.0005954980348563677
+  },
+  {
+    "timestamp": "2017-11-30T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.008739175339636196,
+    "returnsMrkt": 0.008739175339636196
+  },
+  {
+    "timestamp": "2017-12-01T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0020871071906749528,
+    "returnsMrkt": -0.0020871071906749528
+  },
+  {
+    "timestamp": "2017-12-04T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0011838522552384267,
+    "returnsMrkt": -0.0011838522552384267
+  },
+  {
+    "timestamp": "2017-12-05T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0035952747817155073,
+    "returnsMrkt": -0.0035952747817155073
+  },
+  {
+    "timestamp": "2017-12-06T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.00015860428231562196,
+    "returnsMrkt": 0.00015860428231562196
+  },
+  {
+    "timestamp": "2017-12-07T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0031715826197271646,
+    "returnsMrkt": 0.0031715826197271646
+  },
+  {
+    "timestamp": "2017-12-08T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.005453683212140348,
+    "returnsMrkt": 0.005453683212140348
+  },
+  {
+    "timestamp": "2017-12-11T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0030264916280167142,
+    "returnsMrkt": 0.0030264916280167142
+  },
+  {
+    "timestamp": "2017-12-12T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0017633919824444622,
+    "returnsMrkt": 0.0017633919824444622
+  },
+  {
+    "timestamp": "2017-12-13T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.00011735252699096588,
+    "returnsMrkt": -0.00011735252699096588
+  },
+  {
+    "timestamp": "2017-12-14T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0041078205078048935,
+    "returnsMrkt": -0.0041078205078048935
+  },
+  {
+    "timestamp": "2017-12-15T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.008328095537397884,
+    "returnsMrkt": 0.008328095537397884
+  },
+  {
+    "timestamp": "2017-12-18T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.006350319463923837,
+    "returnsMrkt": 0.006350319463923837
+  },
+  {
+    "timestamp": "2017-12-19T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0038326042352212486,
+    "returnsMrkt": -0.0038326042352212486
+  },
+  {
+    "timestamp": "2017-12-20T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0005440696409140244,
+    "returnsMrkt": -0.0005440696409140244
+  },
+  {
+    "timestamp": "2017-12-21T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0020608134380588616,
+    "returnsMrkt": 0.0020608134380588616
+  },
+  {
+    "timestamp": "2017-12-22T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0002328198362500089,
+    "returnsMrkt": -0.0002328198362500089
+  },
+  {
+    "timestamp": "2017-12-26T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0012031826120706413,
+    "returnsMrkt": -0.0012031826120706413
+  },
+  {
+    "timestamp": "2017-12-27T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.00046630916297507596,
+    "returnsMrkt": 0.00046630916297507596
+  },
+  {
+    "timestamp": "2017-12-28T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.002058572205391185,
+    "returnsMrkt": 0.002058572205391185
+  },
+  {
+    "timestamp": "2017-12-29T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.003759835652544785,
+    "returnsMrkt": -0.003759835652544785
+  },
+  {
+    "timestamp": "2018-01-02T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.00715897595517867,
+    "returnsMrkt": 0.00715897595517867
+  },
+  {
+    "timestamp": "2018-01-03T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.006335470910917129,
+    "returnsMrkt": 0.006335470910917129
+  },
+  {
+    "timestamp": "2018-01-04T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.004184261036468184,
+    "returnsMrkt": 0.004184261036468184
+  },
+  {
+    "timestamp": "2018-01-05T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.00668985817500678,
+    "returnsMrkt": 0.00668985817500678
+  },
+  {
+    "timestamp": "2018-01-08T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.001822738664843948,
+    "returnsMrkt": 0.001822738664843948
+  },
+  {
+    "timestamp": "2018-01-09T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0022742779167614913,
+    "returnsMrkt": 0.0022742779167614913
+  },
+  {
+    "timestamp": "2018-01-10T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0015505634974662952,
+    "returnsMrkt": -0.0015505634974662952
+  },
+  {
+    "timestamp": "2018-01-11T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.007310329154198714,
+    "returnsMrkt": 0.007310329154198714
+  },
+  {
+    "timestamp": "2018-01-12T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.006505226742874459,
+    "returnsMrkt": 0.006505226742874459
+  },
+  {
+    "timestamp": "2018-01-16T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.003399708596406148,
+    "returnsMrkt": -0.003399708596406148
+  },
+  {
+    "timestamp": "2018-01-17T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.009521667416404256,
+    "returnsMrkt": 0.009521667416404256
+  },
+  {
+    "timestamp": "2018-01-18T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0016709988860007519,
+    "returnsMrkt": -0.0016709988860007519
+  },
+  {
+    "timestamp": "2018-01-19T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.00453784638274124,
+    "returnsMrkt": 0.00453784638274124
+  },
+  {
+    "timestamp": "2018-01-22T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.008146036212833607,
+    "returnsMrkt": 0.008146036212833607
+  },
+  {
+    "timestamp": "2018-01-23T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0020935101186321248,
+    "returnsMrkt": 0.0020935101186321248
+  },
+  {
+    "timestamp": "2018-01-24T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.00036651517372809916,
+    "returnsMrkt": -0.00036651517372809916
+  },
+  {
+    "timestamp": "2018-01-25T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0004033145119894943,
+    "returnsMrkt": 0.0004033145119894943
+  },
+  {
+    "timestamp": "2018-01-26T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.011581455011911101,
+    "returnsMrkt": 0.011581455011911101
+  },
+  {
+    "timestamp": "2018-01-29T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0066301945581681565,
+    "returnsMrkt": -0.0066301945581681565
+  },
+  {
+    "timestamp": "2018-01-30T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.010248741702531206,
+    "returnsMrkt": -0.010248741702531206
+  },
+  {
+    "timestamp": "2018-01-31T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0005159007996462517,
+    "returnsMrkt": 0.0005159007996462517
+  },
+  {
+    "timestamp": "2018-02-01T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0011417627343376369,
+    "returnsMrkt": -0.0011417627343376369
+  },
+  {
+    "timestamp": "2018-02-02T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.021792035398229936,
+    "returnsMrkt": -0.021792035398229936
+  },
+  {
+    "timestamp": "2018-02-05T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.041803309585736526,
+    "returnsMrkt": -0.041803309585736526
+  },
+  {
+    "timestamp": "2018-02-06T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.01970889063729353,
+    "returnsMrkt": 0.01970889063729353
+  },
+  {
+    "timestamp": "2018-02-07T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.005439604953512478,
+    "returnsMrkt": -0.005439604953512478
+  },
+  {
+    "timestamp": "2018-02-08T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.03750969743987598,
+    "returnsMrkt": -0.03750969743987598
+  },
+  {
+    "timestamp": "2018-02-09T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.015032442671180535,
+    "returnsMrkt": 0.015032442671180535
+  },
+  {
+    "timestamp": "2018-02-12T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.01469070118319693,
+    "returnsMrkt": 0.01469070118319693
+  },
+  {
+    "timestamp": "2018-02-13T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.002465174518704094,
+    "returnsMrkt": 0.002465174518704094
+  },
+  {
+    "timestamp": "2018-02-14T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.01350560131152645,
+    "returnsMrkt": 0.01350560131152645
+  },
+  {
+    "timestamp": "2018-02-15T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.01274792990564233,
+    "returnsMrkt": 0.01274792990564233
+  },
+  {
+    "timestamp": "2018-02-16T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0003042287800427701,
+    "returnsMrkt": 0.0003042287800427701
+  },
+  {
+    "timestamp": "2018-02-20T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0062728102189781865,
+    "returnsMrkt": -0.0062728102189781865
+  },
+  {
+    "timestamp": "2018-02-21T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.004973411377634962,
+    "returnsMrkt": -0.004973411377634962
+  },
+  {
+    "timestamp": "2018-02-22T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0013072398016071851,
+    "returnsMrkt": 0.0013072398016071851
+  },
+  {
+    "timestamp": "2018-02-23T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.015935184118573087,
+    "returnsMrkt": 0.015935184118573087
+  },
+  {
+    "timestamp": "2018-02-26T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.011603295789553325,
+    "returnsMrkt": 0.011603295789553325
+  },
+  {
+    "timestamp": "2018-02-27T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.012478983747431283,
+    "returnsMrkt": -0.012478983747431283
+  },
+  {
+    "timestamp": "2018-02-28T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.01013960879270559,
+    "returnsMrkt": -0.01013960879270559
+  },
+  {
+    "timestamp": "2018-03-01T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.01452432824981853,
+    "returnsMrkt": -0.01452432824981853
+  },
+  {
+    "timestamp": "2018-03-02T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.005158437730287568,
+    "returnsMrkt": 0.005158437730287568
+  },
+  {
+    "timestamp": "2018-03-05T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.01153727427072071,
+    "returnsMrkt": 0.01153727427072071
+  },
+  {
+    "timestamp": "2018-03-06T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.002555788670608461,
+    "returnsMrkt": 0.002555788670608461
+  },
+  {
+    "timestamp": "2018-03-07T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.00038048854729455517,
+    "returnsMrkt": -0.00038048854729455517
+  },
+  {
+    "timestamp": "2018-03-08T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.004834043848964686,
+    "returnsMrkt": 0.004834043848964686
+  },
+  {
+    "timestamp": "2018-03-09T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.017424902458426317,
+    "returnsMrkt": 0.017424902458426317
+  },
+  {
+    "timestamp": "2018-03-12T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0012658699132506168,
+    "returnsMrkt": -0.0012658699132506168
+  },
+  {
+    "timestamp": "2018-03-13T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.006449207828518211,
+    "returnsMrkt": -0.006449207828518211
+  },
+  {
+    "timestamp": "2018-03-14T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.005140327179948945,
+    "returnsMrkt": -0.005140327179948945
+  },
+  {
+    "timestamp": "2018-03-15T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0010937205355457946,
+    "returnsMrkt": -0.0010937205355457946
+  },
+  {
+    "timestamp": "2018-03-16T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0010949180699235672,
+    "returnsMrkt": 0.0010949180699235672
+  },
+  {
+    "timestamp": "2018-03-19T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.013539505940033836,
+    "returnsMrkt": -0.013539505940033836
+  },
+  {
+    "timestamp": "2018-03-20T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.001682214405872351,
+    "returnsMrkt": 0.001682214405872351
+  },
+  {
+    "timestamp": "2018-03-21T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.001908396946564861,
+    "returnsMrkt": -0.001908396946564861
+  },
+  {
+    "timestamp": "2018-03-22T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.02500956022944545,
+    "returnsMrkt": -0.02500956022944545
+  },
+  {
+    "timestamp": "2018-03-23T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.02129745842485098,
+    "returnsMrkt": -0.02129745842485098
+  },
+  {
+    "timestamp": "2018-03-26T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.02737145834168242,
+    "returnsMrkt": 0.02737145834168242
+  },
+  {
+    "timestamp": "2018-03-27T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.017007333437353722,
+    "returnsMrkt": -0.017007333437353722
+  },
+  {
+    "timestamp": "2018-03-28T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0029761904761904656,
+    "returnsMrkt": -0.0029761904761904656
+  },
+  {
+    "timestamp": "2018-03-29T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.012776119402985175,
+    "returnsMrkt": 0.012776119402985175
+  },
+  {
+    "timestamp": "2018-04-02T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.021575100212214093,
+    "returnsMrkt": -0.021575100212214093
+  },
+  {
+    "timestamp": "2018-04-03T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.012812788689400278,
+    "returnsMrkt": 0.012812788689400278
+  },
+  {
+    "timestamp": "2018-04-04T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.010707487309644659,
+    "returnsMrkt": 0.010707487309644659
+  },
+  {
+    "timestamp": "2018-04-05T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.007886682884721052,
+    "returnsMrkt": 0.007886682884721052
+  },
+  {
+    "timestamp": "2018-04-06T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.02230700354264814,
+    "returnsMrkt": -0.02230700354264814
+  },
+  {
+    "timestamp": "2018-04-09T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.004937485068089442,
+    "returnsMrkt": 0.004937485068089442
+  },
+  {
+    "timestamp": "2018-04-10T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.015928361993818863,
+    "returnsMrkt": 0.015928361993818863
+  },
+  {
+    "timestamp": "2018-04-11T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.00526521060842422,
+    "returnsMrkt": -0.00526521060842422
+  },
+  {
+    "timestamp": "2018-04-12T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.008233679670652583,
+    "returnsMrkt": 0.008233679670652583
+  },
+  {
+    "timestamp": "2018-04-13T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.002916585650398651,
+    "returnsMrkt": -0.002916585650398651
+  },
+  {
+    "timestamp": "2018-04-16T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.008190327613104564,
+    "returnsMrkt": 0.008190327613104564
+  },
+  {
+    "timestamp": "2018-04-17T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.010715667311411936,
+    "returnsMrkt": 0.010715667311411936
+  },
+  {
+    "timestamp": "2018-04-18T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0007272170551537727,
+    "returnsMrkt": 0.0007272170551537727
+  },
+  {
+    "timestamp": "2018-04-19T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.005545781381473214,
+    "returnsMrkt": -0.005545781381473214
+  },
+  {
+    "timestamp": "2018-04-20T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.008461213030268033,
+    "returnsMrkt": -0.008461213030268033
+  },
+  {
+    "timestamp": "2018-04-23T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.00015515301966573247,
+    "returnsMrkt": -0.00015515301966573247
+  },
+  {
+    "timestamp": "2018-04-24T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.013461613065911315,
+    "returnsMrkt": -0.013461613065911315
+  },
+  {
+    "timestamp": "2018-04-25T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0024773889107352343,
+    "returnsMrkt": 0.0024773889107352343
+  },
+  {
+    "timestamp": "2018-04-26T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.010159651669085612,
+    "returnsMrkt": 0.010159651669085612
+  },
+  {
+    "timestamp": "2018-04-27T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0009319664492077884,
+    "returnsMrkt": 0.0009319664492077884
+  },
+  {
+    "timestamp": "2018-04-30T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.007681564245810013,
+    "returnsMrkt": -0.007681564245810013
+  },
+  {
+    "timestamp": "2018-05-01T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0017593244194229474,
+    "returnsMrkt": 0.0017593244194229474
+  },
+  {
+    "timestamp": "2018-05-02T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0067127190414862925,
+    "returnsMrkt": -0.0067127190414862925
+  },
+  {
+    "timestamp": "2018-05-03T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.002200306471258462,
+    "returnsMrkt": -0.002200306471258462
+  },
+  {
+    "timestamp": "2018-05-04T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.012955306162630631,
+    "returnsMrkt": 0.012955306162630631
+  },
+  {
+    "timestamp": "2018-05-07T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.003382055667858763,
+    "returnsMrkt": 0.003382055667858763
+  },
+  {
+    "timestamp": "2018-05-08T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0,
+    "returnsMrkt": 0
+  },
+  {
+    "timestamp": "2018-05-09T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.009647049707489197,
+    "returnsMrkt": 0.009647049707489197
+  },
+  {
+    "timestamp": "2018-05-10T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.009363008442056842,
+    "returnsMrkt": 0.009363008442056842
+  },
+  {
+    "timestamp": "2018-05-11T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0030413625304135383,
+    "returnsMrkt": 0.0030413625304135383
+  },
+  {
+    "timestamp": "2018-05-14T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0004927228623410329,
+    "returnsMrkt": 0.0004927228623410329
+  },
+  {
+    "timestamp": "2018-05-15T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.006894722885176563,
+    "returnsMrkt": -0.006894722885176563
+  },
+  {
+    "timestamp": "2018-05-16T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.004196070951745234,
+    "returnsMrkt": 0.004196070951745234
+  },
+  {
+    "timestamp": "2018-05-17T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0008357075023742722,
+    "returnsMrkt": -0.0008357075023742722
+  },
+  {
+    "timestamp": "2018-05-18T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0025092194806675128,
+    "returnsMrkt": -0.0025092194806675128
+  },
+  {
+    "timestamp": "2018-05-21T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.007508480390288508,
+    "returnsMrkt": 0.007508480390288508
+  },
+  {
+    "timestamp": "2018-05-22T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0027615949156387654,
+    "returnsMrkt": -0.0027615949156387654
+  },
+  {
+    "timestamp": "2018-05-23T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0027313076135198067,
+    "returnsMrkt": 0.0027313076135198067
+  },
+  {
+    "timestamp": "2018-05-24T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.002042900919305257,
+    "returnsMrkt": -0.002042900919305257
+  },
+  {
+    "timestamp": "2018-05-25T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0023882633913340223,
+    "returnsMrkt": -0.0023882633913340223
+  },
+  {
+    "timestamp": "2018-05-29T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.011475908192734585,
+    "returnsMrkt": -0.011475908192734585
+  },
+  {
+    "timestamp": "2018-05-30T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.013338971323133775,
+    "returnsMrkt": 0.013338971323133775
+  },
+  {
+    "timestamp": "2018-05-31T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.006145442130420009,
+    "returnsMrkt": -0.006145442130420009
+  },
+  {
+    "timestamp": "2018-06-01T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.009847704110843791,
+    "returnsMrkt": 0.009847704110843791
+  },
+  {
+    "timestamp": "2018-06-04T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.004724647541293425,
+    "returnsMrkt": 0.004724647541293425
+  },
+  {
+    "timestamp": "2018-06-05T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0007523888345497554,
+    "returnsMrkt": 0.0007523888345497554
+  },
+  {
+    "timestamp": "2018-06-06T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.008345237200210631,
+    "returnsMrkt": 0.008345237200210631
+  },
+  {
+    "timestamp": "2018-06-07T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.00011184014315546165,
+    "returnsMrkt": -0.00011184014315546165
+  },
+  {
+    "timestamp": "2018-06-08T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0029454531896648817,
+    "returnsMrkt": 0.0029454531896648817
+  },
+  {
+    "timestamp": "2018-06-11T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0013382899628253675,
+    "returnsMrkt": 0.0013382899628253675
+  },
+  {
+    "timestamp": "2018-06-12T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0012993762993762648,
+    "returnsMrkt": 0.0012993762993762648
+  },
+  {
+    "timestamp": "2018-06-13T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.003188609988506008,
+    "returnsMrkt": -0.003188609988506008
+  },
+  {
+    "timestamp": "2018-06-14T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0025292914264458677,
+    "returnsMrkt": 0.0025292914264458677
+  },
+  {
+    "timestamp": "2018-06-15T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.001298556746929691,
+    "returnsMrkt": -0.001298556746929691
+  },
+  {
+    "timestamp": "2018-06-18T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.002043242440002979,
+    "returnsMrkt": -0.002043242440002979
+  },
+  {
+    "timestamp": "2018-06-19T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.003834270185757216,
+    "returnsMrkt": -0.003834270185757216
+  },
+  {
+    "timestamp": "2018-06-20T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0017189835575484036,
+    "returnsMrkt": 0.0017189835575484036
+  },
+  {
+    "timestamp": "2018-06-21T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.006267253599940292,
+    "returnsMrkt": -0.006267253599940292
+  },
+  {
+    "timestamp": "2018-06-22T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0018019370823636471,
+    "returnsMrkt": 0.0018019370823636471
+  },
+  {
+    "timestamp": "2018-06-25T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.013602638087386598,
+    "returnsMrkt": -0.013602638087386598
+  },
+  {
+    "timestamp": "2018-06-26T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.00220339626942212,
+    "returnsMrkt": 0.00220339626942212
+  },
+  {
+    "timestamp": "2018-06-27T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.008263522990030747,
+    "returnsMrkt": -0.008263522990030747
+  },
+  {
+    "timestamp": "2018-06-28T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.005695065550586742,
+    "returnsMrkt": 0.005695065550586742
+  },
+  {
+    "timestamp": "2018-06-29T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0014442079659471307,
+    "returnsMrkt": 0.0014442079659471307
+  },
+  {
+    "timestamp": "2018-07-02T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0021252371916509194,
+    "returnsMrkt": 0.0021252371916509194
+  },
+  {
+    "timestamp": "2018-07-03T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0035219268348103405,
+    "returnsMrkt": -0.0035219268348103405
+  },
+  {
+    "timestamp": "2018-07-05T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.00817086611180784,
+    "returnsMrkt": 0.00817086611180784
+  },
+  {
+    "timestamp": "2018-07-06T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.008443908323281013,
+    "returnsMrkt": 0.008443908323281013
+  },
+  {
+    "timestamp": "2018-07-09T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.009008672248803862,
+    "returnsMrkt": 0.009008672248803862
+  },
+  {
+    "timestamp": "2018-07-10T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.003593524247026858,
+    "returnsMrkt": 0.003593524247026858
+  },
+  {
+    "timestamp": "2018-07-11T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.007308970099667578,
+    "returnsMrkt": -0.007308970099667578
+  },
+  {
+    "timestamp": "2018-07-12T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.00907333035847091,
+    "returnsMrkt": 0.00907333035847091
+  },
+  {
+    "timestamp": "2018-07-13T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0007738797169809519,
+    "returnsMrkt": 0.0007738797169809519
+  },
+  {
+    "timestamp": "2018-07-16T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0008837500460286973,
+    "returnsMrkt": -0.0008837500460286973
+  },
+  {
+    "timestamp": "2018-07-17T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.004054103858769809,
+    "returnsMrkt": 0.004054103858769809
+  },
+  {
+    "timestamp": "2018-07-18T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0020922805858385463,
+    "returnsMrkt": 0.0020922805858385463
+  },
+  {
+    "timestamp": "2018-07-19T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.003772893772893693,
+    "returnsMrkt": -0.003772893772893693
+  },
+  {
+    "timestamp": "2018-07-20T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.001139831599073382,
+    "returnsMrkt": -0.001139831599073382
+  },
+  {
+    "timestamp": "2018-07-23T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0018405359640727426,
+    "returnsMrkt": 0.0018405359640727426
+  },
+  {
+    "timestamp": "2018-07-24T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0050338036449144585,
+    "returnsMrkt": 0.0050338036449144585
+  },
+  {
+    "timestamp": "2018-07-25T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.00855482031221455,
+    "returnsMrkt": 0.00855482031221455
+  },
+  {
+    "timestamp": "2018-07-26T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0023924312176025753,
+    "returnsMrkt": -0.0023924312176025753
+  },
+  {
+    "timestamp": "2018-07-27T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.006758475346099191,
+    "returnsMrkt": -0.006758475346099191
+  },
+  {
+    "timestamp": "2018-07-30T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.005231388329979936,
+    "returnsMrkt": -0.005231388329979936
+  },
+  {
+    "timestamp": "2018-07-31T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0049279199764635795,
+    "returnsMrkt": 0.0049279199764635795
+  },
+  {
+    "timestamp": "2018-08-01T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.001646783283319908,
+    "returnsMrkt": -0.001646783283319908
+  },
+  {
+    "timestamp": "2018-08-02T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.005425021076939984,
+    "returnsMrkt": 0.005425021076939984
+  },
+  {
+    "timestamp": "2018-08-03T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.004302016114331675,
+    "returnsMrkt": 0.004302016114331675
+  },
+  {
+    "timestamp": "2018-08-06T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0036664609576360085,
+    "returnsMrkt": 0.0036664609576360085
+  },
+  {
+    "timestamp": "2018-08-07T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0032913773148146586,
+    "returnsMrkt": 0.0032913773148146586
+  },
+  {
+    "timestamp": "2018-08-08T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0004326039150654992,
+    "returnsMrkt": -0.0004326039150654992
+  },
+  {
+    "timestamp": "2018-08-09T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0013344393551412148,
+    "returnsMrkt": -0.0013344393551412148
+  },
+  {
+    "timestamp": "2018-08-10T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.006717226435536183,
+    "returnsMrkt": -0.006717226435536183
+  },
+  {
+    "timestamp": "2018-08-13T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0037449098312973828,
+    "returnsMrkt": -0.0037449098312973828
+  },
+  {
+    "timestamp": "2018-08-14T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0063866282252471596,
+    "returnsMrkt": 0.0063866282252471596
+  },
+  {
+    "timestamp": "2018-08-15T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0074702639976791385,
+    "returnsMrkt": -0.0074702639976791385
+  },
+  {
+    "timestamp": "2018-08-16T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.008074534161490732,
+    "returnsMrkt": 0.008074534161490732
+  },
+  {
+    "timestamp": "2018-08-17T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0035518828603529062,
+    "returnsMrkt": 0.0035518828603529062
+  },
+  {
+    "timestamp": "2018-08-20T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0021308100689805265,
+    "returnsMrkt": 0.0021308100689805265
+  },
+  {
+    "timestamp": "2018-08-21T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.002342511171976369,
+    "returnsMrkt": 0.002342511171976369
+  },
+  {
+    "timestamp": "2018-08-22T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0006112249667422631,
+    "returnsMrkt": -0.0006112249667422631
+  },
+  {
+    "timestamp": "2018-08-23T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.001331126780831804,
+    "returnsMrkt": -0.001331126780831804
+  },
+  {
+    "timestamp": "2018-08-24T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.006052091213660349,
+    "returnsMrkt": 0.006052091213660349
+  },
+  {
+    "timestamp": "2018-08-27T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.007877681097146372,
+    "returnsMrkt": 0.007877681097146372
+  },
+  {
+    "timestamp": "2018-08-28T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0004973887092762919,
+    "returnsMrkt": 0.0004973887092762919
+  },
+  {
+    "timestamp": "2018-08-29T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.005362025496253642,
+    "returnsMrkt": 0.005362025496253642
+  },
+  {
+    "timestamp": "2018-08-30T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.004026561175473287,
+    "returnsMrkt": -0.004026561175473287
+  },
+  {
+    "timestamp": "2018-08-31T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0,
+    "returnsMrkt": 0
+  },
+  {
+    "timestamp": "2018-09-04T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.001702248386410421,
+    "returnsMrkt": -0.001702248386410421
+  },
+  {
+    "timestamp": "2018-09-05T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0026998223801065757,
+    "returnsMrkt": -0.0026998223801065757
+  },
+  {
+    "timestamp": "2018-09-06T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0029920923274204814,
+    "returnsMrkt": -0.0029920923274204814
+  },
+  {
+    "timestamp": "2018-09-07T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0019649874955339763,
+    "returnsMrkt": -0.0019649874955339763
+  },
+  {
+    "timestamp": "2018-09-10T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0017540719527473492,
+    "returnsMrkt": 0.0017540719527473492
+  },
+  {
+    "timestamp": "2018-09-11T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0032875929102345047,
+    "returnsMrkt": 0.0032875929102345047
+  },
+  {
+    "timestamp": "2018-09-12T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.00024932326542237426,
+    "returnsMrkt": 0.00024932326542237426
+  },
+  {
+    "timestamp": "2018-09-13T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.005911049389310419,
+    "returnsMrkt": 0.005911049389310419
+  },
+  {
+    "timestamp": "2018-09-14T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0001769974158378762,
+    "returnsMrkt": 0.0001769974158378762
+  },
+  {
+    "timestamp": "2018-09-17T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0053089827988956895,
+    "returnsMrkt": -0.0053089827988956895
+  },
+  {
+    "timestamp": "2018-09-18T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.005444064901793277,
+    "returnsMrkt": 0.005444064901793277
+  },
+  {
+    "timestamp": "2018-09-19T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0010616838305552712,
+    "returnsMrkt": 0.0010616838305552712
+  },
+  {
+    "timestamp": "2018-09-20T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.008095591614522668,
+    "returnsMrkt": 0.008095591614522668
+  },
+  {
+    "timestamp": "2018-09-21T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0009117688315333217,
+    "returnsMrkt": -0.0009117688315333217
+  },
+  {
+    "timestamp": "2018-09-24T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.003334503334503247,
+    "returnsMrkt": -0.003334503334503247
+  },
+  {
+    "timestamp": "2018-09-25T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0009156541644655958,
+    "returnsMrkt": -0.0009156541644655958
+  },
+  {
+    "timestamp": "2018-09-26T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0029962282773450255,
+    "returnsMrkt": -0.0029962282773450255
+  },
+  {
+    "timestamp": "2018-09-27T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.002793098571630681,
+    "returnsMrkt": 0.002793098571630681
+  },
+  {
+    "timestamp": "2018-09-28T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.00010577160385016882,
+    "returnsMrkt": 0.00010577160385016882
+  },
+  {
+    "timestamp": "2018-10-01T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.003490093774236591,
+    "returnsMrkt": 0.003490093774236591
+  },
+  {
+    "timestamp": "2018-10-02T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0005972246618652921,
+    "returnsMrkt": -0.0005972246618652921
+  },
+  {
+    "timestamp": "2018-10-03T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0005624296962878361,
+    "returnsMrkt": 0.0005624296962878361
+  },
+  {
+    "timestamp": "2018-10-04T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.00783445756042711,
+    "returnsMrkt": -0.00783445756042711
+  },
+  {
+    "timestamp": "2018-10-05T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.005594702737155344,
+    "returnsMrkt": -0.005594702737155344
+  },
+  {
+    "timestamp": "2018-10-08T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0,
+    "returnsMrkt": 0
+  },
+  {
+    "timestamp": "2018-10-09T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0014599579816969577,
+    "returnsMrkt": -0.0014599579816969577
+  },
+  {
+    "timestamp": "2018-10-10T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.03166678553598168,
+    "returnsMrkt": -0.03166678553598168
+  },
+  {
+    "timestamp": "2018-10-11T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.022022538115931467,
+    "returnsMrkt": -0.022022538115931467
+  },
+  {
+    "timestamp": "2018-10-12T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.013895164934478066,
+    "returnsMrkt": 0.013895164934478066
+  },
+  {
+    "timestamp": "2018-10-15T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.005608170844939586,
+    "returnsMrkt": -0.005608170844939586
+  },
+  {
+    "timestamp": "2018-10-16T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.021849555538955512,
+    "returnsMrkt": 0.021849555538955512
+  },
+  {
+    "timestamp": "2018-10-17T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.00018275521766142333,
+    "returnsMrkt": 0.00018275521766142333
+  },
+  {
+    "timestamp": "2018-10-18T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.01443502411928077,
+    "returnsMrkt": -0.01443502411928077
+  },
+  {
+    "timestamp": "2018-10-19T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0005561941488374522,
+    "returnsMrkt": -0.0005561941488374522
+  },
+  {
+    "timestamp": "2018-10-22T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.00448912962825565,
+    "returnsMrkt": -0.00448912962825565
+  },
+  {
+    "timestamp": "2018-10-23T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.00506838594268233,
+    "returnsMrkt": -0.00506838594268233
+  },
+  {
+    "timestamp": "2018-10-24T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.030303030303030387,
+    "returnsMrkt": -0.030303030303030387
+  },
+  {
+    "timestamp": "2018-10-25T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.01792336217552526,
+    "returnsMrkt": 0.01792336217552526
+  },
+  {
+    "timestamp": "2018-10-26T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0175698239222829,
+    "returnsMrkt": -0.0175698239222829
+  },
+  {
+    "timestamp": "2018-10-29T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.005562207887519821,
+    "returnsMrkt": -0.005562207887519821
+  },
+  {
+    "timestamp": "2018-10-30T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.014837832588852073,
+    "returnsMrkt": 0.014837832588852073
+  },
+  {
+    "timestamp": "2018-10-31T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.010678608336204043,
+    "returnsMrkt": 0.010678608336204043
+  },
+  {
+    "timestamp": "2018-11-01T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.010641520866469856,
+    "returnsMrkt": 0.010641520866469856
+  },
+  {
+    "timestamp": "2018-11-02T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.005920485629707262,
+    "returnsMrkt": -0.005920485629707262
+  },
+  {
+    "timestamp": "2018-11-05T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.005503411361151844,
+    "returnsMrkt": 0.005503411361151844
+  },
+  {
+    "timestamp": "2018-11-06T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.006335520149953089,
+    "returnsMrkt": 0.006335520149953089
+  },
+  {
+    "timestamp": "2018-11-07T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.02142005662345392,
+    "returnsMrkt": 0.02142005662345392
+  },
+  {
+    "timestamp": "2018-11-08T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.001823553010686041,
+    "returnsMrkt": -0.001823553010686041
+  },
+  {
+    "timestamp": "2018-11-09T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.009755562863093314,
+    "returnsMrkt": -0.009755562863093314
+  },
+  {
+    "timestamp": "2018-11-12T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.018707106486606118,
+    "returnsMrkt": -0.018707106486606118
+  },
+  {
+    "timestamp": "2018-11-13T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0018800526414739505,
+    "returnsMrkt": -0.0018800526414739505
+  },
+  {
+    "timestamp": "2018-11-14T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0068186099077038875,
+    "returnsMrkt": -0.0068186099077038875
+  },
+  {
+    "timestamp": "2018-11-15T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.010430890608405408,
+    "returnsMrkt": 0.010430890608405408
+  },
+  {
+    "timestamp": "2018-11-16T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0025901873193439062,
+    "returnsMrkt": 0.0025901873193439062
+  },
+  {
+    "timestamp": "2018-11-19T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.01688632619439867,
+    "returnsMrkt": -0.01688632619439867
+  },
+  {
+    "timestamp": "2018-11-20T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.018509349887649074,
+    "returnsMrkt": -0.018509349887649074
+  },
+  {
+    "timestamp": "2018-11-21T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0033758876256257953,
+    "returnsMrkt": 0.0033758876256257953
+  },
+  {
+    "timestamp": "2018-11-23T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.006651713202877163,
+    "returnsMrkt": -0.006651713202877163
+  },
+  {
+    "timestamp": "2018-11-26T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.016117729502452605,
+    "returnsMrkt": 0.016117729502452605
+  },
+  {
+    "timestamp": "2018-11-27T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0033716475095786347,
+    "returnsMrkt": 0.0033716475095786347
+  },
+  {
+    "timestamp": "2018-11-28T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.023025813349625945,
+    "returnsMrkt": 0.023025813349625945
+  },
+  {
+    "timestamp": "2018-11-29T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0021649061251914903,
+    "returnsMrkt": -0.0021649061251914903
+  },
+  {
+    "timestamp": "2018-11-30T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.006097332884450024,
+    "returnsMrkt": 0.006097332884450024
+  },
+  {
+    "timestamp": "2018-12-03T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.01323616894705526,
+    "returnsMrkt": 0.01323616894705526
+  },
+  {
+    "timestamp": "2018-12-04T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.032401291648319286,
+    "returnsMrkt": -0.032401291648319286
+  },
+  {
+    "timestamp": "2018-12-06T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.001516932761955192,
+    "returnsMrkt": -0.001516932761955192
+  },
+  {
+    "timestamp": "2018-12-07T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.023244331345664504,
+    "returnsMrkt": -0.023244331345664504
+  },
+  {
+    "timestamp": "2018-12-10T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.0019053544348097695,
+    "returnsMrkt": 0.0019053544348097695
+  },
+  {
+    "timestamp": "2018-12-11T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.00023286501591246456,
+    "returnsMrkt": 0.00023286501591246456
+  },
+  {
+    "timestamp": "2018-12-12T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.005005432252056297,
+    "returnsMrkt": 0.005005432252056297
+  },
+  {
+    "timestamp": "2018-12-13T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.00030886838346000367,
+    "returnsMrkt": -0.00030886838346000367
+  },
+  {
+    "timestamp": "2018-12-14T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.01846058780365345,
+    "returnsMrkt": -0.01846058780365345
+  },
+  {
+    "timestamp": "2018-12-17T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.019634074365532217,
+    "returnsMrkt": -0.019634074365532217
+  },
+  {
+    "timestamp": "2018-12-18T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0010836410338738167,
+    "returnsMrkt": -0.0010836410338738167
+  },
+  {
+    "timestamp": "2018-12-19T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.01498654023865964,
+    "returnsMrkt": -0.01498654023865964
+  },
+  {
+    "timestamp": "2018-12-20T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.016275085658345567,
+    "returnsMrkt": -0.016275085658345567
+  },
+  {
+    "timestamp": "2018-12-21T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.020483476385951827,
+    "returnsMrkt": -0.020483476385951827
+  },
+  {
+    "timestamp": "2018-12-24T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.026414934597637774,
+    "returnsMrkt": -0.026414934597637774
+  },
+  {
+    "timestamp": "2018-12-26T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.05052393582329673,
+    "returnsMrkt": 0.05052393582329673
+  },
+  {
+    "timestamp": "2018-12-27T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.007656967840734996,
+    "returnsMrkt": 0.007656967840734996
+  },
+  {
+    "timestamp": "2018-12-28T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": -0.0012733097839481289,
+    "returnsMrkt": -0.0012733097839481289
+  },
+  {
+    "timestamp": "2018-12-31T00:00:00",
+    "beta": 1,
+    "betaUp": null,
+    "betaDown": null,
+    "ratio": null,
+    "convexity": null,
+    "returnsEval": 0.00876002467612591,
+    "returnsMrkt": 0.00876002467612591
+  }
+]

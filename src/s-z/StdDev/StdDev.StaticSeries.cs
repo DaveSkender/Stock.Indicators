@@ -16,7 +16,7 @@ public static partial class StdDev
     /// <exception cref="ArgumentOutOfRangeException">Thrown when lookbackPeriods is less than 1.</exception>
     public static IReadOnlyList<StdDevResult> ToStdDev<T>(
         this IReadOnlyList<T> source,
-        int lookbackPeriods)
+        int lookbackPeriods = 14)
         where T : IReusable
     {
         // check parameter arguments
