@@ -70,17 +70,17 @@ public class MamaList : BufferList<MamaResult>, IIncrementFromChain, IMama
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="MamaList"/> class with initial quotes.
+    /// Initializes a new instance of the <see cref="MamaList"/> class with initial reusable values.
     /// </summary>
     /// <param name="fastLimit">The fast limit for the MAMA calculation.</param>
     /// <param name="slowLimit">The slow limit for the MAMA calculation.</param>
-    /// <param name="quotes">Initial quotes to populate the list.</param>
+    /// <param name="values">Initial reusable values to populate the list.</param>
     public MamaList(
         double fastLimit,
         double slowLimit,
-        IReadOnlyList<IQuote> quotes)
+        IReadOnlyList<IReusable> values)
         : this(fastLimit, slowLimit)
-        => Add(quotes);
+        => Add(values);
 
     /// <inheritdoc />
     public double FastLimit { get; init; }
@@ -226,8 +226,7 @@ public class MamaList : BufferList<MamaResult>, IIncrementFromChain, IMama
     {
         ArgumentNullException.ThrowIfNull(value);
         // prefer HL2 when source is an IQuote to match StaticSeries behavior
-        double val = value is IQuote q ? (double)(q.High + q.Low) / 2d : value.Value;
-        Add(value.Timestamp, val);
+        Add(value.Timestamp, value.Hl2OrValue());
     }
 
     /// <inheritdoc />
@@ -238,31 +237,7 @@ public class MamaList : BufferList<MamaResult>, IIncrementFromChain, IMama
         for (int i = 0; i < values.Count; i++)
         {
             IReusable v = values[i];
-            double val = v is IQuote q ? (double)(q.High + q.Low) / 2d : v.Value;
-            Add(v.Timestamp, val);
-        }
-    }
-
-    /// <inheritdoc />
-    public void Add(IQuote quote)
-    {
-        ArgumentNullException.ThrowIfNull(quote);
-        // Calculate HL2 for MAMA algorithm (as per MAMA specification)
-        double hl2 = (double)(quote.High + quote.Low) / 2;
-        Add(quote.Timestamp, hl2);
-    }
-
-    /// <inheritdoc />
-    public void Add(IReadOnlyList<IQuote> quotes)
-    {
-        ArgumentNullException.ThrowIfNull(quotes);
-
-        for (int i = 0; i < quotes.Count; i++)
-        {
-            IQuote quote = quotes[i];
-            // Calculate HL2 for MAMA algorithm (as per MAMA specification)
-            double hl2 = (double)(quote.High + quote.Low) / 2;
-            Add(quote.Timestamp, hl2);
+            Add(v.Timestamp, v.Hl2OrValue());
         }
     }
 
@@ -306,10 +281,10 @@ public static partial class Mama
     /// <summary>
     /// Creates a buffer list for MESA Adaptive Moving Average (MAMA) calculations.
     /// </summary>
-    public static MamaList ToMamaList<TQuote>(
-        this IReadOnlyList<TQuote> quotes,
+    public static MamaList ToMamaList<T>(
+        this IReadOnlyList<T> source,
         double fastLimit = 0.5,
         double slowLimit = 0.05)
-        where TQuote : IQuote
-        => new(fastLimit, slowLimit) { (IReadOnlyList<IQuote>)quotes };
+        where T : IReusable
+        => new(fastLimit, slowLimit) { (IReadOnlyList<IReusable>)source };
 }

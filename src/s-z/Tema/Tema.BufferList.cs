@@ -30,16 +30,16 @@ public class TemaList : BufferList<TemaResult>, IIncrementFromChain, ITema
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="TemaList"/> class with initial quotes.
+    /// Initializes a new instance of the <see cref="TemaList"/> class with initial reusable values.
     /// </summary>
     /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
-    /// <param name="quotes">Initial quotes to populate the list.</param>
+    /// <param name="values">Initial reusable values to populate the list.</param>
     public TemaList(
         int lookbackPeriods,
-        IReadOnlyList<IQuote> quotes
+        IReadOnlyList<IReusable> values
     )
         : this(lookbackPeriods)
-        => Add(quotes);
+        => Add(values);
 
     /// <summary>
     /// Gets the number of periods to look back for the calculation.
@@ -130,24 +130,6 @@ public class TemaList : BufferList<TemaResult>, IIncrementFromChain, ITema
     }
 
     /// <inheritdoc />
-    public void Add(IQuote quote)
-    {
-        ArgumentNullException.ThrowIfNull(quote);
-        Add(quote.Timestamp, quote.Value);
-    }
-
-    /// <inheritdoc />
-    public void Add(IReadOnlyList<IQuote> quotes)
-    {
-        ArgumentNullException.ThrowIfNull(quotes);
-
-        for (int i = 0; i < quotes.Count; i++)
-        {
-            Add(quotes[i].Timestamp, quotes[i].Value);
-        }
-    }
-
-    /// <inheritdoc />
     public override void Clear()
     {
         base.Clear();
@@ -164,9 +146,9 @@ public static partial class Tema
     /// <summary>
     /// Creates a buffer list for TEMA calculations.
     /// </summary>
-    public static TemaList ToTemaList<TQuote>(
-        this IReadOnlyList<TQuote> quotes,
+    public static TemaList ToTemaList<T>(
+        this IReadOnlyList<T> source,
         int lookbackPeriods)
-        where TQuote : IQuote
-        => new(lookbackPeriods) { (IReadOnlyList<IQuote>)quotes };
+        where T : IReusable
+        => new(lookbackPeriods) { (IReadOnlyList<IReusable>)source };
 }

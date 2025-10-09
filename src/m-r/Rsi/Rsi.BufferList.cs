@@ -24,13 +24,13 @@ public class RsiList : BufferList<RsiResult>, IIncrementFromChain, IRsi
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="RsiList"/> class with initial quotes.
+    /// Initializes a new instance of the <see cref="RsiList"/> class with initial reusable values.
     /// </summary>
     /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
-    /// <param name="quotes">Initial quotes to populate the list.</param>
-    public RsiList(int lookbackPeriods, IReadOnlyList<IQuote> quotes)
+    /// <param name="values">Initial reusable values to populate the list.</param>
+    public RsiList(int lookbackPeriods, IReadOnlyList<IReusable> values)
         : this(lookbackPeriods)
-        => Add(quotes);
+        => Add(values);
 
     /// <summary>
     /// Gets the number of periods to look back for the calculation.
@@ -130,24 +130,6 @@ public class RsiList : BufferList<RsiResult>, IIncrementFromChain, IRsi
     }
 
     /// <inheritdoc />
-    public void Add(IQuote quote)
-    {
-        ArgumentNullException.ThrowIfNull(quote);
-        Add(quote.Timestamp, quote.Value);
-    }
-
-    /// <inheritdoc />
-    public void Add(IReadOnlyList<IQuote> quotes)
-    {
-        ArgumentNullException.ThrowIfNull(quotes);
-
-        for (int i = 0; i < quotes.Count; i++)
-        {
-            Add(quotes[i].Timestamp, quotes[i].Value);
-        }
-    }
-
-    /// <inheritdoc />
     public override void Clear()
     {
         base.Clear();
@@ -164,9 +146,9 @@ public static partial class Rsi
     /// <summary>
     /// Creates a buffer list for Relative Strength Index (RSI) calculations.
     /// </summary>
-    public static RsiList ToRsiList<TQuote>(
-        this IReadOnlyList<TQuote> quotes,
+    public static RsiList ToRsiList<T>(
+        this IReadOnlyList<T> source,
         int lookbackPeriods)
-        where TQuote : IQuote
-        => new(lookbackPeriods) { (IReadOnlyList<IQuote>)quotes };
+        where T : IReusable
+        => new(lookbackPeriods) { (IReadOnlyList<IReusable>)source };
 }

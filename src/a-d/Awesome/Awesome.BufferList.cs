@@ -22,14 +22,14 @@ public class AwesomeList : BufferList<AwesomeResult>, IIncrementFromChain, IAwes
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="AwesomeList"/> class with initial quotes.
+    /// Initializes a new instance of the <see cref="AwesomeList"/> class with initial reusable values.
     /// </summary>
     /// <param name="fastPeriods">The number of periods for the fast moving average.</param>
     /// <param name="slowPeriods">The number of periods for the slow moving average.</param>
-    /// <param name="quotes">Initial quotes to populate the list.</param>
-    public AwesomeList(int fastPeriods, int slowPeriods, IReadOnlyList<IQuote> quotes)
+    /// <param name="values">Initial reusable values to populate the list.</param>
+    public AwesomeList(int fastPeriods, int slowPeriods, IReadOnlyList<IReusable> values)
         : this(fastPeriods, slowPeriods)
-        => Add(quotes);
+        => Add(values);
 
     /// <summary>
     /// Gets the number of periods for the fast moving average.
@@ -88,61 +88,28 @@ public class AwesomeList : BufferList<AwesomeResult>, IIncrementFromChain, IAwes
         ));
     }
 
-    /// <summary>
-    /// Adds a new reusable value to the Awesome list.
-    /// </summary>
-    /// <param name="value">The reusable value to add.</param>
-    /// <exception cref="ArgumentNullException">Thrown when the value is null.</exception>
+    /// <inheritdoc />
     public void Add(IReusable value)
     {
         ArgumentNullException.ThrowIfNull(value);
-        Add(value.Timestamp, value.Value);
+        // Prefer HL2 when source is IQuote (Awesome Oscillator specification)
+        Add(value.Timestamp, value.Hl2OrValue());
     }
 
-    /// <summary>
-    /// Adds a list of reusable values to the Awesome list.
-    /// </summary>
-    /// <param name="values">The list of reusable values to add.</param>
-    /// <exception cref="ArgumentNullException">Thrown when the values list is null.</exception>
+    /// <inheritdoc />
     public void Add(IReadOnlyList<IReusable> values)
     {
         ArgumentNullException.ThrowIfNull(values);
 
         for (int i = 0; i < values.Count; i++)
         {
-            Add(values[i].Timestamp, values[i].Value);
+            IReusable v = values[i];
+            // Prefer HL2 when source is IQuote (Awesome Oscillator specification)
+            Add(v.Timestamp, v.Hl2OrValue());
         }
     }
 
-    /// <summary>
-    /// Adds a new quote to the Awesome list.
-    /// </summary>
-    /// <param name="quote">The quote to add.</param>
-    /// <exception cref="ArgumentNullException">Thrown when the quote is null.</exception>
-    public void Add(IQuote quote)
-    {
-        ArgumentNullException.ThrowIfNull(quote);
-        Add(quote.Timestamp, quote.Hl2OrValue());
-    }
-
-    /// <summary>
-    /// Adds a list of quotes to the Awesome list.
-    /// </summary>
-    /// <param name="quotes">The list of quotes to add.</param>
-    /// <exception cref="ArgumentNullException">Thrown when the quotes list is null.</exception>
-    public void Add(IReadOnlyList<IQuote> quotes)
-    {
-        ArgumentNullException.ThrowIfNull(quotes);
-
-        for (int i = 0; i < quotes.Count; i++)
-        {
-            Add(quotes[i].Timestamp, quotes[i].Hl2OrValue());
-        }
-    }
-
-    /// <summary>
-    /// Clears the list and resets internal buffers so the instance can be reused.
-    /// </summary>
+    /// <inheritdoc />
     public override void Clear()
     {
         base.Clear();
@@ -168,12 +135,5 @@ public static partial class Awesome
         int fastPeriods = 5,
         int slowPeriods = 34)
         where T : IReusable
-    {
-        ArgumentNullException.ThrowIfNull(source);
-        Validate(fastPeriods, slowPeriods);
-
-        return source is IReadOnlyList<IQuote> quotes
-            ? new(fastPeriods, slowPeriods) { quotes }
-            : new(fastPeriods, slowPeriods) { (IReadOnlyList<IReusable>)source };
-    }
+        => new(fastPeriods, slowPeriods) { (IReadOnlyList<IReusable>)source };
 }

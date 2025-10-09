@@ -21,14 +21,14 @@ public class BollingerBandsList : BufferList<BollingerBandsResult>, IIncrementFr
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="BollingerBandsList"/> class with initial quotes.
+    /// Initializes a new instance of the <see cref="BollingerBandsList"/> class with initial reusable values.
     /// </summary>
     /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
     /// <param name="standardDeviations">The number of standard deviations to use for the bands.</param>
-    /// <param name="quotes">Initial quotes to populate the list.</param>
-    public BollingerBandsList(int lookbackPeriods, double standardDeviations, IReadOnlyList<IQuote> quotes)
+    /// <param name="values">Initial reusable values to populate the list.</param>
+    public BollingerBandsList(int lookbackPeriods, double standardDeviations, IReadOnlyList<IReusable> values)
         : this(lookbackPeriods, standardDeviations)
-        => Add(quotes);
+        => Add(values);
 
     /// <summary>
     /// Gets the number of periods to look back for the calculation.
@@ -122,32 +122,6 @@ public class BollingerBandsList : BufferList<BollingerBandsResult>, IIncrementFr
     }
 
     /// <summary>
-    /// Adds a new quote to the Bollinger Bands list.
-    /// </summary>
-    /// <param name="quote">The quote to add.</param>
-    /// <exception cref="ArgumentNullException">Thrown when the quote is null.</exception>
-    public void Add(IQuote quote)
-    {
-        ArgumentNullException.ThrowIfNull(quote);
-        Add(quote.Timestamp, quote.Value);
-    }
-
-    /// <summary>
-    /// Adds a list of quotes to the Bollinger Bands list.
-    /// </summary>
-    /// <param name="quotes">The list of quotes to add.</param>
-    /// <exception cref="ArgumentNullException">Thrown when the quotes list is null.</exception>
-    public void Add(IReadOnlyList<IQuote> quotes)
-    {
-        ArgumentNullException.ThrowIfNull(quotes);
-
-        for (int i = 0; i < quotes.Count; i++)
-        {
-            Add(quotes[i].Timestamp, quotes[i].Value);
-        }
-    }
-
-    /// <summary>
     /// Clears the list and resets internal buffers so the instance can be reused.
     /// </summary>
     public override void Clear()
@@ -163,31 +137,17 @@ public static partial class BollingerBands
     /// <summary>
     /// Creates a buffer list for Bollinger Bands calculations
     /// </summary>
-    /// <typeparam name="TQuote">The type that implements IQuote</typeparam>
-    /// <param name="quotes">Historical price quotes</param>
+    /// <typeparam name="T">The type that implements IReusable</typeparam>
+    /// <param name="source">Time-series values</param>
     /// <param name="lookbackPeriods">The number of periods to use for the lookback window. Default is 20.</param>
     /// <param name="standardDeviations">The number of standard deviations to use for the bands. Default is 2.</param>
     /// <returns>A BollingerBandsList instance pre-populated with historical data</returns>
-    /// <exception cref="ArgumentNullException">Thrown when quotes is null</exception>
+    /// <exception cref="ArgumentNullException">Thrown when source is null</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when parameters are invalid</exception>
-    public static BollingerBandsList ToBollingerBandsBufferList<TQuote>(
-        this IReadOnlyList<TQuote> quotes,
+    public static BollingerBandsList ToBollingerBandsList<T>(
+        this IReadOnlyList<T> source,
         int lookbackPeriods = 20,
         double standardDeviations = 2)
-        where TQuote : IQuote
-    {
-        // Input validation
-        ArgumentNullException.ThrowIfNull(quotes);
-        Validate(lookbackPeriods, standardDeviations);
-
-        // Initialize buffer and populate
-        BollingerBandsList bufferList = new(lookbackPeriods, standardDeviations);
-
-        foreach (TQuote quote in quotes)
-        {
-            bufferList.Add(quote);
-        }
-
-        return bufferList;
-    }
+        where T : IReusable
+        => new(lookbackPeriods, standardDeviations, (IReadOnlyList<IReusable>)source);
 }

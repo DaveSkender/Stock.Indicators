@@ -24,16 +24,16 @@ public class FisherTransformList : BufferList<FisherTransformResult>, IIncrement
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="FisherTransformList"/> class with initial quotes.
+    /// Initializes a new instance of the <see cref="FisherTransformList"/> class with initial reusable values.
     /// </summary>
     /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
-    /// <param name="quotes">Initial quotes to populate the list.</param>
+    /// <param name="values">Initial reusable values to populate the list.</param>
     public FisherTransformList(
         int lookbackPeriods,
-        IReadOnlyList<IQuote> quotes
+        IReadOnlyList<IReusable> values
     )
         : this(lookbackPeriods)
-        => Add(quotes);
+        => Add(values);
 
     /// <summary>
     /// Gets the number of periods to look back for the calculation.
@@ -102,7 +102,8 @@ public class FisherTransformList : BufferList<FisherTransformResult>, IIncrement
     public void Add(IReusable value)
     {
         ArgumentNullException.ThrowIfNull(value);
-        Add(value.Timestamp, value.Value);
+        // prefer HL2 when source is an IQuote (Fisher Transform specification)
+        Add(value.Timestamp, value.Hl2OrValue());
     }
 
     /// <inheritdoc />
@@ -112,27 +113,9 @@ public class FisherTransformList : BufferList<FisherTransformResult>, IIncrement
 
         for (int i = 0; i < values.Count; i++)
         {
-            Add(values[i].Timestamp, values[i].Value);
-        }
-    }
-
-    /// <inheritdoc />
-    public void Add(IQuote quote)
-    {
-        ArgumentNullException.ThrowIfNull(quote);
-        // FisherTransform prefers HL2 for IQuote
-        double hl2 = ((double)quote.High + (double)quote.Low) / 2;
-        Add(quote.Timestamp, hl2);
-    }
-
-    /// <inheritdoc />
-    public void Add(IReadOnlyList<IQuote> quotes)
-    {
-        ArgumentNullException.ThrowIfNull(quotes);
-
-        for (int i = 0; i < quotes.Count; i++)
-        {
-            Add(quotes[i]);
+            IReusable v = values[i];
+            // prefer HL2 when source is an IQuote (Fisher Transform specification)
+            Add(v.Timestamp, v.Hl2OrValue());
         }
     }
 
@@ -150,9 +133,9 @@ public static partial class FisherTransform
     /// <summary>
     /// Creates a buffer list for Fisher Transform calculations.
     /// </summary>
-    public static FisherTransformList ToFisherTransformList<TQuote>(
-        this IReadOnlyList<TQuote> quotes,
+    public static FisherTransformList ToFisherTransformList<T>(
+        this IReadOnlyList<T> source,
         int lookbackPeriods = 10)
-        where TQuote : IQuote
-        => new(lookbackPeriods) { (IReadOnlyList<IQuote>)quotes };
+        where T : IReusable
+        => new(lookbackPeriods) { (IReadOnlyList<IReusable>)source };
 }

@@ -64,7 +64,7 @@ public class AlligatorList : BufferList<AlligatorResult>, IIncrementFromChain, I
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="AlligatorList"/> class with initial quotes.
+    /// Initializes a new instance of the <see cref="AlligatorList"/> class with initial reusable values.
     /// </summary>
     /// <param name="jawPeriods">Lookback periods for the Jaw line.</param>
     /// <param name="jawOffset">Offset periods for the Jaw line.</param>
@@ -72,7 +72,7 @@ public class AlligatorList : BufferList<AlligatorResult>, IIncrementFromChain, I
     /// <param name="teethOffset">Offset periods for the Teeth line.</param>
     /// <param name="lipsPeriods">Lookback periods for the Lips line.</param>
     /// <param name="lipsOffset">Offset periods for the Lips line.</param>
-    /// <param name="quotes">Initial quotes to populate the list.</param>
+    /// <param name="values">Initial reusable values to populate the list.</param>
     public AlligatorList(
         int jawPeriods,
         int jawOffset,
@@ -80,9 +80,9 @@ public class AlligatorList : BufferList<AlligatorResult>, IIncrementFromChain, I
         int teethOffset,
         int lipsPeriods,
         int lipsOffset,
-        IReadOnlyList<IQuote> quotes)
+        IReadOnlyList<IReusable> values)
         : this(jawPeriods, jawOffset, teethPeriods, teethOffset, lipsPeriods, lipsOffset)
-        => Add(quotes);
+        => Add(values);
 
     /// <inheritdoc/>
     public int JawPeriods { get; init; }
@@ -213,55 +213,24 @@ public class AlligatorList : BufferList<AlligatorResult>, IIncrementFromChain, I
         AddInternal(new AlligatorResult(timestamp, jaw, teeth, lips));
     }
 
-    /// <summary>
-    /// Adds a new reusable value to the Alligator list.
-    /// </summary>
-    /// <param name="value">The reusable value to add.</param>
-    /// <exception cref="ArgumentNullException">Thrown when the value is null.</exception>
+    /// <inheritdoc />
     public void Add(IReusable value)
     {
         ArgumentNullException.ThrowIfNull(value);
-        Add(value.Timestamp, value.Value);
+        // Prefer HL2 when source is IQuote (Alligator specification)
+        Add(value.Timestamp, value.Hl2OrValue());
     }
 
-    /// <summary>
-    /// Adds a list of reusable values to the Alligator list.
-    /// </summary>
-    /// <param name="values">The list of reusable values to add.</param>
-    /// <exception cref="ArgumentNullException">Thrown when the values list is null.</exception>
+    /// <inheritdoc />
     public void Add(IReadOnlyList<IReusable> values)
     {
         ArgumentNullException.ThrowIfNull(values);
 
         for (int i = 0; i < values.Count; i++)
         {
-            Add(values[i].Timestamp, values[i].Value);
-        }
-    }
-
-    /// <summary>
-    /// Adds a new quote to the Alligator list.
-    /// </summary>
-    /// <param name="quote">The quote to add.</param>
-    /// <exception cref="ArgumentNullException">Thrown when the quote is null.</exception>
-    public void Add(IQuote quote)
-    {
-        ArgumentNullException.ThrowIfNull(quote);
-        Add(quote.Timestamp, quote.Hl2OrValue());
-    }
-
-    /// <summary>
-    /// Adds a list of quotes to the Alligator list.
-    /// </summary>
-    /// <param name="quotes">The list of quotes to add.</param>
-    /// <exception cref="ArgumentNullException">Thrown when the quotes list is null.</exception>
-    public void Add(IReadOnlyList<IQuote> quotes)
-    {
-        ArgumentNullException.ThrowIfNull(quotes);
-
-        for (int i = 0; i < quotes.Count; i++)
-        {
-            Add(quotes[i].Timestamp, quotes[i].Hl2OrValue());
+            IReusable v = values[i];
+            // Prefer HL2 when source is IQuote (Alligator specification)
+            Add(v.Timestamp, v.Hl2OrValue());
         }
     }
 
@@ -315,12 +284,5 @@ public static partial class Alligator
         int lipsPeriods = 5,
         int lipsOffset = 3)
         where T : IReusable
-    {
-        ArgumentNullException.ThrowIfNull(source);
-        Validate(jawPeriods, jawOffset, teethPeriods, teethOffset, lipsPeriods, lipsOffset);
-
-        return source is IReadOnlyList<IQuote> quotes
-            ? new(jawPeriods, jawOffset, teethPeriods, teethOffset, lipsPeriods, lipsOffset) { quotes }
-            : new(jawPeriods, jawOffset, teethPeriods, teethOffset, lipsPeriods, lipsOffset) { (IReadOnlyList<IReusable>)source };
-    }
+        => new(jawPeriods, jawOffset, teethPeriods, teethOffset, lipsPeriods, lipsOffset) { (IReadOnlyList<IReusable>)source };
 }

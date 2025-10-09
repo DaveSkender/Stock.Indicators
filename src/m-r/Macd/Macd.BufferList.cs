@@ -78,19 +78,19 @@ public class MacdList : BufferList<MacdResult>, IIncrementFromChain, IMacd
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="MacdList"/> class with initial quotes.
+    /// Initializes a new instance of the <see cref="MacdList"/> class with initial reusable values.
     /// </summary>
     /// <param name="fastPeriods">The number of periods for the fast EMA.</param>
     /// <param name="slowPeriods">The number of periods for the slow EMA.</param>
     /// <param name="signalPeriods">The number of periods for the signal line.</param>
-    /// <param name="quotes">Initial quotes to populate the list.</param>
+    /// <param name="values">Initial reusable values to populate the list.</param>
     public MacdList(
         int fastPeriods,
         int slowPeriods,
         int signalPeriods,
-        IReadOnlyList<IQuote> quotes)
+        IReadOnlyList<IReusable> values)
         : this(fastPeriods, slowPeriods, signalPeriods)
-        => Add(quotes);
+        => Add(values);
 
     /// <inheritdoc/>
     public int FastPeriods { get; init; }
@@ -254,24 +254,6 @@ public class MacdList : BufferList<MacdResult>, IIncrementFromChain, IMacd
         for (int i = 0; i < values.Count; i++)
         {
             Add(values[i].Timestamp, values[i].Value);
-        }
-    }
-
-    /// <inheritdoc />
-    public void Add(IQuote quote)
-    {
-        ArgumentNullException.ThrowIfNull(quote);
-        Add(quote.Timestamp, quote.Value);
-    }
-
-    /// <inheritdoc />
-    public void Add(IReadOnlyList<IQuote> quotes)
-    {
-        ArgumentNullException.ThrowIfNull(quotes);
-
-        for (int i = 0; i < quotes.Count; i++)
-        {
-            Add(quotes[i].Timestamp, quotes[i].Value);
         }
     }
 

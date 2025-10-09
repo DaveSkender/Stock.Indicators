@@ -27,16 +27,16 @@ public class DemaList : BufferList<DemaResult>, IIncrementFromChain, IDema
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="DemaList"/> class with initial quotes.
+    /// Initializes a new instance of the <see cref="DemaList"/> class with initial reusable values.
     /// </summary>
     /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
-    /// <param name="quotes">Initial quotes to populate the list.</param>
+    /// <param name="values">Initial reusable values to populate the list.</param>
     public DemaList(
         int lookbackPeriods,
-        IReadOnlyList<IQuote> quotes
+        IReadOnlyList<IReusable> values
     )
         : this(lookbackPeriods)
-        => Add(quotes);
+        => Add(values);
 
     /// <summary>
     /// Gets the number of periods to look back for the calculation.
@@ -114,24 +114,6 @@ public class DemaList : BufferList<DemaResult>, IIncrementFromChain, IDema
         for (int i = 0; i < values.Count; i++)
         {
             Add(values[i].Timestamp, values[i].Value);
-        }
-    }
-
-    /// <inheritdoc />
-    public void Add(IQuote quote)
-    {
-        ArgumentNullException.ThrowIfNull(quote);
-        Add(quote.Timestamp, quote.Value);
-    }
-
-    /// <inheritdoc />
-    public void Add(IReadOnlyList<IQuote> quotes)
-    {
-        ArgumentNullException.ThrowIfNull(quotes);
-
-        for (int i = 0; i < quotes.Count; i++)
-        {
-            Add(quotes[i].Timestamp, quotes[i].Value);
         }
     }
 

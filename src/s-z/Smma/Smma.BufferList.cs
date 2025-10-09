@@ -26,16 +26,16 @@ public class SmmaList : BufferList<SmmaResult>, IIncrementFromChain, ISmma
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="SmmaList"/> class with initial quotes.
+    /// Initializes a new instance of the <see cref="SmmaList"/> class with initial reusable values.
     /// </summary>
     /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
-    /// <param name="quotes">Initial quotes to populate the list.</param>
+    /// <param name="values">Initial reusable values to populate the list.</param>
     public SmmaList(
         int lookbackPeriods,
-        IReadOnlyList<IQuote> quotes
+        IReadOnlyList<IReusable> values
     )
         : this(lookbackPeriods)
-        => Add(quotes);
+        => Add(values);
 
     /// <summary>
     /// Gets the number of periods to look back for the calculation.
@@ -99,24 +99,6 @@ public class SmmaList : BufferList<SmmaResult>, IIncrementFromChain, ISmma
     }
 
     /// <inheritdoc />
-    public void Add(IQuote quote)
-    {
-        ArgumentNullException.ThrowIfNull(quote);
-        Add(quote.Timestamp, quote.Value);
-    }
-
-    /// <inheritdoc />
-    public void Add(IReadOnlyList<IQuote> quotes)
-    {
-        ArgumentNullException.ThrowIfNull(quotes);
-
-        for (int i = 0; i < quotes.Count; i++)
-        {
-            Add(quotes[i].Timestamp, quotes[i].Value);
-        }
-    }
-
-    /// <inheritdoc />
     public override void Clear()
     {
         base.Clear();
@@ -131,9 +113,9 @@ public static partial class Smma
     /// <summary>
     /// Creates a buffer list for Smoothed Moving Average (SMMA) calculations.
     /// </summary>
-    public static SmmaList ToSmmaList<TQuote>(
-        this IReadOnlyList<TQuote> quotes,
+    public static SmmaList ToSmmaList<T>(
+        this IReadOnlyList<T> source,
         int lookbackPeriods)
-        where TQuote : IQuote
-        => new(lookbackPeriods) { (IReadOnlyList<IQuote>)quotes };
+        where T : IReusable
+        => new(lookbackPeriods) { (IReadOnlyList<IReusable>)source };
 }

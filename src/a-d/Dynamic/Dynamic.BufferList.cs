@@ -27,18 +27,18 @@ public class DynamicList : BufferList<DynamicResult>, IIncrementFromChain, IDyna
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="DynamicList"/> class with initial quotes.
+    /// Initializes a new instance of the <see cref="DynamicList"/> class with initial reusable values.
     /// </summary>
     /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
     /// <param name="kFactor">The smoothing factor for the calculation.</param>
-    /// <param name="quotes">Initial quotes to populate the list.</param>
+    /// <param name="values">Initial reusable values to populate the list.</param>
     public DynamicList(
         int lookbackPeriods,
         double kFactor,
-        IReadOnlyList<IQuote> quotes
+        IReadOnlyList<IReusable> values
     )
         : this(lookbackPeriods, kFactor)
-        => Add(quotes);
+        => Add(values);
 
     /// <summary>
     /// Gets the number of periods to look back for the calculation.
@@ -96,24 +96,6 @@ public class DynamicList : BufferList<DynamicResult>, IIncrementFromChain, IDyna
     }
 
     /// <inheritdoc />
-    public void Add(IQuote quote)
-    {
-        ArgumentNullException.ThrowIfNull(quote);
-        Add(quote.Timestamp, quote.Value);
-    }
-
-    /// <inheritdoc />
-    public void Add(IReadOnlyList<IQuote> quotes)
-    {
-        ArgumentNullException.ThrowIfNull(quotes);
-
-        for (int i = 0; i < quotes.Count; i++)
-        {
-            Add(quotes[i].Timestamp, quotes[i].Value);
-        }
-    }
-
-    /// <inheritdoc />
     public override void Clear()
     {
         base.Clear();
@@ -127,10 +109,10 @@ public static partial class MgDynamic
     /// <summary>
     /// Creates a buffer list for McGinley Dynamic calculations.
     /// </summary>
-    public static DynamicList ToDynamicList<TQuote>(
-        this IReadOnlyList<TQuote> quotes,
+    public static DynamicList ToDynamicList<T>(
+        this IReadOnlyList<T> source,
         int lookbackPeriods,
         double kFactor = 0.6)
-        where TQuote : IQuote
-        => new(lookbackPeriods, kFactor) { (IReadOnlyList<IQuote>)quotes };
+        where T : IReusable
+        => new(lookbackPeriods, kFactor) { (IReadOnlyList<IReusable>)source };
 }

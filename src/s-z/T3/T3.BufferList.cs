@@ -36,18 +36,18 @@ public class T3List : BufferList<T3Result>, IIncrementFromChain, IT3
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="T3List"/> class with initial quotes.
+    /// Initializes a new instance of the <see cref="T3List"/> class with initial reusable values.
     /// </summary>
     /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
     /// <param name="volumeFactor">The volume factor for the calculation.</param>
-    /// <param name="quotes">Initial quotes to populate the list.</param>
+    /// <param name="values">Initial reusable values to populate the list.</param>
     public T3List(
         int lookbackPeriods,
         double volumeFactor,
-        IReadOnlyList<IQuote> quotes
+        IReadOnlyList<IReusable> values
     )
         : this(lookbackPeriods, volumeFactor)
-        => Add(quotes);
+        => Add(values);
 
     /// <inheritdoc/>
     public int LookbackPeriods { get; init; }
@@ -141,24 +141,6 @@ public class T3List : BufferList<T3Result>, IIncrementFromChain, IT3
     }
 
     /// <inheritdoc />
-    public void Add(IQuote quote)
-    {
-        ArgumentNullException.ThrowIfNull(quote);
-        Add(quote.Timestamp, quote.Value);
-    }
-
-    /// <inheritdoc />
-    public void Add(IReadOnlyList<IQuote> quotes)
-    {
-        ArgumentNullException.ThrowIfNull(quotes);
-
-        for (int i = 0; i < quotes.Count; i++)
-        {
-            Add(quotes[i].Timestamp, quotes[i].Value);
-        }
-    }
-
-    /// <inheritdoc />
     public override void Clear()
     {
         base.Clear();
@@ -176,10 +158,10 @@ public static partial class T3
     /// <summary>
     /// Creates a buffer list for T3 calculations.
     /// </summary>
-    public static T3List ToT3List<TQuote>(
-        this IReadOnlyList<TQuote> quotes,
+    public static T3List ToT3List<T>(
+        this IReadOnlyList<T> source,
         int lookbackPeriods = 5,
         double volumeFactor = 0.7)
-        where TQuote : IQuote
-        => new(lookbackPeriods, volumeFactor) { (IReadOnlyList<IQuote>)quotes };
+        where T : IReusable
+        => new(lookbackPeriods, volumeFactor) { (IReadOnlyList<IReusable>)source };
 }

@@ -33,21 +33,21 @@ public class StochRsiList : BufferList<StochRsiResult>, IIncrementFromChain
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="StochRsiList"/> class with initial quotes.
+    /// Initializes a new instance of the <see cref="StochRsiList"/> class with initial reusable values.
     /// </summary>
     /// <param name="rsiPeriods">The number of periods for the RSI calculation.</param>
     /// <param name="stochPeriods">The number of periods for the Stochastic calculation.</param>
     /// <param name="signalPeriods">The number of periods for the signal line.</param>
     /// <param name="smoothPeriods">The number of periods for smoothing.</param>
-    /// <param name="quotes">Initial quotes to populate the list.</param>
+    /// <param name="values">Initial reusable values to populate the list.</param>
     public StochRsiList(
         int rsiPeriods,
         int stochPeriods,
         int signalPeriods,
         int smoothPeriods,
-        IReadOnlyList<IQuote> quotes)
+        IReadOnlyList<IReusable> values)
         : this(rsiPeriods, stochPeriods, signalPeriods, smoothPeriods)
-        => Add(quotes);
+        => Add(values);
 
     /// <summary>
     /// Gets the number of periods for the RSI calculation.
@@ -125,24 +125,6 @@ public class StochRsiList : BufferList<StochRsiResult>, IIncrementFromChain
     }
 
     /// <inheritdoc />
-    public void Add(IQuote quote)
-    {
-        ArgumentNullException.ThrowIfNull(quote);
-        Add(quote.Timestamp, quote.Value);
-    }
-
-    /// <inheritdoc />
-    public void Add(IReadOnlyList<IQuote> quotes)
-    {
-        ArgumentNullException.ThrowIfNull(quotes);
-
-        for (int i = 0; i < quotes.Count; i++)
-        {
-            Add(quotes[i].Timestamp, quotes[i].Value);
-        }
-    }
-
-    /// <inheritdoc />
     public override void Clear()
     {
         base.Clear();
@@ -156,12 +138,12 @@ public static partial class StochRsi
     /// <summary>
     /// Creates a buffer list for Stochastic RSI calculations.
     /// </summary>
-    public static StochRsiList ToStochRsiList<TQuote>(
-        this IReadOnlyList<TQuote> quotes,
+    public static StochRsiList ToStochRsiList<T>(
+        this IReadOnlyList<T> source,
         int rsiPeriods,
         int stochPeriods,
         int signalPeriods,
         int smoothPeriods = 1)
-        where TQuote : IQuote
-        => new(rsiPeriods, stochPeriods, signalPeriods, smoothPeriods) { (IReadOnlyList<IQuote>)quotes };
+        where T : IReusable
+        => new(rsiPeriods, stochPeriods, signalPeriods, smoothPeriods) { (IReadOnlyList<IReusable>)source };
 }

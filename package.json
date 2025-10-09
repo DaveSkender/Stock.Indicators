@@ -11,7 +11,7 @@
     "clean": "rimraf --glob \"**/bin\" \"**/obj\" \"**/TestResults\" \"**/BenchmarkDotNet.Artifacts\" \"node_modules\" \"**/node_modules\"",
     "lint:md": "markdownlint-cli2 \"**/*.md\"",
     "lint:md:fix": "markdownlint-cli2 --fix \"**/*.md\"",
-    "fixall": "roslynator fix && dotnet format && markdownlint-cli2 --fix \"**/*.md\"",
+    "fixall": "roslynator fix && dotnet format --no-restore && markdownlint-cli2 --fix \"**/*.md\"",
     "test:coverage": "dotnet test \"Stock.Indicators.sln\" --collect:\"Code Coverage\" --no-restore --nologo"
   },
   "devDependencies": {

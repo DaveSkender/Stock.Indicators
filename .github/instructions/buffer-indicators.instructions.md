@@ -127,10 +127,130 @@ public class {IndicatorName}List : BufferList<{IndicatorName}Result>, IBufferReu
 
 **Interface Selection Guidelines**:
 
-- Use `IBufferReusable` when the indicator's static series can accept `IReusable` values (single values like SMA, EMA)
-  - Note: `IBufferReusable` extends `IBufferList`, so only `IBufferReusable` needs to be declared
-- Use only `IBufferList` when the indicator's static series requires `IQuote` (multiple values like VWMA needs price+volume, ADX needs OHLC)
-- Match the interface pattern to what the static series implementation supports
+BufferList implementations must implement ONE of three increment interfaces based on their data requirements:
+
+### 1. IIncrementFromChain - For chainable indicators
+
+Use when the indicator can work with single reusable values (chainable indicators like SMA, EMA, RSI, MACD).
+
+**Required methods**:
+
+- `Add(DateTime timestamp, double value)` - Core calculation method
+- `Add(IReusable value)` - Single reusable value entry point
+- `Add(IReadOnlyList<IReusable> values)` - Batch reusable values entry point
+
+**CRITICAL RULES**:
+
+- ✅ **Constructor MUST accept**: `IReadOnlyList<IReusable> values` (NOT `IQuote quotes`)
+- ✅ **Extension method MUST use**: `<T>` generic with `where T : IReusable` (NOT `<TQuote>` with `where TQuote : IQuote`)
+- ❌ **MUST NOT have**: `Add(IQuote)` or `Add(IReadOnlyList<IQuote>)` methods
+- ✅ **For HL2/OHLC handling**: Use utility methods in `Add(IReusable)`:
+  - `value.Hl2OrValue()` - Returns HL2 if IQuote, otherwise Value
+  - `value.QuotePartOrValue(CandlePart.HL2)` - Returns specified part if IQuote, otherwise Value
+  - This allows accepting both pure IReusable AND IQuote values through the same interface
+
+**Example constructor and extension**:
+
+```csharp
+public EmaList(
+    int lookbackPeriods,
+    IReadOnlyList<IReusable> values)  // ← IReusable, NOT IQuote
+    : this(lookbackPeriods)
+    => Add(values);
+
+public static EmaList ToEmaList<T>(  // ← Generic T, NOT TQuote
+    this IReadOnlyList<T> source,    // ← Parameter named 'source', NOT 'quotes'
+    int lookbackPeriods)
+    where T : IReusable              // ← IReusable constraint, NOT IQuote
+    => new(lookbackPeriods) { (IReadOnlyList<IReusable>)source };
+```
+
+### 2. IIncrementFromQuote - For multi-value OHLC indicators
+
+Use when the indicator **requires** multiple OHLC values per quote (VWMA needs price+volume, Stoch needs HLC, Vwap needs HLCV, etc.).
+
+**Required methods**:
+
+- `Add(IQuote quote)` - Single quote entry point
+- `Add(IReadOnlyList<IQuote> quotes)` - Batch quotes entry point
+
+**Constructor and extension pattern**:
+
+```csharp
+public VwmaList(
+    int lookbackPeriods,
+    IReadOnlyList<IQuote> quotes)    // ← IQuote for multi-value indicators
+    : this(lookbackPeriods)
+    => Add(quotes);
+
+public static VwmaList ToVwmaList<TQuote>(  // ← TQuote generic is acceptable here
+    this IReadOnlyList<TQuote> quotes,       // ← Parameter named 'quotes' for IQuote
+    int lookbackPeriods)
+    where TQuote : IQuote                    // ← IQuote constraint
+    => new(lookbackPeriods) { (IReadOnlyList<IQuote>)quotes };
+```
+
+### 3. IIncrementFromPairs - For dual-input indicators
+
+Use when the indicator requires two synchronized input series (like Correlation, Beta).
+
+**Required methods**:
+
+- `Add(DateTime timestamp, double valueA, double valueB)` - Core calculation with paired values
+- `Add((IReusable A, IReusable B) pair)` - Single pair entry point
+- `Add(IReadOnlyList<(IReusable A, IReusable B)> pairs)` - Batch pairs entry point
+
+**Pattern summary**:
+
+- `IIncrementFromChain` → Works with single values, chainable, uses `IReusable`
+- `IIncrementFromQuote` → Requires OHLCV data, not chainable, uses `IQuote`
+- `IIncrementFromPairs` → Requires synchronized dual inputs, uses paired `IReusable`
+
+Match the interface to what the static series implementation supports and the indicator's data requirements.
+
+**Example: IIncrementFromChain with HL2 handling**:
+
+```csharp
+public class AlligatorList : BufferList<AlligatorResult>, IIncrementFromChain, IAlligator
+{
+    // ... fields and constructor ...
+
+    /// <inheritdoc />
+    public void Add(DateTime timestamp, double value)
+    {
+        // Core calculation logic
+        // ...
+        AddInternal(new AlligatorResult(timestamp, jaw, teeth, lips));
+    }
+
+    /// <inheritdoc />
+    public void Add(IReusable value)
+    {
+        ArgumentNullException.ThrowIfNull(value);
+        // Prefer HL2 when source is IQuote (Alligator specification)
+        Add(value.Timestamp, value.Hl2OrValue());
+    }
+
+    /// <inheritdoc />
+    public void Add(IReadOnlyList<IReusable> values)
+    {
+        ArgumentNullException.ThrowIfNull(values);
+
+        for (int i = 0; i < values.Count; i++)
+        {
+            IReusable v = values[i];
+            // Prefer HL2 when source is IQuote (Alligator specification)
+            Add(v.Timestamp, v.Hl2OrValue());
+        }
+    }
+}
+```
+
+**Available utility methods for OHLC handling**:
+
+- `value.Hl2OrValue()` - Returns HL2 if IQuote, otherwise returns Value
+- `value.QuotePartOrValue(CandlePart.HL2)` - Returns specified CandlePart if IQuote, otherwise returns Value
+- `value.QuotePartOrValue(CandlePart.HLC3)`, `value.QuotePartOrValue(CandlePart.OHLC4)`, etc.
 
 > **Note**: The current codebase uses `Queue<T>` for efficient FIFO buffering operations. `Queue<T>` provides O(1) enqueue/dequeue operations and is well-suited for sliding window calculations where you need to remove the oldest value when adding a new one.
 
