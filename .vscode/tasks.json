@@ -156,9 +156,9 @@
     },
     {
       "label": "Test: Unit tests",
-      "detail": "Run unit tests only (excludes integration tests)",
+      "detail": "Run unit tests only (excludes integration and regression tests)",
       "type": "shell",
-      "command": "dotnet test tests/indicators/Tests.Indicators.csproj --no-restore --nologo",
+      "command": "dotnet test tests/indicators/Tests.Indicators.csproj --no-restore --nologo --settings tests/tests.unit.runsettings",
       "options": {
         "cwd": "${workspaceFolder}"
       },
@@ -166,6 +166,23 @@
         "kind": "test",
         "isDefault": true
       },
+      "problemMatcher": [
+        "$msCompile"
+      ],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      }
+    },
+    {
+      "label": "Test: Regression tests",
+      "detail": "Run regression tests only (baseline validation)",
+      "type": "shell",
+      "command": "dotnet test tests/indicators/Tests.Indicators.csproj --no-restore --nologo --settings tests/tests.regression.runsettings",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "group": "test",
       "problemMatcher": [
         "$msCompile"
       ],

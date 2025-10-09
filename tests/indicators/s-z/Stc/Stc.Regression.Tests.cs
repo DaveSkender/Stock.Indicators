@@ -1,4 +1,3 @@
-
 namespace Regression;
 
 [TestClass, TestCategory("Regression")]
