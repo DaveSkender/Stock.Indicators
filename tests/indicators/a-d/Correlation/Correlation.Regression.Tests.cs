@@ -18,5 +18,5 @@ public class CorrelationTests : RegressionTestBase<CorrResult>
     public override void Buffer() => Assert.Inconclusive("Buffer implementation not yet available");
 
     [TestMethod]
-    public override void Stream() => Assert.Inconclusive("Stream implementation not yet available");
+    public override void Stream() => Assert.Inconclusive("Stream implementation has dual-provider synchronization issues - requires architectural review");
 }

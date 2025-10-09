@@ -12,5 +12,5 @@ public class AwesomeTests : RegressionTestBase<AwesomeResult>
     public override void Buffer() => Assert.Inconclusive("Buffer implementation not yet available");
 
     [TestMethod]
-    public override void Stream() => Assert.Inconclusive("Stream implementation not yet available");
+    public override void Stream() => quoteHub.ToAwesomeHub(5, 34).Results.AssertEquals(Expected);
 }

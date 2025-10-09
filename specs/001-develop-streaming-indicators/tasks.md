@@ -106,8 +106,8 @@ The following indicators have series-style implementations but lack StreamHub im
 
 ### StreamHub A-D Group (14 indicators)
 
-- [ ] T056 Implement Aroon StreamHub in `src/a-d/Aroon/Aroon.StreamHub.cs`
-- [ ] T057 Implement Awesome StreamHub in `src/a-d/Awesome/Awesome.StreamHub.cs`
+- [x] T056 Implement Aroon StreamHub in `src/a-d/Aroon/Aroon.StreamHub.cs`
+- [x] T057 Implement Awesome StreamHub in `src/a-d/Awesome/Awesome.StreamHub.cs`
 - [ ] T058 Implement Beta StreamHub in `src/a-d/Beta/Beta.StreamHub.cs`
 - [ ] T059 Implement Bop StreamHub in `src/a-d/Bop/Bop.StreamHub.cs`
 - [ ] T060 Implement ChaikinOsc StreamHub in `src/a-d/ChaikinOsc/ChaikinOsc.StreamHub.cs`
@@ -115,8 +115,8 @@ The following indicators have series-style implementations but lack StreamHub im
 - [ ] T062 Implement Chop StreamHub in `src/a-d/Chop/Chop.StreamHub.cs`
 - [ ] T063 Implement Cmf StreamHub in `src/a-d/Cmf/Cmf.StreamHub.cs`
 - [ ] T064 Implement ConnorsRsi StreamHub in `src/a-d/ConnorsRsi/ConnorsRsi.StreamHub.cs`
-- [ ] T065 Implement Correlation StreamHub in `src/a-d/Correlation/Correlation.StreamHub.cs`
-- [ ] T066 Implement Doji StreamHub in `src/a-d/Doji/Doji.StreamHub.cs`
+- [ ] T065 Implement Correlation StreamHub in `src/a-d/Correlation/Correlation.StreamHub.cs` (WIP - dual-stream sync needs work, see Issue #1511)
+- [x] T066 Implement Doji StreamHub in `src/a-d/Doji/Doji.StreamHub.cs`
 - [ ] T067 Implement Donchian StreamHub in `src/a-d/Donchian/Donchian.StreamHub.cs`
 - [ ] T068 Implement Dpo StreamHub in `src/a-d/Dpo/Dpo.StreamHub.cs`
 - [ ] T069 Implement Dynamic StreamHub in `src/a-d/Dynamic/Dynamic.StreamHub.cs`
