@@ -67,8 +67,8 @@ public class CmoHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
     [TestMethod]
     public void ChainObserver()
     {
-        int emaPeriods = 12;
-        int cmoPeriods = 14;
+        const int emaPeriods = 12;
+        const int cmoPeriods = 14;
 
         List<Quote> quotesList = Quotes.ToList();
 
@@ -109,8 +109,8 @@ public class CmoHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
     [TestMethod]
     public void ChainProvider()
     {
-        int emaPeriods = 12;
-        int cmoPeriods = 14;
+        const int emaPeriods = 12;
+        const int cmoPeriods = 14;
 
         List<Quote> quotesList = Quotes.ToList();
 

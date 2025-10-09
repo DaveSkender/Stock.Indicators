@@ -128,7 +128,7 @@ public static partial class Adx
             double mdi = 100 * mdm / trs;
 
             // calculate ADX
-            double dx = pdi - mdi == 0
+            double dx = pdi == mdi
                 ? 0
                 : pdi + mdi != 0
                 ? 100 * Math.Abs(pdi - mdi) / (pdi + mdi)

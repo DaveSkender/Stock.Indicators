@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Williams Alligator from incremental reusable values.
 /// </summary>
-public class AlligatorList : BufferList<AlligatorResult>, IBufferReusable, IAlligator
+public class AlligatorList : BufferList<AlligatorResult>, IIncrementFromChain, IAlligator
 {
     private readonly Queue<double> _inputBuffer;
     private readonly Queue<double> _jawBuffer;
@@ -270,7 +270,7 @@ public class AlligatorList : BufferList<AlligatorResult>, IBufferReusable, IAlli
     /// </summary>
     public override void Clear()
     {
-        ClearInternal();
+        base.Clear();
 
         _inputBuffer.Clear();
         _jawBuffer.Clear();

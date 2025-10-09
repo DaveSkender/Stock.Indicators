@@ -112,13 +112,13 @@ public static partial class Beta
 
             results.Add(
             new(Timestamp: eval.Timestamp,
-                ReturnsEval: evalReturns[i],
-                ReturnsMrkt: mrktReturns[i],
                 Beta: beta,
                 BetaUp: betaUp,
                 BetaDown: betaDown,
                 Ratio: ratio,
-                Convexity: convexity));
+                Convexity: convexity,
+                ReturnsEval: evalReturns[i],
+                ReturnsMrkt: mrktReturns[i]));
         }
 
         return results;
@@ -161,7 +161,7 @@ public static partial class Beta
             }
         }
 
-        if (dataA.Count <= 0)
+        if (dataA.Count == 0)
         {
             return beta;
         }

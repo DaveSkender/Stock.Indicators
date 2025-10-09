@@ -105,34 +105,9 @@ public enum EndType
 public enum Match
 {
     /// <summary>
-    /// Strong bullish confirmation.
+    /// Strong bearish confirmation.
     /// </summary>
-    BullConfirmed = 200,
-
-    /// <summary>
-    /// Bullish signal.
-    /// </summary>
-    BullSignal = 100,
-
-    /// <summary>
-    /// Bullish basis.
-    /// </summary>
-    BullBasis = 10,
-
-    /// <summary>
-    /// Neutral pattern.
-    /// </summary>
-    Neutral = 1,
-
-    /// <summary>
-    /// No pattern.
-    /// </summary>
-    None = 0,
-
-    /// <summary>
-    /// Bearish basis.
-    /// </summary>
-    BearBasis = -10,
+    BearConfirmed = -200,
 
     /// <summary>
     /// Bearish signal.
@@ -140,9 +115,33 @@ public enum Match
     BearSignal = -100,
 
     /// <summary>
-    /// Strong bearish confirmation.
+    /// Bearish basis.
     /// </summary>
-    BearConfirmed = -200
+    BearBasis = -10,
+
+    /// <summary>
+    /// No pattern.
+    /// </summary>
+    None = 0,
+
+    /// <summary>
+    /// Neutral pattern.
+    /// </summary>
+    Neutral = 1,
+
+    /// <summary>
+    /// Bullish basis.
+    /// </summary>
+    BullBasis = 10,
+
+    /// <summary>
+    /// Bullish signal.
+    /// </summary>
+    BullSignal = 100,
+    /// <summary>
+    /// Strong bullish confirmation.
+    /// </summary>
+    BullConfirmed = 200
 }
 
 /// <summary>

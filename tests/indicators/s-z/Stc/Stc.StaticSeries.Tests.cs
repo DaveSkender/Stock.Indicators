@@ -6,9 +6,9 @@ public class Stc : StaticSeriesTestBase
     [TestMethod]
     public override void Standard()
     {
-        int cyclePeriods = 9;
-        int fastPeriods = 12;
-        int slowPeriods = 26;
+        const int cyclePeriods = 9;
+        const int fastPeriods = 12;
+        const int slowPeriods = 26;
 
         IReadOnlyList<StcResult> results = Quotes
             .ToStc(cyclePeriods, fastPeriods, slowPeriods);
@@ -107,9 +107,9 @@ public class Stc : StaticSeriesTestBase
     [TestMethod]
     public void Removed()
     {
-        int cyclePeriods = 9;
-        int fastPeriods = 12;
-        int slowPeriods = 26;
+        const int cyclePeriods = 9;
+        const int fastPeriods = 12;
+        const int slowPeriods = 26;
 
         IReadOnlyList<StcResult> results = Quotes
             .ToStc(cyclePeriods, fastPeriods, slowPeriods)

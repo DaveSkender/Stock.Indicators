@@ -6,9 +6,9 @@ public class Keltner : StaticSeriesTestBase
     [TestMethod]
     public override void Standard()
     {
-        int emaPeriods = 20;
-        int multiplier = 2;
-        int atrPeriods = 10;
+        const int emaPeriods = 20;
+        const int multiplier = 2;
+        const int atrPeriods = 10;
 
         IReadOnlyList<KeltnerResult> results = Quotes
             .ToKeltner(emaPeriods, multiplier, atrPeriods);
@@ -63,9 +63,9 @@ public class Keltner : StaticSeriesTestBase
     [TestMethod]
     public void Condense()
     {
-        int emaPeriods = 20;
-        int multiplier = 2;
-        int atrPeriods = 10;
+        const int emaPeriods = 20;
+        const int multiplier = 2;
+        const int atrPeriods = 10;
 
         IReadOnlyList<KeltnerResult> results = Quotes
             .ToKeltner(emaPeriods, multiplier, atrPeriods)
@@ -84,9 +84,9 @@ public class Keltner : StaticSeriesTestBase
     [TestMethod]
     public void Removed()
     {
-        int emaPeriods = 20;
-        int multiplier = 2;
-        int atrPeriods = 10;
+        const int emaPeriods = 20;
+        const int multiplier = 2;
+        const int atrPeriods = 10;
         int n = Math.Max(emaPeriods, atrPeriods);
 
         IReadOnlyList<KeltnerResult> results = Quotes
@@ -94,7 +94,7 @@ public class Keltner : StaticSeriesTestBase
             .RemoveWarmupPeriods();
 
         // assertions
-        Assert.AreEqual(502 - Math.Max(2 * n, n + 100), results.Count);
+        Assert.HasCount(502 - Math.Max(2 * n, n + 100), results);
 
         KeltnerResult last = results[^1];
         Assert.AreEqual(262.1873, last.UpperBand.Round(4));

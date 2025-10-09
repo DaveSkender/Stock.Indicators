@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Relative Strength Index (RSI) from incremental reusable values.
 /// </summary>
-public class RsiList : BufferList<RsiResult>, IBufferReusable, IRsi
+public class RsiList : BufferList<RsiResult>, IIncrementFromChain, IRsi
 {
     private readonly Queue<(double Gain, double Loss)> _buffer;
     private double _avgGain = double.NaN;
@@ -150,7 +150,7 @@ public class RsiList : BufferList<RsiResult>, IBufferReusable, IRsi
     /// <inheritdoc />
     public override void Clear()
     {
-        ClearInternal();
+        base.Clear();
         _buffer.Clear();
         _avgGain = double.NaN;
         _avgLoss = double.NaN;

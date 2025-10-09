@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Kaufman's Adaptive Moving Average (KAMA) from incremental reusable values.
 /// </summary>
-public class KamaList : BufferList<KamaResult>, IBufferReusable, IKama
+public class KamaList : BufferList<KamaResult>, IIncrementFromChain, IKama
 {
     private readonly Queue<double> _buffer;
     private readonly int _erPeriods;
@@ -184,7 +184,7 @@ public class KamaList : BufferList<KamaResult>, IBufferReusable, IKama
     /// <inheritdoc />
     public override void Clear()
     {
-        ClearInternal();
+        base.Clear();
         _buffer.Clear();
         _prevKama = double.NaN;
     }

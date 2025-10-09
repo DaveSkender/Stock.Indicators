@@ -67,8 +67,8 @@ public class RsiHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
     [TestMethod]
     public void ChainObserver()
     {
-        int emaPeriods = 12;
-        int rsiPeriods = 14;
+        const int emaPeriods = 12;
+        const int rsiPeriods = 14;
 
         List<Quote> quotesList = Quotes.ToList();
 
@@ -109,8 +109,8 @@ public class RsiHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
     [TestMethod]
     public void ChainProvider()
     {
-        int emaPeriods = 12;
-        int rsiPeriods = 14;
+        const int emaPeriods = 12;
+        const int rsiPeriods = 14;
 
         List<Quote> quotesList = Quotes.ToList();
 

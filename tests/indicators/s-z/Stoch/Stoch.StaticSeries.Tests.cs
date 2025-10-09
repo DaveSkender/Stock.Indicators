@@ -6,9 +6,9 @@ public class Stoch : StaticSeriesTestBase
     [TestMethod]
     public override void Standard() // Slow
     {
-        int lookbackPeriods = 14;
-        int signalPeriods = 3;
-        int smoothPeriods = 3;
+        const int lookbackPeriods = 14;
+        const int signalPeriods = 3;
+        const int smoothPeriods = 3;
 
         IReadOnlyList<StochResult> results = Quotes
             .ToStoch(lookbackPeriods, signalPeriods, smoothPeriods);
@@ -128,9 +128,9 @@ public class Stoch : StaticSeriesTestBase
     [TestMethod]
     public void Fast()
     {
-        int lookbackPeriods = 5;
-        int signalPeriods = 10;
-        int smoothPeriods = 1;
+        const int lookbackPeriods = 5;
+        const int signalPeriods = 10;
+        const int smoothPeriods = 1;
 
         IReadOnlyList<StochResult> results = Quotes
             .ToStoch(lookbackPeriods, signalPeriods, smoothPeriods);
@@ -148,9 +148,9 @@ public class Stoch : StaticSeriesTestBase
     [TestMethod]
     public void FastSmall()
     {
-        int lookbackPeriods = 1;
-        int signalPeriods = 10;
-        int smoothPeriods = 1;
+        const int lookbackPeriods = 1;
+        const int signalPeriods = 10;
+        const int smoothPeriods = 1;
 
         IReadOnlyList<StochResult> results = Quotes
             .ToStoch(lookbackPeriods, signalPeriods, smoothPeriods);
@@ -191,9 +191,9 @@ public class Stoch : StaticSeriesTestBase
     [TestMethod]
     public void Removed()
     {
-        int lookbackPeriods = 14;
-        int signalPeriods = 3;
-        int smoothPeriods = 3;
+        const int lookbackPeriods = 14;
+        const int signalPeriods = 3;
+        const int smoothPeriods = 3;
 
         IReadOnlyList<StochResult> results = Quotes
             .ToStoch(lookbackPeriods, signalPeriods, smoothPeriods)
@@ -211,9 +211,9 @@ public class Stoch : StaticSeriesTestBase
     [TestMethod]
     public void Boundary()
     {
-        int lookbackPeriods = 14;
-        int signalPeriods = 3;
-        int smoothPeriods = 3;
+        const int lookbackPeriods = 14;
+        const int signalPeriods = 3;
+        const int smoothPeriods = 3;
 
         IReadOnlyList<StochResult> results = Data
             .GetRandom(2500)

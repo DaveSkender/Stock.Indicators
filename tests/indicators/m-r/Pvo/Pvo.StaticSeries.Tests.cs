@@ -6,9 +6,9 @@ public class Pvo : StaticSeriesTestBase
     [TestMethod]
     public override void Standard()
     {
-        int fastPeriods = 12;
-        int slowPeriods = 26;
-        int signalPeriods = 9;
+        const int fastPeriods = 12;
+        const int slowPeriods = 26;
+        const int signalPeriods = 9;
 
         IReadOnlyList<PvoResult> results =
             Quotes.ToPvo(fastPeriods, slowPeriods, signalPeriods);
@@ -84,9 +84,9 @@ public class Pvo : StaticSeriesTestBase
     [TestMethod]
     public void Removed()
     {
-        int fastPeriods = 12;
-        int slowPeriods = 26;
-        int signalPeriods = 9;
+        const int fastPeriods = 12;
+        const int slowPeriods = 26;
+        const int signalPeriods = 9;
 
         IReadOnlyList<PvoResult> results = Quotes
             .ToPvo(fastPeriods, slowPeriods, signalPeriods)

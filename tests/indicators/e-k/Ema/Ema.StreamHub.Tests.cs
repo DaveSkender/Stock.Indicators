@@ -67,8 +67,8 @@ public class EmaHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
     [TestMethod]
     public void ChainObserver()
     {
-        int emaPeriods = 12;
-        int smaPeriods = 8;
+        const int emaPeriods = 12;
+        const int smaPeriods = 8;
 
         List<Quote> quotesList = Quotes.ToList();
 
@@ -109,8 +109,8 @@ public class EmaHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
     [TestMethod]
     public void ChainProvider()
     {
-        int emaPeriods = 20;
-        int smaPeriods = 10;
+        const int emaPeriods = 20;
+        const int smaPeriods = 10;
 
         List<Quote> quotesList = Quotes.ToList();
 

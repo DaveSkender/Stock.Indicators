@@ -6,9 +6,9 @@ public class StarcBands : StaticSeriesTestBase
     [TestMethod]
     public override void Standard()
     {
-        int smaPeriods = 20;
-        int multiplier = 2;
-        int atrPeriods = 14;
+        const int smaPeriods = 20;
+        const int multiplier = 2;
+        const int atrPeriods = 14;
 
         IReadOnlyList<StarcBandsResult> results = Quotes
             .ToStarcBands(smaPeriods, multiplier, atrPeriods);
@@ -73,9 +73,9 @@ public class StarcBands : StaticSeriesTestBase
     [TestMethod]
     public void Condense()
     {
-        int smaPeriods = 20;
-        int multiplier = 2;
-        int atrPeriods = 14;
+        const int smaPeriods = 20;
+        const int multiplier = 2;
+        const int atrPeriods = 14;
         int lookbackPeriods = Math.Max(smaPeriods, atrPeriods);
 
         IReadOnlyList<StarcBandsResult> results = Quotes
@@ -94,9 +94,9 @@ public class StarcBands : StaticSeriesTestBase
     [TestMethod]
     public void Removed()
     {
-        int smaPeriods = 20;
-        int multiplier = 2;
-        int atrPeriods = 14;
+        const int smaPeriods = 20;
+        const int multiplier = 2;
+        const int atrPeriods = 14;
         int lookbackPeriods = Math.Max(smaPeriods, atrPeriods);
 
         IReadOnlyList<StarcBandsResult> results = Quotes

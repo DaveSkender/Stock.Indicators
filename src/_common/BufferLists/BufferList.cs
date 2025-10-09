@@ -3,27 +3,20 @@ using System.Collections;
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Abstract base class for buffered indicator lists.
+/// Standalone indicator lists with buffering cache.
 /// </summary>
-/// <typeparam name="TResult">The type of results stored in the list.</typeparam>
 /// <remarks>
-/// This base class provides a simplified collection interface that only exposes
-/// safe operations for buffer list implementations. It does not support removal
-/// or modification operations that would desynchronize internal buffer state.
+/// Based on <see cref="IReadOnlyList{TResult}"/>, this class
+/// contains core buffering list features for safe operations.
 /// </remarks>
-public abstract class BufferList<TResult> : ICollection<TResult>, IReadOnlyList<TResult>
+/// <inheritdoc/>
+public abstract class BufferList<TResult> : IBufferList<TResult>
     where TResult : ISeries
 {
-    private const int DefaultMaxListSize = (int)(int.MaxValue * 0.9);
-    private int _maxListSize = DefaultMaxListSize;
     private readonly List<TResult> _internalList = [];
 
-    /// <summary>
-    /// Initializes a new instance of the <see cref="BufferList{TResult}"/> class.
-    /// </summary>
-    protected BufferList()
-    {
-    }
+    private const int DefaultMaxListSize = (int)(int.MaxValue * 0.9);
+    private int _maxListSize = DefaultMaxListSize;
 
     /// <summary>
     /// Gets the result at the specified index.
@@ -78,18 +71,10 @@ public abstract class BufferList<TResult> : ICollection<TResult>, IReadOnlyList<
     }
 
     /// <summary>
-    /// Clears the internal list storage.
-    /// </summary>
-    protected void ClearInternal()
-    {
-        _internalList.Clear();
-    }
-
-    /// <summary>
     /// Removes the item at the specified index from the internal list.
     /// </summary>
     /// <param name="index">The zero-based index of the item to remove.</param>
-    protected void RemoveAtInternal(int index)
+    protected void RemoveAt(int index)
     {
         _internalList.RemoveAt(index);
     }
@@ -110,23 +95,18 @@ public abstract class BufferList<TResult> : ICollection<TResult>, IReadOnlyList<
         _internalList.RemoveRange(0, overflow);
     }
 
-    #region ICollection<TResult> Implementation
+    /* IList<TResult> features (limited set) */
 
-    /// <inheritdoc/>
-    void ICollection<TResult>.Add(TResult item)
+    /// <inheritdoc cref="List{TResult}.Clear"/>
+    public virtual void Clear()
     {
-        throw new NotSupportedException(
-            "Direct use of Add(TResult) is not supported. " +
-            "Use the strongly-typed Add methods specific to this indicator.");
+        _internalList.Clear();
     }
 
-    /// <inheritdoc/>
-    public abstract void Clear();
-
-    /// <inheritdoc/>
+    /// <inheritdoc cref="List{TResult}.Contains(TResult)"/>
     public bool Contains(TResult item) => _internalList.Contains(item);
 
-    /// <inheritdoc/>
+    /// <inheritdoc cref="List{TResult}.CopyTo(TResult[], int)"/>
     public void CopyTo(TResult[] array, int arrayIndex)
         => _internalList.CopyTo(array, arrayIndex);
 
@@ -134,14 +114,5 @@ public abstract class BufferList<TResult> : ICollection<TResult>, IReadOnlyList<
     public IEnumerator<TResult> GetEnumerator() => _internalList.GetEnumerator();
 
     /// <inheritdoc/>
-    bool ICollection<TResult>.Remove(TResult item)
-    {
-        throw new NotSupportedException(
-            "Remove is not supported. Buffer lists do not support item removal.");
-    }
-
-    /// <inheritdoc/>
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
-
-    #endregion
 }

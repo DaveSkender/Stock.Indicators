@@ -67,8 +67,8 @@ public class AlmaHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
     [TestMethod]
     public void ChainObserver()
     {
-        int almaPeriods = 12;
-        int smaPeriods = 8;
+        const int almaPeriods = 12;
+        const int smaPeriods = 8;
 
         List<Quote> quotesList = Quotes.ToList();
 
@@ -109,8 +109,8 @@ public class AlmaHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
     [TestMethod]
     public void ChainProvider()
     {
-        int almaPeriods = 20;
-        int smaPeriods = 10;
+        const int almaPeriods = 20;
+        const int smaPeriods = 10;
 
         List<Quote> quotesList = Quotes.ToList();
 

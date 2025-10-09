@@ -11,7 +11,7 @@ namespace Skender.Stock.Indicators;
 /// only the minimum required for the lookback period plus a buffer.
 /// </para>
 /// </remarks>
-public class EpmaList : BufferList<EpmaResult>, IBufferReusable, IEpma
+public class EpmaList : BufferList<EpmaResult>, IIncrementFromChain, IEpma
 {
     private readonly Queue<double> _buffer;
     private readonly List<IReusable> _cache;
@@ -112,7 +112,7 @@ public class EpmaList : BufferList<EpmaResult>, IBufferReusable, IEpma
         _buffer.Clear();
         _cache.Clear();
         _cacheOffset = 0;
-        ClearInternal();
+        base.Clear();
     }
 
     /// <summary>

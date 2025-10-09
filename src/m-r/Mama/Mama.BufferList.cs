@@ -6,7 +6,7 @@ namespace Skender.Stock.Indicators;
 /// <remarks>
 /// <para>
 /// <b>Exception to BufferUtilities Pattern:</b> MAMA does not use the standard
-/// <see cref="BufferUtilities"/> extension methods (Update/UpdateWithDequeue) due to
+/// <see cref="BufferListUtilities"/> extension methods (Update/UpdateWithDequeue) due to
 /// the unique complexity of the MESA (Maximum Entropy Spectrum Analysis) algorithm.
 /// </para>
 /// <para>
@@ -33,7 +33,7 @@ namespace Skender.Stock.Indicators;
 /// </list>
 /// </para>
 /// </remarks>
-public class MamaList : BufferList<MamaResult>, IBufferReusable, IMama
+public class MamaList : BufferList<MamaResult>, IIncrementFromChain, IMama
 {
     // Internal state arrays matching StaticSeries implementation
     // These arrays grow with each added value to support indexed lookback access
@@ -269,7 +269,7 @@ public class MamaList : BufferList<MamaResult>, IBufferReusable, IMama
     /// <inheritdoc />
     public override void Clear()
     {
-        ClearInternal();
+        base.Clear();
         pr.Clear();
         sm.Clear();
         dt.Clear();

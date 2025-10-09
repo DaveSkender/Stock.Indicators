@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Bollinger Bands from incremental reusable values.
 /// </summary>
-public class BollingerBandsList : BufferList<BollingerBandsResult>, IBufferReusable, IBollingerBands
+public class BollingerBandsList : BufferList<BollingerBandsResult>, IIncrementFromChain, IBollingerBands
 {
     private readonly Queue<double> buffer;
 
@@ -72,7 +72,7 @@ public class BollingerBandsList : BufferList<BollingerBandsResult>, IBufferReusa
             double lowerBand = sma - (StandardDeviations * stdDev);
 
             // Calculate derived values
-            double? percentB = upperBand - lowerBand == 0 ? null
+            double? percentB = upperBand == lowerBand ? null
                 : (value - lowerBand) / (upperBand - lowerBand);
 
             double? zScore = stdDev == 0 ? null : (value - sma) / stdDev;
@@ -152,7 +152,7 @@ public class BollingerBandsList : BufferList<BollingerBandsResult>, IBufferReusa
     /// </summary>
     public override void Clear()
     {
-        ClearInternal();
+        base.Clear();
         buffer.Clear();
     }
 }

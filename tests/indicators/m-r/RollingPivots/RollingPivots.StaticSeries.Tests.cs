@@ -6,9 +6,9 @@ public class RollingPivots : StaticSeriesTestBase
     [TestMethod]
     public override void Standard()
     {
-        int windowPeriods = 11;
-        int offsetPeriods = 9;
-        PivotPointType pointType = PivotPointType.Standard;
+        const int windowPeriods = 11;
+        const int offsetPeriods = 9;
+        const PivotPointType pointType = PivotPointType.Standard;
 
         IReadOnlyList<RollingPivotsResult> results =
             Quotes.ToRollingPivots(windowPeriods, offsetPeriods, pointType);
@@ -77,9 +77,9 @@ public class RollingPivots : StaticSeriesTestBase
     [TestMethod]
     public void Camarilla()
     {
-        int windowPeriods = 10;
-        int offsetPeriods = 0;
-        PivotPointType pointType = PivotPointType.Camarilla;
+        const int windowPeriods = 10;
+        const int offsetPeriods = 0;
+        const PivotPointType pointType = PivotPointType.Camarilla;
 
         IReadOnlyList<Quote> h = Data.GetDefault(38);
 
@@ -150,9 +150,9 @@ public class RollingPivots : StaticSeriesTestBase
     [TestMethod]
     public void Demark()
     {
-        int windowPeriods = 10;
-        int offsetPeriods = 10;
-        PivotPointType pointType = PivotPointType.Demark;
+        const int windowPeriods = 10;
+        const int offsetPeriods = 10;
+        const PivotPointType pointType = PivotPointType.Demark;
 
         IReadOnlyList<RollingPivotsResult> results = Quotes
             .ToRollingPivots(windowPeriods, offsetPeriods, pointType);
@@ -232,9 +232,9 @@ public class RollingPivots : StaticSeriesTestBase
     [TestMethod]
     public void Fibonacci()
     {
-        int windowPeriods = 44;
-        int offsetPeriods = 15;
-        PivotPointType pointType = PivotPointType.Fibonacci;
+        const int windowPeriods = 44;
+        const int offsetPeriods = 15;
+        const PivotPointType pointType = PivotPointType.Fibonacci;
 
         IReadOnlyList<Quote> h = Data.GetIntraday(300);
 
@@ -306,9 +306,9 @@ public class RollingPivots : StaticSeriesTestBase
     [TestMethod]
     public void Woodie()
     {
-        int windowPeriods = 375;
-        int offsetPeriods = 16;
-        PivotPointType pointType = PivotPointType.Woodie;
+        const int windowPeriods = 375;
+        const int offsetPeriods = 16;
+        const PivotPointType pointType = PivotPointType.Woodie;
 
         IReadOnlyList<Quote> h = Data.GetIntraday();
 
@@ -394,9 +394,9 @@ public class RollingPivots : StaticSeriesTestBase
     [TestMethod]
     public void Removed()
     {
-        int windowPeriods = 11;
-        int offsetPeriods = 9;
-        PivotPointType pointType = PivotPointType.Standard;
+        const int windowPeriods = 11;
+        const int offsetPeriods = 9;
+        const PivotPointType pointType = PivotPointType.Standard;
 
         IReadOnlyList<RollingPivotsResult> results = Quotes
             .ToRollingPivots(windowPeriods, offsetPeriods, pointType)

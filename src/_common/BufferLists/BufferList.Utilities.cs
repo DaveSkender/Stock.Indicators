@@ -1,9 +1,9 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Provides extension methods for buffer management in BufferList implementations.
+/// Utility and extension methods for <see cref="BufferList{T}"/> implementations.
 /// </summary>
-public static class BufferUtilities
+public static class BufferListUtilities
 {
     /// <summary>
     /// Updates a rolling buffer by removing the oldest value when at capacity and adding a new value.

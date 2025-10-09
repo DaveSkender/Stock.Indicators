@@ -23,6 +23,8 @@
 ## Requirement Clarity
 
 - [ ] CHK011 - Is "universal buffer utilities usage" quantified with specific method names (`Update`, `UpdateWithDequeue`)? [Clarity, Instructions §Universal Buffer Utility Usage]
+- [ ] CHK011a - Are buffer state pattern requirements clear (prefer tuples over custom structs for internal state)? [Clarity, Instructions §Buffer State Patterns]
+- [ ] CHK011b - Are criteria for when to use tuples vs structs explicitly defined (internal state = tuples, public/interface types = structs)? [Clarity, Instructions §Buffer State Patterns]
 - [ ] CHK012 - Are "O(1) append" performance characteristics measurable/testable? [Measurability, Spec §NFR-001]
 - [ ] CHK013 - Is the "90% of int.MaxValue" default `MaxListSize` value explicitly documented? [Clarity, Instructions §Auto-pruning]
 - [ ] CHK014 - Are constructor chaining requirements clear (use `: this(...)` syntax)? [Clarity, Instructions §Constructor Pattern]

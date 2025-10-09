@@ -72,7 +72,7 @@ public class {IndicatorName}List : BufferList<{IndicatorName}Result>, IBufferReu
     /// <inheritdoc />
     public override void Clear()
     {
-        ClearInternal();
+        base.Clear();
         _buffer.Clear();
     }
     
@@ -133,6 +133,39 @@ public class {IndicatorName}List : BufferList<{IndicatorName}Result>, IBufferReu
 - Match the interface pattern to what the static series implementation supports
 
 > **Note**: The current codebase uses `Queue<T>` for efficient FIFO buffering operations. `Queue<T>` provides O(1) enqueue/dequeue operations and is well-suited for sliding window calculations where you need to remove the oldest value when adding a new one.
+
+### Buffer state patterns
+
+**Prefer tuples over custom structs for internal buffer state**:
+
+- Use named tuples (e.g., `Queue<(double High, double Low, double Close)>`) for multi-value buffer state
+- Tuples provide type safety, named fields, and structural equality without boilerplate
+- Custom structs add unnecessary complexity for internal-only buffer state
+
+**When to use tuples vs structs**:
+
+- ✅ **Use tuples**: Internal buffer state, temporary calculations, simple data grouping
+- ❌ **Avoid custom structs**: Internal buffer state that never leaves the class
+- ⚠️ **Use structs only when**: You need custom behavior, implement specific interfaces, or expose the type publicly
+
+**Example tuple buffer pattern**:
+
+```csharp
+private readonly Queue<(double High, double Low, double Close)> _buffer;
+
+public void Add(IQuote quote)
+{
+    (double High, double Low, double Close) curr = (
+        (double)quote.High,
+        (double)quote.Low,
+        (double)quote.Close);
+    
+    _buffer.Update(2, curr);
+    
+    // Access tuple members by name
+    double value = curr.High - curr.Low;
+}
+```
 
 ### Extension method
 
@@ -390,7 +423,7 @@ Use `buffer.Update()` extension method for most buffer management scenarios:
 
 ```csharp
 /// <inheritdoc />
-public void Add(DateTime timestamp, double value)
+public void Add(DateTime timestamp, T value)
 {
     // Standard buffer management using extension method
     _buffer.Update(LookbackPeriods, value);
@@ -412,7 +445,7 @@ Use `buffer.UpdateWithDequeue()` extension method when you need to track removed
 private double _runningSum;
 
 /// <inheritdoc />
-public void Add(DateTime timestamp, double value)
+public void Add(DateTime timestamp, T value)
 {
     // Track dequeued value for running sum maintenance using extension method
     double? dequeuedValue = _buffer.UpdateWithDequeue(LookbackPeriods, value);
@@ -442,7 +475,7 @@ For indicators requiring multiple buffers (like HMA), use the extension methods 
 
 ```csharp
 /// <inheritdoc />
-public void Add(DateTime timestamp, double value)
+public void Add(DateTime timestamp, T value)
 {
     // Update all buffers using extension methods
     _bufferN1.Update(_periodsN1, value);
@@ -530,6 +563,40 @@ double sum = _buffer.Sum(); // O(n) operation every time
 double? dequeued = _buffer.UpdateWithDequeue(capacity, value);
 if (dequeued.HasValue) _sum = _sum - dequeued.Value + value;
 else _sum += value;
+```
+
+### ❌ Using custom structs for internal buffer state
+
+```csharp
+// DON'T: Define custom struct for internal-only buffer state
+private readonly struct BufferState(double high, double low, double close) : IEquatable<BufferState>
+{
+    public double High { get; init; } = high;
+    public double Low { get; init; } = low;
+    public double Close { get; init; } = close;
+    
+    // Unnecessary boilerplate for internal use
+    public readonly bool Equals(BufferState other) => /* ... */;
+    public override readonly bool Equals(object? obj) => /* ... */;
+    public override readonly int GetHashCode() => /* ... */;
+}
+
+private readonly Queue<BufferState> _buffer;
+```
+
+```csharp
+// DO: Use named tuples for internal buffer state
+private readonly Queue<(double High, double Low, double Close)> _buffer;
+
+public void Add(IQuote quote)
+{
+    (double High, double Low, double Close) curr = (
+        (double)quote.High,
+        (double)quote.Low,
+        (double)quote.Close);
+    
+    _buffer.Update(2, curr);
+}
 ```
 
 ## Best practices

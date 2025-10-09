@@ -6,9 +6,9 @@ public class Alma : StaticSeriesTestBase
     [TestMethod]
     public override void Standard()
     {
-        int lookbackPeriods = 10;
-        double offset = 0.85;
-        double sigma = 6;
+        const int lookbackPeriods = 10;
+        const double offset = 0.85;
+        const double sigma = 6;
 
         IReadOnlyList<AlmaResult> results = Quotes
             .ToAlma(lookbackPeriods, offset, sigma);
@@ -65,9 +65,9 @@ public class Alma : StaticSeriesTestBase
     [TestMethod]
     public void Chainor()
     {
-        int lookbackPeriods = 10;
-        double offset = 0.85;
-        double sigma = 6;
+        const int lookbackPeriods = 10;
+        const double offset = 0.85;
+        const double sigma = 6;
 
         IReadOnlyList<SmaResult> results = Quotes
             .ToAlma(lookbackPeriods, offset, sigma)

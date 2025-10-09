@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Rate of Change (ROC) from incremental reusable values.
 /// </summary>
-public class RocList : BufferList<RocResult>, IBufferReusable, IRoc
+public class RocList : BufferList<RocResult>, IIncrementFromChain, IRoc
 {
     private readonly Queue<double> buffer;
 
@@ -123,7 +123,7 @@ public class RocList : BufferList<RocResult>, IBufferReusable, IRoc
     /// </summary>
     public override void Clear()
     {
-        ClearInternal();
+        base.Clear();
         buffer.Clear();
     }
 }

@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Beta coefficient from incremental reusable values.
 /// </summary>
-public class BetaList : BufferList<BetaResult>, IBeta
+public class BetaList : BufferList<BetaResult>, IIncrementFromPairs, IBeta
 {
     private readonly Queue<(DateTime Timestamp, double EvalValue, double MrktValue, double EvalReturn, double MrktReturn)> _buffer;
     private double _prevEval;
@@ -54,20 +54,20 @@ public class BetaList : BufferList<BetaResult>, IBeta
     /// Adds a new pair of values to the Beta list.
     /// </summary>
     /// <param name="timestamp">The timestamp for both values.</param>
-    /// <param name="evalValue">The evaluated asset value.</param>
-    /// <param name="mrktValue">The market value.</param>
-    public void Add(DateTime timestamp, double evalValue, double mrktValue)
+    /// <param name="valueA">The evaluated asset value.</param>
+    /// <param name="valueB">The market value.</param>
+    public void Add(DateTime timestamp, double valueA, double valueB)
     {
         // Calculate returns with division-by-zero guard
-        double evalReturn = _isFirst || _prevEval == 0 ? 0 : (evalValue / _prevEval) - 1d;
-        double mrktReturn = _isFirst || _prevMrkt == 0 ? 0 : (mrktValue / _prevMrkt) - 1d;
+        double evalReturn = _isFirst || _prevEval == 0 ? 0 : (valueA / _prevEval) - 1d;
+        double mrktReturn = _isFirst || _prevMrkt == 0 ? 0 : (valueB / _prevMrkt) - 1d;
 
-        _prevEval = evalValue;
-        _prevMrkt = mrktValue;
+        _prevEval = valueA;
+        _prevMrkt = valueB;
         _isFirst = false;
 
         // Add to buffer using Update utility
-        _buffer.Update(LookbackPeriods + 1, (timestamp, evalValue, mrktValue, evalReturn, mrktReturn));
+        _buffer.Update(LookbackPeriods + 1, (timestamp, valueA, valueB, evalReturn, mrktReturn));
 
         // Calculate results
         double? beta = null;
@@ -109,61 +109,60 @@ public class BetaList : BufferList<BetaResult>, IBeta
 
         AddInternal(new BetaResult(
             Timestamp: timestamp,
-            ReturnsEval: evalReturn,
-            ReturnsMrkt: mrktReturn,
             Beta: beta,
             BetaUp: betaUp,
             BetaDown: betaDown,
             Ratio: ratio,
-            Convexity: convexity
-        ));
+            Convexity: convexity,
+            ReturnsEval: evalReturn,
+            ReturnsMrkt: mrktReturn));
     }
 
     /// <summary>
     /// Adds a new pair of reusable values to the Beta list.
     /// </summary>
-    /// <param name="eval">The evaluated asset value.</param>
-    /// <param name="mrkt">The market value.</param>
-    /// <exception cref="ArgumentNullException">Thrown when eval or mrkt is null.</exception>
+    /// <param name="valueA">The evaluated asset value.</param>
+    /// <param name="valueB">The market value.</param>
+    /// <exception cref="ArgumentNullException">Thrown when valueA or valueB is null.</exception>
     /// <exception cref="InvalidQuotesException">Thrown when timestamps do not match.</exception>
-    public void Add(IReusable eval, IReusable mrkt)
+    public void Add(IReusable valueA, IReusable valueB)
     {
-        ArgumentNullException.ThrowIfNull(eval);
-        ArgumentNullException.ThrowIfNull(mrkt);
+        ArgumentNullException.ThrowIfNull(valueA);
+        ArgumentNullException.ThrowIfNull(valueB);
 
-        if (eval.Timestamp != mrkt.Timestamp)
+        if (valueA.Timestamp != valueB.Timestamp)
         {
             throw new InvalidQuotesException(
-                nameof(eval), eval.Timestamp,
+                nameof(valueA), valueA.Timestamp,
                 "Timestamp sequence does not match.  " +
                 "Beta requires matching dates in provided quotes.");
         }
 
-        Add(eval.Timestamp, eval.Value, mrkt.Value);
+        Add(valueA.Timestamp, valueA.Value, valueB.Value);
     }
 
     /// <summary>
     /// Adds lists of reusable values to the Beta list.
     /// </summary>
-    /// <param name="sourceEval">The list of evaluated asset values to add.</param>
-    /// <param name="sourceMrkt">The list of market values to add.</param>
-    /// <exception cref="ArgumentNullException">Thrown when sourceEval or sourceMrkt is null.</exception>
+    /// <param name="seriesA">The list of evaluated asset values to add.</param>
+    /// <param name="seriesB">The list of market values to add.</param>
+    /// <exception cref="ArgumentNullException">Thrown when seriesA or seriesB is null.</exception>
     /// <exception cref="InvalidQuotesException">Thrown when lists have different counts.</exception>
-    public void Add(IReadOnlyList<IReusable> sourceEval, IReadOnlyList<IReusable> sourceMrkt)
+    public void Add(IReadOnlyList<IReusable> seriesA, IReadOnlyList<IReusable> seriesB)
     {
-        ArgumentNullException.ThrowIfNull(sourceEval);
-        ArgumentNullException.ThrowIfNull(sourceMrkt);
+        ArgumentNullException.ThrowIfNull(seriesA);
+        ArgumentNullException.ThrowIfNull(seriesB);
 
-        if (sourceEval.Count != sourceMrkt.Count)
+        if (seriesA.Count != seriesB.Count)
         {
             throw new InvalidQuotesException(
-                nameof(sourceEval),
+                nameof(seriesA),
                 "Eval quotes should have the same number of Market quotes for Beta.");
         }
 
-        for (int i = 0; i < sourceEval.Count; i++)
+        for (int i = 0; i < seriesA.Count; i++)
         {
-            Add(sourceEval[i], sourceMrkt[i]);
+            Add(seriesA[i], seriesB[i]);
         }
     }
 
@@ -172,7 +171,7 @@ public class BetaList : BufferList<BetaResult>, IBeta
     /// </summary>
     public override void Clear()
     {
-        ClearInternal();
+        base.Clear();
         _buffer.Clear();
         _prevEval = 0;
         _prevMrkt = 0;
@@ -210,7 +209,7 @@ public class BetaList : BufferList<BetaResult>, IBeta
             index++;
         }
 
-        if (dataA.Count <= 0)
+        if (dataA.Count == 0)
         {
             return beta;
         }

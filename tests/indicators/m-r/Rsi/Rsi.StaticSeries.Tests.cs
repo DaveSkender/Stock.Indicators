@@ -30,7 +30,7 @@ public class Rsi : StaticSeriesTestBase
     [TestMethod]
     public void SmallLookback()
     {
-        int lookbackPeriods = 1;
+        const int lookbackPeriods = 1;
         IReadOnlyList<RsiResult> results = Quotes
             .ToRsi(lookbackPeriods);
 

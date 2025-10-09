@@ -72,7 +72,7 @@ public static partial class Cmo
 
                     // up
 
-                    if (isUp == true)
+                    if (isUp is true)
                     {
                         sH += pDiff;
                     }

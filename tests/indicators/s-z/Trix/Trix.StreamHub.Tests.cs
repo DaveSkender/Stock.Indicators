@@ -67,8 +67,8 @@ public class TrixHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
     [TestMethod]
     public void ChainObserver()
     {
-        int trixPeriods = 14;
-        int smaPeriods = 8;
+        const int trixPeriods = 14;
+        const int smaPeriods = 8;
 
         List<Quote> quotesList = Quotes.ToList();
 
@@ -109,8 +109,8 @@ public class TrixHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
     [TestMethod]
     public void ChainProvider()
     {
-        int trixPeriods = 14;
-        int emaPeriods = 10;
+        const int trixPeriods = 14;
+        const int emaPeriods = 10;
 
         List<Quote> quotesList = Quotes.ToList();
 

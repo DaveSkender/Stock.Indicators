@@ -67,10 +67,10 @@ public class KamaHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
     [TestMethod]
     public void ChainObserver()
     {
-        int erPeriods = 10;
-        int fastPeriods = 2;
-        int slowPeriods = 30;
-        int smaPeriods = 8;
+        const int erPeriods = 10;
+        const int fastPeriods = 2;
+        const int slowPeriods = 30;
+        const int smaPeriods = 8;
 
         List<Quote> quotesList = Quotes.ToList();
 
@@ -111,10 +111,10 @@ public class KamaHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
     [TestMethod]
     public void ChainProvider()
     {
-        int erPeriods = 10;
-        int fastPeriods = 2;
-        int slowPeriods = 30;
-        int smaPeriods = 10;
+        const int erPeriods = 10;
+        const int fastPeriods = 2;
+        const int slowPeriods = 30;
+        const int smaPeriods = 10;
 
         List<Quote> quotesList = Quotes.ToList();
 

@@ -6,8 +6,8 @@ public class RenkoHub : StreamHubTestBase, ITestChainProvider
     [TestMethod]
     public override void QuoteObserver()
     {
-        decimal brickSize = 2.5m;
-        EndType endType = EndType.HighLow;
+        const decimal brickSize = 2.5m;
+        const EndType endType = EndType.HighLow;
 
         List<Quote> quotesList = Quotes.ToList();
 
@@ -71,9 +71,9 @@ public class RenkoHub : StreamHubTestBase, ITestChainProvider
     [TestMethod]
     public void ChainProvider()
     {
-        decimal brickSize = 2.5m;
-        EndType endType = EndType.Close;
-        int smaPeriods = 50;
+        const decimal brickSize = 2.5m;
+        const EndType endType = EndType.Close;
+        const int smaPeriods = 50;
 
         List<Quote> quotesList = Quotes.ToList();
 

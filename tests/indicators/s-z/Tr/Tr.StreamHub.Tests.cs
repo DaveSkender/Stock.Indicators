@@ -68,7 +68,7 @@ public class TrHub : StreamHubTestBase, ITestChainProvider
     [TestMethod]
     public void ChainProvider()
     {
-        int smaPeriods = 8;
+        const int smaPeriods = 8;
 
         List<Quote> quotesList = Quotes.ToList();
 

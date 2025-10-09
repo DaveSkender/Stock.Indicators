@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Chaikin Money Flow (CMF) from incremental quotes.
 /// </summary>
-public class CmfList : BufferList<CmfResult>, IBufferList, ICmf
+public class CmfList : BufferList<CmfResult>, IIncrementFromQuote, ICmf
 {
     private readonly AdlList _adlList;
     private readonly Queue<(double Volume, double? Mfv)> _buffer;
@@ -94,7 +94,7 @@ public class CmfList : BufferList<CmfResult>, IBufferList, ICmf
     /// <inheritdoc />
     public override void Clear()
     {
-        ClearInternal();
+        base.Clear();
         _adlList.Clear();
         _buffer.Clear();
     }

@@ -90,10 +90,10 @@ public class MacdHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
     [TestMethod]
     public void ChainObserver()
     {
-        int emaPeriods = 14;
-        int macdFast = 12;
-        int macdSlow = 26;
-        int macdSignal = 9;
+        const int emaPeriods = 14;
+        const int macdFast = 12;
+        const int macdSlow = 26;
+        const int macdSignal = 9;
 
         List<Quote> quotesList = Quotes.ToList();
 
@@ -134,10 +134,10 @@ public class MacdHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
     [TestMethod]
     public void ChainProvider()
     {
-        int smaPeriods = 10;
-        int macdFast = 5;
-        int macdSlow = 10;
-        int macdSignal = 3;
+        const int smaPeriods = 10;
+        const int macdFast = 5;
+        const int macdSlow = 10;
+        const int macdSignal = 3;
 
         List<Quote> quotesList = Quotes.ToList();
 
@@ -179,9 +179,9 @@ public class MacdHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
     [TestMethod]
     public void StreamingAccuracy()
     {
-        int fastPeriods = 12;
-        int slowPeriods = 26;
-        int signalPeriods = 9;
+        const int fastPeriods = 12;
+        const int slowPeriods = 26;
+        const int signalPeriods = 9;
 
         List<Quote> quotesList = Quotes.ToList();
 

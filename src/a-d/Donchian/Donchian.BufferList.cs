@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Donchian Channels from incremental quotes.
 /// </summary>
-public class DonchianList : BufferList<DonchianResult>, IBufferList
+public class DonchianList : BufferList<DonchianResult>, IIncrementFromQuote
 {
     private readonly Queue<(decimal High, decimal Low)> _buffer;
 
@@ -98,7 +98,7 @@ public class DonchianList : BufferList<DonchianResult>, IBufferList
     /// </summary>
     public override void Clear()
     {
-        ClearInternal();
+        base.Clear();
         _buffer.Clear();
     }
 }

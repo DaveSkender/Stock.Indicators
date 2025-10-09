@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Elder Ray from incremental quote values.
 /// </summary>
-public class ElderRayList : BufferList<ElderRayResult>, IBufferList, IElderRay
+public class ElderRayList : BufferList<ElderRayResult>, IIncrementFromQuote, IElderRay
 {
     private readonly EmaList _emaList;
 
@@ -70,7 +70,7 @@ public class ElderRayList : BufferList<ElderRayResult>, IBufferList, IElderRay
     /// <inheritdoc />
     public override void Clear()
     {
-        ClearInternal();
+        base.Clear();
         _emaList.Clear();
     }
 }

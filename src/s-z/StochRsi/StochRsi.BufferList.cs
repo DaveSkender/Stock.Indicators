@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Stochastic RSI from incremental reusable values.
 /// </summary>
-public class StochRsiList : BufferList<StochRsiResult>, IBufferReusable
+public class StochRsiList : BufferList<StochRsiResult>, IIncrementFromChain
 {
     private readonly RsiList _rsiList;
     private readonly StochList _stochList;
@@ -145,7 +145,7 @@ public class StochRsiList : BufferList<StochRsiResult>, IBufferReusable
     /// <inheritdoc />
     public override void Clear()
     {
-        ClearInternal();
+        base.Clear();
         _rsiList.Clear();
         _stochList.Clear();
     }

@@ -178,7 +178,11 @@ For authoritative implementation guidance, see:
 - **Interfaces**: Implements `IBufferReusable` (for value-based inputs) or `IBufferList` (IQuote-only)
 - **Core method**: Uses `AddInternal(TResult result)` for automatic list management
 - **Constructors**: Provides both parameter-only and `(parameters, IEnumerable<IQuote> quotes)` overloads
-- **Examples**: `SmaList`, `EmaList`, `RsiList`, `AlligatorList`, `AtrStopList`
+- **Buffer state patterns**:
+  - Prefer named tuples for multi-value internal state: `Queue<(double High, double Low, double Close)>`
+  - Avoid custom structs for internal-only buffer state (unnecessary boilerplate)
+  - Use structs only when implementing interfaces or exposing types publicly
+- **Examples**: `SmaList`, `EmaList`, `RsiList`, `TrList` (uses tuple buffer state), `AlligatorList`, `AtrStopList`
 
 **StreamHub Pattern** (actual naming: `{IndicatorName}Hub<TIn>`):
 

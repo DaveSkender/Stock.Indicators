@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Commodity Channel Index (CCI) from incremental quote values.
 /// </summary>
-public class CciList : BufferList<CciResult>, IBufferList, ICci
+public class CciList : BufferList<CciResult>, IIncrementFromQuote, ICci
 {
     private readonly Queue<double> _tpBuffer;
 
@@ -92,7 +92,7 @@ public class CciList : BufferList<CciResult>, IBufferList, ICci
     /// <inheritdoc />
     public override void Clear()
     {
-        ClearInternal();
+        base.Clear();
         _tpBuffer.Clear();
     }
 }

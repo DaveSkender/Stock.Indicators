@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Arnaud Legoux Moving Average (ALMA) from incremental reusable values.
 /// </summary>
-public class AlmaList : BufferList<AlmaResult>, IBufferReusable, IAlma
+public class AlmaList : BufferList<AlmaResult>, IIncrementFromChain, IAlma
 {
     private readonly Queue<double> _buffer;
     private readonly double[] _weight;
@@ -144,7 +144,7 @@ public class AlmaList : BufferList<AlmaResult>, IBufferReusable, IAlma
     /// <inheritdoc />
     public override void Clear()
     {
-        ClearInternal();
+        base.Clear();
         _buffer.Clear();
     }
 }

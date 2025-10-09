@@ -33,7 +33,7 @@ public class CustomQuotes
             })
             .ToList();
 
-        IReadOnlyList<EmaResult> results = Ema.ToEma(myGenericHistory, 20);
+        IReadOnlyList<EmaResult> results = myGenericHistory.ToEma(20);
 
         // proper quantities
         Assert.HasCount(502, results);

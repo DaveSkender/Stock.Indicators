@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 /// Correlation from incremental paired reusable values.
 /// Note: This indicator requires two synchronized series (A and B).
 /// </summary>
-public class CorrelationList : BufferList<CorrResult>, ICorrelation
+public class CorrelationList : BufferList<CorrResult>, IIncrementFromPairs, ICorrelation
 {
     private readonly Queue<(double ValueA, double ValueB)> _buffer;
 
@@ -77,24 +77,24 @@ public class CorrelationList : BufferList<CorrResult>, ICorrelation
     /// <summary>
     /// Adds a pair of reusable values from two synchronized series.
     /// </summary>
-    /// <param name="itemA">The item from series A.</param>
-    /// <param name="itemB">The item from series B.</param>
+    /// <param name="valueA">The item from series A.</param>
+    /// <param name="valueB">The item from series B.</param>
     /// <exception cref="ArgumentNullException">Thrown when either item is null.</exception>
     /// <exception cref="InvalidQuotesException">Thrown when timestamps don't match.</exception>
-    public void Add(IReusable itemA, IReusable itemB)
+    public void Add(IReusable valueA, IReusable valueB)
     {
-        ArgumentNullException.ThrowIfNull(itemA);
-        ArgumentNullException.ThrowIfNull(itemB);
+        ArgumentNullException.ThrowIfNull(valueA);
+        ArgumentNullException.ThrowIfNull(valueB);
 
-        if (itemA.Timestamp != itemB.Timestamp)
+        if (valueA.Timestamp != valueB.Timestamp)
         {
             throw new InvalidQuotesException(
-                nameof(itemA), itemA.Timestamp,
+                nameof(valueA), valueA.Timestamp,
                 "Timestamp sequence does not match. " +
                 "Correlation requires matching dates in provided histories.");
         }
 
-        Add(itemA.Timestamp, itemA.Value, itemB.Value);
+        Add(valueA.Timestamp, valueA.Value, valueB.Value);
     }
 
     /// <summary>
@@ -127,7 +127,7 @@ public class CorrelationList : BufferList<CorrResult>, ICorrelation
     /// </summary>
     public override void Clear()
     {
-        ClearInternal();
+        base.Clear();
         _buffer.Clear();
     }
 }

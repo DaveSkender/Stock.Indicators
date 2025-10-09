@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Awesome Oscillator from incremental reusable values.
 /// </summary>
-public class AwesomeList : BufferList<AwesomeResult>, IBufferReusable, IAwesome
+public class AwesomeList : BufferList<AwesomeResult>, IIncrementFromChain, IAwesome
 {
     private readonly Queue<double> _buffer;
 
@@ -145,7 +145,7 @@ public class AwesomeList : BufferList<AwesomeResult>, IBufferReusable, IAwesome
     /// </summary>
     public override void Clear()
     {
-        ClearInternal();
+        base.Clear();
         _buffer.Clear();
     }
 }

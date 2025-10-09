@@ -6,7 +6,7 @@ public class StreamObservers : TestBase
     [TestMethod]
     public void RebuildCache()
     {
-        int qtyQuotes = 5000;
+        const int qtyQuotes = 5000;
 
         // setup: many random quotes (massive)
         IReadOnlyList<Quote> quotesList

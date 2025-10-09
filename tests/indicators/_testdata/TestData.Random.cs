@@ -15,7 +15,7 @@ internal class RandomGbm : List<Quote>
     /// Initializes a new instance of the <see cref="RandomGbm"/> class.
     /// <code>
     /// Sample usage:
-    /// 
+    ///
     /// RandomGbm data = new(); // generates 1 year (252) list of bars
     /// RandomGbm data = new(Bars: 1000); // generates 1,000 bars
     /// RandomGbm data = new(Bars: 252, Volatility: 0.05, Drift: 0.0005, Seed: 100.0)

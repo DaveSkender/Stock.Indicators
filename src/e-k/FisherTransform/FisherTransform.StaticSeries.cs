@@ -73,8 +73,8 @@ public static partial class FisherTransform
 
             results.Add(new(
                 Timestamp: s.Timestamp,
-                Trigger: trigger,
-                Fisher: fisher));
+                Fisher: fisher,
+                Trigger: trigger));
         }
 
         return results;

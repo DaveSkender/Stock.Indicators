@@ -6,9 +6,9 @@ public class ConnorsRsi : StaticSeriesTestBase
     [TestMethod]
     public override void Standard()
     {
-        int rsiPeriods = 3;
-        int streakPeriods = 2;
-        int rankPeriods = 100;
+        const int rsiPeriods = 3;
+        const int streakPeriods = 2;
+        const int rankPeriods = 100;
         int startPeriod = Math.Max(rsiPeriods, Math.Max(streakPeriods, rankPeriods)) + 2;
 
         IReadOnlyList<ConnorsRsiResult> results1 = Quotes
@@ -94,9 +94,9 @@ public class ConnorsRsi : StaticSeriesTestBase
     [TestMethod]
     public void Removed()
     {
-        int rsiPeriods = 3;
-        int streakPeriods = 2;
-        int rankPeriods = 100;
+        const int rsiPeriods = 3;
+        const int streakPeriods = 2;
+        const int rankPeriods = 100;
 
         // TODO: I don't think this is right, inconsistent
         int removePeriods = Math.Max(rsiPeriods, Math.Max(streakPeriods, rankPeriods)) + 2;

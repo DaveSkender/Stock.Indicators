@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Triple Exponential Moving Average Oscillator (TRIX) from incremental reusable values.
 /// </summary>
-public class TrixList : BufferList<TrixResult>, IBufferReusable, ITrix
+public class TrixList : BufferList<TrixResult>, IIncrementFromChain, ITrix
 {
     private readonly Queue<double> _buffer;
     private double _bufferSum;
@@ -144,7 +144,7 @@ public class TrixList : BufferList<TrixResult>, IBufferReusable, ITrix
     /// <inheritdoc />
     public override void Clear()
     {
-        ClearInternal();
+        base.Clear();
         _buffer.Clear();
         _bufferSum = 0;
         _lastEma1 = double.NaN;

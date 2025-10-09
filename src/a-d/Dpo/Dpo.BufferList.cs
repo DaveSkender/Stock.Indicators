@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 /// Detrended Price Oscillator (DPO) from incremental reusable values.
 /// Note: DPO requires lookahead, so results are delayed by offset periods.
 /// </summary>
-public class DpoList : BufferList<DpoResult>, IBufferReusable
+public class DpoList : BufferList<DpoResult>, IIncrementFromChain
 {
     private readonly SmaList smaList;
     private readonly int offset;
@@ -135,7 +135,7 @@ public class DpoList : BufferList<DpoResult>, IBufferReusable
     /// </summary>
     public override void Clear()
     {
-        ClearInternal();
+        base.Clear();
         smaList.Clear();
         valueBuffer.Clear();
         timestampBuffer.Clear();

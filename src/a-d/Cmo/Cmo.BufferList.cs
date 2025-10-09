@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Chande Momentum Oscillator (CMO) from incremental reusable values.
 /// </summary>
-public class CmoList : BufferList<CmoResult>, IBufferReusable, ICmo
+public class CmoList : BufferList<CmoResult>, IIncrementFromChain, ICmo
 {
     private readonly Queue<(bool? isUp, double value)> _tickBuffer;
     private double _prevValue = double.NaN;
@@ -77,7 +77,7 @@ public class CmoList : BufferList<CmoResult>, IBufferReusable, ICmo
                     }
 
                     // up
-                    if (isUp == true)
+                    if (isUp is true)
                     {
                         sH += pDiff;
                     }
@@ -141,7 +141,7 @@ public class CmoList : BufferList<CmoResult>, IBufferReusable, ICmo
     /// <inheritdoc />
     public override void Clear()
     {
-        ClearInternal();
+        base.Clear();
         _tickBuffer.Clear();
         _prevValue = double.NaN;
         _isInitialized = false;

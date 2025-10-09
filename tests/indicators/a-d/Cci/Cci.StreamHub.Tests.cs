@@ -67,7 +67,7 @@ public class CciHub : StreamHubTestBase
     [TestMethod]
     public void QuoteProvider()
     {
-        int cciPeriods = 20;
+        const int cciPeriods = 20;
 
         List<Quote> quotesList = Quotes.ToList();
 

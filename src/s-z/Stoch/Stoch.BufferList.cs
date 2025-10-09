@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Stochastic Oscillator from incremental quote values.
 /// </summary>
-public class StochList : BufferList<StochResult>, IStoch, IBufferList
+public class StochList : BufferList<StochResult>, IIncrementFromQuote, IStoch
 {
     private readonly Queue<(double High, double Low, double Close)> _hlcBuffer;
     private readonly Queue<double> _rawKBuffer;
@@ -146,37 +146,34 @@ public class StochList : BufferList<StochResult>, IStoch, IBufferList
             // No smoothing needed - keep original
             smoothK = rawK;
         }
-        else if (Count >= SmoothPeriods) // This matches StaticSeries: i >= smoothPeriods
+        else if (Count >= SmoothPeriods && !double.IsNaN(rawK)) // This matches StaticSeries: i >= smoothPeriods
         {
-            if (!double.IsNaN(rawK))
+            // Update raw K buffer for smoothing using BufferUtilities
+            _rawKBuffer.Update(SmoothPeriods, rawK);
+
+            switch (MovingAverageType)
             {
-                // Update raw K buffer for smoothing using BufferUtilities
-                _rawKBuffer.Update(SmoothPeriods, rawK);
+                case MaType.SMA:
+                    if (_rawKBuffer.Count == SmoothPeriods)
+                    {
+                        smoothK = _rawKBuffer.Average();
+                    }
 
-                switch (MovingAverageType)
-                {
-                    case MaType.SMA:
-                        if (_rawKBuffer.Count == SmoothPeriods)
-                        {
-                            smoothK = _rawKBuffer.Average();
-                        }
+                    break;
 
-                        break;
+                case MaType.SMMA:
+                    // Re/initialize with first oscillator value (matches StaticSeries)
+                    if (double.IsNaN(_prevSmoothK))
+                    {
+                        _prevSmoothK = rawK;
+                    }
 
-                    case MaType.SMMA:
-                        // Re/initialize with first oscillator value (matches StaticSeries)
-                        if (double.IsNaN(_prevSmoothK))
-                        {
-                            _prevSmoothK = rawK;
-                        }
+                    smoothK = ((_prevSmoothK * (SmoothPeriods - 1)) + rawK) / SmoothPeriods;
+                    _prevSmoothK = smoothK;
+                    break;
 
-                        smoothK = ((_prevSmoothK * (SmoothPeriods - 1)) + rawK) / SmoothPeriods;
-                        _prevSmoothK = smoothK;
-                        break;
-
-                    default:
-                        throw new InvalidOperationException("Invalid Stochastic moving average type.");
-                }
+                default:
+                    throw new InvalidOperationException("Invalid Stochastic moving average type.");
             }
         }
 
@@ -186,37 +183,34 @@ public class StochList : BufferList<StochResult>, IStoch, IBufferList
         {
             signal = smoothK;
         }
-        else if (Count >= SignalPeriods) // This matches StaticSeries: i >= signalPeriods
+        else if (Count >= SignalPeriods && !double.IsNaN(smoothK)) // This matches StaticSeries: i >= signalPeriods
         {
-            if (!double.IsNaN(smoothK))
+            // Update smooth K buffer for signal calculation using BufferUtilities
+            _smoothKBuffer.Update(SignalPeriods, smoothK);
+
+            switch (MovingAverageType)
             {
-                // Update smooth K buffer for signal calculation using BufferUtilities
-                _smoothKBuffer.Update(SignalPeriods, smoothK);
+                case MaType.SMA:
+                    if (_smoothKBuffer.Count == SignalPeriods)
+                    {
+                        signal = _smoothKBuffer.Average();
+                    }
 
-                switch (MovingAverageType)
-                {
-                    case MaType.SMA:
-                        if (_smoothKBuffer.Count == SignalPeriods)
-                        {
-                            signal = _smoothKBuffer.Average();
-                        }
+                    break;
 
-                        break;
+                case MaType.SMMA:
+                    // Re/initialize with first smoothK value (matches StaticSeries)
+                    if (double.IsNaN(_prevSignal))
+                    {
+                        _prevSignal = smoothK;
+                    }
 
-                    case MaType.SMMA:
-                        // Re/initialize with first smoothK value (matches StaticSeries)
-                        if (double.IsNaN(_prevSignal))
-                        {
-                            _prevSignal = smoothK;
-                        }
+                    signal = ((_prevSignal * (SignalPeriods - 1)) + smoothK) / SignalPeriods;
+                    _prevSignal = signal;
+                    break;
 
-                        signal = ((_prevSignal * (SignalPeriods - 1)) + smoothK) / SignalPeriods;
-                        _prevSignal = signal;
-                        break;
-
-                    default:
-                        throw new InvalidOperationException("Invalid Stochastic moving average type.");
-                }
+                default:
+                    throw new InvalidOperationException("Invalid Stochastic moving average type.");
             }
         }
 
@@ -234,7 +228,7 @@ public class StochList : BufferList<StochResult>, IStoch, IBufferList
     /// <inheritdoc />
     public override void Clear()
     {
-        ClearInternal();
+        base.Clear();
         _hlcBuffer.Clear();
         _rawKBuffer.Clear();
         _smoothKBuffer.Clear();

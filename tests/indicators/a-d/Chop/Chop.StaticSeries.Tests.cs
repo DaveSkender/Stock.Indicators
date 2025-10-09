@@ -41,7 +41,7 @@ public class Chop : StaticSeriesTestBase
     [TestMethod]
     public void SmallLookback()
     {
-        int lookbackPeriods = 2;
+        const int lookbackPeriods = 2;
         IReadOnlyList<ChopResult> results = Quotes
             .ToChop(lookbackPeriods);
 

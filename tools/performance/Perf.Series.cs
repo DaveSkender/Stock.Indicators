@@ -33,16 +33,16 @@ public class SeriesIndicators
     public object ToAwesome() => q.ToAwesome();
 
     [Benchmark]
-    public object ToBeta() => Beta.ToBeta(q, o, 20, BetaType.Standard);
+    public object ToBeta() => q.ToBeta(o, 20, BetaType.Standard);
 
     [Benchmark]
-    public object ToBetaUp() => Beta.ToBeta(q, o, 20, BetaType.Up);
+    public object ToBetaUp() => q.ToBeta(o, 20, BetaType.Up);
 
     [Benchmark]
-    public object ToBetaDown() => Beta.ToBeta(q, o, 20, BetaType.Down);
+    public object ToBetaDown() => q.ToBeta(o, 20, BetaType.Down);
 
     [Benchmark]
-    public object ToBetaAll() => Beta.ToBeta(q, o, 20, BetaType.All);
+    public object ToBetaAll() => q.ToBeta(o, 20, BetaType.All);
 
     [Benchmark]
     public object ToBollingerBands() => q.ToBollingerBands();

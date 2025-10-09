@@ -61,7 +61,7 @@ public static partial class BollingerBands
                     UpperBand: upperBand,
                     LowerBand: lowerBand,
 
-                    PercentB: upperBand - lowerBand == 0 ? null
+                    PercentB: upperBand == lowerBand ? null
                         : (s.Value - lowerBand) / (upperBand - lowerBand),
 
                     ZScore: stdDev == 0 ? null : (s.Value - sma) / stdDev,

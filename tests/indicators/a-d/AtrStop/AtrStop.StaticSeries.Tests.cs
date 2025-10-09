@@ -6,8 +6,8 @@ public class AtrStop : StaticSeriesTestBase
     [TestMethod]
     public override void Standard()
     {
-        int lookbackPeriods = 21;
-        double multiplier = 3;
+        const int lookbackPeriods = 21;
+        const double multiplier = 3;
 
         IReadOnlyList<AtrStopResult> results = Quotes
             .ToAtrStop(lookbackPeriods, multiplier);
@@ -51,8 +51,8 @@ public class AtrStop : StaticSeriesTestBase
     [TestMethod]
     public void HighLow()
     {
-        int lookbackPeriods = 21;
-        double multiplier = 3;
+        const int lookbackPeriods = 21;
+        const double multiplier = 3;
 
         IReadOnlyList<AtrStopResult> results = Quotes
             .ToAtrStop(lookbackPeriods, multiplier, EndType.HighLow);
@@ -119,8 +119,8 @@ public class AtrStop : StaticSeriesTestBase
     [TestMethod]
     public void Condense()
     {
-        int lookbackPeriods = 21;
-        double multiplier = 3;
+        const int lookbackPeriods = 21;
+        const double multiplier = 3;
 
         IReadOnlyList<AtrStopResult> results = Quotes
             .ToAtrStop(lookbackPeriods, multiplier)
@@ -138,8 +138,8 @@ public class AtrStop : StaticSeriesTestBase
     [TestMethod]
     public void Removed()
     {
-        int lookbackPeriods = 21;
-        double multiplier = 3;
+        const int lookbackPeriods = 21;
+        const double multiplier = 3;
 
         IReadOnlyList<AtrStopResult> results = Quotes
             .ToAtrStop(lookbackPeriods, multiplier)

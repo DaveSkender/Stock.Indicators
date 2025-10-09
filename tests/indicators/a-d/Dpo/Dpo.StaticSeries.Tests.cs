@@ -27,7 +27,7 @@ public class Dpo : StaticSeriesTestBase
         IReadOnlyList<DpoResult> act = qot.ToDpo(14);
 
         // assertions
-        Assert.AreEqual(exp.Count, act.Count);
+        Assert.HasCount(exp.Count, act);
 
         // compare all values
         for (int i = 0; i < exp.Count; i++)

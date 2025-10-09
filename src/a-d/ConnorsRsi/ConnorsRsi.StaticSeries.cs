@@ -37,8 +37,7 @@ public static partial class ConnorsRsi
 
         // RSI of streak
         IReadOnlyList<RsiResult> rsiStreak = streakInfo
-            .Select(si => new QuotePart(si.Timestamp, si.Streak))
-            .ToList()
+            .ConvertAll(si => new QuotePart(si.Timestamp, si.Streak))
             .ToRsi(streakPeriods);
 
         // compose final results

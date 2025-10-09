@@ -113,7 +113,7 @@ public abstract class RegressionTestBase<TResult>(string filename) : TestBase
 }
 
 /// <summary>
-/// Add this to buffer list tests for <see cref="IBufferReusable" /> types.
+/// Add this to buffer list tests for <see cref="IIncrementFromChain" /> types.
 /// </summary>
 public interface ITestReusableBufferList
 {

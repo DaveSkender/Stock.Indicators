@@ -3,16 +3,16 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// True Range (TR) from incremental quotes.
 /// </summary>
-public class TrList : BufferList<TrResult>, IBufferList
+public class TrList : BufferList<TrResult>, IIncrementFromQuote  // TR has no interface members
 {
-    private readonly Queue<TrBuffer> _buffer;
+    private readonly Queue<(double High, double Low, double Close)> _buffer;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="TrList"/> class.
     /// </summary>
     public TrList()
     {
-        _buffer = new Queue<TrBuffer>(2); // Only need current and previous
+        _buffer = new Queue<(double, double, double)>(2); // Only need current and previous
     }
 
     /// <summary>
@@ -23,9 +23,6 @@ public class TrList : BufferList<TrResult>, IBufferList
         : this()
         => Add(quotes);
 
-
-
-
     /// <inheritdoc />
     public void Add(IQuote quote)
     {
@@ -33,7 +30,7 @@ public class TrList : BufferList<TrResult>, IBufferList
 
         DateTime timestamp = quote.Timestamp;
 
-        TrBuffer curr = new(
+        (double High, double Low, double Close) curr = (
             (double)quote.High,
             (double)quote.Low,
             (double)quote.Close);
@@ -47,11 +44,11 @@ public class TrList : BufferList<TrResult>, IBufferList
         }
 
         // get previous, then add current using extension method
-        TrBuffer prev = _buffer.Last();
+        (double _, double _, double PrevClose) = _buffer.Last();
         _buffer.Update(2, curr);
 
         // calculate True Range
-        double tr = Tr.Increment(curr.High, curr.Low, prev.Close);
+        double tr = Tr.Increment(curr.High, curr.Low, PrevClose);
 
         AddInternal(new TrResult(timestamp, tr));
     }
@@ -70,18 +67,8 @@ public class TrList : BufferList<TrResult>, IBufferList
     /// <inheritdoc />
     public override void Clear()
     {
-        ClearInternal();
+        base.Clear();
         _buffer.Clear();
-    }
-
-    /// <summary>
-    /// Represents a buffer for True Range calculations.
-    /// </summary>
-    private readonly struct TrBuffer(double high, double low, double close)
-    {
-        public double High { get; init; } = high;
-        public double Low { get; init; } = low;
-        public double Close { get; init; } = close;
     }
 }
 

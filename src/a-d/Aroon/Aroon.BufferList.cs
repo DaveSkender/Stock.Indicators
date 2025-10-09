@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Aroon Oscillator from incremental quote values.
 /// </summary>
-public class AroonList : BufferList<AroonResult>, IBufferList, IAroon
+public class AroonList : BufferList<AroonResult>, IIncrementFromQuote, IAroon
 {
     private readonly Queue<(DateTime Timestamp, double High, double Low)> _buffer;
 
@@ -111,7 +111,7 @@ public class AroonList : BufferList<AroonResult>, IBufferList, IAroon
     /// </summary>
     public override void Clear()
     {
-        ClearInternal();
+        base.Clear();
         _buffer.Clear();
     }
 }

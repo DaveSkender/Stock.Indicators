@@ -105,7 +105,7 @@ public static partial class Slope
         }
 
         // add last Line (y = mx + b)
-        SlopeResult last = results.Last();
+        SlopeResult last = results[^1];
 
         for (int p = length - lookbackPeriods; p < length; p++)
         {

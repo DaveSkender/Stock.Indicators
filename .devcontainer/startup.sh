@@ -8,14 +8,27 @@ echo "🚀 Starting Stock Indicators dev container setup..."
 # Verify Node.js and npm are available
 echo "🔍 Verifying Node.js environment..."
 node --version
-npm i -g npm@latest
+npm install --global npm@latest
+npm --version
+
+# Verify .NET is available
+echo "🔍 Verifying .NET environment..."
+dotnet --version
 
 # Restore global tools
-echo "📦 Restoring Angular CLI..."
-npm install -g @angular/cli
+echo "🧰 Installing NPM-based tools..."
+npm install --global @angular/cli
+npm list --global
 
-echo "📦 Restoring Spec-Kit..."
-uv tool install specify-cli --from git+https://github.com/github/spec-kit.git
+echo "🧰 Installing .NET-based tools..."
+dotnet tool install --global dotnet-format
+dotnet tool install --global roslynator.dotnet.cli
+dotnet tool install --global dotnet-outdated-tool
+dotnet tool list --global
+
+echo "🧰 Installing UV-based (Python) tools..."
+uv tool install --force specify-cli --from git+https://github.com/github/spec-kit.git
+uv tool list
 
 # Restore .NET packages
 echo "📦 Restoring .NET packages..."
