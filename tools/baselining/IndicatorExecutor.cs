@@ -119,9 +119,38 @@ internal static class IndicatorExecutor
         // Add additional parameters from the listing with their default values
         if (listing.Parameters != null && listing.Parameters.Count > 0)
         {
+            int paramIndex = 1; // Start at 1 because first param is quotes
             foreach (IndicatorParam param in listing.Parameters)
             {
-                parameters.Add(param.DefaultValue);
+                object? value = param.DefaultValue;
+                
+                // Special handling for required parameters with no default
+                if (param.IsRequired && value == null && paramIndex < methodParams.Length)
+                {
+                    ParameterInfo methodParam = methodParams[paramIndex];
+                    
+                    // For DateTime parameters (like VWAP startDate), use the first quote date
+                    if (methodParam.ParameterType == typeof(DateTime))
+                    {
+                        value = TestData[0].Timestamp;
+                    }
+                }
+                
+                // Handle type conversions if needed
+                if (value != null && paramIndex < methodParams.Length)
+                {
+                    ParameterInfo methodParam = methodParams[paramIndex];
+                    Type targetType = methodParam.ParameterType;
+                    
+                    // Convert double to decimal if needed (for RENKO, ZIGZAG, etc.)
+                    if (value is double doubleValue && targetType == typeof(decimal))
+                    {
+                        value = (decimal)doubleValue;
+                    }
+                }
+                
+                parameters.Add(value);
+                paramIndex++;
             }
         }
 
