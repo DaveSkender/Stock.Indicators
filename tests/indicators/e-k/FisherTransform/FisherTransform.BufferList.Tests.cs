@@ -21,7 +21,19 @@ public class FisherTransform : BufferListTestBase, ITestReusableBufferList
         foreach (Quote q in Quotes) { sut.Add(q); }
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+        // FisherTransform uses recursive calculations which accumulate floating-point rounding differences
+        // Use tolerance of 1e-13 to account for acceptable precision loss in recursive formulas
+        sut.Should().BeEquivalentTo(series, options => options
+            .WithStrictOrdering()
+            .Using<double>(ctx => ctx.Subject.Should().BeApproximately(ctx.Expectation, 1e-13))
+            .WhenTypeIs<double>()
+            .Using<double?>(ctx => {
+                if (ctx.Expectation.HasValue && ctx.Subject.HasValue)
+                    ctx.Subject.Value.Should().BeApproximately(ctx.Expectation.Value, 1e-13);
+                else
+                    ctx.Subject.Should().Be(ctx.Expectation);
+            })
+            .WhenTypeIs<double?>());
     }
 
     [TestMethod]
@@ -33,7 +45,19 @@ public class FisherTransform : BufferListTestBase, ITestReusableBufferList
             = Quotes.ToFisherTransform(lookbackPeriods);
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+        // FisherTransform uses recursive calculations which accumulate floating-point rounding differences
+        // Use tolerance of 1e-13 to account for acceptable precision loss in recursive formulas
+        sut.Should().BeEquivalentTo(series, options => options
+            .WithStrictOrdering()
+            .Using<double>(ctx => ctx.Subject.Should().BeApproximately(ctx.Expectation, 1e-13))
+            .WhenTypeIs<double>()
+            .Using<double?>(ctx => {
+                if (ctx.Expectation.HasValue && ctx.Subject.HasValue)
+                    ctx.Subject.Value.Should().BeApproximately(ctx.Expectation.Value, 1e-13);
+                else
+                    ctx.Subject.Should().Be(ctx.Expectation);
+            })
+            .WhenTypeIs<double?>());
     }
 
     [TestMethod]
@@ -42,7 +66,19 @@ public class FisherTransform : BufferListTestBase, ITestReusableBufferList
         FisherTransformList sut = new(lookbackPeriods, Quotes);
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+        // FisherTransform uses recursive calculations which accumulate floating-point rounding differences
+        // Use tolerance of 1e-13 to account for acceptable precision loss in recursive formulas
+        sut.Should().BeEquivalentTo(series, options => options
+            .WithStrictOrdering()
+            .Using<double>(ctx => ctx.Subject.Should().BeApproximately(ctx.Expectation, 1e-13))
+            .WhenTypeIs<double>()
+            .Using<double?>(ctx => {
+                if (ctx.Expectation.HasValue && ctx.Subject.HasValue)
+                    ctx.Subject.Value.Should().BeApproximately(ctx.Expectation.Value, 1e-13);
+                else
+                    ctx.Subject.Should().Be(ctx.Expectation);
+            })
+            .WhenTypeIs<double?>());
     }
 
     [TestMethod]
@@ -60,7 +96,19 @@ public class FisherTransform : BufferListTestBase, ITestReusableBufferList
             = series.Skip(series.Count - maxListSize).ToList();
 
         sut.Should().HaveCount(maxListSize);
-        sut.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
+        // FisherTransform uses recursive calculations which accumulate floating-point rounding differences
+        // Use tolerance of 1e-13 to account for acceptable precision loss in recursive formulas
+        sut.Should().BeEquivalentTo(expected, options => options
+            .WithStrictOrdering()
+            .Using<double>(ctx => ctx.Subject.Should().BeApproximately(ctx.Expectation, 1e-13))
+            .WhenTypeIs<double>()
+            .Using<double?>(ctx => {
+                if (ctx.Expectation.HasValue && ctx.Subject.HasValue)
+                    ctx.Subject.Value.Should().BeApproximately(ctx.Expectation.Value, 1e-13);
+                else
+                    ctx.Subject.Should().Be(ctx.Expectation);
+            })
+            .WhenTypeIs<double?>());
     }
 
     [TestMethod]
@@ -72,7 +120,19 @@ public class FisherTransform : BufferListTestBase, ITestReusableBufferList
         FisherTransformList sut = new(lookbackPeriods, subset);
 
         sut.Should().HaveCount(subset.Count);
-        sut.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
+        // FisherTransform uses recursive calculations which accumulate floating-point rounding differences
+        // Use tolerance of 1e-13 to account for acceptable precision loss in recursive formulas
+        sut.Should().BeEquivalentTo(expected, options => options
+            .WithStrictOrdering()
+            .Using<double>(ctx => ctx.Subject.Should().BeApproximately(ctx.Expectation, 1e-13))
+            .WhenTypeIs<double>()
+            .Using<double?>(ctx => {
+                if (ctx.Expectation.HasValue && ctx.Subject.HasValue)
+                    ctx.Subject.Value.Should().BeApproximately(ctx.Expectation.Value, 1e-13);
+                else
+                    ctx.Subject.Should().Be(ctx.Expectation);
+            })
+            .WhenTypeIs<double?>());
 
         sut.Clear();
 
@@ -81,7 +141,19 @@ public class FisherTransform : BufferListTestBase, ITestReusableBufferList
         sut.Add(subset);
 
         sut.Should().HaveCount(expected.Count);
-        sut.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
+        // FisherTransform uses recursive calculations which accumulate floating-point rounding differences
+        // Use tolerance of 1e-13 to account for acceptable precision loss in recursive formulas
+        sut.Should().BeEquivalentTo(expected, options => options
+            .WithStrictOrdering()
+            .Using<double>(ctx => ctx.Subject.Should().BeApproximately(ctx.Expectation, 1e-13))
+            .WhenTypeIs<double>()
+            .Using<double?>(ctx => {
+                if (ctx.Expectation.HasValue && ctx.Subject.HasValue)
+                    ctx.Subject.Value.Should().BeApproximately(ctx.Expectation.Value, 1e-13);
+                else
+                    ctx.Subject.Should().Be(ctx.Expectation);
+            })
+            .WhenTypeIs<double?>());
     }
 
     [TestMethod]
