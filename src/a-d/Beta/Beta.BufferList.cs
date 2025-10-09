@@ -257,6 +257,10 @@ public static partial class Beta
 
         Beta.Validate(sourceEval, sourceMrkt, lookbackPeriods);
 
-        return new(lookbackPeriods, type, (IReadOnlyList<IReusable>)sourceEval, (IReadOnlyList<IReusable>)sourceMrkt);
+        return new(
+            lookbackPeriods,
+            type,
+            (IReadOnlyList<IReusable>)sourceEval,
+            (IReadOnlyList<IReusable>)sourceMrkt);
     }
 }
