@@ -21,16 +21,16 @@ public class PivotsTests : TestBase
         listing.MethodName.Should().Be("ToPivots");
 
         listing.Parameters?.Count.Should().Be(4);
-        
+
         IndicatorParam leftSpanParam = listing.Parameters.SingleOrDefault(p => p.ParameterName == "leftSpan");
         leftSpanParam.Should().NotBeNull();
-        
+
         IndicatorParam rightSpanParam = listing.Parameters.SingleOrDefault(p => p.ParameterName == "rightSpan");
         rightSpanParam.Should().NotBeNull();
-        
+
         IndicatorParam maxTrendPeriodsParam = listing.Parameters.SingleOrDefault(p => p.ParameterName == "maxTrendPeriods");
         maxTrendPeriodsParam.Should().NotBeNull();
-        
+
         IndicatorParam endTypeParam = listing.Parameters.SingleOrDefault(p => p.ParameterName == "endType");
         endTypeParam.Should().NotBeNull();
 

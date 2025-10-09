@@ -21,10 +21,10 @@ public class PivotPointsTests : TestBase
         listing.MethodName.Should().Be("ToPivotPoints");
 
         listing.Parameters?.Count.Should().Be(2);
-        
+
         IndicatorParam windowSizeParam = listing.Parameters.SingleOrDefault(p => p.ParameterName == "windowSize");
         windowSizeParam.Should().NotBeNull();
-        
+
         IndicatorParam pointTypeParam = listing.Parameters.SingleOrDefault(p => p.ParameterName == "pointType");
         pointTypeParam.Should().NotBeNull();
 
