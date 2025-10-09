@@ -91,51 +91,22 @@ internal static class IndicatorExecutor
     /// <returns>The full path to the baseline file.</returns>
     public static string GetBaselinePath(IndicatorListing listing)
     {
-        // Determine the folder range based on indicator name
-        char firstLetter = char.ToLowerInvariant(listing.Uiid[0]);
-        string folderRange = firstLetter switch
-        {
-            >= 'a' and <= 'd' => "a-d",
-            >= 'e' and <= 'k' => "e-k",
-            >= 'm' and <= 'r' => "m-r",
-            >= 's' and <= 'z' => "s-z",
-            _ => "other"
-        };
+        // Baselines are stored in _testdata/results/ directory
+        // Filename pattern: {uiid-lowercase}.standard.json
+        string resultsDir = Path.Combine(
+            Directory.GetCurrentDirectory(),
+            "_testdata",
+            "results");
 
-        // Find the actual directory name by looking for test files
-        // This handles the case where UIID might be uppercase but directory is PascalCase
-        string rangeDir = Path.Combine(Directory.GetCurrentDirectory(), folderRange);
-        
-        string? actualIndicatorDir = null;
-        if (Directory.Exists(rangeDir))
+        // Create results directory if it doesn't exist
+        if (!Directory.Exists(resultsDir))
         {
-            // Look for directories that match the indicator name (case-insensitive)
-            foreach (string dir in Directory.GetDirectories(rangeDir))
-            {
-                string dirName = Path.GetFileName(dir);
-                if (string.Equals(dirName, listing.Uiid, StringComparison.OrdinalIgnoreCase))
-                {
-                    // Verify this directory has test files
-                    if (Directory.GetFiles(dir, "*.Tests.cs").Length > 0)
-                    {
-                        actualIndicatorDir = dirName;
-                        break;
-                    }
-                }
-            }
+            Directory.CreateDirectory(resultsDir);
         }
 
-        // If not found, use the UIID as-is (will create new directory if needed)
-        string indicatorDirName = actualIndicatorDir ?? listing.Uiid;
-
-        // Build path: {current_dir}/{range}/{IndicatorName}/{IndicatorName}.Baseline.json
-        string testRoot = Path.Combine(
-            Directory.GetCurrentDirectory(),
-            folderRange,
-            indicatorDirName);
-
-        string fileName = $"{indicatorDirName}.Baseline.json";
-        return Path.GetFullPath(Path.Combine(testRoot, fileName));
+        // Use lowercase UIID with hyphen format (e.g., "SMA" -> "sma.standard.json")
+        string fileName = $"{listing.Uiid.ToLowerInvariant()}.standard.json";
+        return Path.GetFullPath(Path.Combine(resultsDir, fileName));
     }
 
     private static object?[] PrepareParameters(IndicatorListing listing, MethodInfo method)
