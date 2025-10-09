@@ -17,7 +17,7 @@ Created by Dave Skender, Rolling Pivot Points is a modern update to traditional 
 ```csharp
 // C# usage syntax
 IReadOnlyList<RollingPivotsResult> results =
-  quotes.GetRollingPivots(windowPeriods, offsetPeriods, pointType);
+  quotes.ToRollingPivots(windowPeriods, offsetPeriods, pointType);
 ```
 
 ## Parameters

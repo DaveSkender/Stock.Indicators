@@ -17,7 +17,7 @@ The [Hurst Exponent](https://en.wikipedia.org/wiki/Hurst_exponent) (`H`) is part
 ```csharp
 // C# usage syntax
 IReadOnlyList<HurstResult> results =
-  quotes.GetHurst(lookbackPeriods);
+  quotes.ToHurst(lookbackPeriods);
 ```
 
 ## Parameters
@@ -64,7 +64,7 @@ This indicator may be generated from any chain-enabled indicator or method.
 // example
 var results = quotes
     .Use(CandlePart.HLC3)
-    .GetHurst(..);
+    .ToHurst(..);
 ```
 
 Results can be further processed on `HurstExponent` with additional chain-enabled indicators.
@@ -72,6 +72,6 @@ Results can be further processed on `HurstExponent` with additional chain-enable
 ```csharp
 // example
 var results = quotes
-    .GetHurst(..)
-    .GetSlope(..);
+    .ToHurst(..)
+    .ToSlope(..);
 ```

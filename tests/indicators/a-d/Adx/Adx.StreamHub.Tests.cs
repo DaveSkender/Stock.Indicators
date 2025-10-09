@@ -12,17 +12,17 @@ public class AdxHub : StreamHubTestBase
 
         int length = quotesList.Count;
 
-        // setup quote provider
-        QuoteHub<Quote> provider = new();
+        // setup quote provider hub
+        QuoteHub<Quote> quoteHub = new();
 
         // initialize observer
-        AdxHub<Quote> observer = provider
-            .ToAdx(lookbackPeriods);
+        AdxHub<Quote> observer = quoteHub
+            .ToAdxHub(lookbackPeriods);
 
         // emulate quote stream
         for (int i = 0; i < length; i++)
         {
-            provider.Add(quotesList[i]);
+            quoteHub.Add(quotesList[i]);
         }
 
         // final results
@@ -38,19 +38,19 @@ public class AdxHub : StreamHubTestBase
         streamList.Should().BeEquivalentTo(seriesList);
 
         observer.Unsubscribe();
-        provider.EndTransmission();
+        quoteHub.EndTransmission();
     }
 
     [TestMethod]
     public override void CustomToString()
     {
-        QuoteHub<Quote> provider = new();
+        QuoteHub<Quote> quoteHub = new();
 
-        AdxHub<Quote> hub = new(provider, 14);
+        AdxHub<Quote> hub = new(quoteHub, 14);
         hub.ToString().Should().Be("ADX(14)");
 
-        provider.Add(Quotes[0]);
-        provider.Add(Quotes[1]);
+        quoteHub.Add(Quotes[0]);
+        quoteHub.Add(Quotes[1]);
 
         string s = $"ADX(14)({Quotes[0].Timestamp:d})";
         hub.ToString().Should().Be(s);

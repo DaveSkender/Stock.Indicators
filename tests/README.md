@@ -54,16 +54,18 @@ dotnet run --list
 dotnet run --list flat
 ```
 
-## External tests
+## Integration tests
 
-All external integration and API tests can be run with one CLI
+All integration tests are marked with `[TestCategory("Integration")]` and are located in separate test projects (`Tests.Integration` and `Tests.PublicApi`).
+
+To run just the integration tests, you must explicitly use its configuration:
 
 ```bash
 # CLI equivalent
 dotnet test --settings tests/tests.integration.runsettings
 ```
 
-Since we assume tests are non-integration tests by default, set the category attribute on any new test classes that contain integration tests.  This can be applied uniquely to `[TestMethod]` as well.
+Since we assume tests are non-integration tests by default, set the category attribute on any new test classes that contain integration tests. This can be applied uniquely to `[TestMethod]` as well.
 
 ```csharp
 [TestClass, TestCategory("Integration")]
@@ -73,8 +75,8 @@ public class MyIntegrationTests : TestBase
 
 ### Public API tests
 
-> `external/public-api/Tests.PublicApi.csproj` E2E libary external tests
+> `public-api/Tests.PublicApi.csproj` E2E library external tests
 
-### Integration tests
+### Live integration tests
 
-> `external/integration/Tests.Integration.csproj` connected to Live 3rd-party API
+> `integration/Tests.Integration.csproj` connected to Live 3rd-party APIs

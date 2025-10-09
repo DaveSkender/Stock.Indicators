@@ -6,7 +6,7 @@ namespace Skender.Stock.Indicators;
 public static partial class Smma
 {
     /// <summary>
-    /// Creates an SMMA hub from a chain provider.
+    /// Creates an SMMA streaming hub from a chain provider.
     /// </summary>
     /// <typeparam name="T">The type of the reusable data.</typeparam>
     /// <param name="chainProvider">The chain provider.</param>
@@ -14,7 +14,7 @@ public static partial class Smma
     /// <returns>An SMMA hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the chain provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
-    public static SmmaHub<T> ToSmma<T>(
+    public static SmmaHub<T> ToSmmaHub<T>(
         this IChainProvider<T> chainProvider,
         int lookbackPeriods)
         where T : IReusable
@@ -22,7 +22,7 @@ public static partial class Smma
 }
 
 /// <summary>
-/// Represents a hub for Smoothed Moving Average (SMMA) calculations.
+/// Streaming hub for Smoothed Moving Average (SMMA) calculations.
 /// </summary>
 /// <typeparam name="TIn">The type of the input data.</typeparam>
 public class SmmaHub<TIn>

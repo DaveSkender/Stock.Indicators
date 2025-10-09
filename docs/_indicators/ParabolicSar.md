@@ -17,11 +17,11 @@ Created by J. Welles Wilder, [Parabolic SAR](https://en.wikipedia.org/wiki/Parab
 ```csharp
 // C# usage syntax (standard)
 IReadOnlyList<ParabolicSarResult> results =
-  quotes.GetParabolicSar(accelerationStep, maxAccelerationFactor);
+  quotes.ToParabolicSar(accelerationStep, maxAccelerationFactor);
 
 // alternate usage with custom initial Factor
 IReadOnlyList<ParabolicSarResult> results =
-  quotes.GetParabolicSar(accelerationStep, maxAccelerationFactor, initialFactor);
+  quotes.ToParabolicSar(accelerationStep, maxAccelerationFactor, initialFactor);
 ```
 
 ## Parameters
@@ -73,8 +73,8 @@ Results can be further processed on `Sar` with additional chain-enabled indicato
 ```csharp
 // example
 var results = quotes
-    .GetParabolicSar(..)
-    .GetEma(..);
+    .ToParabolicSar(..)
+    .ToEma(..);
 ```
 
 This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.

@@ -17,7 +17,7 @@ Created by Karl Pearson, the [Correlation Coefficient](https://en.wikipedia.org/
 ```csharp
 // C# usage syntax
 IReadOnlyList<CorrResult> results =
-  quotesA.GetCorrelation(quotesB, lookbackPeriods);
+  quotesA.ToCorrelation(quotesB, lookbackPeriods);
 ```
 
 ## Parameters
@@ -74,7 +74,7 @@ This indicator may be generated from any chain-enabled indicator or method.
 // example
 var results = quotes
     .Use(CandlePart.HL2)
-    .GetCorrelation(quotesMarket.Use(CandlePart.HL2),20);
+    .ToCorrelation(quotesMarket.Use(CandlePart.HL2),20);
 ```
 
 > &#128681; **Warning!** Both `quotesA` and `quotesB` arguments must contain the same number of elements and be the results of a chainable indicator or `.Use()` method.
@@ -84,6 +84,6 @@ Results can be further processed on `Correlation` with additional chain-enabled 
 ```csharp
 // example
 var results = quotes
-    .GetCorrelation(..)
-    .GetSlope(..);
+    .ToCorrelation(..)
+    .ToSlope(..);
 ```

@@ -17,7 +17,7 @@ public static partial class BollingerBands
     /// <returns>A Bollinger Bands hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the chain provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the parameters are invalid.</exception>
-    public static BollingerBandsHub<TIn> ToBollingerBands<TIn>(
+    public static BollingerBandsHub<TIn> ToBollingerBandsHub<TIn>(
         this IChainProvider<TIn> chainProvider,
         int lookbackPeriods = 20,
         double standardDeviations = 2)

@@ -16,7 +16,7 @@ public static partial class Vwma
     /// <returns>A VWMA hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the quote provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
-    public static VwmaHub<TIn> ToVwma<TIn>(
+    public static VwmaHub<TIn> ToVwmaHub<TIn>(
         this IQuoteProvider<TIn> quoteProvider,
         int lookbackPeriods)
         where TIn : IQuote

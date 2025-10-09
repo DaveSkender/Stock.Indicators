@@ -13,24 +13,24 @@ public class RenkoHub : StreamHubTestBase, ITestChainProvider
 
         int length = quotesList.Count;
 
-        // setup quote provider
-        QuoteHub<Quote> provider = new();
+        // setup quote provider hub
+        QuoteHub<Quote> quoteHub = new();
 
-        // prefill quotes to provider
+        // prefill quotes at provider
         for (int i = 0; i < 50; i++)
         {
-            provider.Add(quotesList[i]);
+            quoteHub.Add(quotesList[i]);
         }
 
         // initialize observer
-        RenkoHub<Quote> observer = provider
-            .ToRenko(brickSize, endType);
+        RenkoHub<Quote> observer = quoteHub
+            .ToRenkoHub(brickSize, endType);
 
         // fetch initial results (early)
         IReadOnlyList<RenkoResult> streamList
             = observer.Results;
 
-        // emulate adding quotes to provider
+        // emulate adding quotes to provider hub
         for (int i = 50; i < length; i++)
         {
             // skip one (add later)
@@ -40,20 +40,20 @@ public class RenkoHub : StreamHubTestBase, ITestChainProvider
             }
 
             Quote q = quotesList[i];
-            provider.Add(q);
+            quoteHub.Add(q);
 
             // resend duplicate quotes
             if (i is > 100 and < 105)
             {
-                provider.Add(q);
+                quoteHub.Add(q);
             }
         }
 
         // late arrival
-        provider.Insert(quotesList[80]);
+        quoteHub.Insert(quotesList[80]);
 
         // delete
-        provider.Remove(quotesList[400]);
+        quoteHub.Remove(quotesList[400]);
         quotesList.RemoveAt(400);
 
         // time-series, for comparison
@@ -65,7 +65,7 @@ public class RenkoHub : StreamHubTestBase, ITestChainProvider
         streamList.Should().HaveCount(159);
 
         observer.Unsubscribe();
-        provider.EndTransmission();
+        quoteHub.EndTransmission();
     }
 
     [TestMethod]
@@ -79,22 +79,22 @@ public class RenkoHub : StreamHubTestBase, ITestChainProvider
 
         int length = quotesList.Count;
 
-        // setup quote provider
-        QuoteHub<Quote> provider = new();
+        // setup quote provider hub
+        QuoteHub<Quote> quoteHub = new();
 
         // initialize observer
-        SmaHub<RenkoResult> observer = provider
-            .ToRenko(brickSize, endType)
+        SmaHub<RenkoResult> observer = quoteHub
+            .ToRenkoHub(brickSize, endType)
             .ToSma(smaPeriods);
 
         // emulate quote stream
         for (int i = 0; i < length; i++)
         {
-            provider.Add(quotesList[i]);
+            quoteHub.Add(quotesList[i]);
         }
 
         // delete
-        provider.Remove(quotesList[400]);
+        quoteHub.Remove(quotesList[400]);
         quotesList.RemoveAt(400);
 
         // final results
@@ -111,7 +111,7 @@ public class RenkoHub : StreamHubTestBase, ITestChainProvider
         streamList.Should().HaveCount(112);
 
         observer.Unsubscribe();
-        provider.EndTransmission();
+        quoteHub.EndTransmission();
     }
 
     [TestMethod]
@@ -129,7 +129,7 @@ public class RenkoHub : StreamHubTestBase, ITestChainProvider
 
         // setup renko hub (2nd level)
         RenkoHub<Quote> renkoHub = quoteHub
-            .ToRenko(brickSize: 2.5m, endType: EndType.Close);
+            .ToRenkoHub(brickSize: 2.5m, endType: EndType.Close);
 
         // setup child hub (3rd level)
         SmaHub<RenkoResult> childHub = renkoHub
@@ -137,7 +137,7 @@ public class RenkoHub : StreamHubTestBase, ITestChainProvider
 
         // note: dispite `quoteHub` being parentless,
         // it has default properties; it should not
-        // inherit its own empty provider settings
+        // inherit its own empty quoteHub settings
 
         // assert
         quoteHub.Properties.Settings.Should().Be(0b00000000, "is has default settings, not inherited");

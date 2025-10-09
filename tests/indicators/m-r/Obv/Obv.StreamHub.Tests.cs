@@ -9,22 +9,22 @@ public class ObvHubTests : StreamHubTestBase
         List<Quote> quotesList = Quotes.ToList();
         int length = quotesList.Count;
 
-        // setup quote provider
-        QuoteHub<Quote> provider = new();
+        // setup quote provider hub
+        QuoteHub<Quote> quoteHub = new();
 
-        // prefill quotes to provider
+        // prefill quotes at provider
         for (int i = 0; i < 20; i++)
         {
-            provider.Add(quotesList[i]);
+            quoteHub.Add(quotesList[i]);
         }
 
         // initialize observer
-        StreamHub<Quote, ObvResult> observer = provider.ToObv();
+        StreamHub<Quote, ObvResult> observer = quoteHub.ToObvHub();
 
         // fetch initial results (early)
         IReadOnlyList<ObvResult> streamList = observer.Results;
 
-        // emulate adding quotes to provider
+        // emulate adding quotes to provider hub
         for (int i = 20; i < length; i++)
         {
             // skip one (add later)
@@ -34,20 +34,20 @@ public class ObvHubTests : StreamHubTestBase
             }
 
             Quote q = quotesList[i];
-            provider.Add(q);
+            quoteHub.Add(q);
 
             // resend duplicate quotes
             if (i is > 100 and < 105)
             {
-                provider.Add(q);
+                quoteHub.Add(q);
             }
         }
 
         // late arrival
-        provider.Insert(quotesList[80]);
+        quoteHub.Insert(quotesList[80]);
 
         // removal
-        provider.Remove(quotesList[400]);
+        quoteHub.Remove(quotesList[400]);
         quotesList.RemoveAt(400);
 
         // final results
@@ -57,7 +57,7 @@ public class ObvHubTests : StreamHubTestBase
         streamList.Should().BeEquivalentTo(seriesList);
 
         observer.Unsubscribe();
-        provider.EndTransmission();
+        quoteHub.EndTransmission();
     }
 
     [TestMethod]

@@ -6,7 +6,7 @@ namespace Skender.Stock.Indicators;
 public static partial class Trix
 {
     /// <summary>
-    /// Creates a TRIX hub from a chain provider.
+    /// Creates a TRIX streaming hub from a chain provider.
     /// </summary>
     /// <typeparam name="T">The type of the reusable data.</typeparam>
     /// <param name="chainProvider">The chain provider.</param>
@@ -22,7 +22,7 @@ public static partial class Trix
 }
 
 /// <summary>
-/// Represents a hub for Triple Exponential Moving Average Oscillator (TRIX) calculations.
+/// Streaming hub for Triple Exponential Moving Average Oscillator (TRIX) calculations.
 /// </summary>
 /// <typeparam name="TIn">The type of the input data.</typeparam>
 public class TrixHub<TIn>

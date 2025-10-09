@@ -17,7 +17,7 @@ Created by John Ehlers, the [Fisher Transform](https://www.investopedia.com/term
 ```csharp
 // C# usage syntax
 IReadOnlyList<FisherTransformResult> results =
-  quotes.GetFisherTransform(lookbackPeriods);
+  quotes.ToFisherTransform(lookbackPeriods);
 ```
 
 ## Parameters
@@ -59,7 +59,7 @@ IReadOnlyList<FisherTransformResult>
 For pruning of warmup periods, we recommend using the following guidelines:
 
 ```csharp
-quotes.GetFisherTransform(lookbackPeriods)
+quotes.ToFisherTransform(lookbackPeriods)
   .RemoveWarmupPeriods(lookbackPeriods+15);
 ```
 
@@ -73,7 +73,7 @@ This indicator may be generated from any chain-enabled indicator or method.
 // example
 var results = quotes
     .Use(CandlePart.HL2)
-    .GetFisherTransform(..);
+    .ToFisherTransform(..);
 ```
 
 Results can be further processed on `Alma` with additional chain-enabled indicators.
@@ -81,6 +81,6 @@ Results can be further processed on `Alma` with additional chain-enabled indicat
 ```csharp
 // example
 var results = quotes
-    .GetFisherTransform(..)
-    .GetRsi(..);
+    .ToFisherTransform(..)
+    .ToRsi(..);
 ```

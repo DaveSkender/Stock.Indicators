@@ -35,9 +35,9 @@ public class Correlation : BufferListTestBase, ITestReusableBufferList
     [TestMethod]
     public void AddReusableItemsBatch()
     {
-        CorrelationList sut = new(lookbackPeriods);
-
-        sut.Add(quotesA, quotesB);
+        CorrelationList sut = new(lookbackPeriods) {
+            { quotesA, quotesB }
+        };
 
         sut.Should().HaveCount(quotesA.Count);
         sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
@@ -76,9 +76,9 @@ public class Correlation : BufferListTestBase, ITestReusableBufferList
     public override void AddQuotesBatch()
     {
         // Correlation uses paired series, so this test uses quotesA and quotesB as series
-        CorrelationList sut = new(lookbackPeriods);
-
-        sut.Add(quotesA, quotesB);
+        CorrelationList sut = new(lookbackPeriods) {
+            { quotesA, quotesB }
+        };
 
         sut.Should().HaveCount(quotesA.Count);
         sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());

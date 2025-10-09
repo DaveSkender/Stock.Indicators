@@ -17,7 +17,7 @@ layout: indicator
 ```csharp
 // C# usage syntax (with Close price)
 IReadOnlyList<SmaResult> results =
-  quotes.GetSma(lookbackPeriods);
+  quotes.ToSma(lookbackPeriods);
 ```
 
 ## Parameters
@@ -63,7 +63,7 @@ This indicator has an extended version with more analysis.
 ```csharp
 // C# usage syntax
 IEnumberable<SmaAnalysis> analysis =
-  results.GetSmaAnalysis();
+  results.ToSmaAnalysis();
 ```
 
 ### SmaAnalysis
@@ -86,7 +86,7 @@ This indicator may be generated from any chain-enabled indicator or method.
 // example
 var results = quotes
     .Use(CandlePart.Volume)
-    .GetSma(..);
+    .ToSma(..);
 ```
 
 Results can be further processed on `Sma` with additional chain-enabled indicators.
@@ -94,8 +94,8 @@ Results can be further processed on `Sma` with additional chain-enabled indicato
 ```csharp
 // example
 var results = quotes
-    .GetSma(..)
-    .GetRsi(..);
+    .ToSma(..)
+    .ToRsi(..);
 ```
 
 ## Streaming
@@ -110,19 +110,19 @@ foreach (IQuote quote in quotes)  // simulating stream
   smaList.Add(quote);
 }
 
-// based on `List<SmaResult>`
+// based on `ICollection<SmaResult>`
 IReadOnlyList<SmaResult> results = smaList;
 ```
 
 Subscribe to a `QuoteHub` for advanced streaming scenarios:
 
 ```csharp
-QuoteHub<Quote> provider = new();
-SmaHub<Quote> observer = provider.ToSma(lookbackPeriods);
+QuoteHub<Quote> quoteHub = new();
+SmaHub<Quote> observer = quoteHub.ToSma(lookbackPeriods);
 
 foreach (Quote quote in quotes)  // simulating stream
 {
-  provider.Add(quote);
+  quoteHub.Add(quote);
 }
 
 IReadOnlyList<SmaResult> results = observer.Results;

@@ -11,14 +11,14 @@ public class WmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
         List<Quote> quotesList = Quotes.ToList();
         int length = quotesList.Count;
 
-        QuoteHub<Quote> provider = new();
+        QuoteHub<Quote> quoteHub = new();
 
         for (int i = 0; i < LookbackPeriods; i++)
         {
-            provider.Add(quotesList[i]);
+            quoteHub.Add(quotesList[i]);
         }
 
-        WmaHub<Quote> observer = provider.ToWma(LookbackPeriods);
+        WmaHub<Quote> observer = quoteHub.ToWmaHub(LookbackPeriods);
 
         for (int i = LookbackPeriods; i < length; i++)
         {
@@ -28,17 +28,17 @@ public class WmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
             }
 
             Quote quote = quotesList[i];
-            provider.Add(quote);
+            quoteHub.Add(quote);
 
             if (i is > 110 and < 115)
             {
-                provider.Add(quote);
+                quoteHub.Add(quote);
             }
         }
 
-        provider.Insert(quotesList[80]);
+        quoteHub.Insert(quotesList[80]);
 
-        provider.Remove(quotesList[400]);
+        quoteHub.Remove(quotesList[400]);
         quotesList.RemoveAt(400);
 
         IReadOnlyList<WmaResult> streamList = observer.Results;
@@ -48,7 +48,7 @@ public class WmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
         streamList.Should().BeEquivalentTo(seriesList);
 
         observer.Unsubscribe();
-        provider.EndTransmission();
+        quoteHub.EndTransmission();
     }
 
     [TestMethod]
@@ -57,15 +57,15 @@ public class WmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
         List<Quote> quotesList = Quotes.ToList();
         int length = quotesList.Count;
 
-        QuoteHub<Quote> provider = new();
+        QuoteHub<Quote> quoteHub = new();
 
-        WmaHub<QuotePart> observer = provider
-            .ToQuotePart(CandlePart.HL2)
-            .ToWma(LookbackPeriods);
+        WmaHub<QuotePart> observer = quoteHub
+            .ToQuotePartHub(CandlePart.HL2)
+            .ToWmaHub(LookbackPeriods);
 
         for (int i = 0; i < length; i++)
         {
-            provider.Add(quotesList[i]);
+            quoteHub.Add(quotesList[i]);
         }
 
         IReadOnlyList<WmaResult> streamList = observer.Results;
@@ -77,7 +77,7 @@ public class WmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
         streamList.Should().BeEquivalentTo(seriesList);
 
         observer.Unsubscribe();
-        provider.EndTransmission();
+        quoteHub.EndTransmission();
     }
 
     [TestMethod]
@@ -88,11 +88,11 @@ public class WmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
         List<Quote> quotesList = Quotes.ToList();
         int length = quotesList.Count;
 
-        QuoteHub<Quote> provider = new();
+        QuoteHub<Quote> quoteHub = new();
 
-        EmaHub<WmaResult> observer = provider
-            .ToWma(LookbackPeriods)
-            .ToEma(emaPeriods);
+        EmaHub<WmaResult> observer = quoteHub
+            .ToWmaHub(LookbackPeriods)
+            .ToEmaHub(emaPeriods);
 
         for (int i = 0; i < length; i++)
         {
@@ -102,17 +102,17 @@ public class WmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
             }
 
             Quote quote = quotesList[i];
-            provider.Add(quote);
+            quoteHub.Add(quote);
 
             if (i is > 180 and < 186)
             {
-                provider.Add(quote);
+                quoteHub.Add(quote);
             }
         }
 
-        provider.Insert(quotesList[90]);
+        quoteHub.Insert(quotesList[90]);
 
-        provider.Remove(quotesList[350]);
+        quoteHub.Remove(quotesList[350]);
         quotesList.RemoveAt(350);
 
         IReadOnlyList<EmaResult> streamList = observer.Results;
@@ -124,7 +124,7 @@ public class WmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
         streamList.Should().BeEquivalentTo(seriesList);
 
         observer.Unsubscribe();
-        provider.EndTransmission();
+        quoteHub.EndTransmission();
     }
 
     [TestMethod]
