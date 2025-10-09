@@ -17,8 +17,8 @@ public static partial class RollingPivots
     /// <exception cref="ArgumentNullException">Thrown when the quotes are null.</exception>
     public static IReadOnlyList<RollingPivotsResult> ToRollingPivots<TQuote>(
         this IReadOnlyList<TQuote> quotes,
-        int windowPeriods,
-        int offsetPeriods,
+        int windowPeriods = 20,
+        int offsetPeriods = 0,
         PivotPointType pointType = PivotPointType.Standard)
         where TQuote : IQuote
     {

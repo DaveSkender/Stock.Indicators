@@ -180,6 +180,19 @@
 - [ ] CHK126 - Are requirements for implementing `ITestNonStandardBufferListCache` when using List-based state caches specified? [Completeness, TestBase.cs]
 - [ ] CHK127 - Are requirements for `AutoBufferPruning()` test when using non-standard caches specified? [Completeness, TestBase.cs]
 
+## Regression Testing Requirements
+
+- [ ] CHK128 - Are regression test class requirements specified (inherit from `RegressionTestBase<TResult>`, implement `Buffer()` method)? [Completeness, regression-testing.md §CHK002]
+- [ ] CHK129 - Are baseline file requirements documented (location: `tests/indicators/_testdata/results/{indicator}.standard.json`)? [Completeness, regression-testing.md §CHK001]
+- [ ] CHK130 - Are regression test assertions requirements clear (use `AssertEquals(Expected)` for deterministic equality)? [Clarity, regression-testing.md §CHK011]
+- [ ] CHK131 - Are requirements for incremental implementation documented (use `Assert.Inconclusive` until BufferList implementation complete)? [Completeness, regression-testing.md §CHK005]
+- [ ] CHK132 - Are requirements for transitioning from `Assert.Inconclusive` to actual BufferList validation specified? [Clarity, regression-testing.md §CHK035]
+- [ ] CHK133 - Are baseline generation requirements documented (BufferList results must match Series baseline exactly)? [Completeness, regression-testing.md §CHK040]
+- [ ] CHK134 - Are regression test file naming requirements specified (`{IndicatorName}.Regression.Tests.cs`)? [Completeness, regression-testing.md §CHK018]
+- [ ] CHK135 - Are test categorization requirements documented (`[TestCategory("Regression")]`)? [Completeness, regression-testing.md §CHK003]
+
+**Reference**: See [regression-testing.md](./regression-testing.md) for complete regression testing requirements validation checklist.
+
 ## Notes
 
 - This checklist validates REQUIREMENTS quality for BufferList implementations - NOT implementation correctness
@@ -189,8 +202,8 @@
 - Add findings or gaps discovered during requirements review inline
 
 ---
-**Checklist Items**: 127
-**Coverage**: Completeness, Clarity, Consistency, Acceptance Criteria, Scenarios, Edge Cases, NFRs, Dependencies, Ambiguities, Traceability, Developer Docs (XML), User Docs (Website), Maintainer Docs (Migration), Patterns, Quality Standards
+**Checklist Items**: 135
+**Coverage**: Completeness, Clarity, Consistency, Acceptance Criteria, Scenarios, Edge Cases, NFRs, Dependencies, Ambiguities, Traceability, Developer Docs (XML), User Docs (Website), Maintainer Docs (Migration), Patterns, Quality Standards, Regression Testing
 
 **Key Requirements**:
 
@@ -201,3 +214,4 @@
    - `ITestNonStandardBufferListCache` when using List-based state caches (not just Queue) (CHK126)
 4. Implementation must align with idiomatic reference patterns (SMA, EMA, Doji, MAMA examples)
 5. Non-standard caches (List-based state) require proper pruning and `AutoBufferPruning()` test (CHK127)
+6. **Regression tests**: BufferList implementations require regression test with `Buffer()` method that validates against baseline (CHK128-CHK135)

@@ -1,5 +1,5 @@
 <RunSettings>
   <RunConfiguration>
-    <TestCaseFilter>TestCategory!=Integration</TestCaseFilter>
+    <TestCaseFilter>TestCategory!=Integration&amp;TestCategory!=Regression</TestCaseFilter>
   </RunConfiguration>
 </RunSettings>

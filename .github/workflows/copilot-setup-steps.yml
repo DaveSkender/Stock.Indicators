@@ -67,7 +67,7 @@ jobs:
 
       - name: Restore packages
         run: |
-          dotnet restore && npm install
+          dotnet restore && npm ci
         continue-on-error: true
 
       - name: Build .NET Solution

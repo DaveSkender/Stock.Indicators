@@ -342,10 +342,10 @@ No violations—section intentionally empty.
 
 - [x] Phase 0: Research complete (/plan command)
 - [x] Phase 1: Design complete (/plan command)
-- [ ] Phase 2: Task planning complete (/plan command - describe approach only)
-- [ ] Phase 3: Tasks generated (/tasks command)
-- [ ] Phase 4: Implementation complete
-- [ ] Phase 5: Validation passed
+- [x] Phase 2: Task planning complete (/plan command - describe approach only)
+- [x] Phase 3: Tasks generated (/tasks command)
+- [x] Phase 4: Implementation complete
+- [x] Phase 5: Validation in progress
 
 **Gate status**:
 
@@ -354,9 +354,21 @@ No violations—section intentionally empty.
 - [x] All NEEDS CLARIFICATION resolved
 - [x] Complexity deviations documented
 
+**Implementation notes** (October 8, 2025):
+
+The initial monolithic `RegressionTests.cs` approach was refactored to use individual per-indicator test files:
+
+1. **Architecture**: Created generic `RegressionTestBase<TResult>` base class instead of hardcoded `EmaResult`
+2. **Organization**: Each indicator now has its own `{Indicator}.Regression.Tests.cs` file colocated with other test files
+3. **Baseline storage**: All 75 baseline files moved to centralized `tests/indicators/_testdata/results/` with `{indicator}.standard.json` naming
+4. **Coverage**: All 75 indicators have regression test files with Series/Buffer/Stream methods (using `Assert.Inconclusive` for not-yet-implemented patterns)
+5. **Cleanup**: Removed obsolete monolithic `tests/indicators/RegressionTests.cs` file
+
+This approach provides better type safety, clearer test discovery, easier maintenance, and aligns with existing test organization patterns in the repository.
+
 ---
 
 *Based on Constitution v1.1.0 - See `/memory/constitution.md`*
 
 ---
-Last updated: October 6, 2025
+Last updated: October 8, 2025

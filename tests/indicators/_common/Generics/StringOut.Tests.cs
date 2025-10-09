@@ -1,5 +1,5 @@
 using System.Globalization;
-using Test.Utilities;
+using Tests.Data;
 
 namespace Utilities;
 

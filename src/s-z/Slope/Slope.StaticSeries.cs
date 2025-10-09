@@ -16,7 +16,7 @@ public static partial class Slope
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback period is less than 1.</exception>
     public static IReadOnlyList<SlopeResult> ToSlope<T>(
         this IReadOnlyList<T> source,
-        int lookbackPeriods)
+        int lookbackPeriods = 14)
         where T : IReusable
     {
         // check parameter arguments

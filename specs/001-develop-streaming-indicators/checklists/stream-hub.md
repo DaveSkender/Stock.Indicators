@@ -198,6 +198,20 @@
 - [ ] CHK135 - Are requirements for head/tail pointer management in circular buffers defined? [Completeness, Instructions §Complex State Management]
 - [ ] CHK136 - Are requirements for minimizing latency in hot paths specified? [Completeness, Instructions §Real-time Considerations]
 
+## Regression Testing Requirements
+
+- [ ] CHK137 - Are regression test class requirements specified (inherit from `RegressionTestBase<TResult>`, implement `Stream()` method)? [Completeness, regression-testing.md §CHK002]
+- [ ] CHK138 - Are baseline file requirements documented (location: `tests/indicators/_testdata/results/{indicator}.standard.json`)? [Completeness, regression-testing.md §CHK001]
+- [ ] CHK139 - Are regression test assertions requirements clear (use `AssertEquals(Expected)` for deterministic equality)? [Clarity, regression-testing.md §CHK011]
+- [ ] CHK140 - Are requirements for incremental implementation documented (use `Assert.Inconclusive` until StreamHub implementation complete)? [Completeness, regression-testing.md §CHK005]
+- [ ] CHK141 - Are requirements for transitioning from `Assert.Inconclusive` to actual StreamHub validation specified? [Clarity, regression-testing.md §CHK035]
+- [ ] CHK142 - Are baseline generation requirements documented (StreamHub results must match Series baseline exactly)? [Completeness, regression-testing.md §CHK040]
+- [ ] CHK143 - Are regression test shared `quoteHub` property usage requirements specified? [Clarity, regression-testing.md §CHK019, CHK075]
+- [ ] CHK144 - Are regression test file naming requirements specified (`{IndicatorName}.Regression.Tests.cs`)? [Completeness, regression-testing.md §CHK018]
+- [ ] CHK145 - Are test categorization requirements documented (`[TestCategory("Regression")]`)? [Completeness, regression-testing.md §CHK003]
+
+**Reference**: See [regression-testing.md](./regression-testing.md) for complete regression testing requirements validation checklist.
+
 ## Notes
 
 - This checklist validates REQUIREMENTS quality for StreamHub implementations - NOT implementation correctness
@@ -208,8 +222,9 @@
 - StreamHub emphasizes high-frequency, low-latency scenarios requiring span-based optimizations
 
 ---
-**Checklist Items**: 136
-**Coverage**: Completeness, Clarity, Consistency, Acceptance Criteria, Scenarios, Edge Cases, NFRs, Dependencies, Ambiguities, Traceability, Developer Docs (XML), User Docs (Website), Maintainer Docs (Migration), Patterns, Quality Standards, I/O Patterns, Reference Implementations, Real-Time Processing
+
+**Checklist Items**: 145
+**Coverage**: Completeness, Clarity, Consistency, Acceptance Criteria, Scenarios, Edge Cases, NFRs, Dependencies, Ambiguities, Traceability, Developer Docs (XML), User Docs (Website), Maintainer Docs (Migration), Patterns, Quality Standards, I/O Patterns, Reference Implementations, Real-Time Processing, Regression Testing
 
 **Key Requirements**:
 
@@ -219,3 +234,4 @@
    - `ITestChainObserver` when indicator supports chainable inputs (CHK110)
 4. Implementation must align with idiomatic reference patterns (EMA, SMA, AtrStop, Alligator examples)
 5. High-frequency processing requires span-based optimizations and bounded buffers for minimal allocations
+6. **Regression tests**: StreamHub implementations require regression test with `Stream()` method that validates against baseline using shared `quoteHub` (CHK137-CHK145)
