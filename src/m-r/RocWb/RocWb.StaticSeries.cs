@@ -17,9 +17,9 @@ public static partial class RocWb
     /// <exception cref="ArgumentNullException">Thrown when the source is null.</exception>
     public static IReadOnlyList<RocWbResult> ToRocWb<T>(
         this IReadOnlyList<T> source,
-        int lookbackPeriods,
-        int emaPeriods,
-        int stdDevPeriods)
+        int lookbackPeriods = 20,
+        int emaPeriods = 5,
+        int stdDevPeriods = 5)
         where T : IReusable
     {
         // check parameter arguments

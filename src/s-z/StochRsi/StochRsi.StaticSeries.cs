@@ -18,9 +18,9 @@ public static partial class StochRsi
     /// <exception cref="ArgumentNullException">Thrown when the source list is null.</exception>
     public static IReadOnlyList<StochRsiResult> ToStochRsi<T>(
         this IReadOnlyList<T> source,
-        int rsiPeriods,
-        int stochPeriods,
-        int signalPeriods,
+        int rsiPeriods = 14,
+        int stochPeriods = 14,
+        int signalPeriods = 3,
         int smoothPeriods = 1)
         where T : IReusable
     {

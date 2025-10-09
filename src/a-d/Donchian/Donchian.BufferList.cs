@@ -5,8 +5,7 @@ namespace Skender.Stock.Indicators;
 /// </summary>
 public class DonchianList : BufferList<DonchianResult>, IBufferList
 {
-    private readonly Queue<decimal> highBuffer;
-    private readonly Queue<decimal> lowBuffer;
+    private readonly Queue<(decimal High, decimal Low)> _buffer;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="DonchianList"/> class.
@@ -17,8 +16,7 @@ public class DonchianList : BufferList<DonchianResult>, IBufferList
         Donchian.Validate(lookbackPeriods);
         LookbackPeriods = lookbackPeriods;
 
-        highBuffer = new Queue<decimal>(lookbackPeriods);
-        lowBuffer = new Queue<decimal>(lookbackPeriods);
+        _buffer = new Queue<(decimal, decimal)>(lookbackPeriods);
     }
 
     /// <summary>
@@ -49,25 +47,21 @@ public class DonchianList : BufferList<DonchianResult>, IBufferList
         decimal? centerline = null;
         decimal? width = null;
 
-        if (highBuffer.Count == LookbackPeriods)
+        if (_buffer.Count == LookbackPeriods)
         {
             decimal highHigh = decimal.MinValue;
             decimal lowLow = decimal.MaxValue;
 
             // Find highest high and lowest low in the buffer
-            foreach (decimal h in highBuffer)
+            foreach (var item in _buffer)
             {
-                if (h > highHigh)
+                if (item.High > highHigh)
                 {
-                    highHigh = h;
+                    highHigh = item.High;
                 }
-            }
-
-            foreach (decimal l in lowBuffer)
-            {
-                if (l < lowLow)
+                if (item.Low < lowLow)
                 {
-                    lowLow = l;
+                    lowLow = item.Low;
                 }
             }
 
@@ -77,9 +71,8 @@ public class DonchianList : BufferList<DonchianResult>, IBufferList
             width = centerline == 0 ? null : (upperBand - lowerBand) / centerline;
         }
 
-        // Update buffers AFTER calculating (since we look at prior periods)
-        highBuffer.Update(LookbackPeriods, quote.High);
-        lowBuffer.Update(LookbackPeriods, quote.Low);
+        // Update buffer AFTER calculating (since we look at prior periods)
+        _buffer.Update(LookbackPeriods, (quote.High, quote.Low));
 
         AddInternal(new DonchianResult(
             Timestamp: timestamp,
@@ -106,8 +99,7 @@ public class DonchianList : BufferList<DonchianResult>, IBufferList
     public override void Clear()
     {
         ClearInternal();
-        highBuffer.Clear();
-        lowBuffer.Clear();
+        _buffer.Clear();
     }
 }
 

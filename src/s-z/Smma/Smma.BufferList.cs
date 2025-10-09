@@ -65,7 +65,6 @@ public class SmmaList : BufferList<SmmaResult>, IBufferReusable, ISmma
         if (_buffer.Count < LookbackPeriods)
         {
             AddInternal(new SmmaResult(timestamp));
-            PruneList();
             return;
         }
 

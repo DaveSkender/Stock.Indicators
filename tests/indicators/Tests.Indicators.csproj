@@ -1,8 +1,9 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
     <IsPackable>false</IsPackable>
+    <IsPublishable>False</IsPublishable>
 
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>disable</Nullable>
@@ -26,34 +27,36 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Indicators.csproj" />
+    <ProjectReference Include="../../src/Indicators.csproj" />
   </ItemGroup>
 
   <ItemGroup>
 
-    <None Update="_testdata\data\*.csv">
+    <None Update="_testdata/quotes/*.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-
-    <None Update="a-d\Adx\issue859quotes.csv">
+    <None Update="_testdata/results/*.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="a-d\Dpo\Dpo.Data.csv">
+    <None Update="a-d/Adx/issue859quotes.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="s-z\WilliamsR\issue1127quotes.csv">
+    <None Update="a-d/Dpo/Dpo.Data.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="s-z\ZigZag\data.ethusdt.json">
+    <None Update="s-z/WilliamsR/issue1127quotes.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="s-z\ZigZag\data.issue632.json">
+    <None Update="s-z/ZigZag/data.ethusdt.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="s-z\ZigZag\data.schrodinger.json">
+    <None Update="s-z/ZigZag/data.issue632.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="s-z\ZigZag\zigzag.csv">
+    <None Update="s-z/ZigZag/data.schrodinger.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="s-z/ZigZag/zigzag.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

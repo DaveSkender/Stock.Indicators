@@ -100,6 +100,7 @@ public record CandleResult : ISeries
     /// <param name="candle">The candlestick properties.</param>
     /// <param name="match">The match result of the analysis.</param>
     /// <param name="price">The price associated with the result.</param>
+    [JsonConstructor]
     public CandleResult(
         DateTime timestamp,
         CandleProperties candle,

@@ -21,9 +21,9 @@ public static partial class StochRsi
     /// <exception cref="ArgumentOutOfRangeException">Thrown when parameters are invalid.</exception>
     public static StochRsiHub<T> ToStochRsiHub<T>(
         this IChainProvider<T> chainProvider,
-        int rsiPeriods,
-        int stochPeriods,
-        int signalPeriods,
+        int rsiPeriods = 14,
+        int stochPeriods = 14,
+        int signalPeriods = 3,
         int smoothPeriods = 1)
         where T : IReusable
         => new(chainProvider, rsiPeriods, stochPeriods, signalPeriods, smoothPeriods);
@@ -49,10 +49,10 @@ public sealed class StochRsiHub<TIn>
     /// <param name="smoothPeriods">The number of periods for smoothing.</param>
     internal StochRsiHub(
         IChainProvider<TIn> provider,
-        int rsiPeriods,
-        int stochPeriods,
-        int signalPeriods,
-        int smoothPeriods) : base(provider)
+        int rsiPeriods = 14,
+        int stochPeriods = 14,
+        int signalPeriods = 3,
+        int smoothPeriods = 1) : base(provider)
     {
         StochRsi.Validate(rsiPeriods, stochPeriods, signalPeriods, smoothPeriods);
 

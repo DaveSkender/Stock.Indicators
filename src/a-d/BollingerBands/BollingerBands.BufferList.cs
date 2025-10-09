@@ -87,13 +87,11 @@ public class BollingerBandsList : BufferList<BollingerBandsResult>, IBufferReusa
                 ZScore: zScore,
                 Width: width
             ));
-            PruneList();
         }
         else
         {
             // Initialization period - return null values
             AddInternal(new BollingerBandsResult(timestamp));
-            PruneList();
         }
     }
 
