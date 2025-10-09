@@ -11,7 +11,7 @@ The Baseline Generator executes all StaticSeries indicators using standard test 
 ### Generate all baselines
 
 ```bash
-dotnet run --project tools/performance/BaselineGenerator -- --all
+dotnet run --project tools/baselining -- --all
 ```
 
 This will:
@@ -25,19 +25,19 @@ This will:
 ### Generate baseline for a single indicator
 
 ```bash
-dotnet run --project tools/performance/BaselineGenerator -- --indicator <name>
+dotnet run --project tools/baselining -- --indicator <name>
 ```
 
 Example:
 
 ```bash
-dotnet run --project tools/performance/BaselineGenerator -- --indicator Sma
+dotnet run --project tools/baselining -- --indicator Sma
 ```
 
 ### Display help
 
 ```bash
-dotnet run --project tools/performance/BaselineGenerator -- --help
+dotnet run --project tools/baselining -- --help
 ```
 
 ## Baseline File Format
