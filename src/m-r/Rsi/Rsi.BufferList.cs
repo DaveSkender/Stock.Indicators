@@ -5,8 +5,7 @@ namespace Skender.Stock.Indicators;
 /// </summary>
 public class RsiList : BufferList<RsiResult>, IBufferReusable, IRsi
 {
-    private readonly Queue<double> _gainBuffer;
-    private readonly Queue<double> _lossBuffer;
+    private readonly Queue<(double Gain, double Loss)> _buffer;
     private double _avgGain = double.NaN;
     private double _avgLoss = double.NaN;
     private double _prevValue = double.NaN;
@@ -21,8 +20,7 @@ public class RsiList : BufferList<RsiResult>, IBufferReusable, IRsi
         Rsi.Validate(lookbackPeriods);
         LookbackPeriods = lookbackPeriods;
 
-        _gainBuffer = new Queue<double>(lookbackPeriods);
-        _lossBuffer = new Queue<double>(lookbackPeriods);
+        _buffer = new Queue<(double, double)>(lookbackPeriods);
     }
 
     /// <summary>
@@ -64,9 +62,8 @@ public class RsiList : BufferList<RsiResult>, IBufferReusable, IRsi
             gain = loss = double.NaN;
         }
 
-        // Update buffers using universal buffer utilities
-        _gainBuffer.Update(LookbackPeriods, gain);
-        _lossBuffer.Update(LookbackPeriods, loss);
+        // Update buffer using universal buffer utilities with consolidated tuple
+        _buffer.Update(LookbackPeriods, (gain, loss));
 
         double? rsi = null;
         _prevValue = value;
@@ -81,14 +78,10 @@ public class RsiList : BufferList<RsiResult>, IBufferReusable, IRsi
             double sumGain = 0;
             double sumLoss = 0;
 
-            foreach (double g in _gainBuffer)
+            foreach (var item in _buffer)
             {
-                sumGain += g;
-            }
-
-            foreach (double l in _lossBuffer)
-            {
-                sumLoss += l;
+                sumGain += item.Gain;
+                sumLoss += item.Loss;
             }
 
             _avgGain = sumGain / LookbackPeriods;
@@ -158,8 +151,7 @@ public class RsiList : BufferList<RsiResult>, IBufferReusable, IRsi
     public override void Clear()
     {
         ClearInternal();
-        _gainBuffer.Clear();
-        _lossBuffer.Clear();
+        _buffer.Clear();
         _avgGain = double.NaN;
         _avgLoss = double.NaN;
         _prevValue = double.NaN;

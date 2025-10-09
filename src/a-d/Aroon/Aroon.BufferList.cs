@@ -41,14 +41,8 @@ public class AroonList : BufferList<AroonResult>, IBufferList
     {
         ArgumentNullException.ThrowIfNull(quote);
 
-        // Add to buffer
-        _buffer.Enqueue((quote.Timestamp, (double)quote.High, (double)quote.Low));
-
-        // Maintain buffer size
-        if (_buffer.Count > LookbackPeriods + 1)
-        {
-            _buffer.Dequeue();
-        }
+        // Use BufferUtilities extension method for consistent buffer management
+        _buffer.Update(LookbackPeriods + 1, (quote.Timestamp, (double)quote.High, (double)quote.Low));
 
         double? aroonUp = null;
         double? aroonDown = null;

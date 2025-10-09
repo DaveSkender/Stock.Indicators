@@ -149,6 +149,32 @@ public static {IndicatorName}List To{IndicatorName}List<TQuote>(
 
 ## Testing requirements
 
+### Critical: Test base class inheritance
+
+**IMPORTANT**: All BufferList test classes MUST inherit from `BufferListTestBase`, NOT from `TestBase` directly.
+
+- ✅ Correct: `public class MyIndicatorTests : BufferListTestBase`
+- ❌ Incorrect: `public class MyIndicatorTests : TestBase`
+
+**Consequences of incorrect inheritance**:
+
+- Missing abstract method implementations required by `BufferListTestBase`
+- Compilation errors for `AddQuotes()`, `AddQuotesBatch()`, `WithQuotesCtor()`, `ClearResetsState()`, and `AutoListPruning()`
+- Tests won't validate essential BufferList behaviors
+
+The `BufferListTestBase` abstract class defines 5 required test methods that ensure BufferList implementations work correctly:
+
+1. `AddQuotes()` - Individual quote addition
+2. `AddQuotesBatch()` - Batch quote addition via collection initializer
+3. `WithQuotesCtor()` - Constructor with quotes parameter
+4. `ClearResetsState()` - State reset functionality
+5. `AutoListPruning()` - List size management
+
+**Additional test interfaces** (implement when applicable):
+
+- Implement `ITestReusableBufferList` when indicator supports `IReusable` inputs (provides 3 additional test methods)
+- Implement `ITestNonStandardBufferListCache` when using List-based state caches instead of `Queue<T>` (provides `AutoBufferPruning()` test)
+
 ### Test coverage expectations
 
 Buffer indicator tests must cover:
