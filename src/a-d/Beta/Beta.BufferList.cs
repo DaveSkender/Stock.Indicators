@@ -5,8 +5,7 @@ namespace Skender.Stock.Indicators;
 /// </summary>
 public class BetaList : BufferList<BetaResult>
 {
-    private readonly Queue<(DateTime Timestamp, double EvalValue, double MrktValue)> _buffer;
-    private readonly Queue<(double EvalReturn, double MrktReturn)> _returns;
+    private readonly Queue<(DateTime Timestamp, double EvalValue, double MrktValue, double EvalReturn, double MrktReturn)> _buffer;
     private double _prevEval;
     private double _prevMrkt;
     private bool _isFirst = true;
@@ -23,8 +22,7 @@ public class BetaList : BufferList<BetaResult>
         LookbackPeriods = lookbackPeriods;
         Type = type;
 
-        _buffer = new Queue<(DateTime, double, double)>(lookbackPeriods + 1);
-        _returns = new Queue<(double, double)>(lookbackPeriods + 1);
+        _buffer = new Queue<(DateTime, double, double, double, double)>(lookbackPeriods + 1);
     }
 
     /// <summary>
@@ -68,16 +66,8 @@ public class BetaList : BufferList<BetaResult>
         _prevMrkt = mrktValue;
         _isFirst = false;
 
-        // Add to buffers
-        _buffer.Enqueue((timestamp, evalValue, mrktValue));
-        _returns.Enqueue((evalReturn, mrktReturn));
-
-        // Maintain buffer size
-        if (_buffer.Count > LookbackPeriods + 1)
-        {
-            _buffer.Dequeue();
-            _returns.Dequeue();
-        }
+        // Add to buffer using Update utility
+        _buffer.Update(LookbackPeriods + 1, (timestamp, evalValue, mrktValue, evalReturn, mrktReturn));
 
         // Calculate results
         double? beta = null;
@@ -184,21 +174,9 @@ public class BetaList : BufferList<BetaResult>
     {
         ClearInternal();
         _buffer.Clear();
-        _returns.Clear();
         _prevEval = 0;
         _prevMrkt = 0;
         _isFirst = true;
-    }
-
-    /// <summary>
-    /// Overrides the base pruning logic to coordinate pruning of internal state buffers.
-    /// </summary>
-    protected override void PruneList()
-    {
-        // Queue-based buffers (_buffer and _returns) are bounded by design
-        // and automatically maintain their size during Add operations.
-        // Only need to prune the result list.
-        base.PruneList();
     }
 
     /// <summary>
@@ -217,7 +195,7 @@ public class BetaList : BufferList<BetaResult>
 
         // Use returns from index 1 onwards (skip first which is 0)
         int index = 0;
-        foreach ((double evalReturn, double mrktReturn) in _returns)
+        foreach ((DateTime _, double _, double _, double evalReturn, double mrktReturn) in _buffer)
         {
             if (index > 0) // Skip first return which is 0
             {
