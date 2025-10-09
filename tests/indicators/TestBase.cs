@@ -93,18 +93,17 @@ public abstract class BufferListTestBase : TestBase
 /// <summary>
 /// Base setup for regression tests
 /// </summary>
-public abstract class RegressionTestBase<TResult> : TestBase
+public abstract class RegressionTestBase<TResult>(string filename) : TestBase
     where TResult : ISeries
 {
-    protected IReadOnlyList<TResult> Expected { get; init; }
+    protected IReadOnlyList<TResult> Expected { get; init; } = Data.Results<TResult>(filename);
 
     private static QuoteHub<Quote>? _sharedQuoteHub;
     private static bool _quoteHubInitialized;
 
     protected static QuoteHub<Quote> quoteHub
     {
-        get
-        {
+        get {
             if (!_quoteHubInitialized)
             {
                 _sharedQuoteHub = new QuoteHub<Quote>();
@@ -113,11 +112,6 @@ public abstract class RegressionTestBase<TResult> : TestBase
             }
             return _sharedQuoteHub!;
         }
-    }
-
-    protected RegressionTestBase(string filename)
-    {
-        Expected = Data.Results<TResult>(filename);
     }
 
     public abstract void Series();
