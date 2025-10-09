@@ -1,6 +1,6 @@
 using System.Reflection;
 using Skender.Stock.Indicators;
-using Test.Data;
+using Tests.Data;
 
 namespace BaselineGenerator;
 

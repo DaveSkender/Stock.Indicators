@@ -1,6 +1,6 @@
 using System.Text.Json;
 using Skender.Stock.Indicators;
-using Test.Data;
+using Tests.Data;
 
 namespace BaselineGenerator;
 
@@ -16,19 +16,28 @@ internal static class Program
         Console.WriteLine();
 
         // Change to test indicators directory so test data files can be found
-        // From tools/performance, go up to repo root, then to tests/indicators
+        // Find repo root by looking for .git directory
         string currentDir = Directory.GetCurrentDirectory();
-        string testIndicatorsPath = Path.GetFullPath(Path.Combine(
-            currentDir,
-            "..", // from performance
-            "..", // from tools
-            "tests",
-            "indicators"));
+        string? repoRoot = currentDir;
+        
+        while (repoRoot != null && !Directory.Exists(Path.Combine(repoRoot, ".git")))
+        {
+            repoRoot = Path.GetDirectoryName(repoRoot);
+        }
+        
+        if (repoRoot == null)
+        {
+            Console.Error.WriteLine("Error: Could not find repository root (no .git directory found)");
+            Console.Error.WriteLine($"Current directory: {currentDir}");
+            return 1;
+        }
+        
+        string testIndicatorsPath = Path.Combine(repoRoot, "tests", "indicators");
         
         if (!Directory.Exists(testIndicatorsPath))
         {
             Console.Error.WriteLine($"Error: Test indicators directory not found at {testIndicatorsPath}");
-            Console.Error.WriteLine($"Current directory: {currentDir}");
+            Console.Error.WriteLine($"Repository root: {repoRoot}");
             return 1;
         }
 
