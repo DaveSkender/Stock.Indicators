@@ -28,6 +28,11 @@ public static partial class Beta
             .WithStyle(Style.Series)
             .Build();
 
+    // BETA Buffer Listing
+    internal static readonly IndicatorListing BufferListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Buffer)
+            .Build();
+
     // No StreamListing for BETA.
-    // No BufferListing for BETA.
 }
