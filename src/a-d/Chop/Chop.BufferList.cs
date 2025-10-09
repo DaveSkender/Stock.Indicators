@@ -70,16 +70,16 @@ public class ChopList : BufferList<ChopResult>, IBufferList, IChop
                 double maxTrueHigh = double.MinValue;
                 double minTrueLow = double.MaxValue;
 
-                foreach (var item in _buffer)
+                foreach ((double TrueHigh, double TrueLow, double TrueRange) in _buffer)
                 {
-                    sumTrueRange += item.TrueRange;
-                    if (item.TrueHigh > maxTrueHigh)
+                    sumTrueRange += TrueRange;
+                    if (TrueHigh > maxTrueHigh)
                     {
-                        maxTrueHigh = item.TrueHigh;
+                        maxTrueHigh = TrueHigh;
                     }
-                    if (item.TrueLow < minTrueLow)
+                    if (TrueLow < minTrueLow)
                     {
-                        minTrueLow = item.TrueLow;
+                        minTrueLow = TrueLow;
                     }
                 }
 

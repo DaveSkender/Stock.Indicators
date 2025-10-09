@@ -54,7 +54,7 @@ public class CorrelationList : BufferList<CorrResult>, ICorrelation
 
         if (_buffer.Count == LookbackPeriods)
         {
-            var bufferArray = _buffer.ToArray();
+            (double ValueA, double ValueB)[] bufferArray = _buffer.ToArray();
             double[] dataA = new double[bufferArray.Length];
             double[] dataB = new double[bufferArray.Length];
 

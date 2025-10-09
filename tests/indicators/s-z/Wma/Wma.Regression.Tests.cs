@@ -12,5 +12,5 @@ public class WmaTests : RegressionTestBase<WmaResult>
     public override void Buffer() => Assert.Inconclusive("Buffer implementation not yet available");
 
     [TestMethod]
-    public override void Stream() => quoteHub.ToWmaHub(14).Results.AssertEquals(Expected);
+    public override void Stream() => QuoteHub.ToWmaHub(14).Results.AssertEquals(Expected);
 }

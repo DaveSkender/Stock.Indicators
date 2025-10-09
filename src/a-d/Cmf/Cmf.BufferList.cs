@@ -58,10 +58,10 @@ public class CmfList : BufferList<CmfResult>, IBufferList, ICmf
             double? sumMfv = 0;
             double sumVol = 0;
 
-            foreach (var item in _buffer)
+            foreach ((double Volume, double? Mfv) in _buffer)
             {
-                sumMfv += item.Mfv;
-                sumVol += item.Volume;
+                sumMfv += Mfv;
+                sumVol += Volume;
             }
 
             double? avgMfv = sumMfv / LookbackPeriods;

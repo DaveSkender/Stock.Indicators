@@ -12,5 +12,5 @@ public class AlligatorTests : RegressionTestBase<AlligatorResult>
     public override void Buffer() => Assert.Inconclusive("Buffer implementation not yet available");
 
     [TestMethod]
-    public override void Stream() => quoteHub.ToAlligatorHub().Results.AssertEquals(Expected);
+    public override void Stream() => QuoteHub.ToAlligatorHub().Results.AssertEquals(Expected);
 }

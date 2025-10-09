@@ -103,7 +103,7 @@ public class UltimateList : BufferList<UltimateResult>, IUltimate, IBufferList
             double sumTr3 = 0;  // long period
 
             // Convert buffer to array for indexed access
-            var bufferArray = _buffer.ToArray();
+            (double Bp, double Tr)[] bufferArray = _buffer.ToArray();
             int bufferLength = bufferArray.Length;
 
             // Calculate sums for all three periods

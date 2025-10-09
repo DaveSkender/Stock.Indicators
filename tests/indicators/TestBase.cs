@@ -105,7 +105,7 @@ public abstract class RegressionTestBase<TResult>(string filename) : TestBase
         return hub;
     }
 
-    protected static QuoteHub<Quote> quoteHub { get; } = CreateQuoteHub();
+    protected static QuoteHub<Quote> QuoteHub { get; } = CreateQuoteHub();
 
     public abstract void Series();
     public abstract void Buffer();

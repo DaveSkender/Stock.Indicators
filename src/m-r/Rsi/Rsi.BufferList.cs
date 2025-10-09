@@ -78,10 +78,10 @@ public class RsiList : BufferList<RsiResult>, IBufferReusable, IRsi
             double sumGain = 0;
             double sumLoss = 0;
 
-            foreach (var item in _buffer)
+            foreach ((double Gain, double Loss) in _buffer)
             {
-                sumGain += item.Gain;
-                sumLoss += item.Loss;
+                sumGain += Gain;
+                sumLoss += Loss;
             }
 
             _avgGain = sumGain / LookbackPeriods;

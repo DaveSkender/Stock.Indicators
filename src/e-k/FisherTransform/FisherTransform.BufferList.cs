@@ -53,8 +53,15 @@ public class FisherTransformList : BufferList<FisherTransformResult>, IBufferReu
 
         foreach (double price in _priceBuffer)
         {
-            if (price < minPrice) minPrice = price;
-            if (price > maxPrice) maxPrice = price;
+            if (price < minPrice)
+            {
+                minPrice = price;
+            }
+
+            if (price > maxPrice)
+            {
+                maxPrice = price;
+            }
         }
 
         double? fisher;

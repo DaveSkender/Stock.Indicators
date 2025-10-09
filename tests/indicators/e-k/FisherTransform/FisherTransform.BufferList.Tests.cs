@@ -29,9 +29,13 @@ public class FisherTransform : BufferListTestBase, ITestReusableBufferList
             .WhenTypeIs<double>()
             .Using<double?>(ctx => {
                 if (ctx.Expectation.HasValue && ctx.Subject.HasValue)
+                {
                     ctx.Subject.Value.Should().BeApproximately(ctx.Expectation.Value, 1e-13);
+                }
                 else
+                {
                     ctx.Subject.Should().Be(ctx.Expectation);
+                }
             })
             .WhenTypeIs<double?>());
     }
@@ -53,9 +57,13 @@ public class FisherTransform : BufferListTestBase, ITestReusableBufferList
             .WhenTypeIs<double>()
             .Using<double?>(ctx => {
                 if (ctx.Expectation.HasValue && ctx.Subject.HasValue)
+                {
                     ctx.Subject.Value.Should().BeApproximately(ctx.Expectation.Value, 1e-13);
+                }
                 else
+                {
                     ctx.Subject.Should().Be(ctx.Expectation);
+                }
             })
             .WhenTypeIs<double?>());
     }
@@ -74,9 +82,13 @@ public class FisherTransform : BufferListTestBase, ITestReusableBufferList
             .WhenTypeIs<double>()
             .Using<double?>(ctx => {
                 if (ctx.Expectation.HasValue && ctx.Subject.HasValue)
+                {
                     ctx.Subject.Value.Should().BeApproximately(ctx.Expectation.Value, 1e-13);
+                }
                 else
+                {
                     ctx.Subject.Should().Be(ctx.Expectation);
+                }
             })
             .WhenTypeIs<double?>());
     }
@@ -104,9 +116,13 @@ public class FisherTransform : BufferListTestBase, ITestReusableBufferList
             .WhenTypeIs<double>()
             .Using<double?>(ctx => {
                 if (ctx.Expectation.HasValue && ctx.Subject.HasValue)
+                {
                     ctx.Subject.Value.Should().BeApproximately(ctx.Expectation.Value, 1e-13);
+                }
                 else
+                {
                     ctx.Subject.Should().Be(ctx.Expectation);
+                }
             })
             .WhenTypeIs<double?>());
     }
@@ -128,9 +144,13 @@ public class FisherTransform : BufferListTestBase, ITestReusableBufferList
             .WhenTypeIs<double>()
             .Using<double?>(ctx => {
                 if (ctx.Expectation.HasValue && ctx.Subject.HasValue)
+                {
                     ctx.Subject.Value.Should().BeApproximately(ctx.Expectation.Value, 1e-13);
+                }
                 else
+                {
                     ctx.Subject.Should().Be(ctx.Expectation);
+                }
             })
             .WhenTypeIs<double?>());
 
@@ -149,9 +169,13 @@ public class FisherTransform : BufferListTestBase, ITestReusableBufferList
             .WhenTypeIs<double>()
             .Using<double?>(ctx => {
                 if (ctx.Expectation.HasValue && ctx.Subject.HasValue)
+                {
                     ctx.Subject.Value.Should().BeApproximately(ctx.Expectation.Value, 1e-13);
+                }
                 else
+                {
                     ctx.Subject.Should().Be(ctx.Expectation);
+                }
             })
             .WhenTypeIs<double?>());
     }

@@ -50,8 +50,9 @@ public class Beta : BufferListTestBase
     [TestMethod]
     public void AddReusableItemsBatch()
     {
-        BetaList sut = new(lookbackPeriods, type);
-        sut.Add(evalReusables, mrktReusables);
+        BetaList sut = new(lookbackPeriods, type) {
+            { evalReusables, mrktReusables }
+        };
 
         sut.Should().HaveCount(evalReusables.Count);
         sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());

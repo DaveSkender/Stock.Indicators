@@ -122,15 +122,15 @@ public class StochList : BufferList<StochResult>, IStoch, IBufferList
             double highHigh = double.MinValue;
             double lowLow = double.MaxValue;
 
-            foreach (var item in _hlcBuffer)
+            foreach ((double High, double Low, double Close) in _hlcBuffer)
             {
-                if (item.High > highHigh)
+                if (High > highHigh)
                 {
-                    highHigh = item.High;
+                    highHigh = High;
                 }
-                if (item.Low < lowLow)
+                if (Low < lowLow)
                 {
-                    lowLow = item.Low;
+                    lowLow = Low;
                 }
             }
 
