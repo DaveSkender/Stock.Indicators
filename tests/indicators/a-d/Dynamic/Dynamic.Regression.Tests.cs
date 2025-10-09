@@ -9,7 +9,7 @@ public class DynamicTests : RegressionTestBase<DynamicResult>
     public override void Series() => Quotes.ToDynamic(14).AssertEquals(Expected);
 
     [TestMethod]
-    public override void Buffer() => Assert.Inconclusive("Buffer implementation not yet available");
+    public override void Buffer() => new DynamicList(14, 0.6, Quotes).AssertEquals(Expected);
 
     [TestMethod]
     public override void Stream() => Assert.Inconclusive("Stream implementation not yet available");
