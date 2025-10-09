@@ -5,9 +5,7 @@ namespace Skender.Stock.Indicators;
 /// </summary>
 public class StochList : BufferList<StochResult>, IStoch, IBufferList
 {
-    private readonly Queue<double> _highBuffer;
-    private readonly Queue<double> _lowBuffer;
-    private readonly Queue<double> _closeBuffer;
+    private readonly Queue<(double High, double Low, double Close)> _hlcBuffer;
     private readonly Queue<double> _rawKBuffer;
     private readonly Queue<double> _smoothKBuffer;
 
@@ -40,9 +38,7 @@ public class StochList : BufferList<StochResult>, IStoch, IBufferList
         DFactor = dFactor;
         MovingAverageType = movingAverageType;
 
-        _highBuffer = new Queue<double>(lookbackPeriods);
-        _lowBuffer = new Queue<double>(lookbackPeriods);
-        _closeBuffer = new Queue<double>(lookbackPeriods);
+        _hlcBuffer = new Queue<(double, double, double)>(lookbackPeriods);
         _rawKBuffer = new Queue<double>(smoothPeriods);
         _smoothKBuffer = new Queue<double>(signalPeriods);
     }
@@ -116,17 +112,27 @@ public class StochList : BufferList<StochResult>, IStoch, IBufferList
     /// <param name="close">The close price.</param>
     public void Add(DateTime timestamp, double high, double low, double close)
     {
-        // Update rolling buffers using BufferUtilities
-        _highBuffer.Update(LookbackPeriods, high);
-        _lowBuffer.Update(LookbackPeriods, low);
-        _closeBuffer.Update(LookbackPeriods, close);
+        // Update rolling buffer using BufferUtilities with consolidated tuple
+        _hlcBuffer.Update(LookbackPeriods, (high, low, close));
 
         // Calculate raw %K oscillator when we have enough data
         double rawK = double.NaN;
-        if (_highBuffer.Count == LookbackPeriods)
+        if (_hlcBuffer.Count == LookbackPeriods)
         {
-            double highHigh = _highBuffer.Max();
-            double lowLow = _lowBuffer.Min();
+            double highHigh = double.MinValue;
+            double lowLow = double.MaxValue;
+
+            foreach (var item in _hlcBuffer)
+            {
+                if (item.High > highHigh)
+                {
+                    highHigh = item.High;
+                }
+                if (item.Low < lowLow)
+                {
+                    lowLow = item.Low;
+                }
+            }
 
             rawK = highHigh - lowLow != 0
                 ? 100.0 * (close - lowLow) / (highHigh - lowLow)
@@ -229,9 +235,7 @@ public class StochList : BufferList<StochResult>, IStoch, IBufferList
     public override void Clear()
     {
         ClearInternal();
-        _highBuffer.Clear();
-        _lowBuffer.Clear();
-        _closeBuffer.Clear();
+        _hlcBuffer.Clear();
         _rawKBuffer.Clear();
         _smoothKBuffer.Clear();
         _prevSmoothK = double.NaN;

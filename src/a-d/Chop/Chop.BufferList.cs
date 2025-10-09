@@ -5,9 +5,7 @@ namespace Skender.Stock.Indicators;
 /// </summary>
 public class ChopList : BufferList<ChopResult>, IBufferList, IChop
 {
-    private readonly Queue<double> _trueHighBuffer;
-    private readonly Queue<double> _trueLowBuffer;
-    private readonly Queue<double> _trueRangeBuffer;
+    private readonly Queue<(double TrueHigh, double TrueLow, double TrueRange)> _buffer;
     private double _previousClose;
     private bool _isInitialized;
 
@@ -20,9 +18,7 @@ public class ChopList : BufferList<ChopResult>, IBufferList, IChop
         Chop.Validate(lookbackPeriods);
         LookbackPeriods = lookbackPeriods;
 
-        _trueHighBuffer = new Queue<double>(lookbackPeriods);
-        _trueLowBuffer = new Queue<double>(lookbackPeriods);
-        _trueRangeBuffer = new Queue<double>(lookbackPeriods);
+        _buffer = new Queue<(double, double, double)>(lookbackPeriods);
         _isInitialized = false;
     }
 
@@ -64,17 +60,29 @@ public class ChopList : BufferList<ChopResult>, IBufferList, IChop
             double trueLow = Math.Min(low, _previousClose);
             double trueRange = trueHigh - trueLow;
 
-            // Update buffers
-            _trueHighBuffer.Update(LookbackPeriods, trueHigh);
-            _trueLowBuffer.Update(LookbackPeriods, trueLow);
-            _trueRangeBuffer.Update(LookbackPeriods, trueRange);
+            // Update buffer with consolidated tuple
+            _buffer.Update(LookbackPeriods, (trueHigh, trueLow, trueRange));
 
             // Calculate CHOP when we have enough data
-            if (_trueRangeBuffer.Count == LookbackPeriods)
+            if (_buffer.Count == LookbackPeriods)
             {
-                double sumTrueRange = _trueRangeBuffer.Sum();
-                double maxTrueHigh = _trueHighBuffer.Max();
-                double minTrueLow = _trueLowBuffer.Min();
+                double sumTrueRange = 0;
+                double maxTrueHigh = double.MinValue;
+                double minTrueLow = double.MaxValue;
+
+                foreach (var item in _buffer)
+                {
+                    sumTrueRange += item.TrueRange;
+                    if (item.TrueHigh > maxTrueHigh)
+                    {
+                        maxTrueHigh = item.TrueHigh;
+                    }
+                    if (item.TrueLow < minTrueLow)
+                    {
+                        minTrueLow = item.TrueLow;
+                    }
+                }
+
                 double range = maxTrueHigh - minTrueLow;
 
                 if (range != 0)
@@ -104,9 +112,7 @@ public class ChopList : BufferList<ChopResult>, IBufferList, IChop
     public override void Clear()
     {
         ClearInternal();
-        _trueHighBuffer.Clear();
-        _trueLowBuffer.Clear();
-        _trueRangeBuffer.Clear();
+        _buffer.Clear();
         _previousClose = 0;
         _isInitialized = false;
     }

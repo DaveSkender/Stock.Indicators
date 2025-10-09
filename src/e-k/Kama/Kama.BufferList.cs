@@ -80,7 +80,6 @@ public class KamaList : BufferList<KamaResult>, IBufferReusable, IKama
         if (_buffer.Count < _erPeriods)
         {
             AddInternal(new KamaResult(timestamp));
-            PruneList();
             return;
         }
 

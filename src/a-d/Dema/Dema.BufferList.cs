@@ -54,20 +54,23 @@ public class DemaList : BufferList<DemaResult>, IBufferReusable, IDema
     /// <inheritdoc />
     public void Add(DateTime timestamp, double value)
     {
-        // update buffer
-        if (_buffer.Count == LookbackPeriods)
-        {
-            _bufferSum -= _buffer.Dequeue();
-        }
+        // Use BufferUtilities extension method with dequeue tracking for running sum maintenance
+        double? dequeuedValue = _buffer.UpdateWithDequeue(LookbackPeriods, value);
 
-        _buffer.Enqueue(value);
-        _bufferSum += value;
+        // Update running sum efficiently
+        if (dequeuedValue.HasValue)
+        {
+            _bufferSum = _bufferSum - dequeuedValue.Value + value;
+        }
+        else
+        {
+            _bufferSum += value;
+        }
 
         // add nulls for incalculable periods
         if (Count < LookbackPeriods - 1)
         {
             AddInternal(new DemaResult(timestamp));
-            PruneList();
             return;
         }
 
