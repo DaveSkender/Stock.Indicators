@@ -20,8 +20,13 @@ public class PivotPointsTests : TestBase
         listing.Category.Should().Be(Category.PriceTrend);
         listing.MethodName.Should().Be("ToPivotPoints");
 
-        listing.Parameters?.Count.Should().Be(1);
-        // No parameters for this indicator
+        listing.Parameters?.Count.Should().Be(2);
+
+        IndicatorParam windowSizeParam = listing.Parameters.SingleOrDefault(p => p.ParameterName == "windowSize");
+        windowSizeParam.Should().NotBeNull();
+
+        IndicatorParam pointTypeParam = listing.Parameters.SingleOrDefault(p => p.ParameterName == "pointType");
+        pointTypeParam.Should().NotBeNull();
 
         listing.Results.Should().NotBeNull();
         listing.Results.Should().HaveCount(7);

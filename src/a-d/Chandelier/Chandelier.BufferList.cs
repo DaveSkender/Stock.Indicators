@@ -6,8 +6,7 @@ namespace Skender.Stock.Indicators;
 public class ChandelierList : BufferList<ChandelierResult>, IBufferList, IChandelier
 {
     private readonly AtrList _atrList;
-    private readonly Queue<double> _highBuffer;
-    private readonly Queue<double> _lowBuffer;
+    private readonly Queue<(double High, double Low)> _buffer;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ChandelierList"/> class.
@@ -23,8 +22,7 @@ public class ChandelierList : BufferList<ChandelierResult>, IBufferList, IChande
         Type = type;
 
         _atrList = new AtrList(lookbackPeriods);
-        _highBuffer = new Queue<double>(lookbackPeriods);
-        _lowBuffer = new Queue<double>(lookbackPeriods);
+        _buffer = new Queue<(double, double)>(lookbackPeriods);
     }
 
     /// <summary>
@@ -66,26 +64,39 @@ public class ChandelierList : BufferList<ChandelierResult>, IBufferList, IChande
         _atrList.Add(quote);
         AtrResult atrResult = _atrList[^1];
 
-        // Update high/low buffers
-        _highBuffer.Update(LookbackPeriods, high);
-        _lowBuffer.Update(LookbackPeriods, low);
+        // Update buffer with consolidated tuple
+        _buffer.Update(LookbackPeriods, (high, low));
 
         double? exit = null;
 
         // Calculate exit when we have enough data
-        if (_highBuffer.Count == LookbackPeriods && atrResult.Atr.HasValue)
+        if (_buffer.Count == LookbackPeriods && atrResult.Atr.HasValue)
         {
             double atr = atrResult.Atr.Value;
 
             switch (Type)
             {
                 case Direction.Long:
-                    double maxHigh = _highBuffer.Max();
+                    double maxHigh = double.MinValue;
+                    foreach (var item in _buffer)
+                    {
+                        if (item.High > maxHigh)
+                        {
+                            maxHigh = item.High;
+                        }
+                    }
                     exit = maxHigh - (atr * Multiplier);
                     break;
 
                 case Direction.Short:
-                    double minLow = _lowBuffer.Min();
+                    double minLow = double.MaxValue;
+                    foreach (var item in _buffer)
+                    {
+                        if (item.Low < minLow)
+                        {
+                            minLow = item.Low;
+                        }
+                    }
                     exit = minLow + (atr * Multiplier);
                     break;
 
@@ -113,8 +124,7 @@ public class ChandelierList : BufferList<ChandelierResult>, IBufferList, IChande
     {
         ClearInternal();
         _atrList.Clear();
-        _highBuffer.Clear();
-        _lowBuffer.Clear();
+        _buffer.Clear();
     }
 }
 

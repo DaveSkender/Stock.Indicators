@@ -12,8 +12,8 @@ public class CustomIndicators
 
     private static readonly IReadOnlyList<Quote> quotes = Data.GetDefault();
     private static readonly IReadOnlyList<Quote> badQuotes = Data.GetBad();
-    private static readonly IReadOnlyList<Quote> noquotes = [];
     private static readonly IReadOnlyList<Quote> onequote = Data.GetDefault(1);
+    private static readonly IReadOnlyList<Quote> noquotes = [];
 
     [TestMethod]
     public void Standard()

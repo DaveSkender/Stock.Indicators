@@ -6,8 +6,7 @@ namespace Skender.Stock.Indicators;
 public class CmfList : BufferList<CmfResult>, IBufferList, ICmf
 {
     private readonly AdlList _adlList;
-    private readonly Queue<double> _volumeBuffer;
-    private readonly Queue<double?> _mfvBuffer;
+    private readonly Queue<(double Volume, double? Mfv)> _buffer;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="CmfList"/> class.
@@ -19,8 +18,7 @@ public class CmfList : BufferList<CmfResult>, IBufferList, ICmf
         LookbackPeriods = lookbackPeriods;
 
         _adlList = [];
-        _volumeBuffer = new Queue<double>(lookbackPeriods);
-        _mfvBuffer = new Queue<double?>(lookbackPeriods);
+        _buffer = new Queue<(double, double?)>(lookbackPeriods);
     }
 
     /// <summary>
@@ -49,26 +47,21 @@ public class CmfList : BufferList<CmfResult>, IBufferList, ICmf
         _adlList.Add(quote);
         AdlResult adlResult = _adlList[^1];
 
-        // Update buffers
-        _volumeBuffer.Update(LookbackPeriods, volume);
-        _mfvBuffer.Update(LookbackPeriods, adlResult.MoneyFlowVolume);
+        // Update buffer with consolidated tuple
+        _buffer.Update(LookbackPeriods, (volume, adlResult.MoneyFlowVolume));
 
         double? cmf = null;
 
         // Calculate CMF when we have enough data
-        if (_volumeBuffer.Count == LookbackPeriods)
+        if (_buffer.Count == LookbackPeriods)
         {
             double? sumMfv = 0;
             double sumVol = 0;
 
-            foreach (double? mfv in _mfvBuffer)
+            foreach (var item in _buffer)
             {
-                sumMfv += mfv;
-            }
-
-            foreach (double vol in _volumeBuffer)
-            {
-                sumVol += vol;
+                sumMfv += item.Mfv;
+                sumVol += item.Volume;
             }
 
             double? avgMfv = sumMfv / LookbackPeriods;
@@ -103,8 +96,7 @@ public class CmfList : BufferList<CmfResult>, IBufferList, ICmf
     {
         ClearInternal();
         _adlList.Clear();
-        _volumeBuffer.Clear();
-        _mfvBuffer.Clear();
+        _buffer.Clear();
     }
 }
 

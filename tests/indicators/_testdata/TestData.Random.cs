@@ -1,4 +1,4 @@
-namespace Test.Data;
+namespace Tests.Data;
 
 /// <summary>
 /// Geometric Brownian Motion (GMB) is a random simulator of market movement.

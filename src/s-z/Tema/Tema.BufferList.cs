@@ -74,7 +74,6 @@ public class TemaList : BufferList<TemaResult>, IBufferReusable, ITema
         if (Count < LookbackPeriods - 1)
         {
             AddInternal(new TemaResult(timestamp));
-            PruneList();
             return;
         }
 

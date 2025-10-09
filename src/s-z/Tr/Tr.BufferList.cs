@@ -43,7 +43,6 @@ public class TrList : BufferList<TrResult>, IBufferList
         {
             _buffer.Update(2, curr);
             AddInternal(new TrResult(timestamp, null));
-            PruneList();
             return;
         }
 

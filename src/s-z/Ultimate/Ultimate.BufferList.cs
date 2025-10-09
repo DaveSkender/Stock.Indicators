@@ -5,8 +5,7 @@ namespace Skender.Stock.Indicators;
 /// </summary>
 public class UltimateList : BufferList<UltimateResult>, IUltimate, IBufferList
 {
-    private readonly Queue<double> _bpBuffer;
-    private readonly Queue<double> _trBuffer;
+    private readonly Queue<(double Bp, double Tr)> _buffer;
     private double _previousClose;
     private bool _isInitialized;
 
@@ -26,8 +25,7 @@ public class UltimateList : BufferList<UltimateResult>, IUltimate, IBufferList
         MiddlePeriods = middlePeriods;
         LongPeriods = longPeriods;
 
-        _bpBuffer = new Queue<double>(longPeriods);
-        _trBuffer = new Queue<double>(longPeriods);
+        _buffer = new Queue<(double, double)>(longPeriods);
         _isInitialized = false;
     }
 
@@ -81,7 +79,6 @@ public class UltimateList : BufferList<UltimateResult>, IUltimate, IBufferList
             _isInitialized = true;
 
             AddInternal(new UltimateResult(timestamp, null));
-            PruneList();
             return;
         }
 
@@ -89,14 +86,13 @@ public class UltimateList : BufferList<UltimateResult>, IUltimate, IBufferList
         double bp = close - Math.Min(low, _previousClose);
         double tr = Math.Max(high, _previousClose) - Math.Min(low, _previousClose);
 
-        // Update buffers
-        _bpBuffer.Update(LongPeriods, bp);
-        _trBuffer.Update(LongPeriods, tr);
+        // Update buffer with consolidated tuple
+        _buffer.Update(LongPeriods, (bp, tr));
 
         double? ultimate = null;
 
         // Calculate Ultimate Oscillator when we have enough data
-        if (_bpBuffer.Count >= LongPeriods)
+        if (_buffer.Count >= LongPeriods)
         {
             double sumBp1 = 0;  // short period
             double sumBp2 = 0;  // middle period
@@ -106,31 +102,29 @@ public class UltimateList : BufferList<UltimateResult>, IUltimate, IBufferList
             double sumTr2 = 0;  // middle period
             double sumTr3 = 0;  // long period
 
-            // Convert queues to arrays for indexed access
-            double[] bpArray = _bpBuffer.ToArray();
-            double[] trArray = _trBuffer.ToArray();
-
-            int bufferLength = bpArray.Length;
+            // Convert buffer to array for indexed access
+            var bufferArray = _buffer.ToArray();
+            int bufferLength = bufferArray.Length;
 
             // Calculate sums for all three periods
             for (int i = 0; i < bufferLength; i++)
             {
                 // Long period includes all values
-                sumBp3 += bpArray[i];
-                sumTr3 += trArray[i];
+                sumBp3 += bufferArray[i].Bp;
+                sumTr3 += bufferArray[i].Tr;
 
                 // Middle period includes more recent values
                 if (i >= bufferLength - MiddlePeriods)
                 {
-                    sumBp2 += bpArray[i];
-                    sumTr2 += trArray[i];
+                    sumBp2 += bufferArray[i].Bp;
+                    sumTr2 += bufferArray[i].Tr;
                 }
 
                 // Short period includes most recent values
                 if (i >= bufferLength - ShortPeriods)
                 {
-                    sumBp1 += bpArray[i];
-                    sumTr1 += trArray[i];
+                    sumBp1 += bufferArray[i].Bp;
+                    sumTr1 += bufferArray[i].Tr;
                 }
             }
 
@@ -162,8 +156,7 @@ public class UltimateList : BufferList<UltimateResult>, IUltimate, IBufferList
     public override void Clear()
     {
         ClearInternal();
-        _bpBuffer.Clear();
-        _trBuffer.Clear();
+        _buffer.Clear();
         _previousClose = 0;
         _isInitialized = false;
     }

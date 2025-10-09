@@ -16,7 +16,7 @@ public static partial class Epma
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
     public static IReadOnlyList<EpmaResult> ToEpma<T>(
         this IReadOnlyList<T> source,
-        int lookbackPeriods)
+        int lookbackPeriods = 10)
         where T : IReusable
     {
         // check parameter arguments

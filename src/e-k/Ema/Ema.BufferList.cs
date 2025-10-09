@@ -63,7 +63,6 @@ public class EmaList : BufferList<EmaResult>, IBufferReusable, IEma
         if (Count < LookbackPeriods - 1)
         {
             AddInternal(new EmaResult(timestamp));
-            PruneList();
             return;
         }
 
@@ -75,7 +74,6 @@ public class EmaList : BufferList<EmaResult>, IBufferReusable, IEma
             AddInternal(new EmaResult(
                 timestamp,
                 _bufferSum / LookbackPeriods));
-            PruneList();
             return;
         }
 

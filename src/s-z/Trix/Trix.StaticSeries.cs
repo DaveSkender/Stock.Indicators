@@ -15,7 +15,7 @@ public static partial class Trix
     /// <exception cref="ArgumentNullException">Thrown when the source list is null.</exception>
     public static IReadOnlyList<TrixResult> ToTrix<T>(
         this IReadOnlyList<T> source,
-        int lookbackPeriods)
+        int lookbackPeriods = 14)
         where T : IReusable
     {
         // check parameter arguments
