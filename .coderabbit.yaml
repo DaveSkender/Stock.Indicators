@@ -69,7 +69,9 @@ reviews:
     - "**"                  # Include all (base)
     - "!.specify/"          # Spec Kit (except memory)
     - ".specify/memory/**"  # (keep memory)
-    - "!.github/prompts/speckit.*"  # Spec Kit command templates
+    - "!.github/prompts/speckit.*"  # Spec Kit prompts
+    - "!_testdata/*.csv"    # Test data
+    - "!_testdata/*.json"   # Test data
     - "!node_modules/"      # NPM dependencies
     - "!*-lock.json"        # NPM/PNPM lock files
     - "!packages/"          # NuGet packages cache
@@ -81,7 +83,6 @@ reviews:
     - "!*.g.cs"             # Generated source files
     - "!*.xlsx"             # Manual calculation spreadsheets
     - "!*.bak"              # Backup files
-    - "!*.Baseline.json"    # Regression test data
 
   # Path-based configuration
   path_instructions:
