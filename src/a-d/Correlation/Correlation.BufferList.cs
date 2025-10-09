@@ -6,8 +6,7 @@ namespace Skender.Stock.Indicators;
 /// </summary>
 public class CorrelationList : BufferList<CorrResult>
 {
-    private readonly Queue<double> valueABuffer;
-    private readonly Queue<double> valueBBuffer;
+    private readonly Queue<(double ValueA, double ValueB)> _buffer;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="CorrelationList"/> class.
@@ -18,8 +17,7 @@ public class CorrelationList : BufferList<CorrResult>
         Correlation.Validate(lookbackPeriods);
         LookbackPeriods = lookbackPeriods;
 
-        valueABuffer = new Queue<double>(lookbackPeriods);
-        valueBBuffer = new Queue<double>(lookbackPeriods);
+        _buffer = new Queue<(double, double)>(lookbackPeriods);
     }
 
     /// <summary>
@@ -48,17 +46,23 @@ public class CorrelationList : BufferList<CorrResult>
     /// <param name="valueB">The value from series B.</param>
     public void Add(DateTime timestamp, double valueA, double valueB)
     {
-        // Update buffers
-        valueABuffer.Update(LookbackPeriods, valueA);
-        valueBBuffer.Update(LookbackPeriods, valueB);
+        // Update buffer with consolidated tuple
+        _buffer.Update(LookbackPeriods, (valueA, valueB));
 
         // Calculate correlation when we have enough data
         CorrResult result;
 
-        if (valueABuffer.Count == LookbackPeriods)
+        if (_buffer.Count == LookbackPeriods)
         {
-            double[] dataA = [.. valueABuffer];
-            double[] dataB = [.. valueBBuffer];
+            var bufferArray = _buffer.ToArray();
+            double[] dataA = new double[bufferArray.Length];
+            double[] dataB = new double[bufferArray.Length];
+
+            for (int i = 0; i < bufferArray.Length; i++)
+            {
+                dataA[i] = bufferArray[i].ValueA;
+                dataB[i] = bufferArray[i].ValueB;
+            }
 
             result = Correlation.PeriodCorrelation(timestamp, dataA, dataB);
         }
@@ -124,8 +128,7 @@ public class CorrelationList : BufferList<CorrResult>
     public override void Clear()
     {
         ClearInternal();
-        valueABuffer.Clear();
-        valueBBuffer.Clear();
+        _buffer.Clear();
     }
 }
 

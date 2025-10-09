@@ -38,8 +38,8 @@ public class RocList : BufferList<RocResult>, IBufferReusable, IRoc
     /// <inheritdoc />
     public void Add(DateTime timestamp, double value)
     {
-        // Add new value to buffer
-        buffer.Enqueue(value);
+        // Use BufferUtilities extension method for consistent buffer management
+        buffer.Update(LookbackPeriods + 1, value);
 
         double roc;
         double momentum;
@@ -53,9 +53,6 @@ public class RocList : BufferList<RocResult>, IBufferReusable, IRoc
             roc = backValue == 0
                 ? double.NaN
                 : 100d * momentum / backValue;
-
-            // Remove oldest value to maintain buffer size
-            buffer.Dequeue();
         }
         else
         {

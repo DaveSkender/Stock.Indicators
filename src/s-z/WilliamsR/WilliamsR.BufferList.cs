@@ -5,8 +5,7 @@ namespace Skender.Stock.Indicators;
 /// </summary>
 public class WilliamsRList : BufferList<WilliamsResult>, IWilliamsR, IBufferList
 {
-    private readonly Queue<double> _highBuffer;
-    private readonly Queue<double> _lowBuffer;
+    private readonly Queue<(double High, double Low)> _buffer;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="WilliamsRList"/> class.
@@ -18,8 +17,7 @@ public class WilliamsRList : BufferList<WilliamsResult>, IWilliamsR, IBufferList
         WilliamsR.Validate(lookbackPeriods);
         LookbackPeriods = lookbackPeriods;
 
-        _highBuffer = new Queue<double>(lookbackPeriods);
-        _lowBuffer = new Queue<double>(lookbackPeriods);
+        _buffer = new Queue<(double, double)>(lookbackPeriods);
     }
 
     /// <summary>
@@ -68,16 +66,27 @@ public class WilliamsRList : BufferList<WilliamsResult>, IWilliamsR, IBufferList
     /// <param name="close">The close price.</param>
     public void Add(DateTime timestamp, double high, double low, double close)
     {
-        // Update rolling buffers using BufferUtilities
-        _highBuffer.Update(LookbackPeriods, high);
-        _lowBuffer.Update(LookbackPeriods, low);
+        // Update rolling buffer using BufferUtilities with consolidated tuple
+        _buffer.Update(LookbackPeriods, (high, low));
 
         // Calculate Williams %R when we have enough data
         double? williamsR = null;
-        if (_highBuffer.Count == LookbackPeriods)
+        if (_buffer.Count == LookbackPeriods)
         {
-            double highHigh = _highBuffer.Max();
-            double lowLow = _lowBuffer.Min();
+            double highHigh = double.MinValue;
+            double lowLow = double.MaxValue;
+
+            foreach (var item in _buffer)
+            {
+                if (item.High > highHigh)
+                {
+                    highHigh = item.High;
+                }
+                if (item.Low < lowLow)
+                {
+                    lowLow = item.Low;
+                }
+            }
 
             if (highHigh - lowLow != 0)
             {
@@ -101,7 +110,6 @@ public class WilliamsRList : BufferList<WilliamsResult>, IWilliamsR, IBufferList
     public override void Clear()
     {
         ClearInternal();
-        _highBuffer.Clear();
-        _lowBuffer.Clear();
+        _buffer.Clear();
     }
 }

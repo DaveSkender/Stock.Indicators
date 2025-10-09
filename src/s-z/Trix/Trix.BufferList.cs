@@ -70,7 +70,6 @@ public class TrixList : BufferList<TrixResult>, IBufferReusable, ITrix
         if (Count < LookbackPeriods - 1)
         {
             AddInternal(new TrixResult(timestamp));
-            PruneList();
             return;
         }
 
@@ -84,7 +83,6 @@ public class TrixList : BufferList<TrixResult>, IBufferReusable, ITrix
             ema1 = ema2 = ema3 = _bufferSum / LookbackPeriods;
 
             AddInternal(new TrixResult(timestamp));
-            PruneList();
         }
         // normal TRIX calculation
         else
@@ -111,7 +109,6 @@ public class TrixList : BufferList<TrixResult>, IBufferReusable, ITrix
     public void Add(IReusable value)
     {
         ArgumentNullException.ThrowIfNull(value);
-        PruneList();
         Add(value.Timestamp, value.Value);
     }
 
