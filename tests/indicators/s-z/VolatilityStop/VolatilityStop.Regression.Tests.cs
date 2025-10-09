@@ -6,7 +6,7 @@ public class VolatilitystopTests : RegressionTestBase<VolatilityStopResult>
     public VolatilitystopTests() : base("vol-stop.standard.json") { }
 
     [TestMethod]
-    public override void Series() => Quotes.ToVolatilityStop(14, 3).AssertEquals(Expected);
+    public override void Series() => Quotes.ToVolatilityStop().AssertEquals(Expected);
 
     [TestMethod]
     public override void Buffer() => Assert.Inconclusive("Buffer implementation not yet available");

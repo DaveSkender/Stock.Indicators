@@ -16,7 +16,7 @@ public static partial class StarcBands
     /// <returns>A list of <see cref="StarcBandsResult"/> containing the STARC Bands values.</returns>
     public static IReadOnlyList<StarcBandsResult> ToStarcBands<TQuote>(
         this IReadOnlyList<TQuote> quotes,
-        int smaPeriods,
+        int smaPeriods = 5,
         double multiplier = 2,
         int atrPeriods = 10)
         where TQuote : IQuote => quotes

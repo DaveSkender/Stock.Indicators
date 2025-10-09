@@ -6,7 +6,7 @@ public class HmaTests : RegressionTestBase<HmaResult>
     public HmaTests() : base("hma.standard.json") { }
 
     [TestMethod]
-    public override void Series() => Quotes.ToHma(20).AssertEquals(Expected);
+    public override void Series() => Quotes.ToHma().AssertEquals(Expected);
 
     [TestMethod]
     public override void Buffer() => Assert.Inconclusive("Buffer implementation not yet available");

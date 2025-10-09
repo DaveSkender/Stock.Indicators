@@ -6,7 +6,7 @@ public class RenkoatrTests : RegressionTestBase<RenkoResult>
     public RenkoatrTests() : base("renko-atr.standard.json") { }
 
     [TestMethod]
-    public override void Series() => Quotes.ToRenko(14, EndType.Close).AssertEquals(Expected);
+    public override void Series() => Quotes.ToRenkoAtr().AssertEquals(Expected);
 
     [TestMethod]
     public override void Buffer() => Assert.Inconclusive("Buffer implementation not yet available");

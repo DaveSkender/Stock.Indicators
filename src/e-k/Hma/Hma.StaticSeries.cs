@@ -16,7 +16,7 @@ public static partial class Hma
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are less than 2.</exception>
     public static IReadOnlyList<HmaResult> ToHma<T>(
         this IReadOnlyList<T> source,
-        int lookbackPeriods)
+        int lookbackPeriods = 14)
         where T : IReusable
     {
         // check parameter arguments

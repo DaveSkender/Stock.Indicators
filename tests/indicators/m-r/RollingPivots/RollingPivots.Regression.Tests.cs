@@ -6,7 +6,7 @@ public class RollingpivotsTests : RegressionTestBase<RollingPivotsResult>
     public RollingpivotsTests() : base("rolling-pivots.standard.json") { }
 
     [TestMethod]
-    public override void Series() => Quotes.ToRollingPivots(11, 9).AssertEquals(Expected);
+    public override void Series() => Quotes.ToRollingPivots().AssertEquals(Expected);
 
     [TestMethod]
     public override void Buffer() => Assert.Inconclusive("Buffer implementation not yet available");

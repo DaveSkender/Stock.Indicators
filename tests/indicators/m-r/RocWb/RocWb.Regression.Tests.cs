@@ -6,7 +6,7 @@ public class RocwbTests : RegressionTestBase<RocWbResult>
     public RocwbTests() : base("roc-wb.standard.json") { }
 
     [TestMethod]
-    public override void Series() => Quotes.ToRocWb(12, 3, 6).AssertEquals(Expected);
+    public override void Series() => Quotes.ToRocWb().AssertEquals(Expected);
 
     [TestMethod]
     public override void Buffer() => Assert.Inconclusive("Buffer implementation not yet available");
