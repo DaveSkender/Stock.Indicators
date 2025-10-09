@@ -1,9 +1,14 @@
 namespace BufferLists;
 
 [TestClass]
-public class FisherTransform : BufferListTestBase
+public class FisherTransform : BufferListTestBase, ITestReusableBufferList
 {
     private const int lookbackPeriods = 10;
+
+    private static readonly IReadOnlyList<IReusable> reusables
+       = Quotes
+        .Cast<IReusable>()
+        .ToList();
 
     private static readonly IReadOnlyList<FisherTransformResult> series
        = Quotes.ToFisherTransform(lookbackPeriods);
@@ -77,5 +82,54 @@ public class FisherTransform : BufferListTestBase
 
         sut.Should().HaveCount(expected.Count);
         sut.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
+    }
+
+    [TestMethod]
+    public void AddDiscreteValues()
+    {
+        FisherTransformList sut = new(lookbackPeriods);
+
+        foreach (IReusable item in reusables)
+        {
+            sut.Add(item.Timestamp, item.Value);
+        }
+
+        // For FisherTransform with IReusable, we're using Close values
+        // whereas with IQuote we use HL2, so we need to compare to reusable series
+        IReadOnlyList<FisherTransformResult> reusableSeries = reusables.ToFisherTransform(lookbackPeriods);
+
+        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().BeEquivalentTo(reusableSeries, options => options.WithStrictOrdering());
+    }
+
+    [TestMethod]
+    public void AddReusableItems()
+    {
+        FisherTransformList sut = new(lookbackPeriods);
+
+        foreach (IReusable item in reusables)
+        {
+            sut.Add(item);
+        }
+
+        // For FisherTransform with IReusable, we're using Close values
+        // whereas with IQuote we use HL2, so we need to compare to reusable series
+        IReadOnlyList<FisherTransformResult> reusableSeries = reusables.ToFisherTransform(lookbackPeriods);
+
+        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().BeEquivalentTo(reusableSeries, options => options.WithStrictOrdering());
+    }
+
+    [TestMethod]
+    public void AddReusableItemsBatch()
+    {
+        FisherTransformList sut = new(lookbackPeriods) { reusables };
+
+        // For FisherTransform with IReusable, we're using Close values
+        // whereas with IQuote we use HL2, so we need to compare to reusable series
+        IReadOnlyList<FisherTransformResult> reusableSeries = reusables.ToFisherTransform(lookbackPeriods);
+
+        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().BeEquivalentTo(reusableSeries, options => options.WithStrictOrdering());
     }
 }
