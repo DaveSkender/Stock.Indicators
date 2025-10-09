@@ -9,7 +9,7 @@ public class FcbTests : RegressionTestBase<FcbResult>
     public override void Series() => Quotes.ToFcb(2).AssertEquals(Expected);
 
     [TestMethod]
-    public override void Buffer() => Assert.Inconclusive("Buffer implementation not yet available");
+    public override void Buffer() => new FcbList(2, Quotes).AssertEquals(Expected);
 
     [TestMethod]
     public override void Stream() => Assert.Inconclusive("Stream implementation not yet available");

@@ -50,14 +50,14 @@ The following indicators have series-style implementations but lack BufferList i
 - [X] T013 Implement Doji BufferList in `src/a-d/Doji/Doji.BufferList.cs` ✅ PR #1499 ✓ Verified
 - [X] T014 Implement Donchian BufferList in `src/a-d/Donchian/Donchian.BufferList.cs` ✅ PR #1499 ✓ Verified
 - [X] T015 Implement Dpo BufferList in `src/a-d/Dpo/Dpo.BufferList.cs` ✅ PR #1499 ✓ Verified
-- [ ] T016 Implement Dynamic BufferList in `src/a-d/Dynamic/Dynamic.BufferList.cs`
+- [X] T016 Implement Dynamic BufferList in `src/a-d/Dynamic/Dynamic.BufferList.cs` ✅ This PR ✓ Verified
 
 ### BufferList E-K Group (12 indicators)
 
-- [ ] T017 Implement ElderRay BufferList in `src/e-k/ElderRay/ElderRay.BufferList.cs`
-- [ ] T018 Implement Fcb BufferList in `src/e-k/Fcb/Fcb.BufferList.cs`
-- [ ] T019 Implement FisherTransform BufferList in `src/e-k/FisherTransform/FisherTransform.BufferList.cs`
-- [ ] T020 Implement ForceIndex BufferList in `src/e-k/ForceIndex/ForceIndex.BufferList.cs`
+- [X] T017 Implement ElderRay BufferList in `src/e-k/ElderRay/ElderRay.BufferList.cs` ✅ This PR ✓ Verified
+- [X] T018 Implement Fcb BufferList in `src/e-k/Fcb/Fcb.BufferList.cs` ✅ This PR ✓ Verified
+- [X] T019 Implement FisherTransform BufferList in `src/e-k/FisherTransform/FisherTransform.BufferList.cs` ✅ This PR ⚠️ FP precision
+- [X] T020 Implement ForceIndex BufferList in `src/e-k/ForceIndex/ForceIndex.BufferList.cs` ✅ This PR ✓ Verified
 - [ ] T021 Implement Fractal BufferList in `src/e-k/Fractal/Fractal.BufferList.cs`
 - [ ] T022 Implement Gator BufferList in `src/e-k/Gator/Gator.BufferList.cs`
 - [ ] T023 Implement HeikinAshi BufferList in `src/e-k/HeikinAshi/HeikinAshi.BufferList.cs`
