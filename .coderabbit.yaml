@@ -70,8 +70,8 @@ reviews:
     - "!.specify/"          # Spec Kit (except memory)
     - ".specify/memory/**"  # (keep memory)
     - "!.github/prompts/speckit.*"  # Spec Kit prompts
-    - "!_testdata/*.csv"    # Test data
-    - "!_testdata/*.json"   # Test data
+    - "!**/_testdata/**/*.csv"      # Test data
+    - "!**/_testdata/**/*.json"     # Test data
     - "!node_modules/"      # NPM dependencies
     - "!*-lock.json"        # NPM/PNPM lock files
     - "!packages/"          # NuGet packages cache
