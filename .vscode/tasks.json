@@ -385,6 +385,51 @@
       }
     },
     {
+      "label": "Run: Test Application",
+      "detail": "Run the test application tool (exercises all indicators)",
+      "type": "shell",
+      "command": "dotnet run --project tools/application",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "group": "none",
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      }
+    },
+    {
+      "label": "Run: Performance Benchmarks",
+      "detail": "Run BenchmarkDotNet performance tests (Release mode)",
+      "type": "shell",
+      "command": "dotnet run --project tools/performance -c Release",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "group": "none",
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      }
+    },
+    {
+      "label": "Run: Simulation Demo",
+      "detail": "Run streaming indicators simulation demo",
+      "type": "shell",
+      "command": "dotnet run --project tools/simulate",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "group": "none",
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      }
+    },
+    {
       "label": "Generate: Regression test baselines (all)",
       "detail": "Generate all regression test baseline JSON files",
       "type": "shell",
