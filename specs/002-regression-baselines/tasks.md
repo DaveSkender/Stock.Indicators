@@ -598,4 +598,79 @@ Command: /tasks run T031 T032 T033 T034 T035
 - **Estimated completion**: 6-8 focused development sessions with testing and validation
 
 ---
-Last updated: October 7, 2025
+
+## Phase 3 Refactoring: Per-Indicator Test Files (October 8, 2025)
+
+**Context**: The initial implementation used a monolithic `RegressionTests.cs` file with individual test methods for each indicator. This approach was refactored to use individual per-indicator test files following a cleaner inheritance pattern.
+
+**Implementation approach**:
+
+### Architectural changes
+
+1. **RegressionTestBase made generic**:
+   - Changed from `RegressionTestBase` with hardcoded `EmaResult` to `RegressionTestBase<TResult> where TResult : ISeries`
+   - Allows each indicator to specify its result type
+   - Constructor accepts baseline filename parameter
+
+2. **Baseline file consolidation**:
+   - Moved all `*.Baseline.json` files from individual indicator folders to centralized `tests/indicators/_testdata/results/`
+   - Renamed with standardized convention: `{indicatorname}.standard.json` (lowercase)
+   - Example: `tests/indicators/s-z/Sma/Sma.Baseline.json` → `tests/indicators/_testdata/results/sma.standard.json`
+
+3. **Per-indicator regression test files**:
+   - Created `{IndicatorName}.Regression.Tests.cs` in each indicator's test folder
+   - Each test file inherits from `RegressionTestBase<TResult>`
+   - Includes three test methods: `Series()`, `Buffer()`, and `Stream()`
+   - For indicators without Buffer/Stream implementations, methods use `Assert.Inconclusive()`
+
+### Example implementation
+
+```csharp
+using TestsUtilities;
+
+namespace Regression;
+
+[TestClass, TestCategory("Regression")]
+public class SmaTests : RegressionTestBase<SmaResult>
+{
+    public SmaTests() : base("sma.standard.json") { }
+
+    [TestMethod]
+    public override void Series() => Quotes.ToSma(20).AssertEquals(Expected);
+
+    [TestMethod]
+    public override void Buffer() => Quotes.ToSmaList(20).AssertEquals(Expected);
+
+    [TestMethod]
+    public override void Stream() => Assert.Inconclusive("Stream implementation not yet available");
+}
+```
+
+### Completed work
+
+- ✅ Modified `RegressionTestBase` to be generic (`RegressionTestBase<TResult>`)
+- ✅ Moved 75 baseline files to `tests/indicators/_testdata/results/` with standardized naming
+- ✅ Generated 75 individual regression test files (one per indicator)
+- ✅ Deleted obsolete `tests/indicators/RegressionTests.cs` monolithic file
+- ✅ Created Python generator script (`tools/generate_regression_tests.py`) for automation
+
+### Benefits of this approach
+
+1. **Better organization**: Each indicator's regression tests live alongside its other test files
+2. **Type safety**: Generic base class ensures correct result types at compile time
+3. **Easier maintenance**: Changes to an indicator's test only affect one file
+4. **Clear test discovery**: Test runner shows individual indicator tests, not one monolithic class
+5. **Incremental implementation**: Indicators without Buffer/Stream implementations clearly marked
+6. **Reusability**: Test data and patterns centralized in base class
+
+### Task status updates
+
+The following tasks from Phase 3 have been superseded by this refactoring:
+
+- **T019**: ~~Create monolithic `RegressionTests.cs`~~ → Individual `*.Regression.Tests.cs` files per indicator
+- **T020**: ~~Per-indicator test methods in one file~~ → Per-indicator test classes
+- **T022**: ~~Generate 200+ methods~~ → Generated 75 individual test files
+- **T023**: Missing baseline behavior now handled at base class level with clear file-not-found messages
+
+---
+Last updated: October 8, 2025

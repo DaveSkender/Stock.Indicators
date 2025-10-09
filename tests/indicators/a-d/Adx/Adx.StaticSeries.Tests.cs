@@ -1,3 +1,5 @@
+using Test.Data;
+
 namespace StaticSeries;
 
 [TestClass]
@@ -110,7 +112,7 @@ public class Adx : StaticSeriesTestBase
     {
         List<Quote> test859 = File.ReadAllLines("a-d/Adx/issue859quotes.csv")
             .Skip(1)
-            .Select(Imports.QuoteFromCsv)
+            .Select(Test.Data.Convert.QuoteFromCsv)
             .OrderByDescending(x => x.Timestamp)
             .ToList();
 

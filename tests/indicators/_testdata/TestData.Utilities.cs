@@ -1,9 +1,13 @@
-namespace Test.Utilities;
+namespace TestsUtilities;
 
-internal static class StringUtilities
+internal static class Utilities
 {
-    internal static string WithDefaultLineEndings(this string input)
-        => input
-            .Replace("\r\n", "\n", StringComparison.Ordinal)
-            .Replace("\n", Environment.NewLine, StringComparison.Ordinal);
+    internal static void AssertEquals<T>(
+        this IReadOnlyList<T> actual,
+        IReadOnlyList<T> expected
+    ) where T : ISeries
+    => actual.Should().BeEquivalentTo(expected, options => options
+        .WithStrictOrdering()
+        .ComparingByMembers<T>()
+        .WithTracing());
 }

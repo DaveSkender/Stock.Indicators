@@ -91,6 +91,27 @@ public abstract class BufferListTestBase : TestBase
 }
 
 /// <summary>
+/// Base setup for regression tests
+/// </summary>
+public abstract class RegressionTestBase<TResult> : TestBase
+    where TResult : ISeries
+{
+    protected IReadOnlyList<TResult> Expected { get; init; }
+
+    protected static readonly QuoteHub<Quote> quoteHub = new();
+
+    protected RegressionTestBase(string filename)
+    {
+        Expected = Data.Results<TResult>(filename);
+        quoteHub.Add(Quotes);
+    }
+
+    public abstract void Series();
+    public abstract void Buffer();
+    public abstract void Stream();
+}
+
+/// <summary>
 /// Add this to buffer list tests for <see cref="IBufferReusable" /> types.
 /// </summary>
 public interface ITestReusableBufferList
