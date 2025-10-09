@@ -46,6 +46,7 @@ As a developer building real-time trading applications, I need indicators that u
 - **NFR-004**: API design MUST follow existing library conventions (no breaking changes to batch APIs)
 - **NFR-005**: Documentation MUST include streaming usage examples, warmup guidance, and performance characteristics
 - **NFR-006**: Release deliverable MUST leverage existing GitHub Releases automation and update `src/_common/ObsoleteV3.md` with streaming migration guidance per Constitution Principle 5
+- **NFR-007**: Regression tests MUST validate all three implementation styles (Series, BufferList, StreamHub) against baseline results with deterministic equality (NOT approximate equality). Baselines stored in `tests/indicators/_testdata/results/{indicator}.standard.json` and generated using catalog default parameters.
 
 ### Key entities
 
@@ -55,6 +56,7 @@ As a developer building real-time trading applications, I need indicators that u
 - **Quote**: Input entity representing OHLCV data with timestamp
 - **Indicator Result**: Output entity with timestamp, indicator value(s), and metadata
 - **Warmup State**: Tracks whether indicator has sufficient history to produce valid results
+- **Regression Baseline**: JSON-serialized expected results from Series implementation using standard test data (502 quotes), serving as reference for BufferList and StreamHub parity validation
 
 ## Terminology & Definitions
 
@@ -63,6 +65,7 @@ As a developer building real-time trading applications, I need indicators that u
 - **Warmup Period**: Minimum number of quotes required before indicator produces valid results. Inherited from Series implementation's `WarmupPeriod` property.
 - **Streaming Parity**: Requirement that streaming and batch (Series) calculations produce mathematically identical results when given the same quote sequence. Tested using deterministic equality assertions (`BeEquivalentTo` with `WithStrictOrdering()`), never approximate equality.
 - **Buffer Capacity**: Maximum number of elements stored in internal buffers. For BufferList: dynamically managed via `MaxListSize` (default ~1.9B elements). For StreamHub: typically fixed at `lookbackPeriod + margin` for efficient circular buffer operations.
+- **Regression Test**: Automated validation that compares indicator output against pre-generated baseline results to detect unintended behavioral changes. Uses `RegressionTestBase<TResult>` with three test methods: `Series()`, `Buffer()`, `Stream()`. Executed via `[TestCategory("Regression")]` in isolated test runs.
 
 ## Implementation Scope & Phasing
 
@@ -118,6 +121,17 @@ The following indicators serve as reference implementations for pattern validati
 - [x] Success criteria are measurable
 - [x] Scope is clearly bounded
 - [x] Dependencies and assumptions identified
+- [x] Regression testing requirements incorporated (NFR-007, terminology updated)
+
+### Quality validation checklists
+
+Before implementing each indicator, review requirements against:
+
+- **BufferList implementations**: [checklists/buffer-list.md](checklists/buffer-list.md) — 135 items
+- **StreamHub implementations**: [checklists/stream-hub.md](checklists/stream-hub.md) — 145 items
+- **Regression testing**: [checklists/regression-testing.md](checklists/regression-testing.md) — 84 items
+
+These validate requirements completeness, clarity, consistency, measurability, scenario coverage, and alignment with constitution principles.
 
 ---
 
@@ -130,6 +144,7 @@ The following indicators serve as reference implementations for pattern validati
 - [x] Requirements generated
 - [x] Entities identified
 - [x] Review checklist passed
+- [x] Regression testing requirements integrated (October 9, 2025)
 
 ---
-Last updated: October 6, 2025
+Last updated: October 9, 2025

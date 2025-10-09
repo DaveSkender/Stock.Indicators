@@ -149,15 +149,17 @@ Prerequisites: research.md complete (decisions documented in Phase 0 above)
 Before implementing each indicator:
 
 - Review the corresponding checklist artifact for requirements quality validation
-- **BufferList style**: [checklists/buffer-list.md](checklists/buffer-list.md) — 113 validation items
-- **StreamHub style**: [checklists/stream-hub.md](checklists/stream-hub.md) — 115 validation items
+- **BufferList style**: [checklists/buffer-list.md](checklists/buffer-list.md) — 135 validation items
+- **StreamHub style**: [checklists/stream-hub.md](checklists/stream-hub.md) — 145 validation items
+- **Regression testing**: [checklists/regression-testing.md](checklists/regression-testing.md) — 84 validation items
 
 These checklists ensure:
 
 - Deterministic mathematical equality (no approximate equality assertions)
-- Proper test interface implementation (`ITestReusableBufferList`, `ITestNonStandardBufferListCache`)
+- Proper test interface implementation (`ITestReusableBufferList`, `ITestNonStandardBufferListCache`, `ITestChainObserver`)
 - Complete coverage of edge cases, error conditions, and performance expectations
 - Alignment with constitution principles and instruction file patterns
+- Regression test implementation with baseline validation for all three styles (Series, BufferList, StreamHub)
 
 ### API contracts
 
@@ -199,6 +201,51 @@ The following base classes and utilities already exist in `src/_common/`:
 
 **No additional infrastructure tasks required** - all foundational types are production-ready.
 
+### Regression test workflow
+
+**Prerequisites** (completed in PR #1506):
+
+- ✅ `RegressionTestBase<TResult>` base class established in TestBase.cs
+- ✅ Baseline generator tool at `tools/baselining/` (generates all 84/84 baselines)
+- ✅ Baseline storage at `tests/indicators/_testdata/results/{indicator}.standard.json`
+- ✅ Test isolation via `tests.regression.runsettings` configuration
+- ✅ VS Code task integration: "Test: Regression tests" and "Generate: Regression test baselines (all)"
+- ✅ `AssertEquals` helper extension for deterministic equality validation
+
+**Regression test implementation** (per indicator):
+
+1. **Create regression test file**: `tests/indicators/{folder}/{Indicator}/{Indicator}.Regression.Tests.cs`
+2. **Inherit from base**: `public class {Indicator}Tests : RegressionTestBase<{Indicator}Result>`
+3. **Pass baseline filename**: Constructor calls `base("{indicator}.standard.json")`
+4. **Implement three methods**:
+   - `Series()` — Execute Series implementation with catalog defaults, assert against baseline
+   - `Buffer()` — Initially `Assert.Inconclusive("Buffer implementation not yet available")`, update after BufferList complete
+   - `Stream()` — Initially `Assert.Inconclusive("Stream implementation not yet available")`, update after StreamHub complete
+5. **Apply test category**: `[TestCategory("Regression")]` on class
+6. **Validate baseline**: Run regression test to confirm Series passes before implementing streaming styles
+
+**Baseline management**:
+
+- Baselines generated once during Series implementation phase using catalog defaults
+- BufferList and StreamHub implementations must match Series baseline exactly (deterministic equality)
+- Regenerate baseline only when Series formula changes (not for streaming implementations)
+- Use `dotnet run --project tools/baselining -- --indicator {Name}` to regenerate specific baseline
+
+**Test execution patterns**:
+
+```csharp
+// Initial state (Series only available)
+[TestMethod] public override void Series() => Quotes.ToSma(20).AssertEquals(Expected);
+[TestMethod] public override void Buffer() => Assert.Inconclusive("Buffer implementation not yet available");
+[TestMethod] public override void Stream() => Assert.Inconclusive("Stream implementation not yet available");
+
+// After BufferList implementation
+[TestMethod] public override void Buffer() => Quotes.ToSmaList(20).AssertEquals(Expected);
+
+// After StreamHub implementation  
+[TestMethod] public override void Stream() => quoteHub.ToSmaHub(20).Results.AssertEquals(Expected);
+```
+
 ### Test scenarios
 
 **Unit Tests** (per indicator, per style):
@@ -213,8 +260,17 @@ The following base classes and utilities already exist in `src/_common/`:
 **Streaming parity tests** (per indicator, per style):
 
 - Feed Standard test data (502 quotes) to batch and streaming
-- Compare all non-null results element-wise
-- Assert max difference <1e-12
+- Compare all non-null results element-wise using `BeEquivalentTo` with `WithStrictOrdering()`
+- Assert deterministic equality (NOT approximate equality with tolerance)
+- **Note**: Streaming parity is now validated via regression tests (see Regression test workflow above)
+
+**Regression tests** (per indicator):
+
+- Validate Series implementation against pre-generated baseline (502 quotes, catalog defaults)
+- Validate BufferList implementation produces identical results to Series baseline
+- Validate StreamHub implementation produces identical results to Series baseline
+- Use `AssertEquals(Expected)` helper for deterministic equality validation
+- Execute via `[TestCategory("Regression")]` in isolated test runs
 
 **Edge tests**:
 
