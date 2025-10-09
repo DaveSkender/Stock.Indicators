@@ -12,5 +12,5 @@ public class DojiTests : RegressionTestBase<CandleResult>
     public override void Buffer() => Assert.Inconclusive("Buffer implementation not yet available");
 
     [TestMethod]
-    public override void Stream() => Assert.Inconclusive("Stream implementation not yet available");
+    public override void Stream() => quoteHub.ToDojiHub(0.1).Results.AssertEquals(Expected);
 }

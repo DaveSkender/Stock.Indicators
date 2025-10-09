@@ -12,5 +12,5 @@ public class AroonTests : RegressionTestBase<AroonResult>
     public override void Buffer() => Assert.Inconclusive("Buffer implementation not yet available");
 
     [TestMethod]
-    public override void Stream() => Assert.Inconclusive("Stream implementation not yet available");
+    public override void Stream() => quoteHub.ToAroonHub(25).Results.AssertEquals(Expected);
 }
