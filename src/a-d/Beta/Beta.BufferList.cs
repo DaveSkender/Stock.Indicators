@@ -17,7 +17,7 @@ public class BetaList : BufferList<BetaResult>, IBeta
     /// <param name="type">The type of Beta calculation. Default is <see cref="BetaType.Standard"/>.</param>
     public BetaList(int lookbackPeriods = 50, BetaType type = BetaType.Standard)
     {
-        Beta.Validate<ISeries>([], [], lookbackPeriods);
+        Beta.Validate<IReusable>([], [], lookbackPeriods);
 
         LookbackPeriods = lookbackPeriods;
         Type = type;
@@ -58,9 +58,9 @@ public class BetaList : BufferList<BetaResult>, IBeta
     /// <param name="mrktValue">The market value.</param>
     public void Add(DateTime timestamp, double evalValue, double mrktValue)
     {
-        // Calculate returns
-        double evalReturn = _isFirst ? 0 : (evalValue / _prevEval) - 1d;
-        double mrktReturn = _isFirst ? 0 : (mrktValue / _prevMrkt) - 1d;
+        // Calculate returns with division-by-zero guard
+        double evalReturn = _isFirst || _prevEval == 0 ? 0 : (evalValue / _prevEval) - 1d;
+        double mrktReturn = _isFirst || _prevMrkt == 0 ? 0 : (mrktValue / _prevMrkt) - 1d;
 
         _prevEval = evalValue;
         _prevMrkt = mrktValue;
@@ -216,8 +216,10 @@ public class BetaList : BufferList<BetaResult>, IBeta
         }
 
         // Calculate correlation, covariance, and variance
+        // Use the timestamp from the most recent buffer entry
+        DateTime periodTimestamp = _buffer.Last().Timestamp;
         CorrResult c = Correlation.PeriodCorrelation(
-            default,
+            periodTimestamp,
             [.. dataA],
             [.. dataB]);
 
