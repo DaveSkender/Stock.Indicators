@@ -1,9 +1,9 @@
 namespace Regression;
 
 [TestClass, TestCategory("Regression")]
-public class HttrendlineTests : RegressionTestBase<HtlResult>
+public class HtTrendlineTests : RegressionTestBase<HtlResult>
 {
-    public HttrendlineTests() : base("htl.standard.json") { }
+    public HtTrendlineTests() : base("htl.standard.json") { }
 
     [TestMethod]
     public override void Series() => Quotes.ToHtTrendline().AssertEquals(Expected);

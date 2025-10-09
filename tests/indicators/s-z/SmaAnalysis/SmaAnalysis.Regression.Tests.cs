@@ -1,9 +1,9 @@
 namespace Regression;
 
 [TestClass, TestCategory("Regression")]
-public class SmaanalysisTests : RegressionTestBase<SmaAnalysisResult>
+public class SmaAnalysisTests : RegressionTestBase<SmaAnalysisResult>
 {
-    public SmaanalysisTests() : base("sma-analysis.standard.json") { }
+    public SmaAnalysisTests() : base("sma-analysis.standard.json") { }
 
     [TestMethod]
     public override void Series() => Quotes.ToSmaAnalysis(20).AssertEquals(Expected);

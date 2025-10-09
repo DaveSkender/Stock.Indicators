@@ -1,9 +1,9 @@
 namespace Regression;
 
 [TestClass, TestCategory("Regression")]
-public class RollingpivotsTests : RegressionTestBase<RollingPivotsResult>
+public class RollingPivotsTests : RegressionTestBase<RollingPivotsResult>
 {
-    public RollingpivotsTests() : base("rolling-pivots.standard.json") { }
+    public RollingPivotsTests() : base("rolling-pivots.standard.json") { }
 
     [TestMethod]
     public override void Series() => Quotes.ToRollingPivots().AssertEquals(Expected);

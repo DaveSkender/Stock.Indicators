@@ -1,9 +1,9 @@
 namespace Regression;
 
 [TestClass, TestCategory("Regression")]
-public class FishertransformTests : RegressionTestBase<FisherTransformResult>
+public class FisherTransformTests : RegressionTestBase<FisherTransformResult>
 {
-    public FishertransformTests() : base("fisher.standard.json") { }
+    public FisherTransformTests() : base("fisher.standard.json") { }
 
     [TestMethod]
     public override void Series() => Quotes.ToFisherTransform(10).AssertEquals(Expected);

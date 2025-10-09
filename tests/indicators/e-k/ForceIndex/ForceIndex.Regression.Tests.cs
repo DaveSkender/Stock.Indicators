@@ -1,9 +1,9 @@
 namespace Regression;
 
 [TestClass, TestCategory("Regression")]
-public class ForceindexTests : RegressionTestBase<ForceIndexResult>
+public class ForceIndexTests : RegressionTestBase<ForceIndexResult>
 {
-    public ForceindexTests() : base("force.standard.json") { }
+    public ForceIndexTests() : base("force.standard.json") { }
 
     [TestMethod]
     public override void Series() => Quotes.ToForceIndex().AssertEquals(Expected);

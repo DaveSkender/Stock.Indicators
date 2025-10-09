@@ -1,9 +1,9 @@
 namespace Regression;
 
 [TestClass, TestCategory("Regression")]
-public class StarcbandsTests : RegressionTestBase<StarcBandsResult>
+public class StarcBandsTests : RegressionTestBase<StarcBandsResult>
 {
-    public StarcbandsTests() : base("starc.standard.json") { }
+    public StarcBandsTests() : base("starc.standard.json") { }
 
     [TestMethod]
     public override void Series() => Quotes.ToStarcBands().AssertEquals(Expected);

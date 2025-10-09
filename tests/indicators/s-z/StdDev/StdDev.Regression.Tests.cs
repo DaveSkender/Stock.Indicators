@@ -1,9 +1,9 @@
 namespace Regression;
 
 [TestClass, TestCategory("Regression")]
-public class StddevTests : RegressionTestBase<StdDevResult>
+public class StdDevTests : RegressionTestBase<StdDevResult>
 {
-    public StddevTests() : base("stdev.standard.json") { }
+    public StdDevTests() : base("stdev.standard.json") { }
 
     [TestMethod]
     public override void Series() => Quotes.ToStdDev().AssertEquals(Expected);

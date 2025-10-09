@@ -1,9 +1,9 @@
 namespace Regression;
 
 [TestClass, TestCategory("Regression")]
-public class RocwbTests : RegressionTestBase<RocWbResult>
+public class RocWbTests : RegressionTestBase<RocWbResult>
 {
-    public RocwbTests() : base("roc-wb.standard.json") { }
+    public RocWbTests() : base("roc-wb.standard.json") { }
 
     [TestMethod]
     public override void Series() => Quotes.ToRocWb().AssertEquals(Expected);
