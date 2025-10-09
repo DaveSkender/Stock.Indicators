@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Beta coefficient from incremental reusable values.
 /// </summary>
-public class BetaList : BufferList<BetaResult>
+public class BetaList : BufferList<BetaResult>, IBeta
 {
     private readonly Queue<(DateTime Timestamp, double EvalValue, double MrktValue, double EvalReturn, double MrktReturn)> _buffer;
     private double _prevEval;
@@ -257,10 +257,6 @@ public static partial class Beta
 
         Beta.Validate(sourceEval, sourceMrkt, lookbackPeriods);
 
-        return new(
-            lookbackPeriods,
-            type,
-            (IReadOnlyList<IReusable>)sourceEval,
-            (IReadOnlyList<IReusable>)sourceMrkt);
+        return new(lookbackPeriods, type, (IReadOnlyList<IReusable>)sourceEval, (IReadOnlyList<IReusable>)sourceMrkt);
     }
 }
