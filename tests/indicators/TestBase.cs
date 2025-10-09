@@ -9,7 +9,7 @@ using System.Runtime.CompilerServices;
 [assembly: InternalsVisibleTo("BaselineGenerator")]
 [assembly: Parallelize(Scope = ExecutionScope.MethodLevel)]
 
-namespace Test.Data;
+namespace Tests.Data;
 
 public abstract class TestBase  // base for all tests
 {

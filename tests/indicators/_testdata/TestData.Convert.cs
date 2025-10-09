@@ -1,8 +1,8 @@
 using System.Globalization;
 
-namespace Test.Data;
+namespace Tests.Data;
 
-internal static class Convert
+internal static partial class Utilities
 {
     private static readonly CultureInfo EnglishCulture = new("en-US", false);
 

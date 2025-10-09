@@ -1,6 +1,6 @@
-namespace TestsUtilities;
+namespace Tests.Data;
 
-internal static class Utilities
+internal static partial class Utilities
 {
     internal static void AssertEquals<T>(
         this IReadOnlyList<T> actual,

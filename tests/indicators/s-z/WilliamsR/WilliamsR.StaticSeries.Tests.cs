@@ -1,4 +1,4 @@
-using Test.Data;
+using Tests.Data;
 
 namespace StaticSeries;
 
@@ -102,7 +102,7 @@ public class WilliamsR : StaticSeriesTestBase
         // initialize
         IOrderedEnumerable<Quote> test1127 = File.ReadAllLines("s-z/WilliamsR/issue1127quotes.csv")
             .Skip(1)
-            .Select(Test.Data.Convert.QuoteFromCsv)
+            .Select(Tests.Data.Utilities.QuoteFromCsv)
             .OrderByDescending(x => x.Timestamp);
 
         IReadOnlyList<Quote> quotesList = test1127.ToList();

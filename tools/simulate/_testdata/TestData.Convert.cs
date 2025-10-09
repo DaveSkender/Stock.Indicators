@@ -1,11 +1,11 @@
 using System.Globalization;
 using Skender.Stock.Indicators;
 
-namespace Test.Data;
+namespace Tests.Data;
 
 // TEST DATA CONVERTER UTILITIES
 
-internal static class Convert
+internal static partial class Utilities
 {
     private static readonly CultureInfo EnglishCulture = new("en-US", false);
 

@@ -1,4 +1,3 @@
-using TestsUtilities;
 
 namespace Regression;
 

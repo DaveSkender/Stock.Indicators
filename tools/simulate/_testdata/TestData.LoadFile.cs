@@ -1,6 +1,6 @@
 using Skender.Stock.Indicators;
 
-namespace Test.Data;
+namespace Tests.Data;
 
 // TEST QUOTE GETTERs
 
@@ -12,7 +12,7 @@ internal static class Data
     internal static IReadOnlyList<Quote> GetDefault(int days = 502)
         => File.ReadAllLines("_testdata/quotes/default.csv")
             .Skip(1)
-            .Select(Convert.QuoteFromCsv)
+            .Select(Utilities.QuoteFromCsv)
             .OrderBy(x => x.Timestamp)
             .Take(days)
             .ToList();
@@ -21,7 +21,7 @@ internal static class Data
     internal static IReadOnlyList<Quote> GetCompare(int days = 502)
         => File.ReadAllLines("_testdata/quotes/compare.csv")
             .Skip(1)
-            .Select(Convert.QuoteFromCsv)
+            .Select(Utilities.QuoteFromCsv)
             .OrderBy(x => x.Timestamp)
             .Take(days)
             .ToList();
@@ -30,7 +30,7 @@ internal static class Data
     internal static IReadOnlyList<Quote> GetIntraday(int days = 1564)
         => File.ReadAllLines("_testdata/quotes/intraday.csv")
             .Skip(1)
-            .Select(Convert.QuoteFromCsv)
+            .Select(Utilities.QuoteFromCsv)
             .OrderBy(x => x.Timestamp)
             .Take(days)
             .ToList();
@@ -39,7 +39,7 @@ internal static class Data
     internal static IReadOnlyList<Quote> GetLongest()
         => File.ReadAllLines("_testdata/quotes/longest.csv")
             .Skip(1)
-            .Select(Convert.QuoteFromCsv)
+            .Select(Utilities.QuoteFromCsv)
             .OrderBy(x => x.Timestamp)
             .ToList();
 
@@ -47,7 +47,7 @@ internal static class Data
     internal static IReadOnlyList<Quote> GetLongish(int days = 5285)
         => File.ReadAllLines("_testdata/quotes/longish.csv")
             .Skip(1)
-            .Select(Convert.QuoteFromCsv)
+            .Select(Utilities.QuoteFromCsv)
             .OrderBy(x => x.Timestamp)
             .Take(days)
             .ToList();
