@@ -171,6 +171,7 @@ public static partial class Catalog
         _listings.Add(Fractal.SeriesListing);
 
         // Gator Oscillator
+        _listings.Add(Gator.BufferListing);
         _listings.Add(Gator.SeriesListing);
 
         // Heikin Ashi
