@@ -78,7 +78,7 @@ public interface IIncrementFromPairs
     /// <summary>
     /// Apply batch of reusable input values to increment many indicator list values.
     /// </summary>
-    /// <param name="seriesA">A chronologically ordered batch of <see cref="IReusable"/> values (A).</param>
-    /// <param name="seriesB">A chronologically ordered batch of <see cref="IReusable"/> values (B).</param>
-    void Add(IReadOnlyList<IReusable> seriesA, IReadOnlyList<IReusable> seriesB);
+    /// <param name="valuesA">A chronologically ordered batch of <see cref="IReusable"/> values (A).</param>
+    /// <param name="valuesB">A chronologically ordered batch of <see cref="IReusable"/> values (B).</param>
+    void Add(IReadOnlyList<IReusable> valuesA, IReadOnlyList<IReusable> valuesB);
 }

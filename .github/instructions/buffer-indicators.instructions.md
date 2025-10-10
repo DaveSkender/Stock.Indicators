@@ -129,7 +129,7 @@ public class {IndicatorName}List : BufferList<{IndicatorName}Result>, IBufferReu
 
 BufferList implementations must implement ONE of three increment interfaces based on their data requirements:
 
-### 1. IIncrementFromChain - For chainable indicators
+### 1. `IIncrementFromChain` - For chainable indicators
 
 Use when the indicator can work with single reusable values (chainable indicators like SMA, EMA, RSI, MACD).
 
@@ -144,10 +144,10 @@ Use when the indicator can work with single reusable values (chainable indicator
 - ✅ **Constructor MUST accept**: `IReadOnlyList<IReusable> values` (NOT `IQuote quotes`)
 - ✅ **Extension method MUST use**: `<T>` generic with `where T : IReusable` (NOT `<TQuote>` with `where TQuote : IQuote`)
 - ❌ **MUST NOT have**: `Add(IQuote)` or `Add(IReadOnlyList<IQuote>)` methods
-- ✅ **For HL2/OHLC handling**: Use utility methods in `Add(IReusable)`:
+- ✅ **For indicators requiring OHLC price data**: Only indicators that specifically need HL2 or other OHLC combinations (e.g., Alligator, Mama, FisherTransform) should use utility methods in `Add(IReusable)`:
   - `value.Hl2OrValue()` - Returns HL2 if IQuote, otherwise Value
   - `value.QuotePartOrValue(CandlePart.HL2)` - Returns specified part if IQuote, otherwise Value
-  - This allows accepting both pure IReusable AND IQuote values through the same interface
+  - Most chainable indicators (SMA, EMA, RSI, MACD) do not need these utilities and should use `value.Value` directly
 
 **Example constructor and extension**:
 
@@ -165,7 +165,7 @@ public static EmaList ToEmaList<T>(  // ← Generic T, NOT TQuote
     => new(lookbackPeriods) { (IReadOnlyList<IReusable>)source };
 ```
 
-### 2. IIncrementFromQuote - For multi-value OHLC indicators
+### 2. `IIncrementFromQuote` - For multi-value OHLC indicators
 
 Use when the indicator **requires** multiple OHLC values per quote (VWMA needs price+volume, Stoch needs HLC, Vwap needs HLCV, etc.).
 
@@ -190,7 +190,7 @@ public static VwmaList ToVwmaList<TQuote>(  // ← TQuote generic is acceptable 
     => new(lookbackPeriods) { (IReadOnlyList<IQuote>)quotes };
 ```
 
-### 3. IIncrementFromPairs - For dual-input indicators
+### 3. `IIncrementFromPairs` - For dual-input indicators
 
 Use when the indicator requires two synchronized input series (like Correlation, Beta).
 
@@ -208,10 +208,10 @@ Use when the indicator requires two synchronized input series (like Correlation,
 
 Match the interface to what the static series implementation supports and the indicator's data requirements.
 
-**Example: IIncrementFromChain with HL2 handling**:
+**Example: `IIncrementFromChain` indicator requiring HL2 price data (Alligator)**:
 
 ```csharp
-public class AlligatorList : BufferList<AlligatorResult>, IIncrementFromChain, IAlligator
+public class AlligatorList : BufferList<AlligatorResult>, `IIncrementFromChain`, IAlligator
 {
     // ... fields and constructor ...
 
@@ -227,7 +227,7 @@ public class AlligatorList : BufferList<AlligatorResult>, IIncrementFromChain, I
     public void Add(IReusable value)
     {
         ArgumentNullException.ThrowIfNull(value);
-        // Prefer HL2 when source is IQuote (Alligator specification)
+        // Alligator specifically uses HL2 price - utility method needed
         Add(value.Timestamp, value.Hl2OrValue());
     }
 
@@ -239,14 +239,52 @@ public class AlligatorList : BufferList<AlligatorResult>, IIncrementFromChain, I
         for (int i = 0; i < values.Count; i++)
         {
             IReusable v = values[i];
-            // Prefer HL2 when source is IQuote (Alligator specification)
+            // Alligator specifically uses HL2 price - utility method needed
             Add(v.Timestamp, v.Hl2OrValue());
         }
     }
 }
 ```
 
-**Available utility methods for OHLC handling**:
+**Example: `IIncrementFromChain` indicator using value directly (SMA, EMA, RSI, MACD)**:
+
+```csharp
+public class SmaList : BufferList<SmaResult>, `IIncrementFromChain`, ISma
+{
+    // ... fields and constructor ...
+
+    /// <inheritdoc />
+    public void Add(DateTime timestamp, double value)
+    {
+        // Core calculation logic
+        // ...
+        AddInternal(new SmaResult(timestamp, sma));
+    }
+
+    /// <inheritdoc />
+    public void Add(IReusable value)
+    {
+        ArgumentNullException.ThrowIfNull(value);
+        // Most chainable indicators use value directly - no utility needed
+        Add(value.Timestamp, value.Value);
+    }
+
+    /// <inheritdoc />
+    public void Add(IReadOnlyList<IReusable> values)
+    {
+        ArgumentNullException.ThrowIfNull(values);
+
+        for (int i = 0; i < values.Count; i++)
+        {
+            IReusable v = values[i];
+            // Most chainable indicators use value directly - no utility needed
+            Add(v.Timestamp, v.Value);
+        }
+    }
+}
+```
+
+**Available utility methods for OHLC handling (use only when indicator requires specific OHLC combinations)**:
 
 - `value.Hl2OrValue()` - Returns HL2 if IQuote, otherwise returns Value
 - `value.QuotePartOrValue(CandlePart.HL2)` - Returns specified CandlePart if IQuote, otherwise returns Value

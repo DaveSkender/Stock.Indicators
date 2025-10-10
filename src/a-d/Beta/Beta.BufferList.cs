@@ -144,25 +144,25 @@ public class BetaList : BufferList<BetaResult>, IIncrementFromPairs, IBeta
     /// <summary>
     /// Adds lists of reusable values to the Beta list.
     /// </summary>
-    /// <param name="seriesA">The list of evaluated asset values to add.</param>
-    /// <param name="seriesB">The list of market values to add.</param>
-    /// <exception cref="ArgumentNullException">Thrown when seriesA or seriesB is null.</exception>
+    /// <param name="valuesA">The list of evaluated asset values to add.</param>
+    /// <param name="valuesB">The list of market values to add.</param>
+    /// <exception cref="ArgumentNullException">Thrown when valuesA or valuesB is null.</exception>
     /// <exception cref="InvalidQuotesException">Thrown when lists have different counts.</exception>
-    public void Add(IReadOnlyList<IReusable> seriesA, IReadOnlyList<IReusable> seriesB)
+    public void Add(IReadOnlyList<IReusable> valuesA, IReadOnlyList<IReusable> valuesB)
     {
-        ArgumentNullException.ThrowIfNull(seriesA);
-        ArgumentNullException.ThrowIfNull(seriesB);
+        ArgumentNullException.ThrowIfNull(valuesA);
+        ArgumentNullException.ThrowIfNull(valuesB);
 
-        if (seriesA.Count != seriesB.Count)
+        if (valuesA.Count != valuesB.Count)
         {
             throw new InvalidQuotesException(
-                nameof(seriesA),
+                nameof(valuesA),
                 "Eval quotes should have the same number of Market quotes for Beta.");
         }
 
-        for (int i = 0; i < seriesA.Count; i++)
+        for (int i = 0; i < valuesA.Count; i++)
         {
-            Add(seriesA[i], seriesB[i]);
+            Add(valuesA[i], valuesB[i]);
         }
     }
 

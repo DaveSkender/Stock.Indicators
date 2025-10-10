@@ -10,7 +10,7 @@
 ## Requirement Completeness
 
 - [ ] CHK001 - Are base class inheritance requirements explicitly specified (must inherit from `BufferList<TResult>`)? [Completeness, Instructions §Core Structure]
-- [ ] CHK002 - Are interface selection criteria clearly defined (`IBufferReusable` vs `IBufferList`)? [Clarity, Instructions §Interface Selection Guidelines]
+- [ ] CHK002 - Are interface selection criteria clearly defined (`IIncrementFromChain` vs `IIncrementFromQuote` vs `IIncrementFromPairs`)? [Clarity, Instructions §Interface Selection Guidelines]
 - [ ] CHK003 - Are both constructor patterns mandatory requirements documented (parameter-only and quotes parameter)? [Completeness, Instructions §Constructor Pattern]
 - [ ] CHK004 - Is the requirement for `AddInternal()` usage instead of `base.Add()` explicitly stated? [Completeness, Instructions §Base Class Pattern]
 - [ ] CHK005 - Are buffer management requirements defined (must use `BufferUtilities` extension methods)? [Completeness, Instructions §Universal Buffer Utilities]
@@ -116,7 +116,7 @@
 - [ ] CHK078 - Are criteria for when to use `ITestNonStandardBufferListCache` clearly defined (non-Queue cache = List-based state)? [Ambiguity, TestBase.cs]
 - [ ] CHK079 - Is the "moderate frequency" threshold quantified (<1k ticks/sec)? [Ambiguity, Plan §Key Decisions]
 - [ ] CHK080 - Are requirements for "indicators with multiple parameters" constructor patterns unambiguous? [Ambiguity, Instructions §Constructor Pattern]
-- [ ] CHK081 - Is the distinction between `IBufferReusable` and `IBufferList` usage criteria clear? [Ambiguity, Instructions §Interface Selection Guidelines]
+- [ ] CHK081 - Is the distinction between `IIncrementFromChain`, `IIncrementFromQuote`, and `IIncrementFromPairs` usage criteria clear? [Ambiguity, Instructions §Interface Selection Guidelines]
 - [ ] CHK082 - Are requirements for "complex buffer scenarios" (multi-buffer) explicitly defined? [Ambiguity, Instructions §Buffer Utility Patterns]
 - [ ] CHK083 - Are "running sum efficiency" optimization requirements clearly specified? [Ambiguity, Instructions §Buffer Utility Patterns]
 

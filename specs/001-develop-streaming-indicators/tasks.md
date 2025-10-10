@@ -175,9 +175,9 @@ Each task should follow these guidelines:
 ### BufferList Implementation Requirements
 
 - Inherit from `BufferList<TResult>` base class
-- Implement appropriate interface (`IBufferReusable` or `IBufferList`)
+- Implement appropriate interface (`IIncrementFromChain`, `IIncrementFromQuote`, or `IIncrementFromPairs`)
 - Follow patterns from `.github/instructions/buffer-indicators.instructions.md`
-- Provide both standard constructor and constructor with quotes parameter
+- Provide both standard constructor and constructor with values/quotes parameter (matching interface type)
 - Use universal `BufferUtilities` extension methods for buffer management
 - Include comprehensive unit tests matching patterns in existing tests
 - Ensure mathematical correctness matches series implementation

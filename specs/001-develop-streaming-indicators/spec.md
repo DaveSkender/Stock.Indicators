@@ -48,12 +48,29 @@ As a developer building real-time trading applications, I need indicators that u
 - **NFR-006**: Release deliverable MUST leverage existing GitHub Releases automation and update `src/_common/ObsoleteV3.md` with streaming migration guidance per Constitution Principle 5
 - **NFR-007**: Regression tests MUST validate all three implementation styles (Series, BufferList, StreamHub) against baseline results with deterministic equality (NOT approximate equality). Baselines stored in `tests/indicators/_testdata/results/{indicator}.standard.json` and generated using catalog default parameters.
 
+### Interface architecture requirements
+
+BufferList implementations MUST implement ONE of three increment interfaces based on data requirements:
+
+- **FR-011**: `IIncrementFromChain` MUST be used for chainable indicators that work with single reusable values (SMA, EMA, RSI, MACD). These indicators MUST accept `IReusable` inputs and MUST NOT have `Add(IQuote)` methods. Constructor MUST accept `IReadOnlyList<IReusable> values`. Extension method MUST use `<T>` generic with `where T : IReusable` constraint.
+
+- **FR-012**: `IIncrementFromQuote` MUST be used for indicators requiring multiple OHLC values per quote (VWMA needs price+volume, Stoch needs HLC, Vwap needs HLCV). Constructor MUST accept `IReadOnlyList<IQuote> quotes`. Extension method MUST use `<TQuote>` generic with `where TQuote : IQuote` constraint.
+
+- **FR-013**: `IIncrementFromPairs` MUST be used for indicators requiring two synchronized input series (Correlation, Beta). These indicators MUST accept paired `IReusable` values.
+
+- **FR-014**: Chainable indicators (`IIncrementFromChain`) that specifically require OHLC price data (such as Alligator, Mama, FisherTransform) SHOULD use utility methods: `value.Hl2OrValue()` returns HL2 if IQuote, otherwise Value; `value.QuotePartOrValue(CandlePart.*)` returns specified part if IQuote, otherwise Value. Most chainable indicators (SMA, EMA, RSI, MACD) do not need these utilities and should use `value.Value` directly.
+
+See `.github/instructions/buffer-indicators.instructions.md` for complete implementation patterns and examples.
+
 ### Key entities
 
-- **StreamingIndicator**: Base abstraction defining incremental update contract (Add quote → produce result)
+- **`IIncrementFromChain`**: Interface for chainable indicators accepting single reusable values (implements `Add(DateTime, double)`, `Add(IReusable)`, `Add(IReadOnlyList<IReusable>)`)
+- **`IIncrementFromQuote`**: Interface for indicators requiring OHLC quote data (implements `Add(IQuote)`, `Add(IReadOnlyList<IQuote>)`)
+- **`IIncrementFromPairs`**: Interface for dual-series indicators (implements paired `IReusable` addition methods)
 - **BufferList Indicator**: Concrete streaming style using List-backed state, simpler to understand and extend
 - **StreamHub Indicator**: Concrete streaming style using optimized buffers, suitable for high-frequency scenarios
-- **Quote**: Input entity representing OHLCV data with timestamp
+- **Quote**: Input entity representing OHLCV data with timestamp (implements `IQuote`)
+- **Reusable Value**: Input entity with timestamp and single numeric value (implements `IReusable`)
 - **Indicator Result**: Output entity with timestamp, indicator value(s), and metadata
 - **Warmup State**: Tracks whether indicator has sufficient history to produce valid results
 - **Regression Baseline**: JSON-serialized expected results from Series implementation using standard test data (502 quotes), serving as reference for BufferList and StreamHub parity validation

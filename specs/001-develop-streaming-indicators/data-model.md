@@ -163,7 +163,7 @@ public sealed record StreamingResult<T>
 **Example with tuple buffer state**:
 
 ```csharp
-public sealed class TrList : BufferList<TrResult>, IBufferList
+public sealed class TrList : BufferList<TrResult>, IIncrementFromQuote
 {
     private readonly Queue<(double High, double Low, double Close)> _buffer;
 
