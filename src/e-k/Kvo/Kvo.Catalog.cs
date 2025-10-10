@@ -22,6 +22,11 @@ public static partial class Kvo
             .WithStyle(Style.Series)
             .Build();
 
+    // KVO Buffer Listing
+    internal static readonly IndicatorListing BufferListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Buffer)
+            .Build();
+
     // No StreamListing for KVO.
-    // No BufferListing for KVO.
 }
