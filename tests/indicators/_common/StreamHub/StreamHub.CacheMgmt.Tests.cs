@@ -10,12 +10,12 @@ public class CacheManagement : TestBase
         SmaHub<Quote> observer = quoteHub.ToSma(20);
         quoteHub.Add(Quotes.Take(21));
 
-        observer.Results[19].Sma.Should().BeApproximately(214.5250, precision: DoublePrecision);
+        observer.Results[19].Sma.Should().Be(214.5250);
 
         quoteHub.Remove(Quotes[14]);
         quoteHub.EndTransmission();
 
-        observer.Results[19].Sma.Should().BeApproximately(214.5260, precision: DoublePrecision);
+        observer.Results[19].Sma.Should().Be(214.5260);
     }
 
     [TestMethod]
