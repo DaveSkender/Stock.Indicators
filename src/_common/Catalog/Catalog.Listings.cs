@@ -174,6 +174,7 @@ public static partial class Catalog
         _listings.Add(Gator.SeriesListing);
 
         // Heikin Ashi
+        _listings.Add(HeikinAshi.BufferListing);
         _listings.Add(HeikinAshi.SeriesListing);
 
         // HMA (Hull Moving Average)
