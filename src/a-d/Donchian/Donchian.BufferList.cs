@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Donchian Channels from incremental quotes.
 /// </summary>
-public class DonchianList : BufferList<DonchianResult>, IBufferList
+public class DonchianList : BufferList<DonchianResult>, IIncrementFromQuote
 {
     private readonly Queue<(decimal High, decimal Low)> _buffer;
 
@@ -53,15 +53,15 @@ public class DonchianList : BufferList<DonchianResult>, IBufferList
             decimal lowLow = decimal.MaxValue;
 
             // Find highest high and lowest low in the buffer
-            foreach (var item in _buffer)
+            foreach ((decimal High, decimal Low) in _buffer)
             {
-                if (item.High > highHigh)
+                if (High > highHigh)
                 {
-                    highHigh = item.High;
+                    highHigh = High;
                 }
-                if (item.Low < lowLow)
+                if (Low < lowLow)
                 {
-                    lowLow = item.Low;
+                    lowLow = Low;
                 }
             }
 
@@ -98,7 +98,7 @@ public class DonchianList : BufferList<DonchianResult>, IBufferList
     /// </summary>
     public override void Clear()
     {
-        ClearInternal();
+        base.Clear();
         _buffer.Clear();
     }
 }

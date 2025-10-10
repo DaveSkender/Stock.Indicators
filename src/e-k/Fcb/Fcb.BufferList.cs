@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Fractal Chaos Bands (FCB) from incremental quote values.
 /// </summary>
-public class FcbList : BufferList<FcbResult>, IBufferList, IFcb
+public class FcbList : BufferList<FcbResult>, IIncrementFromQuote, IFcb
 {
     private readonly Queue<Quote> _quoteBuffer;
     private readonly int _windowSpan;
@@ -22,7 +22,7 @@ public class FcbList : BufferList<FcbResult>, IBufferList, IFcb
         WindowSpan = windowSpan;
 
         _windowSpan = windowSpan;
-        _quoteBuffer = new Queue<Quote>(2 * windowSpan + 1);
+        _quoteBuffer = new Queue<Quote>((2 * windowSpan) + 1);
         _upperLine = null;
         _lowerLine = null;
     }
@@ -60,10 +60,10 @@ public class FcbList : BufferList<FcbResult>, IBufferList, IFcb
         };
 
         // maintain buffer of quotes needed for fractal calculation
-        _quoteBuffer.Update(2 * _windowSpan + 1, q);
+        _quoteBuffer.Update((2 * _windowSpan) + 1, q);
 
         // check if we can identify fractals
-        if (_quoteBuffer.Count >= 2 * _windowSpan + 1)
+        if (_quoteBuffer.Count >= (2 * _windowSpan) + 1)
         {
             // get quotes as list for fractal detection
             List<Quote> bufferList = _quoteBuffer.ToList();
@@ -127,7 +127,7 @@ public class FcbList : BufferList<FcbResult>, IBufferList, IFcb
     /// <inheritdoc />
     public override void Clear()
     {
-        ClearInternal();
+        base.Clear();
         _quoteBuffer.Clear();
         _upperLine = null;
         _lowerLine = null;

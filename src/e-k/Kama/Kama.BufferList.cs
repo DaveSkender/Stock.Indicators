@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Kaufman's Adaptive Moving Average (KAMA) from incremental reusable values.
 /// </summary>
-public class KamaList : BufferList<KamaResult>, IBufferReusable, IKama
+public class KamaList : BufferList<KamaResult>, IIncrementFromChain, IKama
 {
     private readonly Queue<double> _buffer;
     private readonly int _erPeriods;
@@ -37,20 +37,20 @@ public class KamaList : BufferList<KamaResult>, IBufferReusable, IKama
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="KamaList"/> class with initial quotes.
+    /// Initializes a new instance of the <see cref="KamaList"/> class with initial reusable values.
     /// </summary>
     /// <param name="erPeriods">The number of periods for the Efficiency Ratio (ER).</param>
     /// <param name="fastPeriods">The number of periods for the fast EMA.</param>
     /// <param name="slowPeriods">The number of periods for the slow EMA.</param>
-    /// <param name="quotes">Initial quotes to populate the list.</param>
+    /// <param name="values">Initial reusable values to populate the list.</param>
     public KamaList(
         int erPeriods,
         int fastPeriods,
         int slowPeriods,
-        IReadOnlyList<IQuote> quotes
+        IReadOnlyList<IReusable> values
     )
         : this(erPeriods, fastPeriods, slowPeriods)
-        => Add(quotes);
+        => Add(values);
 
     /// <summary>
     /// Gets the number of periods for the Efficiency Ratio (ER).
@@ -164,27 +164,9 @@ public class KamaList : BufferList<KamaResult>, IBufferReusable, IKama
     }
 
     /// <inheritdoc />
-    public void Add(IQuote quote)
-    {
-        ArgumentNullException.ThrowIfNull(quote);
-        Add(quote.Timestamp, quote.Value);
-    }
-
-    /// <inheritdoc />
-    public void Add(IReadOnlyList<IQuote> quotes)
-    {
-        ArgumentNullException.ThrowIfNull(quotes);
-
-        for (int i = 0; i < quotes.Count; i++)
-        {
-            Add(quotes[i].Timestamp, quotes[i].Value);
-        }
-    }
-
-    /// <inheritdoc />
     public override void Clear()
     {
-        ClearInternal();
+        base.Clear();
         _buffer.Clear();
         _prevKama = double.NaN;
     }
@@ -195,11 +177,11 @@ public static partial class Kama
     /// <summary>
     /// Creates a buffer list for Kaufman's Adaptive Moving Average (KAMA) calculations.
     /// </summary>
-    public static KamaList ToKamaList<TQuote>(
-        this IReadOnlyList<TQuote> quotes,
+    public static KamaList ToKamaList<T>(
+        this IReadOnlyList<T> source,
         int erPeriods = 10,
         int fastPeriods = 2,
         int slowPeriods = 30)
-        where TQuote : IQuote
-        => new(erPeriods, fastPeriods, slowPeriods) { (IReadOnlyList<IQuote>)quotes };
+        where T : IReusable
+        => new(erPeriods, fastPeriods, slowPeriods) { (IReadOnlyList<IReusable>)source };
 }

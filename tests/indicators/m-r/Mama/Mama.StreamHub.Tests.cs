@@ -70,7 +70,7 @@ public class MamaHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
     [TestMethod]
     public void ChainObserver()
     {
-        int smaPeriods = 8;
+        const int smaPeriods = 8;
 
         List<Quote> quotesList = Quotes.ToList();
 
@@ -111,7 +111,7 @@ public class MamaHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
     [TestMethod]
     public void ChainProvider()
     {
-        int smaPeriods = 10;
+        const int smaPeriods = 10;
 
         List<Quote> quotesList = Quotes.ToList();
 

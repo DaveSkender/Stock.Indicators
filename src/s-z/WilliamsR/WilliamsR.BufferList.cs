@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Williams %R from incremental quote values.
 /// </summary>
-public class WilliamsRList : BufferList<WilliamsResult>, IWilliamsR, IBufferList
+public class WilliamsRList : BufferList<WilliamsResult>, IIncrementFromQuote, IWilliamsR
 {
     private readonly Queue<(double High, double Low)> _buffer;
 
@@ -76,15 +76,15 @@ public class WilliamsRList : BufferList<WilliamsResult>, IWilliamsR, IBufferList
             double highHigh = double.MinValue;
             double lowLow = double.MaxValue;
 
-            foreach (var item in _buffer)
+            foreach ((double High, double Low) in _buffer)
             {
-                if (item.High > highHigh)
+                if (High > highHigh)
                 {
-                    highHigh = item.High;
+                    highHigh = High;
                 }
-                if (item.Low < lowLow)
+                if (Low < lowLow)
                 {
-                    lowLow = item.Low;
+                    lowLow = Low;
                 }
             }
 
@@ -109,7 +109,7 @@ public class WilliamsRList : BufferList<WilliamsResult>, IWilliamsR, IBufferList
     /// <inheritdoc />
     public override void Clear()
     {
-        ClearInternal();
+        base.Clear();
         _buffer.Clear();
     }
 }

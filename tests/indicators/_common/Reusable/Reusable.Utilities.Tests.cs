@@ -43,16 +43,16 @@ public class Reusable : TestBase
     {
         DateTime t = DateTime.Parse("5/5/2055", invariantCulture);
 
-        decimal l = 111111111111111m;
-        decimal o = 222222222222222m;
-        decimal c = 333333333333333m;
-        decimal h = 444444444444444m;
-        decimal v = 555555555555555m;
-        decimal hl2 = (h + l) / 2m;
-        decimal hlc3 = (h + l + c) / 3m;
-        decimal oc2 = (o + c) / 2m;
-        decimal ohl3 = (o + h + l) / 3m;
-        decimal ohlc4 = (o + h + l + c) / 4m;
+        const decimal l = 111111111111111m;
+        const decimal o = 222222222222222m;
+        const decimal c = 333333333333333m;
+        const decimal h = 444444444444444m;
+        const decimal v = 555555555555555m;
+        const decimal hl2 = (h + l) / 2m;
+        const decimal hlc3 = (h + l + c) / 3m;
+        const decimal oc2 = (o + c) / 2m;
+        const decimal ohl3 = (o + h + l) / 3m;
+        const decimal ohlc4 = (o + h + l + c) / 4m;
 
         Quote q = new(t, o, h, l, c, v);
 

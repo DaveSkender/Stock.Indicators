@@ -40,7 +40,7 @@ public class QuoteHub : StreamHubTestBase, ITestChainProvider
     [TestMethod]
     public void ChainProvider()
     {
-        int smaPeriods = 8;
+        const int smaPeriods = 8;
 
         List<Quote> quotesList = Quotes.ToList();
 
@@ -126,7 +126,7 @@ public class QuoteHub : StreamHubTestBase, ITestChainProvider
         }
 
         // confirm public interfaces
-        Assert.AreEqual(quoteHub.Cache.Count, quoteHub.Quotes.Count);
+        Assert.HasCount(quoteHub.Cache.Count, quoteHub.Quotes);
 
         // close observations
         quoteHub.EndTransmission();

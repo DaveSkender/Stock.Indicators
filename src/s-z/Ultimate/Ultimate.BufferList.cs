@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Ultimate Oscillator from incremental quotes.
 /// </summary>
-public class UltimateList : BufferList<UltimateResult>, IUltimate, IBufferList
+public class UltimateList : BufferList<UltimateResult>, IIncrementFromQuote, IUltimate
 {
     private readonly Queue<(double Bp, double Tr)> _buffer;
     private double _previousClose;
@@ -103,7 +103,7 @@ public class UltimateList : BufferList<UltimateResult>, IUltimate, IBufferList
             double sumTr3 = 0;  // long period
 
             // Convert buffer to array for indexed access
-            var bufferArray = _buffer.ToArray();
+            (double Bp, double Tr)[] bufferArray = _buffer.ToArray();
             int bufferLength = bufferArray.Length;
 
             // Calculate sums for all three periods
@@ -155,7 +155,7 @@ public class UltimateList : BufferList<UltimateResult>, IUltimate, IBufferList
     /// <inheritdoc />
     public override void Clear()
     {
-        ClearInternal();
+        base.Clear();
         _buffer.Clear();
         _previousClose = 0;
         _isInitialized = false;

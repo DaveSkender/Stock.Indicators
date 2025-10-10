@@ -77,9 +77,9 @@ public class BollingerBandsStreamHub : StreamHubTestBase
     public void ChainProvider()
     {
         // arrange
-        int lookbackPeriods = 20;
-        double standardDeviations = 2;
-        int smaPeriods = 10;
+        const int lookbackPeriods = 20;
+        const double standardDeviations = 2;
+        const int smaPeriods = 10;
 
         List<Quote> quotesList = Quotes.ToList();
         int length = quotesList.Count;

@@ -11,7 +11,7 @@ namespace Skender.Stock.Indicators;
 /// only the minimum required for the lookback period plus a buffer.
 /// </para>
 /// </remarks>
-public class EpmaList : BufferList<EpmaResult>, IBufferReusable, IEpma
+public class EpmaList : BufferList<EpmaResult>, IIncrementFromChain, IEpma
 {
     private readonly Queue<double> _buffer;
     private readonly List<IReusable> _cache;
@@ -33,13 +33,13 @@ public class EpmaList : BufferList<EpmaResult>, IBufferReusable, IEpma
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="EpmaList"/> class with initial quotes.
+    /// Initializes a new instance of the <see cref="EpmaList"/> class with initial reusable values.
     /// </summary>
     /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
-    /// <param name="quotes">Initial quotes to populate the list.</param>
-    public EpmaList(int lookbackPeriods, IReadOnlyList<IQuote> quotes)
+    /// <param name="values">Initial reusable values to populate the list.</param>
+    public EpmaList(int lookbackPeriods, IReadOnlyList<IReusable> values)
         : this(lookbackPeriods)
-        => Add(quotes);
+        => Add(values);
 
     /// <summary>
     /// Gets the number of periods to look back for the calculation.
@@ -89,30 +89,12 @@ public class EpmaList : BufferList<EpmaResult>, IBufferReusable, IEpma
     }
 
     /// <inheritdoc />
-    public void Add(IQuote quote)
-    {
-        ArgumentNullException.ThrowIfNull(quote);
-        Add(quote.Timestamp, (double)quote.Close);
-    }
-
-    /// <inheritdoc />
-    public void Add(IReadOnlyList<IQuote> quotes)
-    {
-        ArgumentNullException.ThrowIfNull(quotes);
-
-        for (int i = 0; i < quotes.Count; i++)
-        {
-            Add(quotes[i]);
-        }
-    }
-
-    /// <inheritdoc />
     public override void Clear()
     {
         _buffer.Clear();
         _cache.Clear();
         _cacheOffset = 0;
-        ClearInternal();
+        base.Clear();
     }
 
     /// <summary>
@@ -143,9 +125,9 @@ public static partial class Epma
     /// <summary>
     /// Creates a buffer list for Endpoint Moving Average (EPMA) calculations.
     /// </summary>
-    public static EpmaList ToEpmaList<TQuote>(
-        this IReadOnlyList<TQuote> quotes,
+    public static EpmaList ToEpmaList<T>(
+        this IReadOnlyList<T> source,
         int lookbackPeriods)
-        where TQuote : IQuote
-        => new(lookbackPeriods) { (IReadOnlyList<IQuote>)quotes };
+        where T : IReusable
+        => new(lookbackPeriods) { (IReadOnlyList<IReusable>)source };
 }

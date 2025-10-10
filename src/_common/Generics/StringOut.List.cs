@@ -273,11 +273,11 @@ public static partial class StringOut
         StringBuilder sb = new();
 
         // Create header line with proper alignment
-        sb.AppendLine(string.Join("  ",
+        sb.AppendJoin("  ",
             headers.Select((header, index) => alignLeft[index]
                 ? header.PadRight(columnWidth[index])
                 : header.PadLeft(columnWidth[index])
-        )));
+        )).AppendLine();
 
         // Create separator
         sb.AppendLine(new string('-', columnWidth.Sum(w => w + 2) - 2));
@@ -285,11 +285,11 @@ public static partial class StringOut
         // Create data lines with proper alignment
         foreach (string[] row in dataRows)
         {
-            sb.AppendLine(string.Join("  ",
+            sb.AppendJoin("  ",
                 row.Select((value, index) => alignLeft[index]
                     ? value.PadRight(columnWidth[index])
                     : value.PadLeft(columnWidth[index])
-            )));
+            )).AppendLine();
         }
 
         return sb.ToString();  // includes a trailing newline
@@ -339,8 +339,7 @@ public static partial class StringOut
         {
             int decimalPlaces = list
                 .Take(1000)
-                .Select(item => ((decimal)property.GetValue(item)!).GetDecimalPlaces())
-                .Max();
+                .Max(item => ((decimal)property.GetValue(item)!).GetDecimalPlaces());
 
             return $"N{decimalPlaces}";
         }

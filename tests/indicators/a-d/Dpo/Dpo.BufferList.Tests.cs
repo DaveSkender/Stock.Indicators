@@ -24,7 +24,7 @@ public class Dpo : BufferListTestBase, ITestReusableBufferList
         }
 
         // DPO results are delayed by offset periods
-        int offset = (lookbackPeriods / 2) + 1;
+        const int offset = (lookbackPeriods / 2) + 1;
         int expectedCount = Quotes.Count - offset;
 
         sut.Should().HaveCount(expectedCount);
@@ -41,7 +41,7 @@ public class Dpo : BufferListTestBase, ITestReusableBufferList
             sut.Add(item);
         }
 
-        int offset = (lookbackPeriods / 2) + 1;
+        const int offset = (lookbackPeriods / 2) + 1;
         int expectedCount = Quotes.Count - offset;
 
         sut.Should().HaveCount(expectedCount);
@@ -53,7 +53,7 @@ public class Dpo : BufferListTestBase, ITestReusableBufferList
     {
         DpoList sut = new(lookbackPeriods) { reusables };
 
-        int offset = (lookbackPeriods / 2) + 1;
+        const int offset = (lookbackPeriods / 2) + 1;
         int expectedCount = Quotes.Count - offset;
 
         sut.Should().HaveCount(expectedCount);
@@ -70,7 +70,7 @@ public class Dpo : BufferListTestBase, ITestReusableBufferList
             sut.Add(quote);
         }
 
-        int offset = (lookbackPeriods / 2) + 1;
+        const int offset = (lookbackPeriods / 2) + 1;
         int expectedCount = Quotes.Count - offset;
 
         sut.Should().HaveCount(expectedCount);
@@ -82,7 +82,7 @@ public class Dpo : BufferListTestBase, ITestReusableBufferList
     {
         DpoList sut = Quotes.ToDpoList(lookbackPeriods);
 
-        int offset = (lookbackPeriods / 2) + 1;
+        const int offset = (lookbackPeriods / 2) + 1;
         int expectedCount = Quotes.Count - offset;
 
         sut.Should().HaveCount(expectedCount);
@@ -94,7 +94,7 @@ public class Dpo : BufferListTestBase, ITestReusableBufferList
     {
         DpoList sut = new(lookbackPeriods, Quotes);
 
-        int offset = (lookbackPeriods / 2) + 1;
+        const int offset = (lookbackPeriods / 2) + 1;
         int expectedCount = Quotes.Count - offset;
 
         sut.Should().HaveCount(expectedCount);
@@ -109,7 +109,7 @@ public class Dpo : BufferListTestBase, ITestReusableBufferList
 
         DpoList sut = new(lookbackPeriods, subset);
 
-        int offset = (lookbackPeriods / 2) + 1;
+        const int offset = (lookbackPeriods / 2) + 1;
         int expectedCount = subset.Count - offset;
 
         sut.Should().HaveCount(expectedCount);
@@ -136,7 +136,7 @@ public class Dpo : BufferListTestBase, ITestReusableBufferList
 
         sut.Add(Quotes);
 
-        int offset = (lookbackPeriods / 2) + 1;
+        const int offset = (lookbackPeriods / 2) + 1;
         int totalResults = Quotes.Count - offset;
         int expectedCount = Math.Min(maxListSize, totalResults);
 

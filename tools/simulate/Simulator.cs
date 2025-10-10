@@ -5,7 +5,7 @@ namespace Test.Application;
 
 public static class Simulate
 {
-    public static void Menu(string scenario = "C")
+    public static void Menu(string scenario = "A")
     {
         Go go = new();
 
@@ -13,8 +13,7 @@ public static class Simulate
         {
             case "A": go.QuoteHub(); break;
             case "B": go.EmaHub(); break;
-            case "C": go.MultipleSubscribers(); break;
-            default: break;
+            case "C": go.ManySubscribers(); break;
         }
     }
 }
@@ -47,8 +46,6 @@ public class Go
 
     internal void QuoteHub()
     {
-        EmaHub<Quote> emaHub = quoteHub.ToEmaHub(14);
-
         if (!verbose)
         {
             return;
@@ -56,6 +53,9 @@ public class Go
 
         // initialize console display
         Console.WriteLine("""
+
+        QUOTE HUB | SCENARIO C
+
         Date     Close price
         --------------------
         """);
@@ -92,6 +92,9 @@ public class Go
 
         // initialize console display
         Console.WriteLine("""
+
+        EMA HUB | SCENARIO B
+
         Date     Close price   EMA(14)
         ------------------------------
         """);
@@ -117,19 +120,14 @@ public class Go
 
         EmaResult e = emaHub.Results[^1];
 
-        if (e.Ema is not null)
-        {
-            m += $"{e.Ema,10:N3}";
-        }
-        else
-        {
-            m += $"{"[null]",10}";
-        }
+        m += e.Ema is not null
+            ? $"{e.Ema,10:N3}"
+            : $"{"[null]",10}";
 
         Console.WriteLine(m);
     }
 
-    internal void MultipleSubscribers()
+    internal void ManySubscribers()
     {
         SmaHub<Quote> smaHub = quoteHub.ToSma(3);
         EmaHub<Quote> emaHub = quoteHub.ToEmaHub(5);
@@ -143,6 +141,9 @@ public class Go
 
         // initialize console display
         Console.WriteLine("""
+
+        MANY SUBSCRIBERS | SCENARIO C
+
         Date     Close price   SMA(3)  EMA(5)  EMA(7,HL2)  SMA/EMA(8)
         -------------------------------------------------------------
         """);

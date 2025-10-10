@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Exponential Moving Average (EMA) from incremental reusable values.
 /// </summary>
-public class EmaList : BufferList<EmaResult>, IBufferReusable, IEma
+public class EmaList : BufferList<EmaResult>, IIncrementFromChain, IEma
 {
     private readonly Queue<double> _buffer;
     private double _bufferSum;
@@ -25,16 +25,16 @@ public class EmaList : BufferList<EmaResult>, IBufferReusable, IEma
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="EmaList"/> class with initial quotes.
+    /// Initializes a new instance of the <see cref="EmaList"/> class with initial reusable values.
     /// </summary>
     /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
-    /// <param name="quotes">Initial quotes to populate the list.</param>
+    /// <param name="values">Initial reusable values to populate the list.</param>
     public EmaList(
         int lookbackPeriods,
-        IReadOnlyList<IQuote> quotes
+        IReadOnlyList<IReusable> values
     )
         : this(lookbackPeriods)
-        => Add(quotes);
+        => Add(values);
 
     /// <inheritdoc />
     public int LookbackPeriods { get; init; }
@@ -102,27 +102,9 @@ public class EmaList : BufferList<EmaResult>, IBufferReusable, IEma
     }
 
     /// <inheritdoc />
-    public void Add(IQuote quote)
-    {
-        ArgumentNullException.ThrowIfNull(quote);
-        Add(quote.Timestamp, quote.Value);
-    }
-
-    /// <inheritdoc />
-    public void Add(IReadOnlyList<IQuote> quotes)
-    {
-        ArgumentNullException.ThrowIfNull(quotes);
-
-        for (int i = 0; i < quotes.Count; i++)
-        {
-            Add(quotes[i].Timestamp, quotes[i].Value);
-        }
-    }
-
-    /// <inheritdoc />
     public override void Clear()
     {
-        ClearInternal();
+        base.Clear();
         _buffer.Clear();
         _bufferSum = 0;
     }
@@ -133,9 +115,9 @@ public static partial class Ema
     /// <summary>
     /// Creates a buffer list for Exponential Moving Average (EMA) calculations.
     /// </summary>
-    public static EmaList ToEmaList<TQuote>(
-        this IReadOnlyList<TQuote> quotes,
+    public static EmaList ToEmaList<T>(
+        this IReadOnlyList<T> source,
         int lookbackPeriods)
-        where TQuote : IQuote
-        => new(lookbackPeriods) { (IReadOnlyList<IQuote>)quotes };
+        where T : IReusable
+        => new(lookbackPeriods) { (IReadOnlyList<IReusable>)source };
 }

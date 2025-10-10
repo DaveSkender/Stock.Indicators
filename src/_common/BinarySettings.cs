@@ -5,9 +5,11 @@ namespace Skender.Stock.Indicators;
 /// to behaviors and characteristics.
 /// </summary>
 /// <remarks>
+/// <para>
 /// Initializes a new instance of the <see cref="BinarySettings"/> struct.
 /// The Mask parameter is optional and defaults to 0b11111111 where all bits
 /// pass through to "combinor" sets.
+/// </para>
 ///
 /// Example of accessing a specific bit:
 /// <code>

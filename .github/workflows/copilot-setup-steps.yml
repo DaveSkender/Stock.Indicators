@@ -17,18 +17,12 @@ jobs:
       - name: Setup Python for Spec-Kit
         uses: actions/setup-python@v5
         with:
-          python-version: "3.12"
+          python-version: "3.13"
 
-      - name: Install uv package manager
+      - name: Setup uv package manager
         run: |
           curl -LsSf https://astral.sh/uv/install.sh | sh
           export PATH="$HOME/.cargo/bin:$PATH"
-        continue-on-error: true
-
-      - name: Install Spec-Kit CLI
-        run: |
-          export PATH="$HOME/.cargo/bin:$PATH"
-          uv tool install specify-cli --from git+https://github.com/github/spec-kit.git
         continue-on-error: true
 
       - name: Setup Ruby
@@ -38,29 +32,34 @@ jobs:
           bundler-cache: true
           working-directory: docs
 
-      - name: Install .NET SDK
-        uses: actions/setup-dotnet@v5
-        with:
-          dotnet-version: "9.x"
-          dotnet-quality: "ga"
-
-      - name: Install .NET global tools
-        run: |
-          dotnet tool install --global dotnet-format
-          dotnet tool install --global dotnet-outdated-tool
-          dotnet tool install --global dotnet-reportgenerator-globaltool
-        continue-on-error: true
-
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: ">=22"
           cache: "npm"
           cache-dependency-path: package-lock.json
         continue-on-error: true
 
-      - name: Verify Spec-Kit installation
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: "9.x"
+          dotnet-quality: "ga"
+
+      - name: Install .NET & NPM global tools
         run: |
+          dotnet tool install --global dotnet-format
+          dotnet tool install --global roslynator.dotnet.cli
+          dotnet tool install --global dotnet-outdated-tool
+          dotnet tool install --global dotnet-reportgenerator-globaltool
+          npm install --global @angular/cli
+        continue-on-error: true
+
+      - name: Install Spec-Kit CLI
+        run: |
+          export PATH="$HOME/.cargo/bin:$PATH"
+          uv tool install --force specify-cli --from git+https://github.com/github/spec-kit.git
+
           export PATH="$HOME/.local/bin:$PATH"
           specify --help || echo "Specify help not available"
         continue-on-error: true

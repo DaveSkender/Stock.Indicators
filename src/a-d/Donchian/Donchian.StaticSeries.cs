@@ -60,8 +60,8 @@ public static partial class Donchian
                 results.Add(new DonchianResult(
                     Timestamp: q.Timestamp,
                     UpperBand: u,
-                    LowerBand: l,
                     Centerline: c,
+                    LowerBand: l,
                     Width: c == 0 ? null : (u - l) / c));
             }
             else

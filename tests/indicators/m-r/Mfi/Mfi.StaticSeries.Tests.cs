@@ -35,7 +35,7 @@ public class Mfi : StaticSeriesTestBase
     [TestMethod]
     public void SmallLookback()
     {
-        int lookbackPeriods = 4;
+        const int lookbackPeriods = 4;
 
         IReadOnlyList<MfiResult> results = Quotes
             .ToMfi(lookbackPeriods);
@@ -79,7 +79,7 @@ public class Mfi : StaticSeriesTestBase
     [TestMethod]
     public void Removed()
     {
-        int lookbackPeriods = 14;
+        const int lookbackPeriods = 14;
 
         IReadOnlyList<MfiResult> results = Quotes
             .ToMfi(lookbackPeriods)

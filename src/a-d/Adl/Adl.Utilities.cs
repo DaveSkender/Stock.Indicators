@@ -20,7 +20,7 @@ public static partial class Adl
         double volume,
         double prevAdl)
     {
-        double mfm = high - low == 0
+        double mfm = high == low
             ? 0
             : (close - low - (high - close))
             / (high - low);

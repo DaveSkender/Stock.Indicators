@@ -212,7 +212,6 @@ public class AdxHub<TIn>
 
                 // ADXR becomes available once we have an ADX value from (lookbackPeriods - 1) periods earlier
                 // Static series: i >= 3*lookbackPeriods - 2 (because first ADX at index 2*lookback -1)
-                int firstAdxIndex = (2 * LookbackPeriods) - 1;
                 int firstAdxrIndex = (3 * LookbackPeriods) - 2; // matches series implementation expectation
                 if (i >= firstAdxrIndex)
                 {

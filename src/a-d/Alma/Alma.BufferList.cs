@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Arnaud Legoux Moving Average (ALMA) from incremental reusable values.
 /// </summary>
-public class AlmaList : BufferList<AlmaResult>, IBufferReusable, IAlma
+public class AlmaList : BufferList<AlmaResult>, IIncrementFromChain, IAlma
 {
     private readonly Queue<double> _buffer;
     private readonly double[] _weight;
@@ -46,19 +46,19 @@ public class AlmaList : BufferList<AlmaResult>, IBufferReusable, IAlma
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="AlmaList"/> class with initial quotes.
+    /// Initializes a new instance of the <see cref="AlmaList"/> class with initial reusable values.
     /// </summary>
     /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
     /// <param name="offset">The offset for the ALMA calculation. Default is 0.85.</param>
     /// <param name="sigma">The sigma for the ALMA calculation. Default is 6.</param>
-    /// <param name="quotes">Initial quotes to populate the list.</param>
+    /// <param name="values">Initial reusable values to populate the list.</param>
     public AlmaList(
         int lookbackPeriods,
         double offset,
         double sigma,
-        IReadOnlyList<IQuote> quotes)
+        IReadOnlyList<IReusable> values)
         : this(lookbackPeriods, offset, sigma)
-        => Add(quotes);
+        => Add(values);
 
     /// <summary>
     /// Gets the number of periods to look back for the calculation.
@@ -124,27 +124,9 @@ public class AlmaList : BufferList<AlmaResult>, IBufferReusable, IAlma
     }
 
     /// <inheritdoc />
-    public void Add(IQuote quote)
-    {
-        ArgumentNullException.ThrowIfNull(quote);
-        Add(quote.Timestamp, quote.Value);
-    }
-
-    /// <inheritdoc />
-    public void Add(IReadOnlyList<IQuote> quotes)
-    {
-        ArgumentNullException.ThrowIfNull(quotes);
-
-        for (int i = 0; i < quotes.Count; i++)
-        {
-            Add(quotes[i].Timestamp, quotes[i].Value);
-        }
-    }
-
-    /// <inheritdoc />
     public override void Clear()
     {
-        ClearInternal();
+        base.Clear();
         _buffer.Clear();
     }
 }
@@ -154,11 +136,11 @@ public static partial class Alma
     /// <summary>
     /// Creates a buffer list for Arnaud Legoux Moving Average (ALMA) calculations.
     /// </summary>
-    public static AlmaList ToAlmaList<TQuote>(
-        this IReadOnlyList<TQuote> quotes,
+    public static AlmaList ToAlmaList<T>(
+        this IReadOnlyList<T> source,
         int lookbackPeriods,
         double offset = 0.85,
         double sigma = 6)
-        where TQuote : IQuote
-        => new(lookbackPeriods, offset, sigma) { (IReadOnlyList<IQuote>)quotes };
+        where T : IReusable
+        => new(lookbackPeriods, offset, sigma) { (IReadOnlyList<IReusable>)source };
 }

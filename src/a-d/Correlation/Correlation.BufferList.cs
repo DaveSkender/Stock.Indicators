@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 /// Correlation from incremental paired reusable values.
 /// Note: This indicator requires two synchronized series (A and B).
 /// </summary>
-public class CorrelationList : BufferList<CorrResult>, ICorrelation
+public class CorrelationList : BufferList<CorrResult>, IIncrementFromPairs, ICorrelation
 {
     private readonly Queue<(double ValueA, double ValueB)> _buffer;
 
@@ -24,14 +24,14 @@ public class CorrelationList : BufferList<CorrResult>, ICorrelation
     /// Initializes a new instance of the <see cref="CorrelationList"/> class with initial series.
     /// </summary>
     /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
-    /// <param name="seriesA">First series to populate the list.</param>
-    /// <param name="seriesB">Second series to populate the list.</param>
+    /// <param name="valuesA">First series to populate the list.</param>
+    /// <param name="valuesB">Second series to populate the list.</param>
     public CorrelationList(
         int lookbackPeriods,
-        IReadOnlyList<IReusable> seriesA,
-        IReadOnlyList<IReusable> seriesB)
+        IReadOnlyList<IReusable> valuesA,
+        IReadOnlyList<IReusable> valuesB)
         : this(lookbackPeriods)
-        => Add(seriesA, seriesB);
+        => Add(valuesA, valuesB);
 
     /// <summary>
     /// Gets the number of periods to look back for the calculation.
@@ -54,7 +54,7 @@ public class CorrelationList : BufferList<CorrResult>, ICorrelation
 
         if (_buffer.Count == LookbackPeriods)
         {
-            var bufferArray = _buffer.ToArray();
+            (double ValueA, double ValueB)[] bufferArray = _buffer.ToArray();
             double[] dataA = new double[bufferArray.Length];
             double[] dataB = new double[bufferArray.Length];
 
@@ -77,48 +77,48 @@ public class CorrelationList : BufferList<CorrResult>, ICorrelation
     /// <summary>
     /// Adds a pair of reusable values from two synchronized series.
     /// </summary>
-    /// <param name="itemA">The item from series A.</param>
-    /// <param name="itemB">The item from series B.</param>
+    /// <param name="valueA">The item from series A.</param>
+    /// <param name="valueB">The item from series B.</param>
     /// <exception cref="ArgumentNullException">Thrown when either item is null.</exception>
     /// <exception cref="InvalidQuotesException">Thrown when timestamps don't match.</exception>
-    public void Add(IReusable itemA, IReusable itemB)
+    public void Add(IReusable valueA, IReusable valueB)
     {
-        ArgumentNullException.ThrowIfNull(itemA);
-        ArgumentNullException.ThrowIfNull(itemB);
+        ArgumentNullException.ThrowIfNull(valueA);
+        ArgumentNullException.ThrowIfNull(valueB);
 
-        if (itemA.Timestamp != itemB.Timestamp)
+        if (valueA.Timestamp != valueB.Timestamp)
         {
             throw new InvalidQuotesException(
-                nameof(itemA), itemA.Timestamp,
+                nameof(valueA), valueA.Timestamp,
                 "Timestamp sequence does not match. " +
                 "Correlation requires matching dates in provided histories.");
         }
 
-        Add(itemA.Timestamp, itemA.Value, itemB.Value);
+        Add(valueA.Timestamp, valueA.Value, valueB.Value);
     }
 
     /// <summary>
     /// Adds two synchronized lists of reusable values.
     /// </summary>
-    /// <param name="seriesA">The first series.</param>
-    /// <param name="seriesB">The second series.</param>
+    /// <param name="valuesA">The first series.</param>
+    /// <param name="valuesB">The second series.</param>
     /// <exception cref="ArgumentNullException">Thrown when either series is null.</exception>
     /// <exception cref="ArgumentException">Thrown when series have different lengths.</exception>
-    public void Add(IReadOnlyList<IReusable> seriesA, IReadOnlyList<IReusable> seriesB)
+    public void Add(IReadOnlyList<IReusable> valuesA, IReadOnlyList<IReusable> valuesB)
     {
-        ArgumentNullException.ThrowIfNull(seriesA);
-        ArgumentNullException.ThrowIfNull(seriesB);
+        ArgumentNullException.ThrowIfNull(valuesA);
+        ArgumentNullException.ThrowIfNull(valuesB);
 
-        if (seriesA.Count != seriesB.Count)
+        if (valuesA.Count != valuesB.Count)
         {
             throw new ArgumentException(
                 "Series A and Series B must have the same number of items.",
-                nameof(seriesB));
+                nameof(valuesB));
         }
 
-        for (int i = 0; i < seriesA.Count; i++)
+        for (int i = 0; i < valuesA.Count; i++)
         {
-            Add(seriesA[i], seriesB[i]);
+            Add(valuesA[i], valuesB[i]);
         }
     }
 
@@ -127,7 +127,7 @@ public class CorrelationList : BufferList<CorrResult>, ICorrelation
     /// </summary>
     public override void Clear()
     {
-        ClearInternal();
+        base.Clear();
         _buffer.Clear();
     }
 }
@@ -138,14 +138,14 @@ public static partial class Correlation
     /// Creates a buffer list for Correlation calculations from two synchronized series.
     /// </summary>
     public static CorrelationList ToCorrelationList<T>(
-        this IReadOnlyList<T> seriesA,
-        IReadOnlyList<T> seriesB,
+        this IReadOnlyList<T> valuesA,
+        IReadOnlyList<T> valuesB,
         int lookbackPeriods)
         where T : IReusable
     {
         // Cast to IReadOnlyList<IReusable> for the constructor
-        IReadOnlyList<IReusable> castSeriesA = seriesA.Cast<IReusable>().ToList();
-        IReadOnlyList<IReusable> castSeriesB = seriesB.Cast<IReusable>().ToList();
+        IReadOnlyList<IReusable> castSeriesA = valuesA.Cast<IReusable>().ToList();
+        IReadOnlyList<IReusable> castSeriesB = valuesB.Cast<IReusable>().ToList();
 
         return new(lookbackPeriods, castSeriesA, castSeriesB);
     }

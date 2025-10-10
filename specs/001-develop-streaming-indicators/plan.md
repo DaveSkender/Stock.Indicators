@@ -138,11 +138,21 @@ Prerequisites: research.md complete (decisions documented in Phase 0 above)
 
 **Entities**:
 
-- **IStreamingIndicator\<TQuote, TResult>**: Generic interface with `Add(TQuote)` → `TResult?` method
+- **`IIncrementFromChain`**: Interface for chainable indicators working with `IReusable` values (adds `Add(DateTime, double)`, `Add(IReusable)`, `Add(IReadOnlyList<IReusable>)` methods)
+- **`IIncrementFromQuote`**: Interface for indicators requiring OHLC quote data (adds `Add(IQuote)`, `Add(IReadOnlyList<IQuote>)` methods)
+- **`IIncrementFromPairs`**: Interface for dual-series indicators working with paired `IReusable` values
 - **StreamingState**: Enum { NotWarmedUp, Ready }
 - **StreamingResult\<T>**: Wrapper containing { DateTime, T Value, StreamingState }
-- **BufferList**: List-backed implementation with `Add()`, `Reset()`, bounded capacity
-- **StreamHub**: Span-optimized implementation with circular buffer, `Add()`, `Reset()`
+- **BufferList**: List-backed implementation with `Add()`, `Reset()`, bounded capacity (implements one of the three interfaces above)
+- **StreamHub**: Span-optimized implementation with circular buffer, `Add()`, `Reset()` (implements one of the three interfaces above)
+
+**Interface Selection Rules**:
+
+| Indicator Type | Interface | Constructor Accepts | Extension Method Generic |
+|----------------|-----------|---------------------|-------------------------|
+| Chainable (single value) | `IIncrementFromChain` | `IReadOnlyList<IReusable> values` | `<T> where T : IReusable` |
+| Multi-OHLC required | `IIncrementFromQuote` | `IReadOnlyList<IQuote> quotes` | `<TQuote> where TQuote : IQuote` |
+| Dual-series input | `IIncrementFromPairs` | Paired `IReusable` series | Paired generics |
 
 ### Quality gates
 
@@ -175,10 +185,22 @@ For authoritative implementation guidance, see:
 **BufferList Pattern** (actual naming: `{IndicatorName}List`):
 
 - **Base class**: Inherits from `BufferList<TResult>`
-- **Interfaces**: Implements `IBufferReusable` (for value-based inputs) or `IBufferList` (IQuote-only)
+- **Interfaces**: Implements `IIncrementFromChain` (for chainable/single-value indicators), `IIncrementFromQuote` (for multi-OHLC indicators), or `IIncrementFromPairs` (for dual-series indicators)
 - **Core method**: Uses `AddInternal(TResult result)` for automatic list management
-- **Constructors**: Provides both parameter-only and `(parameters, IEnumerable<IQuote> quotes)` overloads
-- **Examples**: `SmaList`, `EmaList`, `RsiList`, `AlligatorList`, `AtrStopList`
+- **Constructors**:
+  - `IIncrementFromChain`: Provides `(parameters)` and `(parameters, IReadOnlyList<IReusable> values)` overloads
+  - `IIncrementFromQuote`: Provides `(parameters)` and `(parameters, IReadOnlyList<IQuote> quotes)` overloads
+- **Extension methods**:
+  - `IIncrementFromChain`: Uses `<T> where T : IReusable` generic constraint
+  - `IIncrementFromQuote`: Uses `<TQuote> where TQuote : IQuote` generic constraint
+- **Buffer state patterns**:
+  - Prefer named tuples for multi-value internal state: `Queue<(double High, double Low, double Close)>`
+  - Avoid custom structs for internal-only buffer state (unnecessary boilerplate)
+  - Use structs only when implementing interfaces or exposing types publicly
+- **Examples**:
+  - `IIncrementFromChain`: `SmaList`, `EmaList`, `RsiList`, `AlligatorList`, `AtrStopList`
+  - `IIncrementFromQuote`: `TrList` (uses tuple buffer state), `VwmaList`
+  - `IIncrementFromPairs`: `CorrelationList`, `BetaList`
 
 **StreamHub Pattern** (actual naming: `{IndicatorName}Hub<TIn>`):
 
@@ -359,8 +381,12 @@ No violations—section intentionally empty.
 - [x] Phase 1: Design complete (/plan command)
 - [ ] Phase 2: Task planning complete (/plan command - describe approach only)
 - [ ] Phase 3: Tasks generated (/tasks command)
-- [ ] Phase 4: Implementation complete
-- [ ] Phase 5: Validation passed
+- [ ] Phase 4: Implementation complete (**GATE: Only when ALL BufferList indicators (80+) are implemented and ALL buffer-list.md checklist items are covered for each.**)
+- [ ] Phase 5: Validation passed (**GATE: Only when ALL BufferList indicators pass all unit, regression, and parity tests, and all checklist items are marked complete for every indicator.**)
+
+> **Note:**
+>
+> - As of October 9, 2025, only a subset of BufferList indicators are implemented and even those do not have all 100+ checklist items in buffer-list.md marked complete. Many gaps remain in requirements coverage, edge case handling, and documentation for both implemented and pending indicators. See buffer-list.md for detailed checklist status and gaps.
 
 **Gate status**:
 

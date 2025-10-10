@@ -13,7 +13,7 @@ public class EmaTests : TestBase
     {
         // Arrange
         IReadOnlyList<Quote> quotes = Quotes;
-        int lookback = 20;
+        const int lookback = 20;
 
         // Act - Execute via catalog ExecuteById
         IReadOnlyList<EmaResult> byId = quotes.ExecuteById<EmaResult>(
@@ -36,7 +36,7 @@ public class EmaTests : TestBase
         // Arrange
         IReadOnlyList<Quote> quotes = Quotes;
 
-        string json = """
+        const string json = """
             {
                 "id" : "EMA",
                 "style" : "Series",
@@ -127,7 +127,7 @@ public class EmaTests : TestBase
         IndicatorListing listing = Ema.SeriesListing;
         listing.Should().NotBeNull();
 
-        int customLookbackPeriod = 10; // Use custom value instead of default
+        const int customLookbackPeriod = 10; // Use custom value instead of default
 
         // Act - Use fluent API to configure, source, and execute
         IReadOnlyList<EmaResult> customResults = listing
@@ -175,7 +175,7 @@ public class EmaTests : TestBase
         IndicatorListing listing = Ema.SeriesListing;
         listing.Should().NotBeNull();
 
-        int customLookbackPeriod = 15;
+        const int customLookbackPeriod = 15;
 
         // Method 1: listing.WithParamValue().FromSource().Execute()
         IReadOnlyList<EmaResult> method1Results = listing
@@ -249,15 +249,11 @@ public class EmaTests : TestBase
         customIndicator.ParameterOverrides["lookbackPeriods"].Should().Be(10);
 
         // Test parameter validation - should work with proper series
-        Action validSeriesAssignment = () => {
-            correlationListing.WithParamValue("sourceB", smaResults);
-        };
+        Action validSeriesAssignment = () => correlationListing.WithParamValue("sourceB", smaResults);
         validSeriesAssignment.Should().NotThrow();
 
         // Test parameter validation - should fail with invalid parameter name
-        Action invalidParameterName = () => {
-            correlationListing.WithParamValue("invalidParam", emaResults);
-        };
+        Action invalidParameterName = () => correlationListing.WithParamValue("invalidParam", emaResults);
         invalidParameterName.Should().Throw<ArgumentException>()
             .WithMessage("Parameter 'invalidParam' not found in indicator 'CORR'*"); // Use wildcard for full message
 
@@ -301,15 +297,11 @@ public class EmaTests : TestBase
         secondBuilder.ParameterOverrides["sourceA"].Should().BeEquivalentTo(smaResults);
 
         // Test parameter type validation for series
-        Action validAction = () => {
-            correlationListing.FromSource(emaResults, "sourceA");
-        };
+        Action validAction = () => correlationListing.FromSource(emaResults, "sourceA");
         validAction.Should().NotThrow();
 
         // Test invalid parameter name for series
-        Action invalidAction = () => {
-            correlationListing.FromSource(emaResults, "nonExistentParam");
-        };
+        Action invalidAction = () => correlationListing.FromSource(emaResults, "nonExistentParam");
         invalidAction.Should().Throw<ArgumentException>()
             .WithMessage("Parameter 'nonExistentParam' not found in indicator 'CORR'*");
     }

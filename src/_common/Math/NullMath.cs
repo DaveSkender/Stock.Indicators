@@ -79,7 +79,7 @@ public static class NullMath
     /// <returns>The value, or NaN if the input is null.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double Null2NaN(this double? value)
-        => value.GetValueOrDefault(double.NaN);
+        => value ?? double.NaN;
 
     /// <summary>
     /// Converts a nullable decimal value to NaN if it is null.

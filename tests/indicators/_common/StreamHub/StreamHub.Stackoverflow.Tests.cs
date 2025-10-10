@@ -9,7 +9,7 @@ public class Stackoverflow : TestBase
         // goal: about ~10 subscribers, with really long
         // quote history, checking for stack overflow
 
-        int qtyQuotes = 20000;
+        const int qtyQuotes = 20000;
 
         // setup: many random quotes (massive)
         IReadOnlyList<Quote> quotesList = Data.GetRandom(qtyQuotes);
@@ -62,7 +62,7 @@ public class Stackoverflow : TestBase
         }
 
         // act: clear quoteHub cache (cascades to subscribers)
-        int cutoff = qtyQuotes / 2;
+        const int cutoff = qtyQuotes / 2;
         quoteHub.RemoveRange(cutoff, notify: true);
 
         quoteHub.Quotes.Count.Should().Be(cutoff);
@@ -87,8 +87,8 @@ public class Stackoverflow : TestBase
         // subscribes to the next creating a really long chain
         // of observers, without stack overflow
 
-        int qtyQuotes = 10000;
-        int chainDepth = 500;
+        const int qtyQuotes = 10000;
+        const int chainDepth = 500;
 
         // setup: many random quotes (massive)
         IReadOnlyList<Quote> quotesList = Data.GetRandom(qtyQuotes);
@@ -148,7 +148,7 @@ public class Stackoverflow : TestBase
         }
 
         // act: clear quoteHub cache (cascades to subscribers)
-        int cutoff = qtyQuotes / 2;
+        const int cutoff = qtyQuotes / 2;
         quoteHub.RemoveRange(cutoff, notify: true);
 
         quoteHub.Quotes.Count.Should().Be(cutoff);
@@ -171,7 +171,7 @@ public class Stackoverflow : TestBase
         // can subscribe to the same quote quoteHub
         // without stack overflow; ~350 subscribers
 
-        int qtyQuotes = 5000;
+        const int qtyQuotes = 5000;
 
         // setup: many random quotes
         IReadOnlyList<Quote> quotesList = Data.GetRandom(qtyQuotes);
@@ -234,7 +234,7 @@ public class Stackoverflow : TestBase
         }
 
         // act: clear quoteHub cache (cascades to subscribers)
-        int cutoff = qtyQuotes / 2;
+        const int cutoff = qtyQuotes / 2;
         quoteHub.RemoveRange(cutoff, notify: true);
 
         quoteHub.Quotes.Count.Should().Be(cutoff);

@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Balance of Power (BOP) from incremental quotes.
 /// </summary>
-public class BopList : BufferList<BopResult>, IBufferList, IBop
+public class BopList : BufferList<BopResult>, IIncrementFromQuote, IBop
 {
     private readonly Queue<double> _buffer;
 
@@ -78,7 +78,7 @@ public class BopList : BufferList<BopResult>, IBufferList, IBop
     /// <inheritdoc />
     public override void Clear()
     {
-        ClearInternal();
+        base.Clear();
         _buffer.Clear();
     }
 }

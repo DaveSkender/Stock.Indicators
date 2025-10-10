@@ -6,8 +6,8 @@ public class StdDevChannels : StaticSeriesTestBase
     [TestMethod]
     public override void Standard()
     {
-        int lookbackPeriods = 20;
-        double standardDeviations = 2;
+        const int lookbackPeriods = 20;
+        const double standardDeviations = 2;
 
         IReadOnlyList<StdDevChannelsResult> results =
             Quotes.ToStdDevChannels(lookbackPeriods, standardDeviations);
@@ -144,8 +144,8 @@ public class StdDevChannels : StaticSeriesTestBase
     [TestMethod]
     public void Condense()
     {
-        int lookbackPeriods = 20;
-        double standardDeviations = 2;
+        const int lookbackPeriods = 20;
+        const double standardDeviations = 2;
 
         IReadOnlyList<StdDevChannelsResult> results = Quotes
             .ToStdDevChannels(lookbackPeriods, standardDeviations)
@@ -163,8 +163,8 @@ public class StdDevChannels : StaticSeriesTestBase
     [TestMethod]
     public void Removed()
     {
-        int lookbackPeriods = 20;
-        double standardDeviations = 2;
+        const int lookbackPeriods = 20;
+        const double standardDeviations = 2;
 
         IReadOnlyList<StdDevChannelsResult> results = Quotes
             .ToStdDevChannels(lookbackPeriods, standardDeviations)

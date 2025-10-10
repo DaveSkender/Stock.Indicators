@@ -6,9 +6,9 @@ public class Kama : StaticSeriesTestBase
     [TestMethod]
     public override void Standard()
     {
-        int erPeriods = 10;
-        int fastPeriods = 2;
-        int slowPeriods = 30;
+        const int erPeriods = 10;
+        const int fastPeriods = 2;
+        const int slowPeriods = 30;
 
         IReadOnlyList<KamaResult> results = Quotes
             .ToKama(erPeriods, fastPeriods, slowPeriods);
@@ -108,16 +108,16 @@ public class Kama : StaticSeriesTestBase
     [TestMethod]
     public void Removed()
     {
-        int erPeriods = 10;
-        int fastPeriods = 2;
-        int slowPeriods = 30;
+        const int erPeriods = 10;
+        const int fastPeriods = 2;
+        const int slowPeriods = 30;
 
         IReadOnlyList<KamaResult> results = Quotes
             .ToKama(erPeriods, fastPeriods, slowPeriods)
             .RemoveWarmupPeriods();
 
         // assertions
-        Assert.AreEqual(502 - Math.Max(erPeriods + 100, erPeriods * 10), results.Count);
+        Assert.HasCount(502 - Math.Max(erPeriods + 100, erPeriods * 10), results);
 
         KamaResult last = results[^1];
         Assert.AreEqual(0.2214, last.Er.Round(4));

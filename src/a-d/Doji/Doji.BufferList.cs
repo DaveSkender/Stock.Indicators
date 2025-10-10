@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Doji candlestick pattern from incremental quotes.
 /// </summary>
-public class DojiList : BufferList<CandleResult>, IBufferList, IDoji
+public class DojiList : BufferList<CandleResult>, IIncrementFromQuote, IDoji
 {
     private readonly double maxPriceChangeFraction;
 
@@ -72,7 +72,7 @@ public class DojiList : BufferList<CandleResult>, IBufferList, IDoji
     /// </summary>
     public override void Clear()
     {
-        ClearInternal();
+        base.Clear();
     }
 }
 

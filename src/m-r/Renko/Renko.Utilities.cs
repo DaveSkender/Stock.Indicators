@@ -22,7 +22,6 @@ public static partial class Renko
         EndType endType)
         where TQuote : IQuote
     {
-        int brickQuantity;
         decimal upper = Math.Max(lastBrick.Open, lastBrick.Close);
         decimal lower = Math.Min(lastBrick.Open, lastBrick.Close);
 
@@ -30,14 +29,11 @@ public static partial class Renko
         {
             case EndType.Close:
 
-                brickQuantity
-                    = q.Close > upper
+                return q.Close > upper
                     ? (int)((q.Close - upper) / brickSize)
                     : q.Close < lower
                         ? (int)((q.Close - lower) / brickSize)
                         : 0;
-
-                break;
 
             case EndType.HighLow:
 
@@ -47,14 +43,11 @@ public static partial class Renko
                 decimal hQty = (q.High - upper) / brickSize;
                 decimal lQty = (lower - q.Low) / brickSize;
 
-                brickQuantity = (int)(hQty >= lQty ? hQty : -lQty);
-                break;
+                return (int)(hQty >= lQty ? hQty : -lQty);
 
             default:
                 throw new ArgumentOutOfRangeException(nameof(endType));
         }
-
-        return brickQuantity;
     }
 
     /// <summary>

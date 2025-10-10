@@ -35,29 +35,29 @@ The following indicators have series-style implementations but lack BufferList i
 
 ### BufferList A-D Group (16 indicators)
 
-- [x] T001 Implement Alligator BufferList in `src/a-d/Alligator/Alligator.BufferList.cs` ✅ PR #1497
-- [x] T002 Implement Aroon BufferList in `src/a-d/Aroon/Aroon.BufferList.cs` ✅ PR #1497
-- [x] T003 Implement AtrStop BufferList in `src/a-d/AtrStop/AtrStop.BufferList.cs` ✅ PR #1497
-- [x] T004 Implement Awesome BufferList in `src/a-d/Awesome/Awesome.BufferList.cs` ✅ PR #1497
-- [x] T005 Implement Beta BufferList in `src/a-d/Beta/Beta.BufferList.cs` ✅
-- [x] T006 Implement Bop BufferList in `src/a-d/Bop/Bop.BufferList.cs`
-- [x] T007 Implement ChaikinOsc BufferList in `src/a-d/ChaikinOsc/ChaikinOsc.BufferList.cs`
-- [x] T008 Implement Chandelier BufferList in `src/a-d/Chandelier/Chandelier.BufferList.cs`
-- [x] T009 Implement Chop BufferList in `src/a-d/Chop/Chop.BufferList.cs`
-- [x] T010 Implement Cmf BufferList in `src/a-d/Cmf/Cmf.BufferList.cs`
+- [x] T001 Implement Alligator BufferList in `src/a-d/Alligator/Alligator.BufferList.cs` ✅ Complete
+- [x] T002 Implement Aroon BufferList in `src/a-d/Aroon/Aroon.BufferList.cs` ✅ Complete
+- [x] T003 Implement AtrStop BufferList in `src/a-d/AtrStop/AtrStop.BufferList.cs` ✅ Complete
+- [x] T004 Implement Awesome BufferList in `src/a-d/Awesome/Awesome.BufferList.cs` ✅ Complete
+- [x] T005 Implement Beta BufferList in `src/a-d/Beta/Beta.BufferList.cs` ✅ Complete
+- [x] T006 Implement Bop BufferList in `src/a-d/Bop/Bop.BufferList.cs` ✅ Complete
+- [x] T007 Implement ChaikinOsc BufferList in `src/a-d/ChaikinOsc/ChaikinOsc.BufferList.cs` ✅ Complete
+- [x] T008 Implement Chandelier BufferList in `src/a-d/Chandelier/Chandelier.BufferList.cs` ✅ Complete
+- [x] T009 Implement Chop BufferList in `src/a-d/Chop/Chop.BufferList.cs` ✅ Complete
+- [x] T010 Implement Cmf BufferList in `src/a-d/Cmf/Cmf.BufferList.cs` ✅ Complete
 - [ ] T011 Implement ConnorsRsi BufferList in `src/a-d/ConnorsRsi/ConnorsRsi.BufferList.cs`
-- [X] T012 Implement Correlation BufferList in `src/a-d/Correlation/Correlation.BufferList.cs` ✅ PR #1499 ✓ Verified
-- [X] T013 Implement Doji BufferList in `src/a-d/Doji/Doji.BufferList.cs` ✅ PR #1499 ✓ Verified
-- [X] T014 Implement Donchian BufferList in `src/a-d/Donchian/Donchian.BufferList.cs` ✅ PR #1499 ✓ Verified
-- [X] T015 Implement Dpo BufferList in `src/a-d/Dpo/Dpo.BufferList.cs` ✅ PR #1499 ✓ Verified
-- [X] T016 Implement Dynamic BufferList in `src/a-d/Dynamic/Dynamic.BufferList.cs` ✅ This PR ✓ Verified
+- [x] T012 Implement Correlation BufferList in `src/a-d/Correlation/Correlation.BufferList.cs` ✅ Complete
+- [x] T013 Implement Doji BufferList in `src/a-d/Doji/Doji.BufferList.cs` ✅ Complete
+- [x] T014 Implement Donchian BufferList in `src/a-d/Donchian/Donchian.BufferList.cs` ✅ Complete
+- [x] T015 Implement Dpo BufferList in `src/a-d/Dpo/Dpo.BufferList.cs` ✅ Complete
+- [x] T016 Implement Dynamic BufferList in `src/a-d/Dynamic/Dynamic.BufferList.cs` ✅ Complete
 
 ### BufferList E-K Group (12 indicators)
 
-- [X] T017 Implement ElderRay BufferList in `src/e-k/ElderRay/ElderRay.BufferList.cs` ✅ This PR ✓ Verified
-- [X] T018 Implement Fcb BufferList in `src/e-k/Fcb/Fcb.BufferList.cs` ✅ This PR ✓ Verified
-- [X] T019 Implement FisherTransform BufferList in `src/e-k/FisherTransform/FisherTransform.BufferList.cs` ✅ This PR ⚠️ FP precision
-- [X] T020 Implement ForceIndex BufferList in `src/e-k/ForceIndex/ForceIndex.BufferList.cs` ✅ This PR ✓ Verified
+- [x] T017 Implement ElderRay BufferList in `src/e-k/ElderRay/ElderRay.BufferList.cs` ✅ Complete
+- [x] T018 Implement Fcb BufferList in `src/e-k/Fcb/Fcb.BufferList.cs` ✅ Complete
+- [x] T019 Implement FisherTransform BufferList in `src/e-k/FisherTransform/FisherTransform.BufferList.cs` ✅ Complete
+- [x] T020 Implement ForceIndex BufferList in `src/e-k/ForceIndex/ForceIndex.BufferList.cs` ✅ Complete
 - [ ] T021 Implement Fractal BufferList in `src/e-k/Fractal/Fractal.BufferList.cs`
 - [ ] T022 Implement Gator BufferList in `src/e-k/Gator/Gator.BufferList.cs`
 - [ ] T023 Implement HeikinAshi BufferList in `src/e-k/HeikinAshi/HeikinAshi.BufferList.cs`
@@ -106,8 +106,8 @@ The following indicators have series-style implementations but lack StreamHub im
 
 ### StreamHub A-D Group (14 indicators)
 
-- [x] T056 Implement Aroon StreamHub in `src/a-d/Aroon/Aroon.StreamHub.cs`
-- [x] T057 Implement Awesome StreamHub in `src/a-d/Awesome/Awesome.StreamHub.cs`
+- [x] T056 Implement Aroon StreamHub in `src/a-d/Aroon/Aroon.StreamHub.cs` ✅ Complete
+- [x] T057 Implement Awesome StreamHub in `src/a-d/Awesome/Awesome.StreamHub.cs` ✅ Complete
 - [ ] T058 Implement Beta StreamHub in `src/a-d/Beta/Beta.StreamHub.cs`
 - [ ] T059 Implement Bop StreamHub in `src/a-d/Bop/Bop.StreamHub.cs`
 - [ ] T060 Implement ChaikinOsc StreamHub in `src/a-d/ChaikinOsc/ChaikinOsc.StreamHub.cs`
@@ -115,8 +115,8 @@ The following indicators have series-style implementations but lack StreamHub im
 - [ ] T062 Implement Chop StreamHub in `src/a-d/Chop/Chop.StreamHub.cs`
 - [ ] T063 Implement Cmf StreamHub in `src/a-d/Cmf/Cmf.StreamHub.cs`
 - [ ] T064 Implement ConnorsRsi StreamHub in `src/a-d/ConnorsRsi/ConnorsRsi.StreamHub.cs`
-- [ ] T065 Implement Correlation StreamHub in `src/a-d/Correlation/Correlation.StreamHub.cs` (WIP - dual-stream sync needs work, see Issue #1511)
-- [x] T066 Implement Doji StreamHub in `src/a-d/Doji/Doji.StreamHub.cs`
+- [ ] T065 Implement Correlation StreamHub in `src/a-d/Correlation/Correlation.StreamHub.cs` (WIP, needs revisit - dual-stream sync needs work, see Issue #1511)
+- [x] T066 Implement Doji StreamHub in `src/a-d/Doji/Doji.StreamHub.cs` ✅ Complete
 - [ ] T067 Implement Donchian StreamHub in `src/a-d/Donchian/Donchian.StreamHub.cs`
 - [ ] T068 Implement Dpo StreamHub in `src/a-d/Dpo/Dpo.StreamHub.cs`
 - [ ] T069 Implement Dynamic StreamHub in `src/a-d/Dynamic/Dynamic.StreamHub.cs`
@@ -175,9 +175,9 @@ Each task should follow these guidelines:
 ### BufferList Implementation Requirements
 
 - Inherit from `BufferList<TResult>` base class
-- Implement appropriate interface (`IBufferReusable` or `IBufferList`)
+- Implement appropriate interface (`IIncrementFromChain`, `IIncrementFromQuote`, or `IIncrementFromPairs`)
 - Follow patterns from `.github/instructions/buffer-indicators.instructions.md`
-- Provide both standard constructor and constructor with quotes parameter
+- Provide both standard constructor and constructor with values/quotes parameter (matching interface type)
 - Use universal `BufferUtilities` extension methods for buffer management
 - Include comprehensive unit tests matching patterns in existing tests
 - Ensure mathematical correctness matches series implementation
@@ -256,10 +256,12 @@ The following documentation tasks support the main implementation work:
 - **Total BufferList tasks**: 55
 - **Total StreamHub tasks**: 52
 - **Total implementation tasks**: 107
-- **Current implementations**: BufferList (29), StreamHub (32)
-- **Target coverage**: All 84 series indicators with both BufferList and StreamHub styles
+- **Current implementations**: BufferList (48/85 = 56%), StreamHub (36/85 = 42%)
+- **Missing BufferList implementations**: 37 indicators
+- **Missing StreamHub implementations**: 49 indicators
+- **Target coverage**: All 85 series indicators with both BufferList and StreamHub styles
 - **Documentation tasks**: 7 (D001-D007)
 - **Quality gate tasks**: 4 (Q001-Q004)
 
 ---
-Last updated: October 7, 2025
+Last updated: October 9, 2025

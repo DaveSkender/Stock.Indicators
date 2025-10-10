@@ -1,49 +1,37 @@
+using System.Collections;
+
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Base interface for buffered indicator lists.
+/// Interface for <see cref="BufferList{TResult}"/>,
+/// based on <see cref="IReadOnlyList{TResult}"/>.
 /// </summary>
-public interface IBufferList
+public interface IBufferList<TResult> : IReadOnlyList<TResult>
 {
     /// <summary>
-    /// Apply new quote to increment indicator list values.
-    /// </summary>
-    /// <param name="quote">The next quote value.</param>
-    void Add(IQuote quote);
-
-    /// <summary>
-    /// Apply batch of quotes increment many indicator list values.
-    /// </summary>
-    /// <param name="quotes">A chronologically ordered batch of quotes.</param>
-    void Add(IReadOnlyList<IQuote> quotes);
-
-    /// <summary>
-    /// Clears the indicator list values and input buffers, so the instance can be reused.
+    /// Clears the internal <see cref="ICollection{TResult}" /> storage.
     /// </summary>
     void Clear();
-}
 
-/// <summary>
-/// Interface for adding input values to a buffered list.
-/// </summary>
-public interface IBufferReusable : IBufferList
-{
-    /// <summary>
-    /// Apply new reusable input value to increment indicator list values.
-    /// </summary>
-    /// <param name="timestamp">The date context.</param>
-    /// <param name="value">The next value.</param>
-    void Add(DateTime timestamp, double value);
+    /// <inheritdoc/>
+    bool Contains(TResult item);
 
-    /// <summary>
-    /// Apply new input value to increment indicator list values.
-    /// </summary>
-    /// <param name="value">The next reusable value.</param>
-    void Add(IReusable value);
+    /// <inheritdoc/>
+    void CopyTo(TResult[] array, int arrayIndex);
 
-    /// <summary>
-    /// Apply batch of reusable input values to increment many indicator list values.
-    /// </summary>
-    /// <param name="values">A chronologically ordered batch of <see cref="IReusable"/> values.</param>
-    void Add(IReadOnlyList<IReusable> values);
+    /* IReadOnlyList<T> */
+    //TResult IReadOnlyList<TResult>.this[int index] => throw new NotImplementedException();
+    //int IReadOnlyCollection<TResult>.Count => throw new NotImplementedException();
+    //IEnumerator<TResult> IEnumerable<TResult>.GetEnumerator() => throw new NotImplementedException();
+    //IEnumerator IEnumerable.GetEnumerator() => throw new NotImplementedException();
+
+    /* NOTE: ICollection<T> contains members that are problematic
+     *       for our use case, and are include here for reference.
+     * 
+     * bool IsReadOnly;                     // implicit in use of IReadOnlyList<T>
+     * int Count;                           // redundant to IReadOnlyList<T> property
+     * IEnumerator<TResult> GetEnumerator() // redundant to IReadOnlyList<T> member
+     * void Add(TResult item);              // bypasses primary use case
+     * bool Remove(TResult item);           // corrupts timeline and chaining
+     */
 }

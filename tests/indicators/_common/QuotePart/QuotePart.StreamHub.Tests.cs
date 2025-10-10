@@ -6,7 +6,7 @@ public class QuotePartHub : StreamHubTestBase, ITestChainProvider
     [TestMethod]
     public override void QuoteObserver()
     {
-        CandlePart candlePart = CandlePart.HLC3;
+        const CandlePart candlePart = CandlePart.HLC3;
 
         List<Quote> quotesList = Quotes.ToList();
 
@@ -80,8 +80,8 @@ public class QuotePartHub : StreamHubTestBase, ITestChainProvider
     [TestMethod]
     public void ChainProvider()
     {
-        int smaPeriods = 8;
-        CandlePart candlePart = CandlePart.OHLC4;
+        const int smaPeriods = 8;
+        const CandlePart candlePart = CandlePart.OHLC4;
 
         List<Quote> quotesList = Quotes.ToList();
 

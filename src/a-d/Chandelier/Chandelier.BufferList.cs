@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Chandelier Exit from incremental quotes.
 /// </summary>
-public class ChandelierList : BufferList<ChandelierResult>, IBufferList, IChandelier
+public class ChandelierList : BufferList<ChandelierResult>, IIncrementFromQuote, IChandelier
 {
     private readonly AtrList _atrList;
     private readonly Queue<(double High, double Low)> _buffer;
@@ -78,11 +78,11 @@ public class ChandelierList : BufferList<ChandelierResult>, IBufferList, IChande
             {
                 case Direction.Long:
                     double maxHigh = double.MinValue;
-                    foreach (var item in _buffer)
+                    foreach ((double High, double Low) in _buffer)
                     {
-                        if (item.High > maxHigh)
+                        if (High > maxHigh)
                         {
-                            maxHigh = item.High;
+                            maxHigh = High;
                         }
                     }
                     exit = maxHigh - (atr * Multiplier);
@@ -90,11 +90,11 @@ public class ChandelierList : BufferList<ChandelierResult>, IBufferList, IChande
 
                 case Direction.Short:
                     double minLow = double.MaxValue;
-                    foreach (var item in _buffer)
+                    foreach ((double High, double Low) in _buffer)
                     {
-                        if (item.Low < minLow)
+                        if (Low < minLow)
                         {
-                            minLow = item.Low;
+                            minLow = Low;
                         }
                     }
                     exit = minLow + (atr * Multiplier);
@@ -122,7 +122,7 @@ public class ChandelierList : BufferList<ChandelierResult>, IBufferList, IChande
     /// <inheritdoc />
     public override void Clear()
     {
-        ClearInternal();
+        base.Clear();
         _atrList.Clear();
         _buffer.Clear();
     }

@@ -67,9 +67,9 @@ public class AwesomeHub : StreamHubTestBase, ITestChainObserver, ITestChainProvi
     [TestMethod]
     public void ChainObserver()
     {
-        int emaPeriods = 12;
-        int fastPeriods = 5;
-        int slowPeriods = 34;
+        const int emaPeriods = 12;
+        const int fastPeriods = 5;
+        const int slowPeriods = 34;
 
         List<Quote> quotesList = Quotes.ToList();
 
@@ -110,9 +110,9 @@ public class AwesomeHub : StreamHubTestBase, ITestChainObserver, ITestChainProvi
     [TestMethod]
     public void ChainProvider()
     {
-        int fastPeriods = 5;
-        int slowPeriods = 34;
-        int emaPeriods = 12;
+        const int fastPeriods = 5;
+        const int slowPeriods = 34;
+        const int emaPeriods = 12;
 
         List<Quote> quotesList = Quotes.ToList();
 

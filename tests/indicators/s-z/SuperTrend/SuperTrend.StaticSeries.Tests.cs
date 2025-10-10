@@ -88,8 +88,8 @@ public class SuperTrend : StaticSeriesTestBase
     [TestMethod]
     public void Condense()
     {
-        int lookbackPeriods = 14;
-        double multiplier = 3;
+        const int lookbackPeriods = 14;
+        const double multiplier = 3;
 
         IReadOnlyList<SuperTrendResult> results = Quotes
             .ToSuperTrend(lookbackPeriods, multiplier)
@@ -107,8 +107,8 @@ public class SuperTrend : StaticSeriesTestBase
     [TestMethod]
     public void Removed()
     {
-        int lookbackPeriods = 14;
-        double multiplier = 3;
+        const int lookbackPeriods = 14;
+        const double multiplier = 3;
 
         IReadOnlyList<SuperTrendResult> results = Quotes
             .ToSuperTrend(lookbackPeriods, multiplier)

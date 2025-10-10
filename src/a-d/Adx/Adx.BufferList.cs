@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Average Directional Index (ADX) from incremental reusable values.
 /// </summary>
-public class AdxList : BufferList<AdxResult>, IAdx, IBufferList
+public class AdxList : BufferList<AdxResult>, IIncrementFromQuote, IAdx
 {
     private readonly Queue<AdxBuffer> _buffer;
 
@@ -107,7 +107,7 @@ public class AdxList : BufferList<AdxResult>, IAdx, IBufferList
         double mdi = 100 * curr.Mdm / curr.Trs;
 
         // calculate directional index (DX)
-        curr.Dx = pdi - mdi == 0
+        curr.Dx = pdi == mdi
             ? 0
             : pdi + mdi != 0
             ? 100 * Math.Abs(pdi - mdi) / (pdi + mdi)
@@ -175,7 +175,7 @@ public class AdxList : BufferList<AdxResult>, IAdx, IBufferList
     /// <inheritdoc />
     public override void Clear()
     {
-        ClearInternal();
+        base.Clear();
         _buffer.Clear();
     }
 

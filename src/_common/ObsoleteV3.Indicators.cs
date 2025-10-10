@@ -1,8 +1,7 @@
 using System.Diagnostics.CodeAnalysis;
 
-#pragma warning disable CS1591, IND001
-
 namespace Skender.Stock.Indicators;
+#pragma warning disable CS1591, IND001, RCS1163
 
 // OBSOLETE IN v3.0.0
 public static partial class Indicator

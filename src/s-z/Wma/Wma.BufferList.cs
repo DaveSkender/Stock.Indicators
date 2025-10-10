@@ -3,12 +3,11 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Weighted Moving Average (WMA) from incremental reusable values.
 /// </summary>
-public class WmaList : BufferList<WmaResult>, IBufferReusable, IWma
+public class WmaList : BufferList<WmaResult>, IIncrementFromChain, IWma
 {
     private readonly Queue<double> _buffer;
     private readonly double _divisor;
     private double _sum;
-    private double _weightedAverage;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="WmaList"/> class.
@@ -26,13 +25,13 @@ public class WmaList : BufferList<WmaResult>, IBufferReusable, IWma
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="WmaList"/> class with initial quotes.
+    /// Initializes a new instance of the <see cref="WmaList"/> class with initial reusable values.
     /// </summary>
     /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
-    /// <param name="quotes">Initial quotes to populate the list.</param>
-    public WmaList(int lookbackPeriods, IReadOnlyList<IQuote> quotes)
+    /// <param name="values">Initial reusable values to populate the list.</param>
+    public WmaList(int lookbackPeriods, IReadOnlyList<IReusable> values)
         : this(lookbackPeriods)
-        => Add(quotes);
+        => Add(values);
 
     /// <summary>
     /// Gets the number of periods to look back for the calculation.
@@ -57,11 +56,6 @@ public class WmaList : BufferList<WmaResult>, IBufferReusable, IWma
             LookbackPeriods,
             _divisor);
 
-        if (wma.HasValue)
-        {
-            _weightedAverage = wma.Value;
-        }
-
         AddInternal(new WmaResult(timestamp, wma));
     }
 
@@ -84,30 +78,11 @@ public class WmaList : BufferList<WmaResult>, IBufferReusable, IWma
     }
 
     /// <inheritdoc />
-    public void Add(IQuote quote)
-    {
-        ArgumentNullException.ThrowIfNull(quote);
-        Add(quote.Timestamp, quote.Value);
-    }
-
-    /// <inheritdoc />
-    public void Add(IReadOnlyList<IQuote> quotes)
-    {
-        ArgumentNullException.ThrowIfNull(quotes);
-
-        for (int i = 0; i < quotes.Count; i++)
-        {
-            Add(quotes[i].Timestamp, quotes[i].Value);
-        }
-    }
-
-    /// <inheritdoc />
     public override void Clear()
     {
-        ClearInternal();
+        base.Clear();
         _buffer.Clear();
         _sum = 0d;
-        _weightedAverage = 0d;
     }
 }
 
@@ -116,9 +91,9 @@ public static partial class Wma
     /// <summary>
     /// Creates a buffer list for Weighted Moving Average (VWMA) calculations.
     /// </summary>
-    public static WmaList ToWmaList<TQuote>(
-        this IReadOnlyList<TQuote> quotes,
+    public static WmaList ToWmaList<T>(
+        this IReadOnlyList<T> source,
         int lookbackPeriods)
-        where TQuote : IQuote
-        => new(lookbackPeriods) { (IReadOnlyList<IQuote>)quotes };
+        where T : IReusable
+        => new(lookbackPeriods) { (IReadOnlyList<IReusable>)source };
 }

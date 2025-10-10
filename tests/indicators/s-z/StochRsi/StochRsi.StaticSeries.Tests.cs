@@ -6,10 +6,10 @@ public class StochRsi : StaticSeriesTestBase
     [TestMethod]
     public override void Standard() // Fast RSI
     {
-        int rsiPeriods = 14;
-        int stochPeriods = 14;
-        int signalPeriods = 3;
-        int smoothPeriods = 1;
+        const int rsiPeriods = 14;
+        const int stochPeriods = 14;
+        const int signalPeriods = 3;
+        const int smoothPeriods = 1;
 
         IReadOnlyList<StochRsiResult> results =
             Quotes.ToStochRsi(rsiPeriods, stochPeriods, signalPeriods, smoothPeriods);
@@ -42,10 +42,10 @@ public class StochRsi : StaticSeriesTestBase
     [TestMethod]
     public void SlowRsi()
     {
-        int rsiPeriods = 14;
-        int stochPeriods = 14;
-        int signalPeriods = 3;
-        int smoothPeriods = 3;
+        const int rsiPeriods = 14;
+        const int stochPeriods = 14;
+        const int signalPeriods = 3;
+        const int smoothPeriods = 3;
 
         IReadOnlyList<StochRsiResult> results =
             Quotes.ToStochRsi(rsiPeriods, stochPeriods, signalPeriods, smoothPeriods);
@@ -136,17 +136,17 @@ public class StochRsi : StaticSeriesTestBase
     [TestMethod]
     public void Removed()
     {
-        int rsiPeriods = 14;
-        int stochPeriods = 14;
-        int signalPeriods = 3;
-        int smoothPeriods = 3;
+        const int rsiPeriods = 14;
+        const int stochPeriods = 14;
+        const int signalPeriods = 3;
+        const int smoothPeriods = 3;
 
         IReadOnlyList<StochRsiResult> results = Quotes
             .ToStochRsi(rsiPeriods, stochPeriods, signalPeriods, smoothPeriods)
             .RemoveWarmupPeriods();
 
         // assertions
-        int removeQty = rsiPeriods + stochPeriods + smoothPeriods + 100;
+        const int removeQty = rsiPeriods + stochPeriods + smoothPeriods + 100;
         Assert.HasCount(502 - removeQty, results);
 
         StochRsiResult last = results[^1];

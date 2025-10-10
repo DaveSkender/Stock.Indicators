@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// ATR Trailing Stop from incremental quote values.
 /// </summary>
-public class AtrStopList : BufferList<AtrStopResult>, IBufferList, IAtrStop
+public class AtrStopList : BufferList<AtrStopResult>, IIncrementFromQuote, IAtrStop
 {
     private readonly AtrList _atrList;
     private bool _isBullish;
@@ -172,7 +172,7 @@ public class AtrStopList : BufferList<AtrStopResult>, IBufferList, IAtrStop
     /// </summary>
     public override void Clear()
     {
-        ClearInternal();
+        base.Clear();
         _atrList.Clear();
         _isBullish = true;
         _upperBand = double.MaxValue;

@@ -6,7 +6,7 @@ public class Chandelier : StaticSeriesTestBase
     [TestMethod]
     public override void Standard()
     {
-        int lookbackPeriods = 22;
+        const int lookbackPeriods = 22;
 
         IReadOnlyList<ChandelierResult> longResult =
             Quotes.ToChandelier(lookbackPeriods);

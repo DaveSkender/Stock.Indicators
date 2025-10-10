@@ -12,5 +12,5 @@ public class StochrsiTests : RegressionTestBase<StochRsiResult>
     public override void Buffer() => Assert.Inconclusive("Buffer implementation not yet available");
 
     [TestMethod]
-    public override void Stream() => quoteHub.ToStochRsiHub().Results.AssertEquals(Expected);
+    public override void Stream() => QuoteHub.ToStochRsiHub().Results.AssertEquals(Expected);
 }

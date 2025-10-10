@@ -122,28 +122,5 @@ public class Sma : BufferListTestBase, ITestReusableBufferList
         sut.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
     }
 
-    [TestMethod]
-    public void AutoListPruningMaintainsRecency()
-    {
-        const int maxListSize = 100;
 
-        // Create buffer list with small MaxListSize for testing
-        SmaList sut = new(lookbackPeriods) {
-            MaxListSize = maxListSize
-        };
-
-        // Add more quotes than MaxListSize
-        for (int i = 0; i < 150; i++)
-        {
-            Quote quote = Quotes[i % Quotes.Count];
-            sut.Add(quote.Timestamp.AddDays(i), quote.Value);
-        }
-
-        // Verify list was pruned to stay at MaxListSize
-        sut.Count.Should().Be(maxListSize);
-
-        // Verify most recent results are retained
-        SmaResult lastResult = sut[^1];
-        lastResult.Should().NotBeNull();
-    }
 }

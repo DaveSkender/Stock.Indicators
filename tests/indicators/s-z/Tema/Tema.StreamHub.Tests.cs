@@ -6,7 +6,7 @@ public class TemaHub : StreamHubTestBase, ITestChainProvider
     [TestMethod]
     public override void QuoteObserver()
     {
-        int lookbackPeriods = 20;
+        const int lookbackPeriods = 20;
 
         List<Quote> quotesList = Quotes.ToList();
 
@@ -70,8 +70,8 @@ public class TemaHub : StreamHubTestBase, ITestChainProvider
     [TestMethod]
     public void ChainProvider()
     {
-        int temaPeriods = 20;
-        int smaPeriods = 10;
+        const int temaPeriods = 20;
+        const int smaPeriods = 10;
 
         List<Quote> quotesList = Quotes.ToList();
 

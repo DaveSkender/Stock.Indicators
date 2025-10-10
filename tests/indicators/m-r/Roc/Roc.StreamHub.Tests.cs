@@ -67,8 +67,8 @@ public class RocHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
     [TestMethod]
     public void ChainObserver()
     {
-        int emaPeriods = 12;
-        int rocPeriods = 20;
+        const int emaPeriods = 12;
+        const int rocPeriods = 20;
 
         List<Quote> quotesList = Quotes.ToList();
 
@@ -109,8 +109,8 @@ public class RocHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
     [TestMethod]
     public void ChainProvider()
     {
-        int emaPeriods = 12;
-        int rocPeriods = 20;
+        const int emaPeriods = 12;
+        const int rocPeriods = 20;
 
         List<Quote> quotesList = Quotes.ToList();
 

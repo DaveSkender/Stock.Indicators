@@ -6,8 +6,8 @@ public class T3Hub : StreamHubTestBase, ITestChainProvider
     [TestMethod]
     public override void QuoteObserver()
     {
-        int lookbackPeriods = 5;
-        double volumeFactor = 0.7;
+        const int lookbackPeriods = 5;
+        const double volumeFactor = 0.7;
 
         List<Quote> quotesList = Quotes.ToList();
 
@@ -71,9 +71,9 @@ public class T3Hub : StreamHubTestBase, ITestChainProvider
     [TestMethod]
     public void ChainProvider()
     {
-        int t3Periods = 5;
-        double volumeFactor = 0.7;
-        int smaPeriods = 10;
+        const int t3Periods = 5;
+        const double volumeFactor = 0.7;
+        const int smaPeriods = 10;
 
         List<Quote> quotesList = Quotes.ToList();
 

@@ -45,7 +45,7 @@ public class CatalogMetadataTests : TestBase
             listing.Style.Should().BeDefined();
             listing.Category.Should().BeDefined();
 
-            if (listing.Results != null && listing.Results.Count > 0)
+            if (listing.Results?.Count > 0)
             {
                 foreach (IndicatorResult result in listing.Results)
                 {
@@ -118,7 +118,7 @@ public class CatalogMetadataTests : TestBase
 
             if (!isRelated)
             {
-                listing.MethodName.Should().MatchRegex(@"^To[A-Z][a-zA-Z]*$");
+                listing.MethodName.Should().MatchRegex("^To[A-Z][a-zA-Z]*$");
             }
         }
     }
@@ -147,7 +147,7 @@ public class CatalogMetadataTests : TestBase
     public void EachCatalogEntryParametersShouldBeValidForAutomation()
     {
         IReadOnlyList<IndicatorListing> catalog = Catalog.Listings;
-        List<IndicatorListing> entriesWithParameters = catalog.Where(l => l.Parameters != null && l.Parameters.Any()).ToList();
+        List<IndicatorListing> entriesWithParameters = catalog.Where(l => l.Parameters?.Any() == true).ToList();
         entriesWithParameters.Should().NotBeEmpty();
         foreach (IndicatorListing listing in entriesWithParameters)
         {

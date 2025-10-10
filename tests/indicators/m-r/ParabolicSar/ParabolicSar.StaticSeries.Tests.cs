@@ -6,8 +6,8 @@ public class ParabolicSar : StaticSeriesTestBase
     [TestMethod]
     public override void Standard()
     {
-        double acclerationStep = 0.02;
-        double maxAccelerationFactor = 0.2;
+        const double acclerationStep = 0.02;
+        const double maxAccelerationFactor = 0.2;
 
         List<ParabolicSarResult> results =
             Quotes.ToParabolicSar(acclerationStep, maxAccelerationFactor)
@@ -38,9 +38,9 @@ public class ParabolicSar : StaticSeriesTestBase
     [TestMethod]
     public void Extended()
     {
-        double acclerationStep = 0.02;
-        double maxAccelerationFactor = 0.2;
-        double initialStep = 0.01;
+        const double acclerationStep = 0.02;
+        const double maxAccelerationFactor = 0.2;
+        const double initialStep = 0.01;
 
         List<ParabolicSarResult> results =
             Quotes.ToParabolicSar(
@@ -87,8 +87,8 @@ public class ParabolicSar : StaticSeriesTestBase
     [TestMethod]
     public void InsufficientQuotes()
     {
-        double acclerationStep = 0.02;
-        double maxAccelerationFactor = 0.2;
+        const double acclerationStep = 0.02;
+        const double maxAccelerationFactor = 0.2;
 
         List<Quote> insufficientQuotes = Data.GetDefault()
             .OrderBy(x => x.Timestamp)
@@ -133,8 +133,8 @@ public class ParabolicSar : StaticSeriesTestBase
     [TestMethod]
     public void Removed()
     {
-        double acclerationStep = 0.02;
-        double maxAccelerationFactor = 0.2;
+        const double acclerationStep = 0.02;
+        const double maxAccelerationFactor = 0.2;
 
         IReadOnlyList<ParabolicSarResult> results = Quotes
             .ToParabolicSar(acclerationStep, maxAccelerationFactor)

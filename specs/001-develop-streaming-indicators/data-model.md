@@ -154,7 +154,42 @@ public sealed record StreamingResult<T>
 - Suitable for moderate frequency (<1k ticks/sec)
 - Easier to debug (standard collection semantics)
 
-**Generic pattern**:
+**Buffer state patterns**:
+
+- **Prefer tuples for internal buffer state**: Use named tuples (e.g., `Queue<(double High, double Low, double Close)>`) for multi-value state
+- **Avoid custom structs**: Internal-only buffer state doesn't need IEquatable, GetHashCode, or other boilerplate
+- **Use structs only when**: Implementing specific interfaces, exposing publicly, or requiring custom behavior
+
+**Example with tuple buffer state**:
+
+```csharp
+public sealed class TrList : BufferList<TrResult>, IIncrementFromQuote
+{
+    private readonly Queue<(double High, double Low, double Close)> _buffer;
+
+    public TrList()
+    {
+        _buffer = new Queue<(double, double, double)>(2);
+    }
+
+    public void Add(IQuote quote)
+    {
+        (double High, double Low, double Close) curr = (
+            (double)quote.High,
+            (double)quote.Low,
+            (double)quote.Close);
+        
+        _buffer.Update(2, curr);
+        
+        // Calculate using named tuple fields
+        double tr = curr.High - curr.Low;
+        
+        AddInternal(new TrResult(quote.Timestamp, tr));
+    }
+}
+```
+
+**Generic pattern** (simplified, single-value buffer):
 
 ```csharp
 public sealed class [IndicatorName]BufferList : IStreamingIndicator<Quote, [IndicatorName]Result>

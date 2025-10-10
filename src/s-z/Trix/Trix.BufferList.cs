@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Triple Exponential Moving Average Oscillator (TRIX) from incremental reusable values.
 /// </summary>
-public class TrixList : BufferList<TrixResult>, IBufferReusable, ITrix
+public class TrixList : BufferList<TrixResult>, IIncrementFromChain, ITrix
 {
     private readonly Queue<double> _buffer;
     private double _bufferSum;
@@ -30,16 +30,16 @@ public class TrixList : BufferList<TrixResult>, IBufferReusable, ITrix
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="TrixList"/> class with initial quotes.
+    /// Initializes a new instance of the <see cref="TrixList"/> class with initial reusable values.
     /// </summary>
     /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
-    /// <param name="quotes">Initial quotes to populate the list.</param>
+    /// <param name="values">Initial reusable values to populate the list.</param>
     public TrixList(
         int lookbackPeriods,
-        IReadOnlyList<IQuote> quotes
+        IReadOnlyList<IReusable> values
     )
         : this(lookbackPeriods)
-        => Add(quotes);
+        => Add(values);
 
     /// <inheritdoc />
     public int LookbackPeriods { get; init; }
@@ -124,27 +124,9 @@ public class TrixList : BufferList<TrixResult>, IBufferReusable, ITrix
     }
 
     /// <inheritdoc />
-    public void Add(IQuote quote)
-    {
-        ArgumentNullException.ThrowIfNull(quote);
-        Add(quote.Timestamp, quote.Value);
-    }
-
-    /// <inheritdoc />
-    public void Add(IReadOnlyList<IQuote> quotes)
-    {
-        ArgumentNullException.ThrowIfNull(quotes);
-
-        for (int i = 0; i < quotes.Count; i++)
-        {
-            Add(quotes[i].Timestamp, quotes[i].Value);
-        }
-    }
-
-    /// <inheritdoc />
     public override void Clear()
     {
-        ClearInternal();
+        base.Clear();
         _buffer.Clear();
         _bufferSum = 0;
         _lastEma1 = double.NaN;
@@ -158,9 +140,9 @@ public static partial class Trix
     /// <summary>
     /// Creates a buffer list for TRIX calculations.
     /// </summary>
-    public static TrixList ToTrixList<TQuote>(
-        this IReadOnlyList<TQuote> quotes,
+    public static TrixList ToTrixList<T>(
+        this IReadOnlyList<T> source,
         int lookbackPeriods = 14)
-        where TQuote : IQuote
-        => new(lookbackPeriods) { (IReadOnlyList<IQuote>)quotes };
+        where T : IReusable
+        => new(lookbackPeriods) { (IReadOnlyList<IReusable>)source };
 }

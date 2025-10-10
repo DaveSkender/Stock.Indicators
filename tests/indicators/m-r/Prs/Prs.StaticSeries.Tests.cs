@@ -6,7 +6,7 @@ public class Prs : StaticSeriesTestBase
     [TestMethod]
     public override void Standard()
     {
-        int lookbackPeriods = 30;
+        const int lookbackPeriods = 30;
 
         IReadOnlyList<PrsResult> results = OtherQuotes
             .ToPrs(Quotes, lookbackPeriods);

@@ -16,8 +16,8 @@ public class CatalogExecutionTests : TestBase
     public void ExecuteByIdRsiDefault()
     {
         // Arrange
-        string id = "RSI";
-        Style style = Style.Series;
+        const string id = "RSI";
+        const Style style = Style.Series;
         IReadOnlyList<Quote> quotes = Quotes.Take(50).ToList();
 
         // Act
@@ -192,7 +192,7 @@ public class CatalogExecutionTests : TestBase
         Action a1 = () => quotes.ExecuteFromJson<object>("{ invalid json }");
         a1.Should().Throw<ArgumentException>().WithMessage("*Invalid JSON configuration*");
 
-        string nullJson = null!;
+        const string nullJson = null!;
         Action a2 = () => quotes.ExecuteFromJson<object>(nullJson);
         a2.Should().Throw<ArgumentNullException>().WithMessage("*json*");
 
@@ -209,7 +209,7 @@ public class CatalogExecutionTests : TestBase
     [TestMethod]
     public void ExecuteFromJsonInvalidParameterTypesThrows()
     {
-        string json = """
+        const string json = """
         {
           "Id": "RSI",
           "Style": 0,
@@ -226,7 +226,7 @@ public class CatalogExecutionTests : TestBase
     [TestMethod]
     public void ExecuteFromJsonInvalidIdThrows()
     {
-        string json = """
+        const string json = """
         {
           "Id": "NONEXISTENT",
           "Style": 0

@@ -74,7 +74,7 @@ public static partial class BollingerBands
         double currentValue = source[endIndex].Value;
 
         // Calculate derived values
-        double? percentB = upperBand - lowerBand == 0 ? null
+        double? percentB = upperBand == lowerBand ? null
             : (currentValue - lowerBand) / (upperBand - lowerBand);
 
         double? zScore = stdDev == 0 ? null : (currentValue - sma) / stdDev;

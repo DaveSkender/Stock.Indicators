@@ -83,7 +83,7 @@ public static partial class StringOut
                     // limit string size
                     if (stringValue.Length > 35)
                     {
-                        stringValue = string.Concat(stringValue.AsSpan(0, 32), "...");
+                        stringValue = $"{stringValue.AsSpan(0, 32)}...";
                     }
 
                     values.Add(stringValue);
@@ -100,7 +100,7 @@ public static partial class StringOut
             description = description == null
                 ? string.Empty
                 : description.Length > 50
-                  ? string.Concat(description.AsSpan(0, 47), "...")
+                  ? $"{description.AsSpan(0, 47)}..."
                   : description;
 
             descriptions.Add(description);
@@ -116,7 +116,7 @@ public static partial class StringOut
         string format = $"{{0,-{widthOfName}}}  {{1,-{widthOfType}}}  {{2,{widthOfValue}}}  {{3}}";
 
         // Build the header
-        sb.AppendLine(string.Format(culture, format, headers[0], headers[1], headers[2], headers[3]));
+        sb.AppendFormat(culture, format, headers[0], headers[1], headers[2], headers[3]).AppendLine();
 
         // Build the separator line
         int totalWidth = widthOfName + widthOfType + widthOfValue + Math.Min(widthOfDesc, 30) + 6; // +6 for spaces
@@ -177,7 +177,7 @@ public static partial class StringOut
         {
             string? nameAttribute = memberElement.Attribute("name")?.Value;
 
-            if (nameAttribute != null && nameAttribute.StartsWith(memberPrefix, StringComparison.OrdinalIgnoreCase))
+            if (nameAttribute?.StartsWith(memberPrefix, StringComparison.OrdinalIgnoreCase) == true)
             {
                 string propName = nameAttribute[memberPrefix.Length..];
 

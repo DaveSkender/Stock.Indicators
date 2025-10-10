@@ -6,8 +6,8 @@ public class Mama : StaticSeriesTestBase
     [TestMethod]
     public override void Standard()
     {
-        double fastLimit = 0.5;
-        double slowLimit = 0.05;
+        const double fastLimit = 0.5;
+        const double slowLimit = 0.05;
 
         IReadOnlyList<MamaResult> results = Quotes
             .ToMama(fastLimit, slowLimit);
@@ -104,8 +104,8 @@ public class Mama : StaticSeriesTestBase
     [TestMethod]
     public void Removed()
     {
-        double fastLimit = 0.5;
-        double slowLimit = 0.05;
+        const double fastLimit = 0.5;
+        const double slowLimit = 0.05;
 
         IReadOnlyList<MamaResult> results = Quotes
             .ToMama(fastLimit, slowLimit)

@@ -336,14 +336,14 @@ internal class CatalogListingBuilder
         }
 
         // Check for duplicate parameter names
-        List<string> parameterNames = _parameters.Select(p => p.ParameterName).ToList();
+        List<string> parameterNames = _parameters.ConvertAll(p => p.ParameterName);
         if (parameterNames.Count != parameterNames.Distinct().Count())
         {
             throw new InvalidOperationException("Duplicate parameter names are not allowed.");
         }
 
         // Check for duplicate result names
-        List<string> resultNames = _results.Select(r => r.DataName).ToList();
+        List<string> resultNames = _results.ConvertAll(r => r.DataName);
         if (resultNames.Count != resultNames.Distinct().Count())
         {
             throw new InvalidOperationException("Duplicate result names are not allowed.");

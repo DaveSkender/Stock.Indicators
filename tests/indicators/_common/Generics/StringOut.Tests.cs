@@ -39,7 +39,7 @@ public class StringOutputs : TestBase
 
         Quote quote = new(timestamp, 216.1m, 216.875m, 215.84m, 216.67m, 85273832);
 
-        string sut = StringOut.ToStringOut(quote);
+        string sut = quote.ToStringOut();
         Console.WriteLine(sut);
 
         // note description has max of 30 "-" characters
@@ -61,7 +61,7 @@ public class StringOutputs : TestBase
     public void ToStringOutMostTypes()
     {
         AllTypes allTypes = new();
-        string sut = StringOut.ToStringOut(allTypes);
+        string sut = allTypes.ToStringOut();
         Console.WriteLine(sut);
 
         string expected = """
@@ -397,7 +397,7 @@ public class AllTypes : ISeries
     public long LongProperty { get; } = 9223372036854775803L;
 
     /// <summary>
-    /// A <code>get</code> of <see cref="float"/> floating point type
+    /// A <c>get</c> of <see cref="float"/> floating point type
     /// </summary>
     public float FloatProperty { get; } = -125.25143f;
 

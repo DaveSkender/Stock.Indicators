@@ -72,7 +72,7 @@ public class {IndicatorName}List : BufferList<{IndicatorName}Result>, IBufferReu
     /// <inheritdoc />
     public override void Clear()
     {
-        ClearInternal();
+        base.Clear();
         _buffer.Clear();
     }
     
@@ -127,12 +127,203 @@ public class {IndicatorName}List : BufferList<{IndicatorName}Result>, IBufferReu
 
 **Interface Selection Guidelines**:
 
-- Use `IBufferReusable` when the indicator's static series can accept `IReusable` values (single values like SMA, EMA)
-  - Note: `IBufferReusable` extends `IBufferList`, so only `IBufferReusable` needs to be declared
-- Use only `IBufferList` when the indicator's static series requires `IQuote` (multiple values like VWMA needs price+volume, ADX needs OHLC)
-- Match the interface pattern to what the static series implementation supports
+BufferList implementations must implement ONE of three increment interfaces based on their data requirements:
+
+### 1. `IIncrementFromChain` - For chainable indicators
+
+Use when the indicator can work with single reusable values (chainable indicators like SMA, EMA, RSI, MACD).
+
+**Required methods**:
+
+- `Add(DateTime timestamp, double value)` - Core calculation method
+- `Add(IReusable value)` - Single reusable value entry point
+- `Add(IReadOnlyList<IReusable> values)` - Batch reusable values entry point
+
+**CRITICAL RULES**:
+
+- ✅ **Constructor MUST accept**: `IReadOnlyList<IReusable> values` (NOT `IQuote quotes`)
+- ✅ **Extension method MUST use**: `<T>` generic with `where T : IReusable` (NOT `<TQuote>` with `where TQuote : IQuote`)
+- ❌ **MUST NOT have**: `Add(IQuote)` or `Add(IReadOnlyList<IQuote>)` methods
+- ✅ **For indicators requiring OHLC price data**: Only indicators that specifically need HL2 or other OHLC combinations (e.g., Alligator, Mama, FisherTransform) should use utility methods in `Add(IReusable)`:
+  - `value.Hl2OrValue()` - Returns HL2 if IQuote, otherwise Value
+  - `value.QuotePartOrValue(CandlePart.HL2)` - Returns specified part if IQuote, otherwise Value
+  - Most chainable indicators (SMA, EMA, RSI, MACD) do not need these utilities and should use `value.Value` directly
+
+**Example constructor and extension**:
+
+```csharp
+public EmaList(
+    int lookbackPeriods,
+    IReadOnlyList<IReusable> values)  // ← IReusable, NOT IQuote
+    : this(lookbackPeriods)
+    => Add(values);
+
+public static EmaList ToEmaList<T>(  // ← Generic T, NOT TQuote
+    this IReadOnlyList<T> source,    // ← Parameter named 'source', NOT 'quotes'
+    int lookbackPeriods)
+    where T : IReusable              // ← IReusable constraint, NOT IQuote
+    => new(lookbackPeriods) { (IReadOnlyList<IReusable>)source };
+```
+
+### 2. `IIncrementFromQuote` - For multi-value OHLC indicators
+
+Use when the indicator **requires** multiple OHLC values per quote (VWMA needs price+volume, Stoch needs HLC, Vwap needs HLCV, etc.).
+
+**Required methods**:
+
+- `Add(IQuote quote)` - Single quote entry point
+- `Add(IReadOnlyList<IQuote> quotes)` - Batch quotes entry point
+
+**Constructor and extension pattern**:
+
+```csharp
+public VwmaList(
+    int lookbackPeriods,
+    IReadOnlyList<IQuote> quotes)    // ← IQuote for multi-value indicators
+    : this(lookbackPeriods)
+    => Add(quotes);
+
+public static VwmaList ToVwmaList<TQuote>(  // ← TQuote generic is acceptable here
+    this IReadOnlyList<TQuote> quotes,       // ← Parameter named 'quotes' for IQuote
+    int lookbackPeriods)
+    where TQuote : IQuote                    // ← IQuote constraint
+    => new(lookbackPeriods) { (IReadOnlyList<IQuote>)quotes };
+```
+
+### 3. `IIncrementFromPairs` - For dual-input indicators
+
+Use when the indicator requires two synchronized input series (like Correlation, Beta).
+
+**Required methods**:
+
+- `Add(DateTime timestamp, double valueA, double valueB)` - Core calculation with paired values
+- `Add((IReusable A, IReusable B) pair)` - Single pair entry point
+- `Add(IReadOnlyList<(IReusable A, IReusable B)> pairs)` - Batch pairs entry point
+
+**Pattern summary**:
+
+- `IIncrementFromChain` → Works with single values, chainable, uses `IReusable`
+- `IIncrementFromQuote` → Requires OHLCV data, not chainable, uses `IQuote`
+- `IIncrementFromPairs` → Requires synchronized dual inputs, uses paired `IReusable`
+
+Match the interface to what the static series implementation supports and the indicator's data requirements.
+
+**Example: `IIncrementFromChain` indicator requiring HL2 price data (Alligator)**:
+
+```csharp
+public class AlligatorList : BufferList<AlligatorResult>, `IIncrementFromChain`, IAlligator
+{
+    // ... fields and constructor ...
+
+    /// <inheritdoc />
+    public void Add(DateTime timestamp, double value)
+    {
+        // Core calculation logic
+        // ...
+        AddInternal(new AlligatorResult(timestamp, jaw, teeth, lips));
+    }
+
+    /// <inheritdoc />
+    public void Add(IReusable value)
+    {
+        ArgumentNullException.ThrowIfNull(value);
+        // Alligator specifically uses HL2 price - utility method needed
+        Add(value.Timestamp, value.Hl2OrValue());
+    }
+
+    /// <inheritdoc />
+    public void Add(IReadOnlyList<IReusable> values)
+    {
+        ArgumentNullException.ThrowIfNull(values);
+
+        for (int i = 0; i < values.Count; i++)
+        {
+            IReusable v = values[i];
+            // Alligator specifically uses HL2 price - utility method needed
+            Add(v.Timestamp, v.Hl2OrValue());
+        }
+    }
+}
+```
+
+**Example: `IIncrementFromChain` indicator using value directly (SMA, EMA, RSI, MACD)**:
+
+```csharp
+public class SmaList : BufferList<SmaResult>, `IIncrementFromChain`, ISma
+{
+    // ... fields and constructor ...
+
+    /// <inheritdoc />
+    public void Add(DateTime timestamp, double value)
+    {
+        // Core calculation logic
+        // ...
+        AddInternal(new SmaResult(timestamp, sma));
+    }
+
+    /// <inheritdoc />
+    public void Add(IReusable value)
+    {
+        ArgumentNullException.ThrowIfNull(value);
+        // Most chainable indicators use value directly - no utility needed
+        Add(value.Timestamp, value.Value);
+    }
+
+    /// <inheritdoc />
+    public void Add(IReadOnlyList<IReusable> values)
+    {
+        ArgumentNullException.ThrowIfNull(values);
+
+        for (int i = 0; i < values.Count; i++)
+        {
+            IReusable v = values[i];
+            // Most chainable indicators use value directly - no utility needed
+            Add(v.Timestamp, v.Value);
+        }
+    }
+}
+```
+
+**Available utility methods for OHLC handling (use only when indicator requires specific OHLC combinations)**:
+
+- `value.Hl2OrValue()` - Returns HL2 if IQuote, otherwise returns Value
+- `value.QuotePartOrValue(CandlePart.HL2)` - Returns specified CandlePart if IQuote, otherwise returns Value
+- `value.QuotePartOrValue(CandlePart.HLC3)`, `value.QuotePartOrValue(CandlePart.OHLC4)`, etc.
 
 > **Note**: The current codebase uses `Queue<T>` for efficient FIFO buffering operations. `Queue<T>` provides O(1) enqueue/dequeue operations and is well-suited for sliding window calculations where you need to remove the oldest value when adding a new one.
+
+### Buffer state patterns
+
+**Prefer tuples over custom structs for internal buffer state**:
+
+- Use named tuples (e.g., `Queue<(double High, double Low, double Close)>`) for multi-value buffer state
+- Tuples provide type safety, named fields, and structural equality without boilerplate
+- Custom structs add unnecessary complexity for internal-only buffer state
+
+**When to use tuples vs structs**:
+
+- ✅ **Use tuples**: Internal buffer state, temporary calculations, simple data grouping
+- ❌ **Avoid custom structs**: Internal buffer state that never leaves the class
+- ⚠️ **Use structs only when**: You need custom behavior, implement specific interfaces, or expose the type publicly
+
+**Example tuple buffer pattern**:
+
+```csharp
+private readonly Queue<(double High, double Low, double Close)> _buffer;
+
+public void Add(IQuote quote)
+{
+    (double High, double Low, double Close) curr = (
+        (double)quote.High,
+        (double)quote.Low,
+        (double)quote.Close);
+    
+    _buffer.Update(2, curr);
+    
+    // Access tuple members by name
+    double value = curr.High - curr.Low;
+}
+```
 
 ### Extension method
 
@@ -390,7 +581,7 @@ Use `buffer.Update()` extension method for most buffer management scenarios:
 
 ```csharp
 /// <inheritdoc />
-public void Add(DateTime timestamp, double value)
+public void Add(DateTime timestamp, T value)
 {
     // Standard buffer management using extension method
     _buffer.Update(LookbackPeriods, value);
@@ -412,7 +603,7 @@ Use `buffer.UpdateWithDequeue()` extension method when you need to track removed
 private double _runningSum;
 
 /// <inheritdoc />
-public void Add(DateTime timestamp, double value)
+public void Add(DateTime timestamp, T value)
 {
     // Track dequeued value for running sum maintenance using extension method
     double? dequeuedValue = _buffer.UpdateWithDequeue(LookbackPeriods, value);
@@ -442,7 +633,7 @@ For indicators requiring multiple buffers (like HMA), use the extension methods 
 
 ```csharp
 /// <inheritdoc />
-public void Add(DateTime timestamp, double value)
+public void Add(DateTime timestamp, T value)
 {
     // Update all buffers using extension methods
     _bufferN1.Update(_periodsN1, value);
@@ -530,6 +721,40 @@ double sum = _buffer.Sum(); // O(n) operation every time
 double? dequeued = _buffer.UpdateWithDequeue(capacity, value);
 if (dequeued.HasValue) _sum = _sum - dequeued.Value + value;
 else _sum += value;
+```
+
+### ❌ Using custom structs for internal buffer state
+
+```csharp
+// DON'T: Define custom struct for internal-only buffer state
+private readonly struct BufferState(double high, double low, double close) : IEquatable<BufferState>
+{
+    public double High { get; init; } = high;
+    public double Low { get; init; } = low;
+    public double Close { get; init; } = close;
+    
+    // Unnecessary boilerplate for internal use
+    public readonly bool Equals(BufferState other) => /* ... */;
+    public override readonly bool Equals(object? obj) => /* ... */;
+    public override readonly int GetHashCode() => /* ... */;
+}
+
+private readonly Queue<BufferState> _buffer;
+```
+
+```csharp
+// DO: Use named tuples for internal buffer state
+private readonly Queue<(double High, double Low, double Close)> _buffer;
+
+public void Add(IQuote quote)
+{
+    (double High, double Low, double Close) curr = (
+        (double)quote.High,
+        (double)quote.Low,
+        (double)quote.Close);
+    
+    _buffer.Update(2, curr);
+}
 ```
 
 ## Best practices

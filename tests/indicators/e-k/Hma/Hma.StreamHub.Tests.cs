@@ -149,7 +149,7 @@ public class HmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
         double? before = observer.Results[targetIndex].Hma;
 
         Quote original = quotesList[targetIndex];
-        decimal delta = 1m;
+        const decimal delta = 1m;
         Quote mutated = original with {
             Open = original.Open + delta,
             High = original.High + delta,
@@ -196,8 +196,8 @@ public class HmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
     [TestMethod]
     public void NaNInputProducesNullResult()
     {
-        int injectionIndex = LookbackPeriods + 5;
-        int totalCount = injectionIndex + (LookbackPeriods * 2);
+        const int injectionIndex = LookbackPeriods + 5;
+        const int totalCount = injectionIndex + (LookbackPeriods * 2);
 
         QuoteHub<SyntheticQuote> quoteHub = new();
         HmaHub<SyntheticQuote> observer = quoteHub.ToHmaHub(LookbackPeriods);

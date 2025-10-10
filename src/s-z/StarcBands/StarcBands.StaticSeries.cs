@@ -54,8 +54,8 @@ public static partial class StarcBands
 
             results.Add(new(
                 Timestamp: s.Timestamp,
-                Centerline: s.Sma,
                 UpperBand: s.Sma + (multiplier * a.Atr),
+                Centerline: s.Sma,
                 LowerBand: s.Sma - (multiplier * a.Atr)));
         }
 

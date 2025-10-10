@@ -152,7 +152,7 @@ public class CacheManagement : TestBase
     [TestMethod]
     public void MaxCacheSize()
     {
-        int maxCacheSize = 30;
+        const int maxCacheSize = 30;
 
         // initialize
         QuoteHub<Quote> quoteHub = new(maxCacheSize);
@@ -168,7 +168,7 @@ public class CacheManagement : TestBase
     [TestMethod]
     public void PrunedCache()
     {
-        int maxCacheSize = 30;
+        const int maxCacheSize = 30;
 
         // initialize
         QuoteHub<Quote> quoteHub = new(maxCacheSize);

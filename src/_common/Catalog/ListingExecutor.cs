@@ -49,7 +49,7 @@ internal static class ListingExecutor
         List<MethodInfo> methods = [];
 
         // Search for the method across all static classes
-        foreach (Type? type in types)
+        foreach (Type type in types)
         {
             MethodInfo[] typeMethods = type.GetMethods(BindingFlags.Public | BindingFlags.Static)
                 .Where(m => m.Name == methodName)

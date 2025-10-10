@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Choppiness Index (CHOP) from incremental quotes.
 /// </summary>
-public class ChopList : BufferList<ChopResult>, IBufferList, IChop
+public class ChopList : BufferList<ChopResult>, IIncrementFromQuote, IChop
 {
     private readonly Queue<(double TrueHigh, double TrueLow, double TrueRange)> _buffer;
     private double _previousClose;
@@ -70,16 +70,16 @@ public class ChopList : BufferList<ChopResult>, IBufferList, IChop
                 double maxTrueHigh = double.MinValue;
                 double minTrueLow = double.MaxValue;
 
-                foreach (var item in _buffer)
+                foreach ((double TrueHigh, double TrueLow, double TrueRange) in _buffer)
                 {
-                    sumTrueRange += item.TrueRange;
-                    if (item.TrueHigh > maxTrueHigh)
+                    sumTrueRange += TrueRange;
+                    if (TrueHigh > maxTrueHigh)
                     {
-                        maxTrueHigh = item.TrueHigh;
+                        maxTrueHigh = TrueHigh;
                     }
-                    if (item.TrueLow < minTrueLow)
+                    if (TrueLow < minTrueLow)
                     {
-                        minTrueLow = item.TrueLow;
+                        minTrueLow = TrueLow;
                     }
                 }
 
@@ -111,7 +111,7 @@ public class ChopList : BufferList<ChopResult>, IBufferList, IChop
     /// <inheritdoc />
     public override void Clear()
     {
-        ClearInternal();
+        base.Clear();
         _buffer.Clear();
         _previousClose = 0;
         _isInitialized = false;

@@ -105,7 +105,7 @@ public abstract class RegressionTestBase<TResult>(string filename) : TestBase
         return hub;
     }
 
-    protected static QuoteHub<Quote> quoteHub { get; } = CreateQuoteHub();
+    protected static QuoteHub<Quote> QuoteHub { get; } = CreateQuoteHub();
 
     public abstract void Series();
     public abstract void Buffer();
@@ -113,7 +113,7 @@ public abstract class RegressionTestBase<TResult>(string filename) : TestBase
 }
 
 /// <summary>
-/// Add this to buffer list tests for <see cref="IBufferReusable" /> types.
+/// Add this to buffer list tests for <see cref="IIncrementFromChain" /> types.
 /// </summary>
 public interface ITestReusableBufferList
 {

@@ -67,11 +67,11 @@ public class StochRsiHub : StreamHubTestBase, ITestChainObserver, ITestChainProv
     [TestMethod]
     public void ChainObserver()
     {
-        int emaPeriods = 12;
-        int rsiPeriods = 14;
-        int stochPeriods = 14;
-        int signalPeriods = 3;
-        int smoothPeriods = 1;
+        const int emaPeriods = 12;
+        const int rsiPeriods = 14;
+        const int stochPeriods = 14;
+        const int signalPeriods = 3;
+        const int smoothPeriods = 1;
 
         List<Quote> quotesList = Quotes.ToList();
 
@@ -112,11 +112,11 @@ public class StochRsiHub : StreamHubTestBase, ITestChainObserver, ITestChainProv
     [TestMethod]
     public void ChainProvider()
     {
-        int rsiPeriods = 14;
-        int stochPeriods = 14;
-        int signalPeriods = 3;
-        int smoothPeriods = 1;
-        int emaPeriods = 12;
+        const int rsiPeriods = 14;
+        const int stochPeriods = 14;
+        const int signalPeriods = 3;
+        const int smoothPeriods = 1;
+        const int emaPeriods = 12;
 
         List<Quote> quotesList = Quotes.ToList();
 

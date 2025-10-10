@@ -6,9 +6,9 @@ public class Ichimoku : StaticSeriesTestBase
     [TestMethod]
     public override void Standard()
     {
-        int tenkanPeriods = 9;
-        int kijunPeriods = 26;
-        int senkouBPeriods = 52;
+        const int tenkanPeriods = 9;
+        const int kijunPeriods = 26;
+        const int senkouBPeriods = 52;
 
         IReadOnlyList<IchimokuResult> results = Quotes
             .ToIchimoku(tenkanPeriods, kijunPeriods, senkouBPeriods);

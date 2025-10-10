@@ -12,5 +12,5 @@ public class AlmaTests : RegressionTestBase<AlmaResult>
     public override void Buffer() => Assert.Inconclusive("Buffer implementation not yet available");
 
     [TestMethod]
-    public override void Stream() => quoteHub.ToAlmaHub(9, 0.85, 6).Results.AssertEquals(Expected);
+    public override void Stream() => QuoteHub.ToAlmaHub(9, 0.85, 6).Results.AssertEquals(Expected);
 }

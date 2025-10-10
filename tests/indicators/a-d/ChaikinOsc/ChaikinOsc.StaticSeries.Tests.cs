@@ -6,8 +6,8 @@ public class ChaikinOsc : StaticSeriesTestBase
     [TestMethod]
     public override void Standard()
     {
-        int fastPeriods = 3;
-        int slowPeriods = 10;
+        const int fastPeriods = 3;
+        const int slowPeriods = 10;
 
         IReadOnlyList<ChaikinOscResult> results = Quotes
             .ToChaikinOsc(fastPeriods, slowPeriods);
@@ -62,8 +62,8 @@ public class ChaikinOsc : StaticSeriesTestBase
     [TestMethod]
     public void Removed()
     {
-        int fastPeriods = 3;
-        int slowPeriods = 10;
+        const int fastPeriods = 3;
+        const int slowPeriods = 10;
 
         IReadOnlyList<ChaikinOscResult> results = Quotes
             .ToChaikinOsc(fastPeriods, slowPeriods)

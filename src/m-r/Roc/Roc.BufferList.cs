@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Rate of Change (ROC) from incremental reusable values.
 /// </summary>
-public class RocList : BufferList<RocResult>, IBufferReusable, IRoc
+public class RocList : BufferList<RocResult>, IIncrementFromChain, IRoc
 {
     private readonly Queue<double> buffer;
 
@@ -19,13 +19,13 @@ public class RocList : BufferList<RocResult>, IBufferReusable, IRoc
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="RocList"/> class with initial quotes.
+    /// Initializes a new instance of the <see cref="RocList"/> class with initial reusable values.
     /// </summary>
     /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
-    /// <param name="quotes">Initial quotes to populate the list.</param>
-    public RocList(int lookbackPeriods, IReadOnlyList<IQuote> quotes)
+    /// <param name="values">Initial reusable values to populate the list.</param>
+    public RocList(int lookbackPeriods, IReadOnlyList<IReusable> values)
         : this(lookbackPeriods)
-        => Add(quotes);
+        => Add(values);
 
     /// <summary>
     /// Gets the number of periods to look back for the calculation.
@@ -93,37 +93,11 @@ public class RocList : BufferList<RocResult>, IBufferReusable, IRoc
     }
 
     /// <summary>
-    /// Adds a new quote to the ROC list.
-    /// </summary>
-    /// <param name="quote">The quote to add.</param>
-    /// <exception cref="ArgumentNullException">Thrown when the quote is null.</exception>
-    public void Add(IQuote quote)
-    {
-        ArgumentNullException.ThrowIfNull(quote);
-        Add(quote.Timestamp, quote.Value);
-    }
-
-    /// <summary>
-    /// Adds a list of quotes to the ROC list.
-    /// </summary>
-    /// <param name="quotes">The list of quotes to add.</param>
-    /// <exception cref="ArgumentNullException">Thrown when the quotes list is null.</exception>
-    public void Add(IReadOnlyList<IQuote> quotes)
-    {
-        ArgumentNullException.ThrowIfNull(quotes);
-
-        for (int i = 0; i < quotes.Count; i++)
-        {
-            Add(quotes[i].Timestamp, quotes[i].Value);
-        }
-    }
-
-    /// <summary>
     /// Clears the list and resets internal buffers so the instance can be reused.
     /// </summary>
     public override void Clear()
     {
-        ClearInternal();
+        base.Clear();
         buffer.Clear();
     }
 }
@@ -133,9 +107,9 @@ public static partial class Roc
     /// <summary>
     /// Creates a buffer list for Rate of Change (ROC) calculations.
     /// </summary>
-    public static RocList ToRocList<TQuote>(
-        this IReadOnlyList<TQuote> quotes,
+    public static RocList ToRocList<T>(
+        this IReadOnlyList<T> source,
         int lookbackPeriods)
-        where TQuote : IQuote
-        => new(lookbackPeriods) { (IReadOnlyList<IQuote>)quotes };
+        where T : IReusable
+        => new(lookbackPeriods) { (IReadOnlyList<IReusable>)source };
 }

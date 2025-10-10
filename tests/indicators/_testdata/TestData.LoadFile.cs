@@ -19,7 +19,7 @@ internal static class Data
 
         if (!File.Exists(filepath))
         {
-            throw new FileNotFoundException($"Test data file not found.", filepath);
+            throw new FileNotFoundException("Test data file not found.", filepath);
         }
 
         // Load and deserialize file

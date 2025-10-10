@@ -6,8 +6,8 @@ public class PivotPointz : StaticSeriesTestBase
     [TestMethod]
     public override void Standard()
     {
-        PeriodSize periodSize = PeriodSize.Month;
-        PivotPointType pointType = PivotPointType.Standard;
+        const PeriodSize periodSize = PeriodSize.Month;
+        const PivotPointType pointType = PivotPointType.Standard;
 
         IReadOnlyList<PivotPointsResult> results = Quotes
             .ToPivotPoints(periodSize, pointType);
@@ -87,8 +87,8 @@ public class PivotPointz : StaticSeriesTestBase
     [TestMethod]
     public void Camarilla()
     {
-        PeriodSize periodSize = PeriodSize.Week;
-        PivotPointType pointType = PivotPointType.Camarilla;
+        const PeriodSize periodSize = PeriodSize.Week;
+        const PivotPointType pointType = PivotPointType.Camarilla;
 
         IReadOnlyList<Quote> h = Data.GetDefault(38);
         IReadOnlyList<PivotPointsResult> results
@@ -158,8 +158,8 @@ public class PivotPointz : StaticSeriesTestBase
     [TestMethod]
     public void Demark()
     {
-        PeriodSize periodSize = PeriodSize.Month;
-        PivotPointType pointType = PivotPointType.Demark;
+        const PeriodSize periodSize = PeriodSize.Month;
+        const PivotPointType pointType = PivotPointType.Demark;
 
         IReadOnlyList<PivotPointsResult> results = Quotes
             .ToPivotPoints(periodSize, pointType);
@@ -243,8 +243,8 @@ public class PivotPointz : StaticSeriesTestBase
     [TestMethod]
     public void Fibonacci()
     {
-        PeriodSize periodSize = PeriodSize.OneHour;
-        PivotPointType pointType = PivotPointType.Fibonacci;
+        const PeriodSize periodSize = PeriodSize.OneHour;
+        const PivotPointType pointType = PivotPointType.Fibonacci;
 
         IReadOnlyList<Quote> h = Data.GetIntraday(300);
         IReadOnlyList<PivotPointsResult> results
@@ -315,8 +315,8 @@ public class PivotPointz : StaticSeriesTestBase
     [TestMethod]
     public void Woodie()
     {
-        PeriodSize periodSize = PeriodSize.Day;
-        PivotPointType pointType = PivotPointType.Woodie;
+        const PeriodSize periodSize = PeriodSize.Day;
+        const PivotPointType pointType = PivotPointType.Woodie;
 
         IReadOnlyList<Quote> h = Data.GetIntraday();
         IReadOnlyList<PivotPointsResult> results
@@ -401,8 +401,8 @@ public class PivotPointz : StaticSeriesTestBase
     [TestMethod]
     public void Removed()
     {
-        PeriodSize periodSize = PeriodSize.Month;
-        PivotPointType pointType = PivotPointType.Standard;
+        const PeriodSize periodSize = PeriodSize.Month;
+        const PivotPointType pointType = PivotPointType.Standard;
 
         IReadOnlyList<PivotPointsResult> results = Quotes
             .ToPivotPoints(periodSize, pointType)
