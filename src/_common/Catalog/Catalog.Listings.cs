@@ -197,6 +197,7 @@ public static partial class Catalog
         _listings.Add(Kama.StreamListing);
 
         // Keltner Channels
+        _listings.Add(Keltner.BufferListing);
         _listings.Add(Keltner.SeriesListing);
 
         // KVO (Klinger Volume Oscillator)
