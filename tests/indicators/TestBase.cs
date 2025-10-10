@@ -181,3 +181,24 @@ public interface ITestChainProvider
     /// </summary>
     void ChainProvider();
 }
+
+/// <summary>
+/// Add this to dual-stream/pairs indicator tests.
+/// </summary>
+/// <remarks>
+/// This interface is for testing indicators that require synchronized pairs of inputs,
+/// such as Correlation, Beta, etc. Tests should validate timestamp synchronization,
+/// dual-cache management, and proper error handling for mismatched inputs.
+/// </remarks>
+public interface ITestPairsProvider
+{
+    /// <summary>
+    /// Tests hub capability with dual synchronized providers
+    /// </summary>
+    void PairsProvider();
+
+    /// <summary>
+    /// Tests hub behavior when timestamps don't match between providers
+    /// </summary>
+    void TimestampMismatch();
+}
