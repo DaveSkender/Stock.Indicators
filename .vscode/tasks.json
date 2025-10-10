@@ -385,6 +385,96 @@
       }
     },
     {
+      "label": "Run: Test Application",
+      "detail": "Run the test application tool (exercises all indicators)",
+      "type": "shell",
+      "command": "dotnet run --project tools/application",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "group": "none",
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      }
+    },
+    {
+      "label": "Run: Performance Benchmarks (all)",
+      "detail": "Run all BenchmarkDotNet performance tests (Release mode)",
+      "type": "shell",
+      "command": "dotnet run --project tools/performance -c Release",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "group": "none",
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      }
+    },
+    {
+      "label": "Run: Performance Benchmarks (Series)",
+      "detail": "Run Series indicator benchmarks only (Release mode)",
+      "type": "shell",
+      "command": "dotnet run --project tools/performance -c Release -- --filter *SeriesIndicators*",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "group": "none",
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      }
+    },
+    {
+      "label": "Run: Performance Benchmarks (Buffer)",
+      "detail": "Run Buffer indicator benchmarks only (Release mode)",
+      "type": "shell",
+      "command": "dotnet run --project tools/performance -c Release -- --filter *BufferIndicators*",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "group": "none",
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      }
+    },
+    {
+      "label": "Run: Performance Benchmarks (Stream)",
+      "detail": "Run Stream indicator benchmarks only (Release mode)",
+      "type": "shell",
+      "command": "dotnet run --project tools/performance -c Release -- --filter *StreamIndicators*",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "group": "none",
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      }
+    },
+    {
+      "label": "Run: Simulation Demo",
+      "detail": "Run streaming indicators simulation demo",
+      "type": "shell",
+      "command": "dotnet run --project tools/simulate",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "group": "none",
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      }
+    },
+    {
       "label": "Generate: Regression test baselines (all)",
       "detail": "Generate all regression test baseline JSON files",
       "type": "shell",
