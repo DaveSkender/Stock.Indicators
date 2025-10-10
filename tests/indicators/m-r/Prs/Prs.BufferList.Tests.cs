@@ -5,30 +5,20 @@ public class Prs : BufferListTestBase, ITestReusableBufferList
 {
     private const int lookbackPeriods = 20;
 
-    private static readonly IReadOnlyList<IReusable> evalReusables
-       = OtherQuotes
-        .Cast<IReusable>()
-        .ToList();
-
-    private static readonly IReadOnlyList<IReusable> baseReusables
-       = Quotes
-        .Cast<IReusable>()
-        .ToList();
-
     private static readonly IReadOnlyList<PrsResult> series
-       = evalReusables.ToPrs(baseReusables, lookbackPeriods);
+       = OtherQuotes.ToPrs(Quotes, lookbackPeriods);
 
     [TestMethod]
     public void AddReusableItems()
     {
         PrsList sut = new(lookbackPeriods);
 
-        for (int i = 0; i < evalReusables.Count; i++)
+        for (int i = 0; i < OtherQuotes.Count; i++)
         {
-            sut.Add(evalReusables[i], baseReusables[i]);
+            sut.Add(OtherQuotes[i], Quotes[i]);
         }
 
-        sut.Should().HaveCount(evalReusables.Count);
+        sut.Should().HaveCount(OtherQuotes.Count);
         sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
     }
 
@@ -36,10 +26,10 @@ public class Prs : BufferListTestBase, ITestReusableBufferList
     public void AddReusableItemsBatch()
     {
         PrsList sut = new(lookbackPeriods) {
-            { evalReusables, baseReusables }
+            { OtherQuotes, Quotes }
         };
 
-        sut.Should().HaveCount(evalReusables.Count);
+        sut.Should().HaveCount(OtherQuotes.Count);
         sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
     }
 
@@ -48,75 +38,75 @@ public class Prs : BufferListTestBase, ITestReusableBufferList
     {
         PrsList sut = new(lookbackPeriods);
 
-        for (int i = 0; i < evalReusables.Count; i++)
+        for (int i = 0; i < OtherQuotes.Count; i++)
         {
-            sut.Add(evalReusables[i].Timestamp, evalReusables[i].Value, baseReusables[i].Value);
+            sut.Add(OtherQuotes[i].Timestamp, (double)OtherQuotes[i].Close, (double)Quotes[i].Close);
         }
 
-        sut.Should().HaveCount(evalReusables.Count);
+        sut.Should().HaveCount(OtherQuotes.Count);
         sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
     }
 
     [TestMethod]
     public override void AddQuotes()
     {
-        // PRS uses paired series, so this test uses evalReusables and baseReusables as series
+        // PRS uses paired series, so this test uses OtherQuotes and Quotes as series
         PrsList sut = new(lookbackPeriods);
 
-        for (int i = 0; i < evalReusables.Count; i++)
+        for (int i = 0; i < OtherQuotes.Count; i++)
         {
-            sut.Add(evalReusables[i], baseReusables[i]);
+            sut.Add(OtherQuotes[i], Quotes[i]);
         }
 
-        sut.Should().HaveCount(evalReusables.Count);
+        sut.Should().HaveCount(OtherQuotes.Count);
         sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
     }
 
     [TestMethod]
     public override void AddQuotesBatch()
     {
-        // PRS uses paired series, so this test uses evalReusables and baseReusables as series
+        // PRS uses paired series, so this test uses OtherQuotes and Quotes as series
         PrsList sut = new(lookbackPeriods) {
-            { evalReusables, baseReusables }
+            { OtherQuotes, Quotes }
         };
 
-        sut.Should().HaveCount(evalReusables.Count);
+        sut.Should().HaveCount(OtherQuotes.Count);
         sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
     }
 
     [TestMethod]
     public override void WithQuotesCtor()
     {
-        // PRS uses paired series, so this test uses evalReusables and baseReusables as series
-        PrsList sut = new(lookbackPeriods, evalReusables, baseReusables);
+        // PRS uses paired series, so this test uses OtherQuotes and Quotes as series
+        PrsList sut = new(lookbackPeriods, OtherQuotes, Quotes);
 
-        sut.Should().HaveCount(evalReusables.Count);
+        sut.Should().HaveCount(OtherQuotes.Count);
         sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
     }
 
     [TestMethod]
     public void WithSeriesCtor()
     {
-        PrsList sut = new(lookbackPeriods, evalReusables, baseReusables);
+        PrsList sut = new(lookbackPeriods, OtherQuotes, Quotes);
 
-        sut.Should().HaveCount(evalReusables.Count);
+        sut.Should().HaveCount(OtherQuotes.Count);
         sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
     }
 
     [TestMethod]
     public void ToPrsListExtension()
     {
-        PrsList sut = evalReusables.ToPrsList(baseReusables, lookbackPeriods);
+        PrsList sut = OtherQuotes.ToPrsList(Quotes, lookbackPeriods);
 
-        sut.Should().HaveCount(evalReusables.Count);
+        sut.Should().HaveCount(OtherQuotes.Count);
         sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
     }
 
     [TestMethod]
     public override void ClearResetsState()
     {
-        List<IReusable> evalSubset = evalReusables.Take(80).ToList();
-        List<IReusable> baseSubset = baseReusables.Take(80).ToList();
+        List<Quote> evalSubset = OtherQuotes.Take(80).ToList();
+        List<Quote> baseSubset = Quotes.Take(80).ToList();
         IReadOnlyList<PrsResult> expected = evalSubset.ToPrs(baseSubset, lookbackPeriods);
 
         PrsList sut = new(lookbackPeriods, evalSubset, baseSubset);
@@ -143,7 +133,7 @@ public class Prs : BufferListTestBase, ITestReusableBufferList
             MaxListSize = maxListSize
         };
 
-        sut.Add(evalReusables, baseReusables);
+        sut.Add(OtherQuotes, Quotes);
 
         IReadOnlyList<PrsResult> expected = series
             .Skip(series.Count - maxListSize)
@@ -158,8 +148,8 @@ public class Prs : BufferListTestBase, ITestReusableBufferList
     {
         PrsList sut = new(lookbackPeriods);
 
-        IReusable evalItem = evalReusables[0];
-        IReusable baseItem = baseReusables[1]; // Different timestamp
+        Quote evalItem = OtherQuotes[0];
+        Quote baseItem = Quotes[1]; // Different timestamp
 
         Action act = () => sut.Add(evalItem, baseItem);
 
@@ -172,9 +162,9 @@ public class Prs : BufferListTestBase, ITestReusableBufferList
     {
         PrsList sut = new(lookbackPeriods);
 
-        List<IReusable> shortSeriesBase = baseReusables.Take(evalReusables.Count - 1).ToList();
+        List<Quote> shortSeriesBase = Quotes.Take(OtherQuotes.Count - 1).ToList();
 
-        Action act = () => sut.Add(evalReusables, shortSeriesBase);
+        Action act = () => sut.Add(OtherQuotes, shortSeriesBase);
 
         act.Should().Throw<ArgumentException>()
             .WithMessage("*must have the same number of items*");
@@ -184,10 +174,10 @@ public class Prs : BufferListTestBase, ITestReusableBufferList
     public void NoLookbackPeriods()
     {
         // Test with int.MinValue (no lookback calculation)
-        IReadOnlyList<PrsResult> expectedNoLookback = evalReusables.ToPrs(baseReusables);
-        PrsList sut = new(int.MinValue, evalReusables, baseReusables);
+        IReadOnlyList<PrsResult> expectedNoLookback = OtherQuotes.ToPrs(Quotes);
+        PrsList sut = new(int.MinValue, OtherQuotes, Quotes);
 
-        sut.Should().HaveCount(evalReusables.Count);
+        sut.Should().HaveCount(OtherQuotes.Count);
         sut.Should().BeEquivalentTo(expectedNoLookback, options => options.WithStrictOrdering());
     }
 }

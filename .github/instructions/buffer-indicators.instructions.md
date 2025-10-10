@@ -223,12 +223,7 @@ public static CorrelationList ToCorrelationList<T>(
     IReadOnlyList<T> valuesB,
     int lookbackPeriods)
     where T : IReusable
-{
-    IReadOnlyList<IReusable> castSeriesA = valuesA.Cast<IReusable>().ToList();
-    IReadOnlyList<IReusable> castSeriesB = valuesB.Cast<IReusable>().ToList();
-    
-    return new(lookbackPeriods, castSeriesA, castSeriesB);
-}
+    => new(lookbackPeriods, (IReadOnlyList<IReusable>)valuesA, (IReadOnlyList<IReusable>)valuesB);
 ```
 
 **Pattern summary**:

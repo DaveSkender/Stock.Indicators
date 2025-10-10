@@ -155,11 +155,5 @@ public static partial class Prs
         IReadOnlyList<T> sourceBase,
         int lookbackPeriods = int.MinValue)
         where T : IReusable
-    {
-        // Cast to IReadOnlyList<IReusable> for the constructor
-        IReadOnlyList<IReusable> castSeriesEval = sourceEval.Cast<IReusable>().ToList();
-        IReadOnlyList<IReusable> castSeriesBase = sourceBase.Cast<IReusable>().ToList();
-
-        return new(lookbackPeriods, castSeriesEval, castSeriesBase);
-    }
+        => new(lookbackPeriods, (IReadOnlyList<IReusable>)sourceEval, (IReadOnlyList<IReusable>)sourceBase);
 }
