@@ -9,7 +9,6 @@ internal static partial class Utilities
     => actual.Should().BeEquivalentTo(expected, options => options
         .WithStrictOrdering()
         .ComparingByMembers<T>()
-        .Excluding(ctx => ctx.Name == "Date") // Exclude obsolete Date property (alias for Timestamp)
         .WithTracing());
 
     internal static void AssertEquals<T>(
@@ -20,7 +19,6 @@ internal static partial class Utilities
     => actual.Should().BeEquivalentTo(expected, options => options
         .WithStrictOrdering()
         .ComparingByMembers<T>()
-        .Excluding(ctx => ctx.Name == "Date") // Exclude obsolete Date property (alias for Timestamp)
         .Using<double>(ctx => {
             if (double.IsNaN(ctx.Subject) && double.IsNaN(ctx.Expectation))
             {

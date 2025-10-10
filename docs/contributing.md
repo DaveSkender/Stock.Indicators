@@ -84,56 +84,22 @@ pwsh detect-regressions.ps1
 
 ### Regression baseline testing
 
-The library maintains regression baselines for all StaticSeries indicators to detect unintended behavioral changes. These baselines are JSON files containing expected indicator outputs for standard test data.
-
-#### Running regression tests
+Regression baselines detect unintended behavioral changes in indicators. Each baseline is a JSON file with expected outputs for standard test data.
 
 ```bash
 # run all regression baseline tests
 dotnet test --filter "TestCategory=Regression"
 
-# run specific indicator regression test
-dotnet test --filter "FullyQualifiedName~SmaTests.Series"
-```
-
-#### When to regenerate baselines
-
-Baselines should be regenerated when:
-
-1. **Intentional algorithm changes** - After modifying indicator calculation logic
-2. **.NET version upgrades** - When upgrading target frameworks (e.g., net8.0 to net9.0)
-3. **Test data changes** - When modifying standard test datasets
-4. **New indicators** - When adding new StaticSeries indicators
-
-#### How to regenerate baselines
-
-**Locally:**
-
-```bash
-# regenerate all baselines
+# regenerate all baselines (locally)
 dotnet run --project tools/baselining -- --all
 
-# regenerate single indicator baseline
+# regenerate specific baseline
 dotnet run --project tools/baselining -- --indicator SMA
 ```
 
-**Via GitHub Actions:**
+Regenerate baselines after intentional algorithm changes, .NET upgrades, or test data changes. Use the [Regenerate Baselines workflow](https://github.com/DaveSkender/Stock.Indicators/actions/workflows/regenerate-baselines.yml) for automated regeneration via GitHub Actions.
 
-Use the [Regenerate Baselines workflow](https://github.com/DaveSkender/Stock.Indicators/actions/workflows/regenerate-baselines.yml) with manual trigger. Provide a clear reason for regeneration when prompted.
-
-#### Reviewing baseline changes
-
-When reviewing Pull Requests that include baseline changes:
-
-- [ ] Verify the reason for baseline regeneration is documented
-- [ ] Review numeric changes for expected differences
-- [ ] Confirm no unexpected indicators were affected
-- [ ] Validate regression tests pass with new baselines
-- [ ] Document any breaking changes in release notes
-
-**Important**: Any baseline change must be intentional and documented. Unexpected changes indicate potential bugs that should be investigated before merging.
-
-For more details, see the [baseline format specification](https://github.com/DaveSkender/Stock.Indicators/blob/main/specs/002-regression-baselines/baseline-format.md).
+When reviewing PRs with baseline changes, verify the reason is documented, review numeric differences, and ensure no unexpected indicators were affected.
 
 ## Documentation
 
