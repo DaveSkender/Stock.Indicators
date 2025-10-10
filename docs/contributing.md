@@ -89,7 +89,7 @@ The library maintains regression baselines for all StaticSeries indicators to de
 #### Running regression tests
 
 ```bash
-# run all regression tests
+# run all regression baseline tests
 dotnet test --filter "TestCategory=Regression"
 
 # run specific indicator regression test
