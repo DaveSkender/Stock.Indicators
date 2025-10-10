@@ -381,8 +381,12 @@ No violations—section intentionally empty.
 - [x] Phase 1: Design complete (/plan command)
 - [ ] Phase 2: Task planning complete (/plan command - describe approach only)
 - [ ] Phase 3: Tasks generated (/tasks command)
-- [ ] Phase 4: Implementation complete
-- [ ] Phase 5: Validation passed
+- [ ] Phase 4: Implementation complete (**GATE: Only when ALL BufferList indicators (80+) are implemented and ALL buffer-list.md checklist items are covered for each.**)
+- [ ] Phase 5: Validation passed (**GATE: Only when ALL BufferList indicators pass all unit, regression, and parity tests, and all checklist items are marked complete for every indicator.**)
+
+> **Note:**
+>
+> - As of October 9, 2025, only a subset of BufferList indicators are implemented and even those do not have all 100+ checklist items in buffer-list.md marked complete. Many gaps remain in requirements coverage, edge case handling, and documentation for both implemented and pending indicators. See buffer-list.md for detailed checklist status and gaps.
 
 **Gate status**:
 
