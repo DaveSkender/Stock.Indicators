@@ -17,6 +17,24 @@ public interface IQuoteProvider<out T> : IChainProvider<T>
 /// <inheritdoc/>
 public interface IChainProvider<out T> : IStreamObservable<T>
    where T : IReusable;
+
+/// <summary>
+/// Provider for dual-stream indicators that require synchronized pairs of reusable inputs.
+/// </summary>
+/// <typeparam name="T">The type of reusable data.</typeparam>
+/// <remarks>
+/// This interface supports indicators that require paired input values (e.g., Correlation, Beta).
+/// Both input series must be synchronized (matching timestamps).
+/// </remarks>
+public interface IPairsProvider<out T> : IStreamObservable<T>
+   where T : IReusable
+{
+    /// <summary>
+    /// Gets a readonly reference to the second provider's cache.
+    /// </summary>
+    /// <returns>Read-only list of cached items from the second series.</returns>
+    IReadOnlyList<T> GetCacheBRef();
+}
 #endregion
 
 /// <summary>

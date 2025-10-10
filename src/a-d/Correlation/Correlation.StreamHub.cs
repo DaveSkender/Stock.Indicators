@@ -33,11 +33,10 @@ public static partial class Correlation
 /// </summary>
 /// <typeparam name="TIn">The type of the input data.</typeparam>
 public class CorrelationHub<TIn>
-    : ChainProvider<TIn, CorrResult>, ICorrelation
+    : PairsProvider<TIn, CorrResult>, ICorrelation
     where TIn : IReusable
 {
     private readonly string hubName;
-    private readonly IReadOnlyList<TIn> _cacheB;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="CorrelationHub{TIn}"/> class.
@@ -50,13 +49,12 @@ public class CorrelationHub<TIn>
     internal CorrelationHub(
         IChainProvider<TIn> providerA,
         IChainProvider<TIn> providerB,
-        int lookbackPeriods) : base(providerA)
+        int lookbackPeriods) : base(providerA, providerB)
     {
         ArgumentNullException.ThrowIfNull(providerB);
         Correlation.Validate(lookbackPeriods);
 
         LookbackPeriods = lookbackPeriods;
-        _cacheB = providerB.GetCacheRef();
         hubName = $"CORRELATION({lookbackPeriods})";
 
         Reinitialize();
@@ -75,8 +73,11 @@ public class CorrelationHub<TIn>
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
         // Check if we have enough data in both caches
-        if (i >= LookbackPeriods - 1 && _cacheB.Count > i)
+        if (HasSufficientData(i, LookbackPeriods))
         {
+            // Validate timestamps match
+            ValidateTimestampSync(i, item);
+
             // Extract data arrays for both series
             double[] dataA = new double[LookbackPeriods];
             double[] dataB = new double[LookbackPeriods];
@@ -85,16 +86,7 @@ public class CorrelationHub<TIn>
             {
                 int index = i - LookbackPeriods + 1 + p;
                 dataA[p] = ProviderCache[index].Value;
-                dataB[p] = _cacheB[index].Value;
-            }
-
-            // Validate timestamps match
-            if (ProviderCache[i].Timestamp != _cacheB[i].Timestamp)
-            {
-                throw new InvalidQuotesException(
-                    nameof(item), item.Timestamp,
-                    "Timestamp sequence does not match. " +
-                    "Correlation requires matching dates in provided histories.");
+                dataB[p] = ProviderCacheB[index].Value;
             }
 
             // Use the existing period correlation calculation
