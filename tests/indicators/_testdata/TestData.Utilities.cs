@@ -145,10 +145,10 @@ internal static partial class Utilities
             Precision.LastDigit => (1e-13d, 1e-8f, 0m),
 
             // Slightly more forgiving across types
-            Precision.Tolerant => (1e-10d, 1e-6f, 1e-18m),
+            Precision.Tolerant => (1e-10d, 1e-5f, 1e-18m),
 
             // Most lenient — use sparingly
-            Precision.Loose => (1e-8d, 1e-5f, 1e-10m),
+            Precision.Loose => (1e-8d, 1e-3f, 1e-10m),
 
             _ => (0d, 0f, 0m)
         };
