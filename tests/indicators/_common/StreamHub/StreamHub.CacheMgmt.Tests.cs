@@ -10,12 +10,16 @@ public class CacheManagement : TestBase
         SmaHub<Quote> observer = quoteHub.ToSma(20);
         quoteHub.Add(Quotes.Take(21));
 
-        observer.Results[19].Sma.Should().BeApproximately(214.5250, precision: DoublePrecision);
+        observer.Results[19].Sma.Should().BeApproximately(214.5250, precision: 1e-13d); // 16 digits of precision
 
         quoteHub.Remove(Quotes[14]);
         quoteHub.EndTransmission();
 
-        observer.Results[19].Sma.Should().BeApproximately(214.5260, precision: DoublePrecision);
+        observer.Results[19].Sma.Should().BeApproximately(214.5260, precision: 1e-13d);
+
+        // TODO: double-check that this floating point issue is a problem.
+        // Double has 15-17 points of precision (13 decimal places for hundreds values)
+        // https://learn.microsoft.com/dotnet/api/system.double
     }
 
     [TestMethod]

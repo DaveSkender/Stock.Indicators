@@ -54,7 +54,9 @@ Format:
 - Full double precision for numeric values
 - Indented for human readability
 
-See [baseline-format.md](../../../specs/002-regression-baselines/baseline-format.md) for detailed specification.
+For additional guidance on regression baselines and how they are used in this repository, see the "Regression baseline testing" section in the contributing guide.
+
+Related reading: `docs/contributing.md` (search for "Regression baseline testing").
 
 ## When to Regenerate Baselines
 
@@ -129,10 +131,7 @@ After modifying the generator:
 
 ## Related Documentation
 
-- [Feature Specification](../../../specs/002-regression-baselines/spec.md)
-- [Implementation Plan](../../../specs/002-regression-baselines/plan.md)
-- [Implementation Tasks](../../../specs/002-regression-baselines/tasks.md)
-- [Baseline Format Specification](../../../specs/002-regression-baselines/baseline-format.md)
+- Contributing guide: regression baseline testing — `docs/contributing.md`
 
 ---
 Last updated: October 8, 2025
