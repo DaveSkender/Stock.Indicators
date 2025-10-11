@@ -139,8 +139,6 @@
       "presentation": {
         "reveal": "silent",
         "revealProblems": "onProblem",
-        "panel": "dedicated",
-        "clear": true
       }
     },
     {
@@ -152,9 +150,7 @@
       "problemMatcher": "$msCompile",
       "presentation": {
         "reveal": "silent",
-        "revealProblems": "onProblem",
-        "panel": "dedicated",
-        "clear": true
+        "revealProblems": "onProblem"
       }
     },
     {
@@ -242,7 +238,8 @@
       "label": "Lint: Auto-fix formatting",
       "detail": "Auto-fix code format and markdown issues",
       "type": "npm",
-      "script": "fixall"
+      "script": "fixall",
+      "problemMatcher": [ "$msCompile", "$markdownlint" ]
     },
     {
       "label": "Run: Doc Site with LiveReload",
