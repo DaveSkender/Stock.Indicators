@@ -29,7 +29,7 @@ dotnet tool install --global dotnet-outdated-tool
 dotnet tool list --global
 
 echo "🧰 Installing UV-based (Python) tools..."
-uv tool upgrade specify-cli | uv tool install --force specify-cli --from git+https://github.com/github/spec-kit.git
+uv tool install --force specify-cli --from git+https://github.com/github/spec-kit.git
 uv tool list
 
 # Restore .NET packages
