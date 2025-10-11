@@ -28,8 +28,6 @@ public abstract class TestBase  // base for all tests
     internal static readonly IReadOnlyList<Quote> RandomQuotes = Data.GetRandom(1000);
     internal static readonly IReadOnlyList<Quote> ZeroesQuotes = Data.GetZeros();
 
-    protected static readonly double DoublePrecision = 1E-13;
-
     protected static readonly DateTime EvalDate
         = DateTime.ParseExact("12/31/2018", "MM/dd/yyyy", invariantCulture);
 }

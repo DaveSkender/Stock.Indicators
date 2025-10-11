@@ -82,6 +82,25 @@ Use the regression detection script to compare results with baseline:
 pwsh detect-regressions.ps1
 ```
 
+### Regression baseline testing
+
+Regression baselines detect unintended behavioral changes in indicators. Each baseline is a JSON file with expected outputs for standard test data.
+
+```bash
+# run all regression baseline tests
+dotnet test --filter "TestCategory=Regression"
+
+# regenerate all baselines (locally)
+dotnet run --project tools/baselining -- --all
+
+# regenerate specific baseline
+dotnet run --project tools/baselining -- --indicator SMA
+```
+
+Regenerate baselines after intentional algorithm changes, .NET upgrades, or test data changes. Use the [Regenerate Baselines workflow](https://github.com/DaveSkender/Stock.Indicators/actions/workflows/regenerate-baselines.yml) for automated regeneration via GitHub Actions.
+
+When reviewing PRs with baseline changes, verify the reason is documented, review numeric differences, and ensure no unexpected indicators were affected.
+
 ## Documentation
 
 This site uses [Jekyll](https://jekyllrb.com) construction with _Front Matter_.

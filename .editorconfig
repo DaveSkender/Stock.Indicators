@@ -28,11 +28,13 @@ max_line_length = off
 trim_trailing_whitespace = false
 
 [*.sh]
+
 indent_style = space
 indent_size = 2
 tab_width = 2
 
 [*.{csproj,json,jsonc,xml,yaml,yml}]
+
 indent_style = space
 indent_size = 2
 tab_width = 2
@@ -43,7 +45,8 @@ tab_width = 2
 end_of_line = crlf
 
 # .NET source files
-[*.cs]
+[*.{cs,vb}]
+
 indent_style = space
 indent_size = 4
 tab_width = 4
@@ -140,6 +143,8 @@ dotnet_diagnostic.IDE0330.severity = none        # Prefer 'System.Threading.Lock
 
 #### C# Coding Conventions ####
 # https://learn.microsoft.com/dotnet/fundamentals/code-analysis/style-rules/csharp-formatting-options
+
+[*.cs]
 
 # var preferences
 csharp_style_var_elsewhere = false              # Do not prefer 'var' elsewhere

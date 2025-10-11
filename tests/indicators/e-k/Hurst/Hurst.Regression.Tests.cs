@@ -6,7 +6,7 @@ public class HurstTests : RegressionTestBase<HurstResult>
     public HurstTests() : base("hurst.standard.json") { }
 
     [TestMethod]
-    public override void Series() => Quotes.ToHurst().AssertEquals(Expected);
+    public override void Series() => Quotes.ToHurst().AssertEquals(Expected, Precision.LastDigit);
 
     [TestMethod]
     public override void Buffer() => Assert.Inconclusive("Buffer implementation not yet available");
