@@ -44,12 +44,10 @@ public class HeikinAshiList : BufferList<HeikinAshiResult>, IIncrementFromQuote
         decimal open = (_prevOpen + _prevClose) / 2;
 
         // high
-        decimal[] arrH = [quote.High, open, close];
-        decimal high = arrH.Max();
+        decimal high = Math.Max(quote.High, Math.Max(open, close));
 
         // low
-        decimal[] arrL = [quote.Low, open, close];
-        decimal low = arrL.Min();
+        decimal low = Math.Min(quote.Low, Math.Min(open, close));
 
         AddInternal(new HeikinAshiResult(
             Timestamp: quote.Timestamp,

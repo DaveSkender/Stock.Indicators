@@ -18,7 +18,6 @@ public class KvoList : BufferList<KvoResult>, IIncrementFromQuote
     private double _prevVfFastEma;
     private double _prevVfSlowEma;
     private double _sumVf;
-    private int _vfCount;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="KvoList"/> class.
@@ -49,7 +48,6 @@ public class KvoList : BufferList<KvoResult>, IIncrementFromQuote
         _prevVfFastEma = 0;
         _prevVfSlowEma = 0;
         _sumVf = 0;
-        _vfCount = 0;
     }
 
     /// <summary>
@@ -126,7 +124,6 @@ public class KvoList : BufferList<KvoResult>, IIncrementFromQuote
             : cm != 0 ? volume * Math.Abs(2d * ((dm / cm) - 1)) * trend * 100d
             : 0;
 
-        _vfCount++;
         _sumVf += vf;
 
         // fast-period EMA of VF
@@ -211,7 +208,6 @@ public class KvoList : BufferList<KvoResult>, IIncrementFromQuote
         _prevVfFastEma = 0;
         _prevVfSlowEma = 0;
         _sumVf = 0;
-        _vfCount = 0;
     }
 }
 
