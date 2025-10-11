@@ -27,7 +27,15 @@ max_line_length = off
 # Allow trailing whitespace for line breaks
 trim_trailing_whitespace = false
 
-[*.{json,jsonc,xml,csproj}]
+[*.sh]
+
+indent_style = space
+indent_size = 2
+tab_width = 2
+
+[*.{csproj,json,jsonc,xml,yaml,yml}]
+
+indent_style = space
 indent_size = 2
 tab_width = 2
 
@@ -40,7 +48,7 @@ end_of_line = crlf
 # .NET source files
 [*.{cs,vb}]
 
- # set indentation to 4 spaces
+indent_style = space
 indent_size = 4
 tab_width = 4
 
