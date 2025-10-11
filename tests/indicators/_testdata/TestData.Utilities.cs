@@ -155,7 +155,7 @@ internal static partial class Utilities
 }
 
 
-// using directives moved to top of file; duplicate removed
+// TODO: use or lose this extension
 
 /// <summary>
 /// FluentAssertions extensions for ULP (Units in Last Place) based floating-point comparisons.
