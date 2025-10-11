@@ -41,7 +41,6 @@ tab_width = 2
 
 # Batch and command files
 [*.{cmd,bat}]
-
 # Use CRLF for Windows specific files
 end_of_line = crlf
 

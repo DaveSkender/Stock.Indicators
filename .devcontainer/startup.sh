@@ -5,6 +5,8 @@
 
 echo "🚀 Starting Stock Indicators dev container setup..."
 
+export PATH="/root/.local/bin:$PATH"
+
 # Verify Node.js and npm are available
 echo "🔍 Verifying Node.js environment..."
 node --version
@@ -34,4 +36,4 @@ uv tool list
 echo "📦 Restoring .NET packages..."
 dotnet restore
 
-echo "✅ Dev container setup complete!"
+echo "✅ Dev environment setup complete!"
