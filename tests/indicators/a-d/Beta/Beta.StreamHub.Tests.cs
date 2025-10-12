@@ -54,8 +54,8 @@ public class BetaHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
         lastResult.Should().NotBeNull();
         lastResult.Beta.Should().NotBeNull();
 
-        // The beta should be close to 1.0 (perfect positive beta with itself)
-        lastResult.Beta.Should().BeApproximately(1.0, 0.0001);
+        // When comparing identical series, beta should be exactly 1.0
+        lastResult.Beta.Should().Be(1.0);
 
         // Cleanup
         betaHub.Unsubscribe();
@@ -207,6 +207,7 @@ public class BetaHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
         betaHub.Results.Should().HaveCount(seriesResults.Count);
 
         // Check consistency for results where both have values
+        // Hub and series should produce identical results
         for (int i = 20; i < betaHub.Results.Count && i < 100; i++)
         {
             BetaResult hubResult = betaHub.Results[i];
@@ -215,9 +216,12 @@ public class BetaHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
             // Both should have beta values after warmup period
             if (hubResult.Beta.HasValue && seriesResult.Beta.HasValue)
             {
-                hubResult.Beta.Value.Should().BeApproximately(seriesResult.Beta.Value, 0.001,
-                    $"at index {i}");
+                hubResult.Beta.Should().Be(seriesResult.Beta, $"Beta at index {i}");
             }
+
+            // Verify returns match as well
+            hubResult.ReturnsEval.Should().Be(seriesResult.ReturnsEval, $"ReturnsEval at index {i}");
+            hubResult.ReturnsMrkt.Should().Be(seriesResult.ReturnsMrkt, $"ReturnsMrkt at index {i}");
         }
 
         betaHub.Unsubscribe();

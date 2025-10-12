@@ -81,11 +81,8 @@ public class PrsHub<TIn>
     {
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
-        // Determine minimum required periods (at least 1 for current, more for lookback)
-        int minimumPeriods = lookbackPeriods > 0 ? lookbackPeriods + 1 : 1;
-
-        // Check if both caches have sufficient data
-        if (!HasSufficientData(i, minimumPeriods))
+        // PRS only requires 1 period; PrsPercent requires lookbackPeriods + 1
+        if (!HasSufficientData(i, 1))
         {
             // Not enough data in one or both streams yet
             return (new PrsResult(Timestamp: item.Timestamp, Prs: null, PrsPercent: null), i);

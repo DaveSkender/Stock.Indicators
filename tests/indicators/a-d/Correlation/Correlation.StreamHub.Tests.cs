@@ -54,6 +54,9 @@ public class CorrelationHub : StreamHubTestBase, ITestChainObserver, ITestChainP
         lastResult.Should().NotBeNull();
         lastResult.Correlation.Should().NotBeNull();
 
+        // When comparing identical series, correlation should be exactly 1.0
+        lastResult.Correlation.Should().Be(1.0);
+
         // Cleanup
         correlationHub.Unsubscribe();
         quoteHubA.EndTransmission();
@@ -104,5 +107,46 @@ public class CorrelationHub : StreamHubTestBase, ITestChainObserver, ITestChainP
 
         correlationHub.Unsubscribe();
         quoteHub.EndTransmission();
+    }
+
+    [TestMethod]
+    public void ConsistentWithSeriesCalculation()
+    {
+        QuoteHub<Quote> quoteHubA = new();
+        QuoteHub<Quote> quoteHubB = new();
+
+        quoteHubA.Add(Quotes);
+        quoteHubB.Add(Quotes);
+
+        CorrelationHub<Quote> corrHub = quoteHubA.ToCorrelationHub(quoteHubB, 20);
+
+        // Compare with series calculation
+        List<CorrResult> seriesResults = Quotes.ToCorrelation(Quotes, 20).ToList();
+
+        corrHub.Results.Should().HaveCount(seriesResults.Count);
+
+        // Check consistency for results where both have values
+        // Hub and series should produce identical results
+        for (int i = 20; i < corrHub.Results.Count && i < 100; i++)
+        {
+            CorrResult hubResult = corrHub.Results[i];
+            CorrResult seriesResult = seriesResults[i];
+
+            // Both should have correlation values after warmup period
+            if (hubResult.Correlation.HasValue && seriesResult.Correlation.HasValue)
+            {
+                hubResult.Correlation.Should().Be(seriesResult.Correlation, $"Correlation at index {i}");
+            }
+
+            // Verify other properties match as well
+            hubResult.RSquared.Should().Be(seriesResult.RSquared, $"RSquared at index {i}");
+            hubResult.VarianceA.Should().Be(seriesResult.VarianceA, $"VarianceA at index {i}");
+            hubResult.VarianceB.Should().Be(seriesResult.VarianceB, $"VarianceB at index {i}");
+            hubResult.Covariance.Should().Be(seriesResult.Covariance, $"Covariance at index {i}");
+        }
+
+        corrHub.Unsubscribe();
+        quoteHubA.EndTransmission();
+        quoteHubB.EndTransmission();
     }
 }

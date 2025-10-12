@@ -54,8 +54,8 @@ public class PrsHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider,
         lastResult.Should().NotBeNull();
         lastResult.Prs.Should().NotBeNull();
 
-        // The PRS should be 1.0 (perfect relative strength with itself)
-        lastResult.Prs.Should().BeApproximately(1.0, 0.0001);
+        // When comparing identical series, PRS should be exactly 1.0
+        lastResult.Prs.Should().Be(1.0);
 
         // Cleanup
         prsHub.Unsubscribe();
@@ -145,14 +145,45 @@ public class PrsHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider,
                 // PrsPercent should exist when Prs exists (after lookback)
                 prsHub.Results[i].PrsPercent.Should().NotBeNull();
 
-                // When comparing identical series to themselves, PrsPercent should be approximately 0
-                // because the percentage change difference should be minimal
-                prsHub.Results[i].PrsPercent!.Value.Should().BeApproximately(0.0, 0.0001,
-                    $"PrsPercent should be ~0 for identical series at index {i}");
+                // When comparing identical series, PrsPercent should be exactly 0
+                // because (pctEval - pctBase) = 0 when both series are identical
+                prsHub.Results[i].PrsPercent.Should().Be(0.0,
+                    $"PrsPercent should be exactly 0 for identical series at index {i}");
             }
         }
 
         // Cleanup
+        prsHub.Unsubscribe();
+        quoteHubEval.EndTransmission();
+        quoteHubBase.EndTransmission();
+    }
+
+    [TestMethod]
+    public void ConsistentWithSeriesCalculation()
+    {
+        QuoteHub<Quote> quoteHubEval = new();
+        QuoteHub<Quote> quoteHubBase = new();
+
+        quoteHubEval.Add(Quotes);
+        quoteHubBase.Add(Quotes);
+
+        PrsHub<Quote> prsHub = quoteHubEval.ToPrsHub(quoteHubBase, 20);
+
+        // Compare with series calculation
+        List<PrsResult> seriesResults = Quotes.ToPrs(Quotes, 20).ToList();
+
+        prsHub.Results.Should().HaveCount(seriesResults.Count);
+
+        // Hub and series should produce identical results
+        for (int i = 0; i < prsHub.Results.Count && i < 100; i++)
+        {
+            PrsResult hubResult = prsHub.Results[i];
+            PrsResult seriesResult = seriesResults[i];
+
+            hubResult.Prs.Should().Be(seriesResult.Prs, $"Prs at index {i}");
+            hubResult.PrsPercent.Should().Be(seriesResult.PrsPercent, $"PrsPercent at index {i}");
+        }
+
         prsHub.Unsubscribe();
         quoteHubEval.EndTransmission();
         quoteHubBase.EndTransmission();
