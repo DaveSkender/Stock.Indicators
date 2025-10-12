@@ -94,7 +94,7 @@ The following indicators have series-style implementations but lack BufferList i
 - [ ] T048 Implement StdDevChannels BufferList in `src/s-z/StdDevChannels/StdDevChannels.BufferList.cs`
 - [ ] T049 Implement SuperTrend BufferList in `src/s-z/SuperTrend/SuperTrend.BufferList.cs`
 - [ ] T050 Implement Tsi BufferList in `src/s-z/Tsi/Tsi.BufferList.cs`
-- [ ] T051 Implement UlcerIndex BufferList in `src/s-z/UlcerIndex/UlcerIndex.BufferList.cs`
+- [x] T051 Implement UlcerIndex BufferList in `src/s-z/UlcerIndex/UlcerIndex.BufferList.cs` ✅ Complete
 - [ ] T052 Implement VolatilityStop BufferList in `src/s-z/VolatilityStop/VolatilityStop.BufferList.cs`
 - [ ] T053 Implement Vortex BufferList in `src/s-z/Vortex/Vortex.BufferList.cs`
 - [ ] T054 Implement Vwap BufferList in `src/s-z/Vwap/Vwap.BufferList.cs`
