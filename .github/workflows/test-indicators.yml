@@ -84,6 +84,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: build-artifacts
+          path: .
 
       - name: Test indicators
         run: >
@@ -136,6 +137,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: build-artifacts
+          path: .
 
       - name: Test regression baselines
         run: >
@@ -161,7 +163,7 @@ jobs:
     name: publish coverage
     runs-on: ubuntu-latest
     needs: test-unit
-    if: success() && github.actor != 'dependabot[bot]'
+    if: always() && github.actor != 'dependabot[bot]'
 
     steps:
       - name: Download coverage reports
