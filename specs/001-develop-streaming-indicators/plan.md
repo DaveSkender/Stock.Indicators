@@ -141,18 +141,21 @@ Prerequisites: research.md complete (decisions documented in Phase 0 above)
 - **`IIncrementFromChain`**: Interface for chainable indicators working with `IReusable` values (adds `Add(DateTime, double)`, `Add(IReusable)`, `Add(IReadOnlyList<IReusable>)` methods)
 - **`IIncrementFromQuote`**: Interface for indicators requiring OHLC quote data (adds `Add(IQuote)`, `Add(IReadOnlyList<IQuote>)` methods)
 - **`IIncrementFromPairs`**: Interface for dual-series indicators working with paired `IReusable` values
+- **`IChainProvider<T>`**: Interface for chainable stream hubs working with `IReusable` values
+- **`IQuoteProvider<T>`**: Interface for stream hubs requiring OHLC quote data
+- **`IPairsProvider<T>`**: **NEW** - Interface for dual-stream hubs requiring synchronized paired `IReusable` values
 - **StreamingState**: Enum { NotWarmedUp, Ready }
 - **StreamingResult\<T>**: Wrapper containing { DateTime, T Value, StreamingState }
-- **BufferList**: List-backed implementation with `Add()`, `Reset()`, bounded capacity (implements one of the three interfaces above)
-- **StreamHub**: Span-optimized implementation with circular buffer, `Add()`, `Reset()` (implements one of the three interfaces above)
+- **BufferList**: List-backed implementation with `Add()`, `Reset()`, bounded capacity (implements one of the three `IIncrementFrom*` interfaces)
+- **StreamHub**: Span-optimized implementation with circular buffer, `Add()`, `Reset()` (implements one of the three provider interfaces)
 
 **Interface Selection Rules**:
 
-| Indicator Type | Interface | Constructor Accepts | Extension Method Generic |
-|----------------|-----------|---------------------|-------------------------|
-| Chainable (single value) | `IIncrementFromChain` | `IReadOnlyList<IReusable> values` | `<T> where T : IReusable` |
-| Multi-OHLC required | `IIncrementFromQuote` | `IReadOnlyList<IQuote> quotes` | `<TQuote> where TQuote : IQuote` |
-| Dual-series input | `IIncrementFromPairs` | Paired `IReusable` series | Paired generics |
+| Indicator Type | BufferList Interface | StreamHub Interface | Constructor Pattern |
+|----------------|---------------------|---------------------|---------------------|
+| Chainable (single value) | `IIncrementFromChain` | `IChainProvider<T>` | `IReadOnlyList<IReusable> values` |
+| Multi-OHLC required | `IIncrementFromQuote` | `IQuoteProvider<T>` | `IReadOnlyList<IQuote> quotes` |
+| Dual-series input | `IIncrementFromPairs` | `IPairsProvider<T>` | Paired `IReusable` series |
 
 ### Quality gates
 
@@ -205,11 +208,16 @@ For authoritative implementation guidance, see:
 **StreamHub Pattern** (actual naming: `{IndicatorName}Hub<TIn>`):
 
 - **Base class**: Extends `StreamHub<TIn, TResult>` (abstract partial class)
-- **Provider pattern**: Uses `ChainProvider<TIn, TResult>` or `QuoteProvider<TIn, TResult>` for chaining
-- **Interfaces**: Implements indicator-specific interface (e.g., `ISma`, `IEma`)
+- **Provider pattern**: Uses one of three provider base classes:
+  - `ChainProvider<TIn, TResult>` - For single-input chainable indicators
+  - `QuoteProvider<TIn, TResult>` - For quote-based indicators
+  - `PairsProvider<TIn, TResult>` - **NEW** - For dual-input synchronized indicators
+- **Interfaces**: Implements indicator-specific interface (e.g., `ISma`, `IEma`, `ICorrelation`)
 - **Core method**: Overrides `ToIndicator(TIn item, int? indexHint)` for result generation
 - **Observer pattern**: Supports subscription via `IStreamObservable`/`IStreamObserver`
-- **Examples**: `SmaHub<TIn>`, `EmaHub<TIn>`, `RsiHub<TIn>`, `AlligatorHub<TIn>`
+- **Examples**:
+  - Single input: `SmaHub<TIn>`, `EmaHub<TIn>`, `RsiHub<TIn>`, `AlligatorHub<TIn>`
+  - Dual input: `CorrelationHub<TIn>` (uses `PairsProvider`)
 
 #### Infrastructure Status
 
@@ -219,9 +227,11 @@ The following base classes and utilities already exist in `src/_common/`:
 - ✅ `BufferUtilities` - Extension methods for buffer management (Update, Prune, etc.)
 - ✅ `StreamHub<TIn, TOut>` - Abstract base for hub-based streaming
 - ✅ `ChainProvider<TIn, TResult>` / `QuoteProvider<TIn, TResult>` - Provider implementations
+- ✅ `PairsProvider<TIn, TResult>` - **NEW** - Dual-stream provider implementation
 - ✅ `IStreamObservable<T>` / `IStreamObserver<T>` - Observer pattern interfaces
+- ✅ `IPairsProvider<T>` - **NEW** - Dual-stream interface
 
-**No additional infrastructure tasks required** - all foundational types are production-ready.
+**All foundational types are production-ready** - dual-stream architecture now complete.
 
 ### Regression test workflow
 

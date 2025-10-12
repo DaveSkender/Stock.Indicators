@@ -51,7 +51,31 @@ public class StreamIndicators
     public object AtrStopHub() => quoteHub.ToAtrStopHub().Results;
 
     [Benchmark]
+    public object BetaHub()
+    {
+        QuoteHub<Quote> quoteHubMrkt = new();
+        quoteHubMrkt.Add(quotes);
+        BetaHub<Quote> betaHub = quoteHub.ToBetaHub(quoteHubMrkt, 20);
+        object results = betaHub.Results;
+        betaHub.Unsubscribe();
+        quoteHubMrkt.EndTransmission();
+        return results;
+    }
+
+    [Benchmark]
     public object BollingerBandsHub() => quoteHub.ToBollingerBandsHub(20, 2).Results;
+
+    [Benchmark]
+    public object CorrelationHub()
+    {
+        QuoteHub<Quote> quoteHubB = new();
+        quoteHubB.Add(quotes);
+        CorrelationHub<Quote> corrHub = quoteHub.ToCorrelationHub(quoteHubB, 20);
+        object results = corrHub.Results;
+        corrHub.Unsubscribe();
+        quoteHubB.EndTransmission();
+        return results;
+    }
 
     [Benchmark]
     public object DemaHub() => quoteHub.ToDemaHub(14).Results;
@@ -76,6 +100,18 @@ public class StreamIndicators
 
     [Benchmark]
     public object ObvHub() => quoteHub.ToObvHub().Results;
+
+    [Benchmark]
+    public object PrsHub()
+    {
+        QuoteHub<Quote> quoteHubBase = new();
+        quoteHubBase.Add(quotes);
+        PrsHub<Quote> prsHub = quoteHub.ToPrsHub(quoteHubBase, 20);
+        object results = prsHub.Results;
+        prsHub.Unsubscribe();
+        quoteHubBase.EndTransmission();
+        return results;
+    }
 
     [Benchmark]
     public object QuoteHub() => quoteHub.ToQuoteHub().Results;
