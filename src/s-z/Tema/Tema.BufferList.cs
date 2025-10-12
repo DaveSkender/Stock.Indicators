@@ -146,9 +146,8 @@ public static partial class Tema
     /// <summary>
     /// Creates a buffer list for TEMA calculations.
     /// </summary>
-    public static TemaList ToTemaList<T>(
-        this IReadOnlyList<T> source,
+    public static TemaList ToTemaList(
+        this IReadOnlyList<IReusable> source,
         int lookbackPeriods)
-        where T : IReusable
-        => new(lookbackPeriods) { (IReadOnlyList<IReusable>)source };
+        => new(lookbackPeriods) { source };
 }

@@ -120,9 +120,8 @@ public static partial class Mfi
     /// <summary>
     /// Creates a buffer list for Money Flow Index (MFI) calculations.
     /// </summary>
-    public static MfiList ToMfiList<TQuote>(
-        this IReadOnlyList<TQuote> quotes,
+    public static MfiList ToMfiList(
+        this IReadOnlyList<IQuote> quotes,
         int lookbackPeriods = 14)
-        where TQuote : IQuote
-        => new(lookbackPeriods) { (IReadOnlyList<IQuote>)quotes };
+        => new(lookbackPeriods) { quotes };
 }

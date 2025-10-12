@@ -122,20 +122,18 @@ public static partial class Aroon
     /// <summary>
     /// Creates a buffer list for Aroon calculations.
     /// </summary>
-    /// <typeparam name="TQuote">The type that implements IQuote.</typeparam>
     /// <param name="quotes">Historical price quotes.</param>
     /// <param name="lookbackPeriods">The number of periods to look back. Default is 25.</param>
     /// <returns>An AroonList instance pre-populated with historical data.</returns>
     /// <exception cref="ArgumentNullException">Thrown when quotes is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when parameters are invalid.</exception>
-    public static AroonList ToAroonList<TQuote>(
-        this IReadOnlyList<TQuote> quotes,
+    public static AroonList ToAroonList(
+        this IReadOnlyList<IQuote> quotes,
         int lookbackPeriods = 25)
-        where TQuote : IQuote
     {
         ArgumentNullException.ThrowIfNull(quotes);
         Validate(lookbackPeriods);
 
-        return new(lookbackPeriods) { (IReadOnlyList<IQuote>)quotes };
+        return new(lookbackPeriods) { quotes };
     }
 }

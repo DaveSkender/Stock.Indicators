@@ -214,15 +214,14 @@ public static partial class AtrStop
     /// <exception cref="ArgumentNullException">Thrown when quotes is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when parameters are invalid.</exception>
     public static AtrStopList ToAtrStopList<TQuote>(
-        this IReadOnlyList<TQuote> quotes,
+        this IReadOnlyList<IQuote> quotes,
         int lookbackPeriods = 21,
         double multiplier = 3,
         EndType endType = EndType.Close)
-        where TQuote : IQuote
     {
         ArgumentNullException.ThrowIfNull(quotes);
         Validate(lookbackPeriods, multiplier);
 
-        return new(lookbackPeriods, multiplier, endType) { (IReadOnlyList<IQuote>)quotes };
+        return new(lookbackPeriods, multiplier, endType) { quotes };
     }
 }

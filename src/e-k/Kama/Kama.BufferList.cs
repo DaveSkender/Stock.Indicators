@@ -177,11 +177,10 @@ public static partial class Kama
     /// <summary>
     /// Creates a buffer list for Kaufman's Adaptive Moving Average (KAMA) calculations.
     /// </summary>
-    public static KamaList ToKamaList<T>(
-        this IReadOnlyList<T> source,
+    public static KamaList ToKamaList(
+        this IReadOnlyList<IReusable> source,
         int erPeriods = 10,
         int fastPeriods = 2,
         int slowPeriods = 30)
-        where T : IReusable
-        => new(erPeriods, fastPeriods, slowPeriods) { (IReadOnlyList<IReusable>)source };
+        => new(erPeriods, fastPeriods, slowPeriods) { source };
 }

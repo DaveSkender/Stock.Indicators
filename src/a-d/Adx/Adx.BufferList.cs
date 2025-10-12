@@ -206,9 +206,8 @@ public static partial class Adx
     /// <summary>
     /// Creates a buffer list for Average Directional Index (ADX) calculations.
     /// </summary>
-    public static AdxList ToAdxList<TQuote>(
-        this IReadOnlyList<TQuote> quotes,
+    public static AdxList ToAdxList(
+        this IReadOnlyList<IQuote> quotes,
         int lookbackPeriods)
-        where TQuote : IQuote
-        => new(lookbackPeriods) { (IReadOnlyList<IQuote>)quotes };
+        => new(lookbackPeriods) { quotes };
 }

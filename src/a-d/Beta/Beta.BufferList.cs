@@ -238,7 +238,6 @@ public static partial class Beta
     /// <summary>
     /// Creates a buffer list for Beta calculations.
     /// </summary>
-    /// <typeparam name="T">The type that implements IReusable.</typeparam>
     /// <param name="sourceEval">The evaluated asset values.</param>
     /// <param name="sourceMrkt">The market values.</param>
     /// <param name="lookbackPeriods">The number of periods to look back. Default is 50.</param>
@@ -246,12 +245,11 @@ public static partial class Beta
     /// <returns>A BetaList instance pre-populated with historical data.</returns>
     /// <exception cref="ArgumentNullException">Thrown when sourceEval or sourceMrkt is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when parameters are invalid.</exception>
-    public static BetaList ToBetaList<T>(
-        this IReadOnlyList<T> sourceEval,
-        IReadOnlyList<T> sourceMrkt,
+    public static BetaList ToBetaList(
+        this IReadOnlyList<IReusable> sourceEval,
+        IReadOnlyList<IReusable> sourceMrkt,
         int lookbackPeriods = 50,
         BetaType type = BetaType.Standard)
-        where T : IReusable
     {
         ArgumentNullException.ThrowIfNull(sourceEval);
         ArgumentNullException.ThrowIfNull(sourceMrkt);
@@ -261,7 +259,7 @@ public static partial class Beta
         return new(
             lookbackPeriods,
             type,
-            (IReadOnlyList<IReusable>)sourceEval,
-            (IReadOnlyList<IReusable>)sourceMrkt);
+            sourceEval,
+            sourceMrkt);
     }
 }

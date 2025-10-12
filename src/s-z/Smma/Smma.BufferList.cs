@@ -113,9 +113,8 @@ public static partial class Smma
     /// <summary>
     /// Creates a buffer list for Smoothed Moving Average (SMMA) calculations.
     /// </summary>
-    public static SmmaList ToSmmaList<T>(
-        this IReadOnlyList<T> source,
+    public static SmmaList ToSmmaList(
+        this IReadOnlyList<IReusable> source,
         int lookbackPeriods)
-        where T : IReusable
-        => new(lookbackPeriods) { (IReadOnlyList<IReusable>)source };
+        => new(lookbackPeriods) { source };
 }

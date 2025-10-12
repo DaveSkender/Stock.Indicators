@@ -126,9 +126,8 @@ public static partial class ForceIndex
     /// <summary>
     /// Creates a buffer list for Force Index calculations.
     /// </summary>
-    public static ForceIndexList ToForceIndexList<TQuote>(
-        this IReadOnlyList<TQuote> quotes,
+    public static ForceIndexList ToForceIndexList(
+        this IReadOnlyList<IQuote> quotes,
         int lookbackPeriods = 2)
-        where TQuote : IQuote
-        => new(lookbackPeriods) { (IReadOnlyList<IQuote>)quotes };
+        => new(lookbackPeriods) { quotes };
 }

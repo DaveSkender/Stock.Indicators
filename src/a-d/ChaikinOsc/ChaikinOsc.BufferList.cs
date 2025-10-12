@@ -100,10 +100,9 @@ public static partial class ChaikinOsc
     /// <summary>
     /// Creates a buffer list for Chaikin Oscillator calculations.
     /// </summary>
-    public static ChaikinOscList ToChaikinOscList<TQuote>(
-        this IReadOnlyList<TQuote> quotes,
+    public static ChaikinOscList ToChaikinOscList(
+        this IReadOnlyList<IQuote> quotes,
         int fastPeriods = 3,
         int slowPeriods = 10)
-        where TQuote : IQuote
-        => new(fastPeriods, slowPeriods) { (IReadOnlyList<IQuote>)quotes };
+        => new(fastPeriods, slowPeriods) { quotes };
 }

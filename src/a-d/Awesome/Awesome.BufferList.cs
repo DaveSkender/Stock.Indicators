@@ -123,17 +123,15 @@ public static partial class Awesome
     /// <summary>
     /// Creates a buffer list for Awesome Oscillator calculations.
     /// </summary>
-    /// <typeparam name="T">The type that implements IReusable.</typeparam>
     /// <param name="source">Time-series values to transform.</param>
     /// <param name="fastPeriods">The number of periods for the fast moving average. Default is 5.</param>
     /// <param name="slowPeriods">The number of periods for the slow moving average. Default is 34.</param>
     /// <returns>An AwesomeList instance pre-populated with historical data.</returns>
     /// <exception cref="ArgumentNullException">Thrown when source is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when parameters are invalid.</exception>
-    public static AwesomeList ToAwesomeList<T>(
-        this IReadOnlyList<T> source,
+    public static AwesomeList ToAwesomeList(
+        this IReadOnlyList<IReusable> source,
         int fastPeriods = 5,
         int slowPeriods = 34)
-        where T : IReusable
-        => new(fastPeriods, slowPeriods) { (IReadOnlyList<IReusable>)source };
+        => new(fastPeriods, slowPeriods) { source };
 }

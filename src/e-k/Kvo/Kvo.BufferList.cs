@@ -216,11 +216,10 @@ public static partial class Kvo
     /// <summary>
     /// Creates a buffer list for Klinger Volume Oscillator (KVO) calculations.
     /// </summary>
-    public static KvoList ToKvoList<TQuote>(
-        this IReadOnlyList<TQuote> quotes,
+    public static KvoList ToKvoList(
+        this IReadOnlyList<IQuote> quotes,
         int fastPeriods = 34,
         int slowPeriods = 55,
         int signalPeriods = 13)
-        where TQuote : IQuote
-        => new(fastPeriods, slowPeriods, signalPeriods) { (IReadOnlyList<IQuote>)quotes };
+        => new(fastPeriods, slowPeriods, signalPeriods) { quotes };
 }

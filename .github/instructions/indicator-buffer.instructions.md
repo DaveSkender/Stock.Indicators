@@ -142,7 +142,7 @@ Use when the indicator can work with single reusable values (chainable indicator
 **CRITICAL RULES**:
 
 - ✅ **Constructor MUST accept**: `IReadOnlyList<IReusable> values` (NOT `IQuote quotes`)
-- ✅ **Extension method MUST use**: `<T>` generic with `where T : IReusable` (NOT `<TQuote>` with `where TQuote : IQuote`)
+- ✅ **Extension method signature**: Use concrete `IReadOnlyList<IReusable>` parameter (NOT generic `<T>` with `where T : IReusable`)
 - ❌ **MUST NOT have**: `Add(IQuote)` or `Add(IReadOnlyList<IQuote>)` methods
 - ✅ **For indicators requiring OHLC price data**: Only indicators that specifically need HL2 or other OHLC combinations (e.g., Alligator, Mama, FisherTransform) should use utility methods in `Add(IReusable)`:
   - `value.Hl2OrValue()` - Returns HL2 if IQuote, otherwise Value
@@ -158,11 +158,10 @@ public EmaList(
     : this(lookbackPeriods)
     => Add(values);
 
-public static EmaList ToEmaList<T>(  // ← Generic T, NOT TQuote
-    this IReadOnlyList<T> source,    // ← Parameter named 'source', NOT 'quotes'
+public static EmaList ToEmaList(
+    this IReadOnlyList<IReusable> source,  // ← Parameter named 'source', NOT 'quotes'
     int lookbackPeriods)
-    where T : IReusable              // ← IReusable constraint, NOT IQuote
-    => new(lookbackPeriods) { (IReadOnlyList<IReusable>)source };
+    => new(lookbackPeriods) { source };
 ```
 
 ### 2. `IIncrementFromQuote` - For multi-value OHLC indicators
@@ -183,11 +182,10 @@ public VwmaList(
     : this(lookbackPeriods)
     => Add(quotes);
 
-public static VwmaList ToVwmaList<TQuote>(  // ← TQuote generic is acceptable here
-    this IReadOnlyList<TQuote> quotes,       // ← Parameter named 'quotes' for IQuote
+public static VwmaList ToVwmaList(
+    this IReadOnlyList<IQuote> quotes,  // ← Parameter named 'quotes' for IQuote
     int lookbackPeriods)
-    where TQuote : IQuote                    // ← IQuote constraint
-    => new(lookbackPeriods) { (IReadOnlyList<IQuote>)quotes };
+    => new(lookbackPeriods) { quotes };
 ```
 
 ### 3. `IIncrementFromPairs` - For dual-input indicators
@@ -203,7 +201,7 @@ Use when the indicator requires two synchronized input series (like Correlation,
 **CRITICAL RULES**:
 
 - ✅ **Constructor MUST accept**: Two `IReadOnlyList<IReusable>` parameters (e.g., `valuesA` and `valuesB`)
-- ✅ **Extension method MUST use**: `<T> where T : IReusable` generic constraint
+- ✅ **Extension method signature**: Use concrete `IReadOnlyList<IReusable>` parameters (NOT generic `<T>` with `where T : IReusable`)
 - ✅ **Timestamp validation**: MUST validate that timestamps match between paired inputs
 - ✅ **Count validation**: MUST validate that both input lists have the same count
 - ❌ **MUST NOT**: Accept single `IQuote` or `IReadOnlyList<IQuote>` parameters
@@ -218,12 +216,11 @@ public CorrelationList(
     : this(lookbackPeriods)
     => Add(valuesA, valuesB);
 
-public static CorrelationList ToCorrelationList<T>(
-    this IReadOnlyList<T> valuesA,
-    IReadOnlyList<T> valuesB,
+public static CorrelationList ToCorrelationList(
+    this IReadOnlyList<IReusable> valuesA,
+    IReadOnlyList<IReusable> valuesB,
     int lookbackPeriods)
-    where T : IReusable
-    => new(lookbackPeriods, (IReadOnlyList<IReusable>)valuesA, (IReadOnlyList<IReusable>)valuesB);
+    => new(lookbackPeriods, valuesA, valuesB);
 ```
 
 **Pattern summary**:
@@ -438,11 +435,10 @@ public void Add(IQuote quote)
 /// <summary>
 /// Creates a buffer list for {IndicatorName} calculations
 /// </summary>
-public static {IndicatorName}List To{IndicatorName}List<TQuote>(
-    this IReadOnlyList<TQuote> quotes,
+public static {IndicatorName}List To{IndicatorName}List(
+    this IReadOnlyList<IQuote> quotes,
     int lookbackPeriods = {defaultValue})
-    where TQuote : IQuote
-    => new(lookbackPeriods) { (IReadOnlyList<IQuote>)quotes };
+    => new(lookbackPeriods) { quotes };
 ```
 
 ## Testing requirements
