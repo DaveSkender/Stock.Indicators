@@ -1,34 +1,15 @@
 namespace StreamHub;
 
 [TestClass]
-public class BetaHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider, ITestPairsProvider
+public class BetaHub : StreamHubTestBase, ITestPairsProvider
 {
     [TestMethod]
     public override void QuoteObserver()
     {
-        // Dual-provider synchronization issue: When two independent chains (smaHubA, smaHubB)
-        // subscribe to the same provider (quoteHub), the beta hub cannot guarantee both
-        // chains have updated before calculating beta. This requires architectural changes
-        // to the StreamHub observer notification pattern to support multi-provider synchronization.
-        Assert.Inconclusive("Dual-provider synchronization requires architectural review");
-    }
-
-    [TestMethod]
-    public void ChainObserver()
-    {
         // Dual-provider synchronization issue: When two independent chains subscribe to the same
         // provider, the beta hub cannot guarantee both chains have updated before calculating.
         // This requires architectural changes to support multi-provider synchronization.
-        Assert.Inconclusive("Dual-provider synchronization requires architectural review");
-    }
-
-    [TestMethod]
-    public void ChainProvider()
-    {
-        // Dual-provider synchronization issue: When two independent chains subscribe to the same
-        // provider, the beta hub cannot guarantee both chains have updated before calculating.
-        // This requires architectural changes to support multi-provider synchronization.
-        Assert.Inconclusive("Dual-provider synchronization requires architectural review");
+        Assert.Inconclusive("Dual-provider synchronization not supported for pairs indicators");
     }
 
     [TestMethod]
