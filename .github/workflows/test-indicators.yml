@@ -14,12 +14,9 @@ permissions:
   checks: write   # Required for test results
 
 jobs:
-  test:
-    name: unit tests
+  validate:
+    name: validate code
     runs-on: ubuntu-latest
-
-    env:
-      TARGET_FRAMEWORK: net9.0
 
     steps:
       - name: Checkout source
@@ -54,6 +51,24 @@ jobs:
           --property:ContinuousIntegrationBuild=true
           -warnAsError
 
+  test-unit:
+    name: unit tests
+    runs-on: ubuntu-latest
+    needs: validate
+
+    env:
+      TARGET_FRAMEWORK: net9.0
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v5
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: "9.x"
+          dotnet-quality: "ga"
+
       - name: Test indicators
         run: >
           dotnet test
@@ -61,22 +76,9 @@ jobs:
           --settings tests/tests.unit.runsettings
           --results-directory ./test-results
           --property:TestFramework="${{ env.TARGET_FRAMEWORK }}"
-          --no-build
           --verbosity normal
           --logger trx
           --collect:"XPlat Code Coverage"
-
-      - name: Test regression baselines
-        run: >
-          dotnet test
-          --configuration Release
-          --settings tests/tests.unit.runsettings
-          --results-directory ./test-results-regression
-          --property:TestFramework="${{ env.TARGET_FRAMEWORK }}"
-          --no-build
-          --verbosity normal
-          --logger trx
-          --filter "TestCategory=Regression"
 
       - name: Post unit test results
         uses: dorny/test-reporter@v2.1.0
@@ -87,6 +89,42 @@ jobs:
           reporter: dotnet-trx
         continue-on-error: true
 
+      - name: Upload coverage reports
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: coverage-unit
+          path: ./test-results/**/coverage.cobertura.xml
+          retention-days: 1
+
+  test-regression:
+    name: regression tests
+    runs-on: ubuntu-latest
+    needs: validate
+
+    env:
+      TARGET_FRAMEWORK: net9.0
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v5
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: "9.x"
+          dotnet-quality: "ga"
+
+      - name: Test regression baselines
+        run: >
+          dotnet test
+          --configuration Release
+          --settings tests/tests.regression.runsettings
+          --results-directory ./test-results-regression
+          --property:TestFramework="${{ env.TARGET_FRAMEWORK }}"
+          --verbosity normal
+          --logger trx
+
       - name: Post regression test results
         uses: dorny/test-reporter@v2.1.0
         if: always()
@@ -96,10 +134,21 @@ jobs:
           reporter: dotnet-trx
         continue-on-error: true
 
+  publish-coverage:
+    name: publish coverage
+    runs-on: ubuntu-latest
+    needs: test-unit
+    if: always() && github.actor != 'dependabot[bot]'
+
+    steps:
+      - name: Download coverage reports
+        uses: actions/download-artifact@v4
+        with:
+          name: coverage-unit
+
       - name: Publish coverage to Codacy
         uses: codacy/codacy-coverage-reporter-action@v1
-        if: success() && github.actor != 'dependabot[bot]'
         with:
           project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
-          coverage-reports: ./test-results/**/coverage.cobertura.xml
+          coverage-reports: ./**/coverage.cobertura.xml
         continue-on-error: true
