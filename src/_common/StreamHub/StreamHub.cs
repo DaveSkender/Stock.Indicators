@@ -475,7 +475,8 @@ public abstract class PairsProvider<TIn, TOut>(
     /// <summary>
     /// Gets the reference to the second provider's cache.
     /// </summary>
-    protected IReadOnlyList<TIn> ProviderCacheB { get; } = providerB.GetCacheRef();
+    protected IReadOnlyList<TIn> ProviderCacheB { get; } =
+        (providerB ?? throw new ArgumentNullException(nameof(providerB))).GetCacheRef();
 
     /// <summary>
     /// Gets a readonly reference to the second provider's input cache.

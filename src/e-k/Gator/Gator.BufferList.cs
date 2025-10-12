@@ -13,7 +13,7 @@ public class GatorList : BufferList<GatorResult>, IIncrementFromChain
     /// </summary>
     public GatorList()
     {
-        _alligatorList = new AlligatorList();
+        _alligatorList = [];
         _previousResult = null;
     }
 

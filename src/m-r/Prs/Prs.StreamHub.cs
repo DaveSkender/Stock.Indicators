@@ -25,7 +25,11 @@ public static partial class Prs
         IChainProvider<T> providerBase,
         int lookbackPeriods = int.MinValue)
         where T : IReusable
-        => new(providerEval, providerBase, lookbackPeriods);
+    {
+        ArgumentNullException.ThrowIfNull(providerEval);
+        ArgumentNullException.ThrowIfNull(providerBase);
+        return new PrsHub<T>(providerEval, providerBase, lookbackPeriods);
+    }
 }
 
 /// <summary>
@@ -96,7 +100,7 @@ public class PrsHub<TIn>
         double baseValue = ProviderCacheB[i].Value;
 
         // Calculate PRS (relative strength ratio)
-        double? prs = baseValue == 0
+        double? prs = Math.Abs(baseValue) < double.Epsilon
             ? null
             : (evalValue / baseValue).NaN2Null();
 
@@ -109,7 +113,7 @@ public class PrsHub<TIn>
             TIn evalOld = ProviderCache[i - lookbackPeriods];
             TIn baseOld = ProviderCacheB[i - lookbackPeriods];
 
-            if (baseOld.Value != 0 && evalOld.Value != 0)
+            if (Math.Abs(baseOld.Value) >= double.Epsilon && Math.Abs(evalOld.Value) >= double.Epsilon)
             {
                 double? pctBase = (baseValue - baseOld.Value) / baseOld.Value;
                 double? pctEval = (evalValue - evalOld.Value) / evalOld.Value;
