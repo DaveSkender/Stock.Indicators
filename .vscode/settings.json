@@ -1,7 +1,5 @@
 {
   "chat.promptFilesRecommendations": {
-    "speckit.constitution": true,
-    "speckit.specify": true,
     "speckit.plan": true,
     "speckit.tasks": true,
     "speckit.implement": true
@@ -10,6 +8,7 @@
     ".specify/scripts/bash/": true,
     ".specify/scripts/ps/": true
   },
+  "codacy.guardrails.instructionsFile": "manual",
   "dotnet.defaultSolution": "Stock.Indicators.sln",
   "files.encoding": "utf8",
   "files.eol": "\n",
@@ -27,6 +26,7 @@
   "search.exclude": {
     "**/_site/**": true,
     "**/vendor/**": true,
+    "**/node_modules/**": true,
     "**/.vs/**": true,
     "**/bin/**": true,
     "**/obj/**": true,

@@ -148,7 +148,7 @@
 ## Maintainer Documentation Requirements (Migration Guide & Tasks)
 
 - [ ] CHK102 - Are requirements defined for adding `[Obsolete]` attributes with migration paths to avoid breaking changes? [Completeness, Plan §Documentation Updates, Task T109/D007, ObsoleteV3.cs]
-- [ ] CHK103 - Are requirements specified for documenting streaming capability summary in migration guide (`src/_common/ObsoleteV3.md`)? [Completeness, Plan §Documentation Updates, Task T109/D007]
+- [ ] CHK103 - Are requirements specified for documenting streaming capability summary in migration guide (`src/MigrationGuide.V3.md`)? [Completeness, Plan §Documentation Updates, Task T109/D007]
 - [ ] CHK104 - Are requirements specified for documenting API pattern changes ("what changed to what" explanations)? [Completeness, ObsoleteV3.md patterns]
 - [ ] CHK105 - Are requirements specified for providing migration code examples in ObsoleteV3.md? [Completeness, ObsoleteV3.md patterns]
 - [ ] CHK106 - Are requirements specified for updating task progress in `specs/001-develop-streaming-indicators/tasks.md` after implementation completion? [Traceability, tasks.md §T108]

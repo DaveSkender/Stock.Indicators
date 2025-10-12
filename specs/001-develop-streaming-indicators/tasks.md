@@ -234,9 +234,9 @@ The following documentation tasks support the main implementation work:
 - [ ] **D004**: Update `docs/_indicators/Macd.md` with streaming usage section and examples
 - [ ] **D005**: Update `docs/_indicators/BollingerBands.md` with streaming usage section and examples
 - [ ] **D006**: Update `README.md` with streaming overview paragraph and quick-start example
-- [ ] **D007**: Update `src/_common/ObsoleteV3.md` with streaming capability summary and migration guidance
+- [ ] **D007**: Update `src/MigrationGuide.V3.md` with streaming capability summary and migration guidance
 - [ ] **T108**: Update indicator documentation pages (`docs/_indicators/*.md`) for all streaming-enabled indicators with usage examples (NFR-005)
-- [ ] **T109**: Expand `src/_common/ObsoleteV3.md` with comprehensive streaming migration guidance including performance benefits and API patterns (NFR-006)
+- [ ] **T109**: Expand `src/MigrationGuide.V3.md` with comprehensive streaming migration guidance including performance benefits and API patterns (NFR-006)
 
 ### Quality Gates
 

@@ -341,7 +341,7 @@ The following base classes and utilities already exist in `src/_common/`:
 - Update `docs/_indicators/Sma.md` (and EMA, RSI, MACD, BollingerBands) with streaming section
 - Add streaming examples to each indicator page
 - Update `README.md` with streaming overview paragraph
-- Update `src/_common/ObsoleteV3.md` migration guide with streaming capability summary (public release notes remain automated via GitHub Releases)
+- Update `src/MigrationGuide.V3.md` migration guide with streaming capability summary (public release notes remain automated via GitHub Releases)
 
 ### Quality gates and conformance
 
