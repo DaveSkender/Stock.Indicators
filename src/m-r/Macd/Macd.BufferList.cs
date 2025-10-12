@@ -20,13 +20,9 @@ public static partial class Macd
         int fastPeriods = 12,
         int slowPeriods = 26,
         int signalPeriods = 9)
-    {
-        ArgumentNullException.ThrowIfNull(source);
-
-        return source is IReadOnlyList<IQuote> quotes
+        => source is IReadOnlyList<IQuote> quotes
             ? new(fastPeriods, slowPeriods, signalPeriods) { quotes }
             : new(fastPeriods, slowPeriods, signalPeriods) { source };
-    }
 
 }
 

@@ -130,10 +130,5 @@ public static partial class Aroon
     public static AroonList ToAroonList(
         this IReadOnlyList<IQuote> quotes,
         int lookbackPeriods = 25)
-    {
-        ArgumentNullException.ThrowIfNull(quotes);
-        Validate(lookbackPeriods);
-
-        return new(lookbackPeriods) { quotes };
-    }
+        => new(lookbackPeriods) { quotes };
 }

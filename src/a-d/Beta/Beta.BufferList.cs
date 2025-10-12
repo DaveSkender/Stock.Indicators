@@ -250,16 +250,9 @@ public static partial class Beta
         IReadOnlyList<IReusable> sourceMrkt,
         int lookbackPeriods = 50,
         BetaType type = BetaType.Standard)
-    {
-        ArgumentNullException.ThrowIfNull(sourceEval);
-        ArgumentNullException.ThrowIfNull(sourceMrkt);
-
-        Beta.Validate(sourceEval, sourceMrkt, lookbackPeriods);
-
-        return new(
+        => new(
             lookbackPeriods,
             type,
             sourceEval,
             sourceMrkt);
-    }
 }

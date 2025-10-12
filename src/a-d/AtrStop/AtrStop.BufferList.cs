@@ -205,7 +205,6 @@ public static partial class AtrStop
     /// <summary>
     /// Creates a buffer list for ATR Trailing Stop calculations.
     /// </summary>
-    /// <typeparam name="TQuote">The type that implements IQuote.</typeparam>
     /// <param name="quotes">Historical price quotes.</param>
     /// <param name="lookbackPeriods">The number of periods to look back. Default is 21.</param>
     /// <param name="multiplier">The multiplier for the ATR. Default is 3.</param>
@@ -213,15 +212,10 @@ public static partial class AtrStop
     /// <returns>An AtrStopList instance pre-populated with historical data.</returns>
     /// <exception cref="ArgumentNullException">Thrown when quotes is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when parameters are invalid.</exception>
-    public static AtrStopList ToAtrStopList<TQuote>(
+    public static AtrStopList ToAtrStopList(
         this IReadOnlyList<IQuote> quotes,
         int lookbackPeriods = 21,
         double multiplier = 3,
         EndType endType = EndType.Close)
-    {
-        ArgumentNullException.ThrowIfNull(quotes);
-        Validate(lookbackPeriods, multiplier);
-
-        return new(lookbackPeriods, multiplier, endType) { quotes };
-    }
+        => new(lookbackPeriods, multiplier, endType) { quotes };
 }
