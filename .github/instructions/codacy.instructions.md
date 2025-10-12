@@ -3,9 +3,17 @@ description: Configuration for AI behavior when interacting with Codacy's MCP Se
 applyTo: '**'
 ---
 
-# Codacy Rules
+# Codacy rules
 
 Configuration for AI behavior when interacting with Codacy's MCP Server
+
+## using any tool that accepts the arguments: `provider`, `organization`, or `repository`
+
+- ALWAYS use:
+  - provider: gh
+  - organization: DaveSkender
+  - repository: Stock.Indicators
+  - Avoid calling `git remote -v` unless really necessary
 
 ## CRITICAL: After ANY successful `edit_file` or `reapply` operation
 
@@ -18,8 +26,10 @@ Configuration for AI behavior when interacting with Codacy's MCP Server
 
 ## When you tried to run the `codacy_cli_analyze` tool and the Codacy CLI is not installed
 
-- Ask the user 'Codacy CLI is not installed. Would you like me to install it now?'
-- If the user responds with "yes", run the `codacy_cli_install` tool and then continue with the original task
+- Check if the project has `@codacy/codacy-mcp` NPM package installed in `package.json` devDependencies
+- If the NPM package is installed but CLI is not available, recommend running `npm install` to ensure dependencies are installed
+- If the NPM package is not installed, ask the user 'Codacy CLI is not available. This project uses NPM packages for Codacy. Would you like me to add the @codacy/codacy-mcp package to devDependencies?'
+- If the user responds with "yes", run `npm install --save-dev @codacy/codacy-mcp` and then continue with the original task
 - If the user responds with "no", instruct the user that they can disable automatic analysis in the extension settings
 - Wait for the user to respond before proceeding with any other actions
 
@@ -31,7 +41,7 @@ Configuration for AI behavior when interacting with Codacy's MCP Server
 
 - Suggest the user the following troubleshooting steps:
   - Try to reset the MCP on the extension
-  - If the user is using VSCode, suggest them to review their Copilot > MCP settings in Github, under their organization or personal account. Refer them to Settings > Copilot > Enable MCP servers in Copilot. Suggested URL `https://github.com/settings/copilot/features` or `https://github.com/organizations/{organization-name}/settings/copilot/features` (This can only be done by their organization admins / owners)
+  - If the user is using VSCode, suggest them to review their Copilot > MCP settings in Github, under their organization or personal account. Refer them to Settings > Copilot > Enable MCP servers in Copilot. Suggested URL (<https://github.com/settings/copilot/features>) or <https://github.com/organizations/{organization-name}/settings/copilot/features> (This can only be done by their organization admins / owners)
 - If none of the above steps work, suggest the user to contact Codacy support
 
 ## Trying to call a tool that needs a rootPath as a parameter
@@ -68,8 +78,7 @@ Configuration for AI behavior when interacting with Codacy's MCP Server
 - Do not run `codacy_cli_analyze` looking for changes in duplicated code or code complexity metrics.
 - Complexity metrics are different from complexity issues. When trying to fix complexity in a repository or file, focus on solving the complexity issues and ignore the complexity metric.
 - Do not run `codacy_cli_analyze` looking for changes in code coverage.
-- Do not try to manually install Codacy CLI using either brew, npm, npx, or any other package manager.
-- If the Codacy CLI is not installed, just run the `codacy_cli_analyze` tool from Codacy's MCP Server.
+- The Codacy CLI is available through the `@codacy/codacy-mcp` NPM package installed in this project's devDependencies.
 - When calling `codacy_cli_analyze`, only send provider, organization and repository if the project is a git repository.
 
 ## Whenever a call to a Codacy tool that uses `repository` or `organization` as a parameter returns a 404 error
@@ -80,4 +89,4 @@ Configuration for AI behavior when interacting with Codacy's MCP Server
 - After setup, immediately retry the action that failed (only retry once)
 
 ---
-Last updated: October 11, 2025
+Last updated: October 12, 2025
