@@ -197,8 +197,34 @@ Use when the indicator requires two synchronized input series (like Correlation,
 **Required methods**:
 
 - `Add(DateTime timestamp, double valueA, double valueB)` - Core calculation with paired values
-- `Add((IReusable A, IReusable B) pair)` - Single pair entry point
-- `Add(IReadOnlyList<(IReusable A, IReusable B)> pairs)` - Batch pairs entry point
+- `Add(IReusable valueA, IReusable valueB)` - Single pair entry point
+- `Add(IReadOnlyList<IReusable> valuesA, IReadOnlyList<IReusable> valuesB)` - Batch pairs entry point
+
+**CRITICAL RULES**:
+
+- ✅ **Constructor MUST accept**: Two `IReadOnlyList<IReusable>` parameters (e.g., `valuesA` and `valuesB`)
+- ✅ **Extension method MUST use**: `<T> where T : IReusable` generic constraint
+- ✅ **Timestamp validation**: MUST validate that timestamps match between paired inputs
+- ✅ **Count validation**: MUST validate that both input lists have the same count
+- ❌ **MUST NOT**: Accept single `IQuote` or `IReadOnlyList<IQuote>` parameters
+
+**Example constructor and extension**:
+
+```csharp
+public CorrelationList(
+    int lookbackPeriods,
+    IReadOnlyList<IReusable> valuesA,
+    IReadOnlyList<IReusable> valuesB)
+    : this(lookbackPeriods)
+    => Add(valuesA, valuesB);
+
+public static CorrelationList ToCorrelationList<T>(
+    this IReadOnlyList<T> valuesA,
+    IReadOnlyList<T> valuesB,
+    int lookbackPeriods)
+    where T : IReusable
+    => new(lookbackPeriods, (IReadOnlyList<IReusable>)valuesA, (IReadOnlyList<IReusable>)valuesB);
+```
 
 **Pattern summary**:
 
@@ -280,6 +306,87 @@ public class SmaList : BufferList<SmaResult>, `IIncrementFromChain`, ISma
             // Most chainable indicators use value directly - no utility needed
             Add(v.Timestamp, v.Value);
         }
+    }
+}
+```
+
+**Example: `IIncrementFromPairs` indicator (Correlation, Beta)**:
+
+```csharp
+public class CorrelationList : BufferList<CorrResult>, IIncrementFromPairs, ICorrelation
+{
+    private readonly Queue<(double ValueA, double ValueB)> _buffer;
+
+    public CorrelationList(int lookbackPeriods)
+    {
+        Correlation.Validate(lookbackPeriods);
+        LookbackPeriods = lookbackPeriods;
+        _buffer = new Queue<(double, double)>(lookbackPeriods);
+    }
+
+    public CorrelationList(
+        int lookbackPeriods,
+        IReadOnlyList<IReusable> valuesA,
+        IReadOnlyList<IReusable> valuesB)
+        : this(lookbackPeriods)
+        => Add(valuesA, valuesB);
+
+    public int LookbackPeriods { get; init; }
+
+    /// <inheritdoc />
+    public void Add(DateTime timestamp, double valueA, double valueB)
+    {
+        _buffer.Update(LookbackPeriods, (valueA, valueB));
+        
+        // Calculate when sufficient data
+        CorrResult result = _buffer.Count == LookbackPeriods
+            ? CalculateCorrelation(timestamp)
+            : new(Timestamp: timestamp);
+        
+        AddInternal(result);
+    }
+
+    /// <inheritdoc />
+    public void Add(IReusable valueA, IReusable valueB)
+    {
+        ArgumentNullException.ThrowIfNull(valueA);
+        ArgumentNullException.ThrowIfNull(valueB);
+
+        if (valueA.Timestamp != valueB.Timestamp)
+        {
+            throw new InvalidQuotesException(
+                nameof(valueA), valueA.Timestamp,
+                "Timestamp sequence does not match. " +
+                "Correlation requires matching dates in provided histories.");
+        }
+
+        Add(valueA.Timestamp, valueA.Value, valueB.Value);
+    }
+
+    /// <inheritdoc />
+    public void Add(IReadOnlyList<IReusable> valuesA, IReadOnlyList<IReusable> valuesB)
+    {
+        ArgumentNullException.ThrowIfNull(valuesA);
+        ArgumentNullException.ThrowIfNull(valuesB);
+
+        if (valuesA.Count != valuesB.Count)
+        {
+            throw new ArgumentException(
+                "Series A and Series B must have the same number of items.",
+                nameof(valuesB));
+        }
+
+        for (int i = 0; i < valuesA.Count; i++)
+        {
+            Add(valuesA[i], valuesB[i]);
+        }
+    }
+
+    /// <inheritdoc />
+    public override void Clear()
+    {
+        base.Clear();
+        _buffer.Clear();
     }
 }
 ```
@@ -517,6 +624,139 @@ public class {IndicatorName}BufferListTests : BufferListTestBase, ITestReusableB
 > - Implement `ITestReusableBufferList` on buffer-list tests when the indicator supports `IReusable` inputs. Provide `AddReusableItems`, `AddReusableItemsBatch`, and `AddDiscreteValues` test methods to satisfy the interface contract.
 > - For indicators that maintain non-`Queue<T>` caches (for example, custom `List<T>` history buffers), also implement `ITestNonStandardBufferListCache` and add an `AutoBufferPruning()` test that exercises list-level auto-pruning alongside cache pruning.
 > - All `BeEquivalentTo` assertions **must** call `options => options.WithStrictOrdering()` to enforce chronological ordering in test comparisons.
+
+### Test structure for `IIncrementFromPairs` indicators
+
+Dual-input indicators (Beta, Correlation, etc.) implement `IIncrementFromPairs` and require special test patterns:
+
+```csharp
+[TestClass]
+public class CorrelationBufferListTests : BufferListTestBase, ITestReusableBufferList
+{
+    private const int lookbackPeriods = 20;
+
+    private static readonly IReadOnlyList<IReusable> quotesA
+       = Quotes.Cast<IReusable>().ToList();
+
+    private static readonly IReadOnlyList<IReusable> quotesB
+       = Data.GetCompare().Cast<IReusable>().ToList();
+
+    private static readonly IReadOnlyList<CorrResult> series
+       = quotesA.ToCorrelation(quotesB, lookbackPeriods);
+
+    [TestMethod]
+    public void AddDiscreteValues()
+    {
+        CorrelationList sut = new(lookbackPeriods);
+
+        for (int i = 0; i < quotesA.Count; i++)
+        {
+            sut.Add(quotesA[i].Timestamp, quotesA[i].Value, quotesB[i].Value);
+        }
+
+        sut.Should().HaveCount(quotesA.Count);
+        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+    }
+
+    [TestMethod]
+    public void AddReusableItems()
+    {
+        CorrelationList sut = new(lookbackPeriods);
+
+        for (int i = 0; i < quotesA.Count; i++)
+        {
+            sut.Add(quotesA[i], quotesB[i]);
+        }
+
+        sut.Should().HaveCount(quotesA.Count);
+        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+    }
+
+    [TestMethod]
+    public void AddReusableItemsBatch()
+    {
+        CorrelationList sut = new(lookbackPeriods) {
+            { quotesA, quotesB }
+        };
+
+        sut.Should().HaveCount(quotesA.Count);
+        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+    }
+
+    [TestMethod]
+    public override void AddQuotes()
+    {
+        // For dual-input indicators, adapt this test to use paired series
+        CorrelationList sut = new(lookbackPeriods);
+
+        for (int i = 0; i < quotesA.Count; i++)
+        {
+            sut.Add(quotesA[i], quotesB[i]);
+        }
+
+        sut.Should().HaveCount(quotesA.Count);
+        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+    }
+
+    [TestMethod]
+    public override void AddQuotesBatch()
+    {
+        // For dual-input indicators, adapt this test to use paired series
+        CorrelationList sut = new(lookbackPeriods) {
+            { quotesA, quotesB }
+        };
+
+        sut.Should().HaveCount(quotesA.Count);
+        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+    }
+
+    [TestMethod]
+    public override void WithQuotesCtor()
+    {
+        // For dual-input indicators, use constructor with two series
+        CorrelationList sut = new(lookbackPeriods, quotesA, quotesB);
+
+        sut.Should().HaveCount(quotesA.Count);
+        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+    }
+
+    [TestMethod]
+    public void ThrowsOnMismatchedTimestamps()
+    {
+        CorrelationList sut = new(lookbackPeriods);
+
+        IReusable itemA = quotesA[0];
+        IReusable itemB = quotesB[1]; // Different timestamp
+
+        Action act = () => sut.Add(itemA, itemB);
+
+        act.Should().Throw<InvalidQuotesException>()
+            .WithMessage("*Timestamp sequence does not match*");
+    }
+
+    [TestMethod]
+    public void ThrowsOnDifferentSeriesLengths()
+    {
+        CorrelationList sut = new(lookbackPeriods);
+
+        List<IReusable> shortSeriesB = quotesB.Take(quotesA.Count - 1).ToList();
+
+        Action act = () => sut.Add(quotesA, shortSeriesB);
+
+        act.Should().Throw<ArgumentException>()
+            .WithMessage("*must have the same number of items*");
+    }
+
+    // ... Continue with ClearResetsState() and AutoListPruning() following BufferListTestBase pattern
+}
+```
+
+**Key differences for `IIncrementFromPairs` tests**:
+
+- Use TWO static series (e.g., `quotesA` and `quotesB`) instead of one
+- Test both paired `Add(valueA, valueB)` and batch `Add(valuesA, valuesB)` methods
+- Include validation tests for mismatched timestamps and different series lengths
+- Adapt `AddQuotes()` and `AddQuotesBatch()` to work with paired inputs (or mark as `Assert.Inconclusive()` if not applicable)
 
 ### Performance benchmarking
 

@@ -24,6 +24,11 @@ public static partial class Keltner
             .WithStyle(Style.Series)
             .Build();
 
+    // KELTNER Buffer Listing
+    internal static readonly IndicatorListing BufferListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Buffer)
+            .Build();
+
     // No StreamListing for KELTNER.
-    // No BufferListing for KELTNER.
 }
