@@ -97,7 +97,7 @@ The following indicators have series-style implementations but lack BufferList i
 - [x] T051 Implement UlcerIndex BufferList in `src/s-z/UlcerIndex/UlcerIndex.BufferList.cs` ✅ Complete
 - [ ] T052 Implement VolatilityStop BufferList in `src/s-z/VolatilityStop/VolatilityStop.BufferList.cs`
 - [ ] T053 Implement Vortex BufferList in `src/s-z/Vortex/Vortex.BufferList.cs`
-- [ ] T054 Implement Vwap BufferList in `src/s-z/Vwap/Vwap.BufferList.cs`
+- [x] T054 Implement Vwap BufferList in `src/s-z/Vwap/Vwap.BufferList.cs` ✅ Complete
 - [ ] T055 Implement ZigZag BufferList in `src/s-z/ZigZag/ZigZag.BufferList.cs`
 
 ## Missing StreamHub Implementations
