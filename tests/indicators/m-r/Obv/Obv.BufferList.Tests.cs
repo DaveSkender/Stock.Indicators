@@ -8,11 +8,12 @@ public class Obv : BufferListTestBase
     [TestMethod]
     public override void AddQuotes()
     {
-#pragma warning disable IDE0028 // Collection expression incompatible with IQuote Add overloads
-        ObvList sut = new();
-#pragma warning restore IDE0028
+        ObvList sut = [];
 
-        sut.Add(Quotes);
+        foreach (Quote quote in Quotes)
+        {
+            sut.Add(quote);
+        }
 
         sut.Should().HaveCount(Quotes.Count);
         sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
@@ -21,7 +22,7 @@ public class Obv : BufferListTestBase
     [TestMethod]
     public override void AddQuotesBatch()
     {
-        ObvList sut = new() { Quotes };
+        ObvList sut = Quotes.ToObvList();
 
         sut.Should().HaveCount(Quotes.Count);
         sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());

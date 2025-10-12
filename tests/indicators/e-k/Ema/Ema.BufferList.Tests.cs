@@ -6,9 +6,7 @@ public class Ema : BufferListTestBase, ITestReusableBufferList
     private const int lookbackPeriods = 14;
 
     private static readonly IReadOnlyList<IReusable> reusables
-       = Quotes
-        .Cast<IReusable>()
-        .ToList();
+       = Quotes.Cast<IReusable>().ToList();
 
     private static readonly IReadOnlyList<EmaResult> series
        = Quotes.ToEma(lookbackPeriods);
@@ -27,10 +25,7 @@ public class Ema : BufferListTestBase, ITestReusableBufferList
     [TestMethod]
     public override void AddQuotesBatch()
     {
-        EmaList sut = new(lookbackPeriods) { Quotes };
-
-        IReadOnlyList<EmaResult> series
-            = Quotes.ToEma(lookbackPeriods);
+        EmaList sut = Quotes.ToEmaList(lookbackPeriods);
 
         sut.Should().HaveCount(Quotes.Count);
         sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());

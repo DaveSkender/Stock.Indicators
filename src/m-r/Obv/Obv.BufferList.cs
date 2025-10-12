@@ -11,10 +11,7 @@ public class ObvList : BufferList<ObvResult>, IIncrementFromQuote
     /// <summary>
     /// Initializes a new instance of the <see cref="ObvList"/> class.
     /// </summary>
-    public ObvList()
-    {
-        // OBV doesn't require any parameters or initialization
-    }
+    public ObvList() { }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ObvList"/> class with initial quotes.
@@ -23,9 +20,6 @@ public class ObvList : BufferList<ObvResult>, IIncrementFromQuote
     public ObvList(IReadOnlyList<IQuote> quotes)
         : this()
         => Add(quotes);
-
-
-
 
     /// <inheritdoc />
     public void Add(IQuote quote)
@@ -73,4 +67,14 @@ public class ObvList : BufferList<ObvResult>, IIncrementFromQuote
         _previousClose = double.NaN;
         _obvValue = 0;
     }
+}
+
+public static partial class Obv
+{
+    /// <summary>
+    /// Creates a buffer list for On-Balance Volume (OBV) calculations.
+    /// </summary>
+    public static ObvList ToObvList(
+        this IReadOnlyList<IQuote> quotes)
+        => new() { quotes };
 }

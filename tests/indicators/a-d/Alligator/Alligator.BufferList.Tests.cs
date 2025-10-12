@@ -11,22 +11,38 @@ public class Alligator : BufferListTestBase, ITestReusableBufferList
     private const int lipsOffset = 3;
 
     private static readonly IReadOnlyList<IReusable> reusables
-        = Quotes
-            .ToQuotePart(CandlePart.HL2)
-            .ToList();
+        = Quotes.ToQuotePart(CandlePart.HL2).ToList();
 
     private static readonly IReadOnlyList<AlligatorResult> series
         = Quotes.ToAlligator(jawPeriods, jawOffset, teethPeriods, teethOffset, lipsPeriods, lipsOffset);
 
     [TestMethod]
-    public void AddDiscreteValues()
+    public override void AddQuotes()
     {
         AlligatorList sut = new(jawPeriods, jawOffset, teethPeriods, teethOffset, lipsPeriods, lipsOffset);
 
-        foreach (IReusable item in reusables)
+        foreach (Quote quote in Quotes)
         {
-            sut.Add(item.Timestamp, item.Value);
+            sut.Add(quote);
         }
+
+        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+    }
+
+    [TestMethod]
+    public override void AddQuotesBatch()
+    {
+        AlligatorList sut = Quotes.ToAlligatorList(jawPeriods, jawOffset, teethPeriods, teethOffset, lipsPeriods, lipsOffset);
+
+        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+    }
+
+    [TestMethod]
+    public override void WithQuotesCtor()
+    {
+        AlligatorList sut = new(jawPeriods, jawOffset, teethPeriods, teethOffset, lipsPeriods, lipsOffset, Quotes);
 
         sut.Should().HaveCount(Quotes.Count);
         sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
@@ -56,32 +72,14 @@ public class Alligator : BufferListTestBase, ITestReusableBufferList
     }
 
     [TestMethod]
-    public override void AddQuotes()
+    public void AddDiscreteValues()
     {
         AlligatorList sut = new(jawPeriods, jawOffset, teethPeriods, teethOffset, lipsPeriods, lipsOffset);
 
-        foreach (Quote quote in Quotes)
+        foreach (IReusable item in reusables)
         {
-            sut.Add(quote);
+            sut.Add(item.Timestamp, item.Value);
         }
-
-        sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
-    }
-
-    [TestMethod]
-    public override void AddQuotesBatch()
-    {
-        AlligatorList sut = new(jawPeriods, jawOffset, teethPeriods, teethOffset, lipsPeriods, lipsOffset) { Quotes };
-
-        sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
-    }
-
-    [TestMethod]
-    public override void WithQuotesCtor()
-    {
-        AlligatorList sut = new(jawPeriods, jawOffset, teethPeriods, teethOffset, lipsPeriods, lipsOffset, Quotes);
 
         sut.Should().HaveCount(Quotes.Count);
         sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());

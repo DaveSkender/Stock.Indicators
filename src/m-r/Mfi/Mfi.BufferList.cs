@@ -49,19 +49,9 @@ public class MfiList : BufferList<MfiResult>, IIncrementFromQuote
         double moneyFlow = truePrice * (double)quote.Volume;
 
         // Determine direction
-        int direction;
-        if (_prevTruePrice == null || truePrice == _prevTruePrice)
-        {
-            direction = 0;
-        }
-        else if (truePrice > _prevTruePrice)
-        {
-            direction = 1;
-        }
-        else
-        {
-            direction = -1;
-        }
+        int direction = _prevTruePrice == null || truePrice == _prevTruePrice
+            ? 0 :
+            truePrice > _prevTruePrice ? 1 : -1;
 
         // Update buffer
         _buffer.Update(LookbackPeriods, (truePrice, moneyFlow, direction));

@@ -9,7 +9,7 @@ public class HeikinAshi : BufferListTestBase
     [TestMethod]
     public override void AddQuotes()
     {
-        HeikinAshiList sut = new();
+        HeikinAshiList sut = [];
 
         foreach (Quote quote in Quotes)
         {

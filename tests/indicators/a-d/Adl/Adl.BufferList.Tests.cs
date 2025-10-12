@@ -9,11 +9,12 @@ public class Adl : BufferListTestBase
     [TestMethod]
     public override void AddQuotes()
     {
-#pragma warning disable IDE0028 // Collection expression incompatible with IQuote Add overloads
-        AdlList sut = new();
-#pragma warning restore IDE0028
+        AdlList sut = [];
 
-        sut.Add(Quotes);
+        foreach (Quote quote in Quotes)
+        {
+            sut.Add(quote);
+        }
 
         sut.Should().HaveCount(Quotes.Count);
         sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());

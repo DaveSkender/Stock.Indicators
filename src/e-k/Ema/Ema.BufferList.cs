@@ -115,9 +115,8 @@ public static partial class Ema
     /// <summary>
     /// Creates a buffer list for Exponential Moving Average (EMA) calculations.
     /// </summary>
-    public static EmaList ToEmaList<T>(
-        this IReadOnlyList<T> source,
+    public static EmaList ToEmaList(
+        this IReadOnlyList<IReusable> source,
         int lookbackPeriods)
-        where T : IReusable
-        => new(lookbackPeriods) { (IReadOnlyList<IReusable>)source };
+        => new(lookbackPeriods) { source };
 }
