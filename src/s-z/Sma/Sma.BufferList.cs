@@ -96,9 +96,8 @@ public static partial class Sma
     /// <summary>
     /// Creates a buffer list for Simple Moving Average (SMA) calculations.
     /// </summary>
-    public static SmaList ToSmaList<T>(
-        this IReadOnlyList<T> source,
+    public static SmaList ToSmaList(
+        this IReadOnlyList<IReusable> source,
         int lookbackPeriods)
-        where T : IReusable
-        => new(lookbackPeriods) { (IReadOnlyList<IReusable>)source };
+        => new(lookbackPeriods) { source };
 }

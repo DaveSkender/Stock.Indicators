@@ -136,11 +136,10 @@ public static partial class Alma
     /// <summary>
     /// Creates a buffer list for Arnaud Legoux Moving Average (ALMA) calculations.
     /// </summary>
-    public static AlmaList ToAlmaList<T>(
-        this IReadOnlyList<T> source,
+    public static AlmaList ToAlmaList(
+        this IReadOnlyList<IReusable> source,
         int lookbackPeriods,
         double offset = 0.85,
         double sigma = 6)
-        where T : IReusable
-        => new(lookbackPeriods, offset, sigma) { (IReadOnlyList<IReusable>)source };
+        => new(lookbackPeriods, offset, sigma) { source };
 }

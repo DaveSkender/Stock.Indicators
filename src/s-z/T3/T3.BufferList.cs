@@ -158,10 +158,9 @@ public static partial class T3
     /// <summary>
     /// Creates a buffer list for T3 calculations.
     /// </summary>
-    public static T3List ToT3List<T>(
-        this IReadOnlyList<T> source,
+    public static T3List ToT3List(
+        this IReadOnlyList<IReusable> source,
         int lookbackPeriods = 5,
         double volumeFactor = 0.7)
-        where T : IReusable
-        => new(lookbackPeriods, volumeFactor) { (IReadOnlyList<IReusable>)source };
+        => new(lookbackPeriods, volumeFactor) { source };
 }

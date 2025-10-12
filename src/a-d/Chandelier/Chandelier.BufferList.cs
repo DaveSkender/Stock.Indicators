@@ -133,11 +133,10 @@ public static partial class Chandelier
     /// <summary>
     /// Creates a buffer list for Chandelier Exit calculations.
     /// </summary>
-    public static ChandelierList ToChandelierList<TQuote>(
-        this IReadOnlyList<TQuote> quotes,
+    public static ChandelierList ToChandelierList(
+        this IReadOnlyList<IQuote> quotes,
         int lookbackPeriods = 22,
         double multiplier = 3,
         Direction type = Direction.Long)
-        where TQuote : IQuote
-        => new(lookbackPeriods, multiplier, type) { (IReadOnlyList<IQuote>)quotes };
+        => new(lookbackPeriods, multiplier, type) { quotes };
 }

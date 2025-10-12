@@ -150,10 +150,9 @@ public static partial class Prs
     /// <summary>
     /// Creates a buffer list for PRS calculations from two synchronized series.
     /// </summary>
-    public static PrsList ToPrsList<T>(
-        this IReadOnlyList<T> sourceEval,
-        IReadOnlyList<T> sourceBase,
+    public static PrsList ToPrsList(
+        this IReadOnlyList<IReusable> sourceEval,
+        IReadOnlyList<IReusable> sourceBase,
         int lookbackPeriods = int.MinValue)
-        where T : IReusable
-        => new(lookbackPeriods, (IReadOnlyList<IReusable>)sourceEval, (IReadOnlyList<IReusable>)sourceBase);
+        => new(lookbackPeriods, sourceEval, sourceBase);
 }

@@ -167,11 +167,10 @@ public static partial class Ultimate
     /// <summary>
     /// Creates a buffer list for Ultimate Oscillator calculations.
     /// </summary>
-    public static UltimateList ToUltimateList<TQuote>(
-        this IReadOnlyList<TQuote> quotes,
+    public static UltimateList ToUltimateList(
+        this IReadOnlyList<IQuote> quotes,
         int shortPeriods = 7,
         int middlePeriods = 14,
         int longPeriods = 28)
-        where TQuote : IQuote
-        => new(shortPeriods, middlePeriods, longPeriods) { (IReadOnlyList<IQuote>)quotes };
+        => new(shortPeriods, middlePeriods, longPeriods) { quotes };
 }

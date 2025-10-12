@@ -123,9 +123,8 @@ public static partial class Chop
     /// <summary>
     /// Creates a buffer list for Choppiness Index (CHOP) calculations.
     /// </summary>
-    public static ChopList ToChopList<TQuote>(
-        this IReadOnlyList<TQuote> quotes,
+    public static ChopList ToChopList(
+        this IReadOnlyList<IQuote> quotes,
         int lookbackPeriods = 14)
-        where TQuote : IQuote
-        => new(lookbackPeriods) { (IReadOnlyList<IQuote>)quotes };
+        => new(lookbackPeriods) { quotes };
 }

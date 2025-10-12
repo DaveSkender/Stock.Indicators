@@ -140,9 +140,8 @@ public static partial class Trix
     /// <summary>
     /// Creates a buffer list for TRIX calculations.
     /// </summary>
-    public static TrixList ToTrixList<T>(
-        this IReadOnlyList<T> source,
+    public static TrixList ToTrixList(
+        this IReadOnlyList<IReusable> source,
         int lookbackPeriods = 14)
-        where T : IReusable
-        => new(lookbackPeriods) { (IReadOnlyList<IReusable>)source };
+        => new(lookbackPeriods) { source };
 }
