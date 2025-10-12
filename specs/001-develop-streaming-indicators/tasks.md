@@ -70,8 +70,8 @@ The following indicators have series-style implementations but lack BufferList i
 ### BufferList M-R Group (13 indicators)
 
 - [ ] T029 Implement MaEnvelopes BufferList in `src/m-r/MaEnvelopes/MaEnvelopes.BufferList.cs`
-- [x] T030 Implement Marubozu BufferList in `src/m-r/Marubozu/Marubozu.BufferList.cs` ✅ Complete
-- [x] T031 Implement Mfi BufferList in `src/m-r/Mfi/Mfi.BufferList.cs` ✅ Complete
+- [ ] T030 Implement Marubozu BufferList in `src/m-r/Marubozu/Marubozu.BufferList.cs`
+- [ ] T031 Implement Mfi BufferList in `src/m-r/Mfi/Mfi.BufferList.cs`
 - [ ] T032 Implement ParabolicSar BufferList in `src/m-r/ParabolicSar/ParabolicSar.BufferList.cs`
 - [ ] T033 Implement PivotPoints BufferList in `src/m-r/PivotPoints/PivotPoints.BufferList.cs`
 - [ ] T034 Implement Pivots BufferList in `src/m-r/Pivots/Pivots.BufferList.cs`
@@ -90,7 +90,7 @@ The following indicators have series-style implementations but lack BufferList i
 - [ ] T044 Implement Smi BufferList in `src/s-z/Smi/Smi.BufferList.cs`
 - [ ] T045 Implement StarcBands BufferList in `src/s-z/StarcBands/StarcBands.BufferList.cs`
 - [ ] T046 Implement Stc BufferList in `src/s-z/Stc/Stc.BufferList.cs`
-- [x] T047 Implement StdDev BufferList in `src/s-z/StdDev/StdDev.BufferList.cs` ✅ Complete
+- [ ] T047 Implement StdDev BufferList in `src/s-z/StdDev/StdDev.BufferList.cs`
 - [ ] T048 Implement StdDevChannels BufferList in `src/s-z/StdDevChannels/StdDevChannels.BufferList.cs`
 - [x] T049 Implement SuperTrend BufferList in `src/s-z/SuperTrend/SuperTrend.BufferList.cs` ✅ Complete
 - [ ] T050 Implement Tsi BufferList in `src/s-z/Tsi/Tsi.BufferList.cs`
