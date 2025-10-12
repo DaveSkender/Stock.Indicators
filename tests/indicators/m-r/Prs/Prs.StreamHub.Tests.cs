@@ -144,6 +144,11 @@ public class PrsHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider,
             {
                 // PrsPercent should exist when Prs exists (after lookback)
                 prsHub.Results[i].PrsPercent.Should().NotBeNull();
+
+                // When comparing identical series to themselves, PrsPercent should be approximately 0
+                // because the percentage change difference should be minimal
+                prsHub.Results[i].PrsPercent!.Value.Should().BeApproximately(0.0, 0.0001,
+                    $"PrsPercent should be ~0 for identical series at index {i}");
             }
         }
 

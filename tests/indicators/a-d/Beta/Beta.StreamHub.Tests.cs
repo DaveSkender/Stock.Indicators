@@ -164,14 +164,17 @@ public class BetaHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
     {
         QuoteHub<Quote> quoteHubEval = new();
         QuoteHub<Quote> quoteHubMrkt = new();
-        BetaHub<Quote> betaHub = quoteHubEval.ToBetaHub(quoteHubMrkt, 20);
 
         // Add quotes one by one to verify stateful processing
+        // Add to both providers before creating beta hub to ensure synchronization
         foreach (Quote quote in Quotes.Take(50))
         {
             quoteHubEval.Add(quote);
             quoteHubMrkt.Add(quote);
         }
+
+        // Create beta hub after data is added to ensure proper synchronization
+        BetaHub<Quote> betaHub = quoteHubEval.ToBetaHub(quoteHubMrkt, 20);
 
         betaHub.Results.Should().HaveCount(50);
 

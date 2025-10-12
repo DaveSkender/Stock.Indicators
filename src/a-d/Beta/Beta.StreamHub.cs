@@ -72,7 +72,15 @@ public class BetaHub<TIn>
         calcUp = type is BetaType.All or BetaType.Up;
         calcDn = type is BetaType.All or BetaType.Down;
 
+        ResetState();
         Reinitialize();
+    }
+
+    private void ResetState()
+    {
+        _prevEval = 0;
+        _prevMrkt = 0;
+        _isFirst = true;
     }
 
     /// <inheritdoc/>
@@ -90,71 +98,32 @@ public class BetaHub<TIn>
     {
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
-        // Validate timestamps match
-        if (i < ProviderCacheB.Count)
+        // Check if provider B is lagging - return early before updating state
+        if (ProviderCacheB.Count <= i)
         {
-            ValidateTimestampSync(i, item);
+            return (new BetaResult(Timestamp: item.Timestamp), i);
         }
+
+        // Validate timestamps match
+        ValidateTimestampSync(i, item);
 
         // Get current values
         double evalValue = item.Value;
-        double mrktValue = i < ProviderCacheB.Count ? ProviderCacheB[i].Value : 0;
+        double mrktValue = ProviderCacheB[i].Value;
 
         // Calculate returns
         double evalReturn = _isFirst ? 0 : (_prevEval != 0 ? (evalValue / _prevEval) - 1d : 0);
         double mrktReturn = _isFirst ? 0 : (_prevMrkt != 0 ? (mrktValue / _prevMrkt) - 1d : 0);
 
+        // Update state only after we have valid data from both providers
         _prevEval = evalValue;
         _prevMrkt = mrktValue;
         _isFirst = false;
 
-        // Check if we have enough data in both caches
-        if (HasSufficientData(i, LookbackPeriods))
+        // Check if we have enough data in both caches for calculation
+        if (!HasSufficientData(i, LookbackPeriods))
         {
-            double? beta = null;
-            double? betaUp = null;
-            double? betaDown = null;
-            double? ratio = null;
-            double? convexity = null;
-
-            // Calculate beta variants
-            if (calcSd)
-            {
-                beta = CalcBetaWindow(i, LookbackPeriods, BetaType.Standard, evalReturn, mrktReturn);
-            }
-
-            if (calcDn)
-            {
-                betaDown = CalcBetaWindow(i, LookbackPeriods, BetaType.Down, evalReturn, mrktReturn);
-            }
-
-            if (calcUp)
-            {
-                betaUp = CalcBetaWindow(i, LookbackPeriods, BetaType.Up, evalReturn, mrktReturn);
-            }
-
-            // Ratio and convexity
-            if (Type == BetaType.All && betaUp != null && betaDown != null)
-            {
-                ratio = betaDown != 0 ? betaUp / betaDown : null;
-                convexity = (betaUp - betaDown) * (betaUp - betaDown);
-            }
-
-            BetaResult r = new(
-                Timestamp: item.Timestamp,
-                Beta: beta,
-                BetaUp: betaUp,
-                BetaDown: betaDown,
-                Ratio: ratio,
-                Convexity: convexity,
-                ReturnsEval: evalReturn,
-                ReturnsMrkt: mrktReturn);
-
-            return (r, i);
-        }
-        else
-        {
-            // Not enough data yet
+            // Not enough data yet, but return the returns
             BetaResult r = new(
                 Timestamp: item.Timestamp,
                 ReturnsEval: evalReturn,
@@ -162,6 +131,47 @@ public class BetaHub<TIn>
 
             return (r, i);
         }
+
+        double? beta = null;
+        double? betaUp = null;
+        double? betaDown = null;
+        double? ratio = null;
+        double? convexity = null;
+
+        // Calculate beta variants
+        if (calcSd)
+        {
+            beta = CalcBetaWindow(i, LookbackPeriods, BetaType.Standard, evalReturn, mrktReturn);
+        }
+
+        if (calcDn)
+        {
+            betaDown = CalcBetaWindow(i, LookbackPeriods, BetaType.Down, evalReturn, mrktReturn);
+        }
+
+        if (calcUp)
+        {
+            betaUp = CalcBetaWindow(i, LookbackPeriods, BetaType.Up, evalReturn, mrktReturn);
+        }
+
+        // Ratio and convexity
+        if (Type == BetaType.All && betaUp != null && betaDown != null)
+        {
+            ratio = betaDown != 0 ? betaUp / betaDown : null;
+            convexity = (betaUp - betaDown) * (betaUp - betaDown);
+        }
+
+        BetaResult result = new(
+            Timestamp: item.Timestamp,
+            Beta: beta,
+            BetaUp: betaUp,
+            BetaDown: betaDown,
+            Ratio: ratio,
+            Convexity: convexity,
+            ReturnsEval: evalReturn,
+            ReturnsMrkt: mrktReturn);
+
+        return (result, i);
     }
 
     /// <summary>
@@ -228,11 +238,41 @@ public class BetaHub<TIn>
             [.. dataB]);
 
         // Calculate beta
-        if (c.VarianceA != 0)
+        return c.VarianceA != 0
+            ? (c.Covariance / c.VarianceA).NaN2Null()
+            : null;
+    }
+
+    /// <summary>
+    /// Resets rolling state when rebuilding or reinitializing.
+    /// </summary>
+    /// <param name="timestamp">The timestamp to roll back to.</param>
+    protected override void RollbackState(DateTime timestamp)
+    {
+        if (timestamp <= DateTime.MinValue)
         {
-            return (c.Covariance / c.VarianceA).NaN2Null();
+            ResetState();
+            return;
         }
 
-        return null;
+        int index = -1;
+        for (int i = ProviderCache.Count - 1; i >= 0; i--)
+        {
+            if (ProviderCache[i].Timestamp < timestamp)
+            {
+                index = i;
+                break;
+            }
+        }
+
+        if (index >= 0 && index < ProviderCacheB.Count)
+        {
+            _prevEval = ProviderCache[index].Value;
+            _prevMrkt = ProviderCacheB[index].Value;
+            _isFirst = false;
+            return;
+        }
+
+        ResetState();
     }
 }

@@ -94,7 +94,7 @@ public class PrsHub<TIn>
         // Validate timestamps match
         ValidateTimestampSync(i, item);
 
-        // Get current values
+        // Get current values - safe to access now after HasSufficientData check
         double evalValue = item.Value;
         double baseValue = ProviderCacheB[i].Value;
 
@@ -108,7 +108,7 @@ public class PrsHub<TIn>
 
         if (lookbackPeriods > 0 && i >= lookbackPeriods)
         {
-            // Get values from lookback periods ago
+            // Get values from lookback periods ago - safe because HasSufficientData already verified
             TIn evalOld = ProviderCache[i - lookbackPeriods];
             TIn baseOld = ProviderCacheB[i - lookbackPeriods];
 
