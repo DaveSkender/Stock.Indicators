@@ -6,7 +6,7 @@ public class Obv : BufferListTestBase
     private static readonly IReadOnlyList<ObvResult> series = Quotes.ToObv();
 
     [TestMethod]
-    public override void AddQuotes()
+    public void AddQuotes()
     {
         ObvList sut = [];
 
@@ -20,7 +20,7 @@ public class Obv : BufferListTestBase
     }
 
     [TestMethod]
-    public override void AddQuotesBatch()
+    public void AddQuotesBatch()
     {
         ObvList sut = Quotes.ToObvList();
 
@@ -29,7 +29,7 @@ public class Obv : BufferListTestBase
     }
 
     [TestMethod]
-    public override void WithQuotesCtor()
+    public void WithQuotesCtor()
     {
         ObvList sut = new(Quotes);
 

@@ -1,7 +1,7 @@
 namespace BufferLists;
 
 [TestClass]
-public class Alligator : BufferListTestBase, ITestReusableBufferList
+public class Alligator : BufferListTestBase, ITestChainBufferList
 {
     private const int jawPeriods = 13;
     private const int jawOffset = 8;
@@ -17,7 +17,7 @@ public class Alligator : BufferListTestBase, ITestReusableBufferList
         = Quotes.ToAlligator(jawPeriods, jawOffset, teethPeriods, teethOffset, lipsPeriods, lipsOffset);
 
     [TestMethod]
-    public override void AddQuotes()
+    public void AddQuotes()
     {
         AlligatorList sut = new(jawPeriods, jawOffset, teethPeriods, teethOffset, lipsPeriods, lipsOffset);
 
@@ -31,7 +31,7 @@ public class Alligator : BufferListTestBase, ITestReusableBufferList
     }
 
     [TestMethod]
-    public override void AddQuotesBatch()
+    public void AddQuotesBatch()
     {
         AlligatorList sut = Quotes.ToAlligatorList(jawPeriods, jawOffset, teethPeriods, teethOffset, lipsPeriods, lipsOffset);
 
@@ -40,7 +40,7 @@ public class Alligator : BufferListTestBase, ITestReusableBufferList
     }
 
     [TestMethod]
-    public override void WithQuotesCtor()
+    public void WithQuotesCtor()
     {
         AlligatorList sut = new(jawPeriods, jawOffset, teethPeriods, teethOffset, lipsPeriods, lipsOffset, Quotes);
 

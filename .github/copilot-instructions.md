@@ -83,6 +83,35 @@ This repository uses scoped instruction files for specific development areas. Th
 
 These scoped files are automatically applied when working with files matching their patterns.
 
+## Common indicator requirements (all styles)
+
+Use these cross-cutting requirements for Series, Stream, and Buffer indicators. Each style guide adds its own specifics, but these apply to all:
+
+- Catalog entry exists and is registered:
+  - Create `src/**/{IndicatorName}.Catalog.cs` and register in `src/_common/Catalog/Catalog.Listings.cs` (PopulateCatalog)
+- Regression tests include the indicator type:
+  - Add to `tests/indicators/**/{IndicatorName}.Regression.Tests.cs`
+- Performance benchmarks include a default case:
+  - Add to the appropriate file in `tools/performance` (Series/Stream/Buffer)
+- Public documentation is accurate:
+  - Update `docs/_indicators/{IndicatorName}.md` (usage, parameters, warmup, outputs)
+- Migration notes and bridges when behavior changes:
+  - Update `src/MigrationGuide.V3.md`
+  - Update migration bridges in `src/Obsolete.V3.Indicators.cs` and `src/Obsolete.V3.Other.cs` to reflect new/renamed APIs or deprecations
+
+See the style-specific guides for implementation requirements:
+
+- Series: [.github/instructions/indicator-series.instructions.md](.github/instructions/indicator-series.instructions.md)
+- Stream: [.github/instructions/indicator-stream.instructions.md](.github/instructions/indicator-stream.instructions.md)
+- Buffer: [.github/instructions/indicator-buffer.instructions.md](.github/instructions/indicator-buffer.instructions.md)
+
+### Series as the canonical reference
+
+- Series indicators are the canonical source of truth for numerical correctness across styles.
+- Series results are based on authoritative author publications and manually verified calculations.
+- Stream and Buffer implementations must match the Series results for the same inputs once warmed up.
+- For discrepancies, fix Stream/Buffer unless there is a verified issue with Series and the reference data.
+
 ## Code review guidelines
 
 ### What to look for
@@ -141,4 +170,4 @@ Examples:
 - `docs: Update API documentation`
 
 ---
-Last updated: October 7, 2025
+Last updated: October 12, 2025

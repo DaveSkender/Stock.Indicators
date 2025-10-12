@@ -11,7 +11,7 @@ public class AtrStop : BufferListTestBase
         = Quotes.ToAtrStop(lookbackPeriods, multiplier, endType);
 
     [TestMethod]
-    public override void AddQuotes()
+    public void AddQuotes()
     {
         AtrStopList sut = new(lookbackPeriods, multiplier, endType);
 
@@ -25,7 +25,7 @@ public class AtrStop : BufferListTestBase
     }
 
     [TestMethod]
-    public override void AddQuotesBatch()
+    public void AddQuotesBatch()
     {
         AtrStopList sut = new(lookbackPeriods, multiplier, endType) { Quotes };
 
@@ -34,7 +34,7 @@ public class AtrStop : BufferListTestBase
     }
 
     [TestMethod]
-    public override void WithQuotesCtor()
+    public void WithQuotesCtor()
     {
         AtrStopList sut = new(lookbackPeriods, multiplier, endType, Quotes);
 

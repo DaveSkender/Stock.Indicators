@@ -9,7 +9,7 @@ public class Mfi : BufferListTestBase
        = Quotes.ToMfi(lookbackPeriods);
 
     [TestMethod]
-    public override void AddQuotes()
+    public void AddQuotes()
     {
         MfiList sut = new(lookbackPeriods);
 
@@ -23,7 +23,7 @@ public class Mfi : BufferListTestBase
     }
 
     [TestMethod]
-    public override void AddQuotesBatch()
+    public void AddQuotesBatch()
     {
         MfiList sut = new(lookbackPeriods) { Quotes };
 
@@ -32,7 +32,7 @@ public class Mfi : BufferListTestBase
     }
 
     [TestMethod]
-    public override void WithQuotesCtor()
+    public void WithQuotesCtor()
     {
         MfiList sut = new(lookbackPeriods, Quotes);
 

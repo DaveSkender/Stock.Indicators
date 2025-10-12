@@ -11,7 +11,7 @@ public class Kvo : BufferListTestBase
        = Quotes.ToKvo(fastPeriods, slowPeriods, signalPeriods);
 
     [TestMethod]
-    public override void AddQuotes()
+    public void AddQuotes()
     {
         KvoList sut = new(fastPeriods, slowPeriods, signalPeriods);
 
@@ -25,7 +25,7 @@ public class Kvo : BufferListTestBase
     }
 
     [TestMethod]
-    public override void AddQuotesBatch()
+    public void AddQuotesBatch()
     {
         KvoList sut = Quotes.ToKvoList(fastPeriods, slowPeriods, signalPeriods);
 
@@ -34,7 +34,7 @@ public class Kvo : BufferListTestBase
     }
 
     [TestMethod]
-    public override void WithQuotesCtor()
+    public void WithQuotesCtor()
     {
         KvoList sut = new(fastPeriods, slowPeriods, signalPeriods, Quotes);
 

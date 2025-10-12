@@ -1,7 +1,7 @@
 namespace BufferLists;
 
 [TestClass]
-public class Kama : BufferListTestBase, ITestReusableBufferList
+public class Kama : BufferListTestBase, ITestChainBufferList
 {
     private const int erPeriods = 10;
     private const int fastPeriods = 2;
@@ -16,7 +16,7 @@ public class Kama : BufferListTestBase, ITestReusableBufferList
        = Quotes.ToKama(erPeriods, fastPeriods, slowPeriods);
 
     [TestMethod]
-    public override void AddQuotes()
+    public void AddQuotes()
     {
         KamaList sut = new(erPeriods, fastPeriods, slowPeriods);
 
@@ -30,7 +30,7 @@ public class Kama : BufferListTestBase, ITestReusableBufferList
     }
 
     [TestMethod]
-    public override void AddQuotesBatch()
+    public void AddQuotesBatch()
     {
         KamaList sut = Quotes.ToKamaList(erPeriods, fastPeriods, slowPeriods);
 
@@ -39,7 +39,7 @@ public class Kama : BufferListTestBase, ITestReusableBufferList
     }
 
     [TestMethod]
-    public override void WithQuotesCtor()
+    public void WithQuotesCtor()
     {
         KamaList sut = new(erPeriods, fastPeriods, slowPeriods, Quotes);
 

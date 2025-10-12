@@ -59,7 +59,7 @@ public class Beta : BufferListTestBase
     }
 
     [TestMethod]
-    public override void AddQuotes()
+    public void AddQuotes()
     {
         // Beta doesn't support direct quote addition as it requires two series
         // This test is not applicable for Beta
@@ -67,7 +67,7 @@ public class Beta : BufferListTestBase
     }
 
     [TestMethod]
-    public override void AddQuotesBatch()
+    public void AddQuotesBatch()
     {
         // Beta doesn't support direct quote addition as it requires two series
         // This test is not applicable for Beta
@@ -75,7 +75,7 @@ public class Beta : BufferListTestBase
     }
 
     [TestMethod]
-    public override void WithQuotesCtor()
+    public void WithQuotesCtor()
     {
         BetaList sut = new(lookbackPeriods, type, evalReusables, mrktReusables);
 

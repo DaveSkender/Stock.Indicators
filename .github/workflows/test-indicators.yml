@@ -96,6 +96,15 @@ jobs:
           name: coverage-unit
           path: ./test-results/**/coverage.cobertura.xml
           retention-days: 1
+        continue-on-error: true
+
+      - name: Publish coverage to Codacy
+        uses: codacy/codacy-coverage-reporter-action@v1
+        if: success() && github.actor != 'dependabot[bot]'
+        with:
+          project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
+          coverage-reports: ./test-results/**/coverage.cobertura.xml
+        continue-on-error: true
 
   test-regression:
     name: regression tests
@@ -132,23 +141,4 @@ jobs:
           name: Regression test results
           path: ./test-results-regression/**/*.trx
           reporter: dotnet-trx
-        continue-on-error: true
-
-  publish-coverage:
-    name: publish coverage
-    runs-on: ubuntu-latest
-    needs: test-unit
-    if: always() && github.actor != 'dependabot[bot]'
-
-    steps:
-      - name: Download coverage reports
-        uses: actions/download-artifact@v4
-        with:
-          name: coverage-unit
-
-      - name: Publish coverage to Codacy
-        uses: codacy/codacy-coverage-reporter-action@v1
-        with:
-          project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
-          coverage-reports: ./**/coverage.cobertura.xml
         continue-on-error: true

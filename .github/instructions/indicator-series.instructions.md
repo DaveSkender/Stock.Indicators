@@ -11,13 +11,17 @@ These instructions apply to series-style indicators that process complete datase
 
 When implementing or updating an indicator, you must complete:
 
-- [ ] Source code: `src/**/{IndicatorName}.StaticSeries.cs` files exist and adhere to these instructions
-  - [ ] <!-- TODO: add imperatives -->
-- [ ] Testing : `tests/indicators/**/{IndicatorName}.StaticSeries.Tests.cs` files exist adhere to these instructions
-  - [ ] <!-- TODO: add imperatives -->
-- [ ] User documentation: `docs/_indicators/{IndicatorName}.md` file exists and is accurate
-- [ ] Release/migration notes: [MigrationGuide.V3.md](/src/MigrationGuide.V3.md) has been updated for changes from the v2 package version.
-
+- [ ] Source code: `src/**/{IndicatorName}.StaticSeries.cs` file exists and adheres to these instructions
+  - [ ] Validates parameters up front; throws consistent exceptions/messages
+  - [ ] Uses efficient loops; avoids unnecessary allocations and LINQ in hot paths
+  - [ ] Implements warmup logic and returns results with correct timestamps
+  - [ ] Member order matches conventions in this document
+- [ ] Catalog: `src/**/{IndicatorName}.Catalog.cs` exists, is accurate, and registered in `src\_common\Catalog\Catalog.Listings.cs` (`PopulateCatalog`)
+- [ ] Unit testing: `tests/indicators/**/{IndicatorName}.StaticSeries.Tests.cs` file exists and adheres to these instructions
+  - [ ] Covers happy path, boundary (min periods), bad data, insufficient data, and precision checks
+  - [ ] Verifies alignment with manually calculated values, typically from a spreadsheet (`.xlsx`)
+- [ ] Common items: Complete catalog, regression, performance, docs, and migration per `.github/copilot-instructions.md` (Common indicator requirements)
+- [ ] Migration bridges updated: `src/Obsolete.V3.Indicators.cs`, `src/Obsolete.V3.Other.cs`; and `src/MigrationGuide.V3.md` as needed
 
 ## File naming conventions
 
@@ -131,6 +135,8 @@ public void SeriesIndicator{IndicatorName}()
 }
 ```
 
+See also: Common indicator requirements and Series-as-canonical policy in `.github/copilot-instructions.md`.
+
 ## Quality standards
 
 ### Mathematical accuracy
@@ -201,4 +207,4 @@ Study these exemplary series indicators:
 - **ALLIGATOR**: `src/a-d/Alligator/Alligator.StaticSeries.cs`
 
 ---
-Last updated: September 29, 2025
+Last updated: October 12, 2025
