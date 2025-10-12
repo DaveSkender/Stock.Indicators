@@ -3,7 +3,7 @@
 **Purpose**: Validate requirements quality and completeness for StreamHub indicator implementations
 **Created**: October 7, 2025
 **Feature**: [spec.md](../spec.md) | [tasks.md](../tasks.md)
-**Instructions**: [stream-indicators.instructions.md](../../../.github/instructions/stream-indicators.instructions.md)
+**Instructions**: [indicator-stream.instructions.md](../../../.github/instructions/indicator-stream.instructions.md)
 
 **Note**: This checklist tests the REQUIREMENTS themselves for quality, clarity, and completeness - NOT the implementation. Each item validates whether requirements are well-written, complete, and unambiguous.
 

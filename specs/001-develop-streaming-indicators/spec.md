@@ -60,7 +60,7 @@ BufferList implementations MUST implement ONE of three increment interfaces base
 
 - **FR-014**: Chainable indicators (`IIncrementFromChain`) that specifically require OHLC price data (such as Alligator, Mama, FisherTransform) SHOULD use utility methods: `value.Hl2OrValue()` returns HL2 if IQuote, otherwise Value; `value.QuotePartOrValue(CandlePart.*)` returns specified part if IQuote, otherwise Value. Most chainable indicators (SMA, EMA, RSI, MACD) do not need these utilities and should use `value.Value` directly.
 
-See `.github/instructions/buffer-indicators.instructions.md` for complete implementation patterns and examples.
+See `.github/instructions/indicator-buffer.instructions.md` for complete implementation patterns and examples.
 
 ### Key entities
 

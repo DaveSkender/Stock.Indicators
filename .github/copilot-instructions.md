@@ -72,9 +72,9 @@ This repository uses scoped instruction files for specific development areas. Th
 | Pattern | File | Description |
 | ------- | ---- | ----------- |
 | `.specify/**,specs/**,.github/prompts/speckit.*` | [spec-kit.instructions.md](.github/instructions/spec-kit.instructions.md) | Spec Kit development workflow and artifact editing guidelines |
-| `src/**/*.*Series.cs,tests/**/*.*Series.Tests.cs` | [series-indicators.instructions.md](.github/instructions/series-indicators.instructions.md) | Series-style indicator development and testing guidelines |
-| `src/**/*.StreamHub.cs,tests/**/*.StreamHub.Tests.cs` | [stream-indicators.instructions.md](.github/instructions/stream-indicators.instructions.md) | Stream indicator development guidelines |
-| `src/**/*.BufferList.cs,tests/**/*.BufferList.Tests.cs` | [buffer-indicators.instructions.md](.github/instructions/buffer-indicators.instructions.md) | Buffer indicator development guidelines |
+| `src/**/*.*Series.cs,tests/**/*.*Series.Tests.cs` | [indicator-series.instructions.md](.github/instructions/indicator-series.instructions.md) | Series-style indicator development and testing guidelines |
+| `src/**/*.StreamHub.cs,tests/**/*.StreamHub.Tests.cs` | [indicator-stream.instructions.md](.github/instructions/indicator-stream.instructions.md) | Stream indicator development guidelines |
+| `src/**/*.BufferList.cs,tests/**/*.BufferList.Tests.cs` | [indicator-buffer.instructions.md](.github/instructions/indicator-buffer.instructions.md) | Buffer indicator development guidelines |
 | `**/src/**/*.Catalog.cs,**/tests/**/*.Catalog.Tests.cs` | [catalog.instructions.md](.github/instructions/catalog.instructions.md) | Catalog file conventions |
 | `src/**,tests/**` | [source-code-completion.instructions.md](.github/instructions/source-code-completion.instructions.md) | Source code, testing, and pre-commit code completion checklist |
 | `**/*.md` | [markdown.instructions.md](.github/instructions/markdown.instructions.md) | Markdown formatting rules |

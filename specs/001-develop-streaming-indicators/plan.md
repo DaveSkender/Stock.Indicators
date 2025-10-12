@@ -12,8 +12,8 @@
 
 > **IMPORTANT**: This planning document contains conceptual examples that may not match actual codebase patterns. For authoritative implementation guidance, always reference:
 >
-> - `.github/instructions/buffer-indicators.instructions.md` (BufferList pattern)
-> - `.github/instructions/stream-indicators.instructions.md` (StreamHub pattern)
+> - `.github/instructions/indicator-buffer.instructions.md` (BufferList pattern)
+> - `.github/instructions/indicator-stream.instructions.md` (StreamHub pattern)
 > - Existing implementations in `src/**/*.BufferList.cs` and `src/**/*.StreamHub.cs`
 
 ## Summary
@@ -180,8 +180,8 @@ These checklists ensure:
 
 For authoritative implementation guidance, see:
 
-- **BufferList**: `.github/instructions/buffer-indicators.instructions.md` + existing implementations in `src/**/*.BufferList.cs`
-- **StreamHub**: `.github/instructions/stream-indicators.instructions.md` + existing implementations in `src/**/*.StreamHub.cs`
+- **BufferList**: `.github/instructions/indicator-buffer.instructions.md` + existing implementations in `src/**/*.BufferList.cs`
+- **StreamHub**: `.github/instructions/indicator-stream.instructions.md` + existing implementations in `src/**/*.StreamHub.cs`
 
 #### Actual Implementation Patterns
 
@@ -314,19 +314,19 @@ The following base classes and utilities already exist in `src/_common/`:
 
 **IMPORTANT**: Follow the repository's established instruction files for implementation:
 
-- **Buffer-style indicators**: See `.github/instructions/buffer-indicators.instructions.md`
+- **Buffer-style indicators**: See `.github/instructions/indicator-buffer.instructions.md`
   - Defines BufferList pattern, state management, and testing requirements
   - Includes examples of circular buffer patterns and List-based state
   - **Real implementation**: `{IndicatorName}List` class inheriting from `BufferList<TResult>`
   - **Example**: `SmaList`, `EmaList`, `RsiList` (see existing implementations in `src/`)
   
-- **Stream-style indicators**: See `.github/instructions/stream-indicators.instructions.md`
+- **Stream-style indicators**: See `.github/instructions/indicator-stream.instructions.md`
   - Defines StreamHub pattern, span-based optimizations, and performance requirements
   - Includes guidance on memory management and high-frequency scenarios
   - **Real implementation**: `{IndicatorName}Hub<TIn>` class extending `ChainProvider<TIn, TResult>`
   - **Example**: `SmaHub<TIn>`, `EmaHub<TIn>`, `RsiHub<TIn>` (see existing implementations in `src/`)
 
-- **Series-style indicators**: See `.github/instructions/series-indicators.instructions.md`
+- **Series-style indicators**: See `.github/instructions/indicator-series.instructions.md`
   - Existing batch calculation patterns (unchanged by this feature)
   - Reference for mathematical correctness and parity validation
 

@@ -7,6 +7,18 @@ description: "Series-style indicator development and testing guidelines"
 
 These instructions apply to series-style indicators that process complete datasets and return results all at once. Series indicators are the foundation style that all indicators must implement.
 
+## Code completion checklist
+
+When implementing or updating an indicator, you must complete:
+
+- [ ] Source code: `src/**/{IndicatorName}.StaticSeries.cs` files exist and adhere to these instructions
+  - [ ] <!-- TODO: add imperatives -->
+- [ ] Testing : `tests/indicators/**/{IndicatorName}.StaticSeries.Tests.cs` files exist adhere to these instructions
+  - [ ] <!-- TODO: add imperatives -->
+- [ ] User documentation: `docs/_indicators/{IndicatorName}.md` file exists and is accurate
+- [ ] Release/migration notes: [MigrationGuide.V3.md](/src/MigrationGuide.V3.md) has been updated for changes from the v2 package version.
+
+
 ## File naming conventions
 
 Series indicators should follow these naming patterns:

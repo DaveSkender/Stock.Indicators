@@ -176,7 +176,7 @@ Each task should follow these guidelines:
 
 - Inherit from `BufferList<TResult>` base class
 - Implement appropriate interface (`IIncrementFromChain`, `IIncrementFromQuote`, or `IIncrementFromPairs`)
-- Follow patterns from `.github/instructions/buffer-indicators.instructions.md`
+- Follow patterns from `.github/instructions/indicator-buffer.instructions.md`
 - Provide both standard constructor and constructor with values/quotes parameter (matching interface type)
 - Use universal `BufferUtilities` extension methods for buffer management
 - Include comprehensive unit tests matching patterns in existing tests
@@ -185,7 +185,7 @@ Each task should follow these guidelines:
 ### StreamHub Implementation Requirements
 
 - Extend `ChainProvider<TIn, TResult>` or `QuoteProvider<TIn, TResult>`
-- Follow patterns from `.github/instructions/stream-indicators.instructions.md`
+- Follow patterns from `.github/instructions/indicator-stream.instructions.md`
 - Implement efficient state management for real-time processing
 - Include comprehensive unit tests matching patterns in existing tests
 - Ensure mathematical correctness matches series implementation
