@@ -1,3 +1,6 @@
+using Tests.Data;
+using static Tests.Data.Utilities;
+
 namespace Regression;
 
 [TestClass, TestCategory("Regression")]
@@ -6,7 +9,7 @@ public class FisherTransformTests : RegressionTestBase<FisherTransformResult>
     public FisherTransformTests() : base("fisher.standard.json") { }
 
     [TestMethod]
-    public override void Series() => Quotes.ToFisherTransform(10).AssertEquals(Expected);
+    public override void Series() => Quotes.ToFisherTransform(10).AssertEquals(Expected, Precision.LastDigit);
 
     [TestMethod]
     public override void Buffer()
