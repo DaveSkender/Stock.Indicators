@@ -30,7 +30,7 @@ public class MarubozuList : BufferList<CandleResult>, IIncrementFromQuote
     /// <summary>
     /// Gets the minimum body percentage to qualify as a Marubozu.
     /// </summary>
-    public double MinBodyPercent { get; init; }
+    public double MinBodyPercent { get; }
 
     /// <inheritdoc />
     public void Add(IQuote quote)
