@@ -21,6 +21,11 @@ public static partial class Gator
             .WithStyle(Style.Series)
             .Build();
 
+    // GATOR Buffer Listing
+    internal static readonly IndicatorListing BufferListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Buffer)
+            .Build();
+
     // No StreamListing for GATOR.
-    // No BufferListing for GATOR.
 }

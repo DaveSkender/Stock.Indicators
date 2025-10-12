@@ -171,9 +171,11 @@ public static partial class Catalog
         _listings.Add(Fractal.SeriesListing);
 
         // Gator Oscillator
+        _listings.Add(Gator.BufferListing);
         _listings.Add(Gator.SeriesListing);
 
         // Heikin Ashi
+        _listings.Add(HeikinAshi.BufferListing);
         _listings.Add(HeikinAshi.SeriesListing);
 
         // HMA (Hull Moving Average)
@@ -196,9 +198,11 @@ public static partial class Catalog
         _listings.Add(Kama.StreamListing);
 
         // Keltner Channels
+        _listings.Add(Keltner.BufferListing);
         _listings.Add(Keltner.SeriesListing);
 
         // KVO (Klinger Volume Oscillator)
+        _listings.Add(Kvo.BufferListing);
         _listings.Add(Kvo.SeriesListing);
 
         // MA Envelopes (Moving Average Envelopes)

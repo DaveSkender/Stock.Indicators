@@ -58,14 +58,14 @@ The following indicators have series-style implementations but lack BufferList i
 - [x] T018 Implement Fcb BufferList in `src/e-k/Fcb/Fcb.BufferList.cs` ✅ Complete
 - [x] T019 Implement FisherTransform BufferList in `src/e-k/FisherTransform/FisherTransform.BufferList.cs` ✅ Complete
 - [x] T020 Implement ForceIndex BufferList in `src/e-k/ForceIndex/ForceIndex.BufferList.cs` ✅ Complete
-- [ ] T021 Implement Fractal BufferList in `src/e-k/Fractal/Fractal.BufferList.cs`
-- [ ] T022 Implement Gator BufferList in `src/e-k/Gator/Gator.BufferList.cs`
-- [ ] T023 Implement HeikinAshi BufferList in `src/e-k/HeikinAshi/HeikinAshi.BufferList.cs`
-- [ ] T024 Implement HtTrendline BufferList in `src/e-k/HtTrendline/HtTrendline.BufferList.cs`
-- [ ] T025 Implement Hurst BufferList in `src/e-k/Hurst/Hurst.BufferList.cs`
-- [ ] T026 Implement Ichimoku BufferList in `src/e-k/Ichimoku/Ichimoku.BufferList.cs`
-- [ ] T027 Implement Keltner BufferList in `src/e-k/Keltner/Keltner.BufferList.cs`
-- [ ] T028 Implement Kvo BufferList in `src/e-k/Kvo/Kvo.BufferList.cs`
+- [ ] T021 Implement Fractal BufferList in `src/e-k/Fractal/Fractal.BufferList.cs` (Deferred - requires future data)
+- [x] T022 Implement Gator BufferList in `src/e-k/Gator/Gator.BufferList.cs` ✅ Complete
+- [x] T023 Implement HeikinAshi BufferList in `src/e-k/HeikinAshi/HeikinAshi.BufferList.cs` ✅ Complete
+- [ ] T024 Implement HtTrendline BufferList in `src/e-k/HtTrendline/HtTrendline.BufferList.cs` (Deferred - complex Hilbert Transform)
+- [ ] T025 Implement Hurst BufferList in `src/e-k/Hurst/Hurst.BufferList.cs` (Deferred - complex Hurst Exponent)
+- [ ] T026 Implement Ichimoku BufferList in `src/e-k/Ichimoku/Ichimoku.BufferList.cs` (Deferred - requires future offsets)
+- [x] T027 Implement Keltner BufferList in `src/e-k/Keltner/Keltner.BufferList.cs` ✅ Complete
+- [x] T028 Implement Kvo BufferList in `src/e-k/Kvo/Kvo.BufferList.cs` ✅ Complete
 
 ### BufferList M-R Group (13 indicators)
 
