@@ -68,7 +68,7 @@ public class PrsList : BufferList<PrsResult>, IIncrementFromPairs, IPrs
 
         if (LookbackPeriods > 0 && _buffer.Count > LookbackPeriods)
         {
-            (double evalOld, double baseOld) = _buffer.First();
+            (double evalOld, double baseOld) = _buffer.Peek();
 
             if (baseOld != 0 && evalOld != 0)
             {

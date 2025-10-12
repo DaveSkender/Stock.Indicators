@@ -26,11 +26,16 @@ The codebase implements several types of stream hub I/O patterns:
 5. **IQuote → VolumeWeighted** (e.g., VWMA): Takes quote input, requires both price and volume data
    - Uses `IQuoteProvider<TIn>` and extends `QuoteProvider<TIn, TResult>`
    - Generic constraint: `where TIn : IQuote`
+6. **Dual IReusable → IReusable** (e.g., Correlation, Beta): Takes two synchronized reusable inputs, produces reusable output
+   - Uses `IPairsProvider<TIn>` and extends `PairsProvider<TIn, TResult>`
+   - Generic constraint: `where TIn : IReusable`
+   - **NEW**: Added for dual-stream indicators requiring synchronized pair inputs
 
 **Provider Selection Guidelines**:
 
 - Use `IQuoteProvider<TIn>` and `QuoteProvider<TIn, TResult>` when the indicator requires multiple quote properties (e.g., OHLCV data)
 - Use `IChainProvider<TIn>` and `ChainProvider<TIn, TResult>` when the indicator can work with single reusable values
+- Use `IPairsProvider<TIn>` and `PairsProvider<TIn, TResult>` when the indicator requires synchronized dual inputs (e.g., Correlation, Beta)
 
 Note: IQuote → QuotePart selectors exist but are rarely used for new indicators.
 
@@ -112,6 +117,99 @@ public static {IndicatorName}Hub<TIn> To{IndicatorName}Hub<TIn>(
 ```
 
 In both cases, `{defaultValue}` is only used for parity with Series `quotes.To{IndicatorName}()` extensions and may not always be implemented.
+
+### Dual-stream hub structure (NEW)
+
+For indicators requiring synchronized pairs of inputs (e.g., Correlation, Beta), use the `PairsProvider` base class:
+
+```csharp
+/// <summary>
+/// Streaming hub for {IndicatorName} calculations between two synchronized series.
+/// </summary>
+public class {IndicatorName}Hub<TIn>
+    : PairsProvider<TIn, {IndicatorName}Result>, I{IndicatorName}
+    where TIn : IReusable
+{
+    private readonly string hubName;
+
+    internal {IndicatorName}Hub(
+        IChainProvider<TIn> providerA,
+        IChainProvider<TIn> providerB,
+        int lookbackPeriods) : base(providerA, providerB)
+    {
+        ArgumentNullException.ThrowIfNull(providerB);
+        {IndicatorName}.Validate(lookbackPeriods);
+
+        LookbackPeriods = lookbackPeriods;
+        hubName = $"{IndicatorUiid}({lookbackPeriods})";
+
+        Reinitialize();
+    }
+
+    /// <inheritdoc/>
+    public int LookbackPeriods { get; init; }
+
+    /// <inheritdoc/>
+    public override string ToString() => hubName;
+
+    /// <inheritdoc/>
+    protected override ({IndicatorName}Result result, int index)
+        ToIndicator(TIn item, int? indexHint)
+    {
+        int i = indexHint ?? ProviderCache.IndexOf(item, true);
+
+        // Check if we have enough data in both caches
+        if (HasSufficientData(i, LookbackPeriods))
+        {
+            // Validate timestamps match
+            ValidateTimestampSync(i, item);
+
+            // Extract data from both caches (ProviderCache and ProviderCacheB)
+            // ... perform calculations ...
+
+            // Use existing period calculation
+            {IndicatorName}Result r = {IndicatorName}.PeriodCalculation(...);
+            return (r, i);
+        }
+        else
+        {
+            // Not enough data yet
+            {IndicatorName}Result r = new(Timestamp: item.Timestamp);
+            return (r, i);
+        }
+    }
+}
+```
+
+**Key utilities provided by `PairsProvider` base class**:
+
+- `ProviderCache` - Cache reference for first provider (from `StreamHub` base)
+- `ProviderCacheB` - Cache reference for second provider (from `PairsProvider`)
+- `HasSufficientData(index, minimumPeriods)` - Checks both caches have sufficient data
+- `ValidateTimestampSync(index, item)` - Validates timestamps match between both caches
+
+**Dual-stream extension method pattern**:
+
+```csharp
+/// <summary>
+/// Creates a {IndicatorUiid} hub from two synchronized chain providers.
+/// Note: Both providers must be synchronized (same timestamps).
+/// </summary>
+public static {IndicatorName}Hub<T> To{IndicatorName}Hub<T>(
+    this IChainProvider<T> providerA,
+    IChainProvider<T> providerB,
+    int lookbackPeriods)
+    where T : IReusable
+    => new(providerA, providerB, lookbackPeriods);
+```
+
+**Important considerations for dual-stream hubs**:
+
+1. Both input providers must be synchronized (matching timestamps)
+2. `ValidateTimestampSync()` throws `InvalidQuotesException` on mismatch
+3. `HasSufficientData()` ensures both caches have adequate data
+4. Cannot be used with observer pattern (requires architectural changes for multi-provider synchronization)
+5. Use `CorrelationHub` as reference implementation (see `src/a-d/Correlation/Correlation.StreamHub.cs`)
 
 ## Testing requirements
 
