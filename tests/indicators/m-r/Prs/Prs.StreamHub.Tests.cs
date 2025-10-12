@@ -66,33 +66,31 @@ public class PrsHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider,
     [TestMethod]
     public void TimestampMismatch()
     {
-        // Create two providers with sufficient data
+        // Create two providers with mismatched timestamps
         QuoteHub<Quote> quoteHubEval = new();
         QuoteHub<Quote> quoteHubBase = new();
 
-        // Add quotes to both providers
+        // Add quotes with offset timestamps to force mismatch
         List<Quote> quotesEval = Quotes.Take(30).ToList();
-        List<Quote> quotesBase = Quotes.Take(30).ToList();
+        List<Quote> quotesBase = Quotes.Take(30).Select(q => new Quote {
+            Timestamp = q.Timestamp.AddDays(1), // Offset timestamps by 1 day
+            Open = q.Open,
+            High = q.High,
+            Low = q.Low,
+            Close = q.Close,
+            Volume = q.Volume
+        }).ToList();
 
         quoteHubEval.Add(quotesEval);
         quoteHubBase.Add(quotesBase);
 
-        // Create PRS hub from two providers with lookback
-        PrsHub<Quote> prsHub = quoteHubEval.ToPrsHub(quoteHubBase, 10);
+        // Creating PRS hub should trigger timestamp validation during Reinitialize and throw exception
+        Action act = () => quoteHubEval.ToPrsHub(quoteHubBase, 10);
 
-        // Verify PRS is calculated
-        prsHub.Results.Should().HaveCount(30);
-        prsHub.Results[29].Prs.Should().NotBeNull();
-
-        // The PRS should be 1.0 (perfect relative strength with itself)
-        prsHub.Results[29].Prs.Should().BeApproximately(1.0, 0.0001);
-
-        // PrsPercent should be calculated for periods >= 10
-        prsHub.Results[29].PrsPercent.Should().NotBeNull();
-        prsHub.Results[9].PrsPercent.Should().BeNull(); // Not enough lookback yet
+        act.Should().Throw<InvalidQuotesException>()
+            .WithMessage("*Timestamp sequence does not match*");
 
         // Cleanup
-        prsHub.Unsubscribe();
         quoteHubEval.EndTransmission();
         quoteHubBase.EndTransmission();
     }

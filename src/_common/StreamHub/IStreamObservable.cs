@@ -25,15 +25,16 @@ public interface IChainProvider<out T> : IStreamObservable<T>
 /// <remarks>
 /// This interface supports indicators that require paired input values (e.g., Correlation, Beta).
 /// Both input series must be synchronized (matching timestamps).
+/// The GetCacheBRef() method returns the second provider's input cache, not the result cache.
 /// </remarks>
 public interface IPairsProvider<out T> : IStreamObservable<T>
    where T : IReusable
 {
     /// <summary>
-    /// Gets a readonly reference to the second provider's cache.
+    /// Gets a readonly reference to the second provider's input cache.
     /// </summary>
-    /// <returns>Read-only list of cached items from the second series.</returns>
-    IReadOnlyList<T> GetCacheBRef();
+    /// <returns>Read-only list of cached input items from the second series.</returns>
+    IReadOnlyList<IReusable> GetCacheBRef();
 }
 #endregion
 

@@ -81,15 +81,22 @@ public class PrsHub<TIn>
     {
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
-        // Validate timestamps match
-        if (i < ProviderCacheB.Count)
+        // Determine minimum required periods (at least 1 for current, more for lookback)
+        int minimumPeriods = lookbackPeriods > 0 ? lookbackPeriods + 1 : 1;
+
+        // Check if both caches have sufficient data
+        if (!HasSufficientData(i, minimumPeriods))
         {
-            ValidateTimestampSync(i, item);
+            // Not enough data in one or both streams yet
+            return (new PrsResult(Timestamp: item.Timestamp, Prs: null, PrsPercent: null), i);
         }
+
+        // Validate timestamps match
+        ValidateTimestampSync(i, item);
 
         // Get current values
         double evalValue = item.Value;
-        double baseValue = i < ProviderCacheB.Count ? ProviderCacheB[i].Value : 0;
+        double baseValue = ProviderCacheB[i].Value;
 
         // Calculate PRS (relative strength ratio)
         double? prs = baseValue == 0

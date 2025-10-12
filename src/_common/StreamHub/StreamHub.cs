@@ -478,15 +478,12 @@ public abstract class PairsProvider<TIn, TOut>(
     protected IReadOnlyList<TIn> ProviderCacheB { get; } = providerB.GetCacheRef();
 
     /// <summary>
-    /// Gets a readonly reference to the second provider's cache.
+    /// Gets a readonly reference to the second provider's input cache.
     /// </summary>
-    /// <returns>Read-only list of cached items from the second series.</returns>
-    public IReadOnlyList<TOut> GetCacheBRef()
+    /// <returns>Read-only list of cached input items from the second series.</returns>
+    public IReadOnlyList<IReusable> GetCacheBRef()
     {
-        // This method is part of IPairsProvider interface
-        // For now, we return the cache (same as GetCacheRef())
-        // Future implementations might need separate tracking
-        return Cache;
+        return (IReadOnlyList<IReusable>)ProviderCacheB;
     }
 
     /// <summary>

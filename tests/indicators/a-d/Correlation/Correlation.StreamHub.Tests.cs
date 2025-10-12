@@ -63,29 +63,31 @@ public class CorrelationHub : StreamHubTestBase, ITestChainObserver, ITestChainP
     [TestMethod]
     public void TimestampMismatch()
     {
-        // Create two providers with sufficient data for correlation
+        // Create two providers with mismatched timestamps
         QuoteHub<Quote> quoteHubA = new();
         QuoteHub<Quote> quoteHubB = new();
 
-        // Add sufficient quotes to both providers (30 quotes for 20-period lookback)
+        // Add quotes with offset timestamps to force mismatch
         List<Quote> quotesA = Quotes.Take(30).ToList();
-        List<Quote> quotesB = Quotes.Take(30).ToList();
+        List<Quote> quotesB = Quotes.Take(30).Select(q => new Quote {
+            Timestamp = q.Timestamp.AddDays(1), // Offset timestamps by 1 day
+            Open = q.Open,
+            High = q.High,
+            Low = q.Low,
+            Close = q.Close,
+            Volume = q.Volume
+        }).ToList();
 
         quoteHubA.Add(quotesA);
         quoteHubB.Add(quotesB);
 
-        // Create correlation hub from two providers with 20-period lookback
-        CorrelationHub<Quote> correlationHub = quoteHubA.ToCorrelationHub(quoteHubB, 20);
+        // Creating correlation hub should trigger timestamp validation during Reinitialize and throw exception
+        Action act = () => quoteHubA.ToCorrelationHub(quoteHubB, 20);
 
-        // Verify correlation is calculated
-        correlationHub.Results.Should().HaveCount(30);
-        correlationHub.Results[29].Correlation.Should().NotBeNull();
-
-        // The correlation should be 1.0 (perfect positive correlation with itself)
-        correlationHub.Results[29].Correlation.Should().BeApproximately(1.0, 0.0001);
+        act.Should().Throw<InvalidQuotesException>()
+            .WithMessage("*Timestamp sequence does not match*");
 
         // Cleanup
-        correlationHub.Unsubscribe();
         quoteHubA.EndTransmission();
         quoteHubB.EndTransmission();
     }

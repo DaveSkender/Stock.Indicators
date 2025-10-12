@@ -66,29 +66,31 @@ public class BetaHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
     [TestMethod]
     public void TimestampMismatch()
     {
-        // Create two providers with sufficient data for beta
+        // Create two providers with mismatched timestamps
         QuoteHub<Quote> quoteHubEval = new();
         QuoteHub<Quote> quoteHubMrkt = new();
 
-        // Add sufficient quotes to both providers (30 quotes for 20-period lookback)
+        // Add quotes with offset timestamps to force mismatch
         List<Quote> quotesEval = Quotes.Take(30).ToList();
-        List<Quote> quotesMrkt = Quotes.Take(30).ToList();
+        List<Quote> quotesMrkt = Quotes.Take(30).Select(q => new Quote {
+            Timestamp = q.Timestamp.AddDays(1), // Offset timestamps by 1 day
+            Open = q.Open,
+            High = q.High,
+            Low = q.Low,
+            Close = q.Close,
+            Volume = q.Volume
+        }).ToList();
 
         quoteHubEval.Add(quotesEval);
         quoteHubMrkt.Add(quotesMrkt);
 
-        // Create beta hub from two providers with 20-period lookback
-        BetaHub<Quote> betaHub = quoteHubEval.ToBetaHub(quoteHubMrkt, 20);
+        // Creating beta hub should trigger timestamp validation during Reinitialize and throw exception
+        Action act = () => quoteHubEval.ToBetaHub(quoteHubMrkt, 20);
 
-        // Verify beta is calculated
-        betaHub.Results.Should().HaveCount(30);
-        betaHub.Results[29].Beta.Should().NotBeNull();
-
-        // The beta should be close to 1.0 (perfect positive beta with itself)
-        betaHub.Results[29].Beta.Should().BeApproximately(1.0, 0.0001);
+        act.Should().Throw<InvalidQuotesException>()
+            .WithMessage("*Timestamp sequence does not match*");
 
         // Cleanup
-        betaHub.Unsubscribe();
         quoteHubEval.EndTransmission();
         quoteHubMrkt.EndTransmission();
     }
@@ -130,6 +132,91 @@ public class BetaHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
         lastResult.Convexity.Should().NotBeNull();
 
         // Cleanup
+        betaHub.Unsubscribe();
+        quoteHubEval.EndTransmission();
+        quoteHubMrkt.EndTransmission();
+    }
+
+    [TestMethod]
+    public void InsufficientData()
+    {
+        QuoteHub<Quote> quoteHubEval = new();
+        QuoteHub<Quote> quoteHubMrkt = new();
+
+        // Add only 10 quotes for 20-period lookback
+        List<Quote> insufficientQuotes = Quotes.Take(10).ToList();
+        quoteHubEval.Add(insufficientQuotes);
+        quoteHubMrkt.Add(insufficientQuotes);
+
+        BetaHub<Quote> betaHub = quoteHubEval.ToBetaHub(quoteHubMrkt, 20);
+
+        // Verify beta is null when insufficient data
+        betaHub.Results.Should().HaveCount(10);
+        betaHub.Results.Should().AllSatisfy(r => r.Beta.Should().BeNull());
+
+        betaHub.Unsubscribe();
+        quoteHubEval.EndTransmission();
+        quoteHubMrkt.EndTransmission();
+    }
+
+    [TestMethod]
+    public void SequentialQuoteProcessing()
+    {
+        QuoteHub<Quote> quoteHubEval = new();
+        QuoteHub<Quote> quoteHubMrkt = new();
+        BetaHub<Quote> betaHub = quoteHubEval.ToBetaHub(quoteHubMrkt, 20);
+
+        // Add quotes one by one to verify stateful processing
+        foreach (Quote quote in Quotes.Take(50))
+        {
+            quoteHubEval.Add(quote);
+            quoteHubMrkt.Add(quote);
+        }
+
+        betaHub.Results.Should().HaveCount(50);
+
+        // Verify that results are generated for all periods
+        betaHub.Results.Should().OnlyContain(r => r.Timestamp != default);
+
+        // Verify returns are calculated after first period
+        betaHub.Results.Skip(1).Should().OnlyContain(r => r.ReturnsEval.HasValue || r.ReturnsEval == 0);
+        betaHub.Results.Skip(1).Should().OnlyContain(r => r.ReturnsMrkt.HasValue || r.ReturnsMrkt == 0);
+
+        betaHub.Unsubscribe();
+        quoteHubEval.EndTransmission();
+        quoteHubMrkt.EndTransmission();
+    }
+
+    [TestMethod]
+    public void ConsistentWithSeriesCalculation()
+    {
+        QuoteHub<Quote> quoteHubEval = new();
+        QuoteHub<Quote> quoteHubMrkt = new();
+
+        quoteHubEval.Add(Quotes);
+        quoteHubMrkt.Add(Quotes);
+
+        BetaHub<Quote> betaHub = quoteHubEval.ToBetaHub(quoteHubMrkt, 20);
+
+        // Compare with series calculation
+        List<BetaResult> seriesResults = Quotes.ToBeta(Quotes, 20).ToList();
+
+        betaHub.Results.Should().HaveCount(seriesResults.Count);
+
+        // Check consistency for results where both have values
+        for (int i = 20; i < betaHub.Results.Count && i < 100; i++)
+        {
+            BetaResult hubResult = betaHub.Results[i];
+            BetaResult seriesResult = seriesResults[i];
+
+            // Both should have beta values after warmup period
+            if (hubResult.Beta.HasValue && seriesResult.Beta.HasValue)
+            {
+                hubResult.Beta.Value.Should().BeApproximately(seriesResult.Beta.Value, 0.001,
+                    $"at index {i}");
+            }
+        }
+
         betaHub.Unsubscribe();
         quoteHubEval.EndTransmission();
         quoteHubMrkt.EndTransmission();

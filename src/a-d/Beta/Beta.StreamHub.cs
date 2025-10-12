@@ -120,17 +120,17 @@ public class BetaHub<TIn>
             // Calculate beta variants
             if (calcSd)
             {
-                beta = CalcBetaWindow(i, LookbackPeriods, BetaType.Standard);
+                beta = CalcBetaWindow(i, LookbackPeriods, BetaType.Standard, evalReturn, mrktReturn);
             }
 
             if (calcDn)
             {
-                betaDown = CalcBetaWindow(i, LookbackPeriods, BetaType.Down);
+                betaDown = CalcBetaWindow(i, LookbackPeriods, BetaType.Down, evalReturn, mrktReturn);
             }
 
             if (calcUp)
             {
-                betaUp = CalcBetaWindow(i, LookbackPeriods, BetaType.Up);
+                betaUp = CalcBetaWindow(i, LookbackPeriods, BetaType.Up, evalReturn, mrktReturn);
             }
 
             // Ratio and convexity
@@ -170,11 +170,15 @@ public class BetaHub<TIn>
     /// <param name="currentIndex">The current index in the data.</param>
     /// <param name="lookbackPeriods">The number of periods to look back.</param>
     /// <param name="type">The type of Beta calculation.</param>
+    /// <param name="currentEvalReturn">The current evaluation return (not yet in cache).</param>
+    /// <param name="currentMrktReturn">The current market return (not yet in cache).</param>
     /// <returns>The calculated Beta value.</returns>
     private double? CalcBetaWindow(
         int currentIndex,
         int lookbackPeriods,
-        BetaType type)
+        BetaType type,
+        double currentEvalReturn,
+        double currentMrktReturn)
     {
         // Note: BetaType.All is ineligible for this method
 
@@ -182,8 +186,8 @@ public class BetaHub<TIn>
         List<double> dataA = new(lookbackPeriods);
         List<double> dataB = new(lookbackPeriods);
 
-        // Extract returns from cache for the window
-        for (int p = currentIndex - lookbackPeriods + 1; p <= currentIndex; p++)
+        // Extract returns from cache for the window (excluding current bar)
+        for (int p = currentIndex - lookbackPeriods + 1; p < currentIndex; p++)
         {
             if (p < 0 || p >= Cache.Count)
             {
@@ -191,16 +195,25 @@ public class BetaHub<TIn>
             }
 
             BetaResult cached = Cache[p];
-            double mrktReturn = cached.ReturnsMrkt ?? 0;
-            double evalReturn = cached.ReturnsEval ?? 0;
+            double cachedMrktReturn = cached.ReturnsMrkt ?? 0;
+            double cachedEvalReturn = cached.ReturnsEval ?? 0;
 
             if (type is BetaType.Standard
-            || (type is BetaType.Down && mrktReturn < 0)
-            || (type is BetaType.Up && mrktReturn > 0))
+            || (type is BetaType.Down && cachedMrktReturn < 0)
+            || (type is BetaType.Up && cachedMrktReturn > 0))
             {
-                dataA.Add(mrktReturn);
-                dataB.Add(evalReturn);
+                dataA.Add(cachedMrktReturn);
+                dataB.Add(cachedEvalReturn);
             }
+        }
+
+        // Add the current returns to complete the window
+        if (type is BetaType.Standard
+        || (type is BetaType.Down && currentMrktReturn < 0)
+        || (type is BetaType.Up && currentMrktReturn > 0))
+        {
+            dataA.Add(currentMrktReturn);
+            dataB.Add(currentEvalReturn);
         }
 
         if (dataA.Count == 0)
