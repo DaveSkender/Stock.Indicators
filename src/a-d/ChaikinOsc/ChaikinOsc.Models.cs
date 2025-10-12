@@ -8,6 +8,8 @@ namespace Skender.Stock.Indicators;
 /// <param name="MoneyFlowVolume">The money flow volume value.</param>
 /// <param name="Adl">The Accumulation/Distribution Line (ADL) value.</param>
 /// <param name="Oscillator">The Chaikin Oscillator value.</param>
+/// <param name="FastEma">The fast EMA value.</param>
+/// <param name="SlowEma">The slow EMA value.</param>
 [Serializable]
 public record ChaikinOscResult
 (
@@ -15,7 +17,11 @@ public record ChaikinOscResult
     double? MoneyFlowMultiplier,
     double? MoneyFlowVolume,
     double? Adl,
-    double? Oscillator
+    double? Oscillator,
+
+    // extra/interim data
+    double? FastEma = null,
+    double? SlowEma = null
 ) : IReusable
 {
     /// <inheritdoc/>
