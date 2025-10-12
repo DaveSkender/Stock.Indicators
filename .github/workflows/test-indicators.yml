@@ -15,7 +15,7 @@ permissions:
 
 jobs:
   validate:
-    name: validate code
+    name: build and lint
     runs-on: ubuntu-latest
 
     steps:
@@ -27,6 +27,13 @@ jobs:
         with:
           dotnet-version: "9.x"
           dotnet-quality: "ga"
+
+      - name: Build library
+        run: >
+          dotnet build
+          --configuration Release
+          --property:ContinuousIntegrationBuild=true
+          -warnAsError
 
       - name: Setup Node.js
         uses: actions/setup-node@v5
@@ -43,13 +50,6 @@ jobs:
 
       - name: Check Markdown linting
         run: npm run lint:md
-
-      - name: Build library
-        run: >
-          dotnet build
-          --configuration Release
-          --property:ContinuousIntegrationBuild=true
-          -warnAsError
 
   test-unit:
     name: unit tests
@@ -81,7 +81,7 @@ jobs:
           --collect:"XPlat Code Coverage"
 
       - name: Post unit test results
-        uses: dorny/test-reporter@v2.1.0
+        uses: dorny/test-reporter@v2.1.1
         if: always()
         with:
           name: Unit test results
@@ -99,7 +99,7 @@ jobs:
         continue-on-error: true
 
       - name: Publish coverage to Codacy
-        uses: codacy/codacy-coverage-reporter-action@v1
+        uses: codacy/codacy-coverage-reporter-action@v1.3.0
         if: success() && github.actor != 'dependabot[bot]'
         with:
           project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
@@ -135,7 +135,7 @@ jobs:
           --logger trx
 
       - name: Post regression test results
-        uses: dorny/test-reporter@v2.1.0
+        uses: dorny/test-reporter@v2.1.1
         if: always()
         with:
           name: Regression test results

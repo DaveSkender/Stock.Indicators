@@ -181,11 +181,11 @@ streamResult.Should().BeApproximately(seriesResult, tolerance);  // ❌
 
 #### 🔬 Exception: Series assertions against manually calculated reference values only
 
+> STOP and ask if there are exceptional circumstances that require precision tolerance.
+
 Use `BeApproximately()` **ONLY** in Series-style indicator tests when asserting against manually calculated reference values from authoritative sources (publications, verified calculations). This accounts for potential floating-point precision differences between manual calculations and algorithmic implementations.
 
 > **Note**: `BeApproximately()` is specifically for floating-point types (`double`, `float`, `decimal`). `BeCloseTo()` is for integer types and should not be used for financial calculations.
-
-> STOP and ask if there are exceptional circumstances that require precision tolerance.
 
 **✅ Correct precision patterns:**
 
