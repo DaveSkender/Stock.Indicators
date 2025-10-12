@@ -22,6 +22,11 @@ public static partial class HeikinAshi
             .WithStyle(Style.Series)
             .Build();
 
+    // HEIKINASHI Buffer Listing
+    internal static readonly IndicatorListing BufferListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Buffer)
+            .Build();
+
     // No StreamListing for HEIKINASHI.
-    // No BufferListing for HEIKINASHI.
 }
