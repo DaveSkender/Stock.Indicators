@@ -108,7 +108,7 @@ jobs:
 
       - name: Upload coverage reports
         uses: actions/upload-artifact@v4
-        if: success()
+        if: always()
         with:
           name: coverage-unit
           path: ./test-results/**/coverage.cobertura.xml
