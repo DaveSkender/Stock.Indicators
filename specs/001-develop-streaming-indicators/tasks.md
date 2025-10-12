@@ -95,10 +95,10 @@ The following indicators have series-style implementations but lack BufferList i
 - [x] T049 Implement SuperTrend BufferList in `src/s-z/SuperTrend/SuperTrend.BufferList.cs` ✅ Complete
 - [ ] T050 Implement Tsi BufferList in `src/s-z/Tsi/Tsi.BufferList.cs`
 - [x] T051 Implement UlcerIndex BufferList in `src/s-z/UlcerIndex/UlcerIndex.BufferList.cs` ✅ Complete
-- [ ] T052 Implement VolatilityStop BufferList in `src/s-z/VolatilityStop/VolatilityStop.BufferList.cs`
-- [ ] T053 Implement Vortex BufferList in `src/s-z/Vortex/Vortex.BufferList.cs`
-- [ ] T054 Implement Vwap BufferList in `src/s-z/Vwap/Vwap.BufferList.cs`
-- [ ] T055 Implement ZigZag BufferList in `src/s-z/ZigZag/ZigZag.BufferList.cs`
+- [ ] T052 Implement VolatilityStop BufferList in `src/s-z/VolatilityStop/VolatilityStop.BufferList.cs` (Deferred - requires retroactive updates)
+- [x] T053 Implement Vortex BufferList in `src/s-z/Vortex/Vortex.BufferList.cs` ✅ Complete
+- [x] T054 Implement Vwap BufferList in `src/s-z/Vwap/Vwap.BufferList.cs` ✅ Complete
+- [ ] T055 Implement ZigZag BufferList in `src/s-z/ZigZag/ZigZag.BufferList.cs` (Deferred - requires retroactive updates and look-ahead)
 
 ## Missing StreamHub Implementations
 
@@ -256,12 +256,12 @@ The following documentation tasks support the main implementation work:
 - **Total BufferList tasks**: 55
 - **Total StreamHub tasks**: 52
 - **Total implementation tasks**: 107
-- **Current implementations**: BufferList (48/85 = 56%), StreamHub (36/85 = 42%)
-- **Missing BufferList implementations**: 37 indicators
+- **Current implementations**: BufferList (50/85 = 59%), StreamHub (36/85 = 42%)
+- **Missing BufferList implementations**: 35 indicators
 - **Missing StreamHub implementations**: 49 indicators
 - **Target coverage**: All 85 series indicators with both BufferList and StreamHub styles
 - **Documentation tasks**: 7 (D001-D007)
 - **Quality gate tasks**: 4 (Q001-Q004)
 
 ---
-Last updated: October 9, 2025
+Last updated: October 12, 2025
