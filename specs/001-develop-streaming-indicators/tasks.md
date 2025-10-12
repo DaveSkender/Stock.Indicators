@@ -87,11 +87,11 @@ The following indicators have series-style implementations but lack BufferList i
 
 - [ ] T042 Implement Slope BufferList in `src/s-z/Slope/Slope.BufferList.cs` (Deferred - Line property requires retroactive updates)
 - [x] T043 Implement SmaAnalysis BufferList in `src/s-z/SmaAnalysis/SmaAnalysis.BufferList.cs` ✅ Complete
-- [ ] T044 Implement Smi BufferList in `src/s-z/Smi/Smi.BufferList.cs`
-- [ ] T045 Implement StarcBands BufferList in `src/s-z/StarcBands/StarcBands.BufferList.cs`
-- [ ] T046 Implement Stc BufferList in `src/s-z/Stc/Stc.BufferList.cs`
+- [x] T044 Implement Smi BufferList in `src/s-z/Smi/Smi.BufferList.cs` ✅ Complete
+- [x] T045 Implement StarcBands BufferList in `src/s-z/StarcBands/StarcBands.BufferList.cs` ✅ Complete
+- [ ] T046 Implement Stc BufferList in `src/s-z/Stc/Stc.BufferList.cs` (Complex - requires MACD→Stochastic pipeline, deferred)
 - [x] T047 Implement StdDev BufferList in `src/s-z/StdDev/StdDev.BufferList.cs` ✅ Complete
-- [ ] T048 Implement StdDevChannels BufferList in `src/s-z/StdDevChannels/StdDevChannels.BufferList.cs`
+- [ ] T048 Implement StdDevChannels BufferList in `src/s-z/StdDevChannels/StdDevChannels.BufferList.cs` (Deferred - depends on Slope retroactive updates)
 - [x] T049 Implement SuperTrend BufferList in `src/s-z/SuperTrend/SuperTrend.BufferList.cs` ✅ Complete
 - [ ] T050 Implement Tsi BufferList in `src/s-z/Tsi/Tsi.BufferList.cs`
 - [x] T051 Implement UlcerIndex BufferList in `src/s-z/UlcerIndex/UlcerIndex.BufferList.cs` ✅ Complete
