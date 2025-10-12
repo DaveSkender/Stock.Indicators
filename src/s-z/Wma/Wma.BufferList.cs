@@ -89,7 +89,7 @@ public class WmaList : BufferList<WmaResult>, IIncrementFromChain, IWma
 public static partial class Wma
 {
     /// <summary>
-    /// Creates a buffer list for Weighted Moving Average (VWMA) calculations.
+    /// Creates a buffer list for Weighted Moving Average (WMA) calculations.
     /// </summary>
     public static WmaList ToWmaList(
         this IReadOnlyList<IReusable> source,
