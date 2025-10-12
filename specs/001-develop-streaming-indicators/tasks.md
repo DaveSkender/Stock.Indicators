@@ -70,7 +70,7 @@ The following indicators have series-style implementations but lack BufferList i
 ### BufferList M-R Group (13 indicators)
 
 - [ ] T029 Implement MaEnvelopes BufferList in `src/m-r/MaEnvelopes/MaEnvelopes.BufferList.cs`
-- [ ] T030 Implement Marubozu BufferList in `src/m-r/Marubozu/Marubozu.BufferList.cs`
+- [x] T030 Implement Marubozu BufferList in `src/m-r/Marubozu/Marubozu.BufferList.cs` ✅ Complete
 - [ ] T031 Implement Mfi BufferList in `src/m-r/Mfi/Mfi.BufferList.cs`
 - [ ] T032 Implement ParabolicSar BufferList in `src/m-r/ParabolicSar/ParabolicSar.BufferList.cs`
 - [ ] T033 Implement PivotPoints BufferList in `src/m-r/PivotPoints/PivotPoints.BufferList.cs`
