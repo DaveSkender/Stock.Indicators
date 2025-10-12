@@ -142,13 +142,7 @@ public static partial class Correlation
         IReadOnlyList<T> valuesB,
         int lookbackPeriods)
         where T : IReusable
-    {
-        // Cast to IReadOnlyList<IReusable> for the constructor
-        IReadOnlyList<IReusable> castSeriesA = valuesA.Cast<IReusable>().ToList();
-        IReadOnlyList<IReusable> castSeriesB = valuesB.Cast<IReusable>().ToList();
-
-        return new(lookbackPeriods, castSeriesA, castSeriesB);
-    }
+        => new(lookbackPeriods, (IReadOnlyList<IReusable>)valuesA, (IReadOnlyList<IReusable>)valuesB);
 
     /// <summary>
     /// Validates the parameters for correlation calculations.

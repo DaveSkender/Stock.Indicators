@@ -71,3 +71,4 @@ venv/
 # Misc. caches
 .config/
 .angular/
+.codacy/
