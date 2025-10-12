@@ -1,7 +1,7 @@
 namespace BufferLists;
 
 [TestClass]
-public class Correlation : BufferListTestBase, ITestReusableBufferList
+public class Correlation : BufferListTestBase, ITestChainBufferList
 {
     private const int lookbackPeriods = 20;
 
@@ -58,7 +58,7 @@ public class Correlation : BufferListTestBase, ITestReusableBufferList
     }
 
     [TestMethod]
-    public override void AddQuotes()
+    public void AddQuotes()
     {
         // Correlation uses paired series, so this test uses quotesA and quotesB as series
         CorrelationList sut = new(lookbackPeriods);
@@ -73,7 +73,7 @@ public class Correlation : BufferListTestBase, ITestReusableBufferList
     }
 
     [TestMethod]
-    public override void AddQuotesBatch()
+    public void AddQuotesBatch()
     {
         // Correlation uses paired series, so this test uses quotesA and quotesB as series
         CorrelationList sut = new(lookbackPeriods) {
@@ -85,7 +85,7 @@ public class Correlation : BufferListTestBase, ITestReusableBufferList
     }
 
     [TestMethod]
-    public override void WithQuotesCtor()
+    public void WithQuotesCtor()
     {
         // Correlation uses paired series, so this test uses quotesA and quotesB as series
         CorrelationList sut = new(lookbackPeriods, quotesA, quotesB);

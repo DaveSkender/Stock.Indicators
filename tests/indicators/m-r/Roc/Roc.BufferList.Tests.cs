@@ -1,7 +1,7 @@
 namespace BufferLists;
 
 [TestClass]
-public class Roc : BufferListTestBase, ITestReusableBufferList
+public class Roc : BufferListTestBase, ITestChainBufferList
 {
     private const int lookbackPeriods = 20;
 
@@ -14,7 +14,7 @@ public class Roc : BufferListTestBase, ITestReusableBufferList
        = Quotes.ToRoc(lookbackPeriods);
 
     [TestMethod]
-    public override void AddQuotes()
+    public void AddQuotes()
     {
         RocList sut = new(lookbackPeriods);
 
@@ -28,7 +28,7 @@ public class Roc : BufferListTestBase, ITestReusableBufferList
     }
 
     [TestMethod]
-    public override void AddQuotesBatch()
+    public void AddQuotesBatch()
     {
         RocList sut = new(lookbackPeriods) { Quotes };
 
@@ -37,7 +37,7 @@ public class Roc : BufferListTestBase, ITestReusableBufferList
     }
 
     [TestMethod]
-    public override void WithQuotesCtor()
+    public void WithQuotesCtor()
     {
         RocList sut = new(lookbackPeriods, Quotes);
 

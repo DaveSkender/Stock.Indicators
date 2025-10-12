@@ -1,7 +1,7 @@
 namespace BufferLists;
 
 [TestClass]
-public class Epma : BufferListTestBase, ITestReusableBufferList, ITestNonStandardBufferListCache
+public class Epma : BufferListTestBase, ITestChainBufferList, ITestCustomBufferListCache
 {
     private const int lookbackPeriods = 20;
 
@@ -14,7 +14,7 @@ public class Epma : BufferListTestBase, ITestReusableBufferList, ITestNonStandar
        = Quotes.ToEpma(lookbackPeriods);
 
     [TestMethod]
-    public override void AddQuotes()
+    public void AddQuotes()
     {
         EpmaList sut = new(lookbackPeriods);
 
@@ -28,7 +28,7 @@ public class Epma : BufferListTestBase, ITestReusableBufferList, ITestNonStandar
     }
 
     [TestMethod]
-    public override void AddQuotesBatch()
+    public void AddQuotesBatch()
     {
         EpmaList sut = new(lookbackPeriods) { Quotes };
 
@@ -37,7 +37,7 @@ public class Epma : BufferListTestBase, ITestReusableBufferList, ITestNonStandar
     }
 
     [TestMethod]
-    public override void WithQuotesCtor()
+    public void WithQuotesCtor()
     {
         EpmaList sut = new(lookbackPeriods, Quotes);
 
@@ -123,7 +123,7 @@ public class Epma : BufferListTestBase, ITestReusableBufferList, ITestNonStandar
     }
 
     [TestMethod]
-    public void AutoBufferPruning()
+    public void CustomBufferPruning()
     {
         const int maxListSize = 150;
         const int quotesSize = 1250;

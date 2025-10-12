@@ -7,7 +7,7 @@ public class Adl : BufferListTestBase
        = Quotes.ToAdl();
 
     [TestMethod]
-    public override void AddQuotes()
+    public void AddQuotes()
     {
         AdlList sut = [];
 
@@ -21,7 +21,7 @@ public class Adl : BufferListTestBase
     }
 
     [TestMethod]
-    public override void AddQuotesBatch()
+    public void AddQuotesBatch()
     {
         AdlList sut = new() { Quotes };
 
@@ -30,7 +30,7 @@ public class Adl : BufferListTestBase
     }
 
     [TestMethod]
-    public override void WithQuotesCtor()
+    public void WithQuotesCtor()
     {
         AdlList sut = new(Quotes);
 

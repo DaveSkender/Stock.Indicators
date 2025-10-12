@@ -9,7 +9,7 @@ public class WilliamsR : BufferListTestBase
        = Quotes.ToWilliamsR(lookbackPeriods);
 
     [TestMethod]
-    public override void AddQuotes()
+    public void AddQuotes()
     {
         WilliamsRList sut = new(lookbackPeriods);
 
@@ -23,7 +23,7 @@ public class WilliamsR : BufferListTestBase
     }
 
     [TestMethod]
-    public override void AddQuotesBatch()
+    public void AddQuotesBatch()
     {
         WilliamsRList sut = new(lookbackPeriods) { Quotes };
 
@@ -32,7 +32,7 @@ public class WilliamsR : BufferListTestBase
     }
 
     [TestMethod]
-    public override void WithQuotesCtor()
+    public void WithQuotesCtor()
     {
         WilliamsRList sut = new(lookbackPeriods, Quotes);
 

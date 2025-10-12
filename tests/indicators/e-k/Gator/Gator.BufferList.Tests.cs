@@ -1,7 +1,7 @@
 namespace BufferLists;
 
 [TestClass]
-public class Gator : BufferListTestBase, ITestReusableBufferList
+public class Gator : BufferListTestBase, ITestChainBufferList
 {
     private static readonly IReadOnlyList<IReusable> reusables
        = Quotes
@@ -12,7 +12,7 @@ public class Gator : BufferListTestBase, ITestReusableBufferList
        = Quotes.ToGator();
 
     [TestMethod]
-    public override void AddQuotes()
+    public void AddQuotes()
     {
         GatorList sut = [];
 
@@ -26,7 +26,7 @@ public class Gator : BufferListTestBase, ITestReusableBufferList
     }
 
     [TestMethod]
-    public override void AddQuotesBatch()
+    public void AddQuotesBatch()
     {
         GatorList sut = Quotes.ToGatorList();
 
@@ -35,7 +35,7 @@ public class Gator : BufferListTestBase, ITestReusableBufferList
     }
 
     [TestMethod]
-    public override void WithQuotesCtor()
+    public void WithQuotesCtor()
     {
         GatorList sut = new(Quotes);
 

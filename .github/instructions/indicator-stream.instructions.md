@@ -7,6 +7,23 @@ description: "Stream-style indicator development and testing guidelines"
 
 These instructions apply to stream-style indicators that support real-time data processing with stateful operations. Stream indicators maintain internal state and can process individual quotes as they arrive.
 
+## Code completion checklist
+
+When implementing or updating an indicator, you must complete:
+
+- [ ] Source code: `src/**/{IndicatorName}.StreamHub.cs` file exists and adheres to these instructions
+  - [ ] Uses the appropriate provider base (`ChainProvider`, `QuoteProvider`, or `PairsProvider`) for the I/O scenario
+  - [ ] Validates parameters in constructor and calls `Reinitialize()` as needed
+  - [ ] Implements required `Add(...)` or conversion methods per provider base; maintains O(1) state updates where possible
+  - [ ] Overrides `ToString()` with concise hub name; implements `Reset()`/state reinit patterns as applicable
+  - [ ] Member order matches conventions in this document
+- [ ] Catalog: `src/**/{IndicatorName}.Catalog.cs` exists, is accurate, and registered in `src\_common\Catalog\Catalog.Listings.cs` (`PopulateCatalog`)
+- [ ] Unit testing: `tests/indicators/**/{IndicatorName}.StreamHub.Tests.cs` file exists and adheres to these instructions
+  - [ ] Inherits `StreamHubTestBase` and adds `ITestChainObserver`/`ITestChainProvider` as appropriate
+  - [ ] Verifies stateful processing, reset behavior, and consistency with Series results
+  - [ ] For dual-stream hubs: covers timestamp sync validation and sufficient data checks
+- [ ] Common items: Complete regression, performance, docs, and migration per `.github/copilot-instructions.md` (Common indicator requirements)
+
 ## Stream Hub I/O Scenarios
 
 The codebase implements several types of stream hub I/O patterns:
@@ -45,6 +62,54 @@ Stream indicators should follow these naming patterns:
 
 - **Implementation**: `{IndicatorName}.StreamHub.cs`
 - **Tests**: `{IndicatorName}.StreamHub.Tests.cs`
+
+## Canonical stream hub member order
+
+When implementing the stream hub indicators, we expect consistent member order in the source code files.  Only implement members that are appropriate for the indicator type and unique requirements of the indicator.
+
+**In the `src/*.StreamHub.cs` implementation** members are ordered as follows:
+
+```csharp
+// Keep members in this general order (only include what you need):
+// 1. Fields / constants
+// 2. Constructors (validate inputs; call Reinitialize())
+// 3. Public properties (e.g., LookbackPeriods)
+// 4. Public methods (Add/Reset, etc.)
+// 5. Protected overrides (ToIndicator, OnReset, etc.)
+// 6. Private helpers
+```
+
+**In the `tests/*.StreamHub.Tests.cs` implementation** members are ordered as follows:
+
+```csharp
+// Recommended order (include what you need):
+// 1. Constants/fields (lookback, shared test data)
+// 2. Setup/fixtures (TestInitialize, test hubs/providers)
+// 3. Happy path tests (standard processing)
+// 4. Boundary/minimum periods tests
+// 5. Bad/insufficient data tests
+// 6. Reset/state tests (Reset(), reinitialize behavior)
+// 7. Consistency tests (parity with Series/Buffer where applicable)
+// 8. Performance placeholder (if present)
+// 9. Private helpers
+```
+
+Minimal happy-path example:
+
+```csharp
+[TestMethod]
+public void Standard()
+{
+    IQuoteProvider<IQuote> quotes = GetQuotesProvider();
+    var sut = quotes.To{IndicatorName}Hub({params});
+    foreach (IQuote q in Quotes)
+        _ = sut.Add(q);
+
+    // Compare to canonical Series results (see copilot-instructions.md)
+    var series = Quotes.To{IndicatorName}({seriesParams});
+    sut.Results.Should().BeEquivalentTo(series, o => o.WithStrictOrdering());
+}
+```
 
 ## Implementation requirements
 
@@ -92,13 +157,12 @@ If the hub supports chainable `IReusable` types:
 
 ```csharp
 /// <summary>
-/// Creates a {IndicatorUiid} streaming hub from a chain provider.
+/// Creates a {IndicatorName} streaming hub from a chain provider.
 /// </summary>
-/// { full XML documentation }
 public static {IndicatorName}Hub<TIn> To{IndicatorName}Hub<TIn>(
-    this IChainProvider<T> chainProvider,
+    this IChainProvider<TIn> chainProvider,
     int lookbackPeriods = {defaultValue})
-    where T : IReusable
+    where TIn : IReusable
     => new(chainProvider, lookbackPeriods);
 ```
 
@@ -106,9 +170,8 @@ If the hub only supports `IQuote` input types (less common):
 
 ```csharp
 /// <summary>
-/// Creates a {IndicatorUiid} streaming hub from a quotes provider.
+/// Creates a {IndicatorName} streaming hub from a quotes provider.
 /// </summary>
-/// { full XML documentation }
 public static {IndicatorName}Hub<TIn> To{IndicatorName}Hub<TIn>(
     this IQuoteProvider<TIn> quoteProvider,
     int lookbackPeriods = {defaultValue})
@@ -192,14 +255,14 @@ public class {IndicatorName}Hub<TIn>
 
 ```csharp
 /// <summary>
-/// Creates a {IndicatorUiid} hub from two synchronized chain providers.
+/// Creates a {IndicatorName} hub from two synchronized chain providers.
 /// Note: Both providers must be synchronized (same timestamps).
 /// </summary>
-public static {IndicatorName}Hub<T> To{IndicatorName}Hub<T>(
-    this IChainProvider<T> providerA,
-    IChainProvider<T> providerB,
+public static {IndicatorName}Hub<TIn> To{IndicatorName}Hub<TIn>(
+    this IChainProvider<TIn> providerA,
+    IChainProvider<TIn> providerB,
     int lookbackPeriods)
-    where T : IReusable
+    where TIn : IReusable
     => new(providerA, providerB, lookbackPeriods);
 ```
 
@@ -226,13 +289,13 @@ Stream indicator tests must cover:
 
 ### Test structure pattern
 
-Use the `StreamHubTestBase` as the base for all steam hub test classes, and add `ITestChainObserver` and `ITestChainProvider` conditionally if they are of those types.
+Use the `StreamHubTestBase` as the base for all stream hub test classes, and add `ITestChainObserver` and `ITestChainProvider` conditionally if they are of those types.
 
 ```csharp
 [TestClass]
-public class {IndicatorName}Hub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
+public class {IndicatorName}StreamHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProvider
 {
-    /* See `Ema.StreamHub.Tests.cs as a reference implementation */
+    /* See `Ema.StreamHub.Tests.cs` as a reference implementation */
 }
 ```
 
@@ -257,6 +320,8 @@ public object EmaHub() => quoteHub.ToEmaHub(14).Results;
 - Stream processing should handle high-frequency updates (1000+ quotes/second)
 - Memory usage should remain bounded during continuous operation
 - State updates should be O(1) complexity when possible
+
+See also: Common indicator requirements and Series-as-canonical policy in `.github/copilot-instructions.md`.
 
 ## Quality standards
 
@@ -316,4 +381,4 @@ Study these exemplary stream indicators:
 - **ALLIGATOR**: `src/a-d/Alligator/Alligator.StreamHub.cs`
 
 ---
-Last updated: October 8, 2025
+Last updated: October 12, 2025
