@@ -46,6 +46,55 @@ public class BetaHub<TIn>
     private double _prevMrkt;
     private bool _isFirst = true;
 
+    // Rolling window state for Standard beta
+    private RollingWindowState? _stateSd;
+
+    // Rolling window state for Up beta
+    private RollingWindowState? _stateUp;
+
+    // Rolling window state for Down beta
+    private RollingWindowState? _stateDn;
+
+    /// <summary>
+    /// Encapsulates rolling window state for incremental Beta calculations.
+    /// </summary>
+    private sealed class RollingWindowState
+    {
+        public double[] WindowEval;
+        public double[] WindowMrkt;
+        public int WindowIndex;
+        public int WindowCount;
+        public double SumEval;
+        public double SumMrkt;
+        public double SumEval2;
+        public double SumMrkt2;
+        public double SumCross;
+
+        public RollingWindowState(int capacity)
+        {
+            WindowEval = new double[capacity];
+            WindowMrkt = new double[capacity];
+            WindowIndex = 0;
+            WindowCount = 0;
+            SumEval = 0;
+            SumMrkt = 0;
+            SumEval2 = 0;
+            SumMrkt2 = 0;
+            SumCross = 0;
+        }
+
+        public void Reset()
+        {
+            WindowIndex = 0;
+            WindowCount = 0;
+            SumEval = 0;
+            SumMrkt = 0;
+            SumEval2 = 0;
+            SumMrkt2 = 0;
+            SumCross = 0;
+        }
+    }
+
     /// <summary>
     /// Initializes a new instance of the <see cref="BetaHub{TIn}"/> class.
     /// </summary>
@@ -81,6 +130,24 @@ public class BetaHub<TIn>
         _prevEval = 0;
         _prevMrkt = 0;
         _isFirst = true;
+
+        // Initialize Standard beta rolling window
+        if (calcSd)
+        {
+            _stateSd = new RollingWindowState(LookbackPeriods);
+        }
+
+        // Initialize Up beta rolling window
+        if (calcUp)
+        {
+            _stateUp = new RollingWindowState(LookbackPeriods);
+        }
+
+        // Initialize Down beta rolling window
+        if (calcDn)
+        {
+            _stateDn = new RollingWindowState(LookbackPeriods);
+        }
     }
 
     /// <inheritdoc/>
@@ -118,7 +185,30 @@ public class BetaHub<TIn>
         // Update state only after we have valid data from both providers
         _prevEval = evalValue;
         _prevMrkt = mrktValue;
+        bool wasFirst = _isFirst;
         _isFirst = false;
+
+        // Don't update rolling windows on first item (returns are 0)
+        if (!wasFirst)
+        {
+            // Update Standard beta rolling window
+            if (calcSd && _stateSd != null)
+            {
+                UpdateRollingWindow(evalReturn, mrktReturn, _stateSd);
+            }
+
+            // Update Up beta rolling window (only when market return is positive)
+            if (calcUp && _stateUp != null && mrktReturn > 0)
+            {
+                UpdateRollingWindow(evalReturn, mrktReturn, _stateUp);
+            }
+
+            // Update Down beta rolling window (only when market return is negative)
+            if (calcDn && _stateDn != null && mrktReturn < 0)
+            {
+                UpdateRollingWindow(evalReturn, mrktReturn, _stateDn);
+            }
+        }
 
         // Check if we have enough data in both caches for calculation
         if (!HasSufficientData(i, LookbackPeriods))
@@ -138,20 +228,20 @@ public class BetaHub<TIn>
         double? ratio = null;
         double? convexity = null;
 
-        // Calculate beta variants
-        if (calcSd)
+        // Calculate beta variants from rolling window stats
+        if (calcSd && _stateSd != null && _stateSd.WindowCount > 0)
         {
-            beta = CalcBetaWindow(i, LookbackPeriods, BetaType.Standard, evalReturn, mrktReturn);
+            beta = CalculateBetaFromStats(_stateSd);
         }
 
-        if (calcDn)
+        if (calcUp && _stateUp != null && _stateUp.WindowCount > 0)
         {
-            betaDown = CalcBetaWindow(i, LookbackPeriods, BetaType.Down, evalReturn, mrktReturn);
+            betaUp = CalculateBetaFromStats(_stateUp);
         }
 
-        if (calcUp)
+        if (calcDn && _stateDn != null && _stateDn.WindowCount > 0)
         {
-            betaUp = CalcBetaWindow(i, LookbackPeriods, BetaType.Up, evalReturn, mrktReturn);
+            betaDown = CalculateBetaFromStats(_stateDn);
         }
 
         // Ratio and convexity
@@ -175,71 +265,75 @@ public class BetaHub<TIn>
     }
 
     /// <summary>
-    /// Calculates the Beta value for a specific window of data from the caches.
+    /// Updates a rolling window with new values and maintains incremental statistics.
     /// </summary>
-    /// <param name="currentIndex">The current index in the data.</param>
-    /// <param name="lookbackPeriods">The number of periods to look back.</param>
-    /// <param name="type">The type of Beta calculation.</param>
-    /// <param name="currentEvalReturn">The current evaluation return (not yet in cache).</param>
-    /// <param name="currentMrktReturn">The current market return (not yet in cache).</param>
-    /// <returns>The calculated Beta value.</returns>
-    private double? CalcBetaWindow(
-        int currentIndex,
-        int lookbackPeriods,
-        BetaType type,
-        double currentEvalReturn,
-        double currentMrktReturn)
+    /// <param name="evalReturn">The evaluation return to add.</param>
+    /// <param name="mrktReturn">The market return to add.</param>
+    /// <param name="state">The rolling window state to update.</param>
+    private static void UpdateRollingWindow(
+        double evalReturn,
+        double mrktReturn,
+        RollingWindowState state)
     {
-        // Note: BetaType.All is ineligible for this method
+        int capacity = state.WindowEval.Length;
 
-        // Initialize
-        List<double> dataA = new(lookbackPeriods);
-        List<double> dataB = new(lookbackPeriods);
-
-        // Extract returns from cache for the window (excluding current bar)
-        for (int p = currentIndex - lookbackPeriods + 1; p < currentIndex; p++)
+        // If window is full, subtract the oldest values from the sums
+        if (state.WindowCount == capacity)
         {
-            if (p < 0 || p >= Cache.Count)
-            {
-                continue;
-            }
+            double oldEval = state.WindowEval[state.WindowIndex];
+            double oldMrkt = state.WindowMrkt[state.WindowIndex];
 
-            BetaResult cached = Cache[p];
-            double cachedMrktReturn = cached.ReturnsMrkt ?? 0;
-            double cachedEvalReturn = cached.ReturnsEval ?? 0;
-
-            if (type is BetaType.Standard
-            || (type is BetaType.Down && cachedMrktReturn < 0)
-            || (type is BetaType.Up && cachedMrktReturn > 0))
-            {
-                dataA.Add(cachedMrktReturn);
-                dataB.Add(cachedEvalReturn);
-            }
+            state.SumEval -= oldEval;
+            state.SumMrkt -= oldMrkt;
+            state.SumEval2 -= oldEval * oldEval;
+            state.SumMrkt2 -= oldMrkt * oldMrkt;
+            state.SumCross -= oldEval * oldMrkt;
+        }
+        else
+        {
+            state.WindowCount++;
         }
 
-        // Add the current returns to complete the window
-        if (type is BetaType.Standard
-        || (type is BetaType.Down && currentMrktReturn < 0)
-        || (type is BetaType.Up && currentMrktReturn > 0))
-        {
-            dataA.Add(currentMrktReturn);
-            dataB.Add(currentEvalReturn);
-        }
+        // Add new values to the window and sums
+        state.WindowEval[state.WindowIndex] = evalReturn;
+        state.WindowMrkt[state.WindowIndex] = mrktReturn;
 
-        if (dataA.Count == 0)
+        state.SumEval += evalReturn;
+        state.SumMrkt += mrktReturn;
+        state.SumEval2 += evalReturn * evalReturn;
+        state.SumMrkt2 += mrktReturn * mrktReturn;
+        state.SumCross += evalReturn * mrktReturn;
+
+        // Advance circular buffer index
+        state.WindowIndex = (state.WindowIndex + 1) % capacity;
+    }
+
+    /// <summary>
+    /// Calculates Beta from incremental statistics (covariance / variance).
+    /// </summary>
+    /// <param name="state">The rolling window state containing statistics.</param>
+    /// <returns>The calculated Beta value or null if variance is zero.</returns>
+    private static double? CalculateBetaFromStats(RollingWindowState state)
+    {
+        if (state.WindowCount == 0)
         {
             return null;
         }
 
-        // Calculate correlation, covariance, and variance
-        CorrResult c = Correlation.PeriodCorrelation(
-            default,
-            [.. dataA],
-            [.. dataB]);
+        // Calculate averages
+        double avgEval = state.SumEval / state.WindowCount;
+        double avgMrkt = state.SumMrkt / state.WindowCount;
+        double avgEval2 = state.SumEval2 / state.WindowCount;
+        double avgMrkt2 = state.SumMrkt2 / state.WindowCount;
+        double avgCross = state.SumCross / state.WindowCount;
+
+        // Calculate variance and covariance
+        double varMrkt = avgMrkt2 - (avgMrkt * avgMrkt);
+        double cov = avgCross - (avgMrkt * avgEval);
 
         // Calculate beta
-        return c.VarianceA != 0
-            ? (c.Covariance / c.VarianceA).NaN2Null()
+        return varMrkt != 0
+            ? (cov / varMrkt).NaN2Null()
             : null;
     }
 
@@ -255,6 +349,7 @@ public class BetaHub<TIn>
             return;
         }
 
+        // Find the rollback index
         int index = -1;
         for (int i = ProviderCache.Count - 1; i >= 0; i--)
         {
@@ -265,14 +360,67 @@ public class BetaHub<TIn>
             }
         }
 
-        if (index >= 0 && index < ProviderCacheB.Count)
+        if (index < 0 || index >= ProviderCacheB.Count)
         {
-            _prevEval = ProviderCache[index].Value;
-            _prevMrkt = ProviderCacheB[index].Value;
-            _isFirst = false;
+            ResetState();
             return;
         }
 
+        // Reset all state
         ResetState();
+
+        // Rebuild rolling windows from cache up to the rollback point
+        // Start from index 0 to rebuild the state correctly
+        double prevEval = 0;
+        double prevMrkt = 0;
+        bool isFirst = true;
+
+        for (int i = 0; i <= index; i++)
+        {
+            if (i >= ProviderCache.Count || i >= ProviderCacheB.Count)
+            {
+                break;
+            }
+
+            double evalValue = ProviderCache[i].Value;
+            double mrktValue = ProviderCacheB[i].Value;
+
+            // Calculate returns
+            double evalReturn = isFirst ? 0 : (prevEval != 0 ? (evalValue / prevEval) - 1d : 0);
+            double mrktReturn = isFirst ? 0 : (prevMrkt != 0 ? (mrktValue / prevMrkt) - 1d : 0);
+
+            // Update previous values
+            prevEval = evalValue;
+            prevMrkt = mrktValue;
+
+            // Don't update rolling windows on first item
+            if (!isFirst)
+            {
+                // Update Standard beta rolling window
+                if (calcSd && _stateSd != null)
+                {
+                    UpdateRollingWindow(evalReturn, mrktReturn, _stateSd);
+                }
+
+                // Update Up beta rolling window (only when market return is positive)
+                if (calcUp && _stateUp != null && mrktReturn > 0)
+                {
+                    UpdateRollingWindow(evalReturn, mrktReturn, _stateUp);
+                }
+
+                // Update Down beta rolling window (only when market return is negative)
+                if (calcDn && _stateDn != null && mrktReturn < 0)
+                {
+                    UpdateRollingWindow(evalReturn, mrktReturn, _stateDn);
+                }
+            }
+
+            isFirst = false;
+        }
+
+        // Update the final state tracking variables
+        _prevEval = prevEval;
+        _prevMrkt = prevMrkt;
+        _isFirst = false;
     }
 }
