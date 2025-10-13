@@ -73,7 +73,7 @@ public object MyIndicatorHub() => quoteHub.ToMyIndicator(14).Results;
 
 ```csharp
 [Benchmark]
-public MyIndicatorList MyIndicatorBuffer()
+public MyIndicatorList MyIndicatorList()
     => new(14) { quotes };
 ```
 
@@ -87,7 +87,7 @@ public IReadOnlyList<MyResult> MyIndicatorSeries()
     => quotes.ToMyIndicator(14);
 
 [Benchmark]
-public MyIndicatorList MyIndicatorBuffer()
+public MyIndicatorList MyIndicatorList()
     => new(14) { quotes };
 
 [Benchmark]

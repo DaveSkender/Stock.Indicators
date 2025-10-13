@@ -24,7 +24,7 @@ public class StyleComparison
     }
 
     [Benchmark]
-    public AdlList AdlBuffer()
+    public AdlList AdlList()
         => new() { quotes };
 
     [Benchmark]
@@ -40,7 +40,7 @@ public class StyleComparison
         => quotes.ToAdx(n);
 
     [Benchmark]
-    public AdxList AdxBuffer()
+    public AdxList AdxList()
         => new(n) { quotes };
 
     [Benchmark]
@@ -48,7 +48,7 @@ public class StyleComparison
         => quoteHub.ToAdxHub(n).Results;
 
     [Benchmark]
-    public AlmaList AlmaBuffer()
+    public AlmaList AlmaList()
         => new(n, 0.85, 6) { quotes };
 
     [Benchmark]
@@ -60,7 +60,7 @@ public class StyleComparison
         => quoteHub.ToAlmaHub(n, 0.85, 6).Results;
 
     [Benchmark]
-    public AtrList AtrBuffer()
+    public AtrList AtrList()
         => new(n) { quotes };
 
     [Benchmark]
@@ -76,7 +76,7 @@ public class StyleComparison
         => quoteHub.ToEmaHub(n).Results;
 
     [Benchmark]
-    public HmaList HmaBuffer()
+    public HmaList HmaList()
         => new(n) { quotes };
 
     [Benchmark]
@@ -88,7 +88,7 @@ public class StyleComparison
         => quoteHub.ToHmaHub(n).Results;
 
     [Benchmark]
-    public SmaList SmaBuffer()
+    public SmaList SmaList()
         => new(n) { quotes };
 
     [Benchmark]
@@ -100,7 +100,7 @@ public class StyleComparison
         => quoteHub.ToSma(n).Results;
 
     [Benchmark]
-    public WmaList WmaBuffer()
+    public WmaList WmaList()
         => new(n) { quotes };
 
     [Benchmark]
@@ -112,7 +112,7 @@ public class StyleComparison
         => quoteHub.ToWmaHub(n).Results;
 
     [Benchmark]
-    public TrList TrBuffer()
+    public TrList TrList()
         => new() { quotes };
 
     [Benchmark]
