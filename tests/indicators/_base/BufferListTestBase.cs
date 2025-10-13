@@ -11,14 +11,16 @@ public abstract class BufferListTestBase : TestBase
 {
     /// <summary>
     /// Tests list auto-pruning behaviors in accordance with <see cref="BufferList{T}.MaxListSize"/>.
-    /// This should include the proper pruning of internal buffers and caches, when applicable.
     /// </summary>
-    public abstract void AutoListPruning();
+    /// <remarks>
+    /// Tests should include the proper pruning of internal buffers and caches, when applicable.
+    /// </remarks>
+    public abstract void PruneList_OverMaxListSize_AutoAdjustsListAndBuffers();
 
     /// <summary>
     /// Tests clearing the list, queues/caches, and internals
     /// </summary>
-    public abstract void ClearResetsState();
+    public abstract void Clear_WithState_ResetsState();
 }
 
 /// <summary>
@@ -29,17 +31,17 @@ public interface ITestQuoteBufferList
     /// <summary>
     /// Tests adding individual quotes one-at-a-time
     /// </summary>
-    abstract void AddQuotes();
+    abstract void AddQuote_IncrementsResults();
 
     /// <summary>
     /// Tests adding a batch of quotes
     /// </summary>
-    abstract void AddQuotesBatch();
+    abstract void AddQuotesBatch_IncrementsResults();
 
     /// <summary>
     /// Tests if buffer list can be instantiated with initial quotes
     /// </summary>
-    abstract void WithQuotesCtor();
+    abstract void QuotesCtor_OnInstantiation_IncrementsResults();
 }
 
 /// <summary>
@@ -50,17 +52,17 @@ public interface ITestChainBufferList : ITestQuoteBufferList
     /// <summary>
     /// Tests adding IReusable type values one-at-a-time
     /// </summary>
-    void AddReusableItems();
+    void AddReusableItem_IncrementsResults();
 
     /// <summary>
     /// Tests adding a batch of IReusable type values
     /// </summary>
-    void AddReusableItemsBatch();
+    void AddReusableItemBatch_IncrementsResults();
 
     /// <summary>
-    /// Tests adding raw date/value pairs
+    /// Tests adding raw date/value elements
     /// </summary>
-    void AddDiscreteValues();
+    void AddDateAndValue_IncrementsResults();
 }
 
 /// <summary>
@@ -71,17 +73,17 @@ public interface ITestPairsBufferList
     /// <summary>
     /// Tests adding paired IReusable type values one-at-a-time
     /// </summary>
-    void AddReusablePairs();
+    void AddReusablePair_IncrementsResults();
 
     /// <summary>
     /// Tests adding a batch of paired IReusable type values
     /// </summary>
-    void AddReusablePairsBatch();
+    void AddReusablePairBatch_IncrementsResults();
 
     /// <summary>
     /// Tests adding raw date/value pairs
     /// </summary>
-    void AddDiscretePairs();
+    void AddDiscretePairs_IncrementsResults();
 }
 
 /// <summary>
@@ -92,5 +94,5 @@ public interface ITestCustomBufferListCache
     /// <summary>
     /// Tests custom buffer pruning behavior while list-level auto-pruning occurs simultaneously.
     /// </summary>
-    void CustomBufferPruning();
+    void CustomBuffer_OverMaxListSize_AutoAdjustsListAndBuffers();
 }

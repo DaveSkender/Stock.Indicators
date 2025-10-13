@@ -14,7 +14,7 @@ public class Dema : BufferListTestBase, ITestChainBufferList
        = Quotes.ToDema(lookbackPeriods);
 
     [TestMethod]
-    public void AddQuotes()
+    public void AddQuote_IncrementsResults()
     {
         DemaList sut = new(lookbackPeriods);
 
@@ -28,7 +28,7 @@ public class Dema : BufferListTestBase, ITestChainBufferList
     }
 
     [TestMethod]
-    public void AddQuotesBatch()
+    public void AddQuotesBatch_IncrementsResults()
     {
         DemaList sut = Quotes.ToDemaList(lookbackPeriods);
 
@@ -37,7 +37,7 @@ public class Dema : BufferListTestBase, ITestChainBufferList
     }
 
     [TestMethod]
-    public void WithQuotesCtor()
+    public void QuotesCtor_OnInstantiation_IncrementsResults()
     {
         DemaList sut = new(lookbackPeriods, Quotes);
 
@@ -46,7 +46,7 @@ public class Dema : BufferListTestBase, ITestChainBufferList
     }
 
     [TestMethod]
-    public void AddReusableItems()
+    public void AddReusableItem_IncrementsResults()
     {
         DemaList sut = new(lookbackPeriods);
 
@@ -60,7 +60,7 @@ public class Dema : BufferListTestBase, ITestChainBufferList
     }
 
     [TestMethod]
-    public void AddReusableItemsBatch()
+    public void AddReusableItemBatch_IncrementsResults()
     {
         DemaList sut = new(lookbackPeriods) { reusables };
 
@@ -69,7 +69,7 @@ public class Dema : BufferListTestBase, ITestChainBufferList
     }
 
     [TestMethod]
-    public void AddDiscreteValues()
+    public void AddDateAndValue_IncrementsResults()
     {
         DemaList sut = new(lookbackPeriods);
 
@@ -83,7 +83,7 @@ public class Dema : BufferListTestBase, ITestChainBufferList
     }
 
     [TestMethod]
-    public override void ClearResetsState()
+    public override void Clear_WithState_ResetsState()
     {
         List<Quote> subset = Quotes.Take(80).ToList();
         IReadOnlyList<DemaResult> expected = subset.ToDema(lookbackPeriods);
@@ -104,7 +104,7 @@ public class Dema : BufferListTestBase, ITestChainBufferList
     }
 
     [TestMethod]
-    public override void AutoListPruning()
+    public override void PruneList_OverMaxListSize_AutoAdjustsListAndBuffers()
     {
         const int maxListSize = 120;
 

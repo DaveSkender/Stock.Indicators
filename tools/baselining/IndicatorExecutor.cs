@@ -2,7 +2,7 @@ using System.Reflection;
 using Skender.Stock.Indicators;
 using Tests.Data;
 
-namespace BaselineGenerator;
+namespace Test.DataGenerator;
 
 /// <summary>
 /// Executes indicators and captures their output for baseline generation.
@@ -35,7 +35,7 @@ internal static class IndicatorExecutor
 
         // Find all types in the indicators assembly
         Assembly indicatorsAssembly = typeof(Quote).Assembly;
-        
+
         // Look for extension methods across all types
         MethodInfo? method = null;
         foreach (Type type in indicatorsAssembly.GetTypes())
@@ -43,7 +43,7 @@ internal static class IndicatorExecutor
             method = type
                 .GetMethods(BindingFlags.Public | BindingFlags.Static)
                 .FirstOrDefault(m => m.Name == methodName && m.IsGenericMethod);
-            
+
             if (method != null)
             {
                 break;
@@ -66,12 +66,8 @@ internal static class IndicatorExecutor
         {
             object? result = genericMethod.Invoke(null, parameters);
 
-            if (result == null)
-            {
-                throw new InvalidOperationException($"Indicator '{listing.Uiid}' returned null result");
-            }
-
-            return result;
+            return result
+                ?? throw new InvalidOperationException($"Indicator '{listing.Uiid}' returned null result");
         }
         catch (TargetInvocationException ex)
         {
@@ -80,6 +76,7 @@ internal static class IndicatorExecutor
             {
                 throw ex.InnerException;
             }
+
             throw;
         }
     }
@@ -112,7 +109,7 @@ internal static class IndicatorExecutor
     private static object?[] PrepareParameters(IndicatorListing listing, MethodInfo method)
     {
         ParameterInfo[] methodParams = method.GetParameters();
-        
+
         // First parameter is always the quotes collection
         List<object?> parameters = [TestData];
 
@@ -123,32 +120,32 @@ internal static class IndicatorExecutor
             foreach (IndicatorParam param in listing.Parameters)
             {
                 object? value = param.DefaultValue;
-                
+
                 // Special handling for required parameters with no default
                 if (param.IsRequired && value == null && paramIndex < methodParams.Length)
                 {
                     ParameterInfo methodParam = methodParams[paramIndex];
-                    
+
                     // For DateTime parameters (like VWAP startDate), use the first quote date
                     if (methodParam.ParameterType == typeof(DateTime))
                     {
                         value = TestData[0].Timestamp;
                     }
                 }
-                
+
                 // Handle type conversions if needed
                 if (value != null && paramIndex < methodParams.Length)
                 {
                     ParameterInfo methodParam = methodParams[paramIndex];
                     Type targetType = methodParam.ParameterType;
-                    
+
                     // Convert double to decimal if needed (for RENKO, ZIGZAG, etc.)
                     if (value is double doubleValue && targetType == typeof(decimal))
                     {
                         value = (decimal)doubleValue;
                     }
                 }
-                
+
                 parameters.Add(value);
                 paramIndex++;
             }

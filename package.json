@@ -8,7 +8,7 @@
     "node": ">=22"
   },
   "scripts": {
-    "clean": "rimraf --glob \"**/bin\" \"**/obj\" \"**/TestResults\" \"**/vendor\" \"**/_site\" \"**/BenchmarkDotNet.Artifacts\" \"node_modules\" \"**/node_modules\"",
+    "clean": "npx rimraf -g \"**/bin\" \"**/obj\" \"**/TestResults\" \"**/vendor\" \"**/_site\" \"**/BenchmarkDotNet.Artifacts\" \".codacy\" \"node_modules\" \"**/node_modules\"",
     "lint:md": "markdownlint-cli2 \"**/*.md\"",
     "lint:md:fix": "markdownlint-cli2 --fix \"**/*.md\"",
     "fixall": "roslynator fix && dotnet format --no-restore && markdownlint-cli2 --fix \"**/*.md\"",
@@ -16,7 +16,6 @@
   },
   "devDependencies": {
     "@codacy/codacy-mcp": "^0.6.18",
-    "markdownlint-cli2": "^0.18.1",
-    "rimraf": "^6.0.1"
+    "markdownlint-cli2": "^0.18.1"
   }
 }

@@ -12,7 +12,7 @@ public class Vwap : BufferListTestBase, ITestQuoteBufferList
        = Quotes.ToVwap();
 
     [TestMethod]
-    public void AddQuotes()
+    public void AddQuote_IncrementsResults()
     {
         VwapList sut = new(startDate);
 
@@ -26,7 +26,7 @@ public class Vwap : BufferListTestBase, ITestQuoteBufferList
     }
 
     [TestMethod]
-    public void AddQuotesBatch()
+    public void AddQuotesBatch_IncrementsResults()
     {
         VwapList sut = Quotes.ToVwapList(startDate);
 
@@ -35,7 +35,7 @@ public class Vwap : BufferListTestBase, ITestQuoteBufferList
     }
 
     [TestMethod]
-    public void WithQuotesCtor()
+    public void QuotesCtor_OnInstantiation_IncrementsResults()
     {
         VwapList sut = new(startDate, Quotes);
 
@@ -53,7 +53,7 @@ public class Vwap : BufferListTestBase, ITestQuoteBufferList
     }
 
     [TestMethod]
-    public override void ClearResetsState()
+    public override void Clear_WithState_ResetsState()
     {
         List<Quote> subset = Quotes.Take(80).ToList();
         IReadOnlyList<VwapResult> expected = subset.ToVwap(startDate);
@@ -74,7 +74,7 @@ public class Vwap : BufferListTestBase, ITestQuoteBufferList
     }
 
     [TestMethod]
-    public override void AutoListPruning()
+    public override void PruneList_OverMaxListSize_AutoAdjustsListAndBuffers()
     {
         const int maxListSize = 120;
 

@@ -84,7 +84,7 @@ public class Beta : BufferListTestBase
     }
 
     [TestMethod]
-    public override void ClearResetsState()
+    public override void Clear_WithState_ResetsState()
     {
         List<IReusable> evalSubset = evalReusables.Take(80).ToList();
         List<IReusable> mrktSubset = mrktReusables.Take(80).ToList();
@@ -106,7 +106,7 @@ public class Beta : BufferListTestBase
     }
 
     [TestMethod]
-    public override void AutoListPruning()
+    public override void PruneList_OverMaxListSize_AutoAdjustsListAndBuffers()
     {
         const int maxListSize = 120;
 

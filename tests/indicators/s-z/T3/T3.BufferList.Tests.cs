@@ -15,7 +15,7 @@ public class T3 : BufferListTestBase, ITestChainBufferList
        = Quotes.ToT3(lookbackPeriods, volumeFactor);
 
     [TestMethod]
-    public void AddQuotes()
+    public void AddQuote_IncrementsResults()
     {
         T3List sut = new(lookbackPeriods, volumeFactor);
 
@@ -29,7 +29,7 @@ public class T3 : BufferListTestBase, ITestChainBufferList
     }
 
     [TestMethod]
-    public void AddQuotesBatch()
+    public void AddQuotesBatch_IncrementsResults()
     {
         T3List sut = new(lookbackPeriods, volumeFactor) { Quotes };
 
@@ -38,7 +38,7 @@ public class T3 : BufferListTestBase, ITestChainBufferList
     }
 
     [TestMethod]
-    public void WithQuotesCtor()
+    public void QuotesCtor_OnInstantiation_IncrementsResults()
     {
         T3List sut = new(lookbackPeriods, volumeFactor, Quotes);
 
@@ -66,7 +66,7 @@ public class T3 : BufferListTestBase, ITestChainBufferList
     }
 
     [TestMethod]
-    public override void ClearResetsState()
+    public override void Clear_WithState_ResetsState()
     {
         List<Quote> subset = Quotes.Take(80).ToList();
         IReadOnlyList<T3Result> expected = subset.ToT3(lookbackPeriods, volumeFactor);
@@ -87,7 +87,7 @@ public class T3 : BufferListTestBase, ITestChainBufferList
     }
 
     [TestMethod]
-    public void AddReusableItems()
+    public void AddReusableItem_IncrementsResults()
     {
         T3List sut = new(lookbackPeriods, volumeFactor);
 
@@ -101,7 +101,7 @@ public class T3 : BufferListTestBase, ITestChainBufferList
     }
 
     [TestMethod]
-    public void AddReusableItemsBatch()
+    public void AddReusableItemBatch_IncrementsResults()
     {
         T3List sut = new(lookbackPeriods, volumeFactor) { reusables };
 
@@ -110,7 +110,7 @@ public class T3 : BufferListTestBase, ITestChainBufferList
     }
 
     [TestMethod]
-    public void AddDiscreteValues()
+    public void AddDateAndValue_IncrementsResults()
     {
         T3List sut = new(lookbackPeriods, volumeFactor);
 
@@ -124,7 +124,7 @@ public class T3 : BufferListTestBase, ITestChainBufferList
     }
 
     [TestMethod]
-    public override void AutoListPruning()
+    public override void PruneList_OverMaxListSize_AutoAdjustsListAndBuffers()
     {
         const int maxListSize = 120;
 

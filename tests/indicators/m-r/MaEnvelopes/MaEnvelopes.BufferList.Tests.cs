@@ -15,7 +15,7 @@ public class MaEnvelopes : BufferListTestBase, ITestChainBufferList
        = Quotes.ToMaEnvelopes(lookbackPeriods, percentOffset);
 
     [TestMethod]
-    public void AddQuotes()
+    public void AddQuote_IncrementsResults()
     {
         MaEnvelopesList sut = new(lookbackPeriods, percentOffset);
 
@@ -29,7 +29,7 @@ public class MaEnvelopes : BufferListTestBase, ITestChainBufferList
     }
 
     [TestMethod]
-    public void AddQuotesBatch()
+    public void AddQuotesBatch_IncrementsResults()
     {
         MaEnvelopesList sut = Quotes.ToMaEnvelopesList(lookbackPeriods, percentOffset);
 
@@ -38,7 +38,7 @@ public class MaEnvelopes : BufferListTestBase, ITestChainBufferList
     }
 
     [TestMethod]
-    public void WithQuotesCtor()
+    public void QuotesCtor_OnInstantiation_IncrementsResults()
     {
         MaEnvelopesList sut = new(lookbackPeriods, percentOffset, MaType.SMA, Quotes);
 
@@ -47,7 +47,7 @@ public class MaEnvelopes : BufferListTestBase, ITestChainBufferList
     }
 
     [TestMethod]
-    public void AddReusableItems()
+    public void AddReusableItem_IncrementsResults()
     {
         MaEnvelopesList sut = new(lookbackPeriods, percentOffset);
 
@@ -61,7 +61,7 @@ public class MaEnvelopes : BufferListTestBase, ITestChainBufferList
     }
 
     [TestMethod]
-    public void AddReusableItemsBatch()
+    public void AddReusableItemBatch_IncrementsResults()
     {
         MaEnvelopesList sut = new(lookbackPeriods, percentOffset) { reusables };
 
@@ -70,7 +70,7 @@ public class MaEnvelopes : BufferListTestBase, ITestChainBufferList
     }
 
     [TestMethod]
-    public void AddDiscreteValues()
+    public void AddDateAndValue_IncrementsResults()
     {
         MaEnvelopesList sut = new(lookbackPeriods, percentOffset);
 
@@ -97,7 +97,7 @@ public class MaEnvelopes : BufferListTestBase, ITestChainBufferList
     }
 
     [TestMethod]
-    public override void ClearResetsState()
+    public override void Clear_WithState_ResetsState()
     {
         List<Quote> subset = Quotes.Take(80).ToList();
         IReadOnlyList<MaEnvelopeResult> expected = subset.ToMaEnvelopes(lookbackPeriods, percentOffset);
@@ -118,7 +118,7 @@ public class MaEnvelopes : BufferListTestBase, ITestChainBufferList
     }
 
     [TestMethod]
-    public override void AutoListPruning()
+    public override void PruneList_OverMaxListSize_AutoAdjustsListAndBuffers()
     {
         const int maxListSize = 120;
 

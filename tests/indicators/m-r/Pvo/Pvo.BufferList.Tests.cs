@@ -11,7 +11,7 @@ public class Pvo : BufferListTestBase, ITestQuoteBufferList
        = Quotes.ToPvo(fastPeriods, slowPeriods, signalPeriods);
 
     [TestMethod]
-    public void AddQuotes()
+    public void AddQuote_IncrementsResults()
     {
         PvoList sut = new(fastPeriods, slowPeriods, signalPeriods);
 
@@ -25,7 +25,7 @@ public class Pvo : BufferListTestBase, ITestQuoteBufferList
     }
 
     [TestMethod]
-    public void AddQuotesBatch()
+    public void AddQuotesBatch_IncrementsResults()
     {
         PvoList sut = Quotes.ToPvoList(fastPeriods, slowPeriods, signalPeriods);
 
@@ -34,7 +34,7 @@ public class Pvo : BufferListTestBase, ITestQuoteBufferList
     }
 
     [TestMethod]
-    public void WithQuotesCtor()
+    public void QuotesCtor_OnInstantiation_IncrementsResults()
     {
         PvoList sut = new(fastPeriods, slowPeriods, signalPeriods, Quotes);
 
@@ -43,7 +43,7 @@ public class Pvo : BufferListTestBase, ITestQuoteBufferList
     }
 
     [TestMethod]
-    public override void ClearResetsState()
+    public override void Clear_WithState_ResetsState()
     {
         List<Quote> subset = Quotes.Take(80).ToList();
         IReadOnlyList<PvoResult> expected = subset.ToPvo(fastPeriods, slowPeriods, signalPeriods);
@@ -64,7 +64,7 @@ public class Pvo : BufferListTestBase, ITestQuoteBufferList
     }
 
     [TestMethod]
-    public override void AutoListPruning()
+    public override void PruneList_OverMaxListSize_AutoAdjustsListAndBuffers()
     {
         const int maxListSize = 120;
 
