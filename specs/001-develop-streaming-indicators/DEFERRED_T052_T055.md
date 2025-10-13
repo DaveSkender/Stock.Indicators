@@ -111,7 +111,10 @@ For indicators requiring retroactive adjustments, consider:
 
 ## Implementation Status
 
-- **T052 (VolatilityStop)**: Marked as deferred in tasks.md
+- **T052 (VolatilityStop)**: ✅ Implemented successfully (October 13, 2025)
+  - Uses `UpdateInternal()` method added to BufferList base class
+  - Retroactively nullifies results before first stop when it occurs
+  - Maintains timestamp integrity (only updates Value properties, not Timestamp)
 - **T053 (Vortex)**: ✅ Implemented successfully
 - **T054 (Vwap)**: ✅ Implemented successfully
 - **T055 (ZigZag)**: Marked as deferred in tasks.md
