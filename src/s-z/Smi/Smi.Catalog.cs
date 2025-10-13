@@ -24,5 +24,11 @@ public static partial class Smi
             .Build();
 
     // No StreamListing for SMI.
-    // No BufferListing for SMI.
+
+    // Stochastic Momentum Index BufferList Listing
+    internal static readonly IndicatorListing BufferListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Buffer)
+            .WithMethodName("ToSmiList")
+            .Build();
 }
