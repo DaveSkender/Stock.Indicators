@@ -86,7 +86,6 @@ public static class Program
     private static void TestIndicators(IEnumerable<Quote> quotes, IEnumerable<(DateTime, double)> tuples)
     {
         Console.WriteLine("Testing indicators...");
-        Console.WriteLine("Testing indicators...");
 
         // A-D INDICATORS
         _ = quotes.GetAdl();
