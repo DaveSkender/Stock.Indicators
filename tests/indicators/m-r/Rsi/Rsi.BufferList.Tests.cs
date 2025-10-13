@@ -1,7 +1,7 @@
 namespace BufferLists;
 
 [TestClass]
-public class Rsi : BufferListTestBase, ITestReusableBufferList
+public class Rsi : BufferListTestBase, ITestChainBufferList
 {
     private const int lookbackPeriods = 14;
 
@@ -14,7 +14,7 @@ public class Rsi : BufferListTestBase, ITestReusableBufferList
        = Quotes.ToRsi(lookbackPeriods);
 
     [TestMethod]
-    public override void AddQuotes()
+    public void AddQuotes()
     {
         RsiList sut = new(lookbackPeriods);
 
@@ -28,7 +28,7 @@ public class Rsi : BufferListTestBase, ITestReusableBufferList
     }
 
     [TestMethod]
-    public override void AddQuotesBatch()
+    public void AddQuotesBatch()
     {
         RsiList sut = Quotes.ToRsiList(lookbackPeriods);
 
@@ -37,7 +37,7 @@ public class Rsi : BufferListTestBase, ITestReusableBufferList
     }
 
     [TestMethod]
-    public override void WithQuotesCtor()
+    public void WithQuotesCtor()
     {
         RsiList sut = new(lookbackPeriods, Quotes);
 

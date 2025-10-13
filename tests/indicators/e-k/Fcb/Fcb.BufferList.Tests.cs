@@ -9,7 +9,7 @@ public class Fcb : BufferListTestBase
        = Quotes.ToFcb(windowSpan);
 
     [TestMethod]
-    public override void AddQuotes()
+    public void AddQuotes()
     {
         FcbList sut = new(windowSpan);
 
@@ -20,7 +20,7 @@ public class Fcb : BufferListTestBase
     }
 
     [TestMethod]
-    public override void AddQuotesBatch()
+    public void AddQuotesBatch()
     {
         FcbList sut = new(windowSpan) { Quotes };
 
@@ -32,7 +32,7 @@ public class Fcb : BufferListTestBase
     }
 
     [TestMethod]
-    public override void WithQuotesCtor()
+    public void WithQuotesCtor()
     {
         FcbList sut = new(windowSpan, Quotes);
 

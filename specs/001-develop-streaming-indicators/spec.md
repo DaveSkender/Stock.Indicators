@@ -45,7 +45,7 @@ As a developer building real-time trading applications, I need indicators that u
 - **NFR-003**: Streaming parity tests MUST validate equivalence with batch calculations for all supported indicators
 - **NFR-004**: API design MUST follow existing library conventions (no breaking changes to batch APIs)
 - **NFR-005**: Documentation MUST include streaming usage examples, warmup guidance, and performance characteristics
-- **NFR-006**: Release deliverable MUST leverage existing GitHub Releases automation and update `src/_common/ObsoleteV3.md` with streaming migration guidance per Constitution Principle 5
+- **NFR-006**: Release deliverable MUST leverage existing GitHub Releases automation and update `src/MigrationGuide.V3.md` with streaming migration guidance per Constitution Principle 5
 - **NFR-007**: Regression tests MUST validate all three implementation styles (Series, BufferList, StreamHub) against baseline results with deterministic equality (NOT approximate equality). Baselines stored in `tests/indicators/_testdata/results/{indicator}.standard.json` and generated using catalog default parameters.
 
 ### Interface architecture requirements
@@ -60,7 +60,7 @@ BufferList implementations MUST implement ONE of three increment interfaces base
 
 - **FR-014**: Chainable indicators (`IIncrementFromChain`) that specifically require OHLC price data (such as Alligator, Mama, FisherTransform) SHOULD use utility methods: `value.Hl2OrValue()` returns HL2 if IQuote, otherwise Value; `value.QuotePartOrValue(CandlePart.*)` returns specified part if IQuote, otherwise Value. Most chainable indicators (SMA, EMA, RSI, MACD) do not need these utilities and should use `value.Value` directly.
 
-See `.github/instructions/buffer-indicators.instructions.md` for complete implementation patterns and examples.
+See `.github/instructions/indicator-buffer.instructions.md` for complete implementation patterns and examples.
 
 ### Key entities
 
@@ -142,13 +142,20 @@ The following indicators serve as reference implementations for pattern validati
 
 ### Quality validation checklists
 
-Before implementing each indicator, review requirements against:
+**Purpose**: Validate requirement quality and completeness before implementation, ensuring constitution compliance and instruction file adherence.
 
-- **BufferList implementations**: [checklists/buffer-list.md](checklists/buffer-list.md) — 135 items
-- **StreamHub implementations**: [checklists/stream-hub.md](checklists/stream-hub.md) — 145 items
-- **Regression testing**: [checklists/regression-testing.md](checklists/regression-testing.md) — 84 items
+Review requirements against these simplified checklists:
 
-These validate requirements completeness, clarity, consistency, measurability, scenario coverage, and alignment with constitution principles.
+- **BufferList implementations**: [checklists/buffer-list.md](checklists/buffer-list.md) — 15 essential validation items
+- **StreamHub implementations**: [checklists/stream-hub.md](checklists/stream-hub.md) — 18 essential validation items
+
+These validate requirements for:
+
+- Constitution principle compliance (mathematical precision, performance, validation, testing, documentation)
+- Instruction file adherence (base classes, interfaces, test patterns, utilities)  
+- Essential quality gates (clarity, completeness, consistency, verifiability)
+
+**Note**: Checklists validate requirement quality, not implementation completeness. They ensure specifications are well-written and comprehensive before coding begins.
 
 ---
 

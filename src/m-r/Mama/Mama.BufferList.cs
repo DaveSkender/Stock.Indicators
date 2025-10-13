@@ -281,10 +281,9 @@ public static partial class Mama
     /// <summary>
     /// Creates a buffer list for MESA Adaptive Moving Average (MAMA) calculations.
     /// </summary>
-    public static MamaList ToMamaList<T>(
-        this IReadOnlyList<T> source,
+    public static MamaList ToMamaList(
+        this IReadOnlyList<IReusable> source,
         double fastLimit = 0.5,
         double slowLimit = 0.05)
-        where T : IReusable
-        => new(fastLimit, slowLimit) { (IReadOnlyList<IReusable>)source };
+        => new(fastLimit, slowLimit) { source };
 }

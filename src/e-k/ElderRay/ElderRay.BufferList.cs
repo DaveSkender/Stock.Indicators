@@ -80,9 +80,8 @@ public static partial class ElderRay
     /// <summary>
     /// Creates a buffer list for Elder Ray calculations.
     /// </summary>
-    public static ElderRayList ToElderRayList<TQuote>(
-        this IReadOnlyList<TQuote> quotes,
+    public static ElderRayList ToElderRayList(
+        this IReadOnlyList<IQuote> quotes,
         int lookbackPeriods = 13)
-        where TQuote : IQuote
-        => new(lookbackPeriods) { (IReadOnlyList<IQuote>)quotes };
+        => new(lookbackPeriods) { quotes };
 }

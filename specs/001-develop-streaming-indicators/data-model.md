@@ -4,8 +4,8 @@
 
 > **IMPORTANT**: This document contains conceptual planning examples that do not match the actual codebase implementation patterns. The real API patterns, class names, and interfaces are defined in:
 >
-> - `.github/instructions/buffer-indicators.instructions.md` (authoritative for BufferList pattern)
-> - `.github/instructions/stream-indicators.instructions.md` (authoritative for StreamHub pattern)
+> - `.github/instructions/indicator-buffer.instructions.md` (authoritative for BufferList pattern)
+> - `.github/instructions/indicator-stream.instructions.md` (authoritative for StreamHub pattern)
 > - Existing implementations in `src/**/*.BufferList.cs` and `src/**/*.StreamHub.cs`
 >
 > Always reference the instruction files and actual codebase implementations as the source of truth, not the examples in this planning document.
@@ -360,7 +360,7 @@ public sealed class [IndicatorName]StreamHub : IStreamingIndicator<Quote, [Indic
 - BufferList implementations inherit from `BufferList<TResult>` base class
 - StreamHub implementations extend `ChainProvider<TIn, TResult>` or less commonly `QuoteProvider<TIn, TResult>`
 
-Refer to `.github/instructions/buffer-indicators.instructions.md` and `.github/instructions/stream-indicators.instructions.md` for complete details.
+Refer to `.github/instructions/indicator-buffer.instructions.md` and `.github/instructions/indicator-stream.instructions.md` for complete details.
 
 ## Validation matrix
 
@@ -384,7 +384,7 @@ Refer to `.github/instructions/buffer-indicators.instructions.md` and `.github/i
 
 ## Testing entities
 
-Refer to `.github/instructions/buffer-indicators.instructions.md` and `.github/instructions/stream-indicators.instructions.md` for complete details.
+Refer to `.github/instructions/indicator-buffer.instructions.md` and `.github/instructions/indicator-stream.instructions.md` for complete details.
 
 ---
 

@@ -1,38 +1,6 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Provides methods for calculating the MACD (Moving Average Convergence Divergence) indicator.
-/// </summary>
-public static partial class Macd
-{
-    /// <summary>
-    /// Creates a MACD buffer list from reusable values.
-    /// </summary>
-    /// <typeparam name="T">The type of the source data, which must implement <see cref="IReusable"/>.</typeparam>
-    /// <param name="source">The list of source data.</param>
-    /// <param name="fastPeriods">The number of periods for the fast EMA. Default is 12.</param>
-    /// <param name="slowPeriods">The number of periods for the slow EMA. Default is 26.</param>
-    /// <param name="signalPeriods">The number of periods for the signal line. Default is 9.</param>
-    /// <returns>A MACD buffer list.</returns>
-    /// <exception cref="ArgumentNullException">Thrown when the source list is null.</exception>
-    /// <exception cref="ArgumentOutOfRangeException">Thrown when any of the parameters are invalid.</exception>
-    public static MacdList ToMacdList<T>(
-        this IReadOnlyList<T> source,
-        int fastPeriods = 12,
-        int slowPeriods = 26,
-        int signalPeriods = 9)
-        where T : IReusable
-    {
-        ArgumentNullException.ThrowIfNull(source);
-
-        return source is IReadOnlyList<IQuote> quotes
-            ? new(fastPeriods, slowPeriods, signalPeriods) { quotes }
-            : new(fastPeriods, slowPeriods, signalPeriods) { (IReadOnlyList<IReusable>)source };
-    }
-
-}
-
-/// <summary>
 /// MACD (Moving Average Convergence Divergence) from incremental reusable values.
 /// </summary>
 public class MacdList : BufferList<MacdResult>, IIncrementFromChain, IMacd
@@ -271,4 +239,24 @@ public class MacdList : BufferList<MacdResult>, IIncrementFromChain, IMacd
         _lastSlowEma = null;
         _lastSignalEma = null;
     }
+}
+
+public static partial class Macd
+{
+    /// <summary>
+    /// Creates a MACD buffer list from reusable values.
+    /// </summary>
+    /// <param name="source">The list of source data.</param>
+    /// <param name="fastPeriods">The number of periods for the fast EMA. Default is 12.</param>
+    /// <param name="slowPeriods">The number of periods for the slow EMA. Default is 26.</param>
+    /// <param name="signalPeriods">The number of periods for the signal line. Default is 9.</param>
+    /// <returns>A MACD buffer list.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when the source list is null.</exception>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when any of the parameters are invalid.</exception>
+    public static MacdList ToMacdList(
+        this IReadOnlyList<IReusable> source,
+        int fastPeriods = 12,
+        int slowPeriods = 26,
+        int signalPeriods = 9)
+        => new(fastPeriods, slowPeriods, signalPeriods) { source };
 }

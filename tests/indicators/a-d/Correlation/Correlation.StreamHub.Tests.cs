@@ -4,16 +4,7 @@ namespace StreamHub;
 public class CorrelationHub : StreamHubTestBase, ITestPairsProvider
 {
     [TestMethod]
-    public override void QuoteObserver()
-    {
-        // Dual-provider synchronization issue: When two independent chains subscribe to the same
-        // provider, the correlation hub cannot guarantee both chains have updated before calculating.
-        // This requires architectural changes to support multi-provider synchronization.
-        Assert.Inconclusive("Dual-provider synchronization not supported for pairs indicators");
-    }
-
-    [TestMethod]
-    public void PairsProvider()
+    public void PairsObserver()
     {
         // Test dual-provider pattern with direct providers
         QuoteHub<Quote> quoteHubA = new();

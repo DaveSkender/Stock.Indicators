@@ -1,7 +1,7 @@
 namespace BufferLists;
 
 [TestClass]
-public class Alma : BufferListTestBase, ITestReusableBufferList
+public class Alma : BufferListTestBase, ITestChainBufferList
 {
     private const int lookbackPeriods = 10;
     private const double offset = 0.85;
@@ -16,7 +16,7 @@ public class Alma : BufferListTestBase, ITestReusableBufferList
        = Quotes.ToAlma(lookbackPeriods, offset, sigma);
 
     [TestMethod]
-    public override void AddQuotes()
+    public void AddQuotes()
     {
         AlmaList sut = new(lookbackPeriods, offset, sigma);
 
@@ -30,7 +30,7 @@ public class Alma : BufferListTestBase, ITestReusableBufferList
     }
 
     [TestMethod]
-    public override void AddQuotesBatch()
+    public void AddQuotesBatch()
     {
         AlmaList sut = Quotes.ToAlmaList(lookbackPeriods, offset, sigma);
 
@@ -39,7 +39,7 @@ public class Alma : BufferListTestBase, ITestReusableBufferList
     }
 
     [TestMethod]
-    public override void WithQuotesCtor()
+    public void WithQuotesCtor()
     {
         AlmaList sut = new(lookbackPeriods, offset, sigma, Quotes);
 

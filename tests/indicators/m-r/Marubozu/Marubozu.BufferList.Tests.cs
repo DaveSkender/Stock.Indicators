@@ -9,7 +9,7 @@ public class Marubozu : BufferListTestBase
        = Quotes.ToMarubozu(minBodyPercent);
 
     [TestMethod]
-    public override void AddQuotes()
+    public void AddQuotes()
     {
         MarubozuList sut = new(minBodyPercent);
 
@@ -23,7 +23,7 @@ public class Marubozu : BufferListTestBase
     }
 
     [TestMethod]
-    public override void AddQuotesBatch()
+    public void AddQuotesBatch()
     {
         MarubozuList sut = new(minBodyPercent) { Quotes };
 
@@ -32,7 +32,7 @@ public class Marubozu : BufferListTestBase
     }
 
     [TestMethod]
-    public override void WithQuotesCtor()
+    public void WithQuotesCtor()
     {
         MarubozuList sut = new(minBodyPercent, Quotes);
 

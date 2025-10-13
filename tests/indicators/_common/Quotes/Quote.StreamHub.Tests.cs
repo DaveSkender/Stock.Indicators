@@ -3,10 +3,10 @@ namespace StreamHub;
 // QUOTEHUB
 
 [TestClass]
-public class QuoteHub : StreamHubTestBase, ITestChainProvider
+public class QuoteHub : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
 {
     [TestMethod]
-    public override void QuoteObserver()
+    public void QuoteObserver()
     {
         // tests quote redistribution
 

@@ -1,7 +1,7 @@
 namespace BufferLists;
 
 [TestClass]
-public class Gator : BufferListTestBase, ITestReusableBufferList
+public class Gator : BufferListTestBase, ITestChainBufferList
 {
     private static readonly IReadOnlyList<IReusable> reusables
        = Quotes
@@ -12,9 +12,41 @@ public class Gator : BufferListTestBase, ITestReusableBufferList
        = Quotes.ToGator();
 
     [TestMethod]
+    public void AddQuotes()
+    {
+        GatorList sut = [];
+
+        foreach (IQuote item in Quotes)
+        {
+            sut.Add(item);
+        }
+
+        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+    }
+
+    [TestMethod]
+    public void AddQuotesBatch()
+    {
+        GatorList sut = Quotes.ToGatorList();
+
+        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+    }
+
+    [TestMethod]
+    public void WithQuotesCtor()
+    {
+        GatorList sut = new(Quotes);
+
+        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+    }
+
+    [TestMethod]
     public void AddDiscreteValues()
     {
-        GatorList sut = new();
+        GatorList sut = [];
 
         foreach (IReusable item in reusables)
         {
@@ -28,7 +60,7 @@ public class Gator : BufferListTestBase, ITestReusableBufferList
     [TestMethod]
     public void AddReusableItems()
     {
-        GatorList sut = new();
+        GatorList sut = [];
 
         foreach (IReusable item in reusables)
         {
@@ -43,38 +75,6 @@ public class Gator : BufferListTestBase, ITestReusableBufferList
     public void AddReusableItemsBatch()
     {
         GatorList sut = new() { reusables };
-
-        sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
-    }
-
-    [TestMethod]
-    public override void AddQuotes()
-    {
-        GatorList sut = new();
-
-        foreach (Quote quote in Quotes)
-        {
-            sut.Add(quote);
-        }
-
-        sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
-    }
-
-    [TestMethod]
-    public override void AddQuotesBatch()
-    {
-        GatorList sut = Quotes.ToGatorList();
-
-        sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
-    }
-
-    [TestMethod]
-    public override void WithQuotesCtor()
-    {
-        GatorList sut = new(Quotes);
 
         sut.Should().HaveCount(Quotes.Count);
         sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());

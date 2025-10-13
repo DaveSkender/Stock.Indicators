@@ -9,7 +9,7 @@ public class Donchian : BufferListTestBase
        = Quotes.ToDonchian(lookbackPeriods);
 
     [TestMethod]
-    public override void AddQuotes()
+    public void AddQuotes()
     {
         DonchianList sut = new(lookbackPeriods);
 
@@ -23,7 +23,7 @@ public class Donchian : BufferListTestBase
     }
 
     [TestMethod]
-    public override void AddQuotesBatch()
+    public void AddQuotesBatch()
     {
         DonchianList sut = Quotes.ToDonchianList(lookbackPeriods);
 
@@ -32,7 +32,7 @@ public class Donchian : BufferListTestBase
     }
 
     [TestMethod]
-    public override void WithQuotesCtor()
+    public void WithQuotesCtor()
     {
         DonchianList sut = new(lookbackPeriods, Quotes);
 

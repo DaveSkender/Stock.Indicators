@@ -1,10 +1,10 @@
 namespace StreamHub;
 
 [TestClass]
-public class ObvHubTests : StreamHubTestBase
+public class ObvHubTests : StreamHubTestBase, ITestQuoteObserver
 {
     [TestMethod]
-    public override void QuoteObserver()
+    public void QuoteObserver()
     {
         List<Quote> quotesList = Quotes.ToList();
         int length = quotesList.Count;
