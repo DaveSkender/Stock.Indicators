@@ -1,7 +1,7 @@
 namespace BufferLists;
 
 [TestClass]
-public class Vortex : BufferListTestBase
+public class Vortex : BufferListTestBase, ITestQuoteBufferList
 {
     private const int lookbackPeriods = 14;
 
@@ -9,7 +9,7 @@ public class Vortex : BufferListTestBase
        = Quotes.ToVortex(lookbackPeriods);
 
     [TestMethod]
-    public override void AddQuotes()
+    public void AddQuotes()
     {
         VortexList sut = new(lookbackPeriods);
 
@@ -23,7 +23,7 @@ public class Vortex : BufferListTestBase
     }
 
     [TestMethod]
-    public override void AddQuotesBatch()
+    public void AddQuotesBatch()
     {
         VortexList sut = Quotes.ToVortexList(lookbackPeriods);
 
@@ -32,7 +32,7 @@ public class Vortex : BufferListTestBase
     }
 
     [TestMethod]
-    public override void WithQuotesCtor()
+    public void WithQuotesCtor()
     {
         VortexList sut = new(lookbackPeriods, Quotes);
 

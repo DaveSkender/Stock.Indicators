@@ -20,6 +20,11 @@ public static partial class Vortex
             .WithStyle(Style.Series)
             .Build();
 
+    // Vortex Indicator Buffer Listing
+    internal static readonly IndicatorListing BufferListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Buffer)
+            .Build();
+
     // No StreamListing for Vortex Indicator.
-    // No BufferListing for Vortex Indicator.
 }
