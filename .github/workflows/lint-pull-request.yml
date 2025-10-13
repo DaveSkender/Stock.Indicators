@@ -15,8 +15,6 @@ concurrency:
 
 permissions:
   pull-requests: write
-  issues: read
-  repository-projects: write
 
 jobs:
   main:
@@ -110,59 +108,3 @@ jobs:
         with:
           header: pr-title-lint-error
           delete: true
-
-      # Add PR to project and update status to "In Progress" if not already there
-      - name: Add PR to project
-        uses: actions/add-to-project@v1.0.2
-        if: ${{ steps.lint_pr_title.outputs.error_message == null }}
-        id: add-project
-        with:
-          project-url: https://github.com/users/DaveSkender/projects/1
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Check current project status
-        id: check-status
-        if: ${{ steps.lint_pr_title.outputs.error_message == null && steps.add-project.outputs.itemId }}
-        run: |
-          # Query the project item to get current status
-          ITEM_ID="${{ steps.add-project.outputs.itemId }}"
-
-          # Use GitHub CLI to get project item status
-          CURRENT_STATUS=$(gh project item-view $ITEM_ID --owner DaveSkender --format json | jq -r '.fields[] | select(.name == "Status") | .value // "null"')
-
-          echo "Current status: $CURRENT_STATUS"
-
-          # Define status progression: Icebox < Maybe < Do Next < In Progress < In Review < Done
-          # Only update if current status is one of: Icebox, Maybe, Do Next, or null/empty
-          case "$CURRENT_STATUS" in
-            "Icebox"|"Maybe"|"Do Next"|"null"|""|null)
-              echo "should-update=true" >> $GITHUB_OUTPUT
-              echo "Status '$CURRENT_STATUS' is before 'In Progress', will update"
-              ;;
-            *)
-              echo "should-update=false" >> $GITHUB_OUTPUT
-              echo "Status '$CURRENT_STATUS' is 'In Progress' or later, no update needed"
-              ;;
-          esac
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        continue-on-error: true
-
-      - name: Update project status to In Progress
-        if: ${{ steps.lint_pr_title.outputs.error_message == null && steps.add-project.outputs.itemId && steps.check-status.outputs.should-update == 'true' }}
-        run: |
-          # Try using the display name as option ID (GitHub CLI may accept this)
-          gh project item-edit \
-            --id "${{ steps.add-project.outputs.itemId }}" \
-            --field-id "1274949" \
-            --project-id "151306" \
-            --single-select-option-id "In Progress" || \
-          # Fallback: use text parameter if option ID fails
-          gh project item-edit \
-            --id "${{ steps.add-project.outputs.itemId }}" \
-            --field-id "1274949" \
-            --project-id "151306" \
-            --text "In Progress"
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        continue-on-error: true
