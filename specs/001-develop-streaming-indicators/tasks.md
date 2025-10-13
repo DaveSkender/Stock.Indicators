@@ -92,7 +92,7 @@ The following indicators have series-style implementations but lack BufferList i
 - [x] T008 Implement Chandelier BufferList in `src/a-d/Chandelier/Chandelier.BufferList.cs` ✅ Complete
 - [x] T009 Implement Chop BufferList in `src/a-d/Chop/Chop.BufferList.cs` ✅ Complete
 - [x] T010 Implement Cmf BufferList in `src/a-d/Cmf/Cmf.BufferList.cs` ✅ Complete
-- [ ] T011 Implement ConnorsRsi BufferList in `src/a-d/ConnorsRsi/ConnorsRsi.BufferList.cs`
+- [x] T011 Implement ConnorsRsi BufferList in `src/a-d/ConnorsRsi/ConnorsRsi.BufferList.cs` ✅ Complete
 - [ ] T021 Implement Fractal BufferList in `src/e-k/Fractal/Fractal.BufferList.cs` ⚠️ **DEFERRED**: Requires future data access pattern incompatible with streaming constraints (looks ahead 2 periods). Marked for v2 research with potential reorder buffer solution.
 - [ ] T024 Implement HtTrendline BufferList in `src/e-k/HtTrendline/HtTrendline.BufferList.cs` ⚠️ **DEFERRED**: Complex Hilbert Transform implementation requires research into streaming compatibility and state management complexity. Targeted for v2 after core framework stabilization.
 - [ ] T025 Implement Hurst BufferList in `src/e-k/Hurst/Hurst.BufferList.cs` ⚠️ **DEFERRED**: Hurst Exponent calculation requires full dataset access patterns incompatible with incremental streaming. Research needed for windowed approximation approach in v2.
@@ -142,7 +142,7 @@ The following indicators have series-style implementations but lack BufferList i
 
 ### BufferList M-R Group (13 indicators)
 
-- [ ] T029 Implement MaEnvelopes BufferList in `src/m-r/MaEnvelopes/MaEnvelopes.BufferList.cs`
+- [x] T029 Implement MaEnvelopes BufferList in `src/m-r/MaEnvelopes/MaEnvelopes.BufferList.cs` ✅ Complete
 - [x] T030 Implement Marubozu BufferList in `src/m-r/Marubozu/Marubozu.BufferList.cs` ✅ Complete
 - [x] T031 Implement Mfi BufferList in `src/m-r/Mfi/Mfi.BufferList.cs` ✅ Complete
 - [ ] T032 Implement ParabolicSar BufferList in `src/m-r/ParabolicSar/ParabolicSar.BufferList.cs`

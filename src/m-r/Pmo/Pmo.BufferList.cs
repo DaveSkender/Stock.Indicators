@@ -5,9 +5,6 @@ namespace Skender.Stock.Indicators;
 /// </summary>
 public class PmoList : BufferList<PmoResult>, IIncrementFromChain, IPmo
 {
-    private readonly int _timePeriods;
-    private readonly int _smoothPeriods;
-    private readonly int _signalPeriods;
     private readonly double _smoothingConstant1;
     private readonly double _smoothingConstant2;
     private readonly double _smoothingConstant3;
@@ -34,9 +31,9 @@ public class PmoList : BufferList<PmoResult>, IIncrementFromChain, IPmo
     {
         Pmo.Validate(timePeriods, smoothPeriods, signalPeriods);
 
-        _timePeriods = timePeriods;
-        _smoothPeriods = smoothPeriods;
-        _signalPeriods = signalPeriods;
+        TimePeriods = timePeriods;
+        SmoothPeriods = smoothPeriods;
+        SignalPeriods = signalPeriods;
 
         _smoothingConstant1 = 2d / smoothPeriods;
         _smoothingConstant2 = 2d / timePeriods;
@@ -65,17 +62,17 @@ public class PmoList : BufferList<PmoResult>, IIncrementFromChain, IPmo
     /// <summary>
     /// Gets the number of periods for the time span.
     /// </summary>
-    public int TimePeriods => _timePeriods;
+    public int TimePeriods { get; }
 
     /// <summary>
     /// Gets the number of periods for smoothing.
     /// </summary>
-    public int SmoothPeriods => _smoothPeriods;
+    public int SmoothPeriods { get; }
 
     /// <summary>
     /// Gets the number of periods for the signal line.
     /// </summary>
-    public int SignalPeriods => _signalPeriods;
+    public int SignalPeriods { get; }
 
     /// <inheritdoc />
     public void Add(DateTime timestamp, double value)
@@ -87,14 +84,14 @@ public class PmoList : BufferList<PmoResult>, IIncrementFromChain, IPmo
 
         // Calculate ROC smoothed moving average
         double rocEma;
-        if (double.IsNaN(_prevRocEma) && _rocHistory.Count >= _timePeriods)
+        if (double.IsNaN(_prevRocEma) && _rocHistory.Count >= TimePeriods)
         {
             double sum = 0;
-            for (int p = _rocHistory.Count - _timePeriods; p < _rocHistory.Count; p++)
+            for (int p = _rocHistory.Count - TimePeriods; p < _rocHistory.Count; p++)
             {
                 sum += _rocHistory[p];
             }
-            rocEma = sum / _timePeriods;
+            rocEma = sum / TimePeriods;
         }
         else
         {
@@ -107,14 +104,14 @@ public class PmoList : BufferList<PmoResult>, IIncrementFromChain, IPmo
 
         // Calculate price momentum oscillator
         double pmo;
-        if (double.IsNaN(_prevPmo) && _rocEmaHistory.Count >= _smoothPeriods)
+        if (double.IsNaN(_prevPmo) && _rocEmaHistory.Count >= SmoothPeriods)
         {
             double sum = 0;
-            for (int p = _rocEmaHistory.Count - _smoothPeriods; p < _rocEmaHistory.Count; p++)
+            for (int p = _rocEmaHistory.Count - SmoothPeriods; p < _rocEmaHistory.Count; p++)
             {
                 sum += _rocEmaHistory[p];
             }
-            pmo = sum / _smoothPeriods;
+            pmo = sum / SmoothPeriods;
         }
         else
         {
@@ -126,14 +123,14 @@ public class PmoList : BufferList<PmoResult>, IIncrementFromChain, IPmo
 
         // Calculate signal (EMA of PMO)
         double signal;
-        if (double.IsNaN(_prevSignal) && _pmoHistory.Count >= _signalPeriods)
+        if (double.IsNaN(_prevSignal) && _pmoHistory.Count >= SignalPeriods)
         {
             double sum = 0;
-            for (int p = _pmoHistory.Count - _signalPeriods; p < _pmoHistory.Count; p++)
+            for (int p = _pmoHistory.Count - SignalPeriods; p < _pmoHistory.Count; p++)
             {
                 sum += _pmoHistory[p];
             }
-            signal = sum / _signalPeriods;
+            signal = sum / SignalPeriods;
         }
         else
         {

@@ -9,7 +9,7 @@ public class ConnorsRsiTests : RegressionTestBase<ConnorsRsiResult>
     public override void Series() => Quotes.ToConnorsRsi(3, 2, 100).AssertEquals(Expected);
 
     [TestMethod]
-    public override void Buffer() => Assert.Inconclusive("Buffer implementation not yet available");
+    public override void Buffer() => Quotes.ToConnorsRsiList(3, 2, 100).AssertEquals(Expected);
 
     [TestMethod]
     public override void Stream() => Assert.Inconclusive("Stream implementation not yet available");
