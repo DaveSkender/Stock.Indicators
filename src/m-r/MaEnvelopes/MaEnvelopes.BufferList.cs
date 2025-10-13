@@ -95,36 +95,18 @@ public class MaEnvelopesList : BufferList<MaEnvelopeResult>, IIncrementFromChain
             base.MaxListSize = value;
 
             // Propagate MaxListSize to the inner MA buffer list
-            switch (_movingAverageType)
-            {
-                case MaType.ALMA:
-                    ((AlmaList)_maList).MaxListSize = value;
-                    break;
-                case MaType.DEMA:
-                    ((DemaList)_maList).MaxListSize = value;
-                    break;
-                case MaType.EMA:
-                    ((EmaList)_maList).MaxListSize = value;
-                    break;
-                case MaType.EPMA:
-                    ((EpmaList)_maList).MaxListSize = value;
-                    break;
-                case MaType.HMA:
-                    ((HmaList)_maList).MaxListSize = value;
-                    break;
-                case MaType.SMA:
-                    ((SmaList)_maList).MaxListSize = value;
-                    break;
-                case MaType.SMMA:
-                    ((SmmaList)_maList).MaxListSize = value;
-                    break;
-                case MaType.TEMA:
-                    ((TemaList)_maList).MaxListSize = value;
-                    break;
-                case MaType.WMA:
-                    ((WmaList)_maList).MaxListSize = value;
-                    break;
-            }
+            _ = _movingAverageType switch {
+                MaType.ALMA => ((AlmaList)_maList).MaxListSize = value,
+                MaType.DEMA => ((DemaList)_maList).MaxListSize = value,
+                MaType.EMA => ((EmaList)_maList).MaxListSize = value,
+                MaType.EPMA => ((EpmaList)_maList).MaxListSize = value,
+                MaType.HMA => ((HmaList)_maList).MaxListSize = value,
+                MaType.SMA => ((SmaList)_maList).MaxListSize = value,
+                MaType.SMMA => ((SmmaList)_maList).MaxListSize = value,
+                MaType.TEMA => ((TemaList)_maList).MaxListSize = value,
+                MaType.WMA => ((WmaList)_maList).MaxListSize = value,
+                _ => throw new ArgumentOutOfRangeException(nameof(value))
+            };
         }
     }
 
@@ -142,7 +124,7 @@ public class MaEnvelopesList : BufferList<MaEnvelopeResult>, IIncrementFromChain
             MaType.SMMA => AddToList<SmmaList, SmmaResult>((SmmaList)_maList, timestamp, value, r => r.Smma),
             MaType.TEMA => AddToList<TemaList, TemaResult>((TemaList)_maList, timestamp, value, r => r.Tema),
             MaType.WMA => AddToList<WmaList, WmaResult>((WmaList)_maList, timestamp, value, r => r.Wma),
-            _ => null
+            _ => throw new ArgumentOutOfRangeException(nameof(timestamp))
         };
 
         // Calculate envelopes
@@ -192,38 +174,20 @@ public class MaEnvelopesList : BufferList<MaEnvelopeResult>, IIncrementFromChain
         base.Clear();
 
         // Clear the underlying MA list using switch expression
-        switch (_movingAverageType)
-        {
-            case MaType.ALMA:
-                ((AlmaList)_maList).Clear();
-                break;
-            case MaType.DEMA:
-                ((DemaList)_maList).Clear();
-                break;
-            case MaType.EMA:
-                ((EmaList)_maList).Clear();
-                break;
-            case MaType.EPMA:
-                ((EpmaList)_maList).Clear();
-                break;
-            case MaType.HMA:
-                ((HmaList)_maList).Clear();
-                break;
-            case MaType.SMA:
-                ((SmaList)_maList).Clear();
-                break;
-            case MaType.SMMA:
-                ((SmmaList)_maList).Clear();
-                break;
-            case MaType.TEMA:
-                ((TemaList)_maList).Clear();
-                break;
-            case MaType.WMA:
-                ((WmaList)_maList).Clear();
-                break;
-            default:
-                throw new ArgumentOutOfRangeException(nameof(_movingAverageType));
-        }
+        Action clearAction = _movingAverageType switch {
+            MaType.ALMA => () => ((AlmaList)_maList).Clear(),
+            MaType.DEMA => () => ((DemaList)_maList).Clear(),
+            MaType.EMA => () => ((EmaList)_maList).Clear(),
+            MaType.EPMA => () => ((EpmaList)_maList).Clear(),
+            MaType.HMA => () => ((HmaList)_maList).Clear(),
+            MaType.SMA => () => ((SmaList)_maList).Clear(),
+            MaType.SMMA => () => ((SmmaList)_maList).Clear(),
+            MaType.TEMA => () => ((TemaList)_maList).Clear(),
+            MaType.WMA => () => ((WmaList)_maList).Clear(),
+            _ => throw new ArgumentOutOfRangeException(nameof(_movingAverageType))
+        };
+
+        clearAction();
     }
 }
 
