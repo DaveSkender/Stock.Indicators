@@ -27,16 +27,6 @@ public abstract class PairsProvider<TIn, TOut>(
         (providerB ?? throw new ArgumentNullException(nameof(providerB))).GetCacheRef();
 
     /// <summary>
-    /// Gets a readonly reference to the second provider's input cache.
-    /// </summary>
-    /// <returns>Read-only list of cached input items from the second series.</returns>
-    public IReadOnlyList<IReusable> GetCacheBRef()
-    {
-        // Use a safe adapter that works with both reference and value types
-        return new ReusableListAdapter<TIn>(ProviderCacheB);
-    }
-
-    /// <summary>
     /// Validates that timestamps match between both provider caches at the specified index.
     /// </summary>
     /// <param name="index">The index to validate.</param>

@@ -262,7 +262,6 @@ public class BetaHub<TIn>
         // Calculate averages
         double avgEval = state.SumEval / state.WindowCount;
         double avgMrkt = state.SumMrkt / state.WindowCount;
-        double avgEval2 = state.SumEval2 / state.WindowCount;
         double avgMrkt2 = state.SumMrkt2 / state.WindowCount;
         double avgCross = state.SumCross / state.WindowCount;
 
