@@ -23,6 +23,11 @@ public static partial class MaEnvelopes
             .WithStyle(Style.Series)
             .Build();
 
+    // MA-ENV Buffer Listing
+    internal static readonly IndicatorListing BufferListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Buffer)
+            .Build();
+
     // No StreamListing for MA-ENV.
-    // No BufferListing for MA-ENV.
 }
