@@ -15,6 +15,7 @@
     "test:coverage": "dotnet test \"Stock.Indicators.sln\" --collect:\"Code Coverage\" --no-restore --nologo"
   },
   "devDependencies": {
+    "@codacy/codacy-mcp": "^0.6.18",
     "markdownlint-cli2": "^0.18.1",
     "rimraf": "^6.0.1"
   }

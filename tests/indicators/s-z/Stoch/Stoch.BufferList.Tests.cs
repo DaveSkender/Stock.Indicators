@@ -14,7 +14,7 @@ public class Stoch : BufferListTestBase
        = Quotes.ToStoch(lookbackPeriods, signalPeriods, smoothPeriods);
 
     [TestMethod]
-    public override void AddQuotes()
+    public void AddQuotes()
     {
         StochList sut = new(lookbackPeriods, signalPeriods, smoothPeriods);
 
@@ -28,7 +28,7 @@ public class Stoch : BufferListTestBase
     }
 
     [TestMethod]
-    public override void AddQuotesBatch()
+    public void AddQuotesBatch()
     {
         StochList sut = new(lookbackPeriods, signalPeriods, smoothPeriods) { Quotes };
 
@@ -37,7 +37,7 @@ public class Stoch : BufferListTestBase
     }
 
     [TestMethod]
-    public override void WithQuotesCtor()
+    public void WithQuotesCtor()
     {
         StochList sut = new(lookbackPeriods, signalPeriods, smoothPeriods, kFactor, dFactor, movingAverageType, Quotes);
 

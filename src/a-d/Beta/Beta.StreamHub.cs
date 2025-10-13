@@ -47,53 +47,13 @@ public class BetaHub<TIn>
     private bool _isFirst = true;
 
     // Rolling window state for Standard beta
-    private RollingWindowState? _stateSd;
+    private RollingWindowState _stateSd;
 
     // Rolling window state for Up beta
-    private RollingWindowState? _stateUp;
+    private RollingWindowState _stateUp;
 
     // Rolling window state for Down beta
-    private RollingWindowState? _stateDn;
-
-    /// <summary>
-    /// Encapsulates rolling window state for incremental Beta calculations.
-    /// </summary>
-    private sealed class RollingWindowState
-    {
-        public double[] WindowEval;
-        public double[] WindowMrkt;
-        public int WindowIndex;
-        public int WindowCount;
-        public double SumEval;
-        public double SumMrkt;
-        public double SumEval2;
-        public double SumMrkt2;
-        public double SumCross;
-
-        public RollingWindowState(int capacity)
-        {
-            WindowEval = new double[capacity];
-            WindowMrkt = new double[capacity];
-            WindowIndex = 0;
-            WindowCount = 0;
-            SumEval = 0;
-            SumMrkt = 0;
-            SumEval2 = 0;
-            SumMrkt2 = 0;
-            SumCross = 0;
-        }
-
-        public void Reset()
-        {
-            WindowIndex = 0;
-            WindowCount = 0;
-            SumEval = 0;
-            SumMrkt = 0;
-            SumEval2 = 0;
-            SumMrkt2 = 0;
-            SumCross = 0;
-        }
-    }
+    private RollingWindowState _stateDn;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="BetaHub{TIn}"/> class.
@@ -121,33 +81,12 @@ public class BetaHub<TIn>
         calcUp = type is BetaType.All or BetaType.Up;
         calcDn = type is BetaType.All or BetaType.Down;
 
+        _stateSd = new(lookbackPeriods);
+        _stateUp = new(lookbackPeriods);
+        _stateDn = new(lookbackPeriods);
+
         ResetState();
         Reinitialize();
-    }
-
-    private void ResetState()
-    {
-        _prevEval = 0;
-        _prevMrkt = 0;
-        _isFirst = true;
-
-        // Initialize Standard beta rolling window
-        if (calcSd)
-        {
-            _stateSd = new RollingWindowState(LookbackPeriods);
-        }
-
-        // Initialize Up beta rolling window
-        if (calcUp)
-        {
-            _stateUp = new RollingWindowState(LookbackPeriods);
-        }
-
-        // Initialize Down beta rolling window
-        if (calcDn)
-        {
-            _stateDn = new RollingWindowState(LookbackPeriods);
-        }
     }
 
     /// <inheritdoc/>
@@ -192,19 +131,19 @@ public class BetaHub<TIn>
         if (!wasFirst)
         {
             // Update Standard beta rolling window
-            if (calcSd && _stateSd != null)
+            if (calcSd)
             {
                 UpdateRollingWindow(evalReturn, mrktReturn, _stateSd);
             }
 
             // Update Up beta rolling window (only when market return is positive)
-            if (calcUp && _stateUp != null && mrktReturn > 0)
+            if (calcUp && mrktReturn > 0)
             {
                 UpdateRollingWindow(evalReturn, mrktReturn, _stateUp);
             }
 
             // Update Down beta rolling window (only when market return is negative)
-            if (calcDn && _stateDn != null && mrktReturn < 0)
+            if (calcDn && mrktReturn < 0)
             {
                 UpdateRollingWindow(evalReturn, mrktReturn, _stateDn);
             }
@@ -229,17 +168,17 @@ public class BetaHub<TIn>
         double? convexity = null;
 
         // Calculate beta variants from rolling window stats
-        if (calcSd && _stateSd != null && _stateSd.WindowCount > 0)
+        if (calcSd && _stateSd.WindowCount > 0)
         {
             beta = CalculateBetaFromStats(_stateSd);
         }
 
-        if (calcUp && _stateUp != null && _stateUp.WindowCount > 0)
+        if (calcUp && _stateUp.WindowCount > 0)
         {
             betaUp = CalculateBetaFromStats(_stateUp);
         }
 
-        if (calcDn && _stateDn != null && _stateDn.WindowCount > 0)
+        if (calcDn && _stateDn.WindowCount > 0)
         {
             betaDown = CalculateBetaFromStats(_stateDn);
         }
@@ -323,7 +262,6 @@ public class BetaHub<TIn>
         // Calculate averages
         double avgEval = state.SumEval / state.WindowCount;
         double avgMrkt = state.SumMrkt / state.WindowCount;
-        double avgEval2 = state.SumEval2 / state.WindowCount;
         double avgMrkt2 = state.SumMrkt2 / state.WindowCount;
         double avgCross = state.SumCross / state.WindowCount;
 
@@ -422,5 +360,57 @@ public class BetaHub<TIn>
         _prevEval = prevEval;
         _prevMrkt = prevMrkt;
         _isFirst = false;
+    }
+
+    private void ResetState()
+    {
+        _prevEval = 0;
+        _prevMrkt = 0;
+        _isFirst = true;
+
+        // Initialize Standard beta rolling window
+        if (calcSd)
+        {
+            _stateSd = new RollingWindowState(LookbackPeriods);
+        }
+
+        // Initialize Up beta rolling window
+        if (calcUp)
+        {
+            _stateUp = new RollingWindowState(LookbackPeriods);
+        }
+
+        // Initialize Down beta rolling window
+        if (calcDn)
+        {
+            _stateDn = new RollingWindowState(LookbackPeriods);
+        }
+    }
+
+    /// <summary>
+    /// Encapsulates rolling window state for incremental Beta calculations.
+    /// </summary>
+    private sealed class RollingWindowState(int capacity)
+    {
+        public double[] WindowEval = new double[capacity];
+        public double[] WindowMrkt = new double[capacity];
+        public int WindowIndex;
+        public int WindowCount;
+        public double SumEval;
+        public double SumMrkt;
+        public double SumEval2;
+        public double SumMrkt2;
+        public double SumCross;
+
+        public void Reset()
+        {
+            WindowIndex = 0;
+            WindowCount = 0;
+            SumEval = 0;
+            SumMrkt = 0;
+            SumEval2 = 0;
+            SumMrkt2 = 0;
+            SumCross = 0;
+        }
     }
 }

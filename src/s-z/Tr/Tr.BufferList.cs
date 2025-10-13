@@ -77,8 +77,7 @@ public static partial class Tr
     /// <summary>
     /// Creates a buffer list for True Range calculations.
     /// </summary>
-    public static TrList ToTrList<TQuote>(
-        this IReadOnlyList<TQuote> quotes)
-        where TQuote : IQuote
-        => new() { (IReadOnlyList<IQuote>)quotes };
+    public static TrList ToTrList(
+        this IReadOnlyList<IQuote> quotes)
+        => new() { quotes };
 }

@@ -1,7 +1,7 @@
 namespace BufferLists;
 
 [TestClass]
-public class Prs : BufferListTestBase, ITestReusableBufferList
+public class Prs : BufferListTestBase, ITestChainBufferList
 {
     private const int lookbackPeriods = 20;
 
@@ -48,7 +48,7 @@ public class Prs : BufferListTestBase, ITestReusableBufferList
     }
 
     [TestMethod]
-    public override void AddQuotes()
+    public void AddQuotes()
     {
         // PRS uses paired series, so this test uses OtherQuotes and Quotes as series
         PrsList sut = new(lookbackPeriods);
@@ -63,7 +63,7 @@ public class Prs : BufferListTestBase, ITestReusableBufferList
     }
 
     [TestMethod]
-    public override void AddQuotesBatch()
+    public void AddQuotesBatch()
     {
         // PRS uses paired series, so this test uses OtherQuotes and Quotes as series
         PrsList sut = new(lookbackPeriods) {
@@ -75,7 +75,7 @@ public class Prs : BufferListTestBase, ITestReusableBufferList
     }
 
     [TestMethod]
-    public override void WithQuotesCtor()
+    public void WithQuotesCtor()
     {
         // PRS uses paired series, so this test uses OtherQuotes and Quotes as series
         PrsList sut = new(lookbackPeriods, OtherQuotes, Quotes);

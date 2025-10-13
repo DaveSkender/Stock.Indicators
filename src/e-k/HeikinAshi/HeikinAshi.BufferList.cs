@@ -87,8 +87,7 @@ public static partial class HeikinAshi
     /// <summary>
     /// Creates a buffer list for Heikin-Ashi calculations.
     /// </summary>
-    public static HeikinAshiList ToHeikinAshiList<TQuote>(
-        this IReadOnlyList<TQuote> quotes)
-        where TQuote : IQuote
-        => new() { (IReadOnlyList<IQuote>)quotes };
+    public static HeikinAshiList ToHeikinAshiList(
+        this IReadOnlyList<IQuote> quotes)
+        => new() { quotes };
 }

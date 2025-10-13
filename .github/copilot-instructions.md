@@ -72,9 +72,9 @@ This repository uses scoped instruction files for specific development areas. Th
 | Pattern | File | Description |
 | ------- | ---- | ----------- |
 | `.specify/**,specs/**,.github/prompts/speckit.*` | [spec-kit.instructions.md](.github/instructions/spec-kit.instructions.md) | Spec Kit development workflow and artifact editing guidelines |
-| `src/**/*.*Series.cs,tests/**/*.*Series.Tests.cs` | [series-indicators.instructions.md](.github/instructions/series-indicators.instructions.md) | Series-style indicator development and testing guidelines |
-| `src/**/*.StreamHub.cs,tests/**/*.StreamHub.Tests.cs` | [stream-indicators.instructions.md](.github/instructions/stream-indicators.instructions.md) | Stream indicator development guidelines |
-| `src/**/*.BufferList.cs,tests/**/*.BufferList.Tests.cs` | [buffer-indicators.instructions.md](.github/instructions/buffer-indicators.instructions.md) | Buffer indicator development guidelines |
+| `src/**/*.*Series.cs,tests/**/*.*Series.Tests.cs` | [indicator-series.instructions.md](.github/instructions/indicator-series.instructions.md) | Series-style indicator development and testing guidelines |
+| `src/**/*.StreamHub.cs,tests/**/*.StreamHub.Tests.cs` | [indicator-stream.instructions.md](.github/instructions/indicator-stream.instructions.md) | Stream indicator development guidelines |
+| `src/**/*.BufferList.cs,tests/**/*.BufferList.Tests.cs` | [indicator-buffer.instructions.md](.github/instructions/indicator-buffer.instructions.md) | Buffer indicator development guidelines |
 | `**/src/**/*.Catalog.cs,**/tests/**/*.Catalog.Tests.cs` | [catalog.instructions.md](.github/instructions/catalog.instructions.md) | Catalog file conventions |
 | `src/**,tests/**` | [source-code-completion.instructions.md](.github/instructions/source-code-completion.instructions.md) | Source code, testing, and pre-commit code completion checklist |
 | `**/*.md` | [markdown.instructions.md](.github/instructions/markdown.instructions.md) | Markdown formatting rules |
@@ -82,6 +82,35 @@ This repository uses scoped instruction files for specific development areas. Th
 | `tools/performance/**` | [performance-testing.instructions.md](.github/instructions/performance-testing.instructions.md) | Performance testing and benchmarking guidelines |
 
 These scoped files are automatically applied when working with files matching their patterns.
+
+## Common indicator requirements (all styles)
+
+Use these cross-cutting requirements for Series, Stream, and Buffer indicators. Each style guide adds its own specifics, but these apply to all:
+
+- Catalog entry exists and is registered:
+  - Create `src/**/{IndicatorName}.Catalog.cs` and register in `src/_common/Catalog/Catalog.Listings.cs` (PopulateCatalog)
+- Regression tests include the indicator type:
+  - Add to `tests/indicators/**/{IndicatorName}.Regression.Tests.cs`
+- Performance benchmarks include a default case:
+  - Add to the appropriate file in `tools/performance` (Series/Stream/Buffer)
+- Public documentation is accurate:
+  - Update `docs/_indicators/{IndicatorName}.md` (usage, parameters, warmup, outputs)
+- Migration notes and bridges when behavior changes:
+  - Update `src/MigrationGuide.V3.md`
+  - Update migration bridges in `src/Obsolete.V3.Indicators.cs` and `src/Obsolete.V3.Other.cs` to reflect new/renamed APIs or deprecations
+
+See the style-specific guides for implementation requirements:
+
+- Series: [.github/instructions/indicator-series.instructions.md](.github/instructions/indicator-series.instructions.md)
+- Stream: [.github/instructions/indicator-stream.instructions.md](.github/instructions/indicator-stream.instructions.md)
+- Buffer: [.github/instructions/indicator-buffer.instructions.md](.github/instructions/indicator-buffer.instructions.md)
+
+### Series as the canonical reference
+
+- Series indicators are the canonical source of truth for numerical correctness across styles.
+- Series results are based on authoritative author publications and manually verified calculations.
+- Stream and Buffer implementations must match the Series results for the same inputs once warmed up.
+- For discrepancies, fix Stream/Buffer unless there is a verified issue with Series and the reference data.
 
 ## Code review guidelines
 
@@ -141,4 +170,4 @@ Examples:
 - `docs: Update API documentation`
 
 ---
-Last updated: October 7, 2025
+Last updated: October 12, 2025
