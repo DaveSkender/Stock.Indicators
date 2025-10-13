@@ -1,13 +1,6 @@
 # Implementation plan: streaming indicators framework
 
-**Branch**: `001-develop-streaming-indicators` | **Date**: 205. **Parity Testing Strategy**:
-
-- Feed identical quote sequences to batch and streaming
-- Compare final values using deterministic equality (`BeEquivalentTo` with `WithStrictOrdering()`)
-- Never use approximate equality assertions (`BeApproximately`) for mathematically deterministic calculations
-- Test with Standard test data (502 quotes) for each indicator
-
-**Output**: No separate research.md needed (decisions documented above)02 | **Spec**: [spec.md](./spec.md)
+**Branch**: `001-develop-streaming-indicators` | **Date**: October 13, 2025 | **Spec**: [spec.md](./spec.md)
 **Input**: Feature specification from `/specs/001-develop-streaming-indicators/spec.md`
 
 > **IMPORTANT**: This planning document contains conceptual examples that may not match actual codebase patterns. For authoritative implementation guidance, always reference:
@@ -30,7 +23,7 @@ Implement two streaming indicator styles (BufferList and StreamHub) enabling inc
 - Project type: Single project (library enhancement)
 - Performance goals: <5ms average per-tick latency (p95 <10ms), <10KB memory per instance
 - Constraints: O(1) incremental updates, deterministic mathematical equality with batch calculations, bounded buffers
-- Scale/scope: 107 total tasks across phased rollout (55 BufferList + 52 StreamHub implementations), targeting all feasible Series-based indicators
+- Scale/scope: 97 total implementation tasks across phased rollout (50 BufferList + 47 StreamHub implementations), targeting 80 implementable Series-based indicators (excludes 5 deferred to v2 due to streaming incompatibility: Fractal, HtTrendline, Hurst, Ichimoku, Slope)
 
 ## Constitution check
 
@@ -413,4 +406,4 @@ No violations—section intentionally empty.
 *Based on Constitution v1.1.0 - See `/memory/constitution.md`*
 
 ---
-Last updated: October 6, 2025
+Last updated: October 13, 2025
