@@ -1,20 +1,19 @@
 namespace BufferLists;
 
 [TestClass]
-public class Vwap : BufferListTestBase, ITestQuoteBufferList
+public class StarcBands : BufferListTestBase, ITestQuoteBufferList
 {
-    private static readonly DateTime startDate = DateTime.Parse("2018-12-31", invariantCulture);
+    private const int smaPeriods = 5;
+    private const double multiplier = 2;
+    private const int atrPeriods = 10;
 
-    private static readonly IReadOnlyList<VwapResult> series
-       = Quotes.ToVwap(startDate);
-
-    private static readonly IReadOnlyList<VwapResult> seriesDefault
-       = Quotes.ToVwap();
+    private static readonly IReadOnlyList<StarcBandsResult> series
+       = Quotes.ToStarcBands(smaPeriods, multiplier, atrPeriods);
 
     [TestMethod]
     public void AddQuotes()
     {
-        VwapList sut = new(startDate);
+        StarcBandsList sut = new(smaPeriods, multiplier, atrPeriods);
 
         foreach (Quote quote in Quotes)
         {
@@ -28,7 +27,7 @@ public class Vwap : BufferListTestBase, ITestQuoteBufferList
     [TestMethod]
     public void AddQuotesBatch()
     {
-        VwapList sut = Quotes.ToVwapList(startDate);
+        StarcBandsList sut = new(smaPeriods, multiplier, atrPeriods) { Quotes };
 
         sut.Should().HaveCount(Quotes.Count);
         sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
@@ -37,28 +36,19 @@ public class Vwap : BufferListTestBase, ITestQuoteBufferList
     [TestMethod]
     public void WithQuotesCtor()
     {
-        VwapList sut = new(startDate, Quotes);
+        StarcBandsList sut = new(smaPeriods, multiplier, atrPeriods, Quotes);
 
         sut.Should().HaveCount(Quotes.Count);
         sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
     }
 
     [TestMethod]
-    public void DefaultStartDate()
-    {
-        VwapList sut = Quotes.ToVwapList();
-
-        sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(seriesDefault, options => options.WithStrictOrdering());
-    }
-
-    [TestMethod]
     public override void ClearResetsState()
     {
         List<Quote> subset = Quotes.Take(80).ToList();
-        IReadOnlyList<VwapResult> expected = subset.ToVwap(startDate);
+        IReadOnlyList<StarcBandsResult> expected = subset.ToStarcBands(smaPeriods, multiplier, atrPeriods);
 
-        VwapList sut = new(startDate, subset);
+        StarcBandsList sut = new(smaPeriods, multiplier, atrPeriods, subset);
 
         sut.Should().HaveCount(subset.Count);
         sut.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
@@ -76,15 +66,15 @@ public class Vwap : BufferListTestBase, ITestQuoteBufferList
     [TestMethod]
     public override void AutoListPruning()
     {
-        const int maxListSize = 120;
+        const int maxListSize = 100;
 
-        VwapList sut = new(startDate) {
+        StarcBandsList sut = new(smaPeriods, multiplier, atrPeriods) {
             MaxListSize = maxListSize
         };
 
         sut.Add(Quotes);
 
-        IReadOnlyList<VwapResult> expected = series
+        IReadOnlyList<StarcBandsResult> expected = series
             .Skip(series.Count - maxListSize)
             .ToList();
 

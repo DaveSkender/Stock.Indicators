@@ -1,20 +1,17 @@
 namespace BufferLists;
 
 [TestClass]
-public class Vwap : BufferListTestBase, ITestQuoteBufferList
+public class Vortex : BufferListTestBase, ITestQuoteBufferList
 {
-    private static readonly DateTime startDate = DateTime.Parse("2018-12-31", invariantCulture);
+    private const int lookbackPeriods = 14;
 
-    private static readonly IReadOnlyList<VwapResult> series
-       = Quotes.ToVwap(startDate);
-
-    private static readonly IReadOnlyList<VwapResult> seriesDefault
-       = Quotes.ToVwap();
+    private static readonly IReadOnlyList<VortexResult> series
+       = Quotes.ToVortex(lookbackPeriods);
 
     [TestMethod]
     public void AddQuotes()
     {
-        VwapList sut = new(startDate);
+        VortexList sut = new(lookbackPeriods);
 
         foreach (Quote quote in Quotes)
         {
@@ -28,7 +25,7 @@ public class Vwap : BufferListTestBase, ITestQuoteBufferList
     [TestMethod]
     public void AddQuotesBatch()
     {
-        VwapList sut = Quotes.ToVwapList(startDate);
+        VortexList sut = Quotes.ToVortexList(lookbackPeriods);
 
         sut.Should().HaveCount(Quotes.Count);
         sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
@@ -37,28 +34,19 @@ public class Vwap : BufferListTestBase, ITestQuoteBufferList
     [TestMethod]
     public void WithQuotesCtor()
     {
-        VwapList sut = new(startDate, Quotes);
+        VortexList sut = new(lookbackPeriods, Quotes);
 
         sut.Should().HaveCount(Quotes.Count);
         sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
     }
 
     [TestMethod]
-    public void DefaultStartDate()
-    {
-        VwapList sut = Quotes.ToVwapList();
-
-        sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(seriesDefault, options => options.WithStrictOrdering());
-    }
-
-    [TestMethod]
     public override void ClearResetsState()
     {
         List<Quote> subset = Quotes.Take(80).ToList();
-        IReadOnlyList<VwapResult> expected = subset.ToVwap(startDate);
+        IReadOnlyList<VortexResult> expected = subset.ToVortex(lookbackPeriods);
 
-        VwapList sut = new(startDate, subset);
+        VortexList sut = new(lookbackPeriods, subset);
 
         sut.Should().HaveCount(subset.Count);
         sut.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
@@ -78,13 +66,13 @@ public class Vwap : BufferListTestBase, ITestQuoteBufferList
     {
         const int maxListSize = 120;
 
-        VwapList sut = new(startDate) {
+        VortexList sut = new(lookbackPeriods) {
             MaxListSize = maxListSize
         };
 
         sut.Add(Quotes);
 
-        IReadOnlyList<VwapResult> expected = series
+        IReadOnlyList<VortexResult> expected = series
             .Skip(series.Count - maxListSize)
             .ToList();
 

@@ -1,20 +1,20 @@
 namespace BufferLists;
 
 [TestClass]
-public class Vwap : BufferListTestBase, ITestQuoteBufferList
+public class Smi : BufferListTestBase, ITestQuoteBufferList
 {
-    private static readonly DateTime startDate = DateTime.Parse("2018-12-31", invariantCulture);
+    private const int lookbackPeriods = 13;
+    private const int firstSmoothPeriods = 25;
+    private const int secondSmoothPeriods = 2;
+    private const int signalPeriods = 3;
 
-    private static readonly IReadOnlyList<VwapResult> series
-       = Quotes.ToVwap(startDate);
-
-    private static readonly IReadOnlyList<VwapResult> seriesDefault
-       = Quotes.ToVwap();
+    private static readonly IReadOnlyList<SmiResult> series
+       = Quotes.ToSmi(lookbackPeriods, firstSmoothPeriods, secondSmoothPeriods, signalPeriods);
 
     [TestMethod]
     public void AddQuotes()
     {
-        VwapList sut = new(startDate);
+        SmiList sut = new(lookbackPeriods, firstSmoothPeriods, secondSmoothPeriods, signalPeriods);
 
         foreach (Quote quote in Quotes)
         {
@@ -28,7 +28,7 @@ public class Vwap : BufferListTestBase, ITestQuoteBufferList
     [TestMethod]
     public void AddQuotesBatch()
     {
-        VwapList sut = Quotes.ToVwapList(startDate);
+        SmiList sut = new(lookbackPeriods, firstSmoothPeriods, secondSmoothPeriods, signalPeriods) { Quotes };
 
         sut.Should().HaveCount(Quotes.Count);
         sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
@@ -37,28 +37,19 @@ public class Vwap : BufferListTestBase, ITestQuoteBufferList
     [TestMethod]
     public void WithQuotesCtor()
     {
-        VwapList sut = new(startDate, Quotes);
+        SmiList sut = new(lookbackPeriods, firstSmoothPeriods, secondSmoothPeriods, signalPeriods, Quotes);
 
         sut.Should().HaveCount(Quotes.Count);
         sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
     }
 
     [TestMethod]
-    public void DefaultStartDate()
-    {
-        VwapList sut = Quotes.ToVwapList();
-
-        sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(seriesDefault, options => options.WithStrictOrdering());
-    }
-
-    [TestMethod]
     public override void ClearResetsState()
     {
         List<Quote> subset = Quotes.Take(80).ToList();
-        IReadOnlyList<VwapResult> expected = subset.ToVwap(startDate);
+        IReadOnlyList<SmiResult> expected = subset.ToSmi(lookbackPeriods, firstSmoothPeriods, secondSmoothPeriods, signalPeriods);
 
-        VwapList sut = new(startDate, subset);
+        SmiList sut = new(lookbackPeriods, firstSmoothPeriods, secondSmoothPeriods, signalPeriods, subset);
 
         sut.Should().HaveCount(subset.Count);
         sut.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
@@ -76,15 +67,15 @@ public class Vwap : BufferListTestBase, ITestQuoteBufferList
     [TestMethod]
     public override void AutoListPruning()
     {
-        const int maxListSize = 120;
+        const int maxListSize = 100;
 
-        VwapList sut = new(startDate) {
+        SmiList sut = new(lookbackPeriods, firstSmoothPeriods, secondSmoothPeriods, signalPeriods) {
             MaxListSize = maxListSize
         };
 
         sut.Add(Quotes);
 
-        IReadOnlyList<VwapResult> expected = series
+        IReadOnlyList<SmiResult> expected = series
             .Skip(series.Count - maxListSize)
             .ToList();
 

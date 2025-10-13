@@ -1,67 +1,48 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Volume Weighted Average Price (VWAP) from incremental quote values.
+/// Volume Weighted Average Price (VWAP) from incremental quotes.
 /// </summary>
-public class VwapList : BufferList<VwapResult>, IIncrementFromQuote
+/// <remarks>
+/// Initializes a new instance of the <see cref="VwapList"/> class.
+/// </remarks>
+/// <param name="startDate">The start date for the VWAP calculation.</param>
+public class VwapList(DateTime startDate) : BufferList<VwapResult>, IIncrementFromQuote
 {
-    private readonly bool _autoAnchor;
-    private DateTime? _startDate;
+    private readonly DateTime _startDate = startDate;
     private double _cumVolume;
     private double _cumVolumeTp;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="VwapList"/> class.
-    /// </summary>
-    /// <param name="startDate">The start date for VWAP calculation. Quotes before this date will have null VWAP.</param>
-    public VwapList(DateTime? startDate = null)
-    {
-        _autoAnchor = startDate == null;
-        _startDate = startDate;
-        _cumVolume = 0;
-        _cumVolumeTp = 0;
-    }
-
-    /// <summary>
     /// Initializes a new instance of the <see cref="VwapList"/> class with initial quotes.
     /// </summary>
-    /// <param name="startDate">The start date for VWAP calculation.</param>
+    /// <param name="startDate">The start date for the VWAP calculation.</param>
     /// <param name="quotes">Initial quotes to populate the list.</param>
-    public VwapList(DateTime? startDate, IReadOnlyList<IQuote> quotes)
+    public VwapList(DateTime startDate, IReadOnlyList<IQuote> quotes)
         : this(startDate)
         => Add(quotes);
 
     /// <summary>
     /// Gets the start date for the VWAP calculation.
     /// </summary>
-    public DateTime? StartDate
-    {
-        get => _startDate;
-        init => _startDate = value;
-    }
+    public DateTime StartDate { get; init; } = startDate;
 
     /// <inheritdoc />
     public void Add(IQuote quote)
     {
         ArgumentNullException.ThrowIfNull(quote);
 
-        // Set start date to first quote's timestamp if not provided
-        if (_startDate == null)
-        {
-            _startDate = quote.Timestamp;
-        }
+        double volume = (double)quote.Volume;
+        double high = (double)quote.High;
+        double low = (double)quote.Low;
+        double close = (double)quote.Close;
 
         double? vwap;
 
-        if (quote.Timestamp >= _startDate.Value)
+        if (quote.Timestamp >= _startDate)
         {
-            double v = (double)quote.Volume;
-            double h = (double)quote.High;
-            double l = (double)quote.Low;
-            double c = (double)quote.Close;
-
-            _cumVolume += v;
-            _cumVolumeTp += v * (h + l + c) / 3;
+            _cumVolume += volume;
+            _cumVolumeTp += volume * (high + low + close) / 3;
 
             vwap = _cumVolume != 0 ? _cumVolumeTp / _cumVolume : null;
         }
@@ -70,7 +51,9 @@ public class VwapList : BufferList<VwapResult>, IIncrementFromQuote
             vwap = null;
         }
 
-        AddInternal(new VwapResult(quote.Timestamp, vwap));
+        AddInternal(new VwapResult(
+            Timestamp: quote.Timestamp,
+            Vwap: vwap));
     }
 
     /// <inheritdoc />
@@ -90,24 +73,14 @@ public class VwapList : BufferList<VwapResult>, IIncrementFromQuote
         base.Clear();
         _cumVolume = 0;
         _cumVolumeTp = 0;
-
-        // Reset _startDate to null if in auto-anchor mode
-        if (_autoAnchor)
-        {
-            _startDate = null;
-        }
     }
 }
 
 public static partial class Vwap
 {
     /// <summary>
-    /// Creates a buffer list for Volume Weighted Average Price (VWAP) calculations.
+    /// Creates a buffer list for VWAP calculations.
     /// </summary>
-    /// <typeparam name="TQuote">The type of the quote, which must implement <see cref="IQuote"/>.</typeparam>
-    /// <param name="quotes">The source list of quotes.</param>
-    /// <param name="startDate">The start date for VWAP calculation.</param>
-    /// <returns>A new <see cref="VwapList"/> instance.</returns>
     public static VwapList ToVwapList<TQuote>(
         this IReadOnlyList<TQuote> quotes,
         DateTime startDate)
@@ -115,14 +88,12 @@ public static partial class Vwap
         => new(startDate) { (IReadOnlyList<IQuote>)quotes };
 
     /// <summary>
-    /// Creates a buffer list for Volume Weighted Average Price (VWAP) calculations
-    /// starting from the first quote's timestamp.
+    /// Creates a buffer list for VWAP calculations starting from the first quote.
     /// </summary>
-    /// <typeparam name="TQuote">The type of the quote, which must implement <see cref="IQuote"/>.</typeparam>
-    /// <param name="quotes">The source list of quotes.</param>
-    /// <returns>A new <see cref="VwapList"/> instance.</returns>
     public static VwapList ToVwapList<TQuote>(
         this IReadOnlyList<TQuote> quotes)
         where TQuote : IQuote
-        => new(null) { (IReadOnlyList<IQuote>)quotes };
+        => quotes?.Count is null or 0
+            ? new VwapList(DateTime.MinValue)
+            : new VwapList(quotes[0].Timestamp) { (IReadOnlyList<IQuote>)quotes };
 }

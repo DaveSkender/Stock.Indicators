@@ -76,22 +76,13 @@ public class ConnorsRsiList : BufferList<ConnorsRsiResult>, IIncrementFromChain
         }
         else
         {
-            if (double.IsNaN(value) || double.IsNaN(_prevValue))
-            {
-                _streak = double.NaN;
-            }
-            else if (value > _prevValue)
-            {
-                _streak = _streak >= 0 ? _streak + 1 : 1;
-            }
-            else if (value < _prevValue)
-            {
-                _streak = _streak <= 0 ? _streak - 1 : -1;
-            }
-            else
-            {
-                _streak = 0;
-            }
+            _streak = double.IsNaN(value) || double.IsNaN(_prevValue)
+                ? double.NaN
+                : value > _prevValue
+                    ? _streak >= 0 ? _streak + 1 : 1
+                    : value < _prevValue
+                        ? _streak <= 0 ? _streak - 1 : -1
+                        : 0;
         }
 
         // Calculate RSI on close

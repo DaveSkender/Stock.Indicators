@@ -244,12 +244,14 @@ public static partial class Catalog
         _listings.Add(Pivots.SeriesListing);
 
         // PMO (Price Momentum Oscillator)
+        _listings.Add(Pmo.BufferListing);
         _listings.Add(Pmo.SeriesListing);
 
         // PRS (Price Relative Strength)
         _listings.Add(Prs.SeriesListing);
 
         // PVO (Price Volume Oscillator)
+        _listings.Add(Pvo.BufferListing);
         _listings.Add(Pvo.SeriesListing);
 
         // Renko
@@ -287,6 +289,7 @@ public static partial class Catalog
         _listings.Add(SmaAnalysis.SeriesListing);
 
         // SMI (Stochastic Momentum Index)
+        _listings.Add(Smi.BufferListing);
         _listings.Add(Smi.SeriesListing);
 
         // SMMA (Smoothed Moving Average)
@@ -295,6 +298,7 @@ public static partial class Catalog
         _listings.Add(Smma.BufferListing);
 
         // STARC Bands
+        _listings.Add(StarcBands.BufferListing);
         _listings.Add(StarcBands.SeriesListing);
 
         // STC (Schaff Trend Cycle)
@@ -355,9 +359,11 @@ public static partial class Catalog
 
         // Vortex Indicator
         _listings.Add(Vortex.SeriesListing);
+        _listings.Add(Vortex.BufferListing);
 
         // VWAP (Volume Weighted Average Price)
         _listings.Add(Vwap.SeriesListing);
+        _listings.Add(Vwap.BufferListing);
 
         // VWMA (Volume Weighted Moving Average)
         _listings.Add(Vwma.SeriesListing);

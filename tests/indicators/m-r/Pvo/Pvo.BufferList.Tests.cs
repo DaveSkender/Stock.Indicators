@@ -1,20 +1,19 @@
 namespace BufferLists;
 
 [TestClass]
-public class Vwap : BufferListTestBase, ITestQuoteBufferList
+public class Pvo : BufferListTestBase, ITestQuoteBufferList
 {
-    private static readonly DateTime startDate = DateTime.Parse("2018-12-31", invariantCulture);
+    private const int fastPeriods = 12;
+    private const int slowPeriods = 26;
+    private const int signalPeriods = 9;
 
-    private static readonly IReadOnlyList<VwapResult> series
-       = Quotes.ToVwap(startDate);
-
-    private static readonly IReadOnlyList<VwapResult> seriesDefault
-       = Quotes.ToVwap();
+    private static readonly IReadOnlyList<PvoResult> series
+       = Quotes.ToPvo(fastPeriods, slowPeriods, signalPeriods);
 
     [TestMethod]
     public void AddQuotes()
     {
-        VwapList sut = new(startDate);
+        PvoList sut = new(fastPeriods, slowPeriods, signalPeriods);
 
         foreach (Quote quote in Quotes)
         {
@@ -28,7 +27,7 @@ public class Vwap : BufferListTestBase, ITestQuoteBufferList
     [TestMethod]
     public void AddQuotesBatch()
     {
-        VwapList sut = Quotes.ToVwapList(startDate);
+        PvoList sut = Quotes.ToPvoList(fastPeriods, slowPeriods, signalPeriods);
 
         sut.Should().HaveCount(Quotes.Count);
         sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
@@ -37,28 +36,19 @@ public class Vwap : BufferListTestBase, ITestQuoteBufferList
     [TestMethod]
     public void WithQuotesCtor()
     {
-        VwapList sut = new(startDate, Quotes);
+        PvoList sut = new(fastPeriods, slowPeriods, signalPeriods, Quotes);
 
         sut.Should().HaveCount(Quotes.Count);
         sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
     }
 
     [TestMethod]
-    public void DefaultStartDate()
-    {
-        VwapList sut = Quotes.ToVwapList();
-
-        sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(seriesDefault, options => options.WithStrictOrdering());
-    }
-
-    [TestMethod]
     public override void ClearResetsState()
     {
         List<Quote> subset = Quotes.Take(80).ToList();
-        IReadOnlyList<VwapResult> expected = subset.ToVwap(startDate);
+        IReadOnlyList<PvoResult> expected = subset.ToPvo(fastPeriods, slowPeriods, signalPeriods);
 
-        VwapList sut = new(startDate, subset);
+        PvoList sut = new(fastPeriods, slowPeriods, signalPeriods, subset);
 
         sut.Should().HaveCount(subset.Count);
         sut.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
@@ -78,15 +68,14 @@ public class Vwap : BufferListTestBase, ITestQuoteBufferList
     {
         const int maxListSize = 120;
 
-        VwapList sut = new(startDate) {
+        PvoList sut = new(fastPeriods, slowPeriods, signalPeriods) {
             MaxListSize = maxListSize
         };
 
         sut.Add(Quotes);
 
-        IReadOnlyList<VwapResult> expected = series
-            .Skip(series.Count - maxListSize)
-            .ToList();
+        IReadOnlyList<PvoResult> expected
+            = series.Skip(series.Count - maxListSize).ToList();
 
         sut.Should().HaveCount(maxListSize);
         sut.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
