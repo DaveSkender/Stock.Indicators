@@ -70,7 +70,7 @@ public class StreamIndicators
 
     [Benchmark]
     public object CmfHub() => quoteHub.ToCmfHub(20).Results;
-    
+
     [Benchmark]
     public object CorrelationHub()
     {
