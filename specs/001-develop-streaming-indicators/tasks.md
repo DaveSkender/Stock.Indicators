@@ -124,7 +124,7 @@ These simplified checklists ensure:
 - [x] **T015** Implement Chop BufferList in `src/a-d/Chop/Chop.BufferList.cs` ✅
 - [x] **T016** Implement Cmf BufferList in `src/a-d/Cmf/Cmf.BufferList.cs` ✅
 - [x] **T017** Implement Cmo BufferList in `src/a-d/Cmo/Cmo.BufferList.cs` ✅
-- [ ] **T018** Implement ConnorsRsi BufferList in `src/a-d/ConnorsRsi/ConnorsRsi.BufferList.cs`
+- [x] **T018** Implement ConnorsRsi BufferList in `src/a-d/ConnorsRsi/ConnorsRsi.BufferList.cs` ✅
 - [x] **T019** Implement Correlation BufferList in `src/a-d/Correlation/Correlation.BufferList.cs` ✅
 - [x] **T020** Implement Dema BufferList in `src/a-d/Dema/Dema.BufferList.cs` ✅
 - [x] **T021** Implement Doji BufferList in `src/a-d/Doji/Doji.BufferList.cs` ✅
@@ -147,7 +147,7 @@ These simplified checklists ensure:
 - [x] **T038** Implement Kama BufferList in `src/e-k/Kama/Kama.BufferList.cs` ✅
 - [x] **T039** Implement Keltner BufferList in `src/e-k/Keltner/Keltner.BufferList.cs` ✅
 - [x] **T040** Implement Kvo BufferList in `src/e-k/Kvo/Kvo.BufferList.cs` ✅
-- [ ] **T041** Implement MaEnvelopes BufferList in `src/m-r/MaEnvelopes/MaEnvelopes.BufferList.cs`
+- [x] **T041** Implement MaEnvelopes BufferList in `src/m-r/MaEnvelopes/MaEnvelopes.BufferList.cs` ✅
 - [x] **T042** Implement Macd BufferList in `src/m-r/Macd/Macd.BufferList.cs` ✅
 - [x] **T043** Implement Mama BufferList in `src/m-r/Mama/Mama.BufferList.cs` ✅
 - [x] **T044** Implement Marubozu BufferList in `src/m-r/Marubozu/Marubozu.BufferList.cs` ✅
@@ -191,9 +191,9 @@ These simplified checklists ensure:
 - [x] **T082** Implement Vwma BufferList in `src/s-z/Vwma/Vwma.BufferList.cs` ✅
 - [x] **T083** Implement WilliamsR BufferList in `src/s-z/WilliamsR/WilliamsR.BufferList.cs` ✅
 - [x] **T084** Implement Wma BufferList in `src/s-z/Wma/Wma.BufferList.cs` ✅
-- [ ] **T085** Implement ZigZag BufferList in `src/s-z/ZigZag/ZigZag.BufferList.cs`
+- [x] **T085** Implement ZigZag BufferList in `src/s-z/ZigZag/ZigZag.BufferList.cs` ✅
 
-**BufferList**: 66/85 complete, 19 remaining
+**BufferList**: 69/85 complete, 16 remaining
 
 **Checkpoint**: Phase 2 completion achieves complete BufferList coverage for all Series indicators
 
@@ -439,18 +439,18 @@ Each task should follow these guidelines:
 
 **Implementation Coverage (1:1:1 Parity)**:
 - **Total Series implementations**: 85 indicators (baseline)
-- **Total BufferList implementations**: 66 complete, 19 remaining (T001-T085)
+- **Total BufferList implementations**: 69 complete, 16 remaining (T001-T085)
 - **Total StreamHub implementations**: 45 complete, 40 remaining (T086-T170)
 - **1:1:1 Target**: 85 BufferList + 85 StreamHub = 170 streaming implementations total
-- **Current streaming coverage**: 111/170 = **65% complete**
+- **Current streaming coverage**: 114/170 = **67% complete**
 
 **Task Breakdown**:
 - **Phase 1**: 10 tasks (A001-A006, T171-T174) — 8 complete, 2 remaining
-- **Phase 2**: 85 BufferList implementation tasks (T001-T085) — 66 complete, 19 remaining
+- **Phase 2**: 85 BufferList implementation tasks (T001-T085) — 69 complete, 16 remaining
 - **Phase 3**: 85 StreamHub implementation tasks (T086-T170) — 45 complete, 40 remaining
 - **Phase 4**: 17 test infrastructure tasks (T175-T185, Q001-Q006) — 0 complete, 17 remaining
 - **Phase 5**: 7 documentation tasks (D001-D007) — 2 complete, 5 remaining
-- **Total**: 204 tasks — 121 complete, 83 remaining
+- **Total**: 204 tasks — 124 complete, 80 remaining
 
 **Deferred to v2** (streaming incompatible): Fractal, HtTrendline, Hurst, Ichimoku, Slope
 
