@@ -162,7 +162,7 @@ Before implementing each indicator:
 These checklists ensure:
 
 - Deterministic mathematical equality (no approximate equality assertions)
-- Proper test interface implementation (`ITestReusableBufferList`, `ITestNonStandardBufferListCache`, `ITestChainObserver`)
+- Proper test interface implementation (`ITestChainBufferList`/`ITestQuoteBufferList`/`ITestPairsBufferList`, `ITestCustomBufferListCache`, `ITestChainObserver`/`ITestQuoteObserver`/`ITestPairsObserver`)
 - Complete coverage of edge cases, error conditions, and performance expectations
 - Alignment with constitution principles and instruction file patterns
 - Regression test implementation with baseline validation for all three styles (Series, BufferList, StreamHub)

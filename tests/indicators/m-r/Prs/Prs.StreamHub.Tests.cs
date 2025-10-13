@@ -1,7 +1,7 @@
 namespace StreamHub;
 
 [TestClass]
-public class PrsHub : StreamHubTestBase, ITestPairsProvider
+public class PrsHub : StreamHubTestBase, ITestPairsObserver
 {
     [TestMethod]
     public void PairsObserver()

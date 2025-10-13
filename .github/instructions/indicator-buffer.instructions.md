@@ -49,7 +49,7 @@ All buffer test classes inherit from `BufferListTestBase` and implement the corr
 - `ITestChainBufferList` when implementing `IIncrementFromChain`
 - `ITestQuoteBufferList` when implementing `IIncrementFromQuote`
 - `ITestPairsBufferList` when implementing `IIncrementFromPairs`
-- `ITestNonStandardBufferListCache` when using `List<T>` caches instead of `Queue<T>`
+- `ITestCustomBufferListCache` when using custom non-`Queue<T>` caches (for example, `List<T>`)
 
 ## Implementation requirements
 
@@ -202,7 +202,7 @@ The `BufferListTestBase` abstract class defines 5 required test methods that ens
 
 ```csharp
 [TestClass]
-public class {IndicatorName}BufferListTests : BufferListTestBase, ITestReusableBufferList
+public class {IndicatorName}BufferListTests : BufferListTestBase, ITestChainBufferList
 {
     private const int lookbackPeriods = 14;
     private static readonly IReadOnlyList<IReusable> reusables = Quotes.Cast<IReusable>().ToList();
@@ -277,6 +277,23 @@ Study these exemplary buffer indicators that demonstrate proper use of universal
 - **HMA**: `src/e-k/Hma/Hma.BufferList.cs` - Multi-buffer management for complex calculations
 - **ADX**: `src/a-d/Adx/Adx.BufferList.cs` - Complex object buffer management
 - **MAMA**: `src/m-r/Mama/Mama.BufferList.cs` - List-based state with separate state array pruning
+- **Volatility Stop (historical repaint)**: `src/s-z/VolatilityStop/VolatilityStop.BufferList.cs` — Demonstrates correct handling of trailing stop recalculation and repainting of historical values when new extrema arrive. Use this as the canonical pattern for indicators that legitimately revise past outputs based on future bars.
+- **Dual-input (pairs)**:
+  - `src/a-d/Correlation/Correlation.BufferList.cs` — Pairwise rolling statistics with timestamp alignment requirements
+  - `src/a-d/Beta/Beta.BufferList.cs` — Dual-series regression/risk example built on the same pairs pattern
+
+When implementing other complex or previously deferred indicators (for example: Fractal, HtTrendline, Hurst, Ichimoku, Slope), prefer adapting from the closest matching reference above rather than writing bespoke buffer logic. In particular:
+
+- For multi-buffer pipelines, start from HMA.
+- For complex state objects, start from ADX.
+- For legitimate historical repaint behavior, start from Volatility Stop.
+- For synchronized dual-series inputs, start from Correlation/Beta.
+
+> [!NOTE]
+> For PRs, use the dev-facing Code completion checklist above, and the contributor-facing checklists in SpecKit:
+>
+> - BufferList tests: `specs/001-develop-streaming-indicators/checklists/buffer-list-tests.md`
+> - StreamHub tests: `specs/001-develop-streaming-indicators/checklists/stream-hub-tests.md`
 
 ---
-Last updated: October 12, 2025
+Last updated: October 13, 2025

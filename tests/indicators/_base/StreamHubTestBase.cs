@@ -54,7 +54,7 @@ public interface ITestChainProvider
 /// such as Correlation, Beta, etc. Tests should validate timestamp synchronization,
 /// dual-cache management, and proper error handling for mismatched inputs.
 /// </remarks>
-public interface ITestPairsProvider
+public interface ITestPairsObserver
 {
     /// <summary>
     /// Tests hub capability with dual synchronized providers
