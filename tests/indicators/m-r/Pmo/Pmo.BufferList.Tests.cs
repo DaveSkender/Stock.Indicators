@@ -1,7 +1,7 @@
 namespace BufferLists;
 
 [TestClass]
-public class Pmo : BufferListTestBase, ITestReusableBufferList, ITestNonStandardBufferListCache
+public class Pmo : BufferListTestBase, ITestChainBufferList, ITestCustomBufferListCache
 {
     private const int timePeriods = 35;
     private const int smoothPeriods = 20;
@@ -53,7 +53,7 @@ public class Pmo : BufferListTestBase, ITestReusableBufferList, ITestNonStandard
     }
 
     [TestMethod]
-    public override void AddQuotes()
+    public void AddQuotes()
     {
         PmoList sut = new(timePeriods, smoothPeriods, signalPeriods);
 
@@ -67,7 +67,7 @@ public class Pmo : BufferListTestBase, ITestReusableBufferList, ITestNonStandard
     }
 
     [TestMethod]
-    public override void AddQuotesBatch()
+    public void AddQuotesBatch()
     {
         PmoList sut = Quotes.ToPmoList(timePeriods, smoothPeriods, signalPeriods);
 
@@ -76,7 +76,7 @@ public class Pmo : BufferListTestBase, ITestReusableBufferList, ITestNonStandard
     }
 
     [TestMethod]
-    public override void WithQuotesCtor()
+    public void WithQuotesCtor()
     {
         PmoList sut = new(timePeriods, smoothPeriods, signalPeriods, Quotes);
 
@@ -124,7 +124,7 @@ public class Pmo : BufferListTestBase, ITestReusableBufferList, ITestNonStandard
     }
 
     [TestMethod]
-    public void AutoBufferPruning()
+    public void CustomBufferPruning()
     {
         const int maxListSize = 120;
 

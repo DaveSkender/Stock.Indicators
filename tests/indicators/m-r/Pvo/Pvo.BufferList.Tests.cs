@@ -1,7 +1,7 @@
 namespace BufferLists;
 
 [TestClass]
-public class Pvo : BufferListTestBase
+public class Pvo : BufferListTestBase, ITestQuoteBufferList
 {
     private const int fastPeriods = 12;
     private const int slowPeriods = 26;
@@ -11,7 +11,7 @@ public class Pvo : BufferListTestBase
        = Quotes.ToPvo(fastPeriods, slowPeriods, signalPeriods);
 
     [TestMethod]
-    public override void AddQuotes()
+    public void AddQuotes()
     {
         PvoList sut = new(fastPeriods, slowPeriods, signalPeriods);
 
@@ -25,7 +25,7 @@ public class Pvo : BufferListTestBase
     }
 
     [TestMethod]
-    public override void AddQuotesBatch()
+    public void AddQuotesBatch()
     {
         PvoList sut = Quotes.ToPvoList(fastPeriods, slowPeriods, signalPeriods);
 
@@ -34,7 +34,7 @@ public class Pvo : BufferListTestBase
     }
 
     [TestMethod]
-    public override void WithQuotesCtor()
+    public void WithQuotesCtor()
     {
         PvoList sut = new(fastPeriods, slowPeriods, signalPeriods, Quotes);
 
