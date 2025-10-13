@@ -68,10 +68,14 @@ jobs:
         run: dotnet gitversion -config src/gitversion.yml -updateassemblyinfo
 
       - name: Validate preview settings
+        env:
+          INPUT_ENVIRONMENT: ${{ github.event.inputs.environment }}
+          GITHUB_REF: ${{ github.ref }}
+          INPUT_PREVIEW: ${{ github.event.inputs.preview }}
         run: |
-          if [[ "${{ github.event.inputs.environment }}" == "nuget.org" ]] && \
-             [[ "${{ github.ref }}" != "refs/heads/main" ]] && \
-             [[ "${{ github.event.inputs.preview }}" != "true" ]]; then
+          if [[ "$INPUT_ENVIRONMENT" == "nuget.org" ]] && \
+             [[ "$GITHUB_REF" != "refs/heads/main" ]] && \
+             [[ "$INPUT_PREVIEW" != "true" ]]; then
             echo "::error::Non-preview versions on nuget.org are only allowed from main branch"
             exit 1
           fi

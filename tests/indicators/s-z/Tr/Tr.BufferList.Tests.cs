@@ -7,7 +7,7 @@ public class Tr : BufferListTestBase
        = Quotes.ToTr();
 
     [TestMethod]
-    public override void AddQuotes()
+    public void AddQuotes()
     {
 #pragma warning disable IDE0028 // Collection expression incompatible with IQuote Add overloads
         TrList sut = new();
@@ -23,7 +23,7 @@ public class Tr : BufferListTestBase
     }
 
     [TestMethod]
-    public override void AddQuotesBatch()
+    public void AddQuotesBatch()
     {
         TrList sut = new() { Quotes };
 
@@ -32,7 +32,7 @@ public class Tr : BufferListTestBase
     }
 
     [TestMethod]
-    public override void WithQuotesCtor()
+    public void WithQuotesCtor()
     {
         TrList sut = new(Quotes);
 

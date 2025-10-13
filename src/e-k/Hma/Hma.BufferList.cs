@@ -128,9 +128,8 @@ public static partial class Hma
     /// <summary>
     /// Creates a buffer list for Hull Moving Average (HMA) calculations.
     /// </summary>
-    public static HmaList ToHmaList<T>(
-        this IReadOnlyList<T> source,
+    public static HmaList ToHmaList(
+        this IReadOnlyList<IReusable> source,
         int lookbackPeriods)
-        where T : IReusable
-        => new(lookbackPeriods) { (IReadOnlyList<IReusable>)source };
+        => new(lookbackPeriods) { source };
 }

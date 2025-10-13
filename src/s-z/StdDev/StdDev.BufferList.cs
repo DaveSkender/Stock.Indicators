@@ -106,9 +106,8 @@ public static partial class StdDev
     /// <summary>
     /// Creates a buffer list for Standard Deviation calculations.
     /// </summary>
-    public static StdDevList ToStdDevList<T>(
-        this IReadOnlyList<T> source,
+    public static StdDevList ToStdDevList(
+        this IReadOnlyList<IReusable> source,
         int lookbackPeriods = 14)
-        where T : IReusable
-        => new(lookbackPeriods) { (IReadOnlyList<IReusable>)source };
+        => new(lookbackPeriods) { source };
 }

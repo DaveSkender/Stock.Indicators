@@ -27,7 +27,7 @@ public class MacdHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
         quoteHub.EndTransmission();
     }
     [TestMethod]
-    public override void QuoteObserver()
+    public void QuoteObserver()
     {
         List<Quote> quotesList = Quotes.ToList();
 

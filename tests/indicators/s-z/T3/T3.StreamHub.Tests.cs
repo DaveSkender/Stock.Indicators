@@ -1,10 +1,10 @@
 namespace StreamHub;
 
 [TestClass]
-public class T3Hub : StreamHubTestBase, ITestChainProvider
+public class T3Hub : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
 {
     [TestMethod]
-    public override void QuoteObserver()
+    public void QuoteObserver()
     {
         const int lookbackPeriods = 5;
         const double volumeFactor = 0.7;

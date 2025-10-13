@@ -5,17 +5,16 @@
 
 ## Requirements Quality Validation
 
-Before implementing each indicator, review the corresponding checklist for requirements validation:
+Before implementing each indicator, review the corresponding simplified checklist for requirements validation:
 
-- **BufferList style**: [checklists/buffer-list.md](checklists/buffer-list.md) — 113 validation items
-- **StreamHub style**: [checklists/stream-hub.md](checklists/stream-hub.md) — 115 validation items
+- **BufferList style**: [checklists/buffer-list.md](checklists/buffer-list.md) — 15 essential validation items
+- **StreamHub style**: [checklists/stream-hub.md](checklists/stream-hub.md) — 18 essential validation items
 
-These checklists ensure:
+These simplified checklists ensure:
 
-- Deterministic mathematical equality (no approximate equality assertions)
-- Proper test interface implementation (`ITestReusableBufferList`, `ITestNonStandardBufferListCache`)
-- Complete coverage of edge cases, error conditions, and performance expectations
-- Alignment with constitution principles and instruction file patterns
+- Constitution compliance (mathematical precision, performance, validation, testing, documentation)
+- Instruction file adherence (base classes, interfaces, test patterns, utilities)
+- Essential quality gates (clarity, completeness, consistency, verifiability)
 
 ## Format: `[ID] Description`
 
@@ -29,7 +28,55 @@ Paths assume the single-project layout at the repository root:
 - Source: `src/`
 - Tests: `tests/`
 
-## Missing BufferList Implementations
+## Instruction File Compliance Audit (NEW - CRITICAL)
+
+The following tasks address gaps between existing implementations and current instruction file requirements:
+
+### Core Compliance Audit
+
+- [ ] **A001**: Audit existing BufferList implementations for instruction file compliance (`src/**/*.BufferList.cs` against `.github/instructions/indicator-buffer.instructions.md`)
+  - [ ] Verify correct base class inheritance (`BufferList<TResult>`)
+  - [ ] Check interface implementation (`IIncrementFromChain`/`IIncrementFromQuote`/`IIncrementFromPairs`)
+  - [ ] Validate constructor patterns (params-only and params+quotes variants)
+  - [ ] Confirm `BufferUtilities` usage instead of manual buffer management
+  - [ ] Check member ordering per instruction file conventions
+
+- [ ] **A002**: Audit existing StreamHub implementations for instruction file compliance (`src/**/*.StreamHub.cs` against `.github/instructions/indicator-stream.instructions.md`)
+  - [ ] Verify correct provider base (`ChainProvider`/`QuoteProvider`/`PairsProvider`)
+  - [ ] Check test interface implementation requirements
+  - [ ] Validate provider history testing coverage (Insert/Remove scenarios)
+  - [ ] Confirm performance benchmarking inclusion
+  - [ ] Check member ordering per instruction file conventions
+
+### Test Compliance Audit
+
+- [ ] **A003**: Audit BufferList test classes for compliance (`tests/**/*.BufferList.Tests.cs`)
+  - [ ] Verify inheritance from `BufferListTestBase` (not `TestBase`)
+  - [ ] Check implementation of correct test interfaces
+  - [ ] Validate coverage of 5 required test methods
+  - [ ] Confirm Series parity validation patterns
+
+- [ ] **A004**: Audit StreamHub test classes for compliance (`tests/**/*.StreamHub.Tests.cs`)
+  - [ ] Verify inheritance from `StreamHubTestBase`
+  - [ ] Check implementation of correct test interfaces per provider pattern
+  - [ ] Validate provider history testing (Insert/Remove scenarios)
+  - [ ] Confirm performance benchmarking inclusion
+
+### Documentation Compliance
+
+- [ ] **A005**: Update indicator documentation pages for instruction file compliance
+  - [ ] Ensure streaming usage sections reference instruction files
+  - [ ] Update examples to match current API patterns
+  - [ ] Verify consistency with catalog entries
+
+### Implementation Gap Analysis
+
+- [ ] **A006**: Identify and prioritize instruction file compliance gaps
+  - [ ] Create priority matrix based on constitution principle violations
+  - [ ] Document specific remediation steps for high-priority gaps
+  - [ ] Estimate effort for bringing existing implementations into compliance
+
+**Note**: These audit tasks are essential for ensuring the existing 59 BufferList and 40 StreamHub implementations comply with the refined instruction file requirements developed since the original spec kit plans.
 
 The following indicators have series-style implementations but lack BufferList implementations:
 
@@ -176,7 +223,7 @@ Each task should follow these guidelines:
 
 - Inherit from `BufferList<TResult>` base class
 - Implement appropriate interface (`IIncrementFromChain`, `IIncrementFromQuote`, or `IIncrementFromPairs`)
-- Follow patterns from `.github/instructions/buffer-indicators.instructions.md`
+- Follow patterns from `.github/instructions/indicator-buffer.instructions.md`
 - Provide both standard constructor and constructor with values/quotes parameter (matching interface type)
 - Use universal `BufferUtilities` extension methods for buffer management
 - Include comprehensive unit tests matching patterns in existing tests
@@ -185,7 +232,7 @@ Each task should follow these guidelines:
 ### StreamHub Implementation Requirements
 
 - Extend `ChainProvider<TIn, TResult>` or `QuoteProvider<TIn, TResult>`
-- Follow patterns from `.github/instructions/stream-indicators.instructions.md`
+- Follow patterns from `.github/instructions/indicator-stream.instructions.md`
 - Implement efficient state management for real-time processing
 - Include comprehensive unit tests matching patterns in existing tests
 - Ensure mathematical correctness matches series implementation
@@ -234,9 +281,9 @@ The following documentation tasks support the main implementation work:
 - [ ] **D004**: Update `docs/_indicators/Macd.md` with streaming usage section and examples
 - [ ] **D005**: Update `docs/_indicators/BollingerBands.md` with streaming usage section and examples
 - [ ] **D006**: Update `README.md` with streaming overview paragraph and quick-start example
-- [ ] **D007**: Update `src/_common/ObsoleteV3.md` with streaming capability summary and migration guidance
+- [ ] **D007**: Update `src/MigrationGuide.V3.md` with streaming capability summary and migration guidance
 - [ ] **T108**: Update indicator documentation pages (`docs/_indicators/*.md`) for all streaming-enabled indicators with usage examples (NFR-005)
-- [ ] **T109**: Expand `src/_common/ObsoleteV3.md` with comprehensive streaming migration guidance including performance benefits and API patterns (NFR-006)
+- [ ] **T109**: Expand `src/MigrationGuide.V3.md` with comprehensive streaming migration guidance including performance benefits and API patterns (NFR-006)
 
 ### Quality Gates
 
@@ -244,6 +291,23 @@ The following documentation tasks support the main implementation work:
 - [ ] **Q002**: Run performance benchmarks comparing BufferList vs Series for representative indicators
 - [ ] **Q003**: Run performance benchmarks comparing StreamHub vs Series for representative indicators
 - [ ] **Q004**: Validate memory overhead stays within <10KB per instance target (NFR-002)
+
+### Test Interface Compliance & Code Quality
+
+- [ ] **T110**: Audit all existing StreamHub test classes for proper test interface implementation according to updated guidelines in `.github/instructions/indicator-stream.instructions.md`
+- [ ] **T111**: Update StreamHub test classes that implement wrong interfaces (e.g., missing `ITestChainObserver` for chainable indicators)
+// T112: Add ITestRollbackState interface and robust RollbackValidation test to all StreamHub test classes for indicators with RollbackState() implementations (ADX, MAMA, AtrStop, Beta, etc.).
+// The RollbackValidation test must:
+// - Use a mutable `List<Quote>` (not static array)
+// - Add all quotes, verify results match series exactly (strict ordering)
+// - Remove a single historical quote (not just the last)
+// - Rebuild the expected series with the revised quote list (one missing)
+// - Assert exact count and strict ordering for both before and after removal
+// - Never re-add the removed quote; the revised series is the new ground truth
+// - Reference Adx.StreamHub.Tests.cs for canonical structure
+- [ ] **T112**: Add `ITestRollbackState` interface and robust RollbackValidation test to test classes for indicators with `RollbackState()` implementations (ADX, MAMA, AtrStop, Beta, etc.)
+- [ ] **T113**: Verify all dual-stream indicators (Correlation, Beta, PRS) implement `ITestPairsObserver` interface correctly
+- [ ] **T114**: Create validation script to check test interface compliance across all StreamHub tests
 
 **Notes**:
 
@@ -262,6 +326,33 @@ The following documentation tasks support the main implementation work:
 - **Target coverage**: All 85 series indicators with both BufferList and StreamHub styles
 - **Documentation tasks**: 7 (D001-D007)
 - **Quality gate tasks**: 4 (Q001-Q004)
+- **Test interface compliance tasks**: 5 (T110-T114)
+- **Provider history testing tasks**: 6 (T115-T120)
+
+## Provider History Testing (New Tasks)
+
+StreamHub implementations should test removal and revision of provider history to ensure proper state management and recalculation. Analysis shows several tests lack Insert/Remove operations.
+
+### Test Coverage Analysis
+
+Current status of provider history testing in StreamHub tests:
+
+**✅ Tests with proper Insert/Remove coverage:**
+
+- AlligatorHub, AwesomeHub, DojiHub, EmaHub, DemaHub, HmaHub, RocHub, RenkoHub, SmaHub, SmmaHub, T3Hub, TemaHub, TrixHub, TrHub, UltimateHub, WmaHub (16 tests)
+
+**❌ Tests missing Insert/Remove coverage:**
+
+- AdxHub, AtrHub, CciHub, MacdHub, MamaHub, ObvHub, PrsHub, RsiHub, StochHub, StochRsiHub, VwmaHub, WilliamsRHub (12+ tests)
+
+### Implementation Tasks
+
+- [ ] T115 Add provider history (Insert/Remove) testing to QuoteObserver tests in AdxHub at `tests/indicators/a-d/Adx/Adx.StreamHub.Tests.cs` using the robust pattern: use `List<Quote>`, remove by index, verify strict ordering and count, never re-add removed quote, and reference Adx.StreamHub.Tests.cs as canonical example.
+- [ ] T116 Add provider history (Insert/Remove) testing to ChainProvider tests missing Insert/Remove operations in AtrHub, CciHub, MacdHub, MamaHub, ObvHub, PrsHub at their respective test files, following the improved pattern.
+- [ ] T117 Add provider history (Insert/Remove) testing to ChainObserver tests missing Insert/Remove operations in RsiHub, StochRsiHub at their respective test files, following the improved pattern.
+- [ ] T118 Add provider history (Insert/Remove) testing to ChainProvider tests missing Insert/Remove operations in StochHub, VwmaHub, WilliamsRHub at their respective test files, following the improved pattern.
+- [ ] T119 Add virtual ProviderHistoryTesting() method to StreamHubTestBase class in `tests/indicators/_base/StreamHubTestBase.cs` with standard Insert/Remove pattern, and ensure all derived tests override as needed for indicator-specific logic.
+- [ ] T120 Update indicator-stream.instructions.md to require provider history testing and reference the new base class virtual method and the robust RollbackValidation pattern.
 
 ---
 Last updated: October 12, 2025

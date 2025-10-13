@@ -4,7 +4,7 @@ namespace StreamHub;
 public class AlligatorHub : StreamHubTestBase, ITestChainObserver
 {
     [TestMethod]
-    public override void QuoteObserver()
+    public void QuoteObserver()
     {
         List<Quote> quotesList = Quotes.ToList();
 

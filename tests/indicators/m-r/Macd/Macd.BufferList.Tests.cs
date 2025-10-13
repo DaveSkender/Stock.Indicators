@@ -1,7 +1,7 @@
 namespace BufferLists;
 
 [TestClass]
-public class Macd : BufferListTestBase, ITestReusableBufferList
+public class Macd : BufferListTestBase, ITestChainBufferList
 {
     private const int fastPeriods = 12;
     private const int slowPeriods = 26;
@@ -16,7 +16,7 @@ public class Macd : BufferListTestBase, ITestReusableBufferList
        = Quotes.ToMacd(fastPeriods, slowPeriods, signalPeriods);
 
     [TestMethod]
-    public override void AddQuotes()
+    public void AddQuotes()
     {
         MacdList sut = new(fastPeriods, slowPeriods, signalPeriods);
 
@@ -30,7 +30,7 @@ public class Macd : BufferListTestBase, ITestReusableBufferList
     }
 
     [TestMethod]
-    public override void AddQuotesBatch()
+    public void AddQuotesBatch()
     {
         MacdList sut = Quotes.ToMacdList(fastPeriods, slowPeriods, signalPeriods);
 
@@ -39,7 +39,7 @@ public class Macd : BufferListTestBase, ITestReusableBufferList
     }
 
     [TestMethod]
-    public override void WithQuotesCtor()
+    public void WithQuotesCtor()
     {
         MacdList sut = new(fastPeriods, slowPeriods, signalPeriods, Quotes);
 

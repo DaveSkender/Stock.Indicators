@@ -1,7 +1,7 @@
 namespace BufferLists;
 
 [TestClass]
-public class Trix : BufferListTestBase, ITestReusableBufferList
+public class Trix : BufferListTestBase, ITestChainBufferList
 {
     private const int lookbackPeriods = 14;
 
@@ -14,7 +14,7 @@ public class Trix : BufferListTestBase, ITestReusableBufferList
        = Quotes.ToTrix(lookbackPeriods);
 
     [TestMethod]
-    public override void AddQuotes()
+    public void AddQuotes()
     {
         TrixList sut = new(lookbackPeriods);
 
@@ -28,7 +28,7 @@ public class Trix : BufferListTestBase, ITestReusableBufferList
     }
 
     [TestMethod]
-    public override void AddQuotesBatch()
+    public void AddQuotesBatch()
     {
         TrixList sut = new(lookbackPeriods) { Quotes };
 
@@ -37,7 +37,7 @@ public class Trix : BufferListTestBase, ITestReusableBufferList
     }
 
     [TestMethod]
-    public override void WithQuotesCtor()
+    public void WithQuotesCtor()
     {
         TrixList sut = new(lookbackPeriods, Quotes);
 

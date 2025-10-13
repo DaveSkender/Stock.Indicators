@@ -1,10 +1,10 @@
 namespace StreamHub;
 
 [TestClass]
-public class QuotePartHub : StreamHubTestBase, ITestChainProvider
+public class QuotePartHub : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
 {
     [TestMethod]
-    public override void QuoteObserver()
+    public void QuoteObserver()
     {
         const CandlePart candlePart = CandlePart.HLC3;
 
