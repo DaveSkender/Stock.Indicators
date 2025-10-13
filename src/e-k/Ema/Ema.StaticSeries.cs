@@ -57,20 +57,4 @@ public static partial class Ema
 
         return new List<EmaResult>(results);
     }
-
-    /// <summary>
-    /// Converts a list of source data to EMA results.
-    /// </summary>
-    /// <typeparam name="T">The type of the source data.</typeparam>
-    /// <param name="source">The list of source data.</param>
-    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
-    /// <returns>A list of EMA results.</returns>
-    /// <exception cref="ArgumentNullException">Thrown when the source list is null.</exception>
-    /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
-    [Obsolete("Generic type parameter is no longer needed. Use 'ToEma(this IReadOnlyList<IReusable> source, int lookbackPeriods)' instead.", false)]
-    public static IReadOnlyList<EmaResult> ToEma<T>(
-        this IReadOnlyList<T> source,
-        int lookbackPeriods)
-        where T : IReusable
-        => ToEma((IReadOnlyList<IReusable>)source, lookbackPeriods);
 }

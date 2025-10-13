@@ -362,7 +362,7 @@ public static partial class Indicator
     public static IEnumerable<EmaResult> GetEma<TQuote>(
         this IEnumerable<TQuote> quotes, int lookbackPeriods)
         where TQuote : IQuote
-        => quotes.ToSortedList().ToEma(lookbackPeriods);
+        => ((IReadOnlyList<IReusable>)quotes.ToSortedList()).ToEma(lookbackPeriods);
 
     [ExcludeFromCodeCoverage]
     [Obsolete("Use 'ToEma(..)' method. Tuple arguments were removed.", false)]
@@ -589,7 +589,7 @@ public static partial class Indicator
         double percentOffset = 2.5,
         MaType movingAverageType = MaType.SMA)
         where TQuote : IQuote
-        => quotes.ToSortedList()
+        => ((IReadOnlyList<IReusable>)quotes.ToSortedList())
             .ToMaEnvelopes(lookbackPeriods, percentOffset, movingAverageType);
 
     [ExcludeFromCodeCoverage]

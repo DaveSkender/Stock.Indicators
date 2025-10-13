@@ -12,19 +12,17 @@ public static partial class MaEnvelopes
     /// <summary>
     /// Converts a list of source values to Moving Average Envelope results.
     /// </summary>
-    /// <typeparam name="T">The type of the source values, which must implement <see cref="IReusable"/>.</typeparam>
     /// <param name="source">The list of source values to transform.</param>
     /// <param name="lookbackPeriods">The number of periods for the moving average.</param>
     /// <param name="percentOffset">The percentage offset for the envelopes. Default is 2.5.</param>
     /// <param name="movingAverageType">The type of moving average to use. Default is SMA.</param>
     /// <returns>A list of Moving Average Envelope results.</returns>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the moving average type is not supported.</exception>
-    public static IReadOnlyList<MaEnvelopeResult> ToMaEnvelopes<T>(
-        this IReadOnlyList<T> source,
+    public static IReadOnlyList<MaEnvelopeResult> ToMaEnvelopes(
+        this IReadOnlyList<IReusable> source,
         int lookbackPeriods,
         double percentOffset = 2.5,
         MaType movingAverageType = MaType.SMA)
-        where T : IReusable
     {
         // check parameter arguments
         // note: most validations are done in variant methods
@@ -81,11 +79,10 @@ public static partial class MaEnvelopes
             UpperEnvelope: x.Dema + (x.Dema * offsetRatio),
             LowerEnvelope: x.Dema - (x.Dema * offsetRatio)));
 
-    private static IEnumerable<MaEnvelopeResult> MaEnvEma<T>(
-        this IReadOnlyList<T> source,
+    private static IEnumerable<MaEnvelopeResult> MaEnvEma(
+        this IReadOnlyList<IReusable> source,
         int lookbackPeriods,
         double offsetRatio)
-        where T : IReusable
         => source.ToEma(lookbackPeriods)
         .Select(x => new MaEnvelopeResult(
             Timestamp: x.Timestamp,
