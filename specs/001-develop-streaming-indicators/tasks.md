@@ -320,9 +320,9 @@ The following documentation tasks support the main implementation work:
 - **Total BufferList tasks**: 55
 - **Total StreamHub tasks**: 52
 - **Total implementation tasks**: 107
-- **Current implementations**: BufferList (48/55 = 87%), StreamHub (41/52 = 79%)
-- **Missing BufferList implementations**: 7 indicators
-- **Missing StreamHub implementations**: 11 indicators
+- **Current implementations**: BufferList (29/55 = 53%), StreamHub (6/52 = 12%)
+- **Missing BufferList implementations**: 26 indicators
+- **Missing StreamHub implementations**: 46 indicators
 - **Target coverage**: All 85 series indicators with both BufferList and StreamHub styles
 - **Documentation tasks**: 7 (D001-D007)
 - **Quality gate tasks**: 4 (Q001-Q004)
