@@ -82,19 +82,28 @@ public class ZigZagList : BufferList<ZigZagResult>, IIncrementFromQuote
 
     private void Recalculate()
     {
-        // Clear existing results
-        while (Count > 0)
-        {
-            RemoveAt(Count - 1);
-        }
-
         // Recalculate using Series method
         IReadOnlyList<ZigZagResult> results = _quoteCache.ToZigZag(_endType, _percentChange);
 
-        // Add all results
-        foreach (ZigZagResult result in results)
+        // Update existing results or add new ones
+        for (int i = 0; i < results.Count; i++)
         {
-            AddInternal(result);
+            if (i < Count)
+            {
+                // Update existing result
+                UpdateInternal(i, results[i]);
+            }
+            else
+            {
+                // Add new result
+                AddInternal(results[i]);
+            }
+        }
+
+        // Remove any excess results (if quote cache was pruned)
+        while (Count > results.Count)
+        {
+            RemoveAt(Count - 1);
         }
     }
 

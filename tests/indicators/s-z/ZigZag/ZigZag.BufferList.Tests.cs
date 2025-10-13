@@ -1,7 +1,7 @@
 namespace BufferLists;
 
 [TestClass]
-public class ZigZag : BufferListTestBase
+public class ZigZag : BufferListTestBase, ITestQuoteBufferList
 {
     private const EndType endType = EndType.Close;
     private const decimal percentChange = 5;
