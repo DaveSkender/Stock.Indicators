@@ -1,7 +1,7 @@
 namespace BufferLists;
 
 [TestClass]
-public class StarcBands : BufferListTestBase
+public class StarcBands : BufferListTestBase, ITestQuoteBufferList
 {
     private const int smaPeriods = 5;
     private const double multiplier = 2;
@@ -11,7 +11,7 @@ public class StarcBands : BufferListTestBase
        = Quotes.ToStarcBands(smaPeriods, multiplier, atrPeriods);
 
     [TestMethod]
-    public override void AddQuotes()
+    public void AddQuotes()
     {
         StarcBandsList sut = new(smaPeriods, multiplier, atrPeriods);
 
@@ -25,7 +25,7 @@ public class StarcBands : BufferListTestBase
     }
 
     [TestMethod]
-    public override void AddQuotesBatch()
+    public void AddQuotesBatch()
     {
         StarcBandsList sut = new(smaPeriods, multiplier, atrPeriods) { Quotes };
 
@@ -34,7 +34,7 @@ public class StarcBands : BufferListTestBase
     }
 
     [TestMethod]
-    public override void WithQuotesCtor()
+    public void WithQuotesCtor()
     {
         StarcBandsList sut = new(smaPeriods, multiplier, atrPeriods, Quotes);
 

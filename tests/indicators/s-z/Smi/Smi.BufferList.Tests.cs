@@ -1,7 +1,7 @@
 namespace BufferLists;
 
 [TestClass]
-public class Smi : BufferListTestBase
+public class Smi : BufferListTestBase, ITestQuoteBufferList
 {
     private const int lookbackPeriods = 13;
     private const int firstSmoothPeriods = 25;
@@ -12,7 +12,7 @@ public class Smi : BufferListTestBase
        = Quotes.ToSmi(lookbackPeriods, firstSmoothPeriods, secondSmoothPeriods, signalPeriods);
 
     [TestMethod]
-    public override void AddQuotes()
+    public void AddQuotes()
     {
         SmiList sut = new(lookbackPeriods, firstSmoothPeriods, secondSmoothPeriods, signalPeriods);
 
@@ -26,7 +26,7 @@ public class Smi : BufferListTestBase
     }
 
     [TestMethod]
-    public override void AddQuotesBatch()
+    public void AddQuotesBatch()
     {
         SmiList sut = new(lookbackPeriods, firstSmoothPeriods, secondSmoothPeriods, signalPeriods) { Quotes };
 
@@ -35,7 +35,7 @@ public class Smi : BufferListTestBase
     }
 
     [TestMethod]
-    public override void WithQuotesCtor()
+    public void WithQuotesCtor()
     {
         SmiList sut = new(lookbackPeriods, firstSmoothPeriods, secondSmoothPeriods, signalPeriods, Quotes);
 
