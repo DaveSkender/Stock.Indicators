@@ -111,6 +111,14 @@ public class BufferIndicators
         => new(7, 14, 28) { quotes };
 
     [Benchmark]
+    public VortexList VortexBuffer()
+        => new(n) { quotes };
+
+    [Benchmark]
+    public VwapList VwapBuffer()
+        => new(quotes[0].Timestamp) { quotes };
+
+    [Benchmark]
     public VwmaList VwmaBuffer()
         => new(n) { quotes };
 

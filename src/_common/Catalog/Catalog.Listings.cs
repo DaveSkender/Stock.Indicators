@@ -359,9 +359,11 @@ public static partial class Catalog
 
         // Vortex Indicator
         _listings.Add(Vortex.SeriesListing);
+        _listings.Add(Vortex.BufferListing);
 
         // VWAP (Volume Weighted Average Price)
         _listings.Add(Vwap.SeriesListing);
+        _listings.Add(Vwap.BufferListing);
 
         // VWMA (Volume Weighted Moving Average)
         _listings.Add(Vwma.SeriesListing);
