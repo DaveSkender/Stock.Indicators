@@ -3,42 +3,40 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Volume Weighted Average Price (VWAP) from incremental quotes.
 /// </summary>
-public class VwapList : BufferList<VwapResult>, IIncrementFromQuote
+/// <remarks>
+/// Initializes a new instance of the <see cref="VwapList"/> class.
+/// </remarks>
+/// <param name="startDate">The start date for VWAP calculation. If null, auto-anchors to first quote.</param>
+public class VwapList(DateTime? startDate = null) : BufferList<VwapResult>, IIncrementFromQuote
 {
-    private readonly DateTime _startDate;
+    private readonly bool _autoAnchor = startDate == null;
     private double _cumVolume;
     private double _cumVolumeTp;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="VwapList"/> class.
-    /// </summary>
-    /// <param name="startDate">The start date for the VWAP calculation.</param>
-    public VwapList(DateTime startDate)
-    {
-        StartDate = startDate;
-        _startDate = startDate;
-        _cumVolume = 0;
-        _cumVolumeTp = 0;
-    }
-
-    /// <summary>
     /// Initializes a new instance of the <see cref="VwapList"/> class with initial quotes.
     /// </summary>
-    /// <param name="startDate">The start date for the VWAP calculation.</param>
+    /// <param name="startDate">The start date for VWAP calculation. If null, auto-anchors to first quote.</param>
     /// <param name="quotes">Initial quotes to populate the list.</param>
-    public VwapList(DateTime startDate, IReadOnlyList<IQuote> quotes)
+    public VwapList(DateTime? startDate, IReadOnlyList<IQuote> quotes)
         : this(startDate)
         => Add(quotes);
 
     /// <summary>
     /// Gets the start date for the VWAP calculation.
     /// </summary>
-    public DateTime StartDate { get; init; }
+    public DateTime? StartDate { get; private set; } = startDate;
 
     /// <inheritdoc />
     public void Add(IQuote quote)
     {
         ArgumentNullException.ThrowIfNull(quote);
+
+        // Set start date to first quote's timestamp if auto-anchoring
+        if (StartDate == null)
+        {
+            StartDate = quote.Timestamp;
+        }
 
         double volume = (double)quote.Volume;
         double high = (double)quote.High;
@@ -47,7 +45,7 @@ public class VwapList : BufferList<VwapResult>, IIncrementFromQuote
 
         double? vwap;
 
-        if (quote.Timestamp >= _startDate)
+        if (quote.Timestamp >= StartDate.Value)
         {
             _cumVolume += volume;
             _cumVolumeTp += volume * (high + low + close) / 3;
@@ -81,6 +79,12 @@ public class VwapList : BufferList<VwapResult>, IIncrementFromQuote
         base.Clear();
         _cumVolume = 0;
         _cumVolumeTp = 0;
+
+        // Reset _startDate to null if in auto-anchor mode
+        if (_autoAnchor)
+        {
+            StartDate = null;
+        }
     }
 }
 
@@ -101,7 +105,5 @@ public static partial class Vwap
     public static VwapList ToVwapList<TQuote>(
         this IReadOnlyList<TQuote> quotes)
         where TQuote : IQuote
-        => quotes?.Count is null or 0
-            ? new VwapList(DateTime.MinValue)
-            : new VwapList(quotes[0].Timestamp) { (IReadOnlyList<IQuote>)quotes };
+        => new(null) { (IReadOnlyList<IQuote>)quotes };
 }
