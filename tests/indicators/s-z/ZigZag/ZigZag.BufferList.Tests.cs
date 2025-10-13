@@ -1,19 +1,18 @@
 namespace BufferLists;
 
 [TestClass]
-public class Chandelier : BufferListTestBase
+public class ZigZag : BufferListTestBase, ITestQuoteBufferList
 {
-    private const int lookbackPeriods = 22;
-    private const double multiplier = 3;
-    private const Direction type = Direction.Long;
+    private const EndType endType = EndType.Close;
+    private const decimal percentChange = 5;
 
-    private static readonly IReadOnlyList<ChandelierResult> series
-       = Quotes.ToChandelier(lookbackPeriods, multiplier, type);
+    private static readonly IReadOnlyList<ZigZagResult> series
+       = Quotes.ToZigZag(endType, percentChange);
 
     [TestMethod]
-    public void AddQuotes()
+    public void AddQuote_IncrementsResults()
     {
-        ChandelierList sut = new(lookbackPeriods, multiplier, type);
+        ZigZagList sut = new(endType, percentChange);
 
         foreach (Quote quote in Quotes)
         {
@@ -25,18 +24,18 @@ public class Chandelier : BufferListTestBase
     }
 
     [TestMethod]
-    public void AddQuotesBatch()
+    public void AddQuotesBatch_IncrementsResults()
     {
-        ChandelierList sut = new(lookbackPeriods, multiplier, type) { Quotes };
+        ZigZagList sut = Quotes.ToZigZagList(endType, percentChange);
 
         sut.Should().HaveCount(Quotes.Count);
         sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
     }
 
     [TestMethod]
-    public void WithQuotesCtor()
+    public void QuotesCtor_OnInstantiation_IncrementsResults()
     {
-        ChandelierList sut = new(lookbackPeriods, multiplier, type, Quotes);
+        ZigZagList sut = new(endType, percentChange, Quotes);
 
         sut.Should().HaveCount(Quotes.Count);
         sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
@@ -46,9 +45,9 @@ public class Chandelier : BufferListTestBase
     public override void Clear_WithState_ResetsState()
     {
         List<Quote> subset = Quotes.Take(80).ToList();
-        IReadOnlyList<ChandelierResult> expected = subset.ToChandelier(lookbackPeriods, multiplier, type);
+        IReadOnlyList<ZigZagResult> expected = subset.ToZigZag(endType, percentChange);
 
-        ChandelierList sut = new(lookbackPeriods, multiplier, type, subset);
+        ZigZagList sut = new(endType, percentChange, subset);
 
         sut.Should().HaveCount(subset.Count);
         sut.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
@@ -68,13 +67,13 @@ public class Chandelier : BufferListTestBase
     {
         const int maxListSize = 120;
 
-        ChandelierList sut = new(lookbackPeriods, multiplier, type) {
+        ZigZagList sut = new(endType, percentChange) {
             MaxListSize = maxListSize
         };
 
         sut.Add(Quotes);
 
-        IReadOnlyList<ChandelierResult> expected = series
+        IReadOnlyList<ZigZagResult> expected = series
             .Skip(series.Count - maxListSize)
             .ToList();
 

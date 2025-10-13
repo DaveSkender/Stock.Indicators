@@ -16,7 +16,7 @@ public class Pmo : BufferListTestBase, ITestChainBufferList, ITestCustomBufferLi
        = Quotes.ToPmo(timePeriods, smoothPeriods, signalPeriods);
 
     [TestMethod]
-    public void AddDiscreteValues()
+    public void AddDateAndValue_IncrementsResults()
     {
         PmoList sut = new(timePeriods, smoothPeriods, signalPeriods);
 
@@ -30,7 +30,7 @@ public class Pmo : BufferListTestBase, ITestChainBufferList, ITestCustomBufferLi
     }
 
     [TestMethod]
-    public void AddReusableItems()
+    public void AddReusableItem_IncrementsResults()
     {
         PmoList sut = new(timePeriods, smoothPeriods, signalPeriods);
 
@@ -44,7 +44,7 @@ public class Pmo : BufferListTestBase, ITestChainBufferList, ITestCustomBufferLi
     }
 
     [TestMethod]
-    public void AddReusableItemsBatch()
+    public void AddReusableItemBatch_IncrementsResults()
     {
         PmoList sut = new(timePeriods, smoothPeriods, signalPeriods) { reusables };
 
@@ -53,7 +53,7 @@ public class Pmo : BufferListTestBase, ITestChainBufferList, ITestCustomBufferLi
     }
 
     [TestMethod]
-    public void AddQuotes()
+    public void AddQuote_IncrementsResults()
     {
         PmoList sut = new(timePeriods, smoothPeriods, signalPeriods);
 
@@ -67,7 +67,7 @@ public class Pmo : BufferListTestBase, ITestChainBufferList, ITestCustomBufferLi
     }
 
     [TestMethod]
-    public void AddQuotesBatch()
+    public void AddQuotesBatch_IncrementsResults()
     {
         PmoList sut = Quotes.ToPmoList(timePeriods, smoothPeriods, signalPeriods);
 
@@ -76,7 +76,7 @@ public class Pmo : BufferListTestBase, ITestChainBufferList, ITestCustomBufferLi
     }
 
     [TestMethod]
-    public void WithQuotesCtor()
+    public void QuotesCtor_OnInstantiation_IncrementsResults()
     {
         PmoList sut = new(timePeriods, smoothPeriods, signalPeriods, Quotes);
 
@@ -85,7 +85,7 @@ public class Pmo : BufferListTestBase, ITestChainBufferList, ITestCustomBufferLi
     }
 
     [TestMethod]
-    public override void ClearResetsState()
+    public override void Clear_WithState_ResetsState()
     {
         List<Quote> subset = Quotes.Take(80).ToList();
         IReadOnlyList<PmoResult> expected = subset.ToPmo(timePeriods, smoothPeriods, signalPeriods);
@@ -106,7 +106,7 @@ public class Pmo : BufferListTestBase, ITestChainBufferList, ITestCustomBufferLi
     }
 
     [TestMethod]
-    public override void AutoListPruning()
+    public override void PruneList_OverMaxListSize_AutoAdjustsListAndBuffers()
     {
         const int maxListSize = 120;
 
@@ -124,7 +124,7 @@ public class Pmo : BufferListTestBase, ITestChainBufferList, ITestCustomBufferLi
     }
 
     [TestMethod]
-    public void CustomBufferPruning()
+    public void CustomBuffer_OverMaxListSize_AutoAdjustsListAndBuffers()
     {
         const int maxListSize = 120;
 

@@ -129,6 +129,7 @@ public static partial class Catalog
 
         // ConnorsRSI
         _listings.Add(ConnorsRsi.SeriesListing);
+        _listings.Add(ConnorsRsi.BufferListing);
 
         // Correlation
         _listings.Add(Correlation.SeriesListing);
@@ -209,6 +210,7 @@ public static partial class Catalog
 
         // MA Envelopes (Moving Average Envelopes)
         _listings.Add(MaEnvelopes.SeriesListing);
+        _listings.Add(MaEnvelopes.BufferListing);
 
         // MACD (Moving Average Convergence Divergence)
         _listings.Add(Macd.BufferListing);
@@ -383,5 +385,6 @@ public static partial class Catalog
 
         // ZigZag
         _listings.Add(ZigZag.SeriesListing);
+        _listings.Add(ZigZag.BufferListing);
     }
 }

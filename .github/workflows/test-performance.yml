@@ -1,4 +1,4 @@
-name: Benchmark performance
+name: Test performance
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}

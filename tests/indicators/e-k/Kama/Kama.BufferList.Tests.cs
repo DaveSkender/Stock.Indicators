@@ -16,7 +16,7 @@ public class Kama : BufferListTestBase, ITestChainBufferList
        = Quotes.ToKama(erPeriods, fastPeriods, slowPeriods);
 
     [TestMethod]
-    public void AddQuotes()
+    public void AddQuote_IncrementsResults()
     {
         KamaList sut = new(erPeriods, fastPeriods, slowPeriods);
 
@@ -30,7 +30,7 @@ public class Kama : BufferListTestBase, ITestChainBufferList
     }
 
     [TestMethod]
-    public void AddQuotesBatch()
+    public void AddQuotesBatch_IncrementsResults()
     {
         KamaList sut = Quotes.ToKamaList(erPeriods, fastPeriods, slowPeriods);
 
@@ -39,7 +39,7 @@ public class Kama : BufferListTestBase, ITestChainBufferList
     }
 
     [TestMethod]
-    public void WithQuotesCtor()
+    public void QuotesCtor_OnInstantiation_IncrementsResults()
     {
         KamaList sut = new(erPeriods, fastPeriods, slowPeriods, Quotes);
 
@@ -48,7 +48,7 @@ public class Kama : BufferListTestBase, ITestChainBufferList
     }
 
     [TestMethod]
-    public void AddReusableItems()
+    public void AddReusableItem_IncrementsResults()
     {
         KamaList sut = new(erPeriods, fastPeriods, slowPeriods);
 
@@ -62,7 +62,7 @@ public class Kama : BufferListTestBase, ITestChainBufferList
     }
 
     [TestMethod]
-    public void AddReusableItemsBatch()
+    public void AddReusableItemBatch_IncrementsResults()
     {
         KamaList sut = new(erPeriods, fastPeriods, slowPeriods) { reusables };
 
@@ -71,7 +71,7 @@ public class Kama : BufferListTestBase, ITestChainBufferList
     }
 
     [TestMethod]
-    public void AddDiscreteValues()
+    public void AddDateAndValue_IncrementsResults()
     {
         KamaList sut = new(erPeriods, fastPeriods, slowPeriods);
 
@@ -85,7 +85,7 @@ public class Kama : BufferListTestBase, ITestChainBufferList
     }
 
     [TestMethod]
-    public override void ClearResetsState()
+    public override void Clear_WithState_ResetsState()
     {
         List<Quote> subset = Quotes.Take(80).ToList();
         IReadOnlyList<KamaResult> expected = subset.ToKama(erPeriods, fastPeriods, slowPeriods);
@@ -106,7 +106,7 @@ public class Kama : BufferListTestBase, ITestChainBufferList
     }
 
     [TestMethod]
-    public override void AutoListPruning()
+    public override void PruneList_OverMaxListSize_AutoAdjustsListAndBuffers()
     {
         const int maxListSize = 120;
 
