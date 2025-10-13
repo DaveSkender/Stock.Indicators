@@ -93,6 +93,37 @@ public class ConnorsRsiList : BufferList<ConnorsRsiResult>, IIncrementFromChain
     public void Add(DateTime timestamp, double value)
     {
         // Calculate streak
+        UpdateStreak(value);
+
+        // Calculate RSI components
+        _rsiClose.Add(timestamp, value);
+        double? rsi = _rsiClose[^1].Rsi;
+
+        _rsiStreak.Add(timestamp, _streak);
+        double? rsiStreak = GetRsiStreakValue();
+
+        // Calculate gain and percent rank
+        double gain = CalculateGain(value);
+        _gainBuffer.Update(RankPeriods + 1, gain);
+        double? percentRank = CalculatePercentRank(gain);
+
+        // Calculate Connors RSI
+        double? connorsRsi = CalculateConnorsRsi(rsi, rsiStreak, percentRank);
+
+        AddInternal(new ConnorsRsiResult(
+            Timestamp: timestamp,
+            Streak: _streak,
+            Rsi: rsi,
+            RsiStreak: rsiStreak,
+            PercentRank: percentRank,
+            ConnorsRsi: connorsRsi));
+
+        _prevValue = value;
+        _processedCount++;
+    }
+
+    private void UpdateStreak(double value)
+    {
         if (_processedCount == 0)
         {
             _streak = 0;
@@ -108,66 +139,47 @@ public class ConnorsRsiList : BufferList<ConnorsRsiResult>, IIncrementFromChain
                         ? _streak <= 0 ? _streak - 1 : -1
                         : 0;
         }
+    }
 
-        // Calculate RSI on close
-        _rsiClose.Add(timestamp, value);
-        double? rsi = _rsiClose[^1].Rsi;
+    private double? GetRsiStreakValue()
+        => _processedCount >= StreakPeriods + 2 ? _rsiStreak[^1].Rsi : null;
 
-        // Calculate RSI on streak (but only populate after warmup)
-        _rsiStreak.Add(timestamp, _streak);
-        double? rsiStreak = _processedCount >= StreakPeriods + 2
-            ? _rsiStreak[^1].Rsi
-            : null;
-
-        // Calculate gain and percent rank
-        double gain = double.IsNaN(value) || double.IsNaN(_prevValue) || _prevValue <= 0
+    private double CalculateGain(double value)
+        => double.IsNaN(value) || double.IsNaN(_prevValue) || _prevValue <= 0
             ? double.NaN
             : (value - _prevValue) / _prevValue;
 
-        _gainBuffer.Update(RankPeriods + 1, gain);
-
-        double? percentRank = null;
-        if (_processedCount >= RankPeriods && !double.IsNaN(gain))
+    private double? CalculatePercentRank(double gain)
+    {
+        if (_processedCount < RankPeriods || double.IsNaN(gain))
         {
-            int qty = 0;
-            bool isViableRank = true;
+            return null;
+        }
 
-            foreach (double g in _gainBuffer)
+        int qty = 0;
+        foreach (double g in _gainBuffer)
+        {
+            if (double.IsNaN(g))
             {
-                if (double.IsNaN(g))
-                {
-                    isViableRank = false;
-                    break;
-                }
-
-                if (g < gain)
-                {
-                    qty++;
-                }
+                return null;
             }
 
-            percentRank = isViableRank ? 100.0 * qty / RankPeriods : null;
+            if (g < gain)
+            {
+                qty++;
+            }
         }
 
-        // Calculate Connors RSI
+        return 100.0 * qty / RankPeriods;
+    }
+
+    private double? CalculateConnorsRsi(double? rsi, double? rsiStreak, double? percentRank)
+    {
         int startPeriod = Math.Max(RsiPeriods, Math.Max(StreakPeriods, RankPeriods)) + 2;
-        double? connorsRsi = null;
 
-        if (_processedCount >= startPeriod - 1 && rsi.HasValue && rsiStreak.HasValue && percentRank.HasValue)
-        {
-            connorsRsi = (rsi.Value + rsiStreak.Value + percentRank.Value) / 3;
-        }
-
-        AddInternal(new ConnorsRsiResult(
-            Timestamp: timestamp,
-            Streak: _streak,
-            Rsi: rsi,
-            RsiStreak: rsiStreak,
-            PercentRank: percentRank,
-            ConnorsRsi: connorsRsi));
-
-        _prevValue = value;
-        _processedCount++;
+        return _processedCount >= startPeriod - 1 && rsi.HasValue && rsiStreak.HasValue && percentRank.HasValue
+            ? (rsi.Value + rsiStreak.Value + percentRank.Value) / 3
+            : null;
     }
 
     /// <inheritdoc />

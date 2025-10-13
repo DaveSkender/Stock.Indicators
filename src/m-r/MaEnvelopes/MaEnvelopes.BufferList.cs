@@ -230,20 +230,15 @@ public static partial class MaEnvelopes
     /// <summary>
     /// Creates a buffer list for Moving Average Envelopes calculations.
     /// </summary>
-    /// <typeparam name="T">The type of the reusable value.</typeparam>
     /// <param name="source">The source list of reusable values.</param>
     /// <param name="lookbackPeriods">The number of periods for the moving average.</param>
     /// <param name="percentOffset">The percentage offset for the envelopes.</param>
     /// <param name="movingAverageType">The type of moving average to use.</param>
     /// <returns>A new <see cref="MaEnvelopesList"/> instance.</returns>
-    public static MaEnvelopesList ToMaEnvelopesList<T>(
-        this IReadOnlyList<T> source,
+    public static MaEnvelopesList ToMaEnvelopesList(
+        this IReadOnlyList<IReusable> source,
         int lookbackPeriods,
         double percentOffset = 2.5,
         MaType movingAverageType = MaType.SMA)
-        where T : IReusable
-        => new(lookbackPeriods, percentOffset, movingAverageType)
-        {
-            (IReadOnlyList<IReusable>)source
-        };
+        => new(lookbackPeriods, percentOffset, movingAverageType) { source };
 }
