@@ -9,7 +9,7 @@ public class VolatilitystopTests : RegressionTestBase<VolatilityStopResult>
     public override void Series() => Quotes.ToVolatilityStop().AssertEquals(Expected);
 
     [TestMethod]
-    public override void Buffer() => Assert.Inconclusive("Buffer implementation not yet available");
+    public override void Buffer() => new VolatilityStopList(7, 3, Quotes).AssertEquals(Expected);
 
     [TestMethod]
     public override void Stream() => Assert.Inconclusive("Stream implementation not yet available");
