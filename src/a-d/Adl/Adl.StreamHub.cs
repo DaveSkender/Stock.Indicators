@@ -1,23 +1,6 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Provides methods for the Accumulation/Distribution Line (ADL) indicator.
-/// </summary>
-public static partial class Adl
-{
-    /// <summary>
-    /// Converts the quote provider to an ADL hub.
-    /// </summary>
-    /// <typeparam name="TIn">The type of the input quote.</typeparam>
-    /// <param name="quoteProvider">The quote provider.</param>
-    /// <returns>An instance of <see cref="AdlHub{TIn}"/>.</returns>
-    public static AdlHub<TIn> ToAdlHub<TIn>(
-        this IQuoteProvider<TIn> quoteProvider)
-        where TIn : IQuote
-        => new(quoteProvider);
-}
-
-/// <summary>
 /// Streaming hub for the Accumulation/Distribution Line (ADL) indicator.
 /// </summary>
 /// <typeparam name="TIn">The type of the input quote.</typeparam>
@@ -54,4 +37,36 @@ public class AdlHub<TIn> : ChainProvider<TIn, AdlResult>
 
     /// <inheritdoc/>
     public override string ToString() => Cache.Count == 0 ? "ADL" : $"ADL({Cache[0].Timestamp:d})";
+}
+
+/// <summary>
+/// Provides methods for the Accumulation/Distribution Line (ADL) indicator.
+/// </summary>
+public static partial class Adl
+{
+    /// <summary>
+    /// Converts the quote provider to an ADL hub.
+    /// </summary>
+    /// <typeparam name="TIn">The type of the input quote.</typeparam>
+    /// <param name="quoteProvider">The quote provider.</param>
+    /// <returns>An instance of <see cref="AdlHub{TIn}"/>.</returns>
+    public static AdlHub<TIn> ToAdlHub<TIn>(
+        this IQuoteProvider<TIn> quoteProvider)
+        where TIn : IQuote
+        => new(quoteProvider);
+
+    /// <summary>
+    /// Creates an ADL hub from a collection of quotes.
+    /// </summary>
+    /// <typeparam name="TQuote">The type of the quote.</typeparam>
+    /// <param name="quotes">The collection of quotes.</param>
+    /// <returns>An instance of <see cref="AdlHub{TQuote}"/>.</returns>
+    public static AdlHub<TQuote> ToAdlHub<TQuote>(
+        this IReadOnlyList<TQuote> quotes)
+        where TQuote : IQuote
+    {
+        QuoteHub<TQuote> quoteHub = new();
+        quoteHub.Add(quotes);
+        return quoteHub.ToAdlHub();
+    }
 }

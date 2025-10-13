@@ -149,4 +149,25 @@ public static partial class Chandelier
         Direction type = Direction.Long)
         where TIn : IQuote
         => new(quoteProvider, lookbackPeriods, multiplier, type);
+
+    /// <summary>
+    /// Creates a Chandelier Exit hub from a collection of quotes.
+    /// </summary>
+    /// <typeparam name="TQuote">The type of the quote.</typeparam>
+    /// <param name="quotes">The collection of quotes.</param>
+    /// <param name="lookbackPeriods">The number of periods to use for the lookback window. Default is 22.</param>
+    /// <param name="multiplier">The multiplier to apply to the ATR. Default is 3.</param>
+    /// <param name="type">The type of Chandelier Exit to calculate (Long or Short). Default is Long.</param>
+    /// <returns>An instance of <see cref="ChandelierHub{TQuote}"/>.</returns>
+    public static ChandelierHub<TQuote> ToChandelierHub<TQuote>(
+        this IReadOnlyList<TQuote> quotes,
+        int lookbackPeriods = 22,
+        double multiplier = 3,
+        Direction type = Direction.Long)
+        where TQuote : IQuote
+    {
+        QuoteHub<TQuote> quoteHub = new();
+        quoteHub.Add(quotes);
+        return quoteHub.ToChandelierHub(lookbackPeriods, multiplier, type);
+    }
 }

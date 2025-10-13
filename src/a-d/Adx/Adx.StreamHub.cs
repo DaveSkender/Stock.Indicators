@@ -377,4 +377,21 @@ public static partial class Adx
         int lookbackPeriods = 14)
         where TIn : IQuote
         => new(quoteProvider, lookbackPeriods);
+
+    /// <summary>
+    /// Creates an ADX hub from a collection of quotes.
+    /// </summary>
+    /// <typeparam name="TQuote">The type of the quote.</typeparam>
+    /// <param name="quotes">The collection of quotes.</param>
+    /// <param name="lookbackPeriods">The number of periods to look back.</param>
+    /// <returns>An instance of <see cref="AdxHub{TQuote}"/>.</returns>
+    public static AdxHub<TQuote> ToAdxHub<TQuote>(
+        this IReadOnlyList<TQuote> quotes,
+        int lookbackPeriods = 14)
+        where TQuote : IQuote
+    {
+        QuoteHub<TQuote> quoteHub = new();
+        quoteHub.Add(quotes);
+        return quoteHub.ToAdxHub(lookbackPeriods);
+    }
 }

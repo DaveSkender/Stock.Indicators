@@ -2,39 +2,6 @@ namespace Skender.Stock.Indicators;
 
 // WILLIAMS ALLIGATOR (STREAM HUB)
 
-public static partial class Alligator
-{
-    /// <summary>
-    /// Converts a chain provider to an Alligator hub.
-    /// </summary>
-    /// <typeparam name="TIn">The type of the input.</typeparam>
-    /// <param name="chainProvider">The chain provider.</param>
-    /// <param name="jawPeriods">The number of periods for the jaw.</param>
-    /// <param name="jawOffset">The offset for the jaw.</param>
-    /// <param name="teethPeriods">The number of periods for the teeth.</param>
-    /// <param name="teethOffset">The offset for the teeth.</param>
-    /// <param name="lipsPeriods">The number of periods for the lips.</param>
-    /// <param name="lipsOffset">The offset for the lips.</param>
-    /// <returns>An Alligator hub.</returns>
-    public static AlligatorHub<TIn> ToAlligatorHub<TIn>(
-        this IChainProvider<TIn> chainProvider,
-        int jawPeriods = 13,
-        int jawOffset = 8,
-        int teethPeriods = 8,
-        int teethOffset = 5,
-        int lipsPeriods = 5,
-        int lipsOffset = 3)
-        where TIn : IReusable
-        => new(
-            chainProvider,
-            jawPeriods,
-            jawOffset,
-            teethPeriods,
-            teethOffset,
-            lipsPeriods,
-            lipsOffset);
-}
-
 /// <summary>
 /// Represents a stream hub for calculating the Alligator indicator.
 /// </summary>
@@ -211,5 +178,65 @@ public class AlligatorHub<TIn>
             lips.NaN2Null());
 
         return (r, i);
+    }
+}
+
+public static partial class Alligator
+{
+    /// <summary>
+    /// Converts a chain provider to an Alligator hub.
+    /// </summary>
+    /// <typeparam name="TIn">The type of the input.</typeparam>
+    /// <param name="chainProvider">The chain provider.</param>
+    /// <param name="jawPeriods">The number of periods for the jaw.</param>
+    /// <param name="jawOffset">The offset for the jaw.</param>
+    /// <param name="teethPeriods">The number of periods for the teeth.</param>
+    /// <param name="teethOffset">The offset for the teeth.</param>
+    /// <param name="lipsPeriods">The number of periods for the lips.</param>
+    /// <param name="lipsOffset">The offset for the lips.</param>
+    /// <returns>An Alligator hub.</returns>
+    public static AlligatorHub<TIn> ToAlligatorHub<TIn>(
+        this IChainProvider<TIn> chainProvider,
+        int jawPeriods = 13,
+        int jawOffset = 8,
+        int teethPeriods = 8,
+        int teethOffset = 5,
+        int lipsPeriods = 5,
+        int lipsOffset = 3)
+        where TIn : IReusable
+        => new(
+            chainProvider,
+            jawPeriods,
+            jawOffset,
+            teethPeriods,
+            teethOffset,
+            lipsPeriods,
+            lipsOffset);
+
+    /// <summary>
+    /// Creates an Alligator hub from a collection of quotes.
+    /// </summary>
+    /// <typeparam name="TQuote">The type of the quote.</typeparam>
+    /// <param name="quotes">The collection of quotes.</param>
+    /// <param name="jawPeriods">The number of periods for the jaw.</param>
+    /// <param name="jawOffset">The offset for the jaw.</param>
+    /// <param name="teethPeriods">The number of periods for the teeth.</param>
+    /// <param name="teethOffset">The offset for the teeth.</param>
+    /// <param name="lipsPeriods">The number of periods for the lips.</param>
+    /// <param name="lipsOffset">The offset for the lips.</param>
+    /// <returns>An instance of <see cref="AlligatorHub{TQuote}"/>.</returns>
+    public static AlligatorHub<TQuote> ToAlligatorHub<TQuote>(
+        this IReadOnlyList<TQuote> quotes,
+        int jawPeriods = 13,
+        int jawOffset = 8,
+        int teethPeriods = 8,
+        int teethOffset = 5,
+        int lipsPeriods = 5,
+        int lipsOffset = 3)
+        where TQuote : IQuote
+    {
+        QuoteHub<TQuote> quoteHub = new();
+        quoteHub.Add(quotes);
+        return quoteHub.ToAlligatorHub(jawPeriods, jawOffset, teethPeriods, teethOffset, lipsPeriods, lipsOffset);
     }
 }
