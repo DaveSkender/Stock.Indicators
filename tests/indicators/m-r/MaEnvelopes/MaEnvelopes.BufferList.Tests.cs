@@ -1,7 +1,7 @@
 namespace BufferLists;
 
 [TestClass]
-public class MaEnvelopes : BufferListTestBase, ITestReusableBufferList
+public class MaEnvelopes : BufferListTestBase, ITestChainBufferList
 {
     private const int lookbackPeriods = 20;
     private const double percentOffset = 2.5;
@@ -15,7 +15,7 @@ public class MaEnvelopes : BufferListTestBase, ITestReusableBufferList
        = Quotes.ToMaEnvelopes(lookbackPeriods, percentOffset);
 
     [TestMethod]
-    public override void AddQuotes()
+    public void AddQuotes()
     {
         MaEnvelopesList sut = new(lookbackPeriods, percentOffset);
 
@@ -29,7 +29,7 @@ public class MaEnvelopes : BufferListTestBase, ITestReusableBufferList
     }
 
     [TestMethod]
-    public override void AddQuotesBatch()
+    public void AddQuotesBatch()
     {
         MaEnvelopesList sut = Quotes.ToMaEnvelopesList(lookbackPeriods, percentOffset);
 
@@ -38,7 +38,7 @@ public class MaEnvelopes : BufferListTestBase, ITestReusableBufferList
     }
 
     [TestMethod]
-    public override void WithQuotesCtor()
+    public void WithQuotesCtor()
     {
         MaEnvelopesList sut = new(lookbackPeriods, percentOffset, MaType.SMA, Quotes);
 

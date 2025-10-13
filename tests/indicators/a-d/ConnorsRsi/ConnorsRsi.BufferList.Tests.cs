@@ -1,7 +1,7 @@
 namespace BufferLists;
 
 [TestClass]
-public class ConnorsRsi : BufferListTestBase, ITestReusableBufferList
+public class ConnorsRsi : BufferListTestBase, ITestChainBufferList
 {
     private const int rsiPeriods = 3;
     private const int streakPeriods = 2;
@@ -16,7 +16,7 @@ public class ConnorsRsi : BufferListTestBase, ITestReusableBufferList
        = Quotes.ToConnorsRsi(rsiPeriods, streakPeriods, rankPeriods);
 
     [TestMethod]
-    public override void AddQuotes()
+    public void AddQuotes()
     {
         ConnorsRsiList sut = new(rsiPeriods, streakPeriods, rankPeriods);
 
@@ -30,7 +30,7 @@ public class ConnorsRsi : BufferListTestBase, ITestReusableBufferList
     }
 
     [TestMethod]
-    public override void AddQuotesBatch()
+    public void AddQuotesBatch()
     {
         ConnorsRsiList sut = Quotes.ToConnorsRsiList(rsiPeriods, streakPeriods, rankPeriods);
 
@@ -39,7 +39,7 @@ public class ConnorsRsi : BufferListTestBase, ITestReusableBufferList
     }
 
     [TestMethod]
-    public override void WithQuotesCtor()
+    public void WithQuotesCtor()
     {
         ConnorsRsiList sut = new(rsiPeriods, streakPeriods, rankPeriods, Quotes);
 

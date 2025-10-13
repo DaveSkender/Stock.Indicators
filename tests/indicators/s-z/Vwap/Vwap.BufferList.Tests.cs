@@ -1,7 +1,7 @@
 namespace BufferLists;
 
 [TestClass]
-public class Vwap : BufferListTestBase
+public class Vwap : BufferListTestBase, ITestQuoteBufferList
 {
     private static readonly DateTime startDate = new(2018, 12, 31);
 
@@ -9,7 +9,7 @@ public class Vwap : BufferListTestBase
        = Quotes.ToVwap(startDate);
 
     [TestMethod]
-    public override void AddQuotes()
+    public void AddQuotes()
     {
         VwapList sut = new(startDate);
 
@@ -23,7 +23,7 @@ public class Vwap : BufferListTestBase
     }
 
     [TestMethod]
-    public override void AddQuotesBatch()
+    public void AddQuotesBatch()
     {
         VwapList sut = Quotes.ToVwapList(startDate);
 
@@ -32,7 +32,7 @@ public class Vwap : BufferListTestBase
     }
 
     [TestMethod]
-    public override void WithQuotesCtor()
+    public void WithQuotesCtor()
     {
         VwapList sut = new(startDate, Quotes);
 
