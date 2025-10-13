@@ -459,18 +459,18 @@ Each task should follow these guidelines:
 
 - **Total Series implementations**: 85 indicators (baseline)
 - **Total BufferList implementations**: 69 complete, 16 remaining (T001-T085)
-- **Total StreamHub implementations**: 42 complete, 43 remaining (T086-T170)
+- **Total StreamHub implementations**: 45 complete, 40 remaining (T086-T170)
 - **1:1:1 Target**: 85 BufferList + 85 StreamHub = 170 streaming implementations total
-- **Current streaming coverage**: 111/170 = **65% complete**
+- **Current streaming coverage**: 114/170 = **67% complete**
 
 **Task Breakdown**:
 
 - **Phase 1**: 10 tasks (A001-A006, T171-T174) — 8 complete, 2 remaining
 - **Phase 2**: 85 BufferList implementation tasks (T001-T085) — 69 complete, 16 remaining
-- **Phase 3**: 85 StreamHub implementation tasks (T086-T170) — 42 complete, 43 remaining
+- **Phase 3**: 85 StreamHub implementation tasks (T086-T170) — 45 complete, 40 remaining
 - **Phase 4**: 17 test infrastructure tasks (T175-T185, Q001-Q006) — 0 complete, 17 remaining
 - **Phase 5**: 7 documentation tasks (D001-D007) — 2 complete, 5 remaining
-- **Total**: 204 tasks — 121 complete, 83 remaining
+- **Total**: 204 tasks — 124 complete, 80 remaining
 
 Removed blanket deferral: The above indicators are complex but unblocked with established reference patterns (see instruction files).
 
