@@ -36,7 +36,7 @@ As a developer building real-time trading applications, I need indicators that u
 - **FR-007**: BufferList style MUST use List-backed storage with O(1) append and bounded size enforcement
 - **FR-008**: StreamHub style MUST optimize for high-frequency scenarios with span-based buffers and minimal allocations
 - **FR-009**: Streaming indicators MUST provide a method to reset state and reinitialize warmup
-- **FR-010**: Library MUST include streaming variants for all feasible Series-based indicators. Initial set (SMA, EMA, RSI, MACD, Bollinger Bands) serves as reference implementations for pattern validation; full deployment targets 84 indicators across 107 implementation tasks (55 BufferList + 52 StreamHub).
+- **FR-010**: Library MUST include streaming variants for all feasible Series-based indicators. Initial set (SMA, EMA, RSI, MACD, Bollinger Bands) serves as reference implementations for pattern validation; full deployment targets 80 implementable indicators across 97 implementation tasks (50 BufferList + 47 StreamHub), excluding 5 indicators deferred to v2 due to streaming incompatibility (Fractal, HtTrendline, Hurst, Ichimoku, Slope).
 
 ### Non-functional requirements
 
@@ -92,12 +92,12 @@ The streaming framework targets comprehensive coverage across the library's indi
 
 ### Target Coverage
 
-- **Total indicators with Series implementations**: ~84
-- **BufferList target**: 55 indicators requiring streaming support
-- **StreamHub target**: 52 indicators requiring streaming support
-- **Implementation tasks**: 107 (T001-T107: 55 BufferList + 52 StreamHub)
-- **Supporting tasks**: 13 (D001-D007 + T108-T109 documentation, Q001-Q004 quality gates)
-- **Total tasks**: 120
+- **Total indicators with Series implementations**: ~85 (80 implementable + 5 deferred to v2)
+- **BufferList target**: 50 indicators requiring streaming support (excludes 5 deferred)
+- **StreamHub target**: 47 indicators requiring streaming support (excludes 5 deferred)  
+- **Implementation tasks**: 97 (T001-T107: 50 BufferList + 47 StreamHub, excluding deferred)
+- **Supporting tasks**: 20 (D001-D007 + T108-T109 documentation, Q001-Q006 quality gates, T110-T124 compliance)
+- **Total tasks**: 117 (97 implementation + 20 supporting)
 
 ### Phasing Strategy
 

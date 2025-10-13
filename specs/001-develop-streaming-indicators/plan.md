@@ -30,7 +30,7 @@ Implement two streaming indicator styles (BufferList and StreamHub) enabling inc
 - Project type: Single project (library enhancement)
 - Performance goals: <5ms average per-tick latency (p95 <10ms), <10KB memory per instance
 - Constraints: O(1) incremental updates, deterministic mathematical equality with batch calculations, bounded buffers
-- Scale/scope: 107 total tasks across phased rollout (55 BufferList + 52 StreamHub implementations), targeting all feasible Series-based indicators
+- Scale/scope: 97 total implementation tasks across phased rollout (50 BufferList + 47 StreamHub implementations), targeting 80 implementable Series-based indicators (excludes 5 deferred to v2 due to streaming incompatibility: Fractal, HtTrendline, Hurst, Ichimoku, Slope)
 
 ## Constitution check
 
