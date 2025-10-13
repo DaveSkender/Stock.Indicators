@@ -155,9 +155,9 @@ The following indicators have series-style implementations but lack StreamHub im
 
 - [x] T056 Implement Aroon StreamHub in `src/a-d/Aroon/Aroon.StreamHub.cs` ✅ Complete
 - [x] T057 Implement Awesome StreamHub in `src/a-d/Awesome/Awesome.StreamHub.cs` ✅ Complete
-- [ ] T058 Implement Beta StreamHub in `src/a-d/Beta/Beta.StreamHub.cs`
-- [ ] T059 Implement Bop StreamHub in `src/a-d/Bop/Bop.StreamHub.cs`
-- [ ] T060 Implement ChaikinOsc StreamHub in `src/a-d/ChaikinOsc/ChaikinOsc.StreamHub.cs`
+- [x] T058 Implement Beta StreamHub in `src/a-d/Beta/Beta.StreamHub.cs` ✅ Complete
+- [x] T059 Implement Bop StreamHub in `src/a-d/Bop/Bop.StreamHub.cs` ✅ Complete
+- [x] T060 Implement ChaikinOsc StreamHub in `src/a-d/ChaikinOsc/ChaikinOsc.StreamHub.cs` ✅ Complete
 - [ ] T061 Implement Chandelier StreamHub in `src/a-d/Chandelier/Chandelier.StreamHub.cs`
 - [ ] T062 Implement Chop StreamHub in `src/a-d/Chop/Chop.StreamHub.cs`
 - [ ] T063 Implement Cmf StreamHub in `src/a-d/Cmf/Cmf.StreamHub.cs`
