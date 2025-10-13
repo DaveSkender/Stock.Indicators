@@ -30,19 +30,6 @@ These simplified checklists ensure:
 - Instruction file adherence (base classes, interfaces, test patterns, utilities)
 - Essential quality gates (clarity, completeness, consistency, verifiability)
 
-## Requirements Quality Validation
-
-Before implementing each indicator, review the corresponding simplified checklist for requirements validation:
-
-- **BufferList style**: [checklists/buffer-list.md](checklists/buffer-list.md) — 15 essential validation items
-- **StreamHub style**: [checklists/stream-hub.md](checklists/stream-hub.md) — 18 essential validation items
-
-These simplified checklists ensure:
-
-- Constitution compliance (mathematical precision, performance, validation, testing, documentation)
-- Instruction file adherence (base classes, interfaces, test patterns, utilities)
-- Essential quality gates (clarity, completeness, consistency, verifiability)
-
 ---
 
 ## Phase 1: Infrastructure & Compliance Audits (COMPLETED) ✅
