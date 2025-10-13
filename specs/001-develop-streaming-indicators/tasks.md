@@ -105,7 +105,7 @@ The following indicators have series-style implementations but lack BufferList i
 - [ ] T036 Implement Prs BufferList in `src/m-r/Prs/Prs.BufferList.cs`
 - [ ] T037 Implement Pvo BufferList in `src/m-r/Pvo/Pvo.BufferList.cs`
 - [ ] T125 Implement QuotePart BufferList in `src/_common/QuotePart/QuotePart.BufferList.cs`
-- [ ] T038 Implement Renko BufferList in `src/m-r/Renko/Renko.BufferList.cs`
+- [x] T038 Implement Renko BufferList in `src/m-r/Renko/Renko.BufferList.cs` ✅ Complete
 - [ ] T039 Implement RenkoAtr BufferList in `src/m-r/RenkoAtr/RenkoAtr.BufferList.cs`
 - [ ] T040 Implement RocWb BufferList in `src/m-r/RocWb/RocWb.BufferList.cs`
 - [ ] T041 Implement RollingPivots BufferList in `src/m-r/RollingPivots/RollingPivots.BufferList.cs`
@@ -151,7 +151,7 @@ The following indicators have series-style implementations but lack BufferList i
 - [x] T035 Implement Pmo BufferList in `src/m-r/Pmo/Pmo.BufferList.cs` ✅ Complete
 - [x] T036 Implement Prs BufferList in `src/m-r/Prs/Prs.BufferList.cs` ✅ Complete
 - [x] T037 Implement Pvo BufferList in `src/m-r/Pvo/Pvo.BufferList.cs` ✅ Complete
-- [ ] T038 Implement Renko BufferList in `src/m-r/Renko/Renko.BufferList.cs`
+- [x] T038 Implement Renko BufferList in `src/m-r/Renko/Renko.BufferList.cs` ✅ Complete
 - [ ] T039 Implement RenkoAtr BufferList in `src/m-r/RenkoAtr/RenkoAtr.BufferList.cs`
 - [ ] T040 Implement RocWb BufferList in `src/m-r/RocWb/RocWb.BufferList.cs`
 - [ ] T041 Implement RollingPivots BufferList in `src/m-r/RollingPivots/RollingPivots.BufferList.cs`

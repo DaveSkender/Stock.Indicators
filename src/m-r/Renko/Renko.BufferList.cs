@@ -10,7 +10,7 @@ public class RenkoList : BufferList<RenkoResult>, IIncrementFromQuote, IRenko
     private decimal _h = decimal.MinValue;
     private decimal _l = decimal.MaxValue;
     private decimal _sumV = 0;
-    private bool _isInitialized = false;
+    private bool _isInitialized;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="RenkoList"/> class.
