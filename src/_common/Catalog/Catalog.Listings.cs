@@ -285,6 +285,7 @@ public static partial class Catalog
         _listings.Add(SmaAnalysis.SeriesListing);
 
         // SMI (Stochastic Momentum Index)
+        _listings.Add(Smi.BufferListing);
         _listings.Add(Smi.SeriesListing);
 
         // SMMA (Smoothed Moving Average)
@@ -293,6 +294,7 @@ public static partial class Catalog
         _listings.Add(Smma.BufferListing);
 
         // STARC Bands
+        _listings.Add(StarcBands.BufferListing);
         _listings.Add(StarcBands.SeriesListing);
 
         // STC (Schaff Trend Cycle)

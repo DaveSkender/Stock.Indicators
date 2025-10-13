@@ -79,6 +79,14 @@ public class BufferIndicators
         => new(n) { quotes };
 
     [Benchmark]
+    public SmiList SmiBuffer()
+        => new(13, 25, 2, 3) { quotes };
+
+    [Benchmark]
+    public StarcBandsList StarcBandsBuffer()
+        => new(5, 2, 10) { quotes };
+
+    [Benchmark]
     public StochList StochBuffer()
         => new(14, 3, 3) { quotes };
 
