@@ -221,6 +221,8 @@ public class MaEnvelopesList : BufferList<MaEnvelopeResult>, IIncrementFromChain
             case MaType.WMA:
                 ((WmaList)_maList).Clear();
                 break;
+            default:
+                throw new ArgumentOutOfRangeException(nameof(_movingAverageType));
         }
     }
 }
