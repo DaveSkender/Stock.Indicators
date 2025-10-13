@@ -129,4 +129,8 @@ public class BufferIndicators
     [Benchmark]
     public WmaList WmaBuffer()
         => new(n) { quotes };
+
+    [Benchmark]
+    public ZigZagList ZigZagBuffer()
+        => new() { quotes };
 }
