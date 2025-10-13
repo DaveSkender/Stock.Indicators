@@ -93,6 +93,32 @@ The following indicators have series-style implementations but lack BufferList i
 - [x] T009 Implement Chop BufferList in `src/a-d/Chop/Chop.BufferList.cs` ✅ Complete
 - [x] T010 Implement Cmf BufferList in `src/a-d/Cmf/Cmf.BufferList.cs` ✅ Complete
 - [ ] T011 Implement ConnorsRsi BufferList in `src/a-d/ConnorsRsi/ConnorsRsi.BufferList.cs`
+- [ ] T021 Implement Fractal BufferList in `src/e-k/Fractal/Fractal.BufferList.cs` ⚠️ **DEFERRED**: Requires future data access pattern incompatible with streaming constraints (looks ahead 2 periods). Marked for v2 research with potential reorder buffer solution.
+- [ ] T024 Implement HtTrendline BufferList in `src/e-k/HtTrendline/HtTrendline.BufferList.cs` ⚠️ **DEFERRED**: Complex Hilbert Transform implementation requires research into streaming compatibility and state management complexity. Targeted for v2 after core framework stabilization.
+- [ ] T025 Implement Hurst BufferList in `src/e-k/Hurst/Hurst.BufferList.cs` ⚠️ **DEFERRED**: Hurst Exponent calculation requires full dataset access patterns incompatible with incremental streaming. Research needed for windowed approximation approach in v2.
+- [ ] T026 Implement Ichimoku BufferList in `src/e-k/Ichimoku/Ichimoku.BufferList.cs` ⚠️ **DEFERRED**: Requires future offset calculations (Senkou Span B projects 26 periods ahead) incompatible with streaming constraints. Marked for v2 research with offset buffer solution.
+- [ ] T029 Implement MaEnvelopes BufferList in `src/m-r/MaEnvelopes/MaEnvelopes.BufferList.cs`
+- [ ] T032 Implement ParabolicSar BufferList in `src/m-r/ParabolicSar/ParabolicSar.BufferList.cs`
+- [ ] T033 Implement PivotPoints BufferList in `src/m-r/PivotPoints/PivotPoints.BufferList.cs`
+- [ ] T034 Implement Pivots BufferList in `src/m-r/Pivots/Pivots.BufferList.cs`
+- [ ] T035 Implement Pmo BufferList in `src/m-r/Pmo/Pmo.BufferList.cs`
+- [ ] T036 Implement Prs BufferList in `src/m-r/Prs/Prs.BufferList.cs`
+- [ ] T037 Implement Pvo BufferList in `src/m-r/Pvo/Pvo.BufferList.cs`
+- [ ] T125 Implement QuotePart BufferList in `src/_common/QuotePart/QuotePart.BufferList.cs`
+- [ ] T038 Implement Renko BufferList in `src/m-r/Renko/Renko.BufferList.cs`
+- [ ] T039 Implement RenkoAtr BufferList in `src/m-r/RenkoAtr/RenkoAtr.BufferList.cs`
+- [ ] T040 Implement RocWb BufferList in `src/m-r/RocWb/RocWb.BufferList.cs`
+- [ ] T041 Implement RollingPivots BufferList in `src/m-r/RollingPivots/RollingPivots.BufferList.cs`
+- [ ] T042 Implement Slope BufferList in `src/s-z/Slope/Slope.BufferList.cs` ⚠️ **DEFERRED**: Line property requires retroactive updates to historical results when new data changes slope calculation, incompatible with append-only streaming constraints. Research needed for windowed approximation in v2.
+- [ ] T044 Implement Smi BufferList in `src/s-z/Smi/Smi.BufferList.cs`
+- [ ] T045 Implement StarcBands BufferList in `src/s-z/StarcBands/StarcBands.BufferList.cs`
+- [ ] T046 Implement Stc BufferList in `src/s-z/Stc/Stc.BufferList.cs`
+- [ ] T048 Implement StdDevChannels BufferList in `src/s-z/StdDevChannels/StdDevChannels.BufferList.cs`
+- [ ] T050 Implement Tsi BufferList in `src/s-z/Tsi/Tsi.BufferList.cs`
+- [ ] T052 Implement VolatilityStop BufferList in `src/s-z/VolatilityStop/VolatilityStop.BufferList.cs`
+- [ ] T053 Implement Vortex BufferList in `src/s-z/Vortex/Vortex.BufferList.cs`
+- [ ] T054 Implement Vwap BufferList in `src/s-z/Vwap/Vwap.BufferList.cs`
+- [ ] T055 Implement ZigZag BufferList in `src/s-z/ZigZag/ZigZag.BufferList.cs`
 - [x] T012 Implement Correlation BufferList in `src/a-d/Correlation/Correlation.BufferList.cs` ✅ Complete
 - [x] T013 Implement Doji BufferList in `src/a-d/Doji/Doji.BufferList.cs` ✅ Complete
 - [x] T014 Implement Donchian BufferList in `src/a-d/Donchian/Donchian.BufferList.cs` ✅ Complete
@@ -149,41 +175,35 @@ The following indicators have series-style implementations but lack BufferList i
 
 ## Missing StreamHub Implementations
 
-The following indicators have series-style implementations but lack StreamHub implementations:
+**Target**: 44 missing StreamHub implementations for 1:1:1 parity
 
-### StreamHub A-D Group (14 indicators)
+### StreamHub A-D Group (8 missing)
 
-- [x] T056 Implement Aroon StreamHub in `src/a-d/Aroon/Aroon.StreamHub.cs` ✅ Complete
-- [x] T057 Implement Awesome StreamHub in `src/a-d/Awesome/Awesome.StreamHub.cs` ✅ Complete
-- [x] T058 Implement Beta StreamHub in `src/a-d/Beta/Beta.StreamHub.cs` ✅ Complete
-- [x] T059 Implement Bop StreamHub in `src/a-d/Bop/Bop.StreamHub.cs` ✅ Complete
-- [x] T060 Implement ChaikinOsc StreamHub in `src/a-d/ChaikinOsc/ChaikinOsc.StreamHub.cs` ✅ Complete
 - [ ] T061 Implement Chandelier StreamHub in `src/a-d/Chandelier/Chandelier.StreamHub.cs`
 - [ ] T062 Implement Chop StreamHub in `src/a-d/Chop/Chop.StreamHub.cs`
 - [ ] T063 Implement Cmf StreamHub in `src/a-d/Cmf/Cmf.StreamHub.cs`
 - [ ] T064 Implement ConnorsRsi StreamHub in `src/a-d/ConnorsRsi/ConnorsRsi.StreamHub.cs`
-- [ ] T065 Implement Correlation StreamHub in `src/a-d/Correlation/Correlation.StreamHub.cs` (WIP, needs revisit - dual-stream sync needs work, see Issue #1511)
-- [x] T066 Implement Doji StreamHub in `src/a-d/Doji/Doji.StreamHub.cs` ✅ Complete
 - [ ] T067 Implement Donchian StreamHub in `src/a-d/Donchian/Donchian.StreamHub.cs`
 - [ ] T068 Implement Dpo StreamHub in `src/a-d/Dpo/Dpo.StreamHub.cs`
 - [ ] T069 Implement Dynamic StreamHub in `src/a-d/Dynamic/Dynamic.StreamHub.cs`
+- [ ] T065 Implement Correlation StreamHub in `src/a-d/Correlation/Correlation.StreamHub.cs` (WIP, needs revisit - dual-stream sync needs work, see Issue #1511)
 
-### StreamHub E-K Group (12 indicators)
+### StreamHub E-K Group (12 missing)
 
 - [ ] T070 Implement ElderRay StreamHub in `src/e-k/ElderRay/ElderRay.StreamHub.cs`
 - [ ] T071 Implement Fcb StreamHub in `src/e-k/Fcb/Fcb.StreamHub.cs`
 - [ ] T072 Implement FisherTransform StreamHub in `src/e-k/FisherTransform/FisherTransform.StreamHub.cs`
 - [ ] T073 Implement ForceIndex StreamHub in `src/e-k/ForceIndex/ForceIndex.StreamHub.cs`
-- [ ] T074 Implement Fractal StreamHub in `src/e-k/Fractal/Fractal.StreamHub.cs`
+- [ ] T074 Implement Fractal StreamHub in `src/e-k/Fractal/Fractal.StreamHub.cs` ⚠️ **DEFERRED**: Future data access incompatible with streaming
 - [ ] T075 Implement Gator StreamHub in `src/e-k/Gator/Gator.StreamHub.cs`
 - [ ] T076 Implement HeikinAshi StreamHub in `src/e-k/HeikinAshi/HeikinAshi.StreamHub.cs`
-- [ ] T077 Implement HtTrendline StreamHub in `src/e-k/HtTrendline/HtTrendline.StreamHub.cs`
-- [ ] T078 Implement Hurst StreamHub in `src/e-k/Hurst/Hurst.StreamHub.cs`
-- [ ] T079 Implement Ichimoku StreamHub in `src/e-k/Ichimoku/Ichimoku.StreamHub.cs`
+- [ ] T077 Implement HtTrendline StreamHub in `src/e-k/HtTrendline/HtTrendline.StreamHub.cs` ⚠️ **DEFERRED**: Complex Hilbert Transform streaming compatibility research needed
+- [ ] T078 Implement Hurst StreamHub in `src/e-k/Hurst/Hurst.StreamHub.cs` ⚠️ **DEFERRED**: Full dataset access patterns incompatible with streaming
+- [ ] T079 Implement Ichimoku StreamHub in `src/e-k/Ichimoku/Ichimoku.StreamHub.cs` ⚠️ **DEFERRED**: Future offset calculations incompatible with streaming
 - [ ] T080 Implement Keltner StreamHub in `src/e-k/Keltner/Keltner.StreamHub.cs`
 - [ ] T081 Implement Kvo StreamHub in `src/e-k/Kvo/Kvo.StreamHub.cs`
 
-### StreamHub M-R Group (12 indicators)
+### StreamHub M-R Group (12 missing)
 
 - [ ] T082 Implement MaEnvelopes StreamHub in `src/m-r/MaEnvelopes/MaEnvelopes.StreamHub.cs`
 - [ ] T083 Implement Marubozu StreamHub in `src/m-r/Marubozu/Marubozu.StreamHub.cs`
@@ -198,9 +218,9 @@ The following indicators have series-style implementations but lack StreamHub im
 - [ ] T092 Implement RocWb StreamHub in `src/m-r/RocWb/RocWb.StreamHub.cs`
 - [ ] T093 Implement RollingPivots StreamHub in `src/m-r/RollingPivots/RollingPivots.StreamHub.cs`
 
-### StreamHub S-Z Group (14 indicators)
+### StreamHub S-Z Group (12 missing)
 
-- [ ] T094 Implement Slope StreamHub in `src/s-z/Slope/Slope.StreamHub.cs`
+- [ ] T094 Implement Slope StreamHub in `src/s-z/Slope/Slope.StreamHub.cs` ⚠️ **DEFERRED**: Retroactive calculation incompatible with streaming
 - [ ] T095 Implement SmaAnalysis StreamHub in `src/s-z/SmaAnalysis/SmaAnalysis.StreamHub.cs`
 - [ ] T096 Implement Smi StreamHub in `src/s-z/Smi/Smi.StreamHub.cs`
 - [ ] T097 Implement StarcBands StreamHub in `src/s-z/StarcBands/StarcBands.StreamHub.cs`
@@ -214,6 +234,7 @@ The following indicators have series-style implementations but lack StreamHub im
 - [ ] T105 Implement Vortex StreamHub in `src/s-z/Vortex/Vortex.StreamHub.cs`
 - [ ] T106 Implement Vwap StreamHub in `src/s-z/Vwap/Vwap.StreamHub.cs`
 - [ ] T107 Implement ZigZag StreamHub in `src/s-z/ZigZag/ZigZag.StreamHub.cs`
+- [ ] T126 Implement QuotePart StreamHub in `src/_common/QuotePart/QuotePart.StreamHub.cs`
 
 ## Implementation Guidelines
 
@@ -310,14 +331,24 @@ The following documentation tasks support the main implementation work:
 
 ## Summary
 
-- **Total BufferList tasks**: 55 (50 implementable + 5 deferred to v2)
-- **Total StreamHub tasks**: 52 (47 implementable + 5 deferred to v2)  
-- **Total implementation tasks**: 107 (97 implementable + 10 deferred to v2)
-- **Current implementations**: BufferList (48/50 = 96% of implementable), StreamHub (36/47 = 77% of implementable)
-- **Missing BufferList implementations**: 2 implementable indicators (ConnorsRsi, MaEnvelopes, etc.)
-- **Missing StreamHub implementations**: 11 implementable indicators  
-- **Target coverage**: All implementable indicators with both BufferList and StreamHub styles (excludes 5 deferred indicators requiring v2 research)
-- **Deferred indicators**: Fractal, HtTrendline, Hurst, Ichimoku, Slope (5 total) - incompatible with streaming constraints, marked for v2 research
+**CRITICAL UPDATE**: Comprehensive audit reveals 1:1:1 parity requirement across all implementation styles:
+
+- **Total Series implementations**: 85 indicators (baseline)
+- **Total BufferList implementations**: 59 complete, **26 missing**
+- **Total StreamHub implementations**: 41 complete, **44 missing**
+- **1:1:1 Target**: 85 BufferList + 85 StreamHub = 170 streaming implementations total
+- **Current streaming coverage**: 100/170 = **59% complete**
+
+### Missing Implementation Analysis
+
+- **BufferList missing (26)**: ConnorsRsi, Fractal*, HtTrendline*, Hurst*, Ichimoku*, MaEnvelopes, ParabolicSar, PivotPoints, Pivots, Pmo, Pvo, QuotePart, Renko, RenkoAtr, RocWb, RollingPivots, Slope*, Smi, StarcBands, Stc, StdDevChannels, Tsi, VolatilityStop, Vortex, Vwap, ZigZag
+- **StreamHub missing (44)**: Chandelier, Chop, ConnorsRsi, Donchian, Dpo, Dynamic, ElderRay, Fcb, FisherTransform, ForceIndex, Fractal*, Gator, HeikinAshi, HtTrendline*, Hurst*, Ichimoku*, Keltner, Kvo, MaEnvelopes, Marubozu, Mfi, ParabolicSar, PivotPoints, Pivots, Pmo, Pvo, QuotePart, RenkoAtr, RocWb, RollingPivots, Slope*, SmaAnalysis, Smi, StarcBands, Stc, StdDev, StdDevChannels, SuperTrend, Tsi, UlcerIndex, VolatilityStop, Vortex, Vwap, ZigZag
+
+**Note**: Asterisked (*) indicators may be deferred to v2 due to streaming constraints research needed.
+
+- **Total implementation tasks**: 170 (85 BufferList + 85 StreamHub)
+- **Remaining tasks**: 70 (26 BufferList + 44 StreamHub)  
+- **Supporting tasks**: 20+ (documentation, quality gates, compliance)
 - **Documentation tasks**: 7 (D001-D007)  
 - **Quality gate tasks**: 6 (Q001-Q006)
 - **Test interface compliance tasks**: 5 (T110-T114)
