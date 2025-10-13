@@ -7,8 +7,6 @@ namespace Skender.Stock.Indicators;
 /// </summary>
 public class ZigZagList : BufferList<ZigZagResult>, IIncrementFromQuote
 {
-    private readonly EndType _endType;
-    private readonly decimal _percentChange;
     private readonly List<IQuote> _quoteCache;
 
     /// <summary>
@@ -21,9 +19,6 @@ public class ZigZagList : BufferList<ZigZagResult>, IIncrementFromQuote
         ZigZag.Validate(percentChange);
         EndType = endType;
         PercentChange = percentChange;
-
-        _endType = endType;
-        _percentChange = percentChange;
         _quoteCache = [];
     }
 
@@ -83,7 +78,7 @@ public class ZigZagList : BufferList<ZigZagResult>, IIncrementFromQuote
     private void Recalculate()
     {
         // Recalculate using Series method
-        IReadOnlyList<ZigZagResult> results = _quoteCache.ToZigZag(_endType, _percentChange);
+        IReadOnlyList<ZigZagResult> results = _quoteCache.ToZigZag(EndType, PercentChange);
 
         // Update existing results or add new ones
         for (int i = 0; i < results.Count; i++)
