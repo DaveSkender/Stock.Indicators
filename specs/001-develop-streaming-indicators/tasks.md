@@ -3,8 +3,6 @@
 **Input**: Design documents from `/specs/001-develop-streaming-indicators/`
 **Prerequisites**: plan.md (required), spec.md (required for user stories), data-model.md
 
-**Organization**: Tasks are grouped by implementation phase and indicator category to enable systematic completion and validation.
-
 ## Format: `[ID] [P?] Description`
 
 - **[P]**: Can run in parallel (different files, no dependencies)
