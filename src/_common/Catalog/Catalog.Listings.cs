@@ -257,6 +257,7 @@ public static partial class Catalog
         // Renko
         _listings.Add(Renko.SeriesListing);
         _listings.Add(Renko.StreamListing);
+        _listings.Add(Renko.BufferListing);
 
         // Renko ATR
         _listings.Add(RenkoAtr.SeriesListing);

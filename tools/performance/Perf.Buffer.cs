@@ -71,6 +71,10 @@ public class BufferIndicators
         => new(20) { quotes };
 
     [Benchmark]
+    public RenkoList RenkoBuffer()
+        => new(2.5m) { quotes };
+
+    [Benchmark]
     public SmaList SmaBuffer()
         => new(n) { quotes };
 
