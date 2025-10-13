@@ -82,9 +82,8 @@ public static partial class Marubozu
     /// <summary>
     /// Creates a buffer list for Marubozu candlestick pattern calculations.
     /// </summary>
-    public static MarubozuList ToMarubozuList<TQuote>(
-        this IReadOnlyList<TQuote> quotes,
+    public static MarubozuList ToMarubozuList(
+        this IReadOnlyList<IQuote> quotes,
         double minBodyPercent = 95)
-        where TQuote : IQuote
-        => new(minBodyPercent) { (IReadOnlyList<IQuote>)quotes };
+        => new(minBodyPercent) { quotes };
 }

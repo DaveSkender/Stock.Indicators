@@ -232,6 +232,7 @@ knowledge_base:
       - ".github/copilot-instructions.md"
       - ".github/instructions/*.instructions.md"
       - ".github/instructions/**/*.instructions.md"
+      - "**/agents.md"
   learnings:
     scope: "auto"
   issues:

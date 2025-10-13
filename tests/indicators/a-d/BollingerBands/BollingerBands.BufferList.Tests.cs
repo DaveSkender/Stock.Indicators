@@ -1,7 +1,7 @@
 namespace BufferLists;
 
 [TestClass]
-public class BollingerBands : BufferListTestBase, ITestReusableBufferList
+public class BollingerBands : BufferListTestBase, ITestChainBufferList
 {
     private const int lookbackPeriods = 20;
     private const double standardDeviations = 2;
@@ -15,7 +15,7 @@ public class BollingerBands : BufferListTestBase, ITestReusableBufferList
         = Quotes.ToBollingerBands(lookbackPeriods, standardDeviations);
 
     [TestMethod]
-    public override void AddQuotes()
+    public void AddQuotes()
     {
         BollingerBandsList sut = new(lookbackPeriods, standardDeviations);
 
@@ -29,7 +29,7 @@ public class BollingerBands : BufferListTestBase, ITestReusableBufferList
     }
 
     [TestMethod]
-    public override void AddQuotesBatch()
+    public void AddQuotesBatch()
     {
         BollingerBandsList sut = new(lookbackPeriods, standardDeviations) { Quotes };
 
@@ -38,7 +38,7 @@ public class BollingerBands : BufferListTestBase, ITestReusableBufferList
     }
 
     [TestMethod]
-    public override void WithQuotesCtor()
+    public void WithQuotesCtor()
     {
         BollingerBandsList sut = new(lookbackPeriods, standardDeviations, Quotes);
 

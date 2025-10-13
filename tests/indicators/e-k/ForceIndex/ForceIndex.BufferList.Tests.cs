@@ -9,7 +9,7 @@ public class ForceIndex : BufferListTestBase
        = Quotes.ToForceIndex(lookbackPeriods);
 
     [TestMethod]
-    public override void AddQuotes()
+    public void AddQuotes()
     {
         ForceIndexList sut = new(lookbackPeriods);
 
@@ -20,7 +20,7 @@ public class ForceIndex : BufferListTestBase
     }
 
     [TestMethod]
-    public override void AddQuotesBatch()
+    public void AddQuotesBatch()
     {
         ForceIndexList sut = new(lookbackPeriods) { Quotes };
 
@@ -32,7 +32,7 @@ public class ForceIndex : BufferListTestBase
     }
 
     [TestMethod]
-    public override void WithQuotesCtor()
+    public void WithQuotesCtor()
     {
         ForceIndexList sut = new(lookbackPeriods, Quotes);
 

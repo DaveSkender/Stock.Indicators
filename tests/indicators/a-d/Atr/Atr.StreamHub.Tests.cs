@@ -1,10 +1,10 @@
 namespace StreamHub;
 
 [TestClass]
-public class AtrHub : StreamHubTestBase, ITestChainProvider
+public class AtrHub : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
 {
     [TestMethod]
-    public override void QuoteObserver()
+    public void QuoteObserver()
     {
         List<Quote> quotesList = Quotes.ToList();
 

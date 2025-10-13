@@ -1,7 +1,7 @@
 namespace BufferLists;
 
 [TestClass]
-public class Mama : BufferListTestBase, ITestReusableBufferList, ITestNonStandardBufferListCache
+public class Mama : BufferListTestBase, ITestChainBufferList, ITestCustomBufferListCache
 {
     private const double fastLimit = 0.5;
     private const double slowLimit = 0.05;
@@ -16,7 +16,7 @@ public class Mama : BufferListTestBase, ITestReusableBufferList, ITestNonStandar
        = Quotes.ToMama(fastLimit, slowLimit);
 
     [TestMethod]
-    public override void AddQuotes()
+    public void AddQuotes()
     {
         MamaList sut = new(fastLimit, slowLimit);
 
@@ -30,7 +30,7 @@ public class Mama : BufferListTestBase, ITestReusableBufferList, ITestNonStandar
     }
 
     [TestMethod]
-    public override void AddQuotesBatch()
+    public void AddQuotesBatch()
     {
         MamaList sut = new(fastLimit, slowLimit) { Quotes };
 
@@ -39,7 +39,7 @@ public class Mama : BufferListTestBase, ITestReusableBufferList, ITestNonStandar
     }
 
     [TestMethod]
-    public override void WithQuotesCtor()
+    public void WithQuotesCtor()
     {
         MamaList sut = new(fastLimit, slowLimit, Quotes);
 
@@ -125,7 +125,7 @@ public class Mama : BufferListTestBase, ITestReusableBufferList, ITestNonStandar
     }
 
     [TestMethod]
-    public void AutoBufferPruning()
+    public void CustomBufferPruning()
     {
         const int maxListSize = 200;
         const int quotesSize = 1250;

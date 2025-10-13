@@ -12,8 +12,8 @@
 
 > **IMPORTANT**: This planning document contains conceptual examples that may not match actual codebase patterns. For authoritative implementation guidance, always reference:
 >
-> - `.github/instructions/buffer-indicators.instructions.md` (BufferList pattern)
-> - `.github/instructions/stream-indicators.instructions.md` (StreamHub pattern)
+> - `.github/instructions/indicator-buffer.instructions.md` (BufferList pattern)
+> - `.github/instructions/indicator-stream.instructions.md` (StreamHub pattern)
 > - Existing implementations in `src/**/*.BufferList.cs` and `src/**/*.StreamHub.cs`
 
 ## Summary
@@ -180,8 +180,8 @@ These checklists ensure:
 
 For authoritative implementation guidance, see:
 
-- **BufferList**: `.github/instructions/buffer-indicators.instructions.md` + existing implementations in `src/**/*.BufferList.cs`
-- **StreamHub**: `.github/instructions/stream-indicators.instructions.md` + existing implementations in `src/**/*.StreamHub.cs`
+- **BufferList**: `.github/instructions/indicator-buffer.instructions.md` + existing implementations in `src/**/*.BufferList.cs`
+- **StreamHub**: `.github/instructions/indicator-stream.instructions.md` + existing implementations in `src/**/*.StreamHub.cs`
 
 #### Actual Implementation Patterns
 
@@ -314,19 +314,19 @@ The following base classes and utilities already exist in `src/_common/`:
 
 **IMPORTANT**: Follow the repository's established instruction files for implementation:
 
-- **Buffer-style indicators**: See `.github/instructions/buffer-indicators.instructions.md`
+- **Buffer-style indicators**: See `.github/instructions/indicator-buffer.instructions.md`
   - Defines BufferList pattern, state management, and testing requirements
   - Includes examples of circular buffer patterns and List-based state
   - **Real implementation**: `{IndicatorName}List` class inheriting from `BufferList<TResult>`
   - **Example**: `SmaList`, `EmaList`, `RsiList` (see existing implementations in `src/`)
   
-- **Stream-style indicators**: See `.github/instructions/stream-indicators.instructions.md`
+- **Stream-style indicators**: See `.github/instructions/indicator-stream.instructions.md`
   - Defines StreamHub pattern, span-based optimizations, and performance requirements
   - Includes guidance on memory management and high-frequency scenarios
   - **Real implementation**: `{IndicatorName}Hub<TIn>` class extending `ChainProvider<TIn, TResult>`
   - **Example**: `SmaHub<TIn>`, `EmaHub<TIn>`, `RsiHub<TIn>` (see existing implementations in `src/`)
 
-- **Series-style indicators**: See `.github/instructions/series-indicators.instructions.md`
+- **Series-style indicators**: See `.github/instructions/indicator-series.instructions.md`
   - Existing batch calculation patterns (unchanged by this feature)
   - Reference for mathematical correctness and parity validation
 
@@ -341,7 +341,7 @@ The following base classes and utilities already exist in `src/_common/`:
 - Update `docs/_indicators/Sma.md` (and EMA, RSI, MACD, BollingerBands) with streaming section
 - Add streaming examples to each indicator page
 - Update `README.md` with streaming overview paragraph
-- Update `src/_common/ObsoleteV3.md` migration guide with streaming capability summary (public release notes remain automated via GitHub Releases)
+- Update `src/MigrationGuide.V3.md` migration guide with streaming capability summary (public release notes remain automated via GitHub Releases)
 
 ### Quality gates and conformance
 
@@ -391,12 +391,15 @@ No violations—section intentionally empty.
 - [x] Phase 1: Design complete (/plan command)
 - [ ] Phase 2: Task planning complete (/plan command - describe approach only)
 - [ ] Phase 3: Tasks generated (/tasks command)
-- [ ] Phase 4: Implementation complete (**GATE: Only when ALL BufferList indicators (80+) are implemented and ALL buffer-list.md checklist items are covered for each.**)
-- [ ] Phase 5: Validation passed (**GATE: Only when ALL BufferList indicators pass all unit, regression, and parity tests, and all checklist items are marked complete for every indicator.**)
+- [ ] Phase 4: Implementation complete (**GATE: Only when ALL instruction file compliance audit tasks (A001-A006) are complete AND all BufferList/StreamHub implementations comply with refined instruction files.**)
+- [ ] Phase 5: Validation passed (**GATE: Only when ALL implementations pass simplified checklists (15-18 items each) and demonstrate constitution compliance.**)
 
-> **Note:**
+> **Critical Update** (October 12, 2025):
 >
-> - As of October 9, 2025, only a subset of BufferList indicators are implemented and even those do not have all 100+ checklist items in buffer-list.md marked complete. Many gaps remain in requirements coverage, edge case handling, and documentation for both implemented and pending indicators. See buffer-list.md for detailed checklist status and gaps.
+> - Current status: 59 BufferList + 40 StreamHub implementations exist but many lack compliance with refined instruction files
+> - **NEW PRIORITY**: Instruction file compliance audit (tasks A001-A006) must complete before Phase 4
+> - Checklists simplified from 135-145 items to 15-18 essential items to comply with Constitution Principle 6 (Simplicity over Feature Creep)
+> - Progress gates now emphasize constitution compliance and instruction file adherence over raw implementation counts
 
 **Gate status**:
 

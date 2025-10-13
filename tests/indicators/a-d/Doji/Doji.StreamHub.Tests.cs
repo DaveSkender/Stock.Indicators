@@ -1,10 +1,10 @@
 namespace StreamHub;
 
 [TestClass]
-public class DojiHub : StreamHubTestBase
+public class DojiHub : StreamHubTestBase, ITestQuoteObserver
 {
     [TestMethod]
-    public override void QuoteObserver()
+    public void QuoteObserver()
     {
         List<Quote> quotesList = Quotes.ToList();
 

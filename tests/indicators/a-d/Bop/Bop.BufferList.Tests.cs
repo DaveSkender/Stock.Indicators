@@ -9,7 +9,7 @@ public class Bop : BufferListTestBase
        = Quotes.ToBop(smoothPeriods);
 
     [TestMethod]
-    public override void AddQuotes()
+    public void AddQuotes()
     {
         BopList sut = new(smoothPeriods);
 
@@ -23,7 +23,7 @@ public class Bop : BufferListTestBase
     }
 
     [TestMethod]
-    public override void AddQuotesBatch()
+    public void AddQuotesBatch()
     {
         BopList sut = new(smoothPeriods) { Quotes };
 
@@ -32,7 +32,7 @@ public class Bop : BufferListTestBase
     }
 
     [TestMethod]
-    public override void WithQuotesCtor()
+    public void WithQuotesCtor()
     {
         BopList sut = new(smoothPeriods, Quotes);
 

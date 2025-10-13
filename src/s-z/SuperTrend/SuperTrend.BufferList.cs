@@ -154,10 +154,9 @@ public static partial class SuperTrend
     /// <summary>
     /// Creates a buffer list for SuperTrend calculations.
     /// </summary>
-    public static SuperTrendList ToSuperTrendList<TQuote>(
-        this IReadOnlyList<TQuote> quotes,
+    public static SuperTrendList ToSuperTrendList(
+        this IReadOnlyList<IQuote> quotes,
         int lookbackPeriods = 10,
         double multiplier = 3)
-        where TQuote : IQuote
-        => new(lookbackPeriods, multiplier) { (IReadOnlyList<IQuote>)quotes };
+        => new(lookbackPeriods, multiplier) { quotes };
 }

@@ -7,7 +7,7 @@ public class MamaHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
     private const double slowLimit = 0.05;
 
     [TestMethod]
-    public override void QuoteObserver()
+    public void QuoteObserver()
     {
         List<Quote> quotesList = Quotes.ToList();
 

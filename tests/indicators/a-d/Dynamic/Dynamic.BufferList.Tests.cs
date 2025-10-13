@@ -1,7 +1,7 @@
 namespace BufferLists;
 
 [TestClass]
-public class MgDynamic : BufferListTestBase, ITestReusableBufferList
+public class MgDynamic : BufferListTestBase, ITestChainBufferList
 {
     private const int lookbackPeriods = 14;
     private const double kFactor = 0.6;
@@ -15,7 +15,7 @@ public class MgDynamic : BufferListTestBase, ITestReusableBufferList
        = Quotes.ToDynamic(lookbackPeriods, kFactor);
 
     [TestMethod]
-    public override void AddQuotes()
+    public void AddQuotes()
     {
         DynamicList sut = new(lookbackPeriods, kFactor);
 
@@ -26,7 +26,7 @@ public class MgDynamic : BufferListTestBase, ITestReusableBufferList
     }
 
     [TestMethod]
-    public override void AddQuotesBatch()
+    public void AddQuotesBatch()
     {
         DynamicList sut = new(lookbackPeriods, kFactor) { Quotes };
 
@@ -38,7 +38,7 @@ public class MgDynamic : BufferListTestBase, ITestReusableBufferList
     }
 
     [TestMethod]
-    public override void WithQuotesCtor()
+    public void WithQuotesCtor()
     {
         DynamicList sut = new(lookbackPeriods, kFactor, Quotes);
 

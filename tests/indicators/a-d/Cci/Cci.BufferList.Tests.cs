@@ -9,7 +9,7 @@ public class Cci : BufferListTestBase
        = Quotes.ToCci(lookbackPeriods);
 
     [TestMethod]
-    public override void AddQuotes()
+    public void AddQuotes()
     {
         CciList sut = new(lookbackPeriods);
 
@@ -23,7 +23,7 @@ public class Cci : BufferListTestBase
     }
 
     [TestMethod]
-    public override void AddQuotesBatch()
+    public void AddQuotesBatch()
     {
         CciList sut = new(lookbackPeriods) { Quotes };
 
@@ -32,7 +32,7 @@ public class Cci : BufferListTestBase
     }
 
     [TestMethod]
-    public override void WithQuotesCtor()
+    public void WithQuotesCtor()
     {
         CciList sut = new(lookbackPeriods, Quotes);
 

@@ -1,7 +1,7 @@
 namespace BufferLists;
 
 [TestClass]
-public class Tema : BufferListTestBase, ITestReusableBufferList
+public class Tema : BufferListTestBase, ITestChainBufferList
 {
     private const int lookbackPeriods = 20;
 
@@ -14,7 +14,7 @@ public class Tema : BufferListTestBase, ITestReusableBufferList
        = Quotes.ToTema(lookbackPeriods);
 
     [TestMethod]
-    public override void AddQuotes()
+    public void AddQuotes()
     {
         TemaList sut = new(lookbackPeriods);
 
@@ -28,7 +28,7 @@ public class Tema : BufferListTestBase, ITestReusableBufferList
     }
 
     [TestMethod]
-    public override void AddQuotesBatch()
+    public void AddQuotesBatch()
     {
         TemaList sut = new(lookbackPeriods) { Quotes };
 
@@ -37,7 +37,7 @@ public class Tema : BufferListTestBase, ITestReusableBufferList
     }
 
     [TestMethod]
-    public override void WithQuotesCtor()
+    public void WithQuotesCtor()
     {
         TemaList sut = new(lookbackPeriods, Quotes);
 

@@ -1,7 +1,7 @@
 namespace BufferLists;
 
 [TestClass]
-public class Smma : BufferListTestBase, ITestReusableBufferList
+public class Smma : BufferListTestBase, ITestChainBufferList
 {
     private const int lookbackPeriods = 20;
 
@@ -14,7 +14,7 @@ public class Smma : BufferListTestBase, ITestReusableBufferList
        = Quotes.ToSmma(lookbackPeriods);
 
     [TestMethod]
-    public override void AddQuotes()
+    public void AddQuotes()
     {
         SmmaList sut = new(lookbackPeriods);
 
@@ -28,7 +28,7 @@ public class Smma : BufferListTestBase, ITestReusableBufferList
     }
 
     [TestMethod]
-    public override void AddQuotesBatch()
+    public void AddQuotesBatch()
     {
         SmmaList sut = Quotes.ToSmmaList(lookbackPeriods);
 
@@ -37,7 +37,7 @@ public class Smma : BufferListTestBase, ITestReusableBufferList
     }
 
     [TestMethod]
-    public override void WithQuotesCtor()
+    public void WithQuotesCtor()
     {
         SmmaList sut = new(lookbackPeriods, Quotes);
 

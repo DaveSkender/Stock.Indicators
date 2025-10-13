@@ -1,7 +1,7 @@
 namespace BufferLists;
 
 [TestClass]
-public class StdDev : BufferListTestBase, ITestReusableBufferList
+public class StdDev : BufferListTestBase, ITestChainBufferList
 {
     private const int lookbackPeriods = 14;
 
@@ -51,7 +51,7 @@ public class StdDev : BufferListTestBase, ITestReusableBufferList
     }
 
     [TestMethod]
-    public override void AddQuotes()
+    public void AddQuotes()
     {
         StdDevList sut = new(lookbackPeriods);
 
@@ -65,7 +65,7 @@ public class StdDev : BufferListTestBase, ITestReusableBufferList
     }
 
     [TestMethod]
-    public override void AddQuotesBatch()
+    public void AddQuotesBatch()
     {
         StdDevList sut = new(lookbackPeriods) { Quotes };
 
@@ -74,7 +74,7 @@ public class StdDev : BufferListTestBase, ITestReusableBufferList
     }
 
     [TestMethod]
-    public override void WithQuotesCtor()
+    public void WithQuotesCtor()
     {
         StdDevList sut = new(lookbackPeriods, Quotes);
 

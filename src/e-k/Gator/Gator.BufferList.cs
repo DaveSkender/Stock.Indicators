@@ -5,17 +5,13 @@ namespace Skender.Stock.Indicators;
 /// </summary>
 public class GatorList : BufferList<GatorResult>, IIncrementFromChain
 {
-    private readonly AlligatorList _alligatorList;
+    private readonly AlligatorList _alligatorList = [];
     private GatorResult? _previousResult;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GatorList"/> class.
     /// </summary>
-    public GatorList()
-    {
-        _alligatorList = new AlligatorList();
-        _previousResult = null;
-    }
+    public GatorList() { }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GatorList"/> class with initial reusable values.
@@ -89,8 +85,7 @@ public static partial class Gator
     /// <summary>
     /// Creates a buffer list for Gator Oscillator calculations.
     /// </summary>
-    public static GatorList ToGatorList<T>(
-        this IReadOnlyList<T> source)
-        where T : IReusable
-        => new() { (IReadOnlyList<IReusable>)source };
+    public static GatorList ToGatorList(
+        this IReadOnlyList<IReusable> source)
+        => new() { source };
 }

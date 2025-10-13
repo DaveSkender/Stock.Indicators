@@ -137,17 +137,15 @@ public static partial class BollingerBands
     /// <summary>
     /// Creates a buffer list for Bollinger Bands calculations
     /// </summary>
-    /// <typeparam name="T">The type that implements IReusable</typeparam>
     /// <param name="source">Time-series values</param>
     /// <param name="lookbackPeriods">The number of periods to use for the lookback window. Default is 20.</param>
     /// <param name="standardDeviations">The number of standard deviations to use for the bands. Default is 2.</param>
     /// <returns>A BollingerBandsList instance pre-populated with historical data</returns>
     /// <exception cref="ArgumentNullException">Thrown when source is null</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when parameters are invalid</exception>
-    public static BollingerBandsList ToBollingerBandsList<T>(
-        this IReadOnlyList<T> source,
+    public static BollingerBandsList ToBollingerBandsList(
+        this IReadOnlyList<IReusable> source,
         int lookbackPeriods = 20,
         double standardDeviations = 2)
-        where T : IReusable
-        => new(lookbackPeriods, standardDeviations, (IReadOnlyList<IReusable>)source);
+        => new(lookbackPeriods, standardDeviations, source);
 }
