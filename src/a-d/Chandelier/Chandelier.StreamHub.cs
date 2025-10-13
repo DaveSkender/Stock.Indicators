@@ -30,7 +30,7 @@ public class ChandelierHub<TIn>
         Type = type;
 
         string typeName = type.ToString().ToUpperInvariant();
-        hubName = $"CHEXIT({lookbackPeriods},{multiplier},{typeName}";
+        hubName = $"CHEXIT({lookbackPeriods},{multiplier},{typeName})";
 
         Reinitialize();
     }
