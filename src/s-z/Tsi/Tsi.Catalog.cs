@@ -22,6 +22,11 @@ public static partial class Tsi
             .WithStyle(Style.Series)
             .Build();
 
+    // True Strength Index Buffer Listing
+    internal static readonly IndicatorListing BufferListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Buffer)
+            .Build();
+
     // No StreamListing for TSI.
-    // No BufferListing for TSI.
 }

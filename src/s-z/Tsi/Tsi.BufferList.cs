@@ -273,6 +273,35 @@ public class TsiList : BufferList<TsiResult>, IIncrementFromChain, ITsi
         _prevAs2 = double.NaN;
         _prevSignal = double.NaN;
     }
+
+    /// <inheritdoc />
+    protected override void PruneList()
+    {
+        int overflow = Count - MaxListSize;
+
+        if (overflow > 0)
+        {
+            // Maintain minimum buffer size for calculations
+            int minBufferSize = _lookbackPeriods + _smoothPeriods;
+            int removable = Math.Min(overflow, Math.Max(0, _changeHistory.Count - minBufferSize));
+
+            if (removable > 0)
+            {
+                RemoveStateRange(removable);
+            }
+        }
+
+        base.PruneList();
+    }
+
+    private void RemoveStateRange(int count)
+    {
+        _changeHistory.RemoveRange(0, count);
+        _absChangeHistory.RemoveRange(0, count);
+        _cs1History.RemoveRange(0, count);
+        _as1History.RemoveRange(0, count);
+        _tsiHistory.RemoveRange(0, count);
+    }
 }
 
 public static partial class Tsi
