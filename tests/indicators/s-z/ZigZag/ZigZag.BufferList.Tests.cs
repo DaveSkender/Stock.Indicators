@@ -10,7 +10,7 @@ public class ZigZag : BufferListTestBase, ITestQuoteBufferList
        = Quotes.ToZigZag(endType, percentChange);
 
     [TestMethod]
-    public void AddQuotes()
+    public void AddQuote_IncrementsResults()
     {
         ZigZagList sut = new(endType, percentChange);
 
@@ -24,7 +24,7 @@ public class ZigZag : BufferListTestBase, ITestQuoteBufferList
     }
 
     [TestMethod]
-    public void AddQuotesBatch()
+    public void AddQuotesBatch_IncrementsResults()
     {
         ZigZagList sut = Quotes.ToZigZagList(endType, percentChange);
 
@@ -33,7 +33,7 @@ public class ZigZag : BufferListTestBase, ITestQuoteBufferList
     }
 
     [TestMethod]
-    public void WithQuotesCtor()
+    public void QuotesCtor_OnInstantiation_IncrementsResults()
     {
         ZigZagList sut = new(endType, percentChange, Quotes);
 
@@ -42,7 +42,7 @@ public class ZigZag : BufferListTestBase, ITestQuoteBufferList
     }
 
     [TestMethod]
-    public override void ClearResetsState()
+    public override void Clear_WithState_ResetsState()
     {
         List<Quote> subset = Quotes.Take(80).ToList();
         IReadOnlyList<ZigZagResult> expected = subset.ToZigZag(endType, percentChange);
@@ -63,7 +63,7 @@ public class ZigZag : BufferListTestBase, ITestQuoteBufferList
     }
 
     [TestMethod]
-    public override void AutoListPruning()
+    public override void PruneList_OverMaxListSize_AutoAdjustsListAndBuffers()
     {
         const int maxListSize = 120;
 
