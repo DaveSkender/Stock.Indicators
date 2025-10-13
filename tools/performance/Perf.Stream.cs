@@ -69,6 +69,9 @@ public class StreamIndicators
     public object ChopHub() => quoteHub.ToChopHub(14).Results;
 
     [Benchmark]
+    public object CmfHub() => quoteHub.ToCmfHub(20).Results;
+    
+    [Benchmark]
     public object CorrelationHub()
     {
         QuoteHub<Quote> quoteHubB = new();
