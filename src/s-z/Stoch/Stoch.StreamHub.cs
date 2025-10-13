@@ -5,57 +5,6 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Provides methods for creating Stochastic Oscillator hubs.
 /// </summary>
-public static partial class Stoch
-{
-    /// <summary>
-    /// Converts the quote provider to a Stochastic Oscillator hub.
-    /// </summary>
-    /// <typeparam name="TIn">The type of the input.</typeparam>
-    /// <param name="quoteProvider">The quote provider.</param>
-    /// <param name="lookbackPeriods">The lookback period for the oscillator.</param>
-    /// <param name="signalPeriods">The signal period for the oscillator.</param>
-    /// <param name="smoothPeriods">The smoothing period for the oscillator.</param>
-    /// <returns>A Stochastic Oscillator hub.</returns>
-    /// <exception cref="ArgumentNullException">Thrown when the quote provider is null.</exception>
-    /// <exception cref="ArgumentOutOfRangeException">Thrown when parameters are invalid.</exception>
-    public static StochHub<TIn> ToStochHub<TIn>(
-        this IStreamObservable<TIn> quoteProvider,
-        int lookbackPeriods = 14,
-        int signalPeriods = 3,
-        int smoothPeriods = 3)
-        where TIn : IQuote
-        => new(quoteProvider, lookbackPeriods, signalPeriods, smoothPeriods);
-
-    /// <summary>
-    /// Converts the quote provider to a Stochastic Oscillator hub with extended parameters.
-    /// </summary>
-    /// <typeparam name="TIn">The type of the input.</typeparam>
-    /// <param name="quoteProvider">The quote provider.</param>
-    /// <param name="lookbackPeriods">The lookback period for the oscillator.</param>
-    /// <param name="signalPeriods">The signal period for the oscillator.</param>
-    /// <param name="smoothPeriods">The smoothing period for the oscillator.</param>
-    /// <param name="kFactor">The K factor for the Stochastic calculation.</param>
-    /// <param name="dFactor">The D factor for the Stochastic calculation.</param>
-    /// <param name="movingAverageType">The type of moving average to use.</param>
-    /// <returns>A Stochastic Oscillator hub.</returns>
-    /// <exception cref="ArgumentNullException">Thrown when the quote provider is null.</exception>
-    /// <exception cref="ArgumentOutOfRangeException">Thrown when parameters are invalid.</exception>
-    public static StochHub<TIn> ToStoch<TIn>(
-        this IStreamObservable<TIn> quoteProvider,
-        int lookbackPeriods,
-        int signalPeriods,
-        int smoothPeriods,
-        double kFactor,
-        double dFactor,
-        MaType movingAverageType)
-        where TIn : IQuote
-        => new(quoteProvider, lookbackPeriods, signalPeriods, smoothPeriods, kFactor, dFactor, movingAverageType);
-}
-
-/// <summary>
-/// Represents a Stochastic Oscillator stream hub.
-/// </summary>
-/// <typeparam name="TIn">The type of the input.</typeparam>
 public class StochHub<TIn>
     : StreamHub<TIn, StochResult>, IStoch
     where TIn : IQuote
@@ -353,4 +302,74 @@ public class StochHub<TIn>
     }
 
     #endregion
+}
+
+
+public static partial class Stoch
+{
+    /// <summary>
+    /// Converts the quote provider to a Stochastic Oscillator hub.
+    /// </summary>
+    /// <typeparam name="TIn">The type of the input.</typeparam>
+    /// <param name="quoteProvider">The quote provider.</param>
+    /// <param name="lookbackPeriods">The lookback period for the oscillator.</param>
+    /// <param name="signalPeriods">The signal period for the oscillator.</param>
+    /// <param name="smoothPeriods">The smoothing period for the oscillator.</param>
+    /// <returns>A Stochastic Oscillator hub.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when the quote provider is null.</exception>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when parameters are invalid.</exception>
+    public static StochHub<TIn> ToStochHub<TIn>(
+        this IStreamObservable<TIn> quoteProvider,
+        int lookbackPeriods = 14,
+        int signalPeriods = 3,
+        int smoothPeriods = 3)
+        where TIn : IQuote
+        => new(quoteProvider, lookbackPeriods, signalPeriods, smoothPeriods);
+
+    /// <summary>
+    /// Converts the quote provider to a Stochastic Oscillator hub with extended parameters.
+    /// </summary>
+    /// <typeparam name="TIn">The type of the input.</typeparam>
+    /// <param name="quoteProvider">The quote provider.</param>
+    /// <param name="lookbackPeriods">The lookback period for the oscillator.</param>
+    /// <param name="signalPeriods">The signal period for the oscillator.</param>
+    /// <param name="smoothPeriods">The smoothing period for the oscillator.</param>
+    /// <param name="kFactor">The K factor for the Stochastic calculation.</param>
+    /// <param name="dFactor">The D factor for the Stochastic calculation.</param>
+    /// <param name="movingAverageType">The type of moving average to use.</param>
+    /// <returns>A Stochastic Oscillator hub.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when the quote provider is null.</exception>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when parameters are invalid.</exception>
+    public static StochHub<TIn> ToStoch<TIn>(
+        this IStreamObservable<TIn> quoteProvider,
+        int lookbackPeriods,
+        int signalPeriods,
+        int smoothPeriods,
+        double kFactor,
+        double dFactor,
+        MaType movingAverageType)
+        where TIn : IQuote
+        => new(quoteProvider, lookbackPeriods, signalPeriods, smoothPeriods, kFactor, dFactor, movingAverageType);
+
+    /// <summary>
+    /// Creates a Stoch hub from a collection of quotes.
+    /// </summary>
+    /// <typeparam name="TQuote">The type of the quote.</typeparam>
+    /// <param name="quotes">The collection of quotes.</param>
+    /// <param name="lookbackPeriods">Parameter for the calculation.</param>
+    /// <param name="signalPeriods">Parameter for the calculation.</param>
+    /// <param name="smoothPeriods">Parameter for the calculation.</param>
+    /// <returns>An instance of <see cref="StochHub{TQuote}"/>.</returns>
+    public static StochHub<TQuote> ToStochHub<TQuote>(
+        this IReadOnlyList<TQuote> quotes,
+        int lookbackPeriods = 14,
+        int signalPeriods = 3,
+        int smoothPeriods = 3)
+        where TQuote : IQuote
+    {
+        QuoteHub<TQuote> quoteHub = new();
+        quoteHub.Add(quotes);
+        return quoteHub.ToStochHub(lookbackPeriods, signalPeriods, smoothPeriods);
+    }
+
 }

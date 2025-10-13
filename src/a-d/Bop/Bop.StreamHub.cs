@@ -5,28 +5,6 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Provides methods for calculating the Balance of Power (BOP).
 /// </summary>
-public static partial class Bop
-{
-    /// <summary>
-    /// Creates a Balance of Power hub from a chain provider.
-    /// </summary>
-    /// <typeparam name="T">The type of the quote data.</typeparam>
-    /// <param name="chainProvider">The chain provider.</param>
-    /// <param name="smoothPeriods">The number of periods for smoothing. Default is 14.</param>
-    /// <returns>A Balance of Power hub.</returns>
-    /// <exception cref="ArgumentNullException">Thrown when the chain provider is null.</exception>
-    /// <exception cref="ArgumentOutOfRangeException">Thrown when the smooth periods are invalid.</exception>
-    public static BopHub<T> ToBopHub<T>(
-        this IChainProvider<T> chainProvider,
-        int smoothPeriods = 14)
-        where T : IQuote
-        => new(chainProvider, smoothPeriods);
-}
-
-/// <summary>
-/// Represents a hub for Balance of Power calculations.
-/// </summary>
-/// <typeparam name="TIn">The type of the input data.</typeparam>
 public class BopHub<TIn>
     : ChainProvider<TIn, BopResult>, IBop
     where TIn : IQuote
@@ -102,4 +80,41 @@ public class BopHub<TIn>
 
         return (r, i);
     }
+}
+
+
+public static partial class Bop
+{
+    /// <summary>
+    /// Creates a Balance of Power hub from a chain provider.
+    /// </summary>
+    /// <typeparam name="T">The type of the quote data.</typeparam>
+    /// <param name="chainProvider">The chain provider.</param>
+    /// <param name="smoothPeriods">The number of periods for smoothing. Default is 14.</param>
+    /// <returns>A Balance of Power hub.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when the chain provider is null.</exception>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when the smooth periods are invalid.</exception>
+    public static BopHub<T> ToBopHub<T>(
+        this IChainProvider<T> chainProvider,
+        int smoothPeriods = 14)
+        where T : IQuote
+        => new(chainProvider, smoothPeriods);
+
+    /// <summary>
+    /// Creates a Bop hub from a collection of quotes.
+    /// </summary>
+    /// <typeparam name="TQuote">The type of the quote.</typeparam>
+    /// <param name="quotes">The collection of quotes.</param>
+    /// <param name="smoothPeriods">Parameter for the calculation.</param>
+    /// <returns>An instance of <see cref="BopHub{TQuote}"/>.</returns>
+    public static BopHub<TQuote> ToBopHub<TQuote>(
+        this IReadOnlyList<TQuote> quotes,
+        int smoothPeriods = 14)
+        where TQuote : IQuote
+    {
+        QuoteHub<TQuote> quoteHub = new();
+        quoteHub.Add(quotes);
+        return quoteHub.ToBopHub(smoothPeriods);
+    }
+
 }

@@ -5,33 +5,6 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Provides methods for calculating the Beta coefficient.
 /// </summary>
-public static partial class Beta
-{
-    /// <summary>
-    /// Creates a Beta hub from two synchronized chain providers.
-    /// Note: Both providers must be synchronized (same timestamps).
-    /// </summary>
-    /// <typeparam name="T">The type of the reusable data (must be the same for both providers).</typeparam>
-    /// <param name="providerEval">The evaluation asset chain provider.</param>
-    /// <param name="providerMrkt">The market chain provider.</param>
-    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
-    /// <param name="type">The type of Beta calculation. Default is <see cref="BetaType.Standard"/>.</param>
-    /// <returns>A Beta hub.</returns>
-    /// <exception cref="ArgumentNullException">Thrown when either provider is null.</exception>
-    /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
-    public static BetaHub<T> ToBetaHub<T>(
-        this IChainProvider<T> providerEval,
-        IChainProvider<T> providerMrkt,
-        int lookbackPeriods,
-        BetaType type = BetaType.Standard)
-        where T : IReusable
-        => new(providerEval, providerMrkt, lookbackPeriods, type);
-}
-
-/// <summary>
-/// Represents a hub for Beta calculations between two synchronized series.
-/// </summary>
-/// <typeparam name="TIn">The type of the input data.</typeparam>
 public class BetaHub<TIn>
     : PairsProvider<TIn, BetaResult>, IBeta
     where TIn : IReusable
@@ -413,4 +386,29 @@ public class BetaHub<TIn>
             SumCross = 0;
         }
     }
+}
+
+
+public static partial class Beta
+{
+    /// <summary>
+    /// Creates a Beta hub from two synchronized chain providers.
+    /// Note: Both providers must be synchronized (same timestamps).
+    /// </summary>
+    /// <typeparam name="T">The type of the reusable data (must be the same for both providers).</typeparam>
+    /// <param name="providerEval">The evaluation asset chain provider.</param>
+    /// <param name="providerMrkt">The market chain provider.</param>
+    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
+    /// <param name="type">The type of Beta calculation. Default is <see cref="BetaType.Standard"/>.</param>
+    /// <returns>A Beta hub.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when either provider is null.</exception>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
+    public static BetaHub<T> ToBetaHub<T>(
+        this IChainProvider<T> providerEval,
+        IChainProvider<T> providerMrkt,
+        int lookbackPeriods,
+        BetaType type = BetaType.Standard)
+        where T : IReusable
+        => new(providerEval, providerMrkt, lookbackPeriods, type);
+
 }

@@ -3,27 +3,6 @@ namespace Skender.Stock.Indicators;
 // SIMPLE MOVING AVERAGE (STREAM HUB)
 
 /// <summary>
-/// Provides methods for creating SMA hubs.
-/// </summary>
-public static partial class Sma
-{
-    /// <summary>
-    /// Converts the chain provider to an SMA hub.
-    /// </summary>
-    /// <typeparam name="TIn">The type of the input.</typeparam>
-    /// <param name="chainProvider">The chain provider.</param>
-    /// <param name="lookbackPeriods">The number of lookback periods.</param>
-    /// <returns>An SMA hub.</returns>
-    /// <exception cref="ArgumentNullException">Thrown when the chain provider is null.</exception>
-    /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
-    public static SmaHub<TIn> ToSma<TIn>(
-        this IChainProvider<TIn> chainProvider,
-        int lookbackPeriods)
-        where TIn : IReusable
-        => new(chainProvider, lookbackPeriods);
-}
-
-/// <summary>
 /// Represents a Simple Moving Average (SMA) stream hub.
 /// </summary>
 /// <typeparam name="TIn">The type of the input.</typeparam>
@@ -74,5 +53,43 @@ public class SmaHub<TIn>
             Sma: Sma.Increment(ProviderCache, LookbackPeriods, i).NaN2Null());
 
         return (r, i);
+    }
+}
+
+/// <summary>
+/// Provides methods for creating SMA hubs.
+/// </summary>
+public static partial class Sma
+{
+    /// <summary>
+    /// Converts the chain provider to an SMA hub.
+    /// </summary>
+    /// <typeparam name="TIn">The type of the input.</typeparam>
+    /// <param name="chainProvider">The chain provider.</param>
+    /// <param name="lookbackPeriods">The number of lookback periods.</param>
+    /// <returns>An SMA hub.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when the chain provider is null.</exception>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
+    public static SmaHub<TIn> ToSma<TIn>(
+        this IChainProvider<TIn> chainProvider,
+        int lookbackPeriods)
+        where TIn : IReusable
+        => new(chainProvider, lookbackPeriods);
+
+    /// <summary>
+    /// Creates an SMA hub from a collection of quotes.
+    /// </summary>
+    /// <typeparam name="TQuote">The type of the quote.</typeparam>
+    /// <param name="quotes">The collection of quotes.</param>
+    /// <param name="lookbackPeriods">The number of lookback periods.</param>
+    /// <returns>An instance of <see cref="SmaHub{TQuote}"/>.</returns>
+    public static SmaHub<TQuote> ToSma<TQuote>(
+        this IReadOnlyList<TQuote> quotes,
+        int lookbackPeriods)
+        where TQuote : IQuote
+    {
+        QuoteHub<TQuote> quoteHub = new();
+        quoteHub.Add(quotes);
+        return quoteHub.ToSma(lookbackPeriods);
     }
 }

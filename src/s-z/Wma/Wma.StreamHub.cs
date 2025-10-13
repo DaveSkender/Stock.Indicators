@@ -5,31 +5,6 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Provides methods for creating WMA hubs.
 /// </summary>
-public static partial class Wma
-{
-    /// <summary>
-    /// Converts the chain provider to a WMA hub.
-    /// </summary>
-    /// <typeparam name="TIn">The type of the input.</typeparam>
-    /// <param name="chainProvider">The chain provider.</param>
-    /// <param name="lookbackPeriods">The number of lookback periods.</param>
-    /// <returns>A WMA hub.</returns>
-    /// <exception cref="ArgumentNullException">Thrown when the chain provider is null.</exception>
-    /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
-    public static WmaHub<TIn> ToWmaHub<TIn>(
-        this IChainProvider<TIn> chainProvider,
-        int lookbackPeriods)
-        where TIn : IReusable
-    {
-        ArgumentNullException.ThrowIfNull(chainProvider);
-        return new(chainProvider, lookbackPeriods);
-    }
-}
-
-/// <summary>
-/// Represents a Weighted Moving Average (WMA) stream hub.
-/// </summary>
-/// <typeparam name="TIn">The type of the input.</typeparam>
 public class WmaHub<TIn>
     : ChainProvider<TIn, WmaResult>, IWma
     where TIn : IReusable
@@ -76,4 +51,44 @@ public class WmaHub<TIn>
 
         return (result, index);
     }
+}
+
+
+public static partial class Wma
+{
+    /// <summary>
+    /// Converts the chain provider to a WMA hub.
+    /// </summary>
+    /// <typeparam name="TIn">The type of the input.</typeparam>
+    /// <param name="chainProvider">The chain provider.</param>
+    /// <param name="lookbackPeriods">The number of lookback periods.</param>
+    /// <returns>A WMA hub.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when the chain provider is null.</exception>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
+    public static WmaHub<TIn> ToWmaHub<TIn>(
+        this IChainProvider<TIn> chainProvider,
+        int lookbackPeriods)
+        where TIn : IReusable
+    {
+        ArgumentNullException.ThrowIfNull(chainProvider);
+        return new(chainProvider, lookbackPeriods);
+    }
+
+    /// <summary>
+    /// Creates a Wma hub from a collection of quotes.
+    /// </summary>
+    /// <typeparam name="TQuote">The type of the quote.</typeparam>
+    /// <param name="quotes">The collection of quotes.</param>
+    /// <param name="lookbackPeriods">Parameter for the calculation.</param>
+    /// <returns>An instance of <see cref="WmaHub{TQuote}"/>.</returns>
+    public static WmaHub<TQuote> ToWmaHub<TQuote>(
+        this IReadOnlyList<TQuote> quotes,
+        int lookbackPeriods)
+        where TQuote : IQuote
+    {
+        QuoteHub<TQuote> quoteHub = new();
+        quoteHub.Add(quotes);
+        return quoteHub.ToWmaHub(lookbackPeriods);
+    }
+
 }

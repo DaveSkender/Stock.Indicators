@@ -3,28 +3,6 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Provides methods for calculating the Triple Exponential Moving Average (TEMA) indicator.
 /// </summary>
-public static partial class Tema
-{
-    /// <summary>
-    /// Creates a TEMA streaming hub from a chain provider.
-    /// </summary>
-    /// <typeparam name="T">The type of the reusable data.</typeparam>
-    /// <param name="chainProvider">The chain provider.</param>
-    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
-    /// <returns>A TEMA hub.</returns>
-    /// <exception cref="ArgumentNullException">Thrown when the chain provider is null.</exception>
-    /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
-    public static TemaHub<T> ToTemaHub<T>(
-        this IChainProvider<T> chainProvider,
-        int lookbackPeriods = 20)
-        where T : IReusable
-        => new(chainProvider, lookbackPeriods);
-}
-
-/// <summary>
-/// Streaming hub for Triple Exponential Moving Average (TEMA) calculations.
-/// </summary>
-/// <typeparam name="TIn">The type of the input data.</typeparam>
 public class TemaHub<TIn>
     : ChainProvider<TIn, TemaResult>, ITema
     where TIn : IReusable
@@ -133,4 +111,41 @@ public class TemaHub<TIn>
         lastEma3 = Ema.Increment(K, lastEma3, lastEma2);
         return (3 * lastEma1) - (3 * lastEma2) + lastEma3;
     }
+}
+
+
+public static partial class Tema
+{
+    /// <summary>
+    /// Creates a TEMA streaming hub from a chain provider.
+    /// </summary>
+    /// <typeparam name="T">The type of the reusable data.</typeparam>
+    /// <param name="chainProvider">The chain provider.</param>
+    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
+    /// <returns>A TEMA hub.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when the chain provider is null.</exception>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
+    public static TemaHub<T> ToTemaHub<T>(
+        this IChainProvider<T> chainProvider,
+        int lookbackPeriods = 20)
+        where T : IReusable
+        => new(chainProvider, lookbackPeriods);
+
+    /// <summary>
+    /// Creates a Tema hub from a collection of quotes.
+    /// </summary>
+    /// <typeparam name="TQuote">The type of the quote.</typeparam>
+    /// <param name="quotes">The collection of quotes.</param>
+    /// <param name="lookbackPeriods">Parameter for the calculation.</param>
+    /// <returns>An instance of <see cref="TemaHub{TQuote}"/>.</returns>
+    public static TemaHub<TQuote> ToTemaHub<TQuote>(
+        this IReadOnlyList<TQuote> quotes,
+        int lookbackPeriods = 20)
+        where TQuote : IQuote
+    {
+        QuoteHub<TQuote> quoteHub = new();
+        quoteHub.Add(quotes);
+        return quoteHub.ToTemaHub(lookbackPeriods);
+    }
+
 }

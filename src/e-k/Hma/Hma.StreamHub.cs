@@ -3,31 +3,6 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Provides methods for calculating the Hull Moving Average (HMA) indicator.
 /// </summary>
-public static partial class Hma
-{
-    /// <summary>
-    /// Creates an HMA streaming hub from a chain provider.
-    /// </summary>
-    /// <typeparam name="T">The type of the reusable data.</typeparam>
-    /// <param name="chainProvider">The chain provider.</param>
-    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
-    /// <returns>An HMA hub.</returns>
-    /// <exception cref="ArgumentNullException">Thrown when the chain provider is null.</exception>
-    /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
-    public static HmaHub<T> ToHmaHub<T>(
-        this IChainProvider<T> chainProvider,
-        int lookbackPeriods)
-        where T : IReusable
-    {
-        ArgumentNullException.ThrowIfNull(chainProvider);
-        return new(chainProvider, lookbackPeriods);
-    }
-}
-
-/// <summary>
-/// Streaming hub for Hull Moving Average (HMA) calculations.
-/// </summary>
-/// <typeparam name="TIn">The type of the input data.</typeparam>
 public class HmaHub<TIn>
     : ChainProvider<TIn, HmaResult>, IHma
     where TIn : IReusable
@@ -143,4 +118,44 @@ public class HmaHub<TIn>
 
         return wma;
     }
+}
+
+
+public static partial class Hma
+{
+    /// <summary>
+    /// Creates an HMA streaming hub from a chain provider.
+    /// </summary>
+    /// <typeparam name="T">The type of the reusable data.</typeparam>
+    /// <param name="chainProvider">The chain provider.</param>
+    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
+    /// <returns>An HMA hub.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when the chain provider is null.</exception>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
+    public static HmaHub<T> ToHmaHub<T>(
+        this IChainProvider<T> chainProvider,
+        int lookbackPeriods)
+        where T : IReusable
+    {
+        ArgumentNullException.ThrowIfNull(chainProvider);
+        return new(chainProvider, lookbackPeriods);
+    }
+
+    /// <summary>
+    /// Creates a Hma hub from a collection of quotes.
+    /// </summary>
+    /// <typeparam name="TQuote">The type of the quote.</typeparam>
+    /// <param name="quotes">The collection of quotes.</param>
+    /// <param name="lookbackPeriods">Parameter for the calculation.</param>
+    /// <returns>An instance of <see cref="HmaHub{TQuote}"/>.</returns>
+    public static HmaHub<TQuote> ToHmaHub<TQuote>(
+        this IReadOnlyList<TQuote> quotes,
+        int lookbackPeriods)
+        where TQuote : IQuote
+    {
+        QuoteHub<TQuote> quoteHub = new();
+        quoteHub.Add(quotes);
+        return quoteHub.ToHmaHub(lookbackPeriods);
+    }
+
 }

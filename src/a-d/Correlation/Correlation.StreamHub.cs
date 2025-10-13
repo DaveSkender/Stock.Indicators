@@ -5,33 +5,6 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Provides methods for calculating the correlation coefficient.
 /// </summary>
-public static partial class Correlation
-{
-    /// <summary>
-    /// Creates a Correlation hub from two synchronized chain providers.
-    /// Note: This implementation requires both providers to be synchronized (same timestamps).
-    /// Both providers must output the same result type.
-    /// For real-time correlation, consider using CorrelationList for more flexibility.
-    /// </summary>
-    /// <typeparam name="T">The type of the reusable data (must be the same for both providers).</typeparam>
-    /// <param name="providerA">The first chain provider.</param>
-    /// <param name="providerB">The second chain provider.</param>
-    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
-    /// <returns>A Correlation hub.</returns>
-    /// <exception cref="ArgumentNullException">Thrown when either provider is null.</exception>
-    /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
-    public static CorrelationHub<T> ToCorrelationHub<T>(
-        this IChainProvider<T> providerA,
-        IChainProvider<T> providerB,
-        int lookbackPeriods)
-        where T : IReusable
-        => new(providerA, providerB, lookbackPeriods);
-}
-
-/// <summary>
-/// Represents a hub for Correlation calculations between two synchronized series.
-/// </summary>
-/// <typeparam name="TIn">The type of the input data.</typeparam>
 public class CorrelationHub<TIn>
     : PairsProvider<TIn, CorrResult>, ICorrelation
     where TIn : IReusable
@@ -100,4 +73,29 @@ public class CorrelationHub<TIn>
             return (r, i);
         }
     }
+}
+
+
+public static partial class Correlation
+{
+    /// <summary>
+    /// Creates a Correlation hub from two synchronized chain providers.
+    /// Note: This implementation requires both providers to be synchronized (same timestamps).
+    /// Both providers must output the same result type.
+    /// For real-time correlation, consider using CorrelationList for more flexibility.
+    /// </summary>
+    /// <typeparam name="T">The type of the reusable data (must be the same for both providers).</typeparam>
+    /// <param name="providerA">The first chain provider.</param>
+    /// <param name="providerB">The second chain provider.</param>
+    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
+    /// <returns>A Correlation hub.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when either provider is null.</exception>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
+    public static CorrelationHub<T> ToCorrelationHub<T>(
+        this IChainProvider<T> providerA,
+        IChainProvider<T> providerB,
+        int lookbackPeriods)
+        where T : IReusable
+        => new(providerA, providerB, lookbackPeriods);
+
 }

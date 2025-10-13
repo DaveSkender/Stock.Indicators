@@ -3,31 +3,6 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Provides methods for creating CMF stream hubs.
 /// </summary>
-public static partial class Cmf
-{
-    /// <summary>
-    /// Converts the quote provider to a CMF hub.
-    /// </summary>
-    /// <typeparam name="TIn">The type of the input quote.</typeparam>
-    /// <param name="quoteProvider">The quote provider.</param>
-    /// <param name="lookbackPeriods">The number of lookback periods. Default is 20.</param>
-    /// <returns>A CMF hub.</returns>
-    /// <exception cref="ArgumentNullException">Thrown when the quote provider is null.</exception>
-    /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
-    public static CmfHub<TIn> ToCmfHub<TIn>(
-        this IQuoteProvider<TIn> quoteProvider,
-        int lookbackPeriods = 20)
-        where TIn : IQuote
-    {
-        ArgumentNullException.ThrowIfNull(quoteProvider);
-        return new(quoteProvider, lookbackPeriods);
-    }
-}
-
-/// <summary>
-/// Streaming hub for the Chaikin Money Flow (CMF) indicator.
-/// </summary>
-/// <typeparam name="TIn">The type of the input quote.</typeparam>
 public class CmfHub<TIn> : ChainProvider<TIn, CmfResult>, ICmf
     where TIn : IQuote
 {
@@ -116,4 +91,44 @@ public class CmfHub<TIn> : ChainProvider<TIn, CmfResult>, ICmf
 
         return (r, i);
     }
+}
+
+
+public static partial class Cmf
+{
+    /// <summary>
+    /// Converts the quote provider to a CMF hub.
+    /// </summary>
+    /// <typeparam name="TIn">The type of the input quote.</typeparam>
+    /// <param name="quoteProvider">The quote provider.</param>
+    /// <param name="lookbackPeriods">The number of lookback periods. Default is 20.</param>
+    /// <returns>A CMF hub.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when the quote provider is null.</exception>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
+    public static CmfHub<TIn> ToCmfHub<TIn>(
+        this IQuoteProvider<TIn> quoteProvider,
+        int lookbackPeriods = 20)
+        where TIn : IQuote
+    {
+        ArgumentNullException.ThrowIfNull(quoteProvider);
+        return new(quoteProvider, lookbackPeriods);
+    }
+
+    /// <summary>
+    /// Creates a Cmf hub from a collection of quotes.
+    /// </summary>
+    /// <typeparam name="TQuote">The type of the quote.</typeparam>
+    /// <param name="quotes">The collection of quotes.</param>
+    /// <param name="lookbackPeriods">Parameter for the calculation.</param>
+    /// <returns>An instance of <see cref="CmfHub{TQuote}"/>.</returns>
+    public static CmfHub<TQuote> ToCmfHub<TQuote>(
+        this IReadOnlyList<TQuote> quotes,
+        int lookbackPeriods = 20)
+        where TQuote : IQuote
+    {
+        QuoteHub<TQuote> quoteHub = new();
+        quoteHub.Add(quotes);
+        return quoteHub.ToCmfHub(lookbackPeriods);
+    }
+
 }

@@ -3,32 +3,6 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Provides methods for calculating the MACD (Moving Average Convergence Divergence) indicator.
 /// </summary>
-public static partial class Macd
-{
-    /// <summary>
-    /// Creates a MACD streaming hub from a chain provider.
-    /// </summary>
-    /// <typeparam name="T">The type of the reusable data.</typeparam>
-    /// <param name="chainProvider">The chain provider.</param>
-    /// <param name="fastPeriods">The number of periods for the fast EMA. Default is 12.</param>
-    /// <param name="slowPeriods">The number of periods for the slow EMA. Default is 26.</param>
-    /// <param name="signalPeriods">The number of periods for the signal line. Default is 9.</param>
-    /// <returns>A MACD hub.</returns>
-    /// <exception cref="ArgumentNullException">Thrown when the chain provider is null.</exception>
-    /// <exception cref="ArgumentOutOfRangeException">Thrown when any of the parameters are invalid.</exception>
-    public static MacdHub<T> ToMacdHub<T>(
-        this IChainProvider<T> chainProvider,
-        int fastPeriods = 12,
-        int slowPeriods = 26,
-        int signalPeriods = 9)
-        where T : IReusable
-        => new(chainProvider, fastPeriods, slowPeriods, signalPeriods);
-}
-
-/// <summary>
-/// Streaming hub for MACD (Moving Average Convergence Divergence) calculations.
-/// </summary>
-/// <typeparam name="TIn">The type of the input data.</typeparam>
 public class MacdHub<TIn>
     : ChainProvider<TIn, MacdResult>, IMacd
     where TIn : IReusable
@@ -150,4 +124,49 @@ public class MacdHub<TIn>
 
         return (r, i);
     }
+}
+
+
+public static partial class Macd
+{
+    /// <summary>
+    /// Creates a MACD streaming hub from a chain provider.
+    /// </summary>
+    /// <typeparam name="T">The type of the reusable data.</typeparam>
+    /// <param name="chainProvider">The chain provider.</param>
+    /// <param name="fastPeriods">The number of periods for the fast EMA. Default is 12.</param>
+    /// <param name="slowPeriods">The number of periods for the slow EMA. Default is 26.</param>
+    /// <param name="signalPeriods">The number of periods for the signal line. Default is 9.</param>
+    /// <returns>A MACD hub.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when the chain provider is null.</exception>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when any of the parameters are invalid.</exception>
+    public static MacdHub<T> ToMacdHub<T>(
+        this IChainProvider<T> chainProvider,
+        int fastPeriods = 12,
+        int slowPeriods = 26,
+        int signalPeriods = 9)
+        where T : IReusable
+        => new(chainProvider, fastPeriods, slowPeriods, signalPeriods);
+
+    /// <summary>
+    /// Creates a Macd hub from a collection of quotes.
+    /// </summary>
+    /// <typeparam name="TQuote">The type of the quote.</typeparam>
+    /// <param name="quotes">The collection of quotes.</param>
+    /// <param name="fastPeriods">Parameter for the calculation.</param>
+    /// <param name="slowPeriods">Parameter for the calculation.</param>
+    /// <param name="signalPeriods">Parameter for the calculation.</param>
+    /// <returns>An instance of <see cref="MacdHub{TQuote}"/>.</returns>
+    public static MacdHub<TQuote> ToMacdHub<TQuote>(
+        this IReadOnlyList<TQuote> quotes,
+        int fastPeriods = 12,
+        int slowPeriods = 26,
+        int signalPeriods = 9)
+        where TQuote : IQuote
+    {
+        QuoteHub<TQuote> quoteHub = new();
+        quoteHub.Add(quotes);
+        return quoteHub.ToMacdHub(fastPeriods, slowPeriods, signalPeriods);
+    }
+
 }

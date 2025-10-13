@@ -5,37 +5,6 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Provides methods for calculating the Price Relative Strength (PRS) series.
 /// </summary>
-public static partial class Prs
-{
-    /// <summary>
-    /// Creates a PRS hub from two synchronized chain providers.
-    /// Note: Both providers must be synchronized (same timestamps).
-    /// </summary>
-    /// <typeparam name="T">The type of the reusable data (must be the same for both providers).</typeparam>
-    /// <param name="providerEval">The evaluation asset chain provider.</param>
-    /// <param name="providerBase">The base/benchmark chain provider.</param>
-    /// <param name="lookbackPeriods">
-    /// The number of periods for the PRS% lookback calculation. Optional.
-    /// Use int.MinValue to disable PrsPercent calculation.
-    /// </param>
-    /// <returns>A PRS hub.</returns>
-    /// <exception cref="ArgumentNullException">Thrown when either provider is null.</exception>
-    public static PrsHub<T> ToPrsHub<T>(
-        this IChainProvider<T> providerEval,
-        IChainProvider<T> providerBase,
-        int lookbackPeriods = int.MinValue)
-        where T : IReusable
-    {
-        ArgumentNullException.ThrowIfNull(providerEval);
-        ArgumentNullException.ThrowIfNull(providerBase);
-        return new PrsHub<T>(providerEval, providerBase, lookbackPeriods);
-    }
-}
-
-/// <summary>
-/// Represents a hub for Price Relative Strength (PRS) calculations between two synchronized series.
-/// </summary>
-/// <typeparam name="TIn">The type of the input data.</typeparam>
 public class PrsHub<TIn>
     : PairsProvider<TIn, PrsResult>
     where TIn : IReusable
@@ -129,4 +98,33 @@ public class PrsHub<TIn>
 
         return (r, i);
     }
+}
+
+
+public static partial class Prs
+{
+    /// <summary>
+    /// Creates a PRS hub from two synchronized chain providers.
+    /// Note: Both providers must be synchronized (same timestamps).
+    /// </summary>
+    /// <typeparam name="T">The type of the reusable data (must be the same for both providers).</typeparam>
+    /// <param name="providerEval">The evaluation asset chain provider.</param>
+    /// <param name="providerBase">The base/benchmark chain provider.</param>
+    /// <param name="lookbackPeriods">
+    /// The number of periods for the PRS% lookback calculation. Optional.
+    /// Use int.MinValue to disable PrsPercent calculation.
+    /// </param>
+    /// <returns>A PRS hub.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when either provider is null.</exception>
+    public static PrsHub<T> ToPrsHub<T>(
+        this IChainProvider<T> providerEval,
+        IChainProvider<T> providerBase,
+        int lookbackPeriods = int.MinValue)
+        where T : IReusable
+    {
+        ArgumentNullException.ThrowIfNull(providerEval);
+        ArgumentNullException.ThrowIfNull(providerBase);
+        return new PrsHub<T>(providerEval, providerBase, lookbackPeriods);
+    }
+
 }

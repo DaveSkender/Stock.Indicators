@@ -5,30 +5,6 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Provides methods for calculating the Awesome Oscillator.
 /// </summary>
-public static partial class Awesome
-{
-    /// <summary>
-    /// Creates an Awesome Oscillator hub from a chain provider.
-    /// </summary>
-    /// <typeparam name="T">The type of the reusable data.</typeparam>
-    /// <param name="chainProvider">The chain provider.</param>
-    /// <param name="fastPeriods">The number of periods for the fast moving average. Default is 5.</param>
-    /// <param name="slowPeriods">The number of periods for the slow moving average. Default is 34.</param>
-    /// <returns>An Awesome Oscillator hub.</returns>
-    /// <exception cref="ArgumentNullException">Thrown when the chain provider is null.</exception>
-    /// <exception cref="ArgumentOutOfRangeException">Thrown when the periods are invalid.</exception>
-    public static AwesomeHub<T> ToAwesomeHub<T>(
-        this IChainProvider<T> chainProvider,
-        int fastPeriods = 5,
-        int slowPeriods = 34)
-        where T : IReusable
-        => new(chainProvider, fastPeriods, slowPeriods);
-}
-
-/// <summary>
-/// Represents a hub for Awesome Oscillator calculations.
-/// </summary>
-/// <typeparam name="TIn">The type of the input data.</typeparam>
 public class AwesomeHub<TIn>
     : ChainProvider<TIn, AwesomeResult>, IAwesome
     where TIn : IReusable
@@ -108,4 +84,45 @@ public class AwesomeHub<TIn>
 
         return (r, i);
     }
+}
+
+
+public static partial class Awesome
+{
+    /// <summary>
+    /// Creates an Awesome Oscillator hub from a chain provider.
+    /// </summary>
+    /// <typeparam name="T">The type of the reusable data.</typeparam>
+    /// <param name="chainProvider">The chain provider.</param>
+    /// <param name="fastPeriods">The number of periods for the fast moving average. Default is 5.</param>
+    /// <param name="slowPeriods">The number of periods for the slow moving average. Default is 34.</param>
+    /// <returns>An Awesome Oscillator hub.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when the chain provider is null.</exception>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when the periods are invalid.</exception>
+    public static AwesomeHub<T> ToAwesomeHub<T>(
+        this IChainProvider<T> chainProvider,
+        int fastPeriods = 5,
+        int slowPeriods = 34)
+        where T : IReusable
+        => new(chainProvider, fastPeriods, slowPeriods);
+
+    /// <summary>
+    /// Creates a Awesome hub from a collection of quotes.
+    /// </summary>
+    /// <typeparam name="TQuote">The type of the quote.</typeparam>
+    /// <param name="quotes">The collection of quotes.</param>
+    /// <param name="fastPeriods">Parameter for the calculation.</param>
+    /// <param name="slowPeriods">Parameter for the calculation.</param>
+    /// <returns>An instance of <see cref="AwesomeHub{TQuote}"/>.</returns>
+    public static AwesomeHub<TQuote> ToAwesomeHub<TQuote>(
+        this IReadOnlyList<TQuote> quotes,
+        int fastPeriods = 5,
+        int slowPeriods = 34)
+        where TQuote : IQuote
+    {
+        QuoteHub<TQuote> quoteHub = new();
+        quoteHub.Add(quotes);
+        return quoteHub.ToAwesomeHub(fastPeriods, slowPeriods);
+    }
+
 }
