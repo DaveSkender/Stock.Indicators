@@ -206,20 +206,15 @@ public static partial class ConnorsRsi
     /// <summary>
     /// Creates a buffer list for Connors RSI calculations.
     /// </summary>
-    /// <typeparam name="T">The type of the reusable value.</typeparam>
     /// <param name="source">The source list of reusable values.</param>
     /// <param name="rsiPeriods">The number of periods for the RSI calculation on close prices.</param>
     /// <param name="streakPeriods">The number of periods for the RSI calculation on streak.</param>
     /// <param name="rankPeriods">The number of periods for the percent rank calculation.</param>
     /// <returns>A new <see cref="ConnorsRsiList"/> instance.</returns>
-    public static ConnorsRsiList ToConnorsRsiList<T>(
-        this IReadOnlyList<T> source,
+    public static ConnorsRsiList ToConnorsRsiList(
+        this IReadOnlyList<IReusable> source,
         int rsiPeriods = 3,
         int streakPeriods = 2,
         int rankPeriods = 100)
-        where T : IReusable
-        => new(rsiPeriods, streakPeriods, rankPeriods)
-        {
-            (IReadOnlyList<IReusable>)source
-        };
+        => new(rsiPeriods, streakPeriods, rankPeriods) { source };
 }
