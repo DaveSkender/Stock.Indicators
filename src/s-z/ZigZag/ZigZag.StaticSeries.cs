@@ -340,7 +340,7 @@ public static partial class ZigZag
     /// <param name="index">The index of the quote.</param>
     /// <param name="q">The quote.</param>
     /// <returns>The ZigZag evaluation.</returns>
-    private static ZigZagEval GetZigZagEval<TQuote>(
+    internal static ZigZagEval GetZigZagEval<TQuote>(
         EndType endType,
         int index,
         TQuote q)
