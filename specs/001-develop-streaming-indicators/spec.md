@@ -36,11 +36,11 @@ As a developer building real-time trading applications, I need indicators that u
 - **FR-007**: BufferList style MUST use List-backed storage with O(1) append and bounded size enforcement
 - **FR-008**: StreamHub style MUST optimize for high-frequency scenarios with span-based buffers and minimal allocations
 - **FR-009**: Streaming indicators MUST provide a method to reset state and reinitialize warmup
-- **FR-010**: Library MUST include streaming variants for all feasible Series-based indicators. Initial set (SMA, EMA, RSI, MACD, Bollinger Bands) serves as reference implementations for pattern validation; full deployment targets 80 implementable indicators across 97 implementation tasks (50 BufferList + 47 StreamHub), excluding 5 indicators deferred to v2 due to streaming incompatibility (Fractal, HtTrendline, Hurst, Ichimoku, Slope).
+- **FR-010**: Library MUST include streaming variants for all feasible Series-based indicators. Initial set (SMA, EMA, RSI, MACD, Bollinger Bands) serves as reference implementations for pattern validation; full deployment targets 80 implementable indicators across 97 implementation tasks (T001-T055 BufferList + T061-T107 StreamHub excluding 5 deferred indicators), excluding 5 indicators deferred to v2 due to streaming incompatibility (Fractal, HtTrendline, Hurst, Ichimoku, Slope).
 
 ### Non-functional requirements
 
-- **NFR-001**: Average per-tick update latency <5ms (p95 <10ms) for single indicator instance, measured on commodity hardware (4-core 3GHz CPU, 16GB RAM) using BenchmarkDotNet with standard .NET 8.0 release configuration. Latency measured as wall-clock time for single `Add(quote)` call after warmup period completion.
+- **NFR-001**: Average per-tick update latency <5ms (p95 <10ms) for single indicator instance, measured on commodity hardware (4-core 3GHz CPU, 16GB RAM) using BenchmarkDotNet with standard .NET 9.0 release configuration. Latency measured as wall-clock time for single `Add(quote)` call after warmup period completion.
 - **NFR-002**: Memory overhead per streaming indicator instance <10KB for indicators with lookback periods ≤200 (covers approximately 90% of library indicators based on catalog analysis; larger periods documented per-indicator)
 - **NFR-003**: Streaming parity tests MUST validate equivalence with batch calculations for all supported indicators
 - **NFR-004**: API design MUST follow existing library conventions (no breaking changes to batch APIs)
@@ -171,4 +171,4 @@ These validate requirements for:
 - [x] Regression testing requirements integrated (October 9, 2025)
 
 ---
-Last updated: October 9, 2025
+Last updated: October 13, 2025
