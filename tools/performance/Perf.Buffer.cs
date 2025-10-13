@@ -5,132 +5,49 @@ namespace Performance;
 [ShortRunJob]
 public class BufferIndicators
 {
-    private static readonly IReadOnlyList<Quote> quotes
-       = Data.GetDefault();
-
+    private static readonly IReadOnlyList<Quote> q = Data.GetDefault();
+    private static readonly IReadOnlyList<Quote> o = Data.GetCompare();
     private const int n = 14;
 
-    [Benchmark]
-    public AdlList AdlBuffer()
-        => new() { quotes };
+    /* Parameter arguments should match the Perf.Series.cs equivalents */
 
-    [Benchmark]
-    public AdxList AdxBuffer()
-        => new(n) { quotes };
-
-    [Benchmark]
-    public AlmaList AlmaBuffer()
-        => new(10, 0.85, 6) { quotes };
-
-    [Benchmark]
-    public AtrList AtrBuffer()
-        => new(n) { quotes };
-
-    [Benchmark]
-    public BollingerBandsList BollingerBandsBuffer()
-        => new(20, 2) { quotes };
-
-    [Benchmark]
-    public DemaList DemaBuffer()
-        => new(n) { quotes };
-
-    [Benchmark]
-    public EmaList EmaBuffer()
-        => new(n) { quotes };
-
-    [Benchmark]
-    public EpmaList EpmaBuffer()
-        => new(n) { quotes };
-
-    [Benchmark]
-    public HmaList HmaBuffer()
-        => new(n) { quotes };
-
-    [Benchmark]
-    public KamaList KamaBuffer()
-        => new(10, 2, 30) { quotes };
-
-    [Benchmark]
-    public MacdList MacdBuffer()
-        => new(12, 26, 9) { quotes };
-
-    [Benchmark]
-    public MamaList MamaBuffer()
-        => new(0.5, 0.05) { quotes };
-
-    [Benchmark]
-    public ObvList ObvBuffer()
-        => new() { quotes };
-
-    [Benchmark]
-    public RsiList RsiBuffer()
-        => new(n) { quotes };
-
-    [Benchmark]
-    public RocList RocBuffer()
-        => new(20) { quotes };
-
-    [Benchmark]
-    public SmaList SmaBuffer()
-        => new(n) { quotes };
-
-    [Benchmark]
-    public SmmaList SmmaBuffer()
-        => new(n) { quotes };
-
-    [Benchmark]
-    public SmiList SmiBuffer()
-        => new(13, 25, 2, 3) { quotes };
-
-    [Benchmark]
-    public StarcBandsList StarcBandsBuffer()
-        => new(5, 2, 10) { quotes };
-
-    [Benchmark]
-    public StochList StochBuffer()
-        => new(14, 3, 3) { quotes };
-
-    [Benchmark]
-    public StochRsiList StochRsiBuffer()
-        => new(14, 14, 3, 1) { quotes };
-
-    [Benchmark]
-    public T3List T3Buffer()
-        => new(5, 0.7) { quotes };
-
-    [Benchmark]
-    public TemaList TemaBuffer()
-        => new(n) { quotes };
-
-    [Benchmark]
-    public TrList TrBuffer()
-        => new() { quotes };
-
-    [Benchmark]
-    public UltimateList UltimateBuffer()
-        => new(7, 14, 28) { quotes };
-
-    [Benchmark]
-    public VolatilityStopList VolatilityStopBuffer()
-        => new(7, 3) { quotes };
-
-    [Benchmark]
-    public VortexList VortexBuffer()
-        => new(n) { quotes };
-
-    [Benchmark]
-    public VwapList VwapBuffer()
-        => new(quotes[0].Timestamp) { quotes };
-
-    [Benchmark]
-    public VwmaList VwmaBuffer()
-        => new(n) { quotes };
-
-    [Benchmark]
-    public WmaList WmaBuffer()
-        => new(n) { quotes };
-
-    [Benchmark]
-    public ZigZagList ZigZagBuffer()
-        => new() { quotes };
+    [Benchmark] public AdlList AdlList() => new() { q };
+    [Benchmark] public AdxList AdxList() => new(n) { q };
+    [Benchmark] public AlligatorList AlligatorList() => new() { q };
+    [Benchmark] public AlmaList AlmaList() => new(9, 0.85, 6) { q };
+    [Benchmark] public AtrList AtrList() => new(n) { q };
+    [Benchmark] public AtrStopList AtrStopList() => new() { q };
+    [Benchmark] public BollingerBandsList BollingerBandsList() => new(20, 2) { q };
+    [Benchmark] public ChandelierList ChandelierList() => new() { q };
+    [Benchmark] public CmfList CmfList() => new() { q };
+    [Benchmark] public DemaList DemaList() => new(n) { q };
+    [Benchmark] public EmaList EmaList() => new(20) { q };
+    [Benchmark] public EpmaList EpmaList() => new(n) { q };
+    [Benchmark] public HmaList HmaList() => new(n) { q };
+    [Benchmark] public KamaList KamaList() => new(10, 2, 30) { q };
+    [Benchmark] public MacdList MacdList() => new(12, 26, 9) { q };
+    [Benchmark] public MamaList MamaList() => new(0.5, 0.05) { q };
+    [Benchmark] public ObvList ObvList() => new() { q };
+    [Benchmark] public PmoList PmoList() => new() { q };
+    [Benchmark] public PrsList PrsList() => new(int.MinValue, q, o);
+    [Benchmark] public RocList RocList() => new(20) { q };
+    [Benchmark] public RsiList RsiList() => new(n) { q };
+    [Benchmark] public SmaList SmaList() => new(n) { q };
+    [Benchmark] public SmiList SmiList() => new(13, 25, 2, 3) { q };
+    [Benchmark] public SmmaList SmmaList() => new(n) { q };
+    [Benchmark] public StarcBandsList StarcBandsList() => new(5, 2, 10) { q };
+    [Benchmark] public StochList StochList() => new(14, 3, 3) { q };
+    [Benchmark] public StochRsiList StochRsiList() => new(14, 14, 3, 1) { q };
+    [Benchmark] public T3List T3List() => new(5, 0.7) { q };
+    [Benchmark] public TemaList TemaList() => new(20) { q };
+    [Benchmark] public TrList TrList() => new() { q };
+    [Benchmark] public TrixList TrixList() => new(n) { q };
+    [Benchmark] public UlcerIndexList UlcerIndexList() => new(n) { q };
+    [Benchmark] public UltimateList UltimateList() => new(7, 14, 28) { q };
+    [Benchmark] public VolatilityStopList VolatilityStopList() => new(7, 3) { q };
+    [Benchmark] public VortexList VortexList() => new(n) { q };
+    [Benchmark] public VwapList VwapList() => new(q[0].Timestamp) { q };
+    [Benchmark] public VwmaList VwmaList() => new(n) { q };
+    [Benchmark] public WmaList WmaList() => new(n) { q };
+    [Benchmark] public ZigZagList ZigZagList() => new() { q };
 }

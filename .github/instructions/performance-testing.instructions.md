@@ -38,9 +38,9 @@ cd tools/performance
 dotnet run -c Release
 
 # Run specific category
-dotnet run -c Release --filter *Stream*
-dotnet run -c Release --filter *Buffer*
-dotnet run -c Release --filter *Series*
+dotnet run -c Release --filter *StreamIndicators*
+dotnet run -c Release --filter *BufferIndicators*
+dotnet run -c Release --filter *SeriesIndicators*
 
 # Run specific indicator
 dotnet run -c Release --filter *.EmaHub
@@ -58,23 +58,19 @@ dotnet run -c Release --filter *.EmaHub
 ### Pattern for series indicators
 
 ```csharp
-[Benchmark]
-public object ToMyIndicator() => quotes.ToMyIndicator(14);
+[Benchmark] public void ToMyIndicator() => quotes.ToMyIndicator(14);
 ```
 
 ### Pattern for stream indicators
 
 ```csharp
-[Benchmark]
-public object MyIndicatorHub() => quoteHub.ToMyIndicator(14).Results;
+[Benchmark] public object MyIndicatorHub() => quoteHub.ToMyIndicator(14).Results;
 ```
 
 ### Pattern for buffer indicators
 
 ```csharp
-[Benchmark]
-public MyIndicatorList MyIndicatorBuffer()
-    => new(14) { quotes };
+[Benchmark] public MyIndicatorList MyIndicatorList() => new(14) { quotes };
 ```
 
 ### Pattern for style comparisons
@@ -82,17 +78,9 @@ public MyIndicatorList MyIndicatorBuffer()
 When adding streaming/buffer support to existing indicators:
 
 ```csharp
-[Benchmark]
-public IReadOnlyList<MyResult> MyIndicatorSeries()
-    => quotes.ToMyIndicator(14);
-
-[Benchmark]
-public MyIndicatorList MyIndicatorBuffer()
-    => new(14) { quotes };
-
-[Benchmark]
-public IReadOnlyList<MyResult> MyIndicatorStream()
-    => quoteHub.ToMyIndicator(14).Results;
+[Benchmark] public IReadOnlyList<MyResult> MyIndicatorSeries() => quotes.ToMyIndicator(14);
+[Benchmark] public IReadOnlyList<MyResult> MyIndicatorBuffer() => quotes.ToMyIndicatorList(14);
+[Benchmark] public IReadOnlyList<MyResult> MyIndicatorStream() => quoteHub.ToMyIndicator(14).Results;
 ```
 
 ## Benchmark configuration
@@ -100,7 +88,7 @@ public IReadOnlyList<MyResult> MyIndicatorStream()
 The `BenchmarkConfig.cs` file configures:
 
 - **Exporters**: GitHub markdown and JSON for analysis
-- **Columns**: Mean, Error, StdDev
+- **Columns**: Method, Mean, Error, StdDev
 - **Logger**: Console output
 
 Do not modify this configuration without consulting the maintainers.
@@ -252,5 +240,4 @@ ls -la BenchmarkDotNet.Artifacts/results/
 - [Comprehensive Guide](benchmarking.md) - Detailed benchmarking documentation
 
 ---
-
-Last updated: October 8, 2025
+Last updated: October 13, 2025

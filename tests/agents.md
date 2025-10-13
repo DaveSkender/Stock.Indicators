@@ -117,7 +117,7 @@ public class MyIndicatorStream : StreamHubTestBase
 
 // For buffer-style indicator tests
 [TestClass]
-public class MyIndicatorBuffer : BufferListTestBase
+public class MyIndicatorList : BufferListTestBase
 {
     [TestMethod]
     public override void Standard() { /* test implementation */ }

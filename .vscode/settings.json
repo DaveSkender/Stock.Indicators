@@ -1,6 +1,5 @@
 {
   "chat.promptFilesRecommendations": {
-    "speckit.plan": true,
     "speckit.tasks": true,
     "speckit.implement": true
   },
@@ -15,15 +14,12 @@
   "files.eol": "\n",
   "files.insertFinalNewline": true,
   "files.trimFinalNewlines": false,
-  "githubPullRequests.ignoredPullRequestBranches": [
-    "v3"
-  ],
   "files.associations": {
     "*.md": "markdown"
   },
-  "[markdown]": {
-    "editor.defaultFormatter": "DavidAnson.vscode-markdownlint",
-  },
+  "githubPullRequests.ignoredPullRequestBranches": [
+    "v3"
+  ],
   "search.exclude": {
     "**/_site/**": true,
     "**/vendor/**": true,
@@ -35,5 +31,8 @@
     "**/*.csproj.user": true,
     "**/*.log": true,
     "**/*.tmp": true
+  },
+  "[markdown]": {
+    "editor.defaultFormatter": "DavidAnson.vscode-markdownlint",
   }
 }

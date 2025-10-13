@@ -1,14 +1,20 @@
 using System.Text.Json;
 using Skender.Stock.Indicators;
-using Tests.Data;
 
-namespace BaselineGenerator;
+namespace Test.DataGenerator;
 
 /// <summary>
 /// Console application for generating regression baseline files for StaticSeries indicators.
 /// </summary>
 internal static class Program
 {
+    // Serialize with standard JSON options
+    private static readonly JsonSerializerOptions options = new() {
+        WriteIndented = true,
+        PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+        DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.Never
+    };
+
     private static int Main(string[] args)
     {
         Console.WriteLine("Baseline Generator for Stock Indicators");
@@ -19,21 +25,21 @@ internal static class Program
         // Find repo root by looking for .git directory
         string currentDir = Directory.GetCurrentDirectory();
         string? repoRoot = currentDir;
-        
+
         while (repoRoot != null && !Directory.Exists(Path.Combine(repoRoot, ".git")))
         {
             repoRoot = Path.GetDirectoryName(repoRoot);
         }
-        
+
         if (repoRoot == null)
         {
             Console.Error.WriteLine("Error: Could not find repository root (no .git directory found)");
             Console.Error.WriteLine($"Current directory: {currentDir}");
             return 1;
         }
-        
+
         string testIndicatorsPath = Path.Combine(repoRoot, "tests", "indicators");
-        
+
         if (!Directory.Exists(testIndicatorsPath))
         {
             Console.Error.WriteLine($"Error: Test indicators directory not found at {testIndicatorsPath}");
@@ -79,9 +85,9 @@ internal static class Program
     private static void ShowHelp()
     {
         Console.WriteLine("Usage:");
-        Console.WriteLine("  BaselineGenerator --all");
-        Console.WriteLine("  BaselineGenerator --indicator <name>");
-        Console.WriteLine("  BaselineGenerator --help");
+        Console.WriteLine("  Test.DataGenerator --all");
+        Console.WriteLine("  Test.DataGenerator --indicator <name>");
+        Console.WriteLine("  Test.DataGenerator --help");
         Console.WriteLine();
         Console.WriteLine("Options:");
         Console.WriteLine("  --all              Generate baselines for all StaticSeries indicators");
@@ -89,8 +95,8 @@ internal static class Program
         Console.WriteLine("  --help, -h         Display this help message");
         Console.WriteLine();
         Console.WriteLine("Examples:");
-        Console.WriteLine("  BaselineGenerator --all");
-        Console.WriteLine("  BaselineGenerator --indicator Sma");
+        Console.WriteLine("  Test.DataGenerator --all");
+        Console.WriteLine("  Test.DataGenerator --indicator Sma");
         Console.WriteLine();
     }
 
@@ -122,7 +128,7 @@ internal static class Program
     private static int GenerateAllBaselines()
     {
         Console.WriteLine("Discovering StaticSeries indicators...");
-        
+
         IReadOnlyCollection<IndicatorListing> seriesIndicators = Catalog.Get(Style.Series);
         Console.WriteLine($"Found {seriesIndicators.Count} StaticSeries indicators");
         Console.WriteLine();
@@ -133,12 +139,11 @@ internal static class Program
         List<string> failures = [];
         object lockObj = new();
 
-        Parallel.ForEach(seriesIndicators, listing =>
-        {
+        Parallel.ForEach(seriesIndicators, listing => {
             try
             {
                 GenerateBaseline(listing);
-                
+
                 lock (lockObj)
                 {
                     successCount++;
@@ -204,14 +209,6 @@ internal static class Program
         {
             Directory.CreateDirectory(directory);
         }
-
-        // Serialize with standard JSON options
-        JsonSerializerOptions options = new()
-        {
-            WriteIndented = true,
-            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-            DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.Never
-        };
 
         string json = JsonSerializer.Serialize(results, options);
         File.WriteAllText(path, json);
