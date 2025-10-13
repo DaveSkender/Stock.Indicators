@@ -22,15 +22,14 @@ public static partial class Alligator
     /// <exception cref="ArgumentOutOfRangeException">
     /// Invalid parameter value provided.
     /// </exception>
-    public static IReadOnlyList<AlligatorResult> ToAlligator<T>(
-        this IReadOnlyList<T> source,
+    public static IReadOnlyList<AlligatorResult> ToAlligator(
+        this IReadOnlyList<IReusable> source,
         int jawPeriods = 13,
         int jawOffset = 8,
         int teethPeriods = 8,
         int teethOffset = 5,
         int lipsPeriods = 5,
         int lipsOffset = 3)
-        where T : IReusable
     {
         // check parameter arguments
         Validate(

@@ -7,22 +7,19 @@ public static partial class StochRsi
 {
     /// <summary>
     /// Converts a source list to a list of StochRsiResult.
-    /// </summary>
-    /// <typeparam name="T">The type of the source list elements.</typeparam>
-    /// <param name="source">The source list.</param>
+    /// </summary>    /// <param name="source">The source list.</param>
     /// <param name="rsiPeriods">The number of periods for RSI calculation.</param>
     /// <param name="stochPeriods">The number of periods for Stochastic calculation.</param>
     /// <param name="signalPeriods">The number of periods for the signal line.</param>
     /// <param name="smoothPeriods">The number of periods for smoothing (default is 1).</param>
     /// <returns>A list of StochRsiResult.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the source list is null.</exception>
-    public static IReadOnlyList<StochRsiResult> ToStochRsi<T>(
-        this IReadOnlyList<T> source,
+    public static IReadOnlyList<StochRsiResult> ToStochRsi(
+        this IReadOnlyList<IReusable> source,
         int rsiPeriods = 14,
         int stochPeriods = 14,
         int signalPeriods = 3,
         int smoothPeriods = 1)
-        where T : IReusable
     {
         // check parameter arguments
         ArgumentNullException.ThrowIfNull(source);
@@ -36,7 +33,7 @@ public static partial class StochRsi
         // add back auto-pruned results
         for (int i = 0; i < initPeriods; i++)
         {
-            T s = source[i];
+            IReusable s = source[i];
             results.Add(new(s.Timestamp));
         }
 

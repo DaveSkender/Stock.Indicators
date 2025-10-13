@@ -55,11 +55,11 @@ public static partial class MaEnvelopes
         return results.ToList();
     }
 
-    private static IEnumerable<MaEnvelopeResult> MaEnvAlma<T>(
-        this IReadOnlyList<T> source,
+    private static IEnumerable<MaEnvelopeResult> MaEnvAlma(
+        this IReadOnlyList<IReusable> source,
         int lookbackPeriods,
         double offsetRatio)
-        where T : IReusable
+        
         => source.ToAlma(lookbackPeriods, offset: 0.85, sigma: 6)
         .Select(x => new MaEnvelopeResult(
             Timestamp: x.Timestamp,
@@ -67,11 +67,11 @@ public static partial class MaEnvelopes
             UpperEnvelope: x.Alma + (x.Alma * offsetRatio),
             LowerEnvelope: x.Alma - (x.Alma * offsetRatio)));
 
-    private static IEnumerable<MaEnvelopeResult> MaEnvDema<T>(
-        this IReadOnlyList<T> source,
+    private static IEnumerable<MaEnvelopeResult> MaEnvDema(
+        this IReadOnlyList<IReusable> source,
         int lookbackPeriods,
         double offsetRatio)
-        where T : IReusable
+        
         => source.ToDema(lookbackPeriods)
         .Select(x => new MaEnvelopeResult(
             Timestamp: x.Timestamp,
@@ -90,11 +90,11 @@ public static partial class MaEnvelopes
             UpperEnvelope: x.Ema + (x.Ema * offsetRatio),
             LowerEnvelope: x.Ema - (x.Ema * offsetRatio)));
 
-    private static IEnumerable<MaEnvelopeResult> MaEnvEpma<T>(
-        this IReadOnlyList<T> source,
+    private static IEnumerable<MaEnvelopeResult> MaEnvEpma(
+        this IReadOnlyList<IReusable> source,
         int lookbackPeriods,
         double offsetRatio)
-        where T : IReusable
+        
         => source.ToEpma(lookbackPeriods)
         .Select(x => new MaEnvelopeResult(
             Timestamp: x.Timestamp,
@@ -102,11 +102,11 @@ public static partial class MaEnvelopes
             UpperEnvelope: x.Epma + (x.Epma * offsetRatio),
             LowerEnvelope: x.Epma - (x.Epma * offsetRatio)));
 
-    private static IEnumerable<MaEnvelopeResult> MaEnvHma<T>(
-        this IReadOnlyList<T> source,
+    private static IEnumerable<MaEnvelopeResult> MaEnvHma(
+        this IReadOnlyList<IReusable> source,
         int lookbackPeriods,
         double offsetRatio)
-        where T : IReusable
+        
         => source.ToHma(lookbackPeriods)
         .Select(x => new MaEnvelopeResult(
             Timestamp: x.Timestamp,
@@ -114,11 +114,11 @@ public static partial class MaEnvelopes
             UpperEnvelope: x.Hma + (x.Hma * offsetRatio),
             LowerEnvelope: x.Hma - (x.Hma * offsetRatio)));
 
-    private static IEnumerable<MaEnvelopeResult> MaEnvSma<T>(
-        this IReadOnlyList<T> source,
+    private static IEnumerable<MaEnvelopeResult> MaEnvSma(
+        this IReadOnlyList<IReusable> source,
         int lookbackPeriods,
         double offsetRatio)
-        where T : IReusable
+        
         => source.ToSma(lookbackPeriods)
         .Select(x => new MaEnvelopeResult(
             Timestamp: x.Timestamp,
@@ -126,11 +126,11 @@ public static partial class MaEnvelopes
             UpperEnvelope: x.Sma + (x.Sma * offsetRatio),
             LowerEnvelope: x.Sma - (x.Sma * offsetRatio)));
 
-    private static IEnumerable<MaEnvelopeResult> MaEnvSmma<T>(
-        this IReadOnlyList<T> source,
+    private static IEnumerable<MaEnvelopeResult> MaEnvSmma(
+        this IReadOnlyList<IReusable> source,
         int lookbackPeriods,
         double offsetRatio)
-        where T : IReusable
+        
         => source.ToSmma(lookbackPeriods)
         .Select(x => new MaEnvelopeResult(
             Timestamp: x.Timestamp,
@@ -138,11 +138,11 @@ public static partial class MaEnvelopes
             UpperEnvelope: x.Smma + (x.Smma * offsetRatio),
             LowerEnvelope: x.Smma - (x.Smma * offsetRatio)));
 
-    private static IEnumerable<MaEnvelopeResult> MaEnvTema<T>(
-        this IReadOnlyList<T> source,
+    private static IEnumerable<MaEnvelopeResult> MaEnvTema(
+        this IReadOnlyList<IReusable> source,
         int lookbackPeriods,
         double offsetRatio)
-        where T : IReusable
+        
         => source.ToTema(lookbackPeriods)
         .Select(x => new MaEnvelopeResult(
             Timestamp: x.Timestamp,
@@ -150,11 +150,11 @@ public static partial class MaEnvelopes
             UpperEnvelope: x.Tema + (x.Tema * offsetRatio),
             LowerEnvelope: x.Tema - (x.Tema * offsetRatio)));
 
-    private static IEnumerable<MaEnvelopeResult> MaEnvWma<T>(
-        this IReadOnlyList<T> source,
+    private static IEnumerable<MaEnvelopeResult> MaEnvWma(
+        this IReadOnlyList<IReusable> source,
         int lookbackPeriods,
         double offsetRatio)
-        where T : IReusable
+        
         => source.ToWma(lookbackPeriods)
         .Select(x => new MaEnvelopeResult(
             Timestamp: x.Timestamp,

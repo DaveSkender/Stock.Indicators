@@ -7,16 +7,13 @@ public static partial class Trix
 {
     /// <summary>
     /// Converts a source list to a list of TRIX results.
-    /// </summary>
-    /// <typeparam name="T">The type of the source elements, which must implement <see cref="IReusable"/>.</typeparam>
-    /// <param name="source">The source list of elements.</param>
+    /// </summary>    /// <param name="source">The source list of elements.</param>
     /// <param name="lookbackPeriods">The number of lookback periods for the TRIX calculation.</param>
     /// <returns>A read-only list of <see cref="TrixResult"/>.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the source list is null.</exception>
-    public static IReadOnlyList<TrixResult> ToTrix<T>(
-        this IReadOnlyList<T> source,
+    public static IReadOnlyList<TrixResult> ToTrix(
+        this IReadOnlyList<IReusable> source,
         int lookbackPeriods = 14)
-        where T : IReusable
     {
         // check parameter arguments
         ArgumentNullException.ThrowIfNull(source);
@@ -34,7 +31,7 @@ public static partial class Trix
         // roll through source values
         for (int i = 0; i < length; i++)
         {
-            T s = source[i];
+            IReusable s = source[i];
 
             // skip incalculable periods
             if (i < lookbackPeriods - 1)
@@ -53,7 +50,7 @@ public static partial class Trix
                 double sum = 0;
                 for (int p = i - lookbackPeriods + 1; p <= i; p++)
                 {
-                    T ps = source[p];
+                    IReusable ps = source[p];
                     sum += ps.Value;
                 }
 

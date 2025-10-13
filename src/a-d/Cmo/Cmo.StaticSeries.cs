@@ -7,15 +7,12 @@ public static partial class Cmo
 {
     /// <summary>
     /// Calculates the Chande Momentum Oscillator (CMO) for a series of quotes.
-    /// </summary>
-    /// <typeparam name="T">The type of the elements in the source list, which must implement <see cref="IReusable"/>.</typeparam>
-    /// <param name="source">The source list of quotes.</param>
+    /// </summary>    /// <param name="source">The source list of quotes.</param>
     /// <param name="lookbackPeriods">The number of periods to use for the lookback window.</param>
     /// <returns>A read-only list of <see cref="CmoResult"/> containing the CMO calculation results.</returns>
-    public static IReadOnlyList<CmoResult> ToCmo<T>(
-        this IReadOnlyList<T> source,
+    public static IReadOnlyList<CmoResult> ToCmo(
+        this IReadOnlyList<IReusable> source,
         int lookbackPeriods)
-        where T : IReusable
     {
         // check parameter arguments
         ArgumentNullException.ThrowIfNull(source);
@@ -41,7 +38,7 @@ public static partial class Cmo
         // roll through remaining values
         for (int i = 1; i < length; i++)
         {
-            T s = source[i];
+            IReusable s = source[i];
             double? cmo = null;
 
             // determine tick direction and size

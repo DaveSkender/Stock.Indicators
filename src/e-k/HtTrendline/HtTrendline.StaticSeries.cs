@@ -7,14 +7,11 @@ public static partial class HtTrendline
 {
     /// <summary>
     /// Converts a list of time-series values to Hilbert Transform Instantaneous Trendline (HTL) results.
-    /// </summary>
-    /// <typeparam name="T">The type of the time-series values, which must implement <see cref="IReusable"/>.</typeparam>
-    /// <param name="source">The list of time-series values to transform.</param>
+    /// </summary>    /// <param name="source">The list of time-series values to transform.</param>
     /// <returns>A list of HTL results and smoothed price.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the source list is null.</exception>
-    public static IReadOnlyList<HtlResult> ToHtTrendline<T>(
-        this IReadOnlyList<T> source)
-        where T : IReusable
+    public static IReadOnlyList<HtlResult> ToHtTrendline(
+        this IReadOnlyList<IReusable> source)
     {
         // prefer HL2 when IQuote
         IReadOnlyList<IReusable> values

@@ -7,18 +7,16 @@ public static partial class Prs
 {
     #region Overloads
 
-    /// <inheritdoc cref="ToPrs{T}(IReadOnlyList{T}, IReadOnlyList{T}, int)" />
-    public static IReadOnlyList<PrsResult> ToPrs<T>(
-        this IReadOnlyList<T> sourceEval,
-        IReadOnlyList<T> sourceBase)
-        where T : IReusable => sourceEval.ToPrs(sourceBase, int.MinValue);
+    /// <inheritdoc cref="ToPrs{IReusable}(IReadOnlyList{IReusable}, IReadOnlyList{IReusable}, int)" />
+    public static IReadOnlyList<PrsResult> ToPrs(
+        this IReadOnlyList<IReusable> sourceEval,
+        IReadOnlyList<IReusable> sourceBase)
+        => sourceEval.ToPrs(sourceBase, int.MinValue);
     #endregion
 
     /// <summary>
     /// Converts a list of evaluation source values and base source values to a list of PRS results.
-    /// </summary>
-    /// <typeparam name="T">The type of the source values.</typeparam>
-    /// <param name="sourceEval">The list of evaluation source values.</param>
+    /// </summary>    /// <param name="sourceEval">The list of evaluation source values.</param>
     /// <param name="sourceBase">The list of base source values.</param>
     /// <param name="lookbackPeriods">
     /// The number of periods for the PRS% lookback calculation.  Optional.
@@ -26,11 +24,10 @@ public static partial class Prs
     /// <returns>A list of PRS results.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the source list is null.</exception>
     /// <exception cref="InvalidQuotesException">Thrown when the timestamp sequence does not match.</exception>
-    public static IReadOnlyList<PrsResult> ToPrs<T>(
-        this IReadOnlyList<T> sourceEval,
-        IReadOnlyList<T> sourceBase,
+    public static IReadOnlyList<PrsResult> ToPrs(
+        this IReadOnlyList<IReusable> sourceEval,
+        IReadOnlyList<IReusable> sourceBase,
         int lookbackPeriods)
-        where T : IReusable
     {
         // check parameter arguments
         ArgumentNullException.ThrowIfNull(sourceEval);
@@ -44,8 +41,8 @@ public static partial class Prs
         // roll through source values
         for (int i = 0; i < length; i++)
         {
-            T b = sourceBase[i];
-            T e = sourceEval[i];
+            IReusable b = sourceBase[i];
+            IReusable e = sourceEval[i];
 
             if (e.Timestamp != b.Timestamp)
             {
@@ -59,8 +56,8 @@ public static partial class Prs
 
             if (lookbackPeriods > 0 && i > lookbackPeriods - 1)
             {
-                T bo = sourceBase[i - lookbackPeriods];
-                T eo = sourceEval[i - lookbackPeriods];
+                IReusable bo = sourceBase[i - lookbackPeriods];
+                IReusable eo = sourceEval[i - lookbackPeriods];
 
                 if (bo.Value != 0 && eo.Value != 0)
                 {

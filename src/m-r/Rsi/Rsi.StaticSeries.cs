@@ -7,16 +7,13 @@ public static partial class Rsi
 {
     /// <summary>
     /// Converts a list of reusable values to a list of RSI results.
-    /// </summary>
-    /// <typeparam name="T">The type of the reusable values.</typeparam>
-    /// <param name="source">The list of reusable values.</param>
+    /// </summary>    /// <param name="source">The list of reusable values.</param>
     /// <param name="lookbackPeriods">The number of periods to look back for the RSI calculation.</param>
     /// <returns>A list of RSI results.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the source is null.</exception>
-    public static IReadOnlyList<RsiResult> ToRsi<T>(
-        this IReadOnlyList<T> source,
+    public static IReadOnlyList<RsiResult> ToRsi(
+        this IReadOnlyList<IReusable> source,
         int lookbackPeriods = 14)
-        where T : IReusable
     {
         // check parameter arguments
         ArgumentNullException.ThrowIfNull(source);
@@ -41,7 +38,7 @@ public static partial class Rsi
         // roll through source values
         for (int i = 0; i < length; i++)
         {
-            T s = source[i];
+            IReusable s = source[i];
 
             if (double.IsNaN(s.Value) || double.IsNaN(prevValue))
             {

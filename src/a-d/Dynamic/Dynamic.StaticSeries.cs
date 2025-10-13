@@ -7,19 +7,16 @@ public static partial class MgDynamic
 {
     /// <summary>
     /// Converts a list of source data to McGinley Dynamic results.
-    /// </summary>
-    /// <typeparam name="T">The type of the source data.</typeparam>
-    /// <param name="source">The list of source data.</param>
+    /// </summary>    /// <param name="source">The list of source data.</param>
     /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
     /// <param name="kFactor">The smoothing factor for the calculation.</param>
     /// <returns>A list of McGinley Dynamic results.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the source list is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods or kFactor are invalid.</exception>
-    public static IReadOnlyList<DynamicResult> ToDynamic<T>(
-        this IReadOnlyList<T> source,
+    public static IReadOnlyList<DynamicResult> ToDynamic(
+        this IReadOnlyList<IReusable> source,
         int lookbackPeriods,
         double kFactor = 0.6)
-        where T : IReusable
     {
         // check parameter arguments
         ArgumentNullException.ThrowIfNull(source);
