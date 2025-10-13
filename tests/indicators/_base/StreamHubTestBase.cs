@@ -5,10 +5,10 @@ namespace Tests.Data;
 /// </summary>
 public abstract class StreamHubTestBase : TestBase  // default: quote observer
 {
-    /// <summary>
-    /// Tests hub compatibility with quote provider
-    /// </summary>
-    public abstract void QuoteObserver();
+    internal const int removeAtIndex = 495;
+
+    internal static readonly IReadOnlyList<Quote> RevisedQuotes
+        = Quotes.Where((_, idx) => idx != removeAtIndex).ToList();
 
     /// <summary>
     /// Tests hub-unique name string
@@ -16,10 +16,18 @@ public abstract class StreamHubTestBase : TestBase  // default: quote observer
     public abstract void CustomToString();
 }
 
+public interface ITestQuoteObserver
+{
+    /// <summary>
+    /// Tests hub compatibility with quote provider
+    /// </summary>
+    void QuoteObserver();
+}
+
 /// <summary>
 /// Add this to stream chainee indicator tests.
 /// </summary>
-public interface ITestChainObserver
+public interface ITestChainObserver : ITestQuoteObserver
 {
     /// <summary>
     /// Tests hub compatibility with chain providers
@@ -51,7 +59,7 @@ public interface ITestPairsProvider
     /// <summary>
     /// Tests hub capability with dual synchronized providers
     /// </summary>
-    void PairsProvider();
+    void PairsObserver();
 
     /// <summary>
     /// Tests hub behavior when timestamps don't match between providers

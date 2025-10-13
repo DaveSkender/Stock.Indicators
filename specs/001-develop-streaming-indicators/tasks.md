@@ -245,6 +245,23 @@ The following documentation tasks support the main implementation work:
 - [ ] **Q003**: Run performance benchmarks comparing StreamHub vs Series for representative indicators
 - [ ] **Q004**: Validate memory overhead stays within <10KB per instance target (NFR-002)
 
+### Test Interface Compliance & Code Quality
+
+- [ ] **T110**: Audit all existing StreamHub test classes for proper test interface implementation according to updated guidelines in `.github/instructions/indicator-stream.instructions.md`
+- [ ] **T111**: Update StreamHub test classes that implement wrong interfaces (e.g., missing `ITestChainObserver` for chainable indicators)
+// T112: Add ITestRollbackState interface and robust RollbackValidation test to all StreamHub test classes for indicators with RollbackState() implementations (ADX, MAMA, AtrStop, Beta, etc.).
+// The RollbackValidation test must:
+// - Use a mutable `List<Quote>` (not static array)
+// - Add all quotes, verify results match series exactly (strict ordering)
+// - Remove a single historical quote (not just the last)
+// - Rebuild the expected series with the revised quote list (one missing)
+// - Assert exact count and strict ordering for both before and after removal
+// - Never re-add the removed quote; the revised series is the new ground truth
+// - Reference Adx.StreamHub.Tests.cs for canonical structure
+- [ ] **T112**: Add `ITestRollbackState` interface and robust RollbackValidation test to test classes for indicators with `RollbackState()` implementations (ADX, MAMA, AtrStop, Beta, etc.)
+- [ ] **T113**: Verify all dual-stream indicators (Correlation, Beta, PRS) implement `ITestPairsObserver` interface correctly
+- [ ] **T114**: Create validation script to check test interface compliance across all StreamHub tests
+
 **Notes**:
 
 - Documentation tasks (D001-D007) can proceed in parallel with implementation
@@ -262,6 +279,33 @@ The following documentation tasks support the main implementation work:
 - **Target coverage**: All 85 series indicators with both BufferList and StreamHub styles
 - **Documentation tasks**: 7 (D001-D007)
 - **Quality gate tasks**: 4 (Q001-Q004)
+- **Test interface compliance tasks**: 5 (T110-T114)
+- **Provider history testing tasks**: 6 (T115-T120)
+
+## Provider History Testing (New Tasks)
+
+StreamHub implementations should test removal and revision of provider history to ensure proper state management and recalculation. Analysis shows several tests lack Insert/Remove operations.
+
+### Test Coverage Analysis
+
+Current status of provider history testing in StreamHub tests:
+
+**✅ Tests with proper Insert/Remove coverage:**
+
+- AlligatorHub, AwesomeHub, DojiHub, EmaHub, DemaHub, HmaHub, RocHub, RenkoHub, SmaHub, SmmaHub, T3Hub, TemaHub, TrixHub, TrHub, UltimateHub, WmaHub (16 tests)
+
+**❌ Tests missing Insert/Remove coverage:**
+
+- AdxHub, AtrHub, CciHub, MacdHub, MamaHub, ObvHub, PrsHub, RsiHub, StochHub, StochRsiHub, VwmaHub, WilliamsRHub (12+ tests)
+
+### Implementation Tasks
+
+- [ ] T115 Add provider history (Insert/Remove) testing to QuoteObserver tests in AdxHub at `tests/indicators/a-d/Adx/Adx.StreamHub.Tests.cs` using the robust pattern: use `List<Quote>`, remove by index, verify strict ordering and count, never re-add removed quote, and reference Adx.StreamHub.Tests.cs as canonical example.
+- [ ] T116 Add provider history (Insert/Remove) testing to ChainProvider tests missing Insert/Remove operations in AtrHub, CciHub, MacdHub, MamaHub, ObvHub, PrsHub at their respective test files, following the improved pattern.
+- [ ] T117 Add provider history (Insert/Remove) testing to ChainObserver tests missing Insert/Remove operations in RsiHub, StochRsiHub at their respective test files, following the improved pattern.
+- [ ] T118 Add provider history (Insert/Remove) testing to ChainProvider tests missing Insert/Remove operations in StochHub, VwmaHub, WilliamsRHub at their respective test files, following the improved pattern.
+- [ ] T119 Add virtual ProviderHistoryTesting() method to StreamHubTestBase class in `tests/indicators/_base/StreamHubTestBase.cs` with standard Insert/Remove pattern, and ensure all derived tests override as needed for indicator-specific logic.
+- [ ] T120 Update indicator-stream.instructions.md to require provider history testing and reference the new base class virtual method and the robust RollbackValidation pattern.
 
 ---
-Last updated: October 9, 2025
+Last updated: October 12, 2025

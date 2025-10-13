@@ -6,7 +6,7 @@ public class Vwma : StreamHubTestBase
     private const int lookbackPeriods = 10;
 
     [TestMethod]
-    public override void QuoteObserver()
+    public void QuoteObserver()
     {
         QuoteHub<Quote> quoteHub = new();
         VwmaHub<Quote> observer = quoteHub.ToVwmaHub(lookbackPeriods);
