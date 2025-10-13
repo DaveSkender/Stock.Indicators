@@ -11,7 +11,7 @@ public class Ultimate : BufferListTestBase
        = Quotes.ToUltimate(shortPeriods, middlePeriods, longPeriods);
 
     [TestMethod]
-    public override void AddQuotes()
+    public void AddQuotes()
     {
         UltimateList sut = new(shortPeriods, middlePeriods, longPeriods);
 
@@ -25,7 +25,7 @@ public class Ultimate : BufferListTestBase
     }
 
     [TestMethod]
-    public override void AddQuotesBatch()
+    public void AddQuotesBatch()
     {
         UltimateList sut = new(shortPeriods, middlePeriods, longPeriods) { Quotes };
 
@@ -34,7 +34,7 @@ public class Ultimate : BufferListTestBase
     }
 
     [TestMethod]
-    public override void WithQuotesCtor()
+    public void WithQuotesCtor()
     {
         UltimateList sut = new(shortPeriods, middlePeriods, longPeriods, Quotes);
 

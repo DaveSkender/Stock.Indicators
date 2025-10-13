@@ -7,20 +7,21 @@ public class Adl : BufferListTestBase
        = Quotes.ToAdl();
 
     [TestMethod]
-    public override void AddQuotes()
+    public void AddQuotes()
     {
-#pragma warning disable IDE0028 // Collection expression incompatible with IQuote Add overloads
-        AdlList sut = new();
-#pragma warning restore IDE0028
+        AdlList sut = [];
 
-        sut.Add(Quotes);
+        foreach (Quote quote in Quotes)
+        {
+            sut.Add(quote);
+        }
 
         sut.Should().HaveCount(Quotes.Count);
         sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
     }
 
     [TestMethod]
-    public override void AddQuotesBatch()
+    public void AddQuotesBatch()
     {
         AdlList sut = new() { Quotes };
 
@@ -29,7 +30,7 @@ public class Adl : BufferListTestBase
     }
 
     [TestMethod]
-    public override void WithQuotesCtor()
+    public void WithQuotesCtor()
     {
         AdlList sut = new(Quotes);
 

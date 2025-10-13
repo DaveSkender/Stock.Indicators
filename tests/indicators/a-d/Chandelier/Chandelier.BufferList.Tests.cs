@@ -11,7 +11,7 @@ public class Chandelier : BufferListTestBase
        = Quotes.ToChandelier(lookbackPeriods, multiplier, type);
 
     [TestMethod]
-    public override void AddQuotes()
+    public void AddQuotes()
     {
         ChandelierList sut = new(lookbackPeriods, multiplier, type);
 
@@ -25,7 +25,7 @@ public class Chandelier : BufferListTestBase
     }
 
     [TestMethod]
-    public override void AddQuotesBatch()
+    public void AddQuotesBatch()
     {
         ChandelierList sut = new(lookbackPeriods, multiplier, type) { Quotes };
 
@@ -34,7 +34,7 @@ public class Chandelier : BufferListTestBase
     }
 
     [TestMethod]
-    public override void WithQuotesCtor()
+    public void WithQuotesCtor()
     {
         ChandelierList sut = new(lookbackPeriods, multiplier, type, Quotes);
 

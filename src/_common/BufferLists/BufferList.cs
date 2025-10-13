@@ -10,7 +10,7 @@ namespace Skender.Stock.Indicators;
 /// contains core buffering list features for safe operations.
 /// </remarks>
 /// <inheritdoc/>
-public abstract class BufferList<TResult> : IBufferList<TResult>
+public abstract class BufferList<TResult> : IReadOnlyList<TResult>
     where TResult : ISeries
 {
     private readonly List<TResult> _internalList = [];

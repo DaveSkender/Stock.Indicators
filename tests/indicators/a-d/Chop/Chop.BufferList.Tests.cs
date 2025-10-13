@@ -9,7 +9,7 @@ public class Chop : BufferListTestBase
        = Quotes.ToChop(lookbackPeriods);
 
     [TestMethod]
-    public override void AddQuotes()
+    public void AddQuotes()
     {
         ChopList sut = new(lookbackPeriods);
 
@@ -23,7 +23,7 @@ public class Chop : BufferListTestBase
     }
 
     [TestMethod]
-    public override void AddQuotesBatch()
+    public void AddQuotesBatch()
     {
         ChopList sut = new(lookbackPeriods) { Quotes };
 
@@ -32,7 +32,7 @@ public class Chop : BufferListTestBase
     }
 
     [TestMethod]
-    public override void WithQuotesCtor()
+    public void WithQuotesCtor()
     {
         ChopList sut = new(lookbackPeriods, Quotes);
 

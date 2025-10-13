@@ -81,9 +81,8 @@ public static partial class Doji
     /// <summary>
     /// Creates a buffer list for Doji candlestick pattern detection.
     /// </summary>
-    public static DojiList ToDojiList<TQuote>(
-        this IReadOnlyList<TQuote> quotes,
+    public static DojiList ToDojiList(
+        this IReadOnlyList<IQuote> quotes,
         double maxPriceChangePercent = 0.1)
-        where TQuote : IQuote
-        => new(maxPriceChangePercent) { (IReadOnlyList<IQuote>)quotes };
+        => new(maxPriceChangePercent) { quotes };
 }

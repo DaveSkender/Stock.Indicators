@@ -7,11 +7,31 @@ description: "Stream-style indicator development and testing guidelines"
 
 These instructions apply to stream-style indicators that support real-time data processing with stateful operations. Stream indicators maintain internal state and can process individual quotes as they arrive.
 
+**Important test rule**: Each StreamHub test class must implement exactly one observer interface (ITestQuoteObserver OR ITestChainObserver OR ITestPairsObserver) and at most one provider interface (ITestChainProvider).
+
+## Code completion checklist
+
+When implementing or updating an indicator, you must complete:
+
+- [ ] Source code: `src/**/{IndicatorName}.StreamHub.cs` file exists and adheres to these instructions
+  - [ ] Uses the appropriate provider base (`ChainProvider`, `QuoteProvider`, or `PairsProvider`) for the I/O scenario
+  - [ ] Validates parameters in constructor and calls `Reinitialize()` as needed
+  - [ ] Implements required `Add(...)` or conversion methods per provider base; maintains O(1) state updates where possible
+  - [ ] Overrides `ToString()` with concise hub name; implements `Reset()`/state reinit patterns as applicable
+  - [ ] Member order matches conventions in this document
+- [ ] Catalog: `src/**/{IndicatorName}.Catalog.cs` exists, is accurate, and registered in `src\_common\Catalog\Catalog.Listings.cs` (`PopulateCatalog`)
+- [ ] Unit testing: `tests/indicators/**/{IndicatorName}.StreamHub.Tests.cs` file exists and adheres to these instructions
+  - [ ] Inherits `StreamHubTestBase` and implements test interfaces based on provider pattern (see test interface selection guide)
+  - [ ] Verifies stateful processing, reset behavior, and consistency with Series results
+  - [ ] For dual-stream hubs: covers timestamp sync validation and sufficient data checks
+  - [ ] Include provider history mutations (Insert and Remove) with parity checks; follow EMA hub test pattern
+- [ ] Common items: Complete regression, performance, docs, and migration per `.github/copilot-instructions.md` (Common indicator requirements)
+
 ## Stream Hub I/O Scenarios
 
 The codebase implements several types of stream hub I/O patterns:
 
-1. **IQuote → IReusable** (e.g., EMA, SMA): Takes quote input, produces single reusable value output
+1. **IQuote → IReusable** (e.g., EMA, SMA, ADX): Takes quote input, produces single reusable value output
    - Uses `IChainProvider<TIn>` and extends `ChainProvider<TIn, TResult>`
    - Generic constraint: `where TIn : IReusable`
 2. **IQuote → ISeries** (e.g., Alligator, AtrStop): Takes quote input, produces multi-value series output  
@@ -34,7 +54,7 @@ The codebase implements several types of stream hub I/O patterns:
 **Provider Selection Guidelines**:
 
 - Use `IQuoteProvider<TIn>` and `QuoteProvider<TIn, TResult>` when the indicator requires multiple quote properties (e.g., OHLCV data)
-- Use `IChainProvider<TIn>` and `ChainProvider<TIn, TResult>` when the indicator can work with single reusable values
+- Use `IChainProvider<TIn>` and `ChainProvider<TIn, TResult>` when the indicator can work with single reusable values. Heuristic: if the result type implements `IReusable` and exposes a chainable `Value` property, the hub should act as a chain provider (for example, `AdxResult : IReusable` with `Value => Adx`).
 - Use `IPairsProvider<TIn>` and `PairsProvider<TIn, TResult>` when the indicator requires synchronized dual inputs (e.g., Correlation, Beta)
 
 Note: IQuote → QuotePart selectors exist but are rarely used for new indicators.
@@ -45,6 +65,54 @@ Stream indicators should follow these naming patterns:
 
 - **Implementation**: `{IndicatorName}.StreamHub.cs`
 - **Tests**: `{IndicatorName}.StreamHub.Tests.cs`
+
+## Canonical stream hub member order
+
+When implementing the stream hub indicators, we expect consistent member order in the source code files.  Only implement members that are appropriate for the indicator type and unique requirements of the indicator.
+
+**In the `src/*.StreamHub.cs` implementation** members are ordered as follows:
+
+```csharp
+// Keep members in this general order (only include what you need):
+// 1. Fields / constants
+// 2. Constructors (validate inputs; call Reinitialize())
+// 3. Public properties (e.g., LookbackPeriods)
+// 4. Public methods (Add/Reset, etc.)
+// 5. Protected overrides (ToIndicator, OnReset, etc.)
+// 6. Private helpers
+```
+
+**In the `tests/*.StreamHub.Tests.cs` implementation** members are ordered as follows:
+
+```csharp
+// Recommended order (include what you need):
+// 1. Constants/fields (lookback, shared test data)
+// 2. Setup/fixtures (TestInitialize, test hubs/providers)
+// 3. Happy path tests (standard processing)
+// 4. Boundary/minimum periods tests
+// 5. Bad/insufficient data tests
+// 6. Reset/state tests (Reset(), reinitialize behavior)
+// 7. Consistency tests (parity with Series/Buffer where applicable)
+// 8. Performance placeholder (if present)
+// 9. Private helpers
+```
+
+Minimal happy-path example:
+
+```csharp
+[TestMethod]
+public void Standard()
+{
+    IQuoteProvider<IQuote> quotes = GetQuotesProvider();
+    var sut = quotes.To{IndicatorName}Hub({params});
+    foreach (IQuote q in Quotes)
+        _ = sut.Add(q);
+
+    // Compare to canonical Series results (see copilot-instructions.md)
+    var series = Quotes.To{IndicatorName}({seriesParams});
+    sut.Results.Should().BeEquivalentTo(series, o => o.WithStrictOrdering());
+}
+```
 
 ## Implementation requirements
 
@@ -92,13 +160,12 @@ If the hub supports chainable `IReusable` types:
 
 ```csharp
 /// <summary>
-/// Creates a {IndicatorUiid} streaming hub from a chain provider.
+/// Creates a {IndicatorName} streaming hub from a chain provider.
 /// </summary>
-/// { full XML documentation }
 public static {IndicatorName}Hub<TIn> To{IndicatorName}Hub<TIn>(
-    this IChainProvider<T> chainProvider,
+    this IChainProvider<TIn> chainProvider,
     int lookbackPeriods = {defaultValue})
-    where T : IReusable
+    where TIn : IReusable
     => new(chainProvider, lookbackPeriods);
 ```
 
@@ -106,9 +173,8 @@ If the hub only supports `IQuote` input types (less common):
 
 ```csharp
 /// <summary>
-/// Creates a {IndicatorUiid} streaming hub from a quotes provider.
+/// Creates a {IndicatorName} streaming hub from a quotes provider.
 /// </summary>
-/// { full XML documentation }
 public static {IndicatorName}Hub<TIn> To{IndicatorName}Hub<TIn>(
     this IQuoteProvider<TIn> quoteProvider,
     int lookbackPeriods = {defaultValue})
@@ -192,14 +258,14 @@ public class {IndicatorName}Hub<TIn>
 
 ```csharp
 /// <summary>
-/// Creates a {IndicatorUiid} hub from two synchronized chain providers.
+/// Creates a {IndicatorName} hub from two synchronized chain providers.
 /// Note: Both providers must be synchronized (same timestamps).
 /// </summary>
-public static {IndicatorName}Hub<T> To{IndicatorName}Hub<T>(
-    this IChainProvider<T> providerA,
-    IChainProvider<T> providerB,
+public static {IndicatorName}Hub<TIn> To{IndicatorName}Hub<TIn>(
+    this IChainProvider<TIn> providerA,
+    IChainProvider<TIn> providerB,
     int lookbackPeriods)
-    where T : IReusable
+    where TIn : IReusable
     => new(providerA, providerB, lookbackPeriods);
 ```
 
@@ -210,6 +276,7 @@ public static {IndicatorName}Hub<T> To{IndicatorName}Hub<T>(
 3. `HasSufficientData()` ensures both caches have adequate data
 4. Cannot be used with observer pattern (requires architectural changes for multi-provider synchronization)
 5. Use `CorrelationHub` as reference implementation (see `src/a-d/Correlation/Correlation.StreamHub.cs`)
+6. Test class must implement `ITestPairsObserver` interface for dual-stream validation
 
 ## Testing requirements
 
@@ -226,15 +293,78 @@ Stream indicator tests must cover:
 
 ### Test structure pattern
 
-Use the `StreamHubTestBase` as the base for all steam hub test classes, and add `ITestChainObserver` and `ITestChainProvider` conditionally if they are of those types.
+Use `StreamHubTestBase` as the base for all stream hub test classes, and implement the appropriate test interfaces based on your indicator's provider pattern and capabilities. The canonical reference for chain observer/provider test structure is `Ema.StreamHub.Tests.cs`.
+
+#### Test interface selection guide
+
+**Required for all StreamHub tests**: `StreamHubTestBase`
+
+**Additional interfaces based on implementation:**
+
+| Provider Base Class | Test Interfaces Required | Notes |
+|---------------------|-------------------------|-------|
+| `ChainProvider<TIn, TResult>` | `ITestChainProvider` | Always required for chainable indicators |
+| `ChainProvider<TIn, TResult>` + supports chaining | `ITestChainProvider`, `ITestChainObserver` | Most indicators support both providing and observing |
+| `QuoteProvider<TIn, TResult>` | `ITestQuoteObserver`, `ITestChainProvider` | Quote providers require quote observer and chain provider tests |
+| `PairsProvider<TIn, TResult>` | `ITestPairsObserver` | Dual-stream indicators with synchronized inputs (must not also implement `ITestQuoteObserver`) |
+
+Note: `ITestChainObserver` inherits `ITestQuoteObserver`. Do not redundantly implement both on the same class.
+
+(Removed rollback-specific interface; provider history coverage is part of standard QuoteObserver tests.)
+
+#### Interface selection examples
 
 ```csharp
+// Single-input chainable indicator (most common)
 [TestClass]
-public class {IndicatorName}Hub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
+public class EmaHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
 {
-    /* See `Ema.StreamHub.Tests.cs as a reference implementation */
+    /* See Ema.StreamHub.Tests.cs for canonical pattern */
 }
+
+// Quote-only provider (cannot observe chains)
+[TestClass]
+public class RenkoHub : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
+{
+    /* Quote provider pattern */
+}
+
+// Dual-stream indicator
+[TestClass]
+public class CorrelationHub : StreamHubTestBase, ITestPairsObserver
+{
+    /* Dual-stream pattern */
+}
+
 ```
+
+#### ITestQuoteObserver interface
+
+The `ITestQuoteObserver` interface is required for all indicators that support direct quote provider observation. It replaces the need to override `QuoteObserver()` in the test class. Implement this interface and provide a `QuoteObserver()` method to test hub compatibility with quote providers. See `Ema.StreamHub.Tests.cs` for a reference implementation.
+
+**When to use:**
+
+- All indicators that can be observed directly from a quote provider (e.g., EMA, SMA, Renko, etc.)
+- Not required for dual-stream (pairs) indicators
+
+**Do not override `QuoteObserver()` in the test class; implement `ITestQuoteObserver` instead.**
+
+### Standard provider history scenarios (required)
+
+Every StreamHub QuoteObserver test must cover these scenarios (EMA hub test is the canonical pattern):
+
+- Prefill a small window of quotes before subscribing (warmup coverage)
+- Stream quotes in order, including a few duplicate arrivals
+- Insert a late historical quote (Insert) and verify recalculation parity
+- Remove a historical quote (Remove) and verify parity against a revised series
+- Compare Results to Series with strict ordering
+- Clean up with Unsubscribe() and EndTransmission()
+
+These scenarios replace the need for a separate rollback-specific interface.
+
+### Provider history (Insert/Remove) testing
+
+All StreamHub implementations must include provider history (Insert/Remove) tests to ensure correct state management and recalculation. Implement these tests using the virtual `ProviderHistoryTesting()` method in `StreamHubTestBase` (override as needed for indicator-specific logic). See the plan tasks (T115-T120) for required coverage.
 
 ### Performance benchmarking
 
@@ -257,6 +387,8 @@ public object EmaHub() => quoteHub.ToEmaHub(14).Results;
 - Stream processing should handle high-frequency updates (1000+ quotes/second)
 - Memory usage should remain bounded during continuous operation
 - State updates should be O(1) complexity when possible
+
+See also: Common indicator requirements and Series-as-canonical policy in `.github/copilot-instructions.md`.
 
 ## Quality standards
 
@@ -316,4 +448,4 @@ Study these exemplary stream indicators:
 - **ALLIGATOR**: `src/a-d/Alligator/Alligator.StreamHub.cs`
 
 ---
-Last updated: October 8, 2025
+Last updated: October 12, 2025

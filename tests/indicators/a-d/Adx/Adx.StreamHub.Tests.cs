@@ -1,13 +1,14 @@
 namespace StreamHub;
 
 [TestClass]
-public class AdxHub : StreamHubTestBase
+public class AdxHub : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
 {
-    [TestMethod]
-    public override void QuoteObserver()
-    {
-        const int lookbackPeriods = 14;
+    private const int lookbackPeriods = 14;
+    private static readonly IReadOnlyList<AdxResult> expectedOriginal = Quotes.ToAdx(lookbackPeriods);
 
+    [TestMethod]
+    public void QuoteObserver()
+    {
         List<Quote> quotesList = Quotes.ToList();
 
         int length = quotesList.Count;
@@ -29,13 +30,49 @@ public class AdxHub : StreamHubTestBase
         IReadOnlyList<AdxResult> streamList
             = observer.Results;
 
-        // time-series, for comparison
-        IReadOnlyList<AdxResult> seriesList = quotesList
-            .ToAdx(lookbackPeriods);
-
         // assert, should equal series
         streamList.Should().HaveCount(length);
-        streamList.Should().BeEquivalentTo(seriesList);
+        streamList.Should().BeEquivalentTo(expectedOriginal, options => options.WithStrictOrdering());
+
+        observer.Unsubscribe();
+        quoteHub.EndTransmission();
+    }
+
+    [TestMethod]
+    public void ChainProvider()
+    {
+        // ADX emits IReusable results (AdxResult implements IReusable with Value = Adx),
+        // so it can act as a chain provider for downstream indicators.
+
+        const int adxPeriods = 14;
+        const int emaPeriods = 10;
+
+        List<Quote> quotesList = Quotes.ToList();
+
+        // setup quote provider hub
+        QuoteHub<Quote> quoteHub = new();
+
+        // initialize chain: ADX then EMA over its Value
+        EmaHub<AdxResult> observer = quoteHub
+            .ToAdxHub(adxPeriods)
+            .ToEmaHub(emaPeriods);
+
+        // stream quotes
+        foreach (Quote q in quotesList)
+        {
+            quoteHub.Add(q);
+        }
+
+        // results from stream
+        IReadOnlyList<EmaResult> streamList = observer.Results;
+
+        // time-series parity
+        IReadOnlyList<EmaResult> seriesList = quotesList
+            .ToAdx(adxPeriods)
+            .ToEma(emaPeriods);
+
+        streamList.Should().HaveCount(seriesList.Count);
+        streamList.Should().BeEquivalentTo(seriesList, o => o.WithStrictOrdering());
 
         observer.Unsubscribe();
         quoteHub.EndTransmission();
@@ -54,5 +91,31 @@ public class AdxHub : StreamHubTestBase
 
         string s = $"ADX(14)({Quotes[0].Timestamp:d})";
         hub.ToString().Should().Be(s);
+    }
+
+    [TestMethod]
+    public void RollbackValidation()
+    {
+        QuoteHub<Quote> quoteHub = new();
+
+        // Precondition: Normal quote stream with 502 expected entries
+        AdxHub<Quote> observer = quoteHub.ToAdxHub(lookbackPeriods);
+        quoteHub.Add(Quotes);
+
+        observer.Results.Should().HaveCount(502);
+        observer.Results.Should().BeEquivalentTo(expectedOriginal, options => options.WithStrictOrdering());
+
+        // Act: Remove a single historical value
+        quoteHub.Remove(Quotes[removeAtIndex]);
+
+        // Assert: Observer should have 501 results and match revised series
+        IReadOnlyList<AdxResult> expectedRevised = RevisedQuotes.ToAdx(lookbackPeriods);
+
+        observer.Results.Should().HaveCount(501);
+        observer.Results.Should().BeEquivalentTo(expectedRevised, options => options.WithStrictOrdering());
+
+        // cleanup
+        observer.Unsubscribe();
+        quoteHub.EndTransmission();
     }
 }

@@ -89,11 +89,10 @@ public class WmaList : BufferList<WmaResult>, IIncrementFromChain, IWma
 public static partial class Wma
 {
     /// <summary>
-    /// Creates a buffer list for Weighted Moving Average (VWMA) calculations.
+    /// Creates a buffer list for Weighted Moving Average (WMA) calculations.
     /// </summary>
-    public static WmaList ToWmaList<T>(
-        this IReadOnlyList<T> source,
+    public static WmaList ToWmaList(
+        this IReadOnlyList<IReusable> source,
         int lookbackPeriods)
-        where T : IReusable
-        => new(lookbackPeriods) { (IReadOnlyList<IReusable>)source };
+        => new(lookbackPeriods) { source };
 }

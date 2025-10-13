@@ -1,7 +1,7 @@
 namespace BufferLists;
 
 [TestClass]
-public class FisherTransform : BufferListTestBase, ITestReusableBufferList
+public class FisherTransform : BufferListTestBase, ITestChainBufferList
 {
     private const int lookbackPeriods = 10;
 
@@ -14,7 +14,7 @@ public class FisherTransform : BufferListTestBase, ITestReusableBufferList
        = Quotes.ToFisherTransform(lookbackPeriods);
 
     [TestMethod]
-    public override void AddQuotes()
+    public void AddQuotes()
     {
         FisherTransformList sut = new(lookbackPeriods);
 
@@ -25,7 +25,7 @@ public class FisherTransform : BufferListTestBase, ITestReusableBufferList
     }
 
     [TestMethod]
-    public override void AddQuotesBatch()
+    public void AddQuotesBatch()
     {
         FisherTransformList sut = new(lookbackPeriods) { Quotes };
 
@@ -37,7 +37,7 @@ public class FisherTransform : BufferListTestBase, ITestReusableBufferList
     }
 
     [TestMethod]
-    public override void WithQuotesCtor()
+    public void WithQuotesCtor()
     {
         FisherTransformList sut = new(lookbackPeriods, Quotes);
 

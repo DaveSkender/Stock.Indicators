@@ -1,10 +1,10 @@
 namespace StreamHub;
 
 [TestClass]
-public class Stoch : StreamHubTestBase
+public class Stoch : StreamHubTestBase, ITestQuoteObserver
 {
     [TestMethod]
-    public override void QuoteObserver()
+    public void QuoteObserver()
     {
         List<Quote> quotesList = Quotes.ToList();
         int length = Quotes.Count;
