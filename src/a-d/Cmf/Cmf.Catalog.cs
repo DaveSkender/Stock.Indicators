@@ -21,6 +21,11 @@ public static partial class Cmf
             .WithStyle(Style.Series)
             .Build();
 
-    // No StreamListing for CMF.
+    // CMF Stream Listing
+    internal static readonly IndicatorListing StreamListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Stream)
+            .Build();
+
     // No BufferListing for CMF.
 }
