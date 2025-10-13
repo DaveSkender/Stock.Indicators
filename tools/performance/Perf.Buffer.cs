@@ -49,4 +49,5 @@ public class BufferIndicators
     [Benchmark] public VwapList VwapList() => new(q[0].Timestamp) { q };
     [Benchmark] public VwmaList VwmaList() => new(n) { q };
     [Benchmark] public WmaList WmaList() => new(n) { q };
+    [Benchmark] public ZigZagList ZigZagList() => new() { q };
 }
