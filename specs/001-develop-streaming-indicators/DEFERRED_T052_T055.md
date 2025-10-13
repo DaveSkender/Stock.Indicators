@@ -71,7 +71,7 @@ The ZigZag indicator identifies significant turning points (peaks and troughs) b
 
 **Example scenario:**
 
-```
+```text
 Period 100: High = 150 (candidate peak)
 Period 101-110: Price stays near 150 (peak not confirmed yet)
 Period 111: High = 155 (new candidate peak, Period 100 was NOT a peak)
