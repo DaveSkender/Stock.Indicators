@@ -40,4 +40,25 @@ public class VolatilityStopTests : TestBase
         isstopResult1?.DisplayName.Should().Be("Is Stop");
         isstopResult1.IsReusable.Should().Be(false);
     }
+
+    [TestMethod]
+    public void VolatilityStopBufferListing()
+    {
+        // Act
+        IndicatorListing listing = VolatilityStop.BufferListing;
+
+        // Assert
+        listing.Should().NotBeNull();
+        listing.Name.Should().Be("Volatility Stop");
+        listing.Uiid.Should().Be("VOL-STOP");
+        listing.Style.Should().Be(Style.Buffer);
+        listing.Category.Should().Be(Category.StopAndReverse);
+        listing.MethodName.Should().Be("ToVolatilityStop");
+
+        listing.Parameters.Should().NotBeNull();
+        listing.Parameters.Should().HaveCount(2);
+
+        listing.Results.Should().NotBeNull();
+        listing.Results.Should().HaveCount(2);
+    }
 }

@@ -71,6 +71,25 @@ public abstract class BufferList<TResult> : IReadOnlyList<TResult>
     }
 
     /// <summary>
+    /// Updates an existing item in the list at the specified index.
+    /// Used for indicators that need to revise historical values (repaint).
+    /// </summary>
+    /// <param name="index">The zero-based index of the item to update.</param>
+    /// <param name="item">The updated item.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when index is out of range.</exception>
+    protected void UpdateInternal(int index, TResult item)
+    {
+        if (index < 0 || index >= _internalList.Count)
+        {
+            throw new ArgumentOutOfRangeException(
+                nameof(index),
+                "Index must be within the bounds of the list.");
+        }
+
+        _internalList[index] = item;
+    }
+
+    /// <summary>
     /// Removes the item at the specified index from the internal list.
     /// </summary>
     /// <param name="index">The zero-based index of the item to remove.</param>

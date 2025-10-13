@@ -115,9 +115,9 @@ The following indicators have series-style implementations but lack BufferList i
 - [ ] T046 Implement Stc BufferList in `src/s-z/Stc/Stc.BufferList.cs`
 - [ ] T048 Implement StdDevChannels BufferList in `src/s-z/StdDevChannels/StdDevChannels.BufferList.cs`
 - [ ] T050 Implement Tsi BufferList in `src/s-z/Tsi/Tsi.BufferList.cs`
-- [ ] T052 Implement VolatilityStop BufferList in `src/s-z/VolatilityStop/VolatilityStop.BufferList.cs`
-- [ ] T053 Implement Vortex BufferList in `src/s-z/Vortex/Vortex.BufferList.cs`
-- [ ] T054 Implement Vwap BufferList in `src/s-z/Vwap/Vwap.BufferList.cs`
+- [x] T052 Implement VolatilityStop BufferList in `src/s-z/VolatilityStop/VolatilityStop.BufferList.cs` ✅ Complete
+- [x] T053 Implement Vortex BufferList in `src/s-z/Vortex/Vortex.BufferList.cs` ✅ Complete
+- [x] T054 Implement Vwap BufferList in `src/s-z/Vwap/Vwap.BufferList.cs` ✅ Complete
 - [ ] T055 Implement ZigZag BufferList in `src/s-z/ZigZag/ZigZag.BufferList.cs`
 - [x] T012 Implement Correlation BufferList in `src/a-d/Correlation/Correlation.BufferList.cs` ✅ Complete
 - [x] T013 Implement Doji BufferList in `src/a-d/Doji/Doji.BufferList.cs` ✅ Complete
@@ -168,7 +168,7 @@ The following indicators have series-style implementations but lack BufferList i
 - [x] T049 Implement SuperTrend BufferList in `src/s-z/SuperTrend/SuperTrend.BufferList.cs` ✅ Complete
 - [ ] T050 Implement Tsi BufferList in `src/s-z/Tsi/Tsi.BufferList.cs`
 - [x] T051 Implement UlcerIndex BufferList in `src/s-z/UlcerIndex/UlcerIndex.BufferList.cs` ✅ Complete
-- [ ] T052 Implement VolatilityStop BufferList in `src/s-z/VolatilityStop/VolatilityStop.BufferList.cs` (Deferred - requires retroactive updates)
+- [x] T052 Implement VolatilityStop BufferList in `src/s-z/VolatilityStop/VolatilityStop.BufferList.cs` ✅ Complete (Previously deferred - now implemented with retroactive update capability using UpdateInternal)
 - [x] T053 Implement Vortex BufferList in `src/s-z/Vortex/Vortex.BufferList.cs` ✅ Complete
 - [x] T054 Implement Vwap BufferList in `src/s-z/Vwap/Vwap.BufferList.cs` ✅ Complete
 - [ ] T055 Implement ZigZag BufferList in `src/s-z/ZigZag/ZigZag.BufferList.cs` (Deferred - requires retroactive updates and look-ahead)

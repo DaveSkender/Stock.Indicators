@@ -21,6 +21,11 @@ public static partial class VolatilityStop
             .WithStyle(Style.Series)
             .Build();
 
+    // Volatility Stop Buffer Listing
+    internal static readonly IndicatorListing BufferListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Buffer)
+            .Build();
+
     // No StreamListing for Volatility Stop.
-    // No BufferListing for Volatility Stop.
 }
