@@ -83,6 +83,51 @@ public class MaEnvelopesList : BufferList<MaEnvelopeResult>, IIncrementFromChain
     /// </summary>
     public MaType MovingAverageType { get; init; }
 
+    /// <summary>
+    /// Gets or sets the maximum number of results to retain in the list.
+    /// When the list exceeds this value, the oldest items are pruned.
+    /// Also propagates to the inner MA buffer list.
+    /// </summary>
+    public new int MaxListSize
+    {
+        get => base.MaxListSize;
+        set {
+            base.MaxListSize = value;
+
+            // Propagate MaxListSize to the inner MA buffer list
+            switch (_movingAverageType)
+            {
+                case MaType.ALMA:
+                    ((AlmaList)_maList).MaxListSize = value;
+                    break;
+                case MaType.DEMA:
+                    ((DemaList)_maList).MaxListSize = value;
+                    break;
+                case MaType.EMA:
+                    ((EmaList)_maList).MaxListSize = value;
+                    break;
+                case MaType.EPMA:
+                    ((EpmaList)_maList).MaxListSize = value;
+                    break;
+                case MaType.HMA:
+                    ((HmaList)_maList).MaxListSize = value;
+                    break;
+                case MaType.SMA:
+                    ((SmaList)_maList).MaxListSize = value;
+                    break;
+                case MaType.SMMA:
+                    ((SmmaList)_maList).MaxListSize = value;
+                    break;
+                case MaType.TEMA:
+                    ((TemaList)_maList).MaxListSize = value;
+                    break;
+                case MaType.WMA:
+                    ((WmaList)_maList).MaxListSize = value;
+                    break;
+            }
+        }
+    }
+
     /// <inheritdoc />
     public void Add(DateTime timestamp, double value)
     {

@@ -5,6 +5,7 @@ namespace Skender.Stock.Indicators;
 /// </summary>
 public class VwapList : BufferList<VwapResult>, IIncrementFromQuote
 {
+    private readonly bool _autoAnchor;
     private DateTime? _startDate;
     private double _cumVolume;
     private double _cumVolumeTp;
@@ -15,6 +16,7 @@ public class VwapList : BufferList<VwapResult>, IIncrementFromQuote
     /// <param name="startDate">The start date for VWAP calculation. Quotes before this date will have null VWAP.</param>
     public VwapList(DateTime? startDate = null)
     {
+        _autoAnchor = startDate == null;
         _startDate = startDate;
         _cumVolume = 0;
         _cumVolumeTp = 0;
@@ -88,7 +90,12 @@ public class VwapList : BufferList<VwapResult>, IIncrementFromQuote
         base.Clear();
         _cumVolume = 0;
         _cumVolumeTp = 0;
-        // Note: We don't reset _startDate as it's a configuration parameter
+
+        // Reset _startDate to null if in auto-anchor mode
+        if (_autoAnchor)
+        {
+            _startDate = null;
+        }
     }
 }
 
