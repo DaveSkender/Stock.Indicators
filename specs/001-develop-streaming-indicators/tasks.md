@@ -181,7 +181,7 @@ The following indicators have series-style implementations but lack BufferList i
 
 - [ ] T061 Implement Chandelier StreamHub in `src/a-d/Chandelier/Chandelier.StreamHub.cs`
 - [ ] T062 Implement Chop StreamHub in `src/a-d/Chop/Chop.StreamHub.cs`
-- [ ] T063 Implement Cmf StreamHub in `src/a-d/Cmf/Cmf.StreamHub.cs`
+- [x] T063 Implement Cmf StreamHub in `src/a-d/Cmf/Cmf.StreamHub.cs` ✅ Complete
 - [ ] T064 Implement ConnorsRsi StreamHub in `src/a-d/ConnorsRsi/ConnorsRsi.StreamHub.cs`
 - [ ] T067 Implement Donchian StreamHub in `src/a-d/Donchian/Donchian.StreamHub.cs`
 - [ ] T068 Implement Dpo StreamHub in `src/a-d/Dpo/Dpo.StreamHub.cs`
