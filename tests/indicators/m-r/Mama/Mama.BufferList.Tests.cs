@@ -16,7 +16,7 @@ public class Mama : BufferListTestBase, ITestChainBufferList, ITestCustomBufferL
        = Quotes.ToMama(fastLimit, slowLimit);
 
     [TestMethod]
-    public void AddQuotes()
+    public void AddQuote_IncrementsResults()
     {
         MamaList sut = new(fastLimit, slowLimit);
 
@@ -30,7 +30,7 @@ public class Mama : BufferListTestBase, ITestChainBufferList, ITestCustomBufferL
     }
 
     [TestMethod]
-    public void AddQuotesBatch()
+    public void AddQuotesBatch_IncrementsResults()
     {
         MamaList sut = new(fastLimit, slowLimit) { Quotes };
 
@@ -39,7 +39,7 @@ public class Mama : BufferListTestBase, ITestChainBufferList, ITestCustomBufferL
     }
 
     [TestMethod]
-    public void WithQuotesCtor()
+    public void QuotesCtor_OnInstantiation_IncrementsResults()
     {
         MamaList sut = new(fastLimit, slowLimit, Quotes);
 
@@ -48,7 +48,7 @@ public class Mama : BufferListTestBase, ITestChainBufferList, ITestCustomBufferL
     }
 
     [TestMethod]
-    public void AddReusableItems()
+    public void AddReusableItem_IncrementsResults()
     {
         MamaList sut = new(fastLimit, slowLimit);
 
@@ -62,7 +62,7 @@ public class Mama : BufferListTestBase, ITestChainBufferList, ITestCustomBufferL
     }
 
     [TestMethod]
-    public void AddReusableItemsBatch()
+    public void AddReusableItemBatch_IncrementsResults()
     {
         MamaList sut = new(fastLimit, slowLimit) { reusables };
 
@@ -71,7 +71,7 @@ public class Mama : BufferListTestBase, ITestChainBufferList, ITestCustomBufferL
     }
 
     [TestMethod]
-    public void AddDiscreteValues()
+    public void AddDateAndValue_IncrementsResults()
     {
         MamaList sut = new(fastLimit, slowLimit);
 
@@ -85,7 +85,7 @@ public class Mama : BufferListTestBase, ITestChainBufferList, ITestCustomBufferL
     }
 
     [TestMethod]
-    public override void ClearResetsState()
+    public override void Clear_WithState_ResetsState()
     {
         List<Quote> subset = Quotes.Take(80).ToList();
         IReadOnlyList<MamaResult> expected = subset.ToMama(fastLimit, slowLimit);
@@ -106,7 +106,7 @@ public class Mama : BufferListTestBase, ITestChainBufferList, ITestCustomBufferL
     }
 
     [TestMethod]
-    public override void AutoListPruning()
+    public override void PruneList_OverMaxListSize_AutoAdjustsListAndBuffers()
     {
         const int maxListSize = 150;
 
@@ -125,7 +125,7 @@ public class Mama : BufferListTestBase, ITestChainBufferList, ITestCustomBufferL
     }
 
     [TestMethod]
-    public void CustomBufferPruning()
+    public void CustomBuffer_OverMaxListSize_AutoAdjustsListAndBuffers()
     {
         const int maxListSize = 200;
         const int quotesSize = 1250;

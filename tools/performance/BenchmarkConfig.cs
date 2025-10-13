@@ -7,7 +7,7 @@ using BenchmarkDotNet.Loggers;
 namespace Performance;
 
 /// <summary>
-/// Custom BenchmarkDotNet configuration for performance testing with regression detection support.
+/// BenchmarkDotNet configuration for performance testing.
 /// </summary>
 public class PerformanceConfig : ManualConfig
 {
@@ -18,6 +18,7 @@ public class PerformanceConfig : ManualConfig
         AddExporter(JsonExporter.Full);
 
         // Add columns for detailed analysis
+        AddColumn(TargetMethodColumn.Method);
         AddColumn(StatisticColumn.Mean);
         AddColumn(StatisticColumn.Error);
         AddColumn(StatisticColumn.StdDev);

@@ -12,7 +12,7 @@ public class Gator : BufferListTestBase, ITestChainBufferList
        = Quotes.ToGator();
 
     [TestMethod]
-    public void AddQuotes()
+    public void AddQuote_IncrementsResults()
     {
         GatorList sut = [];
 
@@ -26,7 +26,7 @@ public class Gator : BufferListTestBase, ITestChainBufferList
     }
 
     [TestMethod]
-    public void AddQuotesBatch()
+    public void AddQuotesBatch_IncrementsResults()
     {
         GatorList sut = Quotes.ToGatorList();
 
@@ -35,7 +35,7 @@ public class Gator : BufferListTestBase, ITestChainBufferList
     }
 
     [TestMethod]
-    public void WithQuotesCtor()
+    public void QuotesCtor_OnInstantiation_IncrementsResults()
     {
         GatorList sut = new(Quotes);
 
@@ -44,7 +44,7 @@ public class Gator : BufferListTestBase, ITestChainBufferList
     }
 
     [TestMethod]
-    public void AddDiscreteValues()
+    public void AddDateAndValue_IncrementsResults()
     {
         GatorList sut = [];
 
@@ -58,7 +58,7 @@ public class Gator : BufferListTestBase, ITestChainBufferList
     }
 
     [TestMethod]
-    public void AddReusableItems()
+    public void AddReusableItem_IncrementsResults()
     {
         GatorList sut = [];
 
@@ -72,7 +72,7 @@ public class Gator : BufferListTestBase, ITestChainBufferList
     }
 
     [TestMethod]
-    public void AddReusableItemsBatch()
+    public void AddReusableItemBatch_IncrementsResults()
     {
         GatorList sut = new() { reusables };
 
@@ -81,7 +81,7 @@ public class Gator : BufferListTestBase, ITestChainBufferList
     }
 
     [TestMethod]
-    public override void ClearResetsState()
+    public override void Clear_WithState_ResetsState()
     {
         List<Quote> subset = Quotes.Take(80).ToList();
         IReadOnlyList<GatorResult> expected = subset.ToGator();
@@ -102,7 +102,7 @@ public class Gator : BufferListTestBase, ITestChainBufferList
     }
 
     [TestMethod]
-    public override void AutoListPruning()
+    public override void PruneList_OverMaxListSize_AutoAdjustsListAndBuffers()
     {
         const int maxListSize = 120;
 

@@ -187,16 +187,16 @@ _buffer.Update(2, (quote.High, quote.Low, quote.Close));
 **Consequences of incorrect inheritance**:
 
 - Missing abstract method implementations required by `BufferListTestBase`
-- Compilation errors for `AddQuotes()`, `AddQuotesBatch()`, `WithQuotesCtor()`, `ClearResetsState()`, and `AutoListPruning()`
+- Compilation errors for `AddQuote_IncrementsResults()`, `AddQuotesBatch_IncrementsResults()`, `QuotesCtor_OnInstantiation_IncrementsResults()`, `Clear_WithState_ResetsState()`, and `PruneList_OverMaxListSize_AutoAdjustsListAndBuffers()`
 - Tests won't validate essential BufferList behaviors
 
 The `BufferListTestBase` abstract class defines 5 required test methods that ensure BufferList implementations work correctly:
 
-1. `AddQuotes()` - Individual quote addition
-2. `AddQuotesBatch()` - Batch quote addition via collection initializer
-3. `WithQuotesCtor()` - Constructor with quotes parameter
-4. `ClearResetsState()` - State reset functionality
-5. `AutoListPruning()` - List size management
+1. `AddQuote_IncrementsResults()` - Individual quote addition
+2. `AddQuotesBatch_IncrementsResults()` - Batch quote addition via collection initializer
+3. `QuotesCtor_OnInstantiation_IncrementsResults()` - Constructor with quotes parameter
+4. `Clear_WithState_ResetsState()` - State reset functionality
+5. `PruneList_OverMaxListSize_AutoAdjustsListAndBuffers()` - List size management
 
 ### Test structure
 
@@ -209,7 +209,7 @@ public class {IndicatorName}BufferListTests : BufferListTestBase, ITestReusableB
     private static readonly IReadOnlyList<{IndicatorName}Result> series = Quotes.To{IndicatorName}(lookbackPeriods);
 
     [TestMethod]
-    public void AddDiscreteValues()
+    public void AddDateAndValue_IncrementsResults()
     {
         {IndicatorName}List sut = new(lookbackPeriods);
         foreach (IReusable item in reusables)

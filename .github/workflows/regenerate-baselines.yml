@@ -1,10 +1,10 @@
-name: Regenerate Baselines
+name: Regenerate baselines
 
 on:
   workflow_dispatch:
     inputs:
       reason:
-        description: 'Reason for baseline regeneration'
+        description: "Reason for baseline regeneration"
         required: true
         type: string
 

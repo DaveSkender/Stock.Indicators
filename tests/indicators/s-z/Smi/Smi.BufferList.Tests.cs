@@ -12,7 +12,7 @@ public class Smi : BufferListTestBase, ITestQuoteBufferList
        = Quotes.ToSmi(lookbackPeriods, firstSmoothPeriods, secondSmoothPeriods, signalPeriods);
 
     [TestMethod]
-    public void AddQuotes()
+    public void AddQuote_IncrementsResults()
     {
         SmiList sut = new(lookbackPeriods, firstSmoothPeriods, secondSmoothPeriods, signalPeriods);
 
@@ -26,7 +26,7 @@ public class Smi : BufferListTestBase, ITestQuoteBufferList
     }
 
     [TestMethod]
-    public void AddQuotesBatch()
+    public void AddQuotesBatch_IncrementsResults()
     {
         SmiList sut = new(lookbackPeriods, firstSmoothPeriods, secondSmoothPeriods, signalPeriods) { Quotes };
 
@@ -35,7 +35,7 @@ public class Smi : BufferListTestBase, ITestQuoteBufferList
     }
 
     [TestMethod]
-    public void WithQuotesCtor()
+    public void QuotesCtor_OnInstantiation_IncrementsResults()
     {
         SmiList sut = new(lookbackPeriods, firstSmoothPeriods, secondSmoothPeriods, signalPeriods, Quotes);
 
@@ -44,7 +44,7 @@ public class Smi : BufferListTestBase, ITestQuoteBufferList
     }
 
     [TestMethod]
-    public override void ClearResetsState()
+    public override void Clear_WithState_ResetsState()
     {
         List<Quote> subset = Quotes.Take(80).ToList();
         IReadOnlyList<SmiResult> expected = subset.ToSmi(lookbackPeriods, firstSmoothPeriods, secondSmoothPeriods, signalPeriods);
@@ -65,7 +65,7 @@ public class Smi : BufferListTestBase, ITestQuoteBufferList
     }
 
     [TestMethod]
-    public override void AutoListPruning()
+    public override void PruneList_OverMaxListSize_AutoAdjustsListAndBuffers()
     {
         const int maxListSize = 100;
 

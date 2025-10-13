@@ -1,7 +1,7 @@
 # Tasks: streaming indicators framework
 
 **Input**: Design documents from `/specs/001-develop-streaming-indicators/`
-**Prerequisites**: plan.md (required), spec.md (required for user stories), data-model.md
+**Prerequisites**: [plan.md](plan.md) (required), [spec.md](spec.md) (required for user stories), [data-model.md](data-model.md)
 
 ## Format: `[ID] Description`
 
@@ -29,7 +29,7 @@ These simplified checklists ensure:
 
 ---
 
-## Phase 1: Infrastructure & Compliance Audits (COMPLETED) ✅
+## Phase 1: Infrastructure & Compliance Audits (IN PROGRESS)
 
 **Purpose**: Establish instruction file compliance and quality foundation before expanding streaming indicator coverage.
 
@@ -218,12 +218,12 @@ These simplified checklists ensure:
 - [x] **T096** Implement Bop StreamHub in `src/a-d/Bop/Bop.StreamHub.cs` ✅
 - [x] **T097** Implement Cci StreamHub in `src/a-d/Cci/Cci.StreamHub.cs` ✅
 - [x] **T098** Implement ChaikinOsc StreamHub in `src/a-d/ChaikinOsc/ChaikinOsc.StreamHub.cs` ✅
-- [x] **T099** Implement Chandelier StreamHub in `src/a-d/Chandelier/Chandelier.StreamHub.cs` ✅
-- [x] **T100** Implement Chop StreamHub in `src/a-d/Chop/Chop.StreamHub.cs` ✅
+- [ ] **T099** Implement Chandelier StreamHub in `src/a-d/Chandelier/Chandelier.StreamHub.cs`
+- [ ] **T100** Implement Chop StreamHub in `src/a-d/Chop/Chop.StreamHub.cs`
 - [x] **T101** Implement Cmf StreamHub in `src/a-d/Cmf/Cmf.StreamHub.cs` ✅
 - [x] **T102** Implement Cmo StreamHub in `src/a-d/Cmo/Cmo.StreamHub.cs` ✅
 - [ ] **T103** Implement ConnorsRsi StreamHub in `src/a-d/ConnorsRsi/ConnorsRsi.StreamHub.cs`
-- [x] **T104** Implement Correlation StreamHub in `src/a-d/Correlation/Correlation.StreamHub.cs` ✅
+- [ ] **T104** Implement Correlation StreamHub in `src/a-d/Correlation/Correlation.StreamHub.cs` (WIP: dual-stream synchronization; see Issue #1511)
 - [x] **T105** Implement Dema StreamHub in `src/a-d/Dema/Dema.StreamHub.cs` ✅
 - [x] **T106** Implement Doji StreamHub in `src/a-d/Doji/Doji.StreamHub.cs` ✅
 - [ ] **T107** Implement Donchian StreamHub in `src/a-d/Donchian/Donchian.StreamHub.cs`
@@ -291,7 +291,7 @@ These simplified checklists ensure:
 - [x] **T169** Implement Wma StreamHub in `src/s-z/Wma/Wma.StreamHub.cs` ✅
 - [ ] **T170** Implement ZigZag StreamHub in `src/s-z/ZigZag/ZigZag.StreamHub.cs`
 
-**StreamHub**: 45/85 complete, 40 remaining
+**StreamHub**: 42/85 complete, 43 remaining
 
 **Checkpoint**: Phase 3 completion achieves 1:1:1 parity across all three implementation styles (Series, BufferList, StreamHub)
 
@@ -405,6 +405,7 @@ Each task should follow these guidelines:
 - Include all required test methods from test base classes
 - Verify parity with series-style calculations
 - Test edge cases, reset behavior, and state management
+- StreamHub tests must implement exactly one observer interface (ITestQuoteObserver OR ITestChainObserver OR ITestPairsObserver); dual‑stream hubs must use ITestPairsObserver
 
 ---
 
@@ -420,7 +421,7 @@ Each task should follow these guidelines:
 
 ### Parallel Opportunities
 
-- All marked tasks within each phase can run in parallel
+- Tasks within each phase can run in parallel
 - Phases 2 and 3 can proceed in parallel after Phase 1 completion
 - Different indicator implementations are completely independent
 - Documentation tasks can begin as soon as corresponding implementations complete
@@ -438,19 +439,21 @@ Each task should follow these guidelines:
 ## Summary
 
 **Implementation Coverage (1:1:1 Parity)**:
+
 - **Total Series implementations**: 85 indicators (baseline)
 - **Total BufferList implementations**: 69 complete, 16 remaining (T001-T085)
-- **Total StreamHub implementations**: 45 complete, 40 remaining (T086-T170)
+- **Total StreamHub implementations**: 42 complete, 43 remaining (T086-T170)
 - **1:1:1 Target**: 85 BufferList + 85 StreamHub = 170 streaming implementations total
-- **Current streaming coverage**: 114/170 = **67% complete**
+- **Current streaming coverage**: 111/170 = **65% complete**
 
 **Task Breakdown**:
+
 - **Phase 1**: 10 tasks (A001-A006, T171-T174) — 8 complete, 2 remaining
 - **Phase 2**: 85 BufferList implementation tasks (T001-T085) — 69 complete, 16 remaining
-- **Phase 3**: 85 StreamHub implementation tasks (T086-T170) — 45 complete, 40 remaining
+- **Phase 3**: 85 StreamHub implementation tasks (T086-T170) — 42 complete, 43 remaining
 - **Phase 4**: 17 test infrastructure tasks (T175-T185, Q001-Q006) — 0 complete, 17 remaining
 - **Phase 5**: 7 documentation tasks (D001-D007) — 2 complete, 5 remaining
-- **Total**: 204 tasks — 124 complete, 80 remaining
+- **Total**: 204 tasks — 121 complete, 83 remaining
 
 **Deferred to v2** (streaming incompatible): Fractal, HtTrendline, Hurst, Ichimoku, Slope
 

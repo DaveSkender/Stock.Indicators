@@ -16,7 +16,7 @@ public class ConnorsRsi : BufferListTestBase, ITestChainBufferList
        = Quotes.ToConnorsRsi(rsiPeriods, streakPeriods, rankPeriods);
 
     [TestMethod]
-    public void AddQuotes()
+    public void AddQuote_IncrementsResults()
     {
         ConnorsRsiList sut = new(rsiPeriods, streakPeriods, rankPeriods);
 
@@ -30,7 +30,7 @@ public class ConnorsRsi : BufferListTestBase, ITestChainBufferList
     }
 
     [TestMethod]
-    public void AddQuotesBatch()
+    public void AddQuotesBatch_IncrementsResults()
     {
         ConnorsRsiList sut = Quotes.ToConnorsRsiList(rsiPeriods, streakPeriods, rankPeriods);
 
@@ -39,7 +39,7 @@ public class ConnorsRsi : BufferListTestBase, ITestChainBufferList
     }
 
     [TestMethod]
-    public void WithQuotesCtor()
+    public void QuotesCtor_OnInstantiation_IncrementsResults()
     {
         ConnorsRsiList sut = new(rsiPeriods, streakPeriods, rankPeriods, Quotes);
 
@@ -48,7 +48,7 @@ public class ConnorsRsi : BufferListTestBase, ITestChainBufferList
     }
 
     [TestMethod]
-    public void AddReusableItems()
+    public void AddReusableItem_IncrementsResults()
     {
         ConnorsRsiList sut = new(rsiPeriods, streakPeriods, rankPeriods);
 
@@ -62,7 +62,7 @@ public class ConnorsRsi : BufferListTestBase, ITestChainBufferList
     }
 
     [TestMethod]
-    public void AddReusableItemsBatch()
+    public void AddReusableItemBatch_IncrementsResults()
     {
         ConnorsRsiList sut = new(rsiPeriods, streakPeriods, rankPeriods) { reusables };
 
@@ -71,7 +71,7 @@ public class ConnorsRsi : BufferListTestBase, ITestChainBufferList
     }
 
     [TestMethod]
-    public void AddDiscreteValues()
+    public void AddDateAndValue_IncrementsResults()
     {
         ConnorsRsiList sut = new(rsiPeriods, streakPeriods, rankPeriods);
 
@@ -85,7 +85,7 @@ public class ConnorsRsi : BufferListTestBase, ITestChainBufferList
     }
 
     [TestMethod]
-    public override void ClearResetsState()
+    public override void Clear_WithState_ResetsState()
     {
         List<Quote> subset = Quotes.Take(80).ToList();
         IReadOnlyList<ConnorsRsiResult> expected = subset.ToConnorsRsi(rsiPeriods, streakPeriods, rankPeriods);
@@ -106,7 +106,7 @@ public class ConnorsRsi : BufferListTestBase, ITestChainBufferList
     }
 
     [TestMethod]
-    public override void AutoListPruning()
+    public override void PruneList_OverMaxListSize_AutoAdjustsListAndBuffers()
     {
         const int maxListSize = 120;
 

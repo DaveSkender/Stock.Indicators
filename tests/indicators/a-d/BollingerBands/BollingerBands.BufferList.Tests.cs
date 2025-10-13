@@ -15,7 +15,7 @@ public class BollingerBands : BufferListTestBase, ITestChainBufferList
         = Quotes.ToBollingerBands(lookbackPeriods, standardDeviations);
 
     [TestMethod]
-    public void AddQuotes()
+    public void AddQuote_IncrementsResults()
     {
         BollingerBandsList sut = new(lookbackPeriods, standardDeviations);
 
@@ -29,7 +29,7 @@ public class BollingerBands : BufferListTestBase, ITestChainBufferList
     }
 
     [TestMethod]
-    public void AddQuotesBatch()
+    public void AddQuotesBatch_IncrementsResults()
     {
         BollingerBandsList sut = new(lookbackPeriods, standardDeviations) { Quotes };
 
@@ -38,7 +38,7 @@ public class BollingerBands : BufferListTestBase, ITestChainBufferList
     }
 
     [TestMethod]
-    public void WithQuotesCtor()
+    public void QuotesCtor_OnInstantiation_IncrementsResults()
     {
         BollingerBandsList sut = new(lookbackPeriods, standardDeviations, Quotes);
 
@@ -47,7 +47,7 @@ public class BollingerBands : BufferListTestBase, ITestChainBufferList
     }
 
     [TestMethod]
-    public void AddReusableItems()
+    public void AddReusableItem_IncrementsResults()
     {
         BollingerBandsList sut = new(lookbackPeriods, standardDeviations);
 
@@ -61,7 +61,7 @@ public class BollingerBands : BufferListTestBase, ITestChainBufferList
     }
 
     [TestMethod]
-    public void AddReusableItemsBatch()
+    public void AddReusableItemBatch_IncrementsResults()
     {
         BollingerBandsList sut = new(lookbackPeriods, standardDeviations) { reusables };
 
@@ -70,7 +70,7 @@ public class BollingerBands : BufferListTestBase, ITestChainBufferList
     }
 
     [TestMethod]
-    public void AddDiscreteValues()
+    public void AddDateAndValue_IncrementsResults()
     {
         BollingerBandsList sut = new(lookbackPeriods, standardDeviations);
 
@@ -84,7 +84,7 @@ public class BollingerBands : BufferListTestBase, ITestChainBufferList
     }
 
     [TestMethod]
-    public override void ClearResetsState()
+    public override void Clear_WithState_ResetsState()
     {
         List<Quote> subset = Quotes.Take(80).ToList();
         IReadOnlyList<BollingerBandsResult> expected = subset.ToBollingerBands(lookbackPeriods, standardDeviations);
@@ -105,7 +105,7 @@ public class BollingerBands : BufferListTestBase, ITestChainBufferList
     }
 
     [TestMethod]
-    public override void AutoListPruning()
+    public override void PruneList_OverMaxListSize_AutoAdjustsListAndBuffers()
     {
         const int maxListSize = 120;
 
