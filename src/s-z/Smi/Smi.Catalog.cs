@@ -29,5 +29,6 @@ public static partial class Smi
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)
+            .WithMethodName("ToSmiList")
             .Build();
 }
