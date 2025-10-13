@@ -49,19 +49,9 @@ public class MfiList : BufferList<MfiResult>, IIncrementFromQuote
         double moneyFlow = truePrice * (double)quote.Volume;
 
         // Determine direction
-        int direction;
-        if (_prevTruePrice == null || truePrice == _prevTruePrice)
-        {
-            direction = 0;
-        }
-        else if (truePrice > _prevTruePrice)
-        {
-            direction = 1;
-        }
-        else
-        {
-            direction = -1;
-        }
+        int direction = _prevTruePrice == null || truePrice == _prevTruePrice
+            ? 0 :
+            truePrice > _prevTruePrice ? 1 : -1;
 
         // Update buffer
         _buffer.Update(LookbackPeriods, (truePrice, moneyFlow, direction));
@@ -130,9 +120,8 @@ public static partial class Mfi
     /// <summary>
     /// Creates a buffer list for Money Flow Index (MFI) calculations.
     /// </summary>
-    public static MfiList ToMfiList<TQuote>(
-        this IReadOnlyList<TQuote> quotes,
+    public static MfiList ToMfiList(
+        this IReadOnlyList<IQuote> quotes,
         int lookbackPeriods = 14)
-        where TQuote : IQuote
-        => new(lookbackPeriods) { (IReadOnlyList<IQuote>)quotes };
+        => new(lookbackPeriods) { quotes };
 }

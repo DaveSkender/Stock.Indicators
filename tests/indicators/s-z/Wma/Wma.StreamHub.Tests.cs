@@ -6,7 +6,7 @@ public class WmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
     private const int LookbackPeriods = 14;
 
     [TestMethod]
-    public override void QuoteObserver()
+    public void QuoteObserver()
     {
         List<Quote> quotesList = Quotes.ToList();
         int length = quotesList.Count;

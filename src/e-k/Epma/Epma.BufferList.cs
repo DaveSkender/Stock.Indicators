@@ -125,9 +125,8 @@ public static partial class Epma
     /// <summary>
     /// Creates a buffer list for Endpoint Moving Average (EPMA) calculations.
     /// </summary>
-    public static EpmaList ToEpmaList<T>(
-        this IReadOnlyList<T> source,
+    public static EpmaList ToEpmaList(
+        this IReadOnlyList<IReusable> source,
         int lookbackPeriods)
-        where T : IReusable
-        => new(lookbackPeriods) { (IReadOnlyList<IReusable>)source };
+        => new(lookbackPeriods) { source };
 }

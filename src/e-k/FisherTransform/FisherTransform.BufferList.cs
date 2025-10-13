@@ -133,9 +133,8 @@ public static partial class FisherTransform
     /// <summary>
     /// Creates a buffer list for Fisher Transform calculations.
     /// </summary>
-    public static FisherTransformList ToFisherTransformList<T>(
-        this IReadOnlyList<T> source,
+    public static FisherTransformList ToFisherTransformList(
+        this IReadOnlyList<IReusable> source,
         int lookbackPeriods = 10)
-        where T : IReusable
-        => new(lookbackPeriods) { (IReadOnlyList<IReusable>)source };
+        => new(lookbackPeriods) { source };
 }

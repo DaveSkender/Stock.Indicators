@@ -9,7 +9,7 @@ public class Adx : BufferListTestBase
        = Quotes.ToAdx(lookbackPeriods);
 
     [TestMethod]
-    public override void AddQuotes()
+    public void AddQuotes()
     {
         AdxList sut = new(lookbackPeriods);
 
@@ -23,7 +23,7 @@ public class Adx : BufferListTestBase
     }
 
     [TestMethod]
-    public override void AddQuotesBatch()
+    public void AddQuotesBatch()
     {
         AdxList sut = new(lookbackPeriods) { Quotes };
 
@@ -32,7 +32,7 @@ public class Adx : BufferListTestBase
     }
 
     [TestMethod]
-    public override void WithQuotesCtor()
+    public void WithQuotesCtor()
     {
         AdxList sut = new(lookbackPeriods, Quotes);
 

@@ -104,9 +104,8 @@ public static partial class Vwma
     /// <summary>
     /// Creates a buffer list for Volume Weighted Moving Average (VWMA) calculations.
     /// </summary>
-    public static VwmaList ToVwmaList<TQuote>(
-        this IReadOnlyList<TQuote> quotes,
+    public static VwmaList ToVwmaList(
+        this IReadOnlyList<IQuote> quotes,
         int lookbackPeriods)
-        where TQuote : IQuote
-        => new(lookbackPeriods) { (IReadOnlyList<IQuote>)quotes };
+        => new(lookbackPeriods) { quotes };
 }

@@ -1,7 +1,7 @@
 namespace BufferLists;
 
 [TestClass]
-public class StochRsi : BufferListTestBase, ITestReusableBufferList
+public class StochRsi : BufferListTestBase, ITestChainBufferList
 {
     private const int rsiPeriods = 14;
     private const int stochPeriods = 14;
@@ -17,7 +17,7 @@ public class StochRsi : BufferListTestBase, ITestReusableBufferList
        = Quotes.ToStochRsi(rsiPeriods, stochPeriods, signalPeriods, smoothPeriods);
 
     [TestMethod]
-    public override void AddQuotes()
+    public void AddQuotes()
     {
         StochRsiList sut = new(rsiPeriods, stochPeriods, signalPeriods, smoothPeriods);
 
@@ -31,7 +31,7 @@ public class StochRsi : BufferListTestBase, ITestReusableBufferList
     }
 
     [TestMethod]
-    public override void AddQuotesBatch()
+    public void AddQuotesBatch()
     {
         StochRsiList sut = Quotes.ToStochRsiList(rsiPeriods, stochPeriods, signalPeriods, smoothPeriods);
 
@@ -40,7 +40,7 @@ public class StochRsi : BufferListTestBase, ITestReusableBufferList
     }
 
     [TestMethod]
-    public override void WithQuotesCtor()
+    public void WithQuotesCtor()
     {
         StochRsiList sut = new(rsiPeriods, stochPeriods, signalPeriods, smoothPeriods, Quotes);
 

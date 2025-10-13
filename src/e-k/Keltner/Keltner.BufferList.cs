@@ -107,11 +107,10 @@ public static partial class Keltner
     /// <summary>
     /// Creates a buffer list for Keltner Channels calculations.
     /// </summary>
-    public static KeltnerList ToKeltnerList<TQuote>(
-        this IReadOnlyList<TQuote> quotes,
+    public static KeltnerList ToKeltnerList(
+        this IReadOnlyList<IQuote> quotes,
         int emaPeriods = 20,
         double multiplier = 2,
         int atrPeriods = 10)
-        where TQuote : IQuote
-        => new(emaPeriods, multiplier, atrPeriods) { (IReadOnlyList<IQuote>)quotes };
+        => new(emaPeriods, multiplier, atrPeriods) { quotes };
 }

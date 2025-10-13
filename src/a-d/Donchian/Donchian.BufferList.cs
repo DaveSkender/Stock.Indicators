@@ -108,9 +108,8 @@ public static partial class Donchian
     /// <summary>
     /// Creates a buffer list for Donchian Channels calculations.
     /// </summary>
-    public static DonchianList ToDonchianList<TQuote>(
-        this IReadOnlyList<TQuote> quotes,
+    public static DonchianList ToDonchianList(
+        this IReadOnlyList<IQuote> quotes,
         int lookbackPeriods = 20)
-        where TQuote : IQuote
-        => new(lookbackPeriods) { (IReadOnlyList<IQuote>)quotes };
+        => new(lookbackPeriods) { quotes };
 }

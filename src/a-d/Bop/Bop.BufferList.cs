@@ -88,9 +88,8 @@ public static partial class Bop
     /// <summary>
     /// Creates a buffer list for Balance of Power (BOP) calculations.
     /// </summary>
-    public static BopList ToBopList<TQuote>(
-        this IReadOnlyList<TQuote> quotes,
+    public static BopList ToBopList(
+        this IReadOnlyList<IQuote> quotes,
         int smoothPeriods = 14)
-        where TQuote : IQuote
-        => new(smoothPeriods) { (IReadOnlyList<IQuote>)quotes };
+        => new(smoothPeriods) { quotes };
 }

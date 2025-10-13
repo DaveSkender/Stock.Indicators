@@ -1,7 +1,7 @@
 namespace BufferLists;
 
 [TestClass]
-public class UlcerIndex : BufferListTestBase, ITestReusableBufferList
+public class UlcerIndex : BufferListTestBase, ITestChainBufferList
 {
     private const int lookbackPeriods = 14;
 
@@ -51,7 +51,7 @@ public class UlcerIndex : BufferListTestBase, ITestReusableBufferList
     }
 
     [TestMethod]
-    public override void AddQuotes()
+    public void AddQuotes()
     {
         UlcerIndexList sut = new(lookbackPeriods);
 
@@ -65,7 +65,7 @@ public class UlcerIndex : BufferListTestBase, ITestReusableBufferList
     }
 
     [TestMethod]
-    public override void AddQuotesBatch()
+    public void AddQuotesBatch()
     {
         UlcerIndexList sut = Quotes.ToUlcerIndexList(lookbackPeriods);
 
@@ -74,7 +74,7 @@ public class UlcerIndex : BufferListTestBase, ITestReusableBufferList
     }
 
     [TestMethod]
-    public override void WithQuotesCtor()
+    public void WithQuotesCtor()
     {
         UlcerIndexList sut = new(lookbackPeriods, Quotes);
 

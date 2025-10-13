@@ -7,9 +7,9 @@ public class HeikinAshi : BufferListTestBase
        = Quotes.ToHeikinAshi();
 
     [TestMethod]
-    public override void AddQuotes()
+    public void AddQuotes()
     {
-        HeikinAshiList sut = new();
+        HeikinAshiList sut = [];
 
         foreach (Quote quote in Quotes)
         {
@@ -21,7 +21,7 @@ public class HeikinAshi : BufferListTestBase
     }
 
     [TestMethod]
-    public override void AddQuotesBatch()
+    public void AddQuotesBatch()
     {
         HeikinAshiList sut = Quotes.ToHeikinAshiList();
 
@@ -30,7 +30,7 @@ public class HeikinAshi : BufferListTestBase
     }
 
     [TestMethod]
-    public override void WithQuotesCtor()
+    public void WithQuotesCtor()
     {
         HeikinAshiList sut = new(Quotes);
 

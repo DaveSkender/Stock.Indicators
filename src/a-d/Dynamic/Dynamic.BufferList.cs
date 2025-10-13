@@ -109,10 +109,9 @@ public static partial class MgDynamic
     /// <summary>
     /// Creates a buffer list for McGinley Dynamic calculations.
     /// </summary>
-    public static DynamicList ToDynamicList<T>(
-        this IReadOnlyList<T> source,
+    public static DynamicList ToDynamicList(
+        this IReadOnlyList<IReusable> source,
         int lookbackPeriods,
         double kFactor = 0.6)
-        where T : IReusable
-        => new(lookbackPeriods, kFactor) { (IReadOnlyList<IReusable>)source };
+        => new(lookbackPeriods, kFactor) { source };
 }

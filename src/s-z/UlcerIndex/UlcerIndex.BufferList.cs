@@ -111,9 +111,8 @@ public static partial class UlcerIndex
     /// <summary>
     /// Creates a buffer list for Ulcer Index calculations.
     /// </summary>
-    public static UlcerIndexList ToUlcerIndexList<T>(
-        this IReadOnlyList<T> source,
+    public static UlcerIndexList ToUlcerIndexList(
+        this IReadOnlyList<IReusable> source,
         int lookbackPeriods = 14)
-        where T : IReusable
-        => new(lookbackPeriods) { (IReadOnlyList<IReusable>)source };
+        => new(lookbackPeriods) { source };
 }

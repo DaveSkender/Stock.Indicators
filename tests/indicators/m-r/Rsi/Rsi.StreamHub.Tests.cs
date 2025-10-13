@@ -4,7 +4,7 @@ namespace StreamHub;
 public class RsiHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
 {
     [TestMethod]
-    public override void QuoteObserver()
+    public void QuoteObserver()
     {
         List<Quote> quotesList = Quotes.ToList();
 
