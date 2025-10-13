@@ -46,4 +46,25 @@ public class StarcBandsTests : TestBase
         lowerbandResult2?.DisplayName.Should().Be("Lower Band");
         lowerbandResult2.IsReusable.Should().Be(false);
     }
+
+    [TestMethod]
+    public void StarcBandsBufferListing()
+    {
+        // Act
+        IndicatorListing listing = StarcBands.BufferListing;
+
+        // Assert
+        listing.Should().NotBeNull();
+        listing.Name.Should().Be("STARC Bands");
+        listing.Uiid.Should().Be("STARC");
+        listing.Style.Should().Be(Style.Buffer);
+        listing.Category.Should().Be(Category.PriceChannel);
+        listing.MethodName.Should().Be("ToStarcBandsList");
+
+        listing.Parameters.Should().NotBeNull();
+        listing.Parameters.Should().HaveCount(3);
+
+        listing.Results.Should().NotBeNull();
+        listing.Results.Should().HaveCount(3);
+    }
 }

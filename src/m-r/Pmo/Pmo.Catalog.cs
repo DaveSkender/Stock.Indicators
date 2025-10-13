@@ -22,6 +22,11 @@ public static partial class Pmo
             .WithStyle(Style.Series)
             .Build();
 
+    // Price Momentum Oscillator Buffer Listing
+    internal static readonly IndicatorListing BufferListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Buffer)
+            .Build();
+
     // No StreamListing for PMO.
-    // No BufferListing for PMO.
 }
