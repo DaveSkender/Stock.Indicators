@@ -111,7 +111,7 @@ public static partial class Cci
     /// <param name="quotes">The collection of quotes.</param>
     /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
     /// <returns>An instance of <see cref="CciHub{TQuote}"/>.</returns>
-    public static CciHub<TQuote> ToCci<TQuote>(
+    public static CciHub<TQuote> ToCciHub<TQuote>(
         this IReadOnlyList<TQuote> quotes,
         int lookbackPeriods = 20)
         where TQuote : IQuote

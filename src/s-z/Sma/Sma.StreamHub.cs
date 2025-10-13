@@ -83,7 +83,7 @@ public static partial class Sma
     /// <param name="quotes">The collection of quotes.</param>
     /// <param name="lookbackPeriods">The number of lookback periods.</param>
     /// <returns>An instance of <see cref="SmaHub{TQuote}"/>.</returns>
-    public static SmaHub<TQuote> ToSma<TQuote>(
+    public static SmaHub<TQuote> ToSmaHub<TQuote>(
         this IReadOnlyList<TQuote> quotes,
         int lookbackPeriods)
         where TQuote : IQuote

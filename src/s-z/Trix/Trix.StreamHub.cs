@@ -1,25 +1,5 @@
 namespace Skender.Stock.Indicators;
 
-/// <summary>
-/// Provides methods for calculating the Triple Exponential Moving Average Oscillator (TRIX) indicator.
-/// </summary>
-public static partial class Trix
-{
-    /// <summary>
-    /// Creates a TRIX streaming hub from a chain provider.
-    /// </summary>
-    /// <typeparam name="T">The type of the reusable data.</typeparam>
-    /// <param name="chainProvider">The chain provider.</param>
-    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
-    /// <returns>A TRIX hub.</returns>
-    /// <exception cref="ArgumentNullException">Thrown when the chain provider is null.</exception>
-    /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
-    public static TrixHub<T> ToTrix<T>(
-        this IChainProvider<T> chainProvider,
-        int lookbackPeriods = 14)
-        where T : IReusable
-        => new(chainProvider, lookbackPeriods);
-}
 
 /// <summary>
 /// Streaming hub for Triple Exponential Moving Average Oscillator (TRIX) calculations.
@@ -152,4 +132,41 @@ public class TrixHub<TIn>
 
         return (lastEma1, lastEma2, lastEma3, lastEma3, trix);
     }
+
 }
+
+
+public static partial class Trix
+{
+    /// <summary>
+    /// Creates a TRIX streaming hub from a chain provider.
+    /// </summary>
+    /// <typeparam name="T">The type of the reusable data.</typeparam>
+    /// <param name="chainProvider">The chain provider.</param>
+    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
+    /// <returns>A TRIX hub.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when the chain provider is null.</exception>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
+    public static TrixHub<T> ToTrix<T>(
+        this IChainProvider<T> chainProvider,
+        int lookbackPeriods = 14)
+        where T : IReusable
+        => new(chainProvider, lookbackPeriods);
+
+    /// <summary>
+    /// Creates a Trix hub from a collection of quotes.
+    /// </summary>
+    /// <typeparam name="TQuote">The type of the quote.</typeparam>
+    /// <param name="quotes">The collection of quotes.</param>
+    /// <param name="14">Parameter for the calculation.</param>
+    /// <returns>An instance of <see cref="TrixHub{TQuote}"/>.</returns>
+    public static TrixHub<TQuote> ToTrixHub<TQuote>(
+        this IReadOnlyList<TQuote> quotes, int lookbackPeriods = 14)
+        where TQuote : IQuote
+    {
+        QuoteHub<TQuote> quoteHub = new();
+        quoteHub.Add(quotes);
+        return quoteHub.ToTrix(14);
+    }
+}
+

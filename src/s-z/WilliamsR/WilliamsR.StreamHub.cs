@@ -1,27 +1,5 @@
 namespace Skender.Stock.Indicators;
 
-// WILLIAMS %R (STREAM HUB)
-
-/// <summary>
-/// Provides methods for creating Williams %R hubs.
-/// </summary>
-public static partial class WilliamsR
-{
-    /// <summary>
-    /// Converts the quote provider to a Williams %R hub.
-    /// </summary>
-    /// <typeparam name="TIn">The type of the input.</typeparam>
-    /// <param name="quoteProvider">The quote provider.</param>
-    /// <param name="lookbackPeriods">The lookback period for Williams %R.</param>
-    /// <returns>A Williams %R hub.</returns>
-    /// <exception cref="ArgumentNullException">Thrown when the quote provider is null.</exception>
-    /// <exception cref="ArgumentOutOfRangeException">Thrown when parameters are invalid.</exception>
-    public static WilliamsRHub<TIn> ToWilliamsR<TIn>(
-        this IStreamObservable<TIn> quoteProvider,
-        int lookbackPeriods = 14)
-        where TIn : IQuote
-        => new(quoteProvider, lookbackPeriods);
-}
 
 /// <summary>
 /// Represents a Williams %R stream hub.
@@ -122,4 +100,41 @@ public class WilliamsRHub<TIn>
     }
 
     #endregion
+
 }
+
+
+public static partial class WilliamsR
+{
+    /// <summary>
+    /// Converts the quote provider to a Williams %R hub.
+    /// </summary>
+    /// <typeparam name="TIn">The type of the input.</typeparam>
+    /// <param name="quoteProvider">The quote provider.</param>
+    /// <param name="lookbackPeriods">The lookback period for Williams %R.</param>
+    /// <returns>A Williams %R hub.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when the quote provider is null.</exception>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when parameters are invalid.</exception>
+    public static WilliamsRHub<TIn> ToWilliamsR<TIn>(
+        this IStreamObservable<TIn> quoteProvider,
+        int lookbackPeriods = 14)
+        where TIn : IQuote
+        => new(quoteProvider, lookbackPeriods);
+
+    /// <summary>
+    /// Creates a WilliamsR hub from a collection of quotes.
+    /// </summary>
+    /// <typeparam name="TQuote">The type of the quote.</typeparam>
+    /// <param name="quotes">The collection of quotes.</param>
+    /// <param name="14">Parameter for the calculation.</param>
+    /// <returns>An instance of <see cref="WilliamsRHub{TQuote}"/>.</returns>
+    public static WilliamsRHub<TQuote> ToWilliamsRHub<TQuote>(
+        this IReadOnlyList<TQuote> quotes, int lookbackPeriods = 14)
+        where TQuote : IQuote
+    {
+        QuoteHub<TQuote> quoteHub = new();
+        quoteHub.Add(quotes);
+        return quoteHub.ToWilliamsR(14);
+    }
+}
+
