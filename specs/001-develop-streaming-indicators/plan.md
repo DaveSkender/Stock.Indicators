@@ -391,12 +391,15 @@ No violations—section intentionally empty.
 - [x] Phase 1: Design complete (/plan command)
 - [ ] Phase 2: Task planning complete (/plan command - describe approach only)
 - [ ] Phase 3: Tasks generated (/tasks command)
-- [ ] Phase 4: Implementation complete (**GATE: Only when ALL BufferList indicators (80+) are implemented and ALL buffer-list.md checklist items are covered for each.**)
-- [ ] Phase 5: Validation passed (**GATE: Only when ALL BufferList indicators pass all unit, regression, and parity tests, and all checklist items are marked complete for every indicator.**)
+- [ ] Phase 4: Implementation complete (**GATE: Only when ALL instruction file compliance audit tasks (A001-A006) are complete AND all BufferList/StreamHub implementations comply with refined instruction files.**)
+- [ ] Phase 5: Validation passed (**GATE: Only when ALL implementations pass simplified checklists (15-18 items each) and demonstrate constitution compliance.**)
 
-> **Note:**
+> **Critical Update** (October 12, 2025):
 >
-> - As of October 9, 2025, only a subset of BufferList indicators are implemented and even those do not have all 100+ checklist items in buffer-list.md marked complete. Many gaps remain in requirements coverage, edge case handling, and documentation for both implemented and pending indicators. See buffer-list.md for detailed checklist status and gaps.
+> - Current status: 59 BufferList + 40 StreamHub implementations exist but many lack compliance with refined instruction files
+> - **NEW PRIORITY**: Instruction file compliance audit (tasks A001-A006) must complete before Phase 4
+> - Checklists simplified from 135-145 items to 15-18 essential items to comply with Constitution Principle 6 (Simplicity over Feature Creep)
+> - Progress gates now emphasize constitution compliance and instruction file adherence over raw implementation counts
 
 **Gate status**:
 

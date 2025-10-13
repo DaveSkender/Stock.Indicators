@@ -142,13 +142,20 @@ The following indicators serve as reference implementations for pattern validati
 
 ### Quality validation checklists
 
-Before implementing each indicator, review requirements against:
+**Purpose**: Validate requirement quality and completeness before implementation, ensuring constitution compliance and instruction file adherence.
 
-- **BufferList implementations**: [checklists/buffer-list.md](checklists/buffer-list.md) — 135 items
-- **StreamHub implementations**: [checklists/stream-hub.md](checklists/stream-hub.md) — 145 items
-- **Regression testing**: [checklists/regression-testing.md](checklists/regression-testing.md) — 84 items
+Review requirements against these simplified checklists:
 
-These validate requirements completeness, clarity, consistency, measurability, scenario coverage, and alignment with constitution principles.
+- **BufferList implementations**: [checklists/buffer-list.md](checklists/buffer-list.md) — 15 essential validation items
+- **StreamHub implementations**: [checklists/stream-hub.md](checklists/stream-hub.md) — 18 essential validation items
+
+These validate requirements for:
+
+- Constitution principle compliance (mathematical precision, performance, validation, testing, documentation)
+- Instruction file adherence (base classes, interfaces, test patterns, utilities)  
+- Essential quality gates (clarity, completeness, consistency, verifiability)
+
+**Note**: Checklists validate requirement quality, not implementation completeness. They ensure specifications are well-written and comprehensive before coding begins.
 
 ---
 

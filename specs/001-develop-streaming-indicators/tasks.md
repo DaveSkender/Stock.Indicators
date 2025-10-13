@@ -5,17 +5,16 @@
 
 ## Requirements Quality Validation
 
-Before implementing each indicator, review the corresponding checklist for requirements validation:
+Before implementing each indicator, review the corresponding simplified checklist for requirements validation:
 
-- **BufferList style**: [checklists/buffer-list.md](checklists/buffer-list.md) — 113 validation items
-- **StreamHub style**: [checklists/stream-hub.md](checklists/stream-hub.md) — 115 validation items
+- **BufferList style**: [checklists/buffer-list.md](checklists/buffer-list.md) — 15 essential validation items
+- **StreamHub style**: [checklists/stream-hub.md](checklists/stream-hub.md) — 18 essential validation items
 
-These checklists ensure:
+These simplified checklists ensure:
 
-- Deterministic mathematical equality (no approximate equality assertions)
-- Proper test interface implementation (`ITestReusableBufferList`, `ITestNonStandardBufferListCache`)
-- Complete coverage of edge cases, error conditions, and performance expectations
-- Alignment with constitution principles and instruction file patterns
+- Constitution compliance (mathematical precision, performance, validation, testing, documentation)
+- Instruction file adherence (base classes, interfaces, test patterns, utilities)
+- Essential quality gates (clarity, completeness, consistency, verifiability)
 
 ## Format: `[ID] Description`
 
@@ -29,7 +28,55 @@ Paths assume the single-project layout at the repository root:
 - Source: `src/`
 - Tests: `tests/`
 
-## Missing BufferList Implementations
+## Instruction File Compliance Audit (NEW - CRITICAL)
+
+The following tasks address gaps between existing implementations and current instruction file requirements:
+
+### Core Compliance Audit
+
+- [ ] **A001**: Audit existing BufferList implementations for instruction file compliance (`src/**/*.BufferList.cs` against `.github/instructions/indicator-buffer.instructions.md`)
+  - [ ] Verify correct base class inheritance (`BufferList<TResult>`)
+  - [ ] Check interface implementation (`IIncrementFromChain`/`IIncrementFromQuote`/`IIncrementFromPairs`)
+  - [ ] Validate constructor patterns (params-only and params+quotes variants)
+  - [ ] Confirm `BufferUtilities` usage instead of manual buffer management
+  - [ ] Check member ordering per instruction file conventions
+
+- [ ] **A002**: Audit existing StreamHub implementations for instruction file compliance (`src/**/*.StreamHub.cs` against `.github/instructions/indicator-stream.instructions.md`)
+  - [ ] Verify correct provider base (`ChainProvider`/`QuoteProvider`/`PairsProvider`)
+  - [ ] Check test interface implementation requirements
+  - [ ] Validate provider history testing coverage (Insert/Remove scenarios)
+  - [ ] Confirm performance benchmarking inclusion
+  - [ ] Check member ordering per instruction file conventions
+
+### Test Compliance Audit
+
+- [ ] **A003**: Audit BufferList test classes for compliance (`tests/**/*.BufferList.Tests.cs`)
+  - [ ] Verify inheritance from `BufferListTestBase` (not `TestBase`)
+  - [ ] Check implementation of correct test interfaces
+  - [ ] Validate coverage of 5 required test methods
+  - [ ] Confirm Series parity validation patterns
+
+- [ ] **A004**: Audit StreamHub test classes for compliance (`tests/**/*.StreamHub.Tests.cs`)
+  - [ ] Verify inheritance from `StreamHubTestBase`
+  - [ ] Check implementation of correct test interfaces per provider pattern
+  - [ ] Validate provider history testing (Insert/Remove scenarios)
+  - [ ] Confirm performance benchmarking inclusion
+
+### Documentation Compliance
+
+- [ ] **A005**: Update indicator documentation pages for instruction file compliance
+  - [ ] Ensure streaming usage sections reference instruction files
+  - [ ] Update examples to match current API patterns
+  - [ ] Verify consistency with catalog entries
+
+### Implementation Gap Analysis
+
+- [ ] **A006**: Identify and prioritize instruction file compliance gaps
+  - [ ] Create priority matrix based on constitution principle violations
+  - [ ] Document specific remediation steps for high-priority gaps
+  - [ ] Estimate effort for bringing existing implementations into compliance
+
+**Note**: These audit tasks are essential for ensuring the existing 59 BufferList and 40 StreamHub implementations comply with the refined instruction file requirements developed since the original spec kit plans.
 
 The following indicators have series-style implementations but lack BufferList implementations:
 
