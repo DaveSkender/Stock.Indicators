@@ -158,6 +158,10 @@ public static partial class T3
     /// <summary>
     /// Creates a buffer list for T3 calculations.
     /// </summary>
+    /// <param name="source">The source list of reusable values.</param>
+    /// <param name="lookbackPeriods">The number of lookback periods (default is 5).</param>
+    /// <param name="volumeFactor">The volume smoothing factor (default is 0.7).</param>
+    /// <returns>A buffer list for T3 calculations.</returns>
     public static T3List ToT3List(
         this IReadOnlyList<IReusable> source,
         int lookbackPeriods = 5,
