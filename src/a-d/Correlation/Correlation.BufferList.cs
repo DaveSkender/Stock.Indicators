@@ -137,12 +137,11 @@ public static partial class Correlation
     /// <summary>
     /// Creates a buffer list for Correlation calculations from two synchronized series.
     /// </summary>
-    public static CorrelationList ToCorrelationList<T>(
-        this IReadOnlyList<T> valuesA,
-        IReadOnlyList<T> valuesB,
+    public static CorrelationList ToCorrelationList(
+        this IReadOnlyList<IReusable> valuesA,
+        IReadOnlyList<IReusable> valuesB,
         int lookbackPeriods)
-        where T : IReusable
-        => new(lookbackPeriods, (IReadOnlyList<IReusable>)valuesA, (IReadOnlyList<IReusable>)valuesB);
+        => new(lookbackPeriods, valuesA, valuesB);
 
     /// <summary>
     /// Validates the parameters for correlation calculations.

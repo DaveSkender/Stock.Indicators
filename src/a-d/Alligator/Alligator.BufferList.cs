@@ -264,7 +264,6 @@ public static partial class Alligator
     /// <summary>
     /// Creates a buffer list for Alligator calculations.
     /// </summary>
-    /// <typeparam name="T">The type that implements IReusable.</typeparam>
     /// <param name="source">Time-series values to transform.</param>
     /// <param name="jawPeriods">Lookback periods for the Jaw line. Default is 13.</param>
     /// <param name="jawOffset">Offset periods for the Jaw line. Default is 8.</param>
@@ -275,14 +274,13 @@ public static partial class Alligator
     /// <returns>An AlligatorList instance pre-populated with historical data.</returns>
     /// <exception cref="ArgumentNullException">Thrown when source is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when parameters are invalid.</exception>
-    public static AlligatorList ToAlligatorList<T>(
-        this IReadOnlyList<T> source,
+    public static AlligatorList ToAlligatorList(
+        this IReadOnlyList<IReusable> source,
         int jawPeriods = 13,
         int jawOffset = 8,
         int teethPeriods = 8,
         int teethOffset = 5,
         int lipsPeriods = 5,
         int lipsOffset = 3)
-        where T : IReusable
-        => new(jawPeriods, jawOffset, teethPeriods, teethOffset, lipsPeriods, lipsOffset) { (IReadOnlyList<IReusable>)source };
+        => new(jawPeriods, jawOffset, teethPeriods, teethOffset, lipsPeriods, lipsOffset) { source };
 }

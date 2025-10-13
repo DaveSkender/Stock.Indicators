@@ -105,9 +105,8 @@ public static partial class Cmf
     /// <summary>
     /// Creates a buffer list for Chaikin Money Flow (CMF) calculations.
     /// </summary>
-    public static CmfList ToCmfList<TQuote>(
-        this IReadOnlyList<TQuote> quotes,
+    public static CmfList ToCmfList(
+        this IReadOnlyList<IQuote> quotes,
         int lookbackPeriods = 20)
-        where TQuote : IQuote
-        => new(lookbackPeriods) { (IReadOnlyList<IQuote>)quotes };
+        => new(lookbackPeriods) { quotes };
 }

@@ -281,9 +281,9 @@ Spec Kit instructions work alongside existing scoped instructions:
 |-------------------|-------------------------|
 | `plan.md` code examples | `.github/instructions/source-code-completion.instructions.md` |
 | `quickstart.md` test scenarios | `.github/instructions/source-code-completion.instructions.md` |
-| Series indicator specs | `.github/instructions/series-indicators.instructions.md` |
-| Stream indicator specs | `.github/instructions/stream-indicators.instructions.md` |
-| Buffer indicator specs | `.github/instructions/buffer-indicators.instructions.md` |
+| Series indicator specs | `.github/instructions/indicator-series.instructions.md` |
+| Stream indicator specs | `.github/instructions/indicator-stream.instructions.md` |
+| Buffer indicator specs | `.github/instructions/indicator-buffer.instructions.md` |
 | Performance specs | `.github/instructions/performance-testing.instructions.md` |
 | Any markdown files | `.github/instructions/markdown.instructions.md` |
 | Documentation specs | `.github/instructions/documentation.instructions.md` |

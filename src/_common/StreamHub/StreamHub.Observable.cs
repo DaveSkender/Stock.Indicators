@@ -48,7 +48,7 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamObservable<TOut>
     /// <param name="observer">
     /// Your unique subscription as provided.
     /// </param>
-    private class Unsubscriber(
+    private sealed class Unsubscriber(
         ISet<IStreamObserver<TOut>> observers,
         IStreamObserver<TOut> observer) : IDisposable
     {

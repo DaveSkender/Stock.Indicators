@@ -146,9 +146,8 @@ public static partial class Rsi
     /// <summary>
     /// Creates a buffer list for Relative Strength Index (RSI) calculations.
     /// </summary>
-    public static RsiList ToRsiList<T>(
-        this IReadOnlyList<T> source,
+    public static RsiList ToRsiList(
+        this IReadOnlyList<IReusable> source,
         int lookbackPeriods)
-        where T : IReusable
-        => new(lookbackPeriods) { (IReadOnlyList<IReusable>)source };
+        => new(lookbackPeriods) { source };
 }

@@ -1,3 +1,3 @@
 global using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-[assembly: Parallelize]
+[assembly: Parallelize(Scope = ExecutionScope.MethodLevel, Workers = 0)]

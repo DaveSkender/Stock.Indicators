@@ -1,10 +1,10 @@
 namespace StreamHub;
 
 [TestClass]
-public class TemaHub : StreamHubTestBase, ITestChainProvider
+public class TemaHub : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
 {
     [TestMethod]
-    public override void QuoteObserver()
+    public void QuoteObserver()
     {
         const int lookbackPeriods = 20;
 

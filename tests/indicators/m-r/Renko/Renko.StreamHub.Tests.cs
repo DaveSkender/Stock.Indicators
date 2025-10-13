@@ -1,10 +1,10 @@
 namespace StreamHub;
 
 [TestClass]
-public class RenkoHub : StreamHubTestBase, ITestChainProvider
+public class RenkoHub : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
 {
     [TestMethod]
-    public override void QuoteObserver()
+    public void QuoteObserver()
     {
         const decimal brickSize = 2.5m;
         const EndType endType = EndType.HighLow;

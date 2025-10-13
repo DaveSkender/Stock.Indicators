@@ -1,7 +1,7 @@
 namespace BufferLists;
 
 [TestClass]
-public class Dema : BufferListTestBase, ITestReusableBufferList
+public class Dema : BufferListTestBase, ITestChainBufferList
 {
     private const int lookbackPeriods = 14;
 
@@ -14,7 +14,7 @@ public class Dema : BufferListTestBase, ITestReusableBufferList
        = Quotes.ToDema(lookbackPeriods);
 
     [TestMethod]
-    public override void AddQuotes()
+    public void AddQuotes()
     {
         DemaList sut = new(lookbackPeriods);
 
@@ -28,7 +28,7 @@ public class Dema : BufferListTestBase, ITestReusableBufferList
     }
 
     [TestMethod]
-    public override void AddQuotesBatch()
+    public void AddQuotesBatch()
     {
         DemaList sut = Quotes.ToDemaList(lookbackPeriods);
 
@@ -37,7 +37,7 @@ public class Dema : BufferListTestBase, ITestReusableBufferList
     }
 
     [TestMethod]
-    public override void WithQuotesCtor()
+    public void WithQuotesCtor()
     {
         DemaList sut = new(lookbackPeriods, Quotes);
 

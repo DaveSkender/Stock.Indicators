@@ -1,30 +1,14 @@
 namespace Skender.Stock.Indicators;
 
-// ADX (STREAM HUB)
-
-public static partial class Adx
-{
-    /// <summary>
-    /// Creates a stream hub for ADX indicator calculations.
-    /// </summary>
-    public static AdxHub<TIn> ToAdxHub<TIn>(
-        this IQuoteProvider<TIn> quoteProvider,
-        int lookbackPeriods = 14)
-        where TIn : IQuote
-        => new(quoteProvider, lookbackPeriods);
-}
-
 /// <summary>
 /// Represents a stream hub for calculating the Average Directional Index (ADX).
 /// </summary>
 /// <typeparam name="TIn">The type of the input.</typeparam>
 /// <inheritdoc cref="IAdx"/>
 public class AdxHub<TIn>
-   : StreamHub<TIn, AdxResult>, IAdx
+    : ChainProvider<TIn, AdxResult>, IAdx
    where TIn : IQuote
 {
-    #region constructors
-
     private readonly string hubName;
 
     /// <summary>
@@ -52,10 +36,6 @@ public class AdxHub<TIn>
         Reinitialize();
     }
 
-    #endregion
-
-    #region properties
-
     /// <summary>
     /// Gets the lookback periods.
     /// </summary>
@@ -74,8 +54,6 @@ public class AdxHub<TIn>
     private double _sumPdm;
     private double _sumMdm;
     private double _sumDx;
-
-    #endregion
 
     // METHODS
 
@@ -243,4 +221,160 @@ public class AdxHub<TIn>
 
         return (result, i);
     }
+
+    /// <summary>
+    /// Restore rolling state up to the specified timestamp for accurate rebuilds.
+    /// </summary>
+    protected override void RollbackState(DateTime timestamp)
+    {
+        // Reset all state
+        _isFirstPeriod = true;
+        _prevHigh = 0;
+        _prevLow = 0;
+        _prevClose = 0;
+        _prevTrs = 0;
+        _prevPdm = 0;
+        _prevMdm = 0;
+        _prevAdx = 0;
+        _sumTr = 0;
+        _sumPdm = 0;
+        _sumMdm = 0;
+        _sumDx = 0;
+
+        if (timestamp <= DateTime.MinValue || ProviderCache.Count == 0)
+        {
+            return;
+        }
+
+        // Find the first index at or after timestamp
+        int index = ProviderCache.IndexGte(timestamp);
+
+        if (index <= 0)
+        {
+            // Rolling back before all data, keep cleared state
+            return;
+        }
+
+        // We need to rebuild state up to the index before timestamp
+        // (since IndexGte gives us first index >= timestamp)
+        int targetIndex = index - 1;
+
+        for (int i = 0; i <= targetIndex; i++)
+        {
+            TIn item = ProviderCache[i];
+
+            double high = (double)item.High;
+            double low = (double)item.Low;
+            double close = (double)item.Close;
+
+            if (_isFirstPeriod)
+            {
+                _prevHigh = high;
+                _prevLow = low;
+                _prevClose = close;
+                _isFirstPeriod = false;
+                continue;
+            }
+
+            double hmpc = Math.Abs(high - _prevClose);
+            double lmpc = Math.Abs(low - _prevClose);
+            double hmph = high - _prevHigh;
+            double plml = _prevLow - low;
+
+            double tr = Math.Max(high - low, Math.Max(hmpc, lmpc));
+            double pdm1 = hmph > plml ? Math.Max(hmph, 0) : 0;
+            double mdm1 = plml > hmph ? Math.Max(plml, 0) : 0;
+
+            if (i < LookbackPeriods)
+            {
+                _sumTr += tr;
+                _sumPdm += pdm1;
+                _sumMdm += mdm1;
+            }
+            else if (i == LookbackPeriods)
+            {
+                _sumTr += tr;
+                _sumPdm += pdm1;
+                _sumMdm += mdm1;
+                _prevTrs = _sumTr;
+                _prevPdm = _sumPdm;
+                _prevMdm = _sumMdm;
+
+                double? pdi = _prevTrs != 0 ? 100 * _prevPdm / _prevTrs : null;
+                double? mdi = _prevTrs != 0 ? 100 * _prevMdm / _prevTrs : null;
+                if (pdi.HasValue && mdi.HasValue)
+                {
+                    double dx = pdi.Value + mdi.Value != 0
+                        ? 100 * Math.Abs(pdi.Value - mdi.Value) / (pdi.Value + mdi.Value)
+                        : 0;
+                    _sumDx = dx;
+                }
+            }
+            else if (i < (2 * LookbackPeriods) - 1)
+            {
+                _prevTrs = _prevTrs - (_prevTrs / LookbackPeriods) + tr;
+                _prevPdm = _prevPdm - (_prevPdm / LookbackPeriods) + pdm1;
+                _prevMdm = _prevMdm - (_prevMdm / LookbackPeriods) + mdm1;
+
+                double? pdi = _prevTrs != 0 ? 100 * _prevPdm / _prevTrs : null;
+                double? mdi = _prevTrs != 0 ? 100 * _prevMdm / _prevTrs : null;
+                if (pdi.HasValue && mdi.HasValue)
+                {
+                    double dx = pdi.Value + mdi.Value != 0
+                        ? 100 * Math.Abs(pdi.Value - mdi.Value) / (pdi.Value + mdi.Value)
+                        : 0;
+                    _sumDx += dx;
+                }
+            }
+            else if (i == (2 * LookbackPeriods) - 1)
+            {
+                _prevTrs = _prevTrs - (_prevTrs / LookbackPeriods) + tr;
+                _prevPdm = _prevPdm - (_prevPdm / LookbackPeriods) + pdm1;
+                _prevMdm = _prevMdm - (_prevMdm / LookbackPeriods) + mdm1;
+
+                double? pdi = _prevTrs != 0 ? 100 * _prevPdm / _prevTrs : null;
+                double? mdi = _prevTrs != 0 ? 100 * _prevMdm / _prevTrs : null;
+                if (pdi.HasValue && mdi.HasValue)
+                {
+                    double dx = pdi.Value + mdi.Value != 0
+                        ? 100 * Math.Abs(pdi.Value - mdi.Value) / (pdi.Value + mdi.Value)
+                        : 0;
+                    _sumDx += dx;
+                    _prevAdx = _sumDx / LookbackPeriods;
+                }
+            }
+            else
+            {
+                _prevTrs = _prevTrs - (_prevTrs / LookbackPeriods) + tr;
+                _prevPdm = _prevPdm - (_prevPdm / LookbackPeriods) + pdm1;
+                _prevMdm = _prevMdm - (_prevMdm / LookbackPeriods) + mdm1;
+
+                double? pdi = _prevTrs != 0 ? 100 * _prevPdm / _prevTrs : null;
+                double? mdi = _prevTrs != 0 ? 100 * _prevMdm / _prevTrs : null;
+                if (pdi.HasValue && mdi.HasValue)
+                {
+                    double dx = pdi.Value + mdi.Value != 0
+                        ? 100 * Math.Abs(pdi.Value - mdi.Value) / (pdi.Value + mdi.Value)
+                        : 0;
+                    _prevAdx = ((_prevAdx * (LookbackPeriods - 1)) + dx) / LookbackPeriods;
+                }
+            }
+
+            _prevHigh = high;
+            _prevLow = low;
+            _prevClose = close;
+        }
+    }
+}
+
+public static partial class Adx
+{
+    /// <summary>
+    /// Creates a stream hub for ADX indicator calculations.
+    /// </summary>
+    public static AdxHub<TIn> ToAdxHub<TIn>(
+        this IQuoteProvider<TIn> quoteProvider,
+        int lookbackPeriods = 14)
+        where TIn : IQuote
+        => new(quoteProvider, lookbackPeriods);
 }

@@ -1,20 +1,18 @@
 namespace BufferLists;
 
 [TestClass]
-public class Ema : BufferListTestBase, ITestReusableBufferList
+public class Ema : BufferListTestBase, ITestChainBufferList
 {
     private const int lookbackPeriods = 14;
 
     private static readonly IReadOnlyList<IReusable> reusables
-       = Quotes
-        .Cast<IReusable>()
-        .ToList();
+       = Quotes.Cast<IReusable>().ToList();
 
     private static readonly IReadOnlyList<EmaResult> series
        = Quotes.ToEma(lookbackPeriods);
 
     [TestMethod]
-    public override void AddQuotes()
+    public void AddQuotes()
     {
         EmaList sut = new(lookbackPeriods);
 
@@ -25,19 +23,16 @@ public class Ema : BufferListTestBase, ITestReusableBufferList
     }
 
     [TestMethod]
-    public override void AddQuotesBatch()
+    public void AddQuotesBatch()
     {
-        EmaList sut = new(lookbackPeriods) { Quotes };
-
-        IReadOnlyList<EmaResult> series
-            = Quotes.ToEma(lookbackPeriods);
+        EmaList sut = Quotes.ToEmaList(lookbackPeriods);
 
         sut.Should().HaveCount(Quotes.Count);
         sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
     }
 
     [TestMethod]
-    public override void WithQuotesCtor()
+    public void WithQuotesCtor()
     {
         EmaList sut = new(lookbackPeriods, Quotes);
 

@@ -1,7 +1,7 @@
 namespace BufferLists;
 
 [TestClass]
-public class Awesome : BufferListTestBase, ITestReusableBufferList
+public class Awesome : BufferListTestBase, ITestChainBufferList
 {
     private const int fastPeriods = 5;
     private const int slowPeriods = 34;
@@ -52,7 +52,7 @@ public class Awesome : BufferListTestBase, ITestReusableBufferList
     }
 
     [TestMethod]
-    public override void AddQuotes()
+    public void AddQuotes()
     {
         AwesomeList sut = new(fastPeriods, slowPeriods);
 
@@ -66,7 +66,7 @@ public class Awesome : BufferListTestBase, ITestReusableBufferList
     }
 
     [TestMethod]
-    public override void AddQuotesBatch()
+    public void AddQuotesBatch()
     {
         AwesomeList sut = new(fastPeriods, slowPeriods) { Quotes };
 
@@ -75,7 +75,7 @@ public class Awesome : BufferListTestBase, ITestReusableBufferList
     }
 
     [TestMethod]
-    public override void WithQuotesCtor()
+    public void WithQuotesCtor()
     {
         AwesomeList sut = new(fastPeriods, slowPeriods, Quotes);
 

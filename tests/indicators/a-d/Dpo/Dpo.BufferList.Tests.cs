@@ -1,7 +1,7 @@
 namespace BufferLists;
 
 [TestClass]
-public class Dpo : BufferListTestBase, ITestReusableBufferList
+public class Dpo : BufferListTestBase, ITestChainBufferList
 {
     private const int lookbackPeriods = 20;
 
@@ -61,7 +61,7 @@ public class Dpo : BufferListTestBase, ITestReusableBufferList
     }
 
     [TestMethod]
-    public override void AddQuotes()
+    public void AddQuotes()
     {
         DpoList sut = new(lookbackPeriods);
 
@@ -78,7 +78,7 @@ public class Dpo : BufferListTestBase, ITestReusableBufferList
     }
 
     [TestMethod]
-    public override void AddQuotesBatch()
+    public void AddQuotesBatch()
     {
         DpoList sut = Quotes.ToDpoList(lookbackPeriods);
 
@@ -90,7 +90,7 @@ public class Dpo : BufferListTestBase, ITestReusableBufferList
     }
 
     [TestMethod]
-    public override void WithQuotesCtor()
+    public void WithQuotesCtor()
     {
         DpoList sut = new(lookbackPeriods, Quotes);
 
