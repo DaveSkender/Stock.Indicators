@@ -1,7 +1,7 @@
 namespace BufferLists;
 
 [TestClass]
-public class Renko : BufferListTestBase
+public class Renko : BufferListTestBase, ITestQuoteBufferList
 {
     private const decimal brickSize = 1.0m;
     private const EndType endType = EndType.Close;
@@ -10,7 +10,7 @@ public class Renko : BufferListTestBase
        = Quotes.ToRenko(brickSize, endType);
 
     [TestMethod]
-    public void AddQuotes()
+    public void AddQuote_IncrementsResults()
     {
         RenkoList sut = new(brickSize, endType);
 
@@ -24,7 +24,7 @@ public class Renko : BufferListTestBase
     }
 
     [TestMethod]
-    public void AddQuotesBatch()
+    public void AddQuotesBatch_IncrementsResults()
     {
         RenkoList sut = new(brickSize, endType) { Quotes };
 
@@ -33,7 +33,7 @@ public class Renko : BufferListTestBase
     }
 
     [TestMethod]
-    public void WithQuotesCtor()
+    public void QuotesCtor_OnInstantiation_IncrementsResults()
     {
         RenkoList sut = new(brickSize, endType, Quotes);
 
@@ -42,7 +42,7 @@ public class Renko : BufferListTestBase
     }
 
     [TestMethod]
-    public override void ClearResetsState()
+    public override void Clear_WithState_ResetsState()
     {
         List<Quote> subset = Quotes.Take(80).ToList();
 
@@ -66,7 +66,7 @@ public class Renko : BufferListTestBase
     }
 
     [TestMethod]
-    public override void AutoListPruning()
+    public override void PruneList_OverMaxListSize_AutoAdjustsListAndBuffers()
     {
         const int maxListSize = 80;
 
