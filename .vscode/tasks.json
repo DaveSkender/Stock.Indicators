@@ -39,31 +39,6 @@
       }
     },
     {
-      "label": "Analyze: Roslynator (solution)",
-      "detail": "Run Roslynator analysis over the entire solution and write XML report",
-      "type": "shell",
-      "command": "powershell -NoProfile -ExecutionPolicy Bypass -Command \"New-Item -ItemType Directory -Force -Path .reports/roslynator | Out-Null; roslynator analyze '${workspaceFolder}/Stock.Indicators.sln' --ignore-compiler-diagnostics --report-suppressed-diagnostics --severity-level info --verbosity normal --output .reports/roslynator/report.xml --output-format xml\"",
-      "group": "test",
-      "problemMatcher": [],
-      "presentation": {
-        "reveal": "silent",
-        "revealProblems": "onProblem",
-        "group": "analysis"
-      }
-    },
-    {
-      "label": "Analyze: Roslynator (console)",
-      "detail": "Run Roslynator analysis and print diagnostics to console",
-      "type": "shell",
-      "command": "roslynator analyze '${workspaceFolder}/Stock.Indicators.sln' --ignore-compiler-diagnostics --report-suppressed-diagnostics --severity-level info --verbosity normal",
-      "group": "test",
-      "problemMatcher": [],
-      "presentation": {
-        "reveal": "always",
-        "revealProblems": "never"
-      }
-    },
-    {
       "label": "Restore: .NET Packages",
       "detail": "Restore NuGet packages for solution",
       "type": "shell",
@@ -220,6 +195,19 @@
       "script": "test:coverage",
       "group": "test",
       "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "Lint: Roslynator (analyze)",
+      "detail": "Run Roslynator analysis and print diagnostics to console",
+      "type": "shell",
+      "command": "roslynator analyze",
+      "group": "test",
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "revealProblems": "onProblem",
+        "group": "analysis"
+      }
     },
     {
       "label": "Lint: .NET Code (format check)",

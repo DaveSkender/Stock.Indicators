@@ -87,19 +87,21 @@ These scoped files are automatically applied when working with files matching th
 
 Use these cross-cutting requirements for Series, Stream, and Buffer indicators. Each style guide adds its own specifics, but these apply to all:
 
-- Catalog entry exists and is registered:
+### Code completion checklist for indicator implementations
+
+- [ ] **Catalog entry exists and is registered**:
   - Create `src/**/{IndicatorName}.Catalog.cs` and register in `src/_common/Catalog/Catalog.Listings.cs` (PopulateCatalog)
-- Regression tests include the indicator type:
+- [ ] **Regression tests include the indicator type**:
   - Add to `tests/indicators/**/{IndicatorName}.Regression.Tests.cs`
-- Performance benchmarks include a default case:
+- [ ] **Performance benchmarks include a default case**:
   - Add to the appropriate file in `tools/performance` (Series/Stream/Buffer)
-- Public documentation is accurate:
+- [ ] **Public documentation is accurate**:
   - Update `docs/_indicators/{IndicatorName}.md` (usage, parameters, warmup, outputs)
-- Migration notes and bridges when behavior changes:
+- [ ] **Migration notes and bridges when behavior changes**:
   - Update `src/MigrationGuide.V3.md`
   - Update migration bridges in `src/Obsolete.V3.Indicators.cs` and `src/Obsolete.V3.Other.cs` to reflect new/renamed APIs or deprecations
 
-See the style-specific guides for implementation requirements:
+See the style-specific guides for implementation requirements and additional checklist items:
 
 - Series: [.github/instructions/indicator-series.instructions.md](.github/instructions/indicator-series.instructions.md)
 - Stream: [.github/instructions/indicator-stream.instructions.md](.github/instructions/indicator-stream.instructions.md)

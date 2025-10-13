@@ -119,6 +119,7 @@ public static partial class Catalog
 
         // CMF (Chaikin Money Flow)
         _listings.Add(Cmf.SeriesListing);
+        _listings.Add(Cmf.StreamListing);
 
         // CMO (Chande Momentum Oscillator)
         _listings.Add(Cmo.BufferListing);

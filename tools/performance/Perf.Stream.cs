@@ -66,6 +66,9 @@ public class StreamIndicators
     public object BollingerBandsHub() => quoteHub.ToBollingerBandsHub(20, 2).Results;
 
     [Benchmark]
+    public object CmfHub() => quoteHub.ToCmfHub(20).Results;
+
+    [Benchmark]
     public object CorrelationHub()
     {
         QuoteHub<Quote> quoteHubB = new();
