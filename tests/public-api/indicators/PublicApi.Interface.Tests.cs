@@ -1,5 +1,5 @@
 [assembly: CLSCompliant(true)]
-[assembly: Parallelize(Scope = ExecutionScope.MethodLevel)]
+[assembly: Parallelize(Scope = ExecutionScope.MethodLevel, Workers = 0)]
 
 namespace PublicApi;
 

@@ -1,5 +1,6 @@
 <RunSettings>
   <RunConfiguration>
+    <MaxCpuCount>0</MaxCpuCount>
     <TestCaseFilter>TestCategory=Integration</TestCaseFilter>
   </RunConfiguration>
 </RunSettings>
