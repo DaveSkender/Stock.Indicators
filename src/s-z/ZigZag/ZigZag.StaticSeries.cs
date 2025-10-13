@@ -123,7 +123,7 @@ public static partial class ZigZag
     /// <param name="changeThreshold">The percentage change threshold for ZigZag points.</param>
     /// <param name="lastPoint">The last ZigZag point.</param>
     /// <returns>The next ZigZag point.</returns>
-    private static ZigZagPoint EvaluateNextPoint<TQuote>(
+    internal static ZigZagPoint EvaluateNextPoint<TQuote>(
         IReadOnlyList<TQuote> quotesList,
         EndType endType,
         decimal changeThreshold,
@@ -370,5 +370,33 @@ public static partial class ZigZag
         }
 
         return eval;
+    }
+
+    /// <summary>
+    /// Calculates interpolated ZigZag value between two points.
+    /// </summary>
+    /// <param name="fromPoint">Starting ZigZag point.</param>
+    /// <param name="toPoint">Ending ZigZag point.</param>
+    /// <param name="currentIndex">Current index for interpolation.</param>
+    /// <returns>Interpolated ZigZag value.</returns>
+    internal static decimal? CalculateInterpolatedValue(
+        ZigZagPoint fromPoint,
+        ZigZagPoint toPoint,
+        int currentIndex)
+    {
+        if (fromPoint.Index == 0 || currentIndex <= fromPoint.Index)
+        {
+            return null;
+        }
+
+        if (toPoint.Index == fromPoint.Index)
+        {
+            return fromPoint.Value;
+        }
+
+        decimal? increment = (toPoint.Value - fromPoint.Value)
+                           / (toPoint.Index - fromPoint.Index);
+
+        return fromPoint.Value + (increment * (currentIndex - fromPoint.Index));
     }
 }

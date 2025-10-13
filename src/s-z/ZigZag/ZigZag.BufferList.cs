@@ -59,10 +59,7 @@ public class ZigZagList : BufferList<ZigZagResult>, IIncrementFromQuote
     {
         ArgumentNullException.ThrowIfNull(quotes);
 
-        foreach (IQuote quote in quotes)
-        {
-            _quoteCache.Add(quote);
-        }
+        _quoteCache.AddRange(quotes);
 
         // Recalculate once after adding all quotes
         Recalculate();
