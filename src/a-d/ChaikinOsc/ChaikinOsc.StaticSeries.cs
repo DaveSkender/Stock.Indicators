@@ -46,7 +46,9 @@ public static partial class ChaikinOsc
                  MoneyFlowMultiplier: a.MoneyFlowMultiplier,
                  MoneyFlowVolume: a.MoneyFlowVolume,
                  Adl: a.Adl,
-                 Oscillator: f.Ema - s.Ema
+                 Oscillator: f.Ema - s.Ema,
+                 FastEma: f.Ema,
+                 SlowEma: s.Ema
              ));
         }
 
