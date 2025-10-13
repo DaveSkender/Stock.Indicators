@@ -39,4 +39,24 @@ public class VwapTests : TestBase
         lowerbandResult2?.DisplayName.Should().Be("Lower Band");
         lowerbandResult2.IsReusable.Should().Be(false);
     }
+
+    [TestMethod]
+    public void VwapBufferListing()
+    {
+        // Act
+        IndicatorListing listing = Vwap.BufferListing;
+
+        // Assert
+        listing.Should().NotBeNull();
+        listing.Name.Should().Be("Volume Weighted Average Price");
+        listing.Uiid.Should().Be("VWAP");
+        listing.Style.Should().Be(Style.Buffer);
+        listing.Category.Should().Be(Category.PriceChannel);
+        listing.MethodName.Should().Be("ToVwap");
+
+        listing.Parameters?.Count.Should().Be(1);
+
+        listing.Results.Should().NotBeNull();
+        listing.Results.Should().HaveCount(3);
+    }
 }

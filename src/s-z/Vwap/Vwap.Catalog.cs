@@ -21,6 +21,11 @@ public static partial class Vwap
             .WithStyle(Style.Series)
             .Build();
 
+    // VWAP Buffer Listing
+    internal static readonly IndicatorListing BufferListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Buffer)
+            .Build();
+
     // No StreamListing for VWAP.
-    // No BufferListing for VWAP.
 }
