@@ -65,6 +65,30 @@ public class ConnorsRsiList : BufferList<ConnorsRsiResult>, IIncrementFromChain
     /// </summary>
     public int RankPeriods { get; init; }
 
+    /// <summary>
+    /// Gets or sets the maximum number of results to retain in the list.
+    /// When the list exceeds this value, the oldest items are pruned.
+    /// Also propagates to the inner RSI buffer lists.
+    /// </summary>
+    public new int MaxListSize
+    {
+        get => base.MaxListSize;
+        set {
+            base.MaxListSize = value;
+
+            // Propagate MaxListSize to inner RSI buffer lists
+            if (_rsiClose != null)
+            {
+                _rsiClose.MaxListSize = value;
+            }
+
+            if (_rsiStreak != null)
+            {
+                _rsiStreak.MaxListSize = value;
+            }
+        }
+    }
+
     /// <inheritdoc />
     public void Add(DateTime timestamp, double value)
     {
