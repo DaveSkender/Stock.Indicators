@@ -138,10 +138,10 @@ public class TsiList : BufferList<TsiResult>, IIncrementFromChain, ITsi
         _as1History.Add(as1);
 
         // Calculate second smoothing (EMA of first EMA)
-        double cs2;
-        double as2;
+        double cs2 = double.NaN;
+        double as2 = double.NaN;
 
-        if (double.IsNaN(_prevCs2) && _cs1History.Count >= _smoothPeriods)
+        if (double.IsNaN(_prevCs2) && !double.IsNaN(cs1) && _cs1History.Count >= _smoothPeriods)
         {
             // Initialize second smoothing with SMA
             double sumCs = 0;
@@ -155,16 +155,17 @@ public class TsiList : BufferList<TsiResult>, IIncrementFromChain, ITsi
 
             cs2 = sumCs / _smoothPeriods;
             as2 = sumAs / _smoothPeriods;
+            _prevCs2 = cs2;
+            _prevAs2 = as2;
         }
-        else
+        else if (!double.IsNaN(_prevCs2) && !double.IsNaN(cs1))
         {
             // Continue with EMA
             cs2 = ((cs1 - _prevCs2) * _mult2) + _prevCs2;
             as2 = ((as1 - _prevAs2) * _mult2) + _prevAs2;
+            _prevCs2 = cs2;
+            _prevAs2 = as2;
         }
-
-        _prevCs2 = cs2;
-        _prevAs2 = as2;
 
         // Calculate TSI
         double tsi = as2 != 0
@@ -178,20 +179,47 @@ public class TsiList : BufferList<TsiResult>, IIncrementFromChain, ITsi
 
         if (_signalPeriods > 1)
         {
-            if (double.IsNaN(_prevSignal) && _tsiHistory.Count > _signalPeriods)
+            if (double.IsNaN(_prevSignal) && Count > _signalPeriods && !double.IsNaN(tsi))
             {
-                // Initialize signal with SMA (include current TSI + previous signalPeriods-1 values)
-                double sum = tsi;
-                for (int p = _tsiHistory.Count - _signalPeriods + 1; p < _tsiHistory.Count; p++)
+                // Check if we have enough non-NaN TSI values (last signalPeriods values including current)
+                bool hasEnoughValues = _tsiHistory.Count >= _signalPeriods;
+
+                if (hasEnoughValues)
                 {
-                    sum += _tsiHistory[p];
+                    for (int p = _tsiHistory.Count - _signalPeriods; p < _tsiHistory.Count; p++)
+                    {
+                        if (double.IsNaN(_tsiHistory[p]))
+                        {
+                            hasEnoughValues = false;
+                            break;
+                        }
+                    }
                 }
-                signal = sum / _signalPeriods;
+
+                if (hasEnoughValues)
+                {
+                    // Initialize signal with SMA matching Series implementation order
+                    // Add current TSI first, then previous values
+                    double sum = tsi;
+                    for (int p = _tsiHistory.Count - _signalPeriods; p < _tsiHistory.Count - 1; p++)
+                    {
+                        sum += _tsiHistory[p];
+                    }
+                    signal = sum / _signalPeriods;
+                }
+                else
+                {
+                    signal = double.NaN;
+                }
             }
-            else
+            else if (!double.IsNaN(_prevSignal) && !double.IsNaN(tsi))
             {
                 // Continue with EMA
                 signal = ((tsi - _prevSignal) * _multS) + _prevSignal;
+            }
+            else
+            {
+                signal = double.NaN;
             }
         }
         else

@@ -162,11 +162,11 @@ The following indicators have series-style implementations but lack BufferList i
 - [x] T043 Implement SmaAnalysis BufferList in `src/s-z/SmaAnalysis/SmaAnalysis.BufferList.cs` ✅ Complete
 - [x] T044 Implement Smi BufferList in `src/s-z/Smi/Smi.BufferList.cs` ✅ Complete
 - [x] T045 Implement StarcBands BufferList in `src/s-z/StarcBands/StarcBands.BufferList.cs` ✅ Complete
-- [ ] T046 Implement Stc BufferList in `src/s-z/Stc/Stc.BufferList.cs` (Complex - requires MACD→Stochastic pipeline, deferred)
+- [ ] T046 Implement Stc BufferList in `src/s-z/Stc/Stc.BufferList.cs` ⚠️ **DEFERRED**: Requires MACD→Stochastic pipeline (chained indicators). Series implementation uses `ToMacd()` and `CalcStoch()` internally, incompatible with single-indicator buffer streaming constraints. Research needed for multi-indicator buffer composition in v2.
 - [x] T047 Implement StdDev BufferList in `src/s-z/StdDev/StdDev.BufferList.cs` ✅ Complete
-- [ ] T048 Implement StdDevChannels BufferList in `src/s-z/StdDevChannels/StdDevChannels.BufferList.cs` (Deferred - depends on Slope retroactive updates)
+- [ ] T048 Implement StdDevChannels BufferList in `src/s-z/StdDevChannels/StdDevChannels.BufferList.cs` ⚠️ **DEFERRED**: Depends on Slope retroactive updates. StdDevChannels processes data in reverse order and modifies historical results, incompatible with append-only streaming constraints. Research needed for windowed approximation approach in v2.
 - [x] T049 Implement SuperTrend BufferList in `src/s-z/SuperTrend/SuperTrend.BufferList.cs` ✅ Complete
-- [ ] T050 Implement Tsi BufferList in `src/s-z/Tsi/Tsi.BufferList.cs`
+- [x] T050 Implement Tsi BufferList in `src/s-z/Tsi/Tsi.BufferList.cs` ✅ Complete
 - [x] T051 Implement UlcerIndex BufferList in `src/s-z/UlcerIndex/UlcerIndex.BufferList.cs` ✅ Complete
 - [x] T052 Implement VolatilityStop BufferList in `src/s-z/VolatilityStop/VolatilityStop.BufferList.cs` ✅ Complete (Previously deferred - now implemented with retroactive update capability using UpdateInternal)
 - [x] T053 Implement Vortex BufferList in `src/s-z/Vortex/Vortex.BufferList.cs` ✅ Complete
