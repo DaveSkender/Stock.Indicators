@@ -5,5 +5,4 @@ using System.Runtime.CompilerServices;
 [assembly: InternalsVisibleTo("Tests.Performance")]
 [assembly: InternalsVisibleTo("BaselineGenerator")]
 
-// TODO: determine the best scope for parallelization
-[assembly: Parallelize(Scope = ExecutionScope.MethodLevel)]
+[assembly: Parallelize(Scope = ExecutionScope.MethodLevel, Workers = 0)]
