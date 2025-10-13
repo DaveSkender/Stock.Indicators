@@ -24,5 +24,11 @@ public static partial class StarcBands
             .Build();
 
     // No StreamListing for STARC Bands.
-    // No BufferListing for STARC Bands.
+
+    // STARC Bands BufferList Listing
+    internal static readonly IndicatorListing BufferListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Buffer)
+            .WithMethodName("ToStarcBandsList")
+            .Build();
 }
