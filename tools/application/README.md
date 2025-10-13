@@ -1,16 +1,16 @@
-# Test Application for Skender.Stock.Indicators v2.6.1
+# Test Application for Skender.Stock.Indicators v2
 
 ## Overview
 
-This test application is designed to exercise all public interfaces of the **Skender.Stock.Indicators v2.6.1** NuGet package. It serves as a comprehensive API validation tool to ensure clean migration paths when transitioning to future package versions (v3+).
+This test application is designed to exercise all public interfaces of the **Skender.Stock.Indicators v2** NuGet package. It serves as a comprehensive API validation tool to ensure clean migration paths when transitioning to future package versions (v3+).
 
 ## Purpose
 
 The primary purposes of this application are:
 
-1. **API Coverage Testing** - Calls every public indicator method and utility function available in v2.6.1
+1. **API Coverage Testing** - Calls every public indicator method and utility function available in v2
 2. **Migration Validation** - Provides a baseline for testing breaking changes when upgrading to v3
-3. **Documentation** - Serves as a living example of v2.6.1 API usage patterns
+3. **Documentation** - Serves as a living example of v2 API usage patterns
 4. **Regression Detection** - Helps identify unexpected behavior changes between versions
 
 ## Project Structure
@@ -20,7 +20,7 @@ tools/application/
 ├── Program.cs                    # Main test application with all API calls
 ├── GlobalUsings.cs              # Global using directives
 ├── GlobalSuppressions.cs        # Code analysis suppressions
-├── Test.Application.csproj      # Project file (references v2.6.1 package)
+├── Test.Application.csproj      # Project file (references v2 package)
 ├── Directory.Packages.props     # Package management configuration
 └── README.md                    # This file
 ```
@@ -77,7 +77,7 @@ The application generates synthetic test data programmatically:
 ### Prerequisites
 
 - .NET 9.0 SDK or later
-- NuGet package: Skender.Stock.Indicators v2.6.1
+- NuGet package: Skender.Stock.Indicators v2
 
 ### Build and Run
 
@@ -101,7 +101,7 @@ When run successfully, the application displays:
 
 ```text
 ===========================================
-Testing Skender.Stock.Indicators v2.6.1
+Testing Skender.Stock.Indicators v2
 ===========================================
 
 Generating test data...
@@ -150,7 +150,7 @@ The project has:
 
 When ready to test v3 migration:
 
-1. **Create a comparison branch** from this working v2.6.1 version
+1. **Create a comparison branch** from this working v2 version
 2. **Update package reference** to v3.x in `Test.Application.csproj`
 3. **Build and identify errors** - Note all breaking changes
 4. **Update code** - Fix breaking changes based on v3 migration guide
@@ -160,13 +160,13 @@ When ready to test v3 migration:
 ## Additional Resources
 
 - [Stock Indicators Documentation](https://dotnet.stockindicators.dev)
-- [v2.6.1 NuGet Package](https://www.nuget.org/packages/Skender.Stock.Indicators/2.6.1)
+- [v2 NuGet Package](https://www.nuget.org/packages/Skender.Stock.Indicators/2.6.1)
 - [GitHub Repository](https://github.com/DaveSkender/Stock.Indicators)
 - [Migration Guides](https://github.com/DaveSkender/Stock.Indicators/discussions)
 
 ## Contributing
 
-This test application should be kept in sync with the v2.6.1 package. If you discover missing API coverage:
+This test application should be kept in sync with the v2 package. If you discover missing API coverage:
 
 1. Add the missing method call to `Program.cs`
 2. Update this README if needed
@@ -175,6 +175,6 @@ This test application should be kept in sync with the v2.6.1 package. If you dis
 
 ---
 
-**Version**: Testing v2.6.1  
+**Version**: Testing v2  
 **Target Framework**: .NET 9.0  
 **Last Updated**: October 2025

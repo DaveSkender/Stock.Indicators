@@ -4,7 +4,7 @@ using System.Globalization;
 namespace Test.Application;
 
 /// <summary>
-/// Test application for Skender.Stock.Indicators v2.6.1 API
+/// Test application for Skender.Stock.Indicators v2 API
 /// This application demonstrates all public interfaces available in the library
 /// to facilitate migration testing to v3.
 /// </summary>
@@ -18,7 +18,7 @@ public static class Program
         }
 
         Console.WriteLine("===========================================");
-        Console.WriteLine("Testing Skender.Stock.Indicators v2.6.1");
+        Console.WriteLine("Testing Skender.Stock.Indicators v2");
         Console.WriteLine("===========================================\n");
 
         // Generate test data
@@ -44,7 +44,7 @@ public static class Program
         CultureInfo culture = CultureInfo.InvariantCulture;
         List<Quote> quotesList = [];
         DateTime startDate = DateTime.Parse("2022-01-03", culture);
-        decimal basePrice = 100m;
+        const decimal basePrice = 100m;
 
         for (int i = 0; i < 150; i++)
         {
@@ -59,7 +59,7 @@ public static class Program
             decimal open = basePrice + (i * 0.5m) + (i % 5 * 0.3m);
             decimal high = open + (2m + (i % 3 * 0.5m));
             decimal low = open - (1m + (i % 4 * 0.3m));
-            decimal close = open + ((i % 7 - 3) * 0.4m);
+            decimal close = open + (((i % 7) - 3) * 0.4m);
             decimal volume = 1000m + (i * 10m);
 
             quotesList.Add(new Quote {
