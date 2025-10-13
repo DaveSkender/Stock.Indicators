@@ -71,7 +71,9 @@ public class ChaikinOscList : BufferList<ChaikinOscResult>, IIncrementFromQuote,
             adlResult.MoneyFlowMultiplier,
             adlResult.MoneyFlowVolume,
             adlResult.Adl,
-            oscillator));
+            oscillator,
+            fastEma.Ema,
+            slowEma.Ema));
     }
 
     /// <inheritdoc />
