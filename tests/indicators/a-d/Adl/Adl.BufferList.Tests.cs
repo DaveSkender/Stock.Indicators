@@ -58,7 +58,7 @@ public class Adl : BufferListTestBase
     }
 
     [TestMethod]
-    public override void ClearResetsState()
+    public override void Clear_WithState_ResetsState()
     {
         List<Quote> subset = Quotes.Take(80).ToList();
         IReadOnlyList<AdlResult> expected = subset.ToAdl();
@@ -79,7 +79,7 @@ public class Adl : BufferListTestBase
     }
 
     [TestMethod]
-    public override void AutoListPruning()
+    public override void PruneList_OverMaxListSize_AutoAdjustsListAndBuffers()
     {
         const int maxListSize = 120;
 

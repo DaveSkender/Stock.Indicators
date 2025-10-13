@@ -24,8 +24,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="_testdata\data\*.csv">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <None Update="_testdata\quotes\*.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
 

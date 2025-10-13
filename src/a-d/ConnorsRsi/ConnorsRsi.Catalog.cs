@@ -25,6 +25,11 @@ public static partial class ConnorsRsi
             .WithStyle(Style.Series)
             .Build();
 
+    // CRSI Buffer Listing
+    internal static readonly IndicatorListing BufferListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Buffer)
+            .Build();
+
     // No StreamListing for CRSI.
-    // No BufferListing for CRSI.
 }

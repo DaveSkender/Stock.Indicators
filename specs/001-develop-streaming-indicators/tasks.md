@@ -1,7 +1,18 @@
 # Tasks: streaming indicators framework
 
 **Input**: Design documents from `/specs/001-develop-streaming-indicators/`
-**Prerequisites**: plan.md (required) — data entities documented in plan.md §Data Model
+**Prerequisites**: [plan.md](plan.md) (required), [spec.md](spec.md) (required for user stories), [data-model.md](data-model.md)
+
+## Format: `[ID] Description`
+
+- Include exact file paths in descriptions
+
+## Path Conventions
+
+Paths assume the single-project layout at the repository root:
+
+- Source: `src/`
+- Tests: `tests/`
 
 ## Requirements Quality Validation
 
@@ -16,227 +27,372 @@ These simplified checklists ensure:
 - Instruction file adherence (base classes, interfaces, test patterns, utilities)
 - Essential quality gates (clarity, completeness, consistency, verifiability)
 
-## Format: `[ID] Description`
+---
 
-- Include exact file paths in descriptions
-- All tasks are independently parallelizable
+## Phase 1: Infrastructure & Compliance Audits (IN PROGRESS)
 
-## Path Conventions
+**Purpose**: Establish instruction file compliance and quality foundation before expanding streaming indicator coverage.
 
-Paths assume the single-project layout at the repository root:
+### Compliance Audits (A-series)
 
-- Source: `src/`
-- Tests: `tests/`
+- [x] **A001** Audit existing BufferList implementations for instruction file compliance (`src/**/*.BufferList.cs` against `.github/instructions/indicator-buffer.instructions.md`) ✅
+  - Verify correct base class inheritance (`BufferList<TResult>`)
+  - Check interface implementation (`IIncrementFromChain`/`IIncrementFromQuote`/`IIncrementFromPairs`)
+  - Validate constructor patterns (params-only and params+quotes variants)
+  - Confirm `BufferUtilities` usage instead of manual buffer management
+  - Check member ordering per instruction file conventions
 
-## Instruction File Compliance Audit (NEW - CRITICAL)
+- [x] **A002** Audit existing StreamHub implementations for instruction file compliance (`src/**/*.StreamHub.cs` against `.github/instructions/indicator-stream.instructions.md`) ✅
+  - Verify correct provider base (`ChainProvider`/`QuoteProvider`/`PairsProvider`)
+  - Check test interface implementation requirements
+  - Validate provider history testing coverage (Insert/Remove scenarios)
+  - Confirm performance benchmarking inclusion
+  - Check member ordering per instruction file conventions
 
-The following tasks address gaps between existing implementations and current instruction file requirements:
+- [x] **A003** Audit BufferList test classes for compliance (`tests/**/*.BufferList.Tests.cs`) ✅
+  - Verify inheritance from `BufferListTestBase` (not `TestBase`)
+  - Check implementation of correct test interfaces
+  - Validate coverage of 5 required test methods
+  - Confirm Series parity validation patterns
 
-### Core Compliance Audit
+- [x] **A004** Audit StreamHub test classes for compliance (`tests/**/*.StreamHub.Tests.cs`) ✅
+  - Verify inheritance from `StreamHubTestBase`
+  - Check implementation of correct test interfaces per provider pattern
+  - Validate provider history testing (Insert/Remove scenarios)
+  - Confirm performance benchmarking inclusion
 
-- [x] **A001**: Audit existing BufferList implementations for instruction file compliance (`src/**/*.BufferList.cs` against `.github/instructions/indicator-buffer.instructions.md`) ✅ COMPLETE
-  - [x] Verify correct base class inheritance (`BufferList<TResult>`) ✅
-  - [x] Check interface implementation (`IIncrementFromChain`/`IIncrementFromQuote`/`IIncrementFromPairs`) ✅
-  - [x] Validate constructor patterns (params-only and params+quotes variants) ✅
-  - [x] Confirm `BufferUtilities` usage instead of manual buffer management ✅
-  - [x] Check member ordering per instruction file conventions ✅
+- [x] **A005** Update indicator documentation pages for instruction file compliance ✅
+  - Ensure streaming usage sections reference instruction files
+  - Update examples to match current API patterns
+  - Verify consistency with catalog entries
 
-- [x] **A002**: Audit existing StreamHub implementations for instruction file compliance (`src/**/*.StreamHub.cs` against `.github/instructions/indicator-stream.instructions.md`) ✅ COMPLETE
-  - [x] Verify correct provider base (`ChainProvider`/`QuoteProvider`/`PairsProvider`) ✅
-  - [x] Check test interface implementation requirements ✅
-  - [x] Validate provider history testing coverage (Insert/Remove scenarios) ✅
-  - [x] Confirm performance benchmarking inclusion ✅
-  - [x] Check member ordering per instruction file conventions ✅
+- [x] **A006** Identify and prioritize instruction file compliance gaps ✅
+  - Create priority matrix based on constitution principle violations
+  - Document specific remediation steps for high-priority gaps
+  - Estimate effort for bringing existing implementations into compliance
 
-### Test Compliance Audit
+### Compliance Remediation (T171-T174)
 
-- [x] **A003**: Audit BufferList test classes for compliance (`tests/**/*.BufferList.Tests.cs`) ✅ COMPLETE
-  - [x] Verify inheritance from `BufferListTestBase` (not `TestBase`) ✅
-  - [x] Check implementation of correct test interfaces ✅
-  - [x] Validate coverage of 5 required test methods ✅
-  - [x] Confirm Series parity validation patterns ✅
+- [x] **T171** Fix Vwma StreamHub test class compliance in `tests/indicators/s-z/Vwma/Vwma.StreamHub.Tests.cs` ✅
+  - Add missing test interfaces: `ITestQuoteObserver`, `ITestChainProvider`
+  - Implement provider history testing (Insert/Remove operations with Series parity checks)
+  - Add proper cleanup operations (Unsubscribe/EndTransmission calls)
+  - Add Series parity validation with strict ordering comparison
+  - Follow EMA StreamHub test as canonical pattern reference
 
-- [x] **A004**: Audit StreamHub test classes for compliance (`tests/**/*.StreamHub.Tests.cs`) ✅ COMPLETE
-  - [x] Verify inheritance from `StreamHubTestBase` ✅
-  - [x] Check implementation of correct test interfaces per provider pattern ✅
-  - [x] Validate provider history testing (Insert/Remove scenarios) ✅
-  - [x] Confirm performance benchmarking inclusion ✅
+- [x] **T172** Comprehensive audit of all StreamHub test classes for missing test interfaces ✅
+  - Verified EMA, SMA, Correlation implement correct interfaces per provider pattern
+  - Identified Vwma as isolated case with missing interfaces (addressed in T171)
+  - Confirmed gaps are NOT systemic - most StreamHub tests follow proper patterns
 
-### Documentation Compliance
+- [ ] **T173** Validate remediation completeness by re-running StreamHub audit (A002)
+  - Confirm all identified gaps have been addressed
+  - Verify test patterns match instruction file requirements
+  - Ensure Series parity and provider history testing coverage is complete
 
-- [x] **A005**: Update indicator documentation pages for instruction file compliance ✅ COMPLETE
-  - [x] Ensure streaming usage sections reference instruction files ✅
-  - [x] Update examples to match current API patterns ✅
-  - [x] Verify consistency with catalog entries ✅
+- [ ] **T174** Update indicator documentation pages for all streaming-enabled indicators
+  - Add "## Streaming" sections to indicators missing streaming documentation
+  - Use SMA/EMA documentation patterns as template (BufferList + StreamHub examples)
+  - Ensure consistency with instruction file references
+  - Verify code examples compile and produce correct results
 
-### Implementation Gap Analysis
+**Checkpoint**: Phase 1 establishes quality foundation and compliance baseline for Phase 2-3 expansion
 
-- [x] **A006**: Identify and prioritize instruction file compliance gaps ✅ COMPLETE
-  - [x] Create priority matrix based on constitution principle violations ✅
-  - [x] Document specific remediation steps for high-priority gaps ✅
-  - [x] Estimate effort for bringing existing implementations into compliance ✅
+---
 
-**Note**: These audit tasks are essential for ensuring the existing 59 BufferList and 40 StreamHub implementations comply with the refined instruction file requirements developed since the original spec kit plans.
+## Phase 2: BufferList Implementations
 
-The following indicators have series-style implementations but lack BufferList implementations:
+**Purpose**: Complete BufferList streaming implementations for all 85 indicators (1:1:1 parity with Series)
 
-### BufferList A-D Group (16 indicators)
+Note on former deferrals: Some indicators were previously marked as deferred due to complexity (for example: Fractal, HtTrendline, Hurst, Ichimoku, Slope). We now have solid reference patterns demonstrating solutions for repainting, multi-buffer state, complex objects, and dual-series inputs (see instruction files). These items are complex but not blocked — implement them by adapting from the closest reference.
 
-- [x] T001 Implement Alligator BufferList in `src/a-d/Alligator/Alligator.BufferList.cs` ✅ Complete
-- [x] T002 Implement Aroon BufferList in `src/a-d/Aroon/Aroon.BufferList.cs` ✅ Complete
-- [x] T003 Implement AtrStop BufferList in `src/a-d/AtrStop/AtrStop.BufferList.cs` ✅ Complete
-- [x] T004 Implement Awesome BufferList in `src/a-d/Awesome/Awesome.BufferList.cs` ✅ Complete
-- [x] T005 Implement Beta BufferList in `src/a-d/Beta/Beta.BufferList.cs` ✅ Complete
-- [x] T006 Implement Bop BufferList in `src/a-d/Bop/Bop.BufferList.cs` ✅ Complete
-- [x] T007 Implement ChaikinOsc BufferList in `src/a-d/ChaikinOsc/ChaikinOsc.BufferList.cs` ✅ Complete
-- [x] T008 Implement Chandelier BufferList in `src/a-d/Chandelier/Chandelier.BufferList.cs` ✅ Complete
-- [x] T009 Implement Chop BufferList in `src/a-d/Chop/Chop.BufferList.cs` ✅ Complete
-- [x] T010 Implement Cmf BufferList in `src/a-d/Cmf/Cmf.BufferList.cs` ✅ Complete
-- [ ] T011 Implement ConnorsRsi BufferList in `src/a-d/ConnorsRsi/ConnorsRsi.BufferList.cs`
-- [ ] T021 Implement Fractal BufferList in `src/e-k/Fractal/Fractal.BufferList.cs` ⚠️ **DEFERRED**: Requires future data access pattern incompatible with streaming constraints (looks ahead 2 periods). Marked for v2 research with potential reorder buffer solution.
-- [ ] T024 Implement HtTrendline BufferList in `src/e-k/HtTrendline/HtTrendline.BufferList.cs` ⚠️ **DEFERRED**: Complex Hilbert Transform implementation requires research into streaming compatibility and state management complexity. Targeted for v2 after core framework stabilization.
-- [ ] T025 Implement Hurst BufferList in `src/e-k/Hurst/Hurst.BufferList.cs` ⚠️ **DEFERRED**: Hurst Exponent calculation requires full dataset access patterns incompatible with incremental streaming. Research needed for windowed approximation approach in v2.
-- [ ] T026 Implement Ichimoku BufferList in `src/e-k/Ichimoku/Ichimoku.BufferList.cs` ⚠️ **DEFERRED**: Requires future offset calculations (Senkou Span B projects 26 periods ahead) incompatible with streaming constraints. Marked for v2 research with offset buffer solution.
-- [ ] T029 Implement MaEnvelopes BufferList in `src/m-r/MaEnvelopes/MaEnvelopes.BufferList.cs`
-- [ ] T032 Implement ParabolicSar BufferList in `src/m-r/ParabolicSar/ParabolicSar.BufferList.cs`
-- [ ] T033 Implement PivotPoints BufferList in `src/m-r/PivotPoints/PivotPoints.BufferList.cs`
-- [ ] T034 Implement Pivots BufferList in `src/m-r/Pivots/Pivots.BufferList.cs`
-- [ ] T035 Implement Pmo BufferList in `src/m-r/Pmo/Pmo.BufferList.cs`
-- [ ] T036 Implement Prs BufferList in `src/m-r/Prs/Prs.BufferList.cs`
-- [ ] T037 Implement Pvo BufferList in `src/m-r/Pvo/Pvo.BufferList.cs`
-- [x] T125 Implement QuotePart BufferList in `src/_common/QuotePart/QuotePart.BufferList.cs` ✅ Complete
-- [ ] T038 Implement Renko BufferList in `src/m-r/Renko/Renko.BufferList.cs`
-- [ ] T039 Implement RenkoAtr BufferList in `src/m-r/RenkoAtr/RenkoAtr.BufferList.cs`
-- [ ] T040 Implement RocWb BufferList in `src/m-r/RocWb/RocWb.BufferList.cs`
-- [ ] T041 Implement RollingPivots BufferList in `src/m-r/RollingPivots/RollingPivots.BufferList.cs`
-- [ ] T042 Implement Slope BufferList in `src/s-z/Slope/Slope.BufferList.cs` ⚠️ **DEFERRED**: Line property requires retroactive updates to historical results when new data changes slope calculation, incompatible with append-only streaming constraints. Research needed for windowed approximation in v2.
-- [ ] T044 Implement Smi BufferList in `src/s-z/Smi/Smi.BufferList.cs`
-- [ ] T045 Implement StarcBands BufferList in `src/s-z/StarcBands/StarcBands.BufferList.cs`
-- [ ] T046 Implement Stc BufferList in `src/s-z/Stc/Stc.BufferList.cs`
-- [ ] T048 Implement StdDevChannels BufferList in `src/s-z/StdDevChannels/StdDevChannels.BufferList.cs`
-- [ ] T050 Implement Tsi BufferList in `src/s-z/Tsi/Tsi.BufferList.cs`
-- [x] T052 Implement VolatilityStop BufferList in `src/s-z/VolatilityStop/VolatilityStop.BufferList.cs` ✅ Complete
-- [x] T053 Implement Vortex BufferList in `src/s-z/Vortex/Vortex.BufferList.cs` ✅ Complete
-- [x] T054 Implement Vwap BufferList in `src/s-z/Vwap/Vwap.BufferList.cs` ✅ Complete
-- [ ] T055 Implement ZigZag BufferList in `src/s-z/ZigZag/ZigZag.BufferList.cs`
-- [x] T012 Implement Correlation BufferList in `src/a-d/Correlation/Correlation.BufferList.cs` ✅ Complete
-- [x] T013 Implement Doji BufferList in `src/a-d/Doji/Doji.BufferList.cs` ✅ Complete
-- [x] T014 Implement Donchian BufferList in `src/a-d/Donchian/Donchian.BufferList.cs` ✅ Complete
-- [x] T015 Implement Dpo BufferList in `src/a-d/Dpo/Dpo.BufferList.cs` ✅ Complete
-- [x] T016 Implement Dynamic BufferList in `src/a-d/Dynamic/Dynamic.BufferList.cs` ✅ Complete
+**Dependencies**: Phase 1 compliance audits complete
 
-### BufferList E-K Group (12 indicators)
+- [x] **T001** Implement Adl BufferList in `src/a-d/Adl/Adl.BufferList.cs` ✅
+- [x] **T002** Implement Adx BufferList in `src/a-d/Adx/Adx.BufferList.cs` ✅
+- [x] **T003** Implement Alligator BufferList in `src/a-d/Alligator/Alligator.BufferList.cs` ✅
+- [x] **T004** Implement Alma BufferList in `src/a-d/Alma/Alma.BufferList.cs` ✅
+- [x] **T005** Implement Aroon BufferList in `src/a-d/Aroon/Aroon.BufferList.cs` ✅
+- [x] **T006** Implement Atr BufferList in `src/a-d/Atr/Atr.BufferList.cs` ✅
+- [x] **T007** Implement AtrStop BufferList in `src/a-d/AtrStop/AtrStop.BufferList.cs` ✅
+- [x] **T008** Implement Awesome BufferList in `src/a-d/Awesome/Awesome.BufferList.cs` ✅
+- [x] **T009** Implement Beta BufferList in `src/a-d/Beta/Beta.BufferList.cs` ✅
+- [x] **T010** Implement BollingerBands BufferList in `src/a-d/BollingerBands/BollingerBands.BufferList.cs` ✅
+- [x] **T011** Implement Bop BufferList in `src/a-d/Bop/Bop.BufferList.cs` ✅
+- [x] **T012** Implement Cci BufferList in `src/a-d/Cci/Cci.BufferList.cs` ✅
+- [x] **T013** Implement ChaikinOsc BufferList in `src/a-d/ChaikinOsc/ChaikinOsc.BufferList.cs` ✅
+- [x] **T014** Implement Chandelier BufferList in `src/a-d/Chandelier/Chandelier.BufferList.cs` ✅
+- [x] **T015** Implement Chop BufferList in `src/a-d/Chop/Chop.BufferList.cs` ✅
+- [x] **T016** Implement Cmf BufferList in `src/a-d/Cmf/Cmf.BufferList.cs` ✅
+- [x] **T017** Implement Cmo BufferList in `src/a-d/Cmo/Cmo.BufferList.cs` ✅
+- [x] **T018** Implement ConnorsRsi BufferList in `src/a-d/ConnorsRsi/ConnorsRsi.BufferList.cs` ✅
+- [x] **T019** Implement Correlation BufferList in `src/a-d/Correlation/Correlation.BufferList.cs` ✅
+- [x] **T020** Implement Dema BufferList in `src/a-d/Dema/Dema.BufferList.cs` ✅
+- [x] **T021** Implement Doji BufferList in `src/a-d/Doji/Doji.BufferList.cs` ✅
+- [x] **T022** Implement Donchian BufferList in `src/a-d/Donchian/Donchian.BufferList.cs` ✅
+- [x] **T023** Implement Dpo BufferList in `src/a-d/Dpo/Dpo.BufferList.cs` ✅
+- [x] **T024** Implement Dynamic BufferList in `src/a-d/Dynamic/Dynamic.BufferList.cs` ✅
+- [x] **T025** Implement ElderRay BufferList in `src/e-k/ElderRay/ElderRay.BufferList.cs` ✅
+- [x] **T026** Implement Ema BufferList in `src/e-k/Ema/Ema.BufferList.cs` ✅
+- [x] **T027** Implement Epma BufferList in `src/e-k/Epma/Epma.BufferList.cs` ✅
+- [x] **T028** Implement Fcb BufferList in `src/e-k/Fcb/Fcb.BufferList.cs` ✅
+- [x] **T029** Implement FisherTransform BufferList in `src/e-k/FisherTransform/FisherTransform.BufferList.cs` ✅
+- [x] **T030** Implement ForceIndex BufferList in `src/e-k/ForceIndex/ForceIndex.BufferList.cs` ✅
+- [ ] **T031** Implement Fractal BufferList in `src/e-k/Fractal/Fractal.BufferList.cs` (complex but unblocked — follow HMA/ADX state patterns)
+- [x] **T032** Implement Gator BufferList in `src/e-k/Gator/Gator.BufferList.cs` ✅
+- [x] **T033** Implement HeikinAshi BufferList in `src/e-k/HeikinAshi/HeikinAshi.BufferList.cs` ✅
+- [x] **T034** Implement Hma BufferList in `src/e-k/Hma/Hma.BufferList.cs` ✅
+- [ ] **T035** Implement HtTrendline BufferList in `src/e-k/HtTrendline/HtTrendline.BufferList.cs` (complex but unblocked — use HMA multi-buffer as a baseline)
+- [ ] **T036** Implement Hurst BufferList in `src/e-k/Hurst/Hurst.BufferList.cs` (complex but unblocked — adapt ADX complex state + HMA buffers)
+- [ ] **T037** Implement Ichimoku BufferList in `src/e-k/Ichimoku/Ichimoku.BufferList.cs` (complex but unblocked — follow multi-line series patterns from Alligator/AtrStop and HMA buffers)
+- [x] **T038** Implement Kama BufferList in `src/e-k/Kama/Kama.BufferList.cs` ✅
+- [x] **T039** Implement Keltner BufferList in `src/e-k/Keltner/Keltner.BufferList.cs` ✅
+- [x] **T040** Implement Kvo BufferList in `src/e-k/Kvo/Kvo.BufferList.cs` ✅
+- [x] **T041** Implement MaEnvelopes BufferList in `src/m-r/MaEnvelopes/MaEnvelopes.BufferList.cs` ✅
+- [x] **T042** Implement Macd BufferList in `src/m-r/Macd/Macd.BufferList.cs` ✅
+- [x] **T043** Implement Mama BufferList in `src/m-r/Mama/Mama.BufferList.cs` ✅
+- [x] **T044** Implement Marubozu BufferList in `src/m-r/Marubozu/Marubozu.BufferList.cs` ✅
+- [x] **T045** Implement Mfi BufferList in `src/m-r/Mfi/Mfi.BufferList.cs` ✅
+- [x] **T046** Implement Obv BufferList in `src/m-r/Obv/Obv.BufferList.cs` ✅
+- [ ] **T047** Implement ParabolicSar BufferList in `src/m-r/ParabolicSar/ParabolicSar.BufferList.cs`
+- [ ] **T048** Implement PivotPoints BufferList in `src/m-r/PivotPoints/PivotPoints.BufferList.cs`
+- [ ] **T049** Implement Pivots BufferList in `src/m-r/Pivots/Pivots.BufferList.cs`
+- [x] **T050** Implement Pmo BufferList in `src/m-r/Pmo/Pmo.BufferList.cs` ✅
+- [x] **T051** Implement Prs BufferList in `src/m-r/Prs/Prs.BufferList.cs` ✅
+- [x] **T052** Implement Pvo BufferList in `src/m-r/Pvo/Pvo.BufferList.cs` ✅
+- [ ] **T053** Implement QuotePart BufferList in `src/_common/QuotePart/QuotePart.BufferList.cs`
+- [ ] **T054** Implement Renko BufferList in `src/m-r/Renko/Renko.BufferList.cs`
+- [ ] **T055** Implement RenkoAtr BufferList in `src/m-r/RenkoAtr/RenkoAtr.BufferList.cs`
+- [x] **T056** Implement Roc BufferList in `src/m-r/Roc/Roc.BufferList.cs` ✅
+- [ ] **T057** Implement RocWb BufferList in `src/m-r/RocWb/RocWb.BufferList.cs`
+- [ ] **T058** Implement RollingPivots BufferList in `src/m-r/RollingPivots/RollingPivots.BufferList.cs`
+- [x] **T059** Implement Rsi BufferList in `src/m-r/Rsi/Rsi.BufferList.cs` ✅
+- [ ] **T060** Implement Slope BufferList in `src/s-z/Slope/Slope.BufferList.cs` (complex but unblocked — legit historical revisions follow VolatilityStop repaint pattern)
+- [x] **T061** Implement Sma BufferList in `src/s-z/Sma/Sma.BufferList.cs` ✅
+- [x] **T062** Implement SmaAnalysis BufferList in `src/s-z/SmaAnalysis/SmaAnalysis.BufferList.cs` ✅
+- [x] **T063** Implement Smi BufferList in `src/s-z/Smi/Smi.BufferList.cs` ✅
+- [x] **T064** Implement Smma BufferList in `src/s-z/Smma/Smma.BufferList.cs` ✅
+- [x] **T065** Implement StarcBands BufferList in `src/s-z/StarcBands/StarcBands.BufferList.cs` ✅
+- [ ] **T066** Implement Stc BufferList in `src/s-z/Stc/Stc.BufferList.cs`
+- [x] **T067** Implement StdDev BufferList in `src/s-z/StdDev/StdDev.BufferList.cs` ✅
+- [ ] **T068** Implement StdDevChannels BufferList in `src/s-z/StdDevChannels/StdDevChannels.BufferList.cs`
+- [x] **T069** Implement Stoch BufferList in `src/s-z/Stoch/Stoch.BufferList.cs` ✅
+- [x] **T070** Implement StochRsi BufferList in `src/s-z/StochRsi/StochRsi.BufferList.cs` ✅
+- [x] **T071** Implement SuperTrend BufferList in `src/s-z/SuperTrend/SuperTrend.BufferList.cs` ✅
+- [x] **T072** Implement T3 BufferList in `src/s-z/T3/T3.BufferList.cs` ✅
+- [x] **T073** Implement Tema BufferList in `src/s-z/Tema/Tema.BufferList.cs` ✅
+- [x] **T074** Implement Tr BufferList in `src/s-z/Tr/Tr.BufferList.cs` ✅
+- [x] **T075** Implement Trix BufferList in `src/s-z/Trix/Trix.BufferList.cs` ✅
+- [ ] **T076** Implement Tsi BufferList in `src/s-z/Tsi/Tsi.BufferList.cs`
+- [x] **T077** Implement UlcerIndex BufferList in `src/s-z/UlcerIndex/UlcerIndex.BufferList.cs` ✅
+- [x] **T078** Implement Ultimate BufferList in `src/s-z/Ultimate/Ultimate.BufferList.cs` ✅
+- [x] **T079** Implement VolatilityStop BufferList in `src/s-z/VolatilityStop/VolatilityStop.BufferList.cs` ✅
+- [x] **T080** Implement Vortex BufferList in `src/s-z/Vortex/Vortex.BufferList.cs` ✅
+- [x] **T081** Implement Vwap BufferList in `src/s-z/Vwap/Vwap.BufferList.cs` ✅
+- [x] **T082** Implement Vwma BufferList in `src/s-z/Vwma/Vwma.BufferList.cs` ✅
+- [x] **T083** Implement WilliamsR BufferList in `src/s-z/WilliamsR/WilliamsR.BufferList.cs` ✅
+- [x] **T084** Implement Wma BufferList in `src/s-z/Wma/Wma.BufferList.cs` ✅
+- [x] **T085** Implement ZigZag BufferList in `src/s-z/ZigZag/ZigZag.BufferList.cs` ✅
 
-- [x] T017 Implement ElderRay BufferList in `src/e-k/ElderRay/ElderRay.BufferList.cs` ✅ Complete
-- [x] T018 Implement Fcb BufferList in `src/e-k/Fcb/Fcb.BufferList.cs` ✅ Complete
-- [x] T019 Implement FisherTransform BufferList in `src/e-k/FisherTransform/FisherTransform.BufferList.cs` ✅ Complete
-- [x] T020 Implement ForceIndex BufferList in `src/e-k/ForceIndex/ForceIndex.BufferList.cs` ✅ Complete
-- [ ] T021 Implement Fractal BufferList in `src/e-k/Fractal/Fractal.BufferList.cs` ⚠️ **DEFERRED**: Requires future data access pattern incompatible with streaming constraints (looks ahead 2 periods). Marked for v2 research with potential reorder buffer solution.
-- [x] T022 Implement Gator BufferList in `src/e-k/Gator/Gator.BufferList.cs` ✅ Complete
-- [x] T023 Implement HeikinAshi BufferList in `src/e-k/HeikinAshi/HeikinAshi.BufferList.cs` ✅ Complete
-- [ ] T024 Implement HtTrendline BufferList in `src/e-k/HtTrendline/HtTrendline.BufferList.cs` ⚠️ **DEFERRED**: Complex Hilbert Transform implementation requires research into streaming compatibility and state management complexity. Targeted for v2 after core framework stabilization.
-- [ ] T025 Implement Hurst BufferList in `src/e-k/Hurst/Hurst.BufferList.cs` ⚠️ **DEFERRED**: Hurst Exponent calculation requires full dataset access patterns incompatible with incremental streaming. Research needed for windowed approximation approach in v2.
-- [ ] T026 Implement Ichimoku BufferList in `src/e-k/Ichimoku/Ichimoku.BufferList.cs` ⚠️ **DEFERRED**: Requires future offset calculations (Senkou Span B projects 26 periods ahead) incompatible with streaming constraints. Marked for v2 research with offset buffer solution.
-- [x] T027 Implement Keltner BufferList in `src/e-k/Keltner/Keltner.BufferList.cs` ✅ Complete
-- [x] T028 Implement Kvo BufferList in `src/e-k/Kvo/Kvo.BufferList.cs` ✅ Complete
+**BufferList**: 69/85 complete, 16 remaining
 
-### BufferList M-R Group (13 indicators)
+**Checkpoint**: Phase 2 completion achieves complete BufferList coverage for all Series indicators
 
-- [ ] T029 Implement MaEnvelopes BufferList in `src/m-r/MaEnvelopes/MaEnvelopes.BufferList.cs`
-- [x] T030 Implement Marubozu BufferList in `src/m-r/Marubozu/Marubozu.BufferList.cs` ✅ Complete
-- [x] T031 Implement Mfi BufferList in `src/m-r/Mfi/Mfi.BufferList.cs` ✅ Complete
-- [ ] T032 Implement ParabolicSar BufferList in `src/m-r/ParabolicSar/ParabolicSar.BufferList.cs`
-- [ ] T033 Implement PivotPoints BufferList in `src/m-r/PivotPoints/PivotPoints.BufferList.cs`
-- [ ] T034 Implement Pivots BufferList in `src/m-r/Pivots/Pivots.BufferList.cs`
-- [x] T035 Implement Pmo BufferList in `src/m-r/Pmo/Pmo.BufferList.cs` ✅ Complete
-- [x] T036 Implement Prs BufferList in `src/m-r/Prs/Prs.BufferList.cs` ✅ Complete
-- [x] T037 Implement Pvo BufferList in `src/m-r/Pvo/Pvo.BufferList.cs` ✅ Complete
-- [ ] T038 Implement Renko BufferList in `src/m-r/Renko/Renko.BufferList.cs`
-- [ ] T039 Implement RenkoAtr BufferList in `src/m-r/RenkoAtr/RenkoAtr.BufferList.cs`
-- [ ] T040 Implement RocWb BufferList in `src/m-r/RocWb/RocWb.BufferList.cs`
-- [ ] T041 Implement RollingPivots BufferList in `src/m-r/RollingPivots/RollingPivots.BufferList.cs`
+---
 
-### BufferList S-Z Group (14 indicators)
+## Phase 3: StreamHub Implementations
 
-- [ ] T042 Implement Slope BufferList in `src/s-z/Slope/Slope.BufferList.cs` ⚠️ **DEFERRED**: Line property requires retroactive updates to historical results when new data changes slope calculation, incompatible with append-only streaming constraints. Research needed for windowed approximation in v2.
-- [x] T043 Implement SmaAnalysis BufferList in `src/s-z/SmaAnalysis/SmaAnalysis.BufferList.cs` ✅ Complete
-- [x] T044 Implement Smi BufferList in `src/s-z/Smi/Smi.BufferList.cs` ✅ Complete
-- [x] T045 Implement StarcBands BufferList in `src/s-z/StarcBands/StarcBands.BufferList.cs` ✅ Complete
-- [ ] T046 Implement Stc BufferList in `src/s-z/Stc/Stc.BufferList.cs` (Complex - requires MACD→Stochastic pipeline, deferred)
-- [x] T047 Implement StdDev BufferList in `src/s-z/StdDev/StdDev.BufferList.cs` ✅ Complete
-- [ ] T048 Implement StdDevChannels BufferList in `src/s-z/StdDevChannels/StdDevChannels.BufferList.cs` (Deferred - depends on Slope retroactive updates)
-- [x] T049 Implement SuperTrend BufferList in `src/s-z/SuperTrend/SuperTrend.BufferList.cs` ✅ Complete
-- [ ] T050 Implement Tsi BufferList in `src/s-z/Tsi/Tsi.BufferList.cs`
-- [x] T051 Implement UlcerIndex BufferList in `src/s-z/UlcerIndex/UlcerIndex.BufferList.cs` ✅ Complete
-- [x] T052 Implement VolatilityStop BufferList in `src/s-z/VolatilityStop/VolatilityStop.BufferList.cs` ✅ Complete (Previously deferred - now implemented with retroactive update capability using UpdateInternal)
-- [x] T053 Implement Vortex BufferList in `src/s-z/Vortex/Vortex.BufferList.cs` ✅ Complete
-- [x] T054 Implement Vwap BufferList in `src/s-z/Vwap/Vwap.BufferList.cs` ✅ Complete
-- [ ] T055 Implement ZigZag BufferList in `src/s-z/ZigZag/ZigZag.BufferList.cs` (Deferred - requires retroactive updates and look-ahead)
+**Purpose**: Complete StreamHub streaming implementations for all 85 indicators (1:1:1 parity with Series)
 
-## Missing StreamHub Implementations
+Note on former deferrals: Indicators like Fractal, HtTrendline, Hurst, Ichimoku, and Slope are complex but unblocked. Use the reference hubs in the stream instructions — EMA hub for chain provider baseline, ATR Stop and Alligator for multi-series from quotes, Correlation/Beta for synchronized pairs.
 
-**Target**: 44 missing StreamHub implementations for 1:1:1 parity
+**Dependencies**: Phase 1 compliance audits complete (Phase 2 can proceed in parallel)
 
-### StreamHub A-D Group (8 missing)
+- [x] **T086** Implement Adl StreamHub in `src/a-d/Adl/Adl.StreamHub.cs` ✅
+- [x] **T087** Implement Adx StreamHub in `src/a-d/Adx/Adx.StreamHub.cs` ✅
+- [x] **T088** Implement Alligator StreamHub in `src/a-d/Alligator/Alligator.StreamHub.cs` ✅
+- [x] **T089** Implement Alma StreamHub in `src/a-d/Alma/Alma.StreamHub.cs` ✅
+- [x] **T090** Implement Aroon StreamHub in `src/a-d/Aroon/Aroon.StreamHub.cs` ✅
+- [x] **T091** Implement Atr StreamHub in `src/a-d/Atr/Atr.StreamHub.cs` ✅
+- [x] **T092** Implement AtrStop StreamHub in `src/a-d/AtrStop/AtrStop.StreamHub.cs` ✅
+- [x] **T093** Implement Awesome StreamHub in `src/a-d/Awesome/Awesome.StreamHub.cs` ✅
+- [x] **T094** Implement Beta StreamHub in `src/a-d/Beta/Beta.StreamHub.cs` ✅
+- [x] **T095** Implement BollingerBands StreamHub in `src/a-d/BollingerBands/BollingerBands.StreamHub.cs` ✅
+- [x] **T096** Implement Bop StreamHub in `src/a-d/Bop/Bop.StreamHub.cs` ✅
+- [x] **T097** Implement Cci StreamHub in `src/a-d/Cci/Cci.StreamHub.cs` ✅
+- [x] **T098** Implement ChaikinOsc StreamHub in `src/a-d/ChaikinOsc/ChaikinOsc.StreamHub.cs` ✅
+- [x] **T099** Implement Chandelier StreamHub in `src/a-d/Chandelier/Chandelier.StreamHub.cs` ✅
+- [x] **T100** Implement Chop StreamHub in `src/a-d/Chop/Chop.StreamHub.cs` ✅
+- [x] **T101** Implement Cmf StreamHub in `src/a-d/Cmf/Cmf.StreamHub.cs` ✅
+- [x] **T102** Implement Cmo StreamHub in `src/a-d/Cmo/Cmo.StreamHub.cs` ✅
+- [ ] **T103** Implement ConnorsRsi StreamHub in `src/a-d/ConnorsRsi/ConnorsRsi.StreamHub.cs`
+- [x] **T104** Implement Correlation StreamHub in `src/a-d/Correlation/Correlation.StreamHub.cs` ✅
+- [x] **T105** Implement Dema StreamHub in `src/a-d/Dema/Dema.StreamHub.cs` ✅
+- [x] **T106** Implement Doji StreamHub in `src/a-d/Doji/Doji.StreamHub.cs` ✅
+- [ ] **T107** Implement Donchian StreamHub in `src/a-d/Donchian/Donchian.StreamHub.cs`
+- [ ] **T108** Implement Dpo StreamHub in `src/a-d/Dpo/Dpo.StreamHub.cs`
+- [ ] **T109** Implement Dynamic StreamHub in `src/a-d/Dynamic/Dynamic.StreamHub.cs`
+- [ ] **T110** Implement ElderRay StreamHub in `src/e-k/ElderRay/ElderRay.StreamHub.cs`
+- [x] **T111** Implement Ema StreamHub in `src/e-k/Ema/Ema.StreamHub.cs` ✅
+- [x] **T112** Implement Epma StreamHub in `src/e-k/Epma/Epma.StreamHub.cs` ✅
+- [ ] **T113** Implement Fcb StreamHub in `src/e-k/Fcb/Fcb.StreamHub.cs`
+- [ ] **T114** Implement FisherTransform StreamHub in `src/e-k/FisherTransform/FisherTransform.StreamHub.cs`
+- [ ] **T115** Implement ForceIndex StreamHub in `src/e-k/ForceIndex/ForceIndex.StreamHub.cs`
+- [ ] **T116** Implement Fractal StreamHub in `src/e-k/Fractal/Fractal.StreamHub.cs` (complex but unblocked — chain provider with multi-buffer internal state)
+- [ ] **T117** Implement Gator StreamHub in `src/e-k/Gator/Gator.StreamHub.cs`
+- [ ] **T118** Implement HeikinAshi StreamHub in `src/e-k/HeikinAshi/HeikinAshi.StreamHub.cs`
+- [x] **T119** Implement Hma StreamHub in `src/e-k/Hma/Hma.StreamHub.cs` ✅
+- [ ] **T120** Implement HtTrendline StreamHub in `src/e-k/HtTrendline/HtTrendline.StreamHub.cs` (complex but unblocked — model after EMA chain provider with HMA-like buffers)
+- [ ] **T121** Implement Hurst StreamHub in `src/e-k/Hurst/Hurst.StreamHub.cs` (complex but unblocked — use ADX-like complex state and EMA hub shape)
+- [ ] **T122** Implement Ichimoku StreamHub in `src/e-k/Ichimoku/Ichimoku.StreamHub.cs` (complex but unblocked — multi-line series via quote provider pattern like Alligator/AtrStop)
+- [x] **T123** Implement Kama StreamHub in `src/e-k/Kama/Kama.StreamHub.cs` ✅
+- [ ] **T124** Implement Keltner StreamHub in `src/e-k/Keltner/Keltner.StreamHub.cs`
+- [ ] **T125** Implement Kvo StreamHub in `src/e-k/Kvo/Kvo.StreamHub.cs`
+- [ ] **T126** Implement MaEnvelopes StreamHub in `src/m-r/MaEnvelopes/MaEnvelopes.StreamHub.cs`
+- [x] **T127** Implement Macd StreamHub in `src/m-r/Macd/Macd.StreamHub.cs` ✅
+- [x] **T128** Implement Mama StreamHub in `src/m-r/Mama/Mama.StreamHub.cs` ✅
+- [ ] **T129** Implement Marubozu StreamHub in `src/m-r/Marubozu/Marubozu.StreamHub.cs`
+- [ ] **T130** Implement Mfi StreamHub in `src/m-r/Mfi/Mfi.StreamHub.cs`
+- [x] **T131** Implement Obv StreamHub in `src/m-r/Obv/Obv.StreamHub.cs` ✅
+- [ ] **T132** Implement ParabolicSar StreamHub in `src/m-r/ParabolicSar/ParabolicSar.StreamHub.cs`
+- [ ] **T133** Implement PivotPoints StreamHub in `src/m-r/PivotPoints/PivotPoints.StreamHub.cs`
+- [ ] **T134** Implement Pivots StreamHub in `src/m-r/Pivots/Pivots.StreamHub.cs`
+- [ ] **T135** Implement Pmo StreamHub in `src/m-r/Pmo/Pmo.StreamHub.cs`
+- [x] **T136** Implement Prs StreamHub in `src/m-r/Prs/Prs.StreamHub.cs` ✅
+- [ ] **T137** Implement Pvo StreamHub in `src/m-r/Pvo/Pvo.StreamHub.cs`
+- [x] **T138** Implement QuotePart StreamHub in `src/_common/QuotePart/QuotePart.StreamHub.cs` ✅
+- [x] **T139** Implement Renko StreamHub in `src/m-r/Renko/Renko.StreamHub.cs` ✅
+- [ ] **T140** Implement RenkoAtr StreamHub in `src/m-r/RenkoAtr/RenkoAtr.StreamHub.cs`
+- [x] **T141** Implement Roc StreamHub in `src/m-r/Roc/Roc.StreamHub.cs` ✅
+- [ ] **T142** Implement RocWb StreamHub in `src/m-r/RocWb/RocWb.StreamHub.cs`
+- [ ] **T143** Implement RollingPivots StreamHub in `src/m-r/RollingPivots/RollingPivots.StreamHub.cs`
+- [x] **T144** Implement Rsi StreamHub in `src/m-r/Rsi/Rsi.StreamHub.cs` ✅
+- [ ] **T145** Implement Slope StreamHub in `src/s-z/Slope/Slope.StreamHub.cs` (complex but unblocked — repaint-friendly logic modeled after VolatilityStop tests and series parity)
+- [x] **T146** Implement Sma StreamHub in `src/s-z/Sma/Sma.StreamHub.cs` ✅
+- [ ] **T147** Implement SmaAnalysis StreamHub in `src/s-z/SmaAnalysis/SmaAnalysis.StreamHub.cs`
+- [ ] **T148** Implement Smi StreamHub in `src/s-z/Smi/Smi.StreamHub.cs`
+- [x] **T149** Implement Smma StreamHub in `src/s-z/Smma/Smma.StreamHub.cs` ✅
+- [ ] **T150** Implement StarcBands StreamHub in `src/s-z/StarcBands/StarcBands.StreamHub.cs`
+- [ ] **T151** Implement Stc StreamHub in `src/s-z/Stc/Stc.StreamHub.cs`
+- [ ] **T152** Implement StdDev StreamHub in `src/s-z/StdDev/StdDev.StreamHub.cs`
+- [ ] **T153** Implement StdDevChannels StreamHub in `src/s-z/StdDevChannels/StdDevChannels.StreamHub.cs`
+- [x] **T154** Implement Stoch StreamHub in `src/s-z/Stoch/Stoch.StreamHub.cs` ✅
+- [x] **T155** Implement StochRsi StreamHub in `src/s-z/StochRsi/StochRsi.StreamHub.cs` ✅
+- [ ] **T156** Implement SuperTrend StreamHub in `src/s-z/SuperTrend/SuperTrend.StreamHub.cs`
+- [x] **T157** Implement T3 StreamHub in `src/s-z/T3/T3.StreamHub.cs` ✅
+- [x] **T158** Implement Tema StreamHub in `src/s-z/Tema/Tema.StreamHub.cs` ✅
+- [x] **T159** Implement Tr StreamHub in `src/s-z/Tr/Tr.StreamHub.cs` ✅
+- [x] **T160** Implement Trix StreamHub in `src/s-z/Trix/Trix.StreamHub.cs` ✅
+- [ ] **T161** Implement Tsi StreamHub in `src/s-z/Tsi/Tsi.StreamHub.cs`
+- [ ] **T162** Implement UlcerIndex StreamHub in `src/s-z/UlcerIndex/UlcerIndex.StreamHub.cs`
+- [x] **T163** Implement Ultimate StreamHub in `src/s-z/Ultimate/Ultimate.StreamHub.cs` ✅
+- [ ] **T164** Implement VolatilityStop StreamHub in `src/s-z/VolatilityStop/VolatilityStop.StreamHub.cs`
+- [ ] **T165** Implement Vortex StreamHub in `src/s-z/Vortex/Vortex.StreamHub.cs`
+- [ ] **T166** Implement Vwap StreamHub in `src/s-z/Vwap/Vwap.StreamHub.cs`
+- [x] **T167** Implement Vwma StreamHub in `src/s-z/Vwma/Vwma.StreamHub.cs` ✅
+- [x] **T168** Implement WilliamsR StreamHub in `src/s-z/WilliamsR/WilliamsR.StreamHub.cs` ✅
+- [x] **T169** Implement Wma StreamHub in `src/s-z/Wma/Wma.StreamHub.cs` ✅
+- [ ] **T170** Implement ZigZag StreamHub in `src/s-z/ZigZag/ZigZag.StreamHub.cs`
 
-- [ ] T061 Implement Chandelier StreamHub in `src/a-d/Chandelier/Chandelier.StreamHub.cs`
-- [ ] T062 Implement Chop StreamHub in `src/a-d/Chop/Chop.StreamHub.cs`
-- [ ] T063 Implement Cmf StreamHub in `src/a-d/Cmf/Cmf.StreamHub.cs`
-- [ ] T064 Implement ConnorsRsi StreamHub in `src/a-d/ConnorsRsi/ConnorsRsi.StreamHub.cs`
-- [ ] T067 Implement Donchian StreamHub in `src/a-d/Donchian/Donchian.StreamHub.cs`
-- [ ] T068 Implement Dpo StreamHub in `src/a-d/Dpo/Dpo.StreamHub.cs`
-- [ ] T069 Implement Dynamic StreamHub in `src/a-d/Dynamic/Dynamic.StreamHub.cs`
-- [ ] T065 Implement Correlation StreamHub in `src/a-d/Correlation/Correlation.StreamHub.cs` (WIP, needs revisit - dual-stream sync needs work, see Issue #1511)
+**StreamHub**: 45/85 complete, 40 remaining
 
-### StreamHub E-K Group (12 missing)
+**Checkpoint**: Phase 3 completion achieves 1:1:1 parity across all three implementation styles (Series, BufferList, StreamHub)
 
-- [ ] T070 Implement ElderRay StreamHub in `src/e-k/ElderRay/ElderRay.StreamHub.cs`
-- [ ] T071 Implement Fcb StreamHub in `src/e-k/Fcb/Fcb.StreamHub.cs`
-- [ ] T072 Implement FisherTransform StreamHub in `src/e-k/FisherTransform/FisherTransform.StreamHub.cs`
-- [ ] T073 Implement ForceIndex StreamHub in `src/e-k/ForceIndex/ForceIndex.StreamHub.cs`
-- [ ] T074 Implement Fractal StreamHub in `src/e-k/Fractal/Fractal.StreamHub.cs` ⚠️ **DEFERRED**: Future data access incompatible with streaming
-- [ ] T075 Implement Gator StreamHub in `src/e-k/Gator/Gator.StreamHub.cs`
-- [ ] T076 Implement HeikinAshi StreamHub in `src/e-k/HeikinAshi/HeikinAshi.StreamHub.cs`
-- [ ] T077 Implement HtTrendline StreamHub in `src/e-k/HtTrendline/HtTrendline.StreamHub.cs` ⚠️ **DEFERRED**: Complex Hilbert Transform streaming compatibility research needed
-- [ ] T078 Implement Hurst StreamHub in `src/e-k/Hurst/Hurst.StreamHub.cs` ⚠️ **DEFERRED**: Full dataset access patterns incompatible with streaming
-- [ ] T079 Implement Ichimoku StreamHub in `src/e-k/Ichimoku/Ichimoku.StreamHub.cs` ⚠️ **DEFERRED**: Future offset calculations incompatible with streaming
-- [ ] T080 Implement Keltner StreamHub in `src/e-k/Keltner/Keltner.StreamHub.cs`
-- [ ] T081 Implement Kvo StreamHub in `src/e-k/Kvo/Kvo.StreamHub.cs`
+---
 
-### StreamHub M-R Group (12 missing)
+## Phase 4: Test Infrastructure & Quality Assurance
 
-- [ ] T082 Implement MaEnvelopes StreamHub in `src/m-r/MaEnvelopes/MaEnvelopes.StreamHub.cs`
-- [ ] T083 Implement Marubozu StreamHub in `src/m-r/Marubozu/Marubozu.StreamHub.cs`
-- [ ] T084 Implement Mfi StreamHub in `src/m-r/Mfi/Mfi.StreamHub.cs`
-- [ ] T085 Implement ParabolicSar StreamHub in `src/m-r/ParabolicSar/ParabolicSar.StreamHub.cs`
-- [ ] T086 Implement PivotPoints StreamHub in `src/m-r/PivotPoints/PivotPoints.StreamHub.cs`
-- [ ] T087 Implement Pivots StreamHub in `src/m-r/Pivots/Pivots.StreamHub.cs`
-- [ ] T088 Implement Pmo StreamHub in `src/m-r/Pmo/Pmo.StreamHub.cs`
-- [ ] T089 Implement Prs StreamHub in `src/m-r/Prs/Prs.StreamHub.cs`
-- [ ] T090 Implement Pvo StreamHub in `src/m-r/Pvo/Pvo.StreamHub.cs`
-- [ ] T091 Implement RenkoAtr StreamHub in `src/m-r/RenkoAtr/RenkoAtr.StreamHub.cs`
-- [ ] T092 Implement RocWb StreamHub in `src/m-r/RocWb/RocWb.StreamHub.cs`
-- [ ] T093 Implement RollingPivots StreamHub in `src/m-r/RollingPivots/RollingPivots.StreamHub.cs`
+**Purpose**: Ensure comprehensive test coverage and performance validation
 
-### StreamHub S-Z Group (12 missing)
+**Dependencies**: Phases 2 and 3 implementations
 
-- [ ] T094 Implement Slope StreamHub in `src/s-z/Slope/Slope.StreamHub.cs` ⚠️ **DEFERRED**: Retroactive calculation incompatible with streaming
-- [ ] T095 Implement SmaAnalysis StreamHub in `src/s-z/SmaAnalysis/SmaAnalysis.StreamHub.cs`
-- [ ] T096 Implement Smi StreamHub in `src/s-z/Smi/Smi.StreamHub.cs`
-- [ ] T097 Implement StarcBands StreamHub in `src/s-z/StarcBands/StarcBands.StreamHub.cs`
-- [ ] T098 Implement Stc StreamHub in `src/s-z/Stc/Stc.StreamHub.cs`
-- [ ] T099 Implement StdDev StreamHub in `src/s-z/StdDev/StdDev.StreamHub.cs`
-- [ ] T100 Implement StdDevChannels StreamHub in `src/s-z/StdDevChannels/StdDevChannels.StreamHub.cs`
-- [ ] T101 Implement SuperTrend StreamHub in `src/s-z/SuperTrend/SuperTrend.StreamHub.cs`
-- [ ] T102 Implement Tsi StreamHub in `src/s-z/Tsi/Tsi.StreamHub.cs`
-- [ ] T103 Implement UlcerIndex StreamHub in `src/s-z/UlcerIndex/UlcerIndex.StreamHub.cs`
-- [ ] T104 Implement VolatilityStop StreamHub in `src/s-z/VolatilityStop/VolatilityStop.StreamHub.cs`
-- [ ] T105 Implement Vortex StreamHub in `src/s-z/Vortex/Vortex.StreamHub.cs`
-- [ ] T106 Implement Vwap StreamHub in `src/s-z/Vwap/Vwap.StreamHub.cs`
-- [ ] T107 Implement ZigZag StreamHub in `src/s-z/ZigZag/ZigZag.StreamHub.cs`
-- [ ] T126 Implement QuotePart StreamHub in `src/_common/QuotePart/QuotePart.StreamHub.cs`
+### StreamHub Test Interface Compliance
+
+- [ ] **T175** Audit all existing StreamHub test classes for proper test interface implementation according to updated guidelines in `.github/instructions/indicator-stream.instructions.md`
+- [ ] **T176** Update StreamHub test classes that implement wrong interfaces (e.g., missing `ITestChainObserver` for chainable indicators)
+- [ ] **T177** Add comprehensive rollback validation tests to all StreamHub test classes following canonical pattern from `Adx.StreamHub.Tests.cs`
+  - Implement in appropriate observer test methods (QuoteObserver, ChainObserver, PairsObserver)
+  - Use mutable `List<Quote>` (not static array)
+  - Add all quotes, verify results match series exactly with strict ordering
+  - Remove a single historical quote (not just the last)
+  - Rebuild expected series with revised quote list
+  - Assert exact count and strict ordering for both before and after removal
+  - Never re-add the removed quote (revised series is new ground truth)
+- [ ] **T178** Verify all dual-stream indicators (Correlation, Beta, PRS) implement `ITestPairsObserver` interface correctly
+- [ ] **T179** Create validation script to check test interface compliance across all StreamHub tests
+
+### Provider History Testing
+
+- [ ] **T180** Add provider history (Insert/Remove) testing to QuoteObserver tests in AdxHub at `tests/indicators/a-d/Adx/Adx.StreamHub.Tests.cs`
+  - Use `List<Quote>` for mutability
+  - Remove by index and verify strict ordering and count
+  - Never re-add removed quote
+  - Reference `Adx.StreamHub.Tests.cs` as canonical example
+- [ ] **T181** Add provider history (Insert/Remove) testing to ChainProvider tests missing Insert/Remove operations in AtrHub, CciHub, MacdHub, MamaHub, ObvHub, PrsHub
+- [ ] **T182** Add provider history (Insert/Remove) testing to ChainObserver tests missing Insert/Remove operations in RsiHub, StochRsiHub
+- [ ] **T183** Add provider history (Insert/Remove) testing to ChainProvider tests missing Insert/Remove operations in StochHub, VwmaHub, WilliamsRHub
+- [ ] **T184** Add virtual ProviderHistoryTesting() method to StreamHubTestBase class in `tests/indicators/_base/StreamHubTestBase.cs`
+- [x] **T185** Update `indicator-stream.instructions.md` to require comprehensive rollback validation testing for all StreamHub indicators ✅
+  - Updated "Unit testing" checklist item to require comprehensive rollback validation (warmup, duplicates, Insert/Remove, strict Series parity)
+  - Renamed the scenarios section to "Comprehensive rollback validation (required)"
+
+### Performance & Quality Gates
+
+- [ ] **Q001** Update public API approval test baselines for streaming additions (`tests/public-api/`)
+- [ ] **Q002** Run performance benchmarks comparing BufferList vs Series for representative indicators
+  - Use BenchmarkDotNet with latency validation (<5ms mean, <10ms p95)
+  - Standardized hardware (4-core 3GHz CPU, 16GB RAM, .NET 9.0 release mode)
+- [ ] **Q003** Run performance benchmarks comparing StreamHub vs Series for representative indicators
+  - Same criteria as Q002
+- [ ] **Q004** Validate memory overhead stays within <10KB per instance target (NFR-002)
+  - Use dotMemory profiler or equivalent
+  - Test on representative indicators (SMA, EMA, RSI with 200-period lookback)
+  - Document measurement procedure and baseline results for CI regression detection
+- [ ] **Q005** Create automated performance regression detection for streaming indicators
+  - Baseline thresholds: mean latency <5ms, p95 latency <10ms, memory overhead <10KB per instance
+  - Automatic CI failure on regression >10% degradation
+- [ ] **Q006** Establish memory baseline measurements for all streaming indicator types
+  - Measure BufferList vs StreamHub memory efficiency
+  - Document memory scaling characteristics vs lookback period (50, 100, 200 periods)
+  - Create regression thresholds for automated CI validation
+
+**Checkpoint**: Phase 4 ensures quality gates and comprehensive test coverage for all streaming implementations
+
+---
+
+## Phase 5: Documentation & Polish
+
+**Purpose**: Complete user-facing documentation and migration guidance
+
+**Dependencies**: Phases 2 and 3 implementations
+
+### Documentation Updates (D-series)
+
+- [x] **D001** Update `docs/_indicators/Sma.md` with streaming usage section and examples ✅
+- [x] **D002** Update `docs/_indicators/Ema.md` with streaming usage section and examples ✅
+- [ ] **D003** Update `docs/_indicators/Rsi.md` with streaming usage section and examples
+- [ ] **D004** Update `docs/_indicators/Macd.md` with streaming usage section and examples
+- [ ] **D005** Update `docs/_indicators/BollingerBands.md` with streaming usage section and examples
+- [ ] **D006** Update `README.md` with streaming overview paragraph and quick-start example
+- [ ] **D007** Update `src/MigrationGuide.V3.md` with streaming capability summary and migration guidance
+
+**Checkpoint**: Phase 5 completion delivers polished user-facing documentation for all streaming features
+
+---
 
 ## Implementation Guidelines
+
+### Refactor: Dual-Stream Provider/Observer Pattern
+
+- [ ] **R001** Refactor `PairsProvider` for dual-stream StreamHub indicators ([#1548](https://github.com/DaveSkender/Stock.Indicators/issues/1548))
+  - Evaluate renaming `PairsProvider` to `PairsObserver` for clarity (note: this goes against prevailing convention, but may improve consistency with observer pattern)
+  - Delete `IPairsProvider` and replace its use on `PairsProvider` with the correct `IChainProvider<TOut>` implementation
+  - Design and implement robust synchronization logic for two data sources that may not arrive concurrently (buffering, timestamp alignment, event-driven merge, etc.)
+  - Replace `ProviderBCache` with a simpler, idiomatic tuple buffer (e.g., `Queue<(DateTime, double, double)>`)
+  - Address all pruning and complexity issues related to dual-stream synchronization and buffer management
+  - Refactor all affected indicators and tests to use the new pattern
+  - Update documentation and instruction files to reflect the new approach
+  - See [GitHub Issue #1548](https://github.com/DaveSkender/Stock.Indicators/issues/1548) for architectural discussion and elaboration
 
 Each task should follow these guidelines:
 
@@ -252,7 +408,7 @@ Each task should follow these guidelines:
 
 ### StreamHub Implementation Requirements
 
-- Extend `ChainProvider<TIn, TResult>` or `QuoteProvider<TIn, TResult>`
+- Extend `ChainProvider<TIn, TResult>`, `QuoteProvider<TIn, TResult>`, or `PairsProvider<TIn, TResult>`
 - Follow patterns from `.github/instructions/indicator-stream.instructions.md`
 - Implement efficient state management for real-time processing
 - Include comprehensive unit tests matching patterns in existing tests
@@ -266,155 +422,57 @@ Each task should follow these guidelines:
 - Include all required test methods from test base classes
 - Verify parity with series-style calculations
 - Test edge cases, reset behavior, and state management
+- StreamHub tests must implement exactly one observer interface (ITestQuoteObserver OR ITestChainObserver); dual‑stream hubs must use ITestPairsObserver
 
-## Dependencies
+---
 
-- Each BufferList and StreamHub implementation is independent
-- Tests should be created alongside implementations
-- Follow existing patterns in the codebase for consistency
-- Reference instruction files for authoritative guidance
+## Dependencies & Execution Order
 
-## Notes
+### Phase Dependencies
 
-- All tasks can be executed in parallel as they touch different files
+- **Phase 1**: Foundation (audits & compliance) — No dependencies, can start immediately
+- **Phase 2**: BufferList implementations (T001-T085) — Depends on Phase 1 completion
+- **Phase 3**: StreamHub implementations (T086-T170) — Depends on Phase 1 completion (can proceed in parallel with Phase 2)
+- **Phase 4**: Test infrastructure & quality assurance (T175-T185, Q001-Q006) — Depends on Phases 2 and 3 progress
+- **Phase 5**: Documentation & polish (D001-D007) — Depends on Phases 2 and 3 implementations
+
+### Parallel Opportunities
+
+- Tasks within each phase can run in parallel
+- Phases 2 and 3 can proceed in parallel after Phase 1 completion
+- Different indicator implementations are completely independent
+- Documentation tasks can begin as soon as corresponding implementations complete
+
+### Notes
+
+- All implementation tasks can be executed in parallel as they touch different files
 - Maintain strict adherence to existing patterns and conventions
 - Run `dotnet test --no-restore` after each implementation
 - Follow pre-commit checklist from `.github/instructions/source-code-completion.instructions.md`
 - Update catalog entries and documentation as implementations are completed
 
-## Supporting Tasks (Infrastructure & Documentation)
-
-### Testing & Quality Assurance
-
-**Note**: Test implementation is embedded within each T001-T107 task. Each implementation task includes:
-
-- Unit tests in corresponding test file (e.g., `T001` includes `tests/indicators/a-d/Alligator/Alligator.BufferList.Tests.cs`)
-- Parity tests validating equivalence with Series implementation
-- Edge case tests (reset behavior, state management, error conditions)
-
-### Documentation Updates
-
-The following documentation tasks support the main implementation work:
-
-- [x] **D001**: Update `docs/_indicators/Sma.md` with streaming usage section and examples (already completed)
-- [x] **D002**: Update `docs/_indicators/Ema.md` with streaming usage section and examples (already completed)
-- [ ] **D003**: Update `docs/_indicators/Rsi.md` with streaming usage section and examples
-- [ ] **D004**: Update `docs/_indicators/Macd.md` with streaming usage section and examples
-- [ ] **D005**: Update `docs/_indicators/BollingerBands.md` with streaming usage section and examples
-- [ ] **D006**: Update `README.md` with streaming overview paragraph and quick-start example
-- [ ] **D007**: Update `src/MigrationGuide.V3.md` with streaming capability summary and migration guidance
-- [ ] **T108**: Update indicator documentation pages (`docs/_indicators/*.md`) for all streaming-enabled indicators with usage examples (NFR-005)
-- [ ] **T109**: Expand `src/MigrationGuide.V3.md` with comprehensive streaming migration guidance including performance benefits and API patterns (NFR-006)
-
-### Quality Gates
-
-- [ ] **Q001**: Update public API approval test baselines for streaming additions (`tests/public-api/`)
-- [ ] **Q002**: Run performance benchmarks comparing BufferList vs Series for representative indicators using BenchmarkDotNet with latency validation (<5ms mean, <10ms p95) on standardized hardware (4-core 3GHz CPU, 16GB RAM, .NET 9.0 release mode)
-- [ ] **Q003**: Run performance benchmarks comparing StreamHub vs Series for representative indicators using BenchmarkDotNet with latency validation (<5ms mean, <10ms p95) on standardized hardware (4-core 3GHz CPU, 16GB RAM, .NET 9.0 release mode)
-- [ ] **Q004**: Validate memory overhead stays within <10KB per instance target (NFR-002) using dotMemory profiler or equivalent with specific measurement methodology on representative indicators (SMA, EMA, RSI with 200-period lookback). Measurement MUST include: baseline memory before indicator creation, memory after initialization with warmup data, memory after 1000 incremental updates, and final memory footprint. Document measurement procedure and baseline results for CI regression detection.
-- [ ] **Q005**: Create automated performance regression detection for streaming indicators with baseline thresholds: mean latency <5ms, p95 latency <10ms, memory overhead <10KB per instance, and automatic CI failure on regression >10% degradation
-- [ ] **Q006**: Establish memory baseline measurements for all streaming indicator types using standardized test procedure: measure BufferList vs StreamHub memory efficiency, document memory scaling characteristics vs lookback period (50, 100, 200 periods), and create regression thresholds for automated CI validation
-
-### Test Interface Compliance & Code Quality
-
-- [ ] **T110**: Audit all existing StreamHub test classes for proper test interface implementation according to updated guidelines in `.github/instructions/indicator-stream.instructions.md`
-- [ ] **T111**: Update StreamHub test classes that implement wrong interfaces (e.g., missing `ITestChainObserver` for chainable indicators)
-- [ ] **T112**: Add comprehensive rollback validation tests to all StreamHub test classes. The RollbackValidation test MUST be implemented in the appropriate observer test methods (QuoteObserver, ChainObserver, PairsObserver) and MUST use mutable `List<Quote>` (not static array), add all quotes, verify results match series exactly with strict ordering, remove a single historical quote (not just the last), rebuild expected series with revised quote list (one missing), assert exact count and strict ordering for both before and after removal, never re-add the removed quote (revised series is new ground truth), and reference Adx.StreamHub.Tests.cs for canonical structure. This applies to ALL indicators, not just those with explicit RollbackState() implementations.
-- [ ] **T113**: Verify all dual-stream indicators (Correlation, Beta, PRS) implement `ITestPairsObserver` interface correctly
-- [ ] **T114**: Create validation script to check test interface compliance across all StreamHub tests
-
-**Notes**:
-
-- Documentation tasks (D001-D007) can proceed in parallel with implementation
-- Quality gate tasks (Q001-Q004) should run after substantial implementation progress (e.g., post-Phase 1a completion)
-- Test infrastructure already exists; no additional scaffolding tasks required
+---
 
 ## Summary
 
-**CRITICAL UPDATE**: Comprehensive audit reveals 1:1:1 parity requirement across all implementation styles:
+**Implementation Coverage (1:1:1 Parity)**:
 
 - **Total Series implementations**: 85 indicators (baseline)
-- **Total BufferList implementations**: 59 complete, **26 missing**
-- **Total StreamHub implementations**: 41 complete, **44 missing**
+- **Total BufferList implementations**: 69 complete, 16 remaining (T001-T085)
+- **Total StreamHub implementations**: 45 complete, 40 remaining (T086-T170)
 - **1:1:1 Target**: 85 BufferList + 85 StreamHub = 170 streaming implementations total
-- **Current streaming coverage**: 100/170 = **59% complete**
+- **Current streaming coverage**: 114/170 = **67% complete**
 
-### Missing Implementation Analysis
+**Task Breakdown**:
 
-- **BufferList missing (26)**: ConnorsRsi, Fractal*, HtTrendline*, Hurst*, Ichimoku*, MaEnvelopes, ParabolicSar, PivotPoints, Pivots, Pmo, Pvo, QuotePart, Renko, RenkoAtr, RocWb, RollingPivots, Slope*, Smi, StarcBands, Stc, StdDevChannels, Tsi, VolatilityStop, Vortex, Vwap, ZigZag
-- **StreamHub missing (44)**: Chandelier, Chop, ConnorsRsi, Donchian, Dpo, Dynamic, ElderRay, Fcb, FisherTransform, ForceIndex, Fractal*, Gator, HeikinAshi, HtTrendline*, Hurst*, Ichimoku*, Keltner, Kvo, MaEnvelopes, Marubozu, Mfi, ParabolicSar, PivotPoints, Pivots, Pmo, Pvo, QuotePart, RenkoAtr, RocWb, RollingPivots, Slope*, SmaAnalysis, Smi, StarcBands, Stc, StdDev, StdDevChannels, SuperTrend, Tsi, UlcerIndex, VolatilityStop, Vortex, Vwap, ZigZag
+- **Phase 1**: 10 tasks (A001-A006, T171-T174) — 8 complete, 2 remaining
+- **Phase 2**: 85 BufferList implementation tasks (T001-T085) — 69 complete, 16 remaining
+- **Phase 3**: 85 StreamHub implementation tasks (T086-T170) — 45 complete, 40 remaining
+- **Phase 4**: 17 test infrastructure tasks (T175-T185, Q001-Q006) — 0 complete, 17 remaining
+- **Phase 5**: 7 documentation tasks (D001-D007) — 2 complete, 5 remaining
+- **Total**: 204 tasks — 124 complete, 80 remaining
 
-**Note**: Asterisked (*) indicators may be deferred to v2 due to streaming constraints research needed.
-
-- **Total implementation tasks**: 170 (85 BufferList + 85 StreamHub)
-- **Remaining tasks**: 70 (26 BufferList + 44 StreamHub)  
-- **Supporting tasks**: 20+ (documentation, quality gates, compliance)
-- **Documentation tasks**: 7 (D001-D007)  
-- **Quality gate tasks**: 6 (Q001-Q006)
-- **Test interface compliance tasks**: 5 (T110-T114)
-- **Provider history testing tasks**: 6 (T115-T120)
-
-## Provider History Testing (New Tasks)
-
-StreamHub implementations should test removal and revision of provider history to ensure proper state management and recalculation. Analysis shows several tests lack Insert/Remove operations.
-
-### Test Coverage Analysis
-
-Current status of provider history testing in StreamHub tests:
-
-**✅ Tests with proper Insert/Remove coverage:**
-
-- AlligatorHub, AwesomeHub, DojiHub, EmaHub, DemaHub, HmaHub, RocHub, RenkoHub, SmaHub, SmmaHub, T3Hub, TemaHub, TrixHub, TrHub, UltimateHub, WmaHub (16 tests)
-
-**❌ Tests missing Insert/Remove coverage:**
-
-- AdxHub, AtrHub, CciHub, MacdHub, MamaHub, ObvHub, PrsHub, RsiHub, StochHub, StochRsiHub, VwmaHub, WilliamsRHub (12+ tests)
-
-### Implementation Tasks
-
-- [ ] T115 Add provider history (Insert/Remove) testing to QuoteObserver tests in AdxHub at `tests/indicators/a-d/Adx/Adx.StreamHub.Tests.cs` using the robust pattern: use `List<Quote>`, remove by index, verify strict ordering and count, never re-add removed quote, and reference Adx.StreamHub.Tests.cs as canonical example.
-- [ ] T116 Add provider history (Insert/Remove) testing to ChainProvider tests missing Insert/Remove operations in AtrHub, CciHub, MacdHub, MamaHub, ObvHub, PrsHub at their respective test files, following the improved pattern.
-- [ ] T117 Add provider history (Insert/Remove) testing to ChainObserver tests missing Insert/Remove operations in RsiHub, StochRsiHub at their respective test files, following the improved pattern.
-- [ ] T118 Add provider history (Insert/Remove) testing to ChainProvider tests missing Insert/Remove operations in StochHub, VwmaHub, WilliamsRHub at their respective test files, following the improved pattern.
-- [ ] T119 Add virtual ProviderHistoryTesting() method to StreamHubTestBase class in `tests/indicators/_base/StreamHubTestBase.cs` with standard Insert/Remove pattern, and ensure all derived tests override as needed for indicator-specific logic.
-- [ ] T120 Update indicator-stream.instructions.md to require comprehensive rollback validation testing for all StreamHub indicators and reference the new base class virtual method. The rollback validation pattern must be implemented in appropriate observer test methods (QuoteObserver, ChainObserver, PairsObserver) for all indicators.
-
-## Compliance Gap Remediation (Post-Audit)
-
-Based on StreamHub audit (A002) findings, the following specific gaps must be addressed:
-
-### Vwma StreamHub Test Compliance (CRITICAL)
-
-- [x] **T121**: Fix Vwma StreamHub test class compliance in `tests/indicators/s-z/Vwma/Vwma.StreamHub.Tests.cs` ✅ COMPLETE
-  - [x] Add missing test interfaces: `ITestQuoteObserver`, `ITestChainProvider` ✅
-  - [x] Implement provider history testing (Insert/Remove operations with Series parity checks) ✅
-  - [x] Add proper cleanup operations (Unsubscribe/EndTransmission calls) ✅
-  - [x] Add Series parity validation with strict ordering comparison ✅
-  - [x] Follow EMA StreamHub test as canonical pattern reference ✅
-
-### Complete StreamHub Test Interface Audit
-
-- [x] **T122**: Comprehensive audit of all StreamHub test classes for missing test interfaces ✅ COMPLETE
-  - [x] Verified EMA, SMA, Correlation implement correct interfaces per provider pattern ✅
-  - [x] Identified Vwma as isolated case with missing interfaces (addressed in T121) ✅
-  - [x] Confirmed gaps are NOT systemic - most StreamHub tests follow proper patterns ✅
-
-### Quality Validation
-
-- [ ] **T123**: Validate remediation completeness by re-running StreamHub audit (A002)
-  - [ ] Confirm all identified gaps have been addressed
-  - [ ] Verify test patterns match instruction file requirements
-  - [ ] Ensure Series parity and provider history testing coverage is complete
-
-**Priority**: HIGH - These tasks address specific compliance gaps found during the audit phase and are prerequisite to declaring the StreamHub instruction file compliance complete.
+Removed blanket deferral: The above indicators are complex but unblocked with established reference patterns (see instruction files).
 
 ---
 Last updated: October 13, 2025
-
-### Systematic Documentation Updates (NEW)
-
-- [ ] **T124**: Update indicator documentation pages for all streaming-enabled indicators
-  - [ ] Add "## Streaming" sections to 74 indicators missing streaming documentation
-  - [ ] Use SMA/EMA documentation patterns as template (BufferList + StreamHub examples)
-  - [ ] Ensure consistency with instruction file references
-  - [ ] Verify code examples compile and produce correct results
