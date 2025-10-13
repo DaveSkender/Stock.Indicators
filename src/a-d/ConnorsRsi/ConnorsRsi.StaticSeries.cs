@@ -75,8 +75,8 @@ public static partial class ConnorsRsi
     /// <param name="rsiPeriods">The number of periods to use for the RSI calculation.</param>
     /// <param name="rankPeriods">The number of periods to use for the percent rank calculation.</param>
     /// <returns>A list of <see cref="ConnorsRsiResult"/> containing the baseline streak and rank calculation results.</returns>
-    private static List<ConnorsRsiResult> CalcStreak<T>(
-        this IReadOnlyList<T> source,
+    private static List<ConnorsRsiResult> CalcStreak(
+        this IReadOnlyList<IReusable> source,
         int rsiPeriods,
         int rankPeriods)
     {

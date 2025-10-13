@@ -84,6 +84,7 @@ public static partial class Dema
     public static DemaList ToDemaList<T>(
         this IReadOnlyList<T> source,
         int lookbackPeriods = 14)
+        where T : IReusable
     {
         ArgumentNullException.ThrowIfNull(source);
         Validate(lookbackPeriods);
