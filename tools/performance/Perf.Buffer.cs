@@ -111,6 +111,10 @@ public class BufferIndicators
         => new(7, 14, 28) { quotes };
 
     [Benchmark]
+    public VolatilityStopList VolatilityStopBuffer()
+        => new(7, 3) { quotes };
+
+    [Benchmark]
     public VortexList VortexBuffer()
         => new(n) { quotes };
 
