@@ -142,11 +142,11 @@ Choose the most appropriate category:
 ## Test implementation requirements
 
 - **Namespace**: Use `namespace Catalogging;` for all catalog tests
-- **Test methods**: One test method per style (e.g., `EmaSeriesListing()`, `EmaStreamListing()`, `EmaBufferListing()` or `EmaListListing()`)
+- **Test methods**: One test method per style (e.g., `EmaSeriesListing()`, `EmaStreamListing()`, `EmaBufferListing()`)
 - **Assertions**: Verify all properties including Name, Uiid, Style, Category, Parameters, and Results
 - **Parameter validation**: Check parameter names, types, default values, and constraints
 - **Result validation**: Verify result property names, display names, and `isReusable` flags
 - **Integration test**: Include test comparing catalog-driven calls with direct method calls
 
 ---
-Last updated: September 29, 2025
+Last updated: October 13, 2025
