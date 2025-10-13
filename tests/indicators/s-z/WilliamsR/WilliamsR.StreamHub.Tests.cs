@@ -1,10 +1,10 @@
 namespace StreamHub;
 
 [TestClass]
-public class WilliamsR : StreamHubTestBase
+public class WilliamsR : StreamHubTestBase, ITestQuoteObserver
 {
     [TestMethod]
-    public override void QuoteObserver()
+    public void QuoteObserver()
     {
         List<Quote> quotesList = Quotes.ToList();
         int length = Quotes.Count;

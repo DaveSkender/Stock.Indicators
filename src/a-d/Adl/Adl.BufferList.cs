@@ -10,10 +10,7 @@ public class AdlList : BufferList<AdlResult>, IIncrementFromQuote
     /// <summary>
     /// Initializes a new instance of the <see cref="AdlList"/> class.
     /// </summary>
-    public AdlList()
-    {
-        _previousAdl = 0;
-    }
+    public AdlList() { }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AdlList"/> class with initial quotes.
@@ -69,8 +66,7 @@ public static partial class Adl
     /// <summary>
     /// Creates a buffer list for Accumulation/Distribution Line calculations.
     /// </summary>
-    public static AdlList ToAdlList<TQuote>(
-        this IReadOnlyList<TQuote> quotes)
-        where TQuote : IQuote
-        => new() { (IReadOnlyList<IQuote>)quotes };
+    public static AdlList ToAdlList(
+        this IReadOnlyList<IQuote> quotes)
+        => new() { quotes };
 }

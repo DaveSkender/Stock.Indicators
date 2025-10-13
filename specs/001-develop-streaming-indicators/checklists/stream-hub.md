@@ -1,117 +1,48 @@
 # StreamHub Implementation Requirements Checklist
 
 **Purpose**: Validate requirements quality and completeness for StreamHub indicator implementations
-**Created**: October 7, 2025
+**Created**: October 7, 2025 | **Simplified**: October 12, 2025
 **Feature**: [spec.md](../spec.md) | [tasks.md](../tasks.md)
-**Instructions**: [stream-indicators.instructions.md](../../../.github/instructions/stream-indicators.instructions.md)
+**Instructions**: [indicator-stream.instructions.md](../../../.github/instructions/indicator-stream.instructions.md)
 
-**Note**: This checklist tests the REQUIREMENTS themselves for quality, clarity, and completeness - NOT the implementation. Each item validates whether requirements are well-written, complete, and unambiguous.
+**Note**: This checklist validates requirement quality for StreamHub implementations. Focus on essential constitution compliance and instruction file adherence.
 
-## Requirement Completeness
+## Constitution Compliance (CRITICAL)
 
-- [ ] CHK001 - Are base class extension requirements explicitly specified (extends `ChainProvider<TIn, TResult>` or `QuoteProvider<TIn, TResult>`)? [Completeness, Instructions §Core Stream Hub Structure]
-- [ ] CHK002 - Are provider selection criteria clearly defined (IQuoteProvider vs IChainProvider)? [Clarity, Instructions §Provider Selection Guidelines]
-- [ ] CHK003 - Are interface implementation requirements documented (indicator-specific interfaces like `ISma`, `IEma`)? [Completeness, Instructions §Core Stream Hub Structure]
-- [ ] CHK004 - Are observer pattern requirements specified (`IStreamObservable`/`IStreamObserver`)? [Completeness, Instructions §Core Stream Hub Structure]
-- [ ] CHK005 - Are core method override requirements defined (`ToIndicator(TIn item, int? indexHint)`)? [Completeness, Instructions §Core Stream Hub Structure]
-- [ ] CHK006 - Are warmup period handling requirements specified (track and return null until warmed up)? [Completeness, Spec §FR-005]
-- [ ] CHK007 - Are timestamp validation requirements defined (strictly ascending, reject duplicates/out-of-order)? [Completeness, Spec §FR-006]
-- [ ] CHK008 - Are state management requirements specified (minimal internal state, efficient updates)? [Completeness, Instructions §State Management]
-- [ ] CHK009 - Are reset mechanism requirements documented (`Reset()` method clears all state)? [Completeness, Instructions §Core Stream Hub Structure]
-- [ ] CHK010 - Are file naming convention requirements explicitly stated (`{IndicatorName}.StreamHub.cs`)? [Completeness, Instructions §File Naming Conventions]
+- [ ] CHK001 - Mathematical Precision: Are requirements for deterministic equality with Series baseline explicitly defined? [Constitution §1]
+- [ ] CHK002 - Performance First: Are O(1) state updates and <5ms latency requirements specified? [Constitution §2]
+- [ ] CHK003 - Comprehensive Validation: Are input validation and state isolation requirements complete? [Constitution §3]
+- [ ] CHK004 - Test-Driven Quality: Are stateful processing, reset behavior, and parity test requirements defined? [Constitution §4]
+- [ ] CHK005 - Documentation Excellence: Are XML documentation and streaming usage example requirements specified? [Constitution §5]
 
-## Requirement Clarity
+## Instruction File Adherence
 
-- [ ] CHK011 - Is "high-frequency processing" quantified with specific thresholds (>10k ticks/sec)? [Clarity, Plan §Key Decisions]
-- [ ] CHK012 - Are "O(1) state update" complexity requirements measurable/testable? [Measurability, Instructions §Performance Benchmarking]
-- [ ] CHK013 - Is "minimal memory usage" quantified (<10KB per instance)? [Clarity, Spec §NFR-002]
-- [ ] CHK014 - Are "span-based buffer" requirements specific about data structure choices? [Clarity, Instructions §Core Stream Hub Structure]
-- [ ] CHK015 - Is "mathematical correctness" defined as deterministic equality (NOT approximate equality)? [Clarity, Spec §FR-004]
-- [ ] CHK016 - Are "efficient rolling calculations" patterns explicitly defined? [Clarity, Instructions §Stream Patterns]
-- [ ] CHK017 - Are "low-latency processing" requirements quantified (<5ms mean, <10ms p95)? [Measurability, Spec §NFR-001]
-- [ ] CHK018 - Are "bounded memory" requirements specific (fixed-size circular buffers)? [Clarity, Instructions §Core Stream Hub Structure]
-- [ ] CHK019 - Are "garbage collection pressure" minimization requirements measurable? [Measurability, Spec §NFR-002]
-- [ ] CHK020 - Are generic constraint requirements explicit (`where TIn : IReusable` or `where TIn : IQuote`)? [Clarity, Instructions §Provider Selection Guidelines]
+- [ ] CHK006 - Provider Base: Are `ChainProvider`/`QuoteProvider`/`PairsProvider` selection criteria explicit? [Instructions §Core Stream Hub Structure]
+- [ ] CHK007 - Test Interfaces: Are requirements for correct test interface implementation clear (`ITestChainObserver`, `ITestQuoteObserver`, `ITestPairsObserver`)? [Instructions §Test Interface Selection Guide]
+- [ ] CHK008 - Provider History: Are Insert/Remove testing requirements specified for state management validation? [Instructions §Provider History Testing]
+- [ ] CHK009 - Observer Pattern: Are `IStreamObservable`/`IStreamObserver` requirements defined? [Instructions §Core Stream Hub Structure]
+- [ ] CHK010 - Performance Benchmarks: Are requirements for high-frequency processing benchmarks specified? [Instructions §Performance Benchmarking]
 
-## Requirement Consistency
+## Essential Quality Gates
 
-- [ ] CHK021 - Are state management patterns consistent across all StreamHub indicators? [Consistency, Instructions §State Management]
-- [ ] CHK022 - Do naming conventions align with established codebase patterns (`{Name}Hub<TIn>`)? [Consistency, Instructions §File Naming Conventions]
-- [ ] CHK023 - Are provider selection requirements consistent with input type requirements? [Consistency, Instructions §Provider Selection Guidelines]
-- [ ] CHK024 - Do interface requirements match static series implementation capabilities? [Consistency, Instructions §Provider Selection Guidelines]
-- [ ] CHK025 - Are test requirements consistent with `TestBase` test patterns? [Consistency, Instructions §Test Structure Pattern]
-- [ ] CHK026 - Do requirements align with zero-dependency principle stated in constitution? [Consistency, Plan §Technical Context]
-- [ ] CHK027 - Are exception type requirements consistent (`ArgumentException` for validation failures)? [Consistency, Spec §FR-006]
-- [ ] CHK028 - Do performance requirements align across BufferList and StreamHub styles? [Consistency, Spec §NFR-001]
+- [ ] CHK011 - Requirement Clarity: Are all requirements measurable and unambiguous?
+- [ ] CHK012 - Coverage Completeness: Do requirements cover all mandatory implementation aspects?
+- [ ] CHK013 - Consistency Check: Are requirements consistent with existing codebase patterns?
+- [ ] CHK014 - Acceptance Criteria: Are test criteria specific and verifiable?
+- [ ] CHK015 - Reference Alignment: Do requirements reference authoritative instruction files?
 
-## Acceptance Criteria Quality
+## Dual-Stream Specific (PairsProvider)
 
-- [ ] CHK029 - Are streaming parity test criteria measurable (exact equality, all non-null results)? [Measurability, Instructions §Test Coverage Expectations]
-- [ ] CHK030 - Can "comprehensive unit tests" coverage be objectively verified (all test methods enumerated)? [Measurability, Instructions §Test Structure Pattern]
-- [ ] CHK031 - Are performance benchmark criteria specific (<5ms mean, <10ms p95, 1000+ quotes/sec)? [Measurability, Instructions §Performance Benchmarking]
-- [ ] CHK032 - Can "memory efficiency" be objectively measured (<10KB per instance, bounded growth)? [Measurability, Spec §NFR-002]
-- [ ] CHK033 - Can "state consistency" be objectively verified (matches series results exactly)? [Measurability, Instructions §Test Structure Pattern]
-- [ ] CHK034 - Are real-time simulation test criteria specific (initial warmup + incremental updates)? [Measurability, Instructions §Test Structure Pattern]
-- [ ] CHK035 - Are test base class requirements specified (inherit from `StreamHubTestBase`)? [Completeness, TestBase.cs]
-- [ ] CHK035a - Is it clear that ALL StreamHub test classes MUST inherit from `StreamHubTestBase` (not `TestBase` directly)? [Clarity, CRITICAL]
-- [ ] CHK036 - Are test interface requirements specified (implement `ITestChainObserver` when appropriate)? [Completeness, TestBase.cs]
-- [ ] CHK037 - Are requirements for deterministic equality assertions specified (use `BeEquivalentTo` or exact `Should().Be()`, NOT approximate equality)? [Clarity, TestBase.cs]
+- [ ] CHK016 - Synchronization: Are timestamp synchronization validation requirements defined? [Instructions §Dual-stream Hub Structure]
+- [ ] CHK017 - Sufficient Data: Are dual-cache data validation requirements specified? [Instructions §PairsProvider Base Class]
+- [ ] CHK018 - Test Coverage: Are `ITestPairsObserver` requirements clear for dual-stream indicators? [Instructions §Test Interface Selection Guide]
 
-## Scenario Coverage
+---
 
-- [ ] CHK038 - Are requirements defined for stateful quote-by-quote processing scenario? [Coverage, Instructions §Test Structure Pattern]
-- [ ] CHK039 - Are requirements defined for extension method initialization scenario (`To{Name}Hub`)? [Coverage, Instructions §Extension Method]
-- [ ] CHK040 - Are requirements defined for state reset scenario? [Coverage, Instructions §Test Structure Pattern]
-- [ ] CHK041 - Are requirements defined for consistency validation scenario (vs series)? [Coverage, Instructions §Test Structure Pattern]
-- [ ] CHK042 - Are requirements defined for real-time simulation scenario (warmup + live)? [Coverage, Instructions §Test Structure Pattern]
-- [ ] CHK043 - Are requirements defined for chained indicator scenario (EMA of RSI)? [Coverage, Instructions §Integration Patterns]
-- [ ] CHK044 - Are requirements defined for insufficient warmup data scenario? [Coverage, Spec §Edge Cases]
-- [ ] CHK045 - Are requirements defined for continuous high-frequency processing scenario? [Coverage, Spec §NFR-001]
+**Total Items**: 18 essential validation items (15 core + 3 dual-stream specific)
+**Focus**: Constitution compliance + instruction file adherence + essential quality gates + dual-stream support
+**Simplified**: Reduced from 145+ items to comply with Constitution Principle 6 (Simplicity over Feature Creep)
 
-## Edge Case Coverage
-
-- [ ] CHK046 - Are requirements defined for duplicate timestamp handling (ArgumentException)? [Edge Case, Spec §FR-006]
-- [ ] CHK047 - Are requirements defined for out-of-order timestamp handling (ArgumentException)? [Edge Case, Spec §FR-006]
-- [ ] CHK048 - Are requirements defined for null quote input handling? [Edge Case, Gap]
-- [ ] CHK049 - Are requirements defined for empty quote collection handling in extension method? [Edge Case, Gap]
-- [ ] CHK050 - Are requirements defined for state transition edge cases (first result)? [Edge Case, Instructions §State Initialization Patterns]
-- [ ] CHK051 - Are requirements defined for large lookback period scenarios (e.g., 200-period)? [Edge Case, Plan §Test Scenarios]
-- [ ] CHK052 - Are requirements defined for single-quote buffer scenarios (lookback=1)? [Edge Case, Gap]
-- [ ] CHK053 - Are requirements defined for zero or negative lookback period validation? [Edge Case, Instructions §Extension Method]
-- [ ] CHK054 - Are requirements defined for NaN/Infinity value handling in calculations? [Edge Case, Instructions §Error Handling]
-- [ ] CHK055 - Are requirements defined for numerical stability in continuous operations? [Edge Case, Instructions §Real-time Considerations]
-- [ ] CHK056 - Are requirements defined for circular buffer wraparound consistency? [Edge Case, Instructions §Core Stream Hub Structure]
-- [ ] CHK057 - Are requirements defined for overflow scenarios in running calculations? [Edge Case, Gap]
-
-## Non-Functional Requirements
-
-- [ ] CHK058 - Are memory management requirements specified (bounded buffers, minimal allocations)? [NFR, Instructions §Real-time Considerations]
-- [ ] CHK059 - Are thread safety requirements documented (single-writer scenarios, synchronization)? [NFR, Instructions §Thread Safety]
-- [ ] CHK060 - Are garbage collection pressure requirements defined (avoid allocations in hot paths)? [NFR, Instructions §Real-time Considerations]
-- [ ] CHK061 - Are performance profiling requirements specified (BenchmarkDotNet validation)? [NFR, Instructions §Performance Benchmarking]
-- [ ] CHK062 - Are numerical stability requirements documented (continuous operations)? [NFR, Instructions §Real-time Considerations]
-- [ ] CHK063 - Are low-latency requirements quantified (per-tick processing time)? [NFR, Spec §NFR-001]
-- [ ] CHK064 - Are high-frequency capability requirements specified (ticks per second)? [NFR, Instructions §Test Coverage Expectations]
-- [ ] CHK065 - Are efficient data structure requirements defined (spans, arrays vs lists)? [NFR, Instructions §Real-time Considerations]
-
-## Dependencies & Assumptions
-
-- [ ] CHK066 - Are circular buffer implementation requirements validated? [Dependency, Instructions §State Management]
-- [ ] CHK067 - Are base provider class dependencies documented (`ChainProvider`, `QuoteProvider`)? [Dependency, Instructions §Provider Selection Guidelines]
-- [ ] CHK068 - Are observer pattern interface dependencies documented? [Dependency, Instructions §Core Stream Hub Structure]
-- [ ] CHK069 - Is the assumption of mathematical equivalence to series implementation validated? [Assumption, Spec §FR-004]
-- [ ] CHK070 - Are test data assumptions documented (Standard test dataset - 502 quotes)? [Assumption, Plan §Test Scenarios]
-- [ ] CHK071 - Are multi-target framework requirements specified (net8.0, net9.0)? [Dependency, Plan §Technical Context]
-- [ ] CHK072 - Are static indicator method dependencies documented (validation, series calculation)? [Dependency, Instructions §Extension Method]
-- [ ] CHK073 - Are span-based operation dependencies validated (.NET runtime version)? [Dependency, Plan §Technical Context]
-
-## Ambiguities & Conflicts
-
-- [ ] CHK074 - Is the "circular buffer capacity" calculation method unambiguous (lookback × 1.2)? [Ambiguity, Spec §Edge Cases]
-- [ ] CHK075 - Is the distinction between "stateful processing" and "batch processing" clearly defined? [Ambiguity, Instructions §Core Stream Hub Structure]
-- [ ] CHK076 - Are "efficient state updates" optimization requirements clearly specified? [Ambiguity, Instructions §State Management]
-- [ ] CHK077 - Is the "high-frequency" threshold quantified (>10k ticks/sec)? [Ambiguity, Plan §Key Decisions]
-- [ ] CHK078 - Are requirements for "complex state management" scenarios explicitly defined? [Ambiguity, Instructions §Complex State Management]
 - [ ] CHK079 - Is the distinction between `ChainProvider` and `QuoteProvider` usage criteria clear? [Ambiguity, Instructions §Provider Selection Guidelines]
 - [ ] CHK080 - Are "minimal allocations" requirements quantifiable (allocations per tick)? [Ambiguity, Instructions §Real-time Considerations]
 - [ ] CHK081 - Are "state initialization" patterns clearly specified for first-quote scenarios? [Ambiguity, Instructions §State Initialization Patterns]
@@ -148,7 +79,7 @@
 ## Maintainer Documentation Requirements (Migration Guide & Tasks)
 
 - [ ] CHK102 - Are requirements defined for adding `[Obsolete]` attributes with migration paths to avoid breaking changes? [Completeness, Plan §Documentation Updates, Task T109/D007, ObsoleteV3.cs]
-- [ ] CHK103 - Are requirements specified for documenting streaming capability summary in migration guide (`src/_common/ObsoleteV3.md`)? [Completeness, Plan §Documentation Updates, Task T109/D007]
+- [ ] CHK103 - Are requirements specified for documenting streaming capability summary in migration guide (`src/MigrationGuide.V3.md`)? [Completeness, Plan §Documentation Updates, Task T109/D007]
 - [ ] CHK104 - Are requirements specified for documenting API pattern changes ("what changed to what" explanations)? [Completeness, ObsoleteV3.md patterns]
 - [ ] CHK105 - Are requirements specified for providing migration code examples in ObsoleteV3.md? [Completeness, ObsoleteV3.md patterns]
 - [ ] CHK106 - Are requirements specified for updating task progress in `specs/001-develop-streaming-indicators/tasks.md` after implementation completion? [Traceability, tasks.md §T108]

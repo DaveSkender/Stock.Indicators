@@ -8,7 +8,7 @@ public class EmaTests : StaticSeriesTestBase
     {
         double ema = Ema.Increment(20, 217.5693, 222.10);
 
-        Assert.AreEqual(218.0008, ema.Round(4));
+        ema.Should().BeApproximately(218.0008, Money4);
     }
 
     [TestMethod]
@@ -22,13 +22,13 @@ public class EmaTests : StaticSeriesTestBase
 
         // sample values
         EmaResult r29 = results[29];
-        Assert.AreEqual(216.6228, r29.Ema.Round(4));
+        r29.Ema.Should().BeApproximately(216.6228, Money4);
 
         EmaResult r249 = results[249];
-        Assert.AreEqual(255.3873, r249.Ema.Round(4));
+        r249.Ema.Should().BeApproximately(255.3873, Money4);
 
         EmaResult r501 = results[501];
-        Assert.AreEqual(249.3519, r501.Ema.Round(4));
+        r501.Ema.Should().BeApproximately(249.3519, Money4);
     }
 
     [TestMethod]
@@ -47,13 +47,13 @@ public class EmaTests : StaticSeriesTestBase
 
         // sample values
         EmaResult r29 = results[29];
-        Assert.AreEqual(216.2643, r29.Ema.Round(4));
+        r29.Ema.Should().BeApproximately(216.2643, Money4);
 
         EmaResult r249 = results[249];
-        Assert.AreEqual(255.4875, r249.Ema.Round(4));
+        r249.Ema.Should().BeApproximately(255.4875, Money4);
 
         EmaResult r501 = results[501];
-        Assert.AreEqual(249.9157, r501.Ema.Round(4));
+        r501.Ema.Should().BeApproximately(249.9157, Money4);
     }
 
     [TestMethod]

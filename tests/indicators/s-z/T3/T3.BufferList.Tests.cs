@@ -1,7 +1,7 @@
 namespace BufferLists;
 
 [TestClass]
-public class T3 : BufferListTestBase, ITestReusableBufferList
+public class T3 : BufferListTestBase, ITestChainBufferList
 {
     private const int lookbackPeriods = 5;
     private const double volumeFactor = 0.7;
@@ -15,7 +15,7 @@ public class T3 : BufferListTestBase, ITestReusableBufferList
        = Quotes.ToT3(lookbackPeriods, volumeFactor);
 
     [TestMethod]
-    public override void AddQuotes()
+    public void AddQuotes()
     {
         T3List sut = new(lookbackPeriods, volumeFactor);
 
@@ -29,7 +29,7 @@ public class T3 : BufferListTestBase, ITestReusableBufferList
     }
 
     [TestMethod]
-    public override void AddQuotesBatch()
+    public void AddQuotesBatch()
     {
         T3List sut = new(lookbackPeriods, volumeFactor) { Quotes };
 
@@ -38,7 +38,7 @@ public class T3 : BufferListTestBase, ITestReusableBufferList
     }
 
     [TestMethod]
-    public override void WithQuotesCtor()
+    public void WithQuotesCtor()
     {
         T3List sut = new(lookbackPeriods, volumeFactor, Quotes);
 

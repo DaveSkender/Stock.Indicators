@@ -126,9 +126,8 @@ public static partial class Atr
     /// <summary>
     /// Creates a buffer list for Average True Range calculations.
     /// </summary>
-    public static AtrList ToAtrList<TQuote>(
-        this IReadOnlyList<TQuote> quotes,
+    public static AtrList ToAtrList(
+        this IReadOnlyList<IQuote> quotes,
         int lookbackPeriods)
-        where TQuote : IQuote
-        => new(lookbackPeriods) { (IReadOnlyList<IQuote>)quotes };
+        => new(lookbackPeriods) { quotes };
 }

@@ -1,7 +1,7 @@
 namespace StreamHub;
 
 [TestClass]
-public class EpmaStreamHubTests : StreamHubTestBase
+public class EpmaStreamHubTests : StreamHubTestBase, ITestQuoteObserver
 {
     private const int lookbackPeriods = 20;
 
@@ -9,7 +9,7 @@ public class EpmaStreamHubTests : StreamHubTestBase
         = Quotes.ToEpma(lookbackPeriods);
 
     [TestMethod]
-    public override void QuoteObserver()
+    public void QuoteObserver()
     {
         // Test streaming with state maintenance
         QuoteHub<Quote> quoteHub = new();

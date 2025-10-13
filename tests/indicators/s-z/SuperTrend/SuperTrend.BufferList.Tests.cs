@@ -10,7 +10,7 @@ public class SuperTrend : BufferListTestBase
        = Quotes.ToSuperTrend(lookbackPeriods, multiplier);
 
     [TestMethod]
-    public override void AddQuotes()
+    public void AddQuotes()
     {
         SuperTrendList sut = new(lookbackPeriods, multiplier);
 
@@ -24,7 +24,7 @@ public class SuperTrend : BufferListTestBase
     }
 
     [TestMethod]
-    public override void AddQuotesBatch()
+    public void AddQuotesBatch()
     {
         SuperTrendList sut = Quotes.ToSuperTrendList(lookbackPeriods, multiplier);
 
@@ -33,7 +33,7 @@ public class SuperTrend : BufferListTestBase
     }
 
     [TestMethod]
-    public override void WithQuotesCtor()
+    public void WithQuotesCtor()
     {
         SuperTrendList sut = new(lookbackPeriods, multiplier, Quotes);
 

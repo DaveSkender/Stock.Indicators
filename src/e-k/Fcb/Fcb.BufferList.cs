@@ -139,9 +139,8 @@ public static partial class Fcb
     /// <summary>
     /// Creates a buffer list for Fractal Chaos Bands (FCB) calculations.
     /// </summary>
-    public static FcbList ToFcbList<TQuote>(
-        this IReadOnlyList<TQuote> quotes,
+    public static FcbList ToFcbList(
+        this IReadOnlyList<IQuote> quotes,
         int windowSpan = 2)
-        where TQuote : IQuote
-        => new(windowSpan) { (IReadOnlyList<IQuote>)quotes };
+        => new(windowSpan) { quotes };
 }

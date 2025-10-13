@@ -9,7 +9,7 @@ public class Cmf : BufferListTestBase
        = Quotes.ToCmf(lookbackPeriods);
 
     [TestMethod]
-    public override void AddQuotes()
+    public void AddQuotes()
     {
         CmfList sut = new(lookbackPeriods);
 
@@ -23,7 +23,7 @@ public class Cmf : BufferListTestBase
     }
 
     [TestMethod]
-    public override void AddQuotesBatch()
+    public void AddQuotesBatch()
     {
         CmfList sut = new(lookbackPeriods) { Quotes };
 
@@ -32,7 +32,7 @@ public class Cmf : BufferListTestBase
     }
 
     [TestMethod]
-    public override void WithQuotesCtor()
+    public void WithQuotesCtor()
     {
         CmfList sut = new(lookbackPeriods, Quotes);
 
