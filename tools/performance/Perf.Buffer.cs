@@ -79,6 +79,14 @@ public class BufferIndicators
         => new(n) { quotes };
 
     [Benchmark]
+    public SmiList SmiBuffer()
+        => new(13, 25, 2, 3) { quotes };
+
+    [Benchmark]
+    public StarcBandsList StarcBandsBuffer()
+        => new(5, 2, 10) { quotes };
+
+    [Benchmark]
     public StochList StochBuffer()
         => new(14, 3, 3) { quotes };
 
@@ -101,6 +109,14 @@ public class BufferIndicators
     [Benchmark]
     public UltimateList UltimateBuffer()
         => new(7, 14, 28) { quotes };
+
+    [Benchmark]
+    public VortexList VortexBuffer()
+        => new(n) { quotes };
+
+    [Benchmark]
+    public VwapList VwapBuffer()
+        => new(quotes[0].Timestamp) { quotes };
 
     [Benchmark]
     public VwmaList VwmaBuffer()

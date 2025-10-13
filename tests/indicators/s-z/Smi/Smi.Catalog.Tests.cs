@@ -44,4 +44,25 @@ public class SmiTests : TestBase
         signalResult1?.DisplayName.Should().Be("Signal");
         signalResult1.IsReusable.Should().Be(false);
     }
+
+    [TestMethod]
+    public void SmiBufferListing()
+    {
+        // Act
+        IndicatorListing listing = Smi.BufferListing;
+
+        // Assert
+        listing.Should().NotBeNull();
+        listing.Name.Should().Be("Stochastic Momentum Index");
+        listing.Uiid.Should().Be("SMI");
+        listing.Style.Should().Be(Style.Buffer);
+        listing.Category.Should().Be(Category.Oscillator);
+        listing.MethodName.Should().Be("ToSmiList");
+
+        listing.Parameters.Should().NotBeNull();
+        listing.Parameters.Should().HaveCount(4);
+
+        listing.Results.Should().NotBeNull();
+        listing.Results.Should().HaveCount(2);
+    }
 }
