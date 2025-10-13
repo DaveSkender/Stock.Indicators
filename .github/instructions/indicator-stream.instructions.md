@@ -24,7 +24,7 @@ When implementing or updating an indicator, you must complete:
   - [ ] Inherits `StreamHubTestBase` and implements test interfaces based on provider pattern (see test interface selection guide)
   - [ ] Verifies stateful processing, reset behavior, and consistency with Series results
   - [ ] For dual-stream hubs: covers timestamp sync validation and sufficient data checks
-  - [ ] Include provider history mutations (Insert and Remove) with parity checks; follow EMA hub test pattern
+    - [ ] Require comprehensive rollback validation: warmup prefill, duplicate arrivals, provider history mutations (Insert and Remove), and strict Series parity checks; follow EMA hub test pattern
 - [ ] Common items: Complete regression, performance, docs, and migration per `.github/copilot-instructions.md` (Common indicator requirements)
 
 ## Stream Hub I/O Scenarios
@@ -65,6 +65,27 @@ Stream indicators should follow these naming patterns:
 
 - **Implementation**: `{IndicatorName}.StreamHub.cs`
 - **Tests**: `{IndicatorName}.StreamHub.Tests.cs`
+
+## Reference implementations
+
+Use these concrete hubs and tests as canonical patterns when implementing new stream indicators:
+
+- Chain provider (single-input reusable):
+  - `src/e-k/Ema/Ema.StreamHub.cs` — canonical chain provider hub (minimal hot-path allocations)
+  - `tests/indicators/e-k/Ema/Ema.StreamHub.Tests.cs` — canonical test coverage including provider history Insert/Remove scenarios
+
+- Multi-series outputs from quotes:
+  - `src/a-d/AtrStop/AtrStop.StreamHub.cs` — quote-driven series output pattern (stop bands)
+  - `src/a-d/Alligator/Alligator.StreamHub.cs` — multi-line series output with shared state
+
+- Dual-input (pairs) hubs:
+  - `src/a-d/Correlation/Correlation.StreamHub.cs` — synchronized pairs with `PairsProvider`
+  - `src/a-d/Beta/Beta.StreamHub.cs` — regression/risk variant on pairs pattern
+
+- Quote-only provider:
+  - `src/m-r/Renko/Renko.StreamHub.cs` — quote provider pattern that cannot observe chains
+
+Previously deferred indicators (Fractal, HtTrendline, Hurst, Ichimoku, Slope) are complex but not blocked. Choose the closest reference above (multi-series, multi-buffer, or pairs) and follow the member ordering, provider selection, and test coverage rules in this file.
 
 ## Canonical stream hub member order
 
@@ -349,7 +370,7 @@ The `ITestQuoteObserver` interface is required for all indicators that support d
 
 **Do not override `QuoteObserver()` in the test class; implement `ITestQuoteObserver` instead.**
 
-### Standard provider history scenarios (required)
+### Comprehensive rollback validation (required)
 
 Every StreamHub QuoteObserver test must cover these scenarios (EMA hub test is the canonical pattern):
 
@@ -364,15 +385,14 @@ These scenarios replace the need for a separate rollback-specific interface.
 
 ### Provider history (Insert/Remove) testing
 
-All StreamHub implementations must include provider history (Insert/Remove) tests to ensure correct state management and recalculation. Implement these tests using the virtual `ProviderHistoryTesting()` method in `StreamHubTestBase` (override as needed for indicator-specific logic). See the plan tasks (T115-T120) for required coverage.
+Provider history mutations are required and are part of the “Comprehensive rollback validation” section above (see EMA hub tests for the canonical pattern). Use `ProviderHistoryTesting()` in `StreamHubTestBase` as needed for indicator-specific logic.
 
 ### Performance benchmarking
 
 All stream indicators must include performance tests in the `tools/performance/Perf.Stream.cs` project file:
 
 ```csharp
-[Benchmark]
-public object {IndicatorName}Hub() => quoteHub.To{IndicatorName}Hub({params}).Results;
+[Benchmark] public object {IndicatorName}Hub() => quoteHub.To{IndicatorName}Hub({params}).Results;
 ```
 
 Example:
@@ -412,6 +432,9 @@ See also: Common indicator requirements and Series-as-canonical policy in `.gith
 - Document any multi-threading limitations
 - Use appropriate synchronization when necessary
 
+> [!NOTE]
+> Contributor-facing checklist: see `specs/001-develop-streaming-indicators/checklists/stream-hub-tests.md`.
+
 ## Integration patterns
 
 ### Chaining with other indicators
@@ -438,14 +461,5 @@ foreach (var quote in liveQuotes)
 }
 ```
 
-## Reference examples
-
-Study these exemplary stream indicators:
-
-- **EMA**: `src/e-k/Ema/Ema.StreamHub.cs`
-- **SMA**: `src/s-z/Sma/Sma.StreamHub.cs`
-- **ATRSTOP**: `src/a-d/AtrStop/AtrStop.StreamHub.cs`
-- **ALLIGATOR**: `src/a-d/Alligator/Alligator.StreamHub.cs`
-
 ---
-Last updated: October 12, 2025
+Last updated: October 13, 2025

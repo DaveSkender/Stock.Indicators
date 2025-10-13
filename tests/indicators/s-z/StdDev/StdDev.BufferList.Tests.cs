@@ -14,7 +14,7 @@ public class StdDev : BufferListTestBase, ITestChainBufferList
        = Quotes.ToStdDev(lookbackPeriods);
 
     [TestMethod]
-    public void AddDiscreteValues()
+    public void AddDateAndValue_IncrementsResults()
     {
         StdDevList sut = new(lookbackPeriods);
 
@@ -28,7 +28,7 @@ public class StdDev : BufferListTestBase, ITestChainBufferList
     }
 
     [TestMethod]
-    public void AddReusableItems()
+    public void AddReusableItem_IncrementsResults()
     {
         StdDevList sut = new(lookbackPeriods);
 
@@ -42,7 +42,7 @@ public class StdDev : BufferListTestBase, ITestChainBufferList
     }
 
     [TestMethod]
-    public void AddReusableItemsBatch()
+    public void AddReusableItemBatch_IncrementsResults()
     {
         StdDevList sut = new(lookbackPeriods) { reusables };
 
@@ -51,7 +51,7 @@ public class StdDev : BufferListTestBase, ITestChainBufferList
     }
 
     [TestMethod]
-    public void AddQuotes()
+    public void AddQuote_IncrementsResults()
     {
         StdDevList sut = new(lookbackPeriods);
 
@@ -65,7 +65,7 @@ public class StdDev : BufferListTestBase, ITestChainBufferList
     }
 
     [TestMethod]
-    public void AddQuotesBatch()
+    public void AddQuotesBatch_IncrementsResults()
     {
         StdDevList sut = new(lookbackPeriods) { Quotes };
 
@@ -74,7 +74,7 @@ public class StdDev : BufferListTestBase, ITestChainBufferList
     }
 
     [TestMethod]
-    public void WithQuotesCtor()
+    public void QuotesCtor_OnInstantiation_IncrementsResults()
     {
         StdDevList sut = new(lookbackPeriods, Quotes);
 
@@ -83,7 +83,7 @@ public class StdDev : BufferListTestBase, ITestChainBufferList
     }
 
     [TestMethod]
-    public override void ClearResetsState()
+    public override void Clear_WithState_ResetsState()
     {
         List<Quote> subset = Quotes.Take(80).ToList();
         IReadOnlyList<StdDevResult> expected = subset.ToStdDev(lookbackPeriods);
@@ -104,7 +104,7 @@ public class StdDev : BufferListTestBase, ITestChainBufferList
     }
 
     [TestMethod]
-    public override void AutoListPruning()
+    public override void PruneList_OverMaxListSize_AutoAdjustsListAndBuffers()
     {
         const int maxListSize = 120;
 

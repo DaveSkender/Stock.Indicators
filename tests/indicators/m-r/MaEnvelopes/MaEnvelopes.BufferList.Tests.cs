@@ -1,22 +1,23 @@
 namespace BufferLists;
 
 [TestClass]
-public class Smma : BufferListTestBase, ITestChainBufferList
+public class MaEnvelopes : BufferListTestBase, ITestChainBufferList
 {
     private const int lookbackPeriods = 20;
+    private const double percentOffset = 2.5;
 
     private static readonly IReadOnlyList<IReusable> reusables
        = Quotes
         .Cast<IReusable>()
         .ToList();
 
-    private static readonly IReadOnlyList<SmmaResult> series
-       = Quotes.ToSmma(lookbackPeriods);
+    private static readonly IReadOnlyList<MaEnvelopeResult> series
+       = Quotes.ToMaEnvelopes(lookbackPeriods, percentOffset);
 
     [TestMethod]
     public void AddQuote_IncrementsResults()
     {
-        SmmaList sut = new(lookbackPeriods);
+        MaEnvelopesList sut = new(lookbackPeriods, percentOffset);
 
         foreach (Quote quote in Quotes)
         {
@@ -30,7 +31,7 @@ public class Smma : BufferListTestBase, ITestChainBufferList
     [TestMethod]
     public void AddQuotesBatch_IncrementsResults()
     {
-        SmmaList sut = Quotes.ToSmmaList(lookbackPeriods);
+        MaEnvelopesList sut = Quotes.ToMaEnvelopesList(lookbackPeriods, percentOffset);
 
         sut.Should().HaveCount(Quotes.Count);
         sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
@@ -39,19 +40,69 @@ public class Smma : BufferListTestBase, ITestChainBufferList
     [TestMethod]
     public void QuotesCtor_OnInstantiation_IncrementsResults()
     {
-        SmmaList sut = new(lookbackPeriods, Quotes);
+        MaEnvelopesList sut = new(lookbackPeriods, percentOffset, MaType.SMA, Quotes);
 
         sut.Should().HaveCount(Quotes.Count);
         sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
     }
 
     [TestMethod]
+    public void AddReusableItem_IncrementsResults()
+    {
+        MaEnvelopesList sut = new(lookbackPeriods, percentOffset);
+
+        foreach (IReusable item in reusables)
+        {
+            sut.Add(item);
+        }
+
+        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+    }
+
+    [TestMethod]
+    public void AddReusableItemBatch_IncrementsResults()
+    {
+        MaEnvelopesList sut = new(lookbackPeriods, percentOffset) { reusables };
+
+        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+    }
+
+    [TestMethod]
+    public void AddDateAndValue_IncrementsResults()
+    {
+        MaEnvelopesList sut = new(lookbackPeriods, percentOffset);
+
+        foreach (IReusable item in reusables)
+        {
+            sut.Add(item.Timestamp, item.Value);
+        }
+
+        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+    }
+
+    [TestMethod]
+    public void WithEmaType()
+    {
+        IReadOnlyList<MaEnvelopeResult> expected = Quotes.ToMaEnvelopes(
+            lookbackPeriods, percentOffset, MaType.EMA);
+
+        MaEnvelopesList sut = Quotes.ToMaEnvelopesList(
+            lookbackPeriods, percentOffset, MaType.EMA);
+
+        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
+    }
+
+    [TestMethod]
     public override void Clear_WithState_ResetsState()
     {
         List<Quote> subset = Quotes.Take(80).ToList();
-        IReadOnlyList<SmmaResult> expected = subset.ToSmma(lookbackPeriods);
+        IReadOnlyList<MaEnvelopeResult> expected = subset.ToMaEnvelopes(lookbackPeriods, percentOffset);
 
-        SmmaList sut = new(lookbackPeriods, subset);
+        MaEnvelopesList sut = new(lookbackPeriods, percentOffset, MaType.SMA, subset);
 
         sut.Should().HaveCount(subset.Count);
         sut.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
@@ -67,54 +118,17 @@ public class Smma : BufferListTestBase, ITestChainBufferList
     }
 
     [TestMethod]
-    public void AddReusableItem_IncrementsResults()
-    {
-        SmmaList sut = new(lookbackPeriods);
-
-        foreach (IReusable item in reusables)
-        {
-            sut.Add(item);
-        }
-
-        sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
-    }
-
-    [TestMethod]
-    public void AddReusableItemBatch_IncrementsResults()
-    {
-        SmmaList sut = new(lookbackPeriods) { reusables };
-
-        sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
-    }
-
-    [TestMethod]
-    public void AddDateAndValue_IncrementsResults()
-    {
-        SmmaList sut = new(lookbackPeriods);
-
-        foreach (IReusable item in reusables)
-        {
-            sut.Add(item.Timestamp, item.Value);
-        }
-
-        sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
-    }
-
-    [TestMethod]
     public override void PruneList_OverMaxListSize_AutoAdjustsListAndBuffers()
     {
         const int maxListSize = 120;
 
-        SmmaList sut = new(lookbackPeriods) {
+        MaEnvelopesList sut = new(lookbackPeriods, percentOffset) {
             MaxListSize = maxListSize
         };
 
         sut.Add(Quotes);
 
-        IReadOnlyList<SmmaResult> expected = series
+        IReadOnlyList<MaEnvelopeResult> expected = series
             .Skip(series.Count - maxListSize)
             .ToList();
 

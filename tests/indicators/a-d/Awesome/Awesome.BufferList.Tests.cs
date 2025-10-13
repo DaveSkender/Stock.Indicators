@@ -15,7 +15,7 @@ public class Awesome : BufferListTestBase, ITestChainBufferList
         = Quotes.ToAwesome(fastPeriods, slowPeriods);
 
     [TestMethod]
-    public void AddDiscreteValues()
+    public void AddDateAndValue_IncrementsResults()
     {
         AwesomeList sut = new(fastPeriods, slowPeriods);
 
@@ -29,7 +29,7 @@ public class Awesome : BufferListTestBase, ITestChainBufferList
     }
 
     [TestMethod]
-    public void AddReusableItems()
+    public void AddReusableItem_IncrementsResults()
     {
         AwesomeList sut = new(fastPeriods, slowPeriods);
 
@@ -43,7 +43,7 @@ public class Awesome : BufferListTestBase, ITestChainBufferList
     }
 
     [TestMethod]
-    public void AddReusableItemsBatch()
+    public void AddReusableItemBatch_IncrementsResults()
     {
         AwesomeList sut = new(fastPeriods, slowPeriods) { reusables };
 
@@ -52,7 +52,7 @@ public class Awesome : BufferListTestBase, ITestChainBufferList
     }
 
     [TestMethod]
-    public void AddQuotes()
+    public void AddQuote_IncrementsResults()
     {
         AwesomeList sut = new(fastPeriods, slowPeriods);
 
@@ -66,7 +66,7 @@ public class Awesome : BufferListTestBase, ITestChainBufferList
     }
 
     [TestMethod]
-    public void AddQuotesBatch()
+    public void AddQuotesBatch_IncrementsResults()
     {
         AwesomeList sut = new(fastPeriods, slowPeriods) { Quotes };
 
@@ -75,7 +75,7 @@ public class Awesome : BufferListTestBase, ITestChainBufferList
     }
 
     [TestMethod]
-    public void WithQuotesCtor()
+    public void QuotesCtor_OnInstantiation_IncrementsResults()
     {
         AwesomeList sut = new(fastPeriods, slowPeriods, Quotes);
 
@@ -84,7 +84,7 @@ public class Awesome : BufferListTestBase, ITestChainBufferList
     }
 
     [TestMethod]
-    public override void ClearResetsState()
+    public override void Clear_WithState_ResetsState()
     {
         List<Quote> subset = Quotes.Take(80).ToList();
         IReadOnlyList<AwesomeResult> expected = subset.ToAwesome(fastPeriods, slowPeriods);
@@ -105,7 +105,7 @@ public class Awesome : BufferListTestBase, ITestChainBufferList
     }
 
     [TestMethod]
-    public override void AutoListPruning()
+    public override void PruneList_OverMaxListSize_AutoAdjustsListAndBuffers()
     {
         const int maxListSize = 120;
 
