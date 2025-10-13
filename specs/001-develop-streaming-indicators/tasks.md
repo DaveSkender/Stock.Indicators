@@ -148,9 +148,9 @@ The following indicators have series-style implementations but lack BufferList i
 - [ ] T032 Implement ParabolicSar BufferList in `src/m-r/ParabolicSar/ParabolicSar.BufferList.cs`
 - [ ] T033 Implement PivotPoints BufferList in `src/m-r/PivotPoints/PivotPoints.BufferList.cs`
 - [ ] T034 Implement Pivots BufferList in `src/m-r/Pivots/Pivots.BufferList.cs`
-- [ ] T035 Implement Pmo BufferList in `src/m-r/Pmo/Pmo.BufferList.cs`
-- [ ] T036 Implement Prs BufferList in `src/m-r/Prs/Prs.BufferList.cs`
-- [ ] T037 Implement Pvo BufferList in `src/m-r/Pvo/Pvo.BufferList.cs`
+- [x] T035 Implement Pmo BufferList in `src/m-r/Pmo/Pmo.BufferList.cs` ✅ Complete
+- [x] T036 Implement Prs BufferList in `src/m-r/Prs/Prs.BufferList.cs` ✅ Complete
+- [x] T037 Implement Pvo BufferList in `src/m-r/Pvo/Pvo.BufferList.cs` ✅ Complete
 - [ ] T038 Implement Renko BufferList in `src/m-r/Renko/Renko.BufferList.cs`
 - [ ] T039 Implement RenkoAtr BufferList in `src/m-r/RenkoAtr/RenkoAtr.BufferList.cs`
 - [ ] T040 Implement RocWb BufferList in `src/m-r/RocWb/RocWb.BufferList.cs`

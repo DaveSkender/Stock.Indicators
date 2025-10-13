@@ -244,12 +244,14 @@ public static partial class Catalog
         _listings.Add(Pivots.SeriesListing);
 
         // PMO (Price Momentum Oscillator)
+        _listings.Add(Pmo.BufferListing);
         _listings.Add(Pmo.SeriesListing);
 
         // PRS (Price Relative Strength)
         _listings.Add(Prs.SeriesListing);
 
         // PVO (Price Volume Oscillator)
+        _listings.Add(Pvo.BufferListing);
         _listings.Add(Pvo.SeriesListing);
 
         // Renko
