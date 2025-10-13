@@ -356,6 +356,7 @@ public static partial class Catalog
 
         // Volatility Stop
         _listings.Add(VolatilityStop.SeriesListing);
+        _listings.Add(VolatilityStop.BufferListing);
 
         // Vortex Indicator
         _listings.Add(Vortex.SeriesListing);
