@@ -68,7 +68,7 @@ See [Utilities and helpers]({{site.baseurl}}/utilities#utilities-for-indicator-r
 
 ## Streaming
 
-This indicator can be used with the buffer style for incremental streaming scenarios.  See [Streaming guide]({{site.baseurl}}/guide/#streaming) for more information.
+This indicator can be used with the buffer style for incremental streaming scenarios.  See [Streaming guide]({{site.baseurl}}/guide) for more information.
 
 ```csharp
 // buffer-style streaming
