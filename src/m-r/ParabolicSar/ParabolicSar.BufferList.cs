@@ -102,6 +102,8 @@ public class ParabolicSarList : BufferList<ParabolicSarResult>, IIncrementFromQu
             _isInitialized = true;
 
             AddInternal(new ParabolicSarResult(timestamp));
+            // Ensure prior-quote buffer contains the first quote for next-bar clamps
+            _buffer.Update(2, (high, low));
             return;
         }
 
