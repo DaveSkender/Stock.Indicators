@@ -289,6 +289,7 @@ public static partial class Catalog
 
         // Slope
         _listings.Add(Slope.SeriesListing);
+        _listings.Add(Slope.BufferListing);
 
         // SMA (Simple Moving Average)
         _listings.Add(Sma.SeriesListing);
