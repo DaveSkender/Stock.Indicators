@@ -178,26 +178,34 @@ public class PivotsList : BufferList<PivotsResult>, IIncrementFromQuote
             // Adjust last high index
             if (_lastHighIndex != null)
             {
-                _lastHighIndex = Math.Max(0, (int)_lastHighIndex - pruneCount);
+                int? adjustedHighIndex = (int)_lastHighIndex - pruneCount;
 
                 // If the last high was pruned away, reset it
-                if (_lastHighIndex < 0)
+                if (adjustedHighIndex < 0)
                 {
                     _lastHighIndex = null;
                     _lastHighValue = null;
+                }
+                else
+                {
+                    _lastHighIndex = adjustedHighIndex;
                 }
             }
 
             // Adjust last low index
             if (_lastLowIndex != null)
             {
-                _lastLowIndex = Math.Max(0, (int)_lastLowIndex - pruneCount);
+                int? adjustedLowIndex = (int)_lastLowIndex - pruneCount;
 
                 // If the last low was pruned away, reset it
-                if (_lastLowIndex < 0)
+                if (adjustedLowIndex < 0)
                 {
                     _lastLowIndex = null;
                     _lastLowValue = null;
+                }
+                else
+                {
+                    _lastLowIndex = adjustedLowIndex;
                 }
             }
         }
