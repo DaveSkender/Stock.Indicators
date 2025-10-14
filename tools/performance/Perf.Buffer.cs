@@ -35,6 +35,7 @@ public class BufferIndicators
     [Benchmark] public RenkoList RenkoList() => new(2.5m) { q };
     [Benchmark] public RocList RocList() => new(20) { q };
     [Benchmark] public RsiList RsiList() => new(n) { q };
+    [Benchmark] public SlopeList SlopeList() => new(n) { q };
     [Benchmark] public SmaList SmaList() => new(n) { q };
     [Benchmark] public SmiList SmiList() => new(13, 25, 2, 3) { q };
     [Benchmark] public SmmaList SmmaList() => new(n) { q };

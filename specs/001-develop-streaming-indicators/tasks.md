@@ -167,7 +167,7 @@ Note on former deferrals: Some indicators were previously marked as deferred due
 - [ ] **T057** Implement RocWb BufferList in `src/m-r/RocWb/RocWb.BufferList.cs`
 - [ ] **T058** Implement RollingPivots BufferList in `src/m-r/RollingPivots/RollingPivots.BufferList.cs`
 - [x] **T059** Implement Rsi BufferList in `src/m-r/Rsi/Rsi.BufferList.cs` ✅
-- [ ] **T060** Implement Slope BufferList in `src/s-z/Slope/Slope.BufferList.cs` (complex but unblocked — legit historical revisions follow VolatilityStop repaint pattern)
+- [x] **T060** Implement Slope BufferList in `src/s-z/Slope/Slope.BufferList.cs` (complex but unblocked — legit historical revisions follow VolatilityStop repaint pattern) ✅
 - [x] **T061** Implement Sma BufferList in `src/s-z/Sma/Sma.BufferList.cs` ✅
 - [x] **T062** Implement SmaAnalysis BufferList in `src/s-z/SmaAnalysis/SmaAnalysis.BufferList.cs` ✅
 - [x] **T063** Implement Smi BufferList in `src/s-z/Smi/Smi.BufferList.cs` ✅
