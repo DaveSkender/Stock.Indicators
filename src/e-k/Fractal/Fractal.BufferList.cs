@@ -79,52 +79,59 @@ public class FractalList : BufferList<FractalResult>, IIncrementFromQuote, IFrac
             (decimal)quote.Close,
             quote.Timestamp));
 
-        // calculate fractal for the current quote
-        // Series logic: i + 1 > leftSpan && i + 1 <= length - rightSpan
-        int currentIndex = _quotes.Count - 1;
+        // always add a result (initially null)
+        AddInternal(new FractalResult(quote.Timestamp, null, null));
+
         int length = _quotes.Count;
 
-        decimal? fractalBear = null;
-        decimal? fractalBull = null;
+        // now calculate/update fractals for all quotes that have sufficient context
+        // we need to check quotes that are far enough from the end to have RightSpan quotes after them
+        int lastCalculableIndex = length - RightSpan - 1;
 
-        if (currentIndex + 1 > LeftSpan && currentIndex + 1 <= length - RightSpan)
+        for (int i = Math.Max(0, lastCalculableIndex - LeftSpan); i <= lastCalculableIndex; i++)
         {
-            FractalBuffer center = _quotes[currentIndex];
-            bool isHigh = true;
-            bool isLow = true;
-
-            decimal evalHigh = EndType == EndType.Close ? center.Close : center.High;
-            decimal evalLow = EndType == EndType.Close ? center.Close : center.Low;
-
-            // compare with wings
-            for (int p = currentIndex - LeftSpan; p <= currentIndex + RightSpan; p++)
+            // can we calculate fractal for quote at index i?
+            // Series logic: i + 1 > leftSpan && i + 1 <= length - rightSpan
+            if (i + 1 > LeftSpan && i + 1 <= length - RightSpan)
             {
-                // skip center
-                if (p == currentIndex)
+                FractalBuffer center = _quotes[i];
+                bool isHigh = true;
+                bool isLow = true;
+
+                decimal evalHigh = EndType == EndType.Close ? center.Close : center.High;
+                decimal evalLow = EndType == EndType.Close ? center.Close : center.Low;
+
+                // compare with wings
+                for (int p = i - LeftSpan; p <= i + RightSpan; p++)
                 {
-                    continue;
+                    // skip center
+                    if (p == i)
+                    {
+                        continue;
+                    }
+
+                    FractalBuffer wing = _quotes[p];
+                    decimal wingHigh = EndType == EndType.Close ? wing.Close : wing.High;
+                    decimal wingLow = EndType == EndType.Close ? wing.Close : wing.Low;
+
+                    if (evalHigh <= wingHigh)
+                    {
+                        isHigh = false;
+                    }
+
+                    if (evalLow >= wingLow)
+                    {
+                        isLow = false;
+                    }
                 }
 
-                FractalBuffer wing = _quotes[p];
-                decimal wingHigh = EndType == EndType.Close ? wing.Close : wing.High;
-                decimal wingLow = EndType == EndType.Close ? wing.Close : wing.Low;
+                decimal? fractalBear = isHigh ? evalHigh : null;
+                decimal? fractalBull = isLow ? evalLow : null;
 
-                if (evalHigh <= wingHigh)
-                {
-                    isHigh = false;
-                }
-
-                if (evalLow >= wingLow)
-                {
-                    isLow = false;
-                }
+                // update the result at index i
+                UpdateInternal(i, new FractalResult(center.Timestamp, fractalBear, fractalBull));
             }
-
-            fractalBear = isHigh ? evalHigh : null;
-            fractalBull = isLow ? evalLow : null;
         }
-
-        AddInternal(new FractalResult(quote.Timestamp, fractalBear, fractalBull));
     }
 
     /// <inheritdoc />
@@ -143,6 +150,23 @@ public class FractalList : BufferList<FractalResult>, IIncrementFromQuote, IFrac
     {
         base.Clear();
         _quotes.Clear();
+    }
+
+    /// <inheritdoc />
+    protected override void PruneList()
+    {
+        int overflow = Count - MaxListSize;
+
+        if (overflow <= 0)
+        {
+            return;
+        }
+
+        // remove from results
+        base.PruneList();
+
+        // also remove from quotes
+        _quotes.RemoveRange(0, overflow);
     }
 
     internal class FractalBuffer(
