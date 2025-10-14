@@ -146,6 +146,7 @@ public static partial class Catalog
         _listings.Add(Donchian.SeriesListing);
 
         // DPO (Detrended Price Oscillator)
+        _listings.Add(Dpo.BufferListing);
         _listings.Add(Dpo.SeriesListing);
 
         // Elder Ray
