@@ -66,6 +66,24 @@ IReadOnlyList<TsiResult>
 
 See [Utilities and helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
 
+## Streaming
+
+This indicator can be used with the buffer style for incremental streaming scenarios.  See [Streaming guide]({{site.baseurl}}/guide) for more information.
+
+```csharp
+// buffer-style streaming
+TsiList buffer = new(lookbackPeriods, smoothPeriods, signalPeriods);
+
+foreach (Quote quote in quotes)
+{
+    buffer.Add(quote);
+    TsiResult result = buffer[^1];
+}
+
+// or initialize with historical quotes
+TsiList buffer = quotes.ToTsiList(lookbackPeriods, smoothPeriods, signalPeriods);
+```
+
 ## Chaining
 
 This indicator may be generated from any chain-enabled indicator or method.

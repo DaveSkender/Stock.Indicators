@@ -1,0 +1,67 @@
+namespace Skender.Stock.Indicators;
+
+/// <summary>
+/// Quote part selection from incremental quotes.
+/// </summary>
+public class QuotePartList : BufferList<QuotePart>, IIncrementFromQuote, IQuotePart
+{
+    /// <summary>
+    /// Initializes a new instance of the <see cref="QuotePartList"/> class.
+    /// </summary>
+    /// <param name="candlePart">The candle part to select.</param>
+    public QuotePartList(CandlePart candlePart)
+    {
+        CandlePartSelection = candlePart;
+    }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="QuotePartList"/> class with initial quotes.
+    /// </summary>
+    /// <param name="candlePart">The candle part to select.</param>
+    /// <param name="quotes">Initial quotes to populate the list.</param>
+    public QuotePartList(CandlePart candlePart, IReadOnlyList<IQuote> quotes)
+        : this(candlePart)
+        => Add(quotes);
+
+    /// <inheritdoc />
+    public CandlePart CandlePartSelection { get; init; }
+
+    /// <inheritdoc />
+    public void Add(IQuote quote)
+    {
+        ArgumentNullException.ThrowIfNull(quote);
+
+        QuotePart result = quote.ToQuotePart(CandlePartSelection);
+        AddInternal(result);
+    }
+
+    /// <inheritdoc />
+    public void Add(IReadOnlyList<IQuote> quotes)
+    {
+        ArgumentNullException.ThrowIfNull(quotes);
+
+        for (int i = 0; i < quotes.Count; i++)
+        {
+            Add(quotes[i]);
+        }
+    }
+
+    /// <summary>
+    /// Clears the list and resets internal state so the instance can be reused.
+    /// </summary>
+    public override void Clear()
+    {
+        base.Clear();
+    }
+}
+
+public static partial class QuoteParts
+{
+    /// <summary>
+    /// Creates a buffer list for quote part selection.
+    /// </summary>
+    public static QuotePartList ToQuotePartList(
+        this IReadOnlyList<IQuote> quotes,
+        CandlePart candlePart)
+        => new(candlePart) { quotes };
+}

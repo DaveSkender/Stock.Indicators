@@ -30,4 +30,10 @@ public static partial class Renko
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
             .Build();
+
+    // Renko Buffer Listing
+    internal static readonly IndicatorListing BufferListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Buffer)
+            .Build();
 }
