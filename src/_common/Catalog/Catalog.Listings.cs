@@ -144,6 +144,8 @@ public static partial class Catalog
 
         // Donchian Channels
         _listings.Add(Donchian.SeriesListing);
+        _listings.Add(Donchian.StreamListing);
+        _listings.Add(Donchian.BufferListing);
 
         // DPO (Detrended Price Oscillator)
         _listings.Add(Dpo.SeriesListing);

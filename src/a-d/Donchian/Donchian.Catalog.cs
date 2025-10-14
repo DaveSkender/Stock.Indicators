@@ -22,6 +22,15 @@ public static partial class Donchian
             .WithStyle(Style.Series)
             .Build();
 
-    // No StreamListing for DONCHIAN.
-    // No BufferListing for DONCHIAN.
+    // DONCHIAN Stream Listing
+    internal static readonly IndicatorListing StreamListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Stream)
+            .Build();
+
+    // DONCHIAN Buffer Listing
+    internal static readonly IndicatorListing BufferListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Buffer)
+            .Build();
 }
