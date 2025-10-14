@@ -160,8 +160,8 @@ Note on former deferrals: Some indicators were previously marked as deferred due
 - [x] **T050** Implement Pmo BufferList in `src/m-r/Pmo/Pmo.BufferList.cs` ✅
 - [x] **T051** Implement Prs BufferList in `src/m-r/Prs/Prs.BufferList.cs` ✅
 - [x] **T052** Implement Pvo BufferList in `src/m-r/Pvo/Pvo.BufferList.cs` ✅
-- [ ] **T053** Implement QuotePart BufferList in `src/_common/QuotePart/QuotePart.BufferList.cs`
-- [ ] **T054** Implement Renko BufferList in `src/m-r/Renko/Renko.BufferList.cs`
+- [x] **T053** Implement QuotePart BufferList in `src/_common/QuotePart/QuotePart.BufferList.cs` ✅
+- [x] **T054** Implement Renko BufferList in `src/m-r/Renko/Renko.BufferList.cs` ✅
 - [ ] **T055** Implement RenkoAtr BufferList in `src/m-r/RenkoAtr/RenkoAtr.BufferList.cs`
 - [x] **T056** Implement Roc BufferList in `src/m-r/Roc/Roc.BufferList.cs` ✅
 - [ ] **T057** Implement RocWb BufferList in `src/m-r/RocWb/RocWb.BufferList.cs`
@@ -475,4 +475,4 @@ Each task should follow these guidelines:
 Removed blanket deferral: The above indicators are complex but unblocked with established reference patterns (see instruction files).
 
 ---
-Last updated: October 13, 2025
+Last updated: October 14, 2025
