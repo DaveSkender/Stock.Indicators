@@ -9,7 +9,7 @@ public class RocWbTests : RegressionTestBase<RocWbResult>
     public override void Series() => Quotes.ToRocWb().AssertEquals(Expected);
 
     [TestMethod]
-    public override void Buffer() => Assert.Inconclusive("Buffer implementation not yet available");
+    public override void Buffer() => Quotes.ToRocWbList().AssertEquals(Expected);
 
     [TestMethod]
     public override void Stream() => Assert.Inconclusive("Stream implementation not yet available");
