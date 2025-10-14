@@ -46,24 +46,24 @@ public class RocWb : StaticSeriesTestBase
 
         RocWbResult r39 = results[39];
         Assert.AreEqual(4.5348, Math.Round(r39.RocEma.Value, 4));
-        Assert.AreEqual(3.0359, Math.Round(r39.UpperBand.Value, 4));
-        Assert.AreEqual(-3.0359, Math.Round(r39.LowerBand.Value, 4));
+        Assert.AreEqual(1.3717, Math.Round(r39.UpperBand.Value, 4));
+        Assert.AreEqual(-1.3717, Math.Round(r39.LowerBand.Value, 4));
 
         RocWbResult r49 = results[49];
         Assert.AreEqual(2.3147, Math.Round(r49.RocEma.Value, 4));
-        Assert.AreEqual(3.6761, Math.Round(r49.UpperBand.Value, 4));
+        Assert.AreEqual(0.8234, Math.Round(r49.UpperBand.Value, 4));
 
         RocWbResult r149 = results[149];
-        Assert.AreEqual(1.7377, Math.Round(r149.UpperBand.Value, 4));
+        Assert.AreEqual(0.7419, Math.Round(r149.UpperBand.Value, 4));
 
         RocWbResult r249 = results[249];
-        Assert.AreEqual(3.0683, Math.Round(r249.UpperBand.Value, 4));
+        Assert.AreEqual(0.7386, Math.Round(r249.UpperBand.Value, 4));
 
         RocWbResult r501 = results[501];
         Assert.AreEqual(-8.2482, Math.Round(r501.Roc.Value, 4));
         Assert.AreEqual(-8.3390, Math.Round(r501.RocEma.Value, 4));
-        Assert.AreEqual(6.1294, Math.Round(r501.UpperBand.Value, 4));
-        Assert.AreEqual(-6.1294, Math.Round(r501.LowerBand.Value, 4));
+        Assert.AreEqual(3.356, Math.Round(r501.UpperBand.Value, 4));
+        Assert.AreEqual(-3.356, Math.Round(r501.LowerBand.Value, 4));
     }
 
     [TestMethod]
@@ -136,8 +136,8 @@ public class RocWb : StaticSeriesTestBase
         RocWbResult last = results[^1];
         Assert.AreEqual(-8.2482, Math.Round(last.Roc.Value, 4));
         Assert.AreEqual(-8.3390, Math.Round(last.RocEma.Value, 4));
-        Assert.AreEqual(6.1294, Math.Round(last.UpperBand.Value, 4));
-        Assert.AreEqual(-6.1294, Math.Round(last.LowerBand.Value, 4));
+        Assert.AreEqual(3.356, Math.Round(last.UpperBand.Value, 4));
+        Assert.AreEqual(-3.356, Math.Round(last.LowerBand.Value, 4));
     }
 
     [TestMethod]
