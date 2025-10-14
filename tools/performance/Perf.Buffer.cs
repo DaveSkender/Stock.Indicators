@@ -30,6 +30,7 @@ public class BufferIndicators
     [Benchmark] public ObvList ObvList() => new() { q };
     [Benchmark] public PmoList PmoList() => new() { q };
     [Benchmark] public PrsList PrsList() => new(int.MinValue, q, o);
+    [Benchmark] public RenkoList RenkoList() => new(2.5m) { q };
     [Benchmark] public RocList RocList() => new(20) { q };
     [Benchmark] public RsiList RsiList() => new(n) { q };
     [Benchmark] public SmaList SmaList() => new(n) { q };
