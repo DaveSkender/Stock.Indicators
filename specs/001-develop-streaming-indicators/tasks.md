@@ -194,7 +194,7 @@ Note on former deferrals: Some indicators were previously marked as deferred due
 - [x] **T084** Implement Wma BufferList in `src/s-z/Wma/Wma.BufferList.cs` ✅
 - [x] **T085** Implement ZigZag BufferList in `src/s-z/ZigZag/ZigZag.BufferList.cs` ✅
 
-**BufferList**: 69/85 complete, 16 remaining
+**BufferList**: 72/85 complete, 13 remaining
 
 **Checkpoint**: Phase 2 completion achieves complete BufferList coverage for all Series indicators
 
@@ -458,19 +458,19 @@ Each task should follow these guidelines:
 **Implementation Coverage (1:1:1 Parity)**:
 
 - **Total Series implementations**: 85 indicators (baseline)
-- **Total BufferList implementations**: 70 complete, 15 remaining (T001-T085)
+- **Total BufferList implementations**: 72 complete, 13 remaining (T001-T085)
 - **Total StreamHub implementations**: 45 complete, 40 remaining (T086-T170)
 - **1:1:1 Target**: 85 BufferList + 85 StreamHub = 170 streaming implementations total
-- **Current streaming coverage**: 115/170 = **68% complete**
+- **Current streaming coverage**: 117/170 = **69% complete**
 
 **Task Breakdown**:
 
 - **Phase 1**: 10 tasks (A001-A006, T171-T174) — 8 complete, 2 remaining
-- **Phase 2**: 85 BufferList implementation tasks (T001-T085) — 70 complete, 15 remaining
+- **Phase 2**: 85 BufferList implementation tasks (T001-T085) — 72 complete, 13 remaining
 - **Phase 3**: 85 StreamHub implementation tasks (T086-T170) — 45 complete, 40 remaining
 - **Phase 4**: 17 test infrastructure tasks (T175-T185, Q001-Q006) — 0 complete, 17 remaining
 - **Phase 5**: 7 documentation tasks (D001-D007) — 2 complete, 5 remaining
-- **Total**: 204 tasks — 125 complete, 79 remaining
+- **Total**: 204 tasks — 127 complete, 77 remaining
 
 Removed blanket deferral: The above indicators are complex but unblocked with established reference patterns (see instruction files).
 
