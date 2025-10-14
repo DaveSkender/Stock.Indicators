@@ -29,6 +29,7 @@ public class BufferIndicators
     [Benchmark] public MamaList MamaList() => new(0.5, 0.05) { q };
     [Benchmark] public ObvList ObvList() => new() { q };
     [Benchmark] public PmoList PmoList() => new() { q };
+    [Benchmark] public QuotePartList QuotePartList() => new(CandlePart.Close) { q };
     [Benchmark] public PrsList PrsList() => new(int.MinValue, q, o);
     [Benchmark] public RenkoList RenkoList() => new(2.5m) { q };
     [Benchmark] public RocList RocList() => new(20) { q };
