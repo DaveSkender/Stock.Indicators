@@ -1,7 +1,7 @@
 namespace BufferLists;
 
 [TestClass]
-public class QuoteParts : BufferListTestBase
+public class QuoteParts : BufferListTestBase, ITestQuoteBufferList
 {
     private const CandlePart candlePart = CandlePart.Close;
 
@@ -9,7 +9,7 @@ public class QuoteParts : BufferListTestBase
        = Quotes.ToQuotePart(candlePart);
 
     [TestMethod]
-    public void AddQuotes()
+    public void AddQuote_IncrementsResults()
     {
         QuotePartList sut = new(candlePart);
 
@@ -23,7 +23,7 @@ public class QuoteParts : BufferListTestBase
     }
 
     [TestMethod]
-    public void AddQuotesBatch()
+    public void AddQuotesBatch_IncrementsResults()
     {
         QuotePartList sut = Quotes.ToQuotePartList(candlePart);
 
@@ -32,7 +32,7 @@ public class QuoteParts : BufferListTestBase
     }
 
     [TestMethod]
-    public void WithQuotesCtor()
+    public void QuotesCtor_OnInstantiation_IncrementsResults()
     {
         QuotePartList sut = new(candlePart, Quotes);
 
@@ -41,7 +41,7 @@ public class QuoteParts : BufferListTestBase
     }
 
     [TestMethod]
-    public override void ClearResetsState()
+    public override void Clear_WithState_ResetsState()
     {
         List<Quote> subset = Quotes.Take(80).ToList();
         IReadOnlyList<QuotePart> expected = subset.ToQuotePart(candlePart);
@@ -62,7 +62,7 @@ public class QuoteParts : BufferListTestBase
     }
 
     [TestMethod]
-    public override void AutoListPruning()
+    public override void PruneList_OverMaxListSize_AutoAdjustsListAndBuffers()
     {
         const int maxListSize = 120;
 
