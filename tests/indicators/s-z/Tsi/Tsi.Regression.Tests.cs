@@ -9,7 +9,7 @@ public class TsiTests : RegressionTestBase<TsiResult>
     public override void Series() => Quotes.ToTsi(25, 13, 7).AssertEquals(Expected);
 
     [TestMethod]
-    public override void Buffer() => Assert.Inconclusive("Buffer implementation not yet available");
+    public override void Buffer() => Quotes.ToTsiList(25, 13, 7).AssertEquals(Expected);
 
     [TestMethod]
     public override void Stream() => Assert.Inconclusive("Stream implementation not yet available");
