@@ -183,7 +183,7 @@ Note on former deferrals: Some indicators were previously marked as deferred due
 - [x] **T073** Implement Tema BufferList in `src/s-z/Tema/Tema.BufferList.cs` ✅
 - [x] **T074** Implement Tr BufferList in `src/s-z/Tr/Tr.BufferList.cs` ✅
 - [x] **T075** Implement Trix BufferList in `src/s-z/Trix/Trix.BufferList.cs` ✅
-- [ ] **T076** Implement Tsi BufferList in `src/s-z/Tsi/Tsi.BufferList.cs`
+- [x] **T076** Implement Tsi BufferList in `src/s-z/Tsi/Tsi.BufferList.cs` ✅
 - [x] **T077** Implement UlcerIndex BufferList in `src/s-z/UlcerIndex/UlcerIndex.BufferList.cs` ✅
 - [x] **T078** Implement Ultimate BufferList in `src/s-z/Ultimate/Ultimate.BufferList.cs` ✅
 - [x] **T079** Implement VolatilityStop BufferList in `src/s-z/VolatilityStop/VolatilityStop.BufferList.cs` ✅
