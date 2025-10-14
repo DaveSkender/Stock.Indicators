@@ -264,6 +264,7 @@ public static partial class Catalog
         // Renko
         _listings.Add(Renko.SeriesListing);
         _listings.Add(Renko.StreamListing);
+        _listings.Add(Renko.BufferListing);
 
         // Renko ATR
         _listings.Add(RenkoAtr.SeriesListing);
@@ -352,6 +353,7 @@ public static partial class Catalog
 
         // TSI (True Strength Index)
         _listings.Add(Tsi.SeriesListing);
+        _listings.Add(Tsi.BufferListing);
 
         // Ulcer Index
         _listings.Add(UlcerIndex.SeriesListing);

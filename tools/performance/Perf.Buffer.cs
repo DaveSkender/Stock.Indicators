@@ -31,6 +31,7 @@ public class BufferIndicators
     [Benchmark] public PmoList PmoList() => new() { q };
     [Benchmark] public QuotePartList QuotePartList() => new(CandlePart.Close) { q };
     [Benchmark] public PrsList PrsList() => new(int.MinValue, q, o);
+    [Benchmark] public RenkoList RenkoList() => new(2.5m) { q };
     [Benchmark] public RocList RocList() => new(20) { q };
     [Benchmark] public RsiList RsiList() => new(n) { q };
     [Benchmark] public SmaList SmaList() => new(n) { q };
@@ -43,6 +44,7 @@ public class BufferIndicators
     [Benchmark] public TemaList TemaList() => new(20) { q };
     [Benchmark] public TrList TrList() => new() { q };
     [Benchmark] public TrixList TrixList() => new(n) { q };
+    [Benchmark] public TsiList TsiList() => new(25, 13, 7) { q };
     [Benchmark] public UlcerIndexList UlcerIndexList() => new(n) { q };
     [Benchmark] public UltimateList UltimateList() => new(7, 14, 28) { q };
     [Benchmark] public VolatilityStopList VolatilityStopList() => new(7, 3) { q };
