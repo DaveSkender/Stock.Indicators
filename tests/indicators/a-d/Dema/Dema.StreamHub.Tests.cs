@@ -1,7 +1,7 @@
 namespace StreamHub;
 
 [TestClass]
-public class DemaHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
+public class DemaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProvider
 {
     [TestMethod]
     public void QuoteObserver()
@@ -11,7 +11,7 @@ public class DemaHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
         int length = quotesList.Count;
 
         // setup quote provider hub
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
         // prefill quotes at provider
         for (int i = 0; i < 20; i++)
@@ -20,7 +20,7 @@ public class DemaHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
         }
 
         // initialize observer
-        DemaHub<Quote> observer = quoteHub
+        DemaHub observer = quoteHub
             .ToDemaHub(5);
 
         // fetch initial results (early)
@@ -75,11 +75,11 @@ public class DemaHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
         int length = quotesList.Count;
 
         // setup quote provider hub
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
         // initialize observer
-        DemaHub<SmaResult> observer = quoteHub
-            .ToSma(smaPeriods)
+        DemaHub observer = quoteHub
+            .ToSmaHub(smaPeriods)
             .ToDemaHub(demaPeriods);
 
         // emulate quote stream
@@ -95,7 +95,7 @@ public class DemaHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
         // time-series, for comparison
         IReadOnlyList<DemaResult> seriesList
            = quotesList
-            .ToSma(smaPeriods)
+            .ToSmaHub(smaPeriods)
             .ToDema(demaPeriods);
 
         // assert, should equal series
@@ -117,12 +117,12 @@ public class DemaHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
         int length = quotesList.Count;
 
         // setup quote provider hub
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
         // initialize observer
-        SmaHub<DemaResult> observer = quoteHub
+        SmaHub observer = quoteHub
             .ToDemaHub(demaPeriods)
-            .ToSma(smaPeriods);
+            .ToSmaHub(smaPeriods);
 
         // emulate adding quotes to provider hub
         for (int i = 0; i < length; i++)
@@ -170,7 +170,7 @@ public class DemaHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
     [TestMethod]
     public override void CustomToString()
     {
-        DemaHub<Quote> hub = new(new QuoteHub<Quote>(), 14);
+        DemaHub hub = new(new QuoteHub(), 14);
         hub.ToString().Should().Be("DEMA(14)");
     }
 }

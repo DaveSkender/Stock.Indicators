@@ -5,15 +5,14 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Provides methods for calculating the Price Relative Strength (PRS) series.
 /// </summary>
-public class PrsHub<TIn>
-    : PairsProvider<TIn, PrsResult>
-    where TIn : IReusable
-{
+public class PrsHub
+    : PairsProvider<IReusable, PrsResult>
+ {
     private readonly string hubName;
     private readonly int lookbackPeriods;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="PrsHub{TIn}"/> class.
+    /// Initializes a new instance of the <see cref="PrsHub"/> class.
     /// </summary>
     /// <param name="providerEval">The evaluation asset chain provider.</param>
     /// <param name="providerBase">The base/benchmark chain provider.</param>
@@ -23,8 +22,8 @@ public class PrsHub<TIn>
     /// </param>
     /// <exception cref="ArgumentNullException">Thrown when either provider is null.</exception>
     internal PrsHub(
-        IChainProvider<TIn> providerEval,
-        IChainProvider<TIn> providerBase,
+        IChainProvider<IReusable> providerEval,
+        IChainProvider<IReusable> providerBase,
         int lookbackPeriods) : base(providerEval, providerBase)
     {
         ArgumentNullException.ThrowIfNull(providerBase);
@@ -50,8 +49,9 @@ public class PrsHub<TIn>
 
     /// <inheritdoc/>
     protected override (PrsResult result, int index)
-        ToIndicator(TIn item, int? indexHint)
+        ToIndicator(IReusable item, int? indexHint)
     {
+        ArgumentNullException.ThrowIfNull(item);
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
         // PRS only requires 1 period; PrsPercent requires lookbackPeriods + 1
@@ -79,8 +79,8 @@ public class PrsHub<TIn>
         if (lookbackPeriods > 0 && i >= lookbackPeriods)
         {
             // Get values from lookback periods ago - safe because HasSufficientData already verified
-            TIn evalOld = ProviderCache[i - lookbackPeriods];
-            TIn baseOld = ProviderCacheB[i - lookbackPeriods];
+            IReusable evalOld = ProviderCache[i - lookbackPeriods];
+            IReusable baseOld = ProviderCacheB[i - lookbackPeriods];
 
             if (Math.Abs(baseOld.Value) >= double.Epsilon && Math.Abs(evalOld.Value) >= double.Epsilon)
             {
@@ -107,7 +107,7 @@ public static partial class Prs
     /// Creates a PRS hub from two synchronized chain providers.
     /// Note: Both providers must be synchronized (same timestamps).
     /// </summary>
-    /// <typeparam name="T">The type of the reusable data (must be the same for both providers).</typeparam>
+
     /// <param name="providerEval">The evaluation asset chain provider.</param>
     /// <param name="providerBase">The base/benchmark chain provider.</param>
     /// <param name="lookbackPeriods">
@@ -116,15 +116,14 @@ public static partial class Prs
     /// </param>
     /// <returns>A PRS hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when either provider is null.</exception>
-    public static PrsHub<T> ToPrsHub<T>(
-        this IChainProvider<T> providerEval,
-        IChainProvider<T> providerBase,
+    public static PrsHub ToPrsHub(
+        this IChainProvider<IReusable> providerEval,
+        IChainProvider<IReusable> providerBase,
         int lookbackPeriods = int.MinValue)
-        where T : IReusable
     {
         ArgumentNullException.ThrowIfNull(providerEval);
         ArgumentNullException.ThrowIfNull(providerBase);
-        return new PrsHub<T>(providerEval, providerBase, lookbackPeriods);
+        return new PrsHub(providerEval, providerBase, lookbackPeriods);
     }
 
 }

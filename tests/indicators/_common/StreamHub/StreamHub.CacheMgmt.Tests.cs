@@ -6,8 +6,8 @@ public class CacheManagement : TestBase
     [TestMethod]
     public void Remove()
     {
-        QuoteHub<Quote> quoteHub = new();
-        SmaHub<Quote> observer = quoteHub.ToSma(20);
+        QuoteHub quoteHub = new();
+        SmaHub observer = quoteHub.ToSma(20);
         quoteHub.Add(Quotes.Take(21));
 
         observer.Results[19].Sma.Should().BeApproximately(214.5250, precision: 1e-13d); // 16 digits of precision
@@ -28,9 +28,9 @@ public class CacheManagement : TestBase
         int length = Quotes.Count;
 
         // add base quotes
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
-        QuotePartHub<Quote> observer = quoteHub
+        QuotePartHub observer = quoteHub
             .ToQuotePartHub(CandlePart.Close);
 
         // emulate incremental quotes
@@ -68,7 +68,7 @@ public class CacheManagement : TestBase
     public void Overflowing()
     {
         // initialize
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
         Quote dup = new(
             Timestamp: DateTime.Now,
@@ -78,7 +78,7 @@ public class CacheManagement : TestBase
             Close: 1.75m,
             Volume: 1000);
 
-        QuotePartHub<Quote> observer = quoteHub
+        QuotePartHub observer = quoteHub
             .ToQuotePartHub(CandlePart.Close);
 
         // overflowing, under threshold
@@ -102,7 +102,7 @@ public class CacheManagement : TestBase
     public void OverflowedAndReset()
     {
         // initialize
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
         Quote dup = new(
             Timestamp: DateTime.Now,
@@ -112,7 +112,7 @@ public class CacheManagement : TestBase
             Close: 1.75m,
             Volume: 1000);
 
-        QuotePartHub<Quote> observer = quoteHub
+        QuotePartHub observer = quoteHub
             .ToQuotePartHub(CandlePart.Close);
 
         // overflowed, over threshold
@@ -159,8 +159,8 @@ public class CacheManagement : TestBase
         const int maxCacheSize = 30;
 
         // initialize
-        QuoteHub<Quote> quoteHub = new(maxCacheSize);
-        SmaHub<Quote> observer = quoteHub.ToSma(20);
+        QuoteHub quoteHub = new(maxCacheSize);
+        SmaHub observer = quoteHub.ToSma(20);
 
         // sets max cache size
         quoteHub.MaxCacheSize.Should().Be(maxCacheSize);
@@ -175,8 +175,8 @@ public class CacheManagement : TestBase
         const int maxCacheSize = 30;
 
         // initialize
-        QuoteHub<Quote> quoteHub = new(maxCacheSize);
-        SmaHub<Quote> observer = quoteHub.ToSma(20);
+        QuoteHub quoteHub = new(maxCacheSize);
+        SmaHub observer = quoteHub.ToSma(20);
         IReadOnlyList<SmaResult> seriesList = Quotes.ToSma(20);
 
         // add quotes

@@ -1,7 +1,7 @@
 namespace StreamHub;
 
 [TestClass]
-public class CmoHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
+public class CmoHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProvider
 {
     [TestMethod]
     public void QuoteObserver()
@@ -11,7 +11,7 @@ public class CmoHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
         int length = quotesList.Count;
 
         // setup quote provider hub
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
         // prefill quotes at provider
         for (int i = 0; i < 20; i++)
@@ -20,7 +20,7 @@ public class CmoHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
         }
 
         // initialize observer
-        CmoHub<Quote> observer = quoteHub
+        CmoHub observer = quoteHub
             .ToCmo(14);
 
         // fetch initial results (early)
@@ -75,10 +75,10 @@ public class CmoHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
         int length = quotesList.Count;
 
         // setup quote provider hub
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
         // initialize observer
-        CmoHub<EmaResult> observer = quoteHub
+        CmoHub observer = quoteHub
             .ToEmaHub(emaPeriods)
             .ToCmo(cmoPeriods);
 
@@ -117,10 +117,10 @@ public class CmoHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
         int length = quotesList.Count;
 
         // setup quote provider hub
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
         // initialize observer
-        EmaHub<CmoResult> observer = quoteHub
+        EmaHub observer = quoteHub
             .ToCmo(cmoPeriods)
             .ToEmaHub(emaPeriods);
 
@@ -151,8 +151,8 @@ public class CmoHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
     [TestMethod]
     public override void CustomToString()
     {
-        QuoteHub<Quote> quoteHub = new();
-        CmoHub<Quote> observer = quoteHub.ToCmo(14);
+        QuoteHub quoteHub = new();
+        CmoHub observer = quoteHub.ToCmo(14);
 
         observer.ToString().Should().Be("CMO(14)");
 

@@ -10,7 +10,7 @@ public class ObvHubTests : StreamHubTestBase, ITestQuoteObserver
         int length = quotesList.Count;
 
         // setup quote provider hub
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
         // prefill quotes at provider
         for (int i = 0; i < 20; i++)
@@ -19,7 +19,7 @@ public class ObvHubTests : StreamHubTestBase, ITestQuoteObserver
         }
 
         // initialize observer
-        StreamHub<Quote, ObvResult> observer = quoteHub.ToObvHub();
+        StreamHub observer = quoteHub.ToObvHub();
 
         // fetch initial results (early)
         IReadOnlyList<ObvResult> streamList = observer.Results;
@@ -63,7 +63,7 @@ public class ObvHubTests : StreamHubTestBase, ITestQuoteObserver
     [TestMethod]
     public override void CustomToString()
     {
-        ObvHub<Quote> hub = new(new QuoteHub<Quote>());
+        ObvHub hub = new(new QuoteHub());
         hub.ToString().Should().Be("OBV");
     }
 }

@@ -3,23 +3,22 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Provides methods for calculating the Double Exponential Moving Average (DEMA) indicator.
 /// </summary>
-public class DemaHub<TIn>
-    : ChainProvider<TIn, DemaResult>, IDema
-    where TIn : IReusable
-{
+public class DemaHub
+    : ChainProvider<IReusable, DemaResult>, IDema
+ {
     private readonly string hubName;
     private double lastEma1 = double.NaN;
     private double lastEma2 = double.NaN;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="DemaHub{TIn}"/> class.
+    /// Initializes a new instance of the <see cref="DemaHub"/> class.
     /// </summary>
     /// <param name="provider">The chain provider.</param>
     /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
     /// <exception cref="ArgumentNullException">Thrown when the provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
     internal DemaHub(
-        IChainProvider<TIn> provider,
+        IChainProvider<IReusable> provider,
         int lookbackPeriods) : base(provider)
     {
         Dema.Validate(lookbackPeriods);
@@ -41,12 +40,13 @@ public class DemaHub<TIn>
 
     /// <inheritdoc/>
     protected override (DemaResult result, int index)
-        ToIndicator(TIn item, int? indexHint)
+        ToIndicator(IReusable item, int? indexHint)
     {
         // TODO: Optimize by persisting layered EMA state (ema1, ema2)
         // and implementing a targeted rollback that only recomputes the
         // affected tail segment after edits. See discussion in PR #1433.
 
+        ArgumentNullException.ThrowIfNull(item);
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
         // if out-of-order change (insertion/deletion before current index) occurred
@@ -121,31 +121,27 @@ public static partial class Dema
     /// <summary>
     /// Creates a DEMA streaming hub from a chain provider.
     /// </summary>
-    /// <typeparam name="T">The type of the reusable data.</typeparam>
     /// <param name="chainProvider">The chain provider.</param>
     /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
     /// <returns>A DEMA hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the chain provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
-    public static DemaHub<T> ToDemaHub<T>(
-        this IChainProvider<T> chainProvider,
+    public static DemaHub ToDemaHub(
+        this IChainProvider<IReusable> chainProvider,
         int lookbackPeriods = 14)
-        where T : IReusable
         => new(chainProvider, lookbackPeriods);
 
     /// <summary>
     /// Creates a Dema hub from a collection of quotes.
     /// </summary>
-    /// <typeparam name="TQuote">The type of the quote.</typeparam>
     /// <param name="quotes">The collection of quotes.</param>
     /// <param name="lookbackPeriods">Parameter for the calculation.</param>
-    /// <returns>An instance of <see cref="DemaHub{TQuote}"/>.</returns>
-    public static DemaHub<TQuote> ToDemaHub<TQuote>(
-        this IReadOnlyList<TQuote> quotes,
+    /// <returns>An instance of <see cref="DemaHub"/>.</returns>
+    public static DemaHub ToDemaHub(
+        this IReadOnlyList<IQuote> quotes,
         int lookbackPeriods = 14)
-        where TQuote : IQuote
     {
-        QuoteHub<TQuote> quoteHub = new();
+        QuoteHub quoteHub = new();
         quoteHub.Add(quotes);
         return quoteHub.ToDemaHub(lookbackPeriods);
     }

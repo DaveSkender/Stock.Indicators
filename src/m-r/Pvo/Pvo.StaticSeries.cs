@@ -15,12 +15,12 @@ public static partial class Pvo
     /// <param name="signalPeriods">The number of periods for the signal line.</param>
     /// <returns>A list of PVO results.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the quotes list is null.</exception>
-    public static IReadOnlyList<PvoResult> ToPvo<TQuote>(
-        this IReadOnlyList<TQuote> quotes,
+    public static IReadOnlyList<PvoResult> ToPvo(
+        this IReadOnlyList<IQuote> quotes,
         int fastPeriods = 12,
         int slowPeriods = 26,
         int signalPeriods = 9)
-        where TQuote : IQuote => quotes
+        => quotes
             .Use(CandlePart.Volume)
             .CalcPvo(fastPeriods, slowPeriods, signalPeriods);
 

@@ -14,12 +14,12 @@ public static partial class Chandelier
     /// <param name="multiplier">The multiplier to apply to the ATR. Default is 3.</param>
     /// <param name="type">The type of Chandelier Exit to calculate (Long or Short). Default is Long.</param>
     /// <returns>A read-only list of <see cref="ChandelierResult"/> containing the Chandelier Exit calculation results.</returns>
-    public static IReadOnlyList<ChandelierResult> ToChandelier<TQuote>(
-        this IReadOnlyList<TQuote> quotes,
+    public static IReadOnlyList<ChandelierResult> ToChandelier(
+        this IReadOnlyList<IQuote> quotes,
         int lookbackPeriods = 22,
         double multiplier = 3,
         Direction type = Direction.Long)
-        where TQuote : IQuote => quotes
+        => quotes
             .ToQuoteDList()
             .CalcChandelier(lookbackPeriods, multiplier, type);
 

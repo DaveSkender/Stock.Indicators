@@ -18,12 +18,12 @@ public static class Candlesticks
     /// <summary>
     /// Converts a quote to candle properties.
     /// </summary>
-    /// <typeparam name="TQuote">The type of the quote.</typeparam>
     /// <param name="quote">The quote to convert.</param>
     /// <returns>The candle properties.</returns>
     public static CandleProperties ToCandle<TQuote>(
         this TQuote quote)
-        where TQuote : IQuote => new(
+        where TQuote : IQuote
+        => new(
             Timestamp: quote.Timestamp,
             Open: quote.Open,
             High: quote.High,
@@ -34,12 +34,11 @@ public static class Candlesticks
     /// <summary>
     /// Converts and sorts a list of quotes into a list of candle properties.
     /// </summary>
-    /// <typeparam name="TQuote">The type of the quote.</typeparam>
     /// <param name="quotes">The list of quotes to convert.</param>
     /// <returns>A sorted list of candle properties.</returns>
-    public static IReadOnlyList<CandleProperties> ToCandles<TQuote>(
-        this IReadOnlyList<TQuote> quotes)
-        where TQuote : IQuote => quotes
+    public static IReadOnlyList<CandleProperties> ToCandles(
+        this IReadOnlyList<IQuote> quotes)
+        => quotes
             .Select(x => x.ToCandle())
             .OrderBy(x => x.Timestamp)
             .ToList();

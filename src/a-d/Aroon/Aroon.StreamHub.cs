@@ -5,22 +5,20 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Represents a hub for Aroon Oscillator calculations.
 /// </summary>
-/// <typeparam name="TIn">The type of the input data.</typeparam>
-public class AroonHub<TIn>
-    : ChainProvider<TIn, AroonResult>, IAroon
-    where TIn : IQuote
+public class AroonHub
+    : ChainProvider<IQuote, AroonResult>, IAroon
 {
     private readonly string hubName;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="AroonHub{TIn}"/> class.
+    /// Initializes a new instance of the <see cref="AroonHub"/> class.
     /// </summary>
     /// <param name="provider">The quote provider.</param>
     /// <param name="lookbackPeriods">The number of periods to look back.</param>
     /// <exception cref="ArgumentNullException">Thrown when the provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
     internal AroonHub(
-        IStreamObservable<TIn> provider,
+        IQuoteProvider<IQuote> provider,
         int lookbackPeriods) : base(provider)
     {
         Aroon.Validate(lookbackPeriods);
@@ -38,8 +36,10 @@ public class AroonHub<TIn>
 
     /// <inheritdoc/>
     protected override (AroonResult result, int index)
-        ToIndicator(TIn item, int? indexHint)
+        ToIndicator(IQuote item, int? indexHint)
     {
+        ArgumentNullException.ThrowIfNull(item);
+
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
         double? aroonUp = null;
@@ -56,7 +56,7 @@ public class AroonHub<TIn>
             // Look back over the specified period
             for (int p = i - LookbackPeriods; p <= i; p++)
             {
-                TIn d = ProviderCache[p];
+                IQuote d = ProviderCache[p];
 
                 if (d.High > lastHighPrice)
                 {
@@ -94,32 +94,24 @@ public static partial class Aroon
     /// <summary>
     /// Creates an Aroon hub from a quote provider.
     /// </summary>
-    /// <typeparam name="T">The type of the quote data.</typeparam>
     /// <param name="provider">The quote provider.</param>
     /// <param name="lookbackPeriods">The number of periods to look back. Default is 25.</param>
     /// <returns>An Aroon hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
-    public static AroonHub<T> ToAroonHub<T>(
-        this IStreamObservable<T> provider,
+    public static AroonHub ToAroonHub(
+        this IQuoteProvider<IQuote> provider,
         int lookbackPeriods = 25)
-        where T : IQuote
         => new(provider, lookbackPeriods);
 
     /// <summary>
     /// Creates an Aroon hub from a collection of quotes.
     /// </summary>
-    /// <typeparam name="TQuote">The type of the quote.</typeparam>
     /// <param name="quotes">The collection of quotes.</param>
     /// <param name="lookbackPeriods">The number of periods to look back. Default is 25.</param>
-    /// <returns>An instance of <see cref="AroonHub{TQuote}"/>.</returns>
-    public static AroonHub<TQuote> ToAroonHub<TQuote>(
-        this IReadOnlyList<TQuote> quotes,
+    /// <returns>An instance of <see cref="AroonHub"/>.</returns>
+    public static AroonHub ToAroonHub(
+        this IReadOnlyList<IQuote> quotes,
         int lookbackPeriods = 25)
-        where TQuote : IQuote
-    {
-        QuoteHub<TQuote> quoteHub = new();
-        quoteHub.Add(quotes);
-        return quoteHub.ToAroonHub(lookbackPeriods);
-    }
+        => quotes.ToQuoteHub().ToAroonHub(lookbackPeriods);
 }

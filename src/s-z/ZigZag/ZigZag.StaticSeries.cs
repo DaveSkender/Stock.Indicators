@@ -8,17 +8,15 @@ public static partial class ZigZag
     /// <summary>
     /// Converts a list of quotes to a ZigZag series.
     /// </summary>
-    /// <typeparam name="TQuote">The type of the quote.</typeparam>
     /// <param name="quotes">The list of quotes.</param>
     /// <param name="endType">The type of end to use (Close or HighLow).</param>
     /// <param name="percentChange">The percentage change threshold for ZigZag points.</param>
     /// <returns>A list of ZigZag results.</returns>
-    public static IReadOnlyList<ZigZagResult> ToZigZag<TQuote>(
-        this IReadOnlyList<TQuote> quotes,
+    public static IReadOnlyList<ZigZagResult> ToZigZag(
+        this IReadOnlyList<IQuote> quotes,
         EndType endType = EndType.Close,
         decimal percentChange = 5
     )
-        where TQuote : IQuote
     {
         // check parameter arguments
         ArgumentNullException.ThrowIfNull(quotes);
@@ -33,7 +31,7 @@ public static partial class ZigZag
             return results;
         }
 
-        TQuote q0 = quotes[0];
+        IQuote q0 = quotes[0];
 
         ZigZagEval eval = GetZigZagEval(endType, 1, q0);
         decimal changeThreshold = percentChange / 100m;
@@ -59,7 +57,7 @@ public static partial class ZigZag
         // roll through source values, to find initial trend
         for (int i = 0; i < length; i++)
         {
-            TQuote q = quotes[i];
+            IQuote q = quotes[i];
             int index = i + 1;
 
             eval = GetZigZagEval(endType, index, q);
@@ -117,18 +115,16 @@ public static partial class ZigZag
     /// <summary>
     /// Evaluates the next ZigZag point.
     /// </summary>
-    /// <typeparam name="TQuote">The type of the quote.</typeparam>
     /// <param name="quotesList">The list of quotes.</param>
     /// <param name="endType">The type of end to use (Close or HighLow).</param>
     /// <param name="changeThreshold">The percentage change threshold for ZigZag points.</param>
     /// <param name="lastPoint">The last ZigZag point.</param>
     /// <returns>The next ZigZag point.</returns>
-    internal static ZigZagPoint EvaluateNextPoint<TQuote>(
-        IReadOnlyList<TQuote> quotesList,
+    internal static ZigZagPoint EvaluateNextPoint(
+        IReadOnlyList<IQuote> quotesList,
         EndType endType,
         decimal changeThreshold,
         ZigZagPoint lastPoint)
-        where TQuote : IQuote
     {
         // initialize
         bool trendUp = lastPoint.PointType == "L";
@@ -143,7 +139,7 @@ public static partial class ZigZag
         // find extreme point before reversal point
         for (int i = lastPoint.Index; i < quotesList.Count; i++)
         {
-            TQuote q = quotesList[i];
+            IQuote q = quotesList[i];
             int index = i + 1;
             decimal? change;
 
@@ -204,15 +200,13 @@ public static partial class ZigZag
     /// <summary>
     /// Draws a ZigZag line between two points.
     /// </summary>
-    /// <typeparam name="TQuote">The type of the quote.</typeparam>
     /// <param name="results">The list of ZigZag results.</param>
     /// <param name="quotes">The list of quotes.</param>
     /// <param name="lastPoint">The last ZigZag point.</param>
     /// <param name="nextPoint">The next ZigZag point.</param>
-    private static void DrawZigZagLine<TQuote>(
-        List<ZigZagResult> results, IReadOnlyList<TQuote> quotes,
+    private static void DrawZigZagLine(
+        List<ZigZagResult> results, IReadOnlyList<IQuote> quotes,
         ZigZagPoint lastPoint, ZigZagPoint nextPoint)
-        where TQuote : IQuote
     {
         if (nextPoint.Index != lastPoint.Index)
         {
@@ -223,7 +217,7 @@ public static partial class ZigZag
             // add new line segment
             for (int i = lastPoint.Index; i < nextPoint.Index; i++)
             {
-                TQuote q = quotes[i];
+                IQuote q = quotes[i];
                 int index = i + 1;
 
                 ZigZagResult result = new(
@@ -335,16 +329,14 @@ public static partial class ZigZag
     /// <summary>
     /// Gets the ZigZag evaluation for a quote.
     /// </summary>
-    /// <typeparam name="TQuote">The type of the quote.</typeparam>
     /// <param name="endType">The type of end to use (Close or HighLow).</param>
     /// <param name="index">The index of the quote.</param>
     /// <param name="q">The quote.</param>
     /// <returns>The ZigZag evaluation.</returns>
-    internal static ZigZagEval GetZigZagEval<TQuote>(
+    internal static ZigZagEval GetZigZagEval(
         EndType endType,
         int index,
-        TQuote q)
-        where TQuote : IQuote
+        IQuote q)
     {
         ZigZagEval eval = new() {
             Index = index

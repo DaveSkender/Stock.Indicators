@@ -32,19 +32,19 @@ When implementing or updating an indicator, you must complete:
 The codebase implements several types of stream hub I/O patterns:
 
 1. **IQuote → IReusable** (e.g., EMA, SMA, ADX): Takes quote input, produces single reusable value output
-   - Uses `IChainProvider<TIn>` and extends `ChainProvider<TIn, TResult>`
+   - Uses `IChainProvider<IReusable>` and extends `ChainProvider<IReusable, TResult>`
    - Generic constraint: `where TIn : IReusable`
 2. **IQuote → ISeries** (e.g., Alligator, AtrStop): Takes quote input, produces multi-value series output  
-   - Uses `IChainProvider<TIn>` and extends `ChainProvider<TIn, TResult>`
+   - Uses `IChainProvider<IQuote>` and extends `ChainProvider<TIn, TResult>`
    - Generic constraint: `where TIn : IReusable`
 3. **IReusable → IReusable** (e.g., chained indicators): Takes reusable input, produces reusable output
-   - Uses `IChainProvider<TIn>` and extends `ChainProvider<TIn, TResult>`
+   - Uses `IChainProvider<IReusable>` and extends `ChainProvider<IReusable, TResult>`
    - Generic constraint: `where TIn : IReusable`
 4. **IQuote → IQuote** (e.g., Renko, Quote converters): Takes quote input, produces modified quote output
-   - Uses `IQuoteProvider<TIn>` and extends `QuoteProvider<TIn, TResult>`
+   - Uses `IQuoteProvider<IQuote>` and extends `QuoteProvider<TIn, TResult>`
    - Generic constraint: `where TIn : IQuote`
 5. **IQuote → VolumeWeighted** (e.g., VWMA): Takes quote input, requires both price and volume data
-   - Uses `IQuoteProvider<TIn>` and extends `QuoteProvider<TIn, TResult>`
+   - Uses `IQuoteProvider<IQuote>` and extends `QuoteProvider<TIn, TResult>`
    - Generic constraint: `where TIn : IQuote`
 6. **Dual IReusable → IReusable** (e.g., Correlation, Beta): Takes two synchronized reusable inputs, produces reusable output
    - Uses `IPairsProvider<TIn>` and extends `PairsProvider<TIn, TResult>`
@@ -53,8 +53,8 @@ The codebase implements several types of stream hub I/O patterns:
 
 **Provider Selection Guidelines**:
 
-- Use `IQuoteProvider<TIn>` and `QuoteProvider<TIn, TResult>` when the indicator requires multiple quote properties (e.g., OHLCV data)
-- Use `IChainProvider<TIn>` and `ChainProvider<TIn, TResult>` when the indicator can work with single reusable values. Heuristic: if the result type implements `IReusable` and exposes a chainable `Value` property, the hub should act as a chain provider (for example, `AdxResult : IReusable` with `Value => Adx`).
+- Use `IQuoteProvider<IQuote>` and `QuoteProvider<TIn, TResult>` when the indicator requires multiple quote properties (e.g., OHLCV data)
+- Use `IChainProvider<IReusable>` and `ChainProvider<IReusable, TResult>` when the indicator can work with single reusable values. Heuristic: if the result type implements `IReusable` and exposes a chainable `Value` property, the hub should act as a chain provider (for example, `AdxResult : IReusable` with `Value => Adx`).
 - Use `IPairsProvider<TIn>` and `PairsProvider<TIn, TResult>` when the indicator requires synchronized dual inputs (e.g., Correlation, Beta)
 
 Note: IQuote → QuotePart selectors exist but are rarely used for new indicators.
@@ -139,23 +139,22 @@ public void Standard()
 
 ### Core stream hub structure
 
-Stream indicators implement the `IStreamHub<TResult>` interface, most commonly via a `ChainProvider<TIn, {IndicatorName}Result>` base class for stateful processing.  Available base classes align with the I/O scenarios above.  Examples:
+Stream indicators implement the `IStreamHub<TResult>` interface, most commonly via a `ChainProvider<IReusable, {IndicatorName}Result>` base class for stateful processing.  Available base classes align with the I/O scenarios above.  Examples:
 
-- `EmaHub<TIn> : ChainProvider<TIn, EmaResult>, IEma where TIn : IReusable` can consume chainable reusables types.
-- `AdlHub<TIn> : ChainProvider<TIn, AdlResult> where TIn : IQuote` can only consume quote types.
+- `EmaHub : ChainProvider<IReusable, EmaResult>, IEma where TIn : IReusable` can consume chainable reusables types.
+- `AdlHub : ChainProvider<IQuote, AdlResult>` can only consume quote types.
 
 ```csharp
 /// <summary>
 /// Streaming hub for {IndicatorName} calculations
 /// </summary>
-public class {IndicatorName}Hub<TIn>
-    : ChainProvider<TIn, {IndicatorName}Result>, I{IndicatorName}
-    where TIn : IReusable
-{
+public class {IndicatorName}Hub
+    : ChainProvider<IReusable, {IndicatorName}Result>, I{IndicatorName}
+ {
     private readonly string hubName;
 
     internal {IndicatorName}Hub(
-        IChainProvider<TIn> provider,
+        IChainProvider<IReusable> provider,
         int lookbackPeriods) : base(provider)
     {
         {IndicatorName}.Validate(lookbackPeriods);
@@ -183,11 +182,10 @@ If the hub supports chainable `IReusable` types:
 /// <summary>
 /// Creates a {IndicatorName} streaming hub from a chain provider.
 /// </summary>
-public static {IndicatorName}Hub<TIn> To{IndicatorName}Hub<TIn>(
-    this IChainProvider<TIn> chainProvider,
+public static {IndicatorName}Hub To{IndicatorName}Hub(
+    this IChainProvider<IReusable> chainProvider,
     int lookbackPeriods = {defaultValue})
-    where TIn : IReusable
-    => new(chainProvider, lookbackPeriods);
+     => new(chainProvider, lookbackPeriods);
 ```
 
 If the hub only supports `IQuote` input types (less common):
@@ -196,11 +194,10 @@ If the hub only supports `IQuote` input types (less common):
 /// <summary>
 /// Creates a {IndicatorName} streaming hub from a quotes provider.
 /// </summary>
-public static {IndicatorName}Hub<TIn> To{IndicatorName}Hub<TIn>(
-    this IQuoteProvider<TIn> quoteProvider,
+public static {IndicatorName}Hub To{IndicatorName}Hub(
+    this IQuoteProvider<IQuote> quoteProvider,
     int lookbackPeriods = {defaultValue})
-    where TIn : IQuote
-    => new(quoteProvider, lookbackPeriods);
+     => new(quoteProvider, lookbackPeriods);
 ```
 
 In both cases, `{defaultValue}` is only used for parity with Series `quotes.To{IndicatorName}()` extensions and may not always be implemented.
@@ -213,15 +210,14 @@ For indicators requiring synchronized pairs of inputs (e.g., Correlation, Beta),
 /// <summary>
 /// Streaming hub for {IndicatorName} calculations between two synchronized series.
 /// </summary>
-public class {IndicatorName}Hub<TIn>
+public class {IndicatorName}Hub
     : PairsProvider<TIn, {IndicatorName}Result>, I{IndicatorName}
-    where TIn : IReusable
-{
+ {
     private readonly string hubName;
 
     internal {IndicatorName}Hub(
-        IChainProvider<TIn> providerA,
-        IChainProvider<TIn> providerB,
+        IChainProvider<IReusable> providerA,
+        IChainProvider<IReusable> providerB,
         int lookbackPeriods) : base(providerA, providerB)
     {
         ArgumentNullException.ThrowIfNull(providerB);
@@ -241,7 +237,7 @@ public class {IndicatorName}Hub<TIn>
 
     /// <inheritdoc/>
     protected override ({IndicatorName}Result result, int index)
-        ToIndicator(TIn item, int? indexHint)
+        ToIndicator(IReusable item, int? indexHint)
     {
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
@@ -282,12 +278,11 @@ public class {IndicatorName}Hub<TIn>
 /// Creates a {IndicatorName} hub from two synchronized chain providers.
 /// Note: Both providers must be synchronized (same timestamps).
 /// </summary>
-public static {IndicatorName}Hub<TIn> To{IndicatorName}Hub<TIn>(
-    this IChainProvider<TIn> providerA,
-    IChainProvider<TIn> providerB,
+public static {IndicatorName}Hub To{IndicatorName}Hub(
+    this IChainProvider<IReusable> providerA,
+    IChainProvider<IReusable> providerB,
     int lookbackPeriods)
-    where TIn : IReusable
-    => new(providerA, providerB, lookbackPeriods);
+     => new(providerA, providerB, lookbackPeriods);
 ```
 
 **Important considerations for dual-stream hubs**:

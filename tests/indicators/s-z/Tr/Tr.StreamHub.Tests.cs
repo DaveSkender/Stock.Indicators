@@ -1,7 +1,7 @@
 namespace StreamHub;
 
 [TestClass]
-public class TrHub : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
+public class TrHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
 {
     [TestMethod]
     public void QuoteObserver()
@@ -11,7 +11,7 @@ public class TrHub : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
         int length = quotesList.Count;
 
         // setup quote provider hub
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
         // prefill quotes at provider
         for (int i = 0; i < 20; i++)
@@ -20,7 +20,7 @@ public class TrHub : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
         }
 
         // initialize observer
-        StreamHub<Quote, TrResult> observer = quoteHub
+        StreamHub observer = quoteHub
             .ToTrHub();
 
         // fetch initial results (early)
@@ -75,14 +75,14 @@ public class TrHub : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
         int length = quotesList.Count;
 
         // setup quote provider hub
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
         // initialize observer
         IChainProvider<TrResult> adlHub = quoteHub
             .ToTrHub();
 
-        SmaHub<TrResult> observer = adlHub
-            .ToSma(smaPeriods);
+        SmaHub observer = adlHub
+            .ToSmaHub(smaPeriods);
 
         // emulate quote stream
         for (int i = 0; i < length; i++)
@@ -101,7 +101,7 @@ public class TrHub : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
         // time-series, for comparison
         IReadOnlyList<SmaResult> seriesList = quotesList
             .ToTr()
-            .ToSma(smaPeriods);
+            .ToSmaHub(smaPeriods);
 
         // assert, should equal series
         streamList.Should().HaveCount(length - 1);
@@ -114,7 +114,7 @@ public class TrHub : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
     [TestMethod]
     public override void CustomToString()
     {
-        TrHub<Quote> hub = new(new QuoteHub<Quote>());
+        TrHub hub = new(new QuoteHub());
         hub.ToString().Should().Be("TRUE RANGE");
     }
 }

@@ -12,18 +12,16 @@ public static partial class Indicator
     // UTILITIES
 
     [ExcludeFromCodeCoverage]
-    [Obsolete("This method no longer supports IEnumerable<TQuote> and tuple return types.", false)]
-    public static IEnumerable<(DateTime Timestamp, double Value)> Use<TQuote>(
-        this IEnumerable<TQuote> quotes,
+    [Obsolete("This method no longer supports IEnumerable<IQuote> and tuple return types.", false)]
+    public static IEnumerable<(DateTime Timestamp, double Value)> Use(
+        this IEnumerable<IQuote> quotes,
             CandlePart candlePart = CandlePart.Close)
-        where TQuote : IQuote
         => quotes.Use(candlePart);
 
     [ExcludeFromCodeCoverage]
     [Obsolete("This method no longer defaults to Close.  Rename Use() to Use(CandlePart.Close) for an explicit conversion.", false)]
-    public static IEnumerable<(DateTime Timestamp, double Value)> Use<TQuote>(
-        this IReadOnlyList<TQuote> quotes)
-        where TQuote : IQuote
+    public static IEnumerable<(DateTime Timestamp, double Value)> Use(
+        this IReadOnlyList<IQuote> quotes)
         => quotes.Select(x => (x.Timestamp, x.Value));
 
     [ExcludeFromCodeCoverage]
@@ -56,10 +54,9 @@ public static partial class Indicator
 
     [ExcludeFromCodeCoverage]
     [Obsolete("Refactor to use `ToReusable()`", false)]
-    public static Collection<(DateTime Timestamp, double Value)> ToTupleCollection<TQuote>(
-        this IEnumerable<TQuote> quotes,
+    public static Collection<(DateTime Timestamp, double Value)> ToTupleCollection(
+        this IEnumerable<IQuote> quotes,
         CandlePart candlePart = CandlePart.Close)
-        where TQuote : IQuote
         => quotes
             .ToList()
             .ToReusable(candlePart)
@@ -75,16 +72,14 @@ public static partial class Indicator
 
     [ExcludeFromCodeCoverage]
     [Obsolete("Refactor to use `List<TQuote> quotes` input.", false)]
-    public static IEnumerable<Quote> Aggregate<TQuote>(
-        this IEnumerable<TQuote> quotes, PeriodSize newSize)
-        where TQuote : IQuote
+    public static IEnumerable<Quote> Aggregate(
+        this IEnumerable<IQuote> quotes, PeriodSize newSize)
         => quotes.ToSortedList().Aggregate(newSize);
 
     [ExcludeFromCodeCoverage]
     [Obsolete("Refactor to use `List<TQuote> quotes` input.", false)]
-    public static IEnumerable<CandleProperties> ToCandles<TQuote>(
-        this IEnumerable<TQuote> quotes)
-        where TQuote : IQuote
+    public static IEnumerable<CandleProperties> ToCandles(
+        this IEnumerable<IQuote> quotes)
         => quotes.ToSortedList().ToCandles();
 
     [ExcludeFromCodeCoverage]

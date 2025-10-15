@@ -1,7 +1,7 @@
 namespace StreamHub;
 
 [TestClass]
-public class UltimateHub : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
+public class UltimateHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
 {
     [TestMethod]
     public void QuoteObserver()
@@ -11,7 +11,7 @@ public class UltimateHub : StreamHubTestBase, ITestQuoteObserver, ITestChainProv
         int length = quotesList.Count;
 
         // setup quote provider hub
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
         // prefill quotes at provider
         for (int i = 0; i < 20; i++)
@@ -20,7 +20,7 @@ public class UltimateHub : StreamHubTestBase, ITestQuoteObserver, ITestChainProv
         }
 
         // initialize observer
-        StreamHub<Quote, UltimateResult> observer = quoteHub
+        StreamHub observer = quoteHub
             .ToUltimateHub(7, 14, 28);
 
         // fetch initial results (early)
@@ -75,14 +75,14 @@ public class UltimateHub : StreamHubTestBase, ITestQuoteObserver, ITestChainProv
         int length = quotesList.Count;
 
         // setup quote provider hub
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
         // initialize observer
         IChainProvider<UltimateResult> ultimateHub = quoteHub
             .ToUltimateHub(7, 14, 28);
 
-        SmaHub<UltimateResult> observer = ultimateHub
-            .ToSma(smaPeriods);
+        SmaHub observer = ultimateHub
+            .ToSmaHub(smaPeriods);
 
         // emulate quote stream
         for (int i = 0; i < length; i++)
@@ -114,7 +114,7 @@ public class UltimateHub : StreamHubTestBase, ITestQuoteObserver, ITestChainProv
     [TestMethod]
     public override void CustomToString()
     {
-        UltimateHub<Quote> hub = new(new QuoteHub<Quote>(), 7, 14, 28);
+        UltimateHub hub = new(new QuoteHub(), 7, 14, 28);
         hub.ToString().Should().Be("UO(7,14,28)");
     }
 }

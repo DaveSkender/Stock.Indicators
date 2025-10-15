@@ -8,14 +8,12 @@ public static partial class Reusable
     /// <summary>
     /// Converts a list of quotes to a list of reusable types.
     /// </summary>
-    /// <typeparam name="TQuote">The type of the quote.</typeparam>
     /// <param name="quotes">The list of quotes.</param>
     /// <param name="candlePart">The part of the candle to use.</param>
     /// <returns>A list of reusable types.</returns>
-    public static IReadOnlyList<IReusable> ToReusable<TQuote>(
-        this IReadOnlyList<TQuote> quotes,
+    public static IReadOnlyList<IReusable> ToReusable(
+        this IReadOnlyList<IQuote> quotes,
         CandlePart candlePart)
-        where TQuote : IQuote
 
         => quotes
             .OrderBy(x => x.Timestamp)

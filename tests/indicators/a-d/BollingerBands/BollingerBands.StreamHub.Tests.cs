@@ -1,7 +1,7 @@
 namespace StreamHubs;
 
 [TestClass]
-public class BollingerBandsStreamHub : StreamHubTestBase, ITestQuoteObserver
+public class BollingerBandsStreamHubTests : StreamHubTestBase, ITestQuoteObserver
 {
     [TestMethod]
     public void QuoteObserver()
@@ -10,7 +10,7 @@ public class BollingerBandsStreamHub : StreamHubTestBase, ITestQuoteObserver
         int length = quotesList.Count;
 
         // setup quote provider hub
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
         // prefill quotes at provider
         for (int i = 0; i < 20; i++)
@@ -19,7 +19,7 @@ public class BollingerBandsStreamHub : StreamHubTestBase, ITestQuoteObserver
         }
 
         // initialize observer
-        BollingerBandsHub<Quote> observer = quoteHub.ToBollingerBandsHub(20, 2);
+        BollingerBandsHub observer = quoteHub.ToBollingerBandsHub(20, 2);
 
         // fetch initial results (early)
         IReadOnlyList<BollingerBandsResult> streamList = observer.Results;
@@ -66,9 +66,9 @@ public class BollingerBandsStreamHub : StreamHubTestBase, ITestQuoteObserver
     [TestMethod]
     public override void CustomToString()
     {
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
         quoteHub.Add(Quotes);
-        BollingerBandsHub<Quote> observer = quoteHub.ToBollingerBandsHub(20, 2);
+        BollingerBandsHub observer = quoteHub.ToBollingerBandsHub(20, 2);
 
         observer.ToString().Should().Be("BB(20,2)");
     }
@@ -85,12 +85,12 @@ public class BollingerBandsStreamHub : StreamHubTestBase, ITestQuoteObserver
         int length = quotesList.Count;
 
         // setup quote provider hub
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
         // initialize observer - chain SMA to Bollinger Bands
-        SmaHub<BollingerBandsResult> observer = quoteHub
+        SmaHub observer = quoteHub
             .ToBollingerBandsHub(lookbackPeriods, standardDeviations)
-            .ToSma(smaPeriods);
+            .ToSmaHub(smaPeriods);
 
         // emulate quote stream
         for (int i = 0; i < length; i++)
@@ -119,7 +119,7 @@ public class BollingerBandsStreamHub : StreamHubTestBase, ITestQuoteObserver
     [TestMethod]
     public void PrefilledProviderRebuilds()
     {
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
         List<Quote> quotes = Quotes.Take(25).ToList();
 
         for (int i = 0; i < 5; i++)
@@ -127,7 +127,7 @@ public class BollingerBandsStreamHub : StreamHubTestBase, ITestQuoteObserver
             quoteHub.Add(quotes[i]);
         }
 
-        BollingerBandsHub<Quote> observer = quoteHub.ToBollingerBandsHub(5, 2);
+        BollingerBandsHub observer = quoteHub.ToBollingerBandsHub(5, 2);
 
         IReadOnlyList<BollingerBandsResult> initialResults = observer.Results;
         IReadOnlyList<BollingerBandsResult> expectedInitial = quotes

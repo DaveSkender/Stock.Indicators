@@ -1,7 +1,7 @@
 namespace StreamHub;
 
 [TestClass]
-public class AdlHub : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
+public class AdlHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
 {
     [TestMethod]
     public void QuoteObserver()
@@ -11,7 +11,7 @@ public class AdlHub : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
         int length = quotesList.Count;
 
         // setup quote provider hub
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
         // prefill quotes at provider
         for (int i = 0; i < 20; i++)
@@ -20,7 +20,7 @@ public class AdlHub : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
         }
 
         // initialize observer
-        StreamHub<Quote, AdlResult> observer = quoteHub
+        AdlHub observer = quoteHub
             .ToAdlHub();
 
         // fetch initial results (early)
@@ -70,19 +70,16 @@ public class AdlHub : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
     {
         const int smaPeriods = 8;
 
-        List<Quote> quotesList = Quotes.ToList();
-
-        int length = quotesList.Count;
+        int length = Quotes.Count;
 
         // setup quote provider hub
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
         // initialize observer
-        AdlHub<Quote> adlHub = quoteHub
-            .ToAdlHub();
+        AdlHub adlHub = quoteHub.ToAdlHub();
 
-        SmaHub<AdlResult> observer = adlHub
-            .ToSma(smaPeriods);
+        SmaHub observer = adlHub
+            .ToSmaHub(smaPeriods);
 
         // emulate quote stream
         for (int i = 0; i < length; i++)
@@ -114,9 +111,9 @@ public class AdlHub : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
     [TestMethod]
     public override void CustomToString()
     {
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
-        AdlHub<Quote> hub = new(quoteHub);
+        AdlHub hub = new(quoteHub);
         hub.ToString().Should().Be("ADL");
 
         quoteHub.Add(Quotes[0]);

@@ -15,12 +15,12 @@ public static partial class Kvo
     /// <param name="signalPeriods">The number of periods for the signal line. Default is 13.</param>
     /// <returns>A list of KVO results.</returns>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when any of the parameters are out of their valid range.</exception>
-    public static IReadOnlyList<KvoResult> ToKvo<TQuote>(
-        this IReadOnlyList<TQuote> quotes,
+    public static IReadOnlyList<KvoResult> ToKvo(
+        this IReadOnlyList<IQuote> quotes,
         int fastPeriods = 34,
         int slowPeriods = 55,
         int signalPeriods = 13)
-        where TQuote : IQuote => quotes
+        => quotes
             .ToQuoteDList()
             .CalcKvo(fastPeriods, slowPeriods, signalPeriods);
 

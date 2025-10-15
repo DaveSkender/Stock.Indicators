@@ -31,7 +31,6 @@ namespace Skender.Stock.Indicators;
 /// <typeparam name="TQuote">Quote type (typically <see cref="Quote"/>)</typeparam>
 /// <typeparam name="TResult">Indicator result type (e.g., <see cref="SmaResult"/>)</typeparam>
 public interface IStreamingIndicator<in TQuote, out TResult>
-    where TQuote : IQuote
 {
     /// <summary>
     /// Adds a new quote and computes the indicator value
@@ -353,7 +352,7 @@ public sealed class [IndicatorName]StreamHub : IStreamingIndicator<Quote, [Indic
 **Actual naming conventions**:
 
 - BufferList style: `{IndicatorName}List` (e.g., `SmaList`, `EmaList`, `RsiList`)
-- StreamHub style: `{IndicatorName}Hub<TIn>` (e.g., `SmaHub<TIn>`, `EmaHub<TIn>`, `RsiHub<TIn>`)
+- StreamHub style: `{IndicatorName}Hub` (e.g., `SmaHub`, `EmaHub`, `RsiHub`)
 
 **Inheritance patterns**:
 

@@ -8,15 +8,14 @@ public static partial class Vortex
     /// <summary>
     /// Calculates the Vortex indicator for a series of quotes.
     /// </summary>
-    /// <typeparam name="TQuote">The type of the elements in the source list, which must implement IQuote.</typeparam>
     /// <param name="quotes">The source list of quotes.</param>
     /// <param name="lookbackPeriods">The number of lookback periods. Default is 14.</param>
     /// <returns>A list of VortexResult containing the Vortex indicator values.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the source is null.</exception>
-    public static IReadOnlyList<VortexResult> ToVortex<TQuote>(
-        this IReadOnlyList<TQuote> quotes,
+    public static IReadOnlyList<VortexResult> ToVortex(
+        this IReadOnlyList<IQuote> quotes,
         int lookbackPeriods = 14)
-        where TQuote : IQuote => quotes
+        => quotes
             .ToQuoteDList()
             .CalcVortex(lookbackPeriods);
 

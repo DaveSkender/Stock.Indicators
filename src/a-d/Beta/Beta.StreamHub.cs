@@ -5,10 +5,9 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Provides methods for calculating the Beta coefficient.
 /// </summary>
-public class BetaHub<TIn>
-    : PairsProvider<TIn, BetaResult>, IBeta
-    where TIn : IReusable
-{
+public class BetaHub
+    : PairsProvider<IReusable, BetaResult>, IBeta
+ {
     private readonly string hubName;
     private readonly bool calcSd;
     private readonly bool calcUp;
@@ -29,7 +28,7 @@ public class BetaHub<TIn>
     private RollingWindowState _stateDn;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="BetaHub{TIn}"/> class.
+    /// Initializes a new instance of the <see cref="BetaHub"/> class.
     /// </summary>
     /// <param name="providerEval">The evaluation asset chain provider.</param>
     /// <param name="providerMrkt">The market chain provider.</param>
@@ -38,13 +37,13 @@ public class BetaHub<TIn>
     /// <exception cref="ArgumentNullException">Thrown when either provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
     internal BetaHub(
-        IChainProvider<TIn> providerEval,
-        IChainProvider<TIn> providerMrkt,
+        IChainProvider<IReusable> providerEval,
+        IChainProvider<IReusable> providerMrkt,
         int lookbackPeriods,
         BetaType type) : base(providerEval, providerMrkt)
     {
         ArgumentNullException.ThrowIfNull(providerMrkt);
-        Beta.Validate<TIn>([], [], lookbackPeriods);
+        Beta.Validate<IReusable>([], [], lookbackPeriods);
 
         LookbackPeriods = lookbackPeriods;
         Type = type;
@@ -73,8 +72,9 @@ public class BetaHub<TIn>
 
     /// <inheritdoc/>
     protected override (BetaResult result, int index)
-        ToIndicator(TIn item, int? indexHint)
+        ToIndicator(IReusable item, int? indexHint)
     {
+        ArgumentNullException.ThrowIfNull(item);
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
         // Check if provider B is lagging - return early before updating state
@@ -395,7 +395,6 @@ public static partial class Beta
     /// Creates a Beta hub from two synchronized chain providers.
     /// Note: Both providers must be synchronized (same timestamps).
     /// </summary>
-    /// <typeparam name="T">The type of the reusable data (must be the same for both providers).</typeparam>
     /// <param name="providerEval">The evaluation asset chain provider.</param>
     /// <param name="providerMrkt">The market chain provider.</param>
     /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
@@ -403,12 +402,11 @@ public static partial class Beta
     /// <returns>A Beta hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when either provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
-    public static BetaHub<T> ToBetaHub<T>(
-        this IChainProvider<T> providerEval,
-        IChainProvider<T> providerMrkt,
+    public static BetaHub ToBetaHub(
+        this IChainProvider<IReusable> providerEval,
+        IChainProvider<IReusable> providerMrkt,
         int lookbackPeriods,
         BetaType type = BetaType.Standard)
-        where T : IReusable
         => new(providerEval, providerMrkt, lookbackPeriods, type);
 
 }

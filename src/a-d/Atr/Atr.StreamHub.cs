@@ -1,19 +1,19 @@
 namespace Skender.Stock.Indicators;
 
-public class AtrHub<TIn>
-    : ChainProvider<TIn, AtrResult>, IAtr
-    where TIn : IQuote
-{
-    #region constructors
-
+/// <summary>
+/// Provides functionality to calculate the Average True Range (ATR) for a series of quotes.
+/// </summary>
+public class AtrHub
+    : ChainProvider<IQuote, AtrResult>, IAtr
+ {
     private readonly string hubName;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="AtrHub{TIn}"/> class.
+    /// Initializes a new instance of the <see cref="AtrHub"/> class.
     /// </summary>
     /// <param name="provider">The quote provider.</param>
     /// <param name="lookbackPeriods">The number of lookback periods for ATR calculation.</param>
-    internal AtrHub(IQuoteProvider<TIn> provider,
+    internal AtrHub(IQuoteProvider<IQuote> provider,
         int lookbackPeriods)
         : base(provider)
     {
@@ -23,7 +23,6 @@ public class AtrHub<TIn>
 
         Reinitialize();
     }
-    #endregion
 
     /// <summary>
     /// Gets the number of lookback periods for ATR calculation.
@@ -37,8 +36,10 @@ public class AtrHub<TIn>
 
     /// <inheritdoc/>
     protected override (AtrResult result, int index)
-        ToIndicator(TIn item, int? indexHint)
+        ToIndicator(IQuote item, int? indexHint)
     {
+        ArgumentNullException.ThrowIfNull(item);
+
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
         // skip incalculable periods
@@ -94,29 +95,25 @@ public static partial class Atr
     /// <summary>
     /// Converts the provided quote provider to an ATR hub with the specified lookback periods.
     /// </summary>
-    /// <typeparam name="TIn">The type of the input quote.</typeparam>
     /// <param name="quoteProvider">The quote provider to convert.</param>
     /// <param name="lookbackPeriods">The number of lookback periods for ATR calculation. Default is 14.</param>
-    /// <returns>An instance of <see cref="AtrHub{TIn}"/>.</returns>
-    public static AtrHub<TIn> ToAtrHub<TIn>(
-        this IQuoteProvider<TIn> quoteProvider,
+    /// <returns>An instance of <see cref="AtrHub"/>.</returns>
+    public static AtrHub ToAtrHub(
+        this IQuoteProvider<IQuote> quoteProvider,
         int lookbackPeriods = 14)
-        where TIn : IQuote
-        => new(quoteProvider, lookbackPeriods);
+             => new(quoteProvider, lookbackPeriods);
 
     /// <summary>
     /// Creates a Atr hub from a collection of quotes.
     /// </summary>
-    /// <typeparam name="TQuote">The type of the quote.</typeparam>
     /// <param name="quotes">The collection of quotes.</param>
     /// <param name="lookbackPeriods">Parameter for the calculation.</param>
-    /// <returns>An instance of <see cref="AtrHub{TQuote}"/>.</returns>
-    public static AtrHub<TQuote> ToAtrHub<TQuote>(
-        this IReadOnlyList<TQuote> quotes,
+    /// <returns>An instance of <see cref="AtrHub"/>.</returns>
+    public static AtrHub ToAtrHub(
+        this IReadOnlyList<IQuote> quotes,
         int lookbackPeriods = 14)
-        where TQuote : IQuote
     {
-        QuoteHub<TQuote> quoteHub = new();
+        QuoteHub quoteHub = new();
         quoteHub.Add(quotes);
         return quoteHub.ToAtrHub(lookbackPeriods);
     }

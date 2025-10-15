@@ -8,16 +8,15 @@ public static partial class SuperTrend
     /// <summary>
     /// Converts a list of quotes to a list of SuperTrend results.
     /// </summary>
-    /// <typeparam name="TQuote">The type of the quote.</typeparam>
     /// <param name="quotes">The list of quotes.</param>
     /// <param name="lookbackPeriods">The number of lookback periods.</param>
     /// <param name="multiplier">The multiplier for the ATR.</param>
     /// <returns>A list of SuperTrend results.</returns>
-    public static IReadOnlyList<SuperTrendResult> ToSuperTrend<TQuote>(
-        this IReadOnlyList<TQuote> quotes,
+    public static IReadOnlyList<SuperTrendResult> ToSuperTrend(
+        this IReadOnlyList<IQuote> quotes,
         int lookbackPeriods = 10,
         double multiplier = 3)
-        where TQuote : IQuote => quotes
+        => quotes
             .ToQuoteDList()
             .CalcSuperTrend(lookbackPeriods, multiplier);
 
