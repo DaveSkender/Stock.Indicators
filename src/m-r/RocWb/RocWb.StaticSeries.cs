@@ -36,6 +36,10 @@ public static partial class RocWb
         IReadOnlyList<IReusable> ogRoc = source
             .ToRoc(lookbackPeriods);
 
+        double[] rocSq = ogRoc
+            .Select(x => x.Value * x.Value)
+            .ToArray();
+
         double[] ema = new double[length];
 
         // roll through results
@@ -63,28 +67,18 @@ public static partial class RocWb
 
             prevEma = ema[i];
 
-            // ROC standard deviation (proper formula)
+            // ROC deviation
             double? rocDev = null;
 
             if (i >= stdDevPeriods)
             {
-                // Calculate mean
                 double sum = 0;
                 for (int p = i - stdDevPeriods + 1; p <= i; p++)
                 {
-                    sum += ogRoc[p].Value;
-                }
-                double mean = sum / stdDevPeriods;
-
-                // Calculate standard deviation
-                double sumSq = 0;
-                for (int p = i - stdDevPeriods + 1; p <= i; p++)
-                {
-                    double deviation = ogRoc[p].Value - mean;
-                    sumSq += deviation * deviation;
+                    sum += rocSq[p];
                 }
 
-                rocDev = Math.Sqrt(sumSq / stdDevPeriods).NaN2Null();
+                rocDev = Math.Sqrt(sum / stdDevPeriods).NaN2Null();
             }
 
             results.Add(new(

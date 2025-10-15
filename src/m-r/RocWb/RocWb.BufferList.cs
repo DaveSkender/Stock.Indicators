@@ -6,7 +6,7 @@ namespace Skender.Stock.Indicators;
 public class RocWbList : BufferList<RocWbResult>, IIncrementFromChain, IRocWb
 {
     private readonly Queue<double> rocBuffer;
-    private readonly Queue<double> rocStdDevBuffer;
+    private readonly Queue<double> rocSqBuffer;
     private readonly Queue<double> rocEmaInitBuffer;
     private double prevEma = double.NaN;
     private double k;
@@ -24,7 +24,7 @@ public class RocWbList : BufferList<RocWbResult>, IIncrementFromChain, IRocWb
         EmaPeriods = emaPeriods;
         StdDevPeriods = stdDevPeriods;
         rocBuffer = new Queue<double>(lookbackPeriods + 1);
-        rocStdDevBuffer = new Queue<double>(stdDevPeriods);
+        rocSqBuffer = new Queue<double>(stdDevPeriods);
         rocEmaInitBuffer = new Queue<double>(emaPeriods);
         k = 2d / (emaPeriods + 1);
     }
@@ -73,10 +73,11 @@ public class RocWbList : BufferList<RocWbResult>, IIncrementFromChain, IRocWb
             roc = double.NaN;
         }
 
-        // Update the ROC buffer for standard deviation calculation
+        // Update the ROC buffer for squared values (RMS calculation)
+        double rocSq = roc * roc;
         if (!double.IsNaN(roc))
         {
-            rocStdDevBuffer.Update(StdDevPeriods, roc);
+            rocSqBuffer.Update(StdDevPeriods, rocSq);
         }
 
         // Calculate EMA of ROC
@@ -112,27 +113,17 @@ public class RocWbList : BufferList<RocWbResult>, IIncrementFromChain, IRocWb
 
         prevEma = rocEma;
 
-        // Calculate standard deviation bands
+        // Calculate RMS deviation bands
         double? rocDev = null;
-        if (rocStdDevBuffer.Count >= StdDevPeriods && !double.IsNaN(roc))
+        if (rocSqBuffer.Count >= StdDevPeriods && !double.IsNaN(roc))
         {
-            // Calculate mean
             double sum = 0;
-            foreach (double rocVal in rocStdDevBuffer)
+            foreach (double sq in rocSqBuffer)
             {
-                sum += rocVal;
-            }
-            double mean = sum / StdDevPeriods;
-
-            // Calculate standard deviation (proper formula)
-            double sumSq = 0;
-            foreach (double rocVal in rocStdDevBuffer)
-            {
-                double deviation = rocVal - mean;
-                sumSq += deviation * deviation;
+                sum += sq;
             }
 
-            rocDev = Math.Sqrt(sumSq / StdDevPeriods).NaN2Null();
+            rocDev = Math.Sqrt(sum / StdDevPeriods).NaN2Null();
         }
 
         AddInternal(new RocWbResult(
@@ -176,7 +167,7 @@ public class RocWbList : BufferList<RocWbResult>, IIncrementFromChain, IRocWb
     {
         base.Clear();
         rocBuffer.Clear();
-        rocStdDevBuffer.Clear();
+        rocSqBuffer.Clear();
         rocEmaInitBuffer.Clear();
         prevEma = double.NaN;
     }
