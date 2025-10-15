@@ -2,6 +2,17 @@
   "name": "Stock Indicators Dev Container",
   "image": "mcr.microsoft.com/dotnet/sdk:9.0",
   "features": {
+    "ghcr.io/devcontainers/features/common-utils:2": {
+      "installZsh": true,
+      "installOhMyZsh": true,
+      "configureZshAsDefaultShell": true,
+      "username": "vscode",
+      "upgradePackages": true
+    },
+    "ghcr.io/devcontainers/features/git:1": {
+      "version": "latest",
+      "ppa": true
+    },
     "ghcr.io/devcontainers/features/ruby:1": {
       "version": "3.3"
     },
@@ -20,7 +31,15 @@
       "settings": {
         "chat.tools.global.autoApprove": true,
         "chat.mcp.autostart": "never",
-        "terminal.integrated.defaultProfile.linux": "bash"
+        "terminal.integrated.defaultProfile.linux": "zsh",
+        "terminal.integrated.profiles.linux": {
+          "zsh": {
+            "path": "/usr/bin/zsh"
+          },
+          "bash": {
+            "path": "/bin/bash"
+          }
+        }
       },
       "extensions": [
         "bierner.github-markdown-preview",
@@ -30,9 +49,19 @@
         "github.vscode-github-actions",
         "GitHub.copilot-chat",
         "ms-dotnettools.vscodeintellicode-csharp",
-        "redhat.vscode-yaml"
+        "ms-dotnettools.csharp",
+        "redhat.vscode-yaml",
+        "streetsidesoftware.code-spell-checker",
+        "eamodio.gitlens"
       ]
     }
   },
-  "postCreateCommand": ".devcontainer/startup.sh"
+  "postCreateCommand": ".devcontainer/startup.sh",
+  "remoteUser": "vscode",
+  "containerEnv": {
+    "TZ": "UTC"
+  },
+  "mounts": [
+    "source=${localWorkspaceFolder}/.config,target=/home/vscode/.config,type=bind,consistency=cached"
+  ]
 }
