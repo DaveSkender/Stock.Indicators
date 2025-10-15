@@ -171,6 +171,7 @@ public static partial class Catalog
         _listings.Add(ForceIndex.SeriesListing);
 
         // Fractal
+        _listings.Add(Fractal.BufferListing);
         _listings.Add(Fractal.SeriesListing);
 
         // Gator Oscillator
