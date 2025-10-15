@@ -97,7 +97,7 @@ public class MamaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
         // time-series, for comparison
         IReadOnlyList<MamaResult> seriesList
            = quotesList
-            .ToSmaHub(smaPeriods)
+            .ToSma(smaPeriods)
             .ToMama(fastLimit, slowLimit);
 
         // assert, should equal series

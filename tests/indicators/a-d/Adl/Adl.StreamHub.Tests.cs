@@ -70,7 +70,8 @@ public class AdlHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProv
     {
         const int smaPeriods = 8;
 
-        int length = Quotes.Count;
+        List<Quote> quotesList = Quotes.ToList();
+        int length = quotesList.Count;
 
         // setup quote provider hub
         QuoteHub quoteHub = new();

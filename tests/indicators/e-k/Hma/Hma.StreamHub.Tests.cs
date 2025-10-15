@@ -72,7 +72,7 @@ public class HmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
 
         IReadOnlyList<HmaResult> streamList = observer.Results;
         IReadOnlyList<HmaResult> seriesList = quotesList
-            .ToSmaHub(smaPeriods)
+            .ToSma(smaPeriods)
             .ToHma(LookbackPeriods);
 
         streamList.Should().HaveCount(seriesList.Count);

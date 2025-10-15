@@ -98,8 +98,8 @@ public class Stackoverflow : TestBase
         // setup: subscribe a large chain depth
         List<(string label, IReadOnlyList<ISeries> results, bool irregular)> subscribers = new(chainDepth + 2);
 
-        SmaHub init = quoteHub.ToSma(1);
-        SmaHub sma = init.ToSma(2);
+        SmaHub init = quoteHub.ToSmaHub(1);
+        SmaHub sma = init.ToSmaHub(2);
 
         subscribers.Add(HubRef(init));
         subscribers.Add(HubRef(sma));
@@ -109,7 +109,7 @@ public class Stackoverflow : TestBase
         // recursive providers
         for (int i = 1; i <= chainDepth; i++)
         {
-            sma = sma.ToSma(lookbackPeriods);
+            sma = sma.ToSmaHub(lookbackPeriods);
             subscribers.Add(HubRef(sma));
 
             lookbackPeriods = lookbackPeriods is 2 ? 1 : 2;
@@ -198,7 +198,7 @@ public class Stackoverflow : TestBase
         // many SMAs
         for (int i = 1; i <= 300; i++)
         {
-            subscribers.Add(HubRef(quoteHub.ToSma(i)));
+            subscribers.Add(HubRef(quoteHub.ToSmaHub(i)));
         }
 
         // act: add quotes

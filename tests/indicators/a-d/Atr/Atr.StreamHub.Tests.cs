@@ -20,7 +20,7 @@ public class AtrHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProv
         }
 
         // initialize observer
-        StreamHub observer = quoteHub
+        AtrHub observer = quoteHub
             .ToAtrHub(14);
 
         // fetch initial results (early)

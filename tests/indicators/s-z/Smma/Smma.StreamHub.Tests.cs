@@ -95,7 +95,7 @@ public class SmmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
         // time-series, for comparison
         IReadOnlyList<SmmaResult> seriesList
            = quotesList
-            .ToSmaHub(smaPeriods)
+            .ToSma(smaPeriods)
             .ToSmma(smmaPeriods);
 
         // assert, should equal series
