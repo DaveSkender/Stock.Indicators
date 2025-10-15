@@ -1,8 +1,6 @@
 # Critical rules for AI agents: indicator formula implementation
 
-This document defines **NON-NEGOTIABLE** rules for AI coding agents working with indicator formulas
-in the Stock Indicators library. These rules prevent unintended formula modifications that could
-break mathematical correctness and violate the project's constitution.
+This document defines **NON-NEGOTIABLE** rules for AI coding agents working with indicator formulas in the Stock Indicators library. These rules prevent unintended formula modifications that could break mathematical correctness and violate the project's constitution.
 
 ## 🚨 CRITICAL: Formula change authority
 
@@ -17,9 +15,7 @@ AI agents **MUST NOT**:
 - "Optimize" or "simplify" formulas without verification
 - Apply formulas from unverified sources (TradingView, random websites, uncited calculators)
 
-**Rationale**: Every formula in this library has been validated against authoritative sources and
-reference calculations. Arbitrary changes break mathematical correctness and violate
-[Constitution §1: Mathematical Precision](../.specify/memory/constitution.md).
+**Rationale**: Every formula in this library has been validated against authoritative sources and reference calculations. Arbitrary changes break mathematical correctness and violate [Constitution §1: Mathematical Precision](../.specify/memory/constitution.md).
 
 **Exceptions**: Formula changes require:
 
@@ -71,15 +67,13 @@ All implementations **MUST** match these reference calculations exactly.
 <!-- ai:rule start -->
 ### Rule 2: Maintain bit-for-bit parity across implementation styles
 
-All implementation styles (Series, BufferList, StreamHub) **MUST** produce **identical final values**
-for deterministic calculations:
+All implementation styles (Series, BufferList, StreamHub) **MUST** produce **identical final values** for deterministic calculations:
 
 - **Series** serves as the validated baseline (source of mathematical truth)
 - **BufferList** and **StreamHub** must match Series results **exactly**
 - No approximations, no tolerance, no "close enough"
 
-**Test requirement**: Every streaming implementation must pass regression tests with deterministic
-equality against Series baseline results.
+**Test requirement**: Every streaming implementation must pass regression tests with deterministic equality against Series baseline results.
 
 **Reference**: [Constitution §1: Mathematical Precision](../.specify/memory/constitution.md)
 <!-- ai:rule end -->
