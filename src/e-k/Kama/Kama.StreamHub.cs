@@ -5,7 +5,7 @@ namespace Skender.Stock.Indicators;
 /// </summary>
 public class KamaHub
     : ChainProvider<IReusable, KamaResult>, IKama
- {
+{
     private readonly string hubName;
     private readonly double _scFast;
     private readonly double _scSlow;

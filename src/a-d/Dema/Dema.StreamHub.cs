@@ -5,7 +5,7 @@ namespace Skender.Stock.Indicators;
 /// </summary>
 public class DemaHub
     : ChainProvider<IReusable, DemaResult>, IDema
- {
+{
     private readonly string hubName;
     private double lastEma1 = double.NaN;
     private double lastEma2 = double.NaN;

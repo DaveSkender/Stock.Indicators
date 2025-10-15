@@ -7,7 +7,7 @@ namespace Skender.Stock.Indicators;
 /// </summary>
 public class BopHub
     : ChainProvider<IQuote, BopResult>, IBop
- {
+{
     private readonly string hubName;
 
     /// <summary>

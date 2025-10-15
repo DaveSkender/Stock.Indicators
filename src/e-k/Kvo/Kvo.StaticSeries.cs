@@ -8,7 +8,6 @@ public static partial class Kvo
     /// <summary>
     /// Converts a list of quotes to KVO (Klinger Volume Oscillator) results.
     /// </summary>
-    /// <typeparam name="TQuote">The type of the quotes, which must implement <see cref="IQuote"/>.</typeparam>
     /// <param name="quotes">The list of quotes to transform.</param>
     /// <param name="fastPeriods">The number of periods for the fast EMA. Default is 34.</param>
     /// <param name="slowPeriods">The number of periods for the slow EMA. Default is 55.</param>

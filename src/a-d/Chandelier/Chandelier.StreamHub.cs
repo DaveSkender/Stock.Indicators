@@ -5,7 +5,7 @@ namespace Skender.Stock.Indicators;
 /// </summary>
 public class ChandelierHub
     : StreamHub<IQuote, ChandelierResult>, IChandelier
- {
+{
     private readonly string hubName;
 
     /// <summary>

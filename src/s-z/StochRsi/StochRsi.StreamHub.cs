@@ -8,7 +8,7 @@ namespace Skender.Stock.Indicators;
 /// </summary>
 public sealed class StochRsiHub
     : ChainProvider<IReusable, StochRsiResult>
- {
+{
     private readonly string hubName;
 
     /// <summary>

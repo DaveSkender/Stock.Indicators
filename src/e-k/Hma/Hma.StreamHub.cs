@@ -5,7 +5,7 @@ namespace Skender.Stock.Indicators;
 /// </summary>
 public class HmaHub
     : ChainProvider<IReusable, HmaResult>, IHma
- {
+{
     private readonly string hubName;
     private readonly int wmaN1Periods;
     private readonly int wmaN2Periods;

@@ -2,7 +2,7 @@ namespace Skender.Stock.Indicators;
 
 public class UltimateHub
     : ChainProvider<IReusable, UltimateResult>, IUltimate
- {
+{
     #region constructors
 
     private readonly string hubName;

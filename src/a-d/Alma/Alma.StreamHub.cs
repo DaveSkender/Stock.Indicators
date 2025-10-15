@@ -5,7 +5,7 @@ namespace Skender.Stock.Indicators;
 /// </summary>
 public class AlmaHub
     : ChainProvider<IReusable, AlmaResult>, IAlma
- {
+{
     private readonly string hubName;
 
     /// <summary>

@@ -7,7 +7,7 @@ namespace Skender.Stock.Indicators;
 /// </summary>
 public class EpmaHub
     : ChainProvider<IReusable, EpmaResult>, IEpma
- {
+{
     #region constructors
 
     private readonly string hubName;

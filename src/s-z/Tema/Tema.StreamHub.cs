@@ -5,7 +5,7 @@ namespace Skender.Stock.Indicators;
 /// </summary>
 public class TemaHub
     : ChainProvider<IReusable, TemaResult>, ITema
- {
+{
     private readonly string hubName;
     private double lastEma1 = double.NaN;
     private double lastEma2 = double.NaN;

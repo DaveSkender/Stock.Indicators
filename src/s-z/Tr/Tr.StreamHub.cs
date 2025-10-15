@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 
 public class TrHub
     : ChainProvider<IQuote, TrResult>
- {
+{
     #region constructors
 
     private const string hubName = "TRUE RANGE";

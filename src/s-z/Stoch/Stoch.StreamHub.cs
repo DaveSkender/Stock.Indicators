@@ -7,7 +7,7 @@ namespace Skender.Stock.Indicators;
 /// </summary>
 public class StochHub
     : StreamHub<IQuote, StochResult>, IStoch
- {
+{
     #region constructors
 
     private readonly string hubName;
@@ -310,7 +310,7 @@ public static partial class Stoch
     /// <summary>
     /// Converts the quote provider to a Stochastic Oscillator hub.
     /// </summary>
-        /// <param name="quoteProvider">The quote provider.</param>
+    /// <param name="quoteProvider">The quote provider.</param>
     /// <param name="lookbackPeriods">The lookback period for the oscillator.</param>
     /// <param name="signalPeriods">The signal period for the oscillator.</param>
     /// <param name="smoothPeriods">The smoothing period for the oscillator.</param>
@@ -327,7 +327,7 @@ public static partial class Stoch
     /// <summary>
     /// Converts the quote provider to a Stochastic Oscillator hub with extended parameters.
     /// </summary>
-        /// <param name="quoteProvider">The quote provider.</param>
+    /// <param name="quoteProvider">The quote provider.</param>
     /// <param name="lookbackPeriods">The lookback period for the oscillator.</param>
     /// <param name="signalPeriods">The signal period for the oscillator.</param>
     /// <param name="smoothPeriods">The smoothing period for the oscillator.</param>

@@ -5,7 +5,7 @@ namespace Skender.Stock.Indicators;
 /// </summary>
 public class SmmaHub
     : ChainProvider<IReusable, SmmaResult>, ISmma
- {
+{
     private readonly string hubName;
 
     /// <summary>

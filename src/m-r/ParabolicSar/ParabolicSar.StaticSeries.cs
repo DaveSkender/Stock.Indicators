@@ -8,7 +8,6 @@ public static partial class ParabolicSar
     /// <summary>
     /// Converts a list of quotes to Parabolic SAR results.
     /// </summary>
-    /// <typeparam name="TQuote">The type of the quotes, which must implement <see cref="IQuote"/>.</typeparam>
     /// <param name="quotes">The list of quotes to analyze.</param>
     /// <param name="accelerationStep">The acceleration step for the SAR calculation. Default is 0.02.</param>
     /// <param name="maxAccelerationFactor">The maximum acceleration factor for the SAR calculation. Default is 0.2.</param>
@@ -30,7 +29,6 @@ public static partial class ParabolicSar
     /// <summary>
     /// Gets the Parabolic SAR results for a list of quotes.
     /// </summary>
-    /// <typeparam name="TQuote">The type of the quotes, which must implement <see cref="IQuote"/>.</typeparam>
     /// <param name="quotes">The list of quotes to analyze.</param>
     /// <param name="accelerationStep">The acceleration step for the SAR calculation.</param>
     /// <param name="maxAccelerationFactor">The maximum acceleration factor for the SAR calculation.</param>

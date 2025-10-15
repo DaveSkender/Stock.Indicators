@@ -7,7 +7,7 @@ namespace Skender.Stock.Indicators;
 /// </summary>
 public class SmaHub
     : ChainProvider<IReusable, SmaResult>, ISma
- {
+{
     #region constructors
 
     private readonly string hubName;

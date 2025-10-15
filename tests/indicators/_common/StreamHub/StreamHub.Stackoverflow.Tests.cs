@@ -256,7 +256,7 @@ public class Stackoverflow : TestBase
     /// Utility to get references to a hub's results.
     /// </summary>
     private static (string, IReadOnlyList<TOut>, bool) HubRef<TIn, TOut>(
-        Skender.Stock.Indicators.StreamHub<TIn, TOut> hub, bool irregular = false)
+        StreamHub<TIn, TOut> hub, bool irregular = false)
         where TIn : ISeries
         where TOut : ISeries
     {

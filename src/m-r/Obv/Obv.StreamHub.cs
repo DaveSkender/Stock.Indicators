@@ -6,7 +6,7 @@ namespace Skender.Stock.Indicators;
 /// Provides methods for creating OBV hubs.
 /// </summary>
 public class ObvHub : ChainProvider<IQuote, ObvResult>
- {
+{
     /// <summary>
     /// Initializes a new instance of the <see cref="ObvHub"/> class.
     /// </summary>
@@ -49,12 +49,12 @@ public static partial class Obv
     /// <summary>
     /// Converts the quote provider to an OBV hub.
     /// </summary>
-        /// <param name="quoteProvider">The quote provider.</param>
+    /// <param name="quoteProvider">The quote provider.</param>
     /// <returns>An OBV hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the quote provider is null.</exception>
     public static ObvHub ToObvHub(
         this IQuoteProvider<IQuote> quoteProvider)
-         {
+    {
         ArgumentNullException.ThrowIfNull(quoteProvider);
         return new(quoteProvider);
     }

@@ -7,7 +7,7 @@ namespace Skender.Stock.Indicators;
 /// </summary>
 public class BetaHub
     : PairsProvider<IReusable, BetaResult>, IBeta
- {
+{
     private readonly string hubName;
     private readonly bool calcSd;
     private readonly bool calcUp;

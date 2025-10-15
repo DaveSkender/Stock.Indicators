@@ -7,7 +7,7 @@ namespace Skender.Stock.Indicators;
 /// </summary>
 public class PrsHub
     : PairsProvider<IReusable, PrsResult>
- {
+{
     private readonly string hubName;
     private readonly int lookbackPeriods;
 
