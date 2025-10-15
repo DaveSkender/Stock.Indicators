@@ -1,7 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Interface for Rate of Change with Bands (RocWb) hub.
+/// Interface for Rate of Change with Bands (RocWb) indicator
 /// </summary>
 public interface IRocWb
 {
