@@ -138,7 +138,7 @@ Note on former deferrals: Some indicators were previously marked as deferred due
 - [x] **T028** Implement Fcb BufferList in `src/e-k/Fcb/Fcb.BufferList.cs` ✅
 - [x] **T029** Implement FisherTransform BufferList in `src/e-k/FisherTransform/FisherTransform.BufferList.cs` ✅
 - [x] **T030** Implement ForceIndex BufferList in `src/e-k/ForceIndex/ForceIndex.BufferList.cs` ✅
-- [ ] **T031** Implement Fractal BufferList in `src/e-k/Fractal/Fractal.BufferList.cs` (complex but unblocked — follow HMA/ADX state patterns)
+- [x] **T031** Implement Fractal BufferList in `src/e-k/Fractal/Fractal.BufferList.cs` (complex but unblocked — follow HMA/ADX state patterns) ✅
 - [x] **T032** Implement Gator BufferList in `src/e-k/Gator/Gator.BufferList.cs` ✅
 - [x] **T033** Implement HeikinAshi BufferList in `src/e-k/HeikinAshi/HeikinAshi.BufferList.cs` ✅
 - [x] **T034** Implement Hma BufferList in `src/e-k/Hma/Hma.BufferList.cs` ✅
@@ -154,7 +154,7 @@ Note on former deferrals: Some indicators were previously marked as deferred due
 - [x] **T044** Implement Marubozu BufferList in `src/m-r/Marubozu/Marubozu.BufferList.cs` ✅
 - [x] **T045** Implement Mfi BufferList in `src/m-r/Mfi/Mfi.BufferList.cs` ✅
 - [x] **T046** Implement Obv BufferList in `src/m-r/Obv/Obv.BufferList.cs` ✅
-- [ ] **T047** Implement ParabolicSar BufferList in `src/m-r/ParabolicSar/ParabolicSar.BufferList.cs`
+- [x] **T047** Implement ParabolicSar BufferList in `src/m-r/ParabolicSar/ParabolicSar.BufferList.cs` ✅
 - [ ] **T048** Implement PivotPoints BufferList in `src/m-r/PivotPoints/PivotPoints.BufferList.cs`
 - [x] **T049** Implement Pivots BufferList in `src/m-r/Pivots/Pivots.BufferList.cs` ✅
 - [x] **T050** Implement Pmo BufferList in `src/m-r/Pmo/Pmo.BufferList.cs` ✅
@@ -194,7 +194,8 @@ Note on former deferrals: Some indicators were previously marked as deferred due
 - [x] **T084** Implement Wma BufferList in `src/s-z/Wma/Wma.BufferList.cs` ✅
 - [x] **T085** Implement ZigZag BufferList in `src/s-z/ZigZag/ZigZag.BufferList.cs` ✅
 
-**BufferList**: 69/85 complete, 16 remaining
+**BufferList**: 70/85 complete, 15 remaining
+
 
 **Checkpoint**: Phase 2 completion achieves complete BufferList coverage for all Series indicators
 
