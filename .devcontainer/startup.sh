@@ -5,7 +5,7 @@
 
 echo "🚀 Starting Stock Indicators dev container setup..."
 
-export PATH="/home/vscode/.local/bin:$PATH"
+export PATH="/home/vscode/.local/bin:/home/vscode/.dotnet/tools:$PATH"
 
 # Configure git if not already configured
 echo "🔧 Configuring git..."
@@ -19,7 +19,50 @@ git config --global core.autocrlf input
 
 # Configure zsh with useful aliases
 echo "🔧 Configuring shell environment..."
+
+# Configure zsh
 cat >> /home/vscode/.zshrc << 'EOF'
+
+# Add .NET tools to PATH
+export PATH="$HOME/.dotnet/tools:$PATH"
+
+# Stock Indicators Development Aliases
+alias ll='ls -alF'
+alias la='ls -A'
+alias l='ls -CF'
+alias cls='clear'
+alias ..='cd ..'
+alias ...='cd ../..'
+
+# .NET shortcuts
+alias dn='dotnet'
+alias dnb='dotnet build'
+alias dnt='dotnet test'
+alias dnr='dotnet restore'
+alias dnf='dotnet format'
+
+# Git shortcuts
+alias gs='git status'
+alias gd='git diff'
+alias gl='git log --oneline -10'
+alias gp='git pull'
+
+# Development helpers
+alias ports='netstat -tuln'
+alias weather='curl wttr.in'
+
+# Quick navigation
+alias goto-src='cd /workspaces/Stock.Indicators/src'
+alias goto-tests='cd /workspaces/Stock.Indicators/tests'
+alias goto-docs='cd /workspaces/Stock.Indicators/docs'
+
+EOF
+
+# Configure bash (for users who prefer bash)
+cat >> /home/vscode/.bashrc << 'EOF'
+
+# Add .NET tools to PATH
+export PATH="$HOME/.dotnet/tools:$PATH"
 
 # Stock Indicators Development Aliases
 alias ll='ls -alF'

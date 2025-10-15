@@ -34,6 +34,7 @@ The container pre-installs essential extensions:
 - **Persistent config**: `.config` directory mounted for settings persistence
 - **Git configuration**: Pre-configured with sensible defaults
 - **Ruby gems**: Automatic Jekyll setup for documentation
+- **.NET tools PATH**: Automatically adds `~/.dotnet/tools` to PATH for global tools like roslynator
 
 ## Quick Commands
 
