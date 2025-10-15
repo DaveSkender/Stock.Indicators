@@ -238,6 +238,7 @@ public static partial class Catalog
         _listings.Add(Obv.StreamListing);
 
         // Parabolic SAR
+        _listings.Add(ParabolicSar.BufferListing);
         _listings.Add(ParabolicSar.SeriesListing);
 
         // Pivot Points
