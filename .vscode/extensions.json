@@ -4,13 +4,10 @@
     "CodeRabbit.coderabbit-vscode",
     "DavidAnson.vscode-markdownlint",
     "DotJoshJohnson.xml",
-    "eamodio.gitlens",
     "EditorConfig.EditorConfig",
     "github.vscode-github-actions",
     "GitHub.copilot-chat",
-    "ms-dotnettools.csharp",
     "ms-dotnettools.vscodeintellicode-csharp",
-    "redhat.vscode-yaml",
-    "streetsidesoftware.code-spell-checker"
+    "redhat.vscode-yaml"
   ]
 }

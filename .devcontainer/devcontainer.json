@@ -31,15 +31,7 @@
       "settings": {
         "chat.tools.global.autoApprove": true,
         "chat.mcp.autostart": "never",
-        "terminal.integrated.defaultProfile.linux": "zsh",
-        "terminal.integrated.profiles.linux": {
-          "zsh": {
-            "path": "/usr/bin/zsh"
-          },
-          "bash": {
-            "path": "/bin/bash"
-          }
-        }
+        "terminal.integrated.defaultProfile.linux": "zsh"
       },
       "extensions": [
         "bierner.github-markdown-preview",
@@ -49,19 +41,10 @@
         "github.vscode-github-actions",
         "GitHub.copilot-chat",
         "ms-dotnettools.vscodeintellicode-csharp",
-        "ms-dotnettools.csharp",
-        "redhat.vscode-yaml",
-        "streetsidesoftware.code-spell-checker",
-        "eamodio.gitlens"
+        "redhat.vscode-yaml"
       ]
     }
   },
   "postCreateCommand": ".devcontainer/startup.sh",
-  "remoteUser": "vscode",
-  "containerEnv": {
-    "TZ": "UTC"
-  },
-  "mounts": [
-    "source=${localWorkspaceFolder}/.config,target=/home/vscode/.config,type=bind,consistency=cached"
-  ]
+  "remoteUser": "vscode"
 }
