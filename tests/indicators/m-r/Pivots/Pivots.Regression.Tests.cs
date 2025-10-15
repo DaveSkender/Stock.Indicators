@@ -9,7 +9,7 @@ public class PivotsTests : RegressionTestBase<PivotsResult>
     public override void Series() => Quotes.ToPivots().AssertEquals(Expected);
 
     [TestMethod]
-    public override void Buffer() => Assert.Inconclusive("Buffer implementation not yet available");
+    public override void Buffer() => Quotes.ToPivotsList().AssertEquals(Expected);
 
     [TestMethod]
     public override void Stream() => Assert.Inconclusive("Stream implementation not yet available");
