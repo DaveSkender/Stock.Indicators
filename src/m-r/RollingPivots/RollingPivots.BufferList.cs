@@ -55,6 +55,11 @@ public class RollingPivotsList : BufferList<RollingPivotsResult>, IIncrementFrom
     /// </summary>
     public PivotPointType PointType { get; }
 
+    /// <summary>
+    /// Gets the minimum number of quotes required to generate results.
+    /// </summary>
+    public int LookbackPeriods => WindowPeriods + OffsetPeriods;
+
     /// <inheritdoc />
     public void Add(IQuote quote)
     {
