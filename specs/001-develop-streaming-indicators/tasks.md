@@ -165,7 +165,7 @@ Note on former deferrals: Some indicators were previously marked as deferred due
 - [ ] **T055** Implement RenkoAtr BufferList in `src/m-r/RenkoAtr/RenkoAtr.BufferList.cs`
 - [x] **T056** Implement Roc BufferList in `src/m-r/Roc/Roc.BufferList.cs` ✅
 - [x] **T057** Implement RocWb BufferList in `src/m-r/RocWb/RocWb.BufferList.cs` ✅
-- [ ] **T058** Implement RollingPivots BufferList in `src/m-r/RollingPivots/RollingPivots.BufferList.cs`
+- [x] **T058** Implement RollingPivots BufferList in `src/m-r/RollingPivots/RollingPivots.BufferList.cs` ✅
 - [x] **T059** Implement Rsi BufferList in `src/m-r/Rsi/Rsi.BufferList.cs` ✅
 - [x] **T060** Implement Slope BufferList in `src/s-z/Slope/Slope.BufferList.cs` (complex but unblocked — legit historical revisions follow VolatilityStop repaint pattern) ✅
 - [x] **T061** Implement Sma BufferList in `src/s-z/Sma/Sma.BufferList.cs` ✅
@@ -194,7 +194,7 @@ Note on former deferrals: Some indicators were previously marked as deferred due
 - [x] **T084** Implement Wma BufferList in `src/s-z/Wma/Wma.BufferList.cs` ✅
 - [x] **T085** Implement ZigZag BufferList in `src/s-z/ZigZag/ZigZag.BufferList.cs` ✅
 
-**BufferList**: 70/85 complete, 15 remaining
+**BufferList**: 71/85 complete, 14 remaining
 
 **Checkpoint**: Phase 2 completion achieves complete BufferList coverage for all Series indicators
 
@@ -458,10 +458,10 @@ Each task should follow these guidelines:
 **Implementation Coverage (1:1:1 Parity)**:
 
 - **Total Series implementations**: 85 indicators (baseline)
-- **Total BufferList implementations**: 70 complete, 15 remaining (T001-T085)
+- **Total BufferList implementations**: 71 complete, 14 remaining (T001-T085)
 - **Total StreamHub implementations**: 45 complete, 40 remaining (T086-T170)
 - **1:1:1 Target**: 85 BufferList + 85 StreamHub = 170 streaming implementations total
-- **Current streaming coverage**: 115/170 = **68% complete**
+- **Current streaming coverage**: 116/170 = **68% complete**
 
 **Task Breakdown**:
 

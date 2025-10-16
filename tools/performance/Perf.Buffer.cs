@@ -34,6 +34,7 @@ public class BufferIndicators
     [Benchmark] public PrsList PrsList() => new(int.MinValue, q, o);
     [Benchmark] public RenkoList RenkoList() => new(2.5m) { q };
     [Benchmark] public RocList RocList() => new(20) { q };
+    [Benchmark] public RollingPivotsList RollingPivotsList() => new(20, 0, PivotPointType.Standard) { q };
     [Benchmark] public RocWbList RocWbList() => new(20, 5, 5) { q };
     [Benchmark] public RsiList RsiList() => new(n) { q };
     [Benchmark] public SlopeList SlopeList() => new(n) { q };
