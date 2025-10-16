@@ -1,22 +1,24 @@
 namespace BufferLists;
 
 [TestClass]
-public class Slope : BufferListTestBase, ITestChainBufferList
+public class RocWb : BufferListTestBase, ITestChainBufferList
 {
-    private const int lookbackPeriods = 14;
+    private const int lookbackPeriods = 20;
+    private const int emaPeriods = 3;
+    private const int stdDevPeriods = 20;
 
     private static readonly IReadOnlyList<IReusable> reusables
        = Quotes
         .Cast<IReusable>()
         .ToList();
 
-    private static readonly IReadOnlyList<SlopeResult> series
-       = Quotes.ToSlope(lookbackPeriods);
+    private static readonly IReadOnlyList<RocWbResult> series
+       = Quotes.ToRocWb(lookbackPeriods, emaPeriods, stdDevPeriods);
 
     [TestMethod]
     public void AddQuote_IncrementsResults()
     {
-        SlopeList sut = new(lookbackPeriods);
+        RocWbList sut = new(lookbackPeriods, emaPeriods, stdDevPeriods);
 
         foreach (Quote quote in Quotes)
         {
@@ -30,7 +32,7 @@ public class Slope : BufferListTestBase, ITestChainBufferList
     [TestMethod]
     public void AddQuotesBatch_IncrementsResults()
     {
-        SlopeList sut = new(lookbackPeriods) { Quotes };
+        RocWbList sut = new(lookbackPeriods, emaPeriods, stdDevPeriods) { Quotes };
 
         sut.Should().HaveCount(Quotes.Count);
         sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
@@ -39,7 +41,7 @@ public class Slope : BufferListTestBase, ITestChainBufferList
     [TestMethod]
     public void QuotesCtor_OnInstantiation_IncrementsResults()
     {
-        SlopeList sut = new(lookbackPeriods, Quotes);
+        RocWbList sut = new(lookbackPeriods, emaPeriods, stdDevPeriods, Quotes);
 
         sut.Should().HaveCount(Quotes.Count);
         sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
@@ -49,9 +51,9 @@ public class Slope : BufferListTestBase, ITestChainBufferList
     public override void Clear_WithState_ResetsState()
     {
         List<Quote> subset = Quotes.Take(80).ToList();
-        IReadOnlyList<SlopeResult> expected = subset.ToSlope(lookbackPeriods);
+        IReadOnlyList<RocWbResult> expected = subset.ToRocWb(lookbackPeriods, emaPeriods, stdDevPeriods);
 
-        SlopeList sut = new(lookbackPeriods, subset);
+        RocWbList sut = new(lookbackPeriods, emaPeriods, stdDevPeriods, subset);
 
         sut.Should().HaveCount(subset.Count);
         sut.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
@@ -69,7 +71,7 @@ public class Slope : BufferListTestBase, ITestChainBufferList
     [TestMethod]
     public void AddReusableItem_IncrementsResults()
     {
-        SlopeList sut = new(lookbackPeriods);
+        RocWbList sut = new(lookbackPeriods, emaPeriods, stdDevPeriods);
 
         foreach (IReusable item in reusables)
         {
@@ -83,7 +85,7 @@ public class Slope : BufferListTestBase, ITestChainBufferList
     [TestMethod]
     public void AddReusableItemBatch_IncrementsResults()
     {
-        SlopeList sut = new(lookbackPeriods) { reusables };
+        RocWbList sut = new(lookbackPeriods, emaPeriods, stdDevPeriods) { reusables };
 
         sut.Should().HaveCount(Quotes.Count);
         sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
@@ -92,7 +94,7 @@ public class Slope : BufferListTestBase, ITestChainBufferList
     [TestMethod]
     public void AddDateAndValue_IncrementsResults()
     {
-        SlopeList sut = new(lookbackPeriods);
+        RocWbList sut = new(lookbackPeriods, emaPeriods, stdDevPeriods);
 
         foreach (IReusable item in reusables)
         {
@@ -108,49 +110,17 @@ public class Slope : BufferListTestBase, ITestChainBufferList
     {
         const int maxListSize = 120;
 
-        SlopeList sut = new(lookbackPeriods) {
+        RocWbList sut = new(lookbackPeriods, emaPeriods, stdDevPeriods) {
             MaxListSize = maxListSize
         };
 
         sut.Add(Quotes);
 
-        IReadOnlyList<SlopeResult> expected = series
+        IReadOnlyList<RocWbResult> expected = series
             .Skip(series.Count - maxListSize)
             .ToList();
 
         sut.Should().HaveCount(maxListSize);
-        sut.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
-    }
-
-    [TestMethod]
-    public void AddSingleValue_ValidatesHistoricalRepaint()
-    {
-        // Test that Line values are correctly updated as new data arrives
-        // This verifies the legitimate historical repaint behavior
-
-        SlopeList sut = new(lookbackPeriods);
-
-        // Add first set of values
-        List<Quote> firstBatch = Quotes.Take(lookbackPeriods + 5).ToList();
-        foreach (Quote quote in firstBatch)
-        {
-            sut.Add(quote);
-        }
-
-        // Get Line value from a middle point
-        const int midIndex = lookbackPeriods + 2;
-        decimal? lineBefore = sut[midIndex].Line;
-
-        // Add one more value - this should update Line values for the last lookbackPeriods results
-        sut.Add(Quotes[lookbackPeriods + 5]);
-
-        // The Line value at midIndex may have changed because it's within the window
-        // that gets updated when new data arrives
-        decimal? lineAfter = sut[midIndex].Line;
-
-        // Verify the final result matches series implementation
-        List<Quote> expectedBatch = Quotes.Take(lookbackPeriods + 6).ToList();
-        IReadOnlyList<SlopeResult> expected = expectedBatch.ToSlope(lookbackPeriods);
         sut.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
     }
 }

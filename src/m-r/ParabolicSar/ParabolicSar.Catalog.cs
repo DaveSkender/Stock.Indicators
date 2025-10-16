@@ -21,6 +21,11 @@ public static partial class ParabolicSar
             .WithStyle(Style.Series)
             .Build();
 
+    // Parabolic SAR Buffer Listing
+    internal static readonly IndicatorListing BufferListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Buffer)
+            .Build();
+
     // No StreamListing for Parabolic SAR.
-    // No BufferListing for Parabolic SAR.
 }

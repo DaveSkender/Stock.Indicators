@@ -5,9 +5,6 @@ namespace Skender.Stock.Indicators;
 /// </summary>
 public class TsiList : BufferList<TsiResult>, IIncrementFromChain, ITsi
 {
-    private readonly int _lookbackPeriods;
-    private readonly int _smoothPeriods;
-    private readonly int _signalPeriods;
     private readonly double _mult1;
     private readonly double _mult2;
     private readonly double _multS;
@@ -38,9 +35,9 @@ public class TsiList : BufferList<TsiResult>, IIncrementFromChain, ITsi
     {
         Tsi.Validate(lookbackPeriods, smoothPeriods, signalPeriods);
 
-        _lookbackPeriods = lookbackPeriods;
-        _smoothPeriods = smoothPeriods;
-        _signalPeriods = signalPeriods;
+        LookbackPeriods = lookbackPeriods;
+        SmoothPeriods = smoothPeriods;
+        SignalPeriods = signalPeriods;
 
         _mult1 = 2d / (lookbackPeriods + 1);
         _mult2 = 2d / (smoothPeriods + 1);
@@ -71,17 +68,17 @@ public class TsiList : BufferList<TsiResult>, IIncrementFromChain, ITsi
     /// <summary>
     /// Gets the number of periods for the lookback calculation.
     /// </summary>
-    public int LookbackPeriods => _lookbackPeriods;
+    public int LookbackPeriods { get; }
 
     /// <summary>
     /// Gets the number of periods for the smoothing calculation.
     /// </summary>
-    public int SmoothPeriods => _smoothPeriods;
+    public int SmoothPeriods { get; }
 
     /// <summary>
     /// Gets the number of periods for the signal calculation.
     /// </summary>
-    public int SignalPeriods => _signalPeriods;
+    public int SignalPeriods { get; }
 
     /// <inheritdoc />
     public void Add(DateTime timestamp, double value)
@@ -108,20 +105,20 @@ public class TsiList : BufferList<TsiResult>, IIncrementFromChain, ITsi
         double cs1 = double.NaN;
         double as1 = double.NaN;
 
-        if (double.IsNaN(_prevCs1) && _changeHistory.Count >= _lookbackPeriods)
+        if (double.IsNaN(_prevCs1) && _changeHistory.Count >= LookbackPeriods)
         {
             // Initialize first smoothing with SMA
             double sumC = 0;
             double sumA = 0;
 
-            for (int p = _changeHistory.Count - _lookbackPeriods; p < _changeHistory.Count; p++)
+            for (int p = _changeHistory.Count - LookbackPeriods; p < _changeHistory.Count; p++)
             {
                 sumC += _changeHistory[p];
                 sumA += _absChangeHistory[p];
             }
 
-            cs1 = sumC / _lookbackPeriods;
-            as1 = sumA / _lookbackPeriods;
+            cs1 = sumC / LookbackPeriods;
+            as1 = sumA / LookbackPeriods;
             _prevCs1 = cs1;
             _prevAs1 = as1;
         }
@@ -141,20 +138,20 @@ public class TsiList : BufferList<TsiResult>, IIncrementFromChain, ITsi
         double cs2 = double.NaN;
         double as2 = double.NaN;
 
-        if (double.IsNaN(_prevCs2) && !double.IsNaN(cs1) && _cs1History.Count >= _smoothPeriods)
+        if (double.IsNaN(_prevCs2) && !double.IsNaN(cs1) && _cs1History.Count >= SmoothPeriods)
         {
             // Initialize second smoothing with SMA
             double sumCs = 0;
             double sumAs = 0;
 
-            for (int p = _cs1History.Count - _smoothPeriods; p < _cs1History.Count; p++)
+            for (int p = _cs1History.Count - SmoothPeriods; p < _cs1History.Count; p++)
             {
                 sumCs += _cs1History[p];
                 sumAs += _as1History[p];
             }
 
-            cs2 = sumCs / _smoothPeriods;
-            as2 = sumAs / _smoothPeriods;
+            cs2 = sumCs / SmoothPeriods;
+            as2 = sumAs / SmoothPeriods;
             _prevCs2 = cs2;
             _prevAs2 = as2;
         }
@@ -177,16 +174,16 @@ public class TsiList : BufferList<TsiResult>, IIncrementFromChain, ITsi
         // Calculate signal line (EMA of TSI)
         double signal;
 
-        if (_signalPeriods > 1)
+        if (SignalPeriods > 1)
         {
-            if (double.IsNaN(_prevSignal) && Count > _signalPeriods && !double.IsNaN(tsi))
+            if (double.IsNaN(_prevSignal) && Count > SignalPeriods && !double.IsNaN(tsi))
             {
                 // Check if we have enough non-NaN TSI values (last signalPeriods values including current)
-                bool hasEnoughValues = _tsiHistory.Count >= _signalPeriods;
+                bool hasEnoughValues = _tsiHistory.Count >= SignalPeriods;
 
                 if (hasEnoughValues)
                 {
-                    for (int p = _tsiHistory.Count - _signalPeriods; p < _tsiHistory.Count; p++)
+                    for (int p = _tsiHistory.Count - SignalPeriods; p < _tsiHistory.Count; p++)
                     {
                         if (double.IsNaN(_tsiHistory[p]))
                         {
@@ -201,11 +198,11 @@ public class TsiList : BufferList<TsiResult>, IIncrementFromChain, ITsi
                     // Initialize signal with SMA matching Series implementation order
                     // Add current TSI first, then previous values
                     double sum = tsi;
-                    for (int p = _tsiHistory.Count - _signalPeriods; p < _tsiHistory.Count - 1; p++)
+                    for (int p = _tsiHistory.Count - SignalPeriods; p < _tsiHistory.Count - 1; p++)
                     {
                         sum += _tsiHistory[p];
                     }
-                    signal = sum / _signalPeriods;
+                    signal = sum / SignalPeriods;
                 }
                 else
                 {
@@ -224,7 +221,7 @@ public class TsiList : BufferList<TsiResult>, IIncrementFromChain, ITsi
         }
         else
         {
-            signal = _signalPeriods == 1
+            signal = SignalPeriods == 1
                 ? tsi
                 : double.NaN;
         }
@@ -282,7 +279,7 @@ public class TsiList : BufferList<TsiResult>, IIncrementFromChain, ITsi
         if (overflow > 0)
         {
             // Maintain minimum buffer size for calculations
-            int minBufferSize = _lookbackPeriods + _smoothPeriods;
+            int minBufferSize = LookbackPeriods + SmoothPeriods;
             int removable = Math.Min(overflow, Math.Max(0, _changeHistory.Count - minBufferSize));
 
             if (removable > 0)

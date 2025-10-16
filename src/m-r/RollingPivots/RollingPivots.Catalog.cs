@@ -28,5 +28,10 @@ public static partial class RollingPivots
             .Build();
 
     // No StreamListing for Rolling Pivots.
-    // No BufferListing for Rolling Pivots.
+
+    // Rolling Pivots Buffer Listing
+    internal static readonly IndicatorListing BufferListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Buffer)
+            .Build();
 }

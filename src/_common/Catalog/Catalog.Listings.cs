@@ -173,6 +173,7 @@ public static partial class Catalog
         _listings.Add(ForceIndex.SeriesListing);
 
         // Fractal
+        _listings.Add(Fractal.BufferListing);
         _listings.Add(Fractal.SeriesListing);
 
         // Gator Oscillator
@@ -239,6 +240,7 @@ public static partial class Catalog
         _listings.Add(Obv.StreamListing);
 
         // Parabolic SAR
+        _listings.Add(ParabolicSar.BufferListing);
         _listings.Add(ParabolicSar.SeriesListing);
 
         // Pivot Points
@@ -246,6 +248,7 @@ public static partial class Catalog
 
         // Pivots
         _listings.Add(Pivots.SeriesListing);
+        _listings.Add(Pivots.BufferListing);
 
         // PMO (Price Momentum Oscillator)
         _listings.Add(Pmo.BufferListing);
@@ -278,8 +281,10 @@ public static partial class Catalog
 
         // ROC with Bands
         _listings.Add(RocWb.SeriesListing);
+        _listings.Add(RocWb.BufferListing);
 
         // Rolling Pivots
+        _listings.Add(RollingPivots.BufferListing);
         _listings.Add(RollingPivots.SeriesListing);
 
         // RSI (Relative Strength Index)

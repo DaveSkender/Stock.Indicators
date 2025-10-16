@@ -138,7 +138,7 @@ Note on former deferrals: Some indicators were previously marked as deferred due
 - [x] **T028** Implement Fcb BufferList in `src/e-k/Fcb/Fcb.BufferList.cs` ✅
 - [x] **T029** Implement FisherTransform BufferList in `src/e-k/FisherTransform/FisherTransform.BufferList.cs` ✅
 - [x] **T030** Implement ForceIndex BufferList in `src/e-k/ForceIndex/ForceIndex.BufferList.cs` ✅
-- [ ] **T031** Implement Fractal BufferList in `src/e-k/Fractal/Fractal.BufferList.cs` (complex but unblocked — follow HMA/ADX state patterns)
+- [x] **T031** Implement Fractal BufferList in `src/e-k/Fractal/Fractal.BufferList.cs` (complex but unblocked — follow HMA/ADX state patterns) ✅
 - [x] **T032** Implement Gator BufferList in `src/e-k/Gator/Gator.BufferList.cs` ✅
 - [x] **T033** Implement HeikinAshi BufferList in `src/e-k/HeikinAshi/HeikinAshi.BufferList.cs` ✅
 - [x] **T034** Implement Hma BufferList in `src/e-k/Hma/Hma.BufferList.cs` ✅
@@ -154,9 +154,9 @@ Note on former deferrals: Some indicators were previously marked as deferred due
 - [x] **T044** Implement Marubozu BufferList in `src/m-r/Marubozu/Marubozu.BufferList.cs` ✅
 - [x] **T045** Implement Mfi BufferList in `src/m-r/Mfi/Mfi.BufferList.cs` ✅
 - [x] **T046** Implement Obv BufferList in `src/m-r/Obv/Obv.BufferList.cs` ✅
-- [ ] **T047** Implement ParabolicSar BufferList in `src/m-r/ParabolicSar/ParabolicSar.BufferList.cs`
+- [x] **T047** Implement ParabolicSar BufferList in `src/m-r/ParabolicSar/ParabolicSar.BufferList.cs` ✅
 - [ ] **T048** Implement PivotPoints BufferList in `src/m-r/PivotPoints/PivotPoints.BufferList.cs`
-- [ ] **T049** Implement Pivots BufferList in `src/m-r/Pivots/Pivots.BufferList.cs`
+- [x] **T049** Implement Pivots BufferList in `src/m-r/Pivots/Pivots.BufferList.cs` ✅
 - [x] **T050** Implement Pmo BufferList in `src/m-r/Pmo/Pmo.BufferList.cs` ✅
 - [x] **T051** Implement Prs BufferList in `src/m-r/Prs/Prs.BufferList.cs` ✅
 - [x] **T052** Implement Pvo BufferList in `src/m-r/Pvo/Pvo.BufferList.cs` ✅
@@ -164,8 +164,8 @@ Note on former deferrals: Some indicators were previously marked as deferred due
 - [x] **T054** Implement Renko BufferList in `src/m-r/Renko/Renko.BufferList.cs` ✅
 - [ ] **T055** Implement RenkoAtr BufferList in `src/m-r/RenkoAtr/RenkoAtr.BufferList.cs`
 - [x] **T056** Implement Roc BufferList in `src/m-r/Roc/Roc.BufferList.cs` ✅
-- [ ] **T057** Implement RocWb BufferList in `src/m-r/RocWb/RocWb.BufferList.cs`
-- [ ] **T058** Implement RollingPivots BufferList in `src/m-r/RollingPivots/RollingPivots.BufferList.cs`
+- [x] **T057** Implement RocWb BufferList in `src/m-r/RocWb/RocWb.BufferList.cs` ✅
+- [x] **T058** Implement RollingPivots BufferList in `src/m-r/RollingPivots/RollingPivots.BufferList.cs` ✅
 - [x] **T059** Implement Rsi BufferList in `src/m-r/Rsi/Rsi.BufferList.cs` ✅
 - [x] **T060** Implement Slope BufferList in `src/s-z/Slope/Slope.BufferList.cs` (complex but unblocked — legit historical revisions follow VolatilityStop repaint pattern) ✅
 - [x] **T061** Implement Sma BufferList in `src/s-z/Sma/Sma.BufferList.cs` ✅
@@ -183,7 +183,7 @@ Note on former deferrals: Some indicators were previously marked as deferred due
 - [x] **T073** Implement Tema BufferList in `src/s-z/Tema/Tema.BufferList.cs` ✅
 - [x] **T074** Implement Tr BufferList in `src/s-z/Tr/Tr.BufferList.cs` ✅
 - [x] **T075** Implement Trix BufferList in `src/s-z/Trix/Trix.BufferList.cs` ✅
-- [ ] **T076** Implement Tsi BufferList in `src/s-z/Tsi/Tsi.BufferList.cs`
+- [x] **T076** Implement Tsi BufferList in `src/s-z/Tsi/Tsi.BufferList.cs` ✅
 - [x] **T077** Implement UlcerIndex BufferList in `src/s-z/UlcerIndex/UlcerIndex.BufferList.cs` ✅
 - [x] **T078** Implement Ultimate BufferList in `src/s-z/Ultimate/Ultimate.BufferList.cs` ✅
 - [x] **T079** Implement VolatilityStop BufferList in `src/s-z/VolatilityStop/VolatilityStop.BufferList.cs` ✅
@@ -194,7 +194,7 @@ Note on former deferrals: Some indicators were previously marked as deferred due
 - [x] **T084** Implement Wma BufferList in `src/s-z/Wma/Wma.BufferList.cs` ✅
 - [x] **T085** Implement ZigZag BufferList in `src/s-z/ZigZag/ZigZag.BufferList.cs` ✅
 
-**BufferList**: 69/85 complete, 16 remaining
+**BufferList**: 72/85 complete, 13 remaining
 
 **Checkpoint**: Phase 2 completion achieves complete BufferList coverage for all Series indicators
 
@@ -458,21 +458,21 @@ Each task should follow these guidelines:
 **Implementation Coverage (1:1:1 Parity)**:
 
 - **Total Series implementations**: 85 indicators (baseline)
-- **Total BufferList implementations**: 70 complete, 15 remaining (T001-T085)
-- **Total StreamHub implementations**: 46 complete, 39 remaining (T086-T170)
+- **Total BufferList implementations**: 72 complete, 13 remaining (T001-T085)
+- **Total StreamHub implementations**: 45 complete, 40 remaining (T086-T170)
 - **1:1:1 Target**: 85 BufferList + 85 StreamHub = 170 streaming implementations total
-- **Current streaming coverage**: 116/170 = **68% complete**
+- **Current streaming coverage**: 117/170 = **69% complete**
 
 **Task Breakdown**:
 
 - **Phase 1**: 10 tasks (A001-A006, T171-T174) — 8 complete, 2 remaining
-- **Phase 2**: 85 BufferList implementation tasks (T001-T085) — 70 complete, 15 remaining
-- **Phase 3**: 85 StreamHub implementation tasks (T086-T170) — 46 complete, 39 remaining
+- **Phase 2**: 85 BufferList implementation tasks (T001-T085) — 72 complete, 13 remaining
+- **Phase 3**: 85 StreamHub implementation tasks (T086-T170) — 45 complete, 40 remaining
 - **Phase 4**: 17 test infrastructure tasks (T175-T185, Q001-Q006) — 0 complete, 17 remaining
 - **Phase 5**: 7 documentation tasks (D001-D007) — 2 complete, 5 remaining
-- **Total**: 204 tasks — 126 complete, 78 remaining
+- **Total**: 204 tasks — 127 complete, 77 remaining
 
 Removed blanket deferral: The above indicators are complex but unblocked with established reference patterns (see instruction files).
 
 ---
-Last updated: October 14, 2025
+Last updated: October 15, 2025
