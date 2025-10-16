@@ -70,7 +70,7 @@ public class SeriesIndicators
     [Benchmark] public void ToRenkoAtr() => q.ToRenko(n);
     [Benchmark] public void ToRoc() => q.ToRoc(20);
     [Benchmark] public void ToRocWb() => q.ToRocWb(12, 3, 12);
-    [Benchmark] public void ToRollingPivots() => q.ToRollingPivots(n, 1);
+    [Benchmark] public void ToRollingPivots() => q.ToRollingPivots(20, 0, PivotPointType.Standard);
     [Benchmark] public void ToRsi() => q.ToRsi();
     [Benchmark] public void ToSlope() => q.ToSlope(20);
     [Benchmark] public void ToSma() => q.ToSma(10);
