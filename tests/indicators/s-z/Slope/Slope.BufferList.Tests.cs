@@ -138,7 +138,7 @@ public class Slope : BufferListTestBase, ITestChainBufferList
         }
 
         // Get Line value from a middle point
-        int midIndex = lookbackPeriods + 2;
+        const int midIndex = lookbackPeriods + 2;
         decimal? lineBefore = sut[midIndex].Line;
 
         // Add one more value - this should update Line values for the last lookbackPeriods results

@@ -9,7 +9,7 @@ public class RocWbList : BufferList<RocWbResult>, IIncrementFromChain, IRocWb
     private readonly Queue<double> rocSqBuffer;
     private readonly Queue<double> rocEmaInitBuffer;
     private double prevEma = double.NaN;
-    private double k;
+    private readonly double k;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="RocWbList"/> class.

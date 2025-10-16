@@ -5,9 +5,6 @@ namespace Skender.Stock.Indicators;
 /// </summary>
 public class RollingPivotsList : BufferList<RollingPivotsResult>, IIncrementFromQuote
 {
-    private readonly int _windowPeriods;
-    private readonly int _offsetPeriods;
-    private readonly PivotPointType _pointType;
     private readonly Queue<IQuote> _buffer;
 
     /// <summary>
@@ -22,9 +19,9 @@ public class RollingPivotsList : BufferList<RollingPivotsResult>, IIncrementFrom
         PivotPointType pointType = PivotPointType.Standard)
     {
         RollingPivots.Validate(windowPeriods, offsetPeriods);
-        _windowPeriods = windowPeriods;
-        _offsetPeriods = offsetPeriods;
-        _pointType = pointType;
+        WindowPeriods = windowPeriods;
+        OffsetPeriods = offsetPeriods;
+        PointType = pointType;
         _buffer = new Queue<IQuote>(windowPeriods + offsetPeriods + 1);
     }
 
@@ -46,17 +43,17 @@ public class RollingPivotsList : BufferList<RollingPivotsResult>, IIncrementFrom
     /// <summary>
     /// Gets the number of periods in the rolling window.
     /// </summary>
-    public int WindowPeriods => _windowPeriods;
+    public int WindowPeriods { get; }
 
     /// <summary>
     /// Gets the number of periods to offset the window.
     /// </summary>
-    public int OffsetPeriods => _offsetPeriods;
+    public int OffsetPeriods { get; }
 
     /// <summary>
     /// Gets the type of pivot point calculation.
     /// </summary>
-    public PivotPointType PointType => _pointType;
+    public PivotPointType PointType { get; }
 
     /// <inheritdoc />
     public void Add(IQuote quote)
@@ -64,13 +61,13 @@ public class RollingPivotsList : BufferList<RollingPivotsResult>, IIncrementFrom
         ArgumentNullException.ThrowIfNull(quote);
 
         // Update buffer with new quote
-        _buffer.Update(_windowPeriods + _offsetPeriods + 1, quote);
+        _buffer.Update(WindowPeriods + OffsetPeriods + 1, quote);
 
         RollingPivotsResult result;
 
         // Check if we have enough data to calculate pivots
         // Need buffer to contain windowPeriods + offsetPeriods + 1 quotes
-        if (_buffer.Count > _windowPeriods + _offsetPeriods)
+        if (_buffer.Count > WindowPeriods + OffsetPeriods)
         {
             // Get the window data from buffer
             // The buffer contains the last (windowPeriods + offsetPeriods + 1) quotes
@@ -82,8 +79,8 @@ public class RollingPivotsList : BufferList<RollingPivotsResult>, IIncrementFrom
             int bufferCount = bufferArray.Length;
 
             // Window ends offsetPeriods + 1 positions before the end (the "+1" accounts for the current quote)
-            int windowEndIndex = bufferCount - 2 - _offsetPeriods;
-            int windowStartIndex = windowEndIndex - _windowPeriods + 1;
+            int windowEndIndex = bufferCount - 2 - OffsetPeriods;
+            int windowStartIndex = windowEndIndex - WindowPeriods + 1;
 
             decimal windowHigh = bufferArray[windowStartIndex].High;
             decimal windowLow = bufferArray[windowStartIndex].Low;
@@ -98,7 +95,7 @@ public class RollingPivotsList : BufferList<RollingPivotsResult>, IIncrementFrom
 
             // Calculate pivot points
             WindowPoint wp = PivotPoints.GetPivotPoint(
-                _pointType, quote.Open, windowHigh, windowLow, windowClose);
+                PointType, quote.Open, windowHigh, windowLow, windowClose);
 
             result = new RollingPivotsResult {
                 Timestamp = quote.Timestamp,
