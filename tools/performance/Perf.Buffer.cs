@@ -28,13 +28,16 @@ public class BufferIndicators
     [Benchmark] public MacdList MacdList() => new(12, 26, 9) { q };
     [Benchmark] public MamaList MamaList() => new(0.5, 0.05) { q };
     [Benchmark] public ObvList ObvList() => new() { q };
+    [Benchmark] public PivotsList PivotsList() => new(2, 2, 20) { q };
     [Benchmark] public PmoList PmoList() => new() { q };
     [Benchmark] public QuotePartList QuotePartList() => new(CandlePart.Close) { q };
     [Benchmark] public PrsList PrsList() => new(int.MinValue, q, o);
     [Benchmark] public RenkoList RenkoList() => new(2.5m) { q };
     [Benchmark] public RocList RocList() => new(20) { q };
     [Benchmark] public RollingPivotsList RollingPivotsList() => new(20, 0, PivotPointType.Standard) { q };
+    [Benchmark] public RocWbList RocWbList() => new(20, 5, 5) { q };
     [Benchmark] public RsiList RsiList() => new(n) { q };
+    [Benchmark] public SlopeList SlopeList() => new(n) { q };
     [Benchmark] public SmaList SmaList() => new(n) { q };
     [Benchmark] public SmiList SmiList() => new(13, 25, 2, 3) { q };
     [Benchmark] public SmmaList SmmaList() => new(n) { q };
