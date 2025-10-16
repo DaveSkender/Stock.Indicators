@@ -5,8 +5,12 @@
 
 echo "🚀 Starting Stock Indicators dev container setup..."
 
-# Add .NET tools directory to PATH for roslynator and other global tools
-export PATH="/home/vscode/.local/bin:/home/vscode/.dotnet/tools:$PATH"
+# Ensure .NET tools stay on PATH for roslynator and other global tools
+TOOLS_PATH_LINE='export PATH="$HOME/.local/bin:$HOME/.dotnet/tools:$PATH"'
+if ! grep -q '.dotnet/tools' "$HOME/.zprofile" 2>/dev/null; then
+  echo "$TOOLS_PATH_LINE" >> "$HOME/.zprofile"
+fi
+eval "$TOOLS_PATH_LINE"
 
 # Verify Node.js and npm are available
 echo "🔍 Verifying Node.js environment..."
