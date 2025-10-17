@@ -229,7 +229,7 @@ Note on former deferrals: Indicators like Fractal, HtTrendline, Hurst, Ichimoku,
 - [x] **T104** Implement Correlation StreamHub in `src/a-d/Correlation/Correlation.StreamHub.cs` ✅
 - [x] **T105** Implement Dema StreamHub in `src/a-d/Dema/Dema.StreamHub.cs` ✅
 - [x] **T106** Implement Doji StreamHub in `src/a-d/Doji/Doji.StreamHub.cs` ✅
-- [ ] **T107** Implement Donchian StreamHub in `src/a-d/Donchian/Donchian.StreamHub.cs`
+- [x] **T107** Implement Donchian StreamHub in `src/a-d/Donchian/Donchian.StreamHub.cs` ✅
 - [ ] **T108** Implement Dpo StreamHub in `src/a-d/Dpo/Dpo.StreamHub.cs`
 - [ ] **T109** Implement Dynamic StreamHub in `src/a-d/Dynamic/Dynamic.StreamHub.cs`
 - [ ] **T110** Implement ElderRay StreamHub in `src/e-k/ElderRay/ElderRay.StreamHub.cs`
@@ -294,7 +294,7 @@ Note on former deferrals: Indicators like Fractal, HtTrendline, Hurst, Ichimoku,
 - [x] **T169** Implement Wma StreamHub in `src/s-z/Wma/Wma.StreamHub.cs` ✅
 - [ ] **T170** Implement ZigZag StreamHub in `src/s-z/ZigZag/ZigZag.StreamHub.cs`
 
-**StreamHub**: 45/85 complete, 40 remaining
+**StreamHub**: 46/85 complete, 39 remaining
 
 **Checkpoint**: Phase 3 completion achieves 1:1:1 parity across all three implementation styles (Series, BufferList, StreamHub)
 
@@ -475,4 +475,4 @@ Each task should follow these guidelines:
 Removed blanket deferral: The above indicators are complex but unblocked with established reference patterns (see instruction files).
 
 ---
-Last updated: October 14, 2025
+Last updated: October 15, 2025
