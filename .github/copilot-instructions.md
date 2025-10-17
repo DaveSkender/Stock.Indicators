@@ -72,6 +72,7 @@ This repository uses scoped instruction files for specific development areas. Th
 | Pattern | File | Description |
 | ------- | ---- | ----------- |
 | `.specify/**,specs/**,.github/prompts/speckit.*` | [spec-kit.instructions.md](.github/instructions/spec-kit.instructions.md) | Spec Kit development workflow and artifact editing guidelines |
+| `src/**` | [agents.md](../src/agents.md) | **CRITICAL**: Formula change rules and mathematical precision requirements for AI agents |
 | `src/**/*.*Series.cs,tests/**/*.*Series.Tests.cs` | [indicator-series.instructions.md](.github/instructions/indicator-series.instructions.md) | Series-style indicator development and testing guidelines |
 | `src/**/*.StreamHub.cs,tests/**/*.StreamHub.Tests.cs` | [indicator-stream.instructions.md](.github/instructions/indicator-stream.instructions.md) | Stream indicator development guidelines |
 | `src/**/*.BufferList.cs,tests/**/*.BufferList.Tests.cs` | [indicator-buffer.instructions.md](.github/instructions/indicator-buffer.instructions.md) | Buffer indicator development guidelines |
