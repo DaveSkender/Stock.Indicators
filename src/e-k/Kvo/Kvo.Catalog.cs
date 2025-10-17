@@ -28,5 +28,9 @@ public static partial class Kvo
             .WithStyle(Style.Buffer)
             .Build();
 
-    // No StreamListing for KVO.
+    // KVO Stream Listing
+    internal static readonly IndicatorListing StreamListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Stream)
+            .Build();
 }

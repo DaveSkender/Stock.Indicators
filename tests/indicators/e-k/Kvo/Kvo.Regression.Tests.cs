@@ -9,8 +9,22 @@ public class KvoTests : RegressionTestBase<KvoResult>
     public override void Series() => Quotes.ToKvo(34, 55, 13).AssertEquals(Expected);
 
     [TestMethod]
-    public override void Buffer() => Assert.Inconclusive("Buffer implementation not yet available");
+    public override void Buffer() => Quotes.ToKvoList(34, 55, 13).AssertEquals(Expected);
 
     [TestMethod]
-    public override void Stream() => Assert.Inconclusive("Stream implementation not yet available");
+    public override void Stream()
+    {
+        QuoteHub<Quote> quoteHub = new();
+        StreamHub<Quote, KvoResult> hub = quoteHub.ToKvoHub(34, 55, 13);
+
+        foreach (Quote q in Quotes)
+        {
+            quoteHub.Add(q);
+        }
+
+        hub.Results.AssertEquals(Expected);
+
+        hub.Unsubscribe();
+        quoteHub.EndTransmission();
+    }
 }
