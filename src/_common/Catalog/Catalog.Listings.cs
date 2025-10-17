@@ -227,6 +227,7 @@ public static partial class Catalog
 
         // Marubozu
         _listings.Add(Marubozu.SeriesListing);
+        _listings.Add(Marubozu.StreamListing);
 
         // MFI (Money Flow Index)
         _listings.Add(Mfi.SeriesListing);
