@@ -65,6 +65,8 @@ public class AtrStopHub
     protected override (AtrStopResult result, int index)
         ToIndicator(IQuote item, int? indexHint)
     {
+        ArgumentNullException.ThrowIfNull(item);
+
         // reminder: should only process "new" instructions
 
         int i = indexHint ?? ProviderCache.IndexOf(item, true);

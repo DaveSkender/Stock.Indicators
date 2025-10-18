@@ -43,6 +43,8 @@ public class SmaHub
     protected override (SmaResult result, int index)
         ToIndicator(IReusable item, int? indexHint)
     {
+        ArgumentNullException.ThrowIfNull(item);
+
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
         // candidate result

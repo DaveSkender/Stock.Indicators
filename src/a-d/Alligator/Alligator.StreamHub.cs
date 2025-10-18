@@ -84,6 +84,8 @@ public class AlligatorHub
     protected override (AlligatorResult result, int index)
         ToIndicator(IReusable item, int? indexHint)
     {
+        ArgumentNullException.ThrowIfNull(item);
+
         double jaw = double.NaN;
         double lips = double.NaN;
         double teeth = double.NaN;

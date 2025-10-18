@@ -36,7 +36,9 @@ public static partial class QuoteParts
     /// Converts <see cref="IReadOnlyList{IQuote}"/> to
     /// an <see cref="IReadOnlyList{QuotePart}"/> list.
     /// </summary>
-    /// <inheritdoc cref="ToQuotePart{TQuote}(IReadOnlyList{TQuote}, CandlePart)" />
+    /// <param name="quotes">Historical price quotes.</param>
+    /// <param name="candlePart">Candle part to extract.</param>
+    /// <returns>Collection of <see cref="QuotePart"/> records.</returns>
     public static IReadOnlyList<QuotePart> Use(
         this IReadOnlyList<IQuote> quotes,
         CandlePart candlePart)

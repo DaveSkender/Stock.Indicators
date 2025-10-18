@@ -107,7 +107,6 @@ public static partial class Prs
     /// Creates a PRS hub from two synchronized chain providers.
     /// Note: Both providers must be synchronized (same timestamps).
     /// </summary>
-
     /// <param name="providerEval">The evaluation asset chain provider.</param>
     /// <param name="providerBase">The base/benchmark chain provider.</param>
     /// <param name="lookbackPeriods">
