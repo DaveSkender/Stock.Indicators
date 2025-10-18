@@ -115,18 +115,15 @@ public class KeltnerHub<TIn>
 
         // Calculate EMA of Close
         double ema;
-        if (i >= EmaPeriods - 1)
+        if (i >= EmaPeriods - 1 && Cache[i - 1].Centerline is not null)
         {
-            if (i > 0 && i >= EmaPeriods && i <= Cache.Count && Cache.Count > i - 1 && Cache[i - 1].Centerline is not null)
-            {
-                // Calculate EMA normally
-                ema = Ema.Increment(EmaK, Cache[i - 1].Centerline!.Value, (double)item.Close);
-            }
-            else
-            {
-                // Initialize as SMA of Close prices
-                ema = CalculateSmaOfClose(i, EmaPeriods);
-            }
+            // Calculate EMA normally
+            ema = Ema.Increment(EmaK, Cache[i - 1].Centerline!.Value, (double)item.Close);
+        }
+        else if (i >= EmaPeriods - 1)
+        {
+            // Initialize as SMA of Close prices
+            ema = CalculateSmaOfClose(i, EmaPeriods);
         }
         else
         {
@@ -141,37 +138,41 @@ public class KeltnerHub<TIn>
         {
             atr = double.NaN;
         }
-        else if (i >= AtrPeriods - 1)
+        else if (Cache[i - 1].Atr is not null)
         {
-            if (i >= AtrPeriods && i <= Cache.Count && Cache.Count > i - 1 && Cache[i - 1].Atr is not null)
-            {
-                // Calculate ATR normally using previous ATR
-                AtrResult atrResult = Atr.Increment(AtrPeriods, item, (double)ProviderCache[i - 1].Close, Cache[i - 1].Atr);
-                atr = atrResult.Atr ?? double.NaN;
-            }
-            else
-            {
-                // Initialize ATR as average of TR values
-                // Check if we have enough data in ProviderCache
-                if (i + 1 <= ProviderCache.Count)
-                {
-                    double sumTr = 0;
+            // Calculate ATR normally using previous ATR
+            AtrResult atrResult = Atr.Increment(AtrPeriods, item, (double)ProviderCache[i - 1].Close, Cache[i - 1].Atr);
+            atr = atrResult.Atr ?? double.NaN;
+        }
+        else if (i >= AtrPeriods)
+        {
+            // Initialize ATR using same method as Series:
+            // Sum TR from index 1 to AtrPeriods, then incrementally update to current index
+            double sumTr = 0;
 
-                    for (int p = i - AtrPeriods + 1; p <= i; p++)
-                    {
-                        sumTr += Tr.Increment(
-                            (double)ProviderCache[p].High,
-                            (double)ProviderCache[p].Low,
-                            (double)ProviderCache[p - 1].Close);
-                    }
-
-                    atr = sumTr / AtrPeriods;
-                }
-                else
-                {
-                    atr = double.NaN;
-                }
+            // Initial sum from index 1 to AtrPeriods (matching Series behavior)
+            for (int p = 1; p <= AtrPeriods; p++)
+            {
+                sumTr += Tr.Increment(
+                    (double)ProviderCache[p].High,
+                    (double)ProviderCache[p].Low,
+                    (double)ProviderCache[p - 1].Close);
             }
+
+            double prevAtr = sumTr / AtrPeriods;
+
+            // Incrementally update ATR from AtrPeriods+1 to i
+            for (int p = AtrPeriods + 1; p <= i; p++)
+            {
+                double tr = Tr.Increment(
+                    (double)ProviderCache[p].High,
+                    (double)ProviderCache[p].Low,
+                    (double)ProviderCache[p - 1].Close);
+
+                prevAtr = ((prevAtr * (AtrPeriods - 1)) + tr) / AtrPeriods;
+            }
+
+            atr = prevAtr;
         }
         else
         {
@@ -195,11 +196,8 @@ public class KeltnerHub<TIn>
         }
         else
         {
-            // During warmup, still track EMA and ATR but don't calculate bands
-            KeltnerResult r = new(
-                Timestamp: item.Timestamp,
-                Centerline: ema.NaN2Null(),
-                Atr: atr.NaN2Null());
+            // During warmup, return empty result with just timestamp
+            KeltnerResult r = new(Timestamp: item.Timestamp);
 
             return (r, i);
         }
