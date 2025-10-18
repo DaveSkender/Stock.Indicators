@@ -29,5 +29,9 @@ public static partial class MaEnvelopes
             .WithStyle(Style.Buffer)
             .Build();
 
-    // No StreamListing for MA-ENV.
+    // MA-ENV Stream Listing
+    internal static readonly IndicatorListing StreamListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Stream)
+            .Build();
 }
