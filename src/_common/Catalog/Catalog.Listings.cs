@@ -214,6 +214,7 @@ public static partial class Catalog
         // MA Envelopes (Moving Average Envelopes)
         _listings.Add(MaEnvelopes.SeriesListing);
         _listings.Add(MaEnvelopes.BufferListing);
+        _listings.Add(MaEnvelopes.StreamListing);
 
         // MACD (Moving Average Convergence Divergence)
         _listings.Add(Macd.BufferListing);
