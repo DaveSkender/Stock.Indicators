@@ -92,4 +92,25 @@ public class MfiTests : TestBase
         mfiResult?.DisplayName.Should().Be("MFI");
         mfiResult.IsReusable.Should().Be(true);
     }
+
+    [TestMethod]
+    public void MfiSeriesFromCatalogMatchesDirectCall()
+    {
+        // Arrange
+        IReadOnlyList<Quote> quotes = Quotes;
+        IndicatorListing listing = Mfi.SeriesListing;
+
+        // Get default parameter value from catalog
+        IndicatorParam lookbackParam = listing.Parameters.First(p => p.ParameterName == "lookbackPeriods");
+        int lookbackValue = (int)lookbackParam.DefaultValue!;
+
+        // Act - Call using catalog metadata (via ListingExecutor)
+        IReadOnlyList<MfiResult> catalogResults = ListingExecutor.Execute<IQuote, MfiResult>(quotes, listing);
+
+        // Act - Direct call
+        IReadOnlyList<MfiResult> directResults = quotes.ToMfi(lookbackValue);
+
+        // Assert - Results should be identical
+        catalogResults.Should().BeEquivalentTo(directResults);
+    }
 }
