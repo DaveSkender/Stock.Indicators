@@ -145,7 +145,7 @@ public static partial class Trix
     /// <returns>A TRIX hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the chain provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
-    public static TrixHub ToTrix(
+    public static TrixHub ToTrixHub(
         this IChainProvider<IReusable> chainProvider,
         int lookbackPeriods = 14)
         => new(chainProvider, lookbackPeriods);
@@ -161,7 +161,7 @@ public static partial class Trix
     {
         QuoteHub quoteHub = new();
         quoteHub.Add(quotes);
-        return quoteHub.ToTrix(lookbackPeriods);
+        return quoteHub.ToTrixHub(lookbackPeriods);
     }
 }
 

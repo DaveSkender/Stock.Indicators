@@ -211,7 +211,7 @@ For indicators requiring synchronized pairs of inputs (e.g., Correlation, Beta),
 /// Streaming hub for {IndicatorName} calculations between two synchronized series.
 /// </summary>
 public class {IndicatorName}Hub
-    : PairsProvider<TIn, {IndicatorName}Result>, I{IndicatorName}
+    : PairsProvider<IReusable, {IndicatorName}Result>, I{IndicatorName}
  {
     private readonly string hubName;
 

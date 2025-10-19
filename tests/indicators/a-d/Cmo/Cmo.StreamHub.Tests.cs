@@ -21,7 +21,7 @@ public class CmoHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
 
         // initialize observer
         CmoHub observer = quoteHub
-            .ToCmo(14);
+            .ToCmoHub(14);
 
         // fetch initial results (early)
         IReadOnlyList<CmoResult> streamList
@@ -80,7 +80,7 @@ public class CmoHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
         // initialize observer
         CmoHub observer = quoteHub
             .ToEmaHub(emaPeriods)
-            .ToCmo(cmoPeriods);
+            .ToCmoHub(cmoPeriods);
 
         // emulate quote stream
         for (int i = 0; i < length; i++)
@@ -121,7 +121,7 @@ public class CmoHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
 
         // initialize observer
         EmaHub observer = quoteHub
-            .ToCmo(cmoPeriods)
+            .ToCmoHub(cmoPeriods)
             .ToEmaHub(emaPeriods);
 
         // emulate quote stream
@@ -152,7 +152,7 @@ public class CmoHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
     public override void CustomToString()
     {
         QuoteHub quoteHub = new();
-        CmoHub observer = quoteHub.ToCmo(14);
+        CmoHub observer = quoteHub.ToCmoHub(14);
 
         observer.ToString().Should().Be("CMO(14)");
 

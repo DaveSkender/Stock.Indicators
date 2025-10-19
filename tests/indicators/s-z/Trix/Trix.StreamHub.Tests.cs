@@ -21,7 +21,7 @@ public class TrixHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
 
         // initialize observer
         TrixHub observer = quoteHub
-            .ToTrix(14);
+            .ToTrixHub(14);
 
         // fetch initial results (early)
         IReadOnlyList<TrixResult> streamList
@@ -80,7 +80,7 @@ public class TrixHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
         // initialize observer
         TrixHub observer = quoteHub
             .ToSmaHub(smaPeriods)
-            .ToTrix(trixPeriods);
+            .ToTrixHub(trixPeriods);
 
         // emulate quote stream
         for (int i = 0; i < length; i++)
@@ -121,7 +121,7 @@ public class TrixHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
 
         // initialize chain with TRIX as input to EMA
         EmaHub emaOfTrix = quoteHub
-            .ToTrix(trixPeriods)
+            .ToTrixHub(trixPeriods)
             .ToEmaHub(emaPeriods);
 
         // emulate quote stream

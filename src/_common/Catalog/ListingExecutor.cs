@@ -7,6 +7,8 @@ namespace Skender.Stock.Indicators;
 /// </summary>
 internal static class ListingExecutor
 {
+    // TODO: address proper use of generic vs interface TQuote and TResult
+
     /// <summary>
     /// Executes an indicator method dynamically using catalog metadata.
     /// </summary>
@@ -124,13 +126,12 @@ internal static class ListingExecutor
     /// Executes an indicator method dynamically using catalog metadata with parameter values.
     /// This is a convenience method that creates the parameter dictionary automatically.
     /// </summary>
-    /// <typeparam name="TQuote">The quote type implementing IQuote.</typeparam>
     /// <typeparam name="TResult">The expected result type.</typeparam>
     /// <param name="quotes">The quotes to process.</param>
     /// <param name="listing">The indicator listing containing metadata.</param>
     /// <param name="parameterValues">Parameter values in the order they appear in the listing.</param>
     /// <returns>The indicator results.</returns>
-    internal static IReadOnlyList<TResult> Execute<TQuote, TResult>(
+    internal static IReadOnlyList<TResult> Execute<TResult>(
         IEnumerable<IQuote> quotes,
         IndicatorListing listing,
         params object[] parameterValues)
@@ -163,6 +164,6 @@ internal static class ListingExecutor
             }
         }
 
-        return Execute<TQuote, TResult>(quotes, listing, parameters);
+        return Execute<IQuote, TResult>(quotes, listing, parameters);
     }
 }

@@ -21,7 +21,7 @@ public class CciHubTests : StreamHubTestBase, ITestQuoteObserver
 
         // initialize observer
         CciHub observer = quoteHub
-            .ToCci(20);
+            .ToCciHub(20);
 
         // fetch initial results (early)
         IReadOnlyList<CciResult> streamList
@@ -77,7 +77,7 @@ public class CciHubTests : StreamHubTestBase, ITestQuoteObserver
         QuoteHub quoteHub = new();
 
         // initialize observer
-        CciHub cciHub = quoteHub.ToCci(cciPeriods);
+        CciHub cciHub = quoteHub.ToCciHub(cciPeriods);
 
         // emulate quote stream
         for (int i = 0; i < length; i++)
@@ -103,7 +103,7 @@ public class CciHubTests : StreamHubTestBase, ITestQuoteObserver
     public override void CustomToString()
     {
         QuoteHub quoteHub = new();
-        CciHub observer = quoteHub.ToCci(20);
+        CciHub observer = quoteHub.ToCciHub(20);
 
         observer.ToString().Should().Be("CCI(20)");
 

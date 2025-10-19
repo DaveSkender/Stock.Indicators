@@ -96,7 +96,7 @@ public static partial class Cci
     /// <returns>A CCI hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the quote provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
-    public static CciHub ToCci(
+    public static CciHub ToCciHub(
         this IQuoteProvider<IQuote> quoteProvider,
         int lookbackPeriods = 20)
         => new(quoteProvider, lookbackPeriods);
@@ -113,6 +113,6 @@ public static partial class Cci
     {
         QuoteHub quoteHub = new();
         quoteHub.Add(quotes);
-        return quoteHub.ToCci(lookbackPeriods);
+        return quoteHub.ToCciHub(lookbackPeriods);
     }
 }
