@@ -14,7 +14,7 @@ public class PivotsTests : TestBase
 
         // Assert
         listing.Should().NotBeNull();
-        listing.Name.Should().Be("Pivot Points");
+        listing.Name.Should().Be("Pivots");
         listing.Uiid.Should().Be("PIVOTS");
         listing.Style.Should().Be(Style.Series);
         listing.Category.Should().Be(Category.PriceTrend);
@@ -35,35 +35,54 @@ public class PivotsTests : TestBase
         endTypeParam.Should().NotBeNull();
 
         listing.Results.Should().NotBeNull();
-        listing.Results.Should().HaveCount(7);
+        listing.Results.Should().HaveCount(6);
 
-        IndicatorResult r3Result = listing.Results.SingleOrDefault(r => r.DataName == "R3");
-        r3Result.Should().NotBeNull();
-        r3Result?.DisplayName.Should().Be("Resistance 3");
-        r3Result.IsReusable.Should().Be(false);
-        IndicatorResult r2Result1 = listing.Results.SingleOrDefault(r => r.DataName == "R2");
-        r2Result1.Should().NotBeNull();
-        r2Result1?.DisplayName.Should().Be("Resistance 2");
-        r2Result1.IsReusable.Should().Be(false);
-        IndicatorResult r1Result2 = listing.Results.SingleOrDefault(r => r.DataName == "R1");
-        r1Result2.Should().NotBeNull();
-        r1Result2?.DisplayName.Should().Be("Resistance 1");
-        r1Result2.IsReusable.Should().Be(false);
-        IndicatorResult ppResult3 = listing.Results.SingleOrDefault(r => r.DataName == "PP");
-        ppResult3.Should().NotBeNull();
-        ppResult3?.DisplayName.Should().Be("Pivot Point");
-        ppResult3.IsReusable.Should().Be(true);
-        IndicatorResult s1Result4 = listing.Results.SingleOrDefault(r => r.DataName == "S1");
-        s1Result4.Should().NotBeNull();
-        s1Result4?.DisplayName.Should().Be("Support 1");
-        s1Result4.IsReusable.Should().Be(false);
-        IndicatorResult s2Result5 = listing.Results.SingleOrDefault(r => r.DataName == "S2");
-        s2Result5.Should().NotBeNull();
-        s2Result5?.DisplayName.Should().Be("Support 2");
-        s2Result5.IsReusable.Should().Be(false);
-        IndicatorResult s3Result6 = listing.Results.SingleOrDefault(r => r.DataName == "S3");
-        s3Result6.Should().NotBeNull();
-        s3Result6?.DisplayName.Should().Be("Support 3");
-        s3Result6.IsReusable.Should().Be(false);
+        IndicatorResult highPointResult = listing.Results.SingleOrDefault(r => r.DataName == "HighPoint");
+        highPointResult.Should().NotBeNull();
+        highPointResult?.DisplayName.Should().Be("High Point");
+        highPointResult.IsReusable.Should().Be(false);
+
+        IndicatorResult lowPointResult = listing.Results.SingleOrDefault(r => r.DataName == "LowPoint");
+        lowPointResult.Should().NotBeNull();
+        lowPointResult?.DisplayName.Should().Be("Low Point");
+        lowPointResult.IsReusable.Should().Be(false);
+
+        IndicatorResult highLineResult = listing.Results.SingleOrDefault(r => r.DataName == "HighLine");
+        highLineResult.Should().NotBeNull();
+        highLineResult?.DisplayName.Should().Be("High Line");
+        highLineResult.IsReusable.Should().Be(false);
+
+        IndicatorResult lowLineResult = listing.Results.SingleOrDefault(r => r.DataName == "LowLine");
+        lowLineResult.Should().NotBeNull();
+        lowLineResult?.DisplayName.Should().Be("Low Line");
+        lowLineResult.IsReusable.Should().Be(false);
+
+        IndicatorResult highTrendResult = listing.Results.SingleOrDefault(r => r.DataName == "HighTrend");
+        highTrendResult.Should().NotBeNull();
+        highTrendResult?.DisplayName.Should().Be("High Trend");
+        highTrendResult.IsReusable.Should().Be(false);
+
+        IndicatorResult lowTrendResult = listing.Results.SingleOrDefault(r => r.DataName == "LowTrend");
+        lowTrendResult.Should().NotBeNull();
+        lowTrendResult?.DisplayName.Should().Be("Low Trend");
+        lowTrendResult.IsReusable.Should().Be(false);
+    }
+
+    [TestMethod]
+    public void PivotsBufferListing()
+    {
+        // Act
+        IndicatorListing listing = Pivots.BufferListing;
+
+        // Assert
+        listing.Should().NotBeNull();
+        listing.Name.Should().Be("Pivots");
+        listing.Uiid.Should().Be("PIVOTS");
+        listing.Style.Should().Be(Style.Buffer);
+        listing.Category.Should().Be(Category.PriceTrend);
+        listing.MethodName.Should().Be("ToPivots");
+
+        listing.Parameters?.Count.Should().Be(4);
+        listing.Results.Should().HaveCount(6);
     }
 }
