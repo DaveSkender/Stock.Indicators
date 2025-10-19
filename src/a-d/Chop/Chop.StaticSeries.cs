@@ -8,7 +8,6 @@ public static partial class Chop
     /// <summary>
     /// Calculates the Choppiness Index (CHOP) for a series of quotes.
     /// </summary>
-    /// <typeparam name="TQuote">The type of the elements in the quotes list, which must implement <see cref="IQuote"/>.</typeparam>
     /// <param name="quotes">The source list of quotes.</param>
     /// <param name="lookbackPeriods">The number of periods to use for the lookback window. Default is 14.</param>
     /// <returns>A read-only list of <see cref="ChopResult"/> containing the CHOP calculation results.</returns>

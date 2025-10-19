@@ -76,7 +76,7 @@ public class EmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
 
         // time-series, for comparison
         IReadOnlyList<EmaResult> expected = Quotes
-            .ToSmaHub(smaPeriods)
+            .ToSma(smaPeriods)
             .ToEma(emaPeriods);
 
         // assert, should equal series

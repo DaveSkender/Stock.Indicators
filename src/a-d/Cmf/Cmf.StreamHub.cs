@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 /// Provides methods for creating CMF stream hubs.
 /// </summary>
 public class CmfHub : ChainProvider<IQuote, CmfResult>, ICmf
- {
+{
     private readonly string hubName;
 
     /// <summary>
@@ -107,7 +107,7 @@ public static partial class Cmf
     public static CmfHub ToCmfHub(
         this IQuoteProvider<IQuote> quoteProvider,
         int lookbackPeriods = 20)
-         {
+    {
         ArgumentNullException.ThrowIfNull(quoteProvider);
         return new(quoteProvider, lookbackPeriods);
     }

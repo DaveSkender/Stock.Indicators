@@ -5,7 +5,7 @@ namespace Skender.Stock.Indicators;
 /// </summary>
 public class EmaHub
     : ChainProvider<IReusable, EmaResult>, IEma
- {
+{
     private readonly string hubName;
 
     /// <summary>

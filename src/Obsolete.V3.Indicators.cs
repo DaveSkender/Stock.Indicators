@@ -335,7 +335,7 @@ public static partial class Indicator
     [Obsolete("Rename `GetEma(..)` to `ToEma(..)`", false)]
     public static IEnumerable<EmaResult> GetEma(
         this IEnumerable<IQuote> quotes, int lookbackPeriods)
-        => quotes.ToSortedList().ToEma<IQuote>(lookbackPeriods);
+        => quotes.ToSortedList().ToEma(lookbackPeriods);
 
     [ExcludeFromCodeCoverage]
     [Obsolete("Use 'ToEma(..)' method. Tuple arguments were removed.", false)]
@@ -809,7 +809,7 @@ public static partial class Indicator
     [Obsolete("Rename `GetSma(..)` to `ToSma(..)`", false)]
     public static IEnumerable<SmaResult> GetSma(
         this IEnumerable<IQuote> quotes, int lookbackPeriods)
-        => quotes.ToSortedList().ToSma<IQuote>(lookbackPeriods);
+        => quotes.ToSortedList().ToSma(lookbackPeriods);
 
     [ExcludeFromCodeCoverage]
     [Obsolete("Use 'ToSma(..)' method. Tuple arguments were removed.", false)]

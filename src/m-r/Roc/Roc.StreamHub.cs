@@ -5,7 +5,7 @@ namespace Skender.Stock.Indicators;
 /// </summary>
 public class RocHub
     : ChainProvider<IReusable, RocResult>, IRoc
- {
+{
     private readonly string hubName;
 
     /// <summary>

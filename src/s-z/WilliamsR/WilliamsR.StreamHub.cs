@@ -6,7 +6,7 @@ namespace Skender.Stock.Indicators;
 /// </summary>
 public class WilliamsRHub
     : StreamHub<IQuote, WilliamsResult>, IWilliamsR
- {
+{
     #region constructors
 
     private readonly string hubName;
@@ -108,7 +108,7 @@ public static partial class WilliamsR
     /// <summary>
     /// Converts the quote provider to a Williams %R hub.
     /// </summary>
-        /// <param name="quoteProvider">The quote provider.</param>
+    /// <param name="quoteProvider">The quote provider.</param>
     /// <param name="lookbackPeriods">The lookback period for Williams %R.</param>
     /// <returns>A Williams %R hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the quote provider is null.</exception>

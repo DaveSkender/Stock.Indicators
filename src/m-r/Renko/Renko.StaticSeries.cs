@@ -8,7 +8,6 @@ public static partial class Renko
     /// <summary>
     /// Converts a list of quotes to a list of Renko chart results.
     /// </summary>
-    /// <typeparam name="TQuote">The type of the quote values.</typeparam>
     /// <param name="quotes">The list of quotes.</param>
     /// <param name="brickSize">The size of each Renko brick.</param>
     /// <param name="endType">The price candle end type to use as the brick threshold.</param>

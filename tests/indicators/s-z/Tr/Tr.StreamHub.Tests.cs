@@ -20,7 +20,7 @@ public class TrHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProvi
         }
 
         // initialize observer
-        StreamHub observer = quoteHub
+        TrHub observer = quoteHub
             .ToTrHub();
 
         // fetch initial results (early)
@@ -101,7 +101,7 @@ public class TrHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProvi
         // time-series, for comparison
         IReadOnlyList<SmaResult> seriesList = quotesList
             .ToTr()
-            .ToSmaHub(smaPeriods);
+            .ToSma(smaPeriods);
 
         // assert, should equal series
         streamList.Should().HaveCount(length - 1);

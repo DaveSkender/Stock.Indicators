@@ -5,7 +5,7 @@ namespace Skender.Stock.Indicators;
 /// </summary>
 public class MacdHub
     : ChainProvider<IReusable, MacdResult>, IMacd
- {
+{
     private readonly string hubName;
 
     /// <summary>

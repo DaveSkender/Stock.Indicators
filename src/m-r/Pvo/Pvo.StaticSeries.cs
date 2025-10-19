@@ -8,7 +8,6 @@ public static partial class Pvo
     /// <summary>
     /// Converts a list of quotes to a list of PVO results.
     /// </summary>
-    /// <typeparam name="TQuote">The type of the quote values.</typeparam>
     /// <param name="quotes">The list of quotes.</param>
     /// <param name="fastPeriods">The number of periods for the fast EMA.</param>
     /// <param name="slowPeriods">The number of periods for the slow EMA.</param>

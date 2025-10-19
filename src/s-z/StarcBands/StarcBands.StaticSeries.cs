@@ -8,7 +8,6 @@ public static partial class StarcBands
     /// <summary>
     /// Converts a series of quotes to STARC Bands.
     /// </summary>
-    /// <typeparam name="TQuote">The type of the quote, which must implement <see cref="IQuote"/>.</typeparam>
     /// <param name="quotes">The source series of quotes.</param>
     /// <param name="smaPeriods">The number of periods for the Simple Moving Average (SMA).</param>
     /// <param name="multiplier">The multiplier for the Average True Range (ATR).</param>

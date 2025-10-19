@@ -95,7 +95,7 @@ public class DemaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
         // time-series, for comparison
         IReadOnlyList<DemaResult> seriesList
            = quotesList
-            .ToSmaHub(smaPeriods)
+            .ToSma(smaPeriods)
             .ToDema(demaPeriods);
 
         // assert, should equal series

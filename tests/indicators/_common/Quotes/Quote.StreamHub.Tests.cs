@@ -71,7 +71,7 @@ public class QuoteHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPr
         // time-series, for comparison
         IReadOnlyList<SmaResult> seriesList
            = quotesList
-            .ToSmaHub(smaPeriods);
+            .ToSma(smaPeriods);
 
         // assert, should equal series
         streamList.Should().HaveCount(length - 1);
@@ -87,12 +87,12 @@ public class QuoteHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPr
     {
         QuoteHub hub = new();
 
-        hub.ToString().Should().Be("QUOTES<Quote>: 0 items");
+        hub.ToString().Should().Be("QUOTES<IQuote>: 0 items");
 
         hub.Add(Quotes[0]);
         hub.Add(Quotes[1]);
 
-        hub.ToString().Should().Be("QUOTES<Quote>: 2 items");
+        hub.ToString().Should().Be("QUOTES<IQuote>: 2 items");
     }
 
     [TestMethod]
@@ -120,7 +120,7 @@ public class QuoteHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPr
         for (int i = 0; i < length; i++)
         {
             Quote o = quotesList[i];
-            Quote q = quoteHub.Cache[i];
+            IQuote q = quoteHub.Cache[i];
 
             Assert.AreEqual(o, q);  // same ref
         }

@@ -7,7 +7,7 @@ public class CacheManagement : TestBase
     public void Remove()
     {
         QuoteHub quoteHub = new();
-        SmaHub observer = quoteHub.ToSma(20);
+        SmaHub observer = quoteHub.ToSmaHub(20);
         quoteHub.Add(Quotes.Take(21));
 
         observer.Results[19].Sma.Should().BeApproximately(214.5250, precision: 1e-13d); // 16 digits of precision
@@ -160,7 +160,7 @@ public class CacheManagement : TestBase
 
         // initialize
         QuoteHub quoteHub = new(maxCacheSize);
-        SmaHub observer = quoteHub.ToSma(20);
+        SmaHub observer = quoteHub.ToSmaHub(20);
 
         // sets max cache size
         quoteHub.MaxCacheSize.Should().Be(maxCacheSize);
@@ -176,7 +176,7 @@ public class CacheManagement : TestBase
 
         // initialize
         QuoteHub quoteHub = new(maxCacheSize);
-        SmaHub observer = quoteHub.ToSma(20);
+        SmaHub observer = quoteHub.ToSmaHub(20);
         IReadOnlyList<SmaResult> seriesList = Quotes.ToSma(20);
 
         // add quotes

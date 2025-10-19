@@ -56,7 +56,7 @@ public class SmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
         // time-series, for comparison
         IReadOnlyList<SmaResult> seriesList
            = quotesList
-            .ToSmaHub(5);
+            .ToSma(5);
 
         // assert, should equal series
         streamList.Should().HaveCount(length - 1);
@@ -100,7 +100,7 @@ public class SmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
         IReadOnlyList<SmaResult> seriesList
            = quotesList
             .Use(CandlePart.OC2)
-            .ToSmaHub(11);
+            .ToSma(11);
 
         // assert, should equal series
         streamList.Should().HaveCount(length);
@@ -146,7 +146,7 @@ public class SmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
         // time-series, for comparison
         IReadOnlyList<EmaResult> seriesList
            = quotesList
-            .ToSmaHub(smaPeriods)
+            .ToSma(smaPeriods)
             .ToEma(emaPeriods);
 
         // assert, should equal series

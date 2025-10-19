@@ -145,7 +145,7 @@ public class MacdHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
 
         // setup chain quoteHub
         QuoteHub quoteProvider = new();
-        SmaHub quoteHub = quoteProvider.ToSma(smaPeriods);
+        SmaHub quoteHub = quoteProvider.ToSmaHub(smaPeriods);
 
         // initialize observer
         MacdHub observer = quoteHub
@@ -164,7 +164,7 @@ public class MacdHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
         // time-series, for comparison
         IReadOnlyList<MacdResult> seriesList
            = quotesList
-            .ToSmaHub(smaPeriods)
+            .ToSma(smaPeriods)
             .ToMacd(macdFast, macdSlow, macdSignal);
 
         // assert

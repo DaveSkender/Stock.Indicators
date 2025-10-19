@@ -8,7 +8,6 @@ public static partial class RollingPivots
     /// <summary>
     /// Converts a list of quotes to a list of Rolling Pivot Points results.
     /// </summary>
-    /// <typeparam name="TQuote">The type of the quote values.</typeparam>
     /// <param name="quotes">The list of quotes.</param>
     /// <param name="windowPeriods">The number of periods in the rolling window.</param>
     /// <param name="offsetPeriods">The number of periods to offset the window.</param>

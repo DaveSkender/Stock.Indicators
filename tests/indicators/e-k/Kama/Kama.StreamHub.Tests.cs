@@ -97,7 +97,7 @@ public class KamaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
         // time-series, for comparison
         IReadOnlyList<KamaResult> seriesList
            = quotesList
-            .ToSmaHub(smaPeriods)
+            .ToSma(smaPeriods)
             .ToKama(erPeriods, fastPeriods, slowPeriods);
 
         // assert, should equal series

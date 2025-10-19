@@ -8,7 +8,6 @@ public static partial class Ichimoku
     /// <summary>
     /// Converts a list of quotes to Ichimoku Cloud results using default parameters.
     /// </summary>
-    /// <typeparam name="TQuote">The type of the quotes, which must implement <see cref="IQuote"/>.</typeparam>
     /// <param name="quotes">The list of quotes to transform.</param>
     /// <param name="tenkanPeriods">The number of periods for the Tenkan-sen (conversion line). Default is 9.</param>
     /// <param name="kijunPeriods">The number of periods for the Kijun-sen (base line). Default is 26.</param>
@@ -31,7 +30,6 @@ public static partial class Ichimoku
     /// <summary>
     /// Converts a list of quotes to Ichimoku Cloud results with specified parameters.
     /// </summary>
-    /// <typeparam name="TQuote">The type of the quotes, which must implement <see cref="IQuote"/>.</typeparam>
     /// <param name="quotes">The list of quotes to transform.</param>
     /// <param name="tenkanPeriods">The number of periods for the Tenkan-sen (conversion line).</param>
     /// <param name="kijunPeriods">The number of periods for the Kijun-sen (base line).</param>
@@ -56,7 +54,6 @@ public static partial class Ichimoku
     /// <summary>
     /// Calculates the Ichimoku Cloud indicator.
     /// </summary>
-    /// <typeparam name="TQuote">The type of the quotes, which must implement <see cref="IQuote"/>.</typeparam>
     /// <param name="quotes">The list of quotes to transform.</param>
     /// <param name="tenkanPeriods">The number of periods for the Tenkan-sen (conversion line).</param>
     /// <param name="kijunPeriods">The number of periods for the Kijun-sen (base line).</param>
@@ -145,7 +142,6 @@ public static partial class Ichimoku
     /// <summary>
     /// Calculates the Tenkan-sen (conversion line) for the Ichimoku Cloud indicator.
     /// </summary>
-    /// <typeparam name="TQuote">The type of the quotes, which must implement <see cref="IQuote"/>.</typeparam>
     /// <param name="i">The current index in the quotes list.</param>
     /// <param name="quotes">The list of quotes to transform.</param>
     /// <param name="tenkanPeriods">The number of periods for the Tenkan-sen (conversion line).</param>
@@ -183,7 +179,6 @@ public static partial class Ichimoku
     /// <summary>
     /// Calculates the Kijun-sen (base line) for the Ichimoku Cloud indicator.
     /// </summary>
-    /// <typeparam name="TQuote">The type of the quotes, which must implement <see cref="IQuote"/>.</typeparam>
     /// <param name="i">The current index in the quotes list.</param>
     /// <param name="quotes">The list of quotes to transform.</param>
     /// <param name="kijunPeriods">The number of periods for the Kijun-sen (base line).</param>
@@ -222,7 +217,6 @@ public static partial class Ichimoku
     /// <summary>
     /// Calculates the Senkou Span B (leading span B) for the Ichimoku Cloud indicator.
     /// </summary>
-    /// <typeparam name="TQuote">The type of the quotes, which must implement <see cref="IQuote"/>.</typeparam>
     /// <param name="i">The current index in the quotes list.</param>
     /// <param name="quotes">The list of quotes to transform.</param>
     /// <param name="senkouOffset">The number of periods for the Senkou offset.</param>
