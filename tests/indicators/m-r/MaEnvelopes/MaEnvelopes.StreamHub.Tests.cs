@@ -19,7 +19,7 @@ public class MaEnvelopesHubTests : StreamHubTestBase, ITestChainObserver, ITestC
         quoteHub.Add(Quotes.Take(20));
 
         // initialize observer
-        Skender.Stock.Indicators.MaEnvelopesHub<IQuote> observer = quoteHub.ToMaEnvelopesHub(lookbackPeriods, percentOffset);
+        MaEnvelopesHub observer = quoteHub.ToMaEnvelopesHub(lookbackPeriods, percentOffset);
 
         // fetch initial results (early)
         IReadOnlyList<MaEnvelopeResult> actuals = observer.Results;
@@ -65,7 +65,7 @@ public class MaEnvelopesHubTests : StreamHubTestBase, ITestChainObserver, ITestC
         QuoteHub quoteHub = new();
 
         // initialize observer
-        Skender.Stock.Indicators.MaEnvelopesHub<SmaResult> observer = quoteHub
+        MaEnvelopesHub observer = quoteHub
             .ToSmaHub(smaPeriods)
             .ToMaEnvelopesHub(maPeriods, percentOffset);
 
@@ -99,7 +99,7 @@ public class MaEnvelopesHubTests : StreamHubTestBase, ITestChainObserver, ITestC
         QuoteHub quoteHub = new();
 
         // setup observer
-        Skender.Stock.Indicators.MaEnvelopesHub<IQuote> maEnvHub = quoteHub.ToMaEnvelopesHub(maPeriods, percentOffset);
+        MaEnvelopesHub maEnvHub = quoteHub.ToMaEnvelopesHub(maPeriods, percentOffset);
 
         // MaEnvelopeResult doesn't implement IReusable, so it cannot be used as a provider for other indicators
         // This test verifies the hub works correctly but doesn't chain to another indicator
@@ -131,7 +131,7 @@ public class MaEnvelopesHubTests : StreamHubTestBase, ITestChainObserver, ITestC
         QuoteHub quoteHub = new();
 
         // initialize observer with DEMA type
-        Skender.Stock.Indicators.MaEnvelopesHub<IQuote> observer = quoteHub.ToMaEnvelopesHub(lookbackPeriods, percentOffset, MaType.DEMA);
+        MaEnvelopesHub observer = quoteHub.ToMaEnvelopesHub(lookbackPeriods, percentOffset, MaType.DEMA);
 
         // emulate quote stream
         for (int i = 0; i < length; i++) { quoteHub.Add(Quotes[i]); }
@@ -153,7 +153,7 @@ public class MaEnvelopesHubTests : StreamHubTestBase, ITestChainObserver, ITestC
 
     public override void CustomToString()
     {
-        Skender.Stock.Indicators.MaEnvelopesHub<IQuote> hub = new(new QuoteHub(), lookbackPeriods, percentOffset, MaType.SMA);
+        MaEnvelopesHub hub = new(new QuoteHub(), lookbackPeriods, percentOffset, MaType.SMA);
         hub.ToString().Should().Be($"MAENV({lookbackPeriods},{percentOffset},{MaType.SMA})");
     }
 }

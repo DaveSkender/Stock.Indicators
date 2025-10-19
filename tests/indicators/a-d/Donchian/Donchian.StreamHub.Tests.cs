@@ -17,7 +17,7 @@ public class Donchian : StreamHubTestBase, ITestQuoteObserver
         quoteHub.Add(quotesList.Take(25));
 
         // initialize observer
-        DonchianHub<IQuote> observer = quoteHub
+        DonchianHub observer = quoteHub
             .ToDonchianHub(20);
 
         observer.Results.Should().HaveCount(25);
@@ -68,7 +68,7 @@ public class Donchian : StreamHubTestBase, ITestQuoteObserver
     [TestMethod]
     public override void CustomToString()
     {
-        DonchianHub<IQuote> hub = new(new QuoteHub(), 20);
+        DonchianHub hub = new(new QuoteHub(), 20);
         hub.ToString().Should().Be("DONCHIAN(20)");
     }
 }

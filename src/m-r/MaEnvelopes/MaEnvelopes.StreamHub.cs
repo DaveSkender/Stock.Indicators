@@ -12,7 +12,6 @@ public static partial class MaEnvelopes
     /// <summary>
     /// Creates a Moving Average Envelopes streaming hub from a chain provider.
     /// </summary>
-    /// <typeparam name="TIn">The type of the reusable data.</typeparam>
     /// <param name="chainProvider">The chain provider.</param>
     /// <param name="lookbackPeriods">The number of periods for the moving average.</param>
     /// <param name="percentOffset">The percentage offset for the envelopes. Default is 2.5.</param>
@@ -20,22 +19,19 @@ public static partial class MaEnvelopes
     /// <returns>A Moving Average Envelopes hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the chain provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when parameters are invalid or the moving average type is not supported.</exception>
-    public static MaEnvelopesHub<TIn> ToMaEnvelopesHub<TIn>(
-        this IChainProvider<TIn> chainProvider,
+    public static MaEnvelopesHub ToMaEnvelopesHub(
+        this IChainProvider<IReusable> chainProvider,
         int lookbackPeriods,
         double percentOffset = 2.5,
         MaType movingAverageType = MaType.SMA)
-        where TIn : IReusable
         => new(chainProvider, lookbackPeriods, percentOffset, movingAverageType);
 }
 
 /// <summary>
 /// Streaming hub for Moving Average Envelopes calculations.
 /// </summary>
-/// <typeparam name="TIn">The type of the input data.</typeparam>
-public class MaEnvelopesHub<TIn>
-    : StreamHub<TIn, MaEnvelopeResult>
-    where TIn : IReusable
+public class MaEnvelopesHub
+    : StreamHub<IReusable, MaEnvelopeResult>
 {
     private readonly string hubName;
     private readonly double offsetRatio;
@@ -50,7 +46,7 @@ public class MaEnvelopesHub<TIn>
     private double lastEma5 = double.NaN; // for TEMA
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="MaEnvelopesHub{TIn}"/> class.
+    /// Initializes a new instance of the <see cref="MaEnvelopesHub"/> class.
     /// </summary>
     /// <param name="provider">The chain provider.</param>
     /// <param name="lookbackPeriods">The number of periods for the moving average.</param>
@@ -59,7 +55,7 @@ public class MaEnvelopesHub<TIn>
     /// <exception cref="ArgumentNullException">Thrown when the provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when parameters are invalid or the moving average type is not supported.</exception>
     internal MaEnvelopesHub(
-        IChainProvider<TIn> provider,
+        IChainProvider<IReusable> provider,
         int lookbackPeriods,
         double percentOffset,
         MaType movingAverageType) : base(provider)
@@ -142,7 +138,7 @@ public class MaEnvelopesHub<TIn>
 
     /// <inheritdoc/>
     protected override (MaEnvelopeResult result, int index)
-        ToIndicator(TIn item, int? indexHint)
+        ToIndicator(IReusable item, int? indexHint)
     {
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
