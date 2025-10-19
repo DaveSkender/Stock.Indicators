@@ -144,16 +144,16 @@ public class MaEnvelopesHub<TIn>
     protected override (MaEnvelopeResult result, int index)
         ToIndicator(TIn item, int? indexHint)
     {
-        int index = indexHint ?? ProviderCache.IndexOf(item, true);
+        int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
         // Calculate MA value based on type
         double? ma = movingAverageType switch {
-            MaType.DEMA => CalculateDema(index),
-            MaType.EMA => CalculateEma(index),
-            MaType.SMA => CalculateSma(index),
-            MaType.SMMA => CalculateSmma(index),
-            MaType.TEMA => CalculateTema(index),
-            MaType.WMA => CalculateWma(index),
+            MaType.DEMA => CalculateDema(i),
+            MaType.EMA => CalculateEma(i),
+            MaType.SMA => CalculateSma(i),
+            MaType.SMMA => CalculateSmma(i),
+            MaType.TEMA => CalculateTema(i),
+            MaType.WMA => CalculateWma(i),
             _ => throw new ArgumentOutOfRangeException(nameof(item))
         };
 
@@ -167,7 +167,7 @@ public class MaEnvelopesHub<TIn>
             UpperEnvelope: upperEnvelope,
             LowerEnvelope: lowerEnvelope);
 
-        return (r, index);
+        return (r, i);
     }
 
     private double? CalculateSma(int index)

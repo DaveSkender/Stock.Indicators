@@ -6,7 +6,7 @@
 echo "🚀 Starting Stock Indicators dev container setup..."
 
 # Ensure .NET tools stay on PATH for roslynator and other global tools
-TOOLS_PATH_LINE="export PATH=\"\$HOME/.local/bin:\$HOME/.dotnet/tools:\$PATH\""
+TOOLS_PATH_LINE='export PATH="$HOME/.local/bin:$HOME/.dotnet/tools:$PATH"'
 
 # Add to both .zprofile (login shells) and .zshrc (interactive shells)
 if ! grep -q '.dotnet/tools' "$HOME/.zprofile" 2>/dev/null; then

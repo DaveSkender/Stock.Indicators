@@ -11,13 +11,13 @@ public class Donchian : StreamHubTestBase, ITestQuoteObserver
         int length = quotesList.Count;
 
         // setup quote provider hub
-        QuoteHub quoteHub = new();
+        QuoteHub<Quote> quoteHub = new();
 
         // prefill quotes at provider (batch)
         quoteHub.Add(quotesList.Take(25));
 
         // initialize observer
-        DonchianHub<IQuote> observer = quoteHub
+        DonchianHub<Quote> observer = quoteHub
             .ToDonchianHub(20);
 
         observer.Results.Should().HaveCount(25);
@@ -68,7 +68,7 @@ public class Donchian : StreamHubTestBase, ITestQuoteObserver
     [TestMethod]
     public override void CustomToString()
     {
-        DonchianHub<IQuote> hub = new(new QuoteHub(), 20);
+        DonchianHub<Quote> hub = new(new QuoteHub<Quote>(), 20);
         hub.ToString().Should().Be("DONCHIAN(20)");
     }
 }
