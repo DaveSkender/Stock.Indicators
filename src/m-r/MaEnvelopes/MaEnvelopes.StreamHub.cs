@@ -140,6 +140,8 @@ public class MaEnvelopesHub
     protected override (MaEnvelopeResult result, int index)
         ToIndicator(IReusable item, int? indexHint)
     {
+        ArgumentNullException.ThrowIfNull(item);
+
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
         // Calculate MA value based on type
