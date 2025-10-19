@@ -239,6 +239,7 @@ public static partial class AtrStop
        double multiplier = 3,
        EndType endType = EndType.Close)
     {
+        ArgumentNullException.ThrowIfNull(quotes);
         QuoteHub quoteHub = new();
         quoteHub.Add(quotes);
         return quoteHub.ToAtrStopHub(lookbackPeriods, multiplier, endType);

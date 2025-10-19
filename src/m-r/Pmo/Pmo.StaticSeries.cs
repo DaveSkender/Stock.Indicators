@@ -7,7 +7,8 @@ public static partial class Pmo
 {
     /// <summary>
     /// Converts a list of source values to a list of PMO results.
-    /// </summary>    /// <param name="source">The list of source values.</param>
+    /// </summary>
+    /// <param name="source">The list of source values.</param>
     /// <param name="timePeriods">The number of periods for the time span.</param>
     /// <param name="smoothPeriods">The number of periods for smoothing.</param>
     /// <param name="signalPeriods">The number of periods for the signal line.</param>

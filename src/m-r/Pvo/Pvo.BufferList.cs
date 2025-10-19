@@ -219,5 +219,5 @@ public static partial class Pvo
         int fastPeriods = 12,
         int slowPeriods = 26,
         int signalPeriods = 9)
-        => new(fastPeriods, slowPeriods, signalPeriods) { (IReadOnlyList<IQuote>)quotes };
+        => new(fastPeriods, slowPeriods, signalPeriods) { quotes };
 }

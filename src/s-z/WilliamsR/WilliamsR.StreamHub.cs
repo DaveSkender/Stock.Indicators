@@ -63,7 +63,7 @@ public class WilliamsRHub
             // Get lookback window
             for (int p = i - LookbackPeriods + 1; p <= i; p++)
             {
-                IQuote x = (IQuote)ProviderCache[p];
+                IQuote x = ProviderCache[p];
 
                 if (double.IsNaN((double)x.High) ||
                     double.IsNaN((double)x.Low) ||
@@ -122,7 +122,7 @@ public static partial class WilliamsR
     /// Creates a WilliamsR hub from a collection of quotes.
     /// </summary>
     /// <param name="quotes">The collection of quotes.</param>
-    /// <param name="lookbackPeriods"></param>
+    /// <param name="lookbackPeriods">The lookback period for Williams %R. Default is 14.</param>
     /// <returns>An instance of <see cref="WilliamsRHub"/>.</returns>
     public static WilliamsRHub ToWilliamsRHub(
         this IReadOnlyList<IQuote> quotes, int lookbackPeriods = 14)

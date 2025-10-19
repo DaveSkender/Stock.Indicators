@@ -7,7 +7,8 @@ public static partial class Mama
 {
     /// <summary>
     /// Converts a list of source values to MESA Adaptive Moving Average (MAMA) results.
-    /// </summary>    /// <param name="source">The list of source values to transform.</param>
+    /// </summary>
+    /// <param name="source">The list of source values to transform.</param>
     /// <param name="fastLimit">The fast limit for the MAMA calculation. Default is 0.5.</param>
     /// <param name="slowLimit">The slow limit for the MAMA calculation. Default is 0.05.</param>
     /// <returns>A list of MESA Adaptive Moving Average (MAMA) results.</returns>

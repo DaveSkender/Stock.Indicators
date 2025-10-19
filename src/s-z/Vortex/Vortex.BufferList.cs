@@ -134,5 +134,5 @@ public static partial class Vortex
     public static VortexList ToVortexList(
         this IReadOnlyList<IQuote> quotes,
         int lookbackPeriods = 14)
-        => new(lookbackPeriods) { (IReadOnlyList<IQuote>)quotes };
+        => new(lookbackPeriods) { quotes };
 }

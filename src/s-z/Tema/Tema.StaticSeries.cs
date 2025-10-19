@@ -7,7 +7,8 @@ public static partial class Tema
 {
     /// <summary>
     /// Calculates the TEMA series for the given source data.
-    /// </summary>    /// <param name="source">The source data to calculate the TEMA for.</param>
+    /// </summary>
+    /// /// <param name="source">The source data to calculate the TEMA for.</param>
     /// <param name="lookbackPeriods">The number of lookback periods for the TEMA calculation.</param>
     /// <returns>A read-only list of TEMA results.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the source data is null.</exception>

@@ -121,5 +121,5 @@ public static partial class StarcBands
         int smaPeriods = 5,
         double multiplier = 2,
         int atrPeriods = 10)
-        => new(smaPeriods, multiplier, atrPeriods) { (IReadOnlyList<IQuote>)quotes };
+        => new(smaPeriods, multiplier, atrPeriods) { quotes };
 }

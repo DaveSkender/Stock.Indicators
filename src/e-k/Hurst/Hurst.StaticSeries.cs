@@ -7,7 +7,8 @@ public static partial class Hurst
 {
     /// <summary>
     /// Converts a list of time-series values to Hurst Exponent results.
-    /// </summary>    /// <param name="source">The list of time-series values to transform.</param>
+    /// </summary>
+    /// <param name="source">The list of time-series values to transform.</param>
     /// <param name="lookbackPeriods">The number of periods to look back for the calculation. Default is 100.</param>
     /// <returns>A list of Hurst Exponent results.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the source list is null.</exception>

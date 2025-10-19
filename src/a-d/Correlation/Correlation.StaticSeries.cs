@@ -7,7 +7,8 @@ public static partial class Correlation
 {
     /// <summary>
     /// Calculates the correlation coefficient for two series of quotes.
-    /// </summary>    /// <param name="sourceA">The first source list of quotes.</param>
+    /// </summary>
+    /// <param name="sourceA">The first source list of quotes.</param>
     /// <param name="sourceB">The second source list of quotes.</param>
     /// <param name="lookbackPeriods">The number of periods to use for the lookback window.</param>
     /// <returns>A read-only list of <see cref="CorrResult"/> containing the correlation calculation results.</returns>

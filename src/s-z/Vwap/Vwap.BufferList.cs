@@ -96,12 +96,12 @@ public static partial class Vwap
     public static VwapList ToVwapList(
         this IReadOnlyList<IQuote> quotes,
         DateTime startDate)
-        => new(startDate) { (IReadOnlyList<IQuote>)quotes };
+        => new(startDate) { quotes };
 
     /// <summary>
     /// Creates a buffer list for VWAP calculations starting from the first quote.
     /// </summary>
     public static VwapList ToVwapList(
         this IReadOnlyList<IQuote> quotes)
-        => new(null) { (IReadOnlyList<IQuote>)quotes };
+        => new(null) { quotes };
 }

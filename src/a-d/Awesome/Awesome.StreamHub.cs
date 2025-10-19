@@ -105,11 +105,11 @@ public static partial class Awesome
         => new(chainProvider, fastPeriods, slowPeriods);
 
     /// <summary>
-    /// Creates a Awesome hub from a collection of quotes.
+    /// Creates an Awesome hub from a collection of quotes.
     /// </summary>
     /// <param name="quotes">The collection of quotes.</param>
-    /// <param name="fastPeriods">Parameter for the calculation.</param>
-    /// <param name="slowPeriods">Parameter for the calculation.</param>
+    /// <param name="fastPeriods">The number of periods for the fast moving average.</param>
+    /// <param name="slowPeriods">The number of periods for the slow moving average.</param>
     /// <returns>An instance of <see cref="AwesomeHub"/>.</returns>
     public static AwesomeHub ToAwesomeHub(
         this IReadOnlyList<IQuote> quotes,

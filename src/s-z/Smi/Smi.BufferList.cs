@@ -211,5 +211,5 @@ public static partial class Smi
         int firstSmoothPeriods = 25,
         int secondSmoothPeriods = 2,
         int signalPeriods = 3)
-        => new(lookbackPeriods, firstSmoothPeriods, secondSmoothPeriods, signalPeriods) { (IReadOnlyList<IQuote>)quotes };
+        => new(lookbackPeriods, firstSmoothPeriods, secondSmoothPeriods, signalPeriods) { quotes };
 }

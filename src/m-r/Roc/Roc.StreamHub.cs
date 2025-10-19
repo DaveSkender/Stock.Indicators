@@ -77,7 +77,7 @@ public static partial class Roc
     /// </summary>
     /// <param name="chainProvider">The chain provider.</param>
     /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
-    /// <returns>An EMA hub.</returns>
+    /// <returns>An ROC hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the chain provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
     public static RocHub ToRocHub(

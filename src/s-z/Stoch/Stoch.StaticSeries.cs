@@ -69,7 +69,7 @@ public static partial class Stoch
         int lookbackPeriods = 14,
         int signalPeriods = 3,
         int smoothPeriods = 3)
-        => new(lookbackPeriods, signalPeriods, smoothPeriods) { (IReadOnlyList<IQuote>)quotes };
+        => new(lookbackPeriods, signalPeriods, smoothPeriods) { quotes };
 
     /// <summary>
     /// Creates a buffer list for Stochastic Oscillator calculations with extended parameters.
@@ -90,7 +90,7 @@ public static partial class Stoch
         double kFactor,
         double dFactor,
         MaType movingAverageType)
-        => new(lookbackPeriods, signalPeriods, smoothPeriods, kFactor, dFactor, movingAverageType) { (IReadOnlyList<IQuote>)quotes };
+        => new(lookbackPeriods, signalPeriods, smoothPeriods, kFactor, dFactor, movingAverageType) { quotes };
 
     /// <summary>
     /// Calculates the Stochastic Oscillator for a series of quotes.

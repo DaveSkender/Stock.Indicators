@@ -52,7 +52,7 @@ public class RsiHub
             }
 
             // Use the existing series calculation
-            IReadOnlyList<RsiResult> seriesResults = ((IReadOnlyList<IReusable>)subset).ToRsi(LookbackPeriods);
+            IReadOnlyList<RsiResult> seriesResults = subset.ToRsi(LookbackPeriods);
             RsiResult? latestResult = seriesResults.Count > 0 ? seriesResults[seriesResults.Count - 1] : null;
 
             rsi = latestResult?.Rsi;

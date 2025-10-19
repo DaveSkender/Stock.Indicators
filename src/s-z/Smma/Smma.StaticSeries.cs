@@ -7,7 +7,8 @@ public static partial class Smma
 {
     /// <summary>
     /// Calculates the Smoothed Moving Average (SMMA) for a series of data.
-    /// </summary>    /// <param name="source">The source list of data.</param>
+    /// </summary>
+    /// <param name="source">The source list of data.</param>
     /// <param name="lookbackPeriods">The number of periods to look back for the SMMA calculation.</param>
     /// <returns>A list of <see cref="SmmaResult"/> containing the SMMA values.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the source list is null.</exception>

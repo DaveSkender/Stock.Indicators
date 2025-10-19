@@ -52,7 +52,7 @@ public class CmoHub
             }
 
             // Use the existing series calculation
-            IReadOnlyList<CmoResult> seriesResults = ((IReadOnlyList<IReusable>)subset).ToCmo(LookbackPeriods);
+            IReadOnlyList<CmoResult> seriesResults = subset.ToCmo(LookbackPeriods);
             CmoResult? latestResult = seriesResults.Count > 0 ? seriesResults[seriesResults.Count - 1] : null;
 
             cmo = latestResult?.Cmo;
@@ -88,7 +88,7 @@ public static partial class Cmo
     /// Creates a Cmo hub from a collection of quotes.
     /// </summary>
     /// <param name="quotes">The collection of quotes.</param>
-    /// <param name="lookbackPeriods"></param>
+    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
     /// <returns>An instance of <see cref="CmoHub"/>.</returns>
     public static CmoHub ToCmoHub(
         this IReadOnlyList<IQuote> quotes, int lookbackPeriods = 14)

@@ -7,7 +7,8 @@ public static partial class Gator
 {
     /// <summary>
     /// Converts a list of time-series values to Gator Oscillator results.
-    /// </summary>    /// <param name="source">The list of time-series values to transform.</param>
+    /// </summary>
+    /// <param name="source">The list of time-series values to transform.</param>
     /// <returns>A list of Gator Oscillator results.</returns>
     public static IReadOnlyList<GatorResult> ToGator(
         this IReadOnlyList<IReusable> source)

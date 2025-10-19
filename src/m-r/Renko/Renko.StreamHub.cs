@@ -91,7 +91,7 @@ public class RenkoHub
     {
         int decimals = BrickSize.GetDecimalPlaces();
 
-        IQuote q0 = (IQuote)ProviderCache[0];
+        IQuote q0 = ProviderCache[0];
 
         decimal baseline
             = Math.Round(q0.Close,
@@ -146,7 +146,7 @@ public class RenkoHub
 
             for (int w = lastBrickIndex + 1; w <= providerIndex; w++)
             {
-                IQuote pq = (IQuote)ProviderCache[w];
+                IQuote pq = ProviderCache[w];
 
                 h = Math.Max(h, pq.High);
                 l = Math.Min(l, pq.Low);

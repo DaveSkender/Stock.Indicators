@@ -7,7 +7,8 @@ public static partial class Awesome
 {
     /// <summary>
     /// Calculates the Awesome Oscillator for a series of data.
-    /// </summary>    /// <param name="source">The source data.</param>
+    /// </summary>
+    /// <param name="source">The source data.</param>
     /// <param name="fastPeriods">The number of periods for the fast moving average. Default is 5.</param>
     /// <param name="slowPeriods">The number of periods for the slow moving average. Default is 34.</param>
     /// <returns>A list of Awesome Oscillator results.</returns>

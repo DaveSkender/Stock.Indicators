@@ -265,7 +265,7 @@ public static partial class Mama
         => new(chainProvider, fastLimit, slowLimit);
 
     /// <summary>
-    /// Creates a Mama hub from a collection of quotes.
+    /// Creates a MAMA hub from a collection of quotes.
     /// </summary>
     /// <param name="quotes">The collection of quotes.</param>
     /// <param name="fastLimit">Parameter for the calculation.</param>

@@ -8,7 +8,7 @@ public static partial class Quotes
     /* LISTS */
 
     /// <summary>
-    /// Convert TQuote type list to built-in Quote type list (public API only).
+    /// Convert IQuote list to built-in Quote type list (public API only).
     /// </summary>
     /// <param name="quotes">The list of quotes to convert.</param>
     /// <returns>A list of converted quotes.</returns>
@@ -21,7 +21,7 @@ public static partial class Quotes
             .ToList();
 
     /// <summary>
-    /// Convert TQuote type list to QuoteD type list.
+    /// Convert IQuote list to QuoteD type list.
     /// </summary>
     /// <param name="quotes">The list of quotes to convert.</param>
     /// <returns>A list of converted quotes in double precision.</returns>

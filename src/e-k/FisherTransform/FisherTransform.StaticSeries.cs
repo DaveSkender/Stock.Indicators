@@ -7,7 +7,8 @@ public static partial class FisherTransform
 {
     /// <summary>
     /// Converts a list of source data to Fisher Transform results.
-    /// </summary>    /// <param name="source">The list of source data.</param>
+    /// </summary>
+    /// <param name="source">The list of source data.</param>
     /// <param name="lookbackPeriods">The number of periods to look back for the calculation. Default is 10.</param>
     /// <returns>A list of Fisher Transform results.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the source list is null.</exception>
@@ -17,6 +18,7 @@ public static partial class FisherTransform
         int lookbackPeriods = 10)
     {
         // check parameter arguments
+        ArgumentNullException.ThrowIfNull(source, nameof(source));
         Validate(lookbackPeriods);
 
         // prefer HL2 when IQuote

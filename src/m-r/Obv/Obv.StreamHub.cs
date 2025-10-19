@@ -60,7 +60,7 @@ public static partial class Obv
     }
 
     /// <summary>
-    /// Creates a Obv hub from a collection of quotes.
+    /// Creates an Obv hub from a collection of quotes.
     /// </summary>
     /// <param name="quotes">The collection of quotes.</param>
     /// <returns>An instance of <see cref="ObvHub"/>.</returns>

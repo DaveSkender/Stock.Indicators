@@ -50,5 +50,5 @@ public static partial class WilliamsR
     public static WilliamsRList ToWilliamsRList(
         this IReadOnlyList<IQuote> quotes,
         int lookbackPeriods = 14)
-        => new(lookbackPeriods) { (IReadOnlyList<IQuote>)quotes };
+        => new(lookbackPeriods) { quotes };
 }

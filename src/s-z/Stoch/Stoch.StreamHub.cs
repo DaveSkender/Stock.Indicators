@@ -107,7 +107,7 @@ public class StochHub
             // Get lookback window
             for (int p = i - LookbackPeriods + 1; p <= i; p++)
             {
-                IQuote x = (IQuote)ProviderCache[p];
+                IQuote x = ProviderCache[p];
 
                 if (double.IsNaN((double)x.High) ||
                     double.IsNaN((double)x.Low) ||
@@ -166,7 +166,7 @@ public class StochHub
                                         break;
                                     }
 
-                                    IQuote x = (IQuote)ProviderCache[q];
+                                    IQuote x = ProviderCache[q];
                                     if (double.IsNaN((double)x.High) ||
                                         double.IsNaN((double)x.Low) ||
                                         double.IsNaN((double)x.Close))
@@ -188,7 +188,7 @@ public class StochHub
 
                                 if (p >= 0 && p < ProviderCache.Count)
                                 {
-                                    IQuote pItem = (IQuote)ProviderCache[p];
+                                    IQuote pItem = ProviderCache[p];
                                     rawKAtP = !viable
                                            ? double.NaN
                                            : hh - ll != 0

@@ -7,7 +7,8 @@ public static partial class StdDevChannels
 {
     /// <summary>
     /// Converts a series of quotes to Standard Deviation Channels.
-    /// </summary>    /// <param name="source">The source series of quotes.</param>
+    /// </summary>
+    /// <param name="source">The source series of quotes.</param>
     /// <param name="lookbackPeriods">
     /// The number of periods for the lookback. Default is 20.</param>
     /// <param name="stdDeviations">The number of standard deviations for the channel width. Default is 2.</param>
