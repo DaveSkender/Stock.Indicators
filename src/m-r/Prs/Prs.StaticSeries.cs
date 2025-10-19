@@ -16,7 +16,8 @@ public static partial class Prs
 
     /// <summary>
     /// Converts a list of evaluation source values and base source values to a list of PRS results.
-    /// </summary>    /// <param name="sourceEval">The list of evaluation source values.</param>
+    /// </summary>    
+    /// <param name="sourceEval">The list of evaluation source values.</param>
     /// <param name="sourceBase">The list of base source values.</param>
     /// <param name="lookbackPeriods">
     /// The number of periods for the PRS% lookback calculation.  Optional.
