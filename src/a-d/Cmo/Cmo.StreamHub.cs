@@ -95,7 +95,7 @@ public static partial class Cmo
     {
         QuoteHub quoteHub = new();
         quoteHub.Add(quotes);
-        return quoteHub.ToCmo(14);
+        return quoteHub.ToCmo(lookbackPeriods);
     }
 }
 
