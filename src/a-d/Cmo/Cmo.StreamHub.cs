@@ -79,7 +79,7 @@ public static partial class Cmo
     /// <returns>A CMO hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the chain provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
-    public static CmoHub ToCmo(
+    public static CmoHub ToCmoHub(
         this IChainProvider<IReusable> chainProvider,
         int lookbackPeriods = 14)
         => new(chainProvider, lookbackPeriods);
@@ -95,7 +95,7 @@ public static partial class Cmo
     {
         QuoteHub quoteHub = new();
         quoteHub.Add(quotes);
-        return quoteHub.ToCmo(lookbackPeriods);
+        return quoteHub.ToCmoHub(lookbackPeriods);
     }
 }
 
