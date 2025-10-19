@@ -461,9 +461,6 @@ public static partial class Indicator
         this IEnumerable<TQuote> quotes, int lookbackPeriods = 100)
         where TQuote : IQuote
         => quotes.ToSortedReusableList().ToHurst(lookbackPeriods);
-    public static IEnumerable<HurstResult> GetHurst(
-        this IEnumerable<IQuote> quotes, int lookbackPeriods = 100)
-        => quotes.ToSortedList().ToHurst(lookbackPeriods);
 
     [ExcludeFromCodeCoverage]
     [Obsolete("Use 'ToHurst(..)' method. Tuple arguments were removed.", false)]

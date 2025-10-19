@@ -20,10 +20,14 @@ public static class Sorting
     /// <summary>
     /// Sorts quotes by their timestamps in ascending order and returns as IReusable list.
     /// </summary>
+    /// <remarks>
+    /// This method is needed for backward compatibility with obsolete methods
+    /// that need to convert IQuote collections to IReusable for refactored indicators.
+    /// </remarks>
     /// <typeparam name="TQuote">The type of the quote elements, which must implement <see cref="IQuote"/>.</typeparam>
     /// <param name="quotes">The quotes to sort.</param>
     /// <returns>A read-only list of IReusable elements.</returns>
-    public static IReadOnlyList<IReusable> ToSortedReusableList<TQuote>(
+    internal static IReadOnlyList<IReusable> ToSortedReusableList<TQuote>(
         this IEnumerable<TQuote> quotes)
         where TQuote : IQuote
         => quotes
