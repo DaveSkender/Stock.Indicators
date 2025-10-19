@@ -8,19 +8,17 @@ public static partial class Renko
     /// <summary>
     /// Calculates the number of new bricks to be added based on the current quote and the last brick.
     /// </summary>
-    /// <typeparam name="TQuote">The type of the quote values.</typeparam>
     /// <param name="q">The current quote.</param>
     /// <param name="lastBrick">The last Renko brick.</param>
     /// <param name="brickSize">The size of each Renko brick.</param>
     /// <param name="endType">The type of price to use for the end of the brick.</param>
     /// <returns>The number of new bricks to be added.</returns>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the end type is out of range.</exception>
-    internal static int GetNewBrickQuantity<TQuote>(
-        TQuote q,
+    internal static int GetNewBrickQuantity(
+        IQuote q,
         RenkoResult lastBrick,
         decimal brickSize,
         EndType endType)
-        where TQuote : IQuote
     {
         decimal upper = Math.Max(lastBrick.Open, lastBrick.Close);
         decimal lower = Math.Min(lastBrick.Open, lastBrick.Close);

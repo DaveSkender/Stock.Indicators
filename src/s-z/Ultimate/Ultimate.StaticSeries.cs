@@ -8,19 +8,18 @@ public static partial class Ultimate
     /// <summary>
     /// Calculates the Ultimate Oscillator for a series of quotes.
     /// </summary>
-    /// <typeparam name="TQuote">The type of the elements in the source list, which must implement IQuote.</typeparam>
     /// <param name="quotes">The source list of quotes.</param>
     /// <param name="shortPeriods">The number of short lookback periods. Default is 7.</param>
     /// <param name="middlePeriods">The number of middle lookback periods. Default is 14.</param>
     /// <param name="longPeriods">The number of long lookback periods. Default is 28.</param>
     /// <returns>A list of UltimateResult containing the Ultimate Oscillator values.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the source is null.</exception>
-    public static IReadOnlyList<UltimateResult> ToUltimate<TQuote>(
-        this IReadOnlyList<TQuote> quotes,
+    public static IReadOnlyList<UltimateResult> ToUltimate(
+        this IReadOnlyList<IQuote> quotes,
         int shortPeriods = 7,
         int middlePeriods = 14,
         int longPeriods = 28)
-        where TQuote : IQuote => quotes
+        => quotes
             .ToQuoteDList()
             .CalcUltimate(shortPeriods, middlePeriods, longPeriods);
 

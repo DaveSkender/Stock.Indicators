@@ -1,7 +1,7 @@
 namespace StreamHub;
 
 [TestClass]
-public class QuotePartHub : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
+public class QuotePartHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
 {
     [TestMethod]
     public void QuoteObserver()
@@ -13,7 +13,7 @@ public class QuotePartHub : StreamHubTestBase, ITestQuoteObserver, ITestChainPro
         int length = quotesList.Count;
 
         // setup quote provider hub
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
         // prefill quotes at provider
         for (int i = 0; i < 20; i++)
@@ -22,7 +22,7 @@ public class QuotePartHub : StreamHubTestBase, ITestQuoteObserver, ITestChainPro
         }
 
         // initialize observer
-        QuotePartHub<Quote> observer = quoteHub
+        QuotePartHub observer = quoteHub
             .ToQuotePartHub(candlePart);
 
         // fetch initial results (early)
@@ -88,13 +88,13 @@ public class QuotePartHub : StreamHubTestBase, ITestQuoteObserver, ITestChainPro
         int length = quotesList.Count;
 
         // setup quote provider hub
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
         // initialize observer
-        SmaHub<QuotePart> observer
+        SmaHub observer
            = quoteHub
             .ToQuotePartHub(candlePart)
-            .ToSma(smaPeriods);
+            .ToSmaHub(smaPeriods);
 
         // emulate quote stream
         for (int i = 0; i < length; i++)
@@ -114,7 +114,7 @@ public class QuotePartHub : StreamHubTestBase, ITestQuoteObserver, ITestChainPro
         IReadOnlyList<SmaResult> seriesList
            = quotesList
             .Use(candlePart)
-            .ToSma(smaPeriods);
+            .ToSmaHub(smaPeriods);
 
         // assert, should equal series
         for (int i = 0; i < length - 1; i++)
@@ -136,7 +136,7 @@ public class QuotePartHub : StreamHubTestBase, ITestQuoteObserver, ITestChainPro
     [TestMethod]
     public override void CustomToString()
     {
-        QuotePartHub<Quote> hub = new(new QuoteHub<Quote>(), CandlePart.Close);
+        QuotePartHub hub = new(new QuoteHub(), CandlePart.Close);
         hub.ToString().Should().Be("QUOTE-PART(CLOSE)");
     }
 }

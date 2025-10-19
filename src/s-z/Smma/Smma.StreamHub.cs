@@ -3,43 +3,20 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Provides methods for calculating the Smoothed Moving Average (SMMA) indicator.
 /// </summary>
-public static partial class Smma
-{
-    /// <summary>
-    /// Creates an SMMA streaming hub from a chain provider.
-    /// </summary>
-    /// <typeparam name="T">The type of the reusable data.</typeparam>
-    /// <param name="chainProvider">The chain provider.</param>
-    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
-    /// <returns>An SMMA hub.</returns>
-    /// <exception cref="ArgumentNullException">Thrown when the chain provider is null.</exception>
-    /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
-    public static SmmaHub<T> ToSmmaHub<T>(
-        this IChainProvider<T> chainProvider,
-        int lookbackPeriods)
-        where T : IReusable
-        => new(chainProvider, lookbackPeriods);
-}
-
-/// <summary>
-/// Streaming hub for Smoothed Moving Average (SMMA) calculations.
-/// </summary>
-/// <typeparam name="TIn">The type of the input data.</typeparam>
-public class SmmaHub<TIn>
-    : ChainProvider<TIn, SmmaResult>, ISmma
-    where TIn : IReusable
-{
+public class SmmaHub
+    : ChainProvider<IReusable, SmmaResult>, ISmma
+ {
     private readonly string hubName;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="SmmaHub{TIn}"/> class.
+    /// Initializes a new instance of the <see cref="SmmaHub"/> class.
     /// </summary>
     /// <param name="provider">The chain provider.</param>
     /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
     /// <exception cref="ArgumentNullException">Thrown when the provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
     internal SmmaHub(
-        IChainProvider<TIn> provider,
+        IChainProvider<IReusable> provider,
         int lookbackPeriods) : base(provider)
     {
         Smma.Validate(lookbackPeriods);
@@ -57,8 +34,9 @@ public class SmmaHub<TIn>
 
     /// <inheritdoc/>
     protected override (SmmaResult result, int index)
-        ToIndicator(TIn item, int? indexHint)
+        ToIndicator(IReusable item, int? indexHint)
     {
+        ArgumentNullException.ThrowIfNull(item);
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
         double smma = i >= LookbackPeriods - 1
@@ -80,4 +58,37 @@ public class SmmaHub<TIn>
 
         return (r, i);
     }
+}
+
+
+public static partial class Smma
+{
+    /// <summary>
+    /// Creates an SMMA streaming hub from a chain provider.
+    /// </summary>
+    /// <param name="chainProvider">The chain provider.</param>
+    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
+    /// <returns>An SMMA hub.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when the chain provider is null.</exception>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
+    public static SmmaHub ToSmmaHub(
+        this IChainProvider<IReusable> chainProvider,
+        int lookbackPeriods)
+        => new(chainProvider, lookbackPeriods);
+
+    /// <summary>
+    /// Creates a Smma hub from a collection of quotes.
+    /// </summary>
+    /// <param name="quotes">The collection of quotes.</param>
+    /// <param name="lookbackPeriods">Parameter for the calculation.</param>
+    /// <returns>An instance of <see cref="SmmaHub"/>.</returns>
+    public static SmmaHub ToSmmaHub(
+        this IReadOnlyList<IQuote> quotes,
+        int lookbackPeriods)
+    {
+        QuoteHub quoteHub = new();
+        quoteHub.Add(quotes);
+        return quoteHub.ToSmmaHub(lookbackPeriods);
+    }
+
 }

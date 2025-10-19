@@ -10,12 +10,10 @@ public static partial class Quotes
     /// <summary>
     /// Convert TQuote type list to built-in Quote type list (public API only).
     /// </summary>
-    /// <typeparam name="TQuote">The type of the quote.</typeparam>
     /// <param name="quotes">The list of quotes to convert.</param>
     /// <returns>A list of converted quotes.</returns>
-    public static IReadOnlyList<Quote> ToQuoteList<TQuote>(
-        this IReadOnlyList<TQuote> quotes)
-        where TQuote : IQuote
+    public static IReadOnlyList<Quote> ToQuoteList(
+        this IReadOnlyList<IQuote> quotes)
 
         => quotes
             .OrderBy(x => x.Timestamp)
@@ -25,12 +23,10 @@ public static partial class Quotes
     /// <summary>
     /// Convert TQuote type list to QuoteD type list.
     /// </summary>
-    /// <typeparam name="TQuote">The type of the quote.</typeparam>
     /// <param name="quotes">The list of quotes to convert.</param>
     /// <returns>A list of converted quotes in double precision.</returns>
-    internal static List<QuoteD> ToQuoteDList<TQuote>(
-        this IReadOnlyList<TQuote> quotes)
-        where TQuote : IQuote
+    internal static List<QuoteD> ToQuoteDList(
+        this IReadOnlyList<IQuote> quotes)
 
           => quotes
             .Select(x => x.ToQuoteD())
@@ -41,7 +37,6 @@ public static partial class Quotes
     /// <summary>
     /// Convert any IQuote type to native Quote type (public API only).
     /// </summary>
-    /// <typeparam name="TQuote">The type of the quote.</typeparam>
     /// <param name="quote">The quote to convert.</param>
     /// <returns>A converted quote.</returns>
     public static Quote ToQuote<TQuote>(this TQuote quote)

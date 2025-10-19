@@ -3,43 +3,20 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Provides methods for calculating the Choppiness Index (CHOP) on a series of quotes.
 /// </summary>
-public static partial class Chop
-{
-    /// <summary>
-    /// Creates a Choppiness Index (CHOP) streaming hub from a quote provider.
-    /// </summary>
-    /// <typeparam name="TIn">The type of the input quote.</typeparam>
-    /// <param name="quoteProvider">The quote provider.</param>
-    /// <param name="lookbackPeriods">The number of periods to use for the lookback window. Default is 14.</param>
-    /// <returns>A ChopHub instance.</returns>
-    /// <exception cref="ArgumentNullException">Thrown when the quote provider is null.</exception>
-    /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
-    public static ChopHub<TIn> ToChopHub<TIn>(
-        this IQuoteProvider<TIn> quoteProvider,
-        int lookbackPeriods = 14)
-        where TIn : IQuote
-        => new(quoteProvider, lookbackPeriods);
-}
-
-/// <summary>
-/// Streaming hub for Choppiness Index (CHOP) calculations.
-/// </summary>
-/// <typeparam name="TIn">The type of the input quote.</typeparam>
-public class ChopHub<TIn>
-    : ChainProvider<TIn, ChopResult>, IChop
-    where TIn : IQuote
-{
+public class ChopHub
+    : ChainProvider<IQuote, ChopResult>, IChop
+ {
     private readonly string hubName;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="ChopHub{TIn}"/> class.
+    /// Initializes a new instance of the <see cref="ChopHub"/> class.
     /// </summary>
     /// <param name="provider">The quote provider.</param>
     /// <param name="lookbackPeriods">The number of periods to use for the lookback window.</param>
     /// <exception cref="ArgumentNullException">Thrown when the provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
     internal ChopHub(
-        IQuoteProvider<TIn> provider,
+        IQuoteProvider<IQuote> provider,
         int lookbackPeriods) : base(provider)
     {
         Chop.Validate(lookbackPeriods);
@@ -57,8 +34,9 @@ public class ChopHub<TIn>
 
     /// <inheritdoc/>
     protected override (ChopResult result, int index)
-        ToIndicator(TIn item, int? indexHint)
+        ToIndicator(IQuote item, int? indexHint)
     {
+        ArgumentNullException.ThrowIfNull(item);
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
         // skip first period (no previous close)
@@ -80,7 +58,7 @@ public class ChopHub<TIn>
             for (int j = 0; j < LookbackPeriods; j++)
             {
                 int idx = i - j;
-                TIn current = ProviderCache[idx];
+                IQuote current = ProviderCache[idx];
                 double prevClose = (double)ProviderCache[idx - 1].Close;
 
                 // calculate true high, true low, and true range
@@ -109,4 +87,37 @@ public class ChopHub<TIn>
 
         return (r, i);
     }
+}
+
+
+public static partial class Chop
+{
+    /// <summary>
+    /// Creates a Choppiness Index (CHOP) streaming hub from a quote provider.
+    /// </summary>
+    /// <param name="quoteProvider">The quote provider.</param>
+    /// <param name="lookbackPeriods">The number of periods to use for the lookback window. Default is 14.</param>
+    /// <returns>A ChopHub instance.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when the quote provider is null.</exception>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
+    public static ChopHub ToChopHub(
+        this IQuoteProvider<IQuote> quoteProvider,
+        int lookbackPeriods = 14)
+             => new(quoteProvider, lookbackPeriods);
+
+    /// <summary>
+    /// Creates a Chop hub from a collection of quotes.
+    /// </summary>
+    /// <param name="quotes">The collection of quotes.</param>
+    /// <param name="lookbackPeriods">Parameter for the calculation.</param>
+    /// <returns>An instance of <see cref="ChopHub"/>.</returns>
+    public static ChopHub ToChopHub(
+        this IReadOnlyList<IQuote> quotes,
+        int lookbackPeriods = 14)
+    {
+        QuoteHub quoteHub = new();
+        quoteHub.Add(quotes);
+        return quoteHub.ToChopHub(lookbackPeriods);
+    }
+
 }

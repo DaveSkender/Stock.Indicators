@@ -10,8 +10,8 @@ public class WilliamsR : StreamHubTestBase, ITestQuoteObserver
         int length = Quotes.Count;
 
         // setup quote provider hub and observer BEFORE adding data
-        QuoteHub<Quote> quoteHub = new();
-        WilliamsRHub<Quote> observer = quoteHub.ToWilliamsR(14);
+        QuoteHub quoteHub = new();
+        WilliamsRHub observer = quoteHub.ToWilliamsRHub(14);
 
         // add base quotes (batch)
         quoteHub.Add(quotesList.Take(200));
@@ -38,7 +38,7 @@ public class WilliamsR : StreamHubTestBase, ITestQuoteObserver
     [TestMethod]
     public override void CustomToString()
     {
-        WilliamsRHub<Quote> hub = new(new QuoteHub<Quote>(), 14);
+        WilliamsRHub hub = new(new QuoteHub(), 14);
         hub.ToString().Should().Be("WILLR(14)");
     }
 
@@ -50,8 +50,8 @@ public class WilliamsR : StreamHubTestBase, ITestQuoteObserver
         List<Quote> quotesList = Quotes.ToList();
 
         // setup quote provider hub with incremental updates
-        QuoteHub<Quote> quoteHub = new();
-        WilliamsRHub<Quote> observer = quoteHub.ToWilliamsR(lookbackPeriods);
+        QuoteHub quoteHub = new();
+        WilliamsRHub observer = quoteHub.ToWilliamsRHub(lookbackPeriods);
 
         // add quotes one by one
         foreach (Quote quote in quotesList)
@@ -73,8 +73,8 @@ public class WilliamsR : StreamHubTestBase, ITestQuoteObserver
     {
         const int lookbackPeriods = 21;
 
-        QuoteHub<Quote> quoteHub = new();
-        WilliamsRHub<Quote> observer = quoteHub.ToWilliamsR(lookbackPeriods);
+        QuoteHub quoteHub = new();
+        WilliamsRHub observer = quoteHub.ToWilliamsRHub(lookbackPeriods);
 
         // verify properties
         observer.LookbackPeriods.Should().Be(lookbackPeriods);
@@ -84,8 +84,8 @@ public class WilliamsR : StreamHubTestBase, ITestQuoteObserver
     [TestMethod]
     public void DefaultParameters()
     {
-        QuoteHub<Quote> quoteHub = new();
-        WilliamsRHub<Quote> observer = quoteHub.ToWilliamsR();
+        QuoteHub quoteHub = new();
+        WilliamsRHub observer = quoteHub.ToWilliamsRHub();
 
         // verify default properties
         observer.LookbackPeriods.Should().Be(14);
@@ -101,8 +101,8 @@ public class WilliamsR : StreamHubTestBase, ITestQuoteObserver
         List<Quote> quotesList = Quotes.ToList();
 
         // streaming calculation
-        QuoteHub<Quote> quoteHub = new();
-        WilliamsRHub<Quote> streamObserver = quoteHub.ToWilliamsR(lookbackPeriods);
+        QuoteHub quoteHub = new();
+        WilliamsRHub streamObserver = quoteHub.ToWilliamsRHub(lookbackPeriods);
 
         foreach (Quote quote in quotesList)
         {
@@ -123,8 +123,8 @@ public class WilliamsR : StreamHubTestBase, ITestQuoteObserver
     public void BoundaryValues()
     {
         // Test Williams %R stays within [-100, 0] bounds
-        QuoteHub<Quote> quoteHub = new();
-        WilliamsRHub<Quote> observer = quoteHub.ToWilliamsR(14);
+        QuoteHub quoteHub = new();
+        WilliamsRHub observer = quoteHub.ToWilliamsRHub(14);
 
         quoteHub.Add(Quotes);
         quoteHub.EndTransmission();
@@ -141,10 +141,10 @@ public class WilliamsR : StreamHubTestBase, ITestQuoteObserver
     [TestMethod]
     public void ParameterValidation()
     {
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
         // Test parameter validation
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() => quoteHub.ToWilliamsR(0));
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() => quoteHub.ToWilliamsR(-1));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() => quoteHub.ToWilliamsRHub(0));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() => quoteHub.ToWilliamsRHub(-1));
     }
 }

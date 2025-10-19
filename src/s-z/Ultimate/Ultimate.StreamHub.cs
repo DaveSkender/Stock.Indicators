@@ -1,46 +1,21 @@
 namespace Skender.Stock.Indicators;
 
-public static partial class Ultimate
-{
-    /// <summary>
-    /// Converts the provided quote provider to an Ultimate Oscillator hub with the specified periods.
-    /// </summary>
-    /// <typeparam name="TIn">The type of the input quote.</typeparam>
-    /// <param name="quoteProvider">The quote provider to convert.</param>
-    /// <param name="shortPeriods">The number of short lookback periods. Default is 7.</param>
-    /// <param name="middlePeriods">The number of middle lookback periods. Default is 14.</param>
-    /// <param name="longPeriods">The number of long lookback periods. Default is 28.</param>
-    /// <returns>An instance of <see cref="UltimateHub{TIn}"/>.</returns>
-    public static UltimateHub<TIn> ToUltimateHub<TIn>(
-        this IQuoteProvider<TIn> quoteProvider,
-        int shortPeriods = 7,
-        int middlePeriods = 14,
-        int longPeriods = 28)
-        where TIn : IQuote
-        => new(quoteProvider, shortPeriods, middlePeriods, longPeriods);
-}
-
-/// <summary>
-/// Streaming hub for calculating the Ultimate Oscillator indicator.
-/// </summary>
-/// <typeparam name="TIn">The type of the input quote.</typeparam>
-public class UltimateHub<TIn>
-    : ChainProvider<TIn, UltimateResult>, IUltimate
-    where TIn : IQuote
-{
+public class UltimateHub
+    : ChainProvider<IReusable, UltimateResult>, IUltimate
+ {
     #region constructors
 
     private readonly string hubName;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="UltimateHub{TIn}"/> class.
+    /// Initializes a new instance of the <see cref="UltimateHub"/> class.
     /// </summary>
     /// <param name="provider">The quote provider.</param>
     /// <param name="shortPeriods">The number of short lookback periods.</param>
     /// <param name="middlePeriods">The number of middle lookback periods.</param>
     /// <param name="longPeriods">The number of long lookback periods.</param>
     internal UltimateHub(
-        IQuoteProvider<TIn> provider,
+        IQuoteProvider<IQuote> provider,
         int shortPeriods,
         int middlePeriods,
         int longPeriods)
@@ -78,8 +53,9 @@ public class UltimateHub<TIn>
 
     /// <inheritdoc/>
     protected override (UltimateResult result, int index)
-        ToIndicator(TIn item, int? indexHint)
+        ToIndicator(IReusable item, int? indexHint)
     {
+        ArgumentNullException.ThrowIfNull(item);
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
         // skip first period (need previous close)
@@ -106,8 +82,8 @@ public class UltimateHub<TIn>
         // Calculate sums for all three periods
         for (int p = i - LongPeriods + 1; p <= i; p++)
         {
-            TIn current = ProviderCache[p];
-            TIn previous = ProviderCache[p - 1];
+            IQuote current = (IQuote)ProviderCache[p];
+            IQuote previous = (IQuote)ProviderCache[p - 1];
 
             double high = (double)current.High;
             double low = (double)current.Low;
@@ -151,4 +127,43 @@ public class UltimateHub<TIn>
 
         return (r, i);
     }
+}
+
+
+public static partial class Ultimate
+{
+    /// <summary>
+    /// Converts the provided quote provider to an Ultimate Oscillator hub with the specified periods.
+    /// </summary>
+    /// <param name="quoteProvider">The quote provider to convert.</param>
+    /// <param name="shortPeriods">The number of short lookback periods. Default is 7.</param>
+    /// <param name="middlePeriods">The number of middle lookback periods. Default is 14.</param>
+    /// <param name="longPeriods">The number of long lookback periods. Default is 28.</param>
+    /// <returns>An instance of <see cref="UltimateHub"/>.</returns>
+    public static UltimateHub ToUltimateHub(
+        this IQuoteProvider<IQuote> quoteProvider,
+        int shortPeriods = 7,
+        int middlePeriods = 14,
+        int longPeriods = 28)
+             => new(quoteProvider, shortPeriods, middlePeriods, longPeriods);
+
+    /// <summary>
+    /// Creates a Ultimate hub from a collection of quotes.
+    /// </summary>
+    /// <param name="quotes">The collection of quotes.</param>
+    /// <param name="shortPeriods">Parameter for the calculation.</param>
+    /// <param name="middlePeriods">Parameter for the calculation.</param>
+    /// <param name="longPeriods">Parameter for the calculation.</param>
+    /// <returns>An instance of <see cref="UltimateHub"/>.</returns>
+    public static UltimateHub ToUltimateHub(
+        this IReadOnlyList<IQuote> quotes,
+        int shortPeriods = 7,
+        int middlePeriods = 14,
+        int longPeriods = 28)
+    {
+        QuoteHub quoteHub = new();
+        quoteHub.Add(quotes);
+        return quoteHub.ToUltimateHub(shortPeriods, middlePeriods, longPeriods);
+    }
+
 }

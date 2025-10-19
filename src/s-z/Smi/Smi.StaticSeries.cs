@@ -8,20 +8,19 @@ public static partial class Smi
     /// <summary>
     /// Converts a list of quotes to SMI results.
     /// </summary>
-    /// <typeparam name="TQuote">The type of the quote.</typeparam>
     /// <param name="quotes">The list of quotes.</param>
     /// <param name="lookbackPeriods">The number of periods for the lookback window.</param>
     /// <param name="firstSmoothPeriods">The number of periods for the first smoothing.</param>
     /// <param name="secondSmoothPeriods">The number of periods for the second smoothing.</param>
     /// <param name="signalPeriods">The number of periods for the signal line smoothing.</param>
     /// <returns>A list of SMI results.</returns>
-    public static IReadOnlyList<SmiResult> ToSmi<TQuote>(
-        this IReadOnlyList<TQuote> quotes,
+    public static IReadOnlyList<SmiResult> ToSmi(
+        this IReadOnlyList<IQuote> quotes,
         int lookbackPeriods = 13,
         int firstSmoothPeriods = 25,
         int secondSmoothPeriods = 2,
         int signalPeriods = 3)
-        where TQuote : IQuote => quotes
+        => quotes
             .ToQuoteDList()
             .CalcSmi(
                 lookbackPeriods,

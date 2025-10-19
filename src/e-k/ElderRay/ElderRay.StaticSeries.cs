@@ -14,10 +14,10 @@ public static partial class ElderRay
     /// <returns>A list of Elder Ray results.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the quotes list is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
-    public static IReadOnlyList<ElderRayResult> ToElderRay<TQuote>(
-        this IReadOnlyList<TQuote> quotes,
+    public static IReadOnlyList<ElderRayResult> ToElderRay(
+        this IReadOnlyList<IQuote> quotes,
         int lookbackPeriods = 13)
-        where TQuote : IQuote => quotes
+        => quotes
             .ToQuoteDList()
             .CalcElderRay(lookbackPeriods);
 

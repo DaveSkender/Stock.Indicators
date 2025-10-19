@@ -93,17 +93,15 @@ public static partial class Vwap
     /// <summary>
     /// Creates a buffer list for VWAP calculations.
     /// </summary>
-    public static VwapList ToVwapList<TQuote>(
-        this IReadOnlyList<TQuote> quotes,
+    public static VwapList ToVwapList(
+        this IReadOnlyList<IQuote> quotes,
         DateTime startDate)
-        where TQuote : IQuote
         => new(startDate) { (IReadOnlyList<IQuote>)quotes };
 
     /// <summary>
     /// Creates a buffer list for VWAP calculations starting from the first quote.
     /// </summary>
-    public static VwapList ToVwapList<TQuote>(
-        this IReadOnlyList<TQuote> quotes)
-        where TQuote : IQuote
+    public static VwapList ToVwapList(
+        this IReadOnlyList<IQuote> quotes)
         => new(null) { (IReadOnlyList<IQuote>)quotes };
 }

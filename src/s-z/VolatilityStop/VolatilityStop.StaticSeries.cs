@@ -8,17 +8,16 @@ public static partial class VolatilityStop
     /// <summary>
     /// Calculates the Volatility Stop for a series of quotes.
     /// </summary>
-    /// <typeparam name="TQuote">The type of the elements in the source list, which must implement IQuote.</typeparam>
     /// <param name="quotes">The source list of quotes.</param>
     /// <param name="lookbackPeriods">The number of lookback periods. Default is 7.</param>
     /// <param name="multiplier">The multiplier for the Average True Range. Default is 3.</param>
     /// <returns>A list of VolatilityStopResult containing the Volatility Stop values.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the source is null.</exception>
-    public static IReadOnlyList<VolatilityStopResult> ToVolatilityStop<TQuote>(
-        this IReadOnlyList<TQuote> quotes,
+    public static IReadOnlyList<VolatilityStopResult> ToVolatilityStop(
+        this IReadOnlyList<IQuote> quotes,
         int lookbackPeriods = 7,
         double multiplier = 3)
-        where TQuote : IQuote => quotes
+        => quotes
             .ToQuoteDList()
             .CalcVolatilityStop(lookbackPeriods, multiplier);
 

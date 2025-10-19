@@ -5,45 +5,23 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Provides methods for creating OBV hubs.
 /// </summary>
-public static partial class Obv
-{
+public class ObvHub : ChainProvider<IQuote, ObvResult>
+ {
     /// <summary>
-    /// Converts the quote provider to an OBV hub.
-    /// </summary>
-    /// <typeparam name="TIn">The type of the input.</typeparam>
-    /// <param name="quoteProvider">The quote provider.</param>
-    /// <returns>An OBV hub.</returns>
-    /// <exception cref="ArgumentNullException">Thrown when the quote provider is null.</exception>
-    public static ObvHub<TIn> ToObvHub<TIn>(
-        this IQuoteProvider<TIn> quoteProvider)
-        where TIn : IQuote
-    {
-        ArgumentNullException.ThrowIfNull(quoteProvider);
-        return new(quoteProvider);
-    }
-}
-
-/// <summary>
-/// Represents an On-Balance Volume (OBV) stream hub.
-/// </summary>
-/// <typeparam name="TIn">The type of the input.</typeparam>
-public class ObvHub<TIn> : ChainProvider<TIn, ObvResult>
-    where TIn : IQuote
-{
-    /// <summary>
-    /// Initializes a new instance of the <see cref="ObvHub{TIn}"/> class.
+    /// Initializes a new instance of the <see cref="ObvHub"/> class.
     /// </summary>
     /// <param name="provider">The quote provider.</param>
     internal ObvHub(
-        IQuoteProvider<TIn> provider) : base(provider)
+        IQuoteProvider<IQuote> provider) : base(provider)
     {
         Reinitialize();
     }
 
     /// <inheritdoc/>
     protected override (ObvResult result, int index)
-        ToIndicator(TIn item, int? indexHint)
+        ToIndicator(IQuote item, int? indexHint)
     {
+        ArgumentNullException.ThrowIfNull(item);
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
         // Get previous close and OBV values for calculation
@@ -63,4 +41,35 @@ public class ObvHub<TIn> : ChainProvider<TIn, ObvResult>
 
     /// <inheritdoc/>
     public override string ToString() => "OBV";
+}
+
+
+public static partial class Obv
+{
+    /// <summary>
+    /// Converts the quote provider to an OBV hub.
+    /// </summary>
+        /// <param name="quoteProvider">The quote provider.</param>
+    /// <returns>An OBV hub.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when the quote provider is null.</exception>
+    public static ObvHub ToObvHub(
+        this IQuoteProvider<IQuote> quoteProvider)
+         {
+        ArgumentNullException.ThrowIfNull(quoteProvider);
+        return new(quoteProvider);
+    }
+
+    /// <summary>
+    /// Creates a Obv hub from a collection of quotes.
+    /// </summary>
+    /// <param name="quotes">The collection of quotes.</param>
+    /// <returns>An instance of <see cref="ObvHub"/>.</returns>
+    public static ObvHub ToObvHub(
+        this IReadOnlyList<IQuote> quotes)
+    {
+        QuoteHub quoteHub = new();
+        quoteHub.Add(quotes);
+        return quoteHub.ToObvHub();
+    }
+
 }

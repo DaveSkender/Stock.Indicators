@@ -1,7 +1,7 @@
 namespace StreamHub;
 
 [TestClass]
-public class AtrHub : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
+public class AtrHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
 {
     [TestMethod]
     public void QuoteObserver()
@@ -11,7 +11,7 @@ public class AtrHub : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
         int length = quotesList.Count;
 
         // setup quote provider hub
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
         // prefill quotes at provider
         for (int i = 0; i < 20; i++)
@@ -20,7 +20,7 @@ public class AtrHub : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
         }
 
         // initialize observer
-        StreamHub<Quote, AtrResult> observer = quoteHub
+        StreamHub observer = quoteHub
             .ToAtrHub(14);
 
         // fetch initial results (early)
@@ -75,14 +75,14 @@ public class AtrHub : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
         int length = quotesList.Count;
 
         // setup quote provider hub
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
         // initialize observer
         IChainProvider<AtrResult> adlHub = quoteHub
             .ToAtrHub(14);
 
-        SmaHub<AtrResult> observer = adlHub
-            .ToSma(smaPeriods);
+        SmaHub observer = adlHub
+            .ToSmaHub(smaPeriods);
 
         // emulate quote stream
         for (int i = 0; i < length; i++)
@@ -114,7 +114,7 @@ public class AtrHub : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
     [TestMethod]
     public override void CustomToString()
     {
-        AtrHub<Quote> hub = new(new QuoteHub<Quote>(), 20);
+        AtrHub hub = new(new QuoteHub(), 20);
         hub.ToString().Should().Be("ATR(20)");
     }
 }

@@ -3,33 +3,9 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Provides methods for calculating the T3 Moving Average indicator.
 /// </summary>
-public static partial class T3
-{
-    /// <summary>
-    /// Creates a T3 streaming hub from a chain provider.
-    /// </summary>
-    /// <typeparam name="T">The type of the reusable data.</typeparam>
-    /// <param name="chainProvider">The chain provider.</param>
-    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
-    /// <param name="volumeFactor">The volume factor for the calculation.</param>
-    /// <returns>A T3 hub.</returns>
-    /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods or volume factor are invalid.</exception>
-    public static T3Hub<T> ToT3Hub<T>(
-        this IChainProvider<T> chainProvider,
-        int lookbackPeriods = 5,
-        double volumeFactor = 0.7)
-        where T : IReusable
-        => new(chainProvider, lookbackPeriods, volumeFactor);
-}
-
-/// <summary>
-/// Streaming hub for T3 Moving Average calculations.
-/// </summary>
-/// <typeparam name="TIn">The type of the input data.</typeparam>
-public class T3Hub<TIn>
-    : ChainProvider<TIn, T3Result>, IT3
-    where TIn : IReusable
-{
+public class T3Hub
+    : ChainProvider<IReusable, T3Result>, IT3
+ {
     private readonly string hubName;
     private double lastEma1 = double.NaN;
     private double lastEma2 = double.NaN;
@@ -39,7 +15,7 @@ public class T3Hub<TIn>
     private double lastEma6 = double.NaN;
 
     internal T3Hub(
-        IChainProvider<TIn> provider,
+        IChainProvider<IReusable> provider,
         int lookbackPeriods,
         double volumeFactor) : base(provider)
     {
@@ -85,8 +61,9 @@ public class T3Hub<TIn>
 
     /// <inheritdoc/>
     protected override (T3Result result, int index)
-        ToIndicator(TIn item, int? indexHint)
+        ToIndicator(IReusable item, int? indexHint)
     {
+        ArgumentNullException.ThrowIfNull(item);
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
         // if out-of-order change (insertion/deletion before current index) occurred
@@ -156,4 +133,40 @@ public class T3Hub<TIn>
 
         return (C1 * lastEma6) + (C2 * lastEma5) + (C3 * lastEma4) + (C4 * lastEma3);
     }
+}
+
+
+public static partial class T3
+{
+    /// <summary>
+    /// Creates a T3 streaming hub from a chain provider.
+    /// </summary>
+    /// <param name="chainProvider">The chain provider.</param>
+    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
+    /// <param name="volumeFactor">The volume factor for the calculation.</param>
+    /// <returns>A T3 hub.</returns>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods or volume factor are invalid.</exception>
+    public static T3Hub ToT3Hub(
+        this IChainProvider<IReusable> chainProvider,
+        int lookbackPeriods = 5,
+        double volumeFactor = 0.7)
+        => new(chainProvider, lookbackPeriods, volumeFactor);
+
+    /// <summary>
+    /// Creates a T3 hub from a collection of quotes.
+    /// </summary>
+    /// <param name="quotes">The collection of quotes.</param>
+    /// <param name="lookbackPeriods">Parameter for the calculation.</param>
+    /// <param name="volumeFactor">Parameter for the calculation.</param>
+    /// <returns>An instance of <see cref="T3Hub"/>.</returns>
+    public static T3Hub ToT3Hub(
+        this IReadOnlyList<IQuote> quotes,
+        int lookbackPeriods = 5,
+        double volumeFactor = 0.7)
+    {
+        QuoteHub quoteHub = new();
+        quoteHub.Add(quotes);
+        return quoteHub.ToT3Hub(lookbackPeriods, volumeFactor);
+    }
+
 }

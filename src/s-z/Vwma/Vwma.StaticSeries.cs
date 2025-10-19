@@ -8,15 +8,14 @@ public static partial class Vwma
     /// <summary>
     /// Calculates the VWMA for a series of quotes.
     /// </summary>
-    /// <typeparam name="TQuote">The type of the elements in the source list, which must implement IQuote.</typeparam>
     /// <param name="quotes">The source list of quotes.</param>
     /// <param name="lookbackPeriods">The number of lookback periods.</param>
     /// <returns>A list of VwmaResult containing the VWMA values.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the source is null.</exception>
-    public static IReadOnlyList<VwmaResult> ToVwma<TQuote>(
-        this IReadOnlyList<TQuote> quotes,
+    public static IReadOnlyList<VwmaResult> ToVwma(
+        this IReadOnlyList<IQuote> quotes,
         int lookbackPeriods)
-        where TQuote : IQuote => quotes
+        => quotes
             .ToQuoteDList()
             .CalcVwma(lookbackPeriods);
 

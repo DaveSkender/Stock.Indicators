@@ -70,7 +70,7 @@ public class UserInterface
         QuoteHub<Quote> quoteHub = new();
 
         // initialize observers
-        AdlHub<Quote> adlHub = quoteHub.ToAdlHub();
+        AdlHub adlHub = quoteHub.ToAdlHub();
         AlligatorHub<Quote> alligatorHub = quoteHub.ToAlligatorHub();
         AtrHub<Quote> atrHub = quoteHub.ToAtrHub();
         AtrStopHub<Quote> atrStopHub = quoteHub.ToAtrStopHub();

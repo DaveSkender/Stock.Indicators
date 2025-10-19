@@ -17,8 +17,8 @@ public abstract class PairsProvider<TIn, TOut>(
     IStreamObservable<TIn> providerA,
     IStreamObservable<TIn> providerB
 ) : StreamHub<TIn, TOut>(providerA), IPairsProvider<TOut>
-    where TIn : IReusable
-    where TOut : IReusable
+     where TIn : IReusable
+     where TOut : IReusable
 {
     /// <summary>
     /// Gets the reference to the second provider's cache.

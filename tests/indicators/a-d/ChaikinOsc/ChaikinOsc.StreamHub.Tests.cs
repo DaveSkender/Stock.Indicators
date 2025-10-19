@@ -1,7 +1,7 @@
 namespace StreamHub;
 
 [TestClass]
-public class ChaikinOscHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
+public class ChaikinOscHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProvider
 {
     [TestMethod]
     public void QuoteObserver()
@@ -11,7 +11,7 @@ public class ChaikinOscHub : StreamHubTestBase, ITestChainObserver, ITestChainPr
         int length = quotesList.Count;
 
         // setup quote provider
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
         // prefill quotes to provider
         for (int i = 0; i < 40; i++)
@@ -20,7 +20,7 @@ public class ChaikinOscHub : StreamHubTestBase, ITestChainObserver, ITestChainPr
         }
 
         // initialize observer
-        ChaikinOscHub<Quote> chaikinOscHub = quoteHub
+        ChaikinOscHub chaikinOscHub = quoteHub
             .ToChaikinOscHub(3, 10);
 
         // fetch initial results (early)
@@ -76,10 +76,10 @@ public class ChaikinOscHub : StreamHubTestBase, ITestChainObserver, ITestChainPr
         int length = quotesList.Count;
 
         // setup quote provider
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
         // initialize observer
-        ChaikinOscHub<Quote> chaikinOscHub = quoteHub
+        ChaikinOscHub chaikinOscHub = quoteHub
             .ToChaikinOscHub(fastPeriods, slowPeriods);
 
         // emulate quote stream
@@ -117,10 +117,10 @@ public class ChaikinOscHub : StreamHubTestBase, ITestChainObserver, ITestChainPr
         int length = quotesList.Count;
 
         // setup quote provider
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
         // initialize observer
-        EmaHub<ChaikinOscResult> emaHub = quoteHub
+        EmaHub emaHub = quoteHub
             .ToChaikinOscHub(fastPeriods, slowPeriods)
             .ToEmaHub(emaPeriods);
 
@@ -151,8 +151,8 @@ public class ChaikinOscHub : StreamHubTestBase, ITestChainObserver, ITestChainPr
     [TestMethod]
     public override void CustomToString()
     {
-        QuoteHub<Quote> quoteHub = new();
-        ChaikinOscHub<Quote> chaikinOscHub = quoteHub.ToChaikinOscHub(3, 10);
+        QuoteHub quoteHub = new();
+        ChaikinOscHub chaikinOscHub = quoteHub.ToChaikinOscHub(3, 10);
 
         chaikinOscHub.ToString().Should().Be("CHAIKIN_OSC(3,10)");
 

@@ -11,10 +11,9 @@ public static partial class Quotes
     /// <param name="quotes">The quotes to aggregate.</param>
     /// <param name="newSize">The new period size to aggregate to.</param>
     /// <returns>A list of aggregated quotes.</returns>
-    public static IReadOnlyList<Quote> Aggregate<TQuote>(
-        this IReadOnlyList<TQuote> quotes,
+    public static IReadOnlyList<Quote> Aggregate(
+        this IReadOnlyList<IQuote> quotes,
         PeriodSize newSize)
-        where TQuote : IQuote
     {
         if (newSize == PeriodSize.Month)
         {
@@ -48,10 +47,9 @@ public static partial class Quotes
     /// <param name="timeSpan">The time span to aggregate to.</param>
     /// <returns>A list of aggregated quotes.</returns>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the time span is less than or equal to zero.</exception>
-    public static IReadOnlyList<Quote> Aggregate<TQuote>(
-        this IReadOnlyList<TQuote> quotes,
+    public static IReadOnlyList<Quote> Aggregate(
+        this IReadOnlyList<IQuote> quotes,
         TimeSpan timeSpan)
-        where TQuote : IQuote
     {
         if (timeSpan <= TimeSpan.Zero)
         {

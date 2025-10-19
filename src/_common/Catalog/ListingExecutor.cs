@@ -18,10 +18,9 @@ internal static class ListingExecutor
     /// <returns>The indicator results.</returns>
     /// <exception cref="InvalidOperationException">Thrown when the indicator cannot be executed.</exception>
     internal static IReadOnlyList<TResult> Execute<TQuote, TResult>(
-        IEnumerable<TQuote> quotes,
+        IEnumerable<IQuote> quotes,
         IndicatorListing listing,
         Dictionary<string, object>? parameters = null)  // TODO: is this redundant to listing.Parameters?
-        where TQuote : IQuote
         where TResult : class
     {
         // Validate inputs
@@ -132,10 +131,9 @@ internal static class ListingExecutor
     /// <param name="parameterValues">Parameter values in the order they appear in the listing.</param>
     /// <returns>The indicator results.</returns>
     internal static IReadOnlyList<TResult> Execute<TQuote, TResult>(
-        IEnumerable<TQuote> quotes,
+        IEnumerable<IQuote> quotes,
         IndicatorListing listing,
         params object[] parameterValues)
-        where TQuote : IQuote
         where TResult : class
     {
         // Validate inputs

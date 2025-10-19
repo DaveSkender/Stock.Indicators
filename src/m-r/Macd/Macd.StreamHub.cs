@@ -3,40 +3,13 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Provides methods for calculating the MACD (Moving Average Convergence Divergence) indicator.
 /// </summary>
-public static partial class Macd
-{
-    /// <summary>
-    /// Creates a MACD streaming hub from a chain provider.
-    /// </summary>
-    /// <typeparam name="T">The type of the reusable data.</typeparam>
-    /// <param name="chainProvider">The chain provider.</param>
-    /// <param name="fastPeriods">The number of periods for the fast EMA. Default is 12.</param>
-    /// <param name="slowPeriods">The number of periods for the slow EMA. Default is 26.</param>
-    /// <param name="signalPeriods">The number of periods for the signal line. Default is 9.</param>
-    /// <returns>A MACD hub.</returns>
-    /// <exception cref="ArgumentNullException">Thrown when the chain provider is null.</exception>
-    /// <exception cref="ArgumentOutOfRangeException">Thrown when any of the parameters are invalid.</exception>
-    public static MacdHub<T> ToMacdHub<T>(
-        this IChainProvider<T> chainProvider,
-        int fastPeriods = 12,
-        int slowPeriods = 26,
-        int signalPeriods = 9)
-        where T : IReusable
-        => new(chainProvider, fastPeriods, slowPeriods, signalPeriods);
-}
-
-/// <summary>
-/// Streaming hub for MACD (Moving Average Convergence Divergence) calculations.
-/// </summary>
-/// <typeparam name="TIn">The type of the input data.</typeparam>
-public class MacdHub<TIn>
-    : ChainProvider<TIn, MacdResult>, IMacd
-    where TIn : IReusable
-{
+public class MacdHub
+    : ChainProvider<IReusable, MacdResult>, IMacd
+ {
     private readonly string hubName;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="MacdHub{TIn}"/> class.
+    /// Initializes a new instance of the <see cref="MacdHub"/> class.
     /// </summary>
     /// <param name="provider">The chain provider.</param>
     /// <param name="fastPeriods">The number of periods for the fast EMA.</param>
@@ -45,7 +18,7 @@ public class MacdHub<TIn>
     /// <exception cref="ArgumentNullException">Thrown when the provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when any of the parameters are invalid.</exception>
     internal MacdHub(
-        IChainProvider<TIn> provider,
+        IChainProvider<IReusable> provider,
         int fastPeriods,
         int slowPeriods,
         int signalPeriods) : base(provider)
@@ -93,8 +66,9 @@ public class MacdHub<TIn>
 
     /// <inheritdoc/>
     protected override (MacdResult result, int index)
-        ToIndicator(TIn item, int? indexHint)
+        ToIndicator(IReusable item, int? indexHint)
     {
+        ArgumentNullException.ThrowIfNull(item);
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
         // Calculate Fast EMA
@@ -150,4 +124,45 @@ public class MacdHub<TIn>
 
         return (r, i);
     }
+}
+
+
+public static partial class Macd
+{
+    /// <summary>
+    /// Creates a MACD streaming hub from a chain provider.
+    /// </summary>
+    /// <param name="chainProvider">The chain provider.</param>
+    /// <param name="fastPeriods">The number of periods for the fast EMA. Default is 12.</param>
+    /// <param name="slowPeriods">The number of periods for the slow EMA. Default is 26.</param>
+    /// <param name="signalPeriods">The number of periods for the signal line. Default is 9.</param>
+    /// <returns>A MACD hub.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when the chain provider is null.</exception>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when any of the parameters are invalid.</exception>
+    public static MacdHub ToMacdHub(
+        this IChainProvider<IReusable> chainProvider,
+        int fastPeriods = 12,
+        int slowPeriods = 26,
+        int signalPeriods = 9)
+        => new(chainProvider, fastPeriods, slowPeriods, signalPeriods);
+
+    /// <summary>
+    /// Creates a Macd hub from a collection of quotes.
+    /// </summary>
+    /// <param name="quotes">The collection of quotes.</param>
+    /// <param name="fastPeriods">Parameter for the calculation.</param>
+    /// <param name="slowPeriods">Parameter for the calculation.</param>
+    /// <param name="signalPeriods">Parameter for the calculation.</param>
+    /// <returns>An instance of <see cref="MacdHub"/>.</returns>
+    public static MacdHub ToMacdHub(
+        this IReadOnlyList<IQuote> quotes,
+        int fastPeriods = 12,
+        int slowPeriods = 26,
+        int signalPeriods = 9)
+    {
+        QuoteHub quoteHub = new();
+        quoteHub.Add(quotes);
+        return quoteHub.ToMacdHub(fastPeriods, slowPeriods, signalPeriods);
+    }
+
 }

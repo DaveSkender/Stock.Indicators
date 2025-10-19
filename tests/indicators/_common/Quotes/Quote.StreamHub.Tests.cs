@@ -3,7 +3,7 @@ namespace StreamHub;
 // QUOTEHUB
 
 [TestClass]
-public class QuoteHub : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
+public class QuoteHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
 {
     [TestMethod]
     public void QuoteObserver()
@@ -15,7 +15,7 @@ public class QuoteHub : StreamHubTestBase, ITestQuoteObserver, ITestChainProvide
         int length = Quotes.Count;
 
         // add base quotes (batch)
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
         quoteHub.Add(quotesList.Take(200));
 
@@ -26,7 +26,7 @@ public class QuoteHub : StreamHubTestBase, ITestQuoteObserver, ITestChainProvide
             quoteHub.Add(q);
         }
 
-        QuoteHub<Quote> observer
+        QuoteHub observer
             = quoteHub.ToQuoteHub();
 
         // close observations
@@ -47,12 +47,12 @@ public class QuoteHub : StreamHubTestBase, ITestQuoteObserver, ITestChainProvide
         int length = quotesList.Count;
 
         // setup quote provider hub
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
         // initialize observer
-        SmaHub<Quote> observer
+        SmaHub observer
            = quoteHub
-            .ToSma(smaPeriods);
+            .ToSmaHub(smaPeriods);
 
         // emulate quote stream
         for (int i = 0; i < length; i++)
@@ -71,7 +71,7 @@ public class QuoteHub : StreamHubTestBase, ITestQuoteObserver, ITestChainProvide
         // time-series, for comparison
         IReadOnlyList<SmaResult> seriesList
            = quotesList
-            .ToSma(smaPeriods);
+            .ToSmaHub(smaPeriods);
 
         // assert, should equal series
         streamList.Should().HaveCount(length - 1);
@@ -85,7 +85,7 @@ public class QuoteHub : StreamHubTestBase, ITestQuoteObserver, ITestChainProvide
     [TestMethod]
     public override void CustomToString()
     {
-        QuoteHub<Quote> hub = new();
+        QuoteHub hub = new();
 
         hub.ToString().Should().Be("QUOTES<Quote>: 0 items");
 
@@ -105,7 +105,7 @@ public class QuoteHub : StreamHubTestBase, ITestQuoteObserver, ITestChainProvide
         int length = Quotes.Count;
 
         // add base quotes (batch)
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
         quoteHub.Add(quotesList.Take(200));
 

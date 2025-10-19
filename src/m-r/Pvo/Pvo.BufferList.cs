@@ -214,11 +214,10 @@ public static partial class Pvo
     /// <summary>
     /// Creates a buffer list for Percentage Volume Oscillator (PVO) calculations.
     /// </summary>
-    public static PvoList ToPvoList<TQuote>(
-        this IReadOnlyList<TQuote> quotes,
+    public static PvoList ToPvoList(
+        this IReadOnlyList<IQuote> quotes,
         int fastPeriods = 12,
         int slowPeriods = 26,
         int signalPeriods = 9)
-        where TQuote : IQuote
         => new(fastPeriods, slowPeriods, signalPeriods) { (IReadOnlyList<IQuote>)quotes };
 }
