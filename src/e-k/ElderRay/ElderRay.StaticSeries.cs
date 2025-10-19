@@ -8,7 +8,6 @@ public static partial class ElderRay
     /// <summary>
     /// Converts a list of quotes to Elder Ray results.
     /// </summary>
-    /// <typeparam name="TQuote">The type of the quote data.</typeparam>
     /// <param name="quotes">The list of quotes.</param>
     /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
     /// <returns>A list of Elder Ray results.</returns>

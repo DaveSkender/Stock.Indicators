@@ -5,7 +5,7 @@ namespace Skender.Stock.Indicators;
 /// </summary>
 public class AlmaHub
     : ChainProvider<IReusable, AlmaResult>, IAlma
- {
+{
     private readonly string hubName;
 
     /// <summary>
@@ -48,6 +48,8 @@ public class AlmaHub
     protected override (AlmaResult result, int index)
         ToIndicator(IReusable item, int? indexHint)
     {
+        ArgumentNullException.ThrowIfNull(item);
+
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
         double alma = i >= LookbackPeriods - 1

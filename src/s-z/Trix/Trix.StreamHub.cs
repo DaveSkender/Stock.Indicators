@@ -6,7 +6,7 @@ namespace Skender.Stock.Indicators;
 /// </summary>
 public class TrixHub
     : ChainProvider<IReusable, TrixResult>, ITrix
- {
+{
     private readonly string hubName;
     private double lastEma1 = double.NaN;
     private double lastEma2 = double.NaN;

@@ -8,7 +8,6 @@ public static partial class Chandelier
     /// <summary>
     /// Calculates the Chandelier Exit for a series of quotes.
     /// </summary>
-    /// <typeparam name="TQuote">The type of the elements in the quotes list, which must implement <see cref="IQuote"/>.</typeparam>
     /// <param name="quotes">The source list of quotes.</param>
     /// <param name="lookbackPeriods">The number of periods to use for the lookback window. Default is 22.</param>
     /// <param name="multiplier">The multiplier to apply to the ATR. Default is 3.</param>

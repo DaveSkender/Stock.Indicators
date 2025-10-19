@@ -5,7 +5,7 @@ namespace Skender.Stock.Indicators;
 /// </summary>
 public class RsiHub
     : ChainProvider<IReusable, RsiResult>, IRsi
- {
+{
     private readonly string hubName;
 
     /// <summary>

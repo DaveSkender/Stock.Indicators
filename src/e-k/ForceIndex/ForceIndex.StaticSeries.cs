@@ -8,7 +8,6 @@ public static partial class ForceIndex
     /// <summary>
     /// Converts a list of quotes to Force Index results.
     /// </summary>
-    /// <typeparam name="TQuote">The type of the quote data.</typeparam>
     /// <param name="quotes">The list of quotes.</param>
     /// <param name="lookbackPeriods">The number of periods to look back for the calculation. Default is 2.</param>
     /// <returns>A list of Force Index results.</returns>

@@ -20,7 +20,7 @@ public class UltimateHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChai
         }
 
         // initialize observer
-        StreamHub observer = quoteHub
+        UltimateHub observer = quoteHub
             .ToUltimateHub(7, 14, 28);
 
         // fetch initial results (early)

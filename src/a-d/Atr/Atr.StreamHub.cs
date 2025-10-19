@@ -5,7 +5,7 @@ namespace Skender.Stock.Indicators;
 /// </summary>
 public class AtrHub
     : ChainProvider<IQuote, AtrResult>, IAtr
- {
+{
     private readonly string hubName;
 
     /// <summary>

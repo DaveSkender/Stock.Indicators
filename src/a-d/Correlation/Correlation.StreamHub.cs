@@ -7,7 +7,7 @@ namespace Skender.Stock.Indicators;
 /// </summary>
 public class CorrelationHub
     : PairsProvider<IReusable, CorrResult>, ICorrelation
- {
+{
     private readonly string hubName;
 
     /// <summary>

@@ -7,7 +7,7 @@ namespace Skender.Stock.Indicators;
 /// </summary>
 public class DojiHub
     : StreamHub<IQuote, CandleResult>, IDoji
- {
+{
     private readonly string hubName;
     private readonly double _maxPriceChangePercentDecimal;
 

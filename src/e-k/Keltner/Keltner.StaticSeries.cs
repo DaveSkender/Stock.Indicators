@@ -8,7 +8,6 @@ public static partial class Keltner
     /// <summary>
     /// Converts a list of quotes to Keltner Channel results.
     /// </summary>
-    /// <typeparam name="TQuote">The type of the quotes, which must implement <see cref="IQuote"/>.</typeparam>
     /// <param name="quotes">The list of quotes to transform.</param>
     /// <param name="emaPeriods">The number of periods for the EMA. Default is 20.</param>
     /// <param name="multiplier">The multiplier for the ATR. Default is 2.</param>

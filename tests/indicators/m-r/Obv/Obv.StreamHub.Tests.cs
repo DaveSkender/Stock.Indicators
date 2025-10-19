@@ -19,7 +19,7 @@ public class ObvHubTests : StreamHubTestBase, ITestQuoteObserver
         }
 
         // initialize observer
-        StreamHub observer = quoteHub.ToObvHub();
+        ObvHub observer = quoteHub.ToObvHub();
 
         // fetch initial results (early)
         IReadOnlyList<ObvResult> streamList = observer.Results;

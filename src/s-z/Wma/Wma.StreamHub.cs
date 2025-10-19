@@ -7,7 +7,7 @@ namespace Skender.Stock.Indicators;
 /// </summary>
 public class WmaHub
     : ChainProvider<IReusable, WmaResult>, IWma
- {
+{
     private readonly string hubName;
 
     /// <summary>
@@ -67,7 +67,7 @@ public static partial class Wma
     public static WmaHub ToWmaHub(
         this IChainProvider<IReusable> chainProvider,
         int lookbackPeriods)
-         {
+    {
         ArgumentNullException.ThrowIfNull(chainProvider);
         return new(chainProvider, lookbackPeriods);
     }

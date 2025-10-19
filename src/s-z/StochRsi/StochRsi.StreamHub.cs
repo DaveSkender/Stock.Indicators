@@ -8,7 +8,7 @@ namespace Skender.Stock.Indicators;
 /// </summary>
 public sealed class StochRsiHub
     : ChainProvider<IReusable, StochRsiResult>
- {
+{
     private readonly string hubName;
 
     /// <summary>
@@ -109,8 +109,8 @@ public static partial class StochRsi
     /// <param name="chainProvider">The chain provider.</param>
     /// <param name="rsiPeriods">The number of periods for the RSI calculation.</param>
     /// <param name="stochPeriods">The number of periods for the Stochastic calculation.</param>
-    /// <param name="kPeriods">The number of periods for %K smoothing.</param>
-    /// <param name="dPeriods">The number of periods for %D smoothing.</param>
+    /// <param name="signalPeriods">The number of periods for the signal line.</param>
+    /// <param name="smoothPeriods">The number of periods for smoothing.</param>
     /// <returns>A Stochastic RSI hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the chain provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when parameters are invalid.</exception>
@@ -118,25 +118,25 @@ public static partial class StochRsi
         this IChainProvider<IReusable> chainProvider,
         int rsiPeriods = 14,
         int stochPeriods = 14,
-        int kPeriods = 3,
-        int dPeriods = 3)
-        => new(chainProvider, rsiPeriods, stochPeriods, kPeriods, dPeriods);
+        int signalPeriods = 3,
+        int smoothPeriods = 1)
+        => new(chainProvider, rsiPeriods, stochPeriods, signalPeriods, smoothPeriods);
 
 
     /// <summary>
     /// Creates a StochRsi hub from a collection of quotes.
     /// </summary>
     /// <param name="quotes">The collection of quotes.</param>
-    /// <param name="rsiPeriods"></param>
-    /// <param name="stochPeriods"></param>
-    /// <param name="signalPeriods"></param>
-    /// <param name="smoothPeriods"></param>
+    /// <param name="rsiPeriods">The number of periods for the RSI calculation.</param>
+    /// <param name="stochPeriods">The number of periods for the Stochastic calculation.</param>
+    /// <param name="signalPeriods">The number of periods for the signal line.</param>
+    /// <param name="smoothPeriods">The number of periods for smoothing.</param>
     /// <returns>An instance of <see cref="StochRsiHub"/>.</returns>
     public static StochRsiHub ToStochRsiHub(
         this IReadOnlyList<IQuote> quotes, int rsiPeriods = 14, int stochPeriods = 14, int signalPeriods = 3, int smoothPeriods = 1)
     {
         QuoteHub quoteHub = new();
         quoteHub.Add(quotes);
-        return quoteHub.ToStochRsiHub(14, 14, 3, 1);
+        return quoteHub.ToStochRsiHub(rsiPeriods, stochPeriods, signalPeriods, smoothPeriods);
     }
 }

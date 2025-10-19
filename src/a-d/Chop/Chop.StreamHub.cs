@@ -5,7 +5,7 @@ namespace Skender.Stock.Indicators;
 /// </summary>
 public class ChopHub
     : ChainProvider<IQuote, ChopResult>, IChop
- {
+{
     private readonly string hubName;
 
     /// <summary>

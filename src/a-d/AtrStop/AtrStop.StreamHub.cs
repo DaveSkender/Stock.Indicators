@@ -7,7 +7,7 @@ namespace Skender.Stock.Indicators;
 /// </summary>
 public class AtrStopHub
     : StreamHub<IQuote, AtrStopResult>, IAtrStop
- {
+{
     #region constructors
 
     private readonly string hubName;
@@ -65,6 +65,8 @@ public class AtrStopHub
     protected override (AtrStopResult result, int index)
         ToIndicator(IQuote item, int? indexHint)
     {
+        ArgumentNullException.ThrowIfNull(item);
+
         // reminder: should only process "new" instructions
 
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
@@ -211,7 +213,6 @@ public static partial class AtrStop
     /// <summary>
     /// Initializes a new instance of the <see cref="AtrStopHub"/> class.
     /// </summary>
-    /// <typeparam name="TIn">The type of the input quote.</typeparam>
     /// <param name="quoteProvider">The quote provider.</param>
     /// <param name="lookbackPeriods">The number of periods to look back. Default is 21.</param>
     /// <param name="multiplier">The multiplier for the ATR. Default is 3.</param>

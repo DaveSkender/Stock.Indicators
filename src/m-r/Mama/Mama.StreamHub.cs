@@ -5,7 +5,7 @@ namespace Skender.Stock.Indicators;
 /// </summary>
 public class MamaHub
     : ChainProvider<IReusable, MamaResult>, IMama
- {
+{
     private readonly string hubName;
 
     // State arrays for MESA algorithm

@@ -7,7 +7,7 @@ namespace Skender.Stock.Indicators;
 /// </summary>
 public class AwesomeHub
     : ChainProvider<IReusable, AwesomeResult>, IAwesome
- {
+{
     private readonly string hubName;
 
     /// <summary>

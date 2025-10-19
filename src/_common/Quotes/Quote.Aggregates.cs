@@ -7,7 +7,6 @@ public static partial class Quotes
     /// <summary>
     /// Aggregates the quotes to a specified period size.
     /// </summary>
-    /// <typeparam name="TQuote">Type of the quotes, must implement IQuote.</typeparam>
     /// <param name="quotes">The quotes to aggregate.</param>
     /// <param name="newSize">The new period size to aggregate to.</param>
     /// <returns>A list of aggregated quotes.</returns>
@@ -42,7 +41,6 @@ public static partial class Quotes
     /// <summary>
     /// Aggregates the quotes to a specified time span.
     /// </summary>
-    /// <typeparam name="TQuote">Type of the quotes, must implement IQuote.</typeparam>
     /// <param name="quotes">The quotes to aggregate.</param>
     /// <param name="timeSpan">The time span to aggregate to.</param>
     /// <returns>A list of aggregated quotes.</returns>

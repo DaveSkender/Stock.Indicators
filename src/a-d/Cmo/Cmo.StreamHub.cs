@@ -6,7 +6,7 @@ namespace Skender.Stock.Indicators;
 /// </summary>
 public class CmoHub
     : ChainProvider<IReusable, CmoResult>, ICmo
- {
+{
     private readonly string hubName;
 
     /// <summary>

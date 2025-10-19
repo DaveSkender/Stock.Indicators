@@ -7,7 +7,7 @@ namespace Skender.Stock.Indicators;
 /// </summary>
 public class ChaikinOscHub
     : ChainProvider<IQuote, ChaikinOscResult>, IChaikinOsc
- {
+{
     private readonly string hubName;
 
     /// <summary>

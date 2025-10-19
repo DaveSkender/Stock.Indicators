@@ -59,7 +59,6 @@ public static partial class Stoch
     /// <summary>
     /// Creates a buffer list for Stochastic Oscillator calculations.
     /// </summary>
-    /// <typeparam name="TQuote">The type of quote implementing IQuote.</typeparam>
     /// <param name="quotes">The list of quotes to process.</param>
     /// <param name="lookbackPeriods">The lookback period for the oscillator. Default is 14.</param>
     /// <param name="signalPeriods">The signal period for the oscillator. Default is 3.</param>
@@ -75,7 +74,6 @@ public static partial class Stoch
     /// <summary>
     /// Creates a buffer list for Stochastic Oscillator calculations with extended parameters.
     /// </summary>
-    /// <typeparam name="TQuote">The type of quote implementing IQuote.</typeparam>
     /// <param name="quotes">The list of quotes to process.</param>
     /// <param name="lookbackPeriods">The lookback period for the oscillator.</param>
     /// <param name="signalPeriods">The signal period for the oscillator.</param>

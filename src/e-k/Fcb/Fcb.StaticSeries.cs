@@ -8,7 +8,6 @@ public static partial class Fcb
     /// <summary>
     /// Converts a list of quotes to FCB results.
     /// </summary>
-    /// <typeparam name="TQuote">The type of the quote data.</typeparam>
     /// <param name="quotes">The list of quotes.</param>
     /// <param name="windowSpan">The window span for the calculation. Default is 2.</param>
     /// <returns>A list of FCB results.</returns>

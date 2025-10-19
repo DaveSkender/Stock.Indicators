@@ -5,7 +5,7 @@ namespace Skender.Stock.Indicators;
 /// </summary>
 public class CciHub
     : ChainProvider<IQuote, CciResult>, ICci
- {
+{
     private readonly string hubName;
     private readonly CciList _cciList;
 

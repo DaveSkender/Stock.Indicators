@@ -7,7 +7,7 @@ namespace Skender.Stock.Indicators;
 /// </summary>
 public class VwmaHub
     : ChainProvider<IReusable, VwmaResult>, IVwma
- {
+{
     private readonly string hubName;
 
     /// <summary>
@@ -77,7 +77,7 @@ public static partial class Vwma
     /// <summary>
     /// Converts the quote provider to a VWMA hub.
     /// </summary>
-        /// <param name="quoteProvider">The quote provider.</param>
+    /// <param name="quoteProvider">The quote provider.</param>
     /// <param name="lookbackPeriods">The number of lookback periods.</param>
     /// <returns>A VWMA hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the quote provider is null.</exception>
@@ -85,7 +85,7 @@ public static partial class Vwma
     public static VwmaHub ToVwmaHub(
         this IQuoteProvider<IQuote> quoteProvider,
         int lookbackPeriods)
-         {
+    {
         ArgumentNullException.ThrowIfNull(quoteProvider);
         return new(quoteProvider, lookbackPeriods);
     }
