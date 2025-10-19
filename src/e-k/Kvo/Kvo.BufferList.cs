@@ -124,7 +124,11 @@ public class KvoList : BufferList<KvoResult>, IIncrementFromQuote, IKvo
             : cm != 0 ? volume * Math.Abs(2d * ((dm / cm) - 1)) * trend * 100d
             : 0;
 
-        _sumVf += vf;
+        // accumulate VF for EMA initialization (starting from period 2)
+        if (Count > 1)
+        {
+            _sumVf += vf;
+        }
 
         // fast-period EMA of VF
         double vfFastEma = 0;
