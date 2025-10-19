@@ -26,7 +26,6 @@ public static partial class Pvo
     /// <summary>
     /// Calculates the PVO values.
     /// </summary>
-    /// <typeparam name="T">The type of the source values.</typeparam>
     /// <param name="source">The list of volume values.</param>
     /// <param name="fastPeriods">The number of periods for the fast EMA.</param>
     /// <param name="slowPeriods">The number of periods for the slow EMA.</param>
@@ -37,7 +36,7 @@ public static partial class Pvo
         int fastPeriods,
         int slowPeriods,
         int signalPeriods)
-        
+
     {
         // check parameter arguments
         Validate(fastPeriods, slowPeriods, signalPeriods);

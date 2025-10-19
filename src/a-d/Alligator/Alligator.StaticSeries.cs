@@ -8,9 +8,6 @@ public static partial class Alligator
     /// <summary>
     /// Calculates the Williams Alligator indicator for a series of data.
     /// </summary>
-    /// <typeparam name="T">
-    /// <c>T</c> must be <see cref="IReusable"/> or <see cref="IQuote"/> type
-    /// </typeparam>
     /// <param name="source">Time-series values to transform.</param>
     /// <param name="jawPeriods">Lookback periods for the Jaw line.</param>
     /// <param name="jawOffset">Offset periods for the Jaw line.</param>

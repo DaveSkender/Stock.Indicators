@@ -59,7 +59,7 @@ public static partial class MaEnvelopes
         this IReadOnlyList<IReusable> source,
         int lookbackPeriods,
         double offsetRatio)
-        
+
         => source.ToAlma(lookbackPeriods, offset: 0.85, sigma: 6)
         .Select(x => new MaEnvelopeResult(
             Timestamp: x.Timestamp,
@@ -71,7 +71,7 @@ public static partial class MaEnvelopes
         this IReadOnlyList<IReusable> source,
         int lookbackPeriods,
         double offsetRatio)
-        
+
         => source.ToDema(lookbackPeriods)
         .Select(x => new MaEnvelopeResult(
             Timestamp: x.Timestamp,
@@ -94,7 +94,7 @@ public static partial class MaEnvelopes
         this IReadOnlyList<IReusable> source,
         int lookbackPeriods,
         double offsetRatio)
-        
+
         => source.ToEpma(lookbackPeriods)
         .Select(x => new MaEnvelopeResult(
             Timestamp: x.Timestamp,
@@ -106,7 +106,7 @@ public static partial class MaEnvelopes
         this IReadOnlyList<IReusable> source,
         int lookbackPeriods,
         double offsetRatio)
-        
+
         => source.ToHma(lookbackPeriods)
         .Select(x => new MaEnvelopeResult(
             Timestamp: x.Timestamp,
@@ -118,7 +118,7 @@ public static partial class MaEnvelopes
         this IReadOnlyList<IReusable> source,
         int lookbackPeriods,
         double offsetRatio)
-        
+
         => source.ToSma(lookbackPeriods)
         .Select(x => new MaEnvelopeResult(
             Timestamp: x.Timestamp,
@@ -130,7 +130,7 @@ public static partial class MaEnvelopes
         this IReadOnlyList<IReusable> source,
         int lookbackPeriods,
         double offsetRatio)
-        
+
         => source.ToSmma(lookbackPeriods)
         .Select(x => new MaEnvelopeResult(
             Timestamp: x.Timestamp,
@@ -142,7 +142,7 @@ public static partial class MaEnvelopes
         this IReadOnlyList<IReusable> source,
         int lookbackPeriods,
         double offsetRatio)
-        
+
         => source.ToTema(lookbackPeriods)
         .Select(x => new MaEnvelopeResult(
             Timestamp: x.Timestamp,
@@ -154,7 +154,7 @@ public static partial class MaEnvelopes
         this IReadOnlyList<IReusable> source,
         int lookbackPeriods,
         double offsetRatio)
-        
+
         => source.ToWma(lookbackPeriods)
         .Select(x => new MaEnvelopeResult(
             Timestamp: x.Timestamp,
