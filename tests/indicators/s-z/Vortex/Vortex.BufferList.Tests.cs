@@ -9,7 +9,7 @@ public class Vortex : BufferListTestBase, ITestQuoteBufferList
        = Quotes.ToVortex(lookbackPeriods);
 
     [TestMethod]
-    public void AddQuotes()
+    public void AddQuote_IncrementsResults()
     {
         VortexList sut = new(lookbackPeriods);
 
@@ -23,7 +23,7 @@ public class Vortex : BufferListTestBase, ITestQuoteBufferList
     }
 
     [TestMethod]
-    public void AddQuotesBatch()
+    public void AddQuotesBatch_IncrementsResults()
     {
         VortexList sut = Quotes.ToVortexList(lookbackPeriods);
 
@@ -32,7 +32,7 @@ public class Vortex : BufferListTestBase, ITestQuoteBufferList
     }
 
     [TestMethod]
-    public void WithQuotesCtor()
+    public void QuotesCtor_OnInstantiation_IncrementsResults()
     {
         VortexList sut = new(lookbackPeriods, Quotes);
 
@@ -41,7 +41,7 @@ public class Vortex : BufferListTestBase, ITestQuoteBufferList
     }
 
     [TestMethod]
-    public override void ClearResetsState()
+    public override void Clear_WithState_ResetsState()
     {
         List<Quote> subset = Quotes.Take(80).ToList();
         IReadOnlyList<VortexResult> expected = subset.ToVortex(lookbackPeriods);
@@ -62,7 +62,7 @@ public class Vortex : BufferListTestBase, ITestQuoteBufferList
     }
 
     [TestMethod]
-    public override void AutoListPruning()
+    public override void PruneList_OverMaxListSize_AutoAdjustsListAndBuffers()
     {
         const int maxListSize = 120;
 

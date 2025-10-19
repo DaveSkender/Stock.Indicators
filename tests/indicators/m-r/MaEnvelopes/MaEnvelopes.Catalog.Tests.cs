@@ -44,4 +44,25 @@ public class MaEnvelopesTests : TestBase
         lowerenvelopeResult2?.DisplayName.Should().Be("Lower Envelope");
         lowerenvelopeResult2.IsReusable.Should().Be(false);
     }
+
+    [TestMethod]
+    public void MaEnvelopesStreamListing()
+    {
+        // Act
+        IndicatorListing listing = MaEnvelopes.StreamListing;
+
+        // Assert
+        listing.Should().NotBeNull();
+        listing.Name.Should().Be("Moving Average Envelopes");
+        listing.Uiid.Should().Be("MA-ENV");
+        listing.Style.Should().Be(Style.Stream);
+        listing.Category.Should().Be(Category.PriceChannel);
+        listing.MethodName.Should().Be("ToMaEnvelopes");
+
+        listing.Parameters.Should().NotBeNull();
+        listing.Parameters.Should().HaveCount(3);
+
+        listing.Results.Should().NotBeNull();
+        listing.Results.Should().HaveCount(3);
+    }
 }

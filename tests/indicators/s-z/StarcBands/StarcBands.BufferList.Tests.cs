@@ -11,7 +11,7 @@ public class StarcBands : BufferListTestBase, ITestQuoteBufferList
        = Quotes.ToStarcBands(smaPeriods, multiplier, atrPeriods);
 
     [TestMethod]
-    public void AddQuotes()
+    public void AddQuote_IncrementsResults()
     {
         StarcBandsList sut = new(smaPeriods, multiplier, atrPeriods);
 
@@ -25,7 +25,7 @@ public class StarcBands : BufferListTestBase, ITestQuoteBufferList
     }
 
     [TestMethod]
-    public void AddQuotesBatch()
+    public void AddQuotesBatch_IncrementsResults()
     {
         StarcBandsList sut = new(smaPeriods, multiplier, atrPeriods) { Quotes };
 
@@ -34,7 +34,7 @@ public class StarcBands : BufferListTestBase, ITestQuoteBufferList
     }
 
     [TestMethod]
-    public void WithQuotesCtor()
+    public void QuotesCtor_OnInstantiation_IncrementsResults()
     {
         StarcBandsList sut = new(smaPeriods, multiplier, atrPeriods, Quotes);
 
@@ -43,7 +43,7 @@ public class StarcBands : BufferListTestBase, ITestQuoteBufferList
     }
 
     [TestMethod]
-    public override void ClearResetsState()
+    public override void Clear_WithState_ResetsState()
     {
         List<Quote> subset = Quotes.Take(80).ToList();
         IReadOnlyList<StarcBandsResult> expected = subset.ToStarcBands(smaPeriods, multiplier, atrPeriods);
@@ -64,7 +64,7 @@ public class StarcBands : BufferListTestBase, ITestQuoteBufferList
     }
 
     [TestMethod]
-    public override void AutoListPruning()
+    public override void PruneList_OverMaxListSize_AutoAdjustsListAndBuffers()
     {
         const int maxListSize = 100;
 

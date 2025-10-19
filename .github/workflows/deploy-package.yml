@@ -1,4 +1,4 @@
-name: Deploy NuGet package
+name: Deploy package
 
 # Version format: major.minor.patch[-preview.suffix]
 # - Versioning managed by GitVersion

@@ -129,6 +129,7 @@ public static partial class Catalog
 
         // ConnorsRSI
         _listings.Add(ConnorsRsi.SeriesListing);
+        _listings.Add(ConnorsRsi.BufferListing);
 
         // Correlation
         _listings.Add(Correlation.SeriesListing);
@@ -143,8 +144,11 @@ public static partial class Catalog
 
         // Donchian Channels
         _listings.Add(Donchian.SeriesListing);
+        _listings.Add(Donchian.StreamListing);
+        _listings.Add(Donchian.BufferListing);
 
         // DPO (Detrended Price Oscillator)
+        _listings.Add(Dpo.BufferListing);
         _listings.Add(Dpo.SeriesListing);
 
         // Elder Ray
@@ -170,6 +174,7 @@ public static partial class Catalog
         _listings.Add(ForceIndex.SeriesListing);
 
         // Fractal
+        _listings.Add(Fractal.BufferListing);
         _listings.Add(Fractal.SeriesListing);
 
         // Gator Oscillator
@@ -209,6 +214,8 @@ public static partial class Catalog
 
         // MA Envelopes (Moving Average Envelopes)
         _listings.Add(MaEnvelopes.SeriesListing);
+        _listings.Add(MaEnvelopes.BufferListing);
+        _listings.Add(MaEnvelopes.StreamListing);
 
         // MACD (Moving Average Convergence Divergence)
         _listings.Add(Macd.BufferListing);
@@ -235,6 +242,7 @@ public static partial class Catalog
         _listings.Add(Obv.StreamListing);
 
         // Parabolic SAR
+        _listings.Add(ParabolicSar.BufferListing);
         _listings.Add(ParabolicSar.SeriesListing);
 
         // Pivot Points
@@ -242,6 +250,7 @@ public static partial class Catalog
 
         // Pivots
         _listings.Add(Pivots.SeriesListing);
+        _listings.Add(Pivots.BufferListing);
 
         // PMO (Price Momentum Oscillator)
         _listings.Add(Pmo.BufferListing);
@@ -254,9 +263,15 @@ public static partial class Catalog
         _listings.Add(Pvo.BufferListing);
         _listings.Add(Pvo.SeriesListing);
 
+        // Quote Part
+        _listings.Add(QuoteParts.BufferListing);
+        _listings.Add(QuoteParts.SeriesListing);
+        _listings.Add(QuoteParts.StreamListing);
+
         // Renko
         _listings.Add(Renko.SeriesListing);
         _listings.Add(Renko.StreamListing);
+        _listings.Add(Renko.BufferListing);
 
         // Renko ATR
         _listings.Add(RenkoAtr.SeriesListing);
@@ -268,8 +283,10 @@ public static partial class Catalog
 
         // ROC with Bands
         _listings.Add(RocWb.SeriesListing);
+        _listings.Add(RocWb.BufferListing);
 
         // Rolling Pivots
+        _listings.Add(RollingPivots.BufferListing);
         _listings.Add(RollingPivots.SeriesListing);
 
         // RSI (Relative Strength Index)
@@ -279,6 +296,7 @@ public static partial class Catalog
 
         // Slope
         _listings.Add(Slope.SeriesListing);
+        _listings.Add(Slope.BufferListing);
 
         // SMA (Simple Moving Average)
         _listings.Add(Sma.SeriesListing);
@@ -345,6 +363,7 @@ public static partial class Catalog
 
         // TSI (True Strength Index)
         _listings.Add(Tsi.SeriesListing);
+        _listings.Add(Tsi.BufferListing);
 
         // Ulcer Index
         _listings.Add(UlcerIndex.SeriesListing);
@@ -356,6 +375,7 @@ public static partial class Catalog
 
         // Volatility Stop
         _listings.Add(VolatilityStop.SeriesListing);
+        _listings.Add(VolatilityStop.BufferListing);
 
         // Vortex Indicator
         _listings.Add(Vortex.SeriesListing);
@@ -382,5 +402,6 @@ public static partial class Catalog
 
         // ZigZag
         _listings.Add(ZigZag.SeriesListing);
+        _listings.Add(ZigZag.BufferListing);
     }
 }
