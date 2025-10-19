@@ -30,7 +30,7 @@ public static partial class Kvo
 /// </summary>
 /// <typeparam name="TIn">The type of the quote.</typeparam>
 public class KvoHub<TIn>
-    : ChainProvider<TIn, KvoResult>
+    : ChainProvider<TIn, KvoResult>, IKvo
     where TIn : IQuote
 {
     private readonly int _fastPeriods;

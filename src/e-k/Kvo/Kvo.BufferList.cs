@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Klinger Volume Oscillator (KVO) from incremental quote values.
 /// </summary>
-public class KvoList : BufferList<KvoResult>, IIncrementFromQuote
+public class KvoList : BufferList<KvoResult>, IIncrementFromQuote, IKvo
 {
     private readonly int _fastPeriods;
     private readonly int _slowPeriods;
