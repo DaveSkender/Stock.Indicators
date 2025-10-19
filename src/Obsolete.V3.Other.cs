@@ -16,7 +16,10 @@ public static partial class Indicator
     public static IEnumerable<(DateTime Timestamp, double Value)> Use(
         this IEnumerable<IQuote> quotes,
             CandlePart candlePart = CandlePart.Close)
-        => quotes.Use(candlePart);
+        => quotes
+            .ToSortedList()
+            .ToReusable(candlePart)
+            .Select(x => (x.Timestamp, x.Value));
 
     [ExcludeFromCodeCoverage]
     [Obsolete("This method no longer defaults to Close.  Rename Use() to Use(CandlePart.Close) for an explicit conversion.", false)]
