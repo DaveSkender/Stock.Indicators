@@ -1,7 +1,7 @@
 namespace StreamHub;
 
 [TestClass]
-public class EmaHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
+public class EmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProvider
 {
     private const int lookbackPeriods = 5;
     private readonly IReadOnlyList<EmaResult> expectedOriginal = Quotes.ToEma(lookbackPeriods);
@@ -12,13 +12,13 @@ public class EmaHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
         int length = Quotes.Count;
 
         // setup quote provider hub
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
         // prefill quotes at provider
         quoteHub.Add(Quotes.Take(20));
 
         // initialize observer
-        EmaHub<Quote> observer = quoteHub.ToEmaHub(lookbackPeriods);
+        EmaHub observer = quoteHub.ToEmaHub(lookbackPeriods);
 
         // fetch initial results (early)
         IReadOnlyList<EmaResult> actuals = observer.Results;
@@ -61,11 +61,11 @@ public class EmaHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
         int length = Quotes.Count;
 
         // setup quote provider hub
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
         // initialize observer
-        EmaHub<SmaResult> observer = quoteHub
-            .ToSma(smaPeriods)
+        EmaHub observer = quoteHub
+            .ToSmaHub(smaPeriods)
             .ToEmaHub(emaPeriods);
 
         // emulate quote stream
@@ -96,12 +96,12 @@ public class EmaHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
         int length = Quotes.Count;
 
         // setup quote provider hub
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
         // initialize observer
-        SmaHub<EmaResult> observer = quoteHub
+        SmaHub observer = quoteHub
             .ToEmaHub(emaPeriods)
-            .ToSma(smaPeriods);
+            .ToSmaHub(smaPeriods);
 
         // emulate adding quotes to provider hub
         for (int i = 0; i < length; i++)
@@ -143,7 +143,7 @@ public class EmaHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
     [TestMethod]
     public override void CustomToString()
     {
-        EmaHub<Quote> hub = new(new QuoteHub<Quote>(), 14);
+        EmaHub hub = new(new QuoteHub(), 14);
         hub.ToString().Should().Be("EMA(14)");
     }
 }

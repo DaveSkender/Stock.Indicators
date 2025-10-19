@@ -1,7 +1,7 @@
 namespace StreamHub;
 
 [TestClass]
-public class RocHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
+public class RocHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProvider
 {
     [TestMethod]
     public void QuoteObserver()
@@ -11,7 +11,7 @@ public class RocHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
         int length = quotesList.Count;
 
         // setup quote provider hub
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
         // prefill quotes at provider
         for (int i = 0; i < 25; i++)
@@ -20,7 +20,7 @@ public class RocHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
         }
 
         // initialize observer
-        RocHub<Quote> observer = quoteHub
+        RocHub observer = quoteHub
             .ToRocHub(20);
 
         // fetch initial results (early)
@@ -75,10 +75,10 @@ public class RocHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
         int length = quotesList.Count;
 
         // setup quote provider hub
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
         // initialize observer
-        RocHub<EmaResult> observer = quoteHub
+        RocHub observer = quoteHub
             .ToEmaHub(emaPeriods)
             .ToRocHub(rocPeriods);
 
@@ -117,10 +117,10 @@ public class RocHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
         int length = quotesList.Count;
 
         // setup quote provider hub
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
         // initialize observer
-        EmaHub<RocResult> observer = quoteHub
+        EmaHub observer = quoteHub
             .ToRocHub(rocPeriods)
             .ToEmaHub(emaPeriods);
 
@@ -151,8 +151,8 @@ public class RocHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
     [TestMethod]
     public override void CustomToString()
     {
-        QuoteHub<Quote> quoteHub = new();
-        RocHub<Quote> observer = quoteHub.ToRocHub(20);
+        QuoteHub quoteHub = new();
+        RocHub observer = quoteHub.ToRocHub(20);
 
         observer.ToString().Should().Be("ROC(20)");
 

@@ -1,7 +1,7 @@
 namespace StreamHub;
 
 [TestClass]
-public class CciHub : StreamHubTestBase, ITestQuoteObserver
+public class CciHubTests : StreamHubTestBase, ITestQuoteObserver
 {
     [TestMethod]
     public void QuoteObserver()
@@ -11,7 +11,7 @@ public class CciHub : StreamHubTestBase, ITestQuoteObserver
         int length = quotesList.Count;
 
         // setup quote provider hub
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
         // prefill quotes at provider
         for (int i = 0; i < 20; i++)
@@ -20,7 +20,7 @@ public class CciHub : StreamHubTestBase, ITestQuoteObserver
         }
 
         // initialize observer
-        CciHub<Quote> observer = quoteHub
+        CciHub observer = quoteHub
             .ToCci(20);
 
         // fetch initial results (early)
@@ -74,10 +74,10 @@ public class CciHub : StreamHubTestBase, ITestQuoteObserver
         int length = quotesList.Count;
 
         // setup quote provider hub
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
         // initialize observer
-        CciHub<Quote> cciHub = quoteHub.ToCci(cciPeriods);
+        CciHub cciHub = quoteHub.ToCci(cciPeriods);
 
         // emulate quote stream
         for (int i = 0; i < length; i++)
@@ -102,8 +102,8 @@ public class CciHub : StreamHubTestBase, ITestQuoteObserver
     [TestMethod]
     public override void CustomToString()
     {
-        QuoteHub<Quote> quoteHub = new();
-        CciHub<Quote> observer = quoteHub.ToCci(20);
+        QuoteHub quoteHub = new();
+        CciHub observer = quoteHub.ToCci(20);
 
         observer.ToString().Should().Be("CCI(20)");
 

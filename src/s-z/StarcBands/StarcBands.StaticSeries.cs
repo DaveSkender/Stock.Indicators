@@ -8,18 +8,17 @@ public static partial class StarcBands
     /// <summary>
     /// Converts a series of quotes to STARC Bands.
     /// </summary>
-    /// <typeparam name="TQuote">The type of the quote, which must implement <see cref="IQuote"/>.</typeparam>
     /// <param name="quotes">The source series of quotes.</param>
     /// <param name="smaPeriods">The number of periods for the Simple Moving Average (SMA).</param>
     /// <param name="multiplier">The multiplier for the Average True Range (ATR).</param>
     /// <param name="atrPeriods">The number of periods for the ATR calculation.</param>
     /// <returns>A list of <see cref="StarcBandsResult"/> containing the STARC Bands values.</returns>
-    public static IReadOnlyList<StarcBandsResult> ToStarcBands<TQuote>(
-        this IReadOnlyList<TQuote> quotes,
+    public static IReadOnlyList<StarcBandsResult> ToStarcBands(
+        this IReadOnlyList<IQuote> quotes,
         int smaPeriods = 5,
         double multiplier = 2,
         int atrPeriods = 10)
-        where TQuote : IQuote => quotes
+        => quotes
             .ToQuoteDList()
             .CalcStarcBands(smaPeriods, multiplier, atrPeriods);
 

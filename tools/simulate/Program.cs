@@ -10,14 +10,14 @@ List<Quote> quotes
 
 // initialize quote provider
 
-QuoteHub<Quote> quoteHub = new();
+QuoteHub quoteHub = new();
 
 // subscribe indicator hubs (SMA, EMA, etc.)
 
-SmaHub<Quote> smaHub = quoteHub.ToSma(3);
-EmaHub<Quote> emaHub = quoteHub.ToEmaHub(5);
-EmaHub<QuotePart> useChain = quoteHub.ToQuotePartHub(CandlePart.HL2).ToEmaHub(7);
-EmaHub<SmaResult> emaChain = quoteHub.ToSma(4).ToEmaHub(4);  // chainable
+SmaHub smaHub = quoteHub.ToSmaHub(3);
+EmaHub emaHub = quoteHub.ToEmaHub(5);
+EmaHub useChain = quoteHub.ToQuotePartHub(CandlePart.HL2).ToEmaHub(7);
+EmaHub emaChain = quoteHub.ToSmaHub(4).ToEmaHub(4);  // chainable
 
 /* normally, you'd plugin your WebSocket here
  * and use `quoteHub.Add(q);` to connect the streams */

@@ -7,20 +7,17 @@ public static partial class Pmo
 {
     /// <summary>
     /// Converts a list of source values to a list of PMO results.
-    /// </summary>
-    /// <typeparam name="T">The type of the source values.</typeparam>
-    /// <param name="source">The list of source values.</param>
+    /// </summary>    /// <param name="source">The list of source values.</param>
     /// <param name="timePeriods">The number of periods for the time span.</param>
     /// <param name="smoothPeriods">The number of periods for smoothing.</param>
     /// <param name="signalPeriods">The number of periods for the signal line.</param>
     /// <returns>A list of PMO results.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the source list is null.</exception>
-    public static IReadOnlyList<PmoResult> ToPmo<T>(
-        this IReadOnlyList<T> source,
+    public static IReadOnlyList<PmoResult> ToPmo(
+        this IReadOnlyList<IReusable> source,
         int timePeriods = 35,
         int smoothPeriods = 20,
         int signalPeriods = 10)
-        where T : IReusable
     {
         // check parameter arguments
         ArgumentNullException.ThrowIfNull(source);
@@ -45,7 +42,7 @@ public static partial class Pmo
         // roll through source values
         for (int i = 0; i < length; i++)
         {
-            T s = source[i];
+            IReusable s = source[i];
 
             // rate of change (ROC)
             rc[i] = prevPrice == 0 ? double.NaN : 100 * ((s.Value / prevPrice) - 1);

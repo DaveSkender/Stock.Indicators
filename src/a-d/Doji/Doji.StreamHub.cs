@@ -5,22 +5,21 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Provides methods for identifying Doji candlestick patterns.
 /// </summary>
-public class DojiHub<TIn>
-    : StreamHub<TIn, CandleResult>, IDoji
-    where TIn : IQuote
+public class DojiHub
+    : StreamHub<IQuote, CandleResult>, IDoji
 {
     private readonly string hubName;
     private readonly double _maxPriceChangePercentDecimal;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="DojiHub{TIn}"/> class.
+    /// Initializes a new instance of the <see cref="DojiHub"/> class.
     /// </summary>
     /// <param name="provider">The quote provider.</param>
     /// <param name="maxPriceChangePercent">Maximum absolute percent difference in open and close price.</param>
     /// <exception cref="ArgumentNullException">Thrown when the provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the maxPriceChangePercent is invalid.</exception>
     internal DojiHub(
-        IStreamObservable<TIn> provider,
+        IStreamObservable<IQuote> provider,
         double maxPriceChangePercent) : base(provider)
     {
         Doji.Validate(maxPriceChangePercent);
@@ -39,8 +38,9 @@ public class DojiHub<TIn>
 
     /// <inheritdoc/>
     protected override (CandleResult result, int index)
-        ToIndicator(TIn item, int? indexHint)
+        ToIndicator(IQuote item, int? indexHint)
     {
+        ArgumentNullException.ThrowIfNull(item);
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
         decimal? matchPrice = null;
@@ -71,31 +71,27 @@ public static partial class Doji
     /// <summary>
     /// Creates a Doji hub from a quote provider.
     /// </summary>
-    /// <typeparam name="T">The type of the quote data.</typeparam>
     /// <param name="provider">The quote provider.</param>
     /// <param name="maxPriceChangePercent">Maximum absolute percent difference in open and close price. Default is 0.1.</param>
     /// <returns>A Doji hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the maxPriceChangePercent is invalid.</exception>
-    public static DojiHub<T> ToDojiHub<T>(
-        this IStreamObservable<T> provider,
+    public static DojiHub ToDojiHub(
+        this IStreamObservable<IQuote> provider,
         double maxPriceChangePercent = 0.1)
-        where T : IQuote
         => new(provider, maxPriceChangePercent);
 
     /// <summary>
     /// Creates a Doji hub from a collection of quotes.
     /// </summary>
-    /// <typeparam name="TQuote">The type of the quote.</typeparam>
     /// <param name="quotes">The collection of quotes.</param>
     /// <param name="maxPriceChangePercent">Parameter for the calculation.</param>
-    /// <returns>An instance of <see cref="DojiHub{TQuote}"/>.</returns>
-    public static DojiHub<TQuote> ToDojiHub<TQuote>(
-        this IReadOnlyList<TQuote> quotes,
+    /// <returns>An instance of <see cref="DojiHub"/>.</returns>
+    public static DojiHub ToDojiHub(
+        this IReadOnlyList<IQuote> quotes,
         double maxPriceChangePercent = 0.1)
-        where TQuote : IQuote
     {
-        QuoteHub<TQuote> quoteHub = new();
+        QuoteHub quoteHub = new();
         quoteHub.Add(quotes);
         return quoteHub.ToDojiHub(maxPriceChangePercent);
     }

@@ -3,16 +3,15 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Provides methods for calculating the Kaufman's Adaptive Moving Average (KAMA) indicator.
 /// </summary>
-public class KamaHub<TIn>
-    : ChainProvider<TIn, KamaResult>, IKama
-    where TIn : IReusable
+public class KamaHub
+    : ChainProvider<IReusable, KamaResult>, IKama
 {
     private readonly string hubName;
     private readonly double _scFast;
     private readonly double _scSlow;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="KamaHub{TIn}"/> class.
+    /// Initializes a new instance of the <see cref="KamaHub"/> class.
     /// </summary>
     /// <param name="provider">The chain provider.</param>
     /// <param name="erPeriods">The number of periods for the Efficiency Ratio (ER).</param>
@@ -21,7 +20,7 @@ public class KamaHub<TIn>
     /// <exception cref="ArgumentNullException">Thrown when the provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when any of the parameters are out of their valid range.</exception>
     internal KamaHub(
-        IChainProvider<TIn> provider,
+        IChainProvider<IReusable> provider,
         int erPeriods,
         int fastPeriods,
         int slowPeriods) : base(provider)
@@ -53,8 +52,9 @@ public class KamaHub<TIn>
 
     /// <inheritdoc/>
     protected override (KamaResult result, int index)
-        ToIndicator(TIn item, int? indexHint)
+        ToIndicator(IReusable item, int? indexHint)
     {
+        ArgumentNullException.ThrowIfNull(item);
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
         // skip incalculable periods
@@ -124,7 +124,6 @@ public static partial class Kama
     /// <summary>
     /// Creates a KAMA streaming hub from a chain provider.
     /// </summary>
-    /// <typeparam name="T">The type of the reusable data.</typeparam>
     /// <param name="chainProvider">The chain provider.</param>
     /// <param name="erPeriods">The number of periods for the Efficiency Ratio (ER). Default is 10.</param>
     /// <param name="fastPeriods">The number of periods for the fast EMA. Default is 2.</param>
@@ -132,31 +131,28 @@ public static partial class Kama
     /// <returns>A KAMA hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the chain provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when any of the parameters are out of their valid range.</exception>
-    public static KamaHub<T> ToKamaHub<T>(
-        this IChainProvider<T> chainProvider,
+    public static KamaHub ToKamaHub(
+        this IChainProvider<IReusable> chainProvider,
         int erPeriods = 10,
         int fastPeriods = 2,
         int slowPeriods = 30)
-        where T : IReusable
         => new(chainProvider, erPeriods, fastPeriods, slowPeriods);
 
     /// <summary>
     /// Creates a Kama hub from a collection of quotes.
     /// </summary>
-    /// <typeparam name="TQuote">The type of the quote.</typeparam>
     /// <param name="quotes">The collection of quotes.</param>
     /// <param name="erPeriods">Parameter for the calculation.</param>
     /// <param name="fastPeriods">Parameter for the calculation.</param>
     /// <param name="slowPeriods">Parameter for the calculation.</param>
-    /// <returns>An instance of <see cref="KamaHub{TQuote}"/>.</returns>
-    public static KamaHub<TQuote> ToKamaHub<TQuote>(
-        this IReadOnlyList<TQuote> quotes,
+    /// <returns>An instance of <see cref="KamaHub"/>.</returns>
+    public static KamaHub ToKamaHub(
+        this IReadOnlyList<IQuote> quotes,
         int erPeriods = 10,
         int fastPeriods = 2,
         int slowPeriods = 30)
-        where TQuote : IQuote
     {
-        QuoteHub<TQuote> quoteHub = new();
+        QuoteHub quoteHub = new();
         quoteHub.Add(quotes);
         return quoteHub.ToKamaHub(erPeriods, fastPeriods, slowPeriods);
     }

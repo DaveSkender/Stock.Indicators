@@ -8,16 +8,14 @@ public static partial class Donchian
     /// <summary>
     /// Converts a list of quotes to Donchian Channel results.
     /// </summary>
-    /// <typeparam name="TQuote">The type of the quote.</typeparam>
     /// <param name="quotes">The list of quotes.</param>
     /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
     /// <returns>A list of Donchian Channel results.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the quotes list is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
-    public static IReadOnlyList<DonchianResult> ToDonchian<TQuote>(
-        this IReadOnlyList<TQuote> quotes,
+    public static IReadOnlyList<DonchianResult> ToDonchian(
+        this IReadOnlyList<IQuote> quotes,
         int lookbackPeriods = 20)
-        where TQuote : IQuote
     {
         // check parameter arguments
         ArgumentNullException.ThrowIfNull(quotes);
@@ -30,7 +28,7 @@ public static partial class Donchian
         // roll through source values
         for (int i = 0; i < length; i++)
         {
-            TQuote q = quotes[i];
+            IQuote q = quotes[i];
 
             if (i >= lookbackPeriods)
             {
@@ -40,7 +38,7 @@ public static partial class Donchian
                 // high/low over prior periods
                 for (int p = i - lookbackPeriods; p < i; p++)
                 {
-                    TQuote d = quotes[p];
+                    IQuote d = quotes[p];
 
                     if (d.High > highHigh)
                     {

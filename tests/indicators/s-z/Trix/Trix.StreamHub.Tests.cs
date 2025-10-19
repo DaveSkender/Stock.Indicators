@@ -1,7 +1,7 @@
 namespace StreamHub;
 
 [TestClass]
-public class TrixHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
+public class TrixHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProvider
 {
     [TestMethod]
     public void QuoteObserver()
@@ -11,7 +11,7 @@ public class TrixHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
         int length = quotesList.Count;
 
         // setup quote provider hub
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
         // prefill quotes at provider
         for (int i = 0; i < 20; i++)
@@ -20,7 +20,7 @@ public class TrixHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
         }
 
         // initialize observer
-        TrixHub<Quote> observer = quoteHub
+        TrixHub observer = quoteHub
             .ToTrix(14);
 
         // fetch initial results (early)
@@ -75,11 +75,11 @@ public class TrixHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
         int length = quotesList.Count;
 
         // setup quote provider hub
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
         // initialize observer
-        TrixHub<SmaResult> observer = quoteHub
-            .ToSma(smaPeriods)
+        TrixHub observer = quoteHub
+            .ToSmaHub(smaPeriods)
             .ToTrix(trixPeriods);
 
         // emulate quote stream
@@ -117,10 +117,10 @@ public class TrixHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
         int length = quotesList.Count;
 
         // setup quote provider hub
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
         // initialize chain with TRIX as input to EMA
-        EmaHub<TrixResult> emaOfTrix = quoteHub
+        EmaHub emaOfTrix = quoteHub
             .ToTrix(trixPeriods)
             .ToEmaHub(emaPeriods);
 
@@ -148,7 +148,7 @@ public class TrixHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
 
     public override void CustomToString()
     {
-        TrixHub<Quote> hub = new(new QuoteHub<Quote>(), 14);
+        TrixHub hub = new(new QuoteHub(), 14);
         hub.ToString().Should().Be("TRIX(14)");
     }
 }

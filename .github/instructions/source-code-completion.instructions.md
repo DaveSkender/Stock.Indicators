@@ -278,10 +278,9 @@ dotnet run --list
 // Standard indicator structure
 public static partial class Indicator
 {
-    public static IEnumerable<ResultType> ToIndicatorName<TQuote>(
-        this IEnumerable<TQuote> quotes,
+    public static IEnumerable<ResultType> ToIndicatorName(
+        this IEnumerable<IQuote> quotes,
         int lookbackPeriods = 14)
-        where TQuote : IQuote
     {
         // Input validation
         // Core calculation logic

@@ -8,12 +8,10 @@ public static partial class Adl
     /// <summary>
     /// Calculates the Accumulation/Distribution Line (ADL) from a series of quotes.
     /// </summary>
-    /// <typeparam name="TQuote">The type of the quote.</typeparam>
     /// <param name="source">The source list of quotes.</param>
     /// <returns>A read-only list of ADL results.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the source is null.</exception>
-    public static IReadOnlyList<AdlResult> ToAdl<TQuote>(this IReadOnlyList<TQuote> source)
-        where TQuote : IQuote
+    public static IReadOnlyList<AdlResult> ToAdl(this IReadOnlyList<IQuote> source)
     {
         ArgumentNullException.ThrowIfNull(source);
 

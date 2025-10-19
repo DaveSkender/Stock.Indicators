@@ -8,7 +8,7 @@ public class StreamExternal
     private static readonly IReadOnlyList<Quote> quotes
         = Data.GetDefault();
 
-    private readonly QuoteHub<Quote> quoteHub = new();
+    private readonly QuoteHub quoteHub = new();
 
     /* SETUP/CLEANUP - runs before and after each.
      *

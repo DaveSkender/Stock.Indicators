@@ -1,7 +1,7 @@
 namespace StreamHub;
 
 [TestClass]
-public class T3Hub : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
+public class T3HubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
 {
     [TestMethod]
     public void QuoteObserver()
@@ -14,7 +14,7 @@ public class T3Hub : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
         int length = quotesList.Count;
 
         // setup quote provider hub
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
         // prefill quotes at provider
         for (int i = 0; i < 50; i++)
@@ -23,7 +23,7 @@ public class T3Hub : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
         }
 
         // initialize observer
-        T3Hub<Quote> observer = quoteHub
+        T3Hub observer = quoteHub
             .ToT3Hub(lookbackPeriods, volumeFactor);
 
         // fetch initial results (early)
@@ -80,12 +80,12 @@ public class T3Hub : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
         int length = quotesList.Count;
 
         // setup quote provider hub
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
         // initialize observer
-        SmaHub<T3Result> observer = quoteHub
+        SmaHub observer = quoteHub
             .ToT3Hub(t3Periods, volumeFactor)
-            .ToSma(smaPeriods);
+            .ToSmaHub(smaPeriods);
 
         // emulate quote stream
         for (int i = 0; i < length; i++)
@@ -117,7 +117,7 @@ public class T3Hub : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
     [TestMethod]
     public override void CustomToString()
     {
-        T3Hub<Quote> hub = new(new QuoteHub<Quote>(), 5, 0.7);
+        T3Hub hub = new(new QuoteHub(), 5, 0.7);
         hub.ToString().Should().Be("T3(5,0.7)");
     }
 
@@ -125,15 +125,15 @@ public class T3Hub : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
     public void SettingsInheritance()
     {
         // setup quote hub (1st level)
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
         // setup t3 hub (2nd level)
-        T3Hub<Quote> t3Hub = quoteHub
+        T3Hub t3Hub = quoteHub
             .ToT3Hub(lookbackPeriods: 5, volumeFactor: 0.7);
 
         // setup child hub (3rd level)
-        SmaHub<T3Result> childHub = t3Hub
-            .ToSma(lookbackPeriods: 5);
+        SmaHub childHub = t3Hub
+            .ToSmaHub(lookbackPeriods: 5);
 
         // note: despite `quoteHub` being parentless,
         // it has default properties; it should not

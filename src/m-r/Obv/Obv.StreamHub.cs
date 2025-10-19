@@ -5,23 +5,23 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Provides methods for creating OBV hubs.
 /// </summary>
-public class ObvHub<TIn> : ChainProvider<TIn, ObvResult>
-    where TIn : IQuote
+public class ObvHub : ChainProvider<IQuote, ObvResult>
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="ObvHub{TIn}"/> class.
+    /// Initializes a new instance of the <see cref="ObvHub"/> class.
     /// </summary>
     /// <param name="provider">The quote provider.</param>
     internal ObvHub(
-        IQuoteProvider<TIn> provider) : base(provider)
+        IQuoteProvider<IQuote> provider) : base(provider)
     {
         Reinitialize();
     }
 
     /// <inheritdoc/>
     protected override (ObvResult result, int index)
-        ToIndicator(TIn item, int? indexHint)
+        ToIndicator(IQuote item, int? indexHint)
     {
+        ArgumentNullException.ThrowIfNull(item);
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
         // Get previous close and OBV values for calculation
@@ -49,13 +49,11 @@ public static partial class Obv
     /// <summary>
     /// Converts the quote provider to an OBV hub.
     /// </summary>
-    /// <typeparam name="TIn">The type of the input.</typeparam>
     /// <param name="quoteProvider">The quote provider.</param>
     /// <returns>An OBV hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the quote provider is null.</exception>
-    public static ObvHub<TIn> ToObvHub<TIn>(
-        this IQuoteProvider<TIn> quoteProvider)
-        where TIn : IQuote
+    public static ObvHub ToObvHub(
+        this IQuoteProvider<IQuote> quoteProvider)
     {
         ArgumentNullException.ThrowIfNull(quoteProvider);
         return new(quoteProvider);
@@ -64,14 +62,12 @@ public static partial class Obv
     /// <summary>
     /// Creates a Obv hub from a collection of quotes.
     /// </summary>
-    /// <typeparam name="TQuote">The type of the quote.</typeparam>
     /// <param name="quotes">The collection of quotes.</param>
-    /// <returns>An instance of <see cref="ObvHub{TQuote}"/>.</returns>
-    public static ObvHub<TQuote> ToObvHub<TQuote>(
-        this IReadOnlyList<TQuote> quotes)
-        where TQuote : IQuote
+    /// <returns>An instance of <see cref="ObvHub"/>.</returns>
+    public static ObvHub ToObvHub(
+        this IReadOnlyList<IQuote> quotes)
     {
-        QuoteHub<TQuote> quoteHub = new();
+        QuoteHub quoteHub = new();
         quoteHub.Add(quotes);
         return quoteHub.ToObvHub();
     }

@@ -14,7 +14,7 @@ public class ChandelierTests : RegressionTestBase<ChandelierResult>
     [TestMethod]
     public override void Stream()
     {
-        QuoteHub<Quote> hub = new();
+        QuoteHub hub = new();
         hub.Add(Quotes);
         hub.ToChandelierHub(22, 3).Results.AssertEquals(Expected);
         hub.EndTransmission();

@@ -1,7 +1,7 @@
 namespace StreamHub;
 
 [TestClass]
-public class RsiHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
+public class RsiHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProvider
 {
     [TestMethod]
     public void QuoteObserver()
@@ -11,7 +11,7 @@ public class RsiHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
         int length = quotesList.Count;
 
         // setup quote provider hub
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
         // prefill quotes at provider
         for (int i = 0; i < 20; i++)
@@ -20,7 +20,7 @@ public class RsiHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
         }
 
         // initialize observer
-        RsiHub<Quote> observer = quoteHub
+        RsiHub observer = quoteHub
             .ToRsiHub(14);
 
         // fetch initial results (early)
@@ -75,10 +75,10 @@ public class RsiHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
         int length = quotesList.Count;
 
         // setup quote provider hub
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
         // initialize observer
-        RsiHub<EmaResult> observer = quoteHub
+        RsiHub observer = quoteHub
             .ToEmaHub(emaPeriods)
             .ToRsiHub(rsiPeriods);
 
@@ -117,10 +117,10 @@ public class RsiHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
         int length = quotesList.Count;
 
         // setup quote provider hub
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
         // initialize observer
-        EmaHub<RsiResult> observer = quoteHub
+        EmaHub observer = quoteHub
             .ToRsiHub(rsiPeriods)
             .ToEmaHub(emaPeriods);
 
@@ -151,8 +151,8 @@ public class RsiHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
     [TestMethod]
     public override void CustomToString()
     {
-        QuoteHub<Quote> quoteHub = new();
-        RsiHub<Quote> observer = quoteHub.ToRsiHub(14);
+        QuoteHub quoteHub = new();
+        RsiHub observer = quoteHub.ToRsiHub(14);
 
         observer.ToString().Should().Be("RSI(14)");
 

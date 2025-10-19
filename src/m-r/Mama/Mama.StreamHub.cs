@@ -3,9 +3,8 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Provides methods for calculating the MESA Adaptive Moving Average (MAMA) indicator.
 /// </summary>
-public class MamaHub<TIn>
-    : ChainProvider<TIn, MamaResult>, IMama
-    where TIn : IReusable
+public class MamaHub
+    : ChainProvider<IReusable, MamaResult>, IMama
 {
     private readonly string hubName;
 
@@ -28,7 +27,7 @@ public class MamaHub<TIn>
     private readonly List<double> ph = []; // phase
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="MamaHub{TIn}"/> class.
+    /// Initializes a new instance of the <see cref="MamaHub"/> class.
     /// </summary>
     /// <param name="provider">The chain provider.</param>
     /// <param name="fastLimit">The fast limit for the MAMA calculation.</param>
@@ -36,7 +35,7 @@ public class MamaHub<TIn>
     /// <exception cref="ArgumentNullException">Thrown when the provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the limits are invalid.</exception>
     internal MamaHub(
-        IChainProvider<TIn> provider,
+        IChainProvider<IReusable> provider,
         double fastLimit,
         double slowLimit) : base(provider)
     {
@@ -59,8 +58,9 @@ public class MamaHub<TIn>
 
     /// <inheritdoc/>
     protected override (MamaResult result, int index)
-        ToIndicator(TIn item, int? indexHint)
+        ToIndicator(IReusable item, int? indexHint)
     {
+        ArgumentNullException.ThrowIfNull(item);
         // NOTE: MAMA has complex internal state.  We maintain state arrays that are
         // truncated on rebuild events.  See RollbackState() override below.
         // For correctness (matching StaticSeries), we re-derive values strictly
@@ -252,35 +252,31 @@ public static partial class Mama
     /// <summary>
     /// Creates a MAMA streaming hub from a chain provider.
     /// </summary>
-    /// <typeparam name="T">The type of the reusable data.</typeparam>
     /// <param name="chainProvider">The chain provider.</param>
     /// <param name="fastLimit">The fast limit for the MAMA calculation.</param>
     /// <param name="slowLimit">The slow limit for the MAMA calculation.</param>
     /// <returns>A MAMA hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the chain provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the limits are invalid.</exception>
-    public static MamaHub<T> ToMamaHub<T>(
-        this IChainProvider<T> chainProvider,
+    public static MamaHub ToMamaHub(
+        this IChainProvider<IReusable> chainProvider,
         double fastLimit = 0.5,
         double slowLimit = 0.05)
-        where T : IReusable
         => new(chainProvider, fastLimit, slowLimit);
 
     /// <summary>
     /// Creates a Mama hub from a collection of quotes.
     /// </summary>
-    /// <typeparam name="TQuote">The type of the quote.</typeparam>
     /// <param name="quotes">The collection of quotes.</param>
     /// <param name="fastLimit">Parameter for the calculation.</param>
     /// <param name="slowLimit">Parameter for the calculation.</param>
-    /// <returns>An instance of <see cref="MamaHub{TQuote}"/>.</returns>
-    public static MamaHub<TQuote> ToMamaHub<TQuote>(
-        this IReadOnlyList<TQuote> quotes,
+    /// <returns>An instance of <see cref="MamaHub"/>.</returns>
+    public static MamaHub ToMamaHub(
+        this IReadOnlyList<IQuote> quotes,
         double fastLimit = 0.5,
         double slowLimit = 0.05)
-        where TQuote : IQuote
     {
-        QuoteHub<TQuote> quoteHub = new();
+        QuoteHub quoteHub = new();
         quoteHub.Add(quotes);
         return quoteHub.ToMamaHub(fastLimit, slowLimit);
     }

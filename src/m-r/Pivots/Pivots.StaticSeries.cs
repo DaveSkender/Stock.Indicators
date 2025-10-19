@@ -8,7 +8,6 @@ public static partial class Pivots
     /// <summary>
     /// Converts a list of quotes to a list of pivot points results.
     /// </summary>
-    /// <typeparam name="TQuote">The type of the quote.</typeparam>
     /// <param name="quotes">The list of quotes.</param>
     /// <param name="leftSpan">The number of periods to the left of the pivot point.</param>
     /// <param name="rightSpan">The number of periods to the right of the pivot point.</param>
@@ -16,13 +15,12 @@ public static partial class Pivots
     /// <param name="endType">The type of end point for the pivot calculation.</param>
     /// <returns>A list of pivot points results.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the quotes list is null.</exception>
-    public static IReadOnlyList<PivotsResult> ToPivots<TQuote>(
-        this IReadOnlyList<TQuote> quotes,
+    public static IReadOnlyList<PivotsResult> ToPivots(
+        this IReadOnlyList<IQuote> quotes,
         int leftSpan = 2,
         int rightSpan = 2,
         int maxTrendPeriods = 20,
         EndType endType = EndType.HighLow)
-        where TQuote : IQuote
     {
         // check parameter arguments
         ArgumentNullException.ThrowIfNull(quotes);
@@ -130,7 +128,7 @@ public static partial class Pivots
 
         for (int i = 0; i < length; i++)
         {
-            TQuote q = quotes[i];
+            IQuote q = quotes[i];
             (decimal? highPoint, decimal? lowPoint) = fractals[i];
 
             decimal? hl = highLine[i];

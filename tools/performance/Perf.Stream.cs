@@ -9,8 +9,8 @@ public class StreamIndicators
     private static readonly IReadOnlyList<Quote> o = Data.GetCompare();
     private const int n = 14;
 
-    private readonly QuoteHub<Quote> quoteHub = new();      // prepopulated
-    private readonly QuoteHub<Quote> quoteHubOther = new(); // for correlation, beta, etc.
+    private readonly QuoteHub quoteHub = new();      // prepopulated
+    private readonly QuoteHub quoteHubOther = new(); // for correlation, beta, etc.
 
     /* SETUP/CLEANUP - runs before and after each.
      *
@@ -70,7 +70,7 @@ public class StreamIndicators
     [Benchmark] public object RenkoHub() => quoteHub.ToRenkoHub(2.5m).Results;
     [Benchmark] public object RsiHub() => quoteHub.ToRsiHub(n).Results;
     [Benchmark] public object RocHub() => quoteHub.ToRocHub(20).Results;
-    [Benchmark] public object SmaHub() => quoteHub.ToSma(10).Results;
+    [Benchmark] public object SmaHub() => quoteHub.ToSmaHub(10).Results;
     [Benchmark] public object SmmaHub() => quoteHub.ToSmmaHub(n).Results;
     [Benchmark] public object StochHub() => quoteHub.ToStochHub(n, 3, 3).Results;
     [Benchmark] public object StochRsiHub() => quoteHub.ToStochRsiHub(n, n, 3, 1).Results;

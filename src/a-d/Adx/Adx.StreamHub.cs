@@ -3,21 +3,19 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Represents a stream hub for calculating the Average Directional Index (ADX).
 /// </summary>
-/// <typeparam name="TIn">The type of the input.</typeparam>
 /// <inheritdoc cref="IAdx"/>
-public class AdxHub<TIn>
-    : ChainProvider<TIn, AdxResult>, IAdx
-   where TIn : IQuote
+public class AdxHub
+    : ChainProvider<IQuote, AdxResult>, IAdx
 {
     private readonly string hubName;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="AdxHub{TIn}"/> class.
+    /// Initializes a new instance of the <see cref="AdxHub"/> class.
     /// </summary>
     /// <param name="quoteProvider">The stream observable provider.</param>
     /// <param name="lookbackPeriods">The number of periods to look back.</param>
     internal AdxHub(
-        IQuoteProvider<TIn> quoteProvider,
+        IQuoteProvider<IQuote> quoteProvider,
         int lookbackPeriods)
         : base(quoteProvider)
     {
@@ -64,8 +62,10 @@ public class AdxHub<TIn>
 
     /// <inheritdoc/>
     protected override (AdxResult result, int index)
-        ToIndicator(TIn item, int? indexHint)
+        ToIndicator(IQuote item, int? indexHint)
     {
+        ArgumentNullException.ThrowIfNull(item);
+
         int i = indexHint ?? throw new ArgumentNullException(nameof(indexHint));
 
         double high = (double)item.High;
@@ -261,7 +261,7 @@ public class AdxHub<TIn>
 
         for (int i = 0; i <= targetIndex; i++)
         {
-            TIn item = ProviderCache[i];
+            IQuote item = ProviderCache[i];
 
             double high = (double)item.High;
             double low = (double)item.Low;
@@ -372,25 +372,22 @@ public static partial class Adx
     /// <summary>
     /// Creates a stream hub for ADX indicator calculations.
     /// </summary>
-    public static AdxHub<TIn> ToAdxHub<TIn>(
-        this IQuoteProvider<TIn> quoteProvider,
+    public static AdxHub ToAdxHub(
+        this IQuoteProvider<IQuote> quoteProvider,
         int lookbackPeriods = 14)
-        where TIn : IQuote
-        => new(quoteProvider, lookbackPeriods);
+             => new(quoteProvider, lookbackPeriods);
 
     /// <summary>
     /// Creates an ADX hub from a collection of quotes.
     /// </summary>
-    /// <typeparam name="TQuote">The type of the quote.</typeparam>
     /// <param name="quotes">The collection of quotes.</param>
     /// <param name="lookbackPeriods">The number of periods to look back.</param>
-    /// <returns>An instance of <see cref="AdxHub{TQuote}"/>.</returns>
-    public static AdxHub<TQuote> ToAdxHub<TQuote>(
-        this IReadOnlyList<TQuote> quotes,
+    /// <returns>An instance of <see cref="AdxHub"/>.</returns>
+    public static AdxHub ToAdxHub(
+        this IReadOnlyList<IQuote> quotes,
         int lookbackPeriods = 14)
-        where TQuote : IQuote
     {
-        QuoteHub<TQuote> quoteHub = new();
+        QuoteHub quoteHub = new();
         quoteHub.Add(quotes);
         return quoteHub.ToAdxHub(lookbackPeriods);
     }

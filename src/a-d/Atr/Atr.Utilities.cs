@@ -27,19 +27,19 @@ public static partial class Atr
     /// <summary>
     /// Calculates the Average True Range (ATR) incrementally for a given quote.
     /// </summary>
-    /// <typeparam name="TQuote">The type of the quote.</typeparam>
     /// <param name="lookbackPeriods">The number of periods to look back.</param>
     /// <param name="quote">The current quote.</param>
     /// <param name="prevClose">The close price of the previous period.</param>
     /// <param name="prevAtr">The ATR value of the previous period.</param>
     /// <returns>An <see cref="AtrResult"/> containing the ATR values for the current period.</returns>
-    public static AtrResult Increment<TQuote>(
+    public static AtrResult Increment(
         int lookbackPeriods,
-        TQuote quote,
+        IQuote quote,
         double prevClose,
         double? prevAtr)
-        where TQuote : IQuote
     {
+        ArgumentNullException.ThrowIfNull(quote);
+
         double high = (double)quote.High;
         double low = (double)quote.Low;
         double close = (double)quote.Close;

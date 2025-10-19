@@ -8,14 +8,14 @@ public abstract class RegressionTestBase<TResult>(string filename) : TestBase
 {
     protected IReadOnlyList<TResult> Expected { get; init; } = Data.Results<TResult>(filename);
 
-    private static QuoteHub<Quote> CreateQuoteHub()
+    private static QuoteHub CreateQuoteHub()
     {
-        QuoteHub<Quote> hub = new();
+        QuoteHub hub = new();
         hub.Add(Quotes);
         return hub;
     }
 
-    protected static QuoteHub<Quote> QuoteHub { get; } = CreateQuoteHub();
+    protected static QuoteHub QuoteHub { get; } = CreateQuoteHub();
 
     public abstract void Series();
     public abstract void Buffer();

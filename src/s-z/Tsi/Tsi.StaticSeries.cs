@@ -7,20 +7,17 @@ public static partial class Tsi
 {
     /// <summary>
     /// Calculates the True Strength Index (TSI) for a given source of data.
-    /// </summary>
-    /// <typeparam name="T">The type of the elements in the source list, which must implement IReusable.</typeparam>
-    /// <param name="source">The source list of data.</param>
+    /// </summary>    /// <param name="source">The source list of data.</param>
     /// <param name="lookbackPeriods">The number of periods for the lookback calculation. Default is 25.</param>
     /// <param name="smoothPeriods">The number of periods for the smoothing calculation. Default is 13.</param>
     /// <param name="signalPeriods">The number of periods for the signal calculation. Default is 7.</param>
     /// <returns>A list of TsiResult containing the TSI and signal values.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the source is null.</exception>
-    public static IReadOnlyList<TsiResult> ToTsi<T>(
-        this IReadOnlyList<T> source,
+    public static IReadOnlyList<TsiResult> ToTsi(
+        this IReadOnlyList<IReusable> source,
         int lookbackPeriods = 25,
         int smoothPeriods = 13,
         int signalPeriods = 7)
-        where T : IReusable
     {
         // check parameter arguments
         ArgumentNullException.ThrowIfNull(source);
@@ -46,7 +43,7 @@ public static partial class Tsi
         // roll through source values
         for (int i = 0; i < length; i++)
         {
-            T s = source[i];
+            IReusable s = source[i];
 
             // skip first period
             if (i == 0)

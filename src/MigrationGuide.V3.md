@@ -24,7 +24,7 @@ This guide provides a migration path from v2 to v3 of the Stock Indicators libra
 - `GetBaseQuote()` indicator and related `BasicData` return types were removed.
 - `AtrStopResult` values were changed from `decimal` to `double`.
 - `SyncSeries()` utility function and related `SyncType` enum were removed.
-- `ToTupleCollection<TQuote>()` utility method was deprecated.
+- `ToTupleCollection()` utility method was deprecated.
 - `Find()` and `FindIndex()` utility methods were removed.
 - `SmaAnalysis` result model was renamed to `SmaAnalysisResult` for consistency.
 
@@ -56,7 +56,7 @@ This guide provides a migration path from v2 to v3 of the Stock Indicators libra
 - `GetBaseQuote()` indicator and related `BasicData` return types were removed.
 - `AtrStopResult` values were changed from `decimal` to `double`.
 - `SyncSeries()` utility function and related `SyncType` enum were removed.
-- `ToTupleCollection<TQuote>()` utility method was deprecated.
+- `ToTupleCollection()` utility method was deprecated.
 - `Find()` and `FindIndex()` utility methods were removed.
 
 ## Migration Path
@@ -94,5 +94,5 @@ This guide provides a migration path from v2 to v3 of the Stock Indicators libra
 3. Remove `GetBaseQuote()` indicator and related `BasicData` return types.
 4. Change `AtrStopResult` values from `decimal` to `double`.
 5. Remove `SyncSeries()` utility function and related `SyncType` enum.
-6. Deprecate `ToTupleCollection<TQuote>()` utility method.
+6. Deprecate `ToTupleCollection()` utility method.
 7. Remove `Find()` and `FindIndex()` utility methods.

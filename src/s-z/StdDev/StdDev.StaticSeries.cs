@@ -7,17 +7,14 @@ public static partial class StdDev
 {
     /// <summary>
     /// Calculates the standard deviation for a series of data.
-    /// </summary>
-    /// <typeparam name="T">The type of the data series, which must implement IReusable.</typeparam>
-    /// <param name="source">The source data series.</param>
+    /// </summary>    /// <param name="source">The source data series.</param>
     /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
     /// <returns>A list of StdDevResult containing the standard deviation, mean, and z-score for each data point.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the source is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when lookbackPeriods is less than 1.</exception>
-    public static IReadOnlyList<StdDevResult> ToStdDev<T>(
-        this IReadOnlyList<T> source,
+    public static IReadOnlyList<StdDevResult> ToStdDev(
+        this IReadOnlyList<IReusable> source,
         int lookbackPeriods = 14)
-        where T : IReusable
     {
         // check parameter arguments
         ArgumentNullException.ThrowIfNull(source);
@@ -30,7 +27,7 @@ public static partial class StdDev
         // roll through source values
         for (int i = 0; i < length; i++)
         {
-            T s = source[i];
+            IReusable s = source[i];
 
             double mean;
             double stdDev;
@@ -44,7 +41,7 @@ public static partial class StdDev
 
                 for (int p = i + 1 - lookbackPeriods; p <= i; p++)
                 {
-                    T ps = source[p];
+                    IReusable ps = source[p];
                     values[n] = ps.Value;
                     sum += ps.Value;
                     n++;

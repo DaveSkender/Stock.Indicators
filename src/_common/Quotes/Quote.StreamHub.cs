@@ -1,32 +1,17 @@
 namespace Skender.Stock.Indicators;
 
-public static partial class Quotes
-{
-    /// <summary>
-    /// Converts an IQuoteProvider to a QuoteHub.
-    /// </summary>
-    /// <typeparam name="TQuote">The type of quote.</typeparam>
-    /// <param name="quoteProvider">The quote provider to convert.</param>
-    /// <returns>A new instance of QuoteHub.</returns>
-    public static QuoteHub<TQuote> ToQuoteHub<TQuote>(
-        this IQuoteProvider<TQuote> quoteProvider)
-        where TQuote : IQuote => new(quoteProvider);
-}
-
 /// <summary>
 /// Streaming hub for managing quotes.
 /// </summary>
-/// <typeparam name="TQuote">The type of quote.</typeparam>
-public class QuoteHub<TQuote>
-    : QuoteProvider<TQuote, TQuote>
-    where TQuote : IQuote
+public class QuoteHub
+    : QuoteProvider<IQuote, IQuote>
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="QuoteHub{TQuote}"/> base, without its own provider.
+    /// Initializes a new instance of the <see cref="QuoteHub"/> base, without its own provider.
     /// </summary>
     /// <param name="maxCacheSize">Maximum in-memory cache size.</param>
     public QuoteHub(int? maxCacheSize = null)
-        : base(new BaseProvider<TQuote>())
+        : base(new BaseProvider<IQuote>())
     {
 
         const int maxCacheSizeDefault = (int)(0.9 * int.MaxValue);
@@ -44,11 +29,11 @@ public class QuoteHub<TQuote>
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="QuoteHub{TQuote}"/> class with a specified provider.
+    /// Initializes a new instance of the <see cref="QuoteHub"/> class with a specified provider.
     /// </summary>
     /// <param name="provider">The quote provider.</param>
     public QuoteHub(
-        IQuoteProvider<TQuote> provider)
+        IQuoteProvider<IQuote> provider)
         : base(provider)
     {
         Reinitialize();
@@ -57,9 +42,11 @@ public class QuoteHub<TQuote>
     // METHODS
 
     /// <inheritdoc/>
-    protected override (TQuote result, int index)
-        ToIndicator(TQuote item, int? indexHint)
+    protected override (IQuote result, int index)
+        ToIndicator(IQuote item, int? indexHint)
     {
+        ArgumentNullException.ThrowIfNull(item);
+
         int index = indexHint
             ?? Cache.IndexGte(item.Timestamp);
 
@@ -68,7 +55,7 @@ public class QuoteHub<TQuote>
 
     /// <inheritdoc/>
     public override string ToString()
-        => $"QUOTES<{typeof(TQuote).Name}>: {Quotes.Count} items";
+        => $"QUOTES<{typeof(IQuote).Name}>: {Quotes.Count} items";
 }
 
 /// <summary>
@@ -137,4 +124,28 @@ public class BaseProvider<T>
     /// </summary>
     public void EndTransmission()
         => throw new InvalidOperationException();
+}
+
+public static partial class Quotes
+{
+    /// <summary>
+    /// Creates a QuoteHub that is subscribed to an IQuoteProvider.
+    /// </summary>
+    /// <param name="quoteProvider">The quote provider to convert.</param>
+    /// <returns>A new instance of QuoteHub.</returns>
+    public static QuoteHub ToQuoteHub(
+        this IQuoteProvider<IQuote> quoteProvider)
+        => new(quoteProvider);
+
+    /// <summary>
+    /// Creates a new QuoteHub from an initiating collection of quotes.
+    /// </summary>
+    /// <param name="quotes">The collection of quotes.</param>
+    public static QuoteHub ToQuoteHub(
+        this IReadOnlyList<IQuote> quotes)
+    {
+        QuoteHub quoteHub = new();  // cannot dogfood ToQuoteHub() here
+        quoteHub.Add(quotes);
+        return quoteHub;
+    }
 }

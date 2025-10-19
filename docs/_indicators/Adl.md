@@ -89,7 +89,7 @@ Subscribe to a `QuoteHub` for advanced streaming scenarios:
 
 ```csharp
 QuoteHub<Quote> quoteHub = new();
-AdlHub<Quote> observer = quoteHub.ToAdl();
+AdlHub observer = quoteHub.ToAdl();
 
 foreach (Quote quote in quotes)  // simulating stream
 {
