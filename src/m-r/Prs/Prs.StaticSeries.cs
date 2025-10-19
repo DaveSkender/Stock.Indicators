@@ -7,7 +7,7 @@ public static partial class Prs
 {
     #region Overloads
 
-    /// <inheritdoc cref="ToPrs{IReusable}(IReadOnlyList{IReusable}, IReadOnlyList{IReusable}, int)" />
+    /// <inheritdoc cref="ToPrs(IReadOnlyList{IReusable}, IReadOnlyList{IReusable}, int)" />
     public static IReadOnlyList<PrsResult> ToPrs(
         this IReadOnlyList<IReusable> sourceEval,
         IReadOnlyList<IReusable> sourceBase)
