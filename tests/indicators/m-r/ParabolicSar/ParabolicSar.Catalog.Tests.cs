@@ -40,4 +40,39 @@ public class ParabolicSarTests : TestBase
         isreversalResult1?.DisplayName.Should().Be("Is Reversal");
         isreversalResult1.IsReusable.Should().Be(false);
     }
+
+    [TestMethod]
+    public void ParabolicSarBufferListing()
+    {
+        // Act
+        IndicatorListing listing = ParabolicSar.BufferListing;
+
+        // Assert
+        listing.Should().NotBeNull();
+        listing.Name.Should().Be("Parabolic SAR");
+        listing.Uiid.Should().Be("PSAR");
+        listing.Style.Should().Be(Style.Buffer);
+        listing.Category.Should().Be(Category.StopAndReverse);
+        listing.MethodName.Should().Be("ToParabolicSar");
+
+        listing.Parameters.Should().NotBeNull();
+        listing.Parameters.Should().HaveCount(2);
+
+        IndicatorParam accelerationStepParam = listing.Parameters.SingleOrDefault(p => p.ParameterName == "accelerationStep");
+        accelerationStepParam.Should().NotBeNull();
+        IndicatorParam maxAccelerationFactorParam = listing.Parameters.SingleOrDefault(p => p.ParameterName == "maxAccelerationFactor");
+        maxAccelerationFactorParam.Should().NotBeNull();
+
+        listing.Results.Should().NotBeNull();
+        listing.Results.Should().HaveCount(2);
+
+        IndicatorResult sarResult = listing.Results.SingleOrDefault(r => r.DataName == "Sar");
+        sarResult.Should().NotBeNull();
+        sarResult?.DisplayName.Should().Be("Parabolic SAR");
+        sarResult.IsReusable.Should().Be(true);
+        IndicatorResult isreversalResult = listing.Results.SingleOrDefault(r => r.DataName == "IsReversal");
+        isreversalResult.Should().NotBeNull();
+        isreversalResult?.DisplayName.Should().Be("Is Reversal");
+        isreversalResult.IsReusable.Should().Be(false);
+    }
 }

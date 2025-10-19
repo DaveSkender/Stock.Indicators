@@ -26,18 +26,17 @@ public static partial class Pvo
     /// <summary>
     /// Calculates the PVO values.
     /// </summary>
-    /// <typeparam name="T">The type of the source values.</typeparam>
     /// <param name="source">The list of volume values.</param>
     /// <param name="fastPeriods">The number of periods for the fast EMA.</param>
     /// <param name="slowPeriods">The number of periods for the slow EMA.</param>
     /// <param name="signalPeriods">The number of periods for the signal line.</param>
     /// <returns>A list of PVO results.</returns>
-    private static List<PvoResult> CalcPvo<T>(
-        this IReadOnlyList<T> source,  // volume
+    private static List<PvoResult> CalcPvo(
+        this IReadOnlyList<IReusable> source,  // volume
         int fastPeriods,
         int slowPeriods,
         int signalPeriods)
-        where T : IReusable
+
     {
         // check parameter arguments
         Validate(fastPeriods, slowPeriods, signalPeriods);
@@ -57,7 +56,7 @@ public static partial class Pvo
         // roll through source values
         for (int i = 0; i < length; i++)
         {
-            T s = source[i];
+            IReusable s = source[i];
 
             // re-initialize Fast EMA
             double emaFast;
@@ -67,7 +66,7 @@ public static partial class Pvo
                 double sum = 0;
                 for (int p = i - fastPeriods + 1; p <= i; p++)
                 {
-                    T ps = source[p];
+                    IReusable ps = source[p];
                     sum += ps.Value;
                 }
 
@@ -86,7 +85,7 @@ public static partial class Pvo
                 double sum = 0;
                 for (int p = i - slowPeriods + 1; p <= i; p++)
                 {
-                    T ps = source[p];
+                    IReusable ps = source[p];
                     sum += ps.Value;
                 }
 

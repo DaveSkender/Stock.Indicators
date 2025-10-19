@@ -1,5 +1,6 @@
 namespace Skender.Stock.Indicators;
 
+/// <inheritdoc />
 public class UltimateHub
     : ChainProvider<IReusable, UltimateResult>, IUltimate
 {

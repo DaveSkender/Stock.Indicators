@@ -67,6 +67,24 @@ IReadOnlyList<RocWbResult>
 
 See [Utilities and helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
 
+## Streaming
+
+This indicator can be used with the buffer style for incremental streaming scenarios.  See [Streaming guide]({{site.baseurl}}/guide) for more information.
+
+```csharp
+// buffer-style streaming
+RocWbList buffer = new(lookbackPeriods, emaPeriods, stdDevPeriods);
+
+foreach (Quote quote in quotes)
+{
+    buffer.Add(quote);
+    RocWbResult result = buffer[^1];
+}
+
+// or initialize with historical quotes
+RocWbList buffer = quotes.ToRocWbList(lookbackPeriods, emaPeriods, stdDevPeriods);
+```
+
 ## Chaining
 
 This indicator may be generated from any chain-enabled indicator or method.

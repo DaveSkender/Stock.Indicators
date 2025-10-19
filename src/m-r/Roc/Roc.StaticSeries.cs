@@ -7,16 +7,13 @@ public static partial class Roc
 {
     /// <summary>
     /// Converts a list of reusable values to a list of ROC results.
-    /// </summary>
-    /// <typeparam name="T">The type of the reusable values.</typeparam>
-    /// <param name="source">The list of reusable values.</param>
+    /// </summary>    /// <param name="source">The list of reusable values.</param>
     /// <param name="lookbackPeriods">The number of periods to look back for the ROC calculation.</param>
     /// <returns>A list of ROC results.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the source is null.</exception>
-    public static IReadOnlyList<RocResult> ToRoc<T>(
-        this IReadOnlyList<T> source,
+    public static IReadOnlyList<RocResult> ToRoc(
+        this IReadOnlyList<IReusable> source,
         int lookbackPeriods = 14)
-        where T : IReusable
     {
         // check parameter arguments
         ArgumentNullException.ThrowIfNull(source);
@@ -29,14 +26,14 @@ public static partial class Roc
         // roll through source values
         for (int i = 0; i < length; i++)
         {
-            T s = source[i];
+            IReusable s = source[i];
 
             double roc;
             double momentum;
 
             if (i + 1 > lookbackPeriods)
             {
-                T back = source[i - lookbackPeriods];
+                IReusable back = source[i - lookbackPeriods];
 
                 momentum = s.Value - back.Value;
 

@@ -76,7 +76,7 @@ Subscribe to a `QuoteHub` for streaming scenarios:
 
 ```csharp
 QuoteHub<Quote> quoteHub = new();
-QuotePartHub<Quote> observer = quoteHub.ToQuotePart(CandlePart.HL2);
+QuotePartHub<Quote> observer = quoteHub.ToQuotePartHub(CandlePart.HL2);
 
 foreach (Quote quote in quotes)  // simulating stream
 {
@@ -84,4 +84,19 @@ foreach (Quote quote in quotes)  // simulating stream
 }
 
 IReadOnlyList<QuotePart> results = observer.Results;
+```
+
+## Buffering
+
+Use a `QuotePartList` for incremental buffering scenarios:
+
+```csharp
+QuotePartList buffer = new(CandlePart.Close);
+
+foreach (Quote quote in quotes)
+{
+  buffer.Add(quote);
+}
+
+IReadOnlyList<QuotePart> results = buffer;
 ```

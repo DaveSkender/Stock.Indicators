@@ -7,21 +7,18 @@ public static partial class Beta
 {
     /// <summary>
     /// Calculates the Beta coefficient for a series of data.
-    /// </summary>
-    /// <typeparam name="T">The type of the source data.</typeparam>
-    /// <param name="sourceEval">The source data for the evaluated asset.</param>
+    /// </summary>    /// <param name="sourceEval">The source data for the evaluated asset.</param>
     /// <param name="sourceMrkt">The source data for the market.</param>
     /// <param name="lookbackPeriods">The number of periods to look back.</param>
     /// <param name="type">The type of Beta calculation. Default is <see cref="BetaType.Standard"/>.</param>
     /// <returns>A list of Beta results.</returns>
     /// <exception cref="ArgumentNullException">Thrown when sourceEval or sourceMrkt is null.</exception>
     /// <exception cref="InvalidQuotesException">Thrown when the timestamps of sourceEval and sourceMrkt do not match.</exception>
-    public static IReadOnlyList<BetaResult> ToBeta<T>(
-        this IReadOnlyList<T> sourceEval,
-        IReadOnlyList<T> sourceMrkt,
+    public static IReadOnlyList<BetaResult> ToBeta(
+        this IReadOnlyList<IReusable> sourceEval,
+        IReadOnlyList<IReusable> sourceMrkt,
         int lookbackPeriods,
         BetaType type = BetaType.Standard)
-        where T : IReusable
     {
         // check parameter arguments
         ArgumentNullException.ThrowIfNull(sourceEval);
@@ -44,8 +41,8 @@ public static partial class Beta
 
         for (int i = 0; i < length; i++)
         {
-            T eval = sourceEval[i];
-            T mrkt = sourceMrkt[i];
+            IReusable eval = sourceEval[i];
+            IReusable mrkt = sourceMrkt[i];
 
             if (eval.Timestamp != mrkt.Timestamp)
             {
@@ -65,7 +62,7 @@ public static partial class Beta
         // roll through source values
         for (int i = 0; i < length; i++)
         {
-            T eval = sourceEval[i];
+            IReusable eval = sourceEval[i];
 
             // skip warmup periods
             if (i < lookbackPeriods)

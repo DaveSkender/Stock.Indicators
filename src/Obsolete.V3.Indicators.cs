@@ -124,8 +124,8 @@ public static partial class Indicator
         int lookbackPeriods,
         BetaType type = BetaType.Standard)
         => quotesEval
-            .ToSortedList()
-            .ToBeta(quotesMarket.ToSortedList(), lookbackPeriods, type);
+            .ToSortedReusableList()
+            .ToBeta(quotesMarket.ToSortedReusableList(), lookbackPeriods, type);
 
     [ExcludeFromCodeCoverage]
     [Obsolete("Use 'ToBeta(..)' method.  Tuple arguments were removed.", false)]
@@ -457,9 +457,10 @@ public static partial class Indicator
 
     [ExcludeFromCodeCoverage]
     [Obsolete("Rename `GetHurst(..)` to `ToHurst(..)`", false)]
-    public static IEnumerable<HurstResult> GetHurst(
-        this IEnumerable<IQuote> quotes, int lookbackPeriods = 100)
-        => quotes.ToSortedList().ToHurst(lookbackPeriods);
+    public static IEnumerable<HurstResult> GetHurst<TQuote>(
+        this IEnumerable<TQuote> quotes, int lookbackPeriods = 100)
+        where TQuote : IQuote
+        => quotes.ToSortedReusableList().ToHurst(lookbackPeriods);
 
     [ExcludeFromCodeCoverage]
     [Obsolete("Use 'ToHurst(..)' method. Tuple arguments were removed.", false)]

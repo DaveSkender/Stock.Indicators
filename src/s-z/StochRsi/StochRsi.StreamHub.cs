@@ -84,7 +84,7 @@ public sealed class StochRsiHub
             }
 
             // Use the existing series calculation
-            IReadOnlyList<StochRsiResult> seriesResults = subset.ToStochRsi(RsiPeriods, StochPeriods, SignalPeriods, SmoothPeriods);
+            IReadOnlyList<StochRsiResult> seriesResults = ((IReadOnlyList<IReusable>)subset).ToStochRsi(RsiPeriods, StochPeriods, SignalPeriods, SmoothPeriods);
             StochRsiResult? latestResult = seriesResults.Count > 0 ? seriesResults[seriesResults.Count - 1] : null;
 
             stochRsi = latestResult?.StochRsi;

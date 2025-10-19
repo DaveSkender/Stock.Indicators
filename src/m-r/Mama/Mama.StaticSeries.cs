@@ -7,18 +7,15 @@ public static partial class Mama
 {
     /// <summary>
     /// Converts a list of source values to MESA Adaptive Moving Average (MAMA) results.
-    /// </summary>
-    /// <typeparam name="T">The type of the source values, which must implement <see cref="IReusable"/>.</typeparam>
-    /// <param name="source">The list of source values to transform.</param>
+    /// </summary>    /// <param name="source">The list of source values to transform.</param>
     /// <param name="fastLimit">The fast limit for the MAMA calculation. Default is 0.5.</param>
     /// <param name="slowLimit">The slow limit for the MAMA calculation. Default is 0.05.</param>
     /// <returns>A list of MESA Adaptive Moving Average (MAMA) results.</returns>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the fast or slow limit is out of range.</exception>
-    public static IReadOnlyList<MamaResult> ToMama<T>(
-        this IReadOnlyList<T> source,
+    public static IReadOnlyList<MamaResult> ToMama(
+        this IReadOnlyList<IReusable> source,
         double fastLimit = 0.5,
         double slowLimit = 0.05)
-        where T : IReusable
     {
         // check parameter arguments
         Validate(fastLimit, slowLimit);

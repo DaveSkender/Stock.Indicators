@@ -25,5 +25,10 @@ public static partial class RocWb
             .Build();
 
     // No StreamListing for ROC with Bands.
-    // No BufferListing for ROC with Bands.
+
+    // ROC with Bands Buffer Listing
+    internal static readonly IndicatorListing BufferListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Buffer)
+            .Build();
 }

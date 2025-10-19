@@ -2,6 +2,7 @@ namespace Skender.Stock.Indicators;
 
 // TRUE RANGE (STREAM HUB)
 
+/// <inheritdoc />
 public class TrHub
     : ChainProvider<IQuote, TrResult>
 {

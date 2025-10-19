@@ -161,7 +161,7 @@ public static partial class Trix
     {
         QuoteHub quoteHub = new();
         quoteHub.Add(quotes);
-        return quoteHub.ToTrix(14);
+        return quoteHub.ToTrix(lookbackPeriods);
     }
 }
 

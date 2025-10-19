@@ -7,20 +7,17 @@ public static partial class Alma
 {
     /// <summary>
     /// Calculates the Arnaud Legoux Moving Average (ALMA) for a series of data.
-    /// </summary>
-    /// <typeparam name="T">The type of elements in the source series.</typeparam>
-    /// <param name="source">The source series.</param>
+    /// </summary>    /// <param name="source">The source series.</param>
     /// <param name="lookbackPeriods">The number of periods to look back. Default is 9.</param>
     /// <param name="offset">The offset for the ALMA calculation. Default is 0.85.</param>
     /// <param name="sigma">The sigma for the ALMA calculation. Default is 6.</param>
     /// <returns>A list of ALMA results.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the source series is null.</exception>
-    public static IReadOnlyList<AlmaResult> ToAlma<T>(
-        this IReadOnlyList<T> source,
+    public static IReadOnlyList<AlmaResult> ToAlma(
+        this IReadOnlyList<IReusable> source,
         int lookbackPeriods = 9,
         double offset = 0.85,
         double sigma = 6)
-        where T : IReusable
     {
         // check parameter arguments
         ArgumentNullException.ThrowIfNull(source);
@@ -56,7 +53,7 @@ public static partial class Alma
 
                 for (int p = i + 1 - lookbackPeriods; p <= i; p++)
                 {
-                    T ps = source[p];
+                    IReusable ps = source[p];
                     weightedSum += weight[n] * ps.Value;
                     n++;
                 }

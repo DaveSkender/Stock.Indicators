@@ -55,11 +55,13 @@ public class StreamIndicators
     [Benchmark] public object CmfHub() => quoteHub.ToCmfHub(20).Results;
     [Benchmark] public object CorrelationHub() => quoteHub.ToCorrelationHub(quoteHubOther, 20);
     [Benchmark] public object DemaHub() => quoteHub.ToDemaHub(n).Results;
+    [Benchmark] public object DonchianHub() => quoteHub.ToDonchianHub(20).Results;
     [Benchmark] public object EmaHub() => quoteHub.ToEmaHub(20).Results;
     [Benchmark] public object EpmaHub() => quoteHub.ToEpmaHub(n).Results;
     [Benchmark] public object HmaHub() => quoteHub.ToHmaHub(n).Results;
     [Benchmark] public object KamaHub() => quoteHub.ToKamaHub(10, 2, 30).Results;
     [Benchmark] public object MacdHub() => quoteHub.ToMacdHub(12, 26, 9).Results;
+    [Benchmark] public object MaEnvelopesHub() => quoteHub.ToMaEnvelopesHub(20, 2.5, MaType.SMA).Results;
     [Benchmark] public object MamaHub() => quoteHub.ToMamaHub(0.5, 0.05).Results;
     [Benchmark] public object ObvHub() => quoteHub.ToObvHub().Results;
     [Benchmark] public object PrsHub() => quoteHub.ToPrsHub(quoteHubOther, 20);

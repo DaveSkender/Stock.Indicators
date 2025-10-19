@@ -8,16 +8,14 @@ public static partial class Ema
     /// <summary>
     /// Converts a list of source data to EMA results.
     /// </summary>
-    /// <typeparam name="T">The type of the source data.</typeparam>
     /// <param name="source">The list of source data.</param>
     /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
     /// <returns>A list of EMA results.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the source list is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
-    public static IReadOnlyList<EmaResult> ToEma<T>(
-        this IReadOnlyList<T> source,
+    public static IReadOnlyList<EmaResult> ToEma(
+        this IReadOnlyList<IReusable> source,
         int lookbackPeriods)
-        where T : IReusable
     {
         // check parameter arguments
         ArgumentNullException.ThrowIfNull(source);
@@ -33,7 +31,7 @@ public static partial class Ema
         // roll through source values
         for (int i = 0; i < length; i++)
         {
-            T s = source[i];
+            IReusable s = source[i];
 
             // skip incalculable periods
             if (i < lookbackPeriods - 1)

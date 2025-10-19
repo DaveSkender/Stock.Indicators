@@ -7,16 +7,13 @@ public static partial class UlcerIndex
 {
     /// <summary>
     /// Calculates the Ulcer Index for a series of data.
-    /// </summary>
-    /// <typeparam name="T">The type of the elements in the source list, which must implement IReusable.</typeparam>
-    /// <param name="source">The source list of data.</param>
+    /// </summary>    /// <param name="source">The source list of data.</param>
     /// <param name="lookbackPeriods">The number of lookback periods. Default is 14.</param>
     /// <returns>A list of UlcerIndexResult containing the Ulcer Index values.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the source is null.</exception>
-    public static IReadOnlyList<UlcerIndexResult> ToUlcerIndex<T>(
-        this IReadOnlyList<T> source,
+    public static IReadOnlyList<UlcerIndexResult> ToUlcerIndex(
+        this IReadOnlyList<IReusable> source,
         int lookbackPeriods = 14)
-        where T : IReusable
     {
         // check parameter arguments
         ArgumentNullException.ThrowIfNull(source);
@@ -29,7 +26,7 @@ public static partial class UlcerIndex
         // roll through source values
         for (int i = 0; i < length; i++)
         {
-            T s = source[i];
+            IReusable s = source[i];
 
             double? ui;
 
@@ -38,13 +35,13 @@ public static partial class UlcerIndex
                 double sumSquared = 0;
                 for (int p = i + 1 - lookbackPeriods; p <= i; p++)
                 {
-                    T ps = source[p];
+                    IReusable ps = source[p];
                     int dIndex = p + 1;
 
                     double maxClose = 0;
                     for (int z = i + 1 - lookbackPeriods; z < dIndex; z++)
                     {
-                        T zs = source[z];
+                        IReusable zs = source[z];
                         if (zs.Value > maxClose)
                         {
                             maxClose = zs.Value;
