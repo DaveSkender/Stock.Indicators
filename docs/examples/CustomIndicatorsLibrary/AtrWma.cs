@@ -36,7 +36,7 @@ public static class CustomIndicators
         // roll through source values
         for (int i = 0; i < quotesList.Count; i++)
         {
-            TQuote q = quotesList[i];
+            IQuote q = quotesList[i];
 
             AtrWmaResult r = new()
             {
