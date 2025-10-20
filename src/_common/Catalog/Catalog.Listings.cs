@@ -232,7 +232,9 @@ public static partial class Catalog
         _listings.Add(Marubozu.StreamListing);
 
         // MFI (Money Flow Index)
+        _listings.Add(Mfi.BufferListing);
         _listings.Add(Mfi.SeriesListing);
+        _listings.Add(Mfi.StreamListing);
 
         // McGinley Dynamic
         _listings.Add(MgDynamic.SeriesListing);
