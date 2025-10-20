@@ -4,6 +4,28 @@
 **Status:** Planning  
 **Created:** October 19, 2025
 
+## Constitution Check
+
+**1. Mathematical Precision (NON‑NEGOTIABLE):** PASS  
+All fixes preserve existing formulas and Series baseline results; streaming implementations remain bit-for-bit identical to validated reference data.
+
+**2. Performance First:** NEEDS WORK  
+Current allocations in hot loops (14.6 KB/op for RSI) violate zero-allocation principle; plan addresses this through circular buffers and span-based updates.
+
+**3. Comprehensive Validation:** PASS  
+Existing input guards remain intact; streaming state isolation maintained through instance-based buffers without shared mutation.
+
+**4. Test‑Driven Quality:** PASS  
+All changes validated against existing regression baselines; performance benchmarks required before/after to prove allocation reductions.
+
+**5. Documentation Excellence & Transparency:** PASS  
+No public API changes; XML docs and indicator pages remain accurate; migration guide not required for internal optimizations.
+
+**6. Scope & Stewardship:** PASS  
+Changes maintain single-responsibility focus on calculation efficiency; no external dependencies or feature creep introduced.
+
+**Complexity tracking:** Performance principle violation (excessive allocations) is the documented defect being resolved; temporary benchmark regressions during refactoring will be tracked via BenchmarkDotNet diffs.
+
 ## Tech Stack
 
 **Language & Runtime:**
