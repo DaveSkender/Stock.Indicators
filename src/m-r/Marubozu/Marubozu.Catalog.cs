@@ -19,6 +19,11 @@ public static partial class Marubozu
             .WithStyle(Style.Series)
             .Build();
 
-    // No StreamListing for MARUBOZU.
+    // MARUBOZU Stream Listing
+    internal static readonly IndicatorListing StreamListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Stream)
+            .Build();
+
     // No BufferListing for MARUBOZU.
 }
