@@ -72,6 +72,7 @@ public class StreamIndicators
     [Benchmark] public object MacdHub() => quoteHub.ToMacdHub(12, 26, 9).Results;
     [Benchmark] public object MaEnvelopesHub() => quoteHub.ToMaEnvelopesHub(20, 2.5, MaType.SMA).Results;
     [Benchmark] public object MamaHub() => quoteHub.ToMamaHub(0.5, 0.05).Results;
+    [Benchmark] public object MfiHub() => quoteHub.ToMfiHub(14).Results;
     [Benchmark] public object MarubozuHub() => quoteHub.ToMarubozuHub(95).Results;
     [Benchmark] public object ObvHub() => quoteHub.ToObvHub().Results;
     [Benchmark] public object PrsHub() => quoteHub.ToPrsHub(quoteHubOther, 20);
