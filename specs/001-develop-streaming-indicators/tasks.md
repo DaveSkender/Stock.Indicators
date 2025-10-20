@@ -175,7 +175,7 @@ Note on former deferrals: Some indicators were previously marked as deferred due
 - [x] **T065** Implement StarcBands BufferList in `src/s-z/StarcBands/StarcBands.BufferList.cs` ✅
 - [ ] **T066** Implement Stc BufferList in `src/s-z/Stc/Stc.BufferList.cs`
 - [x] **T067** Implement StdDev BufferList in `src/s-z/StdDev/StdDev.BufferList.cs` ✅
-- [ ] **T068** Implement StdDevChannels BufferList in `src/s-z/StdDevChannels/StdDevChannels.BufferList.cs`
+- [x] **T068** Implement StdDevChannels BufferList in `src/s-z/StdDevChannels/StdDevChannels.BufferList.cs` ✅
 - [x] **T069** Implement Stoch BufferList in `src/s-z/Stoch/Stoch.BufferList.cs` ✅
 - [x] **T070** Implement StochRsi BufferList in `src/s-z/StochRsi/StochRsi.BufferList.cs` ✅
 - [x] **T071** Implement SuperTrend BufferList in `src/s-z/SuperTrend/SuperTrend.BufferList.cs` ✅
@@ -194,7 +194,7 @@ Note on former deferrals: Some indicators were previously marked as deferred due
 - [x] **T084** Implement Wma BufferList in `src/s-z/Wma/Wma.BufferList.cs` ✅
 - [x] **T085** Implement ZigZag BufferList in `src/s-z/ZigZag/ZigZag.BufferList.cs` ✅
 
-**BufferList**: 72/85 complete, 13 remaining
+**BufferList**: 73/85 complete, 12 remaining
 
 **Checkpoint**: Phase 2 completion achieves complete BufferList coverage for all Series indicators
 
