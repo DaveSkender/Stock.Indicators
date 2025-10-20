@@ -36,8 +36,9 @@ public class DpoHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
             if (i is > 100 and < 105) { quoteHub.Add(q); }
         }
 
-        // late arrival, should equal series
+        // late arrival - DPO maintains 1:1 input/output with last offset positions empty
         quoteHub.Insert(Quotes[80]);
+        actuals.Should().HaveCount(Quotes.Count);
         actuals.Should().BeEquivalentTo(expectedOriginal, options => options.WithStrictOrdering());
 
         // delete, should equal series (revised)
@@ -45,7 +46,7 @@ public class DpoHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
 
         IReadOnlyList<DpoResult> expectedRevised = RevisedQuotes.ToDpo(lookbackPeriods);
 
-        actuals.Should().HaveCount(501);
+        actuals.Should().HaveCount(RevisedQuotes.Count);
         actuals.Should().BeEquivalentTo(expectedRevised, options => options.WithStrictOrdering());
 
         // cleanup
@@ -79,7 +80,7 @@ public class DpoHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
             .ToSma(smaPeriods)
             .ToDpo(dpoPeriods);
 
-        // assert, should equal series
+        // assert - DPO maintains 1:1 with last offset positions empty
         actuals.Should().HaveCount(length);
         actuals.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
 
@@ -127,12 +128,13 @@ public class DpoHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
             = observer.Results;
 
         // time-series, for comparison (revised)
+        // DPO maintains 1:1 output with input, last offset positions empty
         IReadOnlyList<SmaResult> seriesList = RevisedQuotes
             .ToDpo(dpoPeriods)
             .ToSma(smaPeriods);
 
-        // assert, should equal series
-        actuals.Should().HaveCount(length - 1);
+        // assert - full count maintained with nulls at end
+        actuals.Should().HaveCount(seriesList.Count);
         actuals.Should().BeEquivalentTo(seriesList);
 
         // cleanup
