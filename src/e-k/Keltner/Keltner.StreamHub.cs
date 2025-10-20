@@ -166,8 +166,9 @@ public class KeltnerHub
                 UpperBand: ema.NaN2Null() + atrSpan,
                 Centerline: ema.NaN2Null(),
                 LowerBand: ema.NaN2Null() - atrSpan,
-                Width: ema == 0 ? null : 2 * atrSpan / ema,
-                Atr: atr.NaN2Null());
+                Width: ema == 0 ? null : 2 * atrSpan / ema) {
+                Atr = atr.NaN2Null()
+            };
 
             return (r, i);
         }
