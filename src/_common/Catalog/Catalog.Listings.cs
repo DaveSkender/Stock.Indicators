@@ -207,10 +207,12 @@ public static partial class Catalog
         // Keltner Channels
         _listings.Add(Keltner.BufferListing);
         _listings.Add(Keltner.SeriesListing);
+        _listings.Add(Keltner.StreamListing);
 
         // KVO (Klinger Volume Oscillator)
         _listings.Add(Kvo.BufferListing);
         _listings.Add(Kvo.SeriesListing);
+        _listings.Add(Kvo.StreamListing);
 
         // MA Envelopes (Moving Average Envelopes)
         _listings.Add(MaEnvelopes.SeriesListing);
@@ -229,9 +231,12 @@ public static partial class Catalog
 
         // Marubozu
         _listings.Add(Marubozu.SeriesListing);
+        _listings.Add(Marubozu.StreamListing);
 
         // MFI (Money Flow Index)
+        _listings.Add(Mfi.BufferListing);
         _listings.Add(Mfi.SeriesListing);
+        _listings.Add(Mfi.StreamListing);
 
         // McGinley Dynamic
         _listings.Add(MgDynamic.SeriesListing);

@@ -9,8 +9,8 @@ public static partial class Kvo
             .WithId("KVO")
             .WithCategory(Category.VolumeBased)
             .WithMethodName("ToKvo")
-            .AddParameter<int>("fastPeriods", "Fast Periods", defaultValue: 34, minimum: 1, maximum: 200)
-            .AddParameter<int>("slowPeriods", "Slow Periods", defaultValue: 55, minimum: 1, maximum: 250)
+            .AddParameter<int>("fastPeriods", "Fast Periods", defaultValue: 34, minimum: 3, maximum: 200)
+            .AddParameter<int>("slowPeriods", "Slow Periods", defaultValue: 55, minimum: 4, maximum: 250)
             .AddParameter<int>("signalPeriods", "Signal Periods", defaultValue: 13, minimum: 1, maximum: 50)
             .AddResult("Oscillator", "Oscillator", ResultType.Default, isReusable: true)
             .AddResult("Signal", "Signal", ResultType.Default)
@@ -28,5 +28,10 @@ public static partial class Kvo
             .WithStyle(Style.Buffer)
             .Build();
 
-    // No StreamListing for KVO.
+    // KVO Stream Listing
+    internal static readonly IndicatorListing StreamListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithMethodName("ToKvoHub")
+            .WithStyle(Style.Stream)
+            .Build();
 }

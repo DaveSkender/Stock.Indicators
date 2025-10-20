@@ -20,4 +20,38 @@ public static partial class Cmo
                 "Lookback periods must be greater than 0 for CMO.");
         }
     }
+
+    /// <summary>
+    /// Calculates CMO from a collection of ticks.
+    /// </summary>
+    /// <param name="ticks">The collection of ticks with direction and value.</param>
+    /// <returns>The calculated CMO value, or null if not enough valid data.</returns>
+    internal static double? PeriodCalculation(IEnumerable<(bool? isUp, double value)> ticks)
+    {
+        double sH = 0;
+        double sL = 0;
+
+        foreach ((bool? isUp, double pDiff) in ticks)
+        {
+            if (double.IsNaN(pDiff))
+            {
+                return null;
+            }
+
+            // up
+            if (isUp is true)
+            {
+                sH += pDiff;
+            }
+            // down
+            else
+            {
+                sL += pDiff;
+            }
+        }
+
+        return sH + sL != 0
+            ? (100 * (sH - sL) / (sH + sL)).NaN2Null()
+            : 0d;
+    }
 }
