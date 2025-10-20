@@ -1,7 +1,7 @@
 namespace StreamHub;
 
 [TestClass]
-public class MarubozuHub : StreamHubTestBase, ITestQuoteObserver
+public class MarubozuHubTests : StreamHubTestBase, ITestQuoteObserver
 {
     [TestMethod]
     public void QuoteObserver()
@@ -11,7 +11,7 @@ public class MarubozuHub : StreamHubTestBase, ITestQuoteObserver
         int length = quotesList.Count;
 
         // setup quote provider
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
         // prefill quotes to provider
         for (int i = 0; i < 20; i++)
@@ -20,7 +20,7 @@ public class MarubozuHub : StreamHubTestBase, ITestQuoteObserver
         }
 
         // initialize observer
-        MarubozuHub<Quote> marubozuHub = quoteHub
+        MarubozuHub marubozuHub = quoteHub
             .ToMarubozuHub(95);
 
         // fetch initial results (early)
@@ -67,8 +67,8 @@ public class MarubozuHub : StreamHubTestBase, ITestQuoteObserver
     [TestMethod]
     public override void CustomToString()
     {
-        QuoteHub<Quote> quoteHub = new();
-        MarubozuHub<Quote> marubozuHub = quoteHub.ToMarubozuHub(95);
+        QuoteHub quoteHub = new();
+        MarubozuHub marubozuHub = quoteHub.ToMarubozuHub(95);
 
         marubozuHub.ToString().Should().Be("MARUBOZU(95.0)");
 
