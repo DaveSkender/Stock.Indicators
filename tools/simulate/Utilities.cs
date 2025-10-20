@@ -27,10 +27,10 @@ internal static class Util
 
     internal static void PrintData(
         Quote q,
-        SmaHub<Quote> smaHub,
-        EmaHub<Quote> emaHub,
-        EmaHub<QuotePart> useChain,
-        EmaHub<SmaResult> emaChain)
+        SmaHub smaHub,
+        EmaHub emaHub,
+        EmaHub useChain,
+        EmaHub emaChain)
     {
         // Format the initial part of the output string with timestamp and close price
         string m = $"{q.Timestamp:yyyy-MM-dd HH:mm}  {q.Close,11:N2}";

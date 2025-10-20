@@ -3,34 +3,8 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Provides methods for calculating the Hull Moving Average (HMA) indicator.
 /// </summary>
-public static partial class Hma
-{
-    /// <summary>
-    /// Creates an HMA streaming hub from a chain provider.
-    /// </summary>
-    /// <typeparam name="T">The type of the reusable data.</typeparam>
-    /// <param name="chainProvider">The chain provider.</param>
-    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
-    /// <returns>An HMA hub.</returns>
-    /// <exception cref="ArgumentNullException">Thrown when the chain provider is null.</exception>
-    /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
-    public static HmaHub<T> ToHmaHub<T>(
-        this IChainProvider<T> chainProvider,
-        int lookbackPeriods)
-        where T : IReusable
-    {
-        ArgumentNullException.ThrowIfNull(chainProvider);
-        return new(chainProvider, lookbackPeriods);
-    }
-}
-
-/// <summary>
-/// Streaming hub for Hull Moving Average (HMA) calculations.
-/// </summary>
-/// <typeparam name="TIn">The type of the input data.</typeparam>
-public class HmaHub<TIn>
-    : ChainProvider<TIn, HmaResult>, IHma
-    where TIn : IReusable
+public class HmaHub
+    : ChainProvider<IReusable, HmaResult>, IHma
 {
     private readonly string hubName;
     private readonly int wmaN1Periods;
@@ -42,14 +16,14 @@ public class HmaHub<TIn>
     private readonly int shiftQty;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="HmaHub{TIn}"/> class.
+    /// Initializes a new instance of the <see cref="HmaHub"/> class.
     /// </summary>
     /// <param name="provider">The chain provider.</param>
     /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
     /// <exception cref="ArgumentNullException">Thrown when the provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
     internal HmaHub(
-        IChainProvider<TIn> provider,
+        IChainProvider<IReusable> provider,
         int lookbackPeriods) : base(provider)
     {
         Hma.Validate(lookbackPeriods);
@@ -79,8 +53,9 @@ public class HmaHub<TIn>
 
     /// <inheritdoc/>
     protected override (HmaResult result, int index)
-        ToIndicator(TIn item, int? indexHint)
+        ToIndicator(IReusable item, int? indexHint)
     {
+        ArgumentNullException.ThrowIfNull(item);
         int index = indexHint ?? ProviderCache.IndexOf(item, true);
         double? hma = CalculateHma(index);
 
@@ -143,4 +118,40 @@ public class HmaHub<TIn>
 
         return wma;
     }
+}
+
+
+public static partial class Hma
+{
+    /// <summary>
+    /// Creates an HMA streaming hub from a chain provider.
+    /// </summary>
+    /// <param name="chainProvider">The chain provider.</param>
+    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
+    /// <returns>An HMA hub.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when the chain provider is null.</exception>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
+    public static HmaHub ToHmaHub(
+        this IChainProvider<IReusable> chainProvider,
+        int lookbackPeriods)
+    {
+        ArgumentNullException.ThrowIfNull(chainProvider);
+        return new(chainProvider, lookbackPeriods);
+    }
+
+    /// <summary>
+    /// Creates a Hma hub from a collection of quotes.
+    /// </summary>
+    /// <param name="quotes">The collection of quotes.</param>
+    /// <param name="lookbackPeriods">Parameter for the calculation.</param>
+    /// <returns>An instance of <see cref="HmaHub"/>.</returns>
+    public static HmaHub ToHmaHub(
+        this IReadOnlyList<IQuote> quotes,
+        int lookbackPeriods)
+    {
+        QuoteHub quoteHub = new();
+        quoteHub.Add(quotes);
+        return quoteHub.ToHmaHub(lookbackPeriods);
+    }
+
 }

@@ -9,7 +9,7 @@ public class StyleComparison
     private static readonly IReadOnlyList<Quote> quotes
        = Data.GetDefault();
 
-    private readonly QuoteHub<Quote> quoteHub = new();
+    private readonly QuoteHub quoteHub = new();
 
     private const int n = 14;
 
@@ -51,7 +51,7 @@ public class StyleComparison
 
     [Benchmark] public IReadOnlyList<SmaResult> SmaSeries() => quotes.ToSma(n);
     [Benchmark] public IReadOnlyList<SmaResult> SmaBuffer() => quotes.ToSmaList(n);
-    [Benchmark] public IReadOnlyList<SmaResult> SmaStream() => quoteHub.ToSma(n).Results;
+    [Benchmark] public IReadOnlyList<SmaResult> SmaStream() => quoteHub.ToSmaHub(n).Results;
 
     [Benchmark] public IReadOnlyList<WmaResult> WmaSeries() => quotes.ToWma(n);
     [Benchmark] public IReadOnlyList<WmaResult> WmaBuffer() => quotes.ToWmaList(n);

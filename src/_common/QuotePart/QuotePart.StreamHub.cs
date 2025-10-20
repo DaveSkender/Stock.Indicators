@@ -7,42 +7,35 @@ public static partial class QuoteParts
     /// <summary>
     /// Converts the quote provider to a QuotePartHub.
     /// </summary>
-    /// <typeparam name="TIn">The type of the quote.</typeparam>
     /// <param name="quoteProvider">The quote provider.</param>
     /// <param name="candlePart">The candle part to select.</param>
     /// <returns>A QuotePartHub instance.</returns>
-    public static QuotePartHub<TIn> ToQuotePartHub<TIn>(
-    this IQuoteProvider<TIn> quoteProvider,
+    public static QuotePartHub ToQuotePartHub(
+    this IQuoteProvider<IQuote> quoteProvider,
     CandlePart candlePart)
-    where TIn : IQuote
     => new(quoteProvider, candlePart);
 }
 
 /// <summary>
 /// Streaming hub for managing quote parts.
 /// </summary>
-/// <typeparam name="TQuote">The type of the quote.</typeparam>
-public class QuotePartHub<TQuote>
-    : ChainProvider<TQuote, QuotePart>, IQuotePart
-    where TQuote : IQuote
+public class QuotePartHub
+    : ChainProvider<IQuote, QuotePart>, IQuotePart
 {
-    #region constructors
-
     /// <summary>
-    /// Initializes a new instance of the <see cref="QuotePartHub{TQuote}"/> class.
+    /// Initializes a new instance of the <see cref="QuotePartHub"/> class.
     /// </summary>
     /// <param name="provider">The quote provider.</param>
     /// <param name="candlePart">The candle part to select.</param>
     internal QuotePartHub(
-        IQuoteProvider<TQuote> provider,
-        CandlePart candlePart)
-        : base(provider)
+        IQuoteProvider<IQuote> provider,
+        CandlePart candlePart
+    ) : base(provider)
     {
         CandlePartSelection = candlePart;
 
         Reinitialize();
     }
-    #endregion
 
     /// <summary>
     /// Gets the selected candle part.
@@ -53,8 +46,10 @@ public class QuotePartHub<TQuote>
 
     /// <inheritdoc/>
     protected override (QuotePart result, int index)
-        ToIndicator(TQuote item, int? indexHint)
+        ToIndicator(IQuote item, int? indexHint)
     {
+        ArgumentNullException.ThrowIfNull(item);
+
         // candidate result
         QuotePart r
             = item.ToQuotePart(CandlePartSelection);

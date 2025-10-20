@@ -5,44 +5,18 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Provides methods for creating WMA hubs.
 /// </summary>
-public static partial class Wma
-{
-    /// <summary>
-    /// Converts the chain provider to a WMA hub.
-    /// </summary>
-    /// <typeparam name="TIn">The type of the input.</typeparam>
-    /// <param name="chainProvider">The chain provider.</param>
-    /// <param name="lookbackPeriods">The number of lookback periods.</param>
-    /// <returns>A WMA hub.</returns>
-    /// <exception cref="ArgumentNullException">Thrown when the chain provider is null.</exception>
-    /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
-    public static WmaHub<TIn> ToWmaHub<TIn>(
-        this IChainProvider<TIn> chainProvider,
-        int lookbackPeriods)
-        where TIn : IReusable
-    {
-        ArgumentNullException.ThrowIfNull(chainProvider);
-        return new(chainProvider, lookbackPeriods);
-    }
-}
-
-/// <summary>
-/// Represents a Weighted Moving Average (WMA) stream hub.
-/// </summary>
-/// <typeparam name="TIn">The type of the input.</typeparam>
-public class WmaHub<TIn>
-    : ChainProvider<TIn, WmaResult>, IWma
-    where TIn : IReusable
+public class WmaHub
+    : ChainProvider<IReusable, WmaResult>, IWma
 {
     private readonly string hubName;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="WmaHub{TIn}"/> class.
+    /// Initializes a new instance of the <see cref="WmaHub"/> class.
     /// </summary>
     /// <param name="provider">The chain provider.</param>
     /// <param name="lookbackPeriods">The number of lookback periods.</param>
     internal WmaHub(
-        IChainProvider<TIn> provider,
+        IChainProvider<IReusable> provider,
         int lookbackPeriods) : base(provider)
     {
         Wma.Validate(lookbackPeriods);
@@ -64,8 +38,9 @@ public class WmaHub<TIn>
 
     /// <inheritdoc />
     protected override (WmaResult result, int index)
-        ToIndicator(TIn item, int? indexHint)
+        ToIndicator(IReusable item, int? indexHint)
     {
+        ArgumentNullException.ThrowIfNull(item);
         int index = indexHint ?? ProviderCache.IndexOf(item, true);
 
         double wma = Wma.Increment(ProviderCache, LookbackPeriods, index);
@@ -76,4 +51,40 @@ public class WmaHub<TIn>
 
         return (result, index);
     }
+}
+
+
+public static partial class Wma
+{
+    /// <summary>
+    /// Converts the chain provider to a WMA hub.
+    /// </summary>
+    /// <param name="chainProvider">The chain provider.</param>
+    /// <param name="lookbackPeriods">The number of lookback periods.</param>
+    /// <returns>A WMA hub.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when the chain provider is null.</exception>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
+    public static WmaHub ToWmaHub(
+        this IChainProvider<IReusable> chainProvider,
+        int lookbackPeriods)
+    {
+        ArgumentNullException.ThrowIfNull(chainProvider);
+        return new(chainProvider, lookbackPeriods);
+    }
+
+    /// <summary>
+    /// Creates a Wma hub from a collection of quotes.
+    /// </summary>
+    /// <param name="quotes">The collection of quotes.</param>
+    /// <param name="lookbackPeriods">Parameter for the calculation.</param>
+    /// <returns>An instance of <see cref="WmaHub"/>.</returns>
+    public static WmaHub ToWmaHub(
+        this IReadOnlyList<IQuote> quotes,
+        int lookbackPeriods)
+    {
+        QuoteHub quoteHub = new();
+        quoteHub.Add(quotes);
+        return quoteHub.ToWmaHub(lookbackPeriods);
+    }
+
 }

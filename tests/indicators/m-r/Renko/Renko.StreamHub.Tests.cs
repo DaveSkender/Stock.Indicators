@@ -1,7 +1,7 @@
 namespace StreamHub;
 
 [TestClass]
-public class RenkoHub : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
+public class RenkoHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
 {
     [TestMethod]
     public void QuoteObserver()
@@ -14,7 +14,7 @@ public class RenkoHub : StreamHubTestBase, ITestQuoteObserver, ITestChainProvide
         int length = quotesList.Count;
 
         // setup quote provider hub
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
         // prefill quotes at provider
         for (int i = 0; i < 50; i++)
@@ -23,7 +23,7 @@ public class RenkoHub : StreamHubTestBase, ITestQuoteObserver, ITestChainProvide
         }
 
         // initialize observer
-        RenkoHub<Quote> observer = quoteHub
+        RenkoHub observer = quoteHub
             .ToRenkoHub(brickSize, endType);
 
         // fetch initial results (early)
@@ -80,12 +80,12 @@ public class RenkoHub : StreamHubTestBase, ITestQuoteObserver, ITestChainProvide
         int length = quotesList.Count;
 
         // setup quote provider hub
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
         // initialize observer
-        SmaHub<RenkoResult> observer = quoteHub
+        SmaHub observer = quoteHub
             .ToRenkoHub(brickSize, endType)
-            .ToSma(smaPeriods);
+            .ToSmaHub(smaPeriods);
 
         // emulate quote stream
         for (int i = 0; i < length; i++)
@@ -117,7 +117,7 @@ public class RenkoHub : StreamHubTestBase, ITestQuoteObserver, ITestChainProvide
     [TestMethod]
     public override void CustomToString()
     {
-        RenkoHub<Quote> hub = new(new QuoteHub<Quote>(), 2.5m, EndType.Close);
+        RenkoHub hub = new(new QuoteHub(), 2.5m, EndType.Close);
         hub.ToString().Should().Be("RENKO(2.5,CLOSE)");
     }
 
@@ -125,15 +125,15 @@ public class RenkoHub : StreamHubTestBase, ITestQuoteObserver, ITestChainProvide
     public void SettingsInheritance()
     {
         // setup quote hub (1st level)
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
         // setup renko hub (2nd level)
-        RenkoHub<Quote> renkoHub = quoteHub
+        RenkoHub renkoHub = quoteHub
             .ToRenkoHub(brickSize: 2.5m, endType: EndType.Close);
 
         // setup child hub (3rd level)
-        SmaHub<RenkoResult> childHub = renkoHub
-            .ToSma(lookbackPeriods: 5);
+        SmaHub childHub = renkoHub
+            .ToSmaHub(lookbackPeriods: 5);
 
         // note: dispite `quoteHub` being parentless,
         // it has default properties; it should not

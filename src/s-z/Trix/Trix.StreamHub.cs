@@ -1,33 +1,11 @@
 namespace Skender.Stock.Indicators;
 
-/// <summary>
-/// Provides methods for calculating the Triple Exponential Moving Average Oscillator (TRIX) indicator.
-/// </summary>
-public static partial class Trix
-{
-    /// <summary>
-    /// Creates a TRIX streaming hub from a chain provider.
-    /// </summary>
-    /// <typeparam name="T">The type of the reusable data.</typeparam>
-    /// <param name="chainProvider">The chain provider.</param>
-    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
-    /// <returns>A TRIX hub.</returns>
-    /// <exception cref="ArgumentNullException">Thrown when the chain provider is null.</exception>
-    /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
-    public static TrixHub<T> ToTrix<T>(
-        this IChainProvider<T> chainProvider,
-        int lookbackPeriods = 14)
-        where T : IReusable
-        => new(chainProvider, lookbackPeriods);
-}
 
 /// <summary>
 /// Streaming hub for Triple Exponential Moving Average Oscillator (TRIX) calculations.
 /// </summary>
-/// <typeparam name="TIn">The type of the input data.</typeparam>
-public class TrixHub<TIn>
-    : ChainProvider<TIn, TrixResult>, ITrix
-    where TIn : IReusable
+public class TrixHub
+    : ChainProvider<IReusable, TrixResult>, ITrix
 {
     private readonly string hubName;
     private double lastEma1 = double.NaN;
@@ -35,7 +13,7 @@ public class TrixHub<TIn>
     private double lastEma3 = double.NaN;
 
     internal TrixHub(
-        IChainProvider<TIn> provider,
+        IChainProvider<IReusable> provider,
         int lookbackPeriods) : base(provider)
     {
         Trix.Validate(lookbackPeriods);
@@ -57,8 +35,9 @@ public class TrixHub<TIn>
 
     /// <inheritdoc/>
     protected override (TrixResult result, int index)
-        ToIndicator(TIn item, int? indexHint)
+        ToIndicator(IReusable item, int? indexHint)
     {
+        ArgumentNullException.ThrowIfNull(item);
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
         // if out-of-order change (insertion/deletion before current index) occurred
@@ -152,4 +131,37 @@ public class TrixHub<TIn>
 
         return (lastEma1, lastEma2, lastEma3, lastEma3, trix);
     }
+
 }
+
+
+public static partial class Trix
+{
+    /// <summary>
+    /// Creates a TRIX streaming hub from a chain provider.
+    /// </summary>
+    /// <param name="chainProvider">The chain provider.</param>
+    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
+    /// <returns>A TRIX hub.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when the chain provider is null.</exception>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
+    public static TrixHub ToTrixHub(
+        this IChainProvider<IReusable> chainProvider,
+        int lookbackPeriods = 14)
+        => new(chainProvider, lookbackPeriods);
+
+    /// <summary>
+    /// Creates a Trix hub from a collection of quotes.
+    /// </summary>
+    /// <param name="quotes">The collection of quotes.</param>
+    /// <param name="lookbackPeriods"></param>
+    /// <returns>An instance of <see cref="TrixHub"/>.</returns>
+    public static TrixHub ToTrixHub(
+        this IReadOnlyList<IQuote> quotes, int lookbackPeriods = 14)
+    {
+        QuoteHub quoteHub = new();
+        quoteHub.Add(quotes);
+        return quoteHub.ToTrixHub(lookbackPeriods);
+    }
+}
+

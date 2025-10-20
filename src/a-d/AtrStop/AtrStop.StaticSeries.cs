@@ -8,18 +8,17 @@ public static partial class AtrStop
     /// <summary>
     /// Calculates the ATR Trailing Stop (High/Low offset) from a series of quotes.
     /// </summary>
-    /// <typeparam name="TQuote">The type of the quote.</typeparam>
     /// <param name="quotes">The list of quotes.</param>
     /// <param name="lookbackPeriods">The number of periods to look back. Default is 21.</param>
     /// <param name="multiplier">The multiplier for the ATR. Default is 3.</param>
     /// <param name="endType">The candle threshold point to use for reversals.</param>
     /// <returns>A list of ATR Trailing Stop results.</returns>
-    public static IReadOnlyList<AtrStopResult> ToAtrStop<TQuote>(
-        this IReadOnlyList<TQuote> quotes,
+    public static IReadOnlyList<AtrStopResult> ToAtrStop(
+        this IReadOnlyList<IQuote> quotes,
         int lookbackPeriods = 21,
         double multiplier = 3,
         EndType endType = EndType.Close)
-        where TQuote : IQuote => quotes
+        => quotes
             .ToQuoteDList()
             .CalcAtrStop(lookbackPeriods, multiplier, endType);
 

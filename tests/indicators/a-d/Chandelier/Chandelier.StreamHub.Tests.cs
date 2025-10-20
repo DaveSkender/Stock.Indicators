@@ -11,13 +11,13 @@ public class Chandelier : StreamHubTestBase, ITestQuoteObserver
         int length = quotesList.Count;
 
         // setup quote provider hub
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
         // prefill quotes at provider (batch)
         quoteHub.Add(quotesList.Take(25));
 
         // initialize observer
-        ChandelierHub<Quote> observer = quoteHub
+        ChandelierHub observer = quoteHub
             .ToChandelierHub(22, 3);
 
         observer.Results.Should().HaveCount(25);
@@ -71,10 +71,10 @@ public class Chandelier : StreamHubTestBase, ITestQuoteObserver
         // simple test, just to check Short variant
 
         // setup quote provider hub
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
         // initialize observer
-        ChandelierHub<Quote> observer = quoteHub
+        ChandelierHub observer = quoteHub
             .ToChandelierHub(22, 3, Direction.Short);
 
         // add quotes to quoteHub
@@ -100,7 +100,7 @@ public class Chandelier : StreamHubTestBase, ITestQuoteObserver
     [TestMethod]
     public override void CustomToString()
     {
-        ChandelierHub<Quote> hub = new(new QuoteHub<Quote>(), 22, 3, Direction.Long);
+        ChandelierHub hub = new(new QuoteHub(), 22, 3, Direction.Long);
         hub.ToString().Should().Be("CHEXIT(22,3,LONG)");
     }
 }

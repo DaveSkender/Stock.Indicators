@@ -13,14 +13,12 @@ public static partial class QuoteParts
     /// Use this conversion if indicator needs to
     /// use something other than the default Close price.
     /// </remarks>
-    /// <typeparam name="TQuote">The type of the quote.</typeparam>
     /// <param name="quotes">Sorted list of IQuote or IReusable items.</param>
     /// <param name="candlePart">The candle part to convert to.</param>
     /// <returns>List of IReusable items.</returns>
-    public static IReadOnlyList<QuotePart> ToQuotePart<TQuote>(
-        this IReadOnlyList<TQuote> quotes,
+    public static IReadOnlyList<QuotePart> ToQuotePart(
+        this IReadOnlyList<IQuote> quotes,
         CandlePart candlePart)
-        where TQuote : IQuote
     {
         ArgumentNullException.ThrowIfNull(quotes);
         int length = quotes.Count;
@@ -38,11 +36,12 @@ public static partial class QuoteParts
     /// Converts <see cref="IReadOnlyList{IQuote}"/> to
     /// an <see cref="IReadOnlyList{QuotePart}"/> list.
     /// </summary>
-    /// <inheritdoc cref="ToQuotePart{TQuote}(IReadOnlyList{TQuote}, CandlePart)" />
-    public static IReadOnlyList<QuotePart> Use<TQuote>(
-        this IReadOnlyList<TQuote> quotes,
+    /// <param name="quotes">Historical price quotes.</param>
+    /// <param name="candlePart">Candle part to extract.</param>
+    /// <returns>Collection of <see cref="QuotePart"/> records.</returns>
+    public static IReadOnlyList<QuotePart> Use(
+        this IReadOnlyList<IQuote> quotes,
         CandlePart candlePart)
-        where TQuote : IQuote
         => ToQuotePart(quotes, candlePart);
 
     // TODO: should we deprecate Use in favor of "ToQuotePart"?

@@ -1,7 +1,7 @@
 namespace StreamHub;
 
 [TestClass]
-public class AlmaHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
+public class AlmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProvider
 {
     [TestMethod]
     public void QuoteObserver()
@@ -11,7 +11,7 @@ public class AlmaHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
         int length = quotesList.Count;
 
         // setup quote provider hub
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
         // prefill quotes at provider
         for (int i = 0; i < 20; i++)
@@ -20,7 +20,7 @@ public class AlmaHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
         }
 
         // initialize observer
-        AlmaHub<Quote> observer = quoteHub
+        AlmaHub observer = quoteHub
             .ToAlmaHub(10, 0.85, 6);
 
         // fetch initial results (early)
@@ -75,11 +75,11 @@ public class AlmaHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
         int length = quotesList.Count;
 
         // setup quote provider hub
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
         // initialize observer
-        AlmaHub<SmaResult> observer = quoteHub
-            .ToSma(smaPeriods)
+        AlmaHub observer = quoteHub
+            .ToSmaHub(smaPeriods)
             .ToAlmaHub(almaPeriods, 0.85, 6);
 
         // emulate quote stream
@@ -117,15 +117,15 @@ public class AlmaHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
         int length = quotesList.Count;
 
         // setup quote provider hub
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
         // initialize ALMA observer as quoteHub
-        AlmaHub<Quote> almaObserver = quoteHub
+        AlmaHub almaObserver = quoteHub
             .ToAlmaHub(almaPeriods, 0.85, 6);
 
         // initialize SMA observer
-        SmaHub<AlmaResult> smaObserver = almaObserver
-            .ToSma(smaPeriods);
+        SmaHub smaObserver = almaObserver
+            .ToSmaHub(smaPeriods);
 
         // emulate quote stream
         for (int i = 0; i < length; i++)
@@ -155,8 +155,8 @@ public class AlmaHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
     [TestMethod]
     public override void CustomToString()
     {
-        QuoteHub<Quote> quoteHub = new();
-        AlmaHub<Quote> observer = quoteHub.ToAlmaHub(14, 0.85, 6);
+        QuoteHub quoteHub = new();
+        AlmaHub observer = quoteHub.ToAlmaHub(14, 0.85, 6);
 
         observer.ToString().Should().Be("ALMA(14,0.85,6)");
 
@@ -180,10 +180,10 @@ public class AlmaHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
         foreach ((int lookback, double offset, double sigma) in parameters)
         {
             // setup quote provider hub
-            QuoteHub<Quote> quoteHub = new();
+            QuoteHub quoteHub = new();
 
             // initialize observer
-            AlmaHub<Quote> observer = quoteHub
+            AlmaHub observer = quoteHub
                 .ToAlmaHub(lookback, offset, sigma);
 
             // emulate quote stream
@@ -215,10 +215,10 @@ public class AlmaHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
         List<Quote> quotesList = Quotes.ToList();
 
         // setup quote provider hub
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
         // initialize observer with sample parameters
-        AlmaHub<Quote> observer = quoteHub.ToAlmaHub(14, 0.85, 6);
+        AlmaHub observer = quoteHub.ToAlmaHub(14, 0.85, 6);
 
         // Add ~50 quotes to populate state
         for (int i = 0; i < 50; i++)
@@ -241,8 +241,8 @@ public class AlmaHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
         quoteHub.EndTransmission();
 
         // Create a new quoteHub with just one quote
-        QuoteHub<Quote> freshProvider = new();
-        AlmaHub<Quote> freshObserver = freshProvider.ToAlmaHub(14, 0.85, 6);
+        QuoteHub freshProvider = new();
+        AlmaHub freshObserver = freshProvider.ToAlmaHub(14, 0.85, 6);
 
         // Add one quote and assert observer.Results has count 1 and that the single result's Alma is null (since lookback period is 14)
         freshProvider.Add(quotesList[0]);
@@ -258,7 +258,7 @@ public class AlmaHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
     [TestMethod]
     public void AlmaHubExceptions()
     {
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
         // test constructor validation
         Action act1 = () => quoteHub.ToAlmaHub(1, 0.85, 6);

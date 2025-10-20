@@ -1,7 +1,7 @@
 namespace StreamHub;
 
 [TestClass]
-public class ChopHub : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
+public class ChopHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
 {
     [TestMethod]
     public void QuoteObserver()
@@ -11,7 +11,7 @@ public class ChopHub : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
         int length = quotesList.Count;
 
         // setup quote provider hub
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
         // prefill quotes at provider
         for (int i = 0; i < 25; i++)
@@ -20,7 +20,7 @@ public class ChopHub : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
         }
 
         // initialize observer
-        ChopHub<Quote> observer = quoteHub
+        ChopHub observer = quoteHub
             .ToChopHub(14);
 
         // fetch initial results (early)
@@ -75,12 +75,12 @@ public class ChopHub : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
         int length = quotesList.Count;
 
         // setup quote provider hub
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
         // initialize observer
-        SmaHub<ChopResult> observer = quoteHub
+        SmaHub observer = quoteHub
             .ToChopHub(chopPeriods)
-            .ToSma(smaPeriods);
+            .ToSmaHub(smaPeriods);
 
         // emulate quote stream
         for (int i = 0; i < length; i++)
@@ -109,8 +109,8 @@ public class ChopHub : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
     [TestMethod]
     public override void CustomToString()
     {
-        QuoteHub<Quote> quoteHub = new();
-        ChopHub<Quote> observer = quoteHub.ToChopHub(14);
+        QuoteHub quoteHub = new();
+        ChopHub observer = quoteHub.ToChopHub(14);
 
         observer.ToString().Should().Be("CHOP(14)");
 

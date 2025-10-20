@@ -14,7 +14,7 @@ public class Stackoverflow : TestBase
         // setup: many random quotes (massive)
         IReadOnlyList<Quote> quotesList = Data.GetRandom(qtyQuotes);
 
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
         // setup: define ~10 subscribers (flat)
         List<(string label, IReadOnlyList<ISeries> results, bool irregular)> subscribers =
@@ -93,13 +93,13 @@ public class Stackoverflow : TestBase
         // setup: many random quotes (massive)
         IReadOnlyList<Quote> quotesList = Data.GetRandom(qtyQuotes);
 
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
         // setup: subscribe a large chain depth
         List<(string label, IReadOnlyList<ISeries> results, bool irregular)> subscribers = new(chainDepth + 2);
 
-        SmaHub<Quote> init = quoteHub.ToSma(1);
-        SmaHub<SmaResult> sma = init.ToSma(2);
+        SmaHub init = quoteHub.ToSmaHub(1);
+        SmaHub sma = init.ToSmaHub(2);
 
         subscribers.Add(HubRef(init));
         subscribers.Add(HubRef(sma));
@@ -109,7 +109,7 @@ public class Stackoverflow : TestBase
         // recursive providers
         for (int i = 1; i <= chainDepth; i++)
         {
-            sma = sma.ToSma(lookbackPeriods);
+            sma = sma.ToSmaHub(lookbackPeriods);
             subscribers.Add(HubRef(sma));
 
             lookbackPeriods = lookbackPeriods is 2 ? 1 : 2;
@@ -176,7 +176,7 @@ public class Stackoverflow : TestBase
         // setup: many random quotes
         IReadOnlyList<Quote> quotesList = Data.GetRandom(qtyQuotes);
 
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
         // setup: define all possible subscribers
         // TODO: add to this as more Hubs come online
@@ -198,7 +198,7 @@ public class Stackoverflow : TestBase
         // many SMAs
         for (int i = 1; i <= 300; i++)
         {
-            subscribers.Add(HubRef(quoteHub.ToSma(i)));
+            subscribers.Add(HubRef(quoteHub.ToSmaHub(i)));
         }
 
         // act: add quotes

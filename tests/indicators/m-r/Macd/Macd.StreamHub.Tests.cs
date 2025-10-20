@@ -1,17 +1,17 @@
 namespace StreamHub;
 
 [TestClass]
-public class MacdHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
+public class MacdHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProvider
 {
     public override void CustomToString()
     {
         List<Quote> quotesList = Quotes.ToList();
 
         // setup quote provider hub
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
         // initialize observer
-        MacdHub<Quote> observer = quoteHub
+        MacdHub observer = quoteHub
             .ToMacdHub(12, 26, 9);
 
         // emulate quote stream
@@ -34,7 +34,7 @@ public class MacdHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
         int length = quotesList.Count;
 
         // setup quote provider hub
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
         // prefill quotes at provider
         for (int i = 0; i < 20; i++)
@@ -43,7 +43,7 @@ public class MacdHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
         }
 
         // initialize observer
-        MacdHub<Quote> observer = quoteHub
+        MacdHub observer = quoteHub
             .ToMacdHub(12, 26, 9);
 
         // fetch initial results (early)
@@ -100,10 +100,10 @@ public class MacdHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
         int length = quotesList.Count;
 
         // setup quote provider hub
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
         // initialize observer
-        MacdHub<EmaResult> observer = quoteHub
+        MacdHub observer = quoteHub
             .ToEmaHub(emaPeriods)
             .ToMacdHub(macdFast, macdSlow, macdSignal);
 
@@ -144,11 +144,11 @@ public class MacdHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
         int length = quotesList.Count;
 
         // setup chain quoteHub
-        QuoteHub<Quote> quoteProvider = new();
-        SmaHub<Quote> quoteHub = quoteProvider.ToSma(smaPeriods);
+        QuoteHub quoteProvider = new();
+        SmaHub quoteHub = quoteProvider.ToSmaHub(smaPeriods);
 
         // initialize observer
-        MacdHub<SmaResult> observer = quoteHub
+        MacdHub observer = quoteHub
             .ToMacdHub(macdFast, macdSlow, macdSignal);
 
         // emulate live quotes
@@ -186,10 +186,10 @@ public class MacdHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
         List<Quote> quotesList = Quotes.ToList();
 
         // setup quote provider hub
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
         // initialize observer
-        MacdHub<Quote> observer = quoteHub
+        MacdHub observer = quoteHub
             .ToMacdHub(fastPeriods, slowPeriods, signalPeriods);
 
         // stream first 100 quotes
@@ -224,10 +224,10 @@ public class MacdHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
         List<Quote> quotesList = Quotes.ToList();
 
         // setup quote provider hub
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
         // initialize observer with custom parameters
-        MacdHub<Quote> observer = quoteHub
+        MacdHub observer = quoteHub
             .ToMacdHub(8, 21, 5);
 
         // verify parameters

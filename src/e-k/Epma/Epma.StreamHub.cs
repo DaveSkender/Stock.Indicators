@@ -5,43 +5,20 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Provides methods for creating EPMA hubs.
 /// </summary>
-public static partial class Epma
-{
-    /// <summary>
-    /// Converts the chain provider to an EPMA hub.
-    /// </summary>
-    /// <typeparam name="TIn">The type of the input.</typeparam>
-    /// <param name="chainProvider">The chain provider.</param>
-    /// <param name="lookbackPeriods">The number of lookback periods.</param>
-    /// <returns>An EPMA hub.</returns>
-    /// <exception cref="ArgumentNullException">Thrown when the chain provider is null.</exception>
-    /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
-    public static EpmaHub<TIn> ToEpmaHub<TIn>(
-        this IChainProvider<TIn> chainProvider,
-        int lookbackPeriods)
-        where TIn : IReusable
-        => new(chainProvider, lookbackPeriods);
-}
-
-/// <summary>
-/// Represents an Endpoint Moving Average (EPMA) stream hub.
-/// </summary>
-/// <typeparam name="TIn">The type of the input.</typeparam>
-public class EpmaHub<TIn>
-    : ChainProvider<TIn, EpmaResult>, IEpma
-    where TIn : IReusable
+public class EpmaHub
+    : ChainProvider<IReusable, EpmaResult>, IEpma
 {
     #region constructors
 
     private readonly string hubName;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="EpmaHub{TIn}"/> class.
+    /// Initializes a new instance of the <see cref="EpmaHub"/> class.
     /// </summary>
     /// <param name="provider">The chain provider.</param>
     /// <param name="lookbackPeriods">The number of lookback periods.</param>
     internal EpmaHub(
-        IChainProvider<TIn> provider,
+        IChainProvider<IReusable> provider,
         int lookbackPeriods) : base(provider)
     {
         Epma.Validate(lookbackPeriods);
@@ -64,8 +41,9 @@ public class EpmaHub<TIn>
 
     /// <inheritdoc/>
     protected override (EpmaResult result, int index)
-        ToIndicator(TIn item, int? indexHint)
+        ToIndicator(IReusable item, int? indexHint)
     {
+        ArgumentNullException.ThrowIfNull(item);
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
         // candidate result
@@ -75,4 +53,37 @@ public class EpmaHub<TIn>
 
         return (r, i);
     }
+}
+
+
+public static partial class Epma
+{
+    /// <summary>
+    /// Converts the chain provider to an EPMA hub.
+    /// </summary>
+    /// <param name="chainProvider">The chain provider.</param>
+    /// <param name="lookbackPeriods">The number of lookback periods.</param>
+    /// <returns>An EPMA hub.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when the chain provider is null.</exception>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
+    public static EpmaHub ToEpmaHub(
+        this IChainProvider<IReusable> chainProvider,
+        int lookbackPeriods)
+             => new(chainProvider, lookbackPeriods);
+
+    /// <summary>
+    /// Creates a Epma hub from a collection of quotes.
+    /// </summary>
+    /// <param name="quotes">The collection of quotes.</param>
+    /// <param name="lookbackPeriods">Parameter for the calculation.</param>
+    /// <returns>An instance of <see cref="EpmaHub"/>.</returns>
+    public static EpmaHub ToEpmaHub(
+        this IReadOnlyList<IQuote> quotes,
+        int lookbackPeriods)
+    {
+        QuoteHub quoteHub = new();
+        quoteHub.Add(quotes);
+        return quoteHub.ToEpmaHub(lookbackPeriods);
+    }
+
 }

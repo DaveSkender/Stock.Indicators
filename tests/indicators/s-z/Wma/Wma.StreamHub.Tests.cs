@@ -11,14 +11,14 @@ public class WmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
         List<Quote> quotesList = Quotes.ToList();
         int length = quotesList.Count;
 
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
         for (int i = 0; i < LookbackPeriods; i++)
         {
             quoteHub.Add(quotesList[i]);
         }
 
-        WmaHub<Quote> observer = quoteHub.ToWmaHub(LookbackPeriods);
+        WmaHub observer = quoteHub.ToWmaHub(LookbackPeriods);
 
         for (int i = LookbackPeriods; i < length; i++)
         {
@@ -57,9 +57,9 @@ public class WmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
         List<Quote> quotesList = Quotes.ToList();
         int length = quotesList.Count;
 
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
-        WmaHub<QuotePart> observer = quoteHub
+        WmaHub observer = quoteHub
             .ToQuotePartHub(CandlePart.HL2)
             .ToWmaHub(LookbackPeriods);
 
@@ -88,9 +88,9 @@ public class WmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
         List<Quote> quotesList = Quotes.ToList();
         int length = quotesList.Count;
 
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
-        EmaHub<WmaResult> observer = quoteHub
+        EmaHub observer = quoteHub
             .ToWmaHub(LookbackPeriods)
             .ToEmaHub(emaPeriods);
 
@@ -130,7 +130,7 @@ public class WmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
     [TestMethod]
     public override void CustomToString()
     {
-        WmaHub<Quote> hub = new(new QuoteHub<Quote>(), LookbackPeriods);
+        WmaHub hub = new(new QuoteHub(), LookbackPeriods);
         hub.ToString().Should().Be($"WMA({LookbackPeriods})");
     }
 }
