@@ -175,7 +175,7 @@ Note on former deferrals: Some indicators were previously marked as deferred due
 - [x] **T065** Implement StarcBands BufferList in `src/s-z/StarcBands/StarcBands.BufferList.cs` ✅
 - [ ] **T066** Implement Stc BufferList in `src/s-z/Stc/Stc.BufferList.cs`
 - [x] **T067** Implement StdDev BufferList in `src/s-z/StdDev/StdDev.BufferList.cs` ✅
-- [ ] **T068** Implement StdDevChannels BufferList in `src/s-z/StdDevChannels/StdDevChannels.BufferList.cs`
+- [x] **T068** Implement StdDevChannels BufferList in `src/s-z/StdDevChannels/StdDevChannels.BufferList.cs` ✅
 - [x] **T069** Implement Stoch BufferList in `src/s-z/Stoch/Stoch.BufferList.cs` ✅
 - [x] **T070** Implement StochRsi BufferList in `src/s-z/StochRsi/StochRsi.BufferList.cs` ✅
 - [x] **T071** Implement SuperTrend BufferList in `src/s-z/SuperTrend/SuperTrend.BufferList.cs` ✅
@@ -194,7 +194,7 @@ Note on former deferrals: Some indicators were previously marked as deferred due
 - [x] **T084** Implement Wma BufferList in `src/s-z/Wma/Wma.BufferList.cs` ✅
 - [x] **T085** Implement ZigZag BufferList in `src/s-z/ZigZag/ZigZag.BufferList.cs` ✅
 
-**BufferList**: 72/85 complete, 13 remaining
+**BufferList**: 73/85 complete, 12 remaining
 
 **Checkpoint**: Phase 2 completion achieves complete BufferList coverage for all Series indicators
 
@@ -458,19 +458,19 @@ Each task should follow these guidelines:
 **Implementation Coverage (1:1:1 Parity)**:
 
 - **Total Series implementations**: 85 indicators (baseline)
-- **Total BufferList implementations**: 72 complete, 13 remaining (T001-T085)
-- **Total StreamHub implementations**: 47 complete, 38 remaining (T086-T170)
+- **Total BufferList implementations**: 73 complete, 12 remaining (T001-T085)
+- **Total StreamHub implementations**: 45 complete, 40 remaining (T086-T170)
 - **1:1:1 Target**: 85 BufferList + 85 StreamHub = 170 streaming implementations total
-- **Current streaming coverage**: 119/170 = **70% complete**
+- **Current streaming coverage**: 118/170 = **69% complete**
 
 **Task Breakdown**:
 
 - **Phase 1**: 10 tasks (A001-A006, T171-T174) — 8 complete, 2 remaining
-- **Phase 2**: 85 BufferList implementation tasks (T001-T085) — 72 complete, 13 remaining
-- **Phase 3**: 85 StreamHub implementation tasks (T086-T170) — 47 complete, 38 remaining
+- **Phase 2**: 85 BufferList implementation tasks (T001-T085) — 73 complete, 12 remaining
+- **Phase 3**: 85 StreamHub implementation tasks (T086-T170) — 45 complete, 40 remaining
 - **Phase 4**: 17 test infrastructure tasks (T175-T185, Q001-Q006) — 0 complete, 17 remaining
 - **Phase 5**: 7 documentation tasks (D001-D007) — 2 complete, 5 remaining
-- **Total**: 204 tasks — 129 complete, 75 remaining
+- **Total**: 204 tasks — 128 complete, 76 remaining
 
 Removed blanket deferral: The above indicators are complex but unblocked with established reference patterns (see instruction files).
 

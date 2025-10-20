@@ -327,6 +327,7 @@ public static partial class Catalog
         _listings.Add(StdDev.SeriesListing);
 
         // Standard Deviation Channels
+        _listings.Add(StdDevChannels.BufferListing);
         _listings.Add(StdDevChannels.SeriesListing);
 
         // Stochastic Oscillator
