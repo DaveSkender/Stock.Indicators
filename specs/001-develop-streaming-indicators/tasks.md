@@ -247,7 +247,7 @@ Note on former deferrals: Indicators like Fractal, HtTrendline, Hurst, Ichimoku,
 - [ ] **T122** Implement Ichimoku StreamHub in `src/e-k/Ichimoku/Ichimoku.StreamHub.cs` (complex but unblocked — multi-line series via quote provider pattern like Alligator/AtrStop)
 - [x] **T123** Implement Kama StreamHub in `src/e-k/Kama/Kama.StreamHub.cs` ✅
 - [x] **T124** Implement Keltner StreamHub in `src/e-k/Keltner/Keltner.StreamHub.cs` ✅
-- [ ] **T125** Implement Kvo StreamHub in `src/e-k/Kvo/Kvo.StreamHub.cs`
+- [x] **T125** Implement Kvo StreamHub in `src/e-k/Kvo/Kvo.StreamHub.cs` ✅
 - [ ] **T126** Implement MaEnvelopes StreamHub in `src/m-r/MaEnvelopes/MaEnvelopes.StreamHub.cs`
 - [x] **T127** Implement Macd StreamHub in `src/m-r/Macd/Macd.StreamHub.cs` ✅
 - [x] **T128** Implement Mama StreamHub in `src/m-r/Mama/Mama.StreamHub.cs` ✅
