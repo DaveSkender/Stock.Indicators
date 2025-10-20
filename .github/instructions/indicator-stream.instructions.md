@@ -407,6 +407,176 @@ See also: Common indicator requirements and Series-as-canonical policy in `.gith
 
 ## Quality standards
 
+### Performance optimization
+
+**Target**: StreamHub implementations should be ≤1.5x slower than Series (batch) implementations.
+
+#### ❌ Anti-Pattern 1: O(n²) Complexity - Recalculating from Scratch
+
+**WRONG**: Calling Series methods on every new tick creates O(n²) complexity (see RSI hub - 391x slower before fix):
+
+```csharp
+// ❌ WRONG - O(n²) recalculation
+protected override (RsiResult result, int index) ToIndicator(IReusable item, int? indexHint)
+{
+    int i = indexHint ?? ProviderCache.IndexOf(item, true);
+    
+    if (i >= LookbackPeriods)
+    {
+        // Building subset and recalculating ENTIRE history every tick
+        List<IReusable> subset = [];
+        for (int k = 0; k <= i; k++)
+        {
+            subset.Add(ProviderCache[k]);
+        }
+        
+        // O(n) calculation on O(n) history = O(n²)
+        IReadOnlyList<RsiResult> seriesResults = subset.ToRsi(LookbackPeriods);
+        rsi = seriesResults[seriesResults.Count - 1]?.Rsi;
+    }
+    
+    return (new RsiResult(item.Timestamp, rsi), i);
+}
+```
+
+**Impact**: For 1000 quotes: 1,000 × 1,000 = 1,000,000 operations vs. 1,000 operations (1000x slower!)
+
+**✅ CORRECT**: Use incremental state management with O(1) updates per tick:
+
+```csharp
+// ✅ CORRECT - Maintain state variables for O(1) updates
+public class RsiHub : ChainProvider<IReusable, RsiResult>
+{
+    // State variables for incremental calculation
+    private double _prevValue = double.NaN;
+    private double _avgGain = double.NaN;
+    private double _avgLoss = double.NaN;
+    private int _warmupCount = 0;
+    
+    protected override (RsiResult result, int index) ToIndicator(IReusable item, int? indexHint)
+    {
+        double currentValue = item.Value;
+        double? rsi = null;
+        
+        // Calculate gain/loss incrementally - O(1)!
+        double gain = currentValue > _prevValue ? currentValue - _prevValue : 0;
+        double loss = currentValue < _prevValue ? _prevValue - currentValue : 0;
+        
+        if (_warmupCount >= LookbackPeriods)
+        {
+            // Wilder's smoothing - O(1) update
+            _avgGain = ((_avgGain * (LookbackPeriods - 1)) + gain) / LookbackPeriods;
+            _avgLoss = ((_avgLoss * (LookbackPeriods - 1)) + loss) / LookbackPeriods;
+            
+            rsi = _avgLoss > 0 ? 100 - (100 / (1 + (_avgGain / _avgLoss))) : 100;
+        }
+        
+        _prevValue = currentValue;
+        _warmupCount++;
+        
+        return (new RsiResult(item.Timestamp, rsi), indexHint ?? 0);
+    }
+}
+```
+
+#### ❌ Anti-Pattern 2: O(n) Window Operations - Linear Scans
+
+**WRONG**: Scanning entire window for max/min on every tick (see Donchian hub - 20x slower before fix):
+
+```csharp
+// ❌ WRONG - O(n) linear scan every tick
+protected override (DonchianResult result, int index) ToIndicator(IQuote item, int? indexHint)
+{
+    int i = indexHint ?? ProviderCache.IndexOf(item, true);
+    
+    if (i < LookbackPeriods)
+        return (new DonchianResult(item.Timestamp), i);
+    
+    // Linear scan for max/min EVERY tick - O(n) per tick!
+    decimal highHigh = decimal.MinValue;
+    decimal lowLow = decimal.MaxValue;
+    
+    for (int p = i - LookbackPeriods; p < i; p++)
+    {
+        IQuote quote = ProviderCache[p];
+        if (quote.High > highHigh) highHigh = quote.High;
+        if (quote.Low < lowLow) lowLow = quote.Low;
+    }
+    
+    return (new DonchianResult(item.Timestamp, highHigh, lowLow, ...), i);
+}
+```
+
+**Impact**: For 20-period lookback with 1000 quotes: 1,000 × 20 = 20,000 operations vs. 1,000 operations (20x slower!)
+
+**✅ CORRECT**: Use monotonic deque for O(1) amortized max/min tracking:
+
+```csharp
+// ✅ CORRECT - Use RollingWindowMax/Min utilities (from src/_common/StreamHub/)
+public class DonchianHub : StreamHub<IQuote, DonchianResult>
+{
+    private readonly RollingWindowMax<decimal> _highWindow;
+    private readonly RollingWindowMin<decimal> _lowWindow;
+    
+    internal DonchianHub(IQuoteProvider<IQuote> provider, int lookbackPeriods) : base(provider)
+    {
+        LookbackPeriods = lookbackPeriods;
+        _highWindow = new RollingWindowMax<decimal>(lookbackPeriods);
+        _lowWindow = new RollingWindowMin<decimal>(lookbackPeriods);
+        Reinitialize();
+    }
+    
+    protected override (DonchianResult result, int index) ToIndicator(IQuote item, int? indexHint)
+    {
+        int i = indexHint ?? ProviderCache.IndexOf(item, true);
+        
+        // O(1) amortized add operation
+        _highWindow.Add(item.High);
+        _lowWindow.Add(item.Low);
+        
+        if (i < LookbackPeriods)
+            return (new DonchianResult(item.Timestamp), i);
+        
+        // O(1) max/min retrieval!
+        decimal highHigh = _highWindow.Max;
+        decimal lowLow = _lowWindow.Min;
+        
+        return (new DonchianResult(item.Timestamp, highHigh, lowLow, ...), i);
+    }
+}
+```
+
+#### ✅ Pattern: Wilder's Smoothing Helper
+
+**Use Case**: RSI, CMO, ATR, ADX, SMMA, Alligator, Stochastic smoothing
+
+**Formula**: `smoothedValue = ((prevSmoothed × (period - 1)) + currentValue) / period`
+
+**Helper Method** (to be added to `src/_common/StreamHub/Smoothing.cs`):
+
+```csharp
+public static class Smoothing
+{
+    /// <summary>
+    /// Applies Wilder's smoothing (modified moving average) to a value.
+    /// </summary>
+    public static double WilderSmoothing(double prevSmoothed, double currentValue, int period)
+        => ((prevSmoothed * (period - 1)) + currentValue) / period;
+}
+```
+
+**Usage Example**:
+
+```csharp
+// Instead of:
+_avgGain = ((_avgGain * (LookbackPeriods - 1)) + gain) / LookbackPeriods;
+_avgLoss = ((_avgLoss * (LookbackPeriods - 1)) + loss) / LookbackPeriods;
+
+// Use:
+_avgGain = Smoothing.WilderSmoothing(_avgGain, gain, LookbackPeriods);
+_avgLoss = Smoothing.WilderSmoothing(_avgLoss, loss, LookbackPeriods);
+```
+
 ### State management
 
 - Maintain minimal internal state necessary for calculations
