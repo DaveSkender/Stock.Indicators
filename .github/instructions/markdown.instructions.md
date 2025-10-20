@@ -64,8 +64,11 @@ Include a `Last updated: <Month Day, Year>` line at the end, preceded by a blank
 Rules for Last updated element:
 
 - Use only for specification, instructional, and developer documentation.
-  - Do not include on Markdown files used as website source pages (e.g. Jekyll).
-  - Do not include on Spec Kit files (`.specify/**`, `.github/prompts/speckit.*`).
+  - **Do not include on:**
+    - Markdown files used as website source pages (e.g. Jekyll in `docs/**`)
+    - Spec Kit files (`.specify/**`, `.github/prompts/speckit.*`)
+    - Feature specification files (`specs/**`)
+  - **Do include on:** instruction files (`.github/instructions/**`), repository root documentation
 - Place it last.
 - Use the current date.
 
