@@ -53,4 +53,18 @@ public static partial class Kvo
                 "Signal Periods must be greater than 0 for Klinger Oscillator.");
         }
     }
+
+    /// <summary>
+    /// State structure for KVO streaming calculations.
+    /// </summary>
+    internal class KvoState
+    {
+        public double PrevHlc { get; set; }
+        public double PrevTrend { get; set; }
+        public double PrevDm { get; set; }
+        public double PrevCm { get; set; }
+        public double PrevVfFastEma { get; set; }
+        public double PrevVfSlowEma { get; set; }
+        public double SumVf { get; set; }
+    }
 }

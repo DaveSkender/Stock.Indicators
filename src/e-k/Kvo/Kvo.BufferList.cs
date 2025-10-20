@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Klinger Volume Oscillator (KVO) from incremental quote values.
 /// </summary>
-public class KvoList : BufferList<KvoResult>, IIncrementFromQuote
+public class KvoList : BufferList<KvoResult>, IIncrementFromQuote, IKvo
 {
     private readonly int _fastPeriods;
     private readonly int _slowPeriods;
@@ -124,7 +124,11 @@ public class KvoList : BufferList<KvoResult>, IIncrementFromQuote
             : cm != 0 ? volume * Math.Abs(2d * ((dm / cm) - 1)) * trend * 100d
             : 0;
 
-        _sumVf += vf;
+        // accumulate VF for EMA initialization (starting from period 2)
+        if (Count > 1)
+        {
+            _sumVf += vf;
+        }
 
         // fast-period EMA of VF
         double vfFastEma = 0;

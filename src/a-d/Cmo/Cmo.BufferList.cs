@@ -64,36 +64,7 @@ public class CmoList : BufferList<CmoResult>, IIncrementFromChain, ICmo
             // Calculate CMO when we have enough data
             if (_tickBuffer.Count == LookbackPeriods)
             {
-                double sH = 0;
-                double sL = 0;
-                bool hasNaN = false;
-
-                foreach ((bool? isUp, double pDiff) in _tickBuffer)
-                {
-                    if (double.IsNaN(pDiff))
-                    {
-                        hasNaN = true;
-                        break;
-                    }
-
-                    // up
-                    if (isUp is true)
-                    {
-                        sH += pDiff;
-                    }
-                    // down
-                    else
-                    {
-                        sL += pDiff;
-                    }
-                }
-
-                if (!hasNaN)
-                {
-                    cmo = sH + sL != 0
-                        ? (100 * (sH - sL) / (sH + sL)).NaN2Null()
-                        : 0d;
-                }
+                cmo = Cmo.PeriodCalculation(_tickBuffer);
             }
 
             _prevValue = value;
