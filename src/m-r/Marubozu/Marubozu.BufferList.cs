@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Marubozu candlestick pattern from incremental quotes.
 /// </summary>
-public class MarubozuList : BufferList<CandleResult>, IIncrementFromQuote
+public class MarubozuList : BufferList<CandleResult>, IIncrementFromQuote, IMarubozu
 {
     private readonly double minBodyPercent;
 
