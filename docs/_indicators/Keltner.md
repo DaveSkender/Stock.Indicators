@@ -70,7 +70,7 @@ See [Utilities and helpers]({{site.baseurl}}/utilities#utilities-for-indicator-r
 
 ## Chaining
 
-Results can be further processed on `Centerline` with other [chained indicators]({{site.baseurl}}/guide/#chaining).
+Results can be further processed on `Centerline` with other [chained indicators]({{site.baseurl}}/guide/#generating-indicator-of-indicators).
 
 This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.
 
@@ -82,7 +82,7 @@ var results = quotes
 
 ### Stream indicator
 
-This indicator supports real-time streaming with `ToKeltnerHub()`.  See [StreamHub guide]({{site.baseurl}}/guide/#stream-hubs) for usage.
+This indicator supports real-time streaming with `ToKeltnerHub()`.  See [StreamHub guide]({{site.baseurl}}/guide/#streaming-hub-style-indicators) for usage.
 
 ```csharp
 // example - to stream real-time data
