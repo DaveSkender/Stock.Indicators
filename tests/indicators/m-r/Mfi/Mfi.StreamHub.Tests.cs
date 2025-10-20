@@ -13,10 +13,10 @@ public class MfiHub : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
         int length = quotesList.Count;
 
         // setup quote provider hub
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
         // initialize observer
-        MfiHub<Quote> observer = quoteHub
+        Skender.Stock.Indicators.MfiHub observer = quoteHub
             .ToMfiHub(lookbackPeriods);
 
         // emulate quote stream
@@ -48,10 +48,10 @@ public class MfiHub : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
         List<Quote> quotesList = Quotes.ToList();
 
         // setup quote provider hub
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
         // initialize chain: MFI then EMA over its Value
-        EmaHub<MfiResult> observer = quoteHub
+        EmaHub observer = quoteHub
             .ToMfiHub(mfiPeriods)
             .ToEmaHub(emaPeriods);
 
@@ -79,19 +79,19 @@ public class MfiHub : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
     [TestMethod]
     public override void CustomToString()
     {
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
-        MfiHub<Quote> hub = new(quoteHub, lookbackPeriods);
+        Skender.Stock.Indicators.MfiHub hub = new(quoteHub, lookbackPeriods);
         hub.ToString().Should().Be($"MFI({lookbackPeriods})");
     }
 
     [TestMethod]
     public void RollbackValidation()
     {
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
         // Precondition: Normal quote stream with 502 expected entries
-        MfiHub<Quote> observer = quoteHub.ToMfiHub(lookbackPeriods);
+        Skender.Stock.Indicators.MfiHub observer = quoteHub.ToMfiHub(lookbackPeriods);
         quoteHub.Add(Quotes);
 
         observer.Results.Should().HaveCount(502);

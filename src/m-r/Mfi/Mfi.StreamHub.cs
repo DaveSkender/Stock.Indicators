@@ -1,45 +1,19 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Provides methods for creating MFI stream hubs.
-/// </summary>
-public static partial class Mfi
-{
-    /// <summary>
-    /// Converts the quote provider to an MFI hub.
-    /// </summary>
-    /// <typeparam name="TIn">The type of the input quote.</typeparam>
-    /// <param name="quoteProvider">The quote provider.</param>
-    /// <param name="lookbackPeriods">The number of lookback periods. Default is 14.</param>
-    /// <returns>An MFI hub.</returns>
-    /// <exception cref="ArgumentNullException">Thrown when the quote provider is null.</exception>
-    /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
-    public static MfiHub<TIn> ToMfiHub<TIn>(
-        this IQuoteProvider<TIn> quoteProvider,
-        int lookbackPeriods = 14)
-        where TIn : IQuote
-    {
-        ArgumentNullException.ThrowIfNull(quoteProvider);
-        return new(quoteProvider, lookbackPeriods);
-    }
-}
-
-/// <summary>
 /// Streaming hub for the Money Flow Index (MFI) indicator.
 /// </summary>
-/// <typeparam name="TIn">The type of the input quote.</typeparam>
-public class MfiHub<TIn> : ChainProvider<TIn, MfiResult>, IMfi
-    where TIn : IQuote
+public class MfiHub : ChainProvider<IQuote, MfiResult>, IMfi
 {
     private readonly string hubName;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="MfiHub{TIn}"/> class.
+    /// Initializes a new instance of the <see cref="MfiHub"/> class.
     /// </summary>
     /// <param name="provider">The quote provider.</param>
     /// <param name="lookbackPeriods">The number of lookback periods.</param>
     internal MfiHub(
-        IQuoteProvider<TIn> provider,
+        IQuoteProvider<IQuote> provider,
         int lookbackPeriods)
         : base(provider)
     {
@@ -59,8 +33,10 @@ public class MfiHub<TIn> : ChainProvider<TIn, MfiResult>, IMfi
 
     /// <inheritdoc/>
     protected override (MfiResult result, int index)
-        ToIndicator(TIn item, int? indexHint)
+        ToIndicator(IQuote item, int? indexHint)
     {
+        ArgumentNullException.ThrowIfNull(item);
+
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
         double? mfi = null;
@@ -75,7 +51,7 @@ public class MfiHub<TIn> : ChainProvider<TIn, MfiResult>, IMfi
             // Iterate through the lookback window
             for (int p = i - LookbackPeriods; p <= i; p++)
             {
-                TIn q = ProviderCache[p];
+                IQuote q = ProviderCache[p];
 
                 // Calculate true price
                 double truePrice = ((double)q.High + (double)q.Low + (double)q.Close) / 3;
@@ -119,5 +95,40 @@ public class MfiHub<TIn> : ChainProvider<TIn, MfiResult>, IMfi
             Mfi: mfi);
 
         return (r, i);
+    }
+}
+
+
+public static partial class Mfi
+{
+    /// <summary>
+    /// Converts the quote provider to an MFI hub.
+    /// </summary>
+    /// <param name="quoteProvider">The quote provider.</param>
+    /// <param name="lookbackPeriods">The number of lookback periods. Default is 14.</param>
+    /// <returns>An MFI hub.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when the quote provider is null.</exception>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
+    public static MfiHub ToMfiHub(
+        this IQuoteProvider<IQuote> quoteProvider,
+        int lookbackPeriods = 14)
+    {
+        ArgumentNullException.ThrowIfNull(quoteProvider);
+        return new(quoteProvider, lookbackPeriods);
+    }
+
+    /// <summary>
+    /// Creates an Mfi hub from a collection of quotes.
+    /// </summary>
+    /// <param name="quotes">The collection of quotes.</param>
+    /// <param name="lookbackPeriods">The number of lookback periods. Default is 14.</param>
+    /// <returns>An instance of <see cref="MfiHub"/>.</returns>
+    public static MfiHub ToMfiHub(
+        this IReadOnlyList<IQuote> quotes,
+        int lookbackPeriods = 14)
+    {
+        QuoteHub quoteHub = new();
+        quoteHub.Add(quotes);
+        return quoteHub.ToMfiHub(lookbackPeriods);
     }
 }
