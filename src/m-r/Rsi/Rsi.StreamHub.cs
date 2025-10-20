@@ -7,6 +7,8 @@ public class RsiHub
     : ChainProvider<IReusable, RsiResult>, IRsi
 {
     private readonly string hubName;
+    private double avgGain;
+    private double avgLoss;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="RsiHub"/> class.
@@ -41,21 +43,162 @@ public class RsiHub
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
         double? rsi = null;
+        double currentValue = item.Value;
 
-        if (i >= LookbackPeriods)
+        // Get previous value for gain/loss calculation
+        double prevValue = i > 0 ? ProviderCache[i - 1].Value : double.NaN;
+
+        // Calculate current gain/loss
+        double gain = 0;
+        double loss = 0;
+
+        if (!double.IsNaN(currentValue) && !double.IsNaN(prevValue))
         {
-            // Build a subset of provider cache for RSI calculation
-            List<IReusable> subset = [];
-            for (int k = 0; k <= i; k++)
+            gain = currentValue > prevValue ? currentValue - prevValue : 0;
+            loss = currentValue < prevValue ? prevValue - currentValue : 0;
+        }
+        else
+        {
+            gain = loss = double.NaN;
+        }
+
+        // Restore state if needed (after rollback)
+        if (i > LookbackPeriods && (double.IsNaN(avgGain) || double.IsNaN(avgLoss)))
+        {
+            // Recalculate state by replaying from the first calculable position
+            double tempAvgGain = double.NaN;
+            double tempAvgLoss = double.NaN;
+
+            for (int p = LookbackPeriods; p < i; p++)
             {
-                subset.Add(ProviderCache[k]);
+                double pPrevVal = ProviderCache[p - 1].Value;
+                double pCurrVal = ProviderCache[p].Value;
+
+                double pGain = 0;
+                double pLoss = 0;
+
+                if (!double.IsNaN(pCurrVal) && !double.IsNaN(pPrevVal))
+                {
+                    pGain = pCurrVal > pPrevVal ? pCurrVal - pPrevVal : 0;
+                    pLoss = pCurrVal < pPrevVal ? pPrevVal - pCurrVal : 0;
+                }
+                else
+                {
+                    pGain = pLoss = double.NaN;
+                }
+
+                // Initialize or update averages
+                if (p == LookbackPeriods && (double.IsNaN(tempAvgGain) || double.IsNaN(tempAvgLoss)))
+                {
+                    // Initial SMA calculation
+                    double sumGain = 0;
+                    double sumLoss = 0;
+
+                    for (int q = p - LookbackPeriods + 1; q <= p; q++)
+                    {
+                        double qPrevVal = ProviderCache[q - 1].Value;
+                        double qCurrVal = ProviderCache[q].Value;
+
+                        double qGain = 0;
+                        double qLoss = 0;
+
+                        if (!double.IsNaN(qCurrVal) && !double.IsNaN(qPrevVal))
+                        {
+                            qGain = qCurrVal > qPrevVal ? qCurrVal - qPrevVal : 0;
+                            qLoss = qCurrVal < qPrevVal ? qPrevVal - qCurrVal : 0;
+                        }
+                        else
+                        {
+                            qGain = qLoss = double.NaN;
+                        }
+
+                        sumGain += qGain;
+                        sumLoss += qLoss;
+                    }
+
+                    tempAvgGain = sumGain / LookbackPeriods;
+                    tempAvgLoss = sumLoss / LookbackPeriods;
+                }
+                else if (p > LookbackPeriods && !double.IsNaN(tempAvgGain) && !double.IsNaN(tempAvgLoss))
+                {
+                    if (!double.IsNaN(pGain))
+                    {
+                        // EMA-style update
+                        tempAvgGain = ((tempAvgGain * (LookbackPeriods - 1)) + pGain) / LookbackPeriods;
+                        tempAvgLoss = ((tempAvgLoss * (LookbackPeriods - 1)) + pLoss) / LookbackPeriods;
+                    }
+                    else
+                    {
+                        tempAvgGain = tempAvgLoss = double.NaN;
+                    }
+                }
             }
 
-            // Use the existing series calculation
-            IReadOnlyList<RsiResult> seriesResults = subset.ToRsi(LookbackPeriods);
-            RsiResult? latestResult = seriesResults.Count > 0 ? seriesResults[seriesResults.Count - 1] : null;
+            avgGain = tempAvgGain;
+            avgLoss = tempAvgLoss;
+        }
 
-            rsi = latestResult?.Rsi;
+        // Re/initialize average gain/loss when needed
+        if (i >= LookbackPeriods && (double.IsNaN(avgGain) || double.IsNaN(avgLoss)))
+        {
+            double sumGain = 0;
+            double sumLoss = 0;
+
+            // Sum gains and losses over lookback period
+            // Note: NaN values will contaminate the sum, as intended
+            for (int p = i - LookbackPeriods + 1; p <= i; p++)
+            {
+                double pPrevVal = ProviderCache[p - 1].Value;
+                double pCurrVal = ProviderCache[p].Value;
+
+                double pGain = 0;
+                double pLoss = 0;
+
+                if (!double.IsNaN(pCurrVal) && !double.IsNaN(pPrevVal))
+                {
+                    pGain = pCurrVal > pPrevVal ? pCurrVal - pPrevVal : 0;
+                    pLoss = pCurrVal < pPrevVal ? pPrevVal - pCurrVal : 0;
+                }
+                else
+                {
+                    pGain = pLoss = double.NaN;
+                }
+
+                sumGain += pGain;
+                sumLoss += pLoss;
+            }
+
+            avgGain = sumGain / LookbackPeriods;
+            avgLoss = sumLoss / LookbackPeriods;
+
+            rsi = !double.IsNaN(avgGain / avgLoss)
+                  ? avgLoss > 0 ? 100 - (100 / (1 + (avgGain / avgLoss))) : 100
+                  : null;
+        }
+        // Calculate RSI incrementally
+        else if (i > LookbackPeriods && !double.IsNaN(avgGain) && !double.IsNaN(avgLoss))
+        {
+            if (!double.IsNaN(gain))
+            {
+                avgGain = ((avgGain * (LookbackPeriods - 1)) + gain) / LookbackPeriods;
+                avgLoss = ((avgLoss * (LookbackPeriods - 1)) + loss) / LookbackPeriods;
+
+                if (avgLoss > 0)
+                {
+                    double rs = avgGain / avgLoss;
+                    rsi = 100 - (100 / (1 + rs));
+                }
+                else
+                {
+                    rsi = 100;
+                }
+            }
+            else
+            {
+                // Reset state if we hit NaN
+                avgGain = double.NaN;
+                avgLoss = double.NaN;
+            }
         }
 
         // candidate result
@@ -64,6 +207,14 @@ public class RsiHub
             Rsi: rsi);
 
         return (r, i);
+    }
+
+    /// <inheritdoc/>
+    protected override void RollbackState(DateTime timestamp)
+    {
+        // Reset state - will be recalculated during rebuild
+        avgGain = double.NaN;
+        avgLoss = double.NaN;
     }
 }
 
