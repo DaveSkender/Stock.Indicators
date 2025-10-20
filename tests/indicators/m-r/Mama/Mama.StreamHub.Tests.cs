@@ -1,7 +1,7 @@
 namespace StreamHub;
 
 [TestClass]
-public class MamaHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
+public class MamaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProvider
 {
     private const double fastLimit = 0.5;
     private const double slowLimit = 0.05;
@@ -14,7 +14,7 @@ public class MamaHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
         int length = quotesList.Count;
 
         // setup quote provider hub
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
         // prefill quotes at provider
         for (int i = 0; i < 20; i++)
@@ -23,7 +23,7 @@ public class MamaHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
         }
 
         // initialize observer
-        MamaHub<Quote> observer = quoteHub
+        MamaHub observer = quoteHub
             .ToMamaHub(fastLimit, slowLimit);
 
         // fetch initial results (early)
@@ -77,11 +77,11 @@ public class MamaHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
         int length = quotesList.Count;
 
         // setup quote provider hub
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
         // initialize observer
-        MamaHub<SmaResult> observer = quoteHub
-            .ToSma(smaPeriods)
+        MamaHub observer = quoteHub
+            .ToSmaHub(smaPeriods)
             .ToMamaHub(fastLimit, slowLimit);
 
         // emulate quote stream
@@ -118,12 +118,12 @@ public class MamaHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
         int length = quotesList.Count;
 
         // setup quote provider hub
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
         // initialize observer
-        SmaHub<MamaResult> observer = quoteHub
+        SmaHub observer = quoteHub
             .ToMamaHub(fastLimit, slowLimit)
-            .ToSma(smaPeriods);
+            .ToSmaHub(smaPeriods);
 
         // emulate adding quotes to provider hub
         for (int i = 0; i < length; i++)
@@ -171,7 +171,7 @@ public class MamaHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
     [TestMethod]
     public override void CustomToString()
     {
-        MamaHub<Quote> hub = new(new QuoteHub<Quote>(), fastLimit, slowLimit);
+        MamaHub hub = new(new QuoteHub(), fastLimit, slowLimit);
         hub.ToString().Should().Be("MAMA(0.5,0.05)");
     }
 }

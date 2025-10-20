@@ -184,11 +184,10 @@ public static partial class Pmo
     /// <summary>
     /// Creates a buffer list for Price Momentum Oscillator (PMO) calculations.
     /// </summary>
-    public static PmoList ToPmoList<T>(
-        this IReadOnlyList<T> source,
+    public static PmoList ToPmoList(
+        this IReadOnlyList<IReusable> source,
         int timePeriods = 35,
         int smoothPeriods = 20,
         int signalPeriods = 10)
-        where T : IReusable
-        => new(timePeriods, smoothPeriods, signalPeriods) { (IReadOnlyList<IReusable>)source };
+        => new(timePeriods, smoothPeriods, signalPeriods) { source };
 }

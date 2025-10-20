@@ -104,7 +104,7 @@ public class Convergence : TestBase
     {
         foreach (int qty in QuotesQuantities)
         {
-            IReadOnlyList<Quote> qts = Data.GetLongish(qty);
+            IReadOnlyList<IReusable> qts = Data.GetLongish(qty);
             IReadOnlyList<EmaResult> r = qts.ToEma(15);
 
             EmaResult l = r[^1];

@@ -3,17 +3,9 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Quote part selection from incremental quotes.
 /// </summary>
-public class QuotePartList : BufferList<QuotePart>, IIncrementFromQuote, IQuotePart
+/// <param name="candlePart">The candle part to select.</param>
+public class QuotePartList(CandlePart candlePart) : BufferList<QuotePart>, IIncrementFromQuote, IQuotePart
 {
-    /// <summary>
-    /// Initializes a new instance of the <see cref="QuotePartList"/> class.
-    /// </summary>
-    /// <param name="candlePart">The candle part to select.</param>
-    public QuotePartList(CandlePart candlePart)
-    {
-        CandlePartSelection = candlePart;
-    }
-
     /// <summary>
     /// Initializes a new instance of the <see cref="QuotePartList"/> class with initial quotes.
     /// </summary>
@@ -24,7 +16,7 @@ public class QuotePartList : BufferList<QuotePart>, IIncrementFromQuote, IQuoteP
         => Add(quotes);
 
     /// <inheritdoc />
-    public CandlePart CandlePartSelection { get; init; }
+    public CandlePart CandlePartSelection { get; init; } = candlePart;
 
     /// <inheritdoc />
     public void Add(IQuote quote)

@@ -8,14 +8,12 @@ public static partial class SmaAnalysis
     /// <summary>
     /// Converts a source list to a list of SMA analysis results.
     /// </summary>
-    /// <typeparam name="T">The type of the source items, must implement IReusable.</typeparam>
-    /// <param name="source">The source list to analyze.</param>
+    /// /// <param name="source">The source list to analyze.</param>
     /// <param name="lookbackPeriods">The number of periods to look back for the SMA calculation.</param>
     /// <returns>A read-only list of SMA analysis results.</returns>
-    public static IReadOnlyList<SmaAnalysisResult> ToSmaAnalysis<T>(
-        this IReadOnlyList<T> source,
+    public static IReadOnlyList<SmaAnalysisResult> ToSmaAnalysis(
+        this IReadOnlyList<IReusable> source,
         int lookbackPeriods)
-        where T : IReusable
     {
         // initialize
         List<SmaAnalysisResult> results = source
@@ -35,7 +33,7 @@ public static partial class SmaAnalysis
 
             for (int p = i + 1 - lookbackPeriods; p <= i; p++)
             {
-                T s = source[p];
+                IReusable s = source[p];
 
                 sumMad += Math.Abs(s.Value - sma);
                 sumMse += (s.Value - sma) * (s.Value - sma);

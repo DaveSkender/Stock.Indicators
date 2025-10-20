@@ -11,13 +11,13 @@ public class AtrStop : StreamHubTestBase, ITestQuoteObserver
         int length = quotesList.Count;
 
         // setup quote provider hub
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
         // prefill quotes at provider (batch)
         quoteHub.Add(quotesList.Take(20));
 
         // initialize observer
-        AtrStopHub<Quote> observer = quoteHub
+        AtrStopHub observer = quoteHub
             .ToAtrStopHub();
 
         observer.Results.Should().HaveCount(20);
@@ -72,10 +72,10 @@ public class AtrStop : StreamHubTestBase, ITestQuoteObserver
         // simple test, just to check High/Low variant
 
         // setup quote provider hub
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
         // initialize observer
-        AtrStopHub<Quote> observer = quoteHub
+        AtrStopHub observer = quoteHub
             .ToAtrStopHub(endType: EndType.HighLow);
 
         // add quotes to quoteHub
@@ -101,7 +101,7 @@ public class AtrStop : StreamHubTestBase, ITestQuoteObserver
     [TestMethod]
     public override void CustomToString()
     {
-        AtrStopHub<Quote> hub = new(new QuoteHub<Quote>(), 14, 3, EndType.Close);
+        AtrStopHub hub = new(new QuoteHub(), 14, 3, EndType.Close);
         hub.ToString().Should().Be("ATR-STOP(14,3,CLOSE)");
     }
 }

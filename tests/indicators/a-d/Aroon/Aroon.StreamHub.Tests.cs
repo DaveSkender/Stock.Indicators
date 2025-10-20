@@ -1,7 +1,7 @@
 namespace StreamHub;
 
 [TestClass]
-public class AroonHub : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
+public class AroonHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
 {
     [TestMethod]
     public void QuoteObserver()
@@ -11,7 +11,7 @@ public class AroonHub : StreamHubTestBase, ITestQuoteObserver, ITestChainProvide
         int length = quotesList.Count;
 
         // setup quote provider
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
         // prefill quotes to provider
         for (int i = 0; i < 30; i++)
@@ -20,7 +20,7 @@ public class AroonHub : StreamHubTestBase, ITestQuoteObserver, ITestChainProvide
         }
 
         // initialize observer
-        AroonHub<Quote> aroonHub = quoteHub
+        AroonHub aroonHub = quoteHub
             .ToAroonHub(25);
 
         // fetch initial results (early)
@@ -67,8 +67,8 @@ public class AroonHub : StreamHubTestBase, ITestQuoteObserver, ITestChainProvide
     [TestMethod]
     public override void CustomToString()
     {
-        QuoteHub<Quote> quoteHub = new();
-        AroonHub<Quote> aroonHub = quoteHub.ToAroonHub(25);
+        QuoteHub quoteHub = new();
+        AroonHub aroonHub = quoteHub.ToAroonHub(25);
 
         aroonHub.ToString().Should().Be("AROON(25)");
 
@@ -83,10 +83,10 @@ public class AroonHub : StreamHubTestBase, ITestQuoteObserver, ITestChainProvide
         int length = quotesList.Count;
 
         // Setup quote provider
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
         // Initialize observer - Aroon as provider feeding into EMA
-        EmaHub<AroonResult> emaHub = quoteHub
+        EmaHub emaHub = quoteHub
             .ToAroonHub(25)
             .ToEmaHub(12);
 

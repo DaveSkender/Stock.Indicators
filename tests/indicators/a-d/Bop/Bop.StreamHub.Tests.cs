@@ -1,7 +1,7 @@
 namespace StreamHub;
 
 [TestClass]
-public class BopHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
+public class BopHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProvider
 {
     [TestMethod]
     public void QuoteObserver()
@@ -11,7 +11,7 @@ public class BopHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
         int length = quotesList.Count;
 
         // setup quote provider
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
         // prefill quotes to provider
         for (int i = 0; i < 40; i++)
@@ -20,7 +20,7 @@ public class BopHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
         }
 
         // initialize observer
-        BopHub<Quote> bopHub = quoteHub
+        BopHub bopHub = quoteHub
             .ToBopHub(14);
 
         // fetch initial results (early)
@@ -76,10 +76,10 @@ public class BopHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
         int length = quotesList.Count;
 
         // setup quote provider
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
         // initialize observer - BOP directly from quotes
-        BopHub<Quote> bopHub = quoteHub
+        BopHub bopHub = quoteHub
             .ToBopHub(smoothPeriods);
 
         // emulate quote stream
@@ -116,10 +116,10 @@ public class BopHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
         int length = quotesList.Count;
 
         // setup quote provider
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
         // initialize observer
-        EmaHub<BopResult> emaHub = quoteHub
+        EmaHub emaHub = quoteHub
             .ToBopHub(smoothPeriods)
             .ToEmaHub(emaPeriods);
 
@@ -150,8 +150,8 @@ public class BopHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
     [TestMethod]
     public override void CustomToString()
     {
-        QuoteHub<Quote> quoteHub = new();
-        BopHub<Quote> bopHub = quoteHub.ToBopHub(14);
+        QuoteHub quoteHub = new();
+        BopHub bopHub = quoteHub.ToBopHub(14);
 
         bopHub.ToString().Should().Be("BOP(14)");
 

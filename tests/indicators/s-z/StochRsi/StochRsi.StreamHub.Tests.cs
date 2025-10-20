@@ -1,7 +1,7 @@
 namespace StreamHub;
 
 [TestClass]
-public class StochRsiHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
+public class StochRsiHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProvider
 {
     [TestMethod]
     public void QuoteObserver()
@@ -11,7 +11,7 @@ public class StochRsiHub : StreamHubTestBase, ITestChainObserver, ITestChainProv
         int length = quotesList.Count;
 
         // setup quote provider hub
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
         // prefill quotes at provider
         for (int i = 0; i < 20; i++)
@@ -20,7 +20,7 @@ public class StochRsiHub : StreamHubTestBase, ITestChainObserver, ITestChainProv
         }
 
         // initialize observer
-        StochRsiHub<Quote> observer = quoteHub
+        StochRsiHub observer = quoteHub
             .ToStochRsiHub(14, 14, 3, 1);
 
         // fetch initial results (early)
@@ -78,10 +78,10 @@ public class StochRsiHub : StreamHubTestBase, ITestChainObserver, ITestChainProv
         int length = quotesList.Count;
 
         // setup quote provider hub
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
         // initialize observer
-        StochRsiHub<EmaResult> observer = quoteHub
+        StochRsiHub observer = quoteHub
             .ToEmaHub(emaPeriods)
             .ToStochRsiHub(rsiPeriods, stochPeriods, signalPeriods, smoothPeriods);
 
@@ -123,10 +123,10 @@ public class StochRsiHub : StreamHubTestBase, ITestChainObserver, ITestChainProv
         int length = quotesList.Count;
 
         // setup quote provider hub
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
         // initialize observer
-        EmaHub<StochRsiResult> observer = quoteHub
+        EmaHub observer = quoteHub
             .ToStochRsiHub(rsiPeriods, stochPeriods, signalPeriods, smoothPeriods)
             .ToEmaHub(emaPeriods);
 
@@ -157,8 +157,8 @@ public class StochRsiHub : StreamHubTestBase, ITestChainObserver, ITestChainProv
     [TestMethod]
     public override void CustomToString()
     {
-        QuoteHub<Quote> quoteHub = new();
-        StochRsiHub<Quote> observer = quoteHub.ToStochRsiHub(14, 14, 3, 1);
+        QuoteHub quoteHub = new();
+        StochRsiHub observer = quoteHub.ToStochRsiHub(14, 14, 3, 1);
 
         observer.ToString().Should().Be("STOCH-RSI(14,14,3,1)");
 

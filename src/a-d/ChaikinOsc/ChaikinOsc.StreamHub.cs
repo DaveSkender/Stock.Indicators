@@ -5,38 +5,13 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Provides methods for calculating the Chaikin Oscillator.
 /// </summary>
-public static partial class ChaikinOsc
-{
-    /// <summary>
-    /// Creates a Chaikin Oscillator hub from a chain provider.
-    /// </summary>
-    /// <typeparam name="T">The type of the quote data.</typeparam>
-    /// <param name="chainProvider">The chain provider.</param>
-    /// <param name="fastPeriods">The number of periods for the fast EMA. Default is 3.</param>
-    /// <param name="slowPeriods">The number of periods for the slow EMA. Default is 10.</param>
-    /// <returns>A Chaikin Oscillator hub.</returns>
-    /// <exception cref="ArgumentNullException">Thrown when the chain provider is null.</exception>
-    /// <exception cref="ArgumentOutOfRangeException">Thrown when the periods are invalid.</exception>
-    public static ChaikinOscHub<T> ToChaikinOscHub<T>(
-        this IChainProvider<T> chainProvider,
-        int fastPeriods = 3,
-        int slowPeriods = 10)
-        where T : IQuote
-        => new(chainProvider, fastPeriods, slowPeriods);
-}
-
-/// <summary>
-/// Represents a hub for Chaikin Oscillator calculations.
-/// </summary>
-/// <typeparam name="TIn">The type of the input data.</typeparam>
-public class ChaikinOscHub<TIn>
-    : ChainProvider<TIn, ChaikinOscResult>, IChaikinOsc
-    where TIn : IQuote
+public class ChaikinOscHub
+    : ChainProvider<IQuote, ChaikinOscResult>, IChaikinOsc
 {
     private readonly string hubName;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="ChaikinOscHub{TIn}"/> class.
+    /// Initializes a new instance of the <see cref="ChaikinOscHub"/> class.
     /// </summary>
     /// <param name="provider">The chain provider.</param>
     /// <param name="fastPeriods">The number of periods for the fast EMA.</param>
@@ -44,7 +19,7 @@ public class ChaikinOscHub<TIn>
     /// <exception cref="ArgumentNullException">Thrown when the provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the periods are invalid.</exception>
     internal ChaikinOscHub(
-        IChainProvider<TIn> provider,
+        IQuoteProvider<IQuote> provider,
         int fastPeriods,
         int slowPeriods) : base(provider)
     {
@@ -81,11 +56,12 @@ public class ChaikinOscHub<TIn>
 
     /// <inheritdoc/>
     protected override (ChaikinOscResult result, int index)
-        ToIndicator(TIn item, int? indexHint)
+        ToIndicator(IQuote item, int? indexHint)
     {
+        ArgumentNullException.ThrowIfNull(item);
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
-        TIn quote = ProviderCache[i];
+        IQuote quote = ProviderCache[i];
 
         // Calculate Money Flow Multiplier and Money Flow Volume (ADL components)
         double high = (double)quote.High;
@@ -165,4 +141,41 @@ public class ChaikinOscHub<TIn>
 
         return sum / periods;
     }
+}
+
+
+public static partial class ChaikinOsc
+{
+    /// <summary>
+    /// Creates a Chaikin Oscillator hub from a chain provider.
+    /// </summary>
+    /// <param name="chainProvider">The chain provider.</param>
+    /// <param name="fastPeriods">The number of periods for the fast EMA. Default is 3.</param>
+    /// <param name="slowPeriods">The number of periods for the slow EMA. Default is 10.</param>
+    /// <returns>A Chaikin Oscillator hub.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when the chain provider is null.</exception>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when the periods are invalid.</exception>
+    public static ChaikinOscHub ToChaikinOscHub(
+        this IQuoteProvider<IQuote> chainProvider,
+        int fastPeriods = 3,
+        int slowPeriods = 10)
+        => new(chainProvider, fastPeriods, slowPeriods);
+
+    /// <summary>
+    /// Creates a ChaikinOsc hub from a collection of quotes.
+    /// </summary>
+    /// <param name="quotes">The collection of quotes.</param>
+    /// <param name="fastPeriods">Parameter for the calculation.</param>
+    /// <param name="slowPeriods">Parameter for the calculation.</param>
+    /// <returns>An instance of <see cref="ChaikinOscHub"/>.</returns>
+    public static ChaikinOscHub ToChaikinOscHub(
+        this IReadOnlyList<IQuote> quotes,
+        int fastPeriods = 3,
+        int slowPeriods = 10)
+    {
+        QuoteHub quoteHub = new();
+        quoteHub.Add(quotes);
+        return quoteHub.ToChaikinOscHub(fastPeriods, slowPeriods);
+    }
+
 }

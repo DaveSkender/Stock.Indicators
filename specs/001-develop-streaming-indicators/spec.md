@@ -78,7 +78,7 @@ See `.github/instructions/indicator-buffer.instructions.md` for complete impleme
 ## Terminology & Definitions
 
 - **BufferList**: List-backed streaming implementation using `List<T>` for state storage. Simpler to implement and debug. Suitable for moderate frequency scenarios (<1k ticks/sec). Naming convention: `{IndicatorName}List` (e.g., `SmaList`, `EmaList`, `DojiList`).
-- **StreamHub**: Span-optimized streaming implementation using circular buffers for state storage. Optimized for high-frequency scenarios (>10k ticks/sec). Naming convention: `{IndicatorName}Hub<TIn>` (e.g., `SmaHub<TIn>`, `EmaHub<TIn>`, `RsiHub<TIn>`).
+- **StreamHub**: Span-optimized streaming implementation using circular buffers for state storage. Optimized for high-frequency scenarios (>10k ticks/sec). Naming convention: `{IndicatorName}Hub` (e.g., `SmaHub`, `EmaHub`, `RsiHub`).
 - **Warmup Period**: Minimum number of quotes required before indicator produces valid results. Inherited from Series implementation's `WarmupPeriod` property.
 - **Streaming Parity**: Requirement that streaming and batch (Series) calculations produce mathematically identical results when given the same quote sequence. Tested using deterministic equality assertions (`BeEquivalentTo` with `WithStrictOrdering()`), never approximate equality.
 - **Buffer Capacity**: Maximum number of elements stored in internal buffers. For BufferList: dynamically managed via `MaxListSize` (default ~1.9B elements). For StreamHub: typically fixed at `lookbackPeriod + margin` for efficient circular buffer operations.

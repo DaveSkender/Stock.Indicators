@@ -8,12 +8,11 @@ public static partial class Obv
     /// <summary>
     /// Converts a list of quotes to OBV results.
     /// </summary>
-    /// <typeparam name="TQuote">The type of the quote.</typeparam>
     /// <param name="quotes">The list of quotes.</param>
     /// <returns>A list of OBV results.</returns>
-    public static IReadOnlyList<ObvResult> ToObv<TQuote>(
-        this IReadOnlyList<TQuote> quotes)
-        where TQuote : IQuote => quotes
+    public static IReadOnlyList<ObvResult> ToObv(
+        this IReadOnlyList<IQuote> quotes)
+        => quotes
             .ToQuoteDList()
             .CalcObv();
 
