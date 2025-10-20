@@ -8,16 +8,14 @@ public static partial class Slope
     /// <summary>
     /// Calculates the Slope and Linear Regression for a given source list and lookback period.
     /// </summary>
-    /// <typeparam name="T">The type of the source items, must implement IReusable.</typeparam>
     /// <param name="source">The source list to analyze.</param>
     /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
     /// <returns>A read-only list of Slope results.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the source list is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback period is less than 1.</exception>
-    public static IReadOnlyList<SlopeResult> ToSlope<T>(
-        this IReadOnlyList<T> source,
+    public static IReadOnlyList<SlopeResult> ToSlope(
+        this IReadOnlyList<IReusable> source,
         int lookbackPeriods = 14)
-        where T : IReusable
     {
         // check parameter arguments
         ArgumentNullException.ThrowIfNull(source);
@@ -30,7 +28,7 @@ public static partial class Slope
         // roll through source values
         for (int i = 0; i < length; i++)
         {
-            T s = source[i];
+            IReusable s = source[i];
 
             // skip initialization period
             if (i < lookbackPeriods - 1)
@@ -45,7 +43,7 @@ public static partial class Slope
 
             for (int p = i - lookbackPeriods + 1; p <= i; p++)
             {
-                T ps = source[p];
+                IReusable ps = source[p];
 
                 sumX += p + 1d;
                 sumY += ps.Value;
@@ -61,7 +59,7 @@ public static partial class Slope
 
             for (int p = i - lookbackPeriods + 1; p <= i; p++)
             {
-                T ps = source[p];
+                IReusable ps = source[p];
 
                 double devX = p + 1d - avgX;
                 double devY = ps.Value - avgY;

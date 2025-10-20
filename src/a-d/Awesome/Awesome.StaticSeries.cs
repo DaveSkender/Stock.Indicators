@@ -8,16 +8,14 @@ public static partial class Awesome
     /// <summary>
     /// Calculates the Awesome Oscillator for a series of data.
     /// </summary>
-    /// <typeparam name="T">The type of the source data.</typeparam>
     /// <param name="source">The source data.</param>
     /// <param name="fastPeriods">The number of periods for the fast moving average. Default is 5.</param>
     /// <param name="slowPeriods">The number of periods for the slow moving average. Default is 34.</param>
     /// <returns>A list of Awesome Oscillator results.</returns>
-    public static IReadOnlyList<AwesomeResult> ToAwesome<T>(
-        this IReadOnlyList<T> source,
+    public static IReadOnlyList<AwesomeResult> ToAwesome(
+        this IReadOnlyList<IReusable> source,
         int fastPeriods = 5,
         int slowPeriods = 34)
-        where T : IReusable
     {
         // check parameter arguments
         Validate(fastPeriods, slowPeriods);

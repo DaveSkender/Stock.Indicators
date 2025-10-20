@@ -1,21 +1,21 @@
 namespace StreamHub;
 
 [TestClass]
-public class PrsHub : StreamHubTestBase, ITestPairsObserver
+public class PrsHubTests : StreamHubTestBase, ITestPairsObserver
 {
     [TestMethod]
     public void PairsObserver()
     {
         // Test dual-provider pattern with direct providers
-        QuoteHub<Quote> quoteHubEval = new();
-        QuoteHub<Quote> quoteHubBase = new();
+        QuoteHub quoteHubEval = new();
+        QuoteHub quoteHubBase = new();
 
         // Add same quotes to both providers
         quoteHubEval.Add(Quotes);
         quoteHubBase.Add(Quotes);
 
         // Create PRS hub from two providers
-        PrsHub<Quote> prsHub = quoteHubEval.ToPrsHub(quoteHubBase);
+        PrsHub prsHub = quoteHubEval.ToPrsHub(quoteHubBase);
 
         // Verify results
         prsHub.Results.Should().NotBeEmpty();
@@ -39,8 +39,8 @@ public class PrsHub : StreamHubTestBase, ITestPairsObserver
     public void TimestampMismatch()
     {
         // Create two providers with mismatched timestamps
-        QuoteHub<Quote> quoteHubEval = new();
-        QuoteHub<Quote> quoteHubBase = new();
+        QuoteHub quoteHubEval = new();
+        QuoteHub quoteHubBase = new();
 
         // Add quotes with offset timestamps to force mismatch
         List<Quote> quotesEval = Quotes.Take(30).ToList();
@@ -70,16 +70,16 @@ public class PrsHub : StreamHubTestBase, ITestPairsObserver
     [TestMethod]
     public override void CustomToString()
     {
-        QuoteHub<Quote> quoteHub = new();
-        SmaHub<Quote> smaHubEval = quoteHub.ToSma(10);
-        SmaHub<Quote> smaHubBase = quoteHub.ToSma(20);
+        QuoteHub quoteHub = new();
+        SmaHub smaHubEval = quoteHub.ToSmaHub(10);
+        SmaHub smaHubBase = quoteHub.ToSmaHub(20);
 
         // Without lookback
-        PrsHub<SmaResult> prsHub1 = smaHubEval.ToPrsHub(smaHubBase);
+        PrsHub prsHub1 = smaHubEval.ToPrsHub(smaHubBase);
         prsHub1.ToString().Should().Be("PRS");
 
         // With lookback
-        PrsHub<SmaResult> prsHub2 = smaHubEval.ToPrsHub(smaHubBase, 20);
+        PrsHub prsHub2 = smaHubEval.ToPrsHub(smaHubBase, 20);
         prsHub2.ToString().Should().Be("PRS(20)");
 
         prsHub1.Unsubscribe();
@@ -91,13 +91,13 @@ public class PrsHub : StreamHubTestBase, ITestPairsObserver
     public void WithLookbackPeriods()
     {
         // Test PRS with lookback periods for PrsPercent calculation
-        QuoteHub<Quote> quoteHubEval = new();
-        QuoteHub<Quote> quoteHubBase = new();
+        QuoteHub quoteHubEval = new();
+        QuoteHub quoteHubBase = new();
 
         quoteHubEval.Add(Quotes);
         quoteHubBase.Add(Quotes);
 
-        PrsHub<Quote> prsHub = quoteHubEval.ToPrsHub(quoteHubBase, 20);
+        PrsHub prsHub = quoteHubEval.ToPrsHub(quoteHubBase, 20);
 
         // Verify PrsPercent is calculated after lookback periods
         prsHub.Results.Should().NotBeEmpty();
@@ -133,13 +133,13 @@ public class PrsHub : StreamHubTestBase, ITestPairsObserver
     [TestMethod]
     public void ConsistentWithSeriesCalculation()
     {
-        QuoteHub<Quote> quoteHubEval = new();
-        QuoteHub<Quote> quoteHubBase = new();
+        QuoteHub quoteHubEval = new();
+        QuoteHub quoteHubBase = new();
 
         quoteHubEval.Add(Quotes);
         quoteHubBase.Add(Quotes);
 
-        PrsHub<Quote> prsHub = quoteHubEval.ToPrsHub(quoteHubBase, 20);
+        PrsHub prsHub = quoteHubEval.ToPrsHub(quoteHubBase, 20);
 
         // Compare with series calculation
         List<PrsResult> seriesResults = Quotes.ToPrs(Quotes, 20).ToList();

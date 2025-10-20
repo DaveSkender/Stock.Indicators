@@ -116,11 +116,10 @@ public static partial class StarcBands
     /// <summary>
     /// Creates a buffer list for STARC Bands calculations.
     /// </summary>
-    public static StarcBandsList ToStarcBandsList<TQuote>(
-        this IReadOnlyList<TQuote> quotes,
+    public static StarcBandsList ToStarcBandsList(
+        this IReadOnlyList<IQuote> quotes,
         int smaPeriods = 5,
         double multiplier = 2,
         int atrPeriods = 10)
-        where TQuote : IQuote
-        => new(smaPeriods, multiplier, atrPeriods) { (IReadOnlyList<IQuote>)quotes };
+        => new(smaPeriods, multiplier, atrPeriods) { quotes };
 }

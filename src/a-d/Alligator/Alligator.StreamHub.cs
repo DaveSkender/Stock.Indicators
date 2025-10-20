@@ -2,54 +2,17 @@ namespace Skender.Stock.Indicators;
 
 // WILLIAMS ALLIGATOR (STREAM HUB)
 
-public static partial class Alligator
-{
-    /// <summary>
-    /// Converts a chain provider to an Alligator hub.
-    /// </summary>
-    /// <typeparam name="TIn">The type of the input.</typeparam>
-    /// <param name="chainProvider">The chain provider.</param>
-    /// <param name="jawPeriods">The number of periods for the jaw.</param>
-    /// <param name="jawOffset">The offset for the jaw.</param>
-    /// <param name="teethPeriods">The number of periods for the teeth.</param>
-    /// <param name="teethOffset">The offset for the teeth.</param>
-    /// <param name="lipsPeriods">The number of periods for the lips.</param>
-    /// <param name="lipsOffset">The offset for the lips.</param>
-    /// <returns>An Alligator hub.</returns>
-    public static AlligatorHub<TIn> ToAlligatorHub<TIn>(
-        this IChainProvider<TIn> chainProvider,
-        int jawPeriods = 13,
-        int jawOffset = 8,
-        int teethPeriods = 8,
-        int teethOffset = 5,
-        int lipsPeriods = 5,
-        int lipsOffset = 3)
-        where TIn : IReusable
-        => new(
-            chainProvider,
-            jawPeriods,
-            jawOffset,
-            teethPeriods,
-            teethOffset,
-            lipsPeriods,
-            lipsOffset);
-}
-
 /// <summary>
 /// Represents a stream hub for calculating the Alligator indicator.
 /// </summary>
-/// <typeparam name="TIn">The type of the input.</typeparam>
 /// <inheritdoc cref="IAlligator"/>
-public class AlligatorHub<TIn>
-   : StreamHub<TIn, AlligatorResult>, IAlligator
-   where TIn : IReusable
+public class AlligatorHub
+   : StreamHub<IReusable, AlligatorResult>, IAlligator
 {
-    #region constructors
-
     private readonly string hubName;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="AlligatorHub{TIn}"/> class.
+    /// Initializes a new instance of the <see cref="AlligatorHub"/> class.
     /// </summary>
     /// <param name="provider">The chain provider.</param>
     /// <param name="jawPeriods">The number of periods for the jaw.</param>
@@ -59,7 +22,7 @@ public class AlligatorHub<TIn>
     /// <param name="lipsPeriods">The number of periods for the lips.</param>
     /// <param name="lipsOffset">The offset for the lips.</param>
     internal AlligatorHub(
-        IChainProvider<TIn> provider,
+        IChainProvider<IReusable> provider,
         int jawPeriods, int jawOffset,
         int teethPeriods, int teethOffset,
         int lipsPeriods, int lipsOffset)
@@ -81,7 +44,6 @@ public class AlligatorHub<TIn>
 
         Reinitialize();
     }
-    #endregion
 
     /// <summary>
     /// Gets the number of periods for the jaw.
@@ -120,8 +82,10 @@ public class AlligatorHub<TIn>
 
     /// <inheritdoc/>
     protected override (AlligatorResult result, int index)
-        ToIndicator(TIn item, int? indexHint)
+        ToIndicator(IReusable item, int? indexHint)
     {
+        ArgumentNullException.ThrowIfNull(item);
+
         double jaw = double.NaN;
         double lips = double.NaN;
         double teeth = double.NaN;
@@ -211,5 +175,60 @@ public class AlligatorHub<TIn>
             lips.NaN2Null());
 
         return (r, i);
+    }
+}
+
+public static partial class Alligator
+{
+    /// <summary>
+    /// Converts a chain provider to an Alligator hub.
+    /// </summary>
+    /// <param name="chainProvider">The chain provider.</param>
+    /// <param name="jawPeriods">The number of periods for the jaw.</param>
+    /// <param name="jawOffset">The offset for the jaw.</param>
+    /// <param name="teethPeriods">The number of periods for the teeth.</param>
+    /// <param name="teethOffset">The offset for the teeth.</param>
+    /// <param name="lipsPeriods">The number of periods for the lips.</param>
+    /// <param name="lipsOffset">The offset for the lips.</param>
+    /// <returns>An Alligator hub.</returns>
+    public static AlligatorHub ToAlligatorHub(
+        this IChainProvider<IReusable> chainProvider,
+        int jawPeriods = 13,
+        int jawOffset = 8,
+        int teethPeriods = 8,
+        int teethOffset = 5,
+        int lipsPeriods = 5,
+        int lipsOffset = 3) => new(
+            chainProvider,
+            jawPeriods,
+            jawOffset,
+            teethPeriods,
+            teethOffset,
+            lipsPeriods,
+            lipsOffset);
+
+    /// <summary>
+    /// Creates an Alligator hub from a collection of quotes.
+    /// </summary>
+    /// <param name="quotes">The collection of quotes.</param>
+    /// <param name="jawPeriods">The number of periods for the jaw.</param>
+    /// <param name="jawOffset">The offset for the jaw.</param>
+    /// <param name="teethPeriods">The number of periods for the teeth.</param>
+    /// <param name="teethOffset">The offset for the teeth.</param>
+    /// <param name="lipsPeriods">The number of periods for the lips.</param>
+    /// <param name="lipsOffset">The offset for the lips.</param>
+    /// <returns>An instance of <see cref="AlligatorHub"/>.</returns>
+    public static AlligatorHub ToAlligatorHub(
+        this IReadOnlyList<IQuote> quotes,
+        int jawPeriods = 13,
+        int jawOffset = 8,
+        int teethPeriods = 8,
+        int teethOffset = 5,
+        int lipsPeriods = 5,
+        int lipsOffset = 3)
+    {
+        QuoteHub quoteHub = new();
+        quoteHub.Add(quotes);
+        return quoteHub.ToAlligatorHub(jawPeriods, jawOffset, teethPeriods, teethOffset, lipsPeriods, lipsOffset);
     }
 }

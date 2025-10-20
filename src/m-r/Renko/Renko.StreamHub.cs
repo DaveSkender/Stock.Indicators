@@ -3,31 +3,8 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Provides methods for generating Renko chart series in a streaming manner.
 /// </summary>
-public static partial class Renko
-{
-    /// <summary>
-    /// Converts a quote provider to a Renko hub.
-    /// </summary>
-    /// <typeparam name="TIn">The type of the quote values.</typeparam>
-    /// <param name="quoteProvider">The quote provider.</param>
-    /// <param name="brickSize">The size of each Renko brick.</param>
-    /// <param name="endType">The price candle end type to use as the brick threshold.</param>
-    /// <returns>A Renko hub.</returns>
-    public static RenkoHub<TIn> ToRenkoHub<TIn>(
-        this IQuoteProvider<TIn> quoteProvider,
-        decimal brickSize,
-        EndType endType = EndType.Close)
-        where TIn : IQuote
-        => new(quoteProvider, brickSize, endType);
-}
-
-/// <summary>
-/// Streaming hub for generating Renko chart results from a stream of quotes.
-/// </summary>
-/// <typeparam name="TIn">The type of the quote values.</typeparam>
-public class RenkoHub<TIn>
-    : QuoteProvider<TIn, RenkoResult>, IRenko
-    where TIn : IQuote
+public class RenkoHub
+    : QuoteProvider<IQuote, RenkoResult>, IRenko
 {
     #region constructors
 
@@ -38,13 +15,13 @@ public class RenkoHub<TIn>
             default, default, default, default);
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="RenkoHub{TIn}"/> class.
+    /// Initializes a new instance of the <see cref="RenkoHub"/> class.
     /// </summary>
     /// <param name="provider">The quote provider.</param>
     /// <param name="brickSize">The size of each Renko brick.</param>
     /// <param name="endType">The type of price to use for the end of the brick.</param>
     internal RenkoHub(
-        IQuoteProvider<TIn> provider,
+        IQuoteProvider<IQuote> provider,
         decimal brickSize,
         EndType endType) : base(provider)
     {
@@ -74,12 +51,15 @@ public class RenkoHub<TIn>
     public override string ToString() => hubName;
 
     /// <inheritdoc/>
-    public override void OnAdd(TIn item, bool notify, int? indexHint)
-        => ToIndicator(item, notify, indexHint);
+    public override void OnAdd(IQuote item, bool notify, int? indexHint)
+    {
+        ArgumentNullException.ThrowIfNull(item);
+        ToIndicator(item, notify, indexHint);
+    }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     protected override (RenkoResult result, int index)
-        ToIndicator(TIn item, int? indexHint)
+        ToIndicator(IQuote item, int? indexHint)
         => throw new InvalidOperationException(); // not used
 
     /// <summary>
@@ -111,7 +91,7 @@ public class RenkoHub<TIn>
     {
         int decimals = BrickSize.GetDecimalPlaces();
 
-        TIn q0 = ProviderCache[0];
+        IQuote q0 = ProviderCache[0];
 
         decimal baseline
             = Math.Round(q0.Close,
@@ -128,7 +108,7 @@ public class RenkoHub<TIn>
     }
 
     // custom: build 0 to many bricks per quote
-    private void ToIndicator(TIn item, bool notify, int? indexHint)
+    private void ToIndicator(IQuote item, bool notify, int? indexHint)
     {
         int providerIndex = indexHint
             ?? throw new InvalidOperationException($"{nameof(indexHint)} cannot be empty");
@@ -166,7 +146,7 @@ public class RenkoHub<TIn>
 
             for (int w = lastBrickIndex + 1; w <= providerIndex; w++)
             {
-                TIn pq = ProviderCache[w];
+                IQuote pq = ProviderCache[w];
 
                 h = Math.Max(h, pq.High);
                 l = Math.Min(l, pq.Low);
@@ -200,4 +180,39 @@ public class RenkoHub<TIn>
             }
         }
     }
+}
+
+
+public static partial class Renko
+{
+    /// <summary>
+    /// Converts a quote provider to a Renko hub.
+    /// </summary>
+    /// <param name="quoteProvider">The quote provider.</param>
+    /// <param name="brickSize">The size of each Renko brick.</param>
+    /// <param name="endType">The price candle end type to use as the brick threshold.</param>
+    /// <returns>A Renko hub.</returns>
+    public static RenkoHub ToRenkoHub(
+        this IQuoteProvider<IQuote> quoteProvider,
+        decimal brickSize,
+        EndType endType = EndType.Close)
+        => new(quoteProvider, brickSize, endType);
+
+    /// <summary>
+    /// Creates a Renko hub from a collection of quotes.
+    /// </summary>
+    /// <param name="quotes">The collection of quotes.</param>
+    /// <param name="brickSize">Parameter for the calculation.</param>
+    /// <param name="endType">Parameter for the calculation.</param>
+    /// <returns>An instance of <see cref="RenkoHub"/>.</returns>
+    public static RenkoHub ToRenkoHub(
+        this IReadOnlyList<IQuote> quotes,
+        decimal brickSize,
+        EndType endType = EndType.Close)
+    {
+        QuoteHub quoteHub = new();
+        quoteHub.Add(quotes);
+        return quoteHub.ToRenkoHub(brickSize, endType);
+    }
+
 }

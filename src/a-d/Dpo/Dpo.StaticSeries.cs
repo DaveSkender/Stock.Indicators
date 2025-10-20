@@ -7,17 +7,14 @@ public static partial class Dpo
 {
     /// <summary>
     /// Converts a list of source data to Detrended Price Oscillator (DPO) results.
-    /// </summary>
-    /// <typeparam name="T">The type of the source data.</typeparam>
-    /// <param name="source">The list of source data.</param>
+    /// </summary>    /// <param name="source">The list of source data.</param>
     /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
     /// <returns>A list of DPO results.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the source list is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
-    public static IReadOnlyList<DpoResult> ToDpo<T>(
-        this IReadOnlyList<T> source,
+    public static IReadOnlyList<DpoResult> ToDpo(
+        this IReadOnlyList<IReusable> source,
         int lookbackPeriods = 14)
-        where T : IReusable
     {
         // check parameter arguments
         ArgumentNullException.ThrowIfNull(source);
@@ -35,7 +32,7 @@ public static partial class Dpo
         // roll through source values
         for (int i = 0; i < length; i++)
         {
-            T src = source[i];
+            IReusable src = source[i];
 
             double? dpoSma = null;
             double? dpoVal = null;

@@ -84,7 +84,7 @@ IReadOnlyList<CandleProperties> candles = quotes.ToCandles();
 
 ### Validate quote history
 
-`quotes.Validate()` is an advanced check of your `IReadOnlyList<TQuote> quotes`.  It will check for duplicate dates and other bad data and will throw an `InvalidQuotesException` if validation fails.  This comes at a small performance cost, so we did not automatically add these advanced checks in the indicator methods.  Of course, you can and should do your own validation of `quotes` prior to using it in this library.  Bad historical quotes can produce unexpected results.
+`quotes.Validate()` is an advanced check of your `IReadOnlyList<IQuote> quotes`.  It will check for duplicate dates and other bad data and will throw an `InvalidQuotesException` if validation fails.  This comes at a small performance cost, so we did not automatically add these advanced checks in the indicator methods.  Of course, you can and should do your own validation of `quotes` prior to using it in this library.  Bad historical quotes can produce unexpected results.
 
 ```csharp
 // advanced validation

@@ -21,7 +21,7 @@ public static class Simulate
 public class Go
 {
     private readonly bool verbose = true;
-    private static readonly QuoteHub<Quote> quoteHub = new();
+    private static readonly QuoteHub quoteHub = new();
 
     private static readonly IReadOnlyList<Quote> quotesList = Tests.Data.Data.GetDefault();
 
@@ -83,7 +83,7 @@ public class Go
 
     internal void EmaHub()
     {
-        EmaHub<Quote> emaHub = quoteHub.ToEmaHub(14);
+        EmaHub emaHub = quoteHub.ToEmaHub(14);
 
         if (!verbose)
         {
@@ -113,8 +113,7 @@ public class Go
         }
     }
 
-    private static void SendToConsole<T>(Quote q, EmaHub<T> emaHub)
-        where T : IReusable
+    private static void SendToConsole(Quote q, EmaHub emaHub)
     {
         string m = $"{q.Timestamp:yyyy-MM-dd}   ${q.Close:N2}";
 
@@ -129,10 +128,10 @@ public class Go
 
     internal void ManySubscribers()
     {
-        SmaHub<Quote> smaHub = quoteHub.ToSma(3);
-        EmaHub<Quote> emaHub = quoteHub.ToEmaHub(5);
-        EmaHub<QuotePart> useChain = quoteHub.ToQuotePartHub(CandlePart.HL2).ToEmaHub(7);
-        EmaHub<SmaResult> emaChain = quoteHub.ToSma(4).ToEmaHub(4);
+        SmaHub smaHub = quoteHub.ToSmaHub(3);
+        EmaHub emaHub = quoteHub.ToEmaHub(5);
+        EmaHub useChain = quoteHub.ToQuotePartHub(CandlePart.HL2).ToEmaHub(7);
+        EmaHub emaChain = quoteHub.ToSmaHub(4).ToEmaHub(4);
 
         if (!verbose)
         {
@@ -164,10 +163,10 @@ public class Go
 
     private static void SendToConsole(
         Quote q,
-        SmaHub<Quote> smaHub,
-        EmaHub<Quote> emaHub,
-        EmaHub<QuotePart> useChain,
-        EmaHub<SmaResult> emaChain)
+        SmaHub smaHub,
+        EmaHub emaHub,
+        EmaHub useChain,
+        EmaHub emaChain)
     {
         string m = $"{q.Timestamp:yyyy-MM-dd}   ${q.Close:N2}";
 
