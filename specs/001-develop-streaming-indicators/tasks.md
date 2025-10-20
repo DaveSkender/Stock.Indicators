@@ -239,7 +239,7 @@ Note on former deferrals: Indicators like Fractal, HtTrendline, Hurst, Ichimoku,
 - [ ] **T114** Implement FisherTransform StreamHub in `src/e-k/FisherTransform/FisherTransform.StreamHub.cs`
 - [ ] **T115** Implement ForceIndex StreamHub in `src/e-k/ForceIndex/ForceIndex.StreamHub.cs`
 - [ ] **T116** Implement Fractal StreamHub in `src/e-k/Fractal/Fractal.StreamHub.cs` (complex but unblocked — chain provider with multi-buffer internal state)
-- [ ] **T117** Implement Gator StreamHub in `src/e-k/Gator/Gator.StreamHub.cs`
+- [x] **T117** Implement Gator StreamHub in `src/e-k/Gator/Gator.StreamHub.cs` ✅
 - [ ] **T118** Implement HeikinAshi StreamHub in `src/e-k/HeikinAshi/HeikinAshi.StreamHub.cs`
 - [x] **T119** Implement Hma StreamHub in `src/e-k/Hma/Hma.StreamHub.cs` ✅
 - [ ] **T120** Implement HtTrendline StreamHub in `src/e-k/HtTrendline/HtTrendline.StreamHub.cs` (complex but unblocked — model after EMA chain provider with HMA-like buffers)
@@ -294,7 +294,7 @@ Note on former deferrals: Indicators like Fractal, HtTrendline, Hurst, Ichimoku,
 - [x] **T169** Implement Wma StreamHub in `src/s-z/Wma/Wma.StreamHub.cs` ✅
 - [ ] **T170** Implement ZigZag StreamHub in `src/s-z/ZigZag/ZigZag.StreamHub.cs`
 
-**StreamHub**: 47/85 complete, 38 remaining
+**StreamHub**: 48/85 complete, 37 remaining
 
 **Checkpoint**: Phase 3 completion achieves 1:1:1 parity across all three implementation styles (Series, BufferList, StreamHub)
 
@@ -461,7 +461,7 @@ Each task should follow these guidelines:
 - **Total BufferList implementations**: 72 complete, 13 remaining (T001-T085)
 - **Total StreamHub implementations**: 47 complete, 38 remaining (T086-T170)
 - **1:1:1 Target**: 85 BufferList + 85 StreamHub = 170 streaming implementations total
-- **Current streaming coverage**: 119/170 = **70% complete**
+- **Current streaming coverage**: 120/170 = **70.6% complete**
 
 **Task Breakdown**:
 
@@ -470,7 +470,7 @@ Each task should follow these guidelines:
 - **Phase 3**: 85 StreamHub implementation tasks (T086-T170) — 47 complete, 38 remaining
 - **Phase 4**: 17 test infrastructure tasks (T175-T185, Q001-Q006) — 0 complete, 17 remaining
 - **Phase 5**: 7 documentation tasks (D001-D007) — 2 complete, 5 remaining
-- **Total**: 204 tasks — 129 complete, 75 remaining
+- **Total**: 204 tasks — 130 complete, 74 remaining
 
 Removed blanket deferral: The above indicators are complex but unblocked with established reference patterns (see instruction files).
 
