@@ -22,6 +22,11 @@ public static partial class StdDevChannels
             .WithStyle(Style.Series)
             .Build();
 
+    // Standard Deviation Channels Buffer Listing
+    internal static readonly IndicatorListing BufferListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Buffer)
+            .Build();
+
     // No StreamListing for Standard Deviation Channels.
-    // No BufferListing for Standard Deviation Channels.
 }

@@ -3,6 +3,31 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Standard Deviation Channels from incremental reusable values.
 /// </summary>
+/// <remarks>
+/// <para>
+/// <b>Exception to BufferUtilities Pattern:</b> StdDevChannels does not use the standard
+/// <see cref="BufferListUtilities"/> extension methods (Update/UpdateWithDequeue) due to
+/// its dependency on internal <see cref="SlopeList"/> calculations.
+/// </para>
+/// <para>
+/// <b>Algorithmic Requirements:</b>
+/// <list type="bullet">
+/// <item>Requires complete <see cref="SlopeList"/> history for slope and regression calculations</item>
+/// <item>Processes data in reverse windows (most recent backward by lookbackPeriods steps)</item>
+/// <item>Calculates regression channels using slope/intercept from specific window endpoints</item>
+/// <item>Maintains global index offset to ensure correct calculations after list pruning</item>
+/// </list>
+/// </para>
+/// <para>
+/// <b>Why Queue&lt;T&gt; Cannot Be Used:</b> The standard <see cref="Queue{T}"/> data structure
+/// used by BufferUtilities cannot maintain the complete SlopeList needed for the reverse window
+/// iteration pattern that characterizes Standard Deviation Channels.
+/// </para>
+/// <para>
+/// <b>Memory Management:</b> This implementation uses an internal <see cref="SlopeList"/> that
+/// is synchronized with the main result list during pruning operations.
+/// </para>
+/// </remarks>
 public class StdDevChannelsList : BufferList<StdDevChannelsResult>, IIncrementFromChain
 {
     private readonly SlopeList slopeList;
