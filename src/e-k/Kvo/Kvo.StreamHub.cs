@@ -8,7 +8,6 @@ public static partial class Kvo
     /// <summary>
     /// Creates a KVO streaming hub from a quote provider.
     /// </summary>
-    /// <typeparam name="TIn">The type of the quote.</typeparam>
     /// <param name="quoteProvider">The quote provider.</param>
     /// <param name="fastPeriods">The number of periods for the fast EMA. Default is 34.</param>
     /// <param name="slowPeriods">The number of periods for the slow EMA. Default is 55.</param>
@@ -16,22 +15,19 @@ public static partial class Kvo
     /// <returns>A KVO hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the quote provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when any of the parameters are invalid.</exception>
-    public static KvoHub<TIn> ToKvoHub<TIn>(
-        this IQuoteProvider<TIn> quoteProvider,
+    public static KvoHub ToKvoHub(
+        this IQuoteProvider<IQuote> quoteProvider,
         int fastPeriods = 34,
         int slowPeriods = 55,
         int signalPeriods = 13)
-        where TIn : IQuote
         => new(quoteProvider, fastPeriods, slowPeriods, signalPeriods);
 }
 
 /// <summary>
 /// Streaming hub for Klinger Volume Oscillator (KVO) calculations.
 /// </summary>
-/// <typeparam name="TIn">The type of the quote.</typeparam>
-public class KvoHub<TIn>
-    : ChainProvider<TIn, KvoResult>, IKvo
-    where TIn : IQuote
+public class KvoHub
+    : ChainProvider<IQuote, KvoResult>, IKvo
 {
     private readonly int _fastPeriods;
     private readonly int _slowPeriods;
@@ -51,7 +47,7 @@ public class KvoHub<TIn>
     private double _sumVf;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="KvoHub{TIn}"/> class.
+    /// Initializes a new instance of the <see cref="KvoHub"/> class.
     /// </summary>
     /// <param name="provider">The quote provider.</param>
     /// <param name="fastPeriods">The number of periods for the fast EMA.</param>
@@ -60,7 +56,7 @@ public class KvoHub<TIn>
     /// <exception cref="ArgumentNullException">Thrown when the provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when any of the parameters are invalid.</exception>
     internal KvoHub(
-        IQuoteProvider<TIn> provider,
+        IQuoteProvider<IQuote> provider,
         int fastPeriods,
         int slowPeriods,
         int signalPeriods) : base(provider)
@@ -103,8 +99,10 @@ public class KvoHub<TIn>
 
     /// <inheritdoc/>
     protected override (KvoResult result, int index)
-        ToIndicator(TIn item, int? indexHint)
+        ToIndicator(IQuote item, int? indexHint)
     {
+        ArgumentNullException.ThrowIfNull(item);
+
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
         double high = (double)item.High;
@@ -253,7 +251,7 @@ public class KvoHub<TIn>
         // Rebuild state by recalculating all values up to targetIndex
         for (int i = 0; i <= targetIndex; i++)
         {
-            TIn item = ProviderCache[i];
+            IQuote item = ProviderCache[i];
             double high = (double)item.High;
             double low = (double)item.Low;
             double close = (double)item.Close;

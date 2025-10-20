@@ -10,7 +10,7 @@ public class KvoHubTests : StreamHubTestBase, ITestQuoteObserver
         int length = quotesList.Count;
 
         // setup quote provider hub
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
         // prefill quotes at provider
         for (int i = 0; i < 20; i++)
@@ -19,7 +19,7 @@ public class KvoHubTests : StreamHubTestBase, ITestQuoteObserver
         }
 
         // initialize observer
-        StreamHub<Quote, KvoResult> observer = quoteHub.ToKvoHub(34, 55, 13);
+        KvoHub observer = quoteHub.ToKvoHub(34, 55, 13);
 
         // fetch initial results (early)
         IReadOnlyList<KvoResult> streamList = observer.Results;
@@ -63,7 +63,7 @@ public class KvoHubTests : StreamHubTestBase, ITestQuoteObserver
     [TestMethod]
     public override void CustomToString()
     {
-        KvoHub<Quote> hub = new(new QuoteHub<Quote>(), 34, 55, 13);
+        KvoHub hub = new(new QuoteHub(), 34, 55, 13);
         hub.ToString().Should().Be("KVO(34,55,13)");
     }
 
@@ -73,10 +73,10 @@ public class KvoHubTests : StreamHubTestBase, ITestQuoteObserver
         int length = Quotes.Count;
 
         // setup quote provider hub
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
         // initialize observer
-        StreamHub<Quote, KvoResult> observer = quoteHub.ToKvoHub(34, 55, 13);
+        KvoHub observer = quoteHub.ToKvoHub(34, 55, 13);
 
         // emulate quote stream
         foreach (Quote q in Quotes)
@@ -103,10 +103,10 @@ public class KvoHubTests : StreamHubTestBase, ITestQuoteObserver
         int length = Quotes.Count;
 
         // setup quote provider hub
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
         // initialize observer with different parameters
-        StreamHub<Quote, KvoResult> observer = quoteHub.ToKvoHub(20, 40, 10);
+        KvoHub observer = quoteHub.ToKvoHub(20, 40, 10);
 
         // emulate quote stream
         foreach (Quote q in Quotes)
@@ -131,7 +131,7 @@ public class KvoHubTests : StreamHubTestBase, ITestQuoteObserver
     public void BadData()
     {
         // setup quote provider hub
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
         // bad fast periods
         Action act = () => quoteHub.ToKvoHub(2, 55, 13);

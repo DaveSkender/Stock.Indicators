@@ -14,8 +14,8 @@ public class KvoTests : RegressionTestBase<KvoResult>
     [TestMethod]
     public override void Stream()
     {
-        QuoteHub<Quote> quoteHub = new();
-        StreamHub<Quote, KvoResult> hub = quoteHub.ToKvoHub(34, 55, 13);
+        QuoteHub quoteHub = new();
+        KvoHub hub = quoteHub.ToKvoHub(34, 55, 13);
 
         foreach (Quote q in Quotes)
         {
