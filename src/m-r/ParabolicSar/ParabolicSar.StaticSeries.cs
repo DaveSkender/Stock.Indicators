@@ -8,19 +8,18 @@ public static partial class ParabolicSar
     /// <summary>
     /// Converts a list of quotes to Parabolic SAR results.
     /// </summary>
-    /// <typeparam name="TQuote">The type of the quotes, which must implement <see cref="IQuote"/>.</typeparam>
     /// <param name="quotes">The list of quotes to analyze.</param>
     /// <param name="accelerationStep">The acceleration step for the SAR calculation. Default is 0.02.</param>
     /// <param name="maxAccelerationFactor">The maximum acceleration factor for the SAR calculation. Default is 0.2.</param>
     /// <returns>A list of <see cref="ParabolicSarResult"/> containing the SAR values.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the quotes list is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the acceleration step or maximum acceleration factor are out of range.</exception>
-    public static IReadOnlyList<ParabolicSarResult> ToParabolicSar<TQuote>(
-        this IReadOnlyList<TQuote> quotes,
+    public static IReadOnlyList<ParabolicSarResult> ToParabolicSar(
+        this IReadOnlyList<IQuote> quotes,
         double accelerationStep = 0.02,
         double maxAccelerationFactor = 0.2)
 
-        where TQuote : IQuote => quotes
+        => quotes
             .ToQuoteDList()
             .CalcParabolicSar(
                 accelerationStep,
@@ -30,7 +29,6 @@ public static partial class ParabolicSar
     /// <summary>
     /// Gets the Parabolic SAR results for a list of quotes.
     /// </summary>
-    /// <typeparam name="TQuote">The type of the quotes, which must implement <see cref="IQuote"/>.</typeparam>
     /// <param name="quotes">The list of quotes to analyze.</param>
     /// <param name="accelerationStep">The acceleration step for the SAR calculation.</param>
     /// <param name="maxAccelerationFactor">The maximum acceleration factor for the SAR calculation.</param>
@@ -38,12 +36,12 @@ public static partial class ParabolicSar
     /// <returns>A list of <see cref="ParabolicSarResult"/> containing the SAR values.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the quotes list is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the acceleration step, maximum acceleration factor, or initial factor are out of range.</exception>
-    public static IReadOnlyList<ParabolicSarResult> ToParabolicSar<TQuote>(
-        this IReadOnlyList<TQuote> quotes,
+    public static IReadOnlyList<ParabolicSarResult> ToParabolicSar(
+        this IReadOnlyList<IQuote> quotes,
         double accelerationStep,
         double maxAccelerationFactor,
         double initialFactor)
-        where TQuote : IQuote => quotes
+        => quotes
             .ToQuoteDList()
             .CalcParabolicSar(
                 accelerationStep,

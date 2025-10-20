@@ -8,16 +8,15 @@ public static partial class ForceIndex
     /// <summary>
     /// Converts a list of quotes to Force Index results.
     /// </summary>
-    /// <typeparam name="TQuote">The type of the quote data.</typeparam>
     /// <param name="quotes">The list of quotes.</param>
     /// <param name="lookbackPeriods">The number of periods to look back for the calculation. Default is 2.</param>
     /// <returns>A list of Force Index results.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the quotes list is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
-    public static IReadOnlyList<ForceIndexResult> ToForceIndex<TQuote>(
-        this IReadOnlyList<TQuote> quotes,
+    public static IReadOnlyList<ForceIndexResult> ToForceIndex(
+        this IReadOnlyList<IQuote> quotes,
         int lookbackPeriods = 2)
-        where TQuote : IQuote => quotes
+        => quotes
             .ToQuoteDList()
             .CalcForceIndex(lookbackPeriods);
 

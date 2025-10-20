@@ -88,8 +88,8 @@ IReadOnlyList<AdlResult> results = adlList;
 Subscribe to a `QuoteHub` for advanced streaming scenarios:
 
 ```csharp
-QuoteHub<Quote> quoteHub = new();
-AdlHub<Quote> observer = quoteHub.ToAdl();
+QuoteHub quoteHub = new();
+AdlHub observer = quoteHub.ToAdl();
 
 foreach (Quote quote in quotes)  // simulating stream
 {

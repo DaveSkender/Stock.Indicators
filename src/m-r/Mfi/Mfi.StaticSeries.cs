@@ -8,16 +8,15 @@ public static partial class Mfi
     /// <summary>
     /// Converts a list of quotes to Money Flow Index (MFI) results.
     /// </summary>
-    /// <typeparam name="TQuote">The type of the quotes, which must implement <see cref="IQuote"/>.</typeparam>
     /// <param name="quotes">The list of quotes to analyze.</param>
     /// <param name="lookbackPeriods">The number of periods to use for the MFI calculation. Default is 14.</param>
     /// <returns>A list of <see cref="MfiResult"/> containing the MFI values.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the quotes list is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are out of range.</exception>
-    public static IReadOnlyList<MfiResult> ToMfi<TQuote>(
-        this IReadOnlyList<TQuote> quotes,
+    public static IReadOnlyList<MfiResult> ToMfi(
+        this IReadOnlyList<IQuote> quotes,
         int lookbackPeriods = 14)
-        where TQuote : IQuote => quotes
+        => quotes
             .ToQuoteDList()
             .CalcMfi(lookbackPeriods);
 

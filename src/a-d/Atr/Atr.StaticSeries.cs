@@ -9,14 +9,13 @@ public static partial class Atr
     /// <summary>
     /// Calculates Average True Range (ATR) for a series of quotes.
     /// </summary>
-    /// <typeparam name="TQuote">The type of the quote.</typeparam>
     /// <param name="quotes">The list of quotes.</param>
     /// <param name="lookbackPeriods">The number of periods to look back for ATR calculation. Default is 14.</param>
     /// <returns>A read-only list of ATR results.</returns>
-    public static IReadOnlyList<AtrResult> ToAtr<TQuote>(
-        this IReadOnlyList<TQuote> quotes,
+    public static IReadOnlyList<AtrResult> ToAtr(
+        this IReadOnlyList<IQuote> quotes,
         int lookbackPeriods = 14)
-        where TQuote : IQuote => quotes
+        => quotes
             .ToQuoteDList()
             .CalcAtr(lookbackPeriods);
 

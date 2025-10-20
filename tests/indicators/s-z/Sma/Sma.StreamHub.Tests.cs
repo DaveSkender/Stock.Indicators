@@ -1,7 +1,7 @@
 namespace StreamHub;
 
 [TestClass]
-public class SmaHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
+public class SmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProvider
 {
     [TestMethod]
     public void QuoteObserver()
@@ -11,7 +11,7 @@ public class SmaHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
         int length = quotesList.Count;
 
         // setup quote provider hub
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
         // prefill quotes at provider
         for (int i = 0; i < 20; i++)
@@ -20,8 +20,8 @@ public class SmaHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
         }
 
         // initialize observer
-        SmaHub<Quote> observer = quoteHub
-            .ToSma(5);
+        SmaHub observer = quoteHub
+            .ToSmaHub(5);
 
         // fetch initial results (early)
         IReadOnlyList<SmaResult> streamList
@@ -74,7 +74,7 @@ public class SmaHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
         int length = quotesList.Count;
 
         // setup quote provider hub
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
         // prefill quotes at provider
         for (int i = 0; i < 50; i++)
@@ -83,9 +83,9 @@ public class SmaHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
         }
 
         // initialize observer
-        SmaHub<QuotePart> observer = quoteHub
+        SmaHub observer = quoteHub
             .ToQuotePartHub(CandlePart.OC2)
-            .ToSma(11);
+            .ToSmaHub(11);
 
         // emulate quote stream
         for (int i = 50; i < length; i++)
@@ -121,12 +121,12 @@ public class SmaHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
         int length = quotesList.Count;
 
         // setup quote provider hub
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
         // initialize observer
-        EmaHub<SmaResult> observer
+        EmaHub observer
            = quoteHub
-            .ToSma(smaPeriods)
+            .ToSmaHub(smaPeriods)
             .ToEmaHub(emaPeriods);
 
         // emulate quote stream
@@ -160,7 +160,7 @@ public class SmaHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
     [TestMethod]
     public override void CustomToString()
     {
-        SmaHub<Quote> hub = new(new QuoteHub<Quote>(), 5);
+        SmaHub hub = new(new QuoteHub(), 5);
         hub.ToString().Should().Be("SMA(5)");
     }
 }

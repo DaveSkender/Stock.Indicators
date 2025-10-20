@@ -8,16 +8,14 @@ public static partial class Hma
     /// <summary>
     /// Converts a list of time-series values to Hull Moving Average (HMA) results.
     /// </summary>
-    /// <typeparam name="T">The type of the time-series values, which must implement <see cref="IReusable"/>.</typeparam>
     /// <param name="source">The list of time-series values to transform.</param>
     /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
     /// <returns>A list of HMA results.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the source list is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are less than 2.</exception>
-    public static IReadOnlyList<HmaResult> ToHma<T>(
-        this IReadOnlyList<T> source,
+    public static IReadOnlyList<HmaResult> ToHma(
+        this IReadOnlyList<IReusable> source,
         int lookbackPeriods = 14)
-        where T : IReusable
     {
         // check parameter arguments
         ArgumentNullException.ThrowIfNull(source);
@@ -37,7 +35,7 @@ public static partial class Hma
         // roll through source values, to get interim synthetic quotes
         for (int i = 0; i < length; i++)
         {
-            T s = source[i];
+            IReusable s = source[i];
 
             WmaResult w1 = wmaN1[i];
             WmaResult w2 = wmaN2[i];

@@ -7,19 +7,16 @@ public static partial class ConnorsRsi
 {
     /// <summary>
     /// Calculates the Connors RSI for a series of quotes.
-    /// </summary>
-    /// <typeparam name="T">The type of the elements in the source list, which must implement <see cref="IReusable"/>.</typeparam>
-    /// <param name="source">The source list of quotes.</param>
+    /// </summary>    /// <param name="source">The source list of quotes.</param>
     /// <param name="rsiPeriods">The number of periods to use for the RSI calculation. Default is 3.</param>
     /// <param name="streakPeriods">The number of periods to use for the streak calculation. Default is 2.</param>
     /// <param name="rankPeriods">The number of periods to use for the percent rank calculation. Default is 100.</param>
     /// <returns>A read-only list of <see cref="ConnorsRsiResult"/> containing the Connors RSI calculation results.</returns>
-    public static IReadOnlyList<ConnorsRsiResult> ToConnorsRsi<T>(
-        this IReadOnlyList<T> source,
+    public static IReadOnlyList<ConnorsRsiResult> ToConnorsRsi(
+        this IReadOnlyList<IReusable> source,
         int rsiPeriods = 3,
         int streakPeriods = 2,
         int rankPeriods = 100)
-        where T : IReusable
     {
         // check parameter arguments
         ArgumentNullException.ThrowIfNull(source);
@@ -74,17 +71,14 @@ public static partial class ConnorsRsi
 
     /// <summary>
     /// Calculates the baseline streak and rank for the Connors RSI.
-    /// </summary>
-    /// <typeparam name="T">The type of the elements in the source list, which must implement <see cref="IReusable"/>.</typeparam>
-    /// <param name="source">The source list of quotes.</param>
+    /// </summary>    /// <param name="source">The source list of quotes.</param>
     /// <param name="rsiPeriods">The number of periods to use for the RSI calculation.</param>
     /// <param name="rankPeriods">The number of periods to use for the percent rank calculation.</param>
     /// <returns>A list of <see cref="ConnorsRsiResult"/> containing the baseline streak and rank calculation results.</returns>
-    private static List<ConnorsRsiResult> CalcStreak<T>(
-        this IReadOnlyList<T> source,
+    private static List<ConnorsRsiResult> CalcStreak(
+        this IReadOnlyList<IReusable> source,
         int rsiPeriods,
         int rankPeriods)
-        where T : IReusable
     {
         // initialize
         IReadOnlyList<RsiResult> rsiResults = source.ToRsi(rsiPeriods);
@@ -99,7 +93,7 @@ public static partial class ConnorsRsi
         // roll through source values
         for (int i = 0; i < length; i++)
         {
-            T s = source[i];
+            IReusable s = source[i];
             double? percentRank = null;
 
             // bypass for first record

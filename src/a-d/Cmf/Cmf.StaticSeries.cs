@@ -8,28 +8,25 @@ public static partial class Cmf
     /// <summary>
     /// Calculates the Chaikin Money Flow (CMF) for a series of quotes.
     /// </summary>
-    /// <typeparam name="TQuote">The type of the elements in the quotes list, which must implement <see cref="IQuote"/>.</typeparam>
     /// <param name="quotes">The source list of quotes.</param>
     /// <param name="lookbackPeriods">The number of periods to use for the lookback window. Default is 20.</param>
     /// <returns>A read-only list of <see cref="CmfResult"/> containing the CMF calculation results.</returns>
-    public static IReadOnlyList<CmfResult> ToCmf<TQuote>(
-        this IReadOnlyList<TQuote> quotes,
+    public static IReadOnlyList<CmfResult> ToCmf(
+        this IReadOnlyList<IQuote> quotes,
         int lookbackPeriods = 20)
-        where TQuote : IQuote => quotes
+        => quotes
             .ToSortedList()
             .CalcCmf(lookbackPeriods);
 
     /// <summary>
     /// Calculates the Chaikin Money Flow (CMF) for a series of quotes.
     /// </summary>
-    /// <typeparam name="TQuote">The type of the elements in the source list, which must implement <see cref="IQuote"/>.</typeparam>
     /// <param name="source">The source list of quotes.</param>
     /// <param name="lookbackPeriods">The number of periods to use for the lookback window.</param>
     /// <returns>A list of <see cref="CmfResult"/> containing the CMF calculation results.</returns>
-    private static List<CmfResult> CalcCmf<TQuote>(
-        this IReadOnlyList<TQuote> source,
+    private static List<CmfResult> CalcCmf(
+        this IReadOnlyList<IQuote> source,
         int lookbackPeriods)
-        where TQuote : IQuote
     {
         // get volume array
         double[] volume

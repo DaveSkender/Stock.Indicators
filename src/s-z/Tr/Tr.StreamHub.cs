@@ -2,40 +2,19 @@ namespace Skender.Stock.Indicators;
 
 // TRUE RANGE (STREAM HUB)
 
-#region initializer
-
-public static partial class Tr
-{
-    /// <summary>
-    /// Converts a quote provider to a True Range (TR) hub.
-    /// </summary>
-    /// <typeparam name="TIn">The type of quote.</typeparam>
-    /// <param name="quoteProvider">The quote provider.</param>
-    /// <returns>A True Range (TR) hub.</returns>
-    public static TrHub<TIn> ToTrHub<TIn>(
-        this IQuoteProvider<TIn> quoteProvider)
-        where TIn : IQuote
-        => new(quoteProvider);
-}
-#endregion
-
-/// <summary>
-/// Represents a True Range (TR) hub for streaming data.
-/// </summary>
-/// <typeparam name="TIn">The type of quote.</typeparam>
-public class TrHub<TIn>
-    : ChainProvider<TIn, TrResult>
-    where TIn : IQuote
+/// <inheritdoc />
+public class TrHub
+    : ChainProvider<IQuote, TrResult>
 {
     #region constructors
 
     private const string hubName = "TRUE RANGE";
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="TrHub{TIn}"/> class.
+    /// Initializes a new instance of the <see cref="TrHub"/> class.
     /// </summary>
     /// <param name="provider">The quote provider.</param>
-    internal TrHub(IQuoteProvider<TIn> provider)
+    internal TrHub(IQuoteProvider<IQuote> provider)
         : base(provider)
     {
         Reinitialize();
@@ -49,8 +28,9 @@ public class TrHub<TIn>
 
     /// <inheritdoc/>
     protected override (TrResult result, int index)
-        ToIndicator(TIn item, int? indexHint)
+        ToIndicator(IQuote item, int? indexHint)
     {
+        ArgumentNullException.ThrowIfNull(item);
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
         // skip first period
@@ -59,7 +39,7 @@ public class TrHub<TIn>
             return (new TrResult(item.Timestamp, null), i);
         }
 
-        TIn prev = ProviderCache[i - 1];
+        IQuote prev = ProviderCache[i - 1];
 
         // candidate result
         TrResult r = new(
@@ -71,4 +51,31 @@ public class TrHub<TIn>
 
         return (r, i);
     }
+}
+
+
+public static partial class Tr
+{
+    /// <summary>
+    /// Converts a quote provider to a True Range (TR) hub.
+    /// </summary>
+    /// <param name="quoteProvider">The quote provider.</param>
+    /// <returns>A True Range (TR) hub.</returns>
+    public static TrHub ToTrHub(
+        this IQuoteProvider<IQuote> quoteProvider)
+             => new(quoteProvider);
+
+    /// <summary>
+    /// Creates a Tr hub from a collection of quotes.
+    /// </summary>
+    /// <param name="quotes">The collection of quotes.</param>
+    /// <returns>An instance of <see cref="TrHub"/>.</returns>
+    public static TrHub ToTrHub(
+        this IReadOnlyList<IQuote> quotes)
+    {
+        QuoteHub quoteHub = new();
+        quoteHub.Add(quotes);
+        return quoteHub.ToTrHub();
+    }
+
 }

@@ -5,47 +5,22 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Provides methods for calculating the ATR Trailing Stop using a stream hub.
 /// </summary>
-public static partial class AtrStop
-{
-    /// <summary>
-    /// Initializes a new instance of the <see cref="AtrStopHub{TIn}"/> class.
-    /// </summary>
-    /// <typeparam name="TIn">The type of the input quote.</typeparam>
-    /// <param name="quoteProvider">The quote provider.</param>
-    /// <param name="lookbackPeriods">The number of periods to look back. Default is 21.</param>
-    /// <param name="multiplier">The multiplier for the ATR. Default is 3.</param>
-    /// <param name="endType">The type of price to use for the calculation. Default is <see cref="EndType.Close"/>.</param>
-    /// <returns>An instance of <see cref="AtrStopHub{TIn}"/>.</returns>
-    public static AtrStopHub<TIn> ToAtrStopHub<TIn>(
-       this IQuoteProvider<TIn> quoteProvider,
-       int lookbackPeriods = 21,
-       double multiplier = 3,
-       EndType endType = EndType.Close)
-       where TIn : IQuote
-       => new(quoteProvider, lookbackPeriods, multiplier, endType);
-}
-
-/// <summary>
-/// Represents a stream hub for calculating the ATR Trailing Stop.
-/// </summary>
-/// <typeparam name="TIn">The type of the input quote.</typeparam>
-public class AtrStopHub<TIn>
-    : StreamHub<TIn, AtrStopResult>, IAtrStop
-    where TIn : IQuote
+public class AtrStopHub
+    : StreamHub<IQuote, AtrStopResult>, IAtrStop
 {
     #region constructors
 
     private readonly string hubName;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="AtrStopHub{TIn}"/> class.
+    /// Initializes a new instance of the <see cref="AtrStopHub"/> class.
     /// </summary>
     /// <param name="provider">The quote provider.</param>
     /// <param name="lookbackPeriods">The number of periods to look back.</param>
     /// <param name="multiplier">The multiplier for the ATR.</param>
     /// <param name="endType">The type of price to use for the calculation.</param>
     internal AtrStopHub(
-        IQuoteProvider<TIn> provider,
+        IQuoteProvider<IQuote> provider,
         int lookbackPeriods,
         double multiplier,
         EndType endType) : base(provider)
@@ -88,8 +63,10 @@ public class AtrStopHub<TIn>
 
     /// <inheritdoc/>
     protected override (AtrStopResult result, int index)
-        ToIndicator(TIn item, int? indexHint)
+        ToIndicator(IQuote item, int? indexHint)
     {
+        ArgumentNullException.ThrowIfNull(item);
+
         // reminder: should only process "new" instructions
 
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
@@ -228,4 +205,44 @@ public class AtrStopHub<TIn>
             LowerBand = default;
         }
     }
+}
+
+
+public static partial class AtrStop
+{
+    /// <summary>
+    /// Initializes a new instance of the <see cref="AtrStopHub"/> class.
+    /// </summary>
+    /// <param name="quoteProvider">The quote provider.</param>
+    /// <param name="lookbackPeriods">The number of periods to look back. Default is 21.</param>
+    /// <param name="multiplier">The multiplier for the ATR. Default is 3.</param>
+    /// <param name="endType">The type of price to use for the calculation. Default is <see cref="EndType.Close"/>.</param>
+    /// <returns>An instance of <see cref="AtrStopHub"/>.</returns>
+    public static AtrStopHub ToAtrStopHub(
+       this IQuoteProvider<IQuote> quoteProvider,
+       int lookbackPeriods = 21,
+       double multiplier = 3,
+       EndType endType = EndType.Close)
+           => new(quoteProvider, lookbackPeriods, multiplier, endType);
+
+    /// <summary>
+    /// Creates a AtrStop hub from a collection of quotes.
+    /// </summary>
+    /// <param name="quotes">The collection of quotes.</param>
+    /// <param name="lookbackPeriods">Parameter for the calculation.</param>
+    /// <param name="multiplier">Parameter for the calculation.</param>
+    /// <param name="endType">Parameter for the calculation.</param>
+    /// <returns>An instance of <see cref="AtrStopHub"/>.</returns>
+    public static AtrStopHub ToAtrStopHub(
+        this IReadOnlyList<IQuote> quotes,
+       int lookbackPeriods = 21,
+       double multiplier = 3,
+       EndType endType = EndType.Close)
+    {
+        ArgumentNullException.ThrowIfNull(quotes);
+        QuoteHub quoteHub = new();
+        quoteHub.Add(quotes);
+        return quoteHub.ToAtrStopHub(lookbackPeriods, multiplier, endType);
+    }
+
 }

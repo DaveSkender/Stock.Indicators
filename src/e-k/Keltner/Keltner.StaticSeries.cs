@@ -8,19 +8,18 @@ public static partial class Keltner
     /// <summary>
     /// Converts a list of quotes to Keltner Channel results.
     /// </summary>
-    /// <typeparam name="TQuote">The type of the quotes, which must implement <see cref="IQuote"/>.</typeparam>
     /// <param name="quotes">The list of quotes to transform.</param>
     /// <param name="emaPeriods">The number of periods for the EMA. Default is 20.</param>
     /// <param name="multiplier">The multiplier for the ATR. Default is 2.</param>
     /// <param name="atrPeriods">The number of periods for the ATR. Default is 10.</param>
     /// <returns>A list of Keltner Channel results.</returns>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when any of the parameters are out of their valid range.</exception>
-    public static IReadOnlyList<KeltnerResult> ToKeltner<TQuote>(
-        this IReadOnlyList<TQuote> quotes,
+    public static IReadOnlyList<KeltnerResult> ToKeltner(
+        this IReadOnlyList<IQuote> quotes,
         int emaPeriods = 20,
         double multiplier = 2,
         int atrPeriods = 10)
-        where TQuote : IQuote => quotes
+        => quotes
             .ToQuoteDList()
             .CalcKeltner(emaPeriods, multiplier, atrPeriods);
 

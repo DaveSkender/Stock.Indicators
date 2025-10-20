@@ -37,6 +37,34 @@ public static partial class Sma
     /// <param name="source">List of chainable values.</param>
     /// <param name="lookbackPeriods">Window to evaluate, prior to 'endIndex'.</param>
     /// <param name="endIndex">Index position to evaluate.</param>
+    /// <returns>Simple moving average or <see langword="double.NaN"/> when incalculable.</returns>
+    internal static double Increment(
+        IReadOnlyList<IReusable> source,
+        int lookbackPeriods,
+        int endIndex)
+    {
+        if (endIndex < lookbackPeriods - 1 || endIndex >= source.Count)
+        {
+            return double.NaN;
+        }
+
+        double sum = 0;
+        for (int i = endIndex - lookbackPeriods + 1; i <= endIndex; i++)
+        {
+            sum += source[i].Value;
+        }
+
+        return sum / lookbackPeriods;
+
+        // TODO: apply this SMA increment method more widely in other indicators (see EMA example)
+    }
+
+    /// <summary>
+    /// Simple moving average calculation.
+    /// </summary>
+    /// <param name="source">List of chainable values.</param>
+    /// <param name="lookbackPeriods">Window to evaluate, prior to 'endIndex'.</param>
+    /// <param name="endIndex">Index position to evaluate.</param>
     /// <typeparam name="T">IReusable (chainable) type.</typeparam>
     /// <returns>Simple moving average or <see langword="double.NaN"/> when incalculable.</returns>
     internal static double Increment<T>(

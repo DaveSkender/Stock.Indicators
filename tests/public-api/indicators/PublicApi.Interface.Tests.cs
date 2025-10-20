@@ -67,17 +67,17 @@ public class UserInterface
         int length = quotes.Count;
 
         // setup quote hub
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
         // initialize observers
-        AdlHub<Quote> adlHub = quoteHub.ToAdlHub();
-        AlligatorHub<Quote> alligatorHub = quoteHub.ToAlligatorHub();
-        AtrHub<Quote> atrHub = quoteHub.ToAtrHub();
-        AtrStopHub<Quote> atrStopHub = quoteHub.ToAtrStopHub();
-        EmaHub<Quote> emaHub = quoteHub.ToEmaHub(20);
-        QuotePartHub<Quote> quotePartHub = quoteHub.ToQuotePartHub(CandlePart.OHL3);
-        SmaHub<Quote> smaHub = quoteHub.ToSma(20);
-        TrHub<Quote> trHub = quoteHub.ToTrHub();
+        AdlHub adlHub = quoteHub.ToAdlHub();
+        AlligatorHub alligatorHub = quoteHub.ToAlligatorHub();
+        AtrHub atrHub = quoteHub.ToAtrHub();
+        AtrStopHub atrStopHub = quoteHub.ToAtrStopHub();
+        EmaHub emaHub = quoteHub.ToEmaHub(20);
+        QuotePartHub quotePartHub = quoteHub.ToQuotePartHub(CandlePart.OHL3);
+        SmaHub smaHub = quoteHub.ToSmaHub(20);
+        TrHub trHub = quoteHub.ToTrHub();
 
         // emulate adding quotes to hub
         for (int i = 0; i < length; i++)

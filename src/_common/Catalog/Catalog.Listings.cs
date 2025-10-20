@@ -148,6 +148,7 @@ public static partial class Catalog
         _listings.Add(Donchian.BufferListing);
 
         // DPO (Detrended Price Oscillator)
+        _listings.Add(Dpo.BufferListing);
         _listings.Add(Dpo.SeriesListing);
 
         // Elder Ray
@@ -215,6 +216,7 @@ public static partial class Catalog
         // MA Envelopes (Moving Average Envelopes)
         _listings.Add(MaEnvelopes.SeriesListing);
         _listings.Add(MaEnvelopes.BufferListing);
+        _listings.Add(MaEnvelopes.StreamListing);
 
         // MACD (Moving Average Convergence Divergence)
         _listings.Add(Macd.BufferListing);

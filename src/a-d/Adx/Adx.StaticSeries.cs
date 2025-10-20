@@ -8,14 +8,13 @@ public static partial class Adx
     /// <summary>
     /// Calculates the Average Directional Index (ADX) from a series of quotes.
     /// </summary>
-    /// <typeparam name="TQuote">The type of the quote.</typeparam>
     /// <param name="quotes">The list of quotes.</param>
     /// <param name="lookbackPeriods">The number of periods to look back for the ADX calculation.</param>
     /// <returns>A list of ADX results.</returns>
-    public static IReadOnlyList<AdxResult> ToAdx<TQuote>(
-        this IReadOnlyList<TQuote> quotes,
+    public static IReadOnlyList<AdxResult> ToAdx(
+        this IReadOnlyList<IQuote> quotes,
         int lookbackPeriods = 14)
-        where TQuote : IQuote => quotes
+        => quotes
             .ToQuoteDList()
             .CalcAdx(lookbackPeriods);
 

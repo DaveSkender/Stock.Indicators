@@ -15,9 +15,9 @@ public class CacheUtilities : TestBase
 
         int length = quotesList.Count;
 
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
-        QuotePartHub<Quote> observer = quoteHub
+        QuotePartHub observer = quoteHub
             .ToQuotePartHub(CandlePart.Close);
 
         for (int i = 0; i < length; i++)
@@ -58,9 +58,9 @@ public class CacheUtilities : TestBase
 
         int length = quotesList.Count;
 
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
-        QuotePartHub<Quote> observer = quoteHub
+        QuotePartHub observer = quoteHub
             .ToQuotePartHub(CandlePart.Close);
 
         for (int i = 0; i < length; i++)
@@ -100,7 +100,7 @@ public class CacheUtilities : TestBase
 
         int length = quotesList.Count;
 
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
         for (int i = 0; i < length; i++)
         {
@@ -153,7 +153,7 @@ public class CacheUtilities : TestBase
 
         int length = quotesList.Count;
 
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
         for (int i = 0; i < length; i++)
         {

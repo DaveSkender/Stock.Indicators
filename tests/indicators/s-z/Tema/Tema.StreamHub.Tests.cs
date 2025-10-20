@@ -1,7 +1,7 @@
 namespace StreamHub;
 
 [TestClass]
-public class TemaHub : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
+public class TemaHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
 {
     [TestMethod]
     public void QuoteObserver()
@@ -13,7 +13,7 @@ public class TemaHub : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
         int length = quotesList.Count;
 
         // setup quote provider hub
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
         // prefill quotes at provider
         for (int i = 0; i < 50; i++)
@@ -22,7 +22,7 @@ public class TemaHub : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
         }
 
         // initialize observer
-        TemaHub<Quote> observer = quoteHub
+        TemaHub observer = quoteHub
             .ToTemaHub(lookbackPeriods);
 
         // fetch initial results (early)
@@ -78,12 +78,12 @@ public class TemaHub : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
         int length = quotesList.Count;
 
         // setup quote provider hub
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
         // initialize observer
-        SmaHub<TemaResult> observer = quoteHub
+        SmaHub observer = quoteHub
             .ToTemaHub(temaPeriods)
-            .ToSma(smaPeriods);
+            .ToSmaHub(smaPeriods);
 
         // emulate quote stream
         for (int i = 0; i < length; i++)
@@ -115,7 +115,7 @@ public class TemaHub : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
     [TestMethod]
     public override void CustomToString()
     {
-        TemaHub<Quote> hub = new(new QuoteHub<Quote>(), 20);
+        TemaHub hub = new(new QuoteHub(), 20);
         hub.ToString().Should().Be("TEMA(20)");
     }
 
@@ -123,15 +123,15 @@ public class TemaHub : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
     public void SettingsInheritance()
     {
         // setup quote hub (1st level)
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
         // setup tema hub (2nd level)
-        TemaHub<Quote> temaHub = quoteHub
+        TemaHub temaHub = quoteHub
             .ToTemaHub(lookbackPeriods: 20);
 
         // setup child hub (3rd level)
-        SmaHub<TemaResult> childHub = temaHub
-            .ToSma(lookbackPeriods: 5);
+        SmaHub childHub = temaHub
+            .ToSmaHub(lookbackPeriods: 5);
 
         // note: despite `quoteHub` being parentless,
         // it has default properties; it should not

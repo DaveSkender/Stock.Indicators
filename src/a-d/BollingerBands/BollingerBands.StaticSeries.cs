@@ -7,18 +7,15 @@ public static partial class BollingerBands
 {
     /// <summary>
     /// Calculates the Bollinger Bands for a series of data.
-    /// </summary>
-    /// <typeparam name="T">The type of the elements in the source list, which must implement <see cref="IReusable"/>.</typeparam>
-    /// <param name="source">The source list of data.</param>
+    /// </summary>    /// <param name="source">The source list of data.</param>
     /// <param name="lookbackPeriods">The number of periods to use for the lookback window. Default is 20.</param>
     /// <param name="standardDeviations">The number of standard deviations to use for the bands. Default is 2.</param>
     /// <returns>A read-only list of <see cref="BollingerBandsResult"/> containing the Bollinger Bands calculation results.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the source list is null.</exception>
-    public static IReadOnlyList<BollingerBandsResult> ToBollingerBands<T>(
-        this IReadOnlyList<T> source,
+    public static IReadOnlyList<BollingerBandsResult> ToBollingerBands(
+        this IReadOnlyList<IReusable> source,
         int lookbackPeriods = 20,
         double standardDeviations = 2)
-        where T : IReusable
     {
         // check parameter arguments
         ArgumentNullException.ThrowIfNull(source);
@@ -31,7 +28,7 @@ public static partial class BollingerBands
         // roll through source values
         for (int i = 0; i < length; i++)
         {
-            T s = source[i];
+            IReusable s = source[i];
 
             if (i >= lookbackPeriods - 1)
             {
@@ -41,7 +38,7 @@ public static partial class BollingerBands
 
                 for (int p = i + 1 - lookbackPeriods; p <= i; p++)
                 {
-                    T ps = source[p];
+                    IReusable ps = source[p];
                     window[n] = ps.Value;
                     sum += ps.Value;
                     n++;
