@@ -212,6 +212,7 @@ public static partial class Catalog
         // KVO (Klinger Volume Oscillator)
         _listings.Add(Kvo.BufferListing);
         _listings.Add(Kvo.SeriesListing);
+        _listings.Add(Kvo.StreamListing);
 
         // MA Envelopes (Moving Average Envelopes)
         _listings.Add(MaEnvelopes.SeriesListing);
