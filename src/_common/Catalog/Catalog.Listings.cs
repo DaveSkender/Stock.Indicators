@@ -171,7 +171,9 @@ public static partial class Catalog
         _listings.Add(FisherTransform.SeriesListing);
 
         // Force Index
+        _listings.Add(ForceIndex.BufferListing);
         _listings.Add(ForceIndex.SeriesListing);
+        _listings.Add(ForceIndex.StreamListing);
 
         // Fractal
         _listings.Add(Fractal.BufferListing);
