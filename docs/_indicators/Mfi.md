@@ -56,6 +56,36 @@ IReadOnlyList<MfiResult>
 
 See [Utilities and helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
 
+## Streaming
+
+Use the buffer-style `List<T>` when you need incremental calculations without a hub:
+
+```csharp
+MfiList mfiList = new(lookbackPeriods);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  mfiList.Add(quote);
+}
+
+// based on `ICollection<MfiResult>`
+IReadOnlyList<MfiResult> results = mfiList;
+```
+
+Subscribe to a `QuoteHub` for advanced streaming scenarios:
+
+```csharp
+QuoteHub quoteHub = new();
+MfiHub observer = quoteHub.ToMfiHub(lookbackPeriods);
+
+foreach (Quote quote in quotes)  // simulating stream
+{
+  quoteHub.Add(quote);
+}
+
+IReadOnlyList<MfiResult> results = observer.Results;
+```
+
 ## Chaining
 
 Results can be further processed on `Mfi` with additional chain-enabled indicators.
