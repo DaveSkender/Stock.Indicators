@@ -67,6 +67,7 @@ public class StreamIndicators
     [Benchmark] public object EmaHub() => quoteHub.ToEmaHub(20).Results;
     [Benchmark] public object EpmaHub() => quoteHub.ToEpmaHub(n).Results;
     [Benchmark] public object HmaHub() => quoteHub.ToHmaHub(n).Results;
+    [Benchmark] public object HeikinAshiHub() => quoteHub.ToHeikinAshiHub().Results;
     [Benchmark] public object KamaHub() => quoteHub.ToKamaHub(10, 2, 30).Results;
     [Benchmark] public object MacdHub() => quoteHub.ToMacdHub(12, 26, 9).Results;
     [Benchmark] public object MaEnvelopesHub() => quoteHub.ToMaEnvelopesHub(20, 2.5, MaType.SMA).Results;
