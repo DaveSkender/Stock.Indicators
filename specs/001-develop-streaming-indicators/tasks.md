@@ -251,7 +251,7 @@ Note on former deferrals: Indicators like Fractal, HtTrendline, Hurst, Ichimoku,
 - [ ] **T126** Implement MaEnvelopes StreamHub in `src/m-r/MaEnvelopes/MaEnvelopes.StreamHub.cs`
 - [x] **T127** Implement Macd StreamHub in `src/m-r/Macd/Macd.StreamHub.cs` ✅
 - [x] **T128** Implement Mama StreamHub in `src/m-r/Mama/Mama.StreamHub.cs` ✅
-- [ ] **T129** Implement Marubozu StreamHub in `src/m-r/Marubozu/Marubozu.StreamHub.cs`
+- [x] **T129** Implement Marubozu StreamHub in `src/m-r/Marubozu/Marubozu.StreamHub.cs` ✅
 - [ ] **T130** Implement Mfi StreamHub in `src/m-r/Mfi/Mfi.StreamHub.cs`
 - [x] **T131** Implement Obv StreamHub in `src/m-r/Obv/Obv.StreamHub.cs` ✅
 - [ ] **T132** Implement ParabolicSar StreamHub in `src/m-r/ParabolicSar/ParabolicSar.StreamHub.cs`
@@ -458,19 +458,19 @@ Each task should follow these guidelines:
 **Implementation Coverage (1:1:1 Parity)**:
 
 - **Total Series implementations**: 85 indicators (baseline)
-- **Total BufferList implementations**: 73 complete, 12 remaining (T001-T085)
-- **Total StreamHub implementations**: 45 complete, 40 remaining (T086-T170)
+- **Total BufferList implementations**: 72 complete, 13 remaining (T001-T085)
+- **Total StreamHub implementations**: 47 complete, 38 remaining (T086-T170)
 - **1:1:1 Target**: 85 BufferList + 85 StreamHub = 170 streaming implementations total
-- **Current streaming coverage**: 118/170 = **69% complete**
+- **Current streaming coverage**: 119/170 = **70% complete**
 
 **Task Breakdown**:
 
 - **Phase 1**: 10 tasks (A001-A006, T171-T174) — 8 complete, 2 remaining
-- **Phase 2**: 85 BufferList implementation tasks (T001-T085) — 73 complete, 12 remaining
-- **Phase 3**: 85 StreamHub implementation tasks (T086-T170) — 45 complete, 40 remaining
+- **Phase 2**: 85 BufferList implementation tasks (T001-T085) — 72 complete, 13 remaining
+- **Phase 3**: 85 StreamHub implementation tasks (T086-T170) — 47 complete, 38 remaining
 - **Phase 4**: 17 test infrastructure tasks (T175-T185, Q001-Q006) — 0 complete, 17 remaining
 - **Phase 5**: 7 documentation tasks (D001-D007) — 2 complete, 5 remaining
-- **Total**: 204 tasks — 128 complete, 76 remaining
+- **Total**: 204 tasks — 129 complete, 75 remaining
 
 Removed blanket deferral: The above indicators are complex but unblocked with established reference patterns (see instruction files).
 
