@@ -7,6 +7,7 @@ public class ChandelierHub
     : StreamHub<IQuote, ChandelierResult>, IChandelier
 {
     private readonly string hubName;
+    private readonly AtrHub atrHub;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ChandelierHub"/> class.
@@ -30,6 +31,9 @@ public class ChandelierHub
         string typeName = type.ToString().ToUpperInvariant();
         hubName = FormattableString.Invariant(
             $"CHEXIT({lookbackPeriods},{multiplier},{typeName})");
+
+        // Initialize internal ATR hub to maintain streaming state
+        atrHub = provider.ToAtrHub(lookbackPeriods);
 
         Reinitialize();
     }
@@ -67,15 +71,8 @@ public class ChandelierHub
             return (new ChandelierResult(item.Timestamp, null), i);
         }
 
-        // calculate ATR using the full series up to this point
-        // this ensures correctness even after insertions/removals
-        List<QuoteD> quotesForAtr = ProviderCache
-            .Take(i + 1)
-            .Select(q => q.ToQuoteD())
-            .ToList();
-
-        List<AtrResult> atrResults = quotesForAtr.CalcAtr(LookbackPeriods);
-        double? atr = atrResults[i].Atr;
+        // use cached ATR result from internal hub (O(1) lookup)
+        double? atr = atrHub.Results[i].Atr;
 
         if (atr is null)
         {
