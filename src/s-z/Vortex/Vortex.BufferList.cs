@@ -131,9 +131,8 @@ public static partial class Vortex
     /// <summary>
     /// Creates a buffer list for Vortex calculations.
     /// </summary>
-    public static VortexList ToVortexList<TQuote>(
-        this IReadOnlyList<TQuote> quotes,
+    public static VortexList ToVortexList(
+        this IReadOnlyList<IQuote> quotes,
         int lookbackPeriods = 14)
-        where TQuote : IQuote
-        => new(lookbackPeriods) { (IReadOnlyList<IQuote>)quotes };
+        => new(lookbackPeriods) { quotes };
 }

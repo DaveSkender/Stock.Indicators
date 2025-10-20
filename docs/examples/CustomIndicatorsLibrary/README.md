@@ -44,10 +44,9 @@ namespace Custom.Stock.Indicators;
 public static class CustomIndicator
 {
   // Custom ATR WMA calculation
-  public static IReadOnlyList<AtrWmaResult> ToAtrWma<TQuote>(
-    this IReadOnlyList<TQuote> quotes,
+  public static IReadOnlyList<AtrWmaResult> ToAtrWma(
+    this IReadOnlyList<IQuote> quotes,
     int lookbackPeriods)
-    where TQuote : IQuote
   {
     // sort quotes and convert to collection or list
     Collection<TQuote> quotesList = quotes

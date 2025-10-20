@@ -8,19 +8,17 @@ public static partial class RollingPivots
     /// <summary>
     /// Converts a list of quotes to a list of Rolling Pivot Points results.
     /// </summary>
-    /// <typeparam name="TQuote">The type of the quote values.</typeparam>
     /// <param name="quotes">The list of quotes.</param>
     /// <param name="windowPeriods">The number of periods in the rolling window.</param>
     /// <param name="offsetPeriods">The number of periods to offset the window.</param>
     /// <param name="pointType">The type of pivot point calculation to use.</param>
     /// <returns>A list of Rolling Pivot Points results.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the quotes are null.</exception>
-    public static IReadOnlyList<RollingPivotsResult> ToRollingPivots<TQuote>(
-        this IReadOnlyList<TQuote> quotes,
+    public static IReadOnlyList<RollingPivotsResult> ToRollingPivots(
+        this IReadOnlyList<IQuote> quotes,
         int windowPeriods = 20,
         int offsetPeriods = 0,
         PivotPointType pointType = PivotPointType.Standard)
-        where TQuote : IQuote
     {
         // check parameter arguments
         ArgumentNullException.ThrowIfNull(quotes);
@@ -33,7 +31,7 @@ public static partial class RollingPivots
         // roll through source values
         for (int i = 0; i < length; i++)
         {
-            TQuote q = quotes[i];
+            IQuote q = quotes[i];
 
             RollingPivotsResult r;
 
@@ -41,7 +39,7 @@ public static partial class RollingPivots
             {
                 // window values
                 int s = i - windowPeriods - offsetPeriods;
-                TQuote hi = quotes[s];
+                IQuote hi = quotes[s];
 
                 decimal windowHigh = hi.High;
                 decimal windowLow = hi.Low;
@@ -49,7 +47,7 @@ public static partial class RollingPivots
 
                 for (int p = s; p <= i - offsetPeriods - 1; p++)
                 {
-                    TQuote d = quotes[p];
+                    IQuote d = quotes[p];
                     windowHigh = d.High > windowHigh ? d.High : windowHigh;
                     windowLow = d.Low < windowLow ? d.Low : windowLow;
                 }

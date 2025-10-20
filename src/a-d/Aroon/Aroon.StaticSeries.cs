@@ -8,14 +8,13 @@ public static partial class Aroon
     /// <summary>
     /// Calculates the Aroon Oscillator from a series of quotes.
     /// </summary>
-    /// <typeparam name="TQuote">The type of the quote.</typeparam>
     /// <param name="quotes">The list of quotes.</param>
     /// <param name="lookbackPeriods">The number of periods to look back. Default is 25.</param>
     /// <returns>A list of Aroon results.</returns>
-    public static IReadOnlyList<AroonResult> ToAroon<TQuote>(
-        this IReadOnlyList<TQuote> quotes,
+    public static IReadOnlyList<AroonResult> ToAroon(
+        this IReadOnlyList<IQuote> quotes,
         int lookbackPeriods = 25)
-        where TQuote : IQuote => quotes
+        => quotes
             .ToQuoteDList()
             .CalcAroon(lookbackPeriods);
 

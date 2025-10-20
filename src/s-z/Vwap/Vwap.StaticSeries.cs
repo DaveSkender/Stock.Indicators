@@ -8,28 +8,26 @@ public static partial class Vwap
     /// <summary>
     /// Calculates the VWAP for a series of quotes starting from a specific date.
     /// </summary>
-    /// <typeparam name="TQuote">The type of the elements in the source list, which must implement IQuote.</typeparam>
     /// <param name="quotes">The source list of quotes.</param>
     /// <param name="startDate">The start date for the VWAP calculation.</param>
     /// <returns>A list of VwapResult containing the VWAP values.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the source is null.</exception>
-    public static IReadOnlyList<VwapResult> ToVwap<TQuote>(
-        this IReadOnlyList<TQuote> quotes,
+    public static IReadOnlyList<VwapResult> ToVwap(
+        this IReadOnlyList<IQuote> quotes,
         DateTime startDate)
-        where TQuote : IQuote => quotes
+        => quotes
             .ToQuoteDList()
             .CalcVwap(startDate);
 
     /// <summary>
     /// Calculates the VWAP for a series of quotes.
     /// </summary>
-    /// <typeparam name="TQuote">The type of the elements in the source list, which must implement IQuote.</typeparam>
     /// <param name="quotes">The source list of quotes.</param>
     /// <returns>A list of VwapResult containing the VWAP values.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the source is null.</exception>
-    public static IReadOnlyList<VwapResult> ToVwap<TQuote>(
-        this IReadOnlyList<TQuote> quotes)
-        where TQuote : IQuote => quotes?.Count is null or 0
+    public static IReadOnlyList<VwapResult> ToVwap(
+        this IReadOnlyList<IQuote> quotes)
+        => quotes?.Count is null or 0
             ? []
             : quotes
                 .ToQuoteDList()

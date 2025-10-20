@@ -13,13 +13,13 @@ public class StreamObservables : TestBase, ITestChainProvider
         int length = quotesList.Count;
 
         // setup quote provider hub
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
         // prefill quotes at provider
         quoteHub.Add(quotesList);
 
         // initialize observer
-        QuotePartHub<Quote> observer = quoteHub
+        QuotePartHub observer = quoteHub
             .ToQuotePartHub(CandlePart.Close);
 
         // assert: prefilled
@@ -43,9 +43,9 @@ public class StreamObservables : TestBase, ITestChainProvider
     public void Subscription()
     {
         // setup quote provider hub, observer
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
-        QuotePartHub<Quote> observer
+        QuotePartHub observer
             = quoteHub.ToQuotePartHub(CandlePart.OHLC4);
 
         // assert: subscribed
@@ -82,10 +82,10 @@ public class StreamObservables : TestBase, ITestChainProvider
     public void ChainProvider()
     {
         // setup quote provider hub
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
         // initialize observer
-        EmaHub<QuotePart> observer = quoteHub
+        EmaHub observer = quoteHub
             .ToQuotePartHub(CandlePart.HL2)
             .ToEmaHub(11);
 

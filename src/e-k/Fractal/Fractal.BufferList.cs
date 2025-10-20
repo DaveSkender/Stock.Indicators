@@ -74,9 +74,9 @@ public class FractalList : BufferList<FractalResult>, IIncrementFromQuote, IFrac
 
         // store the quote
         _quotes.Add(new FractalBuffer(
-            (decimal)quote.High,
-            (decimal)quote.Low,
-            (decimal)quote.Close,
+            quote.High,
+            quote.Low,
+            quote.Close,
             quote.Timestamp));
 
         // always add a result (initially null)

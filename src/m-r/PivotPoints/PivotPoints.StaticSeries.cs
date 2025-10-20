@@ -10,16 +10,14 @@ public static partial class PivotPoints
     /// <summary>
     /// Converts a series of quotes to pivot points.
     /// </summary>
-    /// <typeparam name="TQuote">The type of the quote.</typeparam>
     /// <param name="quotes">The series of quotes.</param>
     /// <param name="windowSize">The size of the window for pivot point calculation.</param>
     /// <param name="pointType">The type of pivot point calculation to use.</param>
     /// <returns>A list of pivot point results.</returns>
-    public static IReadOnlyList<PivotPointsResult> ToPivotPoints<TQuote>(
-        this IReadOnlyList<TQuote> quotes,
+    public static IReadOnlyList<PivotPointsResult> ToPivotPoints(
+        this IReadOnlyList<IQuote> quotes,
         PeriodSize windowSize = PeriodSize.Month,
         PivotPointType pointType = PivotPointType.Standard)
-        where TQuote : IQuote
     {
         ArgumentNullException.ThrowIfNull(quotes);
 
@@ -34,7 +32,7 @@ public static partial class PivotPoints
             return results;
         }
 
-        TQuote h0 = quotes[0];
+        IQuote h0 = quotes[0];
 
         int windowId = GetWindowNumber(h0.Timestamp, windowSize);
 
@@ -48,7 +46,7 @@ public static partial class PivotPoints
         // roll through source values
         for (int i = 0; i < length; i++)
         {
-            TQuote q = quotes[i];
+            IQuote q = quotes[i];
 
             // new window evaluation
             int windowEval = GetWindowNumber(q.Timestamp, windowSize);

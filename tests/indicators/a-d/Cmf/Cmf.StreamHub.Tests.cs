@@ -1,7 +1,7 @@
 namespace StreamHub;
 
 [TestClass]
-public class CmfHub : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
+public class CmfHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
 {
     private const int lookbackPeriods = 20;
     private static readonly IReadOnlyList<CmfResult> expectedOriginal = Quotes.ToCmf(lookbackPeriods);
@@ -13,10 +13,10 @@ public class CmfHub : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
         int length = quotesList.Count;
 
         // setup quote provider hub
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
         // initialize observer
-        CmfHub<Quote> observer = quoteHub
+        CmfHub observer = quoteHub
             .ToCmfHub(lookbackPeriods);
 
         // emulate quote stream
@@ -48,10 +48,10 @@ public class CmfHub : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
         List<Quote> quotesList = Quotes.ToList();
 
         // setup quote provider hub
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
         // initialize chain: CMF then EMA over its Value
-        EmaHub<CmfResult> observer = quoteHub
+        EmaHub observer = quoteHub
             .ToCmfHub(cmfPeriods)
             .ToEmaHub(emaPeriods);
 
@@ -79,9 +79,9 @@ public class CmfHub : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
     [TestMethod]
     public override void CustomToString()
     {
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
-        CmfHub<Quote> hub = new(quoteHub, lookbackPeriods);
+        CmfHub hub = new(quoteHub, lookbackPeriods);
         hub.ToString().Should().Be($"CMF({lookbackPeriods})");
 
         quoteHub.Add(Quotes[0]);
@@ -94,10 +94,10 @@ public class CmfHub : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
     [TestMethod]
     public void RollbackValidation()
     {
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
         // Precondition: Normal quote stream with 502 expected entries
-        CmfHub<Quote> observer = quoteHub.ToCmfHub(lookbackPeriods);
+        CmfHub observer = quoteHub.ToCmfHub(lookbackPeriods);
         quoteHub.Add(Quotes);
 
         observer.Results.Should().HaveCount(502);

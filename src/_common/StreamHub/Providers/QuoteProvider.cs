@@ -5,8 +5,8 @@ namespace Skender.Stock.Indicators;
 public abstract class QuoteProvider<TIn, TOut>(
     IStreamObservable<TIn> provider
 ) : StreamHub<TIn, TOut>(provider), IQuoteProvider<TOut>
-    where TIn : IReusable
-    where TOut : IQuote
+     where TIn : IReusable
+     where TOut : IQuote
 {
     /// <summary>
     /// Gets the quotes.

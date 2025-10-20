@@ -1,7 +1,7 @@
 namespace StreamHub;
 
 [TestClass]
-public class AlligatorHub : StreamHubTestBase, ITestChainObserver
+public class AlligatorHubTests : StreamHubTestBase, ITestChainObserver
 {
     [TestMethod]
     public void QuoteObserver()
@@ -11,7 +11,7 @@ public class AlligatorHub : StreamHubTestBase, ITestChainObserver
         int length = quotesList.Count;
 
         // setup quote provider hub
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
         // prefill quotes at provider
         for (int i = 0; i < 20; i++)
@@ -20,7 +20,7 @@ public class AlligatorHub : StreamHubTestBase, ITestChainObserver
         }
 
         // initialize observer
-        AlligatorHub<Quote> observer = quoteHub
+        AlligatorHub observer = quoteHub
             .ToAlligatorHub();
 
         // fetch initial results (early)
@@ -74,11 +74,11 @@ public class AlligatorHub : StreamHubTestBase, ITestChainObserver
         int length = quotesList.Count;
 
         // setup quote provider hub
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
         // initialize observer
-        AlligatorHub<SmaResult> observer = quoteHub
-            .ToSma(10)
+        AlligatorHub observer = quoteHub
+            .ToSmaHub(10)
             .ToAlligatorHub();
 
         // emulate adding quotes out of order
@@ -129,7 +129,7 @@ public class AlligatorHub : StreamHubTestBase, ITestChainObserver
     [TestMethod]
     public override void CustomToString()
     {
-        AlligatorHub<Quote> hub = new(new QuoteHub<Quote>(), 13, 8, 7, 5, 4, 3);
+        AlligatorHub hub = new(new QuoteHub(), 13, 8, 7, 5, 4, 3);
         hub.ToString().Should().Be("ALLIGATOR(13,8,7,5,4,3)");
     }
 }

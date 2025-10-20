@@ -12,13 +12,13 @@ public class Vwma : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
         int length = Quotes.Count;
 
         // setup quote provider hub
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
         // prefill quotes at provider
         quoteHub.Add(Quotes.Take(20));
 
         // initialize observer
-        VwmaHub<Quote> observer = quoteHub.ToVwmaHub(lookbackPeriods);
+        VwmaHub observer = quoteHub.ToVwmaHub(lookbackPeriods);
 
         // fetch initial results (early)
         IReadOnlyList<VwmaResult> actuals = observer.Results;
@@ -61,12 +61,12 @@ public class Vwma : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
         int length = Quotes.Count;
 
         // setup quote provider hub
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
         // initialize observer
-        SmaHub<VwmaResult> observer = quoteHub
+        SmaHub observer = quoteHub
             .ToVwmaHub(vwmaPeriods)
-            .ToSma(smaPeriods);
+            .ToSmaHub(smaPeriods);
 
         // emulate adding quotes to provider hub
         for (int i = 0; i < length; i++)
@@ -108,8 +108,8 @@ public class Vwma : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
     [TestMethod]
     public override void CustomToString()
     {
-        QuoteHub<Quote> quoteHub = new();
-        VwmaHub<Quote> observer = quoteHub.ToVwmaHub(lookbackPeriods);
+        QuoteHub quoteHub = new();
+        VwmaHub observer = quoteHub.ToVwmaHub(lookbackPeriods);
 
         observer.ToString().Should().Be($"VWMA({lookbackPeriods})");
     }
@@ -117,8 +117,8 @@ public class Vwma : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
     [TestMethod]
     public void EmptyProvider()
     {
-        QuoteHub<Quote> quoteHub = new();
-        VwmaHub<Quote> observer = quoteHub.ToVwmaHub(lookbackPeriods);
+        QuoteHub quoteHub = new();
+        VwmaHub observer = quoteHub.ToVwmaHub(lookbackPeriods);
 
         IReadOnlyList<VwmaResult> results = observer.Results;
         results.Should().BeEmpty();
@@ -127,8 +127,8 @@ public class Vwma : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
     [TestMethod]
     public void InsufficientQuotes()
     {
-        QuoteHub<Quote> quoteHub = new();
-        VwmaHub<Quote> observer = quoteHub.ToVwmaHub(lookbackPeriods);
+        QuoteHub quoteHub = new();
+        VwmaHub observer = quoteHub.ToVwmaHub(lookbackPeriods);
 
         // Add fewer quotes than required
         for (int i = 0; i < lookbackPeriods - 1; i++)
@@ -144,8 +144,8 @@ public class Vwma : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
     [TestMethod]
     public void ZeroVolume()
     {
-        QuoteHub<Quote> quoteHub = new();
-        VwmaHub<Quote> observer = quoteHub.ToVwmaHub(lookbackPeriods);
+        QuoteHub quoteHub = new();
+        VwmaHub observer = quoteHub.ToVwmaHub(lookbackPeriods);
 
         // Create quotes with zero volume
         List<Quote> zeroVolumeQuotes = Quotes.Take(20).Select(q => new Quote {

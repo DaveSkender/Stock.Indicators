@@ -1,7 +1,7 @@
 namespace StreamHub;
 
 [TestClass]
-public class MaEnvelopesHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
+public class MaEnvelopesHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProvider
 {
     private const int lookbackPeriods = 20;
     private const double percentOffset = 2.5;
@@ -13,13 +13,13 @@ public class MaEnvelopesHub : StreamHubTestBase, ITestChainObserver, ITestChainP
         int length = Quotes.Count;
 
         // setup quote provider hub
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
         // prefill quotes at provider
         quoteHub.Add(Quotes.Take(20));
 
         // initialize observer
-        MaEnvelopesHub<Quote> observer = quoteHub.ToMaEnvelopesHub(lookbackPeriods, percentOffset);
+        MaEnvelopesHub observer = quoteHub.ToMaEnvelopesHub(lookbackPeriods, percentOffset);
 
         // fetch initial results (early)
         IReadOnlyList<MaEnvelopeResult> actuals = observer.Results;
@@ -62,11 +62,11 @@ public class MaEnvelopesHub : StreamHubTestBase, ITestChainObserver, ITestChainP
         int length = Quotes.Count;
 
         // setup quote provider hub
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
         // initialize observer
-        MaEnvelopesHub<SmaResult> observer = quoteHub
-            .ToSma(smaPeriods)
+        MaEnvelopesHub observer = quoteHub
+            .ToSmaHub(smaPeriods)
             .ToMaEnvelopesHub(maPeriods, percentOffset);
 
         // emulate quote stream
@@ -96,10 +96,10 @@ public class MaEnvelopesHub : StreamHubTestBase, ITestChainObserver, ITestChainP
         int length = Quotes.Count;
 
         // setup quote provider hub
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
         // setup observer
-        MaEnvelopesHub<Quote> maEnvHub = quoteHub.ToMaEnvelopesHub(maPeriods, percentOffset);
+        MaEnvelopesHub maEnvHub = quoteHub.ToMaEnvelopesHub(maPeriods, percentOffset);
 
         // MaEnvelopeResult doesn't implement IReusable, so it cannot be used as a provider for other indicators
         // This test verifies the hub works correctly but doesn't chain to another indicator
@@ -128,10 +128,10 @@ public class MaEnvelopesHub : StreamHubTestBase, ITestChainObserver, ITestChainP
         int length = Quotes.Count;
 
         // setup quote provider hub
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
         // initialize observer with DEMA type
-        MaEnvelopesHub<Quote> observer = quoteHub.ToMaEnvelopesHub(lookbackPeriods, percentOffset, MaType.DEMA);
+        MaEnvelopesHub observer = quoteHub.ToMaEnvelopesHub(lookbackPeriods, percentOffset, MaType.DEMA);
 
         // emulate quote stream
         for (int i = 0; i < length; i++) { quoteHub.Add(Quotes[i]); }
@@ -153,7 +153,7 @@ public class MaEnvelopesHub : StreamHubTestBase, ITestChainObserver, ITestChainP
 
     public override void CustomToString()
     {
-        MaEnvelopesHub<Quote> hub = new(new QuoteHub<Quote>(), lookbackPeriods, percentOffset, MaType.SMA);
+        MaEnvelopesHub hub = new(new QuoteHub(), lookbackPeriods, percentOffset, MaType.SMA);
         hub.ToString().Should().Be($"MAENV({lookbackPeriods},{percentOffset},{MaType.SMA})");
     }
 }

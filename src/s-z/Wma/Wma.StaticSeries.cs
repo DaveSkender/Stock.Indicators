@@ -8,16 +8,14 @@ public static partial class Wma
     /// <summary>
     /// Calculates the WMA for a series of reusable data.
     /// </summary>
-    /// <typeparam name="T">The type of the elements in the source list, which must implement IReusable.</typeparam>
     /// <param name="source">The source list of reusable data.</param>
     /// <param name="lookbackPeriods">The number of lookback periods.</param>
     /// <returns>A list of WmaResult containing the WMA values.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the source is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are less than or equal to 0.</exception>
-    public static IReadOnlyList<WmaResult> ToWma<T>(
-        this IReadOnlyList<T> source,
+    public static IReadOnlyList<WmaResult> ToWma(
+        this IReadOnlyList<IReusable> source,
         int lookbackPeriods)
-        where T : IReusable
     {
         // check parameter arguments
         ArgumentNullException.ThrowIfNull(source);
@@ -32,7 +30,7 @@ public static partial class Wma
         // roll through source values
         for (int i = 0; i < length; i++)
         {
-            T s = source[i];
+            IReusable s = source[i];
 
             double wma;
 
@@ -41,7 +39,7 @@ public static partial class Wma
                 wma = 0;
                 for (int p = i + 1 - lookbackPeriods; p <= i; p++)
                 {
-                    T ps = source[p];
+                    IReusable ps = source[p];
                     wma += ps.Value * (lookbackPeriods - (i + 1 - p - 1)) / divisor;
                 }
             }

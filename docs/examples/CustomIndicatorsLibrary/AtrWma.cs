@@ -17,13 +17,12 @@ public sealed class AtrWmaResult : ResultBase, IReusableResult
 public static class CustomIndicators
 {
     // Custom ATR WMA calculation
-    public static IReadOnlyList<AtrWmaResult> GetAtrWma<TQuote>(
-        this IReadOnlyList<TQuote> quotes,
+    public static IReadOnlyList<AtrWmaResult> GetAtrWma(
+        this IReadOnlyList<IQuote> quotes,
         int lookbackPeriods)
-        where TQuote : IQuote
     {
         // sort quotes and convert to collection or list
-        IReadOnlyList<TQuote> quotesList = quotes
+        IReadOnlyList<IQuote> quotesList = quotes
             .ToSortedCollection();
 
         // initialize results
@@ -37,7 +36,7 @@ public static class CustomIndicators
         // roll through source values
         for (int i = 0; i < quotesList.Count; i++)
         {
-            TQuote q = quotesList[i];
+            IQuote q = quotesList[i];
 
             AtrWmaResult r = new()
             {

@@ -7,17 +7,14 @@ public static partial class Dema
 {
     /// <summary>
     /// Calculates the Double Exponential Moving Average (DEMA) for a series of data.
-    /// </summary>
-    /// <typeparam name="T">The type of the elements in the source list, which must implement <see cref="IReusable"/>.</typeparam>
-    /// <param name="source">The source list of data points.</param>
+    /// </summary>    /// <param name="source">The source list of data points.</param>
     /// <param name="lookbackPeriods">The number of periods to use for the lookback.</param>
     /// <returns>A list of <see cref="DemaResult"/> containing the DEMA values.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the source list is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are not valid.</exception>
-    public static IReadOnlyList<DemaResult> ToDema<T>(
-        this IReadOnlyList<T> source,
+    public static IReadOnlyList<DemaResult> ToDema(
+        this IReadOnlyList<IReusable> source,
         int lookbackPeriods = 14)
-        where T : IReusable
     {
         // check parameter arguments
         ArgumentNullException.ThrowIfNull(source);
@@ -34,7 +31,7 @@ public static partial class Dema
         // roll through source values
         for (int i = 0; i < length; i++)
         {
-            T s = source[i];
+            IReusable s = source[i];
 
             // skip incalculable periods
             if (i < lookbackPeriods - 1)
@@ -52,7 +49,7 @@ public static partial class Dema
                 double sum = 0;
                 for (int p = i - lookbackPeriods + 1; p <= i; p++)
                 {
-                    T ps = source[p];
+                    IReusable ps = source[p];
                     sum += ps.Value;
                 }
 
@@ -79,9 +76,7 @@ public static partial class Dema
 
     /// <summary>
     /// Creates a DEMA buffer list from a series of data points.
-    /// </summary>
-    /// <typeparam name="T">The type of the elements in the source list, which must implement <see cref="IReusable"/>.</typeparam>
-    /// <param name="source">The source list of data points.</param>
+    /// </summary>    /// <param name="source">The source list of data points.</param>
     /// <param name="lookbackPeriods">The number of periods to use for the lookback.</param>
     /// <returns>A <see cref="DemaList"/> containing the DEMA calculations.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the source list is null.</exception>

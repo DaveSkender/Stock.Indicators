@@ -1,7 +1,7 @@
 namespace StreamHub;
 
 [TestClass]
-public class DojiHub : StreamHubTestBase, ITestQuoteObserver
+public class DojiHubTests : StreamHubTestBase, ITestQuoteObserver
 {
     [TestMethod]
     public void QuoteObserver()
@@ -11,7 +11,7 @@ public class DojiHub : StreamHubTestBase, ITestQuoteObserver
         int length = quotesList.Count;
 
         // setup quote provider
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
         // prefill quotes to provider
         for (int i = 0; i < 20; i++)
@@ -20,7 +20,7 @@ public class DojiHub : StreamHubTestBase, ITestQuoteObserver
         }
 
         // initialize observer
-        DojiHub<Quote> dojiHub = quoteHub
+        DojiHub dojiHub = quoteHub
             .ToDojiHub(0.1);
 
         // fetch initial results (early)
@@ -67,8 +67,8 @@ public class DojiHub : StreamHubTestBase, ITestQuoteObserver
     [TestMethod]
     public override void CustomToString()
     {
-        QuoteHub<Quote> quoteHub = new();
-        DojiHub<Quote> dojiHub = quoteHub.ToDojiHub(0.1);
+        QuoteHub quoteHub = new();
+        DojiHub dojiHub = quoteHub.ToDojiHub(0.1);
 
         dojiHub.ToString().Should().Be("DOJI(0.1)");
 

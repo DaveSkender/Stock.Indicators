@@ -198,7 +198,7 @@ For authoritative implementation guidance, see:
   - `IIncrementFromQuote`: `TrList` (uses tuple buffer state), `VwmaList`
   - `IIncrementFromPairs`: `CorrelationList`, `BetaList`
 
-**StreamHub Pattern** (actual naming: `{IndicatorName}Hub<TIn>`):
+**StreamHub Pattern** (actual naming: `{IndicatorName}Hub`):
 
 - **Base class**: Extends `StreamHub<TIn, TResult>` (abstract partial class)
 - **Provider pattern**: Uses one of three provider base classes:
@@ -206,11 +206,11 @@ For authoritative implementation guidance, see:
   - `QuoteProvider<TIn, TResult>` - For quote-based indicators
   - `PairsProvider<TIn, TResult>` - **NEW** - For dual-input synchronized indicators
 - **Interfaces**: Implements indicator-specific interface (e.g., `ISma`, `IEma`, `ICorrelation`)
-- **Core method**: Overrides `ToIndicator(TIn item, int? indexHint)` for result generation
+- **Core method**: Overrides `ToIndicator(IReusable item, int? indexHint)` for result generation
 - **Observer pattern**: Supports subscription via `IStreamObservable`/`IStreamObserver`
 - **Examples**:
-  - Single input: `SmaHub<TIn>`, `EmaHub<TIn>`, `RsiHub<TIn>`, `AlligatorHub<TIn>`
-  - Dual input: `CorrelationHub<TIn>` (uses `PairsProvider`)
+  - Single input: `SmaHub`, `EmaHub`, `RsiHub`, `AlligatorHub`
+  - Dual input: `CorrelationHub` (uses `PairsProvider`)
 
 #### Infrastructure Status
 
@@ -316,8 +316,8 @@ The following base classes and utilities already exist in `src/_common/`:
 - **Stream-style indicators**: See `.github/instructions/indicator-stream.instructions.md`
   - Defines StreamHub pattern, span-based optimizations, and performance requirements
   - Includes guidance on memory management and high-frequency scenarios
-  - **Real implementation**: `{IndicatorName}Hub<TIn>` class extending `ChainProvider<TIn, TResult>`
-  - **Example**: `SmaHub<TIn>`, `EmaHub<TIn>`, `RsiHub<TIn>` (see existing implementations in `src/`)
+  - **Real implementation**: `{IndicatorName}Hub` class extending `ChainProvider<TIn, TResult>`
+  - **Example**: `SmaHub`, `EmaHub`, `RsiHub` (see existing implementations in `src/`)
 
 - **Series-style indicators**: See `.github/instructions/indicator-series.instructions.md`
   - Existing batch calculation patterns (unchanged by this feature)

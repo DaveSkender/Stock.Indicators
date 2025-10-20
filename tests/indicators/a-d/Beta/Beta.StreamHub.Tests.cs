@@ -1,21 +1,21 @@
 namespace StreamHub;
 
 [TestClass]
-public class BetaHub : StreamHubTestBase, ITestPairsObserver
+public class BetaHubTests : StreamHubTestBase, ITestPairsObserver
 {
     [TestMethod]
     public void PairsObserver()
     {
         // Test dual-provider pattern with direct providers
-        QuoteHub<Quote> quoteHubEval = new();
-        QuoteHub<Quote> quoteHubMrkt = new();
+        QuoteHub quoteHubEval = new();
+        QuoteHub quoteHubMrkt = new();
 
         // Add same quotes to both providers
         quoteHubEval.Add(Quotes);
         quoteHubMrkt.Add(Quotes);
 
         // Create beta hub from two providers
-        BetaHub<Quote> betaHub = quoteHubEval.ToBetaHub(quoteHubMrkt, 20);
+        BetaHub betaHub = quoteHubEval.ToBetaHub(quoteHubMrkt, 20);
 
         // Verify results
         betaHub.Results.Should().NotBeEmpty();
@@ -39,8 +39,8 @@ public class BetaHub : StreamHubTestBase, ITestPairsObserver
     public void TimestampMismatch()
     {
         // Create two providers with mismatched timestamps
-        QuoteHub<Quote> quoteHubEval = new();
-        QuoteHub<Quote> quoteHubMrkt = new();
+        QuoteHub quoteHubEval = new();
+        QuoteHub quoteHubMrkt = new();
 
         // Add quotes with offset timestamps to force mismatch
         List<Quote> quotesEval = Quotes.Take(30).ToList();
@@ -70,10 +70,10 @@ public class BetaHub : StreamHubTestBase, ITestPairsObserver
     [TestMethod]
     public override void CustomToString()
     {
-        QuoteHub<Quote> quoteHub = new();
-        SmaHub<Quote> smaHubEval = quoteHub.ToSma(10);
-        SmaHub<Quote> smaHubMrkt = quoteHub.ToSma(20);
-        BetaHub<SmaResult> betaHub = smaHubEval.ToBetaHub(smaHubMrkt, 20);
+        QuoteHub quoteHub = new();
+        SmaHub smaHubEval = quoteHub.ToSmaHub(10);
+        SmaHub smaHubMrkt = quoteHub.ToSmaHub(20);
+        BetaHub betaHub = smaHubEval.ToBetaHub(smaHubMrkt, 20);
 
         betaHub.ToString().Should().Be("BETA(20,Standard)");
 
@@ -85,13 +85,13 @@ public class BetaHub : StreamHubTestBase, ITestPairsObserver
     public void BetaTypeAll()
     {
         // Test Beta with All type calculation
-        QuoteHub<Quote> quoteHubEval = new();
-        QuoteHub<Quote> quoteHubMrkt = new();
+        QuoteHub quoteHubEval = new();
+        QuoteHub quoteHubMrkt = new();
 
         quoteHubEval.Add(Quotes);
         quoteHubMrkt.Add(Quotes);
 
-        BetaHub<Quote> betaHub = quoteHubEval.ToBetaHub(quoteHubMrkt, 20, BetaType.All);
+        BetaHub betaHub = quoteHubEval.ToBetaHub(quoteHubMrkt, 20, BetaType.All);
 
         // Verify all beta types are calculated
         betaHub.Results.Should().NotBeEmpty();
@@ -112,15 +112,15 @@ public class BetaHub : StreamHubTestBase, ITestPairsObserver
     [TestMethod]
     public void InsufficientData()
     {
-        QuoteHub<Quote> quoteHubEval = new();
-        QuoteHub<Quote> quoteHubMrkt = new();
+        QuoteHub quoteHubEval = new();
+        QuoteHub quoteHubMrkt = new();
 
         // Add only 10 quotes for 20-period lookback
         List<Quote> insufficientQuotes = Quotes.Take(10).ToList();
         quoteHubEval.Add(insufficientQuotes);
         quoteHubMrkt.Add(insufficientQuotes);
 
-        BetaHub<Quote> betaHub = quoteHubEval.ToBetaHub(quoteHubMrkt, 20);
+        BetaHub betaHub = quoteHubEval.ToBetaHub(quoteHubMrkt, 20);
 
         // Verify beta is null when insufficient data
         betaHub.Results.Should().HaveCount(10);
@@ -134,8 +134,8 @@ public class BetaHub : StreamHubTestBase, ITestPairsObserver
     [TestMethod]
     public void SequentialQuoteProcessing()
     {
-        QuoteHub<Quote> quoteHubEval = new();
-        QuoteHub<Quote> quoteHubMrkt = new();
+        QuoteHub quoteHubEval = new();
+        QuoteHub quoteHubMrkt = new();
 
         // Add quotes one by one to verify stateful processing
         // Add to both providers before creating beta hub to ensure synchronization
@@ -146,7 +146,7 @@ public class BetaHub : StreamHubTestBase, ITestPairsObserver
         }
 
         // Create beta hub after data is added to ensure proper synchronization
-        BetaHub<Quote> betaHub = quoteHubEval.ToBetaHub(quoteHubMrkt, 20);
+        BetaHub betaHub = quoteHubEval.ToBetaHub(quoteHubMrkt, 20);
 
         betaHub.Results.Should().HaveCount(50);
 
@@ -165,13 +165,13 @@ public class BetaHub : StreamHubTestBase, ITestPairsObserver
     [TestMethod]
     public void ConsistentWithSeriesCalculation()
     {
-        QuoteHub<Quote> quoteHubEval = new();
-        QuoteHub<Quote> quoteHubMrkt = new();
+        QuoteHub quoteHubEval = new();
+        QuoteHub quoteHubMrkt = new();
 
         quoteHubEval.Add(Quotes);
         quoteHubMrkt.Add(Quotes);
 
-        BetaHub<Quote> betaHub = quoteHubEval.ToBetaHub(quoteHubMrkt, 20);
+        BetaHub betaHub = quoteHubEval.ToBetaHub(quoteHubMrkt, 20);
 
         // Compare with series calculation
         List<BetaResult> seriesResults = Quotes.ToBeta(Quotes, 20).ToList();

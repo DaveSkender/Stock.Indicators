@@ -1,21 +1,21 @@
 namespace StreamHub;
 
 [TestClass]
-public class CorrelationHub : StreamHubTestBase, ITestPairsObserver
+public class CorrelationHubTests : StreamHubTestBase, ITestPairsObserver
 {
     [TestMethod]
     public void PairsObserver()
     {
         // Test dual-provider pattern with direct providers
-        QuoteHub<Quote> quoteHubA = new();
-        QuoteHub<Quote> quoteHubB = new();
+        QuoteHub quoteHubA = new();
+        QuoteHub quoteHubB = new();
 
         // Add same quotes to both providers
         quoteHubA.Add(Quotes);
         quoteHubB.Add(Quotes);
 
         // Create correlation hub from two providers
-        CorrelationHub<Quote> correlationHub = quoteHubA.ToCorrelationHub(quoteHubB, 20);
+        CorrelationHub correlationHub = quoteHubA.ToCorrelationHub(quoteHubB, 20);
 
         // Verify results
         correlationHub.Results.Should().NotBeEmpty();
@@ -39,8 +39,8 @@ public class CorrelationHub : StreamHubTestBase, ITestPairsObserver
     public void TimestampMismatch()
     {
         // Create two providers with mismatched timestamps
-        QuoteHub<Quote> quoteHubA = new();
-        QuoteHub<Quote> quoteHubB = new();
+        QuoteHub quoteHubA = new();
+        QuoteHub quoteHubB = new();
 
         // Add quotes with offset timestamps to force mismatch
         List<Quote> quotesA = Quotes.Take(30).ToList();
@@ -70,10 +70,10 @@ public class CorrelationHub : StreamHubTestBase, ITestPairsObserver
     [TestMethod]
     public override void CustomToString()
     {
-        QuoteHub<Quote> quoteHub = new();
-        SmaHub<Quote> smaHubA = quoteHub.ToSma(10);
-        SmaHub<Quote> smaHubB = quoteHub.ToSma(20);
-        CorrelationHub<SmaResult> correlationHub = smaHubA.ToCorrelationHub(smaHubB, 20);
+        QuoteHub quoteHub = new();
+        SmaHub smaHubA = quoteHub.ToSmaHub(10);
+        SmaHub smaHubB = quoteHub.ToSmaHub(20);
+        CorrelationHub correlationHub = smaHubA.ToCorrelationHub(smaHubB, 20);
 
         correlationHub.ToString().Should().Be("CORRELATION(20)");
 
@@ -84,13 +84,13 @@ public class CorrelationHub : StreamHubTestBase, ITestPairsObserver
     [TestMethod]
     public void ConsistentWithSeriesCalculation()
     {
-        QuoteHub<Quote> quoteHubA = new();
-        QuoteHub<Quote> quoteHubB = new();
+        QuoteHub quoteHubA = new();
+        QuoteHub quoteHubB = new();
 
         quoteHubA.Add(Quotes);
         quoteHubB.Add(Quotes);
 
-        CorrelationHub<Quote> corrHub = quoteHubA.ToCorrelationHub(quoteHubB, 20);
+        CorrelationHub corrHub = quoteHubA.ToCorrelationHub(quoteHubB, 20);
 
         // Compare with series calculation
         List<CorrResult> seriesResults = Quotes.ToCorrelation(Quotes, 20).ToList();

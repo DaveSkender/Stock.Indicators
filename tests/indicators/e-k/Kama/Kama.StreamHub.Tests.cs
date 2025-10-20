@@ -1,7 +1,7 @@
 namespace StreamHub;
 
 [TestClass]
-public class KamaHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
+public class KamaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProvider
 {
     [TestMethod]
     public void QuoteObserver()
@@ -11,7 +11,7 @@ public class KamaHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
         int length = quotesList.Count;
 
         // setup quote provider hub
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
         // prefill quotes at provider
         for (int i = 0; i < 20; i++)
@@ -20,7 +20,7 @@ public class KamaHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
         }
 
         // initialize observer
-        KamaHub<Quote> observer = quoteHub
+        KamaHub observer = quoteHub
             .ToKamaHub(10, 2, 30);
 
         // fetch initial results (early)
@@ -77,11 +77,11 @@ public class KamaHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
         int length = quotesList.Count;
 
         // setup quote provider hub
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
         // initialize observer
-        KamaHub<SmaResult> observer = quoteHub
-            .ToSma(smaPeriods)
+        KamaHub observer = quoteHub
+            .ToSmaHub(smaPeriods)
             .ToKamaHub(erPeriods, fastPeriods, slowPeriods);
 
         // emulate quote stream
@@ -121,12 +121,12 @@ public class KamaHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
         int length = quotesList.Count;
 
         // setup quote provider hub
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
         // initialize observer
-        SmaHub<KamaResult> observer = quoteHub
+        SmaHub observer = quoteHub
             .ToKamaHub(erPeriods, fastPeriods, slowPeriods)
-            .ToSma(smaPeriods);
+            .ToSmaHub(smaPeriods);
 
         // emulate adding quotes to provider hub
         for (int i = 0; i < length; i++)
@@ -174,7 +174,7 @@ public class KamaHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
     [TestMethod]
     public override void CustomToString()
     {
-        KamaHub<Quote> hub = new(new QuoteHub<Quote>(), 10, 2, 30);
+        KamaHub hub = new(new QuoteHub(), 10, 2, 30);
         hub.ToString().Should().Be("KAMA(10,2,30)");
     }
 }

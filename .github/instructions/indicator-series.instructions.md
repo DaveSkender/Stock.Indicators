@@ -43,10 +43,9 @@ Series indicators should follow these naming patterns:
 /// <param name="quotes">Historical price quotes</param>
 /// <param name="lookbackPeriods">Lookback period (default value)</param>
 /// <returns>Collection of {IndicatorName}Result records</returns>
-public static IReadOnlyList<{IndicatorName}Result> To{IndicatorName}<TQuote>(
-    this IReadOnlyList<TQuote> quotes,
+public static IReadOnlyList<{IndicatorName}Result> To{IndicatorName}(
+    this IReadOnlyList<IQuote> quotes,
     int lookbackPeriods = {defaultValue})
-    where TQuote : IQuote
 {
     // Input validation
     // Core calculation logic
