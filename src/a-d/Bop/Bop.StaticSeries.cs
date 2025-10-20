@@ -8,14 +8,13 @@ public static partial class Bop
     /// <summary>
     /// Calculates the Balance of Power (BOP) for a series of quotes.
     /// </summary>
-    /// <typeparam name="TQuote">The type of the elements in the quotes list, which must implement <see cref="IQuote"/>.</typeparam>
     /// <param name="quotes">The source list of quotes.</param>
     /// <param name="smoothPeriods">The number of periods to use for smoothing. Default is 14.</param>
     /// <returns>A read-only list of <see cref="BopResult"/> containing the BOP calculation results.</returns>
-    public static IReadOnlyList<BopResult> ToBop<TQuote>(
-        this IReadOnlyList<TQuote> quotes,
+    public static IReadOnlyList<BopResult> ToBop(
+        this IReadOnlyList<IQuote> quotes,
         int smoothPeriods = 14)
-        where TQuote : IQuote => quotes
+        => quotes
             .ToQuoteDList()
             .CalcBop(smoothPeriods);
 

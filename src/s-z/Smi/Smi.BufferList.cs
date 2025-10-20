@@ -205,12 +205,11 @@ public static partial class Smi
     /// <summary>
     /// Creates a buffer list for Stochastic Momentum Index (SMI) calculations.
     /// </summary>
-    public static SmiList ToSmiList<TQuote>(
-        this IReadOnlyList<TQuote> quotes,
+    public static SmiList ToSmiList(
+        this IReadOnlyList<IQuote> quotes,
         int lookbackPeriods = 13,
         int firstSmoothPeriods = 25,
         int secondSmoothPeriods = 2,
         int signalPeriods = 3)
-        where TQuote : IQuote
-        => new(lookbackPeriods, firstSmoothPeriods, secondSmoothPeriods, signalPeriods) { (IReadOnlyList<IQuote>)quotes };
+        => new(lookbackPeriods, firstSmoothPeriods, secondSmoothPeriods, signalPeriods) { quotes };
 }

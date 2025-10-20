@@ -416,7 +416,7 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
     /// <remarks>
     /// Override when indicator needs to rollback state to a
     /// point in time (e.g. when rebuilding cache). Example:
-    /// <see cref="AtrStopHub{TIn}.RollbackState(DateTime)"/>
+    /// <see cref="AtrStopHub.RollbackState(DateTime)"/>
     /// </remarks>
     /// <param name="timestamp">Point in time to restore.</param>
     protected virtual void RollbackState(DateTime timestamp)

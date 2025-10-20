@@ -1,7 +1,7 @@
 namespace StreamHub;
 
 [TestClass]
-public class AwesomeHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
+public class AwesomeHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProvider
 {
     [TestMethod]
     public void QuoteObserver()
@@ -11,7 +11,7 @@ public class AwesomeHub : StreamHubTestBase, ITestChainObserver, ITestChainProvi
         int length = quotesList.Count;
 
         // setup quote provider
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
         // prefill quotes to provider
         for (int i = 0; i < 40; i++)
@@ -20,7 +20,7 @@ public class AwesomeHub : StreamHubTestBase, ITestChainObserver, ITestChainProvi
         }
 
         // initialize observer
-        AwesomeHub<Quote> awesomeHub = quoteHub
+        AwesomeHub awesomeHub = quoteHub
             .ToAwesomeHub(5, 34);
 
         // fetch initial results (early)
@@ -76,10 +76,10 @@ public class AwesomeHub : StreamHubTestBase, ITestChainObserver, ITestChainProvi
         int length = quotesList.Count;
 
         // setup quote provider
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
         // initialize observer
-        AwesomeHub<EmaResult> awesomeHub = quoteHub
+        AwesomeHub awesomeHub = quoteHub
             .ToEmaHub(emaPeriods)
             .ToAwesomeHub(fastPeriods, slowPeriods);
 
@@ -119,10 +119,10 @@ public class AwesomeHub : StreamHubTestBase, ITestChainObserver, ITestChainProvi
         int length = quotesList.Count;
 
         // setup quote provider
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
         // initialize observer
-        EmaHub<AwesomeResult> emaHub = quoteHub
+        EmaHub emaHub = quoteHub
             .ToAwesomeHub(fastPeriods, slowPeriods)
             .ToEmaHub(emaPeriods);
 
@@ -153,8 +153,8 @@ public class AwesomeHub : StreamHubTestBase, ITestChainObserver, ITestChainProvi
     [TestMethod]
     public override void CustomToString()
     {
-        QuoteHub<Quote> quoteHub = new();
-        AwesomeHub<Quote> awesomeHub = quoteHub.ToAwesomeHub(5, 34);
+        QuoteHub quoteHub = new();
+        AwesomeHub awesomeHub = quoteHub.ToAwesomeHub(5, 34);
 
         awesomeHub.ToString().Should().Be("AWESOME(5,34)");
 

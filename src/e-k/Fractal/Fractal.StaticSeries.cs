@@ -8,24 +8,22 @@ public static partial class Fractal
     /// <summary>
     /// Converts a list of quotes to Fractal results using the same span for both left and right wings.
     /// </summary>
-    /// <typeparam name="TQuote">The type of the quote data.</typeparam>
     /// <param name="quotes">The list of quotes.</param>
     /// <param name="windowSpan">The number of periods to look back and forward for the calculation. Default is 2.</param>
     /// <param name="endType">The type of price to use for the calculation. Default is HighLow.</param>
     /// <returns>A list of Fractal results.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the quotes list is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the window span is invalid.</exception>
-    public static IReadOnlyList<FractalResult> ToFractal<TQuote>(
-        this IReadOnlyList<TQuote> quotes,
+    public static IReadOnlyList<FractalResult> ToFractal(
+        this IReadOnlyList<IQuote> quotes,
         int windowSpan = 2,
         EndType endType = EndType.HighLow)
-        where TQuote : IQuote => quotes
+        => quotes
             .ToFractal(windowSpan, windowSpan, endType);
 
     /// <summary>
     /// Converts a list of quotes to Fractal results using different spans for left and right wings.
     /// </summary>
-    /// <typeparam name="TQuote">The type of the quote data.</typeparam>
     /// <param name="quotes">The list of quotes.</param>
     /// <param name="leftSpan">The number of periods to look back for the calculation.</param>
     /// <param name="rightSpan">The number of periods to look forward for the calculation.</param>
@@ -33,12 +31,11 @@ public static partial class Fractal
     /// <returns>A list of Fractal results.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the quotes list is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the left or right span is invalid.</exception>
-    public static IReadOnlyList<FractalResult> ToFractal<TQuote>(
-        this IReadOnlyList<TQuote> quotes,
+    public static IReadOnlyList<FractalResult> ToFractal(
+        this IReadOnlyList<IQuote> quotes,
         int leftSpan,
         int rightSpan,
         EndType endType = EndType.HighLow)
-        where TQuote : IQuote
     {
         // check parameter arguments
         ArgumentNullException.ThrowIfNull(quotes);
@@ -51,7 +48,7 @@ public static partial class Fractal
         // roll through source values
         for (int i = 0; i < length; i++)
         {
-            TQuote q = quotes[i];
+            IQuote q = quotes[i];
             decimal? fractalBear = null;
             decimal? fractalBull = null;
 
@@ -76,7 +73,7 @@ public static partial class Fractal
                     }
 
                     // evaluate wing periods
-                    TQuote wing = quotes[p];
+                    IQuote wing = quotes[p];
 
                     decimal wingHigh = endType == EndType.Close ?
                         wing.Close : wing.High;

@@ -5,41 +5,13 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Provides methods for calculating the correlation coefficient.
 /// </summary>
-public static partial class Correlation
-{
-    /// <summary>
-    /// Creates a Correlation hub from two synchronized chain providers.
-    /// Note: This implementation requires both providers to be synchronized (same timestamps).
-    /// Both providers must output the same result type.
-    /// For real-time correlation, consider using CorrelationList for more flexibility.
-    /// </summary>
-    /// <typeparam name="T">The type of the reusable data (must be the same for both providers).</typeparam>
-    /// <param name="providerA">The first chain provider.</param>
-    /// <param name="providerB">The second chain provider.</param>
-    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
-    /// <returns>A Correlation hub.</returns>
-    /// <exception cref="ArgumentNullException">Thrown when either provider is null.</exception>
-    /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
-    public static CorrelationHub<T> ToCorrelationHub<T>(
-        this IChainProvider<T> providerA,
-        IChainProvider<T> providerB,
-        int lookbackPeriods)
-        where T : IReusable
-        => new(providerA, providerB, lookbackPeriods);
-}
-
-/// <summary>
-/// Represents a hub for Correlation calculations between two synchronized series.
-/// </summary>
-/// <typeparam name="TIn">The type of the input data.</typeparam>
-public class CorrelationHub<TIn>
-    : PairsProvider<TIn, CorrResult>, ICorrelation
-    where TIn : IReusable
+public class CorrelationHub
+    : PairsProvider<IReusable, CorrResult>, ICorrelation
 {
     private readonly string hubName;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="CorrelationHub{TIn}"/> class.
+    /// Initializes a new instance of the <see cref="CorrelationHub"/> class.
     /// </summary>
     /// <param name="providerA">The first chain provider.</param>
     /// <param name="providerB">The second chain provider.</param>
@@ -47,8 +19,8 @@ public class CorrelationHub<TIn>
     /// <exception cref="ArgumentNullException">Thrown when either provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
     internal CorrelationHub(
-        IChainProvider<TIn> providerA,
-        IChainProvider<TIn> providerB,
+        IChainProvider<IReusable> providerA,
+        IChainProvider<IReusable> providerB,
         int lookbackPeriods) : base(providerA, providerB)
     {
         ArgumentNullException.ThrowIfNull(providerB);
@@ -68,8 +40,9 @@ public class CorrelationHub<TIn>
 
     /// <inheritdoc/>
     protected override (CorrResult result, int index)
-        ToIndicator(TIn item, int? indexHint)
+        ToIndicator(IReusable item, int? indexHint)
     {
+        ArgumentNullException.ThrowIfNull(item);
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
         // Check if we have enough data in both caches
@@ -100,4 +73,27 @@ public class CorrelationHub<TIn>
             return (r, i);
         }
     }
+}
+
+
+public static partial class Correlation
+{
+    /// <summary>
+    /// Creates a Correlation hub from two synchronized chain providers.
+    /// Note: This implementation requires both providers to be synchronized (same timestamps).
+    /// Both providers must output the same result type.
+    /// For real-time correlation, consider using CorrelationList for more flexibility.
+    /// </summary>
+    /// <param name="providerA">The first chain provider.</param>
+    /// <param name="providerB">The second chain provider.</param>
+    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
+    /// <returns>A Correlation hub.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when either provider is null.</exception>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
+    public static CorrelationHub ToCorrelationHub(
+        this IChainProvider<IReusable> providerA,
+        IChainProvider<IReusable> providerB,
+        int lookbackPeriods)
+        => new(providerA, providerB, lookbackPeriods);
+
 }

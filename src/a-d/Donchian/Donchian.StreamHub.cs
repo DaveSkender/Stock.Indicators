@@ -10,34 +10,30 @@ public static partial class Donchian
     /// <summary>
     /// Creates a Donchian Channels streaming hub from a quotes provider.
     /// </summary>
-    /// <typeparam name="TIn">The type of the input quote.</typeparam>
     /// <param name="quoteProvider">The quote provider.</param>
     /// <param name="lookbackPeriods">The number of periods to look back for the calculation. Default is 20.</param>
-    /// <returns>An instance of <see cref="DonchianHub{TIn}"/>.</returns>
-    public static DonchianHub<TIn> ToDonchianHub<TIn>(
-        this IQuoteProvider<TIn> quoteProvider,
+    /// <returns>An instance of <see cref="DonchianHub"/>.</returns>
+    public static DonchianHub ToDonchianHub(
+        this IQuoteProvider<IQuote> quoteProvider,
         int lookbackPeriods = 20)
-        where TIn : IQuote
         => new(quoteProvider, lookbackPeriods);
 }
 
 /// <summary>
 /// Represents a stream hub for calculating the Donchian Channels.
 /// </summary>
-/// <typeparam name="TIn">The type of the input quote.</typeparam>
-public class DonchianHub<TIn>
-    : StreamHub<TIn, DonchianResult>, IDonchian
-    where TIn : IQuote
+public class DonchianHub
+    : StreamHub<IQuote, DonchianResult>, IDonchian
 {
     private readonly string hubName;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="DonchianHub{TIn}"/> class.
+    /// Initializes a new instance of the <see cref="DonchianHub"/> class.
     /// </summary>
     /// <param name="provider">The quote provider.</param>
     /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
     internal DonchianHub(
-        IQuoteProvider<TIn> provider,
+        IQuoteProvider<IQuote> provider,
         int lookbackPeriods) : base(provider)
     {
         Donchian.Validate(lookbackPeriods);
@@ -58,8 +54,9 @@ public class DonchianHub<TIn>
 
     /// <inheritdoc/>
     protected override (DonchianResult result, int index)
-        ToIndicator(TIn item, int? indexHint)
+        ToIndicator(IQuote item, int? indexHint)
     {
+        ArgumentNullException.ThrowIfNull(item);
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
         // handle warmup periods
@@ -75,7 +72,7 @@ public class DonchianHub<TIn>
 
         for (int p = i - LookbackPeriods; p < i; p++)
         {
-            TIn quote = ProviderCache[p];
+            IQuote quote = ProviderCache[p];
 
             if (quote.High > highHigh)
             {

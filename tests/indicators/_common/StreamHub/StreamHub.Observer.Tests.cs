@@ -16,9 +16,9 @@ public class StreamObservers : TestBase
 
         length.Should().Be(qtyQuotes); // check rando
 
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
-        QuotePartHub<Quote> observer = quoteHub
+        QuotePartHub observer = quoteHub
             .ToQuotePartHub(CandlePart.Close);
 
         for (int i = 0; i < length; i++)

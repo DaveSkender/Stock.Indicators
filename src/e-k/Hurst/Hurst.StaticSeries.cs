@@ -8,16 +8,14 @@ public static partial class Hurst
     /// <summary>
     /// Converts a list of time-series values to Hurst Exponent results.
     /// </summary>
-    /// <typeparam name="T">The type of the time-series values, which must implement <see cref="IReusable"/>.</typeparam>
     /// <param name="source">The list of time-series values to transform.</param>
     /// <param name="lookbackPeriods">The number of periods to look back for the calculation. Default is 100.</param>
     /// <returns>A list of Hurst Exponent results.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the source list is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are less than or equal to 1.</exception>
-    public static IReadOnlyList<HurstResult> ToHurst<T>(
-        this IReadOnlyList<T> source,
+    public static IReadOnlyList<HurstResult> ToHurst(
+        this IReadOnlyList<IReusable> source,
         int lookbackPeriods = 100)
-        where T : IReusable
     {
         // check parameter arguments
         ArgumentNullException.ThrowIfNull(source);
@@ -30,7 +28,7 @@ public static partial class Hurst
         // roll through source values
         for (int i = 0; i < length; i++)
         {
-            T s = source[i];
+            IReusable s = source[i];
             double? h = null;
 
             if (i + 1 > lookbackPeriods)
@@ -43,7 +41,7 @@ public static partial class Hurst
 
                 for (int p = i + 1 - lookbackPeriods; p <= i; p++)
                 {
-                    T ps = source[p];
+                    IReusable ps = source[p];
 
                     // return values
                     values[x] = l != 0 ? (ps.Value / l) - 1 : double.NaN;

@@ -9,20 +9,17 @@ public static partial class Doji
     /// Doji is a single candlestick pattern where open and close price
     /// are virtually identical, representing market indecision.
     /// </summary>
-    /// <typeparam name = "TQuote" > Configurable Quote type.
-    /// See Guide for more information.</typeparam>
-    /// <param name = "quotes" > Historical price quotes.</param>
-    /// <param name = "maxPriceChangePercent" >
+    /// <param name="quotes">Historical price quotes.</param>
+    /// <param name="maxPriceChangePercent">
     /// Optional. Maximum absolute percent difference in open and close price.
     /// </param>
     /// <returns>Time series of Doji values.</returns>
-    /// <exception cref = "ArgumentOutOfRangeException" >
+    /// <exception cref="ArgumentOutOfRangeException">
     /// Invalid parameter value provided.
     /// </exception>
-    public static IReadOnlyList<CandleResult> ToDoji<TQuote>(
-        this IReadOnlyList<TQuote> quotes,
+    public static IReadOnlyList<CandleResult> ToDoji(
+        this IReadOnlyList<IQuote> quotes,
         double maxPriceChangePercent = 0.1)
-        where TQuote : IQuote
     {
         // check parameter arguments
         ArgumentNullException.ThrowIfNull(quotes);
@@ -37,7 +34,7 @@ public static partial class Doji
         // roll through candles
         for (int i = 0; i < length; i++)
         {
-            TQuote q = quotes[i];
+            IQuote q = quotes[i];
             decimal? matchPrice = null;
             Match matchType = Match.None;
 

@@ -5,44 +5,18 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Provides methods for creating VWMA hubs.
 /// </summary>
-public static partial class Vwma
-{
-    /// <summary>
-    /// Converts the quote provider to a VWMA hub.
-    /// </summary>
-    /// <typeparam name="TIn">The type of the input.</typeparam>
-    /// <param name="quoteProvider">The quote provider.</param>
-    /// <param name="lookbackPeriods">The number of lookback periods.</param>
-    /// <returns>A VWMA hub.</returns>
-    /// <exception cref="ArgumentNullException">Thrown when the quote provider is null.</exception>
-    /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
-    public static VwmaHub<TIn> ToVwmaHub<TIn>(
-        this IQuoteProvider<TIn> quoteProvider,
-        int lookbackPeriods)
-        where TIn : IQuote
-    {
-        ArgumentNullException.ThrowIfNull(quoteProvider);
-        return new(quoteProvider, lookbackPeriods);
-    }
-}
-
-/// <summary>
-/// Represents a Volume Weighted Moving Average (VWMA) stream hub.
-/// </summary>
-/// <typeparam name="TIn">The type of the input.</typeparam>
-public class VwmaHub<TIn>
-    : ChainProvider<TIn, VwmaResult>, IVwma
-    where TIn : IQuote
+public class VwmaHub
+    : ChainProvider<IReusable, VwmaResult>, IVwma
 {
     private readonly string hubName;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="VwmaHub{TIn}"/> class.
+    /// Initializes a new instance of the <see cref="VwmaHub"/> class.
     /// </summary>
     /// <param name="provider">The quote provider.</param>
     /// <param name="lookbackPeriods">The number of lookback periods.</param>
     internal VwmaHub(
-        IQuoteProvider<TIn> provider,
+        IQuoteProvider<IQuote> provider,
         int lookbackPeriods) : base(provider)
     {
         Vwma.Validate(lookbackPeriods);
@@ -64,8 +38,9 @@ public class VwmaHub<TIn>
 
     /// <inheritdoc />
     protected override (VwmaResult result, int index)
-        ToIndicator(TIn item, int? indexHint)
+        ToIndicator(IReusable item, int? indexHint)
     {
+        ArgumentNullException.ThrowIfNull(item);
         int index = indexHint ?? ProviderCache.IndexOf(item, true);
 
         double vwma = double.NaN;
@@ -77,7 +52,7 @@ public class VwmaHub<TIn>
 
             for (int p = index + 1 - LookbackPeriods; p <= index; p++)
             {
-                TIn quote = ProviderCache[p];
+                IQuote quote = (IQuote)ProviderCache[p];
                 double price = (double)quote.Close;
                 double volume = (double)quote.Volume;
 
@@ -94,4 +69,40 @@ public class VwmaHub<TIn>
 
         return (result, index);
     }
+}
+
+
+public static partial class Vwma
+{
+    /// <summary>
+    /// Converts the quote provider to a VWMA hub.
+    /// </summary>
+    /// <param name="quoteProvider">The quote provider.</param>
+    /// <param name="lookbackPeriods">The number of lookback periods.</param>
+    /// <returns>A VWMA hub.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when the quote provider is null.</exception>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
+    public static VwmaHub ToVwmaHub(
+        this IQuoteProvider<IQuote> quoteProvider,
+        int lookbackPeriods)
+    {
+        ArgumentNullException.ThrowIfNull(quoteProvider);
+        return new(quoteProvider, lookbackPeriods);
+    }
+
+    /// <summary>
+    /// Creates a Vwma hub from a collection of quotes.
+    /// </summary>
+    /// <param name="quotes">The collection of quotes.</param>
+    /// <param name="lookbackPeriods">Parameter for the calculation.</param>
+    /// <returns>An instance of <see cref="VwmaHub"/>.</returns>
+    public static VwmaHub ToVwmaHub(
+        this IReadOnlyList<IQuote> quotes,
+        int lookbackPeriods)
+    {
+        QuoteHub quoteHub = new();
+        quoteHub.Add(quotes);
+        return quoteHub.ToVwmaHub(lookbackPeriods);
+    }
+
 }

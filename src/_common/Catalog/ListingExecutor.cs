@@ -7,6 +7,8 @@ namespace Skender.Stock.Indicators;
 /// </summary>
 internal static class ListingExecutor
 {
+    // TODO: address proper use of generic vs interface TQuote and TResult
+
     /// <summary>
     /// Executes an indicator method dynamically using catalog metadata.
     /// </summary>
@@ -18,10 +20,9 @@ internal static class ListingExecutor
     /// <returns>The indicator results.</returns>
     /// <exception cref="InvalidOperationException">Thrown when the indicator cannot be executed.</exception>
     internal static IReadOnlyList<TResult> Execute<TQuote, TResult>(
-        IEnumerable<TQuote> quotes,
+        IEnumerable<IQuote> quotes,
         IndicatorListing listing,
         Dictionary<string, object>? parameters = null)  // TODO: is this redundant to listing.Parameters?
-        where TQuote : IQuote
         where TResult : class
     {
         // Validate inputs
@@ -125,17 +126,15 @@ internal static class ListingExecutor
     /// Executes an indicator method dynamically using catalog metadata with parameter values.
     /// This is a convenience method that creates the parameter dictionary automatically.
     /// </summary>
-    /// <typeparam name="TQuote">The quote type implementing IQuote.</typeparam>
     /// <typeparam name="TResult">The expected result type.</typeparam>
     /// <param name="quotes">The quotes to process.</param>
     /// <param name="listing">The indicator listing containing metadata.</param>
     /// <param name="parameterValues">Parameter values in the order they appear in the listing.</param>
     /// <returns>The indicator results.</returns>
-    internal static IReadOnlyList<TResult> Execute<TQuote, TResult>(
-        IEnumerable<TQuote> quotes,
+    internal static IReadOnlyList<TResult> Execute<TResult>(
+        IEnumerable<IQuote> quotes,
         IndicatorListing listing,
         params object[] parameterValues)
-        where TQuote : IQuote
         where TResult : class
     {
         // Validate inputs
@@ -165,6 +164,6 @@ internal static class ListingExecutor
             }
         }
 
-        return Execute<TQuote, TResult>(quotes, listing, parameters);
+        return Execute<IQuote, TResult>(quotes, listing, parameters);
     }
 }

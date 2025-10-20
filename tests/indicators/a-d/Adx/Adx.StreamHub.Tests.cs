@@ -1,7 +1,7 @@
 namespace StreamHub;
 
 [TestClass]
-public class AdxHub : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
+public class AdxHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
 {
     private const int lookbackPeriods = 14;
     private static readonly IReadOnlyList<AdxResult> expectedOriginal = Quotes.ToAdx(lookbackPeriods);
@@ -14,10 +14,10 @@ public class AdxHub : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
         int length = quotesList.Count;
 
         // setup quote provider hub
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
         // initialize observer
-        AdxHub<Quote> observer = quoteHub
+        AdxHub observer = quoteHub
             .ToAdxHub(lookbackPeriods);
 
         // emulate quote stream
@@ -50,10 +50,10 @@ public class AdxHub : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
         List<Quote> quotesList = Quotes.ToList();
 
         // setup quote provider hub
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
         // initialize chain: ADX then EMA over its Value
-        EmaHub<AdxResult> observer = quoteHub
+        EmaHub observer = quoteHub
             .ToAdxHub(adxPeriods)
             .ToEmaHub(emaPeriods);
 
@@ -81,9 +81,9 @@ public class AdxHub : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
     [TestMethod]
     public override void CustomToString()
     {
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
-        AdxHub<Quote> hub = new(quoteHub, 14);
+        AdxHub hub = new(quoteHub, 14);
         hub.ToString().Should().Be("ADX(14)");
 
         quoteHub.Add(Quotes[0]);
@@ -96,10 +96,10 @@ public class AdxHub : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
     [TestMethod]
     public void RollbackValidation()
     {
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
         // Precondition: Normal quote stream with 502 expected entries
-        AdxHub<Quote> observer = quoteHub.ToAdxHub(lookbackPeriods);
+        AdxHub observer = quoteHub.ToAdxHub(lookbackPeriods);
         quoteHub.Add(Quotes);
 
         observer.Results.Should().HaveCount(502);

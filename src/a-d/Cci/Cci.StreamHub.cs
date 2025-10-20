@@ -1,46 +1,23 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Provides methods for calculating the Commodity Channel Index (CCI) indicator.
-/// </summary>
-public static partial class Cci
-{
-    /// <summary>
-    /// Creates a CCI hub from a quote provider.
-    /// </summary>
-    /// <typeparam name="T">The type of the quote data.</typeparam>
-    /// <param name="quoteProvider">The quote provider.</param>
-    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
-    /// <returns>A CCI hub.</returns>
-    /// <exception cref="ArgumentNullException">Thrown when the quote provider is null.</exception>
-    /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
-    public static CciHub<T> ToCci<T>(
-        this IQuoteProvider<T> quoteProvider,
-        int lookbackPeriods = 20)
-        where T : IQuote
-        => new(quoteProvider, lookbackPeriods);
-}
-
-/// <summary>
 /// Streaming hub for Commodity Channel Index (CCI) calculations.
 /// </summary>
-/// <typeparam name="TIn">The type of the input data.</typeparam>
-public class CciHub<TIn>
-    : ChainProvider<TIn, CciResult>, ICci
-    where TIn : IQuote
+public class CciHub
+    : ChainProvider<IQuote, CciResult>, ICci
 {
     private readonly string hubName;
     private readonly CciList _cciList;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="CciHub{TIn}"/> class.
+    /// Initializes a new instance of the <see cref="CciHub"/> class.
     /// </summary>
     /// <param name="provider">The quote provider.</param>
     /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
     /// <exception cref="ArgumentNullException">Thrown when the provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
     internal CciHub(
-        IQuoteProvider<TIn> provider,
+        IQuoteProvider<IQuote> provider,
         int lookbackPeriods) : base(provider)
     {
         Cci.Validate(lookbackPeriods);
@@ -59,8 +36,9 @@ public class CciHub<TIn>
 
     /// <inheritdoc/>
     protected override (CciResult result, int index)
-        ToIndicator(TIn item, int? indexHint)
+        ToIndicator(IQuote item, int? indexHint)
     {
+        ArgumentNullException.ThrowIfNull(item);
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
         // Synchronize _cciList state with the current index
@@ -102,5 +80,39 @@ public class CciHub<TIn>
         CciResult r = _cciList[^1];
 
         return (r, i);
+    }
+}
+
+/// <summary>
+/// Provides methods for calculating the Commodity Channel Index (CCI) indicator.
+/// </summary>
+public static partial class Cci
+{
+    /// <summary>
+    /// Creates a CCI hub from a quote provider.
+    /// </summary>
+    /// <param name="quoteProvider">The quote provider.</param>
+    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
+    /// <returns>A CCI hub.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when the quote provider is null.</exception>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
+    public static CciHub ToCciHub(
+        this IQuoteProvider<IQuote> quoteProvider,
+        int lookbackPeriods = 20)
+        => new(quoteProvider, lookbackPeriods);
+
+    /// <summary>
+    /// Creates a CCI hub from a collection of quotes.
+    /// </summary>
+    /// <param name="quotes">The collection of quotes.</param>
+    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
+    /// <returns>An instance of <see cref="CciHub"/>.</returns>
+    public static CciHub ToCciHub(
+        this IReadOnlyList<IQuote> quotes,
+        int lookbackPeriods = 20)
+    {
+        QuoteHub quoteHub = new();
+        quoteHub.Add(quotes);
+        return quoteHub.ToCciHub(lookbackPeriods);
     }
 }

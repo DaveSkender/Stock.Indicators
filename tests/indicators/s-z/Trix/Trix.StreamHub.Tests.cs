@@ -1,7 +1,7 @@
 namespace StreamHub;
 
 [TestClass]
-public class TrixHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
+public class TrixHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProvider
 {
     [TestMethod]
     public void QuoteObserver()
@@ -11,7 +11,7 @@ public class TrixHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
         int length = quotesList.Count;
 
         // setup quote provider hub
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
         // prefill quotes at provider
         for (int i = 0; i < 20; i++)
@@ -20,8 +20,8 @@ public class TrixHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
         }
 
         // initialize observer
-        TrixHub<Quote> observer = quoteHub
-            .ToTrix(14);
+        TrixHub observer = quoteHub
+            .ToTrixHub(14);
 
         // fetch initial results (early)
         IReadOnlyList<TrixResult> streamList
@@ -75,12 +75,12 @@ public class TrixHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
         int length = quotesList.Count;
 
         // setup quote provider hub
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
         // initialize observer
-        TrixHub<SmaResult> observer = quoteHub
-            .ToSma(smaPeriods)
-            .ToTrix(trixPeriods);
+        TrixHub observer = quoteHub
+            .ToSmaHub(smaPeriods)
+            .ToTrixHub(trixPeriods);
 
         // emulate quote stream
         for (int i = 0; i < length; i++)
@@ -117,11 +117,11 @@ public class TrixHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
         int length = quotesList.Count;
 
         // setup quote provider hub
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
         // initialize chain with TRIX as input to EMA
-        EmaHub<TrixResult> emaOfTrix = quoteHub
-            .ToTrix(trixPeriods)
+        EmaHub emaOfTrix = quoteHub
+            .ToTrixHub(trixPeriods)
             .ToEmaHub(emaPeriods);
 
         // emulate quote stream
@@ -148,7 +148,7 @@ public class TrixHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
 
     public override void CustomToString()
     {
-        TrixHub<Quote> hub = new(new QuoteHub<Quote>(), 14);
+        TrixHub hub = new(new QuoteHub(), 14);
         hub.ToString().Should().Be("TRIX(14)");
     }
 }
