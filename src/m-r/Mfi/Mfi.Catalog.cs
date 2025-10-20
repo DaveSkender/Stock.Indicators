@@ -19,6 +19,15 @@ public static partial class Mfi
             .WithStyle(Style.Series)
             .Build();
 
-    // No StreamListing for MFI.
-    // No BufferListing for MFI.
+    // MFI Stream Listing
+    internal static readonly IndicatorListing StreamListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Stream)
+            .Build();
+
+    // MFI Buffer Listing
+    internal static readonly IndicatorListing BufferListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Buffer)
+            .Build();
 }

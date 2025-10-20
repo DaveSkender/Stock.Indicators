@@ -16,4 +16,10 @@ public record KeltnerResult
     double? Centerline = null,
     double? LowerBand = null,
     double? Width = null
-) : ISeries;
+) : ISeries
+{
+    /// <summary>
+    /// Gets the Average True Range value (interim data for internal streaming calculations).
+    /// </summary>
+    internal double? Atr { get; init; }
+}
