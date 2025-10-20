@@ -10,7 +10,7 @@ public class KeltnerStreamHub : StreamHubTestBase, ITestQuoteObserver
         int length = quotesList.Count;
 
         // setup quote provider hub
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
 
         // prefill quotes at provider
         for (int i = 0; i < 20; i++)
@@ -19,7 +19,7 @@ public class KeltnerStreamHub : StreamHubTestBase, ITestQuoteObserver
         }
 
         // initialize observer
-        KeltnerHub<Quote> observer = quoteHub.ToKeltnerHub(20, 2, 10);
+        KeltnerHub observer = quoteHub.ToKeltnerHub(20, 2, 10);
 
         // fetch initial results (early)
         IReadOnlyList<KeltnerResult> streamList = observer.Results;
@@ -66,9 +66,9 @@ public class KeltnerStreamHub : StreamHubTestBase, ITestQuoteObserver
     [TestMethod]
     public override void CustomToString()
     {
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
         quoteHub.Add(Quotes);
-        KeltnerHub<Quote> observer = quoteHub.ToKeltnerHub(20, 2, 10);
+        KeltnerHub observer = quoteHub.ToKeltnerHub(20, 2, 10);
 
         observer.ToString().Should().Be("KELTNER(20,2,10)");
     }
@@ -76,7 +76,7 @@ public class KeltnerStreamHub : StreamHubTestBase, ITestQuoteObserver
     [TestMethod]
     public void PrefilledProviderRebuilds()
     {
-        QuoteHub<Quote> quoteHub = new();
+        QuoteHub quoteHub = new();
         List<Quote> quotes = Quotes.Take(25).ToList();
 
         for (int i = 0; i < 5; i++)
@@ -84,7 +84,7 @@ public class KeltnerStreamHub : StreamHubTestBase, ITestQuoteObserver
             quoteHub.Add(quotes[i]);
         }
 
-        KeltnerHub<Quote> observer = quoteHub.ToKeltnerHub(5, 1, 3);
+        KeltnerHub observer = quoteHub.ToKeltnerHub(5, 1, 3);
 
         IReadOnlyList<KeltnerResult> initialResults = observer.Results;
         IReadOnlyList<KeltnerResult> expectedInitial = quotes

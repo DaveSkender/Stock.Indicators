@@ -3,35 +3,10 @@ namespace Skender.Stock.Indicators;
 // KELTNER CHANNELS (STREAM HUB)
 
 /// <summary>
-/// Provides methods for calculating Keltner Channels using a stream hub.
-/// </summary>
-public static partial class Keltner
-{
-    /// <summary>
-    /// Creates a Keltner Channels streaming hub from a quote provider.
-    /// </summary>
-    /// <typeparam name="TIn">The type of the input quote.</typeparam>
-    /// <param name="quoteProvider">The quote provider.</param>
-    /// <param name="emaPeriods">The number of periods for the EMA. Default is 20.</param>
-    /// <param name="multiplier">The multiplier for the ATR. Default is 2.</param>
-    /// <param name="atrPeriods">The number of periods for the ATR. Default is 10.</param>
-    /// <returns>An instance of <see cref="KeltnerHub{TIn}"/>.</returns>
-    public static KeltnerHub<TIn> ToKeltnerHub<TIn>(
-        this IQuoteProvider<TIn> quoteProvider,
-        int emaPeriods = 20,
-        double multiplier = 2,
-        int atrPeriods = 10)
-        where TIn : IQuote
-        => new(quoteProvider, emaPeriods, multiplier, atrPeriods);
-}
-
-/// <summary>
 /// Represents a stream hub for calculating Keltner Channels.
 /// </summary>
-/// <typeparam name="TIn">The type of the input quote.</typeparam>
-public class KeltnerHub<TIn>
-    : StreamHub<TIn, KeltnerResult>, IKeltner
-    where TIn : IQuote
+public class KeltnerHub
+    : StreamHub<IQuote, KeltnerResult>, IKeltner
 {
     #region constructors
 
@@ -39,14 +14,14 @@ public class KeltnerHub<TIn>
     private readonly int _lookbackPeriods;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="KeltnerHub{TIn}"/> class.
+    /// Initializes a new instance of the <see cref="KeltnerHub"/> class.
     /// </summary>
     /// <param name="provider">The quote provider.</param>
     /// <param name="emaPeriods">The number of periods for the EMA.</param>
     /// <param name="multiplier">The multiplier for the ATR.</param>
     /// <param name="atrPeriods">The number of periods for the ATR.</param>
     internal KeltnerHub(
-        IQuoteProvider<TIn> provider,
+        IQuoteProvider<IQuote> provider,
         int emaPeriods,
         double multiplier,
         int atrPeriods) : base(provider)
@@ -109,8 +84,10 @@ public class KeltnerHub<TIn>
 
     /// <inheritdoc/>
     protected override (KeltnerResult result, int index)
-        ToIndicator(TIn item, int? indexHint)
+        ToIndicator(IQuote item, int? indexHint)
     {
+        ArgumentNullException.ThrowIfNull(item);
+
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
         // Calculate EMA of Close
@@ -204,4 +181,23 @@ public class KeltnerHub<TIn>
     }
 
     #endregion
+}
+
+
+public static partial class Keltner
+{
+    /// <summary>
+    /// Creates a Keltner Channels streaming hub from a quote provider.
+    /// </summary>
+    /// <param name="quoteProvider">The quote provider.</param>
+    /// <param name="emaPeriods">The number of periods for the EMA. Default is 20.</param>
+    /// <param name="multiplier">The multiplier for the ATR. Default is 2.</param>
+    /// <param name="atrPeriods">The number of periods for the ATR. Default is 10.</param>
+    /// <returns>An instance of <see cref="KeltnerHub"/>.</returns>
+    public static KeltnerHub ToKeltnerHub(
+        this IQuoteProvider<IQuote> quoteProvider,
+        int emaPeriods = 20,
+        double multiplier = 2,
+        int atrPeriods = 10)
+        => new(quoteProvider, emaPeriods, multiplier, atrPeriods);
 }
