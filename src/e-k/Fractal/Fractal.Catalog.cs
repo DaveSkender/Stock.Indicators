@@ -21,7 +21,11 @@ public static partial class Fractal
             .WithStyle(Style.Series)
             .Build();
 
-    // No StreamListing for Fractal.
+    // Fractal Stream Listing
+    internal static readonly IndicatorListing StreamListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Stream)
+            .Build();
 
     // Fractal Buffer Listing
     internal static readonly IndicatorListing BufferListing =
