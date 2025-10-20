@@ -128,9 +128,10 @@
   - Run benchmark with baseline and 10x data size
   - Verify linear time scaling (±10% tolerance)
   - **Results**: Series: 28.34µs, StreamHub: 219.0µs = 7.73x slowdown (improved from 258x!)
-  - O(n) complexity achieved - incremental updates use O(1) buffer operations
+  - **Complexity**: O(n × lookbackPeriods) - buffer update is O(1) but PeriodCalculation is O(lookbackPeriods) per tick
   - Note: 7.73x slowdown is above target but represents 33x improvement over baseline (258x → 7.73x)
-  - Root cause: CMO requires O(lookbackPeriods) calculation per tick vs simpler indicators
+  - Root cause: Full-buffer recalculation via `Cmo.PeriodCalculation(_tickBuffer)` (line 95) on every tick
+  - **True O(n) requires**: Incremental gain/loss tracking (e.g., Wilder-style smoothing with rolling sums) instead of full-buffer iteration
 - [X] T024 [US3] Update code comments in `src/a-d/Cmo/Cmo.StreamHub.cs`
 
 **Checkpoint**: CMO StreamHub achieves O(n) complexity with 33x performance improvement ✅
