@@ -42,4 +42,41 @@ public class KvoTests : TestBase
         signalResult1?.DisplayName.Should().Be("Signal");
         signalResult1.IsReusable.Should().Be(false);
     }
+
+    [TestMethod]
+    public void KvoStreamListing()
+    {
+        // Act
+        IndicatorListing listing = Kvo.StreamListing;
+
+        // Assert
+        listing.Should().NotBeNull();
+        listing.Name.Should().Be("Klinger Volume Oscillator");
+        listing.Uiid.Should().Be("KVO");
+        listing.Style.Should().Be(Style.Stream);
+        listing.Category.Should().Be(Category.VolumeBased);
+        listing.MethodName.Should().Be("ToKvoHub");
+
+        listing.Parameters.Should().NotBeNull();
+        listing.Parameters.Should().HaveCount(3);
+
+        IndicatorParam fastPeriodsParam = listing.Parameters.SingleOrDefault(p => p.ParameterName == "fastPeriods");
+        fastPeriodsParam.Should().NotBeNull();
+        IndicatorParam slowPeriodsParam = listing.Parameters.SingleOrDefault(p => p.ParameterName == "slowPeriods");
+        slowPeriodsParam.Should().NotBeNull();
+        IndicatorParam signalPeriodsParam = listing.Parameters.SingleOrDefault(p => p.ParameterName == "signalPeriods");
+        signalPeriodsParam.Should().NotBeNull();
+
+        listing.Results.Should().NotBeNull();
+        listing.Results.Should().HaveCount(2);
+
+        IndicatorResult oscillatorResult = listing.Results.SingleOrDefault(r => r.DataName == "Oscillator");
+        oscillatorResult.Should().NotBeNull();
+        oscillatorResult?.DisplayName.Should().Be("Oscillator");
+        oscillatorResult.IsReusable.Should().Be(true);
+        IndicatorResult signalResult = listing.Results.SingleOrDefault(r => r.DataName == "Signal");
+        signalResult.Should().NotBeNull();
+        signalResult?.DisplayName.Should().Be("Signal");
+        signalResult.IsReusable.Should().Be(false);
+    }
 }
