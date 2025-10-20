@@ -74,7 +74,9 @@ public class KeltnerList : BufferList<KeltnerResult>, IIncrementFromQuote
                 UpperBand: ema.Ema + atrSpan,
                 Centerline: ema.Ema,
                 LowerBand: ema.Ema - atrSpan,
-                Width: ema.Ema == 0 ? null : 2 * atrSpan / ema.Ema));
+                Width: ema.Ema == 0 ? null : 2 * atrSpan / ema.Ema) {
+                Atr = atr.Atr
+            });
         }
         else
         {
