@@ -48,10 +48,11 @@ public class RsiHub
         // Get previous value for gain/loss calculation
         double prevValue = i > 0 ? ProviderCache[i - 1].Value : double.NaN;
 
-        // Calculate current gain/loss
-        double gain = 0;
-        double loss = 0;
 
+
+        // Calculate current gain/loss
+        double gain;
+        double loss;
         if (!double.IsNaN(currentValue) && !double.IsNaN(prevValue))
         {
             gain = currentValue > prevValue ? currentValue - prevValue : 0;
@@ -73,10 +74,8 @@ public class RsiHub
             {
                 double pPrevVal = ProviderCache[p - 1].Value;
                 double pCurrVal = ProviderCache[p].Value;
-
-                double pGain = 0;
-                double pLoss = 0;
-
+                double pGain;
+                double pLoss;
                 if (!double.IsNaN(pCurrVal) && !double.IsNaN(pPrevVal))
                 {
                     pGain = pCurrVal > pPrevVal ? pCurrVal - pPrevVal : 0;
@@ -98,10 +97,8 @@ public class RsiHub
                     {
                         double qPrevVal = ProviderCache[q - 1].Value;
                         double qCurrVal = ProviderCache[q].Value;
-
-                        double qGain = 0;
-                        double qLoss = 0;
-
+                        double qGain;
+                        double qLoss;
                         if (!double.IsNaN(qCurrVal) && !double.IsNaN(qPrevVal))
                         {
                             qGain = qCurrVal > qPrevVal ? qCurrVal - qPrevVal : 0;
@@ -150,10 +147,8 @@ public class RsiHub
             {
                 double pPrevVal = ProviderCache[p - 1].Value;
                 double pCurrVal = ProviderCache[p].Value;
-
-                double pGain = 0;
-                double pLoss = 0;
-
+                double pGain;
+                double pLoss;
                 if (!double.IsNaN(pCurrVal) && !double.IsNaN(pPrevVal))
                 {
                     pGain = pCurrVal > pPrevVal ? pCurrVal - pPrevVal : 0;
