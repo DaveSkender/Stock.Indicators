@@ -58,19 +58,19 @@
 
 ### Implementation for User Story 1
 
-- [ ] T007 [US1] Analyze current RSI StreamHub implementation in `src/m-r/Rsi/Rsi.StreamHub.cs` to understand O(n²) issue
-- [ ] T008 [US1] Refactor RSI StreamHub to use incremental Wilder's smoothing in `src/m-r/Rsi/Rsi.StreamHub.cs`:
-  - Replace full recalculation with state variables (prevGainAvg, prevLossAvg, prevClose)
-  - Implement formula: `avgGain = (prevGainAvg × (period - 1) + gain) / period`
+- [X] T007 [US1] Analyze current RSI StreamHub implementation in `src/m-r/Rsi/Rsi.StreamHub.cs` to understand O(n²) issue
+- [X] T008 [US1] Refactor RSI StreamHub to use incremental Wilder's smoothing in `src/m-r/Rsi/Rsi.StreamHub.cs`:
+  - Replace full recalculation with state variables (avgGain, avgLoss)
+  - Implement formula: `avgGain = (avgGain × (period - 1) + gain) / period`
   - Maintain O(n) complexity
-- [ ] T009 [US1] Run regression tests - `dotnet test tests/indicators/Tests.Indicators.csproj --filter "FullyQualifiedName~Rsi" --settings tests/tests.regression.runsettings`
-- [ ] T010 [US1] Run performance benchmark - `dotnet run --project tools/performance/Tests.Performance.csproj -c Release -- --filter *Rsi*`
-- [ ] T011 [US1] Validate ≤1.5x slowdown target achieved and O(n) complexity with scaled data test:
+- [X] T009 [US1] Run regression tests - `dotnet test tests/indicators/Tests.Indicators.csproj --filter "FullyQualifiedName~Rsi" --settings tests/tests.regression.runsettings`
+- [X] T010 [US1] Run performance benchmark - `dotnet run --project tools/performance/Tests.Performance.csproj -c Release -- --filter *Rsi*`
+- [X] T011 [US1] Validate ≤1.5x slowdown target achieved and O(n) complexity with scaled data test:
   - Run benchmark with baseline data size (~1,000 quotes)
   - Run benchmark with 10x data size (~10,000 quotes)
   - Verify execution time scales linearly (±10% tolerance)
   - Example: If 1,000 quotes takes 100ms, 10,000 quotes should take 900-1,100ms (not 10,000ms which would indicate O(n²))
-- [ ] T012 [US1] Update inline code comments and XML documentation in `src/m-r/Rsi/Rsi.StreamHub.cs`
+- [X] T012 [US1] Update inline code comments and XML documentation in `src/m-r/Rsi/Rsi.StreamHub.cs`
 
 **Checkpoint**: RSI StreamHub is now production-ready for streaming scenarios (MVP complete!)
 
