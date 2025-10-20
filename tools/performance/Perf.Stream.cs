@@ -64,6 +64,7 @@ public class StreamIndicators
     [Benchmark] public object DemaHub() => quoteHub.ToDemaHub(n).Results;
     [Benchmark] public object DojiHub() => quoteHub.ToDojiHub().Results;
     [Benchmark] public object DonchianHub() => quoteHub.ToDonchianHub(20).Results;
+    [Benchmark] public object ElderRayHub() => quoteHub.ToElderRayHub(13).Results;
     [Benchmark] public object EmaHub() => quoteHub.ToEmaHub(20).Results;
     [Benchmark] public object EpmaHub() => quoteHub.ToEpmaHub(n).Results;
     [Benchmark] public object HmaHub() => quoteHub.ToHmaHub(n).Results;
