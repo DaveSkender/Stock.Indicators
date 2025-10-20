@@ -55,7 +55,7 @@ public class KvoTests : TestBase
         listing.Uiid.Should().Be("KVO");
         listing.Style.Should().Be(Style.Stream);
         listing.Category.Should().Be(Category.VolumeBased);
-        listing.MethodName.Should().Be("ToKvo");
+        listing.MethodName.Should().Be("ToKvoHub");
 
         listing.Parameters.Should().NotBeNull();
         listing.Parameters.Should().HaveCount(3);

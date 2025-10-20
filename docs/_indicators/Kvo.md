@@ -96,8 +96,8 @@ IReadOnlyList<KvoResult> results = kvoList;
 Subscribe to a `QuoteHub` for advanced streaming scenarios:
 
 ```csharp
-QuoteHub<Quote> quoteHub = new();
-KvoHub<Quote> observer = quoteHub.ToKvoHub(34, 55, 13);
+QuoteHub quoteHub = new();
+KvoHub observer = quoteHub.ToKvoHub(34, 55, 13);
 
 foreach (Quote quote in quotes)  // simulating stream
 {
