@@ -57,10 +57,10 @@ public class ElderRayHub
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
         double ema = i >= LookbackPeriods - 1
-            ? Cache[i - 1].Ema is not null
+            ? i > 0 && Cache[i - 1].Ema is not null
 
                 // normal EMA calculation
-                ? Ema.Increment(K, Cache[i - 1].Ema.Null2NaN(), (double)item.Close)
+                ? Ema.Increment(K, Cache[i - 1].Ema!.Value, (double)item.Close)
 
                 // re/initialize as SMA
                 : Sma.Increment(ProviderCache, LookbackPeriods, i)
