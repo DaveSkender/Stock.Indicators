@@ -10,6 +10,8 @@ public class ForceIndexHub
 {
     private readonly string hubName;
     private readonly double _k;
+    private double _sumRawFi;
+    private double? _prevFi;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ForceIndexHub"/> class.
@@ -57,32 +59,51 @@ public class ForceIndexHub
             // calculate raw Force Index
             double rawFi = (double)currentQuote.Volume * ((double)currentQuote.Close - (double)previousQuote.Close);
 
-            // calculate EMA
-            if (index > LookbackPeriods)
+            // Check if we can use incremental update (sequential processing)
+            bool canIncrement = Cache.Count > index
+                && _prevFi.HasValue
+                && Cache[index - 1].ForceIndex.HasValue;
+
+            if (canIncrement && index > LookbackPeriods)
             {
-                // Use previous cached result for incremental EMA
-                double? prevFi = Cache[index - 1].ForceIndex;
-                if (prevFi.HasValue)
-                {
-                    fi = prevFi + (_k * (rawFi - prevFi));
-                }
+                // Sequential processing - incremental O(1) EMA update
+                fi = _prevFi + (_k * (rawFi - _prevFi));
+                _prevFi = fi;
             }
-            // initialization period
             else
             {
-                // Calculate sum of raw FI for initialization
-                double sumRawFi = 0;
+                // Rebuild from ProviderCache (after rollback or non-sequential access)
+                _sumRawFi = 0;
+                _prevFi = null;
+
+                // Recalculate sum and EMA from start
                 for (int j = 1; j <= index; j++)
                 {
                     IQuote curr = (IQuote)ProviderCache[j];
                     IQuote prev = (IQuote)ProviderCache[j - 1];
-                    sumRawFi += (double)curr.Volume * ((double)curr.Close - (double)prev.Close);
-                }
+                    double jRawFi = (double)curr.Volume * ((double)curr.Close - (double)prev.Close);
 
-                // first EMA value
-                if (index == LookbackPeriods)
-                {
-                    fi = sumRawFi / LookbackPeriods;
+                    if (j <= LookbackPeriods)
+                    {
+                        // Accumulate sum for initialization
+                        _sumRawFi += jRawFi;
+
+                        // First EMA value - use SMA of raw FI
+                        if (j == LookbackPeriods)
+                        {
+                            fi = _sumRawFi / LookbackPeriods;
+                            _prevFi = fi;
+                        }
+                    }
+                    else
+                    {
+                        // Apply EMA updates
+                        if (_prevFi.HasValue)
+                        {
+                            fi = _prevFi + (_k * (jRawFi - _prevFi));
+                            _prevFi = fi;
+                        }
+                    }
                 }
             }
         }
@@ -92,6 +113,14 @@ public class ForceIndexHub
             ForceIndex: fi);
 
         return (result, index);
+    }
+
+    /// <inheritdoc/>
+    protected override void RollbackState(DateTime timestamp)
+    {
+        // Reset state - will be recalculated during rebuild
+        _sumRawFi = double.NaN;
+        _prevFi = null;
     }
 }
 
