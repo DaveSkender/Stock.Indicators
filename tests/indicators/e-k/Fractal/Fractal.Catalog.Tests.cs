@@ -59,4 +59,25 @@ public class FractalTests : TestBase
         listing.Results.Should().NotBeNull();
         listing.Results.Should().HaveCount(2);
     }
+
+    [TestMethod]
+    public void FractalStreamListing()
+    {
+        // Act
+        IndicatorListing listing = Fractal.StreamListing;
+
+        // Assert
+        listing.Should().NotBeNull();
+        listing.Name.Should().Be("Williams Fractal (high/low)");
+        listing.Uiid.Should().Be("FRACTAL");
+        listing.Style.Should().Be(Style.Stream);
+        listing.Category.Should().Be(Category.PricePattern);
+        listing.MethodName.Should().Be("ToFractal");
+
+        listing.Parameters.Should().NotBeNull();
+        listing.Parameters.Should().HaveCount(2);
+
+        listing.Results.Should().NotBeNull();
+        listing.Results.Should().HaveCount(2);
+    }
 }
