@@ -22,6 +22,17 @@ public static partial class ElderRay
             .WithStyle(Style.Series)
             .Build();
 
-    // No StreamListing for ELDER-RAY.
-    // No BufferListing for ELDER-RAY.
+    // ELDER-RAY StreamHub Listing
+    internal static readonly IndicatorListing StreamListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Stream)
+            .WithMethodName("ToElderRayHub")
+            .Build();
+
+    // ELDER-RAY BufferList Listing
+    internal static readonly IndicatorListing BufferListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Buffer)
+            .WithMethodName("ToElderRayList")
+            .Build();
 }
