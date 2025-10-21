@@ -9,7 +9,6 @@ public class GatorHub
    : StreamHub<AlligatorResult, GatorResult>
 {
     private readonly string hubName;
-    private readonly AlligatorHub _alligatorHub;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GatorHub"/> class.
@@ -19,7 +18,6 @@ public class GatorHub
         : base(alligatorHub)
     {
         ArgumentNullException.ThrowIfNull(alligatorHub);
-        _alligatorHub = alligatorHub;
         hubName = "GATOR()";
         Reinitialize();
     }
