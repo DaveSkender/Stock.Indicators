@@ -52,9 +52,25 @@ public class HeikinAshiHub
         }
         else
         {
-            // Fallback to stored state (should not happen normally)
+            // Fallback to stored state (on mutation rebuilds)
             prevOpen = _prevOpen;
             prevClose = _prevClose;
+
+            // If state is uninitialized, seed from first quote or current item
+            if (prevOpen == decimal.MinValue || prevClose == decimal.MinValue)
+            {
+                if (ProviderCache.Count > 0)
+                {
+                    IQuote q0 = ProviderCache[0];
+                    prevOpen = q0.Open;
+                    prevClose = q0.Close;
+                }
+                else
+                {
+                    prevOpen = item.Open;
+                    prevClose = item.Close;
+                }
+            }
         }
 
         // close
@@ -94,13 +110,26 @@ public class HeikinAshiHub
         // restore previous open/close markers
         if (Cache.Count != 0)
         {
-            HeikinAshiResult lastResult = Cache
-                .Last(c => c.Timestamp <= timestamp);
+            bool found = false;
+            HeikinAshiResult lastResult = default!;
+            for (int j = Cache.Count - 1; j >= 0; j--)
+            {
+                HeikinAshiResult c = Cache[j];
+                if (c.Timestamp <= timestamp)
+                {
+                    lastResult = c;
+                    found = true;
+                    break;
+                }
+            }
 
-            _prevOpen = lastResult.Open;
-            _prevClose = lastResult.Close;
-
-            return;
+            if (found)
+            {
+                _prevOpen = lastResult.Open;
+                _prevClose = lastResult.Close;
+                return;
+            }
+            // else: fall through to seed from first quote/defaults below
         }
 
         // reset to first quote if no cache
