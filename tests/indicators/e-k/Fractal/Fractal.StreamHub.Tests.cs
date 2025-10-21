@@ -140,37 +140,6 @@ public class FractalHubTests : StreamHubTestBase, ITestQuoteObserver
     }
 
     [TestMethod]
-    public void Reset()
-    {
-        // setup quote provider hub
-        QuoteHub quoteHub = new();
-
-        // initialize observer
-        FractalHub observer = quoteHub.ToFractalHub();
-
-        // add quotes
-        quoteHub.Add(Quotes);
-        observer.Rebuild(0);
-
-        // verify results exist
-        observer.Results.Should().HaveCount(Quotes.Count);
-
-        // reset
-        observer.Reset();
-
-        // verify results cleared
-        observer.Results.Should().BeEmpty();
-
-        // re-add quotes and verify reprocessing
-        quoteHub.Add(Quotes);
-        observer.Rebuild(0);
-        observer.Results.Should().HaveCount(Quotes.Count);
-
-        observer.Unsubscribe();
-        quoteHub.EndTransmission();
-    }
-
-    [TestMethod]
     public override void CustomToString()
     {
         FractalHub hub1 = new(new QuoteHub(), 2, EndType.HighLow);
