@@ -173,6 +173,8 @@ public static partial class Catalog
 
         // Fisher Transform
         _listings.Add(FisherTransform.SeriesListing);
+        _listings.Add(FisherTransform.StreamListing);
+        _listings.Add(FisherTransform.BufferListing);
 
         // Force Index
         _listings.Add(ForceIndex.SeriesListing);
