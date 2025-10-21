@@ -11,36 +11,42 @@ Phase 8 successfully refactored all 6 EMA-family indicators (SMMA, DEMA, TEMA, T
 ## Indicators Refactored
 
 ### 1. SMMA (Smoothed Moving Average)
+
 - **Implementation**: Incremental Wilder's smoothing formula
 - **Pattern**: `((prevValue * (period - 1)) + currentValue) / period`
 - **State**: Single previous SMMA value
 - **File**: `src/s-z/Smma/Smma.StreamHub.cs`
 
 ### 2. DEMA (Double Exponential Moving Average)
+
 - **Implementation**: Dual-layer EMA with state variables
 - **State**: lastEma1, lastEma2
 - **Rollback**: Implements `RollbackState()` for out-of-order handling
 - **File**: `src/a-d/Dema/Dema.StreamHub.cs`
 
 ### 3. TEMA (Triple Exponential Moving Average)
+
 - **Implementation**: Triple-layer EMA with state variables
 - **State**: lastEma1, lastEma2, lastEma3
 - **Rollback**: Implements `RollbackState()` for out-of-order handling
 - **File**: `src/s-z/Tema/Tema.StreamHub.cs`
 
 ### 4. T3 (Tillson T3 Moving Average)
+
 - **Implementation**: 6-layer EMA with volume factor weighting
 - **State**: lastEma1 through lastEma6
 - **Rollback**: Implements `RollbackState()` for out-of-order handling
 - **File**: `src/s-z/T3/T3.StreamHub.cs`
 
 ### 5. TRIX (Triple Exponential Moving Average Oscillator)
+
 - **Implementation**: Triple-layer EMA with rate-of-change calculation
 - **State**: lastEma1, lastEma2, lastEma3
 - **Rollback**: Implements `RollbackState()` for out-of-order handling
 - **File**: `src/s-z/Trix/Trix.StreamHub.cs`
 
 ### 6. MACD (Moving Average Convergence Divergence)
+
 - **Implementation**: Fast/Slow EMA with Signal line
 - **State**: Cached in Results, uses previous values from Cache
 - **Optimization**: Pre-calculated smoothing factors (FastK, SlowK, SignalK)
@@ -74,6 +80,7 @@ From `tools/performance/baselines/PERFORMANCE_REVIEW.md`:
 ### Current Performance (October 21, 2025)
 
 Sample benchmark for SMMA:
+
 - Series: 6.661 µs (6,661 ns)
 - StreamHub: 49.950 µs (49,950 ns)
 - **Current Slowdown: 7.50x**
@@ -101,12 +108,13 @@ Sample benchmark for SMMA:
 1. **Algorithmic improvements**: Further reduction of per-quote overhead
 2. **Memory optimization**: Better cache locality and reduced allocations
 3. **Architecture review**: Evaluate fundamental streaming model overhead
-4. **Span-based operations**: Replace remaining allocations with span<T>
+4. **Span-based operations**: Replace remaining allocations with `span<T>`
 5. **Benchmarking methodology**: Verify measurement conditions match Series benchmarks
 
 ## Regression Test Results
 
 All regression tests passed:
+
 - Command: `dotnet test --filter "FullyQualifiedName~Smma|...~Macd" --settings tests/tests.regression.runsettings`
 - Result: 6 tests succeeded, 12 skipped (different test categories)
 - **Correctness**: All indicators maintain bit-for-bit parity with Series implementations
@@ -114,6 +122,7 @@ All regression tests passed:
 ## Code Quality
 
 All implementations follow repository standards:
+
 - ✅ XML documentation complete
 - ✅ Incremental state management patterns
 - ✅ Rollback support for out-of-order data
