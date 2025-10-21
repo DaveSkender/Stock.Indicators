@@ -20,6 +20,15 @@ public static partial class MgDynamic
             .WithStyle(Style.Series)
             .Build();
 
-    // No StreamListing for Dynamic.
-    // No BufferListing for Dynamic.
+    // Dynamic Stream Listing
+    internal static readonly IndicatorListing StreamListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Stream)
+            .Build();
+
+    // Dynamic Buffer Listing
+    internal static readonly IndicatorListing BufferListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Buffer)
+            .Build();
 }
