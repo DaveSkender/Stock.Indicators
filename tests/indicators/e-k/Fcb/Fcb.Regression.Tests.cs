@@ -12,5 +12,5 @@ public class FcbTests : RegressionTestBase<FcbResult>
     public override void Buffer() => new FcbList(2, Quotes).AssertEquals(Expected);
 
     [TestMethod]
-    public override void Stream() => Assert.Inconclusive("Stream implementation not yet available");
+    public override void Stream() => Quotes.ToFcbHub(2).Results.AssertEquals(Expected);
 }

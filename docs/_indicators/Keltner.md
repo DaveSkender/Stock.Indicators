@@ -70,4 +70,22 @@ See [Utilities and helpers]({{site.baseurl}}/utilities#utilities-for-indicator-r
 
 ## Chaining
 
-This indicator is not chain-enabled and must be generated from `quotes`.  It **cannot** be used for further processing by other chain-enabled indicators.
+Results can be further processed on `Centerline` with other [chained indicators]({{site.baseurl}}/guide/#generating-indicator-of-indicators).
+
+This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.
+
+```csharp
+// example
+var results = quotes
+    .ToKeltner(..);
+```
+
+### Stream indicator
+
+This indicator supports real-time streaming with `ToKeltnerHub()`.  See [StreamHub guide]({{site.baseurl}}/guide/#streaming-hub-style-indicators) for usage.
+
+```csharp
+// example - to stream real-time data
+var quoteHub = new QuoteHub();
+var keltnerHub = quoteHub.ToKeltnerHub(emaPeriods, multiplier, atrPeriods);
+```
