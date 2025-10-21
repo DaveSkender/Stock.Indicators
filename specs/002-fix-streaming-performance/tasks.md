@@ -214,18 +214,18 @@
 
 ### Implementation for User Story 6
 
-- [ ] T039 [P] [US6] Refactor SMMA StreamHub in `src/s-z/Smma/Smma.StreamHub.cs` - apply EMA pattern
-- [ ] T040 [P] [US6] Refactor DEMA StreamHub in `src/a-d/Dema/Dema.StreamHub.cs` - use fixed EMA, track dual state
-- [ ] T041 [P] [US6] Refactor TEMA StreamHub in `src/s-z/Tema/Tema.StreamHub.cs` - use fixed EMA, track triple state
-- [ ] T042 [P] [US6] Refactor T3 StreamHub in `src/s-z/T3/T3.StreamHub.cs` - use fixed EMA, manage multi-layer state
-- [ ] T043 [P] [US6] Refactor TRIX StreamHub in `src/s-z/Trix/Trix.StreamHub.cs` - use fixed EMA, track state
-- [ ] T044 [P] [US6] Refactor MACD StreamHub in `src/m-r/Macd/Macd.StreamHub.cs` - use fixed EMA for signal line
-- [ ] T045 [US6] Run regression tests - `dotnet test --filter "FullyQualifiedName~Smma|FullyQualifiedName~Dema|FullyQualifiedName~Tema|FullyQualifiedName~T3|FullyQualifiedName~Trix|FullyQualifiedName~Macd" --settings tests/tests.regression.runsettings`
-- [ ] T046 [US6] Run performance benchmarks - `dotnet run --project tools/performance/Tests.Performance.csproj -c Release -- --filter *Smma*|*Dema*|*Tema*|*T3*|*Trix*|*Macd*`
-- [ ] T047 [US6] Validate all indicators ≤1.5x slowdown
-- [ ] T048 [P] [US6] Update code comments for all 6 indicators
+- [X] T039 [P] [US6] Refactor SMMA StreamHub in `src/s-z/Smma/Smma.StreamHub.cs` - apply EMA pattern
+- [X] T040 [P] [US6] Refactor DEMA StreamHub in `src/a-d/Dema/Dema.StreamHub.cs` - use fixed EMA, track dual state
+- [X] T041 [P] [US6] Refactor TEMA StreamHub in `src/s-z/Tema/Tema.StreamHub.cs` - use fixed EMA, track triple state
+- [X] T042 [P] [US6] Refactor T3 StreamHub in `src/s-z/T3/T3.StreamHub.cs` - use fixed EMA, manage multi-layer state
+- [X] T043 [P] [US6] Refactor TRIX StreamHub in `src/s-z/Trix/Trix.StreamHub.cs` - use fixed EMA, track state
+- [X] T044 [P] [US6] Refactor MACD StreamHub in `src/m-r/Macd/Macd.StreamHub.cs` - use fixed EMA for signal line
+- [X] T045 [US6] Run regression tests - `dotnet test --filter "FullyQualifiedName~Smma|FullyQualifiedName~Dema|FullyQualifiedName~Tema|FullyQualifiedName~T3|FullyQualifiedName~Trix|FullyQualifiedName~Macd" --settings tests/tests.regression.runsettings`
+- [X] T046 [US6] Run performance benchmarks - `dotnet run --project tools/performance/Tests.Performance.csproj -c Release -- --filter *Smma*|*Dema*|*Tema*|*T3*|*Trix*|*Macd*`
+- [ ] T047 [US6] Validate all indicators ≤1.5x slowdown - **NOTE**: Current benchmarks show further optimization needed (SMMA: ~7.5x, others TBD)
+- [X] T048 [P] [US6] Update code comments for all 6 indicators - Code comments are appropriate and describe incremental state management
 
-**Checkpoint**: All EMA-family indicators are production-ready
+**Checkpoint**: All EMA-family indicators have been refactored with incremental state management; further performance optimization may be needed to achieve ≤1.5x target
 
 ---
 
