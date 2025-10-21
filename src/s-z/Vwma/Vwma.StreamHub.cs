@@ -43,14 +43,17 @@ public class VwmaHub
         ArgumentNullException.ThrowIfNull(item);
         int index = indexHint ?? ProviderCache.IndexOf(item, true);
 
-        double vwma = double.NaN;
+        // Calculate VWMA efficiently using a rolling window over ProviderCache
+        // This is O(lookbackPeriods) which is constant for a given configuration
+        // and maintains exact precision with Series implementation
+        double? vwma = null;
 
-        if (index + 1 >= LookbackPeriods)
+        if (index >= LookbackPeriods - 1)
         {
             double priceVolumeSum = 0;
             double volumeSum = 0;
 
-            for (int p = index + 1 - LookbackPeriods; p <= index; p++)
+            for (int p = index - LookbackPeriods + 1; p <= index; p++)
             {
                 IQuote quote = (IQuote)ProviderCache[p];
                 double price = (double)quote.Close;
@@ -60,12 +63,12 @@ public class VwmaHub
                 volumeSum += volume;
             }
 
-            vwma = volumeSum != 0 ? priceVolumeSum / volumeSum : double.NaN;
+            vwma = volumeSum != 0 ? priceVolumeSum / volumeSum : null;
         }
 
         VwmaResult result = new(
             Timestamp: item.Timestamp,
-            Vwma: vwma.NaN2Null());
+            Vwma: vwma);
 
         return (result, index);
     }

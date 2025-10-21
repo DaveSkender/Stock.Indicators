@@ -8,9 +8,13 @@ namespace Skender.Stock.Indicators;
 public class SmaHub
     : ChainProvider<IReusable, SmaResult>, ISma
 {
-    #region constructors
+    #region fields
 
     private readonly string hubName;
+
+    #endregion
+
+    #region constructors
 
     /// <summary>
     /// Initializes a new instance of the <see cref="SmaHub"/> class.
@@ -27,14 +31,19 @@ public class SmaHub
 
         Reinitialize();
     }
+
     #endregion
+
+    #region properties
 
     /// <summary>
     /// Gets the number of lookback periods.
     /// </summary>
     public int LookbackPeriods { get; init; }
 
-    // METHODS
+    #endregion
+
+    #region methods
 
     /// <inheritdoc/>
     public override string ToString() => hubName;
@@ -47,13 +56,39 @@ public class SmaHub
 
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
+        // Calculate SMA efficiently using a rolling window over ProviderCache
+        // This is O(lookbackPeriods) which is constant for a given configuration
+        // and maintains exact precision with Series implementation
+        double? sma = null;
+        if (i >= LookbackPeriods - 1)
+        {
+            double sum = 0;
+            bool hasNaN = false;
+
+            for (int p = i - LookbackPeriods + 1; p <= i; p++)
+            {
+                double value = ProviderCache[p].Value;
+                if (double.IsNaN(value))
+                {
+                    hasNaN = true;
+                    break;
+                }
+
+                sum += value;
+            }
+
+            sma = hasNaN ? null : sum / LookbackPeriods;
+        }
+
         // candidate result
         SmaResult r = new(
             Timestamp: item.Timestamp,
-            Sma: Sma.Increment(ProviderCache, LookbackPeriods, i).NaN2Null());
+            Sma: sma);
 
         return (r, i);
     }
+
+    #endregion
 }
 
 /// <summary>

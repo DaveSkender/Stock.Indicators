@@ -70,6 +70,7 @@ public class StreamIndicators
     [Benchmark] public object EpmaHub() => quoteHub.ToEpmaHub(n).Results;
     [Benchmark] public object FisherTransformHub() => quoteHub.ToFisherTransformHub(10).Results;
     [Benchmark] public object FcbHub() => quoteHub.ToFcbHub(2).Results;
+    [Benchmark] public object FractalHub() => quoteHub.ToFractalHub().Results;
     [Benchmark] public object ForceIndexHub() => quoteHub.ToForceIndexHub(2).Results;
     [Benchmark] public object HmaHub() => quoteHub.ToHmaHub(n).Results;
     [Benchmark] public object HeikinAshiHub() => quoteHub.ToHeikinAshiHub().Results;

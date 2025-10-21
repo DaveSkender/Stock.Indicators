@@ -184,6 +184,7 @@ public static partial class Catalog
         // Fractal
         _listings.Add(Fractal.BufferListing);
         _listings.Add(Fractal.SeriesListing);
+        _listings.Add(Fractal.StreamListing);
 
         // Gator Oscillator
         _listings.Add(Gator.BufferListing);
