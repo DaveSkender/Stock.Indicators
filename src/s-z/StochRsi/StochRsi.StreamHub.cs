@@ -4,12 +4,19 @@ namespace Skender.Stock.Indicators;
 
 
 /// <summary>
-/// Represents a Stochastic RSI stream hub.
+/// Represents a Stochastic RSI stream hub that calculates Stochastic oscillator on RSI values.
+/// Uses incremental state management for O(n) performance.
 /// </summary>
 public sealed class StochRsiHub
     : ChainProvider<IReusable, StochRsiResult>
 {
     private readonly string hubName;
+    private readonly RsiHub rsiHub;  // Internal RSI hub for incremental RSI calculation
+    private readonly Queue<double> rsiBuffer;  // Rolling window of RSI values for stochastic calculation
+    private readonly Queue<double> kBuffer;  // Rolling window for %K smoothing
+    private readonly Queue<double> signalBuffer;  // Rolling window for signal line calculation
+    private double prevK = double.NaN;
+    private double prevSignal = double.NaN;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="StochRsiHub"/> class.
@@ -34,6 +41,14 @@ public sealed class StochRsiHub
         SmoothPeriods = smoothPeriods;
 
         hubName = $"STOCH-RSI({rsiPeriods},{stochPeriods},{signalPeriods},{smoothPeriods})";
+
+        // Create internal RSI hub for incremental RSI calculation
+        rsiHub = provider.ToRsiHub(rsiPeriods);
+
+        // Buffers for rolling windows
+        rsiBuffer = new Queue<double>(stochPeriods);
+        kBuffer = new Queue<double>(smoothPeriods);
+        signalBuffer = new Queue<double>(signalPeriods);
 
         Reinitialize();
     }
@@ -71,24 +86,75 @@ public sealed class StochRsiHub
         double? stochRsi = null;
         double? signal = null;
 
-        // We need at least rsiPeriods + stochPeriods - 1 items to calculate
-        int minRequired = RsiPeriods + StochPeriods - 1;
+        // Get RSI value from the internal hub (leveraging the fixed RSI StreamHub from Phase 3)
+        RsiResult? rsiResult = rsiHub.Results.ElementAtOrDefault(i);
+        double? rsiValue = rsiResult?.Rsi;
 
-        if (i >= minRequired)
+        // Only process if we have a valid RSI value
+        if (rsiValue.HasValue)
         {
-            // Build a subset of provider cache for StochRSI calculation
-            List<IReusable> subset = [];
-            for (int k = 0; k <= i; k++)
+            // Update RSI buffer (rolling window for stochastic calculation)
+            // This maintains a sliding window of RSI values
+            rsiBuffer.Enqueue(rsiValue.Value);
+            if (rsiBuffer.Count > StochPeriods)
             {
-                subset.Add(ProviderCache[k]);
+                rsiBuffer.Dequeue();
             }
 
-            // Use the existing series calculation
-            IReadOnlyList<StochRsiResult> seriesResults = subset.ToStochRsi(RsiPeriods, StochPeriods, SignalPeriods, SmoothPeriods);
-            StochRsiResult? latestResult = seriesResults.Count > 0 ? seriesResults[seriesResults.Count - 1] : null;
+            // Calculate %K (stochastic oscillator on RSI values)
+            // Need full StochPeriods of RSI values before we can calculate
+            if (rsiBuffer.Count == StochPeriods)
+            {
+                // Find highest and lowest RSI in the window
+                double highRsi = rsiBuffer.Max();
+                double lowRsi = rsiBuffer.Min();
+                double currentRsi = rsiValue.Value;
 
-            stochRsi = latestResult?.StochRsi;
-            signal = latestResult?.Signal;
+                // Calculate initial %K oscillator: %K = 100 * (Current RSI - Lowest RSI) / (Highest RSI - Lowest RSI)
+                double k = lowRsi != highRsi
+                    ? 100 * (currentRsi - lowRsi) / (highRsi - lowRsi)
+                    : 0;
+
+                // Apply smoothing to %K if smoothPeriods > 1
+                if (SmoothPeriods > 1)
+                {
+                    kBuffer.Enqueue(k);
+                    if (kBuffer.Count > SmoothPeriods)
+                    {
+                        kBuffer.Dequeue();
+                    }
+
+                    if (kBuffer.Count == SmoothPeriods)
+                    {
+                        k = kBuffer.Average();
+                    }
+                    else
+                    {
+                        // Not enough data for smoothing yet
+                        k = double.NaN;
+                    }
+                }
+
+                if (!double.IsNaN(k))
+                {
+                    stochRsi = k;
+                    prevK = k;
+
+                    // Calculate signal line (SMA of %K) incrementally
+                    signalBuffer.Enqueue(k);
+                    if (signalBuffer.Count > SignalPeriods)
+                    {
+                        signalBuffer.Dequeue();
+                    }
+
+                    // Once we have enough %K values for signal calculation
+                    if (signalBuffer.Count == SignalPeriods)
+                    {
+                        signal = signalBuffer.Average();
+                        prevSignal = signal.Value;
+                    }
+                }
+            }
         }
 
         // candidate result
@@ -98,6 +164,17 @@ public sealed class StochRsiHub
             Signal: signal);
 
         return (result, i);
+    }
+
+    /// <inheritdoc/>
+    protected override void RollbackState(DateTime timestamp)
+    {
+        // Reset state - will be recalculated during rebuild
+        rsiBuffer.Clear();
+        kBuffer.Clear();
+        signalBuffer.Clear();
+        prevK = double.NaN;
+        prevSignal = double.NaN;
     }
 }
 
