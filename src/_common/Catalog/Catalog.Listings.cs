@@ -193,6 +193,7 @@ public static partial class Catalog
         // Heikin Ashi
         _listings.Add(HeikinAshi.BufferListing);
         _listings.Add(HeikinAshi.SeriesListing);
+        _listings.Add(HeikinAshi.StreamListing);
 
         // HMA (Hull Moving Average)
         _listings.Add(Hma.BufferListing);
