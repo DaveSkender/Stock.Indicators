@@ -12,5 +12,5 @@ public class ForceIndexTests : RegressionTestBase<ForceIndexResult>
     public override void Buffer() => new ForceIndexList(2, Quotes).AssertEquals(Expected);
 
     [TestMethod]
-    public override void Stream() => Assert.Inconclusive("Stream implementation not yet available");
+    public override void Stream() => Quotes.ToForceIndexHub().Results.AssertEquals(Expected);
 }
