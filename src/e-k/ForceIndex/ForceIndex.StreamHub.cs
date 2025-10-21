@@ -153,6 +153,7 @@ public static partial class ForceIndex
         this IReadOnlyList<IQuote> quotes,
         int lookbackPeriods = 2)
     {
+        ArgumentNullException.ThrowIfNull(quotes);
         QuoteHub quoteHub = new();
         quoteHub.Add(quotes);
         return quoteHub.ToForceIndexHub(lookbackPeriods);
