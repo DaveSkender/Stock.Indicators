@@ -19,6 +19,15 @@ public static partial class ForceIndex
             .WithStyle(Style.Series)
             .Build();
 
-    // No StreamListing for FORCE.
-    // No BufferListing for FORCE.
+    // FORCE Buffer Listing
+    internal static readonly IndicatorListing BufferListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Buffer)
+            .Build();
+
+    // FORCE Stream Listing
+    internal static readonly IndicatorListing StreamListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Stream)
+            .Build();
 }
