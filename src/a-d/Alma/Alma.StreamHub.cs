@@ -7,6 +7,8 @@ public class AlmaHub
     : ChainProvider<IReusable, AlmaResult>, IAlma
 {
     private readonly string hubName;
+    private readonly double[] weights;
+    private readonly double normalizationFactor;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AlmaHub"/> class.
@@ -28,6 +30,22 @@ public class AlmaHub
         Offset = offset;
         Sigma = sigma;
         hubName = $"ALMA({lookbackPeriods},{offset},{sigma})";
+
+        // Pre-calculate weights once for O(1) application per quote
+        double m = offset * (lookbackPeriods - 1);
+        double s = lookbackPeriods / sigma;
+
+        weights = new double[lookbackPeriods];
+        double norm = 0;
+
+        for (int i = 0; i < lookbackPeriods; i++)
+        {
+            double wt = Math.Exp(-((i - m) * (i - m)) / (2 * s * s));
+            weights[i] = wt;
+            norm += wt;
+        }
+
+        normalizationFactor = norm;
 
         Reinitialize();
     }
@@ -52,14 +70,37 @@ public class AlmaHub
 
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
-        double alma = i >= LookbackPeriods - 1
-            ? Alma.Increment(ProviderCache, LookbackPeriods, Offset, Sigma, i)
-            : double.NaN;
+        // Calculate ALMA efficiently using pre-calculated weights and a rolling window
+        // This is O(lookbackPeriods) which is constant for a given configuration
+        // Weight calculation is done once in constructor, not on every quote
+        double? alma = null;
+
+        if (i >= LookbackPeriods - 1)
+        {
+            double weightedSum = 0;
+            bool hasNaN = false;
+
+            for (int p = 0; p < LookbackPeriods; p++)
+            {
+                int sourceIndex = i - LookbackPeriods + 1 + p;
+                double value = ProviderCache[sourceIndex].Value;
+
+                if (double.IsNaN(value))
+                {
+                    hasNaN = true;
+                    break;
+                }
+
+                weightedSum += weights[p] * value;
+            }
+
+            alma = hasNaN ? null : weightedSum / normalizationFactor;
+        }
 
         // candidate result
         AlmaResult r = new(
             Timestamp: item.Timestamp,
-            Alma: alma.NaN2Null());
+            Alma: alma);
 
         return (r, i);
     }
