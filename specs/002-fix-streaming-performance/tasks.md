@@ -98,7 +98,7 @@
 - [X] T017 [US2] Validate ≤1.5x slowdown target and O(n) complexity:
   - Run benchmark with baseline data size (~1,000 quotes)
   - **Results**: Series: 56.88µs, StreamHub: 259.7µs = 4.56x slowdown (improved from 284x!)
-  - **Complexity**: O(n) - incremental state management using RSI hub and rolling windows
+  - **Complexity**: near O(n) - incremental state management using RSI hub and rolling windows
   - Note: 4.56x slowdown is above target but represents 62x improvement over baseline (284x → 4.56x)
   - Root cause of remaining overhead: Composite indicator architecture (RSI calculation + Stochastic on top)
   - **True O(n) achieved**: Incremental RSI hub + rolling window buffers for stochastic calculation

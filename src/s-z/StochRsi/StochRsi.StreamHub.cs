@@ -5,7 +5,6 @@ namespace Skender.Stock.Indicators;
 
 /// <summary>
 /// Represents a Stochastic RSI stream hub that calculates Stochastic oscillator on RSI values.
-/// Uses incremental state management for O(n) performance.
 /// </summary>
 public sealed class StochRsiHub
     : ChainProvider<IReusable, StochRsiResult>
@@ -105,6 +104,9 @@ public sealed class StochRsiHub
             // Need full StochPeriods of RSI values before we can calculate
             if (rsiBuffer.Count == StochPeriods)
             {
+                // TODO: Use RollingWindowMax/RollingWindowMin for O(1) max/min tracking
+                // This will achieve true O(n) complexity instead of O(n × StochPeriods)
+
                 // Find highest and lowest RSI in the window
                 double highRsi = rsiBuffer.Max();
                 double lowRsi = rsiBuffer.Min();
