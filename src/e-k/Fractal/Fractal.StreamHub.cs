@@ -38,7 +38,9 @@ public class FractalHub
         int rightSpan,
         EndType endType) : base(provider)
     {
-        Fractal.Validate(Math.Min(leftSpan, rightSpan));
+        // Validate both spans independently
+        Fractal.Validate(leftSpan);
+        Fractal.Validate(rightSpan);
 
         LeftSpan = leftSpan;
         RightSpan = rightSpan;
@@ -125,7 +127,7 @@ public class FractalHub
         }
 
         // Create result for the current quote
-        FractalResult result = new(item.Timestamp, fractalBear, fractalBull);
+        FractalResult result = new(ProviderCache[i].Timestamp, fractalBear, fractalBull);
 
         return (result, i);
     }
@@ -145,7 +147,10 @@ public static partial class Fractal
        this IQuoteProvider<IQuote> quoteProvider,
        int windowSpan = 2,
        EndType endType = EndType.HighLow)
-           => new(quoteProvider, windowSpan, endType);
+    {
+        ArgumentNullException.ThrowIfNull(quoteProvider);
+        return new(quoteProvider, windowSpan, endType);
+    }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="FractalHub"/> class with different left and right spans.
@@ -160,7 +165,10 @@ public static partial class Fractal
        int leftSpan,
        int rightSpan,
        EndType endType = EndType.HighLow)
-           => new(quoteProvider, leftSpan, rightSpan, endType);
+    {
+        ArgumentNullException.ThrowIfNull(quoteProvider);
+        return new(quoteProvider, leftSpan, rightSpan, endType);
+    }
 
     /// <summary>
     /// Creates a Fractal hub from a collection of quotes.

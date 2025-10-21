@@ -63,7 +63,7 @@ public class FractalHubTests : StreamHubTestBase, ITestQuoteObserver
 
         // assert, should equal series
         streamList.Should().HaveCount(length - 1);
-        streamList.Should().BeEquivalentTo(seriesList);
+        streamList.Should().BeEquivalentTo(seriesList, options => options.WithStrictOrdering());
 
         observer.Unsubscribe();
         quoteHub.EndTransmission();
@@ -98,7 +98,7 @@ public class FractalHubTests : StreamHubTestBase, ITestQuoteObserver
 
         // assert, should equal series
         streamList.Should().HaveCount(Quotes.Count);
-        streamList.Should().BeEquivalentTo(seriesList);
+        streamList.Should().BeEquivalentTo(seriesList, options => options.WithStrictOrdering());
 
         observer.Unsubscribe();
         quoteHub.EndTransmission();
@@ -133,7 +133,38 @@ public class FractalHubTests : StreamHubTestBase, ITestQuoteObserver
 
         // assert, should equal series
         streamList.Should().HaveCount(Quotes.Count);
-        streamList.Should().BeEquivalentTo(seriesList);
+        streamList.Should().BeEquivalentTo(seriesList, options => options.WithStrictOrdering());
+
+        observer.Unsubscribe();
+        quoteHub.EndTransmission();
+    }
+
+    [TestMethod]
+    public void Reset()
+    {
+        // setup quote provider hub
+        QuoteHub quoteHub = new();
+
+        // initialize observer
+        FractalHub observer = quoteHub.ToFractalHub();
+
+        // add quotes
+        quoteHub.Add(Quotes);
+        observer.Rebuild(0);
+
+        // verify results exist
+        observer.Results.Should().HaveCount(Quotes.Count);
+
+        // reset
+        observer.Reset();
+
+        // verify results cleared
+        observer.Results.Should().BeEmpty();
+
+        // re-add quotes and verify reprocessing
+        quoteHub.Add(Quotes);
+        observer.Rebuild(0);
+        observer.Results.Should().HaveCount(Quotes.Count);
 
         observer.Unsubscribe();
         quoteHub.EndTransmission();
