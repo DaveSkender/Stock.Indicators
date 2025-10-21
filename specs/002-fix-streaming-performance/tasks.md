@@ -196,7 +196,7 @@
 - [ ] T037 [US5] Validate ≤1.5x slowdown target achieved ⚠️ **NOT MET** - Current: 7.72x, Target: ≤1.5x (gap: 6.22x)
 - [ ] T038 [US5] Update code comments in `src/e-k/Ema/Ema.StreamHub.cs` - Pending final optimization decisions
 
-**Checkpoint**: EMA StreamHub analysis complete - algorithm is optimal (O(n) with O(1) per-quote updates), but infrastructure overhead prevents meeting ≤1.5x target. Current 7.72x slowdown is 33% better than baseline (10.61x) but still 5.1x above target. 
+**Checkpoint**: EMA StreamHub analysis complete - algorithm is optimal (O(n) with O(1) per-quote updates), but infrastructure overhead prevents meeting ≤1.5x target. Current 7.72x slowdown is 33% better than baseline (10.61x) but still 5.1x above target.
 
 **Decision Required**: Accept current performance (significant improvement over baseline) OR investigate deeper optimizations to StreamHub infrastructure itself (cache management, boxing/unboxing, interface dispatch overhead). Current implementation is production-ready for streaming scenarios despite not meeting strict 1.5x target.
 
