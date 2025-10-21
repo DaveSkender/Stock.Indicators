@@ -12,5 +12,5 @@ public class ElderrayTests : RegressionTestBase<ElderRayResult>
     public override void Buffer() => new ElderRayList(13, Quotes).AssertEquals(Expected);
 
     [TestMethod]
-    public override void Stream() => Assert.Inconclusive("Stream implementation not yet available");
+    public override void Stream() => Quotes.ToElderRayHub(13).Results.AssertEquals(Expected);
 }
