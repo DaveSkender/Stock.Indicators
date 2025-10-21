@@ -152,7 +152,9 @@ public static partial class Catalog
         _listings.Add(Dpo.SeriesListing);
 
         // Elder Ray
+        _listings.Add(ElderRay.BufferListing);
         _listings.Add(ElderRay.SeriesListing);
+        _listings.Add(ElderRay.StreamListing);
 
         // EMA (Exponential Moving Average)
         _listings.Add(Ema.BufferListing);
