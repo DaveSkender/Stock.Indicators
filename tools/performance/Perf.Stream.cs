@@ -65,10 +65,12 @@ public class StreamIndicators
     [Benchmark] public object DojiHub() => quoteHub.ToDojiHub().Results;
     [Benchmark] public object DonchianHub() => quoteHub.ToDonchianHub(20).Results;
     [Benchmark] public object DynamicHub() => quoteHub.ToDynamicHub(n, 0.6).Results;
+    [Benchmark] public object ElderRayHub() => quoteHub.ToElderRayHub(13).Results;
     [Benchmark] public object EmaHub() => quoteHub.ToEmaHub(20).Results;
     [Benchmark] public object EpmaHub() => quoteHub.ToEpmaHub(n).Results;
     [Benchmark] public object FisherTransformHub() => quoteHub.ToFisherTransformHub(10).Results;
     [Benchmark] public object FcbHub() => quoteHub.ToFcbHub(2).Results;
+    [Benchmark] public object ForceIndexHub() => quoteHub.ToForceIndexHub(2).Results;
     [Benchmark] public object HmaHub() => quoteHub.ToHmaHub(n).Results;
     [Benchmark] public object HeikinAshiHub() => quoteHub.ToHeikinAshiHub().Results;
     [Benchmark] public object KamaHub() => quoteHub.ToKamaHub(10, 2, 30).Results;
