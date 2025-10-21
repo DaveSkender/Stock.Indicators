@@ -8,6 +8,8 @@ public class ChandelierHub
 {
     private readonly string hubName;
     private readonly AtrHub atrHub;
+    private readonly RollingWindowMax<double> _highWindow;
+    private readonly RollingWindowMin<double> _lowWindow;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ChandelierHub"/> class.
@@ -34,6 +36,10 @@ public class ChandelierHub
 
         // Initialize internal ATR hub to maintain streaming state
         atrHub = provider.ToAtrHub(lookbackPeriods);
+
+        // Initialize rolling windows for O(1) amortized max/min tracking
+        _highWindow = new RollingWindowMax<double>(lookbackPeriods);
+        _lowWindow = new RollingWindowMin<double>(lookbackPeriods);
 
         Reinitialize();
     }
@@ -65,6 +71,10 @@ public class ChandelierHub
         ArgumentNullException.ThrowIfNull(item);
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
+        // Add current high/low to rolling windows - O(1) amortized operation
+        _highWindow.Add((double)item.High);
+        _lowWindow.Add((double)item.Low);
+
         // handle warmup periods
         if (i < LookbackPeriods)
         {
@@ -90,42 +100,12 @@ public class ChandelierHub
             return (new ChandelierResult(item.Timestamp, null), i);
         }
 
-        // find max high or min low in lookback period
-        double? exit;
-
-        switch (Type)
-        {
-            case Direction.Long:
-                double maxHigh = double.MinValue;
-                for (int p = i + 1 - LookbackPeriods; p <= i; p++)
-                {
-                    double high = (double)ProviderCache[p].High;
-                    if (high > maxHigh)
-                    {
-                        maxHigh = high;
-                    }
-                }
-
-                exit = maxHigh - (atr.Value * Multiplier);
-                break;
-
-            case Direction.Short:
-                double minLow = double.MaxValue;
-                for (int p = i + 1 - LookbackPeriods; p <= i; p++)
-                {
-                    double low = (double)ProviderCache[p].Low;
-                    if (low < minLow)
-                    {
-                        minLow = low;
-                    }
-                }
-
-                exit = minLow + (atr.Value * Multiplier);
-                break;
-
-            default:
-                throw new InvalidOperationException($"Unknown direction type: {Type}");
-        }
+        // Calculate exit using O(1) max/min retrieval from rolling windows
+        double? exit = Type switch {
+            Direction.Long => _highWindow.Max - (atr.Value * Multiplier),
+            Direction.Short => _lowWindow.Min + (atr.Value * Multiplier),
+            _ => throw new InvalidOperationException($"Unknown direction type: {Type}")
+        };
 
         ChandelierResult r = new(
             Timestamp: item.Timestamp,

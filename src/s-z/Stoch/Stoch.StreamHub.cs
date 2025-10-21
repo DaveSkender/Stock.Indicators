@@ -11,6 +11,9 @@ public class StochHub
     #region constructors
 
     private readonly string hubName;
+    private readonly RollingWindowMax<double> _highWindow;
+    private readonly RollingWindowMin<double> _lowWindow;
+    private readonly Queue<double> _rawKBuffer;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="StochHub"/> class.
@@ -57,6 +60,13 @@ public class StochHub
 
         hubName = $"STOCH({lookbackPeriods},{signalPeriods},{smoothPeriods})";
 
+        // Initialize rolling windows for O(1) amortized max/min tracking
+        _highWindow = new RollingWindowMax<double>(lookbackPeriods);
+        _lowWindow = new RollingWindowMin<double>(lookbackPeriods);
+
+        // Initialize buffer for raw K values (needed for SMA smoothing)
+        _rawKBuffer = new Queue<double>(smoothPeriods);
+
         Reinitialize();
     }
 
@@ -96,43 +106,38 @@ public class StochHub
         ArgumentNullException.ThrowIfNull(item);
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
+        // Add current high/low to rolling windows - O(1) amortized operation
+        double high = (double)item.High;
+        double low = (double)item.Low;
+        double close = (double)item.Close;
+
+        _highWindow.Add(high);
+        _lowWindow.Add(low);
+
         // Calculate raw %K oscillator
         double rawK = double.NaN;
         if (i >= LookbackPeriods - 1)
         {
-            double highHigh = double.MinValue;
-            double lowLow = double.MaxValue;
-            bool isViable = true;
+            // Check for NaN values in current quote
+            bool isViable = !double.IsNaN(high) && !double.IsNaN(low) && !double.IsNaN(close);
 
-            // Get lookback window
-            for (int p = i - LookbackPeriods + 1; p <= i; p++)
+            if (isViable)
             {
-                IQuote x = ProviderCache[p];
+                // Use O(1) max/min retrieval from rolling windows
+                double highHigh = _highWindow.Max;
+                double lowLow = _lowWindow.Min;
 
-                if (double.IsNaN((double)x.High) ||
-                    double.IsNaN((double)x.Low) ||
-                    double.IsNaN((double)x.Close))
-                {
-                    isViable = false;
-                    break;
-                }
-
-                if ((double)x.High > highHigh)
-                {
-                    highHigh = (double)x.High;
-                }
-
-                if ((double)x.Low < lowLow)
-                {
-                    lowLow = (double)x.Low;
-                }
+                rawK = highHigh - lowLow != 0
+                     ? 100 * (close - lowLow) / (highHigh - lowLow)
+                     : 0;
             }
+        }
 
-            rawK = !isViable
-                 ? double.NaN
-                 : highHigh - lowLow != 0
-                 ? 100 * ((double)item.Close - lowLow) / (highHigh - lowLow)
-                 : 0;
+        // Add raw K to buffer for smoothing calculation
+        _rawKBuffer.Enqueue(rawK);
+        if (_rawKBuffer.Count > SmoothPeriods)
+        {
+            _rawKBuffer.Dequeue();
         }
 
         // Calculate smoothed %K (oscillator) - matches StaticSeries logic
@@ -147,57 +152,11 @@ public class StochHub
             {
                 case MaType.SMA:
                     {
+                        // Use buffered raw K values for O(n) smoothing instead of O(n²) recalculation
                         double sum = 0;
-                        // Recalculate raw K for each position in the smoothing window
-                        for (int p = i - SmoothPeriods + 1; p <= i; p++)
+                        foreach (double rawKValue in _rawKBuffer)
                         {
-                            double rawKAtP = double.NaN;
-                            if (p >= LookbackPeriods - 1 && p >= 0)
-                            {
-                                double hh = double.MinValue;
-                                double ll = double.MaxValue;
-                                bool viable = true;
-
-                                for (int q = p - LookbackPeriods + 1; q <= p; q++)
-                                {
-                                    if (q < 0 || q >= ProviderCache.Count)
-                                    {
-                                        viable = false;
-                                        break;
-                                    }
-
-                                    IQuote x = ProviderCache[q];
-                                    if (double.IsNaN((double)x.High) ||
-                                        double.IsNaN((double)x.Low) ||
-                                        double.IsNaN((double)x.Close))
-                                    {
-                                        viable = false;
-                                        break;
-                                    }
-
-                                    if ((double)x.High > hh)
-                                    {
-                                        hh = (double)x.High;
-                                    }
-
-                                    if ((double)x.Low < ll)
-                                    {
-                                        ll = (double)x.Low;
-                                    }
-                                }
-
-                                if (p >= 0 && p < ProviderCache.Count)
-                                {
-                                    IQuote pItem = ProviderCache[p];
-                                    rawKAtP = !viable
-                                           ? double.NaN
-                                           : hh - ll != 0
-                                           ? 100 * ((double)pItem.Close - ll) / (hh - ll)
-                                           : 0;
-                                }
-                            }
-
-                            sum += rawKAtP;
+                            sum += rawKValue;
                         }
 
                         oscillator = sum / SmoothPeriods;
