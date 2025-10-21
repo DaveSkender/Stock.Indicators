@@ -165,10 +165,14 @@ public static partial class Catalog
         _listings.Add(Epma.StreamListing);
 
         // FCB (Fractal Chaos Bands)
+        _listings.Add(Fcb.BufferListing);
         _listings.Add(Fcb.SeriesListing);
+        _listings.Add(Fcb.StreamListing);
 
         // Fisher Transform
         _listings.Add(FisherTransform.SeriesListing);
+        _listings.Add(FisherTransform.StreamListing);
+        _listings.Add(FisherTransform.BufferListing);
 
         // Force Index
         _listings.Add(ForceIndex.BufferListing);
@@ -209,10 +213,12 @@ public static partial class Catalog
         // Keltner Channels
         _listings.Add(Keltner.BufferListing);
         _listings.Add(Keltner.SeriesListing);
+        _listings.Add(Keltner.StreamListing);
 
         // KVO (Klinger Volume Oscillator)
         _listings.Add(Kvo.BufferListing);
         _listings.Add(Kvo.SeriesListing);
+        _listings.Add(Kvo.StreamListing);
 
         // MA Envelopes (Moving Average Envelopes)
         _listings.Add(MaEnvelopes.SeriesListing);

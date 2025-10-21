@@ -7,6 +7,7 @@ public class ChandelierHub
     : StreamHub<IQuote, ChandelierResult>, IChandelier
 {
     private readonly string hubName;
+    private readonly AtrHub atrHub;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ChandelierHub"/> class.
@@ -30,6 +31,9 @@ public class ChandelierHub
         string typeName = type.ToString().ToUpperInvariant();
         hubName = FormattableString.Invariant(
             $"CHEXIT({lookbackPeriods},{multiplier},{typeName})");
+
+        // Initialize internal ATR hub to maintain streaming state
+        atrHub = provider.ToAtrHub(lookbackPeriods);
 
         Reinitialize();
     }
@@ -67,15 +71,19 @@ public class ChandelierHub
             return (new ChandelierResult(item.Timestamp, null), i);
         }
 
-        // calculate ATR using the full series up to this point
-        // this ensures correctness even after insertions/removals
-        List<QuoteD> quotesForAtr = ProviderCache
-            .Take(i + 1)
-            .Select(q => q.ToQuoteD())
-            .ToList();
+        // use cached ATR result from internal hub (O(1) lookup)
+        // System invariant: atrHub.Results[i] must exist because atrHub subscribes
+        // to the same provider and processes updates synchronously before this hub.
+        // This bounds check defends against edge cases during initialization/rebuild.
+        if (i >= atrHub.Results.Count)
+        {
+            throw new InvalidOperationException(
+                $"ATR hub synchronization error: expected ATR result at index {i}, "
+                + $"but atrHub.Results.Count is {atrHub.Results.Count}. "
+                + "This indicates a state synchronization issue between chained hubs.");
+        }
 
-        List<AtrResult> atrResults = quotesForAtr.CalcAtr(LookbackPeriods);
-        double? atr = atrResults[i].Atr;
+        double? atr = atrHub.Results[i].Atr;
 
         if (atr is null)
         {
