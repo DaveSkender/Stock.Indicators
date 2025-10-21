@@ -14,6 +14,7 @@ public class StochHub
     private readonly RollingWindowMax<double> _highWindow;
     private readonly RollingWindowMin<double> _lowWindow;
     private readonly Queue<double> _rawKBuffer;
+    private int _lastProcessedIndex = -1;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="StochHub"/> class.
@@ -106,13 +107,38 @@ public class StochHub
         ArgumentNullException.ThrowIfNull(item);
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
-        // Add current high/low to rolling windows - O(1) amortized operation
         double high = (double)item.High;
         double low = (double)item.Low;
         double close = (double)item.Close;
 
-        _highWindow.Add(high);
-        _lowWindow.Add(low);
+        // Detect if we need to rebuild window state (e.g., after Insert/Remove operations)
+        // Check if we're processing sequentially or if there was a cache modification
+        bool needsRebuild = (i != _lastProcessedIndex + 1) && (_lastProcessedIndex != -1);
+
+        if (needsRebuild)
+        {
+            // Rebuild windows from ProviderCache after Insert/Remove
+            // Note: rawK buffer will be rebuilt incrementally as we process each quote
+            _highWindow.Clear();
+            _lowWindow.Clear();
+            _rawKBuffer.Clear();
+
+            int startIdx = Math.Max(0, i + 1 - LookbackPeriods);
+            for (int p = startIdx; p <= i; p++)
+            {
+                _highWindow.Add((double)ProviderCache[p].High);
+                _lowWindow.Add((double)ProviderCache[p].Low);
+            }
+        }
+        else
+        {
+            // Normal incremental update - O(1) amortized operation
+            // Using monotonic deque pattern eliminates nested O(n) linear scans
+            _highWindow.Add(high);
+            _lowWindow.Add(low);
+        }
+
+        _lastProcessedIndex = i;
 
         // Calculate raw %K oscillator
         double rawK = double.NaN;
@@ -134,6 +160,7 @@ public class StochHub
         }
 
         // Add raw K to buffer for smoothing calculation
+        // Buffering eliminates O(n²) recalculation in SMA smoothing
         _rawKBuffer.Enqueue(rawK);
         if (_rawKBuffer.Count > SmoothPeriods)
         {

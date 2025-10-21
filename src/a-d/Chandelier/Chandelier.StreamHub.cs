@@ -10,6 +10,7 @@ public class ChandelierHub
     private readonly AtrHub atrHub;
     private readonly RollingWindowMax<double> _highWindow;
     private readonly RollingWindowMin<double> _lowWindow;
+    private int _lastProcessedIndex = -1;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ChandelierHub"/> class.
@@ -71,9 +72,32 @@ public class ChandelierHub
         ArgumentNullException.ThrowIfNull(item);
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
-        // Add current high/low to rolling windows - O(1) amortized operation
-        _highWindow.Add((double)item.High);
-        _lowWindow.Add((double)item.Low);
+        // Detect if we need to rebuild window state (e.g., after Insert/Remove operations)
+        // Check if we're processing sequentially or if there was a cache modification
+        bool needsRebuild = (i != _lastProcessedIndex + 1) && (_lastProcessedIndex != -1);
+
+        if (needsRebuild)
+        {
+            // Rebuild windows from ProviderCache after Insert/Remove
+            _highWindow.Clear();
+            _lowWindow.Clear();
+
+            int startIdx = Math.Max(0, i + 1 - LookbackPeriods);
+            for (int p = startIdx; p <= i; p++)
+            {
+                _highWindow.Add((double)ProviderCache[p].High);
+                _lowWindow.Add((double)ProviderCache[p].Low);
+            }
+        }
+        else
+        {
+            // Normal incremental update - O(1) amortized operation
+            // Using monotonic deque pattern eliminates O(n) linear scans on every quote
+            _highWindow.Add((double)item.High);
+            _lowWindow.Add((double)item.Low);
+        }
+
+        _lastProcessedIndex = i;
 
         // handle warmup periods
         if (i < LookbackPeriods)
