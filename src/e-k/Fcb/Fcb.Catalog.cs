@@ -20,6 +20,15 @@ public static partial class Fcb
             .WithStyle(Style.Series)
             .Build();
 
-    // No StreamListing for FCB.
-    // No BufferListing for FCB.
+    // FCB Stream Listing
+    internal static readonly IndicatorListing StreamListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Stream)
+            .Build();
+
+    // FCB Buffer Listing
+    internal static readonly IndicatorListing BufferListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Buffer)
+            .Build();
 }

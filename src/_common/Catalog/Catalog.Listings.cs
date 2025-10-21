@@ -165,10 +165,14 @@ public static partial class Catalog
         _listings.Add(Epma.StreamListing);
 
         // FCB (Fractal Chaos Bands)
+        _listings.Add(Fcb.BufferListing);
         _listings.Add(Fcb.SeriesListing);
+        _listings.Add(Fcb.StreamListing);
 
         // Fisher Transform
         _listings.Add(FisherTransform.SeriesListing);
+        _listings.Add(FisherTransform.StreamListing);
+        _listings.Add(FisherTransform.BufferListing);
 
         // Force Index
         _listings.Add(ForceIndex.SeriesListing);
