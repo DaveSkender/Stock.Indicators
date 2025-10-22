@@ -5,7 +5,8 @@ namespace Skender.Stock.Indicators;
 /// </summary>
 public class AlligatorList : BufferList<AlligatorResult>, IIncrementFromChain, IAlligator
 {
-    private readonly Queue<double> _inputBuffer;
+    // Use List for O(1) indexing instead of Queue which requires O(n) ElementAt()
+    private readonly List<double> _inputBuffer;
     private readonly Queue<double> _jawBuffer;
     private readonly Queue<double> _teethBuffer;
     private readonly Queue<double> _lipsBuffer;
@@ -48,11 +49,12 @@ public class AlligatorList : BufferList<AlligatorResult>, IIncrementFromChain, I
         LipsOffset = lipsOffset;
 
         // Input buffer needs to store enough history for the largest (periods + offset)
+        // Using List for O(1) indexing instead of Queue
         int maxBuffer = Math.Max(
             jawPeriods + jawOffset,
             Math.Max(teethPeriods + teethOffset, lipsPeriods + lipsOffset));
 
-        _inputBuffer = new Queue<double>(maxBuffer);
+        _inputBuffer = new List<double>(maxBuffer);
         _jawBuffer = new Queue<double>(jawPeriods);
         _teethBuffer = new Queue<double>(teethPeriods);
         _lipsBuffer = new Queue<double>(lipsPeriods);
@@ -109,11 +111,18 @@ public class AlligatorList : BufferList<AlligatorResult>, IIncrementFromChain, I
     /// <param name="value">The value to add.</param>
     public void Add(DateTime timestamp, double value)
     {
-        // Use BufferUtilities extension method for consistent buffer management
+        // Add to input buffer (List for O(1) indexing)
         int maxNeeded = Math.Max(
             JawPeriods + JawOffset,
             Math.Max(TeethPeriods + TeethOffset, LipsPeriods + LipsOffset));
-        _inputBuffer.Update(maxNeeded, value);
+
+        _inputBuffer.Add(value);
+
+        // Keep buffer size bounded - remove oldest value if we exceed capacity
+        if (_inputBuffer.Count > maxNeeded)
+        {
+            _inputBuffer.RemoveAt(0);
+        }
 
         _count++;
 
@@ -125,8 +134,8 @@ public class AlligatorList : BufferList<AlligatorResult>, IIncrementFromChain, I
         // Start adding offset values to buffer when we have enough history
         if (_count > JawOffset)
         {
-            // Get the value from JawOffset positions ago
-            double offsetValue = _inputBuffer.ElementAt(_inputBuffer.Count - 1 - JawOffset);
+            // Get the value from JawOffset positions ago (O(1) indexing with List)
+            double offsetValue = _inputBuffer[_inputBuffer.Count - 1 - JawOffset];
 
             // Use BufferUtilities extension method with dequeue tracking for running sum maintenance
             double? removed = _jawBuffer.UpdateWithDequeue(JawPeriods, offsetValue);
@@ -159,7 +168,7 @@ public class AlligatorList : BufferList<AlligatorResult>, IIncrementFromChain, I
         // Calculate Teeth (SMMA with offset)
         if (_count > TeethOffset)
         {
-            double offsetValue = _inputBuffer.ElementAt(_inputBuffer.Count - 1 - TeethOffset);
+            double offsetValue = _inputBuffer[_inputBuffer.Count - 1 - TeethOffset];
 
             // Use BufferUtilities extension method with dequeue tracking for running sum maintenance
             double? removed = _teethBuffer.UpdateWithDequeue(TeethPeriods, offsetValue);
@@ -186,7 +195,7 @@ public class AlligatorList : BufferList<AlligatorResult>, IIncrementFromChain, I
         // Calculate Lips (SMMA with offset)
         if (_count > LipsOffset)
         {
-            double offsetValue = _inputBuffer.ElementAt(_inputBuffer.Count - 1 - LipsOffset);
+            double offsetValue = _inputBuffer[_inputBuffer.Count - 1 - LipsOffset];
 
             // Use BufferUtilities extension method with dequeue tracking for running sum maintenance
             double? removed = _lipsBuffer.UpdateWithDequeue(LipsPeriods, offsetValue);
