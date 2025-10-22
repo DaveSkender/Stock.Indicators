@@ -62,7 +62,7 @@ public sealed class RollingWindowMax<T> where T : IComparable<T>
     public void Add(T value)
     {
         // Reject NaN values to keep the deque invariant.
-        ValidateFiniteValue(value);
+        ValidateNotNaN(value);
 
         // Add to window
         _window.Enqueue(value);
@@ -98,7 +98,7 @@ public sealed class RollingWindowMax<T> where T : IComparable<T>
         _deque.Clear();
     }
 
-    private static void ValidateFiniteValue(T value)
+    private static void ValidateNotNaN(T value)
     {
         if (value is double d && double.IsNaN(d))
         {

@@ -17,7 +17,7 @@ Configuration for AI behavior when interacting with Codacy's MCP Server
 
 ## CRITICAL: After ANY successful `edit_file` or `reapply` operation
 
-- For complex or significant files changes run the `codacy_cli_analyze` tool from Codacy's MCP Server for each file that was edited before finishing your turn, with:
+- For complex or significant file changes run the `codacy_cli_analyze` tool from Codacy's MCP Server for each file that was edited before finishing your turn, with:
   - `rootPath`: set to the workspace path
   - `file`: set to the path of the edited file
   - `tool`: leave empty or unset
