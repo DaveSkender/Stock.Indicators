@@ -240,7 +240,8 @@
         "kind": "test",
         "isDefault": true
       },
-      "problemMatcher": "$msCompile"
+      "problemMatcher": "$msCompile",
+      "presentation": { "clear": true }
     },
     {
       "label": "Test: Regression tests",
@@ -248,7 +249,8 @@
       "type": "shell",
       "command": "dotnet test tests/indicators/Tests.Indicators.csproj --no-restore --nologo --settings tests/tests.regression.runsettings",
       "group": "test",
-      "problemMatcher": "$msCompile"
+      "problemMatcher": "$msCompile",
+      "presentation": { "clear": true }
     },
     {
       "label": "Test: Integration",
@@ -256,7 +258,8 @@
       "type": "shell",
       "command": "dotnet test tests/integration/Tests.Integration.csproj --no-restore --nologo && dotnet test tests/public-api/Tests.PublicApi.csproj --no-restore --nologo",
       "group": "test",
-      "problemMatcher": "$msCompile"
+      "problemMatcher": "$msCompile",
+      "presentation": { "clear": true }
     },
     {
       "label": "Test: All tests",
@@ -264,7 +267,8 @@
       "type": "shell",
       "command": "dotnet test --no-restore --nologo",
       "group": "test",
-      "problemMatcher": "$msCompile"
+      "problemMatcher": "$msCompile",
+      "presentation": { "clear": true }
     },
     {
       "label": "Test: Unit tests with coverage",
@@ -272,7 +276,8 @@
       "type": "npm",
       "script": "test:coverage",
       "group": "test",
-      "problemMatcher": "$msCompile"
+      "problemMatcher": "$msCompile",
+      "presentation": { "clear": true }
     },
     {
       "label": "Test: Performance (all)",
