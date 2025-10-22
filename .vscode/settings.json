@@ -1,21 +1,39 @@
 {
+  "chat.promptFilesRecommendations": {
+    "speckit.tasks": true,
+    "speckit.implement": true
+  },
+  "chat.tools.terminal.autoApprove": {
+    ".specify/scripts/bash/": true,
+    ".specify/scripts/ps/": true
+  },
+  "chat.useNestedAgentsMdFiles": true,
+  "codacy.guardrails.instructionsFile": "manual",
   "dotnet.defaultSolution": "Stock.Indicators.sln",
   "files.encoding": "utf8",
   "files.eol": "\n",
   "files.insertFinalNewline": true,
   "files.trimFinalNewlines": false,
+  "files.associations": {
+    "*.md": "markdown"
+  },
   "githubPullRequests.ignoredPullRequestBranches": [
     "v3"
   ],
-  "markdownlint.config": {
-    "MD033": false, // no-inline-html
-    "MD025": false  // single-title/single-h1 --> fails with front-matter
-  },
   "search.exclude": {
     "**/_site/**": true,
+    "**/vendor/**": true,
+    "**/node_modules/**": true,
+    "**/_testdata/**": true,
     "**/.vs/**": true,
     "**/bin/**": true,
     "**/obj/**": true,
-    "**/TestResults/**": true
+    "**/TestResults/**": true,
+    "**/*.csproj.user": true,
+    "**/*.log": true,
+    "**/*.tmp": true
+  },
+  "[markdown]": {
+    "editor.defaultFormatter": "DavidAnson.vscode-markdownlint",
   }
 }

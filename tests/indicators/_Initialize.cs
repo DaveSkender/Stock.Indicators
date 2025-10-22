@@ -1,13 +1,9 @@
 using System.Globalization;
 using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Runtime.Versioning;
 
-// GLOBALS & INITIALIZATION OF TEST DATA
+// INITIALIZATION OF TEST DATA
 
-[assembly: CLSCompliant(true)]
-[assembly: InternalsVisibleTo("Tests.Other")]
-[assembly: InternalsVisibleTo("Tests.Performance")]
 namespace Tests.Common;
 
 /// <summary>
