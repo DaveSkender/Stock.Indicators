@@ -35,6 +35,7 @@
       },
       "extensions": [
         "bierner.github-markdown-preview",
+        "CodeRabbit.coderabbit-vscode",
         "DavidAnson.vscode-markdownlint",
         "DotJoshJohnson.xml",
         "EditorConfig.EditorConfig",

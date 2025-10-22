@@ -1,11 +1,19 @@
 {
+  "$schema":"https://www.schemastore.org/package",
   "name": "stock-indicators",
   "description": "Stock Indicators for .NET",
-  "author": "Dave Skender",
+  "homepage": "https://stockindicators.dev",
+  "fundingUrl":"https://github.com/sponsors/facioquo",
+  "author": {
+    "name": "FacioQuo",
+    "url": "https://github.com/facioquo"
+  },
   "license": "Apache-2.0",
   "private": false,
+  "packageManager": "npm@11.6.2",
   "engines": {
-    "node": ">=22"
+    "node": ">=22.21.0",
+    "npm": ">=11.6.2"
   },
   "scripts": {
     "clean": "npx rimraf -g \"**/bin\" \"**/obj\" \"**/TestResults\" \"**/vendor\" \"**/_site\" \"**/BenchmarkDotNet.Artifacts\" \".codacy\" \"node_modules\" \"**/node_modules\"",
