@@ -11,7 +11,7 @@ reviews:
   review_status: true
   commit_status: true
   fail_commit_status: false
-  request_changes_workflow: false
+  request_changes_workflow: true
   in_progress_fortune: false
 
   high_level_summary: false
@@ -35,14 +35,7 @@ reviews:
     enabled: true
     drafts: false
     base_branches:
-      - main
-      - v*
-  # Exclude [bot] from triggering
-  # since CodeRabbit skips them anyway
-    ignore_usernames:
-      - "copilot[bot]"
-      - "github-copilot[bot]"
-      - "github-actions[bot]"
+      - ".*"
 
   # Code enhancement features
   finishing_touches:
@@ -60,29 +53,27 @@ reviews:
     issue_assessment:             # Linked issue assessment (default: warning)
       mode: off
     title:                        # PR title validation (default: warning)
-      mode: "warning"
-      requirements: |
-        PR titles must follow the Conventional Commit format `type: Subject`, where `type` is one of {feat, fix, docs, style, refactor, perf, test, build, ci, chore, revert, plan} and `Subject` starts uppercase and stays ≤ 65 characters.
+      mode: off
 
   # Files to include/exclude from reviews
   path_filters:
-    - "**"                  # Include all (base)
-    - "!.specify/"          # Spec Kit (except memory)
-    - ".specify/memory/**"  # (keep memory)
+    - "**"                    # Include all (base)
+    - "!.specify/scripts/"    # Spec Kit (except memory)
+    - "!.specify/templates/"  # Spec Kit (except memory)
     - "!.github/prompts/speckit.*"  # Spec Kit prompts
     - "!**/_testdata/**/*.csv"      # Test data
     - "!**/_testdata/**/*.json"     # Test data
-    - "!node_modules/"      # NPM dependencies
-    - "!*-lock.json"        # NPM/PNPM lock files
-    - "!packages/"          # NuGet packages cache
-    - "!.jekyll-cache/"     # Jekyll cache
-    - "!vendor/"            #  and gem files
-    - "!Gemfile.lock"       # Ruby dependencies lock
-    - "!bin/"               # .NET build output
-    - "!obj/"               # .NET build intermediate files
-    - "!*.g.cs"             # Generated source files
-    - "!*.xlsx"             # Manual calculation spreadsheets
-    - "!*.bak"              # Backup files
+    - "!node_modules/"        # NPM dependencies
+    - "!*-lock.json"          # NPM/PNPM lock files
+    - "!packages/"            # NuGet packages cache
+    - "!.jekyll-cache/"       # Jekyll cache
+    - "!vendor/"              #  and gem files
+    - "!Gemfile.lock"         # Ruby dependencies lock
+    - "!bin/"                 # .NET build output
+    - "!obj/"                 # .NET build intermediate files
+    - "!*.g.cs"               # Generated source files
+    - "!*.xlsx"               # Manual calculation spreadsheets
+    - "!*.bak"                # Backup files
 
   # Path-based configuration
   path_instructions:
@@ -203,7 +194,7 @@ reviews:
       enabled: true
     github-checks:
       enabled: true
-      timeout_ms: 120000
+      timeout_ms: 400000
     eslint:
       enabled: false
     ruff:
