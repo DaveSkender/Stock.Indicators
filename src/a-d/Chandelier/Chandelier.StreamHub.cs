@@ -76,26 +76,7 @@ public class ChandelierHub
         // Check if we're processing sequentially or if there was a cache modification
         bool needsRebuild = (i != _lastProcessedIndex + 1) && (_lastProcessedIndex != -1);
 
-        if (needsRebuild)
-        {
-            // Rebuild windows from ProviderCache after Insert/Remove
-            _highWindow.Clear();
-            _lowWindow.Clear();
-
-            int startIdx = Math.Max(0, i + 1 - LookbackPeriods);
-            for (int p = startIdx; p <= i; p++)
-            {
-                _highWindow.Add((double)ProviderCache[p].High);
-                _lowWindow.Add((double)ProviderCache[p].Low);
-            }
-        }
-        else
-        {
-            // Normal incremental update - O(1) amortized operation
-            // Using monotonic deque pattern eliminates O(n) linear scans on every quote
-            _highWindow.Add((double)item.High);
-            _lowWindow.Add((double)item.Low);
-        }
+        RefreshWindowState(item, needsRebuild, i);
 
         _lastProcessedIndex = i;
 
@@ -104,6 +85,8 @@ public class ChandelierHub
         {
             return (new ChandelierResult(item.Timestamp, null), i);
         }
+
+        EnsureWindowsPrimed();
 
         // use cached ATR result from internal hub (O(1) lookup)
         // System invariant: atrHub.Results[i] must exist because atrHub subscribes
@@ -136,6 +119,62 @@ public class ChandelierHub
             ChandelierExit: exit);
 
         return (r, i);
+    }
+
+    private static void ValidateFinite(double value, string paramName, DateTime timestamp)
+    {
+        if (!double.IsFinite(value))
+        {
+            string message = FormattableString.Invariant(
+                $"Quote at {timestamp:O} contains a non-finite {paramName} value.");
+            throw new InvalidQuotesException(paramName, value, message);
+        }
+    }
+
+    private void RefreshWindowState(IQuote item, bool needsRebuild, int index)
+    {
+        if (!needsRebuild)
+        {
+            AddCurrentQuoteToWindows(item);
+            return;
+        }
+
+        _highWindow.Clear();
+        _lowWindow.Clear();
+
+        int startIdx = Math.Max(0, index + 1 - LookbackPeriods);
+        for (int p = startIdx; p <= index; p++)
+        {
+            IQuote quote = ProviderCache[p];
+            double cachedHigh = (double)quote.High;
+            double cachedLow = (double)quote.Low;
+            ValidateFinite(cachedHigh, nameof(IQuote.High), quote.Timestamp);
+            ValidateFinite(cachedLow, nameof(IQuote.Low), quote.Timestamp);
+
+            _highWindow.Add(cachedHigh);
+            _lowWindow.Add(cachedLow);
+        }
+    }
+
+    private void AddCurrentQuoteToWindows(IQuote item)
+    {
+        double high = (double)item.High;
+        double low = (double)item.Low;
+        ValidateFinite(high, nameof(IQuote.High), item.Timestamp);
+        ValidateFinite(low, nameof(IQuote.Low), item.Timestamp);
+
+        // Normal incremental update - O(1) amortized operation
+        // Using monotonic deque pattern eliminates O(n) linear scans on every quote
+        _highWindow.Add(high);
+        _lowWindow.Add(low);
+    }
+
+    private void EnsureWindowsPrimed()
+    {
+        if (_highWindow.Count < LookbackPeriods || _lowWindow.Count < LookbackPeriods)
+        {
+            throw new InvalidOperationException("Rolling window did not accumulate the expected number of periods.");
+        }
     }
 }
 

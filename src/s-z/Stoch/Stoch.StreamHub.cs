@@ -110,6 +110,9 @@ public class StochHub
         double high = (double)item.High;
         double low = (double)item.Low;
         double close = (double)item.Close;
+        ValidateFinite(high, nameof(IQuote.High), item.Timestamp);
+        ValidateFinite(low, nameof(IQuote.Low), item.Timestamp);
+        ValidateFinite(close, nameof(IQuote.Close), item.Timestamp);
 
         // Detect if we need to rebuild window state (e.g., after Insert/Remove operations)
         // Check if we're processing sequentially or if there was a cache modification
@@ -126,8 +129,14 @@ public class StochHub
             int startIdx = Math.Max(0, i + 1 - LookbackPeriods);
             for (int p = startIdx; p <= i; p++)
             {
-                _highWindow.Add((double)ProviderCache[p].High);
-                _lowWindow.Add((double)ProviderCache[p].Low);
+                IQuote quote = ProviderCache[p];
+                double cachedHigh = (double)quote.High;
+                double cachedLow = (double)quote.Low;
+                ValidateFinite(cachedHigh, nameof(IQuote.High), quote.Timestamp);
+                ValidateFinite(cachedLow, nameof(IQuote.Low), quote.Timestamp);
+
+                _highWindow.Add(cachedHigh);
+                _lowWindow.Add(cachedLow);
             }
         }
         else
@@ -149,6 +158,11 @@ public class StochHub
 
             if (isViable)
             {
+                if (_highWindow.Count == 0 || _lowWindow.Count == 0)
+                {
+                    throw new InvalidOperationException("Rolling window is empty when calculating %K.");
+                }
+
                 // Use O(1) max/min retrieval from rolling windows
                 double highHigh = _highWindow.Max;
                 double lowLow = _lowWindow.Min;
@@ -285,6 +299,16 @@ public class StochHub
             PercentJ: percentJ.NaN2Null());
 
         return (result, i);
+    }
+
+    private static void ValidateFinite(double value, string paramName, DateTime timestamp)
+    {
+        if (!double.IsFinite(value))
+        {
+            string message = FormattableString.Invariant(
+                $"Quote at {timestamp:O} contains a non-finite {paramName} value.");
+            throw new InvalidQuotesException(paramName, value, message);
+        }
     }
 
     #endregion

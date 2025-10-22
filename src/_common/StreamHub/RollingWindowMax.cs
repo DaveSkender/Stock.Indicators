@@ -41,7 +41,9 @@ public sealed class RollingWindowMax<T> where T : IComparable<T>
     /// <value>
     /// The maximum value, or default(T) if the window is empty.
     /// </value>
-    public T Max => _deque.Count > 0 ? _deque.First!.Value : default!;
+    public T Max => _deque.Count == 0
+        ? throw new InvalidOperationException("Cannot retrieve maximum from an empty rolling window.")
+        : _deque.First!.Value;
 
     /// <summary>
     /// Gets the current number of elements in the rolling window.
@@ -59,6 +61,9 @@ public sealed class RollingWindowMax<T> where T : IComparable<T>
     /// </remarks>
     public void Add(T value)
     {
+        // Reject NaN values to keep the deque invariant.
+        ValidateFiniteValue(value);
+
         // Add to window
         _window.Enqueue(value);
 
@@ -91,5 +96,18 @@ public sealed class RollingWindowMax<T> where T : IComparable<T>
     {
         _window.Clear();
         _deque.Clear();
+    }
+
+    private static void ValidateFiniteValue(T value)
+    {
+        if (value is double d && double.IsNaN(d))
+        {
+            throw new ArgumentException("Rolling window cannot accept NaN values.", nameof(value));
+        }
+
+        if (value is float f && float.IsNaN(f))
+        {
+            throw new ArgumentException("Rolling window cannot accept NaN values.", nameof(value));
+        }
     }
 }
