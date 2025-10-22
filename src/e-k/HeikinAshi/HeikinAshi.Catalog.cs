@@ -28,5 +28,9 @@ public static partial class HeikinAshi
             .WithStyle(Style.Buffer)
             .Build();
 
-    // No StreamListing for HEIKINASHI.
+    // HEIKINASHI Stream Listing
+    internal static readonly IndicatorListing StreamListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Stream)
+            .Build();
 }

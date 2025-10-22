@@ -12,5 +12,5 @@ public class DynamicTests : RegressionTestBase<DynamicResult>
     public override void Buffer() => new DynamicList(14, 0.6, Quotes).AssertEquals(Expected);
 
     [TestMethod]
-    public override void Stream() => Assert.Inconclusive("Stream implementation not yet available");
+    public override void Stream() => Quotes.ToDynamicHub(14, 0.6).Results.AssertEquals(Expected);
 }

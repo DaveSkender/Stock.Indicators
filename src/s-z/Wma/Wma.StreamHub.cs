@@ -43,7 +43,35 @@ public class WmaHub
         ArgumentNullException.ThrowIfNull(item);
         int index = indexHint ?? ProviderCache.IndexOf(item, true);
 
-        double wma = Wma.Increment(ProviderCache, LookbackPeriods, index);
+        // Calculate WMA efficiently using a rolling window over ProviderCache
+        // This is O(lookbackPeriods) which is constant for a given configuration
+        // and maintains exact precision with Series implementation
+        double wma = double.NaN;
+
+        if (index >= LookbackPeriods - 1)
+        {
+            double divisor = (double)LookbackPeriods * (LookbackPeriods + 1) / 2d;
+            double weightedSum = 0d;
+            int weight = 1;
+
+            for (int i = index - LookbackPeriods + 1; i <= index; i++)
+            {
+                double value = ProviderCache[i].Value;
+                if (double.IsNaN(value))
+                {
+                    wma = double.NaN;
+                    break;
+                }
+
+                weightedSum += value * weight / divisor;
+                weight++;
+            }
+
+            if (!double.IsNaN(weightedSum))
+            {
+                wma = weightedSum;
+            }
+        }
 
         WmaResult result = new(
             Timestamp: item.Timestamp,

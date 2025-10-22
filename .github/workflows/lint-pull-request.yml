@@ -1,7 +1,10 @@
-name: Pull request
+name: Lint pull request
 
 on:
   pull_request_target:
+    branches:
+      - "main"
+      - "v[0-9]*"
     types:
       - opened
       - edited
@@ -17,8 +20,7 @@ permissions:
   pull-requests: write
 
 jobs:
-  main:
-    name: lint PR title
+  lint:
     runs-on: ubuntu-latest
     if: ${{ !github.event.pull_request.draft }}
 

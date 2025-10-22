@@ -26,16 +26,16 @@ jobs:
         continue-on-error: true
 
       - name: Setup Ruby
-        uses: ruby/setup-ruby@v1
+        uses: ruby/setup-ruby@v1.265.0
         with:
           ruby-version: 3.3
           bundler-cache: true
           working-directory: docs
 
       - name: Setup Node.js
-        uses: actions/setup-node@v5
+        uses: actions/setup-node@v6
         with:
-          node-version: ">=22"
+          node-version: ">=22.21.0"
           cache: "npm"
           cache-dependency-path: package-lock.json
         continue-on-error: true
