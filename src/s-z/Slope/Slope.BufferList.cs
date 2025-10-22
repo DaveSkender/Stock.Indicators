@@ -9,6 +9,9 @@ public class SlopeList : BufferList<SlopeResult>, IIncrementFromChain
     private readonly int lookbackPeriods;
     private int globalIndexOffset; // Tracks how many items have been removed from the beginning
 
+    // Pre-calculated constant for X variance (sequential integers)
+    private readonly double sumSqXConstant;
+
     /// <summary>
     /// Initializes a new instance of the <see cref="SlopeList"/> class.
     /// </summary>
@@ -20,6 +23,11 @@ public class SlopeList : BufferList<SlopeResult>, IIncrementFromChain
         LookbackPeriods = lookbackPeriods;
         buffer = new Queue<double>(lookbackPeriods);
         globalIndexOffset = 0;
+
+        // Pre-calculate constant sumSqX for sequential X values
+        // When X values are [x, x+1, ..., x+n-1], avgX = x + (n-1)/2
+        // Sum of (Xi - avgX)^2 = n*(n^2 - 1)/12
+        sumSqXConstant = lookbackPeriods * (lookbackPeriods * lookbackPeriods - 1) / 12.0;
     }
 
     /// <summary>
@@ -52,47 +60,46 @@ public class SlopeList : BufferList<SlopeResult>, IIncrementFromChain
         // The current global index (0-based, but we use 1-based for X values)
         int currentIndex = globalIndexOffset + Count;
 
-        // Calculate slope and related metrics using indices from the window
-        double sumX = 0;
-        double sumY = 0;
-        int relativeIndex = 0;
-
-        // Get averages for period
-        // X values are global indices + 1: (currentIndex - lookbackPeriods + 2) to (currentIndex + 1)
-        foreach (double bufferValue in buffer)
-        {
-            int globalIndex = currentIndex - lookbackPeriods + 1 + relativeIndex;
-            sumX += globalIndex + 1d;
-            sumY += bufferValue;
-            relativeIndex++;
-        }
-
+        // Calculate X values mathematically (sequential integers)
+        // X values are: (currentIndex - lookbackPeriods + 2) to (currentIndex + 1)
+        double firstX = currentIndex - lookbackPeriods + 2d;
+        double sumX = lookbackPeriods * firstX + (lookbackPeriods * (lookbackPeriods - 1) / 2.0);
         double avgX = sumX / lookbackPeriods;
-        double avgY = sumY / lookbackPeriods;
 
-        // Least squares method
-        double sumSqX = 0;
+        // Calculate sums for least squares method - optimized to single pass
+        // Calculate sumY, sumSqY, and sumSqXy in one iteration
+        double sumY = 0;
         double sumSqY = 0;
         double sumSqXy = 0;
-        relativeIndex = 0;
+        int relativeIndex = 0;
 
+        // First pass: get sumY to calculate avgY
         foreach (double bufferValue in buffer)
         {
-            int globalIndex = currentIndex - lookbackPeriods + 1 + relativeIndex;
-            double devX = (globalIndex + 1d) - avgX;
+            sumY += bufferValue;
+        }
+
+        double avgY = sumY / lookbackPeriods;
+
+        // Second pass: calculate deviations and their products
+        relativeIndex = 0;
+        foreach (double bufferValue in buffer)
+        {
+            double xValue = firstX + relativeIndex;
+            double devX = xValue - avgX;
             double devY = bufferValue - avgY;
 
-            sumSqX += devX * devX;
             sumSqY += devY * devY;
             sumSqXy += devX * devY;
             relativeIndex++;
         }
 
-        double? slope = (sumSqXy / sumSqX).NaN2Null();
+        // Use pre-calculated constant for sumSqX
+        double? slope = (sumSqXy / sumSqXConstant).NaN2Null();
         double? intercept = (avgY - (slope * avgX)).NaN2Null();
 
         // Calculate Standard Deviation and R-Squared
-        double stdDevX = Math.Sqrt(sumSqX / lookbackPeriods);
+        double stdDevX = Math.Sqrt(sumSqXConstant / lookbackPeriods);
         double stdDevY = Math.Sqrt(sumSqY / lookbackPeriods);
 
         double? rSquared = null;
@@ -161,6 +168,7 @@ public class SlopeList : BufferList<SlopeResult>, IIncrementFromChain
     /// <summary>
     /// Updates Line values for the last lookbackPeriods results using the most recent slope/intercept.
     /// This is legitimate historical repaint behavior matching the Series implementation.
+    /// Optimized: Only updates the necessary items to minimize overhead.
     /// </summary>
     private void UpdateLineValues()
     {
@@ -173,18 +181,20 @@ public class SlopeList : BufferList<SlopeResult>, IIncrementFromChain
         // Get the most recent result (just added) which has the current slope/intercept
         SlopeResult lastResult = this[Count - 1];
 
-        // First, nullify Line for all results that are NOT in the last lookbackPeriods
-        for (int p = 0; p < Count - lookbackPeriods; p++)
+        // Optimization: Only nullify the one item that just fell out of the window
+        // (when Count > lookbackPeriods, the item at index Count - lookbackPeriods - 1 just left the window)
+        if (Count > lookbackPeriods)
         {
-            SlopeResult existing = this[p];
+            int itemToNullify = Count - lookbackPeriods - 1;
+            SlopeResult existing = this[itemToNullify];
             if (existing.Line is not null)
             {
                 SlopeResult updated = existing with { Line = null };
-                UpdateInternal(p, updated);
+                UpdateInternal(itemToNullify, updated);
             }
         }
 
-        // Then, update Line for the last lookbackPeriods results
+        // Update Line values for the last lookbackPeriods results
         // Using global indices (globalIndex + 1) like the series implementation
         int startIndex = Count - lookbackPeriods;
         for (int p = startIndex; p < Count; p++)
