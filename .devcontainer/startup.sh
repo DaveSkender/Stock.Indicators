@@ -40,7 +40,7 @@ dotnet tool install --global roslynator.dotnet.cli
 dotnet tool install --global dotnet-outdated-tool
 dotnet tool list --global
 
-echo "🧰 Installing UV-based (Python) tools..."
+echo "🧰 Installing UV-based tools..."
 uv tool install --force specify-cli --from git+https://github.com/github/spec-kit.git
 uv tool list
 

@@ -53,18 +53,6 @@ _ReSharper*/
 **/Properties/launchSettings.json
 *.publishsettings
 
-##
-## Python
-##
-__pycache__/
-*.pyc
-*.py[cod]
-*$py.class
-*.egg-info/
-.Python
-venv/
-.venv
-
 # OS artifacts
 .DS_Store
 
