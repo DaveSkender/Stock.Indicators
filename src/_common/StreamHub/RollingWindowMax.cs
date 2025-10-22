@@ -39,12 +39,14 @@ public sealed class RollingWindowMax<T> where T : IComparable<T>
     /// Gets the current maximum value in the rolling window.
     /// </summary>
     /// <value>
-    /// The maximum value, or default(T) if the window is empty.
+    /// The maximum value.
     /// </value>
+    /// <exception cref="InvalidOperationException">
+    /// Thrown if the window is empty.
+    /// </exception>
     public T Max => _deque.Count == 0
         ? throw new InvalidOperationException("Cannot retrieve maximum from an empty rolling window.")
         : _deque.First!.Value;
-
     /// <summary>
     /// Gets the current number of elements in the rolling window.
     /// </summary>
