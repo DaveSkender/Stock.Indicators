@@ -13,8 +13,8 @@ name: Deploy package
 on:
   push:
     branches:
-      - main
-      - "v*"
+      - "main"
+      - "v[0-9]*"
 
   workflow_dispatch:
     inputs:
@@ -238,7 +238,7 @@ jobs:
           dotnet-quality: "ga"
 
       - name: Download package
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           name: packages
           path: NuGet
