@@ -136,7 +136,7 @@ public class KamaTests : TestBase
             .ToList();
 
         // assertions
-        Assert.AreEqual(502 - Math.Max(erPeriods + 100, erPeriods * 10), results.Count);
+        Assert.HasCount(502 - Math.Max(erPeriods + 100, erPeriods * 10), results);
 
         KamaResult last = results.LastOrDefault();
         Assert.AreEqual(0.2214, last.ER.Round(4));

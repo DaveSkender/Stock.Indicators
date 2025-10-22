@@ -100,7 +100,7 @@ public class KeltnerTests : TestBase
             .ToList();
 
         // assertions
-        Assert.AreEqual(502 - Math.Max(2 * n, n + 100), results.Count);
+        Assert.HasCount(502 - Math.Max(2 * n, n + 100), results);
 
         KeltnerResult last = results.LastOrDefault();
         Assert.AreEqual(262.1873, last.UpperBand.Round(4));

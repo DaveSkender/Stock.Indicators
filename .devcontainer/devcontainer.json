@@ -2,21 +2,40 @@
   "name": "Stock Indicators Dev Container",
   "image": "mcr.microsoft.com/dotnet/sdk:9.0",
   "features": {
-    "ghcr.io/devcontainers/features/ruby:1": {},
-    "ghcr.io/devcontainers/features/node:1": {},
-    "ghcr.io/devcontainers-extra/features/uv:1": {},
-    "ghcr.io/devcontainers/features/git:1": {},
-    "ghcr.io/devcontainers/features/github-cli:1": {}
+    "ghcr.io/devcontainers/features/common-utils:2": {
+      "installZsh": true,
+      "installOhMyZsh": true,
+      "configureZshAsDefaultShell": true,
+      "username": "vscode",
+      "upgradePackages": true
+    },
+    "ghcr.io/devcontainers/features/git:1": {
+      "version": "latest",
+      "ppa": true
+    },
+    "ghcr.io/devcontainers/features/ruby:1": {
+      "version": "3.3"
+    },
+    "ghcr.io/devcontainers/features/node:1": {
+      "version": "lts"
+    },
+    "ghcr.io/devcontainers-extra/features/uv:1": {
+      "version": "latest"
+    },
+    "ghcr.io/devcontainers/features/github-cli:1": {
+      "version": "latest"
+    }
   },
   "customizations": {
     "vscode": {
       "settings": {
         "chat.tools.global.autoApprove": true,
         "chat.mcp.autostart": "never",
-        "terminal.integrated.defaultProfile.linux": "bash"
+        "terminal.integrated.defaultProfile.linux": "zsh"
       },
       "extensions": [
         "bierner.github-markdown-preview",
+        "CodeRabbit.coderabbit-vscode",
         "DavidAnson.vscode-markdownlint",
         "DotJoshJohnson.xml",
         "EditorConfig.EditorConfig",
@@ -27,5 +46,6 @@
       ]
     }
   },
-  "postCreateCommand": ".devcontainer/startup.sh"
+  "postCreateCommand": ".devcontainer/startup.sh",
+  "remoteUser": "vscode"
 }

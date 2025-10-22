@@ -32,9 +32,9 @@ jobs:
           dotnet-quality: "ga"
 
       - name: Setup Node.js
-        uses: actions/setup-node@v5
+        uses: actions/setup-node@v6
         with:
-          node-version: ">=22"
+          node-version: ">=22.21.0"
           cache: "npm"
           cache-dependency-path: package-lock.json
 
@@ -67,7 +67,7 @@ jobs:
           --collect:"XPlat Code Coverage"
 
       - name: Post test results
-        uses: dorny/test-reporter@v2.1.0
+        uses: dorny/test-reporter@v2.1.1
         if: always()
         with:
           name: Test results

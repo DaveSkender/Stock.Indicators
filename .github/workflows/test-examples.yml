@@ -3,7 +3,7 @@ name: Examples
 on:
   push:
     branches:
-      - main
+      - "main"
       - "v[0-9]*"
     paths:
       - docs/examples/**

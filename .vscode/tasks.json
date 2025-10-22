@@ -1,43 +1,65 @@
 {
+  // See https://go.microsoft.com/fwlink/?LinkId=733558
+  // Schema: https://code.visualstudio.com/docs/reference/tasks-appendix
+  "$schema": "vscode://schemas/tasks",
   "version": "2.0.0",
+  "inputs": [
+    {
+      "id": "featureDescription",
+      "description": "Enter a brief description of the feature to implement",
+      "default": "New indicator or feature",
+      "type": "promptString"
+    }
+  ],
+  // defaults
+  "presentation": {
+    "echo": true,
+    "reveal": "always",
+    "focus": false,
+    "panel": "shared",
+    "showReuseMessage": false,
+    "clear": false
+  },
+  "problemMatcher": "$msCompile",
+  "options": { "cwd": "${workspaceFolder}" },
+
+  // tasks
   "tasks": [
     {
-      "label": "Install: NPM Packages",
+      "label": "Restore: All dependencies",
+      "detail": "Restore both NPM and .NET packages in parallel",
+      "dependsOn": [
+        "Install: NPM packages",
+        "Restore: .NET packages"
+      ],
+      "dependsOrder": "parallel"
+    },
+    {
+      "label": "Install: NPM packages",
       "detail": "Install root workspace NPM dependencies",
       "type": "shell",
       "command": "npm install",
-      "options": {
-        "cwd": "${workspaceFolder}"
-      },
-      "group": "none",
-      "problemMatcher": [],
+      "problemMatcher": [ "$tsc", "$eslint-stylish" ],
       "presentation": {
         "reveal": "silent",
-        "panel": "dedicated"
+        "revealProblems": "onProblem",
+        "group": "install",
       }
     },
     {
-      "label": "Restore: .NET Packages",
+      "label": "Restore: .NET packages",
       "detail": "Restore NuGet packages for solution",
       "type": "shell",
       "command": "dotnet restore",
-      "options": {
-        "cwd": "${workspaceFolder}"
-      },
-      "group": "none",
-      "problemMatcher": [
-        "$msCompile"
-      ],
+      "problemMatcher": "$msCompile",
       "presentation": {
         "reveal": "silent",
-        "panel": "dedicated"
-      },
-      "runOptions": {
-        "runOn": "folderOpen"
+        "revealProblems": "onProblem",
+        "group": "install",
       }
     },
     {
-      "label": "Install: Ruby Packages",
+      "label": "Install: Ruby packages",
       "detail": "Install Ruby gems for docs site (Jekyll)",
       "type": "shell",
       "command": "bundle install --jobs 4 && bundle clean --force",
@@ -48,15 +70,19 @@
           "BUNDLE_PATH": "${workspaceFolder}/docs/vendor/bundle"
         }
       },
-      "group": "none",
-      "problemMatcher": [],
+      "problemMatcher": {
+        "owner": "bundle",
+        "fileLocation": "relative",
+        "pattern": { "regexp": "^(.*):(\\d+):\\s+(.*)$", "file": 1, "line": 2, "message": 3 }
+      },
       "presentation": {
         "reveal": "silent",
-        "panel": "dedicated"
+        "revealProblems": "onProblem",
+        "group": "install",
       }
     },
     {
-      "label": "Update: Ruby Packages",
+      "label": "Update: Ruby packages",
       "detail": "Update Ruby gems conservatively and clean",
       "type": "shell",
       "command": "bundle lock --add-platform x86_64-linux x64-mingw-ucrt && bundle update --conservative && bundle clean --force",
@@ -67,243 +93,250 @@
           "BUNDLE_PATH": "${workspaceFolder}/docs/vendor/bundle"
         }
       },
-      "group": "none",
-      "problemMatcher": [],
       "presentation": {
         "reveal": "silent",
-        "panel": "dedicated"
+        "revealProblems": "onProblem",
+        "group": "install",
       }
     },
     {
-      "label": "Restore: All Dependencies",
-      "detail": "Restore both NPM and .NET packages in parallel",
-      "dependsOn": [
-        "Install: NPM Packages",
-        "Restore: .NET Packages"
-      ],
-      "dependsOrder": "parallel"
-    },
-    {
-      "label": "Clean: .NET Solution",
+      "label": "Clean: .NET Solution (dotnet clean)",
       "detail": "Clean build outputs (bin/obj) for solution",
       "type": "shell",
       "command": "dotnet clean -v minimal --nologo",
-      "options": {
-        "cwd": "${workspaceFolder}"
-      },
       "group": "build",
-      "problemMatcher": [
-        "$msCompile"
-      ],
+      "problemMatcher": "$msCompile",
       "presentation": {
-        "reveal": "always",
-        "panel": "dedicated",
-        "clear": true
+        "reveal": "silent",
+        "revealProblems": "onProblem",
+        "group": "install",
       }
     },
     {
-      "label": "Clean: Cache Folders",
-      "detail": "Run NPM script clean (cache/temp)",
+      "label": "Delete: Temporary caches",
+      "detail": "Delete bin, obj, and other temp caches",
       "type": "npm",
       "script": "clean",
-      "options": {
-        "cwd": "${workspaceFolder}"
-      },
-      "group": "none",
-      "problemMatcher": [],
+      "problemMatcher": [ "$tsc", "$eslint-stylish" ],
+      "dependsOn": "Install: NPM packages",
       "presentation": {
-        "reveal": "always",
-        "panel": "dedicated"
+        "reveal": "silent",
+        "revealProblems": "onProblem",
+        "group": "install",
       }
     },
     {
-      "label": "Build: .NET Solution",
+      "label": "Build: .NET Solution (incremental)",
       "detail": "Incremental build of solution (default)",
       "type": "shell",
       "command": "dotnet build -v minimal --nologo",
-      "options": {
-        "cwd": "${workspaceFolder}"
-      },
       "group": {
         "kind": "build",
         "isDefault": true
       },
-      "problemMatcher": [
-        "$msCompile"
-      ],
+      "problemMatcher": "$msCompile",
       "presentation": {
-        "reveal": "always",
-        "panel": "dedicated"
+        "reveal": "silent",
+        "revealProblems": "onProblem",
       }
     },
     {
-      "label": "Build: .NET Solution (No Incremental)",
+      "label": "Build: .NET Solution (not incremental)",
       "detail": "Full rebuild without incremental compilation",
       "type": "shell",
       "command": "dotnet build -v minimal --nologo --no-incremental",
-      "options": {
-        "cwd": "${workspaceFolder}"
-      },
       "group": "build",
-      "problemMatcher": [
-        "$msCompile"
-      ],
+      "problemMatcher": "$msCompile",
       "presentation": {
-        "reveal": "always",
-        "panel": "dedicated",
-        "clear": true
+        "reveal": "silent",
+        "revealProblems": "onProblem"
       }
     },
     {
-      "label": "Test: .NET Solution",
-      "detail": "Run all unit tests (no restore)",
+      "label": "Lint: Auto-fix formatting",
+      "detail": "Auto-fix code format and markdown issues",
+      "type": "npm",
+      "script": "fixall",
+      "dependsOn": [
+        "Build: .NET Solution (incremental)"
+      ],
+      "dependsOrder": "sequence",
+      "problemMatcher": [ "$msCompile", "$markdownlint" ]
+    },
+    {
+      "label": "Lint: Roslynator (analyze)",
+      "detail": "Run Roslynator analysis and print diagnostics to console",
       "type": "shell",
-      "command": "dotnet test --no-restore --nologo",
-      "options": {
-        "cwd": "${workspaceFolder}"
-      },
+      "command": "roslynator analyze",
+      "group": "test",
+      "problemMatcher": "$msCompile",
+      "presentation": {
+        "reveal": "always",
+        "revealProblems": "onProblem",
+        "group": "analysis"
+      }
+    },
+    {
+      "label": "Lint: Roslynator (fix)",
+      "detail": "Run Roslynator auto-fix",
+      "type": "shell",
+      "command": "roslynator fix",
+      "dependsOn": [
+        "Build: .NET Solution (incremental)"
+      ],
+      "dependsOrder": "sequence",
+      "group": "test",
+      "problemMatcher": "$msCompile",
+      "presentation": {
+        "reveal": "always",
+        "revealProblems": "onProblem",
+        "group": "analysis"
+      }
+    },
+    {
+      "label": "Lint: .NET code (format check)",
+      "detail": "Verify code formatting and style",
+      "type": "shell",
+      "command": "dotnet format --verify-no-changes --severity info --no-restore",
+      "group": "test",
+      "problemMatcher": "$msCompile",
+      "presentation": {
+        "reveal": "silent",
+        "revealProblems": "onProblem"
+      }
+    },
+    {
+      "label": "Lint: Markdown files",
+      "detail": "Run markdownlint over documentation",
+      "type": "npm",
+      "script": "lint:md",
+      "group": "test",
+      "problemMatcher": "$markdownlint",
+      "presentation": {
+        "reveal": "silent",
+        "revealProblems": "onProblem"
+      }
+    },
+    {
+      "label": "Lint: .NET code & markdown files",
+      "detail": "Run .NET format check and markdown in parallel",
+      "dependsOn": [
+        "Lint: .NET code (format check)",
+        "Lint: Markdown files"
+      ],
+      "dependsOrder": "parallel",
+      "group": "test",
+      "presentation": {
+        "reveal": "silent",
+        "revealProblems": "onProblem"
+      }
+    },
+    {
+      "label": "Test: Unit tests",
+      "detail": "Run unit tests only (excludes integration and regression tests)",
+      "type": "shell",
+      "command": "dotnet test tests/indicators/Tests.Indicators.csproj --no-restore --nologo --settings tests/tests.unit.runsettings",
       "group": {
         "kind": "test",
         "isDefault": true
       },
-      "problemMatcher": [
-        "$msCompile"
-      ],
-      "presentation": {
-        "reveal": "always",
-        "panel": "dedicated"
-      }
+      "problemMatcher": "$msCompile",
+      "presentation": { "clear": true }
     },
     {
-      "label": "Test: Run Tests with Coverage",
+      "label": "Test: Regression tests",
+      "detail": "Run regression tests only (baseline validation)",
+      "type": "shell",
+      "command": "dotnet test tests/indicators/Tests.Indicators.csproj --no-restore --nologo --settings tests/tests.regression.runsettings",
+      "group": "test",
+      "problemMatcher": "$msCompile",
+      "presentation": { "clear": true }
+    },
+    {
+      "label": "Test: Integration",
+      "detail": "Run integration tests only (requires external dependencies)",
+      "type": "shell",
+      "command": "dotnet test tests/integration/Tests.Integration.csproj --no-restore --nologo && dotnet test tests/public-api/Tests.PublicApi.csproj --no-restore --nologo",
+      "group": "test",
+      "problemMatcher": "$msCompile",
+      "presentation": { "clear": true }
+    },
+    {
+      "label": "Test: All tests",
+      "detail": "Run all tests including integration tests",
+      "type": "shell",
+      "command": "dotnet test --no-restore --nologo",
+      "group": "test",
+      "problemMatcher": "$msCompile",
+      "presentation": { "clear": true }
+    },
+    {
+      "label": "Test: Unit tests with coverage",
       "detail": "Run tests with coverage collection (npm script)",
       "type": "npm",
       "script": "test:coverage",
-      "options": {
-        "cwd": "${workspaceFolder}"
-      },
-      "group": {
-        "kind": "test",
-        "isDefault": false
-      },
-      "problemMatcher": [
-        "$msCompile"
-      ],
-      "presentation": {
-        "reveal": "always",
-        "panel": "dedicated"
-      }
+      "group": "test",
+      "problemMatcher": "$msCompile",
+      "presentation": { "clear": true }
     },
     {
-      "label": "Lint: .NET Code (format check)",
-      "detail": "Verify code formatting and style",
+      "label": "Test: Performance (all)",
+      "detail": "Run all BenchmarkDotNet performance tests (Release mode)",
       "type": "shell",
-      "command": "dotnet format --verify-no-changes --severity info --no-restore",
-      "options": {
-        "cwd": "${workspaceFolder}"
-      },
-      "group": "none",
-      "problemMatcher": [
-        "$msCompile"
-      ],
+      "command": "dotnet run --project tools/performance/Tests.Performance.csproj -c Release",
+      "group": "test",
+      "problemMatcher": "$msCompile",
       "presentation": {
-        "reveal": "always",
-        "panel": "dedicated"
+        "clear": true,
+        "panel": "dedicated",
+        "group": "performance"
       }
     },
     {
-      "label": "Lint: Markdown Files",
-      "detail": "Run markdownlint over documentation",
-      "type": "npm",
-      "script": "lint:md",
-      "options": {
-        "cwd": "${workspaceFolder}"
-      },
-      "group": "none",
-      "problemMatcher": [
-        {
-          "owner": "markdownlint",
-          "fileLocation": [
-            "relative",
-            "${workspaceFolder}"
-          ],
-          "pattern": {
-            "regexp": "^(.*\\.md):(\\d+):(\\d+)\\s+([A-Z0-9/\\-]+)\\s+(.*)$",
-            "file": 1,
-            "line": 2,
-            "column": 3,
-            "code": 4,
-            "message": 5
-          }
-        }
-      ],
+      "label": "Test: Performance (Series)",
+      "detail": "Run Series indicator benchmarks only (Release mode)",
+      "type": "shell",
+      "command": "dotnet run --project tools/performance/Tests.Performance.csproj -c Release -- --filter *SeriesIndicators*",
+      "group": "test",
+      "problemMatcher": "$msCompile",
       "presentation": {
-        "echo": true,
-        "reveal": "always",
-        "focus": false,
-        "panel": "shared",
-        "showReuseMessage": true
+        "clear": true,
+        "panel": "dedicated",
+        "group": "performance"
       }
     },
     {
-      "label": "Fix: Run fixall (code & md)",
-      "detail": "Auto-fix code format and markdown issues",
-      "type": "npm",
-      "script": "fixall",
-      "options": {
-        "cwd": "${workspaceFolder}"
-      },
-      "group": "none",
-      "problemMatcher": [
-        "$msCompile",
-        {
-          "owner": "markdownlint",
-          "fileLocation": [
-            "relative",
-            "${workspaceFolder}"
-          ],
-          "pattern": {
-            "regexp": "^(.*\\.md):(\\d+):(\\d+)\\s+([A-Z0-9/\\-]+)\\s+(.*)$",
-            "file": 1,
-            "line": 2,
-            "column": 3,
-            "code": 4,
-            "message": 5
-          }
-        }
-      ],
+      "label": "Test: Performance (Buffer)",
+      "detail": "Run Buffer indicator benchmarks only (Release mode)",
+      "type": "shell",
+      "command": "dotnet run --project tools/performance/Tests.Performance.csproj -c Release -- --filter *BufferIndicators*",
+      "group": "test",
+      "problemMatcher": "$msCompile",
       "presentation": {
-        "reveal": "always",
-        "panel": "dedicated"
+        "clear": true,
+        "panel": "dedicated",
+        "group": "performance"
       }
     },
     {
-      "label": "Run: Doc Site with LiveReload",
+      "label": "Test: Performance (Stream)",
+      "detail": "Run Stream indicator benchmarks only (Release mode)",
+      "type": "shell",
+      "command": "dotnet run --project tools/performance/Tests.Performance.csproj -c Release -- --filter *StreamIndicators*",
+      "group": "test",
+      "problemMatcher": "$msCompile",
+      "presentation": {
+        "clear": true,
+        "panel": "dedicated",
+        "group": "performance"
+      }
+    },
+    {
+      "label": "Run: Doc site with LiveReload",
       "detail": "Serve Jekyll docs site with livereload",
       "type": "shell",
       "command": "bundle exec jekyll serve --livereload --open-url",
-      "dependsOn": "Install: Ruby Packages",
-      "isBackground": true,
-      "options": {
-        "cwd": "${workspaceFolder}/docs",
-        "env": {
-          "BUNDLE_GEMFILE": "${workspaceFolder}/docs/Gemfile",
-          "BUNDLE_PATH": "${workspaceFolder}/docs/vendor/bundle"
-        }
-      },
-      "group": "none",
-      "problemMatcher": [],
-      "presentation": {
-        "reveal": "always",
-        "panel": "dedicated"
-      }
-    },
-    {
-      "label": "Docs: Serve",
-      "detail": "Alias: run docs site (background) with simple readiness matcher",
-      "type": "shell",
-      "command": "bundle exec jekyll serve --livereload",
-      "dependsOn": "Install: Ruby Packages",
+      "dependsOn": "Install: Ruby packages",
       "isBackground": true,
       "options": {
         "cwd": "${workspaceFolder}/docs",
@@ -328,44 +361,96 @@
         }
       },
       "presentation": {
-        "reveal": "always",
+        "clear": true,
         "panel": "dedicated",
-        "clear": true
+        "group": "hosted"
       }
     },
     {
-      "label": "Verify: Code & Docs Lint",
-      "detail": "Run .NET format check and markdown lint sequentially",
-      "dependsOn": [
-        "Lint: .NET Code (format check)",
-        "Lint: Markdown Files"
-      ],
-      "dependsOrder": "sequence",
-      "group": "test",
-      "problemMatcher": [],
-      "presentation": {
-        "reveal": "always",
-        "panel": "shared"
-      }
-    },
-    {
-      "label": "Verify: Build & Test",
-      "detail": "Composite: Restore → Build → Test",
-      "dependsOn": [
-        "Restore: .NET Packages",
-        "Build: .NET Solution",
-        "Test: .NET Solution"
-      ],
-      "dependsOrder": "sequence",
-      "group": {
-        "kind": "test",
-        "isDefault": false
+      "label": "Run: Documentation site (serve)",
+      "detail": "Alias: run docs site (background) with simple readiness matcher",
+      "type": "shell",
+      "command": "bundle exec jekyll serve --livereload",
+      "dependsOn": "Install: Ruby packages",
+      "isBackground": true,
+      "options": {
+        "cwd": "${workspaceFolder}/docs",
+        "env": {
+          "BUNDLE_GEMFILE": "${workspaceFolder}/docs/Gemfile",
+          "BUNDLE_PATH": "${workspaceFolder}/docs/vendor/bundle"
+        }
       },
-      "problemMatcher": [],
+      "problemMatcher": {
+        "owner": "jekyll",
+        "pattern": {
+          "regexp": ".*",
+          "file": 0,
+          "line": 0,
+          "column": 0,
+          "message": 0
+        },
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": ".*Configuration file:.*_config.yml.*",
+          "endsPattern": ".*Server running.*"
+        }
+      },
       "presentation": {
-        "reveal": "always",
-        "panel": "shared"
+        "clear": true,
+        "panel": "dedicated",
+        "group": "hosted"
       }
-    }
+    },
+    {
+      "label": "Run: Test application",
+      "detail": "Run the test application tool (exercises all indicators)",
+      "type": "shell",
+      "command": "dotnet run --project tools/application/Test.Application.csproj",
+      "group": "none",
+      "problemMatcher": "$msCompile",
+      "presentation": {
+        "clear": true,
+        "panel": "dedicated",
+        "group": "hosted"
+      }
+    },
+    {
+      "label": "Run: Simulation Demo",
+      "detail": "Run streaming indicators simulation demo",
+      "type": "shell",
+      "command": "dotnet run --project tools/simulate/Test.Simulation.csproj",
+      "group": "none",
+      "problemMatcher": "$msCompile",
+    },
+    {
+      "label": "Run: Generate test baseline data (all)",
+      "detail": "Generate all regression test baseline JSON files",
+      "type": "shell",
+      "command": "dotnet run --project tools/baselining/Test.DataGenerator.csproj -- --all",
+      "group": "none",
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "SpecKit: Create New Feature",
+      "detail": "Create new feature spec (will prompt for description)",
+      "type": "shell",
+      "command": "bash .specify/scripts/bash/create-new-feature.sh \"${input:featureDescription}\""
+    },
+    {
+      "label": "SpecKit: Setup Plan",
+      "detail": "Run setup plan script for current feature branch",
+      "type": "shell",
+      "command": "bash .specify/scripts/bash/setup-plan.sh"
+    },
+    {
+      "label": "Setup: Dev tools",
+      "detail": "Complete one-time environment setup (global tools, SpecKit, packages)",
+      "type": "shell",
+      "command": "bash .devcontainer/startup.sh",
+      "problemMatcher": [
+        "$msCompile",
+        "$eslint-compact"
+      ]
+    },
   ]
 }
