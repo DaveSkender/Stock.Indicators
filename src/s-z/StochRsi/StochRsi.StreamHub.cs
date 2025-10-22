@@ -92,70 +92,12 @@ public sealed class StochRsiHub
         // Only process if we have a valid RSI value
         if (rsiValue.HasValue)
         {
-            // Update RSI buffer (rolling window for stochastic calculation)
-            // This maintains a sliding window of RSI values
-            rsiBuffer.Enqueue(rsiValue.Value);
-            if (rsiBuffer.Count > StochPeriods)
+            (double? oscillator, double? oscillatorSignal) = UpdateOscillatorState(rsiValue.Value);
+
+            if (oscillator.HasValue)
             {
-                rsiBuffer.Dequeue();
-            }
-
-            // Calculate %K (stochastic oscillator on RSI values)
-            // Need full StochPeriods of RSI values before we can calculate
-            if (rsiBuffer.Count == StochPeriods)
-            {
-                // TODO: Use RollingWindowMax/RollingWindowMin for O(1) max/min tracking
-                // This will achieve true O(n) complexity instead of O(n × StochPeriods)
-
-                // Find highest and lowest RSI in the window
-                double highRsi = rsiBuffer.Max();
-                double lowRsi = rsiBuffer.Min();
-                double currentRsi = rsiValue.Value;
-
-                // Calculate initial %K oscillator: %K = 100 * (Current RSI - Lowest RSI) / (Highest RSI - Lowest RSI)
-                double k = lowRsi != highRsi
-                    ? 100 * (currentRsi - lowRsi) / (highRsi - lowRsi)
-                    : 0;
-
-                // Apply smoothing to %K if smoothPeriods > 1
-                if (SmoothPeriods > 1)
-                {
-                    kBuffer.Enqueue(k);
-                    if (kBuffer.Count > SmoothPeriods)
-                    {
-                        kBuffer.Dequeue();
-                    }
-
-                    if (kBuffer.Count == SmoothPeriods)
-                    {
-                        k = kBuffer.Average();
-                    }
-                    else
-                    {
-                        // Not enough data for smoothing yet
-                        k = double.NaN;
-                    }
-                }
-
-                if (!double.IsNaN(k))
-                {
-                    stochRsi = k;
-                    prevK = k;
-
-                    // Calculate signal line (SMA of %K) incrementally
-                    signalBuffer.Enqueue(k);
-                    if (signalBuffer.Count > SignalPeriods)
-                    {
-                        signalBuffer.Dequeue();
-                    }
-
-                    // Once we have enough %K values for signal calculation
-                    if (signalBuffer.Count == SignalPeriods)
-                    {
-                        signal = signalBuffer.Average();
-                        prevSignal = signal.Value;
-                    }
-                }
+                stochRsi = oscillator;
+                signal = oscillatorSignal;
             }
         }
 
@@ -171,12 +113,116 @@ public sealed class StochRsiHub
     /// <inheritdoc/>
     protected override void RollbackState(DateTime timestamp)
     {
-        // Reset state - will be recalculated during rebuild
+        int providerIndex = ProviderCache.IndexGte(timestamp);
+        if (providerIndex == -1)
+        {
+            providerIndex = ProviderCache.Count;
+        }
+
+        // Rebuild underlying RSI hub so replay uses fresh RSI values
+        rsiHub.Rebuild(timestamp);
+
+        // Reset state and replay historical RSI values up to the rebuild index
         rsiBuffer.Clear();
         kBuffer.Clear();
         signalBuffer.Clear();
         prevK = double.NaN;
         prevSignal = double.NaN;
+
+        if (providerIndex <= 0)
+        {
+            return;
+        }
+
+        IReadOnlyList<RsiResult> rsiResults = rsiHub.Results;
+        int replayLimit = Math.Min(providerIndex, rsiResults.Count);
+
+        for (int i = 0; i < replayLimit; i++)
+        {
+            RsiResult historical = rsiResults[i];
+            if (historical.Rsi.HasValue)
+            {
+                _ = UpdateOscillatorState(historical.Rsi.Value);
+            }
+        }
+    }
+
+    private (double? stochRsi, double? signal) UpdateOscillatorState(double rsiValue)
+    {
+        rsiBuffer.Enqueue(rsiValue);
+        if (rsiBuffer.Count > StochPeriods)
+        {
+            _ = rsiBuffer.Dequeue();
+        }
+
+        if (rsiBuffer.Count != StochPeriods)
+        {
+            return (null, null);
+        }
+
+        double highRsi = double.MinValue;
+        double lowRsi = double.MaxValue;
+
+        foreach (double value in rsiBuffer)
+        {
+            if (value > highRsi)
+            {
+                highRsi = value;
+            }
+
+            if (value < lowRsi)
+            {
+                lowRsi = value;
+            }
+        }
+
+        double k = lowRsi != highRsi
+            ? 100d * (rsiValue - lowRsi) / (highRsi - lowRsi)
+            : 0d;
+
+        if (SmoothPeriods > 1)
+        {
+            kBuffer.Enqueue(k);
+            if (kBuffer.Count > SmoothPeriods)
+            {
+                _ = kBuffer.Dequeue();
+            }
+
+            if (kBuffer.Count != SmoothPeriods)
+            {
+                return (null, null);
+            }
+
+            double sumK = 0d;
+            foreach (double item in kBuffer)
+            {
+                sumK += item;
+            }
+
+            k = sumK / SmoothPeriods;
+        }
+
+        signalBuffer.Enqueue(k);
+        if (signalBuffer.Count > SignalPeriods)
+        {
+            _ = signalBuffer.Dequeue();
+        }
+
+        double? signal = null;
+        if (signalBuffer.Count == SignalPeriods)
+        {
+            double sumSignal = 0d;
+            foreach (double item in signalBuffer)
+            {
+                sumSignal += item;
+            }
+
+            signal = sumSignal / SignalPeriods;
+            prevSignal = signal.Value;
+        }
+
+        prevK = k;
+        return (k, signal);
     }
 }
 
