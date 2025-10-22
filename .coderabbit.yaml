@@ -1,7 +1,5 @@
-# yaml-language-server: $schema=https://storage.googleapis.com/coderabbit_public_assets/schema.v2.json
-# documentation: https://docs.coderabbit.ai/reference/configuration
-# CodeRabbit Configuration for Stock Indicators for .NET
-# Optimized for financial calculation accuracy, performance, and .NET best practices
+# yaml-language-server: $schema=https://coderabbit.ai/integrations/schema.v2.json
+# CodeRabbit config docs: https://docs.coderabbit.ai/reference/configuration
 
 # General settings
 language: "en-US"
@@ -65,20 +63,37 @@ reviews:
     - "!.github/prompts/speckit.*"  # Spec Kit prompts
     - "!**/_testdata/**/*.csv"      # Test data
     - "!**/_testdata/**/*.json"     # Test data
-    - "!node_modules/"      # NPM dependencies
-    - "!*-lock.json"        # NPM/PNPM lock files
-    - "!packages/"          # NuGet packages cache
-    - "!.jekyll-cache/"     # Jekyll cache
-    - "!vendor/"            #  and gem files
-    - "!Gemfile.lock"       # Ruby dependencies lock
-    - "!bin/"               # .NET build output
-    - "!obj/"               # .NET build intermediate files
-    - "!*.g.cs"             # Generated source files
-    - "!*.xlsx"             # Manual calculation spreadsheets
-    - "!*.bak"              # Backup files
+    - "!node_modules/"        # NPM dependencies
+    - "!*-lock.json"          # NPM/PNPM lock files
+    - "!packages/"            # NuGet packages cache
+    - "!.jekyll-cache/"       # Jekyll cache
+    - "!vendor/"              #  and gem files
+    - "!Gemfile.lock"         # Ruby dependencies lock
+    - "!bin/"                 # .NET build output
+    - "!obj/"                 # .NET build intermediate files
+    - "!*.g.cs"               # Generated source files
+    - "!*.xlsx"               # Manual calculation spreadsheets
+    - "!*.bak"                # Backup files
 
   # Path-based configuration
   path_instructions:
+
+    # Spec Kit ephemeral planning documents - Allow historical context
+    - path: "specs/**/*.md"
+      instructions: |
+        These are ephemeral planning documents that track feature evolution and decision-making.
+        Unlike production documentation, specs/ files are permitted to:
+        - Include historical context and references to past PRs (e.g., "Updated per PR #1496")
+        - Use past-tense descriptions of changes and iterations
+        - Reference previous tooling or earlier versions of features
+        - Document the evolution of requirements and design decisions
+
+        Focus review on:
+        - Adherance to Spec Kit conventions and `.github\instructions\spec-kit.instructions.md`
+        - Technical accuracy of planned implementations
+        - Consistency with repository architecture, constitution, and pre-existing instructions
+        - Completeness of requirements and success criteria
+        - Alignment between spec, plan, and task artifacts
 
     # Indicator documentation pages must stay aligned with the current API surface
     - path: "docs/_indicators/*.md"
@@ -208,6 +223,7 @@ knowledge_base:
       - ".github/copilot-instructions.md"
       - ".github/instructions/*.instructions.md"
       - ".github/instructions/**/*.instructions.md"
+      - "**/agents.md"
   learnings:
     scope: "auto"
   issues:
