@@ -2,3 +2,6 @@
 _site/
 vendor/
 .bundle/
+
+# Roslynator output
+# _docs
