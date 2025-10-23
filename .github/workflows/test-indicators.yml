@@ -74,6 +74,9 @@ jobs:
           dotnet-version: "9.x"
           dotnet-quality: "ga"
 
+      - name: Install Roslynator CLI
+        run: dotnet tool install -g roslynator.dotnet.cli
+
       - name: Download build artifacts
         uses: actions/download-artifact@v4
         with:
