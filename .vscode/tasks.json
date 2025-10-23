@@ -167,7 +167,7 @@
       "label": "Lint: Roslynator (analyze)",
       "detail": "Run Roslynator analysis and print diagnostics to console",
       "type": "shell",
-      "command": "roslynator analyze",
+      "command": "roslynator analyze --properties TargetFramework=net9.0",
       "group": "test",
       "problemMatcher": "$msCompile",
       "presentation": {
@@ -180,7 +180,7 @@
       "label": "Lint: Roslynator (fix)",
       "detail": "Run Roslynator auto-fix",
       "type": "shell",
-      "command": "roslynator fix",
+      "command": "roslynator fix --properties TargetFramework=net9.0",
       "dependsOn": [
         "Build: .NET Solution (incremental)"
       ],
