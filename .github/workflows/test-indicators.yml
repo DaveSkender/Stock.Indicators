@@ -86,7 +86,8 @@ jobs:
         run: >
           roslynator analyze
           --properties TargetFramework=net9.0
-          --severity-level info
+          --severity-level hidden
+          --language csharp
           --verbosity minimal
 
       - name: Check .NET code formatting
