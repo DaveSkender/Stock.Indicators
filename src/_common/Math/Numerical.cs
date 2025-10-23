@@ -116,7 +116,7 @@ public static class Numerical
     /// </summary>
     /// <param name="periodSize">The PeriodSize value.</param>
     /// <returns>The corresponding TimeSpan value.</returns>
-    internal static TimeSpan ToTimeSpan(this PeriodSize periodSize)
+    public static TimeSpan ToTimeSpan(this PeriodSize periodSize)
         => periodSize switch {
             PeriodSize.OneMinute => TimeSpan.FromMinutes(1),
             PeriodSize.TwoMinutes => TimeSpan.FromMinutes(2),
