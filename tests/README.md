@@ -121,28 +121,35 @@ Options:
 
 roslynator fix \
 --properties TargetFramework=net9.0 \
---verbosity normal \
+--verbosity detailed \
 --severity-level hidden \
---language csharp \
---ignored-diagnostics IDE0008 IDE0010 IDE0045 IDE0046 IDE0047 IDE0054 IDE2003 RCS1228
+--ignored-diagnostics IDE0008 IDE0010 IDE0045 IDE0046 IDE0047 IDE0054 IDE2003 RCS1228 \
+IDE0320, RCS1238
+# IDE0320 fixes okay, only ignored due to significant changes
+# RCS1238 reverts IDE0045 in a problematic way
 
-roslynator analyze src/Indicators.csproj \
+roslynator analyze \
 --properties TargetFramework=net9.0 \
 --verbosity normal \
 --severity-level hidden \
 --language csharp
 
-IDE0008 'Use explicit type'  # want to keep this one
+CS8019  Unnecessary using directive
+CS8933  The using directive appeared previously as global using
+IDE0005 Using directive is unnecessary.
+IDE0008 Use explicit type
 # IDE0010 Add missing cases
 IDE0021 Use block body for constructor
 IDE0022 Use expression body for method
-# IDE0045 Use conditional expression for assignment
+IDE0028 Simplify collection initialization
+# IDE0045 Use conditional expression for assignment (if statement simplified)
 # IDE0046 Use conditional expression for return
 # IDE0047 Remove unnecessary parentheses
 IDE0052 Remove unread private members
 IDE0072 Add missing cases
+IDE0078 Use pattern matching
 IDE0082 'typeof' can be converted to 'nameof'
-IDE0320 Make anonymous function static
+IDE0320 Make anonymous function static        # doesn't seem right
 # IDE2003 Blank line required between block and subsequent statement
 RCS1006 Merge 'else' with nested 'if'
 RCS1031 Remove unnecessary braces in switch section
@@ -164,9 +171,5 @@ RCS1189 Add or remove region name
 RCS1201 Use method chaining
 RCS1211 Remove unnecessary 'else'
 # RCS1228 Unused element in a documentation comment
-RCS1238 Avoid nested ?: operators
-```
-
-```bash
---ignored-diagnostics IDE0010 IDE0022 IDE0045 IDE0046 IDE0047 IDE0052 IDE0072 IDE0082 IDE2003 RCS1006 RCS1031 RCS1043 RCS1055 RCS1061 RCS1070 RCS1124 RCS1129 RCS1142 RCS1151 RCS1161 RCS1168 RCS1201 RCS1211 RCS1228 RCS1238 
+RCS1238 Avoid nested ?: operators           # reverts IDE0045
 ```
