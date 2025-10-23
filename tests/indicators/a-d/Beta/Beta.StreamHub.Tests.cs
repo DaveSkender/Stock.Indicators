@@ -124,7 +124,7 @@ public class BetaHubTests : StreamHubTestBase, ITestPairsObserver
 
         // Verify beta is null when insufficient data
         betaHub.Results.Should().HaveCount(10);
-        betaHub.Results.Should().AllSatisfy(r => r.Beta.Should().BeNull());
+        betaHub.Results.Should().AllSatisfy(static r => r.Beta.Should().BeNull());
 
         betaHub.Unsubscribe();
         quoteHubEval.EndTransmission();
@@ -151,11 +151,11 @@ public class BetaHubTests : StreamHubTestBase, ITestPairsObserver
         betaHub.Results.Should().HaveCount(50);
 
         // Verify that results are generated for all periods
-        betaHub.Results.Should().OnlyContain(r => r.Timestamp != default);
+        betaHub.Results.Should().OnlyContain(static r => r.Timestamp != default);
 
         // Verify returns are calculated after first period
-        betaHub.Results.Skip(1).Should().OnlyContain(r => r.ReturnsEval.HasValue || r.ReturnsEval == 0);
-        betaHub.Results.Skip(1).Should().OnlyContain(r => r.ReturnsMrkt.HasValue || r.ReturnsMrkt == 0);
+        betaHub.Results.Skip(1).Should().OnlyContain(static r => r.ReturnsEval.HasValue || r.ReturnsEval == 0);
+        betaHub.Results.Skip(1).Should().OnlyContain(static r => r.ReturnsMrkt.HasValue || r.ReturnsMrkt == 0);
 
         betaHub.Unsubscribe();
         quoteHubEval.EndTransmission();

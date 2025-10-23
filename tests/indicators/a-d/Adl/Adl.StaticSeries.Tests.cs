@@ -35,7 +35,7 @@ public class Adl : StaticSeriesTestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.HasCount(493, results.Where(x => x.Sma != null));
+        Assert.HasCount(493, results.Where(static x => x.Sma != null));
     }
 
     [TestMethod]
@@ -45,7 +45,7 @@ public class Adl : StaticSeriesTestBase
             .ToAdl();
 
         Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(x => double.IsNaN(x.Adl)));
+        Assert.IsEmpty(r.Where(static x => double.IsNaN(x.Adl)));
     }
 
     [TestMethod]

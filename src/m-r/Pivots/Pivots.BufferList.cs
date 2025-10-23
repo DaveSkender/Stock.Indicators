@@ -59,7 +59,9 @@ public class PivotsList : BufferList<PivotsResult>, IIncrementFromQuote
         EndType endType,
         IReadOnlyList<IQuote> quotes)
         : this(leftSpan, rightSpan, maxTrendPeriods, endType)
-        => Add(quotes);
+    {
+        Add(quotes);
+    }
 
     /// <summary>
     /// Gets the number of periods to the left for pivot identification.

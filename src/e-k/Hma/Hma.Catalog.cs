@@ -2,7 +2,9 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Hma
 {
-    // HMA Common Base Listing
+    /// <summary>
+    /// HMA Common Base Listing
+    /// </summary>
     internal static readonly IndicatorListing CommonListing =
         new CatalogListingBuilder()
             .WithName("Hull Moving Average")
@@ -13,19 +15,25 @@ public static partial class Hma
             .AddResult("Hma", "HMA", ResultType.Default, isReusable: true)
             .Build();
 
-    // HMA Series Listing
+    /// <summary>
+    /// HMA Series Listing
+    /// </summary>
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
             .Build();
 
-    // HMA Stream Listing
+    /// <summary>
+    /// HMA Stream Listing
+    /// </summary>
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
             .Build();
 
-    // HMA Buffer Listing
+    /// <summary>
+    /// HMA Buffer Listing
+    /// </summary>
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)

@@ -161,13 +161,13 @@ public static partial class Catalog
 
         // Group by ID to show all styles for each indicator
         IOrderedEnumerable<IGrouping<string, IndicatorListing>> groupedIndicators = catalog
-            .GroupBy(listing => listing.Uiid)
-            .OrderBy(group => group.Key);
+            .GroupBy(static listing => listing.Uiid)
+            .OrderBy(static group => group.Key);
 
         foreach (IGrouping<string, IndicatorListing> group in groupedIndicators)
         {
             IndicatorListing firstListing = group.First();
-            string availableTypes = string.Join(", ", group.OrderBy(s => (int)s.Style).Select(l => l.Style.ToString()));
+            string availableTypes = string.Join(", ", group.OrderBy(static s => (int)s.Style).Select(static l => l.Style.ToString()));
 
             sb.AppendLine(CultureInfo.InvariantCulture, $"- [ ] {group.Key}: {firstListing.Name} ({availableTypes})");
         }
@@ -200,12 +200,12 @@ public static partial class Catalog
 
         // Group by ID to consolidate multiple styles into single rows
         IOrderedEnumerable<IGrouping<string, IndicatorListing>> groupedIndicators = catalog
-            .GroupBy(listing => listing.Uiid)
-            .OrderBy(group => group.Key);
+            .GroupBy(static listing => listing.Uiid)
+            .OrderBy(static group => group.Key);
 
         // Table header
-        sb.AppendLine("| ID | Name | Series | Buffer | Stream |");
-        sb.AppendLine("|---|---|:---:|:---:|:---:|");
+        sb.AppendLine("| ID | Name | Series | Buffer | Stream |")
+            .AppendLine("|---|---|:---:|:---:|:---:|");
 
         // Table rows
         foreach (IGrouping<string, IndicatorListing>? group in groupedIndicators)
@@ -214,9 +214,9 @@ public static partial class Catalog
             List<IndicatorListing> styles = group.ToList();
 
             // Check which styles are available
-            string hasSeries = styles.Any(s => s.Style == Style.Series) ? "✓" : "";
-            string hasBuffer = styles.Any(s => s.Style == Style.Buffer) ? "✓" : "";
-            string hasStream = styles.Any(s => s.Style == Style.Stream) ? "✓" : "";
+            string hasSeries = styles.Any(static s => s.Style == Style.Series) ? "✓" : "";
+            string hasBuffer = styles.Any(static s => s.Style == Style.Buffer) ? "✓" : "";
+            string hasStream = styles.Any(static s => s.Style == Style.Stream) ? "✓" : "";
 
             sb.AppendLine(CultureInfo.InvariantCulture, $"| {group.Key} | {firstListing.Name} | {hasSeries} | {hasBuffer} | {hasStream} |");
         }
@@ -348,6 +348,7 @@ public static partial class Catalog
     /// </summary>
     /// <param name="element">The JsonElement to convert.</param>
     /// <returns>The converted value, or null for null JsonElements.</returns>
+    /// <exception cref="NotImplementedException"></exception>
     private static object? ConvertJsonElement(JsonElement element)
         => element.ValueKind switch {
             JsonValueKind.String => element.GetString() ?? string.Empty,
@@ -357,6 +358,9 @@ public static partial class Catalog
             JsonValueKind.True => true,
             JsonValueKind.False => false,
             JsonValueKind.Null => null,
+            JsonValueKind.Undefined => throw new NotImplementedException(),
+            JsonValueKind.Object => throw new NotImplementedException(),
+            JsonValueKind.Array => throw new NotImplementedException(),
             _ => element.ToString()
         };
 

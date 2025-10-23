@@ -63,7 +63,9 @@ public class KvoList : BufferList<KvoResult>, IIncrementFromQuote, IKvo
         int signalPeriods,
         IReadOnlyList<IQuote> quotes)
         : this(fastPeriods, slowPeriods, signalPeriods)
-        => Add(quotes);
+    {
+        Add(quotes);
+    }
 
     /// <inheritdoc />
     public int FastPeriods { get; init; }
@@ -220,6 +222,10 @@ public static partial class Kvo
     /// <summary>
     /// Creates a buffer list for Klinger Volume Oscillator (KVO) calculations.
     /// </summary>
+    /// <param name="quotes"></param>
+    /// <param name="fastPeriods"></param>
+    /// <param name="slowPeriods"></param>
+    /// <param name="signalPeriods"></param>
     public static KvoList ToKvoList(
         this IReadOnlyList<IQuote> quotes,
         int fastPeriods = 34,

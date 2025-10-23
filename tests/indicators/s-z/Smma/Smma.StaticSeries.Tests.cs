@@ -11,7 +11,7 @@ public class Smma : StaticSeriesTestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.HasCount(483, results.Where(x => x.Smma != null));
+        Assert.HasCount(483, results.Where(static x => x.Smma != null));
 
         // starting calculations at proper index
         Assert.IsNull(results[18].Smma);
@@ -33,7 +33,7 @@ public class Smma : StaticSeriesTestBase
             .ToSmma(20);
 
         Assert.HasCount(502, results);
-        Assert.HasCount(483, results.Where(x => x.Smma != null));
+        Assert.HasCount(483, results.Where(static x => x.Smma != null));
     }
 
     [TestMethod]
@@ -44,7 +44,7 @@ public class Smma : StaticSeriesTestBase
             .ToSmma(20);
 
         Assert.HasCount(502, results);
-        Assert.HasCount(482, results.Where(x => x.Smma != null));
+        Assert.HasCount(482, results.Where(static x => x.Smma != null));
     }
 
     [TestMethod]
@@ -55,7 +55,7 @@ public class Smma : StaticSeriesTestBase
             .ToSma(10);
 
         Assert.HasCount(502, results);
-        Assert.HasCount(474, results.Where(x => x.Sma != null));
+        Assert.HasCount(474, results.Where(static x => x.Sma != null));
     }
 
     [TestMethod]
@@ -65,7 +65,7 @@ public class Smma : StaticSeriesTestBase
             .ToSmma(15);
 
         Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(x => x.Smma is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.Smma is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -94,9 +94,11 @@ public class Smma : StaticSeriesTestBase
         Assert.AreEqual(255.67462, Math.Round(results[^1].Smma.Value, 5));
     }
 
-    // bad lookback period
+    /// <summary>
+    /// bad lookback period
+    /// </summary>
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => Quotes.ToSmma(0));
+            static () => Quotes.ToSmma(0));
 }

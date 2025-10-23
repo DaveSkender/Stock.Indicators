@@ -35,7 +35,7 @@ public static partial class RocWb
             .ToRoc(lookbackPeriods);
 
         double[] rocSq = ogRoc
-            .Select(x => x.Value * x.Value)
+            .Select(static x => x.Value * x.Value)
             .ToArray();
 
         double[] ema = new double[length];

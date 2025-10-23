@@ -11,7 +11,7 @@ public class SmaAnalyses : StaticSeriesTestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.HasCount(483, results.Where(x => x.Sma != null));
+        Assert.HasCount(483, results.Where(static x => x.Sma != null));
 
         // sample value
         SmaAnalysisResult r = results[501];
@@ -29,7 +29,7 @@ public class SmaAnalyses : StaticSeriesTestBase
             .ToSmaAnalysis(20);
 
         Assert.HasCount(502, results);
-        Assert.HasCount(483, results.Where(x => x.Sma != null));
+        Assert.HasCount(483, results.Where(static x => x.Sma != null));
     }
 
     [TestMethod]
@@ -40,7 +40,7 @@ public class SmaAnalyses : StaticSeriesTestBase
             .ToSmaAnalysis(20);
 
         Assert.HasCount(502, results);
-        Assert.HasCount(482, results.Where(x => x.Sma != null));
+        Assert.HasCount(482, results.Where(static x => x.Sma != null));
     }
 
     [TestMethod]
@@ -51,7 +51,7 @@ public class SmaAnalyses : StaticSeriesTestBase
             .ToEma(10);
 
         Assert.HasCount(502, results);
-        Assert.HasCount(484, results.Where(x => x.Ema != null));
+        Assert.HasCount(484, results.Where(static x => x.Ema != null));
     }
 
     [TestMethod]
@@ -61,7 +61,7 @@ public class SmaAnalyses : StaticSeriesTestBase
             .ToSmaAnalysis(15);
 
         Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(x => x.Mape is double.NaN));
+        Assert.IsEmpty(r.Where(static x => x.Mape is double.NaN));
     }
 
     [TestMethod]
@@ -90,9 +90,11 @@ public class SmaAnalyses : StaticSeriesTestBase
         Assert.AreEqual(251.8600, Math.Round(results[^1].Sma.Value, 4));
     }
 
-    // bad lookback period
+    /// <summary>
+    /// bad lookback period
+    /// </summary>
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => Quotes.ToSmaAnalysis(0));
+            static () => Quotes.ToSmaAnalysis(0));
 }

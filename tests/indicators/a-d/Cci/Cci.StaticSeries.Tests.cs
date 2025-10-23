@@ -11,7 +11,7 @@ public class Cci : StaticSeriesTestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.HasCount(483, results.Where(x => x.Cci != null));
+        Assert.HasCount(483, results.Where(static x => x.Cci != null));
 
         // sample value
         CciResult r = results[501];
@@ -26,7 +26,7 @@ public class Cci : StaticSeriesTestBase
             .ToSma(10);
 
         Assert.HasCount(502, results);
-        Assert.HasCount(474, results.Where(x => x.Sma != null));
+        Assert.HasCount(474, results.Where(static x => x.Sma != null));
     }
 
     [TestMethod]
@@ -36,7 +36,7 @@ public class Cci : StaticSeriesTestBase
             .ToCci(15);
 
         Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(x => x.Cci is double.NaN));
+        Assert.IsEmpty(r.Where(static x => x.Cci is double.NaN));
     }
 
     [TestMethod]
@@ -67,9 +67,11 @@ public class Cci : StaticSeriesTestBase
         Assert.AreEqual(-52.9946, last.Cci.Round(4));
     }
 
-    // bad lookback period
+    /// <summary>
+    /// bad lookback period
+    /// </summary>
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => Quotes.ToCci(0));
+            static () => Quotes.ToCci(0));
 }

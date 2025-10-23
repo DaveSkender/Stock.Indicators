@@ -12,12 +12,13 @@ public static class Candlesticks
     /// <returns>A condensed list of candle results.</returns>
     public static IReadOnlyList<CandleResult> Condense(
         this IReadOnlyList<CandleResult> candleResults) => candleResults
-            .Where(candle => candle.Match != Match.None)
+            .Where(static candle => candle.Match != Match.None)
             .ToList();
 
     /// <summary>
     /// Converts a quote to candle properties.
     /// </summary>
+    /// <typeparam name="TQuote"></typeparam>
     /// <param name="quote">The quote to convert.</param>
     /// <returns>The candle properties.</returns>
     public static CandleProperties ToCandle<TQuote>(
@@ -39,7 +40,7 @@ public static class Candlesticks
     public static IReadOnlyList<CandleProperties> ToCandles(
         this IReadOnlyList<IQuote> quotes)
         => quotes
-            .Select(x => x.ToCandle())
-            .OrderBy(x => x.Timestamp)
+            .Select(static x => x.ToCandle())
+            .OrderBy(static x => x.Timestamp)
             .ToList();
 }

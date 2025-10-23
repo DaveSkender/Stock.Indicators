@@ -14,17 +14,17 @@ public class CatalogMetricsTests : TestBase
         IReadOnlyCollection<IndicatorListing> allListings = Catalog.Get();
         allListings.Should().NotBeEmpty();
         allListings.Count.Should().BeGreaterThan(50);
-        allListings.Should().OnlyContain(l => !string.IsNullOrWhiteSpace(l.Uiid));
-        allListings.Should().OnlyContain(l => !string.IsNullOrWhiteSpace(l.Name));
+        allListings.Should().OnlyContain(static l => !string.IsNullOrWhiteSpace(l.Uiid));
+        allListings.Should().OnlyContain(static l => !string.IsNullOrWhiteSpace(l.Name));
     }
 
     [TestMethod]
     public void CatalogShouldHaveExactStyleCounts()
     {
         IReadOnlyList<IndicatorListing> catalog = Catalog.Listings;
-        int seriesCount = catalog.Count(x => x.Style == Style.Series);
-        int streamCount = catalog.Count(x => x.Style == Style.Stream);
-        int bufferCount = catalog.Count(x => x.Style == Style.Buffer);
+        int seriesCount = catalog.Count(static x => x.Style == Style.Series);
+        int streamCount = catalog.Count(static x => x.Style == Style.Stream);
+        int bufferCount = catalog.Count(static x => x.Style == Style.Buffer);
 
         Console.WriteLine($"Actual Catalog Style Counts: Series={seriesCount}, Stream={streamCount}, Buffer={bufferCount}, Total={seriesCount + streamCount + bufferCount}");
 

@@ -18,7 +18,9 @@ public class AdlList : BufferList<AdlResult>, IIncrementFromQuote
     /// <param name="quotes">Initial quotes to populate the list.</param>
     public AdlList(IReadOnlyList<IQuote> quotes)
         : this()
-        => Add(quotes);
+    {
+        Add(quotes);
+    }
 
     /// <inheritdoc />
     public void Add(IQuote quote)
@@ -66,6 +68,7 @@ public static partial class Adl
     /// <summary>
     /// Creates a buffer list for Accumulation/Distribution Line calculations.
     /// </summary>
+    /// <param name="quotes"></param>
     public static AdlList ToAdlList(
         this IReadOnlyList<IQuote> quotes)
         => new() { quotes };

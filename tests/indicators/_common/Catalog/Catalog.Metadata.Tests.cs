@@ -103,7 +103,7 @@ public class CatalogMetadataTests : TestBase
     public void EachCatalogEntryWithMethodNameShouldBeCallable()
     {
         IReadOnlyList<IndicatorListing> catalog = Catalog.Listings;
-        List<IndicatorListing> entriesWithMethods = catalog.Where(l => !string.IsNullOrWhiteSpace(l.MethodName)).ToList();
+        List<IndicatorListing> entriesWithMethods = catalog.Where(static l => !string.IsNullOrWhiteSpace(l.MethodName)).ToList();
         entriesWithMethods.Should().NotBeEmpty();
         foreach (IndicatorListing listing in entriesWithMethods)
         {
@@ -127,7 +127,7 @@ public class CatalogMetadataTests : TestBase
     public void EachIndicatorShouldHaveUniqueIdStyleCombination()
     {
         IReadOnlyList<IndicatorListing> catalog = Catalog.Listings;
-        var duplicates = catalog.GroupBy(l => new { l.Uiid, l.Style }).Where(g => g.Count() > 1).ToList();
+        var duplicates = catalog.GroupBy(static l => new { l.Uiid, l.Style }).Where(static g => g.Count() > 1).ToList();
         duplicates.Should().BeEmpty();
     }
 
@@ -135,10 +135,10 @@ public class CatalogMetadataTests : TestBase
     public void IndicatorsWithSameUiidShouldHaveDifferentStyles()
     {
         IReadOnlyList<IndicatorListing> catalog = Catalog.Listings;
-        List<IGrouping<string, IndicatorListing>> multiStyleIndicators = catalog.GroupBy(l => l.Uiid).Where(g => g.Count() > 1).ToList();
+        List<IGrouping<string, IndicatorListing>> multiStyleIndicators = catalog.GroupBy(static l => l.Uiid).Where(static g => g.Count() > 1).ToList();
         foreach (IGrouping<string, IndicatorListing> group in multiStyleIndicators)
         {
-            List<Style> styles = group.Select(l => l.Style).Distinct().ToList();
+            List<Style> styles = group.Select(static l => l.Style).Distinct().ToList();
             styles.Should().HaveCount(group.Count());
         }
     }

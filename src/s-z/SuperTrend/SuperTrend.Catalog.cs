@@ -2,7 +2,9 @@ namespace Skender.Stock.Indicators;
 
 public static partial class SuperTrend
 {
-    // SuperTrend Common Base Listing
+    /// <summary>
+    /// SuperTrend Common Base Listing
+    /// </summary>
     internal static readonly IndicatorListing CommonListing =
         new CatalogListingBuilder()
             .WithName("SuperTrend")
@@ -16,7 +18,9 @@ public static partial class SuperTrend
             .AddResult("LowerBand", "Lower Band", ResultType.Default)
             .Build();
 
-    // SuperTrend Series Listing
+    /// <summary>
+    /// SuperTrend Series Listing
+    /// </summary>
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)

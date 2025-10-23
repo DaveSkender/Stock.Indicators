@@ -23,19 +23,19 @@ public class AwesomeTests : TestBase
         listing.Parameters.Should().NotBeNull();
         listing.Parameters.Should().HaveCount(2);
 
-        IndicatorParam fastPeriodsParam = listing.Parameters.SingleOrDefault(p => p.ParameterName == "fastPeriods");
+        IndicatorParam fastPeriodsParam = listing.Parameters.SingleOrDefault(static p => p.ParameterName == "fastPeriods");
         fastPeriodsParam.Should().NotBeNull();
-        IndicatorParam slowPeriodsParam1 = listing.Parameters.SingleOrDefault(p => p.ParameterName == "slowPeriods");
+        IndicatorParam slowPeriodsParam1 = listing.Parameters.SingleOrDefault(static p => p.ParameterName == "slowPeriods");
         slowPeriodsParam1.Should().NotBeNull();
 
         listing.Results.Should().NotBeNull();
         listing.Results.Should().HaveCount(2);
 
-        IndicatorResult oscillatorResult = listing.Results.SingleOrDefault(r => r.DataName == "Oscillator");
+        IndicatorResult oscillatorResult = listing.Results.SingleOrDefault(static r => r.DataName == "Oscillator");
         oscillatorResult.Should().NotBeNull();
         oscillatorResult?.DisplayName.Should().Be("Oscillator");
         oscillatorResult.IsReusable.Should().Be(true);
-        IndicatorResult normalizedResult1 = listing.Results.SingleOrDefault(r => r.DataName == "Normalized");
+        IndicatorResult normalizedResult1 = listing.Results.SingleOrDefault(static r => r.DataName == "Normalized");
         normalizedResult1.Should().NotBeNull();
         normalizedResult1?.DisplayName.Should().Be("Normalized");
         normalizedResult1.IsReusable.Should().Be(false);

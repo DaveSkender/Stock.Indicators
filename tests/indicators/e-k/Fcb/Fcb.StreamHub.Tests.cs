@@ -58,7 +58,7 @@ public class Fcb : StreamHubTestBase, ITestQuoteObserver
 
         // assert, should equal series
         streamList.Should().HaveCount(length - 1);
-        streamList.Should().BeEquivalentTo(seriesList, options => options.WithStrictOrdering());
+        streamList.Should().BeEquivalentTo(seriesList, static options => options.WithStrictOrdering());
 
         observer.Unsubscribe();
         quoteHub.EndTransmission();
@@ -88,7 +88,7 @@ public class Fcb : StreamHubTestBase, ITestQuoteObserver
 
         // assert, should equal series
         streamList.Should().HaveCount(Quotes.Count);
-        streamList.Should().BeEquivalentTo(seriesList, options => options.WithStrictOrdering());
+        streamList.Should().BeEquivalentTo(seriesList, static options => options.WithStrictOrdering());
 
         observer.Unsubscribe();
         quoteHub.EndTransmission();

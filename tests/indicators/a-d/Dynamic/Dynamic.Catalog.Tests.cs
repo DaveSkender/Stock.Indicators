@@ -23,15 +23,15 @@ public class DynamicTests : TestBase
         listing.Parameters.Should().NotBeNull();
         listing.Parameters.Should().HaveCount(2);
 
-        IndicatorParam lookbackPeriodsParam = listing.Parameters.SingleOrDefault(p => p.ParameterName == "lookbackPeriods");
+        IndicatorParam lookbackPeriodsParam = listing.Parameters.SingleOrDefault(static p => p.ParameterName == "lookbackPeriods");
         lookbackPeriodsParam.Should().NotBeNull();
-        IndicatorParam kFactorParam1 = listing.Parameters.SingleOrDefault(p => p.ParameterName == "kFactor");
+        IndicatorParam kFactorParam1 = listing.Parameters.SingleOrDefault(static p => p.ParameterName == "kFactor");
         kFactorParam1.Should().NotBeNull();
 
         listing.Results.Should().NotBeNull();
         listing.Results.Should().HaveCount(1);
 
-        IndicatorResult dynamicResult = listing.Results.SingleOrDefault(r => r.DataName == "Dynamic");
+        IndicatorResult dynamicResult = listing.Results.SingleOrDefault(static r => r.DataName == "Dynamic");
         dynamicResult.Should().NotBeNull();
         dynamicResult?.DisplayName.Should().Be("McGinley Dynamic");
         dynamicResult.IsReusable.Should().Be(true);
@@ -54,15 +54,15 @@ public class DynamicTests : TestBase
         listing.Parameters.Should().NotBeNull();
         listing.Parameters.Should().HaveCount(2);
 
-        IndicatorParam lookbackPeriodsParam = listing.Parameters.SingleOrDefault(p => p.ParameterName == "lookbackPeriods");
+        IndicatorParam lookbackPeriodsParam = listing.Parameters.SingleOrDefault(static p => p.ParameterName == "lookbackPeriods");
         lookbackPeriodsParam.Should().NotBeNull();
-        IndicatorParam kFactorParam = listing.Parameters.SingleOrDefault(p => p.ParameterName == "kFactor");
+        IndicatorParam kFactorParam = listing.Parameters.SingleOrDefault(static p => p.ParameterName == "kFactor");
         kFactorParam.Should().NotBeNull();
 
         listing.Results.Should().NotBeNull();
         listing.Results.Should().HaveCount(1);
 
-        IndicatorResult dynamicResult = listing.Results.SingleOrDefault(r => r.DataName == "Dynamic");
+        IndicatorResult dynamicResult = listing.Results.SingleOrDefault(static r => r.DataName == "Dynamic");
         dynamicResult.Should().NotBeNull();
         dynamicResult?.DisplayName.Should().Be("McGinley Dynamic");
         dynamicResult.IsReusable.Should().Be(true);
@@ -85,15 +85,15 @@ public class DynamicTests : TestBase
         listing.Parameters.Should().NotBeNull();
         listing.Parameters.Should().HaveCount(2);
 
-        IndicatorParam lookbackPeriodsParam = listing.Parameters.SingleOrDefault(p => p.ParameterName == "lookbackPeriods");
+        IndicatorParam lookbackPeriodsParam = listing.Parameters.SingleOrDefault(static p => p.ParameterName == "lookbackPeriods");
         lookbackPeriodsParam.Should().NotBeNull();
-        IndicatorParam kFactorParam = listing.Parameters.SingleOrDefault(p => p.ParameterName == "kFactor");
+        IndicatorParam kFactorParam = listing.Parameters.SingleOrDefault(static p => p.ParameterName == "kFactor");
         kFactorParam.Should().NotBeNull();
 
         listing.Results.Should().NotBeNull();
         listing.Results.Should().HaveCount(1);
 
-        IndicatorResult dynamicResult = listing.Results.SingleOrDefault(r => r.DataName == "Dynamic");
+        IndicatorResult dynamicResult = listing.Results.SingleOrDefault(static r => r.DataName == "Dynamic");
         dynamicResult.Should().NotBeNull();
         dynamicResult?.DisplayName.Should().Be("McGinley Dynamic");
         dynamicResult.IsReusable.Should().Be(true);

@@ -15,7 +15,7 @@ public static partial class ElderRay
         ArgumentNullException.ThrowIfNull(results);
 
         int n = results
-          .FindIndex(x => x.BullPower != null) + 1;
+          .FindIndex(static x => x.BullPower != null) + 1;
 
         return results.Remove(n + 100);
     }

@@ -2,7 +2,9 @@ namespace Skender.Stock.Indicators;
 
 public static partial class AtrStop
 {
-    // ATR-STOP Common Base Listing
+    /// <summary>
+    /// ATR-STOP Common Base Listing
+    /// </summary>
     internal static readonly IndicatorListing CommonListing =
         new CatalogListingBuilder()
             .WithName("ATR Trailing Stop")
@@ -18,13 +20,17 @@ public static partial class AtrStop
             .AddResult("Atr", "ATR", ResultType.Default)
             .Build();
 
-    // ATR-STOP Series Listing
+    /// <summary>
+    /// ATR-STOP Series Listing
+    /// </summary>
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
             .Build();
 
-    // ATR-STOP Stream Listing
+    /// <summary>
+    /// ATR-STOP Stream Listing
+    /// </summary>
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)

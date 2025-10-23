@@ -15,7 +15,7 @@ public class Alma : StaticSeriesTestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.HasCount(493, results.Where(x => x.Alma != null));
+        Assert.HasCount(493, results.Where(static x => x.Alma != null));
 
         // sample values
         AlmaResult r1 = results[8];
@@ -45,7 +45,7 @@ public class Alma : StaticSeriesTestBase
             .ToAlma(10);
 
         Assert.HasCount(502, results);
-        Assert.HasCount(493, results.Where(x => x.Alma != null));
+        Assert.HasCount(493, results.Where(static x => x.Alma != null));
 
         AlmaResult last = results[^1];
         Assert.AreEqual(242.1871, last.Alma.Round(4));
@@ -59,7 +59,7 @@ public class Alma : StaticSeriesTestBase
             .ToAlma(10);
 
         Assert.HasCount(502, results);
-        Assert.HasCount(492, results.Where(x => x.Alma != null));
+        Assert.HasCount(492, results.Where(static x => x.Alma != null));
     }
 
     [TestMethod]
@@ -74,7 +74,7 @@ public class Alma : StaticSeriesTestBase
             .ToSma(10);
 
         Assert.HasCount(502, results);
-        Assert.HasCount(484, results.Where(x => x.Sma != null));
+        Assert.HasCount(484, results.Where(static x => x.Sma != null));
     }
 
     [TestMethod]
@@ -83,12 +83,12 @@ public class Alma : StaticSeriesTestBase
         IReadOnlyList<AlmaResult> r1
             = Data.GetBtcUsdNan().ToAlma();
 
-        Assert.IsEmpty(r1.Where(x => x.Alma is double.NaN));
+        Assert.IsEmpty(r1.Where(static x => x.Alma is double.NaN));
 
         IReadOnlyList<AlmaResult> r2
             = Data.GetBtcUsdNan().ToAlma(20);
 
-        Assert.IsEmpty(r2.Where(x => x.Alma is double.NaN));
+        Assert.IsEmpty(r2.Where(static x => x.Alma is double.NaN));
     }
 
     [TestMethod]
@@ -97,7 +97,7 @@ public class Alma : StaticSeriesTestBase
         IReadOnlyList<AlmaResult> r = BadQuotes.ToAlma(14, 0.5, 3);
 
         Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(x => x.Alma is double.NaN));
+        Assert.IsEmpty(r.Where(static x => x.Alma is double.NaN));
     }
 
     [TestMethod]
@@ -131,14 +131,14 @@ public class Alma : StaticSeriesTestBase
     {
         // bad lookback period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => Quotes.ToAlma(0, 1, 5));
+            static () => Quotes.ToAlma(0, 1, 5));
 
         // bad offset
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => Quotes.ToAlma(15, 1.1, 3));
+            static () => Quotes.ToAlma(15, 1.1, 3));
 
         // bad sigma
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => Quotes.ToAlma(10, 0.5, 0));
+            static () => Quotes.ToAlma(10, 0.5, 0));
     }
 }

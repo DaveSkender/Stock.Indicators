@@ -129,5 +129,5 @@ public partial class Quotes : TestBase
     [TestMethod]  // bad period size
     public void AggregateBadSize()
         => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => Quotes.Aggregate(TimeSpan.Zero));
+            static () => Quotes.Aggregate(TimeSpan.Zero));
 }

@@ -26,7 +26,9 @@ public class CciList : BufferList<CciResult>, IIncrementFromQuote, ICci
     /// <param name="quotes">Initial quotes to populate the list.</param>
     public CciList(int lookbackPeriods, IReadOnlyList<IQuote> quotes)
         : this(lookbackPeriods)
-        => Add(quotes);
+    {
+        Add(quotes);
+    }
 
     /// <summary>
     /// Gets the number of periods to look back for the calculation.

@@ -3,8 +3,11 @@ namespace StaticSeries;
 [TestClass]
 public class Renko : StaticSeriesTestBase
 {
+    /// <summary>
+    /// close
+    /// </summary>
     [TestMethod]
-    public override void Standard()  // close
+    public override void Standard()
     {
         IReadOnlyList<RenkoResult> results = Quotes
             .ToRenko(2.5m);
@@ -12,8 +15,8 @@ public class Renko : StaticSeriesTestBase
         // assertions
 
         Assert.HasCount(112, results);
-        Assert.HasCount(62, results.Where(x => x.IsUp));
-        Assert.HasCount(50, results.Where(x => !x.IsUp));
+        Assert.HasCount(62, results.Where(static x => x.IsUp));
+        Assert.HasCount(50, results.Where(static x => !x.IsUp));
 
         // sample values
         RenkoResult r0 = results[0];
@@ -109,7 +112,7 @@ public class Renko : StaticSeriesTestBase
     {
         IReadOnlyList<RenkoResult> renkoQuotes = Quotes.ToRenko(2.5m);
         IReadOnlyList<SmaResult> renkoSma = renkoQuotes.ToSma(5);
-        Assert.HasCount(108, renkoSma.Where(x => x.Sma != null));
+        Assert.HasCount(108, renkoSma.Where(static x => x.Sma != null));
     }
 
     [TestMethod]
@@ -135,10 +138,10 @@ public class Renko : StaticSeriesTestBase
     {
         // bad arguments
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => Quotes.ToRenko(0));
+            static () => Quotes.ToRenko(0));
 
         // bad end type
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => Quotes.ToRenko(2, (EndType)int.MaxValue));
+            static () => Quotes.ToRenko(2, (EndType)int.MaxValue));
     }
 }

@@ -14,7 +14,7 @@ public class CatalogIntegrityTests : TestBase
     public void StaticCatalogShouldFollowOneListingPerStylePattern()
     {
         IReadOnlyCollection<IndicatorListing> allListings = Catalog.Get();
-        var groupedByUiidAndStyle = allListings.GroupBy(listing => new { listing.Uiid, listing.Style }).ToList();
+        var groupedByUiidAndStyle = allListings.GroupBy(static listing => new { listing.Uiid, listing.Style }).ToList();
         foreach (var group in groupedByUiidAndStyle)
         {
             group.Should().HaveCount(1, $"UIID '{group.Key.Uiid}' with style '{group.Key.Style}' should appear exactly once in the catalog");
@@ -26,13 +26,13 @@ public class CatalogIntegrityTests : TestBase
     {
         IReadOnlyCollection<IndicatorListing> emaListings = Catalog.Get("EMA");
         emaListings.Should().NotBeEmpty("EMA should exist in the catalog");
-        List<IGrouping<Style, IndicatorListing>> styleGroups = emaListings.GroupBy(l => l.Style).ToList();
+        List<IGrouping<Style, IndicatorListing>> styleGroups = emaListings.GroupBy(static l => l.Style).ToList();
         styleGroups.Should().HaveCountGreaterThan(1, "EMA should have multiple styles");
         foreach (IGrouping<Style, IndicatorListing> styleGroup in styleGroups)
         {
             styleGroup.Should().HaveCount(1, $"EMA should have exactly one listing for style {styleGroup.Key}");
-            styleGroup.All(l => l.Uiid == "EMA").Should().BeTrue();
-            styleGroup.All(l => l.Name == "Exponential Moving Average").Should().BeTrue();
+            styleGroup.All(static l => l.Uiid == "EMA").Should().BeTrue();
+            styleGroup.All(static l => l.Name == "Exponential Moving Average").Should().BeTrue();
         }
     }
 
@@ -59,9 +59,9 @@ public class CatalogIntegrityTests : TestBase
         IReadOnlyCollection<IndicatorListing> rsiListings = Catalog.Get("RSI");
         rsiListings.Should().NotBeEmpty();
         rsiListings.Should().HaveCount(3); // Series, Stream, Buffer
-        rsiListings.Should().Contain(x => x.Style == Style.Series);
-        rsiListings.Should().Contain(x => x.Style == Style.Stream);
-        rsiListings.Should().Contain(x => x.Style == Style.Buffer);
+        rsiListings.Should().Contain(static x => x.Style == Style.Series);
+        rsiListings.Should().Contain(static x => x.Style == Style.Stream);
+        rsiListings.Should().Contain(static x => x.Style == Style.Buffer);
     }
 
     [TestMethod]

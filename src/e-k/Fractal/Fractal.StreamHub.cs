@@ -49,7 +49,7 @@ public class FractalHub
 
         Reinitialize();
     }
-    #endregion
+    #endregion constructors
 
     /// <summary>
     /// Gets the number of periods to look back for the calculation.

@@ -10,7 +10,7 @@ public static partial class BollingerBands
         ArgumentNullException.ThrowIfNull(results);
 
         int removePeriods = results
-            .FindIndex(x => x.Width != null);
+            .FindIndex(static x => x.Width != null);
 
         return results.Remove(removePeriods);
     }
@@ -24,6 +24,7 @@ public static partial class BollingerBands
     /// <param name="endIndex">Index position to evaluate.</param>
     /// <typeparam name="T">IReusable (chainable) type.</typeparam>
     /// <returns>Bollinger Bands result or null result when insufficient data.</returns>
+    /// <exception cref="ArgumentOutOfRangeException"></exception>
     internal static BollingerBandsResult Increment<T>(
         IReadOnlyList<T> source,
         int lookbackPeriods,
@@ -91,7 +92,12 @@ public static partial class BollingerBands
         );
     }
 
-    // parameter validation
+    /// <summary>
+    /// parameter validation
+    /// </summary>
+    /// <param name="lookbackPeriods"></param>
+    /// <param name="standardDeviations"></param>
+    /// <exception cref="ArgumentOutOfRangeException"></exception>
     internal static void Validate(
         int lookbackPeriods,
         double standardDeviations)
