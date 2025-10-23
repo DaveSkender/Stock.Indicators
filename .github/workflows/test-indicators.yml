@@ -75,7 +75,7 @@ jobs:
           dotnet-quality: "ga"
 
       - name: Install Roslynator CLI
-        run: dotnet tool install -g roslynator.dotnet.cli
+        run: dotnet tool install --global roslynator.dotnet.cli
 
       - name: Download build artifacts
         uses: actions/download-artifact@v4
@@ -87,7 +87,7 @@ jobs:
           roslynator analyze
           --properties TargetFramework=net9.0
           --severity-level info
-          --verbosity minimal
+          --verbosity normal
 
       - name: Check .NET code formatting
         run: dotnet format --verify-no-changes --severity info
