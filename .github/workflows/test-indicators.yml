@@ -121,11 +121,10 @@ jobs:
 
       - name: Test indicators
         run: >
-          dotnet test
+          dotnet test tests/indicators/Tests.Indicators.csproj
           --configuration Release
           --settings tests/tests.unit.runsettings
           --results-directory ./test-results/unit
-          --property:TestFramework=net9.0
           --verbosity normal
           --logger trx
           --collect:"XPlat Code Coverage"
@@ -180,11 +179,10 @@ jobs:
 
       - name: Test regression baselines
         run: >
-          dotnet test
+          dotnet test tests/indicators/Tests.Indicators.csproj
           --configuration Release
           --settings tests/tests.regression.runsettings
           --results-directory ./test-results/regression
-          --property:TestFramework=net9.0
           --verbosity normal
           --logger trx
           --no-build
