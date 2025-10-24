@@ -37,25 +37,15 @@ jobs:
           --property:ContinuousIntegrationBuild=true
           -warnAsError
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v6
-        with:
-          node-version: ">=22.21.0"
-          cache: "npm"
-          cache-dependency-path: package-lock.json
-
-      - name: Install npm dependencies
-        run: npm ci
-
       - name: Lint .NET (core package only)
         run: dotnet format src/Indicators.csproj --verify-no-changes --severity info --no-restore
 
       - name: Lint Markdown
-        run: npm run lint:md
+        run: npx markdownlint-cli2
 
       - name: Build (full)
         run: >
-          dotnet
+          dotnet build
           --configuration Release
           --property:ContinuousIntegrationBuild=true
           -warnAsError
