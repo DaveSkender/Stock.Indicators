@@ -12,10 +12,12 @@
     }
   ],
   // defaults
+  "group": "none",
   "presentation": {
     "echo": true,
     "reveal": "always",
-    "focus": false,
+    "revealProblems": "onProblem",
+    "focus": true,
     "panel": "shared",
     "showReuseMessage": false,
     "clear": false
@@ -26,25 +28,13 @@
   // tasks
   "tasks": [
     {
-      "label": "Restore: All dependencies",
+      "label": "Restore: All code dependencies",
       "detail": "Restore both NPM and .NET packages in parallel",
       "dependsOn": [
-        "Install: NPM packages",
+        "Restore: NPM packages",
         "Restore: .NET packages"
       ],
       "dependsOrder": "parallel"
-    },
-    {
-      "label": "Install: NPM packages",
-      "detail": "Install root workspace NPM dependencies",
-      "type": "shell",
-      "command": "npm install",
-      "problemMatcher": [ "$tsc", "$eslint-stylish" ],
-      "presentation": {
-        "reveal": "silent",
-        "revealProblems": "onProblem",
-        "group": "install",
-      }
     },
     {
       "label": "Restore: .NET packages",
@@ -52,14 +42,18 @@
       "type": "shell",
       "command": "dotnet restore",
       "problemMatcher": "$msCompile",
-      "presentation": {
-        "reveal": "silent",
-        "revealProblems": "onProblem",
-        "group": "install",
-      }
+      "presentation": { "group": "install" }
     },
     {
-      "label": "Install: Ruby packages",
+      "label": "Restore: NPM packages",
+      "detail": "Install root workspace NPM dependencies",
+      "type": "npm",
+      "script": "install",
+      "problemMatcher": [ "$tsc", "$eslint-stylish" ],
+      "presentation": { "group": "install" }
+    },
+    {
+      "label": "Restore: Ruby packages",
       "detail": "Install Ruby gems for docs site (Jekyll)",
       "type": "shell",
       "command": "bundle install --jobs 4 && bundle clean --force",
@@ -75,11 +69,7 @@
         "fileLocation": "relative",
         "pattern": { "regexp": "^(.*):(\\d+):\\s+(.*)$", "file": 1, "line": 2, "message": 3 }
       },
-      "presentation": {
-        "reveal": "silent",
-        "revealProblems": "onProblem",
-        "group": "install",
-      }
+      "presentation": { "group": "install" }
     },
     {
       "label": "Update: Ruby packages",
@@ -93,11 +83,7 @@
           "BUNDLE_PATH": "${workspaceFolder}/docs/vendor/bundle"
         }
       },
-      "presentation": {
-        "reveal": "silent",
-        "revealProblems": "onProblem",
-        "group": "install",
-      }
+      "presentation": { "group": "install" }
     },
     {
       "label": "Clean: .NET Solution (dotnet clean)",
@@ -105,25 +91,16 @@
       "type": "shell",
       "command": "dotnet clean -v minimal --nologo",
       "group": "build",
-      "problemMatcher": "$msCompile",
-      "presentation": {
-        "reveal": "silent",
-        "revealProblems": "onProblem",
-        "group": "install",
-      }
+      "problemMatcher": "$msCompile"
     },
     {
       "label": "Delete: Temporary caches",
-      "detail": "Delete bin, obj, and other temp caches",
+      "detail": "Delete bin, obj, node_modules, and other temp caches",
       "type": "npm",
       "script": "clean",
-      "problemMatcher": [ "$tsc", "$eslint-stylish" ],
-      "dependsOn": "Install: NPM packages",
-      "presentation": {
-        "reveal": "silent",
-        "revealProblems": "onProblem",
-        "group": "install",
-      }
+      "group": "build",
+      "problemMatcher": "$msCompile",
+      "presentation": { "group": "install" }
     },
     {
       "label": "Build: .NET Solution (incremental)",
@@ -134,11 +111,7 @@
         "kind": "build",
         "isDefault": true
       },
-      "problemMatcher": "$msCompile",
-      "presentation": {
-        "reveal": "silent",
-        "revealProblems": "onProblem",
-      }
+      "problemMatcher": "$msCompile"
     },
     {
       "label": "Build: .NET Solution (not incremental)",
@@ -146,52 +119,7 @@
       "type": "shell",
       "command": "dotnet build -v minimal --nologo --no-incremental",
       "group": "build",
-      "problemMatcher": "$msCompile",
-      "presentation": {
-        "reveal": "silent",
-        "revealProblems": "onProblem"
-      }
-    },
-    {
-      "label": "Lint: Auto-fix formatting",
-      "detail": "Auto-fix code format and markdown issues",
-      "type": "npm",
-      "script": "fixall",
-      "dependsOn": [
-        "Build: .NET Solution (incremental)"
-      ],
-      "dependsOrder": "sequence",
-      "problemMatcher": [ "$msCompile", "$markdownlint" ]
-    },
-    {
-      "label": "Lint: Roslynator (analyze)",
-      "detail": "Run Roslynator analysis and print diagnostics to console",
-      "type": "shell",
-      "command": "roslynator analyze --properties TargetFramework=net9.0",
-      "group": "test",
-      "problemMatcher": "$msCompile",
-      "presentation": {
-        "reveal": "always",
-        "revealProblems": "onProblem",
-        "group": "analysis"
-      }
-    },
-    {
-      "label": "Lint: Roslynator (fix)",
-      "detail": "Run Roslynator auto-fix",
-      "type": "shell",
-      "command": "roslynator fix --properties TargetFramework=net9.0",
-      "dependsOn": [
-        "Build: .NET Solution (incremental)"
-      ],
-      "dependsOrder": "sequence",
-      "group": "test",
-      "problemMatcher": "$msCompile",
-      "presentation": {
-        "reveal": "always",
-        "revealProblems": "onProblem",
-        "group": "analysis"
-      }
+      "problemMatcher": "$msCompile"
     },
     {
       "label": "Lint: .NET code (format check)",
@@ -200,10 +128,18 @@
       "command": "dotnet format --verify-no-changes --severity info --no-restore",
       "group": "test",
       "problemMatcher": "$msCompile",
-      "presentation": {
-        "reveal": "silent",
-        "revealProblems": "onProblem"
-      }
+      "presentation": { "group": "analysis" }
+    },
+    {
+      "label": "Lint: .NET code (full analysis)",
+      "detail": "Run Roslynator analysis and .NET format check",
+      "type": "npm",
+      "script": "lint:code",
+      "group": "test",
+      "problemMatcher": "$msCompile",
+      "dependsOn": ["Build: .NET Solution (incremental)"],
+      "dependsOrder": "sequence",
+      "presentation": { "group": "analysis" }
     },
     {
       "label": "Lint: Markdown files",
@@ -212,23 +148,32 @@
       "script": "lint:md",
       "group": "test",
       "problemMatcher": "$markdownlint",
-      "presentation": {
-        "reveal": "silent",
-        "revealProblems": "onProblem"
-      }
+      "presentation": { "group": "analysis" }
+    },
+    {
+      "label": "Fix: All .NET and markdown formatting",
+      "detail": "Auto-fix code format and markdown issues",
+      "type": "npm",
+      "script": "lint:fix",
+      "group": "none",
+      "problemMatcher": ["$msCompile", "$markdownlint"],
+      "dependsOn": ["Build: .NET Solution (incremental)"],
+      "dependsOrder": "sequence",
+      "presentation": { "group": "analysis" }
     },
     {
       "label": "Lint: .NET code & markdown files",
-      "detail": "Run .NET format check and markdown in parallel",
-      "dependsOn": [
-        "Lint: .NET code (format check)",
-        "Lint: Markdown files"
-      ],
-      "dependsOrder": "parallel",
+      "detail": "Run all linting checks (code + markdown) in sequence",
+      "type": "npm",
+      "script": "lint",
       "group": "test",
+      "problemMatcher": ["$msCompile", "$markdownlint"],
+      "dependsOn": ["Build: .NET Solution (incremental)"],
+      "dependsOrder": "sequence",
       "presentation": {
-        "reveal": "silent",
-        "revealProblems": "onProblem"
+        "reveal": "always",
+        "revealProblems": "onProblem",
+        "group": "analysis"
       }
     },
     {
@@ -269,6 +214,21 @@
       "group": "test",
       "problemMatcher": "$msCompile",
       "presentation": { "clear": true }
+    },
+    {
+      "label": "CI: Verify (build + lint + test)",
+      "detail": "Complete CI verification: build, lint, and test",
+      "dependsOn": [
+        "Build: .NET Solution (incremental)",
+        "Lint: .NET code & markdown files",
+        "Test: Unit tests"
+      ],
+      "dependsOrder": "sequence",
+      "group": "test",
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      }
     },
     {
       "label": "Test: Unit tests with coverage",
@@ -336,7 +296,7 @@
       "detail": "Serve Jekyll docs site with livereload",
       "type": "shell",
       "command": "bundle exec jekyll serve --livereload --open-url",
-      "dependsOn": "Install: Ruby packages",
+      "dependsOn": "Restore: Ruby packages",
       "isBackground": true,
       "options": {
         "cwd": "${workspaceFolder}/docs",
@@ -371,7 +331,7 @@
       "detail": "Alias: run docs site (background) with simple readiness matcher",
       "type": "shell",
       "command": "bundle exec jekyll serve --livereload",
-      "dependsOn": "Install: Ruby packages",
+      "dependsOn": "Restore: Ruby packages",
       "isBackground": true,
       "options": {
         "cwd": "${workspaceFolder}/docs",
