@@ -32,12 +32,12 @@ dotnet clean
 
 # Delete folders (supports globs and subfolder paths; bypasses SKIPPED_FOLDERS)
 for folder in "${DELETE_FOLDERS[@]}"; do
-  find . $(for ignore in "${SKIPPED_FOLDERS[@]}"; do echo -n "\\( -type d -name \"$ignore\" \\) -prune -o "; done) -type d -path "./$folder" -exec rm -rf {} +
+  find . $(for ignore in "${SKIPPED_FOLDERS[@]}"; do echo -n "\\( -path \"./$ignore\" -prune \\) -o "; done) \\( -path "./$folder" \\) -exec rm -rf {} +
 done
 
 # Delete files (bypasses SKIPPED_FOLDERS)
 for file in "${DELETE_FILES[@]}"; do
-  find . $(for ignore in "${SKIPPED_FOLDERS[@]}"; do echo -n "\\( -type d -name \"$ignore\" \\) -prune -o "; done) -type f -name "$file" -exec rm -f {} +
+  find . $(for ignore in "${SKIPPED_FOLDERS[@]}"; do echo -n "\\( -path \"./$ignore\" -prune \\) -o "; done) -type f -name "$file" -exec rm -f {} +
 done
 
 # restore

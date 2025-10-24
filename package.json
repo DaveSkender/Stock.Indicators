@@ -11,7 +11,7 @@
     "name": "FacioQuo",
     "url": "https://github.com/facioquo"
   },
-  "fundingUrl": "https://github.com/sponsors/facioquo",
+  "funding": "https://github.com/sponsors/facioquo",
   "license": "Apache-2.0",
   "private": false,
   "packageManager": "npm@11.6.2",

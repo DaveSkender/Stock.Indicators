@@ -38,7 +38,7 @@ jobs:
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: build-artifacts
+          name: quick-check-build-artifacts
           path: |
             **/bin/
             **/obj/
@@ -78,7 +78,7 @@ jobs:
       - name: Download build artifacts
         uses: actions/download-artifact@v4
         with:
-          name: build-artifacts
+          name: quick-check-build-artifacts
 
       - name: Run Roslynator analysis
         run: >
@@ -95,19 +95,9 @@ jobs:
       - name: Upload linting artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: build-artifacts
+          name: lint-full-build-artifacts
           path: ./test-results/**/*.xml
           retention-days: 1
-
-      - name: Post unit test results
-        uses: dorny/test-reporter@v2.1.1
-        if: always()
-        with:
-          name: Unit test results
-          path: ./test-results/**/*.xml
-          reporter: jest-junit
-          list-tests: failed
-        continue-on-error: true
 
   test-unit:
     name: unit tests
@@ -127,7 +117,7 @@ jobs:
       - name: Download build artifacts
         uses: actions/download-artifact@v4
         with:
-          name: build-artifacts
+          name: quick-check-build-artifacts
 
       - name: Test indicators
         run: >
@@ -186,7 +176,7 @@ jobs:
       - name: Download build artifacts
         uses: actions/download-artifact@v4
         with:
-          name: build-artifacts
+          name: quick-check-build-artifacts
 
       - name: Test regression baselines
         run: >
