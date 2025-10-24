@@ -80,9 +80,11 @@ jobs:
         with:
           name: quick-check-build-artifacts
 
+      - name: Install Roslynator
+        run: dotnet tool install -g roslynator.dotnet.cli
+
       - name: Run Roslynator analysis
         run: >
-          dotnet tool exec
           roslynator analyze
           --properties TargetFramework=net9.0
           --severity-level info
