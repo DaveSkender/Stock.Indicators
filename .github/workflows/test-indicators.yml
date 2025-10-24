@@ -64,7 +64,7 @@ jobs:
   lint-full:
     name: linting (full)
     runs-on: ubuntu-latest
-    needs: quick-check
+    needs: ["test-unit","test-regression"]
 
     steps:
       - name: Checkout source
@@ -135,7 +135,6 @@ jobs:
           name: Unit test results
           path: ./test-results/**/*.trx
           reporter: dotnet-trx
-          list-tests: failed
         continue-on-error: true
 
       - name: Upload coverage reports
@@ -193,5 +192,4 @@ jobs:
           name: Regression test results
           path: ./test-results-regression/**/*.trx
           reporter: dotnet-trx
-          list-tests: failed
         continue-on-error: true
