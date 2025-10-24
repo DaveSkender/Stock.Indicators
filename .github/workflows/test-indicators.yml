@@ -124,7 +124,7 @@ jobs:
           dotnet test
           --configuration Release
           --settings tests/tests.unit.runsettings
-          --results-directory ./test-results
+          --results-directory ./test-results/unit
           --property:TestFramework=net9.0
           --verbosity normal
           --logger trx
@@ -136,7 +136,7 @@ jobs:
         if: always()
         with:
           name: Unit test results
-          path: ./test-results/**/*.trx
+          path: test-results/unit/**/*.trx
           reporter: dotnet-trx
           list-tests: failed
         continue-on-error: true
@@ -146,7 +146,7 @@ jobs:
         if: always()
         with:
           name: coverage-unit
-          path: ./test-results/**/coverage.cobertura.xml
+          path: test-results/unit/**/coverage.cobertura.xml
           retention-days: 1
         continue-on-error: true
 
@@ -155,7 +155,7 @@ jobs:
         if: success() && github.actor != 'dependabot[bot]'
         with:
           project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
-          coverage-reports: ./test-results/**/coverage.cobertura.xml
+          coverage-reports: test-results/unit/**/coverage.cobertura.xml
         continue-on-error: true
 
   test-regression:
@@ -183,7 +183,7 @@ jobs:
           dotnet test
           --configuration Release
           --settings tests/tests.regression.runsettings
-          --results-directory ./test-results-regression
+          --results-directory ./test-results/regression
           --property:TestFramework=net9.0
           --verbosity normal
           --logger trx
@@ -194,7 +194,7 @@ jobs:
         if: always()
         with:
           name: Regression test results
-          path: ./test-results-regression/**/*.trx
+          path: test-results/regression/**/*.trx
           reporter: dotnet-trx
           list-tests: failed
         continue-on-error: true
