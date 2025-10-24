@@ -86,12 +86,14 @@ public static partial class PivotPoints
                     S2 = windowPoint.S2,
                     S3 = windowPoint.S3,
                     S4 = windowPoint.S4,
+                    S5 = windowPoint.S5,
 
                     // resistance
                     R1 = windowPoint.R1,
                     R2 = windowPoint.R2,
                     R3 = windowPoint.R3,
-                    R4 = windowPoint.R4
+                    R4 = windowPoint.R4,
+                    R5 = windowPoint.R5,
                 }
                 : new PivotPointsResult {
                     Timestamp = q.Timestamp
@@ -175,9 +177,13 @@ public static partial class PivotPoints
             S1 = (pp * 2) - high,
             S2 = pp - (high - low),
             S3 = low - (2 * (high - pp)),
+            S4 = low - (3 * (high - pp)),
+            S5 = low - (4 * (high - pp)),
             R1 = (pp * 2) - low,
             R2 = pp + (high - low),
-            R3 = high + (2 * (pp - low))
+            R3 = high + (2 * (pp - low)),
+            R4 = high + (3 * (pp - low)),
+            R5 = high + (4 * (pp - low))
         };
     }
 
@@ -196,10 +202,12 @@ public static partial class PivotPoints
             S2 = close - (1.1m / 6 * (high - low)),
             S3 = close - (1.1m / 4 * (high - low)),
             S4 = close - (1.1m / 2 * (high - low)),
+            S5 = close - (1.1m / 1 * (high - low)),
             R1 = close + (1.1m / 12 * (high - low)),
             R2 = close + (1.1m / 6 * (high - low)),
             R3 = close + (1.1m / 4 * (high - low)),
-            R4 = close + (1.1m / 2 * (high - low))
+            R4 = close + (1.1m / 2 * (high - low)),
+            R5 = close + (1.1m / 1 * (high - low)),
         };
 
     /// <summary>
@@ -243,9 +251,13 @@ public static partial class PivotPoints
             S1 = pp - (0.382m * (high - low)),
             S2 = pp - (0.618m * (high - low)),
             S3 = pp - (1.000m * (high - low)),
+            S4 = pp - (1.618m * (high - low)),
+            S5 = pp - (2.618m * (high - low)),
             R1 = pp + (0.382m * (high - low)),
             R2 = pp + (0.618m * (high - low)),
-            R3 = pp + (1.000m * (high - low))
+            R3 = pp + (1.000m * (high - low)),
+            R4 = pp + (1.618m * (high - low)),
+            R5 = pp + (2.618m * (high - low)),
         };
     }
 
