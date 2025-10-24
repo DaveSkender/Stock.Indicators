@@ -30,6 +30,11 @@ jobs:
         with:
           dotnet-version: "9.x"
           dotnet-quality: "ga"
+          cache: true
+          cache-dependency-path: |
+            **/*.csproj
+            **/*.props
+            global.json
 
       - name: Build (package sources)
         run: >
@@ -55,15 +60,6 @@ jobs:
           --property:ContinuousIntegrationBuild=true
           -warnAsError
 
-      - name: Upload build artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: build-artifacts-indicators-only
-          path: |
-            **/bin/
-            **/obj/
-          retention-days: 1
-
   lint-full:
     name: linting (full)
     runs-on: ubuntu-latest
@@ -78,6 +74,11 @@ jobs:
         with:
           dotnet-version: "9.x"
           dotnet-quality: "ga"
+          cache: true
+          cache-dependency-path: |
+            **/*.csproj
+            **/*.props
+            global.json
 
       - name: Install Roslynator
         run: dotnet tool install --global roslynator.dotnet.cli
@@ -113,11 +114,11 @@ jobs:
         with:
           dotnet-version: "9.x"
           dotnet-quality: "ga"
-
-      - name: Download build artifacts
-        uses: actions/download-artifact@v4
-        with:
-          name: build-artifacts-indicators-only
+          cache: true
+          cache-dependency-path: |
+            **/*.csproj
+            **/*.props
+            global.json
 
       - name: Test indicators
         run: >
@@ -128,7 +129,6 @@ jobs:
           --verbosity normal
           --logger trx
           --collect:"XPlat Code Coverage"
-          --no-build
 
       - name: Post unit test results
         uses: dorny/test-reporter@v2.1.1
@@ -171,11 +171,11 @@ jobs:
         with:
           dotnet-version: "9.x"
           dotnet-quality: "ga"
-
-      - name: Download build artifacts
-        uses: actions/download-artifact@v4
-        with:
-          name: build-artifacts-indicators-only
+          cache: true
+          cache-dependency-path: |
+            **/*.csproj
+            **/*.props
+            global.json
 
       - name: Test regression baselines
         run: >
@@ -185,7 +185,6 @@ jobs:
           --results-directory ./test-results/regression
           --verbosity normal
           --logger trx
-          --no-build
 
       - name: Post regression test results
         uses: dorny/test-reporter@v2.1.1
