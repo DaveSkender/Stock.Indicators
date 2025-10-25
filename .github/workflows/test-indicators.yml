@@ -1,5 +1,8 @@
 name: Test Indicators
 
+# These primary CI workflow is sequenced to use
+# a fail-fast approach in multiple stages.
+
 on:
   push:
     branches:
@@ -14,7 +17,8 @@ permissions:
   checks: write   # Required for test results
 
 jobs:
-  base-checks:
+  quick-check:
+    name: quick check
     runs-on: ubuntu-latest
 
     steps:
@@ -26,43 +30,37 @@ jobs:
         with:
           dotnet-version: "9.x"
           dotnet-quality: "ga"
+          cache: true
+          cache-dependency-path: "**/packages.lock.json"
 
-      - name: Build full solution
+      - name: Build (package sources)
         run: >
-          dotnet build
+          dotnet build src/Indicators.csproj
           --configuration Release
           --property:ContinuousIntegrationBuild=true
           -warnAsError
 
-      - name: Upload build artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: build-artifacts
-          path: |
-            **/bin/
-            **/obj/
-          retention-days: 1
+      - name: Lint .NET (core package only)
+        run: >
+          dotnet format src/Indicators.csproj
+          --verify-no-changes
+          --severity info
+          --no-restore
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v6
-        with:
-          node-version: ">=22.21.0"
-          cache: "npm"
-          cache-dependency-path: package-lock.json
+      - name: Lint markdown
+        run: npx markdownlint-cli2
 
-      - name: Install npm dependencies
-        run: npm ci
+      - name: Build (package tests)
+        run: >
+          dotnet build tests/indicators/Tests.Indicators.csproj
+          --configuration Release
+          --property:ContinuousIntegrationBuild=true
+          -warnAsError
 
-      - name: Check .NET code formatting (indicators only)
-        run: dotnet format src/Indicators.csproj --verify-no-changes --severity info --no-restore
-
-      - name: Check Markdown linting
-        run: npm run lint:md
-
-  full-validate:
-    name: full linting
+  lint-full:
+    name: linting (full)
     runs-on: ubuntu-latest
-    needs: base-checks
+    needs: ["test-unit","test-regression"]
 
     steps:
       - name: Checkout source
@@ -73,30 +71,33 @@ jobs:
         with:
           dotnet-version: "9.x"
           dotnet-quality: "ga"
+          cache: true
+          cache-dependency-path: "**/packages.lock.json"
 
-      - name: Install Roslynator CLI
+      - name: Install Roslynator
         run: dotnet tool install --global roslynator.dotnet.cli
 
-      - name: Download build artifacts
-        uses: actions/download-artifact@v4
-        with:
-          name: build-artifacts
+      - name: Build solution
+        # note: Roslynator cannot use cached bin/obj
+        run: >
+          dotnet build
+          --configuration Release
+          --property:ContinuousIntegrationBuild=true
 
       - name: Run Roslynator analysis
         run: >
           roslynator analyze
           --properties TargetFramework=net9.0
           --severity-level hidden
-          --language csharp
-          --verbosity normal
+          --verbosity minimal
 
-      - name: Check .NET code formatting
-        run: dotnet format --verify-no-changes --severity info
+      - name: Check .NET code formatting (indicators only)
+        run: dotnet format src/Indicators.csproj --verify-no-changes --severity info --no-restore
 
   test-unit:
     name: unit tests
     runs-on: ubuntu-latest
-    needs: base-checks
+    needs: quick-check
 
     steps:
       - name: Checkout source
@@ -107,6 +108,8 @@ jobs:
         with:
           dotnet-version: "9.x"
           dotnet-quality: "ga"
+          cache: true
+          cache-dependency-path: "**/packages.lock.json"
 
       - name: Download build artifacts
         uses: actions/download-artifact@v4
@@ -115,11 +118,10 @@ jobs:
 
       - name: Test indicators
         run: >
-          dotnet test
+          dotnet test tests/indicators/Tests.Indicators.csproj
           --configuration Release
           --settings tests/tests.unit.runsettings
-          --results-directory ./test-results
-          --property:TestFramework=net9.0
+          --results-directory ./test-results/unit
           --verbosity normal
           --logger trx
           --collect:"XPlat Code Coverage"
@@ -130,8 +132,9 @@ jobs:
         if: always()
         with:
           name: Unit test results
-          path: ./test-results/**/*.trx
+          path: test-results/unit/**/*.trx
           reporter: dotnet-trx
+          list-tests: failed
         continue-on-error: true
 
       - name: Upload coverage reports
@@ -139,7 +142,7 @@ jobs:
         if: always()
         with:
           name: coverage-unit
-          path: ./test-results/**/coverage.cobertura.xml
+          path: test-results/unit/**/coverage.cobertura.xml
           retention-days: 1
         continue-on-error: true
 
@@ -148,13 +151,13 @@ jobs:
         if: success() && github.actor != 'dependabot[bot]'
         with:
           project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
-          coverage-reports: ./test-results/**/coverage.cobertura.xml
+          coverage-reports: test-results/unit/**/coverage.cobertura.xml
         continue-on-error: true
 
   test-regression:
     name: regression tests
     runs-on: ubuntu-latest
-    needs: base-checks
+    needs: quick-check
 
     steps:
       - name: Checkout source
@@ -165,6 +168,8 @@ jobs:
         with:
           dotnet-version: "9.x"
           dotnet-quality: "ga"
+          cache: true
+          cache-dependency-path: "**/packages.lock.json"
 
       - name: Download build artifacts
         uses: actions/download-artifact@v4
@@ -173,11 +178,10 @@ jobs:
 
       - name: Test regression baselines
         run: >
-          dotnet test
+          dotnet test tests/indicators/Tests.Indicators.csproj
           --configuration Release
           --settings tests/tests.regression.runsettings
-          --results-directory ./test-results-regression
-          --property:TestFramework=net9.0
+          --results-directory ./test-results/regression
           --verbosity normal
           --logger trx
           --no-build
@@ -187,6 +191,7 @@ jobs:
         if: always()
         with:
           name: Regression test results
-          path: ./test-results-regression/**/*.trx
+          path: test-results/regression/**/*.trx
           reporter: dotnet-trx
+          list-tests: failed
         continue-on-error: true

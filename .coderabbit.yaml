@@ -11,7 +11,7 @@ reviews:
   review_status: true
   commit_status: true
   fail_commit_status: false
-  request_changes_workflow: true
+  request_changes_workflow: false
   in_progress_fortune: false
 
   high_level_summary: false

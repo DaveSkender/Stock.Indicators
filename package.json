@@ -1,13 +1,17 @@
 {
-  "$schema":"https://www.schemastore.org/package",
+  "$schema": "https://www.schemastore.org/package",
   "name": "stock-indicators",
   "description": "Stock Indicators for .NET",
   "homepage": "https://stockindicators.dev",
-  "fundingUrl":"https://github.com/sponsors/facioquo",
+  "repository": {
+    "type": "github",
+    "url": "https://github.com/DaveSkender/Stock.Indicators"
+  },
   "author": {
     "name": "FacioQuo",
     "url": "https://github.com/facioquo"
   },
+  "funding": "https://github.com/sponsors/facioquo",
   "license": "Apache-2.0",
   "private": false,
   "packageManager": "npm@11.6.2",
@@ -16,11 +20,17 @@
     "npm": ">=11.6.2"
   },
   "scripts": {
-    "clean": "npx rimraf -g \"**/bin\" \"**/obj\" \"**/TestResults\" \"**/vendor\" \"**/_site\" \"**/BenchmarkDotNet.Artifacts\" \".codacy\" \"node_modules\" \"**/node_modules\"",
-    "lint:md": "markdownlint-cli2 \"**/*.md\"",
-    "lint:md:fix": "markdownlint-cli2 --fix \"**/*.md\"",
-    "fixall": "roslynator fix --properties TargetFramework=net9.0 && dotnet format --severity info --no-restore && markdownlint-cli2 --fix \"**/*.md\"",
-    "test:coverage": "dotnet test \"Stock.Indicators.sln\" --collect:\"Code Coverage\" --no-restore --nologo"
+    "build": "dotnet build",
+    "clean": "bash tools/scripts/clean.sh",
+    "lint": "bash tools/scripts/lint-all.sh",
+    "lint:fix": "npm run lint:code:fix && npm run lint:md:fix",
+    "lint:code": "bash tools/scripts/lint-code-check.sh",
+    "lint:code:fix": "bash tools/scripts/lint-code-fix.sh",
+    "lint:md": "markdownlint-cli2",
+    "lint:md:fix": "markdownlint-cli2 --fix",
+    "fixall": "npm run lint:fix",
+    "test": "dotnet test --no-restore",
+    "test:coverage": "dotnet test --collect:\"Code Coverage\" --no-restore --nologo"
   },
   "devDependencies": {
     "@codacy/codacy-mcp": "^0.6.18",
