@@ -598,10 +598,11 @@ _avgLoss = Smoothing.WilderSmoothing(_avgLoss, loss, LookbackPeriods);
 **When to override `RollbackState`**: Any StreamHub that maintains stateful fields (beyond simple cache lookups) MUST override `RollbackState(DateTime timestamp)` to handle Insert/Remove operations and explicit Rebuild() calls.
 
 **Common scenarios requiring RollbackState**:
+
 1. Rolling windows (RollingWindowMax/Min) - must be rebuilt from cache
 2. Buffered historical values (e.g., raw K buffer in Stoch) - must be prefilled
 3. Running totals or averages (EMA state, Wilder's smoothing) - must be recalculated from cache
-4. Previous value tracking (_prevValue, _prevHigh, etc.) - must be restored from cache
+4. Previous value tracking (`_prevValue`, `_prevHigh`, etc.) - must be restored from cache
 
 **❌ WRONG - Inline rebuild detection in ToIndicator**:
 
@@ -679,12 +680,14 @@ public class GoodHub : StreamHub<IQuote, GoodResult>
 ```
 
 **Reference implementations**:
+
 - Simple rolling window: `ChandelierHub.RollbackState` (high/low windows only)
 - Complex with buffering: `StochHub.RollbackState` (windows + rawK buffer prefill)
 - Running state variables: `AdxHub.RollbackState` (Wilder's smoothing state)
 - Previous value tracking: `EmaHub.RollbackState` (prior EMA value restoration)
 
 **Key benefits of RollbackState pattern**:
+
 1. **Separation of concerns** - `ToIndicator` handles normal streaming, `RollbackState` handles cache rebuilds
 2. **Framework integration** - StreamHub base class automatically calls `RollbackState` when needed
 3. **Cleaner hot path** - No conditional logic in performance-critical `ToIndicator` method

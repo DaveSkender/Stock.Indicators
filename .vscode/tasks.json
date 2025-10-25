@@ -151,6 +151,15 @@
       "presentation": { "group": "analysis" }
     },
     {
+      "label": "Fix: Markdown files",
+      "detail": "Auto-fix markdown formatting issues",
+      "type": "npm",
+      "script": "lint:md:fix",
+      "group": "none",
+      "problemMatcher": "$markdownlint",
+      "presentation": { "group": "analysis" }
+    },
+    {
       "label": "Fix: All .NET and markdown formatting",
       "detail": "Auto-fix code format and markdown issues",
       "type": "npm",
