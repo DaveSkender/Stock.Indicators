@@ -15,8 +15,8 @@ Created by E.W. Dreiss, the Choppiness Index measures the trendiness or choppine
 
 ```csharp
 // C# usage syntax
-IEnumerable<ChopResult> results =
-  quotes.GetChop(lookbackPeriods);
+IReadOnlyList<ChopResult> results =
+  quotes.ToChop(lookbackPeriods);
 ```
 
 ## Parameters
@@ -32,7 +32,7 @@ You must have at least `N+1` periods of `quotes` to cover the warmup periods.
 ## Response
 
 ```csharp
-IEnumerable<ChopResult>
+IReadOnlyList<ChopResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
@@ -42,7 +42,7 @@ IEnumerable<ChopResult>
 
 ### ChopResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`Chop`** _`double`_ - Choppiness Index
 
@@ -62,8 +62,8 @@ Results can be further processed on `Chop` with additional chain-enabled indicat
 ```csharp
 // example
 var results = quotes
-    .GetChop(..)
-    .GetEma(..);
+    .ToChop(..)
+    .ToEma(..);
 ```
 
 This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.

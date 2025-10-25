@@ -1,4 +1,4 @@
-namespace Tests.Common;
+namespace Utilities;
 
 #pragma warning disable CA1805 // Do not initialize unnecessarily
 
@@ -64,7 +64,7 @@ public class NullMaths : TestBase
         dblNeg.NaN2Null().Should().Be(-200.98765d);
 
         // double (non-nullable)
-        double dblNaN = double.NaN;
+        const double dblNaN = double.NaN;
         dblNaN.NaN2Null().Should().BeNull();
         100.12345d.NaN2Null().Should().Be(100.12345d);
         (-200.98765d).NaN2Null().Should().Be(-200.98765d);

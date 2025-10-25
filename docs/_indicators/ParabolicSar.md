@@ -16,12 +16,12 @@ Created by J. Welles Wilder, [Parabolic SAR](https://en.wikipedia.org/wiki/Parab
 
 ```csharp
 // C# usage syntax (standard)
-IEnumerable<ParabolicSarResult> results =
-  quotes.GetParabolicSar(accelerationStep, maxAccelerationFactor);
+IReadOnlyList<ParabolicSarResult> results =
+  quotes.ToParabolicSar(accelerationStep, maxAccelerationFactor);
 
 // alternate usage with custom initial Factor
-IEnumerable<ParabolicSarResult> results =
-  quotes.GetParabolicSar(accelerationStep, maxAccelerationFactor, initialFactor);
+IReadOnlyList<ParabolicSarResult> results =
+  quotes.ToParabolicSar(accelerationStep, maxAccelerationFactor, initialFactor);
 ```
 
 ## Parameters
@@ -41,7 +41,7 @@ You must have at least two historical quotes to cover the warmup periods; howeve
 ## Response
 
 ```csharp
-IEnumerable<ParabolicSarResult>
+IReadOnlyList<ParabolicSarResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
@@ -51,7 +51,7 @@ IEnumerable<ParabolicSarResult>
 
 ### ParabolicSarResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`Sar`** _`double`_ - Stop and Reverse value
 
@@ -73,8 +73,8 @@ Results can be further processed on `Sar` with additional chain-enabled indicato
 ```csharp
 // example
 var results = quotes
-    .GetParabolicSar(..)
-    .GetEma(..);
+    .ToParabolicSar(..)
+    .ToEma(..);
 ```
 
 This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.

@@ -16,8 +16,8 @@ type: candlestick-pattern
 
 ```csharp
 // C# usage syntax
-IEnumerable<CandleResult> results =
-  quotes.GetDoji(maxPriceChangePercent);
+IReadOnlyList<CandleResult> results =
+  quotes.ToDoji(maxPriceChangePercent);
 ```
 
 ## Parameters
@@ -33,7 +33,7 @@ You must have at least one historical quote; however, more is typically provided
 ## Response
 
 ```csharp
-IEnumerable<CandleResult>
+IReadOnlyList<CandleResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.

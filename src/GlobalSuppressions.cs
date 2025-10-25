@@ -1,52 +1,40 @@
 using System.Diagnostics.CodeAnalysis;
 
 [assembly: SuppressMessage(
-    "Naming",
-    "CA1716:Identifiers should not match keywords",
-    Justification = "Not really an issue.",
-    Scope = "member",
-    Target = "~P:Skender.Stock.Indicators.ISeries.Date")]
+    "Maintainability",
+    "CA1510:Use ArgumentNullException throw helper",
+    Justification = "Does not support .NET Standard and before .NET 6")]
 
 [assembly: SuppressMessage(
     "Naming",
-    "CA1716:Identifiers should not match keywords",
-    Justification = "Not really an issue.",
-    Scope = "member",
-    Target = "~P:Skender.Stock.Indicators.Quote.Date")]
-
-[assembly: SuppressMessage(
-    "Naming",
-    "CA1716:Identifiers should not match keywords",
-    Justification = "Not really an issue.",
-    Scope = "member",
-    Target = "~P:Skender.Stock.Indicators.IBasicData.Date")]
+    "CA1710:Identifiers should have correct suffix",
+    Justification = "BufferList is the established naming convention for this library",
+    Scope = "type",
+    Target = "~T:Skender.Stock.Indicators.BufferList`1")]
 
 [assembly: SuppressMessage("Naming",
     "CA1720:Identifier contains type name"
     , Justification = "Not really an issue.",
     Scope = "type",
-    Target = "~T:Skender.Stock.Indicators.ChandelierType")]
+    Target = "~T:Skender.Stock.Indicators.Direction")]
 
 [assembly: SuppressMessage(
     "Naming",
     "CA1720:Identifier contains type name",
     Justification = "Not really an issue.",
     Scope = "member",
-    Target = "~F:Skender.Stock.Indicators.ChandelierType.Short")]
+    Target = "~F:Skender.Stock.Indicators.Direction.Long")]
 
 [assembly: SuppressMessage(
-    "StyleCop.CSharp.SpacingRules",
-    "SA1008:Opening parenthesis should be spaced correctly",
-    Justification = "Not compatible with `or` statement (analyzer bug)",
+    "Naming",
+    "CA1720:Identifier contains type name",
+    Justification = "Not really an issue.",
     Scope = "member",
-    Target = "~M:Skender.Stock.Indicators.ResultUtility.Condense``1(System.Collections.Generic.IEnumerable{``0})~System.Collections.Generic.IEnumerable{``0}")]
+    Target = "~F:Skender.Stock.Indicators.Direction.Short")]
 
 [assembly: SuppressMessage(
-    "Maintainability",
-    "CA1510:Use ArgumentNullException throw helper",
-    Justification = "Can only use with .NET 6 or later.  We support .NET Framework and .NET Standard.")]
-
-[assembly: SuppressMessage(
-    "StyleCop.CSharp.SpacingRules",
-    "SA1010:Opening square brackets should be spaced correctly",
-    Justification = "Invalid for new C# 12 [ collection ] syntax.")]
+    "Naming",
+    "CA1716:Identifiers should not match keywords",
+    Justification = "Temporary, during deprecation period.",
+    Scope = "member",
+    Target = "~P:Skender.Stock.Indicators.ISeries.Date")]

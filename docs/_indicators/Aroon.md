@@ -16,8 +16,8 @@ Created by Tushar Chande, [Aroon](https://school.stockcharts.com/doku.php?id=tec
 
 ```csharp
 // C# usage syntax
-IEnumerable<AroonResult> results =
-  quotes.GetAroon(lookbackPeriods);
+IReadOnlyList<AroonResult> results =
+  quotes.ToAroon(lookbackPeriods);
 ```
 
 ## Parameters
@@ -33,7 +33,7 @@ You must have at least `N` periods of `quotes` to cover the warmup periods.
 ## Response
 
 ```csharp
-IEnumerable<AroonResult>
+IReadOnlyList<AroonResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
@@ -43,7 +43,7 @@ IEnumerable<AroonResult>
 
 ### AroonResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`AroonUp`** _`double`_ - Based on last High price
 
@@ -67,8 +67,8 @@ Results can be further processed on `Oscillator` with additional chain-enabled i
 ```csharp
 // example
 var results = quotes
-    .GetAroon(..)
-    .GetSlope(..);
+    .ToAroon(..)
+    .ToSlope(..);
 ```
 
 This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.

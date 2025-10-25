@@ -1,0 +1,37 @@
+namespace Skender.Stock.Indicators;
+
+public static partial class RollingPivots
+{
+    // Rolling Pivots Common Base Listing
+    internal static readonly IndicatorListing CommonListing =
+        new CatalogListingBuilder()
+            .WithName("Rolling Pivots")
+            .WithId("ROLLING-PIVOTS")
+            .WithCategory(Category.PriceTrend)
+            .WithMethodName("ToRollingPivots")
+            .AddParameter<int>("windowPeriods", "Window Periods", description: "Number of periods for the rolling window", isRequired: false, defaultValue: 20, minimum: 1, maximum: 250)
+            .AddParameter<int>("offsetPeriods", "Offset Periods", description: "Number of periods to offset the pivots", isRequired: false, defaultValue: 0, minimum: 0, maximum: 100)
+            .AddEnumParameter<PivotPointType>("pointType", "Point Type", description: "Type of pivot points to calculate", isRequired: false, defaultValue: PivotPointType.Standard)
+            .AddResult("R3", "Resistance 3", ResultType.Default)
+            .AddResult("R2", "Resistance 2", ResultType.Default)
+            .AddResult("R1", "Resistance 1", ResultType.Default)
+            .AddResult("PP", "Pivot Point", ResultType.Default, isReusable: true)
+            .AddResult("S1", "Support 1", ResultType.Default)
+            .AddResult("S2", "Support 2", ResultType.Default)
+            .AddResult("S3", "Support 3", ResultType.Default)
+            .Build();
+
+    // Rolling Pivots Series Listing
+    internal static readonly IndicatorListing SeriesListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Series)
+            .Build();
+
+    // No StreamListing for Rolling Pivots.
+
+    // Rolling Pivots Buffer Listing
+    internal static readonly IndicatorListing BufferListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Buffer)
+            .Build();
+}

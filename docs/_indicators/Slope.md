@@ -17,8 +17,8 @@ layout: indicator
 
 ```csharp
 // C# usage syntax
-IEnumerable<SlopeResult> results =
-  quotes.GetSlope(lookbackPeriods);
+IReadOnlyList<SlopeResult> results =
+  quotes.ToSlope(lookbackPeriods);
 ```
 
 ## Parameters
@@ -34,7 +34,7 @@ You must have at least `N` periods of `quotes` to cover the warmup periods.
 ## Response
 
 ```csharp
-IEnumerable<SlopeResult>
+IReadOnlyList<SlopeResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
@@ -47,7 +47,7 @@ IEnumerable<SlopeResult>
 
 ### SlopeResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`Slope`** _`double`_ - Slope `m` of the best-fit line of price
 
@@ -75,8 +75,8 @@ This indicator may be generated from any chain-enabled indicator or method.
 ```csharp
 // example
 var results = quotes
-    .GetEma(..)
-    .GetSlope(..);
+    .ToEma(..)
+    .ToSlope(..);
 ```
 
 Results can be further processed on `Slope` with additional chain-enabled indicators.
@@ -84,6 +84,6 @@ Results can be further processed on `Slope` with additional chain-enabled indica
 ```csharp
 // example
 var results = quotes
-    .GetSlope(..)
-    .GetRsi(..);
+    .ToSlope(..)
+    .ToRsi(..);
 ```

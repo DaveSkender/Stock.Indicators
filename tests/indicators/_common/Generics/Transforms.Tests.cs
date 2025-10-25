@@ -1,6 +1,6 @@
 using System.Collections.ObjectModel;
 
-namespace Tests.Common;
+namespace Utilities;
 
 [TestClass]
 public class Transforms : TestBase
@@ -8,7 +8,7 @@ public class Transforms : TestBase
     [TestMethod]
     public void ToCollection()
     {
-        Collection<Quote> collection = quotes
+        Collection<Quote> collection = Quotes
             .ToSortedList()
             .ToCollection();
 
@@ -19,9 +19,9 @@ public class Transforms : TestBase
 
     // null ToCollection
     [TestMethod]
-    public void Exceptions()
+    public void ToCollectionNullExceptions()
     {
-        List<Quote> nullQuotes = null;
+        IReadOnlyList<Quote> nullQuotes = null;
 
         Assert.ThrowsExactly<ArgumentNullException>(
             () => nullQuotes.ToCollection());

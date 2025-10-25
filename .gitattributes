@@ -1,2 +1,5 @@
 # Normalize line endings.
 * text=auto eol=lf
+
+# NuGet lock files should always use LF
+**/packages.lock.json text eol=lf

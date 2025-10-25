@@ -16,8 +16,8 @@ Created by Larry Williams, [Fractal](https://www.investopedia.com/terms/f/fracta
 
 ```csharp
 // C# usage syntax
-IEnumerable<FractalResult> results =
-  quotes.GetFractal(windowSpan);
+IReadOnlyList<FractalResult> results =
+  quotes.ToFractal(windowSpan);
 ```
 
 ## Parameters
@@ -43,7 +43,7 @@ You must have at least `2×S+1` periods of `quotes` to cover the warmup periods;
 ## Response
 
 ```csharp
-IEnumerable<FractalResult>
+IReadOnlyList<FractalResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
@@ -55,7 +55,7 @@ IEnumerable<FractalResult>
 
 ### FractalResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`FractalBear`** _`decimal`_ - Value indicates a **high** point; otherwise `null` is returned.
 

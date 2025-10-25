@@ -1,0 +1,37 @@
+namespace Skender.Stock.Indicators;
+
+public static partial class Adx
+{
+    // ADX Common Base Listing
+    internal static readonly IndicatorListing CommonListing =
+        new CatalogListingBuilder()
+            .WithName("Average Directional Index (ADX)")
+            .WithId("ADX")
+            .WithCategory(Category.PriceTrend)
+            .WithMethodName("ToAdx")
+            .AddParameter<int>("lookbackPeriods", "Lookback Periods", defaultValue: 14, minimum: 2, maximum: 250)
+            .AddResult("Pdi", "+DI", ResultType.Default)
+            .AddResult("Mdi", "-DI", ResultType.Default)
+            .AddResult("Dx", "DX", ResultType.Default)
+            .AddResult("Adx", "ADX", ResultType.Default, isReusable: true)
+            .AddResult("Adxr", "ADXR", ResultType.Default)
+            .Build();
+
+    // ADX Series Listing
+    internal static readonly IndicatorListing SeriesListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Series)
+            .Build();
+
+    // ADX Stream Listing
+    internal static readonly IndicatorListing StreamListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Stream)
+            .Build();
+
+    // ADX Buffer Listing
+    internal static readonly IndicatorListing BufferListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Buffer)
+            .Build();
+}

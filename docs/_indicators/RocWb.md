@@ -17,8 +17,8 @@ Rate of Change (ROC) with Bands, created by Vitali Apirine, is a volatility band
 
 ```csharp
 // C# usage syntax
-IEnumerable<RocWbResult> results =
-  quotes.GetRocWb(lookbackPeriods, emaPeriods, stdDevPeriods);
+IReadOnlyList<RocWbResult> results =
+  quotes.ToRocWb(lookbackPeriods, emaPeriods, stdDevPeriods);
 ```
 
 ## Parameters
@@ -38,7 +38,7 @@ You must have at least `N+1` periods of `quotes` to cover the warmup periods.
 ## Response
 
 ```csharp
-IEnumerable<RocWbResult>
+IReadOnlyList<RocWbResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
@@ -48,7 +48,7 @@ IEnumerable<RocWbResult>
 
 ### RocWbResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`Roc`** _`double`_ - Rate of Change over `N` lookback periods (%, not decimal)
 
@@ -67,6 +67,24 @@ IEnumerable<RocWbResult>
 
 See [Utilities and helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
 
+## Streaming
+
+This indicator can be used with the buffer style for incremental streaming scenarios.  See [Streaming guide]({{site.baseurl}}/guide) for more information.
+
+```csharp
+// buffer-style streaming
+RocWbList buffer = new(lookbackPeriods, emaPeriods, stdDevPeriods);
+
+foreach (Quote quote in quotes)
+{
+    buffer.Add(quote);
+    RocWbResult result = buffer[^1];
+}
+
+// or initialize with historical quotes
+RocWbList buffer = quotes.ToRocWbList(lookbackPeriods, emaPeriods, stdDevPeriods);
+```
+
 ## Chaining
 
 This indicator may be generated from any chain-enabled indicator or method.
@@ -75,7 +93,7 @@ This indicator may be generated from any chain-enabled indicator or method.
 // example
 var results = quotes
     .Use(CandlePart.HL2)
-    .GetRocWb(..);
+    .ToRocWb(..);
 ```
 
 Results can be further processed on `Roc` with additional chain-enabled indicators.
@@ -83,6 +101,6 @@ Results can be further processed on `Roc` with additional chain-enabled indicato
 ```csharp
 // example
 var results = quotes
-    .GetRocWb(..)
-    .GetEma(..);
+    .ToRocWb(..)
+    .ToEma(..);
 ```

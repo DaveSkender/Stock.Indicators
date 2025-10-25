@@ -16,8 +16,8 @@ Created by Alexander Elder, the [Elder-ray Index](https://www.investopedia.com/t
 
 ```csharp
 // C# usage syntax
-IEnumerable<ElderRayResult> results =
-  quotes.GetElderRay(lookbackPeriods);
+IReadOnlyList<ElderRayResult> results =
+  quotes.ToElderRay(lookbackPeriods);
 ```
 
 ## Parameters
@@ -33,7 +33,7 @@ You must have at least `2×N` or `N+100` periods of `quotes`, whichever is more,
 ## Response
 
 ```csharp
-IEnumerable<ElderRayResult>
+IReadOnlyList<ElderRayResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
@@ -45,7 +45,7 @@ IEnumerable<ElderRayResult>
 
 ### ElderRayResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`Ema`** _`double`_ - Exponential moving average
 
@@ -69,8 +69,8 @@ Results can be further processed on `(BullPower+BearPower)` with additional chai
 ```csharp
 // example
 var results = quotes
-    .GetElderRay(..)
-    .GetEma(..);
+    .ToElderRay(..)
+    .ToEma(..);
 ```
 
 This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.
