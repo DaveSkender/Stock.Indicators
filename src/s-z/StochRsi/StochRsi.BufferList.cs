@@ -47,7 +47,9 @@ public class StochRsiList : BufferList<StochRsiResult>, IIncrementFromChain
         int smoothPeriods,
         IReadOnlyList<IReusable> values)
         : this(rsiPeriods, stochPeriods, signalPeriods, smoothPeriods)
-        => Add(values);
+    {
+        Add(values);
+    }
 
     /// <summary>
     /// Gets the number of periods for the RSI calculation.

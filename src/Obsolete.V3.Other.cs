@@ -4,7 +4,9 @@ using System.Diagnostics.CodeAnalysis;
 namespace Skender.Stock.Indicators;
 #pragma warning disable CS1591 // Missing XML comments
 
-// OBSOLETE IN v3.0.0
+/// <summary>
+/// OBSOLETE IN v3.0.0
+/// </summary>
 [ExcludeFromCodeCoverage]
 [Obsolete("The broad Indicator class has been replaced by specific indicator classes.", true)]
 public static partial class Indicator
@@ -19,13 +21,13 @@ public static partial class Indicator
         => quotes
             .ToSortedList()
             .ToReusable(candlePart)
-            .Select(x => (x.Timestamp, x.Value));
+            .Select(static x => (x.Timestamp, x.Value));
 
     [ExcludeFromCodeCoverage]
     [Obsolete("This method no longer defaults to Close.  Rename Use() to Use(CandlePart.Close) for an explicit conversion.", false)]
     public static IEnumerable<(DateTime Timestamp, double Value)> Use(
         this IReadOnlyList<IQuote> quotes)
-        => quotes.Select(x => (x.Timestamp, x.Value));
+        => quotes.Select(static x => (x.Timestamp, x.Value));
 
     [ExcludeFromCodeCoverage]
     [Obsolete("Refactor to use `ToSortedList()`", false)]
@@ -33,7 +35,7 @@ public static partial class Indicator
     this IEnumerable<TSeries> series)
     where TSeries : ISeries
         => series
-            .OrderBy(x => x.Timestamp)
+            .OrderBy(static x => x.Timestamp)
             .ToCollection();
 
     [ExcludeFromCodeCoverage]
@@ -42,8 +44,8 @@ public static partial class Indicator
         this IEnumerable<TResult> reusable)
         where TResult : IReusable
         => reusable
-            .Select(x => (x.Timestamp, x.Value))
-            .OrderBy(x => x.Timestamp)
+            .Select(static x => (x.Timestamp, x.Value))
+            .OrderBy(static x => x.Timestamp)
             .ToCollection();
 
     [ExcludeFromCodeCoverage]
@@ -52,7 +54,7 @@ public static partial class Indicator
         this IEnumerable<IReusable> reusable)
         => reusable
             .ToSortedList()
-            .Select(x => (x.Timestamp, x.Value))
+            .Select(static x => (x.Timestamp, x.Value))
             .ToCollection();
 
     [ExcludeFromCodeCoverage]
@@ -63,7 +65,7 @@ public static partial class Indicator
         => quotes
             .ToList()
             .ToReusable(candlePart)
-            .Select(x => (x.Timestamp, x.Value))
+            .Select(static x => (x.Timestamp, x.Value))
             .ToCollection();
 
     [ExcludeFromCodeCoverage]
@@ -111,7 +113,9 @@ public sealed class BasicData : IReusable
     public double Value { get; set; }
 }
 
-// ENUM
+/// <summary>
+/// ENUM
+/// </summary>
 [Obsolete($"Rename '{nameof(ChandelierType)}' to '{nameof(Direction)}'.")]
 [SuppressMessage("Naming", "CA1720:Identifier contains type name", Justification = "Not really an issue.")]
 public enum ChandelierType

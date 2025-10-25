@@ -23,17 +23,17 @@ public class AlmaTests : TestBase
         listing.Parameters.Should().NotBeNull();
         listing.Parameters.Should().HaveCount(3);
 
-        IndicatorParam lookbackPeriodsParam = listing.Parameters.SingleOrDefault(p => p.ParameterName == "lookbackPeriods");
+        IndicatorParam lookbackPeriodsParam = listing.Parameters.SingleOrDefault(static p => p.ParameterName == "lookbackPeriods");
         lookbackPeriodsParam.Should().NotBeNull();
-        IndicatorParam offsetParam1 = listing.Parameters.SingleOrDefault(p => p.ParameterName == "offset");
+        IndicatorParam offsetParam1 = listing.Parameters.SingleOrDefault(static p => p.ParameterName == "offset");
         offsetParam1.Should().NotBeNull();
-        IndicatorParam sigmaParam2 = listing.Parameters.SingleOrDefault(p => p.ParameterName == "sigma");
+        IndicatorParam sigmaParam2 = listing.Parameters.SingleOrDefault(static p => p.ParameterName == "sigma");
         sigmaParam2.Should().NotBeNull();
 
         listing.Results.Should().NotBeNull();
         listing.Results.Should().HaveCount(1);
 
-        IndicatorResult almaResult = listing.Results.SingleOrDefault(r => r.DataName == "Alma");
+        IndicatorResult almaResult = listing.Results.SingleOrDefault(static r => r.DataName == "Alma");
         almaResult.Should().NotBeNull();
         almaResult?.DisplayName.Should().Be("Arnaud Legoux Moving Average (ALMA)");
         almaResult.IsReusable.Should().Be(true);
@@ -56,17 +56,17 @@ public class AlmaTests : TestBase
         listing.Parameters.Should().NotBeNull();
         listing.Parameters.Should().HaveCount(3);
 
-        IndicatorParam lookbackPeriodsParam = listing.Parameters.SingleOrDefault(p => p.ParameterName == "lookbackPeriods");
+        IndicatorParam lookbackPeriodsParam = listing.Parameters.SingleOrDefault(static p => p.ParameterName == "lookbackPeriods");
         lookbackPeriodsParam.Should().NotBeNull();
-        IndicatorParam offsetParam1 = listing.Parameters.SingleOrDefault(p => p.ParameterName == "offset");
+        IndicatorParam offsetParam1 = listing.Parameters.SingleOrDefault(static p => p.ParameterName == "offset");
         offsetParam1.Should().NotBeNull();
-        IndicatorParam sigmaParam2 = listing.Parameters.SingleOrDefault(p => p.ParameterName == "sigma");
+        IndicatorParam sigmaParam2 = listing.Parameters.SingleOrDefault(static p => p.ParameterName == "sigma");
         sigmaParam2.Should().NotBeNull();
 
         listing.Results.Should().NotBeNull();
         listing.Results.Should().HaveCount(1);
 
-        IndicatorResult almaResult = listing.Results.SingleOrDefault(r => r.DataName == "Alma");
+        IndicatorResult almaResult = listing.Results.SingleOrDefault(static r => r.DataName == "Alma");
         almaResult.Should().NotBeNull();
         almaResult?.DisplayName.Should().Be("Arnaud Legoux Moving Average (ALMA)");
         almaResult.IsReusable.Should().Be(true);
@@ -89,17 +89,17 @@ public class AlmaTests : TestBase
         listing.Parameters.Should().NotBeNull();
         listing.Parameters.Should().HaveCount(3);
 
-        IndicatorParam lookbackPeriodsParam = listing.Parameters.SingleOrDefault(p => p.ParameterName == "lookbackPeriods");
+        IndicatorParam lookbackPeriodsParam = listing.Parameters.SingleOrDefault(static p => p.ParameterName == "lookbackPeriods");
         lookbackPeriodsParam.Should().NotBeNull();
-        IndicatorParam offsetParam1 = listing.Parameters.SingleOrDefault(p => p.ParameterName == "offset");
+        IndicatorParam offsetParam1 = listing.Parameters.SingleOrDefault(static p => p.ParameterName == "offset");
         offsetParam1.Should().NotBeNull();
-        IndicatorParam sigmaParam2 = listing.Parameters.SingleOrDefault(p => p.ParameterName == "sigma");
+        IndicatorParam sigmaParam2 = listing.Parameters.SingleOrDefault(static p => p.ParameterName == "sigma");
         sigmaParam2.Should().NotBeNull();
 
         listing.Results.Should().NotBeNull();
         listing.Results.Should().HaveCount(1);
 
-        IndicatorResult almaResult = listing.Results.SingleOrDefault(r => r.DataName == "Alma");
+        IndicatorResult almaResult = listing.Results.SingleOrDefault(static r => r.DataName == "Alma");
         almaResult.Should().NotBeNull();
         almaResult?.DisplayName.Should().Be("Arnaud Legoux Moving Average (ALMA)");
         almaResult.IsReusable.Should().Be(true);

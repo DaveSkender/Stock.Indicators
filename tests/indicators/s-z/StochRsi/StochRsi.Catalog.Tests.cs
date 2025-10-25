@@ -23,23 +23,23 @@ public class StochRsiTests : TestBase
         listing.Parameters.Should().NotBeNull();
         listing.Parameters.Should().HaveCount(4);
 
-        IndicatorParam rsiPeriodsParam = listing.Parameters.SingleOrDefault(p => p.ParameterName == "rsiPeriods");
+        IndicatorParam rsiPeriodsParam = listing.Parameters.SingleOrDefault(static p => p.ParameterName == "rsiPeriods");
         rsiPeriodsParam.Should().NotBeNull();
-        IndicatorParam stochPeriodsParam1 = listing.Parameters.SingleOrDefault(p => p.ParameterName == "stochPeriods");
+        IndicatorParam stochPeriodsParam1 = listing.Parameters.SingleOrDefault(static p => p.ParameterName == "stochPeriods");
         stochPeriodsParam1.Should().NotBeNull();
-        IndicatorParam signalPeriodsParam2 = listing.Parameters.SingleOrDefault(p => p.ParameterName == "signalPeriods");
+        IndicatorParam signalPeriodsParam2 = listing.Parameters.SingleOrDefault(static p => p.ParameterName == "signalPeriods");
         signalPeriodsParam2.Should().NotBeNull();
-        IndicatorParam smoothPeriodsParam3 = listing.Parameters.SingleOrDefault(p => p.ParameterName == "smoothPeriods");
+        IndicatorParam smoothPeriodsParam3 = listing.Parameters.SingleOrDefault(static p => p.ParameterName == "smoothPeriods");
         smoothPeriodsParam3.Should().NotBeNull();
 
         listing.Results.Should().NotBeNull();
         listing.Results.Should().HaveCount(2);
 
-        IndicatorResult stochrsiResult = listing.Results.SingleOrDefault(r => r.DataName == "StochRsi");
+        IndicatorResult stochrsiResult = listing.Results.SingleOrDefault(static r => r.DataName == "StochRsi");
         stochrsiResult.Should().NotBeNull();
         stochrsiResult?.DisplayName.Should().Be("%K");
         stochrsiResult.IsReusable.Should().Be(true);
-        IndicatorResult signalResult1 = listing.Results.SingleOrDefault(r => r.DataName == "Signal");
+        IndicatorResult signalResult1 = listing.Results.SingleOrDefault(static r => r.DataName == "Signal");
         signalResult1.Should().NotBeNull();
         signalResult1?.DisplayName.Should().Be("%D");
         signalResult1.IsReusable.Should().Be(false);

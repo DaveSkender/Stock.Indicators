@@ -3,16 +3,19 @@ namespace StaticSeries;
 [TestClass]
 public class Fractal : StaticSeriesTestBase
 {
+    /// <summary>
+    /// Span 2
+    /// </summary>
     [TestMethod]
-    public override void Standard() // Span 2
+    public override void Standard()
     {
         IReadOnlyList<FractalResult> results = Quotes
             .ToFractal();
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.HasCount(63, results.Where(x => x.FractalBear != null));
-        Assert.HasCount(71, results.Where(x => x.FractalBull != null));
+        Assert.HasCount(63, results.Where(static x => x.FractalBear != null));
+        Assert.HasCount(71, results.Where(static x => x.FractalBull != null));
 
         // sample values
         FractalResult r1 = results[1];
@@ -48,8 +51,8 @@ public class Fractal : StaticSeriesTestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.AreEqual(35, results.Count(x => x.FractalBear != null));
-        Assert.AreEqual(34, results.Count(x => x.FractalBull != null));
+        Assert.AreEqual(35, results.Count(static x => x.FractalBear != null));
+        Assert.AreEqual(34, results.Count(static x => x.FractalBull != null));
 
         // sample values
         FractalResult r1 = results[3];
@@ -110,9 +113,11 @@ public class Fractal : StaticSeriesTestBase
         Assert.HasCount(129, results);
     }
 
-    // bad window span
+    /// <summary>
+    /// bad window span
+    /// </summary>
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => Quotes.ToFractal(1));
+            static () => Quotes.ToFractal(1));
 }

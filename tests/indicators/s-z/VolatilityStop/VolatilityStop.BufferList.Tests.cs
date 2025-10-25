@@ -19,7 +19,7 @@ public class VolatilityStop : BufferListTestBase, ITestQuoteBufferList
         }
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
+        sut.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
     }
 
     [TestMethod]
@@ -28,7 +28,7 @@ public class VolatilityStop : BufferListTestBase, ITestQuoteBufferList
         VolatilityStopList sut = Quotes.ToVolatilityStopList(lookbackPeriods, multiplier);
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
+        sut.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
     }
 
     [TestMethod]
@@ -37,7 +37,7 @@ public class VolatilityStop : BufferListTestBase, ITestQuoteBufferList
         VolatilityStopList sut = new(lookbackPeriods, multiplier, Quotes);
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
+        sut.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
     }
 
     [TestMethod]
@@ -49,7 +49,7 @@ public class VolatilityStop : BufferListTestBase, ITestQuoteBufferList
         VolatilityStopList sut = new(lookbackPeriods, multiplier, subset);
 
         sut.Should().HaveCount(subset.Count);
-        sut.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
+        sut.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
 
         sut.Clear();
 
@@ -58,7 +58,7 @@ public class VolatilityStop : BufferListTestBase, ITestQuoteBufferList
         sut.Add(subset);
 
         sut.Should().HaveCount(expected.Count);
-        sut.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
+        sut.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
     }
 
     [TestMethod]
@@ -75,6 +75,6 @@ public class VolatilityStop : BufferListTestBase, ITestQuoteBufferList
         // Verify the last 100 items match series results
         IReadOnlyList<VolatilityStopResult> expectedLast100 = expected.Skip(expected.Count - 100).ToList();
 
-        sut.Should().BeEquivalentTo(expectedLast100, options => options.WithStrictOrdering());
+        sut.Should().BeEquivalentTo(expectedLast100, static options => options.WithStrictOrdering());
     }
 }

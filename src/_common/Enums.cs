@@ -8,22 +8,22 @@ internal enum Act
     /// <summary>
     /// Adds item to end of cache or rebuild if older.
     /// </summary>
-    Add,
+    Add = 0,
 
     /// <summary>
     /// Does nothing to cache (aborted).
     /// </summary>
-    Ignore,
+    Ignore = 1,
 
     /// <summary>
     /// Insert item without rebuilding cache.
     /// </summary>
-    Insert,
+    Insert = 2,
 
     /// <summary>
     /// Reset and rebuild from marker position.
     /// </summary>
-    Rebuild
+    Rebuild = 3
 }
 
 /// <summary>
@@ -34,52 +34,52 @@ public enum CandlePart
     /// <summary>
     /// Opening price.
     /// </summary>
-    Open,
+    Open = 0,
 
     /// <summary>
     /// Highest price.
     /// </summary>
-    High,
+    High = 1,
 
     /// <summary>
     /// Lowest price.
     /// </summary>
-    Low,
+    Low = 2,
 
     /// <summary>
     /// Closing price.
     /// </summary>
-    Close,
+    Close = 3,
 
     /// <summary>
     /// Volume of trades.
     /// </summary>
-    Volume,
+    Volume = 4,
 
     /// <summary>
     /// Average of high and low prices.
     /// </summary>
-    HL2,
+    HL2 = 5,
 
     /// <summary>
     /// Average of high, low, and close prices.
     /// </summary>
-    HLC3,
+    HLC3 = 6,
 
     /// <summary>
     /// Average of open and close prices.
     /// </summary>
-    OC2,
+    OC2 = 7,
 
     /// <summary>
     /// Average of open, high, and low prices.
     /// </summary>
-    OHL3,
+    OHL3 = 8,
 
     /// <summary>
     /// Average of open, high, low, and close prices.
     /// </summary>
-    OHLC4
+    OHLC4 = 9
 }
 
 /// <summary>
@@ -152,57 +152,57 @@ public enum MaType
     /// <summary>
     /// Arnaud Legoux Moving Average.
     /// </summary>
-    ALMA,
+    ALMA = 0,
 
     /// <summary>
     /// Double Exponential Moving Average.
     /// </summary>
-    DEMA,
+    DEMA = 1,
 
     /// <summary>
     /// Exponential Percentage Moving Average.
     /// </summary>
-    EPMA,
+    EPMA = 2,
 
     /// <summary>
     /// Exponential Moving Average.
     /// </summary>
-    EMA,
+    EMA = 3,
 
     /// <summary>
     /// Hull Moving Average.
     /// </summary>
-    HMA,
+    HMA = 4,
 
     /// <summary>
     /// Kaufman Adaptive Moving Average.
     /// </summary>
-    KAMA,
+    KAMA = 5,
 
     /// <summary>
     /// MESA Adaptive Moving Average.
     /// </summary>
-    MAMA,
+    MAMA = 6,
 
     /// <summary>
     /// Simple Moving Average.
     /// </summary>
-    SMA,
+    SMA = 7,
 
     /// <summary>
     /// Smoothed Moving Average.
     /// </summary>
-    SMMA,
+    SMMA = 8,
 
     /// <summary>
     /// Triple Exponential Moving Average.
     /// </summary>
-    TEMA,
+    TEMA = 9,
 
     /// <summary>
     /// Weighted Moving Average.
     /// </summary>
-    WMA
+    WMA = 10
 }
 
 /// <summary>
@@ -213,17 +213,17 @@ public enum OutType
     /// <summary>
     /// Fixed width format.
     /// </summary>
-    FixedWidth,
+    FixedWidth = 0,
 
     /// <summary>
     /// Comma-separated values format.
     /// </summary>
-    CSV,
+    CSV = 1,
 
     /// <summary>
     /// JSON format.
     /// </summary>
-    JSON
+    JSON = 2
 }
 
 /// <summary>
@@ -234,62 +234,62 @@ public enum PeriodSize
     /// <summary>
     /// Monthly period.
     /// </summary>
-    Month,
+    Month = 0,
 
     /// <summary>
     /// Weekly period.
     /// </summary>
-    Week,
+    Week = 1,
 
     /// <summary>
     /// Daily period.
     /// </summary>
-    Day,
+    Day = 2,
 
     /// <summary>
     /// Four-hour period.
     /// </summary>
-    FourHours,
+    FourHours = 3,
 
     /// <summary>
     /// Two-hour period.
     /// </summary>
-    TwoHours,
+    TwoHours = 4,
 
     /// <summary>
     /// One-hour period.
     /// </summary>
-    OneHour,
+    OneHour = 5,
 
     /// <summary>
     /// Thirty-minute period.
     /// </summary>
-    ThirtyMinutes,
+    ThirtyMinutes = 6,
 
     /// <summary>
     /// Fifteen-minute period.
     /// </summary>
-    FifteenMinutes,
+    FifteenMinutes = 7,
 
     /// <summary>
     /// Five-minute period.
     /// </summary>
-    FiveMinutes,
+    FiveMinutes = 8,
 
     /// <summary>
     /// Three-minute period.
     /// </summary>
-    ThreeMinutes,
+    ThreeMinutes = 9,
 
     /// <summary>
     /// Two-minute period.
     /// </summary>
-    TwoMinutes,
+    TwoMinutes = 10,
 
     /// <summary>
     /// One-minute period.
     /// </summary>
-    OneMinute
+    OneMinute = 11
 }
 
 /// <summary>

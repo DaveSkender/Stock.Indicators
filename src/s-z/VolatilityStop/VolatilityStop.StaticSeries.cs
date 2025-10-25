@@ -116,7 +116,7 @@ public static partial class VolatilityStop
         }
 
         // remove trend to first stop, since it is a guess
-        int cutIndex = results.FindIndex(x => x.IsStop ?? false);
+        int cutIndex = results.FindIndex(static x => x.IsStop ?? false);
 
         for (int d = 0; d <= cutIndex; d++)
         {

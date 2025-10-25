@@ -15,7 +15,7 @@ public static partial class Pmo
         ArgumentNullException.ThrowIfNull(results);
 
         int ts = results
-            .FindIndex(x => x.Pmo != null) + 1;
+            .FindIndex(static x => x.Pmo != null) + 1;
 
         return results.Remove(ts + 250);
     }

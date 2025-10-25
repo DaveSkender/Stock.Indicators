@@ -18,7 +18,7 @@ public static partial class SmaAnalysis
         // initialize
         List<SmaAnalysisResult> results = source
             .ToSma(lookbackPeriods)
-            .Select(s => new SmaAnalysisResult(s.Timestamp, s.Sma))
+            .Select(static s => new SmaAnalysisResult(s.Timestamp, s.Sma))
             .ToList();
 
         // roll through source values

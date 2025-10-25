@@ -57,7 +57,7 @@ public class BollingerBandsStreamHubTests : StreamHubTestBase, ITestQuoteObserve
         streamList.Should().HaveCount(length - 1);
         streamList.Should().BeEquivalentTo(
             seriesList,
-            options => options.WithStrictOrdering());
+            static options => options.WithStrictOrdering());
 
         observer.Unsubscribe();
         quoteHub.EndTransmission();
@@ -110,7 +110,7 @@ public class BollingerBandsStreamHubTests : StreamHubTestBase, ITestQuoteObserve
         streamList.Should().HaveCount(length);
         streamList.Should().BeEquivalentTo(
             seriesList,
-            options => options.WithStrictOrdering());
+            static options => options.WithStrictOrdering());
 
         observer.Unsubscribe();
         quoteHub.EndTransmission();
@@ -137,7 +137,7 @@ public class BollingerBandsStreamHubTests : StreamHubTestBase, ITestQuoteObserve
 
         initialResults.Should().BeEquivalentTo(
             expectedInitial,
-            options => options.WithStrictOrdering());
+            static options => options.WithStrictOrdering());
 
         for (int i = 5; i < quotes.Count; i++)
         {
@@ -146,7 +146,7 @@ public class BollingerBandsStreamHubTests : StreamHubTestBase, ITestQuoteObserve
 
         observer.Results.Should().BeEquivalentTo(
             quotes.ToBollingerBands(5, 2),
-            options => options.WithStrictOrdering());
+            static options => options.WithStrictOrdering());
 
         observer.Unsubscribe();
         quoteHub.EndTransmission();

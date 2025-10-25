@@ -15,9 +15,15 @@ public class EpmaList : BufferList<EpmaResult>, IIncrementFromChain, IEpma
 {
     private readonly Queue<double> _buffer;
     private readonly List<IReusable> _cache;
-    private int _cacheOffset; // Tracks how many items have been pruned from cache
+    /// <summary>
+    /// Tracks how many items have been pruned from cache
+    /// </summary>
+    private int _cacheOffset;
 
-    private const int MaxCacheSize = 1000; // Trigger point to prune cache
+    /// <summary>
+    /// Trigger point to prune cache
+    /// </summary>
+    private const int MaxCacheSize = 1000;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="EpmaList"/> class.
@@ -39,7 +45,9 @@ public class EpmaList : BufferList<EpmaResult>, IIncrementFromChain, IEpma
     /// <param name="values">Initial reusable values to populate the list.</param>
     public EpmaList(int lookbackPeriods, IReadOnlyList<IReusable> values)
         : this(lookbackPeriods)
-        => Add(values);
+    {
+        Add(values);
+    }
 
     /// <summary>
     /// Gets the number of periods to look back for the calculation.
@@ -125,6 +133,8 @@ public static partial class Epma
     /// <summary>
     /// Creates a buffer list for Endpoint Moving Average (EPMA) calculations.
     /// </summary>
+    /// <param name="source"></param>
+    /// <param name="lookbackPeriods"></param>
     public static EpmaList ToEpmaList(
         this IReadOnlyList<IReusable> source,
         int lookbackPeriods)

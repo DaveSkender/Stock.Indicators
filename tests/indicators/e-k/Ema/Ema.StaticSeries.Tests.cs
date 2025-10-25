@@ -18,7 +18,7 @@ public class EmaTests : StaticSeriesTestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.HasCount(483, results.Where(x => x.Ema != null));
+        Assert.HasCount(483, results.Where(static x => x.Ema != null));
 
         // sample values
         EmaResult r29 = results[29];
@@ -43,7 +43,7 @@ public class EmaTests : StaticSeriesTestBase
         // proper quantities
         // should always be the same number of results as there is quotes
         Assert.HasCount(502, results);
-        Assert.HasCount(483, results.Where(x => x.Ema != null));
+        Assert.HasCount(483, results.Where(static x => x.Ema != null));
 
         // sample values
         EmaResult r29 = results[29];
@@ -64,8 +64,8 @@ public class EmaTests : StaticSeriesTestBase
             .ToEma(20);
 
         Assert.HasCount(502, results);
-        Assert.HasCount(483, results.Where(x => x.Ema != null));
-        Assert.IsEmpty(results.Where(x => x.Ema is double.NaN));
+        Assert.HasCount(483, results.Where(static x => x.Ema != null));
+        Assert.IsEmpty(results.Where(static x => x.Ema is double.NaN));
     }
 
     [TestMethod]
@@ -76,8 +76,8 @@ public class EmaTests : StaticSeriesTestBase
             .ToEma(20);
 
         Assert.HasCount(502, results);
-        Assert.HasCount(482, results.Where(x => x.Ema != null));
-        Assert.IsEmpty(results.Where(x => x.Ema is double.NaN));
+        Assert.HasCount(482, results.Where(static x => x.Ema != null));
+        Assert.IsEmpty(results.Where(static x => x.Ema is double.NaN));
     }
 
     [TestMethod]
@@ -88,8 +88,8 @@ public class EmaTests : StaticSeriesTestBase
             .ToSma(10);
 
         Assert.HasCount(502, results);
-        Assert.HasCount(474, results.Where(x => x.Sma != null));
-        Assert.IsEmpty(results.Where(x => x.Sma is double.NaN));
+        Assert.HasCount(474, results.Where(static x => x.Sma != null));
+        Assert.IsEmpty(results.Where(static x => x.Sma is double.NaN));
     }
 
     [TestMethod]
@@ -101,8 +101,8 @@ public class EmaTests : StaticSeriesTestBase
 
         // assertions
         Assert.HasCount(502, results);
-        Assert.HasCount(469, results.Where(x => x.Ema != null));
-        Assert.IsEmpty(results.Where(x => x.Ema is double.NaN));
+        Assert.HasCount(469, results.Where(static x => x.Ema != null));
+        Assert.IsEmpty(results.Where(static x => x.Ema is double.NaN));
 
         // sample values
         EmaResult r32 = results[32];
@@ -124,7 +124,7 @@ public class EmaTests : StaticSeriesTestBase
         IReadOnlyList<EmaResult> r = BadQuotes.ToEma(15);
 
         Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(x => x.Ema is double.NaN));
+        Assert.IsEmpty(r.Where(static x => x.Ema is double.NaN));
     }
 
     [TestMethod]
@@ -152,9 +152,11 @@ public class EmaTests : StaticSeriesTestBase
         Assert.AreEqual(249.3519, last.Ema.Round(4));
     }
 
-    // bad lookback period
+    /// <summary>
+    /// bad lookback period
+    /// </summary>
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => Quotes.ToEma(0));
+            static () => Quotes.ToEma(0));
 }

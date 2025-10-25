@@ -32,7 +32,7 @@ public class AdxHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProv
 
         // assert, should equal series
         streamList.Should().HaveCount(length);
-        streamList.Should().BeEquivalentTo(expectedOriginal, options => options.WithStrictOrdering());
+        streamList.Should().BeEquivalentTo(expectedOriginal, static options => options.WithStrictOrdering());
 
         observer.Unsubscribe();
         quoteHub.EndTransmission();
@@ -72,7 +72,7 @@ public class AdxHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProv
             .ToEma(emaPeriods);
 
         streamList.Should().HaveCount(seriesList.Count);
-        streamList.Should().BeEquivalentTo(seriesList, o => o.WithStrictOrdering());
+        streamList.Should().BeEquivalentTo(seriesList, static o => o.WithStrictOrdering());
 
         observer.Unsubscribe();
         quoteHub.EndTransmission();
@@ -103,7 +103,7 @@ public class AdxHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProv
         quoteHub.Add(Quotes);
 
         observer.Results.Should().HaveCount(502);
-        observer.Results.Should().BeEquivalentTo(expectedOriginal, options => options.WithStrictOrdering());
+        observer.Results.Should().BeEquivalentTo(expectedOriginal, static options => options.WithStrictOrdering());
 
         // Act: Remove a single historical value
         quoteHub.Remove(Quotes[removeAtIndex]);
@@ -112,7 +112,7 @@ public class AdxHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProv
         IReadOnlyList<AdxResult> expectedRevised = RevisedQuotes.ToAdx(lookbackPeriods);
 
         observer.Results.Should().HaveCount(501);
-        observer.Results.Should().BeEquivalentTo(expectedRevised, options => options.WithStrictOrdering());
+        observer.Results.Should().BeEquivalentTo(expectedRevised, static options => options.WithStrictOrdering());
 
         // cleanup
         observer.Unsubscribe();

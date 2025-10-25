@@ -18,7 +18,7 @@ public static partial class MaEnvelopes
 
         resultsList
             .RemoveAll(match:
-                x => x.UpperEnvelope is null && x.LowerEnvelope is null && x.Centerline is null);
+                static x => x.UpperEnvelope is null && x.LowerEnvelope is null && x.Centerline is null);
 
         return resultsList.ToSortedList();
     }

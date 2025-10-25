@@ -38,7 +38,7 @@ public class Vwma : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
 
         // late arrival, should equal series
         quoteHub.Insert(Quotes[80]);
-        actuals.Should().BeEquivalentTo(expectedOriginal, options => options.WithStrictOrdering());
+        actuals.Should().BeEquivalentTo(expectedOriginal, static options => options.WithStrictOrdering());
 
         // delete, should equal series (revised)
         quoteHub.Remove(Quotes[removeAtIndex]);
@@ -46,7 +46,7 @@ public class Vwma : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
         IReadOnlyList<VwmaResult> expectedRevised = RevisedQuotes.ToVwma(lookbackPeriods);
 
         actuals.Should().HaveCount(501);
-        actuals.Should().BeEquivalentTo(expectedRevised, options => options.WithStrictOrdering());
+        actuals.Should().BeEquivalentTo(expectedRevised, static options => options.WithStrictOrdering());
 
         // cleanup
         observer.Unsubscribe();
@@ -138,7 +138,7 @@ public class Vwma : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
 
         IReadOnlyList<VwmaResult> results = observer.Results;
         results.Should().HaveCount(lookbackPeriods - 1);
-        results.All(r => r.Vwma == null).Should().BeTrue();
+        results.All(static r => r.Vwma == null).Should().BeTrue();
     }
 
     [TestMethod]
@@ -148,7 +148,7 @@ public class Vwma : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
         VwmaHub observer = quoteHub.ToVwmaHub(lookbackPeriods);
 
         // Create quotes with zero volume
-        List<Quote> zeroVolumeQuotes = Quotes.Take(20).Select(q => new Quote {
+        List<Quote> zeroVolumeQuotes = Quotes.Take(20).Select(static q => new Quote {
             Timestamp = q.Timestamp,
             Open = q.Open,
             High = q.High,
@@ -165,6 +165,6 @@ public class Vwma : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
         IReadOnlyList<VwmaResult> results = observer.Results;
 
         // Results with sufficient data but zero volume should have null VWMA
-        results.Skip(lookbackPeriods - 1).All(r => r.Vwma == null).Should().BeTrue();
+        results.Skip(lookbackPeriods - 1).All(static r => r.Vwma == null).Should().BeTrue();
     }
 }

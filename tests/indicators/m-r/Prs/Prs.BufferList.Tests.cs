@@ -19,7 +19,7 @@ public class Prs : BufferListTestBase, ITestChainBufferList
         }
 
         sut.Should().HaveCount(OtherQuotes.Count);
-        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
     }
 
     [TestMethod]
@@ -30,7 +30,7 @@ public class Prs : BufferListTestBase, ITestChainBufferList
         };
 
         sut.Should().HaveCount(OtherQuotes.Count);
-        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
     }
 
     [TestMethod]
@@ -44,7 +44,7 @@ public class Prs : BufferListTestBase, ITestChainBufferList
         }
 
         sut.Should().HaveCount(OtherQuotes.Count);
-        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
     }
 
     [TestMethod]
@@ -59,7 +59,7 @@ public class Prs : BufferListTestBase, ITestChainBufferList
         }
 
         sut.Should().HaveCount(OtherQuotes.Count);
-        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
     }
 
     [TestMethod]
@@ -71,7 +71,7 @@ public class Prs : BufferListTestBase, ITestChainBufferList
         };
 
         sut.Should().HaveCount(OtherQuotes.Count);
-        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
     }
 
     [TestMethod]
@@ -81,7 +81,7 @@ public class Prs : BufferListTestBase, ITestChainBufferList
         PrsList sut = new(lookbackPeriods, OtherQuotes, Quotes);
 
         sut.Should().HaveCount(OtherQuotes.Count);
-        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
     }
 
     [TestMethod]
@@ -90,7 +90,7 @@ public class Prs : BufferListTestBase, ITestChainBufferList
         PrsList sut = new(lookbackPeriods, OtherQuotes, Quotes);
 
         sut.Should().HaveCount(OtherQuotes.Count);
-        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
     }
 
     [TestMethod]
@@ -99,7 +99,7 @@ public class Prs : BufferListTestBase, ITestChainBufferList
         PrsList sut = OtherQuotes.ToPrsList(Quotes, lookbackPeriods);
 
         sut.Should().HaveCount(OtherQuotes.Count);
-        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
     }
 
     [TestMethod]
@@ -112,7 +112,7 @@ public class Prs : BufferListTestBase, ITestChainBufferList
         PrsList sut = new(lookbackPeriods, evalSubset, baseSubset);
 
         sut.Should().HaveCount(evalSubset.Count);
-        sut.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
+        sut.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
 
         sut.Clear();
 
@@ -121,7 +121,7 @@ public class Prs : BufferListTestBase, ITestChainBufferList
         sut.Add(evalSubset, baseSubset);
 
         sut.Should().HaveCount(expected.Count);
-        sut.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
+        sut.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
     }
 
     [TestMethod]
@@ -140,7 +140,7 @@ public class Prs : BufferListTestBase, ITestChainBufferList
             .ToList();
 
         sut.Should().HaveCount(maxListSize);
-        sut.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
+        sut.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
     }
 
     [TestMethod]
@@ -178,6 +178,6 @@ public class Prs : BufferListTestBase, ITestChainBufferList
         PrsList sut = new(int.MinValue, OtherQuotes, Quotes);
 
         sut.Should().HaveCount(OtherQuotes.Count);
-        sut.Should().BeEquivalentTo(expectedNoLookback, options => options.WithStrictOrdering());
+        sut.Should().BeEquivalentTo(expectedNoLookback, static options => options.WithStrictOrdering());
     }
 }

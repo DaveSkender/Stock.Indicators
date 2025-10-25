@@ -2,7 +2,9 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Kama
 {
-    // KAMA Common Base Listing
+    /// <summary>
+    /// KAMA Common Base Listing
+    /// </summary>
     internal static readonly IndicatorListing CommonListing =
         new CatalogListingBuilder()
             .WithName("Kaufman's Adaptive Moving Average")
@@ -16,19 +18,25 @@ public static partial class Kama
             .AddResult("Kama", "KAMA", ResultType.Default, isReusable: true)
             .Build();
 
-    // KAMA Series Listing
+    /// <summary>
+    /// KAMA Series Listing
+    /// </summary>
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
             .Build();
 
-    // KAMA Stream Listing
+    /// <summary>
+    /// KAMA Stream Listing
+    /// </summary>
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
             .Build();
 
-    // KAMA Buffer Listing
+    /// <summary>
+    /// KAMA Buffer Listing
+    /// </summary>
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)

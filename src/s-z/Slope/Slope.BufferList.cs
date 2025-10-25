@@ -7,7 +7,10 @@ public class SlopeList : BufferList<SlopeResult>, IIncrementFromChain
 {
     private readonly Queue<double> buffer;
     private readonly int lookbackPeriods;
-    private int globalIndexOffset; // Tracks how many items have been removed from the beginning
+    /// <summary>
+    /// Tracks how many items have been removed from the beginning
+    /// </summary>
+    private int globalIndexOffset;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="SlopeList"/> class.
@@ -29,7 +32,9 @@ public class SlopeList : BufferList<SlopeResult>, IIncrementFromChain
     /// <param name="values">Initial reusable values to populate the list.</param>
     public SlopeList(int lookbackPeriods, IReadOnlyList<IReusable> values)
         : this(lookbackPeriods)
-        => Add(values);
+    {
+        Add(values);
+    }
 
     /// <summary>
     /// Gets the number of periods to look back for the calculation.
@@ -206,6 +211,8 @@ public static partial class Slope
     /// <summary>
     /// Creates a buffer list for Slope calculations.
     /// </summary>
+    /// <param name="source"></param>
+    /// <param name="lookbackPeriods"></param>
     public static SlopeList ToSlopeList(
         this IReadOnlyList<IReusable> source,
         int lookbackPeriods = 14)

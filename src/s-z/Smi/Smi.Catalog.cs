@@ -2,7 +2,9 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Smi
 {
-    // Stochastic Momentum Index Common Base Listing
+    /// <summary>
+    /// Stochastic Momentum Index Common Base Listing
+    /// </summary>
     internal static readonly IndicatorListing CommonListing =
         new CatalogListingBuilder()
             .WithName("Stochastic Momentum Index")
@@ -17,7 +19,9 @@ public static partial class Smi
             .AddResult("Signal", "Signal", ResultType.Default)
             .Build();
 
-    // Stochastic Momentum Index Series Listing
+    /// <summary>
+    /// Stochastic Momentum Index Series Listing
+    /// </summary>
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
@@ -25,7 +29,9 @@ public static partial class Smi
 
     // No StreamListing for SMI.
 
-    // Stochastic Momentum Index BufferList Listing
+    /// <summary>
+    /// Stochastic Momentum Index BufferList Listing
+    /// </summary>
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)

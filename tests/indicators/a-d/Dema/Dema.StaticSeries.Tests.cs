@@ -11,7 +11,7 @@ public class Dema : StaticSeriesTestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.HasCount(483, results.Where(x => x.Dema != null));
+        Assert.HasCount(483, results.Where(static x => x.Dema != null));
 
         // sample values
         DemaResult r25 = results[25];
@@ -35,7 +35,7 @@ public class Dema : StaticSeriesTestBase
             .ToDema(20);
 
         Assert.HasCount(502, results);
-        Assert.HasCount(483, results.Where(x => x.Dema != null));
+        Assert.HasCount(483, results.Where(static x => x.Dema != null));
     }
 
     [TestMethod]
@@ -46,7 +46,7 @@ public class Dema : StaticSeriesTestBase
             .ToDema(20);
 
         Assert.HasCount(502, results);
-        Assert.HasCount(482, results.Where(x => x.Dema != null));
+        Assert.HasCount(482, results.Where(static x => x.Dema != null));
     }
 
     [TestMethod]
@@ -57,7 +57,7 @@ public class Dema : StaticSeriesTestBase
             .ToSma(10);
 
         Assert.HasCount(502, results);
-        Assert.HasCount(474, results.Where(x => x.Sma != null));
+        Assert.HasCount(474, results.Where(static x => x.Sma != null));
     }
 
     [TestMethod]
@@ -67,7 +67,7 @@ public class Dema : StaticSeriesTestBase
             .ToDema(15);
 
         Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(x => x.Dema is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.Dema is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -98,9 +98,11 @@ public class Dema : StaticSeriesTestBase
         Assert.AreEqual(241.1677, last.Dema.Round(4));
     }
 
-    // bad lookback period
+    /// <summary>
+    /// bad lookback period
+    /// </summary>
     [TestMethod]
     public void Exceptions() =>
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => Quotes.ToDema(0));
+            static () => Quotes.ToDema(0));
 }

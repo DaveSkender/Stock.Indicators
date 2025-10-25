@@ -2,7 +2,9 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Keltner
 {
-    // KELTNER Common Base Listing
+    /// <summary>
+    /// KELTNER Common Base Listing
+    /// </summary>
     internal static readonly IndicatorListing CommonListing =
         new CatalogListingBuilder()
             .WithName("Keltner Channels")
@@ -18,19 +20,25 @@ public static partial class Keltner
             .AddResult("Width", "Width", ResultType.Default)
             .Build();
 
-    // KELTNER Series Listing
+    /// <summary>
+    /// KELTNER Series Listing
+    /// </summary>
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
             .Build();
 
-    // KELTNER Buffer Listing
+    /// <summary>
+    /// KELTNER Buffer Listing
+    /// </summary>
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)
             .Build();
 
-    // KELTNER Stream Listing
+    /// <summary>
+    /// KELTNER Stream Listing
+    /// </summary>
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)

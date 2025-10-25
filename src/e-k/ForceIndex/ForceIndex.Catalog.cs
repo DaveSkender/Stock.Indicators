@@ -2,7 +2,9 @@ namespace Skender.Stock.Indicators;
 
 public static partial class ForceIndex
 {
-    // FORCE Common Base Listing
+    /// <summary>
+    /// FORCE Common Base Listing
+    /// </summary>
     internal static readonly IndicatorListing CommonListing =
         new CatalogListingBuilder()
             .WithName("Force Index")
@@ -13,19 +15,25 @@ public static partial class ForceIndex
             .AddResult("ForceIndex", "Force Index", ResultType.Default, isReusable: true)
             .Build();
 
-    // FORCE Series Listing
+    /// <summary>
+    /// FORCE Series Listing
+    /// </summary>
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
             .Build();
 
-    // FORCE Buffer Listing
+    /// <summary>
+    /// FORCE Buffer Listing
+    /// </summary>
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)
             .Build();
 
-    // FORCE Stream Listing
+    /// <summary>
+    /// FORCE Stream Listing
+    /// </summary>
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)

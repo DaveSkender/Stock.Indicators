@@ -16,7 +16,7 @@ public static partial class VolatilityStop
         ArgumentNullException.ThrowIfNull(results);
 
         int removePeriods = results
-            .FindIndex(x => x.Sar != null);
+            .FindIndex(static x => x.Sar != null);
 
         removePeriods = Math.Max(100, removePeriods);
 

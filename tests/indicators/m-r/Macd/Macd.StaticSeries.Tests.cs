@@ -15,9 +15,9 @@ public class Macd : StaticSeriesTestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.HasCount(477, results.Where(x => x.Macd != null));
-        Assert.HasCount(469, results.Where(x => x.Signal != null));
-        Assert.HasCount(469, results.Where(x => x.Histogram != null));
+        Assert.HasCount(477, results.Where(static x => x.Macd != null));
+        Assert.HasCount(469, results.Where(static x => x.Signal != null));
+        Assert.HasCount(469, results.Where(static x => x.Histogram != null));
 
         // sample values
         MacdResult r49 = results[49];
@@ -50,7 +50,7 @@ public class Macd : StaticSeriesTestBase
             .ToMacd();
 
         Assert.HasCount(502, results);
-        Assert.HasCount(477, results.Where(x => x.Macd != null));
+        Assert.HasCount(477, results.Where(static x => x.Macd != null));
     }
 
     [TestMethod]
@@ -61,7 +61,7 @@ public class Macd : StaticSeriesTestBase
             .ToMacd();
 
         Assert.HasCount(502, results);
-        Assert.HasCount(476, results.Where(x => x.Macd != null));
+        Assert.HasCount(476, results.Where(static x => x.Macd != null));
     }
 
     [TestMethod]
@@ -72,7 +72,7 @@ public class Macd : StaticSeriesTestBase
             .ToSma(10);
 
         Assert.HasCount(502, results);
-        Assert.HasCount(468, results.Where(x => x.Sma != null));
+        Assert.HasCount(468, results.Where(static x => x.Sma != null));
     }
 
     [TestMethod]
@@ -82,7 +82,7 @@ public class Macd : StaticSeriesTestBase
             .ToMacd(10, 20, 5);
 
         Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(x => x.Macd is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.Macd is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -124,14 +124,14 @@ public class Macd : StaticSeriesTestBase
     {
         // bad fast period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => Quotes.ToMacd(0));
+            static () => Quotes.ToMacd(0));
 
         // bad slow periods must be larger than faster period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => Quotes.ToMacd(12, 12));
+            static () => Quotes.ToMacd(12, 12));
 
         // bad signal period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => Quotes.ToMacd(12, 26, -1));
+            static () => Quotes.ToMacd(12, 26, -1));
     }
 }

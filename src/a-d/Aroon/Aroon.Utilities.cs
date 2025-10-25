@@ -2,7 +2,11 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Aroon
 {
-    // parameter validation
+    /// <summary>
+    /// parameter validation
+    /// </summary>
+    /// <param name="lookbackPeriods"></param>
+    /// <exception cref="ArgumentOutOfRangeException"></exception>
     internal static void Validate(
         int lookbackPeriods)
     {

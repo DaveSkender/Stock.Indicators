@@ -14,7 +14,7 @@ public class AtrStop : StaticSeriesTestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.HasCount(481, results.Where(x => x.AtrStop != null));
+        Assert.HasCount(481, results.Where(static x => x.AtrStop != null));
 
         // sample values
         AtrStopResult r20 = results[20];
@@ -59,7 +59,7 @@ public class AtrStop : StaticSeriesTestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.HasCount(481, results.Where(x => x.AtrStop != null));
+        Assert.HasCount(481, results.Where(static x => x.AtrStop != null));
 
         // sample values
         AtrStopResult r20 = results[20];
@@ -159,10 +159,10 @@ public class AtrStop : StaticSeriesTestBase
     {
         // bad lookback period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => Quotes.ToAtrStop(1));
+            static () => Quotes.ToAtrStop(1));
 
         // bad multiplier
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => Quotes.ToAtrStop(7, 0));
+            static () => Quotes.ToAtrStop(7, 0));
     }
 }

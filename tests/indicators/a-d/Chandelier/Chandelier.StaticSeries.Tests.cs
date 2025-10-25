@@ -13,7 +13,7 @@ public class Chandelier : StaticSeriesTestBase
 
         // proper quantities
         Assert.HasCount(502, longResult);
-        Assert.HasCount(480, longResult.Where(x => x.ChandelierExit != null));
+        Assert.HasCount(480, longResult.Where(static x => x.ChandelierExit != null));
 
         // sample values (long)
         ChandelierResult a = longResult[501];
@@ -38,7 +38,7 @@ public class Chandelier : StaticSeriesTestBase
             .ToSma(10);
 
         Assert.HasCount(502, results);
-        Assert.HasCount(471, results.Where(x => x.Sma != null));
+        Assert.HasCount(471, results.Where(static x => x.Sma != null));
     }
 
     [TestMethod]
@@ -48,7 +48,7 @@ public class Chandelier : StaticSeriesTestBase
             .ToChandelier(15, 2);
 
         Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(x => x.ChandelierExit is double.NaN));
+        Assert.IsEmpty(r.Where(static x => x.ChandelierExit is double.NaN));
     }
 
     [TestMethod]
@@ -84,14 +84,14 @@ public class Chandelier : StaticSeriesTestBase
     {
         // bad lookback period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => Quotes.ToChandelier(0));
+            static () => Quotes.ToChandelier(0));
 
         // bad multiplier
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => Quotes.ToChandelier(25, 0));
+            static () => Quotes.ToChandelier(25, 0));
 
         // bad type
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => Quotes.ToChandelier(25, 2, (Direction)int.MaxValue));
+            static () => Quotes.ToChandelier(25, 2, (Direction)int.MaxValue));
     }
 }

@@ -11,7 +11,7 @@ public class UlcerIndex : StaticSeriesTestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.HasCount(489, results.Where(x => x.UlcerIndex != null));
+        Assert.HasCount(489, results.Where(static x => x.UlcerIndex != null));
 
         // sample value
         UlcerIndexResult r = results[501];
@@ -26,7 +26,7 @@ public class UlcerIndex : StaticSeriesTestBase
             .ToUlcerIndex();
 
         Assert.HasCount(502, results);
-        Assert.HasCount(489, results.Where(x => x.UlcerIndex != null));
+        Assert.HasCount(489, results.Where(static x => x.UlcerIndex != null));
     }
 
     [TestMethod]
@@ -37,7 +37,7 @@ public class UlcerIndex : StaticSeriesTestBase
             .ToUlcerIndex();
 
         Assert.HasCount(502, results);
-        Assert.HasCount(488, results.Where(x => x.UlcerIndex != null));
+        Assert.HasCount(488, results.Where(static x => x.UlcerIndex != null));
     }
 
     [TestMethod]
@@ -48,7 +48,7 @@ public class UlcerIndex : StaticSeriesTestBase
             .ToSma(10);
 
         Assert.HasCount(502, results);
-        Assert.HasCount(480, results.Where(x => x.Sma != null));
+        Assert.HasCount(480, results.Where(static x => x.Sma != null));
     }
 
     [TestMethod]
@@ -58,7 +58,7 @@ public class UlcerIndex : StaticSeriesTestBase
             .ToUlcerIndex(15);
 
         Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(x => x.UlcerIndex is double.NaN));
+        Assert.IsEmpty(r.Where(static x => x.UlcerIndex is double.NaN));
     }
 
     [TestMethod]
@@ -89,9 +89,11 @@ public class UlcerIndex : StaticSeriesTestBase
         Assert.AreEqual(5.7255, last.UlcerIndex.Round(4));
     }
 
-    // bad lookback period
+    /// <summary>
+    /// bad lookback period
+    /// </summary>
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => Quotes.ToUlcerIndex(0));
+            static () => Quotes.ToUlcerIndex(0));
 }

@@ -76,7 +76,7 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamObservable<TOut>
 
         _observers.Clear();
     }
-    #endregion
+    #endregion SUBSCRIPTION SERVICES
 
     #region SUBSCRIBER NOTIFICATIONS
 
@@ -130,5 +130,5 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamObservable<TOut>
             o.OnError(exception);
         }
     }
-    #endregion
+    #endregion SUBSCRIBER NOTIFICATIONS
 }

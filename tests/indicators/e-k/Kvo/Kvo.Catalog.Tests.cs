@@ -23,21 +23,21 @@ public class KvoTests : TestBase
         listing.Parameters.Should().NotBeNull();
         listing.Parameters.Should().HaveCount(3);
 
-        IndicatorParam fastPeriodsParam = listing.Parameters.SingleOrDefault(p => p.ParameterName == "fastPeriods");
+        IndicatorParam fastPeriodsParam = listing.Parameters.SingleOrDefault(static p => p.ParameterName == "fastPeriods");
         fastPeriodsParam.Should().NotBeNull();
-        IndicatorParam slowPeriodsParam1 = listing.Parameters.SingleOrDefault(p => p.ParameterName == "slowPeriods");
+        IndicatorParam slowPeriodsParam1 = listing.Parameters.SingleOrDefault(static p => p.ParameterName == "slowPeriods");
         slowPeriodsParam1.Should().NotBeNull();
-        IndicatorParam signalPeriodsParam2 = listing.Parameters.SingleOrDefault(p => p.ParameterName == "signalPeriods");
+        IndicatorParam signalPeriodsParam2 = listing.Parameters.SingleOrDefault(static p => p.ParameterName == "signalPeriods");
         signalPeriodsParam2.Should().NotBeNull();
 
         listing.Results.Should().NotBeNull();
         listing.Results.Should().HaveCount(2);
 
-        IndicatorResult oscillatorResult = listing.Results.SingleOrDefault(r => r.DataName == "Oscillator");
+        IndicatorResult oscillatorResult = listing.Results.SingleOrDefault(static r => r.DataName == "Oscillator");
         oscillatorResult.Should().NotBeNull();
         oscillatorResult?.DisplayName.Should().Be("Oscillator");
         oscillatorResult.IsReusable.Should().Be(true);
-        IndicatorResult signalResult1 = listing.Results.SingleOrDefault(r => r.DataName == "Signal");
+        IndicatorResult signalResult1 = listing.Results.SingleOrDefault(static r => r.DataName == "Signal");
         signalResult1.Should().NotBeNull();
         signalResult1?.DisplayName.Should().Be("Signal");
         signalResult1.IsReusable.Should().Be(false);
@@ -60,21 +60,21 @@ public class KvoTests : TestBase
         listing.Parameters.Should().NotBeNull();
         listing.Parameters.Should().HaveCount(3);
 
-        IndicatorParam fastPeriodsParam = listing.Parameters.SingleOrDefault(p => p.ParameterName == "fastPeriods");
+        IndicatorParam fastPeriodsParam = listing.Parameters.SingleOrDefault(static p => p.ParameterName == "fastPeriods");
         fastPeriodsParam.Should().NotBeNull();
-        IndicatorParam slowPeriodsParam = listing.Parameters.SingleOrDefault(p => p.ParameterName == "slowPeriods");
+        IndicatorParam slowPeriodsParam = listing.Parameters.SingleOrDefault(static p => p.ParameterName == "slowPeriods");
         slowPeriodsParam.Should().NotBeNull();
-        IndicatorParam signalPeriodsParam = listing.Parameters.SingleOrDefault(p => p.ParameterName == "signalPeriods");
+        IndicatorParam signalPeriodsParam = listing.Parameters.SingleOrDefault(static p => p.ParameterName == "signalPeriods");
         signalPeriodsParam.Should().NotBeNull();
 
         listing.Results.Should().NotBeNull();
         listing.Results.Should().HaveCount(2);
 
-        IndicatorResult oscillatorResult = listing.Results.SingleOrDefault(r => r.DataName == "Oscillator");
+        IndicatorResult oscillatorResult = listing.Results.SingleOrDefault(static r => r.DataName == "Oscillator");
         oscillatorResult.Should().NotBeNull();
         oscillatorResult?.DisplayName.Should().Be("Oscillator");
         oscillatorResult.IsReusable.Should().Be(true);
-        IndicatorResult signalResult = listing.Results.SingleOrDefault(r => r.DataName == "Signal");
+        IndicatorResult signalResult = listing.Results.SingleOrDefault(static r => r.DataName == "Signal");
         signalResult.Should().NotBeNull();
         signalResult?.DisplayName.Should().Be("Signal");
         signalResult.IsReusable.Should().Be(false);

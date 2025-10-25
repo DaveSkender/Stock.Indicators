@@ -31,7 +31,7 @@ public class ElderRayHub
 
         Reinitialize();
     }
-    #endregion
+    #endregion constructors
 
     /// <summary>
     /// Gets the number of periods to look back for the calculation.

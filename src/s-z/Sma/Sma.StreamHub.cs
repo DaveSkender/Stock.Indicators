@@ -12,7 +12,7 @@ public class SmaHub
 
     private readonly string hubName;
 
-    #endregion
+    #endregion fields
 
     #region constructors
 
@@ -32,7 +32,7 @@ public class SmaHub
         Reinitialize();
     }
 
-    #endregion
+    #endregion constructors
 
     #region properties
 
@@ -41,7 +41,7 @@ public class SmaHub
     /// </summary>
     public int LookbackPeriods { get; init; }
 
-    #endregion
+    #endregion properties
 
     #region methods
 
@@ -88,7 +88,7 @@ public class SmaHub
         return (r, i);
     }
 
-    #endregion
+    #endregion methods
 }
 
 /// <summary>

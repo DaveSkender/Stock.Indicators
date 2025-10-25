@@ -2,7 +2,9 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Chandelier
 {
-    // CHEXIT Common Base Listing
+    /// <summary>
+    /// CHEXIT Common Base Listing
+    /// </summary>
     internal static readonly IndicatorListing CommonListing =
         new CatalogListingBuilder()
             .WithName("Chandelier Exit")
@@ -15,7 +17,9 @@ public static partial class Chandelier
             .AddResult("ChandelierExit", "Chandelier Exit", ResultType.Default, isReusable: true)
             .Build();
 
-    // CHEXIT Series Listing
+    /// <summary>
+    /// CHEXIT Series Listing
+    /// </summary>
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)

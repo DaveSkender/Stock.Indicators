@@ -76,7 +76,8 @@ public static partial class Dema
 
     /// <summary>
     /// Creates a DEMA buffer list from a series of data points.
-    /// </summary>    /// <param name="source">The source list of data points.</param>
+    /// </summary>
+    /// <typeparam name="T"></typeparam>    /// <param name="source">The source list of data points.</param>
     /// <param name="lookbackPeriods">The number of periods to use for the lookback.</param>
     /// <returns>A <see cref="DemaList"/> containing the DEMA calculations.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the source list is null.</exception>

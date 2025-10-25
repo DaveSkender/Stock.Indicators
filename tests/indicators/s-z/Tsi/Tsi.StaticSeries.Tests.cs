@@ -11,8 +11,8 @@ public class Tsi : StaticSeriesTestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.HasCount(465, results.Where(x => x.Tsi != null));
-        Assert.HasCount(459, results.Where(x => x.Signal != null));
+        Assert.HasCount(465, results.Where(static x => x.Tsi != null));
+        Assert.HasCount(459, results.Where(static x => x.Signal != null));
 
         // sample values
         TsiResult r2 = results[37];
@@ -48,7 +48,7 @@ public class Tsi : StaticSeriesTestBase
             .ToTsi();
 
         Assert.HasCount(502, results);
-        Assert.HasCount(465, results.Where(x => x.Tsi != null));
+        Assert.HasCount(465, results.Where(static x => x.Tsi != null));
     }
 
     [TestMethod]
@@ -59,7 +59,7 @@ public class Tsi : StaticSeriesTestBase
             .ToTsi();
 
         Assert.HasCount(502, results);
-        Assert.HasCount(464, results.Where(x => x.Tsi != null));
+        Assert.HasCount(464, results.Where(static x => x.Tsi != null));
     }
 
     [TestMethod]
@@ -70,7 +70,7 @@ public class Tsi : StaticSeriesTestBase
             .ToSma(10);
 
         Assert.HasCount(502, results);
-        Assert.HasCount(456, results.Where(x => x.Sma != null));
+        Assert.HasCount(456, results.Where(static x => x.Sma != null));
     }
 
     [TestMethod]
@@ -80,7 +80,7 @@ public class Tsi : StaticSeriesTestBase
             .ToTsi();
 
         Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(x => x.Tsi is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.Tsi is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -126,14 +126,14 @@ public class Tsi : StaticSeriesTestBase
     {
         // bad lookback period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => Quotes.ToTsi(0));
+            static () => Quotes.ToTsi(0));
 
         // bad smoothing period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => Quotes.ToTsi(25, 0));
+            static () => Quotes.ToTsi(25, 0));
 
         // bad signal period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => Quotes.ToTsi(25, 13, -1));
+            static () => Quotes.ToTsi(25, 13, -1));
     }
 }

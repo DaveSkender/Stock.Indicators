@@ -12,9 +12,9 @@ public class HtTrendline : StaticSeriesTestBase
         // proper quantities
         // should always be the same number of results as there is quotes
         Assert.HasCount(502, results);
-        Assert.HasCount(495, results.Where(x => x.DcPeriods != null));
-        Assert.HasCount(502, results.Where(x => x.Trendline != null));
-        Assert.HasCount(496, results.Where(x => x.SmoothPrice != null));
+        Assert.HasCount(495, results.Where(static x => x.DcPeriods != null));
+        Assert.HasCount(502, results.Where(static x => x.Trendline != null));
+        Assert.HasCount(496, results.Where(static x => x.SmoothPrice != null));
 
         // sample values
         HtlResult r5 = results[5];
@@ -64,7 +64,7 @@ public class HtTrendline : StaticSeriesTestBase
             .ToHtTrendline();
 
         Assert.HasCount(502, results);
-        Assert.HasCount(502, results.Where(x => x.Trendline != null));
+        Assert.HasCount(502, results.Where(static x => x.Trendline != null));
     }
 
     [TestMethod]
@@ -75,7 +75,7 @@ public class HtTrendline : StaticSeriesTestBase
             .ToHtTrendline();
 
         Assert.HasCount(502, results);
-        Assert.HasCount(501, results.Where(x => x.Trendline != null));
+        Assert.HasCount(501, results.Where(static x => x.Trendline != null));
     }
 
     [TestMethod]
@@ -86,7 +86,7 @@ public class HtTrendline : StaticSeriesTestBase
             .ToSma(10);
 
         Assert.HasCount(502, results);
-        Assert.HasCount(493, results.Where(x => x.Sma != null));
+        Assert.HasCount(493, results.Where(static x => x.Sma != null));
     }
 
     [TestMethod]
@@ -96,7 +96,7 @@ public class HtTrendline : StaticSeriesTestBase
             .ToHtTrendline();
 
         Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(x => x.Trendline is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.Trendline is double v && double.IsNaN(v)));
     }
 
     [TestMethod]

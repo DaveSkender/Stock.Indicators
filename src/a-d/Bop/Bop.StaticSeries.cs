@@ -36,7 +36,7 @@ public static partial class Bop
         List<BopResult> results = new(length);
 
         double[] raw = source
-            .Select(x => x.High - x.Low != 0 ?
+            .Select(static x => x.High - x.Low != 0 ?
                 (x.Close - x.Open) / (x.High - x.Low) : double.NaN)
             .ToArray();
 

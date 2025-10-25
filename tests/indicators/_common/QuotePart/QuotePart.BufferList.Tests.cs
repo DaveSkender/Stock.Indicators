@@ -19,7 +19,7 @@ public class QuoteParts : BufferListTestBase, ITestQuoteBufferList
         }
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
     }
 
     [TestMethod]
@@ -28,7 +28,7 @@ public class QuoteParts : BufferListTestBase, ITestQuoteBufferList
         QuotePartList sut = Quotes.ToQuotePartList(candlePart);
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
     }
 
     [TestMethod]
@@ -37,7 +37,7 @@ public class QuoteParts : BufferListTestBase, ITestQuoteBufferList
         QuotePartList sut = new(candlePart, Quotes);
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
     }
 
     [TestMethod]
@@ -49,7 +49,7 @@ public class QuoteParts : BufferListTestBase, ITestQuoteBufferList
         QuotePartList sut = new(candlePart, subset);
 
         sut.Should().HaveCount(subset.Count);
-        sut.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
+        sut.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
 
         sut.Clear();
 
@@ -58,7 +58,7 @@ public class QuoteParts : BufferListTestBase, ITestQuoteBufferList
         sut.Add(subset);
 
         sut.Should().HaveCount(expected.Count);
-        sut.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
+        sut.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
     }
 
     [TestMethod]
@@ -77,7 +77,7 @@ public class QuoteParts : BufferListTestBase, ITestQuoteBufferList
             .ToList();
 
         sut.Should().HaveCount(maxListSize);
-        sut.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
+        sut.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
     }
 
     [TestMethod]
@@ -86,14 +86,14 @@ public class QuoteParts : BufferListTestBase, ITestQuoteBufferList
         // Test different candle parts
         IReadOnlyList<QuotePart> openSeries = Quotes.ToQuotePart(CandlePart.Open);
         QuotePartList openList = new(CandlePart.Open, Quotes);
-        openList.Should().BeEquivalentTo(openSeries, options => options.WithStrictOrdering());
+        openList.Should().BeEquivalentTo(openSeries, static options => options.WithStrictOrdering());
 
         IReadOnlyList<QuotePart> highSeries = Quotes.ToQuotePart(CandlePart.High);
         QuotePartList highList = new(CandlePart.High, Quotes);
-        highList.Should().BeEquivalentTo(highSeries, options => options.WithStrictOrdering());
+        highList.Should().BeEquivalentTo(highSeries, static options => options.WithStrictOrdering());
 
         IReadOnlyList<QuotePart> hl2Series = Quotes.ToQuotePart(CandlePart.HL2);
         QuotePartList hl2List = new(CandlePart.HL2, Quotes);
-        hl2List.Should().BeEquivalentTo(hl2Series, options => options.WithStrictOrdering());
+        hl2List.Should().BeEquivalentTo(hl2Series, static options => options.WithStrictOrdering());
     }
 }

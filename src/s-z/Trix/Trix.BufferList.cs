@@ -8,7 +8,9 @@ public class TrixList : BufferList<TrixResult>, IIncrementFromChain, ITrix
     private readonly Queue<double> _buffer;
     private double _bufferSum;
 
-    // State for triple EMA calculations
+    /// <summary>
+    /// State for triple EMA calculations
+    /// </summary>
     private double _lastEma1 = double.NaN;
     private double _lastEma2 = double.NaN;
     private double _lastEma3 = double.NaN;
@@ -39,7 +41,9 @@ public class TrixList : BufferList<TrixResult>, IIncrementFromChain, ITrix
         IReadOnlyList<IReusable> values
     )
         : this(lookbackPeriods)
-        => Add(values);
+    {
+        Add(values);
+    }
 
     /// <inheritdoc />
     public int LookbackPeriods { get; init; }
@@ -140,6 +144,8 @@ public static partial class Trix
     /// <summary>
     /// Creates a buffer list for TRIX calculations.
     /// </summary>
+    /// <param name="source"></param>
+    /// <param name="lookbackPeriods"></param>
     public static TrixList ToTrixList(
         this IReadOnlyList<IReusable> source,
         int lookbackPeriods = 14)

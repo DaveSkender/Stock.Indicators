@@ -11,7 +11,7 @@ public partial class Sma : StaticSeriesTestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.HasCount(483, results.Where(x => x.Sma != null));
+        Assert.HasCount(483, results.Where(static x => x.Sma != null));
 
         // sample values
         Assert.IsNull(results[18].Sma);
@@ -30,7 +30,7 @@ public partial class Sma : StaticSeriesTestBase
             .ToSma(20);
 
         Assert.HasCount(502, results);
-        Assert.HasCount(483, results.Where(x => x.Sma != null));
+        Assert.HasCount(483, results.Where(static x => x.Sma != null));
 
         // sample values
         Assert.IsNull(results[18].Sma);
@@ -49,7 +49,7 @@ public partial class Sma : StaticSeriesTestBase
             .ToSma(20);
 
         Assert.HasCount(502, results);
-        Assert.HasCount(483, results.Where(x => x.Sma != null));
+        Assert.HasCount(483, results.Where(static x => x.Sma != null));
 
         // sample values
         SmaResult r24 = results[24];
@@ -71,7 +71,7 @@ public partial class Sma : StaticSeriesTestBase
             .ToEma(10);
 
         Assert.HasCount(502, results);
-        Assert.HasCount(484, results.Where(x => x.Ema != null));
+        Assert.HasCount(484, results.Where(static x => x.Ema != null));
     }
 
     [TestMethod]
@@ -80,7 +80,7 @@ public partial class Sma : StaticSeriesTestBase
         IReadOnlyList<SmaResult> r = Data.GetBtcUsdNan()
             .ToSma(50);
 
-        Assert.IsEmpty(r.Where(x => x.Sma is double.NaN));
+        Assert.IsEmpty(r.Where(static x => x.Sma is double.NaN));
     }
 
     [TestMethod]
@@ -90,7 +90,7 @@ public partial class Sma : StaticSeriesTestBase
             .ToSma(15);
 
         Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(x => x.Sma is double.NaN));
+        Assert.IsEmpty(r.Where(static x => x.Sma is double.NaN));
     }
 
     [TestMethod]
@@ -141,9 +141,11 @@ public partial class Sma : StaticSeriesTestBase
         Assert.IsTrue(r1 != r3);
     }
 
-    // bad lookback period
+    /// <summary>
+    /// bad lookback period
+    /// </summary>
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => Quotes.ToSma(0));
+            static () => Quotes.ToSma(0));
 }

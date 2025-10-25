@@ -2,7 +2,9 @@ namespace Skender.Stock.Indicators;
 
 public static partial class FisherTransform
 {
-    // FISHER Common Base Listing
+    /// <summary>
+    /// FISHER Common Base Listing
+    /// </summary>
     internal static readonly IndicatorListing CommonListing =
         new CatalogListingBuilder()
             .WithName("Ehlers Fisher Transform")
@@ -14,19 +16,25 @@ public static partial class FisherTransform
             .AddResult("Trigger", "Trigger", ResultType.Default)
             .Build();
 
-    // FISHER Series Listing
+    /// <summary>
+    /// FISHER Series Listing
+    /// </summary>
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
             .Build();
 
-    // FISHER Stream Listing
+    /// <summary>
+    /// FISHER Stream Listing
+    /// </summary>
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
             .Build();
 
-    // FISHER Buffer Listing
+    /// <summary>
+    /// FISHER Buffer Listing
+    /// </summary>
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)

@@ -23,29 +23,29 @@ public class KeltnerTests : TestBase
         listing.Parameters.Should().NotBeNull();
         listing.Parameters.Should().HaveCount(3);
 
-        IndicatorParam emaPeriodsParam = listing.Parameters.SingleOrDefault(p => p.ParameterName == "emaPeriods");
+        IndicatorParam emaPeriodsParam = listing.Parameters.SingleOrDefault(static p => p.ParameterName == "emaPeriods");
         emaPeriodsParam.Should().NotBeNull();
-        IndicatorParam multiplierParam1 = listing.Parameters.SingleOrDefault(p => p.ParameterName == "multiplier");
+        IndicatorParam multiplierParam1 = listing.Parameters.SingleOrDefault(static p => p.ParameterName == "multiplier");
         multiplierParam1.Should().NotBeNull();
-        IndicatorParam atrPeriodsParam2 = listing.Parameters.SingleOrDefault(p => p.ParameterName == "atrPeriods");
+        IndicatorParam atrPeriodsParam2 = listing.Parameters.SingleOrDefault(static p => p.ParameterName == "atrPeriods");
         atrPeriodsParam2.Should().NotBeNull();
 
         listing.Results.Should().NotBeNull();
         listing.Results.Should().HaveCount(4);
 
-        IndicatorResult upperbandResult = listing.Results.SingleOrDefault(r => r.DataName == "UpperBand");
+        IndicatorResult upperbandResult = listing.Results.SingleOrDefault(static r => r.DataName == "UpperBand");
         upperbandResult.Should().NotBeNull();
         upperbandResult?.DisplayName.Should().Be("Upper Band");
         upperbandResult.IsReusable.Should().Be(false);
-        IndicatorResult centerlineResult1 = listing.Results.SingleOrDefault(r => r.DataName == "Centerline");
+        IndicatorResult centerlineResult1 = listing.Results.SingleOrDefault(static r => r.DataName == "Centerline");
         centerlineResult1.Should().NotBeNull();
         centerlineResult1?.DisplayName.Should().Be("Centerline");
         centerlineResult1.IsReusable.Should().Be(true);
-        IndicatorResult lowerbandResult2 = listing.Results.SingleOrDefault(r => r.DataName == "LowerBand");
+        IndicatorResult lowerbandResult2 = listing.Results.SingleOrDefault(static r => r.DataName == "LowerBand");
         lowerbandResult2.Should().NotBeNull();
         lowerbandResult2?.DisplayName.Should().Be("Lower Band");
         lowerbandResult2.IsReusable.Should().Be(false);
-        IndicatorResult widthResult3 = listing.Results.SingleOrDefault(r => r.DataName == "Width");
+        IndicatorResult widthResult3 = listing.Results.SingleOrDefault(static r => r.DataName == "Width");
         widthResult3.Should().NotBeNull();
         widthResult3?.DisplayName.Should().Be("Width");
         widthResult3.IsReusable.Should().Be(false);
@@ -68,29 +68,29 @@ public class KeltnerTests : TestBase
         listing.Parameters.Should().NotBeNull();
         listing.Parameters.Should().HaveCount(3);
 
-        IndicatorParam emaPeriodsParam = listing.Parameters.SingleOrDefault(p => p.ParameterName == "emaPeriods");
+        IndicatorParam emaPeriodsParam = listing.Parameters.SingleOrDefault(static p => p.ParameterName == "emaPeriods");
         emaPeriodsParam.Should().NotBeNull();
-        IndicatorParam multiplierParam1 = listing.Parameters.SingleOrDefault(p => p.ParameterName == "multiplier");
+        IndicatorParam multiplierParam1 = listing.Parameters.SingleOrDefault(static p => p.ParameterName == "multiplier");
         multiplierParam1.Should().NotBeNull();
-        IndicatorParam atrPeriodsParam2 = listing.Parameters.SingleOrDefault(p => p.ParameterName == "atrPeriods");
+        IndicatorParam atrPeriodsParam2 = listing.Parameters.SingleOrDefault(static p => p.ParameterName == "atrPeriods");
         atrPeriodsParam2.Should().NotBeNull();
 
         listing.Results.Should().NotBeNull();
         listing.Results.Should().HaveCount(4);
 
-        IndicatorResult upperbandResult = listing.Results.SingleOrDefault(r => r.DataName == "UpperBand");
+        IndicatorResult upperbandResult = listing.Results.SingleOrDefault(static r => r.DataName == "UpperBand");
         upperbandResult.Should().NotBeNull();
         upperbandResult?.DisplayName.Should().Be("Upper Band");
         upperbandResult.IsReusable.Should().Be(false);
-        IndicatorResult centerlineResult1 = listing.Results.SingleOrDefault(r => r.DataName == "Centerline");
+        IndicatorResult centerlineResult1 = listing.Results.SingleOrDefault(static r => r.DataName == "Centerline");
         centerlineResult1.Should().NotBeNull();
         centerlineResult1?.DisplayName.Should().Be("Centerline");
         centerlineResult1.IsReusable.Should().Be(true);
-        IndicatorResult lowerbandResult2 = listing.Results.SingleOrDefault(r => r.DataName == "LowerBand");
+        IndicatorResult lowerbandResult2 = listing.Results.SingleOrDefault(static r => r.DataName == "LowerBand");
         lowerbandResult2.Should().NotBeNull();
         lowerbandResult2?.DisplayName.Should().Be("Lower Band");
         lowerbandResult2.IsReusable.Should().Be(false);
-        IndicatorResult widthResult3 = listing.Results.SingleOrDefault(r => r.DataName == "Width");
+        IndicatorResult widthResult3 = listing.Results.SingleOrDefault(static r => r.DataName == "Width");
         widthResult3.Should().NotBeNull();
         widthResult3?.DisplayName.Should().Be("Width");
         widthResult3.IsReusable.Should().Be(false);

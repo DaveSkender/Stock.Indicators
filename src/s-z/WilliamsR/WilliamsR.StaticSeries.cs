@@ -34,7 +34,7 @@ public static partial class WilliamsR
 
         // convert Fast Stochastic to William %R
         return source.CalcStoch(lookbackPeriods, 1, 1, 3, 2, MaType.SMA)
-            .ConvertAll(s => new WilliamsResult(
+            .ConvertAll(static s => new WilliamsResult(
                 Timestamp: s.Timestamp,
                 WilliamsR: s.Oscillator - 100
              ))

@@ -2,7 +2,9 @@ namespace Skender.Stock.Indicators;
 
 public static partial class ElderRay
 {
-    // ELDER-RAY Common Base Listing
+    /// <summary>
+    /// ELDER-RAY Common Base Listing
+    /// </summary>
     internal static readonly IndicatorListing CommonListing =
         new CatalogListingBuilder()
             .WithName("Elder-ray Index")
@@ -16,20 +18,26 @@ public static partial class ElderRay
             .AddResult("Value", "Elder Ray", ResultType.Default, isReusable: true) // Calculated value (BullPower + BearPower) for IReusable.Value
             .Build();
 
-    // ELDER-RAY Series Listing
+    /// <summary>
+    /// ELDER-RAY Series Listing
+    /// </summary>
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
             .Build();
 
-    // ELDER-RAY StreamHub Listing
+    /// <summary>
+    /// ELDER-RAY StreamHub Listing
+    /// </summary>
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
             .WithMethodName("ToElderRayHub")
             .Build();
 
-    // ELDER-RAY BufferList Listing
+    /// <summary>
+    /// ELDER-RAY BufferList Listing
+    /// </summary>
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)

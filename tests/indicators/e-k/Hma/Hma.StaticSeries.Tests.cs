@@ -11,7 +11,7 @@ public class Hma : StaticSeriesTestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.HasCount(480, results.Where(x => x.Hma != null));
+        Assert.HasCount(480, results.Where(static x => x.Hma != null));
 
         // sample values
         HmaResult r1 = results[149];
@@ -29,7 +29,7 @@ public class Hma : StaticSeriesTestBase
             .ToHma(20);
 
         Assert.HasCount(502, results);
-        Assert.HasCount(480, results.Where(x => x.Hma != null));
+        Assert.HasCount(480, results.Where(static x => x.Hma != null));
     }
 
     [TestMethod]
@@ -40,7 +40,7 @@ public class Hma : StaticSeriesTestBase
             .ToHma(19);
 
         Assert.HasCount(502, results);
-        Assert.HasCount(480, results.Where(x => x.Hma != null));
+        Assert.HasCount(480, results.Where(static x => x.Hma != null));
     }
 
     [TestMethod]
@@ -51,7 +51,7 @@ public class Hma : StaticSeriesTestBase
             .ToSma(10);
 
         Assert.HasCount(502, results);
-        Assert.HasCount(471, results.Where(x => x.Sma != null));
+        Assert.HasCount(471, results.Where(static x => x.Sma != null));
     }
 
     [TestMethod]
@@ -61,7 +61,7 @@ public class Hma : StaticSeriesTestBase
             .ToHma(15);
 
         Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(x => x.Hma is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.Hma is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -92,9 +92,11 @@ public class Hma : StaticSeriesTestBase
         Assert.AreEqual(235.6972, last.Hma.Round(4));
     }
 
-    // bad lookback period
+    /// <summary>
+    /// bad lookback period
+    /// </summary>
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => Quotes.ToHma(1));
+            static () => Quotes.ToHma(1));
 }

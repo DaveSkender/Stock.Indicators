@@ -93,6 +93,7 @@ public static class ListingExecutionBuilderExtensions
     /// <param name="quotes">The quotes to process.</param>
     /// <param name="customIndicator">The custom indicator configuration.</param>
     /// <returns>The indicator results.</returns>
+    /// <exception cref="ArgumentNullException"></exception>
     public static IReadOnlyList<TResult> Execute<TResult>(
         this IEnumerable<IQuote> quotes,
         ListingExecutionBuilder customIndicator)
@@ -110,6 +111,7 @@ public static class ListingExecutionBuilderExtensions
     /// <param name="customIndicator">The custom indicator configuration.</param>
     /// <param name="parameterName">The name of the series parameter. If null, attempts to find the first series parameter.</param>
     /// <returns>The indicator results.</returns>
+    /// <exception cref="ArgumentNullException"></exception>
     public static IReadOnlyList<TResult> Execute<TSource, TResult>(
         this IReadOnlyList<TSource> series,
         ListingExecutionBuilder customIndicator,

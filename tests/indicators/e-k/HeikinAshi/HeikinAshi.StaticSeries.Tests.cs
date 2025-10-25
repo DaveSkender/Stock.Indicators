@@ -26,7 +26,7 @@ public class HeikinAshi : StaticSeriesTestBase
     {
         IReadOnlyList<HeikinAshiResult> haQuotes = Quotes.ToHeikinAshi();
         IReadOnlyList<SmaResult> haSma = haQuotes.ToSma(5);
-        Assert.AreEqual(498, haSma.Count(x => x.Sma != null));
+        Assert.AreEqual(498, haSma.Count(static x => x.Sma != null));
     }
 
     [TestMethod]

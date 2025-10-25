@@ -11,7 +11,7 @@ public class Mfi : StaticSeriesTestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.HasCount(488, results.Where(x => x.Mfi != null));
+        Assert.HasCount(488, results.Where(static x => x.Mfi != null));
 
         // sample values
         MfiResult r1 = results[439];
@@ -29,7 +29,7 @@ public class Mfi : StaticSeriesTestBase
             .ToSma(10);
 
         Assert.HasCount(502, results);
-        Assert.HasCount(479, results.Where(x => x.Sma != null));
+        Assert.HasCount(479, results.Where(static x => x.Sma != null));
     }
 
     [TestMethod]
@@ -42,7 +42,7 @@ public class Mfi : StaticSeriesTestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.HasCount(498, results.Where(x => x.Mfi != null));
+        Assert.HasCount(498, results.Where(static x => x.Mfi != null));
 
         // sample values
         MfiResult r1 = results[31];
@@ -59,7 +59,7 @@ public class Mfi : StaticSeriesTestBase
             .ToMfi(15);
 
         Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(x => x.Mfi is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.Mfi is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -92,9 +92,11 @@ public class Mfi : StaticSeriesTestBase
         Assert.AreEqual(39.9494, last.Mfi.Round(4));
     }
 
-    // bad lookback period
+    /// <summary>
+    /// bad lookback period
+    /// </summary>
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => Quotes.ToMfi(1));
+            static () => Quotes.ToMfi(1));
 }

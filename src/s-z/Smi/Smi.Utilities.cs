@@ -16,7 +16,7 @@ public static partial class Smi
         ArgumentNullException.ThrowIfNull(results);
 
         int removePeriods = results
-            .FindIndex(x => x.Smi != null);
+            .FindIndex(static x => x.Smi != null);
 
         return results.Remove(removePeriods + 2 + 100);
     }

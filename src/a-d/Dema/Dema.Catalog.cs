@@ -2,7 +2,9 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Dema
 {
-    // DEMA Common Base Listing
+    /// <summary>
+    /// DEMA Common Base Listing
+    /// </summary>
     internal static readonly IndicatorListing CommonListing =
         new CatalogListingBuilder()
             .WithName("Double Exponential Moving Average")
@@ -13,19 +15,25 @@ public static partial class Dema
             .AddResult("Dema", "DEMA", ResultType.Default, isReusable: true)
             .Build();
 
-    // DEMA Series Listing
+    /// <summary>
+    /// DEMA Series Listing
+    /// </summary>
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
             .Build();
 
-    // DEMA Stream Listing
+    /// <summary>
+    /// DEMA Stream Listing
+    /// </summary>
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
             .Build();
 
-    // DEMA Buffer Listing
+    /// <summary>
+    /// DEMA Buffer Listing
+    /// </summary>
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)

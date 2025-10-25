@@ -58,7 +58,9 @@ public class AlmaList : BufferList<AlmaResult>, IIncrementFromChain, IAlma
         double sigma,
         IReadOnlyList<IReusable> values)
         : this(lookbackPeriods, offset, sigma)
-        => Add(values);
+    {
+        Add(values);
+    }
 
     /// <summary>
     /// Gets the number of periods to look back for the calculation.
@@ -136,6 +138,10 @@ public static partial class Alma
     /// <summary>
     /// Creates a buffer list for Arnaud Legoux Moving Average (ALMA) calculations.
     /// </summary>
+    /// <param name="source"></param>
+    /// <param name="lookbackPeriods"></param>
+    /// <param name="offset"></param>
+    /// <param name="sigma"></param>
     public static AlmaList ToAlmaList(
         this IReadOnlyList<IReusable> source,
         int lookbackPeriods,

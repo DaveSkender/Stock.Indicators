@@ -36,7 +36,9 @@ public class SuperTrendList : BufferList<SuperTrendResult>, IIncrementFromQuote
     /// <param name="quotes">Initial quotes to populate the list.</param>
     public SuperTrendList(int lookbackPeriods, double multiplier, IReadOnlyList<IQuote> quotes)
         : this(lookbackPeriods, multiplier)
-        => Add(quotes);
+    {
+        Add(quotes);
+    }
 
     /// <summary>
     /// Gets the number of lookback periods.
@@ -154,6 +156,9 @@ public static partial class SuperTrend
     /// <summary>
     /// Creates a buffer list for SuperTrend calculations.
     /// </summary>
+    /// <param name="quotes"></param>
+    /// <param name="lookbackPeriods"></param>
+    /// <param name="multiplier"></param>
     public static SuperTrendList ToSuperTrendList(
         this IReadOnlyList<IQuote> quotes,
         int lookbackPeriods = 10,

@@ -23,15 +23,15 @@ public class ChandelierTests : TestBase
         listing.Parameters.Should().NotBeNull();
         listing.Parameters.Should().HaveCount(3);
 
-        IndicatorParam lookbackPeriodsParam = listing.Parameters.SingleOrDefault(p => p.ParameterName == "lookbackPeriods");
+        IndicatorParam lookbackPeriodsParam = listing.Parameters.SingleOrDefault(static p => p.ParameterName == "lookbackPeriods");
         lookbackPeriodsParam.Should().NotBeNull();
-        IndicatorParam multiplierParam1 = listing.Parameters.SingleOrDefault(p => p.ParameterName == "multiplier");
+        IndicatorParam multiplierParam1 = listing.Parameters.SingleOrDefault(static p => p.ParameterName == "multiplier");
         multiplierParam1.Should().NotBeNull();
 
         listing.Results.Should().NotBeNull();
         listing.Results.Should().HaveCount(1);
 
-        IndicatorResult chandelierexitResult = listing.Results.SingleOrDefault(r => r.DataName == "ChandelierExit");
+        IndicatorResult chandelierexitResult = listing.Results.SingleOrDefault(static r => r.DataName == "ChandelierExit");
         chandelierexitResult.Should().NotBeNull();
         chandelierexitResult?.DisplayName.Should().Be("Chandelier Exit");
         chandelierexitResult.IsReusable.Should().Be(true);

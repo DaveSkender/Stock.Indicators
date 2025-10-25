@@ -15,7 +15,7 @@ public static partial class RollingPivots
         ArgumentNullException.ThrowIfNull(results);
 
         int removePeriods = results
-            .FindIndex(x => x.PP != null);
+            .FindIndex(static x => x.PP != null);
 
         return results.Remove(removePeriods);
     }

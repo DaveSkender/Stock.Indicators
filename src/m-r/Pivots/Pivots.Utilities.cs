@@ -17,7 +17,7 @@ public static partial class Pivots
 
         resultsList
             .RemoveAll(match:
-                x => x.HighPoint is null && x.LowPoint is null);
+                static x => x.HighPoint is null && x.LowPoint is null);
 
         return resultsList.ToSortedList();
     }

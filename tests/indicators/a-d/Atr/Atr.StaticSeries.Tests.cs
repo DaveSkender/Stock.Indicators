@@ -11,7 +11,7 @@ public class Atr : StaticSeriesTestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.HasCount(488, results.Where(x => x.Atr != null));
+        Assert.HasCount(488, results.Where(static x => x.Atr != null));
 
         // sample values
         AtrResult r13 = results[13];
@@ -69,7 +69,7 @@ public class Atr : StaticSeriesTestBase
             .ToSma(10);
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(502 - 19, results.Count(x => x.Sma != null));
+        Assert.AreEqual(502 - 19, results.Count(static x => x.Sma != null));
     }
 
     [TestMethod]
@@ -79,7 +79,7 @@ public class Atr : StaticSeriesTestBase
             .ToAtr(20);
 
         Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(x => x.Atr is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.Atr is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -112,9 +112,11 @@ public class Atr : StaticSeriesTestBase
         Assert.AreEqual(2.5072, last.Atrp.Round(4));
     }
 
-    // bad lookback period
+    /// <summary>
+    /// bad lookback period
+    /// </summary>
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => Quotes.ToAtr(1));
+            static () => Quotes.ToAtr(1));
 }

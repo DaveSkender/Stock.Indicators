@@ -2,7 +2,9 @@ namespace Skender.Stock.Indicators;
 
 public static partial class RollingPivots
 {
-    // Rolling Pivots Common Base Listing
+    /// <summary>
+    /// Rolling Pivots Common Base Listing
+    /// </summary>
     internal static readonly IndicatorListing CommonListing =
         new CatalogListingBuilder()
             .WithName("Rolling Pivots")
@@ -21,7 +23,9 @@ public static partial class RollingPivots
             .AddResult("S3", "Support 3", ResultType.Default)
             .Build();
 
-    // Rolling Pivots Series Listing
+    /// <summary>
+    /// Rolling Pivots Series Listing
+    /// </summary>
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
@@ -29,7 +33,9 @@ public static partial class RollingPivots
 
     // No StreamListing for Rolling Pivots.
 
-    // Rolling Pivots Buffer Listing
+    /// <summary>
+    /// Rolling Pivots Buffer Listing
+    /// </summary>
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)

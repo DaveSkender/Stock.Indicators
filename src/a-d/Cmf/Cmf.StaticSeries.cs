@@ -30,7 +30,7 @@ public static partial class Cmf
     {
         // get volume array
         double[] volume
-            = source.Select(v => (double)v.Volume).ToArray();
+            = source.Select(static v => (double)v.Volume).ToArray();
 
         // check parameter arguments
         Validate(lookbackPeriods);

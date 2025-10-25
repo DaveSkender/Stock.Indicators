@@ -2,7 +2,9 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Awesome
 {
-    // AWESOME Common Base Listing
+    /// <summary>
+    /// AWESOME Common Base Listing
+    /// </summary>
     internal static readonly IndicatorListing CommonListing =
         new CatalogListingBuilder()
             .WithName("Awesome Oscillator")
@@ -15,7 +17,9 @@ public static partial class Awesome
             .AddResult("Normalized", "Normalized", ResultType.Default)
             .Build();
 
-    // AWESOME Series Listing
+    /// <summary>
+    /// AWESOME Series Listing
+    /// </summary>
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)

@@ -38,7 +38,9 @@ public class BetaList : BufferList<BetaResult>, IIncrementFromPairs, IBeta
         IReadOnlyList<IReusable> sourceEval,
         IReadOnlyList<IReusable> sourceMrkt)
         : this(lookbackPeriods, type)
-        => Add(sourceEval, sourceMrkt);
+    {
+        Add(sourceEval, sourceMrkt);
+    }
 
     /// <summary>
     /// Gets the number of periods to look back.
@@ -232,7 +234,9 @@ public class BetaList : BufferList<BetaResult>, IIncrementFromPairs, IBeta
     }
 }
 
-// EXTENSION METHODS
+/// <summary>
+/// EXTENSION METHODS
+/// </summary>
 public static partial class Beta
 {
     /// <summary>

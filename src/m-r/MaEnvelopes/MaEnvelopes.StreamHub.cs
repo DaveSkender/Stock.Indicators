@@ -36,14 +36,32 @@ public class MaEnvelopesHub
     private readonly string hubName;
     private readonly double offsetRatio;
     private readonly MaType movingAverageType;
-    private readonly double k; // for EMA-based types
+    /// <summary>
+    /// for EMA-based types
+    /// </summary>
+    private readonly double k;
     private readonly int lookbackPeriods;
 
-    private double lastEma1 = double.NaN; // for DEMA
-    private double lastEma2 = double.NaN; // for DEMA
-    private double lastEma3 = double.NaN; // for TEMA
-    private double lastEma4 = double.NaN; // for TEMA
-    private double lastEma5 = double.NaN; // for TEMA
+    /// <summary>
+    /// for DEMA
+    /// </summary>
+    private double lastEma1 = double.NaN;
+    /// <summary>
+    /// for DEMA
+    /// </summary>
+    private double lastEma2 = double.NaN;
+    /// <summary>
+    /// for TEMA
+    /// </summary>
+    private double lastEma3 = double.NaN;
+    /// <summary>
+    /// for TEMA
+    /// </summary>
+    private double lastEma4 = double.NaN;
+    /// <summary>
+    /// for TEMA
+    /// </summary>
+    private double lastEma5 = double.NaN;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="MaEnvelopesHub"/> class.

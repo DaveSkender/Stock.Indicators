@@ -36,7 +36,7 @@ public partial class Quotes : TestBase
             = Quotes.Take(5).ToList();
 
         IReadOnlyList<MyQuote> myQuotes = quotes
-            .Select(x => new MyQuote {
+            .Select(static x => new MyQuote {
                 Timestamp = x.Timestamp,
                 Open = x.Open,
                 High = x.High,

@@ -27,7 +27,7 @@ public class EpmaHub
 
         Reinitialize();
     }
-    #endregion
+    #endregion constructors
 
     /// <summary>
     /// Gets the number of lookback periods.

@@ -2,7 +2,9 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Macd
 {
-    // MACD Common Base Listing
+    /// <summary>
+    /// MACD Common Base Listing
+    /// </summary>
     internal static readonly IndicatorListing CommonListing =
         new CatalogListingBuilder()
             .WithName("Moving Average Convergence/Divergence")
@@ -17,19 +19,25 @@ public static partial class Macd
             .AddResult("Histogram", "Histogram", ResultType.Bar)
             .Build();
 
-    // MACD Series Listing
+    /// <summary>
+    /// MACD Series Listing
+    /// </summary>
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
             .Build();
 
-    // MACD Stream Listing
+    /// <summary>
+    /// MACD Stream Listing
+    /// </summary>
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
             .Build();
 
-    // MACD Buffer Listing
+    /// <summary>
+    /// MACD Buffer Listing
+    /// </summary>
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)

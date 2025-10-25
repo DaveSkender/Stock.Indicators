@@ -8,7 +8,7 @@ public abstract class StreamHubTestBase : TestBase  // default: quote observer
     internal const int removeAtIndex = 495;
 
     internal static readonly IReadOnlyList<Quote> RevisedQuotes
-        = Quotes.Where((_, idx) => idx != removeAtIndex).ToList();
+        = Quotes.Where(static (_, idx) => idx != removeAtIndex).ToList();
 
     /// <summary>
     /// Tests hub-unique name string

@@ -23,19 +23,19 @@ public class ParabolicSarTests : TestBase
         listing.Parameters.Should().NotBeNull();
         listing.Parameters.Should().HaveCount(2);
 
-        IndicatorParam accelerationStepParam = listing.Parameters.SingleOrDefault(p => p.ParameterName == "accelerationStep");
+        IndicatorParam accelerationStepParam = listing.Parameters.SingleOrDefault(static p => p.ParameterName == "accelerationStep");
         accelerationStepParam.Should().NotBeNull();
-        IndicatorParam maxAccelerationFactorParam1 = listing.Parameters.SingleOrDefault(p => p.ParameterName == "maxAccelerationFactor");
+        IndicatorParam maxAccelerationFactorParam1 = listing.Parameters.SingleOrDefault(static p => p.ParameterName == "maxAccelerationFactor");
         maxAccelerationFactorParam1.Should().NotBeNull();
 
         listing.Results.Should().NotBeNull();
         listing.Results.Should().HaveCount(2);
 
-        IndicatorResult sarResult = listing.Results.SingleOrDefault(r => r.DataName == "Sar");
+        IndicatorResult sarResult = listing.Results.SingleOrDefault(static r => r.DataName == "Sar");
         sarResult.Should().NotBeNull();
         sarResult?.DisplayName.Should().Be("Parabolic SAR");
         sarResult.IsReusable.Should().Be(true);
-        IndicatorResult isreversalResult1 = listing.Results.SingleOrDefault(r => r.DataName == "IsReversal");
+        IndicatorResult isreversalResult1 = listing.Results.SingleOrDefault(static r => r.DataName == "IsReversal");
         isreversalResult1.Should().NotBeNull();
         isreversalResult1?.DisplayName.Should().Be("Is Reversal");
         isreversalResult1.IsReusable.Should().Be(false);
@@ -58,19 +58,19 @@ public class ParabolicSarTests : TestBase
         listing.Parameters.Should().NotBeNull();
         listing.Parameters.Should().HaveCount(2);
 
-        IndicatorParam accelerationStepParam = listing.Parameters.SingleOrDefault(p => p.ParameterName == "accelerationStep");
+        IndicatorParam accelerationStepParam = listing.Parameters.SingleOrDefault(static p => p.ParameterName == "accelerationStep");
         accelerationStepParam.Should().NotBeNull();
-        IndicatorParam maxAccelerationFactorParam = listing.Parameters.SingleOrDefault(p => p.ParameterName == "maxAccelerationFactor");
+        IndicatorParam maxAccelerationFactorParam = listing.Parameters.SingleOrDefault(static p => p.ParameterName == "maxAccelerationFactor");
         maxAccelerationFactorParam.Should().NotBeNull();
 
         listing.Results.Should().NotBeNull();
         listing.Results.Should().HaveCount(2);
 
-        IndicatorResult sarResult = listing.Results.SingleOrDefault(r => r.DataName == "Sar");
+        IndicatorResult sarResult = listing.Results.SingleOrDefault(static r => r.DataName == "Sar");
         sarResult.Should().NotBeNull();
         sarResult?.DisplayName.Should().Be("Parabolic SAR");
         sarResult.IsReusable.Should().Be(true);
-        IndicatorResult isreversalResult = listing.Results.SingleOrDefault(r => r.DataName == "IsReversal");
+        IndicatorResult isreversalResult = listing.Results.SingleOrDefault(static r => r.DataName == "IsReversal");
         isreversalResult.Should().NotBeNull();
         isreversalResult?.DisplayName.Should().Be("Is Reversal");
         isreversalResult.IsReusable.Should().Be(false);

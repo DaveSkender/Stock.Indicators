@@ -26,7 +26,7 @@ public class Macd : BufferListTestBase, ITestChainBufferList
         }
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
     }
 
     [TestMethod]
@@ -35,7 +35,7 @@ public class Macd : BufferListTestBase, ITestChainBufferList
         MacdList sut = Quotes.ToMacdList(fastPeriods, slowPeriods, signalPeriods);
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
     }
 
     [TestMethod]
@@ -44,7 +44,7 @@ public class Macd : BufferListTestBase, ITestChainBufferList
         MacdList sut = new(fastPeriods, slowPeriods, signalPeriods, Quotes);
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
     }
 
     [TestMethod]
@@ -58,7 +58,7 @@ public class Macd : BufferListTestBase, ITestChainBufferList
         }
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
     }
 
     [TestMethod]
@@ -67,7 +67,7 @@ public class Macd : BufferListTestBase, ITestChainBufferList
         MacdList sut = new(fastPeriods, slowPeriods, signalPeriods) { reusables };
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
     }
 
     [TestMethod]
@@ -81,7 +81,7 @@ public class Macd : BufferListTestBase, ITestChainBufferList
         }
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
     }
 
     [TestMethod]
@@ -93,7 +93,7 @@ public class Macd : BufferListTestBase, ITestChainBufferList
         MacdList sut = new(fastPeriods, slowPeriods, signalPeriods, subset);
 
         sut.Should().HaveCount(subset.Count);
-        sut.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
+        sut.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
 
         sut.Clear();
 
@@ -102,7 +102,7 @@ public class Macd : BufferListTestBase, ITestChainBufferList
         sut.Add(subset);
 
         sut.Should().HaveCount(expected.Count);
-        sut.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
+        sut.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
     }
 
     [TestMethod]
@@ -111,7 +111,7 @@ public class Macd : BufferListTestBase, ITestChainBufferList
         MacdList sut = Quotes.ToMacdList(fastPeriods, slowPeriods, signalPeriods);
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
     }
 
     [TestMethod]
@@ -127,9 +127,9 @@ public class Macd : BufferListTestBase, ITestChainBufferList
         MacdResult streamResult = sut[50];
         MacdResult seriesResult = series[50];
 
-        streamResult.Should().BeEquivalentTo(seriesResult, options => options.WithStrictOrdering());
+        streamResult.Should().BeEquivalentTo(seriesResult, static options => options.WithStrictOrdering());
         sut.Should().HaveCount(100);
-        sut.Should().BeEquivalentTo(series.Take(100), options => options.WithStrictOrdering());
+        sut.Should().BeEquivalentTo(series.Take(100), static options => options.WithStrictOrdering());
     }
 
     [TestMethod]
@@ -177,6 +177,6 @@ public class Macd : BufferListTestBase, ITestChainBufferList
             .ToList();
 
         sut.Should().HaveCount(maxListSize);
-        sut.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
+        sut.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
     }
 }

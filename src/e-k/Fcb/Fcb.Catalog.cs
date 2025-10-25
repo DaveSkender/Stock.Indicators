@@ -2,7 +2,9 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Fcb
 {
-    // FCB Common Base Listing
+    /// <summary>
+    /// FCB Common Base Listing
+    /// </summary>
     internal static readonly IndicatorListing CommonListing =
         new CatalogListingBuilder()
             .WithName("Fractal Chaos Bands")
@@ -14,19 +16,25 @@ public static partial class Fcb
             .AddResult("LowerBand", "Lower Band", ResultType.Default)
             .Build();
 
-    // FCB Series Listing
+    /// <summary>
+    /// FCB Series Listing
+    /// </summary>
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
             .Build();
 
-    // FCB Stream Listing
+    /// <summary>
+    /// FCB Stream Listing
+    /// </summary>
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
             .Build();
 
-    // FCB Buffer Listing
+    /// <summary>
+    /// FCB Buffer Listing
+    /// </summary>
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)

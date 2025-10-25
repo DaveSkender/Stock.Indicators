@@ -23,13 +23,13 @@ public class DemaTests : TestBase
         listing.Parameters.Should().NotBeNull();
         listing.Parameters.Should().HaveCount(1);
 
-        IndicatorParam lookbackPeriodsParam = listing.Parameters.SingleOrDefault(p => p.ParameterName == "lookbackPeriods");
+        IndicatorParam lookbackPeriodsParam = listing.Parameters.SingleOrDefault(static p => p.ParameterName == "lookbackPeriods");
         lookbackPeriodsParam.Should().NotBeNull();
 
         listing.Results.Should().NotBeNull();
         listing.Results.Should().HaveCount(1);
 
-        IndicatorResult demaResult = listing.Results.SingleOrDefault(r => r.DataName == "Dema");
+        IndicatorResult demaResult = listing.Results.SingleOrDefault(static r => r.DataName == "Dema");
         demaResult.Should().NotBeNull();
         demaResult?.DisplayName.Should().Be("DEMA");
         demaResult.IsReusable.Should().Be(true);
@@ -52,13 +52,13 @@ public class DemaTests : TestBase
         listing.Parameters.Should().NotBeNull();
         listing.Parameters.Should().HaveCount(1);
 
-        IndicatorParam lookbackPeriodsParam = listing.Parameters.SingleOrDefault(p => p.ParameterName == "lookbackPeriods");
+        IndicatorParam lookbackPeriodsParam = listing.Parameters.SingleOrDefault(static p => p.ParameterName == "lookbackPeriods");
         lookbackPeriodsParam.Should().NotBeNull();
 
         listing.Results.Should().NotBeNull();
         listing.Results.Should().HaveCount(1);
 
-        IndicatorResult demaResult = listing.Results.SingleOrDefault(r => r.DataName == "Dema");
+        IndicatorResult demaResult = listing.Results.SingleOrDefault(static r => r.DataName == "Dema");
         demaResult.Should().NotBeNull();
         demaResult?.DisplayName.Should().Be("DEMA");
         demaResult.IsReusable.Should().Be(true);
@@ -81,13 +81,13 @@ public class DemaTests : TestBase
         listing.Parameters.Should().NotBeNull();
         listing.Parameters.Should().HaveCount(1);
 
-        IndicatorParam lookbackPeriodsParam = listing.Parameters.SingleOrDefault(p => p.ParameterName == "lookbackPeriods");
+        IndicatorParam lookbackPeriodsParam = listing.Parameters.SingleOrDefault(static p => p.ParameterName == "lookbackPeriods");
         lookbackPeriodsParam.Should().NotBeNull();
 
         listing.Results.Should().NotBeNull();
         listing.Results.Should().HaveCount(1);
 
-        IndicatorResult demaResult = listing.Results.SingleOrDefault(r => r.DataName == "Dema");
+        IndicatorResult demaResult = listing.Results.SingleOrDefault(static r => r.DataName == "Dema");
         demaResult.Should().NotBeNull();
         demaResult?.DisplayName.Should().Be("DEMA");
         demaResult.IsReusable.Should().Be(true);

@@ -14,7 +14,7 @@ public class ChaikinOsc : StaticSeriesTestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.HasCount(493, results.Where(x => x.Oscillator != null));
+        Assert.HasCount(493, results.Where(static x => x.Oscillator != null));
 
         // sample value
         ChaikinOscResult r = results[501];
@@ -32,7 +32,7 @@ public class ChaikinOsc : StaticSeriesTestBase
             .ToSma(10);
 
         Assert.HasCount(502, results);
-        Assert.HasCount(484, results.Where(x => x.Sma != null));
+        Assert.HasCount(484, results.Where(static x => x.Sma != null));
     }
 
     [TestMethod]
@@ -42,7 +42,7 @@ public class ChaikinOsc : StaticSeriesTestBase
             .ToChaikinOsc(5, 15);
 
         Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(x => x.Oscillator is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.Oscillator is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -84,10 +84,10 @@ public class ChaikinOsc : StaticSeriesTestBase
     {
         // bad fast lookback
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => Quotes.ToChaikinOsc(0));
+            static () => Quotes.ToChaikinOsc(0));
 
         // bad slow lookback
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => Quotes.ToChaikinOsc(10, 5));
+            static () => Quotes.ToChaikinOsc(10, 5));
     }
 }

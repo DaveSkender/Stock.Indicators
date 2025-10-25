@@ -37,7 +37,9 @@ public class KvoHub
     private readonly double _kSignal;
     private readonly string hubName;
 
-    // State variables
+    /// <summary>
+    /// State variables
+    /// </summary>
     private double _prevHlc;
     private double _prevTrend;
     private double _prevDm;
@@ -220,6 +222,7 @@ public class KvoHub
     /// <summary>
     /// Restore rolling state up to the specified timestamp for accurate rebuilds.
     /// </summary>
+    /// <param name="timestamp"></param>
     protected override void RollbackState(DateTime timestamp)
     {
         // Reset all state

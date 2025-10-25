@@ -25,7 +25,9 @@ public class MarubozuList : BufferList<CandleResult>, IIncrementFromQuote, IMaru
     /// <param name="quotes">Initial quotes to populate the list.</param>
     public MarubozuList(double minBodyPercent, IReadOnlyList<IQuote> quotes)
         : this(minBodyPercent)
-        => Add(quotes);
+    {
+        Add(quotes);
+    }
 
     /// <summary>
     /// Gets the minimum body percentage to qualify as a Marubozu.
@@ -71,10 +73,7 @@ public class MarubozuList : BufferList<CandleResult>, IIncrementFromQuote, IMaru
     }
 
     /// <inheritdoc />
-    public override void Clear()
-    {
-        base.Clear();
-    }
+    public override void Clear() => base.Clear();
 }
 
 public static partial class Marubozu
@@ -82,6 +81,8 @@ public static partial class Marubozu
     /// <summary>
     /// Creates a buffer list for Marubozu candlestick pattern calculations.
     /// </summary>
+    /// <param name="quotes"></param>
+    /// <param name="minBodyPercent"></param>
     public static MarubozuList ToMarubozuList(
         this IReadOnlyList<IQuote> quotes,
         double minBodyPercent = 95)

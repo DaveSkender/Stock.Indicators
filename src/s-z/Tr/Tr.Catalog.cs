@@ -2,7 +2,9 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Tr
 {
-    // TR Common Base Listing
+    /// <summary>
+    /// TR Common Base Listing
+    /// </summary>
     internal static readonly IndicatorListing CommonListing =
         new CatalogListingBuilder()
             .WithName("True Range")
@@ -12,19 +14,25 @@ public static partial class Tr
             .AddResult("Tr", "True Range", ResultType.Default, isReusable: true)
             .Build();
 
-    // TR Series Listing
+    /// <summary>
+    /// TR Series Listing
+    /// </summary>
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
             .Build();
 
-    // TR Stream Listing
+    /// <summary>
+    /// TR Stream Listing
+    /// </summary>
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
             .Build();
 
-    // TR Buffer Listing
+    /// <summary>
+    /// TR Buffer Listing
+    /// </summary>
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)

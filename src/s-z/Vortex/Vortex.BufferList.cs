@@ -30,7 +30,9 @@ public class VortexList : BufferList<VortexResult>, IIncrementFromQuote
     /// <param name="quotes">Initial quotes to populate the list.</param>
     public VortexList(int lookbackPeriods, IReadOnlyList<IQuote> quotes)
         : this(lookbackPeriods)
-        => Add(quotes);
+    {
+        Add(quotes);
+    }
 
     /// <summary>
     /// Gets the number of periods to look back for the calculation.
@@ -131,6 +133,8 @@ public static partial class Vortex
     /// <summary>
     /// Creates a buffer list for Vortex calculations.
     /// </summary>
+    /// <param name="quotes"></param>
+    /// <param name="lookbackPeriods"></param>
     public static VortexList ToVortexList(
         this IReadOnlyList<IQuote> quotes,
         int lookbackPeriods = 14)

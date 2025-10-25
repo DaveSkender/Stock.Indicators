@@ -11,12 +11,12 @@ public class BollingerBands : StaticSeriesTestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.HasCount(483, results.Where(x => x.Sma != null));
-        Assert.HasCount(483, results.Where(x => x.UpperBand != null));
-        Assert.HasCount(483, results.Where(x => x.LowerBand != null));
-        Assert.HasCount(483, results.Where(x => x.PercentB != null));
-        Assert.HasCount(483, results.Where(x => x.ZScore != null));
-        Assert.HasCount(483, results.Where(x => x.Width != null));
+        Assert.HasCount(483, results.Where(static x => x.Sma != null));
+        Assert.HasCount(483, results.Where(static x => x.UpperBand != null));
+        Assert.HasCount(483, results.Where(static x => x.LowerBand != null));
+        Assert.HasCount(483, results.Where(static x => x.PercentB != null));
+        Assert.HasCount(483, results.Where(static x => x.ZScore != null));
+        Assert.HasCount(483, results.Where(static x => x.Width != null));
 
         // sample values
         BollingerBandsResult r1 = results[249];
@@ -44,7 +44,7 @@ public class BollingerBands : StaticSeriesTestBase
             .ToBollingerBands();
 
         Assert.HasCount(502, results);
-        Assert.HasCount(483, results.Where(x => x.Sma != null));
+        Assert.HasCount(483, results.Where(static x => x.Sma != null));
     }
 
     [TestMethod]
@@ -55,7 +55,7 @@ public class BollingerBands : StaticSeriesTestBase
             .ToBollingerBands();
 
         Assert.HasCount(502, results);
-        Assert.HasCount(482, results.Where(x => x.UpperBand != null));
+        Assert.HasCount(482, results.Where(static x => x.UpperBand != null));
     }
 
     [TestMethod]
@@ -66,7 +66,7 @@ public class BollingerBands : StaticSeriesTestBase
             .ToSma(10);
 
         Assert.HasCount(502, results);
-        Assert.HasCount(474, results.Where(x => x.Sma != null));
+        Assert.HasCount(474, results.Where(static x => x.Sma != null));
     }
 
     [TestMethod]
@@ -76,7 +76,7 @@ public class BollingerBands : StaticSeriesTestBase
             .ToBollingerBands(15, 3);
 
         Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(x => x.UpperBand is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.UpperBand is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -117,10 +117,10 @@ public class BollingerBands : StaticSeriesTestBase
     {
         // bad lookback period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => Quotes.ToBollingerBands(1));
+            static () => Quotes.ToBollingerBands(1));
 
         // bad standard deviation
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => Quotes.ToBollingerBands(2, 0));
+            static () => Quotes.ToBollingerBands(2, 0));
     }
 }

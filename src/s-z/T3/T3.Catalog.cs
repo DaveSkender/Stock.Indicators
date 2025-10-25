@@ -2,7 +2,9 @@ namespace Skender.Stock.Indicators;
 
 public static partial class T3
 {
-    // T3 Moving Average Common Base Listing
+    /// <summary>
+    /// T3 Moving Average Common Base Listing
+    /// </summary>
     internal static readonly IndicatorListing CommonListing =
         new CatalogListingBuilder()
             .WithName("T3 Moving Average")
@@ -14,19 +16,25 @@ public static partial class T3
             .AddResult("T3", "T3", ResultType.Default, isReusable: true)
             .Build();
 
-    // T3 Moving Average Series Listing
+    /// <summary>
+    /// T3 Moving Average Series Listing
+    /// </summary>
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
             .Build();
 
-    // T3 Moving Average Stream Listing
+    /// <summary>
+    /// T3 Moving Average Stream Listing
+    /// </summary>
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
             .Build();
 
-    // T3 Moving Average Buffer Listing
+    /// <summary>
+    /// T3 Moving Average Buffer Listing
+    /// </summary>
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)

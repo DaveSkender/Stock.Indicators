@@ -5,7 +5,9 @@ namespace Skender.Stock.Indicators;
 /// </summary>
 public class T3List : BufferList<T3Result>, IIncrementFromChain, IT3
 {
-    // State for six-layer EMA calculations
+    /// <summary>
+    /// State for six-layer EMA calculations
+    /// </summary>
     private double _lastEma1 = double.NaN;
     private double _lastEma2 = double.NaN;
     private double _lastEma3 = double.NaN;
@@ -47,7 +49,9 @@ public class T3List : BufferList<T3Result>, IIncrementFromChain, IT3
         IReadOnlyList<IReusable> values
     )
         : this(lookbackPeriods, volumeFactor)
-        => Add(values);
+    {
+        Add(values);
+    }
 
     /// <inheritdoc/>
     public int LookbackPeriods { get; init; }

@@ -23,17 +23,17 @@ public class FcbTests : TestBase
         listing.Parameters.Should().NotBeNull();
         listing.Parameters.Should().HaveCount(1);
 
-        IndicatorParam windowSpanParam = listing.Parameters.SingleOrDefault(p => p.ParameterName == "windowSpan");
+        IndicatorParam windowSpanParam = listing.Parameters.SingleOrDefault(static p => p.ParameterName == "windowSpan");
         windowSpanParam.Should().NotBeNull();
 
         listing.Results.Should().NotBeNull();
         listing.Results.Should().HaveCount(2);
 
-        IndicatorResult upperbandResult = listing.Results.SingleOrDefault(r => r.DataName == "UpperBand");
+        IndicatorResult upperbandResult = listing.Results.SingleOrDefault(static r => r.DataName == "UpperBand");
         upperbandResult.Should().NotBeNull();
         upperbandResult?.DisplayName.Should().Be("Upper Band");
         upperbandResult.IsReusable.Should().Be(true);
-        IndicatorResult lowerbandResult1 = listing.Results.SingleOrDefault(r => r.DataName == "LowerBand");
+        IndicatorResult lowerbandResult1 = listing.Results.SingleOrDefault(static r => r.DataName == "LowerBand");
         lowerbandResult1.Should().NotBeNull();
         lowerbandResult1?.DisplayName.Should().Be("Lower Band");
         lowerbandResult1.IsReusable.Should().Be(false);
@@ -56,17 +56,17 @@ public class FcbTests : TestBase
         listing.Parameters.Should().NotBeNull();
         listing.Parameters.Should().HaveCount(1);
 
-        IndicatorParam windowSpanParam = listing.Parameters.SingleOrDefault(p => p.ParameterName == "windowSpan");
+        IndicatorParam windowSpanParam = listing.Parameters.SingleOrDefault(static p => p.ParameterName == "windowSpan");
         windowSpanParam.Should().NotBeNull();
 
         listing.Results.Should().NotBeNull();
         listing.Results.Should().HaveCount(2);
 
-        IndicatorResult upperbandResult = listing.Results.SingleOrDefault(r => r.DataName == "UpperBand");
+        IndicatorResult upperbandResult = listing.Results.SingleOrDefault(static r => r.DataName == "UpperBand");
         upperbandResult.Should().NotBeNull();
         upperbandResult?.DisplayName.Should().Be("Upper Band");
         upperbandResult.IsReusable.Should().Be(true);
-        IndicatorResult lowerbandResult1 = listing.Results.SingleOrDefault(r => r.DataName == "LowerBand");
+        IndicatorResult lowerbandResult1 = listing.Results.SingleOrDefault(static r => r.DataName == "LowerBand");
         lowerbandResult1.Should().NotBeNull();
         lowerbandResult1?.DisplayName.Should().Be("Lower Band");
         lowerbandResult1.IsReusable.Should().Be(false);
@@ -89,17 +89,17 @@ public class FcbTests : TestBase
         listing.Parameters.Should().NotBeNull();
         listing.Parameters.Should().HaveCount(1);
 
-        IndicatorParam windowSpanParam = listing.Parameters.SingleOrDefault(p => p.ParameterName == "windowSpan");
+        IndicatorParam windowSpanParam = listing.Parameters.SingleOrDefault(static p => p.ParameterName == "windowSpan");
         windowSpanParam.Should().NotBeNull();
 
         listing.Results.Should().NotBeNull();
         listing.Results.Should().HaveCount(2);
 
-        IndicatorResult upperbandResult = listing.Results.SingleOrDefault(r => r.DataName == "UpperBand");
+        IndicatorResult upperbandResult = listing.Results.SingleOrDefault(static r => r.DataName == "UpperBand");
         upperbandResult.Should().NotBeNull();
         upperbandResult?.DisplayName.Should().Be("Upper Band");
         upperbandResult.IsReusable.Should().Be(true);
-        IndicatorResult lowerbandResult1 = listing.Results.SingleOrDefault(r => r.DataName == "LowerBand");
+        IndicatorResult lowerbandResult1 = listing.Results.SingleOrDefault(static r => r.DataName == "LowerBand");
         lowerbandResult1.Should().NotBeNull();
         lowerbandResult1?.DisplayName.Should().Be("Lower Band");
         lowerbandResult1.IsReusable.Should().Be(false);

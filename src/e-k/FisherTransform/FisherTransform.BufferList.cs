@@ -33,7 +33,9 @@ public class FisherTransformList : BufferList<FisherTransformResult>, IIncrement
         IReadOnlyList<IReusable> values
     )
         : this(lookbackPeriods)
-        => Add(values);
+    {
+        Add(values);
+    }
 
     /// <summary>
     /// Gets the number of periods to look back for the calculation.
@@ -133,6 +135,8 @@ public static partial class FisherTransform
     /// <summary>
     /// Creates a buffer list for Fisher Transform calculations.
     /// </summary>
+    /// <param name="source"></param>
+    /// <param name="lookbackPeriods"></param>
     public static FisherTransformList ToFisherTransformList(
         this IReadOnlyList<IReusable> source,
         int lookbackPeriods = 10)

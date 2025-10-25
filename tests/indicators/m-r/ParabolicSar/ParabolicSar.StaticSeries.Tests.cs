@@ -15,7 +15,7 @@ public class ParabolicSar : StaticSeriesTestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.HasCount(488, results.Where(x => x.Sar != null));
+        Assert.HasCount(488, results.Where(static x => x.Sar != null));
 
         // sample values
         ParabolicSarResult r14 = results[14];
@@ -49,7 +49,7 @@ public class ParabolicSar : StaticSeriesTestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.HasCount(488, results.Where(x => x.Sar != null));
+        Assert.HasCount(488, results.Where(static x => x.Sar != null));
 
         // sample values
         ParabolicSarResult r14 = results[14];
@@ -81,7 +81,7 @@ public class ParabolicSar : StaticSeriesTestBase
             .ToSma(10);
 
         Assert.HasCount(502, results);
-        Assert.HasCount(479, results.Where(x => x.Sma != null));
+        Assert.HasCount(479, results.Where(static x => x.Sma != null));
     }
 
     [TestMethod]
@@ -91,7 +91,7 @@ public class ParabolicSar : StaticSeriesTestBase
         const double maxAccelerationFactor = 0.2;
 
         List<Quote> insufficientQuotes = Data.GetDefault()
-            .OrderBy(x => x.Timestamp)
+            .OrderBy(static x => x.Timestamp)
             .Take(10)
             .ToList();
 
@@ -103,7 +103,7 @@ public class ParabolicSar : StaticSeriesTestBase
 
         // proper quantities
         Assert.HasCount(10, results);
-        Assert.IsEmpty(results.Where(x => x.Sar != null));
+        Assert.IsEmpty(results.Where(static x => x.Sar != null));
     }
 
     [TestMethod]
@@ -113,7 +113,7 @@ public class ParabolicSar : StaticSeriesTestBase
             .ToParabolicSar(0.2, 0.2, 0.2);
 
         Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(x => x.Sar is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.Sar is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -153,18 +153,18 @@ public class ParabolicSar : StaticSeriesTestBase
     {
         // bad acceleration step
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => Quotes.ToParabolicSar(0, 1));
+            static () => Quotes.ToParabolicSar(0, 1));
 
         // insufficient acceleration step
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => Quotes.ToParabolicSar(0.02, 0));
+            static () => Quotes.ToParabolicSar(0.02, 0));
 
         // step larger than factor
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => Quotes.ToParabolicSar(6, 2));
+            static () => Quotes.ToParabolicSar(6, 2));
 
         // insufficient initial factor
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => Quotes.ToParabolicSar(0.02, 0.5, 0));
+            static () => Quotes.ToParabolicSar(0.02, 0.5, 0));
     }
 }

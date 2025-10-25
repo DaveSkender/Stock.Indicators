@@ -8,7 +8,9 @@ public class TemaList : BufferList<TemaResult>, IIncrementFromChain, ITema
     private readonly Queue<double> _buffer;
     private double _bufferSum;
 
-    // State for triple EMA calculations
+    /// <summary>
+    /// State for triple EMA calculations
+    /// </summary>
     private double _lastEma1 = double.NaN;
     private double _lastEma2 = double.NaN;
     private double _lastEma3 = double.NaN;
@@ -39,7 +41,9 @@ public class TemaList : BufferList<TemaResult>, IIncrementFromChain, ITema
         IReadOnlyList<IReusable> values
     )
         : this(lookbackPeriods)
-        => Add(values);
+    {
+        Add(values);
+    }
 
     /// <summary>
     /// Gets the number of periods to look back for the calculation.
@@ -146,6 +150,8 @@ public static partial class Tema
     /// <summary>
     /// Creates a buffer list for TEMA calculations.
     /// </summary>
+    /// <param name="source"></param>
+    /// <param name="lookbackPeriods"></param>
     public static TemaList ToTemaList(
         this IReadOnlyList<IReusable> source,
         int lookbackPeriods)

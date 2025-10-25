@@ -2,7 +2,9 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Stc
 {
-    // Schaff Trend Cycle Common Base Listing
+    /// <summary>
+    /// Schaff Trend Cycle Common Base Listing
+    /// </summary>
     internal static readonly IndicatorListing CommonListing =
         new CatalogListingBuilder()
             .WithName("Schaff Trend Cycle")
@@ -15,7 +17,9 @@ public static partial class Stc
             .AddResult("Stc", "STC", ResultType.Default, isReusable: true)
             .Build();
 
-    // Schaff Trend Cycle Series Listing
+    /// <summary>
+    /// Schaff Trend Cycle Series Listing
+    /// </summary>
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)

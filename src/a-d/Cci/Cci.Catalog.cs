@@ -2,7 +2,9 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Cci
 {
-    // CCI Common Base Listing
+    /// <summary>
+    /// CCI Common Base Listing
+    /// </summary>
     internal static readonly IndicatorListing CommonListing =
         new CatalogListingBuilder()
             .WithName("Commodity Channel Index (CCI)")
@@ -13,19 +15,25 @@ public static partial class Cci
             .AddResult("Cci", "CCI", ResultType.Default, isReusable: true)
             .Build();
 
-    // CCI Series Listing
+    /// <summary>
+    /// CCI Series Listing
+    /// </summary>
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
             .Build();
 
-    // CCI Stream Listing
+    /// <summary>
+    /// CCI Stream Listing
+    /// </summary>
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
             .Build();
 
-    // CCI Buffer Listing
+    /// <summary>
+    /// CCI Buffer Listing
+    /// </summary>
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)

@@ -48,7 +48,9 @@ public class AtrStopList : BufferList<AtrStopResult>, IIncrementFromQuote, IAtrS
         EndType endType,
         IReadOnlyList<IQuote> quotes)
         : this(lookbackPeriods, multiplier, endType)
-        => Add(quotes);
+    {
+        Add(quotes);
+    }
 
     /// <inheritdoc/>
     public int LookbackPeriods { get; init; }
@@ -199,7 +201,9 @@ public class AtrStopList : BufferList<AtrStopResult>, IIncrementFromQuote, IAtrS
     }
 }
 
-// EXTENSION METHODS
+/// <summary>
+/// EXTENSION METHODS
+/// </summary>
 public static partial class AtrStop
 {
     /// <summary>

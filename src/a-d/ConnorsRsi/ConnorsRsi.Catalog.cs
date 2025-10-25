@@ -2,7 +2,9 @@ namespace Skender.Stock.Indicators;
 
 public static partial class ConnorsRsi
 {
-    // CRSI Common Base Listing
+    /// <summary>
+    /// CRSI Common Base Listing
+    /// </summary>
     internal static readonly IndicatorListing CommonListing =
         new CatalogListingBuilder()
             .WithName("ConnorsRSI (CRSI)")
@@ -19,13 +21,17 @@ public static partial class ConnorsRsi
             .AddResult("ConnorsRsi", "ConnorsRSI", ResultType.Default, isReusable: true)
             .Build();
 
-    // CRSI Series Listing
+    /// <summary>
+    /// CRSI Series Listing
+    /// </summary>
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
             .Build();
 
-    // CRSI Buffer Listing
+    /// <summary>
+    /// CRSI Buffer Listing
+    /// </summary>
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)

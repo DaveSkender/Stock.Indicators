@@ -2,7 +2,9 @@ namespace Skender.Stock.Indicators;
 
 public static partial class StochRsi
 {
-    // Stochastic RSI Common Base Listing
+    /// <summary>
+    /// Stochastic RSI Common Base Listing
+    /// </summary>
     internal static readonly IndicatorListing CommonListing =
         new CatalogListingBuilder()
             .WithName("Stochastic RSI")
@@ -17,19 +19,25 @@ public static partial class StochRsi
             .AddResult("Signal", "%D", ResultType.Default)
             .Build();
 
-    // Stochastic RSI Series Listing
+    /// <summary>
+    /// Stochastic RSI Series Listing
+    /// </summary>
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
             .Build();
 
-    // Stochastic RSI Stream Listing
+    /// <summary>
+    /// Stochastic RSI Stream Listing
+    /// </summary>
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
             .Build();
 
-    // Stochastic RSI Buffer Listing
+    /// <summary>
+    /// Stochastic RSI Buffer Listing
+    /// </summary>
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)

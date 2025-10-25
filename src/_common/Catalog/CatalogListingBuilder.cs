@@ -336,14 +336,14 @@ internal class CatalogListingBuilder
         }
 
         // Check for duplicate parameter names
-        List<string> parameterNames = _parameters.ConvertAll(p => p.ParameterName);
+        List<string> parameterNames = _parameters.ConvertAll(static p => p.ParameterName);
         if (parameterNames.Count != parameterNames.Distinct().Count())
         {
             throw new InvalidOperationException("Duplicate parameter names are not allowed.");
         }
 
         // Check for duplicate result names
-        List<string> resultNames = _results.ConvertAll(r => r.DataName);
+        List<string> resultNames = _results.ConvertAll(static r => r.DataName);
         if (resultNames.Count != resultNames.Distinct().Count())
         {
             throw new InvalidOperationException("Duplicate result names are not allowed.");
@@ -352,7 +352,7 @@ internal class CatalogListingBuilder
         // Validate reusable result rules:
         // - For IReusable models: exactly one result must be marked as reusable
         // - For ISeries models: no results should be marked as reusable
-        List<IndicatorResult> reusableResults = _results.Where(r => r.IsReusable).ToList();
+        List<IndicatorResult> reusableResults = _results.Where(static r => r.IsReusable).ToList();
 
         if (reusableResults.Count > 1)
         {

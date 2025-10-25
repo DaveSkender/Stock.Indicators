@@ -15,7 +15,7 @@ public static partial class Mfi
         ArgumentNullException.ThrowIfNull(results);
 
         int removePeriods = results
-            .FindIndex(x => x.Mfi != null);
+            .FindIndex(static x => x.Mfi != null);
 
         return results.Remove(removePeriods);
     }

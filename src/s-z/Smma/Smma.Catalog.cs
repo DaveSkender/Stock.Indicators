@@ -2,7 +2,9 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Smma
 {
-    // Smoothed Moving Average Common Base Listing
+    /// <summary>
+    /// Smoothed Moving Average Common Base Listing
+    /// </summary>
     internal static readonly IndicatorListing CommonListing =
         new CatalogListingBuilder()
             .WithName("Smoothed Moving Average")
@@ -13,19 +15,25 @@ public static partial class Smma
             .AddResult("Smma", "SMMA", ResultType.Default, isReusable: true)
             .Build();
 
-    // Smoothed Moving Average Series Listing
+    /// <summary>
+    /// Smoothed Moving Average Series Listing
+    /// </summary>
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
             .Build();
 
-    // SMMA Stream Listing
+    /// <summary>
+    /// SMMA Stream Listing
+    /// </summary>
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
             .Build();
 
-    // SMMA Buffer Listing
+    /// <summary>
+    /// SMMA Buffer Listing
+    /// </summary>
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)

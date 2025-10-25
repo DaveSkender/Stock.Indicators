@@ -2,7 +2,9 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Pivots
 {
-    // Pivots Common Base Listing
+    /// <summary>
+    /// Pivots Common Base Listing
+    /// </summary>
     internal static readonly IndicatorListing CommonListing =
         new CatalogListingBuilder()
             .WithName("Pivots")
@@ -21,13 +23,17 @@ public static partial class Pivots
             .AddResult("LowTrend", "Low Trend", ResultType.Default, isReusable: false)
             .Build();
 
-    // Pivots Series Listing
+    /// <summary>
+    /// Pivots Series Listing
+    /// </summary>
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
             .Build();
 
-    // Pivots Buffer Listing
+    /// <summary>
+    /// Pivots Buffer Listing
+    /// </summary>
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)

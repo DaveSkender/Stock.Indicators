@@ -18,7 +18,7 @@ public static partial class Keltner
 
         resultsList
             .RemoveAll(match:
-                x => x.UpperBand is null && x.LowerBand is null && x.Centerline is null);
+                static x => x.UpperBand is null && x.LowerBand is null && x.Centerline is null);
 
         return resultsList.ToSortedList();
     }
@@ -34,7 +34,7 @@ public static partial class Keltner
         ArgumentNullException.ThrowIfNull(results);
 
         int n = results
-            .FindIndex(x => x.Width != null) + 1;
+            .FindIndex(static x => x.Width != null) + 1;
 
         return results.Remove(Math.Max(2 * n, n + 100));
     }

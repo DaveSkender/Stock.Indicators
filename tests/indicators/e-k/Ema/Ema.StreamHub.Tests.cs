@@ -38,7 +38,7 @@ public class EmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
 
         // late arrival, should equal series
         quoteHub.Insert(Quotes[80]);
-        actuals.Should().BeEquivalentTo(expectedOriginal, options => options.WithStrictOrdering());
+        actuals.Should().BeEquivalentTo(expectedOriginal, static options => options.WithStrictOrdering());
 
         // delete, should equal series (revised)
         quoteHub.Remove(Quotes[removeAtIndex]);
@@ -46,7 +46,7 @@ public class EmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
         IReadOnlyList<EmaResult> expectedRevised = RevisedQuotes.ToEma(lookbackPeriods);
 
         actuals.Should().HaveCount(501);
-        actuals.Should().BeEquivalentTo(expectedRevised, options => options.WithStrictOrdering());
+        actuals.Should().BeEquivalentTo(expectedRevised, static options => options.WithStrictOrdering());
 
         // cleanup
         observer.Unsubscribe();
@@ -81,7 +81,7 @@ public class EmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
 
         // assert, should equal series
         actuals.Should().HaveCount(length);
-        actuals.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
+        actuals.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
 
         // cleanup
         observer.Unsubscribe();

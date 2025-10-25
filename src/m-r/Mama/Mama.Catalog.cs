@@ -2,7 +2,9 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Mama
 {
-    // MAMA Common Base Listing
+    /// <summary>
+    /// MAMA Common Base Listing
+    /// </summary>
     internal static readonly IndicatorListing CommonListing =
         new CatalogListingBuilder()
             .WithName("MESA Adaptive Moving Average")
@@ -15,19 +17,25 @@ public static partial class Mama
             .AddResult("Fama", "FAMA", ResultType.Default)
             .Build();
 
-    // MAMA Series Listing
+    /// <summary>
+    /// MAMA Series Listing
+    /// </summary>
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
             .Build();
 
-    // MAMA Buffer Listing
+    /// <summary>
+    /// MAMA Buffer Listing
+    /// </summary>
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)
             .Build();
 
-    // MAMA Stream Listing
+    /// <summary>
+    /// MAMA Stream Listing
+    /// </summary>
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)

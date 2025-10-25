@@ -15,9 +15,9 @@ public class Pvo : StaticSeriesTestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.HasCount(477, results.Where(x => x.Pvo != null));
-        Assert.HasCount(469, results.Where(x => x.Signal != null));
-        Assert.HasCount(469, results.Where(x => x.Histogram != null));
+        Assert.HasCount(477, results.Where(static x => x.Pvo != null));
+        Assert.HasCount(469, results.Where(static x => x.Signal != null));
+        Assert.HasCount(469, results.Where(static x => x.Histogram != null));
 
         // sample values
         PvoResult r1 = results[24];
@@ -54,7 +54,7 @@ public class Pvo : StaticSeriesTestBase
             .ToSma(10);
 
         Assert.HasCount(502, results);
-        Assert.HasCount(468, results.Where(x => x.Sma != null));
+        Assert.HasCount(468, results.Where(static x => x.Sma != null));
     }
 
     [TestMethod]
@@ -64,7 +64,7 @@ public class Pvo : StaticSeriesTestBase
             .ToPvo(10, 20, 5);
 
         Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(x => x.Pvo is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.Pvo is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -106,14 +106,14 @@ public class Pvo : StaticSeriesTestBase
     {
         // bad fast period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => Quotes.ToPvo(0));
+            static () => Quotes.ToPvo(0));
 
         // bad slow periods must be larger than faster period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => Quotes.ToPvo(12, 12));
+            static () => Quotes.ToPvo(12, 12));
 
         // bad signal period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => Quotes.ToPvo(12, 26, -1));
+            static () => Quotes.ToPvo(12, 26, -1));
     }
 }

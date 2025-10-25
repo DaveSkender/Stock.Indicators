@@ -2,7 +2,9 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Mfi
 {
-    // MFI Common Base Listing
+    /// <summary>
+    /// MFI Common Base Listing
+    /// </summary>
     internal static readonly IndicatorListing CommonListing =
         new CatalogListingBuilder()
             .WithName("Money Flow Index (MFI)")
@@ -13,19 +15,25 @@ public static partial class Mfi
             .AddResult("Mfi", "MFI", ResultType.Default, isReusable: true)
             .Build();
 
-    // MFI Series Listing
+    /// <summary>
+    /// MFI Series Listing
+    /// </summary>
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
             .Build();
 
-    // MFI Stream Listing
+    /// <summary>
+    /// MFI Stream Listing
+    /// </summary>
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
             .Build();
 
-    // MFI Buffer Listing
+    /// <summary>
+    /// MFI Buffer Listing
+    /// </summary>
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)

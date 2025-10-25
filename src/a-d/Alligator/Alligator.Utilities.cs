@@ -18,7 +18,7 @@ public static partial class Alligator
 
         resultsList
             .RemoveAll(match:
-                x => x.Jaw is null && x.Teeth is null && x.Lips is null);
+                static x => x.Jaw is null && x.Teeth is null && x.Lips is null);
 
         return resultsList.ToSortedList();
     }
@@ -34,7 +34,7 @@ public static partial class Alligator
         ArgumentNullException.ThrowIfNull(results);
 
         int removePeriods = results
-          .FindIndex(x => x.Jaw != null) + 251;
+          .FindIndex(static x => x.Jaw != null) + 251;
 
         return results.Remove(removePeriods);
     }

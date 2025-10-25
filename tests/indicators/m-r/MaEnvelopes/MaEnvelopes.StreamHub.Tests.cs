@@ -39,7 +39,7 @@ public class MaEnvelopesHubTests : StreamHubTestBase, ITestChainObserver, ITestC
 
         // late arrival, should equal series
         quoteHub.Insert(Quotes[80]);
-        actuals.Should().BeEquivalentTo(expectedOriginal, options => options.WithStrictOrdering());
+        actuals.Should().BeEquivalentTo(expectedOriginal, static options => options.WithStrictOrdering());
 
         // delete, should equal series (revised)
         quoteHub.Remove(Quotes[removeAtIndex]);
@@ -47,7 +47,7 @@ public class MaEnvelopesHubTests : StreamHubTestBase, ITestChainObserver, ITestC
         IReadOnlyList<MaEnvelopeResult> expectedRevised = RevisedQuotes.ToMaEnvelopes(lookbackPeriods, percentOffset);
 
         actuals.Should().HaveCount(501);
-        actuals.Should().BeEquivalentTo(expectedRevised, options => options.WithStrictOrdering());
+        actuals.Should().BeEquivalentTo(expectedRevised, static options => options.WithStrictOrdering());
 
         // cleanup
         observer.Unsubscribe();
@@ -82,7 +82,7 @@ public class MaEnvelopesHubTests : StreamHubTestBase, ITestChainObserver, ITestC
 
         // assert, should equal series
         actuals.Should().HaveCount(length);
-        actuals.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
+        actuals.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
 
         // cleanup
         observer.Unsubscribe();
@@ -115,7 +115,7 @@ public class MaEnvelopesHubTests : StreamHubTestBase, ITestChainObserver, ITestC
 
         // assert, should equal series
         actuals.Should().HaveCount(length);
-        actuals.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
+        actuals.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
 
         // cleanup
         maEnvHub.Unsubscribe();
@@ -144,7 +144,7 @@ public class MaEnvelopesHubTests : StreamHubTestBase, ITestChainObserver, ITestC
 
         // assert, should equal series
         actuals.Should().HaveCount(length);
-        actuals.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
+        actuals.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
 
         // cleanup
         observer.Unsubscribe();

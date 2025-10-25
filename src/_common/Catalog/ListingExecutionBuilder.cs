@@ -23,6 +23,7 @@ public class ListingExecutionBuilder
     /// <param name="parameterName">The name of the parameter to override.</param>
     /// <param name="value">The value to set for the parameter.</param>
     /// <returns>A new <see cref="ListingExecutionBuilder"/> with the parameter override applied.</returns>
+    /// <exception cref="ArgumentException"></exception>
     public ListingExecutionBuilder WithParamValue(string parameterName, object value)
     {
         if (string.IsNullOrWhiteSpace(parameterName))
@@ -47,6 +48,7 @@ public class ListingExecutionBuilder
     /// </summary>
     /// <param name="parameters">Dictionary of parameter names and values.</param>
     /// <returns>A new <see cref="ListingExecutionBuilder"/> with the parameter overrides applied.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="parameters"/> is <c>null</c>.</exception>
     public ListingExecutionBuilder WithParams(Dictionary<string, object> parameters)
     {
         if (parameters == null)
@@ -68,6 +70,7 @@ public class ListingExecutionBuilder
     /// </summary>
     /// <param name="quotes">The quotes to process.</param>
     /// <returns>A new <see cref="ListingExecutionBuilder"/> with the quotes set.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="quotes"/> is <c>null</c>.</exception>
     public ListingExecutionBuilder FromSource(IEnumerable<IQuote> quotes)
     {
         if (quotes == null)
@@ -90,6 +93,7 @@ public class ListingExecutionBuilder
     /// <param name="series">The series data to process.</param>
     /// <param name="parameterName">The name of the series parameter. If null, attempts to find the first series parameter.</param>
     /// <returns>A new <see cref="ListingExecutionBuilder"/> with the series parameter set.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="series"/> is <c>null</c>.</exception>
     public ListingExecutionBuilder FromSource<T>(IReadOnlyList<T> series, string? parameterName = null)
         where T : IReusable
     {
@@ -180,7 +184,7 @@ public class ListingExecutionBuilder
     {
         IndicatorParam? seriesParam
             = BaseListing.Parameters?
-                .FirstOrDefault(p => p.DataType == "IReadOnlyList<T> where T : IReusable");
+                .FirstOrDefault(static p => p.DataType == "IReadOnlyList<T> where T : IReusable");
 
         return seriesParam?.ParameterName
             ?? throw new InvalidOperationException($"No series parameter found in indicator '{BaseListing.Uiid}'");

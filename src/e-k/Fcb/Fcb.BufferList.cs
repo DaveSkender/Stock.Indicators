@@ -37,7 +37,9 @@ public class FcbList : BufferList<FcbResult>, IIncrementFromQuote, IFcb
         IReadOnlyList<IQuote> quotes
     )
         : this(windowSpan)
-        => Add(quotes);
+    {
+        Add(quotes);
+    }
 
     /// <summary>
     /// Gets the window span for the calculation.
@@ -139,6 +141,8 @@ public static partial class Fcb
     /// <summary>
     /// Creates a buffer list for Fractal Chaos Bands (FCB) calculations.
     /// </summary>
+    /// <param name="quotes"></param>
+    /// <param name="windowSpan"></param>
     public static FcbList ToFcbList(
         this IReadOnlyList<IQuote> quotes,
         int windowSpan = 2)

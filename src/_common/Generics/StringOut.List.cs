@@ -373,10 +373,7 @@ public static partial class StringOut
             // Return the type's C# alias if it exists, or the type's name otherwise
             return type.Name;
         }
-        else
-        {
-            // Return the type's C# alias if it exists, or the type's name otherwise
-            return type.Name;
-        }
+        // Return the type's C# alias if it exists, or the type's name otherwise
+        return type.Name;
     }
 }

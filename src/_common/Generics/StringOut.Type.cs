@@ -140,7 +140,7 @@ public static partial class StringOut
     /// <returns>The maximum width of the column.</returns>
     private static int MaxWidth(string header, List<string> values)
     {
-        int maxValue = values.Count != 0 ? values.Max(v => v.Length) : 0;
+        int maxValue = values.Count != 0 ? values.Max(static v => v.Length) : 0;
         return Math.Max(header.Length, maxValue);
     }
 
@@ -231,7 +231,7 @@ public static partial class StringOut
     /// <returns>An array of <see cref="PropertyInfo"/> objects representing the properties of the type.</returns>
     private static PropertyInfo[] GetStringOutProperties(Type type)
         => type.GetProperties(BindingFlags.Public | BindingFlags.Instance)
-            .Where(p => p.GetCustomAttribute<JsonIgnoreAttribute>() == null
+            .Where(static p => p.GetCustomAttribute<JsonIgnoreAttribute>() == null
                      && p.GetCustomAttribute<ObsoleteAttribute>() == null)
             .ToArray();
 }

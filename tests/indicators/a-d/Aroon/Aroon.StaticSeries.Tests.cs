@@ -11,9 +11,9 @@ public class Aroon : StaticSeriesTestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.HasCount(477, results.Where(x => x.AroonUp != null));
-        Assert.HasCount(477, results.Where(x => x.AroonDown != null));
-        Assert.HasCount(477, results.Where(x => x.Oscillator != null));
+        Assert.HasCount(477, results.Where(static x => x.AroonUp != null));
+        Assert.HasCount(477, results.Where(static x => x.AroonDown != null));
+        Assert.HasCount(477, results.Where(static x => x.Oscillator != null));
 
         // sample values
         AroonResult r1 = results[210];
@@ -50,7 +50,7 @@ public class Aroon : StaticSeriesTestBase
             .ToSma(10);
 
         Assert.HasCount(502, results);
-        Assert.HasCount(468, results.Where(x => x.Sma != null));
+        Assert.HasCount(468, results.Where(static x => x.Sma != null));
     }
 
     [TestMethod]
@@ -60,7 +60,7 @@ public class Aroon : StaticSeriesTestBase
             .ToAroon(20);
 
         Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(x => x.Oscillator is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.Oscillator is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -93,9 +93,11 @@ public class Aroon : StaticSeriesTestBase
         Assert.AreEqual(-60, last.Oscillator);
     }
 
-    // bad lookback period
+    /// <summary>
+    /// bad lookback period
+    /// </summary>
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => Quotes.ToAroon(0));
+            static () => Quotes.ToAroon(0));
 }

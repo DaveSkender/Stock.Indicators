@@ -43,7 +43,9 @@ public class KeltnerList : BufferList<KeltnerResult>, IIncrementFromQuote
         int atrPeriods,
         IReadOnlyList<IQuote> quotes)
         : this(emaPeriods, multiplier, atrPeriods)
-        => Add(quotes);
+    {
+        Add(quotes);
+    }
 
     /// <inheritdoc />
     public int EmaPeriods { get; init; }
@@ -109,6 +111,10 @@ public static partial class Keltner
     /// <summary>
     /// Creates a buffer list for Keltner Channels calculations.
     /// </summary>
+    /// <param name="quotes"></param>
+    /// <param name="emaPeriods"></param>
+    /// <param name="multiplier"></param>
+    /// <param name="atrPeriods"></param>
     public static KeltnerList ToKeltnerList(
         this IReadOnlyList<IQuote> quotes,
         int emaPeriods = 20,

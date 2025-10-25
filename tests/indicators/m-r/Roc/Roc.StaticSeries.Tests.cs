@@ -11,8 +11,8 @@ public class Roc : StaticSeriesTestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.HasCount(482, results.Where(x => x.Momentum != null));
-        Assert.HasCount(482, results.Where(x => x.Roc != null));
+        Assert.HasCount(482, results.Where(static x => x.Momentum != null));
+        Assert.HasCount(482, results.Where(static x => x.Roc != null));
 
         // sample values
         RocResult r49 = results[49];
@@ -36,7 +36,7 @@ public class Roc : StaticSeriesTestBase
             .ToRoc(20);
 
         Assert.HasCount(502, results);
-        Assert.HasCount(482, results.Where(x => x.Roc != null));
+        Assert.HasCount(482, results.Where(static x => x.Roc != null));
     }
 
     [TestMethod]
@@ -47,7 +47,7 @@ public class Roc : StaticSeriesTestBase
             .ToRoc(20);
 
         Assert.HasCount(502, results);
-        Assert.HasCount(481, results.Where(x => x.Roc != null));
+        Assert.HasCount(481, results.Where(static x => x.Roc != null));
     }
 
     [TestMethod]
@@ -58,7 +58,7 @@ public class Roc : StaticSeriesTestBase
             .ToSma(10);
 
         Assert.HasCount(502, results);
-        Assert.HasCount(473, results.Where(x => x.Sma != null));
+        Assert.HasCount(473, results.Where(static x => x.Sma != null));
     }
 
     [TestMethod]
@@ -68,7 +68,7 @@ public class Roc : StaticSeriesTestBase
             .ToRoc(35);
 
         Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(x => x.Roc is double.NaN));
+        Assert.IsEmpty(r.Where(static x => x.Roc is double.NaN));
     }
 
     [TestMethod]
@@ -102,5 +102,5 @@ public class Roc : StaticSeriesTestBase
     [TestMethod] // bad lookback period
     public void Exceptions()
         => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => Quotes.ToRoc(0));
+            static () => Quotes.ToRoc(0));
 }

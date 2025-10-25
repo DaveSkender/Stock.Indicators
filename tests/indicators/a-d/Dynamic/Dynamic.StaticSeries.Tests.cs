@@ -11,7 +11,7 @@ public class McGinleyDynamic : StaticSeriesTestBase
 
         // assertions
         Assert.HasCount(502, results);
-        Assert.HasCount(501, results.Where(x => x.Dynamic != null));
+        Assert.HasCount(501, results.Where(static x => x.Dynamic != null));
 
         // sample values
         DynamicResult r1 = results[1];
@@ -35,8 +35,8 @@ public class McGinleyDynamic : StaticSeriesTestBase
             .ToDynamic(20);
 
         Assert.HasCount(502, results);
-        Assert.HasCount(501, results.Where(x => x.Dynamic != null));
-        Assert.IsEmpty(results.Where(x => x.Dynamic is double v && double.IsNaN(v)));
+        Assert.HasCount(501, results.Where(static x => x.Dynamic != null));
+        Assert.IsEmpty(results.Where(static x => x.Dynamic is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -47,7 +47,7 @@ public class McGinleyDynamic : StaticSeriesTestBase
             .ToDynamic(14);
 
         Assert.HasCount(502, results);
-        Assert.HasCount(492, results.Where(x => x.Dynamic != null));
+        Assert.HasCount(492, results.Where(static x => x.Dynamic != null));
     }
 
     [TestMethod]
@@ -58,7 +58,7 @@ public class McGinleyDynamic : StaticSeriesTestBase
             .ToSma(10);
 
         Assert.HasCount(502, results);
-        Assert.HasCount(492, results.Where(x => x.Sma != null));
+        Assert.HasCount(492, results.Where(static x => x.Sma != null));
     }
 
     [TestMethod]
@@ -68,7 +68,7 @@ public class McGinleyDynamic : StaticSeriesTestBase
             .ToDynamic(15);
 
         Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(x => x.Dynamic is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.Dynamic is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -90,10 +90,10 @@ public class McGinleyDynamic : StaticSeriesTestBase
     {
         // bad lookback period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => Quotes.ToDynamic(0));
+            static () => Quotes.ToDynamic(0));
 
         // bad k-factor
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => Quotes.ToDynamic(14, 0));
+            static () => Quotes.ToDynamic(14, 0));
     }
 }

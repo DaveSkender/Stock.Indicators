@@ -16,7 +16,7 @@ public static partial class Kama
         ArgumentNullException.ThrowIfNull(results);
 
         int erPeriods = results
-            .FindIndex(x => x.Er != null);
+            .FindIndex(static x => x.Er != null);
 
         return results.Remove(Math.Max(erPeriods + 100, 10 * erPeriods));
     }

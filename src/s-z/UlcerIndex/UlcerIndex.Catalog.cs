@@ -2,7 +2,9 @@ namespace Skender.Stock.Indicators;
 
 public static partial class UlcerIndex
 {
-    // Ulcer Index Common Base Listing
+    /// <summary>
+    /// Ulcer Index Common Base Listing
+    /// </summary>
     internal static readonly IndicatorListing CommonListing =
         new CatalogListingBuilder()
             .WithName("Ulcer Index")
@@ -13,7 +15,9 @@ public static partial class UlcerIndex
             .AddResult("UlcerIndex", "Ulcer Index", ResultType.Default, isReusable: true)
             .Build();
 
-    // Ulcer Index Series Listing
+    /// <summary>
+    /// Ulcer Index Series Listing
+    /// </summary>
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)

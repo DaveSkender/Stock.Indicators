@@ -2,7 +2,9 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Slope
 {
-    // Slope Common Base Listing
+    /// <summary>
+    /// Slope Common Base Listing
+    /// </summary>
     internal static readonly IndicatorListing CommonListing =
         new CatalogListingBuilder()
             .WithName("Slope")
@@ -16,13 +18,17 @@ public static partial class Slope
             .AddResult("RSquared", "R-Squared", ResultType.Default)
             .Build();
 
-    // Slope Series Listing
+    /// <summary>
+    /// Slope Series Listing
+    /// </summary>
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
             .Build();
 
-    // Slope Buffer Listing
+    /// <summary>
+    /// Slope Buffer Listing
+    /// </summary>
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)

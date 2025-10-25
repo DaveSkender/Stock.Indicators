@@ -2,7 +2,9 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Beta
 {
-    // BETA Common Base Listing
+    /// <summary>
+    /// BETA Common Base Listing
+    /// </summary>
     internal static readonly IndicatorListing CommonListing =
         new CatalogListingBuilder()
             .WithName("Beta")
@@ -22,13 +24,17 @@ public static partial class Beta
             .AddResult("ReturnsMrkt", "Returns Mrkt", ResultType.Default)
             .Build();
 
-    // BETA Series Listing
+    /// <summary>
+    /// BETA Series Listing
+    /// </summary>
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
             .Build();
 
-    // BETA Buffer Listing
+    /// <summary>
+    /// BETA Buffer Listing
+    /// </summary>
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)

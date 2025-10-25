@@ -62,7 +62,9 @@ public class StochList : BufferList<StochResult>, IIncrementFromQuote, IStoch
         MaType movingAverageType,
         IReadOnlyList<IQuote> quotes)
         : this(lookbackPeriods, signalPeriods, smoothPeriods, kFactor, dFactor, movingAverageType)
-        => Add(quotes);
+    {
+        Add(quotes);
+    }
 
     /// <inheritdoc />
     public int LookbackPeriods { get; init; }
@@ -110,6 +112,7 @@ public class StochList : BufferList<StochResult>, IIncrementFromQuote, IStoch
     /// <param name="high">The high price.</param>
     /// <param name="low">The low price.</param>
     /// <param name="close">The close price.</param>
+    /// <exception cref="InvalidOperationException"></exception>
     public void Add(DateTime timestamp, double high, double low, double close)
     {
         // Update rolling buffer using BufferUtilities with consolidated tuple

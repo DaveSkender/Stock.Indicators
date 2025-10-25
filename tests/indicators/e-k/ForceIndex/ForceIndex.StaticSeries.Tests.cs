@@ -10,7 +10,7 @@ public class ForceIndex : StaticSeriesTestBase
 
         // proper quantities
         Assert.HasCount(502, r);
-        Assert.HasCount(489, r.Where(x => x.ForceIndex != null));
+        Assert.HasCount(489, r.Where(static x => x.ForceIndex != null));
 
         // sample values
         Assert.IsNull(r[12].ForceIndex);
@@ -30,7 +30,7 @@ public class ForceIndex : StaticSeriesTestBase
             .ToSma(10);
 
         Assert.HasCount(502, results);
-        Assert.HasCount(480, results.Where(x => x.Sma != null));
+        Assert.HasCount(480, results.Where(static x => x.Sma != null));
     }
 
     [TestMethod]
@@ -40,7 +40,7 @@ public class ForceIndex : StaticSeriesTestBase
             .ToForceIndex();
 
         Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(x => x.ForceIndex is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.ForceIndex is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -71,9 +71,11 @@ public class ForceIndex : StaticSeriesTestBase
         Assert.AreEqual(-16824018.428, Math.Round(last.ForceIndex.Value, 3));
     }
 
-    // bad lookback period
+    /// <summary>
+    /// bad lookback period
+    /// </summary>
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => Quotes.ToForceIndex(0));
+            static () => Quotes.ToForceIndex(0));
 }

@@ -2,7 +2,9 @@ namespace Skender.Stock.Indicators;
 
 public static partial class ChaikinOsc
 {
-    // CHAIKIN-OSC Common Base Listing
+    /// <summary>
+    /// CHAIKIN-OSC Common Base Listing
+    /// </summary>
     internal static readonly IndicatorListing CommonListing =
         new CatalogListingBuilder()
             .WithName("Chaikin Money Flow Oscillator")
@@ -17,7 +19,9 @@ public static partial class ChaikinOsc
             .AddResult("Oscillator", "Oscillator", ResultType.Default, isReusable: true)
             .Build();
 
-    // CHAIKIN-OSC Series Listing
+    /// <summary>
+    /// CHAIKIN-OSC Series Listing
+    /// </summary>
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)

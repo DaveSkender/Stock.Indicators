@@ -11,7 +11,7 @@ public class Cmf : StaticSeriesTestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.HasCount(483, results.Where(x => x.Cmf != null));
+        Assert.HasCount(483, results.Where(static x => x.Cmf != null));
 
         // sample values
         CmfResult r1 = results[49];
@@ -38,7 +38,7 @@ public class Cmf : StaticSeriesTestBase
             .ToSma(10);
 
         Assert.HasCount(502, results);
-        Assert.HasCount(474, results.Where(x => x.Sma != null));
+        Assert.HasCount(474, results.Where(static x => x.Sma != null));
     }
 
     [TestMethod]
@@ -48,7 +48,7 @@ public class Cmf : StaticSeriesTestBase
             .ToCmf(15);
 
         Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(x => x.Cmf is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.Cmf is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -90,9 +90,11 @@ public class Cmf : StaticSeriesTestBase
         Assert.AreEqual(-0.123754, last.Cmf.Round(6));
     }
 
-    // bad lookback period
+    /// <summary>
+    /// bad lookback period
+    /// </summary>
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => Quotes.ToCmf(0));
+            static () => Quotes.ToCmf(0));
 }

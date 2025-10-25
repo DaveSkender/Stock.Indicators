@@ -11,10 +11,10 @@ public class Donchian : StaticSeriesTestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.HasCount(482, results.Where(x => x.Centerline != null));
-        Assert.HasCount(482, results.Where(x => x.UpperBand != null));
-        Assert.HasCount(482, results.Where(x => x.LowerBand != null));
-        Assert.HasCount(482, results.Where(x => x.Width != null));
+        Assert.HasCount(482, results.Where(static x => x.Centerline != null));
+        Assert.HasCount(482, results.Where(static x => x.UpperBand != null));
+        Assert.HasCount(482, results.Where(static x => x.LowerBand != null));
+        Assert.HasCount(482, results.Where(static x => x.Width != null));
 
         // sample values
         DonchianResult r1 = results[19];
@@ -105,9 +105,11 @@ public class Donchian : StaticSeriesTestBase
         Assert.AreEqual(0.175623m, last.Width.Round(6));
     }
 
-    // bad lookback period
+    /// <summary>
+    /// bad lookback period
+    /// </summary>
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => Quotes.ToDonchian(0));
+            static () => Quotes.ToDonchian(0));
 }

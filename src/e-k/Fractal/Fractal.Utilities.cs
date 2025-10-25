@@ -17,7 +17,7 @@ public static partial class Fractal
 
         resultsList
             .RemoveAll(match:
-                x => x.FractalBull is null && x.FractalBear is null);
+                static x => x.FractalBull is null && x.FractalBear is null);
 
         return resultsList.ToSortedList();
     }

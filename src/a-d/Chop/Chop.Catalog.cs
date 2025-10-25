@@ -2,7 +2,9 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Chop
 {
-    // CHOP Common Base Listing
+    /// <summary>
+    /// CHOP Common Base Listing
+    /// </summary>
     internal static readonly IndicatorListing CommonListing =
         new CatalogListingBuilder()
             .WithName("Choppiness Index")
@@ -13,13 +15,17 @@ public static partial class Chop
             .AddResult("Chop", "CHOP", ResultType.Default, isReusable: true)
             .Build();
 
-    // CHOP Series Listing
+    /// <summary>
+    /// CHOP Series Listing
+    /// </summary>
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
             .Build();
 
-    // CHOP Stream Listing
+    /// <summary>
+    /// CHOP Stream Listing
+    /// </summary>
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)

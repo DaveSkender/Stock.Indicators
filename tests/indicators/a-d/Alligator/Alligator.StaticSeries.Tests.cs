@@ -11,9 +11,9 @@ public class Alligator : StaticSeriesTestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.HasCount(482, results.Where(x => x.Jaw != null));
-        Assert.HasCount(490, results.Where(x => x.Teeth != null));
-        Assert.HasCount(495, results.Where(x => x.Lips != null));
+        Assert.HasCount(482, results.Where(static x => x.Jaw != null));
+        Assert.HasCount(490, results.Where(static x => x.Teeth != null));
+        Assert.HasCount(495, results.Where(static x => x.Lips != null));
 
         // starting calculations at proper index
         Assert.IsNull(results[19].Jaw);
@@ -50,7 +50,7 @@ public class Alligator : StaticSeriesTestBase
             .ToAlligator();
 
         Assert.HasCount(502, results);
-        Assert.HasCount(481, results.Where(x => x.Jaw != null));
+        Assert.HasCount(481, results.Where(static x => x.Jaw != null));
     }
 
     [TestMethod]
@@ -60,7 +60,7 @@ public class Alligator : StaticSeriesTestBase
             .ToAlligator(3, 3, 2, 1, 1, 1);
 
         Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(x => x.Jaw is double.NaN));
+        Assert.IsEmpty(r.Where(static x => x.Jaw is double.NaN));
     }
 
     [TestMethod]
@@ -123,34 +123,34 @@ public class Alligator : StaticSeriesTestBase
     {
         // bad jaw lookback periods
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => Quotes.ToAlligator(13, 8, 13));
+            static () => Quotes.ToAlligator(13, 8, 13));
 
         // bad teeth lookback periods
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => Quotes.ToAlligator(13, 8, 8, 5, 8));
+            static () => Quotes.ToAlligator(13, 8, 8, 5, 8));
 
         // bad lips lookback periods
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => Quotes.ToAlligator(13, 8, 8, 5, 0));
+            static () => Quotes.ToAlligator(13, 8, 8, 5, 0));
 
         // bad jaw offset periods
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => Quotes.ToAlligator(13, 0));
+            static () => Quotes.ToAlligator(13, 0));
 
         // bad teeth offset periods
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => Quotes.ToAlligator(13, 8, 8, 0));
+            static () => Quotes.ToAlligator(13, 8, 8, 0));
 
         // bad lips offset periods
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => Quotes.ToAlligator(13, 8, 8, 5, 5, 0));
+            static () => Quotes.ToAlligator(13, 8, 8, 5, 5, 0));
 
         // bad jaw + offset periods
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => Quotes.ToAlligator(13, 8, 12, 11));
+            static () => Quotes.ToAlligator(13, 8, 12, 11));
 
         // bad teeth + offset periods
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => Quotes.ToAlligator(13, 8, 8, 5, 7, 7));
+            static () => Quotes.ToAlligator(13, 8, 8, 5, 7, 7));
     }
 }

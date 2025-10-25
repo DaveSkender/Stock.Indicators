@@ -14,7 +14,7 @@ public class Cmo : StaticSeriesTestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.HasCount(488, results.Where(x => x.Cmo != null));
+        Assert.HasCount(488, results.Where(static x => x.Cmo != null));
 
         // sample values
         CmoResult r13 = results[13];
@@ -38,7 +38,7 @@ public class Cmo : StaticSeriesTestBase
             .ToCmo(14);
 
         Assert.HasCount(502, results);
-        Assert.HasCount(488, results.Where(x => x.Cmo != null));
+        Assert.HasCount(488, results.Where(static x => x.Cmo != null));
     }
 
     [TestMethod]
@@ -49,7 +49,7 @@ public class Cmo : StaticSeriesTestBase
             .ToCmo(20);
 
         Assert.HasCount(502, results);
-        Assert.HasCount(481, results.Where(x => x.Cmo != null));
+        Assert.HasCount(481, results.Where(static x => x.Cmo != null));
     }
 
     [TestMethod]
@@ -60,7 +60,7 @@ public class Cmo : StaticSeriesTestBase
             .ToSma(10);
 
         Assert.HasCount(502, results);
-        Assert.HasCount(473, results.Where(x => x.Sma != null));
+        Assert.HasCount(473, results.Where(static x => x.Sma != null));
     }
 
     [TestMethod]
@@ -70,7 +70,7 @@ public class Cmo : StaticSeriesTestBase
             .ToCmo(35);
 
         Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(x => x.Cmo is double.NaN));
+        Assert.IsEmpty(r.Where(static x => x.Cmo is double.NaN));
     }
 
     [TestMethod]
@@ -101,9 +101,11 @@ public class Cmo : StaticSeriesTestBase
         Assert.AreEqual(-26.7502, last.Cmo.Round(4));
     }
 
-    // bad lookback period
+    /// <summary>
+    /// bad lookback period
+    /// </summary>
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => Quotes.ToCmo(0));
+            static () => Quotes.ToCmo(0));
 }

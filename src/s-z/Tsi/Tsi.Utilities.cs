@@ -16,7 +16,7 @@ public static partial class Tsi
         ArgumentNullException.ThrowIfNull(results);
 
         int nm = results
-            .FindIndex(x => x.Tsi != null) + 1;
+            .FindIndex(static x => x.Tsi != null) + 1;
 
         return results.Remove(nm + 250);
     }

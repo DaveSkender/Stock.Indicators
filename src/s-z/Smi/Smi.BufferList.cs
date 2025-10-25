@@ -55,7 +55,9 @@ public class SmiList : BufferList<SmiResult>, IIncrementFromQuote, ISmi
         int signalPeriods,
         IReadOnlyList<IQuote> quotes)
         : this(lookbackPeriods, firstSmoothPeriods, secondSmoothPeriods, signalPeriods)
-        => Add(quotes);
+    {
+        Add(quotes);
+    }
 
     /// <summary>
     /// Gets the number of periods for the lookback window.
@@ -205,6 +207,11 @@ public static partial class Smi
     /// <summary>
     /// Creates a buffer list for Stochastic Momentum Index (SMI) calculations.
     /// </summary>
+    /// <param name="quotes"></param>
+    /// <param name="lookbackPeriods"></param>
+    /// <param name="firstSmoothPeriods"></param>
+    /// <param name="secondSmoothPeriods"></param>
+    /// <param name="signalPeriods"></param>
     public static SmiList ToSmiList(
         this IReadOnlyList<IQuote> quotes,
         int lookbackPeriods = 13,

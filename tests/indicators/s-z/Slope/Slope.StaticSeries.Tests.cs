@@ -11,9 +11,9 @@ public class Slope : StaticSeriesTestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.HasCount(483, results.Where(x => x.Slope != null));
-        Assert.HasCount(483, results.Where(x => x.StdDev != null));
-        Assert.HasCount(20, results.Where(x => x.Line != null));
+        Assert.HasCount(483, results.Where(static x => x.Slope != null));
+        Assert.HasCount(483, results.Where(static x => x.StdDev != null));
+        Assert.HasCount(20, results.Where(static x => x.Line != null));
 
         // sample values
         SlopeResult r1 = results[249];
@@ -46,7 +46,7 @@ public class Slope : StaticSeriesTestBase
             .ToSlope(20);
 
         Assert.HasCount(502, results);
-        Assert.HasCount(483, results.Where(x => x.Slope != null));
+        Assert.HasCount(483, results.Where(static x => x.Slope != null));
     }
 
     [TestMethod]
@@ -57,7 +57,7 @@ public class Slope : StaticSeriesTestBase
             .ToSlope(20);
 
         Assert.HasCount(502, results);
-        Assert.HasCount(482, results.Where(x => x.Slope != null));
+        Assert.HasCount(482, results.Where(static x => x.Slope != null));
     }
 
     [TestMethod]
@@ -68,7 +68,7 @@ public class Slope : StaticSeriesTestBase
             .ToSma(10);
 
         Assert.HasCount(502, results);
-        Assert.HasCount(474, results.Where(x => x.Sma != null));
+        Assert.HasCount(474, results.Where(static x => x.Sma != null));
     }
 
     [TestMethod]
@@ -78,7 +78,7 @@ public class Slope : StaticSeriesTestBase
             .ToSlope(15);
 
         Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(x => x.Slope is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.Slope is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -122,9 +122,11 @@ public class Slope : StaticSeriesTestBase
         Assert.AreEqual(235.8131m, last.Line.Round(4));
     }
 
-    // bad lookback period
+    /// <summary>
+    /// bad lookback period
+    /// </summary>
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => Quotes.ToSlope(1));
+            static () => Quotes.ToSlope(1));
 }

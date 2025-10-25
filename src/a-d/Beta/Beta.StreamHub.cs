@@ -13,18 +13,26 @@ public class BetaHub
     private readonly bool calcUp;
     private readonly bool calcDn;
 
-    // State tracking for returns calculation
+    /// <summary>
+    /// State tracking for returns calculation
+    /// </summary>
     private double _prevEval;
     private double _prevMrkt;
     private bool _isFirst = true;
 
-    // Rolling window state for Standard beta
+    /// <summary>
+    /// Rolling window state for Standard beta
+    /// </summary>
     private RollingWindowState _stateSd;
 
-    // Rolling window state for Up beta
+    /// <summary>
+    /// Rolling window state for Up beta
+    /// </summary>
     private RollingWindowState _stateUp;
 
-    // Rolling window state for Down beta
+    /// <summary>
+    /// Rolling window state for Down beta
+    /// </summary>
     private RollingWindowState _stateDn;
 
     /// <summary>
@@ -363,6 +371,7 @@ public class BetaHub
     /// <summary>
     /// Encapsulates rolling window state for incremental Beta calculations.
     /// </summary>
+    /// <param name="capacity"></param>
     private sealed class RollingWindowState(int capacity)
     {
         public double[] WindowEval = new double[capacity];

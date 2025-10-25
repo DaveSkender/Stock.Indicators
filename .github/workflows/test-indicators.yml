@@ -88,11 +88,11 @@ jobs:
         run: >
           roslynator analyze
           --properties TargetFramework=net9.0
-          --severity-level info
+          --severity-level hidden
           --verbosity minimal
 
-      - name: Check .NET code formatting
-        run: dotnet format --verify-no-changes --severity info --no-restore
+      - name: Check .NET code formatting (indicators only)
+        run: dotnet format src/Indicators.csproj --verify-no-changes --severity info --no-restore
 
   test-unit:
     name: unit tests
@@ -111,6 +111,11 @@ jobs:
           cache: true
           cache-dependency-path: "**/packages.lock.json"
 
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: build-artifacts
+
       - name: Test indicators
         run: >
           dotnet test tests/indicators/Tests.Indicators.csproj
@@ -120,6 +125,7 @@ jobs:
           --verbosity normal
           --logger trx
           --collect:"XPlat Code Coverage"
+          --no-build
 
       - name: Post unit test results
         uses: dorny/test-reporter@v2.1.1
@@ -165,6 +171,11 @@ jobs:
           cache: true
           cache-dependency-path: "**/packages.lock.json"
 
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: build-artifacts
+
       - name: Test regression baselines
         run: >
           dotnet test tests/indicators/Tests.Indicators.csproj
@@ -173,6 +184,7 @@ jobs:
           --results-directory ./test-results/regression
           --verbosity normal
           --logger trx
+          --no-build
 
       - name: Post regression test results
         uses: dorny/test-reporter@v2.1.1

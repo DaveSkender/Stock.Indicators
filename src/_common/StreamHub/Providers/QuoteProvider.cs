@@ -12,4 +12,4 @@ public abstract class QuoteProvider<TIn, TOut>(
     /// Gets the quotes.
     /// </summary>
     public IReadOnlyList<TOut> Quotes => Cache;
-};
+}

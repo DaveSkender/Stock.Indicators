@@ -28,7 +28,7 @@ public class Dpo : BufferListTestBase, ITestChainBufferList
         int expectedCount = Quotes.Count - offset;
 
         sut.Should().HaveCount(expectedCount);
-        sut.Should().BeEquivalentTo(series.Take(expectedCount), options => options.WithStrictOrdering());
+        sut.Should().BeEquivalentTo(series.Take(expectedCount), static options => options.WithStrictOrdering());
     }
 
     [TestMethod]
@@ -45,7 +45,7 @@ public class Dpo : BufferListTestBase, ITestChainBufferList
         int expectedCount = Quotes.Count - offset;
 
         sut.Should().HaveCount(expectedCount);
-        sut.Should().BeEquivalentTo(series.Take(expectedCount), options => options.WithStrictOrdering());
+        sut.Should().BeEquivalentTo(series.Take(expectedCount), static options => options.WithStrictOrdering());
     }
 
     [TestMethod]
@@ -57,7 +57,7 @@ public class Dpo : BufferListTestBase, ITestChainBufferList
         int expectedCount = Quotes.Count - offset;
 
         sut.Should().HaveCount(expectedCount);
-        sut.Should().BeEquivalentTo(series.Take(expectedCount), options => options.WithStrictOrdering());
+        sut.Should().BeEquivalentTo(series.Take(expectedCount), static options => options.WithStrictOrdering());
     }
 
     [TestMethod]
@@ -74,7 +74,7 @@ public class Dpo : BufferListTestBase, ITestChainBufferList
         int expectedCount = Quotes.Count - offset;
 
         sut.Should().HaveCount(expectedCount);
-        sut.Should().BeEquivalentTo(series.Take(expectedCount), options => options.WithStrictOrdering());
+        sut.Should().BeEquivalentTo(series.Take(expectedCount), static options => options.WithStrictOrdering());
     }
 
     [TestMethod]
@@ -86,7 +86,7 @@ public class Dpo : BufferListTestBase, ITestChainBufferList
         int expectedCount = Quotes.Count - offset;
 
         sut.Should().HaveCount(expectedCount);
-        sut.Should().BeEquivalentTo(series.Take(expectedCount), options => options.WithStrictOrdering());
+        sut.Should().BeEquivalentTo(series.Take(expectedCount), static options => options.WithStrictOrdering());
     }
 
     [TestMethod]
@@ -98,7 +98,7 @@ public class Dpo : BufferListTestBase, ITestChainBufferList
         int expectedCount = Quotes.Count - offset;
 
         sut.Should().HaveCount(expectedCount);
-        sut.Should().BeEquivalentTo(series.Take(expectedCount), options => options.WithStrictOrdering());
+        sut.Should().BeEquivalentTo(series.Take(expectedCount), static options => options.WithStrictOrdering());
     }
 
     [TestMethod]
@@ -113,7 +113,7 @@ public class Dpo : BufferListTestBase, ITestChainBufferList
         int expectedCount = subset.Count - offset;
 
         sut.Should().HaveCount(expectedCount);
-        sut.Should().BeEquivalentTo(expected.Take(expectedCount), options => options.WithStrictOrdering());
+        sut.Should().BeEquivalentTo(expected.Take(expectedCount), static options => options.WithStrictOrdering());
 
         sut.Clear();
 
@@ -122,7 +122,7 @@ public class Dpo : BufferListTestBase, ITestChainBufferList
         sut.Add(subset);
 
         sut.Should().HaveCount(expectedCount);
-        sut.Should().BeEquivalentTo(expected.Take(expectedCount), options => options.WithStrictOrdering());
+        sut.Should().BeEquivalentTo(expected.Take(expectedCount), static options => options.WithStrictOrdering());
     }
 
     [TestMethod]
@@ -148,6 +148,6 @@ public class Dpo : BufferListTestBase, ITestChainBufferList
             .Take(expectedCount)
             .ToList();
 
-        sut.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
+        sut.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
     }
 }

@@ -11,7 +11,7 @@ public class Vwma : StaticSeriesTestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.HasCount(493, results.Where(x => x.Vwma != null));
+        Assert.HasCount(493, results.Where(static x => x.Vwma != null));
 
         // sample values
         VwmaResult r8 = results[8];
@@ -32,7 +32,7 @@ public class Vwma : StaticSeriesTestBase
             .ToSma(10);
 
         Assert.HasCount(502, results);
-        Assert.HasCount(484, results.Where(x => x.Sma != null));
+        Assert.HasCount(484, results.Where(static x => x.Sma != null));
     }
 
     [TestMethod]
@@ -42,7 +42,7 @@ public class Vwma : StaticSeriesTestBase
             .ToVwma(15);
 
         Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(x => x.Vwma is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.Vwma is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -73,9 +73,11 @@ public class Vwma : StaticSeriesTestBase
         Assert.AreEqual(242.101548, last.Vwma.Round(6));
     }
 
-    // bad lookback period
+    /// <summary>
+    /// bad lookback period
+    /// </summary>
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => Quotes.ToVwma(0));
+            static () => Quotes.ToVwma(0));
 }

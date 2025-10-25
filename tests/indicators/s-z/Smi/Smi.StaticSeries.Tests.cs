@@ -11,8 +11,8 @@ public class Smi : StaticSeriesTestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.HasCount(489, results.Where(x => x.Smi != null));
-        Assert.HasCount(489, results.Where(x => x.Signal != null));
+        Assert.HasCount(489, results.Where(static x => x.Smi != null));
+        Assert.HasCount(489, results.Where(static x => x.Signal != null));
 
         // sample values
         SmiResult r12 = results[12];
@@ -52,7 +52,7 @@ public class Smi : StaticSeriesTestBase
             .ToSma(10);
 
         Assert.HasCount(502, results);
-        Assert.HasCount(480, results.Where(x => x.Sma != null));
+        Assert.HasCount(480, results.Where(static x => x.Sma != null));
     }
 
     [TestMethod]
@@ -96,7 +96,7 @@ public class Smi : StaticSeriesTestBase
             .ToSmi(5, 5, 1, 5);
 
         Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(x => x.Smi is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.Smi is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -133,18 +133,18 @@ public class Smi : StaticSeriesTestBase
     {
         // bad lookback period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => Quotes.ToSmi(0, 5, 5, 5));
+            static () => Quotes.ToSmi(0, 5, 5, 5));
 
         // bad first smooth period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => Quotes.ToSmi(14, 0, 5, 5));
+            static () => Quotes.ToSmi(14, 0, 5, 5));
 
         // bad second smooth period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => Quotes.ToSmi(14, 3, 0, 5));
+            static () => Quotes.ToSmi(14, 3, 0, 5));
 
         // bad signal
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => Quotes.ToSmi(9, 3, 1, 0));
+            static () => Quotes.ToSmi(9, 3, 1, 0));
     }
 }

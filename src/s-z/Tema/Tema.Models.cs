@@ -12,7 +12,9 @@ public record TemaResult
     double? Tema = null
 ) : IReusable
 {
-    // internal state (not exposed publicly) to support robust stream recalculations
+    /// <summary>
+    /// internal state (not exposed publicly) to support robust stream recalculations
+    /// </summary>
     [JsonIgnore] internal double Ema1 { get; init; }
     [JsonIgnore] internal double Ema2 { get; init; }
     [JsonIgnore] internal double Ema3 { get; init; }

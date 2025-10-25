@@ -2,7 +2,9 @@ namespace Skender.Stock.Indicators;
 
 public static partial class RocWb
 {
-    // ROC with Bands Common Base Listing
+    /// <summary>
+    /// ROC with Bands Common Base Listing
+    /// </summary>
     internal static readonly IndicatorListing CommonListing =
         new CatalogListingBuilder()
             .WithName("ROC with Bands")
@@ -18,7 +20,9 @@ public static partial class RocWb
             .AddResult("LowerBand", "Lower Band", ResultType.Default)
             .Build();
 
-    // ROC with Bands Series Listing
+    /// <summary>
+    /// ROC with Bands Series Listing
+    /// </summary>
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
@@ -26,7 +30,9 @@ public static partial class RocWb
 
     // No StreamListing for ROC with Bands.
 
-    // ROC with Bands Buffer Listing
+    /// <summary>
+    /// ROC with Bands Buffer Listing
+    /// </summary>
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)

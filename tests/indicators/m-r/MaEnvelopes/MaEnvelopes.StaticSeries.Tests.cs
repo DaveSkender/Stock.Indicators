@@ -3,15 +3,18 @@ namespace StaticSeries;
 [TestClass]
 public class MaEnvelopes : StaticSeriesTestBase
 {
+    /// <summary>
+    /// SMA
+    /// </summary>
     [TestMethod]
-    public override void Standard() // SMA
+    public override void Standard()
     {
         IReadOnlyList<MaEnvelopeResult> results =
             Quotes.ToMaEnvelopes(20);
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.HasCount(483, results.Where(x => x.Centerline != null));
+        Assert.HasCount(483, results.Where(static x => x.Centerline != null));
 
         // sample values
         MaEnvelopeResult r1 = results[24];
@@ -38,7 +41,7 @@ public class MaEnvelopes : StaticSeriesTestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.HasCount(493, results.Where(x => x.Centerline != null));
+        Assert.HasCount(493, results.Where(static x => x.Centerline != null));
 
         // sample values
         MaEnvelopeResult r1 = results[24];
@@ -65,7 +68,7 @@ public class MaEnvelopes : StaticSeriesTestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.HasCount(483, results.Where(x => x.Centerline != null));
+        Assert.HasCount(483, results.Where(static x => x.Centerline != null));
 
         // sample values
         MaEnvelopeResult r1 = results[38];
@@ -92,7 +95,7 @@ public class MaEnvelopes : StaticSeriesTestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.HasCount(483, results.Where(x => x.Centerline != null));
+        Assert.HasCount(483, results.Where(static x => x.Centerline != null));
 
         // sample values
         MaEnvelopeResult r1 = results[24];
@@ -119,7 +122,7 @@ public class MaEnvelopes : StaticSeriesTestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.HasCount(483, results.Where(x => x.Centerline != null));
+        Assert.HasCount(483, results.Where(static x => x.Centerline != null));
 
         // sample values
         MaEnvelopeResult r1 = results[24];
@@ -146,7 +149,7 @@ public class MaEnvelopes : StaticSeriesTestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.HasCount(480, results.Where(x => x.Centerline != null));
+        Assert.HasCount(480, results.Where(static x => x.Centerline != null));
 
         // sample values
         MaEnvelopeResult r2 = results[149];
@@ -168,7 +171,7 @@ public class MaEnvelopes : StaticSeriesTestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.HasCount(483, results.Where(x => x.Centerline != null));
+        Assert.HasCount(483, results.Where(static x => x.Centerline != null));
 
         // sample values
         MaEnvelopeResult r1 = results[24];
@@ -195,7 +198,7 @@ public class MaEnvelopes : StaticSeriesTestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.HasCount(483, results.Where(x => x.Centerline != null));
+        Assert.HasCount(483, results.Where(static x => x.Centerline != null));
 
         // sample values
         MaEnvelopeResult r1 = results[57];
@@ -222,7 +225,7 @@ public class MaEnvelopes : StaticSeriesTestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.HasCount(483, results.Where(x => x.Centerline != null));
+        Assert.HasCount(483, results.Where(static x => x.Centerline != null));
 
         // sample values
         MaEnvelopeResult r1 = results[149];
@@ -244,7 +247,7 @@ public class MaEnvelopes : StaticSeriesTestBase
             .ToMaEnvelopes(10);
 
         Assert.HasCount(502, results);
-        Assert.HasCount(493, results.Where(x => x.Centerline != null));
+        Assert.HasCount(493, results.Where(static x => x.Centerline != null));
     }
 
     [TestMethod]
@@ -255,7 +258,7 @@ public class MaEnvelopes : StaticSeriesTestBase
             .ToMaEnvelopes(10);
 
         Assert.HasCount(502, results);
-        Assert.HasCount(492, results.Where(x => x.Centerline != null));
+        Assert.HasCount(492, results.Where(static x => x.Centerline != null));
     }
 
     [TestMethod]
@@ -331,11 +334,11 @@ public class MaEnvelopes : StaticSeriesTestBase
     {
         // bad offset period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => Quotes.ToMaEnvelopes(14, 0));
+            static () => Quotes.ToMaEnvelopes(14, 0));
 
         // bad MA period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => Quotes.ToMaEnvelopes(14, 5, MaType.KAMA));
+            static () => Quotes.ToMaEnvelopes(14, 5, MaType.KAMA));
 
         // note: insufficient quotes is tested elsewhere
     }

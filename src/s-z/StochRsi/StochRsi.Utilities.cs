@@ -16,7 +16,7 @@ public static partial class StochRsi
         ArgumentNullException.ThrowIfNull(results);
 
         int n = results
-            .FindIndex(x => x.StochRsi != null) + 2;
+            .FindIndex(static x => x.StochRsi != null) + 2;
 
         return results.Remove(n + 100);
     }

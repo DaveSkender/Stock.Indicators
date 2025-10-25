@@ -57,12 +57,12 @@ public static partial class Hma
 
         List<HmaResult> results = source
             .Take(shiftQty)
-            .Select(x => new HmaResult(x.Timestamp))
+            .Select(static x => new HmaResult(x.Timestamp))
             .ToList();
 
         // calculate final HMA = WMA with period SQRT(n)
         List<HmaResult> hmaResults = synthHistory.ToWma(sqN)
-            .Select(x => new HmaResult(
+            .Select(static x => new HmaResult(
                 Timestamp: x.Timestamp,
                 Hma: x.Wma
              ))

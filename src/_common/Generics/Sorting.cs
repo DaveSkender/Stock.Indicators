@@ -8,13 +8,14 @@ public static class Sorting
     /// <summary>
     /// Sorts the series by their timestamps in ascending order.
     /// </summary>
+    /// <typeparam name="T"></typeparam>
     /// <param name="series">The series of elements to sort.</param>
     /// <returns>A read-only list of the sorted elements.</returns>
     public static IReadOnlyList<T> ToSortedList<T>(
         this IEnumerable<T> series)
         where T : ISeries
         => series
-            .OrderBy(x => x.Timestamp)
+            .OrderBy(static x => x.Timestamp)
             .ToList();
 
     /// <summary>
@@ -31,7 +32,7 @@ public static class Sorting
         this IEnumerable<TQuote> quotes)
         where TQuote : IQuote
         => quotes
-            .OrderBy(x => x.Timestamp)
+            .OrderBy(static x => x.Timestamp)
             .Cast<IReusable>()
             .ToList();
 }

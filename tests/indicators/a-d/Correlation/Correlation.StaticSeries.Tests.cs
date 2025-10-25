@@ -12,7 +12,7 @@ public class Correlation : StaticSeriesTestBase
         // proper quantities
         // should always be the same number of results as there is quotes
         Assert.HasCount(502, results);
-        Assert.HasCount(483, results.Where(x => x.Correlation != null));
+        Assert.HasCount(483, results.Where(static x => x.Correlation != null));
 
         // sample values
         CorrResult r18 = results[18];
@@ -40,7 +40,7 @@ public class Correlation : StaticSeriesTestBase
             .ToCorrelation(OtherQuotes.Use(CandlePart.Close), 20);
 
         Assert.HasCount(502, results);
-        Assert.HasCount(483, results.Where(x => x.Correlation != null));
+        Assert.HasCount(483, results.Where(static x => x.Correlation != null));
     }
 
     [TestMethod]
@@ -51,7 +51,7 @@ public class Correlation : StaticSeriesTestBase
             .ToSma(10);
 
         Assert.HasCount(502, results);
-        Assert.HasCount(474, results.Where(x => x.Sma != null));
+        Assert.HasCount(474, results.Where(static x => x.Sma != null));
     }
 
     [TestMethod]
@@ -62,8 +62,8 @@ public class Correlation : StaticSeriesTestBase
             .ToCorrelation(OtherQuotes.ToSma(2), 20);
 
         Assert.HasCount(502, results);
-        Assert.HasCount(482, results.Where(x => x.Correlation != null));
-        Assert.IsEmpty(results.Where(x => x.Correlation is double v && double.IsNaN(v)));
+        Assert.HasCount(482, results.Where(static x => x.Correlation != null));
+        Assert.IsEmpty(results.Where(static x => x.Correlation is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -73,7 +73,7 @@ public class Correlation : StaticSeriesTestBase
             .ToCorrelation(BadQuotes, 15);
 
         Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(x => x.Correlation is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.Correlation is double v && double.IsNaN(v)));
     }
 
     [TestMethod]

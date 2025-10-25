@@ -23,23 +23,23 @@ public class SuperTrendTests : TestBase
         listing.Parameters.Should().NotBeNull();
         listing.Parameters.Should().HaveCount(2);
 
-        IndicatorParam lookbackPeriodsParam = listing.Parameters.SingleOrDefault(p => p.ParameterName == "lookbackPeriods");
+        IndicatorParam lookbackPeriodsParam = listing.Parameters.SingleOrDefault(static p => p.ParameterName == "lookbackPeriods");
         lookbackPeriodsParam.Should().NotBeNull();
-        IndicatorParam multiplierParam1 = listing.Parameters.SingleOrDefault(p => p.ParameterName == "multiplier");
+        IndicatorParam multiplierParam1 = listing.Parameters.SingleOrDefault(static p => p.ParameterName == "multiplier");
         multiplierParam1.Should().NotBeNull();
 
         listing.Results.Should().NotBeNull();
         listing.Results.Should().HaveCount(3);
 
-        IndicatorResult supertrendResult = listing.Results.SingleOrDefault(r => r.DataName == "SuperTrend");
+        IndicatorResult supertrendResult = listing.Results.SingleOrDefault(static r => r.DataName == "SuperTrend");
         supertrendResult.Should().NotBeNull();
         supertrendResult?.DisplayName.Should().Be("SuperTrend");
         supertrendResult.IsReusable.Should().Be(true);
-        IndicatorResult upperbandResult1 = listing.Results.SingleOrDefault(r => r.DataName == "UpperBand");
+        IndicatorResult upperbandResult1 = listing.Results.SingleOrDefault(static r => r.DataName == "UpperBand");
         upperbandResult1.Should().NotBeNull();
         upperbandResult1?.DisplayName.Should().Be("Upper Band");
         upperbandResult1.IsReusable.Should().Be(false);
-        IndicatorResult lowerbandResult2 = listing.Results.SingleOrDefault(r => r.DataName == "LowerBand");
+        IndicatorResult lowerbandResult2 = listing.Results.SingleOrDefault(static r => r.DataName == "LowerBand");
         lowerbandResult2.Should().NotBeNull();
         lowerbandResult2?.DisplayName.Should().Be("Lower Band");
         lowerbandResult2.IsReusable.Should().Be(false);

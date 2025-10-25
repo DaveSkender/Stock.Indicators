@@ -16,7 +16,7 @@ public static partial class Stc
         ArgumentNullException.ThrowIfNull(results);
 
         int n = results
-            .FindIndex(x => x.Stc != null);
+            .FindIndex(static x => x.Stc != null);
 
         return results.Remove(n + 250);
     }

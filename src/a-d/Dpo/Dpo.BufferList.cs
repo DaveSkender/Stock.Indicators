@@ -35,7 +35,9 @@ public class DpoList : BufferList<DpoResult>, IIncrementFromChain
     /// <param name="values">Initial reusable values to populate the list.</param>
     public DpoList(int lookbackPeriods, IReadOnlyList<IReusable> values)
         : this(lookbackPeriods)
-        => Add(values);
+    {
+        Add(values);
+    }
 
     /// <summary>
     /// Gets the number of periods to look back for the calculation.
@@ -122,6 +124,8 @@ public static partial class Dpo
     /// <summary>
     /// Creates a buffer list for Detrended Price Oscillator (DPO) calculations.
     /// </summary>
+    /// <param name="source"></param>
+    /// <param name="lookbackPeriods"></param>
     public static DpoList ToDpoList(
         this IReadOnlyList<IReusable> source,
         int lookbackPeriods)

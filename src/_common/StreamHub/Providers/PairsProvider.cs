@@ -34,15 +34,12 @@ public abstract class PairsProvider<TIn, TOut>(
     /// <exception cref="InvalidQuotesException">Thrown when timestamps don't match.</exception>
     protected void ValidateTimestampSync(int index, TIn currentItem)
     {
-        if (index < ProviderCache.Count && index < ProviderCacheB.Count)
+        if (index < ProviderCache.Count && index < ProviderCacheB.Count && ProviderCache[index].Timestamp != ProviderCacheB[index].Timestamp)
         {
-            if (ProviderCache[index].Timestamp != ProviderCacheB[index].Timestamp)
-            {
-                throw new InvalidQuotesException(
-                    nameof(currentItem), currentItem.Timestamp,
-                    "Timestamp sequence does not match. " +
-                    "Dual-stream indicators require matching dates in provided histories.");
-            }
+            throw new InvalidQuotesException(
+                nameof(currentItem), currentItem.Timestamp,
+                "Timestamp sequence does not match. " +
+                "Dual-stream indicators require matching dates in provided histories.");
         }
     }
 

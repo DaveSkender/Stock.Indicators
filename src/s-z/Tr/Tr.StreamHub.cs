@@ -19,7 +19,7 @@ public class TrHub
     {
         Reinitialize();
     }
-    #endregion
+    #endregion constructors
 
     // METHODS
 

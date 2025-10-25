@@ -2,7 +2,9 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Atr
 {
-    // ATR Common Base Listing
+    /// <summary>
+    /// ATR Common Base Listing
+    /// </summary>
     internal static readonly IndicatorListing CommonListing =
         new CatalogListingBuilder()
             .WithName("Average True Range (ATR)")
@@ -15,19 +17,25 @@ public static partial class Atr
             .AddResult("Atrp", "ATR %", ResultType.Default, isReusable: true)
             .Build();
 
-    // ATR Series Listing
+    /// <summary>
+    /// ATR Series Listing
+    /// </summary>
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
             .Build();
 
-    // ATR Stream Listing
+    /// <summary>
+    /// ATR Stream Listing
+    /// </summary>
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
             .Build();
 
-    // ATR Buffer Listing
+    /// <summary>
+    /// ATR Buffer Listing
+    /// </summary>
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)

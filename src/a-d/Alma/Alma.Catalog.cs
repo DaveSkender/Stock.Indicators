@@ -2,7 +2,9 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Alma
 {
-    // ALMA Common Base Listing
+    /// <summary>
+    /// ALMA Common Base Listing
+    /// </summary>
     internal static readonly IndicatorListing CommonListing =
         new CatalogListingBuilder()
             .WithName("Arnaud Legoux Moving Average (ALMA)")
@@ -15,19 +17,25 @@ public static partial class Alma
             .AddResult("Alma", "Arnaud Legoux Moving Average (ALMA)", ResultType.Default, isReusable: true)
             .Build();
 
-    // ALMA Series Listing
+    /// <summary>
+    /// ALMA Series Listing
+    /// </summary>
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
             .Build();
 
-    // ALMA Stream Listing
+    /// <summary>
+    /// ALMA Stream Listing
+    /// </summary>
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
             .Build();
 
-    // ALMA Buffer Listing
+    /// <summary>
+    /// ALMA Buffer Listing
+    /// </summary>
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)

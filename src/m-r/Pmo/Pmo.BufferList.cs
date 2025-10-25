@@ -57,7 +57,9 @@ public class PmoList : BufferList<PmoResult>, IIncrementFromChain, IPmo
         int signalPeriods,
         IReadOnlyList<IReusable> values)
         : this(timePeriods, smoothPeriods, signalPeriods)
-        => Add(values);
+    {
+        Add(values);
+    }
 
     /// <summary>
     /// Gets the number of periods for the time span.
@@ -184,6 +186,10 @@ public static partial class Pmo
     /// <summary>
     /// Creates a buffer list for Price Momentum Oscillator (PMO) calculations.
     /// </summary>
+    /// <param name="source"></param>
+    /// <param name="timePeriods"></param>
+    /// <param name="smoothPeriods"></param>
+    /// <param name="signalPeriods"></param>
     public static PmoList ToPmoList(
         this IReadOnlyList<IReusable> source,
         int timePeriods = 35,

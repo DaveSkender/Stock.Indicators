@@ -35,7 +35,9 @@ public class SmmaList : BufferList<SmmaResult>, IIncrementFromChain, ISmma
         IReadOnlyList<IReusable> values
     )
         : this(lookbackPeriods)
-        => Add(values);
+    {
+        Add(values);
+    }
 
     /// <summary>
     /// Gets the number of periods to look back for the calculation.
@@ -113,6 +115,8 @@ public static partial class Smma
     /// <summary>
     /// Creates a buffer list for Smoothed Moving Average (SMMA) calculations.
     /// </summary>
+    /// <param name="source"></param>
+    /// <param name="lookbackPeriods"></param>
     public static SmmaList ToSmmaList(
         this IReadOnlyList<IReusable> source,
         int lookbackPeriods)

@@ -2,7 +2,9 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Cmo
 {
-    // CMO Common Base Listing
+    /// <summary>
+    /// CMO Common Base Listing
+    /// </summary>
     internal static readonly IndicatorListing CommonListing =
         new CatalogListingBuilder()
             .WithName("Chande Momentum Oscillator")
@@ -13,19 +15,25 @@ public static partial class Cmo
             .AddResult("Cmo", "CMO", ResultType.Default, isReusable: true)
             .Build();
 
-    // CMO Series Listing
+    /// <summary>
+    /// CMO Series Listing
+    /// </summary>
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
             .Build();
 
-    // CMO Stream Listing
+    /// <summary>
+    /// CMO Stream Listing
+    /// </summary>
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
             .Build();
 
-    // CMO Buffer Listing
+    /// <summary>
+    /// CMO Buffer Listing
+    /// </summary>
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)

@@ -29,7 +29,9 @@ public class ChopList : BufferList<ChopResult>, IIncrementFromQuote, IChop
     /// <param name="quotes">Initial quotes to populate the list.</param>
     public ChopList(int lookbackPeriods, IReadOnlyList<IQuote> quotes)
         : this(lookbackPeriods)
-        => Add(quotes);
+    {
+        Add(quotes);
+    }
 
     /// <summary>
     /// Gets the number of periods to use for the lookback window.
@@ -123,6 +125,8 @@ public static partial class Chop
     /// <summary>
     /// Creates a buffer list for Choppiness Index (CHOP) calculations.
     /// </summary>
+    /// <param name="quotes"></param>
+    /// <param name="lookbackPeriods"></param>
     public static ChopList ToChopList(
         this IReadOnlyList<IQuote> quotes,
         int lookbackPeriods = 14)

@@ -2,7 +2,9 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Tema
 {
-    // Triple Exponential Moving Average Common Base Listing
+    /// <summary>
+    /// Triple Exponential Moving Average Common Base Listing
+    /// </summary>
     internal static readonly IndicatorListing CommonListing =
         new CatalogListingBuilder()
             .WithName("Triple Exponential Moving Average")
@@ -13,19 +15,25 @@ public static partial class Tema
             .AddResult("Tema", "TEMA", ResultType.Default, isReusable: true)
             .Build();
 
-    // Triple Exponential Moving Average Series Listing
+    /// <summary>
+    /// Triple Exponential Moving Average Series Listing
+    /// </summary>
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
             .Build();
 
-    // Triple Exponential Moving Average Stream Listing
+    /// <summary>
+    /// Triple Exponential Moving Average Stream Listing
+    /// </summary>
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
             .Build();
 
-    // Triple Exponential Moving Average Buffer Listing
+    /// <summary>
+    /// Triple Exponential Moving Average Buffer Listing
+    /// </summary>
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)

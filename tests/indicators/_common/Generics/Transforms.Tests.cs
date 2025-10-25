@@ -17,7 +17,9 @@ public class Transforms : TestBase
         Assert.AreEqual(245.28m, collection.LastOrDefault().Close);
     }
 
-    // null ToCollection
+    /// <summary>
+    /// null ToCollection
+    /// </summary>
     [TestMethod]
     public void ToCollectionNullExceptions()
     {

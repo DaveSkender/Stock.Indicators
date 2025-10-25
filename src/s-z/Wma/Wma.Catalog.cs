@@ -2,7 +2,9 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Wma
 {
-    // Weighted Moving Average Common Base Listing
+    /// <summary>
+    /// Weighted Moving Average Common Base Listing
+    /// </summary>
     internal static readonly IndicatorListing CommonListing =
         new CatalogListingBuilder()
             .WithName("Weighted Moving Average")
@@ -13,19 +15,25 @@ public static partial class Wma
             .AddResult("Wma", "WMA", ResultType.Default, isReusable: true)
             .Build();
 
-    // Weighted Moving Average Series Listing
+    /// <summary>
+    /// Weighted Moving Average Series Listing
+    /// </summary>
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
             .Build();
 
-    // Weighted Moving Average Stream Listing
+    /// <summary>
+    /// Weighted Moving Average Stream Listing
+    /// </summary>
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
             .Build();
 
-    // Weighted Moving Average Buffer Listing
+    /// <summary>
+    /// Weighted Moving Average Buffer Listing
+    /// </summary>
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)

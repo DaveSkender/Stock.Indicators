@@ -29,7 +29,7 @@ public static partial class StdDevChannels
             .ToSlope(lookbackPeriods);
 
         List<StdDevChannelsResult> results = slopeResults
-            .Select(x => new StdDevChannelsResult(x.Timestamp))
+            .Select(static x => new StdDevChannelsResult(x.Timestamp))
             .ToList();
 
         // roll through source values in reverse

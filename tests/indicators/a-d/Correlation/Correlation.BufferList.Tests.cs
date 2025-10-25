@@ -29,7 +29,7 @@ public class Correlation : BufferListTestBase, ITestChainBufferList
         }
 
         sut.Should().HaveCount(quotesA.Count);
-        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
     }
 
     [TestMethod]
@@ -40,7 +40,7 @@ public class Correlation : BufferListTestBase, ITestChainBufferList
         };
 
         sut.Should().HaveCount(quotesA.Count);
-        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
     }
 
     [TestMethod]
@@ -54,7 +54,7 @@ public class Correlation : BufferListTestBase, ITestChainBufferList
         }
 
         sut.Should().HaveCount(quotesA.Count);
-        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
     }
 
     [TestMethod]
@@ -69,7 +69,7 @@ public class Correlation : BufferListTestBase, ITestChainBufferList
         }
 
         sut.Should().HaveCount(quotesA.Count);
-        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
     }
 
     [TestMethod]
@@ -81,7 +81,7 @@ public class Correlation : BufferListTestBase, ITestChainBufferList
         };
 
         sut.Should().HaveCount(quotesA.Count);
-        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
     }
 
     [TestMethod]
@@ -91,7 +91,7 @@ public class Correlation : BufferListTestBase, ITestChainBufferList
         CorrelationList sut = new(lookbackPeriods, quotesA, quotesB);
 
         sut.Should().HaveCount(quotesA.Count);
-        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
     }
 
     [TestMethod]
@@ -100,7 +100,7 @@ public class Correlation : BufferListTestBase, ITestChainBufferList
         CorrelationList sut = new(lookbackPeriods, quotesA, quotesB);
 
         sut.Should().HaveCount(quotesA.Count);
-        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
     }
 
     [TestMethod]
@@ -109,7 +109,7 @@ public class Correlation : BufferListTestBase, ITestChainBufferList
         CorrelationList sut = quotesA.ToCorrelationList(quotesB, lookbackPeriods);
 
         sut.Should().HaveCount(quotesA.Count);
-        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
     }
 
     [TestMethod]
@@ -122,7 +122,7 @@ public class Correlation : BufferListTestBase, ITestChainBufferList
         CorrelationList sut = new(lookbackPeriods, subsetA, subsetB);
 
         sut.Should().HaveCount(subsetA.Count);
-        sut.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
+        sut.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
 
         sut.Clear();
 
@@ -131,7 +131,7 @@ public class Correlation : BufferListTestBase, ITestChainBufferList
         sut.Add(subsetA, subsetB);
 
         sut.Should().HaveCount(expected.Count);
-        sut.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
+        sut.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
     }
 
     [TestMethod]
@@ -150,7 +150,7 @@ public class Correlation : BufferListTestBase, ITestChainBufferList
             .ToList();
 
         sut.Should().HaveCount(maxListSize);
-        sut.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
+        sut.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
     }
 
     [TestMethod]

@@ -17,7 +17,7 @@ public static partial class Fcb
 
         resultsList
             .RemoveAll(match:
-                x => x.UpperBand is null && x.LowerBand is null);
+                static x => x.UpperBand is null && x.LowerBand is null);
 
         return resultsList.ToSortedList();
     }
@@ -32,7 +32,7 @@ public static partial class Fcb
         ArgumentNullException.ThrowIfNull(results);
 
         int removePeriods = results
-            .FindIndex(x => x.UpperBand != null || x.LowerBand != null);
+            .FindIndex(static x => x.UpperBand != null || x.LowerBand != null);
 
         return results.Remove(removePeriods);
     }

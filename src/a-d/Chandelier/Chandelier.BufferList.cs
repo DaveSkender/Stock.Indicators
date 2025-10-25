@@ -34,7 +34,9 @@ public class ChandelierList : BufferList<ChandelierResult>, IIncrementFromQuote,
     /// <param name="quotes">Initial quotes to populate the list.</param>
     public ChandelierList(int lookbackPeriods, double multiplier, Direction type, IReadOnlyList<IQuote> quotes)
         : this(lookbackPeriods, multiplier, type)
-        => Add(quotes);
+    {
+        Add(quotes);
+    }
 
     /// <summary>
     /// Gets the number of periods to use for the lookback window.
@@ -133,6 +135,10 @@ public static partial class Chandelier
     /// <summary>
     /// Creates a buffer list for Chandelier Exit calculations.
     /// </summary>
+    /// <param name="quotes"></param>
+    /// <param name="lookbackPeriods"></param>
+    /// <param name="multiplier"></param>
+    /// <param name="type"></param>
     public static ChandelierList ToChandelierList(
         this IReadOnlyList<IQuote> quotes,
         int lookbackPeriods = 22,

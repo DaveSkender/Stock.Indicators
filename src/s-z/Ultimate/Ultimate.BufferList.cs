@@ -42,7 +42,9 @@ public class UltimateList : BufferList<UltimateResult>, IIncrementFromQuote, IUl
         int longPeriods,
         IReadOnlyList<IQuote> quotes)
         : this(shortPeriods, middlePeriods, longPeriods)
-        => Add(quotes);
+    {
+        Add(quotes);
+    }
 
     /// <summary>
     /// Gets the number of short periods.
@@ -167,6 +169,10 @@ public static partial class Ultimate
     /// <summary>
     /// Creates a buffer list for Ultimate Oscillator calculations.
     /// </summary>
+    /// <param name="quotes"></param>
+    /// <param name="shortPeriods"></param>
+    /// <param name="middlePeriods"></param>
+    /// <param name="longPeriods"></param>
     public static UltimateList ToUltimateList(
         this IReadOnlyList<IQuote> quotes,
         int shortPeriods = 7,

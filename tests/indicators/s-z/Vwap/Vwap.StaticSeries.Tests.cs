@@ -4,7 +4,7 @@ namespace StaticSeries;
 public class Vwap : StaticSeriesTestBase
 {
     private static readonly IReadOnlyList<Quote> intraday = Data.GetIntraday()
-        .OrderBy(x => x.Timestamp)
+        .OrderBy(static x => x.Timestamp)
         .Take(391)
         .ToList();
 
@@ -15,7 +15,7 @@ public class Vwap : StaticSeriesTestBase
 
         // proper quantities
         Assert.HasCount(391, results);
-        Assert.HasCount(391, results.Where(x => x.Vwap != null));
+        Assert.HasCount(391, results.Where(static x => x.Vwap != null));
 
         // sample values
         VwapResult r1 = results[0];
@@ -42,7 +42,7 @@ public class Vwap : StaticSeriesTestBase
 
         // proper quantities
         Assert.HasCount(391, results);
-        Assert.HasCount(361, results.Where(x => x.Vwap != null));
+        Assert.HasCount(361, results.Where(static x => x.Vwap != null));
 
         // sample values
         VwapResult r1 = results[29];
@@ -66,7 +66,7 @@ public class Vwap : StaticSeriesTestBase
             .ToSma(10);
 
         Assert.HasCount(502, results);
-        Assert.HasCount(493, results.Where(x => x.Sma != null));
+        Assert.HasCount(493, results.Where(static x => x.Sma != null));
     }
 
     [TestMethod]
@@ -76,7 +76,7 @@ public class Vwap : StaticSeriesTestBase
             .ToVwap();
 
         Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(x => x.Vwap is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.Vwap is double v && double.IsNaN(v)));
     }
 
     [TestMethod]

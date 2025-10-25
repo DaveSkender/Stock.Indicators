@@ -31,7 +31,9 @@ public class ElderRayList : BufferList<ElderRayResult>, IIncrementFromQuote, IEl
         IReadOnlyList<IQuote> quotes
     )
         : this(lookbackPeriods)
-        => Add(quotes);
+    {
+        Add(quotes);
+    }
 
     /// <summary>
     /// Gets the number of periods to look back for the calculation.
@@ -80,6 +82,8 @@ public static partial class ElderRay
     /// <summary>
     /// Creates a buffer list for Elder Ray calculations.
     /// </summary>
+    /// <param name="quotes"></param>
+    /// <param name="lookbackPeriods"></param>
     public static ElderRayList ToElderRayList(
         this IReadOnlyList<IQuote> quotes,
         int lookbackPeriods = 13)

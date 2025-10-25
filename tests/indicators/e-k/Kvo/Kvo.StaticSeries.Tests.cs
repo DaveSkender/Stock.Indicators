@@ -11,8 +11,8 @@ public class Kvo : StaticSeriesTestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.HasCount(446, results.Where(x => x.Oscillator != null));
-        Assert.HasCount(434, results.Where(x => x.Signal != null));
+        Assert.HasCount(446, results.Where(static x => x.Oscillator != null));
+        Assert.HasCount(434, results.Where(static x => x.Signal != null));
 
         // sample values
         KvoResult r55 = results[55];
@@ -52,7 +52,7 @@ public class Kvo : StaticSeriesTestBase
             .ToSma(10);
 
         Assert.HasCount(502, results);
-        Assert.HasCount(437, results.Where(x => x.Sma != null));
+        Assert.HasCount(437, results.Where(static x => x.Sma != null));
     }
 
     [TestMethod]
@@ -62,7 +62,7 @@ public class Kvo : StaticSeriesTestBase
             .ToKvo();
 
         Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(x => x.Oscillator is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.Oscillator is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -99,14 +99,14 @@ public class Kvo : StaticSeriesTestBase
     {
         // bad fast period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => Quotes.ToKvo(2));
+            static () => Quotes.ToKvo(2));
 
         // bad slow period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => Quotes.ToKvo(20, 20));
+            static () => Quotes.ToKvo(20, 20));
 
         // bad signal period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => Quotes.ToKvo(34, 55, 0));
+            static () => Quotes.ToKvo(34, 55, 0));
     }
 }

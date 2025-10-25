@@ -20,7 +20,9 @@ public class VwapList(DateTime? startDate = null) : BufferList<VwapResult>, IInc
     /// <param name="quotes">Initial quotes to populate the list.</param>
     public VwapList(DateTime? startDate, IReadOnlyList<IQuote> quotes)
         : this(startDate)
-        => Add(quotes);
+    {
+        Add(quotes);
+    }
 
     /// <summary>
     /// Gets the start date for the VWAP calculation.
@@ -93,6 +95,8 @@ public static partial class Vwap
     /// <summary>
     /// Creates a buffer list for VWAP calculations.
     /// </summary>
+    /// <param name="quotes"></param>
+    /// <param name="startDate"></param>
     public static VwapList ToVwapList(
         this IReadOnlyList<IQuote> quotes,
         DateTime startDate)
@@ -101,6 +105,7 @@ public static partial class Vwap
     /// <summary>
     /// Creates a buffer list for VWAP calculations starting from the first quote.
     /// </summary>
+    /// <param name="quotes"></param>
     public static VwapList ToVwapList(
         this IReadOnlyList<IQuote> quotes)
         => new(null) { quotes };

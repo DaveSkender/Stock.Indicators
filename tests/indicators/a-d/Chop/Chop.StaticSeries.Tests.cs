@@ -11,7 +11,7 @@ public class Chop : StaticSeriesTestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.HasCount(488, results.Where(x => x.Chop != null));
+        Assert.HasCount(488, results.Where(static x => x.Chop != null));
 
         // sample values
         ChopResult r1 = results[13];
@@ -35,7 +35,7 @@ public class Chop : StaticSeriesTestBase
             .ToSma(10);
 
         Assert.HasCount(502, results);
-        Assert.HasCount(479, results.Where(x => x.Sma != null));
+        Assert.HasCount(479, results.Where(static x => x.Sma != null));
     }
 
     [TestMethod]
@@ -47,7 +47,7 @@ public class Chop : StaticSeriesTestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.HasCount(500, results.Where(x => x.Chop != null));
+        Assert.HasCount(500, results.Where(static x => x.Chop != null));
     }
 
     [TestMethod]
@@ -57,7 +57,7 @@ public class Chop : StaticSeriesTestBase
             .ToChop(20);
 
         Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(x => x.Chop is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.Chop is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -88,9 +88,11 @@ public class Chop : StaticSeriesTestBase
         Assert.AreEqual(38.6526, last.Chop.Round(4));
     }
 
-    // bad lookback period
+    /// <summary>
+    /// bad lookback period
+    /// </summary>
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => Quotes.ToChop(1));
+            static () => Quotes.ToChop(1));
 }

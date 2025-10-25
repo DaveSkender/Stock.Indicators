@@ -16,7 +16,7 @@ public static partial class Vwap
         ArgumentNullException.ThrowIfNull(results);
 
         int removePeriods = results
-            .FindIndex(x => x.Vwap != null);
+            .FindIndex(static x => x.Vwap != null);
 
         return results.Remove(removePeriods);
     }

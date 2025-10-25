@@ -39,7 +39,7 @@ public class ElderRay : StreamHubTestBase, ITestQuoteObserver
 
         // late arrival, should equal series
         quoteHub.Insert(quotesList[80]);
-        actuals.Should().BeEquivalentTo(expectedOriginal, options => options.WithStrictOrdering());
+        actuals.Should().BeEquivalentTo(expectedOriginal, static options => options.WithStrictOrdering());
 
         // delete, should equal series (revised)
         quoteHub.Remove(quotesList[removeAtIndex]);
@@ -48,7 +48,7 @@ public class ElderRay : StreamHubTestBase, ITestQuoteObserver
         IReadOnlyList<ElderRayResult> expectedRevised = quotesList.ToElderRay(lookbackPeriods);
 
         actuals.Should().HaveCount(501);
-        actuals.Should().BeEquivalentTo(expectedRevised, options => options.WithStrictOrdering());
+        actuals.Should().BeEquivalentTo(expectedRevised, static options => options.WithStrictOrdering());
 
         // cleanup
         observer.Unsubscribe();

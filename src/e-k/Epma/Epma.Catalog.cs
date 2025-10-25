@@ -2,7 +2,9 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Epma
 {
-    // EPMA Common Base Listing
+    /// <summary>
+    /// EPMA Common Base Listing
+    /// </summary>
     internal static readonly IndicatorListing CommonListing =
         new CatalogListingBuilder()
             .WithName("Endpoint Moving Average")
@@ -13,19 +15,25 @@ public static partial class Epma
             .AddResult("Epma", "EPMA", ResultType.Default, isReusable: true)
             .Build();
 
-    // EPMA Series Listing
+    /// <summary>
+    /// EPMA Series Listing
+    /// </summary>
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
             .Build();
 
-    // EPMA Stream Listing
+    /// <summary>
+    /// EPMA Stream Listing
+    /// </summary>
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
             .Build();
 
-    // EPMA Buffer Listing
+    /// <summary>
+    /// EPMA Buffer Listing
+    /// </summary>
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)

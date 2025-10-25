@@ -19,6 +19,7 @@ internal static class ListingExecutor
     /// <param name="parameters">Optional parameter overrides. If not provided, uses catalog default values.</param>
     /// <returns>The indicator results.</returns>
     /// <exception cref="InvalidOperationException">Thrown when the indicator cannot be executed.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="quotes"/> is <c>null</c>.</exception>
     internal static IReadOnlyList<TResult> Execute<TQuote, TResult>(
         IEnumerable<IQuote> quotes,
         IndicatorListing listing,
@@ -131,6 +132,8 @@ internal static class ListingExecutor
     /// <param name="listing">The indicator listing containing metadata.</param>
     /// <param name="parameterValues">Parameter values in the order they appear in the listing.</param>
     /// <returns>The indicator results.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="listing"/> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentException"></exception>
     internal static IReadOnlyList<TResult> Execute<TResult>(
         IEnumerable<IQuote> quotes,
         IndicatorListing listing,

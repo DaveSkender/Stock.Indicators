@@ -30,7 +30,7 @@ public class UltimateHub
 
         Reinitialize();
     }
-    #endregion
+    #endregion constructors
 
     /// <summary>
     /// Gets the number of short lookback periods.

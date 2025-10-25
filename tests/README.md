@@ -124,7 +124,7 @@ roslynator fix \
 --verbosity detailed \
 --severity-level hidden \
 --ignored-diagnostics IDE0008 IDE0010 IDE0045 IDE0046 IDE0047 IDE0054 IDE2003 RCS1228 \
-IDE0320, RCS1238
+RCS1238
 # IDE0320 fixes okay, only ignored due to significant changes
 # RCS1238 reverts IDE0045 in a problematic way
 

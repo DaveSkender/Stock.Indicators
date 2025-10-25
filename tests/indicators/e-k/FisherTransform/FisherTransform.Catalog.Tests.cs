@@ -23,17 +23,17 @@ public class FisherTransformTests : TestBase
         listing.Parameters.Should().NotBeNull();
         listing.Parameters.Should().HaveCount(1);
 
-        IndicatorParam lookbackPeriodsParam = listing.Parameters.SingleOrDefault(p => p.ParameterName == "lookbackPeriods");
+        IndicatorParam lookbackPeriodsParam = listing.Parameters.SingleOrDefault(static p => p.ParameterName == "lookbackPeriods");
         lookbackPeriodsParam.Should().NotBeNull();
 
         listing.Results.Should().NotBeNull();
         listing.Results.Should().HaveCount(2);
 
-        IndicatorResult fisherResult = listing.Results.SingleOrDefault(r => r.DataName == "Fisher");
+        IndicatorResult fisherResult = listing.Results.SingleOrDefault(static r => r.DataName == "Fisher");
         fisherResult.Should().NotBeNull();
         fisherResult?.DisplayName.Should().Be("Fisher");
         fisherResult.IsReusable.Should().Be(true);
-        IndicatorResult triggerResult1 = listing.Results.SingleOrDefault(r => r.DataName == "Trigger");
+        IndicatorResult triggerResult1 = listing.Results.SingleOrDefault(static r => r.DataName == "Trigger");
         triggerResult1.Should().NotBeNull();
         triggerResult1?.DisplayName.Should().Be("Trigger");
         triggerResult1.IsReusable.Should().Be(false);
@@ -56,17 +56,17 @@ public class FisherTransformTests : TestBase
         listing.Parameters.Should().NotBeNull();
         listing.Parameters.Should().HaveCount(1);
 
-        IndicatorParam lookbackPeriodsParam = listing.Parameters.SingleOrDefault(p => p.ParameterName == "lookbackPeriods");
+        IndicatorParam lookbackPeriodsParam = listing.Parameters.SingleOrDefault(static p => p.ParameterName == "lookbackPeriods");
         lookbackPeriodsParam.Should().NotBeNull();
 
         listing.Results.Should().NotBeNull();
         listing.Results.Should().HaveCount(2);
 
-        IndicatorResult fisherResult = listing.Results.SingleOrDefault(r => r.DataName == "Fisher");
+        IndicatorResult fisherResult = listing.Results.SingleOrDefault(static r => r.DataName == "Fisher");
         fisherResult.Should().NotBeNull();
         fisherResult?.DisplayName.Should().Be("Fisher");
         fisherResult.IsReusable.Should().Be(true);
-        IndicatorResult triggerResult = listing.Results.SingleOrDefault(r => r.DataName == "Trigger");
+        IndicatorResult triggerResult = listing.Results.SingleOrDefault(static r => r.DataName == "Trigger");
         triggerResult.Should().NotBeNull();
         triggerResult?.DisplayName.Should().Be("Trigger");
         triggerResult.IsReusable.Should().Be(false);
@@ -89,17 +89,17 @@ public class FisherTransformTests : TestBase
         listing.Parameters.Should().NotBeNull();
         listing.Parameters.Should().HaveCount(1);
 
-        IndicatorParam lookbackPeriodsParam = listing.Parameters.SingleOrDefault(p => p.ParameterName == "lookbackPeriods");
+        IndicatorParam lookbackPeriodsParam = listing.Parameters.SingleOrDefault(static p => p.ParameterName == "lookbackPeriods");
         lookbackPeriodsParam.Should().NotBeNull();
 
         listing.Results.Should().NotBeNull();
         listing.Results.Should().HaveCount(2);
 
-        IndicatorResult fisherResult = listing.Results.SingleOrDefault(r => r.DataName == "Fisher");
+        IndicatorResult fisherResult = listing.Results.SingleOrDefault(static r => r.DataName == "Fisher");
         fisherResult.Should().NotBeNull();
         fisherResult?.DisplayName.Should().Be("Fisher");
         fisherResult.IsReusable.Should().Be(true);
-        IndicatorResult triggerResult = listing.Results.SingleOrDefault(r => r.DataName == "Trigger");
+        IndicatorResult triggerResult = listing.Results.SingleOrDefault(static r => r.DataName == "Trigger");
         triggerResult.Should().NotBeNull();
         triggerResult?.DisplayName.Should().Be("Trigger");
         triggerResult.IsReusable.Should().Be(false);

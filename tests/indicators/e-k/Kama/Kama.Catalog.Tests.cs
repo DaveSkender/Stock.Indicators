@@ -23,21 +23,21 @@ public class KamaTests : TestBase
         listing.Parameters.Should().NotBeNull();
         listing.Parameters.Should().HaveCount(3);
 
-        IndicatorParam erPeriodsParam = listing.Parameters.SingleOrDefault(p => p.ParameterName == "erPeriods");
+        IndicatorParam erPeriodsParam = listing.Parameters.SingleOrDefault(static p => p.ParameterName == "erPeriods");
         erPeriodsParam.Should().NotBeNull();
-        IndicatorParam fastPeriodsParam1 = listing.Parameters.SingleOrDefault(p => p.ParameterName == "fastPeriods");
+        IndicatorParam fastPeriodsParam1 = listing.Parameters.SingleOrDefault(static p => p.ParameterName == "fastPeriods");
         fastPeriodsParam1.Should().NotBeNull();
-        IndicatorParam slowPeriodsParam2 = listing.Parameters.SingleOrDefault(p => p.ParameterName == "slowPeriods");
+        IndicatorParam slowPeriodsParam2 = listing.Parameters.SingleOrDefault(static p => p.ParameterName == "slowPeriods");
         slowPeriodsParam2.Should().NotBeNull();
 
         listing.Results.Should().NotBeNull();
         listing.Results.Should().HaveCount(2);
 
-        IndicatorResult erResult = listing.Results.SingleOrDefault(r => r.DataName == "Er");
+        IndicatorResult erResult = listing.Results.SingleOrDefault(static r => r.DataName == "Er");
         erResult.Should().NotBeNull();
         erResult?.DisplayName.Should().Be("ER");
         erResult.IsReusable.Should().Be(false);
-        IndicatorResult kamaResult1 = listing.Results.SingleOrDefault(r => r.DataName == "Kama");
+        IndicatorResult kamaResult1 = listing.Results.SingleOrDefault(static r => r.DataName == "Kama");
         kamaResult1.Should().NotBeNull();
         kamaResult1?.DisplayName.Should().Be("KAMA");
         kamaResult1.IsReusable.Should().Be(true);

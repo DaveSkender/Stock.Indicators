@@ -23,17 +23,17 @@ public class FractalTests : TestBase
         listing.Parameters.Should().NotBeNull();
         listing.Parameters.Should().HaveCount(2);
 
-        IndicatorParam windowSpanParam = listing.Parameters.SingleOrDefault(p => p.ParameterName == "windowSpan");
+        IndicatorParam windowSpanParam = listing.Parameters.SingleOrDefault(static p => p.ParameterName == "windowSpan");
         windowSpanParam.Should().NotBeNull();
 
         listing.Results.Should().NotBeNull();
         listing.Results.Should().HaveCount(2);
 
-        IndicatorResult fractalbearResult = listing.Results.SingleOrDefault(r => r.DataName == "FractalBear");
+        IndicatorResult fractalbearResult = listing.Results.SingleOrDefault(static r => r.DataName == "FractalBear");
         fractalbearResult.Should().NotBeNull();
         fractalbearResult?.DisplayName.Should().Be("Bear Fractal");
         fractalbearResult.IsReusable.Should().Be(false);
-        IndicatorResult fractalbullResult1 = listing.Results.SingleOrDefault(r => r.DataName == "FractalBull");
+        IndicatorResult fractalbullResult1 = listing.Results.SingleOrDefault(static r => r.DataName == "FractalBull");
         fractalbullResult1.Should().NotBeNull();
         fractalbullResult1?.DisplayName.Should().Be("Bull Fractal");
         fractalbullResult1.IsReusable.Should().Be(true);
