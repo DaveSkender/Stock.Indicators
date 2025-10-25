@@ -94,8 +94,8 @@
       "problemMatcher": "$msCompile"
     },
     {
-      "label": "Delete: Temporary caches",
-      "detail": "Delete bin, obj, node_modules, and other temp caches",
+      "label": "Delete: Temporary caches (and restore)",
+      "detail": "Delete bin, obj, node_modules, other caches, and lock files",
       "type": "npm",
       "script": "clean",
       "group": "build",

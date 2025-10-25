@@ -3,7 +3,6 @@
 
 cd "$(dirname "$0")/../.." || exit 1
 
-echo "=== Running .NET code analysis and format check ==="
 bash tools/scripts/lint-code-check.sh || exit 1
 
 echo ""

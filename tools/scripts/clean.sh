@@ -7,6 +7,7 @@ DELETE_FOLDERS=(
   "bin"
   "obj"
   "TestResults"
+  "test-results"
   "vendor"
   "docs/_site"
   "BenchmarkDotNet.Artifacts"
@@ -14,6 +15,7 @@ DELETE_FOLDERS=(
 )
 
 DELETE_FILES=(
+  "packages.lock.json"
   "package-lock.json"
   "*.tmp"
   "*.bak"
@@ -27,19 +29,37 @@ SKIPPED_FOLDERS=(
 )
 
 # start from root, basic dotnet clean
+echo ""
+echo "=== Deleting caches and lock files ==="
 cd "$(dirname "$0")/../.." || exit 1
 dotnet clean
 
-# Delete folders (supports globs and subfolder paths; bypasses SKIPPED_FOLDERS)
+# Delete folders (bypasses SKIPPED_FOLDERS)
 for folder in "${DELETE_FOLDERS[@]}"; do
-  find . $(for ignore in "${SKIPPED_FOLDERS[@]}"; do echo -n "\\( -path \"./$ignore\" -prune \\) -o "; done) \\( -path "./$folder" \\) -exec rm -rf {} +
+  # Build find command with exclusions
+  find_cmd="find . "
+  for ignore in "${SKIPPED_FOLDERS[@]}"; do
+    find_cmd+="\\( -path \"./$ignore\" -prune \\) -o "
+  done
+  find_cmd+="\\( -path \"*/$folder\" -o -path \"./$folder\" \\) -type d -exec rm -rf {} + 2>/dev/null || true"
+  eval "$find_cmd"
 done
 
 # Delete files (bypasses SKIPPED_FOLDERS)
 for file in "${DELETE_FILES[@]}"; do
-  find . $(for ignore in "${SKIPPED_FOLDERS[@]}"; do echo -n "\\( -path \"./$ignore\" -prune \\) -o "; done) -type f -name "$file" -exec rm -f {} +
+  find_cmd="find . "
+  for ignore in "${SKIPPED_FOLDERS[@]}"; do
+    find_cmd+="\\( -path \"./$ignore\" -prune \\) -o "
+  done
+  find_cmd+="\\( -type f -name \"$file\" \\) -exec rm -f {} + 2>/dev/null || true"
+  eval "$find_cmd"
 done
 
 # restore
+echo ""
+echo "=== Restoring caches ==="
 dotnet restore
 npm install
+
+echo ""
+echo "✓ Cleanup completed!"
