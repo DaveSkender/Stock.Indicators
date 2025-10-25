@@ -8,8 +8,14 @@ public class VolatilityStopList : BufferList<VolatilityStopResult>, IIncrementFr
     private readonly int _lookbackPeriods;
     private readonly double _multiplier;
     private readonly AtrList _atrList;
-    private readonly List<double> _closePrices; // Track close prices for initialization
-    private double _sic; // significant close
+    /// <summary>
+    /// Track close prices for initialization
+    /// </summary>
+    private readonly List<double> _closePrices;
+    /// <summary>
+    /// significant close
+    /// </summary>
+    private double _sic;
     private bool _isLong;
     private bool _firstStopFound;
 
@@ -38,7 +44,9 @@ public class VolatilityStopList : BufferList<VolatilityStopResult>, IIncrementFr
     /// <param name="quotes">Initial quotes to populate the list.</param>
     public VolatilityStopList(int lookbackPeriods, double multiplier, IReadOnlyList<IQuote> quotes)
         : this(lookbackPeriods, multiplier)
-        => Add(quotes);
+    {
+        Add(quotes);
+    }
 
     /// <summary>
     /// Gets the number of periods for ATR calculation.
@@ -194,6 +202,9 @@ public static partial class VolatilityStop
     /// <summary>
     /// Creates a buffer list for Volatility Stop calculations.
     /// </summary>
+    /// <param name="quotes"></param>
+    /// <param name="lookbackPeriods"></param>
+    /// <param name="multiplier"></param>
     public static VolatilityStopList ToVolatilityStopList(
         this IReadOnlyList<IQuote> quotes,
         int lookbackPeriods = 7,

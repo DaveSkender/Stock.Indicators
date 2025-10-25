@@ -2,7 +2,12 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Awesome
 {
-    // parameter validation
+    /// <summary>
+    /// parameter validation
+    /// </summary>
+    /// <param name="fastPeriods"></param>
+    /// <param name="slowPeriods"></param>
+    /// <exception cref="ArgumentOutOfRangeException"></exception>
     internal static void Validate(
         int fastPeriods,
         int slowPeriods)

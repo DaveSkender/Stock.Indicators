@@ -32,7 +32,7 @@ public class RenkoHub
 
         Reinitialize();
     }
-    #endregion
+    #endregion constructors
 
     /// <summary>
     /// Renko hub settings. Since it can produce 0 or many bricks per quote,
@@ -86,7 +86,9 @@ public class RenkoHub
         SetBaselineBrick();
     }
 
-    // re/initialize last brick marker
+    /// <summary>
+    /// re/initialize last brick marker
+    /// </summary>
     private void SetBaselineBrick()
     {
         int decimals = BrickSize.GetDecimalPlaces();
@@ -107,7 +109,13 @@ public class RenkoHub
             IsUp: false);
     }
 
-    // custom: build 0 to many bricks per quote
+    /// <summary>
+    /// custom: build 0 to many bricks per quote
+    /// </summary>
+    /// <param name="item"></param>
+    /// <param name="notify"></param>
+    /// <param name="indexHint"></param>
+    /// <exception cref="InvalidOperationException"></exception>
     private void ToIndicator(IQuote item, bool notify, int? indexHint)
     {
         int providerIndex = indexHint

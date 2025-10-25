@@ -15,7 +15,7 @@ public class RemoveWarmup : TestBase
 
         // bad remove period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => Quotes.ToAdx().RemoveWarmupPeriods(-1));
+            static () => Quotes.ToAdx().RemoveWarmupPeriods(-1));
     }
 
     [TestMethod]

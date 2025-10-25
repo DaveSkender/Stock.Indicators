@@ -8,8 +8,10 @@ public class FisherTransformHub
 {
     private readonly string hubName;
 
-    // State arrays for Fisher Transform algorithm
-    // These arrays grow with each added value to support indexed lookback access
+    /// <summary>
+    /// State arrays for Fisher Transform algorithm
+    /// These arrays grow with each added value to support indexed lookback access
+    /// </summary>
     private readonly List<double> xv = []; // value transform (intermediate state)
 
     /// <summary>

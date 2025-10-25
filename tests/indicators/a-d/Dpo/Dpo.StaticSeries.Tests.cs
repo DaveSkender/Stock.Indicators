@@ -49,7 +49,7 @@ public class Dpo : StaticSeriesTestBase
             .ToDpo(14);
 
         Assert.HasCount(502, results);
-        Assert.HasCount(489, results.Where(x => x.Dpo != null));
+        Assert.HasCount(489, results.Where(static x => x.Dpo != null));
     }
 
     [TestMethod]
@@ -60,7 +60,7 @@ public class Dpo : StaticSeriesTestBase
             .ToDpo(14);
 
         Assert.HasCount(502, results);
-        Assert.HasCount(488, results.Where(x => x.Dpo != null));
+        Assert.HasCount(488, results.Where(static x => x.Dpo != null));
     }
 
     [TestMethod]
@@ -71,7 +71,7 @@ public class Dpo : StaticSeriesTestBase
             .ToSma(10);
 
         Assert.HasCount(502, results);
-        Assert.HasCount(480, results.Where(x => x.Sma is not null and not double.NaN));
+        Assert.HasCount(480, results.Where(static x => x.Sma is not null and not double.NaN));
     }
 
     [TestMethod]
@@ -81,7 +81,7 @@ public class Dpo : StaticSeriesTestBase
             .ToDpo(5);
 
         Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(x => x.Dpo is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.Dpo is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -98,9 +98,11 @@ public class Dpo : StaticSeriesTestBase
         Assert.HasCount(1, r1);
     }
 
-    // bad SMA period
+    /// <summary>
+    /// bad SMA period
+    /// </summary>
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => Quotes.ToDpo(0));
+            static () => Quotes.ToDpo(0));
 }

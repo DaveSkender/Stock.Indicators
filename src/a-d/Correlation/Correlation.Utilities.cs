@@ -2,7 +2,15 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Correlation
 {
-    // parameter validation
+    /// <summary>
+    /// parameter validation
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="sourceA"></param>
+    /// <param name="sourceB"></param>
+    /// <param name="lookbackPeriods"></param>
+    /// <exception cref="ArgumentOutOfRangeException"></exception>
+    /// <exception cref="InvalidQuotesException"></exception>
     internal static void Validate<T>(
         IReadOnlyList<T> sourceA,
         IReadOnlyList<T> sourceB,

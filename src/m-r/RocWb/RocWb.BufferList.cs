@@ -38,7 +38,9 @@ public class RocWbList : BufferList<RocWbResult>, IIncrementFromChain, IRocWb
     /// <param name="values">Initial reusable values to populate the list.</param>
     public RocWbList(int lookbackPeriods, int emaPeriods, int stdDevPeriods, IReadOnlyList<IReusable> values)
         : this(lookbackPeriods, emaPeriods, stdDevPeriods)
-        => Add(values);
+    {
+        Add(values);
+    }
 
     /// <summary>
     /// Gets the number of periods to look back for the ROC calculation.
@@ -178,6 +180,10 @@ public static partial class RocWb
     /// <summary>
     /// Creates a buffer list for Rate of Change with Bands (RocWb) calculations.
     /// </summary>
+    /// <param name="source"></param>
+    /// <param name="lookbackPeriods"></param>
+    /// <param name="emaPeriods"></param>
+    /// <param name="stdDevPeriods"></param>
     public static RocWbList ToRocWbList(
         this IReadOnlyList<IReusable> source,
         int lookbackPeriods = 20,

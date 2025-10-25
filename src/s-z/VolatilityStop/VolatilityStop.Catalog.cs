@@ -2,7 +2,9 @@ namespace Skender.Stock.Indicators;
 
 public static partial class VolatilityStop
 {
-    // Volatility Stop Common Base Listing
+    /// <summary>
+    /// Volatility Stop Common Base Listing
+    /// </summary>
     internal static readonly IndicatorListing CommonListing =
         new CatalogListingBuilder()
             .WithName("Volatility Stop")
@@ -15,13 +17,17 @@ public static partial class VolatilityStop
             .AddResult("IsStop", "Is Stop", ResultType.Default)
             .Build();
 
-    // Volatility Stop Series Listing
+    /// <summary>
+    /// Volatility Stop Series Listing
+    /// </summary>
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
             .Build();
 
-    // Volatility Stop Buffer Listing
+    /// <summary>
+    /// Volatility Stop Buffer Listing
+    /// </summary>
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)

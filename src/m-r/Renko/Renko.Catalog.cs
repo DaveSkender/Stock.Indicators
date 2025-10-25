@@ -2,7 +2,9 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Renko
 {
-    // Renko Common Base Listing
+    /// <summary>
+    /// Renko Common Base Listing
+    /// </summary>
     internal static readonly IndicatorListing CommonListing =
         new CatalogListingBuilder()
             .WithName("Renko Chart")
@@ -19,19 +21,25 @@ public static partial class Renko
             .AddResult("IsUp", "Is Up", ResultType.Default)
             .Build();
 
-    // Renko Series Listing
+    /// <summary>
+    /// Renko Series Listing
+    /// </summary>
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
             .Build();
 
-    // Renko Stream Listing
+    /// <summary>
+    /// Renko Stream Listing
+    /// </summary>
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
             .Build();
 
-    // Renko Buffer Listing
+    /// <summary>
+    /// Renko Buffer Listing
+    /// </summary>
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)

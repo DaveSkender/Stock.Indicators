@@ -15,7 +15,7 @@ public static partial class Epma
         ArgumentNullException.ThrowIfNull(results);
 
         int removePeriods = results
-          .FindIndex(x => x.Epma != null);
+          .FindIndex(static x => x.Epma != null);
 
         return results.Remove(removePeriods);
     }
@@ -114,8 +114,6 @@ public static partial class Epma
 
         // EPMA calculation: slope * (endpoint_index + 1) + intercept
         // The endpoint index is the actual global position (1-based)
-        double epma = (slope * (globalIndex + 1)) + intercept;
-
-        return epma;
+        return (slope * (globalIndex + 1)) + intercept;
     }
 }

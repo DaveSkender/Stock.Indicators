@@ -2,7 +2,9 @@ namespace Skender.Stock.Indicators;
 
 public static partial class MgDynamic
 {
-    // Dynamic Common Base Listing
+    /// <summary>
+    /// Dynamic Common Base Listing
+    /// </summary>
     internal static readonly IndicatorListing CommonListing =
         new CatalogListingBuilder()
             .WithName("McGinley Dynamic")
@@ -14,19 +16,25 @@ public static partial class MgDynamic
             .AddResult("Dynamic", "McGinley Dynamic", ResultType.Default, isReusable: true)
             .Build();
 
-    // Dynamic Series Listing
+    /// <summary>
+    /// Dynamic Series Listing
+    /// </summary>
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
             .Build();
 
-    // Dynamic Stream Listing
+    /// <summary>
+    /// Dynamic Stream Listing
+    /// </summary>
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
             .Build();
 
-    // Dynamic Buffer Listing
+    /// <summary>
+    /// Dynamic Buffer Listing
+    /// </summary>
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)

@@ -19,7 +19,9 @@ public class GatorList : BufferList<GatorResult>, IIncrementFromChain
     /// <param name="values">Initial reusable values to populate the list.</param>
     public GatorList(IReadOnlyList<IReusable> values)
         : this()
-        => Add(values);
+    {
+        Add(values);
+    }
 
 
     /// <inheritdoc />
@@ -85,6 +87,7 @@ public static partial class Gator
     /// <summary>
     /// Creates a buffer list for Gator Oscillator calculations.
     /// </summary>
+    /// <param name="source"></param>
     public static GatorList ToGatorList(
         this IReadOnlyList<IReusable> source)
         => new() { source };

@@ -29,7 +29,9 @@ public class WilliamsRList : BufferList<WilliamsResult>, IIncrementFromQuote, IW
         int lookbackPeriods,
         IReadOnlyList<IQuote> quotes)
         : this(lookbackPeriods)
-        => Add(quotes);
+    {
+        Add(quotes);
+    }
 
     /// <summary>
     /// Gets the lookback periods for Williams %R calculation.

@@ -2,7 +2,9 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Pvo
 {
-    // Price Volume Oscillator Common Base Listing
+    /// <summary>
+    /// Price Volume Oscillator Common Base Listing
+    /// </summary>
     internal static readonly IndicatorListing CommonListing =
         new CatalogListingBuilder()
             .WithName("Price Volume Oscillator")
@@ -17,13 +19,17 @@ public static partial class Pvo
             .AddResult("Histogram", "Histogram", ResultType.Default)
             .Build();
 
-    // Price Volume Oscillator Series Listing
+    /// <summary>
+    /// Price Volume Oscillator Series Listing
+    /// </summary>
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
             .Build();
 
-    // Price Volume Oscillator Buffer Listing
+    /// <summary>
+    /// Price Volume Oscillator Buffer Listing
+    /// </summary>
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)

@@ -8,7 +8,7 @@ internal static class Data
 {
     // sorted by filename
 
-    // DEFAULT: S&P 500 ~2 years of daily data
+    // DEFAULT: SnP 500 ~2 years of daily data
     internal static IReadOnlyList<Quote> GetDefault(int days = 502)
         => File.ReadAllLines("_testdata/quotes/default.csv")
             .Skip(1)
@@ -35,7 +35,7 @@ internal static class Data
             .Take(days)
             .ToList();
 
-    // LONGEST DATA ~62 years of S&P 500 daily data
+    // LONGEST DATA ~62 years of SnP 500 daily data
     internal static IReadOnlyList<Quote> GetLongest()
         => File.ReadAllLines("_testdata/quotes/longest.csv")
             .Skip(1)
@@ -43,7 +43,7 @@ internal static class Data
             .OrderBy(x => x.Timestamp)
             .ToList();
 
-    // LONGISH DATA ~20 years of S&P 500 daily data
+    // LONGISH DATA ~20 years of SnP 500 daily data
     internal static IReadOnlyList<Quote> GetLongish(int days = 5285)
         => File.ReadAllLines("_testdata/quotes/longish.csv")
             .Skip(1)

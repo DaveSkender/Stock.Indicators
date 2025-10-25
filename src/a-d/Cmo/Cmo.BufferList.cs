@@ -28,7 +28,9 @@ public class CmoList : BufferList<CmoResult>, IIncrementFromChain, ICmo
     /// <param name="values">Initial reusable values to populate the list.</param>
     public CmoList(int lookbackPeriods, IReadOnlyList<IReusable> values)
         : this(lookbackPeriods)
-        => Add(values);
+    {
+        Add(values);
+    }
 
     /// <summary>
     /// Gets the number of periods to look back for the calculation.
@@ -106,6 +108,8 @@ public static partial class Cmo
     /// <summary>
     /// Creates a buffer list for Chande Momentum Oscillator (CMO) calculations.
     /// </summary>
+    /// <param name="source"></param>
+    /// <param name="lookbackPeriods"></param>
     public static CmoList ToCmoList(
         this IReadOnlyList<IReusable> source,
         int lookbackPeriods)

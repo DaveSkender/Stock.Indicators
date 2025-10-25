@@ -13,7 +13,7 @@ public class WilliamsR : StaticSeriesTestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.HasCount(489, results.Where(x => x.WilliamsR != null));
+        Assert.HasCount(489, results.Where(static x => x.WilliamsR != null));
 
         // sample values
         WilliamsResult r1 = results[343];
@@ -39,7 +39,7 @@ public class WilliamsR : StaticSeriesTestBase
             .ToSma(10);
 
         Assert.HasCount(502, results);
-        Assert.HasCount(480, results.Where(x => x.Sma != null));
+        Assert.HasCount(480, results.Where(static x => x.Sma != null));
     }
 
     [TestMethod]
@@ -49,7 +49,7 @@ public class WilliamsR : StaticSeriesTestBase
             .ToWilliamsR(20);
 
         Assert.HasCount(502, results);
-        Assert.IsEmpty(results.Where(x => x.WilliamsR is double v && double.IsNaN(v)));
+        Assert.IsEmpty(results.Where(static x => x.WilliamsR is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -103,7 +103,7 @@ public class WilliamsR : StaticSeriesTestBase
         IOrderedEnumerable<Quote> test1127 = File.ReadAllLines("s-z/WilliamsR/issue1127quotes.csv")
             .Skip(1)
             .Select(Tests.Data.Utilities.QuoteFromCsv)
-            .OrderByDescending(x => x.Timestamp);
+            .OrderByDescending(static x => x.Timestamp);
 
         IReadOnlyList<Quote> quotesList = test1127.ToList();
         int length = quotesList.Count;
@@ -126,9 +126,11 @@ public class WilliamsR : StaticSeriesTestBase
         }
     }
 
-    // bad lookback period
+    /// <summary>
+    /// bad lookback period
+    /// </summary>
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => Quotes.ToWilliamsR(0));
+            static () => Quotes.ToWilliamsR(0));
 }

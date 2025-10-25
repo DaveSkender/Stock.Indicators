@@ -2,7 +2,9 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Adx
 {
-    // ADX Common Base Listing
+    /// <summary>
+    /// ADX Common Base Listing
+    /// </summary>
     internal static readonly IndicatorListing CommonListing =
         new CatalogListingBuilder()
             .WithName("Average Directional Index (ADX)")
@@ -17,19 +19,25 @@ public static partial class Adx
             .AddResult("Adxr", "ADXR", ResultType.Default)
             .Build();
 
-    // ADX Series Listing
+    /// <summary>
+    /// ADX Series Listing
+    /// </summary>
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
             .Build();
 
-    // ADX Stream Listing
+    /// <summary>
+    /// ADX Stream Listing
+    /// </summary>
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
             .Build();
 
-    // ADX Buffer Listing
+    /// <summary>
+    /// ADX Buffer Listing
+    /// </summary>
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)

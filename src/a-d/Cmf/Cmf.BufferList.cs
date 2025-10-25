@@ -28,7 +28,9 @@ public class CmfList : BufferList<CmfResult>, IIncrementFromQuote, ICmf
     /// <param name="quotes">Initial quotes to populate the list.</param>
     public CmfList(int lookbackPeriods, IReadOnlyList<IQuote> quotes)
         : this(lookbackPeriods)
-        => Add(quotes);
+    {
+        Add(quotes);
+    }
 
     /// <summary>
     /// Gets the number of periods to use for the lookback window.
@@ -105,6 +107,8 @@ public static partial class Cmf
     /// <summary>
     /// Creates a buffer list for Chaikin Money Flow (CMF) calculations.
     /// </summary>
+    /// <param name="quotes"></param>
+    /// <param name="lookbackPeriods"></param>
     public static CmfList ToCmfList(
         this IReadOnlyList<IQuote> quotes,
         int lookbackPeriods = 20)

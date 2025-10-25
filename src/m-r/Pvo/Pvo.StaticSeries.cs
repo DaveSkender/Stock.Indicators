@@ -107,7 +107,7 @@ public static partial class Pvo
                 double sum = pvo;
                 for (int p = i - signalPeriods + 1; p < i; p++)
                 {
-                    sum += ((IReusable)results[p]).Value;
+                    sum += results[p].Value;
                 }
 
                 signal = sum / signalPeriods;

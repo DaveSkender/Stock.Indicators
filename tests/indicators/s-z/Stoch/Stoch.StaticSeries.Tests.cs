@@ -3,8 +3,11 @@ namespace StaticSeries;
 [TestClass]
 public class Stoch : StaticSeriesTestBase
 {
+    /// <summary>
+    /// Slow
+    /// </summary>
     [TestMethod]
-    public override void Standard() // Slow
+    public override void Standard()
     {
         const int lookbackPeriods = 14;
         const int signalPeriods = 3;
@@ -15,8 +18,8 @@ public class Stoch : StaticSeriesTestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.HasCount(487, results.Where(x => x.Oscillator != null));
-        Assert.HasCount(485, results.Where(x => x.Signal != null));
+        Assert.HasCount(487, results.Where(static x => x.Oscillator != null));
+        Assert.HasCount(485, results.Where(static x => x.Signal != null));
 
         // sample values
         StochResult r15 = results[15];
@@ -53,16 +56,19 @@ public class Stoch : StaticSeriesTestBase
         }
     }
 
+    /// <summary>
+    /// with extra parameters
+    /// </summary>
     [TestMethod]
-    public void Extended() // with extra parameters
+    public void Extended()
     {
         IReadOnlyList<StochResult> results =
             Quotes.ToStoch(9, 3, 3, 5, 4, MaType.SMMA);
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.HasCount(494, results.Where(x => x.K != null));
-        Assert.HasCount(494, results.Where(x => x.D != null));
+        Assert.HasCount(494, results.Where(static x => x.K != null));
+        Assert.HasCount(494, results.Where(static x => x.D != null));
 
         // sample values
         StochResult r7 = results[7];
@@ -104,7 +110,7 @@ public class Stoch : StaticSeriesTestBase
             .ToSma(10);
 
         Assert.HasCount(502, results);
-        Assert.HasCount(478, results.Where(x => x.Sma != null));
+        Assert.HasCount(478, results.Where(static x => x.Sma != null));
     }
 
     [TestMethod]
@@ -170,7 +176,7 @@ public class Stoch : StaticSeriesTestBase
             .ToStoch(15);
 
         Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(x => x.Oscillator is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.Oscillator is double v && double.IsNaN(v)));
 
     }
 
@@ -235,26 +241,26 @@ public class Stoch : StaticSeriesTestBase
     {
         // bad lookback period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => Quotes.ToStoch(0));
+            static () => Quotes.ToStoch(0));
 
         // bad signal period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => Quotes.ToStoch(14, 0));
+            static () => Quotes.ToStoch(14, 0));
 
         // bad smoothing period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => Quotes.ToStoch(14, 3, 0));
+            static () => Quotes.ToStoch(14, 3, 0));
 
         // bad kFactor
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => Quotes.ToStoch(9, 3, 1, 0, 2, MaType.SMA));
+            static () => Quotes.ToStoch(9, 3, 1, 0, 2, MaType.SMA));
 
         // bad dFactor
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => Quotes.ToStoch(9, 3, 1, 3, 0, MaType.SMA));
+            static () => Quotes.ToStoch(9, 3, 1, 3, 0, MaType.SMA));
 
         // bad MA type
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => Quotes.ToStoch(9, 3, 3, 3, 2, MaType.ALMA));
+            static () => Quotes.ToStoch(9, 3, 3, 3, 2, MaType.ALMA));
     }
 }

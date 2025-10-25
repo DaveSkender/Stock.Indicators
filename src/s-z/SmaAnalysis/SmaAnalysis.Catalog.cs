@@ -2,7 +2,9 @@ namespace Skender.Stock.Indicators;
 
 public static partial class SmaAnalysis
 {
-    // SMA Analysis Common Base Listing
+    /// <summary>
+    /// SMA Analysis Common Base Listing
+    /// </summary>
     internal static readonly IndicatorListing CommonListing =
         new CatalogListingBuilder()
             .WithName("Simple Moving Average Analysis")
@@ -16,7 +18,9 @@ public static partial class SmaAnalysis
             .AddResult("Mape", "Mean Absolute Percentage Error", ResultType.Default)
             .Build();
 
-    // SMA Analysis Series Listing
+    /// <summary>
+    /// SMA Analysis Series Listing
+    /// </summary>
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)

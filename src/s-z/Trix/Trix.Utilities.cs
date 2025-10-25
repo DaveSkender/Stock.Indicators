@@ -16,7 +16,7 @@ public static partial class Trix
         ArgumentNullException.ThrowIfNull(results);
 
         int n = results
-            .FindIndex(x => x.Trix != null);
+            .FindIndex(static x => x.Trix != null);
 
         return results.Remove((3 * n) + 100);
     }

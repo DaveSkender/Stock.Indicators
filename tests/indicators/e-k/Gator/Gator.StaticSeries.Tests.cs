@@ -11,10 +11,10 @@ public class Gator : StaticSeriesTestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.HasCount(482, results.Where(x => x.Upper != null));
-        Assert.HasCount(490, results.Where(x => x.Lower != null));
-        Assert.HasCount(481, results.Where(x => x.UpperIsExpanding != null));
-        Assert.HasCount(489, results.Where(x => x.LowerIsExpanding != null));
+        Assert.HasCount(482, results.Where(static x => x.Upper != null));
+        Assert.HasCount(490, results.Where(static x => x.Lower != null));
+        Assert.HasCount(481, results.Where(static x => x.UpperIsExpanding != null));
+        Assert.HasCount(489, results.Where(static x => x.LowerIsExpanding != null));
 
         // sample values
         GatorResult r11 = results[11];
@@ -81,10 +81,10 @@ public class Gator : StaticSeriesTestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.HasCount(482, results.Where(x => x.Upper != null));
-        Assert.HasCount(490, results.Where(x => x.Lower != null));
-        Assert.HasCount(481, results.Where(x => x.UpperIsExpanding != null));
-        Assert.HasCount(489, results.Where(x => x.LowerIsExpanding != null));
+        Assert.HasCount(482, results.Where(static x => x.Upper != null));
+        Assert.HasCount(490, results.Where(static x => x.Lower != null));
+        Assert.HasCount(481, results.Where(static x => x.UpperIsExpanding != null));
+        Assert.HasCount(489, results.Where(static x => x.LowerIsExpanding != null));
 
         // sample values
         GatorResult r11 = results[11];
@@ -150,7 +150,7 @@ public class Gator : StaticSeriesTestBase
             .ToGator();
 
         Assert.HasCount(502, results);
-        Assert.HasCount(482, results.Where(x => x.Upper != null));
+        Assert.HasCount(482, results.Where(static x => x.Upper != null));
     }
 
     [TestMethod]
@@ -161,7 +161,7 @@ public class Gator : StaticSeriesTestBase
             .ToGator();
 
         Assert.HasCount(502, results);
-        Assert.HasCount(481, results.Where(x => x.Upper != null));
+        Assert.HasCount(481, results.Where(static x => x.Upper != null));
     }
 
     [TestMethod]
@@ -171,7 +171,7 @@ public class Gator : StaticSeriesTestBase
             .ToGator();
 
         Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(x => x.Upper is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.Upper is double v && double.IsNaN(v)));
     }
 
     [TestMethod]

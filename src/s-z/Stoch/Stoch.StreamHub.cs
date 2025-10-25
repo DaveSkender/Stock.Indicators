@@ -60,7 +60,7 @@ public class StochHub
         Reinitialize();
     }
 
-    #endregion
+    #endregion constructors
 
     #region properties
 
@@ -82,7 +82,7 @@ public class StochHub
     /// <inheritdoc />
     public MaType MovingAverageType { get; init; }
 
-    #endregion
+    #endregion properties
 
     #region methods
 
@@ -146,81 +146,79 @@ public class StochHub
             switch (MovingAverageType)
             {
                 case MaType.SMA:
+                    double sum = 0;
+                    // Recalculate raw K for each position in the smoothing window
+                    for (int p = i - SmoothPeriods + 1; p <= i; p++)
                     {
-                        double sum = 0;
-                        // Recalculate raw K for each position in the smoothing window
-                        for (int p = i - SmoothPeriods + 1; p <= i; p++)
+                        double rawKAtP = double.NaN;
+                        if (p >= LookbackPeriods - 1 && p >= 0)
                         {
-                            double rawKAtP = double.NaN;
-                            if (p >= LookbackPeriods - 1 && p >= 0)
+                            double hh = double.MinValue;
+                            double ll = double.MaxValue;
+                            bool viable = true;
+
+                            for (int q = p - LookbackPeriods + 1; q <= p; q++)
                             {
-                                double hh = double.MinValue;
-                                double ll = double.MaxValue;
-                                bool viable = true;
-
-                                for (int q = p - LookbackPeriods + 1; q <= p; q++)
+                                if (q < 0 || q >= ProviderCache.Count)
                                 {
-                                    if (q < 0 || q >= ProviderCache.Count)
-                                    {
-                                        viable = false;
-                                        break;
-                                    }
-
-                                    IQuote x = ProviderCache[q];
-                                    if (double.IsNaN((double)x.High) ||
-                                        double.IsNaN((double)x.Low) ||
-                                        double.IsNaN((double)x.Close))
-                                    {
-                                        viable = false;
-                                        break;
-                                    }
-
-                                    if ((double)x.High > hh)
-                                    {
-                                        hh = (double)x.High;
-                                    }
-
-                                    if ((double)x.Low < ll)
-                                    {
-                                        ll = (double)x.Low;
-                                    }
+                                    viable = false;
+                                    break;
                                 }
 
-                                if (p >= 0 && p < ProviderCache.Count)
+                                IQuote x = ProviderCache[q];
+                                if (double.IsNaN((double)x.High) ||
+                                    double.IsNaN((double)x.Low) ||
+                                    double.IsNaN((double)x.Close))
                                 {
-                                    IQuote pItem = ProviderCache[p];
-                                    rawKAtP = !viable
-                                           ? double.NaN
-                                           : hh - ll != 0
-                                           ? 100 * ((double)pItem.Close - ll) / (hh - ll)
-                                           : 0;
+                                    viable = false;
+                                    break;
+                                }
+
+                                if ((double)x.High > hh)
+                                {
+                                    hh = (double)x.High;
+                                }
+
+                                if ((double)x.Low < ll)
+                                {
+                                    ll = (double)x.Low;
                                 }
                             }
 
-                            sum += rawKAtP;
+                            if (p >= 0 && p < ProviderCache.Count)
+                            {
+                                IQuote pItem = ProviderCache[p];
+                                rawKAtP = !viable
+                                       ? double.NaN
+                                       : hh - ll != 0
+                                       ? 100 * ((double)pItem.Close - ll) / (hh - ll)
+                                       : 0;
+                            }
                         }
 
-                        oscillator = sum / SmoothPeriods;
-                        break;
+                        sum += rawKAtP;
                     }
+
+                    oscillator = sum / SmoothPeriods;
+                    break;
+
 
                 case MaType.SMMA:
+                    // Get previous smoothed K from cache
+                    double prevSmoothK;
+                    if (i > SmoothPeriods && Cache.Count >= i && Cache[i - 1].Oscillator.HasValue)
                     {
-                        // Get previous smoothed K from cache
-                        double prevSmoothK;
-                        if (i > SmoothPeriods && Cache.Count >= i && Cache[i - 1].Oscillator.HasValue)
-                        {
-                            prevSmoothK = Cache[i - 1].Oscillator!.Value;
-                        }
-                        else
-                        {
-                            // Re/initialize with current raw K
-                            prevSmoothK = rawK;
-                        }
-
-                        oscillator = ((prevSmoothK * (SmoothPeriods - 1)) + rawK) / SmoothPeriods;
-                        break;
+                        prevSmoothK = Cache[i - 1].Oscillator!.Value;
                     }
+                    else
+                    {
+                        // Re/initialize with current raw K
+                        prevSmoothK = rawK;
+                    }
+
+                    oscillator = ((prevSmoothK * (SmoothPeriods - 1)) + rawK) / SmoothPeriods;
+                    break;
+
 
                 default:
                     throw new InvalidOperationException("Invalid Stochastic moving average type.");
@@ -238,47 +236,45 @@ public class StochHub
             switch (MovingAverageType)
             {
                 case MaType.SMA:
+                    double sum = 0;
+                    // Get smoothed K values from cache for the signal window
+                    for (int p = i - SignalPeriods + 1; p <= i; p++)
                     {
-                        double sum = 0;
-                        // Get smoothed K values from cache for the signal window
-                        for (int p = i - SignalPeriods + 1; p <= i; p++)
+                        double smoothKAtP = double.NaN;
+                        if (p < i && Cache.Count > p && Cache[p].Oscillator.HasValue)
                         {
-                            double smoothKAtP = double.NaN;
-                            if (p < i && Cache.Count > p && Cache[p].Oscillator.HasValue)
-                            {
-                                // Get from cache for previous positions
-                                smoothKAtP = Cache[p].Oscillator!.Value;
-                            }
-                            else if (p == i)
-                            {
-                                // Use current oscillator for position i
-                                smoothKAtP = oscillator;
-                            }
-
-                            sum += smoothKAtP;
+                            // Get from cache for previous positions
+                            smoothKAtP = Cache[p].Oscillator!.Value;
+                        }
+                        else if (p == i)
+                        {
+                            // Use current oscillator for position i
+                            smoothKAtP = oscillator;
                         }
 
-                        signal = sum / SignalPeriods;
-                        break;
+                        sum += smoothKAtP;
                     }
+
+                    signal = sum / SignalPeriods;
+                    break;
+
 
                 case MaType.SMMA:
+                    // Get previous signal from cache
+                    double prevSignal;
+                    if (i > SignalPeriods && Cache.Count >= i && Cache[i - 1].Signal.HasValue)
                     {
-                        // Get previous signal from cache
-                        double prevSignal;
-                        if (i > SignalPeriods && Cache.Count >= i && Cache[i - 1].Signal.HasValue)
-                        {
-                            prevSignal = Cache[i - 1].Signal!.Value;
-                        }
-                        else
-                        {
-                            // Re/initialize with current oscillator
-                            prevSignal = oscillator;
-                        }
-
-                        signal = ((prevSignal * (SignalPeriods - 1)) + oscillator) / SignalPeriods;
-                        break;
+                        prevSignal = Cache[i - 1].Signal!.Value;
                     }
+                    else
+                    {
+                        // Re/initialize with current oscillator
+                        prevSignal = oscillator;
+                    }
+
+                    signal = ((prevSignal * (SignalPeriods - 1)) + oscillator) / SignalPeriods;
+                    break;
+
 
                 default:
                     throw new InvalidOperationException("Invalid Stochastic moving average type.");
@@ -301,7 +297,7 @@ public class StochHub
         return (result, i);
     }
 
-    #endregion
+    #endregion methods
 }
 
 

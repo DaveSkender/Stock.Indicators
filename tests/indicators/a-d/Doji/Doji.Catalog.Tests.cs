@@ -23,13 +23,13 @@ public class DojiTests : TestBase
         listing.Parameters.Should().NotBeNull();
         listing.Parameters.Should().HaveCount(1);
 
-        IndicatorParam maxPriceChangePercentParam = listing.Parameters.SingleOrDefault(p => p.ParameterName == "maxPriceChangePercent");
+        IndicatorParam maxPriceChangePercentParam = listing.Parameters.SingleOrDefault(static p => p.ParameterName == "maxPriceChangePercent");
         maxPriceChangePercentParam.Should().NotBeNull();
 
         listing.Results.Should().NotBeNull();
         listing.Results.Should().HaveCount(1);
 
-        IndicatorResult matchResult = listing.Results.SingleOrDefault(r => r.DataName == "Match");
+        IndicatorResult matchResult = listing.Results.SingleOrDefault(static r => r.DataName == "Match");
         matchResult.Should().NotBeNull();
         matchResult?.DisplayName.Should().Be("Match");
         matchResult.IsReusable.Should().Be(true);

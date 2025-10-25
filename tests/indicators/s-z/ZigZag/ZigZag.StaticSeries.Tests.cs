@@ -5,18 +5,21 @@ namespace StaticSeries;
 [TestClass]
 public class ZigZag : StaticSeriesTestBase
 {
+    /// <summary>
+    /// on Close
+    /// </summary>
     [TestMethod]
-    public override void Standard() // on Close
+    public override void Standard()
     {
         IReadOnlyList<ZigZagResult> results =
             Quotes.ToZigZag(EndType.Close, 3);
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.HasCount(234, results.Where(x => x.ZigZag != null));
-        Assert.HasCount(234, results.Where(x => x.RetraceHigh != null));
-        Assert.HasCount(221, results.Where(x => x.RetraceLow != null));
-        Assert.HasCount(14, results.Where(x => x.PointType != null));
+        Assert.HasCount(234, results.Where(static x => x.ZigZag != null));
+        Assert.HasCount(234, results.Where(static x => x.RetraceHigh != null));
+        Assert.HasCount(221, results.Where(static x => x.RetraceLow != null));
+        Assert.HasCount(14, results.Where(static x => x.PointType != null));
 
         // sample values
         ZigZagResult r0 = results[249];
@@ -64,10 +67,10 @@ public class ZigZag : StaticSeriesTestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.HasCount(463, results.Where(x => x.ZigZag != null));
-        Assert.HasCount(463, results.Where(x => x.RetraceHigh != null));
-        Assert.HasCount(442, results.Where(x => x.RetraceLow != null));
-        Assert.HasCount(30, results.Where(x => x.PointType != null));
+        Assert.HasCount(463, results.Where(static x => x.ZigZag != null));
+        Assert.HasCount(463, results.Where(static x => x.RetraceHigh != null));
+        Assert.HasCount(442, results.Where(static x => x.RetraceLow != null));
+        Assert.HasCount(30, results.Where(static x => x.PointType != null));
 
         // sample values
         ZigZagResult r38 = results[38];
@@ -115,7 +118,7 @@ public class ZigZag : StaticSeriesTestBase
             .ToSma(10);
 
         Assert.HasCount(502, results);
-        Assert.HasCount(225, results.Where(x => x.Sma != null));
+        Assert.HasCount(225, results.Where(static x => x.Sma != null));
     }
 
     [TestMethod]
@@ -131,7 +134,7 @@ public class ZigZag : StaticSeriesTestBase
         IReadOnlyList<ZigZagResult> results = quotes
             .ToZigZag();
 
-        Assert.IsEmpty(results.Where(x => x.PointType != null));
+        Assert.IsEmpty(results.Where(static x => x.PointType != null));
     }
 
     [TestMethod]
@@ -196,7 +199,7 @@ public class ZigZag : StaticSeriesTestBase
 
         IReadOnlyList<Quote> h = JsonConvert
             .DeserializeObject<IReadOnlyCollection<Quote>>(json)
-            .OrderBy(x => x.Timestamp)
+            .OrderBy(static x => x.Timestamp)
             .ToList();
 
         IReadOnlyList<ZigZagResult> r1 = h.ToZigZag(EndType.Close, 0.25m).ToList();
@@ -213,10 +216,10 @@ public class ZigZag : StaticSeriesTestBase
     {
         // bad lookback period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => Quotes.ToZigZag(EndType.Close, 0));
+            static () => Quotes.ToZigZag(EndType.Close, 0));
 
         // bad end type
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => Quotes.ToZigZag((EndType)int.MaxValue, 2));
+            static () => Quotes.ToZigZag((EndType)int.MaxValue, 2));
     }
 }

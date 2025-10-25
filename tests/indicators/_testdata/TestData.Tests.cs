@@ -27,7 +27,7 @@ public class TestData : TestBase
 
         // duplicates
         Assert.ThrowsExactly<InvalidQuotesException>(
-            () => BadQuotes.Validate());
+            static () => BadQuotes.Validate());
     }
 
     [TestMethod]
@@ -58,7 +58,7 @@ public class TestData : TestBase
 
         // out of sequence
         Assert.ThrowsExactly<InvalidQuotesException>(
-            () => MismatchQuotes.Validate());
+            static () => MismatchQuotes.Validate());
     }
 
     [TestMethod]

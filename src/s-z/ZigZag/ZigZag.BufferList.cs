@@ -30,7 +30,9 @@ public class ZigZagList : BufferList<ZigZagResult>, IIncrementFromQuote
     /// <param name="quotes">Initial quotes to populate the list.</param>
     public ZigZagList(EndType endType, decimal percentChange, IReadOnlyList<IQuote> quotes)
         : this(endType, percentChange)
-        => Add(quotes);
+    {
+        Add(quotes);
+    }
 
     /// <summary>
     /// Gets the type of end used (Close or HighLow).
@@ -126,6 +128,9 @@ public static partial class ZigZag
     /// <summary>
     /// Creates a buffer list for ZigZag calculations.
     /// </summary>
+    /// <param name="quotes"></param>
+    /// <param name="endType"></param>
+    /// <param name="percentChange"></param>
     public static ZigZagList ToZigZagList(
         this IReadOnlyList<IQuote> quotes,
         EndType endType = EndType.Close,

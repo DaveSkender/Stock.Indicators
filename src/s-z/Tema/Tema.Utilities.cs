@@ -16,7 +16,7 @@ public static partial class Tema
         ArgumentNullException.ThrowIfNull(results);
 
         int n = results
-          .FindIndex(x => x.Tema != null) + 1;
+          .FindIndex(static x => x.Tema != null) + 1;
 
         return results.Remove((3 * n) + 100);
     }

@@ -2,7 +2,9 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Bop
 {
-    // BOP Common Base Listing
+    /// <summary>
+    /// BOP Common Base Listing
+    /// </summary>
     internal static readonly IndicatorListing CommonListing =
         new CatalogListingBuilder()
             .WithName("Balance of Power (BOP)")
@@ -13,7 +15,9 @@ public static partial class Bop
             .AddResult("Bop", "BOP", ResultType.Default, isReusable: true)
             .Build();
 
-    // BOP Series Listing
+    /// <summary>
+    /// BOP Series Listing
+    /// </summary>
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)

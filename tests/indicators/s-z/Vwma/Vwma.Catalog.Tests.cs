@@ -23,13 +23,13 @@ public class VwmaTests : TestBase
         listing.Parameters.Should().NotBeNull();
         listing.Parameters.Should().HaveCount(1);
 
-        IndicatorParam lookbackPeriodsParam = listing.Parameters.SingleOrDefault(p => p.ParameterName == "lookbackPeriods");
+        IndicatorParam lookbackPeriodsParam = listing.Parameters.SingleOrDefault(static p => p.ParameterName == "lookbackPeriods");
         lookbackPeriodsParam.Should().NotBeNull();
 
         listing.Results.Should().NotBeNull();
         listing.Results.Should().HaveCount(1);
 
-        IndicatorResult vwmaResult = listing.Results.SingleOrDefault(r => r.DataName == "Vwma");
+        IndicatorResult vwmaResult = listing.Results.SingleOrDefault(static r => r.DataName == "Vwma");
         vwmaResult.Should().NotBeNull();
         vwmaResult?.DisplayName.Should().Be("VWMA");
         vwmaResult.IsReusable.Should().Be(true);

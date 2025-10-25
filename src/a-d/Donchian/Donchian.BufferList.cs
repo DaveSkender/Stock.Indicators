@@ -26,7 +26,9 @@ public class DonchianList : BufferList<DonchianResult>, IIncrementFromQuote
     /// <param name="quotes">Initial quotes to populate the list.</param>
     public DonchianList(int lookbackPeriods, IReadOnlyList<IQuote> quotes)
         : this(lookbackPeriods)
-        => Add(quotes);
+    {
+        Add(quotes);
+    }
 
     /// <summary>
     /// Gets the number of periods to look back for the calculation.
@@ -108,6 +110,8 @@ public static partial class Donchian
     /// <summary>
     /// Creates a buffer list for Donchian Channels calculations.
     /// </summary>
+    /// <param name="quotes"></param>
+    /// <param name="lookbackPeriods"></param>
     public static DonchianList ToDonchianList(
         this IReadOnlyList<IQuote> quotes,
         int lookbackPeriods = 20)

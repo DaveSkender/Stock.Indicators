@@ -255,6 +255,8 @@ public class Stackoverflow : TestBase
     /// <summary>
     /// Utility to get references to a hub's results.
     /// </summary>
+    /// <param name="hub"></param>
+    /// <param name="irregular"></param>
     private static (string, IReadOnlyList<TOut>, bool) HubRef<TIn, TOut>(
         StreamHub<TIn, TOut> hub, bool irregular = false)
         where TIn : ISeries

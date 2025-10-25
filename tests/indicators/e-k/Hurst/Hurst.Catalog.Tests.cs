@@ -23,13 +23,13 @@ public class HurstTests : TestBase
         listing.Parameters.Should().NotBeNull();
         listing.Parameters.Should().HaveCount(1);
 
-        IndicatorParam lookbackPeriodsParam = listing.Parameters.SingleOrDefault(p => p.ParameterName == "lookbackPeriods");
+        IndicatorParam lookbackPeriodsParam = listing.Parameters.SingleOrDefault(static p => p.ParameterName == "lookbackPeriods");
         lookbackPeriodsParam.Should().NotBeNull();
 
         listing.Results.Should().NotBeNull();
         listing.Results.Should().HaveCount(1);
 
-        IndicatorResult hurstexponentResult = listing.Results.SingleOrDefault(r => r.DataName == "HurstExponent");
+        IndicatorResult hurstexponentResult = listing.Results.SingleOrDefault(static r => r.DataName == "HurstExponent");
         hurstexponentResult.Should().NotBeNull();
         hurstexponentResult?.DisplayName.Should().Be("Hurst Exponent");
         hurstexponentResult.IsReusable.Should().Be(true);

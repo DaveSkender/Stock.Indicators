@@ -2,7 +2,9 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Marubozu
 {
-    // MARUBOZU Common Base Listing
+    /// <summary>
+    /// MARUBOZU Common Base Listing
+    /// </summary>
     internal static readonly IndicatorListing CommonListing =
         new CatalogListingBuilder()
             .WithName("Marubozu")
@@ -13,13 +15,17 @@ public static partial class Marubozu
             .AddResult("Match", "Match", ResultType.Default, isReusable: true) // Based on CandleResult.Match
             .Build();
 
-    // MARUBOZU Series Listing
+    /// <summary>
+    /// MARUBOZU Series Listing
+    /// </summary>
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
             .Build();
 
-    // MARUBOZU Stream Listing
+    /// <summary>
+    /// MARUBOZU Stream Listing
+    /// </summary>
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)

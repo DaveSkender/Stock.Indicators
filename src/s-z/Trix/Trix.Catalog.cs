@@ -2,7 +2,9 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Trix
 {
-    // TRIX Common Base Listing
+    /// <summary>
+    /// TRIX Common Base Listing
+    /// </summary>
     internal static readonly IndicatorListing CommonListing =
         new CatalogListingBuilder()
             .WithName("Triple Exponential Moving Average Oscillator")
@@ -13,19 +15,25 @@ public static partial class Trix
             .AddResult("Trix", "TRIX", ResultType.Default, isReusable: true)
             .Build();
 
-    // TRIX Series Listing
+    /// <summary>
+    /// TRIX Series Listing
+    /// </summary>
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
             .Build();
 
-    // TRIX Stream Listing
+    /// <summary>
+    /// TRIX Stream Listing
+    /// </summary>
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
             .Build();
 
-    // TRIX Buffer Listing
+    /// <summary>
+    /// TRIX Buffer Listing
+    /// </summary>
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)

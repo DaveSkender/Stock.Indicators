@@ -2,7 +2,9 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Vortex
 {
-    // Vortex Indicator Common Base Listing
+    /// <summary>
+    /// Vortex Indicator Common Base Listing
+    /// </summary>
     internal static readonly IndicatorListing CommonListing =
         new CatalogListingBuilder()
             .WithName("Vortex Indicator")
@@ -14,13 +16,17 @@ public static partial class Vortex
             .AddResult("Nvi", "VI-", ResultType.Default)
             .Build();
 
-    // Vortex Indicator Series Listing
+    /// <summary>
+    /// Vortex Indicator Series Listing
+    /// </summary>
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
             .Build();
 
-    // Vortex Indicator Buffer Listing
+    /// <summary>
+    /// Vortex Indicator Buffer Listing
+    /// </summary>
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)

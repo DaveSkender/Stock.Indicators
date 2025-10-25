@@ -38,7 +38,7 @@ public class KeltnerHub
         Reinitialize();
     }
 
-    #endregion
+    #endregion constructors
 
     #region properties
 
@@ -56,7 +56,7 @@ public class KeltnerHub
     /// </summary>
     public double EmaK { get; private init; }
 
-    #endregion
+    #endregion properties
 
     #region methods
 
@@ -66,6 +66,8 @@ public class KeltnerHub
     /// <summary>
     /// Calculates the simple moving average of Close prices.
     /// </summary>
+    /// <param name="endIndex"></param>
+    /// <param name="periods"></param>
     private double CalculateSmaOfClose(int endIndex, int periods)
     {
         if (endIndex < periods - 1 || endIndex + 1 > ProviderCache.Count)
@@ -181,7 +183,7 @@ public class KeltnerHub
         }
     }
 
-    #endregion
+    #endregion methods
 }
 
 
