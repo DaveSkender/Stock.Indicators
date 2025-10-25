@@ -8,7 +8,6 @@ on:
   push:
     branches:
       - main
-      - "v[0-9]*"
     paths:
       - tools/performance/**
   pull_request:
@@ -35,6 +34,8 @@ jobs:
         with:
           dotnet-version: "9.x"
           dotnet-quality: "ga"
+          cache: true
+          cache-dependency-path: "**/packages.lock.json"
 
       - name: Build library
         run: >
