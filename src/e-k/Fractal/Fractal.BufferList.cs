@@ -84,53 +84,51 @@ public class FractalList : BufferList<FractalResult>, IIncrementFromQuote, IFrac
 
         int length = _quotes.Count;
 
-        // now calculate/update fractals for all quotes that have sufficient context
-        // we need to check quotes that are far enough from the end to have RightSpan quotes after them
+        // Calculate fractal for the quote that just became calculable (if any)
+        // We only need to calculate the newest calculable index, not recalculate a range
+        // Previous fractals are already correct from earlier calls
         int lastCalculableIndex = length - RightSpan - 1;
 
-        for (int i = Math.Max(0, lastCalculableIndex - LeftSpan); i <= lastCalculableIndex; i++)
+        // Only calculate if this index is newly calculable and has sufficient context
+        if (lastCalculableIndex >= 0 && lastCalculableIndex + 1 > LeftSpan)
         {
-            // can we calculate fractal for quote at index i?
-            // Series logic: i + 1 > leftSpan && i + 1 <= length - rightSpan
-            if (i + 1 > LeftSpan && i + 1 <= length - RightSpan)
+            int i = lastCalculableIndex;
+            FractalBuffer center = _quotes[i];
+            bool isHigh = true;
+            bool isLow = true;
+
+            decimal evalHigh = EndType == EndType.Close ? center.Close : center.High;
+            decimal evalLow = EndType == EndType.Close ? center.Close : center.Low;
+
+            // compare with wings
+            for (int p = i - LeftSpan; p <= i + RightSpan; p++)
             {
-                FractalBuffer center = _quotes[i];
-                bool isHigh = true;
-                bool isLow = true;
-
-                decimal evalHigh = EndType == EndType.Close ? center.Close : center.High;
-                decimal evalLow = EndType == EndType.Close ? center.Close : center.Low;
-
-                // compare with wings
-                for (int p = i - LeftSpan; p <= i + RightSpan; p++)
+                // skip center
+                if (p == i)
                 {
-                    // skip center
-                    if (p == i)
-                    {
-                        continue;
-                    }
-
-                    FractalBuffer wing = _quotes[p];
-                    decimal wingHigh = EndType == EndType.Close ? wing.Close : wing.High;
-                    decimal wingLow = EndType == EndType.Close ? wing.Close : wing.Low;
-
-                    if (evalHigh <= wingHigh)
-                    {
-                        isHigh = false;
-                    }
-
-                    if (evalLow >= wingLow)
-                    {
-                        isLow = false;
-                    }
+                    continue;
                 }
 
-                decimal? fractalBear = isHigh ? evalHigh : null;
-                decimal? fractalBull = isLow ? evalLow : null;
+                FractalBuffer wing = _quotes[p];
+                decimal wingHigh = EndType == EndType.Close ? wing.Close : wing.High;
+                decimal wingLow = EndType == EndType.Close ? wing.Close : wing.Low;
 
-                // update the result at index i
-                UpdateInternal(i, new FractalResult(center.Timestamp, fractalBear, fractalBull));
+                if (evalHigh <= wingHigh)
+                {
+                    isHigh = false;
+                }
+
+                if (evalLow >= wingLow)
+                {
+                    isLow = false;
+                }
             }
+
+            decimal? fractalBear = isHigh ? evalHigh : null;
+            decimal? fractalBull = isLow ? evalLow : null;
+
+            // update the result at index i
+            UpdateInternal(i, new FractalResult(center.Timestamp, fractalBear, fractalBull));
         }
     }
 
