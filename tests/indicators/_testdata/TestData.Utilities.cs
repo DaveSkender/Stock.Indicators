@@ -11,7 +11,7 @@ internal static partial class Utilities
         this IEnumerable<T> actual,
         IEnumerable<T> expected
     ) where T : ISeries
-        => actual.Should().BeEquivalentTo(expected, options => options
+        => actual.Should().BeEquivalentTo(expected, static options => options
             // Require same sequence order; prevents passing when items are equivalent but re-ordered
             .WithStrictOrdering()
             // Compare instances of T by their members (property values) rather than reference or Equals
@@ -131,6 +131,7 @@ internal static partial class Utilities
     /// <summary>
     /// Get the tolerance (decimal places) values for a given precision profile.
     /// </summary>
+    /// <param name="profile"></param>
     /// <remarks>
     /// Choose conservative defaults.
     /// Doubles get the primary tolerance; decimal remains strict for
@@ -266,6 +267,8 @@ public static class FluentAssertionExtensions
     /// <summary>
     /// Calculate the ULP distance between two double values.
     /// </summary>
+    /// <param name="actual"></param>
+    /// <param name="expected"></param>
     private static int CalculateUlpDistance(double actual, double expected)
     {
         double next = actual;
@@ -295,6 +298,8 @@ public static class FluentAssertionExtensions
     /// <summary>
     /// Calculate the ULP distance between two float values.
     /// </summary>
+    /// <param name="actual"></param>
+    /// <param name="expected"></param>
     private static int CalculateUlpDistance(float actual, float expected)
     {
         float next = actual;
@@ -328,6 +333,9 @@ internal static partial class Utilities
     /// Assert structural equivalence using ULP-based floating-point comparison for doubles/floats
     /// with profiles defining max ULP differences. Decimals remain strict by design.
     /// </summary>
+    /// <param name="actual"></param>
+    /// <param name="expected"></param>
+    /// <param name="ulpPrecision"></param>
     internal static void AssertEqualsUlp<T>(
         this IEnumerable<T> actual,
         IEnumerable<T> expected,
