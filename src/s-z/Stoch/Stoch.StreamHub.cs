@@ -14,7 +14,6 @@ public class StochHub
     private readonly RollingWindowMax<double> _highWindow;
     private readonly RollingWindowMin<double> _lowWindow;
     private readonly Queue<double> _rawKBuffer;
-    private int _lastProcessedIndex = -1;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="StochHub"/> class.
@@ -114,40 +113,10 @@ public class StochHub
         ValidateFinite(low, nameof(IQuote.Low), item.Timestamp);
         ValidateFinite(close, nameof(IQuote.Close), item.Timestamp);
 
-        // Detect if we need to rebuild window state (e.g., after Insert/Remove operations)
-        // Check if we're processing sequentially or if there was a cache modification
-        bool needsRebuild = (i != _lastProcessedIndex + 1) && (_lastProcessedIndex != -1);
-
-        if (needsRebuild)
-        {
-            // Rebuild windows from ProviderCache after Insert/Remove
-            // Note: rawK buffer will be rebuilt incrementally as we process each quote
-            _highWindow.Clear();
-            _lowWindow.Clear();
-            _rawKBuffer.Clear();
-
-            int startIdx = Math.Max(0, i + 1 - LookbackPeriods);
-            for (int p = startIdx; p <= i; p++)
-            {
-                IQuote quote = ProviderCache[p];
-                double cachedHigh = (double)quote.High;
-                double cachedLow = (double)quote.Low;
-                ValidateFinite(cachedHigh, nameof(IQuote.High), quote.Timestamp);
-                ValidateFinite(cachedLow, nameof(IQuote.Low), quote.Timestamp);
-
-                _highWindow.Add(cachedHigh);
-                _lowWindow.Add(cachedLow);
-            }
-        }
-        else
-        {
-            // Normal incremental update - O(1) amortized operation
-            // Using monotonic deque pattern eliminates nested O(n) linear scans
-            _highWindow.Add(high);
-            _lowWindow.Add(low);
-        }
-
-        _lastProcessedIndex = i;
+        // Normal incremental update - O(1) amortized operation
+        // Using monotonic deque pattern eliminates nested O(n) linear scans
+        _highWindow.Add(high);
+        _lowWindow.Add(low);
 
         // Calculate raw %K oscillator
         double rawK = double.NaN;
@@ -308,6 +277,76 @@ public class StochHub
             string message = FormattableString.Invariant(
                 $"Quote at {timestamp:O} contains a non-finite {paramName} value.");
             throw new InvalidQuotesException(paramName, value, message);
+        }
+    }
+
+    /// <summary>
+    /// Restores the rolling window state up to the specified timestamp.
+    /// </summary>
+    /// <inheritdoc/>
+    protected override void RollbackState(DateTime timestamp)
+    {
+        // Clear rolling windows and buffer
+        _highWindow.Clear();
+        _lowWindow.Clear();
+        _rawKBuffer.Clear();
+
+        // Rebuild windows from ProviderCache up to the rollback point
+        int index = ProviderCache.IndexGte(timestamp);
+        if (index <= 0)
+        {
+            return;
+        }
+
+        // Rebuild up to the index before the rollback timestamp
+        int targetIndex = index - 1;
+
+        // Rebuild high/low windows
+        int startIdx = Math.Max(0, targetIndex + 1 - LookbackPeriods);
+        for (int p = startIdx; p <= targetIndex; p++)
+        {
+            IQuote quote = ProviderCache[p];
+            double cachedHigh = (double)quote.High;
+            double cachedLow = (double)quote.Low;
+            ValidateFinite(cachedHigh, nameof(IQuote.High), quote.Timestamp);
+            ValidateFinite(cachedLow, nameof(IQuote.Low), quote.Timestamp);
+
+            _highWindow.Add(cachedHigh);
+            _lowWindow.Add(cachedLow);
+        }
+
+        // Prefill raw-%K buffer for SMA smoothing so the next tick uses a full window
+        if (SmoothPeriods > 1 && targetIndex >= LookbackPeriods - 1)
+        {
+            int kStart = Math.Max(LookbackPeriods - 1, targetIndex + 1 - SmoothPeriods);
+            for (int p = kStart; p <= targetIndex; p++)
+            {
+                int rStart = Math.Max(0, p + 1 - LookbackPeriods);
+                double hh = double.NegativeInfinity;
+                double ll = double.PositiveInfinity;
+
+                for (int r = rStart; r <= p; r++)
+                {
+                    IQuote q = ProviderCache[r];
+                    double h = (double)q.High;
+                    double l = (double)q.Low;
+                    ValidateFinite(h, nameof(IQuote.High), q.Timestamp);
+                    ValidateFinite(l, nameof(IQuote.Low), q.Timestamp);
+                    if (h > hh)
+                    {
+                        hh = h;
+                    }
+
+                    if (l < ll)
+                    {
+                        ll = l;
+                    }
+                }
+
+                double c = (double)ProviderCache[p].Close;
+                double rawAtP = (hh - ll) != 0 ? 100 * (c - ll) / (hh - ll) : 0;
+                _rawKBuffer.Enqueue(rawAtP);
+            }
         }
     }
 

@@ -10,7 +10,6 @@ public class ChandelierHub
     private readonly AtrHub atrHub;
     private readonly RollingWindowMax<double> _highWindow;
     private readonly RollingWindowMin<double> _lowWindow;
-    private int _lastProcessedIndex = -1;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ChandelierHub"/> class.
@@ -72,21 +71,14 @@ public class ChandelierHub
         ArgumentNullException.ThrowIfNull(item);
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
-        // Detect if we need to rebuild window state (e.g., after Insert/Remove operations)
-        // Check if we're processing sequentially or if there was a cache modification
-        bool needsRebuild = (i != _lastProcessedIndex + 1) && (_lastProcessedIndex != -1);
-
-        RefreshWindowState(item, needsRebuild, i);
-
-        _lastProcessedIndex = i;
+        // Add current quote to rolling windows
+        AddCurrentQuoteToWindows(item);
 
         // handle warmup periods
         if (i < LookbackPeriods)
         {
             return (new ChandelierResult(item.Timestamp, null), i);
         }
-
-        EnsureWindowsPrimed();
 
         // use cached ATR result from internal hub (O(1) lookup)
         // System invariant: atrHub.Results[i] must exist because atrHub subscribes
@@ -131,31 +123,6 @@ public class ChandelierHub
         }
     }
 
-    private void RefreshWindowState(IQuote item, bool needsRebuild, int index)
-    {
-        if (!needsRebuild)
-        {
-            AddCurrentQuoteToWindows(item);
-            return;
-        }
-
-        _highWindow.Clear();
-        _lowWindow.Clear();
-
-        int startIdx = Math.Max(0, index + 1 - LookbackPeriods);
-        for (int p = startIdx; p <= index; p++)
-        {
-            IQuote quote = ProviderCache[p];
-            double cachedHigh = (double)quote.High;
-            double cachedLow = (double)quote.Low;
-            ValidateFinite(cachedHigh, nameof(IQuote.High), quote.Timestamp);
-            ValidateFinite(cachedLow, nameof(IQuote.Low), quote.Timestamp);
-
-            _highWindow.Add(cachedHigh);
-            _lowWindow.Add(cachedLow);
-        }
-    }
-
     private void AddCurrentQuoteToWindows(IQuote item)
     {
         double high = (double)item.High;
@@ -169,11 +136,37 @@ public class ChandelierHub
         _lowWindow.Add(low);
     }
 
-    private void EnsureWindowsPrimed()
+    /// <summary>
+    /// Restores the rolling window state up to the specified timestamp.
+    /// </summary>
+    /// <inheritdoc/>
+    protected override void RollbackState(DateTime timestamp)
     {
-        if (_highWindow.Count < LookbackPeriods || _lowWindow.Count < LookbackPeriods)
+        // Clear rolling windows
+        _highWindow.Clear();
+        _lowWindow.Clear();
+
+        // Rebuild windows from ProviderCache up to the rollback point
+        int index = ProviderCache.IndexGte(timestamp);
+        if (index <= 0)
         {
-            throw new InvalidOperationException("Rolling window did not accumulate the expected number of periods.");
+            return;
+        }
+
+        // Rebuild up to the index before the rollback timestamp
+        int targetIndex = index - 1;
+        int startIdx = Math.Max(0, targetIndex + 1 - LookbackPeriods);
+
+        for (int p = startIdx; p <= targetIndex; p++)
+        {
+            IQuote quote = ProviderCache[p];
+            double cachedHigh = (double)quote.High;
+            double cachedLow = (double)quote.Low;
+            ValidateFinite(cachedHigh, nameof(IQuote.High), quote.Timestamp);
+            ValidateFinite(cachedLow, nameof(IQuote.Low), quote.Timestamp);
+
+            _highWindow.Add(cachedHigh);
+            _lowWindow.Add(cachedLow);
         }
     }
 }
