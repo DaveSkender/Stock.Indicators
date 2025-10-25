@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project>
-  <!-- Shared warnings suppression for all tool projects under /tools -->
   <PropertyGroup>
+    <!-- Shared warnings suppression for all tool projects under /tools -->
     <NoWarn>$(NoWarn);NU1507;CS1591;CA1303</NoWarn>
+
+    <!-- NuGet lock file for deterministic package restore -->
+    <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+    <RestoreLockedMode Condition="'$(ContinuousIntegrationBuild)' == 'true'">true</RestoreLockedMode>
   </PropertyGroup>
 </Project>
