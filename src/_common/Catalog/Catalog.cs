@@ -369,7 +369,7 @@ public static partial class Catalog
     /// </summary>
     private sealed class StyleJsonConverter : JsonConverter<Style>
     {
-        public override Style Read(ref Utf8JsonReader reader, Type _, JsonSerializerOptions options)
+        public override Style Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
             if (reader.TokenType == JsonTokenType.Number)
             {
@@ -401,14 +401,14 @@ public static partial class Catalog
         /// <param name="value">
         /// The <see cref="Style"/> value to write. Cannot be <see langword="null"/>.
         /// </param>
-        /// <param name="_">
+        /// <param name="options">
         /// The serialization options to use. This parameter is not used in this implementation
         /// but cannot be <see langword="null"/>.
         /// </param>
         public override void Write(
             Utf8JsonWriter writer,
             Style value,
-            JsonSerializerOptions _)
+            JsonSerializerOptions options)
                 => writer.WriteStringValue(value.ToString());
     }
 }

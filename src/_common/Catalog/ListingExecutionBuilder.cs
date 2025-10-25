@@ -78,10 +78,9 @@ public class ListingExecutionBuilder
             throw new ArgumentNullException(nameof(quotes));
         }
 
-        ListingExecutionBuilder builder = new(BaseListing, _parameterOverrides) {
+        return new(BaseListing, _parameterOverrides) {
             _quotes = quotes
         };
-        return builder;
     }
 
     /// <summary>
