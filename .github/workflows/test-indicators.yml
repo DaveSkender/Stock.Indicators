@@ -31,10 +31,7 @@ jobs:
           dotnet-version: "9.x"
           dotnet-quality: "ga"
           cache: true
-          cache-dependency-path: |
-            **/*.csproj
-            **/*.props
-            global.json
+          cache-dependency-path: "**/packages.lock.json"
 
       - name: Build (package sources)
         run: >
@@ -75,10 +72,7 @@ jobs:
           dotnet-version: "9.x"
           dotnet-quality: "ga"
           cache: true
-          cache-dependency-path: |
-            **/*.csproj
-            **/*.props
-            global.json
+          cache-dependency-path: "**/packages.lock.json"
 
       - name: Install Roslynator
         run: dotnet tool install --global roslynator.dotnet.cli
@@ -115,10 +109,7 @@ jobs:
           dotnet-version: "9.x"
           dotnet-quality: "ga"
           cache: true
-          cache-dependency-path: |
-            **/*.csproj
-            **/*.props
-            global.json
+          cache-dependency-path: "**/packages.lock.json"
 
       - name: Test indicators
         run: >
@@ -172,10 +163,7 @@ jobs:
           dotnet-version: "9.x"
           dotnet-quality: "ga"
           cache: true
-          cache-dependency-path: |
-            **/*.csproj
-            **/*.props
-            global.json
+          cache-dependency-path: "**/packages.lock.json"
 
       - name: Test regression baselines
         run: >

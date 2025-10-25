@@ -116,6 +116,8 @@ jobs:
         with:
           dotnet-version: "9.x"
           dotnet-quality: "ga"
+          cache: true
+          cache-dependency-path: "**/packages.lock.json"
 
       - name: Install dependencies
         run: |
@@ -236,6 +238,8 @@ jobs:
         with:
           dotnet-version: "9.x"
           dotnet-quality: "ga"
+          cache: true
+          cache-dependency-path: "**/packages.lock.json"
 
       - name: Download package
         uses: actions/download-artifact@v5
