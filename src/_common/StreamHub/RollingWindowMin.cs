@@ -39,8 +39,11 @@ public sealed class RollingWindowMin<T> where T : IComparable<T>
     /// Gets the current minimum value in the rolling window.
     /// </summary>
     /// <value>
-    /// The minimum value, or default(T) if the window is empty.
+    /// The minimum value.
     /// </value>
+    /// <exception cref="InvalidOperationException">
+    /// Thrown if the window is empty.
+    /// </exception>
     public T Min => _deque.Count == 0
         ? throw new InvalidOperationException("Cannot retrieve minimum from an empty rolling window.")
         : _deque.First!.Value;
