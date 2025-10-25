@@ -135,8 +135,7 @@ public class CatalogMetadataTests : TestBase
     public void IndicatorsWithSameUiidShouldHaveDifferentStyles()
     {
         IReadOnlyList<IndicatorListing> catalog = Catalog.Listings;
-        List<IGrouping<string, IndicatorListing>> multiStyleIndicators = catalog.GroupBy(static l => l.Uiid).Where(static g => g.Count() > 1).ToList();
-        foreach (IGrouping<string, IndicatorListing> group in multiStyleIndicators)
+        foreach (IGrouping<string, IndicatorListing> group in catalog.GroupBy(static l => l.Uiid).Where(static g => g.Count() > 1))
         {
             List<Style> styles = group.Select(static l => l.Style).Distinct().ToList();
             styles.Should().HaveCount(group.Count());
