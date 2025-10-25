@@ -131,8 +131,7 @@ public class Slope : BufferListTestBase, ITestChainBufferList
         SlopeList sut = new(lookbackPeriods);
 
         // Add first set of values
-        List<Quote> firstBatch = Quotes.Take(lookbackPeriods + 5).ToList();
-        foreach (Quote quote in firstBatch)
+        foreach (Quote quote in Quotes.Take(lookbackPeriods + 5))
         {
             sut.Add(quote);
         }

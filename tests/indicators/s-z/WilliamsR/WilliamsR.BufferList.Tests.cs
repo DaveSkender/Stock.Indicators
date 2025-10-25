@@ -150,12 +150,9 @@ public class WilliamsR : BufferListTestBase
         // Test that Williams %R stays within expected range [-100, 0]
         WilliamsRList sut = new(lookbackPeriods) { Quotes };
 
-        foreach (WilliamsResult result in sut)
+        foreach (WilliamsResult result in sut.Where(static r => r.WilliamsR.HasValue))
         {
-            if (result.WilliamsR.HasValue)
-            {
-                result.WilliamsR.Value.Should().BeInRange(-100d, 0d);
-            }
+            result.WilliamsR!.Value.Should().BeInRange(-100d, 0d);
         }
     }
 }

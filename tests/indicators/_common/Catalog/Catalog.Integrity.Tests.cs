@@ -14,8 +14,7 @@ public class CatalogIntegrityTests : TestBase
     public void StaticCatalogShouldFollowOneListingPerStylePattern()
     {
         IReadOnlyCollection<IndicatorListing> allListings = Catalog.Get();
-        var groupedByUiidAndStyle = allListings.GroupBy(static listing => new { listing.Uiid, listing.Style }).ToList();
-        foreach (var group in groupedByUiidAndStyle)
+        foreach (var group in allListings.GroupBy(static listing => new { listing.Uiid, listing.Style }))
         {
             group.Should().HaveCount(1, $"UIID '{group.Key.Uiid}' with style '{group.Key.Style}' should appear exactly once in the catalog");
         }

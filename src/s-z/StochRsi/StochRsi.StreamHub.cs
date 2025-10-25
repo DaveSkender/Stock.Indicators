@@ -26,8 +26,6 @@ public sealed class StochRsiHub
     /// Rolling window for signal line calculation
     /// </summary>
     private readonly Queue<double> signalBuffer;
-    private double prevK = double.NaN;
-    private double prevSignal = double.NaN;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="StochRsiHub"/> class.
@@ -138,8 +136,6 @@ public sealed class StochRsiHub
         rsiBuffer.Clear();
         kBuffer.Clear();
         signalBuffer.Clear();
-        prevK = double.NaN;
-        prevSignal = double.NaN;
 
         if (providerIndex <= 0)
         {
@@ -230,10 +226,8 @@ public sealed class StochRsiHub
             }
 
             signal = sumSignal / SignalPeriods;
-            prevSignal = signal.Value;
         }
 
-        prevK = k;
         return (k, signal);
     }
 }

@@ -1,5 +1,3 @@
-using Tests.Data;
-
 namespace StaticSeries;
 
 [TestClass]
