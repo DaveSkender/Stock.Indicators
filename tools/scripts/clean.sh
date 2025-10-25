@@ -36,23 +36,24 @@ dotnet clean
 
 # Delete folders (bypasses SKIPPED_FOLDERS)
 for folder in "${DELETE_FOLDERS[@]}"; do
-  # Build find command with exclusions
-  find_cmd="find . "
+  # Build find argument array with exclusions
+  find_args=(".")
   for ignore in "${SKIPPED_FOLDERS[@]}"; do
-    find_cmd+="\\( -path \"./$ignore\" -prune \\) -o "
+    find_args+=("(" "-path" "./$ignore" "-prune" ")" "-o")
   done
-  find_cmd+="\\( -path \"*/$folder\" -o -path \"./$folder\" \\) -type d -exec rm -rf {} + 2>/dev/null || true"
-  eval "$find_cmd"
+  find_args+=("(" "-path" "*/$folder" "-o" "-path" "./$folder" ")" "-type" "d" "-exec" "rm" "-rf" "{}" "+")
+  find "${find_args[@]}" 2>/dev/null || true
 done
 
 # Delete files (bypasses SKIPPED_FOLDERS)
 for file in "${DELETE_FILES[@]}"; do
-  find_cmd="find . "
+  # Build find argument array with exclusions
+  find_args=(".")
   for ignore in "${SKIPPED_FOLDERS[@]}"; do
-    find_cmd+="\\( -path \"./$ignore\" -prune \\) -o "
+    find_args+=("(" "-path" "./$ignore" "-prune" ")" "-o")
   done
-  find_cmd+="\\( -type f -name \"$file\" \\) -exec rm -f {} + 2>/dev/null || true"
-  eval "$find_cmd"
+  find_args+=("(" "-type" "f" "-name" "$file" ")" "-exec" "rm" "-f" "{}" "+")
+  find "${find_args[@]}" 2>/dev/null || true
 done
 
 # restore
