@@ -108,5 +108,6 @@ roslynator fix \
 ```
 
 For more information, see:
+
 - [Roslynator CLI documentation](https://josefpihrt.github.io/docs/roslynator/cli/commands/analyze)
 - [.NET code style rules](https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules)
