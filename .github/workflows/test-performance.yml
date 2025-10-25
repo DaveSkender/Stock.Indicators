@@ -8,7 +8,6 @@ on:
   push:
     branches:
       - main
-      - "v[0-9]*"
     paths:
       - tools/performance/**
   pull_request:
