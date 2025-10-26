@@ -40,9 +40,10 @@ public class DpoHub
 
     /// <summary>
     /// Override OnAdd to handle DPO's lookahead requirement with delayed emission.
-    /// For each new input at position i:
-    /// 1. Add an empty placeholder result for position i
-    /// 2. Update the result at position i-offset with calculated values (if enough future data exists)
+    /// Strategy: Use a two-phase approach for proper chaining support:
+    /// 1. Calculate and update historical value at position i-offset (if applicable)
+    /// 2. Add placeholder for current position i
+    /// 3. Use AppendCache for proper notification
     /// This maintains 1:1 input/output correspondence with the last offset positions remaining empty.
     /// </summary>
     /// <inheritdoc />
@@ -50,46 +51,49 @@ public class DpoHub
     {
         ArgumentNullException.ThrowIfNull(item);
 
-        // Add to SMA calculation
+        // Add to SMA calculation first
         smaList.Add(item);
 
-        // Get current position
+        // Get current position in provider
         int i = indexHint ?? ProviderCache.Count - 1;
 
-        // Add empty placeholder for current position
-        Cache.Add(new DpoResult(item.Timestamp, null, null));
-
-        // Calculate which earlier position we can now update with actual values
+        // Calculate which earlier position we can now fill with actual values
         int targetIndex = i - offset;
 
-        // We can only update targetIndex if we have data at targetIndex + offset (which is position i)
-        // This ensures the last offset positions never get values
-        if (targetIndex >= 0 && (targetIndex + offset) < ProviderCache.Count)
+        // Update historical value if applicable
+        // We can only update targetIndex if:
+        // 1. targetIndex >= 0 (valid index)
+        // 2. Cache[targetIndex] exists (was previously added as placeholder)
+        // 3. We're not updating the "trailing empty" range
+        if (targetIndex >= 0 && targetIndex < Cache.Count && (targetIndex + offset) < ProviderCache.Count)
         {
-            // Get current SMA (the "future" SMA for the target position)
+            // Get current SMA (represents "future" value for targetIndex)
             SmaResult currentSma = smaList[^1];
 
-            // Get the value from the target (earlier) position
+            // Get the input value from the target (earlier) position
             IReusable targetItem = ProviderCache[targetIndex];
 
-            // Check if we have valid input value (not NaN from chained indicators)
+            // Validate input
             double targetValue = targetItem.Value;
             bool hasValidInput = !double.IsNaN(targetValue);
 
-            // Check if SMA is valid (not NaN from propagated null values in chains)
+            // Validate SMA
             bool hasValidSma = currentSma.Sma.HasValue && !double.IsNaN(currentSma.Sma.Value);
 
+            // Calculate DPO values
             double? dpoSma = hasValidSma ? currentSma.Sma : null;
             double? dpoVal = (hasValidSma && hasValidInput)
                 ? targetValue - currentSma.Sma!.Value
                 : null;
 
-            // Update the placeholder at targetIndex with actual values
+            // Update the existing placeholder at targetIndex
             Cache[targetIndex] = new DpoResult(targetItem.Timestamp, dpoVal, dpoSma);
         }
-    }
 
-    /// <inheritdoc/>
+        // Now add placeholder for current position using AppendCache for proper notification
+        DpoResult placeholder = new(item.Timestamp, null, null);
+        AppendCache(placeholder, notify);
+    }    /// <inheritdoc/>
     protected override void RollbackState(DateTime timestamp)
     {
         // When rolling back, we need to clear the SMA state and rebuild it
