@@ -26,9 +26,6 @@ public static partial class Dpo
 
         int offset = (lookbackPeriods / 2) + 1;
 
-        IReadOnlyList<SmaResult> sma
-            = source.ToSma(lookbackPeriods);
-
         // roll through source values
         for (int i = 0; i < length; i++)
         {
@@ -37,11 +34,19 @@ public static partial class Dpo
             double? dpoSma = null;
             double? dpoVal = null;
 
+            // calculate SMA at offset position
             if (i >= lookbackPeriods - offset - 1 && i < length - offset)
             {
-                SmaResult s = sma[i + offset];
-                dpoSma = s.Sma;
-                dpoVal = s.Sma is null ? null : src.Value - s.Sma;
+                double smaValue = Sma.Increment(
+                    source,
+                    lookbackPeriods,
+                    i + offset);
+
+                if (!double.IsNaN(smaValue))
+                {
+                    dpoSma = smaValue;
+                    dpoVal = src.Value - smaValue;
+                }
             }
 
             DpoResult r = new(
