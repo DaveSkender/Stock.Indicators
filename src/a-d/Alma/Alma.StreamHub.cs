@@ -9,6 +9,7 @@ public class AlmaHub
     private readonly string hubName;
     private readonly double[] weights;
     private readonly double normalizationFactor;
+    private readonly Queue<double> window;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AlmaHub"/> class.
@@ -30,6 +31,7 @@ public class AlmaHub
         Offset = offset;
         Sigma = sigma;
         hubName = $"ALMA({lookbackPeriods},{offset},{sigma})";
+        window = new Queue<double>(lookbackPeriods);
 
         // Pre-calculate weights once for O(1) application per quote
         double m = offset * (lookbackPeriods - 1);
@@ -70,31 +72,39 @@ public class AlmaHub
 
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
-        // Calculate ALMA efficiently using pre-calculated weights and a rolling window
-        // This is O(lookbackPeriods) which is constant for a given configuration
-        // Weight calculation is done once in constructor, not on every quote
+        double value = item.Value;
         double? alma = null;
 
-        if (i >= LookbackPeriods - 1)
+        // Handle NaN values
+        if (double.IsNaN(value))
         {
-            double weightedSum = 0;
-            bool hasNaN = false;
+            // Reset state when encountering NaN
+            window.Clear();
+        }
+        else
+        {
+            // Add new value to window
+            window.Enqueue(value);
 
-            for (int p = 0; p < LookbackPeriods; p++)
+            // Remove oldest value if window is full
+            if (window.Count > LookbackPeriods)
             {
-                int sourceIndex = i - LookbackPeriods + 1 + p;
-                double value = ProviderCache[sourceIndex].Value;
-
-                if (double.IsNaN(value))
-                {
-                    hasNaN = true;
-                    break;
-                }
-
-                weightedSum += weights[p] * value;
+                window.Dequeue();
             }
 
-            alma = hasNaN ? null : weightedSum / normalizationFactor;
+            // Calculate ALMA when window is full using pre-calculated weights
+            if (window.Count == LookbackPeriods)
+            {
+                double weightedSum = 0;
+                double[] windowArray = window.ToArray();
+
+                for (int p = 0; p < LookbackPeriods; p++)
+                {
+                    weightedSum += weights[p] * windowArray[p];
+                }
+
+                alma = weightedSum / normalizationFactor;
+            }
         }
 
         // candidate result
@@ -103,6 +113,37 @@ public class AlmaHub
             Alma: alma);
 
         return (r, i);
+    }
+
+    /// <summary>
+    /// Restores the rolling window state up to the specified timestamp.
+    /// </summary>
+    /// <inheritdoc/>
+    protected override void RollbackState(DateTime timestamp)
+    {
+        // Clear state
+        window.Clear();
+
+        // Rebuild window from ProviderCache
+        int index = ProviderCache.IndexGte(timestamp);
+        if (index <= 0) return;
+
+        int targetIndex = index - 1;
+        int startIdx = Math.Max(0, targetIndex + 1 - LookbackPeriods);
+
+        for (int p = startIdx; p <= targetIndex; p++)
+        {
+            double value = ProviderCache[p].Value;
+            if (!double.IsNaN(value))
+            {
+                window.Enqueue(value);
+            }
+            else
+            {
+                // Reset on NaN
+                window.Clear();
+            }
+        }
     }
 }
 

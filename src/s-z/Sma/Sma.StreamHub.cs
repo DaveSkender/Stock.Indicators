@@ -11,6 +11,7 @@ public class SmaHub
     #region fields
 
     private readonly string hubName;
+    private readonly Queue<double> window;
 
     #endregion
 
@@ -28,6 +29,7 @@ public class SmaHub
         Sma.Validate(lookbackPeriods);
         LookbackPeriods = lookbackPeriods;
         hubName = $"SMA({lookbackPeriods})";
+        window = new Queue<double>(lookbackPeriods);
 
         Reinitialize();
     }
@@ -56,28 +58,39 @@ public class SmaHub
 
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
-        // Calculate SMA efficiently using a rolling window over ProviderCache
-        // This is O(lookbackPeriods) which is constant for a given configuration
-        // and maintains exact precision with Series implementation
+        // Efficiently maintain window using O(1) queue operations
+        // Calculate sum from queue to maintain precision with Series
+        double value = item.Value;
         double? sma = null;
-        if (i >= LookbackPeriods - 1)
+
+        // Handle NaN values
+        if (double.IsNaN(value))
         {
-            double sum = 0;
-            bool hasNaN = false;
+            // Reset state when encountering NaN
+            window.Clear();
+        }
+        else
+        {
+            // Add new value to window
+            window.Enqueue(value);
 
-            for (int p = i - LookbackPeriods + 1; p <= i; p++)
+            // Remove oldest value if window is full
+            if (window.Count > LookbackPeriods)
             {
-                double value = ProviderCache[p].Value;
-                if (double.IsNaN(value))
-                {
-                    hasNaN = true;
-                    break;
-                }
-
-                sum += value;
+                window.Dequeue();
             }
 
-            sma = hasNaN ? null : sum / LookbackPeriods;
+            // Calculate SMA when window is full
+            // Sum from queue to match Series precision
+            if (window.Count == LookbackPeriods)
+            {
+                double sum = 0;
+                foreach (double val in window)
+                {
+                    sum += val;
+                }
+                sma = sum / LookbackPeriods;
+            }
         }
 
         // candidate result
@@ -86,6 +99,37 @@ public class SmaHub
             Sma: sma);
 
         return (r, i);
+    }
+
+    /// <summary>
+    /// Restores the rolling window state up to the specified timestamp.
+    /// </summary>
+    /// <inheritdoc/>
+    protected override void RollbackState(DateTime timestamp)
+    {
+        // Clear state
+        window.Clear();
+
+        // Rebuild window from ProviderCache
+        int index = ProviderCache.IndexGte(timestamp);
+        if (index <= 0) return;
+
+        int targetIndex = index - 1;
+        int startIdx = Math.Max(0, targetIndex + 1 - LookbackPeriods);
+
+        for (int p = startIdx; p <= targetIndex; p++)
+        {
+            double value = ProviderCache[p].Value;
+            if (!double.IsNaN(value))
+            {
+                window.Enqueue(value);
+            }
+            else
+            {
+                // Reset on NaN
+                window.Clear();
+            }
+        }
     }
 
     #endregion
