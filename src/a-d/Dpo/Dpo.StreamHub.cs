@@ -10,7 +10,6 @@ public class DpoHub
 {
     private readonly string hubName;
     private readonly int offset;
-    private readonly SmaList smaList;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="DpoHub"/> class.
@@ -27,7 +26,6 @@ public class DpoHub
         LookbackPeriods = lookbackPeriods;
         offset = (lookbackPeriods / 2) + 1;
         hubName = $"DPO({lookbackPeriods})";
-        smaList = new SmaList(lookbackPeriods);
 
         Reinitialize();
     }
@@ -51,9 +49,6 @@ public class DpoHub
     {
         ArgumentNullException.ThrowIfNull(item);
 
-        // Add to SMA calculation first
-        smaList.Add(item);
-
         // Get current position in provider
         int i = indexHint ?? ProviderCache.Count - 1;
 
@@ -67,8 +62,11 @@ public class DpoHub
         // 3. We're not updating the "trailing empty" range
         if (targetIndex >= 0 && targetIndex < Cache.Count && (targetIndex + offset) < ProviderCache.Count)
         {
-            // Get current SMA (represents "future" value for targetIndex)
-            SmaResult currentSma = smaList[^1];
+            // Calculate SMA at current position i (represents "future" value for targetIndex)
+            double smaValue = Sma.Increment(
+                ProviderCache,
+                LookbackPeriods,
+                i);
 
             // Get the input value from the target (earlier) position
             IReusable targetItem = ProviderCache[targetIndex];
@@ -78,12 +76,12 @@ public class DpoHub
             bool hasValidInput = !double.IsNaN(targetValue);
 
             // Validate SMA
-            bool hasValidSma = currentSma.Sma.HasValue && !double.IsNaN(currentSma.Sma.Value);
+            bool hasValidSma = !double.IsNaN(smaValue);
 
             // Calculate DPO values
-            double? dpoSma = hasValidSma ? currentSma.Sma : null;
+            double? dpoSma = hasValidSma ? smaValue : null;
             double? dpoVal = (hasValidSma && hasValidInput)
-                ? targetValue - currentSma.Sma!.Value
+                ? targetValue - smaValue
                 : null;
 
             // Update the existing placeholder at targetIndex
@@ -93,10 +91,13 @@ public class DpoHub
         // Now add placeholder for current position using AppendCache for proper notification
         DpoResult placeholder = new(item.Timestamp, null, null);
         AppendCache(placeholder, notify);
-    }    /// <inheritdoc/>
+    }
+
+    /// <inheritdoc/>
     protected override void RollbackState(DateTime timestamp)
     {
-        // When rolling back, we need to clear the SMA state and rebuild it
+        // When rolling back, we don't need to maintain any internal state
+        // since we calculate SMA on-demand using Sma.Increment
         int affectedIndex = ProviderCache.IndexGte(timestamp);
         if (affectedIndex < 0)
         {
@@ -108,13 +109,6 @@ public class DpoHub
         // Clear from the EARLIER of: affected index OR first trailing empty position
         int firstTrailingEmpty = ProviderCache.Count - offset;
         int clearFromIndex = Math.Min(affectedIndex, firstTrailingEmpty);
-
-        // Clear SMA list and rebuild up to affectedIndex (for correct SMA calculations during rebuild)
-        smaList.Clear();
-        for (int i = 0; i < affectedIndex && i < ProviderCache.Count; i++)
-        {
-            smaList.Add(ProviderCache[i]);
-        }
 
         // Clear Cache from clearFromIndex onwards
         while (Cache.Count > clearFromIndex)
