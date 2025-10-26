@@ -135,7 +135,7 @@ jobs:
           dotnet tool install --global GitVersion.Tool
 
       - name: Show GitVersion config
-        run: dotnet-gitversion -config src/gitversion.yml -showconfig
+        run: dotnet gitversion -config src/gitversion.yml -showconfig
 
       - name: Generate version info
         id: gitversion
@@ -333,6 +333,13 @@ jobs:
               -H "X-GitHub-Api-Version: 2022-11-28" \
               "/orgs/${REPO_OWNER}/packages/nuget/${PACKAGE_NAME}/versions?per_page=100&page=${page}" 2>/dev/null || echo "[]")
 
+            # Check if response is a valid array
+            if ! echo "$response" | jq -e 'type == "array"' >/dev/null; then
+              echo "⚠️  GitHub API returned error or non-array response: $response"
+              break
+            fi
+
+            # If response is an empty array, break
             if [[ "$response" == "[]" ]]; then
               break
             fi
