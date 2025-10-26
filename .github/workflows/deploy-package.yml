@@ -350,23 +350,46 @@ jobs:
           page=1
           all_versions="[]"
           while true; do
+            # Capture both stdout and stderr, check exit code
+            set +e
             response=$(gh api \
               -H "Accept: application/vnd.github+json" \
               -H "X-GitHub-Api-Version: 2022-11-28" \
-              "/orgs/${REPO_OWNER}/packages/nuget/${PACKAGE_NAME}/versions?per_page=100&page=${page}" 2>/dev/null || echo "[]")
+              "/orgs/${REPO_OWNER}/packages/nuget/${PACKAGE_NAME}/versions?per_page=100&page=${page}" 2>&1)
+            exit_code=$?
+            set -e
 
-            # Check if response is a valid array
-            if ! echo "$response" | jq -e 'type == "array"' >/dev/null; then
-              echo "⚠️  GitHub API returned error or non-array response: $response"
+            # If API call failed, check if it's a real error
+            if [[ $exit_code -ne 0 ]]; then
+              echo "⚠️  GitHub API call failed (exit code: ${exit_code})"
+              echo "⚠️  Response: $response"
+              # If this is the first page and we got an error, the package might not exist yet
+              if [[ $page -eq 1 ]]; then
+                echo "✅ No packages found (possibly none exist yet)"
+                exit 0
+              fi
               break
             fi
 
-            # If response is an empty array, break
-            if [[ "$response" == "[]" ]]; then
+            # Validate response is valid JSON array
+            if ! echo "$response" | jq -e 'type == "array"' >/dev/null 2>&1; then
+              echo "⚠️  GitHub API returned non-array response: $response"
+              # If this is the first page, likely an error (e.g., package doesn't exist)
+              if [[ $page -eq 1 ]]; then
+                echo "✅ No packages found to clean up"
+                exit 0
+              fi
               break
             fi
 
-            all_versions=$(jq -s '.[0] + .[1]' <(echo "$all_versions") <(echo "$response"))
+            # If response is an empty array, we've reached the end
+            response_length=$(echo "$response" | jq 'length')
+            if [[ $response_length -eq 0 ]]; then
+              break
+            fi
+
+            # Safely merge arrays
+            all_versions=$(jq -n --argjson prev "$all_versions" --argjson curr "$response" '$prev + $curr')
             ((page++))
           done
 
