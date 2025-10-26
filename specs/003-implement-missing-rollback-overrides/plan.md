@@ -135,7 +135,7 @@ specs/
 
 **Goal**: Establish pattern with simpler stateful field (single Queue).
 
-#### State Analysis
+#### State Analysis — Phase 1
 
 **Current State**:
 
@@ -160,7 +160,7 @@ else
 }
 ```
 
-#### Implementation Approach
+#### Implementation Approach — Phase 1
 
 1. **Add RollbackState Method**:
 
@@ -205,7 +205,7 @@ else
 
 **Goal**: Apply pattern to more complex stateful structure (CciList with internal buffers).
 
-#### State Analysis
+#### State Analysis — Phase 2
 
 **Current State**:
 
@@ -232,7 +232,7 @@ else // _cciList.Count > i
     // Rebuild from scratch
 ```
 
-#### Implementation Approach
+#### Implementation Approach — Phase 2
 
 1. **Add RollbackState Method**:
 
@@ -277,7 +277,7 @@ else // _cciList.Count > i
 
 #### Utility Overview
 
-**RollingWindowMax<T>** and **RollingWindowMin<T>**:
+**RollingWindowMax\<T\>** and **RollingWindowMin\<T\>**:
 
 - Location: `src/_common/StreamHub/RollingWindowMax.cs`, `RollingWindowMin.cs`
 - Data Structure: Monotonic deque (LinkedList + Queue)
@@ -303,20 +303,20 @@ else // _cciList.Count > i
 
 **Priority 2 (Moderate - Good Impact)**:
 
-3. **FisherTransformHub** (`src/e-k/FisherTransform/FisherTransform.StreamHub.cs`)
+1. **FisherTransformHub** (`src/e-k/FisherTransform/FisherTransform.StreamHub.cs`)
    - Replace: Linear scan for HL2 price min/max
    - Add: `_priceMaxWindow`, `_priceMinWindow` (double)
    - State: Update existing RollbackState to include windows
    - Benefit: Cleaner code, O(1) price window
 
-4. **ChopHub** (`src/a-d/Chop/Chop.StreamHub.cs`)
+2. **ChopHub** (`src/a-d/Chop/Chop.StreamHub.cs`)
    - Replace: Linear scan for true high/low max/min
    - Add: `_trueHighWindow`, `_trueLowWindow` (double)
    - State: Add RollbackState override (currently none)
    - Challenge: Must calculate true high/low incrementally
    - Benefit: Significant speedup for large lookback
 
-5. **StochRsiHub** (`src/s-z/StochRsi/StochRsi.StreamHub.cs`)
+3. **StochRsiHub** (`src/s-z/StochRsi/StochRsi.StreamHub.cs`)
    - Replace: Foreach loop over Queue for RSI min/max
    - Add: Replace Queue with `_rsiMaxWindow`, `_rsiMinWindow`
    - State: Update existing RollbackState to include windows
