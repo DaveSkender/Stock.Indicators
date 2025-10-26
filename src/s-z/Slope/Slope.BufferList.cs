@@ -36,7 +36,7 @@ public class SlopeList : BufferList<SlopeResult>, IIncrementFromChain
         // Pre-calculate constant sumSqX for sequential X values
         // When X values are [x, x+1, ..., x+n-1], avgX = x + (n-1)/2
         // Sum of (Xi - avgX)^2 = n*(n^2 - 1)/12
-        sumSqXConstant = lookbackPeriods * (lookbackPeriods * lookbackPeriods - 1) / 12.0;
+        sumSqXConstant = lookbackPeriods * ((lookbackPeriods * lookbackPeriods) - 1) / 12.0;
     }
 
     /// <summary>
@@ -75,7 +75,7 @@ public class SlopeList : BufferList<SlopeResult>, IIncrementFromChain
         // - sumX = n*a + n*(n-1)/2
         // - avgX = a + (n-1)/2
         double firstX = currentIndex - lookbackPeriods + 2d;
-        double sumX = lookbackPeriods * firstX + (lookbackPeriods * (lookbackPeriods - 1) / 2.0);
+        double sumX = (lookbackPeriods * firstX) + (lookbackPeriods * (lookbackPeriods - 1) / 2.0);
         double avgX = sumX / lookbackPeriods;
 
         // Calculate sums for least squares method
@@ -83,7 +83,6 @@ public class SlopeList : BufferList<SlopeResult>, IIncrementFromChain
         double sumY = 0;
         double sumSqY = 0;
         double sumSqXy = 0;
-        int relativeIndex = 0;
 
         // First pass: get sumY to calculate avgY
         foreach (double bufferValue in buffer)
@@ -94,7 +93,7 @@ public class SlopeList : BufferList<SlopeResult>, IIncrementFromChain
         double avgY = sumY / lookbackPeriods;
 
         // Second pass: calculate deviations and their products
-        relativeIndex = 0;
+        int relativeIndex = 0;
         foreach (double bufferValue in buffer)
         {
             double xValue = firstX + relativeIndex;
