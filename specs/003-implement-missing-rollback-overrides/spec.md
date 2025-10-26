@@ -26,6 +26,7 @@ Per [indicator-stream.instructions.md](../../.github/instructions/indicator-stre
 > **When to override `RollbackState`**: Any StreamHub that maintains stateful fields (beyond simple cache lookups) MUST override `RollbackState(DateTime timestamp)` to handle Insert/Remove operations and explicit Rebuild() calls.
 
 **Problems with inline rebuild logic**:
+
 - ❌ Violates separation of concerns (hot path contamination)
 - ❌ Conditional logic in performance-critical `ToIndicator` method
 - ❌ Framework integration bypassed (manual rebuild detection)
@@ -42,6 +43,7 @@ Per [indicator-stream.instructions.md](../../.github/instructions/indicator-stre
 **So that** late-arriving or corrected historical quotes are processed correctly without inline rebuild logic
 
 **Acceptance Criteria**:
+
 - [ ] `CmoHub` overrides `RollbackState(DateTime timestamp)` method
 - [ ] Tick buffer (`_tickBuffer`) is properly cleared and rebuilt from ProviderCache
 - [ ] Inline rebuild logic removed from `ToIndicator` method
@@ -50,6 +52,7 @@ Per [indicator-stream.instructions.md](../../.github/instructions/indicator-stre
 - [ ] Series parity maintained (bit-for-bit equality with Series baseline)
 
 **Independent Test Criteria**:
+
 - Insert historical quote → CmoHub produces correct CMO values matching Series
 - Remove quote from history → CmoHub maintains state consistency
 - Duplicate arrivals → CmoHub handles gracefully without state corruption
@@ -64,6 +67,7 @@ Per [indicator-stream.instructions.md](../../.github/instructions/indicator-stre
 **So that** late-arriving or corrected historical quotes are processed correctly without complex inline synchronization logic
 
 **Acceptance Criteria**:
+
 - [ ] `CciHub` overrides `RollbackState(DateTime timestamp)` method
 - [ ] CciList internal state properly cleared and rebuilt from ProviderCache
 - [ ] All inline state synchronization logic removed from `ToIndicator` method
@@ -72,6 +76,7 @@ Per [indicator-stream.instructions.md](../../.github/instructions/indicator-stre
 - [ ] Series parity maintained (bit-for-bit equality with Series baseline)
 
 **Independent Test Criteria**:
+
 - Insert historical quote → CciHub produces correct CCI values matching Series
 - Remove quote from history → CciList maintains internal state consistency
 - Duplicate arrivals → CciHub handles gracefully without state corruption
@@ -86,6 +91,7 @@ Per [indicator-stream.instructions.md](../../.github/instructions/indicator-stre
 **So that** future StreamHub implementations follow the correct RollbackState pattern
 
 **Acceptance Criteria**:
+
 - [ ] All tests pass (unit, regression, rollback validation)
 - [ ] No performance regressions introduced
 - [ ] Documentation updated with CmoHub and CciHub as reference implementations
@@ -93,6 +99,7 @@ Per [indicator-stream.instructions.md](../../.github/instructions/indicator-stre
 - [ ] Compliance with instruction file requirements verified
 
 **Independent Test Criteria**:
+
 - Full test suite passes without failures
 - Performance benchmarks show no regressions
 - Documentation accurately reflects new reference implementations
@@ -107,6 +114,7 @@ Per [indicator-stream.instructions.md](../../.github/instructions/indicator-stre
 **So that** indicators achieve O(1) amortized performance for rolling max/min tracking
 
 **Acceptance Criteria**:
+
 - [ ] 5 StreamHubs refactored to use RollingWindowMax/Min utilities:
   - DonchianHub (simple: high/low tracking)
   - WilliamsRHub (simple: high/low tracking)
@@ -120,16 +128,19 @@ Per [indicator-stream.instructions.md](../../.github/instructions/indicator-stre
 - [ ] Series parity maintained (bit-for-bit equality with Series baseline)
 
 **Independent Test Criteria**:
+
 - Performance benchmarks show 10-50x speedup for large lookback periods
 - Memory allocations remain stable or reduce
 - Mathematical correctness verified (Series parity)
 - Rollback operations work correctly with new window state
 
 **Implementation Priority**:
+
 1. **High Priority** (Simple + High Impact): Donchian, Williams %R
 2. **Medium Priority** (Moderate complexity): Fisher Transform, Chop, Stoch RSI
 
 **Excluded from Scope**:
+
 - AroonHub (requires index tracking, not just values - utility enhancement needed first)
 
 ---
@@ -220,6 +231,7 @@ Per [indicator-stream.instructions.md](../../.github/instructions/indicator-stre
 **Total StreamHub implementations**: 116 files
 
 **Category Breakdown**:
+
 - ✅ Already have RollbackState: 19 files
 - ✅ Stateless (no RollbackState needed): 95 files
 - ❌ **Need RollbackState**: 2 files (this spec)

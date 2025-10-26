@@ -34,6 +34,7 @@ After reviewing recently updated streaming indicator instructions, **2 StreamHub
 **Expected Performance Impact**: 10-50x speedup for large lookback periods
 
 **Why this matters:**
+
 - ❌ Inline rebuild logic contaminates hot path (Part 1)
 - ❌ Violates separation of concerns (Part 1)
 - ❌ Bypasses framework integration (Part 1)
@@ -53,24 +54,32 @@ After reviewing recently updated streaming indicator instructions, **2 StreamHub
 ## 🎯 User Stories
 
 ### US1: CMO StreamHub (Priority 1)
+
 Implement `RollbackState` override for CMO's tick buffer management.
+
 - **Complexity**: Moderate (single Queue state)
 - **Tasks**: T001-T004
 - **Pattern**: Follow StochHub buffer management
 
 ### US2: CCI StreamHub (Priority 2)
+
 Implement `RollbackState` override for CCI's CciList state management.
+
 - **Complexity**: Moderate-Complex (internal buffers)
 - **Tasks**: T005-T008
 - **Pattern**: Follow AdxHub state restoration
 
 ### US3: Validation & Documentation (Priority 3)
+
 Complete validation, documentation updates, and compliance verification.
+
 - **Tasks**: T009
 - **Deliverables**: Updated instructions, validated compliance
 
 ### US4: Rolling Window Refactorings (Priority 4)
+
 Refactor 5 indicators to use RollingWindowMax/Min utilities for O(1) performance.
+
 - **Tasks**: T010-T015
 - **Complexity**: Simple (2) + Moderate (3)
 - **Impact**: 10-50x performance improvement
@@ -126,21 +135,25 @@ protected override ToIndicator(item, indexHint)
 **Parallel Opportunities**: Analysis (T001, T005, T010-T011) and Test Writing (T002, T006)
 
 ### Phase 1: CMO (US1)
+
 - **T001**: Analyze CMO state requirements [P]
 - **T002**: Write CMO rollback tests
 - **T003**: Implement CmoHub.RollbackState
 - **T004**: Validate CMO regression tests
 
 ### Phase 2: CCI (US2)
+
 - **T005**: Analyze CCI state requirements [P]
 - **T006**: Write CCI rollback tests
 - **T007**: Implement CciHub.RollbackState
 - **T008**: Validate CCI regression tests
 
 ### Phase 3: Final (US3)
+
 - **T009**: Final validation & documentation
 
 ### Phase 4: Rolling Window Refactorings (US4)
+
 - **T010**: Refactor DonchianHub [P] (simple)
 - **T011**: Refactor WilliamsRHub [P] (simple)
 - **T012**: Refactor FisherTransformHub (moderate)
@@ -153,24 +166,28 @@ protected override ToIndicator(item, indexHint)
 ## ✅ Success Criteria
 
 ### Implementation
+
 - [ ] Both StreamHubs override `RollbackState` correctly
 - [ ] All inline rebuild logic removed from `ToIndicator`
 - [ ] Code follows established patterns (AdxHub, StochHub)
 - [ ] XML documentation complete
 
 ### Testing
+
 - [ ] All 10 rollback tests pass (5 per indicator)
 - [ ] All existing regression tests pass
 - [ ] Series parity verified (bit-for-bit equality)
 - [ ] Performance benchmarks within 5% variance
 
 ### Quality
+
 - [ ] Zero analyzer warnings
 - [ ] Code formatting passes
 - [ ] Markdown linting passes
 - [ ] Full test suite passes
 
 ### Documentation
+
 - [ ] Reference implementations added to instructions
 - [ ] Spec Kit artifacts complete
 - [ ] Code comments accurate
@@ -180,16 +197,19 @@ protected override ToIndicator(item, indexHint)
 ## 🔗 Key References
 
 ### Instructions
+
 - [indicator-stream.instructions.md](../../.github/instructions/indicator-stream.instructions.md) - RollbackState pattern guidance
 - [source-code-completion.instructions.md](../../.github/instructions/source-code-completion.instructions.md) - Pre-commit checklist
 - [spec-kit.instructions.md](../../.github/instructions/spec-kit.instructions.md) - Spec Kit workflow
 
 ### Reference Implementations
+
 - `src/a-d/Chandelier/Chandelier.StreamHub.cs` - Simple rolling window
 - `src/s-z/Stoch/Stoch.StreamHub.cs` - Complex buffer prefill
 - `src/a-d/Adx/Adx.StreamHub.cs` - Wilder's smoothing state
 
 ### Test Patterns
+
 - `tests/indicators/e-k/Ema/Ema.StreamHub.Tests.cs` - Canonical rollback tests (5 scenarios)
 
 ---
@@ -207,12 +227,14 @@ protected override ToIndicator(item, indexHint)
 ## 📈 Impact
 
 **Before**:
+
 - 2 StreamHubs using anti-pattern (inline rebuild)
 - 5 StreamHubs using O(n) linear scans for max/min
 - Constitutional violation (improper state management)
 - Performance bottlenecks for large lookback periods
 
 **After**:
+
 - 100% compliance with RollbackState pattern
 - All 21 stateful StreamHubs follow framework integration
 - O(1) amortized performance for rolling max/min operations

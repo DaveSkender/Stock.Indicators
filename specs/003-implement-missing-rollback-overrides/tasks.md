@@ -16,6 +16,7 @@ This document provides actionable tasks to implement missing `RollbackState` met
 2. **CciHub** - CciList internal state synchronization
 
 All other StreamHub implementations (100+ files) either:
+
 - Already have RollbackState implemented (19 implementations)
 - Are stateless and rely on Cache/ProviderCache for historical values (majority)
 
@@ -49,6 +50,7 @@ graph TD
 ### Parallel Execution Opportunities
 
 Within each user story (CMO and CCI are independent):
+
 - Analysis can be done in parallel [P]
 - Test writing can be done in parallel [P]
 - Implementation must be sequential per indicator
@@ -65,6 +67,7 @@ Within each user story (CMO and CCI are independent):
 **Objective**: Document current state management approach and RollbackState requirements.
 
 **Tasks**:
+
 1. Review current `ToIndicator` implementation and inline rebuild logic
 2. Identify stateful fields:
    - `Queue<(bool? isUp, double value)> _tickBuffer` (capacity: lookbackPeriods)
@@ -80,11 +83,13 @@ Within each user story (CMO and CCI are independent):
    - Handle edge cases (index < lookbackPeriods)
 
 **Acceptance Criteria**:
+
 - [ ] State fields documented with rebuild requirements
 - [ ] Rollback scenarios identified and documented
 - [ ] Edge cases identified (warmup period, insufficient data)
 
 **Reference Patterns**:
+
 - `src/s-z/Stoch/Stoch.StreamHub.cs` (buffer management)
 - `src/a-d/Chandelier/Chandelier.StreamHub.cs` (rolling window rebuild)
 
@@ -97,7 +102,9 @@ Within each user story (CMO and CCI are independent):
 **Objective**: Create comprehensive rollback validation tests following EMA hub test pattern.
 
 **Tasks**:
+
 1. Add rollback test class following EMA pattern:
+
    ```csharp
    public class CmoStreamHubRollbackTests : StreamHubTestBase
    ```
@@ -123,12 +130,14 @@ Within each user story (CMO and CCI are independent):
    - `AssertSeriesParity()` for baseline comparison
 
 **Acceptance Criteria**:
+
 - [ ] All 5 required rollback test scenarios implemented
 - [ ] Tests follow EMA hub pattern structure
 - [ ] Tests currently FAIL (no RollbackState implementation yet)
 - [ ] Test coverage includes edge cases (warmup, empty state)
 
 **Reference Implementation**:
+
 - `tests/indicators/e-k/Ema/Ema.StreamHub.Tests.cs` (canonical rollback test pattern)
 
 ---
@@ -140,7 +149,9 @@ Within each user story (CMO and CCI are independent):
 **Objective**: Implement proper state rollback handling for tick buffer.
 
 **Tasks**:
+
 1. Add `RollbackState` method override after `ToIndicator`:
+
    ```csharp
    /// <summary>
    /// Restores the tick buffer state up to the specified timestamp.
@@ -158,6 +169,7 @@ Within each user story (CMO and CCI are independent):
    - Find target index: `ProviderCache.IndexGte(timestamp)`
    - Calculate start position: `Math.Max(0, targetIndex + 1 - LookbackPeriods)`
    - Loop through ProviderCache to rebuild ticks:
+
      ```csharp
      for (int p = startIdx; p <= targetIndex; p++)
      {
@@ -179,6 +191,7 @@ Within each user story (CMO and CCI are independent):
 4. Add XML documentation explaining rollback behavior
 
 **Acceptance Criteria**:
+
 - [ ] `RollbackState` method implemented and documented
 - [ ] Tick buffer properly cleared and rebuilt from cache
 - [ ] Edge cases handled (empty cache, index < lookbackPeriods)
@@ -186,6 +199,7 @@ Within each user story (CMO and CCI are independent):
 - [ ] All rollback tests pass (T002)
 
 **Reference Implementations**:
+
 - `src/s-z/Stoch/Stoch.StreamHub.cs` - Lines 287-330 (buffer prefill pattern)
 - `src/a-d/Chandelier/Chandelier.StreamHub.cs` - Lines 143-169 (window rebuild pattern)
 
@@ -198,7 +212,9 @@ Within each user story (CMO and CCI are independent):
 **Objective**: Ensure CMO StreamHub maintains mathematical correctness after rollback implementation.
 
 **Tasks**:
+
 1. Run existing regression tests:
+
    ```bash
    dotnet test tests/indicators/Tests.Indicators.csproj \
      --filter "FullyQualifiedName~Cmo" \
@@ -210,18 +226,21 @@ Within each user story (CMO and CCI are independent):
    - Ensure bit-for-bit equality for deterministic calculations
 
 3. Run rollback-specific tests:
+
    ```bash
    dotnet test tests/indicators/Tests.Indicators.csproj \
      --filter "FullyQualifiedName~Cmo.StreamHub.Tests.CmoStreamHubRollbackTests"
    ```
 
 4. Check performance benchmarks (optional):
+
    ```bash
    dotnet run --project tools/performance/Tests.Performance.csproj -c Release \
      -- --filter *CmoHub*
    ```
 
 **Acceptance Criteria**:
+
 - [ ] All existing regression tests pass
 - [ ] All new rollback tests pass
 - [ ] Series parity verified (deterministic equality)
@@ -238,6 +257,7 @@ Within each user story (CMO and CCI are independent):
 **Objective**: Document CciList state management and RollbackState requirements.
 
 **Tasks**:
+
 1. Review current `ToIndicator` implementation and state synchronization logic
 2. Identify stateful fields:
    - `CciList _cciList` (custom BufferList-style collection)
@@ -253,6 +273,7 @@ Within each user story (CMO and CCI are independent):
    - Ensure internal buffers (SMA, mean dev) are properly restored
 
 **Current Inline Logic** (to be replaced):
+
 ```csharp
 // Synchronize _cciList state with the current index
 if (i == 0)
@@ -266,12 +287,14 @@ else // _cciList.Count > i
 ```
 
 **Acceptance Criteria**:
+
 - [ ] CciList internal state documented
 - [ ] Rollback scenarios identified
 - [ ] Edge cases documented (warmup, empty state)
 - [ ] Relationship to BufferList pattern understood
 
 **Reference Patterns**:
+
 - `src/_common/Lists/BufferList.cs` (similar state management)
 - `src/a-d/Adx/Adx.StreamHub.cs` (complex state restoration)
 
@@ -284,7 +307,9 @@ else // _cciList.Count > i
 **Objective**: Create comprehensive rollback validation tests following EMA hub test pattern.
 
 **Tasks**:
+
 1. Add rollback test class following EMA pattern:
+
    ```csharp
    public class CciStreamHubRollbackTests : StreamHubTestBase
    ```
@@ -310,12 +335,14 @@ else // _cciList.Count > i
    - `AssertSeriesParity()` for baseline comparison
 
 **Acceptance Criteria**:
+
 - [ ] All 5 required rollback test scenarios implemented
 - [ ] Tests follow EMA hub pattern structure
 - [ ] Tests currently FAIL (no RollbackState implementation yet)
 - [ ] Test coverage includes CciList internal state validation
 
 **Reference Implementation**:
+
 - `tests/indicators/e-k/Ema/Ema.StreamHub.Tests.cs` (canonical rollback test pattern)
 - `tests/indicators/s-z/Stoch/Stoch.StreamHub.Tests.cs` (complex state validation)
 
@@ -328,7 +355,9 @@ else // _cciList.Count > i
 **Objective**: Implement proper state rollback handling for CciList.
 
 **Tasks**:
+
 1. Add `RollbackState` method override after `ToIndicator`:
+
    ```csharp
    /// <summary>
    /// Restores the CciList state up to the specified timestamp.
@@ -345,11 +374,14 @@ else // _cciList.Count > i
    - Clear `_cciList`
    - Find target index: `ProviderCache.IndexGte(timestamp)`
    - Handle edge cases:
+
      ```csharp
      if (index <= 0) return; // No data to restore
      int targetIndex = index - 1;
      ```
+
    - Loop through ProviderCache to rebuild CciList:
+
      ```csharp
      for (int p = 0; p <= targetIndex; p++)
      {
@@ -361,16 +393,19 @@ else // _cciList.Count > i
 3. Simplify `ToIndicator` method:
    - Remove all state synchronization logic (`if (i == 0)`, `else if`, etc.)
    - Simplify to just:
+
      ```csharp
      _cciList.Add(item);
      CciResult r = _cciList[^1];
      return (r, i);
      ```
+
    - Let framework call `RollbackState` when needed
 
 4. Add XML documentation explaining rollback behavior
 
 **Acceptance Criteria**:
+
 - [ ] `RollbackState` method implemented and documented
 - [ ] CciList properly cleared and rebuilt from cache
 - [ ] Edge cases handled (empty cache, index boundary conditions)
@@ -378,6 +413,7 @@ else // _cciList.Count > i
 - [ ] All rollback tests pass (T006)
 
 **Reference Implementations**:
+
 - `src/a-d/Adx/Adx.StreamHub.cs` - Lines 228-284 (complex state restoration)
 - `src/m-r/Rsi/Rsi.StreamHub.cs` - Lines 208-251 (Wilder's smoothing state)
 
@@ -390,7 +426,9 @@ else // _cciList.Count > i
 **Objective**: Ensure CCI StreamHub maintains mathematical correctness after rollback implementation.
 
 **Tasks**:
+
 1. Run existing regression tests:
+
    ```bash
    dotnet test tests/indicators/Tests.Indicators.csproj \
      --filter "FullyQualifiedName~Cci" \
@@ -402,18 +440,21 @@ else // _cciList.Count > i
    - Ensure bit-for-bit equality for deterministic calculations
 
 3. Run rollback-specific tests:
+
    ```bash
    dotnet test tests/indicators/Tests.Indicators.csproj \
      --filter "FullyQualifiedName~Cci.StreamHub.Tests.CciStreamHubRollbackTests"
    ```
 
 4. Check performance benchmarks (optional):
+
    ```bash
    dotnet run --project tools/performance/Tests.Performance.csproj -c Release \
      -- --filter *CciHub*
    ```
 
 **Acceptance Criteria**:
+
 - [ ] All existing regression tests pass
 - [ ] All new rollback tests pass
 - [ ] Series parity verified (deterministic equality)
@@ -431,12 +472,15 @@ else // _cciList.Count > i
 **Objective**: Complete final validation, update documentation, and ensure all requirements met.
 
 **Tasks**:
+
 1. Run full test suite:
+
    ```bash
    dotnet test --no-restore --nologo
    ```
 
 2. Run performance benchmarks for both indicators:
+
    ```bash
    dotnet run --project tools/performance/Tests.Performance.csproj -c Release \
      -- --filter "*CmoHub*|*CciHub*"
@@ -460,12 +504,14 @@ else // _cciList.Count > i
    - Add lessons learned to research.md (if exists)
 
 6. Code quality checks:
+
    ```bash
    dotnet format --verify-no-changes --severity info --no-restore
    npm run lint:md
    ```
 
 **Acceptance Criteria**:
+
 - [ ] All tests pass (unit, regression, rollback)
 - [ ] No performance regressions detected
 - [ ] Documentation updated and accurate
@@ -483,6 +529,7 @@ else // _cciList.Count > i
 **Objective**: Replace O(n) linear scan with O(1) amortized RollingWindowMax/Min utilities.
 
 **Current Approach** (O(n) per update):
+
 ```csharp
 decimal highHigh = decimal.MinValue;
 decimal lowLow = decimal.MaxValue;
@@ -496,19 +543,23 @@ for (int p = i - LookbackPeriods; p < i; p++)
 ```
 
 **Tasks**:
+
 1. Add rolling window fields to class:
+
    ```csharp
    private readonly RollingWindowMax<decimal> _highWindow;
    private readonly RollingWindowMin<decimal> _lowWindow;
    ```
 
 2. Initialize in constructor:
+
    ```csharp
    _highWindow = new RollingWindowMax<decimal>(lookbackPeriods);
    _lowWindow = new RollingWindowMin<decimal>(lookbackPeriods);
    ```
 
 3. Replace loop in `ToIndicator` with incremental updates:
+
    ```csharp
    _highWindow.Add(item.High);
    _lowWindow.Add(item.Low);
@@ -522,6 +573,7 @@ for (int p = i - LookbackPeriods; p < i; p++)
    ```
 
 4. Add `RollbackState` override (currently doesn't have one):
+
    ```csharp
    protected override void RollbackState(DateTime timestamp)
    {
@@ -546,6 +598,7 @@ for (int p = i - LookbackPeriods; p < i; p++)
 5. Update tests to include rollback scenarios
 
 **Acceptance Criteria**:
+
 - [ ] RollingWindowMax/Min fields added and initialized
 - [ ] Linear scan replaced with window operations
 - [ ] RollbackState override implemented
@@ -554,6 +607,7 @@ for (int p = i - LookbackPeriods; p < i; p++)
 - [ ] Comprehensive rollback tests added
 
 **Reference Implementations**:
+
 - `src/a-d/Chandelier/Chandelier.StreamHub.cs` - Canonical rolling window pattern
 - `src/s-z/Stoch/Stoch.StreamHub.cs` - Rolling windows with additional state
 
@@ -566,6 +620,7 @@ for (int p = i - LookbackPeriods; p < i; p++)
 **Objective**: Replace O(n) linear scan with O(1) amortized RollingWindowMax/Min utilities.
 
 **Current Approach** (O(n) per update):
+
 ```csharp
 double highHigh = double.MinValue;
 double lowLow = double.MaxValue;
@@ -579,19 +634,23 @@ for (int p = i - LookbackPeriods + 1; p <= i; p++)
 ```
 
 **Tasks**:
+
 1. Add rolling window fields to class:
+
    ```csharp
    private readonly RollingWindowMax<double> _highWindow;
    private readonly RollingWindowMin<double> _lowWindow;
    ```
 
 2. Initialize in constructor:
+
    ```csharp
    _highWindow = new RollingWindowMax<double>(lookbackPeriods);
    _lowWindow = new RollingWindowMin<double>(lookbackPeriods);
    ```
 
 3. Replace loop in `ToIndicator` with incremental updates:
+
    ```csharp
    _highWindow.Add((double)item.High);
    _lowWindow.Add((double)item.Low);
@@ -605,6 +664,7 @@ for (int p = i - LookbackPeriods + 1; p <= i; p++)
    ```
 
 4. Add `RollbackState` override:
+
    ```csharp
    protected override void RollbackState(DateTime timestamp)
    {
@@ -629,6 +689,7 @@ for (int p = i - LookbackPeriods + 1; p <= i; p++)
 5. Update tests to include rollback scenarios
 
 **Acceptance Criteria**:
+
 - [ ] RollingWindowMax/Min fields added and initialized
 - [ ] Linear scan replaced with window operations
 - [ ] RollbackState override implemented
@@ -637,6 +698,7 @@ for (int p = i - LookbackPeriods + 1; p <= i; p++)
 - [ ] Comprehensive rollback tests added
 
 **Reference Implementations**:
+
 - `src/s-z/Stoch/Stoch.StreamHub.cs` - Similar pattern (stochastic oscillator)
 
 ---
@@ -648,6 +710,7 @@ for (int p = i - LookbackPeriods + 1; p <= i; p++)
 **Objective**: Replace O(n) linear scan with O(1) amortized RollingWindowMax/Min utilities.
 
 **Current Approach** (O(n) per update):
+
 ```csharp
 double minPrice = currentValue;
 double maxPrice = currentValue;
@@ -661,19 +724,23 @@ for (int p = Math.Max(i - LookbackPeriods + 1, 0); p <= i; p++)
 ```
 
 **Tasks**:
+
 1. Add rolling window fields to class:
+
    ```csharp
    private readonly RollingWindowMax<double> _priceMaxWindow;
    private readonly RollingWindowMin<double> _priceMinWindow;
    ```
 
 2. Initialize in constructor:
+
    ```csharp
    _priceMaxWindow = new RollingWindowMax<double>(lookbackPeriods);
    _priceMinWindow = new RollingWindowMin<double>(lookbackPeriods);
    ```
 
 3. Replace loop in `ToIndicator` with incremental updates:
+
    ```csharp
    double currentValue = item.Hl2OrValue();
    _priceMaxWindow.Add(currentValue);
@@ -688,6 +755,7 @@ for (int p = Math.Max(i - LookbackPeriods + 1, 0); p <= i; p++)
    ```
 
 4. Update existing `RollbackState` to include window clearing/rebuilding:
+
    ```csharp
    protected override void RollbackState(DateTime timestamp)
    {
@@ -719,6 +787,7 @@ for (int p = Math.Max(i - LookbackPeriods + 1, 0); p <= i; p++)
 5. Update tests to validate new window behavior
 
 **Acceptance Criteria**:
+
 - [ ] RollingWindowMax/Min fields added and initialized
 - [ ] Linear scan replaced with window operations
 - [ ] Existing RollbackState updated to manage windows
@@ -726,6 +795,7 @@ for (int p = Math.Max(i - LookbackPeriods + 1, 0); p <= i; p++)
 - [ ] Performance benchmark shows O(1) improvement
 
 **Reference Implementations**:
+
 - `src/a-d/Chandelier/Chandelier.StreamHub.cs` - Window management pattern
 - Current `FisherTransformHub.RollbackState` - Existing state management pattern
 
@@ -738,6 +808,7 @@ for (int p = Math.Max(i - LookbackPeriods + 1, 0); p <= i; p++)
 **Objective**: Replace O(n) linear scan with O(1) amortized RollingWindowMax/Min utilities for true high/low tracking.
 
 **Current Approach** (O(n) per update):
+
 ```csharp
 double maxTrueHigh = double.MinValue;
 double minTrueLow = double.MaxValue;
@@ -757,19 +828,23 @@ for (int j = 0; j < LookbackPeriods; j++)
 ```
 
 **Tasks**:
+
 1. Add rolling window fields to class:
+
    ```csharp
    private readonly RollingWindowMax<double> _trueHighWindow;
    private readonly RollingWindowMin<double> _trueLowWindow;
    ```
 
 2. Initialize in constructor:
+
    ```csharp
    _trueHighWindow = new RollingWindowMax<double>(lookbackPeriods);
    _trueLowWindow = new RollingWindowMin<double>(lookbackPeriods);
    ```
 
 3. Calculate and add true high/low incrementally in `ToIndicator`:
+
    ```csharp
    if (i > 0)
    {
@@ -790,6 +865,7 @@ for (int j = 0; j < LookbackPeriods; j++)
    ```
 
 4. Add `RollbackState` override:
+
    ```csharp
    protected override void RollbackState(DateTime timestamp)
    {
@@ -819,6 +895,7 @@ for (int j = 0; j < LookbackPeriods; j++)
 5. Update tests to include rollback scenarios
 
 **Acceptance Criteria**:
+
 - [ ] RollingWindowMax/Min fields added and initialized
 - [ ] True high/low calculated incrementally
 - [ ] Linear scan replaced with window operations
@@ -828,6 +905,7 @@ for (int j = 0; j < LookbackPeriods; j++)
 - [ ] Comprehensive rollback tests added
 
 **Reference Implementations**:
+
 - `src/a-d/Chandelier/Chandelier.StreamHub.cs` - Rolling window pattern
 - `src/a-d/Atr/Atr.StreamHub.cs` - True range calculation pattern
 
@@ -840,6 +918,7 @@ for (int j = 0; j < LookbackPeriods; j++)
 **Objective**: Replace O(n) foreach loop with O(1) amortized RollingWindowMax/Min utilities for RSI buffer tracking.
 
 **Current Approach** (O(n) per update):
+
 ```csharp
 double highRsi = double.MinValue;
 double lowRsi = double.MaxValue;
@@ -852,19 +931,23 @@ foreach (double value in rsiBuffer)
 ```
 
 **Tasks**:
+
 1. Replace `Queue<double> rsiBuffer` with rolling window fields:
+
    ```csharp
    private readonly RollingWindowMax<double> _rsiMaxWindow;
    private readonly RollingWindowMin<double> _rsiMinWindow;
    ```
 
 2. Initialize in constructor:
+
    ```csharp
    _rsiMaxWindow = new RollingWindowMax<double>(stochPeriods);
    _rsiMinWindow = new RollingWindowMin<double>(stochPeriods);
    ```
 
 3. Replace buffer enqueue + foreach with window adds:
+
    ```csharp
    // Instead of: rsiBuffer.Update(stochPeriods, rsiValue);
    _rsiMaxWindow.Add(rsiValue);
@@ -876,6 +959,7 @@ foreach (double value in rsiBuffer)
    ```
 
 4. Update existing `RollbackState` to include window clearing/rebuilding:
+
    ```csharp
    protected override void RollbackState(DateTime timestamp)
    {
@@ -901,6 +985,7 @@ foreach (double value in rsiBuffer)
 5. Update tests to validate new window behavior
 
 **Acceptance Criteria**:
+
 - [ ] Queue replaced with RollingWindowMax/Min
 - [ ] Foreach loop replaced with property access
 - [ ] Existing RollbackState updated to manage windows
@@ -909,6 +994,7 @@ foreach (double value in rsiBuffer)
 - [ ] Code complexity reduced (no manual buffer scanning)
 
 **Reference Implementations**:
+
 - `src/s-z/Stoch/Stoch.StreamHub.cs` - Similar oscillator pattern with windows
 - Current `StochRsiHub.RollbackState` - Existing state management pattern
 
@@ -921,7 +1007,9 @@ foreach (double value in rsiBuffer)
 **Objective**: Validate that all rolling window refactorings deliver expected O(1) performance improvements.
 
 **Tasks**:
+
 1. Run baseline benchmarks before refactorings:
+
    ```bash
    dotnet run --project tools/performance/Tests.Performance.csproj -c Release \
      -- --filter "*DonchianHub*|*WilliamsRHub*|*FisherTransformHub*|*ChopHub*|*StochRsiHub*" \
@@ -945,6 +1033,7 @@ foreach (double value in rsiBuffer)
 5. Document findings in spec research notes
 
 **Acceptance Criteria**:
+
 - [ ] Baseline benchmarks captured
 - [ ] Post-refactoring benchmarks show performance improvement
 - [ ] No memory allocation regressions
@@ -952,6 +1041,7 @@ foreach (double value in rsiBuffer)
 - [ ] All refactored indicators maintain mathematical correctness
 
 **Expected Results**:
+
 - **Donchian**: 10-50x speedup for large lookback periods (O(n) → O(1))
 - **Williams %R**: 10-50x speedup for large lookback periods
 - **Fisher Transform**: 10-50x speedup for price window
@@ -965,12 +1055,14 @@ foreach (double value in rsiBuffer)
 ### Total Task Count: 15 tasks
 
 **By User Story**:
+
 - US1 (CMO): 4 tasks (T001-T004)
 - US2 (CCI): 4 tasks (T005-T008)
 - US3 (Final Validation): 1 task (T009)
 - US4 (Rolling Window Refactorings): 6 tasks (T010-T015)
 
 **Parallel Opportunities**:
+
 - T001 and T005 can run in parallel [P] (analysis)
 - T002 and T006 can run in parallel [P] (test writing)
 - T010 and T011 can run in parallel [P] (simple refactorings)
@@ -980,19 +1072,23 @@ foreach (double value in rsiBuffer)
 ### Implementation Strategy
 
 **MVP Scope**: User Story 1 (CMO) - T001 through T004
+
 - Establishes rollback pattern
 - Validates approach with simpler buffer management
 - Provides reference for CCI implementation
 
 **Phase 2 Scope**: User Story 2 (CCI) - T005 through T008
+
 - Applies pattern to more complex state
 - Validates CciList state management
 
 **Phase 3 Scope**: User Story 3 (Final Validation) - T009
+
 - System-wide validation
 - Documentation updates
 
 **Phase 4 Scope**: User Story 4 (Rolling Window Refactorings) - T010 through T015
+
 - Performance optimizations using new utilities
 - O(n) → O(1) amortized improvements
 - Can be done incrementally, independently of US1-US3

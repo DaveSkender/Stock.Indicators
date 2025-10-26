@@ -25,8 +25,8 @@ This plan outlines the technical implementation strategy for adding proper `Roll
 ### Libraries & Frameworks
 
 - **Stock.Indicators** - Core library (this repository)
-- **System.Collections.Generic** - Queue<T>, List<T> for state management
-- **StreamHub Base Class** - Provides RollbackState virtual method
+- **System.Collections.Generic** - `Queue<T>`, `List<T>` for state management
+- **StreamHub Base Class** - Provides `RollbackState` virtual method
 - **ProviderCache** - Quote cache for state rebuilding
 
 ### Development Tools
@@ -138,11 +138,13 @@ specs/
 #### State Analysis
 
 **Current State**:
+
 ```csharp
 private readonly Queue<(bool? isUp, double value)> _tickBuffer;
 ```
 
 **Rebuild Logic** (currently inline):
+
 ```csharp
 bool canIncrement = Cache.Count > i
     && _tickBuffer.Count == LookbackPeriods
@@ -161,6 +163,7 @@ else
 #### Implementation Approach
 
 1. **Add RollbackState Method**:
+
    ```csharp
    protected override void RollbackState(DateTime timestamp)
    {
@@ -205,16 +208,19 @@ else
 #### State Analysis
 
 **Current State**:
+
 ```csharp
 private readonly CciList _cciList;
 ```
 
 **CciList Internals** (from BufferList-style implementation):
+
 - Rolling SMA calculation buffer
 - Mean deviation calculation buffer
 - Typical price storage
 
 **Current Synchronization Logic** (inline):
+
 ```csharp
 if (i == 0)
     _cciList.Clear(); _cciList.Add(item);
@@ -229,6 +235,7 @@ else // _cciList.Count > i
 #### Implementation Approach
 
 1. **Add RollbackState Method**:
+
    ```csharp
    protected override void RollbackState(DateTime timestamp)
    {
@@ -250,6 +257,7 @@ else // _cciList.Count > i
 2. **Simplify ToIndicator**:
    - Remove ALL state synchronization logic
    - Reduce to:
+
      ```csharp
      _cciList.Add(item);
      CciResult r = _cciList[^1];
@@ -270,6 +278,7 @@ else // _cciList.Count > i
 #### Utility Overview
 
 **RollingWindowMax<T>** and **RollingWindowMin<T>**:
+
 - Location: `src/_common/StreamHub/RollingWindowMax.cs`, `RollingWindowMin.cs`
 - Data Structure: Monotonic deque (LinkedList + Queue)
 - Time Complexity: O(1) amortized for Add and Max/Min operations
@@ -316,6 +325,7 @@ else // _cciList.Count > i
 #### Implementation Pattern
 
 **Before (O(n))**:
+
 ```csharp
 double max = double.MinValue;
 double min = double.MaxValue;
@@ -329,6 +339,7 @@ for (int p = i - LookbackPeriods; p < i; p++)
 ```
 
 **After (O(1) amortized)**:
+
 ```csharp
 // In constructor:
 _maxWindow = new RollingWindowMax<double>(lookbackPeriods);
@@ -526,6 +537,7 @@ Per [source-code-completion.instructions.md](../../.github/instructions/source-c
 ### Risk: Breaking Existing Behavior
 
 **Mitigation**:
+
 - Comprehensive regression test suite
 - Series parity validation (bit-for-bit equality)
 - Incremental implementation (one indicator at a time)
@@ -533,6 +545,7 @@ Per [source-code-completion.instructions.md](../../.github/instructions/source-c
 ### Risk: Performance Regression
 
 **Mitigation**:
+
 - Performance benchmarks before/after
 - Hot path remains clean (no added complexity)
 - Rollback operations only on Insert/Remove (infrequent)
@@ -540,6 +553,7 @@ Per [source-code-completion.instructions.md](../../.github/instructions/source-c
 ### Risk: Edge Case Handling
 
 **Mitigation**:
+
 - Test warmup periods explicitly
 - Test empty state scenarios
 - Test boundary conditions (index < lookbackPeriods)
