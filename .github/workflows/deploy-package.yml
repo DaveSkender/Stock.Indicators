@@ -332,11 +332,19 @@ jobs:
               -H "X-GitHub-Api-Version: 2022-11-28" \
               "/orgs/${REPO_OWNER}/packages/nuget/${PACKAGE_NAME}/versions?per_page=100&page=${page}" 2>/dev/null || echo "[]")
 
-            if [[ "$response" == "[]" ]] || [[ $(echo "$response" | jq '. | length') -eq 0 ]]; then
+            # Validate response is valid JSON
+            if ! echo "$response" | jq empty 2>/dev/null; then
+              echo "⚠️  Invalid JSON response on page ${page}, stopping pagination"
               break
             fi
 
-            all_versions=$(echo "$all_versions" | jq --argjson new "$response" '. + $new')
+            response_length=$(echo "$response" | jq -r '. | length')
+            if [[ "$response" == "[]" ]] || [[ "${response_length:-0}" -eq 0 ]]; then
+              break
+            fi
+
+            # Use jq slurp to safely merge arrays without --argjson
+            all_versions=$(jq -s '.[0] + .[1]' <(echo "$all_versions") <(echo "$response"))
             ((page++))
           done
 
@@ -344,8 +352,15 @@ jobs:
 
           # Filter to CI packages only (containing -ci. suffix)
           ci_versions=$(echo "$all_versions" | jq '[.[] | select(.name | contains("-ci."))]')
-          ci_count=$(echo "$ci_versions" | jq '. | length')
+          ci_count=$(echo "$ci_versions" | jq -r '. | length')
+          ci_count=${ci_count:-0}  # Default to 0 if not set
           echo "🔧 Found ${ci_count} CI package versions"
+
+          # Validate ci_count is numeric before comparison
+          if [[ ! "$ci_count" =~ ^[0-9]+$ ]]; then
+            echo "⚠️  Invalid CI package count: ${ci_count}"
+            ci_count=0
+          fi
 
           if [[ $ci_count -eq 0 ]]; then
             echo "✅ No CI packages to clean up"
