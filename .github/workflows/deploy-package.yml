@@ -157,9 +157,7 @@ jobs:
 
             # Add CI suffix for push events to main/v* branches
             if [[ "${{ steps.settings.outputs.is_ci_push }}" == "true" ]]; then
-              short_sha="${{ github.sha }}"
-              short_sha="${short_sha:0:7}"
-              suffix="${suffix}-ci.${short_sha}"
+              suffix="${suffix}-ci.${{ env.CommitsSinceVersionSource }}"
             fi
           else
             suffix=""
