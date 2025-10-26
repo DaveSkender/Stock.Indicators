@@ -1,14 +1,17 @@
-name: Deploy NuGet package
+name: Deploy package
 
-# Version format: major.minor.patch[-preview.suffix]
+# Version format: major.minor.patch[-preview.suffix][-ci.sha]
 # - Versioning managed by GitVersion
 # - Preview suffix toggled by "preview" input
+# - CI suffix automatically appended for push events to main/v* branches
 # - Non-preview versions on nuget.org restricted to main branch;
 #   runs targeting nuget.org from non-"main" branches will fail early.
 # - Default: patch increment unless "+semver:" message found
 #   or will use "next-version" if set in config
 # - Preview numbers auto-increment (e.g., preview.1 -> preview.2)
 # - Branches are only tagged with the version after deployments to nuget.org
+# - Only production deployments (non-preview to nuget.org) get "latest" tag
+# - Old CI packages (with -ci. suffix) auto-cleanup after 3 days (keep 5 most recent)
 
 on:
   push:
@@ -68,10 +71,14 @@ jobs:
         run: dotnet gitversion -config src/gitversion.yml -updateassemblyinfo
 
       - name: Validate preview settings
+        env:
+          INPUT_ENVIRONMENT: ${{ github.event.inputs.environment }}
+          GITHUB_REF: ${{ github.ref }}
+          INPUT_PREVIEW: ${{ github.event.inputs.preview }}
         run: |
-          if [[ "${{ github.event.inputs.environment }}" == "nuget.org" ]] && \
-             [[ "${{ github.ref }}" != "refs/heads/main" ]] && \
-             [[ "${{ github.event.inputs.preview }}" != "true" ]]; then
+          if [[ "$INPUT_ENVIRONMENT" == "nuget.org" ]] && \
+             [[ "$GITHUB_REF" != "refs/heads/main" ]] && \
+             [[ "$INPUT_PREVIEW" != "true" ]]; then
             echo "::error::Non-preview versions on nuget.org are only allowed from main branch"
             exit 1
           fi
@@ -87,6 +94,7 @@ jobs:
       environ: ${{ steps.settings.outputs.environ }}
       preview: ${{ steps.settings.outputs.preview }}
       dry_run: ${{ steps.settings.outputs.dry_run }}
+      is_ci_push: ${{ steps.settings.outputs.is_ci_push }}
 
     steps:
       - name: Set default inputs for dispatch
@@ -96,10 +104,13 @@ jobs:
             echo "environ=${{ inputs.environment }}" >> $GITHUB_OUTPUT
             echo "preview=${{ inputs.preview }}" >> $GITHUB_OUTPUT
             echo "dry_run=${{ inputs.dry_run }}" >> $GITHUB_OUTPUT
+            echo "is_ci_push=false" >> $GITHUB_OUTPUT
           else
-            echo "environ=" >> $GITHUB_OUTPUT
+            # Push to main/v* branches: publish to GitHub Packages with CI suffix
+            echo "environ=pkg.github.com" >> $GITHUB_OUTPUT
             echo "preview=true" >> $GITHUB_OUTPUT
-            echo "dry_run=true" >> $GITHUB_OUTPUT
+            echo "dry_run=false" >> $GITHUB_OUTPUT
+            echo "is_ci_push=true" >> $GITHUB_OUTPUT
           fi
 
       - name: Checkout source
@@ -107,11 +118,13 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Setup .NET
+      - name: Setup .NET SDK
         uses: actions/setup-dotnet@v5
         with:
           dotnet-version: "9.x"
           dotnet-quality: "ga"
+          cache: true
+          cache-dependency-path: "**/packages.lock.json"
 
       - name: Install dependencies
         run: |
@@ -141,6 +154,13 @@ jobs:
             else
               suffix="-preview.${{ env.CommitsSinceVersionSource }}"
             fi
+
+            # Add CI suffix for push events to main/v* branches
+            if [[ "${{ steps.settings.outputs.is_ci_push }}" == "true" ]]; then
+              short_sha="${{ github.sha }}"
+              short_sha="${short_sha:0:7}"
+              suffix="${suffix}-ci.${short_sha}"
+            fi
           else
             suffix=""
           fi
@@ -148,6 +168,13 @@ jobs:
           ver="${base}${suffix}"
           echo "version=$ver" >> $GITHUB_OUTPUT
           echo "Generated version: $ver"
+
+      - name: Replace "dumb" version markers
+        uses: jacobtomlinson/gha-find-replace@f1069b438f125e5395d84d1c6fd3b559a7880cb5
+        with:
+          find: "#{PACKAGE_VERSION}#"
+          replace: "${{ steps.version_info.outputs.version }}"
+          regex: false
 
       - name: Compose package info
         id: package_info
@@ -165,6 +192,7 @@ jobs:
           dotnet build src/Indicators.csproj
           --configuration Release
           --property:Version=${{ steps.version_info.outputs.version }}
+          --property:DefineConstants=VERSIONED_BUILD
           --property:ContinuousIntegrationBuild=true
           -warnAsError
 
@@ -215,11 +243,11 @@ jobs:
       environ: ${{ needs.package.outputs.environ }}
       url: ${{ needs.package.outputs.url }}
       name: ${{ needs.package.outputs.name }}
-      NUGET_PUBLISH_URL: ${{ needs.package.outputs.environ == 'nuget.org' && 'https://api.nuget.org/v3/index.json' || 'https://nuget.pkg.github.com/${{ github.repository }}/index.json' }}
+      NUGET_PUBLISH_URL: ${{ needs.package.outputs.environ == 'nuget.org' && 'https://api.nuget.org/v3/index.json' || format('https://nuget.pkg.github.com/{0}/index.json', github.repository_owner) }}
       NUGET_API_KEY: ${{ needs.package.outputs.environ == 'nuget.org' && secrets.NUGET_TOKEN || secrets.GITHUB_TOKEN }}
 
     steps:
-      - name: Setup .NET
+      - name: Setup .NET SDK
         uses: actions/setup-dotnet@v5
         with:
           dotnet-version: "9.x"
@@ -232,12 +260,30 @@ jobs:
           path: NuGet
 
       - name: Publish package
-        if: ${{ !env.dry_run }}
+        if: ${{ env.dry_run != 'true' }}
         run: >
           dotnet nuget push NuGet/*.nupkg
           --source "${{ env.NUGET_PUBLISH_URL }}"
           --api-key "${{ env.NUGET_API_KEY }}"
           --skip-duplicate
+
+      - name: Manage GitHub Packages latest tag
+        if: ${{ !env.dry_run && env.environ == 'pkg.github.com' }}
+        env:
+          GH_TOKEN: ${{ env.NUGET_API_KEY }}
+        run: |
+          # Only mark as latest if this is a production deployment (non-preview)
+          if [[ "${{ env.preview }}" == "false" ]]; then
+            echo "🏷️ This is a production deployment - will be marked as latest"
+            # The package is automatically tagged as latest when published to GitHub Packages
+            # if it's the highest semantic version without pre-release identifiers
+          else
+            echo "🏷️ This is a preview/CI deployment - will not be marked as latest"
+            # Preview versions are automatically handled correctly by GitHub Packages
+            # They won't become "latest" due to their pre-release suffixes
+          fi
+
+          echo "📦 Published ${{ env.name }} version ${{ env.version }} to GitHub Packages"
 
       - name: Tag and draft release note
         uses: ncipollo/release-action@v1
@@ -247,7 +293,7 @@ jobs:
             - **Preview**: ${{ env.preview && 'Yes' || 'No' }}
           generateReleaseNotes: true
           draft: true
-          makeLatest: ${{ !env.preview }}
+          makeLatest: ${{ !env.preview && env.environ == 'nuget.org' }}
           prerelease: ${{ env.preview }}
           tag: v${{ env.version }}
           commit: ${{ github.sha }}
@@ -258,4 +304,102 @@ jobs:
         run: |
           {
             echo "| Preview     | ${{ env.preview && '✓' || '✗' }} |"
+          } >> $GITHUB_STEP_SUMMARY
+
+  cleanup:
+    needs: [package, deploy]
+    runs-on: ubuntu-latest
+    if: success() && needs.package.outputs.is_ci_push == 'true' && needs.package.outputs.dry_run != 'true'
+
+    permissions:
+      packages: write
+
+    env:
+      PACKAGE_NAME: ${{ needs.package.outputs.name }}
+      REPO_OWNER: ${{ github.repository_owner }}
+
+    steps:
+      - name: Cleanup old CI packages
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "🔍 Cleaning up old CI packages for ${PACKAGE_NAME}"
+
+          # Get all package versions with pagination support
+          page=1
+          all_versions="[]"
+          while true; do
+            response=$(gh api \
+              -H "Accept: application/vnd.github+json" \
+              -H "X-GitHub-Api-Version: 2022-11-28" \
+              "/orgs/${REPO_OWNER}/packages/nuget/${PACKAGE_NAME}/versions?per_page=100&page=${page}" 2>/dev/null || echo "[]")
+
+            if [[ "$response" == "[]" ]] || [[ $(echo "$response" | jq '. | length') -eq 0 ]]; then
+              break
+            fi
+
+            all_versions=$(echo "$all_versions" | jq --argjson new "$response" '. + $new')
+            ((page++))
+          done
+
+          echo "📦 Found $(echo "$all_versions" | jq '. | length') total package versions"
+
+          # Filter to CI packages only (containing -ci. suffix)
+          ci_versions=$(echo "$all_versions" | jq '[.[] | select(.name | contains("-ci."))]')
+          ci_count=$(echo "$ci_versions" | jq '. | length')
+          echo "🔧 Found ${ci_count} CI package versions"
+
+          if [[ $ci_count -eq 0 ]]; then
+            echo "✅ No CI packages to clean up"
+            exit 0
+          fi
+
+          # Sort by created_at descending (newest first)
+          sorted_versions=$(echo "$ci_versions" | jq 'sort_by(.created_at) | reverse')
+
+          # Calculate cutoff date (3 days ago)
+          cutoff_date=$(date -u -d '3 days ago' +%Y-%m-%dT%H:%M:%SZ)
+          echo "📅 Cutoff date: ${cutoff_date}"
+
+          # Keep the 5 most recent, delete older ones that are past cutoff
+          deleted_count=0
+          index=0
+
+          # Use process substitution to avoid subshell issues
+          while IFS= read -r version; do
+            version_id=$(echo "$version" | jq -r '.id')
+            version_name=$(echo "$version" | jq -r '.name')
+            created_at=$(echo "$version" | jq -r '.created_at')
+
+            # Keep the first 5 (most recent)
+            if [[ $index -lt 5 ]]; then
+              echo "⏭️  Keeping recent version: ${version_name} (created: ${created_at})"
+            # Delete if older than 3 days
+            elif [[ "$created_at" < "$cutoff_date" ]]; then
+              echo "🗑️  Deleting old version: ${version_name} (created: ${created_at})"
+              if gh api \
+                --method DELETE \
+                -H "Accept: application/vnd.github+json" \
+                -H "X-GitHub-Api-Version: 2022-11-28" \
+                "/orgs/${REPO_OWNER}/packages/nuget/${PACKAGE_NAME}/versions/${version_id}" 2>/dev/null; then
+                ((deleted_count++))
+              else
+                echo "⚠️  Failed to delete version: ${version_name}"
+              fi
+            else
+              echo "⏭️  Keeping recent version: ${version_name} (created: ${created_at}, within 3 days)"
+            fi
+
+            ((index++))
+          done < <(echo "$sorted_versions" | jq -c '.[]')
+
+          echo "✅ Cleanup complete. Deleted ${deleted_count} old CI package versions"
+
+          {
+            echo "### 🧹 Package Cleanup Summary"
+            echo "| Metric | Value |"
+            echo "| :----- | :---- |"
+            echo "| Total CI Packages | ${ci_count} |"
+            echo "| Packages Deleted | ${deleted_count} |"
+            echo "| Packages Retained | $((ci_count - deleted_count)) |"
           } >> $GITHUB_STEP_SUMMARY
