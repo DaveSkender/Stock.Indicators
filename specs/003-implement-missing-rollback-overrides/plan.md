@@ -727,8 +727,3 @@ protected override void RollbackState(DateTime timestamp)
         // Recalculate all intermediate state...
     }
 }
-```
-
----
-
-Last updated: 2025-10-25
