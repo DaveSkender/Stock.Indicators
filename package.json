@@ -16,7 +16,7 @@
   "private": false,
   "packageManager": "npm@11.6.2",
   "engines": {
-    "node": ">=22.21.0",
+    "node": ">=24.10.0",
     "npm": ">=11.6.2"
   },
   "scripts": {
