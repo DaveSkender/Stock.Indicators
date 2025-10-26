@@ -78,12 +78,18 @@ jobs:
           INPUT_ENVIRONMENT: ${{ github.event.inputs.environment }}
           GITHUB_REF: ${{ github.ref }}
           INPUT_PREVIEW: ${{ github.event.inputs.preview }}
+          EVENT_NAME: ${{ github.event_name }}
         run: |
-          if [[ "$INPUT_ENVIRONMENT" == "nuget.org" ]] && \
-             [[ "$GITHUB_REF" != "refs/heads/main" ]] && \
-             [[ "$INPUT_PREVIEW" != "true" ]]; then
-            echo "::error::Non-preview versions on nuget.org are only allowed from main branch"
-            exit 1
+          # For manual dispatch: non-preview (production) versions are only allowed from main branch
+          # For push events: always allowed (they auto-set preview=true with -ci suffix)
+          if [[ "$EVENT_NAME" == "workflow_dispatch" ]]; then
+            if [[ "$GITHUB_REF" != "refs/heads/main" ]] && \
+               [[ "$INPUT_PREVIEW" != "true" ]]; then
+              echo "::error::Non-preview (production) versions are only allowed from main branch"
+              echo "::error::Current branch: $GITHUB_REF"
+              echo "::error::To deploy from this branch, set preview=true"
+              exit 1
+            fi
           fi
 
   package:
@@ -135,7 +141,7 @@ jobs:
           dotnet tool install --global GitVersion.Tool
 
       - name: Show GitVersion config
-        run: dotnet-gitversion -config src/gitversion.yml -showconfig
+        run: dotnet gitversion -config src/gitversion.yml -showconfig
 
       - name: Generate version info
         id: gitversion
@@ -271,15 +277,14 @@ jobs:
         env:
           GH_TOKEN: ${{ env.NUGET_API_KEY }}
         run: |
-          # Only mark as latest if this is a production deployment (non-preview)
-          if [[ "${{ env.preview }}" == "false" ]]; then
-            echo "🏷️ This is a production deployment - will be marked as latest"
-            # The package is automatically tagged as latest when published to GitHub Packages
-            # if it's the highest semantic version without pre-release identifiers
+          # Only production (non-preview) deployments from main branch should become 'latest'
+          # GitHub Packages automatically marks the highest semantic version without pre-release identifiers as 'latest'
+          if [[ "${{ env.preview }}" == "false" ]] && [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
+            echo "🏷️ This is a production deployment from main - will be marked as latest by GitHub Packages"
+            echo "   (no pre-release suffix, so it will automatically become latest if it's the highest version)"
           else
-            echo "🏷️ This is a preview/CI deployment - will not be marked as latest"
-            # Preview versions are automatically handled correctly by GitHub Packages
-            # They won't become "latest" due to their pre-release suffixes
+            echo "🏷️ This is a preview/CI deployment or not from main - will NOT be marked as latest"
+            echo "   (has pre-release suffix: ${{ env.version }})"
           fi
 
           echo "📦 Published ${{ env.name }} version ${{ env.version }} to GitHub Packages"
@@ -292,7 +297,7 @@ jobs:
             - **Preview**: ${{ env.preview && 'Yes' || 'No' }}
           generateReleaseNotes: true
           draft: true
-          makeLatest: ${{ !env.preview && env.environ == 'nuget.org' }}
+          makeLatest: ${{ !env.preview && env.environ == 'nuget.org' && github.ref == 'refs/heads/main' }}
           prerelease: ${{ env.preview }}
           tag: v${{ env.version }}
           commit: ${{ github.sha }}
@@ -319,6 +324,7 @@ jobs:
 
     steps:
       - name: Cleanup old CI packages
+        continue-on-error: true
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -333,6 +339,13 @@ jobs:
               -H "X-GitHub-Api-Version: 2022-11-28" \
               "/orgs/${REPO_OWNER}/packages/nuget/${PACKAGE_NAME}/versions?per_page=100&page=${page}" 2>/dev/null || echo "[]")
 
+            # Check if response is a valid array
+            if ! echo "$response" | jq -e 'type == "array"' >/dev/null; then
+              echo "⚠️  GitHub API returned error or non-array response: $response"
+              break
+            fi
+
+            # If response is an empty array, break
             if [[ "$response" == "[]" ]]; then
               break
             fi
