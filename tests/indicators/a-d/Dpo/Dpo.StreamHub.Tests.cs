@@ -90,9 +90,6 @@ public class DpoHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
     }
 
     [TestMethod]
-    [Ignore("DPO's lookahead nature makes chain provider support complex with late insertions. " +
-            "Requires architectural changes to support historical cache updates propagating to downstream observers. " +
-            "Tracked in issue #TBD.")]
     public void ChainProvider()
     {
         const int dpoPeriods = 20;
