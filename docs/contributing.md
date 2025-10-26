@@ -148,20 +148,48 @@ When using GitHub Copilot:
 
 We use the `GitVersion` tool for [semantic versioning](https://semver.org).  It is mostly auto generated in the build.
 
-Type | Format | Description
------------- | ------ | -----------
-Major | `x.-.-` | A significant deviation with major breaking changes.
-Minor | `-.x.-` | A new feature, usually new non-breaking change, such as adding an indicator.  Minor breaking changes may occur here and are denoted in the [release notes](https://github.com/DaveSkender/Stock.Indicators/releases).
-Patch | `-.-.x` | A small bug fix, chore, or documentation change.
-Increment | `-.-.-+x` | Intermediate commits between releases.
+| Type      | Format    | Description |
+| --------- | --------- | ----------- |
+| Major     | `x.-.-`   | A significant deviation with major breaking changes. |
+| Minor     | `-.x.-`   | A new feature, usually new non-breaking change, such as adding an indicator.  Minor breaking changes may occur here and are denoted in the [release notes](https://github.com/DaveSkender/Stock.Indicators/releases). |
+| Patch     | `-.-.x`   | A small bug fix, chore, or documentation change. |
+| Increment | `-.-.-+x` | Intermediate commits between releases. |
 
-This only needs to be done on the merge to `main` when the Pull Request is committed, so your feature branch does not need to include this as it will get squashed anyway.
+Using these merge commit messages only needs to be done on the merge to `main` when the Pull Request is committed and need to reflect a minor or major version update.  Incremental feature branch commits do not need to include this as it will get squashed anyway.
 
 - Adding `+semver: major` as a PR merge commit message will increment the major x.-.- element
 - Adding `+semver: minor` as a PR merge commit message will increment the minor -.x.- element
-- Adding `+semver: patch` as a PR merge commit message will increment the minor -.-.x element.  Patch element auto-increments, so you'd only need to do this to override the next value.
+- Adding `+semver: patch` as a PR merge commit message will increment the minor -.-.x element (default).  Patch element auto-increments, so you'd only need to do this to override the next value.
 
 A Git `tag`, in accordance with the above schema, is introduced automatically after deploying to the public NuGet package manager and is reflected in the [Releases](https://github.com/DaveSkender/Stock.Indicators/releases).
+
+### Version marker and suffix taxonomy
+
+When the packager deployer runs, it will produce versions and naming follow these rules:
+
+| Trigger | Branch | Environment    | Preview | Dry-run | Suffix       | Example           |
+| :------ | :----- | :------------- | :-----: | :-----: | :----------- | :---------------- |
+| Push    | main   | pkg.github.com | Yes     | No      | `-ci.X`      | `2.6.2-ci.45`     |
+| Push    | v*     | pkg.github.com | Yes     | No      | `-ci.X`      | `3.0.0-ci.16`     |
+| Manual  | any    | pkg.github.com | Yes     | Yes     | `-preview.N` | `3.0.0-preview.2` |
+| Manual  | any    | nuget.org      | Yes     | Yes     | `-preview.N` | `3.0.0-preview.2` |
+| Manual  | main   | nuget.org      | No      | Yes     |  _(none)_    | `2.6.2`           |
+| Manual  | main   | nuget.org      | No      | No      |  _(none)_    | `2.6.2`           |
+
+**Legend:**
+
+- _Preview_: If true, version gets a preview or CI suffix
+- _Dry-run_: If true, package is not published (for testing only)
+- _Suffix_: Shows how the version string is modified
+- _Example_: Illustrative version number for each scenario.
+
+> Additional info:
+>
+> - `X` is a sequential number based on the last CI publish.
+> - `R` is a sequential number based on the last tagged production deployment.
+> - Only a `main` non-dry-run trigger will tag the branch with an official release marker.
+
+For more details, see the [deploy-package.yml](../.github/workflows/deploy-package.yml) workflow.
 
 ## License
 
