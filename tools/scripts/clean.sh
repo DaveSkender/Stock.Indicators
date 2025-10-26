@@ -58,8 +58,8 @@ done
 # restore
 echo ""
 echo "=== Restoring caches ==="
-dotnet restore --force-evaluate
 npm install
+dotnet restore --force-evaluate
 
 echo ""
 echo "✓ Cleanup completed!"
