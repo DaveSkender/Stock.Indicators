@@ -1,15 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project>
   <PropertyGroup>
-    <!-- Shared warnings suppression for all test projects under /tests -->
+    <!-- Additional warnings suppression specific to test projects -->
     <!-- NU1507: Security audit warnings for NuGet packages -->
     <!-- CA1303: Do not pass literals as localized parameters (tests use hardcoded strings) -->
     <!-- CA1707: Identifiers should not contain underscores (allow underscores in test method names, see tests/agents.md) -->
     <!-- CS1591: Missing XML documentation comments (not required for tests) -->
     <NoWarn>$(NoWarn);NU1507;CA1303;CA1707;CS1591</NoWarn>
-
-    <!-- NuGet lock file for deterministic package restore -->
-    <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
-    <RestoreLockedMode Condition="'$(ContinuousIntegrationBuild)' == 'true'">true</RestoreLockedMode>
   </PropertyGroup>
 </Project>

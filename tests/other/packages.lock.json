@@ -2,6 +2,15 @@
   "version": 2,
   "dependencies": {
     "net9.0": {
+      "FluentAssertions": {
+        "type": "Direct",
+        "requested": "[6.12.2, )",
+        "resolved": "6.12.2",
+        "contentHash": "8YE+xJmT8wgzEpFuzJ4S62oFhEL/AKouMz1RWPEMEUhy9H11aRQlGIWcHurH5BEy7tbF6gb0CJrs0wOw/AtDcQ==",
+        "dependencies": {
+          "System.Configuration.ConfigurationManager": "4.4.0"
+        }
+      },
       "Microsoft.NET.Test.Sdk": {
         "type": "Direct",
         "requested": "[18.0.0, )",
@@ -161,15 +170,6 @@
           "MSTest.TestFramework": "[4.0.1, )",
           "Microsoft.NET.Test.Sdk": "[18.0.0, )",
           "Skender.Stock.Indicators": "[1.0.0, )"
-        }
-      },
-      "FluentAssertions": {
-        "type": "CentralTransitive",
-        "requested": "[6.12.2, )",
-        "resolved": "6.12.2",
-        "contentHash": "8YE+xJmT8wgzEpFuzJ4S62oFhEL/AKouMz1RWPEMEUhy9H11aRQlGIWcHurH5BEy7tbF6gb0CJrs0wOw/AtDcQ==",
-        "dependencies": {
-          "System.Configuration.ConfigurationManager": "4.4.0"
         }
       }
     }

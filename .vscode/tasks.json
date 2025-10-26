@@ -12,7 +12,6 @@
     }
   ],
   // defaults
-  "group": "none",
   "presentation": {
     "echo": true,
     "reveal": "always",
