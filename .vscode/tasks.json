@@ -172,7 +172,7 @@
     },
     {
       "label": "Fix: .NET code",
-      "detail": "Auto-fix markdown formatting issues",
+      "detail": "Auto-fix .NET code formatting issues",
       "type": "npm",
       "script": "lint:code:fix",
       "group": "none",
