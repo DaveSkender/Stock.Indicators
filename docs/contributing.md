@@ -189,7 +189,7 @@ When the packager deployer runs, it will produce versions and naming follow thes
 > - `R` is a sequential number based on the last tagged production deployment.
 > - Only a `main` non-dry-run trigger will tag the branch with an official release marker.
 
-For more details, see the [deploy-package.yml](../.github/workflows/deploy-package.yml) workflow.
+For more details, see the [`deploy-package.yml`](https://github.com/DaveSkender/Stock.Indicators/blob/main/.github/workflows/deploy-package.yml) workflow.
 
 ## License
 
