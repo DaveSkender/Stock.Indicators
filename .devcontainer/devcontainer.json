@@ -1,4 +1,9 @@
 {
+  // key references:
+  // https://code.visualstudio.com/docs/devcontainers/create-dev-container
+  // https://github.com/devcontainers/images/blob/main/src/dotnet
+  // https://github.com/devcontainers/features
+  "$schema": "https://raw.githubusercontent.com/devcontainers/spec/main/schemas/devContainer.schema.json",
   "name": "Stock Indicators Dev Container",
   "image": "mcr.microsoft.com/dotnet/sdk:9.0",
   "features": {
@@ -13,24 +18,24 @@
       "version": "latest",
       "ppa": true
     },
+    "ghcr.io/devcontainers/features/github-cli:1": {
+      "version": "latest"
+    },
+    "ghcr.io/devcontainers/features/node:1": {
+      "version": "24.10.0"
+    },
     "ghcr.io/devcontainers/features/ruby:1": {
       "version": "3.3"
     },
-    "ghcr.io/devcontainers/features/node:1": {
-      "version": "lts"
-    },
     "ghcr.io/devcontainers-extra/features/uv:1": {
-      "version": "latest"
-    },
-    "ghcr.io/devcontainers/features/github-cli:1": {
       "version": "latest"
     }
   },
   "customizations": {
     "vscode": {
       "settings": {
-        "chat.tools.global.autoApprove": true,
         "chat.mcp.autostart": "never",
+        "chat.tools.global.autoApprove": true,
         "terminal.integrated.defaultProfile.linux": "zsh"
       },
       "extensions": [
@@ -40,7 +45,7 @@
         "DotJoshJohnson.xml",
         "EditorConfig.EditorConfig",
         "github.vscode-github-actions",
-        "GitHub.copilot-chat",
+        "GitHub.copilot",
         "ms-dotnettools.vscodeintellicode-csharp",
         "redhat.vscode-yaml"
       ]
