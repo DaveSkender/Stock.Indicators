@@ -25,16 +25,18 @@ jobs:
       - name: Checkout source
         uses: actions/checkout@v5
 
-      - name: Setup .NET
+      - name: Setup .NET SDK
         uses: actions/setup-dotnet@v5
         with:
           dotnet-version: "9.x"
           dotnet-quality: "ga"
+          cache: true
+          cache-dependency-path: "**/packages.lock.json"
 
       - name: Setup Node.js
         uses: actions/setup-node@v6
         with:
-          node-version: ">=22.21.0"
+          node-version: ">=24.10.0"
           cache: "npm"
           cache-dependency-path: package-lock.json
 
