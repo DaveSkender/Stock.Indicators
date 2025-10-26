@@ -324,6 +324,7 @@ jobs:
 
     steps:
       - name: Cleanup old CI packages
+        continue-on-error: true
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
