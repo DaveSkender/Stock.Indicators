@@ -190,6 +190,7 @@ public static partial class Catalog
         // Gator Oscillator
         _listings.Add(Gator.BufferListing);
         _listings.Add(Gator.SeriesListing);
+        _listings.Add(Gator.StreamListing);
 
         // Heikin Ashi
         _listings.Add(HeikinAshi.BufferListing);
