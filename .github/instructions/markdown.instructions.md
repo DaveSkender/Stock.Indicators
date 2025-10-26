@@ -64,7 +64,11 @@ Include a `Last updated: <Month Day, Year>` line at the end, preceded by a blank
 Rules for Last updated element:
 
 - Use only for specification, instructional, and developer documentation.
-  - Do not include on Markdown files used as website source pages.
+  - **Do not include on:**
+    - Markdown files used as website source pages (e.g. Jekyll in `docs/**`)
+    - Spec Kit files (`.specify/**`, `.github/prompts/speckit.*`)
+    - Feature specification files (`specs/**`)
+  - **Do include on:** instruction files (`.github/instructions/**`), repository root documentation
 - Place it last.
 - Use the current date.
 
@@ -81,7 +85,7 @@ Last updated: July 4, 2025
 
 - Fix broken internal links.
 - Use reference-style links for complex documents.
-- Prefer relative paths for intra-repo links.
+- Use relative paths for intra-repo links.
 
 ## Allowed HTML and front matter
 
@@ -133,4 +137,4 @@ Rules for Mermaid diagrams:
   Usage: type a snippet prefix (e.g., `doctemplate`, `table`, `tasks`) and press Tab.
 
 ---
-Last updated: September 26, 2025
+Last updated: October 26, 2025
