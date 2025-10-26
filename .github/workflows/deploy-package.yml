@@ -1,9 +1,12 @@
 name: Deploy package
 
-# Version format: major.minor.patch[-preview.suffix][-ci.sha]
+## Version marker and suffix taxonomy
+# Version format: major.minor.patch[-preview.N|-ci.X]
 # - Versioning managed by GitVersion
-# - Preview suffix toggled by "preview" input
-# - CI suffix automatically appended for push events to main/v* branches
+# - Suffixes:
+#   - Push to main/v* branches (pkg.github.com): `-ci.X` (X = CI build number)
+#   - Manual dispatch (preview true, any env): `-preview.N` (N = preview number)
+#   - Manual dispatch (preview false, nuget.org, main, dry_run false): (none)
 # - Non-preview versions on nuget.org restricted to main branch;
 #   runs targeting nuget.org from non-"main" branches will fail early.
 # - Default: patch increment unless "+semver:" message found
@@ -11,7 +14,7 @@ name: Deploy package
 # - Preview numbers auto-increment (e.g., preview.1 -> preview.2)
 # - Branches are only tagged with the version after deployments to nuget.org
 # - Only production deployments (non-preview to nuget.org) get "latest" tag
-# - Old CI packages (with -ci. suffix) auto-cleanup after 3 days (keep 5 most recent)
+# - Old CI packages (with -ci.X suffix) auto-cleanup after 3 days (keep 5 most recent)
 
 on:
   push:
@@ -149,15 +152,13 @@ jobs:
 
           # conditional suffix
           if [[ "${{ steps.settings.outputs.preview }}" == "true" ]]; then
-            if [[ -n "${{ env.PreReleaseTag }}" ]]; then
+            # CI pushes use only -ci.X suffix
+            if [[ "${{ steps.settings.outputs.is_ci_push }}" == "true" ]]; then
+              suffix="-ci.${{ env.CommitsSinceVersionSource }}"
+            elif [[ -n "${{ env.PreReleaseTag }}" ]]; then
               suffix="-${{ env.PreReleaseTag }}.${{ env.PreReleaseNumber }}"
             else
               suffix="-preview.${{ env.CommitsSinceVersionSource }}"
-            fi
-
-            # Add CI suffix for push events to main/v* branches
-            if [[ "${{ steps.settings.outputs.is_ci_push }}" == "true" ]]; then
-              suffix="${suffix}-ci.${{ env.CommitsSinceVersionSource }}"
             fi
           else
             suffix=""
@@ -332,19 +333,19 @@ jobs:
               -H "X-GitHub-Api-Version: 2022-11-28" \
               "/orgs/${REPO_OWNER}/packages/nuget/${PACKAGE_NAME}/versions?per_page=100&page=${page}" 2>/dev/null || echo "[]")
 
-            if [[ "$response" == "[]" ]] || [[ $(echo "$response" | jq '. | length') -eq 0 ]]; then
+            if [[ "$response" == "[]" ]]; then
               break
             fi
 
-            all_versions=$(echo "$all_versions" | jq --argjson new "$response" '. + $new')
+            all_versions=$(jq -s '.[0] + .[1]' <(echo "$all_versions") <(echo "$response"))
             ((page++))
           done
 
-          echo "📦 Found $(echo "$all_versions" | jq '. | length') total package versions"
+          echo "📦 Found $(echo "$all_versions" | jq 'length') total package versions"
 
           # Filter to CI packages only (containing -ci. suffix)
           ci_versions=$(echo "$all_versions" | jq '[.[] | select(.name | contains("-ci."))]')
-          ci_count=$(echo "$ci_versions" | jq '. | length')
+          ci_count=$(echo "$ci_versions" | jq 'length')
           echo "🔧 Found ${ci_count} CI package versions"
 
           if [[ $ci_count -eq 0 ]]; then
