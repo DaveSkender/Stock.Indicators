@@ -58,8 +58,10 @@ public class SmaHub
 
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
-        // Efficiently maintain window using O(1) queue operations
-        // Calculate sum from queue to maintain precision with Series
+        // Optimized sliding window approach:
+        // - Uses Queue for O(1) enqueue/dequeue operations
+        // - Avoids repeated ProviderCache access (reduces infrastructure overhead)
+        // - Recalculates sum from queue to maintain floating-point precision parity with Series
         double value = item.Value;
         double? sma = null;
 

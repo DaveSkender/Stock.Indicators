@@ -49,6 +49,10 @@ public class WmaHub
         ArgumentNullException.ThrowIfNull(item);
         int index = indexHint ?? ProviderCache.IndexOf(item, true);
 
+        // Optimized sliding window approach:
+        // - Uses Queue for O(1) window management
+        // - Converts to array for O(1) indexed access during weighted sum calculation
+        // - Divisor pre-calculated in constructor
         double value = item.Value;
         double? wma = null;
 
