@@ -92,7 +92,7 @@ Use these concrete hubs and tests as canonical patterns when implementing new st
 - Quote-only provider:
   - `src/m-r/Renko/Renko.StreamHub.cs` — quote provider pattern that cannot observe chains
 
-Previously deferred indicators (Fractal, HtTrendline, Hurst, Ichimoku, Slope) are complex but not blocked. Choose the closest reference above (multi-series, multi-buffer, or pairs) and follow the member ordering, provider selection, and test coverage rules in this file.
+Previously deferred indicators (Fractal, HtTrendline, Hurst, Ichimoku, Slope) are complex but not blocked. Note that Slope has a BufferList implementation but not yet a StreamHub. Choose the closest reference above (multi-series, multi-buffer, or pairs) and follow the member ordering, provider selection, and test coverage rules in this file.
 
 ## Canonical stream hub member order
 
@@ -736,4 +736,4 @@ foreach (var quote in liveQuotes)
 ```
 
 ---
-Last updated: October 24, 2025
+Last updated: October 26, 2025

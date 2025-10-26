@@ -278,15 +278,17 @@ Study these exemplary buffer indicators that demonstrate proper use of universal
 - **ADX**: `src/a-d/Adx/Adx.BufferList.cs` - Complex object buffer management
 - **MAMA**: `src/m-r/Mama/Mama.BufferList.cs` - List-based state with separate state array pruning
 - **Volatility Stop (historical repaint)**: `src/s-z/VolatilityStop/VolatilityStop.BufferList.cs` — Demonstrates correct handling of trailing stop recalculation and repainting of historical values when new extrema arrive. Use this as the canonical pattern for indicators that legitimately revise past outputs based on future bars.
+- **Slope (PruneList with index tracking)**: `src/s-z/Slope/Slope.BufferList.cs` — Demonstrates PruneList() override to maintain globalIndexOffset for proper X-value calculation across list pruning, with legitimate historical repaint of Line values. Shows performance optimization techniques (pre-calculated constants, mathematical formulas instead of iteration).
 - **Dual-input (pairs)**:
   - `src/a-d/Correlation/Correlation.BufferList.cs` — Pairwise rolling statistics with timestamp alignment requirements
   - `src/a-d/Beta/Beta.BufferList.cs` — Dual-series regression/risk example built on the same pairs pattern
 
-When implementing other complex or previously deferred indicators (for example: Fractal, HtTrendline, Hurst, Ichimoku, Slope), prefer adapting from the closest matching reference above rather than writing bespoke buffer logic. In particular:
+When implementing other complex or previously deferred indicators (for example: Fractal, HtTrendline, Hurst, Ichimoku), prefer adapting from the closest matching reference above rather than writing bespoke buffer logic. In particular:
 
 - For multi-buffer pipelines, start from HMA.
 - For complex state objects, start from ADX.
-- For legitimate historical repaint behavior, start from Volatility Stop.
+- For legitimate historical repaint behavior, start from Volatility Stop or Slope.
+- For PruneList override with index tracking, start from Slope.
 - For synchronized dual-series inputs, start from Correlation/Beta.
 
 > [!NOTE]
@@ -296,4 +298,4 @@ When implementing other complex or previously deferred indicators (for example: 
 > - StreamHub tests: `specs/001-develop-streaming-indicators/checklists/stream-hub-tests.md`
 
 ---
-Last updated: October 13, 2025
+Last updated: October 26, 2025
