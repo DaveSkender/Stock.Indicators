@@ -112,7 +112,10 @@ public class WmaHub
 
         // Rebuild window from ProviderCache
         int index = ProviderCache.IndexGte(timestamp);
-        if (index <= 0) return;
+        if (index <= 0)
+        {
+            return;
+        }
 
         int targetIndex = index - 1;
         int startIdx = Math.Max(0, targetIndex + 1 - LookbackPeriods);
