@@ -15,7 +15,6 @@ DELETE_FOLDERS=(
 )
 
 DELETE_FILES=(
-  "packages.lock.json"
   "package-lock.json"
   "*.tmp"
   "*.bak"
@@ -59,8 +58,8 @@ done
 # restore
 echo ""
 echo "=== Restoring caches ==="
-dotnet restore
 npm install
+dotnet restore --force-evaluate
 
 echo ""
 echo "✓ Cleanup completed!"
