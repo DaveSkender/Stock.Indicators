@@ -7,10 +7,15 @@ public class ConnorsRsiHub
     : ChainProvider<IReusable, ConnorsRsiResult>, IConnorsRsi
 {
     private readonly string hubName;
-    private readonly RsiHub _rsiClose;
     private readonly Queue<double> _gainBuffer;
+    private readonly Queue<double> _streakBuffer;
     private double _prevValue = double.NaN;
     private double _streak;
+    private int _processedCount;
+
+    // State for RSI of close calculation (Wilder's smoothing)
+    private double _avgGain = double.NaN;
+    private double _avgLoss = double.NaN;
 
     // State for RSI of streak calculation (Wilder's smoothing)
     private double _avgStreakGain = double.NaN;
@@ -38,10 +43,8 @@ public class ConnorsRsiHub
         RankPeriods = rankPeriods;
         hubName = $"CRSI({rsiPeriods},{streakPeriods},{rankPeriods})";
 
-        // Create internal RSI hub for close price
-        _rsiClose = provider.ToRsiHub(rsiPeriods);
-
         _gainBuffer = new Queue<double>(rankPeriods + 1);
+        _streakBuffer = new Queue<double>(streakPeriods + 2);
 
         Reinitialize();
     }
@@ -67,22 +70,22 @@ public class ConnorsRsiHub
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
         // Calculate streak
-        double streak = CalculateStreak(item.Value, i);
+        double streak = CalculateStreak(item.Value, _processedCount);
+        _streakBuffer.Update(StreakPeriods + 2, streak);
 
-        // Get RSI of close
-        RsiResult rsiCloseResult = _rsiClose.Results[i];
-        double? rsi = rsiCloseResult.Rsi;
+        // Calculate RSI of close
+        double? rsi = CalculateRsiOfClose(item.Value, _processedCount);
 
         // Calculate RSI of streak
-        double? rsiStreak = CalculateRsiOfStreak(streak, i);
+        double? rsiStreak = CalculateRsiOfStreak(streak, _processedCount);
 
         // Calculate gain and percent rank
-        double gain = CalculateGain(item.Value, i);
+        double gain = CalculateGain(item.Value, _processedCount);
         _gainBuffer.Update(RankPeriods + 1, gain);
-        double? percentRank = CalculatePercentRank(gain, i);
+        double? percentRank = CalculatePercentRank(gain, _processedCount);
 
         // Calculate Connors RSI
-        double? connorsRsi = CalculateConnorsRsi(rsi, rsiStreak, percentRank, i);
+        double? connorsRsi = CalculateConnorsRsi(rsi, rsiStreak, percentRank, _processedCount);
 
         // candidate result
         ConnorsRsiResult r = new(
@@ -96,6 +99,7 @@ public class ConnorsRsiHub
         // Update state for next iteration
         _prevValue = item.Value;
         _prevStreak = streak;
+        _processedCount++;
 
         return (r, i);
     }
@@ -128,9 +132,96 @@ public class ConnorsRsiHub
         return _streak;
     }
 
-    private double? CalculateRsiOfStreak(double streak, int index)
+    private double? CalculateRsiOfClose(double value, int index)
     {
-        if (index < StreakPeriods)
+        if (index < RsiPeriods)
+        {
+            return null;
+        }
+
+        double? rsi = null;
+
+        // Get current gain/loss
+        double gain;
+        double loss;
+        if (!double.IsNaN(value) && !double.IsNaN(_prevValue))
+        {
+            gain = value > _prevValue ? value - _prevValue : 0;
+            loss = value < _prevValue ? _prevValue - value : 0;
+        }
+        else
+        {
+            gain = loss = double.NaN;
+        }
+
+        // Initialize average gain/loss when needed
+        if (index >= RsiPeriods && (double.IsNaN(_avgGain) || double.IsNaN(_avgLoss)))
+        {
+            double sumGain = 0;
+            double sumLoss = 0;
+
+            // Sum gains and losses over lookback period
+            for (int p = index - RsiPeriods + 1; p <= index; p++)
+            {
+                double pPrevVal = ProviderCache[p - 1].Value;
+                double pCurrVal = ProviderCache[p].Value;
+                double pGain;
+                double pLoss;
+                if (!double.IsNaN(pCurrVal) && !double.IsNaN(pPrevVal))
+                {
+                    pGain = pCurrVal > pPrevVal ? pCurrVal - pPrevVal : 0;
+                    pLoss = pCurrVal < pPrevVal ? pPrevVal - pCurrVal : 0;
+                }
+                else
+                {
+                    pGain = pLoss = double.NaN;
+                }
+
+                sumGain += pGain;
+                sumLoss += pLoss;
+            }
+
+            _avgGain = sumGain / RsiPeriods;
+            _avgLoss = sumLoss / RsiPeriods;
+
+            rsi = !double.IsNaN(_avgGain / _avgLoss)
+                  ? _avgLoss > 0 ? 100 - (100 / (1 + (_avgGain / _avgLoss))) : 100
+                  : null;
+        }
+        // Calculate RSI incrementally
+        else if (index > RsiPeriods && !double.IsNaN(_avgGain) && !double.IsNaN(_avgLoss))
+        {
+            if (!double.IsNaN(gain))
+            {
+                _avgGain = ((_avgGain * (RsiPeriods - 1)) + gain) / RsiPeriods;
+                _avgLoss = ((_avgLoss * (RsiPeriods - 1)) + loss) / RsiPeriods;
+
+                if (_avgLoss > 0)
+                {
+                    double rs = _avgGain / _avgLoss;
+                    rsi = 100 - (100 / (1 + rs));
+                }
+                else
+                {
+                    rsi = 100;
+                }
+            }
+            else
+            {
+                // Reset state if we hit NaN
+                _avgGain = double.NaN;
+                _avgLoss = double.NaN;
+            }
+        }
+
+        return rsi;
+    }
+
+    private double? CalculateRsiOfStreak(double streak, int processedCount)
+    {
+        // RSI of streak needs StreakPeriods + 2 periods minimum  
+        // (1 extra for the initial value, 1 for the streak calculation)
+        if (processedCount < StreakPeriods + 2)
         {
             return null;
         }
@@ -151,51 +242,19 @@ public class ConnorsRsiHub
         }
 
         // Initialize average gain/loss when needed
-        if (index >= StreakPeriods && (double.IsNaN(_avgStreakGain) || double.IsNaN(_avgStreakLoss)))
+        if (processedCount >= StreakPeriods + 2 && (double.IsNaN(_avgStreakGain) || double.IsNaN(_avgStreakLoss)))
         {
             double sumGain = 0;
             double sumLoss = 0;
 
-            // Calculate streaks from cache for initial period
-            List<double> streaks = new();
-            for (int p = 0; p <= index; p++)
-            {
-                double pValue = ProviderCache[p].Value;
-                double pPrevValue = p > 0 ? ProviderCache[p - 1].Value : double.NaN;
+            // Calculate gains/losses from streak buffer
+            // We need StreakPeriods + 1 streak values to calculate StreakPeriods gain/loss pairs
+            double[] streaks = _streakBuffer.ToArray();
 
-                double pStreak;
-                if (p == 0)
-                {
-                    pStreak = 0;
-                }
-                else
-                {
-                    double prevStreakValue = streaks[p - 1];
-                    if (double.IsNaN(pValue) || double.IsNaN(pPrevValue))
-                    {
-                        pStreak = double.NaN;
-                    }
-                    else if (pValue > pPrevValue)
-                    {
-                        pStreak = prevStreakValue >= 0 ? prevStreakValue + 1 : 1;
-                    }
-                    else if (pValue < pPrevValue)
-                    {
-                        pStreak = prevStreakValue <= 0 ? prevStreakValue - 1 : -1;
-                    }
-                    else
-                    {
-                        pStreak = 0;
-                    }
-                }
-                streaks.Add(pStreak);
-            }
-
-            // Calculate gains/losses from streaks
-            for (int p = index - StreakPeriods + 1; p <= index; p++)
+            for (int p = 1; p < streaks.Length; p++)
             {
                 double pStreak = streaks[p];
-                double pPrevStreak = p > 0 ? streaks[p - 1] : double.NaN;
+                double pPrevStreak = streaks[p - 1];
 
                 double pGain;
                 double pLoss;
@@ -221,7 +280,7 @@ public class ConnorsRsiHub
                   : null;
         }
         // Calculate RSI incrementally
-        else if (index > StreakPeriods && !double.IsNaN(_avgStreakGain) && !double.IsNaN(_avgStreakLoss))
+        else if (processedCount > StreakPeriods + 2 && !double.IsNaN(_avgStreakGain) && !double.IsNaN(_avgStreakLoss))
         {
             if (!double.IsNaN(streakGain))
             {
@@ -301,13 +360,19 @@ public class ConnorsRsiHub
         _prevValue = double.NaN;
         _prevStreak = double.NaN;
         _streak = 0;
+        _processedCount = 0;
+
+        // Clear RSI of close state
+        _avgGain = double.NaN;
+        _avgLoss = double.NaN;
 
         // Clear RSI of streak state
         _avgStreakGain = double.NaN;
         _avgStreakLoss = double.NaN;
 
-        // Clear gain buffer
+        // Clear buffers
         _gainBuffer.Clear();
+        _streakBuffer.Clear();
 
         // Rebuild state from ProviderCache
         int index = ProviderCache.IndexGte(timestamp);
@@ -327,6 +392,7 @@ public class ConnorsRsiHub
                 _streak = 0;
                 _prevValue = value;
                 _prevStreak = 0;
+                _processedCount = 1;
             }
             else
             {
@@ -360,6 +426,13 @@ public class ConnorsRsiHub
 
                 _prevValue = value;
                 _prevStreak = _streak;
+                _processedCount++;
+            }
+
+            // Add to streak buffer (keep last StreakPeriods + 2 values)
+            if (p >= targetIndex - (StreakPeriods + 1))
+            {
+                _streakBuffer.Enqueue(_streak);
             }
         }
     }
