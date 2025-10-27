@@ -12,5 +12,5 @@ public class ConnorsRsiTests : RegressionTestBase<ConnorsRsiResult>
     public override void Buffer() => Quotes.ToConnorsRsiList(3, 2, 100).AssertEquals(Expected);
 
     [TestMethod]
-    public override void Stream() => Assert.Inconclusive("Stream implementation not yet available");
+    public override void Stream() => Quotes.ToConnorsRsiHub(3, 2, 100).Results.AssertEquals(Expected);
 }
