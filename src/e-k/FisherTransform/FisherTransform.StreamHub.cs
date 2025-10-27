@@ -14,7 +14,9 @@ public class FisherTransformHub
     /// </summary>
     private readonly List<double> xv = []; // value transform (intermediate state)
 
-    // Rolling windows for O(1) price min/max tracking
+    /// <summary>
+    /// Rolling windows for O(1) price min/max tracking
+    /// </summary>
     private readonly RollingWindowMax<double> _priceMaxWindow;
     private readonly RollingWindowMin<double> _priceMinWindow;
 
