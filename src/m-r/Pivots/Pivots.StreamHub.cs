@@ -140,11 +140,9 @@ public class PivotsHub
                         : PivotTrend.Lh;
 
                     // Update the last high result with its line value
-                    PivotsResult lastHighResult = Cache[(int)lastHighIndex];
-                    PivotsResult updatedLastHigh = lastHighResult with {
+                    Cache[(int)lastHighIndex] = Cache[(int)lastHighIndex] with {
                         HighLine = lastHighValue
                     };
-                    Cache[(int)lastHighIndex] = updatedLastHigh;
 
                     decimal? incr = (current.HighPoint - lastHighValue)
                         / (i - lastHighIndex);
@@ -154,14 +152,10 @@ public class PivotsHub
                     {
                         if (t < Cache.Count)
                         {
-                            PivotsResult existingResult = Cache[t];
-                            decimal? highLineValue = current.HighPoint
-                                + (incr * (t - i));
-                            PivotsResult repainted = existingResult with {
-                                HighLine = highLineValue,
+                            Cache[t] = Cache[t] with {
+                                HighLine = current.HighPoint + (incr * (t - i)),
                                 HighTrend = trend
                             };
-                            Cache[t] = repainted;
                         }
                     }
                 }
@@ -182,11 +176,9 @@ public class PivotsHub
                         : PivotTrend.Ll;
 
                     // Update the last low result with its line value
-                    PivotsResult lastLowResult = Cache[(int)lastLowIndex];
-                    PivotsResult updatedLastLow = lastLowResult with {
+                    Cache[(int)lastLowIndex] = Cache[(int)lastLowIndex] with {
                         LowLine = lastLowValue
                     };
-                    Cache[(int)lastLowIndex] = updatedLastLow;
 
                     decimal? incr = (current.LowPoint - lastLowValue)
                         / (i - lastLowIndex);
@@ -196,14 +188,10 @@ public class PivotsHub
                     {
                         if (t < Cache.Count)
                         {
-                            PivotsResult existingResult = Cache[t];
-                            decimal? lowLineValue = current.LowPoint
-                                + (incr * (t - i));
-                            PivotsResult repainted = existingResult with {
-                                LowLine = lowLineValue,
+                            Cache[t] = Cache[t] with {
+                                LowLine = current.LowPoint + (incr * (t - i)),
                                 LowTrend = trend
                             };
-                            Cache[t] = repainted;
                         }
                     }
                 }
