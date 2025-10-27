@@ -63,3 +63,33 @@ See [Utilities and helpers]({{site.baseurl}}/utilities#utilities-for-indicator-r
 ## Chaining
 
 This indicator is not chain-enabled and must be generated from `quotes`.  It **cannot** be used for further processing by other chain-enabled indicators.
+
+## Streaming
+
+Use the buffer-style `List<T>` when you need incremental calculations without a hub:
+
+```csharp
+FcbList fcbList = new(windowSpan);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  fcbList.Add(quote);
+}
+
+// based on `ICollection<FcbResult>`
+IReadOnlyList<FcbResult> results = fcbList;
+```
+
+Subscribe to a `QuoteHub` for advanced streaming scenarios:
+
+```csharp
+QuoteHub quoteHub = new();
+FcbHub observer = quoteHub.ToFcbHub(windowSpan);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  quoteHub.Add(quote);
+}
+
+IReadOnlyList<FcbResult> results = observer.Results;
+```
