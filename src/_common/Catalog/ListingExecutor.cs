@@ -14,7 +14,7 @@ internal static class ListingExecutor
     /// </summary>
     /// <typeparam name="TQuote">The quote type implementing IQuote.</typeparam>
     /// <typeparam name="TResult">The expected result type.</typeparam>
-    /// <param name="quotes">The quotes to process.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <param name="listing">The indicator listing containing metadata.</param>
     /// <param name="parameters">Optional parameter overrides. If not provided, uses catalog default values.</param>
     /// <returns>The indicator results.</returns>
@@ -128,7 +128,7 @@ internal static class ListingExecutor
     /// This is a convenience method that creates the parameter dictionary automatically.
     /// </summary>
     /// <typeparam name="TResult">The expected result type.</typeparam>
-    /// <param name="quotes">The quotes to process.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <param name="listing">The indicator listing containing metadata.</param>
     /// <param name="parameterValues">Parameter values in the order they appear in the listing.</param>
     /// <returns>The indicator results.</returns>

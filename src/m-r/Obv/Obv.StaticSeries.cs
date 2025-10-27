@@ -8,7 +8,7 @@ public static partial class Obv
     /// <summary>
     /// Converts a list of quotes to OBV results.
     /// </summary>
-    /// <param name="quotes">The list of quotes.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <returns>A list of OBV results.</returns>
     public static IReadOnlyList<ObvResult> ToObv(
         this IReadOnlyList<IQuote> quotes)

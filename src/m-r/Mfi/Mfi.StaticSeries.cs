@@ -8,7 +8,7 @@ public static partial class Mfi
     /// <summary>
     /// Converts a list of quotes to Money Flow Index (MFI) results.
     /// </summary>
-    /// <param name="quotes">The list of quotes to analyze.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <param name="lookbackPeriods">The number of periods to use for the MFI calculation. Default is 14.</param>
     /// <returns>A list of <see cref="MfiResult"/> containing the MFI values.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the quotes list is null.</exception>

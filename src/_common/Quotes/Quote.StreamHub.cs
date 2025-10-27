@@ -143,7 +143,7 @@ public static partial class Quotes
     /// <summary>
     /// Creates a new QuoteHub from an initiating collection of quotes.
     /// </summary>
-    /// <param name="quotes">The collection of quotes.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     public static QuoteHub ToQuoteHub(
         this IReadOnlyList<IQuote> quotes)
     {

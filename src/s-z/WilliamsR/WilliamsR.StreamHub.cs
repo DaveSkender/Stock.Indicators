@@ -153,7 +153,7 @@ public static partial class WilliamsR
     /// <summary>
     /// Creates a WilliamsR hub from a collection of quotes.
     /// </summary>
-    /// <param name="quotes">The collection of quotes.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <param name="lookbackPeriods">The lookback period for Williams %R. Default is 14.</param>
     /// <returns>An instance of <see cref="WilliamsRHub"/>.</returns>
     public static WilliamsRHub ToWilliamsRHub(

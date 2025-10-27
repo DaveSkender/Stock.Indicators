@@ -84,7 +84,7 @@ public static partial class Ema
     /// <summary>
     /// Creates a Ema hub from a collection of quotes.
     /// </summary>
-    /// <param name="quotes">The collection of quotes.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <param name="lookbackPeriods">Parameter for the calculation.</param>
     /// <returns>An instance of <see cref="EmaHub"/>.</returns>
     public static EmaHub ToEmaHub(

@@ -31,7 +31,7 @@ public class RollingPivotsList : BufferList<RollingPivotsResult>, IIncrementFrom
     /// <param name="windowPeriods">The number of periods in the rolling window.</param>
     /// <param name="offsetPeriods">The number of periods to offset the window.</param>
     /// <param name="pointType">The type of pivot point calculation to use.</param>
-    /// <param name="quotes">Initial quotes to populate the list.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     public RollingPivotsList(
         int windowPeriods,
         int offsetPeriods,
@@ -149,7 +149,7 @@ public static partial class RollingPivots
     /// <summary>
     /// Creates a buffer list for Rolling Pivot Points calculations.
     /// </summary>
-    /// <param name="quotes"></param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <param name="windowPeriods"></param>
     /// <param name="offsetPeriods"></param>
     /// <param name="pointType"></param>

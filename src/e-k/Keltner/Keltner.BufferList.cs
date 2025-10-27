@@ -36,7 +36,7 @@ public class KeltnerList : BufferList<KeltnerResult>, IIncrementFromQuote
     /// <param name="emaPeriods">The number of periods for the EMA.</param>
     /// <param name="multiplier">The multiplier for the ATR.</param>
     /// <param name="atrPeriods">The number of periods for the ATR.</param>
-    /// <param name="quotes">Initial quotes to populate the list.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     public KeltnerList(
         int emaPeriods,
         double multiplier,
@@ -111,7 +111,7 @@ public static partial class Keltner
     /// <summary>
     /// Creates a buffer list for Keltner Channels calculations.
     /// </summary>
-    /// <param name="quotes"></param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <param name="emaPeriods"></param>
     /// <param name="multiplier"></param>
     /// <param name="atrPeriods"></param>

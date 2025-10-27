@@ -23,7 +23,7 @@ public class CciList : BufferList<CciResult>, IIncrementFromQuote, ICci
     /// Initializes a new instance of the <see cref="CciList"/> class with initial quotes.
     /// </summary>
     /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
-    /// <param name="quotes">Initial quotes to populate the list.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     public CciList(int lookbackPeriods, IReadOnlyList<IQuote> quotes)
         : this(lookbackPeriods)
     {

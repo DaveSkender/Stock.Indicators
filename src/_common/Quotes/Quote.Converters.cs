@@ -10,7 +10,7 @@ public static partial class Quotes
     /// <summary>
     /// Convert IQuote list to built-in Quote type list (public API only).
     /// </summary>
-    /// <param name="quotes">The list of quotes to convert.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <returns>A list of converted quotes.</returns>
     public static IReadOnlyList<Quote> ToQuoteList(
         this IReadOnlyList<IQuote> quotes)
@@ -23,7 +23,7 @@ public static partial class Quotes
     /// <summary>
     /// Convert IQuote list to QuoteD type list.
     /// </summary>
-    /// <param name="quotes">The list of quotes to convert.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <returns>A list of converted quotes in double precision.</returns>
     internal static List<QuoteD> ToQuoteDList(
         this IReadOnlyList<IQuote> quotes)

@@ -8,7 +8,7 @@ public static partial class AtrStop
     /// <summary>
     /// Calculates the ATR Trailing Stop (High/Low offset) from a series of quotes.
     /// </summary>
-    /// <param name="quotes">The list of quotes.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <param name="lookbackPeriods">The number of periods to look back. Default is 21.</param>
     /// <param name="multiplier">The multiplier for the ATR. Default is 3.</param>
     /// <param name="endType">The candle threshold point to use for reversals.</param>

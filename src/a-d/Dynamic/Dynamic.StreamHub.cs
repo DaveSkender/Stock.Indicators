@@ -94,7 +94,7 @@ public static partial class MgDynamic
     /// <summary>
     /// Creates a Dynamic hub from a collection of quotes.
     /// </summary>
-    /// <param name="quotes">The collection of quotes.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
     /// <param name="kFactor">The smoothing factor for the calculation.</param>
     /// <returns>An instance of <see cref="DynamicHub"/>.</returns>

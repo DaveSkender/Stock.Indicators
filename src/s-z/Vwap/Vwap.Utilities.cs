@@ -25,7 +25,7 @@ public static partial class Vwap
     /// <summary>
     /// Validates the parameters for the VWAP calculation.
     /// </summary>
-    /// <param name="quotes">The source list of quotes.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <param name="startDate">The optional start date for the VWAP calculation.</param>
     /// <exception cref="ArgumentOutOfRangeException">
     /// Thrown when the start date is earlier than the first quote's timestamp.

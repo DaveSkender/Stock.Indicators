@@ -8,7 +8,7 @@ public static partial class Smi
     /// <summary>
     /// Converts a list of quotes to SMI results.
     /// </summary>
-    /// <param name="quotes">The list of quotes.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <param name="lookbackPeriods">The number of periods for the lookback window.</param>
     /// <param name="firstSmoothPeriods">The number of periods for the first smoothing.</param>
     /// <param name="secondSmoothPeriods">The number of periods for the second smoothing.</param>

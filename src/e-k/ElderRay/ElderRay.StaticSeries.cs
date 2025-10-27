@@ -8,7 +8,7 @@ public static partial class ElderRay
     /// <summary>
     /// Converts a list of quotes to Elder Ray results.
     /// </summary>
-    /// <param name="quotes">The list of quotes.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
     /// <returns>A list of Elder Ray results.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the quotes list is null.</exception>

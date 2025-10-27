@@ -41,7 +41,7 @@ public class AtrStopList : BufferList<AtrStopResult>, IIncrementFromQuote, IAtrS
     /// <param name="lookbackPeriods">The number of periods to look back.</param>
     /// <param name="multiplier">The multiplier for the ATR.</param>
     /// <param name="endType">The candle threshold point to use for reversals.</param>
-    /// <param name="quotes">Initial quotes to populate the list.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     public AtrStopList(
         int lookbackPeriods,
         double multiplier,
@@ -157,7 +157,7 @@ public class AtrStopList : BufferList<AtrStopResult>, IIncrementFromQuote, IAtrS
     /// <summary>
     /// Adds a list of quotes to the AtrStop list.
     /// </summary>
-    /// <param name="quotes">The list of quotes to add.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <exception cref="ArgumentNullException">Thrown when the quotes list is null.</exception>
     public void Add(IReadOnlyList<IQuote> quotes)
     {
@@ -209,7 +209,7 @@ public static partial class AtrStop
     /// <summary>
     /// Creates a buffer list for ATR Trailing Stop calculations.
     /// </summary>
-    /// <param name="quotes">Historical price quotes.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <param name="lookbackPeriods">The number of periods to look back. Default is 21.</param>
     /// <param name="multiplier">The multiplier for the ATR. Default is 3.</param>
     /// <param name="endType">The candle threshold point to use for reversals. Default is Close.</param>

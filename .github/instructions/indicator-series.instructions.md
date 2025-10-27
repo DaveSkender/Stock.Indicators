@@ -39,8 +39,7 @@ Series indicators should follow these naming patterns:
 /// <summary>
 /// {Indicator description with mathematical formula if applicable}
 /// </summary>
-/// <typeparam name="TQuote">Type that implements IQuote interface</typeparam>
-/// <param name="quotes">Historical price quotes</param>
+/// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
 /// <param name="lookbackPeriods">Lookback period (default value)</param>
 /// <returns>Collection of {IndicatorName}Result records</returns>
 public static IReadOnlyList<{IndicatorName}Result> To{IndicatorName}(

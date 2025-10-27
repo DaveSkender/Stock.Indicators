@@ -24,7 +24,7 @@ public class WilliamsRList : BufferList<WilliamsResult>, IIncrementFromQuote, IW
     /// Initializes a new instance of the <see cref="WilliamsRList"/> class with initial quotes.
     /// </summary>
     /// <param name="lookbackPeriods">The number of periods to look back.</param>
-    /// <param name="quotes">Initial quotes to populate the list.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     public WilliamsRList(
         int lookbackPeriods,
         IReadOnlyList<IQuote> quotes)

@@ -8,7 +8,7 @@ public static partial class Vwma
     /// <summary>
     /// Calculates the VWMA for a series of quotes.
     /// </summary>
-    /// <param name="quotes">The source list of quotes.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <param name="lookbackPeriods">The number of lookback periods.</param>
     /// <returns>A list of VwmaResult containing the VWMA values.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the source is null.</exception>

@@ -56,7 +56,7 @@ public class KvoList : BufferList<KvoResult>, IIncrementFromQuote, IKvo
     /// <param name="fastPeriods">The number of periods for the fast EMA.</param>
     /// <param name="slowPeriods">The number of periods for the slow EMA.</param>
     /// <param name="signalPeriods">The number of periods for the signal line.</param>
-    /// <param name="quotes">Initial quotes to populate the list.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     public KvoList(
         int fastPeriods,
         int slowPeriods,
@@ -223,7 +223,7 @@ public static partial class Kvo
     /// <summary>
     /// Creates a buffer list for Klinger Volume Oscillator (KVO) calculations.
     /// </summary>
-    /// <param name="quotes"></param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <param name="fastPeriods"></param>
     /// <param name="slowPeriods"></param>
     /// <param name="signalPeriods"></param>

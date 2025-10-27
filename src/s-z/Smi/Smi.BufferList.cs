@@ -47,7 +47,7 @@ public class SmiList : BufferList<SmiResult>, IIncrementFromQuote, ISmi
     /// <param name="firstSmoothPeriods">The number of periods for the first smoothing.</param>
     /// <param name="secondSmoothPeriods">The number of periods for the second smoothing.</param>
     /// <param name="signalPeriods">The number of periods for the signal line smoothing.</param>
-    /// <param name="quotes">Initial quotes to populate the list.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     public SmiList(
         int lookbackPeriods,
         int firstSmoothPeriods,
@@ -207,7 +207,7 @@ public static partial class Smi
     /// <summary>
     /// Creates a buffer list for Stochastic Momentum Index (SMI) calculations.
     /// </summary>
-    /// <param name="quotes"></param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <param name="lookbackPeriods"></param>
     /// <param name="firstSmoothPeriods"></param>
     /// <param name="secondSmoothPeriods"></param>

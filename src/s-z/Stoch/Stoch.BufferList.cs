@@ -52,7 +52,7 @@ public class StochList : BufferList<StochResult>, IIncrementFromQuote, IStoch
     /// <param name="kFactor">The K factor for the Stochastic calculation.</param>
     /// <param name="dFactor">The D factor for the Stochastic calculation.</param>
     /// <param name="movingAverageType">The type of moving average to use.</param>
-    /// <param name="quotes">Initial quotes to populate the list.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     public StochList(
         int lookbackPeriods,
         int signalPeriods,

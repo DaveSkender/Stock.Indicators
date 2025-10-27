@@ -194,7 +194,7 @@ public static partial class Chandelier
     /// <summary>
     /// Creates a Chandelier Exit hub from a collection of quotes.
     /// </summary>
-    /// <param name="quotes">The collection of quotes.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <param name="lookbackPeriods">The number of periods to use for the lookback window. Default is 22.</param>
     /// <param name="multiplier">The multiplier to apply to the ATR. Default is 3.</param>
     /// <param name="type">The type of Chandelier Exit to calculate (Long or Short). Default is Long.</param>

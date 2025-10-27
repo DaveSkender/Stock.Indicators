@@ -26,7 +26,7 @@ public static class Sorting
     /// that need to convert IQuote collections to IReusable for refactored indicators.
     /// </remarks>
     /// <typeparam name="TQuote">The type of the quote elements, which must implement <see cref="IQuote"/>.</typeparam>
-    /// <param name="quotes">The quotes to sort.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <returns>A read-only list of IReusable elements.</returns>
     internal static IReadOnlyList<IReusable> ToSortedReusableList<TQuote>(
         this IEnumerable<TQuote> quotes)

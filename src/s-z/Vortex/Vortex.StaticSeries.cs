@@ -8,7 +8,7 @@ public static partial class Vortex
     /// <summary>
     /// Calculates the Vortex indicator for a series of quotes.
     /// </summary>
-    /// <param name="quotes">The source list of quotes.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <param name="lookbackPeriods">The number of lookback periods. Default is 14.</param>
     /// <returns>A list of VortexResult containing the Vortex indicator values.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the source is null.</exception>

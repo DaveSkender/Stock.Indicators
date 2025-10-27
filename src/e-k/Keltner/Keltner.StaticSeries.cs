@@ -8,7 +8,7 @@ public static partial class Keltner
     /// <summary>
     /// Converts a list of quotes to Keltner Channel results.
     /// </summary>
-    /// <param name="quotes">The list of quotes to transform.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <param name="emaPeriods">The number of periods for the EMA. Default is 20.</param>
     /// <param name="multiplier">The multiplier for the ATR. Default is 2.</param>
     /// <param name="atrPeriods">The number of periods for the ATR. Default is 10.</param>

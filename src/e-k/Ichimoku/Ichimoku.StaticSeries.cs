@@ -8,7 +8,7 @@ public static partial class Ichimoku
     /// <summary>
     /// Converts a list of quotes to Ichimoku Cloud results using default parameters.
     /// </summary>
-    /// <param name="quotes">The list of quotes to transform.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <param name="tenkanPeriods">The number of periods for the Tenkan-sen (conversion line). Default is 9.</param>
     /// <param name="kijunPeriods">The number of periods for the Kijun-sen (base line). Default is 26.</param>
     /// <param name="senkouBPeriods">The number of periods for the Senkou Span B (leading span B). Default is 52.</param>
@@ -30,7 +30,7 @@ public static partial class Ichimoku
     /// <summary>
     /// Converts a list of quotes to Ichimoku Cloud results with specified parameters.
     /// </summary>
-    /// <param name="quotes">The list of quotes to transform.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <param name="tenkanPeriods">The number of periods for the Tenkan-sen (conversion line).</param>
     /// <param name="kijunPeriods">The number of periods for the Kijun-sen (base line).</param>
     /// <param name="senkouBPeriods">The number of periods for the Senkou Span B (leading span B).</param>
@@ -54,7 +54,7 @@ public static partial class Ichimoku
     /// <summary>
     /// Calculates the Ichimoku Cloud indicator.
     /// </summary>
-    /// <param name="quotes">The list of quotes to transform.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <param name="tenkanPeriods">The number of periods for the Tenkan-sen (conversion line).</param>
     /// <param name="kijunPeriods">The number of periods for the Kijun-sen (base line).</param>
     /// <param name="senkouBPeriods">The number of periods for the Senkou Span B (leading span B).</param>
@@ -143,7 +143,7 @@ public static partial class Ichimoku
     /// Calculates the Tenkan-sen (conversion line) for the Ichimoku Cloud indicator.
     /// </summary>
     /// <param name="i">The current index in the quotes list.</param>
-    /// <param name="quotes">The list of quotes to transform.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <param name="tenkanPeriods">The number of periods for the Tenkan-sen (conversion line).</param>
     /// <returns>The Tenkan-sen value.</returns>
     private static decimal? CalcIchimokuTenkanSen(
@@ -180,7 +180,7 @@ public static partial class Ichimoku
     /// Calculates the Kijun-sen (base line) for the Ichimoku Cloud indicator.
     /// </summary>
     /// <param name="i">The current index in the quotes list.</param>
-    /// <param name="quotes">The list of quotes to transform.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <param name="kijunPeriods">The number of periods for the Kijun-sen (base line).</param>
     /// <returns>The Kijun-sen value.</returns>
     private static decimal? CalcIchimokuKijunSen(
@@ -218,7 +218,7 @@ public static partial class Ichimoku
     /// Calculates the Senkou Span B (leading span B) for the Ichimoku Cloud indicator.
     /// </summary>
     /// <param name="i">The current index in the quotes list.</param>
-    /// <param name="quotes">The list of quotes to transform.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <param name="senkouOffset">The number of periods for the Senkou offset.</param>
     /// <param name="senkouBPeriods">The number of periods for the Senkou Span B (leading span B).</param>
     /// <returns>The Senkou Span B value.</returns>

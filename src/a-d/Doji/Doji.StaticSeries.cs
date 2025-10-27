@@ -9,7 +9,7 @@ public static partial class Doji
     /// Doji is a single candlestick pattern where open and close price
     /// are virtually identical, representing market indecision.
     /// </summary>
-    /// <param name="quotes">Historical price quotes.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <param name="maxPriceChangePercent">
     /// Optional. Maximum absolute percent difference in open and close price.
     /// </param>

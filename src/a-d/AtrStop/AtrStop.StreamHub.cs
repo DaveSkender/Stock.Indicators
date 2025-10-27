@@ -230,7 +230,7 @@ public static partial class AtrStop
     /// <summary>
     /// Creates a AtrStop hub from a collection of quotes.
     /// </summary>
-    /// <param name="quotes">The collection of quotes.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <param name="lookbackPeriods">Parameter for the calculation.</param>
     /// <param name="multiplier">Parameter for the calculation.</param>
     /// <param name="endType">Parameter for the calculation.</param>

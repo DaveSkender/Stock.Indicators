@@ -31,7 +31,7 @@ public class FcbList : BufferList<FcbResult>, IIncrementFromQuote, IFcb
     /// Initializes a new instance of the <see cref="FcbList"/> class with initial quotes.
     /// </summary>
     /// <param name="windowSpan">The window span for the calculation.</param>
-    /// <param name="quotes">Initial quotes to populate the list.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     public FcbList(
         int windowSpan,
         IReadOnlyList<IQuote> quotes
@@ -142,7 +142,7 @@ public static partial class Fcb
     /// <summary>
     /// Creates a buffer list for Fractal Chaos Bands (FCB) calculations.
     /// </summary>
-    /// <param name="quotes"></param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <param name="windowSpan"></param>
     public static FcbList ToFcbList(
         this IReadOnlyList<IQuote> quotes,

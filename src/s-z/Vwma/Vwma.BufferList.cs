@@ -25,7 +25,7 @@ public class VwmaList : BufferList<VwmaResult>, IIncrementFromQuote, IVwma
     /// Initializes a new instance of the <see cref="VwmaList"/> class with initial quotes.
     /// </summary>
     /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
-    /// <param name="quotes">Initial quotes to populate the list.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     public VwmaList(
         int lookbackPeriods,
         IReadOnlyList<IQuote> quotes
@@ -106,7 +106,7 @@ public static partial class Vwma
     /// <summary>
     /// Creates a buffer list for Volume Weighted Moving Average (VWMA) calculations.
     /// </summary>
-    /// <param name="quotes"></param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <param name="lookbackPeriods"></param>
     public static VwmaList ToVwmaList(
         this IReadOnlyList<IQuote> quotes,

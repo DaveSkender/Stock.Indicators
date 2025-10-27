@@ -131,7 +131,7 @@ public static partial class Alma
     /// <summary>
     /// Creates an ALMA hub from a collection of quotes.
     /// </summary>
-    /// <param name="quotes">The collection of quotes.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
     /// <param name="offset">The offset for the ALMA calculation. Default is 0.85.</param>
     /// <param name="sigma">The sigma for the ALMA calculation. Default is 6.</param>

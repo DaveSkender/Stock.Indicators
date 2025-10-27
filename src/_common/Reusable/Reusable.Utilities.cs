@@ -8,7 +8,7 @@ public static class Reusable
     /// <summary>
     /// Converts a list of quotes to a list of reusable types.
     /// </summary>
-    /// <param name="quotes">The list of quotes.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <param name="candlePart">The part of the candle to use.</param>
     /// <returns>A list of reusable types.</returns>
     public static IReadOnlyList<IReusable> ToReusable(

@@ -8,7 +8,7 @@ public static partial class VolatilityStop
     /// <summary>
     /// Calculates the Volatility Stop for a series of quotes.
     /// </summary>
-    /// <param name="quotes">The source list of quotes.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <param name="lookbackPeriods">The number of lookback periods. Default is 7.</param>
     /// <param name="multiplier">The multiplier for the Average True Range. Default is 3.</param>
     /// <returns>A list of VolatilityStopResult containing the Volatility Stop values.</returns>

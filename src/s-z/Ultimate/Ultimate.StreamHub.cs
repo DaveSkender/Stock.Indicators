@@ -151,7 +151,7 @@ public static partial class Ultimate
     /// <summary>
     /// Creates a Ultimate hub from a collection of quotes.
     /// </summary>
-    /// <param name="quotes">The collection of quotes.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <param name="shortPeriods">Parameter for the calculation.</param>
     /// <param name="middlePeriods">Parameter for the calculation.</param>
     /// <param name="longPeriods">Parameter for the calculation.</param>

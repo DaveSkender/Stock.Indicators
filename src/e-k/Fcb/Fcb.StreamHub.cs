@@ -144,7 +144,7 @@ public static partial class Fcb
     /// <summary>
     /// Creates a Fcb hub from a collection of quotes.
     /// </summary>
-    /// <param name="quotes">The collection of quotes.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <param name="windowSpan">The window span for the calculation. Default is 2.</param>
     /// <returns>An instance of <see cref="FcbHub"/>.</returns>
     public static FcbHub ToFcbHub(

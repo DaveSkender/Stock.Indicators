@@ -8,7 +8,7 @@ public static partial class Cci
     /// <summary>
     /// Calculates the Commodity Channel Index (CCI) for a series of quotes.
     /// </summary>
-    /// <param name="quotes">The source list of quotes.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <param name="lookbackPeriods">The number of periods to use for the lookback window. Default is 20.</param>
     /// <returns>A read-only list of <see cref="CciResult"/> containing the CCI calculation results.</returns>
     public static IReadOnlyList<CciResult> ToCci(

@@ -10,7 +10,7 @@ public static partial class Stoch
     /// <summary>
     /// Calculates the Stochastic Oscillator for a series of quotes.
     /// </summary>
-    /// <param name="quotes">The list of quotes.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <param name="lookbackPeriods">The lookback period for the oscillator.</param>
     /// <param name="signalPeriods">The signal period for the oscillator.</param>
     /// <param name="smoothPeriods">The smoothing period for the oscillator.</param>
@@ -30,7 +30,7 @@ public static partial class Stoch
     /// <summary>
     /// Calculates the Stochastic Oscillator for a series of quotes with specified factors and moving average type.
     /// </summary>
-    /// <param name="quotes">The list of quotes.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <param name="lookbackPeriods">The lookback period for the oscillator.</param>
     /// <param name="signalPeriods">The signal period for the oscillator.</param>
     /// <param name="smoothPeriods">The smoothing period for the oscillator.</param>

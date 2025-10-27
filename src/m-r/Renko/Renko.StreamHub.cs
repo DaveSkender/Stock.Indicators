@@ -209,7 +209,7 @@ public static partial class Renko
     /// <summary>
     /// Creates a Renko hub from a collection of quotes.
     /// </summary>
-    /// <param name="quotes">The collection of quotes.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <param name="brickSize">Parameter for the calculation.</param>
     /// <param name="endType">Parameter for the calculation.</param>
     /// <returns>An instance of <see cref="RenkoHub"/>.</returns>

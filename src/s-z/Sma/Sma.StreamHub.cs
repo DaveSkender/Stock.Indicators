@@ -112,7 +112,7 @@ public static partial class Sma
     /// <summary>
     /// Creates an SMA hub from a collection of quotes.
     /// </summary>
-    /// <param name="quotes">The collection of quotes.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <param name="lookbackPeriods">The number of lookback periods.</param>
     /// <returns>An instance of <see cref="SmaHub"/>.</returns>
     public static SmaHub ToSmaHub(

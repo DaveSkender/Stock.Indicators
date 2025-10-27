@@ -232,7 +232,7 @@ public static partial class Rsi
     /// <summary>
     /// Creates a Rsi hub from a collection of quotes.
     /// </summary>
-    /// <param name="quotes">The collection of quotes.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <param name="lookbackPeriods">Parameter for the calculation.</param>
     /// <returns>An instance of <see cref="RsiHub"/>.</returns>
     public static RsiHub ToRsiHub(

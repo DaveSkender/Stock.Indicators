@@ -25,7 +25,7 @@ public class MfiList : BufferList<MfiResult>, IIncrementFromQuote
     /// Initializes a new instance of the <see cref="MfiList"/> class with initial quotes.
     /// </summary>
     /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
-    /// <param name="quotes">Initial quotes to populate the list.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     public MfiList(int lookbackPeriods, IReadOnlyList<IQuote> quotes)
         : this(lookbackPeriods)
     {
@@ -122,7 +122,7 @@ public static partial class Mfi
     /// <summary>
     /// Creates a buffer list for Money Flow Index (MFI) calculations.
     /// </summary>
-    /// <param name="quotes"></param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <param name="lookbackPeriods"></param>
     public static MfiList ToMfiList(
         this IReadOnlyList<IQuote> quotes,

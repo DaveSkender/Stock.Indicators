@@ -9,7 +9,7 @@ public static partial class Atr
     /// <summary>
     /// Calculates Average True Range (ATR) for a series of quotes.
     /// </summary>
-    /// <param name="quotes">The list of quotes.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <param name="lookbackPeriods">The number of periods to look back for ATR calculation. Default is 14.</param>
     /// <returns>A read-only list of ATR results.</returns>
     public static IReadOnlyList<AtrResult> ToAtr(

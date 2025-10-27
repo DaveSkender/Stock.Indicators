@@ -155,7 +155,7 @@ public static partial class T3
     /// <summary>
     /// Creates a T3 hub from a collection of quotes.
     /// </summary>
-    /// <param name="quotes">The collection of quotes.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <param name="lookbackPeriods">Parameter for the calculation.</param>
     /// <param name="volumeFactor">Parameter for the calculation.</param>
     /// <returns>An instance of <see cref="T3Hub"/>.</returns>

@@ -153,7 +153,7 @@ public static partial class Trix
     /// <summary>
     /// Creates a Trix hub from a collection of quotes.
     /// </summary>
-    /// <param name="quotes">The collection of quotes.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <param name="lookbackPeriods"></param>
     /// <returns>An instance of <see cref="TrixHub"/>.</returns>
     public static TrixHub ToTrixHub(

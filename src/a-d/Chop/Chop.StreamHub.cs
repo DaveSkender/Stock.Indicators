@@ -165,7 +165,7 @@ public static partial class Chop
     /// <summary>
     /// Creates a Chop hub from a collection of quotes.
     /// </summary>
-    /// <param name="quotes">The collection of quotes.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <param name="lookbackPeriods">Parameter for the calculation.</param>
     /// <returns>An instance of <see cref="ChopHub"/>.</returns>
     public static ChopHub ToChopHub(

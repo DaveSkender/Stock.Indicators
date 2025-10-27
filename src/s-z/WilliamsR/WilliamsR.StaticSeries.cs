@@ -8,7 +8,7 @@ public static partial class WilliamsR
     /// <summary>
     /// Calculates the Williams %R for a series of quotes.
     /// </summary>
-    /// <param name="quotes">The source list of quotes.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <param name="lookbackPeriods">The number of lookback periods. Default is 14.</param>
     /// <returns>A list of WilliamsResult containing the Williams %R values.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the source is null.</exception>
@@ -44,7 +44,7 @@ public static partial class WilliamsR
     /// <summary>
     /// Creates a buffer list for Williams %R calculations.
     /// </summary>
-    /// <param name="quotes">The source list of quotes.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <param name="lookbackPeriods">The number of lookback periods. Default is 14.</param>
     /// <returns>A WilliamsRList instance.</returns>
     public static WilliamsRList ToWilliamsRList(

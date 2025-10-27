@@ -141,7 +141,7 @@ public static partial class Kama
     /// <summary>
     /// Creates a Kama hub from a collection of quotes.
     /// </summary>
-    /// <param name="quotes">The collection of quotes.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <param name="erPeriods">Parameter for the calculation.</param>
     /// <param name="fastPeriods">Parameter for the calculation.</param>
     /// <param name="slowPeriods">Parameter for the calculation.</param>

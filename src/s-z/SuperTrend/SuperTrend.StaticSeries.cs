@@ -8,7 +8,7 @@ public static partial class SuperTrend
     /// <summary>
     /// Converts a list of quotes to a list of SuperTrend results.
     /// </summary>
-    /// <param name="quotes">The list of quotes.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <param name="lookbackPeriods">The number of lookback periods.</param>
     /// <param name="multiplier">The multiplier for the ATR.</param>
     /// <returns>A list of SuperTrend results.</returns>

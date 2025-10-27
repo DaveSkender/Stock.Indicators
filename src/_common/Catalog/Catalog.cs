@@ -236,7 +236,7 @@ public static partial class Catalog
     /// Executes an indicator using only its ID and style with a typed result.
     /// </summary>
     /// <typeparam name="TResult">The expected indicator result type.</typeparam>
-    /// <param name="quotes">The quotes to process.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <param name="id">The indicator ID (e.g., "EMA", "RSI", "MACD").</param>
     /// <param name="style">The indicator style (Series, Stream, or Buffer).</param>
     /// <param name="parameters">Optional parameter overrides.</param>
@@ -271,7 +271,7 @@ public static partial class Catalog
     /// Executes an indicator from a JSON configuration string with a typed result.
     /// </summary>
     /// <typeparam name="TResult">The expected indicator result type.</typeparam>
-    /// <param name="quotes">The quotes to process.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <param name="json">The JSON configuration string containing indicator settings.</param>
     /// <returns>The indicator results as a typed list.</returns>
     /// <exception cref="ArgumentNullException">Thrown when json or quotes is null.</exception>

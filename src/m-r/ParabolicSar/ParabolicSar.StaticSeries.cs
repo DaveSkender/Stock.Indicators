@@ -8,7 +8,7 @@ public static partial class ParabolicSar
     /// <summary>
     /// Converts a list of quotes to Parabolic SAR results.
     /// </summary>
-    /// <param name="quotes">The list of quotes to analyze.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <param name="accelerationStep">The acceleration step for the SAR calculation. Default is 0.02.</param>
     /// <param name="maxAccelerationFactor">The maximum acceleration factor for the SAR calculation. Default is 0.2.</param>
     /// <returns>A list of <see cref="ParabolicSarResult"/> containing the SAR values.</returns>
@@ -29,7 +29,7 @@ public static partial class ParabolicSar
     /// <summary>
     /// Gets the Parabolic SAR results for a list of quotes.
     /// </summary>
-    /// <param name="quotes">The list of quotes to analyze.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <param name="accelerationStep">The acceleration step for the SAR calculation.</param>
     /// <param name="maxAccelerationFactor">The maximum acceleration factor for the SAR calculation.</param>
     /// <param name="initialFactor">The initial acceleration factor for the SAR calculation.</param>

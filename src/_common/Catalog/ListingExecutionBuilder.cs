@@ -68,7 +68,7 @@ public class ListingExecutionBuilder
     /// <summary>
     /// Specifies the source quotes for the indicator calculation.
     /// </summary>
-    /// <param name="quotes">The quotes to process.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <returns>A new <see cref="ListingExecutionBuilder"/> with the quotes set.</returns>
     /// <exception cref="ArgumentNullException"><paramref name="quotes"/> is <c>null</c>.</exception>
     public ListingExecutionBuilder FromSource(IEnumerable<IQuote> quotes)

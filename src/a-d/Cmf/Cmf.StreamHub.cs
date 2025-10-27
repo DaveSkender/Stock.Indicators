@@ -115,7 +115,7 @@ public static partial class Cmf
     /// <summary>
     /// Creates a Cmf hub from a collection of quotes.
     /// </summary>
-    /// <param name="quotes">The collection of quotes.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <param name="lookbackPeriods">Parameter for the calculation.</param>
     /// <returns>An instance of <see cref="CmfHub"/>.</returns>
     public static CmfHub ToCmfHub(

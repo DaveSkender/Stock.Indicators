@@ -13,7 +13,7 @@ public static partial class Quotes
     /// Check that quotes are valid and in ascending order.
     /// </summary>
     /// <typeparam name="TQuote">IQuote type</typeparam>
-    /// <param name="quotes">List of quotes</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <returns>Valid list of quotes</returns>
     /// <exception cref="ArgumentNullException">
     /// List of quotes cannot be a null reference.

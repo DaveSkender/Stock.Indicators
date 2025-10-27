@@ -10,7 +10,7 @@ public class QuotePartList(CandlePart candlePart) : BufferList<QuotePart>, IIncr
     /// Initializes a new instance of the <see cref="QuotePartList"/> class with initial quotes.
     /// </summary>
     /// <param name="candlePart">The candle part to select.</param>
-    /// <param name="quotes">Initial quotes to populate the list.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     public QuotePartList(CandlePart candlePart, IReadOnlyList<IQuote> quotes)
         : this(candlePart)
     {
@@ -51,7 +51,7 @@ public static partial class QuoteParts
     /// <summary>
     /// Creates a buffer list for quote part selection.
     /// </summary>
-    /// <param name="quotes"></param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <param name="candlePart"></param>
     public static QuotePartList ToQuotePartList(
         this IReadOnlyList<IQuote> quotes,

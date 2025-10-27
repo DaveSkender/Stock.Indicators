@@ -10,9 +10,6 @@ public static partial class Indicator
 {
     /// <summary>
     /// GENERAL INDICATOR METHODS
-    /// </summary>
-    /// <param name="quotes"></param>
-    /// <returns></returns>
     [ExcludeFromCodeCoverage]
     [Obsolete("Rename `GetAdl(..)` to `ToAdl(..)`", false)]
     public static IEnumerable<AdlResult> GetAdl(
