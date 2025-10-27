@@ -122,7 +122,9 @@ public static partial class Pvo
                 Timestamp: s.Timestamp,
                 Pvo: pvo.NaN2Null(),
                 Signal: signal.NaN2Null(),
-                Histogram: (pvo - signal).NaN2Null()));
+                Histogram: (pvo - signal).NaN2Null(),
+                FastEma: emaFast.NaN2Null(),
+                SlowEma: emaSlow.NaN2Null()));
 
             lastEmaPvo = signal;
             lastEmaFast = emaFast;

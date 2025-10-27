@@ -17,6 +17,8 @@ public static partial class Pvo
             .AddResult("Pvo", "PVO", ResultType.Default, isReusable: true)
             .AddResult("Signal", "Signal", ResultType.Default)
             .AddResult("Histogram", "Histogram", ResultType.Default)
+            .AddResult("FastEma", "Fast EMA", ResultType.Default)
+            .AddResult("SlowEma", "Slow EMA", ResultType.Default)
             .Build();
 
     /// <summary>
@@ -35,5 +37,11 @@ public static partial class Pvo
             .WithStyle(Style.Buffer)
             .Build();
 
-    // No StreamListing for PVO.
+    /// <summary>
+    /// Price Volume Oscillator Stream Listing
+    /// </summary>
+    internal static readonly IndicatorListing StreamListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Stream)
+            .Build();
 }
