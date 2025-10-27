@@ -44,7 +44,7 @@ public class ConnorsRsiHub
         hubName = $"CRSI({rsiPeriods},{streakPeriods},{rankPeriods})";
 
         _gainBuffer = new Queue<double>(rankPeriods + 1);
-        _streakBuffer = new Queue<double>(streakPeriods + 2);
+        _streakBuffer = new Queue<double>(streakPeriods + 1);
 
         Reinitialize();
     }
@@ -71,7 +71,7 @@ public class ConnorsRsiHub
 
         // Calculate streak
         double streak = CalculateStreak(item.Value, _processedCount);
-        _streakBuffer.Update(StreakPeriods + 2, streak);
+        _streakBuffer.Update(StreakPeriods + 1, streak);
 
         // Calculate RSI of close
         double? rsi = CalculateRsiOfClose(item.Value, _processedCount);
@@ -220,12 +220,24 @@ public class ConnorsRsiHub
     private double? CalculateRsiOfStreak(double streak, int processedCount)
     {
         // RSI of streak needs StreakPeriods + 2 periods minimum  
-        // (1 extra for the initial value, 1 for the streak calculation)
+        // to produce a final ConnorsRSI value, but RSI itself starts earlier
         if (processedCount < StreakPeriods + 2)
         {
+            // Still calculate RSI but return null until we reach the threshold
+            // This ensures the state is properly initialized
+            if (processedCount >= StreakPeriods)
+            {
+                // We have enough streaks to calculate RSI, just don't return it yet
+                CalculateRsiOfStreakInternal(streak, processedCount);
+            }
             return null;
         }
 
+        return CalculateRsiOfStreakInternal(streak, processedCount);
+    }
+
+    private double? CalculateRsiOfStreakInternal(double streak, int processedCount)
+    {
         double? rsi = null;
 
         // Get current gain/loss from streak
@@ -242,15 +254,17 @@ public class ConnorsRsiHub
         }
 
         // Initialize average gain/loss when needed
-        if (processedCount >= StreakPeriods + 2 && (double.IsNaN(_avgStreakGain) || double.IsNaN(_avgStreakLoss)))
+        if (processedCount >= StreakPeriods && (double.IsNaN(_avgStreakGain) || double.IsNaN(_avgStreakLoss)))
         {
             double sumGain = 0;
             double sumLoss = 0;
 
             // Calculate gains/losses from streak buffer
-            // We need StreakPeriods + 1 streak values to calculate StreakPeriods gain/loss pairs
+            // We have StreakPeriods + 1 values in buffer, need to calculate StreakPeriods pairs
             double[] streaks = _streakBuffer.ToArray();
 
+            // For StreakPeriods=2, we need 2 pairs from buffer of size 3
+            // pairs: (streaks[1]-streaks[0]), (streaks[2]-streaks[1])
             for (int p = 1; p < streaks.Length; p++)
             {
                 double pStreak = streaks[p];
@@ -280,7 +294,7 @@ public class ConnorsRsiHub
                   : null;
         }
         // Calculate RSI incrementally
-        else if (processedCount > StreakPeriods + 2 && !double.IsNaN(_avgStreakGain) && !double.IsNaN(_avgStreakLoss))
+        else if (processedCount > StreakPeriods && !double.IsNaN(_avgStreakGain) && !double.IsNaN(_avgStreakLoss))
         {
             if (!double.IsNaN(streakGain))
             {
@@ -429,8 +443,8 @@ public class ConnorsRsiHub
                 _processedCount++;
             }
 
-            // Add to streak buffer (keep last StreakPeriods + 2 values)
-            if (p >= targetIndex - (StreakPeriods + 1))
+            // Add to streak buffer (keep last StreakPeriods + 1 values)
+            if (p >= targetIndex - StreakPeriods)
             {
                 _streakBuffer.Enqueue(_streak);
             }
