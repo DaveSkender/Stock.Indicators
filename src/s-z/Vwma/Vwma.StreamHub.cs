@@ -9,7 +9,6 @@ public class VwmaHub
     : ChainProvider<IReusable, VwmaResult>, IVwma
 {
     private readonly string hubName;
-    private readonly Queue<(double price, double volume)> window;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="VwmaHub"/> class.
@@ -23,7 +22,6 @@ public class VwmaHub
         Vwma.Validate(lookbackPeriods);
         LookbackPeriods = lookbackPeriods;
         hubName = $"VWMA({lookbackPeriods})";
-        window = new Queue<(double, double)>(lookbackPeriods);
 
         Reinitialize();
     }
@@ -45,35 +43,24 @@ public class VwmaHub
         ArgumentNullException.ThrowIfNull(item);
         int index = indexHint ?? ProviderCache.IndexOf(item, true);
 
-        // Optimized sliding window approach (36% performance improvement: 3.8x → 2.43x):
-        // - Uses Queue for O(1) window management with (price, volume) tuples
-        // - Avoids repeated ProviderCache access (significant overhead reduction)
-        // - Recalculates both sums from queue to maintain floating-point precision
-        IQuote quote = (IQuote)item;
-        double price = (double)quote.Close;
-        double volume = (double)quote.Volume;
+        // Calculate VWMA efficiently using a rolling window over ProviderCache
+        // This is O(lookbackPeriods) which is constant for a given configuration
+        // and maintains exact precision with Series implementation
         double? vwma = null;
 
-        // Add new value to window
-        window.Enqueue((price, volume));
-
-        // Remove oldest value if window is full
-        if (window.Count > LookbackPeriods)
-        {
-            window.Dequeue();
-        }
-
-        // Calculate VWMA when window is full
-        // Sum from queue to match Series precision
-        if (window.Count == LookbackPeriods)
+        if (index >= LookbackPeriods - 1)
         {
             double priceVolumeSum = 0;
             double volumeSum = 0;
 
-            foreach ((double p, double v) in window)
+            for (int p = index - LookbackPeriods + 1; p <= index; p++)
             {
-                priceVolumeSum += p * v;
-                volumeSum += v;
+                IQuote quote = (IQuote)ProviderCache[p];
+                double price = (double)quote.Close;
+                double volume = (double)quote.Volume;
+
+                priceVolumeSum += price * volume;
+                volumeSum += volume;
             }
 
             vwma = volumeSum != 0 ? priceVolumeSum / volumeSum : null;
@@ -84,35 +71,6 @@ public class VwmaHub
             Vwma: vwma);
 
         return (result, index);
-    }
-
-    /// <summary>
-    /// Restores the rolling window state up to the specified timestamp.
-    /// </summary>
-    /// <inheritdoc/>
-    protected override void RollbackState(DateTime timestamp)
-    {
-        // Clear state
-        window.Clear();
-
-        // Rebuild window from ProviderCache
-        int index = ProviderCache.IndexGte(timestamp);
-        if (index <= 0)
-        {
-            return;
-        }
-
-        int targetIndex = index - 1;
-        int startIdx = Math.Max(0, targetIndex + 1 - LookbackPeriods);
-
-        for (int p = startIdx; p <= targetIndex; p++)
-        {
-            IQuote quote = (IQuote)ProviderCache[p];
-            double price = (double)quote.Close;
-            double volume = (double)quote.Volume;
-
-            window.Enqueue((price, volume));
-        }
     }
 }
 
