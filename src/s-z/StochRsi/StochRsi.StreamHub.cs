@@ -14,10 +14,13 @@ public sealed class StochRsiHub
     /// Internal RSI hub for incremental RSI calculation
     /// </summary>
     private readonly RsiHub rsiHub;
+
     /// <summary>
-    /// Rolling window of RSI values for stochastic calculation
+    /// Rolling windows for O(1) RSI max/min tracking
     /// </summary>
-    private readonly Queue<double> rsiBuffer;
+    private readonly RollingWindowMax<double> _rsiMaxWindow;
+    private readonly RollingWindowMin<double> _rsiMinWindow;
+
     /// <summary>
     /// Rolling window for %K smoothing
     /// </summary>
