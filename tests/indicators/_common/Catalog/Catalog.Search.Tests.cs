@@ -16,8 +16,8 @@ public class CatalogSearchTests : TestBase
     {
         IReadOnlyCollection<IndicatorListing> emaListings = Catalog.Get("EMA");
         emaListings.Should().NotBeEmpty("EMA should exist in catalog");
-        emaListings.Should().OnlyContain(l => l.Uiid == "EMA");
-        emaListings.Should().OnlyContain(l => l.Name == "Exponential Moving Average");
+        emaListings.Should().OnlyContain(static l => l.Uiid == "EMA");
+        emaListings.Should().OnlyContain(static l => l.Name == "Exponential Moving Average");
     }
 
     [TestMethod]
@@ -31,9 +31,9 @@ public class CatalogSearchTests : TestBase
         streamListings.Should().NotBeEmpty();
         bufferListings.Should().NotBeEmpty();
 
-        seriesListings.Should().OnlyContain(l => l.Style == Style.Series);
-        streamListings.Should().OnlyContain(l => l.Style == Style.Stream);
-        bufferListings.Should().OnlyContain(l => l.Style == Style.Buffer);
+        seriesListings.Should().OnlyContain(static l => l.Style == Style.Series);
+        streamListings.Should().OnlyContain(static l => l.Style == Style.Stream);
+        bufferListings.Should().OnlyContain(static l => l.Style == Style.Buffer);
     }
 
     [TestMethod]
@@ -41,9 +41,9 @@ public class CatalogSearchTests : TestBase
     {
         IReadOnlyCollection<IndicatorListing> maListings = Catalog.Get(Category.MovingAverage);
         maListings.Should().NotBeEmpty();
-        maListings.Should().Contain(l => l.Uiid == "EMA");
-        maListings.Should().Contain(l => l.Uiid == "SMA");
-        maListings.Should().OnlyContain(l => l.Category == Category.MovingAverage);
+        maListings.Should().Contain(static l => l.Uiid == "EMA");
+        maListings.Should().Contain(static l => l.Uiid == "SMA");
+        maListings.Should().OnlyContain(static l => l.Category == Category.MovingAverage);
     }
 
     [TestMethod]
@@ -51,8 +51,8 @@ public class CatalogSearchTests : TestBase
     {
         IReadOnlyCollection<IndicatorListing> rsiResults = Catalog.Search("RSI");
         rsiResults.Should().NotBeEmpty();
-        rsiResults.Should().Contain(l => l.Uiid == "RSI");
-        rsiResults.Should().OnlyContain(l => l.Name.Contains("RSI") || l.Uiid.Contains("RSI"));
+        rsiResults.Should().Contain(static l => l.Uiid == "RSI");
+        rsiResults.Should().OnlyContain(static l => l.Name.Contains("RSI") || l.Uiid.Contains("RSI"));
     }
 
     [TestMethod]
@@ -60,10 +60,10 @@ public class CatalogSearchTests : TestBase
     {
         IReadOnlyCollection<IndicatorListing> movingResults = Catalog.Search("Moving");
         movingResults.Should().NotBeEmpty();
-        movingResults.Should().Contain(l => l.Uiid == "EMA");
-        movingResults.Should().Contain(l => l.Uiid == "SMA");
+        movingResults.Should().Contain(static l => l.Uiid == "EMA");
+        movingResults.Should().Contain(static l => l.Uiid == "SMA");
         movingResults.Count.Should().BeGreaterThan(2);
-        movingResults.Should().OnlyContain(l => l.Name.Contains("Moving") || l.Uiid.Contains("Moving"));
+        movingResults.Should().OnlyContain(static l => l.Name.Contains("Moving") || l.Uiid.Contains("Moving"));
     }
 
     [TestMethod]
@@ -71,10 +71,10 @@ public class CatalogSearchTests : TestBase
     {
         IReadOnlyCollection<IndicatorListing> results = Catalog.Search("Moving", Style.Series);
         results.Should().NotBeEmpty();
-        results.Should().Contain(l => l.Uiid == "EMA" && l.Style == Style.Series);
-        results.Should().Contain(l => l.Uiid == "SMA" && l.Style == Style.Series);
-        results.Should().NotContain(l => l.Style != Style.Series);
-        results.Should().OnlyContain(l => l.Name.Contains("Moving"));
+        results.Should().Contain(static l => l.Uiid == "EMA" && l.Style == Style.Series);
+        results.Should().Contain(static l => l.Uiid == "SMA" && l.Style == Style.Series);
+        results.Should().NotContain(static l => l.Style != Style.Series);
+        results.Should().OnlyContain(static l => l.Name.Contains("Moving"));
     }
 
     [TestMethod]
@@ -82,10 +82,10 @@ public class CatalogSearchTests : TestBase
     {
         IReadOnlyCollection<IndicatorListing> results = Catalog.Search("Moving", Category.MovingAverage);
         results.Should().NotBeEmpty();
-        results.Should().Contain(l => l.Uiid == "EMA");
-        results.Should().Contain(l => l.Uiid == "SMA");
-        results.Should().OnlyContain(l => l.Category == Category.MovingAverage);
-        results.Should().OnlyContain(l => l.Name.Contains("Moving"));
+        results.Should().Contain(static l => l.Uiid == "EMA");
+        results.Should().Contain(static l => l.Uiid == "SMA");
+        results.Should().OnlyContain(static l => l.Category == Category.MovingAverage);
+        results.Should().OnlyContain(static l => l.Name.Contains("Moving"));
     }
 
     [TestMethod]

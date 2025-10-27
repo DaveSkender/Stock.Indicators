@@ -23,17 +23,17 @@ public class StcTests : TestBase
         listing.Parameters.Should().NotBeNull();
         listing.Parameters.Should().HaveCount(3);
 
-        IndicatorParam cyclePeriodsParam = listing.Parameters.SingleOrDefault(p => p.ParameterName == "cyclePeriods");
+        IndicatorParam cyclePeriodsParam = listing.Parameters.SingleOrDefault(static p => p.ParameterName == "cyclePeriods");
         cyclePeriodsParam.Should().NotBeNull();
-        IndicatorParam fastPeriodsParam1 = listing.Parameters.SingleOrDefault(p => p.ParameterName == "fastPeriods");
+        IndicatorParam fastPeriodsParam1 = listing.Parameters.SingleOrDefault(static p => p.ParameterName == "fastPeriods");
         fastPeriodsParam1.Should().NotBeNull();
-        IndicatorParam slowPeriodsParam2 = listing.Parameters.SingleOrDefault(p => p.ParameterName == "slowPeriods");
+        IndicatorParam slowPeriodsParam2 = listing.Parameters.SingleOrDefault(static p => p.ParameterName == "slowPeriods");
         slowPeriodsParam2.Should().NotBeNull();
 
         listing.Results.Should().NotBeNull();
         listing.Results.Should().HaveCount(1);
 
-        IndicatorResult stcResult = listing.Results.SingleOrDefault(r => r.DataName == "Stc");
+        IndicatorResult stcResult = listing.Results.SingleOrDefault(static r => r.DataName == "Stc");
         stcResult.Should().NotBeNull();
         stcResult?.DisplayName.Should().Be("STC");
         stcResult.IsReusable.Should().Be(true);

@@ -11,8 +11,8 @@ public class Trix : StaticSeriesTestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.HasCount(482, results.Where(x => x.Ema3 != null));
-        Assert.HasCount(482, results.Where(x => x.Trix != null));
+        Assert.HasCount(482, results.Where(static x => x.Ema3 != null));
+        Assert.HasCount(482, results.Where(static x => x.Trix != null));
 
         // sample values
         TrixResult r24 = results[24];
@@ -40,7 +40,7 @@ public class Trix : StaticSeriesTestBase
             .ToTrix(20);
 
         Assert.HasCount(502, results);
-        Assert.HasCount(482, results.Where(x => x.Trix != null));
+        Assert.HasCount(482, results.Where(static x => x.Trix != null));
     }
 
     [TestMethod]
@@ -51,7 +51,7 @@ public class Trix : StaticSeriesTestBase
             .ToTrix(20);
 
         Assert.HasCount(502, results);
-        Assert.HasCount(481, results.Where(x => x.Trix != null));
+        Assert.HasCount(481, results.Where(static x => x.Trix != null));
     }
 
     [TestMethod]
@@ -62,7 +62,7 @@ public class Trix : StaticSeriesTestBase
             .ToSma(10);
 
         Assert.HasCount(502, results);
-        Assert.HasCount(473, results.Where(x => x.Sma != null));
+        Assert.HasCount(473, results.Where(static x => x.Sma != null));
     }
 
     [TestMethod]
@@ -72,7 +72,7 @@ public class Trix : StaticSeriesTestBase
             .ToTrix(15);
 
         Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(x => x.Trix is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.Trix is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -104,9 +104,11 @@ public class Trix : StaticSeriesTestBase
         Assert.AreEqual(-0.230742, last.Trix.Round(6));
     }
 
-    // bad lookback period
+    /// <summary>
+    /// bad lookback period
+    /// </summary>
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => Quotes.ToTrix(0));
+            static () => Quotes.ToTrix(0));
 }

@@ -11,10 +11,10 @@ public class RocWb : StaticSeriesTestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.HasCount(482, results.Where(x => x.Roc != null));
-        Assert.HasCount(480, results.Where(x => x.RocEma != null));
-        Assert.HasCount(463, results.Where(x => x.UpperBand != null));
-        Assert.HasCount(463, results.Where(x => x.LowerBand != null));
+        Assert.HasCount(482, results.Where(static x => x.Roc != null));
+        Assert.HasCount(480, results.Where(static x => x.RocEma != null));
+        Assert.HasCount(463, results.Where(static x => x.UpperBand != null));
+        Assert.HasCount(463, results.Where(static x => x.LowerBand != null));
 
         // sample values
         RocWbResult r19 = results[19];
@@ -74,7 +74,7 @@ public class RocWb : StaticSeriesTestBase
             .ToRocWb(20, 3, 20);
 
         Assert.HasCount(502, results);
-        Assert.HasCount(482, results.Where(x => x.Roc != null));
+        Assert.HasCount(482, results.Where(static x => x.Roc != null));
     }
 
     [TestMethod]
@@ -85,7 +85,7 @@ public class RocWb : StaticSeriesTestBase
             .ToRocWb(20, 3, 20);
 
         Assert.HasCount(502, results);
-        Assert.HasCount(481, results.Where(x => x.Roc != null));
+        Assert.HasCount(481, results.Where(static x => x.Roc != null));
     }
 
     [TestMethod]
@@ -96,7 +96,7 @@ public class RocWb : StaticSeriesTestBase
             .ToSma(10);
 
         Assert.HasCount(502, results);
-        Assert.HasCount(473, results.Where(x => x.Sma != null));
+        Assert.HasCount(473, results.Where(static x => x.Sma != null));
     }
 
     [TestMethod]
@@ -106,7 +106,7 @@ public class RocWb : StaticSeriesTestBase
             .ToRocWb(35, 3, 35);
 
         Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(x => x.Roc is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.Roc is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -145,14 +145,14 @@ public class RocWb : StaticSeriesTestBase
     {
         // bad lookback period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => Quotes.ToRocWb(0, 3, 12));
+            static () => Quotes.ToRocWb(0, 3, 12));
 
         // bad EMA period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => Quotes.ToRocWb(14, 0, 14));
+            static () => Quotes.ToRocWb(14, 0, 14));
 
         // bad STDDEV period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => Quotes.ToRocWb(15, 3, 16));
+            static () => Quotes.ToRocWb(15, 3, 16));
     }
 }

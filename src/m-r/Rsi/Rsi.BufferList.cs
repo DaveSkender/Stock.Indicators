@@ -30,7 +30,9 @@ public class RsiList : BufferList<RsiResult>, IIncrementFromChain, IRsi
     /// <param name="values">Initial reusable values to populate the list.</param>
     public RsiList(int lookbackPeriods, IReadOnlyList<IReusable> values)
         : this(lookbackPeriods)
-        => Add(values);
+    {
+        Add(values);
+    }
 
     /// <summary>
     /// Gets the number of periods to look back for the calculation.
@@ -146,6 +148,8 @@ public static partial class Rsi
     /// <summary>
     /// Creates a buffer list for Relative Strength Index (RSI) calculations.
     /// </summary>
+    /// <param name="source"></param>
+    /// <param name="lookbackPeriods"></param>
     public static RsiList ToRsiList(
         this IReadOnlyList<IReusable> source,
         int lookbackPeriods)

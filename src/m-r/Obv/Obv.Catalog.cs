@@ -2,7 +2,9 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Obv
 {
-    // OBV Common Base Listing
+    /// <summary>
+    /// OBV Common Base Listing
+    /// </summary>
     internal static readonly IndicatorListing CommonListing =
         new CatalogListingBuilder()
             .WithName("On-Balance Volume")
@@ -12,19 +14,25 @@ public static partial class Obv
             .AddResult("Obv", "OBV", ResultType.Default, isReusable: true)
             .Build();
 
-    // OBV Series Listing
+    /// <summary>
+    /// OBV Series Listing
+    /// </summary>
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
             .Build();
 
-    // OBV Stream Listing
+    /// <summary>
+    /// OBV Stream Listing
+    /// </summary>
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
             .Build();
 
-    // OBV Buffer Listing
+    /// <summary>
+    /// OBV Buffer Listing
+    /// </summary>
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)

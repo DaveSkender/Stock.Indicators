@@ -2,7 +2,9 @@ namespace Skender.Stock.Indicators;
 
 public static partial class StdDev
 {
-    // Standard Deviation Common Base Listing
+    /// <summary>
+    /// Standard Deviation Common Base Listing
+    /// </summary>
     internal static readonly IndicatorListing CommonListing =
         new CatalogListingBuilder()
             .WithName("Standard Deviation")
@@ -13,7 +15,9 @@ public static partial class StdDev
             .AddResult("StdDev", "Standard Deviation", ResultType.Default, isReusable: true)
             .Build();
 
-    // Standard Deviation Series Listing
+    /// <summary>
+    /// Standard Deviation Series Listing
+    /// </summary>
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)

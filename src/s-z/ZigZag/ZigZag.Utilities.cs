@@ -17,7 +17,7 @@ public static partial class ZigZag
 
         resultsList
             .RemoveAll(match:
-                x => x.PointType is null);
+                static x => x.PointType is null);
 
         return resultsList.ToSortedList();
     }

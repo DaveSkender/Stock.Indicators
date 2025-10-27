@@ -50,7 +50,7 @@ public static class Program
         {
             // Skip weekends
             DateTime currentDate = startDate.AddDays(i);
-            if (currentDate.DayOfWeek == DayOfWeek.Saturday || currentDate.DayOfWeek == DayOfWeek.Sunday)
+            if (currentDate.DayOfWeek is DayOfWeek.Saturday or DayOfWeek.Sunday)
             {
                 continue;
             }

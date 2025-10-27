@@ -10,12 +10,22 @@ public sealed class StochRsiHub
     : ChainProvider<IReusable, StochRsiResult>
 {
     private readonly string hubName;
-    private readonly RsiHub rsiHub;  // Internal RSI hub for incremental RSI calculation
-    private readonly Queue<double> rsiBuffer;  // Rolling window of RSI values for stochastic calculation
-    private readonly Queue<double> kBuffer;  // Rolling window for %K smoothing
-    private readonly Queue<double> signalBuffer;  // Rolling window for signal line calculation
-    private double prevK = double.NaN;
-    private double prevSignal = double.NaN;
+    /// <summary>
+    /// Internal RSI hub for incremental RSI calculation
+    /// </summary>
+    private readonly RsiHub rsiHub;
+    /// <summary>
+    /// Rolling window of RSI values for stochastic calculation
+    /// </summary>
+    private readonly Queue<double> rsiBuffer;
+    /// <summary>
+    /// Rolling window for %K smoothing
+    /// </summary>
+    private readonly Queue<double> kBuffer;
+    /// <summary>
+    /// Rolling window for signal line calculation
+    /// </summary>
+    private readonly Queue<double> signalBuffer;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="StochRsiHub"/> class.
@@ -126,8 +136,6 @@ public sealed class StochRsiHub
         rsiBuffer.Clear();
         kBuffer.Clear();
         signalBuffer.Clear();
-        prevK = double.NaN;
-        prevSignal = double.NaN;
 
         if (providerIndex <= 0)
         {
@@ -218,10 +226,8 @@ public sealed class StochRsiHub
             }
 
             signal = sumSignal / SignalPeriods;
-            prevSignal = signal.Value;
         }
 
-        prevK = k;
         return (k, signal);
     }
 }

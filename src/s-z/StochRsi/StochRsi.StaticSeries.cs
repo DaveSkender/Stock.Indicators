@@ -43,7 +43,7 @@ public static partial class StochRsi
             source
             .ToRsi(rsiPeriods)
             .Remove(Math.Min(rsiPeriods, length)) // TODO: still need to Remove() here, or auto-healing?
-            .ConvertAll(x => new QuoteD(
+            .ConvertAll(static x => new QuoteD(
                 Timestamp: x.Timestamp,
                 Open: 0,
                 High: x.Rsi.Null2NaN(),

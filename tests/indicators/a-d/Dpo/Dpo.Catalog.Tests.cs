@@ -23,17 +23,17 @@ public class DpoTests : TestBase
         listing.Parameters.Should().NotBeNull();
         listing.Parameters.Should().HaveCount(1);
 
-        IndicatorParam lookbackPeriodsParam = listing.Parameters.SingleOrDefault(p => p.ParameterName == "lookbackPeriods");
+        IndicatorParam lookbackPeriodsParam = listing.Parameters.SingleOrDefault(static p => p.ParameterName == "lookbackPeriods");
         lookbackPeriodsParam.Should().NotBeNull();
 
         listing.Results.Should().NotBeNull();
         listing.Results.Should().HaveCount(2);
 
-        IndicatorResult dpoResult = listing.Results.SingleOrDefault(r => r.DataName == "Dpo");
+        IndicatorResult dpoResult = listing.Results.SingleOrDefault(static r => r.DataName == "Dpo");
         dpoResult.Should().NotBeNull();
         dpoResult?.DisplayName.Should().Be("DPO");
         dpoResult.IsReusable.Should().Be(true);
-        IndicatorResult smaResult1 = listing.Results.SingleOrDefault(r => r.DataName == "Sma");
+        IndicatorResult smaResult1 = listing.Results.SingleOrDefault(static r => r.DataName == "Sma");
         smaResult1.Should().NotBeNull();
         smaResult1?.DisplayName.Should().Be("SMA");
         smaResult1.IsReusable.Should().Be(false);

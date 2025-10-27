@@ -11,7 +11,7 @@ public class Vortex : StaticSeriesTestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.HasCount(488, results.Where(x => x.Pvi != null));
+        Assert.HasCount(488, results.Where(static x => x.Pvi != null));
 
         // sample values
         VortexResult r1 = results[13];
@@ -42,7 +42,7 @@ public class Vortex : StaticSeriesTestBase
             .ToVortex(20);
 
         Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(x => x.Pvi is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.Pvi is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -89,9 +89,11 @@ public class Vortex : StaticSeriesTestBase
         Assert.AreEqual(1.1163, last.Nvi.Round(4));
     }
 
-    // bad lookback period
+    /// <summary>
+    /// bad lookback period
+    /// </summary>
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => Quotes.ToVortex(1));
+            static () => Quotes.ToVortex(1));
 }

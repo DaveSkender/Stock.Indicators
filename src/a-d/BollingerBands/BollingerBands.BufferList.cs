@@ -28,7 +28,9 @@ public class BollingerBandsList : BufferList<BollingerBandsResult>, IIncrementFr
     /// <param name="values">Initial reusable values to populate the list.</param>
     public BollingerBandsList(int lookbackPeriods, double standardDeviations, IReadOnlyList<IReusable> values)
         : this(lookbackPeriods, standardDeviations)
-        => Add(values);
+    {
+        Add(values);
+    }
 
     /// <summary>
     /// Gets the number of periods to look back for the calculation.
@@ -131,7 +133,9 @@ public class BollingerBandsList : BufferList<BollingerBandsResult>, IIncrementFr
     }
 }
 
-// EXTENSION METHODS
+/// <summary>
+/// EXTENSION METHODS
+/// </summary>
 public static partial class BollingerBands
 {
     /// <summary>

@@ -1,4 +1,3 @@
-using Tests.Data;
 using static Tests.Data.Utilities;
 
 namespace Regression;

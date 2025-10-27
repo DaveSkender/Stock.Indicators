@@ -162,21 +162,18 @@ public static partial class ZigZag
                         / extremePoint.Value;
                 }
             }
+            else if (eval.Low <= extremePoint.Value)
+            {
+                extremePoint.Index = eval.Index;
+                extremePoint.Value = eval.Low;
+                change = 0;
+            }
             else
             {
-                if (eval.Low <= extremePoint.Value)
-                {
-                    extremePoint.Index = eval.Index;
-                    extremePoint.Value = eval.Low;
-                    change = 0;
-                }
-                else
-                {
-                    change = extremePoint.Value == 0
-                        ? null
-                        : (eval.High - extremePoint.Value)
-                        / extremePoint.Value;
-                }
+                change = extremePoint.Value == 0
+                    ? null
+                    : (eval.High - extremePoint.Value)
+                    / extremePoint.Value;
             }
 
             // return extreme point when reversion threshold met
@@ -274,9 +271,7 @@ public static partial class ZigZag
 
                 lastLowPoint.Index = nextPoint.Index;
                 lastLowPoint.Value = nextPoint.Value;
-                break;
-
-            default: break;  // do nothing
+                break;  // do nothing
         }
 
         // nothing to draw cases
@@ -319,9 +314,7 @@ public static partial class ZigZag
                         + (increment * (index - priorPoint.Index));
 
                     results[i] = r with { RetraceLow = retraceLow };
-                    break;
-
-                default: break; // do nothing
+                    break; // do nothing
             }
         }
     }
@@ -333,6 +326,7 @@ public static partial class ZigZag
     /// <param name="index">The index of the quote.</param>
     /// <param name="q">The quote.</param>
     /// <returns>The ZigZag evaluation.</returns>
+    /// <exception cref="ArgumentOutOfRangeException"></exception>
     internal static ZigZagEval GetZigZagEval(
         EndType endType,
         int index,

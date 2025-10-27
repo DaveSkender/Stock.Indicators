@@ -55,7 +55,7 @@ public class QuoteHub
 
     /// <inheritdoc/>
     public override string ToString()
-        => $"QUOTES<{typeof(IQuote).Name}>: {Quotes.Count} items";
+        => $"QUOTES<{nameof(IQuote)}>: {Quotes.Count} items";
 }
 
 /// <summary>
@@ -108,6 +108,7 @@ public class BaseProvider<T>
     /// </summary>
     /// <param name="observer">The observer to subscribe.</param>
     /// <returns>A disposable object that can be used to unsubscribe.</returns>
+    /// <exception cref="InvalidOperationException"></exception>
     public IDisposable Subscribe(IStreamObserver<T> observer)
         => throw new InvalidOperationException();
 
@@ -116,12 +117,14 @@ public class BaseProvider<T>
     /// </summary>
     /// <param name="observer">The observer to unsubscribe.</param>
     /// <returns><c>true</c> if the observer was unsubscribed; otherwise, <c>false</c>.</returns>
+    /// <exception cref="InvalidOperationException"></exception>
     public bool Unsubscribe(IStreamObserver<T> observer)
         => throw new InvalidOperationException();
 
     /// <summary>
     /// Ends the transmission.
     /// </summary>
+    /// <exception cref="InvalidOperationException"></exception>
     public void EndTransmission()
         => throw new InvalidOperationException();
 }

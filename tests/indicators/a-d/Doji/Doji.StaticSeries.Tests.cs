@@ -11,7 +11,7 @@ public class Doji : StaticSeriesTestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.HasCount(112, results.Where(x => x.Match != Match.None));
+        Assert.HasCount(112, results.Where(static x => x.Match != Match.None));
 
         // sample values
         CandleResult r1 = results[1];
@@ -77,9 +77,9 @@ public class Doji : StaticSeriesTestBase
     {
         // bad maximum change value
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => Quotes.ToDoji(-0.00001));
+            static () => Quotes.ToDoji(-0.00001));
 
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => Quotes.ToDoji(0.50001));
+            static () => Quotes.ToDoji(0.50001));
     }
 }

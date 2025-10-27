@@ -26,7 +26,7 @@ public class AdlTests : TestBase
         listing.Results.Should().NotBeNull();
         listing.Results.Should().HaveCount(1);
 
-        IndicatorResult adlResult = listing.Results.SingleOrDefault(r => r.DataName == "Adl");
+        IndicatorResult adlResult = listing.Results.SingleOrDefault(static r => r.DataName == "Adl");
         adlResult.Should().NotBeNull();
         adlResult?.DisplayName.Should().Be("Accumulation Distribution Line (ADL)");
         adlResult.IsReusable.Should().Be(true);
@@ -51,7 +51,7 @@ public class AdlTests : TestBase
         listing.Results.Should().NotBeNull();
         listing.Results.Should().HaveCount(1);
 
-        IndicatorResult adlResult = listing.Results.SingleOrDefault(r => r.DataName == "Adl");
+        IndicatorResult adlResult = listing.Results.SingleOrDefault(static r => r.DataName == "Adl");
         adlResult.Should().NotBeNull();
         adlResult?.DisplayName.Should().Be("Accumulation Distribution Line (ADL)");
         adlResult.IsReusable.Should().Be(true);
@@ -77,7 +77,7 @@ public class AdlTests : TestBase
         listing.Results.Should().NotBeNull();
         listing.Results.Should().HaveCount(1);
 
-        IndicatorResult adlResult = listing.Results.SingleOrDefault(r => r.DataName == "Adl");
+        IndicatorResult adlResult = listing.Results.SingleOrDefault(static r => r.DataName == "Adl");
         adlResult.Should().NotBeNull();
         adlResult?.DisplayName.Should().Be("Accumulation Distribution Line (ADL)");
         adlResult.IsReusable.Should().Be(true);

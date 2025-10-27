@@ -19,7 +19,7 @@ public class WilliamsR : BufferListTestBase
         }
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
     }
 
     [TestMethod]
@@ -28,7 +28,7 @@ public class WilliamsR : BufferListTestBase
         WilliamsRList sut = new(lookbackPeriods) { Quotes };
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
     }
 
     [TestMethod]
@@ -37,7 +37,7 @@ public class WilliamsR : BufferListTestBase
         WilliamsRList sut = new(lookbackPeriods, Quotes);
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
     }
 
     [TestMethod]
@@ -61,7 +61,7 @@ public class WilliamsR : BufferListTestBase
         IReadOnlyList<WilliamsResult> expected = subset.ToWilliamsR(lookbackPeriods);
 
         sut.Should().HaveCount(expected.Count);
-        sut.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
+        sut.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
     }
 
     [TestMethod]
@@ -77,15 +77,15 @@ public class WilliamsR : BufferListTestBase
         }
 
         incremental.Should().HaveCount(batch.Count);
-        incremental.Should().BeEquivalentTo(batch, options => options.WithStrictOrdering());
+        incremental.Should().BeEquivalentTo(batch, static options => options.WithStrictOrdering());
     }
 
     [TestMethod]
     public void ParameterValidation()
     {
         // Test parameter validation
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() => new WilliamsRList(0));
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() => new WilliamsRList(-1));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(static () => new WilliamsRList(0));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(static () => new WilliamsRList(-1));
     }
 
     [TestMethod]
@@ -120,7 +120,7 @@ public class WilliamsR : BufferListTestBase
         WilliamsRList fromConstructor = new(lookbackPeriods) { Quotes };
 
         fromExtension.Should().HaveCount(fromConstructor.Count);
-        fromExtension.Should().BeEquivalentTo(fromConstructor, options => options.WithStrictOrdering());
+        fromExtension.Should().BeEquivalentTo(fromConstructor, static options => options.WithStrictOrdering());
     }
 
     [TestMethod]
@@ -141,7 +141,7 @@ public class WilliamsR : BufferListTestBase
             = series.Skip(series.Count - maxListSize).ToList();
 
         sut.Should().HaveCount(maxListSize);
-        sut.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
+        sut.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
     }
 
     [TestMethod]
@@ -150,12 +150,9 @@ public class WilliamsR : BufferListTestBase
         // Test that Williams %R stays within expected range [-100, 0]
         WilliamsRList sut = new(lookbackPeriods) { Quotes };
 
-        foreach (WilliamsResult result in sut)
+        foreach (WilliamsResult result in sut.Where(static r => r.WilliamsR.HasValue))
         {
-            if (result.WilliamsR.HasValue)
-            {
-                result.WilliamsR.Value.Should().BeInRange(-100d, 0d);
-            }
+            result.WilliamsR!.Value.Should().BeInRange(-100d, 0d);
         }
     }
 }

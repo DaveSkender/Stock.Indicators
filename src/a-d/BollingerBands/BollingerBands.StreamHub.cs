@@ -31,7 +31,7 @@ public class BollingerBandsHub
         Reinitialize();
     }
 
-    #endregion
+    #endregion constructors
 
     #region properties
 
@@ -45,7 +45,7 @@ public class BollingerBandsHub
     /// </summary>
     public double StandardDeviations { get; }
 
-    #endregion
+    #endregion properties
 
     #region methods
 
@@ -69,7 +69,7 @@ public class BollingerBandsHub
         return (r, i);
     }
 
-    #endregion
+    #endregion methods
 }
 
 

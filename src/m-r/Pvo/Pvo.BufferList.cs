@@ -54,7 +54,9 @@ public class PvoList : BufferList<PvoResult>, IIncrementFromQuote, IPvo
         int signalPeriods,
         IReadOnlyList<IQuote> quotes)
         : this(fastPeriods, slowPeriods, signalPeriods)
-        => Add(quotes);
+    {
+        Add(quotes);
+    }
 
     /// <inheritdoc/>
     public int FastPeriods { get; init; }
@@ -214,6 +216,10 @@ public static partial class Pvo
     /// <summary>
     /// Creates a buffer list for Percentage Volume Oscillator (PVO) calculations.
     /// </summary>
+    /// <param name="quotes"></param>
+    /// <param name="fastPeriods"></param>
+    /// <param name="slowPeriods"></param>
+    /// <param name="signalPeriods"></param>
     public static PvoList ToPvoList(
         this IReadOnlyList<IQuote> quotes,
         int fastPeriods = 12,

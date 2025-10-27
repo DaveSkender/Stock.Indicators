@@ -27,7 +27,9 @@ public class SmaAnalysisList : BufferList<SmaAnalysisResult>, IIncrementFromChai
     /// <param name="values">Initial reusable values to populate the list.</param>
     public SmaAnalysisList(int lookbackPeriods, IReadOnlyList<IReusable> values)
         : this(lookbackPeriods)
-        => Add(values);
+    {
+        Add(values);
+    }
 
     /// <summary>
     /// Gets the number of periods to look back for the calculation.
@@ -113,6 +115,8 @@ public static partial class SmaAnalysis
     /// <summary>
     /// Creates a buffer list for Simple Moving Average (SMA) with extended analysis calculations.
     /// </summary>
+    /// <param name="source"></param>
+    /// <param name="lookbackPeriods"></param>
     public static SmaAnalysisList ToSmaAnalysisList(
         this IReadOnlyList<IReusable> source,
         int lookbackPeriods)

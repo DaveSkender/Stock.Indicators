@@ -25,7 +25,9 @@ public class DojiList : BufferList<CandleResult>, IIncrementFromQuote, IDoji
     /// <param name="quotes">Initial quotes to populate the list.</param>
     public DojiList(double maxPriceChangePercent, IReadOnlyList<IQuote> quotes)
         : this(maxPriceChangePercent)
-        => Add(quotes);
+    {
+        Add(quotes);
+    }
 
     /// <summary>
     /// Gets the maximum price change percent.
@@ -70,10 +72,7 @@ public class DojiList : BufferList<CandleResult>, IIncrementFromQuote, IDoji
     /// <summary>
     /// Clears the list and resets internal state so the instance can be reused.
     /// </summary>
-    public override void Clear()
-    {
-        base.Clear();
-    }
+    public override void Clear() => base.Clear();
 }
 
 public static partial class Doji
@@ -81,6 +80,8 @@ public static partial class Doji
     /// <summary>
     /// Creates a buffer list for Doji candlestick pattern detection.
     /// </summary>
+    /// <param name="quotes"></param>
+    /// <param name="maxPriceChangePercent"></param>
     public static DojiList ToDojiList(
         this IReadOnlyList<IQuote> quotes,
         double maxPriceChangePercent = 0.1)

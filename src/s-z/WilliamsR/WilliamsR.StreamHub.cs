@@ -29,7 +29,7 @@ public class WilliamsRHub
         Reinitialize();
     }
 
-    #endregion
+    #endregion constructors
 
     #region properties
 
@@ -38,7 +38,7 @@ public class WilliamsRHub
     /// </summary>
     public int LookbackPeriods { get; init; }
 
-    #endregion
+    #endregion properties
 
     #region methods
 
@@ -98,7 +98,7 @@ public class WilliamsRHub
         return (result, i);
     }
 
-    #endregion
+    #endregion methods
 
 }
 

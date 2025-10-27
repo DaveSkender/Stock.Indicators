@@ -11,8 +11,8 @@ public class StdDev : StaticSeriesTestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.HasCount(493, results.Where(x => x.StdDev != null));
-        Assert.HasCount(493, results.Where(x => x.ZScore != null));
+        Assert.HasCount(493, results.Where(static x => x.StdDev != null));
+        Assert.HasCount(493, results.Where(static x => x.ZScore != null));
 
         // sample values
         StdDevResult r1 = results[8];
@@ -44,7 +44,7 @@ public class StdDev : StaticSeriesTestBase
             .ToStdDev(10);
 
         Assert.HasCount(502, results);
-        Assert.HasCount(493, results.Where(x => x.StdDev != null));
+        Assert.HasCount(493, results.Where(static x => x.StdDev != null));
     }
 
     [TestMethod]
@@ -55,7 +55,7 @@ public class StdDev : StaticSeriesTestBase
             .ToStdDev(10);
 
         Assert.HasCount(502, results);
-        Assert.HasCount(492, results.Where(x => x.StdDev != null));
+        Assert.HasCount(492, results.Where(static x => x.StdDev != null));
     }
 
     [TestMethod]
@@ -66,7 +66,7 @@ public class StdDev : StaticSeriesTestBase
             .ToSma(10);
 
         Assert.HasCount(502, results);
-        Assert.HasCount(484, results.Where(x => x.Sma != null));
+        Assert.HasCount(484, results.Where(static x => x.Sma != null));
     }
 
     [TestMethod]
@@ -76,7 +76,7 @@ public class StdDev : StaticSeriesTestBase
             .ToStdDev(15);
 
         Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(x => x.StdDev is double.NaN));
+        Assert.IsEmpty(r.Where(static x => x.StdDev is double.NaN));
     }
 
     [TestMethod]
@@ -121,5 +121,5 @@ public class StdDev : StaticSeriesTestBase
     [TestMethod] // bad lookback period
     public void Exceptions()
         => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => Quotes.ToStdDev(1));
+            static () => Quotes.ToStdDev(1));
 }

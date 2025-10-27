@@ -11,7 +11,7 @@ public class Epma : StaticSeriesTestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.HasCount(483, results.Where(x => x.Epma != null));
+        Assert.HasCount(483, results.Where(static x => x.Epma != null));
 
         // sample values
         EpmaResult r1 = results[18];
@@ -38,7 +38,7 @@ public class Epma : StaticSeriesTestBase
             .ToEpma(20);
 
         Assert.HasCount(502, results);
-        Assert.HasCount(483, results.Where(x => x.Epma != null));
+        Assert.HasCount(483, results.Where(static x => x.Epma != null));
     }
 
     [TestMethod]
@@ -49,7 +49,7 @@ public class Epma : StaticSeriesTestBase
             .ToEpma(20);
 
         Assert.HasCount(502, results);
-        Assert.HasCount(482, results.Where(x => x.Epma != null));
+        Assert.HasCount(482, results.Where(static x => x.Epma != null));
     }
 
     [TestMethod]
@@ -60,7 +60,7 @@ public class Epma : StaticSeriesTestBase
             .ToSma(10);
 
         Assert.HasCount(502, results);
-        Assert.HasCount(474, results.Where(x => x.Sma != null));
+        Assert.HasCount(474, results.Where(static x => x.Sma != null));
     }
 
     [TestMethod]
@@ -70,7 +70,7 @@ public class Epma : StaticSeriesTestBase
             .ToEpma(15);
 
         Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(x => x.Epma is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.Epma is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -101,9 +101,11 @@ public class Epma : StaticSeriesTestBase
         Assert.AreEqual(235.8131, last.Epma.Round(4));
     }
 
-    // bad lookback period
+    /// <summary>
+    /// bad lookback period
+    /// </summary>
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => Quotes.ToEpma(0));
+            static () => Quotes.ToEpma(0));
 }

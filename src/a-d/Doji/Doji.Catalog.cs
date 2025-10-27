@@ -2,7 +2,9 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Doji
 {
-    // DOJI Common Base Listing
+    /// <summary>
+    /// DOJI Common Base Listing
+    /// </summary>
     internal static readonly IndicatorListing CommonListing =
         new CatalogListingBuilder()
             .WithName("Doji")
@@ -13,7 +15,9 @@ public static partial class Doji
             .AddResult("Match", "Match", ResultType.Default, isReusable: true)
             .Build();
 
-    // DOJI Series Listing
+    /// <summary>
+    /// DOJI Series Listing
+    /// </summary>
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)

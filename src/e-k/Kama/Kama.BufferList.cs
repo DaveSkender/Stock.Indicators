@@ -50,7 +50,9 @@ public class KamaList : BufferList<KamaResult>, IIncrementFromChain, IKama
         IReadOnlyList<IReusable> values
     )
         : this(erPeriods, fastPeriods, slowPeriods)
-        => Add(values);
+    {
+        Add(values);
+    }
 
     /// <summary>
     /// Gets the number of periods for the Efficiency Ratio (ER).
@@ -177,6 +179,10 @@ public static partial class Kama
     /// <summary>
     /// Creates a buffer list for Kaufman's Adaptive Moving Average (KAMA) calculations.
     /// </summary>
+    /// <param name="source"></param>
+    /// <param name="erPeriods"></param>
+    /// <param name="fastPeriods"></param>
+    /// <param name="slowPeriods"></param>
     public static KamaList ToKamaList(
         this IReadOnlyList<IReusable> source,
         int erPeriods = 10,
