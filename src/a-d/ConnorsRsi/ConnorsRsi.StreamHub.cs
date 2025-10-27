@@ -70,22 +70,36 @@ public class ConnorsRsiHub
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
         // Calculate streak
-        double streak = CalculateStreak(item.Value, _processedCount);
+        double streak = CalculateStreak(item.Value, i);
         _streakBuffer.Update(StreakPeriods + 1, streak);
 
         // Calculate RSI of close
-        double? rsi = CalculateRsiOfClose(item.Value, _processedCount);
+        double? rsi = CalculateRsiOfClose(item.Value, i);
 
         // Calculate RSI of streak
-        double? rsiStreak = CalculateRsiOfStreak(streak, _processedCount);
+        double? rsiStreak = CalculateRsiOfStreak(streak, i);
 
         // Calculate gain and percent rank
-        double gain = CalculateGain(item.Value, _processedCount);
-        _gainBuffer.Update(RankPeriods + 1, gain);
-        double? percentRank = CalculatePercentRank(gain, _processedCount);
+        double gain = CalculateGain(item.Value, i);
+
+        // Handle first item - add gain[0] = 0.0 to match Series behavior
+        // but don't add the calculated gain which would be NaN
+        if (i == 0)
+        {
+            if (_gainBuffer.Count == 0)
+            {
+                _gainBuffer.Enqueue(0.0);
+            }
+        }
+        else
+        {
+            _gainBuffer.Update(RankPeriods + 1, gain);
+        }
+
+        double? percentRank = CalculatePercentRank(gain, i);
 
         // Calculate Connors RSI
-        double? connorsRsi = CalculateConnorsRsi(rsi, rsiStreak, percentRank, _processedCount);
+        double? connorsRsi = CalculateConnorsRsi(rsi, rsiStreak, percentRank, i);
 
         // candidate result
         ConnorsRsiResult r = new(
@@ -336,7 +350,17 @@ public class ConnorsRsiHub
 
     private double? CalculatePercentRank(double gain, int index)
     {
-        if (index < RankPeriods || double.IsNaN(gain))
+        // Match Series logic: need index > rankPeriods - 1
+        if (index <= RankPeriods - 1 || double.IsNaN(gain))
+        {
+            return null;
+        }
+
+        // Check if buffer has enough items
+        // After adding gain[index], buffer should have items from gain[0] to gain[index]
+        // For index=100 with rankPeriods=100, we need 101 items (gain[0] through gain[100])
+        int requiredCount = Math.Min(index + 1, RankPeriods + 1);
+        if (_gainBuffer.Count < requiredCount)
         {
             return null;
         }
@@ -395,6 +419,12 @@ public class ConnorsRsiHub
         int targetIndex = index - 1;
 
         // Rebuild streak and gain buffer state
+        List<double> allStreaks = new(); // Track all streaks for RSI calculation
+
+        // Initialize gain[0] to 0.0 to match Series behavior
+        double gain0 = 0.0;
+        bool hasGain0 = false;
+
         for (int p = 0; p <= targetIndex; p++)
         {
             IReusable item = ProviderCache[p];
@@ -407,6 +437,8 @@ public class ConnorsRsiHub
                 _prevValue = value;
                 _prevStreak = 0;
                 _processedCount = 1;
+                allStreaks.Add(_streak);
+                hasGain0 = true; // Mark that we have a gain[0] value
             }
             else
             {
@@ -427,14 +459,25 @@ public class ConnorsRsiHub
                     _streak = 0;
                 }
 
+                allStreaks.Add(_streak);
+
                 // Recalculate gain
                 double gain = double.IsNaN(value) || double.IsNaN(_prevValue) || _prevValue <= 0
                     ? double.NaN
                     : (value - _prevValue) / _prevValue;
 
-                // Add to gain buffer (limited to buffer size)
-                if (p >= targetIndex - RankPeriods)
+                // Add to gain buffer
+                // Need to maintain a window that includes gain[0]=0.0 and gains up to current
+                // For index=100 with rankPeriods=100, we need gains[0] through gains[100]
+                int bufferStartIndex = Math.Max(0, targetIndex - RankPeriods);
+                if (p >= bufferStartIndex)
                 {
+                    // Add gain[0] = 0.0 first if this is our first addition and we have it
+                    if (_gainBuffer.Count == 0 && hasGain0 && bufferStartIndex == 0)
+                    {
+                        _gainBuffer.Enqueue(gain0);
+                    }
+
                     _gainBuffer.Enqueue(gain);
                 }
 
@@ -447,6 +490,105 @@ public class ConnorsRsiHub
             if (p >= targetIndex - StreakPeriods)
             {
                 _streakBuffer.Enqueue(_streak);
+            }
+        }
+
+        // Restore Wilder smoothed averages for RSI of close
+        if (targetIndex >= RsiPeriods)
+        {
+            // Replay Wilder's smoothing to restore state accurately
+            double sumGain = 0;
+            double sumLoss = 0;
+
+            // First, compute initial simple average for first RsiPeriods
+            for (int p = 1; p <= RsiPeriods; p++)
+            {
+                double prevVal = ProviderCache[p - 1].Value;
+                double currVal = ProviderCache[p].Value;
+
+                if (!double.IsNaN(currVal) && !double.IsNaN(prevVal))
+                {
+                    double pGain = currVal > prevVal ? currVal - prevVal : 0;
+                    double pLoss = currVal < prevVal ? prevVal - currVal : 0;
+                    sumGain += pGain;
+                    sumLoss += pLoss;
+                }
+            }
+
+            _avgGain = sumGain / RsiPeriods;
+            _avgLoss = sumLoss / RsiPeriods;
+
+            // Then apply Wilder's smoothing for remaining periods up to targetIndex
+            for (int p = RsiPeriods + 1; p <= targetIndex; p++)
+            {
+                double prevVal = ProviderCache[p - 1].Value;
+                double currVal = ProviderCache[p].Value;
+
+                if (!double.IsNaN(currVal) && !double.IsNaN(prevVal))
+                {
+                    double pGain = currVal > prevVal ? currVal - prevVal : 0;
+                    double pLoss = currVal < prevVal ? prevVal - currVal : 0;
+
+                    // Apply Wilder's smoothing formula
+                    _avgGain = ((_avgGain * (RsiPeriods - 1)) + pGain) / RsiPeriods;
+                    _avgLoss = ((_avgLoss * (RsiPeriods - 1)) + pLoss) / RsiPeriods;
+                }
+                else
+                {
+                    // Reset on NaN
+                    _avgGain = double.NaN;
+                    _avgLoss = double.NaN;
+                    break;
+                }
+            }
+        }
+
+        // Restore Wilder smoothed averages for RSI of streak
+        if (allStreaks.Count > StreakPeriods)
+        {
+            // First, compute initial simple average from first StreakPeriods pairs
+            double sumGain = 0;
+            double sumLoss = 0;
+
+            for (int p = 1; p <= StreakPeriods; p++)
+            {
+                double pStreak = allStreaks[p];
+                double pPrevStreak = allStreaks[p - 1];
+
+                if (!double.IsNaN(pStreak) && !double.IsNaN(pPrevStreak))
+                {
+                    double pGain = pStreak > pPrevStreak ? pStreak - pPrevStreak : 0;
+                    double pLoss = pStreak < pPrevStreak ? pPrevStreak - pStreak : 0;
+                    sumGain += pGain;
+                    sumLoss += pLoss;
+                }
+            }
+
+            _avgStreakGain = sumGain / StreakPeriods;
+            _avgStreakLoss = sumLoss / StreakPeriods;
+
+            // Then apply Wilder's smoothing for remaining pairs
+            for (int p = StreakPeriods + 1; p < allStreaks.Count; p++)
+            {
+                double pStreak = allStreaks[p];
+                double pPrevStreak = allStreaks[p - 1];
+
+                if (!double.IsNaN(pStreak) && !double.IsNaN(pPrevStreak))
+                {
+                    double pGain = pStreak > pPrevStreak ? pStreak - pPrevStreak : 0;
+                    double pLoss = pStreak < pPrevStreak ? pPrevStreak - pStreak : 0;
+
+                    // Apply Wilder's smoothing formula
+                    _avgStreakGain = ((_avgStreakGain * (StreakPeriods - 1)) + pGain) / StreakPeriods;
+                    _avgStreakLoss = ((_avgStreakLoss * (StreakPeriods - 1)) + pLoss) / StreakPeriods;
+                }
+                else
+                {
+                    // Reset on NaN
+                    _avgStreakGain = double.NaN;
+                    _avgStreakLoss = double.NaN;
+                    break;
+                }
             }
         }
     }

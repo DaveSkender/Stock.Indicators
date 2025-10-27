@@ -163,4 +163,48 @@ public class ConnorsRsiHubTests : StreamHubTestBase, ITestChainObserver, ITestCh
         observer.Unsubscribe();
         quoteHub.EndTransmission();
     }
+
+    [TestMethod]
+    public void ResetBehavior()
+    {
+        List<Quote> quotesList = Quotes.ToList();
+
+        // setup quote provider hub
+        QuoteHub quoteHub = new();
+
+        // initialize observer with sample parameters
+        ConnorsRsiHub observer = quoteHub.ToConnorsRsiHub(3, 2, 100);
+
+        // Add ~50 quotes to populate state
+        for (int i = 0; i < 50; i++)
+        {
+            quoteHub.Add(quotesList[i]);
+        }
+
+        // assert observer.Results has 50 entries
+        observer.Results.Should().HaveCount(50);
+
+        // call observer.Reinitialize() - this resets the subscription and rebuilds from quoteHub
+        observer.Reinitialize();
+
+        // The observer should still have 50 results since it rebuilds from the quoteHub
+        observer.Results.Should().HaveCount(50);
+
+        // Now test with a completely fresh setup after unsubscribing
+        observer.Unsubscribe();
+        quoteHub.EndTransmission();
+
+        // Create a new quoteHub with all quotes
+        QuoteHub quoteHub2 = new();
+        ConnorsRsiHub observer2 = quoteHub2.ToConnorsRsiHub(3, 2, 100);
+        quoteHub2.Add(quotesList);
+
+        // Verify results match fresh Series calculation
+        IReadOnlyList<ConnorsRsiResult> seriesList = quotesList.ToConnorsRsi(3, 2, 100);
+        observer2.Results.Should().HaveCount(quotesList.Count);
+        observer2.Results.Should().BeEquivalentTo(seriesList, o => o.WithStrictOrdering());
+
+        observer2.Unsubscribe();
+        quoteHub2.EndTransmission();
+    }
 }
