@@ -348,7 +348,11 @@
 
 ### Implementation for User Story 10
 
-- [ ] T073 [US10] Create list of all remaining indicators with 1.3x-2x slowdown from `tools/performance/baselines/PERFORMANCE_REVIEW.md`
+- [X] T073 [US10] Create list of all remaining indicators with 1.3x-2x slowdown from `tools/performance/baselines/PERFORMANCE_REVIEW.md`
+  - **Analysis Complete**: Documented in `specs/002-fix-streaming-performance/phase-12-indicators-list.md`
+  - **StreamHub**: 6 indicators (1.31x-1.87x slowdown)
+  - **BufferList**: 21 indicators (1.30x-1.95x slowdown)
+  - **Prioritization**: Grouped by optimization patterns (EMA-family, moving averages, volume/price, rate of change, complex)
 - [ ] T074 [P] [US10] Review and optimize indicators in batch (group by similar patterns):
   - Reduce allocations in hot paths
   - Replace LINQ with span-based loops where appropriate
