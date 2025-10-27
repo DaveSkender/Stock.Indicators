@@ -17,8 +17,6 @@ public static partial class Pvo
             .AddResult("Pvo", "PVO", ResultType.Default, isReusable: true)
             .AddResult("Signal", "Signal", ResultType.Default)
             .AddResult("Histogram", "Histogram", ResultType.Default)
-            .AddResult("FastEma", "Fast EMA", ResultType.Default)
-            .AddResult("SlowEma", "Slow EMA", ResultType.Default)
             .Build();
 
     /// <summary>

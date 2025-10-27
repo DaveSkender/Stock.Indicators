@@ -7,6 +7,8 @@ public class PvoHub
     : ChainProvider<IReusable, PvoResult>, IPvo
 {
     private readonly string hubName;
+    private double _prevFastEma = double.NaN;
+    private double _prevSlowEma = double.NaN;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="PvoHub"/> class.
@@ -72,24 +74,42 @@ public class PvoHub
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
         // Calculate Fast EMA
-        double fastEma = i >= FastPeriods - 1
-            ? i > 0 && Cache[i - 1].FastEma is not null
-                // Calculate EMA normally
-                ? Ema.Increment(FastK, Cache[i - 1].FastEma!.Value, item.Value)
-                // Initialize as SMA
-                : Sma.Increment(ProviderCache, FastPeriods, i)
-            // warmup periods are never calculable
-            : double.NaN;
+        double fastEma;
+        if (i < FastPeriods - 1)
+        {
+            fastEma = double.NaN;
+        }
+        else if (double.IsNaN(_prevFastEma))
+        {
+            // Initialize as SMA
+            fastEma = Sma.Increment(ProviderCache, FastPeriods, i);
+        }
+        else
+        {
+            // Calculate EMA normally
+            fastEma = Ema.Increment(FastK, _prevFastEma, item.Value);
+        }
 
         // Calculate Slow EMA
-        double slowEma = i >= SlowPeriods - 1
-            ? i > 0 && Cache[i - 1].SlowEma is not null
-                // Calculate EMA normally
-                ? Ema.Increment(SlowK, Cache[i - 1].SlowEma!.Value, item.Value)
-                // Initialize as SMA
-                : Sma.Increment(ProviderCache, SlowPeriods, i)
-            // warmup periods are never calculable
-            : double.NaN;
+        double slowEma;
+        if (i < SlowPeriods - 1)
+        {
+            slowEma = double.NaN;
+        }
+        else if (double.IsNaN(_prevSlowEma))
+        {
+            // Initialize as SMA
+            slowEma = Sma.Increment(ProviderCache, SlowPeriods, i);
+        }
+        else
+        {
+            // Calculate EMA normally
+            slowEma = Ema.Increment(SlowK, _prevSlowEma, item.Value);
+        }
+
+        // Update state for next iteration
+        _prevFastEma = fastEma;
+        _prevSlowEma = slowEma;
 
         // Calculate PVO
         double pvo = slowEma != 0 ? 100 * ((fastEma - slowEma) / slowEma) : double.NaN;
@@ -118,11 +138,65 @@ public class PvoHub
             Timestamp: item.Timestamp,
             Pvo: pvo.NaN2Null(),
             Signal: signal.NaN2Null(),
-            Histogram: (pvo - signal).NaN2Null(),
-            FastEma: fastEma.NaN2Null(),
-            SlowEma: slowEma.NaN2Null());
+            Histogram: (pvo - signal).NaN2Null());
 
         return (r, i);
+    }
+
+    /// <inheritdoc/>
+    protected override void RollbackState(DateTime timestamp)
+    {
+        // Reset state
+        _prevFastEma = double.NaN;
+        _prevSlowEma = double.NaN;
+
+        if (timestamp <= DateTime.MinValue || ProviderCache.Count == 0)
+        {
+            return;
+        }
+
+        // Find the first index at or after timestamp
+        int index = ProviderCache.IndexGte(timestamp);
+
+        if (index <= 0)
+        {
+            // Rolling back before all data, keep cleared state
+            return;
+        }
+
+        // Rebuild state up to the index before timestamp
+        int targetIndex = index - 1;
+
+        for (int i = 0; i <= targetIndex; i++)
+        {
+            IReusable item = ProviderCache[i];
+
+            // Calculate Fast EMA
+            if (i >= FastPeriods - 1)
+            {
+                if (double.IsNaN(_prevFastEma))
+                {
+                    _prevFastEma = Sma.Increment(ProviderCache, FastPeriods, i);
+                }
+                else
+                {
+                    _prevFastEma = Ema.Increment(FastK, _prevFastEma, item.Value);
+                }
+            }
+
+            // Calculate Slow EMA
+            if (i >= SlowPeriods - 1)
+            {
+                if (double.IsNaN(_prevSlowEma))
+                {
+                    _prevSlowEma = Sma.Increment(ProviderCache, SlowPeriods, i);
+                }
+                else
+                {
+                    _prevSlowEma = Ema.Increment(SlowK, _prevSlowEma, item.Value);
+                }
+            }
+        }
     }
 }
 
@@ -147,6 +221,25 @@ public static partial class Pvo
         => new(chainProvider, fastPeriods, slowPeriods, signalPeriods);
 
     /// <summary>
+    /// Creates a PVO streaming hub from a quote provider (extracts Volume).
+    /// </summary>
+    /// <param name="quoteProvider">The quote provider.</param>
+    /// <param name="fastPeriods">The number of periods for the fast EMA. Default is 12.</param>
+    /// <param name="slowPeriods">The number of periods for the slow EMA. Default is 26.</param>
+    /// <param name="signalPeriods">The number of periods for the signal line. Default is 9.</param>
+    /// <returns>A PVO hub.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when the quote provider is null.</exception>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when any of the parameters are invalid.</exception>
+    public static PvoHub ToPvoHub(
+        this IQuoteProvider<IQuote> quoteProvider,
+        int fastPeriods = 12,
+        int slowPeriods = 26,
+        int signalPeriods = 9)
+        => quoteProvider
+            .ToQuotePartHub(CandlePart.Volume)
+            .ToPvoHub(fastPeriods, slowPeriods, signalPeriods);
+
+    /// <summary>
     /// Creates a Pvo hub from a collection of quotes.
     /// </summary>
     /// <param name="quotes">The collection of quotes.</param>
@@ -162,9 +255,7 @@ public static partial class Pvo
     {
         QuoteHub quoteHub = new();
         quoteHub.Add(quotes);
-        return quoteHub
-            .ToQuotePartHub(CandlePart.Volume)
-            .ToPvoHub(fastPeriods, slowPeriods, signalPeriods);
+        return quoteHub.ToPvoHub(fastPeriods, slowPeriods, signalPeriods);
     }
 
 }

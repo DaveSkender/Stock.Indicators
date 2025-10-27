@@ -7,20 +7,13 @@ namespace Skender.Stock.Indicators;
 /// <param name="Pvo">The PVO value.</param>
 /// <param name="Signal">The signal line value.</param>
 /// <param name="Histogram">The histogram value.</param>
-/// <param name="FastEma">The fast EMA value.</param>
-/// <param name="SlowEma">The slow EMA value.</param>
 [Serializable]
 public record PvoResult
 (
     DateTime Timestamp,
     double? Pvo,
     double? Signal,
-    double? Histogram,
-
-    // extra/interim data
-    double? FastEma,
-    double? SlowEma
-
+    double? Histogram
 ) : IReusable
 {
     /// <inheritdoc/>

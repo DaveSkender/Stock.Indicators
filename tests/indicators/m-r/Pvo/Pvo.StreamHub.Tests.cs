@@ -5,20 +5,11 @@ public class PvoHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
 {
     public override void CustomToString()
     {
-        List<Quote> quotesList = Quotes.ToList();
-
         // setup quote provider hub
         QuoteHub quoteHub = new();
 
         // initialize observer
-        PvoHub observer = quoteHub
-            .ToPvoHub(12, 26, 9);
-
-        // emulate quote stream
-        for (int i = 0; i < 20; i++)
-        {
-            quoteHub.Add(quotesList[i]);
-        }
+        PvoHub observer = quoteHub.ToPvoHub(12, 26, 9);
 
         // test string output
         observer.ToString().Should().Be("PVO(12,26,9)");
@@ -210,8 +201,6 @@ public class PvoHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
         streamResult.Pvo.Should().Be(seriesResult.Pvo);
         streamResult.Signal.Should().Be(seriesResult.Signal);
         streamResult.Histogram.Should().Be(seriesResult.Histogram);
-        streamResult.FastEma.Should().Be(seriesResult.FastEma);
-        streamResult.SlowEma.Should().Be(seriesResult.SlowEma);
 
         observer.Unsubscribe();
         quoteHub.EndTransmission();

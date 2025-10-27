@@ -174,9 +174,7 @@ public class PvoList : BufferList<PvoResult>, IIncrementFromQuote, IPvo
             Timestamp: timestamp,
             Pvo: pvo,
             Signal: signal.NaN2Null(),
-            Histogram: histogram,
-            FastEma: fastEma,
-            SlowEma: slowEma);
+            Histogram: histogram);
 
         AddInternal(result);
     }
