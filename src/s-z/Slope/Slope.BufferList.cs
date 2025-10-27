@@ -20,8 +20,10 @@ public class SlopeList : BufferList<SlopeResult>, IIncrementFromChain
     /// </summary>
     private int globalIndexOffset;
 
-    // Pre-calculated constant for X variance (sequential integers)
-    // Formula: n*(n²-1)/12 where n = lookbackPeriods
+    /// <summary>
+    /// Pre-calculated constant for X variance (sequential integers).
+    /// Formula: n*(n²-1)/12 where n = lookbackPeriods
+    /// </summary>
     private readonly double sumSqXConstant;
 
     /// <summary>
