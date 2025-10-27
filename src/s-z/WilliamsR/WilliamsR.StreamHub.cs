@@ -10,6 +10,8 @@ public class WilliamsRHub
     #region constructors
 
     private readonly string hubName;
+    private readonly RollingWindowMax<double> _highWindow;
+    private readonly RollingWindowMin<double> _lowWindow;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="WilliamsRHub"/> class.
@@ -23,6 +25,8 @@ public class WilliamsRHub
         WilliamsR.Validate(lookbackPeriods);
 
         LookbackPeriods = lookbackPeriods;
+        _highWindow = new RollingWindowMax<double>(lookbackPeriods);
+        _lowWindow = new RollingWindowMin<double>(lookbackPeriods);
 
         hubName = $"WILLR({lookbackPeriods})";
 
@@ -52,43 +56,28 @@ public class WilliamsRHub
         ArgumentNullException.ThrowIfNull(item);
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
+        // Add current high/low to rolling windows
+        bool isViable = !double.IsNaN((double)item.High) &&
+                       !double.IsNaN((double)item.Low) &&
+                       !double.IsNaN((double)item.Close);
+
+        if (isViable)
+        {
+            _highWindow.Add((double)item.High);
+            _lowWindow.Add((double)item.Low);
+        }
+
         // Calculate Williams %R
         double williamsR = double.NaN;
-        if (i >= LookbackPeriods - 1)
+        if (i >= LookbackPeriods - 1 && isViable)
         {
-            double highHigh = double.MinValue;
-            double lowLow = double.MaxValue;
-            bool isViable = true;
+            // Get highest high and lowest low from rolling windows (O(1))
+            double highHigh = _highWindow.Max;
+            double lowLow = _lowWindow.Min;
 
-            // Get lookback window
-            for (int p = i - LookbackPeriods + 1; p <= i; p++)
-            {
-                IQuote x = ProviderCache[p];
-
-                if (double.IsNaN((double)x.High) ||
-                    double.IsNaN((double)x.Low) ||
-                    double.IsNaN((double)x.Close))
-                {
-                    isViable = false;
-                    break;
-                }
-
-                if ((double)x.High > highHigh)
-                {
-                    highHigh = (double)x.High;
-                }
-
-                if ((double)x.Low < lowLow)
-                {
-                    lowLow = (double)x.Low;
-                }
-            }
-
-            williamsR = !isViable
-                 ? double.NaN
-                 : highHigh - lowLow != 0
-                 ? (100 * ((double)item.Close - lowLow) / (highHigh - lowLow)) - 100
-                 : 0;
+            williamsR = highHigh - lowLow != 0
+                ? (100 * ((double)item.Close - lowLow) / (highHigh - lowLow)) - 100
+                : 0;
         }
 
         WilliamsResult result = new(
@@ -96,6 +85,44 @@ public class WilliamsRHub
             WilliamsR: williamsR.NaN2Null());
 
         return (result, i);
+    }
+
+    /// <summary>
+    /// Restores the rolling window state up to the specified timestamp.
+    /// Clears and rebuilds rolling windows from ProviderCache for Insert/Remove operations.
+    /// </summary>
+    /// <inheritdoc/>
+    protected override void RollbackState(DateTime timestamp)
+    {
+        // Clear rolling windows
+        _highWindow.Clear();
+        _lowWindow.Clear();
+
+        // Find target index in ProviderCache
+        int index = ProviderCache.IndexGte(timestamp);
+        if (index <= 0)
+        {
+            return;
+        }
+
+        // Rebuild up to the index before the rollback timestamp
+        int targetIndex = index - 1;
+        int startIdx = Math.Max(0, targetIndex + 1 - LookbackPeriods);
+
+        // Rebuild rolling windows from ProviderCache
+        for (int p = startIdx; p <= targetIndex; p++)
+        {
+            IQuote quote = ProviderCache[p];
+
+            // Only add viable quotes to windows
+            if (!double.IsNaN((double)quote.High) &&
+                !double.IsNaN((double)quote.Low) &&
+                !double.IsNaN((double)quote.Close))
+            {
+                _highWindow.Add((double)quote.High);
+                _lowWindow.Add((double)quote.Low);
+            }
+        }
     }
 
     #endregion
