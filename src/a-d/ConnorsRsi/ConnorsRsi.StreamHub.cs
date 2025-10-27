@@ -153,13 +153,13 @@ public class ConnorsRsiHub
             return null;
         }
 
-        (double gain, double loss) = ComputeGainLoss(value, _prevValue);
+        (double gain, double loss) = Rsi.ComputeGainLoss(value, _prevValue);
 
         // Initialize average gain/loss when needed
         if (index >= RsiPeriods && (double.IsNaN(_avgGain) || double.IsNaN(_avgLoss)))
         {
             InitializeRsiOfClose(index);
-            return CalculateRsiValue(_avgGain, _avgLoss);
+            return Rsi.CalculateRsiValue(_avgGain, _avgLoss);
         }
 
         // Calculate RSI incrementally
@@ -178,7 +178,7 @@ public class ConnorsRsiHub
 
         for (int p = index - RsiPeriods + 1; p <= index; p++)
         {
-            (double pGain, double pLoss) = ComputeGainLoss(
+            (double pGain, double pLoss) = Rsi.ComputeGainLoss(
                 ProviderCache[p].Value,
                 ProviderCache[p - 1].Value);
 
@@ -192,39 +192,14 @@ public class ConnorsRsiHub
 
     private double? UpdateRsiOfClose(double gain, double loss)
     {
-        if (double.IsNaN(gain))
-        {
-            _avgGain = double.NaN;
-            _avgLoss = double.NaN;
-            return null;
-        }
+        (_avgGain, _avgLoss) = Rsi.ApplyWilderSmoothing(_avgGain, _avgLoss, gain, loss, RsiPeriods);
 
-        _avgGain = ((_avgGain * (RsiPeriods - 1)) + gain) / RsiPeriods;
-        _avgLoss = ((_avgLoss * (RsiPeriods - 1)) + loss) / RsiPeriods;
-
-        return CalculateRsiValue(_avgGain, _avgLoss);
-    }
-
-    private static (double gain, double loss) ComputeGainLoss(double currentValue, double previousValue)
-    {
-        if (double.IsNaN(currentValue) || double.IsNaN(previousValue))
-        {
-            return (double.NaN, double.NaN);
-        }
-
-        double gain = currentValue > previousValue ? currentValue - previousValue : 0;
-        double loss = currentValue < previousValue ? previousValue - currentValue : 0;
-        return (gain, loss);
-    }
-
-    private static double? CalculateRsiValue(double avgGain, double avgLoss)
-    {
-        if (double.IsNaN(avgGain / avgLoss))
+        if (double.IsNaN(_avgGain))
         {
             return null;
         }
 
-        return avgLoss > 0 ? 100 - (100 / (1 + (avgGain / avgLoss))) : 100;
+        return Rsi.CalculateRsiValue(_avgGain, _avgLoss);
     }
 
     private double? CalculateRsiOfStreak(double streak, int processedCount)
@@ -248,13 +223,13 @@ public class ConnorsRsiHub
 
     private double? CalculateRsiOfStreakInternal(double streak, int processedCount)
     {
-        (double streakGain, double streakLoss) = ComputeGainLoss(streak, _prevStreak);
+        (double streakGain, double streakLoss) = Rsi.ComputeGainLoss(streak, _prevStreak);
 
         // Initialize average gain/loss when needed
         if (processedCount >= StreakPeriods && (double.IsNaN(_avgStreakGain) || double.IsNaN(_avgStreakLoss)))
         {
             InitializeRsiOfStreak();
-            return CalculateRsiValue(_avgStreakGain, _avgStreakLoss);
+            return Rsi.CalculateRsiValue(_avgStreakGain, _avgStreakLoss);
         }
 
         // Calculate RSI incrementally
@@ -275,7 +250,7 @@ public class ConnorsRsiHub
 
         for (int p = 1; p < streaks.Length; p++)
         {
-            (double pGain, double pLoss) = ComputeGainLoss(streaks[p], streaks[p - 1]);
+            (double pGain, double pLoss) = Rsi.ComputeGainLoss(streaks[p], streaks[p - 1]);
             sumGain += pGain;
             sumLoss += pLoss;
         }
@@ -286,17 +261,15 @@ public class ConnorsRsiHub
 
     private double? UpdateRsiOfStreak(double streakGain, double streakLoss)
     {
-        if (double.IsNaN(streakGain))
+        (_avgStreakGain, _avgStreakLoss) = Rsi.ApplyWilderSmoothing(
+            _avgStreakGain, _avgStreakLoss, streakGain, streakLoss, StreakPeriods);
+
+        if (double.IsNaN(_avgStreakGain))
         {
-            _avgStreakGain = double.NaN;
-            _avgStreakLoss = double.NaN;
             return null;
         }
 
-        _avgStreakGain = ((_avgStreakGain * (StreakPeriods - 1)) + streakGain) / StreakPeriods;
-        _avgStreakLoss = ((_avgStreakLoss * (StreakPeriods - 1)) + streakLoss) / StreakPeriods;
-
-        return CalculateRsiValue(_avgStreakGain, _avgStreakLoss);
+        return Rsi.CalculateRsiValue(_avgStreakGain, _avgStreakLoss);
     }
 
     private double CalculateGain(double value, int index)
@@ -491,7 +464,7 @@ public class ConnorsRsiHub
 
         for (int p = 1; p <= RsiPeriods; p++)
         {
-            (double pGain, double pLoss) = ComputeGainLoss(
+            (double pGain, double pLoss) = Rsi.ComputeGainLoss(
                 ProviderCache[p].Value,
                 ProviderCache[p - 1].Value);
 
@@ -506,19 +479,17 @@ public class ConnorsRsiHub
     {
         for (int p = RsiPeriods + 1; p <= targetIndex; p++)
         {
-            (double pGain, double pLoss) = ComputeGainLoss(
+            (double pGain, double pLoss) = Rsi.ComputeGainLoss(
                 ProviderCache[p].Value,
                 ProviderCache[p - 1].Value);
 
-            if (double.IsNaN(pGain))
+            (_avgGain, _avgLoss) = Rsi.ApplyWilderSmoothing(
+                _avgGain, _avgLoss, pGain, pLoss, RsiPeriods);
+
+            if (double.IsNaN(_avgGain))
             {
-                _avgGain = double.NaN;
-                _avgLoss = double.NaN;
                 break;
             }
-
-            _avgGain = ((_avgGain * (RsiPeriods - 1)) + pGain) / RsiPeriods;
-            _avgLoss = ((_avgLoss * (RsiPeriods - 1)) + pLoss) / RsiPeriods;
         }
     }
 
@@ -540,7 +511,7 @@ public class ConnorsRsiHub
 
         for (int p = 1; p <= StreakPeriods; p++)
         {
-            (double pGain, double pLoss) = ComputeGainLoss(allStreaks[p], allStreaks[p - 1]);
+            (double pGain, double pLoss) = Rsi.ComputeGainLoss(allStreaks[p], allStreaks[p - 1]);
             sumGain += pGain;
             sumLoss += pLoss;
         }
@@ -552,17 +523,15 @@ public class ConnorsRsiHub
     {
         for (int p = StreakPeriods + 1; p < allStreaks.Count; p++)
         {
-            (double pGain, double pLoss) = ComputeGainLoss(allStreaks[p], allStreaks[p - 1]);
+            (double pGain, double pLoss) = Rsi.ComputeGainLoss(allStreaks[p], allStreaks[p - 1]);
 
-            if (double.IsNaN(pGain))
+            (_avgStreakGain, _avgStreakLoss) = Rsi.ApplyWilderSmoothing(
+                _avgStreakGain, _avgStreakLoss, pGain, pLoss, StreakPeriods);
+
+            if (double.IsNaN(_avgStreakGain))
             {
-                _avgStreakGain = double.NaN;
-                _avgStreakLoss = double.NaN;
                 break;
             }
-
-            _avgStreakGain = ((_avgStreakGain * (StreakPeriods - 1)) + pGain) / StreakPeriods;
-            _avgStreakLoss = ((_avgStreakLoss * (StreakPeriods - 1)) + pLoss) / StreakPeriods;
         }
     }
 }
