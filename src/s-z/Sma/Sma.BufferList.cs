@@ -6,6 +6,7 @@ namespace Skender.Stock.Indicators;
 public class SmaList : BufferList<SmaResult>, IIncrementFromChain, ISma
 {
     private readonly Queue<double> buffer;
+    private double bufferSum;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="SmaList"/> class.
@@ -16,6 +17,7 @@ public class SmaList : BufferList<SmaResult>, IIncrementFromChain, ISma
         Sma.Validate(lookbackPeriods);
         LookbackPeriods = lookbackPeriods;
         buffer = new Queue<double>(lookbackPeriods);
+        bufferSum = 0;
     }
 
     /// <summary>
@@ -35,21 +37,24 @@ public class SmaList : BufferList<SmaResult>, IIncrementFromChain, ISma
     /// <inheritdoc />
     public void Add(DateTime timestamp, double value)
     {
-        // Update the rolling buffer using extension method
-        buffer.Update(LookbackPeriods, value);
+        // Update the rolling buffer using extension method and track dequeued value
+        double? dequeuedValue = buffer.UpdateWithDequeue(LookbackPeriods, value);
 
-        // Calculate SMA when we have enough values by recalculating the sum
-        // This matches the precision of the static series implementation
+        // Update running sum efficiently - O(1) operation
+        if (buffer.Count == LookbackPeriods && dequeuedValue.HasValue)
+        {
+            bufferSum = bufferSum - dequeuedValue.Value + value;
+        }
+        else
+        {
+            bufferSum += value;
+        }
+
+        // Calculate SMA when we have enough values
         double? sma = null;
         if (buffer.Count == LookbackPeriods)
         {
-            double sum = 0;
-            foreach (double val in buffer)
-            {
-                sum += val;
-            }
-
-            sma = sum / LookbackPeriods;
+            sma = bufferSum / LookbackPeriods;
         }
 
         AddInternal(new SmaResult(timestamp, sma));
@@ -88,6 +93,7 @@ public class SmaList : BufferList<SmaResult>, IIncrementFromChain, ISma
     {
         base.Clear();
         buffer.Clear();
+        bufferSum = 0;
     }
 }
 
