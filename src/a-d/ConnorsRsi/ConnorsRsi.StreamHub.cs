@@ -69,12 +69,6 @@ public class ConnorsRsiHub
 
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
-        // Handle first item - add gain[0] = 0.0 to match Series behavior
-        if (i == 0 && _gainBuffer.Count == 0)
-        {
-            _gainBuffer.Enqueue(0.0);
-        }
-
         // Calculate streak
         double streak = CalculateStreak(item.Value, i);
         _streakBuffer.Update(StreakPeriods + 1, streak);
@@ -87,7 +81,21 @@ public class ConnorsRsiHub
 
         // Calculate gain and percent rank
         double gain = CalculateGain(item.Value, i);
-        _gainBuffer.Update(RankPeriods + 1, gain);
+
+        // Handle first item - add gain[0] = 0.0 to match Series behavior
+        // but don't add the calculated gain which would be NaN
+        if (i == 0)
+        {
+            if (_gainBuffer.Count == 0)
+            {
+                _gainBuffer.Enqueue(0.0);
+            }
+        }
+        else
+        {
+            _gainBuffer.Update(RankPeriods + 1, gain);
+        }
+
         double? percentRank = CalculatePercentRank(gain, i);
 
         // Calculate Connors RSI
