@@ -248,23 +248,23 @@
 
 ### Implementation for User Story 7
 
-- [ ] T049 [P] [US7] Refactor SMA StreamHub in `src/s-z/Sma/Sma.StreamHub.cs`:
+- [x] T049 [P] [US7] Refactor SMA StreamHub in `src/s-z/Sma/Sma.StreamHub.cs`:
   - Use circular buffer for window
   - Track running sum (add new value, subtract old value)
   - O(1) per quote
-- [ ] T050 [P] [US7] Refactor WMA StreamHub in `src/s-z/Wma/Wma.StreamHub.cs`:
+- [x] T050 [P] [US7] Refactor WMA StreamHub in `src/s-z/Wma/Wma.StreamHub.cs`:
   - Use circular buffer
   - Track weighted sums incrementally
-- [ ] T051 [P] [US7] Refactor VWMA StreamHub in `src/s-z/Vwma/Vwma.StreamHub.cs`:
+- [x] T051 [P] [US7] Refactor VWMA StreamHub in `src/s-z/Vwma/Vwma.StreamHub.cs`:
   - Use circular buffer
   - Track volume-weighted sums incrementally
-- [ ] T052 [P] [US7] Refactor ALMA StreamHub in `src/a-d/Alma/Alma.StreamHub.cs`:
+- [x] T052 [P] [US7] Refactor ALMA StreamHub in `src/a-d/Alma/Alma.StreamHub.cs`:
   - Use circular buffer for window
   - Optimize weight calculations
-- [ ] T053 [US7] Run regression tests - `dotnet test --filter "FullyQualifiedName~Sma|FullyQualifiedName~Wma|FullyQualifiedName~Vwma|FullyQualifiedName~Alma" --settings tests/tests.regression.runsettings`
-- [ ] T054 [US7] Run performance benchmarks - `dotnet run --project tools/performance/Tests.Performance.csproj -c Release -- --filter *Sma.StreamHub*|*Wma*|*Vwma*|*Alma*`
-- [ ] T055 [US7] Validate all indicators ≤1.5x slowdown
-- [ ] T056 [P] [US7] Update code comments for all 4 indicators
+- [x] T053 [US7] Run regression tests - `dotnet test --filter "FullyQualifiedName~Sma|FullyQualifiedName~Wma|FullyQualifiedName~Vwma|FullyQualifiedName~Alma" --settings tests/tests.regression.runsettings`
+- [x] T054 [US7] Run performance benchmarks - `dotnet run --project tools/performance/Tests.Performance.csproj -c Release -- --filter *Sma.StreamHub*|*Wma*|*Vwma*|*Alma*`
+- [x] T055 [US7] Validate all indicators ≤1.5x slowdown
+- [x] T056 [P] [US7] Update code comments for all 4 indicators
 
 **Checkpoint**: All window-based StreamHub indicators are production-ready
 
