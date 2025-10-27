@@ -3,9 +3,9 @@ root = false
 
 [*.cs]
 # Roslynator suppressions for tool code
-dotnet_diagnostic.RCS1129.severity = none  # Remove redundant field initialization (tool code needs explicit nulls)
-dotnet_diagnostic.RCS1140.severity = none  # Add exception to documentation comment (tool code)
-dotnet_diagnostic.RCS1141.severity = none  # Add 'param' element to documentation (tool code)
-dotnet_diagnostic.RCS1142.severity = none  # Add 'typeparam' element to documentation (tool code)
-dotnet_diagnostic.RCS1161.severity = none  # Enum should declare explicit values (tool enums)
-dotnet_diagnostic.RCS1181.severity = none  # Convert comment to documentation comment (tool code)
+dotnet_diagnostic.RCS1129.severity = none  # Remove redundant field initialization
+dotnet_diagnostic.RCS1140.severity = none  # Add exception to documentation comment
+dotnet_diagnostic.RCS1141.severity = none  # Add 'param' element to documentation
+dotnet_diagnostic.RCS1142.severity = none  # Add 'typeparam' element to documentation
+dotnet_diagnostic.RCS1161.severity = none  # Enum should declare explicit values
+dotnet_diagnostic.RCS1181.severity = none  # Convert comment to documentation comment
