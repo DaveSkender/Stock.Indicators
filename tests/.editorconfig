@@ -8,9 +8,8 @@ dotnet_diagnostic.CA1707.severity = none  # Identifiers should not contain under
 dotnet_diagnostic.CS1591.severity = none  # Missing XML comment for publicly visible type or member
 
 # Roslynator suppressions for test code
-dotnet_diagnostic.RCS1129.severity = none  # Remove redundant field initialization (test code needs explicit nulls)
-dotnet_diagnostic.RCS1140.severity = none  # Add exception to documentation comment (test code)
-dotnet_diagnostic.RCS1141.severity = none  # Add 'param' element to documentation (test code)
-dotnet_diagnostic.RCS1142.severity = none  # Add 'typeparam' element to documentation (test code)
-dotnet_diagnostic.RCS1161.severity = none  # Enum should declare explicit values (test enums)
-dotnet_diagnostic.RCS1181.severity = none  # Convert comment to documentation comment (test code)
+dotnet_diagnostic.RCS1129.severity = none  # Remove redundant field initialization
+dotnet_diagnostic.RCS1140.severity = none  # Add exception to documentation comment
+dotnet_diagnostic.RCS1141.severity = none  # Add 'param' element to documentation
+dotnet_diagnostic.RCS1142.severity = none  # Add 'typeparam' element to documentation
+dotnet_diagnostic.RCS1161.severity = none  # Enum should declare explicit values

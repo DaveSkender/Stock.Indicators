@@ -152,6 +152,7 @@ dotnet_diagnostic.IDE0047.severity = none        # Remove unnecessary parenthese
 dotnet_diagnostic.IDE0054.severity = none        # Use '++' operator
 dotnet_diagnostic.IDE0320.severity = none        # Make anonymous function static (minimal benefit)
 dotnet_diagnostic.IDE2003.severity = none        # Blank line required between block and subsequent statement
+dotnet_diagnostic.RCS1181.severity = none        # Convert comment to documentation comment (superflous, inconsistent need)
 dotnet_diagnostic.RCS1228.severity = none        # Unused element in documentation comment
 dotnet_diagnostic.RCS1238.severity = none        # Avoid nested ?: operators (conflicts with IDE0045)
 

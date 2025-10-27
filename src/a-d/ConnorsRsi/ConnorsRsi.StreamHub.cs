@@ -333,7 +333,10 @@ public class ConnorsRsiHub
         ClearState();
 
         int index = ProviderCache.IndexGte(timestamp);
-        if (index <= 0) return;
+        if (index <= 0)
+        {
+            return;
+        }
 
         int targetIndex = index - 1;
         List<double> allStreaks = RebuildBuffers(targetIndex);
@@ -360,7 +363,7 @@ public class ConnorsRsiHub
     private List<double> RebuildBuffers(int targetIndex)
     {
         List<double> allStreaks = [];
-        double gain0 = 0.0;
+        const double gain0 = 0.0;
         bool hasGain0 = false;
 
         for (int p = 0; p <= targetIndex; p++)
@@ -448,7 +451,10 @@ public class ConnorsRsiHub
 
     private void RestoreRsiOfCloseState(int targetIndex)
     {
-        if (targetIndex < RsiPeriods) return;
+        if (targetIndex < RsiPeriods)
+        {
+            return;
+        }
 
         (double sumGain, double sumLoss) = ComputeInitialRsiSums();
         _avgGain = sumGain / RsiPeriods;
@@ -495,7 +501,10 @@ public class ConnorsRsiHub
 
     private void RestoreRsiOfStreakState(List<double> allStreaks)
     {
-        if (allStreaks.Count <= StreakPeriods) return;
+        if (allStreaks.Count <= StreakPeriods)
+        {
+            return;
+        }
 
         (double sumGain, double sumLoss) = ComputeInitialStreakRsiSums(allStreaks);
         _avgStreakGain = sumGain / StreakPeriods;

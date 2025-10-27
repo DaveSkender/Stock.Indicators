@@ -37,7 +37,9 @@ public static partial class ConnorsRsi
             .WithStyle(Style.Buffer)
             .Build();
 
-    // CRSI Stream Listing
+    /// <summary>
+    /// CRSI Stream Listing
+    /// </summary>
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
