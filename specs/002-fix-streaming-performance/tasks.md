@@ -354,14 +354,38 @@
   - **BufferList**: 21 indicators (1.30x-1.95x slowdown)
   - **Prioritization**: Grouped by optimization patterns (EMA-family, moving averages, volume/price, rate of change, complex)
 - [ ] T074 [P] [US10] Review and optimize indicators in batch (group by similar patterns):
-  - Reduce allocations in hot paths
-  - Replace LINQ with span-based loops where appropriate
-  - Cache intermediate calculations
-  - Use spans instead of collections
+  - **Optimized (High Priority)**:
+    - [X] Sma BufferList (1.85x → expected ~1.3x) - Uses running sum with UpdateWithDequeue
+    - [X] Cci BufferList (1.80x → expected ~1.3x) - Uses running TP sum with UpdateWithDequeue
+    - [X] Awesome BufferList (1.83x → expected ~1.3x) - Maintains running sums for fast/slow SMAs
+  - **Already Optimized**:
+    - [X] Smma, Ema BufferList - Already use UpdateWithDequeue pattern (previous phases)
+  - **Remaining (Medium/Low Priority)**:
+    - [ ] Smi BufferList (1.69x) - Needs analysis
+    - [ ] Roc, RocWb BufferList (1.75x, 1.44x) - Simple lookback operations
+    - [ ] Tema, T3, Trix, Macd BufferList (1.64x, 1.39x, 1.50x, 1.55x) - EMA-family
+    - [ ] Complex indicators: Beta, Vortex, RollingPivots, ZigZag, Tsi, StochRsi, Tr, Chandelier, WilliamsR
+  - **StreamHub (1.3x-1.87x slowdown)**:
+    - Note: Many StreamHub indicators already at or near optimal (Adx, Donchian use efficient patterns)
+    - BollingerBands (1.87x) - Uses Increment method with O(n) SMA recalculation
+    - Renko (1.71x), Epma (1.45x), Hma (1.31x) - May require case-by-case analysis
 - [ ] T075 [US10] Run regression tests for all modified indicators - `dotnet test --settings tests/tests.regression.runsettings`
+  - [X] SMA: Passed ✅
+  - [X] CCI: Passed ✅
+  - [X] Awesome: Passed ✅
 - [ ] T076 [US10] Run performance benchmarks for all modified indicators
+  - [X] SMA: Benchmarked - 10.06 µs (improved from 20.591 µs baseline, 1.85x → ~0.91x) ✅
+  - [ ] CCI: Needs benchmark
+  - [ ] Awesome: Needs benchmark
+  - **Note**: Need comprehensive benchmark run to validate all improvements
 - [ ] T077 [US10] Validate all indicators now ≤1.5x slowdown (stretch goal: ≤1.2x)
+  - [X] SMA: Achieved! (0.91x - faster than Series)
+  - [ ] CCI: Needs validation
+  - [ ] Awesome: Needs validation
+  - **Note**: Requires completion of T076 first
 - [ ] T078 [P] [US10] Update code comments for modified indicators
+  - [X] Inline comments added during optimization explaining O(1) running sum patterns
+  - [X] All code adequately documented
 
 **Checkpoint**: All performance targets achieved across all indicators
 
