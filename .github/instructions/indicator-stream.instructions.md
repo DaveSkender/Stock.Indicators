@@ -71,12 +71,19 @@ Stream indicators should follow these naming patterns:
 Use these concrete hubs and tests as canonical patterns when implementing new stream indicators:
 
 - Chain provider (single-input reusable):
-  - `src/e-k/Ema/Ema.StreamHub.cs` — canonical chain provider hub (minimal hot-path allocations)
+  - `src/e-k/Ema/Ema.StreamHub.cs` — canonical chain provider hub (minimal hot-path allocations, simple state rollback)
   - `tests/indicators/e-k/Ema/Ema.StreamHub.Tests.cs` — canonical test coverage including provider history Insert/Remove scenarios
+
+- Rolling window optimizations:
+  - `src/a-d/Chandelier/Chandelier.StreamHub.cs` — RollingWindowMax/Min usage, RollbackState for window rebuild
+  - `src/s-z/Stoch/Stoch.StreamHub.cs` — Complex rollback with window rebuild + buffer prefill
 
 - Multi-series outputs from quotes:
   - `src/a-d/AtrStop/AtrStop.StreamHub.cs` — quote-driven series output pattern (stop bands)
   - `src/a-d/Alligator/Alligator.StreamHub.cs` — multi-line series output with shared state
+
+- Complex state management:
+  - `src/a-d/Adx/Adx.StreamHub.cs` — Wilder's smoothing state, comprehensive RollbackState with full warmup replay
 
 - Dual-input (pairs) hubs:
   - `src/a-d/Correlation/Correlation.StreamHub.cs` — synchronized pairs with `PairsProvider`
@@ -577,12 +584,114 @@ _avgGain = Smoothing.WilderSmoothing(_avgGain, gain, LookbackPeriods);
 _avgLoss = Smoothing.WilderSmoothing(_avgLoss, loss, LookbackPeriods);
 ```
 
-### State management
+### State management and rollback handling
+
+#### Core state management principles
 
 - Maintain minimal internal state necessary for calculations
 - Implement efficient state updates (avoid recalculating from scratch)
 - Handle edge cases in state transitions properly
 - Ensure state consistency across all operations
+
+#### RollbackState override pattern
+
+**When to override `RollbackState`**: Any StreamHub that maintains stateful fields (beyond simple cache lookups) MUST override `RollbackState(DateTime timestamp)` to handle Insert/Remove operations and explicit Rebuild() calls.
+
+**Common scenarios requiring RollbackState**:
+
+1. Rolling windows (RollingWindowMax/Min) - must be rebuilt from cache
+2. Buffered historical values (e.g., raw K buffer in Stoch) - must be prefilled
+3. Running totals or averages (EMA state, Wilder's smoothing) - must be recalculated from cache
+4. Previous value tracking (`_prevValue`, `_prevHigh`, etc.) - must be restored from cache
+
+**❌ WRONG - Inline rebuild detection in ToIndicator**:
+
+```csharp
+// ❌ ANTI-PATTERN - Don't do this!
+public class BadHub : StreamHub<IQuote, BadResult>
+{
+    private int _lastProcessedIndex = -1;
+    private readonly RollingWindowMax<double> _window;
+    
+    protected override (BadResult result, int index) ToIndicator(IQuote item, int? indexHint)
+    {
+        int i = indexHint ?? ProviderCache.IndexOf(item, true);
+        
+        // ❌ WRONG: Detecting and handling rollback in ToIndicator
+        bool needsRebuild = (i != _lastProcessedIndex + 1) && (_lastProcessedIndex != -1);
+        if (needsRebuild)
+        {
+            _window.Clear();
+            // Rebuild logic inline...
+        }
+        
+        _lastProcessedIndex = i;
+        _window.Add(item.Value);
+        // ... rest of calculation
+    }
+}
+```
+
+**✅ CORRECT - Override RollbackState**:
+
+```csharp
+// ✅ CORRECT: Separation of concerns
+public class GoodHub : StreamHub<IQuote, GoodResult>
+{
+    private readonly RollingWindowMax<double> _window;
+    
+    protected override (GoodResult result, int index) ToIndicator(IQuote item, int? indexHint)
+    {
+        int i = indexHint ?? ProviderCache.IndexOf(item, true);
+        
+        // Normal incremental processing only
+        _window.Add(item.Value);
+        
+        if (i < LookbackPeriods)
+            return (new GoodResult(item.Timestamp), i);
+            
+        double max = _window.Max;
+        return (new GoodResult(item.Timestamp, max), i);
+    }
+    
+    /// <summary>
+    /// Restores the rolling window state up to the specified timestamp.
+    /// </summary>
+    /// <inheritdoc/>
+    protected override void RollbackState(DateTime timestamp)
+    {
+        // Clear state
+        _window.Clear();
+        
+        // Rebuild from ProviderCache
+        int index = ProviderCache.IndexGte(timestamp);
+        if (index <= 0) return;
+        
+        int targetIndex = index - 1;
+        int startIdx = Math.Max(0, targetIndex + 1 - LookbackPeriods);
+        
+        for (int p = startIdx; p <= targetIndex; p++)
+        {
+            IQuote quote = ProviderCache[p];
+            _window.Add(quote.Value);
+        }
+    }
+}
+```
+
+**Reference implementations**:
+
+- Simple rolling window: `ChandelierHub.RollbackState` (high/low windows only)
+- Complex with buffering: `StochHub.RollbackState` (windows + rawK buffer prefill)
+- Running state variables: `AdxHub.RollbackState` (Wilder's smoothing state)
+- Previous value tracking: `EmaHub.RollbackState` (prior EMA value restoration)
+
+**Key benefits of RollbackState pattern**:
+
+1. **Separation of concerns** - `ToIndicator` handles normal streaming, `RollbackState` handles cache rebuilds
+2. **Framework integration** - StreamHub base class automatically calls `RollbackState` when needed
+3. **Cleaner hot path** - No conditional logic in performance-critical `ToIndicator` method
+4. **Consistent with patterns** - Follows established patterns in AdxHub, AtrStopHub, StochRsiHub, etc.
 
 ### Real-time considerations
 
@@ -627,4 +736,4 @@ foreach (var quote in liveQuotes)
 ```
 
 ---
-Last updated: October 13, 2025
+Last updated: October 24, 2025

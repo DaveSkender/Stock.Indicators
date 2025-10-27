@@ -11,6 +11,7 @@
       "type": "promptString"
     }
   ],
+
   // defaults
   "group": "none",
   "presentation": {
@@ -103,6 +104,15 @@
       "presentation": { "group": "install" }
     },
     {
+      "label": "Delete: Temporary caches (and build)",
+      "detail": "Delete temporary caches then rebuild",
+      "type": "npm",
+      "script": "clean:build",
+      "group": "build",
+      "problemMatcher": "$msCompile",
+      "presentation": { "group": "install" }
+    },
+    {
       "label": "Build: .NET Solution (incremental)",
       "detail": "Incremental build of solution (default)",
       "type": "shell",
@@ -151,6 +161,35 @@
       "presentation": { "group": "analysis" }
     },
     {
+      "label": "Lint: .NET code & markdown files",
+      "detail": "Run all linting checks (code + markdown) in sequence",
+      "type": "npm",
+      "script": "lint",
+      "group": "test",
+      "problemMatcher": ["$msCompile", "$markdownlint"],
+      "dependsOn": ["Build: .NET Solution (incremental)"],
+      "dependsOrder": "sequence",
+      "presentation": { "group": "analysis" }
+    },
+    {
+      "label": "Fix: .NET code",
+      "detail": "Auto-fix .NET code formatting issues",
+      "type": "npm",
+      "script": "lint:code:fix",
+      "group": "none",
+      "problemMatcher": "$msCompile",
+      "presentation": { "group": "analysis" }
+    },
+    {
+      "label": "Fix: Markdown files",
+      "detail": "Auto-fix markdown formatting issues",
+      "type": "npm",
+      "script": "lint:md:fix",
+      "group": "none",
+      "problemMatcher": "$markdownlint",
+      "presentation": { "group": "analysis" }
+    },
+    {
       "label": "Fix: All .NET and markdown formatting",
       "detail": "Auto-fix code format and markdown issues",
       "type": "npm",
@@ -160,21 +199,6 @@
       "dependsOn": ["Build: .NET Solution (incremental)"],
       "dependsOrder": "sequence",
       "presentation": { "group": "analysis" }
-    },
-    {
-      "label": "Lint: .NET code & markdown files",
-      "detail": "Run all linting checks (code + markdown) in sequence",
-      "type": "npm",
-      "script": "lint",
-      "group": "test",
-      "problemMatcher": ["$msCompile", "$markdownlint"],
-      "dependsOn": ["Build: .NET Solution (incremental)"],
-      "dependsOrder": "sequence",
-      "presentation": {
-        "reveal": "always",
-        "revealProblems": "onProblem",
-        "group": "analysis"
-      }
     },
     {
       "label": "Test: Unit tests",

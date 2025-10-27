@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project>
+  <PropertyGroup>
+    <!-- Additional warnings suppression specific to source code projects -->
+    <NoWarn>$(NoWarn);</NoWarn>
+  </PropertyGroup>
+</Project>
