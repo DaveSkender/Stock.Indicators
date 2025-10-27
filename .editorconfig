@@ -141,6 +141,19 @@ dotnet_diagnostic.IDE0230.severity = suggestion  # Use raw string literal when b
 # remove this when no-longer supporting pre-9.0 frameworks
 dotnet_diagnostic.IDE0330.severity = none        # Prefer 'System.Threading.Lock'
 
+# Roslynator analyzer suppressions
+dotnet_diagnostic.IDE0008.severity = none        # Use explicit type (conflicting with project preferences)
+dotnet_diagnostic.IDE0010.severity = none        # Add missing cases (can be verbose)
+dotnet_diagnostic.IDE0022.severity = none        # Use expression body for method (stylistic preference)
+dotnet_diagnostic.IDE0028.severity = none        # Simplify collection initialization (not compatible with all scenarios)
+dotnet_diagnostic.IDE0045.severity = none        # Use conditional expression for assignment
+dotnet_diagnostic.IDE0046.severity = none        # Use conditional expression for return
+dotnet_diagnostic.IDE0047.severity = none        # Remove unnecessary parentheses
+dotnet_diagnostic.IDE0054.severity = none        # Use '++' operator
+dotnet_diagnostic.IDE0320.severity = none        # Make anonymous function static (minimal benefit)
+dotnet_diagnostic.IDE2003.severity = none        # Blank line required between block and subsequent statement
+dotnet_diagnostic.RCS1228.severity = none        # Unused element in documentation comment
+dotnet_diagnostic.RCS1238.severity = none        # Avoid nested ?: operators (conflicts with IDE0045)
 
 #### C# Coding Conventions ####
 # https://learn.microsoft.com/dotnet/fundamentals/code-analysis/style-rules/csharp-formatting-options

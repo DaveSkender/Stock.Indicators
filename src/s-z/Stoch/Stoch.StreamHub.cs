@@ -161,23 +161,15 @@ public class StochHub
             switch (MovingAverageType)
             {
                 case MaType.SMA:
+                    // Use buffered raw K values for O(n) smoothing instead of O(n²) recalculation
                     double sum = 0;
-                    // Recalculate raw K for each position in the smoothing window
-                    for (int p = i - SmoothPeriods + 1; p <= i; p++)
+                    foreach (double rawKValue in _rawKBuffer)
                     {
-                        // Use buffered raw K values for O(n) smoothing instead of O(n²) recalculation
-                        double sum = 0;
-                        foreach (double rawKValue in _rawKBuffer)
-                        {
-                            sum += rawKValue;
-                        }
-
-                        sum += rawKAtP;
+                        sum += rawKValue;
                     }
 
                     oscillator = sum / SmoothPeriods;
                     break;
-
 
                 case MaType.SMMA:
                     // Get previous smoothed K from cache
@@ -194,7 +186,6 @@ public class StochHub
 
                     oscillator = ((prevSmoothK * (SmoothPeriods - 1)) + rawK) / SmoothPeriods;
                     break;
-
 
                 default:
                     throw new InvalidOperationException("Invalid Stochastic moving average type.");
@@ -234,7 +225,6 @@ public class StochHub
                     signal = sum / SignalPeriods;
                     break;
 
-
                 case MaType.SMMA:
                     // Get previous signal from cache
                     double prevSignal;
@@ -250,7 +240,6 @@ public class StochHub
 
                     signal = ((prevSignal * (SignalPeriods - 1)) + oscillator) / SignalPeriods;
                     break;
-
 
                 default:
                     throw new InvalidOperationException("Invalid Stochastic moving average type.");
@@ -353,7 +342,7 @@ public class StochHub
         }
     }
 
-    #endregion
+    #endregion methods
 }
 
 
