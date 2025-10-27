@@ -236,7 +236,7 @@ Note on former deferrals: Indicators like Fractal, HtTrendline, Hurst, Ichimoku,
 - [x] **T111** Implement Ema StreamHub in `src/e-k/Ema/Ema.StreamHub.cs` ✅
 - [x] **T112** Implement Epma StreamHub in `src/e-k/Epma/Epma.StreamHub.cs` ✅
 - [x] **T113** Implement Fcb StreamHub in `src/e-k/Fcb/Fcb.StreamHub.cs`
-- [ ] **T114** Implement FisherTransform StreamHub in `src/e-k/FisherTransform/FisherTransform.StreamHub.cs`
+- [x] **T114** Implement FisherTransform StreamHub in `src/e-k/FisherTransform/FisherTransform.StreamHub.cs` ✅
 - [x] **T115** Implement ForceIndex StreamHub in `src/e-k/ForceIndex/ForceIndex.StreamHub.cs` ✅
 - [x] **T116** Implement Fractal StreamHub in `src/e-k/Fractal/Fractal.StreamHub.cs` ✅
 - [x] **T117** Implement Gator StreamHub in `src/e-k/Gator/Gator.StreamHub.cs` ✅
@@ -294,7 +294,7 @@ Note on former deferrals: Indicators like Fractal, HtTrendline, Hurst, Ichimoku,
 - [x] **T169** Implement Wma StreamHub in `src/s-z/Wma/Wma.StreamHub.cs` ✅
 - [ ] **T170** Implement ZigZag StreamHub in `src/s-z/ZigZag/ZigZag.StreamHub.cs`
 
-**StreamHub**: 49/85 complete, 36 remaining
+**StreamHub**: 50/85 complete, 35 remaining
 
 **Checkpoint**: Phase 3 completion achieves 1:1:1 parity across all three implementation styles (Series, BufferList, StreamHub)
 
@@ -459,18 +459,18 @@ Each task should follow these guidelines:
 
 - **Total Series implementations**: 85 indicators (baseline)
 - **Total BufferList implementations**: 72 complete, 13 remaining (T001-T085)
-- **Total StreamHub implementations**: 49 complete, 36 remaining (T086-T170)
+- **Total StreamHub implementations**: 50 complete, 35 remaining (T086-T170)
 - **1:1:1 Target**: 85 BufferList + 85 StreamHub = 170 streaming implementations total
-- **Current streaming coverage**: 121/170 = **71% complete**
+- **Current streaming coverage**: 122/170 = **72% complete**
 
 **Task Breakdown**:
 
 - **Phase 1**: 10 tasks (A001-A006, T171-T174) — 8 complete, 2 remaining
 - **Phase 2**: 85 BufferList implementation tasks (T001-T085) — 72 complete, 13 remaining
-- **Phase 3**: 85 StreamHub implementation tasks (T086-T170) — 49 complete, 36 remaining
+- **Phase 3**: 85 StreamHub implementation tasks (T086-T170) — 50 complete, 35 remaining
 - **Phase 4**: 17 test infrastructure tasks (T175-T185, Q001-Q006) — 0 complete, 17 remaining
 - **Phase 5**: 7 documentation tasks (D001-D007) — 2 complete, 5 remaining
-- **Total**: 204 tasks — 131 complete, 73 remaining
+- **Total**: 204 tasks — 132 complete, 72 remaining
 
 Removed blanket deferral: The above indicators are complex but unblocked with established reference patterns (see instruction files).
 
