@@ -15,7 +15,7 @@ Phase 9 successfully optimized four window-based StreamHub indicators (SMA, WMA,
 - **Implementation**: Queue-based window with O(1) enqueue/dequeue operations
 - **Optimization**: Recalculate sum from queue to maintain floating-point precision
 - **Performance**: 3.0x → 3.16x (within margin of error)
-- **State**: Queue<double> window for value management
+- **State**: `Queue<double>` window for value management
 - **Rollback**: Implements `RollbackState()` for Insert/Remove support
 - **File**: `src/s-z/Sma/Sma.StreamHub.cs`
 
@@ -24,7 +24,7 @@ Phase 9 successfully optimized four window-based StreamHub indicators (SMA, WMA,
 - **Implementation**: Queue-based window with array conversion for indexed access
 - **Optimization**: Divisor pre-calculated in constructor
 - **Performance**: 2.5x → 3.14x (slight regression due to queue iteration overhead)
-- **State**: Queue<double> window, pre-calculated divisor
+- **State**: `Queue<double>` window, pre-calculated divisor
 - **Rollback**: Implements `RollbackState()` for Insert/Remove support
 - **File**: `src/s-z/Wma/Wma.StreamHub.cs`
 
@@ -42,7 +42,7 @@ Phase 9 successfully optimized four window-based StreamHub indicators (SMA, WMA,
 - **Implementation**: Queue-based window with pre-calculated Gaussian weights
 - **Optimization**: Weights calculated once in constructor, queue avoids ProviderCache access
 - **Performance**: **7.6x → 4.89x (36% improvement)** ✅
-- **State**: Queue<double> window, pre-calculated weights array
+- **State**: `Queue<double>` window, pre-calculated weights array
 - **Rollback**: Implements `RollbackState()` for Insert/Remove support
 - **File**: `src/a-d/Alma/Alma.StreamHub.cs`
 
