@@ -31,7 +31,9 @@ public class WmaList : BufferList<WmaResult>, IIncrementFromChain, IWma
     /// <param name="values">Initial reusable values to populate the list.</param>
     public WmaList(int lookbackPeriods, IReadOnlyList<IReusable> values)
         : this(lookbackPeriods)
-        => Add(values);
+    {
+        Add(values);
+    }
 
     /// <summary>
     /// Gets the number of periods to look back for the calculation.
@@ -91,6 +93,8 @@ public static partial class Wma
     /// <summary>
     /// Creates a buffer list for Weighted Moving Average (WMA) calculations.
     /// </summary>
+    /// <param name="source"></param>
+    /// <param name="lookbackPeriods"></param>
     public static WmaList ToWmaList(
         this IReadOnlyList<IReusable> source,
         int lookbackPeriods)

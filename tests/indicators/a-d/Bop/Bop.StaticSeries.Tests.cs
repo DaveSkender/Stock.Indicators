@@ -11,7 +11,7 @@ public class Bop : StaticSeriesTestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.HasCount(489, results.Where(x => x.Bop != null));
+        Assert.HasCount(489, results.Where(static x => x.Bop != null));
 
         // sample values
         BopResult r1 = results[12];
@@ -38,7 +38,7 @@ public class Bop : StaticSeriesTestBase
             .ToSma(10);
 
         Assert.HasCount(502, results);
-        Assert.HasCount(480, results.Where(x => x.Sma != null));
+        Assert.HasCount(480, results.Where(static x => x.Sma != null));
     }
 
     [TestMethod]
@@ -47,7 +47,7 @@ public class Bop : StaticSeriesTestBase
         IReadOnlyList<BopResult> r = Data.GetBtcUsdNan()
             .ToBop(50);
 
-        Assert.IsEmpty(r.Where(x => x.Bop is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.Bop is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -57,7 +57,7 @@ public class Bop : StaticSeriesTestBase
             .ToBop();
 
         Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(x => x.Bop is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.Bop is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -86,9 +86,11 @@ public class Bop : StaticSeriesTestBase
         Assert.AreEqual(-0.292788, last.Bop.Round(6));
     }
 
-    // bad lookback period
+    /// <summary>
+    /// bad lookback period
+    /// </summary>
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => Quotes.ToBop(0));
+            static () => Quotes.ToBop(0));
 }

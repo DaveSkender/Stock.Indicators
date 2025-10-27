@@ -26,7 +26,7 @@ public class TrTests : TestBase
         listing.Results.Should().NotBeNull();
         listing.Results.Should().HaveCount(1);
 
-        IndicatorResult trResult = listing.Results.SingleOrDefault(r => r.DataName == "Tr");
+        IndicatorResult trResult = listing.Results.SingleOrDefault(static r => r.DataName == "Tr");
         trResult.Should().NotBeNull();
         trResult?.DisplayName.Should().Be("True Range");
         trResult.IsReusable.Should().Be(true);
@@ -51,7 +51,7 @@ public class TrTests : TestBase
         listing.Results.Should().NotBeNull();
         listing.Results.Should().HaveCount(1);
 
-        IndicatorResult trResult = listing.Results.SingleOrDefault(r => r.DataName == "Tr");
+        IndicatorResult trResult = listing.Results.SingleOrDefault(static r => r.DataName == "Tr");
         trResult.Should().NotBeNull();
         trResult?.DisplayName.Should().Be("True Range");
         trResult.IsReusable.Should().Be(true);
@@ -77,7 +77,7 @@ public class TrTests : TestBase
         listing.Results.Should().NotBeNull();
         listing.Results.Should().HaveCount(1);
 
-        IndicatorResult trResult = listing.Results.SingleOrDefault(r => r.DataName == "Tr");
+        IndicatorResult trResult = listing.Results.SingleOrDefault(static r => r.DataName == "Tr");
         trResult.Should().NotBeNull();
         trResult?.DisplayName.Should().Be("True Range");
         trResult.IsReusable.Should().Be(true);

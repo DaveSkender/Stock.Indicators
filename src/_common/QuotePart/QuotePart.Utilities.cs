@@ -4,11 +4,22 @@ namespace Skender.Stock.Indicators;
 
 public static partial class QuoteParts
 {
-    // convert TQuote element to a basic QuotePart class
+    /// <summary>
+    /// convert TQuote element to a basic QuotePart class
+    /// </summary>
+    /// <param name="q"></param>
+    /// <param name="candlePart"></param>
+    /// <returns></returns>
     internal static QuotePart ToQuotePart(this IQuote q, CandlePart candlePart)
         => new(q.Timestamp, q.ToQuotePartValue(candlePart));
 
-    // convert IQuote to value based on CandlePart
+    /// <summary>
+    /// convert IQuote to value based on CandlePart
+    /// </summary>
+    /// <param name="q"></param>
+    /// <param name="candlePart"></param>
+    /// <returns></returns>
+    /// <exception cref="ArgumentOutOfRangeException"></exception>
     internal static double ToQuotePartValue(this IQuote q, CandlePart candlePart)
 
         => candlePart switch {
@@ -28,13 +39,24 @@ public static partial class QuoteParts
                 nameof(candlePart), candlePart, "Invalid candlePart provided.")
         };
 
-    // conditional HL2 value if IQuote type
+    /// <summary>
+    /// conditional HL2 value if IQuote type
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="item"></param>
+    /// <returns></returns>
     internal static double Hl2OrValue<T>(
         this T item)
         where T : IReusable
         => item.QuotePartOrValue(CandlePart.HL2);
 
-    // conditional CandlePart value if IQuote type
+    /// <summary>
+    /// conditional CandlePart value if IQuote type
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="item"></param>
+    /// <param name="candlePart"></param>
+    /// <returns></returns>
     internal static double QuotePartOrValue<T>(
         this T item, CandlePart candlePart)
         where T : IReusable

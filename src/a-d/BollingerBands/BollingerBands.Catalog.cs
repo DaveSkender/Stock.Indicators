@@ -2,7 +2,9 @@ namespace Skender.Stock.Indicators;
 
 public static partial class BollingerBands
 {
-    // BB Common Base Listing
+    /// <summary>
+    /// BB Common Base Listing
+    /// </summary>
     internal static readonly IndicatorListing CommonListing =
         new CatalogListingBuilder()
             .WithName("Bollinger Bands®")
@@ -19,19 +21,25 @@ public static partial class BollingerBands
             .AddResult("Width", "Width", ResultType.Default)
             .Build();
 
-    // BB Series Listing
+    /// <summary>
+    /// BB Series Listing
+    /// </summary>
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
             .Build();
 
-    // BB Stream Listing
+    /// <summary>
+    /// BB Stream Listing
+    /// </summary>
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
             .Build();
 
-    // BB Buffer Listing
+    /// <summary>
+    /// BB Buffer Listing
+    /// </summary>
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)

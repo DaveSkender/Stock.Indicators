@@ -5,7 +5,7 @@ namespace Tests.Data;
 
 // TEST DATA CONVERTER UTILITIES
 
-internal static partial class Utilities
+internal static class Utilities
 {
     private static readonly CultureInfo EnglishCulture = new("en-US", false);
 
@@ -19,7 +19,7 @@ internal static partial class Utilities
 
         string[] csv = csvLine.Split(',');
 
-        Quote quote = new(
+        return new(
             Timestamp: DateTime.TryParse(csv[0], EnglishCulture, out DateTime d) ? d : default,
             Open: csv[1].ToDecimalDefault(),
             High: csv[2].ToDecimalDefault(),
@@ -27,8 +27,6 @@ internal static partial class Utilities
             Close: csv[4].ToDecimalDefault(),
             Volume: csv[5].ToDecimalDefault()
         );
-
-        return quote;
     }
 
     internal static decimal ToDecimal(this string value)

@@ -93,9 +93,7 @@ public static class Numerical
             sumSqXy += devX * devY;
         }
 
-        double slope = sumSqXy / sumSqX;
-
-        return slope;
+        return sumSqXy / sumSqX;
     }
 
     /// <summary>

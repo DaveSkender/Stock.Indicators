@@ -11,7 +11,7 @@ public class Rsi : StaticSeriesTestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.HasCount(488, results.Where(x => x.Rsi != null));
+        Assert.HasCount(488, results.Where(static x => x.Rsi != null));
 
         // sample values
         RsiResult r1 = results[13];
@@ -36,7 +36,7 @@ public class Rsi : StaticSeriesTestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.HasCount(501, results.Where(x => x.Rsi != null));
+        Assert.HasCount(501, results.Where(static x => x.Rsi != null));
 
         // sample values
         RsiResult r1 = results[28];
@@ -65,7 +65,7 @@ public class Rsi : StaticSeriesTestBase
             .ToRsi();
 
         Assert.HasCount(502, results);
-        Assert.HasCount(488, results.Where(x => x.Rsi != null));
+        Assert.HasCount(488, results.Where(static x => x.Rsi != null));
     }
 
     [TestMethod]
@@ -76,7 +76,7 @@ public class Rsi : StaticSeriesTestBase
             .ToRsi();
 
         Assert.HasCount(502, results);
-        Assert.HasCount(487, results.Where(x => x.Rsi != null));
+        Assert.HasCount(487, results.Where(static x => x.Rsi != null));
     }
 
     [TestMethod]
@@ -87,7 +87,7 @@ public class Rsi : StaticSeriesTestBase
             .ToSma(10);
 
         Assert.HasCount(502, results);
-        Assert.HasCount(479, results.Where(x => x.Sma != null));
+        Assert.HasCount(479, results.Where(static x => x.Sma != null));
     }
 
     [TestMethod]
@@ -96,7 +96,7 @@ public class Rsi : StaticSeriesTestBase
         IReadOnlyList<RsiResult> r = Data.GetBtcUsdNan()
             .ToRsi();
 
-        Assert.IsEmpty(r.Where(x => x.Rsi is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.Rsi is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -106,7 +106,7 @@ public class Rsi : StaticSeriesTestBase
             .ToRsi(20);
 
         Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(x => x.Rsi is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.Rsi is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -137,9 +137,11 @@ public class Rsi : StaticSeriesTestBase
         Assert.AreEqual(42.0773, last.Rsi.Round(4));
     }
 
-    // bad lookback period
+    /// <summary>
+    /// bad lookback period
+    /// </summary>
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => Quotes.ToRsi(0));
+            static () => Quotes.ToRsi(0));
 }

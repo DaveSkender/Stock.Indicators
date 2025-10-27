@@ -39,7 +39,9 @@ public class ForceIndexList : BufferList<ForceIndexResult>, IIncrementFromQuote,
         IReadOnlyList<IQuote> quotes
     )
         : this(lookbackPeriods)
-        => Add(quotes);
+    {
+        Add(quotes);
+    }
 
     /// <summary>
     /// Gets the number of periods to look back for the calculation.
@@ -126,6 +128,8 @@ public static partial class ForceIndex
     /// <summary>
     /// Creates a buffer list for Force Index calculations.
     /// </summary>
+    /// <param name="quotes"></param>
+    /// <param name="lookbackPeriods"></param>
     public static ForceIndexList ToForceIndexList(
         this IReadOnlyList<IQuote> quotes,
         int lookbackPeriods = 2)

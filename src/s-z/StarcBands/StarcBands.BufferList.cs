@@ -41,7 +41,9 @@ public class StarcBandsList : BufferList<StarcBandsResult>, IIncrementFromQuote,
         int atrPeriods,
         IReadOnlyList<IQuote> quotes)
         : this(smaPeriods, multiplier, atrPeriods)
-        => Add(quotes);
+    {
+        Add(quotes);
+    }
 
     /// <summary>
     /// Gets the number of periods for the Simple Moving Average (SMA).
@@ -116,6 +118,10 @@ public static partial class StarcBands
     /// <summary>
     /// Creates a buffer list for STARC Bands calculations.
     /// </summary>
+    /// <param name="quotes"></param>
+    /// <param name="smaPeriods"></param>
+    /// <param name="multiplier"></param>
+    /// <param name="atrPeriods"></param>
     public static StarcBandsList ToStarcBandsList(
         this IReadOnlyList<IQuote> quotes,
         int smaPeriods = 5,

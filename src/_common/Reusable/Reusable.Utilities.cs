@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Provides utility methods for reusable types.
 /// </summary>
-public static partial class Reusable
+public static class Reusable
 {
     /// <summary>
     /// Converts a list of quotes to a list of reusable types.
@@ -35,7 +35,7 @@ public static partial class Reusable
 
         resultsList
             .RemoveAll(match:
-                x => double.IsNaN(x.Value));
+                static x => double.IsNaN(x.Value));
 
         return resultsList;
     }
@@ -55,7 +55,7 @@ public static partial class Reusable
         // be overridden in the specific indicator class
 
         int removePeriods = results
-            .FindIndex(x => !double.IsNaN(x.Value));
+            .FindIndex(static x => !double.IsNaN(x.Value));
 
         return results.Remove(removePeriods);
 

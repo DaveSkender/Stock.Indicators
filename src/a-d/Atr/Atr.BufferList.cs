@@ -14,6 +14,7 @@ public class AtrList : BufferList<AtrResult>, IIncrementFromQuote, IAtr
     /// <summary>
     /// Initializes a new instance of the <see cref="AtrList"/> class.
     /// </summary>
+    /// <param name="lookbackPeriods"></param>
     public AtrList(int lookbackPeriods)
     {
         Atr.Validate(lookbackPeriods);
@@ -30,7 +31,9 @@ public class AtrList : BufferList<AtrResult>, IIncrementFromQuote, IAtr
     /// <param name="quotes">Initial quotes to populate the list.</param>
     public AtrList(int lookbackPeriods, IReadOnlyList<IQuote> quotes)
         : this(lookbackPeriods)
-        => Add(quotes);
+    {
+        Add(quotes);
+    }
 
     /// <summary>
     /// Gets the number of periods to look back for the calculation.
@@ -126,6 +129,8 @@ public static partial class Atr
     /// <summary>
     /// Creates a buffer list for Average True Range calculations.
     /// </summary>
+    /// <param name="quotes"></param>
+    /// <param name="lookbackPeriods"></param>
     public static AtrList ToAtrList(
         this IReadOnlyList<IQuote> quotes,
         int lookbackPeriods)

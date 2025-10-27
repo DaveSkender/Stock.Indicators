@@ -18,7 +18,7 @@ public static partial class SuperTrend
 
         resultsList
             .RemoveAll(match:
-                x => x.SuperTrend is null);
+                static x => x.SuperTrend is null);
 
         return resultsList.ToSortedList();
     }
@@ -34,7 +34,7 @@ public static partial class SuperTrend
         ArgumentNullException.ThrowIfNull(results);
 
         int removePeriods = results
-            .FindIndex(x => x.SuperTrend != null);
+            .FindIndex(static x => x.SuperTrend != null);
 
         return results.Remove(removePeriods);
     }

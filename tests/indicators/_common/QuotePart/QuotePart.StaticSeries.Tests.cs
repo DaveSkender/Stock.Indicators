@@ -59,7 +59,7 @@ public class QuoteParts : StaticSeriesTestBase
             .ToSma(10);
 
         Assert.HasCount(502, results);
-        Assert.HasCount(493, results.Where(x => x.Sma != null));
+        Assert.HasCount(493, results.Where(static x => x.Sma != null));
     }
 
     [TestMethod]
@@ -69,7 +69,7 @@ public class QuoteParts : StaticSeriesTestBase
             .Use(CandlePart.Close);
 
         Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(x => x.Value is double.NaN));
+        Assert.IsEmpty(r.Where(static x => x.Value is double.NaN));
     }
 
     [TestMethod]

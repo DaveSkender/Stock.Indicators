@@ -36,7 +36,9 @@ public class DemaList : BufferList<DemaResult>, IIncrementFromChain, IDema
         IReadOnlyList<IReusable> values
     )
         : this(lookbackPeriods)
-        => Add(values);
+    {
+        Add(values);
+    }
 
     /// <summary>
     /// Gets the number of periods to look back for the calculation.

@@ -38,7 +38,9 @@ public class DynamicList : BufferList<DynamicResult>, IIncrementFromChain, IDyna
         IReadOnlyList<IReusable> values
     )
         : this(lookbackPeriods, kFactor)
-        => Add(values);
+    {
+        Add(values);
+    }
 
     /// <summary>
     /// Gets the number of periods to look back for the calculation.
@@ -109,6 +111,9 @@ public static partial class MgDynamic
     /// <summary>
     /// Creates a buffer list for McGinley Dynamic calculations.
     /// </summary>
+    /// <param name="source"></param>
+    /// <param name="lookbackPeriods"></param>
+    /// <param name="kFactor"></param>
     public static DynamicList ToDynamicList(
         this IReadOnlyList<IReusable> source,
         int lookbackPeriods,

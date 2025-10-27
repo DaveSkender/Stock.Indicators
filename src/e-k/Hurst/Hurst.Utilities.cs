@@ -15,7 +15,7 @@ public static partial class Hurst
         ArgumentNullException.ThrowIfNull(results);
 
         int removePeriods = results
-          .FindIndex(x => x.HurstExponent != null);
+          .FindIndex(static x => x.HurstExponent != null);
 
         return results.Remove(removePeriods);
     }

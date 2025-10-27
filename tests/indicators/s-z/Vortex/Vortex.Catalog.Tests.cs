@@ -23,17 +23,17 @@ public class VortexTests : TestBase
         listing.Parameters.Should().NotBeNull();
         listing.Parameters.Should().HaveCount(1);
 
-        IndicatorParam lookbackPeriodsParam = listing.Parameters.SingleOrDefault(p => p.ParameterName == "lookbackPeriods");
+        IndicatorParam lookbackPeriodsParam = listing.Parameters.SingleOrDefault(static p => p.ParameterName == "lookbackPeriods");
         lookbackPeriodsParam.Should().NotBeNull();
 
         listing.Results.Should().NotBeNull();
         listing.Results.Should().HaveCount(2);
 
-        IndicatorResult pviResult = listing.Results.SingleOrDefault(r => r.DataName == "Pvi");
+        IndicatorResult pviResult = listing.Results.SingleOrDefault(static r => r.DataName == "Pvi");
         pviResult.Should().NotBeNull();
         pviResult?.DisplayName.Should().Be("VI+");
         pviResult.IsReusable.Should().Be(true);
-        IndicatorResult nviResult1 = listing.Results.SingleOrDefault(r => r.DataName == "Nvi");
+        IndicatorResult nviResult1 = listing.Results.SingleOrDefault(static r => r.DataName == "Nvi");
         nviResult1.Should().NotBeNull();
         nviResult1?.DisplayName.Should().Be("VI-");
         nviResult1.IsReusable.Should().Be(false);

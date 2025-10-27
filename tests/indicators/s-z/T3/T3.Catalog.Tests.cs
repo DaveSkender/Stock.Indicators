@@ -23,15 +23,15 @@ public class T3Tests : TestBase
         listing.Parameters.Should().NotBeNull();
         listing.Parameters.Should().HaveCount(2);
 
-        IndicatorParam lookbackPeriodsParam = listing.Parameters.SingleOrDefault(p => p.ParameterName == "lookbackPeriods");
+        IndicatorParam lookbackPeriodsParam = listing.Parameters.SingleOrDefault(static p => p.ParameterName == "lookbackPeriods");
         lookbackPeriodsParam.Should().NotBeNull();
-        IndicatorParam volumeFactorParam1 = listing.Parameters.SingleOrDefault(p => p.ParameterName == "volumeFactor");
+        IndicatorParam volumeFactorParam1 = listing.Parameters.SingleOrDefault(static p => p.ParameterName == "volumeFactor");
         volumeFactorParam1.Should().NotBeNull();
 
         listing.Results.Should().NotBeNull();
         listing.Results.Should().HaveCount(1);
 
-        IndicatorResult t3Result = listing.Results.SingleOrDefault(r => r.DataName == "T3");
+        IndicatorResult t3Result = listing.Results.SingleOrDefault(static r => r.DataName == "T3");
         t3Result.Should().NotBeNull();
         t3Result?.DisplayName.Should().Be("T3");
         t3Result.IsReusable.Should().Be(true);

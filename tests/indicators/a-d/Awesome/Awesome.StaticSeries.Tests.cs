@@ -11,7 +11,7 @@ public class Awesome : StaticSeriesTestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.HasCount(469, results.Where(x => x.Oscillator != null));
+        Assert.HasCount(469, results.Where(static x => x.Oscillator != null));
 
         // sample values
         AwesomeResult r1 = results[32];
@@ -39,7 +39,7 @@ public class Awesome : StaticSeriesTestBase
             .ToAwesome();
 
         Assert.HasCount(502, results);
-        Assert.HasCount(469, results.Where(x => x.Oscillator != null));
+        Assert.HasCount(469, results.Where(static x => x.Oscillator != null));
     }
 
     [TestMethod]
@@ -50,7 +50,7 @@ public class Awesome : StaticSeriesTestBase
             .ToAwesome();
 
         Assert.HasCount(502, results);
-        Assert.HasCount(468, results.Where(x => x.Oscillator != null));
+        Assert.HasCount(468, results.Where(static x => x.Oscillator != null));
     }
 
     [TestMethod]
@@ -61,7 +61,7 @@ public class Awesome : StaticSeriesTestBase
             .ToSma(10);
 
         Assert.HasCount(502, results);
-        Assert.HasCount(460, results.Where(x => x.Sma != null));
+        Assert.HasCount(460, results.Where(static x => x.Sma != null));
     }
 
     [TestMethod]
@@ -71,7 +71,7 @@ public class Awesome : StaticSeriesTestBase
             .ToAwesome();
 
         Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(x => x.Oscillator is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.Oscillator is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -108,10 +108,10 @@ public class Awesome : StaticSeriesTestBase
     {
         // bad fast period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => Quotes.ToAwesome(0, 34));
+            static () => Quotes.ToAwesome(0, 34));
 
         // bad slow period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => Quotes.ToAwesome(25, 25));
+            static () => Quotes.ToAwesome(25, 25));
     }
 }

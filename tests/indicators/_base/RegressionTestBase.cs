@@ -3,6 +3,7 @@ namespace Tests.Data;
 /// <summary>
 /// Base setup for regression tests
 /// </summary>
+/// <param name="filename"></param>
 public abstract class RegressionTestBase<TResult>(string filename) : TestBase
     where TResult : ISeries
 {

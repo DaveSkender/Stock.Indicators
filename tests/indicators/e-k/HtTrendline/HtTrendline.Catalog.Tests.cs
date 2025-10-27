@@ -26,15 +26,15 @@ public class HtTrendlineTests : TestBase
         listing.Results.Should().NotBeNull();
         listing.Results.Should().HaveCount(3);
 
-        IndicatorResult dcperiodsResult = listing.Results.SingleOrDefault(r => r.DataName == "DcPeriods");
+        IndicatorResult dcperiodsResult = listing.Results.SingleOrDefault(static r => r.DataName == "DcPeriods");
         dcperiodsResult.Should().NotBeNull();
         dcperiodsResult?.DisplayName.Should().Be("Dominant Cycle Periods");
         dcperiodsResult.IsReusable.Should().Be(false);
-        IndicatorResult trendlineResult1 = listing.Results.SingleOrDefault(r => r.DataName == "Trendline");
+        IndicatorResult trendlineResult1 = listing.Results.SingleOrDefault(static r => r.DataName == "Trendline");
         trendlineResult1.Should().NotBeNull();
         trendlineResult1?.DisplayName.Should().Be("Trendline");
         trendlineResult1.IsReusable.Should().Be(true);
-        IndicatorResult smoothpriceResult2 = listing.Results.SingleOrDefault(r => r.DataName == "SmoothPrice");
+        IndicatorResult smoothpriceResult2 = listing.Results.SingleOrDefault(static r => r.DataName == "SmoothPrice");
         smoothpriceResult2.Should().NotBeNull();
         smoothpriceResult2?.DisplayName.Should().Be("Smooth Price");
         smoothpriceResult2.IsReusable.Should().Be(false);

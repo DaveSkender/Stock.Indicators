@@ -16,8 +16,8 @@ public static partial class Quotes
         this IReadOnlyList<IQuote> quotes)
 
         => quotes
-            .OrderBy(x => x.Timestamp)
-            .Select(x => x.ToQuote())
+            .OrderBy(static x => x.Timestamp)
+            .Select(static x => x.ToQuote())
             .ToList();
 
     /// <summary>
@@ -29,7 +29,7 @@ public static partial class Quotes
         this IReadOnlyList<IQuote> quotes)
 
           => quotes
-            .Select(x => x.ToQuoteD())
+            .Select(static x => x.ToQuoteD())
             .ToList();
 
     /* TYPES */
@@ -37,6 +37,7 @@ public static partial class Quotes
     /// <summary>
     /// Convert any IQuote type to native Quote type (public API only).
     /// </summary>
+    /// <typeparam name="TQuote"></typeparam>
     /// <param name="quote">The quote to convert.</param>
     /// <returns>A converted quote.</returns>
     public static Quote ToQuote<TQuote>(this TQuote quote)

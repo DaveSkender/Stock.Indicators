@@ -103,6 +103,7 @@ public static partial class Stoch
     /// <param name="dFactor">The factor for the %D line.</param>
     /// <param name="movingAverageType">The type of moving average to use.</param>
     /// <returns>A list of StochResult containing the oscillator values.</returns>
+    /// <exception cref="InvalidOperationException"></exception>
     internal static List<StochResult> CalcStoch(
         this List<QuoteD> source,
         int lookbackPeriods,
@@ -188,30 +189,28 @@ public static partial class Stoch
                 {
                     // SMA case
                     case MaType.SMA:
+                        double sum = 0;
+                        for (int p = i - smoothPeriods + 1; p <= i; p++)
                         {
-                            double sum = 0;
-                            for (int p = i - smoothPeriods + 1; p <= i; p++)
-                            {
-                                sum += o[p];
-                            }
-
-                            k[i] = sum / smoothPeriods;
-                            break;
+                            sum += o[p];
                         }
+
+                        k[i] = sum / smoothPeriods;
+                        break;
+
 
                     // SMMA case
                     case MaType.SMMA:
+                        // re/initialize
+                        if (double.IsNaN(prevK))
                         {
-                            // re/initialize
-                            if (double.IsNaN(prevK))
-                            {
-                                prevK = o[i];
-                            }
-
-                            k[i] = ((prevK * (smoothPeriods - 1)) + o[i]) / smoothPeriods;
-                            prevK = k[i];
-                            break;
+                            prevK = o[i];
                         }
+
+                        k[i] = ((prevK * (smoothPeriods - 1)) + o[i]) / smoothPeriods;
+                        prevK = k[i];
+                        break;
+
 
                     default:
                         throw new InvalidOperationException(
@@ -239,31 +238,29 @@ public static partial class Stoch
                     // SMA case
                     // TODO: || double.IsNaN(prevD) to re/initialize SMMA?
                     case MaType.SMA:
+                        double sum = 0;
+                        for (int p = i - signalPeriods + 1; p <= i; p++)
                         {
-                            double sum = 0;
-                            for (int p = i - signalPeriods + 1; p <= i; p++)
-                            {
-                                sum += k[p];
-                            }
-
-                            signal = sum / signalPeriods;
-                            break;
+                            sum += k[p];
                         }
+
+                        signal = sum / signalPeriods;
+                        break;
+
 
                     // SMMA case
                     case MaType.SMMA:
+                        // re/initialize
+                        if (double.IsNaN(prevD))
                         {
-                            // re/initialize
-                            if (double.IsNaN(prevD))
-                            {
-                                prevD = k[i];
-                            }
-
-                            double d = ((prevD * (signalPeriods - 1)) + k[i]) / signalPeriods;
-                            signal = d;
-                            prevD = d;
-                            break;
+                            prevD = k[i];
                         }
+
+                        double d = ((prevD * (signalPeriods - 1)) + k[i]) / signalPeriods;
+                        signal = d;
+                        prevD = d;
+                        break;
+
 
                     default:
                         throw new InvalidOperationException("Invalid Stochastic moving average type.");

@@ -1,5 +1,3 @@
-using Tests.Data;
-
 namespace StaticSeries;
 
 [TestClass]
@@ -12,9 +10,9 @@ public class Adx : StaticSeriesTestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.HasCount(488, results.Where(x => x.Dx != null));
-        Assert.HasCount(475, results.Where(x => x.Adx != null));
-        Assert.HasCount(462, results.Where(x => x.Adxr != null));
+        Assert.HasCount(488, results.Where(static x => x.Dx != null));
+        Assert.HasCount(475, results.Where(static x => x.Adx != null));
+        Assert.HasCount(462, results.Where(static x => x.Adxr != null));
 
         // sample values
         AdxResult r13 = results[13];
@@ -75,7 +73,7 @@ public class Adx : StaticSeriesTestBase
             .ToSma(10);
 
         Assert.HasCount(502, results);
-        Assert.HasCount(466, results.Where(x => x.Sma != null));
+        Assert.HasCount(466, results.Where(static x => x.Sma != null));
     }
 
     [TestMethod]
@@ -84,7 +82,7 @@ public class Adx : StaticSeriesTestBase
         IReadOnlyList<AdxResult> r = BadQuotes.ToAdx(20);
 
         Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(x => x.Adx is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.Adx is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -113,12 +111,12 @@ public class Adx : StaticSeriesTestBase
         List<Quote> test859 = File.ReadAllLines("a-d/Adx/issue859quotes.csv")
             .Skip(1)
             .Select(Tests.Data.Utilities.QuoteFromCsv)
-            .OrderByDescending(x => x.Timestamp)
+            .OrderByDescending(static x => x.Timestamp)
             .ToList();
 
         IReadOnlyList<AdxResult> r = test859.ToAdx();
 
-        Assert.IsEmpty(r.Where(x => x.Adx is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.Adx is double v && double.IsNaN(v)));
         Assert.HasCount(595, r);
     }
 
@@ -127,7 +125,7 @@ public class Adx : StaticSeriesTestBase
     {
         IReadOnlyList<AdxResult> r = ZeroesQuotes.ToAdx();
 
-        Assert.IsEmpty(r.Where(x => x.Adx is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.Adx is double v && double.IsNaN(v)));
         Assert.HasCount(200, r);
     }
 
@@ -147,9 +145,11 @@ public class Adx : StaticSeriesTestBase
         Assert.AreEqual(34.2987, last.Adx.Round(4));
     }
 
-    // bad lookback period
+    /// <summary>
+    /// bad lookback period
+    /// </summary>
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-                () => Quotes.ToAdx(1));
+                static () => Quotes.ToAdx(1));
 }

@@ -2,7 +2,9 @@ namespace Skender.Stock.Indicators;
 
 public static partial class ZigZag
 {
-    // Zig Zag Common Base Listing
+    /// <summary>
+    /// Zig Zag Common Base Listing
+    /// </summary>
     internal static readonly IndicatorListing CommonListing =
         new CatalogListingBuilder()
             .WithName("Zig Zag (close)")
@@ -17,7 +19,9 @@ public static partial class ZigZag
             .AddResult("RetraceLow", "Retrace Low", ResultType.Default)
             .Build();
 
-    // Zig Zag Series Listing
+    /// <summary>
+    /// Zig Zag Series Listing
+    /// </summary>
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
@@ -25,7 +29,9 @@ public static partial class ZigZag
 
     // No StreamListing for Zig Zag.
 
-    // Zig Zag Buffer Listing
+    /// <summary>
+    /// Zig Zag Buffer Listing
+    /// </summary>
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)

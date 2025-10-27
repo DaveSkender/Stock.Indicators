@@ -23,13 +23,13 @@ public class MfiTests : TestBase
         listing.Parameters.Should().NotBeNull();
         listing.Parameters.Should().HaveCount(1);
 
-        IndicatorParam lookbackPeriodsParam = listing.Parameters.SingleOrDefault(p => p.ParameterName == "lookbackPeriods");
+        IndicatorParam lookbackPeriodsParam = listing.Parameters.SingleOrDefault(static p => p.ParameterName == "lookbackPeriods");
         lookbackPeriodsParam.Should().NotBeNull();
 
         listing.Results.Should().NotBeNull();
         listing.Results.Should().HaveCount(1);
 
-        IndicatorResult mfiResult = listing.Results.SingleOrDefault(r => r.DataName == "Mfi");
+        IndicatorResult mfiResult = listing.Results.SingleOrDefault(static r => r.DataName == "Mfi");
         mfiResult.Should().NotBeNull();
         mfiResult?.DisplayName.Should().Be("MFI");
         mfiResult.IsReusable.Should().Be(true);
@@ -52,13 +52,13 @@ public class MfiTests : TestBase
         listing.Parameters.Should().NotBeNull();
         listing.Parameters.Should().HaveCount(1);
 
-        IndicatorParam lookbackPeriodsParam = listing.Parameters.SingleOrDefault(p => p.ParameterName == "lookbackPeriods");
+        IndicatorParam lookbackPeriodsParam = listing.Parameters.SingleOrDefault(static p => p.ParameterName == "lookbackPeriods");
         lookbackPeriodsParam.Should().NotBeNull();
 
         listing.Results.Should().NotBeNull();
         listing.Results.Should().HaveCount(1);
 
-        IndicatorResult mfiResult = listing.Results.SingleOrDefault(r => r.DataName == "Mfi");
+        IndicatorResult mfiResult = listing.Results.SingleOrDefault(static r => r.DataName == "Mfi");
         mfiResult.Should().NotBeNull();
         mfiResult?.DisplayName.Should().Be("MFI");
         mfiResult.IsReusable.Should().Be(true);
@@ -81,13 +81,13 @@ public class MfiTests : TestBase
         listing.Parameters.Should().NotBeNull();
         listing.Parameters.Should().HaveCount(1);
 
-        IndicatorParam lookbackPeriodsParam = listing.Parameters.SingleOrDefault(p => p.ParameterName == "lookbackPeriods");
+        IndicatorParam lookbackPeriodsParam = listing.Parameters.SingleOrDefault(static p => p.ParameterName == "lookbackPeriods");
         lookbackPeriodsParam.Should().NotBeNull();
 
         listing.Results.Should().NotBeNull();
         listing.Results.Should().HaveCount(1);
 
-        IndicatorResult mfiResult = listing.Results.SingleOrDefault(r => r.DataName == "Mfi");
+        IndicatorResult mfiResult = listing.Results.SingleOrDefault(static r => r.DataName == "Mfi");
         mfiResult.Should().NotBeNull();
         mfiResult?.DisplayName.Should().Be("MFI");
         mfiResult.IsReusable.Should().Be(true);
@@ -101,7 +101,7 @@ public class MfiTests : TestBase
         IndicatorListing listing = Mfi.SeriesListing;
 
         // Get default parameter value from catalog
-        IndicatorParam lookbackParam = listing.Parameters.First(p => p.ParameterName == "lookbackPeriods");
+        IndicatorParam lookbackParam = listing.Parameters.First(static p => p.ParameterName == "lookbackPeriods");
         int lookbackValue = (int)lookbackParam.DefaultValue!;
 
         // Act - Call using catalog metadata (via ListingExecutor)

@@ -34,7 +34,9 @@ public class EmaList : BufferList<EmaResult>, IIncrementFromChain, IEma
         IReadOnlyList<IReusable> values
     )
         : this(lookbackPeriods)
-        => Add(values);
+    {
+        Add(values);
+    }
 
     /// <inheritdoc />
     public int LookbackPeriods { get; init; }
@@ -115,6 +117,8 @@ public static partial class Ema
     /// <summary>
     /// Creates a buffer list for Exponential Moving Average (EMA) calculations.
     /// </summary>
+    /// <param name="source"></param>
+    /// <param name="lookbackPeriods"></param>
     public static EmaList ToEmaList(
         this IReadOnlyList<IReusable> source,
         int lookbackPeriods)
