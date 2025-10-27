@@ -84,6 +84,7 @@ public class StreamIndicators
     [Benchmark] public object MfiHub() => quoteHub.ToMfiHub(14).Results;
     [Benchmark] public object MarubozuHub() => quoteHub.ToMarubozuHub(95).Results;
     [Benchmark] public object ObvHub() => quoteHub.ToObvHub().Results;
+    [Benchmark] public object ParabolicSarHub() => quoteHub.ToParabolicSarHub().Results;
     [Benchmark] public object PrsHub() => quoteHub.ToPrsHub(quoteHubOther, 20);
     [Benchmark] public object QuoteHub() => quoteHub.ToQuoteHub().Results;
     [Benchmark] public object QuotePartHub() => quoteHub.ToQuotePartHub(CandlePart.OHL3).Results;
