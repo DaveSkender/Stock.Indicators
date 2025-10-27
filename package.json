@@ -16,13 +16,15 @@
   "private": false,
   "packageManager": "npm@11.6.2",
   "engines": {
-    "node": ">=22.21.0",
+    "node": ">=24.10.0",
     "npm": ">=11.6.2"
   },
   "scripts": {
     "build": "dotnet build",
+    "build:no-incremental": "dotnet build --no-incremental",
     "clean": "bash tools/scripts/clean.sh",
-    "lint": "bash tools/scripts/lint-all.sh",
+    "clean:build": "bash tools/scripts/clean.sh && dotnet build --no-incremental",
+    "lint": "npm run lint:code && npm run lint:md",
     "lint:fix": "npm run lint:code:fix && npm run lint:md:fix",
     "lint:code": "bash tools/scripts/lint-code-check.sh",
     "lint:code:fix": "bash tools/scripts/lint-code-fix.sh",
@@ -33,7 +35,7 @@
     "test:coverage": "dotnet test --collect:\"Code Coverage\" --no-restore --nologo"
   },
   "devDependencies": {
-    "@codacy/codacy-mcp": "^0.6.18",
-    "markdownlint-cli2": "^0.18.1"
+    "@codacy/codacy-mcp": "0.6.18",
+    "markdownlint-cli2": "0.18.1"
   }
 }

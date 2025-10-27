@@ -11,6 +11,9 @@ public class StochHub
     #region constructors
 
     private readonly string hubName;
+    private readonly RollingWindowMax<double> _highWindow;
+    private readonly RollingWindowMin<double> _lowWindow;
+    private readonly Queue<double> _rawKBuffer;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="StochHub"/> class.
@@ -57,6 +60,13 @@ public class StochHub
 
         hubName = $"STOCH({lookbackPeriods},{signalPeriods},{smoothPeriods})";
 
+        // Initialize rolling windows for O(1) amortized max/min tracking
+        _highWindow = new RollingWindowMax<double>(lookbackPeriods);
+        _lowWindow = new RollingWindowMin<double>(lookbackPeriods);
+
+        // Initialize buffer for raw K values (needed for SMA smoothing)
+        _rawKBuffer = new Queue<double>(smoothPeriods);
+
         Reinitialize();
     }
 
@@ -96,43 +106,48 @@ public class StochHub
         ArgumentNullException.ThrowIfNull(item);
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
+        double high = (double)item.High;
+        double low = (double)item.Low;
+        double close = (double)item.Close;
+        ValidateFinite(high, nameof(IQuote.High), item.Timestamp);
+        ValidateFinite(low, nameof(IQuote.Low), item.Timestamp);
+        ValidateFinite(close, nameof(IQuote.Close), item.Timestamp);
+
+        // Normal incremental update - O(1) amortized operation
+        // Using monotonic deque pattern eliminates nested O(n) linear scans
+        _highWindow.Add(high);
+        _lowWindow.Add(low);
+
         // Calculate raw %K oscillator
         double rawK = double.NaN;
         if (i >= LookbackPeriods - 1)
         {
-            double highHigh = double.MinValue;
-            double lowLow = double.MaxValue;
-            bool isViable = true;
+            // Check for NaN values in current quote
+            bool isViable = !double.IsNaN(high) && !double.IsNaN(low) && !double.IsNaN(close);
 
-            // Get lookback window
-            for (int p = i - LookbackPeriods + 1; p <= i; p++)
+            if (isViable)
             {
-                IQuote x = ProviderCache[p];
-
-                if (double.IsNaN((double)x.High) ||
-                    double.IsNaN((double)x.Low) ||
-                    double.IsNaN((double)x.Close))
+                if (_highWindow.Count == 0 || _lowWindow.Count == 0)
                 {
-                    isViable = false;
-                    break;
+                    throw new InvalidOperationException("Rolling window is empty when calculating %K.");
                 }
 
-                if ((double)x.High > highHigh)
-                {
-                    highHigh = (double)x.High;
-                }
+                // Use O(1) max/min retrieval from rolling windows
+                double highHigh = _highWindow.Max;
+                double lowLow = _lowWindow.Min;
 
-                if ((double)x.Low < lowLow)
-                {
-                    lowLow = (double)x.Low;
-                }
+                rawK = highHigh - lowLow != 0
+                     ? 100 * (close - lowLow) / (highHigh - lowLow)
+                     : 0;
             }
+        }
 
-            rawK = !isViable
-                 ? double.NaN
-                 : highHigh - lowLow != 0
-                 ? 100 * ((double)item.Close - lowLow) / (highHigh - lowLow)
-                 : 0;
+        // Add raw K to buffer for smoothing calculation
+        // Buffering eliminates O(n²) recalculation in SMA smoothing
+        _rawKBuffer.Enqueue(rawK);
+        if (_rawKBuffer.Count > SmoothPeriods)
+        {
+            _rawKBuffer.Dequeue();
         }
 
         // Calculate smoothed %K (oscillator) - matches StaticSeries logic
@@ -150,50 +165,11 @@ public class StochHub
                     // Recalculate raw K for each position in the smoothing window
                     for (int p = i - SmoothPeriods + 1; p <= i; p++)
                     {
-                        double rawKAtP = double.NaN;
-                        if (p >= LookbackPeriods - 1 && p >= 0)
+                        // Use buffered raw K values for O(n) smoothing instead of O(n²) recalculation
+                        double sum = 0;
+                        foreach (double rawKValue in _rawKBuffer)
                         {
-                            double hh = double.MinValue;
-                            double ll = double.MaxValue;
-                            bool viable = true;
-
-                            for (int q = p - LookbackPeriods + 1; q <= p; q++)
-                            {
-                                if (q < 0 || q >= ProviderCache.Count)
-                                {
-                                    viable = false;
-                                    break;
-                                }
-
-                                IQuote x = ProviderCache[q];
-                                if (double.IsNaN((double)x.High) ||
-                                    double.IsNaN((double)x.Low) ||
-                                    double.IsNaN((double)x.Close))
-                                {
-                                    viable = false;
-                                    break;
-                                }
-
-                                if ((double)x.High > hh)
-                                {
-                                    hh = (double)x.High;
-                                }
-
-                                if ((double)x.Low < ll)
-                                {
-                                    ll = (double)x.Low;
-                                }
-                            }
-
-                            if (p >= 0 && p < ProviderCache.Count)
-                            {
-                                IQuote pItem = ProviderCache[p];
-                                rawKAtP = !viable
-                                       ? double.NaN
-                                       : hh - ll != 0
-                                       ? 100 * ((double)pItem.Close - ll) / (hh - ll)
-                                       : 0;
-                            }
+                            sum += rawKValue;
                         }
 
                         sum += rawKAtP;
@@ -297,7 +273,87 @@ public class StochHub
         return (result, i);
     }
 
-    #endregion methods
+    private static void ValidateFinite(double value, string paramName, DateTime timestamp)
+    {
+        if (!double.IsFinite(value))
+        {
+            string message = FormattableString.Invariant(
+                $"Quote at {timestamp:O} contains a non-finite {paramName} value.");
+            throw new InvalidQuotesException(paramName, value, message);
+        }
+    }
+
+    /// <summary>
+    /// Restores the rolling window state up to the specified timestamp.
+    /// </summary>
+    /// <inheritdoc/>
+    protected override void RollbackState(DateTime timestamp)
+    {
+        // Clear rolling windows and buffer
+        _highWindow.Clear();
+        _lowWindow.Clear();
+        _rawKBuffer.Clear();
+
+        // Rebuild windows from ProviderCache up to the rollback point
+        int index = ProviderCache.IndexGte(timestamp);
+        if (index <= 0)
+        {
+            return;
+        }
+
+        // Rebuild up to the index before the rollback timestamp
+        int targetIndex = index - 1;
+
+        // Rebuild high/low windows
+        int startIdx = Math.Max(0, targetIndex + 1 - LookbackPeriods);
+        for (int p = startIdx; p <= targetIndex; p++)
+        {
+            IQuote quote = ProviderCache[p];
+            double cachedHigh = (double)quote.High;
+            double cachedLow = (double)quote.Low;
+            ValidateFinite(cachedHigh, nameof(IQuote.High), quote.Timestamp);
+            ValidateFinite(cachedLow, nameof(IQuote.Low), quote.Timestamp);
+
+            _highWindow.Add(cachedHigh);
+            _lowWindow.Add(cachedLow);
+        }
+
+        // Prefill raw-%K buffer for SMA smoothing so the next tick uses a full window
+        if (SmoothPeriods > 1 && targetIndex >= LookbackPeriods - 1)
+        {
+            int kStart = Math.Max(LookbackPeriods - 1, targetIndex + 1 - SmoothPeriods);
+            for (int p = kStart; p <= targetIndex; p++)
+            {
+                int rStart = Math.Max(0, p + 1 - LookbackPeriods);
+                double hh = double.NegativeInfinity;
+                double ll = double.PositiveInfinity;
+
+                for (int r = rStart; r <= p; r++)
+                {
+                    IQuote q = ProviderCache[r];
+                    double h = (double)q.High;
+                    double l = (double)q.Low;
+                    ValidateFinite(h, nameof(IQuote.High), q.Timestamp);
+                    ValidateFinite(l, nameof(IQuote.Low), q.Timestamp);
+                    if (h > hh)
+                    {
+                        hh = h;
+                    }
+
+                    if (l < ll)
+                    {
+                        ll = l;
+                    }
+                }
+
+                double c = (double)ProviderCache[p].Close;
+                double rawAtP = (hh - ll) != 0 ? 100 * (c - ll) / (hh - ll) : 0;
+                _rawKBuffer.Enqueue(rawAtP);
+            }
+        }
+    }
+
+    #endregion
 }
 
 
