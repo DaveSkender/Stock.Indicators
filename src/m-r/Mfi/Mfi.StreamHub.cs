@@ -6,7 +6,8 @@ namespace Skender.Stock.Indicators;
 public class MfiHub : ChainProvider<IQuote, MfiResult>, IMfi
 {
     private readonly string hubName;
-    private readonly MfiList _mfiList;
+    private readonly Queue<(double TruePrice, double MoneyFlow, int Direction)> _buffer;
+    private double? _prevTruePrice;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="MfiHub"/> class.
@@ -22,7 +23,7 @@ public class MfiHub : ChainProvider<IQuote, MfiResult>, IMfi
 
         LookbackPeriods = lookbackPeriods;
         hubName = $"MFI({lookbackPeriods})";
-        _mfiList = new MfiList(lookbackPeriods);
+        _buffer = new Queue<(double, double, int)>(lookbackPeriods);
 
         Reinitialize();
     }
@@ -40,24 +41,78 @@ public class MfiHub : ChainProvider<IQuote, MfiResult>, IMfi
         ArgumentNullException.ThrowIfNull(item);
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
-        // Add current item to MfiList
-        _mfiList.Add(item);
+        // Calculate true price
+        double truePrice = ((double)item.High + (double)item.Low + (double)item.Close) / 3;
 
-        // Get the latest result from the MfiList
-        MfiResult r = _mfiList[^1];
+        // Calculate raw money flow
+        double moneyFlow = truePrice * (double)item.Volume;
+
+        // Determine direction
+        int direction = _prevTruePrice == null || truePrice == _prevTruePrice
+            ? 0
+            : truePrice > _prevTruePrice ? 1 : -1;
+
+        // If buffer is full, remove oldest item
+        if (_buffer.Count == LookbackPeriods)
+        {
+            _buffer.Dequeue();
+        }
+
+        // Add new item to buffer
+        _buffer.Enqueue((truePrice, moneyFlow, direction));
+
+        // Update previous true price
+        _prevTruePrice = truePrice;
+
+        // Calculate MFI when we have enough data
+        double? mfi = null;
+        if (i >= LookbackPeriods)
+        {
+            // Recalculate sums from buffer to avoid floating point accumulation errors
+            double sumPosMFs = 0;
+            double sumNegMFs = 0;
+
+            foreach ((double _, double mf, int dir) in _buffer)
+            {
+                if (dir == 1)
+                {
+                    sumPosMFs += mf;
+                }
+                else if (dir == -1)
+                {
+                    sumNegMFs += mf;
+                }
+            }
+
+            if (sumNegMFs != 0)
+            {
+                double mfRatio = sumPosMFs / sumNegMFs;
+                mfi = 100 - (100 / (1 + mfRatio));
+            }
+            else
+            {
+                // Handle no negative case
+                mfi = 100;
+            }
+        }
+
+        MfiResult r = new(
+            Timestamp: item.Timestamp,
+            Mfi: mfi);
 
         return (r, i);
     }
 
     /// <summary>
-    /// Restores the MfiList state up to the specified timestamp.
-    /// Clears and rebuilds _mfiList from ProviderCache for Insert/Remove operations.
+    /// Restores the buffer state up to the specified timestamp.
+    /// Clears and rebuilds buffer from ProviderCache for Insert/Remove operations.
     /// </summary>
     /// <inheritdoc/>
     protected override void RollbackState(DateTime timestamp)
     {
-        // Clear MfiList
-        _mfiList.Clear();
+        // Clear state
+        _buffer.Clear();
+        _prevTruePrice = null;
 
         // Find target index in ProviderCache
         int index = ProviderCache.IndexGte(timestamp);
@@ -73,15 +128,30 @@ public class MfiHub : ChainProvider<IQuote, MfiResult>, IMfi
         // Rebuild up to the index before the rollback timestamp
         int targetIndex = index - 1;
 
-        // Optimize: only rebuild the rolling window needed for MfiList
-        // MfiList maintains a _buffer of size LookbackPeriods via Queue.Update()
+        // Rebuild buffer from ProviderCache
+        // We need to start from targetIndex - LookbackPeriods to rebuild the buffer
         int startIdx = Math.Max(0, targetIndex + 1 - LookbackPeriods);
 
-        // Rebuild MfiList from ProviderCache
         for (int p = startIdx; p <= targetIndex; p++)
         {
             IQuote quote = ProviderCache[p];
-            _mfiList.Add(quote);
+
+            // Calculate true price
+            double truePrice = ((double)quote.High + (double)quote.Low + (double)quote.Close) / 3;
+
+            // Calculate raw money flow
+            double moneyFlow = truePrice * (double)quote.Volume;
+
+            // Determine direction
+            int direction = _prevTruePrice == null || truePrice == _prevTruePrice
+                ? 0
+                : truePrice > _prevTruePrice ? 1 : -1;
+
+            // Add to buffer (no need to dequeue since we're rebuilding)
+            _buffer.Enqueue((truePrice, moneyFlow, direction));
+
+            // Update previous true price
+            _prevTruePrice = truePrice;
         }
     }
 }
