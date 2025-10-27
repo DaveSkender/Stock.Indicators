@@ -114,6 +114,10 @@ public class ChopHub
 
         // Find target index in ProviderCache
         int index = ProviderCache.IndexGte(timestamp);
+        if (index == -1)
+        {
+            index = ProviderCache.Count;
+        }
         if (index <= 0)
         {
             return;

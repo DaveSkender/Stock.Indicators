@@ -62,6 +62,10 @@ public class CciHub
 
         // Find target index in ProviderCache
         int index = ProviderCache.IndexGte(timestamp);
+        if (index == -1)
+        {
+            index = ProviderCache.Count;
+        }
         if (index <= 0)
         {
             return;
@@ -70,8 +74,12 @@ public class CciHub
         // Rebuild up to the index before the rollback timestamp
         int targetIndex = index - 1;
 
+        // Optimize: only rebuild the rolling window needed for CciList
+        // CciList maintains a _tpBuffer of size LookbackPeriods via Queue.Update()
+        int startIdx = Math.Max(0, targetIndex + 1 - LookbackPeriods);
+
         // Rebuild CciList from ProviderCache
-        for (int p = 0; p <= targetIndex; p++)
+        for (int p = startIdx; p <= targetIndex; p++)
         {
             IQuote quote = ProviderCache[p];
             _cciList.Add(quote);

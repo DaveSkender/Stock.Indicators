@@ -10,8 +10,8 @@ public class WilliamsRHub
     #region constructors
 
     private readonly string hubName;
-    private readonly RollingWindowMax<double> _highWindow;
-    private readonly RollingWindowMin<double> _lowWindow;
+    private readonly RollingWindowMax<decimal> _highWindow;
+    private readonly RollingWindowMin<decimal> _lowWindow;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="WilliamsRHub"/> class.
@@ -25,8 +25,8 @@ public class WilliamsRHub
         WilliamsR.Validate(lookbackPeriods);
 
         LookbackPeriods = lookbackPeriods;
-        _highWindow = new RollingWindowMax<double>(lookbackPeriods);
-        _lowWindow = new RollingWindowMin<double>(lookbackPeriods);
+        _highWindow = new RollingWindowMax<decimal>(lookbackPeriods);
+        _lowWindow = new RollingWindowMin<decimal>(lookbackPeriods);
 
         hubName = $"WILLR({lookbackPeriods})";
 
@@ -56,28 +56,29 @@ public class WilliamsRHub
         ArgumentNullException.ThrowIfNull(item);
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
-        // Add current high/low to rolling windows
-        bool isViable = !double.IsNaN((double)item.High) &&
-                       !double.IsNaN((double)item.Low) &&
-                       !double.IsNaN((double)item.Close);
+        // Add current high/low to rolling windows (only require High/Low, not Close)
+        bool hasHL = !double.IsNaN((double)item.High) &&
+                     !double.IsNaN((double)item.Low);
+        bool hasClose = !double.IsNaN((double)item.Close);
 
-        if (isViable)
+        if (hasHL)
         {
-            _highWindow.Add((double)item.High);
-            _lowWindow.Add((double)item.Low);
+            _highWindow.Add(item.High);
+            _lowWindow.Add(item.Low);
         }
 
         // Calculate Williams %R
         double williamsR = double.NaN;
-        if (i >= LookbackPeriods - 1 && isViable)
+        if (i >= LookbackPeriods - 1 && hasHL && hasClose)
         {
             // Get highest high and lowest low from rolling windows (O(1))
-            double highHigh = _highWindow.Max;
-            double lowLow = _lowWindow.Min;
+            decimal highHigh = _highWindow.Max;
+            decimal lowLow = _lowWindow.Min;
 
-            williamsR = highHigh - lowLow != 0
-                ? (100 * ((double)item.Close - lowLow) / (highHigh - lowLow)) - 100
-                : 0;
+            // Return NaN when range is zero (undefined %R)
+            williamsR = highHigh == lowLow
+                ? double.NaN
+                : (100 * ((double)item.Close - (double)lowLow) / ((double)highHigh - (double)lowLow)) - 100;
         }
 
         WilliamsResult result = new(
@@ -100,6 +101,10 @@ public class WilliamsRHub
 
         // Find target index in ProviderCache
         int index = ProviderCache.IndexGte(timestamp);
+        if (index == -1)
+        {
+            index = ProviderCache.Count;
+        }
         if (index <= 0)
         {
             return;
@@ -114,13 +119,12 @@ public class WilliamsRHub
         {
             IQuote quote = ProviderCache[p];
 
-            // Only add viable quotes to windows
+            // Only require High/Low to rebuild windows (not Close)
             if (!double.IsNaN((double)quote.High) &&
-                !double.IsNaN((double)quote.Low) &&
-                !double.IsNaN((double)quote.Close))
+                !double.IsNaN((double)quote.Low))
             {
-                _highWindow.Add((double)quote.High);
-                _lowWindow.Add((double)quote.Low);
+                _highWindow.Add(quote.High);
+                _lowWindow.Add(quote.Low);
             }
         }
     }
