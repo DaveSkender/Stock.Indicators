@@ -41,45 +41,49 @@ public class CciHub
         ArgumentNullException.ThrowIfNull(item);
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
-        // Synchronize _cciList state with the current index
-        if (i == 0)
-        {
-            // Starting fresh - clear and add first item
-            _cciList.Clear();
-            _cciList.Add(item);
-        }
-        else if (_cciList.Count == i)
-        {
-            // Normal incremental case - list is in sync, just add the new item
-            _cciList.Add(item);
-        }
-        else if (_cciList.Count < i)
-        {
-            // Missing data - add any skipped items from ProviderCache, then add current
-            for (int k = _cciList.Count; k < i; k++)
-            {
-                _cciList.Add(ProviderCache[k]);
-            }
-
-            _cciList.Add(item);
-        }
-        else // _cciList.Count > i
-        {
-            // Late arrival/rebuild scenario - items were removed/reordered
-            // Must rebuild from scratch to ensure correctness
-            _cciList.Clear();
-            for (int k = 0; k < i; k++)
-            {
-                _cciList.Add(ProviderCache[k]);
-            }
-
-            _cciList.Add(item);
-        }
+        // Add current item to CciList
+        _cciList.Add(item);
 
         // Get the latest result from the CciList
         CciResult r = _cciList[^1];
 
         return (r, i);
+    }
+
+    /// <summary>
+    /// Restores the CciList state up to the specified timestamp.
+    /// Clears and rebuilds _cciList from ProviderCache for Insert/Remove operations.
+    /// </summary>
+    /// <inheritdoc/>
+    protected override void RollbackState(DateTime timestamp)
+    {
+        // Clear CciList
+        _cciList.Clear();
+
+        // Find target index in ProviderCache
+        int index = ProviderCache.IndexGte(timestamp);
+        if (index == -1)
+        {
+            index = ProviderCache.Count;
+        }
+        if (index <= 0)
+        {
+            return;
+        }
+
+        // Rebuild up to the index before the rollback timestamp
+        int targetIndex = index - 1;
+
+        // Optimize: only rebuild the rolling window needed for CciList
+        // CciList maintains a _tpBuffer of size LookbackPeriods via Queue.Update()
+        int startIdx = Math.Max(0, targetIndex + 1 - LookbackPeriods);
+
+        // Rebuild CciList from ProviderCache
+        for (int p = startIdx; p <= targetIndex; p++)
+        {
+            IQuote quote = ProviderCache[p];
+            _cciList.Add(quote);
+        }
     }
 }
 
