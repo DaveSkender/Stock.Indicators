@@ -57,17 +57,22 @@ public class DemaHub
             lastEma2 = Cache[i - 1].Ema2;
         }
 
-        double dema = i >= LookbackPeriods - 1
-            ? Cache[i - 1].Dema is not null
-
-                // normal
-                ? CalculateIncrement(item.Value)
-
-                // re/initialize as SMA
-                : InitializeDema(i)
-
-            // warmup periods are never calculable
-            : double.NaN;
+        double dema;
+        if (i >= LookbackPeriods - 1)
+        {
+            if (Cache[i - 1].Dema is not null)
+            {
+                dema = CalculateIncrement(item.Value);
+            }
+            else
+            {
+                dema = InitializeDema(i);
+            }
+        }
+        else
+        {
+            dema = double.NaN;
+        }
 
         DemaResult r = new(
             Timestamp: item.Timestamp,

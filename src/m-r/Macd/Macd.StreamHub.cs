@@ -72,24 +72,40 @@ public class MacdHub
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
         // Calculate Fast EMA
-        double fastEma = i >= FastPeriods - 1
-            ? i > 0 && Cache[i - 1].FastEma is not null
-                // Calculate EMA normally
-                ? Ema.Increment(FastK, Cache[i - 1].FastEma!.Value, item.Value)
-                // Initialize as SMA
-                : Sma.Increment(ProviderCache, FastPeriods, i)
-            // warmup periods are never calculable
-            : double.NaN;
+        double fastEma;
+        if (i >= FastPeriods - 1)
+        {
+            if (i > 0 && Cache[i - 1].FastEma is not null)
+            {
+                fastEma = Ema.Increment(FastK, Cache[i - 1].FastEma!.Value, item.Value);
+            }
+            else
+            {
+                fastEma = Sma.Increment(ProviderCache, FastPeriods, i);
+            }
+        }
+        else
+        {
+            fastEma = double.NaN;
+        }
 
         // Calculate Slow EMA
-        double slowEma = i >= SlowPeriods - 1
-            ? i > 0 && Cache[i - 1].SlowEma is not null
-                // Calculate EMA normally
-                ? Ema.Increment(SlowK, Cache[i - 1].SlowEma!.Value, item.Value)
-                // Initialize as SMA
-                : Sma.Increment(ProviderCache, SlowPeriods, i)
-            // warmup periods are never calculable
-            : double.NaN;
+        double slowEma;
+        if (i >= SlowPeriods - 1)
+        {
+            if (i > 0 && Cache[i - 1].SlowEma is not null)
+            {
+                slowEma = Ema.Increment(SlowK, Cache[i - 1].SlowEma!.Value, item.Value);
+            }
+            else
+            {
+                slowEma = Sma.Increment(ProviderCache, SlowPeriods, i);
+            }
+        }
+        else
+        {
+            slowEma = double.NaN;
+        }
 
         // Calculate MACD
         double macd = fastEma - slowEma;

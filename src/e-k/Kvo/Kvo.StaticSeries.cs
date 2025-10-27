@@ -92,10 +92,26 @@ public static partial class Kvo
                     cm[i - 1] + dm[i] : dm[i - 1] + dm[i];
 
             // volume force (VF)
-            vf[i] = dm[i] == cm[i] || q.Volume == 0 ? 0
-                : dm[i] == 0 ? q.Volume * 2d * t[i] * 100d
-                : cm[i] != 0 ? q.Volume * Math.Abs(2d * ((dm[i] / cm[i]) - 1)) * t[i] * 100d
-                : vf[i - 1];
+            if (dm[i] == cm[i] || q.Volume == 0)
+            {
+                // volume force (VF)
+                vf[i] = 0;
+            }
+            else if (dm[i] == 0)
+            {
+                // volume force (VF)
+                vf[i] = q.Volume * 2d * t[i] * 100d;
+            }
+            else if (cm[i] != 0)
+            {
+                // volume force (VF)
+                vf[i] = q.Volume * Math.Abs(2d * ((dm[i] / cm[i]) - 1)) * t[i] * 100d;
+            }
+            else
+            {
+                // volume force (VF)
+                vf[i] = vf[i - 1];
+            }
 
             // fast-period EMA of VF
             if (i > fastPeriods + 1)

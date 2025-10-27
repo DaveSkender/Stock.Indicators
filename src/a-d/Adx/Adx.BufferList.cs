@@ -109,11 +109,21 @@ public class AdxList : BufferList<AdxResult>, IIncrementFromQuote, IAdx
         double mdi = 100 * curr.Mdm / curr.Trs;
 
         // calculate directional index (DX)
-        curr.Dx = pdi == mdi
-            ? 0
-            : pdi + mdi != 0
-            ? 100 * Math.Abs(pdi - mdi) / (pdi + mdi)
-            : double.NaN;
+        if (pdi == mdi)
+        {
+            // calculate directional index (DX)
+            curr.Dx = 0;
+        }
+        else if (pdi + mdi != 0)
+        {
+            // calculate directional index (DX)
+            curr.Dx = 100 * Math.Abs(pdi - mdi) / (pdi + mdi);
+        }
+        else
+        {
+            // calculate directional index (DX)
+            curr.Dx = double.NaN;
+        }
 
         // skip incalculable ADX periods
         if (Count < (2 * LookbackPeriods) - 1)

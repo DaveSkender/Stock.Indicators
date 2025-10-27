@@ -39,17 +39,22 @@ public class SmmaHub
         ArgumentNullException.ThrowIfNull(item);
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
-        double smma = i >= LookbackPeriods - 1
-
-            // normal SMMA calculation when we have previous value
-            ? Cache[i - 1].Smma is not null
-                ? ((Cache[i - 1].Value * (LookbackPeriods - 1)) + item.Value) / LookbackPeriods
-
-                // re/initialize as SMA when no previous SMMA
-                : Sma.Increment(ProviderCache, LookbackPeriods, i)
-
-            // warmup periods are never calculable
-            : double.NaN;
+        double smma;
+        if (i >= LookbackPeriods - 1)
+        {
+            if (Cache[i - 1].Smma is not null)
+            {
+                smma = ((Cache[i - 1].Value * (LookbackPeriods - 1)) + item.Value) / LookbackPeriods;
+            }
+            else
+            {
+                smma = Sma.Increment(ProviderCache, LookbackPeriods, i);
+            }
+        }
+        else
+        {
+            smma = double.NaN;
+        }
 
         // candidate result
         SmmaResult r = new(

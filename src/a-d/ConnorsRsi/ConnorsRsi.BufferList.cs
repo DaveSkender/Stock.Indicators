@@ -131,15 +131,35 @@ public class ConnorsRsiList : BufferList<ConnorsRsiResult>, IIncrementFromChain
             _streak = 0;
             _prevValue = value;
         }
+        else if (double.IsNaN(value) || double.IsNaN(_prevValue))
+        {
+            _streak = double.NaN;
+        }
+        else if (value > _prevValue)
+        {
+            if (_streak >= 0)
+            {
+                _streak++;
+            }
+            else
+            {
+                _streak = 1;
+            }
+        }
+        else if (value < _prevValue)
+        {
+            if (_streak <= 0)
+            {
+                _streak--;
+            }
+            else
+            {
+                _streak = -1;
+            }
+        }
         else
         {
-            _streak = double.IsNaN(value) || double.IsNaN(_prevValue)
-                ? double.NaN
-                : value > _prevValue
-                    ? _streak >= 0 ? _streak + 1 : 1
-                    : value < _prevValue
-                        ? _streak <= 0 ? _streak - 1 : -1
-                        : 0;
+            _streak = 0;
         }
     }
 

@@ -163,11 +163,18 @@ public static partial class Stoch
                     }
                 }
 
-                o[i] = !isViable
-                     ? double.NaN
-                     : highHigh - lowLow != 0
-                     ? 100 * (q.Close - lowLow) / (highHigh - lowLow)
-                     : 0;
+                if (!isViable)
+                {
+                    o[i] = double.NaN;
+                }
+                else if (highHigh - lowLow != 0)
+                {
+                    o[i] = 100 * (q.Close - lowLow) / (highHigh - lowLow);
+                }
+                else
+                {
+                    o[i] = 0;
+                }
             }
             else
             {

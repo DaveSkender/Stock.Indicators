@@ -52,17 +52,22 @@ public class TemaHub
             lastEma3 = Cache[i - 1].Ema3;
         }
 
-        double tema = i >= LookbackPeriods - 1
-            ? Cache[i - 1].Tema is not null
-
-                // normal
-                ? CalculateIncrement(item.Value)
-
-                // re/initialize as SMA
-                : InitializeTema(i)
-
-            // warmup periods are never calculable
-            : double.NaN;
+        double tema;
+        if (i >= LookbackPeriods - 1)
+        {
+            if (Cache[i - 1].Tema is not null)
+            {
+                tema = CalculateIncrement(item.Value);
+            }
+            else
+            {
+                tema = InitializeTema(i);
+            }
+        }
+        else
+        {
+            tema = double.NaN;
+        }
 
         TemaResult r = new(
             Timestamp: item.Timestamp,

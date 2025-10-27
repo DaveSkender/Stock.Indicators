@@ -27,11 +27,18 @@ public static partial class Renko
         {
             case EndType.Close:
 
-                return q.Close > upper
-                    ? (int)((q.Close - upper) / brickSize)
-                    : q.Close < lower
-                        ? (int)((q.Close - lower) / brickSize)
-                        : 0;
+                if (q.Close > upper)
+                {
+                    return (int)((q.Close - upper) / brickSize);
+                }
+                else if (q.Close < lower)
+                {
+                    return (int)((q.Close - lower) / brickSize);
+                }
+                else
+                {
+                    return 0;
+                }
 
             case EndType.HighLow:
 

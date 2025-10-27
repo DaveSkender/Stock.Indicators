@@ -327,11 +327,18 @@ public static partial class StringOut
             bool sameMinute = dateValues.Select(d => d.Substring(14, 2)).Distinct().Count() == 1;
             bool sameSecond = dateValues.Select(d => d.Substring(17, 2)).Distinct().Count() == 1;
 
-            return sameHour && sameMinute && sameSecond
-                 ? "yyyy-MM-dd"
-                 : sameSecond
-                   ? "yyyy-MM-dd HH:mm"
-                   : "yyyy-MM-dd HH:mm:ss";
+            if (sameHour && sameMinute && sameSecond)
+            {
+                return "yyyy-MM-dd";
+            }
+            else if (sameSecond)
+            {
+                return "yyyy-MM-dd HH:mm";
+            }
+            else
+            {
+                return "yyyy-MM-dd HH:mm:ss";
+            }
         }
 
         // auto-detect decimal places

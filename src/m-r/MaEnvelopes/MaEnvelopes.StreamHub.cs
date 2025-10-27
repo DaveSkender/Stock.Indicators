@@ -222,14 +222,22 @@ public class MaEnvelopesHub
             return null;
         }
 
-        double ema = index >= lookbackPeriods - 1
-            ? Cache[index - 1].Centerline is not null
-                // normal
-                ? Ema.Increment(k, Cache[index - 1].Centerline!.Value, val)
-                // re/initialize as SMA
-                : Sma.Increment(ProviderCache, lookbackPeriods, index)
-            // warmup periods are never calculable
-            : double.NaN;
+        double ema;
+        if (index >= lookbackPeriods - 1)
+        {
+            if (Cache[index - 1].Centerline is not null)
+            {
+                ema = Ema.Increment(k, Cache[index - 1].Centerline!.Value, val);
+            }
+            else
+            {
+                ema = Sma.Increment(ProviderCache, lookbackPeriods, index);
+            }
+        }
+        else
+        {
+            ema = double.NaN;
+        }
 
         return ema.NaN2Null();
     }
@@ -255,14 +263,22 @@ public class MaEnvelopesHub
             lastEma1 = lastEma2 = double.NaN;
         }
 
-        double dema = index >= lookbackPeriods - 1
-            ? Cache[index - 1].Centerline is not null
-                // normal
-                ? CalculateDemaIncrement(val)
-                // re/initialize as SMA
-                : InitializeDema(index)
-            // warmup periods are never calculable
-            : double.NaN;
+        double dema;
+        if (index >= lookbackPeriods - 1)
+        {
+            if (Cache[index - 1].Centerline is not null)
+            {
+                dema = CalculateDemaIncrement(val);
+            }
+            else
+            {
+                dema = InitializeDema(index);
+            }
+        }
+        else
+        {
+            dema = double.NaN;
+        }
 
         return dema.NaN2Null();
     }
@@ -309,14 +325,22 @@ public class MaEnvelopesHub
             return null;
         }
 
-        double tema = index >= lookbackPeriods - 1
-            ? Cache[index - 1].Centerline is not null
-                // normal
-                ? CalculateTemaIncrement(val)
-                // re/initialize as SMA
-                : InitializeTema(index)
-            // warmup periods are never calculable
-            : double.NaN;
+        double tema;
+        if (index >= lookbackPeriods - 1)
+        {
+            if (Cache[index - 1].Centerline is not null)
+            {
+                tema = CalculateTemaIncrement(val);
+            }
+            else
+            {
+                tema = InitializeTema(index);
+            }
+        }
+        else
+        {
+            tema = double.NaN;
+        }
 
         return tema.NaN2Null();
     }
@@ -364,14 +388,22 @@ public class MaEnvelopesHub
             return null;
         }
 
-        double smma = index >= lookbackPeriods - 1
-            ? Cache[index - 1].Centerline is not null
-                // normal
-                ? ((Cache[index - 1].Centerline!.Value * (lookbackPeriods - 1)) + val) / lookbackPeriods
-                // re/initialize as SMA
-                : Sma.Increment(ProviderCache, lookbackPeriods, index)
-            // warmup periods are never calculable
-            : double.NaN;
+        double smma;
+        if (index >= lookbackPeriods - 1)
+        {
+            if (Cache[index - 1].Centerline is not null)
+            {
+                smma = ((Cache[index - 1].Centerline!.Value * (lookbackPeriods - 1)) + val) / lookbackPeriods;
+            }
+            else
+            {
+                smma = Sma.Increment(ProviderCache, lookbackPeriods, index);
+            }
+        }
+        else
+        {
+            smma = double.NaN;
+        }
 
         return smma.NaN2Null();
     }

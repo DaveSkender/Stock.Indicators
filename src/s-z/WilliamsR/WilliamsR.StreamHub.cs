@@ -84,11 +84,18 @@ public class WilliamsRHub
                 }
             }
 
-            williamsR = !isViable
-                 ? double.NaN
-                 : highHigh - lowLow != 0
-                 ? (100 * ((double)item.Close - lowLow) / (highHigh - lowLow)) - 100
-                 : 0;
+            if (!isViable)
+            {
+                williamsR = double.NaN;
+            }
+            else if (highHigh - lowLow != 0)
+            {
+                williamsR = (100 * ((double)item.Close - lowLow) / (highHigh - lowLow)) - 100;
+            }
+            else
+            {
+                williamsR = 0;
+            }
         }
 
         WilliamsResult result = new(
