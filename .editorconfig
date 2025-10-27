@@ -141,7 +141,7 @@ dotnet_diagnostic.IDE0230.severity = suggestion  # Use raw string literal when b
 # remove this when no-longer supporting pre-9.0 frameworks
 dotnet_diagnostic.IDE0330.severity = none        # Prefer 'System.Threading.Lock'
 
-# Roslynator analyzer suppressions (per tests/README.md)
+# Roslynator analyzer suppressions
 dotnet_diagnostic.IDE0008.severity = none        # Use explicit type (conflicting with project preferences)
 dotnet_diagnostic.IDE0010.severity = none        # Add missing cases (can be verbose)
 dotnet_diagnostic.IDE0022.severity = none        # Use expression body for method (stylistic preference)
@@ -152,14 +152,6 @@ dotnet_diagnostic.IDE0047.severity = none        # Remove unnecessary parenthese
 dotnet_diagnostic.IDE0054.severity = none        # Use '++' operator
 dotnet_diagnostic.IDE0320.severity = none        # Make anonymous function static (minimal benefit)
 dotnet_diagnostic.IDE2003.severity = none        # Blank line required between block and subsequent statement
-dotnet_diagnostic.RCS1031.severity = none        # Remove unnecessary braces in switch section (readability preference)
-dotnet_diagnostic.RCS1129.severity = none        # Remove redundant field initialization (test code needs explicit nulls)
-dotnet_diagnostic.RCS1140.severity = none        # Add exception to documentation comment (test code)
-dotnet_diagnostic.RCS1141.severity = none        # Add 'param' element to documentation (test code)
-dotnet_diagnostic.RCS1142.severity = none        # Add 'typeparam' element to documentation (test code)
-dotnet_diagnostic.RCS1161.severity = none        # Enum should declare explicit values (test enums)
-dotnet_diagnostic.RCS1181.severity = none        # Convert comment to documentation comment (test code)
-dotnet_diagnostic.RCS1189.severity = none        # Add or remove region name (region names not required)
 dotnet_diagnostic.RCS1228.severity = none        # Unused element in documentation comment
 dotnet_diagnostic.RCS1238.severity = none        # Avoid nested ?: operators (conflicts with IDE0045)
 

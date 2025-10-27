@@ -33,7 +33,9 @@ public static partial class Gator
             .WithStyle(Style.Buffer)
             .Build();
 
-    // GATOR Stream Listing
+    /// <summary>
+    /// GATOR Stream Listing
+    /// </summary>
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
