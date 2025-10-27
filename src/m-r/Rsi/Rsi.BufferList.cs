@@ -89,9 +89,21 @@ public class RsiList : BufferList<RsiResult>, IIncrementFromChain, IRsi
             _avgGain = sumGain / LookbackPeriods;
             _avgLoss = sumLoss / LookbackPeriods;
 
-            rsi = !double.IsNaN(_avgGain / _avgLoss)
-                  ? _avgLoss > 0 ? 100 - (100 / (1 + (_avgGain / _avgLoss))) : 100
-                  : null;
+            if (!double.IsNaN(_avgGain / _avgLoss))
+            {
+                if (_avgLoss > 0)
+                {
+                    rsi = 100 - (100 / (1 + (_avgGain / _avgLoss)));
+                }
+                else
+                {
+                    rsi = 100;
+                }
+            }
+            else
+            {
+                rsi = null;
+            }
         }
         // Calculate RSI using exponential smoothing for subsequent periods
         else if (totalValuesProcessed > LookbackPeriods + 1)

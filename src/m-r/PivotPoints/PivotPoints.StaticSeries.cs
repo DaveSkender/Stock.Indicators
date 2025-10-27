@@ -215,11 +215,19 @@ public static partial class PivotPoints
     internal static WindowPoint GetPivotPointDemark(
         decimal open, decimal high, decimal low, decimal close)
     {
-        decimal x = close < open
-            ? high + (2 * low) + close
-            : close > open
-            ? (2 * high) + low + close
-            : high + low + (2 * close);
+        decimal x;
+        if (close < open)
+        {
+            x = high + (2 * low) + close;
+        }
+        else if (close > open)
+        {
+            x = (2 * high) + low + close;
+        }
+        else
+        {
+            x = high + low + (2 * close);
+        }
 
         return new() {
             PP = x / 4,

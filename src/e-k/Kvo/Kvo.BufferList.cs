@@ -121,10 +121,23 @@ public class KvoList : BufferList<KvoResult>, IIncrementFromQuote, IKvo
                 _prevCm + dm : _prevDm + dm;
 
         // volume force (VF)
-        double vf = dm == cm || volume == 0 ? 0
-            : dm == 0 ? volume * 2d * trend * 100d
-            : cm != 0 ? volume * Math.Abs(2d * ((dm / cm) - 1)) * trend * 100d
-            : 0;
+        double vf;
+        if (dm == cm || volume == 0)
+        {
+            vf = 0;
+        }
+        else if (dm == 0)
+        {
+            vf = volume * 2d * trend * 100d;
+        }
+        else if (cm != 0)
+        {
+            vf = volume * Math.Abs(2d * ((dm / cm) - 1)) * trend * 100d;
+        }
+        else
+        {
+            vf = 0;
+        }
 
         // accumulate VF for EMA initialization (starting from period 2)
         if (Count > 1)

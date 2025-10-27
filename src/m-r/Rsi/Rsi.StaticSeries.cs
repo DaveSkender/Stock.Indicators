@@ -68,9 +68,21 @@ public static partial class Rsi
                 avgGain = sumGain / lookbackPeriods;
                 avgLoss = sumLoss / lookbackPeriods;
 
-                rsi = !double.IsNaN(avgGain / avgLoss)
-                      ? avgLoss > 0 ? 100 - (100 / (1 + (avgGain / avgLoss))) : 100
-                      : null;
+                if (!double.IsNaN(avgGain / avgLoss))
+                {
+                    if (avgLoss > 0)
+                    {
+                        rsi = 100 - (100 / (1 + (avgGain / avgLoss)));
+                    }
+                    else
+                    {
+                        rsi = 100;
+                    }
+                }
+                else
+                {
+                    rsi = null;
+                }
             }
 
             // calculate RSI normally

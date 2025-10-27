@@ -99,8 +99,33 @@ public class BetaHub
         double mrktValue = ProviderCacheB[i].Value;
 
         // Calculate returns
-        double evalReturn = _isFirst ? 0 : (_prevEval != 0 ? (evalValue / _prevEval) - 1d : 0);
-        double mrktReturn = _isFirst ? 0 : (_prevMrkt != 0 ? (mrktValue / _prevMrkt) - 1d : 0);
+        double evalReturn;
+        if (_isFirst)
+        {
+            evalReturn = 0;
+        }
+        else if (_prevEval != 0)
+        {
+            evalReturn = (evalValue / _prevEval) - 1d;
+        }
+        else
+        {
+            evalReturn = 0;
+        }
+
+        double mrktReturn;
+        if (_isFirst)
+        {
+            mrktReturn = 0;
+        }
+        else if (_prevMrkt != 0)
+        {
+            mrktReturn = (mrktValue / _prevMrkt) - 1d;
+        }
+        else
+        {
+            mrktReturn = 0;
+        }
 
         // Update state only after we have valid data from both providers
         _prevEval = evalValue;
@@ -305,8 +330,33 @@ public class BetaHub
             double mrktValue = ProviderCacheB[i].Value;
 
             // Calculate returns
-            double evalReturn = isFirst ? 0 : (prevEval != 0 ? (evalValue / prevEval) - 1d : 0);
-            double mrktReturn = isFirst ? 0 : (prevMrkt != 0 ? (mrktValue / prevMrkt) - 1d : 0);
+            double evalReturn;
+            if (isFirst)
+            {
+                evalReturn = 0;
+            }
+            else if (prevEval != 0)
+            {
+                evalReturn = (evalValue / prevEval) - 1d;
+            }
+            else
+            {
+                evalReturn = 0;
+            }
+
+            double mrktReturn;
+            if (isFirst)
+            {
+                mrktReturn = 0;
+            }
+            else if (prevMrkt != 0)
+            {
+                mrktReturn = (mrktValue / prevMrkt) - 1d;
+            }
+            else
+            {
+                mrktReturn = 0;
+            }
 
             // Update previous values
             prevEval = evalValue;

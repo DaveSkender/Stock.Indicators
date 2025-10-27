@@ -56,17 +56,22 @@ public class ElderRayHub
 
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
-        double ema = i >= LookbackPeriods - 1
-            ? i > 0 && Cache[i - 1].Ema is not null
-
-                // normal EMA calculation
-                ? Ema.Increment(K, Cache[i - 1].Ema!.Value, (double)item.Close)
-
-                // re/initialize as SMA
-                : Sma.Increment(ProviderCache, LookbackPeriods, i)
-
-            // warmup periods are never calculable
-            : double.NaN;
+        double ema;
+        if (i >= LookbackPeriods - 1)
+        {
+            if (i > 0 && Cache[i - 1].Ema is not null)
+            {
+                ema = Ema.Increment(K, Cache[i - 1].Ema!.Value, (double)item.Close);
+            }
+            else
+            {
+                ema = Sma.Increment(ProviderCache, LookbackPeriods, i);
+            }
+        }
+        else
+        {
+            ema = double.NaN;
+        }
 
         // calculate Elder Ray values
         ElderRayResult r = new(

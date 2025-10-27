@@ -127,11 +127,19 @@ public static partial class Adx
             double mdi = 100 * mdm / trs;
 
             // calculate ADX
-            double dx = pdi == mdi
-                ? 0
-                : pdi + mdi != 0
-                ? 100 * Math.Abs(pdi - mdi) / (pdi + mdi)
-                : double.NaN;
+            double dx;
+            if (pdi == mdi)
+            {
+                dx = 0;
+            }
+            else if (pdi + mdi != 0)
+            {
+                dx = 100 * Math.Abs(pdi - mdi) / (pdi + mdi);
+            }
+            else
+            {
+                dx = double.NaN;
+            }
 
             double adx = double.NaN;
             double adxr = double.NaN;

@@ -85,24 +85,40 @@ public class ChaikinOscHub
             : mfv ?? 0;
 
         // Calculate Fast EMA of ADL
-        double fastEma = i >= FastPeriods - 1
-            ? i > 0 && Cache[i - 1].FastEma is not null
-                // Calculate EMA normally
-                ? Ema.Increment(FastK, Cache[i - 1].FastEma!.Value, adl)
-                // Initialize as SMA of ADL values
-                : CalculateInitialSma(i, FastPeriods, adl)
-            // warmup periods are never calculable
-            : double.NaN;
+        double fastEma;
+        if (i >= FastPeriods - 1)
+        {
+            if (i > 0 && Cache[i - 1].FastEma is not null)
+            {
+                fastEma = Ema.Increment(FastK, Cache[i - 1].FastEma!.Value, adl);
+            }
+            else
+            {
+                fastEma = CalculateInitialSma(i, FastPeriods, adl);
+            }
+        }
+        else
+        {
+            fastEma = double.NaN;
+        }
 
         // Calculate Slow EMA of ADL
-        double slowEma = i >= SlowPeriods - 1
-            ? i > 0 && Cache[i - 1].SlowEma is not null
-                // Calculate EMA normally
-                ? Ema.Increment(SlowK, Cache[i - 1].SlowEma!.Value, adl)
-                // Initialize as SMA of ADL values
-                : CalculateInitialSma(i, SlowPeriods, adl)
-            // warmup periods are never calculable
-            : double.NaN;
+        double slowEma;
+        if (i >= SlowPeriods - 1)
+        {
+            if (i > 0 && Cache[i - 1].SlowEma is not null)
+            {
+                slowEma = Ema.Increment(SlowK, Cache[i - 1].SlowEma!.Value, adl);
+            }
+            else
+            {
+                slowEma = CalculateInitialSma(i, SlowPeriods, adl);
+            }
+        }
+        else
+        {
+            slowEma = double.NaN;
+        }
 
         // Calculate Oscillator
         double? oscillator = (fastEma - slowEma).NaN2Null();

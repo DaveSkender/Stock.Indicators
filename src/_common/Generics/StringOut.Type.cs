@@ -97,11 +97,14 @@ public static partial class StringOut
             // get/add description from XML documentation
             descriptionDict.TryGetValue(name, out string? description);
 
-            description = description == null
-                ? string.Empty
-                : description.Length > 50
-                  ? $"{description.AsSpan(0, 47)}..."
-                  : description;
+            if (description == null)
+            {
+                description = string.Empty;
+            }
+            else if (description.Length > 50)
+            {
+                description = $"{description.AsSpan(0, 47)}...";
+            }
 
             descriptions.Add(description);
         }

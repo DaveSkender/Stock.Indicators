@@ -44,17 +44,22 @@ public class EmaHub
 
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
-        double ema = i >= LookbackPeriods - 1
-            ? Cache[i - 1].Ema is not null
-
-                // normal
-                ? Ema.Increment(K, Cache[i - 1].Value, item.Value)
-
-                // re/initialize as SMA
-                : Sma.Increment(ProviderCache, LookbackPeriods, i)
-
-            // warmup periods are never calculable
-            : double.NaN;
+        double ema;
+        if (i >= LookbackPeriods - 1)
+        {
+            if (Cache[i - 1].Ema is not null)
+            {
+                ema = Ema.Increment(K, Cache[i - 1].Value, item.Value);
+            }
+            else
+            {
+                ema = Sma.Increment(ProviderCache, LookbackPeriods, i);
+            }
+        }
+        else
+        {
+            ema = double.NaN;
+        }
 
         // candidate result
         EmaResult r = new(
