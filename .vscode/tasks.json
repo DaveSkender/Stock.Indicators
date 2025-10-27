@@ -391,11 +391,16 @@
       "type": "shell",
       "command": "roslynator",
       "args": [
-        "generate-doc", "src/Indicators.csproj",
-        "--heading", "'Skender.Stock.Indicators'",
-        "--language", "csharp",
-        "--host", "github",
-        "--output", "'docs/_docs'",
+        "generate-doc",
+        "src/Indicators.csproj",
+        "--heading",
+        "Skender.Stock.Indicators",
+        "--language",
+        "csharp",
+        "--host",
+        "github",
+        "--output",
+        "docs/_docs"
       ],
       "group": "none"
     },

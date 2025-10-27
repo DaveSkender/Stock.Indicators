@@ -4,4 +4,4 @@ vendor/
 .bundle/
 
 # Roslynator output
-# _docs
+_docs

@@ -121,18 +121,6 @@ When adding or updating indicators:
 - Add or update the `/docs/_indicators/` documentation files.
 - Page image assets go here: `/docs/assets/` and can be optimized to `webp` format using [ImageMagick](https://imagemagick.org) or the [cwebp Encoder CLI](https://developers.google.com/speed/webp/docs/cwebp) and a command like `cwebp -resize 832 0 -q 100 examples.png -o examples-832.webp`
 
-> Additional [Roslynator documentation](https://josefpihrt.github.io/docs/roslynator/cli) can be generated with:
->
-> ```bash
-> dotnet tool install -g roslynator.dotnet.cli
->
-> roslynator generate-doc src/Indicators.csproj \
->   --heading "Skender.Stock.Indicators" \
->   --language csharp \
->   --host github \
->   --output "docs/_docs"
-> ```
-
 ### Accessibility testing
 
 - use Lighthouse in Chrome, or
