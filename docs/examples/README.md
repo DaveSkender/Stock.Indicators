@@ -77,7 +77,7 @@ decimal rlzGain = 0;
 Console.WriteLine("   Date   Close  StRSI Signal  Cross  Net Gains");
 Console.WriteLine("-------------------------------------------------------");
 
-// roll through source values
+// roll through history
 for (int i = 1; i < quotesList.Count; i++)
 {
   Quote q = quotesList[i];

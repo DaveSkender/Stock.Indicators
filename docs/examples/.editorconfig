@@ -1,5 +1,4 @@
 # top-most EditorConfig file
-# isolated for distro
 root = true
 
 # global baselines
@@ -30,8 +29,5 @@ dotnet_separate_import_directive_groups = false
 # Allow singular 'using' directive
 dotnet_style_namespace_match_folder = false:none
 
-# Suppress intentional syntax that would
-# otherwise trigger a diagnostic message
+# Don't require accessibility modifiers
 dotnet_diagnostic.IDE0058.severity = none
-dotnet_diagnostic.IDE0305.severity = none
-dotnet_diagnostic.CA1859.severity  = none
