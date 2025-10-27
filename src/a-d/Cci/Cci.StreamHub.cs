@@ -66,6 +66,7 @@ public class CciHub
         {
             index = ProviderCache.Count;
         }
+
         if (index <= 0)
         {
             return;

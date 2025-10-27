@@ -61,6 +61,7 @@ public class DonchianList : BufferList<DonchianResult>, IIncrementFromQuote
                 {
                     highHigh = High;
                 }
+
                 if (Low < lowLow)
                 {
                     lowLow = Low;

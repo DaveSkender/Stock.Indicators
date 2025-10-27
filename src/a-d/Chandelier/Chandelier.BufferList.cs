@@ -87,6 +87,7 @@ public class ChandelierList : BufferList<ChandelierResult>, IIncrementFromQuote,
                             maxHigh = High;
                         }
                     }
+
                     exit = maxHigh - (atr * Multiplier);
                     break;
 
@@ -99,6 +100,7 @@ public class ChandelierList : BufferList<ChandelierResult>, IIncrementFromQuote,
                             minLow = Low;
                         }
                     }
+
                     exit = minLow + (atr * Multiplier);
                     break;
 

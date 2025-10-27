@@ -198,6 +198,7 @@ public class KvoHub
                 {
                     sum += Cache[p].Oscillator ?? 0;
                 }
+
                 sum += kvo ?? 0;
                 sig = sum / _signalPeriods;
             }

@@ -131,6 +131,7 @@ public class StochList : BufferList<StochResult>, IIncrementFromQuote, IStoch
                 {
                     highHigh = High;
                 }
+
                 if (Low < lowLow)
                 {
                     lowLow = Low;

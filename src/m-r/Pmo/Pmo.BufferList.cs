@@ -93,6 +93,7 @@ public class PmoList : BufferList<PmoResult>, IIncrementFromChain, IPmo
             {
                 sum += _rocHistory[p];
             }
+
             rocEma = sum / TimePeriods;
         }
         else
@@ -113,6 +114,7 @@ public class PmoList : BufferList<PmoResult>, IIncrementFromChain, IPmo
             {
                 sum += _rocEmaHistory[p];
             }
+
             pmo = sum / SmoothPeriods;
         }
         else
@@ -132,6 +134,7 @@ public class PmoList : BufferList<PmoResult>, IIncrementFromChain, IPmo
             {
                 sum += _pmoHistory[p];
             }
+
             signal = sum / SignalPeriods;
         }
         else

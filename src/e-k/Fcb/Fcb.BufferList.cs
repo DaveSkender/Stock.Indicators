@@ -101,6 +101,7 @@ public class FcbList : BufferList<FcbResult>, IIncrementFromQuote, IFcb
                 {
                     _upperLine = midQuote.High;
                 }
+
                 if (isBullishFractal)
                 {
                     _lowerLine = midQuote.Low;

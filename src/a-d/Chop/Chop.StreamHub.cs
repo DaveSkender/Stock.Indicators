@@ -118,6 +118,7 @@ public class ChopHub
         {
             index = ProviderCache.Count;
         }
+
         if (index <= 0)
         {
             return;

@@ -84,6 +84,7 @@ public class WilliamsRList : BufferList<WilliamsResult>, IIncrementFromQuote, IW
                 {
                     highHigh = High;
                 }
+
                 if (Low < lowLow)
                 {
                     lowLow = Low;

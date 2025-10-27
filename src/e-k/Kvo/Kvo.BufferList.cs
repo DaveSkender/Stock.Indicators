@@ -173,6 +173,7 @@ public class KvoList : BufferList<KvoResult>, IIncrementFromQuote, IKvo
                 {
                     sum += this[p].Oscillator ?? 0;
                 }
+
                 sum += kvo ?? 0;
                 sig = sum / SignalPeriods;
             }

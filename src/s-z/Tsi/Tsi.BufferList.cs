@@ -204,6 +204,7 @@ public class TsiList : BufferList<TsiResult>, IIncrementFromChain, ITsi
                     {
                         sum += _tsiHistory[p];
                     }
+
                     signal = sum / SignalPeriods;
                 }
                 else

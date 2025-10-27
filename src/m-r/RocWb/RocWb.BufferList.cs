@@ -100,6 +100,7 @@ public class RocWbList : BufferList<RocWbResult>, IIncrementFromChain, IRocWb
                 {
                     sum += rocVal;
                 }
+
                 rocEma = sum / EmaPeriods;
             }
             else

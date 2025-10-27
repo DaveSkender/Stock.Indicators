@@ -87,6 +87,7 @@ public class FcbHub
             {
                 UpperLine = fractalQuote.High;
             }
+
             if (isBullishFractal)
             {
                 LowerLine = fractalQuote.Low;

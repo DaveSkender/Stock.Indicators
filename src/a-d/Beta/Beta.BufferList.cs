@@ -208,6 +208,7 @@ public class BetaList : BufferList<BetaResult>, IIncrementFromPairs, IBeta
                     dataB.Add(evalReturn);
                 }
             }
+
             index++;
         }
 

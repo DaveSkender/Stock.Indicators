@@ -152,6 +152,7 @@ public class PvoList : BufferList<PvoResult>, IIncrementFromQuote, IPvo
                 {
                     sum += this[p].Value;
                 }
+
                 signal = sum / SignalPeriods;
             }
             else

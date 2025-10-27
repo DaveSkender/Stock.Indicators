@@ -89,6 +89,7 @@ public class CmoHub
         {
             index = ProviderCache.Count;
         }
+
         if (index <= 0)
         {
             return;

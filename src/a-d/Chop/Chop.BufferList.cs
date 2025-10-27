@@ -79,6 +79,7 @@ public class ChopList : BufferList<ChopResult>, IIncrementFromQuote, IChop
                     {
                         maxTrueHigh = TrueHigh;
                     }
+
                     if (TrueLow < minTrueLow)
                     {
                         minTrueLow = TrueLow;
