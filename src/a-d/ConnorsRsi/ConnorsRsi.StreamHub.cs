@@ -477,14 +477,14 @@ public class ConnorsRsiHub
     {
         if (targetIndex < RsiPeriods) return;
 
-        (double sumGain, double sumLoss) = ComputeInitialRsiSums(targetIndex);
+        (double sumGain, double sumLoss) = ComputeInitialRsiSums();
         _avgGain = sumGain / RsiPeriods;
         _avgLoss = sumLoss / RsiPeriods;
 
         ApplyWilderSmoothingForClose(targetIndex);
     }
 
-    private (double sumGain, double sumLoss) ComputeInitialRsiSums(int targetIndex)
+    private (double sumGain, double sumLoss) ComputeInitialRsiSums()
     {
         double sumGain = 0;
         double sumLoss = 0;
