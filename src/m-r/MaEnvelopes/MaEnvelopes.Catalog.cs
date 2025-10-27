@@ -2,7 +2,9 @@ namespace Skender.Stock.Indicators;
 
 public static partial class MaEnvelopes
 {
-    // MA-ENV Common Base Listing
+    /// <summary>
+    /// MA-ENV Common Base Listing
+    /// </summary>
     internal static readonly IndicatorListing CommonListing =
         new CatalogListingBuilder()
             .WithName("Moving Average Envelopes")
@@ -17,19 +19,25 @@ public static partial class MaEnvelopes
             .AddResult("LowerEnvelope", "Lower Envelope", ResultType.Default)
             .Build();
 
-    // MA-ENV Series Listing
+    /// <summary>
+    /// MA-ENV Series Listing
+    /// </summary>
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
             .Build();
 
-    // MA-ENV Buffer Listing
+    /// <summary>
+    /// MA-ENV Buffer Listing
+    /// </summary>
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)
             .Build();
 
-    // MA-ENV Stream Listing
+    /// <summary>
+    /// MA-ENV Stream Listing
+    /// </summary>
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)

@@ -28,7 +28,7 @@ public interface IChainProvider<out T> : IStreamObservable<T>
 /// </remarks>
 public interface IPairsProvider<out T> : IStreamObservable<T>
    where T : IReusable;
-#endregion
+#endregion chain and quote variants
 
 /// <summary>
 /// Provider of data + management of and notification to observing subscribers.

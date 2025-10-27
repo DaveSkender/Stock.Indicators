@@ -31,7 +31,9 @@ public class CorrelationList : BufferList<CorrResult>, IIncrementFromPairs, ICor
         IReadOnlyList<IReusable> valuesA,
         IReadOnlyList<IReusable> valuesB)
         : this(lookbackPeriods)
-        => Add(valuesA, valuesB);
+    {
+        Add(valuesA, valuesB);
+    }
 
     /// <summary>
     /// Gets the number of periods to look back for the calculation.
@@ -137,6 +139,9 @@ public static partial class Correlation
     /// <summary>
     /// Creates a buffer list for Correlation calculations from two synchronized series.
     /// </summary>
+    /// <param name="valuesA"></param>
+    /// <param name="valuesB"></param>
+    /// <param name="lookbackPeriods"></param>
     public static CorrelationList ToCorrelationList(
         this IReadOnlyList<IReusable> valuesA,
         IReadOnlyList<IReusable> valuesB,
@@ -146,6 +151,8 @@ public static partial class Correlation
     /// <summary>
     /// Validates the parameters for correlation calculations.
     /// </summary>
+    /// <param name="lookbackPeriods"></param>
+    /// <exception cref="ArgumentOutOfRangeException"></exception>
     internal static void Validate(int lookbackPeriods)
     {
         if (lookbackPeriods <= 0)

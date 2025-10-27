@@ -2,7 +2,9 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Aroon
 {
-    // AROON Common Base Listing
+    /// <summary>
+    /// AROON Common Base Listing
+    /// </summary>
     internal static readonly IndicatorListing CommonListing =
         new CatalogListingBuilder()
             .WithName("Aroon Up/Down")
@@ -15,7 +17,9 @@ public static partial class Aroon
             .AddResult("Oscillator", "Oscillator", ResultType.Default, isReusable: true)
             .Build();
 
-    // AROON Series Listing
+    /// <summary>
+    /// AROON Series Listing
+    /// </summary>
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)

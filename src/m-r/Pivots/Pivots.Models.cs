@@ -30,20 +30,20 @@ public enum PivotTrend
     /// <summary>
     /// Higher high trend.
     /// </summary>
-    Hh,
+    Hh = 0,
 
     /// <summary>
     /// Lower high trend.
     /// </summary>
-    Lh,
+    Lh = 1,
 
     /// <summary>
     /// Higher low trend.
     /// </summary>
-    Hl,
+    Hl = 2,
 
     /// <summary>
     /// Lower low trend.
     /// </summary>
-    Ll
+    Ll = 3
 }

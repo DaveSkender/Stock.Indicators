@@ -33,7 +33,10 @@ public class StdDevChannelsList : BufferList<StdDevChannelsResult>, IIncrementFr
     private readonly SlopeList slopeList;
     private readonly int lookbackPeriods;
     private readonly double stdDeviations;
-    private int globalIndexOffset; // Tracks how many items have been removed from the beginning
+    /// <summary>
+    /// Tracks how many items have been removed from the beginning
+    /// </summary>
+    private int globalIndexOffset;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="StdDevChannelsList"/> class.
@@ -59,7 +62,9 @@ public class StdDevChannelsList : BufferList<StdDevChannelsResult>, IIncrementFr
     /// <param name="values">Initial reusable values to populate the list.</param>
     public StdDevChannelsList(int lookbackPeriods, double stdDeviations, IReadOnlyList<IReusable> values)
         : this(lookbackPeriods, stdDeviations)
-        => Add(values);
+    {
+        Add(values);
+    }
 
     /// <summary>
     /// Gets the number of periods to look back for the calculation.
@@ -196,6 +201,9 @@ public static partial class StdDevChannels
     /// <summary>
     /// Creates a buffer list for Standard Deviation Channels calculations.
     /// </summary>
+    /// <param name="source"></param>
+    /// <param name="lookbackPeriods"></param>
+    /// <param name="stdDeviations"></param>
     public static StdDevChannelsList ToStdDevChannelsList(
         this IReadOnlyList<IReusable> source,
         int lookbackPeriods = 20,

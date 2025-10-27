@@ -23,21 +23,21 @@ public class StochTests : TestBase
         listing.Parameters.Should().NotBeNull();
         listing.Parameters.Should().HaveCount(3);
 
-        IndicatorParam lookbackPeriodsParam = listing.Parameters.SingleOrDefault(p => p.ParameterName == "lookbackPeriods");
+        IndicatorParam lookbackPeriodsParam = listing.Parameters.SingleOrDefault(static p => p.ParameterName == "lookbackPeriods");
         lookbackPeriodsParam.Should().NotBeNull();
-        IndicatorParam signalPeriodsParam1 = listing.Parameters.SingleOrDefault(p => p.ParameterName == "signalPeriods");
+        IndicatorParam signalPeriodsParam1 = listing.Parameters.SingleOrDefault(static p => p.ParameterName == "signalPeriods");
         signalPeriodsParam1.Should().NotBeNull();
-        IndicatorParam smoothPeriodsParam2 = listing.Parameters.SingleOrDefault(p => p.ParameterName == "smoothPeriods");
+        IndicatorParam smoothPeriodsParam2 = listing.Parameters.SingleOrDefault(static p => p.ParameterName == "smoothPeriods");
         smoothPeriodsParam2.Should().NotBeNull();
 
         listing.Results.Should().NotBeNull();
         listing.Results.Should().HaveCount(2);
 
-        IndicatorResult oscillatorResult = listing.Results.SingleOrDefault(r => r.DataName == "Oscillator");
+        IndicatorResult oscillatorResult = listing.Results.SingleOrDefault(static r => r.DataName == "Oscillator");
         oscillatorResult.Should().NotBeNull();
         oscillatorResult?.DisplayName.Should().Be("%K");
         oscillatorResult.IsReusable.Should().Be(true);
-        IndicatorResult signalResult1 = listing.Results.SingleOrDefault(r => r.DataName == "Signal");
+        IndicatorResult signalResult1 = listing.Results.SingleOrDefault(static r => r.DataName == "Signal");
         signalResult1.Should().NotBeNull();
         signalResult1?.DisplayName.Should().Be("%D");
         signalResult1.IsReusable.Should().Be(false);

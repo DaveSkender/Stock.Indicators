@@ -2,7 +2,9 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Donchian
 {
-    // DONCHIAN Common Base Listing
+    /// <summary>
+    /// DONCHIAN Common Base Listing
+    /// </summary>
     internal static readonly IndicatorListing CommonListing =
         new CatalogListingBuilder()
             .WithName("Donchian Channels")
@@ -16,19 +18,25 @@ public static partial class Donchian
             .AddResult("Width", "Width", ResultType.Default)
             .Build();
 
-    // DONCHIAN Series Listing
+    /// <summary>
+    /// DONCHIAN Series Listing
+    /// </summary>
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
             .Build();
 
-    // DONCHIAN Stream Listing
+    /// <summary>
+    /// DONCHIAN Stream Listing
+    /// </summary>
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
             .Build();
 
-    // DONCHIAN Buffer Listing
+    /// <summary>
+    /// DONCHIAN Buffer Listing
+    /// </summary>
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)

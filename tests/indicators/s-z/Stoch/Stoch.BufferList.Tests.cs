@@ -24,7 +24,7 @@ public class Stoch : BufferListTestBase
         }
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
     }
 
     [TestMethod]
@@ -33,7 +33,7 @@ public class Stoch : BufferListTestBase
         StochList sut = new(lookbackPeriods, signalPeriods, smoothPeriods) { Quotes };
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
     }
 
     [TestMethod]
@@ -42,7 +42,7 @@ public class Stoch : BufferListTestBase
         StochList sut = new(lookbackPeriods, signalPeriods, smoothPeriods, kFactor, dFactor, movingAverageType, Quotes);
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
     }
 
     [TestMethod]
@@ -66,7 +66,7 @@ public class Stoch : BufferListTestBase
         IReadOnlyList<StochResult> expected = subset.ToStoch(lookbackPeriods, signalPeriods, smoothPeriods);
 
         sut.Should().HaveCount(expected.Count);
-        sut.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
+        sut.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
     }
 
     [TestMethod]
@@ -81,7 +81,7 @@ public class Stoch : BufferListTestBase
         IReadOnlyList<StochResult> expected = Quotes.ToStoch(lookbackPeriods, signalPeriods, smoothPeriods, kFactor, dFactor, movingAverageType);
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
+        sut.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
     }
 
     [TestMethod]
@@ -97,19 +97,19 @@ public class Stoch : BufferListTestBase
         }
 
         incremental.Should().HaveCount(batch.Count);
-        incremental.Should().BeEquivalentTo(batch, options => options.WithStrictOrdering());
+        incremental.Should().BeEquivalentTo(batch, static options => options.WithStrictOrdering());
     }
 
     [TestMethod]
     public void ParameterValidation()
     {
         // Test parameter validation
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() => new StochList(0));
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() => new StochList(14, 0));
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() => new StochList(14, 3, 0));
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() => new StochList(14, 3, 3, 0, 2, MaType.SMA));
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() => new StochList(14, 3, 3, 3, 0, MaType.SMA));
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() => new StochList(14, 3, 3, 3, 2, MaType.ALMA));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(static () => new StochList(0));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(static () => new StochList(14, 0));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(static () => new StochList(14, 3, 0));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(static () => new StochList(14, 3, 3, 0, 2, MaType.SMA));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(static () => new StochList(14, 3, 3, 3, 0, MaType.SMA));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(static () => new StochList(14, 3, 3, 3, 2, MaType.ALMA));
     }
 
     [TestMethod]
@@ -140,7 +140,7 @@ public class Stoch : BufferListTestBase
         StochList fromExtension = Quotes.ToStochList(lookbackPeriods, signalPeriods, smoothPeriods);
         StochList fromConstructor = new(lookbackPeriods, signalPeriods, smoothPeriods) { Quotes };
 
-        fromExtension.Should().BeEquivalentTo(fromConstructor, options => options.WithStrictOrdering());
+        fromExtension.Should().BeEquivalentTo(fromConstructor, static options => options.WithStrictOrdering());
     }
 
     [TestMethod]
@@ -161,6 +161,6 @@ public class Stoch : BufferListTestBase
             = series.Skip(series.Count - maxListSize).ToList();
 
         sut.Should().HaveCount(maxListSize);
-        sut.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
+        sut.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
     }
 }

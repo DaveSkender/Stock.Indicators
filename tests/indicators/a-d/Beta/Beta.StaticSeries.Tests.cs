@@ -11,9 +11,9 @@ public class Beta : StaticSeriesTestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.HasCount(482, results.Where(x => x.Beta != null));
-        Assert.HasCount(482, results.Where(x => x.BetaUp != null));
-        Assert.HasCount(482, results.Where(x => x.BetaDown != null));
+        Assert.HasCount(482, results.Where(static x => x.Beta != null));
+        Assert.HasCount(482, results.Where(static x => x.BetaUp != null));
+        Assert.HasCount(482, results.Where(static x => x.BetaDown != null));
 
         // sample values
         BetaResult r19 = results[19];
@@ -55,7 +55,7 @@ public class Beta : StaticSeriesTestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.HasCount(482, results.Where(x => x.Beta != null));
+        Assert.HasCount(482, results.Where(static x => x.Beta != null));
 
         // sample value
         BetaResult r = results[501];
@@ -70,7 +70,7 @@ public class Beta : StaticSeriesTestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.HasCount(482, results.Where(x => x.BetaUp != null));
+        Assert.HasCount(482, results.Where(static x => x.BetaUp != null));
 
         // sample value
         BetaResult r = results[501];
@@ -85,7 +85,7 @@ public class Beta : StaticSeriesTestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.HasCount(482, results.Where(x => x.BetaDown != null));
+        Assert.HasCount(482, results.Where(static x => x.BetaDown != null));
 
         // sample value
         BetaResult r = results[501];
@@ -100,7 +100,7 @@ public class Beta : StaticSeriesTestBase
             .ToBeta(Quotes.Use(CandlePart.Close), 20);
 
         Assert.HasCount(502, results);
-        Assert.HasCount(482, results.Where(x => x.Beta != null));
+        Assert.HasCount(482, results.Where(static x => x.Beta != null));
     }
 
     [TestMethod]
@@ -111,7 +111,7 @@ public class Beta : StaticSeriesTestBase
             .ToSma(10);
 
         Assert.HasCount(502, results);
-        Assert.HasCount(473, results.Where(x => x.Sma != null));
+        Assert.HasCount(473, results.Where(static x => x.Sma != null));
     }
 
     [TestMethod]
@@ -122,8 +122,8 @@ public class Beta : StaticSeriesTestBase
             .ToBeta(OtherQuotes.ToSma(2), 20);
 
         Assert.HasCount(502, results);
-        Assert.HasCount(481, results.Where(x => x.Beta != null));
-        Assert.IsEmpty(results.Where(x => x.Beta is double.NaN));
+        Assert.HasCount(481, results.Where(static x => x.Beta != null));
+        Assert.IsEmpty(results.Where(static x => x.Beta is double.NaN));
     }
 
     [TestMethod]
@@ -133,19 +133,19 @@ public class Beta : StaticSeriesTestBase
             .ToBeta(BadQuotes, 15);
 
         Assert.HasCount(502, r1);
-        Assert.IsEmpty(r1.Where(x => x.Beta is double.NaN));
+        Assert.IsEmpty(r1.Where(static x => x.Beta is double.NaN));
 
         IReadOnlyList<BetaResult> r2 = BadQuotes
             .ToBeta(BadQuotes, 15, BetaType.Up);
 
         Assert.HasCount(502, r2);
-        Assert.IsEmpty(r2.Where(x => x.BetaUp is double.NaN));
+        Assert.IsEmpty(r2.Where(static x => x.BetaUp is double.NaN));
 
         IReadOnlyList<BetaResult> r3 = BadQuotes
             .ToBeta(BadQuotes, 15, BetaType.Down);
 
         Assert.HasCount(502, r3);
-        Assert.IsEmpty(r3.Where(x => x.BetaDown is double.NaN));
+        Assert.IsEmpty(r3.Where(static x => x.BetaDown is double.NaN));
     }
 
     [TestMethod]
@@ -201,7 +201,7 @@ public class Beta : StaticSeriesTestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.HasCount(482, results.Where(x => x.Beta != null));
+        Assert.HasCount(482, results.Where(static x => x.Beta != null));
 
         // sample value
         BetaResult r = results[501];

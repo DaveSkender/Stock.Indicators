@@ -197,18 +197,16 @@ public static partial class ParabolicSar
         }
 
         // remove first trendline since it is an invalid guess
-        int cutIndex = results.FindIndex(x => x.IsReversal ?? false);
+        int cutIndex = results.FindIndex(static x => x.IsReversal ?? false);
 
         cutIndex = cutIndex < 0 ? length - 1 : cutIndex;
 
         for (int d = 0; d <= cutIndex; d++)
         {
-            ParabolicSarResult r = results[d] with {
+            results[d] = (results[d] with {
                 Sar = null,
                 IsReversal = null
-            };
-
-            results[d] = r;
+            });
         }
 
         return results;

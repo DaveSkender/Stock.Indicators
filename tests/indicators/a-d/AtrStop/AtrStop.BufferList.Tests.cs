@@ -21,7 +21,7 @@ public class AtrStop : BufferListTestBase
         }
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
     }
 
     [TestMethod]
@@ -30,7 +30,7 @@ public class AtrStop : BufferListTestBase
         AtrStopList sut = new(lookbackPeriods, multiplier, endType) { Quotes };
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
     }
 
     [TestMethod]
@@ -39,7 +39,7 @@ public class AtrStop : BufferListTestBase
         AtrStopList sut = new(lookbackPeriods, multiplier, endType, Quotes);
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
     }
 
     [TestMethod]
@@ -51,7 +51,7 @@ public class AtrStop : BufferListTestBase
         AtrStopList sut = new(lookbackPeriods, multiplier, endType, subset);
 
         sut.Should().HaveCount(subset.Count);
-        sut.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
+        sut.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
 
         sut.Clear();
 
@@ -60,7 +60,7 @@ public class AtrStop : BufferListTestBase
         sut.Add(subset);
 
         sut.Should().HaveCount(expected.Count);
-        sut.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
+        sut.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
     }
 
     [TestMethod]
@@ -78,6 +78,6 @@ public class AtrStop : BufferListTestBase
             = series.Skip(series.Count - maxListSize).ToList();
 
         sut.Should().HaveCount(maxListSize);
-        sut.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
+        sut.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
     }
 }

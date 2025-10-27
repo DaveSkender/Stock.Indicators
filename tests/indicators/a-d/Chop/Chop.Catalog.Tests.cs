@@ -23,13 +23,13 @@ public class ChopTests : TestBase
         listing.Parameters.Should().NotBeNull();
         listing.Parameters.Should().HaveCount(1);
 
-        IndicatorParam lookbackPeriodsParam = listing.Parameters.SingleOrDefault(p => p.ParameterName == "lookbackPeriods");
+        IndicatorParam lookbackPeriodsParam = listing.Parameters.SingleOrDefault(static p => p.ParameterName == "lookbackPeriods");
         lookbackPeriodsParam.Should().NotBeNull();
 
         listing.Results.Should().NotBeNull();
         listing.Results.Should().HaveCount(1);
 
-        IndicatorResult chopResult = listing.Results.SingleOrDefault(r => r.DataName == "Chop");
+        IndicatorResult chopResult = listing.Results.SingleOrDefault(static r => r.DataName == "Chop");
         chopResult.Should().NotBeNull();
         chopResult?.DisplayName.Should().Be("CHOP");
         chopResult.IsReusable.Should().Be(true);
@@ -52,13 +52,13 @@ public class ChopTests : TestBase
         listing.Parameters.Should().NotBeNull();
         listing.Parameters.Should().HaveCount(1);
 
-        IndicatorParam lookbackPeriodsParam = listing.Parameters.SingleOrDefault(p => p.ParameterName == "lookbackPeriods");
+        IndicatorParam lookbackPeriodsParam = listing.Parameters.SingleOrDefault(static p => p.ParameterName == "lookbackPeriods");
         lookbackPeriodsParam.Should().NotBeNull();
 
         listing.Results.Should().NotBeNull();
         listing.Results.Should().HaveCount(1);
 
-        IndicatorResult chopResult = listing.Results.SingleOrDefault(r => r.DataName == "Chop");
+        IndicatorResult chopResult = listing.Results.SingleOrDefault(static r => r.DataName == "Chop");
         chopResult.Should().NotBeNull();
         chopResult?.DisplayName.Should().Be("CHOP");
         chopResult.IsReusable.Should().Be(true);

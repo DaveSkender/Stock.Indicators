@@ -25,7 +25,9 @@ public class AroonList : BufferList<AroonResult>, IIncrementFromQuote, IAroon
     /// <param name="quotes">Initial quotes to populate the list.</param>
     public AroonList(int lookbackPeriods, IReadOnlyList<IQuote> quotes)
         : this(lookbackPeriods)
-        => Add(quotes);
+    {
+        Add(quotes);
+    }
 
     /// <summary>
     /// Gets the number of periods to look back.
@@ -116,7 +118,9 @@ public class AroonList : BufferList<AroonResult>, IIncrementFromQuote, IAroon
     }
 }
 
-// EXTENSION METHODS
+/// <summary>
+/// EXTENSION METHODS
+/// </summary>
 public static partial class Aroon
 {
     /// <summary>

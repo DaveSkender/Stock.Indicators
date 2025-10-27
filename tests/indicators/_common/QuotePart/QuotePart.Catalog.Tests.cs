@@ -15,7 +15,7 @@ public class QuotePartTests : TestBase
         listing.Should().NotBeNull("QuotePart Series listing should be found");
 
         // Get catalog default value for test use
-        IndicatorParam candlePartParam = listing.Parameters.Single(p => p.ParameterName == "candlePart");
+        IndicatorParam candlePartParam = listing.Parameters.Single(static p => p.ParameterName == "candlePart");
         CandlePart candlePartValue = (CandlePart)candlePartParam.DefaultValue;
 
         // Act - Use catalog utility to dynamically execute the indicator
@@ -56,7 +56,7 @@ public class QuotePartTests : TestBase
         listing.Parameters.Should().NotBeNull();
         listing.Parameters.Should().HaveCount(1);
 
-        IndicatorParam candlePart = listing.Parameters.FirstOrDefault(p => p.ParameterName == "candlePart");
+        IndicatorParam candlePart = listing.Parameters.FirstOrDefault(static p => p.ParameterName == "candlePart");
         candlePart.Should().NotBeNull();
         candlePart?.DisplayName.Should().Be("Candle Part");
 
@@ -86,7 +86,7 @@ public class QuotePartTests : TestBase
         listing.Parameters.Should().NotBeNull();
         listing.Parameters.Should().HaveCount(1);
 
-        IndicatorParam candlePart = listing.Parameters.FirstOrDefault(p => p.ParameterName == "candlePart");
+        IndicatorParam candlePart = listing.Parameters.FirstOrDefault(static p => p.ParameterName == "candlePart");
         candlePart.Should().NotBeNull();
         candlePart?.DisplayName.Should().Be("Candle Part");
 
@@ -110,8 +110,8 @@ public class QuotePartTests : TestBase
 
         // Assert
         catalog.Should().NotBeNull();
-        catalog.Should().Contain(l => l.Uiid == "QUOTEPART" && l.Style == Style.Series);
+        catalog.Should().Contain(static l => l.Uiid == "QUOTEPART" && l.Style == Style.Series);
         quotePartSeries.Should().NotBeNull();
-        seriesListings.Should().Contain(l => l.Uiid == "QUOTEPART" && l.Style == Style.Series);
+        seriesListings.Should().Contain(static l => l.Uiid == "QUOTEPART" && l.Style == Style.Series);
     }
 }

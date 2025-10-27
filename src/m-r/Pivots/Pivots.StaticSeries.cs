@@ -38,7 +38,7 @@ public static partial class Pivots
         List<(decimal? highPoint, decimal? lowPoint)> fractals
            = quotes
             .ToFractal(leftSpan, rightSpan, endType)
-            .Select(f => (f.FractalBear, f.FractalBull))
+            .Select(static f => (f.FractalBear, f.FractalBull))
             .ToList();
 
         int? lastHighIndex = null;

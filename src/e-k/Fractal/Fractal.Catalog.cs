@@ -2,7 +2,9 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Fractal
 {
-    // Fractal Common Base Listing
+    /// <summary>
+    /// Fractal Common Base Listing
+    /// </summary>
     internal static readonly IndicatorListing CommonListing =
         new CatalogListingBuilder()
             .WithName("Williams Fractal (high/low)")
@@ -15,19 +17,25 @@ public static partial class Fractal
             .AddResult("FractalBull", "Bull Fractal", ResultType.Default, isReusable: true)
             .Build();
 
-    // Fractal Series Listing
+    /// <summary>
+    /// Fractal Series Listing
+    /// </summary>
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
             .Build();
 
-    // Fractal Stream Listing
+    /// <summary>
+    /// Fractal Stream Listing
+    /// </summary>
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
             .Build();
 
-    // Fractal Buffer Listing
+    /// <summary>
+    /// Fractal Buffer Listing
+    /// </summary>
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)

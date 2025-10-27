@@ -34,7 +34,7 @@ public class AtrStopHub
 
         Reinitialize();
     }
-    #endregion
+    #endregion constructors
 
     /// <summary>
     /// Gets the number of periods to look back.
@@ -51,7 +51,9 @@ public class AtrStopHub
     /// </summary>
     public EndType EndType { get; init; }
 
-    // prevailing direction and band thresholds
+    /// <summary>
+    /// prevailing direction and band thresholds
+    /// </summary>
     private bool IsBullish { get; set; } = true;
     private double UpperBand { get; set; } = double.MaxValue;
     private double LowerBand { get; set; } = double.MinValue;

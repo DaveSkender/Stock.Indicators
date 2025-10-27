@@ -40,7 +40,9 @@ public class PrsList : BufferList<PrsResult>, IIncrementFromPairs, IPrs
         IReadOnlyList<IReusable> sourceEval,
         IReadOnlyList<IReusable> sourceBase)
         : this(lookbackPeriods)
-        => Add(sourceEval, sourceBase);
+    {
+        Add(sourceEval, sourceBase);
+    }
 
     /// <summary>
     /// Gets the number of periods for the PRS% lookback calculation.
@@ -150,6 +152,9 @@ public static partial class Prs
     /// <summary>
     /// Creates a buffer list for PRS calculations from two synchronized series.
     /// </summary>
+    /// <param name="sourceEval"></param>
+    /// <param name="sourceBase"></param>
+    /// <param name="lookbackPeriods"></param>
     public static PrsList ToPrsList(
         this IReadOnlyList<IReusable> sourceEval,
         IReadOnlyList<IReusable> sourceBase,

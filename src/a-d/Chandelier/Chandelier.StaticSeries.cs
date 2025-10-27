@@ -30,6 +30,7 @@ public static partial class Chandelier
     /// <param name="multiplier">The multiplier to apply to the ATR.</param>
     /// <param name="type">The type of Chandelier Exit to calculate (Long or Short).</param>
     /// <returns>A list of <see cref="ChandelierResult"/> containing the Chandelier Exit calculation results.</returns>
+    /// <exception cref="ArgumentOutOfRangeException"></exception>
     private static List<ChandelierResult> CalcChandelier(
         this List<QuoteD> source,
         int lookbackPeriods,

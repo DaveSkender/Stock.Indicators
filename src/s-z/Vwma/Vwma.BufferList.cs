@@ -31,7 +31,9 @@ public class VwmaList : BufferList<VwmaResult>, IIncrementFromQuote, IVwma
         IReadOnlyList<IQuote> quotes
     )
         : this(lookbackPeriods)
-        => Add(quotes);
+    {
+        Add(quotes);
+    }
 
     /// <summary>
     /// Gets the number of periods to look back for the calculation.
@@ -104,6 +106,8 @@ public static partial class Vwma
     /// <summary>
     /// Creates a buffer list for Volume Weighted Moving Average (VWMA) calculations.
     /// </summary>
+    /// <param name="quotes"></param>
+    /// <param name="lookbackPeriods"></param>
     public static VwmaList ToVwmaList(
         this IReadOnlyList<IQuote> quotes,
         int lookbackPeriods)

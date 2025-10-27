@@ -22,7 +22,9 @@ public class HeikinAshiList : BufferList<HeikinAshiResult>, IIncrementFromQuote
     /// <param name="quotes">Initial quotes to populate the list.</param>
     public HeikinAshiList(IReadOnlyList<IQuote> quotes)
         : this()
-        => Add(quotes);
+    {
+        Add(quotes);
+    }
 
 
     /// <inheritdoc />
@@ -87,6 +89,7 @@ public static partial class HeikinAshi
     /// <summary>
     /// Creates a buffer list for Heikin-Ashi calculations.
     /// </summary>
+    /// <param name="quotes"></param>
     public static HeikinAshiList ToHeikinAshiList(
         this IReadOnlyList<IQuote> quotes)
         => new() { quotes };

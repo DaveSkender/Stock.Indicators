@@ -5,11 +5,13 @@ namespace Skender.Stock.Indicators;
 /// </summary>
 public class RenkoList : BufferList<RenkoResult>, IIncrementFromQuote, IRenko
 {
-    // State tracking
+    /// <summary>
+    /// State tracking
+    /// </summary>
     private RenkoResult _lastBrick;
     private decimal _h = decimal.MinValue;
     private decimal _l = decimal.MaxValue;
-    private decimal _sumV = 0;
+    private decimal _sumV;
     private bool _isInitialized;
 
     /// <summary>
@@ -48,7 +50,9 @@ public class RenkoList : BufferList<RenkoResult>, IIncrementFromQuote, IRenko
         IReadOnlyList<IQuote> quotes
     )
         : this(brickSize, endType)
-        => Add(quotes);
+    {
+        Add(quotes);
+    }
 
     /// <inheritdoc/>
     public decimal BrickSize { get; init; }
