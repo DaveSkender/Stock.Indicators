@@ -389,7 +389,7 @@
       "label": "Run: Generate Roslynator docs",
       "detail": "Auto-generate raw documentation from Roslynator CLI",
       "type": "shell",
-      "command": "roslynator",
+      "command": "$HOME/.dotnet/tools/roslynator",
       "args": [
         "generate-doc",
         "src/Indicators.csproj",
