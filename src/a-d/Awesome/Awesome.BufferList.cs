@@ -6,6 +6,8 @@ namespace Skender.Stock.Indicators;
 public class AwesomeList : BufferList<AwesomeResult>, IIncrementFromChain, IAwesome
 {
     private readonly Queue<double> _buffer;
+    private double _slowSum;
+    private double _fastSum;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AwesomeList"/> class.
@@ -19,6 +21,8 @@ public class AwesomeList : BufferList<AwesomeResult>, IIncrementFromChain, IAwes
         SlowPeriods = slowPeriods;
 
         _buffer = new Queue<double>(slowPeriods);
+        _slowSum = 0;
+        _fastSum = 0;
     }
 
     /// <summary>
@@ -48,8 +52,8 @@ public class AwesomeList : BufferList<AwesomeResult>, IIncrementFromChain, IAwes
     /// <param name="value">The value to add.</param>
     public void Add(DateTime timestamp, double value)
     {
-        // Add to buffer
-        _buffer.Update(SlowPeriods, value);
+        // Track dequeued value for sum maintenance
+        double? dequeuedValue = _buffer.UpdateWithDequeue(SlowPeriods, value);
 
         double? oscillator = null;
         double? normalized = null;
@@ -57,26 +61,40 @@ public class AwesomeList : BufferList<AwesomeResult>, IIncrementFromChain, IAwes
         // Calculate when we have enough data
         if (_buffer.Count == SlowPeriods)
         {
-            // Calculate both SMAs from the same buffer
-            double sumSlow = 0;
-            double sumFast = 0;
-            int index = 0;
-
-            foreach (double val in _buffer)
+            // Update running sums efficiently - O(1) operation
+            if (dequeuedValue.HasValue)
             {
-                sumSlow += val;
+                _slowSum = _slowSum - dequeuedValue.Value + value;
 
-                // Fast SMA uses only the last FastPeriods values
-                if (index >= SlowPeriods - FastPeriods)
+                // For fast sum, we need to know what's dropping out of the fast window
+                // Get the value that's FastPeriods back from the end
+                double[] bufferArray = _buffer.ToArray();
+                double fastOutValue = bufferArray[SlowPeriods - FastPeriods - 1];
+                _fastSum = _fastSum - fastOutValue + value;
+            }
+            else
+            {
+                // First time we reach SlowPeriods, calculate sums from scratch
+                _slowSum = 0;
+                _fastSum = 0;
+                int index = 0;
+
+                foreach (double val in _buffer)
                 {
-                    sumFast += val;
-                }
+                    _slowSum += val;
 
-                index++;
+                    // Fast SMA uses only the last FastPeriods values
+                    if (index >= SlowPeriods - FastPeriods)
+                    {
+                        _fastSum += val;
+                    }
+
+                    index++;
+                }
             }
 
-            double fastSma = sumFast / FastPeriods;
-            double slowSma = sumSlow / SlowPeriods;
+            double fastSma = _fastSum / FastPeriods;
+            double slowSma = _slowSum / SlowPeriods;
             oscillator = fastSma - slowSma;
             normalized = value != 0 ? 100 * oscillator / value : null;
         }
@@ -114,6 +132,8 @@ public class AwesomeList : BufferList<AwesomeResult>, IIncrementFromChain, IAwes
     {
         base.Clear();
         _buffer.Clear();
+        _slowSum = 0;
+        _fastSum = 0;
     }
 }
 

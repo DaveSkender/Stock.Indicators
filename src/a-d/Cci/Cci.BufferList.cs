@@ -6,6 +6,7 @@ namespace Skender.Stock.Indicators;
 public class CciList : BufferList<CciResult>, IIncrementFromQuote, ICci
 {
     private readonly Queue<double> _tpBuffer;
+    private double _tpSum;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="CciList"/> class.
@@ -17,6 +18,7 @@ public class CciList : BufferList<CciResult>, IIncrementFromQuote, ICci
         LookbackPeriods = lookbackPeriods;
 
         _tpBuffer = new Queue<double>(lookbackPeriods);
+        _tpSum = 0;
     }
 
     /// <summary>
@@ -44,22 +46,26 @@ public class CciList : BufferList<CciResult>, IIncrementFromQuote, ICci
         // Calculate typical price
         double tp = ((double)quote.High + (double)quote.Low + (double)quote.Close) / 3d;
 
-        // Update buffer using universal buffer utilities
-        _tpBuffer.Update(LookbackPeriods, tp);
+        // Update buffer using universal buffer utilities and track dequeued value
+        double? dequeuedTp = _tpBuffer.UpdateWithDequeue(LookbackPeriods, tp);
+
+        // Update running sum efficiently - O(1) operation
+        if (_tpBuffer.Count == LookbackPeriods && dequeuedTp.HasValue)
+        {
+            _tpSum = _tpSum - dequeuedTp.Value + tp;
+        }
+        else
+        {
+            _tpSum += tp;
+        }
 
         double? cci = null;
 
         // Calculate CCI when we have enough data
         if (_tpBuffer.Count == LookbackPeriods)
         {
-            // Calculate average TP over lookback
-            double avgTp = 0;
-            foreach (double tpValue in _tpBuffer)
-            {
-                avgTp += tpValue;
-            }
-
-            avgTp /= LookbackPeriods;
+            // Calculate average TP - O(1) using running sum
+            double avgTp = _tpSum / LookbackPeriods;
 
             // Calculate average Deviation over lookback
             double avgDv = 0;
@@ -94,5 +100,6 @@ public class CciList : BufferList<CciResult>, IIncrementFromQuote, ICci
     {
         base.Clear();
         _tpBuffer.Clear();
+        _tpSum = 0;
     }
 }
