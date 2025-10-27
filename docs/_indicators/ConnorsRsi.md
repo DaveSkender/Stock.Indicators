@@ -68,6 +68,36 @@ IReadOnlyList<ConnorsRsiResult>
 
 See [Utilities and helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
 
+## Streaming
+
+Use the buffer-style `List<T>` when you need incremental calculations without a hub:
+
+```csharp
+ConnorsRsiList crsiList = new(rsiPeriods, streakPeriods, rankPeriods);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  crsiList.Add(quote);
+}
+
+// based on `ICollection<ConnorsRsiResult>`
+IReadOnlyList<ConnorsRsiResult> results = crsiList;
+```
+
+Subscribe to a `QuoteHub` for advanced streaming scenarios:
+
+```csharp
+QuoteHub quoteHub = new();
+ConnorsRsiHub observer = quoteHub.ToConnorsRsiHub(rsiPeriods, streakPeriods, rankPeriods);
+
+foreach (Quote quote in quotes)  // simulating stream
+{
+  quoteHub.Add(quote);
+}
+
+IReadOnlyList<ConnorsRsiResult> results = observer.Results;
+```
+
 ## Chaining
 
 This indicator may be generated from any chain-enabled indicator or method.
