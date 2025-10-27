@@ -44,60 +44,25 @@ public class CmoHub
 
         double? cmo = null;
 
-        if (i >= LookbackPeriods)
+        // Build up the tick buffer (starting from index 1, since we need previous value)
+        if (i > 0)
         {
-            // Check if we can use incremental update (sequential processing)
-            // We can do this if:
-            // 1. Cache has the previous result (i-1)
-            // 2. Buffer has the right number of items
-            // 3. Previous result had a value (wasn't recalculated)
-            bool canIncrement = Cache.Count > i
-                && _tickBuffer.Count == LookbackPeriods
-                && Cache[i - 1].Cmo.HasValue;
+            double prevValue = ProviderCache[i - 1].Value;
+            double currValue = item.Value;
 
-            if (canIncrement)
+            double tickValue = Math.Abs(currValue - prevValue);
+            bool? isUp = double.IsNaN(tickValue) || currValue == prevValue
+                ? null
+                : currValue > prevValue;
+
+            // Update buffer using universal buffer utilities
+            _tickBuffer.Update(LookbackPeriods, (isUp, tickValue));
+
+            // Calculate CMO only when we have enough data
+            if (i >= LookbackPeriods)
             {
-                // Sequential processing - incremental O(1) update
-                double prevValue = ProviderCache[i - 1].Value;
-                double currValue = item.Value;
-
-                double tickValue = Math.Abs(currValue - prevValue);
-                bool? isUp = double.IsNaN(tickValue) || currValue == prevValue
-                    ? null
-                    : currValue > prevValue;
-
-                // Update buffer using universal buffer utilities
-                _tickBuffer.Update(LookbackPeriods, (isUp, tickValue));
+                cmo = Cmo.PeriodCalculation(_tickBuffer);
             }
-            else
-            {
-                // Rebuild buffer from ProviderCache (O(lookbackPeriods))
-                _tickBuffer.Clear();
-
-                // Build tick buffer from provider cache
-                // Start from i - LookbackPeriods + 1 to get exactly LookbackPeriods ticks
-                int startPosition = i - LookbackPeriods + 1;
-                for (int k = startPosition; k <= i; k++)
-                {
-                    double prevValue = ProviderCache[k - 1].Value;
-                    double currValue = ProviderCache[k].Value;
-
-                    double tickValue = Math.Abs(currValue - prevValue);
-                    bool? isUp = double.IsNaN(tickValue) || currValue == prevValue
-                        ? null
-                        : currValue > prevValue;
-
-                    _tickBuffer.Enqueue((isUp, tickValue));
-                }
-            }
-
-            // Calculate CMO
-            cmo = Cmo.PeriodCalculation(_tickBuffer);
-        }
-        else
-        {
-            // Not enough data yet - clear buffer
-            _tickBuffer.Clear();
         }
 
         // candidate result
@@ -106,6 +71,49 @@ public class CmoHub
             Cmo: cmo);
 
         return (r, i);
+    }
+
+    /// <summary>
+    /// Restores the tick buffer state up to the specified timestamp.
+    /// Clears and rebuilds _tickBuffer from ProviderCache for Insert/Remove operations.
+    /// </summary>
+    /// <inheritdoc/>
+    protected override void RollbackState(DateTime timestamp)
+    {
+        // Clear tick buffer
+        _tickBuffer.Clear();
+
+        // Find target index in ProviderCache
+        int index = ProviderCache.IndexGte(timestamp);
+        if (index == -1)
+        {
+            index = ProviderCache.Count;
+        }
+        if (index <= 0)
+        {
+            return;
+        }
+
+        // Rebuild up to the index before the rollback timestamp
+        int targetIndex = index - 1;
+
+        // Need at least LookbackPeriods items to rebuild buffer
+        // Start from targetIndex - LookbackPeriods + 1, but not before index 1 (we need i-1 for prevValue)
+        int startIdx = Math.Max(1, targetIndex + 1 - LookbackPeriods);
+
+        // Rebuild tick buffer from ProviderCache
+        for (int p = startIdx; p <= targetIndex; p++)
+        {
+            double prevValue = ProviderCache[p - 1].Value;
+            double currValue = ProviderCache[p].Value;
+
+            double tickValue = Math.Abs(currValue - prevValue);
+            bool? isUp = double.IsNaN(tickValue) || currValue == prevValue
+                ? null
+                : currValue > prevValue;
+
+            _tickBuffer.Enqueue((isUp, tickValue));
+        }
     }
 
 }
