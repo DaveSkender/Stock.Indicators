@@ -9,7 +9,9 @@ public class ParabolicSarHub
     private readonly string hubName;
     private readonly Queue<(double High, double Low)> _buffer;
 
-    // State variables
+    /// <summary>
+    /// State variables
+    /// </summary>
     private double _accelerationFactor;
     private double _extremePoint;
     private double _priorSar;
@@ -108,8 +110,8 @@ public class ParabolicSarHub
             // _buffer contains the PREVIOUS quotes (not including current)
             if (_buffer.Count >= 2)
             {
-                (double h1, double l1) = _buffer.ElementAt(1);  // i-1
-                (double h2, double l2) = _buffer.ElementAt(0);  // i-2
+                (double _, double l1) = _buffer.ElementAt(1);  // i-1
+                (double _, double l2) = _buffer.ElementAt(0);  // i-2
                 double minLastTwo = Math.Min(l1, l2);
                 sar = Math.Min(sar, minLastTwo);
             }
