@@ -23,12 +23,12 @@ public static partial class SuperTrend
     /// <summary>
     /// Calculates the SuperTrend indicator.
     /// </summary>
-    /// <param name="source">The list of quotes.</param>
+    /// <param name="quotes">The source list of quotes.</param>
     /// <param name="lookbackPeriods">The number of lookback periods.</param>
     /// <param name="multiplier">The multiplier for the ATR.</param>
     /// <returns>A list of SuperTrend results.</returns>
     private static List<SuperTrendResult> CalcSuperTrend(
-        this List<QuoteD> source,
+        this List<QuoteD> quotes,
         int lookbackPeriods,
         double multiplier)
     {
@@ -36,9 +36,9 @@ public static partial class SuperTrend
         Validate(lookbackPeriods, multiplier);
 
         // initialize
-        int length = source.Count;
+        int length = quotes.Count;
         List<SuperTrendResult> results = new(length);
-        List<AtrResult> atrResults = source.CalcAtr(lookbackPeriods);
+        List<AtrResult> atrResults = quotes.CalcAtr(lookbackPeriods);
 
         bool isBullish = true;
         double? upperBand = null;
@@ -47,7 +47,7 @@ public static partial class SuperTrend
         // roll through source values
         for (int i = 0; i < length; i++)
         {
-            QuoteD q = source[i];
+            QuoteD q = quotes[i];
 
             double? superTrend;
             double? upperOnly;
@@ -57,7 +57,7 @@ public static partial class SuperTrend
             {
                 double? mid = (q.High + q.Low) / 2;
                 double? atr = atrResults[i].Atr;
-                double? prevClose = source[i - 1].Close;
+                double? prevClose = quotes[i - 1].Close;
 
                 // potential bands
                 double? upperEval = mid + (multiplier * atr);

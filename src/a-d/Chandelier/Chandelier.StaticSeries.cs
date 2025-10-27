@@ -25,14 +25,14 @@ public static partial class Chandelier
     /// <summary>
     /// Calculates the Chandelier Exit for a series of quotes.
     /// </summary>
-    /// <param name="source">The source list of quotes.</param>
+    /// <param name="quotes">The source list of quotes.</param>
     /// <param name="lookbackPeriods">The number of periods to use for the lookback window.</param>
     /// <param name="multiplier">The multiplier to apply to the ATR.</param>
     /// <param name="type">The type of Chandelier Exit to calculate (Long or Short).</param>
     /// <returns>A list of <see cref="ChandelierResult"/> containing the Chandelier Exit calculation results.</returns>
     /// <exception cref="ArgumentOutOfRangeException"></exception>
     private static List<ChandelierResult> CalcChandelier(
-        this List<QuoteD> source,
+        this List<QuoteD> quotes,
         int lookbackPeriods,
         double multiplier,
         Direction type)
@@ -41,16 +41,16 @@ public static partial class Chandelier
         Validate(lookbackPeriods, multiplier);
 
         // initialize
-        int length = source.Count;
+        int length = quotes.Count;
         List<ChandelierResult> results = new(length);
 
         List<AtrResult> atrResult
-            = source.CalcAtr(lookbackPeriods);
+            = quotes.CalcAtr(lookbackPeriods);
 
         // roll through source values
         for (int i = 0; i < length; i++)
         {
-            QuoteD q = source[i];
+            QuoteD q = quotes[i];
 
             double? exit = null;
 
@@ -66,7 +66,7 @@ public static partial class Chandelier
                         double maxHigh = 0;
                         for (int p = i + 1 - lookbackPeriods; p <= i; p++)
                         {
-                            QuoteD d = source[p];
+                            QuoteD d = quotes[p];
                             if (d.High > maxHigh)
                             {
                                 maxHigh = d.High;
@@ -81,7 +81,7 @@ public static partial class Chandelier
                         double minLow = double.MaxValue;
                         for (int p = i + 1 - lookbackPeriods; p <= i; p++)
                         {
-                            QuoteD d = source[p];
+                            QuoteD d = quotes[p];
                             if (d.Low < minLow)
                             {
                                 minLow = d.Low;

@@ -23,28 +23,28 @@ public static partial class ElderRay
     /// <summary>
     /// Calculates the Elder Ray indicator.
     /// </summary>
-    /// <param name="source">The list of source data.</param>
+    /// <param name="quotes">The source list of quotes.</param>
     /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
     /// <returns>A list of Elder Ray results.</returns>
     private static List<ElderRayResult> CalcElderRay(
-        this List<QuoteD> source,
+        this List<QuoteD> quotes,
         int lookbackPeriods)
     {
         // check parameter arguments
         Validate(lookbackPeriods);
 
         // initialize
-        int length = source.Count;
+        int length = quotes.Count;
         List<ElderRayResult> results = new(length);
 
         // EMA
         IReadOnlyList<EmaResult> emaResults
-            = source.ToEma(lookbackPeriods);
+            = quotes.ToEma(lookbackPeriods);
 
         // roll through source values
         for (int i = 0; i < length; i++)
         {
-            QuoteD q = source[i];
+            QuoteD q = quotes[i];
             EmaResult e = emaResults[i];
 
             results.Add(new(

@@ -31,14 +31,14 @@ public static partial class Smi
     /// <summary>
     /// Calculates the SMI for a list of quotes.
     /// </summary>
-    /// <param name="source">The list of quotes.</param>
+    /// <param name="quotes">The source list of quotes.</param>
     /// <param name="lookbackPeriods">The number of periods for the lookback window.</param>
     /// <param name="firstSmoothPeriods">The number of periods for the first smoothing.</param>
     /// <param name="secondSmoothPeriods">The number of periods for the second smoothing.</param>
     /// <param name="signalPeriods">The number of periods for the signal line smoothing.</param>
     /// <returns>A list of SMI results.</returns>
     private static List<SmiResult> CalcSmi(
-        this List<QuoteD> source,
+        this List<QuoteD> quotes,
         int lookbackPeriods,
         int firstSmoothPeriods,
         int secondSmoothPeriods,
@@ -52,7 +52,7 @@ public static partial class Smi
             signalPeriods);
 
         // initialize
-        int length = source.Count;
+        int length = quotes.Count;
         List<SmiResult> results = new(length);
 
         double k1 = 2d / (firstSmoothPeriods + 1);
@@ -68,7 +68,7 @@ public static partial class Smi
         // roll through source values
         for (int i = 0; i < length; i++)
         {
-            QuoteD q = source[i];
+            QuoteD q = quotes[i];
 
             double smi;
             double signal;
@@ -80,7 +80,7 @@ public static partial class Smi
 
                 for (int p = i + 1 - lookbackPeriods; p <= i; p++)
                 {
-                    QuoteD x = source[p];
+                    QuoteD x = quotes[p];
 
                     if (x.High > hH)
                     {

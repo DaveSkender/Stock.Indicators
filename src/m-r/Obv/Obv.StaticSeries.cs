@@ -19,13 +19,13 @@ public static partial class Obv
     /// <summary>
     /// Calculates the OBV for a list of quotes.
     /// </summary>
-    /// <param name="source">The list of quotes.</param>
+    /// <param name="quotes">The source list of quotes.</param>
     /// <returns>A list of OBV results.</returns>
     private static List<ObvResult> CalcObv(
-        this List<QuoteD> source)
+        this List<QuoteD> quotes)
     {
         // initialize
-        int length = source.Count;
+        int length = quotes.Count;
         List<ObvResult> results = new(length);
 
         double prevClose = double.NaN;
@@ -33,7 +33,7 @@ public static partial class Obv
         // roll through source values
         for (int i = 0; i < length; i++)
         {
-            QuoteD q = source[i];
+            QuoteD q = quotes[i];
 
             ObvResult r = Obv.Increment(
                 q.Timestamp,

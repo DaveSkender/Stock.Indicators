@@ -22,24 +22,24 @@ public static partial class Vwma
     /// <summary>
     /// Calculates the VWMA for a series of quotes.
     /// </summary>
-    /// <param name="source">The source list of quotes.</param>
+    /// <param name="quotes">The source list of quotes.</param>
     /// <param name="lookbackPeriods">The number of lookback periods.</param>
     /// <returns>A list of VwmaResult containing the VWMA values.</returns>
     private static List<VwmaResult> CalcVwma(
-        this List<QuoteD> source,
+        this List<QuoteD> quotes,
         int lookbackPeriods)
     {
         // check parameter arguments
         Validate(lookbackPeriods);
 
         // initialize
-        int length = source.Count;
+        int length = quotes.Count;
         List<VwmaResult> results = new(length);
 
         // roll through source values
         for (int i = 0; i < length; i++)
         {
-            QuoteD q = source[i];
+            QuoteD q = quotes[i];
 
             double vwma;
 
@@ -49,7 +49,7 @@ public static partial class Vwma
                 double sumVl = 0;
                 for (int p = i + 1 - lookbackPeriods; p <= i; p++)
                 {
-                    QuoteD d = source[p];
+                    QuoteD d = quotes[p];
                     double c = d.Close;
                     double v = d.Volume;
 

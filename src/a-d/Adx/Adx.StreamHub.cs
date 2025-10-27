@@ -236,7 +236,7 @@ public class AdxHub
     /// <summary>
     /// Restore rolling state up to the specified timestamp for accurate rebuilds.
     /// </summary>
-    /// <param name="timestamp"></param>
+    /// <param name="timestamp">Timestamp of record.</param>
     protected override void RollbackState(DateTime timestamp)
     {
         // Reset all state

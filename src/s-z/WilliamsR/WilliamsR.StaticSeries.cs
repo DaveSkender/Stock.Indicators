@@ -22,18 +22,18 @@ public static partial class WilliamsR
     /// <summary>
     /// Calculates the Williams %R for a series of quotes.
     /// </summary>
-    /// <param name="source">The source list of quotes.</param>
+    /// <param name="quotes">The source list of quotes.</param>
     /// <param name="lookbackPeriods">The number of lookback periods.</param>
     /// <returns>A list of WilliamsResult containing the Williams %R values.</returns>
     private static List<WilliamsResult> CalcWilliamsR(
-        this List<QuoteD> source,
+        this List<QuoteD> quotes,
         int lookbackPeriods)
     {
         // check parameter arguments
         Validate(lookbackPeriods);
 
         // convert Fast Stochastic to William %R
-        return source.CalcStoch(lookbackPeriods, 1, 1, 3, 2, MaType.SMA)
+        return quotes.CalcStoch(lookbackPeriods, 1, 1, 3, 2, MaType.SMA)
             .ConvertAll(static s => new WilliamsResult(
                 Timestamp: s.Timestamp,
                 WilliamsR: s.Oscillator - 100

@@ -23,18 +23,18 @@ public static partial class Mfi
     /// <summary>
     /// Calculates the Money Flow Index (MFI) for a list of quotes.
     /// </summary>
-    /// <param name="source">The list of quotes to analyze.</param>
+    /// <param name="quotes">The source list of quotes.</param>
     /// <param name="lookbackPeriods">The number of periods to use for the MFI calculation.</param>
     /// <returns>A list of <see cref="MfiResult"/> containing the MFI values.</returns>
     private static List<MfiResult> CalcMfi(
-        this List<QuoteD> source,
+        this List<QuoteD> quotes,
         int lookbackPeriods)
     {
         // check parameter arguments
         Validate(lookbackPeriods);
 
         // initialize
-        int length = source.Count;
+        int length = quotes.Count;
         List<MfiResult> results = new(length);
 
         double[] tp = new double[length];  // true price
@@ -46,7 +46,7 @@ public static partial class Mfi
         // roll through source values, to get preliminary data
         for (int i = 0; i < length; i++)
         {
-            QuoteD q = source[i];
+            QuoteD q = quotes[i];
             double mfi;
 
             // true price

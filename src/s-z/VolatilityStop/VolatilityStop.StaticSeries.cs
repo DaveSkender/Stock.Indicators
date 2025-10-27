@@ -24,17 +24,17 @@ public static partial class VolatilityStop
     /// <summary>
     /// Calculates the Volatility Stop for a series of quotes.
     /// </summary>
-    /// <param name="source">The source list of quotes.</param>
+    /// <param name="quotes">The source list of quotes.</param>
     /// <param name="lookbackPeriods">The number of lookback periods.</param>
     /// <param name="multiplier">The multiplier for the Average True Range.</param>
     /// <returns>A list of VolatilityStopResult containing the Volatility Stop values.</returns>
     private static List<VolatilityStopResult> CalcVolatilityStop(
-        this List<QuoteD> source,
+        this List<QuoteD> quotes,
         int lookbackPeriods,
         double multiplier)
     {
         //convert quotes
-        List<IReusable> reList = source
+        List<IReusable> reList = quotes
             .Cast<IReusable>()
             .ToList();
 
@@ -42,7 +42,7 @@ public static partial class VolatilityStop
         Validate(lookbackPeriods, multiplier);
 
         // initialize
-        int length = source.Count;
+        int length = quotes.Count;
         List<VolatilityStopResult> results = new(length);
 
         if (length == 0)
@@ -50,7 +50,7 @@ public static partial class VolatilityStop
             return results;
         }
 
-        List<AtrResult> atrList = source.CalcAtr(lookbackPeriods);
+        List<AtrResult> atrList = quotes.CalcAtr(lookbackPeriods);
 
         // initial trend (guess)
         int initPeriods = Math.Min(length, lookbackPeriods);

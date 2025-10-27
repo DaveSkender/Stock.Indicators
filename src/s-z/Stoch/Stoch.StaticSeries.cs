@@ -95,7 +95,7 @@ public static partial class Stoch
     /// <summary>
     /// Calculates the Stochastic Oscillator for a series of quotes.
     /// </summary>
-    /// <param name="source">The list of quotes.</param>
+    /// <param name="quotes">The source list of quotes.</param>
     /// <param name="lookbackPeriods">The lookback period for the oscillator.</param>
     /// <param name="signalPeriods">The signal period for the oscillator.</param>
     /// <param name="smoothPeriods">The smoothing period for the oscillator.</param>
@@ -105,7 +105,7 @@ public static partial class Stoch
     /// <returns>A list of StochResult containing the oscillator values.</returns>
     /// <exception cref="InvalidOperationException"></exception>
     internal static List<StochResult> CalcStoch(
-        this List<QuoteD> source,
+        this List<QuoteD> quotes,
         int lookbackPeriods,
         int signalPeriods,
         int smoothPeriods,
@@ -119,7 +119,7 @@ public static partial class Stoch
             kFactor, dFactor, movingAverageType);
 
         // initialize
-        int length = source.Count;
+        int length = quotes.Count;
         List<StochResult> results = new(length);
 
         double[] o = new double[length]; // %K oscillator (initial)
@@ -131,7 +131,7 @@ public static partial class Stoch
         // roll through source values
         for (int i = 0; i < length; i++)
         {
-            QuoteD q = source[i];
+            QuoteD q = quotes[i];
 
             // initial %K oscillator
             if (i >= lookbackPeriods - 1)
@@ -142,7 +142,7 @@ public static partial class Stoch
 
                 for (int p = i - lookbackPeriods + 1; p <= i; p++)
                 {
-                    QuoteD x = source[p];
+                    QuoteD x = quotes[p];
 
                     if (double.IsNaN(x.High)
                      || double.IsNaN(x.Low)

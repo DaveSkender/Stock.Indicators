@@ -36,18 +36,18 @@ public static partial class Vwap
     /// <summary>
     /// Calculates the VWAP for a series of quotes.
     /// </summary>
-    /// <param name="source">The source list of quotes.</param>
+    /// <param name="quotes">The source list of quotes.</param>
     /// <param name="startDate">The optional start date for the VWAP calculation. If not provided, the calculation starts from the first quote.</param>
     /// <returns>A list of VwapResult containing the VWAP values.</returns>
     private static List<VwapResult> CalcVwap(
-        this List<QuoteD> source,
+        this List<QuoteD> quotes,
         DateTime startDate)
     {
         // check parameter arguments
-        Validate(source, startDate);
+        Validate(quotes, startDate);
 
         // initialize
-        int length = source.Count;
+        int length = quotes.Count;
         List<VwapResult> results = new(length);
 
         if (length == 0)
@@ -61,7 +61,7 @@ public static partial class Vwap
         // roll through source values
         for (int i = 0; i < length; i++)
         {
-            QuoteD q = source[i];
+            QuoteD q = quotes[i];
 
             double? v = q.Volume;
             double? h = q.High;

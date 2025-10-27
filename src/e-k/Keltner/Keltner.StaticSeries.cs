@@ -26,13 +26,13 @@ public static partial class Keltner
     /// <summary>
     /// Calculates the Keltner Channel for a list of quotes.
     /// </summary>
-    /// <param name="source">The list of quotes to process.</param>
+    /// <param name="quotes">The source list of quotes.</param>
     /// <param name="emaPeriods">The number of periods for the EMA.</param>
     /// <param name="multiplier">The multiplier for the ATR.</param>
     /// <param name="atrPeriods">The number of periods for the ATR.</param>
     /// <returns>A list of Keltner Channel results.</returns>
     private static List<KeltnerResult> CalcKeltner(
-        this List<QuoteD> source,
+        this List<QuoteD> quotes,
         int emaPeriods,
         double multiplier,
         int atrPeriods)
@@ -41,21 +41,21 @@ public static partial class Keltner
         Validate(emaPeriods, multiplier, atrPeriods);
 
         // initialize
-        int length = source.Count;
+        int length = quotes.Count;
         List<KeltnerResult> results = new(length);
 
         IReadOnlyList<EmaResult> emaResults
-            = source.ToEma(emaPeriods);
+            = quotes.ToEma(emaPeriods);
 
         List<AtrResult> atrResults
-            = source.CalcAtr(atrPeriods);
+            = quotes.CalcAtr(atrPeriods);
 
         int lookbackPeriods = Math.Max(emaPeriods, atrPeriods);
 
         // roll through source values
         for (int i = 0; i < length; i++)
         {
-            QuoteD q = source[i];
+            QuoteD q = quotes[i];
 
             if (i >= lookbackPeriods - 1)
             {

@@ -26,13 +26,13 @@ public static partial class Kvo
     /// <summary>
     /// Calculates the KVO (Klinger Volume Oscillator) for a list of quotes.
     /// </summary>
-    /// <param name="source">The list of quotes to process.</param>
+    /// <param name="quotes">The source list of quotes.</param>
     /// <param name="fastPeriods">The number of periods for the fast EMA.</param>
     /// <param name="slowPeriods">The number of periods for the slow EMA.</param>
     /// <param name="signalPeriods">The number of periods for the signal line.</param>
     /// <returns>A list of KVO results.</returns>
     private static List<KvoResult> CalcKvo(
-        this List<QuoteD> source,
+        this List<QuoteD> quotes,
         int fastPeriods,
         int slowPeriods,
         int signalPeriods)
@@ -41,7 +41,7 @@ public static partial class Kvo
         Validate(fastPeriods, slowPeriods, signalPeriods);
 
         // initialize
-        int length = source.Count;
+        int length = quotes.Count;
         List<KvoResult> results = new(length);
 
         double[] t = new double[length];          // trend direction
@@ -60,7 +60,7 @@ public static partial class Kvo
         // roll through source values
         for (int i = 0; i < length; i++)
         {
-            QuoteD q = source[i];
+            QuoteD q = quotes[i];
 
             double? kvo = null;
             double? sig = null;
