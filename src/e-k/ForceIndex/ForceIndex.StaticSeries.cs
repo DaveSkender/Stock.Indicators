@@ -8,7 +8,7 @@ public static partial class ForceIndex
     /// <summary>
     /// Converts a list of quotes to Force Index results.
     /// </summary>
-    /// <param name="quotes">The list of quotes.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <param name="lookbackPeriods">The number of periods to look back for the calculation. Default is 2.</param>
     /// <returns>A list of Force Index results.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the quotes list is null.</exception>
@@ -23,20 +23,20 @@ public static partial class ForceIndex
     /// <summary>
     /// Calculates the Force Index for a list of quotes.
     /// </summary>
-    /// <param name="source">The list of quotes.</param>
-    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
+    /// <param name="quotes">The source list of quotes.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>A list of Force Index results.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the source list is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
     private static List<ForceIndexResult> CalcForceIndex(
-        this List<QuoteD> source,
+        this List<QuoteD> quotes,
         int lookbackPeriods)
     {
         // check parameter arguments
         Validate(lookbackPeriods);
 
         // initialize
-        int length = source.Count;
+        int length = quotes.Count;
         List<ForceIndexResult> results = new(length);
         double? prevFi = null;
         double? sumRawFi = 0;
@@ -45,17 +45,17 @@ public static partial class ForceIndex
         // skip first period
         if (length > 0)
         {
-            results.Add(new(source[0].Timestamp));
+            results.Add(new(quotes[0].Timestamp));
         }
 
         // roll through source values
         for (int i = 1; i < length; i++)
         {
-            QuoteD q = source[i];
+            QuoteD q = quotes[i];
             double? fi = null;
 
             // raw Force Index
-            double? rawFi = q.Volume * (q.Close - source[i - 1].Close);
+            double? rawFi = q.Volume * (q.Close - quotes[i - 1].Close);
 
             // calculate EMA
             if (i > lookbackPeriods)

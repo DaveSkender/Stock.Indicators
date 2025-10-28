@@ -8,7 +8,7 @@ public static partial class T3
     /// <summary>
     /// Validates the parameters for the T3 calculation.
     /// </summary>
-    /// <param name="lookbackPeriods">The number of lookback periods.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <param name="volumeFactor">The volume factor.</param>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods or volume factor are less than or equal to 0.</exception>
     internal static void Validate(

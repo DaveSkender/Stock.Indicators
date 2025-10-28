@@ -8,7 +8,7 @@ public static partial class ParabolicSar
     /// <summary>
     /// Converts a list of quotes to Parabolic SAR results.
     /// </summary>
-    /// <param name="quotes">The list of quotes to analyze.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <param name="accelerationStep">The acceleration step for the SAR calculation. Default is 0.02.</param>
     /// <param name="maxAccelerationFactor">The maximum acceleration factor for the SAR calculation. Default is 0.2.</param>
     /// <returns>A list of <see cref="ParabolicSarResult"/> containing the SAR values.</returns>
@@ -29,7 +29,7 @@ public static partial class ParabolicSar
     /// <summary>
     /// Gets the Parabolic SAR results for a list of quotes.
     /// </summary>
-    /// <param name="quotes">The list of quotes to analyze.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <param name="accelerationStep">The acceleration step for the SAR calculation.</param>
     /// <param name="maxAccelerationFactor">The maximum acceleration factor for the SAR calculation.</param>
     /// <param name="initialFactor">The initial acceleration factor for the SAR calculation.</param>
@@ -51,13 +51,13 @@ public static partial class ParabolicSar
     /// <summary>
     /// Calculates the Parabolic SAR for a list of quotes.
     /// </summary>
-    /// <param name="source">The list of quotes to analyze.</param>
+    /// <param name="quotes">The source list of quotes.</param>
     /// <param name="accelerationStep">The acceleration step for the SAR calculation.</param>
     /// <param name="maxAccelerationFactor">The maximum acceleration factor for the SAR calculation.</param>
     /// <param name="initialFactor">The initial acceleration factor for the SAR calculation.</param>
     /// <returns>A list of <see cref="ParabolicSarResult"/> containing the SAR values.</returns>
     private static List<ParabolicSarResult> CalcParabolicSar(
-        this List<QuoteD> source,
+        this List<QuoteD> quotes,
         double accelerationStep,
         double maxAccelerationFactor,
         double initialFactor)
@@ -67,7 +67,7 @@ public static partial class ParabolicSar
             accelerationStep, maxAccelerationFactor, initialFactor);
 
         // initialize
-        int length = source.Count;
+        int length = quotes.Count;
         List<ParabolicSarResult> results = new(length);
 
         if (length == 0)
@@ -75,7 +75,7 @@ public static partial class ParabolicSar
             return results;
         }
 
-        QuoteD q0 = source[0];
+        QuoteD q0 = quotes[0];
 
         double accelerationFactor = initialFactor;
         double extremePoint = q0.High;
@@ -85,7 +85,7 @@ public static partial class ParabolicSar
         // roll through source values
         for (int i = 0; i < length; i++)
         {
-            QuoteD q = source[i];
+            QuoteD q = quotes[i];
 
             bool? isReversal;
             double psar;
@@ -108,8 +108,8 @@ public static partial class ParabolicSar
                 {
                     double minLastTwo =
                         Math.Min(
-                            source[i - 1].Low,
-                            source[i - 2].Low);
+                            quotes[i - 1].Low,
+                            quotes[i - 2].Low);
 
                     sar = Math.Min(sar, minLastTwo);
                 }
@@ -153,8 +153,8 @@ public static partial class ParabolicSar
                 if (i >= 2)
                 {
                     double maxLastTwo = Math.Max(
-                        source[i - 1].High,
-                        source[i - 2].High);
+                        quotes[i - 1].High,
+                        quotes[i - 2].High);
 
                     sar = Math.Max(sar, maxLastTwo);
                 }

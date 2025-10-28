@@ -31,11 +31,7 @@ internal static class Data
         return expectedResults;
     }
 
-    /// <summary>
-    /// DEFAULT: SnP 500 ~2 years of daily data
-    /// </summary>
-    /// <param name="days"></param>
-    /// <returns></returns>
+    // DEFAULT: SnP 500 ~2 years of daily data
     internal static IReadOnlyList<Quote> GetDefault(int days = 502)
         => File.ReadAllLines("_testdata/quotes/default.csv")
             .Skip(1)
@@ -44,13 +40,7 @@ internal static class Data
             .Take(days)
             .ToSortedList();
 
-    /// <summary>
-    /// RANDOM: gaussian brownaian motion
-    /// </summary>
-    /// <param name="bars"></param>
-    /// <param name="periodSize"></param>
-    /// <param name="includeWeekends"></param>
-    /// <returns></returns>
+    // RANDOM: gaussian brownaian motion
     internal static IReadOnlyList<Quote> GetRandom(
         int bars = 502,
         PeriodSize periodSize = PeriodSize.OneMinute,
@@ -62,11 +52,7 @@ internal static class Data
 
     // sorted by filename
 
-    /// <summary>
-    /// BAD DATA
-    /// </summary>
-    /// <param name="days"></param>
-    /// <returns></returns>
+    // BAD DATA
     internal static IReadOnlyList<Quote> GetBad(int days = 502)
         => File.ReadAllLines("_testdata/quotes/bad.csv")
             .Skip(1)
@@ -75,11 +61,7 @@ internal static class Data
             .Take(days)
             .ToSortedList();
 
-    /// <summary>
-    /// BITCOIN DATA
-    /// </summary>
-    /// <param name="days"></param>
-    /// <returns></returns>
+    // BITCOIN DATA
     internal static IReadOnlyList<Quote> GetBitcoin(int days = 1246)
         => File.ReadAllLines("_testdata/quotes/bitcoin.csv")
             .Skip(1)
@@ -88,11 +70,7 @@ internal static class Data
             .Take(days)
             .ToSortedList();
 
-    /// <summary>
-    /// BTCUSD, 69288 records, 15-minute bars
-    /// </summary>
-    /// <param name="bars"></param>
-    /// <returns></returns>
+    // BTCUSD, 69288 records, 15-minute bars
     internal static IReadOnlyList<Quote> GetBtcUsdNan(int bars = 69288)
         => File.ReadAllLines("_testdata/quotes/btcusd15x69k.csv")
             .Skip(1)
@@ -101,11 +79,7 @@ internal static class Data
             .Take(bars)
             .ToSortedList();
 
-    /// <summary>
-    /// COMPARE DATA ~2 years of TSLA data (matches default time)
-    /// </summary>
-    /// <param name="days"></param>
-    /// <returns></returns>
+    // COMPARE DATA ~2 years of TSLA data (matches default time)
     internal static IReadOnlyList<Quote> GetCompare(int days = 502)
         => File.ReadAllLines("_testdata/quotes/compare.csv")
             .Skip(1)
@@ -114,11 +88,7 @@ internal static class Data
             .Take(days)
             .ToSortedList();
 
-    /// <summary>
-    /// INTRADAY DATA
-    /// </summary>
-    /// <param name="days"></param>
-    /// <returns></returns>
+    // INTRADAY DATA
     internal static IReadOnlyList<Quote> GetIntraday(int days = 1564)
         => File.ReadAllLines("_testdata/quotes/intraday.csv")
             .Skip(1)
@@ -127,21 +97,14 @@ internal static class Data
             .Take(days)
             .ToSortedList();
 
-    /// <summary>
-    /// LONGEST DATA ~62 years of SnP 500 daily data (15,821)
-    /// </summary>
-    /// <returns></returns>
+    // LONGEST DATA ~62 years of SnP 500 daily data (15,821)
     internal static IReadOnlyList<Quote> GetLongest()
         => File.ReadAllLines("_testdata/quotes/longest.csv")
             .Skip(1)
             .Select(Utilities.QuoteFromCsv)
             .ToSortedList();
 
-    /// <summary>
-    /// LONGISH DATA ~20 years of SnP 500 daily data
-    /// </summary>
-    /// <param name="days"></param>
-    /// <returns></returns>
+    // LONGISH DATA ~20 years of SnP 500 daily data
     internal static IReadOnlyList<Quote> GetLongish(int days = 5285)
         => File.ReadAllLines("_testdata/quotes/longish.csv")
             .Skip(1)
@@ -150,21 +113,14 @@ internal static class Data
             .Take(days)
             .ToSortedList();
 
-    /// <summary>
-    /// MISMATCH DATA is in incorrect sequence
-    /// </summary>
-    /// <returns></returns>
+    // MISMATCH DATA is in incorrect sequence
     internal static IReadOnlyList<Quote> GetMismatch()
         => File.ReadAllLines("_testdata/quotes/mismatch.csv")
             .Skip(1)
             .Select(Utilities.QuoteFromCsv)
             .ToList();  // not sorted
 
-    /// <summary>
-    /// MSFT, 30 years, daily
-    /// </summary>
-    /// <param name="days"></param>
-    /// <returns></returns>
+    // MSFT, 30 years, daily
     internal static IReadOnlyList<Quote> GetMsft(int days = 8111)
         => File.ReadAllLines("_testdata/quotes/msft.csv")
             .Skip(1)
@@ -173,21 +129,14 @@ internal static class Data
             .Take(days)
             .ToSortedList();
 
-    /// <summary>
-    /// PENNY DATA
-    /// </summary>
-    /// <returns></returns>
+    // PENNY DATA
     internal static IReadOnlyList<Quote> GetPenny()
         => File.ReadAllLines("_testdata/quotes/penny.csv")
             .Skip(1)
             .Select(Utilities.QuoteFromCsv)
             .ToSortedList();
 
-    /// <summary>
-    /// SPX, 30 years, daily
-    /// </summary>
-    /// <param name="days"></param>
-    /// <returns></returns>
+    // SPX, 30 years, daily
     internal static IReadOnlyList<Quote> GetSpx(int days = 8111)
         => File.ReadAllLines("_testdata/quotes/spx.csv")
             .Skip(1)
@@ -196,11 +145,7 @@ internal static class Data
             .Take(days)
             .ToSortedList();
 
-    /// <summary>
-    /// TOO BIG DATA
-    /// </summary>
-    /// <param name="days"></param>
-    /// <returns></returns>
+    // TOO BIG DATA
     internal static IReadOnlyList<Quote> GetTooBig(int days = 1246)
         => File.ReadAllLines("_testdata/quotes/toobig.csv")
             .Skip(1)
@@ -209,11 +154,7 @@ internal static class Data
             .Take(days)
             .ToSortedList();
 
-    /// <summary>
-    /// MAX SIZE DATA
-    /// </summary>
-    /// <param name="days"></param>
-    /// <returns></returns>
+    // MAX SIZE DATA
     internal static IReadOnlyList<Quote> GetMax(int days = 502)
         => File.ReadAllLines("_testdata/quotes/toobig.csv")
             .Skip(1)
@@ -222,11 +163,7 @@ internal static class Data
             .Take(days)
             .ToSortedList();
 
-    /// <summary>
-    /// ZEROS (200)
-    /// </summary>
-    /// <param name="days"></param>
-    /// <returns></returns>
+    // ZEROS (200)
     internal static IReadOnlyList<Quote> GetZeros(int days = 200)
         => File.ReadAllLines("_testdata/quotes/zeros.csv")
             .Skip(1)

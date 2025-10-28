@@ -6,11 +6,7 @@ internal static partial class Utilities
 {
     private static readonly CultureInfo EnglishCulture = new("en-US", false);
 
-    /// <summary>
-    /// importer / parser
-    /// </summary>
-    /// <param name="csvLine"></param>
-    /// <returns></returns>
+    // CSV importer / parser
     internal static Quote QuoteFromCsv(string csvLine)
     {
         if (string.IsNullOrEmpty(csvLine))

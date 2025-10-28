@@ -24,7 +24,7 @@ public static partial class Smi
     /// <summary>
     /// Validates the parameters for the SMI calculation.
     /// </summary>
-    /// <param name="lookbackPeriods">The number of lookback periods.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <param name="firstSmoothPeriods">The number of first smoothing periods.</param>
     /// <param name="secondSmoothPeriods">The number of second smoothing periods.</param>
     /// <param name="signalPeriods">The number of signal periods.</param>

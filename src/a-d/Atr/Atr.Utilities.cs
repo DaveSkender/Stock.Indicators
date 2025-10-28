@@ -5,7 +5,7 @@ public static partial class Atr
     /// <summary>
     /// Calculates the Average True Range (ATR) incrementally.
     /// </summary>
-    /// <param name="lookbackPeriods">The number of periods to look back.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <param name="high">The high price of the current period.</param>
     /// <param name="low">The low price of the current period.</param>
     /// <param name="prevClose">The close price of the previous period.</param>
@@ -27,7 +27,7 @@ public static partial class Atr
     /// <summary>
     /// Calculates the Average True Range (ATR) incrementally for a given quote.
     /// </summary>
-    /// <param name="lookbackPeriods">The number of periods to look back.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <param name="quote">The current quote.</param>
     /// <param name="prevClose">The close price of the previous period.</param>
     /// <param name="prevAtr">The ATR value of the previous period.</param>
@@ -58,7 +58,7 @@ public static partial class Atr
     /// <summary>
     /// Validates the parameters for the Average True Range (ATR) calculation.
     /// </summary>
-    /// <param name="lookbackPeriods">The number of periods to look back.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are less than or equal to 1.</exception>
     internal static void Validate(
         int lookbackPeriods)

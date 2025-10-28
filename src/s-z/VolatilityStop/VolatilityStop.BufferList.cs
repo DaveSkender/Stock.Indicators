@@ -22,7 +22,7 @@ public class VolatilityStopList : BufferList<VolatilityStopResult>, IIncrementFr
     /// <summary>
     /// Initializes a new instance of the <see cref="VolatilityStopList"/> class.
     /// </summary>
-    /// <param name="lookbackPeriods">The number of periods for ATR calculation.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <param name="multiplier">The multiplier for the Average True Range.</param>
     public VolatilityStopList(int lookbackPeriods = 7, double multiplier = 3)
     {
@@ -39,9 +39,9 @@ public class VolatilityStopList : BufferList<VolatilityStopResult>, IIncrementFr
     /// <summary>
     /// Initializes a new instance of the <see cref="VolatilityStopList"/> class with initial quotes.
     /// </summary>
-    /// <param name="lookbackPeriods">The number of periods for ATR calculation.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <param name="multiplier">The multiplier for the Average True Range.</param>
-    /// <param name="quotes">Initial quotes to populate the list.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     public VolatilityStopList(int lookbackPeriods, double multiplier, IReadOnlyList<IQuote> quotes)
         : this(lookbackPeriods, multiplier)
     {
@@ -202,9 +202,9 @@ public static partial class VolatilityStop
     /// <summary>
     /// Creates a buffer list for Volatility Stop calculations.
     /// </summary>
-    /// <param name="quotes"></param>
-    /// <param name="lookbackPeriods"></param>
-    /// <param name="multiplier"></param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
+    /// <param name="multiplier">Multiplier for calculation</param>
     public static VolatilityStopList ToVolatilityStopList(
         this IReadOnlyList<IQuote> quotes,
         int lookbackPeriods = 7,

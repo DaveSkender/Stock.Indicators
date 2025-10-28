@@ -16,7 +16,7 @@ public class AtrStopHub
     /// Initializes a new instance of the <see cref="AtrStopHub"/> class.
     /// </summary>
     /// <param name="provider">The quote provider.</param>
-    /// <param name="lookbackPeriods">The number of periods to look back.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <param name="multiplier">The multiplier for the ATR.</param>
     /// <param name="endType">The type of price to use for the calculation.</param>
     internal AtrStopHub(
@@ -216,9 +216,9 @@ public static partial class AtrStop
     /// Initializes a new instance of the <see cref="AtrStopHub"/> class.
     /// </summary>
     /// <param name="quoteProvider">The quote provider.</param>
-    /// <param name="lookbackPeriods">The number of periods to look back. Default is 21.</param>
-    /// <param name="multiplier">The multiplier for the ATR. Default is 3.</param>
-    /// <param name="endType">The type of price to use for the calculation. Default is <see cref="EndType.Close"/>.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
+    /// <param name="multiplier">The multiplier for the ATR.</param>
+    /// <param name="endType">The type of price to use for the calculation.</param>
     /// <returns>An instance of <see cref="AtrStopHub"/>.</returns>
     public static AtrStopHub ToAtrStopHub(
        this IQuoteProvider<IQuote> quoteProvider,
@@ -230,8 +230,8 @@ public static partial class AtrStop
     /// <summary>
     /// Creates a AtrStop hub from a collection of quotes.
     /// </summary>
-    /// <param name="quotes">The collection of quotes.</param>
-    /// <param name="lookbackPeriods">Parameter for the calculation.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <param name="multiplier">Parameter for the calculation.</param>
     /// <param name="endType">Parameter for the calculation.</param>
     /// <returns>An instance of <see cref="AtrStopHub"/>.</returns>

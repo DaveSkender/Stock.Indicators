@@ -8,7 +8,7 @@ public static partial class Hma
     /// <summary>
     /// Validates the lookback periods for HMA calculations.
     /// </summary>
-    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <exception cref="ArgumentOutOfRangeException">
     /// Thrown when the lookback periods are less than or equal to 1.
     /// </exception>

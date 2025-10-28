@@ -23,7 +23,7 @@ public static partial class RocWb
     /// <summary>
     /// Validates the parameters for RocWb calculations.
     /// </summary>
-    /// <param name="lookbackPeriods">The number of periods to look back for the ROC calculation.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <param name="emaPeriods">The number of periods for the exponential moving average calculation.</param>
     /// <param name="stdDevPeriods">The number of periods for the standard deviation calculation.</param>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when any of the parameters are out of range.</exception>

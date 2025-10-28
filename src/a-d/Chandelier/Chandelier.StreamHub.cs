@@ -15,7 +15,7 @@ public class ChandelierHub
     /// Initializes a new instance of the <see cref="ChandelierHub"/> class.
     /// </summary>
     /// <param name="provider">The quote provider.</param>
-    /// <param name="lookbackPeriods">The number of periods to use for the lookback window.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <param name="multiplier">The multiplier to apply to the ATR.</param>
     /// <param name="type">The type of Chandelier Exit to calculate (Long or Short).</param>
     internal ChandelierHub(
@@ -180,9 +180,9 @@ public static partial class Chandelier
     /// Creates a Chandelier Exit streaming hub from a quotes provider.
     /// </summary>
     /// <param name="quoteProvider">The quote provider.</param>
-    /// <param name="lookbackPeriods">The number of periods to use for the lookback window. Default is 22.</param>
-    /// <param name="multiplier">The multiplier to apply to the ATR. Default is 3.</param>
-    /// <param name="type">The type of Chandelier Exit to calculate (Long or Short). Default is Long.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
+    /// <param name="multiplier">The multiplier to apply to the ATR.</param>
+    /// <param name="type">The type of Chandelier Exit to calculate (Long or Short).</param>
     /// <returns>An instance of <see cref="ChandelierHub"/>.</returns>
     public static ChandelierHub ToChandelierHub(
         this IQuoteProvider<IQuote> quoteProvider,
@@ -194,10 +194,10 @@ public static partial class Chandelier
     /// <summary>
     /// Creates a Chandelier Exit hub from a collection of quotes.
     /// </summary>
-    /// <param name="quotes">The collection of quotes.</param>
-    /// <param name="lookbackPeriods">The number of periods to use for the lookback window. Default is 22.</param>
-    /// <param name="multiplier">The multiplier to apply to the ATR. Default is 3.</param>
-    /// <param name="type">The type of Chandelier Exit to calculate (Long or Short). Default is Long.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
+    /// <param name="multiplier">The multiplier to apply to the ATR.</param>
+    /// <param name="type">The type of Chandelier Exit to calculate (Long or Short).</param>
     /// <returns>An instance of <see cref="ChandelierHub"/>.</returns>
     public static ChandelierHub ToChandelierHub(
         this IReadOnlyList<IQuote> quotes,

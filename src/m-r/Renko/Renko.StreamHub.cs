@@ -112,10 +112,10 @@ public class RenkoHub
     /// <summary>
     /// custom: build 0 to many bricks per quote
     /// </summary>
-    /// <param name="item"></param>
-    /// <param name="notify"></param>
-    /// <param name="indexHint"></param>
-    /// <exception cref="InvalidOperationException"></exception>
+    /// <param name="item">Item to process</param>
+    /// <param name="notify">Whether to notify observers</param>
+    /// <param name="indexHint">Optional index hint for performance</param>
+    /// <exception cref="InvalidOperationException">Thrown when the operation is invalid for the current state</exception>
     private void ToIndicator(IQuote item, bool notify, int? indexHint)
     {
         int providerIndex = indexHint
@@ -209,7 +209,7 @@ public static partial class Renko
     /// <summary>
     /// Creates a Renko hub from a collection of quotes.
     /// </summary>
-    /// <param name="quotes">The collection of quotes.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <param name="brickSize">Parameter for the calculation.</param>
     /// <param name="endType">Parameter for the calculation.</param>
     /// <returns>An instance of <see cref="RenkoHub"/>.</returns>

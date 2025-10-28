@@ -59,7 +59,7 @@ public class ParabolicSarList : BufferList<ParabolicSarResult>, IIncrementFromQu
     /// <param name="accelerationStep">The acceleration step for the SAR calculation.</param>
     /// <param name="maxAccelerationFactor">The maximum acceleration factor for the SAR calculation.</param>
     /// <param name="initialFactor">The initial acceleration factor for the SAR calculation.</param>
-    /// <param name="quotes">Initial quotes to populate the list.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     public ParabolicSarList(
         double accelerationStep,
         double maxAccelerationFactor,
@@ -303,9 +303,9 @@ public static partial class ParabolicSar
     /// <summary>
     /// Creates a buffer list for Parabolic SAR calculations.
     /// </summary>
-    /// <param name="quotes"></param>
-    /// <param name="accelerationStep"></param>
-    /// <param name="maxAccelerationFactor"></param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="accelerationStep">Acceleration step increment</param>
+    /// <param name="maxAccelerationFactor">Maximum acceleration factor</param>
     public static ParabolicSarList ToParabolicSarList(
         this IReadOnlyList<IQuote> quotes,
         double accelerationStep = 0.02,
@@ -315,10 +315,10 @@ public static partial class ParabolicSar
     /// <summary>
     /// Creates a buffer list for Parabolic SAR calculations with custom initial factor.
     /// </summary>
-    /// <param name="quotes"></param>
-    /// <param name="accelerationStep"></param>
-    /// <param name="maxAccelerationFactor"></param>
-    /// <param name="initialFactor"></param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="accelerationStep">Acceleration step increment</param>
+    /// <param name="maxAccelerationFactor">Maximum acceleration factor</param>
+    /// <param name="initialFactor">Initial acceleration factor</param>
     public static ParabolicSarList ToParabolicSarList(
         this IReadOnlyList<IQuote> quotes,
         double accelerationStep,

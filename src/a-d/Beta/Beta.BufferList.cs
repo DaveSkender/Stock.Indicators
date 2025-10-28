@@ -13,7 +13,7 @@ public class BetaList : BufferList<BetaResult>, IIncrementFromPairs, IBeta
     /// <summary>
     /// Initializes a new instance of the <see cref="BetaList"/> class.
     /// </summary>
-    /// <param name="lookbackPeriods">The number of periods to look back.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <param name="type">The type of Beta calculation. Default is <see cref="BetaType.Standard"/>.</param>
     public BetaList(int lookbackPeriods = 50, BetaType type = BetaType.Standard)
     {
@@ -28,7 +28,7 @@ public class BetaList : BufferList<BetaResult>, IIncrementFromPairs, IBeta
     /// <summary>
     /// Initializes a new instance of the <see cref="BetaList"/> class with initial values.
     /// </summary>
-    /// <param name="lookbackPeriods">The number of periods to look back.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <param name="type">The type of Beta calculation.</param>
     /// <param name="sourceEval">Initial evaluated asset values to populate the list.</param>
     /// <param name="sourceMrkt">Initial market values to populate the list.</param>
@@ -208,6 +208,7 @@ public class BetaList : BufferList<BetaResult>, IIncrementFromPairs, IBeta
                     dataB.Add(evalReturn);
                 }
             }
+
             index++;
         }
 
@@ -244,8 +245,8 @@ public static partial class Beta
     /// </summary>
     /// <param name="sourceEval">The evaluated asset values.</param>
     /// <param name="sourceMrkt">The market values.</param>
-    /// <param name="lookbackPeriods">The number of periods to look back. Default is 50.</param>
-    /// <param name="type">The type of Beta calculation. Default is <see cref="BetaType.Standard"/>.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
+    /// <param name="type">The type of Beta calculation.</param>
     /// <returns>A BetaList instance pre-populated with historical data.</returns>
     /// <exception cref="ArgumentNullException">Thrown when sourceEval or sourceMrkt is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when parameters are invalid.</exception>

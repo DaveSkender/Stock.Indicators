@@ -40,7 +40,7 @@ public class BetaHub
     /// </summary>
     /// <param name="providerEval">The evaluation asset chain provider.</param>
     /// <param name="providerMrkt">The market chain provider.</param>
-    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <param name="type">The type of Beta calculation.</param>
     /// <exception cref="ArgumentNullException">Thrown when either provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
@@ -371,7 +371,7 @@ public class BetaHub
     /// <summary>
     /// Encapsulates rolling window state for incremental Beta calculations.
     /// </summary>
-    /// <param name="capacity"></param>
+    /// <param name="capacity">Initial capacity of the collection</param>
     private sealed class RollingWindowState(int capacity)
     {
         public double[] WindowEval = new double[capacity];
@@ -406,7 +406,7 @@ public static partial class Beta
     /// </summary>
     /// <param name="providerEval">The evaluation asset chain provider.</param>
     /// <param name="providerMrkt">The market chain provider.</param>
-    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <param name="type">The type of Beta calculation. Default is <see cref="BetaType.Standard"/>.</param>
     /// <returns>A Beta hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when either provider is null.</exception>
