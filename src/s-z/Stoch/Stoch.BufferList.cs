@@ -112,7 +112,7 @@ public class StochList : BufferList<StochResult>, IIncrementFromQuote, IStoch
     /// <param name="high">The high price.</param>
     /// <param name="low">The low price.</param>
     /// <param name="close">The close price.</param>
-    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="InvalidOperationException">Thrown when the operation is invalid for the current state</exception>
     public void Add(DateTime timestamp, double high, double low, double close)
     {
         // Update rolling buffer using BufferUtilities with consolidated tuple

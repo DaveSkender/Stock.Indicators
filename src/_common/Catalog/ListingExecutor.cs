@@ -133,7 +133,7 @@ internal static class ListingExecutor
     /// <param name="parameterValues">Parameter values in the order they appear in the listing.</param>
     /// <returns>The indicator results.</returns>
     /// <exception cref="ArgumentNullException"><paramref name="listing"/> is <c>null</c>.</exception>
-    /// <exception cref="ArgumentException"></exception>
+    /// <exception cref="ArgumentException">Thrown when an argument is invalid</exception>
     internal static IReadOnlyList<TResult> Execute<TResult>(
         IEnumerable<IQuote> quotes,
         IndicatorListing listing,

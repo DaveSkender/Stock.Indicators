@@ -139,8 +139,8 @@ public static partial class Correlation
     /// <summary>
     /// Creates a buffer list for Correlation calculations from two synchronized series.
     /// </summary>
-    /// <param name="valuesA"></param>
-    /// <param name="valuesB"></param>
+    /// <param name="valuesA">First series of values</param>
+    /// <param name="valuesB">Second series of values</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     public static CorrelationList ToCorrelationList(
         this IReadOnlyList<IReusable> valuesA,
@@ -152,7 +152,7 @@ public static partial class Correlation
     /// Validates the parameters for correlation calculations.
     /// </summary>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <exception cref="ArgumentOutOfRangeException"></exception>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when a parameter is out of the valid range</exception>
     internal static void Validate(int lookbackPeriods)
     {
         if (lookbackPeriods <= 0)

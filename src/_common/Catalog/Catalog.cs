@@ -348,7 +348,7 @@ public static partial class Catalog
     /// </summary>
     /// <param name="element">The JsonElement to convert.</param>
     /// <returns>The converted value, or null for null JsonElements.</returns>
-    /// <exception cref="NotImplementedException"></exception>
+    /// <exception cref="NotImplementedException">Thrown when the feature is not yet implemented</exception>
     private static object? ConvertJsonElement(JsonElement element)
         => element.ValueKind switch {
             JsonValueKind.String => element.GetString() ?? string.Empty,

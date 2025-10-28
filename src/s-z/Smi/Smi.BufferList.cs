@@ -209,9 +209,9 @@ public static partial class Smi
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <param name="firstSmoothPeriods"></param>
-    /// <param name="secondSmoothPeriods"></param>
-    /// <param name="signalPeriods"></param>
+    /// <param name="firstSmoothPeriods">Number of periods for first smoothing</param>
+    /// <param name="secondSmoothPeriods">Number of periods for second smoothing</param>
+    /// <param name="signalPeriods">Number of periods for the signal line</param>
     public static SmiList ToSmiList(
         this IReadOnlyList<IQuote> quotes,
         int lookbackPeriods = 13,

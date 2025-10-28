@@ -24,7 +24,7 @@ public static partial class BollingerBands
     /// <param name="endIndex">Index position to evaluate.</param>
     /// <typeparam name="T">IReusable (chainable) type.</typeparam>
     /// <returns>Bollinger Bands result or null result when insufficient data.</returns>
-    /// <exception cref="ArgumentOutOfRangeException"></exception>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when a parameter is out of the valid range</exception>
     internal static BollingerBandsResult Increment<T>(
         IReadOnlyList<T> source,
         int lookbackPeriods,
@@ -96,8 +96,8 @@ public static partial class BollingerBands
     /// parameter validation
     /// </summary>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <param name="standardDeviations"></param>
-    /// <exception cref="ArgumentOutOfRangeException"></exception>
+    /// <param name="standardDeviations">Number of standard deviations</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when a parameter is out of the valid range</exception>
     internal static void Validate(
         int lookbackPeriods,
         double standardDeviations)

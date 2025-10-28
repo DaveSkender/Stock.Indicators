@@ -96,7 +96,7 @@ public static partial class Vwap
     /// Creates a buffer list for VWAP calculations.
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="startDate"></param>
+    /// <param name="startDate">Starting date for calculation</param>
     public static VwapList ToVwapList(
         this IReadOnlyList<IQuote> quotes,
         DateTime startDate)

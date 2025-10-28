@@ -9,8 +9,8 @@ public static class ListingExecutionBuilderExtensions
     /// Creates a customizable indicator builder from an indicator listing.
     /// </summary>
     /// <param name="listing">The base indicator listing.</param>
-    /// <param name="parameterName"></param>
-    /// <param name="value"></param>
+    /// <param name="parameterName">Name of the parameter</param>
+    /// <param name="value">Value to set</param>
     /// <returns>A <see cref="ListingExecutionBuilder"/> for fluent configuration.</returns>
     public static ListingExecutionBuilder WithParamValue(
         this IndicatorListing listing,
@@ -93,7 +93,7 @@ public static class ListingExecutionBuilderExtensions
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <param name="customIndicator">The custom indicator configuration.</param>
     /// <returns>The indicator results.</returns>
-    /// <exception cref="ArgumentNullException"></exception>
+    /// <exception cref="ArgumentNullException">Thrown when a required parameter is null</exception>
     public static IReadOnlyList<TResult> Execute<TResult>(
         this IEnumerable<IQuote> quotes,
         ListingExecutionBuilder customIndicator)
@@ -111,7 +111,7 @@ public static class ListingExecutionBuilderExtensions
     /// <param name="customIndicator">The custom indicator configuration.</param>
     /// <param name="parameterName">The name of the series parameter. If null, attempts to find the first series parameter.</param>
     /// <returns>The indicator results.</returns>
-    /// <exception cref="ArgumentNullException"></exception>
+    /// <exception cref="ArgumentNullException">Thrown when a required parameter is null</exception>
     public static IReadOnlyList<TResult> Execute<TSource, TResult>(
         this IReadOnlyList<TSource> series,
         ListingExecutionBuilder customIndicator,

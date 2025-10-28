@@ -91,7 +91,7 @@ public static partial class Bop
     /// Creates a buffer list for Balance of Power (BOP) calculations.
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="smoothPeriods"></param>
+    /// <param name="smoothPeriods">Number of periods for smoothing</param>
     public static BopList ToBopList(
         this IReadOnlyList<IQuote> quotes,
         int smoothPeriods = 14)

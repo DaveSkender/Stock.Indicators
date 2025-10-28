@@ -158,7 +158,7 @@ public static partial class SuperTrend
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <param name="multiplier"></param>
+    /// <param name="multiplier">Multiplier for calculation</param>
     public static SuperTrendList ToSuperTrendList(
         this IReadOnlyList<IQuote> quotes,
         int lookbackPeriods = 10,

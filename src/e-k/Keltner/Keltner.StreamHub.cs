@@ -66,8 +66,8 @@ public class KeltnerHub
     /// <summary>
     /// Calculates the simple moving average of Close prices.
     /// </summary>
-    /// <param name="endIndex"></param>
-    /// <param name="periods"></param>
+    /// <param name="endIndex">Ending index for calculation</param>
+    /// <param name="periods">Number of periods</param>
     private double CalculateSmaOfClose(int endIndex, int periods)
     {
         if (endIndex < periods - 1 || endIndex + 1 > ProviderCache.Count)

@@ -105,8 +105,8 @@ public static partial class ChaikinOsc
     /// Creates a buffer list for Chaikin Oscillator calculations.
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="fastPeriods"></param>
-    /// <param name="slowPeriods"></param>
+    /// <param name="fastPeriods">Number of periods for the fast moving average</param>
+    /// <param name="slowPeriods">Number of periods for the slow moving average</param>
     public static ChaikinOscList ToChaikinOscList(
         this IReadOnlyList<IQuote> quotes,
         int fastPeriods = 3,

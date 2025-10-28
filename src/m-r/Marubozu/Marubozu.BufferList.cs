@@ -82,7 +82,7 @@ public static partial class Marubozu
     /// Creates a buffer list for Marubozu candlestick pattern calculations.
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="minBodyPercent"></param>
+    /// <param name="minBodyPercent">Minimum body percent threshold</param>
     public static MarubozuList ToMarubozuList(
         this IReadOnlyList<IQuote> quotes,
         double minBodyPercent = 95)

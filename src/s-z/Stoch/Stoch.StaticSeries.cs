@@ -103,7 +103,7 @@ public static partial class Stoch
     /// <param name="dFactor">The factor for the %D line.</param>
     /// <param name="movingAverageType">The type of moving average to use.</param>
     /// <returns>A list of StochResult containing the oscillator values.</returns>
-    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="InvalidOperationException">Thrown when the operation is invalid for the current state</exception>
     internal static List<StochResult> CalcStoch(
         this List<QuoteD> quotes,
         int lookbackPeriods,

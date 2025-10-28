@@ -150,9 +150,9 @@ public static partial class RollingPivots
     /// Creates a buffer list for Rolling Pivot Points calculations.
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="windowPeriods"></param>
-    /// <param name="offsetPeriods"></param>
-    /// <param name="pointType"></param>
+    /// <param name="windowPeriods">Number of periods in the rolling window</param>
+    /// <param name="offsetPeriods">Number of periods to offset</param>
+    /// <param name="pointType">Type of pivot point calculation</param>
     public static RollingPivotsList ToRollingPivotsList(
         this IReadOnlyList<IQuote> quotes,
         int windowPeriods = 20,

@@ -183,8 +183,8 @@ public static partial class RocWb
     /// </summary>
     /// <param name="source">Collection of input values, time sorted.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <param name="emaPeriods"></param>
-    /// <param name="stdDevPeriods"></param>
+    /// <param name="emaPeriods">Number of periods for the exponential moving average</param>
+    /// <param name="stdDevPeriods">Number of periods for the standard deviation calculation</param>
     public static RocWbList ToRocWbList(
         this IReadOnlyList<IReusable> source,
         int lookbackPeriods = 20,

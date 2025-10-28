@@ -143,7 +143,7 @@ public static partial class Fcb
     /// Creates a buffer list for Fractal Chaos Bands (FCB) calculations.
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="windowSpan"></param>
+    /// <param name="windowSpan">Time span for the window</param>
     public static FcbList ToFcbList(
         this IReadOnlyList<IQuote> quotes,
         int windowSpan = 2)

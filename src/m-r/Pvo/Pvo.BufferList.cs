@@ -218,9 +218,9 @@ public static partial class Pvo
     /// Creates a buffer list for Percentage Volume Oscillator (PVO) calculations.
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="fastPeriods"></param>
-    /// <param name="slowPeriods"></param>
-    /// <param name="signalPeriods"></param>
+    /// <param name="fastPeriods">Number of periods for the fast moving average</param>
+    /// <param name="slowPeriods">Number of periods for the slow moving average</param>
+    /// <param name="signalPeriods">Number of periods for the signal line</param>
     public static PvoList ToPvoList(
         this IReadOnlyList<IQuote> quotes,
         int fastPeriods = 12,
