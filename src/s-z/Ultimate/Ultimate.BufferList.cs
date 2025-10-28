@@ -41,10 +41,7 @@ public class UltimateList : BufferList<UltimateResult>, IIncrementFromQuote, IUl
         int middlePeriods,
         int longPeriods,
         IReadOnlyList<IQuote> quotes)
-        : this(shortPeriods, middlePeriods, longPeriods)
-    {
-        Add(quotes);
-    }
+        : this(shortPeriods, middlePeriods, longPeriods) => Add(quotes);
 
     /// <summary>
     /// Gets the number of short periods.

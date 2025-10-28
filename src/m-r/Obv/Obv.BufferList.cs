@@ -18,10 +18,7 @@ public class ObvList : BufferList<ObvResult>, IIncrementFromQuote
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     public ObvList(IReadOnlyList<IQuote> quotes)
-        : this()
-    {
-        Add(quotes);
-    }
+        : this() => Add(quotes);
 
     /// <inheritdoc />
     public void Add(IQuote quote)

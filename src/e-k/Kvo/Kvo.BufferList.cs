@@ -62,10 +62,7 @@ public class KvoList : BufferList<KvoResult>, IIncrementFromQuote, IKvo
         int slowPeriods,
         int signalPeriods,
         IReadOnlyList<IQuote> quotes)
-        : this(fastPeriods, slowPeriods, signalPeriods)
-    {
-        Add(quotes);
-    }
+        : this(fastPeriods, slowPeriods, signalPeriods) => Add(quotes);
 
     /// <inheritdoc />
     public int FastPeriods { get; init; }

@@ -18,10 +18,7 @@ public class GatorList : BufferList<GatorResult>, IIncrementFromChain
     /// </summary>
     /// <param name="values">Initial reusable values to populate the list.</param>
     public GatorList(IReadOnlyList<IReusable> values)
-        : this()
-    {
-        Add(values);
-    }
+        : this() => Add(values);
 
 
     /// <inheritdoc />

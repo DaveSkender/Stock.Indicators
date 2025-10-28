@@ -28,10 +28,7 @@ public class WilliamsRList : BufferList<WilliamsResult>, IIncrementFromQuote, IW
     public WilliamsRList(
         int lookbackPeriods,
         IReadOnlyList<IQuote> quotes)
-        : this(lookbackPeriods)
-    {
-        Add(quotes);
-    }
+        : this(lookbackPeriods) => Add(quotes);
 
     /// <summary>
     /// Gets the lookback periods for Williams %R calculation.
@@ -68,7 +65,7 @@ public class WilliamsRList : BufferList<WilliamsResult>, IIncrementFromQuote, IW
     /// <param name="close">The close price.</param>
     public void Add(DateTime timestamp, double high, double low, double close)
     {
-        // Update rolling buffer using BufferUtilities with consolidated tuple
+        // Update rolling buffer using BufferListUtilities with consolidated tuple
         _buffer.Update(LookbackPeriods, (high, low));
 
         // Calculate Williams %R when we have enough data

@@ -29,10 +29,7 @@ public class ZigZagList : BufferList<ZigZagResult>, IIncrementFromQuote
     /// <param name="percentChange">The percentage change threshold for ZigZag points.</param>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     public ZigZagList(EndType endType, decimal percentChange, IReadOnlyList<IQuote> quotes)
-        : this(endType, percentChange)
-    {
-        Add(quotes);
-    }
+        : this(endType, percentChange) => Add(quotes);
 
     /// <summary>
     /// Gets the type of end used (Close or HighLow).

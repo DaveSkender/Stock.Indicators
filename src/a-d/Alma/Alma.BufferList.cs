@@ -57,10 +57,7 @@ public class AlmaList : BufferList<AlmaResult>, IIncrementFromChain, IAlma
         double offset,
         double sigma,
         IReadOnlyList<IReusable> values)
-        : this(lookbackPeriods, offset, sigma)
-    {
-        Add(values);
-    }
+        : this(lookbackPeriods, offset, sigma) => Add(values);
 
     /// <summary>
     /// Gets the number of periods to look back for the calculation.

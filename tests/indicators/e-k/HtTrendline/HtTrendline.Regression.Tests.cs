@@ -9,7 +9,7 @@ public class HtTrendlineTests : RegressionTestBase<HtlResult>
     public override void Series() => Quotes.ToHtTrendline().AssertEquals(Expected);
 
     [TestMethod]
-    public override void Buffer() => Assert.Inconclusive("Buffer implementation not yet available");
+    public override void Buffer() => Quotes.ToHtlList().AssertEquals(Expected);
 
     [TestMethod]
     public override void Stream() => Quotes.ToHtTrendlineHub().Results.AssertEquals(Expected);
