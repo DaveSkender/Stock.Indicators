@@ -23,13 +23,13 @@ public class UlcerIndexTests : TestBase
         listing.Parameters.Should().NotBeNull();
         listing.Parameters.Should().HaveCount(1);
 
-        IndicatorParam lookbackPeriodsParam = listing.Parameters.SingleOrDefault(p => p.ParameterName == "lookbackPeriods");
+        IndicatorParam lookbackPeriodsParam = listing.Parameters.SingleOrDefault(static p => p.ParameterName == "lookbackPeriods");
         lookbackPeriodsParam.Should().NotBeNull();
 
         listing.Results.Should().NotBeNull();
         listing.Results.Should().HaveCount(1);
 
-        IndicatorResult ulcerindexResult = listing.Results.SingleOrDefault(r => r.DataName == "UlcerIndex");
+        IndicatorResult ulcerindexResult = listing.Results.SingleOrDefault(static r => r.DataName == "UlcerIndex");
         ulcerindexResult.Should().NotBeNull();
         ulcerindexResult?.DisplayName.Should().Be("Ulcer Index");
         ulcerindexResult.IsReusable.Should().Be(true);

@@ -23,21 +23,21 @@ public class MacdTests : TestBase
         listing.Parameters.Should().NotBeNull();
         listing.Parameters.Should().HaveCount(3);
 
-        IndicatorParam fastPeriodsParam = listing.Parameters.SingleOrDefault(p => p.ParameterName == "fastPeriods");
+        IndicatorParam fastPeriodsParam = listing.Parameters.SingleOrDefault(static p => p.ParameterName == "fastPeriods");
         fastPeriodsParam.Should().NotBeNull();
-        IndicatorParam slowPeriodsParam1 = listing.Parameters.SingleOrDefault(p => p.ParameterName == "slowPeriods");
+        IndicatorParam slowPeriodsParam1 = listing.Parameters.SingleOrDefault(static p => p.ParameterName == "slowPeriods");
         slowPeriodsParam1.Should().NotBeNull();
-        IndicatorParam signalPeriodsParam2 = listing.Parameters.SingleOrDefault(p => p.ParameterName == "signalPeriods");
+        IndicatorParam signalPeriodsParam2 = listing.Parameters.SingleOrDefault(static p => p.ParameterName == "signalPeriods");
         signalPeriodsParam2.Should().NotBeNull();
 
         listing.Results.Should().NotBeNull();
         listing.Results.Should().HaveCount(3);
 
-        IndicatorResult macdResult = listing.Results.SingleOrDefault(r => r.DataName == "Macd");
+        IndicatorResult macdResult = listing.Results.SingleOrDefault(static r => r.DataName == "Macd");
         macdResult.Should().NotBeNull();
         macdResult?.DisplayName.Should().Be("MACD");
         macdResult.IsReusable.Should().Be(true);
-        IndicatorResult signalResult1 = listing.Results.SingleOrDefault(r => r.DataName == "Signal");
+        IndicatorResult signalResult1 = listing.Results.SingleOrDefault(static r => r.DataName == "Signal");
         signalResult1.Should().NotBeNull();
         signalResult1?.DisplayName.Should().Be("Signal");
         signalResult1.IsReusable.Should().Be(false);
@@ -60,28 +60,28 @@ public class MacdTests : TestBase
         listing.Parameters.Should().NotBeNull();
         listing.Parameters.Should().HaveCount(3);
 
-        IndicatorParam fastPeriodsParam = listing.Parameters.SingleOrDefault(p => p.ParameterName == "fastPeriods");
+        IndicatorParam fastPeriodsParam = listing.Parameters.SingleOrDefault(static p => p.ParameterName == "fastPeriods");
         fastPeriodsParam.Should().NotBeNull();
         fastPeriodsParam?.DefaultValue.Should().Be(12);
-        IndicatorParam slowPeriodsParam = listing.Parameters.SingleOrDefault(p => p.ParameterName == "slowPeriods");
+        IndicatorParam slowPeriodsParam = listing.Parameters.SingleOrDefault(static p => p.ParameterName == "slowPeriods");
         slowPeriodsParam.Should().NotBeNull();
         slowPeriodsParam?.DefaultValue.Should().Be(26);
-        IndicatorParam signalPeriodsParam = listing.Parameters.SingleOrDefault(p => p.ParameterName == "signalPeriods");
+        IndicatorParam signalPeriodsParam = listing.Parameters.SingleOrDefault(static p => p.ParameterName == "signalPeriods");
         signalPeriodsParam.Should().NotBeNull();
         signalPeriodsParam?.DefaultValue.Should().Be(9);
 
         listing.Results.Should().NotBeNull();
         listing.Results.Should().HaveCount(3);
 
-        IndicatorResult macdResult = listing.Results.SingleOrDefault(r => r.DataName == "Macd");
+        IndicatorResult macdResult = listing.Results.SingleOrDefault(static r => r.DataName == "Macd");
         macdResult.Should().NotBeNull();
         macdResult?.DisplayName.Should().Be("MACD");
         macdResult.IsReusable.Should().Be(true);
-        IndicatorResult signalResult = listing.Results.SingleOrDefault(r => r.DataName == "Signal");
+        IndicatorResult signalResult = listing.Results.SingleOrDefault(static r => r.DataName == "Signal");
         signalResult.Should().NotBeNull();
         signalResult?.DisplayName.Should().Be("Signal");
         signalResult.IsReusable.Should().Be(false);
-        IndicatorResult histogramResult = listing.Results.SingleOrDefault(r => r.DataName == "Histogram");
+        IndicatorResult histogramResult = listing.Results.SingleOrDefault(static r => r.DataName == "Histogram");
         histogramResult.Should().NotBeNull();
         histogramResult?.DisplayName.Should().Be("Histogram");
         histogramResult.IsReusable.Should().Be(false);
@@ -104,28 +104,28 @@ public class MacdTests : TestBase
         listing.Parameters.Should().NotBeNull();
         listing.Parameters.Should().HaveCount(3);
 
-        IndicatorParam fastPeriodsParam = listing.Parameters.SingleOrDefault(p => p.ParameterName == "fastPeriods");
+        IndicatorParam fastPeriodsParam = listing.Parameters.SingleOrDefault(static p => p.ParameterName == "fastPeriods");
         fastPeriodsParam.Should().NotBeNull();
         fastPeriodsParam?.DefaultValue.Should().Be(12);
-        IndicatorParam slowPeriodsParam = listing.Parameters.SingleOrDefault(p => p.ParameterName == "slowPeriods");
+        IndicatorParam slowPeriodsParam = listing.Parameters.SingleOrDefault(static p => p.ParameterName == "slowPeriods");
         slowPeriodsParam.Should().NotBeNull();
         slowPeriodsParam?.DefaultValue.Should().Be(26);
-        IndicatorParam signalPeriodsParam = listing.Parameters.SingleOrDefault(p => p.ParameterName == "signalPeriods");
+        IndicatorParam signalPeriodsParam = listing.Parameters.SingleOrDefault(static p => p.ParameterName == "signalPeriods");
         signalPeriodsParam.Should().NotBeNull();
         signalPeriodsParam?.DefaultValue.Should().Be(9);
 
         listing.Results.Should().NotBeNull();
         listing.Results.Should().HaveCount(3);
 
-        IndicatorResult macdResult = listing.Results.SingleOrDefault(r => r.DataName == "Macd");
+        IndicatorResult macdResult = listing.Results.SingleOrDefault(static r => r.DataName == "Macd");
         macdResult.Should().NotBeNull();
         macdResult?.DisplayName.Should().Be("MACD");
         macdResult.IsReusable.Should().Be(true);
-        IndicatorResult signalResult = listing.Results.SingleOrDefault(r => r.DataName == "Signal");
+        IndicatorResult signalResult = listing.Results.SingleOrDefault(static r => r.DataName == "Signal");
         signalResult.Should().NotBeNull();
         signalResult?.DisplayName.Should().Be("Signal");
         signalResult.IsReusable.Should().Be(false);
-        IndicatorResult histogramResult = listing.Results.SingleOrDefault(r => r.DataName == "Histogram");
+        IndicatorResult histogramResult = listing.Results.SingleOrDefault(static r => r.DataName == "Histogram");
         histogramResult.Should().NotBeNull();
         histogramResult?.DisplayName.Should().Be("Histogram");
         histogramResult.IsReusable.Should().Be(false);

@@ -8,7 +8,7 @@ public static partial class StdDev
     /// <summary>
     /// Calculates the standard deviation for a series of data.
     /// </summary>    /// <param name="source">The source data series.</param>
-    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>A list of StdDevResult containing the standard deviation, mean, and z-score for each data point.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the source is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when lookbackPeriods is less than 1.</exception>

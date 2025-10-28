@@ -11,7 +11,7 @@ public class Marubozu : StaticSeriesTestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.HasCount(6, results.Where(x => x.Match != Match.None));
+        Assert.HasCount(6, results.Where(static x => x.Match != Match.None));
 
         // sample values
         CandleResult r31 = results[31];
@@ -77,9 +77,9 @@ public class Marubozu : StaticSeriesTestBase
     {
         // bad minimum body percent values
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => Quotes.ToMarubozu(79.9));
+            static () => Quotes.ToMarubozu(79.9));
 
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => Quotes.ToMarubozu(100.1));
+            static () => Quotes.ToMarubozu(100.1));
     }
 }

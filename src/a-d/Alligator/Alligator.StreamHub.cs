@@ -210,7 +210,7 @@ public static partial class Alligator
     /// <summary>
     /// Creates an Alligator hub from a collection of quotes.
     /// </summary>
-    /// <param name="quotes">The collection of quotes.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <param name="jawPeriods">The number of periods for the jaw.</param>
     /// <param name="jawOffset">The offset for the jaw.</param>
     /// <param name="teethPeriods">The number of periods for the teeth.</param>

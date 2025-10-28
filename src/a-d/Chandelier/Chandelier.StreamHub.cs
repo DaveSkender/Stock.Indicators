@@ -8,12 +8,14 @@ public class ChandelierHub
 {
     private readonly string hubName;
     private readonly AtrHub atrHub;
+    private readonly RollingWindowMax<double> _highWindow;
+    private readonly RollingWindowMin<double> _lowWindow;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ChandelierHub"/> class.
     /// </summary>
     /// <param name="provider">The quote provider.</param>
-    /// <param name="lookbackPeriods">The number of periods to use for the lookback window.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <param name="multiplier">The multiplier to apply to the ATR.</param>
     /// <param name="type">The type of Chandelier Exit to calculate (Long or Short).</param>
     internal ChandelierHub(
@@ -34,6 +36,10 @@ public class ChandelierHub
 
         // Initialize internal ATR hub to maintain streaming state
         atrHub = provider.ToAtrHub(lookbackPeriods);
+
+        // Initialize rolling windows for O(1) amortized max/min tracking
+        _highWindow = new RollingWindowMax<double>(lookbackPeriods);
+        _lowWindow = new RollingWindowMin<double>(lookbackPeriods);
 
         Reinitialize();
     }
@@ -65,6 +71,9 @@ public class ChandelierHub
         ArgumentNullException.ThrowIfNull(item);
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
+        // Add current quote to rolling windows
+        AddCurrentQuoteToWindows(item);
+
         // handle warmup periods
         if (i < LookbackPeriods)
         {
@@ -90,48 +99,75 @@ public class ChandelierHub
             return (new ChandelierResult(item.Timestamp, null), i);
         }
 
-        // find max high or min low in lookback period
-        double? exit;
-
-        switch (Type)
-        {
-            case Direction.Long:
-                double maxHigh = double.MinValue;
-                for (int p = i + 1 - LookbackPeriods; p <= i; p++)
-                {
-                    double high = (double)ProviderCache[p].High;
-                    if (high > maxHigh)
-                    {
-                        maxHigh = high;
-                    }
-                }
-
-                exit = maxHigh - (atr.Value * Multiplier);
-                break;
-
-            case Direction.Short:
-                double minLow = double.MaxValue;
-                for (int p = i + 1 - LookbackPeriods; p <= i; p++)
-                {
-                    double low = (double)ProviderCache[p].Low;
-                    if (low < minLow)
-                    {
-                        minLow = low;
-                    }
-                }
-
-                exit = minLow + (atr.Value * Multiplier);
-                break;
-
-            default:
-                throw new InvalidOperationException($"Unknown direction type: {Type}");
-        }
+        // Calculate exit using O(1) max/min retrieval from rolling windows
+        double? exit = Type switch {
+            Direction.Long => _highWindow.Max - (atr.Value * Multiplier),
+            Direction.Short => _lowWindow.Min + (atr.Value * Multiplier),
+            _ => throw new InvalidOperationException($"Unknown direction type: {Type}")
+        };
 
         ChandelierResult r = new(
             Timestamp: item.Timestamp,
             ChandelierExit: exit);
 
         return (r, i);
+    }
+
+    private static void ValidateFinite(double value, string paramName, DateTime timestamp)
+    {
+        if (!double.IsFinite(value))
+        {
+            string message = FormattableString.Invariant(
+                $"Quote at {timestamp:O} contains a non-finite {paramName} value.");
+            throw new InvalidQuotesException(paramName, value, message);
+        }
+    }
+
+    private void AddCurrentQuoteToWindows(IQuote item)
+    {
+        double high = (double)item.High;
+        double low = (double)item.Low;
+        ValidateFinite(high, nameof(IQuote.High), item.Timestamp);
+        ValidateFinite(low, nameof(IQuote.Low), item.Timestamp);
+
+        // Normal incremental update - O(1) amortized operation
+        // Using monotonic deque pattern eliminates O(n) linear scans on every quote
+        _highWindow.Add(high);
+        _lowWindow.Add(low);
+    }
+
+    /// <summary>
+    /// Restores the rolling window state up to the specified timestamp.
+    /// </summary>
+    /// <inheritdoc/>
+    protected override void RollbackState(DateTime timestamp)
+    {
+        // Clear rolling windows
+        _highWindow.Clear();
+        _lowWindow.Clear();
+
+        // Rebuild windows from ProviderCache up to the rollback point
+        int index = ProviderCache.IndexGte(timestamp);
+        if (index <= 0)
+        {
+            return;
+        }
+
+        // Rebuild up to the index before the rollback timestamp
+        int targetIndex = index - 1;
+        int startIdx = Math.Max(0, targetIndex + 1 - LookbackPeriods);
+
+        for (int p = startIdx; p <= targetIndex; p++)
+        {
+            IQuote quote = ProviderCache[p];
+            double cachedHigh = (double)quote.High;
+            double cachedLow = (double)quote.Low;
+            ValidateFinite(cachedHigh, nameof(IQuote.High), quote.Timestamp);
+            ValidateFinite(cachedLow, nameof(IQuote.Low), quote.Timestamp);
+
+            _highWindow.Add(cachedHigh);
+            _lowWindow.Add(cachedLow);
+        }
     }
 }
 
@@ -144,9 +180,9 @@ public static partial class Chandelier
     /// Creates a Chandelier Exit streaming hub from a quotes provider.
     /// </summary>
     /// <param name="quoteProvider">The quote provider.</param>
-    /// <param name="lookbackPeriods">The number of periods to use for the lookback window. Default is 22.</param>
-    /// <param name="multiplier">The multiplier to apply to the ATR. Default is 3.</param>
-    /// <param name="type">The type of Chandelier Exit to calculate (Long or Short). Default is Long.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
+    /// <param name="multiplier">The multiplier to apply to the ATR.</param>
+    /// <param name="type">The type of Chandelier Exit to calculate (Long or Short).</param>
     /// <returns>An instance of <see cref="ChandelierHub"/>.</returns>
     public static ChandelierHub ToChandelierHub(
         this IQuoteProvider<IQuote> quoteProvider,
@@ -158,10 +194,10 @@ public static partial class Chandelier
     /// <summary>
     /// Creates a Chandelier Exit hub from a collection of quotes.
     /// </summary>
-    /// <param name="quotes">The collection of quotes.</param>
-    /// <param name="lookbackPeriods">The number of periods to use for the lookback window. Default is 22.</param>
-    /// <param name="multiplier">The multiplier to apply to the ATR. Default is 3.</param>
-    /// <param name="type">The type of Chandelier Exit to calculate (Long or Short). Default is Long.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
+    /// <param name="multiplier">The multiplier to apply to the ATR.</param>
+    /// <param name="type">The type of Chandelier Exit to calculate (Long or Short).</param>
     /// <returns>An instance of <see cref="ChandelierHub"/>.</returns>
     public static ChandelierHub ToChandelierHub(
         this IReadOnlyList<IQuote> quotes,

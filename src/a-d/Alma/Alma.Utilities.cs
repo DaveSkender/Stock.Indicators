@@ -9,7 +9,7 @@ public static partial class Alma
     /// ALMA calculation for streaming scenarios.
     /// </summary>
     /// <param name="source">List of chainable values.</param>
-    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <param name="offset">The offset parameter for the ALMA calculation.</param>
     /// <param name="sigma">The sigma parameter for the ALMA calculation.</param>
     /// <param name="endIndex">Index position to evaluate.</param>
@@ -56,7 +56,7 @@ public static partial class Alma
     /// <summary>
     /// Validates the parameters for the ALMA calculation.
     /// </summary>
-    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <param name="offset">The offset parameter for the ALMA calculation, must be between 0 and 1.</param>
     /// <param name="sigma">The sigma parameter for the ALMA calculation, must be greater than 0.</param>
     /// <exception cref="ArgumentOutOfRangeException">

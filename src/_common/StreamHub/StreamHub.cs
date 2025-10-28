@@ -29,7 +29,7 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
         MaxCacheSize = provider.MaxCacheSize;
     }
 
-    #endregion
+    #endregion constructor
 
     #region PROPERTIES
 
@@ -60,7 +60,7 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
     /// </summary>
     private TOut? LastItem { get; set; }
 
-    #endregion
+    #endregion PROPERTIES
 
     /// <summary>
     /// Resets the fault flag and condition.
@@ -103,7 +103,7 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
     /// <param name="batchIn">The batch of new items to add.</param>
     public void Add(IEnumerable<TIn> batchIn)
     {
-        foreach (TIn newIn in batchIn.OrderBy(x => x.Timestamp))
+        foreach (TIn newIn in batchIn.OrderBy(static x => x.Timestamp))
         {
             OnAdd(newIn, notify: true, null);
         }
@@ -147,6 +147,7 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
     /// </summary>
     /// <param name="result">Item to cache.</param>
     /// <param name="notify">Notify subscribers of change (send to observers). This is disabled for bulk operations like rebuild.</param>
+    /// <exception cref="InvalidOperationException">Thrown when the operation is invalid for the current state</exception>
     protected void AppendCache(TOut result, bool notify)
     {
         // check overflow/duplicates
@@ -257,7 +258,7 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
         LastItem = item;
         return false;
     }
-    #endregion
+    #endregion ADD & ANALYZE
 
     #region REMOVE & REMOVE RANGE
 
@@ -341,7 +342,7 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
 
         NotifyObserversOnPrune(toTimestamp);
     }
-    #endregion
+    #endregion REMOVE & REMOVE RANGE
 
     #region REBUILD & REINITIALIZE
 
@@ -425,5 +426,5 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
         // default: do nothing
         // see AtrStopHub() for example
     }
-    #endregion
+    #endregion REBUILD & REINITIALIZE
 }

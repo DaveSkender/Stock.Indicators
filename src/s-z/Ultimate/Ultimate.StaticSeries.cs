@@ -8,10 +8,10 @@ public static partial class Ultimate
     /// <summary>
     /// Calculates the Ultimate Oscillator for a series of quotes.
     /// </summary>
-    /// <param name="quotes">The source list of quotes.</param>
-    /// <param name="shortPeriods">The number of short lookback periods. Default is 7.</param>
-    /// <param name="middlePeriods">The number of middle lookback periods. Default is 14.</param>
-    /// <param name="longPeriods">The number of long lookback periods. Default is 28.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="shortPeriods">The number of short lookback periods.</param>
+    /// <param name="middlePeriods">The number of middle lookback periods.</param>
+    /// <param name="longPeriods">The number of long lookback periods.</param>
     /// <returns>A list of UltimateResult containing the Ultimate Oscillator values.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the source is null.</exception>
     public static IReadOnlyList<UltimateResult> ToUltimate(
@@ -26,13 +26,13 @@ public static partial class Ultimate
     /// <summary>
     /// Calculates the Ultimate Oscillator for a series of quotes.
     /// </summary>
-    /// <param name="source">The source list of quotes.</param>
+    /// <param name="quotes">The source list of quotes.</param>
     /// <param name="shortPeriods">The number of short lookback periods.</param>
     /// <param name="middlePeriods">The number of middle lookback periods.</param>
     /// <param name="longPeriods">The number of long lookback periods.</param>
     /// <returns>A list of UltimateResult containing the Ultimate Oscillator values.</returns>
     private static List<UltimateResult> CalcUltimate(
-        this List<QuoteD> source,
+        this List<QuoteD> quotes,
         int shortPeriods,
         int middlePeriods,
         int longPeriods)
@@ -41,7 +41,7 @@ public static partial class Ultimate
         Validate(shortPeriods, middlePeriods, longPeriods);
 
         // initialize
-        int length = source.Count;
+        int length = quotes.Count;
         List<UltimateResult> results = new(length);
         double[] bp = new double[length]; // buying pressure
         double[] tr = new double[length]; // true range
@@ -51,7 +51,7 @@ public static partial class Ultimate
         // roll through source values
         for (int i = 0; i < length; i++)
         {
-            QuoteD q = source[i];
+            QuoteD q = quotes[i];
             double? ultimate;
 
             if (i > 0)

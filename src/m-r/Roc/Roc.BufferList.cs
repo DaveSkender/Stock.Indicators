@@ -10,7 +10,7 @@ public class RocList : BufferList<RocResult>, IIncrementFromChain, IRoc
     /// <summary>
     /// Initializes a new instance of the <see cref="RocList"/> class.
     /// </summary>
-    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     public RocList(int lookbackPeriods)
     {
         Roc.Validate(lookbackPeriods);
@@ -21,11 +21,10 @@ public class RocList : BufferList<RocResult>, IIncrementFromChain, IRoc
     /// <summary>
     /// Initializes a new instance of the <see cref="RocList"/> class with initial reusable values.
     /// </summary>
-    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <param name="values">Initial reusable values to populate the list.</param>
     public RocList(int lookbackPeriods, IReadOnlyList<IReusable> values)
-        : this(lookbackPeriods)
-        => Add(values);
+        : this(lookbackPeriods) => Add(values);
 
     /// <summary>
     /// Gets the number of periods to look back for the calculation.
@@ -38,7 +37,7 @@ public class RocList : BufferList<RocResult>, IIncrementFromChain, IRoc
     /// <inheritdoc />
     public void Add(DateTime timestamp, double value)
     {
-        // Use BufferUtilities extension method for consistent buffer management
+        // Use BufferListUtilities extension method for consistent buffer management
         buffer.Update(LookbackPeriods + 1, value);
 
         double roc;
@@ -107,6 +106,8 @@ public static partial class Roc
     /// <summary>
     /// Creates a buffer list for Rate of Change (ROC) calculations.
     /// </summary>
+    /// <param name="source">Collection of input values, time sorted.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     public static RocList ToRocList(
         this IReadOnlyList<IReusable> source,
         int lookbackPeriods)

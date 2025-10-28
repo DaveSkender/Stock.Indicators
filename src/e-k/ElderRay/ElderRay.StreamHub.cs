@@ -16,7 +16,7 @@ public class ElderRayHub
     /// Initializes a new instance of the <see cref="ElderRayHub"/> class.
     /// </summary>
     /// <param name="provider">The quote provider.</param>
-    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <exception cref="ArgumentNullException">Thrown when the provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
     internal ElderRayHub(
@@ -31,7 +31,7 @@ public class ElderRayHub
 
         Reinitialize();
     }
-    #endregion
+    #endregion constructors
 
     /// <summary>
     /// Gets the number of periods to look back for the calculation.
@@ -98,7 +98,7 @@ public static partial class ElderRay
     /// <summary>
     /// Creates an Elder Ray hub from a collection of quotes.
     /// </summary>
-    /// <param name="quotes">The collection of quotes.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <param name="lookbackPeriods">The number of periods to look back for the calculation. Default is 13.</param>
     /// <returns>An instance of <see cref="ElderRayHub"/>.</returns>
     public static ElderRayHub ToElderRayHub(

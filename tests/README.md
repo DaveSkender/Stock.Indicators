@@ -80,3 +80,34 @@ public class MyIntegrationTests : TestBase
 ### Live integration tests
 
 > `integration/Tests.Integration.csproj` connected to Live 3rd-party APIs
+
+## Linting and code analyzers
+
+### Roslynator
+
+The project uses Roslynator for code analysis and formatting. All analyzer rules and suppressions are configured in the root `.editorconfig` file.
+
+To run Roslynator analysis:
+
+```bash
+roslynator analyze \
+--properties TargetFramework=net9.0 \
+--verbosity normal \
+--severity-level hidden \
+--language csharp
+```
+
+To apply automatic fixes:
+
+```bash
+roslynator fix \
+--properties TargetFramework=net9.0 \
+--verbosity normal \
+--severity-level hidden \
+--language csharp
+```
+
+For more information, see:
+
+- [Roslynator CLI documentation](https://josefpihrt.github.io/docs/roslynator/cli/commands/analyze)
+- [.NET code style rules](https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules)

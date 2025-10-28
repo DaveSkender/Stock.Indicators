@@ -16,7 +16,7 @@ public static partial class Adx
         ArgumentNullException.ThrowIfNull(results);
 
         int n = results
-            .FindIndex(x => x.Pdi != null);
+            .FindIndex(static x => x.Pdi != null);
 
         return results.Remove((2 * n) + 100);
     }
@@ -24,7 +24,7 @@ public static partial class Adx
     /// <summary>
     /// Validates the parameters for the ADX calculation.
     /// </summary>
-    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are less than or equal to 1.</exception>
     internal static void Validate(
         int lookbackPeriods)

@@ -15,7 +15,7 @@ public static partial class Hurst
         ArgumentNullException.ThrowIfNull(results);
 
         int removePeriods = results
-          .FindIndex(x => x.HurstExponent != null);
+          .FindIndex(static x => x.HurstExponent != null);
 
         return results.Remove(removePeriods);
     }
@@ -23,7 +23,7 @@ public static partial class Hurst
     /// <summary>
     /// Validates the lookback periods for Hurst Exponent calculations.
     /// </summary>
-    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <exception cref="ArgumentOutOfRangeException">
     /// Thrown when the lookback periods are less than 20.
     /// </exception>

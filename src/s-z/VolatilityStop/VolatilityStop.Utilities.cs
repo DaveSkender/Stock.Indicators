@@ -16,7 +16,7 @@ public static partial class VolatilityStop
         ArgumentNullException.ThrowIfNull(results);
 
         int removePeriods = results
-            .FindIndex(x => x.Sar != null);
+            .FindIndex(static x => x.Sar != null);
 
         removePeriods = Math.Max(100, removePeriods);
 
@@ -27,7 +27,7 @@ public static partial class VolatilityStop
     /// <summary>
     /// Validates the parameters for the Volatility Stop calculation.
     /// </summary>
-    /// <param name="lookbackPeriods">The number of lookback periods.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <param name="multiplier">The multiplier for the Average True Range.</param>
     /// <exception cref="ArgumentOutOfRangeException">
     /// Thrown when the lookback periods are less than or equal to 1, or when the multiplier is less than or equal to 0.

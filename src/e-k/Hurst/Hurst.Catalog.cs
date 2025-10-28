@@ -2,7 +2,9 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Hurst
 {
-    // HURST Common Base Listing
+    /// <summary>
+    /// HURST Common Base Listing
+    /// </summary>
     internal static readonly IndicatorListing CommonListing =
         new CatalogListingBuilder()
             .WithName("Hurst Exponent")
@@ -13,12 +15,21 @@ public static partial class Hurst
             .AddResult("HurstExponent", "Hurst Exponent", ResultType.Default, isReusable: true)
             .Build();
 
-    // HURST Series Listing
+    /// <summary>
+    /// HURST Series Listing
+    /// </summary>
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
             .Build();
 
+    /// <summary>
+    /// HURST Buffer Listing
+    /// </summary>
+    internal static readonly IndicatorListing BufferListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Buffer)
+            .Build();
+
     // No StreamListing for HURST.
-    // No BufferListing for HURST.
 }

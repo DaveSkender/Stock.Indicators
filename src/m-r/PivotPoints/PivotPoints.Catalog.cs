@@ -2,7 +2,9 @@ namespace Skender.Stock.Indicators;
 
 public static partial class PivotPoints
 {
-    // Pivot Points Common Base Listing
+    /// <summary>
+    /// Pivot Points Common Base Listing
+    /// </summary>
     internal static readonly IndicatorListing CommonListing =
         new CatalogListingBuilder()
             .WithName("Pivot Points")
@@ -24,7 +26,9 @@ public static partial class PivotPoints
             .AddResult("S5", "Support 5", ResultType.Default)
             .Build();
 
-    // Pivot Points Series Listing
+    /// <summary>
+    /// Pivot Points Series Listing
+    /// </summary>
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)

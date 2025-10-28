@@ -11,7 +11,7 @@ public class SmaAnalysisList : BufferList<SmaAnalysisResult>, IIncrementFromChai
     /// <summary>
     /// Initializes a new instance of the <see cref="SmaAnalysisList"/> class.
     /// </summary>
-    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     public SmaAnalysisList(int lookbackPeriods)
     {
         Sma.Validate(lookbackPeriods);
@@ -23,11 +23,10 @@ public class SmaAnalysisList : BufferList<SmaAnalysisResult>, IIncrementFromChai
     /// <summary>
     /// Initializes a new instance of the <see cref="SmaAnalysisList"/> class with initial reusable values.
     /// </summary>
-    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <param name="values">Initial reusable values to populate the list.</param>
     public SmaAnalysisList(int lookbackPeriods, IReadOnlyList<IReusable> values)
-        : this(lookbackPeriods)
-        => Add(values);
+        : this(lookbackPeriods) => Add(values);
 
     /// <summary>
     /// Gets the number of periods to look back for the calculation.
@@ -113,6 +112,8 @@ public static partial class SmaAnalysis
     /// <summary>
     /// Creates a buffer list for Simple Moving Average (SMA) with extended analysis calculations.
     /// </summary>
+    /// <param name="source">Collection of input values, time sorted.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     public static SmaAnalysisList ToSmaAnalysisList(
         this IReadOnlyList<IReusable> source,
         int lookbackPeriods)

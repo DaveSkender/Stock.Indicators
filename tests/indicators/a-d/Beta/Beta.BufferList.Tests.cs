@@ -30,7 +30,7 @@ public class Beta : BufferListTestBase
         }
 
         sut.Should().HaveCount(evalReusables.Count);
-        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
     }
 
     [TestMethod]
@@ -44,7 +44,7 @@ public class Beta : BufferListTestBase
         }
 
         sut.Should().HaveCount(evalReusables.Count);
-        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
     }
 
     [TestMethod]
@@ -55,24 +55,20 @@ public class Beta : BufferListTestBase
         };
 
         sut.Should().HaveCount(evalReusables.Count);
-        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
     }
 
     [TestMethod]
-    public void AddQuotes()
-    {
+    public void AddQuotes() =>
         // Beta doesn't support direct quote addition as it requires two series
         // This test is not applicable for Beta
         Assert.Inconclusive("Beta requires two series inputs and doesn't support single quote addition");
-    }
 
     [TestMethod]
-    public void AddQuotesBatch()
-    {
+    public void AddQuotesBatch() =>
         // Beta doesn't support direct quote addition as it requires two series
         // This test is not applicable for Beta
         Assert.Inconclusive("Beta requires two series inputs and doesn't support single quote addition");
-    }
 
     [TestMethod]
     public void WithQuotesCtor()
@@ -80,7 +76,7 @@ public class Beta : BufferListTestBase
         BetaList sut = new(lookbackPeriods, type, evalReusables, mrktReusables);
 
         sut.Should().HaveCount(evalReusables.Count);
-        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
     }
 
     [TestMethod]
@@ -93,7 +89,7 @@ public class Beta : BufferListTestBase
         BetaList sut = new(lookbackPeriods, type, evalSubset, mrktSubset);
 
         sut.Should().HaveCount(evalSubset.Count);
-        sut.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
+        sut.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
 
         sut.Clear();
 
@@ -102,7 +98,7 @@ public class Beta : BufferListTestBase
         sut.Add(evalSubset, mrktSubset);
 
         sut.Should().HaveCount(expected.Count);
-        sut.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
+        sut.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
     }
 
     [TestMethod]
@@ -120,7 +116,7 @@ public class Beta : BufferListTestBase
             = series.Skip(series.Count - maxListSize).ToList();
 
         sut.Should().HaveCount(maxListSize);
-        sut.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
+        sut.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
     }
 
     [TestMethod]
@@ -130,7 +126,7 @@ public class Beta : BufferListTestBase
         BetaList sut = new(lookbackPeriods, BetaType.All, evalReusables, mrktReusables);
 
         sut.Should().HaveCount(evalReusables.Count);
-        sut.Should().BeEquivalentTo(expectedAll, options => options.WithStrictOrdering());
+        sut.Should().BeEquivalentTo(expectedAll, static options => options.WithStrictOrdering());
     }
 
     [TestMethod]
@@ -140,7 +136,7 @@ public class Beta : BufferListTestBase
         BetaList sut = new(lookbackPeriods, BetaType.Up, evalReusables, mrktReusables);
 
         sut.Should().HaveCount(evalReusables.Count);
-        sut.Should().BeEquivalentTo(expectedUp, options => options.WithStrictOrdering());
+        sut.Should().BeEquivalentTo(expectedUp, static options => options.WithStrictOrdering());
     }
 
     [TestMethod]
@@ -150,7 +146,7 @@ public class Beta : BufferListTestBase
         BetaList sut = new(lookbackPeriods, BetaType.Down, evalReusables, mrktReusables);
 
         sut.Should().HaveCount(evalReusables.Count);
-        sut.Should().BeEquivalentTo(expectedDown, options => options.WithStrictOrdering());
+        sut.Should().BeEquivalentTo(expectedDown, static options => options.WithStrictOrdering());
     }
 
     [TestMethod]

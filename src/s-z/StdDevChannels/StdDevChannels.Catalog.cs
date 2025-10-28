@@ -2,7 +2,9 @@ namespace Skender.Stock.Indicators;
 
 public static partial class StdDevChannels
 {
-    // Standard Deviation Channels Common Base Listing
+    /// <summary>
+    /// Standard Deviation Channels Common Base Listing
+    /// </summary>
     internal static readonly IndicatorListing CommonListing =
         new CatalogListingBuilder()
             .WithName("Standard Deviation Channels")
@@ -16,13 +18,17 @@ public static partial class StdDevChannels
             .AddResult("LowerChannel", "Lower Channel", ResultType.Default)
             .Build();
 
-    // Standard Deviation Channels Series Listing
+    /// <summary>
+    /// Standard Deviation Channels Series Listing
+    /// </summary>
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
             .Build();
 
-    // Standard Deviation Channels Buffer Listing
+    /// <summary>
+    /// Standard Deviation Channels Buffer Listing
+    /// </summary>
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)

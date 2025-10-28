@@ -16,7 +16,7 @@ public static partial class Stoch
         ArgumentNullException.ThrowIfNull(results);
 
         int removePeriods = results
-            .FindIndex(x => x.Oscillator != null);
+            .FindIndex(static x => x.Oscillator != null);
 
         return results.Remove(removePeriods);
     }

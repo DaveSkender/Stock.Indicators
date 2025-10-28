@@ -23,13 +23,13 @@ public class BopTests : TestBase
         listing.Parameters.Should().NotBeNull();
         listing.Parameters.Should().HaveCount(1);
 
-        IndicatorParam smoothPeriodsParam = listing.Parameters.SingleOrDefault(p => p.ParameterName == "smoothPeriods");
+        IndicatorParam smoothPeriodsParam = listing.Parameters.SingleOrDefault(static p => p.ParameterName == "smoothPeriods");
         smoothPeriodsParam.Should().NotBeNull();
 
         listing.Results.Should().NotBeNull();
         listing.Results.Should().HaveCount(1);
 
-        IndicatorResult bopResult = listing.Results.SingleOrDefault(r => r.DataName == "Bop");
+        IndicatorResult bopResult = listing.Results.SingleOrDefault(static r => r.DataName == "Bop");
         bopResult.Should().NotBeNull();
         bopResult?.DisplayName.Should().Be("BOP");
         bopResult.IsReusable.Should().Be(true);

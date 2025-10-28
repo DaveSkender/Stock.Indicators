@@ -12,10 +12,7 @@ public class ObvHub : ChainProvider<IQuote, ObvResult>
     /// </summary>
     /// <param name="provider">The quote provider.</param>
     internal ObvHub(
-        IQuoteProvider<IQuote> provider) : base(provider)
-    {
-        Reinitialize();
-    }
+        IQuoteProvider<IQuote> provider) : base(provider) => Reinitialize();
 
     /// <inheritdoc/>
     protected override (ObvResult result, int index)
@@ -62,7 +59,7 @@ public static partial class Obv
     /// <summary>
     /// Creates an Obv hub from a collection of quotes.
     /// </summary>
-    /// <param name="quotes">The collection of quotes.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <returns>An instance of <see cref="ObvHub"/>.</returns>
     public static ObvHub ToObvHub(
         this IReadOnlyList<IQuote> quotes)

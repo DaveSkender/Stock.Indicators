@@ -15,11 +15,11 @@ public class Ichimoku : StaticSeriesTestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.HasCount(494, results.Where(x => x.TenkanSen != null));
-        Assert.HasCount(477, results.Where(x => x.KijunSen != null));
-        Assert.HasCount(451, results.Where(x => x.SenkouSpanA != null));
-        Assert.HasCount(425, results.Where(x => x.SenkouSpanB != null));
-        Assert.HasCount(476, results.Where(x => x.ChikouSpan != null));
+        Assert.HasCount(494, results.Where(static x => x.TenkanSen != null));
+        Assert.HasCount(477, results.Where(static x => x.KijunSen != null));
+        Assert.HasCount(451, results.Where(static x => x.SenkouSpanA != null));
+        Assert.HasCount(425, results.Where(static x => x.SenkouSpanB != null));
+        Assert.HasCount(476, results.Where(static x => x.ChikouSpan != null));
 
         // sample values
         IchimokuResult r1 = results[51];
@@ -98,24 +98,24 @@ public class Ichimoku : StaticSeriesTestBase
     {
         // bad signal period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => Quotes.ToIchimoku(0));
+            static () => Quotes.ToIchimoku(0));
 
         // bad short span period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => Quotes.ToIchimoku(9, 0));
+            static () => Quotes.ToIchimoku(9, 0));
 
         // bad long span period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => Quotes.ToIchimoku(9, 26, 26));
+            static () => Quotes.ToIchimoku(9, 26, 26));
 
         // invalid offsets
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => Quotes.ToIchimoku(9, 26, 52, -1));
+            static () => Quotes.ToIchimoku(9, 26, 52, -1));
 
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => Quotes.ToIchimoku(9, 26, 52, -1, 12));
+            static () => Quotes.ToIchimoku(9, 26, 52, -1, 12));
 
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => Quotes.ToIchimoku(9, 26, 52, 12, -1));
+            static () => Quotes.ToIchimoku(9, 26, 52, 12, -1));
     }
 }

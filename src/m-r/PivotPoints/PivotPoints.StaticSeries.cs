@@ -119,6 +119,7 @@ public static partial class PivotPoints
     /// <param name="low">The lowest price.</param>
     /// <param name="close">The closing price.</param>
     /// <returns>A WindowPoint object containing the calculated pivot points.</returns>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when a parameter is out of the valid range</exception>
     internal static WindowPoint GetPivotPoint(
         PivotPointType pointType, decimal open, decimal high, decimal low, decimal close)
         => pointType switch {
@@ -139,6 +140,7 @@ public static partial class PivotPoints
     /// <param name="d">The date.</param>
     /// <param name="windowSize">The size of the window.</param>
     /// <returns>The window number.</returns>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when a parameter is out of the valid range</exception>
     private static int GetWindowNumber(DateTime d, PeriodSize windowSize)
 
         => windowSize switch {

@@ -85,7 +85,7 @@ Last updated: July 4, 2025
 
 - Fix broken internal links.
 - Use reference-style links for complex documents.
-- Prefer relative paths for intra-repo links.
+- Use relative paths for intra-repo links.
 
 ## Allowed HTML and front matter
 
@@ -137,4 +137,4 @@ Rules for Mermaid diagrams:
   Usage: type a snippet prefix (e.g., `doctemplate`, `table`, `tasks`) and press Tab.
 
 ---
-Last updated: September 26, 2025
+Last updated: October 26, 2025

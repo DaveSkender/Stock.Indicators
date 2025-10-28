@@ -11,7 +11,7 @@ public class FisherTransform : StaticSeriesTestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.HasCount(501, results.Where(x => x.Fisher != 0));
+        Assert.HasCount(501, results.Where(static x => x.Fisher != 0));
 
         // sample values
         Assert.AreEqual(0, results[0].Fisher);
@@ -53,7 +53,7 @@ public class FisherTransform : StaticSeriesTestBase
             .ToFisherTransform();
 
         Assert.HasCount(502, results);
-        Assert.HasCount(501, results.Where(x => x.Fisher != 0));
+        Assert.HasCount(501, results.Where(static x => x.Fisher != 0));
     }
 
     [TestMethod]
@@ -64,7 +64,7 @@ public class FisherTransform : StaticSeriesTestBase
             .ToFisherTransform();
 
         Assert.HasCount(502, results);
-        Assert.HasCount(501, results.Where(x => x.Fisher != 0));
+        Assert.HasCount(501, results.Where(static x => x.Fisher != 0));
     }
 
     [TestMethod]
@@ -75,7 +75,7 @@ public class FisherTransform : StaticSeriesTestBase
             .ToSma(10);
 
         Assert.HasCount(502, results);
-        Assert.HasCount(493, results.Where(x => x.Sma != null));
+        Assert.HasCount(493, results.Where(static x => x.Sma != null));
     }
 
     [TestMethod]
@@ -85,7 +85,7 @@ public class FisherTransform : StaticSeriesTestBase
             .ToFisherTransform(9);
 
         Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(x => x.Fisher is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.Fisher is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -102,9 +102,11 @@ public class FisherTransform : StaticSeriesTestBase
         Assert.HasCount(1, r1);
     }
 
-    // bad lookback period
+    /// <summary>
+    /// bad lookback period
+    /// </summary>
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => Quotes.ToFisherTransform(0));
+            static () => Quotes.ToFisherTransform(0));
 }

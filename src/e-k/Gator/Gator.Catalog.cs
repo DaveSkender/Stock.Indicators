@@ -2,7 +2,9 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Gator
 {
-    // GATOR Common Base Listing
+    /// <summary>
+    /// GATOR Common Base Listing
+    /// </summary>
     internal static readonly IndicatorListing CommonListing =
         new CatalogListingBuilder()
             .WithName("Gator Oscillator")
@@ -15,17 +17,27 @@ public static partial class Gator
             .AddResult("LowerIsExpanding", "Lower Is Expanding", ResultType.Default, false)
             .Build();
 
-    // GATOR Series Listing
+    /// <summary>
+    /// GATOR Series Listing
+    /// </summary>
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
             .Build();
 
-    // GATOR Buffer Listing
+    /// <summary>
+    /// GATOR Buffer Listing
+    /// </summary>
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)
             .Build();
 
-    // No StreamListing for GATOR.
+    /// <summary>
+    /// GATOR Stream Listing
+    /// </summary>
+    internal static readonly IndicatorListing StreamListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Stream)
+            .Build();
 }

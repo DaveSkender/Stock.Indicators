@@ -23,25 +23,25 @@ public class PvoTests : TestBase
         listing.Parameters.Should().NotBeNull();
         listing.Parameters.Should().HaveCount(3);
 
-        IndicatorParam fastPeriodsParam = listing.Parameters.SingleOrDefault(p => p.ParameterName == "fastPeriods");
+        IndicatorParam fastPeriodsParam = listing.Parameters.SingleOrDefault(static p => p.ParameterName == "fastPeriods");
         fastPeriodsParam.Should().NotBeNull();
-        IndicatorParam slowPeriodsParam1 = listing.Parameters.SingleOrDefault(p => p.ParameterName == "slowPeriods");
+        IndicatorParam slowPeriodsParam1 = listing.Parameters.SingleOrDefault(static p => p.ParameterName == "slowPeriods");
         slowPeriodsParam1.Should().NotBeNull();
-        IndicatorParam signalPeriodsParam2 = listing.Parameters.SingleOrDefault(p => p.ParameterName == "signalPeriods");
+        IndicatorParam signalPeriodsParam2 = listing.Parameters.SingleOrDefault(static p => p.ParameterName == "signalPeriods");
         signalPeriodsParam2.Should().NotBeNull();
 
         listing.Results.Should().NotBeNull();
         listing.Results.Should().HaveCount(3);
 
-        IndicatorResult pvoResult = listing.Results.SingleOrDefault(r => r.DataName == "Pvo");
+        IndicatorResult pvoResult = listing.Results.SingleOrDefault(static r => r.DataName == "Pvo");
         pvoResult.Should().NotBeNull();
         pvoResult?.DisplayName.Should().Be("PVO");
         pvoResult.IsReusable.Should().Be(true);
-        IndicatorResult signalResult1 = listing.Results.SingleOrDefault(r => r.DataName == "Signal");
+        IndicatorResult signalResult1 = listing.Results.SingleOrDefault(static r => r.DataName == "Signal");
         signalResult1.Should().NotBeNull();
         signalResult1?.DisplayName.Should().Be("Signal");
         signalResult1.IsReusable.Should().Be(false);
-        IndicatorResult histogramResult2 = listing.Results.SingleOrDefault(r => r.DataName == "Histogram");
+        IndicatorResult histogramResult2 = listing.Results.SingleOrDefault(static r => r.DataName == "Histogram");
         histogramResult2.Should().NotBeNull();
         histogramResult2?.DisplayName.Should().Be("Histogram");
         histogramResult2.IsReusable.Should().Be(false);
@@ -64,25 +64,25 @@ public class PvoTests : TestBase
         listing.Parameters.Should().NotBeNull();
         listing.Parameters.Should().HaveCount(3);
 
-        IndicatorParam fastPeriodsParam = listing.Parameters.SingleOrDefault(p => p.ParameterName == "fastPeriods");
+        IndicatorParam fastPeriodsParam = listing.Parameters.SingleOrDefault(static p => p.ParameterName == "fastPeriods");
         fastPeriodsParam.Should().NotBeNull();
-        IndicatorParam slowPeriodsParam1 = listing.Parameters.SingleOrDefault(p => p.ParameterName == "slowPeriods");
+        IndicatorParam slowPeriodsParam1 = listing.Parameters.SingleOrDefault(static p => p.ParameterName == "slowPeriods");
         slowPeriodsParam1.Should().NotBeNull();
-        IndicatorParam signalPeriodsParam2 = listing.Parameters.SingleOrDefault(p => p.ParameterName == "signalPeriods");
+        IndicatorParam signalPeriodsParam2 = listing.Parameters.SingleOrDefault(static p => p.ParameterName == "signalPeriods");
         signalPeriodsParam2.Should().NotBeNull();
 
         listing.Results.Should().NotBeNull();
         listing.Results.Should().HaveCount(3);
 
-        IndicatorResult pvoResult = listing.Results.SingleOrDefault(r => r.DataName == "Pvo");
+        IndicatorResult pvoResult = listing.Results.SingleOrDefault(static r => r.DataName == "Pvo");
         pvoResult.Should().NotBeNull();
         pvoResult?.DisplayName.Should().Be("PVO");
         pvoResult.IsReusable.Should().Be(true);
-        IndicatorResult signalResult1 = listing.Results.SingleOrDefault(r => r.DataName == "Signal");
+        IndicatorResult signalResult1 = listing.Results.SingleOrDefault(static r => r.DataName == "Signal");
         signalResult1.Should().NotBeNull();
         signalResult1?.DisplayName.Should().Be("Signal");
         signalResult1.IsReusable.Should().Be(false);
-        IndicatorResult histogramResult2 = listing.Results.SingleOrDefault(r => r.DataName == "Histogram");
+        IndicatorResult histogramResult2 = listing.Results.SingleOrDefault(static r => r.DataName == "Histogram");
         histogramResult2.Should().NotBeNull();
         histogramResult2?.DisplayName.Should().Be("Histogram");
         histogramResult2.IsReusable.Should().Be(false);

@@ -35,11 +35,13 @@ jobs:
       - name: Checkout source
         uses: actions/checkout@v5
 
-      - name: Setup .NET
+      - name: Setup .NET SDK
         uses: actions/setup-dotnet@v5
         with:
           dotnet-version: ${{ matrix.dotnet-version }}
           dotnet-quality: "ga"
+          cache: true
+          cache-dependency-path: "**/packages.lock.json"
 
       - name: Build library
         run: >

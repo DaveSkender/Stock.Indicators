@@ -9,7 +9,7 @@ public static partial class Trix
     /// Converts a source list to a list of TRIX results.
     /// </summary>
     /// <param name="source">The source list of elements.</param>
-    /// <param name="lookbackPeriods">The number of lookback periods for the TRIX calculation.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>A read-only list of <see cref="TrixResult"/>.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the source list is null.</exception>
     public static IReadOnlyList<TrixResult> ToTrix(

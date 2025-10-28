@@ -24,7 +24,7 @@ public class Smma : BufferListTestBase, ITestChainBufferList
         }
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
     }
 
     [TestMethod]
@@ -33,7 +33,7 @@ public class Smma : BufferListTestBase, ITestChainBufferList
         SmmaList sut = Quotes.ToSmmaList(lookbackPeriods);
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
     }
 
     [TestMethod]
@@ -42,7 +42,7 @@ public class Smma : BufferListTestBase, ITestChainBufferList
         SmmaList sut = new(lookbackPeriods, Quotes);
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
     }
 
     [TestMethod]
@@ -54,7 +54,7 @@ public class Smma : BufferListTestBase, ITestChainBufferList
         SmmaList sut = new(lookbackPeriods, subset);
 
         sut.Should().HaveCount(subset.Count);
-        sut.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
+        sut.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
 
         sut.Clear();
 
@@ -63,7 +63,7 @@ public class Smma : BufferListTestBase, ITestChainBufferList
         sut.Add(subset);
 
         sut.Should().HaveCount(expected.Count);
-        sut.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
+        sut.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
     }
 
     [TestMethod]
@@ -77,7 +77,7 @@ public class Smma : BufferListTestBase, ITestChainBufferList
         }
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
     }
 
     [TestMethod]
@@ -86,7 +86,7 @@ public class Smma : BufferListTestBase, ITestChainBufferList
         SmmaList sut = new(lookbackPeriods) { reusables };
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
     }
 
     [TestMethod]
@@ -100,7 +100,7 @@ public class Smma : BufferListTestBase, ITestChainBufferList
         }
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
     }
 
     [TestMethod]
@@ -119,6 +119,6 @@ public class Smma : BufferListTestBase, ITestChainBufferList
             .ToList();
 
         sut.Should().HaveCount(maxListSize);
-        sut.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
+        sut.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
     }
 }

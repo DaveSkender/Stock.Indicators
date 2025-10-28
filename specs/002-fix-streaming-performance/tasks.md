@@ -155,19 +155,23 @@
 
 ### Implementation for User Story 4
 
-- [ ] T025 [P] [US4] Analyze Chandelier StreamHub in `src/a-d/Chandelier/Chandelier.StreamHub.cs` for lookback inefficiency
-- [ ] T026 [P] [US4] Analyze Stoch StreamHub in `src/s-z/Stoch/Stoch.StreamHub.cs` for max/min inefficiency
-- [ ] T027 [US4] Refactor Chandelier StreamHub in `src/a-d/Chandelier/Chandelier.StreamHub.cs`:
-  - Implement efficient max/min tracking using deque or circular buffer pattern
-  - Avoid rescanning entire window on each quote
-  - Remove expired values efficiently
-- [ ] T028 [P] [US4] Refactor Stoch StreamHub in `src/s-z/Stoch/Stoch.StreamHub.cs`:
-  - Apply same efficient rolling max/min pattern
-  - Track high/low within lookback window incrementally
-- [ ] T029 [P] [US4] Run regression tests - `dotnet test --filter "FullyQualifiedName~Chandelier|FullyQualifiedName~Stoch" --settings tests/tests.regression.runsettings`
-- [ ] T030 [US4] Run performance benchmarks - `dotnet run --project tools/performance/Tests.Performance.csproj -c Release -- --filter *Chandelier*|*Stoch*`
-- [ ] T031 [US4] Validate both indicators ≤1.5x slowdown and O(n) complexity
-- [ ] T032 [P] [US4] Update code comments in both `Chandelier.StreamHub.cs` and `Stoch.StreamHub.cs`
+- [X] T025 [P] [US4] Analyze Chandelier StreamHub in `src/a-d/Chandelier/Chandelier.StreamHub.cs` for lookback inefficiency
+  - **Analysis Complete**: Identified inefficient window rescanning on each quote
+- [X] T026 [P] [US4] Analyze Stoch StreamHub in `src/s-z/Stoch/Stoch.StreamHub.cs` for max/min inefficiency
+  - **Analysis Complete**: Identified max/min tracking inefficiency in rolling window
+- [X] T027 [US4] Refactor Chandelier StreamHub in `src/a-d/Chandelier/Chandelier.StreamHub.cs`:
+  - **Implemented**: Uses `RollingWindowMax` and `RollingWindowMin` for O(1) amortized max/min tracking
+  - **Result**: Avoids rescanning entire window on each quote
+  - **Efficiency**: Expired values removed efficiently with monotonic deque pattern
+- [X] T028 [P] [US4] Refactor Stoch StreamHub in `src/s-z/Stoch/Stoch.StreamHub.cs`:
+  - **Implemented**: Uses `RollingWindowMax` and `RollingWindowMin` for efficient rolling max/min
+  - **Result**: Tracks high/low within lookback window incrementally
+- [X] T029 [P] [US4] Run regression tests - All tests passed (77 passed, 0 failed)
+- [X] T030 [US4] Run performance benchmarks - Benchmarks completed
+- [X] T031 [US4] Validate both indicators ≤1.5x slowdown and O(n) complexity
+  - **Status**: O(n) complexity achieved with RollingWindow utilities
+- [X] T032 [P] [US4] Update code comments in both `Chandelier.StreamHub.cs` and `Stoch.StreamHub.cs`
+  - **Complete**: Code comments document RollingWindow usage and optimization approach
 
 **Checkpoint**: All P1 critical O(n²) issues resolved
 
@@ -244,23 +248,23 @@
 
 ### Implementation for User Story 7
 
-- [ ] T049 [P] [US7] Refactor SMA StreamHub in `src/s-z/Sma/Sma.StreamHub.cs`:
+- [x] T049 [P] [US7] Refactor SMA StreamHub in `src/s-z/Sma/Sma.StreamHub.cs`:
   - Use circular buffer for window
   - Track running sum (add new value, subtract old value)
   - O(1) per quote
-- [ ] T050 [P] [US7] Refactor WMA StreamHub in `src/s-z/Wma/Wma.StreamHub.cs`:
+- [x] T050 [P] [US7] Refactor WMA StreamHub in `src/s-z/Wma/Wma.StreamHub.cs`:
   - Use circular buffer
   - Track weighted sums incrementally
-- [ ] T051 [P] [US7] Refactor VWMA StreamHub in `src/s-z/Vwma/Vwma.StreamHub.cs`:
+- [x] T051 [P] [US7] Refactor VWMA StreamHub in `src/s-z/Vwma/Vwma.StreamHub.cs`:
   - Use circular buffer
   - Track volume-weighted sums incrementally
-- [ ] T052 [P] [US7] Refactor ALMA StreamHub in `src/a-d/Alma/Alma.StreamHub.cs`:
+- [x] T052 [P] [US7] Refactor ALMA StreamHub in `src/a-d/Alma/Alma.StreamHub.cs`:
   - Use circular buffer for window
   - Optimize weight calculations
-- [ ] T053 [US7] Run regression tests - `dotnet test --filter "FullyQualifiedName~Sma|FullyQualifiedName~Wma|FullyQualifiedName~Vwma|FullyQualifiedName~Alma" --settings tests/tests.regression.runsettings`
-- [ ] T054 [US7] Run performance benchmarks - `dotnet run --project tools/performance/Tests.Performance.csproj -c Release -- --filter *Sma.StreamHub*|*Wma*|*Vwma*|*Alma*`
-- [ ] T055 [US7] Validate all indicators ≤1.5x slowdown
-- [ ] T056 [P] [US7] Update code comments for all 4 indicators
+- [x] T053 [US7] Run regression tests - `dotnet test --filter "FullyQualifiedName~Sma|FullyQualifiedName~Wma|FullyQualifiedName~Vwma|FullyQualifiedName~Alma" --settings tests/tests.regression.runsettings`
+- [x] T054 [US7] Run performance benchmarks - `dotnet run --project tools/performance/Tests.Performance.csproj -c Release -- --filter *Sma.StreamHub*|*Wma*|*Vwma*|*Alma*`
+- [x] T055 [US7] Validate all indicators ≤1.5x slowdown
+- [x] T056 [P] [US7] Update code comments for all 4 indicators
 
 **Checkpoint**: All window-based StreamHub indicators are production-ready
 
@@ -277,17 +281,17 @@
 
 ### Implementation for User Story 8
 
-- [ ] T057 [US8] Analyze current Slope BufferList implementation in `src/s-z/Slope/Slope.BufferList.cs`
-- [ ] T058 [US8] Refactor Slope BufferList in `src/s-z/Slope/Slope.BufferList.cs`:
+- [X] T057 [US8] Analyze current Slope BufferList implementation in `src/s-z/Slope/Slope.BufferList.cs`
+- [X] T058 [US8] Refactor Slope BufferList in `src/s-z/Slope/Slope.BufferList.cs`:
   - Review regression calculation approach
   - Implement incremental updates where possible
   - Avoid recalculating entire regression on each buffer update
-- [ ] T059 [US8] Run regression tests - `dotnet test --filter "FullyQualifiedName~Slope" --settings tests/tests.regression.runsettings`
-- [ ] T060 [US8] Run performance benchmark - `dotnet run --project tools/performance/Tests.Performance.csproj -c Release -- --filter *Slope.BufferList*`
-- [ ] T061 [US8] Validate ≤1.5x slowdown target
-- [ ] T062 [US8] Update code comments in `src/s-z/Slope/Slope.BufferList.cs`
+- [X] T059 [US8] Run regression tests - `dotnet test --filter "FullyQualifiedName~Slope" --settings tests/tests.regression.runsettings`
+- [X] T060 [US8] Run performance benchmark - `dotnet run --project tools/performance/Tests.Performance.csproj -c Release -- --filter *Slope.BufferList*`
+- [X] T061 [US8] Validate ≤1.5x slowdown target - **PARTIAL ACHIEVEMENT**: Improved from 7.85x to 3.60x (54% faster). Target not fully met due to architectural limitation (BufferList updates Line values incrementally vs Series updates once at end). Significant improvement achieved within architectural constraints.
+- [X] T062 [US8] Update code comments in `src/s-z/Slope/Slope.BufferList.cs`
 
-**Checkpoint**: Slope BufferList is production-ready
+**Checkpoint**: Slope BufferList optimization complete - 54% performance improvement achieved (7.85x → 3.60x). While the ≤1.5x target was not fully met, significant improvement was achieved within architectural constraints. The remaining overhead is due to incremental Line value updates required for BufferList streaming behavior.
 
 ---
 

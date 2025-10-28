@@ -5,7 +5,9 @@ namespace Skender.Stock.Indicators;
 /// </summary>
 public class AlligatorList : BufferList<AlligatorResult>, IIncrementFromChain, IAlligator
 {
-    // Use List for O(1) indexing instead of Queue which requires O(n) ElementAt()
+    /// <summary>
+    /// Use List for O(1) indexing instead of Queue which requires O(n) ElementAt()
+    /// </summary>
     private readonly List<double> _inputBuffer;
     private readonly Queue<double> _jawBuffer;
     private readonly Queue<double> _teethBuffer;
@@ -19,7 +21,9 @@ public class AlligatorList : BufferList<AlligatorResult>, IIncrementFromChain, I
     private double? _lastTeeth;
     private double? _lastLips;
 
-    // Track how many total values we've seen
+    /// <summary>
+    /// Track how many total values we've seen
+    /// </summary>
     private int _count;
 
     /// <summary>
@@ -83,8 +87,7 @@ public class AlligatorList : BufferList<AlligatorResult>, IIncrementFromChain, I
         int lipsPeriods,
         int lipsOffset,
         IReadOnlyList<IReusable> values)
-        : this(jawPeriods, jawOffset, teethPeriods, teethOffset, lipsPeriods, lipsOffset)
-        => Add(values);
+        : this(jawPeriods, jawOffset, teethPeriods, teethOffset, lipsPeriods, lipsOffset) => Add(values);
 
     /// <inheritdoc/>
     public int JawPeriods { get; init; }
@@ -137,7 +140,7 @@ public class AlligatorList : BufferList<AlligatorResult>, IIncrementFromChain, I
             // Get the value from JawOffset positions ago (O(1) indexing with List)
             double offsetValue = _inputBuffer[_inputBuffer.Count - 1 - JawOffset];
 
-            // Use BufferUtilities extension method with dequeue tracking for running sum maintenance
+            // Use BufferListUtilities extension method with dequeue tracking for running sum maintenance
             double? removed = _jawBuffer.UpdateWithDequeue(JawPeriods, offsetValue);
 
             if (removed.HasValue)
@@ -170,7 +173,7 @@ public class AlligatorList : BufferList<AlligatorResult>, IIncrementFromChain, I
         {
             double offsetValue = _inputBuffer[_inputBuffer.Count - 1 - TeethOffset];
 
-            // Use BufferUtilities extension method with dequeue tracking for running sum maintenance
+            // Use BufferListUtilities extension method with dequeue tracking for running sum maintenance
             double? removed = _teethBuffer.UpdateWithDequeue(TeethPeriods, offsetValue);
 
             if (removed.HasValue)
@@ -197,7 +200,7 @@ public class AlligatorList : BufferList<AlligatorResult>, IIncrementFromChain, I
         {
             double offsetValue = _inputBuffer[_inputBuffer.Count - 1 - LipsOffset];
 
-            // Use BufferUtilities extension method with dequeue tracking for running sum maintenance
+            // Use BufferListUtilities extension method with dequeue tracking for running sum maintenance
             double? removed = _lipsBuffer.UpdateWithDequeue(LipsPeriods, offsetValue);
 
             if (removed.HasValue)
@@ -267,7 +270,9 @@ public class AlligatorList : BufferList<AlligatorResult>, IIncrementFromChain, I
     }
 }
 
-// EXTENSION METHODS
+/// <summary>
+/// EXTENSION METHODS
+/// </summary>
 public static partial class Alligator
 {
     /// <summary>

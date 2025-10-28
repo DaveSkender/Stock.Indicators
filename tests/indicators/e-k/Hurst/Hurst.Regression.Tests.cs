@@ -9,7 +9,7 @@ public class HurstTests : RegressionTestBase<HurstResult>
     public override void Series() => Quotes.ToHurst().AssertEquals(Expected, Precision.LastDigit);
 
     [TestMethod]
-    public override void Buffer() => Assert.Inconclusive("Buffer implementation not yet available");
+    public override void Buffer() => Quotes.ToHurstList().AssertEquals(Expected, Precision.LastDigit);
 
     [TestMethod]
     public override void Stream() => Assert.Inconclusive("Stream implementation not yet available");

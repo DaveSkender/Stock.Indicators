@@ -2,7 +2,9 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Ultimate
 {
-    // Ultimate Oscillator Common Base Listing
+    /// <summary>
+    /// Ultimate Oscillator Common Base Listing
+    /// </summary>
     internal static readonly IndicatorListing CommonListing =
         new CatalogListingBuilder()
             .WithName("Ultimate Oscillator")
@@ -15,19 +17,25 @@ public static partial class Ultimate
             .AddResult("Ultimate", "Ultimate Oscillator", ResultType.Default, isReusable: true)
             .Build();
 
-    // Ultimate Oscillator Series Listing
+    /// <summary>
+    /// Ultimate Oscillator Series Listing
+    /// </summary>
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
             .Build();
 
-    // Ultimate Oscillator Stream Listing
+    /// <summary>
+    /// Ultimate Oscillator Stream Listing
+    /// </summary>
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
             .Build();
 
-    // Ultimate Oscillator Buffer Listing
+    /// <summary>
+    /// Ultimate Oscillator Buffer Listing
+    /// </summary>
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)

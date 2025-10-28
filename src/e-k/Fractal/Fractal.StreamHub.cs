@@ -49,7 +49,7 @@ public class FractalHub
 
         Reinitialize();
     }
-    #endregion
+    #endregion constructors
 
     /// <summary>
     /// Gets the number of periods to look back for the calculation.
@@ -173,7 +173,7 @@ public static partial class Fractal
     /// <summary>
     /// Creates a Fractal hub from a collection of quotes.
     /// </summary>
-    /// <param name="quotes">The collection of quotes.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <param name="windowSpan">Parameter for the calculation.</param>
     /// <param name="endType">Parameter for the calculation.</param>
     /// <returns>An instance of <see cref="FractalHub"/>.</returns>
@@ -191,7 +191,7 @@ public static partial class Fractal
     /// <summary>
     /// Creates a Fractal hub from a collection of quotes with different left and right spans.
     /// </summary>
-    /// <param name="quotes">The collection of quotes.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <param name="leftSpan">Parameter for the calculation.</param>
     /// <param name="rightSpan">Parameter for the calculation.</param>
     /// <param name="endType">Parameter for the calculation.</param>

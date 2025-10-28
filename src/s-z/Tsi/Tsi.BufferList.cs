@@ -62,8 +62,7 @@ public class TsiList : BufferList<TsiResult>, IIncrementFromChain, ITsi
         int smoothPeriods,
         int signalPeriods,
         IReadOnlyList<IReusable> values)
-        : this(lookbackPeriods, smoothPeriods, signalPeriods)
-        => Add(values);
+        : this(lookbackPeriods, smoothPeriods, signalPeriods) => Add(values);
 
     /// <summary>
     /// Gets the number of periods for the lookback calculation.
@@ -202,6 +201,7 @@ public class TsiList : BufferList<TsiResult>, IIncrementFromChain, ITsi
                     {
                         sum += _tsiHistory[p];
                     }
+
                     signal = sum / SignalPeriods;
                 }
                 else
@@ -306,11 +306,14 @@ public static partial class Tsi
     /// <summary>
     /// Creates a buffer list for True Strength Index (TSI) calculations.
     /// </summary>
-    public static TsiList ToTsiList<T>(
-        this IReadOnlyList<T> source,
+    /// <param name="source">Collection of input values, time sorted.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
+    /// <param name="smoothPeriods">Number of periods for smoothing</param>
+    /// <param name="signalPeriods">Number of periods for the signal line</param>
+    public static TsiList ToTsiList(
+        this IReadOnlyList<IReusable> source,
         int lookbackPeriods = 25,
         int smoothPeriods = 13,
         int signalPeriods = 7)
-        where T : IReusable
-        => new(lookbackPeriods, smoothPeriods, signalPeriods) { (IReadOnlyList<IReusable>)source };
+        => new(lookbackPeriods, smoothPeriods, signalPeriods) { source };
 }

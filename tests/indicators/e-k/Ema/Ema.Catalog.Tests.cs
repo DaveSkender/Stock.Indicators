@@ -64,9 +64,9 @@ public class EmaTests : TestBase
 
         // Assert
         catalog.Should().NotBeNull();
-        catalog.Should().Contain(l => l.Uiid == "EMA" && l.Style == Style.Series);
+        catalog.Should().Contain(static l => l.Uiid == "EMA" && l.Style == Style.Series);
         emaSeries.Should().NotBeNull();
-        seriesListings.Should().Contain(l => l.Uiid == "EMA" && l.Style == Style.Series);
+        seriesListings.Should().Contain(static l => l.Uiid == "EMA" && l.Style == Style.Series);
     }
     [TestMethod]
     public void EmaSeriesListing()
@@ -79,7 +79,7 @@ public class EmaTests : TestBase
         listing.Should().NotBeNull("EMA Series listing should be found");
 
         // get catalog default value for test use
-        IndicatorParam lookbackParam = listing.Parameters.Single(p => p.ParameterName == "lookbackPeriods");
+        IndicatorParam lookbackParam = listing.Parameters.Single(static p => p.ParameterName == "lookbackPeriods");
         int lookbackValue = (int)lookbackParam.DefaultValue;
 
         // Act - Use catalog utility to dynamically execute the indicator
@@ -112,7 +112,7 @@ public class EmaTests : TestBase
         IReadOnlyList<EmaResult> catalogResult = listing.Execute<EmaResult>(Quotes);
 
         int lookbackPeriod = (int)listing.Parameters
-            .Single(p => p.ParameterName == "lookbackPeriods")
+            .Single(static p => p.ParameterName == "lookbackPeriods")
             .DefaultValue;
 
         lookbackPeriod.Should().Be(20, "this is what's defined in the catalog");
@@ -154,7 +154,7 @@ public class EmaTests : TestBase
         IndicatorListing listing = Ema.SeriesListing;
 
         // Get default parameter value from catalog
-        IndicatorParam lookbackParam = listing.Parameters.First(p => p.ParameterName == "lookbackPeriods");
+        IndicatorParam lookbackParam = listing.Parameters.First(static p => p.ParameterName == "lookbackPeriods");
         int lookbackValue = (int)lookbackParam.DefaultValue!;
 
         // Act - Call using catalog metadata (via method name)
@@ -372,7 +372,7 @@ public class EmaTests : TestBase
         listing.Parameters.Should().NotBeNull();
         listing.Parameters.Should().HaveCount(1);
 
-        IndicatorParam period = listing.Parameters.FirstOrDefault(p => p.ParameterName == "lookbackPeriods");
+        IndicatorParam period = listing.Parameters.FirstOrDefault(static p => p.ParameterName == "lookbackPeriods");
         period.Should().NotBeNull();
         period?.DisplayName.Should().Be("Lookback Period");
         period.Description.Should().Be("Number of periods for the EMA calculation");
@@ -404,7 +404,7 @@ public class EmaTests : TestBase
         listing.Parameters.Should().NotBeNull();
         listing.Parameters.Should().HaveCount(1);
 
-        IndicatorParam period = listing.Parameters.FirstOrDefault(p => p.ParameterName == "lookbackPeriods");
+        IndicatorParam period = listing.Parameters.FirstOrDefault(static p => p.ParameterName == "lookbackPeriods");
         period.Should().NotBeNull();
         period?.DisplayName.Should().Be("Lookback Period");
         period.Description.Should().Be("Number of periods for the EMA calculation");

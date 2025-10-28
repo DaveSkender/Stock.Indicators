@@ -31,12 +31,12 @@ internal static class Data
         return expectedResults;
     }
 
-    // DEFAULT: S&P 500 ~2 years of daily data
+    // DEFAULT: SnP 500 ~2 years of daily data
     internal static IReadOnlyList<Quote> GetDefault(int days = 502)
         => File.ReadAllLines("_testdata/quotes/default.csv")
             .Skip(1)
             .Select(Utilities.QuoteFromCsv)
-            .OrderByDescending(x => x.Timestamp)
+            .OrderByDescending(static x => x.Timestamp)
             .Take(days)
             .ToSortedList();
 
@@ -57,7 +57,7 @@ internal static class Data
         => File.ReadAllLines("_testdata/quotes/bad.csv")
             .Skip(1)
             .Select(Utilities.QuoteFromCsv)
-            .OrderByDescending(x => x.Timestamp)
+            .OrderByDescending(static x => x.Timestamp)
             .Take(days)
             .ToSortedList();
 
@@ -66,7 +66,7 @@ internal static class Data
         => File.ReadAllLines("_testdata/quotes/bitcoin.csv")
             .Skip(1)
             .Select(Utilities.QuoteFromCsv)
-            .OrderByDescending(x => x.Timestamp)
+            .OrderByDescending(static x => x.Timestamp)
             .Take(days)
             .ToSortedList();
 
@@ -75,7 +75,7 @@ internal static class Data
         => File.ReadAllLines("_testdata/quotes/btcusd15x69k.csv")
             .Skip(1)
             .Select(Utilities.QuoteFromCsv)
-            .OrderByDescending(x => x.Timestamp)
+            .OrderByDescending(static x => x.Timestamp)
             .Take(bars)
             .ToSortedList();
 
@@ -84,7 +84,7 @@ internal static class Data
         => File.ReadAllLines("_testdata/quotes/compare.csv")
             .Skip(1)
             .Select(Utilities.QuoteFromCsv)
-            .OrderByDescending(x => x.Timestamp)
+            .OrderByDescending(static x => x.Timestamp)
             .Take(days)
             .ToSortedList();
 
@@ -93,23 +93,23 @@ internal static class Data
         => File.ReadAllLines("_testdata/quotes/intraday.csv")
             .Skip(1)
             .Select(Utilities.QuoteFromCsv)
-            .OrderByDescending(x => x.Timestamp)
+            .OrderByDescending(static x => x.Timestamp)
             .Take(days)
             .ToSortedList();
 
-    // LONGEST DATA ~62 years of S&P 500 daily data (15,821)
+    // LONGEST DATA ~62 years of SnP 500 daily data (15,821)
     internal static IReadOnlyList<Quote> GetLongest()
         => File.ReadAllLines("_testdata/quotes/longest.csv")
             .Skip(1)
             .Select(Utilities.QuoteFromCsv)
             .ToSortedList();
 
-    // LONGISH DATA ~20 years of S&P 500 daily data
+    // LONGISH DATA ~20 years of SnP 500 daily data
     internal static IReadOnlyList<Quote> GetLongish(int days = 5285)
         => File.ReadAllLines("_testdata/quotes/longish.csv")
             .Skip(1)
             .Select(Utilities.QuoteFromCsv)
-            .OrderByDescending(x => x.Timestamp)
+            .OrderByDescending(static x => x.Timestamp)
             .Take(days)
             .ToSortedList();
 
@@ -125,7 +125,7 @@ internal static class Data
         => File.ReadAllLines("_testdata/quotes/msft.csv")
             .Skip(1)
             .Select(Utilities.QuoteFromCsv)
-            .OrderByDescending(x => x.Timestamp)
+            .OrderByDescending(static x => x.Timestamp)
             .Take(days)
             .ToSortedList();
 
@@ -141,7 +141,7 @@ internal static class Data
         => File.ReadAllLines("_testdata/quotes/spx.csv")
             .Skip(1)
             .Select(Utilities.QuoteFromCsv)
-            .OrderByDescending(x => x.Timestamp)
+            .OrderByDescending(static x => x.Timestamp)
             .Take(days)
             .ToSortedList();
 
@@ -150,7 +150,7 @@ internal static class Data
         => File.ReadAllLines("_testdata/quotes/toobig.csv")
             .Skip(1)
             .Select(Utilities.QuoteFromCsv)
-            .OrderByDescending(x => x.Timestamp)
+            .OrderByDescending(static x => x.Timestamp)
             .Take(days)
             .ToSortedList();
 
@@ -159,7 +159,7 @@ internal static class Data
         => File.ReadAllLines("_testdata/quotes/toobig.csv")
             .Skip(1)
             .Select(Utilities.QuoteFromCsv)
-            .OrderByDescending(x => x.Timestamp)
+            .OrderByDescending(static x => x.Timestamp)
             .Take(days)
             .ToSortedList();
 
@@ -168,7 +168,7 @@ internal static class Data
         => File.ReadAllLines("_testdata/quotes/zeros.csv")
             .Skip(1)
             .Select(Utilities.QuoteFromCsv)
-            .OrderByDescending(x => x.Timestamp)
+            .OrderByDescending(static x => x.Timestamp)
             .Take(days)
             .ToSortedList();
 }

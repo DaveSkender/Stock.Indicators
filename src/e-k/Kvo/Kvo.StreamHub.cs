@@ -9,9 +9,9 @@ public static partial class Kvo
     /// Creates a KVO streaming hub from a quote provider.
     /// </summary>
     /// <param name="quoteProvider">The quote provider.</param>
-    /// <param name="fastPeriods">The number of periods for the fast EMA. Default is 34.</param>
-    /// <param name="slowPeriods">The number of periods for the slow EMA. Default is 55.</param>
-    /// <param name="signalPeriods">The number of periods for the signal line. Default is 13.</param>
+    /// <param name="fastPeriods">The number of periods for the fast EMA.</param>
+    /// <param name="slowPeriods">The number of periods for the slow EMA.</param>
+    /// <param name="signalPeriods">The number of periods for the signal line.</param>
     /// <returns>A KVO hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the quote provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when any of the parameters are invalid.</exception>
@@ -37,7 +37,9 @@ public class KvoHub
     private readonly double _kSignal;
     private readonly string hubName;
 
-    // State variables
+    /// <summary>
+    /// State variables
+    /// </summary>
     private double _prevHlc;
     private double _prevTrend;
     private double _prevDm;
@@ -196,6 +198,7 @@ public class KvoHub
                 {
                     sum += Cache[p].Oscillator ?? 0;
                 }
+
                 sum += kvo ?? 0;
                 sig = sum / _signalPeriods;
             }
@@ -220,6 +223,7 @@ public class KvoHub
     /// <summary>
     /// Restore rolling state up to the specified timestamp for accurate rebuilds.
     /// </summary>
+    /// <param name="timestamp">Timestamp of record.</param>
     protected override void RollbackState(DateTime timestamp)
     {
         // Reset all state

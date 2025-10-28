@@ -73,7 +73,7 @@ public class CatalogListingBuilderTests : TestBase
     public void MissingName() =>
         // Arrange & Act & Assert
         Assert.ThrowsExactly<InvalidOperationException>(
-            () => new CatalogListingBuilder()
+            static () => new CatalogListingBuilder()
                 .WithId("TEST")
                 .WithStyle(Style.Series)
                 .WithCategory(Category.MovingAverage)
@@ -84,7 +84,7 @@ public class CatalogListingBuilderTests : TestBase
     public void MissingId() =>
         // Arrange & Act & Assert
         Assert.ThrowsExactly<InvalidOperationException>(
-            () => new CatalogListingBuilder()
+            static () => new CatalogListingBuilder()
                 .WithName("Test Indicator")
                 .WithStyle(Style.Series)
                 .WithCategory(Category.MovingAverage)
@@ -95,7 +95,7 @@ public class CatalogListingBuilderTests : TestBase
     public void MissingResults() =>
         // Arrange & Act & Assert
         Assert.ThrowsExactly<InvalidOperationException>(
-            () => new CatalogListingBuilder()
+            static () => new CatalogListingBuilder()
                 .WithName("Test Indicator")
                 .WithId("TEST")
                 .WithStyle(Style.Series)
@@ -106,7 +106,7 @@ public class CatalogListingBuilderTests : TestBase
     public void DuplicateParameters() =>
         // Arrange & Act & Assert
         Assert.ThrowsExactly<InvalidOperationException>(
-            () => new CatalogListingBuilder()
+            static () => new CatalogListingBuilder()
                 .WithName("Test Indicator")
                 .WithId("TEST")
                 .WithStyle(Style.Series)
@@ -120,7 +120,7 @@ public class CatalogListingBuilderTests : TestBase
     public void DuplicateResults() =>
         // Arrange & Act & Assert
         Assert.ThrowsExactly<InvalidOperationException>(
-            () => new CatalogListingBuilder()
+            static () => new CatalogListingBuilder()
                 .WithName("Test Indicator")
                 .WithId("TEST")
                 .WithStyle(Style.Series)
@@ -145,6 +145,6 @@ public class CatalogListingBuilderTests : TestBase
         // Assert - This should now be valid for ISeries models
         result.Should().NotBeNull();
         result.Results.Should().HaveCount(2);
-        result.Results.Should().AllSatisfy(r => r.IsReusable.Should().BeFalse());
+        result.Results.Should().AllSatisfy(static r => r.IsReusable.Should().BeFalse());
     }
 }

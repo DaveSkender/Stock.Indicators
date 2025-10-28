@@ -9,7 +9,7 @@ public static partial class Hurst
     /// Converts a list of time-series values to Hurst Exponent results.
     /// </summary>
     /// <param name="source">The list of time-series values to transform.</param>
-    /// <param name="lookbackPeriods">The number of periods to look back for the calculation. Default is 100.</param>
+    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
     /// <returns>A list of Hurst Exponent results.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the source list is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are less than or equal to 1.</exception>
@@ -67,7 +67,7 @@ public static partial class Hurst
     /// </summary>
     /// <param name="values">The array of values to evaluate.</param>
     /// <returns>The calculated Hurst Exponent.</returns>
-    private static double CalcHurstWindow(double[] values)
+    internal static double CalcHurstWindow(double[] values)
     {
         int totalSize = values.Length;
         int maxChunks = 0;

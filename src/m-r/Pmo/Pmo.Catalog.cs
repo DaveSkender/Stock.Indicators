@@ -2,7 +2,9 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Pmo
 {
-    // Price Momentum Oscillator Common Base Listing
+    /// <summary>
+    /// Price Momentum Oscillator Common Base Listing
+    /// </summary>
     internal static readonly IndicatorListing CommonListing =
         new CatalogListingBuilder()
             .WithName("Price Momentum Oscillator")
@@ -16,17 +18,27 @@ public static partial class Pmo
             .AddResult("Signal", "Signal", ResultType.Default)
             .Build();
 
-    // Price Momentum Oscillator Series Listing
+    /// <summary>
+    /// Price Momentum Oscillator Series Listing
+    /// </summary>
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
             .Build();
 
-    // Price Momentum Oscillator Buffer Listing
+    /// <summary>
+    /// Price Momentum Oscillator Buffer Listing
+    /// </summary>
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)
             .Build();
 
-    // No StreamListing for PMO.
+    /// <summary>
+    /// Price Momentum Oscillator Stream Listing
+    /// </summary>
+    internal static readonly IndicatorListing StreamListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Stream)
+            .Build();
 }

@@ -26,7 +26,7 @@ public class Kama : BufferListTestBase, ITestChainBufferList
         }
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
     }
 
     [TestMethod]
@@ -35,7 +35,7 @@ public class Kama : BufferListTestBase, ITestChainBufferList
         KamaList sut = Quotes.ToKamaList(erPeriods, fastPeriods, slowPeriods);
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
     }
 
     [TestMethod]
@@ -44,7 +44,7 @@ public class Kama : BufferListTestBase, ITestChainBufferList
         KamaList sut = new(erPeriods, fastPeriods, slowPeriods, Quotes);
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
     }
 
     [TestMethod]
@@ -58,7 +58,7 @@ public class Kama : BufferListTestBase, ITestChainBufferList
         }
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
     }
 
     [TestMethod]
@@ -67,7 +67,7 @@ public class Kama : BufferListTestBase, ITestChainBufferList
         KamaList sut = new(erPeriods, fastPeriods, slowPeriods) { reusables };
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
     }
 
     [TestMethod]
@@ -81,7 +81,7 @@ public class Kama : BufferListTestBase, ITestChainBufferList
         }
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
     }
 
     [TestMethod]
@@ -93,7 +93,7 @@ public class Kama : BufferListTestBase, ITestChainBufferList
         KamaList sut = new(erPeriods, fastPeriods, slowPeriods, subset);
 
         sut.Should().HaveCount(subset.Count);
-        sut.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
+        sut.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
 
         sut.Clear();
 
@@ -102,7 +102,7 @@ public class Kama : BufferListTestBase, ITestChainBufferList
         sut.Add(subset);
 
         sut.Should().HaveCount(expected.Count);
-        sut.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
+        sut.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
     }
 
     [TestMethod]
@@ -121,6 +121,6 @@ public class Kama : BufferListTestBase, ITestChainBufferList
             .ToList();
 
         sut.Should().HaveCount(maxListSize);
-        sut.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
+        sut.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
     }
 }

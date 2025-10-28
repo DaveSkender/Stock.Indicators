@@ -18,7 +18,7 @@ public static partial class Vortex
 
         resultsList
             .RemoveAll(match:
-                x => x.Pvi is null && x.Nvi is null);
+                static x => x.Pvi is null && x.Nvi is null);
 
         return resultsList.ToSortedList();
     }
@@ -34,7 +34,7 @@ public static partial class Vortex
         ArgumentNullException.ThrowIfNull(results);
 
         int removePeriods = results
-            .FindIndex(x => x.Pvi != null || x.Nvi != null);
+            .FindIndex(static x => x.Pvi != null || x.Nvi != null);
 
         return results.Remove(removePeriods);
     }
@@ -43,7 +43,7 @@ public static partial class Vortex
     /// <summary>
     /// Validates the parameters for the Vortex calculation.
     /// </summary>
-    /// <param name="lookbackPeriods">The number of lookback periods.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <exception cref="ArgumentOutOfRangeException">
     /// Thrown when the lookback periods are less than or equal to 1.
     /// </exception>

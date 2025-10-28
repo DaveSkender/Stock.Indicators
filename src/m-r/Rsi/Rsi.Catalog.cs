@@ -2,7 +2,9 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Rsi
 {
-    // RSI Common Base Listing
+    /// <summary>
+    /// RSI Common Base Listing
+    /// </summary>
     internal static readonly IndicatorListing CommonListing =
         new CatalogListingBuilder()
             .WithName("Relative Strength Index")
@@ -13,19 +15,25 @@ public static partial class Rsi
             .AddResult("Rsi", "RSI", ResultType.Default, isReusable: true)
             .Build();
 
-    // RSI Series Listing
+    /// <summary>
+    /// RSI Series Listing
+    /// </summary>
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
             .Build();
 
-    // RSI Stream Listing
+    /// <summary>
+    /// RSI Stream Listing
+    /// </summary>
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
             .Build();
 
-    // RSI Buffer Listing
+    /// <summary>
+    /// RSI Buffer Listing
+    /// </summary>
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)

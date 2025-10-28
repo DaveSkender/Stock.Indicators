@@ -15,7 +15,7 @@ public static partial class Pvo
         ArgumentNullException.ThrowIfNull(results);
 
         int n = results
-            .FindIndex(x => x.Signal != null) + 2;
+            .FindIndex(static x => x.Signal != null) + 2;
 
         return results.Remove(n + 250);
     }

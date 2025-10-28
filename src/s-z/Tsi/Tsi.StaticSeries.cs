@@ -8,9 +8,9 @@ public static partial class Tsi
     /// <summary>
     /// Calculates the True Strength Index (TSI) for a given source of data.
     /// </summary>    /// <param name="source">The source list of data.</param>
-    /// <param name="lookbackPeriods">The number of periods for the lookback calculation. Default is 25.</param>
-    /// <param name="smoothPeriods">The number of periods for the smoothing calculation. Default is 13.</param>
-    /// <param name="signalPeriods">The number of periods for the signal calculation. Default is 7.</param>
+    /// <param name="lookbackPeriods">The number of periods for the lookback calculation.</param>
+    /// <param name="smoothPeriods">The number of periods for the smoothing calculation.</param>
+    /// <param name="signalPeriods">The number of periods for the signal calculation.</param>
     /// <returns>A list of TsiResult containing the TSI and signal values.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the source is null.</exception>
     public static IReadOnlyList<TsiResult> ToTsi(
