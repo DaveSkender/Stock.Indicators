@@ -296,4 +296,4 @@ When implementing other complex or previously deferred indicators (for example: 
 > - StreamHub tests: `specs/001-develop-streaming-indicators/checklists/stream-hub-tests.md`
 
 ---
-Last updated: October 13, 2025
+Last updated: October 28, 2025
