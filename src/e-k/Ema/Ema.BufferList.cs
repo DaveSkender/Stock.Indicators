@@ -33,10 +33,7 @@ public class EmaList : BufferList<EmaResult>, IIncrementFromChain, IEma
         int lookbackPeriods,
         IReadOnlyList<IReusable> values
     )
-        : this(lookbackPeriods)
-    {
-        Add(values);
-    }
+        : this(lookbackPeriods) => Add(values);
 
     /// <inheritdoc />
     public int LookbackPeriods { get; init; }

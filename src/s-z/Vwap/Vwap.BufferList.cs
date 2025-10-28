@@ -19,10 +19,7 @@ public class VwapList(DateTime? startDate = null) : BufferList<VwapResult>, IInc
     /// <param name="startDate">The start date for VWAP calculation. If null, auto-anchors to first quote.</param>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     public VwapList(DateTime? startDate, IReadOnlyList<IQuote> quotes)
-        : this(startDate)
-    {
-        Add(quotes);
-    }
+        : this(startDate) => Add(quotes);
 
     /// <summary>
     /// Gets the start date for the VWAP calculation.

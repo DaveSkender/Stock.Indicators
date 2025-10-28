@@ -62,10 +62,7 @@ public class TsiList : BufferList<TsiResult>, IIncrementFromChain, ITsi
         int smoothPeriods,
         int signalPeriods,
         IReadOnlyList<IReusable> values)
-        : this(lookbackPeriods, smoothPeriods, signalPeriods)
-    {
-        Add(values);
-    }
+        : this(lookbackPeriods, smoothPeriods, signalPeriods) => Add(values);
 
     /// <summary>
     /// Gets the number of periods for the lookback calculation.

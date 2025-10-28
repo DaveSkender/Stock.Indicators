@@ -42,10 +42,7 @@ public class KeltnerList : BufferList<KeltnerResult>, IIncrementFromQuote
         double multiplier,
         int atrPeriods,
         IReadOnlyList<IQuote> quotes)
-        : this(emaPeriods, multiplier, atrPeriods)
-    {
-        Add(quotes);
-    }
+        : this(emaPeriods, multiplier, atrPeriods) => Add(quotes);
 
     /// <inheritdoc />
     public int EmaPeriods { get; init; }

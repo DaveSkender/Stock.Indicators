@@ -61,10 +61,7 @@ public class StochList : BufferList<StochResult>, IIncrementFromQuote, IStoch
         double dFactor,
         MaType movingAverageType,
         IReadOnlyList<IQuote> quotes)
-        : this(lookbackPeriods, signalPeriods, smoothPeriods, kFactor, dFactor, movingAverageType)
-    {
-        Add(quotes);
-    }
+        : this(lookbackPeriods, signalPeriods, smoothPeriods, kFactor, dFactor, movingAverageType) => Add(quotes);
 
     /// <inheritdoc />
     public int LookbackPeriods { get; init; }

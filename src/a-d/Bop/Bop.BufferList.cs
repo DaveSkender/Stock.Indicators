@@ -24,10 +24,7 @@ public class BopList : BufferList<BopResult>, IIncrementFromQuote, IBop
     /// <param name="smoothPeriods">The number of periods to use for smoothing.</param>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     public BopList(int smoothPeriods, IReadOnlyList<IQuote> quotes)
-        : this(smoothPeriods)
-    {
-        Add(quotes);
-    }
+        : this(smoothPeriods) => Add(quotes);
 
     /// <summary>
     /// Gets the number of periods to use for smoothing.
