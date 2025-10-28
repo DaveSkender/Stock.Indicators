@@ -203,6 +203,7 @@ public static partial class Catalog
 
         // HT Trendline (Hilbert Transform)
         _listings.Add(HtTrendline.SeriesListing);
+        _listings.Add(HtTrendline.StreamListing);
 
         // Hurst Exponent
         _listings.Add(Hurst.SeriesListing);

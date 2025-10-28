@@ -24,6 +24,13 @@ public static partial class HtTrendline
             .WithStyle(Style.Series)
             .Build();
 
-    // No StreamListing for HTL.
+    /// <summary>
+    /// HTL Stream Listing
+    /// </summary>
+    internal static readonly IndicatorListing StreamListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Stream)
+            .Build();
+
     // No BufferListing for HTL.
 }
