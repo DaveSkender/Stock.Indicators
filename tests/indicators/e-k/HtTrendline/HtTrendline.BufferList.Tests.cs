@@ -106,9 +106,7 @@ public class HtTrendline : BufferListTestBase, ITestChainBufferList, ITestCustom
     {
         const int maxListSize = 120;
 
-        HtlList sut = new() {
-            MaxListSize = maxListSize
-        };
+        HtlList sut = new() { MaxListSize = maxListSize };
 
         sut.Add(Quotes);
 
@@ -138,9 +136,7 @@ public class HtTrendline : BufferListTestBase, ITestChainBufferList, ITestCustom
             .ToList();
 
         // Generate buffer list
-        HtlList sut = new(quotes) {
-            MaxListSize = maxListSize
-        };
+        HtlList sut = new(quotes) { MaxListSize = maxListSize };
 
         sut.Should().HaveCount(maxListSize);
         sut.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());

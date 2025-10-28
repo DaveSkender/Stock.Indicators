@@ -85,8 +85,9 @@ public class HtlList : BufferList<HtlResult>, IIncrementFromChain
     /// <inheritdoc />
     public void Add(DateTime timestamp, double value)
     {
-        int i = Count;
+        // Use pr.Count instead of Count to align with state arrays after pruning
         pr.Add(value);
+        int i = pr.Count - 1;
 
         if (i > 5)
         {
