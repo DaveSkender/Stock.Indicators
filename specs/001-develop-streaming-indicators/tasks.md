@@ -39,7 +39,7 @@ These simplified checklists ensure:
   - Verify correct base class inheritance (`BufferList<TResult>`)
   - Check interface implementation (`IIncrementFromChain`/`IIncrementFromQuote`/`IIncrementFromPairs`)
   - Validate constructor patterns (params-only and params+quotes variants)
-  - Confirm `BufferUtilities` usage instead of manual buffer management
+  - Confirm `BufferListUtilities` usage instead of manual buffer management
   - Check member ordering per instruction file conventions
 
 - [x] **A002** Audit existing StreamHub implementations for instruction file compliance (`src/**/*.StreamHub.cs` against `.github/instructions/indicator-stream.instructions.md`) ✅
@@ -142,7 +142,7 @@ Note on former deferrals: Some indicators were previously marked as deferred due
 - [x] **T032** Implement Gator BufferList in `src/e-k/Gator/Gator.BufferList.cs` ✅
 - [x] **T033** Implement HeikinAshi BufferList in `src/e-k/HeikinAshi/HeikinAshi.BufferList.cs` ✅
 - [x] **T034** Implement Hma BufferList in `src/e-k/Hma/Hma.BufferList.cs` ✅
-- [ ] **T035** Implement HtTrendline BufferList in `src/e-k/HtTrendline/HtTrendline.BufferList.cs` (complex but unblocked — use HMA multi-buffer as a baseline)
+- [x] **T035** Implement HtTrendline BufferList in `src/e-k/HtTrendline/HtTrendline.BufferList.cs` (complex but unblocked — use HMA multi-buffer as a baseline) ✅
 - [ ] **T036** Implement Hurst BufferList in `src/e-k/Hurst/Hurst.BufferList.cs` (complex but unblocked — adapt ADX complex state + HMA buffers)
 - [ ] **T037** Implement Ichimoku BufferList in `src/e-k/Ichimoku/Ichimoku.BufferList.cs` (complex but unblocked — follow multi-line series patterns from Alligator/AtrStop and HMA buffers)
 - [x] **T038** Implement Kama BufferList in `src/e-k/Kama/Kama.BufferList.cs` ✅
@@ -402,7 +402,7 @@ Each task should follow these guidelines:
 - Implement appropriate interface (`IIncrementFromChain`, `IIncrementFromQuote`, or `IIncrementFromPairs`)
 - Follow patterns from `.github/instructions/indicator-buffer.instructions.md`
 - Provide both standard constructor and constructor with values/quotes parameter (matching interface type)
-- Use universal `BufferUtilities` extension methods for buffer management
+- Use universal `BufferListUtilities` extension methods for buffer management
 - Include comprehensive unit tests matching patterns in existing tests
 - Ensure mathematical correctness matches series implementation
 

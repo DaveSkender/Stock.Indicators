@@ -49,10 +49,7 @@ public class RenkoList : BufferList<RenkoResult>, IIncrementFromQuote, IRenko
         EndType endType,
         IReadOnlyList<IQuote> quotes
     )
-        : this(brickSize, endType)
-    {
-        Add(quotes);
-    }
+        : this(brickSize, endType) => Add(quotes);
 
     /// <inheritdoc/>
     public decimal BrickSize { get; init; }

@@ -65,10 +65,7 @@ public class MaEnvelopesList : BufferList<MaEnvelopeResult>, IIncrementFromChain
         double percentOffset,
         MaType movingAverageType,
         IReadOnlyList<IReusable> values)
-        : this(lookbackPeriods, percentOffset, movingAverageType)
-    {
-        Add(values);
-    }
+        : this(lookbackPeriods, percentOffset, movingAverageType) => Add(values);
 
     /// <summary>
     /// Gets the number of periods for the moving average.

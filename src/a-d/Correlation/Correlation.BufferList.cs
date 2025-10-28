@@ -30,10 +30,7 @@ public class CorrelationList : BufferList<CorrResult>, IIncrementFromPairs, ICor
         int lookbackPeriods,
         IReadOnlyList<IReusable> valuesA,
         IReadOnlyList<IReusable> valuesB)
-        : this(lookbackPeriods)
-    {
-        Add(valuesA, valuesB);
-    }
+        : this(lookbackPeriods) => Add(valuesA, valuesB);
 
     /// <summary>
     /// Gets the number of periods to look back for the calculation.

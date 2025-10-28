@@ -217,7 +217,7 @@ For authoritative implementation guidance, see:
 The following base classes and utilities already exist in `src/_common/`:
 
 - ✅ `BufferList<TResult>` - Abstract base for list-backed streaming
-- ✅ `BufferUtilities` - Extension methods for buffer management (Update, Prune, etc.)
+- ✅ `BufferListUtilities` - Extension methods for buffer management (Update, Prune, etc.)
 - ✅ `StreamHub<TIn, TOut>` - Abstract base for hub-based streaming
 - ✅ `ChainProvider<TIn, TResult>` / `QuoteProvider<TIn, TResult>` - Provider implementations
 - ✅ `PairsProvider<TIn, TResult>` - **NEW** - Dual-stream provider implementation

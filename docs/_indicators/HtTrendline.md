@@ -59,6 +59,22 @@ IReadOnlyList<HtlResult>
 
 See [Utilities and helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
 
+## Streaming
+
+Use the buffer-style `List<T>` when you need incremental calculations:
+
+```csharp
+HtlList htlList = new();
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  htlList.Add(quote);
+}
+
+// based on `ICollection<HtlResult>`
+IReadOnlyList<HtlResult> results = htlList;
+```
+
 ## Chaining
 
 This indicator may be generated from any chain-enabled indicator or method.
