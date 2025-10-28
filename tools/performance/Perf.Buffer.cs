@@ -73,6 +73,7 @@ public class BufferIndicators
     [Benchmark] public SmiList SmiList() => new(13, 25, 2, 3) { q };
     [Benchmark] public SmmaList SmmaList() => new(n) { q };
     [Benchmark] public StarcBandsList StarcBandsList() => new(5, 2, 10) { q };
+    [Benchmark] public StcList StcList() => new(10, 23, 50) { q };
     [Benchmark] public StdDevList StdDevList() => new(20) { q };
     [Benchmark] public StdDevChannelsList StdDevChannelsList() => new(20, 2) { q };
     [Benchmark] public StochList StochList() => new(14, 3, 3) { q };
