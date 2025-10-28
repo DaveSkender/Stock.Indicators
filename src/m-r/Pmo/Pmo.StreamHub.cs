@@ -127,8 +127,7 @@ public class PmoHub
             pmoValues[p] = pPmo;
 
             // Calculate Signal
-            double pSignal = CalculateSignalForRestore(p, pPmo, pmoValues, ref tempPrevSignal);
-            tempPrevSignal = pSignal;
+            tempPrevSignal = CalculateSignalForRestore(p, pPmo, pmoValues, ref tempPrevSignal);
         }
 
         prevRocEma = tempPrevRocEma;
