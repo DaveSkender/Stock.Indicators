@@ -10,7 +10,7 @@ public class RocList : BufferList<RocResult>, IIncrementFromChain, IRoc
     /// <summary>
     /// Initializes a new instance of the <see cref="RocList"/> class.
     /// </summary>
-    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     public RocList(int lookbackPeriods)
     {
         Roc.Validate(lookbackPeriods);
@@ -21,7 +21,7 @@ public class RocList : BufferList<RocResult>, IIncrementFromChain, IRoc
     /// <summary>
     /// Initializes a new instance of the <see cref="RocList"/> class with initial reusable values.
     /// </summary>
-    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <param name="values">Initial reusable values to populate the list.</param>
     public RocList(int lookbackPeriods, IReadOnlyList<IReusable> values)
         : this(lookbackPeriods)
@@ -110,7 +110,7 @@ public static partial class Roc
     /// Creates a buffer list for Rate of Change (ROC) calculations.
     /// </summary>
     /// <param name="source"></param>
-    /// <param name="lookbackPeriods"></param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     public static RocList ToRocList(
         this IReadOnlyList<IReusable> source,
         int lookbackPeriods)

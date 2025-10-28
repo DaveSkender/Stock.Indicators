@@ -61,7 +61,7 @@ public class QuoteHub
 /// <summary>
 /// Inert provider for base Hub initialization.
 /// </summary>
-/// <typeparam name="T"></typeparam>
+/// <typeparam name="T">Type of record</typeparam>
 public class BaseProvider<T>
     : IStreamObservable<T>
     where T : IReusable

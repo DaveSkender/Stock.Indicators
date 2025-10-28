@@ -18,7 +18,7 @@ public static class Candlesticks
     /// <summary>
     /// Converts a quote to candle properties.
     /// </summary>
-    /// <typeparam name="TQuote"></typeparam>
+    /// <typeparam name="TQuote">Type of quote record</typeparam>
     /// <param name="quote">The quote to convert.</param>
     /// <returns>The candle properties.</returns>
     public static CandleProperties ToCandle<TQuote>(

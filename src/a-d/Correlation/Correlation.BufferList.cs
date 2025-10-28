@@ -11,7 +11,7 @@ public class CorrelationList : BufferList<CorrResult>, IIncrementFromPairs, ICor
     /// <summary>
     /// Initializes a new instance of the <see cref="CorrelationList"/> class.
     /// </summary>
-    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     public CorrelationList(int lookbackPeriods)
     {
         Correlation.Validate(lookbackPeriods);
@@ -23,7 +23,7 @@ public class CorrelationList : BufferList<CorrResult>, IIncrementFromPairs, ICor
     /// <summary>
     /// Initializes a new instance of the <see cref="CorrelationList"/> class with initial series.
     /// </summary>
-    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <param name="valuesA">First series to populate the list.</param>
     /// <param name="valuesB">Second series to populate the list.</param>
     public CorrelationList(
@@ -141,7 +141,7 @@ public static partial class Correlation
     /// </summary>
     /// <param name="valuesA"></param>
     /// <param name="valuesB"></param>
-    /// <param name="lookbackPeriods"></param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     public static CorrelationList ToCorrelationList(
         this IReadOnlyList<IReusable> valuesA,
         IReadOnlyList<IReusable> valuesB,
@@ -151,7 +151,7 @@ public static partial class Correlation
     /// <summary>
     /// Validates the parameters for correlation calculations.
     /// </summary>
-    /// <param name="lookbackPeriods"></param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <exception cref="ArgumentOutOfRangeException"></exception>
     internal static void Validate(int lookbackPeriods)
     {

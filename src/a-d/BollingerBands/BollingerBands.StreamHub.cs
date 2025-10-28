@@ -16,7 +16,7 @@ public class BollingerBandsHub
     /// Initializes a new instance of the <see cref="BollingerBandsHub"/> class.
     /// </summary>
     /// <param name="provider">The chain provider.</param>
-    /// <param name="lookbackPeriods">The number of lookback periods.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <param name="standardDeviations">The number of standard deviations.</param>
     internal BollingerBandsHub(
         IChainProvider<IReusable> provider,
@@ -79,7 +79,7 @@ public static partial class BollingerBands
     /// Converts the chain provider to a Bollinger Bands hub.
     /// </summary>
     /// <param name="chainProvider">The chain provider.</param>
-    /// <param name="lookbackPeriods">The number of lookback periods.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <param name="standardDeviations">The number of standard deviations.</param>
     /// <returns>A Bollinger Bands hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the chain provider is null.</exception>
@@ -94,7 +94,7 @@ public static partial class BollingerBands
     /// Creates a BollingerBands hub from a collection of quotes.
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="lookbackPeriods">Parameter for the calculation.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <param name="standardDeviations">Parameter for the calculation.</param>
     /// <returns>An instance of <see cref="BollingerBandsHub"/>.</returns>
     public static BollingerBandsHub ToBollingerBandsHub(

@@ -182,7 +182,7 @@ public static partial class RocWb
     /// Creates a buffer list for Rate of Change with Bands (RocWb) calculations.
     /// </summary>
     /// <param name="source"></param>
-    /// <param name="lookbackPeriods"></param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <param name="emaPeriods"></param>
     /// <param name="stdDevPeriods"></param>
     public static RocWbList ToRocWbList(

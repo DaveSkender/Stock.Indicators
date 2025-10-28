@@ -9,7 +9,7 @@ public static partial class Chop
     /// Calculates the Choppiness Index (CHOP) for a series of quotes.
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="lookbackPeriods">The number of periods to use for the lookback window. Default is 14.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>A read-only list of <see cref="ChopResult"/> containing the CHOP calculation results.</returns>
     public static IReadOnlyList<ChopResult> ToChop(
         this IReadOnlyList<IQuote> quotes,
@@ -22,7 +22,7 @@ public static partial class Chop
     /// Calculates the Choppiness Index (CHOP) for a series of quotes.
     /// </summary>
     /// <param name="quotes">The source list of quotes.</param>
-    /// <param name="lookbackPeriods">The number of periods to use for the lookback window.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>A list of <see cref="ChopResult"/> containing the CHOP calculation results.</returns>
     private static List<ChopResult> CalcChop(
         this List<QuoteD> quotes,

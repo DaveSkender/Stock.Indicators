@@ -10,7 +10,7 @@ public class StdDevList : BufferList<StdDevResult>, IIncrementFromChain
     /// <summary>
     /// Initializes a new instance of the <see cref="StdDevList"/> class.
     /// </summary>
-    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     public StdDevList(int lookbackPeriods = 14)
     {
         StdDev.Validate(lookbackPeriods);
@@ -21,7 +21,7 @@ public class StdDevList : BufferList<StdDevResult>, IIncrementFromChain
     /// <summary>
     /// Initializes a new instance of the <see cref="StdDevList"/> class with initial reusable values.
     /// </summary>
-    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <param name="values">Initial reusable values to populate the list.</param>
     public StdDevList(int lookbackPeriods, IReadOnlyList<IReusable> values)
         : this(lookbackPeriods)
@@ -109,7 +109,7 @@ public static partial class StdDev
     /// Creates a buffer list for Standard Deviation calculations.
     /// </summary>
     /// <param name="source"></param>
-    /// <param name="lookbackPeriods"></param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     public static StdDevList ToStdDevList(
         this IReadOnlyList<IReusable> source,
         int lookbackPeriods = 14)

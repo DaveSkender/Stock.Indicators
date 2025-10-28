@@ -9,7 +9,7 @@ public static partial class Vortex
     /// Calculates the Vortex indicator for a series of quotes.
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="lookbackPeriods">The number of lookback periods. Default is 14.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>A list of VortexResult containing the Vortex indicator values.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the source is null.</exception>
     public static IReadOnlyList<VortexResult> ToVortex(
@@ -23,7 +23,7 @@ public static partial class Vortex
     /// Calculates the Vortex indicator for a series of quotes.
     /// </summary>
     /// <param name="quotes">The source list of quotes.</param>
-    /// <param name="lookbackPeriods">The number of lookback periods.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>A list of VortexResult containing the Vortex indicator values.</returns>
     private static List<VortexResult> CalcVortex(
         this List<QuoteD> quotes,

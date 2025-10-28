@@ -9,7 +9,7 @@ public static partial class ElderRay
     /// Converts a list of quotes to Elder Ray results.
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>A list of Elder Ray results.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the quotes list is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
@@ -24,7 +24,7 @@ public static partial class ElderRay
     /// Calculates the Elder Ray indicator.
     /// </summary>
     /// <param name="quotes">The source list of quotes.</param>
-    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>A list of Elder Ray results.</returns>
     private static List<ElderRayResult> CalcElderRay(
         this List<QuoteD> quotes,

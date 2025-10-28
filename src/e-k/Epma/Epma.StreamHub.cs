@@ -16,7 +16,7 @@ public class EpmaHub
     /// Initializes a new instance of the <see cref="EpmaHub"/> class.
     /// </summary>
     /// <param name="provider">The chain provider.</param>
-    /// <param name="lookbackPeriods">The number of lookback periods.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     internal EpmaHub(
         IChainProvider<IReusable> provider,
         int lookbackPeriods) : base(provider)
@@ -62,7 +62,7 @@ public static partial class Epma
     /// Converts the chain provider to an EPMA hub.
     /// </summary>
     /// <param name="chainProvider">The chain provider.</param>
-    /// <param name="lookbackPeriods">The number of lookback periods.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>An EPMA hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the chain provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>

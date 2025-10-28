@@ -18,7 +18,7 @@ public class HmaList : BufferList<HmaResult>, IIncrementFromChain, IHma
     /// <summary>
     /// Initializes a new instance of the <see cref="HmaList"/> class.
     /// </summary>
-    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     public HmaList(int lookbackPeriods)
     {
         Hma.Validate(lookbackPeriods);
@@ -43,7 +43,7 @@ public class HmaList : BufferList<HmaResult>, IIncrementFromChain, IHma
     /// <summary>
     /// Initializes a new instance of the <see cref="HmaList"/> class with initial reusable values.
     /// </summary>
-    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <param name="values">Initial reusable values to populate the list.</param>
     public HmaList(int lookbackPeriods, IReadOnlyList<IReusable> values)
         : this(lookbackPeriods)
@@ -131,7 +131,7 @@ public static partial class Hma
     /// Creates a buffer list for Hull Moving Average (HMA) calculations.
     /// </summary>
     /// <param name="source"></param>
-    /// <param name="lookbackPeriods"></param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     public static HmaList ToHmaList(
         this IReadOnlyList<IReusable> source,
         int lookbackPeriods)

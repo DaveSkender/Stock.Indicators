@@ -37,7 +37,7 @@ public static partial class Quotes
     /// <summary>
     /// Convert any IQuote type to native Quote type (public API only).
     /// </summary>
-    /// <typeparam name="TQuote"></typeparam>
+    /// <typeparam name="TQuote">Type of quote record</typeparam>
     /// <param name="quote">The quote to convert.</param>
     /// <returns>A converted quote.</returns>
     public static Quote ToQuote<TQuote>(this TQuote quote)

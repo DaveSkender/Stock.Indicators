@@ -11,7 +11,7 @@ public class DynamicList : BufferList<DynamicResult>, IIncrementFromChain, IDyna
     /// <summary>
     /// Initializes a new instance of the <see cref="DynamicList"/> class.
     /// </summary>
-    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <param name="kFactor">The smoothing factor for the calculation.</param>
     public DynamicList(
         int lookbackPeriods,
@@ -29,7 +29,7 @@ public class DynamicList : BufferList<DynamicResult>, IIncrementFromChain, IDyna
     /// <summary>
     /// Initializes a new instance of the <see cref="DynamicList"/> class with initial reusable values.
     /// </summary>
-    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <param name="kFactor">The smoothing factor for the calculation.</param>
     /// <param name="values">Initial reusable values to populate the list.</param>
     public DynamicList(
@@ -112,7 +112,7 @@ public static partial class MgDynamic
     /// Creates a buffer list for McGinley Dynamic calculations.
     /// </summary>
     /// <param name="source"></param>
-    /// <param name="lookbackPeriods"></param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <param name="kFactor"></param>
     public static DynamicList ToDynamicList(
         this IReadOnlyList<IReusable> source,

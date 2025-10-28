@@ -24,7 +24,7 @@ public static partial class ForceIndex
     /// Calculates the Force Index for a list of quotes.
     /// </summary>
     /// <param name="quotes">The source list of quotes.</param>
-    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>A list of Force Index results.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the source list is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>

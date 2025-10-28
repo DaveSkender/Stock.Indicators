@@ -10,7 +10,7 @@ public class UlcerIndexList : BufferList<UlcerIndexResult>, IIncrementFromChain
     /// <summary>
     /// Initializes a new instance of the <see cref="UlcerIndexList"/> class.
     /// </summary>
-    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     public UlcerIndexList(int lookbackPeriods = 14)
     {
         UlcerIndex.Validate(lookbackPeriods);
@@ -22,7 +22,7 @@ public class UlcerIndexList : BufferList<UlcerIndexResult>, IIncrementFromChain
     /// <summary>
     /// Initializes a new instance of the <see cref="UlcerIndexList"/> class with initial reusable values.
     /// </summary>
-    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <param name="values">Initial reusable values to populate the list.</param>
     public UlcerIndexList(int lookbackPeriods, IReadOnlyList<IReusable> values)
         : this(lookbackPeriods)
@@ -114,7 +114,7 @@ public static partial class UlcerIndex
     /// Creates a buffer list for Ulcer Index calculations.
     /// </summary>
     /// <param name="source"></param>
-    /// <param name="lookbackPeriods"></param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     public static UlcerIndexList ToUlcerIndexList(
         this IReadOnlyList<IReusable> source,
         int lookbackPeriods = 14)

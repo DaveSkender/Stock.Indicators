@@ -16,7 +16,7 @@ public class SuperTrendList : BufferList<SuperTrendResult>, IIncrementFromQuote
     /// <summary>
     /// Initializes a new instance of the <see cref="SuperTrendList"/> class.
     /// </summary>
-    /// <param name="lookbackPeriods">The number of lookback periods.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <param name="multiplier">The multiplier for the ATR. Default is 3.</param>
     public SuperTrendList(int lookbackPeriods = 10, double multiplier = 3)
     {
@@ -31,7 +31,7 @@ public class SuperTrendList : BufferList<SuperTrendResult>, IIncrementFromQuote
     /// <summary>
     /// Initializes a new instance of the <see cref="SuperTrendList"/> class with initial quotes.
     /// </summary>
-    /// <param name="lookbackPeriods">The number of lookback periods.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <param name="multiplier">The multiplier for the ATR.</param>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     public SuperTrendList(int lookbackPeriods, double multiplier, IReadOnlyList<IQuote> quotes)
@@ -157,7 +157,7 @@ public static partial class SuperTrend
     /// Creates a buffer list for SuperTrend calculations.
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="lookbackPeriods"></param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <param name="multiplier"></param>
     public static SuperTrendList ToSuperTrendList(
         this IReadOnlyList<IQuote> quotes,

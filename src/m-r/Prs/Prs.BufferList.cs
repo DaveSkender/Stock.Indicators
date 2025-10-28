@@ -154,7 +154,7 @@ public static partial class Prs
     /// </summary>
     /// <param name="sourceEval"></param>
     /// <param name="sourceBase"></param>
-    /// <param name="lookbackPeriods"></param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     public static PrsList ToPrsList(
         this IReadOnlyList<IReusable> sourceEval,
         IReadOnlyList<IReusable> sourceBase,

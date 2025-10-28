@@ -9,7 +9,7 @@ public static partial class QuoteParts
     /// </summary>
     /// <param name="q"></param>
     /// <param name="candlePart"></param>
-    /// <returns></returns>
+    /// <returns>Date and value pair</returns>
     internal static QuotePart ToQuotePart(this IQuote q, CandlePart candlePart)
         => new(q.Timestamp, q.ToQuotePartValue(candlePart));
 
@@ -18,7 +18,7 @@ public static partial class QuoteParts
     /// </summary>
     /// <param name="q"></param>
     /// <param name="candlePart"></param>
-    /// <returns></returns>
+    /// <returns>Value of quote part</returns>
     /// <exception cref="ArgumentOutOfRangeException"></exception>
     internal static double ToQuotePartValue(this IQuote q, CandlePart candlePart)
 
@@ -42,9 +42,9 @@ public static partial class QuoteParts
     /// <summary>
     /// conditional HL2 value if IQuote type
     /// </summary>
-    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="T">Type of record</typeparam>
     /// <param name="item"></param>
-    /// <returns></returns>
+    /// <returns>HL2 value if quote type or reusable value</returns>
     internal static double Hl2OrValue<T>(
         this T item)
         where T : IReusable
@@ -53,7 +53,7 @@ public static partial class QuoteParts
     /// <summary>
     /// conditional CandlePart value if IQuote type
     /// </summary>
-    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="T">Type of record</typeparam>
     /// <param name="item"></param>
     /// <param name="candlePart"></param>
     /// <returns></returns>
@@ -78,7 +78,7 @@ public static partial class QuoteParts
     /// cast itself from <typeparamref name="T"/>.
     /// </para>
     /// </remarks>
-    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="T">Type of record</typeparam>
     /// <param name="items">List of IQuote or IReusable items</param>
     /// <param name="candlePart"></param>
     /// <returns>List of IReusable items</returns>

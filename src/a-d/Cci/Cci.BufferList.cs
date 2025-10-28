@@ -10,7 +10,7 @@ public class CciList : BufferList<CciResult>, IIncrementFromQuote, ICci
     /// <summary>
     /// Initializes a new instance of the <see cref="CciList"/> class.
     /// </summary>
-    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     public CciList(int lookbackPeriods)
     {
         Cci.Validate(lookbackPeriods);
@@ -22,7 +22,7 @@ public class CciList : BufferList<CciResult>, IIncrementFromQuote, ICci
     /// <summary>
     /// Initializes a new instance of the <see cref="CciList"/> class with initial quotes.
     /// </summary>
-    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     public CciList(int lookbackPeriods, IReadOnlyList<IQuote> quotes)
         : this(lookbackPeriods)

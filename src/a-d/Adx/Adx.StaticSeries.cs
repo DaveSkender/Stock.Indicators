@@ -9,7 +9,7 @@ public static partial class Adx
     /// Calculates the Average Directional Index (ADX) from a series of quotes.
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="lookbackPeriods">The number of periods to look back for the ADX calculation.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>A list of ADX results.</returns>
     public static IReadOnlyList<AdxResult> ToAdx(
         this IReadOnlyList<IQuote> quotes,
@@ -22,7 +22,7 @@ public static partial class Adx
     /// Calculates the ADX from a list of quotes.
     /// </summary>
     /// <param name="quotes">The list of quotes.</param>
-    /// <param name="lookbackPeriods">The number of periods to look back for the ADX calculation.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>A list of ADX results.</returns>
     private static List<AdxResult> CalcAdx(
         this List<QuoteD> quotes,

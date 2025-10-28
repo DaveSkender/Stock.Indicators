@@ -10,7 +10,7 @@ public static partial class Atr
     /// Calculates Average True Range (ATR) for a series of quotes.
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="lookbackPeriods">The number of periods to look back for ATR calculation. Default is 14.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>A read-only list of ATR results.</returns>
     public static IReadOnlyList<AtrResult> ToAtr(
         this IReadOnlyList<IQuote> quotes,
@@ -23,7 +23,7 @@ public static partial class Atr
     /// Calculates the Average True Range (ATR) for a list of quotes.
     /// </summary>
     /// <param name="quotes">The list of quotes.</param>
-    /// <param name="lookbackPeriods">The number of periods to look back for ATR calculation.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>A list of ATR results.</returns>
     internal static List<AtrResult> CalcAtr(
         this List<QuoteD> quotes,

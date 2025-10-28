@@ -11,7 +11,7 @@ public class MfiHub : ChainProvider<IQuote, MfiResult>, IMfi
     /// Initializes a new instance of the <see cref="MfiHub"/> class.
     /// </summary>
     /// <param name="provider">The quote provider.</param>
-    /// <param name="lookbackPeriods">The number of lookback periods.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     internal MfiHub(
         IQuoteProvider<IQuote> provider,
         int lookbackPeriods)

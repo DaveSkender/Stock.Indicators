@@ -11,7 +11,7 @@ public class EmaList : BufferList<EmaResult>, IIncrementFromChain, IEma
     /// <summary>
     /// Initializes a new instance of the <see cref="EmaList"/> class.
     /// </summary>
-    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     public EmaList(
         int lookbackPeriods
     )
@@ -27,7 +27,7 @@ public class EmaList : BufferList<EmaResult>, IIncrementFromChain, IEma
     /// <summary>
     /// Initializes a new instance of the <see cref="EmaList"/> class with initial reusable values.
     /// </summary>
-    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <param name="values">Initial reusable values to populate the list.</param>
     public EmaList(
         int lookbackPeriods,
@@ -118,7 +118,7 @@ public static partial class Ema
     /// Creates a buffer list for Exponential Moving Average (EMA) calculations.
     /// </summary>
     /// <param name="source"></param>
-    /// <param name="lookbackPeriods"></param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     public static EmaList ToEmaList(
         this IReadOnlyList<IReusable> source,
         int lookbackPeriods)

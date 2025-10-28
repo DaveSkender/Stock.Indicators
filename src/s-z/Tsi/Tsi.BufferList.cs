@@ -309,16 +309,14 @@ public static partial class Tsi
     /// <summary>
     /// Creates a buffer list for True Strength Index (TSI) calculations.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
     /// <param name="source"></param>
-    /// <param name="lookbackPeriods"></param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <param name="smoothPeriods"></param>
     /// <param name="signalPeriods"></param>
-    public static TsiList ToTsiList<T>(
-        this IReadOnlyList<T> source,
+    public static TsiList ToTsiList(
+        this IReadOnlyList<IReusable> source,
         int lookbackPeriods = 25,
         int smoothPeriods = 13,
         int signalPeriods = 7)
-        where T : IReusable
-        => new(lookbackPeriods, smoothPeriods, signalPeriods) { (IReadOnlyList<IReusable>)source };
+        => new(lookbackPeriods, smoothPeriods, signalPeriods) { source };
 }

@@ -15,7 +15,7 @@ public class AtrStopList : BufferList<AtrStopResult>, IIncrementFromQuote, IAtrS
     /// <summary>
     /// Initializes a new instance of the <see cref="AtrStopList"/> class.
     /// </summary>
-    /// <param name="lookbackPeriods">The number of periods to look back.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <param name="multiplier">The multiplier for the ATR.</param>
     /// <param name="endType">The candle threshold point to use for reversals.</param>
     public AtrStopList(
@@ -38,7 +38,7 @@ public class AtrStopList : BufferList<AtrStopResult>, IIncrementFromQuote, IAtrS
     /// <summary>
     /// Initializes a new instance of the <see cref="AtrStopList"/> class with initial quotes.
     /// </summary>
-    /// <param name="lookbackPeriods">The number of periods to look back.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <param name="multiplier">The multiplier for the ATR.</param>
     /// <param name="endType">The candle threshold point to use for reversals.</param>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
@@ -210,9 +210,9 @@ public static partial class AtrStop
     /// Creates a buffer list for ATR Trailing Stop calculations.
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="lookbackPeriods">The number of periods to look back. Default is 21.</param>
-    /// <param name="multiplier">The multiplier for the ATR. Default is 3.</param>
-    /// <param name="endType">The candle threshold point to use for reversals. Default is Close.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
+    /// <param name="multiplier">The multiplier for the ATR.</param>
+    /// <param name="endType">The candle threshold point to use for reversals.</param>
     /// <returns>An AtrStopList instance pre-populated with historical data.</returns>
     /// <exception cref="ArgumentNullException">Thrown when quotes is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when parameters are invalid.</exception>

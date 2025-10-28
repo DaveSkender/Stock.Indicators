@@ -141,7 +141,7 @@ public static partial class Trix
     /// Creates a TRIX streaming hub from a chain provider.
     /// </summary>
     /// <param name="chainProvider">The chain provider.</param>
-    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>A TRIX hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the chain provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
@@ -154,7 +154,7 @@ public static partial class Trix
     /// Creates a Trix hub from a collection of quotes.
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="lookbackPeriods"></param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>An instance of <see cref="TrixHub"/>.</returns>
     public static TrixHub ToTrixHub(
         this IReadOnlyList<IQuote> quotes, int lookbackPeriods = 14)

@@ -142,7 +142,7 @@ public static partial class T3
     /// Creates a T3 streaming hub from a chain provider.
     /// </summary>
     /// <param name="chainProvider">The chain provider.</param>
-    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <param name="volumeFactor">The volume factor for the calculation.</param>
     /// <returns>A T3 hub.</returns>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods or volume factor are invalid.</exception>

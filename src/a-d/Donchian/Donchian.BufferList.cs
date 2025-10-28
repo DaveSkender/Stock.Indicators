@@ -10,7 +10,7 @@ public class DonchianList : BufferList<DonchianResult>, IIncrementFromQuote
     /// <summary>
     /// Initializes a new instance of the <see cref="DonchianList"/> class.
     /// </summary>
-    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     public DonchianList(int lookbackPeriods = 20)
     {
         Donchian.Validate(lookbackPeriods);
@@ -22,7 +22,7 @@ public class DonchianList : BufferList<DonchianResult>, IIncrementFromQuote
     /// <summary>
     /// Initializes a new instance of the <see cref="DonchianList"/> class with initial quotes.
     /// </summary>
-    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     public DonchianList(int lookbackPeriods, IReadOnlyList<IQuote> quotes)
         : this(lookbackPeriods)
@@ -112,7 +112,7 @@ public static partial class Donchian
     /// Creates a buffer list for Donchian Channels calculations.
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="lookbackPeriods"></param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     public static DonchianList ToDonchianList(
         this IReadOnlyList<IQuote> quotes,
         int lookbackPeriods = 20)

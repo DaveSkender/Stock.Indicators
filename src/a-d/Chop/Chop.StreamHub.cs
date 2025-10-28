@@ -16,7 +16,7 @@ public class ChopHub
     /// Initializes a new instance of the <see cref="ChopHub"/> class.
     /// </summary>
     /// <param name="provider">The quote provider.</param>
-    /// <param name="lookbackPeriods">The number of periods to use for the lookback window.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <exception cref="ArgumentNullException">Thrown when the provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
     internal ChopHub(
@@ -153,7 +153,7 @@ public static partial class Chop
     /// Creates a Choppiness Index (CHOP) streaming hub from a quote provider.
     /// </summary>
     /// <param name="quoteProvider">The quote provider.</param>
-    /// <param name="lookbackPeriods">The number of periods to use for the lookback window. Default is 14.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>A ChopHub instance.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the quote provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
@@ -166,7 +166,7 @@ public static partial class Chop
     /// Creates a Chop hub from a collection of quotes.
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="lookbackPeriods">Parameter for the calculation.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>An instance of <see cref="ChopHub"/>.</returns>
     public static ChopHub ToChopHub(
         this IReadOnlyList<IQuote> quotes,

@@ -9,7 +9,7 @@ public static partial class WilliamsR
     /// Calculates the Williams %R for a series of quotes.
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="lookbackPeriods">The number of lookback periods. Default is 14.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>A list of WilliamsResult containing the Williams %R values.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the source is null.</exception>
     public static IReadOnlyList<WilliamsResult> ToWilliamsR(
@@ -23,7 +23,7 @@ public static partial class WilliamsR
     /// Calculates the Williams %R for a series of quotes.
     /// </summary>
     /// <param name="quotes">The source list of quotes.</param>
-    /// <param name="lookbackPeriods">The number of lookback periods.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>A list of WilliamsResult containing the Williams %R values.</returns>
     private static List<WilliamsResult> CalcWilliamsR(
         this List<QuoteD> quotes,
@@ -45,7 +45,7 @@ public static partial class WilliamsR
     /// Creates a buffer list for Williams %R calculations.
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="lookbackPeriods">The number of lookback periods. Default is 14.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>A WilliamsRList instance.</returns>
     public static WilliamsRList ToWilliamsRList(
         this IReadOnlyList<IQuote> quotes,

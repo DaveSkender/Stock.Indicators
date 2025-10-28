@@ -57,7 +57,7 @@ public class StdDevChannelsList : BufferList<StdDevChannelsResult>, IIncrementFr
     /// <summary>
     /// Initializes a new instance of the <see cref="StdDevChannelsList"/> class with initial reusable values.
     /// </summary>
-    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <param name="stdDeviations">The number of standard deviations for the channel width.</param>
     /// <param name="values">Initial reusable values to populate the list.</param>
     public StdDevChannelsList(int lookbackPeriods, double stdDeviations, IReadOnlyList<IReusable> values)
@@ -202,7 +202,7 @@ public static partial class StdDevChannels
     /// Creates a buffer list for Standard Deviation Channels calculations.
     /// </summary>
     /// <param name="source"></param>
-    /// <param name="lookbackPeriods"></param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <param name="stdDeviations"></param>
     public static StdDevChannelsList ToStdDevChannelsList(
         this IReadOnlyList<IReusable> source,

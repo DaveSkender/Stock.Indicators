@@ -10,7 +10,7 @@ public class SmaList : BufferList<SmaResult>, IIncrementFromChain, ISma
     /// <summary>
     /// Initializes a new instance of the <see cref="SmaList"/> class.
     /// </summary>
-    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     public SmaList(int lookbackPeriods)
     {
         Sma.Validate(lookbackPeriods);
@@ -21,7 +21,7 @@ public class SmaList : BufferList<SmaResult>, IIncrementFromChain, ISma
     /// <summary>
     /// Initializes a new instance of the <see cref="SmaList"/> class with initial reusable values.
     /// </summary>
-    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <param name="values">Initial reusable values to populate the list.</param>
     public SmaList(int lookbackPeriods, IReadOnlyList<IReusable> values)
         : this(lookbackPeriods)
@@ -99,7 +99,7 @@ public static partial class Sma
     /// Creates a buffer list for Simple Moving Average (SMA) calculations.
     /// </summary>
     /// <param name="source"></param>
-    /// <param name="lookbackPeriods"></param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     public static SmaList ToSmaList(
         this IReadOnlyList<IReusable> source,
         int lookbackPeriods)

@@ -17,7 +17,7 @@ public class ForceIndexHub
     /// Initializes a new instance of the <see cref="ForceIndexHub"/> class.
     /// </summary>
     /// <param name="provider">The quote provider.</param>
-    /// <param name="lookbackPeriods">The number of lookback periods.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     internal ForceIndexHub(
         IQuoteProvider<IQuote> provider,
         int lookbackPeriods) : base(provider)
@@ -131,7 +131,7 @@ public static partial class ForceIndex
     /// Converts the quote provider to a Force Index hub.
     /// </summary>
     /// <param name="quoteProvider">The quote provider.</param>
-    /// <param name="lookbackPeriods">The number of lookback periods.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>A Force Index hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the quote provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>

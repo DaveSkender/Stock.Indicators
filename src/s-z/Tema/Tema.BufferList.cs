@@ -18,7 +18,7 @@ public class TemaList : BufferList<TemaResult>, IIncrementFromChain, ITema
     /// <summary>
     /// Initializes a new instance of the <see cref="TemaList"/> class.
     /// </summary>
-    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     public TemaList(
         int lookbackPeriods
     )
@@ -34,7 +34,7 @@ public class TemaList : BufferList<TemaResult>, IIncrementFromChain, ITema
     /// <summary>
     /// Initializes a new instance of the <see cref="TemaList"/> class with initial reusable values.
     /// </summary>
-    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <param name="values">Initial reusable values to populate the list.</param>
     public TemaList(
         int lookbackPeriods,
@@ -151,7 +151,7 @@ public static partial class Tema
     /// Creates a buffer list for TEMA calculations.
     /// </summary>
     /// <param name="source"></param>
-    /// <param name="lookbackPeriods"></param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     public static TemaList ToTemaList(
         this IReadOnlyList<IReusable> source,
         int lookbackPeriods)

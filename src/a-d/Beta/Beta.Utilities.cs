@@ -5,10 +5,10 @@ public static partial class Beta
     /// <summary>
     /// parameter validation
     /// </summary>
-    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="T">Type of record</typeparam>
     /// <param name="sourceEval"></param>
     /// <param name="sourceMrkt"></param>
-    /// <param name="lookbackPeriods"></param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <exception cref="ArgumentOutOfRangeException"></exception>
     /// <exception cref="InvalidQuotesException"></exception>
     internal static void Validate<T>(

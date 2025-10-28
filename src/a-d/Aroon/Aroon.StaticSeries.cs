@@ -9,7 +9,7 @@ public static partial class Aroon
     /// Calculates the Aroon Oscillator from a series of quotes.
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="lookbackPeriods">The number of periods to look back. Default is 25.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>A list of Aroon results.</returns>
     public static IReadOnlyList<AroonResult> ToAroon(
         this IReadOnlyList<IQuote> quotes,
@@ -22,7 +22,7 @@ public static partial class Aroon
     /// Calculates the Aroon Oscillator for the given source data.
     /// </summary>
     /// <param name="quotes">The source data.</param>
-    /// <param name="lookbackPeriods">The number of periods to look back.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>A list of Aroon results.</returns>
     private static List<AroonResult> CalcAroon(
         this List<QuoteD> quotes,
