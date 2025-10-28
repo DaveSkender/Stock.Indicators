@@ -270,6 +270,7 @@ public static partial class Catalog
         // Pivots
         _listings.Add(Pivots.SeriesListing);
         _listings.Add(Pivots.BufferListing);
+        _listings.Add(Pivots.StreamListing);
 
         // PMO (Price Momentum Oscillator)
         _listings.Add(Pmo.BufferListing);
