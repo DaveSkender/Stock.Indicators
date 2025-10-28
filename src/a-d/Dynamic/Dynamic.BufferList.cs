@@ -37,10 +37,7 @@ public class DynamicList : BufferList<DynamicResult>, IIncrementFromChain, IDyna
         double kFactor,
         IReadOnlyList<IReusable> values
     )
-        : this(lookbackPeriods, kFactor)
-    {
-        Add(values);
-    }
+        : this(lookbackPeriods, kFactor) => Add(values);
 
     /// <summary>
     /// Gets the number of periods to look back for the calculation.

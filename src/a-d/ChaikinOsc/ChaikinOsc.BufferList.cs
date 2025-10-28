@@ -32,10 +32,7 @@ public class ChaikinOscList : BufferList<ChaikinOscResult>, IIncrementFromQuote,
     /// <param name="slowPeriods">The number of periods to use for the slow EMA.</param>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     public ChaikinOscList(int fastPeriods, int slowPeriods, IReadOnlyList<IQuote> quotes)
-        : this(fastPeriods, slowPeriods)
-    {
-        Add(quotes);
-    }
+        : this(fastPeriods, slowPeriods) => Add(quotes);
 
     /// <summary>
     /// Gets the number of periods to use for the fast EMA.

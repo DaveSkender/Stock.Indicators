@@ -65,10 +65,7 @@ public class ParabolicSarList : BufferList<ParabolicSarResult>, IIncrementFromQu
         double maxAccelerationFactor,
         double initialFactor,
         IReadOnlyList<IQuote> quotes)
-        : this(accelerationStep, maxAccelerationFactor, initialFactor)
-    {
-        Add(quotes);
-    }
+        : this(accelerationStep, maxAccelerationFactor, initialFactor) => Add(quotes);
 
     /// <summary>
     /// Gets the acceleration step for the SAR calculation.

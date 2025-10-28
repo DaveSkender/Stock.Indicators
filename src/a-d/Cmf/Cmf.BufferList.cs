@@ -27,10 +27,7 @@ public class CmfList : BufferList<CmfResult>, IIncrementFromQuote, ICmf
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     public CmfList(int lookbackPeriods, IReadOnlyList<IQuote> quotes)
-        : this(lookbackPeriods)
-    {
-        Add(quotes);
-    }
+        : this(lookbackPeriods) => Add(quotes);
 
     /// <summary>
     /// Gets the number of periods to use for the lookback window.
