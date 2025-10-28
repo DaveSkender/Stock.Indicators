@@ -41,12 +41,25 @@ public class MfiHub : ChainProvider<IQuote, MfiResult>, IMfi
         ArgumentNullException.ThrowIfNull(item);
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
-        // Calculate true price
+        // Calculate true price and money flow
         double truePrice = ((double)item.High + (double)item.Low + (double)item.Close) / 3;
-
-        // Calculate raw money flow
         double moneyFlow = truePrice * (double)item.Volume;
 
+        // Update buffer with new data
+        UpdateBuffer(truePrice, moneyFlow);
+
+        // Calculate MFI when we have enough data
+        double? mfi = i >= LookbackPeriods ? CalculateMfi() : null;
+
+        MfiResult r = new(
+            Timestamp: item.Timestamp,
+            Mfi: mfi);
+
+        return (r, i);
+    }
+
+    private void UpdateBuffer(double truePrice, double moneyFlow)
+    {
         // Determine direction
         int direction = _prevTruePrice == null || truePrice == _prevTruePrice
             ? 0
@@ -63,44 +76,33 @@ public class MfiHub : ChainProvider<IQuote, MfiResult>, IMfi
 
         // Update previous true price
         _prevTruePrice = truePrice;
+    }
 
-        // Calculate MFI when we have enough data
-        double? mfi = null;
-        if (i >= LookbackPeriods)
+    private double CalculateMfi()
+    {
+        // Recalculate sums from buffer to avoid floating point accumulation errors
+        double sumPosMFs = 0;
+        double sumNegMFs = 0;
+
+        foreach ((double tp, double mf, int dir) in _buffer)
         {
-            // Recalculate sums from buffer to avoid floating point accumulation errors
-            double sumPosMFs = 0;
-            double sumNegMFs = 0;
-
-            foreach ((double _, double mf, int dir) in _buffer)
+            if (dir == 1)
             {
-                if (dir == 1)
-                {
-                    sumPosMFs += mf;
-                }
-                else if (dir == -1)
-                {
-                    sumNegMFs += mf;
-                }
+                sumPosMFs += mf;
             }
-
-            if (sumNegMFs != 0)
+            else if (dir == -1)
             {
-                double mfRatio = sumPosMFs / sumNegMFs;
-                mfi = 100 - (100 / (1 + mfRatio));
-            }
-            else
-            {
-                // Handle no negative case
-                mfi = 100;
+                sumNegMFs += mf;
             }
         }
 
-        MfiResult r = new(
-            Timestamp: item.Timestamp,
-            Mfi: mfi);
+        if (sumNegMFs == 0)
+        {
+            return 100;
+        }
 
-        return (r, i);
+        double mfRatio = sumPosMFs / sumNegMFs;
+        return 100 - (100 / (1 + mfRatio));
     }
 
     /// <summary>
@@ -120,6 +122,7 @@ public class MfiHub : ChainProvider<IQuote, MfiResult>, IMfi
         {
             index = ProviderCache.Count;
         }
+
         if (index <= 0)
         {
             return;
