@@ -29,6 +29,13 @@ public static partial class Ichimoku
             .WithStyle(Style.Series)
             .Build();
 
-    // No StreamListing for ICHIMOKU.
+    /// <summary>
+    /// ICHIMOKU Stream Listing
+    /// </summary>
+    internal static readonly IndicatorListing StreamListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Stream)
+            .Build();
+
     // No BufferListing for ICHIMOKU.
 }
