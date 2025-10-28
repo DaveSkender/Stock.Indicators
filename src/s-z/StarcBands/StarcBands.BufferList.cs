@@ -34,7 +34,7 @@ public class StarcBandsList : BufferList<StarcBandsResult>, IIncrementFromQuote,
     /// <param name="smaPeriods">The number of periods for the Simple Moving Average (SMA).</param>
     /// <param name="multiplier">The multiplier for the Average True Range (ATR).</param>
     /// <param name="atrPeriods">The number of periods for the ATR calculation.</param>
-    /// <param name="quotes">Initial quotes to populate the list.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     public StarcBandsList(
         int smaPeriods,
         double multiplier,
@@ -118,10 +118,10 @@ public static partial class StarcBands
     /// <summary>
     /// Creates a buffer list for STARC Bands calculations.
     /// </summary>
-    /// <param name="quotes"></param>
-    /// <param name="smaPeriods"></param>
-    /// <param name="multiplier"></param>
-    /// <param name="atrPeriods"></param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="smaPeriods">Number of periods for the simple moving average</param>
+    /// <param name="multiplier">Multiplier for calculation</param>
+    /// <param name="atrPeriods">Number of periods for ATR calculation</param>
     public static StarcBandsList ToStarcBandsList(
         this IReadOnlyList<IQuote> quotes,
         int smaPeriods = 5,

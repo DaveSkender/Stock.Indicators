@@ -16,7 +16,7 @@ public class ObvList : BufferList<ObvResult>, IIncrementFromQuote
     /// <summary>
     /// Initializes a new instance of the <see cref="ObvList"/> class with initial quotes.
     /// </summary>
-    /// <param name="quotes">Initial quotes to populate the list.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     public ObvList(IReadOnlyList<IQuote> quotes)
         : this()
     {
@@ -76,7 +76,7 @@ public static partial class Obv
     /// <summary>
     /// Creates a buffer list for On-Balance Volume (OBV) calculations.
     /// </summary>
-    /// <param name="quotes"></param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     public static ObvList ToObvList(
         this IReadOnlyList<IQuote> quotes)
         => new() { quotes };

@@ -9,8 +9,8 @@ public class PmoTests : RegressionTestBase<PmoResult>
     public override void Series() => Quotes.ToPmo(35, 20, 10).AssertEquals(Expected);
 
     [TestMethod]
-    public override void Buffer() => Assert.Inconclusive("Buffer implementation not yet available");
+    public override void Buffer() => new PmoList(35, 20, 10) { Quotes }.AssertEquals(Expected);
 
     [TestMethod]
-    public override void Stream() => Assert.Inconclusive("Stream implementation not yet available");
+    public override void Stream() => QuoteHub.ToPmoHub(35, 20, 10).Results.AssertEquals(Expected);
 }

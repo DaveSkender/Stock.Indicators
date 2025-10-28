@@ -23,7 +23,7 @@ public class ListingExecutionBuilder
     /// <param name="parameterName">The name of the parameter to override.</param>
     /// <param name="value">The value to set for the parameter.</param>
     /// <returns>A new <see cref="ListingExecutionBuilder"/> with the parameter override applied.</returns>
-    /// <exception cref="ArgumentException"></exception>
+    /// <exception cref="ArgumentException">Thrown when an argument is invalid</exception>
     public ListingExecutionBuilder WithParamValue(string parameterName, object value)
     {
         if (string.IsNullOrWhiteSpace(parameterName))
@@ -68,7 +68,7 @@ public class ListingExecutionBuilder
     /// <summary>
     /// Specifies the source quotes for the indicator calculation.
     /// </summary>
-    /// <param name="quotes">The quotes to process.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <returns>A new <see cref="ListingExecutionBuilder"/> with the quotes set.</returns>
     /// <exception cref="ArgumentNullException"><paramref name="quotes"/> is <c>null</c>.</exception>
     public ListingExecutionBuilder FromSource(IEnumerable<IQuote> quotes)

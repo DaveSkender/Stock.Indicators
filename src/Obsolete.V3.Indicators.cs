@@ -3,16 +3,10 @@ using System.Diagnostics.CodeAnalysis;
 namespace Skender.Stock.Indicators;
 #pragma warning disable CS1591, IND001, RCS1163
 
-/// <summary>
-/// OBSOLETE IN v3.0.0
-/// </summary>
+// OBSOLETE IN v3.0.0
 public static partial class Indicator
 {
-    /// <summary>
-    /// GENERAL INDICATOR METHODS
-    /// </summary>
-    /// <param name="quotes"></param>
-    /// <returns></returns>
+    // GENERAL INDICATOR METHODS
     [ExcludeFromCodeCoverage]
     [Obsolete("Rename `GetAdl(..)` to `ToAdl(..)`", false)]
     public static IEnumerable<AdlResult> GetAdl(

@@ -8,9 +8,9 @@ public static partial class AtrStop
     /// <summary>
     /// Calculates the ATR Trailing Stop (High/Low offset) from a series of quotes.
     /// </summary>
-    /// <param name="quotes">The list of quotes.</param>
-    /// <param name="lookbackPeriods">The number of periods to look back. Default is 21.</param>
-    /// <param name="multiplier">The multiplier for the ATR. Default is 3.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
+    /// <param name="multiplier">The multiplier for the ATR.</param>
     /// <param name="endType">The candle threshold point to use for reversals.</param>
     /// <returns>A list of ATR Trailing Stop results.</returns>
     public static IReadOnlyList<AtrStopResult> ToAtrStop(
@@ -23,7 +23,7 @@ public static partial class AtrStop
             .CalcAtrStop(lookbackPeriods, multiplier, endType);
 
     private static List<AtrStopResult> CalcAtrStop(
-        this List<QuoteD> source,
+        this List<QuoteD> quotes,
         int lookbackPeriods,
         double multiplier,
         EndType endType)
@@ -32,9 +32,9 @@ public static partial class AtrStop
         Validate(lookbackPeriods, multiplier);
 
         // initialize
-        int length = source.Count;
+        int length = quotes.Count;
         List<AtrStopResult> results = new(length);
-        List<AtrResult> atrResults = source.CalcAtr(lookbackPeriods);
+        List<AtrResult> atrResults = quotes.CalcAtr(lookbackPeriods);
 
         // prevailing direction and bands
         bool isBullish = true;
@@ -47,12 +47,12 @@ public static partial class AtrStop
             // handle warmup periods
             if (i < lookbackPeriods)
             {
-                results.Add(new(Timestamp: source[i].Timestamp));
+                results.Add(new(Timestamp: quotes[i].Timestamp));
                 continue;
             }
 
-            QuoteD q = source[i];
-            QuoteD p = source[i - 1];
+            QuoteD q = quotes[i];
+            QuoteD p = quotes[i - 1];
 
             // initialize direction on first evaluation
             if (i == lookbackPeriods)

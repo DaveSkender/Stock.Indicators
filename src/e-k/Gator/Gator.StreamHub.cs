@@ -84,7 +84,7 @@ public static partial class Gator
     /// <summary>
     /// Creates a Gator hub from a collection of quotes.
     /// </summary>
-    /// <param name="quotes">The collection of quotes.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <returns>An instance of <see cref="GatorHub"/>.</returns>
     public static GatorHub ToGatorHub(
         this IReadOnlyList<IQuote> quotes)

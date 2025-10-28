@@ -9,7 +9,7 @@ public static partial class FisherTransform
     /// Converts a list of source data to Fisher Transform results.
     /// </summary>
     /// <param name="source">The list of source data.</param>
-    /// <param name="lookbackPeriods">The number of periods to look back for the calculation. Default is 10.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>A list of Fisher Transform results.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the source list is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>

@@ -100,6 +100,7 @@ public class RocWbList : BufferList<RocWbResult>, IIncrementFromChain, IRocWb
                 {
                     sum += rocVal;
                 }
+
                 rocEma = sum / EmaPeriods;
             }
             else
@@ -180,10 +181,10 @@ public static partial class RocWb
     /// <summary>
     /// Creates a buffer list for Rate of Change with Bands (RocWb) calculations.
     /// </summary>
-    /// <param name="source"></param>
-    /// <param name="lookbackPeriods"></param>
-    /// <param name="emaPeriods"></param>
-    /// <param name="stdDevPeriods"></param>
+    /// <param name="source">Collection of input values, time sorted.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
+    /// <param name="emaPeriods">Number of periods for the exponential moving average</param>
+    /// <param name="stdDevPeriods">Number of periods for the standard deviation calculation</param>
     public static RocWbList ToRocWbList(
         this IReadOnlyList<IReusable> source,
         int lookbackPeriods = 20,

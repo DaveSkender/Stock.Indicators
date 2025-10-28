@@ -10,7 +10,7 @@ public static partial class Stoch
     /// <summary>
     /// Calculates the Stochastic Oscillator for a series of quotes.
     /// </summary>
-    /// <param name="quotes">The list of quotes.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <param name="lookbackPeriods">The lookback period for the oscillator.</param>
     /// <param name="signalPeriods">The signal period for the oscillator.</param>
     /// <param name="smoothPeriods">The smoothing period for the oscillator.</param>
@@ -30,7 +30,7 @@ public static partial class Stoch
     /// <summary>
     /// Calculates the Stochastic Oscillator for a series of quotes with specified factors and moving average type.
     /// </summary>
-    /// <param name="quotes">The list of quotes.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <param name="lookbackPeriods">The lookback period for the oscillator.</param>
     /// <param name="signalPeriods">The signal period for the oscillator.</param>
     /// <param name="smoothPeriods">The smoothing period for the oscillator.</param>
@@ -60,9 +60,9 @@ public static partial class Stoch
     /// Creates a buffer list for Stochastic Oscillator calculations.
     /// </summary>
     /// <param name="quotes">The list of quotes to process.</param>
-    /// <param name="lookbackPeriods">The lookback period for the oscillator. Default is 14.</param>
-    /// <param name="signalPeriods">The signal period for the oscillator. Default is 3.</param>
-    /// <param name="smoothPeriods">The smoothing period for the oscillator. Default is 3.</param>
+    /// <param name="lookbackPeriods">The lookback period for the oscillator.</param>
+    /// <param name="signalPeriods">The signal period for the oscillator.</param>
+    /// <param name="smoothPeriods">The smoothing period for the oscillator.</param>
     /// <returns>A StochList instance initialized with the provided quotes.</returns>
     public static StochList ToStochList(
         this IReadOnlyList<IQuote> quotes,
@@ -95,7 +95,7 @@ public static partial class Stoch
     /// <summary>
     /// Calculates the Stochastic Oscillator for a series of quotes.
     /// </summary>
-    /// <param name="source">The list of quotes.</param>
+    /// <param name="quotes">The source list of quotes.</param>
     /// <param name="lookbackPeriods">The lookback period for the oscillator.</param>
     /// <param name="signalPeriods">The signal period for the oscillator.</param>
     /// <param name="smoothPeriods">The smoothing period for the oscillator.</param>
@@ -103,9 +103,9 @@ public static partial class Stoch
     /// <param name="dFactor">The factor for the %D line.</param>
     /// <param name="movingAverageType">The type of moving average to use.</param>
     /// <returns>A list of StochResult containing the oscillator values.</returns>
-    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="InvalidOperationException">Thrown when the operation is invalid for the current state</exception>
     internal static List<StochResult> CalcStoch(
-        this List<QuoteD> source,
+        this List<QuoteD> quotes,
         int lookbackPeriods,
         int signalPeriods,
         int smoothPeriods,
@@ -119,7 +119,7 @@ public static partial class Stoch
             kFactor, dFactor, movingAverageType);
 
         // initialize
-        int length = source.Count;
+        int length = quotes.Count;
         List<StochResult> results = new(length);
 
         double[] o = new double[length]; // %K oscillator (initial)
@@ -131,7 +131,7 @@ public static partial class Stoch
         // roll through source values
         for (int i = 0; i < length; i++)
         {
-            QuoteD q = source[i];
+            QuoteD q = quotes[i];
 
             // initial %K oscillator
             if (i >= lookbackPeriods - 1)
@@ -142,7 +142,7 @@ public static partial class Stoch
 
                 for (int p = i - lookbackPeriods + 1; p <= i; p++)
                 {
-                    QuoteD x = source[p];
+                    QuoteD x = quotes[p];
 
                     if (double.IsNaN(x.High)
                      || double.IsNaN(x.Low)

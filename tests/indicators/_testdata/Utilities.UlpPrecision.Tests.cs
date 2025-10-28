@@ -36,8 +36,8 @@ public class UtilitiesUlpPrecisionTests
         const double expected = 1.0;
         double actualOneUlp = double.BitIncrement(expected);
 
-        var actual = Series(d: actualOneUlp);
-        var expectedList = Series(d: expected);
+        IReadOnlyList<TestSeries> actual = Series(d: actualOneUlp);
+        IReadOnlyList<TestSeries> expectedList = Series(d: expected);
 
         Action act = () => actual.AssertEqualsUlp(expectedList, UlpPrecision.Exact);
         act.Should().Throw<Exception>();
@@ -52,8 +52,8 @@ public class UtilitiesUlpPrecisionTests
         const double expected = 1000.0;
         double actualOneUlp = double.BitIncrement(expected);
 
-        var actual = Series(d: actualOneUlp);
-        var expectedList = Series(d: expected);
+        IReadOnlyList<TestSeries> actual = Series(d: actualOneUlp);
+        IReadOnlyList<TestSeries> expectedList = Series(d: expected);
 
         actual.AssertEqualsUlp(expectedList, UlpPrecision.SingleStep);
     }
@@ -64,8 +64,8 @@ public class UtilitiesUlpPrecisionTests
         const float expected = 1000f;
         float actualOneUlp = float.BitIncrement(expected);
 
-        var actual = Series(f: actualOneUlp);
-        var expectedList = Series(f: expected);
+        IReadOnlyList<TestSeries> actual = Series(f: actualOneUlp);
+        IReadOnlyList<TestSeries> expectedList = Series(f: expected);
 
         actual.AssertEqualsUlp(expectedList, UlpPrecision.SingleStep);
     }
@@ -73,12 +73,12 @@ public class UtilitiesUlpPrecisionTests
     [TestMethod]
     public void Ulp_TreatsNaNEqual_ForFloatAndDouble()
     {
-        var actual = Series(d: double.NaN, f: float.NaN);
-        var expected = Series(d: double.NaN, f: float.NaN);
+        IReadOnlyList<TestSeries> actual = Series(d: double.NaN, f: float.NaN);
+        IReadOnlyList<TestSeries> expected = Series(d: double.NaN, f: float.NaN);
 
         actual.AssertEqualsUlp(expected, UlpPrecision.Standard);
 
-        var expectedFail = Series(d: 1.0, f: 1.0f);
+        IReadOnlyList<TestSeries> expectedFail = Series(d: 1.0, f: 1.0f);
         Action act = () => actual.AssertEqualsUlp(expectedFail, UlpPrecision.Standard);
         act.Should().Throw<Exception>();
     }
@@ -86,11 +86,11 @@ public class UtilitiesUlpPrecisionTests
     [TestMethod]
     public void Ulp_Infinity_MustMatchExactly()
     {
-        var posInf = Series(d: double.PositiveInfinity, f: float.PositiveInfinity);
-        var posInf2 = Series(d: double.PositiveInfinity, f: float.PositiveInfinity);
+        IReadOnlyList<TestSeries> posInf = Series(d: double.PositiveInfinity, f: float.PositiveInfinity);
+        IReadOnlyList<TestSeries> posInf2 = Series(d: double.PositiveInfinity, f: float.PositiveInfinity);
         posInf.AssertEqualsUlp(posInf2, UlpPrecision.Standard);
 
-        var negInf = Series(d: double.NegativeInfinity, f: float.NegativeInfinity);
+        IReadOnlyList<TestSeries> negInf = Series(d: double.NegativeInfinity, f: float.NegativeInfinity);
         Action act = () => posInf.AssertEqualsUlp(negInf, UlpPrecision.Standard);
         act.Should().Throw<Exception>();
     }
@@ -99,18 +99,18 @@ public class UtilitiesUlpPrecisionTests
     public void Ulp_Nullable_And_Decimal_Strict()
     {
         // Nullable equal and null handling
-        var a1 = new[] { new TestSeries(T(0)) { D = null, F = null, M = 1.000000000000000000m } };
-        var e1 = new[] { new TestSeries(T(0)) { D = null, F = null, M = 1.000000000000000000m } };
+        TestSeries[] a1 = [new TestSeries(T(0)) { D = null, F = null, M = 1.000000000000000000m }];
+        TestSeries[] e1 = [new TestSeries(T(0)) { D = null, F = null, M = 1.000000000000000000m }];
         a1.AssertEqualsUlp(e1, UlpPrecision.Standard);
 
-        var a2 = new[] { new TestSeries(T(0)) { D = null } };
-        var e2 = new[] { new TestSeries(T(0)) { D = 1.0 } };
+        TestSeries[] a2 = [new TestSeries(T(0)) { D = null }];
+        TestSeries[] e2 = [new TestSeries(T(0)) { D = 1.0 }];
         Action actNull = () => a2.AssertEqualsUlp(e2, UlpPrecision.Standard);
         actNull.Should().Throw<Exception>();
 
         // Decimal remains strict under ULP comparisons
-        var a3 = Series(m: 1.000000000000000000m);
-        var e3 = Series(m: 1.000000000000000001m);
+        IReadOnlyList<TestSeries> a3 = Series(m: 1.000000000000000000m);
+        IReadOnlyList<TestSeries> e3 = Series(m: 1.000000000000000001m);
         Action actDec = () => a3.AssertEqualsUlp(e3, UlpPrecision.Standard);
         actDec.Should().Throw<Exception>();
     }

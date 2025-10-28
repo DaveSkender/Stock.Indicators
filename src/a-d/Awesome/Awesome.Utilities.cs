@@ -5,9 +5,9 @@ public static partial class Awesome
     /// <summary>
     /// parameter validation
     /// </summary>
-    /// <param name="fastPeriods"></param>
-    /// <param name="slowPeriods"></param>
-    /// <exception cref="ArgumentOutOfRangeException"></exception>
+    /// <param name="fastPeriods">Number of periods for the fast moving average</param>
+    /// <param name="slowPeriods">Number of periods for the slow moving average</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when a parameter is out of the valid range</exception>
     internal static void Validate(
         int fastPeriods,
         int slowPeriods)

@@ -18,7 +18,7 @@ public static class Candlesticks
     /// <summary>
     /// Converts a quote to candle properties.
     /// </summary>
-    /// <typeparam name="TQuote"></typeparam>
+    /// <typeparam name="TQuote">Type of quote record</typeparam>
     /// <param name="quote">The quote to convert.</param>
     /// <returns>The candle properties.</returns>
     public static CandleProperties ToCandle<TQuote>(
@@ -35,7 +35,7 @@ public static class Candlesticks
     /// <summary>
     /// Converts and sorts a list of quotes into a list of candle properties.
     /// </summary>
-    /// <param name="quotes">The list of quotes to convert.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <returns>A sorted list of candle properties.</returns>
     public static IReadOnlyList<CandleProperties> ToCandles(
         this IReadOnlyList<IQuote> quotes)
