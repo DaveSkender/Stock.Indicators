@@ -282,6 +282,7 @@ public static partial class Catalog
         // PVO (Price Volume Oscillator)
         _listings.Add(Pvo.BufferListing);
         _listings.Add(Pvo.SeriesListing);
+        _listings.Add(Pvo.StreamListing);
 
         // Quote Part
         _listings.Add(QuoteParts.BufferListing);
