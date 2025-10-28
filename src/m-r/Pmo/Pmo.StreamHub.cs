@@ -69,6 +69,88 @@ public class PmoHub
         // Calculate rate of change (ROC)
         double roc = prevValue == 0 ? double.NaN : 100 * ((currentValue / prevValue) - 1);
 
+        // Restore state if needed (after rollback)
+        if (i > TimePeriods && double.IsNaN(prevRocEma))
+        {
+            // Recalculate state by replaying from the first calculable position
+            double tempPrevRocEma = double.NaN;
+            double tempPrevPmo = double.NaN;
+            double tempPrevSignal = double.NaN;
+
+            // Need to store PMO values for Signal calculation
+            double[] pmoValues = new double[i];
+
+            for (int p = 0; p < i; p++)
+            {
+                double pCurrVal = ProviderCache[p].Value;
+                double pPrevVal = p > 0 ? ProviderCache[p - 1].Value : double.NaN;
+                double pRoc = pPrevVal == 0 ? double.NaN : 100 * ((pCurrVal / pPrevVal) - 1);
+
+                // Calculate ROC EMA
+                double pRocEma;
+                if (double.IsNaN(tempPrevRocEma) && p >= TimePeriods)
+                {
+                    pRocEma = InitRocEma(p);
+                }
+                else if (!double.IsNaN(tempPrevRocEma))
+                {
+                    pRocEma = tempPrevRocEma + (smoothingConstant2 * (pRoc - tempPrevRocEma));
+                }
+                else
+                {
+                    pRocEma = double.NaN;
+                }
+
+                double pRocEmaScaled = pRocEma * 10;
+                tempPrevRocEma = pRocEma;
+
+                // Calculate PMO
+                double pPmo;
+                if (double.IsNaN(tempPrevPmo) && p >= SmoothPeriods + TimePeriods - 1)
+                {
+                    pPmo = InitPmo(p);
+                }
+                else if (!double.IsNaN(tempPrevPmo))
+                {
+                    pPmo = tempPrevPmo + (smoothingConstant1 * (pRocEmaScaled - tempPrevPmo));
+                }
+                else
+                {
+                    pPmo = double.NaN;
+                }
+
+                tempPrevPmo = pPmo;
+                pmoValues[p] = pPmo;
+
+                // Calculate Signal
+                double pSignal;
+                if (double.IsNaN(tempPrevSignal) && p >= SignalPeriods + SmoothPeriods + TimePeriods - 2)
+                {
+                    // Initialize from pmoValues array
+                    double sum = 0;
+                    for (int j = p - SignalPeriods + 1; j <= p; j++)
+                    {
+                        sum += pmoValues[j];
+                    }
+                    pSignal = sum / SignalPeriods;
+                }
+                else if (!double.IsNaN(tempPrevSignal))
+                {
+                    pSignal = Ema.Increment(smoothingConstant3, tempPrevSignal, pPmo);
+                }
+                else
+                {
+                    pSignal = double.NaN;
+                }
+
+                tempPrevSignal = pSignal;
+            }
+
+            prevRocEma = tempPrevRocEma;
+            prevPmo = tempPrevPmo;
+            prevSignal = tempPrevSignal;
+        }
+
         // Calculate ROC EMA (first smoothing with timePeriods)
         double rocEma = i >= TimePeriods
             ? i > 0 && !double.IsNaN(prevRocEma)
@@ -98,9 +180,9 @@ public class PmoHub
         double signalValue;
         if (i >= SignalPeriods + SmoothPeriods + TimePeriods - 2 && (i == 0 || Cache[i - 1].Signal is null))
         {
-            // Initialize signal as SMA of PMO values from Cache
-            double sum = pmoValue;
-            for (int j = i - SignalPeriods + 1; j < i; j++)
+            // Initialize signal as SMA of PMO values from Cache and current
+            double sum = pmoValue;  // Current PMO value at index i
+            for (int j = i - SignalPeriods + 1; j < i; j++)  // Previous PMO values from Cache
             {
                 sum += Cache[j].Value;
             }
