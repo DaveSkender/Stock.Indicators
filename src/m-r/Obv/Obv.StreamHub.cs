@@ -12,10 +12,7 @@ public class ObvHub : ChainProvider<IQuote, ObvResult>
     /// </summary>
     /// <param name="provider">The quote provider.</param>
     internal ObvHub(
-        IQuoteProvider<IQuote> provider) : base(provider)
-    {
-        Reinitialize();
-    }
+        IQuoteProvider<IQuote> provider) : base(provider) => Reinitialize();
 
     /// <inheritdoc/>
     protected override (ObvResult result, int index)

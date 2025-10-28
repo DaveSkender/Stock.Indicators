@@ -24,10 +24,7 @@ public class DojiList : BufferList<CandleResult>, IIncrementFromQuote, IDoji
     /// <param name="maxPriceChangePercent">Maximum absolute percent difference in open and close price.</param>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     public DojiList(double maxPriceChangePercent, IReadOnlyList<IQuote> quotes)
-        : this(maxPriceChangePercent)
-    {
-        Add(quotes);
-    }
+        : this(maxPriceChangePercent) => Add(quotes);
 
     /// <summary>
     /// Gets the maximum price change percent.

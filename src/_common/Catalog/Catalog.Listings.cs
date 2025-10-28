@@ -202,6 +202,7 @@ public static partial class Catalog
         _listings.Add(Hma.StreamListing);
 
         // HT Trendline (Hilbert Transform)
+        _listings.Add(HtTrendline.BufferListing);
         _listings.Add(HtTrendline.SeriesListing);
 
         // Hurst Exponent
@@ -343,6 +344,7 @@ public static partial class Catalog
         _listings.Add(StarcBands.SeriesListing);
 
         // STC (Schaff Trend Cycle)
+        _listings.Add(Stc.BufferListing);
         _listings.Add(Stc.SeriesListing);
 
         // Standard Deviation
