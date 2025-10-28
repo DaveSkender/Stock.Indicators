@@ -9,8 +9,8 @@ public static class ListingExecutionBuilderExtensions
     /// Creates a customizable indicator builder from an indicator listing.
     /// </summary>
     /// <param name="listing">The base indicator listing.</param>
-    /// <param name="parameterName">The name of the parameter</param>
-    /// <param name="value">The value to set</param>
+    /// <param name="parameterName">Name of the parameter</param>
+    /// <param name="value">Value to set</param>
     /// <returns>A <see cref="ListingExecutionBuilder"/> for fluent configuration.</returns>
     public static ListingExecutionBuilder WithParamValue(
         this IndicatorListing listing,

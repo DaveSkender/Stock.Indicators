@@ -43,7 +43,7 @@ public static partial class QuoteParts
     /// conditional HL2 value if IQuote type
     /// </summary>
     /// <typeparam name="T">Type of record</typeparam>
-    /// <param name="item">The item to process</param>
+    /// <param name="item">Item to process</param>
     /// <returns>HL2 value if quote type or reusable value</returns>
     internal static double Hl2OrValue<T>(
         this T item)
@@ -54,9 +54,9 @@ public static partial class QuoteParts
     /// conditional CandlePart value if IQuote type
     /// </summary>
     /// <typeparam name="T">Type of record</typeparam>
-    /// <param name="item">The item to process</param>
+    /// <param name="item">Item to process</param>
     /// <param name="candlePart">The <see cref="CandlePart" /> element.</param>
-    /// <returns>The converted reusable value</returns>
+    /// <returns>Converted reusable value</returns>
     internal static double QuotePartOrValue<T>(
         this T item, CandlePart candlePart)
         where T : IReusable

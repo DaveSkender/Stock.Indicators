@@ -112,7 +112,7 @@ public class RenkoHub
     /// <summary>
     /// custom: build 0 to many bricks per quote
     /// </summary>
-    /// <param name="item">The item to process</param>
+    /// <param name="item">Item to process</param>
     /// <param name="notify">Whether to notify observers</param>
     /// <param name="indexHint">Optional index hint for performance</param>
     /// <exception cref="InvalidOperationException">Thrown when the operation is invalid for the current state</exception>
