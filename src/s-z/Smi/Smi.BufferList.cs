@@ -54,10 +54,7 @@ public class SmiList : BufferList<SmiResult>, IIncrementFromQuote, ISmi
         int secondSmoothPeriods,
         int signalPeriods,
         IReadOnlyList<IQuote> quotes)
-        : this(lookbackPeriods, firstSmoothPeriods, secondSmoothPeriods, signalPeriods)
-    {
-        Add(quotes);
-    }
+        : this(lookbackPeriods, firstSmoothPeriods, secondSmoothPeriods, signalPeriods) => Add(quotes);
 
     /// <summary>
     /// Gets the number of periods for the lookback window.

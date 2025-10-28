@@ -37,10 +37,7 @@ public class RocWbList : BufferList<RocWbResult>, IIncrementFromChain, IRocWb
     /// <param name="stdDevPeriods">The number of periods for the standard deviation calculation.</param>
     /// <param name="values">Initial reusable values to populate the list.</param>
     public RocWbList(int lookbackPeriods, int emaPeriods, int stdDevPeriods, IReadOnlyList<IReusable> values)
-        : this(lookbackPeriods, emaPeriods, stdDevPeriods)
-    {
-        Add(values);
-    }
+        : this(lookbackPeriods, emaPeriods, stdDevPeriods) => Add(values);
 
     /// <summary>
     /// Gets the number of periods to look back for the ROC calculation.

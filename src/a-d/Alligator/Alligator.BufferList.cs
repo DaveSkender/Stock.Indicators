@@ -87,10 +87,7 @@ public class AlligatorList : BufferList<AlligatorResult>, IIncrementFromChain, I
         int lipsPeriods,
         int lipsOffset,
         IReadOnlyList<IReusable> values)
-        : this(jawPeriods, jawOffset, teethPeriods, teethOffset, lipsPeriods, lipsOffset)
-    {
-        Add(values);
-    }
+        : this(jawPeriods, jawOffset, teethPeriods, teethOffset, lipsPeriods, lipsOffset) => Add(values);
 
     /// <inheritdoc/>
     public int JawPeriods { get; init; }

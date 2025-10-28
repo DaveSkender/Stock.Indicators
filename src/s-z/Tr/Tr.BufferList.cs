@@ -10,20 +10,14 @@ public class TrList : BufferList<TrResult>, IIncrementFromQuote  // TR has no in
     /// <summary>
     /// Initializes a new instance of the <see cref="TrList"/> class.
     /// </summary>
-    public TrList()
-    {
-        _buffer = new Queue<(double, double, double)>(2); // Only need current and previous
-    }
+    public TrList() => _buffer = new Queue<(double, double, double)>(2); // Only need current and previous
 
     /// <summary>
     /// Initializes a new instance of the <see cref="TrList"/> class with initial quotes.
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     public TrList(IReadOnlyList<IQuote> quotes)
-        : this()
-    {
-        Add(quotes);
-    }
+        : this() => Add(quotes);
 
     /// <inheritdoc />
     public void Add(IQuote quote)

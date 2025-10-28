@@ -37,10 +37,7 @@ public class RollingPivotsList : BufferList<RollingPivotsResult>, IIncrementFrom
         int offsetPeriods,
         PivotPointType pointType,
         IReadOnlyList<IQuote> quotes)
-        : this(windowPeriods, offsetPeriods, pointType)
-    {
-        Add(quotes);
-    }
+        : this(windowPeriods, offsetPeriods, pointType) => Add(quotes);
 
     /// <summary>
     /// Gets the number of periods in the rolling window.
