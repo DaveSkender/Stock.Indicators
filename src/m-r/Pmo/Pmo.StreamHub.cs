@@ -180,12 +180,13 @@ public class PmoHub
         double signalValue;
         if (i >= SignalPeriods + SmoothPeriods + TimePeriods - 2 && (i == 0 || Cache[i - 1].Signal is null))
         {
-            // Initialize signal as SMA of PMO values from Cache and current
-            double sum = pmoValue;  // Current PMO value at index i
+            // Initialize signal as SMA of PMO values - match series code pattern exactly
+            double sum = 0;  // Start from 0 like series code
             for (int j = i - SignalPeriods + 1; j < i; j++)  // Previous PMO values from Cache
             {
-                sum += Cache[j].Value;
+                sum += Cache[j].Pmo ?? double.NaN;
             }
+            sum += pmoValue;  // Add current PMO value last
             signalValue = sum / SignalPeriods;
         }
         else
