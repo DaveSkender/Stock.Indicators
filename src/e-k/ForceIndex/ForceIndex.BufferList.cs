@@ -38,10 +38,7 @@ public class ForceIndexList : BufferList<ForceIndexResult>, IIncrementFromQuote,
         int lookbackPeriods,
         IReadOnlyList<IQuote> quotes
     )
-        : this(lookbackPeriods)
-    {
-        Add(quotes);
-    }
+        : this(lookbackPeriods) => Add(quotes);
 
     /// <summary>
     /// Gets the number of periods to look back for the calculation.

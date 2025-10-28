@@ -61,10 +61,7 @@ public class StdDevChannelsList : BufferList<StdDevChannelsResult>, IIncrementFr
     /// <param name="stdDeviations">The number of standard deviations for the channel width.</param>
     /// <param name="values">Initial reusable values to populate the list.</param>
     public StdDevChannelsList(int lookbackPeriods, double stdDeviations, IReadOnlyList<IReusable> values)
-        : this(lookbackPeriods, stdDeviations)
-    {
-        Add(values);
-    }
+        : this(lookbackPeriods, stdDeviations) => Add(values);
 
     /// <summary>
     /// Gets the number of periods to look back for the calculation.

@@ -39,10 +39,7 @@ public class PrsList : BufferList<PrsResult>, IIncrementFromPairs, IPrs
         int lookbackPeriods,
         IReadOnlyList<IReusable> sourceEval,
         IReadOnlyList<IReusable> sourceBase)
-        : this(lookbackPeriods)
-    {
-        Add(sourceEval, sourceBase);
-    }
+        : this(lookbackPeriods) => Add(sourceEval, sourceBase);
 
     /// <summary>
     /// Gets the number of periods for the PRS% lookback calculation.

@@ -49,10 +49,7 @@ public class KamaList : BufferList<KamaResult>, IIncrementFromChain, IKama
         int slowPeriods,
         IReadOnlyList<IReusable> values
     )
-        : this(erPeriods, fastPeriods, slowPeriods)
-    {
-        Add(values);
-    }
+        : this(erPeriods, fastPeriods, slowPeriods) => Add(values);
 
     /// <summary>
     /// Gets the number of periods for the Efficiency Ratio (ER).

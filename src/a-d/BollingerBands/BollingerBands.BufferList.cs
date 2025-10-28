@@ -27,10 +27,7 @@ public class BollingerBandsList : BufferList<BollingerBandsResult>, IIncrementFr
     /// <param name="standardDeviations">The number of standard deviations to use for the bands.</param>
     /// <param name="values">Initial reusable values to populate the list.</param>
     public BollingerBandsList(int lookbackPeriods, double standardDeviations, IReadOnlyList<IReusable> values)
-        : this(lookbackPeriods, standardDeviations)
-    {
-        Add(values);
-    }
+        : this(lookbackPeriods, standardDeviations) => Add(values);
 
     /// <summary>
     /// Gets the number of periods to look back for the calculation.

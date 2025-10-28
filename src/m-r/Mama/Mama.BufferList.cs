@@ -111,10 +111,7 @@ public class MamaList : BufferList<MamaResult>, IIncrementFromChain, IMama
         double fastLimit,
         double slowLimit,
         IReadOnlyList<IReusable> values)
-        : this(fastLimit, slowLimit)
-    {
-        Add(values);
-    }
+        : this(fastLimit, slowLimit) => Add(values);
 
     /// <inheritdoc />
     public double FastLimit { get; init; }

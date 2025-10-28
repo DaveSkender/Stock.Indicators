@@ -57,10 +57,7 @@ public class MacdList : BufferList<MacdResult>, IIncrementFromChain, IMacd
         int slowPeriods,
         int signalPeriods,
         IReadOnlyList<IReusable> values)
-        : this(fastPeriods, slowPeriods, signalPeriods)
-    {
-        Add(values);
-    }
+        : this(fastPeriods, slowPeriods, signalPeriods) => Add(values);
 
     /// <inheritdoc/>
     public int FastPeriods { get; init; }

@@ -30,10 +30,7 @@ public class AtrList : BufferList<AtrResult>, IIncrementFromQuote, IAtr
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     public AtrList(int lookbackPeriods, IReadOnlyList<IQuote> quotes)
-        : this(lookbackPeriods)
-    {
-        Add(quotes);
-    }
+        : this(lookbackPeriods) => Add(quotes);
 
     /// <summary>
     /// Gets the number of periods to look back for the calculation.
