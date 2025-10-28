@@ -40,7 +40,7 @@ public class AroonList : BufferList<AroonResult>, IIncrementFromQuote, IAroon
     {
         ArgumentNullException.ThrowIfNull(quote);
 
-        // Use BufferUtilities extension method for consistent buffer management
+        // Use BufferListUtilities extension method for consistent buffer management
         _buffer.Update(LookbackPeriods + 1, (quote.Timestamp, (double)quote.High, (double)quote.Low));
 
         double? aroonUp = null;

@@ -5,7 +5,7 @@ namespace Skender.Stock.Indicators;
 /// </summary>
 /// <remarks>
 /// <para>
-/// <b>Exception to BufferUtilities Pattern:</b> StdDevChannels does not use the standard
+/// <b>Exception to <see cref="BufferListUtilities"/> Pattern:</b> StdDevChannels does not use the standard
 /// <see cref="BufferListUtilities"/> extension methods (Update/UpdateWithDequeue) due to
 /// its dependency on internal <see cref="SlopeList"/> calculations.
 /// </para>
@@ -19,8 +19,8 @@ namespace Skender.Stock.Indicators;
 /// </list>
 /// </para>
 /// <para>
-/// <b>Why Queue&lt;T&gt; Cannot Be Used:</b> The standard <see cref="Queue{T}"/> data structure
-/// used by BufferUtilities cannot maintain the complete SlopeList needed for the reverse window
+/// <b>Why <see cref="Queue{T}"/> cannot be used:</b> The standard <see cref="Queue{T}"/> data structure
+/// used by <see cref="BufferListUtilities"/> cannot maintain the complete SlopeList needed for the reverse window
 /// iteration pattern that characterizes Standard Deviation Channels.
 /// </para>
 /// <para>

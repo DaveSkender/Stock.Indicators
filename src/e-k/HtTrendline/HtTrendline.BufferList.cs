@@ -5,7 +5,7 @@ namespace Skender.Stock.Indicators;
 /// </summary>
 /// <remarks>
 /// <para>
-/// <b>Exception to BufferUtilities Pattern:</b> HtTrendline does not use the standard
+/// <b>Exception to <see cref="BufferListUtilities"/> Pattern:</b> HtTrendline does not use the standard
 /// <see cref="BufferListUtilities"/> extension methods (Update/UpdateWithDequeue) due to
 /// the unique complexity of the Hilbert Transform algorithm.
 /// </para>
@@ -18,8 +18,8 @@ namespace Skender.Stock.Indicators;
 /// </list>
 /// </para>
 /// <para>
-/// <b>Why Queue&lt;T&gt; Cannot Be Used:</b> The standard <see cref="Queue{T}"/> data structure
-/// used by BufferUtilities does not provide indexed access to historical values, which is
+/// <b>Why <see cref="Queue{T}"/> cannot be used:</b> The standard <see cref="Queue{T}"/> data structure
+/// used by <see cref="BufferListUtilities"/> does not provide indexed access to historical values, which is
 /// essential for the Hilbert Transform algorithm's phase and period calculations.
 /// </para>
 /// <para>

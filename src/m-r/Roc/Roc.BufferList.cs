@@ -37,7 +37,7 @@ public class RocList : BufferList<RocResult>, IIncrementFromChain, IRoc
     /// <inheritdoc />
     public void Add(DateTime timestamp, double value)
     {
-        // Use BufferUtilities extension method for consistent buffer management
+        // Use BufferListUtilities extension method for consistent buffer management
         buffer.Update(LookbackPeriods + 1, value);
 
         double roc;

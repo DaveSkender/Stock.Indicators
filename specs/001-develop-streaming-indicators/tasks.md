@@ -39,7 +39,7 @@ These simplified checklists ensure:
   - Verify correct base class inheritance (`BufferList<TResult>`)
   - Check interface implementation (`IIncrementFromChain`/`IIncrementFromQuote`/`IIncrementFromPairs`)
   - Validate constructor patterns (params-only and params+quotes variants)
-  - Confirm `BufferUtilities` usage instead of manual buffer management
+  - Confirm `BufferListUtilities` usage instead of manual buffer management
   - Check member ordering per instruction file conventions
 
 - [x] **A002** Audit existing StreamHub implementations for instruction file compliance (`src/**/*.StreamHub.cs` against `.github/instructions/indicator-stream.instructions.md`) ✅
@@ -402,7 +402,7 @@ Each task should follow these guidelines:
 - Implement appropriate interface (`IIncrementFromChain`, `IIncrementFromQuote`, or `IIncrementFromPairs`)
 - Follow patterns from `.github/instructions/indicator-buffer.instructions.md`
 - Provide both standard constructor and constructor with values/quotes parameter (matching interface type)
-- Use universal `BufferUtilities` extension methods for buffer management
+- Use universal `BufferListUtilities` extension methods for buffer management
 - Include comprehensive unit tests matching patterns in existing tests
 - Ensure mathematical correctness matches series implementation
 
