@@ -60,4 +60,35 @@ public class PivotPointsTests : TestBase
         s3Result6?.DisplayName.Should().Be("Support 3");
         s3Result6.IsReusable.Should().Be(false);
     }
+
+    [TestMethod]
+    public void PivotPointsBufferListing()
+    {
+        // Act
+        IndicatorListing listing = PivotPoints.BufferListing;
+
+        // Assert
+        listing.Should().NotBeNull();
+        listing.Name.Should().Be("Pivot Points");
+        listing.Uiid.Should().Be("PIVOT-POINTS");
+        listing.Style.Should().Be(Style.Buffer);
+        listing.Category.Should().Be(Category.PriceTrend);
+        listing.MethodName.Should().Be("ToPivotPoints");
+
+        listing.Parameters?.Count.Should().Be(2);
+
+        IndicatorParam windowSizeParam = listing.Parameters.SingleOrDefault(static p => p.ParameterName == "windowSize");
+        windowSizeParam.Should().NotBeNull();
+
+        IndicatorParam pointTypeParam = listing.Parameters.SingleOrDefault(static p => p.ParameterName == "pointType");
+        pointTypeParam.Should().NotBeNull();
+
+        listing.Results.Should().NotBeNull();
+        listing.Results.Should().HaveCount(7);
+
+        IndicatorResult ppResult = listing.Results.SingleOrDefault(static r => r.DataName == "PP");
+        ppResult.Should().NotBeNull();
+        ppResult?.DisplayName.Should().Be("Pivot Point");
+        ppResult.IsReusable.Should().Be(true);
+    }
 }

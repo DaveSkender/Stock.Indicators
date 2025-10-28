@@ -55,6 +55,7 @@ public class BufferIndicators
     [Benchmark] public MfiList MfiList() => new() { q };
     [Benchmark] public ObvList ObvList() => new() { q };
     [Benchmark] public ParabolicSarList ParabolicSarList() => new() { q };
+    [Benchmark] public PivotPointsList PivotPointsList() => new(PeriodSize.Month, PivotPointType.Standard) { q };
     [Benchmark] public PivotsList PivotsList() => new(2, 2, 20) { q };
     [Benchmark] public PmoList PmoList() => new() { q };
     [Benchmark] public QuotePartList QuotePartList() => new(CandlePart.Close) { q };
