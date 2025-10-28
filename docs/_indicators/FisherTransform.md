@@ -84,3 +84,33 @@ var results = quotes
     .ToFisherTransform(..)
     .ToRsi(..);
 ```
+
+## Streaming
+
+Use the buffer-style `List<T>` when you need incremental calculations without a hub:
+
+```csharp
+FisherTransformList fisherList = new(lookbackPeriods);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  fisherList.Add(quote);
+}
+
+// based on `ICollection<FisherTransformResult>`
+IReadOnlyList<FisherTransformResult> results = fisherList;
+```
+
+Subscribe to a `QuoteHub` for advanced streaming scenarios:
+
+```csharp
+QuoteHub quoteHub = new();
+FisherTransformHub observer = quoteHub.ToFisherTransformHub(lookbackPeriods);
+
+foreach (Quote quote in quotes)  // simulating stream
+{
+  quoteHub.Add(quote);
+}
+
+IReadOnlyList<FisherTransformResult> results = observer.Results;
+```
