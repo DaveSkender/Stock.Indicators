@@ -47,10 +47,7 @@ public class ConnorsRsiList : BufferList<ConnorsRsiResult>, IIncrementFromChain
         int streakPeriods,
         int rankPeriods,
         IReadOnlyList<IReusable> values)
-        : this(rsiPeriods, streakPeriods, rankPeriods)
-    {
-        Add(values);
-    }
+        : this(rsiPeriods, streakPeriods, rankPeriods) => Add(values);
 
     /// <summary>
     /// Gets the number of periods for the RSI calculation on close prices.

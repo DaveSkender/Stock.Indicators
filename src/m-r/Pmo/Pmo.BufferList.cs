@@ -56,10 +56,7 @@ public class PmoList : BufferList<PmoResult>, IIncrementFromChain, IPmo
         int smoothPeriods,
         int signalPeriods,
         IReadOnlyList<IReusable> values)
-        : this(timePeriods, smoothPeriods, signalPeriods)
-    {
-        Add(values);
-    }
+        : this(timePeriods, smoothPeriods, signalPeriods) => Add(values);
 
     /// <summary>
     /// Gets the number of periods for the time span.

@@ -15,10 +15,7 @@ public class TrHub
     /// </summary>
     /// <param name="provider">The quote provider.</param>
     internal TrHub(IQuoteProvider<IQuote> provider)
-        : base(provider)
-    {
-        Reinitialize();
-    }
+        : base(provider) => Reinitialize();
     #endregion constructors
 
     // METHODS

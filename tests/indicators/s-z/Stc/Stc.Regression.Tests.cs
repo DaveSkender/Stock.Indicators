@@ -9,7 +9,7 @@ public class StcTests : RegressionTestBase<StcResult>
     public override void Series() => Quotes.ToStc(10, 23, 50).AssertEquals(Expected);
 
     [TestMethod]
-    public override void Buffer() => Assert.Inconclusive("Buffer implementation not yet available");
+    public override void Buffer() => Quotes.ToStcList(10, 23, 50).AssertEquals(Expected);
 
     [TestMethod]
     public override void Stream() => Assert.Inconclusive("Stream implementation not yet available");

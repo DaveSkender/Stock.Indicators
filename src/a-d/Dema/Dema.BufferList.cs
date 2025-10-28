@@ -35,10 +35,7 @@ public class DemaList : BufferList<DemaResult>, IIncrementFromChain, IDema
         int lookbackPeriods,
         IReadOnlyList<IReusable> values
     )
-        : this(lookbackPeriods)
-    {
-        Add(values);
-    }
+        : this(lookbackPeriods) => Add(values);
 
     /// <summary>
     /// Gets the number of periods to look back for the calculation.
@@ -56,7 +53,7 @@ public class DemaList : BufferList<DemaResult>, IIncrementFromChain, IDema
     /// <inheritdoc />
     public void Add(DateTime timestamp, double value)
     {
-        // Use BufferUtilities extension method with dequeue tracking for running sum maintenance
+        // Use BufferListUtilities extension method with dequeue tracking for running sum maintenance
         double? dequeuedValue = _buffer.UpdateWithDequeue(LookbackPeriods, value);
 
         // Update running sum efficiently

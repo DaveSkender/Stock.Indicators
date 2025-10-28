@@ -59,20 +59,16 @@ public class Beta : BufferListTestBase
     }
 
     [TestMethod]
-    public void AddQuotes()
-    {
+    public void AddQuotes() =>
         // Beta doesn't support direct quote addition as it requires two series
         // This test is not applicable for Beta
         Assert.Inconclusive("Beta requires two series inputs and doesn't support single quote addition");
-    }
 
     [TestMethod]
-    public void AddQuotesBatch()
-    {
+    public void AddQuotesBatch() =>
         // Beta doesn't support direct quote addition as it requires two series
         // This test is not applicable for Beta
         Assert.Inconclusive("Beta requires two series inputs and doesn't support single quote addition");
-    }
 
     [TestMethod]
     public void WithQuotesCtor()

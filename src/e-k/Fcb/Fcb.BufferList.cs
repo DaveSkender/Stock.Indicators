@@ -36,10 +36,7 @@ public class FcbList : BufferList<FcbResult>, IIncrementFromQuote, IFcb
         int windowSpan,
         IReadOnlyList<IQuote> quotes
     )
-        : this(windowSpan)
-    {
-        Add(quotes);
-    }
+        : this(windowSpan) => Add(quotes);
 
     /// <summary>
     /// Gets the window span for the calculation.

@@ -34,10 +34,7 @@ public class QuoteHub
     /// <param name="provider">The quote provider.</param>
     public QuoteHub(
         IQuoteProvider<IQuote> provider)
-        : base(provider)
-    {
-        Reinitialize();
-    }
+        : base(provider) => Reinitialize();
 
     // METHODS
 

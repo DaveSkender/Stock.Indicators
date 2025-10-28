@@ -28,10 +28,7 @@ public class AwesomeList : BufferList<AwesomeResult>, IIncrementFromChain, IAwes
     /// <param name="slowPeriods">The number of periods for the slow moving average.</param>
     /// <param name="values">Initial reusable values to populate the list.</param>
     public AwesomeList(int fastPeriods, int slowPeriods, IReadOnlyList<IReusable> values)
-        : this(fastPeriods, slowPeriods)
-    {
-        Add(values);
-    }
+        : this(fastPeriods, slowPeriods) => Add(values);
 
     /// <summary>
     /// Gets the number of periods for the fast moving average.

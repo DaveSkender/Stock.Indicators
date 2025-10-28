@@ -24,10 +24,7 @@ public class RocList : BufferList<RocResult>, IIncrementFromChain, IRoc
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <param name="values">Initial reusable values to populate the list.</param>
     public RocList(int lookbackPeriods, IReadOnlyList<IReusable> values)
-        : this(lookbackPeriods)
-    {
-        Add(values);
-    }
+        : this(lookbackPeriods) => Add(values);
 
     /// <summary>
     /// Gets the number of periods to look back for the calculation.
@@ -40,7 +37,7 @@ public class RocList : BufferList<RocResult>, IIncrementFromChain, IRoc
     /// <inheritdoc />
     public void Add(DateTime timestamp, double value)
     {
-        // Use BufferUtilities extension method for consistent buffer management
+        // Use BufferListUtilities extension method for consistent buffer management
         buffer.Update(LookbackPeriods + 1, value);
 
         double roc;
