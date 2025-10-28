@@ -163,7 +163,7 @@ public static partial class HeikinAshi
     /// <summary>
     /// Creates a Heikin-Ashi hub from a collection of quotes.
     /// </summary>
-    /// <param name="quotes">The collection of quotes.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <returns>An instance of <see cref="HeikinAshiHub"/>.</returns>
     public static HeikinAshiHub ToHeikinAshiHub(
         this IReadOnlyList<IQuote> quotes)

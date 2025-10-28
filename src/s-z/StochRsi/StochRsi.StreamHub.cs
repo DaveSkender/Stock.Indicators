@@ -10,12 +10,25 @@ public sealed class StochRsiHub
     : ChainProvider<IReusable, StochRsiResult>
 {
     private readonly string hubName;
-    private readonly RsiHub rsiHub;  // Internal RSI hub for incremental RSI calculation
-    private readonly Queue<double> rsiBuffer;  // Rolling window of RSI values for stochastic calculation
-    private readonly Queue<double> kBuffer;  // Rolling window for %K smoothing
-    private readonly Queue<double> signalBuffer;  // Rolling window for signal line calculation
-    private double prevK = double.NaN;
-    private double prevSignal = double.NaN;
+    /// <summary>
+    /// Internal RSI hub for incremental RSI calculation
+    /// </summary>
+    private readonly RsiHub rsiHub;
+
+    /// <summary>
+    /// Rolling windows for O(1) RSI max/min tracking
+    /// </summary>
+    private readonly RollingWindowMax<double> _rsiMaxWindow;
+    private readonly RollingWindowMin<double> _rsiMinWindow;
+
+    /// <summary>
+    /// Rolling window for %K smoothing
+    /// </summary>
+    private readonly Queue<double> kBuffer;
+    /// <summary>
+    /// Rolling window for signal line calculation
+    /// </summary>
+    private readonly Queue<double> signalBuffer;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="StochRsiHub"/> class.
@@ -44,8 +57,11 @@ public sealed class StochRsiHub
         // Create internal RSI hub for incremental RSI calculation
         rsiHub = provider.ToRsiHub(rsiPeriods);
 
+        // Rolling windows for O(1) RSI max/min tracking
+        _rsiMaxWindow = new RollingWindowMax<double>(stochPeriods);
+        _rsiMinWindow = new RollingWindowMin<double>(stochPeriods);
+
         // Buffers for rolling windows
-        rsiBuffer = new Queue<double>(stochPeriods);
         kBuffer = new Queue<double>(smoothPeriods);
         signalBuffer = new Queue<double>(signalPeriods);
 
@@ -123,11 +139,10 @@ public sealed class StochRsiHub
         rsiHub.Rebuild(timestamp);
 
         // Reset state and replay historical RSI values up to the rebuild index
-        rsiBuffer.Clear();
+        _rsiMaxWindow.Clear();
+        _rsiMinWindow.Clear();
         kBuffer.Clear();
         signalBuffer.Clear();
-        prevK = double.NaN;
-        prevSignal = double.NaN;
 
         if (providerIndex <= 0)
         {
@@ -149,32 +164,18 @@ public sealed class StochRsiHub
 
     private (double? stochRsi, double? signal) UpdateOscillatorState(double rsiValue)
     {
-        rsiBuffer.Enqueue(rsiValue);
-        if (rsiBuffer.Count > StochPeriods)
-        {
-            _ = rsiBuffer.Dequeue();
-        }
+        // Add RSI value to rolling windows
+        _rsiMaxWindow.Add(rsiValue);
+        _rsiMinWindow.Add(rsiValue);
 
-        if (rsiBuffer.Count != StochPeriods)
+        if (_rsiMaxWindow.Count != StochPeriods)
         {
             return (null, null);
         }
 
-        double highRsi = double.MinValue;
-        double lowRsi = double.MaxValue;
-
-        foreach (double value in rsiBuffer)
-        {
-            if (value > highRsi)
-            {
-                highRsi = value;
-            }
-
-            if (value < lowRsi)
-            {
-                lowRsi = value;
-            }
-        }
+        // Get high/low RSI from rolling windows (O(1))
+        double highRsi = _rsiMaxWindow.Max;
+        double lowRsi = _rsiMinWindow.Min;
 
         double k = lowRsi != highRsi
             ? 100d * (rsiValue - lowRsi) / (highRsi - lowRsi)
@@ -218,10 +219,8 @@ public sealed class StochRsiHub
             }
 
             signal = sumSignal / SignalPeriods;
-            prevSignal = signal.Value;
         }
 
-        prevK = k;
         return (k, signal);
     }
 }
@@ -251,7 +250,7 @@ public static partial class StochRsi
     /// <summary>
     /// Creates a StochRsi hub from a collection of quotes.
     /// </summary>
-    /// <param name="quotes">The collection of quotes.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <param name="rsiPeriods">The number of periods for the RSI calculation.</param>
     /// <param name="stochPeriods">The number of periods for the Stochastic calculation.</param>
     /// <param name="signalPeriods">The number of periods for the signal line.</param>

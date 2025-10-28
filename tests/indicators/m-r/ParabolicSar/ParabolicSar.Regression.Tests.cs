@@ -9,8 +9,8 @@ public class ParabolicsarTests : RegressionTestBase<ParabolicSarResult>
     public override void Series() => Quotes.ToParabolicSar(0.02, 0.2).AssertEquals(Expected);
 
     [TestMethod]
-    public override void Buffer() => Assert.Inconclusive("Buffer implementation not yet available");
+    public override void Buffer() => Quotes.ToParabolicSarList(0.02, 0.2).AssertEquals(Expected);
 
     [TestMethod]
-    public override void Stream() => Assert.Inconclusive("Stream implementation not yet available");
+    public override void Stream() => Quotes.ToParabolicSarHub(0.02, 0.2).Results.AssertEquals(Expected);
 }

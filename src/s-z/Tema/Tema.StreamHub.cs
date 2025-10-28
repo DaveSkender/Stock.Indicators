@@ -120,7 +120,7 @@ public static partial class Tema
     /// Creates a TEMA streaming hub from a chain provider.
     /// </summary>
     /// <param name="chainProvider">The chain provider.</param>
-    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>A TEMA hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the chain provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
@@ -132,7 +132,7 @@ public static partial class Tema
     /// <summary>
     /// Creates a Tema hub from a collection of quotes.
     /// </summary>
-    /// <param name="quotes">The collection of quotes.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <param name="lookbackPeriods">Parameter for the calculation.</param>
     /// <returns>An instance of <see cref="TemaHub"/>.</returns>
     public static TemaHub ToTemaHub(

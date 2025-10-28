@@ -8,7 +8,9 @@ public class TemaList : BufferList<TemaResult>, IIncrementFromChain, ITema
     private readonly Queue<double> _buffer;
     private double _bufferSum;
 
-    // State for triple EMA calculations
+    /// <summary>
+    /// State for triple EMA calculations
+    /// </summary>
     private double _lastEma1 = double.NaN;
     private double _lastEma2 = double.NaN;
     private double _lastEma3 = double.NaN;
@@ -16,7 +18,7 @@ public class TemaList : BufferList<TemaResult>, IIncrementFromChain, ITema
     /// <summary>
     /// Initializes a new instance of the <see cref="TemaList"/> class.
     /// </summary>
-    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     public TemaList(
         int lookbackPeriods
     )
@@ -32,14 +34,13 @@ public class TemaList : BufferList<TemaResult>, IIncrementFromChain, ITema
     /// <summary>
     /// Initializes a new instance of the <see cref="TemaList"/> class with initial reusable values.
     /// </summary>
-    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <param name="values">Initial reusable values to populate the list.</param>
     public TemaList(
         int lookbackPeriods,
         IReadOnlyList<IReusable> values
     )
-        : this(lookbackPeriods)
-        => Add(values);
+        : this(lookbackPeriods) => Add(values);
 
     /// <summary>
     /// Gets the number of periods to look back for the calculation.
@@ -57,7 +58,7 @@ public class TemaList : BufferList<TemaResult>, IIncrementFromChain, ITema
     /// <inheritdoc />
     public void Add(DateTime timestamp, double value)
     {
-        // Use BufferUtilities extension method for efficient buffer management
+        // Use BufferListUtilities extension method for efficient buffer management
         double? dequeuedValue = _buffer.UpdateWithDequeue(LookbackPeriods, value);
 
         // Update running sum efficiently
@@ -146,6 +147,8 @@ public static partial class Tema
     /// <summary>
     /// Creates a buffer list for TEMA calculations.
     /// </summary>
+    /// <param name="source">Collection of input values, time sorted.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     public static TemaList ToTemaList(
         this IReadOnlyList<IReusable> source,
         int lookbackPeriods)

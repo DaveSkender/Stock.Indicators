@@ -77,7 +77,7 @@ public record CandleResult : ISeries
     /// <summary>
     /// Initializes a new instance of the <see cref="CandleResult"/> record.
     /// </summary>
-    /// <param name="timestamp">The timestamp of the result.</param>
+    /// <param name="timestamp">Timestamp of record.</param>
     /// <param name="quote">The quote used for the analysis.</param>
     /// <param name="match">The match result of the analysis.</param>
     /// <param name="price">The price associated with the result.</param>
@@ -96,7 +96,7 @@ public record CandleResult : ISeries
     /// <summary>
     /// Initializes a new instance of the <see cref="CandleResult"/> record.
     /// </summary>
-    /// <param name="timestamp">The timestamp of the result.</param>
+    /// <param name="timestamp">Timestamp of record.</param>
     /// <param name="candle">The candlestick properties.</param>
     /// <param name="match">The match result of the analysis.</param>
     /// <param name="price">The price associated with the result.</param>

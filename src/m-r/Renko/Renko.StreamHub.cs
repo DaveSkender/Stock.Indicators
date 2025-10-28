@@ -32,7 +32,7 @@ public class RenkoHub
 
         Reinitialize();
     }
-    #endregion
+    #endregion constructors
 
     /// <summary>
     /// Renko hub settings. Since it can produce 0 or many bricks per quote,
@@ -86,7 +86,9 @@ public class RenkoHub
         SetBaselineBrick();
     }
 
-    // re/initialize last brick marker
+    /// <summary>
+    /// re/initialize last brick marker
+    /// </summary>
     private void SetBaselineBrick()
     {
         int decimals = BrickSize.GetDecimalPlaces();
@@ -107,7 +109,13 @@ public class RenkoHub
             IsUp: false);
     }
 
-    // custom: build 0 to many bricks per quote
+    /// <summary>
+    /// custom: build 0 to many bricks per quote
+    /// </summary>
+    /// <param name="item">Item to process</param>
+    /// <param name="notify">Whether to notify observers</param>
+    /// <param name="indexHint">Optional index hint for performance</param>
+    /// <exception cref="InvalidOperationException">Thrown when the operation is invalid for the current state</exception>
     private void ToIndicator(IQuote item, bool notify, int? indexHint)
     {
         int providerIndex = indexHint
@@ -201,7 +209,7 @@ public static partial class Renko
     /// <summary>
     /// Creates a Renko hub from a collection of quotes.
     /// </summary>
-    /// <param name="quotes">The collection of quotes.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <param name="brickSize">Parameter for the calculation.</param>
     /// <param name="endType">Parameter for the calculation.</param>
     /// <returns>An instance of <see cref="RenkoHub"/>.</returns>

@@ -10,7 +10,7 @@ public static partial class Correlation
     /// </summary>
     /// <param name="sourceA">The first source list of quotes.</param>
     /// <param name="sourceB">The second source list of quotes.</param>
-    /// <param name="lookbackPeriods">The number of periods to use for the lookback window.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>A read-only list of <see cref="CorrResult"/> containing the correlation calculation results.</returns>
     /// <exception cref="ArgumentNullException">Thrown when either sourceA or sourceB is null.</exception>
     /// <exception cref="InvalidQuotesException">Thrown when the timestamps of sourceA and sourceB do not match.</exception>

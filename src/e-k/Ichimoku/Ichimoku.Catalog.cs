@@ -2,7 +2,9 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Ichimoku
 {
-    // ICHIMOKU Common Base Listing
+    /// <summary>
+    /// ICHIMOKU Common Base Listing
+    /// </summary>
     internal static readonly IndicatorListing CommonListing =
         new CatalogListingBuilder()
             .WithName("Ichimoku Cloud")
@@ -19,7 +21,9 @@ public static partial class Ichimoku
             .AddResult("ChikouSpan", "Chikou Span", ResultType.Default)
             .Build();
 
-    // ICHIMOKU Series Listing
+    /// <summary>
+    /// ICHIMOKU Series Listing
+    /// </summary>
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)

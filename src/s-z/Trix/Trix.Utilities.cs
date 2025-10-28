@@ -16,7 +16,7 @@ public static partial class Trix
         ArgumentNullException.ThrowIfNull(results);
 
         int n = results
-            .FindIndex(x => x.Trix != null);
+            .FindIndex(static x => x.Trix != null);
 
         return results.Remove((3 * n) + 100);
     }
@@ -24,7 +24,7 @@ public static partial class Trix
     /// <summary>
     /// Validates the parameters for the TRIX calculation.
     /// </summary>
-    /// <param name="lookbackPeriods">The number of lookback periods.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are less than or equal to 0.</exception>
     internal static void Validate(
         int lookbackPeriods)

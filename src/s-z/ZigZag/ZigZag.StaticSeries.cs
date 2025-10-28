@@ -8,7 +8,7 @@ public static partial class ZigZag
     /// <summary>
     /// Converts a list of quotes to a ZigZag series.
     /// </summary>
-    /// <param name="quotes">The list of quotes.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <param name="endType">The type of end to use (Close or HighLow).</param>
     /// <param name="percentChange">The percentage change threshold for ZigZag points.</param>
     /// <returns>A list of ZigZag results.</returns>
@@ -162,21 +162,18 @@ public static partial class ZigZag
                         / extremePoint.Value;
                 }
             }
+            else if (eval.Low <= extremePoint.Value)
+            {
+                extremePoint.Index = eval.Index;
+                extremePoint.Value = eval.Low;
+                change = 0;
+            }
             else
             {
-                if (eval.Low <= extremePoint.Value)
-                {
-                    extremePoint.Index = eval.Index;
-                    extremePoint.Value = eval.Low;
-                    change = 0;
-                }
-                else
-                {
-                    change = extremePoint.Value == 0
-                        ? null
-                        : (eval.High - extremePoint.Value)
-                        / extremePoint.Value;
-                }
+                change = extremePoint.Value == 0
+                    ? null
+                    : (eval.High - extremePoint.Value)
+                    / extremePoint.Value;
             }
 
             // return extreme point when reversion threshold met
@@ -201,7 +198,7 @@ public static partial class ZigZag
     /// Draws a ZigZag line between two points.
     /// </summary>
     /// <param name="results">The list of ZigZag results.</param>
-    /// <param name="quotes">The list of quotes.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <param name="lastPoint">The last ZigZag point.</param>
     /// <param name="nextPoint">The next ZigZag point.</param>
     private static void DrawZigZagLine(
@@ -274,9 +271,7 @@ public static partial class ZigZag
 
                 lastLowPoint.Index = nextPoint.Index;
                 lastLowPoint.Value = nextPoint.Value;
-                break;
-
-            default: break;  // do nothing
+                break;  // do nothing
         }
 
         // nothing to draw cases
@@ -319,9 +314,7 @@ public static partial class ZigZag
                         + (increment * (index - priorPoint.Index));
 
                     results[i] = r with { RetraceLow = retraceLow };
-                    break;
-
-                default: break; // do nothing
+                    break; // do nothing
             }
         }
     }
@@ -333,6 +326,7 @@ public static partial class ZigZag
     /// <param name="index">The index of the quote.</param>
     /// <param name="q">The quote.</param>
     /// <returns>The ZigZag evaluation.</returns>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when a parameter is out of the valid range</exception>
     internal static ZigZagEval GetZigZagEval(
         EndType endType,
         int index,

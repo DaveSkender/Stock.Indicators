@@ -39,7 +39,7 @@ These simplified checklists ensure:
   - Verify correct base class inheritance (`BufferList<TResult>`)
   - Check interface implementation (`IIncrementFromChain`/`IIncrementFromQuote`/`IIncrementFromPairs`)
   - Validate constructor patterns (params-only and params+quotes variants)
-  - Confirm `BufferUtilities` usage instead of manual buffer management
+  - Confirm `BufferListUtilities` usage instead of manual buffer management
   - Check member ordering per instruction file conventions
 
 - [x] **A002** Audit existing StreamHub implementations for instruction file compliance (`src/**/*.StreamHub.cs` against `.github/instructions/indicator-stream.instructions.md`) ✅
@@ -142,7 +142,7 @@ Note on former deferrals: Some indicators were previously marked as deferred due
 - [x] **T032** Implement Gator BufferList in `src/e-k/Gator/Gator.BufferList.cs` ✅
 - [x] **T033** Implement HeikinAshi BufferList in `src/e-k/HeikinAshi/HeikinAshi.BufferList.cs` ✅
 - [x] **T034** Implement Hma BufferList in `src/e-k/Hma/Hma.BufferList.cs` ✅
-- [ ] **T035** Implement HtTrendline BufferList in `src/e-k/HtTrendline/HtTrendline.BufferList.cs` (complex but unblocked — use HMA multi-buffer as a baseline)
+- [x] **T035** Implement HtTrendline BufferList in `src/e-k/HtTrendline/HtTrendline.BufferList.cs` (complex but unblocked — use HMA multi-buffer as a baseline) ✅
 - [ ] **T036** Implement Hurst BufferList in `src/e-k/Hurst/Hurst.BufferList.cs` (complex but unblocked — adapt ADX complex state + HMA buffers)
 - [ ] **T037** Implement Ichimoku BufferList in `src/e-k/Ichimoku/Ichimoku.BufferList.cs` (complex but unblocked — follow multi-line series patterns from Alligator/AtrStop and HMA buffers)
 - [x] **T038** Implement Kama BufferList in `src/e-k/Kama/Kama.BufferList.cs` ✅
@@ -231,16 +231,16 @@ Note on former deferrals: Indicators like Fractal, HtTrendline, Hurst, Ichimoku,
 - [x] **T106** Implement Doji StreamHub in `src/a-d/Doji/Doji.StreamHub.cs` ✅
 - [x] **T107** Implement Donchian StreamHub in `src/a-d/Donchian/Donchian.StreamHub.cs` ✅
 - [ ] **T108** Implement Dpo StreamHub in `src/a-d/Dpo/Dpo.StreamHub.cs`
-- [ ] **T109** Implement Dynamic StreamHub in `src/a-d/Dynamic/Dynamic.StreamHub.cs`
-- [ ] **T110** Implement ElderRay StreamHub in `src/e-k/ElderRay/ElderRay.StreamHub.cs`
+- [x] **T109** Implement Dynamic StreamHub in `src/a-d/Dynamic/Dynamic.StreamHub.cs` ✅
+- [x] **T110** Implement ElderRay StreamHub in `src/e-k/ElderRay/ElderRay.StreamHub.cs` ✅
 - [x] **T111** Implement Ema StreamHub in `src/e-k/Ema/Ema.StreamHub.cs` ✅
 - [x] **T112** Implement Epma StreamHub in `src/e-k/Epma/Epma.StreamHub.cs` ✅
-- [ ] **T113** Implement Fcb StreamHub in `src/e-k/Fcb/Fcb.StreamHub.cs`
-- [ ] **T114** Implement FisherTransform StreamHub in `src/e-k/FisherTransform/FisherTransform.StreamHub.cs`
+- [x] **T113** Implement Fcb StreamHub in `src/e-k/Fcb/Fcb.StreamHub.cs`
+- [x] **T114** Implement FisherTransform StreamHub in `src/e-k/FisherTransform/FisherTransform.StreamHub.cs` ✅
 - [x] **T115** Implement ForceIndex StreamHub in `src/e-k/ForceIndex/ForceIndex.StreamHub.cs` ✅
-- [ ] **T116** Implement Fractal StreamHub in `src/e-k/Fractal/Fractal.StreamHub.cs` (complex but unblocked — chain provider with multi-buffer internal state)
+- [x] **T116** Implement Fractal StreamHub in `src/e-k/Fractal/Fractal.StreamHub.cs` ✅
 - [x] **T117** Implement Gator StreamHub in `src/e-k/Gator/Gator.StreamHub.cs` ✅
-- [ ] **T118** Implement HeikinAshi StreamHub in `src/e-k/HeikinAshi/HeikinAshi.StreamHub.cs`
+- [x] **T118** Implement HeikinAshi StreamHub in `src/e-k/HeikinAshi/HeikinAshi.StreamHub.cs` ✅
 - [x] **T119** Implement Hma StreamHub in `src/e-k/Hma/Hma.StreamHub.cs` ✅
 - [ ] **T120** Implement HtTrendline StreamHub in `src/e-k/HtTrendline/HtTrendline.StreamHub.cs` (complex but unblocked — model after EMA chain provider with HMA-like buffers)
 - [ ] **T121** Implement Hurst StreamHub in `src/e-k/Hurst/Hurst.StreamHub.cs` (complex but unblocked — use ADX-like complex state and EMA hub shape)
@@ -248,18 +248,18 @@ Note on former deferrals: Indicators like Fractal, HtTrendline, Hurst, Ichimoku,
 - [x] **T123** Implement Kama StreamHub in `src/e-k/Kama/Kama.StreamHub.cs` ✅
 - [x] **T124** Implement Keltner StreamHub in `src/e-k/Keltner/Keltner.StreamHub.cs` ✅
 - [x] **T125** Implement Kvo StreamHub in `src/e-k/Kvo/Kvo.StreamHub.cs` ✅
-- [ ] **T126** Implement MaEnvelopes StreamHub in `src/m-r/MaEnvelopes/MaEnvelopes.StreamHub.cs`
+- [x] **T126** Implement MaEnvelopes StreamHub in `src/m-r/MaEnvelopes/MaEnvelopes.StreamHub.cs` ✅
 - [x] **T127** Implement Macd StreamHub in `src/m-r/Macd/Macd.StreamHub.cs` ✅
 - [x] **T128** Implement Mama StreamHub in `src/m-r/Mama/Mama.StreamHub.cs` ✅
 - [x] **T129** Implement Marubozu StreamHub in `src/m-r/Marubozu/Marubozu.StreamHub.cs` ✅
-- [ ] **T130** Implement Mfi StreamHub in `src/m-r/Mfi/Mfi.StreamHub.cs`
+- [x] **T130** Implement Mfi StreamHub in `src/m-r/Mfi/Mfi.StreamHub.cs` ✅
 - [x] **T131** Implement Obv StreamHub in `src/m-r/Obv/Obv.StreamHub.cs` ✅
 - [ ] **T132** Implement ParabolicSar StreamHub in `src/m-r/ParabolicSar/ParabolicSar.StreamHub.cs`
 - [ ] **T133** Implement PivotPoints StreamHub in `src/m-r/PivotPoints/PivotPoints.StreamHub.cs`
-- [ ] **T134** Implement Pivots StreamHub in `src/m-r/Pivots/Pivots.StreamHub.cs`
+- [x] **T134** Implement Pivots StreamHub in `src/m-r/Pivots/Pivots.StreamHub.cs` ✅
 - [ ] **T135** Implement Pmo StreamHub in `src/m-r/Pmo/Pmo.StreamHub.cs`
 - [x] **T136** Implement Prs StreamHub in `src/m-r/Prs/Prs.StreamHub.cs` ✅
-- [ ] **T137** Implement Pvo StreamHub in `src/m-r/Pvo/Pvo.StreamHub.cs`
+- [x] **T137** Implement Pvo StreamHub in `src/m-r/Pvo/Pvo.StreamHub.cs` ✅
 - [x] **T138** Implement QuotePart StreamHub in `src/_common/QuotePart/QuotePart.StreamHub.cs` ✅
 - [x] **T139** Implement Renko StreamHub in `src/m-r/Renko/Renko.StreamHub.cs` ✅
 - [ ] **T140** Implement RenkoAtr StreamHub in `src/m-r/RenkoAtr/RenkoAtr.StreamHub.cs`
@@ -294,7 +294,7 @@ Note on former deferrals: Indicators like Fractal, HtTrendline, Hurst, Ichimoku,
 - [x] **T169** Implement Wma StreamHub in `src/s-z/Wma/Wma.StreamHub.cs` ✅
 - [ ] **T170** Implement ZigZag StreamHub in `src/s-z/ZigZag/ZigZag.StreamHub.cs`
 
-**StreamHub**: 48/85 complete, 37 remaining
+**StreamHub**: 51/85 complete, 34 remaining
 
 **Checkpoint**: Phase 3 completion achieves 1:1:1 parity across all three implementation styles (Series, BufferList, StreamHub)
 
@@ -402,7 +402,7 @@ Each task should follow these guidelines:
 - Implement appropriate interface (`IIncrementFromChain`, `IIncrementFromQuote`, or `IIncrementFromPairs`)
 - Follow patterns from `.github/instructions/indicator-buffer.instructions.md`
 - Provide both standard constructor and constructor with values/quotes parameter (matching interface type)
-- Use universal `BufferUtilities` extension methods for buffer management
+- Use universal `BufferListUtilities` extension methods for buffer management
 - Include comprehensive unit tests matching patterns in existing tests
 - Ensure mathematical correctness matches series implementation
 
@@ -459,20 +459,20 @@ Each task should follow these guidelines:
 
 - **Total Series implementations**: 85 indicators (baseline)
 - **Total BufferList implementations**: 72 complete, 13 remaining (T001-T085)
-- **Total StreamHub implementations**: 48 complete, 37 remaining (T086-T170)
+- **Total StreamHub implementations**: 51 complete, 34 remaining (T086-T170)
 - **1:1:1 Target**: 85 BufferList + 85 StreamHub = 170 streaming implementations total
-- **Current streaming coverage**: 120/170 = **71% complete**
+- **Current streaming coverage**: 123/170 = **72% complete**
 
 **Task Breakdown**:
 
 - **Phase 1**: 10 tasks (A001-A006, T171-T174) — 8 complete, 2 remaining
 - **Phase 2**: 85 BufferList implementation tasks (T001-T085) — 72 complete, 13 remaining
-- **Phase 3**: 85 StreamHub implementation tasks (T086-T170) — 48 complete, 37 remaining
+- **Phase 3**: 85 StreamHub implementation tasks (T086-T170) — 51 complete, 34 remaining
 - **Phase 4**: 17 test infrastructure tasks (T175-T185, Q001-Q006) — 0 complete, 17 remaining
 - **Phase 5**: 7 documentation tasks (D001-D007) — 2 complete, 5 remaining
-- **Total**: 204 tasks — 130 complete, 74 remaining
+- **Total**: 204 tasks — 133 complete, 71 remaining
 
 Removed blanket deferral: The above indicators are complex but unblocked with established reference patterns (see instruction files).
 
 ---
-Last updated: October 15, 2025
+Last updated: October 27, 2025

@@ -8,23 +8,49 @@ public class MamaHub
 {
     private readonly string hubName;
 
-    // State arrays for MESA algorithm
-    // These arrays grow with each added value to support indexed lookback access
+    /// <summary>
+    /// State arrays for MESA algorithm
+    /// These arrays grow with each added value to support indexed lookback access
+    /// </summary>
     private readonly List<double> pr = []; // price
-    private readonly List<double> sm = []; // smooth
-    private readonly List<double> dt = []; // detrender
-    private readonly List<double> pd = []; // period
+    /// <summary>
+    /// smooth
+    /// </summary>
+    private readonly List<double> sm = [];
+    /// <summary>
+    /// detrender
+    /// </summary>
+    private readonly List<double> dt = [];
+    /// <summary>
+    /// period
+    /// </summary>
+    private readonly List<double> pd = [];
 
-    private readonly List<double> q1 = []; // quadrature
-    private readonly List<double> i1 = []; // in-phase
+    /// <summary>
+    /// quadrature
+    /// </summary>
+    private readonly List<double> q1 = [];
+    /// <summary>
+    /// in-phase
+    /// </summary>
+    private readonly List<double> i1 = [];
 
-    private readonly List<double> q2 = []; // adj. quadrature
-    private readonly List<double> i2 = []; // adj. in-phase
+    /// <summary>
+    /// adj. quadrature
+    /// </summary>
+    private readonly List<double> q2 = [];
+    /// <summary>
+    /// adj. in-phase
+    /// </summary>
+    private readonly List<double> i2 = [];
 
     private readonly List<double> re = [];
     private readonly List<double> im = [];
 
-    private readonly List<double> ph = []; // phase
+    /// <summary>
+    /// phase
+    /// </summary>
+    private readonly List<double> ph = [];
 
     /// <summary>
     /// Initializes a new instance of the <see cref="MamaHub"/> class.
@@ -267,7 +293,7 @@ public static partial class Mama
     /// <summary>
     /// Creates a MAMA hub from a collection of quotes.
     /// </summary>
-    /// <param name="quotes">The collection of quotes.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <param name="fastLimit">Parameter for the calculation.</param>
     /// <param name="slowLimit">Parameter for the calculation.</param>
     /// <returns>An instance of <see cref="MamaHub"/>.</returns>

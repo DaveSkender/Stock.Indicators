@@ -2,7 +2,9 @@ namespace Skender.Stock.Indicators;
 
 public static partial class StarcBands
 {
-    // STARC Bands Common Base Listing
+    /// <summary>
+    /// STARC Bands Common Base Listing
+    /// </summary>
     internal static readonly IndicatorListing CommonListing =
         new CatalogListingBuilder()
             .WithName("STARC Bands")
@@ -17,7 +19,9 @@ public static partial class StarcBands
             .AddResult("LowerBand", "Lower Band", ResultType.Default)
             .Build();
 
-    // STARC Bands Series Listing
+    /// <summary>
+    /// STARC Bands Series Listing
+    /// </summary>
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
@@ -25,7 +29,9 @@ public static partial class StarcBands
 
     // No StreamListing for STARC Bands.
 
-    // STARC Bands BufferList Listing
+    /// <summary>
+    /// STARC Bands BufferList Listing
+    /// </summary>
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)

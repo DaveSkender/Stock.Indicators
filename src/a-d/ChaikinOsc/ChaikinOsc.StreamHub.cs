@@ -164,7 +164,7 @@ public static partial class ChaikinOsc
     /// <summary>
     /// Creates a ChaikinOsc hub from a collection of quotes.
     /// </summary>
-    /// <param name="quotes">The collection of quotes.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <param name="fastPeriods">Parameter for the calculation.</param>
     /// <param name="slowPeriods">Parameter for the calculation.</param>
     /// <returns>An instance of <see cref="ChaikinOscHub"/>.</returns>

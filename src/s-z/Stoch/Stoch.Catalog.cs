@@ -2,7 +2,9 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Stoch
 {
-    // Stochastic Oscillator Common Base Listing
+    /// <summary>
+    /// Stochastic Oscillator Common Base Listing
+    /// </summary>
     internal static readonly IndicatorListing CommonListing =
         new CatalogListingBuilder()
             .WithName("Stochastic Oscillator")
@@ -16,19 +18,25 @@ public static partial class Stoch
             .AddResult("Signal", "%D", ResultType.Default)
             .Build();
 
-    // Stochastic Oscillator Series Listing
+    /// <summary>
+    /// Stochastic Oscillator Series Listing
+    /// </summary>
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
             .Build();
 
-    // Stochastic Oscillator Stream Listing
+    /// <summary>
+    /// Stochastic Oscillator Stream Listing
+    /// </summary>
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
             .Build();
 
-    // Stochastic Oscillator Buffer Listing
+    /// <summary>
+    /// Stochastic Oscillator Buffer Listing
+    /// </summary>
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)

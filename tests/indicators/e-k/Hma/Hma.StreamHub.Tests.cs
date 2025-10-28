@@ -187,7 +187,7 @@ public class HmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
         }
 
         observer.Results.Should().HaveCount(minSamples);
-        observer.Results.Should().OnlyContain(r => !r.Hma.HasValue);
+        observer.Results.Should().OnlyContain(static r => !r.Hma.HasValue);
 
         observer.Unsubscribe();
         quoteHub.EndTransmission();

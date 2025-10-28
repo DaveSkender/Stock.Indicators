@@ -8,7 +8,7 @@ public static partial class UlcerIndex
     /// <summary>
     /// Calculates the Ulcer Index for a series of data.
     /// </summary>    /// <param name="source">The source list of data.</param>
-    /// <param name="lookbackPeriods">The number of lookback periods. Default is 14.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>A list of UlcerIndexResult containing the Ulcer Index values.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the source is null.</exception>
     public static IReadOnlyList<UlcerIndexResult> ToUlcerIndex(

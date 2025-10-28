@@ -16,7 +16,7 @@ public static partial class AtrStop
         List<AtrStopResult> resultsList = results
             .ToList();
 
-        resultsList.RemoveAll(match: x => x.AtrStop is null);
+        resultsList.RemoveAll(match: static x => x.AtrStop is null);
 
         return resultsList.ToSortedList();
     }
@@ -32,7 +32,7 @@ public static partial class AtrStop
         ArgumentNullException.ThrowIfNull(results);
 
         int removePeriods = results
-            .FindIndex(x => x.AtrStop != null);
+            .FindIndex(static x => x.AtrStop != null);
 
         return results.Remove(removePeriods);
     }
@@ -40,7 +40,7 @@ public static partial class AtrStop
     /// <summary>
     /// Validates the parameters for the ATR Trailing Stop calculation.
     /// </summary>
-    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <param name="multiplier">The multiplier for the ATR calculation, must be greater than 0.</param>
     /// <exception cref="ArgumentOutOfRangeException">
     /// Thrown when the lookback periods are less than or equal to 1,

@@ -36,20 +36,20 @@ public enum BetaType
     /// <summary>
     /// Standard Beta only
     /// </summary>
-    Standard,
+    Standard = 0,
 
     /// <summary>
     /// Beta+ updside only
     /// </summary>
-    Up,
+    Up = 1,
 
     /// <summary>
     /// Beta- downside only
     /// </summary>
-    Down,
+    Down = 2,
 
     /// <summary>
     /// Calculation all Beta types
     /// </summary>
-    All
+    All = 3
 }

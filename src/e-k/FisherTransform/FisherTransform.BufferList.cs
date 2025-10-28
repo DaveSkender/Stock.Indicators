@@ -11,7 +11,7 @@ public class FisherTransformList : BufferList<FisherTransformResult>, IIncrement
     /// <summary>
     /// Initializes a new instance of the <see cref="FisherTransformList"/> class.
     /// </summary>
-    /// <param name="lookbackPeriods">The number of periods to look back for the calculation. Default is 10.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     public FisherTransformList(
         int lookbackPeriods = 10
     )
@@ -26,14 +26,13 @@ public class FisherTransformList : BufferList<FisherTransformResult>, IIncrement
     /// <summary>
     /// Initializes a new instance of the <see cref="FisherTransformList"/> class with initial reusable values.
     /// </summary>
-    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <param name="values">Initial reusable values to populate the list.</param>
     public FisherTransformList(
         int lookbackPeriods,
         IReadOnlyList<IReusable> values
     )
-        : this(lookbackPeriods)
-        => Add(values);
+        : this(lookbackPeriods) => Add(values);
 
     /// <summary>
     /// Gets the number of periods to look back for the calculation.
@@ -133,6 +132,8 @@ public static partial class FisherTransform
     /// <summary>
     /// Creates a buffer list for Fisher Transform calculations.
     /// </summary>
+    /// <param name="source">Collection of input values, time sorted.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     public static FisherTransformList ToFisherTransformList(
         this IReadOnlyList<IReusable> source,
         int lookbackPeriods = 10)

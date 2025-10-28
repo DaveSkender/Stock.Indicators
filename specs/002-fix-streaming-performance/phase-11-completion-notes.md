@@ -56,7 +56,7 @@ double offsetValue = _inputBuffer[_inputBuffer.Count - 1 - JawOffset];
 **Key Changes:**
 
 1. Replaced `Queue<double>` with `List<double>` for input buffer
-2. Changed from `BufferUtilities.Update()` to manual `Add()` + `RemoveAt(0)` for size management
+2. Changed from `BufferListUtilities.Update()` to manual `Add()` + `RemoveAt(0)` for size management
 3. Replaced all `ElementAt()` calls with direct list indexing `[index]`
 
 **Impact:**

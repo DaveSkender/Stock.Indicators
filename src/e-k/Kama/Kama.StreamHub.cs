@@ -125,9 +125,9 @@ public static partial class Kama
     /// Creates a KAMA streaming hub from a chain provider.
     /// </summary>
     /// <param name="chainProvider">The chain provider.</param>
-    /// <param name="erPeriods">The number of periods for the Efficiency Ratio (ER). Default is 10.</param>
-    /// <param name="fastPeriods">The number of periods for the fast EMA. Default is 2.</param>
-    /// <param name="slowPeriods">The number of periods for the slow EMA. Default is 30.</param>
+    /// <param name="erPeriods">The number of periods for the Efficiency Ratio (ER).</param>
+    /// <param name="fastPeriods">The number of periods for the fast EMA.</param>
+    /// <param name="slowPeriods">The number of periods for the slow EMA.</param>
     /// <returns>A KAMA hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the chain provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when any of the parameters are out of their valid range.</exception>
@@ -141,7 +141,7 @@ public static partial class Kama
     /// <summary>
     /// Creates a Kama hub from a collection of quotes.
     /// </summary>
-    /// <param name="quotes">The collection of quotes.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <param name="erPeriods">Parameter for the calculation.</param>
     /// <param name="fastPeriods">Parameter for the calculation.</param>
     /// <param name="slowPeriods">Parameter for the calculation.</param>

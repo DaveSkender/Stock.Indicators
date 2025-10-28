@@ -38,7 +38,7 @@ public class ForceIndex : StreamHubTestBase, ITestQuoteObserver, ITestChainProvi
 
         // late arrival, should equal series
         quoteHub.Insert(Quotes[80]);
-        actuals.Should().BeEquivalentTo(expectedOriginal, options => options.WithStrictOrdering());
+        actuals.Should().BeEquivalentTo(expectedOriginal, static options => options.WithStrictOrdering());
 
         // delete, should equal series (revised)
         quoteHub.Remove(Quotes[removeAtIndex]);
@@ -46,7 +46,7 @@ public class ForceIndex : StreamHubTestBase, ITestQuoteObserver, ITestChainProvi
         IReadOnlyList<ForceIndexResult> expectedRevised = RevisedQuotes.ToForceIndex(lookbackPeriods);
 
         actuals.Should().HaveCount(501);
-        actuals.Should().BeEquivalentTo(expectedRevised, options => options.WithStrictOrdering());
+        actuals.Should().BeEquivalentTo(expectedRevised, static options => options.WithStrictOrdering());
 
         // cleanup
         observer.Unsubscribe();
@@ -138,7 +138,7 @@ public class ForceIndex : StreamHubTestBase, ITestQuoteObserver, ITestChainProvi
 
         IReadOnlyList<ForceIndexResult> results = observer.Results;
         results.Should().HaveCount(lookbackPeriods);
-        results.All(r => r.ForceIndex == null).Should().BeTrue();
+        results.All(static r => r.ForceIndex == null).Should().BeTrue();
     }
 
     [TestMethod]
@@ -148,7 +148,7 @@ public class ForceIndex : StreamHubTestBase, ITestQuoteObserver, ITestChainProvi
         ForceIndexHub observer = quoteHub.ToForceIndexHub(lookbackPeriods);
 
         // Create quotes with zero volume
-        List<Quote> zeroVolumeQuotes = Quotes.Take(20).Select(q => new Quote {
+        List<Quote> zeroVolumeQuotes = Quotes.Take(20).Select(static q => new Quote {
             Timestamp = q.Timestamp,
             Open = q.Open,
             High = q.High,
@@ -165,7 +165,7 @@ public class ForceIndex : StreamHubTestBase, ITestQuoteObserver, ITestChainProvi
         IReadOnlyList<ForceIndexResult> results = observer.Results;
 
         // With zero volume, raw FI should be zero, leading to EMA converging to zero
-        results.Skip(lookbackPeriods).All(r => r.ForceIndex == 0).Should().BeTrue();
+        results.Skip(lookbackPeriods).All(static r => r.ForceIndex == 0).Should().BeTrue();
     }
 
     [TestMethod]
@@ -175,7 +175,7 @@ public class ForceIndex : StreamHubTestBase, ITestQuoteObserver, ITestChainProvi
         ForceIndexHub observer = quoteHub.ToForceIndexHub(lookbackPeriods);
 
         // Create quotes with no price change
-        List<Quote> flatQuotes = Enumerable.Range(0, 20).Select(i => new Quote {
+        List<Quote> flatQuotes = Enumerable.Range(0, 20).Select(static i => new Quote {
             Timestamp = DateTime.Now.AddDays(i),
             Open = 100,
             High = 100,
@@ -192,6 +192,6 @@ public class ForceIndex : StreamHubTestBase, ITestQuoteObserver, ITestChainProvi
         IReadOnlyList<ForceIndexResult> results = observer.Results;
 
         // With no price change, raw FI should be zero, leading to EMA converging to zero
-        results.Skip(lookbackPeriods).All(r => r.ForceIndex == 0).Should().BeTrue();
+        results.Skip(lookbackPeriods).All(static r => r.ForceIndex == 0).Should().BeTrue();
     }
 }

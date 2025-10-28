@@ -16,7 +16,7 @@ public class ConnorsRsi : StaticSeriesTestBase
 
         // proper quantities
         Assert.HasCount(502, results1);
-        Assert.HasCount(502 - startPeriod + 1, results1.Where(x => x.ConnorsRsi != null));
+        Assert.HasCount(502 - startPeriod + 1, results1.Where(static x => x.ConnorsRsi != null));
 
         // sample value
         ConnorsRsiResult r1 = results1[501];
@@ -42,7 +42,7 @@ public class ConnorsRsi : StaticSeriesTestBase
             .ToConnorsRsi();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(401, results.Count(x => x.ConnorsRsi != null));
+        Assert.AreEqual(401, results.Count(static x => x.ConnorsRsi != null));
     }
 
     [TestMethod]
@@ -53,7 +53,7 @@ public class ConnorsRsi : StaticSeriesTestBase
             .ToConnorsRsi();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(400, results.Count(x => x.ConnorsRsi != null));
+        Assert.AreEqual(400, results.Count(static x => x.ConnorsRsi != null));
     }
 
     [TestMethod]
@@ -64,7 +64,7 @@ public class ConnorsRsi : StaticSeriesTestBase
             .ToSma(10);
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(392, results.Count(x => x.Sma != null));
+        Assert.AreEqual(392, results.Count(static x => x.Sma != null));
     }
 
     [TestMethod]
@@ -74,7 +74,7 @@ public class ConnorsRsi : StaticSeriesTestBase
             .ToConnorsRsi(4, 3, 25);
 
         Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(x => x.Rsi is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.Rsi is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -120,14 +120,14 @@ public class ConnorsRsi : StaticSeriesTestBase
     {
         // bad RSI period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => Quotes.ToConnorsRsi(1));
+            static () => Quotes.ToConnorsRsi(1));
 
         // bad Streak period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => Quotes.ToConnorsRsi(3, 1));
+            static () => Quotes.ToConnorsRsi(3, 1));
 
         // bad Rank period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => Quotes.ToConnorsRsi(3, 2, 1));
+            static () => Quotes.ToConnorsRsi(3, 2, 1));
     }
 }

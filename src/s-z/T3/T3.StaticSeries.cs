@@ -9,8 +9,8 @@ public static partial class T3
     /// Calculates the T3 moving average for a series of data.
     /// </summary>
     /// /// <param name="source">The source list of data.</param>
-    /// <param name="lookbackPeriods">The number of lookback periods. Default is 5.</param>
-    /// <param name="volumeFactor">The volume factor. Default is 0.7.</param>
+    /// <param name="lookbackPeriods">The number of lookback periods.</param>
+    /// <param name="volumeFactor">The volume factor.</param>
     /// <returns>A list of T3Result containing the T3 moving average values.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the source is null.</exception>
     public static IReadOnlyList<T3Result> ToT3(

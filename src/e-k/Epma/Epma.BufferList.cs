@@ -15,14 +15,20 @@ public class EpmaList : BufferList<EpmaResult>, IIncrementFromChain, IEpma
 {
     private readonly Queue<double> _buffer;
     private readonly List<IReusable> _cache;
-    private int _cacheOffset; // Tracks how many items have been pruned from cache
+    /// <summary>
+    /// Tracks how many items have been pruned from cache
+    /// </summary>
+    private int _cacheOffset;
 
-    private const int MaxCacheSize = 1000; // Trigger point to prune cache
+    /// <summary>
+    /// Trigger point to prune cache
+    /// </summary>
+    private const int MaxCacheSize = 1000;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="EpmaList"/> class.
     /// </summary>
-    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     public EpmaList(int lookbackPeriods)
     {
         Epma.Validate(lookbackPeriods);
@@ -35,11 +41,10 @@ public class EpmaList : BufferList<EpmaResult>, IIncrementFromChain, IEpma
     /// <summary>
     /// Initializes a new instance of the <see cref="EpmaList"/> class with initial reusable values.
     /// </summary>
-    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <param name="values">Initial reusable values to populate the list.</param>
     public EpmaList(int lookbackPeriods, IReadOnlyList<IReusable> values)
-        : this(lookbackPeriods)
-        => Add(values);
+        : this(lookbackPeriods) => Add(values);
 
     /// <summary>
     /// Gets the number of periods to look back for the calculation.
@@ -125,6 +130,8 @@ public static partial class Epma
     /// <summary>
     /// Creates a buffer list for Endpoint Moving Average (EPMA) calculations.
     /// </summary>
+    /// <param name="source">Collection of input values, time sorted.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     public static EpmaList ToEpmaList(
         this IReadOnlyList<IReusable> source,
         int lookbackPeriods)

@@ -2,7 +2,9 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Prs
 {
-    // Price Relative Strength Common Base Listing
+    /// <summary>
+    /// Price Relative Strength Common Base Listing
+    /// </summary>
     internal static readonly IndicatorListing CommonListing =
         new CatalogListingBuilder()
             .WithName("Price Relative Strength")
@@ -17,7 +19,9 @@ public static partial class Prs
             .AddResult("Sma", "SMA", ResultType.Default)
             .Build();
 
-    // Price Relative Strength Series Listing
+    /// <summary>
+    /// Price Relative Strength Series Listing
+    /// </summary>
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)

@@ -11,7 +11,7 @@ public class Tema : StaticSeriesTestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.HasCount(483, results.Where(x => x.Tema != null));
+        Assert.HasCount(483, results.Where(static x => x.Tema != null));
 
         // sample values
         TemaResult r25 = results[25];
@@ -35,7 +35,7 @@ public class Tema : StaticSeriesTestBase
             .ToTema(20);
 
         Assert.HasCount(502, results);
-        Assert.HasCount(483, results.Where(x => x.Tema != null));
+        Assert.HasCount(483, results.Where(static x => x.Tema != null));
     }
 
     [TestMethod]
@@ -46,7 +46,7 @@ public class Tema : StaticSeriesTestBase
             .ToTema(20);
 
         Assert.HasCount(502, results);
-        Assert.HasCount(482, results.Where(x => x.Tema != null));
+        Assert.HasCount(482, results.Where(static x => x.Tema != null));
     }
 
     [TestMethod]
@@ -57,7 +57,7 @@ public class Tema : StaticSeriesTestBase
             .ToSma(10);
 
         Assert.HasCount(502, results);
-        Assert.HasCount(474, results.Where(x => x.Sma != null));
+        Assert.HasCount(474, results.Where(static x => x.Sma != null));
     }
 
     [TestMethod]
@@ -67,7 +67,7 @@ public class Tema : StaticSeriesTestBase
             .ToTema(15);
 
         Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(x => x.Tema is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.Tema is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -98,9 +98,11 @@ public class Tema : StaticSeriesTestBase
         Assert.AreEqual(238.7690, last.Tema.Round(4));
     }
 
-    // bad lookback period
+    /// <summary>
+    /// bad lookback period
+    /// </summary>
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => Quotes.ToTema(0));
+            static () => Quotes.ToTema(0));
 }

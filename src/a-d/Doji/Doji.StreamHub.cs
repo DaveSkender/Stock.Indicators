@@ -84,7 +84,7 @@ public static partial class Doji
     /// <summary>
     /// Creates a Doji hub from a collection of quotes.
     /// </summary>
-    /// <param name="quotes">The collection of quotes.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <param name="maxPriceChangePercent">Parameter for the calculation.</param>
     /// <returns>An instance of <see cref="DojiHub"/>.</returns>
     public static DojiHub ToDojiHub(

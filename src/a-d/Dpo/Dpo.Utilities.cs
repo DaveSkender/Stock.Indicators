@@ -8,7 +8,7 @@ public static partial class Dpo
     /// <summary>
     /// Validates the lookback periods for DPO calculations.
     /// </summary>
-    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <exception cref="ArgumentOutOfRangeException">
     /// Thrown when the lookback periods are less than or equal to 0.
     /// </exception>

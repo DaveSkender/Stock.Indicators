@@ -2,7 +2,9 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Dpo
 {
-    // DPO Common Base Listing
+    /// <summary>
+    /// DPO Common Base Listing
+    /// </summary>
     internal static readonly IndicatorListing CommonListing =
         new CatalogListingBuilder()
             .WithName("Detrended Price Oscillator")
@@ -14,13 +16,17 @@ public static partial class Dpo
             .AddResult("Sma", "SMA", ResultType.Default)
             .Build();
 
-    // DPO Series Listing
+    /// <summary>
+    /// DPO Series Listing
+    /// </summary>
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
             .Build();
 
-    // DPO BufferList Listing
+    /// <summary>
+    /// DPO BufferList Listing
+    /// </summary>
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)

@@ -13,7 +13,7 @@ public class CciHub
     /// Initializes a new instance of the <see cref="CciHub"/> class.
     /// </summary>
     /// <param name="provider">The quote provider.</param>
-    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <exception cref="ArgumentNullException">Thrown when the provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
     internal CciHub(
@@ -41,45 +41,50 @@ public class CciHub
         ArgumentNullException.ThrowIfNull(item);
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
-        // Synchronize _cciList state with the current index
-        if (i == 0)
-        {
-            // Starting fresh - clear and add first item
-            _cciList.Clear();
-            _cciList.Add(item);
-        }
-        else if (_cciList.Count == i)
-        {
-            // Normal incremental case - list is in sync, just add the new item
-            _cciList.Add(item);
-        }
-        else if (_cciList.Count < i)
-        {
-            // Missing data - add any skipped items from ProviderCache, then add current
-            for (int k = _cciList.Count; k < i; k++)
-            {
-                _cciList.Add(ProviderCache[k]);
-            }
-
-            _cciList.Add(item);
-        }
-        else // _cciList.Count > i
-        {
-            // Late arrival/rebuild scenario - items were removed/reordered
-            // Must rebuild from scratch to ensure correctness
-            _cciList.Clear();
-            for (int k = 0; k < i; k++)
-            {
-                _cciList.Add(ProviderCache[k]);
-            }
-
-            _cciList.Add(item);
-        }
+        // Add current item to CciList
+        _cciList.Add(item);
 
         // Get the latest result from the CciList
         CciResult r = _cciList[^1];
 
         return (r, i);
+    }
+
+    /// <summary>
+    /// Restores the CciList state up to the specified timestamp.
+    /// Clears and rebuilds _cciList from ProviderCache for Insert/Remove operations.
+    /// </summary>
+    /// <inheritdoc/>
+    protected override void RollbackState(DateTime timestamp)
+    {
+        // Clear CciList
+        _cciList.Clear();
+
+        // Find target index in ProviderCache
+        int index = ProviderCache.IndexGte(timestamp);
+        if (index == -1)
+        {
+            index = ProviderCache.Count;
+        }
+
+        if (index <= 0)
+        {
+            return;
+        }
+
+        // Rebuild up to the index before the rollback timestamp
+        int targetIndex = index - 1;
+
+        // Optimize: only rebuild the rolling window needed for CciList
+        // CciList maintains a _tpBuffer of size LookbackPeriods via Queue.Update()
+        int startIdx = Math.Max(0, targetIndex + 1 - LookbackPeriods);
+
+        // Rebuild CciList from ProviderCache
+        for (int p = startIdx; p <= targetIndex; p++)
+        {
+            IQuote quote = ProviderCache[p];
+            _cciList.Add(quote);
+        }
     }
 }
 
@@ -92,7 +97,7 @@ public static partial class Cci
     /// Creates a CCI hub from a quote provider.
     /// </summary>
     /// <param name="quoteProvider">The quote provider.</param>
-    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>A CCI hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the quote provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
@@ -104,8 +109,8 @@ public static partial class Cci
     /// <summary>
     /// Creates a CCI hub from a collection of quotes.
     /// </summary>
-    /// <param name="quotes">The collection of quotes.</param>
-    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>An instance of <see cref="CciHub"/>.</returns>
     public static CciHub ToCciHub(
         this IReadOnlyList<IQuote> quotes,

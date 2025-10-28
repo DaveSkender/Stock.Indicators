@@ -12,7 +12,7 @@ public class AtrHub
     /// Initializes a new instance of the <see cref="AtrHub"/> class.
     /// </summary>
     /// <param name="provider">The quote provider.</param>
-    /// <param name="lookbackPeriods">The number of lookback periods for ATR calculation.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     internal AtrHub(IQuoteProvider<IQuote> provider,
         int lookbackPeriods)
         : base(provider)
@@ -96,7 +96,7 @@ public static partial class Atr
     /// Converts the provided quote provider to an ATR hub with the specified lookback periods.
     /// </summary>
     /// <param name="quoteProvider">The quote provider to convert.</param>
-    /// <param name="lookbackPeriods">The number of lookback periods for ATR calculation. Default is 14.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>An instance of <see cref="AtrHub"/>.</returns>
     public static AtrHub ToAtrHub(
         this IQuoteProvider<IQuote> quoteProvider,
@@ -106,8 +106,8 @@ public static partial class Atr
     /// <summary>
     /// Creates a Atr hub from a collection of quotes.
     /// </summary>
-    /// <param name="quotes">The collection of quotes.</param>
-    /// <param name="lookbackPeriods">Parameter for the calculation.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>An instance of <see cref="AtrHub"/>.</returns>
     public static AtrHub ToAtrHub(
         this IReadOnlyList<IQuote> quotes,

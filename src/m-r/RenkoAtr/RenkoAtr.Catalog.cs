@@ -2,7 +2,9 @@ namespace Skender.Stock.Indicators;
 
 public static partial class RenkoAtr
 {
-    // Renko (ATR) Common Base Listing
+    /// <summary>
+    /// Renko (ATR) Common Base Listing
+    /// </summary>
     internal static readonly IndicatorListing CommonListing =
         new CatalogListingBuilder()
             .WithName("Renko (ATR)")
@@ -19,7 +21,9 @@ public static partial class RenkoAtr
             .AddResult("IsUp", "Is Up", ResultType.Default)
             .Build();
 
-    // Renko (ATR) Series Listing
+    /// <summary>
+    /// Renko (ATR) Series Listing
+    /// </summary>
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)

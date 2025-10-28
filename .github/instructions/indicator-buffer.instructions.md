@@ -14,7 +14,7 @@ When implementing or updating an indicator, you must complete:
 - [ ] Source code: `src/**/{IndicatorName}.BufferList.cs` file exists and adheres to these instructions
   - [ ] Inherits `BufferList<TResult>` and implements the correct increment interface (`IIncrementFromChain` | `IIncrementFromQuote` | `IIncrementFromPairs`)
   - [ ] Provides two constructors: primary parameters only, and parameters + `IReadOnlyList<IQuote> quotes` (chained via `: this(... ) => Add(quotes);`)
-  - [ ] Implements required Add overloads for the chosen interface and uses `BufferUtilities.Update()` or `UpdateWithDequeue()`
+  - [ ] Implements required Add overloads for the chosen interface and uses `BufferListUtilities.Update()` or `UpdateWithDequeue()`
   - [ ] `Clear()` resets results and all internal buffers/caches
   - [ ] Member order matches conventions: Fields → Constructors → Properties → Methods → Extension
 - [ ] Catalog: `src/**/{IndicatorName}.Catalog.cs` exists, is accurate, and registered in `src\_common\Catalog\Catalog.Listings.cs` (`PopulateCatalog`)
@@ -26,7 +26,7 @@ When implementing or updating an indicator, you must complete:
 
 ## Universal buffer utilities
 
-All buffer indicators must use the common `BufferUtilities` extension methods from `src/_common/BufferLists/BufferUtilities.cs` for consistent buffer management.
+All buffer indicators must use the common `BufferListUtilities` extension methods from `src/_common/BufferLists/BufferListUtilities.cs` for consistent buffer management.
 
 ## File naming conventions
 
@@ -229,7 +229,7 @@ See also: Common indicator requirements and Series-as-canonical policy in `.gith
 
 ### Universal buffer utility usage
 
-- **Always use `BufferUtilities` extension methods** - Never implement custom buffer management logic
+- **Always use `BufferListUtilities` extension methods** - Never implement custom buffer management logic
 - **Choose the right extension method**:
   - Use `buffer.Update()` for standard rolling buffer scenarios
   - Use `buffer.UpdateWithDequeue()` when tracking removed values for sums or calculations
@@ -296,4 +296,4 @@ When implementing other complex or previously deferred indicators (for example: 
 > - StreamHub tests: `specs/001-develop-streaming-indicators/checklists/stream-hub-tests.md`
 
 ---
-Last updated: October 13, 2025
+Last updated: October 28, 2025

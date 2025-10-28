@@ -8,7 +8,7 @@ public static partial class Pivots
     /// <summary>
     /// Converts a list of quotes to a list of pivot points results.
     /// </summary>
-    /// <param name="quotes">The list of quotes.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <param name="leftSpan">The number of periods to the left of the pivot point.</param>
     /// <param name="rightSpan">The number of periods to the right of the pivot point.</param>
     /// <param name="maxTrendPeriods">The maximum number of periods for trend calculation.</param>
@@ -38,7 +38,7 @@ public static partial class Pivots
         List<(decimal? highPoint, decimal? lowPoint)> fractals
            = quotes
             .ToFractal(leftSpan, rightSpan, endType)
-            .Select(f => (f.FractalBear, f.FractalBull))
+            .Select(static f => (f.FractalBear, f.FractalBull))
             .ToList();
 
         int? lastHighIndex = null;
