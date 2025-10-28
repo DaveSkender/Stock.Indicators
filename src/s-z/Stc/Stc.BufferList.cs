@@ -41,10 +41,7 @@ public class StcList : BufferList<StcResult>, IIncrementFromChain
         int fastPeriods,
         int slowPeriods,
         IReadOnlyList<IReusable> values)
-        : this(cyclePeriods, fastPeriods, slowPeriods)
-    {
-        Add(values);
-    }
+        : this(cyclePeriods, fastPeriods, slowPeriods) => Add(values);
 
     /// <summary>
     /// Gets the number of periods for the cycle calculation.
@@ -60,9 +57,6 @@ public class StcList : BufferList<StcResult>, IIncrementFromChain
     /// Gets the number of periods for the slow MA.
     /// </summary>
     public int SlowPeriods { get; init; }
-
-
-
 
     /// <inheritdoc />
     public void Add(DateTime timestamp, double value)
@@ -122,6 +116,21 @@ public class StcList : BufferList<StcResult>, IIncrementFromChain
         base.Clear();
         _macdList.Clear();
         _stochList.Clear();
+    }
+
+    /// <summary>
+    /// Overrides list pruning to synchronize the nested child lists.
+    /// </summary>
+    protected override void PruneList()
+    {
+        // Synchronize child lists' MaxListSize with the parent list
+        // Keep enough history to support calculations
+        int minSize = Math.Max(SlowPeriods, CyclePeriods) + 1;
+        _macdList.MaxListSize = Math.Max(minSize, MaxListSize + 1);
+        _stochList.MaxListSize = Math.Max(minSize, MaxListSize + 1);
+
+        // Call base implementation to prune the outer result list
+        base.PruneList();
     }
 }
 
