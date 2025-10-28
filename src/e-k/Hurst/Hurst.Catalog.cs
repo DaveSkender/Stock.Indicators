@@ -23,6 +23,13 @@ public static partial class Hurst
             .WithStyle(Style.Series)
             .Build();
 
+    /// <summary>
+    /// HURST Buffer Listing
+    /// </summary>
+    internal static readonly IndicatorListing BufferListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Buffer)
+            .Build();
+
     // No StreamListing for HURST.
-    // No BufferListing for HURST.
 }
