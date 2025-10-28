@@ -9,9 +9,9 @@ public static partial class Kvo
     /// Converts a list of quotes to KVO (Klinger Volume Oscillator) results.
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="fastPeriods">The number of periods for the fast EMA. Default is 34.</param>
-    /// <param name="slowPeriods">The number of periods for the slow EMA. Default is 55.</param>
-    /// <param name="signalPeriods">The number of periods for the signal line. Default is 13.</param>
+    /// <param name="fastPeriods">The number of periods for the fast EMA.</param>
+    /// <param name="slowPeriods">The number of periods for the slow EMA.</param>
+    /// <param name="signalPeriods">The number of periods for the signal line.</param>
     /// <returns>A list of KVO results.</returns>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when any of the parameters are out of their valid range.</exception>
     public static IReadOnlyList<KvoResult> ToKvo(

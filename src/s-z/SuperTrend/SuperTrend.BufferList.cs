@@ -17,7 +17,7 @@ public class SuperTrendList : BufferList<SuperTrendResult>, IIncrementFromQuote
     /// Initializes a new instance of the <see cref="SuperTrendList"/> class.
     /// </summary>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <param name="multiplier">The multiplier for the ATR. Default is 3.</param>
+    /// <param name="multiplier">The multiplier for the ATR.</param>
     public SuperTrendList(int lookbackPeriods = 10, double multiplier = 3)
     {
         SuperTrend.Validate(lookbackPeriods, multiplier);

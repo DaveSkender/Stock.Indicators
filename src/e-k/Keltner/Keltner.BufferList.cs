@@ -12,9 +12,9 @@ public class KeltnerList : BufferList<KeltnerResult>, IIncrementFromQuote
     /// <summary>
     /// Initializes a new instance of the <see cref="KeltnerList"/> class.
     /// </summary>
-    /// <param name="emaPeriods">The number of periods for the EMA. Default is 20.</param>
-    /// <param name="multiplier">The multiplier for the ATR. Default is 2.</param>
-    /// <param name="atrPeriods">The number of periods for the ATR. Default is 10.</param>
+    /// <param name="emaPeriods">The number of periods for the EMA.</param>
+    /// <param name="multiplier">The multiplier for the ATR.</param>
+    /// <param name="atrPeriods">The number of periods for the ATR.</param>
     public KeltnerList(
         int emaPeriods = 20,
         double multiplier = 2,

@@ -8,7 +8,7 @@ public static partial class QuoteParts
     /// Converts the quote provider to a QuotePartHub.
     /// </summary>
     /// <param name="quoteProvider">The quote provider.</param>
-    /// <param name="candlePart">The candle part to select.</param>
+    /// <param name="candlePart">The <see cref="CandlePart" /> element.</param>
     /// <returns>A QuotePartHub instance.</returns>
     public static QuotePartHub ToQuotePartHub(
     this IQuoteProvider<IQuote> quoteProvider,
@@ -26,7 +26,7 @@ public class QuotePartHub
     /// Initializes a new instance of the <see cref="QuotePartHub"/> class.
     /// </summary>
     /// <param name="provider">The quote provider.</param>
-    /// <param name="candlePart">The candle part to select.</param>
+    /// <param name="candlePart">The <see cref="CandlePart" /> element.</param>
     internal QuotePartHub(
         IQuoteProvider<IQuote> provider,
         CandlePart candlePart

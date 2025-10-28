@@ -22,9 +22,9 @@ public class KvoList : BufferList<KvoResult>, IIncrementFromQuote, IKvo
     /// <summary>
     /// Initializes a new instance of the <see cref="KvoList"/> class.
     /// </summary>
-    /// <param name="fastPeriods">The number of periods for the fast EMA. Default is 34.</param>
-    /// <param name="slowPeriods">The number of periods for the slow EMA. Default is 55.</param>
-    /// <param name="signalPeriods">The number of periods for the signal line. Default is 13.</param>
+    /// <param name="fastPeriods">The number of periods for the fast EMA.</param>
+    /// <param name="slowPeriods">The number of periods for the slow EMA.</param>
+    /// <param name="signalPeriods">The number of periods for the signal line.</param>
     public KvoList(
         int fastPeriods = 34,
         int slowPeriods = 55,

@@ -60,9 +60,9 @@ public static partial class Stoch
     /// Creates a buffer list for Stochastic Oscillator calculations.
     /// </summary>
     /// <param name="quotes">The list of quotes to process.</param>
-    /// <param name="lookbackPeriods">The lookback period for the oscillator. Default is 14.</param>
-    /// <param name="signalPeriods">The signal period for the oscillator. Default is 3.</param>
-    /// <param name="smoothPeriods">The smoothing period for the oscillator. Default is 3.</param>
+    /// <param name="lookbackPeriods">The lookback period for the oscillator.</param>
+    /// <param name="signalPeriods">The signal period for the oscillator.</param>
+    /// <param name="smoothPeriods">The smoothing period for the oscillator.</param>
     /// <returns>A StochList instance initialized with the provided quotes.</returns>
     public static StochList ToStochList(
         this IReadOnlyList<IQuote> quotes,

@@ -14,7 +14,7 @@ public static partial class QuoteParts
     /// use something other than the default Close price.
     /// </remarks>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="candlePart">The candle part to convert to.</param>
+    /// <param name="candlePart">The <see cref="CandlePart" /> element.</param>
     /// <returns>List of IReusable items.</returns>
     public static IReadOnlyList<QuotePart> ToQuotePart(
         this IReadOnlyList<IQuote> quotes,
@@ -37,7 +37,7 @@ public static partial class QuoteParts
     /// an <see cref="IReadOnlyList{QuotePart}"/> list.
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="candlePart">Candle part to extract.</param>
+    /// <param name="candlePart">The <see cref="CandlePart" /> element.</param>
     /// <returns>Collection of <see cref="QuotePart"/> records.</returns>
     public static IReadOnlyList<QuotePart> Use(
         this IReadOnlyList<IQuote> quotes,

@@ -41,8 +41,8 @@ public class StdDevChannelsList : BufferList<StdDevChannelsResult>, IIncrementFr
     /// <summary>
     /// Initializes a new instance of the <see cref="StdDevChannelsList"/> class.
     /// </summary>
-    /// <param name="lookbackPeriods">The number of periods to look back for the calculation. Default is 20.</param>
-    /// <param name="stdDeviations">The number of standard deviations for the channel width. Default is 2.</param>
+    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
+    /// <param name="stdDeviations">The number of standard deviations for the channel width.</param>
     public StdDevChannelsList(int lookbackPeriods = 20, double stdDeviations = 2)
     {
         StdDevChannels.Validate(lookbackPeriods, stdDeviations);

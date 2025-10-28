@@ -131,7 +131,7 @@ internal static partial class Utilities
     /// <summary>
     /// Get the tolerance (decimal places) values for a given precision profile.
     /// </summary>
-    /// <param name="profile"></param>
+    /// <param name="profile">Precision profile</param>
     /// <remarks>
     /// Choose conservative defaults.
     /// Doubles get the primary tolerance; decimal remains strict for
@@ -267,8 +267,8 @@ public static class FluentAssertionExtensions
     /// <summary>
     /// Calculate the ULP distance between two double values.
     /// </summary>
-    /// <param name="actual"></param>
-    /// <param name="expected"></param>
+    /// <param name="actual">Actual value</param>
+    /// <param name="expected">Expected value</param>
     private static int CalculateUlpDistance(double actual, double expected)
     {
         double next = actual;
@@ -298,8 +298,8 @@ public static class FluentAssertionExtensions
     /// <summary>
     /// Calculate the ULP distance between two float values.
     /// </summary>
-    /// <param name="actual"></param>
-    /// <param name="expected"></param>
+    /// <param name="actual">Actual value</param>
+    /// <param name="expected">Expected value</param>
     private static int CalculateUlpDistance(float actual, float expected)
     {
         float next = actual;
@@ -333,9 +333,9 @@ internal static partial class Utilities
     /// Assert structural equivalence using ULP-based floating-point comparison for doubles/floats
     /// with profiles defining max ULP differences. Decimals remain strict by design.
     /// </summary>
-    /// <param name="actual"></param>
-    /// <param name="expected"></param>
-    /// <param name="ulpPrecision"></param>
+    /// <param name="actual">Actual value</param>
+    /// <param name="expected">Expected value</param>
+    /// <param name="ulpPrecision">Units of precision</param>
     internal static void AssertEqualsUlp<T>(
         this IEnumerable<T> actual,
         IEnumerable<T> expected,

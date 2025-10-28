@@ -9,9 +9,9 @@ public static partial class Keltner
     /// Converts a list of quotes to Keltner Channel results.
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="emaPeriods">The number of periods for the EMA. Default is 20.</param>
-    /// <param name="multiplier">The multiplier for the ATR. Default is 2.</param>
-    /// <param name="atrPeriods">The number of periods for the ATR. Default is 10.</param>
+    /// <param name="emaPeriods">The number of periods for the EMA.</param>
+    /// <param name="multiplier">The multiplier for the ATR.</param>
+    /// <param name="atrPeriods">The number of periods for the ATR.</param>
     /// <returns>A list of Keltner Channel results.</returns>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when any of the parameters are out of their valid range.</exception>
     public static IReadOnlyList<KeltnerResult> ToKeltner(

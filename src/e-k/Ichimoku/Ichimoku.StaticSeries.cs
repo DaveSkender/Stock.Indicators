@@ -9,8 +9,8 @@ public static partial class Ichimoku
     /// Converts a list of quotes to Ichimoku Cloud results using default parameters.
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="tenkanPeriods">The number of periods for the Tenkan-sen (conversion line). Default is 9.</param>
-    /// <param name="kijunPeriods">The number of periods for the Kijun-sen (base line). Default is 26.</param>
+    /// <param name="tenkanPeriods">The number of periods for the Tenkan-sen (conversion line).</param>
+    /// <param name="kijunPeriods">The number of periods for the Kijun-sen (base line).</param>
     /// <param name="senkouBPeriods">The number of periods for the Senkou Span B (leading span B). Default is 52.</param>
     /// <returns>A list of Ichimoku Cloud results.</returns>
     public static IReadOnlyList<IchimokuResult> ToIchimoku(

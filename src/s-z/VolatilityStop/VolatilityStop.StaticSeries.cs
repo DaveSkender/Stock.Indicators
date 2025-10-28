@@ -10,7 +10,7 @@ public static partial class VolatilityStop
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <param name="multiplier">The multiplier for the Average True Range. Default is 3.</param>
+    /// <param name="multiplier">The multiplier for the Average True Range.</param>
     /// <returns>A list of VolatilityStopResult containing the Volatility Stop values.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the source is null.</exception>
     public static IReadOnlyList<VolatilityStopResult> ToVolatilityStop(

@@ -9,7 +9,7 @@ public static class Reusable
     /// Converts a list of quotes to a list of reusable types.
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="candlePart">The part of the candle to use.</param>
+    /// <param name="candlePart">The <see cref="CandlePart" /> element.</param>
     /// <returns>A list of reusable types.</returns>
     public static IReadOnlyList<IReusable> ToReusable(
         this IReadOnlyList<IQuote> quotes,
@@ -68,7 +68,7 @@ public static class Reusable
     /// Converts a quote to a basic chainable class.
     /// </summary>
     /// <param name="q">The quote to convert.</param>
-    /// <param name="candlePart">The part of the candle to use.</param>
+    /// <param name="candlePart">The <see cref="CandlePart" /> element.</param>
     /// <returns>A reusable type.</returns>
     internal static IReusable ToReusable(this IQuote q, CandlePart candlePart)
         => q.ToQuotePart(candlePart);

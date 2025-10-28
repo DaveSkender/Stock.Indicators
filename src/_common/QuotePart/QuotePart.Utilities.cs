@@ -8,7 +8,7 @@ public static partial class QuoteParts
     /// convert TQuote element to a basic QuotePart class
     /// </summary>
     /// <param name="q"></param>
-    /// <param name="candlePart"></param>
+    /// <param name="candlePart">The <see cref="CandlePart" /> element.</param>
     /// <returns>Date and value pair</returns>
     internal static QuotePart ToQuotePart(this IQuote q, CandlePart candlePart)
         => new(q.Timestamp, q.ToQuotePartValue(candlePart));
@@ -17,7 +17,7 @@ public static partial class QuoteParts
     /// convert IQuote to value based on CandlePart
     /// </summary>
     /// <param name="q"></param>
-    /// <param name="candlePart"></param>
+    /// <param name="candlePart">The <see cref="CandlePart" /> element.</param>
     /// <returns>Value of quote part</returns>
     /// <exception cref="ArgumentOutOfRangeException"></exception>
     internal static double ToQuotePartValue(this IQuote q, CandlePart candlePart)
@@ -55,7 +55,7 @@ public static partial class QuoteParts
     /// </summary>
     /// <typeparam name="T">Type of record</typeparam>
     /// <param name="item"></param>
-    /// <param name="candlePart"></param>
+    /// <param name="candlePart">The <see cref="CandlePart" /> element.</param>
     /// <returns></returns>
     internal static double QuotePartOrValue<T>(
         this T item, CandlePart candlePart)
@@ -80,7 +80,7 @@ public static partial class QuoteParts
     /// </remarks>
     /// <typeparam name="T">Type of record</typeparam>
     /// <param name="items">List of IQuote or IReusable items</param>
-    /// <param name="candlePart"></param>
+    /// <param name="candlePart">The <see cref="CandlePart" /> element.</param>
     /// <returns>List of IReusable items</returns>
     internal static IReadOnlyList<IReusable> ToPreferredList<T>(
     this IReadOnlyList<T> items, CandlePart candlePart)
