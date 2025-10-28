@@ -54,7 +54,7 @@ public class TrixList : BufferList<TrixResult>, IIncrementFromChain, ITrix
     /// <inheritdoc />
     public void Add(DateTime timestamp, double value)
     {
-        // Use BufferUtilities extension method for efficient buffer management
+        // Use BufferListUtilities extension method for efficient buffer management
         double? dequeuedValue = _buffer.UpdateWithDequeue(LookbackPeriods, value);
 
         // Update running sum efficiently

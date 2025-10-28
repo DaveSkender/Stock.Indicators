@@ -66,7 +66,7 @@ public class VwmaList : BufferList<VwmaResult>, IIncrementFromQuote, IVwma
     /// <param name="volume">The volume value.</param>
     public void Add(DateTime timestamp, double price, double volume)
     {
-        // Use BufferUtilities extension method for consistent buffer management
+        // Use BufferListUtilities extension method for consistent buffer management
         _buffer.Update(LookbackPeriods, (price, volume));
 
         // Calculate VWMA when we have enough values by recalculating from buffer

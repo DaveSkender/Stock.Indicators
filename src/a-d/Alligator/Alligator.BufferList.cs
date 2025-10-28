@@ -140,7 +140,7 @@ public class AlligatorList : BufferList<AlligatorResult>, IIncrementFromChain, I
             // Get the value from JawOffset positions ago (O(1) indexing with List)
             double offsetValue = _inputBuffer[_inputBuffer.Count - 1 - JawOffset];
 
-            // Use BufferUtilities extension method with dequeue tracking for running sum maintenance
+            // Use BufferListUtilities extension method with dequeue tracking for running sum maintenance
             double? removed = _jawBuffer.UpdateWithDequeue(JawPeriods, offsetValue);
 
             if (removed.HasValue)
@@ -173,7 +173,7 @@ public class AlligatorList : BufferList<AlligatorResult>, IIncrementFromChain, I
         {
             double offsetValue = _inputBuffer[_inputBuffer.Count - 1 - TeethOffset];
 
-            // Use BufferUtilities extension method with dequeue tracking for running sum maintenance
+            // Use BufferListUtilities extension method with dequeue tracking for running sum maintenance
             double? removed = _teethBuffer.UpdateWithDequeue(TeethPeriods, offsetValue);
 
             if (removed.HasValue)
@@ -200,7 +200,7 @@ public class AlligatorList : BufferList<AlligatorResult>, IIncrementFromChain, I
         {
             double offsetValue = _inputBuffer[_inputBuffer.Count - 1 - LipsOffset];
 
-            // Use BufferUtilities extension method with dequeue tracking for running sum maintenance
+            // Use BufferListUtilities extension method with dequeue tracking for running sum maintenance
             double? removed = _lipsBuffer.UpdateWithDequeue(LipsPeriods, offsetValue);
 
             if (removed.HasValue)
