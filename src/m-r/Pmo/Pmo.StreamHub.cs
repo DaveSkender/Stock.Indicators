@@ -254,7 +254,6 @@ public class PmoHub
         // Reset state - will be recalculated during rebuild
         prevRocEma = double.NaN;
         prevPmo = double.NaN;
-        prevSignal = double.NaN;
     }
 }
 
