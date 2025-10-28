@@ -144,8 +144,7 @@ dotnet_diagnostic.IDE0330.severity = none        # Prefer 'System.Threading.Lock
 # Roslynator analyzer suppressions
 dotnet_diagnostic.IDE0008.severity = suggestion  # Use explicit type
 dotnet_diagnostic.IDE0010.severity = none        # Add missing cases (can be verbose)
-dotnet_diagnostic.IDE0022.severity = none        # Use expression body for method (stylistic preference)
-dotnet_diagnostic.IDE0028.severity = none        # Simplify collection initialization (not compatible with all scenarios)
+dotnet_diagnostic.IDE0028.severity = none        # Simplify collection initialization (flakey)
 dotnet_diagnostic.IDE0045.severity = none        # Use conditional expression for assignment
 dotnet_diagnostic.IDE0046.severity = none        # Use conditional expression for return
 dotnet_diagnostic.IDE0047.severity = none        # Remove unnecessary parentheses
@@ -186,6 +185,7 @@ csharp_style_prefer_top_level_statements = true:silent
 csharp_style_prefer_primary_constructors = true:suggestion
 
 # Expression-bodied members
+csharp_style_expression_bodied_constructors = true:silent
 csharp_style_expression_bodied_methods = true:silent
 csharp_style_expression_bodied_operators = true:silent
 csharp_style_expression_bodied_properties = true:silent

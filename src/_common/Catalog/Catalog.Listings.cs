@@ -207,6 +207,7 @@ public static partial class Catalog
 
         // Hurst Exponent
         _listings.Add(Hurst.SeriesListing);
+        _listings.Add(Hurst.BufferListing);
 
         // Ichimoku Cloud
         _listings.Add(Ichimoku.SeriesListing);
