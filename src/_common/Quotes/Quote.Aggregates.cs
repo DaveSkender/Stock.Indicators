@@ -7,7 +7,7 @@ public static partial class Quotes
     /// <summary>
     /// Aggregates the quotes to a specified period size.
     /// </summary>
-    /// <param name="quotes">The quotes to aggregate.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <param name="newSize">The new period size to aggregate to.</param>
     /// <returns>A list of aggregated quotes.</returns>
     public static IReadOnlyList<Quote> Aggregate(
@@ -41,7 +41,7 @@ public static partial class Quotes
     /// <summary>
     /// Aggregates the quotes to a specified time span.
     /// </summary>
-    /// <param name="quotes">The quotes to aggregate.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <param name="timeSpan">The time span to aggregate to.</param>
     /// <returns>A list of aggregated quotes.</returns>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the time span is less than or equal to zero.</exception>

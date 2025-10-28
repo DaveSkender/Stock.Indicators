@@ -9,8 +9,8 @@ public static partial class Atr
     /// <summary>
     /// Calculates Average True Range (ATR) for a series of quotes.
     /// </summary>
-    /// <param name="quotes">The list of quotes.</param>
-    /// <param name="lookbackPeriods">The number of periods to look back for ATR calculation. Default is 14.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>A read-only list of ATR results.</returns>
     public static IReadOnlyList<AtrResult> ToAtr(
         this IReadOnlyList<IQuote> quotes,
@@ -22,18 +22,18 @@ public static partial class Atr
     /// <summary>
     /// Calculates the Average True Range (ATR) for a list of quotes.
     /// </summary>
-    /// <param name="source">The list of quotes.</param>
-    /// <param name="lookbackPeriods">The number of periods to look back for ATR calculation.</param>
+    /// <param name="quotes">The list of quotes.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>A list of ATR results.</returns>
     internal static List<AtrResult> CalcAtr(
-        this List<QuoteD> source,
+        this List<QuoteD> quotes,
         int lookbackPeriods)
     {
         // check parameter arguments
         Validate(lookbackPeriods);
 
         // initialize
-        int length = source.Count;
+        int length = quotes.Count;
         List<AtrResult> results = new(length);
         double prevAtr = double.NaN;
         double prevClose = double.NaN;
@@ -42,7 +42,7 @@ public static partial class Atr
         // skip first period
         if (length > 0)
         {
-            QuoteD q = source[0];
+            QuoteD q = quotes[0];
             results.Add(new(Timestamp: q.Timestamp));
             prevClose = q.Close;
         }
@@ -50,7 +50,7 @@ public static partial class Atr
         // roll through source values
         for (int i = 1; i < length; i++)
         {
-            QuoteD q = source[i];
+            QuoteD q = quotes[i];
 
             double hmpc = Math.Abs(q.High - prevClose);
             double lmpc = Math.Abs(q.Low - prevClose);

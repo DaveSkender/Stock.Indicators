@@ -14,7 +14,7 @@ public class AlmaHub
     /// Initializes a new instance of the <see cref="AlmaHub"/> class.
     /// </summary>
     /// <param name="provider">The chain provider.</param>
-    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <param name="offset">The offset for the ALMA calculation.</param>
     /// <param name="sigma">The sigma for the ALMA calculation.</param>
     /// <exception cref="ArgumentNullException">Thrown when the provider is null.</exception>
@@ -115,7 +115,7 @@ public static partial class Alma
     /// Creates an ALMA streaming hub from a chain provider.
     /// </summary>
     /// <param name="chainProvider">The chain provider.</param>
-    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <param name="offset">The offset for the ALMA calculation. Default is 0.85.</param>
     /// <param name="sigma">The sigma for the ALMA calculation. Default is 6.</param>
     /// <returns>An ALMA hub.</returns>
@@ -131,8 +131,8 @@ public static partial class Alma
     /// <summary>
     /// Creates an ALMA hub from a collection of quotes.
     /// </summary>
-    /// <param name="quotes">The collection of quotes.</param>
-    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <param name="offset">The offset for the ALMA calculation. Default is 0.85.</param>
     /// <param name="sigma">The sigma for the ALMA calculation. Default is 6.</param>
     /// <returns>An instance of <see cref="AlmaHub"/>.</returns>

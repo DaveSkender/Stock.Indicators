@@ -8,7 +8,7 @@ public static partial class Bop
     /// <summary>
     /// Calculates the Balance of Power (BOP) for a series of quotes.
     /// </summary>
-    /// <param name="quotes">The source list of quotes.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <param name="smoothPeriods">The number of periods to use for smoothing. Default is 14.</param>
     /// <returns>A read-only list of <see cref="BopResult"/> containing the BOP calculation results.</returns>
     public static IReadOnlyList<BopResult> ToBop(
@@ -21,21 +21,21 @@ public static partial class Bop
     /// <summary>
     /// Calculates the Balance of Power (BOP) for a series of quotes.
     /// </summary>
-    /// <param name="source">The source list of quotes.</param>
+    /// <param name="quotes">The source list of quotes.</param>
     /// <param name="smoothPeriods">The number of periods to use for smoothing.</param>
     /// <returns>A list of <see cref="BopResult"/> containing the BOP calculation results.</returns>
     private static List<BopResult> CalcBop(
-        this List<QuoteD> source,
+        this List<QuoteD> quotes,
         int smoothPeriods)
     {
         // check parameter arguments
         Validate(smoothPeriods);
 
         // initialize
-        int length = source.Count;
+        int length = quotes.Count;
         List<BopResult> results = new(length);
 
-        double[] raw = source
+        double[] raw = quotes
             .Select(static x => x.High - x.Low != 0 ?
                 (x.Close - x.Open) / (x.High - x.Low) : double.NaN)
             .ToArray();
@@ -57,7 +57,7 @@ public static partial class Bop
             }
 
             results.Add(new(
-                Timestamp: source[i].Timestamp,
+                Timestamp: quotes[i].Timestamp,
                 Bop: bop));
         }
 

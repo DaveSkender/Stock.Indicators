@@ -250,7 +250,7 @@ public static partial class StochRsi
     /// <summary>
     /// Creates a StochRsi hub from a collection of quotes.
     /// </summary>
-    /// <param name="quotes">The collection of quotes.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <param name="rsiPeriods">The number of periods for the RSI calculation.</param>
     /// <param name="stochPeriods">The number of periods for the Stochastic calculation.</param>
     /// <param name="signalPeriods">The number of periods for the signal line.</param>

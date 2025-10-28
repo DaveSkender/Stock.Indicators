@@ -85,7 +85,7 @@ public static class IndicatorConfigExtensions
     /// </summary>
     /// <typeparam name="TResult">The expected result type.</typeparam>
     /// <param name="config">The indicator configuration.</param>
-    /// <param name="quotes">The quotes to process.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <returns>The indicator results.</returns>
     /// <exception cref="ArgumentNullException">Thrown when config is null.</exception>
     public static IReadOnlyList<TResult> Execute<TResult>(this IndicatorConfig config, IEnumerable<IQuote> quotes)

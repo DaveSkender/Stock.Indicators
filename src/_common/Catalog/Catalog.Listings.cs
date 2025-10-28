@@ -276,6 +276,7 @@ public static partial class Catalog
         // PMO (Price Momentum Oscillator)
         _listings.Add(Pmo.BufferListing);
         _listings.Add(Pmo.SeriesListing);
+        _listings.Add(Pmo.StreamListing);
 
         // PRS (Price Relative Strength)
         _listings.Add(Prs.SeriesListing);

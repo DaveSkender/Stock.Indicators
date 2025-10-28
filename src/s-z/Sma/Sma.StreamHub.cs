@@ -20,7 +20,7 @@ public class SmaHub
     /// Initializes a new instance of the <see cref="SmaHub"/> class.
     /// </summary>
     /// <param name="provider">The chain provider.</param>
-    /// <param name="lookbackPeriods">The number of lookback periods.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     internal SmaHub(
         IChainProvider<IReusable> provider,
         int lookbackPeriods) : base(provider)
@@ -100,7 +100,7 @@ public static partial class Sma
     /// Converts the chain provider to an SMA hub.
     /// </summary>
     /// <param name="chainProvider">The chain provider.</param>
-    /// <param name="lookbackPeriods">The number of lookback periods.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>An SMA hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the chain provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
@@ -112,8 +112,8 @@ public static partial class Sma
     /// <summary>
     /// Creates an SMA hub from a collection of quotes.
     /// </summary>
-    /// <param name="quotes">The collection of quotes.</param>
-    /// <param name="lookbackPeriods">The number of lookback periods.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>An instance of <see cref="SmaHub"/>.</returns>
     public static SmaHub ToSmaHub(
         this IReadOnlyList<IQuote> quotes,

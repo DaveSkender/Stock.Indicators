@@ -10,7 +10,7 @@ public class WilliamsRList : BufferList<WilliamsResult>, IIncrementFromQuote, IW
     /// <summary>
     /// Initializes a new instance of the <see cref="WilliamsRList"/> class.
     /// </summary>
-    /// <param name="lookbackPeriods">The number of periods to look back.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     public WilliamsRList(
         int lookbackPeriods = 14)
     {
@@ -23,8 +23,8 @@ public class WilliamsRList : BufferList<WilliamsResult>, IIncrementFromQuote, IW
     /// <summary>
     /// Initializes a new instance of the <see cref="WilliamsRList"/> class with initial quotes.
     /// </summary>
-    /// <param name="lookbackPeriods">The number of periods to look back.</param>
-    /// <param name="quotes">Initial quotes to populate the list.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     public WilliamsRList(
         int lookbackPeriods,
         IReadOnlyList<IQuote> quotes)
@@ -84,6 +84,7 @@ public class WilliamsRList : BufferList<WilliamsResult>, IIncrementFromQuote, IW
                 {
                     highHigh = High;
                 }
+
                 if (Low < lowLow)
                 {
                     lowLow = Low;

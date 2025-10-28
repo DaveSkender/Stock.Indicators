@@ -11,7 +11,7 @@ public static partial class Donchian
     /// Creates a Donchian Channels streaming hub from a quotes provider.
     /// </summary>
     /// <param name="quoteProvider">The quote provider.</param>
-    /// <param name="lookbackPeriods">The number of periods to look back for the calculation. Default is 20.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>An instance of <see cref="DonchianHub"/>.</returns>
     public static DonchianHub ToDonchianHub(
         this IQuoteProvider<IQuote> quoteProvider,
@@ -33,7 +33,7 @@ public class DonchianHub
     /// Initializes a new instance of the <see cref="DonchianHub"/> class.
     /// </summary>
     /// <param name="provider">The quote provider.</param>
-    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     internal DonchianHub(
         IQuoteProvider<IQuote> provider,
         int lookbackPeriods) : base(provider)
