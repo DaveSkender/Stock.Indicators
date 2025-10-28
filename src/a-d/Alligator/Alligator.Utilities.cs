@@ -64,7 +64,7 @@ public static partial class Alligator
                 "Jaw lookback periods must be greater than Teeth lookback periods for Alligator.");
         }
 
-        if (teethPeriods <= lipsPeriods)
+        if (teethPeriods < lipsPeriods)
         {
             throw new ArgumentOutOfRangeException(nameof(teethPeriods), teethPeriods,
                 "Teeth lookback periods must be greater than Lips lookback periods for Alligator.");
