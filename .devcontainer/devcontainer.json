@@ -31,6 +31,9 @@
       "version": "latest"
     }
   },
+  "remoteEnv": {
+    "PATH": "${containerEnv:HOME}/.local/bin:${containerEnv:HOME}/.dotnet/tools:${containerEnv:PATH}"
+  },
   "customizations": {
     "vscode": {
       "settings": {
