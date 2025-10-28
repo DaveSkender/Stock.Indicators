@@ -142,6 +142,7 @@ dotnet_diagnostic.IDE0230.severity = suggestion  # Use raw string literal when b
 dotnet_diagnostic.IDE0330.severity = none        # Prefer 'System.Threading.Lock'
 
 # Roslynator analyzer suppressions
+dotnet_diagnostic.IDE0008.severity = suggestion  # Use explicit type
 dotnet_diagnostic.IDE0010.severity = none        # Add missing cases (can be verbose)
 dotnet_diagnostic.IDE0022.severity = none        # Use expression body for method (stylistic preference)
 dotnet_diagnostic.IDE0028.severity = none        # Simplify collection initialization (not compatible with all scenarios)
