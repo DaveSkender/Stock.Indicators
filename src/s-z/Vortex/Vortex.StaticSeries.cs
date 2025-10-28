@@ -8,8 +8,8 @@ public static partial class Vortex
     /// <summary>
     /// Calculates the Vortex indicator for a series of quotes.
     /// </summary>
-    /// <param name="quotes">The source list of quotes.</param>
-    /// <param name="lookbackPeriods">The number of lookback periods. Default is 14.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>A list of VortexResult containing the Vortex indicator values.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the source is null.</exception>
     public static IReadOnlyList<VortexResult> ToVortex(
@@ -22,18 +22,18 @@ public static partial class Vortex
     /// <summary>
     /// Calculates the Vortex indicator for a series of quotes.
     /// </summary>
-    /// <param name="source">The source list of quotes.</param>
-    /// <param name="lookbackPeriods">The number of lookback periods.</param>
+    /// <param name="quotes">The source list of quotes.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>A list of VortexResult containing the Vortex indicator values.</returns>
     private static List<VortexResult> CalcVortex(
-        this List<QuoteD> source,
+        this List<QuoteD> quotes,
         int lookbackPeriods)
     {
         // check parameter arguments
         Validate(lookbackPeriods);
 
         // initialize
-        int length = source.Count;
+        int length = quotes.Count;
         List<VortexResult> results = new(length);
 
         double[] tr = new double[length];
@@ -47,7 +47,7 @@ public static partial class Vortex
         // roll through source values
         for (int i = 0; i < length; i++)
         {
-            QuoteD q = source[i];
+            QuoteD q = quotes[i];
 
             // skip first period
             if (i == 0)

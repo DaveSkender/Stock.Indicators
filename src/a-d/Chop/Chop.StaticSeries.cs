@@ -8,8 +8,8 @@ public static partial class Chop
     /// <summary>
     /// Calculates the Choppiness Index (CHOP) for a series of quotes.
     /// </summary>
-    /// <param name="quotes">The source list of quotes.</param>
-    /// <param name="lookbackPeriods">The number of periods to use for the lookback window. Default is 14.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>A read-only list of <see cref="ChopResult"/> containing the CHOP calculation results.</returns>
     public static IReadOnlyList<ChopResult> ToChop(
         this IReadOnlyList<IQuote> quotes,
@@ -21,18 +21,18 @@ public static partial class Chop
     /// <summary>
     /// Calculates the Choppiness Index (CHOP) for a series of quotes.
     /// </summary>
-    /// <param name="source">The source list of quotes.</param>
-    /// <param name="lookbackPeriods">The number of periods to use for the lookback window.</param>
+    /// <param name="quotes">The source list of quotes.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>A list of <see cref="ChopResult"/> containing the CHOP calculation results.</returns>
     private static List<ChopResult> CalcChop(
-        this List<QuoteD> source,
+        this List<QuoteD> quotes,
         int lookbackPeriods)
     {
         // check parameter arguments
         Validate(lookbackPeriods);
 
         // initialize
-        int length = source.Count;
+        int length = quotes.Count;
         List<ChopResult> results = new(length);
         double[] trueHigh = new double[length];
         double[] trueLow = new double[length];
@@ -45,8 +45,8 @@ public static partial class Chop
 
             if (i > 0)
             {
-                trueHigh[i] = Math.Max(source[i].High, source[i - 1].Close);
-                trueLow[i] = Math.Min(source[i].Low, source[i - 1].Close);
+                trueHigh[i] = Math.Max(quotes[i].High, quotes[i - 1].Close);
+                trueLow[i] = Math.Min(quotes[i].Low, quotes[i - 1].Close);
                 trueRange[i] = trueHigh[i] - trueLow[i];
 
                 // calculate CHOP
@@ -77,7 +77,7 @@ public static partial class Chop
             }
 
             results.Add(new(
-                Timestamp: source[i].Timestamp,
+                Timestamp: quotes[i].Timestamp,
                 Chop: chop));
         }
 

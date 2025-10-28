@@ -10,7 +10,7 @@ public class AroonList : BufferList<AroonResult>, IIncrementFromQuote, IAroon
     /// <summary>
     /// Initializes a new instance of the <see cref="AroonList"/> class.
     /// </summary>
-    /// <param name="lookbackPeriods">The number of periods to look back.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     public AroonList(int lookbackPeriods = 25)
     {
         Aroon.Validate(lookbackPeriods);
@@ -21,8 +21,8 @@ public class AroonList : BufferList<AroonResult>, IIncrementFromQuote, IAroon
     /// <summary>
     /// Initializes a new instance of the <see cref="AroonList"/> class with initial quotes.
     /// </summary>
-    /// <param name="lookbackPeriods">The number of periods to look back.</param>
-    /// <param name="quotes">Initial quotes to populate the list.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     public AroonList(int lookbackPeriods, IReadOnlyList<IQuote> quotes)
         : this(lookbackPeriods)
     {
@@ -96,7 +96,7 @@ public class AroonList : BufferList<AroonResult>, IIncrementFromQuote, IAroon
     /// <summary>
     /// Adds a list of quotes to the Aroon list.
     /// </summary>
-    /// <param name="quotes">The list of quotes to add.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <exception cref="ArgumentNullException">Thrown when the quotes list is null.</exception>
     public void Add(IReadOnlyList<IQuote> quotes)
     {
@@ -126,8 +126,8 @@ public static partial class Aroon
     /// <summary>
     /// Creates a buffer list for Aroon calculations.
     /// </summary>
-    /// <param name="quotes">Historical price quotes.</param>
-    /// <param name="lookbackPeriods">The number of periods to look back. Default is 25.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>An AroonList instance pre-populated with historical data.</returns>
     /// <exception cref="ArgumentNullException">Thrown when quotes is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when parameters are invalid.</exception>

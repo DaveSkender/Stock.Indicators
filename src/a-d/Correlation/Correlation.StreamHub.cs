@@ -15,7 +15,7 @@ public class CorrelationHub
     /// </summary>
     /// <param name="providerA">The first chain provider.</param>
     /// <param name="providerB">The second chain provider.</param>
-    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <exception cref="ArgumentNullException">Thrown when either provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
     internal CorrelationHub(
@@ -86,7 +86,7 @@ public static partial class Correlation
     /// </summary>
     /// <param name="providerA">The first chain provider.</param>
     /// <param name="providerB">The second chain provider.</param>
-    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>A Correlation hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when either provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>

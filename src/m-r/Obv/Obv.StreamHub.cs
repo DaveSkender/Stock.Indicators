@@ -62,7 +62,7 @@ public static partial class Obv
     /// <summary>
     /// Creates an Obv hub from a collection of quotes.
     /// </summary>
-    /// <param name="quotes">The collection of quotes.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <returns>An instance of <see cref="ObvHub"/>.</returns>
     public static ObvHub ToObvHub(
         this IReadOnlyList<IQuote> quotes)

@@ -8,8 +8,8 @@ public static partial class Adx
     /// <summary>
     /// Calculates the Average Directional Index (ADX) from a series of quotes.
     /// </summary>
-    /// <param name="quotes">The list of quotes.</param>
-    /// <param name="lookbackPeriods">The number of periods to look back for the ADX calculation.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>A list of ADX results.</returns>
     public static IReadOnlyList<AdxResult> ToAdx(
         this IReadOnlyList<IQuote> quotes,
@@ -21,18 +21,18 @@ public static partial class Adx
     /// <summary>
     /// Calculates the ADX from a list of quotes.
     /// </summary>
-    /// <param name="source">The list of quotes.</param>
-    /// <param name="lookbackPeriods">The number of periods to look back for the ADX calculation.</param>
+    /// <param name="quotes">The list of quotes.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>A list of ADX results.</returns>
     private static List<AdxResult> CalcAdx(
-        this List<QuoteD> source,
+        this List<QuoteD> quotes,
         int lookbackPeriods = 14)
     {
         // check parameter arguments
         Validate(lookbackPeriods);
 
         // initialize
-        int length = source.Count;
+        int length = quotes.Count;
         List<AdxResult> results = new(length);
 
         double prevHigh = 0;
@@ -51,7 +51,7 @@ public static partial class Adx
         // roll through source values
         for (int i = 0; i < length; i++)
         {
-            QuoteD q = source[i];
+            QuoteD q = quotes[i];
 
             // skip first period
             if (i == 0)

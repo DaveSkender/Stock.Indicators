@@ -8,8 +8,8 @@ public static partial class BollingerBands
     /// <summary>
     /// Calculates the Bollinger Bands for a series of data.
     /// </summary>    /// <param name="source">The source list of data.</param>
-    /// <param name="lookbackPeriods">The number of periods to use for the lookback window. Default is 20.</param>
-    /// <param name="standardDeviations">The number of standard deviations to use for the bands. Default is 2.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
+    /// <param name="standardDeviations">The number of standard deviations to use for the bands.</param>
     /// <returns>A read-only list of <see cref="BollingerBandsResult"/> containing the Bollinger Bands calculation results.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the source list is null.</exception>
     public static IReadOnlyList<BollingerBandsResult> ToBollingerBands(

@@ -68,7 +68,7 @@ public static partial class Tr
     /// <summary>
     /// Creates a Tr hub from a collection of quotes.
     /// </summary>
-    /// <param name="quotes">The collection of quotes.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <returns>An instance of <see cref="TrHub"/>.</returns>
     public static TrHub ToTrHub(
         this IReadOnlyList<IQuote> quotes)
