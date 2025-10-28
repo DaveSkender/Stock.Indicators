@@ -9,7 +9,7 @@ public static partial class Hma
     /// Converts a list of time-series values to Hull Moving Average (HMA) results.
     /// </summary>
     /// <param name="source">The list of time-series values to transform.</param>
-    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>A list of HMA results.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the source list is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are less than 2.</exception>
@@ -57,12 +57,12 @@ public static partial class Hma
 
         List<HmaResult> results = source
             .Take(shiftQty)
-            .Select(x => new HmaResult(x.Timestamp))
+            .Select(static x => new HmaResult(x.Timestamp))
             .ToList();
 
         // calculate final HMA = WMA with period SQRT(n)
         List<HmaResult> hmaResults = synthHistory.ToWma(sqN)
-            .Select(x => new HmaResult(
+            .Select(static x => new HmaResult(
                 Timestamp: x.Timestamp,
                 Hma: x.Wma
              ))

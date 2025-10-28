@@ -9,29 +9,46 @@ public class MfiHub : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
     [TestMethod]
     public void QuoteObserver()
     {
-        List<Quote> quotesList = Quotes.ToList();
-        int length = quotesList.Count;
+        int length = Quotes.Count;
 
         // setup quote provider hub
         QuoteHub quoteHub = new();
 
-        // initialize observer
-        Skender.Stock.Indicators.MfiHub observer = quoteHub
-            .ToMfiHub(lookbackPeriods);
+        // prefill quotes at provider
+        quoteHub.Add(Quotes.Take(20));
 
-        // emulate quote stream
-        for (int i = 0; i < length; i++)
+        // initialize observer
+        Skender.Stock.Indicators.MfiHub observer = quoteHub.ToMfiHub(lookbackPeriods);
+
+        // fetch initial results (early)
+        IReadOnlyList<MfiResult> actuals = observer.Results;
+
+        // emulate adding quotes to provider hub
+        for (int i = 20; i < length; i++)
         {
-            quoteHub.Add(quotesList[i]);
+            // skip one (add later)
+            if (i == 80) { continue; }
+
+            Quote q = Quotes[i];
+            quoteHub.Add(q);
+
+            // resend duplicate quotes
+            if (i is > 100 and < 105) { quoteHub.Add(q); }
         }
 
-        // final results
-        IReadOnlyList<MfiResult> streamList = observer.Results;
+        // late arrival, should equal series
+        quoteHub.Insert(Quotes[80]);
+        actuals.Should().BeEquivalentTo(expectedOriginal, static options => options.WithStrictOrdering());
 
-        // assert, should equal series
-        streamList.Should().HaveCount(length);
-        streamList.Should().BeEquivalentTo(expectedOriginal, options => options.WithStrictOrdering());
+        // delete, should equal series (revised)
+        quoteHub.Remove(Quotes[removeAtIndex]);
 
+        IReadOnlyList<MfiResult> expectedRevised = RevisedQuotes.ToMfi(lookbackPeriods);
+
+        actuals.Should().HaveCount(501);
+        actuals.Should().BeEquivalentTo(expectedRevised, static options => options.WithStrictOrdering());
+
+        // cleanup
         observer.Unsubscribe();
         quoteHub.EndTransmission();
     }
@@ -70,7 +87,7 @@ public class MfiHub : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
             .ToEma(emaPeriods);
 
         streamList.Should().HaveCount(seriesList.Count);
-        streamList.Should().BeEquivalentTo(seriesList, o => o.WithStrictOrdering());
+        streamList.Should().BeEquivalentTo(seriesList, static o => o.WithStrictOrdering());
 
         observer.Unsubscribe();
         quoteHub.EndTransmission();
@@ -83,31 +100,5 @@ public class MfiHub : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
 
         Skender.Stock.Indicators.MfiHub hub = new(quoteHub, lookbackPeriods);
         hub.ToString().Should().Be($"MFI({lookbackPeriods})");
-    }
-
-    [TestMethod]
-    public void RollbackValidation()
-    {
-        QuoteHub quoteHub = new();
-
-        // Precondition: Normal quote stream with 502 expected entries
-        Skender.Stock.Indicators.MfiHub observer = quoteHub.ToMfiHub(lookbackPeriods);
-        quoteHub.Add(Quotes);
-
-        observer.Results.Should().HaveCount(502);
-        observer.Results.Should().BeEquivalentTo(expectedOriginal, options => options.WithStrictOrdering());
-
-        // Act: Remove a single historical value
-        quoteHub.Remove(Quotes[removeAtIndex]);
-
-        // Assert: Observer should have 501 results and match revised series
-        IReadOnlyList<MfiResult> expectedRevised = RevisedQuotes.ToMfi(lookbackPeriods);
-
-        observer.Results.Should().HaveCount(501);
-        observer.Results.Should().BeEquivalentTo(expectedRevised, options => options.WithStrictOrdering());
-
-        // cleanup
-        observer.Unsubscribe();
-        quoteHub.EndTransmission();
     }
 }

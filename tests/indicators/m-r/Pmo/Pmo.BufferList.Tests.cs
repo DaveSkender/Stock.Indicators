@@ -26,7 +26,7 @@ public class Pmo : BufferListTestBase, ITestChainBufferList, ITestCustomBufferLi
         }
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
     }
 
     [TestMethod]
@@ -40,7 +40,7 @@ public class Pmo : BufferListTestBase, ITestChainBufferList, ITestCustomBufferLi
         }
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
     }
 
     [TestMethod]
@@ -49,7 +49,7 @@ public class Pmo : BufferListTestBase, ITestChainBufferList, ITestCustomBufferLi
         PmoList sut = new(timePeriods, smoothPeriods, signalPeriods) { reusables };
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
     }
 
     [TestMethod]
@@ -63,7 +63,7 @@ public class Pmo : BufferListTestBase, ITestChainBufferList, ITestCustomBufferLi
         }
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
     }
 
     [TestMethod]
@@ -72,7 +72,7 @@ public class Pmo : BufferListTestBase, ITestChainBufferList, ITestCustomBufferLi
         PmoList sut = Quotes.ToPmoList(timePeriods, smoothPeriods, signalPeriods);
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
     }
 
     [TestMethod]
@@ -81,7 +81,7 @@ public class Pmo : BufferListTestBase, ITestChainBufferList, ITestCustomBufferLi
         PmoList sut = new(timePeriods, smoothPeriods, signalPeriods, Quotes);
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
     }
 
     [TestMethod]
@@ -93,7 +93,7 @@ public class Pmo : BufferListTestBase, ITestChainBufferList, ITestCustomBufferLi
         PmoList sut = new(timePeriods, smoothPeriods, signalPeriods, subset);
 
         sut.Should().HaveCount(subset.Count);
-        sut.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
+        sut.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
 
         sut.Clear();
 
@@ -102,7 +102,7 @@ public class Pmo : BufferListTestBase, ITestChainBufferList, ITestCustomBufferLi
         sut.Add(subset);
 
         sut.Should().HaveCount(expected.Count);
-        sut.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
+        sut.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
     }
 
     [TestMethod]
@@ -120,7 +120,7 @@ public class Pmo : BufferListTestBase, ITestChainBufferList, ITestCustomBufferLi
             = series.Skip(series.Count - maxListSize).ToList();
 
         sut.Should().HaveCount(maxListSize);
-        sut.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
+        sut.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
     }
 
     [TestMethod]
@@ -138,7 +138,7 @@ public class Pmo : BufferListTestBase, ITestChainBufferList, ITestCustomBufferLi
             = series.Skip(series.Count - maxListSize).ToList();
 
         sut.Should().HaveCount(maxListSize);
-        sut.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
+        sut.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
 
         // Add more quotes to verify continued operation after pruning
         List<Quote> moreQuotes = Quotes.TakeLast(50).ToList();
@@ -151,6 +151,6 @@ public class Pmo : BufferListTestBase, ITestChainBufferList, ITestCustomBufferLi
             = allSeries.Skip(allSeries.Count - maxListSize).ToList();
 
         sut.Should().HaveCount(maxListSize);
-        sut.Should().BeEquivalentTo(expectedAfterMore, options => options.WithStrictOrdering());
+        sut.Should().BeEquivalentTo(expectedAfterMore, static options => options.WithStrictOrdering());
     }
 }

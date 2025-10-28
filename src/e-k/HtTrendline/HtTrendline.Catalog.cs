@@ -2,7 +2,9 @@ namespace Skender.Stock.Indicators;
 
 public static partial class HtTrendline
 {
-    // HTL Common Base Listing
+    /// <summary>
+    /// HTL Common Base Listing
+    /// </summary>
     internal static readonly IndicatorListing CommonListing =
         new CatalogListingBuilder()
             .WithName("Hilbert Transform Instantaneous Trendline")
@@ -14,12 +16,21 @@ public static partial class HtTrendline
             .AddResult("SmoothPrice", "Smooth Price", ResultType.Default)
             .Build();
 
-    // HTL Series Listing
+    /// <summary>
+    /// HTL Series Listing
+    /// </summary>
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
             .Build();
 
     // No StreamListing for HTL.
-    // No BufferListing for HTL.
+
+    /// <summary>
+    /// HTL Buffer Listing
+    /// </summary>
+    internal static readonly IndicatorListing BufferListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Buffer)
+            .Build();
 }

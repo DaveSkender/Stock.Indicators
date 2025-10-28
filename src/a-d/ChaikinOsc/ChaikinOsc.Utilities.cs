@@ -16,7 +16,7 @@ public static partial class ChaikinOsc
         ArgumentNullException.ThrowIfNull(results);
 
         int s = results
-            .FindIndex(x => x.Oscillator != null) + 1;
+            .FindIndex(static x => x.Oscillator != null) + 1;
 
         return results.Remove(s + 100);
     }

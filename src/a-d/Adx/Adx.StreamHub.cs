@@ -13,7 +13,7 @@ public class AdxHub
     /// Initializes a new instance of the <see cref="AdxHub"/> class.
     /// </summary>
     /// <param name="quoteProvider">The stream observable provider.</param>
-    /// <param name="lookbackPeriods">The number of periods to look back.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     internal AdxHub(
         IQuoteProvider<IQuote> quoteProvider,
         int lookbackPeriods)
@@ -39,14 +39,25 @@ public class AdxHub
     /// </summary>
     public int LookbackPeriods { get; init; }
 
-    // State variables
+    /// <summary>
+    /// State variables
+    /// </summary>
     private bool _isFirstPeriod;
     private double _prevHigh;
     private double _prevLow;
     private double _prevClose;
-    private double _prevTrs; // smoothed TR
-    private double _prevPdm; // smoothed PDM
-    private double _prevMdm; // smoothed MDM
+    /// <summary>
+    /// smoothed TR
+    /// </summary>
+    private double _prevTrs;
+    /// <summary>
+    /// smoothed PDM
+    /// </summary>
+    private double _prevPdm;
+    /// <summary>
+    /// smoothed MDM
+    /// </summary>
+    private double _prevMdm;
     private double _prevAdx;
     private double _sumTr;
     private double _sumPdm;
@@ -225,6 +236,7 @@ public class AdxHub
     /// <summary>
     /// Restore rolling state up to the specified timestamp for accurate rebuilds.
     /// </summary>
+    /// <param name="timestamp">Timestamp of record.</param>
     protected override void RollbackState(DateTime timestamp)
     {
         // Reset all state
@@ -304,10 +316,9 @@ public class AdxHub
                 double? mdi = _prevTrs != 0 ? 100 * _prevMdm / _prevTrs : null;
                 if (pdi.HasValue && mdi.HasValue)
                 {
-                    double dx = pdi.Value + mdi.Value != 0
+                    _sumDx = pdi.Value + mdi.Value != 0
                         ? 100 * Math.Abs(pdi.Value - mdi.Value) / (pdi.Value + mdi.Value)
                         : 0;
-                    _sumDx = dx;
                 }
             }
             else if (i < (2 * LookbackPeriods) - 1)
@@ -372,6 +383,8 @@ public static partial class Adx
     /// <summary>
     /// Creates a stream hub for ADX indicator calculations.
     /// </summary>
+    /// <param name="quoteProvider">The quote provider.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     public static AdxHub ToAdxHub(
         this IQuoteProvider<IQuote> quoteProvider,
         int lookbackPeriods = 14)
@@ -380,8 +393,8 @@ public static partial class Adx
     /// <summary>
     /// Creates an ADX hub from a collection of quotes.
     /// </summary>
-    /// <param name="quotes">The collection of quotes.</param>
-    /// <param name="lookbackPeriods">The number of periods to look back.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>An instance of <see cref="AdxHub"/>.</returns>
     public static AdxHub ToAdxHub(
         this IReadOnlyList<IQuote> quotes,

@@ -57,7 +57,7 @@ public class KeltnerStreamHub : StreamHubTestBase, ITestQuoteObserver
         streamList.Should().HaveCount(length - 1);
         streamList.Should().BeEquivalentTo(
             seriesList,
-            options => options.WithStrictOrdering());
+            static options => options.WithStrictOrdering());
 
         observer.Unsubscribe();
         quoteHub.EndTransmission();
@@ -94,7 +94,7 @@ public class KeltnerStreamHub : StreamHubTestBase, ITestQuoteObserver
 
         initialResults.Should().BeEquivalentTo(
             expectedInitial,
-            options => options.WithStrictOrdering());
+            static options => options.WithStrictOrdering());
 
         for (int i = 5; i < quotes.Count; i++)
         {
@@ -103,7 +103,7 @@ public class KeltnerStreamHub : StreamHubTestBase, ITestQuoteObserver
 
         observer.Results.Should().BeEquivalentTo(
             quotes.ToKeltner(5, 1, 3),
-            options => options.WithStrictOrdering());
+            static options => options.WithStrictOrdering());
 
         observer.Unsubscribe();
         quoteHub.EndTransmission();

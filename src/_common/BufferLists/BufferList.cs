@@ -35,6 +35,7 @@ public abstract class BufferList<TResult> : IReadOnlyList<TResult>
     /// Gets or sets the maximum number of results to retain in the list.
     /// When the list exceeds this value, the oldest items are pruned.
     /// </summary>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when a parameter is out of the valid range</exception>
     public int MaxListSize
     {
         get => _maxListSize;
@@ -93,10 +94,7 @@ public abstract class BufferList<TResult> : IReadOnlyList<TResult>
     /// Removes the item at the specified index from the internal list.
     /// </summary>
     /// <param name="index">The zero-based index of the item to remove.</param>
-    protected void RemoveAt(int index)
-    {
-        _internalList.RemoveAt(index);
-    }
+    protected void RemoveAt(int index) => _internalList.RemoveAt(index);
 
     /// <summary>
     /// Removes the oldest results when the list exceeds <see cref="MaxListSize"/>.
@@ -117,10 +115,7 @@ public abstract class BufferList<TResult> : IReadOnlyList<TResult>
     /* IList<TResult> features (limited set) */
 
     /// <inheritdoc cref="List{TResult}.Clear"/>
-    public virtual void Clear()
-    {
-        _internalList.Clear();
-    }
+    public virtual void Clear() => _internalList.Clear();
 
     /// <inheritdoc cref="List{TResult}.Contains(TResult)"/>
     public bool Contains(TResult item) => _internalList.Contains(item);

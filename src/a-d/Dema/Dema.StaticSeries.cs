@@ -8,7 +8,7 @@ public static partial class Dema
     /// <summary>
     /// Calculates the Double Exponential Moving Average (DEMA) for a series of data.
     /// </summary>    /// <param name="source">The source list of data points.</param>
-    /// <param name="lookbackPeriods">The number of periods to use for the lookback.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>A list of <see cref="DemaResult"/> containing the DEMA values.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the source list is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are not valid.</exception>
@@ -76,32 +76,14 @@ public static partial class Dema
 
     /// <summary>
     /// Creates a DEMA buffer list from a series of data points.
-    /// </summary>    /// <param name="source">The source list of data points.</param>
-    /// <param name="lookbackPeriods">The number of periods to use for the lookback.</param>
+    /// </summary>
+    /// <param name="source">The source list of data points.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>A <see cref="DemaList"/> containing the DEMA calculations.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the source list is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are not valid.</exception>
-    public static DemaList ToDemaList<T>(
-        this IReadOnlyList<T> source,
+    public static DemaList ToDemaList(
+        this IReadOnlyList<IReusable> source,
         int lookbackPeriods = 14)
-        where T : IReusable
-    {
-        ArgumentNullException.ThrowIfNull(source);
-        Validate(lookbackPeriods);
-
-        if (source is IReadOnlyList<IQuote> quotes)
-        {
-            return new(lookbackPeriods) { quotes };
-        }
-
-        DemaList bufferList = new(lookbackPeriods);
-
-        // Add each item individually
-        for (int i = 0; i < source.Count; i++)
-        {
-            bufferList.Add(source[i]);
-        }
-
-        return bufferList;
-    }
+        => new(lookbackPeriods) { source };
 }

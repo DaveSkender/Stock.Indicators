@@ -30,7 +30,7 @@ public class UltimateHub
 
         Reinitialize();
     }
-    #endregion
+    #endregion constructors
 
     /// <summary>
     /// Gets the number of short lookback periods.
@@ -137,9 +137,9 @@ public static partial class Ultimate
     /// Converts the provided quote provider to an Ultimate Oscillator hub with the specified periods.
     /// </summary>
     /// <param name="quoteProvider">The quote provider to convert.</param>
-    /// <param name="shortPeriods">The number of short lookback periods. Default is 7.</param>
-    /// <param name="middlePeriods">The number of middle lookback periods. Default is 14.</param>
-    /// <param name="longPeriods">The number of long lookback periods. Default is 28.</param>
+    /// <param name="shortPeriods">The number of short lookback periods.</param>
+    /// <param name="middlePeriods">The number of middle lookback periods.</param>
+    /// <param name="longPeriods">The number of long lookback periods.</param>
     /// <returns>An instance of <see cref="UltimateHub"/>.</returns>
     public static UltimateHub ToUltimateHub(
         this IQuoteProvider<IQuote> quoteProvider,
@@ -151,7 +151,7 @@ public static partial class Ultimate
     /// <summary>
     /// Creates a Ultimate hub from a collection of quotes.
     /// </summary>
-    /// <param name="quotes">The collection of quotes.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <param name="shortPeriods">Parameter for the calculation.</param>
     /// <param name="middlePeriods">Parameter for the calculation.</param>
     /// <param name="longPeriods">Parameter for the calculation.</param>

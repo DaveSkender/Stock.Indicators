@@ -2,7 +2,9 @@ namespace Skender.Stock.Indicators;
 
 public static partial class QuoteParts
 {
-    // QUOTEPART Common Base Listing
+    /// <summary>
+    /// QUOTEPART Common Base Listing
+    /// </summary>
     internal static readonly IndicatorListing CommonListing =
         new CatalogListingBuilder()
             .WithName("Quote Part")
@@ -13,19 +15,25 @@ public static partial class QuoteParts
             .AddResult("Value", "Value", ResultType.Default, isReusable: true)
             .Build();
 
-    // QUOTEPART Series Listing
+    /// <summary>
+    /// QUOTEPART Series Listing
+    /// </summary>
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
             .Build();
 
-    // QUOTEPART Stream Listing
+    /// <summary>
+    /// QUOTEPART Stream Listing
+    /// </summary>
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
             .Build();
 
-    // QUOTEPART Buffer Listing
+    /// <summary>
+    /// QUOTEPART Buffer Listing
+    /// </summary>
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)

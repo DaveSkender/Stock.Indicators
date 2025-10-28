@@ -2,7 +2,9 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Tsi
 {
-    // True Strength Index Common Base Listing
+    /// <summary>
+    /// True Strength Index Common Base Listing
+    /// </summary>
     internal static readonly IndicatorListing CommonListing =
         new CatalogListingBuilder()
             .WithName("True Strength Index")
@@ -16,13 +18,17 @@ public static partial class Tsi
             .AddResult("Signal", "Signal", ResultType.Default)
             .Build();
 
-    // True Strength Index Series Listing
+    /// <summary>
+    /// True Strength Index Series Listing
+    /// </summary>
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
             .Build();
 
-    // True Strength Index Buffer Listing
+    /// <summary>
+    /// True Strength Index Buffer Listing
+    /// </summary>
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)

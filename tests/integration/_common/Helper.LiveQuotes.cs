@@ -57,9 +57,9 @@ internal static class FeedData
             .ConfigureAwait(false);
 
         // convert library compatible quotes
-        IEnumerable<Quote> quotes = barSet
+        return barSet
             .Items
-            .Select(bar => new Quote
+            .Select(static bar => new Quote
              (
                 Timestamp: bar.TimeUtc,
                 Open: bar.Open,
@@ -68,8 +68,6 @@ internal static class FeedData
                 Close: bar.Close,
                 Volume: bar.Volume
              ))
-            .OrderBy(x => x.Timestamp);
-
-        return quotes;
+            .OrderBy(static x => x.Timestamp);
     }
 }

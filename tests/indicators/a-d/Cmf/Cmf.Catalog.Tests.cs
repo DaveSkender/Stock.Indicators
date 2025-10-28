@@ -23,21 +23,21 @@ public class CmfTests : TestBase
         listing.Parameters.Should().NotBeNull();
         listing.Parameters.Should().HaveCount(1);
 
-        IndicatorParam lookbackPeriodsParam = listing.Parameters.SingleOrDefault(p => p.ParameterName == "lookbackPeriods");
+        IndicatorParam lookbackPeriodsParam = listing.Parameters.SingleOrDefault(static p => p.ParameterName == "lookbackPeriods");
         lookbackPeriodsParam.Should().NotBeNull();
 
         listing.Results.Should().NotBeNull();
         listing.Results.Should().HaveCount(3);
 
-        IndicatorResult moneyflowmultiplierResult = listing.Results.SingleOrDefault(r => r.DataName == "MoneyFlowMultiplier");
+        IndicatorResult moneyflowmultiplierResult = listing.Results.SingleOrDefault(static r => r.DataName == "MoneyFlowMultiplier");
         moneyflowmultiplierResult.Should().NotBeNull();
         moneyflowmultiplierResult?.DisplayName.Should().Be("Money Flow Multiplier");
         moneyflowmultiplierResult.IsReusable.Should().Be(false);
-        IndicatorResult moneyflowvolumeResult1 = listing.Results.SingleOrDefault(r => r.DataName == "MoneyFlowVolume");
+        IndicatorResult moneyflowvolumeResult1 = listing.Results.SingleOrDefault(static r => r.DataName == "MoneyFlowVolume");
         moneyflowvolumeResult1.Should().NotBeNull();
         moneyflowvolumeResult1?.DisplayName.Should().Be("Money Flow Volume");
         moneyflowvolumeResult1.IsReusable.Should().Be(false);
-        IndicatorResult cmfResult2 = listing.Results.SingleOrDefault(r => r.DataName == "Cmf");
+        IndicatorResult cmfResult2 = listing.Results.SingleOrDefault(static r => r.DataName == "Cmf");
         cmfResult2.Should().NotBeNull();
         cmfResult2?.DisplayName.Should().Be("CMF");
         cmfResult2.IsReusable.Should().Be(true);
@@ -60,21 +60,21 @@ public class CmfTests : TestBase
         listing.Parameters.Should().NotBeNull();
         listing.Parameters.Should().HaveCount(1);
 
-        IndicatorParam lookbackPeriodsParam = listing.Parameters.SingleOrDefault(p => p.ParameterName == "lookbackPeriods");
+        IndicatorParam lookbackPeriodsParam = listing.Parameters.SingleOrDefault(static p => p.ParameterName == "lookbackPeriods");
         lookbackPeriodsParam.Should().NotBeNull();
 
         listing.Results.Should().NotBeNull();
         listing.Results.Should().HaveCount(3);
 
-        IndicatorResult moneyflowmultiplierResult = listing.Results.SingleOrDefault(r => r.DataName == "MoneyFlowMultiplier");
+        IndicatorResult moneyflowmultiplierResult = listing.Results.SingleOrDefault(static r => r.DataName == "MoneyFlowMultiplier");
         moneyflowmultiplierResult.Should().NotBeNull();
         moneyflowmultiplierResult?.DisplayName.Should().Be("Money Flow Multiplier");
         moneyflowmultiplierResult.IsReusable.Should().Be(false);
-        IndicatorResult moneyflowvolumeResult1 = listing.Results.SingleOrDefault(r => r.DataName == "MoneyFlowVolume");
+        IndicatorResult moneyflowvolumeResult1 = listing.Results.SingleOrDefault(static r => r.DataName == "MoneyFlowVolume");
         moneyflowvolumeResult1.Should().NotBeNull();
         moneyflowvolumeResult1?.DisplayName.Should().Be("Money Flow Volume");
         moneyflowvolumeResult1.IsReusable.Should().Be(false);
-        IndicatorResult cmfResult2 = listing.Results.SingleOrDefault(r => r.DataName == "Cmf");
+        IndicatorResult cmfResult2 = listing.Results.SingleOrDefault(static r => r.DataName == "Cmf");
         cmfResult2.Should().NotBeNull();
         cmfResult2?.DisplayName.Should().Be("CMF");
         cmfResult2.IsReusable.Should().Be(true);

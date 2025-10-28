@@ -15,7 +15,7 @@ public static partial class Kvo
         ArgumentNullException.ThrowIfNull(results);
 
         int l = results
-            .FindIndex(x => x.Oscillator != null) - 1;
+            .FindIndex(static x => x.Oscillator != null) - 1;
 
         return results.Remove(l + 150);
     }

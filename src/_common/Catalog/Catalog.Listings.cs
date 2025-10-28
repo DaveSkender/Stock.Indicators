@@ -202,10 +202,12 @@ public static partial class Catalog
         _listings.Add(Hma.StreamListing);
 
         // HT Trendline (Hilbert Transform)
+        _listings.Add(HtTrendline.BufferListing);
         _listings.Add(HtTrendline.SeriesListing);
 
         // Hurst Exponent
         _listings.Add(Hurst.SeriesListing);
+        _listings.Add(Hurst.BufferListing);
 
         // Ichimoku Cloud
         _listings.Add(Ichimoku.SeriesListing);
@@ -262,6 +264,7 @@ public static partial class Catalog
         // Parabolic SAR
         _listings.Add(ParabolicSar.BufferListing);
         _listings.Add(ParabolicSar.SeriesListing);
+        _listings.Add(ParabolicSar.StreamListing);
 
         // Pivot Points
         _listings.Add(PivotPoints.SeriesListing);
@@ -269,10 +272,12 @@ public static partial class Catalog
         // Pivots
         _listings.Add(Pivots.SeriesListing);
         _listings.Add(Pivots.BufferListing);
+        _listings.Add(Pivots.StreamListing);
 
         // PMO (Price Momentum Oscillator)
         _listings.Add(Pmo.BufferListing);
         _listings.Add(Pmo.SeriesListing);
+        _listings.Add(Pmo.StreamListing);
 
         // PRS (Price Relative Strength)
         _listings.Add(Prs.SeriesListing);
@@ -280,6 +285,7 @@ public static partial class Catalog
         // PVO (Price Volume Oscillator)
         _listings.Add(Pvo.BufferListing);
         _listings.Add(Pvo.SeriesListing);
+        _listings.Add(Pvo.StreamListing);
 
         // Quote Part
         _listings.Add(QuoteParts.BufferListing);
@@ -338,6 +344,7 @@ public static partial class Catalog
         _listings.Add(StarcBands.SeriesListing);
 
         // STC (Schaff Trend Cycle)
+        _listings.Add(Stc.BufferListing);
         _listings.Add(Stc.SeriesListing);
 
         // Standard Deviation

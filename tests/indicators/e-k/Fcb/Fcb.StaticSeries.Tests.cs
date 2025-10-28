@@ -11,8 +11,8 @@ public class Fcb : StaticSeriesTestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.HasCount(497, results.Where(x => x.UpperBand != null));
-        Assert.HasCount(493, results.Where(x => x.LowerBand != null));
+        Assert.HasCount(497, results.Where(static x => x.UpperBand != null));
+        Assert.HasCount(493, results.Where(static x => x.LowerBand != null));
 
         // sample values
         FcbResult r1 = results[4];
@@ -93,9 +93,11 @@ public class Fcb : StaticSeriesTestBase
         Assert.AreEqual(229.42m, last.LowerBand);
     }
 
-    // bad lookback period
+    /// <summary>
+    /// bad lookback period
+    /// </summary>
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => Quotes.ToFcb(1));
+            static () => Quotes.ToFcb(1));
 }

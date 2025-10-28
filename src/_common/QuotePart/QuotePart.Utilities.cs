@@ -4,11 +4,22 @@ namespace Skender.Stock.Indicators;
 
 public static partial class QuoteParts
 {
-    // convert TQuote element to a basic QuotePart class
+    /// <summary>
+    /// convert TQuote element to a basic QuotePart class
+    /// </summary>
+    /// <param name="q">Quote to convert</param>
+    /// <param name="candlePart">The <see cref="CandlePart" /> element.</param>
+    /// <returns>Date and value pair</returns>
     internal static QuotePart ToQuotePart(this IQuote q, CandlePart candlePart)
         => new(q.Timestamp, q.ToQuotePartValue(candlePart));
 
-    // convert IQuote to value based on CandlePart
+    /// <summary>
+    /// convert IQuote to value based on CandlePart
+    /// </summary>
+    /// <param name="q">Quote to convert</param>
+    /// <param name="candlePart">The <see cref="CandlePart" /> element.</param>
+    /// <returns>Value of quote part</returns>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when a parameter is out of the valid range</exception>
     internal static double ToQuotePartValue(this IQuote q, CandlePart candlePart)
 
         => candlePart switch {
@@ -28,13 +39,24 @@ public static partial class QuoteParts
                 nameof(candlePart), candlePart, "Invalid candlePart provided.")
         };
 
-    // conditional HL2 value if IQuote type
+    /// <summary>
+    /// conditional HL2 value if IQuote type
+    /// </summary>
+    /// <typeparam name="T">Type of record</typeparam>
+    /// <param name="item">Item to process</param>
+    /// <returns>HL2 value if quote type or reusable value</returns>
     internal static double Hl2OrValue<T>(
         this T item)
         where T : IReusable
         => item.QuotePartOrValue(CandlePart.HL2);
 
-    // conditional CandlePart value if IQuote type
+    /// <summary>
+    /// conditional CandlePart value if IQuote type
+    /// </summary>
+    /// <typeparam name="T">Type of record</typeparam>
+    /// <param name="item">Item to process</param>
+    /// <param name="candlePart">The <see cref="CandlePart" /> element.</param>
+    /// <returns>Converted reusable value</returns>
     internal static double QuotePartOrValue<T>(
         this T item, CandlePart candlePart)
         where T : IReusable
@@ -56,9 +78,9 @@ public static partial class QuoteParts
     /// cast itself from <typeparamref name="T"/>.
     /// </para>
     /// </remarks>
-    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="T">Type of record</typeparam>
     /// <param name="items">List of IQuote or IReusable items</param>
-    /// <param name="candlePart"></param>
+    /// <param name="candlePart">The <see cref="CandlePart" /> element.</param>
     /// <returns>List of IReusable items</returns>
     internal static IReadOnlyList<IReusable> ToPreferredList<T>(
     this IReadOnlyList<T> items, CandlePart candlePart)

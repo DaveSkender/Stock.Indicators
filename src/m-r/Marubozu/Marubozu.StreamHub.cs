@@ -84,7 +84,7 @@ public static partial class Marubozu
     /// <summary>
     /// Creates a Marubozu hub from a collection of quotes.
     /// </summary>
-    /// <param name="quotes">The collection of quotes.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <param name="minBodyPercent">Parameter for the calculation.</param>
     /// <returns>An instance of <see cref="MarubozuHub"/>.</returns>
     public static MarubozuHub ToMarubozuHub(

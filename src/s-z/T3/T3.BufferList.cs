@@ -5,7 +5,9 @@ namespace Skender.Stock.Indicators;
 /// </summary>
 public class T3List : BufferList<T3Result>, IIncrementFromChain, IT3
 {
-    // State for six-layer EMA calculations
+    /// <summary>
+    /// State for six-layer EMA calculations
+    /// </summary>
     private double _lastEma1 = double.NaN;
     private double _lastEma2 = double.NaN;
     private double _lastEma3 = double.NaN;
@@ -16,7 +18,7 @@ public class T3List : BufferList<T3Result>, IIncrementFromChain, IT3
     /// <summary>
     /// Initializes a new instance of the <see cref="T3List"/> class.
     /// </summary>
-    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <param name="volumeFactor">The volume factor for the calculation.</param>
     public T3List(
         int lookbackPeriods = 5,
@@ -38,7 +40,7 @@ public class T3List : BufferList<T3Result>, IIncrementFromChain, IT3
     /// <summary>
     /// Initializes a new instance of the <see cref="T3List"/> class with initial reusable values.
     /// </summary>
-    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <param name="volumeFactor">The volume factor for the calculation.</param>
     /// <param name="values">Initial reusable values to populate the list.</param>
     public T3List(
@@ -46,8 +48,7 @@ public class T3List : BufferList<T3Result>, IIncrementFromChain, IT3
         double volumeFactor,
         IReadOnlyList<IReusable> values
     )
-        : this(lookbackPeriods, volumeFactor)
-        => Add(values);
+        : this(lookbackPeriods, volumeFactor) => Add(values);
 
     /// <inheritdoc/>
     public int LookbackPeriods { get; init; }
@@ -159,8 +160,8 @@ public static partial class T3
     /// Creates a buffer list for T3 calculations.
     /// </summary>
     /// <param name="source">The source list of reusable values.</param>
-    /// <param name="lookbackPeriods">The number of lookback periods (default is 5).</param>
-    /// <param name="volumeFactor">The volume smoothing factor (default is 0.7).</param>
+    /// <param name="lookbackPeriods">The number of lookback periods.</param>
+    /// <param name="volumeFactor">The volume smoothing factor.</param>
     /// <returns>A buffer list for T3 calculations.</returns>
     public static T3List ToT3List(
         this IReadOnlyList<IReusable> source,

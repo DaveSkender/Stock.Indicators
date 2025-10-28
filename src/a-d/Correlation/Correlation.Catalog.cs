@@ -2,7 +2,9 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Correlation
 {
-    // CORR Common Base Listing
+    /// <summary>
+    /// CORR Common Base Listing
+    /// </summary>
     internal static readonly IndicatorListing CommonListing =
         new CatalogListingBuilder()
             .WithName("Correlation")
@@ -19,7 +21,9 @@ public static partial class Correlation
             .AddResult("RSquared", "R-Squared", ResultType.Default)
             .Build();
 
-    // CORR Series Listing
+    /// <summary>
+    /// CORR Series Listing
+    /// </summary>
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)

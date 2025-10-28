@@ -2,7 +2,9 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Alligator
 {
-    // Alligator Common Base Listing
+    /// <summary>
+    /// Alligator Common Base Listing
+    /// </summary>
     internal static readonly IndicatorListing CommonListing =
         new CatalogListingBuilder()
             .WithName("Williams Alligator")
@@ -20,13 +22,17 @@ public static partial class Alligator
             .AddResult("Lips", "Lips", ResultType.Default, isReusable: true)
             .Build();
 
-    // Alligator Series Listing
+    /// <summary>
+    /// Alligator Series Listing
+    /// </summary>
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
             .Build();
 
-    // Alligator Stream Listing
+    /// <summary>
+    /// Alligator Stream Listing
+    /// </summary>
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)

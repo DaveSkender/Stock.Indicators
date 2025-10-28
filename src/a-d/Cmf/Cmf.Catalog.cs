@@ -2,7 +2,9 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Cmf
 {
-    // CMF Common Base Listing
+    /// <summary>
+    /// CMF Common Base Listing
+    /// </summary>
     internal static readonly IndicatorListing CommonListing =
         new CatalogListingBuilder()
             .WithName("Chaikin Money Flow (CMF)")
@@ -15,13 +17,17 @@ public static partial class Cmf
             .AddResult("Cmf", "CMF", ResultType.Default, isReusable: true)
             .Build();
 
-    // CMF Series Listing
+    /// <summary>
+    /// CMF Series Listing
+    /// </summary>
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
             .Build();
 
-    // CMF Stream Listing
+    /// <summary>
+    /// CMF Stream Listing
+    /// </summary>
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)

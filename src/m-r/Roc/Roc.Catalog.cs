@@ -2,7 +2,9 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Roc
 {
-    // Rate of Change Common Base Listing
+    /// <summary>
+    /// Rate of Change Common Base Listing
+    /// </summary>
     internal static readonly IndicatorListing CommonListing =
         new CatalogListingBuilder()
             .WithName("Rate of Change")
@@ -13,19 +15,25 @@ public static partial class Roc
             .AddResult("Roc", "ROC", ResultType.Default, isReusable: true)
             .Build();
 
-    // Rate of Change Series Listing
+    /// <summary>
+    /// Rate of Change Series Listing
+    /// </summary>
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
             .Build();
 
-    // Rate of Change Stream Listing
+    /// <summary>
+    /// Rate of Change Stream Listing
+    /// </summary>
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
             .Build();
 
-    // Rate of Change Buffer Listing
+    /// <summary>
+    /// Rate of Change Buffer Listing
+    /// </summary>
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)

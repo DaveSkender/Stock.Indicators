@@ -3,13 +3,13 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Provides utility methods for reusable types.
 /// </summary>
-public static partial class Reusable
+public static class Reusable
 {
     /// <summary>
     /// Converts a list of quotes to a list of reusable types.
     /// </summary>
-    /// <param name="quotes">The list of quotes.</param>
-    /// <param name="candlePart">The part of the candle to use.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="candlePart">The <see cref="CandlePart" /> element.</param>
     /// <returns>A list of reusable types.</returns>
     public static IReadOnlyList<IReusable> ToReusable(
         this IReadOnlyList<IQuote> quotes,
@@ -35,7 +35,7 @@ public static partial class Reusable
 
         resultsList
             .RemoveAll(match:
-                x => double.IsNaN(x.Value));
+                static x => double.IsNaN(x.Value));
 
         return resultsList;
     }
@@ -55,7 +55,7 @@ public static partial class Reusable
         // be overridden in the specific indicator class
 
         int removePeriods = results
-            .FindIndex(x => !double.IsNaN(x.Value));
+            .FindIndex(static x => !double.IsNaN(x.Value));
 
         return results.Remove(removePeriods);
 
@@ -68,7 +68,7 @@ public static partial class Reusable
     /// Converts a quote to a basic chainable class.
     /// </summary>
     /// <param name="q">The quote to convert.</param>
-    /// <param name="candlePart">The part of the candle to use.</param>
+    /// <param name="candlePart">The <see cref="CandlePart" /> element.</param>
     /// <returns>A reusable type.</returns>
     internal static IReusable ToReusable(this IQuote q, CandlePart candlePart)
         => q.ToQuotePart(candlePart);

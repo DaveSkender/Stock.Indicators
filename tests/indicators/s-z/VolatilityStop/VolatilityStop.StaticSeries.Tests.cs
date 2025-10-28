@@ -11,7 +11,7 @@ public class VolatilityStop : StaticSeriesTestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.HasCount(448, results.Where(x => x.Sar != null));
+        Assert.HasCount(448, results.Where(static x => x.Sar != null));
 
         // sample values
         VolatilityStopResult r53 = results[53];
@@ -68,7 +68,7 @@ public class VolatilityStop : StaticSeriesTestBase
             .ToSma(10);
 
         Assert.HasCount(502, results);
-        Assert.HasCount(439, results.Where(x => x.Sma != null));
+        Assert.HasCount(439, results.Where(static x => x.Sma != null));
     }
 
     [TestMethod]
@@ -78,7 +78,7 @@ public class VolatilityStop : StaticSeriesTestBase
             .ToVolatilityStop();
 
         Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(x => x.Sar is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.Sar is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -115,10 +115,10 @@ public class VolatilityStop : StaticSeriesTestBase
     {
         // bad lookback period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => Quotes.ToVolatilityStop(1));
+            static () => Quotes.ToVolatilityStop(1));
 
         // bad multiplier
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => Quotes.ToVolatilityStop(20, 0));
+            static () => Quotes.ToVolatilityStop(20, 0));
     }
 }

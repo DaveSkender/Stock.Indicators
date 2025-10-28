@@ -17,7 +17,7 @@ public static partial class StdDevChannels
             .ToList();
 
         resultsList
-            .RemoveAll(match: x =>
+            .RemoveAll(match: static x =>
                x.UpperChannel is null
             && x.LowerChannel is null
             && x.Centerline is null
@@ -37,7 +37,7 @@ public static partial class StdDevChannels
         ArgumentNullException.ThrowIfNull(results);
 
         int removePeriods = results
-            .FindIndex(x => x.UpperChannel != null || x.LowerChannel != null);
+            .FindIndex(static x => x.UpperChannel != null || x.LowerChannel != null);
 
         return results.Remove(removePeriods);
     }
@@ -45,7 +45,7 @@ public static partial class StdDevChannels
     /// <summary>
     /// Validates the parameters for Standard Deviation Channels.
     /// </summary>
-    /// <param name="lookbackPeriods">The number of lookback periods.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <param name="stdDeviations">The number of standard deviations.</param>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when parameters are out of range.</exception>
     internal static void Validate(

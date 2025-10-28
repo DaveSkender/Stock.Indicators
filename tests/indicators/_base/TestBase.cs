@@ -2,16 +2,30 @@ using System.Globalization;
 
 namespace Tests.Data;
 
-public abstract class TestBase  // base for all tests
+/// <summary>
+/// base for all tests
+/// </summary>
+public abstract class TestBase
 {
     internal static readonly CultureInfo invariantCulture = CultureInfo.InvariantCulture;
 
-    // Precision constants for BeApproximately() assertions against manually calculated reference values
-    // Maps to equivalent .Round() precision expectations for Series-style indicators only
+    /// <summary>
+    /// Precision constants for BeApproximately() assertions against manually calculated reference values
+    /// Maps to equivalent .Round() precision expectations for Series-style indicators only
+    /// </summary>
     internal const double Money3 = 0.0005;    // 3 decimal places: ±0.0005 (equivalent to .Round(3))
-    internal const double Money4 = 0.00005;   // 4 decimal places: ±0.00005 (equivalent to .Round(4))
-    internal const double Money5 = 0.000005;  // 5 decimal places: ±0.000005 (equivalent to .Round(5))
-    internal const double Money6 = 0.0000005; // 6 decimal places: ±0.0000005 (equivalent to .Round(6))
+    /// <summary>
+    /// 4 decimal places: &#177;0.00005 (equivalent to .Round(4))
+    /// </summary>
+    internal const double Money4 = 0.00005;
+    /// <summary>
+    /// 5 decimal places: &#177;0.000005 (equivalent to .Round(5))
+    /// </summary>
+    internal const double Money5 = 0.000005;
+    /// <summary>
+    /// 6 decimal places: &#177;0.0000005 (equivalent to .Round(6))
+    /// </summary>
+    internal const double Money6 = 0.0000005;
 
     internal static readonly IReadOnlyList<Quote> Quotes = Data.GetDefault();
     internal static readonly IReadOnlyList<Quote> Intraday = Data.GetIntraday();

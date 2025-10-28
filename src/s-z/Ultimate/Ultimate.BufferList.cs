@@ -35,14 +35,13 @@ public class UltimateList : BufferList<UltimateResult>, IIncrementFromQuote, IUl
     /// <param name="shortPeriods">The number of short periods.</param>
     /// <param name="middlePeriods">The number of middle periods.</param>
     /// <param name="longPeriods">The number of long periods.</param>
-    /// <param name="quotes">Initial quotes to populate the list.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     public UltimateList(
         int shortPeriods,
         int middlePeriods,
         int longPeriods,
         IReadOnlyList<IQuote> quotes)
-        : this(shortPeriods, middlePeriods, longPeriods)
-        => Add(quotes);
+        : this(shortPeriods, middlePeriods, longPeriods) => Add(quotes);
 
     /// <summary>
     /// Gets the number of short periods.
@@ -167,6 +166,10 @@ public static partial class Ultimate
     /// <summary>
     /// Creates a buffer list for Ultimate Oscillator calculations.
     /// </summary>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="shortPeriods">Number of periods for short calculation</param>
+    /// <param name="middlePeriods">Number of periods for middle calculation</param>
+    /// <param name="longPeriods">Number of periods for long calculation</param>
     public static UltimateList ToUltimateList(
         this IReadOnlyList<IQuote> quotes,
         int shortPeriods = 7,

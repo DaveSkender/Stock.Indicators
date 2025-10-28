@@ -12,5 +12,12 @@ public class PivotsTests : RegressionTestBase<PivotsResult>
     public override void Buffer() => Quotes.ToPivotsList().AssertEquals(Expected);
 
     [TestMethod]
-    public override void Stream() => Assert.Inconclusive("Stream implementation not yet available");
+    public override void Stream()
+    {
+        QuoteHub quoteHub = new();
+        quoteHub.Add(Quotes);
+        PivotsHub hub = quoteHub.ToPivotsHub();
+        hub.Rebuild(0);  // Calculate trend lines after all pivot points identified
+        hub.Results.AssertEquals(Expected);
+    }
 }

@@ -11,7 +11,7 @@ public class CmfList : BufferList<CmfResult>, IIncrementFromQuote, ICmf
     /// <summary>
     /// Initializes a new instance of the <see cref="CmfList"/> class.
     /// </summary>
-    /// <param name="lookbackPeriods">The number of periods to use for the lookback window.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     public CmfList(int lookbackPeriods = 20)
     {
         Cmf.Validate(lookbackPeriods);
@@ -24,11 +24,10 @@ public class CmfList : BufferList<CmfResult>, IIncrementFromQuote, ICmf
     /// <summary>
     /// Initializes a new instance of the <see cref="CmfList"/> class with initial quotes.
     /// </summary>
-    /// <param name="lookbackPeriods">The number of periods to use for the lookback window.</param>
-    /// <param name="quotes">Initial quotes to populate the list.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     public CmfList(int lookbackPeriods, IReadOnlyList<IQuote> quotes)
-        : this(lookbackPeriods)
-        => Add(quotes);
+        : this(lookbackPeriods) => Add(quotes);
 
     /// <summary>
     /// Gets the number of periods to use for the lookback window.
@@ -105,6 +104,8 @@ public static partial class Cmf
     /// <summary>
     /// Creates a buffer list for Chaikin Money Flow (CMF) calculations.
     /// </summary>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     public static CmfList ToCmfList(
         this IReadOnlyList<IQuote> quotes,
         int lookbackPeriods = 20)

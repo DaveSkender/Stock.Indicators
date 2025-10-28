@@ -15,7 +15,7 @@ public static partial class Rsi
         ArgumentNullException.ThrowIfNull(results);
 
         int n = results
-            .FindIndex(x => x.Rsi != null);
+            .FindIndex(static x => x.Rsi != null);
 
         return results.Remove(10 * n);
     }

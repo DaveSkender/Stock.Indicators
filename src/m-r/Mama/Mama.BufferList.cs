@@ -5,7 +5,7 @@ namespace Skender.Stock.Indicators;
 /// </summary>
 /// <remarks>
 /// <para>
-/// <b>Exception to BufferUtilities Pattern:</b> MAMA does not use the standard
+/// <b>Exception to <see cref="BufferListUtilities"/> Pattern:</b> MAMA does not use the standard
 /// <see cref="BufferListUtilities"/> extension methods (Update/UpdateWithDequeue) due to
 /// the unique complexity of the MESA (Maximum Entropy Spectrum Analysis) algorithm.
 /// </para>
@@ -20,8 +20,8 @@ namespace Skender.Stock.Indicators;
 /// </list>
 /// </para>
 /// <para>
-/// <b>Why Queue&lt;T&gt; Cannot Be Used:</b> The standard <see cref="Queue{T}"/> data structure
-/// used by BufferUtilities does not provide indexed access to historical values, which is
+/// <b>Why <see cref="Queue{T}"/> cannot be used:</b> The standard <see cref="Queue{T}"/> data structure
+/// used by <see cref="BufferListUtilities"/> does not provide indexed access to historical values, which is
 /// essential for the MESA algorithm's phase and period calculations.
 /// </para>
 /// <para>
@@ -35,25 +35,57 @@ namespace Skender.Stock.Indicators;
 /// </remarks>
 public class MamaList : BufferList<MamaResult>, IIncrementFromChain, IMama
 {
-    // Internal state arrays matching StaticSeries implementation
-    // These arrays grow with each added value to support indexed lookback access
+    /// <summary>
+    /// Internal state arrays matching StaticSeries implementation
+    /// These arrays grow with each added value to support indexed lookback access
+    /// </summary>
     private readonly List<double> pr = []; // price (HL2 when quote)
-    private readonly List<double> sm = []; // smooth
-    private readonly List<double> dt = []; // detrender
-    private readonly List<double> pd = []; // period
-    private readonly List<double> q1 = []; // quadrature
-    private readonly List<double> i1 = []; // in-phase
-    private readonly List<double> q2 = []; // adj. quadrature
-    private readonly List<double> i2 = []; // adj. in-phase
+    /// <summary>
+    /// smooth
+    /// </summary>
+    private readonly List<double> sm = [];
+    /// <summary>
+    /// detrender
+    /// </summary>
+    private readonly List<double> dt = [];
+    /// <summary>
+    /// period
+    /// </summary>
+    private readonly List<double> pd = [];
+    /// <summary>
+    /// quadrature
+    /// </summary>
+    private readonly List<double> q1 = [];
+    /// <summary>
+    /// in-phase
+    /// </summary>
+    private readonly List<double> i1 = [];
+    /// <summary>
+    /// adj. quadrature
+    /// </summary>
+    private readonly List<double> q2 = [];
+    /// <summary>
+    /// adj. in-phase
+    /// </summary>
+    private readonly List<double> i2 = [];
     private readonly List<double> re = [];
     private readonly List<double> im = [];
-    private readonly List<double> ph = []; // phase
+    /// <summary>
+    /// phase
+    /// </summary>
+    private readonly List<double> ph = [];
 
     private double prevMama = double.NaN;
     private double prevFama = double.NaN;
 
-    private const int MinBufferSize = 7; // Minimum required for 6-period lookback
-    private const int MaxBufferSize = 1000; // Trigger point to prune buffers to MinBufferSize
+    /// <summary>
+    /// Minimum required for 6-period lookback
+    /// </summary>
+    private const int MinBufferSize = 7;
+    /// <summary>
+    /// Trigger point to prune buffers to MinBufferSize
+    /// </summary>
+    private const int MaxBufferSize = 1000;
     /// <summary>
     /// Initializes a new instance of the <see cref="MamaList"/> class.
     /// </summary>
@@ -79,8 +111,7 @@ public class MamaList : BufferList<MamaResult>, IIncrementFromChain, IMama
         double fastLimit,
         double slowLimit,
         IReadOnlyList<IReusable> values)
-        : this(fastLimit, slowLimit)
-        => Add(values);
+        : this(fastLimit, slowLimit) => Add(values);
 
     /// <inheritdoc />
     public double FastLimit { get; init; }
@@ -281,6 +312,9 @@ public static partial class Mama
     /// <summary>
     /// Creates a buffer list for MESA Adaptive Moving Average (MAMA) calculations.
     /// </summary>
+    /// <param name="source">Collection of input values, time sorted.</param>
+    /// <param name="fastLimit">Fast limit parameter</param>
+    /// <param name="slowLimit">Slow limit parameter</param>
     public static MamaList ToMamaList(
         this IReadOnlyList<IReusable> source,
         double fastLimit = 0.5,

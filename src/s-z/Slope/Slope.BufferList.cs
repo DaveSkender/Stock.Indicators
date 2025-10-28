@@ -15,16 +15,21 @@ public class SlopeList : BufferList<SlopeResult>, IIncrementFromChain
 {
     private readonly Queue<double> buffer;
     private readonly int lookbackPeriods;
-    private int globalIndexOffset; // Tracks how many items have been removed from the beginning
+    /// <summary>
+    /// Tracks how many items have been removed from the beginning
+    /// </summary>
+    private int globalIndexOffset;
 
-    // Pre-calculated constant for X variance (sequential integers)
-    // Formula: n*(n²-1)/12 where n = lookbackPeriods
+    /// <summary>
+    /// Pre-calculated constant for X variance (sequential integers).
+    /// Formula: n*(n²-1)/12 where n = lookbackPeriods
+    /// </summary>
     private readonly double sumSqXConstant;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="SlopeList"/> class.
     /// </summary>
-    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     public SlopeList(int lookbackPeriods)
     {
         Slope.Validate(lookbackPeriods);
@@ -42,11 +47,10 @@ public class SlopeList : BufferList<SlopeResult>, IIncrementFromChain
     /// <summary>
     /// Initializes a new instance of the <see cref="SlopeList"/> class with initial reusable values.
     /// </summary>
-    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <param name="values">Initial reusable values to populate the list.</param>
     public SlopeList(int lookbackPeriods, IReadOnlyList<IReusable> values)
-        : this(lookbackPeriods)
-        => Add(values);
+        : this(lookbackPeriods) => Add(values);
 
     /// <summary>
     /// Gets the number of periods to look back for the calculation.
@@ -227,6 +231,8 @@ public static partial class Slope
     /// <summary>
     /// Creates a buffer list for Slope calculations.
     /// </summary>
+    /// <param name="source">Collection of input values, time sorted.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     public static SlopeList ToSlopeList(
         this IReadOnlyList<IReusable> source,
         int lookbackPeriods = 14)

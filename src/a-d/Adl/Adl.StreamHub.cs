@@ -10,10 +10,7 @@ public class AdlHub : ChainProvider<IQuote, AdlResult>
     /// </summary>
     /// <param name="provider">The quote provider.</param>
     internal AdlHub(IQuoteProvider<IQuote> provider)
-        : base(provider)
-    {
-        Reinitialize();
-    }
+        : base(provider) => Reinitialize();
 
     /// <inheritdoc/>
     protected override (AdlResult result, int index)
@@ -55,7 +52,7 @@ public static partial class Adl
     /// <summary>
     /// Creates a standalone AdlHub from an initiating collection of quotes.
     /// </summary>
-    /// <param name="quotes">The collection of quotes.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     public static AdlHub ToAdlHub(
         this IReadOnlyList<IQuote> quotes)
         => quotes.ToQuoteHub().ToAdlHub();

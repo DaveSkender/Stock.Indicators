@@ -27,14 +27,16 @@ public class FcbHub
 
         Reinitialize();
     }
-    #endregion
+    #endregion constructors
 
     /// <summary>
     /// Gets the window span for the calculation.
     /// </summary>
     public int WindowSpan { get; init; }
 
-    // state tracking for upper and lower bands
+    /// <summary>
+    /// state tracking for upper and lower bands
+    /// </summary>
     private decimal? UpperLine { get; set; }
     private decimal? LowerLine { get; set; }
 
@@ -62,13 +64,10 @@ public class FcbHub
             bool isBearishFractal = true;
             for (int p = fractalIndex - WindowSpan; p <= fractalIndex + WindowSpan; p++)
             {
-                if (p != fractalIndex)
+                if (p != fractalIndex && ProviderCache[p].High >= fractalQuote.High)
                 {
-                    if (ProviderCache[p].High >= fractalQuote.High)
-                    {
-                        isBearishFractal = false;
-                        break;
-                    }
+                    isBearishFractal = false;
+                    break;
                 }
             }
 
@@ -76,13 +75,10 @@ public class FcbHub
             bool isBullishFractal = true;
             for (int p = fractalIndex - WindowSpan; p <= fractalIndex + WindowSpan; p++)
             {
-                if (p != fractalIndex)
+                if (p != fractalIndex && ProviderCache[p].Low <= fractalQuote.Low)
                 {
-                    if (ProviderCache[p].Low <= fractalQuote.Low)
-                    {
-                        isBullishFractal = false;
-                        break;
-                    }
+                    isBullishFractal = false;
+                    break;
                 }
             }
 
@@ -91,6 +87,7 @@ public class FcbHub
             {
                 UpperLine = fractalQuote.High;
             }
+
             if (isBullishFractal)
             {
                 LowerLine = fractalQuote.Low;
@@ -147,7 +144,7 @@ public static partial class Fcb
     /// <summary>
     /// Creates a Fcb hub from a collection of quotes.
     /// </summary>
-    /// <param name="quotes">The collection of quotes.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <param name="windowSpan">The window span for the calculation. Default is 2.</param>
     /// <returns>An instance of <see cref="FcbHub"/>.</returns>
     public static FcbHub ToFcbHub(

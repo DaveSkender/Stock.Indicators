@@ -65,8 +65,7 @@ public class MaEnvelopesList : BufferList<MaEnvelopeResult>, IIncrementFromChain
         double percentOffset,
         MaType movingAverageType,
         IReadOnlyList<IReusable> values)
-        : this(lookbackPeriods, percentOffset, movingAverageType)
-        => Add(values);
+        : this(lookbackPeriods, percentOffset, movingAverageType) => Add(values);
 
     /// <summary>
     /// Gets the number of periods for the moving average.
@@ -88,6 +87,7 @@ public class MaEnvelopesList : BufferList<MaEnvelopeResult>, IIncrementFromChain
     /// When the list exceeds this value, the oldest items are pruned.
     /// Also propagates to the inner MA buffer list.
     /// </summary>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when a parameter is out of the valid range</exception>
     public new int MaxListSize
     {
         get => base.MaxListSize;
@@ -115,15 +115,15 @@ public class MaEnvelopesList : BufferList<MaEnvelopeResult>, IIncrementFromChain
     {
         // Add value to the underlying MA BufferList using switch expression
         double? ma = _movingAverageType switch {
-            MaType.ALMA => AddToList<AlmaList, AlmaResult>((AlmaList)_maList, timestamp, value, r => r.Alma),
-            MaType.DEMA => AddToList<DemaList, DemaResult>((DemaList)_maList, timestamp, value, r => r.Dema),
-            MaType.EMA => AddToList<EmaList, EmaResult>((EmaList)_maList, timestamp, value, r => r.Ema),
-            MaType.EPMA => AddToList<EpmaList, EpmaResult>((EpmaList)_maList, timestamp, value, r => r.Epma),
-            MaType.HMA => AddToList<HmaList, HmaResult>((HmaList)_maList, timestamp, value, r => r.Hma),
-            MaType.SMA => AddToList<SmaList, SmaResult>((SmaList)_maList, timestamp, value, r => r.Sma),
-            MaType.SMMA => AddToList<SmmaList, SmmaResult>((SmmaList)_maList, timestamp, value, r => r.Smma),
-            MaType.TEMA => AddToList<TemaList, TemaResult>((TemaList)_maList, timestamp, value, r => r.Tema),
-            MaType.WMA => AddToList<WmaList, WmaResult>((WmaList)_maList, timestamp, value, r => r.Wma),
+            MaType.ALMA => AddToList<AlmaList, AlmaResult>((AlmaList)_maList, timestamp, value, static r => r.Alma),
+            MaType.DEMA => AddToList<DemaList, DemaResult>((DemaList)_maList, timestamp, value, static r => r.Dema),
+            MaType.EMA => AddToList<EmaList, EmaResult>((EmaList)_maList, timestamp, value, static r => r.Ema),
+            MaType.EPMA => AddToList<EpmaList, EpmaResult>((EpmaList)_maList, timestamp, value, static r => r.Epma),
+            MaType.HMA => AddToList<HmaList, HmaResult>((HmaList)_maList, timestamp, value, static r => r.Hma),
+            MaType.SMA => AddToList<SmaList, SmaResult>((SmaList)_maList, timestamp, value, static r => r.Sma),
+            MaType.SMMA => AddToList<SmmaList, SmmaResult>((SmmaList)_maList, timestamp, value, static r => r.Smma),
+            MaType.TEMA => AddToList<TemaList, TemaResult>((TemaList)_maList, timestamp, value, static r => r.Tema),
+            MaType.WMA => AddToList<WmaList, WmaResult>((WmaList)_maList, timestamp, value, static r => r.Wma),
             _ => throw new ArgumentOutOfRangeException(nameof(timestamp))
         };
 

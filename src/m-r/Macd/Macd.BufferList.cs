@@ -57,8 +57,7 @@ public class MacdList : BufferList<MacdResult>, IIncrementFromChain, IMacd
         int slowPeriods,
         int signalPeriods,
         IReadOnlyList<IReusable> values)
-        : this(fastPeriods, slowPeriods, signalPeriods)
-        => Add(values);
+        : this(fastPeriods, slowPeriods, signalPeriods) => Add(values);
 
     /// <inheritdoc/>
     public int FastPeriods { get; init; }
@@ -90,7 +89,7 @@ public class MacdList : BufferList<MacdResult>, IIncrementFromChain, IMacd
     /// <inheritdoc />
     public void Add(DateTime timestamp, double value)
     {
-        // Update fast EMA buffer using BufferUtilities
+        // Update fast EMA buffer using BufferListUtilities
         double? dequeuedFast = _fastBuffer.UpdateWithDequeue(FastPeriods, value);
         if (dequeuedFast.HasValue)
         {
@@ -101,7 +100,7 @@ public class MacdList : BufferList<MacdResult>, IIncrementFromChain, IMacd
             _fastBufferSum += value;
         }
 
-        // Update slow EMA buffer using BufferUtilities
+        // Update slow EMA buffer using BufferListUtilities
         double? dequeuedSlow = _slowBuffer.UpdateWithDequeue(SlowPeriods, value);
         if (dequeuedSlow.HasValue)
         {
@@ -159,7 +158,7 @@ public class MacdList : BufferList<MacdResult>, IIncrementFromChain, IMacd
         double? signal = null;
         if (macd.HasValue)
         {
-            // Update MACD buffer for signal calculation using BufferUtilities
+            // Update MACD buffer for signal calculation using BufferListUtilities
             double? dequeuedMacd = _macdBuffer.UpdateWithDequeue(SignalPeriods, macd.Value);
             if (dequeuedMacd.HasValue)
             {

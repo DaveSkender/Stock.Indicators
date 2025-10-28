@@ -11,7 +11,7 @@ public class Ultimate : StaticSeriesTestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.HasCount(474, results.Where(x => x.Ultimate != null));
+        Assert.HasCount(474, results.Where(static x => x.Ultimate != null));
 
         // sample values
         UltimateResult r1 = results[74];
@@ -32,7 +32,7 @@ public class Ultimate : StaticSeriesTestBase
             .ToSma(10);
 
         Assert.HasCount(502, results);
-        Assert.HasCount(465, results.Where(x => x.Sma != null));
+        Assert.HasCount(465, results.Where(static x => x.Sma != null));
     }
 
     [TestMethod]
@@ -42,7 +42,7 @@ public class Ultimate : StaticSeriesTestBase
             .ToUltimate(1, 2, 3);
 
         Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(x => x.Ultimate is double.NaN));
+        Assert.IsEmpty(r.Where(static x => x.Ultimate is double.NaN));
     }
 
     [TestMethod]
@@ -78,14 +78,14 @@ public class Ultimate : StaticSeriesTestBase
     {
         // bad short period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => Quotes.ToUltimate(0));
+            static () => Quotes.ToUltimate(0));
 
         // bad middle period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => Quotes.ToUltimate(7, 6));
+            static () => Quotes.ToUltimate(7, 6));
 
         // bad long period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => Quotes.ToUltimate(7, 14, 11));
+            static () => Quotes.ToUltimate(7, 14, 11));
     }
 }

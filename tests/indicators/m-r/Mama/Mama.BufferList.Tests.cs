@@ -26,7 +26,7 @@ public class Mama : BufferListTestBase, ITestChainBufferList, ITestCustomBufferL
         }
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
     }
 
     [TestMethod]
@@ -35,7 +35,7 @@ public class Mama : BufferListTestBase, ITestChainBufferList, ITestCustomBufferL
         MamaList sut = new(fastLimit, slowLimit) { Quotes };
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
     }
 
     [TestMethod]
@@ -44,7 +44,7 @@ public class Mama : BufferListTestBase, ITestChainBufferList, ITestCustomBufferL
         MamaList sut = new(fastLimit, slowLimit, Quotes);
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
     }
 
     [TestMethod]
@@ -58,7 +58,7 @@ public class Mama : BufferListTestBase, ITestChainBufferList, ITestCustomBufferL
         }
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
     }
 
     [TestMethod]
@@ -67,7 +67,7 @@ public class Mama : BufferListTestBase, ITestChainBufferList, ITestCustomBufferL
         MamaList sut = new(fastLimit, slowLimit) { reusables };
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
     }
 
     [TestMethod]
@@ -81,7 +81,7 @@ public class Mama : BufferListTestBase, ITestChainBufferList, ITestCustomBufferL
         }
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
     }
 
     [TestMethod]
@@ -93,7 +93,7 @@ public class Mama : BufferListTestBase, ITestChainBufferList, ITestCustomBufferL
         MamaList sut = new(fastLimit, slowLimit, subset);
 
         sut.Should().HaveCount(subset.Count);
-        sut.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
+        sut.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
 
         sut.Clear();
 
@@ -102,7 +102,7 @@ public class Mama : BufferListTestBase, ITestChainBufferList, ITestCustomBufferL
         sut.Add(subset);
 
         sut.Should().HaveCount(expected.Count);
-        sut.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
+        sut.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
     }
 
     [TestMethod]
@@ -121,7 +121,7 @@ public class Mama : BufferListTestBase, ITestChainBufferList, ITestCustomBufferL
             .ToList();
 
         sut.Should().HaveCount(maxListSize);
-        sut.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
+        sut.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
     }
 
     [TestMethod]
@@ -148,6 +148,6 @@ public class Mama : BufferListTestBase, ITestChainBufferList, ITestCustomBufferL
 
         // Verify expected results matching equivalent series values
         sut.Count.Should().Be(maxListSize);
-        sut.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
+        sut.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
     }
 }

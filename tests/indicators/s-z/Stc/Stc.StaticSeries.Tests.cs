@@ -15,7 +15,7 @@ public class Stc : StaticSeriesTestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.HasCount(467, results.Where(x => x.Stc != null));
+        Assert.HasCount(467, results.Where(static x => x.Stc != null));
 
         // sample values
         StcResult r34 = results[34];
@@ -42,7 +42,7 @@ public class Stc : StaticSeriesTestBase
             .ToStc(9, 12, 26);
 
         Assert.HasCount(502, results);
-        Assert.HasCount(467, results.Where(x => x.Stc != null));
+        Assert.HasCount(467, results.Where(static x => x.Stc != null));
     }
 
     [TestMethod]
@@ -53,7 +53,7 @@ public class Stc : StaticSeriesTestBase
             .ToStc(9, 12, 26);
 
         Assert.HasCount(502, results);
-        Assert.HasCount(466, results.Where(x => x.Stc != null));
+        Assert.HasCount(466, results.Where(static x => x.Stc != null));
     }
 
     [TestMethod]
@@ -64,7 +64,7 @@ public class Stc : StaticSeriesTestBase
             .ToSma(10);
 
         Assert.HasCount(502, results);
-        Assert.HasCount(458, results.Where(x => x.Sma != null));
+        Assert.HasCount(458, results.Where(static x => x.Sma != null));
     }
 
     [TestMethod]
@@ -74,7 +74,7 @@ public class Stc : StaticSeriesTestBase
             .ToStc();
 
         Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(x => x.Stc is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.Stc is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -127,14 +127,14 @@ public class Stc : StaticSeriesTestBase
     {
         // bad fast period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => Quotes.ToStc(9, 0, 26));
+            static () => Quotes.ToStc(9, 0, 26));
 
         // bad slow periods must be larger than faster period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => Quotes.ToStc(9, 12, 12));
+            static () => Quotes.ToStc(9, 12, 12));
 
         // bad signal period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => Quotes.ToStc(-1, 12, 26));
+            static () => Quotes.ToStc(-1, 12, 26));
     }
 }

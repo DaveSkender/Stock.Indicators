@@ -11,8 +11,8 @@ public class ElderRay : StaticSeriesTestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.HasCount(490, results.Where(x => x.BullPower != null));
-        Assert.HasCount(490, results.Where(x => x.BearPower != null));
+        Assert.HasCount(490, results.Where(static x => x.BullPower != null));
+        Assert.HasCount(490, results.Where(static x => x.BearPower != null));
 
         // sample values
         ElderRayResult r1 = results[11];
@@ -54,7 +54,7 @@ public class ElderRay : StaticSeriesTestBase
             .ToSma(10);
 
         Assert.HasCount(502, results);
-        Assert.HasCount(481, results.Where(x => x.Sma != null));
+        Assert.HasCount(481, results.Where(static x => x.Sma != null));
     }
 
     [TestMethod]
@@ -64,7 +64,7 @@ public class ElderRay : StaticSeriesTestBase
             .ToElderRay();
 
         Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(x => x.BullPower is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.BullPower is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -97,9 +97,11 @@ public class ElderRay : StaticSeriesTestBase
         Assert.AreEqual(-3.1429, last.BearPower.Round(4));
     }
 
-    // bad lookback period
+    /// <summary>
+    /// bad lookback period
+    /// </summary>
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => Quotes.ToElderRay(0));
+            static () => Quotes.ToElderRay(0));
 }

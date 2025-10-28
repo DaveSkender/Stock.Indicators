@@ -2,7 +2,9 @@ namespace Skender.Stock.Indicators;
 
 public static partial class ParabolicSar
 {
-    // Parabolic SAR Common Base Listing
+    /// <summary>
+    /// Parabolic SAR Common Base Listing
+    /// </summary>
     internal static readonly IndicatorListing CommonListing =
         new CatalogListingBuilder()
             .WithName("Parabolic SAR")
@@ -15,17 +17,27 @@ public static partial class ParabolicSar
             .AddResult("IsReversal", "Is Reversal", ResultType.Default)
             .Build();
 
-    // Parabolic SAR Series Listing
+    /// <summary>
+    /// Parabolic SAR Series Listing
+    /// </summary>
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
             .Build();
 
-    // Parabolic SAR Buffer Listing
+    /// <summary>
+    /// Parabolic SAR Buffer Listing
+    /// </summary>
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)
             .Build();
 
-    // No StreamListing for Parabolic SAR.
+    /// <summary>
+    /// Parabolic SAR Stream Listing
+    /// </summary>
+    internal static readonly IndicatorListing StreamListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Stream)
+            .Build();
 }

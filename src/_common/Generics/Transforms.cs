@@ -18,8 +18,6 @@ public static class Transforming
     {
         ArgumentNullException.ThrowIfNull(source);
 
-        Collection<T> collection = [.. source];
-
-        return collection;
+        return [.. source];
     }
 }

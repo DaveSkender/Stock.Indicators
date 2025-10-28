@@ -8,7 +8,7 @@ public static partial class Fcb
     /// <summary>
     /// Converts a list of quotes to FCB results.
     /// </summary>
-    /// <param name="quotes">The list of quotes.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <param name="windowSpan">The window span for the calculation. Default is 2.</param>
     /// <returns>A list of FCB results.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the quotes list is null.</exception>

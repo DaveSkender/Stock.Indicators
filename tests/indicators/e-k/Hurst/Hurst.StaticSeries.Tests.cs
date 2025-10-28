@@ -13,7 +13,7 @@ public class Hurst : StaticSeriesTestBase
 
         // proper quantities
         Assert.HasCount(15821, results);
-        Assert.HasCount(1, results.Where(x => x.HurstExponent != null));
+        Assert.HasCount(1, results.Where(static x => x.HurstExponent != null));
 
         // sample value
         HurstResult r15820 = results[15820];
@@ -28,7 +28,7 @@ public class Hurst : StaticSeriesTestBase
             .ToHurst();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(402, results.Count(x => x.HurstExponent != null));
+        Assert.AreEqual(402, results.Count(static x => x.HurstExponent != null));
     }
 
     [TestMethod]
@@ -39,7 +39,7 @@ public class Hurst : StaticSeriesTestBase
             .ToSma(10);
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(393, results.Count(x => x.Sma != null));
+        Assert.AreEqual(393, results.Count(static x => x.Sma != null));
     }
 
     [TestMethod]
@@ -50,7 +50,7 @@ public class Hurst : StaticSeriesTestBase
             .ToHurst();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(393, results.Count(x => x.HurstExponent != null));
+        Assert.AreEqual(393, results.Count(static x => x.HurstExponent != null));
     }
 
     [TestMethod]
@@ -60,7 +60,7 @@ public class Hurst : StaticSeriesTestBase
             .ToHurst(150);
 
         Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(x => x.HurstExponent is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.HurstExponent is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -90,9 +90,11 @@ public class Hurst : StaticSeriesTestBase
         Assert.AreEqual(0.483563, last.HurstExponent.Round(6));
     }
 
-    // bad lookback period
+    /// <summary>
+    /// bad lookback period
+    /// </summary>
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => Quotes.ToHurst(19));
+            static () => Quotes.ToHurst(19));
 }

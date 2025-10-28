@@ -5,7 +5,7 @@ namespace Skender.Stock.Indicators;
 /// </summary>
 /// <remarks>
 /// <para>
-/// <b>Exception to BufferUtilities Pattern:</b> StdDevChannels does not use the standard
+/// <b>Exception to <see cref="BufferListUtilities"/> Pattern:</b> StdDevChannels does not use the standard
 /// <see cref="BufferListUtilities"/> extension methods (Update/UpdateWithDequeue) due to
 /// its dependency on internal <see cref="SlopeList"/> calculations.
 /// </para>
@@ -19,8 +19,8 @@ namespace Skender.Stock.Indicators;
 /// </list>
 /// </para>
 /// <para>
-/// <b>Why Queue&lt;T&gt; Cannot Be Used:</b> The standard <see cref="Queue{T}"/> data structure
-/// used by BufferUtilities cannot maintain the complete SlopeList needed for the reverse window
+/// <b>Why <see cref="Queue{T}"/> cannot be used:</b> The standard <see cref="Queue{T}"/> data structure
+/// used by <see cref="BufferListUtilities"/> cannot maintain the complete SlopeList needed for the reverse window
 /// iteration pattern that characterizes Standard Deviation Channels.
 /// </para>
 /// <para>
@@ -33,13 +33,16 @@ public class StdDevChannelsList : BufferList<StdDevChannelsResult>, IIncrementFr
     private readonly SlopeList slopeList;
     private readonly int lookbackPeriods;
     private readonly double stdDeviations;
-    private int globalIndexOffset; // Tracks how many items have been removed from the beginning
+    /// <summary>
+    /// Tracks how many items have been removed from the beginning
+    /// </summary>
+    private int globalIndexOffset;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="StdDevChannelsList"/> class.
     /// </summary>
-    /// <param name="lookbackPeriods">The number of periods to look back for the calculation. Default is 20.</param>
-    /// <param name="stdDeviations">The number of standard deviations for the channel width. Default is 2.</param>
+    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
+    /// <param name="stdDeviations">The number of standard deviations for the channel width.</param>
     public StdDevChannelsList(int lookbackPeriods = 20, double stdDeviations = 2)
     {
         StdDevChannels.Validate(lookbackPeriods, stdDeviations);
@@ -54,12 +57,11 @@ public class StdDevChannelsList : BufferList<StdDevChannelsResult>, IIncrementFr
     /// <summary>
     /// Initializes a new instance of the <see cref="StdDevChannelsList"/> class with initial reusable values.
     /// </summary>
-    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <param name="stdDeviations">The number of standard deviations for the channel width.</param>
     /// <param name="values">Initial reusable values to populate the list.</param>
     public StdDevChannelsList(int lookbackPeriods, double stdDeviations, IReadOnlyList<IReusable> values)
-        : this(lookbackPeriods, stdDeviations)
-        => Add(values);
+        : this(lookbackPeriods, stdDeviations) => Add(values);
 
     /// <summary>
     /// Gets the number of periods to look back for the calculation.
@@ -196,6 +198,9 @@ public static partial class StdDevChannels
     /// <summary>
     /// Creates a buffer list for Standard Deviation Channels calculations.
     /// </summary>
+    /// <param name="source">Collection of input values, time sorted.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
+    /// <param name="stdDeviations">Number of standard deviations</param>
     public static StdDevChannelsList ToStdDevChannelsList(
         this IReadOnlyList<IReusable> source,
         int lookbackPeriods = 20,
