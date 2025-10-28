@@ -139,8 +139,8 @@ public static partial class Chandelier
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <param name="multiplier"></param>
-    /// <param name="type"></param>
+    /// <param name="multiplier">Multiplier for calculation</param>
+    /// <param name="type">Chandelier type</param>
     public static ChandelierList ToChandelierList(
         this IReadOnlyList<IQuote> quotes,
         int lookbackPeriods = 22,

@@ -7,7 +7,7 @@ public static partial class QuoteParts
     /// <summary>
     /// convert TQuote element to a basic QuotePart class
     /// </summary>
-    /// <param name="q"></param>
+    /// <param name="q">Quote to convert</param>
     /// <param name="candlePart">The <see cref="CandlePart" /> element.</param>
     /// <returns>Date and value pair</returns>
     internal static QuotePart ToQuotePart(this IQuote q, CandlePart candlePart)
@@ -16,10 +16,10 @@ public static partial class QuoteParts
     /// <summary>
     /// convert IQuote to value based on CandlePart
     /// </summary>
-    /// <param name="q"></param>
+    /// <param name="q">Quote to convert</param>
     /// <param name="candlePart">The <see cref="CandlePart" /> element.</param>
     /// <returns>Value of quote part</returns>
-    /// <exception cref="ArgumentOutOfRangeException"></exception>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when a parameter is out of the valid range</exception>
     internal static double ToQuotePartValue(this IQuote q, CandlePart candlePart)
 
         => candlePart switch {
@@ -43,7 +43,7 @@ public static partial class QuoteParts
     /// conditional HL2 value if IQuote type
     /// </summary>
     /// <typeparam name="T">Type of record</typeparam>
-    /// <param name="item"></param>
+    /// <param name="item">The item to process</param>
     /// <returns>HL2 value if quote type or reusable value</returns>
     internal static double Hl2OrValue<T>(
         this T item)
@@ -54,9 +54,9 @@ public static partial class QuoteParts
     /// conditional CandlePart value if IQuote type
     /// </summary>
     /// <typeparam name="T">Type of record</typeparam>
-    /// <param name="item"></param>
+    /// <param name="item">The item to process</param>
     /// <param name="candlePart">The <see cref="CandlePart" /> element.</param>
-    /// <returns></returns>
+    /// <returns>The converted reusable value</returns>
     internal static double QuotePartOrValue<T>(
         this T item, CandlePart candlePart)
         where T : IReusable

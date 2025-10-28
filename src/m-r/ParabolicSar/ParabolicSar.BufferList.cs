@@ -304,8 +304,8 @@ public static partial class ParabolicSar
     /// Creates a buffer list for Parabolic SAR calculations.
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="accelerationStep"></param>
-    /// <param name="maxAccelerationFactor"></param>
+    /// <param name="accelerationStep">Acceleration step increment</param>
+    /// <param name="maxAccelerationFactor">Maximum acceleration factor</param>
     public static ParabolicSarList ToParabolicSarList(
         this IReadOnlyList<IQuote> quotes,
         double accelerationStep = 0.02,
@@ -316,9 +316,9 @@ public static partial class ParabolicSar
     /// Creates a buffer list for Parabolic SAR calculations with custom initial factor.
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="accelerationStep"></param>
-    /// <param name="maxAccelerationFactor"></param>
-    /// <param name="initialFactor"></param>
+    /// <param name="accelerationStep">Acceleration step increment</param>
+    /// <param name="maxAccelerationFactor">Maximum acceleration factor</param>
+    /// <param name="initialFactor">Initial acceleration factor</param>
     public static ParabolicSarList ToParabolicSarList(
         this IReadOnlyList<IQuote> quotes,
         double accelerationStep,

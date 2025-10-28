@@ -113,7 +113,7 @@ public static partial class MgDynamic
     /// </summary>
     /// <param name="source">Collection of input values, time sorted.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <param name="kFactor"></param>
+    /// <param name="kFactor">K-factor for calculations</param>
     public static DynamicList ToDynamicList(
         this IReadOnlyList<IReusable> source,
         int lookbackPeriods,

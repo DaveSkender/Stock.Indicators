@@ -326,7 +326,7 @@ public static partial class ZigZag
     /// <param name="index">The index of the quote.</param>
     /// <param name="q">The quote.</param>
     /// <returns>The ZigZag evaluation.</returns>
-    /// <exception cref="ArgumentOutOfRangeException"></exception>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when a parameter is out of the valid range</exception>
     internal static ZigZagEval GetZigZagEval(
         EndType endType,
         int index,

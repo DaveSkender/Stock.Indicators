@@ -316,8 +316,8 @@ public static partial class Mama
     /// Creates a buffer list for MESA Adaptive Moving Average (MAMA) calculations.
     /// </summary>
     /// <param name="source">Collection of input values, time sorted.</param>
-    /// <param name="fastLimit"></param>
-    /// <param name="slowLimit"></param>
+    /// <param name="fastLimit">Fast limit parameter</param>
+    /// <param name="slowLimit">Slow limit parameter</param>
     public static MamaList ToMamaList(
         this IReadOnlyList<IReusable> source,
         double fastLimit = 0.5,

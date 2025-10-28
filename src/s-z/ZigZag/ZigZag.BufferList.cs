@@ -129,8 +129,8 @@ public static partial class ZigZag
     /// Creates a buffer list for ZigZag calculations.
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="endType"></param>
-    /// <param name="percentChange"></param>
+    /// <param name="endType">End calculation type</param>
+    /// <param name="percentChange">Percent change threshold</param>
     public static ZigZagList ToZigZagList(
         this IReadOnlyList<IQuote> quotes,
         EndType endType = EndType.Close,

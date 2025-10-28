@@ -6,7 +6,7 @@ public static partial class Aroon
     /// parameter validation
     /// </summary>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <exception cref="ArgumentOutOfRangeException"></exception>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when a parameter is out of the valid range</exception>
     internal static void Validate(
         int lookbackPeriods)
     {

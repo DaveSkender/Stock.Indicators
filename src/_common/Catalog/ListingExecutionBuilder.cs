@@ -23,7 +23,7 @@ public class ListingExecutionBuilder
     /// <param name="parameterName">The name of the parameter to override.</param>
     /// <param name="value">The value to set for the parameter.</param>
     /// <returns>A new <see cref="ListingExecutionBuilder"/> with the parameter override applied.</returns>
-    /// <exception cref="ArgumentException"></exception>
+    /// <exception cref="ArgumentException">Thrown when an argument is invalid</exception>
     public ListingExecutionBuilder WithParamValue(string parameterName, object value)
     {
         if (string.IsNullOrWhiteSpace(parameterName))

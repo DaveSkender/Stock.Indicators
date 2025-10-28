@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 /// Chainable component part of an <see cref="IQuote"/>.
 /// </summary>
 /// <param name="Timestamp">Date and time of record.</param>
-/// <param name="Value"></param>
+/// <param name="Value">The value of the quote part</param>
 [Serializable]
 public record QuotePart
 (

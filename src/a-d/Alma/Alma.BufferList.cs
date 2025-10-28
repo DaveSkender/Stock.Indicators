@@ -140,8 +140,8 @@ public static partial class Alma
     /// </summary>
     /// <param name="source">Collection of input values, time sorted.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <param name="offset"></param>
-    /// <param name="sigma"></param>
+    /// <param name="offset">Offset value</param>
+    /// <param name="sigma">Sigma value for Gaussian calculations</param>
     public static AlmaList ToAlmaList(
         this IReadOnlyList<IReusable> source,
         int lookbackPeriods,

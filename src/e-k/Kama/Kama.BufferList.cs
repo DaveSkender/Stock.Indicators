@@ -180,9 +180,9 @@ public static partial class Kama
     /// Creates a buffer list for Kaufman's Adaptive Moving Average (KAMA) calculations.
     /// </summary>
     /// <param name="source">Collection of input values, time sorted.</param>
-    /// <param name="erPeriods"></param>
-    /// <param name="fastPeriods"></param>
-    /// <param name="slowPeriods"></param>
+    /// <param name="erPeriods">Number of periods for efficiency ratio</param>
+    /// <param name="fastPeriods">Number of periods for the fast moving average</param>
+    /// <param name="slowPeriods">Number of periods for the slow moving average</param>
     public static KamaList ToKamaList(
         this IReadOnlyList<IReusable> source,
         int erPeriods = 10,

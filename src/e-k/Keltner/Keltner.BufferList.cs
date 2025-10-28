@@ -112,9 +112,9 @@ public static partial class Keltner
     /// Creates a buffer list for Keltner Channels calculations.
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="emaPeriods"></param>
-    /// <param name="multiplier"></param>
-    /// <param name="atrPeriods"></param>
+    /// <param name="emaPeriods">Number of periods for the exponential moving average</param>
+    /// <param name="multiplier">Multiplier for calculation</param>
+    /// <param name="atrPeriods">Number of periods for ATR calculation</param>
     public static KeltnerList ToKeltnerList(
         this IReadOnlyList<IQuote> quotes,
         int emaPeriods = 20,

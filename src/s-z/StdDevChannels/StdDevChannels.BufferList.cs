@@ -203,7 +203,7 @@ public static partial class StdDevChannels
     /// </summary>
     /// <param name="source">Collection of input values, time sorted.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <param name="stdDeviations"></param>
+    /// <param name="stdDeviations">Number of standard deviations</param>
     public static StdDevChannelsList ToStdDevChannelsList(
         this IReadOnlyList<IReusable> source,
         int lookbackPeriods = 20,

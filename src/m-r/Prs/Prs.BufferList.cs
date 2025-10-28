@@ -152,8 +152,8 @@ public static partial class Prs
     /// <summary>
     /// Creates a buffer list for PRS calculations from two synchronized series.
     /// </summary>
-    /// <param name="sourceEval"></param>
-    /// <param name="sourceBase"></param>
+    /// <param name="sourceEval">Eval quote series</param>
+    /// <param name="sourceBase">Base quote series for comparison</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     public static PrsList ToPrsList(
         this IReadOnlyList<IReusable> sourceEval,

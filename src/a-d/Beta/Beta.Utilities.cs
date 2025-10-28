@@ -6,11 +6,11 @@ public static partial class Beta
     /// parameter validation
     /// </summary>
     /// <typeparam name="T">Type of record</typeparam>
-    /// <param name="sourceEval"></param>
-    /// <param name="sourceMrkt"></param>
+    /// <param name="sourceEval">Eval quote series</param>
+    /// <param name="sourceMrkt">Market quote series</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <exception cref="ArgumentOutOfRangeException"></exception>
-    /// <exception cref="InvalidQuotesException"></exception>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when a parameter is out of the valid range</exception>
+    /// <exception cref="InvalidQuotesException">Thrown when quotes are invalid or insufficient</exception>
     internal static void Validate<T>(
         IReadOnlyList<T> sourceEval,
         IReadOnlyList<T> sourceMrkt,

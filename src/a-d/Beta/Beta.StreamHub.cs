@@ -371,7 +371,7 @@ public class BetaHub
     /// <summary>
     /// Encapsulates rolling window state for incremental Beta calculations.
     /// </summary>
-    /// <param name="capacity"></param>
+    /// <param name="capacity">Initial capacity of the collection</param>
     private sealed class RollingWindowState(int capacity)
     {
         public double[] WindowEval = new double[capacity];

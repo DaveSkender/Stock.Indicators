@@ -170,9 +170,9 @@ public static partial class Ultimate
     /// Creates a buffer list for Ultimate Oscillator calculations.
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="shortPeriods"></param>
-    /// <param name="middlePeriods"></param>
-    /// <param name="longPeriods"></param>
+    /// <param name="shortPeriods">Number of periods for short calculation</param>
+    /// <param name="middlePeriods">Number of periods for middle calculation</param>
+    /// <param name="longPeriods">Number of periods for long calculation</param>
     public static UltimateList ToUltimateList(
         this IReadOnlyList<IQuote> quotes,
         int shortPeriods = 7,

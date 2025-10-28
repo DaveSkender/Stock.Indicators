@@ -119,9 +119,9 @@ public static partial class StarcBands
     /// Creates a buffer list for STARC Bands calculations.
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="smaPeriods"></param>
-    /// <param name="multiplier"></param>
-    /// <param name="atrPeriods"></param>
+    /// <param name="smaPeriods">Number of periods for the simple moving average</param>
+    /// <param name="multiplier">Multiplier for calculation</param>
+    /// <param name="atrPeriods">Number of periods for ATR calculation</param>
     public static StarcBandsList ToStarcBandsList(
         this IReadOnlyList<IQuote> quotes,
         int smaPeriods = 5,

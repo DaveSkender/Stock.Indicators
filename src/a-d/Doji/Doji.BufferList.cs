@@ -81,7 +81,7 @@ public static partial class Doji
     /// Creates a buffer list for Doji candlestick pattern detection.
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="maxPriceChangePercent"></param>
+    /// <param name="maxPriceChangePercent">Maximum price change percent threshold</param>
     public static DojiList ToDojiList(
         this IReadOnlyList<IQuote> quotes,
         double maxPriceChangePercent = 0.1)
