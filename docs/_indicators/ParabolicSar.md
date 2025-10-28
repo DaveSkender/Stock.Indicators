@@ -78,3 +78,33 @@ var results = quotes
 ```
 
 This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.
+
+## Streaming
+
+Use the buffer-style `List<T>` when you need incremental calculations without a hub:
+
+```csharp
+ParabolicSarList psarList = new(accelerationStep, maxAccelerationFactor);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  psarList.Add(quote);
+}
+
+// based on `ICollection<ParabolicSarResult>`
+IReadOnlyList<ParabolicSarResult> results = psarList;
+```
+
+Subscribe to a `QuoteHub` for advanced streaming scenarios:
+
+```csharp
+QuoteHub quoteHub = new();
+ParabolicSarHub observer = quoteHub.ToParabolicSarHub(accelerationStep, maxAccelerationFactor);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  quoteHub.Add(quote);
+}
+
+IReadOnlyList<ParabolicSarResult> results = observer.Results;
+```

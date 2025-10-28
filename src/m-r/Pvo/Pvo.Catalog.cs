@@ -35,5 +35,11 @@ public static partial class Pvo
             .WithStyle(Style.Buffer)
             .Build();
 
-    // No StreamListing for PVO.
+    /// <summary>
+    /// Price Volume Oscillator Stream Listing
+    /// </summary>
+    internal static readonly IndicatorListing StreamListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Stream)
+            .Build();
 }
