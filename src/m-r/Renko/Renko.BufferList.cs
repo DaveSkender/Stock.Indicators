@@ -43,16 +43,13 @@ public class RenkoList : BufferList<RenkoResult>, IIncrementFromQuote, IRenko
     /// </summary>
     /// <param name="brickSize">The size of each Renko brick.</param>
     /// <param name="endType">The price candle end type to use as the brick threshold.</param>
-    /// <param name="quotes">Initial quotes to populate the list.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     public RenkoList(
         decimal brickSize,
         EndType endType,
         IReadOnlyList<IQuote> quotes
     )
-        : this(brickSize, endType)
-    {
-        Add(quotes);
-    }
+        : this(brickSize, endType) => Add(quotes);
 
     /// <inheritdoc/>
     public decimal BrickSize { get; init; }
@@ -165,7 +162,7 @@ public static partial class Renko
     /// <summary>
     /// Creates a buffer list for Renko Chart calculations.
     /// </summary>
-    /// <param name="quotes">The source list of quotes.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <param name="brickSize">The size of each Renko brick.</param>
     /// <param name="endType">The price candle end type to use as the brick threshold.</param>
     /// <returns>A buffer list for Renko Chart calculations.</returns>

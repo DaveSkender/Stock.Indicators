@@ -12,16 +12,13 @@ public class UtilitiesPrecisionTests
         double? d = null,
         float? f = null,
         decimal? m = null,
-        int count = 1)
-    {
-        return Enumerable.Range(0, count)
+        int count = 1) => Enumerable.Range(0, count)
             .Select(i => new TestSeries(T(i)) {
                 D = d,
                 F = f,
                 M = m
             })
             .ToList();
-    }
 
     private record TestSeries(DateTime Timestamp) : ISeries
     {

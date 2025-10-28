@@ -9,9 +9,9 @@ public static partial class Alma
     /// Calculates the Arnaud Legoux Moving Average (ALMA) for a series of data.
     /// </summary>
     /// <param name="source">The source series.</param>
-    /// <param name="lookbackPeriods">The number of periods to look back. Default is 9.</param>
-    /// <param name="offset">The offset for the ALMA calculation. Default is 0.85.</param>
-    /// <param name="sigma">The sigma for the ALMA calculation. Default is 6.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
+    /// <param name="offset">The offset for the ALMA calculation.</param>
+    /// <param name="sigma">The sigma for the ALMA calculation.</param>
     /// <returns>A list of ALMA results.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the source series is null.</exception>
     public static IReadOnlyList<AlmaResult> ToAlma(

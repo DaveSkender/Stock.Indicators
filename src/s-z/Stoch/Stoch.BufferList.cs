@@ -52,7 +52,7 @@ public class StochList : BufferList<StochResult>, IIncrementFromQuote, IStoch
     /// <param name="kFactor">The K factor for the Stochastic calculation.</param>
     /// <param name="dFactor">The D factor for the Stochastic calculation.</param>
     /// <param name="movingAverageType">The type of moving average to use.</param>
-    /// <param name="quotes">Initial quotes to populate the list.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     public StochList(
         int lookbackPeriods,
         int signalPeriods,
@@ -61,10 +61,7 @@ public class StochList : BufferList<StochResult>, IIncrementFromQuote, IStoch
         double dFactor,
         MaType movingAverageType,
         IReadOnlyList<IQuote> quotes)
-        : this(lookbackPeriods, signalPeriods, smoothPeriods, kFactor, dFactor, movingAverageType)
-    {
-        Add(quotes);
-    }
+        : this(lookbackPeriods, signalPeriods, smoothPeriods, kFactor, dFactor, movingAverageType) => Add(quotes);
 
     /// <inheritdoc />
     public int LookbackPeriods { get; init; }
@@ -112,10 +109,10 @@ public class StochList : BufferList<StochResult>, IIncrementFromQuote, IStoch
     /// <param name="high">The high price.</param>
     /// <param name="low">The low price.</param>
     /// <param name="close">The close price.</param>
-    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="InvalidOperationException">Thrown when the operation is invalid for the current state</exception>
     public void Add(DateTime timestamp, double high, double low, double close)
     {
-        // Update rolling buffer using BufferUtilities with consolidated tuple
+        // Update rolling buffer using BufferListUtilities with consolidated tuple
         _hlcBuffer.Update(LookbackPeriods, (high, low, close));
 
         // Calculate raw %K oscillator when we have enough data
@@ -131,6 +128,7 @@ public class StochList : BufferList<StochResult>, IIncrementFromQuote, IStoch
                 {
                     highHigh = High;
                 }
+
                 if (Low < lowLow)
                 {
                     lowLow = Low;
@@ -151,7 +149,7 @@ public class StochList : BufferList<StochResult>, IIncrementFromQuote, IStoch
         }
         else if (Count >= SmoothPeriods && !double.IsNaN(rawK)) // This matches StaticSeries: i >= smoothPeriods
         {
-            // Update raw K buffer for smoothing using BufferUtilities
+            // Update raw K buffer for smoothing using BufferListUtilities
             _rawKBuffer.Update(SmoothPeriods, rawK);
 
             switch (MovingAverageType)
@@ -188,7 +186,7 @@ public class StochList : BufferList<StochResult>, IIncrementFromQuote, IStoch
         }
         else if (Count >= SignalPeriods && !double.IsNaN(smoothK)) // This matches StaticSeries: i >= signalPeriods
         {
-            // Update smooth K buffer for signal calculation using BufferUtilities
+            // Update smooth K buffer for signal calculation using BufferListUtilities
             _smoothKBuffer.Update(SignalPeriods, smoothK);
 
             switch (MovingAverageType)

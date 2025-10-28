@@ -18,7 +18,7 @@ public class TrixList : BufferList<TrixResult>, IIncrementFromChain, ITrix
     /// <summary>
     /// Initializes a new instance of the <see cref="TrixList"/> class.
     /// </summary>
-    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     public TrixList(
         int lookbackPeriods
     )
@@ -34,16 +34,13 @@ public class TrixList : BufferList<TrixResult>, IIncrementFromChain, ITrix
     /// <summary>
     /// Initializes a new instance of the <see cref="TrixList"/> class with initial reusable values.
     /// </summary>
-    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <param name="values">Initial reusable values to populate the list.</param>
     public TrixList(
         int lookbackPeriods,
         IReadOnlyList<IReusable> values
     )
-        : this(lookbackPeriods)
-    {
-        Add(values);
-    }
+        : this(lookbackPeriods) => Add(values);
 
     /// <inheritdoc />
     public int LookbackPeriods { get; init; }
@@ -57,7 +54,7 @@ public class TrixList : BufferList<TrixResult>, IIncrementFromChain, ITrix
     /// <inheritdoc />
     public void Add(DateTime timestamp, double value)
     {
-        // Use BufferUtilities extension method for efficient buffer management
+        // Use BufferListUtilities extension method for efficient buffer management
         double? dequeuedValue = _buffer.UpdateWithDequeue(LookbackPeriods, value);
 
         // Update running sum efficiently
@@ -144,8 +141,8 @@ public static partial class Trix
     /// <summary>
     /// Creates a buffer list for TRIX calculations.
     /// </summary>
-    /// <param name="source"></param>
-    /// <param name="lookbackPeriods"></param>
+    /// <param name="source">Collection of input values, time sorted.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     public static TrixList ToTrixList(
         this IReadOnlyList<IReusable> source,
         int lookbackPeriods = 14)

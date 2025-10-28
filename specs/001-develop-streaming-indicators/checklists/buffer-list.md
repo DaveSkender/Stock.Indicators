@@ -20,7 +20,7 @@
 - [x] CHK006 - Base Class: Are `BufferList<TResult>` inheritance requirements explicit? [Instructions §Implementation Requirements]
 - [x] CHK007 - Interface Selection: Are criteria for `IIncrementFromChain`/`IIncrementFromQuote`/`IIncrementFromPairs` clear? [Instructions §Interface Selection]
 - [x] CHK008 - Constructor Pattern: Are both constructor variants (params-only and params+quotes) mandatory? [Instructions §Constructor Requirements]
-- [x] CHK009 - Buffer Management: Are `BufferUtilities` extension method requirements specified? [Instructions §Universal Buffer Utilities]
+- [x] CHK009 - Buffer Management: Are `BufferListUtilities` extension method requirements specified? [Instructions §Universal Buffer Utilities]
 - [x] CHK010 - Test Base: Are `BufferListTestBase` inheritance and test interface requirements defined? [Instructions §Testing Requirements]
 
 ## Essential Quality Gates

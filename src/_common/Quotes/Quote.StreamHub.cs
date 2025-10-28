@@ -34,10 +34,7 @@ public class QuoteHub
     /// <param name="provider">The quote provider.</param>
     public QuoteHub(
         IQuoteProvider<IQuote> provider)
-        : base(provider)
-    {
-        Reinitialize();
-    }
+        : base(provider) => Reinitialize();
 
     // METHODS
 
@@ -61,7 +58,7 @@ public class QuoteHub
 /// <summary>
 /// Inert provider for base Hub initialization.
 /// </summary>
-/// <typeparam name="T"></typeparam>
+/// <typeparam name="T">Type of record</typeparam>
 public class BaseProvider<T>
     : IStreamObservable<T>
     where T : IReusable
@@ -108,7 +105,7 @@ public class BaseProvider<T>
     /// </summary>
     /// <param name="observer">The observer to subscribe.</param>
     /// <returns>A disposable object that can be used to unsubscribe.</returns>
-    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="InvalidOperationException">Thrown when the operation is invalid for the current state</exception>
     public IDisposable Subscribe(IStreamObserver<T> observer)
         => throw new InvalidOperationException();
 
@@ -117,14 +114,14 @@ public class BaseProvider<T>
     /// </summary>
     /// <param name="observer">The observer to unsubscribe.</param>
     /// <returns><c>true</c> if the observer was unsubscribed; otherwise, <c>false</c>.</returns>
-    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="InvalidOperationException">Thrown when the operation is invalid for the current state</exception>
     public bool Unsubscribe(IStreamObserver<T> observer)
         => throw new InvalidOperationException();
 
     /// <summary>
     /// Ends the transmission.
     /// </summary>
-    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="InvalidOperationException">Thrown when the operation is invalid for the current state</exception>
     public void EndTransmission()
         => throw new InvalidOperationException();
 }
@@ -143,7 +140,7 @@ public static partial class Quotes
     /// <summary>
     /// Creates a new QuoteHub from an initiating collection of quotes.
     /// </summary>
-    /// <param name="quotes">The collection of quotes.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     public static QuoteHub ToQuoteHub(
         this IReadOnlyList<IQuote> quotes)
     {

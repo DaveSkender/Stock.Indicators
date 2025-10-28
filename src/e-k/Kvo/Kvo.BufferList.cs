@@ -22,9 +22,9 @@ public class KvoList : BufferList<KvoResult>, IIncrementFromQuote, IKvo
     /// <summary>
     /// Initializes a new instance of the <see cref="KvoList"/> class.
     /// </summary>
-    /// <param name="fastPeriods">The number of periods for the fast EMA. Default is 34.</param>
-    /// <param name="slowPeriods">The number of periods for the slow EMA. Default is 55.</param>
-    /// <param name="signalPeriods">The number of periods for the signal line. Default is 13.</param>
+    /// <param name="fastPeriods">The number of periods for the fast EMA.</param>
+    /// <param name="slowPeriods">The number of periods for the slow EMA.</param>
+    /// <param name="signalPeriods">The number of periods for the signal line.</param>
     public KvoList(
         int fastPeriods = 34,
         int slowPeriods = 55,
@@ -56,16 +56,13 @@ public class KvoList : BufferList<KvoResult>, IIncrementFromQuote, IKvo
     /// <param name="fastPeriods">The number of periods for the fast EMA.</param>
     /// <param name="slowPeriods">The number of periods for the slow EMA.</param>
     /// <param name="signalPeriods">The number of periods for the signal line.</param>
-    /// <param name="quotes">Initial quotes to populate the list.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     public KvoList(
         int fastPeriods,
         int slowPeriods,
         int signalPeriods,
         IReadOnlyList<IQuote> quotes)
-        : this(fastPeriods, slowPeriods, signalPeriods)
-    {
-        Add(quotes);
-    }
+        : this(fastPeriods, slowPeriods, signalPeriods) => Add(quotes);
 
     /// <inheritdoc />
     public int FastPeriods { get; init; }
@@ -173,6 +170,7 @@ public class KvoList : BufferList<KvoResult>, IIncrementFromQuote, IKvo
                 {
                     sum += this[p].Oscillator ?? 0;
                 }
+
                 sum += kvo ?? 0;
                 sig = sum / SignalPeriods;
             }
@@ -222,10 +220,10 @@ public static partial class Kvo
     /// <summary>
     /// Creates a buffer list for Klinger Volume Oscillator (KVO) calculations.
     /// </summary>
-    /// <param name="quotes"></param>
-    /// <param name="fastPeriods"></param>
-    /// <param name="slowPeriods"></param>
-    /// <param name="signalPeriods"></param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="fastPeriods">Number of periods for the fast moving average</param>
+    /// <param name="slowPeriods">Number of periods for the slow moving average</param>
+    /// <param name="signalPeriods">Number of periods for the signal line</param>
     public static KvoList ToKvoList(
         this IReadOnlyList<IQuote> quotes,
         int fastPeriods = 34,

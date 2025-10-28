@@ -5,7 +5,7 @@ namespace Skender.Stock.Indicators;
 /// </summary>
 /// <remarks>
 /// <para>
-/// <b>Exception to BufferUtilities Pattern:</b> MAMA does not use the standard
+/// <b>Exception to <see cref="BufferListUtilities"/> Pattern:</b> MAMA does not use the standard
 /// <see cref="BufferListUtilities"/> extension methods (Update/UpdateWithDequeue) due to
 /// the unique complexity of the MESA (Maximum Entropy Spectrum Analysis) algorithm.
 /// </para>
@@ -20,8 +20,8 @@ namespace Skender.Stock.Indicators;
 /// </list>
 /// </para>
 /// <para>
-/// <b>Why Queue&lt;T&gt; Cannot Be Used:</b> The standard <see cref="Queue{T}"/> data structure
-/// used by BufferUtilities does not provide indexed access to historical values, which is
+/// <b>Why <see cref="Queue{T}"/> cannot be used:</b> The standard <see cref="Queue{T}"/> data structure
+/// used by <see cref="BufferListUtilities"/> does not provide indexed access to historical values, which is
 /// essential for the MESA algorithm's phase and period calculations.
 /// </para>
 /// <para>
@@ -111,10 +111,7 @@ public class MamaList : BufferList<MamaResult>, IIncrementFromChain, IMama
         double fastLimit,
         double slowLimit,
         IReadOnlyList<IReusable> values)
-        : this(fastLimit, slowLimit)
-    {
-        Add(values);
-    }
+        : this(fastLimit, slowLimit) => Add(values);
 
     /// <inheritdoc />
     public double FastLimit { get; init; }
@@ -315,9 +312,9 @@ public static partial class Mama
     /// <summary>
     /// Creates a buffer list for MESA Adaptive Moving Average (MAMA) calculations.
     /// </summary>
-    /// <param name="source"></param>
-    /// <param name="fastLimit"></param>
-    /// <param name="slowLimit"></param>
+    /// <param name="source">Collection of input values, time sorted.</param>
+    /// <param name="fastLimit">Fast limit parameter</param>
+    /// <param name="slowLimit">Slow limit parameter</param>
     public static MamaList ToMamaList(
         this IReadOnlyList<IReusable> source,
         double fastLimit = 0.5,

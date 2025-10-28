@@ -37,26 +37,20 @@ public class FractalList : BufferList<FractalResult>, IIncrementFromQuote, IFrac
     /// Initializes a new instance of the <see cref="FractalList"/> class with initial quotes.
     /// </summary>
     /// <param name="windowSpan">The number of periods to look back and forward for the calculation.</param>
-    /// <param name="quotes">Initial quotes to populate the list.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <param name="endType">The type of price to use for the calculation.</param>
     public FractalList(int windowSpan, IReadOnlyList<IQuote> quotes, EndType endType = EndType.HighLow)
-        : this(windowSpan, endType)
-    {
-        Add(quotes);
-    }
+        : this(windowSpan, endType) => Add(quotes);
 
     /// <summary>
     /// Initializes a new instance of the <see cref="FractalList"/> class with different spans and initial quotes.
     /// </summary>
     /// <param name="leftSpan">The number of periods to look back for the calculation.</param>
     /// <param name="rightSpan">The number of periods to look forward for the calculation.</param>
-    /// <param name="quotes">Initial quotes to populate the list.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <param name="endType">The type of price to use for the calculation.</param>
     public FractalList(int leftSpan, int rightSpan, IReadOnlyList<IQuote> quotes, EndType endType = EndType.HighLow)
-        : this(leftSpan, rightSpan, endType)
-    {
-        Add(quotes);
-    }
+        : this(leftSpan, rightSpan, endType) => Add(quotes);
 
     /// <summary>
     /// Gets the number of periods to look back for the calculation.
@@ -191,7 +185,7 @@ public static partial class Fractal
     /// <summary>
     /// Creates a buffer list for Williams Fractal calculations.
     /// </summary>
-    /// <param name="quotes">Historical price quotes.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <param name="windowSpan">The number of periods to look back and forward for the calculation.</param>
     /// <param name="endType">The type of price to use for the calculation.</param>
     /// <returns>An initialized <see cref="FractalList" />.</returns>
@@ -204,7 +198,7 @@ public static partial class Fractal
     /// <summary>
     /// Creates a buffer list for Williams Fractal calculations with different left and right spans.
     /// </summary>
-    /// <param name="quotes">Historical price quotes.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <param name="leftSpan">The number of periods to look back for the calculation.</param>
     /// <param name="rightSpan">The number of periods to look forward for the calculation.</param>
     /// <param name="endType">The type of price to use for the calculation.</param>

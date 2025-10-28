@@ -29,6 +29,13 @@
   // tasks
   "tasks": [
     {
+      "label": "Git: pull",
+      "detail": "Pull latest changes from Git",
+      "type": "shell",
+      "command": "git pull || echo 'No remote branch!'",
+      "problemMatcher": []
+    },
+    {
       "label": "Restore: All code dependencies",
       "detail": "Restore both NPM and .NET packages in parallel",
       "dependsOn": [
@@ -201,6 +208,39 @@
       "presentation": { "group": "analysis" }
     },
     {
+      "label": "Fix: Pull, rebuild, fixers, and unit test",
+      "detail": "Pull latest, clean, rebuild non-incremental, install NPM, fix all, and test",
+      "dependsOn": [
+        "Git: pull",
+        "Clean: .NET Solution (dotnet clean)",
+        "Build: .NET Solution (not incremental)",
+        "Restore: NPM packages",
+        "Fix: All .NET and markdown formatting",
+        "Test: Unit tests"
+      ],
+      "dependsOrder": "sequence",
+      "group": "build",
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      }
+    },
+    {
+      "label": "CI: Verify (build + lint + unit test)",
+      "detail": "Complete CI verification: build, lint, and test",
+      "dependsOn": [
+        "Build: .NET Solution (incremental)",
+        "Lint: .NET code & markdown files",
+        "Test: Unit tests"
+      ],
+      "dependsOrder": "sequence",
+      "group": "test",
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      }
+    },
+    {
       "label": "Test: Unit tests",
       "detail": "Run unit tests only (excludes integration and regression tests)",
       "type": "shell",
@@ -238,21 +278,6 @@
       "group": "test",
       "problemMatcher": "$msCompile",
       "presentation": { "clear": true }
-    },
-    {
-      "label": "CI: Verify (build + lint + test)",
-      "detail": "Complete CI verification: build, lint, and test",
-      "dependsOn": [
-        "Build: .NET Solution (incremental)",
-        "Lint: .NET code & markdown files",
-        "Test: Unit tests"
-      ],
-      "dependsOrder": "sequence",
-      "group": "test",
-      "presentation": {
-        "reveal": "always",
-        "panel": "shared"
-      }
     },
     {
       "label": "Test: Unit tests with coverage",

@@ -66,8 +66,8 @@ public class KeltnerHub
     /// <summary>
     /// Calculates the simple moving average of Close prices.
     /// </summary>
-    /// <param name="endIndex"></param>
-    /// <param name="periods"></param>
+    /// <param name="endIndex">Ending index for calculation</param>
+    /// <param name="periods">Number of periods</param>
     private double CalculateSmaOfClose(int endIndex, int periods)
     {
         if (endIndex < periods - 1 || endIndex + 1 > ProviderCache.Count)
@@ -193,9 +193,9 @@ public static partial class Keltner
     /// Creates a Keltner Channels streaming hub from a quote provider.
     /// </summary>
     /// <param name="quoteProvider">The quote provider.</param>
-    /// <param name="emaPeriods">The number of periods for the EMA. Default is 20.</param>
-    /// <param name="multiplier">The multiplier for the ATR. Default is 2.</param>
-    /// <param name="atrPeriods">The number of periods for the ATR. Default is 10.</param>
+    /// <param name="emaPeriods">The number of periods for the EMA.</param>
+    /// <param name="multiplier">The multiplier for the ATR.</param>
+    /// <param name="atrPeriods">The number of periods for the ATR.</param>
     /// <returns>An instance of <see cref="KeltnerHub"/>.</returns>
     public static KeltnerHub ToKeltnerHub(
         this IQuoteProvider<IQuote> quoteProvider,

@@ -8,7 +8,7 @@ public static partial class Pvo
     /// <summary>
     /// Converts a list of quotes to a list of PVO results.
     /// </summary>
-    /// <param name="quotes">The list of quotes.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <param name="fastPeriods">The number of periods for the fast EMA.</param>
     /// <param name="slowPeriods">The number of periods for the slow EMA.</param>
     /// <param name="signalPeriods">The number of periods for the signal line.</param>

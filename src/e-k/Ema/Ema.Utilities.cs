@@ -21,7 +21,7 @@ public static partial class Ema
     /// <summary>
     /// Increments the EMA value using the lookback periods.
     /// </summary>
-    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <param name="lastEma">The last EMA value.</param>
     /// <param name="newPrice">The new price value.</param>
     /// <returns>The incremented EMA value.</returns>
@@ -66,7 +66,7 @@ public static partial class Ema
     /// <summary>
     /// Validates the lookback periods for EMA calculations.
     /// </summary>
-    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <exception cref="ArgumentOutOfRangeException">
     /// Thrown when the lookback periods are less than or equal to 0.
     /// </exception>

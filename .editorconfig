@@ -142,19 +142,26 @@ dotnet_diagnostic.IDE0230.severity = suggestion  # Use raw string literal when b
 dotnet_diagnostic.IDE0330.severity = none        # Prefer 'System.Threading.Lock'
 
 # Roslynator analyzer suppressions
-dotnet_diagnostic.IDE0008.severity = none        # Use explicit type (conflicting with project preferences)
+dotnet_diagnostic.IDE0008.severity = suggestion  # Use explicit type
 dotnet_diagnostic.IDE0010.severity = none        # Add missing cases (can be verbose)
-dotnet_diagnostic.IDE0022.severity = none        # Use expression body for method (stylistic preference)
-dotnet_diagnostic.IDE0028.severity = none        # Simplify collection initialization (not compatible with all scenarios)
+dotnet_diagnostic.IDE0028.severity = none        # Simplify collection initialization (flakey)
 dotnet_diagnostic.IDE0045.severity = none        # Use conditional expression for assignment
 dotnet_diagnostic.IDE0046.severity = none        # Use conditional expression for return
 dotnet_diagnostic.IDE0047.severity = none        # Remove unnecessary parentheses
 dotnet_diagnostic.IDE0054.severity = none        # Use '++' operator
+dotnet_diagnostic.IDE0055.severity = warning     # Fix formatting
 dotnet_diagnostic.IDE0320.severity = none        # Make anonymous function static (minimal benefit)
-dotnet_diagnostic.IDE2003.severity = none        # Blank line required between block and subsequent statement
+dotnet_diagnostic.IDE2003.severity = suggestion  # Blank line required between block and subsequent statement
+
 dotnet_diagnostic.RCS1181.severity = none        # Convert comment to documentation comment (superflous, inconsistent need)
-dotnet_diagnostic.RCS1228.severity = none        # Unused element in documentation comment
+dotnet_diagnostic.RCS1228.severity = suggestion  # Unused element in documentation comment
 dotnet_diagnostic.RCS1238.severity = none        # Avoid nested ?: operators (conflicts with IDE0045)
+
+# Member ordering preferences
+dotnet_diagnostic.RCS1213.severity = warning     # Members should be ordered by kind (field, property, method, etc.)
+dotnet_diagnostic.RCS1214.severity = warning     # Members should be ordered by access level (public → internal → protected → private)
+dotnet_diagnostic.RCS1215.severity = suggestion  # Partial class members should be grouped together
+dotnet_diagnostic.RCS1021.severity = suggestion  # Remove unnecessary region directives (helps avoid noise around ordering)
 
 #### C# Coding Conventions ####
 # https://learn.microsoft.com/dotnet/fundamentals/code-analysis/style-rules/csharp-formatting-options
@@ -178,6 +185,7 @@ csharp_style_prefer_top_level_statements = true:silent
 csharp_style_prefer_primary_constructors = true:suggestion
 
 # Expression-bodied members
+csharp_style_expression_bodied_constructors = true:silent
 csharp_style_expression_bodied_methods = true:silent
 csharp_style_expression_bodied_operators = true:silent
 csharp_style_expression_bodied_properties = true:silent
@@ -203,23 +211,6 @@ csharp_prefer_static_local_function = true
 csharp_preferred_modifier_order = public,private,protected,internal,file,static,extern,new,virtual,abstract,sealed,override,readonly,unsafe,required,volatile,async
 csharp_style_prefer_readonly_struct = true
 csharp_style_prefer_readonly_struct_member = true
-
-# Member ordering preferences
-
-# Members should be ordered by kind (field, property, method, etc.)
-dotnet_diagnostic.RCS1213.severity = warning
-
-# Members should be ordered by access level (public → internal → protected → private)
-dotnet_diagnostic.RCS1214.severity = warning
-
-# Partial class members should be grouped together
-dotnet_diagnostic.RCS1215.severity = suggestion
-
-# Optional: Remove unnecessary region directives (helps avoid noise around ordering)
-dotnet_diagnostic.RCS1021.severity = suggestion
-
-# IDE0055: Fix formatting
-dotnet_diagnostic.IDE0055.severity = warning
 
 # Code block preferences
 csharp_prefer_braces = true:suggestion

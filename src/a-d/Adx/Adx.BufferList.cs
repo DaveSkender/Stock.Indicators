@@ -10,7 +10,7 @@ public class AdxList : BufferList<AdxResult>, IIncrementFromQuote, IAdx
     /// <summary>
     /// Initializes a new instance of the <see cref="AdxList"/> class.
     /// </summary>
-    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     public AdxList(int lookbackPeriods)
     {
         Adx.Validate(lookbackPeriods);
@@ -22,13 +22,10 @@ public class AdxList : BufferList<AdxResult>, IIncrementFromQuote, IAdx
     /// <summary>
     /// Initializes a new instance of the <see cref="AdxList"/> class with initial quotes.
     /// </summary>
-    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
-    /// <param name="quotes">Initial quotes to populate the list.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     public AdxList(int lookbackPeriods, IReadOnlyList<IQuote> quotes)
-        : this(lookbackPeriods)
-    {
-        Add(quotes);
-    }
+        : this(lookbackPeriods) => Add(quotes);
 
     /// <summary>
     /// Gets the number of periods to look back for the calculation.
@@ -208,8 +205,8 @@ public static partial class Adx
     /// <summary>
     /// Creates a buffer list for Average Directional Index (ADX) calculations.
     /// </summary>
-    /// <param name="quotes">Historical price quotes.</param>
-    /// <param name="lookbackPeriods">Number of periods for ADX.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>An initialized <see cref="AdxList" />.</returns>
     public static AdxList ToAdxList(
         this IReadOnlyList<IQuote> quotes,

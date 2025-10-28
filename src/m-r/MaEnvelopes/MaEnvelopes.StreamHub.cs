@@ -202,6 +202,7 @@ public class MaEnvelopesHub
             {
                 return null; // Not enough valid data yet
             }
+
             sum += val;
             count++;
         }
@@ -278,6 +279,7 @@ public class MaEnvelopesHub
                 lastEma1 = lastEma2 = double.NaN;
                 return double.NaN;
             }
+
             sum += val;
         }
 
@@ -291,6 +293,7 @@ public class MaEnvelopesHub
         {
             return double.NaN;
         }
+
         lastEma1 = Ema.Increment(k, lastEma1, value);
         lastEma2 = Ema.Increment(k, lastEma2, lastEma1);
         return (2 * lastEma1) - lastEma2;
@@ -332,6 +335,7 @@ public class MaEnvelopesHub
                 lastEma3 = lastEma4 = lastEma5 = double.NaN;
                 return double.NaN;
             }
+
             sum += val;
         }
 
@@ -345,6 +349,7 @@ public class MaEnvelopesHub
         {
             return double.NaN;
         }
+
         lastEma3 = Ema.Increment(k, lastEma3, value);
         lastEma4 = Ema.Increment(k, lastEma4, lastEma3);
         lastEma5 = Ema.Increment(k, lastEma5, lastEma4);
@@ -392,6 +397,7 @@ public class MaEnvelopesHub
             {
                 return null; // Not enough valid data yet
             }
+
             sumValue += val * weight;
             sumWeight += weight;
         }

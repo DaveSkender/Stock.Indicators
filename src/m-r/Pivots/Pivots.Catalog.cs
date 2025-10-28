@@ -39,5 +39,11 @@ public static partial class Pivots
             .WithStyle(Style.Buffer)
             .Build();
 
-    // No StreamListing for Pivots.
+    /// <summary>
+    /// Pivots Stream Listing
+    /// </summary>
+    internal static readonly IndicatorListing StreamListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Stream)
+            .Build();
 }

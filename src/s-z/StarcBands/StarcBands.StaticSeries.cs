@@ -25,13 +25,13 @@ public static partial class StarcBands
     /// <summary>
     /// Calculates the STARC Bands for a series of quotes.
     /// </summary>
-    /// <param name="source">The source series of quotes.</param>
+    /// <param name="quotes">The source list of quotes.</param>
     /// <param name="smaPeriods">The number of periods for the Simple Moving Average (SMA).</param>
     /// <param name="multiplier">The multiplier for the Average True Range (ATR).</param>
     /// <param name="atrPeriods">The number of periods for the ATR calculation.</param>
     /// <returns>A list of <see cref="StarcBandsResult"/> containing the STARC Bands values.</returns>
     private static List<StarcBandsResult> CalcStarcBands(
-        this List<QuoteD> source,
+        this List<QuoteD> quotes,
         int smaPeriods,
         double multiplier,
         int atrPeriods)
@@ -40,10 +40,10 @@ public static partial class StarcBands
         Validate(smaPeriods, multiplier, atrPeriods);
 
         // initialize
-        int length = source.Count;
+        int length = quotes.Count;
         List<StarcBandsResult> results = new(length);
-        List<AtrResult> atrResults = source.CalcAtr(atrPeriods);
-        IReadOnlyList<SmaResult> smaResults = source.ToSma(smaPeriods);
+        List<AtrResult> atrResults = quotes.CalcAtr(atrPeriods);
+        IReadOnlyList<SmaResult> smaResults = quotes.ToSma(smaPeriods);
 
         // roll through source values
         for (int i = 0; i < length; i++)

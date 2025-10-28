@@ -10,7 +10,7 @@ public class DonchianList : BufferList<DonchianResult>, IIncrementFromQuote
     /// <summary>
     /// Initializes a new instance of the <see cref="DonchianList"/> class.
     /// </summary>
-    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     public DonchianList(int lookbackPeriods = 20)
     {
         Donchian.Validate(lookbackPeriods);
@@ -22,13 +22,10 @@ public class DonchianList : BufferList<DonchianResult>, IIncrementFromQuote
     /// <summary>
     /// Initializes a new instance of the <see cref="DonchianList"/> class with initial quotes.
     /// </summary>
-    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
-    /// <param name="quotes">Initial quotes to populate the list.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     public DonchianList(int lookbackPeriods, IReadOnlyList<IQuote> quotes)
-        : this(lookbackPeriods)
-    {
-        Add(quotes);
-    }
+        : this(lookbackPeriods) => Add(quotes);
 
     /// <summary>
     /// Gets the number of periods to look back for the calculation.
@@ -61,6 +58,7 @@ public class DonchianList : BufferList<DonchianResult>, IIncrementFromQuote
                 {
                     highHigh = High;
                 }
+
                 if (Low < lowLow)
                 {
                     lowLow = Low;
@@ -110,8 +108,8 @@ public static partial class Donchian
     /// <summary>
     /// Creates a buffer list for Donchian Channels calculations.
     /// </summary>
-    /// <param name="quotes"></param>
-    /// <param name="lookbackPeriods"></param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     public static DonchianList ToDonchianList(
         this IReadOnlyList<IQuote> quotes,
         int lookbackPeriods = 20)

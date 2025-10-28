@@ -65,10 +65,7 @@ public class MaEnvelopesList : BufferList<MaEnvelopeResult>, IIncrementFromChain
         double percentOffset,
         MaType movingAverageType,
         IReadOnlyList<IReusable> values)
-        : this(lookbackPeriods, percentOffset, movingAverageType)
-    {
-        Add(values);
-    }
+        : this(lookbackPeriods, percentOffset, movingAverageType) => Add(values);
 
     /// <summary>
     /// Gets the number of periods for the moving average.
@@ -90,7 +87,7 @@ public class MaEnvelopesList : BufferList<MaEnvelopeResult>, IIncrementFromChain
     /// When the list exceeds this value, the oldest items are pruned.
     /// Also propagates to the inner MA buffer list.
     /// </summary>
-    /// <exception cref="ArgumentOutOfRangeException"></exception>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when a parameter is out of the valid range</exception>
     public new int MaxListSize
     {
         get => base.MaxListSize;
