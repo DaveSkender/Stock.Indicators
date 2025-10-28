@@ -296,6 +296,7 @@ public static partial class Catalog
         _listings.Add(Renko.BufferListing);
 
         // Renko ATR
+        _listings.Add(RenkoAtr.BufferListing);
         _listings.Add(RenkoAtr.SeriesListing);
 
         // ROC (Rate of Change)
