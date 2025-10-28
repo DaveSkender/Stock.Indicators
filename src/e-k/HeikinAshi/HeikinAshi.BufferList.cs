@@ -19,7 +19,7 @@ public class HeikinAshiList : BufferList<HeikinAshiResult>, IIncrementFromQuote
     /// <summary>
     /// Initializes a new instance of the <see cref="HeikinAshiList"/> class with initial quotes.
     /// </summary>
-    /// <param name="quotes">Initial quotes to populate the list.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     public HeikinAshiList(IReadOnlyList<IQuote> quotes)
         : this()
     {
@@ -89,7 +89,7 @@ public static partial class HeikinAshi
     /// <summary>
     /// Creates a buffer list for Heikin-Ashi calculations.
     /// </summary>
-    /// <param name="quotes"></param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     public static HeikinAshiList ToHeikinAshiList(
         this IReadOnlyList<IQuote> quotes)
         => new() { quotes };

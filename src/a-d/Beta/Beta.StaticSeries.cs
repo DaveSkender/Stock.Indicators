@@ -9,7 +9,7 @@ public static partial class Beta
     /// Calculates the Beta coefficient for a series of data.
     /// </summary>    /// <param name="sourceEval">The source data for the evaluated asset.</param>
     /// <param name="sourceMrkt">The source data for the market.</param>
-    /// <param name="lookbackPeriods">The number of periods to look back.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <param name="type">The type of Beta calculation. Default is <see cref="BetaType.Standard"/>.</param>
     /// <returns>A list of Beta results.</returns>
     /// <exception cref="ArgumentNullException">Thrown when sourceEval or sourceMrkt is null.</exception>
@@ -125,7 +125,7 @@ public static partial class Beta
     /// Calculates the Beta value for a specific window of data.
     /// </summary>
     /// <param name="i">The current index in the data.</param>
-    /// <param name="lookbackPeriods">The number of periods to look back.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <param name="mrktReturns">The market returns data.</param>
     /// <param name="evalReturns">The evaluated asset returns data.</param>
     /// <param name="type">The type of Beta calculation.</param>

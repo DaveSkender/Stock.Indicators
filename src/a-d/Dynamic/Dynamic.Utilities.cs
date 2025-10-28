@@ -8,7 +8,7 @@ public static partial class MgDynamic
     /// <summary>
     /// Calculates the increment for the McGinley Dynamic.
     /// </summary>
-    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <param name="kFactor">The smoothing factor for the calculation.</param>
     /// <param name="newVal">The new value.</param>
     /// <param name="prevDyn">The previous dynamic value.</param>
@@ -25,7 +25,7 @@ public static partial class MgDynamic
     /// <summary>
     /// Validates the parameters for McGinley Dynamic calculations.
     /// </summary>
-    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <param name="kFactor">The smoothing factor for the calculation.</param>
     /// <exception cref="ArgumentOutOfRangeException">
     /// Thrown when the lookback periods or kFactor are less than or equal to 0.

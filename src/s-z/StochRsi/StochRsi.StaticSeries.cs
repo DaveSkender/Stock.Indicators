@@ -12,7 +12,7 @@ public static partial class StochRsi
     /// <param name="rsiPeriods">The number of periods for RSI calculation.</param>
     /// <param name="stochPeriods">The number of periods for Stochastic calculation.</param>
     /// <param name="signalPeriods">The number of periods for the signal line.</param>
-    /// <param name="smoothPeriods">The number of periods for smoothing (default is 1).</param>
+    /// <param name="smoothPeriods">The number of periods for smoothing.</param>
     /// <returns>A list of StochRsiResult.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the source list is null.</exception>
     public static IReadOnlyList<StochRsiResult> ToStochRsi(

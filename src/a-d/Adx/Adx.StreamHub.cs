@@ -13,7 +13,7 @@ public class AdxHub
     /// Initializes a new instance of the <see cref="AdxHub"/> class.
     /// </summary>
     /// <param name="quoteProvider">The stream observable provider.</param>
-    /// <param name="lookbackPeriods">The number of periods to look back.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     internal AdxHub(
         IQuoteProvider<IQuote> quoteProvider,
         int lookbackPeriods)
@@ -236,7 +236,7 @@ public class AdxHub
     /// <summary>
     /// Restore rolling state up to the specified timestamp for accurate rebuilds.
     /// </summary>
-    /// <param name="timestamp"></param>
+    /// <param name="timestamp">Timestamp of record.</param>
     protected override void RollbackState(DateTime timestamp)
     {
         // Reset all state
@@ -383,8 +383,8 @@ public static partial class Adx
     /// <summary>
     /// Creates a stream hub for ADX indicator calculations.
     /// </summary>
-    /// <param name="quoteProvider"></param>
-    /// <param name="lookbackPeriods"></param>
+    /// <param name="quoteProvider">The quote provider.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     public static AdxHub ToAdxHub(
         this IQuoteProvider<IQuote> quoteProvider,
         int lookbackPeriods = 14)
@@ -393,8 +393,8 @@ public static partial class Adx
     /// <summary>
     /// Creates an ADX hub from a collection of quotes.
     /// </summary>
-    /// <param name="quotes">The collection of quotes.</param>
-    /// <param name="lookbackPeriods">The number of periods to look back.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>An instance of <see cref="AdxHub"/>.</returns>
     public static AdxHub ToAdxHub(
         this IReadOnlyList<IQuote> quotes,

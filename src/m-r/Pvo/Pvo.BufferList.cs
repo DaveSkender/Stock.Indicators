@@ -47,7 +47,7 @@ public class PvoList : BufferList<PvoResult>, IIncrementFromQuote, IPvo
     /// <param name="fastPeriods">The number of periods for the fast EMA.</param>
     /// <param name="slowPeriods">The number of periods for the slow EMA.</param>
     /// <param name="signalPeriods">The number of periods for the signal line.</param>
-    /// <param name="quotes">Initial quotes to populate the list.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     public PvoList(
         int fastPeriods,
         int slowPeriods,
@@ -152,6 +152,7 @@ public class PvoList : BufferList<PvoResult>, IIncrementFromQuote, IPvo
                 {
                     sum += this[p].Value;
                 }
+
                 signal = sum / SignalPeriods;
             }
             else
@@ -216,10 +217,10 @@ public static partial class Pvo
     /// <summary>
     /// Creates a buffer list for Percentage Volume Oscillator (PVO) calculations.
     /// </summary>
-    /// <param name="quotes"></param>
-    /// <param name="fastPeriods"></param>
-    /// <param name="slowPeriods"></param>
-    /// <param name="signalPeriods"></param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="fastPeriods">Number of periods for the fast moving average</param>
+    /// <param name="slowPeriods">Number of periods for the slow moving average</param>
+    /// <param name="signalPeriods">Number of periods for the signal line</param>
     public static PvoList ToPvoList(
         this IReadOnlyList<IQuote> quotes,
         int fastPeriods = 12,

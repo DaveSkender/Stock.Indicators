@@ -14,7 +14,7 @@ public class StochRsiList : BufferList<StochRsiResult>, IIncrementFromChain
     /// <param name="rsiPeriods">The number of periods for the RSI calculation.</param>
     /// <param name="stochPeriods">The number of periods for the Stochastic calculation.</param>
     /// <param name="signalPeriods">The number of periods for the signal line.</param>
-    /// <param name="smoothPeriods">The number of periods for smoothing (default is 1).</param>
+    /// <param name="smoothPeriods">The number of periods for smoothing.</param>
     public StochRsiList(
         int rsiPeriods,
         int stochPeriods,
@@ -144,7 +144,7 @@ public static partial class StochRsi
     /// <param name="rsiPeriods">The number of periods for RSI calculation.</param>
     /// <param name="stochPeriods">The number of periods for Stochastic calculation.</param>
     /// <param name="signalPeriods">The number of periods for the signal line.</param>
-    /// <param name="smoothPeriods">The number of periods for smoothing (default is 1).</param>
+    /// <param name="smoothPeriods">The number of periods for smoothing.</param>
     /// <returns>A buffer list for Stochastic RSI calculations.</returns>
     public static StochRsiList ToStochRsiList(
         this IReadOnlyList<IReusable> source,

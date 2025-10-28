@@ -9,7 +9,7 @@ public static partial class Wma
     /// <summary>
     /// Validates the parameters for the WMA calculation.
     /// </summary>
-    /// <param name="lookbackPeriods">The number of lookback periods.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <exception cref="ArgumentOutOfRangeException">
     /// Thrown when the lookback periods are less than or equal to 0.
     /// </exception>
@@ -62,7 +62,7 @@ public static partial class Wma
     /// </summary>
     /// <typeparam name="T">The reusable type within the source list.</typeparam>
     /// <param name="source">The source list of reusable values.</param>
-    /// <param name="lookbackPeriods">The number of periods in the weighted average.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <param name="endIndex">The ending index (inclusive) for the calculation.</param>
     /// <returns>The weighted moving average, or <see cref="double.NaN"/> if insufficient data is present.</returns>
     internal static double Increment<T>(

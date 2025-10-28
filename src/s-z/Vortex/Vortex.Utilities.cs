@@ -43,7 +43,7 @@ public static partial class Vortex
     /// <summary>
     /// Validates the parameters for the Vortex calculation.
     /// </summary>
-    /// <param name="lookbackPeriods">The number of lookback periods.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <exception cref="ArgumentOutOfRangeException">
     /// Thrown when the lookback periods are less than or equal to 1.
     /// </exception>

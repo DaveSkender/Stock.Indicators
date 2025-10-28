@@ -8,7 +8,7 @@ public static partial class Chandelier
     /// <summary>
     /// Validates the parameters for the Chandelier Exit calculation.
     /// </summary>
-    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <param name="multiplier">The multiplier for the ATR calculation, must be greater than 0.</param>
     /// <exception cref="ArgumentOutOfRangeException">
     /// Thrown when the lookback periods are less than or equal to 0,

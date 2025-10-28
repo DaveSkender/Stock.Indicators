@@ -11,7 +11,7 @@ public class CmfHub : ChainProvider<IQuote, CmfResult>, ICmf
     /// Initializes a new instance of the <see cref="CmfHub"/> class.
     /// </summary>
     /// <param name="provider">The quote provider.</param>
-    /// <param name="lookbackPeriods">The number of lookback periods.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     internal CmfHub(
         IQuoteProvider<IQuote> provider,
         int lookbackPeriods)
@@ -100,7 +100,7 @@ public static partial class Cmf
     /// Converts the quote provider to a CMF hub.
     /// </summary>
     /// <param name="quoteProvider">The quote provider.</param>
-    /// <param name="lookbackPeriods">The number of lookback periods. Default is 20.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>A CMF hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the quote provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
@@ -115,8 +115,8 @@ public static partial class Cmf
     /// <summary>
     /// Creates a Cmf hub from a collection of quotes.
     /// </summary>
-    /// <param name="quotes">The collection of quotes.</param>
-    /// <param name="lookbackPeriods">Parameter for the calculation.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>An instance of <see cref="CmfHub"/>.</returns>
     public static CmfHub ToCmfHub(
         this IReadOnlyList<IQuote> quotes,

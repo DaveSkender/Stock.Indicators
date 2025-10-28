@@ -293,7 +293,7 @@ public static partial class Mama
     /// <summary>
     /// Creates a MAMA hub from a collection of quotes.
     /// </summary>
-    /// <param name="quotes">The collection of quotes.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <param name="fastLimit">Parameter for the calculation.</param>
     /// <param name="slowLimit">Parameter for the calculation.</param>
     /// <returns>An instance of <see cref="MamaHub"/>.</returns>

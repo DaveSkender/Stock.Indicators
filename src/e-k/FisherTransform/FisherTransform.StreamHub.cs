@@ -188,7 +188,7 @@ public static partial class FisherTransform
     /// <summary>
     /// Creates a Fisher Transform hub from a collection of quotes.
     /// </summary>
-    /// <param name="quotes">The collection of quotes.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <param name="lookbackPeriods">Parameter for the calculation. Default is 10.</param>
     /// <returns>An instance of <see cref="FisherTransformHub"/>.</returns>
     public static FisherTransformHub ToFisherTransformHub(

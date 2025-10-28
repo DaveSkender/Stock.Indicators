@@ -142,7 +142,7 @@ public static partial class T3
     /// Creates a T3 streaming hub from a chain provider.
     /// </summary>
     /// <param name="chainProvider">The chain provider.</param>
-    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <param name="volumeFactor">The volume factor for the calculation.</param>
     /// <returns>A T3 hub.</returns>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods or volume factor are invalid.</exception>
@@ -155,7 +155,7 @@ public static partial class T3
     /// <summary>
     /// Creates a T3 hub from a collection of quotes.
     /// </summary>
-    /// <param name="quotes">The collection of quotes.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <param name="lookbackPeriods">Parameter for the calculation.</param>
     /// <param name="volumeFactor">Parameter for the calculation.</param>
     /// <returns>An instance of <see cref="T3Hub"/>.</returns>

@@ -17,7 +17,7 @@ public class WilliamsRHub
     /// Initializes a new instance of the <see cref="WilliamsRHub"/> class.
     /// </summary>
     /// <param name="provider">The quote provider.</param>
-    /// <param name="lookbackPeriods">The lookback period for Williams %R.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     internal WilliamsRHub(
         IStreamObservable<IQuote> provider,
         int lookbackPeriods) : base(provider)
@@ -105,6 +105,7 @@ public class WilliamsRHub
         {
             index = ProviderCache.Count;
         }
+
         if (index <= 0)
         {
             return;
@@ -140,7 +141,7 @@ public static partial class WilliamsR
     /// Converts the quote provider to a Williams %R hub.
     /// </summary>
     /// <param name="quoteProvider">The quote provider.</param>
-    /// <param name="lookbackPeriods">The lookback period for Williams %R.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>A Williams %R hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the quote provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when parameters are invalid.</exception>
@@ -152,8 +153,8 @@ public static partial class WilliamsR
     /// <summary>
     /// Creates a WilliamsR hub from a collection of quotes.
     /// </summary>
-    /// <param name="quotes">The collection of quotes.</param>
-    /// <param name="lookbackPeriods">The lookback period for Williams %R. Default is 14.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>An instance of <see cref="WilliamsRHub"/>.</returns>
     public static WilliamsRHub ToWilliamsRHub(
         this IReadOnlyList<IQuote> quotes, int lookbackPeriods = 14)

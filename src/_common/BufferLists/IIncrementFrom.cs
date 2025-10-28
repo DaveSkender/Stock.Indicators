@@ -18,7 +18,7 @@ public interface IIncrementFromQuote
     /// <summary>
     /// Apply batch of quotes increment many indicator list values.
     /// </summary>
-    /// <param name="quotes">A chronologically ordered batch of quotes.</param>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     void Add(IReadOnlyList<IQuote> quotes);
 }
 

@@ -12,9 +12,9 @@ public class AlmaList : BufferList<AlmaResult>, IIncrementFromChain, IAlma
     /// <summary>
     /// Initializes a new instance of the <see cref="AlmaList"/> class.
     /// </summary>
-    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
-    /// <param name="offset">The offset for the ALMA calculation. Default is 0.85.</param>
-    /// <param name="sigma">The sigma for the ALMA calculation. Default is 6.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
+    /// <param name="offset">The offset for the ALMA calculation.</param>
+    /// <param name="sigma">The sigma for the ALMA calculation.</param>
     public AlmaList(
         int lookbackPeriods,
         double offset = 0.85,
@@ -48,9 +48,9 @@ public class AlmaList : BufferList<AlmaResult>, IIncrementFromChain, IAlma
     /// <summary>
     /// Initializes a new instance of the <see cref="AlmaList"/> class with initial reusable values.
     /// </summary>
-    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
-    /// <param name="offset">The offset for the ALMA calculation. Default is 0.85.</param>
-    /// <param name="sigma">The sigma for the ALMA calculation. Default is 6.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
+    /// <param name="offset">The offset for the ALMA calculation.</param>
+    /// <param name="sigma">The sigma for the ALMA calculation.</param>
     /// <param name="values">Initial reusable values to populate the list.</param>
     public AlmaList(
         int lookbackPeriods,
@@ -138,10 +138,10 @@ public static partial class Alma
     /// <summary>
     /// Creates a buffer list for Arnaud Legoux Moving Average (ALMA) calculations.
     /// </summary>
-    /// <param name="source"></param>
-    /// <param name="lookbackPeriods"></param>
-    /// <param name="offset"></param>
-    /// <param name="sigma"></param>
+    /// <param name="source">Collection of input values, time sorted.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
+    /// <param name="offset">Offset value</param>
+    /// <param name="sigma">Sigma value for Gaussian calculations</param>
     public static AlmaList ToAlmaList(
         this IReadOnlyList<IReusable> source,
         int lookbackPeriods,
