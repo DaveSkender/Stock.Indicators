@@ -67,7 +67,7 @@ public static partial class Hurst
     /// </summary>
     /// <param name="values">The array of values to evaluate.</param>
     /// <returns>The calculated Hurst Exponent.</returns>
-    private static double CalcHurstWindow(double[] values)
+    internal static double CalcHurstWindow(double[] values)
     {
         int totalSize = values.Length;
         int maxChunks = 0;
