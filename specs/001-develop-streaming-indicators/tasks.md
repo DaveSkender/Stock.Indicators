@@ -256,10 +256,10 @@ Note on former deferrals: Indicators like Fractal, HtTrendline, Hurst, Ichimoku,
 - [x] **T131** Implement Obv StreamHub in `src/m-r/Obv/Obv.StreamHub.cs` ✅
 - [ ] **T132** Implement ParabolicSar StreamHub in `src/m-r/ParabolicSar/ParabolicSar.StreamHub.cs`
 - [ ] **T133** Implement PivotPoints StreamHub in `src/m-r/PivotPoints/PivotPoints.StreamHub.cs`
-- [ ] **T134** Implement Pivots StreamHub in `src/m-r/Pivots/Pivots.StreamHub.cs`
+- [x] **T134** Implement Pivots StreamHub in `src/m-r/Pivots/Pivots.StreamHub.cs` ✅
 - [ ] **T135** Implement Pmo StreamHub in `src/m-r/Pmo/Pmo.StreamHub.cs`
 - [x] **T136** Implement Prs StreamHub in `src/m-r/Prs/Prs.StreamHub.cs` ✅
-- [ ] **T137** Implement Pvo StreamHub in `src/m-r/Pvo/Pvo.StreamHub.cs`
+- [x] **T137** Implement Pvo StreamHub in `src/m-r/Pvo/Pvo.StreamHub.cs` ✅
 - [x] **T138** Implement QuotePart StreamHub in `src/_common/QuotePart/QuotePart.StreamHub.cs` ✅
 - [x] **T139** Implement Renko StreamHub in `src/m-r/Renko/Renko.StreamHub.cs` ✅
 - [ ] **T140** Implement RenkoAtr StreamHub in `src/m-r/RenkoAtr/RenkoAtr.StreamHub.cs`

@@ -9,8 +9,8 @@ public class PvoTests : RegressionTestBase<PvoResult>
     public override void Series() => Quotes.ToPvo(12, 26, 9).AssertEquals(Expected);
 
     [TestMethod]
-    public override void Buffer() => Assert.Inconclusive("Buffer implementation not yet available");
+    public override void Buffer() => Quotes.ToPvoList(12, 26, 9).AssertEquals(Expected);
 
     [TestMethod]
-    public override void Stream() => Assert.Inconclusive("Stream implementation not yet available");
+    public override void Stream() => Quotes.ToPvoHub(12, 26, 9).Results.AssertEquals(Expected);
 }
