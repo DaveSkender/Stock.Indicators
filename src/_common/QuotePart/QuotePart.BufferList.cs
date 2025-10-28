@@ -12,10 +12,7 @@ public class QuotePartList(CandlePart candlePart) : BufferList<QuotePart>, IIncr
     /// <param name="candlePart">The <see cref="CandlePart" /> element.</param>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     public QuotePartList(CandlePart candlePart, IReadOnlyList<IQuote> quotes)
-        : this(candlePart)
-    {
-        Add(quotes);
-    }
+        : this(candlePart) => Add(quotes);
 
     /// <inheritdoc />
     public CandlePart CandlePartSelection { get; init; } = candlePart;

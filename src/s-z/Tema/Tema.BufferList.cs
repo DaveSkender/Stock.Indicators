@@ -40,10 +40,7 @@ public class TemaList : BufferList<TemaResult>, IIncrementFromChain, ITema
         int lookbackPeriods,
         IReadOnlyList<IReusable> values
     )
-        : this(lookbackPeriods)
-    {
-        Add(values);
-    }
+        : this(lookbackPeriods) => Add(values);
 
     /// <summary>
     /// Gets the number of periods to look back for the calculation.

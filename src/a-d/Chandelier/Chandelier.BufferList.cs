@@ -33,10 +33,7 @@ public class ChandelierList : BufferList<ChandelierResult>, IIncrementFromQuote,
     /// <param name="type">The type of Chandelier Exit to calculate (Long or Short).</param>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     public ChandelierList(int lookbackPeriods, double multiplier, Direction type, IReadOnlyList<IQuote> quotes)
-        : this(lookbackPeriods, multiplier, type)
-    {
-        Add(quotes);
-    }
+        : this(lookbackPeriods, multiplier, type) => Add(quotes);
 
     /// <summary>
     /// Gets the number of periods to use for the lookback window.
