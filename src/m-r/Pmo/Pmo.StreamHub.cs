@@ -13,7 +13,6 @@ public class PmoHub
 
     private double prevRocEma;
     private double prevPmo;
-    private double prevSignal;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="PmoHub"/> class.
@@ -148,7 +147,6 @@ public class PmoHub
 
             prevRocEma = tempPrevRocEma;
             prevPmo = tempPrevPmo;
-            prevSignal = tempPrevSignal;
         }
 
         // Calculate ROC EMA (first smoothing with timePeriods)
@@ -194,8 +192,6 @@ public class PmoHub
             // Calculate signal EMA normally
             signalValue = Ema.Increment(smoothingConstant3, i > 0 ? Cache[i - 1].Signal ?? double.NaN : double.NaN, pmoValue);
         }
-
-        prevSignal = signalValue;
 
         // Candidate result
         PmoResult r = new(
