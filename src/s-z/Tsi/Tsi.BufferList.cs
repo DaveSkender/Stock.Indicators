@@ -309,7 +309,7 @@ public static partial class Tsi
     /// <summary>
     /// Creates a buffer list for True Strength Index (TSI) calculations.
     /// </summary>
-    /// <param name="source"></param>
+    /// <param name="source">Collection of input values, time sorted.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <param name="smoothPeriods"></param>
     /// <param name="signalPeriods"></param>

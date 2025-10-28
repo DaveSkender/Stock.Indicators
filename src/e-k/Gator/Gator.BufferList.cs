@@ -87,7 +87,7 @@ public static partial class Gator
     /// <summary>
     /// Creates a buffer list for Gator Oscillator calculations.
     /// </summary>
-    /// <param name="source"></param>
+    /// <param name="source">Collection of input values, time sorted.</param>
     public static GatorList ToGatorList(
         this IReadOnlyList<IReusable> source)
         => new() { source };

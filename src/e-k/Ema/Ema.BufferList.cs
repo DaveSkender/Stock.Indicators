@@ -117,7 +117,7 @@ public static partial class Ema
     /// <summary>
     /// Creates a buffer list for Exponential Moving Average (EMA) calculations.
     /// </summary>
-    /// <param name="source"></param>
+    /// <param name="source">Collection of input values, time sorted.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     public static EmaList ToEmaList(
         this IReadOnlyList<IReusable> source,

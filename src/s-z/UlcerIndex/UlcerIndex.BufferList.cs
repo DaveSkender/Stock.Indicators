@@ -113,7 +113,7 @@ public static partial class UlcerIndex
     /// <summary>
     /// Creates a buffer list for Ulcer Index calculations.
     /// </summary>
-    /// <param name="source"></param>
+    /// <param name="source">Collection of input values, time sorted.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     public static UlcerIndexList ToUlcerIndexList(
         this IReadOnlyList<IReusable> source,

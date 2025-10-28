@@ -150,7 +150,7 @@ public static partial class Tema
     /// <summary>
     /// Creates a buffer list for TEMA calculations.
     /// </summary>
-    /// <param name="source"></param>
+    /// <param name="source">Collection of input values, time sorted.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     public static TemaList ToTemaList(
         this IReadOnlyList<IReusable> source,

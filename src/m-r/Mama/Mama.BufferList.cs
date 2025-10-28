@@ -315,7 +315,7 @@ public static partial class Mama
     /// <summary>
     /// Creates a buffer list for MESA Adaptive Moving Average (MAMA) calculations.
     /// </summary>
-    /// <param name="source"></param>
+    /// <param name="source">Collection of input values, time sorted.</param>
     /// <param name="fastLimit"></param>
     /// <param name="slowLimit"></param>
     public static MamaList ToMamaList(

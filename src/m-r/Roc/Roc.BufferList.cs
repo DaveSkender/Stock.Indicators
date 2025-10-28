@@ -109,7 +109,7 @@ public static partial class Roc
     /// <summary>
     /// Creates a buffer list for Rate of Change (ROC) calculations.
     /// </summary>
-    /// <param name="source"></param>
+    /// <param name="source">Collection of input values, time sorted.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     public static RocList ToRocList(
         this IReadOnlyList<IReusable> source,

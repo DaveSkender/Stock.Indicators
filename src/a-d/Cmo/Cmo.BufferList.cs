@@ -108,7 +108,7 @@ public static partial class Cmo
     /// <summary>
     /// Creates a buffer list for Chande Momentum Oscillator (CMO) calculations.
     /// </summary>
-    /// <param name="source"></param>
+    /// <param name="source">Collection of input values, time sorted.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     public static CmoList ToCmoList(
         this IReadOnlyList<IReusable> source,

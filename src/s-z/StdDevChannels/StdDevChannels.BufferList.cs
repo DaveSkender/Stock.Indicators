@@ -201,7 +201,7 @@ public static partial class StdDevChannels
     /// <summary>
     /// Creates a buffer list for Standard Deviation Channels calculations.
     /// </summary>
-    /// <param name="source"></param>
+    /// <param name="source">Collection of input values, time sorted.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <param name="stdDeviations"></param>
     public static StdDevChannelsList ToStdDevChannelsList(

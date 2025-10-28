@@ -93,7 +93,7 @@ public static partial class Wma
     /// <summary>
     /// Creates a buffer list for Weighted Moving Average (WMA) calculations.
     /// </summary>
-    /// <param name="source"></param>
+    /// <param name="source">Collection of input values, time sorted.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     public static WmaList ToWmaList(
         this IReadOnlyList<IReusable> source,

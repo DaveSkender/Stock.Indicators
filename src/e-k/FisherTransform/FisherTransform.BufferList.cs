@@ -135,7 +135,7 @@ public static partial class FisherTransform
     /// <summary>
     /// Creates a buffer list for Fisher Transform calculations.
     /// </summary>
-    /// <param name="source"></param>
+    /// <param name="source">Collection of input values, time sorted.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     public static FisherTransformList ToFisherTransformList(
         this IReadOnlyList<IReusable> source,

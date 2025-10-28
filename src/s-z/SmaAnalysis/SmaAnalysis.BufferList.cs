@@ -115,7 +115,7 @@ public static partial class SmaAnalysis
     /// <summary>
     /// Creates a buffer list for Simple Moving Average (SMA) with extended analysis calculations.
     /// </summary>
-    /// <param name="source"></param>
+    /// <param name="source">Collection of input values, time sorted.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     public static SmaAnalysisList ToSmaAnalysisList(
         this IReadOnlyList<IReusable> source,

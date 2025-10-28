@@ -111,7 +111,7 @@ public static partial class MgDynamic
     /// <summary>
     /// Creates a buffer list for McGinley Dynamic calculations.
     /// </summary>
-    /// <param name="source"></param>
+    /// <param name="source">Collection of input values, time sorted.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <param name="kFactor"></param>
     public static DynamicList ToDynamicList(

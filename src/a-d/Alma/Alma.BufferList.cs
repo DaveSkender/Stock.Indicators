@@ -138,7 +138,7 @@ public static partial class Alma
     /// <summary>
     /// Creates a buffer list for Arnaud Legoux Moving Average (ALMA) calculations.
     /// </summary>
-    /// <param name="source"></param>
+    /// <param name="source">Collection of input values, time sorted.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <param name="offset"></param>
     /// <param name="sigma"></param>

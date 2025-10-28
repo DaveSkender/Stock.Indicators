@@ -115,7 +115,7 @@ public static partial class Smma
     /// <summary>
     /// Creates a buffer list for Smoothed Moving Average (SMMA) calculations.
     /// </summary>
-    /// <param name="source"></param>
+    /// <param name="source">Collection of input values, time sorted.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     public static SmmaList ToSmmaList(
         this IReadOnlyList<IReusable> source,

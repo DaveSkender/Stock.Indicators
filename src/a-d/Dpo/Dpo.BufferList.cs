@@ -124,7 +124,7 @@ public static partial class Dpo
     /// <summary>
     /// Creates a buffer list for Detrended Price Oscillator (DPO) calculations.
     /// </summary>
-    /// <param name="source"></param>
+    /// <param name="source">Collection of input values, time sorted.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     public static DpoList ToDpoList(
         this IReadOnlyList<IReusable> source,
