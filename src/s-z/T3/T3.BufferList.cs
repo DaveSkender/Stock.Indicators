@@ -48,10 +48,7 @@ public class T3List : BufferList<T3Result>, IIncrementFromChain, IT3
         double volumeFactor,
         IReadOnlyList<IReusable> values
     )
-        : this(lookbackPeriods, volumeFactor)
-    {
-        Add(values);
-    }
+        : this(lookbackPeriods, volumeFactor) => Add(values);
 
     /// <inheritdoc/>
     public int LookbackPeriods { get; init; }

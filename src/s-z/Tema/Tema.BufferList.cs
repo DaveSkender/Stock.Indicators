@@ -40,10 +40,7 @@ public class TemaList : BufferList<TemaResult>, IIncrementFromChain, ITema
         int lookbackPeriods,
         IReadOnlyList<IReusable> values
     )
-        : this(lookbackPeriods)
-    {
-        Add(values);
-    }
+        : this(lookbackPeriods) => Add(values);
 
     /// <summary>
     /// Gets the number of periods to look back for the calculation.
@@ -61,7 +58,7 @@ public class TemaList : BufferList<TemaResult>, IIncrementFromChain, ITema
     /// <inheritdoc />
     public void Add(DateTime timestamp, double value)
     {
-        // Use BufferUtilities extension method for efficient buffer management
+        // Use BufferListUtilities extension method for efficient buffer management
         double? dequeuedValue = _buffer.UpdateWithDequeue(LookbackPeriods, value);
 
         // Update running sum efficiently

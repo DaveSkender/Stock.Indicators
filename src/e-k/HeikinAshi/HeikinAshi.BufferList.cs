@@ -21,10 +21,7 @@ public class HeikinAshiList : BufferList<HeikinAshiResult>, IIncrementFromQuote
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     public HeikinAshiList(IReadOnlyList<IQuote> quotes)
-        : this()
-    {
-        Add(quotes);
-    }
+        : this() => Add(quotes);
 
 
     /// <inheritdoc />

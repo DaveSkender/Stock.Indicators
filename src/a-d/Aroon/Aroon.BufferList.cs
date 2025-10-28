@@ -24,10 +24,7 @@ public class AroonList : BufferList<AroonResult>, IIncrementFromQuote, IAroon
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     public AroonList(int lookbackPeriods, IReadOnlyList<IQuote> quotes)
-        : this(lookbackPeriods)
-    {
-        Add(quotes);
-    }
+        : this(lookbackPeriods) => Add(quotes);
 
     /// <summary>
     /// Gets the number of periods to look back.
@@ -43,7 +40,7 @@ public class AroonList : BufferList<AroonResult>, IIncrementFromQuote, IAroon
     {
         ArgumentNullException.ThrowIfNull(quote);
 
-        // Use BufferUtilities extension method for consistent buffer management
+        // Use BufferListUtilities extension method for consistent buffer management
         _buffer.Update(LookbackPeriods + 1, (quote.Timestamp, (double)quote.High, (double)quote.Low));
 
         double? aroonUp = null;

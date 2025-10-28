@@ -45,6 +45,7 @@ public class BufferIndicators
     [Benchmark] public GatorList GatorList() => new() { q };
     [Benchmark] public HeikinAshiList HeikinAshiList() => new() { q };
     [Benchmark] public HmaList HmaList() => new(n) { q };
+    [Benchmark] public HtlList HtlList() => new() { q };
     [Benchmark] public HurstList HurstList() => new(100) { q };
     [Benchmark] public KamaList KamaList() => new(10, 2, 30) { q };
     [Benchmark] public KeltnerList KeltnerList() => new() { q };
@@ -72,6 +73,7 @@ public class BufferIndicators
     [Benchmark] public SmiList SmiList() => new(13, 25, 2, 3) { q };
     [Benchmark] public SmmaList SmmaList() => new(n) { q };
     [Benchmark] public StarcBandsList StarcBandsList() => new(5, 2, 10) { q };
+    [Benchmark] public StcList StcList() => new(10, 23, 50) { q };
     [Benchmark] public StdDevList StdDevList() => new(20) { q };
     [Benchmark] public StdDevChannelsList StdDevChannelsList() => new(20, 2) { q };
     [Benchmark] public StochList StochList() => new(14, 3, 3) { q };
