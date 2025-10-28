@@ -3,6 +3,7 @@ namespace StreamHub;
 [TestClass]
 public class PmoHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProvider
 {
+    [TestMethod]
     public override void CustomToString()
     {
         List<Quote> quotesList = Quotes.ToList();
@@ -13,12 +14,6 @@ public class PmoHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
         // initialize observer
         PmoHub observer = quoteHub
             .ToPmoHub(35, 20, 10);
-
-        // emulate quote stream
-        for (int i = 0; i < 20; i++)
-        {
-            quoteHub.Add(quotesList[i]);
-        }
 
         // test string output
         observer.ToString().Should().Be("PMO(35,20,10)");
