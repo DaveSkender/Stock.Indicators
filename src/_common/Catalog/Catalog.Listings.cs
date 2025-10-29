@@ -346,6 +346,7 @@ public static partial class Catalog
         // STC (Schaff Trend Cycle)
         _listings.Add(Stc.BufferListing);
         _listings.Add(Stc.SeriesListing);
+        _listings.Add(Stc.StreamListing);
 
         // Standard Deviation
         _listings.Add(StdDev.SeriesListing);
