@@ -328,7 +328,9 @@ public static partial class Catalog
         _listings.Add(Sma.BufferListing);
 
         // SMA Analysis
+        _listings.Add(SmaAnalysis.BufferListing);
         _listings.Add(SmaAnalysis.SeriesListing);
+        _listings.Add(SmaAnalysis.StreamListing);
 
         // SMI (Stochastic Momentum Index)
         _listings.Add(Smi.BufferListing);

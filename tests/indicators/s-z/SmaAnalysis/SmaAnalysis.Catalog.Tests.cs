@@ -46,4 +46,86 @@ public class SmaAnalysisTests : TestBase
         mapeResult3?.DisplayName.Should().Be("Mean Absolute Percentage Error");
         mapeResult3.IsReusable.Should().Be(false);
     }
+
+    [TestMethod]
+    public void SmaAnalysisStreamListing()
+    {
+        // Act
+        IndicatorListing listing = SmaAnalysis.StreamListing;
+
+        // Assert
+        listing.Should().NotBeNull();
+        listing.Name.Should().Be("Simple Moving Average Analysis");
+        listing.Uiid.Should().Be("SMA-ANALYSIS");
+        listing.Style.Should().Be(Style.Stream);
+        listing.Category.Should().Be(Category.PriceCharacteristic);
+        listing.MethodName.Should().Be("ToSmaAnalysis");
+
+        listing.Parameters.Should().NotBeNull();
+        listing.Parameters.Should().HaveCount(1);
+
+        IndicatorParam lookbackPeriodsParam = listing.Parameters.SingleOrDefault(static p => p.ParameterName == "lookbackPeriods");
+        lookbackPeriodsParam.Should().NotBeNull();
+
+        listing.Results.Should().NotBeNull();
+        listing.Results.Should().HaveCount(4);
+
+        IndicatorResult smaResult = listing.Results.SingleOrDefault(static r => r.DataName == "Sma");
+        smaResult.Should().NotBeNull();
+        smaResult?.DisplayName.Should().Be("SMA");
+        smaResult.IsReusable.Should().Be(true);
+        IndicatorResult madResult1 = listing.Results.SingleOrDefault(static r => r.DataName == "Mad");
+        madResult1.Should().NotBeNull();
+        madResult1?.DisplayName.Should().Be("Mean Absolute Deviation");
+        madResult1.IsReusable.Should().Be(false);
+        IndicatorResult mseResult2 = listing.Results.SingleOrDefault(static r => r.DataName == "Mse");
+        mseResult2.Should().NotBeNull();
+        mseResult2?.DisplayName.Should().Be("Mean Square Error");
+        mseResult2.IsReusable.Should().Be(false);
+        IndicatorResult mapeResult3 = listing.Results.SingleOrDefault(static r => r.DataName == "Mape");
+        mapeResult3.Should().NotBeNull();
+        mapeResult3?.DisplayName.Should().Be("Mean Absolute Percentage Error");
+        mapeResult3.IsReusable.Should().Be(false);
+    }
+
+    [TestMethod]
+    public void SmaAnalysisBufferListing()
+    {
+        // Act
+        IndicatorListing listing = SmaAnalysis.BufferListing;
+
+        // Assert
+        listing.Should().NotBeNull();
+        listing.Name.Should().Be("Simple Moving Average Analysis");
+        listing.Uiid.Should().Be("SMA-ANALYSIS");
+        listing.Style.Should().Be(Style.Buffer);
+        listing.Category.Should().Be(Category.PriceCharacteristic);
+        listing.MethodName.Should().Be("ToSmaAnalysis");
+
+        listing.Parameters.Should().NotBeNull();
+        listing.Parameters.Should().HaveCount(1);
+
+        IndicatorParam lookbackPeriodsParam = listing.Parameters.SingleOrDefault(static p => p.ParameterName == "lookbackPeriods");
+        lookbackPeriodsParam.Should().NotBeNull();
+
+        listing.Results.Should().NotBeNull();
+        listing.Results.Should().HaveCount(4);
+
+        IndicatorResult smaResult = listing.Results.SingleOrDefault(static r => r.DataName == "Sma");
+        smaResult.Should().NotBeNull();
+        smaResult?.DisplayName.Should().Be("SMA");
+        smaResult.IsReusable.Should().Be(true);
+        IndicatorResult madResult1 = listing.Results.SingleOrDefault(static r => r.DataName == "Mad");
+        madResult1.Should().NotBeNull();
+        madResult1?.DisplayName.Should().Be("Mean Absolute Deviation");
+        madResult1.IsReusable.Should().Be(false);
+        IndicatorResult mseResult2 = listing.Results.SingleOrDefault(static r => r.DataName == "Mse");
+        mseResult2.Should().NotBeNull();
+        mseResult2?.DisplayName.Should().Be("Mean Square Error");
+        mseResult2.IsReusable.Should().Be(false);
+        IndicatorResult mapeResult3 = listing.Results.SingleOrDefault(static r => r.DataName == "Mape");
+        mapeResult3.Should().NotBeNull();
+        mapeResult3?.DisplayName.Should().Be("Mean Absolute Percentage Error");
+        mapeResult3.IsReusable.Should().Be(false);
+    }
 }
