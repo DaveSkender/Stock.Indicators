@@ -98,7 +98,7 @@ This repository provides specialized custom agents that developers can invoke in
 
 **Usage examples:**
 
-```
+```text
 @streamhub I need to implement a new VWAP StreamHub. What provider base should I use?
 
 @streamhub-state How do I rebuild RollingWindowMax state after a provider Insert?
@@ -201,4 +201,4 @@ Examples:
 - `docs: Update API documentation`
 
 ---
-Last updated: October 12, 2025
+Last updated: October 29, 2025
