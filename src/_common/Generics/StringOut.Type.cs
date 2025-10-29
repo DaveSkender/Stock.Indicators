@@ -62,47 +62,10 @@ public static partial class StringOut
             // add values to lists
             names.Add(name);
             types.Add(type);
-
-            switch (value)
-            {
-                case DateTime dateTimeValue:
-                    values.Add(dateTimeValue.Kind == DateTimeKind.Utc
-                        ? dateTimeValue.ToString("u", culture)
-                        : dateTimeValue.ToString("s", culture));
-                    break;
-
-                case DateOnly dateOnlyValue:
-                    values.Add(dateOnlyValue.ToString("yyyy-MM-dd", culture));
-                    break;
-
-                case DateTimeOffset dateTimeOffsetValue:
-                    values.Add(dateTimeOffsetValue.ToString("o", culture));
-                    break;
-
-                case string stringValue:
-                    // limit string size
-                    if (stringValue.Length > 35)
-                    {
-                        stringValue = $"{stringValue.AsSpan(0, 32)}...";
-                    }
-
-                    values.Add(stringValue);
-                    break;
-
-                default:
-                    values.Add(value?.ToString() ?? string.Empty);
-                    break;
-            }
+            values.Add(FormatPropertyValue(value));
 
             // get/add description from XML documentation
-            descriptionDict.TryGetValue(name, out string? description);
-
-            description = description == null
-                ? string.Empty
-                : description.Length > 50
-                  ? $"{description.AsSpan(0, 47)}..."
-                  : description;
-
+            string description = FormatDescription(descriptionDict, name);
             descriptions.Add(description);
         }
 
@@ -142,6 +105,46 @@ public static partial class StringOut
     {
         int maxValue = values.Count != 0 ? values.Max(static v => v.Length) : 0;
         return Math.Max(header.Length, maxValue);
+    }
+
+    /// <summary>
+    /// Formats a property value for display, handling different data types appropriately.
+    /// </summary>
+    /// <param name="value">The value to format.</param>
+    /// <returns>A formatted string representation of the value.</returns>
+    private static string FormatPropertyValue(object? value)
+        => value switch {
+            DateTime dateTimeValue => dateTimeValue.Kind == DateTimeKind.Utc
+                ? dateTimeValue.ToString("u", culture)
+                : dateTimeValue.ToString("s", culture),
+
+            DateOnly dateOnlyValue => dateOnlyValue.ToString("yyyy-MM-dd", culture),
+
+            DateTimeOffset dateTimeOffsetValue => dateTimeOffsetValue.ToString("o", culture),
+
+            string stringValue => stringValue.Length > 35
+                ? $"{stringValue.AsSpan(0, 32)}..."
+                : stringValue,
+
+            null => string.Empty,
+            _ => value.ToString() ?? string.Empty
+        };
+
+    /// <summary>
+    /// Formats a property description, truncating if necessary.
+    /// </summary>
+    /// <param name="descriptionDict">Dictionary containing property descriptions.</param>
+    /// <param name="propertyName">Name of the property.</param>
+    /// <returns>A formatted description string.</returns>
+    private static string FormatDescription(Dictionary<string, string> descriptionDict, string propertyName)
+    {
+        descriptionDict.TryGetValue(propertyName, out string? description);
+
+        return description == null
+            ? string.Empty
+            : description.Length > 50
+              ? $"{description.AsSpan(0, 47)}..."
+              : description;
     }
 
     /// <summary>
