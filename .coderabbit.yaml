@@ -77,7 +77,7 @@ reviews:
     issue_assessment:             # Linked issue assessment (default: warning)
       mode: off
     title:                        # PR title validation (default: warning)
-      mode: warning
+      mode: off
 
   # Files to include/exclude from reviews
   path_filters:
