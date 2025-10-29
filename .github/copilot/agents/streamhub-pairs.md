@@ -313,7 +313,7 @@ Invoke `@streamhub-pairs` when you need help with:
 
 ## Example Usage
 
-```
+```text
 @streamhub-pairs How do I implement a new dual-stream indicator for covariance?
 
 @streamhub-pairs What's the difference between ProviderCache and ProviderCacheB?
