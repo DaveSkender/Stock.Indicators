@@ -268,6 +268,7 @@ public static partial class Catalog
 
         // Pivot Points
         _listings.Add(PivotPoints.SeriesListing);
+        _listings.Add(PivotPoints.StreamListing);
 
         // Pivots
         _listings.Add(Pivots.SeriesListing);
