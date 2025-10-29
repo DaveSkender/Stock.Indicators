@@ -27,7 +27,14 @@ public static partial class Smi
             .WithStyle(Style.Series)
             .Build();
 
-    // No StreamListing for SMI.
+    /// <summary>
+    /// Stochastic Momentum Index StreamHub Listing
+    /// </summary>
+    internal static readonly IndicatorListing StreamListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Stream)
+            .WithMethodName("ToSmiHub")
+            .Build();
 
     /// <summary>
     /// Stochastic Momentum Index BufferList Listing
