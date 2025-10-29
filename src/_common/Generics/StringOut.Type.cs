@@ -175,19 +175,14 @@ public static partial class StringOut
         // Build the prefix for property members
         string memberPrefix = "P:" + type.FullName + ".";
 
-        // Query all member elements
-        foreach (XElement memberElement in xdoc.Descendants("member"))
+        // Query property members and populate descriptions
+        foreach (XElement memberElement in xdoc.Descendants("member")
+            .Where(m => m.Attribute("name")?.Value?.StartsWith(memberPrefix, StringComparison.OrdinalIgnoreCase) == true))
         {
-            string? nameAttribute = memberElement.Attribute("name")?.Value;
-
-            if (nameAttribute?.StartsWith(memberPrefix, StringComparison.OrdinalIgnoreCase) == true)
-            {
-                string propName = nameAttribute[memberPrefix.Length..];
-
-                // Get the summary element
-                XElement? summaryElement = memberElement.Element("summary");
-                descriptions[propName] = summaryElement?.ParseXmlElement() ?? string.Empty;
-            }
+            string nameAttribute = memberElement.Attribute("name")!.Value;
+            string propName = nameAttribute[memberPrefix.Length..];
+            XElement? summaryElement = memberElement.Element("summary");
+            descriptions[propName] = summaryElement?.ParseXmlElement() ?? string.Empty;
         }
 
         return descriptions;
