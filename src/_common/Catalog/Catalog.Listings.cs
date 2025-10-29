@@ -366,6 +366,7 @@ public static partial class Catalog
 
         // SuperTrend
         _listings.Add(SuperTrend.SeriesListing);
+        _listings.Add(SuperTrend.StreamListing);
 
         // T3 (Triple Exponential Moving Average)
         _listings.Add(T3.BufferListing);
