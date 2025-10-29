@@ -342,6 +342,7 @@ public static partial class Catalog
         // STARC Bands
         _listings.Add(StarcBands.BufferListing);
         _listings.Add(StarcBands.SeriesListing);
+        _listings.Add(StarcBands.StreamListing);
 
         // STC (Schaff Trend Cycle)
         _listings.Add(Stc.BufferListing);

@@ -9,8 +9,8 @@ public class StarcBandsTests : RegressionTestBase<StarcBandsResult>
     public override void Series() => Quotes.ToStarcBands().AssertEquals(Expected);
 
     [TestMethod]
-    public override void Buffer() => Assert.Inconclusive("Buffer implementation not yet available");
+    public override void Buffer() => Quotes.ToStarcBandsList().AssertEquals(Expected);
 
     [TestMethod]
-    public override void Stream() => Assert.Inconclusive("Stream implementation not yet available");
+    public override void Stream() => Quotes.ToStarcBandsHub().Results.AssertEquals(Expected);
 }
