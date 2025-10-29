@@ -8,9 +8,6 @@ public class IchimokuList : BufferList<IchimokuResult>, IIncrementFromQuote, IIc
     // Historical results buffer for lookback (needed for offset calculations)
     private readonly List<(DateTime Timestamp, decimal? TenkanSen, decimal? KijunSen)> _historicalResults;
 
-    // Buffer for future close prices (needed for Chikou Span lookforward)
-    private readonly Queue<decimal> _futureCloseBuffer;
-
     // Historical high/low buffer for Senkou Span B lookback (need to look back by offset)
     private readonly List<(decimal High, decimal Low)> _historicalHighLow;
 
@@ -43,7 +40,6 @@ public class IchimokuList : BufferList<IchimokuResult>, IIncrementFromQuote, IIc
 
         // Initialize buffers
         _historicalResults = new List<(DateTime, decimal?, decimal?)>();
-        _futureCloseBuffer = new Queue<decimal>(chikouOffset + 1);
         _historicalHighLow = new List<(decimal, decimal)>();
         _tenkanBuffer = new Queue<(decimal, decimal)>(tenkanPeriods);
         _kijunBuffer = new Queue<(decimal, decimal)>(kijunPeriods);
@@ -65,10 +61,7 @@ public class IchimokuList : BufferList<IchimokuResult>, IIncrementFromQuote, IIc
         int senkouOffset,
         int chikouOffset,
         IReadOnlyList<IQuote> quotes)
-        : this(tenkanPeriods, kijunPeriods, senkouBPeriods, senkouOffset, chikouOffset)
-    {
-        Add(quotes);
-    }
+        : this(tenkanPeriods, kijunPeriods, senkouBPeriods, senkouOffset, chikouOffset) => Add(quotes);
 
     /// <inheritdoc/>
     public int TenkanPeriods { get; init; }
@@ -93,9 +86,6 @@ public class IchimokuList : BufferList<IchimokuResult>, IIncrementFromQuote, IIc
     public void Add(IQuote quote)
     {
         ArgumentNullException.ThrowIfNull(quote);
-
-        // Store close in future buffer for Chikou calculation
-        _futureCloseBuffer.Enqueue(quote.Close);
 
         // Update rolling buffers using BufferUtilities
         _tenkanBuffer.Update(TenkanPeriods, (quote.High, quote.Low));
@@ -177,15 +167,7 @@ public class IchimokuList : BufferList<IchimokuResult>, IIncrementFromQuote, IIc
         }
 
         // Calculate Chikou Span (lagging span)
-        // For single-quote streaming, we can only compute Chikou if we have future data buffered
-        // This will be null until we have ChikouOffset + 1 quotes in the buffer
-        decimal? chikouSpan = null;
-        if (_futureCloseBuffer.Count > ChikouOffset)
-        {
-            // The value at position ChikouOffset is the close from ChikouOffset periods ahead
-            chikouSpan = _futureCloseBuffer.ElementAt(ChikouOffset);
-        }
-
+        // ChikouSpan for the current result will be null (can't see future in streaming)
         // Create and emit the result immediately
         IchimokuResult result = new(
             Timestamp: quote.Timestamp,
@@ -193,14 +175,18 @@ public class IchimokuList : BufferList<IchimokuResult>, IIncrementFromQuote, IIc
             KijunSen: kijunSen,
             SenkouSpanA: senkouSpanA,
             SenkouSpanB: senkouSpanB,
-            ChikouSpan: chikouSpan);
+            ChikouSpan: null);
 
         AddInternal(result);
 
-        // Keep future buffer bounded
-        while (_futureCloseBuffer.Count > ChikouOffset + 1)
+        // Update ChikouSpan for past result (retroactive update)
+        // The result ChikouOffset periods back should have its ChikouSpan set to the current close
+        if (Count > ChikouOffset)
         {
-            _futureCloseBuffer.Dequeue();
+            int pastIndex = Count - ChikouOffset - 1;
+            IchimokuResult pastResult = this[pastIndex];
+            IchimokuResult updatedResult = pastResult with { ChikouSpan = quote.Close };
+            UpdateInternal(pastIndex, updatedResult);
         }
     }
 
@@ -333,7 +319,6 @@ public class IchimokuList : BufferList<IchimokuResult>, IIncrementFromQuote, IIc
         base.Clear();
 
         _historicalResults.Clear();
-        _futureCloseBuffer.Clear();
         _historicalHighLow.Clear();
         _tenkanBuffer.Clear();
         _kijunBuffer.Clear();
