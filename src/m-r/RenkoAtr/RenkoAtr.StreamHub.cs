@@ -4,10 +4,18 @@ namespace Skender.Stock.Indicators;
 /// Provides methods for generating Renko chart series using ATR (Average True Range) in a streaming manner.
 /// </summary>
 /// <remarks>
-/// This implementation uses a simplified approach similar to the Series implementation:
-/// it waits until all quotes are processed, calculates the final ATR value,
-/// and then generates Renko bricks using that fixed brick size.
-/// This is consistent with the static ToRenkoAtr method which uses the last ATR value.
+/// <para>
+/// The streaming implementation differs from the series implementation:
+/// </para>
+/// <list type="bullet">
+/// <item>Series: Calculates ATR from ALL quotes and uses the final ATR value for brick sizing</item>
+/// <item>Stream: Locks in ATR value after initial period (atrPeriods) and uses it for all subsequent bricks</item>
+/// </list>
+/// <para>
+/// This means streaming results may differ from series results because the brick size
+/// is determined earlier in the data stream. This is intentional and necessary for 
+/// real-time streaming scenarios where future data is not available.
+/// </para>
 /// </remarks>
 public class RenkoAtrHub
     : QuoteProvider<IQuote, RenkoResult>
@@ -17,6 +25,7 @@ public class RenkoAtrHub
     private readonly string hubName;
     private RenkoHub? renkoHub;
     private QuoteHub? internalQuoteHub;
+    private decimal? fixedBrickSize;  // lock in brick size once calculated
 
     /// <summary>
     /// Initializes a new instance of the <see cref="RenkoAtrHub"/> class.
@@ -86,6 +95,9 @@ public class RenkoAtrHub
 
         // clean up internal quote hub
         internalQuoteHub = null;
+
+        // reset brick size to force recalculation
+        fixedBrickSize = null;
     }
 
     /// <summary>
@@ -107,10 +119,10 @@ public class RenkoAtrHub
             return;
         }
 
-        // initialize or reinitialize renko hub
-        if (renkoHub is null)
+        // calculate and lock in brick size on first opportunity
+        if (fixedBrickSize is null)
         {
-            // calculate ATR for all available data
+            // calculate ATR for current data
             List<IQuote> quotesList = ProviderCache
                 .Take(providerIndex + 1)
                 .ToList();
@@ -129,6 +141,13 @@ public class RenkoAtrHub
                 return;
             }
 
+            // lock in this brick size for all future calculations
+            fixedBrickSize = brickSize;
+        }
+
+        // initialize or reinitialize renko hub with fixed brick size
+        if (renkoHub is null && fixedBrickSize is not null)
+        {
             // create new quote provider with all current data
             internalQuoteHub = new QuoteHub();
             for (int i = 0; i <= providerIndex; i++)
@@ -136,8 +155,8 @@ public class RenkoAtrHub
                 internalQuoteHub.Add(ProviderCache[i]);
             }
 
-            // create Renko hub with ATR-based brick size
-            renkoHub = internalQuoteHub.ToRenkoHub(brickSize, EndType);
+            // create Renko hub with fixed ATR-based brick size
+            renkoHub = internalQuoteHub.ToRenkoHub(fixedBrickSize.Value, EndType);
 
             // clear and rebuild cache with all bricks
             Cache.Clear();
@@ -147,7 +166,7 @@ public class RenkoAtrHub
             }
         }
         // hub already initialized, just process the new quote
-        else if (internalQuoteHub is not null)
+        else if (internalQuoteHub is not null && renkoHub is not null)
         {
             int beforeCount = renkoHub.Results.Count;
 
