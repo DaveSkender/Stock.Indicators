@@ -223,7 +223,7 @@ Invoke `@streamhub-performance` when you need help with:
 
 ## Example Usage
 
-```
+```text
 @streamhub-performance My StreamHub is 50x slower than Series. How do I optimize?
 
 @streamhub-performance Should I use RollingWindowMax for a 20-period high/low tracker?

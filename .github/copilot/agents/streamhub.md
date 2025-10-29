@@ -165,7 +165,7 @@ Invoke `@streamhub` when you need help with:
 
 ## Example Usage
 
-```
+```text
 @streamhub I need to implement a new VWAP StreamHub. What provider base should I use?
 
 @streamhub How do I handle RollbackState for an indicator with Wilder's smoothing?

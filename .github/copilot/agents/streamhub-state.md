@@ -292,7 +292,7 @@ Invoke `@streamhub-state` when you need help with:
 
 ## Example Usage
 
-```
+```text
 @streamhub-state When should I override RollbackState vs. letting the base class handle it?
 
 @streamhub-state How do I rebuild RollingWindowMax state after a provider Insert?

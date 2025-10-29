@@ -389,7 +389,7 @@ Invoke `@streamhub-testing` when you need help with:
 
 ## Example Usage
 
-```
+```text
 @streamhub-testing Which test interfaces should I implement for a ChainProvider hub?
 
 @streamhub-testing How do I test RollbackState for rolling window indicators?
