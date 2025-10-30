@@ -36,19 +36,19 @@ public class RocWbTests : TestBase
         IndicatorResult rocResult = listing.Results.SingleOrDefault(static r => r.DataName == "Roc");
         rocResult.Should().NotBeNull();
         rocResult?.DisplayName.Should().Be("ROC");
-        rocResult.IsReusable.Should().Be(true);
+        rocResult?.IsReusable.Should().Be(true);
         IndicatorResult rocemaResult1 = listing.Results.SingleOrDefault(static r => r.DataName == "RocEma");
         rocemaResult1.Should().NotBeNull();
         rocemaResult1?.DisplayName.Should().Be("ROC EMA");
-        rocemaResult1.IsReusable.Should().Be(false);
+        rocemaResult1?.IsReusable.Should().Be(false);
         IndicatorResult upperbandResult2 = listing.Results.SingleOrDefault(static r => r.DataName == "UpperBand");
         upperbandResult2.Should().NotBeNull();
         upperbandResult2?.DisplayName.Should().Be("Upper Band");
-        upperbandResult2.IsReusable.Should().Be(false);
+        upperbandResult2?.IsReusable.Should().Be(false);
         IndicatorResult lowerbandResult3 = listing.Results.SingleOrDefault(static r => r.DataName == "LowerBand");
         lowerbandResult3.Should().NotBeNull();
         lowerbandResult3?.DisplayName.Should().Be("Lower Band");
-        lowerbandResult3.IsReusable.Should().Be(false);
+        lowerbandResult3?.IsReusable.Should().Be(false);
     }
 
     [TestMethod]
@@ -81,18 +81,18 @@ public class RocWbTests : TestBase
         IndicatorResult rocResult = listing.Results.SingleOrDefault(static r => r.DataName == "Roc");
         rocResult.Should().NotBeNull();
         rocResult?.DisplayName.Should().Be("ROC");
-        rocResult.IsReusable.Should().Be(true);
+        rocResult?.IsReusable.Should().Be(true);
         IndicatorResult rocemaResult1 = listing.Results.SingleOrDefault(static r => r.DataName == "RocEma");
         rocemaResult1.Should().NotBeNull();
         rocemaResult1?.DisplayName.Should().Be("ROC EMA");
-        rocemaResult1.IsReusable.Should().Be(false);
+        rocemaResult1?.IsReusable.Should().Be(false);
         IndicatorResult upperbandResult2 = listing.Results.SingleOrDefault(static r => r.DataName == "UpperBand");
         upperbandResult2.Should().NotBeNull();
         upperbandResult2?.DisplayName.Should().Be("Upper Band");
-        upperbandResult2.IsReusable.Should().Be(false);
+        upperbandResult2?.IsReusable.Should().Be(false);
         IndicatorResult lowerbandResult3 = listing.Results.SingleOrDefault(static r => r.DataName == "LowerBand");
         lowerbandResult3.Should().NotBeNull();
         lowerbandResult3?.DisplayName.Should().Be("Lower Band");
-        lowerbandResult3.IsReusable.Should().Be(false);
+        lowerbandResult3?.IsReusable.Should().Be(false);
     }
 }

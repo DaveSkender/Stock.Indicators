@@ -64,7 +64,7 @@ public class RocWbHub
         if (i >= LookbackPeriods)
         {
             IReusable back = ProviderCache[i - LookbackPeriods];
-            roc = back.Value == 0
+            roc = Math.Abs(back.Value) < double.Epsilon
                 ? double.NaN
                 : 100d * (item.Value - back.Value) / back.Value;
         }
@@ -124,7 +124,7 @@ public class RocWbHub
 
         // Calculate RMS deviation bands
         double? rocDev = null;
-        if (rocSqBuffer.Count >= StdDevPeriods && !double.IsNaN(roc))
+        if (rocSqBuffer.Count >= StdDevPeriods)
         {
             double sum = 0;
             foreach (double sq in rocSqBuffer)
@@ -170,7 +170,7 @@ public class RocWbHub
             if (p >= LookbackPeriods)
             {
                 IReusable back = ProviderCache[p - LookbackPeriods];
-                roc = back.Value == 0
+                roc = Math.Abs(back.Value) < double.Epsilon
                     ? double.NaN
                     : 100d * (current.Value - back.Value) / back.Value;
             }

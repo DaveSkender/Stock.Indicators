@@ -53,16 +53,19 @@ public class RocWbHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPr
         // late arrival
         quoteHub.Insert(quotesList[80]);
 
+        // compare to expectedOriginal after Insert (before Remove)
+        IReadOnlyList<RocWbResult> expectedOriginal = quotesList.ToRocWb(lookbackPeriods, emaPeriods, stdDevPeriods);
+        streamList.Should().HaveCount(length);
+        streamList.Should().BeEquivalentTo(expectedOriginal, options => options.WithStrictOrdering());
+
         // delete
         quoteHub.Remove(quotesList[400]);
         quotesList.RemoveAt(400);
 
-        // time-series, for comparison
-        IReadOnlyList<RocWbResult> seriesList = quotesList.ToRocWb(lookbackPeriods, emaPeriods, stdDevPeriods);
-
-        // assert, should equal series
+        // compare to expectedRevised after Remove
+        IReadOnlyList<RocWbResult> expectedRevised = quotesList.ToRocWb(lookbackPeriods, emaPeriods, stdDevPeriods);
         streamList.Should().HaveCount(length - 1);
-        streamList.Should().BeEquivalentTo(seriesList, options => options.WithStrictOrdering());
+        streamList.Should().BeEquivalentTo(expectedRevised, options => options.WithStrictOrdering());
 
         observer.Unsubscribe();
         quoteHub.EndTransmission();
