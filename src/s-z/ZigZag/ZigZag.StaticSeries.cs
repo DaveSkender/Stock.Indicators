@@ -271,7 +271,10 @@ public static partial class ZigZag
 
                 lastLowPoint.Index = nextPoint.Index;
                 lastLowPoint.Value = nextPoint.Value;
-                break;  // do nothing
+                break;
+
+                // no action needed for other cases
+
         }
 
         // nothing to draw cases
