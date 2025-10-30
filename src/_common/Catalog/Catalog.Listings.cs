@@ -348,7 +348,9 @@ public static partial class Catalog
         _listings.Add(Stc.SeriesListing);
 
         // Standard Deviation
+        _listings.Add(StdDev.BufferListing);
         _listings.Add(StdDev.SeriesListing);
+        _listings.Add(StdDev.StreamListing);
 
         // Standard Deviation Channels
         _listings.Add(StdDevChannels.BufferListing);

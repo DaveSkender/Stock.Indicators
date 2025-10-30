@@ -23,6 +23,19 @@ public static partial class StdDev
             .WithStyle(Style.Series)
             .Build();
 
-    // No StreamListing for Standard Deviation.
-    // No BufferListing for Standard Deviation.
+    /// <summary>
+    /// Standard Deviation Stream Listing
+    /// </summary>
+    internal static readonly IndicatorListing StreamListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Stream)
+            .Build();
+
+    /// <summary>
+    /// Standard Deviation Buffer Listing
+    /// </summary>
+    internal static readonly IndicatorListing BufferListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Buffer)
+            .Build();
 }
