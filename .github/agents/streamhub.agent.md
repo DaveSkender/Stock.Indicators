@@ -116,7 +116,7 @@ StreamHub implementations should be ≤1.5x slower than Series implementations.
 - Using RollingWindowMax/Min (rebuild windows from cache)
 - Maintaining buffers (prefill from cache)
 - Tracking running state (EMA, Wilder's smoothing)
-- Storing previous values (_prevHigh, _prevValue, etc.)
+- Storing previous values (_prevHigh,_prevValue, etc.)
 
 **Do NOT override RollbackState when:**
 
@@ -186,4 +186,3 @@ Invoke `@streamhub` when you need help with:
 
 @streamhub My StreamHub is 10x slower than Series. What are common performance issues?
 ```
-
