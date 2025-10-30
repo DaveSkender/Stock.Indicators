@@ -102,6 +102,7 @@ public class StreamIndicators
     [Benchmark] public object TrHub() => quoteHub.ToTrHub().Results;
     [Benchmark] public object TrixHub() => quoteHub.ToTrixHub(n).Results;
     [Benchmark] public object UltimateHub() => quoteHub.ToUltimateHub(7, n, 28).Results;
+    [Benchmark] public object VortexHub() => quoteHub.ToVortexHub(n).Results;
     [Benchmark] public object VwmaHub() => quoteHub.ToVwmaHub(n).Results;
     [Benchmark] public object WilliamsRHub() => quoteHub.ToWilliamsRHub().Results;
     [Benchmark] public object WmaHub() => quoteHub.ToWmaHub(n).Results;

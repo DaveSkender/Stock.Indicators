@@ -32,5 +32,11 @@ public static partial class Vortex
             .WithStyle(Style.Buffer)
             .Build();
 
-    // No StreamListing for Vortex Indicator.
+    /// <summary>
+    /// Vortex Indicator Stream Listing
+    /// </summary>
+    internal static readonly IndicatorListing StreamListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Stream)
+            .Build();
 }
