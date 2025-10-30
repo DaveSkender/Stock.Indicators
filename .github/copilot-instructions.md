@@ -110,7 +110,7 @@ This repository provides specialized custom agents that developers can invoke in
 @streamhub-pairs How do I handle timestamp synchronization for dual-stream indicators?
 ```
 
-Custom agent definitions are in `.github/copilot/agents/`.
+Custom agent definitions are in `.github/agents/`.
 
 ## Common indicator requirements (all styles)
 
