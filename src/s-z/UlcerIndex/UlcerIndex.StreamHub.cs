@@ -54,7 +54,7 @@ public class UlcerIndexHub
                 IReusable ps = ProviderCache[p];
                 double pValue = ps.Value;
 
-                // Find maximum from start of window up to current period p
+                // Find maximum from start of window up to current period p  
                 double maxClose = 0;
                 for (int z = startIdx; z <= p; z++)
                 {
