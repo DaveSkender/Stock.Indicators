@@ -27,7 +27,7 @@ Any StreamHub maintaining stateful fields beyond simple cache lookups MUST overr
 1. **Rolling windows** - RollingWindowMax/Min must be rebuilt from cache
 2. **Buffered historical values** - Raw buffers (e.g., K buffer in Stoch) must be prefilled
 3. **Running totals/averages** - EMA state, Wilder's smoothing must be recalculated
-4. **Previous value tracking** - _prevValue,_prevHigh, etc. must be restored
+4. **Previous value tracking** - _prevValue, _prevHigh, etc. must be restored
 
 ## Implementation Patterns
 
@@ -278,7 +278,7 @@ Wilder's smoothing (RSI, ADX, ATR) cannot simply "restore" a state variable - mu
 
 Indicators like Stochastic with multiple interdependent buffers must clear ALL buffers before rebuild.
 
-- Clear all windows (_highWindow,_lowWindow)
+- Clear all windows (_highWindow, _lowWindow)
 - Clear all buffers (_rawKBuffer)
 - Rebuild in correct dependency order
 - Reference: `StochHub.RollbackState`
