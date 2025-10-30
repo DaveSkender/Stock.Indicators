@@ -1,7 +1,7 @@
 namespace StreamHub;
 
 [TestClass]
-public class ConnorsRsiHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProvider
+public class ConnorsRsiHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainObserver, ITestChainProvider
 {
     [TestMethod]
     public void QuoteObserver()
