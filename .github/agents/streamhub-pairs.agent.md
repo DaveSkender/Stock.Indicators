@@ -108,9 +108,9 @@ ValidateTimestampSync(i, item);
 // Throws InvalidQuotesException if mismatch
 ```
 
-### ProviderCache and ProviderCacheB
+### ProviderCacheA and ProviderCacheB
 
-- `ProviderCache` - Cache for first provider (providerA)
+- `ProviderCacheA` - Cache for first provider (providerA)
 - `ProviderCacheB` - Cache for second provider (providerB)
 
 ## Extension Method Pattern
