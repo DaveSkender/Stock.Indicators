@@ -54,9 +54,23 @@ public class ZigZagHub
 
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
-        // ZigZag is a repaint-by-design indicator that requires
-        // recalculating the entire series whenever new data arrives
-        // because pivot confirmation affects all intermediate values
+        // For the first few items or when cache is empty, just rebuild
+        if (i < 3 || Cache.Count == 0)
+        {
+            RebuildCache();
+            return (Cache[i], i);
+        }
+
+        // For ZigZag, we need to check if adding this quote could affect pivots
+        // If the cache and provider are in sync, just use cached result
+        if (Cache.Count == ProviderCache.Count)
+        {
+            // Already have this result cached
+            return (Cache[i], i);
+        }
+
+        // New quote - need to rebuild to check for pivot changes
+        // This is the repaint-by-design behavior
         RebuildCache();
 
         return (Cache[i], i);
