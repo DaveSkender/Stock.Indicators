@@ -59,8 +59,64 @@ public class StarcBandsHub
     /// <inheritdoc/>
     protected override void RollbackState(DateTime timestamp)
     {
-        // Reset ATR state - will be recalculated during rebuild
+        // Reset ATR state
         _prevAtr = double.NaN;
+
+        if (timestamp <= DateTime.MinValue || ProviderCache.Count == 0)
+        {
+            return;
+        }
+
+        // Find the first index at or after timestamp
+        int index = ProviderCache.IndexGte(timestamp);
+
+        if (index <= 0)
+        {
+            // Rolling back before all data, keep cleared state
+            return;
+        }
+
+        // We need to rebuild state up to the index before timestamp
+        // (since IndexGte gives us first index >= timestamp)
+        int targetIndex = index - 1;
+
+        // Rebuild ATR state from cache
+        for (int i = 0; i <= targetIndex; i++)
+        {
+            if (i == 0)
+            {
+                continue; // ATR starts at index 1
+            }
+
+            IQuote item = ProviderCache[i];
+
+            if (i <= AtrPeriods)
+            {
+                // Initialize ATR: Sum TR from index 1 to AtrPeriods
+                if (i == AtrPeriods)
+                {
+                    double sumTr = 0;
+                    for (int p = 1; p <= AtrPeriods; p++)
+                    {
+                        sumTr += Tr.Increment(
+                            (double)ProviderCache[p].High,
+                            (double)ProviderCache[p].Low,
+                            (double)ProviderCache[p - 1].Close);
+                    }
+                    _prevAtr = sumTr / AtrPeriods;
+                }
+            }
+            else
+            {
+                // Incrementally update ATR using Wilder's smoothing
+                double tr = Tr.Increment(
+                    (double)item.High,
+                    (double)item.Low,
+                    (double)ProviderCache[i - 1].Close);
+
+                _prevAtr = ((_prevAtr * (AtrPeriods - 1)) + tr) / AtrPeriods;
+            }
+        }
     }
 
     /// <summary>
@@ -93,17 +149,9 @@ public class StarcBandsHub
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
         // Calculate SMA of Close
-        double sma;
-        if (i >= SmaPeriods - 1)
-        {
-            // Calculate SMA from provider cache
-            sma = CalculateSmaOfClose(i, SmaPeriods);
-        }
-        else
-        {
-            // warmup periods are never calculable
-            sma = double.NaN;
-        }
+        double sma = (i >= SmaPeriods - 1)
+            ? CalculateSmaOfClose(i, SmaPeriods)
+            : double.NaN;
 
         // Calculate ATR
         double atr;

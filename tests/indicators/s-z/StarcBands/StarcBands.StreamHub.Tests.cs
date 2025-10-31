@@ -1,7 +1,7 @@
-namespace StreamHubs;
+namespace StreamHub;
 
 [TestClass]
-public class StarcBandsStreamHub : StreamHubTestBase, ITestQuoteObserver
+public class StarcBandsHubTests : StreamHubTestBase, ITestQuoteObserver
 {
     [TestMethod]
     public void QuoteObserver()
