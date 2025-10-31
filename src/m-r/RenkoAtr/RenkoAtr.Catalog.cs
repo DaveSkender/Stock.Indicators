@@ -29,6 +29,13 @@ public static partial class RenkoAtr
             .WithStyle(Style.Series)
             .Build();
 
+    /// <summary>
+    /// Renko (ATR) Buffer Listing
+    /// </summary>
+    internal static readonly IndicatorListing BufferListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Buffer)
+            .Build();
+
     // No StreamListing for Renko (ATR).
-    // No BufferListing for Renko (ATR).
 }
