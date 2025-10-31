@@ -260,8 +260,8 @@ public class ParabolicSarHub
 
                 if (_buffer.Count >= 2)
                 {
-                    (double h1, double l1) = _buffer.ElementAt(1);
-                    (double h2, double l2) = _buffer.ElementAt(0);
+                    (double _, double l1) = _buffer.ElementAt(1);
+                    (double _, double l2) = _buffer.ElementAt(0);
                     double minLastTwo = Math.Min(l1, l2);
                     sar = Math.Min(sar, minLastTwo);
                 }
