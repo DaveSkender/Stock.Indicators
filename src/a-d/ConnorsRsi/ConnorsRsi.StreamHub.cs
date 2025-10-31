@@ -8,7 +8,7 @@ public class ConnorsRsiHub
 {
     private readonly string hubName;
     private readonly RsiHub rsiHub;
-    private readonly Queue<double> streakBuffer;
+    private readonly List<double> streakBuffer;
     private readonly Queue<double> gainBuffer;
     private double streak;
     private double prevValue;
@@ -41,7 +41,7 @@ public class ConnorsRsiHub
         rsiHub = provider.ToRsiHub(rsiPeriods);
 
         // Initialize state
-        streakBuffer = new Queue<double>();
+        streakBuffer = [];
         gainBuffer = new Queue<double>(rankPeriods + 1);
         streak = 0;
         prevValue = double.NaN;
@@ -82,7 +82,7 @@ public class ConnorsRsiHub
         {
             prevValue = currentValue;
             currentStreak = 0;
-            streakBuffer.Enqueue(currentStreak);
+            streakBuffer.Add(currentStreak);
         }
         else
         {
@@ -119,7 +119,7 @@ public class ConnorsRsiHub
             }
 
             currentStreak = streak;
-            streakBuffer.Enqueue(currentStreak);
+            streakBuffer.Add(currentStreak);
         }
 
         // Calculate RSI of streak (manual Wilder's smoothing)
@@ -127,7 +127,7 @@ public class ConnorsRsiHub
 
         if (i >= StreakPeriods + 2)
         {
-            double prevStreak = streakBuffer.ElementAt(streakBuffer.Count - 2);
+            double prevStreak = streakBuffer[i - 1];
             double streakGain = currentStreak > prevStreak ? currentStreak - prevStreak : 0;
             double streakLoss = currentStreak < prevStreak ? prevStreak - currentStreak : 0;
 
@@ -139,13 +139,11 @@ public class ConnorsRsiHub
                 double sumGain = 0;
                 double sumLoss = 0;
 
-                // Calculate gain/loss for last StreakPeriods pairs
-                // We need pairs from index (i - StreakPeriods) to i
-                int startIdx = i - StreakPeriods;
-                for (int p = startIdx; p < i; p++)
+                // Calculate gain/loss for StreakPeriods pairs
+                for (int p = i - StreakPeriods + 1; p <= i; p++)
                 {
-                    double s1 = streakBuffer.ElementAt(p);
-                    double s2 = streakBuffer.ElementAt(p + 1);
+                    double s1 = streakBuffer[p - 1];
+                    double s2 = streakBuffer[p];
                     sumGain += s2 > s1 ? s2 - s1 : 0;
                     sumLoss += s2 < s1 ? s1 - s2 : 0;
                 }
@@ -256,7 +254,7 @@ public class ConnorsRsiHub
             {
                 prevValue = value;
                 streak = 0;
-                streakBuffer.Enqueue(0);
+                streakBuffer.Add(0);
             }
             else
             {
@@ -292,12 +290,12 @@ public class ConnorsRsiHub
                     streak = 0;
                 }
 
-                streakBuffer.Enqueue(streak);
+                streakBuffer.Add(streak);
 
                 // Restore streak RSI state
                 if (i >= StreakPeriods + 2)
                 {
-                    double prevStreak = streakBuffer.ElementAt(streakBuffer.Count - 2);
+                    double prevStreak = streakBuffer[i - 1];
                     double streakGain = streak > prevStreak ? streak - prevStreak : 0;
                     double streakLoss = streak < prevStreak ? prevStreak - streak : 0;
 
@@ -307,11 +305,10 @@ public class ConnorsRsiHub
                         double sumGain = 0;
                         double sumLoss = 0;
 
-                        int startIdx = i - StreakPeriods;
-                        for (int p = startIdx; p < i; p++)
+                        for (int p = i - StreakPeriods + 1; p <= i; p++)
                         {
-                            double s1 = streakBuffer.ElementAt(p);
-                            double s2 = streakBuffer.ElementAt(p + 1);
+                            double s1 = streakBuffer[p - 1];
+                            double s2 = streakBuffer[p];
                             sumGain += s2 > s1 ? s2 - s1 : 0;
                             sumLoss += s2 < s1 ? s1 - s2 : 0;
                         }
