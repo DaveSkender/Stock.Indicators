@@ -369,9 +369,9 @@ public static partial class Catalog
     /// </summary>
     private sealed class StyleJsonConverter : JsonConverter<Style>
     {
-#pragma warning disable IDE0060 // Remove unused parameter - signature required by JsonConverter base class
+#pragma warning disable IDE0060,S1172 // Remove unused parameter - signature required by JsonConverter base class
         public override Style Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
-#pragma warning restore IDE0060
+#pragma warning restore IDE0060,S1172
         {
             if (reader.TokenType == JsonTokenType.Number)
             {
@@ -408,11 +408,12 @@ public static partial class Catalog
         /// but cannot be <see langword="null"/>.
         /// </param>
 #pragma warning disable IDE0060 // Remove unused parameter - signature required by JsonConverter base class
+#pragma warning disable S1172 // Unused method parameters should be removed - signature required by JsonConverter base class
         public override void Write(
             Utf8JsonWriter writer,
             Style value,
             JsonSerializerOptions options)
-#pragma warning restore IDE0060
+#pragma warning restore S1172, IDE0060
                 => writer.WriteStringValue(value.ToString());
     }
 }
