@@ -211,6 +211,7 @@ public static partial class Catalog
 
         // Ichimoku Cloud
         _listings.Add(Ichimoku.SeriesListing);
+        _listings.Add(Ichimoku.StreamListing);
 
         // KAMA (Kaufman Adaptive Moving Average)
         _listings.Add(Kama.BufferListing);
