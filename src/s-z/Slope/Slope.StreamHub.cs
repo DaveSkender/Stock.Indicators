@@ -87,7 +87,8 @@ public class SlopeHub
 
         double? rSquared = null;
 
-        if (stdDevX * stdDevY != 0)
+        const double epsilon = 1e-10;
+        if (Math.Abs(stdDevX * stdDevY) > epsilon)
         {
             double arrr = sumSqXy / (stdDevX * stdDevY) / LookbackPeriods;
             rSquared = (arrr * arrr).NaN2Null();
@@ -118,6 +119,9 @@ public class SlopeHub
     protected override void RollbackState(DateTime timestamp)
     {
         // No state to rollback - we calculate from ProviderCache each time
+        // TODO: If future optimizations add incremental state (e.g., rolling windows, cached sums),
+        //       this method must be updated to restore state from ProviderCache after provider history mutations.
+        //       Reference AdxHub.RollbackState() for state restoration patterns.
     }
 }
 
