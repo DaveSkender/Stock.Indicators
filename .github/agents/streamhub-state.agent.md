@@ -22,12 +22,25 @@ You specialize in:
 
 Any StreamHub maintaining stateful fields beyond simple cache lookups MUST override RollbackState(DateTime timestamp).
 
-### Common Scenarios Requiring RollbackState
+However, indicators using the **Full Rebuild pattern** (repaint-by-design) typically do NOT need to override RollbackState.
+
+### Common Scenarios Requiring RollbackState (Incremental Pattern)
 
 1. **Rolling windows** - RollingWindowMax/Min must be rebuilt from cache
 2. **Buffered historical values** - Raw buffers (e.g., K buffer in Stoch) must be prefilled
 3. **Running totals/averages** - EMA state, Wilder's smoothing must be recalculated
 4. **Previous value tracking** - _prevValue,_prevHigh, etc. must be restored
+
+### Scenarios NOT Requiring RollbackState (Full Rebuild Pattern)
+
+1. **Stateless repaint indicators** - ZigZag, pivot detection algorithms
+2. **Series-based recalculation** - ToIndicator() calls Series implementation
+3. **No state variables** - No running averages, windows, or buffers
+4. **Complete recalculation** - Each update recalculates from scratch
+
+**Key distinction**: 
+- **Incremental pattern**: State variables enable O(1) updates → MUST override RollbackState
+- **Full rebuild pattern**: No state, O(n) recalculation → Usually NO override needed
 
 ## Implementation Patterns
 

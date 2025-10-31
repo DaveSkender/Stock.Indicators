@@ -15,6 +15,7 @@ You specialize in:
 - Real-time quote processing and incremental state updates
 - Performance optimization (O(1) updates, avoiding O(n^2) anti-patterns)
 - State management and rollback handling
+- Repaint-by-design indicator patterns
 - Test coverage and Series parity validation
 
 ## Core Patterns
@@ -26,6 +27,45 @@ Guide developers to choose the correct base class:
 - `ChainProvider<IReusable, TResult>` - For chainable indicators (EMA, RSI, SMA)
 - `QuoteProvider<TIn, TResult>` - For quote-only indicators (Renko, volume-weighted)
 - `PairsProvider<TIn, TResult>` - For dual-stream indicators (Correlation, Beta)
+
+### Implementation Patterns
+
+StreamHub indicators follow different patterns based on their calculation requirements:
+
+#### Pattern 1: Incremental State (Standard - Most Indicators)
+
+Most indicators maintain state and update incrementally:
+
+- **Examples**: EMA, RSI, SMA, ADX
+- **State**: Running averages, buffers, windows, previous values
+- **Performance**: O(1) per update
+- **RollbackState**: REQUIRED - Restore state from cache
+
+**Key characteristics**:
+- Each new quote updates state incrementally
+- Previous calculations remain valid
+- Efficient for real-time streaming
+
+#### Pattern 2: Full Rebuild (Repaint-by-Design Indicators)
+
+Some indicators require complete recalculation when new data arrives:
+
+- **Examples**: ZigZag, VolatilityStop (trailing), PivotPoints (session-based)
+- **State**: Usually stateless - recalculate from scratch each time
+- **Performance**: O(n) per update (recalculates entire series)
+- **RollbackState**: Optional - Usually no state to restore
+
+**Key characteristics**:
+- Historical values change with new data ("repaint")
+- Each calculation requires full historical context
+- ToIndicator() calls Series implementation
+- Trade correctness for performance
+
+**When to use Full Rebuild pattern**:
+1. New data invalidates previous pivot/reversal calculations
+2. Algorithm requires analyzing complete price series
+3. No efficient incremental formula exists
+4. Historical accuracy more important than speed
 
 ### Implementation Structure
 
@@ -40,20 +80,26 @@ StreamHub implementations follow this member order:
 
 ### Key Requirements
 
-- Maintain O(1) state updates where possible
+- Maintain O(1) state updates where possible (incremental pattern)
 - Override RollbackState for stateful indicators
 - Implement proper warmup period handling
 - Ensure bit-for-bit parity with Series implementations
 - Use RollingWindowMax/Min for efficient window operations
+- Document pattern used (incremental vs full rebuild)
 
 ## Reference Implementations
 
 Point developers to these canonical patterns:
 
+**Incremental State (Standard)**:
 - Chain provider: `src/e-k/Ema/Ema.StreamHub.cs`
 - Rolling windows: `src/a-d/Chandelier/Chandelier.StreamHub.cs`
 - Complex state: `src/a-d/Adx/Adx.StreamHub.cs`
 - Dual-stream: `src/a-d/Correlation/Correlation.StreamHub.cs`
+
+**Full Rebuild (Repaint-by-Design)**:
+- ZigZag: `src/s-z/ZigZag/ZigZag.StreamHub.cs` - Stateless pivot detection
+- ATR Stop: `src/a-d/AtrStop/AtrStop.StreamHub.cs` - Trailing stop with state
 
 ## Testing Guidance
 
@@ -66,7 +112,8 @@ Tests must:
 
 ## Performance Standards
 
-StreamHub implementations should be ≤1.5x slower than Series implementations.
+- Incremental pattern: StreamHub should be ≤1.5x slower than Series
+- Full rebuild pattern: StreamHub will be slower (O(n) vs O(1)) but correct
 
 ## StreamHub Base Virtual Overrides
 
@@ -78,7 +125,9 @@ StreamHub implementations should be ≤1.5x slower than Series implementations.
 - Returns (TResult result, int index) tuple
 - Must handle null inputs gracefully
 - Should use indexHint when provided (performance optimization)
-- Pattern: Get index, perform calculation, return result tuple
+
+**Incremental pattern**: Calculate new value from current item + state
+**Full rebuild pattern**: Recalculate from ProviderCache using Series
 
 **`ToString()`** - REQUIRED, ABSTRACT
 
@@ -97,6 +146,9 @@ StreamHub implementations should be ≤1.5x slower than Series implementations.
 - See @streamhub-state for comprehensive patterns
 - Default: Does nothing (sufficient for stateless indicators)
 
+**Incremental pattern**: MUST override - Restore state variables
+**Full rebuild pattern**: Usually NO override needed - Stateless
+
 **`OnAdd(TIn item, bool notify, int? indexHint)`** - VIRTUAL, rarely override
 
 - When: Input/output items not indexed 1:1 (very rare)
@@ -111,18 +163,19 @@ StreamHub implementations should be ≤1.5x slower than Series implementations.
 - `ToIndicator()` - Required for all hubs
 - `ToString()` - Required for all hubs
 
-**Override RollbackState when:**
+**Override RollbackState when (Incremental Pattern):**
 
 - Using RollingWindowMax/Min (rebuild windows from cache)
 - Maintaining buffers (prefill from cache)
 - Tracking running state (EMA, Wilder's smoothing)
-- Storing previous values (_prevHigh,_prevValue, etc.)
+- Storing previous values (_prevHigh, _prevValue, etc.)
 
-**Do NOT override RollbackState when:**
+**Do NOT override RollbackState when (Full Rebuild Pattern):**
 
-- Calculations only use current item + cache lookups
-- No internal state variables beyond cache
-- Example: Simple indicators like ADL, OBV
+- Indicator is stateless (recalculates from scratch)
+- ToIndicator() calls Series implementation
+- No state variables to restore
+- Example: ZigZag (stateless pivot detection)
 
 **Rarely override OnAdd:**
 
@@ -138,6 +191,7 @@ StreamHub implementations should be ≤1.5x slower than Series implementations.
 - Use `/// <inheritdoc/>` for overridden methods
 - Document constructor parameters with `/// <param>`
 - Include `/// <exception>` tags for validation
+- Add `/// <remarks>` to explain pattern used (incremental vs full rebuild)
 
 ### Inline Comments
 
@@ -145,19 +199,21 @@ StreamHub implementations should be ≤1.5x slower than Series implementations.
 - Document Wilder's smoothing or special formulas
 - Note performance optimizations
 - Reference Series implementation when helpful
+- Clarify why full rebuild pattern is used (if applicable)
 
 ### Public Documentation
 
 - Update `docs/_indicators/{IndicatorName}.md`
 - Add streaming usage example
-- Document any streaming-specific behavior
+- Document any streaming-specific behavior (repaint warnings)
 - Note warmup period requirements
+- Explain performance characteristics
 
 ## Documentation Reference
 
 Full guidelines: `.github/instructions/indicator-stream.instructions.md`
 
-When helping with StreamHub development, always prioritize mathematical correctness, performance efficiency, and comprehensive test coverage. Guide developers through override decisions systematically using the patterns above.
+When helping with StreamHub development, always prioritize mathematical correctness, performance efficiency, and comprehensive test coverage. Guide developers through pattern selection (incremental vs full rebuild) and override decisions systematically.
 
 ## When to Use This Agent
 
@@ -165,6 +221,7 @@ Invoke `@streamhub` when you need help with:
 
 - Implementing new StreamHub indicators
 - Choosing the correct provider base class
+- Deciding between incremental and full rebuild patterns
 - Optimizing real-time processing performance
 - Implementing state management and rollback logic
 - Writing comprehensive StreamHub tests
@@ -183,6 +240,8 @@ Invoke `@streamhub` when you need help with:
 @streamhub I need to implement a new VWAP StreamHub. What provider base should I use?
 
 @streamhub How do I handle RollbackState for an indicator with Wilder's smoothing?
+
+@streamhub My indicator repaints - should I use incremental or full rebuild pattern?
 
 @streamhub My StreamHub is 10x slower than Series. What are common performance issues?
 ```
