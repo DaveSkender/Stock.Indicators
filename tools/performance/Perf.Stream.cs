@@ -106,4 +106,5 @@ public class StreamIndicators
     [Benchmark] public object VwmaHub() => quoteHub.ToVwmaHub(n).Results;
     [Benchmark] public object WilliamsRHub() => quoteHub.ToWilliamsRHub().Results;
     [Benchmark] public object WmaHub() => quoteHub.ToWmaHub(n).Results;
+    [Benchmark] public object ZigZagHub() => quoteHub.ToZigZagHub(EndType.Close, 3).Results;
 }
