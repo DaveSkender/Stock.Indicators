@@ -42,36 +42,42 @@ Most indicators maintain state and update incrementally:
 - **RollbackState**: REQUIRED - Restore state from cache
 
 **Key characteristics**:
+
 - Each new quote updates state incrementally
 - Previous calculations remain valid
 - Efficient for real-time streaming
 
-#### Pattern 2: Repaint from Pivot (Optimization Opportunity)
+#### Pattern 2: Repaint from Anchor (Partial Rebuild for Repaint-by-Design)
 
-Some indicators have stable historical values but repaint from a pivot point:
+Some indicators have stable historical values but repaint from an anchor point forward:
 
 - **Examples**: ZigZag (from last confirmed pivot), VolatilityStop (from trailing stop trigger)
-- **Current State**: Often use Series recalculation for correctness
-- **Performance**: O(n) currently, but can optimize to O(k) where k = quotes since pivot
-- **RollbackState**: Should restore pivot state for optimization
+- **State**: Track last confirmed anchor (pivot, stop level, etc.)
+- **Performance**: O(k) where k = quotes since anchor (not O(n) for entire series)
+- **RollbackState**: REQUIRED - Restore anchor state from cache
 
 **Key characteristics**:
-- Historical values before last pivot are stable and don't change
-- Values from pivot forward may change ("repaint") as new data arrives
-- **Optimization**: Only recalculate from last pivot, not entire series
-- **Avoid**: Full series rebuild on every update (inefficient)
 
-**When to optimize with pivot tracking**:
-1. Indicator has confirmed pivot/reversal points that become stable
-2. Only values after pivot can change with new data
-3. Can maintain state about last pivot position
+- Historical values BEFORE last anchor are stable and don't change
+- Values FROM anchor forward may change ("repaint") as new data arrives
+- **Critical**: Only recalculate from anchor forward, NOT entire series
+- **Avoid**: Full series rebuild on every update (inefficient O(n) anti-pattern)
+
+**When to use this pattern**:
+
+1. Indicator has confirmed anchors/pivots that become stable
+2. Only values after anchor can change with new data
+3. Can maintain state about last anchor position
 4. Significant performance gain from partial rebuild (O(k) vs O(n))
 
-**Example - ZigZag**:
-- Last confirmed pivot is stable
-- Only values from that pivot forward need recalculation
-- Can track lastPoint, lastHighPoint, lastLowPoint state
-- Current impl uses Series; optimize to maintain pivot state
+**Implementation requirements**:
+
+- Track anchor state (last pivot point, stop level, etc.)
+- Find last anchor in cache on rollback
+- Only recalculate from anchor index forward
+- See ZigZag implementation as reference pattern
+
+**Important**: See `.github/instructions/indicator-stream.instructions.md` for detailed implementation guidance and reference implementations.
 
 #### Pattern 3: Full Session Rebuild (Session-Based Indicators)
 
@@ -83,6 +89,7 @@ Rare indicators that must recalculate entire sessions:
 - **RollbackState**: Restore session state
 
 **Key characteristics**:
+
 - Calculations tied to session boundaries (daily, weekly, etc.)
 - Must recalculate affected session(s)
 - Usually limited scope (one session, not entire history)
@@ -113,14 +120,18 @@ StreamHub implementations follow this member order:
 Point developers to these canonical patterns:
 
 **Incremental State (Standard)**:
+
 - Chain provider: `src/e-k/Ema/Ema.StreamHub.cs`
 - Rolling windows: `src/a-d/Chandelier/Chandelier.StreamHub.cs`
 - Complex state: `src/a-d/Adx/Adx.StreamHub.cs`
 - Dual-stream: `src/a-d/Correlation/Correlation.StreamHub.cs`
 
-**Repaint from Pivot (Optimization Opportunity)**:
-- ZigZag: `src/s-z/ZigZag/ZigZag.StreamHub.cs` - Currently uses Series; can optimize with pivot state
-- Note: Avoid full rebuild - only recalculate from last pivot forward
+**Repaint from Anchor (Partial Rebuild)**:
+
+- ZigZag: `src/s-z/ZigZag/ZigZag.StreamHub.cs` - Tracks pivot state, recalculates from last pivot forward
+- Pattern: Maintain anchor state, only rebuild from anchor (O(k) not O(n))
+
+For detailed implementation guidance, see `.github/instructions/indicator-stream.instructions.md`.
 
 ## Testing Guidance
 
@@ -148,7 +159,7 @@ Tests must:
 - Should use indexHint when provided (performance optimization)
 
 **Incremental pattern**: Calculate new value from current item + state
-**Repaint from pivot**: Recalculate from last pivot forward (optimize to avoid full Series call)
+**Repaint from anchor**: Recalculate from last anchor forward only (not full series)
 
 **`ToString()`** - REQUIRED, ABSTRACT
 
@@ -168,7 +179,7 @@ Tests must:
 - Default: Does nothing (sufficient for indicators without state)
 
 **Incremental pattern**: MUST override - Restore state variables
-**Repaint from pivot**: SHOULD override - Restore pivot state for optimization
+**Repaint from anchor**: MUST override - Restore anchor state for partial rebuild optimization
 
 **`OnAdd(TIn item, bool notify, int? indexHint)`** - VIRTUAL, rarely override
 
@@ -189,13 +200,13 @@ Tests must:
 - Using RollingWindowMax/Min (rebuild windows from cache)
 - Maintaining buffers (prefill from cache)
 - Tracking running state (EMA, Wilder's smoothing)
-- Storing previous values (_prevHigh, _prevValue, etc.)
+- Storing previous values (_prevHigh,_prevValue, etc.)
 
-**Override RollbackState when (Repaint from Pivot Pattern):**
+**Override RollbackState when (Repaint from Anchor Pattern):**
 
-- Tracking pivot state (lastPoint, lastHighPoint, lastLowPoint)
-- Need to restore pivot position for optimization
-- Want to avoid full Series recalculation
+- Tracking anchor state (pivot points, trailing stop levels, etc.)
+- Need to restore anchor position for partial rebuild optimization
+- Want O(k) from anchor instead of O(n) full rebuild
 - Example: ZigZag can optimize by maintaining pivot state
 
 **Do NOT override RollbackState when:**

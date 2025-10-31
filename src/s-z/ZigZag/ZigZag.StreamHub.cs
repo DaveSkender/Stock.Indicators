@@ -4,10 +4,15 @@ namespace Skender.Stock.Indicators;
 /// Provides methods for generating ZigZag series in a streaming manner.
 /// </summary>
 /// <remarks>
-/// ZigZag is a "repaint-by-design" indicator. Values from the last confirmed pivot
-/// forward may change as new price data arrives, but earlier pivots remain stable.
-/// Current implementation recalculates from Series; future optimization can
-/// recalculate only from last pivot forward.
+/// <para>
+/// ZigZag is a "repaint-by-design" indicator where values from the last confirmed
+/// pivot forward may change as new data arrives, but earlier pivots remain stable.
+/// </para>
+/// <para>
+/// Current implementation recalculates using Series for correctness and simplicity.
+/// Future optimization opportunity: Only recalculate from last confirmed pivot forward,
+/// as historical values before that pivot never change.
+/// </para>
 /// </remarks>
 public class ZigZagHub
     : ChainProvider<IQuote, ZigZagResult>
@@ -51,19 +56,18 @@ public class ZigZagHub
     /// </summary>
     /// <remarks>
     /// <para>
-    /// ZigZag is a repaint-by-design indicator where values from the last confirmed
-    /// pivot forward may change, but earlier pivots are stable.
+    /// ZigZag is a repaint-by-design indicator. Only values from the last confirmed
+    /// pivot forward may change with new data; earlier pivots are stable.
     /// </para>
     /// <para>
-    /// Current implementation: Recalculates using Series for correctness.
-    /// Future optimization: Maintain pivot state and only recalculate from last pivot.
-    /// Historical values before the last confirmed pivot never change.
+    /// Current implementation: Recalculates entire series using Series algorithm.
+    /// This ensures correctness and Series parity.
     /// </para>
     /// <para>
-    /// Pattern: Repaint from last pivot (optimization opportunity)
-    /// - Only values from last pivot forward need recalculation
-    /// - Earlier pivots are confirmed and stable
-    /// - Current impl uses Series; can optimize to partial rebuild
+    /// Future optimization opportunity: Maintain state tracking last confirmed pivot
+    /// (lastPoint, lastHighPoint, lastLowPoint) and only recalculate from that pivot
+    /// forward, not the entire series. This would improve from O(n) to O(k) where
+    /// k = quotes since last pivot.
     /// </para>
     /// </remarks>
     /// <inheritdoc/>
@@ -74,14 +78,13 @@ public class ZigZagHub
 
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
-        // Check if we need to rebuild
-        bool needsRebuild = i < 3 || Cache.Count == 0 || Cache.Count != ProviderCache.Count;
+        // Check if we need to recalculate
+        bool needsRecalc = i < 3 || Cache.Count == 0 || Cache.Count != ProviderCache.Count;
 
-        if (needsRebuild)
+        if (needsRecalc)
         {
-            // Current: Recalculate using Series implementation
-            // TODO: Optimize to only recalculate from last confirmed pivot forward
-            // by maintaining pivot state (lastPoint, lastHighPoint, lastLowPoint)
+            // Recalculate using Series implementation
+            // Future: Track pivot state and only recalculate from last pivot forward
             IReadOnlyList<ZigZagResult> results = ProviderCache.ToZigZag(EndType, PercentChange);
 
             Cache.Clear();
@@ -96,23 +99,21 @@ public class ZigZagHub
     /// </summary>
     /// <remarks>
     /// <para>
-    /// For optimized implementation: Would restore pivot state from cache
-    /// to enable recalculation from last pivot forward only.
+    /// Current implementation: No state maintained. Framework's Rebuild() calls
+    /// ToIndicator() which recalculates via Series.
     /// </para>
     /// <para>
-    /// Current implementation: No state to restore (uses Series each time).
-    /// Framework's Rebuild() calls ToIndicator() which handles recalculation.
+    /// Future optimization: Would restore pivot state (lastPoint, lastHighPoint,
+    /// lastLowPoint) from cache to enable recalculation from last pivot forward only.
     /// </para>
     /// </remarks>
     /// <inheritdoc/>
     protected override void RollbackState(DateTime timestamp)
     {
-        // Current: No state maintained, so nothing to restore
-        // 
-        // Future optimization: Restore pivot state from cache:
-        // - Find last confirmed pivot before timestamp
-        // - Restore lastPoint, lastHighPoint, lastLowPoint
-        // - Only recalculate from that pivot forward
+        // No-op: Current implementation maintains no pivot state.
+        //
+        // Future optimization: Restore pivot state from cache to enable
+        // partial recalculation from last pivot forward (O(k) vs O(n)).
     }
 }
 
