@@ -155,19 +155,21 @@ public class StcHub
 
         // Calculate smoothed %K (STC value) using SMA with smoothPeriods=3
         double? stc = null;
-        if (i >= SlowPeriods + CyclePeriods)
+        if (i >= SlowPeriods + CyclePeriods && _rawKBuffer.Count >= 3)
         {
-            if (_rawKBuffer.Count == 3)
+            double sum = 0;
+            int validCount = 0;
+            foreach (double rawKValue in _rawKBuffer)
             {
-                double sum = 0;
-                foreach (double rawKValue in _rawKBuffer)
+                if (!double.IsNaN(rawKValue))
                 {
-                    if (!double.IsNaN(rawKValue))
-                    {
-                        sum += rawKValue;
-                    }
+                    sum += rawKValue;
+                    validCount++;
                 }
+            }
 
+            if (validCount == 3)
+            {
                 stc = sum / 3;
             }
         }
