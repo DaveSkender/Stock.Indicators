@@ -22,10 +22,17 @@ public interface IStdDevChannels
 /// Provides methods for creating Standard Deviation Channels hubs.
 /// </summary>
 /// <remarks>
+/// <para>
 /// Standard Deviation Channels uses a reverse window algorithm that recalculates
 /// ALL values when new data arrives. This is different from typical streaming
 /// indicators where each value is calculated once. As the cache grows, window
 /// boundaries shift, causing values to "repaint" (change retrospectively).
+/// </para>
+/// <para>
+/// Performance: Incremental Slope calculation reduces complexity from O(n³) to O(n²).
+/// Forward streaming (Add) is reasonably fast. Provider history mutations (Insert/Remove)
+/// trigger full rebuilds which are expensive but unavoidable for correctness.
+/// </para>
 /// </remarks>
 public class StdDevChannelsHub
     : StreamHub<IReusable, StdDevChannelsResult>, IStdDevChannels
@@ -33,6 +40,8 @@ public class StdDevChannelsHub
     #region constructors
 
     private readonly string hubName;
+    private int _lastSyncCount = -1;
+    private readonly List<SlopeResult> _slopeCache = [];
 
     /// <summary>
     /// Initializes a new instance of the <see cref="StdDevChannelsHub"/> class.
@@ -74,47 +83,155 @@ public class StdDevChannelsHub
     /// <inheritdoc/>
     public override string ToString() => hubName;
 
-    /// <inheritdoc/>
+    /// <summary>
+    /// Resets sync state after provider history mutations (Insert/Remove).
+    /// </summary>
     /// <remarks>
-    /// Overrides the default behavior to recalculate ALL cached values
-    /// because Standard Deviation Channels uses reverse windows that shift
-    /// as new data arrives.
+    /// Standard Deviation Channels recalculates the entire series on the next ToIndicator call
+    /// after provider history changes. This override ensures the sync counter is reset so the
+    /// recalculation is triggered.
     /// </remarks>
-    public override void OnAdd(IReusable item, bool notify, int? indexHint)
+    /// <inheritdoc/>
+    protected override void RollbackState(DateTime timestamp)
     {
-        // Clear existing cache and recalculate all values
-        // because window boundaries shift with each new item
-        Cache.Clear();
-        
-        // Recalculate all values based on current provider cache size
-        int cacheSize = ProviderCache.Count;
-        for (int i = 0; i < cacheSize; i++)
-        {
-            StdDevChannelsResult r = StdDevChannels.Increment(
-                ProviderCache,
-                LookbackPeriods,
-                StandardDeviations,
-                i);
-            
-            Cache.Add(r);
-        }
+        // Reset sync counter and clear slope cache to force full recalculation
+        _lastSyncCount = -1;
+        _slopeCache.Clear();
     }
 
+    /// <summary>
+    /// Calculates Slope result for a single period incrementally.
+    /// </summary>
+    private static SlopeResult CalculateSlope(IReadOnlyList<IReusable> source, int index, int lookbackPeriods)
+    {
+        IReusable s = source[index];
+
+        // Skip initialization period
+        if (index < lookbackPeriods - 1)
+        {
+            return new SlopeResult(s.Timestamp);
+        }
+
+        // Get averages for period
+        double sumX = 0;
+        double sumY = 0;
+
+        for (int p = index - lookbackPeriods + 1; p <= index; p++)
+        {
+            IReusable ps = source[p];
+            sumX += p + 1d;
+            sumY += ps.Value;
+        }
+
+        double avgX = sumX / lookbackPeriods;
+        double avgY = sumY / lookbackPeriods;
+
+        // Least squares method
+        double sumSqX = 0;
+        double sumSqY = 0;
+        double sumSqXy = 0;
+
+        for (int p = index - lookbackPeriods + 1; p <= index; p++)
+        {
+            IReusable ps = source[p];
+            double devX = p + 1d - avgX;
+            double devY = ps.Value - avgY;
+
+            sumSqX += devX * devX;
+            sumSqY += devY * devY;
+            sumSqXy += devX * devY;
+        }
+
+        double? slope = (sumSqXy / sumSqX).NaN2Null();
+        double? intercept = (avgY - (slope * avgX)).NaN2Null();
+
+        // Calculate Standard Deviation
+        double stdDevY = Math.Sqrt(sumSqY / lookbackPeriods);
+
+        return new SlopeResult(s.Timestamp)
+        {
+            Slope = slope,
+            Intercept = intercept,
+            StdDev = stdDevY.NaN2Null()
+        };
+    }
+
+    /// <summary>
+    /// Converts provider item into Standard Deviation Channels result.
+    /// </summary>
+    /// <remarks>
+    /// <para>
+    /// Standard Deviation Channels is a repaint-by-design indicator where ALL values
+    /// may change as new data arrives because window boundaries shift with each new quote.
+    /// </para>
+    /// <para>
+    /// Performance optimization: Caches Slope results and only calculates new Slope values
+    /// incrementally. Window application is O(n) but avoids O(n²) Slope recalculation.
+    /// </para>
+    /// </remarks>
     /// <inheritdoc/>
     protected override (StdDevChannelsResult result, int index)
         ToIndicator(IReusable item, int? indexHint)
     {
         ArgumentNullException.ThrowIfNull(item);
+
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
+        int currentCount = ProviderCache.Count;
 
-        // candidate result using Increment method
-        StdDevChannelsResult r = StdDevChannels.Increment(
-            ProviderCache,
-            LookbackPeriods,
-            StandardDeviations,
-            i);
+        // Incrementally calculate new Slope values
+        if (_slopeCache.Count < currentCount)
+        {
+            for (int si = _slopeCache.Count; si < currentCount; si++)
+            {
+                SlopeResult slopeResult = CalculateSlope(ProviderCache, si, LookbackPeriods);
+                _slopeCache.Add(slopeResult);
+            }
+        }
 
-        return (r, i);
+        // Recalculate channel assignments when provider count changes
+        // Window boundaries shift, so all assignments must be recomputed
+        if (currentCount != _lastSyncCount)
+        {
+            // Resize cache if needed
+            while (Cache.Count < currentCount)
+            {
+                int idx = Cache.Count;
+                Cache.Add(new StdDevChannelsResult(_slopeCache[idx].Timestamp));
+            }
+
+            // Reset all values to empty before reapplying windows
+            for (int ri = 0; ri < currentCount; ri++)
+            {
+                Cache[ri] = new StdDevChannelsResult(_slopeCache[ri].Timestamp);
+            }
+
+            // Apply regression lines in reverse windows
+            for (int wi = currentCount - 1; wi >= LookbackPeriods - 1; wi -= LookbackPeriods)
+            {
+                SlopeResult s = _slopeCache[wi];
+                double? width = StandardDeviations * s.StdDev;
+
+                // Assign values to all points in this window
+                for (int p = wi - LookbackPeriods + 1; p <= wi; p++)
+                {
+                    if (p < 0) continue;
+
+                    double? c = (s.Slope * (p + 1)) + s.Intercept;
+
+                    Cache[p] = Cache[p] with
+                    {
+                        Centerline = c,
+                        UpperChannel = c + width,
+                        LowerChannel = c - width,
+                        BreakPoint = p == wi - LookbackPeriods + 1
+                    };
+                }
+            }
+
+            _lastSyncCount = currentCount;
+        }
+
+        return (Cache[i], i);
     }
 
     #endregion methods

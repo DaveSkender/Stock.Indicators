@@ -34,5 +34,11 @@ public static partial class StdDevChannels
             .WithStyle(Style.Buffer)
             .Build();
 
-    // No StreamListing for Standard Deviation Channels.
+    /// <summary>
+    /// Standard Deviation Channels Stream Listing
+    /// </summary>
+    internal static readonly IndicatorListing StreamListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Stream)
+            .Build();
 }
