@@ -96,14 +96,14 @@ public class StcHub
 
         // Calculate MACD Fast EMA
         double fastEma = i >= FastPeriods - 1
-            ? i > 0 && _macdCache.Count > 0 && _macdCache.Count > i - 1
+            ? i > 0 && _macdCache.Count > i - 1
                 ? Ema.Increment(_fastK, _macdCache[i - 1].FastEma, item.Value)
                 : Sma.Increment(ProviderCache, FastPeriods, i)
             : double.NaN;
 
         // Calculate MACD Slow EMA
         double slowEma = i >= SlowPeriods - 1
-            ? i > 0 && _macdCache.Count > 0 && _macdCache.Count > i - 1
+            ? i > 0 && _macdCache.Count > i - 1
                 ? Ema.Increment(_slowK, _macdCache[i - 1].SlowEma, item.Value)
                 : Sma.Increment(ProviderCache, SlowPeriods, i)
             : double.NaN;
@@ -120,6 +120,13 @@ public class StcHub
         {
             _macdCache[i] = new StcMacdState(fastEma, slowEma, macd);
         }
+        else if (_macdCache.Count < i)
+        {
+            throw new InvalidOperationException(
+                $"MACD cache gap detected: _macdCache.Count ({_macdCache.Count}) < i ({i}). " +
+                "This may indicate a rollback or non-sequential index scenario. " +
+                "Cache must be rebuilt or synchronized before continuing.");
+        }
 
         // Add MACD to rolling windows for stochastic calculation (only if not NaN)
         if (!double.IsNaN(macd))
@@ -130,17 +137,18 @@ public class StcHub
 
         // Calculate raw %K from MACD values
         double rawK = double.NaN;
-        if (i >= SlowPeriods + CyclePeriods - 2)
+        if (i >= SlowPeriods + CyclePeriods - 2 &&
+            !double.IsNaN(macd) &&
+            _macdHighWindow.Count >= CyclePeriods &&
+            _macdLowWindow.Count >= CyclePeriods)
         {
-            if (!double.IsNaN(macd) && _macdHighWindow.Count >= CyclePeriods && _macdLowWindow.Count >= CyclePeriods)
-            {
-                double highHigh = _macdHighWindow.Max;
-                double lowLow = _macdLowWindow.Min;
+            double highHigh = _macdHighWindow.Max;
+            double lowLow = _macdLowWindow.Min;
 
-                rawK = highHigh - lowLow != 0
-                     ? 100 * (macd - lowLow) / (highHigh - lowLow)
-                     : 0;
-            }
+            const double EPSILON = 1e-8;
+            rawK = Math.Abs(highHigh - lowLow) > EPSILON
+                 ? 100 * (macd - lowLow) / (highHigh - lowLow)
+                 : 0;
         }
 
         // Buffer raw %K for smoothing (only if valid)
@@ -159,13 +167,10 @@ public class StcHub
         {
             double sum = 0;
             int validCount = 0;
-            foreach (double rawKValue in _rawKBuffer)
+            foreach (double rawKValue in _rawKBuffer.Where(v => !double.IsNaN(v)))
             {
-                if (!double.IsNaN(rawKValue))
-                {
-                    sum += rawKValue;
-                    validCount++;
-                }
+                sum += rawKValue;
+                validCount++;
             }
 
             if (validCount == 3)
@@ -263,7 +268,7 @@ public class StcHub
                 }
 
                 double macdAtP = _macdCache[p].Macd;
-                double rawAtP = (hh - ll) != 0 ? 100 * (macdAtP - ll) / (hh - ll) : 0;
+                double rawAtP = Math.Abs(hh - ll) > 1e-8 ? 100 * (macdAtP - ll) / (hh - ll) : 0;
                 _rawKBuffer.Enqueue(rawAtP);
             }
         }
@@ -293,13 +298,13 @@ public static partial class Stc
         => new(chainProvider, cyclePeriods, fastPeriods, slowPeriods);
 
     /// <summary>
-    /// Creates a Stc hub from a collection of quotes.
+    /// Creates a Schaff Trend Cycle (STC) hub from a collection of quotes.
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <param name="cyclePeriods">Parameter for the calculation.</param>
     /// <param name="fastPeriods">Parameter for the calculation.</param>
     /// <param name="slowPeriods">Parameter for the calculation.</param>
-    /// <returns>An instance of <see cref="StcHub"/>.</returns>
+    /// <returns>An instance of <see cref="StcHub"/> representing the STC indicator.</returns>
     public static StcHub ToStcHub(
         this IReadOnlyList<IQuote> quotes,
         int cyclePeriods = 10,
