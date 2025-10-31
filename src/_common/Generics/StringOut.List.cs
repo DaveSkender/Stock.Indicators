@@ -354,26 +354,17 @@ public static partial class StringOut
     /// </summary>
     /// <param name="type">The type to get the colloquial name for.</param>
     /// <returns>The colloquial type name.</returns>
-    public static string ColloquialTypeName(Type type)
+    public static string ColloquialTypeName(Type? type)
     {
         if (type == null)
         {
             return string.Empty;
         }
 
-        // Handle nullable types
-        if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>))
-        {
-            type = Nullable.GetUnderlyingType(type) ?? type; // Extract the underlying type
-        }
+        // Handle nullable types - extract the underlying type
+        Type actualType = Nullable.GetUnderlyingType(type) ?? type;
 
-        // Return the type's C# alias if it exists, or the type's name otherwise
-        if (type.IsPrimitive || type == typeof(string) || type == typeof(decimal) || type == typeof(DateTime))
-        {
-            // Return the type's C# alias if it exists, or the type's name otherwise
-            return type.Name;
-        }
-        // Return the type's C# alias if it exists, or the type's name otherwise
-        return type.Name;
+        // Return the type's name (C# alias for primitives, or the actual type name)
+        return actualType.Name;
     }
 }
