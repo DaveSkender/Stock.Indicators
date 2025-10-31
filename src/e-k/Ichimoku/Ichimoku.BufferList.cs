@@ -1,7 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Ichimoku Cloud from incremental quote values.
+/// Calculates Ichimoku Cloud indicator from incremental quote values with buffered state management.
 /// </summary>
 public class IchimokuList : BufferList<IchimokuResult>, IIncrementFromQuote, IIchimoku
 {
@@ -136,35 +136,7 @@ public class IchimokuList : BufferList<IchimokuResult>, IIncrementFromQuote, IIc
         }
 
         // Calculate Senkou Span B (leading span B)
-        // Uses historical data from range [i - senkouOffset - senkouBPeriods + 1, i - senkouOffset]
-        decimal? senkouSpanB = null;
-        if (Count >= SenkouOffset + SenkouBPeriods - 1)
-        {
-            int endIndex = Count - SenkouOffset;
-            int startIndex = endIndex - SenkouBPeriods + 1;
-
-            if (startIndex >= 0 && endIndex < _historicalHighLow.Count)
-            {
-                decimal max = decimal.MinValue;
-                decimal min = decimal.MaxValue;
-
-                for (int p = startIndex; p <= endIndex; p++)
-                {
-                    (decimal high, decimal low) = _historicalHighLow[p];
-                    if (high > max)
-                    {
-                        max = high;
-                    }
-
-                    if (low < min)
-                    {
-                        min = low;
-                    }
-                }
-
-                senkouSpanB = (max + min) / 2;
-            }
-        }
+        decimal? senkouSpanB = CalculateSenkouSpanB(Count);
 
         // Calculate Chikou Span (lagging span)
         // ChikouSpan for the current result will be null (can't see future in streaming)
@@ -260,35 +232,7 @@ public class IchimokuList : BufferList<IchimokuResult>, IIncrementFromQuote, IIc
             }
 
             // Calculate Senkou Span B (leading span B)
-            // Uses historical data from range [i - senkouOffset - senkouBPeriods + 1, i - senkouOffset]
-            decimal? senkouSpanB = null;
-            if (Count >= SenkouOffset + SenkouBPeriods - 1)
-            {
-                int endIndex = Count - SenkouOffset;
-                int startIndex = endIndex - SenkouBPeriods + 1;
-
-                if (startIndex >= 0 && endIndex < _historicalHighLow.Count)
-                {
-                    decimal max = decimal.MinValue;
-                    decimal min = decimal.MaxValue;
-
-                    for (int p = startIndex; p <= endIndex; p++)
-                    {
-                        (decimal high, decimal low) = _historicalHighLow[p];
-                        if (high > max)
-                        {
-                            max = high;
-                        }
-
-                        if (low < min)
-                        {
-                            min = low;
-                        }
-                    }
-
-                    senkouSpanB = (max + min) / 2;
-                }
-            }
+            decimal? senkouSpanB = CalculateSenkouSpanB(Count);
 
             // Calculate Chikou Span (lagging span) - look ahead in the pre-populated list
             decimal? chikouSpan = null;
@@ -336,6 +280,47 @@ public class IchimokuList : BufferList<IchimokuResult>, IIncrementFromQuote, IIc
 
         foreach ((decimal high, decimal low) in buffer)
         {
+            if (high > max)
+            {
+                max = high;
+            }
+
+            if (low < min)
+            {
+                min = low;
+            }
+        }
+
+        return (max + min) / 2;
+    }
+
+    /// <summary>
+    /// Calculates the Senkou Span B value for the current position.
+    /// Uses historical data from range [currentIndex - senkouOffset - senkouBPeriods + 1, currentIndex - senkouOffset].
+    /// </summary>
+    /// <param name="currentIndex">The current position in the results list.</param>
+    /// <returns>The Senkou Span B value, or null if insufficient data.</returns>
+    private decimal? CalculateSenkouSpanB(int currentIndex)
+    {
+        if (currentIndex < SenkouOffset + SenkouBPeriods - 1)
+        {
+            return null;
+        }
+
+        int endIndex = currentIndex - SenkouOffset;
+        int startIndex = endIndex - SenkouBPeriods + 1;
+
+        if (startIndex < 0 || endIndex >= _historicalHighLow.Count)
+        {
+            return null;
+        }
+
+        decimal max = decimal.MinValue;
+        decimal min = decimal.MaxValue;
+
+        for (int p = startIndex; p <= endIndex; p++)
+        {
+            (decimal high, decimal low) = _historicalHighLow[p];
             if (high > max)
             {
                 max = high;
