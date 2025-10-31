@@ -47,6 +47,7 @@ public class BufferIndicators
     [Benchmark] public HmaList HmaList() => new(n) { q };
     [Benchmark] public HtlList HtlList() => new() { q };
     [Benchmark] public HurstList HurstList() => new(100) { q };
+    [Benchmark] public IchimokuList IchimokuList() => new() { q };
     [Benchmark] public KamaList KamaList() => new(10, 2, 30) { q };
     [Benchmark] public KeltnerList KeltnerList() => new() { q };
     [Benchmark] public KvoList KvoList() => new() { q };
