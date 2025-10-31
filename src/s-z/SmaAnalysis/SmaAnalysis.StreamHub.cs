@@ -57,7 +57,7 @@ public class SmaAnalysisHub
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
         // Calculate SMA and analysis metrics efficiently using a rolling window over ProviderCache
-        // This is O(lookbackPeriods) which is constant for a given configuration
+        // This is O(lookbackPeriods) per update (linear in lookbackPeriods)
         // and maintains exact precision with Series implementation
         double? sma = null;
         double? mad = null;
@@ -95,7 +95,9 @@ public class SmaAnalysisHub
                     double value = ProviderCache[p].Value;
                     sumMad += Math.Abs(value - sma.Value);
                     sumMse += (value - sma.Value) * (value - sma.Value);
-                    sumMape += value == 0 ? double.NaN : Math.Abs(value - sma.Value) / value;
+
+                    const double epsilon = 1e-8;
+                    sumMape += Math.Abs(value) < epsilon ? double.NaN : Math.Abs(value - sma.Value) / value;
                 }
 
                 mad = (sumMad / LookbackPeriods).NaN2Null();
