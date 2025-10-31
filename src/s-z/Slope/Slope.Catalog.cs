@@ -34,5 +34,11 @@ public static partial class Slope
             .WithStyle(Style.Buffer)
             .Build();
 
-    // No StreamListing for Slope.
+    /// <summary>
+    /// Slope Stream Listing
+    /// </summary>
+    internal static readonly IndicatorListing StreamListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Stream)
+            .Build();
 }
