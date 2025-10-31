@@ -411,7 +411,6 @@ public class MaEnvelopesHub
         int i = ProviderCache.IndexGte(timestamp);
         if (i > lookbackPeriods)
         {
-            MaEnvelopeResult prior = Cache[i - 1];
             // Reset state variables based on MA type
             if (movingAverageType == MaType.DEMA)
             {
