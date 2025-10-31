@@ -18,7 +18,7 @@ You specialize in:
 - Correlation and Beta indicator patterns
 - Error handling for mismatched streams
 
-## When to Use PairsProvider
+## When to use PairsProvider
 
 Use `PairsProvider<TIn, TResult>` when your indicator requires:
 
@@ -26,7 +26,7 @@ Use `PairsProvider<TIn, TResult>` when your indicator requires:
 - Matched timestamps between streams
 - Pairwise calculations (correlation, beta, relative strength)
 
-## PairsProvider Base Class
+## PairsProvider base class
 
 ```csharp
 public class {IndicatorName}Hub
@@ -86,7 +86,7 @@ public class {IndicatorName}Hub
 }
 ```
 
-## Key PairsProvider Utilities
+## Key PairsProvider utilities
 
 ### HasSufficientData
 
@@ -113,7 +113,7 @@ ValidateTimestampSync(i, item);
 - `ProviderCacheA` - Cache for first provider (providerA)
 - `ProviderCacheB` - Cache for second provider (providerB)
 
-## Extension Method Pattern
+## Extension method pattern
 
 ```csharp
 /// <summary>
@@ -127,7 +127,7 @@ public static {IndicatorName}Hub To{IndicatorName}Hub(
      => new(providerA, providerB, lookbackPeriods);
 ```
 
-## Critical Constraints
+## Critical constraints
 
 1. **Timestamp Synchronization Required**
    - Both providers must have matching timestamps
@@ -144,7 +144,7 @@ public static {IndicatorName}Hub To{IndicatorName}Hub(
    - Calculation delayed until both have adequate data
    - Warmup period applies to both streams
 
-## Reference Implementation: Correlation
+## Reference implementation: Correlation
 
 ```csharp
 // From src/a-d/Correlation/Correlation.StreamHub.cs
@@ -186,7 +186,7 @@ protected override (CorrResult result, int index)
 
 See: `src/a-d/Correlation/Correlation.StreamHub.cs`
 
-## Testing Dual-Stream Hubs
+## Testing dual-stream hubs
 
 Test class must implement `ITestPairsObserver` (NOT ITestQuoteObserver):
 
@@ -244,29 +244,29 @@ public class CorrelationHub : StreamHubTestBase, ITestPairsObserver
 
 See: `tests/indicators/a-d/Correlation/Correlation.StreamHub.Tests.cs`
 
-## Common Dual-Stream Patterns
+## Common dual-stream patterns
 
-### Correlation Pattern
+### Correlation pattern
 
 - Calculate correlation coefficient between two series
 - Requires matching lookback windows from both caches
 - Reference: `src/a-d/Correlation/Correlation.StreamHub.cs`
 
-### Beta Pattern (Regression)
+### Beta pattern (regression)
 
 - Calculate slope/beta between two series
 - Builds on correlation pattern
 - Reference: `src/a-d/Beta/Beta.StreamHub.cs` (via PrsHub)
 
-### Relative Strength Pattern
+### Relative strength pattern
 
 - Compare performance between two instruments
 - Ratio calculation with synchronized inputs
 - Reference: `src/m-r/Prs/Prs.StreamHub.cs`
 
-## Error Handling
+## Error handling
 
-### Timestamp Mismatch
+### Timestamp mismatch
 
 ```csharp
 // ValidateTimestampSync throws:
@@ -276,7 +276,7 @@ throw new InvalidQuotesException(
     $"ProviderB: {itemB.Timestamp:s}");
 ```
 
-### Insufficient Data
+### Insufficient data
 
 ```csharp
 if (!HasSufficientData(i, LookbackPeriods))
@@ -286,7 +286,7 @@ if (!HasSufficientData(i, LookbackPeriods))
 }
 ```
 
-## Architecture Limitations
+## Architecture limitations
 
 Current PairsProvider design does NOT support:
 
@@ -295,7 +295,7 @@ Current PairsProvider design does NOT support:
 - Mismatched timestamp streams (strict synchronization required)
 - More than two input streams (would require generalization)
 
-## When to Use vs Alternatives
+## When to use vs alternatives
 
 **Use PairsProvider when:**
 
@@ -311,11 +311,11 @@ Current PairsProvider design does NOT support:
 
 When helping with dual-stream indicators, emphasize timestamp synchronization requirements, proper use of HasSufficientData and ValidateTimestampSync utilities, and appropriate test coverage with ITestPairsObserver.
 
-# StreamHub Dual-Stream Agent
+# StreamHub dual-stream agent
 
 Expert guidance for implementing indicators with synchronized pair inputs using PairsProvider.
 
-## When to Use This Agent
+## When to use this agent
 
 Invoke `@streamhub-pairs` when you need help with:
 
@@ -327,7 +327,16 @@ Invoke `@streamhub-pairs` when you need help with:
 - Handling mismatched timestamp errors
 - Understanding PairsProvider limitations
 
-## Example Usage
+For general StreamHub development, see `@streamhub`. For comprehensive guidelines, see `.github/instructions/indicator-stream.instructions.md`.
+
+## Related agents
+
+- `@streamhub` - General StreamHub development patterns and provider selection
+- `@streamhub-state` - State management and RollbackState patterns
+- `@streamhub-performance` - Performance optimization and O(1) patterns
+- `@streamhub-testing` - Test coverage and rollback validation
+
+## Example usage
 
 ```text
 @streamhub-pairs How do I implement a new dual-stream indicator for covariance?
