@@ -93,6 +93,7 @@ public class StreamIndicators
     [Benchmark] public object RenkoHub() => quoteHub.ToRenkoHub(2.5m).Results;
     [Benchmark] public object RsiHub() => quoteHub.ToRsiHub(n).Results;
     [Benchmark] public object RocHub() => quoteHub.ToRocHub(20).Results;
+    [Benchmark] public object RocWbHub() => quoteHub.ToRocWbHub(20, 5, 5).Results;
     [Benchmark] public object SmaHub() => quoteHub.ToSmaHub(10).Results;
     [Benchmark] public object SmmaHub() => quoteHub.ToSmmaHub(n).Results;
     [Benchmark] public object StochHub() => quoteHub.ToStochHub(n, 3, 3).Results;

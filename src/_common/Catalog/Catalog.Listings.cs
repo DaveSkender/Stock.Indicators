@@ -307,6 +307,7 @@ public static partial class Catalog
 
         // ROC with Bands
         _listings.Add(RocWb.SeriesListing);
+        _listings.Add(RocWb.StreamListing);
         _listings.Add(RocWb.BufferListing);
 
         // Rolling Pivots
