@@ -84,6 +84,34 @@ This repository uses scoped instruction files for specific development areas. Th
 
 These scoped files are automatically applied when working with files matching their patterns.
 
+## Custom agents for focused assistance
+
+This repository provides specialized custom agents that developers can invoke in GitHub Copilot Chat for expert guidance on specific development areas:
+
+| Agent | Description | When to Use |
+| ----- | ----------- | ----------- |
+| `@streamhub` | StreamHub indicator development - implementation patterns, provider selection, state management | Implementing new StreamHub indicators, choosing provider base classes, optimizing real-time processing |
+| `@streamhub-state` | RollbackState patterns, cache replay strategies, window rebuilding | Implementing state management, handling provider history mutations (Insert/Remove) |
+| `@streamhub-performance` | O(1) optimization patterns, RollingWindow utilities, avoiding O(n²) anti-patterns | Performance optimization, achieving ≤1.5x Series benchmark, eliminating bottlenecks |
+| `@streamhub-testing` | Test interface selection, comprehensive rollback validation, Series parity checks | Writing StreamHub tests, selecting test interfaces, implementing rollback validation |
+| `@streamhub-pairs` | PairsProvider dual-stream patterns, timestamp synchronization, dual-cache coordination | Implementing dual-stream indicators (Correlation, Beta), managing synchronized inputs |
+
+**Usage examples:**
+
+```text
+@streamhub I need to implement a new VWAP StreamHub. What provider base should I use?
+
+@streamhub-state How do I rebuild RollingWindowMax state after a provider Insert?
+
+@streamhub-performance My StreamHub is 50x slower than Series. How do I optimize?
+
+@streamhub-testing Which test interfaces should I implement for a ChainProvider hub?
+
+@streamhub-pairs How do I handle timestamp synchronization for dual-stream indicators?
+```
+
+Custom agent definitions are in `.github/agents/`.
+
 ## Common indicator requirements (all styles)
 
 Use these cross-cutting requirements for Series, Stream, and Buffer indicators. Each style guide adds its own specifics, but these apply to all:
@@ -173,4 +201,4 @@ Examples:
 - `docs: Update API documentation`
 
 ---
-Last updated: October 12, 2025
+Last updated: October 29, 2025
