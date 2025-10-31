@@ -27,7 +27,13 @@ public static partial class ZigZag
             .WithStyle(Style.Series)
             .Build();
 
-    // No StreamListing for Zig Zag.
+    /// <summary>
+    /// Zig Zag Stream Listing
+    /// </summary>
+    internal static readonly IndicatorListing StreamListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Stream)
+            .Build();
 
     /// <summary>
     /// Zig Zag Buffer Listing
