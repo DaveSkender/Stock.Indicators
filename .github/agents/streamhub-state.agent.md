@@ -22,12 +22,49 @@ You specialize in:
 
 Any StreamHub maintaining stateful fields beyond simple cache lookups MUST override RollbackState(DateTime timestamp).
 
-### Common Scenarios Requiring RollbackState
+### Common Scenarios Requiring RollbackState (Incremental Pattern)
 
 1. **Rolling windows** - RollingWindowMax/Min must be rebuilt from cache
 2. **Buffered historical values** - Raw buffers (e.g., K buffer in Stoch) must be prefilled
 3. **Running totals/averages** - EMA state, Wilder's smoothing must be recalculated
 4. **Previous value tracking** - _prevValue,_prevHigh, etc. must be restored
+
+### Scenarios Requiring RollbackState (Repaint Pattern - Partial Rebuild)
+
+For indicators where historical values may change based on new data ("repaint-by-design"):
+
+1. **Confirmed historical anchors** - Track stable reference points (e.g., confirmed pivots, trailing stop levels)
+2. **Partial rebuild from anchor** - Only recalculate from last confirmed anchor forward, not entire series
+3. **Performance optimization** - O(k) from anchor is significantly better than O(n) full rebuild
+4. **State restoration on rollback** - Restore anchor state to enable efficient partial recalculation
+
+**Pattern characteristics**:
+
+- Historical values BEFORE the anchor are stable and never change
+- Only values FROM the anchor forward may repaint with new data
+- Must track anchor state (last pivot, last stop, etc.)
+- RollbackState restores anchor from cache for Insert/Remove operations
+
+**Example - Pivot-based indicators**:
+
+- Track last confirmed pivot/anchor state
+- Only recalculate from anchor forward, not entire series
+- Restore pivot state on rollback for efficiency
+- ZigZag: pivot points; VolatilityStop: trailing stop levels
+
+See `.github/instructions/indicator-stream.instructions.md` for implementation guidance.
+
+### Scenarios NOT Requiring RollbackState
+
+1. **No optimization** - Using full Series recalculation (temporary, before optimization)
+2. **No state variables** - Completely stateless, no pivot tracking
+3. **Acceptable performance** - Full rebuild is fast enough, optimization not needed
+
+**Key distinction**:
+
+- **Incremental pattern**: State variables enable O(1) updates → MUST override RollbackState
+- **Repaint from pivot**: Pivot state enables O(k) updates → SHOULD override for optimization
+- **No optimization**: Full Series rebuild O(n) → NO override needed (but suboptimal)
 
 ## Implementation Patterns
 
