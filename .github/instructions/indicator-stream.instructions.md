@@ -764,4 +764,4 @@ This repository provides specialized custom agents that can help with StreamHub 
 Agent definitions are in `.github/agents/`. For general guidance about custom agents, see `.github/copilot-instructions.md`.
 
 ---
-Last updated: October 24, 2025
+Last updated: October 31, 2025
