@@ -33,5 +33,11 @@ public static partial class Vwap
             .WithStyle(Style.Buffer)
             .Build();
 
-    // No StreamListing for VWAP.
+    /// <summary>
+    /// VWAP Stream Listing
+    /// </summary>
+    internal static readonly IndicatorListing StreamListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Stream)
+            .Build();
 }
