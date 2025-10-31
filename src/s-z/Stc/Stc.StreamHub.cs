@@ -6,6 +6,8 @@ namespace Skender.Stock.Indicators;
 public sealed class StcHub
     : ChainProvider<IReusable, StcResult>
 {
+    private const int SmoothPeriods = 3; // Fixed smoothing period for STC calculation
+
     private readonly string hubName;
 
     /// <summary>
@@ -23,11 +25,6 @@ public sealed class StcHub
     /// Rolling window for raw %K smoothing
     /// </summary>
     private readonly Queue<double> rawKBuffer;
-
-    /// <summary>
-    /// Rolling window for signal line calculation
-    /// </summary>
-    private readonly Queue<double> signalBuffer;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="StcHub"/> class.
@@ -57,9 +54,8 @@ public sealed class StcHub
         _macdMaxWindow = new RollingWindowMax<double>(cyclePeriods);
         _macdMinWindow = new RollingWindowMin<double>(cyclePeriods);
 
-        // Buffers for rolling windows
-        rawKBuffer = new Queue<double>(3); // smoothPeriods = 3
-        signalBuffer = new Queue<double>(1); // signalPeriods = 1
+        // Buffer for raw %K smoothing
+        rawKBuffer = new Queue<double>(SmoothPeriods);
 
         Reinitialize();
     }
@@ -130,7 +126,6 @@ public sealed class StcHub
         _macdMaxWindow.Clear();
         _macdMinWindow.Clear();
         rawKBuffer.Clear();
-        signalBuffer.Clear();
 
         if (providerIndex <= 0)
         {
@@ -166,18 +161,18 @@ public sealed class StcHub
         double lowMacd = _macdMinWindow.Min;
 
         // Calculate raw %K oscillator
-        double rawK = lowMacd != highMacd
+        double rawK = Math.Abs(highMacd - lowMacd) > double.Epsilon
             ? 100d * (macdValue - lowMacd) / (highMacd - lowMacd)
             : 0d;
 
-        // Add raw K to buffer for smoothing (smoothPeriods = 3)
+        // Add raw K to buffer for smoothing
         rawKBuffer.Enqueue(rawK);
-        if (rawKBuffer.Count > 3)
+        if (rawKBuffer.Count > SmoothPeriods)
         {
             _ = rawKBuffer.Dequeue();
         }
 
-        if (rawKBuffer.Count != 3)
+        if (rawKBuffer.Count != SmoothPeriods)
         {
             return null;
         }
@@ -189,7 +184,7 @@ public sealed class StcHub
             sumK += item;
         }
 
-        double smoothedK = sumK / 3;
+        double smoothedK = sumK / SmoothPeriods;
 
         // Signal line (signalPeriods = 1, so just return smoothedK)
         // Based on the series implementation which uses signalPeriods=1
