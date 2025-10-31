@@ -26,6 +26,13 @@ public static partial class SuperTrend
             .WithStyle(Style.Series)
             .Build();
 
-    // No StreamListing for SuperTrend.
+    /// <summary>
+    /// SuperTrend Stream Listing
+    /// </summary>
+    internal static readonly IndicatorListing StreamListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Stream)
+            .Build();
+
     // No BufferListing for SuperTrend.
 }
