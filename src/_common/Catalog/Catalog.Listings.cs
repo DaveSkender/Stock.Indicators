@@ -333,6 +333,7 @@ public static partial class Catalog
         // SMI (Stochastic Momentum Index)
         _listings.Add(Smi.BufferListing);
         _listings.Add(Smi.SeriesListing);
+        _listings.Add(Smi.StreamListing);
 
         // SMMA (Smoothed Moving Average)
         _listings.Add(Smma.SeriesListing);
