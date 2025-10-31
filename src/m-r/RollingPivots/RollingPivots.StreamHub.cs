@@ -99,8 +99,7 @@ public class RollingPivotsHub
         // Get window close value from offset buffer
         // The offset buffer contains the last (OffsetPeriods + 1) quotes
         // We want the close from OffsetPeriods quotes ago (the first item in buffer)
-        IQuote[] offsetArray = _offsetBuffer.ToArray();
-        decimal windowClose = offsetArray[0].Close;
+        decimal windowClose = _offsetBuffer.Peek().Close;
 
         // Get high/low from rolling windows (these track the prior WindowPeriods quotes)
         decimal windowHigh = _highWindow.Max;
@@ -118,14 +117,8 @@ public class RollingPivotsHub
         RollingPivotsResult r = new() {
             Timestamp = item.Timestamp,
             PP = wp.PP,
-            S1 = wp.S1,
-            S2 = wp.S2,
-            S3 = wp.S3,
-            S4 = wp.S4,
-            R1 = wp.R1,
-            R2 = wp.R2,
-            R3 = wp.R3,
-            R4 = wp.R4
+            S1 = wp.S1, S2 = wp.S2, S3 = wp.S3, S4 = wp.S4,
+            R1 = wp.R1, R2 = wp.R2, R3 = wp.R3, R4 = wp.R4
         };
 
         return (r, i);
