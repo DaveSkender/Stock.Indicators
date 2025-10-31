@@ -22,8 +22,6 @@ You specialize in:
 
 Any StreamHub maintaining stateful fields beyond simple cache lookups MUST override RollbackState(DateTime timestamp).
 
-However, indicators using the **Full Rebuild pattern** (repaint-by-design) typically do NOT need to override RollbackState.
-
 ### Common Scenarios Requiring RollbackState (Incremental Pattern)
 
 1. **Rolling windows** - RollingWindowMax/Min must be rebuilt from cache
@@ -31,16 +29,28 @@ However, indicators using the **Full Rebuild pattern** (repaint-by-design) typic
 3. **Running totals/averages** - EMA state, Wilder's smoothing must be recalculated
 4. **Previous value tracking** - _prevValue,_prevHigh, etc. must be restored
 
-### Scenarios NOT Requiring RollbackState (Full Rebuild Pattern)
+### Scenarios Requiring RollbackState (Repaint from Pivot Pattern)
 
-1. **Stateless repaint indicators** - ZigZag, pivot detection algorithms
-2. **Series-based recalculation** - ToIndicator() calls Series implementation
-3. **No state variables** - No running averages, windows, or buffers
-4. **Complete recalculation** - Each update recalculates from scratch
+1. **Pivot state tracking** - ZigZag pivot points (lastPoint, lastHighPoint, lastLowPoint)
+2. **Optimization candidates** - Indicators that currently use full Series but can optimize
+3. **Confirmed historical points** - Values before pivot are stable, only pivot-forward repaints
+4. **Performance critical** - Where O(k) from pivot is significantly better than O(n) full rebuild
+
+**Example - ZigZag optimization**:
+- Track last confirmed pivot state
+- Only recalculate from pivot forward, not entire series
+- Restore pivot state on rollback for efficiency
+
+### Scenarios NOT Requiring RollbackState
+
+1. **No optimization** - Using full Series recalculation (temporary, before optimization)
+2. **No state variables** - Completely stateless, no pivot tracking
+3. **Acceptable performance** - Full rebuild is fast enough, optimization not needed
 
 **Key distinction**: 
 - **Incremental pattern**: State variables enable O(1) updates → MUST override RollbackState
-- **Full rebuild pattern**: No state, O(n) recalculation → Usually NO override needed
+- **Repaint from pivot**: Pivot state enables O(k) updates → SHOULD override for optimization
+- **No optimization**: Full Series rebuild O(n) → NO override needed (but suboptimal)
 
 ## Implementation Patterns
 

@@ -4,10 +4,10 @@ namespace Skender.Stock.Indicators;
 /// Provides methods for generating ZigZag series in a streaming manner.
 /// </summary>
 /// <remarks>
-/// ZigZag is a "repaint-by-design" indicator. Historical pivot values change as new
-/// price data confirms or invalidates previous pivots. This implementation uses full
-/// cache rebuilds to ensure correctness, as ZigZag's pivot logic requires complete
-/// historical context for accurate calculation.
+/// ZigZag is a "repaint-by-design" indicator. Values from the last confirmed pivot
+/// forward may change as new price data arrives, but earlier pivots remain stable.
+/// Current implementation recalculates from Series; future optimization can
+/// recalculate only from last pivot forward.
 /// </remarks>
 public class ZigZagHub
     : ChainProvider<IQuote, ZigZagResult>
@@ -47,24 +47,23 @@ public class ZigZagHub
     public override string ToString() => hubName;
 
     /// <summary>
-    /// Converts provider item into ZigZag result with full historical context.
+    /// Converts provider item into ZigZag result.
     /// </summary>
     /// <remarks>
     /// <para>
-    /// ZigZag uses a non-standard StreamHub pattern due to its repaint-by-design nature.
-    /// Unlike incremental indicators (EMA, RSI) that can calculate new values from
-    /// previous state, ZigZag pivot detection requires analyzing the complete price series.
+    /// ZigZag is a repaint-by-design indicator where values from the last confirmed
+    /// pivot forward may change, but earlier pivots are stable.
     /// </para>
     /// <para>
-    /// This implementation rebuilds the entire cache on each new quote to ensure pivot
-    /// accuracy. While less efficient than incremental patterns, this approach guarantees
-    /// mathematical correctness for repaint-by-design indicators.
+    /// Current implementation: Recalculates using Series for correctness.
+    /// Future optimization: Maintain pivot state and only recalculate from last pivot.
+    /// Historical values before the last confirmed pivot never change.
     /// </para>
     /// <para>
-    /// Pattern classification: Full Rebuild (non-incremental)
-    /// - When to use: Indicators where new data invalidates historical calculations
-    /// - Examples: ZigZag, Renko (when brick size changes), PivotPoints (session-based)
-    /// - Trade-off: Correctness over incremental performance
+    /// Pattern: Repaint from last pivot (optimization opportunity)
+    /// - Only values from last pivot forward need recalculation
+    /// - Earlier pivots are confirmed and stable
+    /// - Current impl uses Series; can optimize to partial rebuild
     /// </para>
     /// </remarks>
     /// <inheritdoc/>
@@ -80,8 +79,9 @@ public class ZigZagHub
 
         if (needsRebuild)
         {
-            // Rebuild entire cache using Series implementation
-            // This is required because ZigZag pivot logic needs full historical context
+            // Current: Recalculate using Series implementation
+            // TODO: Optimize to only recalculate from last confirmed pivot forward
+            // by maintaining pivot state (lastPoint, lastHighPoint, lastLowPoint)
             IReadOnlyList<ZigZagResult> results = ProviderCache.ToZigZag(EndType, PercentChange);
 
             Cache.Clear();
@@ -96,33 +96,23 @@ public class ZigZagHub
     /// </summary>
     /// <remarks>
     /// <para>
-    /// ZigZag has no internal state variables (no running averages, no windows, no buffers).
-    /// It's a stateless algorithm that recalculates from scratch using the Series implementation.
+    /// For optimized implementation: Would restore pivot state from cache
+    /// to enable recalculation from last pivot forward only.
     /// </para>
     /// <para>
-    /// However, we still override RollbackState to document this design decision and ensure
-    /// future maintainers understand that ZigZag intentionally has no state to roll back.
-    /// The framework's Rebuild() mechanism will call ToIndicator() which handles the
-    /// cache reconstruction through Series calculation.
-    /// </para>
-    /// <para>
-    /// Pattern: Stateless repaint-by-design
-    /// - No state variables to restore
-    /// - Relies on framework's Rebuild() calling ToIndicator()
-    /// - ToIndicator() performs full recalculation via Series
+    /// Current implementation: No state to restore (uses Series each time).
+    /// Framework's Rebuild() calls ToIndicator() which handles recalculation.
     /// </para>
     /// </remarks>
     /// <inheritdoc/>
     protected override void RollbackState(DateTime timestamp)
     {
-        // No-op: ZigZag maintains no internal state.
+        // Current: No state maintained, so nothing to restore
         // 
-        // Unlike indicators with state (EMA's _prevValue, Stoch's _rawKBuffer,
-        // Chandelier's RollingWindowMax), ZigZag is stateless. Each calculation
-        // uses the Series algorithm which analyzes the complete ProviderCache.
-        //
-        // The framework will call ToIndicator() during Rebuild(), which
-        // recalculates everything via ProviderCache.ToZigZag().
+        // Future optimization: Restore pivot state from cache:
+        // - Find last confirmed pivot before timestamp
+        // - Restore lastPoint, lastHighPoint, lastLowPoint
+        // - Only recalculate from that pivot forward
     }
 }
 

@@ -46,26 +46,46 @@ Most indicators maintain state and update incrementally:
 - Previous calculations remain valid
 - Efficient for real-time streaming
 
-#### Pattern 2: Full Rebuild (Repaint-by-Design Indicators)
+#### Pattern 2: Repaint from Pivot (Optimization Opportunity)
 
-Some indicators require complete recalculation when new data arrives:
+Some indicators have stable historical values but repaint from a pivot point:
 
-- **Examples**: ZigZag, VolatilityStop (trailing), PivotPoints (session-based)
-- **State**: Usually stateless - recalculate from scratch each time
-- **Performance**: O(n) per update (recalculates entire series)
-- **RollbackState**: Optional - Usually no state to restore
+- **Examples**: ZigZag (from last confirmed pivot), VolatilityStop (from trailing stop trigger)
+- **Current State**: Often use Series recalculation for correctness
+- **Performance**: O(n) currently, but can optimize to O(k) where k = quotes since pivot
+- **RollbackState**: Should restore pivot state for optimization
 
 **Key characteristics**:
-- Historical values change with new data ("repaint")
-- Each calculation requires full historical context
-- ToIndicator() calls Series implementation
-- Trade correctness for performance
+- Historical values before last pivot are stable and don't change
+- Values from pivot forward may change ("repaint") as new data arrives
+- **Optimization**: Only recalculate from last pivot, not entire series
+- **Avoid**: Full series rebuild on every update (inefficient)
 
-**When to use Full Rebuild pattern**:
-1. New data invalidates previous pivot/reversal calculations
-2. Algorithm requires analyzing complete price series
-3. No efficient incremental formula exists
-4. Historical accuracy more important than speed
+**When to optimize with pivot tracking**:
+1. Indicator has confirmed pivot/reversal points that become stable
+2. Only values after pivot can change with new data
+3. Can maintain state about last pivot position
+4. Significant performance gain from partial rebuild (O(k) vs O(n))
+
+**Example - ZigZag**:
+- Last confirmed pivot is stable
+- Only values from that pivot forward need recalculation
+- Can track lastPoint, lastHighPoint, lastLowPoint state
+- Current impl uses Series; optimize to maintain pivot state
+
+#### Pattern 3: Full Session Rebuild (Session-Based Indicators)
+
+Rare indicators that must recalculate entire sessions:
+
+- **Examples**: PivotPoints (session-based calculations)
+- **State**: Session boundaries and calculations
+- **Performance**: O(n) per update for affected session
+- **RollbackState**: Restore session state
+
+**Key characteristics**:
+- Calculations tied to session boundaries (daily, weekly, etc.)
+- Must recalculate affected session(s)
+- Usually limited scope (one session, not entire history)
 
 ### Implementation Structure
 
@@ -81,11 +101,12 @@ StreamHub implementations follow this member order:
 ### Key Requirements
 
 - Maintain O(1) state updates where possible (incremental pattern)
-- Override RollbackState for stateful indicators
+- For repaint indicators: Optimize to recalculate only from pivot, not entire series
+- Override RollbackState for stateful indicators and pivot-tracking indicators
 - Implement proper warmup period handling
 - Ensure bit-for-bit parity with Series implementations
 - Use RollingWindowMax/Min for efficient window operations
-- Document pattern used (incremental vs full rebuild)
+- **Avoid**: Full series rebuild on every update (use pivot-based partial rebuild)
 
 ## Reference Implementations
 
@@ -97,9 +118,9 @@ Point developers to these canonical patterns:
 - Complex state: `src/a-d/Adx/Adx.StreamHub.cs`
 - Dual-stream: `src/a-d/Correlation/Correlation.StreamHub.cs`
 
-**Full Rebuild (Repaint-by-Design)**:
-- ZigZag: `src/s-z/ZigZag/ZigZag.StreamHub.cs` - Stateless pivot detection
-- ATR Stop: `src/a-d/AtrStop/AtrStop.StreamHub.cs` - Trailing stop with state
+**Repaint from Pivot (Optimization Opportunity)**:
+- ZigZag: `src/s-z/ZigZag/ZigZag.StreamHub.cs` - Currently uses Series; can optimize with pivot state
+- Note: Avoid full rebuild - only recalculate from last pivot forward
 
 ## Testing Guidance
 
@@ -113,7 +134,7 @@ Tests must:
 ## Performance Standards
 
 - Incremental pattern: StreamHub should be ≤1.5x slower than Series
-- Full rebuild pattern: StreamHub will be slower (O(n) vs O(1)) but correct
+- Repaint from pivot: Optimize to only recalculate from pivot (not full rebuild)
 
 ## StreamHub Base Virtual Overrides
 
@@ -127,7 +148,7 @@ Tests must:
 - Should use indexHint when provided (performance optimization)
 
 **Incremental pattern**: Calculate new value from current item + state
-**Full rebuild pattern**: Recalculate from ProviderCache using Series
+**Repaint from pivot**: Recalculate from last pivot forward (optimize to avoid full Series call)
 
 **`ToString()`** - REQUIRED, ABSTRACT
 
@@ -144,10 +165,10 @@ Tests must:
 - Purpose: Restore internal state when provider history mutates (Insert/Remove)
 - Called automatically by framework before Rebuild()
 - See @streamhub-state for comprehensive patterns
-- Default: Does nothing (sufficient for stateless indicators)
+- Default: Does nothing (sufficient for indicators without state)
 
 **Incremental pattern**: MUST override - Restore state variables
-**Full rebuild pattern**: Usually NO override needed - Stateless
+**Repaint from pivot**: SHOULD override - Restore pivot state for optimization
 
 **`OnAdd(TIn item, bool notify, int? indexHint)`** - VIRTUAL, rarely override
 
@@ -170,12 +191,18 @@ Tests must:
 - Tracking running state (EMA, Wilder's smoothing)
 - Storing previous values (_prevHigh, _prevValue, etc.)
 
-**Do NOT override RollbackState when (Full Rebuild Pattern):**
+**Override RollbackState when (Repaint from Pivot Pattern):**
 
-- Indicator is stateless (recalculates from scratch)
-- ToIndicator() calls Series implementation
-- No state variables to restore
-- Example: ZigZag (stateless pivot detection)
+- Tracking pivot state (lastPoint, lastHighPoint, lastLowPoint)
+- Need to restore pivot position for optimization
+- Want to avoid full Series recalculation
+- Example: ZigZag can optimize by maintaining pivot state
+
+**Do NOT override RollbackState when:**
+
+- Using full Series recalculation (no optimization)
+- No state variables maintained
+- Temporary implementation before optimization
 
 **Rarely override OnAdd:**
 
