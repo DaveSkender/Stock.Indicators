@@ -1,7 +1,7 @@
 namespace BufferLists;
 
 [TestClass]
-public class RenkoAtr : BufferListTestBase, ITestQuoteBufferList
+public class RenkoAtr : BufferListTestBase, ITestQuoteBufferList, ITestCustomBufferListCache
 {
     private const int atrPeriods = 14;
     private const EndType endType = EndType.Close;
@@ -80,6 +80,25 @@ public class RenkoAtr : BufferListTestBase, ITestQuoteBufferList
         }
 
         // RenkoAtr produces fewer bricks than maxListSize, so we expect all of them
+        int expectedCount = Math.Min(maxListSize, series.Count);
+        IReadOnlyList<RenkoResult> expected
+            = series.Skip(Math.Max(0, series.Count - maxListSize)).ToList();
+
+        sut.Should().HaveCount(expectedCount);
+        sut.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
+    }
+
+    [TestMethod]
+    public void CustomBuffer_OverMaxListSize_AutoAdjustsListAndBuffers()
+    {
+        const int maxListSize = 20;
+
+        RenkoAtrList sut = new(atrPeriods, endType, Quotes) {
+            MaxListSize = maxListSize
+        };
+
+        // RenkoAtr produces 29 bricks total, which is more than maxListSize
+        // So we expect the list to be pruned to the last 20 bricks
         int expectedCount = Math.Min(maxListSize, series.Count);
         IReadOnlyList<RenkoResult> expected
             = series.Skip(Math.Max(0, series.Count - maxListSize)).ToList();
