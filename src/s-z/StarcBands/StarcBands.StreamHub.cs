@@ -1,0 +1,191 @@
+namespace Skender.Stock.Indicators;
+
+// STARC BANDS (STREAM HUB)
+
+/// <summary>
+/// Represents a stream hub for calculating STARC Bands.
+/// </summary>
+public class StarcBandsHub
+    : StreamHub<IQuote, StarcBandsResult>, IStarcBands
+{
+    #region constructors
+
+    private readonly string hubName;
+    private double _prevAtr = double.NaN;
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="StarcBandsHub"/> class.
+    /// </summary>
+    /// <param name="provider">The quote provider.</param>
+    /// <param name="smaPeriods">The number of periods for the SMA.</param>
+    /// <param name="multiplier">The multiplier for the ATR.</param>
+    /// <param name="atrPeriods">The number of periods for the ATR.</param>
+    internal StarcBandsHub(
+        IQuoteProvider<IQuote> provider,
+        int smaPeriods,
+        double multiplier,
+        int atrPeriods) : base(provider)
+    {
+        StarcBands.Validate(smaPeriods, multiplier, atrPeriods);
+
+        SmaPeriods = smaPeriods;
+        Multiplier = multiplier;
+        AtrPeriods = atrPeriods;
+        hubName = $"STARCBANDS({smaPeriods},{multiplier},{atrPeriods})";
+
+        Reinitialize();
+    }
+
+    #endregion constructors
+
+    #region properties
+
+    /// <inheritdoc/>
+    public int SmaPeriods { get; init; }
+
+    /// <inheritdoc/>
+    public double Multiplier { get; init; }
+
+    /// <inheritdoc/>
+    public int AtrPeriods { get; init; }
+
+    #endregion properties
+
+    #region methods
+
+    /// <inheritdoc/>
+    public override string ToString() => hubName;
+
+    /// <inheritdoc/>
+    protected override void RollbackState(DateTime timestamp)
+    {
+        // Reset ATR state - will be recalculated during rebuild
+        _prevAtr = double.NaN;
+    }
+
+    /// <summary>
+    /// Calculates the simple moving average of Close prices.
+    /// </summary>
+    /// <param name="endIndex">Ending index for calculation</param>
+    /// <param name="periods">Number of periods</param>
+    private double CalculateSmaOfClose(int endIndex, int periods)
+    {
+        if (endIndex < periods - 1 || endIndex + 1 > ProviderCache.Count)
+        {
+            return double.NaN;
+        }
+
+        double sum = 0;
+        for (int i = endIndex - periods + 1; i <= endIndex; i++)
+        {
+            sum += (double)ProviderCache[i].Close;
+        }
+
+        return sum / periods;
+    }
+
+    /// <inheritdoc/>
+    protected override (StarcBandsResult result, int index)
+        ToIndicator(IQuote item, int? indexHint)
+    {
+        ArgumentNullException.ThrowIfNull(item);
+
+        int i = indexHint ?? ProviderCache.IndexOf(item, true);
+
+        // Calculate SMA of Close
+        double sma;
+        if (i >= SmaPeriods - 1)
+        {
+            // Calculate SMA from provider cache
+            sma = CalculateSmaOfClose(i, SmaPeriods);
+        }
+        else
+        {
+            // warmup periods are never calculable
+            sma = double.NaN;
+        }
+
+        // Calculate ATR
+        double atr;
+
+        if (i == 0)
+        {
+            atr = double.NaN;
+        }
+        else if (!double.IsNaN(_prevAtr))
+        {
+            // Calculate ATR normally using previous ATR
+            AtrResult atrResult = Atr.Increment(AtrPeriods, item, (double)ProviderCache[i - 1].Close, _prevAtr);
+            atr = atrResult.Atr ?? double.NaN;
+        }
+        else if (i >= AtrPeriods)
+        {
+            // Initialize ATR using same method as Series:
+            // Sum TR from index 1 to AtrPeriods, then incrementally update to current index
+            double sumTr = 0;
+
+            // Initial sum from index 1 to AtrPeriods (matching Series behavior)
+            for (int p = 1; p <= AtrPeriods; p++)
+            {
+                sumTr += Tr.Increment(
+                    (double)ProviderCache[p].High,
+                    (double)ProviderCache[p].Low,
+                    (double)ProviderCache[p - 1].Close);
+            }
+
+            double prevAtr = sumTr / AtrPeriods;
+
+            // Incrementally update ATR from AtrPeriods+1 to i
+            for (int p = AtrPeriods + 1; p <= i; p++)
+            {
+                double tr = Tr.Increment(
+                    (double)ProviderCache[p].High,
+                    (double)ProviderCache[p].Low,
+                    (double)ProviderCache[p - 1].Close);
+
+                prevAtr = ((prevAtr * (AtrPeriods - 1)) + tr) / AtrPeriods;
+            }
+
+            atr = prevAtr;
+        }
+        else
+        {
+            atr = double.NaN;
+        }
+
+        // Store current ATR for next iteration
+        _prevAtr = atr;
+
+        // Calculate bands - these will be null if SMA or ATR are NaN
+        double? atrSpan = atr.NaN2Null() * Multiplier;
+
+        StarcBandsResult r = new(
+            Timestamp: item.Timestamp,
+            UpperBand: sma.NaN2Null() + atrSpan,
+            Centerline: sma.NaN2Null(),
+            LowerBand: sma.NaN2Null() - atrSpan);
+
+        return (r, i);
+    }
+
+    #endregion methods
+}
+
+
+public static partial class StarcBands
+{
+    /// <summary>
+    /// Creates a STARC Bands streaming hub from a quote provider.
+    /// </summary>
+    /// <param name="quoteProvider">The quote provider.</param>
+    /// <param name="smaPeriods">The number of periods for the SMA.</param>
+    /// <param name="multiplier">The multiplier for the ATR.</param>
+    /// <param name="atrPeriods">The number of periods for the ATR.</param>
+    /// <returns>An instance of <see cref="StarcBandsHub"/>.</returns>
+    public static StarcBandsHub ToStarcBandsHub(
+        this IQuoteProvider<IQuote> quoteProvider,
+        int smaPeriods = 5,
+        double multiplier = 2,
+        int atrPeriods = 10)
+        => new(quoteProvider, smaPeriods, multiplier, atrPeriods);
+}
