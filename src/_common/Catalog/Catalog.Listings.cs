@@ -299,6 +299,7 @@ public static partial class Catalog
 
         // Renko ATR
         _listings.Add(RenkoAtr.SeriesListing);
+        _listings.Add(RenkoAtr.StreamListing);
 
         // ROC (Rate of Change)
         _listings.Add(Roc.BufferListing);
