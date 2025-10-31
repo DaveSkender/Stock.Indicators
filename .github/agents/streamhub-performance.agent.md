@@ -18,13 +18,13 @@ You specialize in:
 - Memory allocation reduction
 - Hot path optimization
 
-## Performance Target
+## Performance target
 
 StreamHub implementations should be ≤1.5x slower than Series (batch) implementations.
 
-## Critical Anti-Patterns
+## Critical anti-patterns
 
-### ❌ Anti-Pattern 1: O(n²) Recalculation from Scratch
+### ❌ Anti-pattern 1: O(n²) recalculation from scratch
 
 **Problem**: Calling Series methods on every new tick (391x slower for RSI before fix)
 
@@ -54,7 +54,7 @@ protected override (RsiResult result, int index) ToIndicator(IReusable item, int
 
 **Impact**: For 1000 quotes: 1,000 × 1,000 = 1,000,000 operations vs 1,000 (1000x slower!)
 
-### ✅ Solution: Incremental State Management
+### ✅ Solution: Incremental state management
 
 ```csharp
 // ✅ CORRECT - O(1) per tick
@@ -91,7 +91,7 @@ public class RsiHub : ChainProvider<IReusable, RsiResult>
 }
 ```
 
-### ❌ Anti-Pattern 2: O(n) Window Scans
+### ❌ Anti-pattern 2: O(n) window scans
 
 **Problem**: Linear scan for max/min every tick (20x slower for Donchian before fix)
 
@@ -121,7 +121,7 @@ protected override (DonchianResult result, int index) ToIndicator(IQuote item, i
 
 **Impact**: For 20-period lookback with 1000 quotes: 1,000 × 20 = 20,000 operations vs 1,000 (20x slower!)
 
-### ✅ Solution: RollingWindow Utilities
+### ✅ Solution: RollingWindow utilities
 
 ```csharp
 // ✅ CORRECT - O(1) amortized
@@ -160,7 +160,7 @@ public class DonchianHub : StreamHub<IQuote, DonchianResult>
 
 Reference: `src/a-d/Chandelier/Chandelier.StreamHub.cs`
 
-## Wilder's Smoothing Helper Pattern
+## Wilder's smoothing helper pattern
 
 **Use Case**: RSI, CMO, ATR, ADX, SMMA, Alligator, Stochastic smoothing
 
@@ -179,7 +179,7 @@ _avgGain = Smoothing.WilderSmoothing(_avgGain, gain, LookbackPeriods);
 _avgLoss = Smoothing.WilderSmoothing(_avgLoss, loss, LookbackPeriods);
 ```
 
-## Performance Optimization Checklist
+## Performance optimization checklist
 
 - [ ] No O(n²) loops or Series recalculation every tick
 - [ ] No O(n) linear scans in hot path
@@ -189,14 +189,14 @@ _avgLoss = Smoothing.WilderSmoothing(_avgLoss, loss, LookbackPeriods);
 - [ ] Use span-friendly patterns where possible
 - [ ] Benchmark against Series (target ≤1.5x slowdown)
 
-## Memory Optimization
+## Memory optimization
 
 - Avoid allocating collections in ToIndicator hot path
 - Reuse state variables across invocations
 - Use value types where appropriate
 - Clear temporary buffers in RollbackState
 
-## Performance Testing
+## Performance testing
 
 All StreamHub implementations must include benchmarks in `tools/performance/Perf.Stream.cs`:
 
@@ -209,11 +209,11 @@ Run with: `dotnet run --project tools/performance/Tests.Performance.csproj -c Re
 
 When helping with performance optimization, always measure before and after, identify the algorithmic complexity, and recommend appropriate data structures and patterns.
 
-# StreamHub Performance Optimization Agent
+# StreamHub performance optimization agent
 
 Expert guidance for achieving high-performance real-time indicator processing.
 
-## When to Use This Agent
+## When to use this agent
 
 Invoke `@streamhub-performance` when you need help with:
 
@@ -224,7 +224,16 @@ Invoke `@streamhub-performance` when you need help with:
 - Reducing memory allocations
 - Meeting the ≤1.5x Series performance target
 
-## Example Usage
+For general StreamHub development, see `@streamhub`. For comprehensive guidelines, see `.github/instructions/indicator-stream.instructions.md`.
+
+## Related agents
+
+- `@streamhub` - General StreamHub development patterns and provider selection
+- `@streamhub-state` - State management and RollbackState patterns
+- `@streamhub-testing` - Test coverage and validation
+- `@streamhub-pairs` - Dual-stream indicators with synchronized inputs
+
+## Example usage
 
 ```text
 @streamhub-performance My StreamHub is 50x slower than Series. How do I optimize?
