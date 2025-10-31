@@ -86,10 +86,7 @@ public class ConnorsRsiHub
         // but don't add the calculated gain which would be NaN
         if (i == 0)
         {
-            if (_gainBuffer.Count == 0)
-            {
-                _gainBuffer.Enqueue(0.0);
-            }
+            _gainBuffer.Enqueue(0.0);
         }
         else
         {
@@ -202,38 +199,38 @@ public class ConnorsRsiHub
         return Rsi.CalculateRsiValue(_avgGain, _avgLoss);
     }
 
-    private double? CalculateRsiOfStreak(double streak, int processedCount)
+    private double? CalculateRsiOfStreak(double streak, int index)
     {
         // RSI of streak needs StreakPeriods + 2 periods minimum
         // to produce a final ConnorsRSI value, but RSI itself starts earlier
-        if (processedCount < StreakPeriods + 2)
+        if (index < StreakPeriods + 2)
         {
             // Still calculate RSI but return null until we reach the threshold
             // This ensures the state is properly initialized
-            if (processedCount >= StreakPeriods)
+            if (index >= StreakPeriods)
             {
                 // We have enough streaks to calculate RSI, just don't return it yet
-                CalculateRsiOfStreakInternal(streak, processedCount);
+                CalculateRsiOfStreakInternal(streak, index);
             }
             return null;
         }
 
-        return CalculateRsiOfStreakInternal(streak, processedCount);
+        return CalculateRsiOfStreakInternal(streak, index);
     }
 
-    private double? CalculateRsiOfStreakInternal(double streak, int processedCount)
+    private double? CalculateRsiOfStreakInternal(double streak, int index)
     {
         (double streakGain, double streakLoss) = Rsi.ComputeGainLoss(streak, _prevStreak);
 
         // Initialize average gain/loss when needed
-        if (processedCount >= StreakPeriods && (double.IsNaN(_avgStreakGain) || double.IsNaN(_avgStreakLoss)))
+        if (index >= StreakPeriods && (double.IsNaN(_avgStreakGain) || double.IsNaN(_avgStreakLoss)))
         {
             InitializeRsiOfStreak();
             return Rsi.CalculateRsiValue(_avgStreakGain, _avgStreakLoss);
         }
 
         // Calculate RSI incrementally
-        if (processedCount > StreakPeriods && !double.IsNaN(_avgStreakGain) && !double.IsNaN(_avgStreakLoss))
+        if (index > StreakPeriods && !double.IsNaN(_avgStreakGain) && !double.IsNaN(_avgStreakLoss))
         {
             return UpdateRsiOfStreak(streakGain, streakLoss);
         }
