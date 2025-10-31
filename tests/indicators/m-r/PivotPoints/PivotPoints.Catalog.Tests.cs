@@ -76,6 +76,7 @@ public class PivotPointsTests : TestBase
         listing.MethodName.Should().Be("ToPivotPoints");
 
         listing.Parameters?.Count.Should().Be(2);
+        listing.Parameters.Should().NotBeNull();
 
         IndicatorParam windowSizeParam = listing.Parameters.SingleOrDefault(static p => p.ParameterName == "windowSize");
         windowSizeParam.Should().NotBeNull();
@@ -88,7 +89,7 @@ public class PivotPointsTests : TestBase
 
         IndicatorResult ppResult = listing.Results.SingleOrDefault(static r => r.DataName == "PP");
         ppResult.Should().NotBeNull();
-        ppResult?.DisplayName.Should().Be("Pivot Point");
+        ppResult.DisplayName.Should().Be("Pivot Point");
         ppResult.IsReusable.Should().Be(true);
     }
 }

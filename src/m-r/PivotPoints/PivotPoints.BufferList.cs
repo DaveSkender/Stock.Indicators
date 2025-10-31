@@ -5,9 +5,6 @@ namespace Skender.Stock.Indicators;
 /// </summary>
 public class PivotPointsList : BufferList<PivotPointsResult>, IIncrementFromQuote
 {
-    private readonly PeriodSize _windowSize;
-    private readonly PivotPointType _pointType;
-
     private int _windowId;
     private bool _firstWindow;
     private decimal _windowHigh;
@@ -28,8 +25,6 @@ public class PivotPointsList : BufferList<PivotPointsResult>, IIncrementFromQuot
         WindowSize = windowSize;
         PointType = pointType;
 
-        _windowSize = windowSize;
-        _pointType = pointType;
         _windowId = int.MinValue;
         _firstWindow = true;
         _windowPoint = new();
@@ -70,7 +65,7 @@ public class PivotPointsList : BufferList<PivotPointsResult>, IIncrementFromQuot
         // Initialize window tracking on first quote
         if (_windowId == int.MinValue)
         {
-            _windowId = GetWindowNumber(timestamp, _windowSize);
+            _windowId = GetWindowNumber(timestamp, WindowSize);
             _windowHigh = quote.High;
             _windowLow = quote.Low;
             _windowOpen = quote.Open;
@@ -78,7 +73,7 @@ public class PivotPointsList : BufferList<PivotPointsResult>, IIncrementFromQuot
         }
 
         // Check for new window
-        int windowEval = GetWindowNumber(timestamp, _windowSize);
+        int windowEval = GetWindowNumber(timestamp, WindowSize);
 
         if (windowEval != _windowId)
         {
@@ -86,13 +81,13 @@ public class PivotPointsList : BufferList<PivotPointsResult>, IIncrementFromQuot
             _firstWindow = false;
 
             // Set new levels
-            if (_pointType == PivotPointType.Woodie)
+            if (PointType == PivotPointType.Woodie)
             {
                 _windowOpen = quote.Open;
             }
 
             _windowPoint = GetPivotPoint(
-                _pointType, _windowOpen, _windowHigh, _windowLow, _windowClose);
+                PointType, _windowOpen, _windowHigh, _windowLow, _windowClose);
 
             // Reset window min/max thresholds
             _windowOpen = quote.Open;
