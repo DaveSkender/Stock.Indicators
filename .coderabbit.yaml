@@ -37,6 +37,30 @@ reviews:
     base_branches:
       - ".*"
 
+  # Automatic PR titles
+  auto_title_placeholder: "@coderabbitai"
+  auto_title_instructions: |
+    Generate PR titles following Conventional Commits format: `type: Subject`
+
+    Title strategy:
+    - Focus on the PRIMARY contribution or most central feature delivered in the PR
+    - Do NOT base the title on the last commit message
+    - Do NOT choose the most verbose or largest change
+    - Identify the core purpose or business value of the PR
+    - Keep titles concise and meaningful
+
+    Requirements:
+    - Use lowercase for type: feat, fix, docs, style, refactor, perf, test, build, ci, chore, revert, or plan
+    - Subject must start with an uppercase letter
+    - Keep total title length ≤ 65 characters
+    - Use imperative mood (e.g., "Add feature" not "Added feature")
+
+    Examples:
+    - `feat: Add WebSocket support` (not "Update connection manager")
+    - `fix: Resolve authentication timeout` (not "Fix bug in auth service")
+    - `docs: Improve API examples` (not "Update documentation files")
+    - `chore: Update dependencies` (when that's the sole purpose)
+
   # Code enhancement features
   finishing_touches:
     docstrings:
@@ -67,7 +91,7 @@ reviews:
     - "!*-lock.json"          # NPM/PNPM lock files
     - "!packages/"            # NuGet packages cache
     - "!.jekyll-cache/"       # Jekyll cache
-    - "!vendor/"              #  and gem files
+    - "!vendor/"              # Ruby vendor gem files
     - "!Gemfile.lock"         # Ruby dependencies lock
     - "!bin/"                 # .NET build output
     - "!obj/"                 # .NET build intermediate files
@@ -232,76 +256,3 @@ knowledge_base:
     scope: "auto"
   mcp:
     usage: "auto"
-
-# CUSTOM CHECKS for financial calculations
-checks:
-  # Financial accuracy patterns
-  - pattern: "decimal.*price"
-    message: "Consider if `decimal` precision is necessary for this price calculation. Default to `double` for performance unless business accuracy requires decimal precision."
-
-  - pattern: "double\\.NaN"
-    message: "Ensure NaN handling is appropriate for this financial calculation scenario."
-
-  # Performance patterns
-  - pattern: "\\.ToList\\(\\)"
-    message: "Avoid unnecessary .ToList() calls in performance-critical paths. Consider using spans or direct enumeration."
-
-  - pattern: "LINQ.*\\.Where.*\\.Select.*\\.Where"
-    message: "Multiple LINQ chains may impact performance. Consider consolidating or using span-based operations."
-
-  # Validation patterns
-  - pattern: "ArgumentOutOfRangeException"
-    message: "Ensure lookback period validation includes edge cases and provides clear error messages."
-
-  # Documentation patterns
-  - pattern: "public.*class.*\\{[^/]*$"
-    message: "Public classes should have XML documentation comments explaining their purpose and usage."
-
-  - pattern: "public.*\\(.*\\).*=>.*;"
-    message: "Public methods should include XML documentation with parameter descriptions and return value details."
-
-# TOOL INTEGRATIONS
-integration:
-  editorconfig: true              # Respect existing .editorconfig rules
-  dotnet_analyzers: true          # Work with existing analyzers
-  github_actions: true            # Coordinate with existing GitHub workflows
-
-# REPORTING PREFERENCES
-reporting:
-
-  metrics:                        # Key metrics for this repository type
-    - "test_coverage"
-    - "code_duplication"
-    - "cyclomatic_complexity"
-    - "maintainability_index"
-    - "performance_indicators"
-
-  focus_areas:                    # Focus areas for dashboard
-    - "mathematical_accuracy"
-    - "performance_optimization"
-    - "api_consistency"
-    - "documentation_completeness"
-    - "test_coverage"
-
-# REVIEW TEMPLATES
-templates:
-  performance_review: |
-    ## Performance Analysis
-    - [ ] No unnecessary allocations in hot paths
-    - [ ] Appropriate use of spans for array operations
-    - [ ] LINQ usage optimized for performance
-    - [ ] Proper handling of large datasets
-
-  financial_accuracy: |
-    ## Financial Calculation Review
-    - [ ] Mathematical formulas verified against references
-    - [ ] Precision appropriate (double vs decimal)
-    - [ ] Edge cases handled (insufficient data, overflow)
-    - [ ] Lookback periods calculated correctly
-
-  api_consistency: |
-    ## API Design Review
-    - [ ] Method names follow To{IndicatorName} pattern
-    - [ ] Parameter validation comprehensive
-    - [ ] Return types consistent with similar indicators
-    - [ ] XML documentation complete and accurate

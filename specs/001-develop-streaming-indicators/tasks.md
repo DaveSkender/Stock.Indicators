@@ -257,7 +257,7 @@ Note on former deferrals: Indicators like Fractal, HtTrendline, Hurst, Ichimoku,
 - [x] **T132** Implement ParabolicSar StreamHub in `src/m-r/ParabolicSar/ParabolicSar.StreamHub.cs` ✅
 - [x] **T133** Implement PivotPoints StreamHub in `src/m-r/PivotPoints/PivotPoints.StreamHub.cs` ✅
 - [x] **T134** Implement Pivots StreamHub in `src/m-r/Pivots/Pivots.StreamHub.cs` ✅
-- [ ] **T135** Implement Pmo StreamHub in `src/m-r/Pmo/Pmo.StreamHub.cs`
+- [x] **T135** Implement Pmo StreamHub in `src/m-r/Pmo/Pmo.StreamHub.cs` ✅
 - [x] **T136** Implement Prs StreamHub in `src/m-r/Prs/Prs.StreamHub.cs` ✅
 - [x] **T137** Implement Pvo StreamHub in `src/m-r/Pvo/Pvo.StreamHub.cs` ✅
 - [x] **T138** Implement QuotePart StreamHub in `src/_common/QuotePart/QuotePart.StreamHub.cs` ✅
@@ -467,10 +467,10 @@ Each task should follow these guidelines:
 
 - **Phase 1**: 10 tasks (A001-A006, T171-T174) — 8 complete, 2 remaining
 - **Phase 2**: 85 BufferList implementation tasks (T001-T085) — 72 complete, 13 remaining
-- **Phase 3**: 85 StreamHub implementation tasks (T086-T170) — 52 complete, 33 remaining
+- **Phase 3**: 85 StreamHub implementation tasks (T086-T170) — 53 complete, 32 remaining
 - **Phase 4**: 17 test infrastructure tasks (T175-T185, Q001-Q006) — 0 complete, 17 remaining
 - **Phase 5**: 7 documentation tasks (D001-D007) — 2 complete, 5 remaining
-- **Total**: 204 tasks — 134 complete, 70 remaining
+- **Total**: 204 tasks — 135 complete, 69 remaining
 
 Removed blanket deferral: The above indicators are complex but unblocked with established reference patterns (see instruction files).
 
