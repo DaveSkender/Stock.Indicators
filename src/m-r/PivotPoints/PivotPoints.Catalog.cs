@@ -30,6 +30,14 @@ public static partial class PivotPoints
             .WithStyle(Style.Series)
             .Build();
 
-    // No StreamListing for Pivot Points.
+    /// <summary>
+    /// Pivot Points Stream Listing
+    /// </summary>
+    internal static readonly IndicatorListing StreamListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Stream)
+            .WithMethodName("ToPivotPointsHub")
+            .Build();
+
     // No BufferListing for Pivot Points.
 }
