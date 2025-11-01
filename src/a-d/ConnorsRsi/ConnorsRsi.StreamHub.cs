@@ -125,45 +125,73 @@ public class ConnorsRsiHub
         // Calculate RSI of streak (manual Wilder's smoothing)
         double? rsiStreak = null;
 
-        if (i >= StreakPeriods + 2)
+        // Constants for clarity
+        const int rsiWarmupOffset = 2;  // Additional warmup periods beyond lookback for RSI calculation
+
+        // Only calculate streak RSI if current streak is valid
+        if (i > 0 && !double.IsNaN(currentStreak))
         {
             double prevStreak = streakBuffer[i - 1];
-            double streakGain = currentStreak > prevStreak ? currentStreak - prevStreak : 0;
-            double streakLoss = currentStreak < prevStreak ? prevStreak - currentStreak : 0;
 
-            // Initialize or update streak RSI averages
-            // Need at least StreakPeriods + 1 streak values to calculate first RSI
-            if (i == StreakPeriods + 2 && (double.IsNaN(streakAvgGain) || double.IsNaN(streakAvgLoss)))
+            // Only proceed if previous streak is also valid
+            if (!double.IsNaN(prevStreak))
             {
-                // Initial SMA calculation over last StreakPeriods + 1 values
-                double sumGain = 0;
-                double sumLoss = 0;
+                double streakGain = currentStreak > prevStreak ? currentStreak - prevStreak : 0;
+                double streakLoss = currentStreak < prevStreak ? prevStreak - currentStreak : 0;
 
-                // Calculate gain/loss for StreakPeriods pairs
-                for (int p = i - StreakPeriods + 1; p <= i; p++)
+                // Initialize or update streak RSI averages
+                if (i >= StreakPeriods && (double.IsNaN(streakAvgGain) || double.IsNaN(streakAvgLoss)))
                 {
-                    double s1 = streakBuffer[p - 1];
-                    double s2 = streakBuffer[p];
-                    sumGain += s2 > s1 ? s2 - s1 : 0;
-                    sumLoss += s2 < s1 ? s1 - s2 : 0;
+                    // Initial SMA calculation matching standard RSI initialization
+                    double sumGain = 0;
+                    double sumLoss = 0;
+                    bool hasValidStreaks = true;
+
+                    // Calculate gain/loss for StreakPeriods pairs
+                    for (int p = i - StreakPeriods + 1; p <= i; p++)
+                    {
+                        double s1 = streakBuffer[p - 1];
+                        double s2 = streakBuffer[p];
+
+                        // Check for NaN values in the lookback window
+                        if (double.IsNaN(s1) || double.IsNaN(s2))
+                        {
+                            hasValidStreaks = false;
+                            break;
+                        }
+
+                        sumGain += s2 > s1 ? s2 - s1 : 0;
+                        sumLoss += s2 < s1 ? s1 - s2 : 0;
+                    }
+
+                    if (hasValidStreaks)
+                    {
+                        streakAvgGain = sumGain / StreakPeriods;
+                        streakAvgLoss = sumLoss / StreakPeriods;
+
+                        // Only populate rsiStreak when displaying (after additional warmup)
+                        if (i >= StreakPeriods + rsiWarmupOffset)
+                        {
+                            rsiStreak = streakAvgLoss > 0
+                                ? 100 - (100 / (1 + (streakAvgGain / streakAvgLoss)))
+                                : 100;
+                        }
+                    }
                 }
+                else if (i > StreakPeriods && !double.IsNaN(streakAvgGain) && !double.IsNaN(streakAvgLoss))
+                {
+                    // Wilder's smoothing (EMA-style update)
+                    streakAvgGain = ((streakAvgGain * (StreakPeriods - 1)) + streakGain) / StreakPeriods;
+                    streakAvgLoss = ((streakAvgLoss * (StreakPeriods - 1)) + streakLoss) / StreakPeriods;
 
-                streakAvgGain = sumGain / StreakPeriods;
-                streakAvgLoss = sumLoss / StreakPeriods;
-
-                rsiStreak = streakAvgLoss > 0
-                    ? 100 - (100 / (1 + (streakAvgGain / streakAvgLoss)))
-                    : 100;
-            }
-            else if (i > StreakPeriods + 2 && !double.IsNaN(streakAvgGain) && !double.IsNaN(streakAvgLoss))
-            {
-                // Wilder's smoothing (EMA-style update)
-                streakAvgGain = ((streakAvgGain * (StreakPeriods - 1)) + streakGain) / StreakPeriods;
-                streakAvgLoss = ((streakAvgLoss * (StreakPeriods - 1)) + streakLoss) / StreakPeriods;
-
-                rsiStreak = streakAvgLoss > 0
-                    ? 100 - (100 / (1 + (streakAvgGain / streakAvgLoss)))
-                    : 100;
+                    // Only populate rsiStreak when displaying (after additional warmup)
+                    if (i >= StreakPeriods + rsiWarmupOffset)
+                    {
+                        rsiStreak = streakAvgLoss > 0
+                            ? 100 - (100 / (1 + (streakAvgGain / streakAvgLoss)))
+                            : 100;
+                    }
+                }
             }
         }
 
@@ -204,7 +232,7 @@ public class ConnorsRsiHub
 
         // Calculate ConnorsRsi
         double? connorsRsi = null;
-        int startPeriod = Math.Max(RsiPeriods, Math.Max(StreakPeriods, RankPeriods)) + 2;
+        int startPeriod = Math.Max(RsiPeriods, Math.Max(StreakPeriods, RankPeriods)) + rsiWarmupOffset;
 
         if (i >= startPeriod - 1 && rsi.HasValue && rsiStreak.HasValue && percentRank.HasValue)
         {
@@ -292,35 +320,50 @@ public class ConnorsRsiHub
 
                 streakBuffer.Add(streak);
 
-                // Restore streak RSI state
-                if (i >= StreakPeriods + 2)
+                // Restore streak RSI state - only if current and previous streaks are valid
+                if (i > 0 && !double.IsNaN(streak))
                 {
                     double prevStreak = streakBuffer[i - 1];
-                    double streakGain = streak > prevStreak ? streak - prevStreak : 0;
-                    double streakLoss = streak < prevStreak ? prevStreak - streak : 0;
 
-                    if (i == StreakPeriods + 2 && (double.IsNaN(streakAvgGain) || double.IsNaN(streakAvgLoss)))
+                    if (!double.IsNaN(prevStreak))
                     {
-                        // Initial SMA calculation
-                        double sumGain = 0;
-                        double sumLoss = 0;
+                        double streakGain = streak > prevStreak ? streak - prevStreak : 0;
+                        double streakLoss = streak < prevStreak ? prevStreak - streak : 0;
 
-                        for (int p = i - StreakPeriods + 1; p <= i; p++)
+                        if (i >= StreakPeriods && (double.IsNaN(streakAvgGain) || double.IsNaN(streakAvgLoss)))
                         {
-                            double s1 = streakBuffer[p - 1];
-                            double s2 = streakBuffer[p];
-                            sumGain += s2 > s1 ? s2 - s1 : 0;
-                            sumLoss += s2 < s1 ? s1 - s2 : 0;
-                        }
+                            // Initial SMA calculation
+                            double sumGain = 0;
+                            double sumLoss = 0;
+                            bool hasValidStreaks = true;
 
-                        streakAvgGain = sumGain / StreakPeriods;
-                        streakAvgLoss = sumLoss / StreakPeriods;
-                    }
-                    else if (i > StreakPeriods + 2 && !double.IsNaN(streakAvgGain) && !double.IsNaN(streakAvgLoss))
-                    {
-                        // Wilder's smoothing
-                        streakAvgGain = ((streakAvgGain * (StreakPeriods - 1)) + streakGain) / StreakPeriods;
-                        streakAvgLoss = ((streakAvgLoss * (StreakPeriods - 1)) + streakLoss) / StreakPeriods;
+                            for (int p = i - StreakPeriods + 1; p <= i; p++)
+                            {
+                                double s1 = streakBuffer[p - 1];
+                                double s2 = streakBuffer[p];
+
+                                if (double.IsNaN(s1) || double.IsNaN(s2))
+                                {
+                                    hasValidStreaks = false;
+                                    break;
+                                }
+
+                                sumGain += s2 > s1 ? s2 - s1 : 0;
+                                sumLoss += s2 < s1 ? s1 - s2 : 0;
+                            }
+
+                            if (hasValidStreaks)
+                            {
+                                streakAvgGain = sumGain / StreakPeriods;
+                                streakAvgLoss = sumLoss / StreakPeriods;
+                            }
+                        }
+                        else if (i > StreakPeriods && !double.IsNaN(streakAvgGain) && !double.IsNaN(streakAvgLoss))
+                        {
+                            // Wilder's smoothing
+                            streakAvgGain = ((streakAvgGain * (StreakPeriods - 1)) + streakGain) / StreakPeriods;
+                            streakAvgLoss = ((streakAvgLoss * (StreakPeriods - 1)) + streakLoss) / StreakPeriods;
+                        }
                     }
                 }
 

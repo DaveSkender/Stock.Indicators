@@ -13,7 +13,7 @@ public class ConnorsRsiHubTests : StreamHubTestBase, ITestChainObserver, ITestCh
         ConnorsRsiHub hub = Quotes.ToConnorsRsiHub(rsiPeriods, streakPeriods, rankPeriods);
         string actual = hub.ToString();
         string expected = $"CRSI({rsiPeriods},{streakPeriods},{rankPeriods})";
-        
+
         Assert.AreEqual(expected, actual);
     }
 
