@@ -265,7 +265,7 @@ Note on former deferrals: Indicators like Fractal, HtTrendline, Hurst, Ichimoku,
 - [ ] **T140** Implement RenkoAtr StreamHub in `src/m-r/RenkoAtr/RenkoAtr.StreamHub.cs`
 - [x] **T141** Implement Roc StreamHub in `src/m-r/Roc/Roc.StreamHub.cs` ✅
 - [ ] **T142** Implement RocWb StreamHub in `src/m-r/RocWb/RocWb.StreamHub.cs`
-- [ ] **T143** Implement RollingPivots StreamHub in `src/m-r/RollingPivots/RollingPivots.StreamHub.cs`
+- [x] **T143** Implement RollingPivots StreamHub in `src/m-r/RollingPivots/RollingPivots.StreamHub.cs` ✅
 - [x] **T144** Implement Rsi StreamHub in `src/m-r/Rsi/Rsi.StreamHub.cs` ✅
 - [ ] **T145** Implement Slope StreamHub in `src/s-z/Slope/Slope.StreamHub.cs` (complex but unblocked — repaint-friendly logic modeled after VolatilityStop tests and series parity)
 - [x] **T146** Implement Sma StreamHub in `src/s-z/Sma/Sma.StreamHub.cs` ✅
