@@ -165,7 +165,6 @@ public class VortexHub
 
             double high = (double)quote.High;
             double low = (double)quote.Low;
-            double close = (double)quote.Close;
             double prevHigh = (double)prevQuote.High;
             double prevLow = (double)prevQuote.Low;
             double prevClose = (double)prevQuote.Close;
