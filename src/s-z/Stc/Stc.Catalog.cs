@@ -33,5 +33,11 @@ public static partial class Stc
             .WithStyle(Style.Buffer)
             .Build();
 
-    // No StreamListing for STC.
+    /// <summary>
+    /// Schaff Trend Cycle Stream Listing
+    /// </summary>
+    internal static readonly IndicatorListing StreamListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Stream)
+            .Build();
 }
