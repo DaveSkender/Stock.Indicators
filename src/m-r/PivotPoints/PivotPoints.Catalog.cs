@@ -31,5 +31,12 @@ public static partial class PivotPoints
             .Build();
 
     // No StreamListing for Pivot Points.
-    // No BufferListing for Pivot Points.
+
+    /// <summary>
+    /// Pivot Points Buffer Listing
+    /// </summary>
+    internal static readonly IndicatorListing BufferListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Buffer)
+            .Build();
 }
