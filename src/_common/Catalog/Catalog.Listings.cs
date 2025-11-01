@@ -312,6 +312,7 @@ public static partial class Catalog
         // Rolling Pivots
         _listings.Add(RollingPivots.BufferListing);
         _listings.Add(RollingPivots.SeriesListing);
+        _listings.Add(RollingPivots.StreamListing);
 
         // RSI (Relative Strength Index)
         _listings.Add(Rsi.BufferListing);
