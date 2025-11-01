@@ -9,9 +9,8 @@ namespace Skender.Stock.Indicators;
 /// pivot forward may change as new data arrives, but earlier pivots remain stable.
 /// </para>
 /// <para>
-/// Current implementation recalculates using Series for correctness and simplicity.
-/// Future optimization opportunity: Only recalculate from last confirmed pivot forward,
-/// as historical values before that pivot never change.
+/// Implementation uses full Series recalculation for correctness. Optimized to avoid
+/// recursive rebuild loops.
 /// </para>
 /// </remarks>
 public class ZigZagHub
@@ -20,6 +19,7 @@ public class ZigZagHub
     #region fields and constructor
 
     private readonly string hubName;
+    private int _lastProviderCount;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ZigZagHub"/> class.
@@ -36,6 +36,7 @@ public class ZigZagHub
         EndType = endType;
         PercentChange = percentChange;
         hubName = $"ZIGZAG({endType.ToString().ToUpperInvariant()},{percentChange})";
+        _lastProviderCount = 0;
 
         Reinitialize();
     }
@@ -56,18 +57,12 @@ public class ZigZagHub
     /// </summary>
     /// <remarks>
     /// <para>
-    /// ZigZag is a repaint-by-design indicator. Only values from the last confirmed
+    /// ZigZag is a repaint-by-design indicator. Values from the last confirmed
     /// pivot forward may change with new data; earlier pivots are stable.
     /// </para>
     /// <para>
-    /// Current implementation: Recalculates entire series using Series algorithm.
-    /// This ensures correctness and Series parity.
-    /// </para>
-    /// <para>
-    /// Future optimization opportunity: Maintain state tracking last confirmed pivot
-    /// (lastPoint, lastHighPoint, lastLowPoint) and only recalculate from that pivot
-    /// forward, not the entire series. This would improve from O(n) to O(k) where
-    /// k = quotes since last pivot.
+    /// Uses full Series recalculation when provider count changes, but avoids
+    /// recursive rebuilds by tracking provider count.
     /// </para>
     /// </remarks>
     /// <inheritdoc/>
@@ -77,18 +72,20 @@ public class ZigZagHub
         ArgumentNullException.ThrowIfNull(item);
 
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
+        int providerCount = ProviderCache.Count;
 
-        // Check if we need to recalculate
-        bool needsRecalc = i < 3 || Cache.Count == 0 || Cache.Count != ProviderCache.Count;
-
-        if (needsRecalc)
+        // Only recalculate if provider count changed (new data or rebuild)
+        // This prevents recursive loops during rebuilds
+        if (providerCount != _lastProviderCount || Cache.Count != providerCount)
         {
             // Recalculate using Series implementation
-            // Future: Track pivot state and only recalculate from last pivot forward
             IReadOnlyList<ZigZagResult> results = ProviderCache.ToZigZag(EndType, PercentChange);
 
+            // Update cache to match
             Cache.Clear();
             Cache.AddRange(results);
+
+            _lastProviderCount = providerCount;
         }
 
         return (Cache[i], i);
@@ -98,22 +95,13 @@ public class ZigZagHub
     /// Restores state after provider history mutations.
     /// </summary>
     /// <remarks>
-    /// <para>
-    /// Current implementation: No state maintained. Framework's Rebuild() calls
-    /// ToIndicator() which recalculates via Series.
-    /// </para>
-    /// <para>
-    /// Future optimization: Would restore pivot state (lastPoint, lastHighPoint,
-    /// lastLowPoint) from cache to enable recalculation from last pivot forward only.
-    /// </para>
+    /// Resets tracking state to force recalculation on next ToIndicator call.
     /// </remarks>
     /// <inheritdoc/>
     protected override void RollbackState(DateTime timestamp)
     {
-        // No-op: Current implementation maintains no pivot state.
-        //
-        // Future optimization: Restore pivot state from cache to enable
-        // partial recalculation from last pivot forward (O(k) vs O(n)).
+        // Reset tracking to force recalc on next ToIndicator
+        _lastProviderCount = 0;
     }
 }
 
