@@ -31,5 +31,11 @@ public static partial class Hurst
             .WithStyle(Style.Buffer)
             .Build();
 
-    // No StreamListing for HURST.
+    /// <summary>
+    /// HURST Stream Listing
+    /// </summary>
+    internal static readonly IndicatorListing StreamListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Stream)
+            .Build();
 }

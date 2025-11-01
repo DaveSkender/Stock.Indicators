@@ -12,5 +12,5 @@ public class HurstTests : RegressionTestBase<HurstResult>
     public override void Buffer() => Quotes.ToHurstList().AssertEquals(Expected, Precision.LastDigit);
 
     [TestMethod]
-    public override void Stream() => Assert.Inconclusive("Stream implementation not yet available");
+    public override void Stream() => Quotes.ToHurstHub().Results.AssertEquals(Expected, Precision.LastDigit);
 }
