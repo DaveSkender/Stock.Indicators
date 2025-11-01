@@ -1,0 +1,4018 @@
+[
+  {
+    "timestamp": "2017-01-03T00:00:00",
+    "tenkanSen": null,
+    "kijunSen": null,
+    "senkouSpanA": null,
+    "senkouSpanB": null,
+    "chikouSpan": 217.86
+  },
+  {
+    "timestamp": "2017-01-04T00:00:00",
+    "tenkanSen": null,
+    "kijunSen": null,
+    "senkouSpanA": null,
+    "senkouSpanB": null,
+    "chikouSpan": 218.72
+  },
+  {
+    "timestamp": "2017-01-05T00:00:00",
+    "tenkanSen": null,
+    "kijunSen": null,
+    "senkouSpanA": null,
+    "senkouSpanB": null,
+    "chikouSpan": 219.91
+  },
+  {
+    "timestamp": "2017-01-06T00:00:00",
+    "tenkanSen": null,
+    "kijunSen": null,
+    "senkouSpanA": null,
+    "senkouSpanB": null,
+    "chikouSpan": 220.79
+  },
+  {
+    "timestamp": "2017-01-09T00:00:00",
+    "tenkanSen": null,
+    "kijunSen": null,
+    "senkouSpanA": null,
+    "senkouSpanB": null,
+    "chikouSpan": 221.94
+  },
+  {
+    "timestamp": "2017-01-10T00:00:00",
+    "tenkanSen": null,
+    "kijunSen": null,
+    "senkouSpanA": null,
+    "senkouSpanB": null,
+    "chikouSpan": 221.75
+  },
+  {
+    "timestamp": "2017-01-11T00:00:00",
+    "tenkanSen": null,
+    "kijunSen": null,
+    "senkouSpanA": null,
+    "senkouSpanB": null,
+    "chikouSpan": 222.1
+  },
+  {
+    "timestamp": "2017-01-12T00:00:00",
+    "tenkanSen": null,
+    "kijunSen": null,
+    "senkouSpanA": null,
+    "senkouSpanB": null,
+    "chikouSpan": 223.43
+  },
+  {
+    "timestamp": "2017-01-13T00:00:00",
+    "tenkanSen": 213.345,
+    "kijunSen": null,
+    "senkouSpanA": null,
+    "senkouSpanB": null,
+    "chikouSpan": 223.23
+  },
+  {
+    "timestamp": "2017-01-17T00:00:00",
+    "tenkanSen": 213.85,
+    "kijunSen": null,
+    "senkouSpanA": null,
+    "senkouSpanB": null,
+    "chikouSpan": 223.38
+  },
+  {
+    "timestamp": "2017-01-18T00:00:00",
+    "tenkanSen": 213.85,
+    "kijunSen": null,
+    "senkouSpanA": null,
+    "senkouSpanB": null,
+    "chikouSpan": 223.66
+  },
+  {
+    "timestamp": "2017-01-19T00:00:00",
+    "tenkanSen": 213.85,
+    "kijunSen": null,
+    "senkouSpanA": null,
+    "senkouSpanB": null,
+    "chikouSpan": 224.01
+  },
+  {
+    "timestamp": "2017-01-20T00:00:00",
+    "tenkanSen": 213.71,
+    "kijunSen": null,
+    "senkouSpanA": null,
+    "senkouSpanB": null,
+    "chikouSpan": 223.41
+  },
+  {
+    "timestamp": "2017-01-23T00:00:00",
+    "tenkanSen": 213.71,
+    "kijunSen": null,
+    "senkouSpanA": null,
+    "senkouSpanB": null,
+    "chikouSpan": 226.53
+  },
+  {
+    "timestamp": "2017-01-24T00:00:00",
+    "tenkanSen": 214.005,
+    "kijunSen": null,
+    "senkouSpanA": null,
+    "senkouSpanB": null,
+    "chikouSpan": 225.11
+  },
+  {
+    "timestamp": "2017-01-25T00:00:00",
+    "tenkanSen": 214.71,
+    "kijunSen": null,
+    "senkouSpanA": null,
+    "senkouSpanB": null,
+    "chikouSpan": 225.25
+  },
+  {
+    "timestamp": "2017-01-26T00:00:00",
+    "tenkanSen": 214.925,
+    "kijunSen": null,
+    "senkouSpanA": null,
+    "senkouSpanB": null,
+    "chikouSpan": 224.58
+  },
+  {
+    "timestamp": "2017-01-27T00:00:00",
+    "tenkanSen": 214.925,
+    "kijunSen": null,
+    "senkouSpanA": null,
+    "senkouSpanB": null,
+    "chikouSpan": 223.91
+  },
+  {
+    "timestamp": "2017-01-30T00:00:00",
+    "tenkanSen": 214.925,
+    "kijunSen": null,
+    "senkouSpanA": null,
+    "senkouSpanB": null,
+    "chikouSpan": 223.49
+  },
+  {
+    "timestamp": "2017-01-31T00:00:00",
+    "tenkanSen": 214.925,
+    "kijunSen": null,
+    "senkouSpanA": null,
+    "senkouSpanB": null,
+    "chikouSpan": 223.78
+  },
+  {
+    "timestamp": "2017-02-01T00:00:00",
+    "tenkanSen": 214.925,
+    "kijunSen": null,
+    "senkouSpanA": null,
+    "senkouSpanB": null,
+    "chikouSpan": 224.56
+  },
+  {
+    "timestamp": "2017-02-02T00:00:00",
+    "tenkanSen": 214.925,
+    "kijunSen": null,
+    "senkouSpanA": null,
+    "senkouSpanB": null,
+    "chikouSpan": 224.67
+  },
+  {
+    "timestamp": "2017-02-03T00:00:00",
+    "tenkanSen": 215.395,
+    "kijunSen": null,
+    "senkouSpanA": null,
+    "senkouSpanB": null,
+    "chikouSpan": 223.81
+  },
+  {
+    "timestamp": "2017-02-06T00:00:00",
+    "tenkanSen": 215.42,
+    "kijunSen": null,
+    "senkouSpanA": null,
+    "senkouSpanB": null,
+    "chikouSpan": 225.75
+  },
+  {
+    "timestamp": "2017-02-07T00:00:00",
+    "tenkanSen": 215.42,
+    "kijunSen": null,
+    "senkouSpanA": null,
+    "senkouSpanB": null,
+    "chikouSpan": 225.31
+  },
+  {
+    "timestamp": "2017-02-08T00:00:00",
+    "tenkanSen": 215.395,
+    "kijunSen": 214.27,
+    "senkouSpanA": null,
+    "senkouSpanB": null,
+    "chikouSpan": 224.91
+  },
+  {
+    "timestamp": "2017-02-09T00:00:00",
+    "tenkanSen": 216.005,
+    "kijunSen": 215.36,
+    "senkouSpanA": null,
+    "senkouSpanB": null,
+    "chikouSpan": 224.66
+  },
+  {
+    "timestamp": "2017-02-10T00:00:00",
+    "tenkanSen": 216.395,
+    "kijunSen": 215.75,
+    "senkouSpanA": null,
+    "senkouSpanB": null,
+    "chikouSpan": 221.78
+  },
+  {
+    "timestamp": "2017-02-13T00:00:00",
+    "tenkanSen": 217.24,
+    "kijunSen": 216.36,
+    "senkouSpanA": null,
+    "senkouSpanB": null,
+    "chikouSpan": 222.3
+  },
+  {
+    "timestamp": "2017-02-14T00:00:00",
+    "tenkanSen": 217.545,
+    "kijunSen": 216.665,
+    "senkouSpanA": null,
+    "senkouSpanB": null,
+    "chikouSpan": 222.06
+  },
+  {
+    "timestamp": "2017-02-15T00:00:00",
+    "tenkanSen": 218.925,
+    "kijunSen": 217.34,
+    "senkouSpanA": null,
+    "senkouSpanB": null,
+    "chikouSpan": 221.9
+  },
+  {
+    "timestamp": "2017-02-16T00:00:00",
+    "tenkanSen": 218.93,
+    "kijunSen": 217.345,
+    "senkouSpanA": null,
+    "senkouSpanB": null,
+    "chikouSpan": 221.67
+  },
+  {
+    "timestamp": "2017-02-17T00:00:00",
+    "tenkanSen": 218.93,
+    "kijunSen": 217.345,
+    "senkouSpanA": null,
+    "senkouSpanB": null,
+    "chikouSpan": 223.29
+  },
+  {
+    "timestamp": "2017-02-21T00:00:00",
+    "tenkanSen": 219.66,
+    "kijunSen": 218.225,
+    "senkouSpanA": null,
+    "senkouSpanB": null,
+    "chikouSpan": 223.5
+  },
+  {
+    "timestamp": "2017-02-22T00:00:00",
+    "tenkanSen": 220.23,
+    "kijunSen": 218.225,
+    "senkouSpanA": null,
+    "senkouSpanB": null,
+    "chikouSpan": 224.21
+  },
+  {
+    "timestamp": "2017-02-23T00:00:00",
+    "tenkanSen": 220.845,
+    "kijunSen": 218.32,
+    "senkouSpanA": null,
+    "senkouSpanB": null,
+    "chikouSpan": 223.69
+  },
+  {
+    "timestamp": "2017-02-24T00:00:00",
+    "tenkanSen": 221.52,
+    "kijunSen": 218.32,
+    "senkouSpanA": null,
+    "senkouSpanB": null,
+    "chikouSpan": 223.3
+  },
+  {
+    "timestamp": "2017-02-27T00:00:00",
+    "tenkanSen": 221.765,
+    "kijunSen": 218.515,
+    "senkouSpanA": null,
+    "senkouSpanB": null,
+    "chikouSpan": 223.44
+  },
+  {
+    "timestamp": "2017-02-28T00:00:00",
+    "tenkanSen": 222.35,
+    "kijunSen": 218.515,
+    "senkouSpanA": null,
+    "senkouSpanB": null,
+    "chikouSpan": 222.78
+  },
+  {
+    "timestamp": "2017-03-01T00:00:00",
+    "tenkanSen": 223.985,
+    "kijunSen": 220.405,
+    "senkouSpanA": null,
+    "senkouSpanB": null,
+    "chikouSpan": 223.4
+  },
+  {
+    "timestamp": "2017-03-02T00:00:00",
+    "tenkanSen": 224.025,
+    "kijunSen": 220.43,
+    "senkouSpanA": null,
+    "senkouSpanB": null,
+    "chikouSpan": 223.17
+  },
+  {
+    "timestamp": "2017-03-03T00:00:00",
+    "tenkanSen": 224.725,
+    "kijunSen": 220.43,
+    "senkouSpanA": null,
+    "senkouSpanB": null,
+    "chikouSpan": 223.31
+  },
+  {
+    "timestamp": "2017-03-06T00:00:00",
+    "tenkanSen": 224.725,
+    "kijunSen": 220.43,
+    "senkouSpanA": null,
+    "senkouSpanB": null,
+    "chikouSpan": 223.04
+  },
+  {
+    "timestamp": "2017-03-07T00:00:00",
+    "tenkanSen": 224.725,
+    "kijunSen": 220.43,
+    "senkouSpanA": null,
+    "senkouSpanB": null,
+    "chikouSpan": 222.06
+  },
+  {
+    "timestamp": "2017-03-08T00:00:00",
+    "tenkanSen": 224.725,
+    "kijunSen": 220.43,
+    "senkouSpanA": null,
+    "senkouSpanB": null,
+    "chikouSpan": 220.62
+  },
+  {
+    "timestamp": "2017-03-09T00:00:00",
+    "tenkanSen": 224.88,
+    "kijunSen": 220.665,
+    "senkouSpanA": null,
+    "senkouSpanB": null,
+    "chikouSpan": 222.58
+  },
+  {
+    "timestamp": "2017-03-10T00:00:00",
+    "tenkanSen": 224.88,
+    "kijunSen": 220.665,
+    "senkouSpanA": null,
+    "senkouSpanB": null,
+    "chikouSpan": 221.91
+  },
+  {
+    "timestamp": "2017-03-13T00:00:00",
+    "tenkanSen": 224.88,
+    "kijunSen": 221.37,
+    "senkouSpanA": null,
+    "senkouSpanB": null,
+    "chikouSpan": 221.5
+  },
+  {
+    "timestamp": "2017-03-14T00:00:00",
+    "tenkanSen": 224.53,
+    "kijunSen": 221.37,
+    "senkouSpanA": null,
+    "senkouSpanB": null,
+    "chikouSpan": 223.31
+  },
+  {
+    "timestamp": "2017-03-15T00:00:00",
+    "tenkanSen": 224.465,
+    "kijunSen": 221.37,
+    "senkouSpanA": null,
+    "senkouSpanB": null,
+    "chikouSpan": 222.6
+  },
+  {
+    "timestamp": "2017-03-16T00:00:00",
+    "tenkanSen": 224.465,
+    "kijunSen": 221.37,
+    "senkouSpanA": null,
+    "senkouSpanB": null,
+    "chikouSpan": 225.04
+  },
+  {
+    "timestamp": "2017-03-17T00:00:00",
+    "tenkanSen": 224.465,
+    "kijunSen": 221.94,
+    "senkouSpanA": 214.8325,
+    "senkouSpanB": null,
+    "chikouSpan": 226.35
+  },
+  {
+    "timestamp": "2017-03-20T00:00:00",
+    "tenkanSen": 224.465,
+    "kijunSen": 222.46,
+    "senkouSpanA": 215.6825,
+    "senkouSpanB": null,
+    "chikouSpan": 226.21
+  },
+  {
+    "timestamp": "2017-03-21T00:00:00",
+    "tenkanSen": 223.925,
+    "kijunSen": 223.135,
+    "senkouSpanA": 216.0725,
+    "senkouSpanB": null,
+    "chikouSpan": 226.4
+  },
+  {
+    "timestamp": "2017-03-22T00:00:00",
+    "tenkanSen": 223.67,
+    "kijunSen": 223.185,
+    "senkouSpanA": 216.80,
+    "senkouSpanB": null,
+    "chikouSpan": 225.91
+  },
+  {
+    "timestamp": "2017-03-23T00:00:00",
+    "tenkanSen": 223.67,
+    "kijunSen": 223.77,
+    "senkouSpanA": 217.105,
+    "senkouSpanB": null,
+    "chikouSpan": 226.48
+  },
+  {
+    "timestamp": "2017-03-24T00:00:00",
+    "tenkanSen": 223.63,
+    "kijunSen": 223.985,
+    "senkouSpanA": 218.1325,
+    "senkouSpanB": null,
+    "chikouSpan": 226.56
+  },
+  {
+    "timestamp": "2017-03-27T00:00:00",
+    "tenkanSen": 222.99,
+    "kijunSen": 223.405,
+    "senkouSpanA": 218.1375,
+    "senkouSpanB": null,
+    "chikouSpan": 226.29
+  },
+  {
+    "timestamp": "2017-03-28T00:00:00",
+    "tenkanSen": 222.88,
+    "kijunSen": 223.405,
+    "senkouSpanA": 218.1375,
+    "senkouSpanB": null,
+    "chikouSpan": 226.55
+  },
+  {
+    "timestamp": "2017-03-29T00:00:00",
+    "tenkanSen": 222.785,
+    "kijunSen": 223.405,
+    "senkouSpanA": 218.9425,
+    "senkouSpanB": null,
+    "chikouSpan": 227.44
+  },
+  {
+    "timestamp": "2017-03-30T00:00:00",
+    "tenkanSen": 222.615,
+    "kijunSen": 223.405,
+    "senkouSpanA": 219.2275,
+    "senkouSpanB": null,
+    "chikouSpan": 227.41
+  },
+  {
+    "timestamp": "2017-03-31T00:00:00",
+    "tenkanSen": 222.615,
+    "kijunSen": 223.405,
+    "senkouSpanA": 219.5825,
+    "senkouSpanB": null,
+    "chikouSpan": 227.2
+  },
+  {
+    "timestamp": "2017-04-03T00:00:00",
+    "tenkanSen": 222.10,
+    "kijunSen": 223.405,
+    "senkouSpanA": 219.92,
+    "senkouSpanB": null,
+    "chikouSpan": 227.61
+  },
+  {
+    "timestamp": "2017-04-04T00:00:00",
+    "tenkanSen": 222.10,
+    "kijunSen": 223.405,
+    "senkouSpanA": 220.140,
+    "senkouSpanB": null,
+    "chikouSpan": 227.14
+  },
+  {
+    "timestamp": "2017-04-05T00:00:00",
+    "tenkanSen": 222.51,
+    "kijunSen": 223.405,
+    "senkouSpanA": 220.4325,
+    "senkouSpanB": null,
+    "chikouSpan": 226.76
+  },
+  {
+    "timestamp": "2017-04-06T00:00:00",
+    "tenkanSen": 222.51,
+    "kijunSen": 223.055,
+    "senkouSpanA": 222.195,
+    "senkouSpanB": null,
+    "chikouSpan": 228.01
+  },
+  {
+    "timestamp": "2017-04-07T00:00:00",
+    "tenkanSen": 223.235,
+    "kijunSen": 222.99,
+    "senkouSpanA": 222.2275,
+    "senkouSpanB": null,
+    "chikouSpan": 227.8
+  },
+  {
+    "timestamp": "2017-04-10T00:00:00",
+    "tenkanSen": 223.60,
+    "kijunSen": 222.99,
+    "senkouSpanA": 222.5775,
+    "senkouSpanB": null,
+    "chikouSpan": 223.76
+  },
+  {
+    "timestamp": "2017-04-11T00:00:00",
+    "tenkanSen": 223.33,
+    "kijunSen": 222.99,
+    "senkouSpanA": 222.5775,
+    "senkouSpanB": null,
+    "chikouSpan": 224.66
+  },
+  {
+    "timestamp": "2017-04-12T00:00:00",
+    "tenkanSen": 223.33,
+    "kijunSen": 222.99,
+    "senkouSpanA": 222.5775,
+    "senkouSpanB": null,
+    "chikouSpan": 226.12
+  },
+  {
+    "timestamp": "2017-04-13T00:00:00",
+    "tenkanSen": 222.935,
+    "kijunSen": 222.99,
+    "senkouSpanA": 222.5775,
+    "senkouSpanB": null,
+    "chikouSpan": 227.27
+  },
+  {
+    "timestamp": "2017-04-17T00:00:00",
+    "tenkanSen": 222.935,
+    "kijunSen": 222.99,
+    "senkouSpanA": 222.7725,
+    "senkouSpanB": null,
+    "chikouSpan": 227.78
+  },
+  {
+    "timestamp": "2017-04-18T00:00:00",
+    "tenkanSen": 222.935,
+    "kijunSen": 222.99,
+    "senkouSpanA": 222.7725,
+    "senkouSpanB": null,
+    "chikouSpan": 228.31
+  },
+  {
+    "timestamp": "2017-04-19T00:00:00",
+    "tenkanSen": 222.40,
+    "kijunSen": 222.99,
+    "senkouSpanA": 223.125,
+    "senkouSpanB": null,
+    "chikouSpan": 229.4
+  },
+  {
+    "timestamp": "2017-04-20T00:00:00",
+    "tenkanSen": 222.40,
+    "kijunSen": 222.99,
+    "senkouSpanA": 222.95,
+    "senkouSpanB": null,
+    "chikouSpan": 229.35
+  },
+  {
+    "timestamp": "2017-04-21T00:00:00",
+    "tenkanSen": 222.40,
+    "kijunSen": 222.88,
+    "senkouSpanA": 222.9175,
+    "senkouSpanB": null,
+    "chikouSpan": 229.15
+  },
+  {
+    "timestamp": "2017-04-24T00:00:00",
+    "tenkanSen": 222.945,
+    "kijunSen": 222.785,
+    "senkouSpanA": 222.9175,
+    "senkouSpanB": null,
+    "chikouSpan": 229.09
+  },
+  {
+    "timestamp": "2017-04-25T00:00:00",
+    "tenkanSen": 223.675,
+    "kijunSen": 223.25,
+    "senkouSpanA": 223.2025,
+    "senkouSpanB": 219.28,
+    "chikouSpan": 230.92
+  },
+  {
+    "timestamp": "2017-04-26T00:00:00",
+    "tenkanSen": 223.95,
+    "kijunSen": 223.525,
+    "senkouSpanA": 223.4625,
+    "senkouSpanB": 219.785,
+    "chikouSpan": 231.69
+  },
+  {
+    "timestamp": "2017-04-27T00:00:00",
+    "tenkanSen": 224.125,
+    "kijunSen": 223.525,
+    "senkouSpanA": 223.530,
+    "senkouSpanB": 219.785,
+    "chikouSpan": 231.51
+  },
+  {
+    "timestamp": "2017-04-28T00:00:00",
+    "tenkanSen": 224.22,
+    "kijunSen": 223.525,
+    "senkouSpanA": 223.4275,
+    "senkouSpanB": 219.785,
+    "chikouSpan": 230.77
+  },
+  {
+    "timestamp": "2017-05-01T00:00:00",
+    "tenkanSen": 224.27,
+    "kijunSen": 223.525,
+    "senkouSpanA": 223.72,
+    "senkouSpanB": 219.785,
+    "chikouSpan": 231.2
+  },
+  {
+    "timestamp": "2017-05-02T00:00:00",
+    "tenkanSen": 224.555,
+    "kijunSen": 223.525,
+    "senkouSpanA": 223.8075,
+    "senkouSpanB": 219.785,
+    "chikouSpan": 231.32
+  },
+  {
+    "timestamp": "2017-05-03T00:00:00",
+    "tenkanSen": 224.72,
+    "kijunSen": 223.95,
+    "senkouSpanA": 223.1975,
+    "senkouSpanB": 219.785,
+    "chikouSpan": 230.96
+  },
+  {
+    "timestamp": "2017-05-04T00:00:00",
+    "tenkanSen": 224.925,
+    "kijunSen": 223.95,
+    "senkouSpanA": 223.1425,
+    "senkouSpanB": 219.785,
+    "chikouSpan": 230.92
+  },
+  {
+    "timestamp": "2017-05-05T00:00:00",
+    "tenkanSen": 226.505,
+    "kijunSen": 224.04,
+    "senkouSpanA": 223.095,
+    "senkouSpanB": 219.935,
+    "chikouSpan": 232.05
+  },
+  {
+    "timestamp": "2017-05-08T00:00:00",
+    "tenkanSen": 226.60,
+    "kijunSen": 224.135,
+    "senkouSpanA": 223.010,
+    "senkouSpanB": 219.935,
+    "chikouSpan": 231.75
+  },
+  {
+    "timestamp": "2017-05-09T00:00:00",
+    "tenkanSen": 226.73,
+    "kijunSen": 224.265,
+    "senkouSpanA": 223.010,
+    "senkouSpanB": 219.935,
+    "chikouSpan": 231.31
+  },
+  {
+    "timestamp": "2017-05-10T00:00:00",
+    "tenkanSen": 226.73,
+    "kijunSen": 224.265,
+    "senkouSpanA": 222.7525,
+    "senkouSpanB": 219.935,
+    "chikouSpan": 231.36
+  },
+  {
+    "timestamp": "2017-05-11T00:00:00",
+    "tenkanSen": 226.73,
+    "kijunSen": 224.265,
+    "senkouSpanA": 222.7525,
+    "senkouSpanB": 219.935,
+    "chikouSpan": 233.28
+  },
+  {
+    "timestamp": "2017-05-12T00:00:00",
+    "tenkanSen": 226.73,
+    "kijunSen": 224.265,
+    "senkouSpanA": 222.9575,
+    "senkouSpanB": 219.935,
+    "chikouSpan": 231.71
+  },
+  {
+    "timestamp": "2017-05-15T00:00:00",
+    "tenkanSen": 226.85,
+    "kijunSen": 224.385,
+    "senkouSpanA": 222.7825,
+    "senkouSpanB": 220.405,
+    "chikouSpan": 231.65
+  },
+  {
+    "timestamp": "2017-05-16T00:00:00",
+    "tenkanSen": 226.99,
+    "kijunSen": 224.49,
+    "senkouSpanA": 223.1125,
+    "senkouSpanB": 220.43,
+    "chikouSpan": 231.55
+  },
+  {
+    "timestamp": "2017-05-17T00:00:00",
+    "tenkanSen": 226.03,
+    "kijunSen": 224.49,
+    "senkouSpanA": 223.295,
+    "senkouSpanB": 220.43,
+    "chikouSpan": 231.82
+  },
+  {
+    "timestamp": "2017-05-18T00:00:00",
+    "tenkanSen": 225.875,
+    "kijunSen": 224.49,
+    "senkouSpanA": 223.16,
+    "senkouSpanB": 220.43,
+    "chikouSpan": 231.98
+  },
+  {
+    "timestamp": "2017-05-19T00:00:00",
+    "tenkanSen": 225.875,
+    "kijunSen": 224.49,
+    "senkouSpanA": 223.16,
+    "senkouSpanB": 220.43,
+    "chikouSpan": 230.11
+  },
+  {
+    "timestamp": "2017-05-22T00:00:00",
+    "tenkanSen": 225.875,
+    "kijunSen": 224.665,
+    "senkouSpanA": 222.9625,
+    "senkouSpanB": 220.43,
+    "chikouSpan": 232.17
+  },
+  {
+    "timestamp": "2017-05-23T00:00:00",
+    "tenkanSen": 225.875,
+    "kijunSen": 224.76,
+    "senkouSpanA": 222.9625,
+    "senkouSpanB": 220.665,
+    "chikouSpan": 230.13
+  },
+  {
+    "timestamp": "2017-05-24T00:00:00",
+    "tenkanSen": 225.905,
+    "kijunSen": 224.84,
+    "senkouSpanA": 222.9625,
+    "senkouSpanB": 220.665,
+    "chikouSpan": 230.56
+  },
+  {
+    "timestamp": "2017-05-25T00:00:00",
+    "tenkanSen": 226.545,
+    "kijunSen": 225.765,
+    "senkouSpanA": 222.695,
+    "senkouSpanB": 221.37,
+    "chikouSpan": 230.95
+  },
+  {
+    "timestamp": "2017-05-26T00:00:00",
+    "tenkanSen": 226.545,
+    "kijunSen": 225.93,
+    "senkouSpanA": 222.695,
+    "senkouSpanB": 221.37,
+    "chikouSpan": 231.48
+  },
+  {
+    "timestamp": "2017-05-30T00:00:00",
+    "tenkanSen": 226.545,
+    "kijunSen": 226.135,
+    "senkouSpanA": 222.64,
+    "senkouSpanB": 221.37,
+    "chikouSpan": 229.36
+  },
+  {
+    "timestamp": "2017-05-31T00:00:00",
+    "tenkanSen": 226.545,
+    "kijunSen": 226.545,
+    "senkouSpanA": 222.865,
+    "senkouSpanB": 221.37,
+    "chikouSpan": 230.85
+  },
+  {
+    "timestamp": "2017-06-01T00:00:00",
+    "tenkanSen": 228.04,
+    "kijunSen": 227.165,
+    "senkouSpanA": 223.4625,
+    "senkouSpanB": 221.94,
+    "chikouSpan": 231.1
+  },
+  {
+    "timestamp": "2017-06-02T00:00:00",
+    "tenkanSen": 229.235,
+    "kijunSen": 227.625,
+    "senkouSpanA": 223.7375,
+    "senkouSpanB": 222.58,
+    "chikouSpan": 230.93
+  },
+  {
+    "timestamp": "2017-06-05T00:00:00",
+    "tenkanSen": 229.56,
+    "kijunSen": 227.625,
+    "senkouSpanA": 223.825,
+    "senkouSpanB": 223.255,
+    "chikouSpan": 232.66
+  },
+  {
+    "timestamp": "2017-06-06T00:00:00",
+    "tenkanSen": 229.76,
+    "kijunSen": 227.625,
+    "senkouSpanA": 223.8725,
+    "senkouSpanB": 223.305,
+    "chikouSpan": 233.05
+  },
+  {
+    "timestamp": "2017-06-07T00:00:00",
+    "tenkanSen": 230.10,
+    "kijunSen": 227.625,
+    "senkouSpanA": 223.8975,
+    "senkouSpanB": 223.525,
+    "chikouSpan": 234.14
+  },
+  {
+    "timestamp": "2017-06-08T00:00:00",
+    "tenkanSen": 230.10,
+    "kijunSen": 227.625,
+    "senkouSpanA": 224.040,
+    "senkouSpanB": 223.525,
+    "chikouSpan": 234.11
+  },
+  {
+    "timestamp": "2017-06-09T00:00:00",
+    "tenkanSen": 230.41,
+    "kijunSen": 227.935,
+    "senkouSpanA": 224.335,
+    "senkouSpanB": 223.525,
+    "chikouSpan": 234.24
+  },
+  {
+    "timestamp": "2017-06-12T00:00:00",
+    "tenkanSen": 230.41,
+    "kijunSen": 227.935,
+    "senkouSpanA": 224.4375,
+    "senkouSpanB": 223.525,
+    "chikouSpan": 235.5
+  },
+  {
+    "timestamp": "2017-06-13T00:00:00",
+    "tenkanSen": 230.88,
+    "kijunSen": 227.935,
+    "senkouSpanA": 225.2725,
+    "senkouSpanB": 223.615,
+    "chikouSpan": 235.61
+  },
+  {
+    "timestamp": "2017-06-14T00:00:00",
+    "tenkanSen": 231.03,
+    "kijunSen": 227.935,
+    "senkouSpanA": 225.3675,
+    "senkouSpanB": 223.71,
+    "chikouSpan": 235.4
+  },
+  {
+    "timestamp": "2017-06-15T00:00:00",
+    "tenkanSen": 231.03,
+    "kijunSen": 227.935,
+    "senkouSpanA": 225.4975,
+    "senkouSpanB": 223.84,
+    "chikouSpan": 235.34
+  },
+  {
+    "timestamp": "2017-06-16T00:00:00",
+    "tenkanSen": 231.03,
+    "kijunSen": 227.935,
+    "senkouSpanA": 225.4975,
+    "senkouSpanB": 223.84,
+    "chikouSpan": 235.91
+  },
+  {
+    "timestamp": "2017-06-19T00:00:00",
+    "tenkanSen": 231.465,
+    "kijunSen": 228.37,
+    "senkouSpanA": 225.4975,
+    "senkouSpanB": 223.84,
+    "chikouSpan": 235.92
+  },
+  {
+    "timestamp": "2017-06-20T00:00:00",
+    "tenkanSen": 231.465,
+    "kijunSen": 228.37,
+    "senkouSpanA": 225.4975,
+    "senkouSpanB": 223.84,
+    "chikouSpan": 235.7
+  },
+  {
+    "timestamp": "2017-06-21T00:00:00",
+    "tenkanSen": 231.465,
+    "kijunSen": 228.37,
+    "senkouSpanA": 225.6175,
+    "senkouSpanB": 223.96,
+    "chikouSpan": 235.43
+  },
+  {
+    "timestamp": "2017-06-22T00:00:00",
+    "tenkanSen": 231.66,
+    "kijunSen": 228.37,
+    "senkouSpanA": 225.74,
+    "senkouSpanB": 224.065,
+    "chikouSpan": 235.29
+  },
+  {
+    "timestamp": "2017-06-23T00:00:00",
+    "tenkanSen": 231.66,
+    "kijunSen": 228.37,
+    "senkouSpanA": 225.26,
+    "senkouSpanB": 224.065,
+    "chikouSpan": 235.82
+  },
+  {
+    "timestamp": "2017-06-26T00:00:00",
+    "tenkanSen": 231.66,
+    "kijunSen": 229.245,
+    "senkouSpanA": 225.1825,
+    "senkouSpanB": 224.065,
+    "chikouSpan": 235.93
+  },
+  {
+    "timestamp": "2017-06-27T00:00:00",
+    "tenkanSen": 231.66,
+    "kijunSen": 229.98,
+    "senkouSpanA": 225.1825,
+    "senkouSpanB": 224.065,
+    "chikouSpan": 235.48
+  },
+  {
+    "timestamp": "2017-06-28T00:00:00",
+    "tenkanSen": 231.72,
+    "kijunSen": 230.305,
+    "senkouSpanA": 225.270,
+    "senkouSpanB": 224.065,
+    "chikouSpan": 235.9
+  },
+  {
+    "timestamp": "2017-06-29T00:00:00",
+    "tenkanSen": 231.075,
+    "kijunSen": 230.505,
+    "senkouSpanA": 225.3175,
+    "senkouSpanB": 224.065,
+    "chikouSpan": 236.34
+  },
+  {
+    "timestamp": "2017-06-30T00:00:00",
+    "tenkanSen": 230.91,
+    "kijunSen": 230.845,
+    "senkouSpanA": 225.3725,
+    "senkouSpanB": 224.095,
+    "chikouSpan": 235.76
+  },
+  {
+    "timestamp": "2017-07-03T00:00:00",
+    "tenkanSen": 230.91,
+    "kijunSen": 230.845,
+    "senkouSpanA": 226.155,
+    "senkouSpanB": 224.735,
+    "chikouSpan": 235.75
+  },
+  {
+    "timestamp": "2017-07-05T00:00:00",
+    "tenkanSen": 230.91,
+    "kijunSen": 230.845,
+    "senkouSpanA": 226.2375,
+    "senkouSpanB": 224.735,
+    "chikouSpan": 232.42
+  },
+  {
+    "timestamp": "2017-07-06T00:00:00",
+    "tenkanSen": 230.91,
+    "kijunSen": 230.845,
+    "senkouSpanA": 226.340,
+    "senkouSpanB": 224.735,
+    "chikouSpan": 232.77
+  },
+  {
+    "timestamp": "2017-07-07T00:00:00",
+    "tenkanSen": 230.91,
+    "kijunSen": 231.075,
+    "senkouSpanA": 226.545,
+    "senkouSpanB": 224.735,
+    "chikouSpan": 235.07
+  },
+  {
+    "timestamp": "2017-07-10T00:00:00",
+    "tenkanSen": 230.595,
+    "kijunSen": 231.075,
+    "senkouSpanA": 227.6025,
+    "senkouSpanB": 225.355,
+    "chikouSpan": 235.05
+  },
+  {
+    "timestamp": "2017-07-11T00:00:00",
+    "tenkanSen": 230.595,
+    "kijunSen": 231.075,
+    "senkouSpanA": 228.430,
+    "senkouSpanB": 225.815,
+    "chikouSpan": 235.46
+  },
+  {
+    "timestamp": "2017-07-12T00:00:00",
+    "tenkanSen": 230.82,
+    "kijunSen": 231.075,
+    "senkouSpanA": 228.5925,
+    "senkouSpanB": 225.815,
+    "chikouSpan": 231.79
+  },
+  {
+    "timestamp": "2017-07-13T00:00:00",
+    "tenkanSen": 231.17,
+    "kijunSen": 231.075,
+    "senkouSpanA": 228.6925,
+    "senkouSpanB": 225.815,
+    "chikouSpan": 231.42
+  },
+  {
+    "timestamp": "2017-07-14T00:00:00",
+    "tenkanSen": 231.845,
+    "kijunSen": 231.665,
+    "senkouSpanA": 228.8625,
+    "senkouSpanB": 225.815,
+    "chikouSpan": 231.6
+  },
+  {
+    "timestamp": "2017-07-17T00:00:00",
+    "tenkanSen": 231.845,
+    "kijunSen": 231.665,
+    "senkouSpanA": 228.8625,
+    "senkouSpanB": 225.815,
+    "chikouSpan": 234.03
+  },
+  {
+    "timestamp": "2017-07-18T00:00:00",
+    "tenkanSen": 231.845,
+    "kijunSen": 231.665,
+    "senkouSpanA": 229.1725,
+    "senkouSpanB": 226.55,
+    "chikouSpan": 233.19
+  },
+  {
+    "timestamp": "2017-07-19T00:00:00",
+    "tenkanSen": 232.445,
+    "kijunSen": 232.155,
+    "senkouSpanA": 229.1725,
+    "senkouSpanB": 226.55,
+    "chikouSpan": 232.64
+  },
+  {
+    "timestamp": "2017-07-20T00:00:00",
+    "tenkanSen": 232.78,
+    "kijunSen": 232.355,
+    "senkouSpanA": 229.4075,
+    "senkouSpanB": 226.55,
+    "chikouSpan": 233.19
+  },
+  {
+    "timestamp": "2017-07-21T00:00:00",
+    "tenkanSen": 232.78,
+    "kijunSen": 232.355,
+    "senkouSpanA": 229.4825,
+    "senkouSpanB": 226.55,
+    "chikouSpan": 233.2
+  },
+  {
+    "timestamp": "2017-07-24T00:00:00",
+    "tenkanSen": 233.95,
+    "kijunSen": 232.355,
+    "senkouSpanA": 229.4825,
+    "senkouSpanB": 226.55,
+    "chikouSpan": 233.46
+  },
+  {
+    "timestamp": "2017-07-25T00:00:00",
+    "tenkanSen": 234.35,
+    "kijunSen": 232.54,
+    "senkouSpanA": 229.4825,
+    "senkouSpanB": 226.55,
+    "chikouSpan": 234.57
+  },
+  {
+    "timestamp": "2017-07-26T00:00:00",
+    "tenkanSen": 234.615,
+    "kijunSen": 232.54,
+    "senkouSpanA": 229.9175,
+    "senkouSpanB": 226.985,
+    "chikouSpan": 235.98
+  },
+  {
+    "timestamp": "2017-07-27T00:00:00",
+    "tenkanSen": 234.88,
+    "kijunSen": 232.635,
+    "senkouSpanA": 229.9175,
+    "senkouSpanB": 226.985,
+    "chikouSpan": 236.31
+  },
+  {
+    "timestamp": "2017-07-28T00:00:00",
+    "tenkanSen": 234.88,
+    "kijunSen": 232.635,
+    "senkouSpanA": 229.9175,
+    "senkouSpanB": 226.985,
+    "chikouSpan": 234.62
+  },
+  {
+    "timestamp": "2017-07-31T00:00:00",
+    "tenkanSen": 235.365,
+    "kijunSen": 232.635,
+    "senkouSpanA": 230.015,
+    "senkouSpanB": 226.985,
+    "chikouSpan": 235.42
+  },
+  {
+    "timestamp": "2017-08-01T00:00:00",
+    "tenkanSen": 235.365,
+    "kijunSen": 232.635,
+    "senkouSpanA": 230.015,
+    "senkouSpanB": 226.985,
+    "chikouSpan": 235.39
+  },
+  {
+    "timestamp": "2017-08-02T00:00:00",
+    "tenkanSen": 235.365,
+    "kijunSen": 232.635,
+    "senkouSpanA": 230.4525,
+    "senkouSpanB": 226.985,
+    "chikouSpan": 235.11
+  },
+  {
+    "timestamp": "2017-08-03T00:00:00",
+    "tenkanSen": 235.365,
+    "kijunSen": 232.635,
+    "senkouSpanA": 230.82,
+    "senkouSpanB": 226.985,
+    "chikouSpan": 237.62
+  },
+  {
+    "timestamp": "2017-08-04T00:00:00",
+    "tenkanSen": 235.365,
+    "kijunSen": 232.635,
+    "senkouSpanA": 231.0125,
+    "senkouSpanB": 227.16,
+    "chikouSpan": 238.42
+  },
+  {
+    "timestamp": "2017-08-07T00:00:00",
+    "tenkanSen": 235.365,
+    "kijunSen": 232.815,
+    "senkouSpanA": 230.790,
+    "senkouSpanB": 227.255,
+    "chikouSpan": 238.54
+  },
+  {
+    "timestamp": "2017-08-08T00:00:00",
+    "tenkanSen": 235.795,
+    "kijunSen": 233.245,
+    "senkouSpanA": 230.8775,
+    "senkouSpanB": 227.305,
+    "chikouSpan": 238.46
+  },
+  {
+    "timestamp": "2017-08-09T00:00:00",
+    "tenkanSen": 235.975,
+    "kijunSen": 233.245,
+    "senkouSpanA": 230.8775,
+    "senkouSpanB": 227.59,
+    "chikouSpan": 238.78
+  },
+  {
+    "timestamp": "2017-08-10T00:00:00",
+    "tenkanSen": 234.85,
+    "kijunSen": 233.245,
+    "senkouSpanA": 230.8775,
+    "senkouSpanB": 227.755,
+    "chikouSpan": 239.29
+  },
+  {
+    "timestamp": "2017-08-11T00:00:00",
+    "tenkanSen": 234.85,
+    "kijunSen": 233.355,
+    "senkouSpanA": 230.8775,
+    "senkouSpanB": 227.96,
+    "chikouSpan": 239.53
+  },
+  {
+    "timestamp": "2017-08-14T00:00:00",
+    "tenkanSen": 234.85,
+    "kijunSen": 233.49,
+    "senkouSpanA": 230.9925,
+    "senkouSpanB": 228.37,
+    "chikouSpan": 239.61
+  },
+  {
+    "timestamp": "2017-08-15T00:00:00",
+    "tenkanSen": 234.85,
+    "kijunSen": 233.49,
+    "senkouSpanA": 230.835,
+    "senkouSpanB": 228.37,
+    "chikouSpan": 238.97
+  },
+  {
+    "timestamp": "2017-08-16T00:00:00",
+    "tenkanSen": 234.85,
+    "kijunSen": 234.66,
+    "senkouSpanA": 230.835,
+    "senkouSpanB": 228.37,
+    "chikouSpan": 239.02
+  },
+  {
+    "timestamp": "2017-08-17T00:00:00",
+    "tenkanSen": 234.56,
+    "kijunSen": 234.56,
+    "senkouSpanA": 230.9475,
+    "senkouSpanB": 228.37,
+    "chikouSpan": 238.53
+  },
+  {
+    "timestamp": "2017-08-18T00:00:00",
+    "tenkanSen": 234.135,
+    "kijunSen": 234.135,
+    "senkouSpanA": 231.1225,
+    "senkouSpanB": 228.37,
+    "chikouSpan": 238.68
+  },
+  {
+    "timestamp": "2017-08-21T00:00:00",
+    "tenkanSen": 233.32,
+    "kijunSen": 233.955,
+    "senkouSpanA": 231.755,
+    "senkouSpanB": 228.96,
+    "chikouSpan": 239.6
+  },
+  {
+    "timestamp": "2017-08-22T00:00:00",
+    "tenkanSen": 233.32,
+    "kijunSen": 233.955,
+    "senkouSpanA": 231.755,
+    "senkouSpanB": 228.96,
+    "chikouSpan": 239.89
+  },
+  {
+    "timestamp": "2017-08-23T00:00:00",
+    "tenkanSen": 233.32,
+    "kijunSen": 233.955,
+    "senkouSpanA": 231.755,
+    "senkouSpanB": 228.96,
+    "chikouSpan": 240.74
+  },
+  {
+    "timestamp": "2017-08-24T00:00:00",
+    "tenkanSen": 233.32,
+    "kijunSen": 233.955,
+    "senkouSpanA": 232.300,
+    "senkouSpanB": 229.45,
+    "chikouSpan": 241.78
+  },
+  {
+    "timestamp": "2017-08-25T00:00:00",
+    "tenkanSen": 233.32,
+    "kijunSen": 233.955,
+    "senkouSpanA": 232.5675,
+    "senkouSpanB": 229.65,
+    "chikouSpan": 242.3
+  },
+  {
+    "timestamp": "2017-08-28T00:00:00",
+    "tenkanSen": 233.32,
+    "kijunSen": 233.955,
+    "senkouSpanA": 232.5675,
+    "senkouSpanB": 229.65,
+    "chikouSpan": 242.58
+  },
+  {
+    "timestamp": "2017-08-29T00:00:00",
+    "tenkanSen": 232.855,
+    "kijunSen": 233.955,
+    "senkouSpanA": 233.1525,
+    "senkouSpanB": 229.65,
+    "chikouSpan": 244.02
+  },
+  {
+    "timestamp": "2017-08-30T00:00:00",
+    "tenkanSen": 232.725,
+    "kijunSen": 233.955,
+    "senkouSpanA": 233.445,
+    "senkouSpanB": 229.835,
+    "chikouSpan": 243.74
+  },
+  {
+    "timestamp": "2017-08-31T00:00:00",
+    "tenkanSen": 233.415,
+    "kijunSen": 233.955,
+    "senkouSpanA": 233.5775,
+    "senkouSpanB": 229.835,
+    "chikouSpan": 243.34
+  },
+  {
+    "timestamp": "2017-09-01T00:00:00",
+    "tenkanSen": 234.205,
+    "kijunSen": 233.955,
+    "senkouSpanA": 233.7575,
+    "senkouSpanB": 229.93,
+    "chikouSpan": 243.98
+  },
+  {
+    "timestamp": "2017-09-05T00:00:00",
+    "tenkanSen": 234.205,
+    "kijunSen": 233.955,
+    "senkouSpanA": 233.7575,
+    "senkouSpanB": 229.93,
+    "chikouSpan": 244.37
+  },
+  {
+    "timestamp": "2017-09-06T00:00:00",
+    "tenkanSen": 234.205,
+    "kijunSen": 233.955,
+    "senkouSpanA": 234.000,
+    "senkouSpanB": 229.93,
+    "chikouSpan": 244
+  },
+  {
+    "timestamp": "2017-09-07T00:00:00",
+    "tenkanSen": 234.205,
+    "kijunSen": 233.955,
+    "senkouSpanA": 234.000,
+    "senkouSpanB": 229.93,
+    "chikouSpan": 244.3
+  },
+  {
+    "timestamp": "2017-09-08T00:00:00",
+    "tenkanSen": 234.205,
+    "kijunSen": 233.955,
+    "senkouSpanA": 234.000,
+    "senkouSpanB": 230.805,
+    "chikouSpan": 244.63
+  },
+  {
+    "timestamp": "2017-09-11T00:00:00",
+    "tenkanSen": 234.67,
+    "kijunSen": 234.145,
+    "senkouSpanA": 234.000,
+    "senkouSpanB": 231.54,
+    "chikouSpan": 244.8
+  },
+  {
+    "timestamp": "2017-09-12T00:00:00",
+    "tenkanSen": 235.85,
+    "kijunSen": 234.52,
+    "senkouSpanA": 234.000,
+    "senkouSpanB": 231.865,
+    "chikouSpan": 245.04
+  },
+  {
+    "timestamp": "2017-09-13T00:00:00",
+    "tenkanSen": 236.065,
+    "kijunSen": 234.575,
+    "senkouSpanA": 234.090,
+    "senkouSpanB": 232.065,
+    "chikouSpan": 245.1
+  },
+  {
+    "timestamp": "2017-09-14T00:00:00",
+    "tenkanSen": 236.12,
+    "kijunSen": 234.63,
+    "senkouSpanA": 234.520,
+    "senkouSpanB": 232.835,
+    "chikouSpan": 246.37
+  },
+  {
+    "timestamp": "2017-09-15T00:00:00",
+    "tenkanSen": 236.22,
+    "kijunSen": 234.73,
+    "senkouSpanA": 234.610,
+    "senkouSpanB": 232.835,
+    "chikouSpan": 245.41
+  },
+  {
+    "timestamp": "2017-09-18T00:00:00",
+    "tenkanSen": 237.225,
+    "kijunSen": 235.125,
+    "senkouSpanA": 234.0475,
+    "senkouSpanB": 232.835,
+    "chikouSpan": 245.84
+  },
+  {
+    "timestamp": "2017-09-19T00:00:00",
+    "tenkanSen": 237.26,
+    "kijunSen": 235.125,
+    "senkouSpanA": 234.1025,
+    "senkouSpanB": 232.835,
+    "chikouSpan": 244.63
+  },
+  {
+    "timestamp": "2017-09-20T00:00:00",
+    "tenkanSen": 237.295,
+    "kijunSen": 235.16,
+    "senkouSpanA": 234.17,
+    "senkouSpanB": 233.065,
+    "chikouSpan": 244.94
+  },
+  {
+    "timestamp": "2017-09-21T00:00:00",
+    "tenkanSen": 238.115,
+    "kijunSen": 235.16,
+    "senkouSpanA": 234.17,
+    "senkouSpanB": 233.065,
+    "chikouSpan": 246.94
+  },
+  {
+    "timestamp": "2017-09-22T00:00:00",
+    "tenkanSen": 238.78,
+    "kijunSen": 235.16,
+    "senkouSpanA": 234.755,
+    "senkouSpanB": 233.065,
+    "chikouSpan": 246.02
+  },
+  {
+    "timestamp": "2017-09-25T00:00:00",
+    "tenkanSen": 238.73,
+    "kijunSen": 235.16,
+    "senkouSpanA": 234.56,
+    "senkouSpanB": 233.065,
+    "chikouSpan": 246.41
+  },
+  {
+    "timestamp": "2017-09-26T00:00:00",
+    "tenkanSen": 238.73,
+    "kijunSen": 235.16,
+    "senkouSpanA": 234.135,
+    "senkouSpanB": 233.065,
+    "chikouSpan": 246.73
+  },
+  {
+    "timestamp": "2017-09-27T00:00:00",
+    "tenkanSen": 238.875,
+    "kijunSen": 235.83,
+    "senkouSpanA": 233.6375,
+    "senkouSpanB": 233.065,
+    "chikouSpan": 246.83
+  },
+  {
+    "timestamp": "2017-09-28T00:00:00",
+    "tenkanSen": 238.875,
+    "kijunSen": 235.83,
+    "senkouSpanA": 233.6375,
+    "senkouSpanB": 233.065,
+    "chikouSpan": 247.65
+  },
+  {
+    "timestamp": "2017-09-29T00:00:00",
+    "tenkanSen": 239.27,
+    "kijunSen": 236.225,
+    "senkouSpanA": 233.6375,
+    "senkouSpanB": 233.065,
+    "chikouSpan": 248.04
+  },
+  {
+    "timestamp": "2017-10-02T00:00:00",
+    "tenkanSen": 239.75,
+    "kijunSen": 236.705,
+    "senkouSpanA": 233.6375,
+    "senkouSpanB": 233.065,
+    "chikouSpan": 247.86
+  },
+  {
+    "timestamp": "2017-10-03T00:00:00",
+    "tenkanSen": 240.025,
+    "kijunSen": 236.98,
+    "senkouSpanA": 233.6375,
+    "senkouSpanB": 233.065,
+    "chikouSpan": 248.29
+  },
+  {
+    "timestamp": "2017-10-04T00:00:00",
+    "tenkanSen": 240.285,
+    "kijunSen": 237.24,
+    "senkouSpanA": 233.6375,
+    "senkouSpanB": 233.065,
+    "chikouSpan": 247.39
+  },
+  {
+    "timestamp": "2017-10-05T00:00:00",
+    "tenkanSen": 240.88,
+    "kijunSen": 238.64,
+    "senkouSpanA": 233.405,
+    "senkouSpanB": 233.065,
+    "chikouSpan": 247.31
+  },
+  {
+    "timestamp": "2017-10-06T00:00:00",
+    "tenkanSen": 241.235,
+    "kijunSen": 238.81,
+    "senkouSpanA": 233.340,
+    "senkouSpanB": 233.065,
+    "chikouSpan": 247.54
+  },
+  {
+    "timestamp": "2017-10-09T00:00:00",
+    "tenkanSen": 241.265,
+    "kijunSen": 238.81,
+    "senkouSpanA": 233.685,
+    "senkouSpanB": 233.065,
+    "chikouSpan": 246.96
+  },
+  {
+    "timestamp": "2017-10-10T00:00:00",
+    "tenkanSen": 241.8,
+    "kijunSen": 238.98,
+    "senkouSpanA": 234.080,
+    "senkouSpanB": 233.065,
+    "chikouSpan": 245.73
+  },
+  {
+    "timestamp": "2017-10-11T00:00:00",
+    "tenkanSen": 242.04,
+    "kijunSen": 239.59,
+    "senkouSpanA": 234.080,
+    "senkouSpanB": 233.065,
+    "chikouSpan": 247.82
+  },
+  {
+    "timestamp": "2017-10-12T00:00:00",
+    "tenkanSen": 242.605,
+    "kijunSen": 239.63,
+    "senkouSpanA": 234.080,
+    "senkouSpanB": 233.065,
+    "chikouSpan": 247.09
+  },
+  {
+    "timestamp": "2017-10-13T00:00:00",
+    "tenkanSen": 243.15,
+    "kijunSen": 239.73,
+    "senkouSpanA": 234.080,
+    "senkouSpanB": 233.065,
+    "chikouSpan": 247.51
+  },
+  {
+    "timestamp": "2017-10-16T00:00:00",
+    "tenkanSen": 243.425,
+    "kijunSen": 240.665,
+    "senkouSpanA": 234.080,
+    "senkouSpanB": 233.065,
+    "chikouSpan": 249.13
+  },
+  {
+    "timestamp": "2017-10-17T00:00:00",
+    "tenkanSen": 243.735,
+    "kijunSen": 241.285,
+    "senkouSpanA": 234.4075,
+    "senkouSpanB": 233.255,
+    "chikouSpan": 248.91
+  },
+  {
+    "timestamp": "2017-10-18T00:00:00",
+    "tenkanSen": 244.155,
+    "kijunSen": 241.49,
+    "senkouSpanA": 235.185,
+    "senkouSpanB": 233.63,
+    "chikouSpan": 249.48
+  },
+  {
+    "timestamp": "2017-10-19T00:00:00",
+    "tenkanSen": 244.155,
+    "kijunSen": 241.49,
+    "senkouSpanA": 235.320,
+    "senkouSpanB": 233.865,
+    "chikouSpan": 249.36
+  },
+  {
+    "timestamp": "2017-10-20T00:00:00",
+    "tenkanSen": 244.885,
+    "kijunSen": 242.06,
+    "senkouSpanA": 235.375,
+    "senkouSpanB": 233.92,
+    "chikouSpan": 251.89
+  },
+  {
+    "timestamp": "2017-10-23T00:00:00",
+    "tenkanSen": 245.225,
+    "kijunSen": 242.235,
+    "senkouSpanA": 235.475,
+    "senkouSpanB": 234.02,
+    "chikouSpan": 251.74
+  },
+  {
+    "timestamp": "2017-10-24T00:00:00",
+    "tenkanSen": 245.235,
+    "kijunSen": 242.235,
+    "senkouSpanA": 236.175,
+    "senkouSpanB": 234.415,
+    "chikouSpan": 253.94
+  },
+  {
+    "timestamp": "2017-10-25T00:00:00",
+    "tenkanSen": 245.07,
+    "kijunSen": 242.235,
+    "senkouSpanA": 236.1925,
+    "senkouSpanB": 234.525,
+    "chikouSpan": 253.41
+  },
+  {
+    "timestamp": "2017-10-26T00:00:00",
+    "tenkanSen": 245.07,
+    "kijunSen": 242.235,
+    "senkouSpanA": 236.2275,
+    "senkouSpanB": 234.695,
+    "chikouSpan": 253.11
+  },
+  {
+    "timestamp": "2017-10-27T00:00:00",
+    "tenkanSen": 245.255,
+    "kijunSen": 242.42,
+    "senkouSpanA": 236.6375,
+    "senkouSpanB": 234.695,
+    "chikouSpan": 252.2
+  },
+  {
+    "timestamp": "2017-10-30T00:00:00",
+    "tenkanSen": 245.255,
+    "kijunSen": 242.42,
+    "senkouSpanA": 236.97,
+    "senkouSpanB": 235.16,
+    "chikouSpan": 252.24
+  },
+  {
+    "timestamp": "2017-10-31T00:00:00",
+    "tenkanSen": 245.255,
+    "kijunSen": 242.765,
+    "senkouSpanA": 236.945,
+    "senkouSpanB": 235.16,
+    "chikouSpan": 253.04
+  },
+  {
+    "timestamp": "2017-11-01T00:00:00",
+    "tenkanSen": 245.51,
+    "kijunSen": 243.05,
+    "senkouSpanA": 236.945,
+    "senkouSpanB": 235.16,
+    "chikouSpan": 254.42
+  },
+  {
+    "timestamp": "2017-11-02T00:00:00",
+    "tenkanSen": 245.51,
+    "kijunSen": 243.415,
+    "senkouSpanA": 237.3525,
+    "senkouSpanB": 235.305,
+    "chikouSpan": 255.19
+  },
+  {
+    "timestamp": "2017-11-03T00:00:00",
+    "tenkanSen": 245.545,
+    "kijunSen": 243.69,
+    "senkouSpanA": 237.3525,
+    "senkouSpanB": 235.305,
+    "chikouSpan": 255.64
+  },
+  {
+    "timestamp": "2017-11-06T00:00:00",
+    "tenkanSen": 245.785,
+    "kijunSen": 244.49,
+    "senkouSpanA": 237.7475,
+    "senkouSpanB": 235.70,
+    "chikouSpan": 255.61
+  },
+  {
+    "timestamp": "2017-11-07T00:00:00",
+    "tenkanSen": 246.665,
+    "kijunSen": 245.105,
+    "senkouSpanA": 238.2275,
+    "senkouSpanB": 236.18,
+    "chikouSpan": 254.56
+  },
+  {
+    "timestamp": "2017-11-08T00:00:00",
+    "tenkanSen": 246.735,
+    "kijunSen": 245.265,
+    "senkouSpanA": 238.5025,
+    "senkouSpanB": 236.455,
+    "chikouSpan": 256.68
+  },
+  {
+    "timestamp": "2017-11-09T00:00:00",
+    "tenkanSen": 247.005,
+    "kijunSen": 245.57,
+    "senkouSpanA": 238.7625,
+    "senkouSpanB": 236.715,
+    "chikouSpan": 258.31
+  },
+  {
+    "timestamp": "2017-11-10T00:00:00",
+    "tenkanSen": 247.005,
+    "kijunSen": 245.785,
+    "senkouSpanA": 239.76,
+    "senkouSpanB": 237.31,
+    "chikouSpan": 257.32
+  },
+  {
+    "timestamp": "2017-11-13T00:00:00",
+    "tenkanSen": 247.005,
+    "kijunSen": 245.785,
+    "senkouSpanA": 240.0225,
+    "senkouSpanB": 237.32,
+    "chikouSpan": 257.18
+  },
+  {
+    "timestamp": "2017-11-14T00:00:00",
+    "tenkanSen": 247.005,
+    "kijunSen": 245.945,
+    "senkouSpanA": 240.0375,
+    "senkouSpanB": 237.32,
+    "chikouSpan": 257.71
+  },
+  {
+    "timestamp": "2017-11-15T00:00:00",
+    "tenkanSen": 246.735,
+    "kijunSen": 245.955,
+    "senkouSpanA": 240.39,
+    "senkouSpanB": 237.49,
+    "chikouSpan": 257.65
+  },
+  {
+    "timestamp": "2017-11-16T00:00:00",
+    "tenkanSen": 246.735,
+    "kijunSen": 245.955,
+    "senkouSpanA": 240.815,
+    "senkouSpanB": 237.49,
+    "chikouSpan": 257.34
+  },
+  {
+    "timestamp": "2017-11-17T00:00:00",
+    "tenkanSen": 246.735,
+    "kijunSen": 245.955,
+    "senkouSpanA": 241.1175,
+    "senkouSpanB": 237.495,
+    "chikouSpan": 257.46
+  },
+  {
+    "timestamp": "2017-11-20T00:00:00",
+    "tenkanSen": 246.67,
+    "kijunSen": 245.955,
+    "senkouSpanA": 241.44,
+    "senkouSpanB": 237.595,
+    "chikouSpan": 257.99
+  },
+  {
+    "timestamp": "2017-11-21T00:00:00",
+    "tenkanSen": 247.14,
+    "kijunSen": 246.36,
+    "senkouSpanA": 242.045,
+    "senkouSpanB": 237.71,
+    "chikouSpan": 257.02
+  },
+  {
+    "timestamp": "2017-11-22T00:00:00",
+    "tenkanSen": 247.14,
+    "kijunSen": 246.36,
+    "senkouSpanA": 242.510,
+    "senkouSpanB": 237.715,
+    "chikouSpan": 258.86
+  },
+  {
+    "timestamp": "2017-11-24T00:00:00",
+    "tenkanSen": 247.275,
+    "kijunSen": 246.495,
+    "senkouSpanA": 242.8225,
+    "senkouSpanB": 237.92,
+    "chikouSpan": 260.5
+  },
+  {
+    "timestamp": "2017-11-27T00:00:00",
+    "tenkanSen": 247.405,
+    "kijunSen": 246.625,
+    "senkouSpanA": 242.8225,
+    "senkouSpanB": 237.92,
+    "chikouSpan": 261.59
+  },
+  {
+    "timestamp": "2017-11-28T00:00:00",
+    "tenkanSen": 248.435,
+    "kijunSen": 247.655,
+    "senkouSpanA": 243.4725,
+    "senkouSpanB": 238.49,
+    "chikouSpan": 263.34
+  },
+  {
+    "timestamp": "2017-11-29T00:00:00",
+    "tenkanSen": 249.67,
+    "kijunSen": 248.005,
+    "senkouSpanA": 243.730,
+    "senkouSpanB": 238.665,
+    "chikouSpan": 263.82
+  },
+  {
+    "timestamp": "2017-11-30T00:00:00",
+    "tenkanSen": 250.97,
+    "kijunSen": 249.165,
+    "senkouSpanA": 243.735,
+    "senkouSpanB": 238.665,
+    "chikouSpan": 264.42
+  },
+  {
+    "timestamp": "2017-12-01T00:00:00",
+    "tenkanSen": 251.015,
+    "kijunSen": 249.875,
+    "senkouSpanA": 243.6525,
+    "senkouSpanB": 238.665,
+    "chikouSpan": 264.01
+  },
+  {
+    "timestamp": "2017-12-04T00:00:00",
+    "tenkanSen": 251.56,
+    "kijunSen": 250.30,
+    "senkouSpanA": 243.6525,
+    "senkouSpanB": 238.665,
+    "chikouSpan": 265.94
+  },
+  {
+    "timestamp": "2017-12-05T00:00:00",
+    "tenkanSen": 252.19,
+    "kijunSen": 250.30,
+    "senkouSpanA": 243.8375,
+    "senkouSpanB": 238.85,
+    "chikouSpan": 267.67
+  },
+  {
+    "timestamp": "2017-12-06T00:00:00",
+    "tenkanSen": 252.395,
+    "kijunSen": 250.30,
+    "senkouSpanA": 243.8375,
+    "senkouSpanB": 238.85,
+    "chikouSpan": 266.76
+  },
+  {
+    "timestamp": "2017-12-07T00:00:00",
+    "tenkanSen": 252.395,
+    "kijunSen": 250.30,
+    "senkouSpanA": 244.010,
+    "senkouSpanB": 238.85,
+    "chikouSpan": 269.3
+  },
+  {
+    "timestamp": "2017-12-08T00:00:00",
+    "tenkanSen": 252.71,
+    "kijunSen": 250.30,
+    "senkouSpanA": 244.28,
+    "senkouSpanB": 239.105,
+    "chikouSpan": 268.85
+  },
+  {
+    "timestamp": "2017-12-11T00:00:00",
+    "tenkanSen": 252.76,
+    "kijunSen": 250.30,
+    "senkouSpanA": 244.4625,
+    "senkouSpanB": 239.63,
+    "chikouSpan": 270.07
+  },
+  {
+    "timestamp": "2017-12-12T00:00:00",
+    "tenkanSen": 253.01,
+    "kijunSen": 250.55,
+    "senkouSpanA": 244.6175,
+    "senkouSpanB": 239.665,
+    "chikouSpan": 272.27
+  },
+  {
+    "timestamp": "2017-12-13T00:00:00",
+    "tenkanSen": 253.125,
+    "kijunSen": 250.665,
+    "senkouSpanA": 245.1375,
+    "senkouSpanB": 239.905,
+    "chikouSpan": 272.84
+  },
+  {
+    "timestamp": "2017-12-14T00:00:00",
+    "tenkanSen": 254.06,
+    "kijunSen": 250.665,
+    "senkouSpanA": 245.885,
+    "senkouSpanB": 240.075,
+    "chikouSpan": 272.74
+  },
+  {
+    "timestamp": "2017-12-15T00:00:00",
+    "tenkanSen": 254.465,
+    "kijunSen": 251.07,
+    "senkouSpanA": 246.000,
+    "senkouSpanB": 240.075,
+    "chikouSpan": 272.85
+  },
+  {
+    "timestamp": "2017-12-18T00:00:00",
+    "tenkanSen": 255.22,
+    "kijunSen": 251.825,
+    "senkouSpanA": 246.2875,
+    "senkouSpanB": 240.075,
+    "chikouSpan": 276.01
+  },
+  {
+    "timestamp": "2017-12-19T00:00:00",
+    "tenkanSen": 255.33,
+    "kijunSen": 251.825,
+    "senkouSpanA": 246.395,
+    "senkouSpanB": 240.88,
+    "chikouSpan": 274.18
+  },
+  {
+    "timestamp": "2017-12-20T00:00:00",
+    "tenkanSen": 255.85,
+    "kijunSen": 251.825,
+    "senkouSpanA": 246.395,
+    "senkouSpanB": 241.04,
+    "chikouSpan": 271.37
+  },
+  {
+    "timestamp": "2017-12-21T00:00:00",
+    "tenkanSen": 256.545,
+    "kijunSen": 251.825,
+    "senkouSpanA": 246.475,
+    "senkouSpanB": 241.04,
+    "chikouSpan": 271.51
+  },
+  {
+    "timestamp": "2017-12-22T00:00:00",
+    "tenkanSen": 256.605,
+    "kijunSen": 252.71,
+    "senkouSpanA": 246.345,
+    "senkouSpanB": 241.04,
+    "chikouSpan": 271.2
+  },
+  {
+    "timestamp": "2017-12-26T00:00:00",
+    "tenkanSen": 256.605,
+    "kijunSen": 252.85,
+    "senkouSpanA": 246.345,
+    "senkouSpanB": 241.65,
+    "chikouSpan": 265.29
+  },
+  {
+    "timestamp": "2017-12-27T00:00:00",
+    "tenkanSen": 256.605,
+    "kijunSen": 252.895,
+    "senkouSpanA": 246.345,
+    "senkouSpanB": 241.685,
+    "chikouSpan": 254.2
+  },
+  {
+    "timestamp": "2017-12-28T00:00:00",
+    "tenkanSen": 257.15,
+    "kijunSen": 253.085,
+    "senkouSpanA": 246.3125,
+    "senkouSpanB": 241.685,
+    "chikouSpan": 259.21
+  },
+  {
+    "timestamp": "2017-12-29T00:00:00",
+    "tenkanSen": 257.755,
+    "kijunSen": 253.715,
+    "senkouSpanA": 246.75,
+    "senkouSpanB": 242.91,
+    "chikouSpan": 257.8
+  },
+  {
+    "timestamp": "2018-01-02T00:00:00",
+    "tenkanSen": 257.855,
+    "kijunSen": 254.02,
+    "senkouSpanA": 246.75,
+    "senkouSpanB": 243.525,
+    "chikouSpan": 248.13
+  },
+  {
+    "timestamp": "2018-01-03T00:00:00",
+    "tenkanSen": 258.735,
+    "kijunSen": 254.90,
+    "senkouSpanA": 246.885,
+    "senkouSpanB": 243.66,
+    "chikouSpan": 251.86
+  },
+  {
+    "timestamp": "2018-01-04T00:00:00",
+    "tenkanSen": 259.465,
+    "kijunSen": 255.945,
+    "senkouSpanA": 247.015,
+    "senkouSpanB": 243.79,
+    "chikouSpan": 255.56
+  },
+  {
+    "timestamp": "2018-01-05T00:00:00",
+    "tenkanSen": 260.14,
+    "kijunSen": 256.67,
+    "senkouSpanA": 248.045,
+    "senkouSpanB": 244.82,
+    "chikouSpan": 256.19
+  },
+  {
+    "timestamp": "2018-01-08T00:00:00",
+    "tenkanSen": 260.40,
+    "kijunSen": 256.93,
+    "senkouSpanA": 248.8375,
+    "senkouSpanB": 245.17,
+    "chikouSpan": 259.65
+  },
+  {
+    "timestamp": "2018-01-09T00:00:00",
+    "tenkanSen": 260.955,
+    "kijunSen": 257.485,
+    "senkouSpanA": 250.0675,
+    "senkouSpanB": 246.33,
+    "chikouSpan": 262.96
+  },
+  {
+    "timestamp": "2018-01-10T00:00:00",
+    "tenkanSen": 260.955,
+    "kijunSen": 258.42,
+    "senkouSpanA": 250.445,
+    "senkouSpanB": 246.33,
+    "chikouSpan": 263.04
+  },
+  {
+    "timestamp": "2018-01-11T00:00:00",
+    "tenkanSen": 261.375,
+    "kijunSen": 258.84,
+    "senkouSpanA": 250.93,
+    "senkouSpanB": 246.685,
+    "chikouSpan": 261.39
+  },
+  {
+    "timestamp": "2018-01-12T00:00:00",
+    "tenkanSen": 262.70,
+    "kijunSen": 259.80,
+    "senkouSpanA": 251.245,
+    "senkouSpanB": 246.685,
+    "chikouSpan": 260.09
+  },
+  {
+    "timestamp": "2018-01-16T00:00:00",
+    "tenkanSen": 264.40,
+    "kijunSen": 260.86,
+    "senkouSpanA": 251.3475,
+    "senkouSpanB": 246.685,
+    "chikouSpan": 260.43
+  },
+  {
+    "timestamp": "2018-01-17T00:00:00",
+    "tenkanSen": 265.165,
+    "kijunSen": 261.38,
+    "senkouSpanA": 251.3475,
+    "senkouSpanB": 247.03,
+    "chikouSpan": 264.58
+  },
+  {
+    "timestamp": "2018-01-18T00:00:00",
+    "tenkanSen": 265.84,
+    "kijunSen": 262.075,
+    "senkouSpanA": 251.505,
+    "senkouSpanB": 247.06,
+    "chikouSpan": 267.65
+  },
+  {
+    "timestamp": "2018-01-19T00:00:00",
+    "tenkanSen": 266.465,
+    "kijunSen": 262.29,
+    "senkouSpanA": 251.53,
+    "senkouSpanB": 247.425,
+    "chikouSpan": 264.31
+  },
+  {
+    "timestamp": "2018-01-22T00:00:00",
+    "tenkanSen": 267.565,
+    "kijunSen": 263.39,
+    "senkouSpanA": 251.78,
+    "senkouSpanB": 247.915,
+    "chikouSpan": 261.63
+  },
+  {
+    "timestamp": "2018-01-23T00:00:00",
+    "tenkanSen": 268.01,
+    "kijunSen": 263.835,
+    "senkouSpanA": 251.895,
+    "senkouSpanB": 248.59,
+    "chikouSpan": 257.83
+  },
+  {
+    "timestamp": "2018-01-24T00:00:00",
+    "tenkanSen": 269.32,
+    "kijunSen": 264.9,
+    "senkouSpanA": 252.3625,
+    "senkouSpanB": 249.035,
+    "chikouSpan": 259.16
+  },
+  {
+    "timestamp": "2018-01-25T00:00:00",
+    "tenkanSen": 270.05,
+    "kijunSen": 265.505,
+    "senkouSpanA": 252.7675,
+    "senkouSpanB": 249.60,
+    "chikouSpan": 262.15
+  },
+  {
+    "timestamp": "2018-01-26T00:00:00",
+    "tenkanSen": 271.03,
+    "kijunSen": 266.435,
+    "senkouSpanA": 253.5225,
+    "senkouSpanB": 250.66,
+    "chikouSpan": 262.82
+  },
+  {
+    "timestamp": "2018-01-29T00:00:00",
+    "tenkanSen": 271.41,
+    "kijunSen": 266.435,
+    "senkouSpanA": 253.5775,
+    "senkouSpanB": 250.875,
+    "chikouSpan": 262.72
+  },
+  {
+    "timestamp": "2018-01-30T00:00:00",
+    "tenkanSen": 272.185,
+    "kijunSen": 266.435,
+    "senkouSpanA": 253.8375,
+    "senkouSpanB": 250.875,
+    "chikouSpan": 263.99
+  },
+  {
+    "timestamp": "2018-01-31T00:00:00",
+    "tenkanSen": 272.455,
+    "kijunSen": 266.435,
+    "senkouSpanA": 254.185,
+    "senkouSpanB": 251.035,
+    "chikouSpan": 268.59
+  },
+  {
+    "timestamp": "2018-02-01T00:00:00",
+    "tenkanSen": 272.92,
+    "kijunSen": 266.435,
+    "senkouSpanA": 254.6575,
+    "senkouSpanB": 251.045,
+    "chikouSpan": 268.25
+  },
+  {
+    "timestamp": "2018-02-02T00:00:00",
+    "tenkanSen": 270.655,
+    "kijunSen": 266.435,
+    "senkouSpanA": 254.7275,
+    "senkouSpanB": 251.045,
+    "chikouSpan": 266.52
+  },
+  {
+    "timestamp": "2018-02-05T00:00:00",
+    "tenkanSen": 264.83,
+    "kijunSen": 264.83,
+    "senkouSpanA": 254.750,
+    "senkouSpanB": 251.045,
+    "chikouSpan": 265.15
+  },
+  {
+    "timestamp": "2018-02-06T00:00:00",
+    "tenkanSen": 262.61,
+    "kijunSen": 262.61,
+    "senkouSpanA": 255.1175,
+    "senkouSpanB": 251.045,
+    "chikouSpan": 264.86
+  },
+  {
+    "timestamp": "2018-02-07T00:00:00",
+    "tenkanSen": 262.61,
+    "kijunSen": 262.61,
+    "senkouSpanA": 255.735,
+    "senkouSpanB": 251.045,
+    "chikouSpan": 265.15
+  },
+  {
+    "timestamp": "2018-02-08T00:00:00",
+    "tenkanSen": 261.98,
+    "kijunSen": 262.075,
+    "senkouSpanA": 255.9375,
+    "senkouSpanB": 251.145,
+    "chikouSpan": 261.56
+  },
+  {
+    "timestamp": "2018-02-09T00:00:00",
+    "tenkanSen": 258.915,
+    "kijunSen": 259.825,
+    "senkouSpanA": 256.8175,
+    "senkouSpanB": 252.025,
+    "chikouSpan": 262
+  },
+  {
+    "timestamp": "2018-02-12T00:00:00",
+    "tenkanSen": 258.22,
+    "kijunSen": 259.825,
+    "senkouSpanA": 257.705,
+    "senkouSpanB": 252.755,
+    "chikouSpan": 261.5
+  },
+  {
+    "timestamp": "2018-02-13T00:00:00",
+    "tenkanSen": 258.105,
+    "kijunSen": 259.825,
+    "senkouSpanA": 258.405,
+    "senkouSpanB": 253.43,
+    "chikouSpan": 254.96
+  },
+  {
+    "timestamp": "2018-02-14T00:00:00",
+    "tenkanSen": 256.745,
+    "kijunSen": 259.825,
+    "senkouSpanA": 258.665,
+    "senkouSpanB": 253.69,
+    "chikouSpan": 249.53
+  },
+  {
+    "timestamp": "2018-02-15T00:00:00",
+    "tenkanSen": 254.635,
+    "kijunSen": 259.825,
+    "senkouSpanA": 259.220,
+    "senkouSpanB": 254.245,
+    "chikouSpan": 256.36
+  },
+  {
+    "timestamp": "2018-02-16T00:00:00",
+    "tenkanSen": 254.38,
+    "kijunSen": 259.825,
+    "senkouSpanA": 259.6875,
+    "senkouSpanB": 254.955,
+    "chikouSpan": 252
+  },
+  {
+    "timestamp": "2018-02-20T00:00:00",
+    "tenkanSen": 254.38,
+    "kijunSen": 259.825,
+    "senkouSpanA": 260.1075,
+    "senkouSpanB": 255.445,
+    "chikouSpan": 251.25
+  },
+  {
+    "timestamp": "2018-02-21T00:00:00",
+    "tenkanSen": 254.38,
+    "kijunSen": 259.825,
+    "senkouSpanA": 261.25,
+    "senkouSpanB": 256.405,
+    "chikouSpan": 254.46
+  },
+  {
+    "timestamp": "2018-02-22T00:00:00",
+    "tenkanSen": 254.38,
+    "kijunSen": 259.825,
+    "senkouSpanA": 262.63,
+    "senkouSpanB": 257.355,
+    "chikouSpan": 248.97
+  },
+  {
+    "timestamp": "2018-02-23T00:00:00",
+    "tenkanSen": 258.595,
+    "kijunSen": 259.825,
+    "senkouSpanA": 263.2725,
+    "senkouSpanB": 257.355,
+    "chikouSpan": 252.16
+  },
+  {
+    "timestamp": "2018-02-26T00:00:00",
+    "tenkanSen": 260.68,
+    "kijunSen": 259.825,
+    "senkouSpanA": 263.9575,
+    "senkouSpanB": 257.355,
+    "chikouSpan": 254.86
+  },
+  {
+    "timestamp": "2018-02-27T00:00:00",
+    "tenkanSen": 261.59,
+    "kijunSen": 259.825,
+    "senkouSpanA": 264.3775,
+    "senkouSpanB": 257.51,
+    "chikouSpan": 256.87
+  },
+  {
+    "timestamp": "2018-02-28T00:00:00",
+    "tenkanSen": 263.745,
+    "kijunSen": 259.825,
+    "senkouSpanA": 265.4775,
+    "senkouSpanB": 258.61,
+    "chikouSpan": 251.14
+  },
+  {
+    "timestamp": "2018-03-01T00:00:00",
+    "tenkanSen": 262.41,
+    "kijunSen": 259.825,
+    "senkouSpanA": 265.9225,
+    "senkouSpanB": 259.055,
+    "chikouSpan": 252.38
+  },
+  {
+    "timestamp": "2018-03-02T00:00:00",
+    "tenkanSen": 261.84,
+    "kijunSen": 259.825,
+    "senkouSpanA": 267.11,
+    "senkouSpanB": 259.575,
+    "chikouSpan": 256.4
+  },
+  {
+    "timestamp": "2018-03-05T00:00:00",
+    "tenkanSen": 261.84,
+    "kijunSen": 259.825,
+    "senkouSpanA": 267.7775,
+    "senkouSpanB": 259.575,
+    "chikouSpan": 255.05
+  },
+  {
+    "timestamp": "2018-03-06T00:00:00",
+    "tenkanSen": 261.84,
+    "kijunSen": 259.73,
+    "senkouSpanA": 268.7325,
+    "senkouSpanB": 260.505,
+    "chikouSpan": 257.15
+  },
+  {
+    "timestamp": "2018-03-07T00:00:00",
+    "tenkanSen": 261.84,
+    "kijunSen": 258.915,
+    "senkouSpanA": 268.9225,
+    "senkouSpanB": 260.505,
+    "chikouSpan": 256.4
+  },
+  {
+    "timestamp": "2018-03-08T00:00:00",
+    "tenkanSen": 261.84,
+    "kijunSen": 258.22,
+    "senkouSpanA": 269.310,
+    "senkouSpanB": 260.505,
+    "chikouSpan": 258.5
+  },
+  {
+    "timestamp": "2018-03-09T00:00:00",
+    "tenkanSen": 261.84,
+    "kijunSen": 258.105,
+    "senkouSpanA": 269.445,
+    "senkouSpanB": 260.505,
+    "chikouSpan": 261.27
+  },
+  {
+    "timestamp": "2018-03-12T00:00:00",
+    "tenkanSen": 262.32,
+    "kijunSen": 256.745,
+    "senkouSpanA": 269.6775,
+    "senkouSpanB": 261.39,
+    "chikouSpan": 261.46
+  },
+  {
+    "timestamp": "2018-03-13T00:00:00",
+    "tenkanSen": 262.56,
+    "kijunSen": 256.83,
+    "senkouSpanA": 268.545,
+    "senkouSpanB": 261.53,
+    "chikouSpan": 260.01
+  },
+  {
+    "timestamp": "2018-03-14T00:00:00",
+    "tenkanSen": 262.56,
+    "kijunSen": 256.83,
+    "senkouSpanA": 264.83,
+    "senkouSpanB": 261.575,
+    "chikouSpan": 257.81
+  },
+  {
+    "timestamp": "2018-03-15T00:00:00",
+    "tenkanSen": 263.905,
+    "kijunSen": 256.83,
+    "senkouSpanA": 262.61,
+    "senkouSpanB": 261.765,
+    "chikouSpan": 257.77
+  },
+  {
+    "timestamp": "2018-03-16T00:00:00",
+    "tenkanSen": 265.155,
+    "kijunSen": 256.83,
+    "senkouSpanA": 262.61,
+    "senkouSpanB": 262.395,
+    "chikouSpan": 254.3
+  },
+  {
+    "timestamp": "2018-03-19T00:00:00",
+    "tenkanSen": 264.91,
+    "kijunSen": 256.83,
+    "senkouSpanA": 262.0275,
+    "senkouSpanB": 262.075,
+    "chikouSpan": 254.93
+  },
+  {
+    "timestamp": "2018-03-20T00:00:00",
+    "tenkanSen": 264.91,
+    "kijunSen": 261.045,
+    "senkouSpanA": 259.370,
+    "senkouSpanB": 259.825,
+    "chikouSpan": 257.52
+  },
+  {
+    "timestamp": "2018-03-21T00:00:00",
+    "tenkanSen": 264.91,
+    "kijunSen": 261.835,
+    "senkouSpanA": 259.0225,
+    "senkouSpanB": 259.825,
+    "chikouSpan": 257.76
+  },
+  {
+    "timestamp": "2018-03-22T00:00:00",
+    "tenkanSen": 262.365,
+    "kijunSen": 262.31,
+    "senkouSpanA": 258.965,
+    "senkouSpanB": 259.825,
+    "chikouSpan": 255.78
+  },
+  {
+    "timestamp": "2018-03-23T00:00:00",
+    "tenkanSen": 259.695,
+    "kijunSen": 259.695,
+    "senkouSpanA": 258.285,
+    "senkouSpanB": 259.825,
+    "chikouSpan": 256.23
+  },
+  {
+    "timestamp": "2018-03-26T00:00:00",
+    "tenkanSen": 258.545,
+    "kijunSen": 259.695,
+    "senkouSpanA": 257.230,
+    "senkouSpanB": 259.825,
+    "chikouSpan": 254.51
+  },
+  {
+    "timestamp": "2018-03-27T00:00:00",
+    "tenkanSen": 257.865,
+    "kijunSen": 259.695,
+    "senkouSpanA": 257.1025,
+    "senkouSpanB": 259.825,
+    "chikouSpan": 253.95
+  },
+  {
+    "timestamp": "2018-03-28T00:00:00",
+    "tenkanSen": 257.81,
+    "kijunSen": 259.695,
+    "senkouSpanA": 257.1025,
+    "senkouSpanB": 259.825,
+    "chikouSpan": 257.24
+  },
+  {
+    "timestamp": "2018-03-29T00:00:00",
+    "tenkanSen": 257.33,
+    "kijunSen": 259.695,
+    "senkouSpanA": 257.1025,
+    "senkouSpanB": 259.825,
+    "chikouSpan": 258.11
+  },
+  {
+    "timestamp": "2018-04-02T00:00:00",
+    "tenkanSen": 255.255,
+    "kijunSen": 258.165,
+    "senkouSpanA": 257.1025,
+    "senkouSpanB": 259.825,
+    "chikouSpan": 258.11
+  },
+  {
+    "timestamp": "2018-04-03T00:00:00",
+    "tenkanSen": 255.255,
+    "kijunSen": 258.165,
+    "senkouSpanA": 259.210,
+    "senkouSpanB": 259.825,
+    "chikouSpan": 260.6
+  },
+  {
+    "timestamp": "2018-04-04T00:00:00",
+    "tenkanSen": 253.125,
+    "kijunSen": 258.165,
+    "senkouSpanA": 260.2525,
+    "senkouSpanB": 259.825,
+    "chikouSpan": 263.04
+  },
+  {
+    "timestamp": "2018-04-05T00:00:00",
+    "tenkanSen": 252.11,
+    "kijunSen": 258.165,
+    "senkouSpanA": 260.7075,
+    "senkouSpanB": 259.825,
+    "chikouSpan": 263.84
+  },
+  {
+    "timestamp": "2018-04-06T00:00:00",
+    "tenkanSen": 252.11,
+    "kijunSen": 258.165,
+    "senkouSpanA": 261.785,
+    "senkouSpanB": 259.825,
+    "chikouSpan": 263.97
+  },
+  {
+    "timestamp": "2018-04-09T00:00:00",
+    "tenkanSen": 252.11,
+    "kijunSen": 258.165,
+    "senkouSpanA": 261.1175,
+    "senkouSpanB": 259.825,
+    "chikouSpan": 262.15
+  },
+  {
+    "timestamp": "2018-04-10T00:00:00",
+    "tenkanSen": 252.05,
+    "kijunSen": 258.165,
+    "senkouSpanA": 260.8325,
+    "senkouSpanB": 259.825,
+    "chikouSpan": 263.25
+  },
+  {
+    "timestamp": "2018-04-11T00:00:00",
+    "tenkanSen": 252.05,
+    "kijunSen": 258.165,
+    "senkouSpanA": 260.8325,
+    "senkouSpanB": 259.825,
+    "chikouSpan": 263.03
+  },
+  {
+    "timestamp": "2018-04-12T00:00:00",
+    "tenkanSen": 252.22,
+    "kijunSen": 258.165,
+    "senkouSpanA": 260.785,
+    "senkouSpanB": 259.825,
+    "chikouSpan": 262.37
+  },
+  {
+    "timestamp": "2018-04-13T00:00:00",
+    "tenkanSen": 253.42,
+    "kijunSen": 258.165,
+    "senkouSpanA": 260.3775,
+    "senkouSpanB": 259.825,
+    "chikouSpan": 264.34
+  },
+  {
+    "timestamp": "2018-04-16T00:00:00",
+    "tenkanSen": 253.735,
+    "kijunSen": 258.165,
+    "senkouSpanA": 260.03,
+    "senkouSpanB": 259.825,
+    "chikouSpan": 263.61
+  },
+  {
+    "timestamp": "2018-04-17T00:00:00",
+    "tenkanSen": 255.705,
+    "kijunSen": 258.165,
+    "senkouSpanA": 259.9725,
+    "senkouSpanB": 259.825,
+    "chikouSpan": 264.33
+  },
+  {
+    "timestamp": "2018-04-18T00:00:00",
+    "tenkanSen": 255.91,
+    "kijunSen": 258.165,
+    "senkouSpanA": 259.5325,
+    "senkouSpanB": 259.825,
+    "chikouSpan": 263.79
+  },
+  {
+    "timestamp": "2018-04-19T00:00:00",
+    "tenkanSen": 256.845,
+    "kijunSen": 257.015,
+    "senkouSpanA": 259.695,
+    "senkouSpanB": 259.825,
+    "chikouSpan": 263.16
+  },
+  {
+    "timestamp": "2018-04-20T00:00:00",
+    "tenkanSen": 258.32,
+    "kijunSen": 256.335,
+    "senkouSpanA": 259.695,
+    "senkouSpanB": 259.825,
+    "chikouSpan": 260.14
+  },
+  {
+    "timestamp": "2018-04-23T00:00:00",
+    "tenkanSen": 258.515,
+    "kijunSen": 256.28,
+    "senkouSpanA": 260.3675,
+    "senkouSpanB": 259.825,
+    "chikouSpan": 263.61
+  },
+  {
+    "timestamp": "2018-04-24T00:00:00",
+    "tenkanSen": 257.495,
+    "kijunSen": 255.80,
+    "senkouSpanA": 260.9925,
+    "senkouSpanB": 259.825,
+    "chikouSpan": 261.99
+  },
+  {
+    "timestamp": "2018-04-25T00:00:00",
+    "tenkanSen": 257.29,
+    "kijunSen": 255.255,
+    "senkouSpanA": 260.87,
+    "senkouSpanB": 259.825,
+    "chikouSpan": 264.57
+  },
+  {
+    "timestamp": "2018-04-26T00:00:00",
+    "tenkanSen": 257.29,
+    "kijunSen": 255.255,
+    "senkouSpanA": 262.9775,
+    "senkouSpanB": 259.825,
+    "chikouSpan": 265.82
+  },
+  {
+    "timestamp": "2018-04-27T00:00:00",
+    "tenkanSen": 257.29,
+    "kijunSen": 254.30,
+    "senkouSpanA": 263.3725,
+    "senkouSpanB": 259.825,
+    "chikouSpan": 266.02
+  },
+  {
+    "timestamp": "2018-04-30T00:00:00",
+    "tenkanSen": 257.29,
+    "kijunSen": 254.30,
+    "senkouSpanA": 262.3375,
+    "senkouSpanB": 259.825,
+    "chikouSpan": 268.24
+  },
+  {
+    "timestamp": "2018-05-01T00:00:00",
+    "tenkanSen": 256.605,
+    "kijunSen": 254.30,
+    "senkouSpanA": 259.695,
+    "senkouSpanB": 259.825,
+    "chikouSpan": 268.21
+  },
+  {
+    "timestamp": "2018-05-02T00:00:00",
+    "tenkanSen": 256.21,
+    "kijunSen": 254.30,
+    "senkouSpanA": 259.120,
+    "senkouSpanB": 259.825,
+    "chikouSpan": 269
+  },
+  {
+    "timestamp": "2018-05-03T00:00:00",
+    "tenkanSen": 254.815,
+    "kijunSen": 254.30,
+    "senkouSpanA": 258.780,
+    "senkouSpanB": 259.825,
+    "chikouSpan": 269.36
+  },
+  {
+    "timestamp": "2018-05-04T00:00:00",
+    "tenkanSen": 254.815,
+    "kijunSen": 254.30,
+    "senkouSpanA": 258.7525,
+    "senkouSpanB": 259.825,
+    "chikouSpan": 269.71
+  },
+  {
+    "timestamp": "2018-05-07T00:00:00",
+    "tenkanSen": 254.835,
+    "kijunSen": 254.30,
+    "senkouSpanA": 258.5125,
+    "senkouSpanB": 259.825,
+    "chikouSpan": 268.85
+  },
+  {
+    "timestamp": "2018-05-08T00:00:00",
+    "tenkanSen": 254.835,
+    "kijunSen": 255.235,
+    "senkouSpanA": 256.710,
+    "senkouSpanB": 259.825,
+    "chikouSpan": 269.53
+  },
+  {
+    "timestamp": "2018-05-09T00:00:00",
+    "tenkanSen": 255.725,
+    "kijunSen": 255.235,
+    "senkouSpanA": 256.710,
+    "senkouSpanB": 259.825,
+    "chikouSpan": 269.18
+  },
+  {
+    "timestamp": "2018-05-10T00:00:00",
+    "tenkanSen": 256.95,
+    "kijunSen": 256.44,
+    "senkouSpanA": 255.645,
+    "senkouSpanB": 259.825,
+    "chikouSpan": 268.63
+  },
+  {
+    "timestamp": "2018-05-11T00:00:00",
+    "tenkanSen": 257.315,
+    "kijunSen": 256.805,
+    "senkouSpanA": 255.1375,
+    "senkouSpanB": 259.825,
+    "chikouSpan": 267.6
+  },
+  {
+    "timestamp": "2018-05-14T00:00:00",
+    "tenkanSen": 257.765,
+    "kijunSen": 257.765,
+    "senkouSpanA": 255.1375,
+    "senkouSpanB": 259.825,
+    "chikouSpan": 268.06
+  },
+  {
+    "timestamp": "2018-05-15T00:00:00",
+    "tenkanSen": 257.765,
+    "kijunSen": 257.765,
+    "senkouSpanA": 255.1375,
+    "senkouSpanB": 259.825,
+    "chikouSpan": 266.38
+  },
+  {
+    "timestamp": "2018-05-16T00:00:00",
+    "tenkanSen": 258.78,
+    "kijunSen": 257.765,
+    "senkouSpanA": 255.1075,
+    "senkouSpanB": 259.825,
+    "chikouSpan": 266.86
+  },
+  {
+    "timestamp": "2018-05-17T00:00:00",
+    "tenkanSen": 260.715,
+    "kijunSen": 257.765,
+    "senkouSpanA": 255.1075,
+    "senkouSpanB": 259.825,
+    "chikouSpan": 263.23
+  },
+  {
+    "timestamp": "2018-05-18T00:00:00",
+    "tenkanSen": 260.715,
+    "kijunSen": 257.765,
+    "senkouSpanA": 255.1925,
+    "senkouSpanB": 259.73,
+    "chikouSpan": 263.81
+  },
+  {
+    "timestamp": "2018-05-21T00:00:00",
+    "tenkanSen": 261.65,
+    "kijunSen": 257.765,
+    "senkouSpanA": 255.7925,
+    "senkouSpanB": 258.915,
+    "chikouSpan": 261.63
+  },
+  {
+    "timestamp": "2018-05-22T00:00:00",
+    "tenkanSen": 263.155,
+    "kijunSen": 257.85,
+    "senkouSpanA": 255.950,
+    "senkouSpanB": 258.22,
+    "chikouSpan": 263.12
+  },
+  {
+    "timestamp": "2018-05-23T00:00:00",
+    "tenkanSen": 263.155,
+    "kijunSen": 257.85,
+    "senkouSpanA": 256.935,
+    "senkouSpanB": 258.105,
+    "chikouSpan": 263.5
+  },
+  {
+    "timestamp": "2018-05-24T00:00:00",
+    "tenkanSen": 263.155,
+    "kijunSen": 257.85,
+    "senkouSpanA": 257.0375,
+    "senkouSpanB": 256.83,
+    "chikouSpan": 264.06
+  },
+  {
+    "timestamp": "2018-05-25T00:00:00",
+    "tenkanSen": 263.155,
+    "kijunSen": 257.85,
+    "senkouSpanA": 256.930,
+    "senkouSpanB": 256.83,
+    "chikouSpan": 263.13
+  },
+  {
+    "timestamp": "2018-05-29T00:00:00",
+    "tenkanSen": 262.06,
+    "kijunSen": 257.85,
+    "senkouSpanA": 257.3275,
+    "senkouSpanB": 256.83,
+    "chikouSpan": 265.28
+  },
+  {
+    "timestamp": "2018-05-30T00:00:00",
+    "tenkanSen": 262.06,
+    "kijunSen": 257.85,
+    "senkouSpanA": 257.3975,
+    "senkouSpanB": 256.83,
+    "chikouSpan": 267.52
+  },
+  {
+    "timestamp": "2018-05-31T00:00:00",
+    "tenkanSen": 262.06,
+    "kijunSen": 257.85,
+    "senkouSpanA": 256.6475,
+    "senkouSpanB": 256.83,
+    "chikouSpan": 269.93
+  },
+  {
+    "timestamp": "2018-06-01T00:00:00",
+    "tenkanSen": 262.06,
+    "kijunSen": 257.85,
+    "senkouSpanA": 256.2725,
+    "senkouSpanB": 256.83,
+    "chikouSpan": 270.9
+  },
+  {
+    "timestamp": "2018-06-04T00:00:00",
+    "tenkanSen": 262.51,
+    "kijunSen": 258.3,
+    "senkouSpanA": 256.2725,
+    "senkouSpanB": 258.165,
+    "chikouSpan": 268.92
+  },
+  {
+    "timestamp": "2018-06-05T00:00:00",
+    "tenkanSen": 262.675,
+    "kijunSen": 258.465,
+    "senkouSpanA": 255.795,
+    "senkouSpanB": 258.165,
+    "chikouSpan": 271.36
+  },
+  {
+    "timestamp": "2018-06-06T00:00:00",
+    "tenkanSen": 263.64,
+    "kijunSen": 259.43,
+    "senkouSpanA": 255.795,
+    "senkouSpanB": 258.165,
+    "chikouSpan": 271.57
+  },
+  {
+    "timestamp": "2018-06-07T00:00:00",
+    "tenkanSen": 264.005,
+    "kijunSen": 259.795,
+    "senkouSpanA": 255.4525,
+    "senkouSpanB": 258.165,
+    "chikouSpan": 271.33
+  },
+  {
+    "timestamp": "2018-06-08T00:00:00",
+    "tenkanSen": 264.005,
+    "kijunSen": 259.795,
+    "senkouSpanA": 255.255,
+    "senkouSpanB": 258.165,
+    "chikouSpan": 272.43
+  },
+  {
+    "timestamp": "2018-06-11T00:00:00",
+    "tenkanSen": 265.74,
+    "kijunSen": 261.34,
+    "senkouSpanA": 254.5575,
+    "senkouSpanB": 258.165,
+    "chikouSpan": 273
+  },
+  {
+    "timestamp": "2018-06-12T00:00:00",
+    "tenkanSen": 265.74,
+    "kijunSen": 263.275,
+    "senkouSpanA": 254.5575,
+    "senkouSpanB": 258.165,
+    "chikouSpan": 271.97
+  },
+  {
+    "timestamp": "2018-06-13T00:00:00",
+    "tenkanSen": 266.795,
+    "kijunSen": 263.325,
+    "senkouSpanA": 254.5675,
+    "senkouSpanB": 258.165,
+    "chikouSpan": 271.66
+  },
+  {
+    "timestamp": "2018-06-14T00:00:00",
+    "tenkanSen": 267.69,
+    "kijunSen": 264.26,
+    "senkouSpanA": 255.035,
+    "senkouSpanB": 258.165,
+    "chikouSpan": 272.16
+  },
+  {
+    "timestamp": "2018-06-15T00:00:00",
+    "tenkanSen": 267.69,
+    "kijunSen": 264.585,
+    "senkouSpanA": 255.480,
+    "senkouSpanB": 258.165,
+    "chikouSpan": 273.53
+  },
+  {
+    "timestamp": "2018-06-18T00:00:00",
+    "tenkanSen": 268.13,
+    "kijunSen": 264.585,
+    "senkouSpanA": 256.695,
+    "senkouSpanB": 258.165,
+    "chikouSpan": 275.87
+  },
+  {
+    "timestamp": "2018-06-19T00:00:00",
+    "tenkanSen": 267.97,
+    "kijunSen": 264.585,
+    "senkouSpanA": 257.060,
+    "senkouSpanB": 258.165,
+    "chikouSpan": 275.21
+  },
+  {
+    "timestamp": "2018-06-20T00:00:00",
+    "tenkanSen": 267.97,
+    "kijunSen": 264.585,
+    "senkouSpanA": 257.765,
+    "senkouSpanB": 258.165,
+    "chikouSpan": 273.35
+  },
+  {
+    "timestamp": "2018-06-21T00:00:00",
+    "tenkanSen": 267.97,
+    "kijunSen": 264.585,
+    "senkouSpanA": 257.765,
+    "senkouSpanB": 258.165,
+    "chikouSpan": 271.92
+  },
+  {
+    "timestamp": "2018-06-22T00:00:00",
+    "tenkanSen": 267.97,
+    "kijunSen": 264.585,
+    "senkouSpanA": 258.2725,
+    "senkouSpanB": 258.165,
+    "chikouSpan": 273.26
+  },
+  {
+    "timestamp": "2018-06-25T00:00:00",
+    "tenkanSen": 265.815,
+    "kijunSen": 264.585,
+    "senkouSpanA": 259.240,
+    "senkouSpanB": 258.165,
+    "chikouSpan": 272.81
+  },
+  {
+    "timestamp": "2018-06-26T00:00:00",
+    "tenkanSen": 265.745,
+    "kijunSen": 264.585,
+    "senkouSpanA": 259.240,
+    "senkouSpanB": 258.165,
+    "chikouSpan": 274.29
+  },
+  {
+    "timestamp": "2018-06-27T00:00:00",
+    "tenkanSen": 265.465,
+    "kijunSen": 264.585,
+    "senkouSpanA": 259.7075,
+    "senkouSpanB": 258.165,
+    "chikouSpan": 275.47
+  },
+  {
+    "timestamp": "2018-06-28T00:00:00",
+    "tenkanSen": 264.785,
+    "kijunSen": 264.585,
+    "senkouSpanA": 260.5025,
+    "senkouSpanB": 258.165,
+    "chikouSpan": 276.48
+  },
+  {
+    "timestamp": "2018-06-29T00:00:00",
+    "tenkanSen": 264.785,
+    "kijunSen": 264.585,
+    "senkouSpanA": 260.5025,
+    "senkouSpanB": 258.165,
+    "chikouSpan": 277.39
+  },
+  {
+    "timestamp": "2018-07-02T00:00:00",
+    "tenkanSen": 264.785,
+    "kijunSen": 264.585,
+    "senkouSpanA": 260.5025,
+    "senkouSpanB": 258.165,
+    "chikouSpan": 277.27
+  },
+  {
+    "timestamp": "2018-07-03T00:00:00",
+    "tenkanSen": 264.43,
+    "kijunSen": 264.585,
+    "senkouSpanA": 260.5025,
+    "senkouSpanB": 257.015,
+    "chikouSpan": 276.9
+  },
+  {
+    "timestamp": "2018-07-05T00:00:00",
+    "tenkanSen": 264.335,
+    "kijunSen": 265.52,
+    "senkouSpanA": 259.955,
+    "senkouSpanB": 256.335,
+    "chikouSpan": 275.04
+  },
+  {
+    "timestamp": "2018-07-06T00:00:00",
+    "tenkanSen": 264.36,
+    "kijunSen": 265.52,
+    "senkouSpanA": 259.955,
+    "senkouSpanB": 256.28,
+    "chikouSpan": 274.01
+  },
+  {
+    "timestamp": "2018-07-09T00:00:00",
+    "tenkanSen": 265.39,
+    "kijunSen": 265.52,
+    "senkouSpanA": 259.955,
+    "senkouSpanB": 255.80,
+    "chikouSpan": 275.76
+  },
+  {
+    "timestamp": "2018-07-10T00:00:00",
+    "tenkanSen": 265.90,
+    "kijunSen": 265.90,
+    "senkouSpanA": 259.955,
+    "senkouSpanB": 255.73,
+    "chikouSpan": 273.7
+  },
+  {
+    "timestamp": "2018-07-11T00:00:00",
+    "tenkanSen": 265.90,
+    "kijunSen": 265.90,
+    "senkouSpanA": 260.405,
+    "senkouSpanB": 256.18,
+    "chikouSpan": 275.91
+  },
+  {
+    "timestamp": "2018-07-12T00:00:00",
+    "tenkanSen": 266.47,
+    "kijunSen": 266.105,
+    "senkouSpanA": 260.570,
+    "senkouSpanB": 256.345,
+    "chikouSpan": 276.89
+  },
+  {
+    "timestamp": "2018-07-13T00:00:00",
+    "tenkanSen": 266.71,
+    "kijunSen": 266.345,
+    "senkouSpanA": 261.535,
+    "senkouSpanB": 257.31,
+    "chikouSpan": 277.48
+  },
+  {
+    "timestamp": "2018-07-16T00:00:00",
+    "tenkanSen": 267.285,
+    "kijunSen": 266.345,
+    "senkouSpanA": 261.900,
+    "senkouSpanB": 257.675,
+    "chikouSpan": 278.13
+  },
+  {
+    "timestamp": "2018-07-17T00:00:00",
+    "tenkanSen": 268.02,
+    "kijunSen": 266.82,
+    "senkouSpanA": 261.900,
+    "senkouSpanB": 257.675,
+    "chikouSpan": 277.96
+  },
+  {
+    "timestamp": "2018-07-18T00:00:00",
+    "tenkanSen": 269.005,
+    "kijunSen": 266.955,
+    "senkouSpanA": 263.54,
+    "senkouSpanB": 258.205,
+    "chikouSpan": 277.59
+  },
+  {
+    "timestamp": "2018-07-19T00:00:00",
+    "tenkanSen": 270.845,
+    "kijunSen": 266.955,
+    "senkouSpanA": 264.5075,
+    "senkouSpanB": 258.205,
+    "chikouSpan": 279.27
+  },
+  {
+    "timestamp": "2018-07-20T00:00:00",
+    "tenkanSen": 270.855,
+    "kijunSen": 266.955,
+    "senkouSpanA": 265.060,
+    "senkouSpanB": 258.255,
+    "chikouSpan": 281.47
+  },
+  {
+    "timestamp": "2018-07-23T00:00:00",
+    "tenkanSen": 270.855,
+    "kijunSen": 266.955,
+    "senkouSpanA": 265.975,
+    "senkouSpanB": 259.19,
+    "chikouSpan": 281.61
+  },
+  {
+    "timestamp": "2018-07-24T00:00:00",
+    "tenkanSen": 272.05,
+    "kijunSen": 267.625,
+    "senkouSpanA": 266.1375,
+    "senkouSpanB": 259.19,
+    "chikouSpan": 283.12
+  },
+  {
+    "timestamp": "2018-07-25T00:00:00",
+    "tenkanSen": 273.325,
+    "kijunSen": 268.505,
+    "senkouSpanA": 266.3575,
+    "senkouSpanB": 259.865,
+    "chikouSpan": 281.98
+  },
+  {
+    "timestamp": "2018-07-26T00:00:00",
+    "tenkanSen": 273.325,
+    "kijunSen": 268.505,
+    "senkouSpanA": 266.2775,
+    "senkouSpanB": 259.865,
+    "chikouSpan": 281.98
+  },
+  {
+    "timestamp": "2018-07-27T00:00:00",
+    "tenkanSen": 273.325,
+    "kijunSen": 268.505,
+    "senkouSpanA": 266.2775,
+    "senkouSpanB": 260.375,
+    "chikouSpan": 281.5
+  },
+  {
+    "timestamp": "2018-07-30T00:00:00",
+    "tenkanSen": 273.64,
+    "kijunSen": 268.505,
+    "senkouSpanA": 266.2775,
+    "senkouSpanB": 260.375,
+    "chikouSpan": 280.74
+  },
+  {
+    "timestamp": "2018-07-31T00:00:00",
+    "tenkanSen": 273.64,
+    "kijunSen": 268.505,
+    "senkouSpanA": 266.2775,
+    "senkouSpanB": 260.375,
+    "chikouSpan": 279.9
+  },
+  {
+    "timestamp": "2018-08-01T00:00:00",
+    "tenkanSen": 273.64,
+    "kijunSen": 268.505,
+    "senkouSpanA": 265.200,
+    "senkouSpanB": 260.375,
+    "chikouSpan": 279.35
+  },
+  {
+    "timestamp": "2018-08-02T00:00:00",
+    "tenkanSen": 273.64,
+    "kijunSen": 268.505,
+    "senkouSpanA": 265.165,
+    "senkouSpanB": 260.375,
+    "chikouSpan": 279.84
+  },
+  {
+    "timestamp": "2018-08-03T00:00:00",
+    "tenkanSen": 273.685,
+    "kijunSen": 268.505,
+    "senkouSpanA": 265.025,
+    "senkouSpanB": 260.375,
+    "chikouSpan": 280.76
+  },
+  {
+    "timestamp": "2018-08-06T00:00:00",
+    "tenkanSen": 273.985,
+    "kijunSen": 269.17,
+    "senkouSpanA": 264.685,
+    "senkouSpanB": 260.375,
+    "chikouSpan": 280.83
+  },
+  {
+    "timestamp": "2018-08-07T00:00:00",
+    "tenkanSen": 274.48,
+    "kijunSen": 269.665,
+    "senkouSpanA": 264.685,
+    "senkouSpanB": 260.375,
+    "chikouSpan": 282.49
+  },
+  {
+    "timestamp": "2018-08-08T00:00:00",
+    "tenkanSen": 274.48,
+    "kijunSen": 270.24,
+    "senkouSpanA": 264.685,
+    "senkouSpanB": 260.375,
+    "chikouSpan": 282.54
+  },
+  {
+    "timestamp": "2018-08-09T00:00:00",
+    "tenkanSen": 274.48,
+    "kijunSen": 270.50,
+    "senkouSpanA": 264.5075,
+    "senkouSpanB": 260.375,
+    "chikouSpan": 281.04
+  },
+  {
+    "timestamp": "2018-08-10T00:00:00",
+    "tenkanSen": 274.48,
+    "kijunSen": 271.35,
+    "senkouSpanA": 264.9275,
+    "senkouSpanB": 260.375,
+    "chikouSpan": 282.57
+  },
+  {
+    "timestamp": "2018-08-13T00:00:00",
+    "tenkanSen": 274.48,
+    "kijunSen": 273.19,
+    "senkouSpanA": 264.94,
+    "senkouSpanB": 260.375,
+    "chikouSpan": 282.87
+  },
+  {
+    "timestamp": "2018-08-14T00:00:00",
+    "tenkanSen": 274.48,
+    "kijunSen": 273.20,
+    "senkouSpanA": 265.455,
+    "senkouSpanB": 260.375,
+    "chikouSpan": 285.16
+  },
+  {
+    "timestamp": "2018-08-15T00:00:00",
+    "tenkanSen": 274.97,
+    "kijunSen": 273.20,
+    "senkouSpanA": 265.90,
+    "senkouSpanB": 260.755,
+    "chikouSpan": 284.9
+  },
+  {
+    "timestamp": "2018-08-16T00:00:00",
+    "tenkanSen": 274.97,
+    "kijunSen": 273.725,
+    "senkouSpanA": 265.90,
+    "senkouSpanB": 260.755,
+    "chikouSpan": 283.95
+  },
+  {
+    "timestamp": "2018-08-17T00:00:00",
+    "tenkanSen": 274.97,
+    "kijunSen": 274.12,
+    "senkouSpanA": 266.2875,
+    "senkouSpanB": 260.96,
+    "chikouSpan": 283.69
+  },
+  {
+    "timestamp": "2018-08-20T00:00:00",
+    "tenkanSen": 274.95,
+    "kijunSen": 274.12,
+    "senkouSpanA": 266.5275,
+    "senkouSpanB": 261.2,
+    "chikouSpan": 282.84
+  },
+  {
+    "timestamp": "2018-08-21T00:00:00",
+    "tenkanSen": 275.60,
+    "kijunSen": 274.75,
+    "senkouSpanA": 266.815,
+    "senkouSpanB": 261.2,
+    "chikouSpan": 283.63
+  },
+  {
+    "timestamp": "2018-08-22T00:00:00",
+    "tenkanSen": 275.60,
+    "kijunSen": 275.065,
+    "senkouSpanA": 267.42,
+    "senkouSpanB": 261.675,
+    "chikouSpan": 283.66
+  },
+  {
+    "timestamp": "2018-08-23T00:00:00",
+    "tenkanSen": 275.60,
+    "kijunSen": 275.065,
+    "senkouSpanA": 267.980,
+    "senkouSpanB": 262.825,
+    "chikouSpan": 284.65
+  },
+  {
+    "timestamp": "2018-08-24T00:00:00",
+    "tenkanSen": 275.775,
+    "kijunSen": 275.24,
+    "senkouSpanA": 268.900,
+    "senkouSpanB": 264.76,
+    "chikouSpan": 284.48
+  },
+  {
+    "timestamp": "2018-08-27T00:00:00",
+    "tenkanSen": 276.86,
+    "kijunSen": 276.325,
+    "senkouSpanA": 268.905,
+    "senkouSpanB": 264.76,
+    "chikouSpan": 284.64
+  },
+  {
+    "timestamp": "2018-08-28T00:00:00",
+    "tenkanSen": 278.66,
+    "kijunSen": 276.62,
+    "senkouSpanA": 268.905,
+    "senkouSpanB": 265.695,
+    "chikouSpan": 282.41
+  },
+  {
+    "timestamp": "2018-08-29T00:00:00",
+    "tenkanSen": 279.305,
+    "kijunSen": 277.26,
+    "senkouSpanA": 269.8375,
+    "senkouSpanB": 266.69,
+    "chikouSpan": 280.83
+  },
+  {
+    "timestamp": "2018-08-30T00:00:00",
+    "tenkanSen": 280.13,
+    "kijunSen": 277.26,
+    "senkouSpanA": 270.915,
+    "senkouSpanB": 267.57,
+    "chikouSpan": 280.83
+  },
+  {
+    "timestamp": "2018-08-31T00:00:00",
+    "tenkanSen": 280.305,
+    "kijunSen": 277.26,
+    "senkouSpanA": 270.915,
+    "senkouSpanB": 267.57,
+    "chikouSpan": 280.42
+  },
+  {
+    "timestamp": "2018-09-04T00:00:00",
+    "tenkanSen": 280.305,
+    "kijunSen": 277.26,
+    "senkouSpanA": 270.915,
+    "senkouSpanB": 267.57,
+    "chikouSpan": 271.54
+  },
+  {
+    "timestamp": "2018-09-05T00:00:00",
+    "tenkanSen": 280.305,
+    "kijunSen": 277.26,
+    "senkouSpanA": 271.0725,
+    "senkouSpanB": 267.57,
+    "chikouSpan": 265.56
+  },
+  {
+    "timestamp": "2018-09-06T00:00:00",
+    "tenkanSen": 280.77,
+    "kijunSen": 277.26,
+    "senkouSpanA": 271.0725,
+    "senkouSpanB": 267.57,
+    "chikouSpan": 269.25
+  },
+  {
+    "timestamp": "2018-09-07T00:00:00",
+    "tenkanSen": 280.93,
+    "kijunSen": 277.26,
+    "senkouSpanA": 271.0725,
+    "senkouSpanB": 267.57,
+    "chikouSpan": 267.74
+  },
+  {
+    "timestamp": "2018-09-10T00:00:00",
+    "tenkanSen": 280.93,
+    "kijunSen": 277.75,
+    "senkouSpanA": 271.0725,
+    "senkouSpanB": 267.57,
+    "chikouSpan": 273.59
+  },
+  {
+    "timestamp": "2018-09-11T00:00:00",
+    "tenkanSen": 280.93,
+    "kijunSen": 277.75,
+    "senkouSpanA": 271.095,
+    "senkouSpanB": 267.57,
+    "chikouSpan": 273.64
+  },
+  {
+    "timestamp": "2018-09-12T00:00:00",
+    "tenkanSen": 280.745,
+    "kijunSen": 277.75,
+    "senkouSpanA": 271.5775,
+    "senkouSpanB": 267.87,
+    "chikouSpan": 269.69
+  },
+  {
+    "timestamp": "2018-09-13T00:00:00",
+    "tenkanSen": 280.59,
+    "kijunSen": 277.75,
+    "senkouSpanA": 272.0725,
+    "senkouSpanB": 268.365,
+    "chikouSpan": 269.54
+  },
+  {
+    "timestamp": "2018-09-14T00:00:00",
+    "tenkanSen": 280.705,
+    "kijunSen": 277.75,
+    "senkouSpanA": 272.36,
+    "senkouSpanB": 268.365,
+    "chikouSpan": 268.33
+  },
+  {
+    "timestamp": "2018-09-17T00:00:00",
+    "tenkanSen": 280.705,
+    "kijunSen": 277.75,
+    "senkouSpanA": 272.49,
+    "senkouSpanB": 268.365,
+    "chikouSpan": 266.97
+  },
+  {
+    "timestamp": "2018-09-18T00:00:00",
+    "tenkanSen": 280.855,
+    "kijunSen": 277.75,
+    "senkouSpanA": 272.915,
+    "senkouSpanB": 269.30,
+    "chikouSpan": 258.88
+  },
+  {
+    "timestamp": "2018-09-19T00:00:00",
+    "tenkanSen": 280.91,
+    "kijunSen": 277.75,
+    "senkouSpanA": 273.835,
+    "senkouSpanB": 269.30,
+    "chikouSpan": 263.52
+  },
+  {
+    "timestamp": "2018-09-20T00:00:00",
+    "tenkanSen": 282.13,
+    "kijunSen": 278.82,
+    "senkouSpanA": 273.84,
+    "senkouSpanB": 269.30,
+    "chikouSpan": 258.89
+  },
+  {
+    "timestamp": "2018-09-21T00:00:00",
+    "tenkanSen": 282.425,
+    "kijunSen": 280.665,
+    "senkouSpanA": 274.085,
+    "senkouSpanB": 269.30,
+    "chikouSpan": 257.45
+  },
+  {
+    "timestamp": "2018-09-24T00:00:00",
+    "tenkanSen": 283.03,
+    "kijunSen": 280.67,
+    "senkouSpanA": 274.3475,
+    "senkouSpanB": 269.30,
+    "chikouSpan": 261.27
+  },
+  {
+    "timestamp": "2018-09-25T00:00:00",
+    "tenkanSen": 283.42,
+    "kijunSen": 281.495,
+    "senkouSpanA": 274.545,
+    "senkouSpanB": 269.30,
+    "chikouSpan": 264.06
+  },
+  {
+    "timestamp": "2018-09-26T00:00:00",
+    "tenkanSen": 283.42,
+    "kijunSen": 281.67,
+    "senkouSpanA": 274.535,
+    "senkouSpanB": 269.30,
+    "chikouSpan": 266.87
+  },
+  {
+    "timestamp": "2018-09-27T00:00:00",
+    "tenkanSen": 283.42,
+    "kijunSen": 281.67,
+    "senkouSpanA": 275.175,
+    "senkouSpanB": 269.93,
+    "chikouSpan": 265.29
+  },
+  {
+    "timestamp": "2018-09-28T00:00:00",
+    "tenkanSen": 283.675,
+    "kijunSen": 281.67,
+    "senkouSpanA": 275.3325,
+    "senkouSpanB": 269.93,
+    "chikouSpan": 266.75
+  },
+  {
+    "timestamp": "2018-10-01T00:00:00",
+    "tenkanSen": 284.24,
+    "kijunSen": 282.135,
+    "senkouSpanA": 275.3325,
+    "senkouSpanB": 269.93,
+    "chikouSpan": 268.44
+  },
+  {
+    "timestamp": "2018-10-02T00:00:00",
+    "tenkanSen": 284.24,
+    "kijunSen": 282.295,
+    "senkouSpanA": 275.5075,
+    "senkouSpanB": 270.105,
+    "chikouSpan": 274.19
+  },
+  {
+    "timestamp": "2018-10-03T00:00:00",
+    "tenkanSen": 284.24,
+    "kijunSen": 282.295,
+    "senkouSpanA": 276.5925,
+    "senkouSpanB": 271.19,
+    "chikouSpan": 273.69
+  },
+  {
+    "timestamp": "2018-10-04T00:00:00",
+    "tenkanSen": 283.385,
+    "kijunSen": 282.295,
+    "senkouSpanA": 277.64,
+    "senkouSpanB": 271.44,
+    "chikouSpan": 271.02
+  },
+  {
+    "timestamp": "2018-10-05T00:00:00",
+    "tenkanSen": 282.68,
+    "kijunSen": 282.295,
+    "senkouSpanA": 278.2825,
+    "senkouSpanB": 272.08,
+    "chikouSpan": 265.95
+  },
+  {
+    "timestamp": "2018-10-08T00:00:00",
+    "tenkanSen": 282.33,
+    "kijunSen": 282.295,
+    "senkouSpanA": 278.695,
+    "senkouSpanB": 272.08,
+    "chikouSpan": 265.45
+  },
+  {
+    "timestamp": "2018-10-09T00:00:00",
+    "tenkanSen": 282.33,
+    "kijunSen": 282.295,
+    "senkouSpanA": 278.7825,
+    "senkouSpanB": 272.08,
+    "chikouSpan": 263.64
+  },
+  {
+    "timestamp": "2018-10-10T00:00:00",
+    "tenkanSen": 278.61,
+    "kijunSen": 278.615,
+    "senkouSpanA": 278.7825,
+    "senkouSpanB": 272.08,
+    "chikouSpan": 266.39
+  },
+  {
+    "timestamp": "2018-10-11T00:00:00",
+    "tenkanSen": 274.945,
+    "kijunSen": 274.95,
+    "senkouSpanA": 278.7825,
+    "senkouSpanB": 272.08,
+    "chikouSpan": 267.08
+  },
+  {
+    "timestamp": "2018-10-12T00:00:00",
+    "tenkanSen": 274.945,
+    "kijunSen": 274.95,
+    "senkouSpanA": 279.015,
+    "senkouSpanB": 272.08,
+    "chikouSpan": 262.57
+  },
+  {
+    "timestamp": "2018-10-15T00:00:00",
+    "tenkanSen": 274.945,
+    "kijunSen": 274.95,
+    "senkouSpanA": 279.095,
+    "senkouSpanB": 272.08,
+    "chikouSpan": 257.71
+  },
+  {
+    "timestamp": "2018-10-16T00:00:00",
+    "tenkanSen": 273.985,
+    "kijunSen": 274.95,
+    "senkouSpanA": 279.34,
+    "senkouSpanB": 272.08,
+    "chikouSpan": 258.58
+  },
+  {
+    "timestamp": "2018-10-17T00:00:00",
+    "tenkanSen": 273.51,
+    "kijunSen": 274.95,
+    "senkouSpanA": 279.34,
+    "senkouSpanB": 272.08,
+    "chikouSpan": 256.86
+  },
+  {
+    "timestamp": "2018-10-18T00:00:00",
+    "tenkanSen": 272.825,
+    "kijunSen": 274.95,
+    "senkouSpanA": 279.2475,
+    "senkouSpanB": 272.445,
+    "chikouSpan": 261
+  },
+  {
+    "timestamp": "2018-10-19T00:00:00",
+    "tenkanSen": 272.825,
+    "kijunSen": 274.95,
+    "senkouSpanA": 279.17,
+    "senkouSpanB": 272.445,
+    "chikouSpan": 261.88
+  },
+  {
+    "timestamp": "2018-10-22T00:00:00",
+    "tenkanSen": 271.87,
+    "kijunSen": 274.95,
+    "senkouSpanA": 279.2275,
+    "senkouSpanB": 273.02,
+    "chikouSpan": 267.91
+  },
+  {
+    "timestamp": "2018-10-23T00:00:00",
+    "tenkanSen": 268.205,
+    "kijunSen": 274.095,
+    "senkouSpanA": 279.2275,
+    "senkouSpanB": 273.28,
+    "chikouSpan": 267.33
+  },
+  {
+    "timestamp": "2018-10-24T00:00:00",
+    "tenkanSen": 266.295,
+    "kijunSen": 272.185,
+    "senkouSpanA": 279.3025,
+    "senkouSpanB": 274.13,
+    "chikouSpan": 268.96
+  },
+  {
+    "timestamp": "2018-10-25T00:00:00",
+    "tenkanSen": 266.295,
+    "kijunSen": 272.185,
+    "senkouSpanA": 279.33,
+    "senkouSpanB": 275.97,
+    "chikouSpan": 272.52
+  },
+  {
+    "timestamp": "2018-10-26T00:00:00",
+    "tenkanSen": 265.12,
+    "kijunSen": 271.01,
+    "senkouSpanA": 280.475,
+    "senkouSpanB": 277.05,
+    "chikouSpan": 263.69
+  },
+  {
+    "timestamp": "2018-10-29T00:00:00",
+    "tenkanSen": 263.93,
+    "kijunSen": 269.815,
+    "senkouSpanA": 281.545,
+    "senkouSpanB": 277.345,
+    "chikouSpan": 263.29
+  },
+  {
+    "timestamp": "2018-10-30T00:00:00",
+    "tenkanSen": 263.405,
+    "kijunSen": 269.815,
+    "senkouSpanA": 281.85,
+    "senkouSpanB": 277.87,
+    "chikouSpan": 257.17
+  },
+  {
+    "timestamp": "2018-10-31T00:00:00",
+    "tenkanSen": 263.03,
+    "kijunSen": 269.815,
+    "senkouSpanA": 282.4575,
+    "senkouSpanB": 278.265,
+    "chikouSpan": 257.66
+  },
+  {
+    "timestamp": "2018-11-01T00:00:00",
+    "tenkanSen": 262.085,
+    "kijunSen": 269.815,
+    "senkouSpanA": 282.545,
+    "senkouSpanB": 278.265,
+    "chikouSpan": 257.72
+  },
+  {
+    "timestamp": "2018-11-02T00:00:00",
+    "tenkanSen": 261.045,
+    "kijunSen": 269.815,
+    "senkouSpanA": 282.545,
+    "senkouSpanB": 278.265,
+    "chikouSpan": 259.01
+  },
+  {
+    "timestamp": "2018-11-05T00:00:00",
+    "tenkanSen": 261.045,
+    "kijunSen": 269.815,
+    "senkouSpanA": 282.6725,
+    "senkouSpanB": 278.58,
+    "chikouSpan": 258.93
+  },
+  {
+    "timestamp": "2018-11-06T00:00:00",
+    "tenkanSen": 261.08,
+    "kijunSen": 269.815,
+    "senkouSpanA": 283.1875,
+    "senkouSpanB": 278.58,
+    "chikouSpan": 254.15
+  },
+  {
+    "timestamp": "2018-11-07T00:00:00",
+    "tenkanSen": 263.905,
+    "kijunSen": 269.815,
+    "senkouSpanA": 283.2675,
+    "senkouSpanB": 278.58,
+    "chikouSpan": 249.16
+  },
+  {
+    "timestamp": "2018-11-08T00:00:00",
+    "tenkanSen": 263.965,
+    "kijunSen": 268.855,
+    "senkouSpanA": 283.2675,
+    "senkouSpanB": 278.58,
+    "chikouSpan": 248.89
+  },
+  {
+    "timestamp": "2018-11-09T00:00:00",
+    "tenkanSen": 265.56,
+    "kijunSen": 268.38,
+    "senkouSpanA": 282.840,
+    "senkouSpanB": 278.625,
+    "chikouSpan": 245.16
+  },
+  {
+    "timestamp": "2018-11-12T00:00:00",
+    "tenkanSen": 268.715,
+    "kijunSen": 267.695,
+    "senkouSpanA": 282.4875,
+    "senkouSpanB": 278.625,
+    "chikouSpan": 241.17
+  },
+  {
+    "timestamp": "2018-11-13T00:00:00",
+    "tenkanSen": 268.715,
+    "kijunSen": 267.695,
+    "senkouSpanA": 282.3125,
+    "senkouSpanB": 278.625,
+    "chikouSpan": 236.23
+  },
+  {
+    "timestamp": "2018-11-14T00:00:00",
+    "tenkanSen": 268.16,
+    "kijunSen": 266.74,
+    "senkouSpanA": 282.3125,
+    "senkouSpanB": 278.625,
+    "chikouSpan": 229.99
+  },
+  {
+    "timestamp": "2018-11-15T00:00:00",
+    "tenkanSen": 267.46,
+    "kijunSen": 263.965,
+    "senkouSpanA": 278.6125,
+    "senkouSpanB": 278.615,
+    "chikouSpan": 241.61
+  },
+  {
+    "timestamp": "2018-11-16T00:00:00",
+    "tenkanSen": 267.46,
+    "kijunSen": 263.965,
+    "senkouSpanA": 274.9475,
+    "senkouSpanB": 274.95,
+    "chikouSpan": 243.46
+  },
+  {
+    "timestamp": "2018-11-19T00:00:00",
+    "tenkanSen": 267.46,
+    "kijunSen": 263.965,
+    "senkouSpanA": 274.9475,
+    "senkouSpanB": 274.95,
+    "chikouSpan": 243.15
+  },
+  {
+    "timestamp": "2018-11-20T00:00:00",
+    "tenkanSen": 265.575,
+    "kijunSen": 263.965,
+    "senkouSpanA": 274.9475,
+    "senkouSpanB": 274.95,
+    "chikouSpan": 245.28
+  },
+  {
+    "timestamp": "2018-11-21T00:00:00",
+    "tenkanSen": 264.61,
+    "kijunSen": 263.965,
+    "senkouSpanA": 274.4675,
+    "senkouSpanB": 274.95,
+    "chikouSpan": null
+  },
+  {
+    "timestamp": "2018-11-23T00:00:00",
+    "tenkanSen": 263.70,
+    "kijunSen": 263.965,
+    "senkouSpanA": 274.23,
+    "senkouSpanB": 274.95,
+    "chikouSpan": null
+  },
+  {
+    "timestamp": "2018-11-26T00:00:00",
+    "tenkanSen": 262.66,
+    "kijunSen": 263.965,
+    "senkouSpanA": 273.8875,
+    "senkouSpanB": 274.95,
+    "chikouSpan": null
+  },
+  {
+    "timestamp": "2018-11-27T00:00:00",
+    "tenkanSen": 262.38,
+    "kijunSen": 263.965,
+    "senkouSpanA": 273.8875,
+    "senkouSpanB": 274.95,
+    "chikouSpan": null
+  },
+  {
+    "timestamp": "2018-11-28T00:00:00",
+    "tenkanSen": 262.38,
+    "kijunSen": 263.965,
+    "senkouSpanA": 273.41,
+    "senkouSpanB": 274.95,
+    "chikouSpan": null
+  },
+  {
+    "timestamp": "2018-11-29T00:00:00",
+    "tenkanSen": 262.77,
+    "kijunSen": 263.965,
+    "senkouSpanA": 271.150,
+    "senkouSpanB": 274.095,
+    "chikouSpan": null
+  },
+  {
+    "timestamp": "2018-11-30T00:00:00",
+    "tenkanSen": 263.125,
+    "kijunSen": 263.965,
+    "senkouSpanA": 269.240,
+    "senkouSpanB": 272.185,
+    "chikouSpan": null
+  },
+  {
+    "timestamp": "2018-12-03T00:00:00",
+    "tenkanSen": 265.135,
+    "kijunSen": 263.965,
+    "senkouSpanA": 269.240,
+    "senkouSpanB": 272.185,
+    "chikouSpan": null
+  },
+  {
+    "timestamp": "2018-12-04T00:00:00",
+    "tenkanSen": 265.135,
+    "kijunSen": 263.965,
+    "senkouSpanA": 268.065,
+    "senkouSpanB": 271.01,
+    "chikouSpan": null
+  },
+  {
+    "timestamp": "2018-12-06T00:00:00",
+    "tenkanSen": 264.83,
+    "kijunSen": 265.23,
+    "senkouSpanA": 266.8725,
+    "senkouSpanB": 269.82,
+    "chikouSpan": null
+  },
+  {
+    "timestamp": "2018-12-07T00:00:00",
+    "tenkanSen": 264.83,
+    "kijunSen": 265.23,
+    "senkouSpanA": 266.610,
+    "senkouSpanB": 269.82,
+    "chikouSpan": null
+  },
+  {
+    "timestamp": "2018-12-10T00:00:00",
+    "tenkanSen": 262.965,
+    "kijunSen": 263.365,
+    "senkouSpanA": 266.4225,
+    "senkouSpanB": 269.82,
+    "chikouSpan": null
+  },
+  {
+    "timestamp": "2018-12-11T00:00:00",
+    "tenkanSen": 262.965,
+    "kijunSen": 263.365,
+    "senkouSpanA": 265.950,
+    "senkouSpanB": 269.82,
+    "chikouSpan": null
+  },
+  {
+    "timestamp": "2018-12-12T00:00:00",
+    "tenkanSen": 262.965,
+    "kijunSen": 263.365,
+    "senkouSpanA": 265.430,
+    "senkouSpanB": 269.82,
+    "chikouSpan": null
+  },
+  {
+    "timestamp": "2018-12-13T00:00:00",
+    "tenkanSen": 262.965,
+    "kijunSen": 263.365,
+    "senkouSpanA": 265.430,
+    "senkouSpanB": 269.82,
+    "chikouSpan": null
+  },
+  {
+    "timestamp": "2018-12-14T00:00:00",
+    "tenkanSen": 262.965,
+    "kijunSen": 263.365,
+    "senkouSpanA": 265.4475,
+    "senkouSpanB": 269.82,
+    "chikouSpan": null
+  },
+  {
+    "timestamp": "2018-12-17T00:00:00",
+    "tenkanSen": 259.725,
+    "kijunSen": 260.88,
+    "senkouSpanA": 266.860,
+    "senkouSpanB": 269.82,
+    "chikouSpan": null
+  },
+  {
+    "timestamp": "2018-12-18T00:00:00",
+    "tenkanSen": 255.88,
+    "kijunSen": 260.36,
+    "senkouSpanA": 266.410,
+    "senkouSpanB": 269.82,
+    "chikouSpan": null
+  },
+  {
+    "timestamp": "2018-12-19T00:00:00",
+    "tenkanSen": 253.965,
+    "kijunSen": 258.445,
+    "senkouSpanA": 266.97,
+    "senkouSpanB": 269.82,
+    "chikouSpan": null
+  },
+  {
+    "timestamp": "2018-12-20T00:00:00",
+    "tenkanSen": 250.59,
+    "kijunSen": 256.15,
+    "senkouSpanA": 268.205,
+    "senkouSpanB": 269.82,
+    "chikouSpan": null
+  },
+  {
+    "timestamp": "2018-12-21T00:00:00",
+    "tenkanSen": 248.995,
+    "kijunSen": 254.555,
+    "senkouSpanA": 268.205,
+    "senkouSpanB": 269.82,
+    "chikouSpan": null
+  },
+  {
+    "timestamp": "2018-12-24T00:00:00",
+    "tenkanSen": 246.195,
+    "kijunSen": 251.755,
+    "senkouSpanA": 267.45,
+    "senkouSpanB": 269.82,
+    "chikouSpan": null
+  },
+  {
+    "timestamp": "2018-12-26T00:00:00",
+    "tenkanSen": 245.205,
+    "kijunSen": 251.505,
+    "senkouSpanA": 265.7125,
+    "senkouSpanB": 269.82,
+    "chikouSpan": null
+  },
+  {
+    "timestamp": "2018-12-27T00:00:00",
+    "tenkanSen": 243.52,
+    "kijunSen": 251.505,
+    "senkouSpanA": 265.7125,
+    "senkouSpanB": 269.82,
+    "chikouSpan": null
+  },
+  {
+    "timestamp": "2018-12-28T00:00:00",
+    "tenkanSen": 241.87,
+    "kijunSen": 251.505,
+    "senkouSpanA": 265.7125,
+    "senkouSpanB": 269.82,
+    "chikouSpan": null
+  },
+  {
+    "timestamp": "2018-12-31T00:00:00",
+    "tenkanSen": 241.26,
+    "kijunSen": 251.505,
+    "senkouSpanA": 264.770,
+    "senkouSpanB": 269.82,
+    "chikouSpan": null
+  }
+]

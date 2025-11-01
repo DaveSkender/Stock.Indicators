@@ -1,26 +1,31 @@
 namespace Skender.Stock.Indicators;
 
-public static partial class Indicator
+/// <summary>
+/// Provides utility methods for Gator Oscillator calculations.
+/// </summary>
+public static partial class Gator
 {
-    // CONDENSE (REMOVE null results)
-    /// <include file='../../_common/Results/info.xml' path='info/type[@name="Condense"]/*' />
-    ///
-    public static IEnumerable<GatorResult> Condense(
-        this IEnumerable<GatorResult> results)
+    /// <summary>
+    /// Removes empty (null) periods from the Gator Oscillator results.
+    /// </summary>
+    /// <inheritdoc cref="Reusable.Condense{T}(IReadOnlyList{T})"/>
+    public static IReadOnlyList<GatorResult> Condense(
+        this IReadOnlyList<GatorResult> results)
     {
         List<GatorResult> resultsList = results
             .ToList();
 
         resultsList
             .RemoveAll(match:
-                x => x.Upper is null && x.Lower is null);
+                static x => x.Upper is null && x.Lower is null);
 
         return resultsList.ToSortedList();
     }
 
-    // remove recommended periods
-    /// <include file='../../_common/Results/info.xml' path='info/type[@name="Prune"]/*' />
-    ///
-    public static IEnumerable<GatorResult> RemoveWarmupPeriods(
-        this IEnumerable<GatorResult> results) => results.Remove(150);
+    /// <summary>
+    /// Removes the recommended warmup periods from the Gator Oscillator results.
+    /// </summary>
+    /// <inheritdoc cref="Reusable.RemoveWarmupPeriods{T}(IReadOnlyList{T})"/>
+    public static IReadOnlyList<GatorResult> RemoveWarmupPeriods(
+        this IReadOnlyList<GatorResult> results) => results.Remove(150);
 }

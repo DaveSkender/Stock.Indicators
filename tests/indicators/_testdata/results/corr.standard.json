@@ -1,0 +1,4018 @@
+[
+  {
+    "timestamp": "2017-01-03T00:00:00",
+    "varianceA": null,
+    "varianceB": null,
+    "covariance": null,
+    "correlation": null,
+    "rSquared": null
+  },
+  {
+    "timestamp": "2017-01-04T00:00:00",
+    "varianceA": null,
+    "varianceB": null,
+    "covariance": null,
+    "correlation": null,
+    "rSquared": null
+  },
+  {
+    "timestamp": "2017-01-05T00:00:00",
+    "varianceA": null,
+    "varianceB": null,
+    "covariance": null,
+    "correlation": null,
+    "rSquared": null
+  },
+  {
+    "timestamp": "2017-01-06T00:00:00",
+    "varianceA": null,
+    "varianceB": null,
+    "covariance": null,
+    "correlation": null,
+    "rSquared": null
+  },
+  {
+    "timestamp": "2017-01-09T00:00:00",
+    "varianceA": null,
+    "varianceB": null,
+    "covariance": null,
+    "correlation": null,
+    "rSquared": null
+  },
+  {
+    "timestamp": "2017-01-10T00:00:00",
+    "varianceA": null,
+    "varianceB": null,
+    "covariance": null,
+    "correlation": null,
+    "rSquared": null
+  },
+  {
+    "timestamp": "2017-01-11T00:00:00",
+    "varianceA": null,
+    "varianceB": null,
+    "covariance": null,
+    "correlation": null,
+    "rSquared": null
+  },
+  {
+    "timestamp": "2017-01-12T00:00:00",
+    "varianceA": null,
+    "varianceB": null,
+    "covariance": null,
+    "correlation": null,
+    "rSquared": null
+  },
+  {
+    "timestamp": "2017-01-13T00:00:00",
+    "varianceA": null,
+    "varianceB": null,
+    "covariance": null,
+    "correlation": null,
+    "rSquared": null
+  },
+  {
+    "timestamp": "2017-01-17T00:00:00",
+    "varianceA": null,
+    "varianceB": null,
+    "covariance": null,
+    "correlation": null,
+    "rSquared": null
+  },
+  {
+    "timestamp": "2017-01-18T00:00:00",
+    "varianceA": null,
+    "varianceB": null,
+    "covariance": null,
+    "correlation": null,
+    "rSquared": null
+  },
+  {
+    "timestamp": "2017-01-19T00:00:00",
+    "varianceA": null,
+    "varianceB": null,
+    "covariance": null,
+    "correlation": null,
+    "rSquared": null
+  },
+  {
+    "timestamp": "2017-01-20T00:00:00",
+    "varianceA": null,
+    "varianceB": null,
+    "covariance": null,
+    "correlation": null,
+    "rSquared": null
+  },
+  {
+    "timestamp": "2017-01-23T00:00:00",
+    "varianceA": null,
+    "varianceB": null,
+    "covariance": null,
+    "correlation": null,
+    "rSquared": null
+  },
+  {
+    "timestamp": "2017-01-24T00:00:00",
+    "varianceA": null,
+    "varianceB": null,
+    "covariance": null,
+    "correlation": null,
+    "rSquared": null
+  },
+  {
+    "timestamp": "2017-01-25T00:00:00",
+    "varianceA": null,
+    "varianceB": null,
+    "covariance": null,
+    "correlation": null,
+    "rSquared": null
+  },
+  {
+    "timestamp": "2017-01-26T00:00:00",
+    "varianceA": null,
+    "varianceB": null,
+    "covariance": null,
+    "correlation": null,
+    "rSquared": null
+  },
+  {
+    "timestamp": "2017-01-27T00:00:00",
+    "varianceA": null,
+    "varianceB": null,
+    "covariance": null,
+    "correlation": null,
+    "rSquared": null
+  },
+  {
+    "timestamp": "2017-01-30T00:00:00",
+    "varianceA": null,
+    "varianceB": null,
+    "covariance": null,
+    "correlation": null,
+    "rSquared": null
+  },
+  {
+    "timestamp": "2017-01-31T00:00:00",
+    "varianceA": null,
+    "varianceB": null,
+    "covariance": null,
+    "correlation": null,
+    "rSquared": null
+  },
+  {
+    "timestamp": "2017-02-01T00:00:00",
+    "varianceA": null,
+    "varianceB": null,
+    "covariance": null,
+    "correlation": null,
+    "rSquared": null
+  },
+  {
+    "timestamp": "2017-02-02T00:00:00",
+    "varianceA": null,
+    "varianceB": null,
+    "covariance": null,
+    "correlation": null,
+    "rSquared": null
+  },
+  {
+    "timestamp": "2017-02-03T00:00:00",
+    "varianceA": null,
+    "varianceB": null,
+    "covariance": null,
+    "correlation": null,
+    "rSquared": null
+  },
+  {
+    "timestamp": "2017-02-06T00:00:00",
+    "varianceA": null,
+    "varianceB": null,
+    "covariance": null,
+    "correlation": null,
+    "rSquared": null
+  },
+  {
+    "timestamp": "2017-02-07T00:00:00",
+    "varianceA": null,
+    "varianceB": null,
+    "covariance": null,
+    "correlation": null,
+    "rSquared": null
+  },
+  {
+    "timestamp": "2017-02-08T00:00:00",
+    "varianceA": null,
+    "varianceB": null,
+    "covariance": null,
+    "correlation": null,
+    "rSquared": null
+  },
+  {
+    "timestamp": "2017-02-09T00:00:00",
+    "varianceA": null,
+    "varianceB": null,
+    "covariance": null,
+    "correlation": null,
+    "rSquared": null
+  },
+  {
+    "timestamp": "2017-02-10T00:00:00",
+    "varianceA": null,
+    "varianceB": null,
+    "covariance": null,
+    "correlation": null,
+    "rSquared": null
+  },
+  {
+    "timestamp": "2017-02-13T00:00:00",
+    "varianceA": null,
+    "varianceB": null,
+    "covariance": null,
+    "correlation": null,
+    "rSquared": null
+  },
+  {
+    "timestamp": "2017-02-14T00:00:00",
+    "varianceA": null,
+    "varianceB": null,
+    "covariance": null,
+    "correlation": null,
+    "rSquared": null
+  },
+  {
+    "timestamp": "2017-02-15T00:00:00",
+    "varianceA": null,
+    "varianceB": null,
+    "covariance": null,
+    "correlation": null,
+    "rSquared": null
+  },
+  {
+    "timestamp": "2017-02-16T00:00:00",
+    "varianceA": null,
+    "varianceB": null,
+    "covariance": null,
+    "correlation": null,
+    "rSquared": null
+  },
+  {
+    "timestamp": "2017-02-17T00:00:00",
+    "varianceA": null,
+    "varianceB": null,
+    "covariance": null,
+    "correlation": null,
+    "rSquared": null
+  },
+  {
+    "timestamp": "2017-02-21T00:00:00",
+    "varianceA": null,
+    "varianceB": null,
+    "covariance": null,
+    "correlation": null,
+    "rSquared": null
+  },
+  {
+    "timestamp": "2017-02-22T00:00:00",
+    "varianceA": null,
+    "varianceB": null,
+    "covariance": null,
+    "correlation": null,
+    "rSquared": null
+  },
+  {
+    "timestamp": "2017-02-23T00:00:00",
+    "varianceA": null,
+    "varianceB": null,
+    "covariance": null,
+    "correlation": null,
+    "rSquared": null
+  },
+  {
+    "timestamp": "2017-02-24T00:00:00",
+    "varianceA": null,
+    "varianceB": null,
+    "covariance": null,
+    "correlation": null,
+    "rSquared": null
+  },
+  {
+    "timestamp": "2017-02-27T00:00:00",
+    "varianceA": null,
+    "varianceB": null,
+    "covariance": null,
+    "correlation": null,
+    "rSquared": null
+  },
+  {
+    "timestamp": "2017-02-28T00:00:00",
+    "varianceA": null,
+    "varianceB": null,
+    "covariance": null,
+    "correlation": null,
+    "rSquared": null
+  },
+  {
+    "timestamp": "2017-03-01T00:00:00",
+    "varianceA": null,
+    "varianceB": null,
+    "covariance": null,
+    "correlation": null,
+    "rSquared": null
+  },
+  {
+    "timestamp": "2017-03-02T00:00:00",
+    "varianceA": null,
+    "varianceB": null,
+    "covariance": null,
+    "correlation": null,
+    "rSquared": null
+  },
+  {
+    "timestamp": "2017-03-03T00:00:00",
+    "varianceA": null,
+    "varianceB": null,
+    "covariance": null,
+    "correlation": null,
+    "rSquared": null
+  },
+  {
+    "timestamp": "2017-03-06T00:00:00",
+    "varianceA": null,
+    "varianceB": null,
+    "covariance": null,
+    "correlation": null,
+    "rSquared": null
+  },
+  {
+    "timestamp": "2017-03-07T00:00:00",
+    "varianceA": null,
+    "varianceB": null,
+    "covariance": null,
+    "correlation": null,
+    "rSquared": null
+  },
+  {
+    "timestamp": "2017-03-08T00:00:00",
+    "varianceA": null,
+    "varianceB": null,
+    "covariance": null,
+    "correlation": null,
+    "rSquared": null
+  },
+  {
+    "timestamp": "2017-03-09T00:00:00",
+    "varianceA": null,
+    "varianceB": null,
+    "covariance": null,
+    "correlation": null,
+    "rSquared": null
+  },
+  {
+    "timestamp": "2017-03-10T00:00:00",
+    "varianceA": null,
+    "varianceB": null,
+    "covariance": null,
+    "correlation": null,
+    "rSquared": null
+  },
+  {
+    "timestamp": "2017-03-13T00:00:00",
+    "varianceA": null,
+    "varianceB": null,
+    "covariance": null,
+    "correlation": null,
+    "rSquared": null
+  },
+  {
+    "timestamp": "2017-03-14T00:00:00",
+    "varianceA": null,
+    "varianceB": null,
+    "covariance": null,
+    "correlation": null,
+    "rSquared": null
+  },
+  {
+    "timestamp": "2017-03-15T00:00:00",
+    "varianceA": 19.880723559996113,
+    "varianceB": 19.880723559996113,
+    "covariance": 19.880723559996113,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-03-16T00:00:00",
+    "varianceA": 19.923808000014105,
+    "varianceB": 19.923808000014105,
+    "covariance": 19.923808000014105,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-03-17T00:00:00",
+    "varianceA": 20.046413000010944,
+    "varianceB": 20.046413000010944,
+    "covariance": 20.046413000010944,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-03-20T00:00:00",
+    "varianceA": 19.98450704003335,
+    "varianceB": 19.98450704003335,
+    "covariance": 19.98450704003335,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-03-21T00:00:00",
+    "varianceA": 19.592166560032638,
+    "varianceB": 19.592166560032638,
+    "covariance": 19.592166560032638,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-03-22T00:00:00",
+    "varianceA": 19.048648360017978,
+    "varianceB": 19.048648360017978,
+    "covariance": 19.048648360017978,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-03-23T00:00:00",
+    "varianceA": 18.428428000035638,
+    "varianceB": 18.428428000035638,
+    "covariance": 18.428428000035638,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-03-24T00:00:00",
+    "varianceA": 17.88555700003053,
+    "varianceB": 17.88555700003053,
+    "covariance": 17.88555700003053,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-03-27T00:00:00",
+    "varianceA": 17.158348000019032,
+    "varianceB": 17.158348000019032,
+    "covariance": 17.158348000019032,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-03-28T00:00:00",
+    "varianceA": 16.63653504000831,
+    "varianceB": 16.63653504000831,
+    "covariance": 16.63653504000831,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-03-29T00:00:00",
+    "varianceA": 15.877556040002673,
+    "varianceB": 15.877556040002673,
+    "covariance": 15.877556040002673,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-03-30T00:00:00",
+    "varianceA": 15.256777440008591,
+    "varianceB": 15.256777440008591,
+    "covariance": 15.256777440008591,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-03-31T00:00:00",
+    "varianceA": 14.267303040003753,
+    "varianceB": 14.267303040003753,
+    "covariance": 14.267303040003753,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-04-03T00:00:00",
+    "varianceA": 13.39120883999567,
+    "varianceB": 13.39120883999567,
+    "covariance": 13.39120883999567,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-04-04T00:00:00",
+    "varianceA": 12.294597000007343,
+    "varianceB": 12.294597000007343,
+    "covariance": 12.294597000007343,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-04-05T00:00:00",
+    "varianceA": 11.481312000003527,
+    "varianceB": 11.481312000003527,
+    "covariance": 11.481312000003527,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-04-06T00:00:00",
+    "varianceA": 11.083915560033347,
+    "varianceB": 11.083915560033347,
+    "covariance": 11.083915560033347,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-04-07T00:00:00",
+    "varianceA": 10.592723040019337,
+    "varianceB": 10.592723040019337,
+    "covariance": 10.592723040019337,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-04-10T00:00:00",
+    "varianceA": 9.99960756002838,
+    "varianceB": 9.99960756002838,
+    "covariance": 9.99960756002838,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-04-11T00:00:00",
+    "varianceA": 9.007647239996004,
+    "varianceB": 9.007647239996004,
+    "covariance": 9.007647239996004,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-04-12T00:00:00",
+    "varianceA": 7.948781639992376,
+    "varianceB": 7.948781639992376,
+    "covariance": 7.948781639992376,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-04-13T00:00:00",
+    "varianceA": 6.939475360006327,
+    "varianceB": 6.939475360006327,
+    "covariance": 6.939475360006327,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-04-17T00:00:00",
+    "varianceA": 5.872448040005111,
+    "varianceB": 5.872448040005111,
+    "covariance": 5.872448040005111,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-04-18T00:00:00",
+    "varianceA": 5.174270439987595,
+    "varianceB": 5.174270439987595,
+    "covariance": 5.174270439987595,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-04-19T00:00:00",
+    "varianceA": 4.373397159994056,
+    "varianceB": 4.373397159994056,
+    "covariance": 4.373397159994056,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-04-20T00:00:00",
+    "varianceA": 3.5175187600034405,
+    "varianceB": 3.5175187600034405,
+    "covariance": 3.5175187600034405,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-04-21T00:00:00",
+    "varianceA": 2.7015920400008326,
+    "varianceB": 2.7015920400008326,
+    "covariance": 2.7015920400008326,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-04-24T00:00:00",
+    "varianceA": 2.224725159976515,
+    "varianceB": 2.224725159976515,
+    "covariance": 2.224725159976515,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-04-25T00:00:00",
+    "varianceA": 2.0039129599754233,
+    "varianceB": 2.0039129599754233,
+    "covariance": 2.0039129599754233,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-04-26T00:00:00",
+    "varianceA": 1.9187873599948944,
+    "varianceB": 1.9187873599948944,
+    "covariance": 1.9187873599948944,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-04-27T00:00:00",
+    "varianceA": 1.9363129999983357,
+    "varianceB": 1.9363129999983357,
+    "covariance": 1.9363129999983357,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-04-28T00:00:00",
+    "varianceA": 1.9859062400064431,
+    "varianceB": 1.9859062400064431,
+    "covariance": 1.9859062400064431,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-05-01T00:00:00",
+    "varianceA": 2.064481000015803,
+    "varianceB": 2.064481000015803,
+    "covariance": 2.064481000015803,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-05-02T00:00:00",
+    "varianceA": 2.1605315600245376,
+    "varianceB": 2.1605315600245376,
+    "covariance": 2.1605315600245376,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-05-03T00:00:00",
+    "varianceA": 2.2743824400313315,
+    "varianceB": 2.2743824400313315,
+    "covariance": 2.2743824400313315,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-05-04T00:00:00",
+    "varianceA": 2.4023219600203447,
+    "varianceB": 2.4023219600203447,
+    "covariance": 2.4023219600203447,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-05-05T00:00:00",
+    "varianceA": 2.63124100001005,
+    "varianceB": 2.63124100001005,
+    "covariance": 2.63124100001005,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-05-08T00:00:00",
+    "varianceA": 2.849716000018816,
+    "varianceB": 2.849716000018816,
+    "covariance": 2.849716000018816,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-05-09T00:00:00",
+    "varianceA": 3.0356419600138906,
+    "varianceB": 3.0356419600138906,
+    "covariance": 3.0356419600138906,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-05-10T00:00:00",
+    "varianceA": 3.252059560007183,
+    "varianceB": 3.252059560007183,
+    "covariance": 3.252059560007183,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-05-11T00:00:00",
+    "varianceA": 3.314648000014131,
+    "varianceB": 3.314648000014131,
+    "covariance": 3.314648000014131,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-05-12T00:00:00",
+    "varianceA": 3.4230530000204453,
+    "varianceB": 3.4230530000204453,
+    "covariance": 3.4230530000204453,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-05-15T00:00:00",
+    "varianceA": 3.676244360001874,
+    "varianceB": 3.676244360001874,
+    "covariance": 3.676244360001874,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-05-16T00:00:00",
+    "varianceA": 3.907260039988614,
+    "varianceB": 3.907260039988614,
+    "covariance": 3.907260039988614,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-05-17T00:00:00",
+    "varianceA": 3.910812639995129,
+    "varianceB": 3.910812639995129,
+    "covariance": 3.910812639995129,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-05-18T00:00:00",
+    "varianceA": 3.893856999988202,
+    "varianceB": 3.893856999988202,
+    "covariance": 3.893856999988202,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-05-19T00:00:00",
+    "varianceA": 3.938560359965777,
+    "varianceB": 3.938560359965777,
+    "covariance": 3.938560359965777,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-05-22T00:00:00",
+    "varianceA": 4.0894639999678475,
+    "varianceB": 4.0894639999678475,
+    "covariance": 4.0894639999678475,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-05-23T00:00:00",
+    "varianceA": 4.293965159951767,
+    "varianceB": 4.293965159951767,
+    "covariance": 4.293965159951767,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-05-24T00:00:00",
+    "varianceA": 4.546469159962726,
+    "varianceB": 4.546469159962726,
+    "covariance": 4.546469159962726,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-05-25T00:00:00",
+    "varianceA": 4.960568959962984,
+    "varianceB": 4.960568959962984,
+    "covariance": 4.960568959962984,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-05-26T00:00:00",
+    "varianceA": 5.366895999977714,
+    "varianceB": 5.366895999977714,
+    "covariance": 5.366895999977714,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-05-30T00:00:00",
+    "varianceA": 5.728415359997598,
+    "varianceB": 5.728415359997598,
+    "covariance": 5.728415359997598,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-05-31T00:00:00",
+    "varianceA": 6.063305639996543,
+    "varianceB": 6.063305639996543,
+    "covariance": 6.063305639996543,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-06-01T00:00:00",
+    "varianceA": 6.512701159990684,
+    "varianceB": 6.512701159990684,
+    "covariance": 6.512701159990684,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-06-02T00:00:00",
+    "varianceA": 7.147051999971154,
+    "varianceB": 7.147051999971154,
+    "covariance": 7.147051999971154,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-06-05T00:00:00",
+    "varianceA": 7.634860999984085,
+    "varianceB": 7.634860999984085,
+    "covariance": 7.634860999984085,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-06-06T00:00:00",
+    "varianceA": 7.868071039978531,
+    "varianceB": 7.868071039978531,
+    "covariance": 7.868071039978531,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-06-07T00:00:00",
+    "varianceA": 8.086612999963108,
+    "varianceB": 8.086612999963108,
+    "covariance": 8.086612999963108,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-06-08T00:00:00",
+    "varianceA": 8.493798239993339,
+    "varianceB": 8.493798239993339,
+    "covariance": 8.493798239993339,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-06-09T00:00:00",
+    "varianceA": 8.80347776000417,
+    "varianceB": 8.80347776000417,
+    "covariance": 8.80347776000417,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-06-12T00:00:00",
+    "varianceA": 9.133905000016966,
+    "varianceB": 9.133905000016966,
+    "covariance": 9.133905000016966,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-06-13T00:00:00",
+    "varianceA": 9.597182760007854,
+    "varianceB": 9.597182760007854,
+    "covariance": 9.597182760007854,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-06-14T00:00:00",
+    "varianceA": 9.89202016001218,
+    "varianceB": 9.89202016001218,
+    "covariance": 9.89202016001218,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-06-15T00:00:00",
+    "varianceA": 10.068024840009457,
+    "varianceB": 10.068024840009457,
+    "covariance": 10.068024840009457,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-06-16T00:00:00",
+    "varianceA": 10.098775559978094,
+    "varianceB": 10.098775559978094,
+    "covariance": 10.098775559978094,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-06-19T00:00:00",
+    "varianceA": 10.56313555999077,
+    "varianceB": 10.56313555999077,
+    "covariance": 10.56313555999077,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-06-20T00:00:00",
+    "varianceA": 10.594152839999879,
+    "varianceB": 10.594152839999879,
+    "covariance": 10.594152839999879,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-06-21T00:00:00",
+    "varianceA": 10.581476040009875,
+    "varianceB": 10.581476040009875,
+    "covariance": 10.581476040009875,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-06-22T00:00:00",
+    "varianceA": 10.448209440022765,
+    "varianceB": 10.448209440022765,
+    "covariance": 10.448209440022765,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-06-23T00:00:00",
+    "varianceA": 10.085449760001211,
+    "varianceB": 10.085449760001211,
+    "covariance": 10.085449760001211,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-06-26T00:00:00",
+    "varianceA": 9.276436000014655,
+    "varianceB": 9.276436000014655,
+    "covariance": 9.276436000014655,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-06-27T00:00:00",
+    "varianceA": 8.69683684001211,
+    "varianceB": 8.69683684001211,
+    "covariance": 8.69683684001211,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-06-28T00:00:00",
+    "varianceA": 8.119321960009984,
+    "varianceB": 8.119321960009984,
+    "covariance": 8.119321960009984,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-06-29T00:00:00",
+    "varianceA": 7.145478240025113,
+    "varianceB": 7.145478240025113,
+    "covariance": 7.145478240025113,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-06-30T00:00:00",
+    "varianceA": 6.6061072400189005,
+    "varianceB": 6.6061072400189005,
+    "covariance": 6.6061072400189005,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-07-03T00:00:00",
+    "varianceA": 5.879356640012702,
+    "varianceB": 5.879356640012702,
+    "covariance": 5.879356640012702,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-07-05T00:00:00",
+    "varianceA": 5.663281760011159,
+    "varianceB": 5.663281760011159,
+    "covariance": 5.663281760011159,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-07-06T00:00:00",
+    "varianceA": 5.502150439991965,
+    "varianceB": 5.502150439991965,
+    "covariance": 5.502150439991965,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-07-07T00:00:00",
+    "varianceA": 5.364843560004374,
+    "varianceB": 5.364843560004374,
+    "covariance": 5.364843560004374,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-07-10T00:00:00",
+    "varianceA": 5.2495619599940255,
+    "varianceB": 5.2495619599940255,
+    "covariance": 5.2495619599940255,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-07-11T00:00:00",
+    "varianceA": 5.040649640010088,
+    "varianceB": 5.040649640010088,
+    "covariance": 5.040649640010088,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-07-12T00:00:00",
+    "varianceA": 5.040056359990558,
+    "varianceB": 5.040056359990558,
+    "covariance": 5.040056359990558,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-07-13T00:00:00",
+    "varianceA": 5.06754800001363,
+    "varianceB": 5.06754800001363,
+    "covariance": 5.06754800001363,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-07-14T00:00:00",
+    "varianceA": 5.184512999992876,
+    "varianceB": 5.184512999992876,
+    "covariance": 5.184512999992876,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-07-17T00:00:00",
+    "varianceA": 5.2853331599908415,
+    "varianceB": 5.2853331599908415,
+    "covariance": 5.2853331599908415,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-07-18T00:00:00",
+    "varianceA": 5.475678760027222,
+    "varianceB": 5.475678760027222,
+    "covariance": 5.475678760027222,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-07-19T00:00:00",
+    "varianceA": 5.8529640000197105,
+    "varianceB": 5.8529640000197105,
+    "covariance": 5.8529640000197105,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-07-20T00:00:00",
+    "varianceA": 6.172846760018729,
+    "varianceB": 6.172846760018729,
+    "covariance": 6.172846760018729,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-07-21T00:00:00",
+    "varianceA": 6.449827999989793,
+    "varianceB": 6.449827999989793,
+    "covariance": 6.449827999989793,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-07-24T00:00:00",
+    "varianceA": 6.602019999998447,
+    "varianceB": 6.602019999998447,
+    "covariance": 6.602019999998447,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-07-25T00:00:00",
+    "varianceA": 6.743112999996811,
+    "varianceB": 6.743112999996811,
+    "covariance": 6.743112999996811,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-07-26T00:00:00",
+    "varianceA": 7.010439360004966,
+    "varianceB": 7.010439360004966,
+    "covariance": 7.010439360004966,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-07-27T00:00:00",
+    "varianceA": 7.159528160002083,
+    "varianceB": 7.159528160002083,
+    "covariance": 7.159528160002083,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-07-28T00:00:00",
+    "varianceA": 6.282457640008943,
+    "varianceB": 6.282457640008943,
+    "covariance": 6.282457640008943,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-07-31T00:00:00",
+    "varianceA": 5.550305760014453,
+    "varianceB": 5.550305760014453,
+    "covariance": 5.550305760014453,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-08-01T00:00:00",
+    "varianceA": 5.189388159982627,
+    "varianceB": 5.189388159982627,
+    "covariance": 5.189388159982627,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-08-02T00:00:00",
+    "varianceA": 5.021799839989399,
+    "varianceB": 5.021799839989399,
+    "covariance": 5.021799839989399,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-08-03T00:00:00",
+    "varianceA": 4.831640639989928,
+    "varianceB": 4.831640639989928,
+    "covariance": 4.831640639989928,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-08-04T00:00:00",
+    "varianceA": 4.741987559988047,
+    "varianceB": 4.741987559988047,
+    "covariance": 4.741987559988047,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-08-07T00:00:00",
+    "varianceA": 4.832040999979654,
+    "varianceB": 4.832040999979654,
+    "covariance": 4.832040999979654,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-08-08T00:00:00",
+    "varianceA": 4.800221759993292,
+    "varianceB": 4.800221759993292,
+    "covariance": 4.800221759993292,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-08-09T00:00:00",
+    "varianceA": 4.705392959978781,
+    "varianceB": 4.705392959978781,
+    "covariance": 4.705392959978781,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-08-10T00:00:00",
+    "varianceA": 4.418546759989113,
+    "varianceB": 4.418546759989113,
+    "covariance": 4.418546759989113,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-08-11T00:00:00",
+    "varianceA": 4.336014559979958,
+    "varianceB": 4.336014559979958,
+    "covariance": 4.336014559979958,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-08-14T00:00:00",
+    "varianceA": 4.385687039968616,
+    "varianceB": 4.385687039968616,
+    "covariance": 4.385687039968616,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-08-15T00:00:00",
+    "varianceA": 4.413752159984142,
+    "varianceB": 4.413752159984142,
+    "covariance": 4.413752159984142,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-08-16T00:00:00",
+    "varianceA": 4.404541000010795,
+    "varianceB": 4.404541000010795,
+    "covariance": 4.404541000010795,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-08-17T00:00:00",
+    "varianceA": 4.363904160010861,
+    "varianceB": 4.363904160010861,
+    "covariance": 4.363904160010861,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-08-18T00:00:00",
+    "varianceA": 4.356488960002025,
+    "varianceB": 4.356488960002025,
+    "covariance": 4.356488960002025,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-08-21T00:00:00",
+    "varianceA": 4.306538240001828,
+    "varianceB": 4.306538240001828,
+    "covariance": 4.306538240001828,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-08-22T00:00:00",
+    "varianceA": 4.207801960001234,
+    "varianceB": 4.207801960001234,
+    "covariance": 4.207801960001234,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-08-23T00:00:00",
+    "varianceA": 4.176283239998156,
+    "varianceB": 4.176283239998156,
+    "covariance": 4.176283239998156,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-08-24T00:00:00",
+    "varianceA": 4.1358238399916445,
+    "varianceB": 4.1358238399916445,
+    "covariance": 4.1358238399916445,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-08-25T00:00:00",
+    "varianceA": 4.052411999997275,
+    "varianceB": 4.052411999997275,
+    "covariance": 4.052411999997275,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-08-28T00:00:00",
+    "varianceA": 3.970244960000855,
+    "varianceB": 3.970244960000855,
+    "covariance": 3.970244960000855,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-08-29T00:00:00",
+    "varianceA": 3.969909440034826,
+    "varianceB": 3.969909440034826,
+    "covariance": 3.969909440034826,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-08-30T00:00:00",
+    "varianceA": 3.9347886400209973,
+    "varianceB": 3.9347886400209973,
+    "covariance": 3.9347886400209973,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-08-31T00:00:00",
+    "varianceA": 3.986073160012893,
+    "varianceB": 3.986073160012893,
+    "covariance": 3.986073160012893,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-09-01T00:00:00",
+    "varianceA": 4.047039240016602,
+    "varianceB": 4.047039240016602,
+    "covariance": 4.047039240016602,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-09-05T00:00:00",
+    "varianceA": 3.994914440001594,
+    "varianceB": 3.994914440001594,
+    "covariance": 3.994914440001594,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-09-06T00:00:00",
+    "varianceA": 3.9883371599862585,
+    "varianceB": 3.9883371599862585,
+    "covariance": 3.9883371599862585,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-09-07T00:00:00",
+    "varianceA": 3.759185160000925,
+    "varianceB": 3.759185160000925,
+    "covariance": 3.759185160000925,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-09-08T00:00:00",
+    "varianceA": 3.7265864399814745,
+    "varianceB": 3.7265864399814745,
+    "covariance": 3.7265864399814745,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-09-11T00:00:00",
+    "varianceA": 3.682695039999089,
+    "varianceB": 3.682695039999089,
+    "covariance": 3.682695039999089,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-09-12T00:00:00",
+    "varianceA": 3.7817310399914277,
+    "varianceB": 3.7817310399914277,
+    "covariance": 3.7817310399914277,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-09-13T00:00:00",
+    "varianceA": 3.907876839992241,
+    "varianceB": 3.907876839992241,
+    "covariance": 3.907876839992241,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-09-14T00:00:00",
+    "varianceA": 4.046024999996007,
+    "varianceB": 4.046024999996007,
+    "covariance": 4.046024999996007,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-09-15T00:00:00",
+    "varianceA": 3.8315504399870406,
+    "varianceB": 3.8315504399870406,
+    "covariance": 3.8315504399870406,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-09-18T00:00:00",
+    "varianceA": 3.9166931599829695,
+    "varianceB": 3.9166931599829695,
+    "covariance": 3.9166931599829695,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-09-19T00:00:00",
+    "varianceA": 4.0274633599838126,
+    "varianceB": 4.0274633599838126,
+    "covariance": 4.0274633599838126,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-09-20T00:00:00",
+    "varianceA": 4.066488639968156,
+    "varianceB": 4.066488639968156,
+    "covariance": 4.066488639968156,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-09-21T00:00:00",
+    "varianceA": 4.1945816399820615,
+    "varianceB": 4.1945816399820615,
+    "covariance": 4.1945816399820615,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-09-22T00:00:00",
+    "varianceA": 4.338983999972697,
+    "varianceB": 4.338983999972697,
+    "covariance": 4.338983999972697,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-09-25T00:00:00",
+    "varianceA": 4.479657159950875,
+    "varianceB": 4.479657159950875,
+    "covariance": 4.479657159950875,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-09-26T00:00:00",
+    "varianceA": 4.620687359958538,
+    "varianceB": 4.620687359958538,
+    "covariance": 4.620687359958538,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-09-27T00:00:00",
+    "varianceA": 4.87736703993869,
+    "varianceB": 4.87736703993869,
+    "covariance": 4.87736703993869,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-09-28T00:00:00",
+    "varianceA": 5.20656435994897,
+    "varianceB": 5.20656435994897,
+    "covariance": 5.20656435994897,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-09-29T00:00:00",
+    "varianceA": 5.670213759964099,
+    "varianceB": 5.670213759964099,
+    "covariance": 5.670213759964099,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-10-02T00:00:00",
+    "varianceA": 6.32337263997033,
+    "varianceB": 6.32337263997033,
+    "covariance": 6.32337263997033,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-10-03T00:00:00",
+    "varianceA": 7.062803039967548,
+    "varianceB": 7.062803039967548,
+    "covariance": 7.062803039967548,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-10-04T00:00:00",
+    "varianceA": 7.848448999968241,
+    "varianceB": 7.848448999968241,
+    "covariance": 7.848448999968241,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-10-05T00:00:00",
+    "varianceA": 8.989576999963901,
+    "varianceB": 8.989576999963901,
+    "covariance": 8.989576999963901,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-10-06T00:00:00",
+    "varianceA": 9.98994595996919,
+    "varianceB": 9.98994595996919,
+    "covariance": 9.98994595996919,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-10-09T00:00:00",
+    "varianceA": 10.81767999996373,
+    "varianceB": 10.81767999996373,
+    "covariance": 10.81767999996373,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-10-10T00:00:00",
+    "varianceA": 11.756234759988729,
+    "varianceB": 11.756234759988729,
+    "covariance": 11.756234759988729,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-10-11T00:00:00",
+    "varianceA": 12.778028160006215,
+    "varianceB": 12.778028160006215,
+    "covariance": 12.778028160006215,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-10-12T00:00:00",
+    "varianceA": 13.646844359987881,
+    "varianceB": 13.646844359987881,
+    "covariance": 13.646844359987881,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-10-13T00:00:00",
+    "varianceA": 14.510357640021539,
+    "varianceB": 14.510357640021539,
+    "covariance": 14.510357640021539,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-10-16T00:00:00",
+    "varianceA": 15.434724960017775,
+    "varianceB": 15.434724960017775,
+    "covariance": 15.434724960017775,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-10-17T00:00:00",
+    "varianceA": 16.3755446400246,
+    "varianceB": 16.3755446400246,
+    "covariance": 16.3755446400246,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-10-18T00:00:00",
+    "varianceA": 17.27860000001965,
+    "varianceB": 17.27860000001965,
+    "covariance": 17.27860000001965,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-10-19T00:00:00",
+    "varianceA": 18.1281409999865,
+    "varianceB": 18.1281409999865,
+    "covariance": 18.1281409999865,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-10-20T00:00:00",
+    "varianceA": 18.690883999981452,
+    "varianceB": 18.690883999981452,
+    "covariance": 18.690883999981452,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-10-23T00:00:00",
+    "varianceA": 18.912134559977858,
+    "varianceB": 18.912134559977858,
+    "covariance": 18.912134559977858,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-10-24T00:00:00",
+    "varianceA": 19.587844360008603,
+    "varianceB": 19.587844360008603,
+    "covariance": 19.587844360008603,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-10-25T00:00:00",
+    "varianceA": 19.875244359987846,
+    "varianceB": 19.875244359987846,
+    "covariance": 19.875244359987846,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-10-26T00:00:00",
+    "varianceA": 20.22388083999249,
+    "varianceB": 20.22388083999249,
+    "covariance": 20.22388083999249,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-10-27T00:00:00",
+    "varianceA": 20.125769439982832,
+    "varianceB": 20.125769439982832,
+    "covariance": 20.125769439982832,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-10-30T00:00:00",
+    "varianceA": 19.48079983999196,
+    "varianceB": 19.48079983999196,
+    "covariance": 19.48079983999196,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-10-31T00:00:00",
+    "varianceA": 18.82116243999917,
+    "varianceB": 18.82116243999917,
+    "covariance": 18.82116243999917,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-11-01T00:00:00",
+    "varianceA": 18.814253639997332,
+    "varianceB": 18.814253639997332,
+    "covariance": 18.814253639997332,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-11-02T00:00:00",
+    "varianceA": 18.461250439999276,
+    "varianceB": 18.461250439999276,
+    "covariance": 18.461250439999276,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-11-03T00:00:00",
+    "varianceA": 17.981831039993267,
+    "varianceB": 17.981831039993267,
+    "covariance": 17.981831039993267,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-11-06T00:00:00",
+    "varianceA": 17.60933363996446,
+    "varianceB": 17.60933363996446,
+    "covariance": 17.60933363996446,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-11-07T00:00:00",
+    "varianceA": 17.01871155995468,
+    "varianceB": 17.01871155995468,
+    "covariance": 17.01871155995468,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-11-08T00:00:00",
+    "varianceA": 16.450959839945426,
+    "varianceB": 16.450959839945426,
+    "covariance": 16.450959839945426,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-11-09T00:00:00",
+    "varianceA": 15.872213759968872,
+    "varianceB": 15.872213759968872,
+    "covariance": 15.872213759968872,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-11-10T00:00:00",
+    "varianceA": 15.552662439986307,
+    "varianceB": 15.552662439986307,
+    "covariance": 15.552662439986307,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-11-13T00:00:00",
+    "varianceA": 15.260367999966547,
+    "varianceB": 15.260367999966547,
+    "covariance": 15.260367999966547,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-11-14T00:00:00",
+    "varianceA": 14.262604959985765,
+    "varianceB": 14.262604959985765,
+    "covariance": 14.262604959985765,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-11-15T00:00:00",
+    "varianceA": 13.24690499999997,
+    "varianceB": 13.24690499999997,
+    "covariance": 13.24690499999997,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-11-16T00:00:00",
+    "varianceA": 12.421403840002313,
+    "varianceB": 12.421403840002313,
+    "covariance": 12.421403840002313,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-11-17T00:00:00",
+    "varianceA": 11.266819359989313,
+    "varianceB": 11.266819359989313,
+    "covariance": 11.266819359989313,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-11-20T00:00:00",
+    "varianceA": 10.806697000014537,
+    "varianceB": 10.806697000014537,
+    "covariance": 10.806697000014537,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-11-21T00:00:00",
+    "varianceA": 10.738538560035522,
+    "varianceB": 10.738538560035522,
+    "covariance": 10.738538560035522,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-11-22T00:00:00",
+    "varianceA": 10.564364040008513,
+    "varianceB": 10.564364040008513,
+    "covariance": 10.564364040008513,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-11-24T00:00:00",
+    "varianceA": 10.392981000019063,
+    "varianceB": 10.392981000019063,
+    "covariance": 10.392981000019063,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-11-27T00:00:00",
+    "varianceA": 10.179349639991415,
+    "varianceB": 10.179349639991415,
+    "covariance": 10.179349639991415,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-11-28T00:00:00",
+    "varianceA": 10.57418324000173,
+    "varianceB": 10.57418324000173,
+    "covariance": 10.57418324000173,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-11-29T00:00:00",
+    "varianceA": 10.857601760035323,
+    "varianceB": 10.857601760035323,
+    "covariance": 10.857601760035323,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-11-30T00:00:00",
+    "varianceA": 11.691550440016726,
+    "varianceB": 11.691550440016726,
+    "covariance": 11.691550440016726,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-12-01T00:00:00",
+    "varianceA": 12.027829160033434,
+    "varianceB": 12.027829160033434,
+    "covariance": 12.027829160033434,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-12-04T00:00:00",
+    "varianceA": 12.124712000040745,
+    "varianceB": 12.124712000040745,
+    "covariance": 12.124712000040745,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-12-05T00:00:00",
+    "varianceA": 11.684155240014661,
+    "varianceB": 11.684155240014661,
+    "covariance": 11.684155240014661,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-12-06T00:00:00",
+    "varianceA": 11.150976040014939,
+    "varianceB": 11.150976040014939,
+    "covariance": 11.150976040014939,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-12-07T00:00:00",
+    "varianceA": 10.939699239992478,
+    "varianceB": 10.939699239992478,
+    "covariance": 10.939699239992478,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-12-08T00:00:00",
+    "varianceA": 11.034027999987302,
+    "varianceB": 11.034027999987302,
+    "covariance": 11.034027999987302,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-12-11T00:00:00",
+    "varianceA": 11.428512999977102,
+    "varianceB": 11.428512999977102,
+    "covariance": 11.428512999977102,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-12-12T00:00:00",
+    "varianceA": 12.062968359983643,
+    "varianceB": 12.062968359983643,
+    "covariance": 12.062968359983643,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-12-13T00:00:00",
+    "varianceA": 12.658031839971954,
+    "varianceB": 12.658031839971954,
+    "covariance": 12.658031839971954,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-12-14T00:00:00",
+    "varianceA": 12.88795199998276,
+    "varianceB": 12.88795199998276,
+    "covariance": 12.88795199998276,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-12-15T00:00:00",
+    "varianceA": 13.907537759965635,
+    "varianceB": 13.907537759965635,
+    "covariance": 13.907537759965635,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-12-18T00:00:00",
+    "varianceA": 15.315640839966363,
+    "varianceB": 15.315640839966363,
+    "covariance": 15.315640839966363,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-12-19T00:00:00",
+    "varianceA": 16.11842835997959,
+    "varianceB": 16.11842835997959,
+    "covariance": 16.11842835997959,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-12-20T00:00:00",
+    "varianceA": 16.864914759971725,
+    "varianceB": 16.864914759971725,
+    "covariance": 16.864914759971725,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-12-21T00:00:00",
+    "varianceA": 17.72315699999308,
+    "varianceB": 17.72315699999308,
+    "covariance": 17.72315699999308,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-12-22T00:00:00",
+    "varianceA": 18.3365879999983,
+    "varianceB": 18.3365879999983,
+    "covariance": 18.3365879999983,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-12-26T00:00:00",
+    "varianceA": 18.780782559981162,
+    "varianceB": 18.780782559981162,
+    "covariance": 18.780782559981162,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-12-27T00:00:00",
+    "varianceA": 19.200528840003244,
+    "varianceB": 19.200528840003244,
+    "covariance": 19.200528840003244,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-12-28T00:00:00",
+    "varianceA": 19.679431360025774,
+    "varianceB": 19.679431360025774,
+    "covariance": 19.679431360025774,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2017-12-29T00:00:00",
+    "varianceA": 19.818878560035955,
+    "varianceB": 19.818878560035955,
+    "covariance": 19.818878560035955,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-01-02T00:00:00",
+    "varianceA": 20.360252000042237,
+    "varianceB": 20.360252000042237,
+    "covariance": 20.360252000042237,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-01-03T00:00:00",
+    "varianceA": 21.58091444004822,
+    "varianceB": 21.58091444004822,
+    "covariance": 21.58091444004822,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-01-04T00:00:00",
+    "varianceA": 22.82457396004611,
+    "varianceB": 22.82457396004611,
+    "covariance": 22.82457396004611,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-01-05T00:00:00",
+    "varianceA": 24.696933960047318,
+    "varianceB": 24.696933960047318,
+    "covariance": 24.696933960047318,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-01-08T00:00:00",
+    "varianceA": 26.188304000039352,
+    "varianceB": 26.188304000039352,
+    "covariance": 26.188304000039352,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-01-09T00:00:00",
+    "varianceA": 27.75543104004464,
+    "varianceB": 27.75543104004464,
+    "covariance": 27.75543104004464,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-01-10T00:00:00",
+    "varianceA": 29.421941000051447,
+    "varianceB": 29.421941000051447,
+    "covariance": 29.421941000051447,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-01-11T00:00:00",
+    "varianceA": 31.474338440049905,
+    "varianceB": 31.474338440049905,
+    "covariance": 31.474338440049905,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-01-12T00:00:00",
+    "varianceA": 34.21602804001304,
+    "varianceB": 34.21602804001304,
+    "covariance": 34.21602804001304,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-01-16T00:00:00",
+    "varianceA": 36.231927360000554,
+    "varianceB": 36.231927360000554,
+    "covariance": 36.231927360000554,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-01-17T00:00:00",
+    "varianceA": 39.297824040018895,
+    "varianceB": 39.297824040018895,
+    "covariance": 39.297824040018895,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-01-18T00:00:00",
+    "varianceA": 41.976995240023825,
+    "varianceB": 41.976995240023825,
+    "covariance": 41.976995240023825,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-01-19T00:00:00",
+    "varianceA": 45.08948176001286,
+    "varianceB": 45.08948176001286,
+    "covariance": 45.08948176001286,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-01-22T00:00:00",
+    "varianceA": 49.070948039981886,
+    "varianceB": 49.070948039981886,
+    "covariance": 49.070948039981886,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-01-23T00:00:00",
+    "varianceA": 53.08546223999292,
+    "varianceB": 53.08546223999292,
+    "covariance": 53.08546223999292,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-01-24T00:00:00",
+    "varianceA": 56.217809639972984,
+    "varianceB": 56.217809639972984,
+    "covariance": 56.217809639972984,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-01-25T00:00:00",
+    "varianceA": 58.869065959981526,
+    "varianceB": 58.869065959981526,
+    "covariance": 58.869065959981526,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-01-26T00:00:00",
+    "varianceA": 63.13967983996554,
+    "varianceB": 63.13967983996554,
+    "covariance": 63.13967983996554,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-01-29T00:00:00",
+    "varianceA": 65.30443199997535,
+    "varianceB": 65.30443199997535,
+    "covariance": 65.30443199997535,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-01-30T00:00:00",
+    "varianceA": 64.72968575998675,
+    "varianceB": 64.72968575998675,
+    "covariance": 64.72968575998675,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-01-31T00:00:00",
+    "varianceA": 64.78777363998233,
+    "varianceB": 64.78777363998233,
+    "covariance": 64.78777363998233,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-02-01T00:00:00",
+    "varianceA": 63.88442015994224,
+    "varianceB": 63.88442015994224,
+    "covariance": 63.88442015994224,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-02-02T00:00:00",
+    "varianceA": 60.96807343994442,
+    "varianceB": 60.96807343994442,
+    "covariance": 60.96807343994442,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-02-05T00:00:00",
+    "varianceA": 59.129873959958786,
+    "varianceB": 59.129873959958786,
+    "covariance": 59.129873959958786,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-02-06T00:00:00",
+    "varianceA": 56.31888035996235,
+    "varianceB": 56.31888035996235,
+    "covariance": 56.31888035996235,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-02-07T00:00:00",
+    "varianceA": 53.846509159964626,
+    "varianceB": 53.846509159964626,
+    "covariance": 53.846509159964626,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-02-08T00:00:00",
+    "varianceA": 54.45633823997923,
+    "varianceB": 54.45633823997923,
+    "covariance": 54.45633823997923,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-02-09T00:00:00",
+    "varianceA": 54.46744099998614,
+    "varianceB": 54.46744099998614,
+    "covariance": 54.46744099998614,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-02-12T00:00:00",
+    "varianceA": 53.31911843997659,
+    "varianceB": 53.31911843997659,
+    "covariance": 53.31911843997659,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-02-13T00:00:00",
+    "varianceA": 52.764637439962826,
+    "varianceB": 52.764637439962826,
+    "covariance": 52.764637439962826,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-02-14T00:00:00",
+    "varianceA": 51.571349759964505,
+    "varianceB": 51.571349759964505,
+    "covariance": 51.571349759964505,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-02-15T00:00:00",
+    "varianceA": 50.21728995999729,
+    "varianceB": 50.21728995999729,
+    "covariance": 50.21728995999729,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-02-16T00:00:00",
+    "varianceA": 48.457480999990366,
+    "varianceB": 48.457480999990366,
+    "covariance": 48.457480999990366,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-02-20T00:00:00",
+    "varianceA": 46.60424000000057,
+    "varianceB": 46.60424000000057,
+    "covariance": 46.60424000000057,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-02-21T00:00:00",
+    "varianceA": 45.06014899998263,
+    "varianceB": 45.06014899998263,
+    "covariance": 45.06014899998263,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-02-22T00:00:00",
+    "varianceA": 43.91918655997142,
+    "varianceB": 43.91918655997142,
+    "covariance": 43.91918655997142,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-02-23T00:00:00",
+    "varianceA": 43.00268499998492,
+    "varianceB": 43.00268499998492,
+    "covariance": 43.00268499998492,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-02-26T00:00:00",
+    "varianceA": 42.57315935997758,
+    "varianceB": 42.57315935997758,
+    "covariance": 42.57315935997758,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-02-27T00:00:00",
+    "varianceA": 41.60356176002824,
+    "varianceB": 41.60356176002824,
+    "covariance": 41.60356176002824,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-02-28T00:00:00",
+    "varianceA": 40.24360484002682,
+    "varianceB": 40.24360484002682,
+    "covariance": 40.24360484002682,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-03-01T00:00:00",
+    "varianceA": 39.97997424000641,
+    "varianceB": 39.97997424000641,
+    "covariance": 39.97997424000641,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-03-02T00:00:00",
+    "varianceA": 39.83475684003497,
+    "varianceB": 39.83475684003497,
+    "covariance": 39.83475684003497,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-03-05T00:00:00",
+    "varianceA": 39.19180656004755,
+    "varianceB": 39.19180656004755,
+    "covariance": 39.19180656004755,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-03-06T00:00:00",
+    "varianceA": 38.47719600005075,
+    "varianceB": 38.47719600005075,
+    "covariance": 38.47719600005075,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-03-07T00:00:00",
+    "varianceA": 37.86415236003813,
+    "varianceB": 37.86415236003813,
+    "covariance": 37.86415236003813,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-03-08T00:00:00",
+    "varianceA": 37.2130090000428,
+    "varianceB": 37.2130090000428,
+    "covariance": 37.2130090000428,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-03-09T00:00:00",
+    "varianceA": 36.94368400005624,
+    "varianceB": 36.94368400005624,
+    "covariance": 36.94368400005624,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-03-12T00:00:00",
+    "varianceA": 36.5427707600611,
+    "varianceB": 36.5427707600611,
+    "covariance": 36.5427707600611,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-03-13T00:00:00",
+    "varianceA": 35.95519024002715,
+    "varianceB": 35.95519024002715,
+    "covariance": 35.95519024002715,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-03-14T00:00:00",
+    "varianceA": 34.960501000037766,
+    "varianceB": 34.960501000037766,
+    "covariance": 34.960501000037766,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-03-15T00:00:00",
+    "varianceA": 34.378501000028336,
+    "varianceB": 34.378501000028336,
+    "covariance": 34.378501000028336,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-03-16T00:00:00",
+    "varianceA": 34.08713200004422,
+    "varianceB": 34.08713200004422,
+    "covariance": 34.08713200004422,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-03-19T00:00:00",
+    "varianceA": 34.09056724002585,
+    "varianceB": 34.09056724002585,
+    "covariance": 34.09056724002585,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-03-20T00:00:00",
+    "varianceA": 34.184581640030956,
+    "varianceB": 34.184581640030956,
+    "covariance": 34.184581640030956,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-03-21T00:00:00",
+    "varianceA": 34.344884360034484,
+    "varianceB": 34.344884360034484,
+    "covariance": 34.344884360034484,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-03-22T00:00:00",
+    "varianceA": 36.07780500006629,
+    "varianceB": 36.07780500006629,
+    "covariance": 36.07780500006629,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-03-23T00:00:00",
+    "varianceA": 40.282912840062636,
+    "varianceB": 40.282912840062636,
+    "covariance": 40.282912840062636,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-03-26T00:00:00",
+    "varianceA": 41.29440756003896,
+    "varianceB": 41.29440756003896,
+    "covariance": 41.29440756003896,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-03-27T00:00:00",
+    "varianceA": 43.61488384004042,
+    "varianceB": 43.61488384004042,
+    "covariance": 43.61488384004042,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-03-28T00:00:00",
+    "varianceA": 46.23315796004317,
+    "varianceB": 46.23315796004317,
+    "covariance": 46.23315796004317,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-03-29T00:00:00",
+    "varianceA": 46.85157044000516,
+    "varianceB": 46.85157044000516,
+    "covariance": 46.85157044000516,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-04-02T00:00:00",
+    "varianceA": 49.765660360018956,
+    "varianceB": 49.765660360018956,
+    "covariance": 49.765660360018956,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-04-03T00:00:00",
+    "varianceA": 50.54059024002345,
+    "varianceB": 50.54059024002345,
+    "covariance": 50.54059024002345,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-04-04T00:00:00",
+    "varianceA": 49.341737640002975,
+    "varianceB": 49.341737640002975,
+    "covariance": 49.341737640002975,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-04-05T00:00:00",
+    "varianceA": 47.204759999978705,
+    "varianceB": 47.204759999978705,
+    "covariance": 47.204759999978705,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-04-06T00:00:00",
+    "varianceA": 46.5083759999834,
+    "varianceB": 46.5083759999834,
+    "covariance": 46.5083759999834,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-04-09T00:00:00",
+    "varianceA": 44.95126404002076,
+    "varianceB": 44.95126404002076,
+    "covariance": 44.95126404002076,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-04-10T00:00:00",
+    "varianceA": 40.329187040028046,
+    "varianceB": 40.329187040028046,
+    "covariance": 40.329187040028046,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-04-11T00:00:00",
+    "varianceA": 36.740475560043706,
+    "varianceB": 36.740475560043706,
+    "covariance": 36.740475560043706,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-04-12T00:00:00",
+    "varianceA": 34.08508964002249,
+    "varianceB": 34.08508964002249,
+    "covariance": 34.08508964002249,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-04-13T00:00:00",
+    "varianceA": 31.270580160053214,
+    "varianceB": 31.270580160053214,
+    "covariance": 31.270580160053214,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-04-16T00:00:00",
+    "varianceA": 28.309041760032414,
+    "varianceB": 28.309041760032414,
+    "covariance": 28.309041760032414,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-04-17T00:00:00",
+    "varianceA": 27.597180160024436,
+    "varianceB": 27.597180160024436,
+    "covariance": 27.597180160024436,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-04-18T00:00:00",
+    "varianceA": 27.290692000082345,
+    "varianceB": 27.290692000082345,
+    "covariance": 27.290692000082345,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-04-19T00:00:00",
+    "varianceA": 27.311300000044866,
+    "varianceB": 27.311300000044866,
+    "covariance": 27.311300000044866,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-04-20T00:00:00",
+    "varianceA": 27.310832360060886,
+    "varianceB": 27.310832360060886,
+    "covariance": 27.310832360060886,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-04-23T00:00:00",
+    "varianceA": 24.95072900004743,
+    "varianceB": 24.95072900004743,
+    "covariance": 24.95072900004743,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-04-24T00:00:00",
+    "varianceA": 24.354256360064028,
+    "varianceB": 24.354256360064028,
+    "covariance": 24.354256360064028,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-04-25T00:00:00",
+    "varianceA": 24.454161760033458,
+    "varianceB": 24.454161760033458,
+    "covariance": 24.454161760033458,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-04-26T00:00:00",
+    "varianceA": 24.328529960039305,
+    "varianceB": 24.328529960039305,
+    "covariance": 24.328529960039305,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-04-27T00:00:00",
+    "varianceA": 24.3667760000244,
+    "varianceB": 24.3667760000244,
+    "covariance": 24.3667760000244,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-04-30T00:00:00",
+    "varianceA": 24.295033440037514,
+    "varianceB": 24.295033440037514,
+    "covariance": 24.295033440037514,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-05-01T00:00:00",
+    "varianceA": 24.116693160045543,
+    "varianceB": 24.116693160045543,
+    "covariance": 24.116693160045543,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-05-02T00:00:00",
+    "varianceA": 24.362556840045727,
+    "varianceB": 24.362556840045727,
+    "covariance": 24.362556840045727,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-05-03T00:00:00",
+    "varianceA": 24.778406760000507,
+    "varianceB": 24.778406760000507,
+    "covariance": 24.778406760000507,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-05-04T00:00:00",
+    "varianceA": 24.750960000019404,
+    "varianceB": 24.750960000019404,
+    "covariance": 24.750960000019404,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-05-07T00:00:00",
+    "varianceA": 24.020704040012788,
+    "varianceB": 24.020704040012788,
+    "covariance": 24.020704040012788,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-05-08T00:00:00",
+    "varianceA": 22.297093159984797,
+    "varianceB": 22.297093159984797,
+    "covariance": 22.297093159984797,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-05-09T00:00:00",
+    "varianceA": 21.670207039976958,
+    "varianceB": 21.670207039976958,
+    "covariance": 21.670207039976958,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-05-10T00:00:00",
+    "varianceA": 21.90298675998929,
+    "varianceB": 21.90298675998929,
+    "covariance": 21.90298675998929,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-05-11T00:00:00",
+    "varianceA": 22.516751999981352,
+    "varianceB": 22.516751999981352,
+    "covariance": 22.516751999981352,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-05-14T00:00:00",
+    "varianceA": 23.127602759966976,
+    "varianceB": 23.127602759966976,
+    "covariance": 23.127602759966976,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-05-15T00:00:00",
+    "varianceA": 23.127602759966976,
+    "varianceB": 23.127602759966976,
+    "covariance": 23.127602759966976,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-05-16T00:00:00",
+    "varianceA": 23.20659375996911,
+    "varianceB": 23.20659375996911,
+    "covariance": 23.20659375996911,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-05-17T00:00:00",
+    "varianceA": 23.261464999974123,
+    "varianceB": 23.261464999974123,
+    "covariance": 23.261464999974123,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-05-18T00:00:00",
+    "varianceA": 22.95410563997575,
+    "varianceB": 22.95410563997575,
+    "covariance": 22.95410563997575,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-05-21T00:00:00",
+    "varianceA": 21.57933263995801,
+    "varianceB": 21.57933263995801,
+    "covariance": 21.57933263995801,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-05-22T00:00:00",
+    "varianceA": 20.161200159971486,
+    "varianceB": 20.161200159971486,
+    "covariance": 20.161200159971486,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-05-23T00:00:00",
+    "varianceA": 19.530120999959763,
+    "varianceB": 19.530120999959763,
+    "covariance": 19.530120999959763,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-05-24T00:00:00",
+    "varianceA": 19.188238759932574,
+    "varianceB": 19.188238759932574,
+    "covariance": 19.188238759932574,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-05-25T00:00:00",
+    "varianceA": 18.79008515996975,
+    "varianceB": 18.79008515996975,
+    "covariance": 18.79008515996975,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-05-29T00:00:00",
+    "varianceA": 17.876802239959943,
+    "varianceB": 17.876802239959943,
+    "covariance": 17.876802239959943,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-05-30T00:00:00",
+    "varianceA": 18.248008039983688,
+    "varianceB": 18.248008039983688,
+    "covariance": 18.248008039983688,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-05-31T00:00:00",
+    "varianceA": 18.246441439987393,
+    "varianceB": 18.246441439987393,
+    "covariance": 18.246441439987393,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-06-01T00:00:00",
+    "varianceA": 18.851341959976708,
+    "varianceB": 18.851341959976708,
+    "covariance": 18.851341959976708,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-06-04T00:00:00",
+    "varianceA": 19.78165300001274,
+    "varianceB": 19.78165300001274,
+    "covariance": 19.78165300001274,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-06-05T00:00:00",
+    "varianceA": 19.288997759998892,
+    "varianceB": 19.288997759998892,
+    "covariance": 19.288997759998892,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-06-06T00:00:00",
+    "varianceA": 20.949536640007864,
+    "varianceB": 20.949536640007864,
+    "covariance": 20.949536640007864,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-06-07T00:00:00",
+    "varianceA": 21.60993204000988,
+    "varianceB": 21.60993204000988,
+    "covariance": 21.60993204000988,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-06-08T00:00:00",
+    "varianceA": 22.10615104001772,
+    "varianceB": 22.10615104001772,
+    "covariance": 22.10615104001772,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-06-11T00:00:00",
+    "varianceA": 23.391961439992883,
+    "varianceB": 23.391961439992883,
+    "covariance": 23.391961439992883,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-06-12T00:00:00",
+    "varianceA": 22.753999040010967,
+    "varianceB": 22.753999040010967,
+    "covariance": 22.753999040010967,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-06-13T00:00:00",
+    "varianceA": 22.768485960026737,
+    "varianceB": 22.768485960026737,
+    "covariance": 22.768485960026737,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-06-14T00:00:00",
+    "varianceA": 23.58889103999536,
+    "varianceB": 23.58889103999536,
+    "covariance": 23.58889103999536,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-06-15T00:00:00",
+    "varianceA": 24.553157960021053,
+    "varianceB": 24.553157960021053,
+    "covariance": 24.553157960021053,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-06-18T00:00:00",
+    "varianceA": 23.517959840028198,
+    "varianceB": 23.517959840028198,
+    "covariance": 23.517959840028198,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-06-19T00:00:00",
+    "varianceA": 22.481904000014765,
+    "varianceB": 22.481904000014765,
+    "covariance": 22.481904000014765,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-06-20T00:00:00",
+    "varianceA": 22.60755216004327,
+    "varianceB": 22.60755216004327,
+    "covariance": 22.60755216004327,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-06-21T00:00:00",
+    "varianceA": 21.93885556004534,
+    "varianceB": 21.93885556004534,
+    "covariance": 21.93885556004534,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-06-22T00:00:00",
+    "varianceA": 21.785088000047836,
+    "varianceB": 21.785088000047836,
+    "covariance": 21.785088000047836,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-06-25T00:00:00",
+    "varianceA": 21.033432840020396,
+    "varianceB": 21.033432840020396,
+    "covariance": 21.033432840020396,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-06-26T00:00:00",
+    "varianceA": 20.70788736002578,
+    "varianceB": 20.70788736002578,
+    "covariance": 20.70788736002578,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-06-27T00:00:00",
+    "varianceA": 20.689248000038788,
+    "varianceB": 20.689248000038788,
+    "covariance": 20.689248000038788,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-06-28T00:00:00",
+    "varianceA": 20.657734560008976,
+    "varianceB": 20.657734560008976,
+    "covariance": 20.657734560008976,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-06-29T00:00:00",
+    "varianceA": 20.50960500004294,
+    "varianceB": 20.50960500004294,
+    "covariance": 20.50960500004294,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-07-02T00:00:00",
+    "varianceA": 20.014980000050855,
+    "varianceB": 20.014980000050855,
+    "covariance": 20.014980000050855,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-07-03T00:00:00",
+    "varianceA": 19.461913760067546,
+    "varianceB": 19.461913760067546,
+    "covariance": 19.461913760067546,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-07-05T00:00:00",
+    "varianceA": 17.967316160022165,
+    "varianceB": 17.967316160022165,
+    "covariance": 17.967316160022165,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-07-06T00:00:00",
+    "varianceA": 16.857532840018393,
+    "varianceB": 16.857532840018393,
+    "covariance": 16.857532840018393,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-07-09T00:00:00",
+    "varianceA": 16.880516160017578,
+    "varianceB": 16.880516160017578,
+    "covariance": 16.880516160017578,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-07-10T00:00:00",
+    "varianceA": 17.088548640007502,
+    "varianceB": 17.088548640007502,
+    "covariance": 17.088548640007502,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-07-11T00:00:00",
+    "varianceA": 16.117765440008952,
+    "varianceB": 16.117765440008952,
+    "covariance": 16.117765440008952,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-07-12T00:00:00",
+    "varianceA": 15.70338500001526,
+    "varianceB": 15.70338500001526,
+    "covariance": 15.70338500001526,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-07-13T00:00:00",
+    "varianceA": 14.50126916001318,
+    "varianceB": 14.50126916001318,
+    "covariance": 14.50126916001318,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-07-16T00:00:00",
+    "varianceA": 12.759097959991777,
+    "varianceB": 12.759097959991777,
+    "covariance": 12.759097959991777,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-07-17T00:00:00",
+    "varianceA": 12.372239040007116,
+    "varianceB": 12.372239040007116,
+    "covariance": 12.372239040007116,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-07-18T00:00:00",
+    "varianceA": 12.242696040018927,
+    "varianceB": 12.242696040018927,
+    "covariance": 12.242696040018927,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-07-19T00:00:00",
+    "varianceA": 11.677208040011465,
+    "varianceB": 11.677208040011465,
+    "covariance": 11.677208040011465,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-07-20T00:00:00",
+    "varianceA": 11.597929960029433,
+    "varianceB": 11.597929960029433,
+    "covariance": 11.597929960029433,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-07-23T00:00:00",
+    "varianceA": 11.995197160009411,
+    "varianceB": 11.995197160009411,
+    "covariance": 11.995197160009411,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-07-24T00:00:00",
+    "varianceA": 12.764932000005501,
+    "varianceB": 12.764932000005501,
+    "covariance": 12.764932000005501,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-07-25T00:00:00",
+    "varianceA": 14.195311999967089,
+    "varianceB": 14.195311999967089,
+    "covariance": 14.195311999967089,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-07-26T00:00:00",
+    "varianceA": 14.98695695999777,
+    "varianceB": 14.98695695999777,
+    "covariance": 14.98695695999777,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-07-27T00:00:00",
+    "varianceA": 15.35209215998475,
+    "varianceB": 15.35209215998475,
+    "covariance": 15.35209215998475,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-07-30T00:00:00",
+    "varianceA": 15.312584999963292,
+    "varianceB": 15.312584999963292,
+    "covariance": 15.312584999963292,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-07-31T00:00:00",
+    "varianceA": 15.326132159971166,
+    "varianceB": 15.326132159971166,
+    "covariance": 15.326132159971166,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-08-01T00:00:00",
+    "varianceA": 15.52856515996973,
+    "varianceB": 15.52856515996973,
+    "covariance": 15.52856515996973,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-08-02T00:00:00",
+    "varianceA": 15.8622083599912,
+    "varianceB": 15.8622083599912,
+    "covariance": 15.8622083599912,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-08-03T00:00:00",
+    "varianceA": 16.536312039970653,
+    "varianceB": 16.536312039970653,
+    "covariance": 16.536312039970653,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-08-06T00:00:00",
+    "varianceA": 17.302534240006935,
+    "varianceB": 17.302534240006935,
+    "covariance": 17.302534240006935,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-08-07T00:00:00",
+    "varianceA": 18.088200999991386,
+    "varianceB": 18.088200999991386,
+    "covariance": 18.088200999991386,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-08-08T00:00:00",
+    "varianceA": 17.74333984000259,
+    "varianceB": 17.74333984000259,
+    "covariance": 17.74333984000259,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-08-09T00:00:00",
+    "varianceA": 18.138052840033197,
+    "varianceB": 18.138052840033197,
+    "covariance": 18.138052840033197,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-08-10T00:00:00",
+    "varianceA": 17.479863040018245,
+    "varianceB": 17.479863040018245,
+    "covariance": 17.479863040018245,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-08-13T00:00:00",
+    "varianceA": 17.211464960040757,
+    "varianceB": 17.211464960040757,
+    "covariance": 17.211464960040757,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-08-14T00:00:00",
+    "varianceA": 17.448196000012103,
+    "varianceB": 17.448196000012103,
+    "covariance": 17.448196000012103,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-08-15T00:00:00",
+    "varianceA": 17.291278240008978,
+    "varianceB": 17.291278240008978,
+    "covariance": 17.291278240008978,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-08-16T00:00:00",
+    "varianceA": 17.76703299996734,
+    "varianceB": 17.76703299996734,
+    "covariance": 17.76703299996734,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-08-17T00:00:00",
+    "varianceA": 18.413588839990553,
+    "varianceB": 18.413588839990553,
+    "covariance": 18.413588839990553,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-08-20T00:00:00",
+    "varianceA": 19.221088359990972,
+    "varianceB": 19.221088359990972,
+    "covariance": 19.221088359990972,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-08-21T00:00:00",
+    "varianceA": 20.17284384004597,
+    "varianceB": 20.17284384004597,
+    "covariance": 20.17284384004597,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-08-22T00:00:00",
+    "varianceA": 21.04170084002544,
+    "varianceB": 21.04170084002544,
+    "covariance": 21.04170084002544,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-08-23T00:00:00",
+    "varianceA": 21.687761640016106,
+    "varianceB": 21.687761640016106,
+    "covariance": 21.687761640016106,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-08-24T00:00:00",
+    "varianceA": 22.795472360041458,
+    "varianceB": 22.795472360041458,
+    "covariance": 22.795472360041458,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-08-27T00:00:00",
+    "varianceA": 24.539620000039577,
+    "varianceB": 24.539620000039577,
+    "covariance": 24.539620000039577,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-08-28T00:00:00",
+    "varianceA": 26.14405184003408,
+    "varianceB": 26.14405184003408,
+    "covariance": 26.14405184003408,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-08-29T00:00:00",
+    "varianceA": 28.034511999998358,
+    "varianceB": 28.034511999998358,
+    "covariance": 28.034511999998358,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-08-30T00:00:00",
+    "varianceA": 29.376845440012403,
+    "varianceB": 29.376845440012403,
+    "covariance": 29.376845440012403,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-08-31T00:00:00",
+    "varianceA": 30.172819840008742,
+    "varianceB": 30.172819840008742,
+    "covariance": 30.172819840008742,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-09-04T00:00:00",
+    "varianceA": 30.742725759992027,
+    "varianceB": 30.742725759992027,
+    "covariance": 30.742725759992027,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-09-05T00:00:00",
+    "varianceA": 29.66179844000726,
+    "varianceB": 29.66179844000726,
+    "covariance": 29.66179844000726,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-09-06T00:00:00",
+    "varianceA": 28.36861296001007,
+    "varianceB": 28.36861296001007,
+    "covariance": 28.36861296001007,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-09-07T00:00:00",
+    "varianceA": 25.73726384001202,
+    "varianceB": 25.73726384001202,
+    "covariance": 25.73726384001202,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-09-10T00:00:00",
+    "varianceA": 23.686188000036054,
+    "varianceB": 23.686188000036054,
+    "covariance": 23.686188000036054,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-09-11T00:00:00",
+    "varianceA": 21.78303136001341,
+    "varianceB": 21.78303136001341,
+    "covariance": 21.78303136001341,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-09-12T00:00:00",
+    "varianceA": 19.91693284001667,
+    "varianceB": 19.91693284001667,
+    "covariance": 19.91693284001667,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-09-13T00:00:00",
+    "varianceA": 17.765494760024012,
+    "varianceB": 17.765494760024012,
+    "covariance": 17.765494760024012,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-09-14T00:00:00",
+    "varianceA": 16.354041000042344,
+    "varianceB": 16.354041000042344,
+    "covariance": 16.354041000042344,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-09-17T00:00:00",
+    "varianceA": 15.282067240012111,
+    "varianceB": 15.282067240012111,
+    "covariance": 15.282067240012111,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-09-18T00:00:00",
+    "varianceA": 15.143633960004081,
+    "varianceB": 15.143633960004081,
+    "covariance": 15.143633960004081,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-09-19T00:00:00",
+    "varianceA": 15.198743839995586,
+    "varianceB": 15.198743839995586,
+    "covariance": 15.198743839995586,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-09-20T00:00:00",
+    "varianceA": 15.190948639952694,
+    "varianceB": 15.190948639952694,
+    "covariance": 15.190948639952694,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-09-21T00:00:00",
+    "varianceA": 15.613504959997954,
+    "varianceB": 15.613504959997954,
+    "covariance": 15.613504959997954,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-09-24T00:00:00",
+    "varianceA": 15.68828015998588,
+    "varianceB": 15.68828015998588,
+    "covariance": 15.68828015998588,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-09-25T00:00:00",
+    "varianceA": 15.517019999970216,
+    "varianceB": 15.517019999970216,
+    "covariance": 15.517019999970216,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-09-26T00:00:00",
+    "varianceA": 15.330014759965707,
+    "varianceB": 15.330014759965707,
+    "covariance": 15.330014759965707,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-09-27T00:00:00",
+    "varianceA": 15.338731359966914,
+    "varianceB": 15.338731359966914,
+    "covariance": 15.338731359966914,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-09-28T00:00:00",
+    "varianceA": 15.010148839952308,
+    "varianceB": 15.010148839952308,
+    "covariance": 15.010148839952308,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-10-01T00:00:00",
+    "varianceA": 14.693452639941825,
+    "varianceB": 14.693452639941825,
+    "covariance": 14.693452639941825,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-10-02T00:00:00",
+    "varianceA": 14.34967535994656,
+    "varianceB": 14.34967535994656,
+    "covariance": 14.34967535994656,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-10-03T00:00:00",
+    "varianceA": 14.275504999968689,
+    "varianceB": 14.275504999968689,
+    "covariance": 14.275504999968689,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-10-04T00:00:00",
+    "varianceA": 14.200059559982037,
+    "varianceB": 14.200059559982037,
+    "covariance": 14.200059559982037,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-10-05T00:00:00",
+    "varianceA": 13.856115560003673,
+    "varianceB": 13.856115560003673,
+    "covariance": 13.856115560003673,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-10-08T00:00:00",
+    "varianceA": 13.080888359982055,
+    "varianceB": 13.080888359982055,
+    "covariance": 13.080888359982055,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-10-09T00:00:00",
+    "varianceA": 11.832816359979915,
+    "varianceB": 11.832816359979915,
+    "covariance": 11.832816359979915,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-10-10T00:00:00",
+    "varianceA": 12.349408039983246,
+    "varianceB": 12.349408039983246,
+    "covariance": 12.349408039983246,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-10-11T00:00:00",
+    "varianceA": 15.433239039964974,
+    "varianceB": 15.433239039964974,
+    "covariance": 15.433239039964974,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-10-12T00:00:00",
+    "varianceA": 17.031120639992878,
+    "varianceB": 17.031120639992878,
+    "covariance": 17.031120639992878,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-10-15T00:00:00",
+    "varianceA": 19.493373000019346,
+    "varianceB": 19.493373000019346,
+    "covariance": 19.493373000019346,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-10-16T00:00:00",
+    "varianceA": 20.005145760034793,
+    "varianceB": 20.005145760034793,
+    "covariance": 20.005145760034793,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-10-17T00:00:00",
+    "varianceA": 20.587250760014285,
+    "varianceB": 20.587250760014285,
+    "covariance": 20.587250760014285,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-10-18T00:00:00",
+    "varianceA": 22.346538439989672,
+    "varianceB": 22.346538439989672,
+    "covariance": 22.346538439989672,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-10-19T00:00:00",
+    "varianceA": 24.087325640008203,
+    "varianceB": 24.087325640008203,
+    "covariance": 24.087325640008203,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-10-22T00:00:00",
+    "varianceA": 26.048604960014927,
+    "varianceB": 26.048604960014927,
+    "covariance": 26.048604960014927,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-10-23T00:00:00",
+    "varianceA": 28.40413264001836,
+    "varianceB": 28.40413264001836,
+    "covariance": 28.40413264001836,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-10-24T00:00:00",
+    "varianceA": 36.03092176002974,
+    "varianceB": 36.03092176002974,
+    "covariance": 36.03092176002974,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-10-25T00:00:00",
+    "varianceA": 39.99501376002445,
+    "varianceB": 39.99501376002445,
+    "covariance": 39.99501376002445,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-10-26T00:00:00",
+    "varianceA": 47.261192160032806,
+    "varianceB": 47.261192160032806,
+    "covariance": 47.261192160032806,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-10-29T00:00:00",
+    "varianceA": 55.45585200001369,
+    "varianceB": 55.45585200001369,
+    "covariance": 55.45585200001369,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-10-30T00:00:00",
+    "varianceA": 60.62807396003336,
+    "varianceB": 60.62807396003336,
+    "covariance": 60.62807396003336,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-10-31T00:00:00",
+    "varianceA": 63.97904144000495,
+    "varianceB": 63.97904144000495,
+    "covariance": 63.97904144000495,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-11-01T00:00:00",
+    "varianceA": 65.92311843998323,
+    "varianceB": 65.92311843998323,
+    "covariance": 65.92311843998323,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-11-02T00:00:00",
+    "varianceA": 68.44392963996506,
+    "varianceB": 68.44392963996506,
+    "covariance": 68.44392963996506,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-11-05T00:00:00",
+    "varianceA": 70.09927395998966,
+    "varianceB": 70.09927395998966,
+    "covariance": 70.09927395998966,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-11-06T00:00:00",
+    "varianceA": 70.67514784001105,
+    "varianceB": 70.67514784001105,
+    "covariance": 70.67514784001105,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-11-07T00:00:00",
+    "varianceA": 70.06831055997463,
+    "varianceB": 70.06831055997463,
+    "covariance": 70.06831055997463,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-11-08T00:00:00",
+    "varianceA": 69.04304323995893,
+    "varianceB": 69.04304323995893,
+    "covariance": 69.04304323995893,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-11-09T00:00:00",
+    "varianceA": 68.59719043994846,
+    "varianceB": 68.59719043994846,
+    "covariance": 68.59719043994846,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-11-12T00:00:00",
+    "varianceA": 69.39747215992247,
+    "varianceB": 69.39747215992247,
+    "covariance": 69.39747215992247,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-11-13T00:00:00",
+    "varianceA": 70.30737875995692,
+    "varianceB": 70.30737875995692,
+    "covariance": 70.30737875995692,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-11-14T00:00:00",
+    "varianceA": 71.92900595992978,
+    "varianceB": 71.92900595992978,
+    "covariance": 71.92900595992978,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-11-15T00:00:00",
+    "varianceA": 72.52868783993472,
+    "varianceB": 72.52868783993472,
+    "covariance": 72.52868783993472,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-11-16T00:00:00",
+    "varianceA": 72.91244435995759,
+    "varianceB": 72.91244435995759,
+    "covariance": 72.91244435995759,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-11-19T00:00:00",
+    "varianceA": 74.63702655995439,
+    "varianceB": 74.63702655995439,
+    "covariance": 74.63702655995439,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-11-20T00:00:00",
+    "varianceA": 78.38338915999338,
+    "varianceB": 78.38338915999338,
+    "covariance": 78.38338915999338,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-11-21T00:00:00",
+    "varianceA": 81.178256159983,
+    "varianceB": 81.178256159983,
+    "covariance": 81.178256159983,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-11-23T00:00:00",
+    "varianceA": 83.93758195995179,
+    "varianceB": 83.93758195995179,
+    "covariance": 83.93758195995179,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-11-26T00:00:00",
+    "varianceA": 84.04510963997745,
+    "varianceB": 84.04510963997745,
+    "covariance": 84.04510963997745,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-11-27T00:00:00",
+    "varianceA": 84.06641555996612,
+    "varianceB": 84.06641555996612,
+    "covariance": 84.06641555996612,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-11-28T00:00:00",
+    "varianceA": 81.66780499997549,
+    "varianceB": 81.66780499997549,
+    "covariance": 81.66780499997549,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-11-29T00:00:00",
+    "varianceA": 79.02451315996586,
+    "varianceB": 79.02451315996586,
+    "covariance": 79.02451315996586,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-11-30T00:00:00",
+    "varianceA": 74.79320275997452,
+    "varianceB": 74.79320275997452,
+    "covariance": 74.79320275997452,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-12-03T00:00:00",
+    "varianceA": 70.60103763999359,
+    "varianceB": 70.60103763999359,
+    "covariance": 70.60103763999359,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-12-04T00:00:00",
+    "varianceA": 67.43885684001725,
+    "varianceB": 67.43885684001725,
+    "covariance": 67.43885684001725,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-12-06T00:00:00",
+    "varianceA": 64.19231923999905,
+    "varianceB": 64.19231923999905,
+    "covariance": 64.19231923999905,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-12-07T00:00:00",
+    "varianceA": 63.21244399998977,
+    "varianceB": 63.21244399998977,
+    "covariance": 63.21244399998977,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-12-10T00:00:00",
+    "varianceA": 61.01984884003468,
+    "varianceB": 61.01984884003468,
+    "covariance": 61.01984884003468,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-12-11T00:00:00",
+    "varianceA": 58.24447636003606,
+    "varianceB": 58.24447636003606,
+    "covariance": 58.24447636003606,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-12-12T00:00:00",
+    "varianceA": 53.803013000055216,
+    "varianceB": 53.803013000055216,
+    "covariance": 53.803013000055216,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-12-13T00:00:00",
+    "varianceA": 48.981728000057046,
+    "varianceB": 48.981728000057046,
+    "covariance": 48.981728000057046,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-12-14T00:00:00",
+    "varianceA": 45.362077160025365,
+    "varianceB": 45.362077160025365,
+    "covariance": 45.362077160025365,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-12-17T00:00:00",
+    "varianceA": 45.36832816005335,
+    "varianceB": 45.36832816005335,
+    "covariance": 45.36832816005335,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-12-18T00:00:00",
+    "varianceA": 45.72324544005096,
+    "varianceB": 45.72324544005096,
+    "covariance": 45.72324544005096,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-12-19T00:00:00",
+    "varianceA": 47.815933000078076,
+    "varianceB": 47.815933000078076,
+    "covariance": 47.815933000078076,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-12-20T00:00:00",
+    "varianceA": 52.39640800005873,
+    "varianceB": 52.39640800005873,
+    "covariance": 52.39640800005873,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-12-21T00:00:00",
+    "varianceA": 65.22368356007792,
+    "varianceB": 65.22368356007792,
+    "covariance": 65.22368356007792,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-12-24T00:00:00",
+    "varianceA": 85.83023824008706,
+    "varianceB": 85.83023824008706,
+    "covariance": 85.83023824008706,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-12-26T00:00:00",
+    "varianceA": 92.6805358400743,
+    "varianceB": 92.6805358400743,
+    "covariance": 92.6805358400743,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-12-27T00:00:00",
+    "varianceA": 98.02874000006705,
+    "varianceB": 98.02874000006705,
+    "covariance": 98.02874000006705,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-12-28T00:00:00",
+    "varianceA": 100.69479696007329,
+    "varianceB": 100.69479696007329,
+    "covariance": 100.69479696007329,
+    "correlation": 1,
+    "rSquared": 1
+  },
+  {
+    "timestamp": "2018-12-31T00:00:00",
+    "varianceA": 101.27515600006154,
+    "varianceB": 101.27515600006154,
+    "covariance": 101.27515600006154,
+    "correlation": 1,
+    "rSquared": 1
+  }
+]

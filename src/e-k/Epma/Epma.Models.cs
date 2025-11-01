@@ -1,14 +1,18 @@
 namespace Skender.Stock.Indicators;
 
+/// <summary>
+/// Represents the result of an Exponential Polynomial Moving Average (EPMA) calculation.
+/// </summary>
+/// <param name="Timestamp">The timestamp of the result.</param>
+/// <param name="Epma">The EPMA value.</param>
 [Serializable]
-public sealed class EpmaResult : ResultBase, IReusableResult
+public record EpmaResult
+(
+    DateTime Timestamp,
+    double? Epma
+) : IReusable
 {
-    public EpmaResult(DateTime date)
-    {
-        Date = date;
-    }
-
-    public double? Epma { get; set; }
-
-    double? IReusableResult.Value => Epma;
+    /// <inheritdoc/>
+    [JsonIgnore]
+    public double Value => Epma.Null2NaN();
 }

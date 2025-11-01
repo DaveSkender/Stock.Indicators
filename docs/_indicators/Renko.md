@@ -16,8 +16,8 @@ The [Renko Chart](https://en.m.wikipedia.org/wiki/Renko_chart) is a Japanese pri
 
 ```csharp
 // C# usage syntax
-IEnumerable<RenkoResult> results =
-  quotes.GetRenko(brickSize, endType);
+IReadOnlyList<RenkoResult> results =
+  quotes.ToRenko(brickSize, endType);
 ```
 
 ## Parameters
@@ -45,8 +45,8 @@ Results are based in `IQuote` and can be further used in any indicator.
 ```csharp
 // example
 var results = quotes
-    .GetRenko(..)
-    .GetRsi(..);
+    .ToRenko(..)
+    .ToRsi(..);
 ```
 
 This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.
@@ -54,20 +54,20 @@ This indicator must be generated from `quotes` and **cannot** be generated from 
 ## Response
 
 ```csharp
-IEnumerable<RenkoResult>
+IReadOnlyList<RenkoResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
 - It does not return a single incremental indicator value.
 - `RenkoResult` is based on `IQuote`, so it can be used as a direct replacement for `quotes`.
 
-> &#128681; **Warning**: Unlike most indicators in this library, this indicator DOES NOT return the same number of elements as there are in the historical quotes.  Renko bricks are added to the results once the `brickSize` change is achieved.  For example, if it takes 3 days for a $2.50 price change to occur an entry is made on the third day while the first two are skipped.  If a period change occurs at multiples of `brickSize`, multiple bricks are drawn with the same `Date`.  See [online documentation](https://www.investopedia.com/terms/r/renkochart.asp) for more information.
+> &#128681; **Warning**: Unlike most indicators in this library, this indicator DOES NOT return the same number of elements as there are in the historical quotes.  Renko bricks are added to the results once the `brickSize` change is achieved.  For example, if it takes 3 days for a $2.50 price change to occur an entry is made on the third day while the first two are skipped.  If a period change occurs at multiples of `brickSize`, multiple bricks are drawn with the same `Timestamp`.  See [online documentation](https://www.investopedia.com/terms/r/renkochart.asp) for more information.
 
 ### RenkoResult
 
 Each result record represents one Renko brick.
 
-**`Date`** _`DateTime`_ - Formation date of brick(s)
+**`Timestamp`** _`DateTime`_ - Formation date of brick(s)
 
 **`Open`** _`decimal`_ - Brick open price
 
@@ -94,8 +94,8 @@ See [Utilities and helpers]({{site.baseurl}}/utilities#utilities-for-indicator-r
 
 ```csharp
 // C# usage syntax
-IEnumerable<RenkoResult> results =
-  quotes.GetRenkoAtr(atrPeriods, endType);
+IReadOnlyList<RenkoResult> results =
+  quotes.ToRenkoAtr(atrPeriods, endType);
 ```
 
 ### Parameters for ATR
@@ -113,12 +113,45 @@ You must have at least `A+100` periods of `quotes`.
 ## Response for ATR
 
 ```csharp
-IEnumerable<RenkoResult>
+IReadOnlyList<RenkoResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
 - It does not return a single incremental indicator value.
 
-> &#128681; **Warning**: Unlike most indicators in this library, this indicator DOES NOT return the same number of elements as there are in the historical quotes.  Renko bricks are added to the results once the `brickSize` change is achieved.  For example, if it takes 3 days for a $2.50 price change to occur an entry is made on the third day while the first two are skipped.  If a period change occurs at multiples of `brickSize`, multiple bricks are drawn with the same `Date`.  See [online documentation](https://www.investopedia.com/terms/r/renkochart.asp) for more information.
+## Streaming
+
+Subscribe to a `QuoteHub` for streaming scenarios:
+
+```csharp
+QuoteHub<Quote> quoteHub = new();
+RenkoHub<Quote> observer = quoteHub.ToRenkoHub(brickSize);
+
+foreach (Quote quote in quotes)  // simulating stream
+{
+  quoteHub.Add(quote);
+}
+
+IReadOnlyList<RenkoResult> results = observer.Results;
+```
+
+## Buffering
+
+Use a `BufferList` for incremental processing:
+
+```csharp
+RenkoList buffer = new(brickSize, endType);
+
+foreach (Quote quote in quotes)  // simulating incremental data
+{
+  buffer.Add(quote);
+}
+
+IReadOnlyList<RenkoResult> results = buffer;
+```
+
+The buffering approach is ideal for growing datasets where quotes arrive incrementally over time.
+
+> &#128681; **Warning**: Unlike most indicators in this library, this indicator DOES NOT return the same number of elements as there are in the historical quotes.  Renko bricks are added to the results once the `brickSize` change is achieved.  For example, if it takes 3 days for a $2.50 price change to occur an entry is made on the third day while the first two are skipped.  If a period change occurs at multiples of `brickSize`, multiple bricks are drawn with the same `Timestamp`.  See [online documentation](https://www.investopedia.com/terms/r/renkochart.asp) for more information.
 >
-> &#128073; **Repaint warning**: When using the `GetRenkoAtr()` variant, the last [Average True Range (ATR)]({{site.baseurl}}/indicators/Atr/#content) value is used to set `brickSize`.  Since the ATR changes over time, historical bricks will be repainted as new periods are added or updated in `quotes`.
+> &#128073; **Repaint warning**: When using the `ToRenkoAtr()` variant, the last [Average True Range (ATR)]({{site.baseurl}}/indicators/Atr/#content) value is used to set `brickSize`.  Since the ATR changes over time, historical bricks will be repainted as new periods are added or updated in `quotes`.

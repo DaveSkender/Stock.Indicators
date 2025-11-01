@@ -14,7 +14,8 @@
     "**/BenchmarkDotNet.Artifacts/**",
     "**/TestResults/**",
     "**/*playwright*/**",
-    "**/vendor/**"
+    "**/vendor/**",
+    ".github/prompts/speckit.*"
   ],
   "config": {
     "default": true,

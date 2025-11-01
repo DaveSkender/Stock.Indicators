@@ -8,7 +8,7 @@ cd "$(dirname "$0")/../.." || exit 1
 echo ""
 echo "=== Running Roslynator fixer ==="
 roslynator fix \
---severity-level info \
+--severity-level hidden \
 --verbosity normal \
 --properties TargetFramework=net9.0 || exit 1
 

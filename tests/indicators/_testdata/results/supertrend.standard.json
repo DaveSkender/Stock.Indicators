@@ -1,0 +1,3014 @@
+[
+  {
+    "timestamp": "2017-01-03T00:00:00",
+    "superTrend": null,
+    "upperBand": null,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2017-01-04T00:00:00",
+    "superTrend": null,
+    "upperBand": null,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2017-01-05T00:00:00",
+    "superTrend": null,
+    "upperBand": null,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2017-01-06T00:00:00",
+    "superTrend": null,
+    "upperBand": null,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2017-01-09T00:00:00",
+    "superTrend": null,
+    "upperBand": null,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2017-01-10T00:00:00",
+    "superTrend": null,
+    "upperBand": null,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2017-01-11T00:00:00",
+    "superTrend": null,
+    "upperBand": null,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2017-01-12T00:00:00",
+    "superTrend": null,
+    "upperBand": null,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2017-01-13T00:00:00",
+    "superTrend": null,
+    "upperBand": null,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2017-01-17T00:00:00",
+    "superTrend": null,
+    "upperBand": null,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2017-01-18T00:00:00",
+    "superTrend": 210.059,
+    "upperBand": null,
+    "lowerBand": 210.059
+  },
+  {
+    "timestamp": "2017-01-19T00:00:00",
+    "superTrend": 210.059,
+    "upperBand": null,
+    "lowerBand": 210.059
+  },
+  {
+    "timestamp": "2017-01-20T00:00:00",
+    "superTrend": 210.25234,
+    "upperBand": null,
+    "lowerBand": 210.25234
+  },
+  {
+    "timestamp": "2017-01-23T00:00:00",
+    "superTrend": 210.25234,
+    "upperBand": null,
+    "lowerBand": 210.25234
+  },
+  {
+    "timestamp": "2017-01-24T00:00:00",
+    "superTrend": 210.5546954,
+    "upperBand": null,
+    "lowerBand": 210.5546954
+  },
+  {
+    "timestamp": "2017-01-25T00:00:00",
+    "superTrend": 212.16872586,
+    "upperBand": null,
+    "lowerBand": 212.16872586
+  },
+  {
+    "timestamp": "2017-01-26T00:00:00",
+    "superTrend": 212.692853274,
+    "upperBand": null,
+    "lowerBand": 212.692853274
+  },
+  {
+    "timestamp": "2017-01-27T00:00:00",
+    "superTrend": 212.692853274,
+    "upperBand": null,
+    "lowerBand": 212.692853274
+  },
+  {
+    "timestamp": "2017-01-30T00:00:00",
+    "superTrend": 212.692853274,
+    "upperBand": null,
+    "lowerBand": 212.692853274
+  },
+  {
+    "timestamp": "2017-01-31T00:00:00",
+    "superTrend": 212.692853274,
+    "upperBand": null,
+    "lowerBand": 212.692853274
+  },
+  {
+    "timestamp": "2017-02-01T00:00:00",
+    "superTrend": 212.692853274,
+    "upperBand": null,
+    "lowerBand": 212.692853274
+  },
+  {
+    "timestamp": "2017-02-02T00:00:00",
+    "superTrend": 212.692853274,
+    "upperBand": null,
+    "lowerBand": 212.692853274
+  },
+  {
+    "timestamp": "2017-02-03T00:00:00",
+    "superTrend": 212.692853274,
+    "upperBand": null,
+    "lowerBand": 212.692853274
+  },
+  {
+    "timestamp": "2017-02-06T00:00:00",
+    "superTrend": 212.692853274,
+    "upperBand": null,
+    "lowerBand": 212.692853274
+  },
+  {
+    "timestamp": "2017-02-07T00:00:00",
+    "superTrend": 212.692853274,
+    "upperBand": null,
+    "lowerBand": 212.692853274
+  },
+  {
+    "timestamp": "2017-02-08T00:00:00",
+    "superTrend": 212.692853274,
+    "upperBand": null,
+    "lowerBand": 212.692853274
+  },
+  {
+    "timestamp": "2017-02-09T00:00:00",
+    "superTrend": 213.613319831674,
+    "upperBand": null,
+    "lowerBand": 213.613319831674
+  },
+  {
+    "timestamp": "2017-02-10T00:00:00",
+    "superTrend": 214.580487848507,
+    "upperBand": null,
+    "lowerBand": 214.580487848507
+  },
+  {
+    "timestamp": "2017-02-13T00:00:00",
+    "superTrend": 215.808939063656,
+    "upperBand": null,
+    "lowerBand": 215.808939063656
+  },
+  {
+    "timestamp": "2017-02-14T00:00:00",
+    "superTrend": 216.113045157291,
+    "upperBand": null,
+    "lowerBand": 216.113045157291
+  },
+  {
+    "timestamp": "2017-02-15T00:00:00",
+    "superTrend": 217.273240641562,
+    "upperBand": null,
+    "lowerBand": 217.273240641562
+  },
+  {
+    "timestamp": "2017-02-16T00:00:00",
+    "superTrend": 217.529416577406,
+    "upperBand": null,
+    "lowerBand": 217.529416577406
+  },
+  {
+    "timestamp": "2017-02-17T00:00:00",
+    "superTrend": 217.613974919665,
+    "upperBand": null,
+    "lowerBand": 217.613974919665
+  },
+  {
+    "timestamp": "2017-02-21T00:00:00",
+    "superTrend": 219.057077427698,
+    "upperBand": null,
+    "lowerBand": 219.057077427698
+  },
+  {
+    "timestamp": "2017-02-22T00:00:00",
+    "superTrend": 219.331369684929,
+    "upperBand": null,
+    "lowerBand": 219.331369684929
+  },
+  {
+    "timestamp": "2017-02-23T00:00:00",
+    "superTrend": 219.378732716436,
+    "upperBand": null,
+    "lowerBand": 219.378732716436
+  },
+  {
+    "timestamp": "2017-02-24T00:00:00",
+    "superTrend": 219.378732716436,
+    "upperBand": null,
+    "lowerBand": 219.378732716436
+  },
+  {
+    "timestamp": "2017-02-27T00:00:00",
+    "superTrend": 220.041973500313,
+    "upperBand": null,
+    "lowerBand": 220.041973500313
+  },
+  {
+    "timestamp": "2017-02-28T00:00:00",
+    "superTrend": 220.041973500313,
+    "upperBand": null,
+    "lowerBand": 220.041973500313
+  },
+  {
+    "timestamp": "2017-03-01T00:00:00",
+    "superTrend": 221.753448535253,
+    "upperBand": null,
+    "lowerBand": 221.753448535253
+  },
+  {
+    "timestamp": "2017-03-02T00:00:00",
+    "superTrend": 221.753448535253,
+    "upperBand": null,
+    "lowerBand": 221.753448535253
+  },
+  {
+    "timestamp": "2017-03-03T00:00:00",
+    "superTrend": 221.753448535253,
+    "upperBand": null,
+    "lowerBand": 221.753448535253
+  },
+  {
+    "timestamp": "2017-03-06T00:00:00",
+    "superTrend": 221.753448535253,
+    "upperBand": null,
+    "lowerBand": 221.753448535253
+  },
+  {
+    "timestamp": "2017-03-07T00:00:00",
+    "superTrend": 221.753448535253,
+    "upperBand": null,
+    "lowerBand": 221.753448535253
+  },
+  {
+    "timestamp": "2017-03-08T00:00:00",
+    "superTrend": 221.753448535253,
+    "upperBand": null,
+    "lowerBand": 221.753448535253
+  },
+  {
+    "timestamp": "2017-03-09T00:00:00",
+    "superTrend": 221.753448535253,
+    "upperBand": null,
+    "lowerBand": 221.753448535253
+  },
+  {
+    "timestamp": "2017-03-10T00:00:00",
+    "superTrend": 221.753448535253,
+    "upperBand": null,
+    "lowerBand": 221.753448535253
+  },
+  {
+    "timestamp": "2017-03-13T00:00:00",
+    "superTrend": 221.753448535253,
+    "upperBand": null,
+    "lowerBand": 221.753448535253
+  },
+  {
+    "timestamp": "2017-03-14T00:00:00",
+    "superTrend": 221.753448535253,
+    "upperBand": null,
+    "lowerBand": 221.753448535253
+  },
+  {
+    "timestamp": "2017-03-15T00:00:00",
+    "superTrend": 221.753448535253,
+    "upperBand": null,
+    "lowerBand": 221.753448535253
+  },
+  {
+    "timestamp": "2017-03-16T00:00:00",
+    "superTrend": 221.753448535253,
+    "upperBand": null,
+    "lowerBand": 221.753448535253
+  },
+  {
+    "timestamp": "2017-03-17T00:00:00",
+    "superTrend": 221.753448535253,
+    "upperBand": null,
+    "lowerBand": 221.753448535253
+  },
+  {
+    "timestamp": "2017-03-20T00:00:00",
+    "superTrend": 221.753448535253,
+    "upperBand": null,
+    "lowerBand": 221.753448535253
+  },
+  {
+    "timestamp": "2017-03-21T00:00:00",
+    "superTrend": 221.753448535253,
+    "upperBand": null,
+    "lowerBand": 221.753448535253
+  },
+  {
+    "timestamp": "2017-03-22T00:00:00",
+    "superTrend": 221.753448535253,
+    "upperBand": null,
+    "lowerBand": 221.753448535253
+  },
+  {
+    "timestamp": "2017-03-23T00:00:00",
+    "superTrend": 221.753448535253,
+    "upperBand": null,
+    "lowerBand": 221.753448535253
+  },
+  {
+    "timestamp": "2017-03-24T00:00:00",
+    "superTrend": 221.753448535253,
+    "upperBand": null,
+    "lowerBand": 221.753448535253
+  },
+  {
+    "timestamp": "2017-03-27T00:00:00",
+    "superTrend": 225.804021558303,
+    "upperBand": 225.804021558303,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2017-03-28T00:00:00",
+    "superTrend": 225.804021558303,
+    "upperBand": 225.804021558303,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2017-03-29T00:00:00",
+    "superTrend": 225.804021558303,
+    "upperBand": 225.804021558303,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2017-03-30T00:00:00",
+    "superTrend": 225.804021558303,
+    "upperBand": 225.804021558303,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2017-03-31T00:00:00",
+    "superTrend": 225.804021558303,
+    "upperBand": 225.804021558303,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2017-04-03T00:00:00",
+    "superTrend": 225.804021558303,
+    "upperBand": 225.804021558303,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2017-04-04T00:00:00",
+    "superTrend": 225.804021558303,
+    "upperBand": 225.804021558303,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2017-04-05T00:00:00",
+    "superTrend": 225.804021558303,
+    "upperBand": 225.804021558303,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2017-04-06T00:00:00",
+    "superTrend": 225.804021558303,
+    "upperBand": 225.804021558303,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2017-04-07T00:00:00",
+    "superTrend": 225.804021558303,
+    "upperBand": 225.804021558303,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2017-04-10T00:00:00",
+    "superTrend": 225.804021558303,
+    "upperBand": 225.804021558303,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2017-04-11T00:00:00",
+    "superTrend": 225.804021558303,
+    "upperBand": 225.804021558303,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2017-04-12T00:00:00",
+    "superTrend": 225.804021558303,
+    "upperBand": 225.804021558303,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2017-04-13T00:00:00",
+    "superTrend": 225.804021558303,
+    "upperBand": 225.804021558303,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2017-04-17T00:00:00",
+    "superTrend": 225.804021558303,
+    "upperBand": 225.804021558303,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2017-04-18T00:00:00",
+    "superTrend": 225.804021558303,
+    "upperBand": 225.804021558303,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2017-04-19T00:00:00",
+    "superTrend": 225.804021558303,
+    "upperBand": 225.804021558303,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2017-04-20T00:00:00",
+    "superTrend": 225.804021558303,
+    "upperBand": 225.804021558303,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2017-04-21T00:00:00",
+    "superTrend": 225.804021558303,
+    "upperBand": 225.804021558303,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2017-04-24T00:00:00",
+    "superTrend": 225.804021558303,
+    "upperBand": 225.804021558303,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2017-04-25T00:00:00",
+    "superTrend": 220.978673769812,
+    "upperBand": null,
+    "lowerBand": 220.978673769812
+  },
+  {
+    "timestamp": "2017-04-26T00:00:00",
+    "superTrend": 221.693806392831,
+    "upperBand": null,
+    "lowerBand": 221.693806392831
+  },
+  {
+    "timestamp": "2017-04-27T00:00:00",
+    "superTrend": 221.693806392831,
+    "upperBand": null,
+    "lowerBand": 221.693806392831
+  },
+  {
+    "timestamp": "2017-04-28T00:00:00",
+    "superTrend": 221.693806392831,
+    "upperBand": null,
+    "lowerBand": 221.693806392831
+  },
+  {
+    "timestamp": "2017-05-01T00:00:00",
+    "superTrend": 222.026844860374,
+    "upperBand": null,
+    "lowerBand": 222.026844860374
+  },
+  {
+    "timestamp": "2017-05-02T00:00:00",
+    "superTrend": 222.240160374336,
+    "upperBand": null,
+    "lowerBand": 222.240160374336
+  },
+  {
+    "timestamp": "2017-05-03T00:00:00",
+    "superTrend": 222.240160374336,
+    "upperBand": null,
+    "lowerBand": 222.240160374336
+  },
+  {
+    "timestamp": "2017-05-04T00:00:00",
+    "superTrend": 222.240160374336,
+    "upperBand": null,
+    "lowerBand": 222.240160374336
+  },
+  {
+    "timestamp": "2017-05-05T00:00:00",
+    "superTrend": 223.050286912891,
+    "upperBand": null,
+    "lowerBand": 223.050286912891
+  },
+  {
+    "timestamp": "2017-05-08T00:00:00",
+    "superTrend": 223.554258221602,
+    "upperBand": null,
+    "lowerBand": 223.554258221602
+  },
+  {
+    "timestamp": "2017-05-09T00:00:00",
+    "superTrend": 223.671332399442,
+    "upperBand": null,
+    "lowerBand": 223.671332399442
+  },
+  {
+    "timestamp": "2017-05-10T00:00:00",
+    "superTrend": 223.733699159498,
+    "upperBand": null,
+    "lowerBand": 223.733699159498
+  },
+  {
+    "timestamp": "2017-05-11T00:00:00",
+    "superTrend": 223.733699159498,
+    "upperBand": null,
+    "lowerBand": 223.733699159498
+  },
+  {
+    "timestamp": "2017-05-12T00:00:00",
+    "superTrend": 223.733699159498,
+    "upperBand": null,
+    "lowerBand": 223.733699159498
+  },
+  {
+    "timestamp": "2017-05-15T00:00:00",
+    "superTrend": 224.090901687274,
+    "upperBand": null,
+    "lowerBand": 224.090901687274
+  },
+  {
+    "timestamp": "2017-05-16T00:00:00",
+    "superTrend": 224.345811518546,
+    "upperBand": null,
+    "lowerBand": 224.345811518546
+  },
+  {
+    "timestamp": "2017-05-17T00:00:00",
+    "superTrend": 229.471769633308,
+    "upperBand": 229.471769633308,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2017-05-18T00:00:00",
+    "superTrend": 229.111592669977,
+    "upperBand": 229.111592669977,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2017-05-19T00:00:00",
+    "superTrend": 229.111592669977,
+    "upperBand": 229.111592669977,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2017-05-22T00:00:00",
+    "superTrend": 229.111592669977,
+    "upperBand": 229.111592669977,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2017-05-23T00:00:00",
+    "superTrend": 229.111592669977,
+    "upperBand": 229.111592669977,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2017-05-24T00:00:00",
+    "superTrend": 229.111592669977,
+    "upperBand": 229.111592669977,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2017-05-25T00:00:00",
+    "superTrend": 224.924798744305,
+    "upperBand": null,
+    "lowerBand": 224.924798744305
+  },
+  {
+    "timestamp": "2017-05-26T00:00:00",
+    "superTrend": 225.365318869875,
+    "upperBand": null,
+    "lowerBand": 225.365318869875
+  },
+  {
+    "timestamp": "2017-05-30T00:00:00",
+    "superTrend": 225.395286982887,
+    "upperBand": null,
+    "lowerBand": 225.395286982887
+  },
+  {
+    "timestamp": "2017-05-31T00:00:00",
+    "superTrend": 225.395286982887,
+    "upperBand": null,
+    "lowerBand": 225.395286982887
+  },
+  {
+    "timestamp": "2017-06-01T00:00:00",
+    "superTrend": 226.213982456139,
+    "upperBand": null,
+    "lowerBand": 226.213982456139
+  },
+  {
+    "timestamp": "2017-06-02T00:00:00",
+    "superTrend": 227.385584210525,
+    "upperBand": null,
+    "lowerBand": 227.385584210525
+  },
+  {
+    "timestamp": "2017-06-05T00:00:00",
+    "superTrend": 227.919525789472,
+    "upperBand": null,
+    "lowerBand": 227.919525789472
+  },
+  {
+    "timestamp": "2017-06-06T00:00:00",
+    "superTrend": 227.919525789472,
+    "upperBand": null,
+    "lowerBand": 227.919525789472
+  },
+  {
+    "timestamp": "2017-06-07T00:00:00",
+    "superTrend": 227.919525789472,
+    "upperBand": null,
+    "lowerBand": 227.919525789472
+  },
+  {
+    "timestamp": "2017-06-08T00:00:00",
+    "superTrend": 227.919525789472,
+    "upperBand": null,
+    "lowerBand": 227.919525789472
+  },
+  {
+    "timestamp": "2017-06-09T00:00:00",
+    "superTrend": 227.919525789472,
+    "upperBand": null,
+    "lowerBand": 227.919525789472
+  },
+  {
+    "timestamp": "2017-06-12T00:00:00",
+    "superTrend": 227.919525789472,
+    "upperBand": null,
+    "lowerBand": 227.919525789472
+  },
+  {
+    "timestamp": "2017-06-13T00:00:00",
+    "superTrend": 227.919525789472,
+    "upperBand": null,
+    "lowerBand": 227.919525789472
+  },
+  {
+    "timestamp": "2017-06-14T00:00:00",
+    "superTrend": 227.919525789472,
+    "upperBand": null,
+    "lowerBand": 227.919525789472
+  },
+  {
+    "timestamp": "2017-06-15T00:00:00",
+    "superTrend": 227.919525789472,
+    "upperBand": null,
+    "lowerBand": 227.919525789472
+  },
+  {
+    "timestamp": "2017-06-16T00:00:00",
+    "superTrend": 227.919525789472,
+    "upperBand": null,
+    "lowerBand": 227.919525789472
+  },
+  {
+    "timestamp": "2017-06-19T00:00:00",
+    "superTrend": 228.566332206435,
+    "upperBand": null,
+    "lowerBand": 228.566332206435
+  },
+  {
+    "timestamp": "2017-06-20T00:00:00",
+    "superTrend": 228.566332206435,
+    "upperBand": null,
+    "lowerBand": 228.566332206435
+  },
+  {
+    "timestamp": "2017-06-21T00:00:00",
+    "superTrend": 228.566332206435,
+    "upperBand": null,
+    "lowerBand": 228.566332206435
+  },
+  {
+    "timestamp": "2017-06-22T00:00:00",
+    "superTrend": 228.566332206435,
+    "upperBand": null,
+    "lowerBand": 228.566332206435
+  },
+  {
+    "timestamp": "2017-06-23T00:00:00",
+    "superTrend": 228.566332206435,
+    "upperBand": null,
+    "lowerBand": 228.566332206435
+  },
+  {
+    "timestamp": "2017-06-26T00:00:00",
+    "superTrend": 228.566332206435,
+    "upperBand": null,
+    "lowerBand": 228.566332206435
+  },
+  {
+    "timestamp": "2017-06-27T00:00:00",
+    "superTrend": 228.566332206435,
+    "upperBand": null,
+    "lowerBand": 228.566332206435
+  },
+  {
+    "timestamp": "2017-06-28T00:00:00",
+    "superTrend": 228.566332206435,
+    "upperBand": null,
+    "lowerBand": 228.566332206435
+  },
+  {
+    "timestamp": "2017-06-29T00:00:00",
+    "superTrend": 228.566332206435,
+    "upperBand": null,
+    "lowerBand": 228.566332206435
+  },
+  {
+    "timestamp": "2017-06-30T00:00:00",
+    "superTrend": 228.566332206435,
+    "upperBand": null,
+    "lowerBand": 228.566332206435
+  },
+  {
+    "timestamp": "2017-07-03T00:00:00",
+    "superTrend": 228.566332206435,
+    "upperBand": null,
+    "lowerBand": 228.566332206435
+  },
+  {
+    "timestamp": "2017-07-05T00:00:00",
+    "superTrend": 228.566332206435,
+    "upperBand": null,
+    "lowerBand": 228.566332206435
+  },
+  {
+    "timestamp": "2017-07-06T00:00:00",
+    "superTrend": 228.566332206435,
+    "upperBand": null,
+    "lowerBand": 228.566332206435
+  },
+  {
+    "timestamp": "2017-07-07T00:00:00",
+    "superTrend": 228.566332206435,
+    "upperBand": null,
+    "lowerBand": 228.566332206435
+  },
+  {
+    "timestamp": "2017-07-10T00:00:00",
+    "superTrend": 228.566332206435,
+    "upperBand": null,
+    "lowerBand": 228.566332206435
+  },
+  {
+    "timestamp": "2017-07-11T00:00:00",
+    "superTrend": 228.566332206435,
+    "upperBand": null,
+    "lowerBand": 228.566332206435
+  },
+  {
+    "timestamp": "2017-07-12T00:00:00",
+    "superTrend": 228.566332206435,
+    "upperBand": null,
+    "lowerBand": 228.566332206435
+  },
+  {
+    "timestamp": "2017-07-13T00:00:00",
+    "superTrend": 228.566332206435,
+    "upperBand": null,
+    "lowerBand": 228.566332206435
+  },
+  {
+    "timestamp": "2017-07-14T00:00:00",
+    "superTrend": 229.116939487007,
+    "upperBand": null,
+    "lowerBand": 229.116939487007
+  },
+  {
+    "timestamp": "2017-07-17T00:00:00",
+    "superTrend": 229.869245538306,
+    "upperBand": null,
+    "lowerBand": 229.869245538306
+  },
+  {
+    "timestamp": "2017-07-18T00:00:00",
+    "superTrend": 229.869245538306,
+    "upperBand": null,
+    "lowerBand": 229.869245538306
+  },
+  {
+    "timestamp": "2017-07-19T00:00:00",
+    "superTrend": 230.885138886028,
+    "upperBand": null,
+    "lowerBand": 230.885138886028
+  },
+  {
+    "timestamp": "2017-07-20T00:00:00",
+    "superTrend": 231.450624997425,
+    "upperBand": null,
+    "lowerBand": 231.450624997425
+  },
+  {
+    "timestamp": "2017-07-21T00:00:00",
+    "superTrend": 231.450624997425,
+    "upperBand": null,
+    "lowerBand": 231.450624997425
+  },
+  {
+    "timestamp": "2017-07-24T00:00:00",
+    "superTrend": 231.476806247914,
+    "upperBand": null,
+    "lowerBand": 231.476806247914
+  },
+  {
+    "timestamp": "2017-07-25T00:00:00",
+    "superTrend": 232.378125623123,
+    "upperBand": null,
+    "lowerBand": 232.378125623123
+  },
+  {
+    "timestamp": "2017-07-26T00:00:00",
+    "superTrend": 232.528813060811,
+    "upperBand": null,
+    "lowerBand": 232.528813060811
+  },
+  {
+    "timestamp": "2017-07-27T00:00:00",
+    "superTrend": 232.528813060811,
+    "upperBand": null,
+    "lowerBand": 232.528813060811
+  },
+  {
+    "timestamp": "2017-07-28T00:00:00",
+    "superTrend": 232.528813060811,
+    "upperBand": null,
+    "lowerBand": 232.528813060811
+  },
+  {
+    "timestamp": "2017-07-31T00:00:00",
+    "superTrend": 232.528813060811,
+    "upperBand": null,
+    "lowerBand": 232.528813060811
+  },
+  {
+    "timestamp": "2017-08-01T00:00:00",
+    "superTrend": 232.528813060811,
+    "upperBand": null,
+    "lowerBand": 232.528813060811
+  },
+  {
+    "timestamp": "2017-08-02T00:00:00",
+    "superTrend": 232.528813060811,
+    "upperBand": null,
+    "lowerBand": 232.528813060811
+  },
+  {
+    "timestamp": "2017-08-03T00:00:00",
+    "superTrend": 232.528813060811,
+    "upperBand": null,
+    "lowerBand": 232.528813060811
+  },
+  {
+    "timestamp": "2017-08-04T00:00:00",
+    "superTrend": 232.638118085165,
+    "upperBand": null,
+    "lowerBand": 232.638118085165
+  },
+  {
+    "timestamp": "2017-08-07T00:00:00",
+    "superTrend": 233.046306276649,
+    "upperBand": null,
+    "lowerBand": 233.046306276649
+  },
+  {
+    "timestamp": "2017-08-08T00:00:00",
+    "superTrend": 233.046306276649,
+    "upperBand": null,
+    "lowerBand": 233.046306276649
+  },
+  {
+    "timestamp": "2017-08-09T00:00:00",
+    "superTrend": 233.046306276649,
+    "upperBand": null,
+    "lowerBand": 233.046306276649
+  },
+  {
+    "timestamp": "2017-08-10T00:00:00",
+    "superTrend": 237.721227724323,
+    "upperBand": 237.721227724323,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2017-08-11T00:00:00",
+    "superTrend": 236.859604951891,
+    "upperBand": 236.859604951891,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2017-08-14T00:00:00",
+    "superTrend": 236.859604951891,
+    "upperBand": 236.859604951891,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2017-08-15T00:00:00",
+    "superTrend": 236.859604951891,
+    "upperBand": 236.859604951891,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2017-08-16T00:00:00",
+    "superTrend": 236.859604951891,
+    "upperBand": 236.859604951891,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2017-08-17T00:00:00",
+    "superTrend": 236.859604951891,
+    "upperBand": 236.859604951891,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2017-08-18T00:00:00",
+    "superTrend": 236.707067978042,
+    "upperBand": 236.707067978042,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2017-08-21T00:00:00",
+    "superTrend": 235.967861180238,
+    "upperBand": 235.967861180238,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2017-08-22T00:00:00",
+    "superTrend": 235.967861180238,
+    "upperBand": 235.967861180238,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2017-08-23T00:00:00",
+    "superTrend": 235.967861180238,
+    "upperBand": 235.967861180238,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2017-08-24T00:00:00",
+    "superTrend": 235.967861180238,
+    "upperBand": 235.967861180238,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2017-08-25T00:00:00",
+    "superTrend": 235.967861180238,
+    "upperBand": 235.967861180238,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2017-08-28T00:00:00",
+    "superTrend": 235.967861180238,
+    "upperBand": 235.967861180238,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2017-08-29T00:00:00",
+    "superTrend": 235.967861180238,
+    "upperBand": 235.967861180238,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2017-08-30T00:00:00",
+    "superTrend": 235.967861180238,
+    "upperBand": 235.967861180238,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2017-08-31T00:00:00",
+    "superTrend": 230.586219574426,
+    "upperBand": null,
+    "lowerBand": 230.586219574426
+  },
+  {
+    "timestamp": "2017-09-01T00:00:00",
+    "superTrend": 231.865597616983,
+    "upperBand": null,
+    "lowerBand": 231.865597616983
+  },
+  {
+    "timestamp": "2017-09-05T00:00:00",
+    "superTrend": 231.865597616983,
+    "upperBand": null,
+    "lowerBand": 231.865597616983
+  },
+  {
+    "timestamp": "2017-09-06T00:00:00",
+    "superTrend": 231.865597616983,
+    "upperBand": null,
+    "lowerBand": 231.865597616983
+  },
+  {
+    "timestamp": "2017-09-07T00:00:00",
+    "superTrend": 231.865597616983,
+    "upperBand": null,
+    "lowerBand": 231.865597616983
+  },
+  {
+    "timestamp": "2017-09-08T00:00:00",
+    "superTrend": 231.865597616983,
+    "upperBand": null,
+    "lowerBand": 231.865597616983
+  },
+  {
+    "timestamp": "2017-09-11T00:00:00",
+    "superTrend": 232.399534386852,
+    "upperBand": null,
+    "lowerBand": 232.399534386852
+  },
+  {
+    "timestamp": "2017-09-12T00:00:00",
+    "superTrend": 233.657580948167,
+    "upperBand": null,
+    "lowerBand": 233.657580948167
+  },
+  {
+    "timestamp": "2017-09-13T00:00:00",
+    "superTrend": 234.06382285335,
+    "upperBand": null,
+    "lowerBand": 234.06382285335
+  },
+  {
+    "timestamp": "2017-09-14T00:00:00",
+    "superTrend": 234.337940568015,
+    "upperBand": null,
+    "lowerBand": 234.337940568015
+  },
+  {
+    "timestamp": "2017-09-15T00:00:00",
+    "superTrend": 234.730646511214,
+    "upperBand": null,
+    "lowerBand": 234.730646511214
+  },
+  {
+    "timestamp": "2017-09-18T00:00:00",
+    "superTrend": 235.579081860092,
+    "upperBand": null,
+    "lowerBand": 235.579081860092
+  },
+  {
+    "timestamp": "2017-09-19T00:00:00",
+    "superTrend": 235.938173674083,
+    "upperBand": null,
+    "lowerBand": 235.938173674083
+  },
+  {
+    "timestamp": "2017-09-20T00:00:00",
+    "superTrend": 235.938173674083,
+    "upperBand": null,
+    "lowerBand": 235.938173674083
+  },
+  {
+    "timestamp": "2017-09-21T00:00:00",
+    "superTrend": 235.938173674083,
+    "upperBand": null,
+    "lowerBand": 235.938173674083
+  },
+  {
+    "timestamp": "2017-09-22T00:00:00",
+    "superTrend": 235.938173674083,
+    "upperBand": null,
+    "lowerBand": 235.938173674083
+  },
+  {
+    "timestamp": "2017-09-25T00:00:00",
+    "superTrend": 235.938173674083,
+    "upperBand": null,
+    "lowerBand": 235.938173674083
+  },
+  {
+    "timestamp": "2017-09-26T00:00:00",
+    "superTrend": 235.938173674083,
+    "upperBand": null,
+    "lowerBand": 235.938173674083
+  },
+  {
+    "timestamp": "2017-09-27T00:00:00",
+    "superTrend": 235.938173674083,
+    "upperBand": null,
+    "lowerBand": 235.938173674083
+  },
+  {
+    "timestamp": "2017-09-28T00:00:00",
+    "superTrend": 236.308362868476,
+    "upperBand": null,
+    "lowerBand": 236.308362868476
+  },
+  {
+    "timestamp": "2017-09-29T00:00:00",
+    "superTrend": 236.954526581628,
+    "upperBand": null,
+    "lowerBand": 236.954526581628
+  },
+  {
+    "timestamp": "2017-10-02T00:00:00",
+    "superTrend": 238.012073923465,
+    "upperBand": null,
+    "lowerBand": 238.012073923465
+  },
+  {
+    "timestamp": "2017-10-03T00:00:00",
+    "superTrend": 238.867866531119,
+    "upperBand": null,
+    "lowerBand": 238.867866531119
+  },
+  {
+    "timestamp": "2017-10-04T00:00:00",
+    "superTrend": 239.350079878007,
+    "upperBand": null,
+    "lowerBand": 239.350079878007
+  },
+  {
+    "timestamp": "2017-10-05T00:00:00",
+    "superTrend": 240.120071890206,
+    "upperBand": null,
+    "lowerBand": 240.120071890206
+  },
+  {
+    "timestamp": "2017-10-06T00:00:00",
+    "superTrend": 240.523064701186,
+    "upperBand": null,
+    "lowerBand": 240.523064701186
+  },
+  {
+    "timestamp": "2017-10-09T00:00:00",
+    "superTrend": 240.523064701186,
+    "upperBand": null,
+    "lowerBand": 240.523064701186
+  },
+  {
+    "timestamp": "2017-10-10T00:00:00",
+    "superTrend": 240.75743240796,
+    "upperBand": null,
+    "lowerBand": 240.75743240796
+  },
+  {
+    "timestamp": "2017-10-11T00:00:00",
+    "superTrend": 241.019189167164,
+    "upperBand": null,
+    "lowerBand": 241.019189167164
+  },
+  {
+    "timestamp": "2017-10-12T00:00:00",
+    "superTrend": 241.159770250448,
+    "upperBand": null,
+    "lowerBand": 241.159770250448
+  },
+  {
+    "timestamp": "2017-10-13T00:00:00",
+    "superTrend": 241.498293225403,
+    "upperBand": null,
+    "lowerBand": 241.498293225403
+  },
+  {
+    "timestamp": "2017-10-16T00:00:00",
+    "superTrend": 241.785963902863,
+    "upperBand": null,
+    "lowerBand": 241.785963902863
+  },
+  {
+    "timestamp": "2017-10-17T00:00:00",
+    "superTrend": 241.982367512576,
+    "upperBand": null,
+    "lowerBand": 241.982367512576
+  },
+  {
+    "timestamp": "2017-10-18T00:00:00",
+    "superTrend": 242.560130761319,
+    "upperBand": null,
+    "lowerBand": 242.560130761319
+  },
+  {
+    "timestamp": "2017-10-19T00:00:00",
+    "superTrend": 242.560130761319,
+    "upperBand": null,
+    "lowerBand": 242.560130761319
+  },
+  {
+    "timestamp": "2017-10-20T00:00:00",
+    "superTrend": 242.955855916668,
+    "upperBand": null,
+    "lowerBand": 242.955855916668
+  },
+  {
+    "timestamp": "2017-10-23T00:00:00",
+    "superTrend": 243.103770325001,
+    "upperBand": null,
+    "lowerBand": 243.103770325001
+  },
+  {
+    "timestamp": "2017-10-24T00:00:00",
+    "superTrend": 243.103770325001,
+    "upperBand": null,
+    "lowerBand": 243.103770325001
+  },
+  {
+    "timestamp": "2017-10-25T00:00:00",
+    "superTrend": 243.103770325001,
+    "upperBand": null,
+    "lowerBand": 243.103770325001
+  },
+  {
+    "timestamp": "2017-10-26T00:00:00",
+    "superTrend": 243.103770325001,
+    "upperBand": null,
+    "lowerBand": 243.103770325001
+  },
+  {
+    "timestamp": "2017-10-27T00:00:00",
+    "superTrend": 243.103770325001,
+    "upperBand": null,
+    "lowerBand": 243.103770325001
+  },
+  {
+    "timestamp": "2017-10-30T00:00:00",
+    "superTrend": 243.103770325001,
+    "upperBand": null,
+    "lowerBand": 243.103770325001
+  },
+  {
+    "timestamp": "2017-10-31T00:00:00",
+    "superTrend": 243.103770325001,
+    "upperBand": null,
+    "lowerBand": 243.103770325001
+  },
+  {
+    "timestamp": "2017-11-01T00:00:00",
+    "superTrend": 243.49364921176,
+    "upperBand": null,
+    "lowerBand": 243.49364921176
+  },
+  {
+    "timestamp": "2017-11-02T00:00:00",
+    "superTrend": 243.49364921176,
+    "upperBand": null,
+    "lowerBand": 243.49364921176
+  },
+  {
+    "timestamp": "2017-11-03T00:00:00",
+    "superTrend": 243.553755861526,
+    "upperBand": null,
+    "lowerBand": 243.553755861526
+  },
+  {
+    "timestamp": "2017-11-06T00:00:00",
+    "superTrend": 244.365880275373,
+    "upperBand": null,
+    "lowerBand": 244.365880275373
+  },
+  {
+    "timestamp": "2017-11-07T00:00:00",
+    "superTrend": 244.456792247836,
+    "upperBand": null,
+    "lowerBand": 244.456792247836
+  },
+  {
+    "timestamp": "2017-11-08T00:00:00",
+    "superTrend": 244.461613023052,
+    "upperBand": null,
+    "lowerBand": 244.461613023052
+  },
+  {
+    "timestamp": "2017-11-09T00:00:00",
+    "superTrend": 244.461613023052,
+    "upperBand": null,
+    "lowerBand": 244.461613023052
+  },
+  {
+    "timestamp": "2017-11-10T00:00:00",
+    "superTrend": 244.461613023052,
+    "upperBand": null,
+    "lowerBand": 244.461613023052
+  },
+  {
+    "timestamp": "2017-11-13T00:00:00",
+    "superTrend": 244.461613023052,
+    "upperBand": null,
+    "lowerBand": 244.461613023052
+  },
+  {
+    "timestamp": "2017-11-14T00:00:00",
+    "superTrend": 244.461613023052,
+    "upperBand": null,
+    "lowerBand": 244.461613023052
+  },
+  {
+    "timestamp": "2017-11-15T00:00:00",
+    "superTrend": 244.461613023052,
+    "upperBand": null,
+    "lowerBand": 244.461613023052
+  },
+  {
+    "timestamp": "2017-11-16T00:00:00",
+    "superTrend": 244.461613023052,
+    "upperBand": null,
+    "lowerBand": 244.461613023052
+  },
+  {
+    "timestamp": "2017-11-17T00:00:00",
+    "superTrend": 244.461613023052,
+    "upperBand": null,
+    "lowerBand": 244.461613023052
+  },
+  {
+    "timestamp": "2017-11-20T00:00:00",
+    "superTrend": 244.461613023052,
+    "upperBand": null,
+    "lowerBand": 244.461613023052
+  },
+  {
+    "timestamp": "2017-11-21T00:00:00",
+    "superTrend": 244.461613023052,
+    "upperBand": null,
+    "lowerBand": 244.461613023052
+  },
+  {
+    "timestamp": "2017-11-22T00:00:00",
+    "superTrend": 245.084732299592,
+    "upperBand": null,
+    "lowerBand": 245.084732299592
+  },
+  {
+    "timestamp": "2017-11-24T00:00:00",
+    "superTrend": 245.709759069633,
+    "upperBand": null,
+    "lowerBand": 245.709759069633
+  },
+  {
+    "timestamp": "2017-11-27T00:00:00",
+    "superTrend": 245.922283162669,
+    "upperBand": null,
+    "lowerBand": 245.922283162669
+  },
+  {
+    "timestamp": "2017-11-28T00:00:00",
+    "superTrend": 246.857054846402,
+    "upperBand": null,
+    "lowerBand": 246.857054846402
+  },
+  {
+    "timestamp": "2017-11-29T00:00:00",
+    "superTrend": 247.934849361762,
+    "upperBand": null,
+    "lowerBand": 247.934849361762
+  },
+  {
+    "timestamp": "2017-11-30T00:00:00",
+    "superTrend": 249.239864425586,
+    "upperBand": null,
+    "lowerBand": 249.239864425586
+  },
+  {
+    "timestamp": "2017-12-01T00:00:00",
+    "superTrend": 249.239864425586,
+    "upperBand": null,
+    "lowerBand": 249.239864425586
+  },
+  {
+    "timestamp": "2017-12-04T00:00:00",
+    "superTrend": 249.239864425586,
+    "upperBand": null,
+    "lowerBand": 249.239864425586
+  },
+  {
+    "timestamp": "2017-12-05T00:00:00",
+    "superTrend": 249.239864425586,
+    "upperBand": null,
+    "lowerBand": 249.239864425586
+  },
+  {
+    "timestamp": "2017-12-06T00:00:00",
+    "superTrend": 249.239864425586,
+    "upperBand": null,
+    "lowerBand": 249.239864425586
+  },
+  {
+    "timestamp": "2017-12-07T00:00:00",
+    "superTrend": 249.239864425586,
+    "upperBand": null,
+    "lowerBand": 249.239864425586
+  },
+  {
+    "timestamp": "2017-12-08T00:00:00",
+    "superTrend": 249.239864425586,
+    "upperBand": null,
+    "lowerBand": 249.239864425586
+  },
+  {
+    "timestamp": "2017-12-11T00:00:00",
+    "superTrend": 249.884298663178,
+    "upperBand": null,
+    "lowerBand": 249.884298663178
+  },
+  {
+    "timestamp": "2017-12-12T00:00:00",
+    "superTrend": 250.95486879686,
+    "upperBand": null,
+    "lowerBand": 250.95486879686
+  },
+  {
+    "timestamp": "2017-12-13T00:00:00",
+    "superTrend": 251.426881917174,
+    "upperBand": null,
+    "lowerBand": 251.426881917174
+  },
+  {
+    "timestamp": "2017-12-14T00:00:00",
+    "superTrend": 251.426881917174,
+    "upperBand": null,
+    "lowerBand": 251.426881917174
+  },
+  {
+    "timestamp": "2017-12-15T00:00:00",
+    "superTrend": 251.527824352911,
+    "upperBand": null,
+    "lowerBand": 251.527824352911
+  },
+  {
+    "timestamp": "2017-12-18T00:00:00",
+    "superTrend": 253.41354191762,
+    "upperBand": null,
+    "lowerBand": 253.41354191762
+  },
+  {
+    "timestamp": "2017-12-19T00:00:00",
+    "superTrend": 253.41354191762,
+    "upperBand": null,
+    "lowerBand": 253.41354191762
+  },
+  {
+    "timestamp": "2017-12-20T00:00:00",
+    "superTrend": 253.41354191762,
+    "upperBand": null,
+    "lowerBand": 253.41354191762
+  },
+  {
+    "timestamp": "2017-12-21T00:00:00",
+    "superTrend": 253.41354191762,
+    "upperBand": null,
+    "lowerBand": 253.41354191762
+  },
+  {
+    "timestamp": "2017-12-22T00:00:00",
+    "superTrend": 253.41354191762,
+    "upperBand": null,
+    "lowerBand": 253.41354191762
+  },
+  {
+    "timestamp": "2017-12-26T00:00:00",
+    "superTrend": 253.41354191762,
+    "upperBand": null,
+    "lowerBand": 253.41354191762
+  },
+  {
+    "timestamp": "2017-12-27T00:00:00",
+    "superTrend": 253.469039000242,
+    "upperBand": null,
+    "lowerBand": 253.469039000242
+  },
+  {
+    "timestamp": "2017-12-28T00:00:00",
+    "superTrend": 254.004135100218,
+    "upperBand": null,
+    "lowerBand": 254.004135100218
+  },
+  {
+    "timestamp": "2017-12-29T00:00:00",
+    "superTrend": 254.004135100218,
+    "upperBand": null,
+    "lowerBand": 254.004135100218
+  },
+  {
+    "timestamp": "2018-01-02T00:00:00",
+    "superTrend": 254.072399431176,
+    "upperBand": null,
+    "lowerBand": 254.072399431176
+  },
+  {
+    "timestamp": "2018-01-03T00:00:00",
+    "superTrend": 255.577159488059,
+    "upperBand": null,
+    "lowerBand": 255.577159488059
+  },
+  {
+    "timestamp": "2018-01-04T00:00:00",
+    "superTrend": 257.013443539253,
+    "upperBand": null,
+    "lowerBand": 257.013443539253
+  },
+  {
+    "timestamp": "2018-01-05T00:00:00",
+    "superTrend": 258.232599185328,
+    "upperBand": null,
+    "lowerBand": 258.232599185328
+  },
+  {
+    "timestamp": "2018-01-08T00:00:00",
+    "superTrend": 259.109839266795,
+    "upperBand": null,
+    "lowerBand": 259.109839266795
+  },
+  {
+    "timestamp": "2018-01-09T00:00:00",
+    "superTrend": 260.244855340115,
+    "upperBand": null,
+    "lowerBand": 260.244855340115
+  },
+  {
+    "timestamp": "2018-01-10T00:00:00",
+    "superTrend": 260.244855340115,
+    "upperBand": null,
+    "lowerBand": 260.244855340115
+  },
+  {
+    "timestamp": "2018-01-11T00:00:00",
+    "superTrend": 260.714782825493,
+    "upperBand": null,
+    "lowerBand": 260.714782825493
+  },
+  {
+    "timestamp": "2018-01-12T00:00:00",
+    "superTrend": 262.264304542944,
+    "upperBand": null,
+    "lowerBand": 262.264304542944
+  },
+  {
+    "timestamp": "2018-01-16T00:00:00",
+    "superTrend": 262.59787408865,
+    "upperBand": null,
+    "lowerBand": 262.59787408865
+  },
+  {
+    "timestamp": "2018-01-17T00:00:00",
+    "superTrend": 262.598086679785,
+    "upperBand": null,
+    "lowerBand": 262.598086679785
+  },
+  {
+    "timestamp": "2018-01-18T00:00:00",
+    "superTrend": 263.498278011806,
+    "upperBand": null,
+    "lowerBand": 263.498278011806
+  },
+  {
+    "timestamp": "2018-01-19T00:00:00",
+    "superTrend": 264.164950210626,
+    "upperBand": null,
+    "lowerBand": 264.164950210626
+  },
+  {
+    "timestamp": "2018-01-22T00:00:00",
+    "superTrend": 265.512455189563,
+    "upperBand": null,
+    "lowerBand": 265.512455189563
+  },
+  {
+    "timestamp": "2018-01-23T00:00:00",
+    "superTrend": 267.238709670607,
+    "upperBand": null,
+    "lowerBand": 267.238709670607
+  },
+  {
+    "timestamp": "2018-01-24T00:00:00",
+    "superTrend": 267.238709670607,
+    "upperBand": null,
+    "lowerBand": 267.238709670607
+  },
+  {
+    "timestamp": "2018-01-25T00:00:00",
+    "superTrend": 267.297254833191,
+    "upperBand": null,
+    "lowerBand": 267.297254833191
+  },
+  {
+    "timestamp": "2018-01-26T00:00:00",
+    "superTrend": 268.778529349872,
+    "upperBand": null,
+    "lowerBand": 268.778529349872
+  },
+  {
+    "timestamp": "2018-01-29T00:00:00",
+    "superTrend": 268.943176414885,
+    "upperBand": null,
+    "lowerBand": 268.943176414885
+  },
+  {
+    "timestamp": "2018-01-30T00:00:00",
+    "superTrend": 268.943176414885,
+    "upperBand": null,
+    "lowerBand": 268.943176414885
+  },
+  {
+    "timestamp": "2018-01-31T00:00:00",
+    "superTrend": 268.943176414885,
+    "upperBand": null,
+    "lowerBand": 268.943176414885
+  },
+  {
+    "timestamp": "2018-02-01T00:00:00",
+    "superTrend": 268.943176414885,
+    "upperBand": null,
+    "lowerBand": 268.943176414885
+  },
+  {
+    "timestamp": "2018-02-02T00:00:00",
+    "superTrend": 275.266568954194,
+    "upperBand": 275.266568954194,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2018-02-05T00:00:00",
+    "superTrend": 270.186412058775,
+    "upperBand": 270.186412058775,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2018-02-06T00:00:00",
+    "superTrend": 267.131770852897,
+    "upperBand": 267.131770852897,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2018-02-07T00:00:00",
+    "superTrend": 267.131770852897,
+    "upperBand": 267.131770852897,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2018-02-08T00:00:00",
+    "superTrend": 267.131770852897,
+    "upperBand": 267.131770852897,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2018-02-09T00:00:00",
+    "superTrend": 264.939250951762,
+    "upperBand": 264.939250951762,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2018-02-12T00:00:00",
+    "superTrend": 264.939250951762,
+    "upperBand": 264.939250951762,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2018-02-13T00:00:00",
+    "superTrend": 264.939250951762,
+    "upperBand": 264.939250951762,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2018-02-14T00:00:00",
+    "superTrend": 264.939250951762,
+    "upperBand": 264.939250951762,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2018-02-15T00:00:00",
+    "superTrend": 264.939250951762,
+    "upperBand": 264.939250951762,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2018-02-16T00:00:00",
+    "superTrend": 264.939250951762,
+    "upperBand": 264.939250951762,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2018-02-20T00:00:00",
+    "superTrend": 264.939250951762,
+    "upperBand": 264.939250951762,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2018-02-21T00:00:00",
+    "superTrend": 264.939250951762,
+    "upperBand": 264.939250951762,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2018-02-22T00:00:00",
+    "superTrend": 264.939250951762,
+    "upperBand": 264.939250951762,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2018-02-23T00:00:00",
+    "superTrend": 264.939250951762,
+    "upperBand": 264.939250951762,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2018-02-26T00:00:00",
+    "superTrend": 253.316989322571,
+    "upperBand": null,
+    "lowerBand": 253.316989322571
+  },
+  {
+    "timestamp": "2018-02-27T00:00:00",
+    "superTrend": 253.316989322571,
+    "upperBand": null,
+    "lowerBand": 253.316989322571
+  },
+  {
+    "timestamp": "2018-02-28T00:00:00",
+    "superTrend": 253.316989322571,
+    "upperBand": null,
+    "lowerBand": 253.316989322571
+  },
+  {
+    "timestamp": "2018-03-01T00:00:00",
+    "superTrend": 253.316989322571,
+    "upperBand": null,
+    "lowerBand": 253.316989322571
+  },
+  {
+    "timestamp": "2018-03-02T00:00:00",
+    "superTrend": 253.316989322571,
+    "upperBand": null,
+    "lowerBand": 253.316989322571
+  },
+  {
+    "timestamp": "2018-03-05T00:00:00",
+    "superTrend": 253.316989322571,
+    "upperBand": null,
+    "lowerBand": 253.316989322571
+  },
+  {
+    "timestamp": "2018-03-06T00:00:00",
+    "superTrend": 253.316989322571,
+    "upperBand": null,
+    "lowerBand": 253.316989322571
+  },
+  {
+    "timestamp": "2018-03-07T00:00:00",
+    "superTrend": 253.316989322571,
+    "upperBand": null,
+    "lowerBand": 253.316989322571
+  },
+  {
+    "timestamp": "2018-03-08T00:00:00",
+    "superTrend": 253.316989322571,
+    "upperBand": null,
+    "lowerBand": 253.316989322571
+  },
+  {
+    "timestamp": "2018-03-09T00:00:00",
+    "superTrend": 254.605503429673,
+    "upperBand": null,
+    "lowerBand": 254.605503429673
+  },
+  {
+    "timestamp": "2018-03-12T00:00:00",
+    "superTrend": 257.125953086706,
+    "upperBand": null,
+    "lowerBand": 257.125953086706
+  },
+  {
+    "timestamp": "2018-03-13T00:00:00",
+    "superTrend": 257.125953086706,
+    "upperBand": null,
+    "lowerBand": 257.125953086706
+  },
+  {
+    "timestamp": "2018-03-14T00:00:00",
+    "superTrend": 257.125953086706,
+    "upperBand": null,
+    "lowerBand": 257.125953086706
+  },
+  {
+    "timestamp": "2018-03-15T00:00:00",
+    "superTrend": 257.125953086706,
+    "upperBand": null,
+    "lowerBand": 257.125953086706
+  },
+  {
+    "timestamp": "2018-03-16T00:00:00",
+    "superTrend": 257.125953086706,
+    "upperBand": null,
+    "lowerBand": 257.125953086706
+  },
+  {
+    "timestamp": "2018-03-19T00:00:00",
+    "superTrend": 257.125953086706,
+    "upperBand": null,
+    "lowerBand": 257.125953086706
+  },
+  {
+    "timestamp": "2018-03-20T00:00:00",
+    "superTrend": 257.125953086706,
+    "upperBand": null,
+    "lowerBand": 257.125953086706
+  },
+  {
+    "timestamp": "2018-03-21T00:00:00",
+    "superTrend": 257.125953086706,
+    "upperBand": null,
+    "lowerBand": 257.125953086706
+  },
+  {
+    "timestamp": "2018-03-22T00:00:00",
+    "superTrend": 268.516539459675,
+    "upperBand": 268.516539459675,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2018-03-23T00:00:00",
+    "superTrend": 264.952385513707,
+    "upperBand": 264.952385513707,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2018-03-26T00:00:00",
+    "superTrend": 264.952385513707,
+    "upperBand": 264.952385513707,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2018-03-27T00:00:00",
+    "superTrend": 264.952385513707,
+    "upperBand": 264.952385513707,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2018-03-28T00:00:00",
+    "superTrend": 264.952385513707,
+    "upperBand": 264.952385513707,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2018-03-29T00:00:00",
+    "superTrend": 264.952385513707,
+    "upperBand": 264.952385513707,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2018-04-02T00:00:00",
+    "superTrend": 264.952385513707,
+    "upperBand": 264.952385513707,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2018-04-03T00:00:00",
+    "superTrend": 264.952385513707,
+    "upperBand": 264.952385513707,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2018-04-04T00:00:00",
+    "superTrend": 264.952385513707,
+    "upperBand": 264.952385513707,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2018-04-05T00:00:00",
+    "superTrend": 264.952385513707,
+    "upperBand": 264.952385513707,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2018-04-06T00:00:00",
+    "superTrend": 264.952385513707,
+    "upperBand": 264.952385513707,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2018-04-09T00:00:00",
+    "superTrend": 264.952385513707,
+    "upperBand": 264.952385513707,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2018-04-10T00:00:00",
+    "superTrend": 264.952385513707,
+    "upperBand": 264.952385513707,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2018-04-11T00:00:00",
+    "superTrend": 264.952385513707,
+    "upperBand": 264.952385513707,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2018-04-12T00:00:00",
+    "superTrend": 264.952385513707,
+    "upperBand": 264.952385513707,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2018-04-13T00:00:00",
+    "superTrend": 264.952385513707,
+    "upperBand": 264.952385513707,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2018-04-16T00:00:00",
+    "superTrend": 264.952385513707,
+    "upperBand": 264.952385513707,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2018-04-17T00:00:00",
+    "superTrend": 264.952385513707,
+    "upperBand": 264.952385513707,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2018-04-18T00:00:00",
+    "superTrend": 264.952385513707,
+    "upperBand": 264.952385513707,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2018-04-19T00:00:00",
+    "superTrend": 264.952385513707,
+    "upperBand": 264.952385513707,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2018-04-20T00:00:00",
+    "superTrend": 264.952385513707,
+    "upperBand": 264.952385513707,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2018-04-23T00:00:00",
+    "superTrend": 264.952385513707,
+    "upperBand": 264.952385513707,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2018-04-24T00:00:00",
+    "superTrend": 264.952385513707,
+    "upperBand": 264.952385513707,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2018-04-25T00:00:00",
+    "superTrend": 264.952385513707,
+    "upperBand": 264.952385513707,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2018-04-26T00:00:00",
+    "superTrend": 264.952385513707,
+    "upperBand": 264.952385513707,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2018-04-27T00:00:00",
+    "superTrend": 264.952385513707,
+    "upperBand": 264.952385513707,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2018-04-30T00:00:00",
+    "superTrend": 264.952385513707,
+    "upperBand": 264.952385513707,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2018-05-01T00:00:00",
+    "superTrend": 264.952385513707,
+    "upperBand": 264.952385513707,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2018-05-02T00:00:00",
+    "superTrend": 264.952385513707,
+    "upperBand": 264.952385513707,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2018-05-03T00:00:00",
+    "superTrend": 263.184337035816,
+    "upperBand": 263.184337035816,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2018-05-04T00:00:00",
+    "superTrend": 263.184337035816,
+    "upperBand": 263.184337035816,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2018-05-07T00:00:00",
+    "superTrend": 263.184337035816,
+    "upperBand": 263.184337035816,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2018-05-08T00:00:00",
+    "superTrend": 263.184337035816,
+    "upperBand": 263.184337035816,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2018-05-09T00:00:00",
+    "superTrend": 263.184337035816,
+    "upperBand": 263.184337035816,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2018-05-10T00:00:00",
+    "superTrend": 263.184337035816,
+    "upperBand": 263.184337035816,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2018-05-11T00:00:00",
+    "superTrend": 254.027697471349,
+    "upperBand": null,
+    "lowerBand": 254.027697471349
+  },
+  {
+    "timestamp": "2018-05-14T00:00:00",
+    "superTrend": 255.293927724214,
+    "upperBand": null,
+    "lowerBand": 255.293927724214
+  },
+  {
+    "timestamp": "2018-05-15T00:00:00",
+    "superTrend": 255.293927724214,
+    "upperBand": null,
+    "lowerBand": 255.293927724214
+  },
+  {
+    "timestamp": "2018-05-16T00:00:00",
+    "superTrend": 255.293927724214,
+    "upperBand": null,
+    "lowerBand": 255.293927724214
+  },
+  {
+    "timestamp": "2018-05-17T00:00:00",
+    "superTrend": 255.293927724214,
+    "upperBand": null,
+    "lowerBand": 255.293927724214
+  },
+  {
+    "timestamp": "2018-05-18T00:00:00",
+    "superTrend": 255.293927724214,
+    "upperBand": null,
+    "lowerBand": 255.293927724214
+  },
+  {
+    "timestamp": "2018-05-21T00:00:00",
+    "superTrend": 255.938009581871,
+    "upperBand": null,
+    "lowerBand": 255.938009581871
+  },
+  {
+    "timestamp": "2018-05-22T00:00:00",
+    "superTrend": 256.690208623684,
+    "upperBand": null,
+    "lowerBand": 256.690208623684
+  },
+  {
+    "timestamp": "2018-05-23T00:00:00",
+    "superTrend": 256.690208623684,
+    "upperBand": null,
+    "lowerBand": 256.690208623684
+  },
+  {
+    "timestamp": "2018-05-24T00:00:00",
+    "superTrend": 256.690208623684,
+    "upperBand": null,
+    "lowerBand": 256.690208623684
+  },
+  {
+    "timestamp": "2018-05-25T00:00:00",
+    "superTrend": 256.690208623684,
+    "upperBand": null,
+    "lowerBand": 256.690208623684
+  },
+  {
+    "timestamp": "2018-05-29T00:00:00",
+    "superTrend": 256.690208623684,
+    "upperBand": null,
+    "lowerBand": 256.690208623684
+  },
+  {
+    "timestamp": "2018-05-30T00:00:00",
+    "superTrend": 256.690208623684,
+    "upperBand": null,
+    "lowerBand": 256.690208623684
+  },
+  {
+    "timestamp": "2018-05-31T00:00:00",
+    "superTrend": 256.690208623684,
+    "upperBand": null,
+    "lowerBand": 256.690208623684
+  },
+  {
+    "timestamp": "2018-06-01T00:00:00",
+    "superTrend": 256.690208623684,
+    "upperBand": null,
+    "lowerBand": 256.690208623684
+  },
+  {
+    "timestamp": "2018-06-04T00:00:00",
+    "superTrend": 257.959811828905,
+    "upperBand": null,
+    "lowerBand": 257.959811828905
+  },
+  {
+    "timestamp": "2018-06-05T00:00:00",
+    "superTrend": 258.468830646015,
+    "upperBand": null,
+    "lowerBand": 258.468830646015
+  },
+  {
+    "timestamp": "2018-06-06T00:00:00",
+    "superTrend": 259.899947581413,
+    "upperBand": null,
+    "lowerBand": 259.899947581413
+  },
+  {
+    "timestamp": "2018-06-07T00:00:00",
+    "superTrend": 261.037452823272,
+    "upperBand": null,
+    "lowerBand": 261.037452823272
+  },
+  {
+    "timestamp": "2018-06-08T00:00:00",
+    "superTrend": 261.430207540945,
+    "upperBand": null,
+    "lowerBand": 261.430207540945
+  },
+  {
+    "timestamp": "2018-06-11T00:00:00",
+    "superTrend": 263.11168678685,
+    "upperBand": null,
+    "lowerBand": 263.11168678685
+  },
+  {
+    "timestamp": "2018-06-12T00:00:00",
+    "superTrend": 263.351018108165,
+    "upperBand": null,
+    "lowerBand": 263.351018108165
+  },
+  {
+    "timestamp": "2018-06-13T00:00:00",
+    "superTrend": 263.370416297349,
+    "upperBand": null,
+    "lowerBand": 263.370416297349
+  },
+  {
+    "timestamp": "2018-06-14T00:00:00",
+    "superTrend": 263.654374667614,
+    "upperBand": null,
+    "lowerBand": 263.654374667614
+  },
+  {
+    "timestamp": "2018-06-15T00:00:00",
+    "superTrend": 263.654374667614,
+    "upperBand": null,
+    "lowerBand": 263.654374667614
+  },
+  {
+    "timestamp": "2018-06-18T00:00:00",
+    "superTrend": 263.654374667614,
+    "upperBand": null,
+    "lowerBand": 263.654374667614
+  },
+  {
+    "timestamp": "2018-06-19T00:00:00",
+    "superTrend": 263.654374667614,
+    "upperBand": null,
+    "lowerBand": 263.654374667614
+  },
+  {
+    "timestamp": "2018-06-20T00:00:00",
+    "superTrend": 263.654374667614,
+    "upperBand": null,
+    "lowerBand": 263.654374667614
+  },
+  {
+    "timestamp": "2018-06-21T00:00:00",
+    "superTrend": 263.654374667614,
+    "upperBand": null,
+    "lowerBand": 263.654374667614
+  },
+  {
+    "timestamp": "2018-06-22T00:00:00",
+    "superTrend": 263.654374667614,
+    "upperBand": null,
+    "lowerBand": 263.654374667614
+  },
+  {
+    "timestamp": "2018-06-25T00:00:00",
+    "superTrend": 270.507207190542,
+    "upperBand": 270.507207190542,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2018-06-26T00:00:00",
+    "superTrend": 270.507207190542,
+    "upperBand": 270.507207190542,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2018-06-27T00:00:00",
+    "superTrend": 270.507207190542,
+    "upperBand": 270.507207190542,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2018-06-28T00:00:00",
+    "superTrend": 270.026039041905,
+    "upperBand": 270.026039041905,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2018-06-29T00:00:00",
+    "superTrend": 270.026039041905,
+    "upperBand": 270.026039041905,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2018-07-02T00:00:00",
+    "superTrend": 270.026039041905,
+    "upperBand": 270.026039041905,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2018-07-03T00:00:00",
+    "superTrend": 270.026039041905,
+    "upperBand": 270.026039041905,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2018-07-05T00:00:00",
+    "superTrend": 270.026039041905,
+    "upperBand": 270.026039041905,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2018-07-06T00:00:00",
+    "superTrend": 270.026039041905,
+    "upperBand": 270.026039041905,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2018-07-09T00:00:00",
+    "superTrend": 270.026039041905,
+    "upperBand": 270.026039041905,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2018-07-10T00:00:00",
+    "superTrend": 263.286546617478,
+    "upperBand": null,
+    "lowerBand": 263.286546617478
+  },
+  {
+    "timestamp": "2018-07-11T00:00:00",
+    "superTrend": 263.286546617478,
+    "upperBand": null,
+    "lowerBand": 263.286546617478
+  },
+  {
+    "timestamp": "2018-07-12T00:00:00",
+    "superTrend": 263.286546617478,
+    "upperBand": null,
+    "lowerBand": 263.286546617478
+  },
+  {
+    "timestamp": "2018-07-13T00:00:00",
+    "superTrend": 264.377322484141,
+    "upperBand": null,
+    "lowerBand": 264.377322484141
+  },
+  {
+    "timestamp": "2018-07-16T00:00:00",
+    "superTrend": 264.811090235727,
+    "upperBand": null,
+    "lowerBand": 264.811090235727
+  },
+  {
+    "timestamp": "2018-07-17T00:00:00",
+    "superTrend": 265.064981212155,
+    "upperBand": null,
+    "lowerBand": 265.064981212155
+  },
+  {
+    "timestamp": "2018-07-18T00:00:00",
+    "superTrend": 266.330483090939,
+    "upperBand": null,
+    "lowerBand": 266.330483090939
+  },
+  {
+    "timestamp": "2018-07-19T00:00:00",
+    "superTrend": 266.330483090939,
+    "upperBand": null,
+    "lowerBand": 266.330483090939
+  },
+  {
+    "timestamp": "2018-07-20T00:00:00",
+    "superTrend": 266.330483090939,
+    "upperBand": null,
+    "lowerBand": 266.330483090939
+  },
+  {
+    "timestamp": "2018-07-23T00:00:00",
+    "superTrend": 266.330483090939,
+    "upperBand": null,
+    "lowerBand": 266.330483090939
+  },
+  {
+    "timestamp": "2018-07-24T00:00:00",
+    "superTrend": 267.801607455965,
+    "upperBand": null,
+    "lowerBand": 267.801607455965
+  },
+  {
+    "timestamp": "2018-07-25T00:00:00",
+    "superTrend": 268.665446710369,
+    "upperBand": null,
+    "lowerBand": 268.665446710369
+  },
+  {
+    "timestamp": "2018-07-26T00:00:00",
+    "superTrend": 269.723402039332,
+    "upperBand": null,
+    "lowerBand": 269.723402039332
+  },
+  {
+    "timestamp": "2018-07-27T00:00:00",
+    "superTrend": 269.723402039332,
+    "upperBand": null,
+    "lowerBand": 269.723402039332
+  },
+  {
+    "timestamp": "2018-07-30T00:00:00",
+    "superTrend": 269.723402039332,
+    "upperBand": null,
+    "lowerBand": 269.723402039332
+  },
+  {
+    "timestamp": "2018-07-31T00:00:00",
+    "superTrend": 269.723402039332,
+    "upperBand": null,
+    "lowerBand": 269.723402039332
+  },
+  {
+    "timestamp": "2018-08-01T00:00:00",
+    "superTrend": 269.723402039332,
+    "upperBand": null,
+    "lowerBand": 269.723402039332
+  },
+  {
+    "timestamp": "2018-08-02T00:00:00",
+    "superTrend": 269.723402039332,
+    "upperBand": null,
+    "lowerBand": 269.723402039332
+  },
+  {
+    "timestamp": "2018-08-03T00:00:00",
+    "superTrend": 269.723402039332,
+    "upperBand": null,
+    "lowerBand": 269.723402039332
+  },
+  {
+    "timestamp": "2018-08-06T00:00:00",
+    "superTrend": 269.771559092366,
+    "upperBand": null,
+    "lowerBand": 269.771559092366
+  },
+  {
+    "timestamp": "2018-08-07T00:00:00",
+    "superTrend": 271.475403183129,
+    "upperBand": null,
+    "lowerBand": 271.475403183129
+  },
+  {
+    "timestamp": "2018-08-08T00:00:00",
+    "superTrend": 271.594362864816,
+    "upperBand": null,
+    "lowerBand": 271.594362864816
+  },
+  {
+    "timestamp": "2018-08-09T00:00:00",
+    "superTrend": 271.864926578335,
+    "upperBand": null,
+    "lowerBand": 271.864926578335
+  },
+  {
+    "timestamp": "2018-08-10T00:00:00",
+    "superTrend": 271.864926578335,
+    "upperBand": null,
+    "lowerBand": 271.864926578335
+  },
+  {
+    "timestamp": "2018-08-13T00:00:00",
+    "superTrend": 271.864926578335,
+    "upperBand": null,
+    "lowerBand": 271.864926578335
+  },
+  {
+    "timestamp": "2018-08-14T00:00:00",
+    "superTrend": 271.864926578335,
+    "upperBand": null,
+    "lowerBand": 271.864926578335
+  },
+  {
+    "timestamp": "2018-08-15T00:00:00",
+    "superTrend": 271.864926578335,
+    "upperBand": null,
+    "lowerBand": 271.864926578335
+  },
+  {
+    "timestamp": "2018-08-16T00:00:00",
+    "superTrend": 271.864926578335,
+    "upperBand": null,
+    "lowerBand": 271.864926578335
+  },
+  {
+    "timestamp": "2018-08-17T00:00:00",
+    "superTrend": 271.864926578335,
+    "upperBand": null,
+    "lowerBand": 271.864926578335
+  },
+  {
+    "timestamp": "2018-08-20T00:00:00",
+    "superTrend": 271.864926578335,
+    "upperBand": null,
+    "lowerBand": 271.864926578335
+  },
+  {
+    "timestamp": "2018-08-21T00:00:00",
+    "superTrend": 272.230028681681,
+    "upperBand": null,
+    "lowerBand": 272.230028681681
+  },
+  {
+    "timestamp": "2018-08-22T00:00:00",
+    "superTrend": 272.230028681681,
+    "upperBand": null,
+    "lowerBand": 272.230028681681
+  },
+  {
+    "timestamp": "2018-08-23T00:00:00",
+    "superTrend": 272.310873232161,
+    "upperBand": null,
+    "lowerBand": 272.310873232161
+  },
+  {
+    "timestamp": "2018-08-24T00:00:00",
+    "superTrend": 273.148285908945,
+    "upperBand": null,
+    "lowerBand": 273.148285908945
+  },
+  {
+    "timestamp": "2018-08-27T00:00:00",
+    "superTrend": 275.216957318051,
+    "upperBand": null,
+    "lowerBand": 275.216957318051
+  },
+  {
+    "timestamp": "2018-08-28T00:00:00",
+    "superTrend": 276.097761586246,
+    "upperBand": null,
+    "lowerBand": 276.097761586246
+  },
+  {
+    "timestamp": "2018-08-29T00:00:00",
+    "superTrend": 276.982485427621,
+    "upperBand": null,
+    "lowerBand": 276.982485427621
+  },
+  {
+    "timestamp": "2018-08-30T00:00:00",
+    "superTrend": 276.982485427621,
+    "upperBand": null,
+    "lowerBand": 276.982485427621
+  },
+  {
+    "timestamp": "2018-08-31T00:00:00",
+    "superTrend": 276.982485427621,
+    "upperBand": null,
+    "lowerBand": 276.982485427621
+  },
+  {
+    "timestamp": "2018-09-04T00:00:00",
+    "superTrend": 276.982485427621,
+    "upperBand": null,
+    "lowerBand": 276.982485427621
+  },
+  {
+    "timestamp": "2018-09-05T00:00:00",
+    "superTrend": 276.982485427621,
+    "upperBand": null,
+    "lowerBand": 276.982485427621
+  },
+  {
+    "timestamp": "2018-09-06T00:00:00",
+    "superTrend": 276.982485427621,
+    "upperBand": null,
+    "lowerBand": 276.982485427621
+  },
+  {
+    "timestamp": "2018-09-07T00:00:00",
+    "superTrend": 276.982485427621,
+    "upperBand": null,
+    "lowerBand": 276.982485427621
+  },
+  {
+    "timestamp": "2018-09-10T00:00:00",
+    "superTrend": 276.982485427621,
+    "upperBand": null,
+    "lowerBand": 276.982485427621
+  },
+  {
+    "timestamp": "2018-09-11T00:00:00",
+    "superTrend": 276.982485427621,
+    "upperBand": null,
+    "lowerBand": 276.982485427621
+  },
+  {
+    "timestamp": "2018-09-12T00:00:00",
+    "superTrend": 276.982485427621,
+    "upperBand": null,
+    "lowerBand": 276.982485427621
+  },
+  {
+    "timestamp": "2018-09-13T00:00:00",
+    "superTrend": 276.982485427621,
+    "upperBand": null,
+    "lowerBand": 276.982485427621
+  },
+  {
+    "timestamp": "2018-09-14T00:00:00",
+    "superTrend": 276.982485427621,
+    "upperBand": null,
+    "lowerBand": 276.982485427621
+  },
+  {
+    "timestamp": "2018-09-17T00:00:00",
+    "superTrend": 276.982485427621,
+    "upperBand": null,
+    "lowerBand": 276.982485427621
+  },
+  {
+    "timestamp": "2018-09-18T00:00:00",
+    "superTrend": 276.982485427621,
+    "upperBand": null,
+    "lowerBand": 276.982485427621
+  },
+  {
+    "timestamp": "2018-09-19T00:00:00",
+    "superTrend": 277.723318436367,
+    "upperBand": null,
+    "lowerBand": 277.723318436367
+  },
+  {
+    "timestamp": "2018-09-20T00:00:00",
+    "superTrend": 278.73948659273,
+    "upperBand": null,
+    "lowerBand": 278.73948659273
+  },
+  {
+    "timestamp": "2018-09-21T00:00:00",
+    "superTrend": 280.086037933457,
+    "upperBand": null,
+    "lowerBand": 280.086037933457
+  },
+  {
+    "timestamp": "2018-09-24T00:00:00",
+    "superTrend": 280.086037933457,
+    "upperBand": null,
+    "lowerBand": 280.086037933457
+  },
+  {
+    "timestamp": "2018-09-25T00:00:00",
+    "superTrend": 280.086037933457,
+    "upperBand": null,
+    "lowerBand": 280.086037933457
+  },
+  {
+    "timestamp": "2018-09-26T00:00:00",
+    "superTrend": 280.086037933457,
+    "upperBand": null,
+    "lowerBand": 280.086037933457
+  },
+  {
+    "timestamp": "2018-09-27T00:00:00",
+    "superTrend": 280.086037933457,
+    "upperBand": null,
+    "lowerBand": 280.086037933457
+  },
+  {
+    "timestamp": "2018-09-28T00:00:00",
+    "superTrend": 280.086037933457,
+    "upperBand": null,
+    "lowerBand": 280.086037933457
+  },
+  {
+    "timestamp": "2018-10-01T00:00:00",
+    "superTrend": 280.086037933457,
+    "upperBand": null,
+    "lowerBand": 280.086037933457
+  },
+  {
+    "timestamp": "2018-10-02T00:00:00",
+    "superTrend": 280.086037933457,
+    "upperBand": null,
+    "lowerBand": 280.086037933457
+  },
+  {
+    "timestamp": "2018-10-03T00:00:00",
+    "superTrend": 280.086037933457,
+    "upperBand": null,
+    "lowerBand": 280.086037933457
+  },
+  {
+    "timestamp": "2018-10-04T00:00:00",
+    "superTrend": 280.086037933457,
+    "upperBand": null,
+    "lowerBand": 280.086037933457
+  },
+  {
+    "timestamp": "2018-10-05T00:00:00",
+    "superTrend": 280.086037933457,
+    "upperBand": null,
+    "lowerBand": 280.086037933457
+  },
+  {
+    "timestamp": "2018-10-08T00:00:00",
+    "superTrend": 280.086037933457,
+    "upperBand": null,
+    "lowerBand": 280.086037933457
+  },
+  {
+    "timestamp": "2018-10-09T00:00:00",
+    "superTrend": 280.086037933457,
+    "upperBand": null,
+    "lowerBand": 280.086037933457
+  },
+  {
+    "timestamp": "2018-10-10T00:00:00",
+    "superTrend": 284.26686338795,
+    "upperBand": 284.26686338795,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2018-10-11T00:00:00",
+    "superTrend": 278.322677049155,
+    "upperBand": 278.322677049155,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2018-10-12T00:00:00",
+    "superTrend": 278.322677049155,
+    "upperBand": 278.322677049155,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2018-10-15T00:00:00",
+    "superTrend": 278.322677049155,
+    "upperBand": 278.322677049155,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2018-10-16T00:00:00",
+    "superTrend": 278.322677049155,
+    "upperBand": 278.322677049155,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2018-10-17T00:00:00",
+    "superTrend": 278.322677049155,
+    "upperBand": 278.322677049155,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2018-10-18T00:00:00",
+    "superTrend": 278.322677049155,
+    "upperBand": 278.322677049155,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2018-10-19T00:00:00",
+    "superTrend": 278.322677049155,
+    "upperBand": 278.322677049155,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2018-10-22T00:00:00",
+    "superTrend": 278.322677049155,
+    "upperBand": 278.322677049155,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2018-10-23T00:00:00",
+    "superTrend": 277.244382338431,
+    "upperBand": 277.244382338431,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2018-10-24T00:00:00",
+    "superTrend": 276.231444104588,
+    "upperBand": 276.231444104588,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2018-10-25T00:00:00",
+    "superTrend": 276.231444104588,
+    "upperBand": 276.231444104588,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2018-10-26T00:00:00",
+    "superTrend": 275.397669724716,
+    "upperBand": 275.397669724716,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2018-10-29T00:00:00",
+    "superTrend": 275.364902752244,
+    "upperBand": 275.364902752244,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2018-10-30T00:00:00",
+    "superTrend": 275.364902752244,
+    "upperBand": 275.364902752244,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2018-10-31T00:00:00",
+    "superTrend": 275.364902752244,
+    "upperBand": 275.364902752244,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2018-11-01T00:00:00",
+    "superTrend": 275.364902752244,
+    "upperBand": 275.364902752244,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2018-11-02T00:00:00",
+    "superTrend": 275.364902752244,
+    "upperBand": 275.364902752244,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2018-11-05T00:00:00",
+    "superTrend": 275.364902752244,
+    "upperBand": 275.364902752244,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2018-11-06T00:00:00",
+    "superTrend": 275.364902752244,
+    "upperBand": 275.364902752244,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2018-11-07T00:00:00",
+    "superTrend": 275.364902752244,
+    "upperBand": 275.364902752244,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2018-11-08T00:00:00",
+    "superTrend": 275.364902752244,
+    "upperBand": 275.364902752244,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2018-11-09T00:00:00",
+    "superTrend": 275.364902752244,
+    "upperBand": 275.364902752244,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2018-11-12T00:00:00",
+    "superTrend": 275.364902752244,
+    "upperBand": 275.364902752244,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2018-11-13T00:00:00",
+    "superTrend": 275.364902752244,
+    "upperBand": 275.364902752244,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2018-11-14T00:00:00",
+    "superTrend": 275.364902752244,
+    "upperBand": 275.364902752244,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2018-11-15T00:00:00",
+    "superTrend": 275.364902752244,
+    "upperBand": 275.364902752244,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2018-11-16T00:00:00",
+    "superTrend": 275.364902752244,
+    "upperBand": 275.364902752244,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2018-11-19T00:00:00",
+    "superTrend": 275.364902752244,
+    "upperBand": 275.364902752244,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2018-11-20T00:00:00",
+    "superTrend": 273.369049552946,
+    "upperBand": 273.369049552946,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2018-11-21T00:00:00",
+    "superTrend": 273.369049552946,
+    "upperBand": 273.369049552946,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2018-11-23T00:00:00",
+    "superTrend": 270.832030137886,
+    "upperBand": 270.832030137886,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2018-11-26T00:00:00",
+    "superTrend": 270.832030137886,
+    "upperBand": 270.832030137886,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2018-11-27T00:00:00",
+    "superTrend": 270.832030137886,
+    "upperBand": 270.832030137886,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2018-11-28T00:00:00",
+    "superTrend": 270.832030137886,
+    "upperBand": 270.832030137886,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2018-11-29T00:00:00",
+    "superTrend": 270.832030137886,
+    "upperBand": 270.832030137886,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2018-11-30T00:00:00",
+    "superTrend": 270.832030137886,
+    "upperBand": 270.832030137886,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2018-12-03T00:00:00",
+    "superTrend": 259.603211576491,
+    "upperBand": null,
+    "lowerBand": 259.603211576491
+  },
+  {
+    "timestamp": "2018-12-04T00:00:00",
+    "superTrend": 259.603211576491,
+    "upperBand": null,
+    "lowerBand": 259.603211576491
+  },
+  {
+    "timestamp": "2018-12-06T00:00:00",
+    "superTrend": 259.603211576491,
+    "upperBand": null,
+    "lowerBand": 259.603211576491
+  },
+  {
+    "timestamp": "2018-12-07T00:00:00",
+    "superTrend": 274.689098623042,
+    "upperBand": 274.689098623042,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2018-12-10T00:00:00",
+    "superTrend": 271.815369884664,
+    "upperBand": 271.815369884664,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2018-12-11T00:00:00",
+    "superTrend": 271.815369884664,
+    "upperBand": 271.815369884664,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2018-12-12T00:00:00",
+    "superTrend": 271.815369884664,
+    "upperBand": 271.815369884664,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2018-12-13T00:00:00",
+    "superTrend": 271.815369884664,
+    "upperBand": 271.815369884664,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2018-12-14T00:00:00",
+    "superTrend": 271.072043181328,
+    "upperBand": 271.072043181328,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2018-12-17T00:00:00",
+    "superTrend": 266.872838863195,
+    "upperBand": 266.872838863195,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2018-12-18T00:00:00",
+    "superTrend": 265.203054976876,
+    "upperBand": 265.203054976876,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2018-12-19T00:00:00",
+    "superTrend": 265.203054976876,
+    "upperBand": 265.203054976876,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2018-12-20T00:00:00",
+    "superTrend": 259.588374531269,
+    "upperBand": 259.588374531269,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2018-12-21T00:00:00",
+    "superTrend": 258.890537078142,
+    "upperBand": 258.890537078142,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2018-12-24T00:00:00",
+    "superTrend": 251.807983370328,
+    "upperBand": 251.807983370328,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2018-12-26T00:00:00",
+    "superTrend": 251.807983370328,
+    "upperBand": 251.807983370328,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2018-12-27T00:00:00",
+    "superTrend": 251.807983370328,
+    "upperBand": 251.807983370328,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2018-12-28T00:00:00",
+    "superTrend": 251.807983370328,
+    "upperBand": 251.807983370328,
+    "lowerBand": null
+  },
+  {
+    "timestamp": "2018-12-31T00:00:00",
+    "superTrend": 251.807983370328,
+    "upperBand": 251.807983370328,
+    "lowerBand": null
+  }
+]
