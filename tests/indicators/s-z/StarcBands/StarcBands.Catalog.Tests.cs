@@ -67,4 +67,25 @@ public class StarcBandsTests : TestBase
         listing.Results.Should().NotBeNull();
         listing.Results.Should().HaveCount(3);
     }
+
+    [TestMethod]
+    public void StarcBandsStreamListing()
+    {
+        // Act
+        IndicatorListing listing = StarcBands.StreamListing;
+
+        // Assert
+        listing.Should().NotBeNull();
+        listing.Name.Should().Be("STARC Bands");
+        listing.Uiid.Should().Be("STARC");
+        listing.Style.Should().Be(Style.Stream);
+        listing.Category.Should().Be(Category.PriceChannel);
+        listing.MethodName.Should().Be("ToStarcBandsHub");
+
+        listing.Parameters.Should().NotBeNull();
+        listing.Parameters.Should().HaveCount(3);
+
+        listing.Results.Should().NotBeNull();
+        listing.Results.Should().HaveCount(3);
+    }
 }

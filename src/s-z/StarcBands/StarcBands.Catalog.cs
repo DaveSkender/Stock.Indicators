@@ -27,7 +27,14 @@ public static partial class StarcBands
             .WithStyle(Style.Series)
             .Build();
 
-    // No StreamListing for STARC Bands.
+    /// <summary>
+    /// STARC Bands StreamHub Listing
+    /// </summary>
+    internal static readonly IndicatorListing StreamListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Stream)
+            .WithMethodName("ToStarcBandsHub")
+            .Build();
 
     /// <summary>
     /// STARC Bands BufferList Listing
