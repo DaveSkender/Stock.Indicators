@@ -60,6 +60,7 @@ public class StreamIndicators
     [Benchmark] public object ChopHub() => quoteHub.ToChopHub(n).Results;
     [Benchmark] public object CmfHub() => quoteHub.ToCmfHub(20).Results;
     [Benchmark] public object CmoHub() => quoteHub.ToCmoHub(n).Results;
+    [Benchmark] public object ConnorsRsiHub() => quoteHub.ToConnorsRsiHub(3, 2, 100).Results;
     [Benchmark] public object CorrelationHub() => quoteHub.ToCorrelationHub(quoteHubOther, 20);
     [Benchmark] public object DemaHub() => quoteHub.ToDemaHub(n).Results;
     [Benchmark] public object DojiHub() => quoteHub.ToDojiHub().Results;
