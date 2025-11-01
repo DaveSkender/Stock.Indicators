@@ -60,4 +60,25 @@ public class RollingPivotsTests : TestBase
         s3Result6?.DisplayName.Should().Be("Support 3");
         s3Result6.IsReusable.Should().Be(false);
     }
+
+    [TestMethod]
+    public void RollingPivotsStreamListing()
+    {
+        // Act
+        IndicatorListing listing = RollingPivots.StreamListing;
+
+        // Assert
+        listing.Should().NotBeNull();
+        listing.Name.Should().Be("Rolling Pivots");
+        listing.Uiid.Should().Be("ROLLING-PIVOTS");
+        listing.Style.Should().Be(Style.Stream);
+        listing.Category.Should().Be(Category.PriceTrend);
+        listing.MethodName.Should().Be("ToRollingPivots");
+
+        listing.Parameters.Should().NotBeNull();
+        listing.Parameters.Should().HaveCount(3);
+
+        listing.Results.Should().NotBeNull();
+        listing.Results.Should().HaveCount(7);
+    }
 }
