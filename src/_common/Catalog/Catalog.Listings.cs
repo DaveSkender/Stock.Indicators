@@ -409,6 +409,7 @@ public static partial class Catalog
         // Vortex Indicator
         _listings.Add(Vortex.SeriesListing);
         _listings.Add(Vortex.BufferListing);
+        _listings.Add(Vortex.StreamListing);
 
         // VWAP (Volume Weighted Average Price)
         _listings.Add(Vwap.SeriesListing);

@@ -59,4 +59,25 @@ public class VortexTests : TestBase
         listing.Results.Should().NotBeNull();
         listing.Results.Should().HaveCount(2);
     }
+
+    [TestMethod]
+    public void VortexStreamListing()
+    {
+        // Act
+        IndicatorListing listing = Vortex.StreamListing;
+
+        // Assert
+        listing.Should().NotBeNull();
+        listing.Name.Should().Be("Vortex Indicator");
+        listing.Uiid.Should().Be("VORTEX");
+        listing.Style.Should().Be(Style.Stream);
+        listing.Category.Should().Be(Category.PriceTrend);
+        listing.MethodName.Should().Be("ToVortex");
+
+        listing.Parameters.Should().NotBeNull();
+        listing.Parameters.Should().HaveCount(1);
+
+        listing.Results.Should().NotBeNull();
+        listing.Results.Should().HaveCount(2);
+    }
 }
