@@ -26,6 +26,19 @@ public static partial class SmaAnalysis
             .WithStyle(Style.Series)
             .Build();
 
-    // No StreamListing for SMA Analysis.
-    // No BufferListing for SMA Analysis.
+    /// <summary>
+    /// SMA Analysis Stream Listing
+    /// </summary>
+    internal static readonly IndicatorListing StreamListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Stream)
+            .Build();
+
+    /// <summary>
+    /// SMA Analysis Buffer Listing
+    /// </summary>
+    internal static readonly IndicatorListing BufferListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Buffer)
+            .Build();
 }

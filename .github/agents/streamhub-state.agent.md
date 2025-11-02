@@ -18,18 +18,18 @@ You specialize in:
 - Previous value tracking and state variables
 - Provider history mutations (Insert/Remove handling)
 
-## When to Override RollbackState
+## When to override RollbackState
 
 Any StreamHub maintaining stateful fields beyond simple cache lookups MUST override RollbackState(DateTime timestamp).
 
-### Common Scenarios Requiring RollbackState (Incremental Pattern)
+### Common scenarios requiring RollbackState (incremental pattern)
 
 1. **Rolling windows** - RollingWindowMax/Min must be rebuilt from cache
 2. **Buffered historical values** - Raw buffers (e.g., K buffer in Stoch) must be prefilled
 3. **Running totals/averages** - EMA state, Wilder's smoothing must be recalculated
 4. **Previous value tracking** - _prevValue,_prevHigh, etc. must be restored
 
-### Scenarios Requiring RollbackState (Repaint Pattern - Partial Rebuild)
+### Scenarios requiring RollbackState (repaint pattern - partial rebuild)
 
 For indicators where historical values may change based on new data ("repaint-by-design"):
 
@@ -54,7 +54,7 @@ For indicators where historical values may change based on new data ("repaint-by
 
 See `.github/instructions/indicator-stream.instructions.md` for implementation guidance.
 
-### Scenarios NOT Requiring RollbackState
+### Scenarios NOT requiring RollbackState
 
 1. **No optimization** - Using full Series recalculation (temporary, before optimization)
 2. **No state variables** - Completely stateless, no pivot tracking
@@ -66,9 +66,9 @@ See `.github/instructions/indicator-stream.instructions.md` for implementation g
 - **Repaint from pivot**: Pivot state enables O(k) updates → SHOULD override for optimization
 - **No optimization**: Full Series rebuild O(n) → NO override needed (but suboptimal)
 
-## Implementation Patterns
+## Implementation patterns
 
-### Simple Rolling Window Pattern
+### Simple rolling window pattern
 
 ```csharp
 protected override void RollbackState(DateTime timestamp)
@@ -91,7 +91,7 @@ protected override void RollbackState(DateTime timestamp)
 
 Reference: `src/a-d/Chandelier/Chandelier.StreamHub.cs`
 
-### Complex State with Buffer Prefill
+### Complex state with buffer prefill
 
 ```csharp
 protected override void RollbackState(DateTime timestamp)
@@ -126,7 +126,7 @@ protected override void RollbackState(DateTime timestamp)
 
 Reference: `src/s-z/Stoch/Stoch.StreamHub.cs`
 
-### Wilder's Smoothing State
+### Wilder's smoothing state
 
 ```csharp
 protected override void RollbackState(DateTime timestamp)
@@ -151,9 +151,9 @@ protected override void RollbackState(DateTime timestamp)
 
 Reference: `src/a-d/Adx/Adx.StreamHub.cs`, RSI pattern
 
-## Anti-Patterns to Avoid
+## Anti-patterns to avoid
 
-### ❌ WRONG: Inline Rebuild Detection
+### ❌ WRONG: Inline rebuild detection
 
 ```csharp
 // DON'T DO THIS
@@ -174,20 +174,20 @@ protected override (Result result, int index) ToIndicator(IQuote item, int? inde
 }
 ```
 
-### ✅ CORRECT: Separation of Concerns
+### ✅ CORRECT: Separation of concerns
 
 - ToIndicator handles normal streaming only
 - RollbackState handles cache rebuilds
 - Framework automatically calls RollbackState when needed
 
-## Key Benefits of RollbackState Pattern
+## Key benefits of RollbackState pattern
 
 1. **Separation of concerns** - Clean hot path in ToIndicator
 2. **Framework integration** - Automatic invocation by StreamHub base
 3. **Performance** - No conditional logic in performance-critical path
 4. **Consistency** - Follows established patterns across all hubs
 
-## Reference Implementations
+## Reference implementations
 
 - Simple: `ChandelierHub.RollbackState`
 - Complex: `StochHub.RollbackState`, `AdxHub.RollbackState`
@@ -205,7 +205,7 @@ Tests must verify:
 
 Canonical test pattern: `tests/indicators/e-k/Ema/Ema.StreamHub.Tests.cs`
 
-## Framework Behavior: When RollbackState Is Called
+## Framework behavior: When RollbackState is called
 
 The StreamHub base class automatically invokes `RollbackState(timestamp)` in these scenarios:
 
@@ -226,9 +226,9 @@ Your implementation MUST:
 - Rebuild state from ProviderCache up to (but not including) timestamp
 - Handle edge cases (timestamp before first item, empty cache)
 
-## Common Mistakes to Avoid
+## Common mistakes to avoid
 
-### ❌ Mistake 1: Clearing Cache in RollbackState
+### ❌ Mistake 1: Clearing cache in RollbackState
 
 ```csharp
 // DON'T DO THIS
@@ -241,7 +241,7 @@ protected override void RollbackState(DateTime timestamp)
 
 **Why**: Framework calls RemoveRange on cache automatically. RollbackState only manages YOUR state.
 
-### ❌ Mistake 2: Not Using ProviderCache.IndexGte
+### ❌ Mistake 2: Not using ProviderCache.IndexGte
 
 ```csharp
 // DON'T DO THIS
@@ -258,7 +258,7 @@ protected override void RollbackState(DateTime timestamp)
 
 **Why**: Inefficient - only need to rebuild up to rollback point.
 
-### ❌ Mistake 3: Off-by-One Window Rebuild
+### ❌ Mistake 3: Off-by-one window rebuild
 
 ```csharp
 // WRONG BOUNDARY
@@ -280,7 +280,7 @@ protected override void RollbackState(DateTime timestamp)
 
 **Why**: Should rebuild up to (but not including) the timestamp being rolled back to.
 
-### ✅ Correct Pattern
+### ✅ Correct pattern
 
 ```csharp
 protected override void RollbackState(DateTime timestamp)
@@ -300,9 +300,9 @@ protected override void RollbackState(DateTime timestamp)
 }
 ```
 
-## Lessons Learned from Real Implementations
+## Lessons learned from real implementations
 
-### Lesson 1: Wilder's Smoothing Requires Full Replay
+### Lesson 1: Wilder's smoothing requires full replay
 
 Wilder's smoothing (RSI, ADX, ATR) cannot simply "restore" a state variable - must replay incrementally from beginning.
 
@@ -311,7 +311,7 @@ Wilder's smoothing (RSI, ADX, ATR) cannot simply "restore" a state variable - mu
 - Let ToIndicator rebuild state incrementally
 - Reference: `RsiHub.RollbackState`, `AdxHub.RollbackState`
 
-### Lesson 2: Multi-Buffer Indicators Need Coordinated Clearing
+### Lesson 2: Multi-buffer indicators need coordinated clearing
 
 Indicators like Stochastic with multiple interdependent buffers must clear ALL buffers before rebuild.
 
@@ -320,7 +320,7 @@ Indicators like Stochastic with multiple interdependent buffers must clear ALL b
 - Rebuild in correct dependency order
 - Reference: `StochHub.RollbackState`
 
-### Lesson 3: Test Rollback Early and Often
+### Lesson 3: Test rollback early and often
 
 Most StreamHub bugs occur in rollback scenarios, not normal streaming.
 
@@ -331,7 +331,7 @@ Most StreamHub bugs occur in rollback scenarios, not normal streaming.
 
 When helping with state management, emphasize separation of concerns, common mistakes to avoid, and recommend appropriate reference implementations based on the indicator's state complexity. Always stress that RollbackState is for internal state only - framework handles cache management.
 
-## When to Use This Agent
+## When to use this agent
 
 Invoke `@streamhub-state` when you need help with:
 
@@ -342,7 +342,16 @@ Invoke `@streamhub-state` when you need help with:
 - Handling previous value tracking
 - Debugging state-related issues
 
-## Example Usage
+For general StreamHub development, see `@streamhub`. For comprehensive guidelines, see `.github/instructions/indicator-stream.instructions.md`.
+
+## Related agents
+
+- `@streamhub` - General StreamHub development patterns and provider selection
+- `@streamhub-performance` - Performance optimization and O(1) patterns
+- `@streamhub-testing` - Test coverage and rollback validation
+- `@streamhub-pairs` - Dual-stream indicators with synchronized inputs
+
+## Example usage
 
 ```text
 @streamhub-state When should I override RollbackState vs. letting the base class handle it?
