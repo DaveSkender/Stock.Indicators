@@ -63,7 +63,7 @@ public class RocWbTests : TestBase
         listing.Uiid.Should().Be("ROC-WB");
         listing.Style.Should().Be(Style.Stream);
         listing.Category.Should().Be(Category.PriceTrend);
-        listing.MethodName.Should().Be("ToRocWb");
+        listing.MethodName.Should().Be("ToRocWbHub");
 
         listing.Parameters.Should().NotBeNull();
         listing.Parameters.Should().HaveCount(3);

@@ -272,6 +272,7 @@ public static partial class RocWb
         int emaPeriods = 5,
         int stdDevPeriods = 5)
     {
+        ArgumentNullException.ThrowIfNull(quotes);
         QuoteHub quoteHub = new();
         quoteHub.Add(quotes);
         return quoteHub.ToRocWbHub(lookbackPeriods, emaPeriods, stdDevPeriods);
