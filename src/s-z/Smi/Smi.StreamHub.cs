@@ -15,11 +15,11 @@ public sealed class SmiHub
     private readonly RollingWindowMin<double> _lowWindow;
 
     // State for EMA smoothing
-    private double _lastSmEma1;
-    private double _lastSmEma2;
-    private double _lastHlEma1;
-    private double _lastHlEma2;
-    private double _lastSignal;
+    private double _lastSmEma1 = double.NaN;
+    private double _lastSmEma2 = double.NaN;
+    private double _lastHlEma1 = double.NaN;
+    private double _lastHlEma2 = double.NaN;
+    private double _lastSignal = double.NaN;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="SmiHub"/> class.
@@ -115,9 +115,8 @@ public sealed class SmiHub
             double sm = close - (0.5d * (hH + lL));
             double hl = hH - lL;
 
-            // Initialize last EMA values on first calculation (when we have exactly LookbackPeriods of data)
-            // Cache.Count is the count BEFORE adding current result, so check for LookbackPeriods - 1
-            if (Cache.Count == LookbackPeriods - 1)
+            // Initialize last EMA values when no prior state exists
+            if (double.IsNaN(_lastSmEma1))
             {
                 _lastSmEma1 = sm;
                 _lastSmEma2 = _lastSmEma1;
@@ -136,8 +135,8 @@ public sealed class SmiHub
             // Stochastic momentum index
             smi = 100 * (smEma2 / (0.5 * hlEma2));
 
-            // Initialize signal line on first SMI calculation
-            if (Cache.Count == LookbackPeriods - 1)
+            // Initialize signal line when no prior state exists
+            if (double.IsNaN(_lastSignal))
             {
                 _lastSignal = smi.Value;
             }
@@ -168,11 +167,11 @@ public sealed class SmiHub
         // Clear state
         _highWindow.Clear();
         _lowWindow.Clear();
-        _lastSmEma1 = 0;
-        _lastSmEma2 = 0;
-        _lastHlEma1 = 0;
-        _lastHlEma2 = 0;
-        _lastSignal = 0;
+        _lastSmEma1 = double.NaN;
+        _lastSmEma2 = double.NaN;
+        _lastHlEma1 = double.NaN;
+        _lastHlEma2 = double.NaN;
+        _lastSignal = double.NaN;
 
         // Rebuild from ProviderCache
         int index = ProviderCache.IndexGte(timestamp);
@@ -181,12 +180,12 @@ public sealed class SmiHub
             return;
         }
 
+        // We need to rebuild state up to the index before timestamp
         int targetIndex = index - 1;
-        int startIdx = Math.Max(0, targetIndex + 1 - LookbackPeriods);
 
-        // Replay historical quotes to rebuild state
-        int replayCount = 0;
-        for (int p = startIdx; p <= targetIndex; p++)
+        // Replay from the beginning to rebuild EMA state correctly
+        // (EMA state depends on all prior values, not just a window)
+        for (int p = 0; p <= targetIndex; p++)
         {
             IQuote quote = ProviderCache[p];
             double high = (double)quote.High;
@@ -198,7 +197,7 @@ public sealed class SmiHub
             _lowWindow.Add(low);
 
             // Recalculate state if we have enough data
-            if (_highWindow.Count == LookbackPeriods)
+            if (p >= LookbackPeriods - 1)
             {
                 double hH = _highWindow.Max;
                 double lL = _lowWindow.Min;
@@ -206,8 +205,8 @@ public sealed class SmiHub
                 double sm = close - (0.5d * (hH + lL));
                 double hl = hH - lL;
 
-                // Initialize on first complete window
-                if (replayCount == LookbackPeriods - 1)
+                // Initialize last EMA values when no prior state exists
+                if (double.IsNaN(_lastSmEma1))
                 {
                     _lastSmEma1 = sm;
                     _lastSmEma2 = _lastSmEma1;
@@ -226,8 +225,8 @@ public sealed class SmiHub
                 // Stochastic momentum index
                 double smi = 100 * (smEma2 / (0.5 * hlEma2));
 
-                // Initialize signal line on first SMI calculation
-                if (replayCount == LookbackPeriods - 1)
+                // Initialize signal line when no prior state exists
+                if (double.IsNaN(_lastSignal))
                 {
                     _lastSignal = smi;
                 }
@@ -242,8 +241,6 @@ public sealed class SmiHub
                 _lastHlEma2 = hlEma2;
                 _lastSignal = signal;
             }
-
-            replayCount++;
         }
     }
 }
