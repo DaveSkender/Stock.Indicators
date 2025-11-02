@@ -55,7 +55,7 @@ public class PmoTests : TestBase
         listing.Uiid.Should().Be("PMO");
         listing.Style.Should().Be(Style.Buffer);
         listing.Category.Should().Be(Category.Oscillator);
-        listing.MethodName.Should().Be("ToPmo");
+        listing.MethodName.Should().Be("ToPmoList");
 
         listing.Parameters.Should().NotBeNull();
         listing.Parameters.Should().HaveCount(3);

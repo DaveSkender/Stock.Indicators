@@ -10,7 +10,6 @@ public static partial class Mama
             .WithName("MESA Adaptive Moving Average")
             .WithId("MAMA")
             .WithCategory(Category.MovingAverage)
-            .WithMethodName("ToMama")
             .AddParameter<double>("fastLimit", "Fast Limit", defaultValue: 0.5, minimum: 0.01, maximum: 0.99)
             .AddParameter<double>("slowLimit", "Slow Limit", defaultValue: 0.05, minimum: 0.01, maximum: 0.99)
             .AddResult("Mama", "MAMA", ResultType.Default, isReusable: true)
@@ -23,6 +22,7 @@ public static partial class Mama
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
+            .WithMethodName("ToMama")
             .Build();
 
     /// <summary>
@@ -31,6 +31,7 @@ public static partial class Mama
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)
+            .WithMethodName("ToMamaList")
             .Build();
 
     /// <summary>
@@ -39,5 +40,6 @@ public static partial class Mama
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
+            .WithMethodName("ToMamaHub")
             .Build();
 }

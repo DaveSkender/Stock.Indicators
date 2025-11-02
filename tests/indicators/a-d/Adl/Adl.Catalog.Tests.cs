@@ -43,7 +43,7 @@ public class AdlTests : TestBase
         listing.Uiid.Should().Be("ADL");
         listing.Style.Should().Be(Style.Stream);
         listing.Category.Should().Be(Category.VolumeBased);
-        listing.MethodName.Should().Be("ToAdl");
+        listing.MethodName.Should().Be("ToAdlHub");
 
         listing.Parameters?.Count.Should().Be(0);
         // No parameters for this indicator
@@ -69,7 +69,7 @@ public class AdlTests : TestBase
         listing.Uiid.Should().Be("ADL");
         listing.Style.Should().Be(Style.Buffer);
         listing.Category.Should().Be(Category.VolumeBased);
-        listing.MethodName.Should().Be("ToAdl");
+        listing.MethodName.Should().Be("ToAdlList");
 
         listing.Parameters?.Count.Should().Be(0);
         // No parameters for this indicator

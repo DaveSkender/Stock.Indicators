@@ -10,7 +10,6 @@ public static partial class Hurst
             .WithName("Hurst Exponent")
             .WithId("HURST")
             .WithCategory(Category.PriceCharacteristic)
-            .WithMethodName("ToHurst")
             .AddParameter<int>("lookbackPeriods", "Lookback Periods", defaultValue: 100, minimum: 2, maximum: 250)
             .AddResult("HurstExponent", "Hurst Exponent", ResultType.Default, isReusable: true)
             .Build();
@@ -21,6 +20,7 @@ public static partial class Hurst
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
+            .WithMethodName("ToHurst")
             .Build();
 
     /// <summary>
@@ -29,6 +29,7 @@ public static partial class Hurst
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)
+            .WithMethodName("ToHurstList")
             .Build();
 
     /// <summary>
@@ -37,5 +38,6 @@ public static partial class Hurst
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
+            .WithMethodName("ToHurstHub")
             .Build();
 }

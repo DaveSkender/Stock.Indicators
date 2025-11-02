@@ -54,7 +54,7 @@ public class AtrTests : TestBase
         listing.Uiid.Should().Be("ATR");
         listing.Style.Should().Be(Style.Stream);
         listing.Category.Should().Be(Category.PriceCharacteristic);
-        listing.MethodName.Should().Be("ToAtr");
+        listing.MethodName.Should().Be("ToAtrHub");
 
         listing.Parameters.Should().NotBeNull();
         listing.Parameters.Should().HaveCount(1);
@@ -91,7 +91,7 @@ public class AtrTests : TestBase
         listing.Uiid.Should().Be("ATR");
         listing.Style.Should().Be(Style.Buffer);
         listing.Category.Should().Be(Category.PriceCharacteristic);
-        listing.MethodName.Should().Be("ToAtr");
+        listing.MethodName.Should().Be("ToAtrList");
 
         listing.Parameters.Should().NotBeNull();
         listing.Parameters.Should().HaveCount(1);
