@@ -473,6 +473,3 @@ Each task should follow these guidelines:
 - **Total**: 204 tasks — 135 complete, 69 remaining
 
 Removed blanket deferral: The above indicators are complex but unblocked with established reference patterns (see instruction files).
-
----
-Last updated: October 28, 2025
