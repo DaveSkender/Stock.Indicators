@@ -61,6 +61,31 @@ For detailed implementation guidance, see the scoped instruction files:
   - Documentation standards
   - Migration guide updates
 
+## NaN Handling Policy
+
+The library follows IEEE 754 floating-point standard for NaN (Not-a-Number) handling:
+
+### Core Principles
+
+1. **Natural propagation**: NaN values propagate naturally through calculations (e.g., any operation with NaN produces NaN)
+2. **Internal representation**: Use `double.NaN` internally when a value cannot be calculated
+3. **External representation**: Convert NaN to `null` (via `.NaN2Null()`) only at the final result boundary
+4. **No rejection**: Never reject NaN inputs with validation - allow them to flow through the system
+
+### Implementation Guidelines
+
+- **RollingWindow utilities**: Accept NaN values and return NaN for Min/Max when NaN is present in the window
+- **Quote validation**: Only validate for null/missing quotes, not for NaN values in quote properties (High/Low/Close/etc.)
+- **Division by zero**: Allow natural NaN propagation (e.g., `x / 0.0 = Infinity`, `0.0 / 0.0 = NaN`)
+- **Zero-range checks**: Remove unnecessary guards like `if (range != 0)` - let division produce NaN naturally
+
+### Constitutional Alignment
+
+This approach aligns with **Constitution §1: Mathematical Precision**:
+- Maintains numerical correctness (NaN is mathematically correct for undefined values)
+- Prevents silent data corruption from substituting invalid placeholders
+- Follows established IEEE 754 standard
+
 ## Performance Optimization
 
 For streaming and buffer indicators experiencing performance issues, consult:
