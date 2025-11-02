@@ -81,6 +81,7 @@ public class RocWbHub
             {
                 rocSqBuffer.Dequeue();
             }
+
             rocSqBuffer.Enqueue(rocSq);
         }
 
@@ -95,6 +96,7 @@ public class RocWbHub
                 {
                     rocEmaInitBuffer.Dequeue();
                 }
+
                 rocEmaInitBuffer.Enqueue(roc);
             }
 
@@ -187,6 +189,7 @@ public class RocWbHub
                 {
                     rocSqBuffer.Dequeue();
                 }
+
                 rocSqBuffer.Enqueue(rocSq);
             }
 
@@ -201,6 +204,7 @@ public class RocWbHub
                     {
                         rocEmaInitBuffer.Dequeue();
                     }
+    
                     rocEmaInitBuffer.Enqueue(roc);
                 }
 
@@ -249,7 +253,7 @@ public static partial class RocWb
         int lookbackPeriods = 20,
         int emaPeriods = 5,
         int stdDevPeriods = 5)
-             => new(chainProvider, lookbackPeriods, emaPeriods, stdDevPeriods);
+        => new(chainProvider, lookbackPeriods, emaPeriods, stdDevPeriods);
 
     /// <summary>
     /// Creates a RocWb hub from a collection of quotes.
