@@ -41,7 +41,7 @@ public class GatorTests : TestBase
         listing.Uiid.Should().Be("GATOR");
         listing.Style.Should().Be(Style.Stream);
         listing.Category.Should().Be(Category.Oscillator);
-        listing.MethodName.Should().Be("ToGator");
+        listing.MethodName.Should().Be("ToGatorHub");
 
         listing.Parameters?.Count.Should().Be(0);
         // No parameters for this indicator

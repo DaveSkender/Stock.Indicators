@@ -10,7 +10,6 @@ public static partial class Correlation
             .WithName("Correlation")
             .WithId("CORR")
             .WithCategory(Category.Oscillator)
-            .WithMethodName("ToCorrelation")
             .AddSeriesParameter("sourceA", "Source A")
             .AddSeriesParameter("sourceB", "Source B")
             .AddParameter<int>("lookbackPeriods", "Lookback Periods", defaultValue: 20, minimum: 1, maximum: 250)
@@ -27,6 +26,7 @@ public static partial class Correlation
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
+            .WithMethodName("ToCorrelation")
             .Build();
 
     // No StreamListing for CORR.

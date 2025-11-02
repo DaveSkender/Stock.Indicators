@@ -10,7 +10,6 @@ public static partial class Adl
             .WithName("Accumulation Distribution Line (ADL)")
             .WithId("ADL")
             .WithCategory(Category.VolumeBased)
-            .WithMethodName("ToAdl")
             .AddResult("Adl", "Accumulation Distribution Line (ADL)", ResultType.Default, isReusable: true)
             .Build();
 
@@ -20,6 +19,7 @@ public static partial class Adl
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
+            .WithMethodName("ToAdl")
             .Build();
 
     /// <summary>
@@ -28,6 +28,7 @@ public static partial class Adl
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
+            .WithMethodName("ToAdlHub")
             .Build();
 
     /// <summary>
@@ -36,5 +37,6 @@ public static partial class Adl
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)
+            .WithMethodName("ToAdlList")
             .Build();
 }

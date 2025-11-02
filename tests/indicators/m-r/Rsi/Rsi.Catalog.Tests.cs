@@ -47,7 +47,7 @@ public class RsiTests : TestBase
         listing.Uiid.Should().Be("RSI");
         listing.Style.Should().Be(Style.Buffer);
         listing.Category.Should().Be(Category.Oscillator);
-        listing.MethodName.Should().Be("ToRsi");
+        listing.MethodName.Should().Be("ToRsiList");
 
         listing.Parameters.Should().NotBeNull();
         listing.Parameters.Should().HaveCount(1);
@@ -76,7 +76,7 @@ public class RsiTests : TestBase
         listing.Uiid.Should().Be("RSI");
         listing.Style.Should().Be(Style.Stream);
         listing.Category.Should().Be(Category.Oscillator);
-        listing.MethodName.Should().Be("ToRsi");
+        listing.MethodName.Should().Be("ToRsiHub");
 
         listing.Parameters.Should().NotBeNull();
         listing.Parameters.Should().HaveCount(1);
