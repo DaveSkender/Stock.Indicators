@@ -133,7 +133,7 @@ public class HurstHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPr
 
         // assert, should equal series
         actuals.Should().HaveCount(length - 1);
-        actuals.Should().BeEquivalentTo(seriesList);
+        actuals.Should().BeEquivalentTo(seriesList, static o => o.WithStrictOrdering());
 
         // cleanup
         observer.Unsubscribe();
