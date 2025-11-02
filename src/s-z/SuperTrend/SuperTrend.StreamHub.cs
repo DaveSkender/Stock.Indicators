@@ -262,14 +262,7 @@ public class SuperTrendHub
             }
 
             // Update direction
-            if (close <= (IsBullish ? LowerBand : UpperBand))
-            {
-                IsBullish = false;
-            }
-            else
-            {
-                IsBullish = true;
-            }
+            IsBullish = !(close <= (IsBullish ? LowerBand : UpperBand));
         }
     }
 }

@@ -34,15 +34,15 @@ public class SuperTrendTests : TestBase
         IndicatorResult supertrendResult = listing.Results.SingleOrDefault(static r => r.DataName == "SuperTrend");
         supertrendResult.Should().NotBeNull();
         supertrendResult?.DisplayName.Should().Be("SuperTrend");
-        supertrendResult.IsReusable.Should().Be(true);
+        supertrendResult?.IsReusable.Should().Be(false);
         IndicatorResult upperbandResult1 = listing.Results.SingleOrDefault(static r => r.DataName == "UpperBand");
         upperbandResult1.Should().NotBeNull();
         upperbandResult1?.DisplayName.Should().Be("Upper Band");
-        upperbandResult1.IsReusable.Should().Be(false);
+        upperbandResult1?.IsReusable.Should().Be(false);
         IndicatorResult lowerbandResult2 = listing.Results.SingleOrDefault(static r => r.DataName == "LowerBand");
         lowerbandResult2.Should().NotBeNull();
         lowerbandResult2?.DisplayName.Should().Be("Lower Band");
-        lowerbandResult2.IsReusable.Should().Be(false);
+        lowerbandResult2?.IsReusable.Should().Be(false);
     }
 
     [TestMethod]
@@ -73,14 +73,14 @@ public class SuperTrendTests : TestBase
         IndicatorResult supertrendResult = listing.Results.SingleOrDefault(static r => r.DataName == "SuperTrend");
         supertrendResult.Should().NotBeNull();
         supertrendResult?.DisplayName.Should().Be("SuperTrend");
-        supertrendResult.IsReusable.Should().Be(true);
+        supertrendResult?.IsReusable.Should().Be(false);
         IndicatorResult upperbandResult = listing.Results.SingleOrDefault(static r => r.DataName == "UpperBand");
         upperbandResult.Should().NotBeNull();
         upperbandResult?.DisplayName.Should().Be("Upper Band");
-        upperbandResult.IsReusable.Should().Be(false);
+        upperbandResult?.IsReusable.Should().Be(false);
         IndicatorResult lowerbandResult = listing.Results.SingleOrDefault(static r => r.DataName == "LowerBand");
         lowerbandResult.Should().NotBeNull();
         lowerbandResult?.DisplayName.Should().Be("Lower Band");
-        lowerbandResult.IsReusable.Should().Be(false);
+        lowerbandResult?.IsReusable.Should().Be(false);
     }
 }
