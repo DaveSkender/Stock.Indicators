@@ -59,11 +59,11 @@ public static partial class Smi
         double k2 = 2d / (secondSmoothPeriods + 1);
         double kS = 2d / (signalPeriods + 1);
 
-        double lastSmEma1 = 0;
-        double lastSmEma2 = 0;
-        double lastHlEma1 = 0;
-        double lastHlEma2 = 0;
-        double lastSignal = 0;
+        double lastSmEma1 = double.NaN;
+        double lastSmEma2 = double.NaN;
+        double lastHlEma1 = double.NaN;
+        double lastHlEma2 = double.NaN;
+        double lastSignal = double.NaN;
 
         // roll through source values
         for (int i = 0; i < length; i++)
@@ -96,9 +96,8 @@ public static partial class Smi
                 double sm = q.Close - (0.5d * (hH + lL));
                 double hl = hH - lL;
 
-                // initialize last EMA values
-                // TODO: update healing, without requiring specific indexing
-                if (i == lookbackPeriods - 1)
+                // Initialize last EMA values when no prior state exists
+                if (double.IsNaN(lastSmEma1))
                 {
                     lastSmEma1 = sm;
                     lastSmEma2 = lastSmEma1;
@@ -117,9 +116,8 @@ public static partial class Smi
                 // stochastic momentum index
                 smi = 100 * (smEma2 / (0.5 * hlEma2));
 
-                // initialize signal line
-                // TODO: update healing, without requiring specific indexing
-                if (i == lookbackPeriods - 1)
+                // Initialize signal line when no prior state exists
+                if (double.IsNaN(lastSignal))
                 {
                     lastSignal = smi;
                 }
