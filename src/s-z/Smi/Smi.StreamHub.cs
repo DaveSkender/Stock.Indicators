@@ -123,7 +123,6 @@ public sealed class SmiHub
                 _lastSmEma2 = _lastSmEma1;
                 _lastHlEma1 = hl;
                 _lastHlEma2 = _lastHlEma1;
-                _isInitialized = true;
             }
 
             // First smoothing
@@ -174,7 +173,6 @@ public sealed class SmiHub
         _lastHlEma1 = 0;
         _lastHlEma2 = 0;
         _lastSignal = 0;
-        _isInitialized = false;
 
         // Rebuild from ProviderCache
         int index = ProviderCache.IndexGte(timestamp);
@@ -215,7 +213,6 @@ public sealed class SmiHub
                     _lastSmEma2 = _lastSmEma1;
                     _lastHlEma1 = hl;
                     _lastHlEma2 = _lastHlEma1;
-                    _isInitialized = true;
                 }
 
                 // First smoothing
@@ -245,6 +242,7 @@ public sealed class SmiHub
                 _lastHlEma2 = hlEma2;
                 _lastSignal = signal;
             }
+
             replayCount++;
         }
     }
