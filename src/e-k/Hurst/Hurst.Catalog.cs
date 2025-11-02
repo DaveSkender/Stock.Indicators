@@ -38,5 +38,6 @@ public static partial class Hurst
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
+            .WithMethodName("ToHurstHub")
             .Build();
 }
