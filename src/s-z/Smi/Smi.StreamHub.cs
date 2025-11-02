@@ -142,7 +142,9 @@ public class SmiHub
             double hlEma2 = lastHlEma2 + (k2 * (hlEma1 - lastHlEma2));
 
             // Stochastic momentum index
-            smi = 100 * (smEma2 / (0.5 * hlEma2));
+            smi = hlEma2 != 0
+                ? 100 * (smEma2 / (0.5 * hlEma2))
+                : double.NaN;
 
             // Initialize signal line when no prior state exists
             if (double.IsNaN(lastSignal))
