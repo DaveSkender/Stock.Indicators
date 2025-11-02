@@ -98,39 +98,43 @@ public static partial class Kvo
                 : vf[i - 1];
 
             // fast-period EMA of VF
-            if (i > fastPeriods + 1)
+            if (i >= fastPeriods + 1)
             {
-                vfFastEma[i] = (vf[i] * kFast) + (vfFastEma[i - 1] * (1 - kFast));
-            }
-
-            // TODO: update healing, without requiring specific indexing
-            else if (i == fastPeriods + 1)
-            {
-                double sum = 0;
-                for (int p = 2; p <= i; p++)
+                if (vfFastEma[i - 1] == 0)
                 {
-                    sum += vf[p];
-                }
+                    // initialize fast EMA
+                    double sum = 0;
+                    for (int p = 2; p <= i; p++)
+                    {
+                        sum += vf[p];
+                    }
 
-                vfFastEma[i] = sum / fastPeriods;
+                    vfFastEma[i] = sum / fastPeriods;
+                }
+                else
+                {
+                    vfFastEma[i] = (vf[i] * kFast) + (vfFastEma[i - 1] * (1 - kFast));
+                }
             }
 
             // slow-period EMA of VF
-            if (i > slowPeriods + 1)
+            if (i >= slowPeriods + 1)
             {
-                vfSlowEma[i] = (vf[i] * kSlow) + (vfSlowEma[i - 1] * (1 - kSlow));
-            }
-
-            // TODO: update healing, without requiring specific indexing
-            else if (i == slowPeriods + 1)
-            {
-                double sum = 0;
-                for (int p = 2; p <= i; p++)
+                if (vfSlowEma[i - 1] == 0)
                 {
-                    sum += vf[p];
-                }
+                    // initialize slow EMA
+                    double sum = 0;
+                    for (int p = 2; p <= i; p++)
+                    {
+                        sum += vf[p];
+                    }
 
-                vfSlowEma[i] = sum / slowPeriods;
+                    vfSlowEma[i] = sum / slowPeriods;
+                }
+                else
+                {
+                    vfSlowEma[i] = (vf[i] * kSlow) + (vfSlowEma[i - 1] * (1 - kSlow));
+                }
             }
 
             // Klinger Oscillator
@@ -139,22 +143,24 @@ public static partial class Kvo
                 kvo = vfFastEma[i] - vfSlowEma[i];
 
                 // Signal
-                if (i > slowPeriods + signalPeriods)
+                if (i >= slowPeriods + signalPeriods)
                 {
-                    sig = (kvo * kSignal)
-                        + (results[i - 1].Signal * (1 - kSignal));
-                }
-
-                // TODO: update healing, without requiring specific indexing
-                else if (i == slowPeriods + signalPeriods)
-                {
-                    double? sum = kvo;
-                    for (int p = slowPeriods + 1; p < i; p++)
+                    if (results[i - 1].Signal is null)
                     {
-                        sum += results[p].Oscillator;
-                    }
+                        // initialize signal
+                        double? sum = kvo;
+                        for (int p = slowPeriods + 1; p < i; p++)
+                        {
+                            sum += results[p].Oscillator;
+                        }
 
-                    sig = sum / signalPeriods;
+                        sig = sum / signalPeriods;
+                    }
+                    else
+                    {
+                        sig = (kvo * kSignal)
+                            + (results[i - 1].Signal * (1 - kSignal));
+                    }
                 }
             }
 

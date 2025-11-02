@@ -38,10 +38,10 @@ public static partial class Adx
         double prevHigh = 0;
         double prevLow = 0;
         double prevClose = 0;
-        double prevTrs = 0; // smoothed
-        double prevPdm = 0;
-        double prevMdm = 0;
-        double prevAdx = 0;
+        double prevTrs = double.NaN; // smoothed
+        double prevPdm = double.NaN;
+        double prevMdm = double.NaN;
+        double prevAdx = double.NaN;
 
         double sumTr = 0;
         double sumPdm = 0;
@@ -98,8 +98,7 @@ public static partial class Adx
             double pdm;
             double mdm;
 
-            // TODO: update healing, without requiring specific indexing
-            if (i == lookbackPeriods)
+            if (double.IsNaN(prevTrs))
             {
                 trs = sumTr;
                 pdm = sumPdm;
@@ -136,27 +135,27 @@ public static partial class Adx
             double adx = double.NaN;
             double adxr = double.NaN;
 
-            if (i > (2 * lookbackPeriods) - 1)
+            if (i >= (2 * lookbackPeriods) - 1)
             {
-                adx = ((prevAdx * (lookbackPeriods - 1)) + dx) / lookbackPeriods;
+                if (double.IsNaN(prevAdx))
+                {
+                    // initial ADX
+                    sumDx += dx;
+                    adx = sumDx / lookbackPeriods;
+                }
+                else
+                {
+                    adx = ((prevAdx * (lookbackPeriods - 1)) + dx) / lookbackPeriods;
 
-                double priorAdx = results[i - lookbackPeriods + 1].Adx.Null2NaN();
+                    double priorAdx = results[i - lookbackPeriods + 1].Adx.Null2NaN();
 
-                adxr = (adx + priorAdx) / 2;
-                prevAdx = adx;
-            }
+                    adxr = (adx + priorAdx) / 2;
+                }
 
-            // initial ADX
-            else if (i == (2 * lookbackPeriods) - 1)
-            {
-                sumDx += dx;
-                adx = sumDx / lookbackPeriods;
                 prevAdx = adx;
             }
 
             // ADX initialization period
-            // TODO: update healing, without requiring specific indexing
-            //       see ADX BufferList for hint
             else
             {
                 sumDx += dx;
