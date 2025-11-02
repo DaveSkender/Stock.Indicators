@@ -43,6 +43,6 @@ public static partial class RocWb
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)
-            .WithMethodName("ToRocList")
+            .WithMethodName("ToRocWbList")
             .Build();
 }
