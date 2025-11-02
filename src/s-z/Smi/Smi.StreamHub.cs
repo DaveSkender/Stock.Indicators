@@ -102,10 +102,6 @@ public class SmiHub
         double low = (double)item.Low;
         double close = (double)item.Close;
 
-        ValidateFinite(high, nameof(IQuote.High), item.Timestamp);
-        ValidateFinite(low, nameof(IQuote.Low), item.Timestamp);
-        ValidateFinite(close, nameof(IQuote.Close), item.Timestamp);
-
         // Normal incremental update - O(1) amortized operation
         // Using monotonic deque pattern eliminates O(n) linear scans on every quote
         _highWindow.Add(high);
@@ -116,51 +112,7 @@ public class SmiHub
 
         if (i >= LookbackPeriods - 1)
         {
-            // Use O(1) max/min retrieval from rolling windows
-            double hH = _highWindow.Max;
-            double lL = _lowWindow.Min;
-
-            // Calculate distance from midpoint and range
-            double sm = close - (0.5d * (hH + lL));
-            double hl = hH - lL;
-
-            // Initialize last EMA values when no prior state exists
-            if (double.IsNaN(lastSmEma1))
-            {
-                lastSmEma1 = sm;
-                lastSmEma2 = lastSmEma1;
-                lastHlEma1 = hl;
-                lastHlEma2 = lastHlEma1;
-            }
-
-            // First smoothing
-            double smEma1 = lastSmEma1 + (k1 * (sm - lastSmEma1));
-            double hlEma1 = lastHlEma1 + (k1 * (hl - lastHlEma1));
-
-            // Second smoothing
-            double smEma2 = lastSmEma2 + (k2 * (smEma1 - lastSmEma2));
-            double hlEma2 = lastHlEma2 + (k2 * (hlEma1 - lastHlEma2));
-
-            // Stochastic momentum index
-            smi = hlEma2 != 0
-                ? 100 * (smEma2 / (0.5 * hlEma2))
-                : double.NaN;
-
-            // Initialize signal line when no prior state exists
-            if (double.IsNaN(lastSignal))
-            {
-                lastSignal = smi;
-            }
-
-            // Signal line
-            signal = lastSignal + (kS * (smi - lastSignal));
-
-            // Carryover values for next iteration
-            lastSmEma1 = smEma1;
-            lastSmEma2 = smEma2;
-            lastHlEma1 = hlEma1;
-            lastHlEma2 = hlEma2;
-            lastSignal = signal;
+            (smi, signal) = CalculateSmi(close);
         }
 
         SmiResult result = new(
@@ -171,14 +123,55 @@ public class SmiHub
         return (result, i);
     }
 
-    private static void ValidateFinite(double value, string paramName, DateTime timestamp)
+    private (double smi, double signal) CalculateSmi(double close)
     {
-        if (!double.IsFinite(value))
+        // Use O(1) max/min retrieval from rolling windows
+        double hH = _highWindow.Max;
+        double lL = _lowWindow.Min;
+
+        // Calculate distance from midpoint and range
+        double sm = close - (0.5d * (hH + lL));
+        double hl = hH - lL;
+
+        // Initialize last EMA values when no prior state exists
+        if (double.IsNaN(lastSmEma1))
         {
-            string message = FormattableString.Invariant(
-                $"Quote at {timestamp:O} contains a non-finite {paramName} value.");
-            throw new InvalidQuotesException(paramName, value, message);
+            lastSmEma1 = sm;
+            lastSmEma2 = lastSmEma1;
+            lastHlEma1 = hl;
+            lastHlEma2 = lastHlEma1;
         }
+
+        // First smoothing
+        double smEma1 = lastSmEma1 + (k1 * (sm - lastSmEma1));
+        double hlEma1 = lastHlEma1 + (k1 * (hl - lastHlEma1));
+
+        // Second smoothing
+        double smEma2 = lastSmEma2 + (k2 * (smEma1 - lastSmEma2));
+        double hlEma2 = lastHlEma2 + (k2 * (hlEma1 - lastHlEma2));
+
+        // Stochastic momentum index
+        double smi = hlEma2 != 0
+            ? 100 * (smEma2 / (0.5 * hlEma2))
+            : double.NaN;
+
+        // Initialize signal line when no prior state exists
+        if (double.IsNaN(lastSignal))
+        {
+            lastSignal = smi;
+        }
+
+        // Signal line
+        double signal = lastSignal + (kS * (smi - lastSignal));
+
+        // Carryover values for next iteration
+        lastSmEma1 = smEma1;
+        lastSmEma2 = smEma2;
+        lastHlEma1 = hlEma1;
+        lastHlEma2 = hlEma2;
+        lastSignal = signal;
+
+        return (smi, signal);
     }
 
     /// <summary>
@@ -216,10 +209,6 @@ public class SmiHub
             double low = (double)q.Low;
             double close = (double)q.Close;
 
-            ValidateFinite(high, nameof(IQuote.High), q.Timestamp);
-            ValidateFinite(low, nameof(IQuote.Low), q.Timestamp);
-            ValidateFinite(close, nameof(IQuote.Close), q.Timestamp);
-
             // Add to rolling windows (maintains O(1) amortized operation)
             _highWindow.Add(high);
             _lowWindow.Add(low);
@@ -227,49 +216,7 @@ public class SmiHub
             // Calculate EMA state only after warmup
             if (p >= LookbackPeriods - 1)
             {
-                // Use O(1) max/min retrieval from rolling windows
-                double hH = _highWindow.Max;
-                double lL = _lowWindow.Min;
-
-                // Calculate distance from midpoint and range
-                double sm = close - (0.5d * (hH + lL));
-                double hl = hH - lL;
-
-                // Initialize last EMA values when no prior state exists
-                if (double.IsNaN(lastSmEma1))
-                {
-                    lastSmEma1 = sm;
-                    lastSmEma2 = lastSmEma1;
-                    lastHlEma1 = hl;
-                    lastHlEma2 = lastHlEma1;
-                }
-
-                // First smoothing
-                double smEma1 = lastSmEma1 + (k1 * (sm - lastSmEma1));
-                double hlEma1 = lastHlEma1 + (k1 * (hl - lastHlEma1));
-
-                // Second smoothing
-                double smEma2 = lastSmEma2 + (k2 * (smEma1 - lastSmEma2));
-                double hlEma2 = lastHlEma2 + (k2 * (hlEma1 - lastHlEma2));
-
-                // Stochastic momentum index
-                double smi = 100 * (smEma2 / (0.5 * hlEma2));
-
-                // Initialize signal line when no prior state exists
-                if (double.IsNaN(lastSignal))
-                {
-                    lastSignal = smi;
-                }
-
-                // Signal line
-                double signal = lastSignal + (kS * (smi - lastSignal));
-
-                // Carryover values for next iteration
-                lastSmEma1 = smEma1;
-                lastSmEma2 = smEma2;
-                lastHlEma1 = hlEma1;
-                lastHlEma2 = hlEma2;
-                lastSignal = signal;
+                CalculateSmi(close);
             }
         }
     }
