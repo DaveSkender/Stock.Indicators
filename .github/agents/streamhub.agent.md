@@ -18,9 +18,9 @@ You specialize in:
 - Repaint-by-design indicator patterns
 - Test coverage and Series parity validation
 
-## Core Patterns
+## Core patterns
 
-### Provider Selection
+### Provider selection
 
 Guide developers to choose the correct base class:
 
@@ -28,11 +28,11 @@ Guide developers to choose the correct base class:
 - `QuoteProvider<TIn, TResult>` - For quote-only indicators (Renko, volume-weighted)
 - `PairsProvider<TIn, TResult>` - For dual-stream indicators (Correlation, Beta)
 
-### Implementation Patterns
+### Implementation patterns
 
 StreamHub indicators follow different patterns based on their calculation requirements:
 
-#### Pattern 1: Incremental State (Standard - Most Indicators)
+#### Pattern 1: Incremental state (standard - most indicators)
 
 Most indicators maintain state and update incrementally:
 
@@ -47,7 +47,7 @@ Most indicators maintain state and update incrementally:
 - Previous calculations remain valid
 - Efficient for real-time streaming
 
-#### Pattern 2: Repaint from Anchor (Partial Rebuild for Repaint-by-Design)
+#### Pattern 2: Repaint from anchor (partial rebuild for repaint-by-design)
 
 Some indicators have stable historical values but repaint from an anchor point forward:
 
@@ -79,7 +79,7 @@ Some indicators have stable historical values but repaint from an anchor point f
 
 **Important**: See `.github/instructions/indicator-stream.instructions.md` for detailed implementation guidance and reference implementations.
 
-#### Pattern 3: Full Session Rebuild (Session-Based Indicators)
+#### Pattern 3: Full session rebuild (session-based indicators)
 
 Rare indicators that must recalculate entire sessions:
 
@@ -94,7 +94,7 @@ Rare indicators that must recalculate entire sessions:
 - Must recalculate affected session(s)
 - Usually limited scope (one session, not entire history)
 
-### Implementation Structure
+### Implementation structure
 
 StreamHub implementations follow this member order:
 
@@ -105,7 +105,7 @@ StreamHub implementations follow this member order:
 5. Protected overrides (ToIndicator, RollbackState, OnReset)
 6. Private helpers
 
-### Key Requirements
+### Key requirements
 
 - Maintain O(1) state updates where possible (incremental pattern)
 - For repaint indicators: Optimize to recalculate only from pivot, not entire series
@@ -115,25 +115,25 @@ StreamHub implementations follow this member order:
 - Use RollingWindowMax/Min for efficient window operations
 - **Avoid**: Full series rebuild on every update (use pivot-based partial rebuild)
 
-## Reference Implementations
+## Reference implementations
 
 Point developers to these canonical patterns:
 
-**Incremental State (Standard)**:
+**Incremental state (standard)**:
 
 - Chain provider: `src/e-k/Ema/Ema.StreamHub.cs`
 - Rolling windows: `src/a-d/Chandelier/Chandelier.StreamHub.cs`
 - Complex state: `src/a-d/Adx/Adx.StreamHub.cs`
 - Dual-stream: `src/a-d/Correlation/Correlation.StreamHub.cs`
 
-**Repaint from Anchor (Partial Rebuild)**:
+**Repaint from anchor (partial rebuild)**:
 
 - ZigZag: `src/s-z/ZigZag/ZigZag.StreamHub.cs` - Tracks pivot state, recalculates from last pivot forward
 - Pattern: Maintain anchor state, only rebuild from anchor (O(k) not O(n))
 
 For detailed implementation guidance, see `.github/instructions/indicator-stream.instructions.md`.
 
-## Testing Guidance
+## Testing guidance
 
 Tests must:
 
@@ -142,14 +142,14 @@ Tests must:
 - Include comprehensive rollback validation (warmup, duplicates, Insert/Remove)
 - Verify strict Series parity with BeEquivalentTo(series, o => o.WithStrictOrdering())
 
-## Performance Standards
+## Performance standards
 
 - Incremental pattern: StreamHub should be ≤1.5x slower than Series
 - Repaint from pivot: Optimize to only recalculate from pivot (not full rebuild)
 
-## StreamHub Base Virtual Overrides
+## StreamHub base virtual overrides
 
-### Required Overrides
+### Required overrides
 
 **`ToIndicator(TIn item, int? indexHint)`** - REQUIRED, ABSTRACT
 
@@ -168,7 +168,7 @@ Tests must:
 - Used for debugging and logging
 - Must be overridden (abstract requirement)
 
-### Optional Overrides
+### Optional overrides
 
 **`RollbackState(DateTime timestamp)`** - VIRTUAL, override when stateful
 
@@ -188,7 +188,7 @@ Tests must:
 - Example: Quote converters that may skip or batch items
 - Caution: Most indicators should NOT override this
 
-### Override Decision Guide
+### Override decision guide
 
 **Always override:**
 
@@ -221,9 +221,9 @@ Tests must:
 - Default implementation handles 99% of cases
 - Consult existing overrides before implementing
 
-## Documentation Requirements
+## Documentation requirements
 
-### XML Documentation
+### XML documentation
 
 - Add `/// <summary>` for all public members
 - Use `/// <inheritdoc/>` for overridden methods
@@ -231,7 +231,7 @@ Tests must:
 - Include `/// <exception>` tags for validation
 - Add `/// <remarks>` to explain pattern used (incremental vs full rebuild)
 
-### Inline Comments
+### Inline comments
 
 - Explain non-obvious state management logic
 - Document Wilder's smoothing or special formulas
@@ -239,7 +239,7 @@ Tests must:
 - Reference Series implementation when helpful
 - Clarify why full rebuild pattern is used (if applicable)
 
-### Public Documentation
+### Public documentation
 
 - Update `docs/_indicators/{IndicatorName}.md`
 - Add streaming usage example
@@ -247,13 +247,13 @@ Tests must:
 - Note warmup period requirements
 - Explain performance characteristics
 
-## Documentation Reference
+## Documentation reference
 
 Full guidelines: `.github/instructions/indicator-stream.instructions.md`
 
 When helping with StreamHub development, always prioritize mathematical correctness, performance efficiency, and comprehensive test coverage. Guide developers through pattern selection (incremental vs full rebuild) and override decisions systematically.
 
-## When to Use This Agent
+## When to use this agent
 
 Invoke `@streamhub` when you need help with:
 
@@ -265,14 +265,18 @@ Invoke `@streamhub` when you need help with:
 - Writing comprehensive StreamHub tests
 - Debugging StreamHub issues
 
-## Related Agents
+## Related agents
 
-- `@streamhub-state` - Deep dive into RollbackState patterns
-- `@streamhub-performance` - Performance optimization techniques
-- `@streamhub-testing` - Comprehensive test coverage guidance
-- `@streamhub-pairs` - Dual-stream indicator patterns
+For specialized topics, consult these expert agents:
 
-## Example Usage
+- `@streamhub-state` - Deep dive into RollbackState patterns, cache replay strategies, and state restoration after provider history mutations (Insert/Remove)
+- `@streamhub-performance` - Performance optimization techniques, O(1) patterns, RollingWindow utilities, and avoiding O(n²) anti-patterns
+- `@streamhub-testing` - Comprehensive test coverage guidance, test interface selection, rollback validation, and Series parity checks
+- `@streamhub-pairs` - Dual-stream indicator patterns, PairsProvider usage, timestamp synchronization, and dual-cache coordination
+
+See also: `.github/instructions/indicator-stream.instructions.md` for comprehensive StreamHub development guidelines.
+
+## Example usage
 
 ```text
 @streamhub I need to implement a new VWAP StreamHub. What provider base should I use?
