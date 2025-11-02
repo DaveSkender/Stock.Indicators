@@ -209,7 +209,7 @@ public class IchimokuHub
         if (i >= SenkouOffset + SenkouBPeriods - 1)
         {
             // Calculate max/min over the SenkouB period, offset back
-            decimal max = 0;
+            decimal max = decimal.MinValue;
             decimal min = decimal.MaxValue;
 
             for (int p = i - SenkouOffset - SenkouBPeriods + 1;
