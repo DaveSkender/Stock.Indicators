@@ -735,5 +735,33 @@ foreach (var quote in liveQuotes)
 }
 ```
 
+## Custom agents for StreamHub development
+
+This repository provides specialized custom agents that can help with StreamHub development. These agents have deep expertise in specific areas:
+
+| Agent | Focus Area | When to Use |
+|-------|-----------|-------------|
+| `@streamhub` | General StreamHub development, provider selection, implementation patterns | Starting a new StreamHub, choosing provider base, understanding patterns |
+| `@streamhub-state` | RollbackState patterns, cache replay, state management | Implementing stateful indicators, handling Insert/Remove mutations |
+| `@streamhub-performance` | O(1) optimization, avoiding O(n²) anti-patterns, RollingWindow utilities | Performance optimization, meeting ≤1.5x Series target |
+| `@streamhub-testing` | Test interface selection, rollback validation, Series parity | Writing comprehensive tests, debugging test failures |
+| `@streamhub-pairs` | Dual-stream patterns, timestamp synchronization, PairsProvider | Implementing Correlation, Beta, or other dual-input indicators |
+
+**Usage examples:**
+
+```text
+@streamhub I need to implement a new VWAP StreamHub. What provider base should I use?
+
+@streamhub-state How do I rebuild RollingWindowMax state after a provider Insert?
+
+@streamhub-performance My StreamHub is 50x slower than Series. How do I optimize?
+
+@streamhub-testing Which test interfaces should I implement for a ChainProvider hub?
+
+@streamhub-pairs How do I handle timestamp synchronization for dual-stream indicators?
+```
+
+Agent definitions are in `.github/agents/`. For general guidance about custom agents, see `.github/copilot-instructions.md`.
+
 ---
-Last updated: October 24, 2025
+Last updated: October 31, 2025
