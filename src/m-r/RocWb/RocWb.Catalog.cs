@@ -10,7 +10,6 @@ public static partial class RocWb
             .WithName("ROC with Bands")
             .WithId("ROC-WB")
             .WithCategory(Category.PriceTrend)
-            .WithMethodName("ToRocWb")
             .AddParameter<int>("lookbackPeriods", "Lookback Periods", description: "Number of periods for the ROC calculation", isRequired: false, defaultValue: 20, minimum: 1, maximum: 250)
             .AddParameter<int>("emaPeriods", "EMA Periods", description: "Number of periods for the EMA calculation", isRequired: false, defaultValue: 5, minimum: 1, maximum: 100)
             .AddParameter<int>("stdDevPeriods", "Standard Deviation Periods", description: "Number of periods for the standard deviation calculation", isRequired: false, defaultValue: 5, minimum: 1, maximum: 100)
@@ -26,9 +25,17 @@ public static partial class RocWb
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
+            .WithMethodName("ToRocWb")
             .Build();
 
-    // No StreamListing for ROC with Bands.
+    /// <summary>
+    /// ROC with Bands Stream Listing
+    /// </summary>
+    internal static readonly IndicatorListing StreamListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Stream)
+            .WithMethodName("ToRocWbHub")
+            .Build();
 
     /// <summary>
     /// ROC with Bands Buffer Listing
@@ -36,5 +43,6 @@ public static partial class RocWb
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)
+            .WithMethodName("ToRocWbList")
             .Build();
 }

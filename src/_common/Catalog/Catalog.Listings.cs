@@ -208,6 +208,7 @@ public static partial class Catalog
         // Hurst Exponent
         _listings.Add(Hurst.SeriesListing);
         _listings.Add(Hurst.BufferListing);
+        _listings.Add(Hurst.StreamListing);
 
         // Ichimoku Cloud
         _listings.Add(Ichimoku.SeriesListing);
@@ -308,6 +309,7 @@ public static partial class Catalog
 
         // ROC with Bands
         _listings.Add(RocWb.SeriesListing);
+        _listings.Add(RocWb.StreamListing);
         _listings.Add(RocWb.BufferListing);
 
         // Rolling Pivots
@@ -337,6 +339,7 @@ public static partial class Catalog
         // SMI (Stochastic Momentum Index)
         _listings.Add(Smi.BufferListing);
         _listings.Add(Smi.SeriesListing);
+        _listings.Add(Smi.StreamListing);
 
         // SMMA (Smoothed Moving Average)
         _listings.Add(Smma.SeriesListing);

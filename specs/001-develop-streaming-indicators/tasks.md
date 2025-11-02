@@ -243,7 +243,7 @@ Note on former deferrals: Indicators like Fractal, HtTrendline, Hurst, Ichimoku,
 - [x] **T118** Implement HeikinAshi StreamHub in `src/e-k/HeikinAshi/HeikinAshi.StreamHub.cs` ✅
 - [x] **T119** Implement Hma StreamHub in `src/e-k/Hma/Hma.StreamHub.cs` ✅
 - [ ] **T120** Implement HtTrendline StreamHub in `src/e-k/HtTrendline/HtTrendline.StreamHub.cs` (complex but unblocked — model after EMA chain provider with HMA-like buffers)
-- [ ] **T121** Implement Hurst StreamHub in `src/e-k/Hurst/Hurst.StreamHub.cs` (complex but unblocked — use ADX-like complex state and EMA hub shape)
+- [x] **T121** Implement Hurst StreamHub in `src/e-k/Hurst/Hurst.StreamHub.cs` (complex but unblocked — use ADX-like complex state and EMA hub shape) ✅
 - [ ] **T122** Implement Ichimoku StreamHub in `src/e-k/Ichimoku/Ichimoku.StreamHub.cs` (complex but unblocked — multi-line series via quote provider pattern like Alligator/AtrStop)
 - [x] **T123** Implement Kama StreamHub in `src/e-k/Kama/Kama.StreamHub.cs` ✅
 - [x] **T124** Implement Keltner StreamHub in `src/e-k/Keltner/Keltner.StreamHub.cs` ✅
@@ -473,6 +473,3 @@ Each task should follow these guidelines:
 - **Total**: 204 tasks — 135 complete, 69 remaining
 
 Removed blanket deferral: The above indicators are complex but unblocked with established reference patterns (see instruction files).
-
----
-Last updated: October 27, 2025
