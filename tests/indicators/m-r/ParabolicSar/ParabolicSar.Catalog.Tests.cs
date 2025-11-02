@@ -53,7 +53,7 @@ public class ParabolicSarTests : TestBase
         listing.Uiid.Should().Be("PSAR");
         listing.Style.Should().Be(Style.Buffer);
         listing.Category.Should().Be(Category.StopAndReverse);
-        listing.MethodName.Should().Be("ToParabolicSar");
+        listing.MethodName.Should().Be("ToParabolicSarList");
 
         listing.Parameters.Should().NotBeNull();
         listing.Parameters.Should().HaveCount(2);

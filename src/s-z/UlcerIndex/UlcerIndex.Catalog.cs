@@ -10,7 +10,6 @@ public static partial class UlcerIndex
             .WithName("Ulcer Index")
             .WithId("ULCER")
             .WithCategory(Category.PriceCharacteristic)
-            .WithMethodName("ToUlcerIndex")
             .AddParameter<int>("lookbackPeriods", "Lookback Periods", description: "Number of periods for the Ulcer Index calculation", isRequired: false, defaultValue: 14, minimum: 1, maximum: 250)
             .AddResult("UlcerIndex", "Ulcer Index", ResultType.Default, isReusable: true)
             .Build();
@@ -21,6 +20,7 @@ public static partial class UlcerIndex
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
+            .WithMethodName("ToUlcerIndex")
             .Build();
 
     // No StreamListing for Ulcer Index.

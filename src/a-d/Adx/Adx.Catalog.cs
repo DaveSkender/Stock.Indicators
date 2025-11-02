@@ -10,7 +10,6 @@ public static partial class Adx
             .WithName("Average Directional Index (ADX)")
             .WithId("ADX")
             .WithCategory(Category.PriceTrend)
-            .WithMethodName("ToAdx")
             .AddParameter<int>("lookbackPeriods", "Lookback Periods", defaultValue: 14, minimum: 2, maximum: 250)
             .AddResult("Pdi", "+DI", ResultType.Default)
             .AddResult("Mdi", "-DI", ResultType.Default)
@@ -25,6 +24,7 @@ public static partial class Adx
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
+            .WithMethodName("ToAdx")
             .Build();
 
     /// <summary>
@@ -33,6 +33,7 @@ public static partial class Adx
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
+            .WithMethodName("ToAdxHub")
             .Build();
 
     /// <summary>
@@ -41,5 +42,6 @@ public static partial class Adx
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)
+            .WithMethodName("ToAdxList")
             .Build();
 }

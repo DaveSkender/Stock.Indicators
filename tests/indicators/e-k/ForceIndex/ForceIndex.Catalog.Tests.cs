@@ -47,7 +47,7 @@ public class ForceIndexTests : TestBase
         listing.Uiid.Should().Be("FORCE");
         listing.Style.Should().Be(Style.Buffer);
         listing.Category.Should().Be(Category.VolumeBased);
-        listing.MethodName.Should().Be("ToForceIndex");
+        listing.MethodName.Should().Be("ToForceIndexList");
 
         listing.Parameters.Should().NotBeNull();
         listing.Parameters.Should().HaveCount(1);
@@ -76,7 +76,7 @@ public class ForceIndexTests : TestBase
         listing.Uiid.Should().Be("FORCE");
         listing.Style.Should().Be(Style.Stream);
         listing.Category.Should().Be(Category.VolumeBased);
-        listing.MethodName.Should().Be("ToForceIndex");
+        listing.MethodName.Should().Be("ToForceIndexHub");
 
         listing.Parameters.Should().NotBeNull();
         listing.Parameters.Should().HaveCount(1);
