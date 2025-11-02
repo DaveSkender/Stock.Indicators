@@ -18,11 +18,11 @@ public class SmiHub
     private readonly RollingWindowMin<double> _lowWindow;
 
     // State variables for incremental calculation
-    private double lastSmEma1;
-    private double lastSmEma2;
-    private double lastHlEma1;
-    private double lastHlEma2;
-    private double lastSignal;
+    private double lastSmEma1 = double.NaN;
+    private double lastSmEma2 = double.NaN;
+    private double lastHlEma1 = double.NaN;
+    private double lastHlEma2 = double.NaN;
+    private double lastSignal = double.NaN;
 
     #endregion fields
 
@@ -124,8 +124,8 @@ public class SmiHub
             double sm = close - (0.5d * (hH + lL));
             double hl = hH - lL;
 
-            // Initialize last EMA values on first calculation
-            if (i == LookbackPeriods - 1)
+            // Initialize last EMA values when no prior state exists
+            if (double.IsNaN(lastSmEma1))
             {
                 lastSmEma1 = sm;
                 lastSmEma2 = lastSmEma1;
@@ -144,8 +144,8 @@ public class SmiHub
             // Stochastic momentum index
             smi = 100 * (smEma2 / (0.5 * hlEma2));
 
-            // Initialize signal line on first calculation
-            if (i == LookbackPeriods - 1)
+            // Initialize signal line when no prior state exists
+            if (double.IsNaN(lastSignal))
             {
                 lastSignal = smi;
             }
@@ -186,11 +186,11 @@ public class SmiHub
     protected override void RollbackState(DateTime timestamp)
     {
         // Reset state variables
-        lastSmEma1 = 0;
-        lastSmEma2 = 0;
-        lastHlEma1 = 0;
-        lastHlEma2 = 0;
-        lastSignal = 0;
+        lastSmEma1 = double.NaN;
+        lastSmEma2 = double.NaN;
+        lastHlEma1 = double.NaN;
+        lastHlEma2 = double.NaN;
+        lastSignal = double.NaN;
 
         // Clear rolling windows
         _highWindow.Clear();
@@ -233,8 +233,8 @@ public class SmiHub
                 double sm = close - (0.5d * (hH + lL));
                 double hl = hH - lL;
 
-                // Initialize last EMA values on first calculation
-                if (p == LookbackPeriods - 1)
+                // Initialize last EMA values when no prior state exists
+                if (double.IsNaN(lastSmEma1))
                 {
                     lastSmEma1 = sm;
                     lastSmEma2 = lastSmEma1;
@@ -253,8 +253,8 @@ public class SmiHub
                 // Stochastic momentum index
                 double smi = 100 * (smEma2 / (0.5 * hlEma2));
 
-                // Initialize signal line on first calculation
-                if (p == LookbackPeriods - 1)
+                // Initialize signal line when no prior state exists
+                if (double.IsNaN(lastSignal))
                 {
                     lastSignal = smi;
                 }
