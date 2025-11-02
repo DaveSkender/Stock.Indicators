@@ -15,6 +15,7 @@ public sealed class RollingWindowMax<T> where T : IComparable<T>
     private readonly int _capacity;
     private readonly Queue<T> _window;
     private readonly LinkedList<T> _deque;
+    private int _nanCount; // Track NaN values in the window
 
     /// <summary>
     /// Initializes a new instance of the <see cref="RollingWindowMax{T}"/> class.
@@ -33,20 +34,48 @@ public sealed class RollingWindowMax<T> where T : IComparable<T>
         _capacity = capacity;
         _window = new Queue<T>(capacity);
         _deque = new LinkedList<T>();
+        _nanCount = 0;
     }
 
     /// <summary>
     /// Gets the current maximum value in the rolling window.
     /// </summary>
     /// <value>
-    /// The maximum value.
+    /// The maximum value. Returns NaN (for numeric types) if any NaN values are present in the window.
     /// </value>
     /// <exception cref="InvalidOperationException">
     /// Thrown if the window is empty.
     /// </exception>
-    public T Max => _deque.Count == 0
-        ? throw new InvalidOperationException("Cannot retrieve maximum from an empty rolling window.")
-        : _deque.First!.Value;
+    public T Max
+    {
+        get {
+            if (_window.Count == 0)
+            {
+                throw new InvalidOperationException("Cannot retrieve maximum from an empty rolling window.");
+            }
+
+            // If NaN is present in the window, return NaN for numeric types
+            if (_nanCount > 0)
+            {
+                if (typeof(T) == typeof(double))
+                {
+                    return (T)(object)double.NaN;
+                }
+
+                if (typeof(T) == typeof(float))
+                {
+                    return (T)(object)float.NaN;
+                }
+            }
+
+            if (_deque.Count == 0)
+            {
+                throw new InvalidOperationException("Cannot retrieve maximum from an empty rolling window.");
+            }
+
+            return _deque.First!.Value;
+        }
+    }
 
     /// <summary>
     /// Gets the current number of elements in the rolling window.
@@ -61,31 +90,45 @@ public sealed class RollingWindowMax<T> where T : IComparable<T>
     /// If the window is full, the oldest value is automatically removed.
     /// The operation maintains the monotonic decreasing property of the deque,
     /// ensuring O(1) amortized time complexity.
+    /// NaN values are accepted and will cause Max to return NaN when present in the window.
     /// </remarks>
     public void Add(T value)
     {
-        // Reject NaN values to keep the deque invariant.
-        ValidateNotNaN(value);
+        // Check for NaN - if present, track it
+        bool isNaN = IsNaN(value);
+        if (isNaN)
+        {
+            _nanCount++;
+        }
 
         // Add to window
         _window.Enqueue(value);
 
-        // Remove elements from back of deque that are smaller than the new value
-        while (_deque.Count > 0 && _deque.Last!.Value.CompareTo(value) < 0)
+        if (!isNaN)
         {
-            _deque.RemoveLast();
-        }
+            // Remove elements from back of deque that are smaller than the new value
+            while (_deque.Count > 0 && _deque.Last!.Value.CompareTo(value) < 0)
+            {
+                _deque.RemoveLast();
+            }
 
-        // Add new value to back of deque
-        _deque.AddLast(value);
+            // Add new value to back of deque
+            _deque.AddLast(value);
+        }
 
         // Remove oldest element if window exceeds capacity
         if (_window.Count > _capacity)
         {
             T oldValue = _window.Dequeue();
+            bool oldIsNaN = IsNaN(oldValue);
+
+            if (oldIsNaN)
+            {
+                _nanCount--;
+            }
 
             // Remove from front of deque if it was the oldest maximum
-            if (_deque.Count > 0 && _deque.First!.Value.CompareTo(oldValue) == 0)
+            if (!oldIsNaN && _deque.Count > 0 && _deque.First!.Value.CompareTo(oldValue) == 0)
             {
                 _deque.RemoveFirst();
             }
@@ -99,18 +142,12 @@ public sealed class RollingWindowMax<T> where T : IComparable<T>
     {
         _window.Clear();
         _deque.Clear();
+        _nanCount = 0;
     }
 
-    private static void ValidateNotNaN(T value)
+    private static bool IsNaN(T value)
     {
-        if (value is double d && double.IsNaN(d))
-        {
-            throw new ArgumentException("Rolling window cannot accept NaN values.", nameof(value));
-        }
-
-        if (value is float f && float.IsNaN(f))
-        {
-            throw new ArgumentException("Rolling window cannot accept NaN values.", nameof(value));
-        }
+        return (value is double d && double.IsNaN(d))
+            || (value is float f && float.IsNaN(f));
     }
 }
