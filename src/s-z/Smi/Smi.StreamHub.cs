@@ -20,7 +20,6 @@ public sealed class SmiHub
     private double _lastHlEma1;
     private double _lastHlEma2;
     private double _lastSignal;
-    private bool _isInitialized;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="SmiHub"/> class.
@@ -53,8 +52,6 @@ public sealed class SmiHub
         // Initialize rolling windows for O(1) high/low tracking
         _highWindow = new RollingWindowMax<double>(lookbackPeriods);
         _lowWindow = new RollingWindowMin<double>(lookbackPeriods);
-
-        _isInitialized = false;
 
         Reinitialize();
     }
