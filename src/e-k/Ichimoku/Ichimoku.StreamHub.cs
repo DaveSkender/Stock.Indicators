@@ -265,7 +265,10 @@ public class IchimokuHub
         kijunLowWindow.Clear();
 
         int index = ProviderCache.IndexGte(timestamp);
-        if (index <= 0) return;
+        if (index <= 0) 
+        {
+            return;
+        }
 
         int targetIndex = index - 1;
 
