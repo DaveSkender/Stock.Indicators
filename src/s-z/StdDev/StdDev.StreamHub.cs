@@ -56,9 +56,9 @@ public class StdDevHub
 
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
-        // Calculate StdDev efficiently using rolling window over ProviderCache
-        // This is O(lookbackPeriods) which is constant for a given configuration
-        // and maintains exact precision with Series implementation
+        // Calculate StdDev using two-pass algorithm over ProviderCache
+        // This is O(lookbackPeriods) complexity (linear in lookback period)
+        // Two-pass method is necessary for numerical stability and exact Series precision
         double? stdDev = null;
         double? mean = null;
         double? zScore = null;

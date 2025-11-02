@@ -60,7 +60,7 @@ public class StdDevTests : TestBase
 
         IndicatorResult stddevResult = listing.Results.SingleOrDefault(static r => r.DataName == "StdDev");
         stddevResult.Should().NotBeNull();
-        stddevResult?.DisplayName.Should().Be("Standard Deviation");
+        stddevResult!.DisplayName.Should().Be("Standard Deviation");
         stddevResult.IsReusable.Should().Be(true);
     }
 
@@ -89,7 +89,7 @@ public class StdDevTests : TestBase
 
         IndicatorResult stddevResult = listing.Results.SingleOrDefault(static r => r.DataName == "StdDev");
         stddevResult.Should().NotBeNull();
-        stddevResult?.DisplayName.Should().Be("Standard Deviation");
+        stddevResult!.DisplayName.Should().Be("Standard Deviation");
         stddevResult.IsReusable.Should().Be(true);
     }
 }
