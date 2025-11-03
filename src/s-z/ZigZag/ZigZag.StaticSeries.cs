@@ -273,8 +273,9 @@ public static partial class ZigZag
                 lastLowPoint.Value = nextPoint.Value;
                 break;
 
+            default:
                 // no action needed for other cases
-
+                break;
         }
 
         // nothing to draw cases
@@ -317,7 +318,11 @@ public static partial class ZigZag
                         + (increment * (index - priorPoint.Index));
 
                     results[i] = r with { RetraceLow = retraceLow };
-                    break; // do nothing
+                    break;
+
+                default:
+                    // no action needed for other cases
+                    break;
             }
         }
     }

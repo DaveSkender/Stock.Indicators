@@ -61,6 +61,24 @@ See [Utilities and helpers]({{site.baseurl}}/utilities#utilities-for-indicator-r
 
 ## Streaming
 
+### Real-time streaming
+
+Use the streaming hub for real-time incremental calculations:
+
+```csharp
+QuoteHub quoteHub = new();
+HtTrendlineHub htlHub = quoteHub.ToHtTrendlineHub();
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  quoteHub.Add(quote);
+}
+
+IReadOnlyList<HtlResult> results = htlHub.Results;
+```
+
+### Buffer-style streaming
+
 Use the buffer-style `List<T>` when you need incremental calculations:
 
 ```csharp

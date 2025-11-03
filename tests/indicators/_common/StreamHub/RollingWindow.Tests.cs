@@ -15,7 +15,7 @@ public class RollingWindowTests : TestBase
         window.Add(double.NaN);
 
         // Assert: Max should return NaN when NaN is in window
-        double max = window.Max;
+        double max = window.GetMax();
         max.Should().Be(double.NaN);
     }
 
@@ -32,7 +32,7 @@ public class RollingWindowTests : TestBase
         window.Add(30.0); // This evicts the NaN
 
         // Assert: Max should return normal value after NaN is evicted
-        double max = window.Max;
+        double max = window.GetMax();
         max.Should().Be(30.0);
     }
 
@@ -48,7 +48,7 @@ public class RollingWindowTests : TestBase
         window.Add(double.NaN);
 
         // Assert: Min should return NaN when NaN is in window
-        double min = window.Min;
+        double min = window.GetMin();
         min.Should().Be(double.NaN);
     }
 
@@ -65,7 +65,7 @@ public class RollingWindowTests : TestBase
         window.Add(30.0); // This evicts the NaN
 
         // Assert: Min should return normal value after NaN is evicted
-        double min = window.Min;
+        double min = window.GetMin();
         min.Should().Be(10.0);
     }
 
@@ -83,7 +83,7 @@ public class RollingWindowTests : TestBase
         window.Add(30.0);
 
         // Assert: Max should return NaN when multiple NaN values are in window
-        double max = window.Max;
+        double max = window.GetMax();
         max.Should().Be(double.NaN);
     }
 
@@ -100,7 +100,7 @@ public class RollingWindowTests : TestBase
         window.Add(3.0);  // Evicts second NaN
 
         // Assert: Min should work normally after all NaN values evicted
-        double min = window.Min;
+        double min = window.GetMin();
         min.Should().Be(3.0);
     }
 
@@ -118,7 +118,7 @@ public class RollingWindowTests : TestBase
         window.Add(15.0);
 
         // Assert: Max should work normally after clear
-        double max = window.Max;
+        double max = window.GetMax();
         max.Should().Be(15.0);
     }
 }
