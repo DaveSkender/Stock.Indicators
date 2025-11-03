@@ -8,9 +8,6 @@ public class RenkoatrTests : RegressionTestBase<RenkoResult>
     [TestMethod]
     public override void Series() => Quotes.ToRenkoAtr().AssertEquals(Expected);
 
-    [TestMethod]
-    public override void Buffer() => Assert.Inconclusive("BufferList not implemented - requires full dataset recalculation on each add");
-
-    [TestMethod]
-    public override void Stream() => Assert.Inconclusive("StreamHub not implemented - requires full dataset recalculation on each add");
+    public override void Buffer() => throw new NotImplementedException("Intentionally not implemented");
+    public override void Stream() => throw new NotImplementedException("Intentionally not implemented");
 }
