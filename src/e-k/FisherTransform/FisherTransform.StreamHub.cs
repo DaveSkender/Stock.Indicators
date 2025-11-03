@@ -79,8 +79,8 @@ public class FisherTransformHub
 
         if (_priceMaxWindow.Count > 0)
         {
-            maxPrice = _priceMaxWindow.Max;
-            minPrice = _priceMinWindow.Min;
+            maxPrice = _priceMaxWindow.GetMax();
+            minPrice = _priceMinWindow.GetMin();
         }
         else
         {

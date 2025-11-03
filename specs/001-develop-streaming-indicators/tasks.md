@@ -155,7 +155,7 @@ Note on former deferrals: Some indicators were previously marked as deferred due
 - [x] **T045** Implement Mfi BufferList in `src/m-r/Mfi/Mfi.BufferList.cs` ✅
 - [x] **T046** Implement Obv BufferList in `src/m-r/Obv/Obv.BufferList.cs` ✅
 - [x] **T047** Implement ParabolicSar BufferList in `src/m-r/ParabolicSar/ParabolicSar.BufferList.cs` ✅
-- [ ] **T048** Implement PivotPoints BufferList in `src/m-r/PivotPoints/PivotPoints.BufferList.cs`
+- [x] **T048** Implement PivotPoints BufferList in `src/m-r/PivotPoints/PivotPoints.BufferList.cs` ✅
 - [x] **T049** Implement Pivots BufferList in `src/m-r/Pivots/Pivots.BufferList.cs` ✅
 - [x] **T050** Implement Pmo BufferList in `src/m-r/Pmo/Pmo.BufferList.cs` ✅
 - [x] **T051** Implement Prs BufferList in `src/m-r/Prs/Prs.BufferList.cs` ✅
@@ -192,7 +192,7 @@ Note on former deferrals: Some indicators were previously marked as deferred due
 - [x] **T082** Implement Vwma BufferList in `src/s-z/Vwma/Vwma.BufferList.cs` ✅
 - [x] **T083** Implement WilliamsR BufferList in `src/s-z/WilliamsR/WilliamsR.BufferList.cs` ✅
 - [x] **T084** Implement Wma BufferList in `src/s-z/Wma/Wma.BufferList.cs` ✅
-- [x] **T085** Implement ZigZag BufferList in `src/s-z/ZigZag/ZigZag.BufferList.cs` ✅
+- [ ] **T085** (human only) Implement ZigZag BufferList in `src/s-z/ZigZag/ZigZag.BufferList.cs` ✅
 
 **BufferList**: 73/85 complete, 12 remaining
 
@@ -269,8 +269,8 @@ Note on former deferrals: Indicators like Fractal, HtTrendline, Hurst, Ichimoku,
 - [x] **T144** Implement Rsi StreamHub in `src/m-r/Rsi/Rsi.StreamHub.cs` ✅
 - [ ] **T145** Implement Slope StreamHub in `src/s-z/Slope/Slope.StreamHub.cs` (complex but unblocked — repaint-friendly logic modeled after VolatilityStop tests and series parity)
 - [x] **T146** Implement Sma StreamHub in `src/s-z/Sma/Sma.StreamHub.cs` ✅
-- [ ] **T147** Implement SmaAnalysis StreamHub in `src/s-z/SmaAnalysis/SmaAnalysis.StreamHub.cs`
-- [ ] **T148** Implement Smi StreamHub in `src/s-z/Smi/Smi.StreamHub.cs`
+- [x] **T147** Implement SmaAnalysis StreamHub in `src/s-z/SmaAnalysis/SmaAnalysis.StreamHub.cs`
+- [x] **T148** Implement Smi StreamHub in `src/s-z/Smi/Smi.StreamHub.cs` ✅
 - [x] **T149** Implement Smma StreamHub in `src/s-z/Smma/Smma.StreamHub.cs` ✅
 - [ ] **T150** Implement StarcBands StreamHub in `src/s-z/StarcBands/StarcBands.StreamHub.cs`
 - [ ] **T151** Implement Stc StreamHub in `src/s-z/Stc/Stc.StreamHub.cs`
@@ -292,7 +292,7 @@ Note on former deferrals: Indicators like Fractal, HtTrendline, Hurst, Ichimoku,
 - [x] **T167** Implement Vwma StreamHub in `src/s-z/Vwma/Vwma.StreamHub.cs` ✅
 - [x] **T168** Implement WilliamsR StreamHub in `src/s-z/WilliamsR/WilliamsR.StreamHub.cs` ✅
 - [x] **T169** Implement Wma StreamHub in `src/s-z/Wma/Wma.StreamHub.cs` ✅
-- [ ] **T170** Implement ZigZag StreamHub in `src/s-z/ZigZag/ZigZag.StreamHub.cs`
+- [ ] **T170** (human only) Implement ZigZag StreamHub in `src/s-z/ZigZag/ZigZag.StreamHub.cs`
 
 **StreamHub**: 53/85 complete, 32 remaining
 
