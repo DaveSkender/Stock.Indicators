@@ -162,9 +162,9 @@ public class SmiHubTest : StreamHubTestBase, ITestQuoteObserver, ITestChainProvi
         observer.FirstSmoothPeriods.Should().Be(testFirstSmoothPeriods);
         observer.SecondSmoothPeriods.Should().Be(testSecondSmoothPeriods);
         observer.SignalPeriods.Should().Be(testSignalPeriods);
-        observer.K1.Should().BeApproximately(2d / (testFirstSmoothPeriods + 1), 1e-10);
-        observer.K2.Should().BeApproximately(2d / (testSecondSmoothPeriods + 1), 1e-10);
-        observer.KS.Should().BeApproximately(2d / (testSignalPeriods + 1), 1e-10);
+        observer.K1.Should().Be(2d / (testFirstSmoothPeriods + 1));
+        observer.K2.Should().Be(2d / (testSecondSmoothPeriods + 1));
+        observer.KS.Should().Be(2d / (testSignalPeriods + 1));
         observer.ToString().Should().Be($"SMI({testLookbackPeriods},{testFirstSmoothPeriods},{testSecondSmoothPeriods},{testSignalPeriods})");
     }
 
