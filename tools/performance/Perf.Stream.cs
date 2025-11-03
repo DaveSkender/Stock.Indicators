@@ -104,6 +104,7 @@ public class StreamIndicators
     [Benchmark] public object SmiHub() => quoteHub.ToSmiHub(13, 25, 2, 3).Results;
     [Benchmark] public object SmaAnalysisHub() => quoteHub.ToSmaAnalysisHub(20).Results;
     [Benchmark] public object SmmaHub() => quoteHub.ToSmmaHub(n).Results;
+    [Benchmark] public object StarcBandsHub() => quoteHub.ToStarcBandsHub(5, 2, 10).Results;
     [Benchmark] public object StcHub() => quoteHub.ToStcHub(10, 23, 50).Results;
     [Benchmark] public object StdDevHub() => quoteHub.ToStdDevHub(n).Results;
     [Benchmark] public object StochHub() => quoteHub.ToStochHub(n, 3, 3).Results;
