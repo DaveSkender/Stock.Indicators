@@ -1,7 +1,7 @@
 namespace BufferLists;
 
 [TestClass]
-public class SuperTrend : BufferListTestBase
+public class SuperTrend : BufferListTestBase, ITestQuoteBufferList
 {
     private const int lookbackPeriods = 10;
     private const double multiplier = 3;
@@ -10,7 +10,7 @@ public class SuperTrend : BufferListTestBase
        = Quotes.ToSuperTrend(lookbackPeriods, multiplier);
 
     [TestMethod]
-    public void AddQuotes()
+    public void AddQuote_IncrementsResults()
     {
         SuperTrendList sut = new(lookbackPeriods, multiplier);
 
@@ -24,16 +24,16 @@ public class SuperTrend : BufferListTestBase
     }
 
     [TestMethod]
-    public void AddQuotesBatch()
+    public void AddQuotesBatch_IncrementsResults()
     {
-        SuperTrendList sut = Quotes.ToSuperTrendList(lookbackPeriods, multiplier);
+        SuperTrendList sut = new(lookbackPeriods, multiplier) { Quotes };
 
         sut.Should().HaveCount(Quotes.Count);
         sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
     }
 
     [TestMethod]
-    public void WithQuotesCtor()
+    public void QuotesCtor_OnInstantiation_IncrementsResults()
     {
         SuperTrendList sut = new(lookbackPeriods, multiplier, Quotes);
 

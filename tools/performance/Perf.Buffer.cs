@@ -95,5 +95,4 @@ public class BufferIndicators
     [Benchmark] public VwmaList VwmaList() => new(n) { q };
     [Benchmark] public WilliamsRList WilliamsRList() => new() { q };
     [Benchmark] public WmaList WmaList() => new(n) { q };
-    [Benchmark] public ZigZagList ZigZagList() => new() { q };
 }

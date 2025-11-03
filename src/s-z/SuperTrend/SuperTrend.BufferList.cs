@@ -160,5 +160,5 @@ public static partial class SuperTrend
         this IReadOnlyList<IQuote> quotes,
         int lookbackPeriods = 10,
         double multiplier = 3)
-        => new(lookbackPeriods, multiplier) { quotes };
+        => new(lookbackPeriods, multiplier, quotes);
 }

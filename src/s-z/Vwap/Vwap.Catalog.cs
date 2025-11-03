@@ -10,7 +10,7 @@ public static partial class Vwap
             .WithName("Volume Weighted Average Price")
             .WithId("VWAP")
             .WithCategory(Category.PriceChannel)
-            .AddDateParameter("startDate", "Start Date", description: "Starting date for VWAP calculation", isRequired: true)
+            .AddDateParameter("startDate", "Start Date", description: "Starting date for VWAP calculation", isRequired: false)
             .AddResult("Vwap", "VWAP", ResultType.Default, isReusable: true)
             .AddResult("UpperBand", "Upper Band", ResultType.Default)
             .AddResult("LowerBand", "Lower Band", ResultType.Default)
@@ -34,5 +34,12 @@ public static partial class Vwap
             .WithMethodName("ToVwapList")
             .Build();
 
-    // No StreamListing for VWAP.
+    /// <summary>
+    /// VWAP Stream Listing
+    /// </summary>
+    internal static readonly IndicatorListing StreamListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Stream)
+            .WithMethodName("ToVwapHub")
+            .Build();
 }

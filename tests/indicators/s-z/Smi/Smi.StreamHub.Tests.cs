@@ -1,12 +1,15 @@
 namespace StreamHub;
 
 [TestClass]
-public class Smi : StreamHubTestBase, ITestQuoteObserver
+public class SmiHubTest : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
 {
     private const int lookbackPeriods = 13;
     private const int firstSmoothPeriods = 25;
     private const int secondSmoothPeriods = 2;
     private const int signalPeriods = 3;
+
+    private static readonly IReadOnlyList<SmiResult> expectedOriginal
+        = Quotes.ToSmi(lookbackPeriods, firstSmoothPeriods, secondSmoothPeriods, signalPeriods);
 
     [TestMethod]
     public void QuoteObserver()
@@ -22,10 +25,7 @@ public class Smi : StreamHubTestBase, ITestQuoteObserver
 
         // initialize observer
         SmiHub observer = quoteHub.ToSmiHub(
-            lookbackPeriods,
-            firstSmoothPeriods,
-            secondSmoothPeriods,
-            signalPeriods);
+            lookbackPeriods, firstSmoothPeriods, secondSmoothPeriods, signalPeriods);
 
         // fetch initial results (early)
         IReadOnlyList<SmiResult> actuals = observer.Results;
@@ -45,23 +45,13 @@ public class Smi : StreamHubTestBase, ITestQuoteObserver
 
         // late arrival, should equal series
         quoteHub.Insert(quotesList[80]);
-
-        IReadOnlyList<SmiResult> expectedOriginal = Quotes.ToSmi(
-            lookbackPeriods,
-            firstSmoothPeriods,
-            secondSmoothPeriods,
-            signalPeriods);
-
         actuals.Should().BeEquivalentTo(expectedOriginal, static options => options.WithStrictOrdering());
 
         // delete, should equal series (revised)
         quoteHub.Remove(quotesList[removeAtIndex]);
 
         IReadOnlyList<SmiResult> expectedRevised = RevisedQuotes.ToSmi(
-            lookbackPeriods,
-            firstSmoothPeriods,
-            secondSmoothPeriods,
-            signalPeriods);
+            lookbackPeriods, firstSmoothPeriods, secondSmoothPeriods, signalPeriods);
 
         actuals.Should().HaveCount(501);
         actuals.Should().BeEquivalentTo(expectedRevised, static options => options.WithStrictOrdering());
@@ -72,15 +62,51 @@ public class Smi : StreamHubTestBase, ITestQuoteObserver
     }
 
     [TestMethod]
+    public void ChainProvider()
+    {
+        // SMI emits IReusable results (SmiResult implements IReusable with Value = Smi),
+        // so it can act as a chain provider for downstream indicators.
+
+        const int emaPeriods = 10;
+
+        List<Quote> quotesList = Quotes.ToList();
+
+        // setup quote provider hub
+        QuoteHub quoteHub = new();
+
+        // initialize chain: SMI then EMA over its Value
+        EmaHub observer = quoteHub
+            .ToSmiHub(lookbackPeriods, firstSmoothPeriods, secondSmoothPeriods, signalPeriods)
+            .ToEmaHub(emaPeriods);
+
+        // stream quotes
+        foreach (Quote q in quotesList)
+        {
+            quoteHub.Add(q);
+        }
+
+        // results from stream
+        IReadOnlyList<EmaResult> streamList = observer.Results;
+
+        // time-series parity
+        IReadOnlyList<EmaResult> seriesList = quotesList
+            .ToSmi(lookbackPeriods, firstSmoothPeriods, secondSmoothPeriods, signalPeriods)
+            .ToEma(emaPeriods);
+
+        streamList.Should().HaveCount(seriesList.Count);
+        streamList.Should().BeEquivalentTo(seriesList, static o => o.WithStrictOrdering());
+
+        observer.Unsubscribe();
+        quoteHub.EndTransmission();
+    }
+
+    [TestMethod]
     public override void CustomToString()
     {
-        SmiHub hub = new(
-            new QuoteHub(),
-            lookbackPeriods,
-            firstSmoothPeriods,
-            secondSmoothPeriods,
-            signalPeriods);
+        QuoteHub quoteHub = new();
 
+        SmiHub hub = new(
+            quoteHub, lookbackPeriods, firstSmoothPeriods, secondSmoothPeriods, signalPeriods);
         hub.ToString().Should().Be($"SMI({lookbackPeriods},{firstSmoothPeriods},{secondSmoothPeriods},{signalPeriods})");
     }
 
@@ -136,6 +162,9 @@ public class Smi : StreamHubTestBase, ITestQuoteObserver
         observer.FirstSmoothPeriods.Should().Be(testFirstSmoothPeriods);
         observer.SecondSmoothPeriods.Should().Be(testSecondSmoothPeriods);
         observer.SignalPeriods.Should().Be(testSignalPeriods);
+        observer.K1.Should().Be(2d / (testFirstSmoothPeriods + 1));
+        observer.K2.Should().Be(2d / (testSecondSmoothPeriods + 1));
+        observer.KS.Should().Be(2d / (testSignalPeriods + 1));
         observer.ToString().Should().Be($"SMI({testLookbackPeriods},{testFirstSmoothPeriods},{testSecondSmoothPeriods},{testSignalPeriods})");
     }
 

@@ -153,9 +153,18 @@ public static partial class Adx
             {
                 adx = ((prevAdx * (lookbackPeriods - 1)) + dx) / lookbackPeriods;
 
-                double priorAdx = results[i - lookbackPeriods + 1].Adx.Null2NaN();
+                // Calculate ADXR only if we have a valid prior ADX value
+                int priorAdxIndex = i - lookbackPeriods;
+                if (priorAdxIndex >= (2 * lookbackPeriods) - 1)
+                {
+                    double priorAdx = results[priorAdxIndex].Adx.Null2NaN();
 
-                adxr = (adx + priorAdx) / 2;
+                    // Only compute ADXR if prior ADX actually exists
+                    if (!double.IsNaN(priorAdx))
+                    {
+                        adxr = (adx + priorAdx) / 2;
+                    }
+                }
 
                 prevAdx = adx;
             }

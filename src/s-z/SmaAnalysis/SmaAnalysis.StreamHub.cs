@@ -96,8 +96,7 @@ public class SmaAnalysisHub
                     sumMad += Math.Abs(value - sma.Value);
                     sumMse += (value - sma.Value) * (value - sma.Value);
 
-                    const double epsilon = 1e-8;
-                    sumMape += Math.Abs(value) < epsilon ? double.NaN : Math.Abs(value - sma.Value) / value;
+                    sumMape += value != 0 ? Math.Abs(value - sma.Value) / value : double.NaN;
                 }
 
                 mad = (sumMad / LookbackPeriods).NaN2Null();
