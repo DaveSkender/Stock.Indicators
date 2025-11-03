@@ -10,7 +10,6 @@ public static partial class Bop
             .WithName("Balance of Power (BOP)")
             .WithId("BOP")
             .WithCategory(Category.Oscillator)
-            .WithMethodName("ToBop")
             .AddParameter<int>("smoothPeriods", "Smooth Periods", defaultValue: 14, minimum: 1, maximum: 250)
             .AddResult("Bop", "BOP", ResultType.Default, isReusable: true)
             .Build();
@@ -21,6 +20,7 @@ public static partial class Bop
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
+            .WithMethodName("ToBop")
             .Build();
 
     // No StreamListing for BOP.

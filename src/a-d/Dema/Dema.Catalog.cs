@@ -10,7 +10,6 @@ public static partial class Dema
             .WithName("Double Exponential Moving Average")
             .WithId("DEMA")
             .WithCategory(Category.MovingAverage)
-            .WithMethodName("ToDema")
             .AddParameter<int>("lookbackPeriods", "Lookback Periods", description: "Number of periods for the DEMA calculation", isRequired: false, defaultValue: 14, minimum: 2, maximum: 250)
             .AddResult("Dema", "DEMA", ResultType.Default, isReusable: true)
             .Build();
@@ -21,6 +20,7 @@ public static partial class Dema
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
+            .WithMethodName("ToDema")
             .Build();
 
     /// <summary>
@@ -29,6 +29,7 @@ public static partial class Dema
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
+            .WithMethodName("ToDemaHub")
             .Build();
 
     /// <summary>
@@ -37,5 +38,6 @@ public static partial class Dema
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)
+            .WithMethodName("ToDemaList")
             .Build();
 }

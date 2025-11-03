@@ -65,4 +65,25 @@ public class SmiTests : TestBase
         listing.Results.Should().NotBeNull();
         listing.Results.Should().HaveCount(2);
     }
+
+    [TestMethod]
+    public void SmiStreamListing()
+    {
+        // Act
+        IndicatorListing listing = Smi.StreamListing;
+
+        // Assert
+        listing.Should().NotBeNull();
+        listing.Name.Should().Be("Stochastic Momentum Index");
+        listing.Uiid.Should().Be("SMI");
+        listing.Style.Should().Be(Style.Stream);
+        listing.Category.Should().Be(Category.Oscillator);
+        listing.MethodName.Should().Be("ToSmiHub");
+
+        listing.Parameters.Should().NotBeNull();
+        listing.Parameters.Should().HaveCount(4);
+
+        listing.Results.Should().NotBeNull();
+        listing.Results.Should().HaveCount(2);
+    }
 }
