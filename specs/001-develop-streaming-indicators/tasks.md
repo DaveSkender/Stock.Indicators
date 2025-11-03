@@ -173,9 +173,9 @@ Note on former deferrals: Some indicators were previously marked as deferred due
 - [x] **T063** Implement Smi BufferList in `src/s-z/Smi/Smi.BufferList.cs` ✅
 - [x] **T064** Implement Smma BufferList in `src/s-z/Smma/Smma.BufferList.cs` ✅
 - [x] **T065** Implement StarcBands BufferList in `src/s-z/StarcBands/StarcBands.BufferList.cs` ✅
-- [ ] **T066** Implement Stc BufferList in `src/s-z/Stc/Stc.BufferList.cs`
+- [x] **T066** Implement Stc BufferList in `src/s-z/Stc/Stc.BufferList.cs` ✅
 - [x] **T067** Implement StdDev BufferList in `src/s-z/StdDev/StdDev.BufferList.cs` ✅
-- [x] **T068** Implement StdDevChannels BufferList in `src/s-z/StdDevChannels/StdDevChannels.BufferList.cs` ✅
+- [ ] **T068** ~~Implement StdDevChannels BufferList~~ **NOT IMPLEMENTED** — Repaint-by-design algorithm recalculates entire dataset (O(n²)) on each new data point, making incremental streaming impractical. Series-only implementation maintained.
 - [x] **T069** Implement Stoch BufferList in `src/s-z/Stoch/Stoch.BufferList.cs` ✅
 - [x] **T070** Implement StochRsi BufferList in `src/s-z/StochRsi/StochRsi.BufferList.cs` ✅
 - [x] **T071** Implement SuperTrend BufferList in `src/s-z/SuperTrend/SuperTrend.BufferList.cs` ✅
@@ -192,11 +192,11 @@ Note on former deferrals: Some indicators were previously marked as deferred due
 - [x] **T082** Implement Vwma BufferList in `src/s-z/Vwma/Vwma.BufferList.cs` ✅
 - [x] **T083** Implement WilliamsR BufferList in `src/s-z/WilliamsR/WilliamsR.BufferList.cs` ✅
 - [x] **T084** Implement Wma BufferList in `src/s-z/Wma/Wma.BufferList.cs` ✅
-- [x] **T085** Implement ZigZag BufferList in `src/s-z/ZigZag/ZigZag.BufferList.cs` ✅
+- [ ] **T085** (human only) Implement ZigZag BufferList in `src/s-z/ZigZag/ZigZag.BufferList.cs` ✅
 
-**BufferList**: 73/85 complete, 12 remaining
+**BufferList**: 73/85 complete, 12 remaining (T068 not implemented due to algorithmic constraints)
 
-**Checkpoint**: Phase 2 completion achieves complete BufferList coverage for all Series indicators
+**Checkpoint**: Phase 2 completion achieves complete BufferList coverage for all Series indicators (except StdDevChannels)
 
 ---
 
@@ -255,7 +255,7 @@ Note on former deferrals: Indicators like Fractal, HtTrendline, Hurst, Ichimoku,
 - [x] **T130** Implement Mfi StreamHub in `src/m-r/Mfi/Mfi.StreamHub.cs` ✅
 - [x] **T131** Implement Obv StreamHub in `src/m-r/Obv/Obv.StreamHub.cs` ✅
 - [x] **T132** Implement ParabolicSar StreamHub in `src/m-r/ParabolicSar/ParabolicSar.StreamHub.cs` ✅
-- [ ] **T133** Implement PivotPoints StreamHub in `src/m-r/PivotPoints/PivotPoints.StreamHub.cs`
+- [x] **T133** Implement PivotPoints StreamHub in `src/m-r/PivotPoints/PivotPoints.StreamHub.cs` ✅
 - [x] **T134** Implement Pivots StreamHub in `src/m-r/Pivots/Pivots.StreamHub.cs` ✅
 - [x] **T135** Implement Pmo StreamHub in `src/m-r/Pmo/Pmo.StreamHub.cs` ✅
 - [x] **T136** Implement Prs StreamHub in `src/m-r/Prs/Prs.StreamHub.cs` ✅
@@ -269,13 +269,13 @@ Note on former deferrals: Indicators like Fractal, HtTrendline, Hurst, Ichimoku,
 - [x] **T144** Implement Rsi StreamHub in `src/m-r/Rsi/Rsi.StreamHub.cs` ✅
 - [ ] **T145** Implement Slope StreamHub in `src/s-z/Slope/Slope.StreamHub.cs` (complex but unblocked — repaint-friendly logic modeled after VolatilityStop tests and series parity)
 - [x] **T146** Implement Sma StreamHub in `src/s-z/Sma/Sma.StreamHub.cs` ✅
-- [ ] **T147** Implement SmaAnalysis StreamHub in `src/s-z/SmaAnalysis/SmaAnalysis.StreamHub.cs`
-- [ ] **T148** Implement Smi StreamHub in `src/s-z/Smi/Smi.StreamHub.cs`
+- [x] **T147** Implement SmaAnalysis StreamHub in `src/s-z/SmaAnalysis/SmaAnalysis.StreamHub.cs`
+- [x] **T148** Implement Smi StreamHub in `src/s-z/Smi/Smi.StreamHub.cs` ✅
 - [x] **T149** Implement Smma StreamHub in `src/s-z/Smma/Smma.StreamHub.cs` ✅
 - [ ] **T150** Implement StarcBands StreamHub in `src/s-z/StarcBands/StarcBands.StreamHub.cs`
 - [ ] **T151** Implement Stc StreamHub in `src/s-z/Stc/Stc.StreamHub.cs`
 - [ ] **T152** Implement StdDev StreamHub in `src/s-z/StdDev/StdDev.StreamHub.cs`
-- [ ] **T153** Implement StdDevChannels StreamHub in `src/s-z/StdDevChannels/StdDevChannels.StreamHub.cs`
+- [ ] **T153** ~~Implement StdDevChannels StreamHub~~ **NOT IMPLEMENTED** — Repaint-by-design algorithm recalculates entire dataset (O(n²)) on each new data point, making real-time streaming impractical. Series-only implementation maintained. See user documentation for details.
 - [x] **T154** Implement Stoch StreamHub in `src/s-z/Stoch/Stoch.StreamHub.cs` ✅
 - [x] **T155** Implement StochRsi StreamHub in `src/s-z/StochRsi/StochRsi.StreamHub.cs` ✅
 - [ ] **T156** Implement SuperTrend StreamHub in `src/s-z/SuperTrend/SuperTrend.StreamHub.cs`
@@ -292,9 +292,9 @@ Note on former deferrals: Indicators like Fractal, HtTrendline, Hurst, Ichimoku,
 - [x] **T167** Implement Vwma StreamHub in `src/s-z/Vwma/Vwma.StreamHub.cs` ✅
 - [x] **T168** Implement WilliamsR StreamHub in `src/s-z/WilliamsR/WilliamsR.StreamHub.cs` ✅
 - [x] **T169** Implement Wma StreamHub in `src/s-z/Wma/Wma.StreamHub.cs` ✅
-- [ ] **T170** Implement ZigZag StreamHub in `src/s-z/ZigZag/ZigZag.StreamHub.cs`
+- [ ] **T170** (human only) Implement ZigZag StreamHub in `src/s-z/ZigZag/ZigZag.StreamHub.cs`
 
-**StreamHub**: 52/85 complete, 33 remaining (T140 not implemented due to algorithmic constraints)
+**StreamHub**: 53/85 complete, 32 remaining (T153 not implemented due to algorithmic constraints)
 
 **Checkpoint**: Phase 3 completion achieves 1:1:1 parity across all three implementation styles (Series, BufferList, StreamHub) except where algorithmically impractical
 
@@ -458,19 +458,19 @@ Each task should follow these guidelines:
 **Implementation Coverage (1:1:1 Parity)**:
 
 - **Total Series implementations**: 85 indicators (baseline)
-- **Total BufferList implementations**: 72 complete, 13 remaining (T001-T085; T055 not implemented)
-- **Total StreamHub implementations**: 52 complete, 33 remaining (T086-T170; T140 not implemented)
+- **Total BufferList implementations**: 73 complete, 12 remaining (T001-T085; T068 not implemented)
+- **Total StreamHub implementations**: 53 complete, 32 remaining (T086-T170; T153 not implemented)
 - **1:1:1 Target**: 85 BufferList + 85 StreamHub = 170 streaming implementations total (excluding algorithmically impractical indicators)
-- **Streaming implementations excluded**: RenkoAtr (BufferList + StreamHub) due to ATR requiring full dataset for final brick size
-- **Current streaming coverage**: 124/168 = **74% complete** (adjusted target excludes 2 impractical implementations)
-
+- **Streaming implementations excluded**: StdDevChannels (BufferList + StreamHub) due to repaint-by-design O(n²) recalculation
+- **Current streaming coverage**: 126/168 = **75% complete** (adjusted target excludes 2 impractical implementations)
 **Task Breakdown**:
 
 - **Phase 1**: 10 tasks (A001-A006, T171-T174) — 8 complete, 2 remaining
-- **Phase 2**: 85 BufferList implementation tasks (T001-T085) — 72 complete, 13 remaining (T055 not implemented)
-- **Phase 3**: 85 StreamHub implementation tasks (T086-T170) — 52 complete, 33 remaining (T140 not implemented)
+- **Phase 2**: 85 BufferList implementation tasks (T001-T085) — 73 complete, 12 remaining (T068 not implemented)
+- **Phase 3**: 85 StreamHub implementation tasks (T086-T170) — 53 complete, 32 remaining (T153 not implemented)
 - **Phase 4**: 17 test infrastructure tasks (T175-T185, Q001-Q006) — 0 complete, 17 remaining
 - **Phase 5**: 7 documentation tasks (D001-D007) — 2 complete, 5 remaining
-- **Total**: 204 tasks — 134 complete, 70 remaining (2 marked as not implementable due to algorithmic constraints)
+- **Total**: 204 tasks — 136 complete, 68 remaining (2 marked as not implementable due to algorithmic constraints)2 complete, 5 remaining
+- **Total**: 204 tasks — 136 complete, 68 remaining
 
 Removed blanket deferral: The above indicators are complex but unblocked with established reference patterns (see instruction files).

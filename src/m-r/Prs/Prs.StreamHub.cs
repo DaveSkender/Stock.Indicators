@@ -69,9 +69,9 @@ public class PrsHub
         double baseValue = ProviderCacheB[i].Value;
 
         // Calculate PRS (relative strength ratio)
-        double? prs = Math.Abs(baseValue) < double.Epsilon
-            ? null
-            : (evalValue / baseValue).NaN2Null();
+        double? prs = baseValue != 0
+            ? (evalValue / baseValue).NaN2Null()
+            : null;
 
         // Calculate PRS% if lookback is specified
         double? prsPercent = null;
@@ -82,7 +82,7 @@ public class PrsHub
             IReusable evalOld = ProviderCache[i - lookbackPeriods];
             IReusable baseOld = ProviderCacheB[i - lookbackPeriods];
 
-            if (Math.Abs(baseOld.Value) >= double.Epsilon && Math.Abs(evalOld.Value) >= double.Epsilon)
+            if (baseOld.Value != 0 && evalOld.Value != 0)
             {
                 double? pctBase = (baseValue - baseOld.Value) / baseOld.Value;
                 double? pctEval = (evalValue - evalOld.Value) / evalOld.Value;

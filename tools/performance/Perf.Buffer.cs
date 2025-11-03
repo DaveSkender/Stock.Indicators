@@ -77,7 +77,6 @@ public class BufferIndicators
     [Benchmark] public StarcBandsList StarcBandsList() => new(5, 2, 10) { q };
     [Benchmark] public StcList StcList() => new(10, 23, 50) { q };
     [Benchmark] public StdDevList StdDevList() => new(20) { q };
-    [Benchmark] public StdDevChannelsList StdDevChannelsList() => new(20, 2) { q };
     [Benchmark] public StochList StochList() => new(14, 3, 3) { q };
     [Benchmark] public StochRsiList StochRsiList() => new(14, 14, 3, 1) { q };
     [Benchmark] public SuperTrendList SuperTrendList() => new() { q };
@@ -94,5 +93,4 @@ public class BufferIndicators
     [Benchmark] public VwmaList VwmaList() => new(n) { q };
     [Benchmark] public WilliamsRList WilliamsRList() => new() { q };
     [Benchmark] public WmaList WmaList() => new(n) { q };
-    [Benchmark] public ZigZagList ZigZagList() => new() { q };
 }
