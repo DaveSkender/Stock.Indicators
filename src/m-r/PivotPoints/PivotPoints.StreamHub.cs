@@ -165,13 +165,14 @@ public class PivotPointsHub
             firstWindow = false;
 
             // Set new levels based on previous window
+            decimal pivotOpen = windowOpen;
             if (PointType == PivotPointType.Woodie)
             {
-                windowOpen = q.Open;
+                pivotOpen = q.Open;
             }
 
             windowPoint = PivotPoints.GetPivotPoint(
-                PointType, windowOpen, windowHigh, windowLow, windowClose);
+                PointType, pivotOpen, windowHigh, windowLow, windowClose);
 
             // Reset window min/max thresholds
             windowOpen = q.Open;
