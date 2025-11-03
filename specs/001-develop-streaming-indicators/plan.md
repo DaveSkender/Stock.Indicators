@@ -359,18 +359,19 @@ The following enhancements are tracked in spec.md P4 user stories but deferred u
 **Task generation strategy**:
 
 - Load Phase 1 contracts and data model
-- Generate tasks per indicator per style (5 indicators × 2 styles = 10 implementation groups)
+- Generate tasks per indicator per style (85 indicators × 2 styles = 170 implementation groups)
 - Each group: interface → BufferList impl → BufferList tests → StreamHub impl → StreamHub tests
 - Mark [P] for parallel execution across different indicators
 - Sequential within each indicator (tests depend on impl)
 
 **Ordering strategy**:
 
-- Common infrastructure first (IStreamingIndicator, StreamingState, test helpers)
-- Then per-indicator rollout: SMA → EMA → RSI → MACD → Bollinger Bands
+- Common infrastructure first (compliance audits, instruction file updates)
+- Then per-indicator rollout across all 85 Series indicators
 - Tests before marking implementation complete (TDD)
+- Alphabetical grouping (a-d, e-k, m-r, s-z) enables parallel development
 
-**Estimated output**: ~40 tasks (infrastructure + 5 indicators × 2 styles × 3 tasks each)
+**Estimated output**: 214 tasks (10 infrastructure + 85 BufferList + 85 StreamHub + 17 test infrastructure + 7 documentation + 10 P4 enhancements)
 
 ## Phase 3+: Future implementation
 
@@ -379,6 +380,14 @@ The following enhancements are tracked in spec.md P4 user stories but deferred u
 **Phase 3**: Task execution (/tasks command creates tasks.md)  
 **Phase 4**: Implementation (execute tasks.md following constitutional principles)  
 **Phase 5**: Validation (run tests, performance validation, documentation review)
+
+> **CRITICAL**: Phase 4 test infrastructure tasks (T175-T185, Q001-Q006) are **mandatory quality gates** that MUST complete before declaring feature production-ready. These tasks validate:
+> - Performance benchmarks meet NFR-001 latency targets (<5ms mean, <10ms p95)
+> - Memory overhead meets NFR-002 targets (<10KB per instance)
+> - Test interface compliance across all StreamHub implementations
+> - Public API approval tests pass without breaking changes
+> 
+> Current status: 0/17 Phase 4 tasks complete. Do not skip these validations—they enforce Constitution Principle 5 (Documentation Excellence) and Principle 2 (Performance First).
 
 ## v3 Milestone Issues Outside Project Scope
 

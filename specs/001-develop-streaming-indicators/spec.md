@@ -36,7 +36,7 @@ As a developer building real-time trading applications, I need indicators that u
 - **FR-007**: BufferList style MUST use List-backed storage with O(1) append and bounded size enforcement
 - **FR-008**: StreamHub style MUST optimize for high-frequency scenarios with span-based buffers and minimal allocations
 - **FR-009**: Streaming indicators MUST provide a method to reset state and reinitialize warmup
-- **FR-010**: Library MUST include streaming variants for all feasible Series-based indicators. Initial set (SMA, EMA, RSI, MACD, Bollinger Bands) serves as reference implementations for pattern validation; full deployment targets 80 implementable indicators across 97 implementation tasks (T001-T055 BufferList + T061-T107 StreamHub excluding 5 deferred indicators), excluding 5 indicators deferred to v2 due to streaming incompatibility (Fractal, HtTrendline, Hurst, Ichimoku, Slope).
+- **FR-010**: Library MUST include streaming variants for all feasible Series-based indicators. Reference implementations (SMA, EMA fully complete with docs; RSI, MACD, Bollinger Bands complete but documentation pending) establish patterns for pattern validation; full deployment targets 85 implementable indicators across 170 implementation tasks (T001-T085 BufferList + T086-T170 StreamHub), excluding 3 indicators due to algorithmic incompatibility (RenkoAtr, StdDevChannels repaint-by-design O(n²); ZigZag human-only complexity).
 
 ### Non-functional requirements
 
@@ -88,7 +88,7 @@ See `.github/instructions/indicator-buffer.instructions.md` for complete impleme
 
 ### Initial Scope (Phase 1)
 
-The streaming framework targets comprehensive coverage across the library's indicator catalog. Initial implementation focuses on establishing patterns and infrastructure through systematic rollout.
+The streaming framework targets comprehensive coverage across the library's indicator catalog. Implementation establishes patterns and infrastructure through systematic alphabetical rollout.
 
 ### Priority 4 Enhancements (Post-Initial Coverage)
 
@@ -100,12 +100,13 @@ After achieving comprehensive BufferList and StreamHub coverage, the following e
 
 ### Target Coverage
 
-- **Total indicators with Series implementations**: ~85 (80 implementable + 5 deferred to v2)
-- **BufferList target**: 50 indicators requiring streaming support (excludes 5 deferred)
-- **StreamHub target**: 47 indicators requiring streaming support (excludes 5 deferred)  
-- **Implementation tasks**: 97 (T001-T107: 50 BufferList + 47 StreamHub, excluding deferred)
-- **Supporting tasks**: 20 (D001-D007 + T108-T109 documentation, Q001-Q006 quality gates, T110-T124 compliance)
-- **Total tasks**: 117 (97 implementation + 20 supporting)
+- **Total indicators with Series implementations**: 85 (all implementable via streaming)
+- **BufferList target**: 85 indicators (82 complete, 3 remaining: T055/T068 not implementing, T085 human-only)
+- **StreamHub target**: 85 indicators (79 complete, 6 remaining: T108/T145 implementable, T140/T153 not implementing, T170 human-only)
+- **Implementation tasks**: 170 (T001-T085 BufferList + T086-T170 StreamHub)
+- **Supporting tasks**: 44 (10 infrastructure A001-A006/T171-T174 + 17 test infrastructure T175-T185/Q001-Q006 + 7 documentation D001-D007 + 10 enhancements E001-E010)
+- **Total tasks**: 214 (170 implementation + 44 supporting)
+- **Current completion**: 171/214 = 80% complete (95.8% of streaming implementations: 161/168 excluding algorithmically impractical indicators)
 
 ### Phasing Strategy
 
@@ -135,6 +136,7 @@ The following indicators serve as reference implementations for pattern validati
 As a developer using ZigZag in real-time scenarios, I want the StreamHub implementation to use incremental pivot-based updates instead of recursive full Series recalculation, so that per-tick latency remains acceptable (<5ms mean) for live trading applications.
 
 *Acceptance criteria*:
+
 - ZigZag StreamHub avoids O(n) Series recalculation on each quote
 - Uses incremental pivot detection and cache replay for rollback scenarios
 - Maintains mathematical parity with Series implementation
@@ -145,6 +147,7 @@ As a developer using ZigZag in real-time scenarios, I want the StreamHub impleme
 As a developer aggregating live ticks into period-based quotes (e.g., 1-minute bars), I want QuoteHub to support updating existing quotes without causing index out of range exceptions, so that I can handle intra-period quote updates during bar formation.
 
 *Acceptance criteria*:
+
 - QuoteHub supports updating the most recent quote (e.g., updating Close/High/Low as ticks arrive)
 - No index out of range exceptions when quote properties change
 - Subscribed indicators recalculate affected results correctly
@@ -155,6 +158,7 @@ As a developer aggregating live ticks into period-based quotes (e.g., 1-minute b
 As a developer using ADX for trend analysis, I want DMI (Directional Movement Indicator) values included in ADX results, so that I can analyze directional movement alongside ADX without calculating separately.
 
 *Acceptance criteria*:
+
 - ADX result includes +DI and -DI output properties
 - Values match established DMI calculation formulas
 - Documentation clarifies DMI vs ADX distinctions and usage

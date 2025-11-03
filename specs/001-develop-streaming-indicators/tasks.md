@@ -366,6 +366,14 @@ Note on former deferrals: Indicators like Fractal, HtTrendline, Hurst, Ichimoku,
 
 **Dependencies**: Phases 2 and 3 implementations
 
+> **CRITICAL**: Phase 5 documentation tasks are **mandatory for production readiness** per Constitution Principle 5 (Documentation Excellence). Users require:
+>
+> - Streaming usage examples for major indicators (RSI, MACD, Bollinger Bands)
+> - README overview with quick-start guidance
+> - Migration guide documenting streaming capabilities and API patterns
+>
+> Current status: 2/7 Phase 5 tasks complete (SMA, EMA done). Do not release to production until documentation is complete.
+
 ### Documentation Updates (D-series)
 
 - [x] **D001** Update `docs/_indicators/Sma.md` with streaming usage section and examples ✅
@@ -512,21 +520,22 @@ Each task should follow these guidelines:
 
 ### BufferList Configuration Enhancements (GitHub Project #6)
 
-- [ ] **E009** Complete and validate BufferList configuration implementation
+- [ ] **E009** Complete and validate BufferList configuration implementation (Issue [#1831](https://github.com/DaveSkender/Stock.Indicators/issues/1831))
   - **Status**: Partially implemented - `MaxListSize` property already exists in `BufferList<TResult>` base class with default 90% of int.MaxValue (~1.9B elements)
   - Audit all BufferList implementations to verify consistent `MaxListSize` usage
   - Ensure `PruneList()` override pattern is followed where custom pruning logic is needed
   - Validate that automatic pruning occurs via `AddInternal()` when list exceeds `MaxListSize`
   - Document buffer capacity management strategies in user documentation
   - Consider if additional configuration properties are needed (e.g., pruning strategy enum)
-  - Related: Private project item #84942277, `src/_common/BufferLists/BufferList.cs`
+  - Implementation location: `src/_common/BufferLists/BufferList.cs`
 
 - [ ] **E010** Implement composite naming for chained indicators
+  - **Requirements**: When indicators are chained (e.g., SMA of RSI output), the resulting StreamHub should display a composite name showing the full chain for debugging and logging purposes
   - Design naming convention showing full indicator chain (e.g., "SMA(5) of RSI(14)")
   - Inherit provider name from upstream provider in chain
   - Update `Name` property on all StreamHub implementations to support composite names
-  - Document naming conventions in instruction files
-  - Related: Private project item #84960056
+  - Document naming conventions in `.github/instructions/indicator-stream.instructions.md`
+  - Example: `ChainProvider<TIn, TOut>` should propagate upstream provider names through the chain
 
 **Checkpoint**: Phase 6 addresses critical performance issues and feature requests identified during initial streaming rollout
 
