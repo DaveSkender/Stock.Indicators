@@ -10,7 +10,6 @@ public static partial class HeikinAshi
             .WithName("HeikinAshi")
             .WithId("HEIKINASHI")
             .WithCategory(Category.PriceTransform)
-            .WithMethodName("ToHeikinAshi")
             .AddResult("Open", "Open", ResultType.Default)
             .AddResult("High", "High", ResultType.Default)
             .AddResult("Low", "Low", ResultType.Default)
@@ -24,6 +23,7 @@ public static partial class HeikinAshi
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
+            .WithMethodName("ToHeikinAshi")
             .Build();
 
     /// <summary>
@@ -32,6 +32,7 @@ public static partial class HeikinAshi
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)
+            .WithMethodName("ToHeikinAshiList")
             .Build();
 
     /// <summary>
@@ -40,5 +41,6 @@ public static partial class HeikinAshi
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
+            .WithMethodName("ToHeikinAshiHub")
             .Build();
 }

@@ -60,7 +60,7 @@ public class HeikinAshiTests : TestBase
         listing.Uiid.Should().Be("HEIKINASHI");
         listing.Style.Should().Be(Style.Stream);
         listing.Category.Should().Be(Category.PriceTransform);
-        listing.MethodName.Should().Be("ToHeikinAshi");
+        listing.MethodName.Should().Be("ToHeikinAshiHub");
 
         listing.Parameters?.Count.Should().Be(0);
         // No parameters for this indicator

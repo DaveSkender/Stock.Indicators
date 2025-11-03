@@ -10,7 +10,6 @@ public static partial class AtrStop
             .WithName("ATR Trailing Stop")
             .WithId("ATR-STOP")
             .WithCategory(Category.PriceTrend)
-            .WithMethodName("ToAtrStop")
             .AddParameter<int>("lookbackPeriods", "Lookback Periods", defaultValue: 21, minimum: 1, maximum: 50)
             .AddParameter<double>("multiplier", "Multiplier", defaultValue: 3.0, minimum: 0.1, maximum: 10.0)
             .AddEnumParameter<EndType>("endType", "End Type", defaultValue: EndType.Close)
@@ -26,6 +25,7 @@ public static partial class AtrStop
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
+            .WithMethodName("ToAtrStop")
             .Build();
 
     /// <summary>
@@ -34,6 +34,7 @@ public static partial class AtrStop
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
+            .WithMethodName("ToAtrStopHub")
             .Build();
 
     // No BufferListing for ATR-STOP.
