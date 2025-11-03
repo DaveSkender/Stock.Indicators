@@ -102,8 +102,8 @@ public class RollingPivotsHub
         decimal windowClose = _offsetBuffer.Peek().Close;
 
         // Get high/low from rolling windows (these track the prior WindowPeriods quotes)
-        decimal windowHigh = _highWindow.Max;
-        decimal windowLow = _lowWindow.Min;
+        decimal windowHigh = _highWindow.GetMax();
+        decimal windowLow = _lowWindow.GetMin();
 
         // Calculate pivot points
         WindowPoint wp = PivotPoints.GetPivotPoint(

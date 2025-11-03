@@ -29,6 +29,21 @@ public static partial class Ichimoku
             .WithMethodName("ToIchimoku")
             .Build();
 
-    // No StreamListing for ICHIMOKU.
-    // No BufferListing for ICHIMOKU.
+    /// <summary>
+    /// ICHIMOKU Stream Listing
+    /// </summary>
+    internal static readonly IndicatorListing StreamListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Stream)
+            .WithMethodName("ToIchimokuHub")
+            .Build();
+
+    /// <summary>
+    /// ICHIMOKU Buffer Listing
+    /// </summary>
+    internal static readonly IndicatorListing BufferListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Buffer)
+            .WithMethodName("ToIchimokuList")
+            .Build();
 }
