@@ -21,8 +21,7 @@ This repository hosts **Stock Indicators for .NET**, the production source for t
 └── Stock.Indicators.sln   # Primary solution for src + tests
 .
 ├── docs/                  # Public documentation site (Jekyll)
-├── .specify/              # Spec Kit configuration and memory
-└── specs/                 # Active feature specifications
+└── .specify/              # Spec Kit configuration and active specifications
 ```
 
 ## Build and verification
@@ -111,7 +110,7 @@ This repository uses scoped instruction files for specific development areas. Th
 
 | Pattern | File | Description |
 | ------- | ---- | ----------- |
-| `.specify/**,specs/**,.github/prompts/speckit.*` | [spec-kit.instructions.md](.github/instructions/spec-kit.instructions.md) | Spec Kit development workflow and artifact editing guidelines |
+| `.specify/**,.github/prompts/speckit.*` | [spec-kit.instructions.md](.github/instructions/spec-kit.instructions.md) | Spec Kit development workflow and artifact editing guidelines |
 | `src/**` | [agents.md](../src/agents.md) | **CRITICAL**: Formula change rules and mathematical precision requirements for AI agents |
 | `src/**/*.*Series.cs,tests/**/*.*Series.Tests.cs` | [indicator-series.instructions.md](.github/instructions/indicator-series.instructions.md) | Series-style indicator development and testing guidelines |
 | `src/**/*.StreamHub.cs,tests/**/*.StreamHub.Tests.cs` | [indicator-stream.instructions.md](.github/instructions/indicator-stream.instructions.md) | Stream indicator development guidelines |
@@ -207,7 +206,7 @@ See the style-specific guides for implementation requirements and additional che
 
 ## Spec-driven development integration
 
-This repository uses [Spec Kit](https://github.com/github/spec-kit) for Specification-Driven Development. Before adding or changing indicators, consult the relevant spec in `specs/` and use chat commands to align with the active plan.
+This repository uses [Spec Kit](https://github.com/github/spec-kit) for Specification-Driven Development. Before adding or changing indicators, consult the relevant spec in `.specify/specs/` and use chat commands to align with the active plan.
 
 **Core workflow commands:**
 

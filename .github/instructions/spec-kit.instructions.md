@@ -1,5 +1,5 @@
 ---
-applyTo: ".specify/**,specs/**,.github/prompts/speckit.*"
+applyTo: ".specify/**,.github/prompts/speckit.*"
 description: "Spec Kit development workflow and artifact editing guidelines"
 ---
 
@@ -27,7 +27,7 @@ Spec Kit enables systematic feature development through:
 
 ### Feature-specific artifacts
 
-Each feature lives in `specs/{###-feature-name}/` with:
+Each feature lives in `.specify/specs/{###-feature-name}/` with:
 
 - **`spec.md`** - Requirements and user stories (WHAT and WHY)
 - **`plan.md`** - Technical implementation plan (HOW, tech stack, architecture)
@@ -79,7 +79,7 @@ Each feature lives in `specs/{###-feature-name}/` with:
 5. Documentation Excellence
 6. Scope & Stewardship
 
-#### 2. Specifications (`specs/{###-feature}/spec.md`)
+#### 2. Specifications (`.specify/specs/{###-feature}/spec.md`)
 
 - Focus on **WHAT and WHY**, not HOW
 - Avoid tech stack details (those belong in `plan.md`)
@@ -98,7 +98,7 @@ Each feature lives in `specs/{###-feature-name}/` with:
 - Constraints & assumptions
 - Dependencies & risks
 
-#### 3. Plans (`specs/{###-feature}/plan.md`)
+#### 3. Plans (`.specify/specs/{###-feature}/plan.md`)
 
 - Reference constitution compliance in "Constitution Check" section
 - Keep high-level; move detailed algorithms to separate files
@@ -140,7 +140,7 @@ The plan.md MUST include a constitution check before Phase 0 research. Address e
 
 If violations exist, document them in the "Complexity tracking" section with justifications.
 
-#### 4. Tasks (`specs/{###-feature}/tasks.md`)
+#### 4. Tasks (`.specify/specs/{###-feature}/tasks.md`)
 
 - Organize by phase and component
 - Mark parallelizable tasks with `[P]`
@@ -174,7 +174,7 @@ Include a "Dependencies" section mapping task relationships:
 - **T003, T004 → T005**: Tasks 3 and 4 must both complete before Task 5
 ```
 
-#### 5. Quickstart & Validation (`specs/{###-feature}/quickstart.md`)
+#### 5. Quickstart & Validation (`.specify/specs/{###-feature}/quickstart.md`)
 
 - **Critical: Honor repository testing conventions** (see `.github/instructions/source-code-completion.instructions.md`)
 - Follow existing test file organization: `tests/indicators/`, `tests/integration/`, etc.
@@ -235,7 +235,7 @@ The `/speckit.checklist` command generates custom quality validation checklists 
 /speckit.checklist Create a mathematical precision checklist for indicator accuracy, warmup period correctness, and streaming/batch value parity
 ```
 
-The checklist will be saved to `specs/{###-feature}/checklists/` and can be manually reviewed and checked off before proceeding with implementation.
+The checklist will be saved to `.specify/specs/{###-feature}/checklists/` and can be manually reviewed and checked off before proceeding with implementation.
 
 ### Constitution authority
 
@@ -318,7 +318,7 @@ Spec Kit instructions work alongside existing scoped instructions:
 
 Spec Kit scripts expect branch names like `001-feature-name`. If using a different naming convention:
 
-- Manually create `specs/###-feature-name/` directory
+- Manually create `.specify/specs/###-feature-name/` directory
 - Copy templates from `.specify/templates/` to feature directory
 - Proceed with normal workflow (spec → clarify → plan → tasks → analyze → implement)
 

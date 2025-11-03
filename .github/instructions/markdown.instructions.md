@@ -67,7 +67,7 @@ Rules for Last updated element:
   - **Do not include on:**
     - Markdown files used as website source pages (e.g. Jekyll in `docs/**`)
     - Spec Kit files (`.specify/**`, `.github/prompts/speckit.*`)
-    - Feature specification files (`specs/**`)
+    - Feature specification files (`.specify/specs/**`)
   - **Do include on:** instruction files (`.github/instructions/**`), repository root documentation
 - Place it last.
 - Use the current date.

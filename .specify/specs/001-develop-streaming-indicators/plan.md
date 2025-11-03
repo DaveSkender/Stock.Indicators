@@ -1,7 +1,7 @@
 # Implementation plan: streaming indicators framework
 
 **Branch**: `001-develop-streaming-indicators` | **Date**: October 13, 2025 | **Spec**: [spec.md](./spec.md)
-**Input**: Feature specification from `/specs/001-develop-streaming-indicators/spec.md`
+**Input**: Feature specification from `/.specify/specs/001-develop-streaming-indicators/spec.md`
 
 > **IMPORTANT**: This planning document contains conceptual examples that may not match actual codebase patterns. For authoritative implementation guidance, always reference:
 >
@@ -48,7 +48,7 @@ Implement two streaming indicator styles (BufferList and StreamHub) enabling inc
 ### Documentation (this feature)
 
 ```text
-specs/001-develop-streaming-indicators/
+.specify/specs/001-develop-streaming-indicators/
 ├── plan.md              # This file
 ├── research.md          # Phase 0 output
 ├── data-model.md        # Phase 1 output
@@ -382,11 +382,12 @@ The following enhancements are tracked in spec.md P4 user stories but deferred u
 **Phase 5**: Validation (run tests, performance validation, documentation review)
 
 > **CRITICAL**: Phase 4 test infrastructure tasks (T175-T185, Q001-Q006) are **mandatory quality gates** that MUST complete before declaring feature production-ready. These tasks validate:
+>
 > - Performance benchmarks meet NFR-001 latency targets (<5ms mean, <10ms p95)
 > - Memory overhead meets NFR-002 targets (<10KB per instance)
 > - Test interface compliance across all StreamHub implementations
 > - Public API approval tests pass without breaking changes
-> 
+>
 > Current status: 0/17 Phase 4 tasks complete. Do not skip these validations—they enforce Constitution Principle 5 (Documentation Excellence) and Principle 2 (Performance First).
 
 ## v3 Milestone Issues Outside Project Scope

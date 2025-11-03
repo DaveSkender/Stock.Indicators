@@ -131,7 +131,7 @@ For use cases requiring ≤1.5x performance, recommend using Series implementati
 ## Files Modified
 
 - `src/s-z/Slope/Slope.BufferList.cs`: Implemented optimizations with detailed comments
-- `specs/002-fix-streaming-performance/tasks.md`: Updated task completion status
+- `.specify/specs/002-fix-streaming-performance/tasks.md`: Updated task completion status
 
 ## Testing
 

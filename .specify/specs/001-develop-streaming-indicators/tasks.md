@@ -1,6 +1,6 @@
 # Tasks: streaming indicators framework
 
-**Input**: Design documents from `/specs/001-develop-streaming-indicators/`
+**Input**: Design documents from `/.specify/specs/001-develop-streaming-indicators/`
 **Prerequisites**: [plan.md](plan.md) (required), [spec.md](spec.md) (required for user stories), [data-model.md](data-model.md)
 
 ## Format: `[ID] Description`

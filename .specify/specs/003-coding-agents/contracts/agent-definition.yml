@@ -1,0 +1,419 @@
+# Agent Definition File Contract
+
+## Purpose
+
+Defines the schema, structure, and validation rules for custom GitHub Copilot agent definition files (`.github/agents/*.agent.md`).
+
+## File Schema
+
+```yaml
+file_location:
+  pattern: ".github/agents/indicator-{style}.agent.md"
+  naming_convention: "indicator-{style}.agent.md (matches instruction file pattern)"
+  examples:
+    - indicator-series.agent.md  # YAML name: series, invoked as @series
+    - indicator-buffer.agent.md  # YAML name: buffer, invoked as @buffer
+    - indicator-stream.agent.md  # YAML name: streamhub, invoked as @streamhub
+
+frontmatter:
+  format: "YAML"
+  required_properties:
+    name:
+      type: string
+      description: "Unique agent identifier used for invocation (e.g., @series)"
+      constraints:
+        - Single word (lowercase)
+        - Used in @{name} invocation syntax
+        - No spaces or special characters
+        - Note: Does not need to match file name (e.g., file 'indicator-stream.agent.md' has name 'streamhub')
+      examples:
+        - "series"      # File: indicator-series.agent.md, Invoked as: @series
+        - "buffer"      # File: indicator-buffer.agent.md, Invoked as: @buffer
+        - "streamhub"   # File: indicator-stream.agent.md, Invoked as: @streamhub
+
+    description:
+      type: string
+      description: "Agent purpose and capabilities"
+      constraints:
+        - Single line (≤150 characters)
+        - Starts with "Expert guidance for"
+        - Includes key capabilities
+        - No trailing period
+      examples:
+        - "Expert guidance for Series indicator development - mathematical precision, validation patterns, and test coverage"
+        - "Expert guidance for BufferList indicator development - incremental processing, interface selection, and buffer management"
+        - "Expert guidance for StreamHub indicator development - implementation patterns, provider selection, state management, and real-time processing"
+
+  optional_properties: []  # No tools property (defaults to all available tools)
+
+  prohibited_properties:
+    - tools  # Omit to default to all tools
+
+markdown_structure:
+  sections:
+    required:
+      - name: "Agent Identity"
+        format: "# {Agent Name} Development Agent\n\nYou are a {domain} development expert..."
+        constraints:
+          - Must be H1 heading
+          - Must include identity statement
+          - Must specify domain expertise
+
+      - name: "Your Expertise"
+        format: "## Your Expertise\n\nYou specialize in:\n- {capability}\n- ..."
+        constraints:
+          - Must be H2 heading
+          - Bulleted list of capabilities
+          - 5-8 capabilities typical
+
+      - name: "Decision Trees"
+        format: "## Decision Trees\n\n### {Decision Point}\n..."
+        constraints:
+          - Must be H2 heading
+          - Contains H3 decision points
+          - 5-6 decision points typical
+          - Each decision point has options + references
+
+      - name: "Key Patterns"
+        format: "## Key Patterns\n\n{brief summaries with references}"
+        constraints:
+          - Must be H2 heading
+          - Brief summaries (2-3 sentences)
+          - Always reference instruction file for details
+
+      - name: "Reference Implementations"
+        format: "## Reference Implementations\n\n**{Category}**:\n- `{path}` - {description}"
+        constraints:
+          - Must be H2 heading
+          - Categorized by pattern type
+          - 5-8 implementations typical
+          - 1-line descriptions only
+
+      - name: "Testing Guidance"
+        format: "## Testing Guidance\n\n{style-specific requirements}"
+        constraints:
+          - Must be H2 heading
+          - Test base class specified
+          - Required interfaces listed
+          - Reference canonical test file
+
+      - name: "When to use this agent"
+        format: "## When to use this agent\n\nInvoke `@{agent}` when...\n- {scenario}"
+        constraints:
+          - Must be H2 heading
+          - Bulleted list of scenarios
+          - 5-7 scenarios typical
+
+      - name: "Related agents"
+        format: "## Related agents\n\n- `@{agent}` - {description}"
+        constraints:
+          - Must be H2 heading
+          - Bulleted list of agent references
+          - Includes sub-agents when applicable
+
+      - name: "Example usage"
+        format: "## Example usage\n\n```text\n@{agent} {query}\n```"
+        constraints:
+          - Must be H2 heading
+          - Code block with invocation examples
+          - 3-5 examples typical
+
+    optional:
+      - name: "Performance Guidance"
+        applicable_to: ["streamhub"]
+        format: "## Performance standards\n\n{≤1.5x target, anti-patterns}"
+
+      - name: "Anti-patterns"
+        applicable_to: ["series", "buffer", "streamhub"]
+        format: "## Anti-patterns to avoid\n\n❌ WRONG: ... ✅ CORRECT: ..."
+
+      - name: "Documentation Requirements"
+        applicable_to: ["series", "buffer", "streamhub"]
+        format: "## Documentation requirements\n\n{XML docs, inline comments, public docs}"
+
+  section_order:
+    - "# Agent Identity"
+    - "## Your Expertise"
+    - "## Decision Trees" (or domain-specific equivalents)
+    - "## Key Patterns"
+    - "## Reference Implementations"
+    - "## Testing Guidance"
+    - "## Documentation Requirements" (optional)
+    - "## When to use this agent"
+    - "## Related agents"
+    - "## Example usage"
+```
+
+## Validation Rules
+
+```yaml
+file_size:
+  max_lines: 500
+  target_lines: 300-400
+  rationale: "Maintain readability, force conciseness"
+  enforcement: "Manual review, line count check"
+
+content_quality:
+  no_verbatim_duplication:
+    description: "Must not copy instruction file content"
+    enforcement: "Manual review during PR"
+    allowed_overlap:
+      - Reference implementation file paths
+      - Interface/class names
+      - Constitutional principle names
+      - 2-3 sentence pattern summaries (not full implementations)
+
+  reference_integrity:
+    description: "All instruction file links must resolve"
+    validation: "Automated link checker in CI"
+    format: "../instructions/{file}.instructions.md#{anchor}"
+    examples:
+      - "../instructions/indicator-series.instructions.md#input-validation-patterns"
+      - "../instructions/indicator-buffer.instructions.md#interface-selection"
+
+  reference_implementation_validity:
+    description: "All file paths must exist in repository"
+    validation: "Automated file existence check"
+    format: "{relative-path-from-repo-root}"
+    examples:
+      - "src/e-k/Ema/Ema.StaticSeries.cs"
+      - "src/s-z/Sma/Sma.BufferList.cs"
+      - "tests/indicators/e-k/Ema/Ema.StreamHub.Tests.cs"
+
+markdown_compliance:
+  linter: "markdownlint-cli2"
+  config_file: ".markdownlint-cli2.jsonc"
+  required_rules:
+    - "MD001: Heading levels increment by one"
+    - "MD004: Unordered list style (hyphens)"
+    - "MD022: Headings surrounded by blank lines"
+    - "MD031: Fenced code blocks surrounded by blank lines"
+    - "MD047: Files end with trailing newline"
+
+  heading_style:
+    format: "Sentence case"
+    rule: "Capitalize first word and proper nouns only"
+    examples:
+      - "✅ Decision trees"
+      - "❌ Decision Trees"
+
+github_copilot_compatibility:
+  version: "GitHub Copilot Chat in VS Code"
+  requirements:
+    - "YAML frontmatter with name + description"
+    - "Markdown content parseable by Copilot"
+    - "No special syntax beyond GitHub Flavored Markdown"
+
+  tools_property:
+    behavior: "Omit to default to all available tools"
+    rationale: "Agents need access to all tools for comprehensive guidance"
+```
+
+## Decision Tree Structure
+
+```yaml
+decision_tree:
+  format: |
+    ### {Decision Point Title}
+
+    **Scenario**: {When developer faces this choice}
+
+    **Options**:
+
+    1. **{Option A Name}**
+       - When to use: {Selection criteria}
+       - Key characteristics:
+         - {Characteristic 1}
+         - {Characteristic 2}
+       - Reference: [section](../instructions/{file}.instructions.md#{anchor})
+
+    2. **{Option B Name}**
+       - When to use: {Selection criteria}
+       - Key characteristics:
+         - {Characteristic 1}
+         - {Characteristic 2}
+       - Reference: [section](../instructions/{file}.instructions.md#{anchor})
+
+    **Example**: `{Concrete indicator using each option}`
+
+  constraints:
+    - Minimum 2 options per decision
+    - Each option has "When to use" criteria
+    - Each option has 2-3 key characteristics
+    - Each option references instruction file section
+    - Example must reference actual repository indicator
+
+  typical_decision_points:
+    series:
+      - "File naming and organization"
+      - "Input validation approach"
+      - "Warmup period handling"
+      - "Performance optimization strategy"
+      - "Test coverage approach"
+
+    buffer:
+      - "Interface selection (Chain/Quote/Pairs)"
+      - "Buffer management approach (Update/UpdateWithDequeue/Custom)"
+      - "State management strategy (Tuple/Fields/Custom)"
+      - "Constructor pattern"
+      - "Test base class selection"
+
+    streamhub:
+      - "Provider base class selection (Chain/Quote/Pairs)"
+      - "Implementation pattern choice (Incremental/Repaint/Rebuild)"
+      - "RollbackState override decision"
+      - "Performance optimization strategy"
+      - "Test interface selection"
+      - "Rollback validation approach"
+```
+
+## Reference Implementation Format
+
+```yaml
+reference_implementation:
+  structure: |
+    ## Reference Implementations
+
+    **{Pattern Category}**:
+
+    - `{relative-path}` - {1-line description}
+    - `{relative-path}` - {1-line description}
+
+    **{Another Category}**:
+
+    - `{relative-path}` - {1-line description}
+
+  constraints:
+    description_max_length: 100
+    categories_align_with_instructions: true
+    file_paths_must_exist: true
+
+  examples:
+    series:
+      categories:
+        - "Basic moving average"
+        - "Exponential smoothing"
+        - "High/Low tracking"
+        - "Multi-output"
+        - "Chained calculation"
+      typical_count: 5
+
+    buffer:
+      categories:
+        - "Basic buffer (Chain)"
+        - "Quote-based"
+        - "Pairs-based"
+        - "UpdateWithDequeue"
+        - "Tuple state"
+      typical_count: 5
+
+    streamhub:
+      categories:
+        - "Incremental state (standard)"
+        - "Repaint from anchor (partial rebuild)"
+        - "Full session rebuild"
+      typical_count: 8
+```
+
+## Related Agents Format
+
+```yaml
+related_agents:
+  format: |
+    ## Related agents
+
+    {For primary agents}:
+    - `@{other-primary}` - {Brief description}
+
+    {For StreamHub - include sub-agents}:
+    - `@streamhub-state` - {description}
+    - `@streamhub-performance` - {description}
+    - `@streamhub-testing` - {description}
+    - `@streamhub-pairs` - {description}
+
+    See also: `.github/instructions/{agent-name}.instructions.md` for comprehensive guidelines.
+
+  constraints:
+    - All referenced agents must exist
+    - Bidirectional references preferred (agent ↔ agent)
+    - Include link to own instruction file
+
+  examples:
+    series:
+      related:
+        - "@buffer - BufferList indicator development guidance"
+        - "@streamhub - StreamHub indicator development guidance"
+
+    buffer:
+      related:
+        - "@series - Series indicator development guidance"
+        - "@streamhub - StreamHub indicator development guidance"
+
+    streamhub:
+      related:
+        - "@streamhub-state - RollbackState patterns and cache replay"
+        - "@streamhub-performance - O(1) optimization and anti-patterns"
+        - "@streamhub-testing - Test coverage and rollback validation"
+        - "@streamhub-pairs - Dual-stream indicators (PairsProvider)"
+```
+
+## File Lifecycle
+
+```yaml
+creation:
+  process:
+    - Create file in feature branch
+    - Add YAML frontmatter (name + description)
+    - Add required markdown sections
+    - Validate markdown linting
+    - Validate reference integrity
+    - Review for duplication with instruction files
+
+  templates:
+    - Use existing stream.agent.md as pattern reference
+    - Adapt section structure to indicator style
+    - Ensure decision trees cover key choice points
+
+update:
+  scenarios:
+    - Instruction file patterns change
+    - New reference implementations added
+    - Constitutional principles updated
+    - Sub-agents added/removed
+
+  process:
+    - Update relevant sections
+    - Validate reference links still resolve
+    - Re-check duplication constraints
+    - Update related agents if needed
+
+deprecation:
+  trigger: "Indicator style deprecated or merged"
+  process:
+    - Add deprecation notice at top of file
+    - Update related agents to remove references
+    - Keep file for historical reference
+```
+
+## Quality Checklist
+
+```yaml
+before_pr:
+  - [ ] File size ≤500 lines
+  - [ ] YAML frontmatter has exactly 2 properties (name, description)
+  - [ ] All required markdown sections present
+  - [ ] Decision trees have 5-6 decision points with options
+  - [ ] Reference implementations (5-8) with valid file paths
+  - [ ] All instruction file links resolve
+  - [ ] No verbatim duplication of instruction file content
+  - [ ] markdownlint-cli2 passes
+  - [ ] Related agents section complete
+  - [ ] Example usage includes 3-5 invocation patterns
+
+before_merge:
+  - [ ] Corresponding instruction file updated (2 sections added)
+  - [ ] Agent context file updated (if applicable)
+  - [ ] Cross-references bidirectional (agent ↔ instruction)
+  - [ ] PR description explains agent purpose and patterns
+  - [ ] At least one maintainer approval
+```

@@ -96,7 +96,7 @@ jobs:
           echo "### Spec-Kit Integration" >> $GITHUB_STEP_SUMMARY
           echo "- Spec-Kit CLI: $(~/.local/bin/specify --version 2>/dev/null || echo 'Installation pending')" >> $GITHUB_STEP_SUMMARY
           echo "- Constitution: ✅ Available at \`.specify/memory/constitution.md\`" >> $GITHUB_STEP_SUMMARY
-          echo "- Specifications: ✅ Available at \`specs/\`" >> $GITHUB_STEP_SUMMARY
+          echo "- Specifications: ✅ Available at \`.specify/specs/\`" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "### Available Commands" >> $GITHUB_STEP_SUMMARY
           echo "- \`/constitution\` - Review/update project principles" >> $GITHUB_STEP_SUMMARY
