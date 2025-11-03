@@ -29,7 +29,7 @@ public static partial class RenkoAtr
             .WithMethodName("ToRenkoAtr")
             .Build();
 
-    // BufferList and StreamHub not implemented - ATR calculation requires full dataset
-    // to determine final brick size. Incremental processing would require buffering all
-    // quotes and recalculating entire series on each add. Series-only implementation maintained.
+    // BufferList and StreamHub not implemented - would require buffering all quotes
+    // and recalculating entire Renko series on each add to maintain ATR accuracy.
+    // Series-only implementation maintained for correctness.
 }
