@@ -126,8 +126,8 @@ public class SmiHub
     private (double smi, double signal) CalculateSmi(double close)
     {
         // Use O(1) max/min retrieval from rolling windows
-        double hH = _highWindow.Max;
-        double lL = _lowWindow.Min;
+        double hH = _highWindow.GetMax();
+        double lL = _lowWindow.GetMin();
 
         // Calculate distance from midpoint and range
         double sm = close - (0.5d * (hH + lL));
