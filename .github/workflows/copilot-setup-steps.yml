@@ -78,8 +78,9 @@ jobs:
 
       - name: Test environment
         run: |
-          dotnet test --no-build --verbosity minimal
+          dotnet test --no-restore --verbosity minimal --settings tests/tests.unit.runsettings
         continue-on-error: true
+        timeout-minutes: 10
 
       - name: Environment summary
         run: |
