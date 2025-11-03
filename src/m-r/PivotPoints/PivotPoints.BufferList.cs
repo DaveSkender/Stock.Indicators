@@ -3,32 +3,22 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Pivot Points from incremental quotes.
 /// </summary>
-public class PivotPointsList : BufferList<PivotPointsResult>, IIncrementFromQuote
+/// <remarks>
+/// Initializes a new instance of the <see cref="PivotPointsList"/> class.
+/// </remarks>
+/// <param name="windowSize">The size of the window for pivot point calculation.</param>
+/// <param name="pointType">The type of pivot point calculation to use.</param>
+public class PivotPointsList(
+    PeriodSize windowSize = PeriodSize.Month,
+    PivotPointType pointType = PivotPointType.Standard) : BufferList<PivotPointsResult>, IIncrementFromQuote, IPivotPoints
 {
-    private int _windowId;
-    private bool _firstWindow;
+    private int _windowId = int.MinValue;
+    private bool _firstWindow = true;
     private decimal _windowHigh;
     private decimal _windowLow;
     private decimal _windowOpen;
     private decimal _windowClose;
-    private WindowPoint _windowPoint;
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="PivotPointsList"/> class.
-    /// </summary>
-    /// <param name="windowSize">The size of the window for pivot point calculation.</param>
-    /// <param name="pointType">The type of pivot point calculation to use.</param>
-    public PivotPointsList(
-        PeriodSize windowSize = PeriodSize.Month,
-        PivotPointType pointType = PivotPointType.Standard)
-    {
-        WindowSize = windowSize;
-        PointType = pointType;
-
-        _windowId = int.MinValue;
-        _firstWindow = true;
-        _windowPoint = new();
-    }
+    private WindowPoint _windowPoint = new();
 
     /// <summary>
     /// Initializes a new instance of the <see cref="PivotPointsList"/> class with initial quotes.
@@ -40,20 +30,17 @@ public class PivotPointsList : BufferList<PivotPointsResult>, IIncrementFromQuot
         PeriodSize windowSize,
         PivotPointType pointType,
         IReadOnlyList<IQuote> quotes)
-        : this(windowSize, pointType)
-    {
-        Add(quotes);
-    }
+        : this(windowSize, pointType) => Add(quotes);
 
     /// <summary>
     /// Gets the size of the window for pivot point calculation.
     /// </summary>
-    public PeriodSize WindowSize { get; init; }
+    public PeriodSize WindowSize { get; init; } = windowSize;
 
     /// <summary>
     /// Gets the type of pivot point calculation to use.
     /// </summary>
-    public PivotPointType PointType { get; init; }
+    public PivotPointType PointType { get; init; } = pointType;
 
     /// <inheritdoc />
     public void Add(IQuote quote)
