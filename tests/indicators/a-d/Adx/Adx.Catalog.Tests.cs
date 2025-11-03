@@ -62,7 +62,7 @@ public class AdxTests : TestBase
         listing.Uiid.Should().Be("ADX");
         listing.Style.Should().Be(Style.Stream);
         listing.Category.Should().Be(Category.PriceTrend);
-        listing.MethodName.Should().Be("ToAdx");
+        listing.MethodName.Should().Be("ToAdxHub");
 
         listing.Parameters.Should().NotBeNull();
         listing.Parameters.Should().HaveCount(1);
@@ -106,7 +106,7 @@ public class AdxTests : TestBase
         listing.Uiid.Should().Be("ADX");
         listing.Style.Should().Be(Style.Buffer);
         listing.Category.Should().Be(Category.PriceTrend);
-        listing.MethodName.Should().Be("ToAdx");
+        listing.MethodName.Should().Be("ToAdxList");
 
         listing.Parameters.Should().NotBeNull();
         listing.Parameters.Should().HaveCount(1);

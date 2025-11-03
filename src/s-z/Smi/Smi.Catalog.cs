@@ -10,7 +10,6 @@ public static partial class Smi
             .WithName("Stochastic Momentum Index")
             .WithId("SMI")
             .WithCategory(Category.Oscillator)
-            .WithMethodName("ToSmi")
             .AddParameter<int>("lookbackPeriods", "Lookback Periods", description: "Number of periods for the SMI calculation", isRequired: false, defaultValue: 13, minimum: 1, maximum: 300)
             .AddParameter<int>("firstSmoothPeriods", "First Smooth Periods", description: "Number of periods for the first smoothing", isRequired: false, defaultValue: 25, minimum: 1, maximum: 300)
             .AddParameter<int>("secondSmoothPeriods", "Second Smooth Periods", description: "Number of periods for the second smoothing", isRequired: false, defaultValue: 2, minimum: 1, maximum: 50)
@@ -25,9 +24,17 @@ public static partial class Smi
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
+            .WithMethodName("ToSmi")
             .Build();
 
-    // No StreamListing for SMI.
+    /// <summary>
+    /// Stochastic Momentum Index StreamHub Listing
+    /// </summary>
+    internal static readonly IndicatorListing StreamListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Stream)
+            .WithMethodName("ToSmiHub")
+            .Build();
 
     /// <summary>
     /// Stochastic Momentum Index BufferList Listing

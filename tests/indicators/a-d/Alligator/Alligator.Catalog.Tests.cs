@@ -64,7 +64,7 @@ public class AlligatorTests : TestBase
         listing.Uiid.Should().Be("ALLIGATOR");
         listing.Style.Should().Be(Style.Stream);
         listing.Category.Should().Be(Category.PriceTrend);
-        listing.MethodName.Should().Be("ToAlligator");
+        listing.MethodName.Should().Be("ToAlligatorHub");
 
         listing.Parameters.Should().NotBeNull();
         listing.Parameters.Should().HaveCount(6);

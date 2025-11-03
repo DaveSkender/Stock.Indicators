@@ -10,7 +10,6 @@ public static partial class Alligator
             .WithName("Williams Alligator")
             .WithId("ALLIGATOR")
             .WithCategory(Category.PriceTrend)
-            .WithMethodName("ToAlligator")
             .AddParameter<int>("jawPeriods", "Jaw Periods", description: "Lookback periods for the Jaw line", isRequired: true, defaultValue: 13, minimum: 2, maximum: 250)
             .AddParameter<int>("jawOffset", "Jaw Offset", description: "Offset periods for the Jaw line", isRequired: true, defaultValue: 8, minimum: 1, maximum: 50)
             .AddParameter<int>("teethPeriods", "Teeth Periods", description: "Lookback periods for the Teeth line", isRequired: true, defaultValue: 8, minimum: 2, maximum: 250)
@@ -28,6 +27,7 @@ public static partial class Alligator
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
+            .WithMethodName("ToAlligator")
             .Build();
 
     /// <summary>
@@ -36,5 +36,6 @@ public static partial class Alligator
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
+            .WithMethodName("ToAlligatorHub")
             .Build();
 }
