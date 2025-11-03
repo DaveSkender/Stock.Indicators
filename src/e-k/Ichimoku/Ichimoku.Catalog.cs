@@ -10,7 +10,6 @@ public static partial class Ichimoku
             .WithName("Ichimoku Cloud")
             .WithId("ICHIMOKU")
             .WithCategory(Category.PriceTrend)
-            .WithMethodName("ToIchimoku")
             .AddParameter<int>("tenkanPeriods", "Tenkan Periods", defaultValue: 9, minimum: 1, maximum: 250)
             .AddParameter<int>("kijunPeriods", "Kijun Periods", defaultValue: 26, minimum: 2, maximum: 250)
             .AddParameter<int>("senkouBPeriods", "Senkou B Periods", defaultValue: 52, minimum: 3, maximum: 250)
@@ -27,6 +26,7 @@ public static partial class Ichimoku
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
+            .WithMethodName("ToIchimoku")
             .Build();
 
     // No StreamListing for ICHIMOKU.

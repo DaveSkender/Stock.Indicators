@@ -55,7 +55,7 @@ public class CmfTests : TestBase
         listing.Uiid.Should().Be("CMF");
         listing.Style.Should().Be(Style.Stream);
         listing.Category.Should().Be(Category.VolumeBased);
-        listing.MethodName.Should().Be("ToCmf");
+        listing.MethodName.Should().Be("ToCmfHub");
 
         listing.Parameters.Should().NotBeNull();
         listing.Parameters.Should().HaveCount(1);

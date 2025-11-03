@@ -80,7 +80,7 @@ public class PivotsTests : TestBase
         listing.Uiid.Should().Be("PIVOTS");
         listing.Style.Should().Be(Style.Buffer);
         listing.Category.Should().Be(Category.PriceTrend);
-        listing.MethodName.Should().Be("ToPivots");
+        listing.MethodName.Should().Be("ToPivotsList");
 
         listing.Parameters?.Count.Should().Be(4);
         listing.Results.Should().HaveCount(6);
@@ -98,7 +98,7 @@ public class PivotsTests : TestBase
         listing.Uiid.Should().Be("PIVOTS");
         listing.Style.Should().Be(Style.Stream);
         listing.Category.Should().Be(Category.PriceTrend);
-        listing.MethodName.Should().Be("ToPivots");
+        listing.MethodName.Should().Be("ToPivotsHub");
 
         listing.Parameters?.Count.Should().Be(4);
         listing.Results.Should().HaveCount(6);

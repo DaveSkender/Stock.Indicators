@@ -51,7 +51,7 @@ public class FcbTests : TestBase
         listing.Uiid.Should().Be("FCB");
         listing.Style.Should().Be(Style.Stream);
         listing.Category.Should().Be(Category.PriceChannel);
-        listing.MethodName.Should().Be("ToFcb");
+        listing.MethodName.Should().Be("ToFcbHub");
 
         listing.Parameters.Should().NotBeNull();
         listing.Parameters.Should().HaveCount(1);
@@ -84,7 +84,7 @@ public class FcbTests : TestBase
         listing.Uiid.Should().Be("FCB");
         listing.Style.Should().Be(Style.Buffer);
         listing.Category.Should().Be(Category.PriceChannel);
-        listing.MethodName.Should().Be("ToFcb");
+        listing.MethodName.Should().Be("ToFcbList");
 
         listing.Parameters.Should().NotBeNull();
         listing.Parameters.Should().HaveCount(1);

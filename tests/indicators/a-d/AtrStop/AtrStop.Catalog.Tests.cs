@@ -60,7 +60,7 @@ public class AtrStopTests : TestBase
         listing.Uiid.Should().Be("ATR-STOP");
         listing.Style.Should().Be(Style.Stream);
         listing.Category.Should().Be(Category.PriceTrend);
-        listing.MethodName.Should().Be("ToAtrStop");
+        listing.MethodName.Should().Be("ToAtrStopHub");
 
         listing.Parameters.Should().NotBeNull();
         listing.Parameters.Should().HaveCount(3);
