@@ -9,8 +9,8 @@ public class StdDevTests : RegressionTestBase<StdDevResult>
     public override void Series() => Quotes.ToStdDev().AssertEquals(Expected);
 
     [TestMethod]
-    public override void Buffer() => Assert.Inconclusive("Buffer implementation not yet available");
+    public override void Buffer() => Quotes.ToStdDevList(14).AssertEquals(Expected);
 
     [TestMethod]
-    public override void Stream() => Assert.Inconclusive("Stream implementation not yet available");
+    public override void Stream() => Quotes.ToStdDevHub(14).Results.AssertEquals(Expected);
 }

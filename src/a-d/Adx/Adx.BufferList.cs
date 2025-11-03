@@ -53,8 +53,9 @@ public class AdxList : BufferList<AdxResult>, IIncrementFromQuote, IAdx
             return;
         }
 
-        // get last, then add current object using extension method
+        // get last, then peek at the oldest (for ADXR), then add current object
         AdxBuffer last = _buffer.Last();
+        AdxBuffer? priorForAdxr = _buffer.Count == LookbackPeriods ? _buffer.Peek() : null;
         _buffer.Update(LookbackPeriods, curr);
 
         // calculate TR, PDM, and MDM
@@ -145,8 +146,12 @@ public class AdxList : BufferList<AdxResult>, IIncrementFromQuote, IAdx
                 = ((last.Adx * (LookbackPeriods - 1)) + curr.Dx)
                 / LookbackPeriods;
 
-            AdxBuffer first = _buffer.Peek();
-            adxr = (curr.Adx + first.Adx) / 2;
+            // Calculate ADXR using the prior ADX value (lookbackPeriods ago)
+            // priorForAdxr was captured before buffer update, so it's from the correct period
+            if (priorForAdxr != null && !double.IsNaN(priorForAdxr.Adx))
+            {
+                adxr = (curr.Adx + priorForAdxr.Adx) / 2;
+            }
         }
 
         AdxResult r = new(

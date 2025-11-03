@@ -57,6 +57,7 @@ This library uses non-nullable `double` types internally for performance, with i
 ### Implementation guidelines
 
 - **Division by zero** - MUST guard variable denominators with ternary checks (e.g., `denom != 0 ? num / denom : double.NaN`); choose fallback (NaN, 0, null) based on mathematical meaning
+- **No epsilon comparisons** - NEVER use epsilon values (e.g., `1e-8`, `1e-9`) for zero checks in division guards. Use exact zero comparison (`!= 0` or `== 0`). Epsilon comparisons assume floating-point precision issues that don't exist in our calculations and cause incorrect results by treating near-zero values as zero.
 - **NaN propagation** - Accept NaN inputs and allow natural propagation through calculations; never reject or filter NaN values
 - **RollingWindow utilities** - Accept NaN values and return NaN for Min/Max when NaN is present in the window
 - **Quote validation** - Only validate for null/missing quotes, not for NaN values in quote properties (High/Low/Close/etc.)
@@ -92,6 +93,13 @@ All public methods require complete input validation with descriptive error mess
 ### IV. Test-Driven Quality
 
 Every indicator requires comprehensive unit tests covering all code paths. Mathematical accuracy must be verified against reference implementations. Performance tests are mandatory for computationally intensive indicators.
+
+**Test epsilon usage rules:**
+
+- ✅ **Use epsilon** (`BeApproximately`) ONLY when comparing against **manually calculated reference values** (e.g., `Money4 = 0.00005` for 4 decimal places) or for **recursive algorithms** where calculation order legitimately differs (e.g., Fisher Transform)
+- ❌ **DO NOT use epsilon** for regression tests comparing calculated-vs-calculated results - use exact equality (default `AssertEquals()`)
+- ❌ **DO NOT use epsilon** when comparing computed formulas or constants (e.g., `2d / (period + 1)`) - these should use exact comparison (`.Be()`)
+- ❌ **DO NOT use epsilon** for zero evaluations in production code - use exact comparison (`!= 0` or `== 0`)
 
 ### V. Documentation Excellence
 
