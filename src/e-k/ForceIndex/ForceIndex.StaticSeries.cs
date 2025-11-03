@@ -58,22 +58,24 @@ public static partial class ForceIndex
             double? rawFi = q.Volume * (q.Close - quotes[i - 1].Close);
 
             // calculate EMA
-            if (i > lookbackPeriods)
+            if (i >= lookbackPeriods)
             {
-                fi = prevFi + (k * (rawFi - prevFi));
+                if (prevFi is null)
+                {
+                    // first EMA value
+                    sumRawFi += rawFi;
+                    fi = sumRawFi / lookbackPeriods;
+                }
+                else
+                {
+                    fi = prevFi + (k * (rawFi - prevFi));
+                }
             }
 
             // initialization period
-            // TODO: update healing, without requiring specific indexing
             else
             {
                 sumRawFi += rawFi;
-
-                // first EMA value
-                if (i == lookbackPeriods)
-                {
-                    fi = sumRawFi / lookbackPeriods;
-                }
             }
 
             results.Add(new ForceIndexResult(

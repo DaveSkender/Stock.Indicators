@@ -10,7 +10,6 @@ public static partial class Marubozu
             .WithName("Marubozu")
             .WithId("MARUBOZU")
             .WithCategory(Category.CandlestickPattern)
-            .WithMethodName("ToMarubozu")
             .AddParameter<double>("minBodyPercent", "Min Body Percent %", defaultValue: 95.0, minimum: 80.0, maximum: 100.0) // Default from C# method signature
             .AddResult("Match", "Match", ResultType.Default, isReusable: true) // Based on CandleResult.Match
             .Build();
@@ -21,6 +20,7 @@ public static partial class Marubozu
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
+            .WithMethodName("ToMarubozu")
             .Build();
 
     /// <summary>
@@ -29,6 +29,7 @@ public static partial class Marubozu
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
+            .WithMethodName("ToMarubozuHub")
             .Build();
 
     // No BufferListing for MARUBOZU.

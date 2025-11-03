@@ -18,13 +18,13 @@ You specialize in:
 - Edge case coverage (insufficient data, reset behavior)
 - Test structure and organization
 
-## Test Base Class
+## Test base class
 
 All StreamHub tests MUST inherit `StreamHubTestBase` and implement appropriate test interfaces.
 
-## Test Interface Selection Guide
+## Test interface selection guide
 
-### Decision Tree
+### Decision tree
 
 **Step 1: What provider base does your hub use?**
 
@@ -37,14 +37,14 @@ All StreamHub tests MUST inherit `StreamHubTestBase` and implement appropriate t
 - Yes (most indicators) → Implement `ITestChainObserver` + `ITestChainProvider`
 - No (rare) → Implement `ITestQuoteObserver` + `ITestChainProvider`
 
-### Interface Descriptions
+### Interface descriptions
 
 - **ITestQuoteObserver** - Tests hub compatibility with quote providers (required for all quote-observable indicators)
 - **ITestChainObserver** - Tests hub compatibility with chain providers (inherits ITestQuoteObserver)
 - **ITestChainProvider** - Tests hub capability as a chain provider
 - **ITestPairsObserver** - Tests dual synchronized providers (must NOT also implement ITestQuoteObserver)
 
-### Common Patterns
+### Common patterns
 
 ```csharp
 // Most common: Chainable indicator
@@ -69,11 +69,11 @@ public class CorrelationHub : StreamHubTestBase, ITestPairsObserver
 }
 ```
 
-## Comprehensive Rollback Validation (REQUIRED)
+## Comprehensive rollback validation (REQUIRED)
 
 Every StreamHub QuoteObserver test MUST cover these scenarios:
 
-### Canonical Pattern (from EmaHub tests)
+### Canonical pattern (from EmaHub tests)
 
 ```csharp
 [TestMethod]
@@ -129,9 +129,9 @@ public void QuoteObserver()
 
 Reference: `tests/indicators/e-k/Ema/Ema.StreamHub.Tests.cs`
 
-## Test Structure and Organization
+## Test structure and organization
 
-### Recommended Member Order
+### Recommended member order
 
 1. Constants/fields (lookback periods, shared test data)
 2. Setup/fixtures (TestInitialize, test hubs/providers)
@@ -143,7 +143,7 @@ Reference: `tests/indicators/e-k/Ema/Ema.StreamHub.Tests.cs`
 8. Performance placeholder (if present)
 9. Private helpers
 
-### Minimal Happy Path Example
+### Minimal happy path example
 
 ```csharp
 [TestMethod]
@@ -163,41 +163,41 @@ public void Standard()
 }
 ```
 
-## Critical Test Coverage Areas
+## Critical test coverage areas
 
-### 1. State Management
+### 1. State management
 
 - Reset() clears all state
 - Reinitialize() restores proper state
 - RollbackState handles history mutations correctly
 
-### 2. Boundary Conditions
+### 2. Boundary conditions
 
 - Insufficient data periods
 - Exact warmup period boundary
 - Empty or null inputs
 
-### 3. Series Parity
+### 3. Series parity
 
 - Identical results to Series implementation
 - Strict ordering with `o => o.WithStrictOrdering()`
 - All output properties match
 
-### 4. Provider History Mutations
+### 4. Provider history mutations
 
 - Insert late quote triggers recalculation
 - Remove quote maintains parity
 - Multiple mutations handled correctly
 
-### 5. Dual-Stream Specific (PairsProvider)
+### 5. Dual-stream specific (PairsProvider)
 
 - Timestamp synchronization validation
 - Sufficient data checks in both caches
 - Mismatch error handling
 
-## Common Test Anti-Patterns
+## Common test anti-patterns
 
-### ❌ WRONG: No Rollback Validation
+### ❌ WRONG: No rollback validation
 
 ```csharp
 // ❌ Missing Insert/Remove testing
@@ -211,7 +211,7 @@ public void Standard()
 }
 ```
 
-### ✅ CORRECT: Comprehensive Coverage
+### ✅ CORRECT: Comprehensive coverage
 
 ```csharp
 [TestMethod]
@@ -222,7 +222,7 @@ public void QuoteObserver()
 }
 ```
 
-## Dual-Stream Testing (PairsProvider)
+## Dual-stream testing (PairsProvider)
 
 ```csharp
 [TestMethod]
@@ -266,7 +266,7 @@ public void TimestampMismatch()
 }
 ```
 
-## Performance Testing
+## Performance testing
 
 ```csharp
 // Add to tools/performance/Perf.Stream.cs
@@ -274,7 +274,7 @@ public void TimestampMismatch()
 public object {IndicatorName}Hub() => quoteHub.To{IndicatorName}Hub({params}).Results;
 ```
 
-## Required Test Methods
+## Required test methods
 
 ### CustomToString() - REQUIRED for all StreamHub tests
 
@@ -296,7 +296,7 @@ public void CustomToString()
 }
 ```
 
-### Interface Methods - Based on provider pattern
+### Interface methods - based on provider pattern
 
 - `QuoteObserver()` - If implementing ITestQuoteObserver
 - `ChainObserver()` - If implementing ITestChainObserver
@@ -304,9 +304,9 @@ public void CustomToString()
 - `PairsObserver()` - If implementing ITestPairsObserver
 - `TimestampMismatch()` - If implementing ITestPairsObserver
 
-## Documentation Testing Requirements
+## Documentation testing requirements
 
-### XML Documentation Verification
+### XML documentation verification
 
 During code review, verify:
 
@@ -316,7 +316,7 @@ During code review, verify:
 - Exceptions documented with `/// <exception>`
 - No missing or incomplete documentation
 
-### Usage Example Validation
+### Usage example validation
 
 Ensure `docs/_indicators/{IndicatorName}.md` includes:
 
@@ -325,30 +325,30 @@ Ensure `docs/_indicators/{IndicatorName}.md` includes:
 - Warmup period documentation
 - Any streaming-specific behavior notes
 
-### Test Coverage Gaps to Watch For
+### Test coverage gaps to watch for
 
-**Missing RollbackState Tests:**
+**Missing RollbackState tests:**
 
 - No Insert() scenario
 - No Remove() scenario
 - No warmup prefill
 - No duplicate arrival handling
 
-**Missing Boundary Tests:**
+**Missing boundary tests:**
 
 - No insufficient data test
 - No exact warmup period test
 - No empty provider test
 
-**Missing State Tests:**
+**Missing state tests:**
 
 - No Reset() verification
 - No Reinitialize() verification
 - No IsFaulted recovery test
 
-## Debugging Test Failures
+## Debugging test failures
 
-### Series Parity Failures
+### Series parity failures
 
 **Symptom**: `BeEquivalentTo` fails on specific values
 **Causes**:
@@ -365,7 +365,7 @@ Ensure `docs/_indicators/{IndicatorName}.md` includes:
 3. Add logging in ToIndicator to trace state evolution
 4. Verify RollbackState clears ALL state variables
 
-### Insert/Remove Failures
+### Insert/Remove failures
 
 **Symptom**: Parity breaks after provider history mutation
 **Causes**:
@@ -382,7 +382,7 @@ Ensure `docs/_indicators/{IndicatorName}.md` includes:
 3. Ensure ALL state cleared before rebuild
 4. Test RollbackState in isolation
 
-### Timestamp Mismatch (PairsProvider)
+### Timestamp mismatch (PairsProvider)
 
 **Symptom**: InvalidQuotesException not thrown when expected
 **Causes**:
@@ -399,7 +399,7 @@ Ensure `docs/_indicators/{IndicatorName}.md` includes:
 
 When helping with StreamHub testing, always emphasize comprehensive rollback validation, Series parity with strict ordering, appropriate test interface selection, and the REQUIRED CustomToString test method. Guide developers through debugging test failures systematically.
 
-## When to Use This Agent
+## When to use this agent
 
 Invoke `@streamhub-testing` when you need help with:
 
@@ -411,7 +411,16 @@ Invoke `@streamhub-testing` when you need help with:
 - Testing dual-stream (PairsProvider) indicators
 - Debugging test failures
 
-## Example Usage
+For general StreamHub development, see `@streamhub`. For comprehensive guidelines, see `.github/instructions/indicator-stream.instructions.md`.
+
+## Related agents
+
+- `@streamhub` - General StreamHub development patterns and provider selection
+- `@streamhub-state` - State management and RollbackState patterns
+- `@streamhub-performance` - Performance optimization and O(1) patterns
+- `@streamhub-pairs` - Dual-stream indicators with synchronized inputs
+
+## Example usage
 
 ```text
 @streamhub-testing Which test interfaces should I implement for a ChainProvider hub?

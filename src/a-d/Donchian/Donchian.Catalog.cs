@@ -10,7 +10,6 @@ public static partial class Donchian
             .WithName("Donchian Channels")
             .WithId("DONCHIAN")
             .WithCategory(Category.PriceChannel)
-            .WithMethodName("ToDonchian")
             .AddParameter<int>("lookbackPeriods", "Lookback Periods", defaultValue: 20, minimum: 1, maximum: 250)
             .AddResult("UpperBand", "Upper Band", ResultType.Default)
             .AddResult("Centerline", "Centerline", ResultType.Default, isReusable: true)
@@ -24,6 +23,7 @@ public static partial class Donchian
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
+            .WithMethodName("ToDonchian")
             .Build();
 
     /// <summary>
@@ -32,6 +32,7 @@ public static partial class Donchian
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
+            .WithMethodName("ToDonchianHub")
             .Build();
 
     /// <summary>
@@ -40,5 +41,6 @@ public static partial class Donchian
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)
+            .WithMethodName("ToDonchianList")
             .Build();
 }

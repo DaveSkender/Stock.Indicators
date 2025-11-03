@@ -71,7 +71,7 @@ public class BetaTests : TestBase
         listing.Uiid.Should().Be("BETA");
         listing.Style.Should().Be(Style.Buffer);
         listing.Category.Should().Be(Category.PriceCharacteristic);
-        listing.MethodName.Should().Be("ToBeta");
+        listing.MethodName.Should().Be("ToBetaList");
 
         listing.Parameters.Should().NotBeNull();
         listing.Parameters.Should().HaveCount(4);

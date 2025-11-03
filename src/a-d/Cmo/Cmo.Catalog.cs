@@ -10,7 +10,6 @@ public static partial class Cmo
             .WithName("Chande Momentum Oscillator")
             .WithId("CMO")
             .WithCategory(Category.Oscillator)
-            .WithMethodName("ToCmo")
             .AddParameter<int>("lookbackPeriods", "Lookback Periods", defaultValue: 14, minimum: 1, maximum: 250)
             .AddResult("Cmo", "CMO", ResultType.Default, isReusable: true)
             .Build();
@@ -21,6 +20,7 @@ public static partial class Cmo
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
+            .WithMethodName("ToCmo")
             .Build();
 
     /// <summary>
@@ -29,6 +29,7 @@ public static partial class Cmo
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
+            .WithMethodName("ToCmoHub")
             .Build();
 
     /// <summary>
@@ -37,5 +38,6 @@ public static partial class Cmo
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)
+            .WithMethodName("ToCmoList")
             .Build();
 }

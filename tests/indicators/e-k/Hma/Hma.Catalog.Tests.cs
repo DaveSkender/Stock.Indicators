@@ -47,7 +47,7 @@ public class HmaTests : TestBase
         listing.Uiid.Should().Be("HMA");
         listing.Style.Should().Be(Style.Stream);
         listing.Category.Should().Be(Category.MovingAverage);
-        listing.MethodName.Should().Be("ToHma");
+        listing.MethodName.Should().Be("ToHmaHub");
 
         listing.Parameters.Should().NotBeNull();
         listing.Parameters.Should().HaveCount(1);
@@ -76,7 +76,7 @@ public class HmaTests : TestBase
         listing.Uiid.Should().Be("HMA");
         listing.Style.Should().Be(Style.Buffer);
         listing.Category.Should().Be(Category.MovingAverage);
-        listing.MethodName.Should().Be("ToHma");
+        listing.MethodName.Should().Be("ToHmaList");
 
         listing.Parameters.Should().NotBeNull();
         listing.Parameters.Should().HaveCount(1);
