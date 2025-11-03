@@ -119,6 +119,12 @@ IReadOnlyList<RenkoResult>
 - This method returns a time series of all available indicator values for the `quotes` provided.
 - It does not return a single incremental indicator value.
 
+## Streaming and real-time usage for ATR variant
+
+**⚠️ Streaming not supported for ATR variant**: The `ToRenkoAtr()` method requires calculating ATR across the full dataset to determine the final brick size. Incremental streaming (StreamHub) or buffer (BufferList) implementations would require buffering all historical quotes and recalculating the entire Renko series on each new data point, which defeats the purpose of incremental processing.
+
+**Recommendation**: Use the Series implementation (`ToRenkoAtr()`) with periodic batch recalculation. For real-time scenarios with dynamic brick sizing, consider recalculating at appropriate intervals rather than on every tick. Alternatively, use the fixed brick size variant (`ToRenko()`) which fully supports streaming and buffering (see below).
+
 ## Streaming
 
 Subscribe to a `QuoteHub` for streaming scenarios:
