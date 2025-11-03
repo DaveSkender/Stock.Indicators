@@ -104,6 +104,7 @@ public class StreamIndicators
     [Benchmark] public object SmiHub() => quoteHub.ToSmiHub(13, 25, 2, 3).Results;
     [Benchmark] public object SmaAnalysisHub() => quoteHub.ToSmaAnalysisHub(20).Results;
     [Benchmark] public object SmmaHub() => quoteHub.ToSmmaHub(n).Results;
+    [Benchmark] public object StarcBandsHub() => quoteHub.ToStarcBandsHub(5, 2, 10).Results;
     [Benchmark] public object StcHub() => quoteHub.ToStcHub(10, 23, 50).Results;
     [Benchmark] public object StdDevChannelsHub() => quoteHub.ToStdDevChannelsHub(20, 2).Results;
     [Benchmark] public object StochHub() => quoteHub.ToStochHub(n, 3, 3).Results;
@@ -116,7 +117,9 @@ public class StreamIndicators
     [Benchmark] public object TsiHub() => quoteHub.ToTsiHub(25, 13, 7).Results;
     [Benchmark] public object UlcerIndexHub() => quoteHub.ToUlcerIndexHub(n).Results;
     [Benchmark] public object UltimateHub() => quoteHub.ToUltimateHub(7, n, 28).Results;
+    [Benchmark] public object VolatilityStopHub() => quoteHub.ToVolatilityStopHub().Results;
     [Benchmark] public object VortexHub() => quoteHub.ToVortexHub(n).Results;
+    [Benchmark] public object VwapHub() => quoteHub.ToVwapHub().Results;
     [Benchmark] public object VwmaHub() => quoteHub.ToVwmaHub(n).Results;
     [Benchmark] public object WilliamsRHub() => quoteHub.ToWilliamsRHub().Results;
     [Benchmark] public object WmaHub() => quoteHub.ToWmaHub(n).Results;

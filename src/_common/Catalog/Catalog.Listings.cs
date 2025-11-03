@@ -379,6 +379,7 @@ public static partial class Catalog
         _listings.Add(StochRsi.StreamListing);
 
         // SuperTrend
+        _listings.Add(SuperTrend.BufferListing);
         _listings.Add(SuperTrend.SeriesListing);
         _listings.Add(SuperTrend.StreamListing);
 
@@ -420,6 +421,7 @@ public static partial class Catalog
         // Volatility Stop
         _listings.Add(VolatilityStop.SeriesListing);
         _listings.Add(VolatilityStop.BufferListing);
+        _listings.Add(VolatilityStop.StreamListing);
 
         // Vortex Indicator
         _listings.Add(Vortex.SeriesListing);
@@ -429,6 +431,7 @@ public static partial class Catalog
         // VWAP (Volume Weighted Average Price)
         _listings.Add(Vwap.SeriesListing);
         _listings.Add(Vwap.BufferListing);
+        _listings.Add(Vwap.StreamListing);
 
         // VWMA (Volume Weighted Moving Average)
         _listings.Add(Vwma.SeriesListing);
