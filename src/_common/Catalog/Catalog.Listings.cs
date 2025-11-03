@@ -211,6 +211,7 @@ public static partial class Catalog
         _listings.Add(Hurst.StreamListing);
 
         // Ichimoku Cloud
+        _listings.Add(Ichimoku.BufferListing);
         _listings.Add(Ichimoku.SeriesListing);
         _listings.Add(Ichimoku.StreamListing);
 

@@ -171,8 +171,8 @@ public class IchimokuHub
         decimal? tenkanSen = null;
         if (i >= TenkanPeriods - 1)
         {
-            decimal max = tenkanHighWindow.Max;
-            decimal min = tenkanLowWindow.Min;
+            decimal max = tenkanHighWindow.GetMax();
+            decimal min = tenkanLowWindow.GetMin();
             tenkanSen = (min + max) / 2;
         }
 
@@ -180,8 +180,8 @@ public class IchimokuHub
         decimal? kijunSen = null;
         if (i >= KijunPeriods - 1)
         {
-            decimal max = kijunHighWindow.Max;
-            decimal min = kijunLowWindow.Min;
+            decimal max = kijunHighWindow.GetMax();
+            decimal min = kijunLowWindow.GetMin();
             kijunSen = (min + max) / 2;
         }
 

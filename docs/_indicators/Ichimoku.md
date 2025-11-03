@@ -27,7 +27,11 @@ IReadOnlyList<IchimokuResult> results =
 IReadOnlyList<IchimokuResult> results =
   quotes.ToIchimoku(tenkanPeriods, kijunPeriods, senkouBPeriods, senkouOffset, chikouOffset);
 
-// streaming usage
+// buffered usage (incremental)
+IchimokuList buffer = quotes.ToIchimokuList(tenkanPeriods, kijunPeriods, senkouBPeriods);
+IReadOnlyList<IchimokuResult> results = buffer;
+
+// streaming usage (real-time)
 IchimokuHub hub = quotes.ToIchimokuHub(tenkanPeriods, kijunPeriods, senkouBPeriods);
 IReadOnlyList<IchimokuResult> results = hub.Results;
 ```
