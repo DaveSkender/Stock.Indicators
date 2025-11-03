@@ -103,6 +103,7 @@ public class StarcBandsHub
                             (double)ProviderCache[p].Low,
                             (double)ProviderCache[p - 1].Close);
                     }
+
                     _prevAtr = sumTr / AtrPeriods;
                 }
             }
