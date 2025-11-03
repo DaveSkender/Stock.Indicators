@@ -35,5 +35,12 @@ public static partial class SuperTrend
             .WithMethodName("ToSuperTrendHub")
             .Build();
 
-    // No BufferListing for SuperTrend.
+    /// <summary>
+    /// SuperTrend Buffer Listing
+    /// </summary>
+    internal static readonly IndicatorListing BufferListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Buffer)
+            .WithMethodName("ToSuperTrendList")
+            .Build();
 }
