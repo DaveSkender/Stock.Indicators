@@ -6,6 +6,7 @@ This guide provides a migration path from v2 to v3 of the Stock Indicators libra
 
 ## Summary of Technical Changes
 
+- **ADXR calculation corrected**: Fixed off-by-one error in ADXR (Average Directional Movement Rating) calculation. ADXR now correctly averages the current ADX with the ADX from exactly `lookbackPeriods` ago (previously used `lookbackPeriods - 1`). This affects all implementation styles (Series, BufferList, StreamHub). ADXR values will differ slightly from previous versions, and the first ADXR will appear one period later.
 - All static time-series API method prefixes were renamed from `GetX()` to `ToX()`.
 - `Use()` method parameter `candlePart` is now required and no longer defaults to `CandlePart.Close`.
 - `Use()` now returns a chainable `QuotePart` instead of a tuple.
@@ -38,6 +39,11 @@ This guide provides a migration path from v2 to v3 of the Stock Indicators libra
 
 ### Indicator-Specific Changes
 
+- **ADX/ADXR calculation fix**: The ADXR (Average Directional Movement Rating) calculation has been corrected to properly average the current ADX with the ADX from exactly `lookbackPeriods` ago, rather than `lookbackPeriods - 1` periods ago. This mathematical correction affects all three implementation styles (Series, BufferList, StreamHub). As a result:
+  - ADXR values will be slightly different from previous versions
+  - The first ADXR value appears one period later (e.g., at index 41 instead of 40 for default lookbackPeriods=14)
+  - The total count of non-null ADXR values decreases by one
+  - This change ensures ADXR correctly follows the standard formula: `ADXR = (Current ADX + ADX from N periods ago) / 2`
 - `UlcerIndexResult` property `UI` was renamed to `UlcerIndex`.
 - Deprecated 'GetX' tuple interfaces.
 - Deprecated internal signals for several indicators.

@@ -14,8 +14,8 @@ public class ZigZagTests : TestBase
 
         // Assert
         listing.Should().NotBeNull();
-        listing.Name.Should().Be("Zig Zag (close)");
-        listing.Uiid.Should().Be("ZIGZAG-CLOSE");
+        listing.Name.Should().Be("Zig Zag");
+        listing.Uiid.Should().Be("ZIGZAG");
         listing.Style.Should().Be(Style.Series);
         listing.Category.Should().Be(Category.PriceTransform);
         listing.MethodName.Should().Be("ToZigZag");
