@@ -62,7 +62,7 @@ public class VwapHub : ChainProvider<IQuote, VwapResult>
             _cumVolume += volume;
             _cumVolumeTp += volume * (high + low + close) / 3;
 
-            vwap = Math.Abs(_cumVolume) > double.Epsilon ? _cumVolumeTp / _cumVolume : null;
+            vwap = _cumVolume != 0 ? _cumVolumeTp / _cumVolume : null;
         }
         else
         {

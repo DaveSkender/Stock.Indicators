@@ -73,3 +73,33 @@ var results = quotes
 ```
 
 This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.
+
+## Streaming
+
+Use the buffer-style `List<T>` when you need incremental calculations without a hub:
+
+```csharp
+VwapList vwapList = new(startDate);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  vwapList.Add(quote);
+}
+
+// based on `ICollection<VwapResult>`
+IReadOnlyList<VwapResult> results = vwapList;
+```
+
+Subscribe to a `QuoteHub` for advanced streaming scenarios:
+
+```csharp
+QuoteHub quoteHub = new();
+VwapHub observer = quoteHub.ToVwapHub(startDate);
+
+foreach (Quote quote in quotes)  // simulating stream
+{
+  quoteHub.Add(quote);
+}
+
+IReadOnlyList<VwapResult> results = observer.Results;
+```

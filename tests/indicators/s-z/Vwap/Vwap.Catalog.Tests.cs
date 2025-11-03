@@ -72,7 +72,7 @@ public class VwapTests : TestBase
         listing.Uiid.Should().Be("VWAP");
         listing.Style.Should().Be(Style.Stream);
         listing.Category.Should().Be(Category.PriceChannel);
-        listing.MethodName.Should().Be("ToVwap");
+        listing.MethodName.Should().Be("ToVwapHub");
 
         listing.Parameters?.Count.Should().Be(1);
 
