@@ -378,6 +378,7 @@ public static partial class Catalog
         _listings.Add(StochRsi.StreamListing);
 
         // SuperTrend
+        _listings.Add(SuperTrend.BufferListing);
         _listings.Add(SuperTrend.SeriesListing);
         _listings.Add(SuperTrend.StreamListing);
 
