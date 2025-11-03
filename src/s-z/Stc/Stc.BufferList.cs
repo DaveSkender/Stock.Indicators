@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Schaff Trend Cycle from incremental reusable values.
 /// </summary>
-public class StcList : BufferList<StcResult>, IIncrementFromChain
+public class StcList : BufferList<StcResult>, IIncrementFromChain, IStc
 {
     private readonly MacdList _macdList;
     private readonly StochList _stochList;
