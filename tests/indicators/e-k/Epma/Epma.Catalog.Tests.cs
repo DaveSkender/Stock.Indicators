@@ -47,7 +47,7 @@ public class EpmaTests : TestBase
         listing.Uiid.Should().Be("EPMA");
         listing.Style.Should().Be(Style.Stream);
         listing.Category.Should().Be(Category.MovingAverage);
-        listing.MethodName.Should().Be("ToEpma");
+        listing.MethodName.Should().Be("ToEpmaHub");
 
         listing.Parameters.Should().NotBeNull();
         listing.Parameters.Should().HaveCount(1);
@@ -68,7 +68,7 @@ public class EpmaTests : TestBase
         listing.Uiid.Should().Be("EPMA");
         listing.Style.Should().Be(Style.Buffer);
         listing.Category.Should().Be(Category.MovingAverage);
-        listing.MethodName.Should().Be("ToEpma");
+        listing.MethodName.Should().Be("ToEpmaList");
 
         listing.Parameters.Should().NotBeNull();
         listing.Parameters.Should().HaveCount(1);

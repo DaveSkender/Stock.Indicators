@@ -10,7 +10,6 @@ public static partial class Beta
             .WithName("Beta")
             .WithId("BETA")
             .WithCategory(Category.PriceCharacteristic)
-            .WithMethodName("ToBeta")
             .AddSeriesParameter("sourceEval", "Evaluated Prices")
             .AddSeriesParameter("sourceMrkt", "Market Prices")
             .AddParameter<int>("lookbackPeriods", "Lookback Periods", defaultValue: 50, minimum: 1, maximum: 250)
@@ -30,6 +29,7 @@ public static partial class Beta
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
+            .WithMethodName("ToBeta")
             .Build();
 
     /// <summary>
@@ -38,6 +38,7 @@ public static partial class Beta
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)
+            .WithMethodName("ToBetaList")
             .Build();
 
     // No StreamListing for BETA.

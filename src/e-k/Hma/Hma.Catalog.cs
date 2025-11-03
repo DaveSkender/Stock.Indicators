@@ -10,7 +10,6 @@ public static partial class Hma
             .WithName("Hull Moving Average")
             .WithId("HMA")
             .WithCategory(Category.MovingAverage)
-            .WithMethodName("ToHma")
             .AddParameter<int>("lookbackPeriods", "Lookback Periods", defaultValue: 14, minimum: 2, maximum: 250)
             .AddResult("Hma", "HMA", ResultType.Default, isReusable: true)
             .Build();
@@ -21,6 +20,7 @@ public static partial class Hma
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
+            .WithMethodName("ToHma")
             .Build();
 
     /// <summary>
@@ -29,6 +29,7 @@ public static partial class Hma
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
+            .WithMethodName("ToHmaHub")
             .Build();
 
     /// <summary>
@@ -37,5 +38,6 @@ public static partial class Hma
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)
+            .WithMethodName("ToHmaList")
             .Build();
 }
