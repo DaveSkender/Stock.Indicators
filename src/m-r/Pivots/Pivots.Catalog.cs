@@ -10,7 +10,6 @@ public static partial class Pivots
             .WithName("Pivots")
             .WithId("PIVOTS")
             .WithCategory(Category.PriceTrend)
-            .WithMethodName("ToPivots")
             .AddParameter<int>("leftSpan", "Left Span", description: "Number of periods to the left for pivot identification", isRequired: false, defaultValue: 2, minimum: 2, maximum: 100)
             .AddParameter<int>("rightSpan", "Right Span", description: "Number of periods to the right for pivot identification", isRequired: false, defaultValue: 2, minimum: 2, maximum: 100)
             .AddParameter<int>("maxTrendPeriods", "Max Trend Periods", description: "Maximum number of periods to track trend", isRequired: false, defaultValue: 20, minimum: 2, maximum: 1000)
@@ -29,6 +28,7 @@ public static partial class Pivots
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
+            .WithMethodName("ToPivots")
             .Build();
 
     /// <summary>
@@ -37,6 +37,7 @@ public static partial class Pivots
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)
+            .WithMethodName("ToPivotsList")
             .Build();
 
     /// <summary>
@@ -45,5 +46,6 @@ public static partial class Pivots
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
+            .WithMethodName("ToPivotsHub")
             .Build();
 }

@@ -9,8 +9,8 @@ public class SmaAnalysisTests : RegressionTestBase<SmaAnalysisResult>
     public override void Series() => Quotes.ToSmaAnalysis(20).AssertEquals(Expected);
 
     [TestMethod]
-    public override void Buffer() => Assert.Inconclusive("Buffer implementation not yet available");
+    public override void Buffer() => new SmaAnalysisList(20, Quotes).AssertEquals(Expected);
 
     [TestMethod]
-    public override void Stream() => Assert.Inconclusive("Stream implementation not yet available");
+    public override void Stream() => Quotes.ToSmaAnalysisHub(20).Results.AssertEquals(Expected);
 }

@@ -10,7 +10,6 @@ public static partial class Alma
             .WithName("Arnaud Legoux Moving Average (ALMA)")
             .WithId("ALMA")
             .WithCategory(Category.MovingAverage)
-            .WithMethodName("ToAlma")
             .AddParameter<int>("lookbackPeriods", "Lookback Periods", defaultValue: 9, minimum: 2, maximum: 250)
             .AddParameter<double>("offset", "Offset", defaultValue: 0.85, minimum: 0.0, maximum: 1.0)
             .AddParameter<double>("sigma", "Sigma", defaultValue: 6.0, minimum: 0.1, maximum: 10.0)
@@ -23,6 +22,7 @@ public static partial class Alma
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
+            .WithMethodName("ToAlma")
             .Build();
 
     /// <summary>
@@ -31,6 +31,7 @@ public static partial class Alma
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
+            .WithMethodName("ToAlmaHub")
             .Build();
 
     /// <summary>
@@ -39,5 +40,6 @@ public static partial class Alma
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)
+            .WithMethodName("ToAlmaList")
             .Build();
 }

@@ -10,7 +10,6 @@ public static partial class Tsi
             .WithName("True Strength Index")
             .WithId("TSI")
             .WithCategory(Category.Oscillator)
-            .WithMethodName("ToTsi")
             .AddParameter<int>("lookbackPeriods", "Lookback Periods", description: "Number of periods for the TSI calculation", isRequired: false, defaultValue: 25, minimum: 1, maximum: 250)
             .AddParameter<int>("smoothPeriods", "Smooth Periods", description: "Number of periods for smoothing", isRequired: false, defaultValue: 13, minimum: 1, maximum: 250)
             .AddParameter<int>("signalPeriods", "Signal Periods", description: "Number of periods for the signal line", isRequired: false, defaultValue: 7, minimum: 1, maximum: 50)
@@ -24,6 +23,7 @@ public static partial class Tsi
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
+            .WithMethodName("ToTsi")
             .Build();
 
     /// <summary>
@@ -32,6 +32,7 @@ public static partial class Tsi
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)
+            .WithMethodName("ToTsiList")
             .Build();
 
     /// <summary>

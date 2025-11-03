@@ -47,7 +47,7 @@ public class HurstTests : TestBase
         listing.Uiid.Should().Be("HURST");
         listing.Style.Should().Be(Style.Buffer);
         listing.Category.Should().Be(Category.PriceCharacteristic);
-        listing.MethodName.Should().Be("ToHurst");
+        listing.MethodName.Should().Be("ToHurstList");
 
         listing.Parameters.Should().NotBeNull();
         listing.Parameters.Should().HaveCount(1);
