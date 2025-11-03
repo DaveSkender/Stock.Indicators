@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Hurst Exponent from incremental reusable values.
 /// </summary>
-public class HurstList : BufferList<HurstResult>, IIncrementFromChain
+public class HurstList : BufferList<HurstResult>, IIncrementFromChain, IHurst
 {
     private readonly Queue<double> _buffer;
 

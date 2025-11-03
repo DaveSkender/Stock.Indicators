@@ -7,6 +7,28 @@ applyTo: 'src/**/*.BufferList.cs,tests/**/*.BufferList.Tests.cs'
 
 These instructions apply to buffer-style indicators that process data incrementally with efficient buffering mechanisms.
 
+## When to use this agent
+
+Invoke `@buffer` when you need help with:
+
+- Implementing new BufferList indicators with incremental processing
+- Choosing the correct increment interface (IIncrementFromChain, IIncrementFromQuote, IIncrementFromPairs)
+- Using universal buffer utilities (BufferListUtilities.Update/UpdateWithDequeue)
+- Managing internal state efficiently with tuples or fields
+- Writing BufferList tests with Series parity validation
+- Implementing proper constructor patterns (primary + chaining)
+- Debugging equivalence issues with Series results
+
+For quick decision guidance and pattern selection, use the agent. For comprehensive implementation details and complete checklists, continue reading this document.
+
+## Related agents
+
+- `@series` - Series indicator development guidance (canonical reference for mathematical correctness)
+- `@streamhub` - StreamHub indicator development guidance (real-time processing with state management)
+- `@performance` - Performance optimization guidance (algorithmic complexity, O(1) patterns, benchmarking)
+
+See also: `.github/agents/indicator-buffer.agent.md` for decision trees and quick reference patterns.
+
 ## Code completion checklist
 
 When implementing or updating an indicator, you must complete:
@@ -292,8 +314,8 @@ When implementing other complex or previously deferred indicators (for example: 
 > [!NOTE]
 > For PRs, use the dev-facing Code completion checklist above, and the contributor-facing checklists in SpecKit:
 >
-> - BufferList tests: `specs/001-develop-streaming-indicators/checklists/buffer-list-tests.md`
-> - StreamHub tests: `specs/001-develop-streaming-indicators/checklists/stream-hub-tests.md`
+> - BufferList tests: `.specify/specs/001-develop-streaming-indicators/checklists/buffer-list-tests.md`
+> - StreamHub tests: `.specify/specs/001-develop-streaming-indicators/checklists/stream-hub-tests.md`
 
 ---
 Last updated: October 28, 2025

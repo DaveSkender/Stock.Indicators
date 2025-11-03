@@ -1,7 +1,7 @@
 # Implementation plan: streaming indicators framework
 
 **Branch**: `001-develop-streaming-indicators` | **Date**: October 13, 2025 | **Spec**: [spec.md](./spec.md)
-**Input**: Feature specification from `/specs/001-develop-streaming-indicators/spec.md`
+**Input**: Feature specification from `/.specify/specs/001-develop-streaming-indicators/spec.md`
 
 > **IMPORTANT**: This planning document contains conceptual examples that may not match actual codebase patterns. For authoritative implementation guidance, always reference:
 >
@@ -48,7 +48,7 @@ Implement two streaming indicator styles (BufferList and StreamHub) enabling inc
 ### Documentation (this feature)
 
 ```text
-specs/001-develop-streaming-indicators/
+.specify/specs/001-develop-streaming-indicators/
 ├── plan.md              # This file
 ├── research.md          # Phase 0 output
 ├── data-model.md        # Phase 1 output
@@ -146,8 +146,8 @@ Prerequisites: research.md complete (decisions documented in Phase 0 above)
 
 | Indicator Type | BufferList Interface | StreamHub Interface | Constructor Pattern |
 |----------------|---------------------|---------------------|---------------------|
-| Chainable (single value) | `IIncrementFromChain` | `IChainProvider<T>` | `IReadOnlyList<IReusable> values` |
-| Multi-OHLC required | `IIncrementFromQuote` | `IQuoteProvider<T>` | `IReadOnlyList<IQuote> quotes` |
+| Chainable (single value) | `IIncrementFromChain` | `IChainProvider<T>` | `IReadOnlyList<IReusable>` values |
+| Multi-OHLC required | `IIncrementFromQuote` | `IQuoteProvider<T>` | `IReadOnlyList<IQuote>` quotes |
 | Dual-series input | `IIncrementFromPairs` | `IPairsProvider<T>` | Paired `IReusable` series |
 
 ### Quality gates
@@ -336,6 +336,18 @@ The following base classes and utilities already exist in `src/_common/`:
 - Update `README.md` with streaming overview paragraph
 - Update `src/MigrationGuide.V3.md` migration guide with streaming capability summary (public release notes remain automated via GitHub Releases)
 
+### Priority 4 enhancements (deferred to post-coverage phase)
+
+The following enhancements are tracked in spec.md P4 user stories but deferred until comprehensive BufferList/StreamHub coverage is achieved:
+
+- **ZigZag StreamHub optimization** (Issue #1692, P4.1): Refactor from O(n) Series recalculation to incremental pivot-based updates. Current implementation (T170) uses Series for correctness but requires performance optimization for production use.
+
+- **QuoteHub self-healing** (Issue #1585, P4.2): Enable updating most recent quote properties without index exceptions. Requires design decision on update semantics and rollback behavior for subscribed indicators.
+
+- **ADX DMI output** (Issue #1262, P4.3): Add +DI/-DI properties to ADX results. Series implementation complete (PR merged), requires propagation to BufferList (T002) and StreamHub (T087) implementations.
+
+**Note**: Issues #1062 (incremental ADX) is resolved by existing streaming implementations (T002, T087).
+
 ### Quality gates and conformance
 
 - Run public API approval tests (`tests/public-api`) to confirm streaming additions respect existing signatures and conventions
@@ -347,18 +359,19 @@ The following base classes and utilities already exist in `src/_common/`:
 **Task generation strategy**:
 
 - Load Phase 1 contracts and data model
-- Generate tasks per indicator per style (5 indicators × 2 styles = 10 implementation groups)
+- Generate tasks per indicator per style (85 indicators × 2 styles = 170 implementation groups)
 - Each group: interface → BufferList impl → BufferList tests → StreamHub impl → StreamHub tests
 - Mark [P] for parallel execution across different indicators
 - Sequential within each indicator (tests depend on impl)
 
 **Ordering strategy**:
 
-- Common infrastructure first (IStreamingIndicator, StreamingState, test helpers)
-- Then per-indicator rollout: SMA → EMA → RSI → MACD → Bollinger Bands
+- Common infrastructure first (compliance audits, instruction file updates)
+- Then per-indicator rollout across all 85 Series indicators
 - Tests before marking implementation complete (TDD)
+- Alphabetical grouping (a-d, e-k, m-r, s-z) enables parallel development
 
-**Estimated output**: ~40 tasks (infrastructure + 5 indicators × 2 styles × 3 tasks each)
+**Estimated output**: 214 tasks (10 infrastructure + 85 BufferList + 85 StreamHub + 17 test infrastructure + 7 documentation + 10 P4 enhancements)
 
 ## Phase 3+: Future implementation
 
@@ -367,6 +380,45 @@ The following base classes and utilities already exist in `src/_common/`:
 **Phase 3**: Task execution (/tasks command creates tasks.md)  
 **Phase 4**: Implementation (execute tasks.md following constitutional principles)  
 **Phase 5**: Validation (run tests, performance validation, documentation review)
+
+> **CRITICAL**: Phase 4 test infrastructure tasks (T175-T185, Q001-Q006) are **mandatory quality gates** that MUST complete before declaring feature production-ready. These tasks validate:
+>
+> - Performance benchmarks meet NFR-001 latency targets (<5ms mean, <10ms p95)
+> - Memory overhead meets NFR-002 targets (<10KB per instance)
+> - Test interface compliance across all StreamHub implementations
+> - Public API approval tests pass without breaking changes
+>
+> Current status: 0/17 Phase 4 tasks complete. Do not skip these validations—they enforce Constitution Principle 5 (Documentation Excellence) and Principle 2 (Performance First).
+
+## v3 Milestone Issues Outside Project Scope
+
+The following GitHub Issues marked with v3 milestone are NOT included in this streaming indicators project as they represent separate initiatives:
+
+- **Issue #1549**: Migrate to `agents.md` industry standard format
+  - Scope: Repository-level AI guidance infrastructure
+  - Recommendation: Create separate spec kit project for AI instruction consolidation
+
+- **Issue #1533**: Implement consistent test method naming conventions
+  - Scope: Repository-wide test quality refactoring
+  - Recommendation: Create separate spec kit project for test modernization
+
+- **Issue #1532**: Refactor legacy Round() to FluentAssertions BeApproximately()
+  - Scope: Test assertion modernization across repository
+  - Recommendation: Include in test modernization project with #1533
+
+- **Issue #1323**: Heap allocation optimization (structs, ArrayPool)
+  - Scope: Performance optimization across library (not streaming-specific)
+  - Recommendation: Create separate spec kit project for memory optimization
+
+- **Issue #1320**: Consider Docusaurus as documentation framework
+  - Scope: Documentation infrastructure migration
+  - Recommendation: Create separate spec kit project for docs migration (evaluate MkDocs vs Docusaurus vs current Jekyll)
+
+- **Issue #1297**: Add MkDocs as documentation framework
+  - Scope: Documentation infrastructure migration (alternative to #1320)
+  - Recommendation: Consolidate with #1320 into single docs migration project
+
+These issues are valuable but orthogonal to streaming indicators development. Each should be evaluated for separate spec kit project creation with appropriate constitutional analysis.
 
 ## Complexity tracking
 

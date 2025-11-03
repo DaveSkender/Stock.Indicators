@@ -440,18 +440,6 @@
       "problemMatcher": "$msCompile"
     },
     {
-      "label": "SpecKit: Create New Feature",
-      "detail": "Create new feature spec (will prompt for description)",
-      "type": "shell",
-      "command": "bash .specify/scripts/bash/create-new-feature.sh \"${input:featureDescription}\""
-    },
-    {
-      "label": "SpecKit: Setup Plan",
-      "detail": "Run setup plan script for current feature branch",
-      "type": "shell",
-      "command": "bash .specify/scripts/bash/setup-plan.sh"
-    },
-    {
       "label": "Setup: Dev tools",
       "detail": "Complete one-time environment setup (global tools, SpecKit, packages)",
       "type": "shell",
