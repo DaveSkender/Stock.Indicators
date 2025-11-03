@@ -26,6 +26,10 @@ public class AdxHub
 
         // Initialize state variables
         _isFirstPeriod = true;
+        _prevTrs = double.NaN;
+        _prevPdm = double.NaN;
+        _prevMdm = double.NaN;
+        _prevAdx = double.NaN;
         _sumTr = 0;
         _sumPdm = 0;
         _sumMdm = 0;
@@ -127,7 +131,7 @@ public class AdxHub
         else
         {
             // Initialize smoothed values on first calculation
-            if (_prevTrs == 0)
+            if (double.IsNaN(_prevTrs))
             {
                 // Initialize with SUM values (not averages) per StaticSeries implementation
                 _prevTrs = _sumTr;
@@ -160,7 +164,7 @@ public class AdxHub
                     _sumDx += dx.Value;
 
                     // Calculate initial ADX when we have enough DX values
-                    if (_prevAdx == 0 && i == (2 * LookbackPeriods) - 1)
+                    if (double.IsNaN(_prevAdx) && i == (2 * LookbackPeriods) - 1)
                     {
                         _prevAdx = _sumDx / LookbackPeriods;
                         adx = _prevAdx;
@@ -218,10 +222,10 @@ public class AdxHub
         _prevHigh = 0;
         _prevLow = 0;
         _prevClose = 0;
-        _prevTrs = 0;
-        _prevPdm = 0;
-        _prevMdm = 0;
-        _prevAdx = 0;
+        _prevTrs = double.NaN;
+        _prevPdm = double.NaN;
+        _prevMdm = double.NaN;
+        _prevAdx = double.NaN;
         _sumTr = 0;
         _sumPdm = 0;
         _sumMdm = 0;
@@ -288,7 +292,7 @@ public class AdxHub
             else
             {
                 // Initialize smoothed values on first calculation
-                if (_prevTrs == 0)
+                if (double.IsNaN(_prevTrs))
                 {
                     _prevTrs = _sumTr;
                     _prevPdm = _sumPdm;
@@ -317,7 +321,7 @@ public class AdxHub
                         _sumDx += dx;
 
                         // Calculate initial ADX when we have enough DX values
-                        if (_prevAdx == 0 && i == (2 * LookbackPeriods) - 1)
+                        if (double.IsNaN(_prevAdx) && i == (2 * LookbackPeriods) - 1)
                         {
                             _prevAdx = _sumDx / LookbackPeriods;
                         }
