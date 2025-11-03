@@ -32,5 +32,12 @@ public static partial class UlcerIndex
             .WithMethodName("ToUlcerIndexHub")
             .Build();
 
-    // No BufferListing for Ulcer Index.
+    /// <summary>
+    /// Ulcer Index Buffer Listing
+    /// </summary>
+    internal static readonly IndicatorListing BufferListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Buffer)
+            .WithMethodName("ToUlcerIndexList")
+            .Build();
 }

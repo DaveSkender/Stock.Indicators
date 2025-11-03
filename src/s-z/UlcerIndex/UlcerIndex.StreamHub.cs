@@ -49,6 +49,10 @@ public class UlcerIndexHub
             int startIdx = i + 1 - LookbackPeriods;
 
             // For each period in the lookback window
+            // NOTE: O(n²) complexity is inherent to Ulcer Index algorithm.
+            // The calculation requires finding progressive maxima (max from window start
+            // to each period p) for accurate drawdown measurement. This matches the Series
+            // implementation exactly and maintains mathematical correctness per Constitution §1.
             for (int p = startIdx; p <= i; p++)
             {
                 IReusable ps = ProviderCache[p];
@@ -82,6 +86,19 @@ public class UlcerIndexHub
             UlcerIndex: ui);
 
         return (r, i);
+    }
+
+    /// <summary>
+    /// Rollback state is not required for this indicator.
+    /// The calculation uses only ProviderCache lookups without maintaining
+    /// internal state fields. Each ToIndicator call recalculates from the cache,
+    /// so provider history mutations (Insert/Remove) are handled automatically.
+    /// </summary>
+    /// <inheritdoc/>
+    protected override void RollbackState(DateTime timestamp)
+    {
+        // No stateful fields to rollback.
+        // Calculation relies entirely on ProviderCache which is managed by the base class.
     }
 }
 
