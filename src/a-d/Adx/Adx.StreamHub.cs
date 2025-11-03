@@ -176,12 +176,12 @@ public class AdxHub
                     _prevAdx = ((_prevAdx * (LookbackPeriods - 1)) + dx.Value) / LookbackPeriods;
                     adx = _prevAdx;
 
-                    // ADXR becomes available once we have an ADX value from (lookbackPeriods - 1) periods earlier
-                    // Static series: i >= 3*lookbackPeriods - 2 (because first ADX at index 2*lookback -1)
-                    int firstAdxrIndex = (3 * LookbackPeriods) - 2; // matches series implementation expectation
-                    if (i >= firstAdxrIndex)
+                    // ADXR calculation: average of current ADX and ADX from lookbackPeriods ago
+                    // First valid ADXR when: i - lookbackPeriods >= (2 * lookbackPeriods) - 1
+                    // Which simplifies to: i >= (3 * lookbackPeriods) - 1
+                    int priorAdxIndex = i - LookbackPeriods;
+                    if (priorAdxIndex >= (2 * LookbackPeriods) - 1)
                     {
-                        int priorAdxIndex = i - LookbackPeriods + 1; // same offset as static series
                         if (priorAdxIndex >= 0 && priorAdxIndex < Results.Count)
                         {
                             double? priorAdx = Results[priorAdxIndex].Adx;
