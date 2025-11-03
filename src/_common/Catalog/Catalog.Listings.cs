@@ -436,7 +436,5 @@ public static partial class Catalog
 
         // ZigZag
         _listings.Add(ZigZag.SeriesListing);
-        _listings.Add(ZigZag.StreamListing);
-        _listings.Add(ZigZag.BufferListing);
     }
 }

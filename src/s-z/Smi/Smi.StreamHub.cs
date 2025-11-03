@@ -3,26 +3,25 @@ namespace Skender.Stock.Indicators;
 // STOCHASTIC MOMENTUM INDEX (STREAM HUB)
 
 /// <summary>
-/// Provides methods for creating Stochastic Momentum Index (SMI) hubs.
+/// Represents a Stochastic Momentum Index (SMI) stream hub that calculates SMI with signal line.
 /// </summary>
-public class SmiHub
-    : StreamHub<IQuote, SmiResult>, ISmi
+public sealed class SmiHub
+    : ChainProvider<IQuote, SmiResult>, ISmi
 {
     #region fields
 
     private readonly string hubName;
-    private readonly double k1; // First smoothing factor
-    private readonly double k2; // Second smoothing factor
-    private readonly double kS; // Signal smoothing factor
+
+    // Rolling windows for O(1) high/low tracking
     private readonly RollingWindowMax<double> _highWindow;
     private readonly RollingWindowMin<double> _lowWindow;
 
-    // State variables for incremental calculation
-    private double lastSmEma1 = double.NaN;
-    private double lastSmEma2 = double.NaN;
-    private double lastHlEma1 = double.NaN;
-    private double lastHlEma2 = double.NaN;
-    private double lastSignal = double.NaN;
+    // State for EMA smoothing
+    private double _lastSmEma1 = double.NaN;
+    private double _lastSmEma2 = double.NaN;
+    private double _lastHlEma1 = double.NaN;
+    private double _lastHlEma2 = double.NaN;
+    private double _lastSignal = double.NaN;
 
     #endregion fields
 
@@ -38,26 +37,21 @@ public class SmiHub
     /// <param name="signalPeriods">The number of periods for the signal line smoothing.</param>
     internal SmiHub(
         IStreamObservable<IQuote> provider,
-        int lookbackPeriods,
-        int firstSmoothPeriods,
-        int secondSmoothPeriods,
-        int signalPeriods) : base(provider)
+        int lookbackPeriods = 13,
+        int firstSmoothPeriods = 25,
+        int secondSmoothPeriods = 2,
+        int signalPeriods = 3) : base(provider)
     {
-        Smi.Validate(
-            lookbackPeriods,
-            firstSmoothPeriods,
-            secondSmoothPeriods,
-            signalPeriods);
+        Smi.Validate(lookbackPeriods, firstSmoothPeriods, secondSmoothPeriods, signalPeriods);
 
         LookbackPeriods = lookbackPeriods;
         FirstSmoothPeriods = firstSmoothPeriods;
         SecondSmoothPeriods = secondSmoothPeriods;
         SignalPeriods = signalPeriods;
 
-        // Calculate EMA smoothing factors
-        k1 = 2d / (firstSmoothPeriods + 1);
-        k2 = 2d / (secondSmoothPeriods + 1);
-        kS = 2d / (signalPeriods + 1);
+        K1 = 2d / (firstSmoothPeriods + 1);
+        K2 = 2d / (secondSmoothPeriods + 1);
+        KS = 2d / (signalPeriods + 1);
 
         hubName = $"SMI({lookbackPeriods},{firstSmoothPeriods},{secondSmoothPeriods},{signalPeriods})";
 
@@ -72,17 +66,32 @@ public class SmiHub
 
     #region properties
 
-    /// <inheritdoc />
+    /// <inheritdoc/>
     public int LookbackPeriods { get; init; }
 
-    /// <inheritdoc />
+    /// <inheritdoc/>
     public int FirstSmoothPeriods { get; init; }
 
-    /// <inheritdoc />
+    /// <inheritdoc/>
     public int SecondSmoothPeriods { get; init; }
 
-    /// <inheritdoc />
+    /// <inheritdoc/>
     public int SignalPeriods { get; init; }
+
+    /// <summary>
+    /// Gets the smoothing factor for the first EMA.
+    /// </summary>
+    public double K1 { get; private init; }
+
+    /// <summary>
+    /// Gets the smoothing factor for the second EMA.
+    /// </summary>
+    public double K2 { get; private init; }
+
+    /// <summary>
+    /// Gets the smoothing factor for the signal line.
+    /// </summary>
+    public double KS { get; private init; }
 
     #endregion properties
 
@@ -126,48 +135,48 @@ public class SmiHub
     private (double smi, double signal) CalculateSmi(double close)
     {
         // Use O(1) max/min retrieval from rolling windows
-        double hH = _highWindow.Max;
-        double lL = _lowWindow.Min;
+        double hH = _highWindow.GetMax();
+        double lL = _lowWindow.GetMin();
 
         // Calculate distance from midpoint and range
         double sm = close - (0.5d * (hH + lL));
         double hl = hH - lL;
 
         // Initialize last EMA values when no prior state exists
-        if (double.IsNaN(lastSmEma1))
+        if (double.IsNaN(_lastSmEma1))
         {
-            lastSmEma1 = sm;
-            lastSmEma2 = lastSmEma1;
-            lastHlEma1 = hl;
-            lastHlEma2 = lastHlEma1;
+            _lastSmEma1 = sm;
+            _lastSmEma2 = _lastSmEma1;
+            _lastHlEma1 = hl;
+            _lastHlEma2 = _lastHlEma1;
         }
 
         // First smoothing
-        double smEma1 = lastSmEma1 + (k1 * (sm - lastSmEma1));
-        double hlEma1 = lastHlEma1 + (k1 * (hl - lastHlEma1));
+        double smEma1 = _lastSmEma1 + (K1 * (sm - _lastSmEma1));
+        double hlEma1 = _lastHlEma1 + (K1 * (hl - _lastHlEma1));
 
         // Second smoothing
-        double smEma2 = lastSmEma2 + (k2 * (smEma1 - lastSmEma2));
-        double hlEma2 = lastHlEma2 + (k2 * (hlEma1 - lastHlEma2));
+        double smEma2 = _lastSmEma2 + (K2 * (smEma1 - _lastSmEma2));
+        double hlEma2 = _lastHlEma2 + (K2 * (hlEma1 - _lastHlEma2));
 
         // Stochastic momentum index
         double smi = hlEma2 != 0 ? 100 * (smEma2 / (0.5 * hlEma2)) : double.NaN;
 
         // Initialize signal line when no prior state exists
-        if (double.IsNaN(lastSignal))
+        if (double.IsNaN(_lastSignal))
         {
-            lastSignal = smi;
+            _lastSignal = smi;
         }
 
         // Signal line
-        double signal = lastSignal + (kS * (smi - lastSignal));
+        double signal = _lastSignal + (KS * (smi - _lastSignal));
 
         // Carryover values for next iteration
-        lastSmEma1 = smEma1;
-        lastSmEma2 = smEma2;
-        lastHlEma1 = hlEma1;
-        lastHlEma2 = hlEma2;
-        lastSignal = signal;
+        _lastSmEma1 = smEma1;
+        _lastSmEma2 = smEma2;
+        _lastHlEma1 = hlEma1;
+        _lastHlEma2 = hlEma2;
+        _lastSignal = signal;
 
         return (smi, signal);
     }
@@ -179,11 +188,11 @@ public class SmiHub
     protected override void RollbackState(DateTime timestamp)
     {
         // Reset state variables
-        lastSmEma1 = double.NaN;
-        lastSmEma2 = double.NaN;
-        lastHlEma1 = double.NaN;
-        lastHlEma2 = double.NaN;
-        lastSignal = double.NaN;
+        _lastSmEma1 = double.NaN;
+        _lastSmEma2 = double.NaN;
+        _lastHlEma1 = double.NaN;
+        _lastHlEma2 = double.NaN;
+        _lastSignal = double.NaN;
 
         // Clear rolling windows
         _highWindow.Clear();
@@ -226,7 +235,7 @@ public class SmiHub
 public static partial class Smi
 {
     /// <summary>
-    /// Converts the quote provider to a Stochastic Momentum Index hub.
+    /// Creates a Stochastic Momentum Index (SMI) streaming hub from a quotes provider.
     /// </summary>
     /// <param name="quoteProvider">The quote provider.</param>
     /// <param name="lookbackPeriods">The number of periods for the lookback window.</param>
@@ -245,7 +254,7 @@ public static partial class Smi
         => new(quoteProvider, lookbackPeriods, firstSmoothPeriods, secondSmoothPeriods, signalPeriods);
 
     /// <summary>
-    /// Creates a Smi hub from a collection of quotes.
+    /// Creates a Stochastic Momentum Index (SMI) hub from a collection of quotes.
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <param name="lookbackPeriods">The number of periods for the lookback window.</param>
