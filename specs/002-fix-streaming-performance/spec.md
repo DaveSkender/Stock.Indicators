@@ -132,11 +132,9 @@ Fix critical performance regressions in StreamHub and BufferList indicator imple
 - ⚠️ All BufferList indicators ≤1.5x slower than Series baseline (architectural overhead target)
 - ✅ Performance benchmarks updated with new baseline
 
-**Note on Success Criteria**: The primary success metric is **eliminating O(n²) complexity** and achieving **O(1) per-quote incremental updates**. The ≤1.5x slowdown threshold represents an aspirational **architectural overhead target** for streaming implementations (StreamHub/BufferList) compared to batch processing (Series). This is not a performance regression allowance within a single implementation style.
+**Note on Success Criteria**: The primary success metric is **eliminating O(n²) complexity** and achieving **O(1) per-quote incremental updates**. The ≤1.5x slowdown threshold represents an aspirational **architectural overhead target** for streaming implementations (StreamHub/BufferList) compared to batch processing (Series). This is not a performance regression allowance within a single implementation style—the constitution's requirement that "regressions >2% mean... MUST be justified" applies to changes within the same implementation (Series-to-Series), not cross-style comparisons (Series-to-StreamHub).
 
 Streaming architectures maintain incremental state and provide real-time updates, which inherently requires some overhead compared to batch processing that can optimize for full-dataset analysis. **Indicators that achieve O(1) incremental updates but exceed ≤1.5x due to architectural constraints are still considered successful** if they provide usable streaming performance.
-
-**Note on Performance Threshold**: The 1.5x slowdown threshold represents an acceptable **architectural overhead** for streaming implementations (StreamHub/BufferList) compared to batch processing (Series). This is not a performance regression allowance within a single implementation style. The constitution's requirement that "regressions >2% mean... MUST be justified" applies to changes within the same implementation, not cross-style comparisons. Streaming architectures maintain incremental state and provide real-time updates, which inherently requires some overhead compared to batch processing that can optimize for full-dataset analysis.
 
 ## Testing Strategy
 
