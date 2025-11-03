@@ -40,7 +40,7 @@ This repository hosts **Stock Indicators for .NET**, the production source for t
 4. **Index out of range** and buffer reuse issues in streaming indicators—guard shared spans and caches.
 5. **Performance regressions** from unnecessary allocations or LINQ. Prefer span-friendly loops and avoid boxing.
 6. **Documentation drift** between code comments, XML docs, and the published docs site.
-7. **Improper NaN handling** - Never reject NaN inputs or guard against division by zero in internal calculations. See NaN handling policy below.
+7. **Improper NaN handling** - Do not reject NaN inputs; however, always guard against division by zero when denominators can be zero. See NaN handling policy below.
 
 ## NaN handling policy
 
