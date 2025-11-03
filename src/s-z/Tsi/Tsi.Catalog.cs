@@ -35,5 +35,12 @@ public static partial class Tsi
             .WithMethodName("ToTsiList")
             .Build();
 
-    // No StreamListing for TSI.
+    /// <summary>
+    /// True Strength Index Stream Listing
+    /// </summary>
+    internal static readonly IndicatorListing StreamListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Stream)
+            .WithMethodName("ToTsiHub")
+            .Build();
 }

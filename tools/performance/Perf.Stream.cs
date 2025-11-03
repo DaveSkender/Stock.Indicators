@@ -75,6 +75,7 @@ public class StreamIndicators
     [Benchmark] public object GatorHub() => quoteHub.ToGatorHub().Results;
     [Benchmark] public object HmaHub() => quoteHub.ToHmaHub(n).Results;
     [Benchmark] public object HeikinAshiHub() => quoteHub.ToHeikinAshiHub().Results;
+    [Benchmark] public object HtTrendlineHub() => quoteHub.ToHtTrendlineHub().Results;
     [Benchmark] public object HurstHub() => quoteHub.ToHurstHub(100).Results;
     [Benchmark] public object KamaHub() => quoteHub.ToKamaHub(10, 2, 30).Results;
     [Benchmark] public object KvoHub() => quoteHub.ToKvoHub(34, 55, 13).Results;
@@ -108,6 +109,7 @@ public class StreamIndicators
     [Benchmark] public object TemaHub() => quoteHub.ToTemaHub(20).Results;
     [Benchmark] public object TrHub() => quoteHub.ToTrHub().Results;
     [Benchmark] public object TrixHub() => quoteHub.ToTrixHub(n).Results;
+    [Benchmark] public object TsiHub() => quoteHub.ToTsiHub(25, 13, 7).Results;
     [Benchmark] public object UltimateHub() => quoteHub.ToUltimateHub(7, n, 28).Results;
     [Benchmark] public object VwmaHub() => quoteHub.ToVwmaHub(n).Results;
     [Benchmark] public object WilliamsRHub() => quoteHub.ToWilliamsRHub().Results;
