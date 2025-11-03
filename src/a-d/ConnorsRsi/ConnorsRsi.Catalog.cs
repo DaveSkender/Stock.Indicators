@@ -44,5 +44,6 @@ public static partial class ConnorsRsi
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
+            .WithMethodName("ToConnorsRsiHub")
             .Build();
 }

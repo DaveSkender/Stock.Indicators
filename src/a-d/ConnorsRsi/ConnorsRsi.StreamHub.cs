@@ -76,7 +76,7 @@ public class ConnorsRsiHub
 
         // Calculate streak
         double currentValue = item.Value;
-        double currentStreak = 0;
+        double currentStreak;
 
         if (i == 0)
         {
@@ -267,7 +267,10 @@ public class ConnorsRsiHub
 
         // Restore state from cache up to the timestamp
         int index = ProviderCache.IndexGte(timestamp);
-        if (index <= 0) return;
+        if (index <= 0)
+        {
+            return;
+        }
 
         int targetIndex = index - 1;
 
