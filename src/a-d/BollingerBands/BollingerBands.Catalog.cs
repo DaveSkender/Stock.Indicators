@@ -10,7 +10,6 @@ public static partial class BollingerBands
             .WithName("Bollinger Bands®")
             .WithId("BB")
             .WithCategory(Category.PriceChannel)
-            .WithMethodName("ToBollingerBands")
             .AddParameter<int>("lookbackPeriods", "Lookback Periods", defaultValue: 20, minimum: 2, maximum: 250)
             .AddParameter<double>("standardDeviations", "Standard Deviations", defaultValue: 2.0, minimum: 0.01, maximum: 10.0)
             .AddResult("Sma", "Centerline (SMA)", ResultType.Default)
@@ -27,6 +26,7 @@ public static partial class BollingerBands
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
+            .WithMethodName("ToBollingerBands")
             .Build();
 
     /// <summary>
@@ -35,6 +35,7 @@ public static partial class BollingerBands
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
+            .WithMethodName("ToBollingerBandsHub")
             .Build();
 
     /// <summary>
@@ -43,5 +44,6 @@ public static partial class BollingerBands
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)
+            .WithMethodName("ToBollingerBandsList")
             .Build();
 }

@@ -57,7 +57,7 @@ public class StochRsiTests : TestBase
         listing.Uiid.Should().Be("STOCH-RSI");
         listing.Style.Should().Be(Style.Stream);
         listing.Category.Should().Be(Category.Oscillator);
-        listing.MethodName.Should().Be("ToStochRsi");
+        listing.MethodName.Should().Be("ToStochRsiHub");
 
         listing.Parameters.Should().NotBeNull();
         listing.Parameters.Should().HaveCount(4);
@@ -78,7 +78,7 @@ public class StochRsiTests : TestBase
         listing.Uiid.Should().Be("STOCH-RSI");
         listing.Style.Should().Be(Style.Buffer);
         listing.Category.Should().Be(Category.Oscillator);
-        listing.MethodName.Should().Be("ToStochRsi");
+        listing.MethodName.Should().Be("ToStochRsiList");
 
         listing.Parameters.Should().NotBeNull();
         listing.Parameters.Should().HaveCount(4);

@@ -47,7 +47,7 @@ public class DemaTests : TestBase
         listing.Uiid.Should().Be("DEMA");
         listing.Style.Should().Be(Style.Buffer);
         listing.Category.Should().Be(Category.MovingAverage);
-        listing.MethodName.Should().Be("ToDema");
+        listing.MethodName.Should().Be("ToDemaList");
 
         listing.Parameters.Should().NotBeNull();
         listing.Parameters.Should().HaveCount(1);
@@ -76,7 +76,7 @@ public class DemaTests : TestBase
         listing.Uiid.Should().Be("DEMA");
         listing.Style.Should().Be(Style.Stream);
         listing.Category.Should().Be(Category.MovingAverage);
-        listing.MethodName.Should().Be("ToDema");
+        listing.MethodName.Should().Be("ToDemaHub");
 
         listing.Parameters.Should().NotBeNull();
         listing.Parameters.Should().HaveCount(1);

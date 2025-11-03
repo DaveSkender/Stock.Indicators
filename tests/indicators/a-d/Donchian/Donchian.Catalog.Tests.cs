@@ -59,7 +59,7 @@ public class DonchianTests : TestBase
         listing.Uiid.Should().Be("DONCHIAN");
         listing.Style.Should().Be(Style.Stream);
         listing.Category.Should().Be(Category.PriceChannel);
-        listing.MethodName.Should().Be("ToDonchian");
+        listing.MethodName.Should().Be("ToDonchianHub");
 
         listing.Parameters.Should().NotBeNull();
         listing.Parameters.Should().HaveCount(1);
@@ -100,7 +100,7 @@ public class DonchianTests : TestBase
         listing.Uiid.Should().Be("DONCHIAN");
         listing.Style.Should().Be(Style.Buffer);
         listing.Category.Should().Be(Category.PriceChannel);
-        listing.MethodName.Should().Be("ToDonchian");
+        listing.MethodName.Should().Be("ToDonchianList");
 
         listing.Parameters.Should().NotBeNull();
         listing.Parameters.Should().HaveCount(1);

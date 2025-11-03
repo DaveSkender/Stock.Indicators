@@ -267,7 +267,11 @@ dotnet run --list
 #### Financial calculation guidelines
 
 - Use `double` precision, and limit `decimal` to price-sensitive monetary calculations
-- Handle `double.NaN` appropriately in result types
+- Follow the NaN/Infinity handling policy (see [Constitution §1](../../.specify/memory/constitution.md#1-mathematical-precision-non-negotiable) and [src/_common/README.md#nan-handling-policy](../../src/_common/README.md#nan-handling-policy)):
+  - Use `double.NaN` internally for undefined/incalculable values
+  - MUST guard division by variable denominators (e.g., `denom != 0 ? num / denom : double.NaN`)
+  - Allow natural NaN propagation through calculations (never reject NaN inputs)
+  - Convert to `null` via `.NaN2Null()` only at result boundaries
 - Implement `IReusable` interface correctly for chainable indicators
 - Follow established patterns for lookback period validation
 - Ensure calculation accuracy matches reference implementations
