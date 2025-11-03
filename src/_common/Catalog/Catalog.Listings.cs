@@ -406,6 +406,8 @@ public static partial class Catalog
 
         // Ulcer Index
         _listings.Add(UlcerIndex.SeriesListing);
+        _listings.Add(UlcerIndex.StreamListing);
+        _listings.Add(UlcerIndex.BufferListing);
 
         // Ultimate Oscillator
         _listings.Add(Ultimate.BufferListing);
