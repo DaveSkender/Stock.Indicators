@@ -10,7 +10,6 @@ public static partial class FisherTransform
             .WithName("Ehlers Fisher Transform")
             .WithId("FISHER")
             .WithCategory(Category.PriceTransform)
-            .WithMethodName("ToFisherTransform")
             .AddParameter<int>("lookbackPeriods", "Lookback Periods", defaultValue: 10, minimum: 1, maximum: 250)
             .AddResult("Fisher", "Fisher", ResultType.Default, isReusable: true)
             .AddResult("Trigger", "Trigger", ResultType.Default)
@@ -22,6 +21,7 @@ public static partial class FisherTransform
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
+            .WithMethodName("ToFisherTransform")
             .Build();
 
     /// <summary>
@@ -30,6 +30,7 @@ public static partial class FisherTransform
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
+            .WithMethodName("ToFisherTransformHub")
             .Build();
 
     /// <summary>
@@ -38,5 +39,6 @@ public static partial class FisherTransform
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)
+            .WithMethodName("ToFisherTransformList")
             .Build();
 }

@@ -38,8 +38,8 @@ public static partial class AtrStop
 
         // prevailing direction and bands
         bool isBullish = true;
-        double upperBand = double.MaxValue;
-        double lowerBand = double.MinValue;
+        double upperBand = double.NaN;
+        double lowerBand = double.NaN;
 
         // roll through source values
         for (int i = 0; i < length; i++)
@@ -53,12 +53,6 @@ public static partial class AtrStop
 
             QuoteD q = quotes[i];
             QuoteD p = quotes[i - 1];
-
-            // initialize direction on first evaluation
-            if (i == lookbackPeriods)
-            {
-                isBullish = q.Close >= p.Close;
-            }
 
             // evaluate bands
             double upperEval;
@@ -77,6 +71,14 @@ public static partial class AtrStop
             {
                 upperEval = q.High + (multiplier * atr);
                 lowerEval = q.Low - (multiplier * atr);
+            }
+
+            // initialize direction and bands on first evaluation
+            if (double.IsNaN(upperBand))
+            {
+                isBullish = q.Close >= p.Close;
+                upperBand = upperEval;
+                lowerBand = lowerEval;
             }
 
             // new upper band: can only go down, or reverse

@@ -10,7 +10,6 @@ public static partial class ConnorsRsi
             .WithName("ConnorsRSI (CRSI)")
             .WithId("CRSI")
             .WithCategory(Category.Oscillator)
-            .WithMethodName("ToConnorsRsi")
             .AddParameter<int>("rsiPeriods", "RSI Periods", defaultValue: 3, minimum: 2, maximum: 250)
             .AddParameter<int>("streakPeriods", "Streak Periods", defaultValue: 2, minimum: 2, maximum: 50)
             .AddParameter<int>("rankPeriods", "Rank Periods", defaultValue: 100, minimum: 2, maximum: 250)
@@ -27,6 +26,7 @@ public static partial class ConnorsRsi
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
+            .WithMethodName("ToConnorsRsi")
             .Build();
 
     /// <summary>
@@ -35,6 +35,7 @@ public static partial class ConnorsRsi
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)
+            .WithMethodName("ToConnorsRsiList")
             .Build();
 
     // No StreamListing for CRSI.

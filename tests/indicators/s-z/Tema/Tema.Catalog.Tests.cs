@@ -47,7 +47,7 @@ public class TemaTests : TestBase
         listing.Uiid.Should().Be("TEMA");
         listing.Style.Should().Be(Style.Buffer);
         listing.Category.Should().Be(Category.MovingAverage);
-        listing.MethodName.Should().Be("ToTema");
+        listing.MethodName.Should().Be("ToTemaList");
 
         listing.Parameters.Should().NotBeNull();
         listing.Parameters.Should().HaveCount(1);
@@ -76,7 +76,7 @@ public class TemaTests : TestBase
         listing.Uiid.Should().Be("TEMA");
         listing.Style.Should().Be(Style.Stream);
         listing.Category.Should().Be(Category.MovingAverage);
-        listing.MethodName.Should().Be("ToTema");
+        listing.MethodName.Should().Be("ToTemaHub");
 
         listing.Parameters.Should().NotBeNull();
         listing.Parameters.Should().HaveCount(1);

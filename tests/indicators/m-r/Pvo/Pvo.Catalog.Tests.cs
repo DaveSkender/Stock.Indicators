@@ -59,7 +59,7 @@ public class PvoTests : TestBase
         listing.Uiid.Should().Be("PVO");
         listing.Style.Should().Be(Style.Buffer);
         listing.Category.Should().Be(Category.VolumeBased);
-        listing.MethodName.Should().Be("ToPvo");
+        listing.MethodName.Should().Be("ToPvoList");
 
         listing.Parameters.Should().NotBeNull();
         listing.Parameters.Should().HaveCount(3);

@@ -10,7 +10,6 @@ public static partial class StdDev
             .WithName("Standard Deviation")
             .WithId("STDEV")
             .WithCategory(Category.PriceCharacteristic)
-            .WithMethodName("ToStdDev")
             .AddParameter<int>("lookbackPeriods", "Lookback Periods", description: "Number of periods for the standard deviation calculation", isRequired: false, defaultValue: 14, minimum: 1, maximum: 250)
             .AddResult("StdDev", "Standard Deviation", ResultType.Default, isReusable: true)
             .Build();
@@ -21,6 +20,7 @@ public static partial class StdDev
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
+            .WithMethodName("ToStdDev")
             .Build();
 
     // No StreamListing for Standard Deviation.

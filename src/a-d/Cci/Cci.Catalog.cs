@@ -10,7 +10,6 @@ public static partial class Cci
             .WithName("Commodity Channel Index (CCI)")
             .WithId("CCI")
             .WithCategory(Category.Oscillator)
-            .WithMethodName("ToCci")
             .AddParameter<int>("lookbackPeriods", "Lookback Periods", defaultValue: 20, minimum: 1, maximum: 250)
             .AddResult("Cci", "CCI", ResultType.Default, isReusable: true)
             .Build();
@@ -21,6 +20,7 @@ public static partial class Cci
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
+            .WithMethodName("ToCci")
             .Build();
 
     /// <summary>
@@ -29,6 +29,7 @@ public static partial class Cci
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
+            .WithMethodName("ToCciHub")
             .Build();
 
     /// <summary>
@@ -37,5 +38,6 @@ public static partial class Cci
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)
+            .WithMethodName("ToCciList")
             .Build();
 }

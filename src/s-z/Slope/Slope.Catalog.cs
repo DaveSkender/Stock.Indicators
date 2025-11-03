@@ -10,7 +10,6 @@ public static partial class Slope
             .WithName("Slope")
             .WithId("SLOPE")
             .WithCategory(Category.PriceCharacteristic)
-            .WithMethodName("ToSlope")
             .AddParameter<int>("lookbackPeriods", "Lookback Periods", description: "Number of periods for the slope calculation", isRequired: false, defaultValue: 14, minimum: 2, maximum: 250)
             .AddResult("Slope", "Slope", ResultType.Default, isReusable: true)
             .AddResult("Intercept", "Intercept", ResultType.Default)
@@ -24,6 +23,7 @@ public static partial class Slope
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
+            .WithMethodName("ToSlope")
             .Build();
 
     /// <summary>
@@ -32,6 +32,7 @@ public static partial class Slope
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)
+            .WithMethodName("ToSlopeList")
             .Build();
 
     // No StreamListing for Slope.
