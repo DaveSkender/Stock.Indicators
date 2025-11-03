@@ -10,7 +10,6 @@ public static partial class PivotPoints
             .WithName("Pivot Points")
             .WithId("PIVOT-POINTS")
             .WithCategory(Category.PriceTrend)
-            .WithMethodName("ToPivotPoints")
             .AddEnumParameter<PeriodSize>("windowSize", "Window Size", description: "Size of the window for pivot calculation", isRequired: false, defaultValue: PeriodSize.Month)
             .AddEnumParameter<PivotPointType>("pointType", "Point Type", description: "Type of pivot points to calculate", isRequired: false, defaultValue: PivotPointType.Standard)
             .AddResult("R3", "Resistance 3", ResultType.Default)
@@ -28,6 +27,7 @@ public static partial class PivotPoints
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
+            .WithMethodName("ToPivotPoints")
             .Build();
 
     // No StreamListing for Pivot Points.

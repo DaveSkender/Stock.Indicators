@@ -47,7 +47,7 @@ public class MarubozuTests : TestBase
         listing.Uiid.Should().Be("MARUBOZU");
         listing.Style.Should().Be(Style.Stream);
         listing.Category.Should().Be(Category.CandlestickPattern);
-        listing.MethodName.Should().Be("ToMarubozu");
+        listing.MethodName.Should().Be("ToMarubozuHub");
 
         listing.Parameters.Should().NotBeNull();
         listing.Parameters.Should().HaveCount(1);
