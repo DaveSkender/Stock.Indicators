@@ -78,7 +78,7 @@ public static partial class Adx
             prevLow = q.Low;
             prevClose = q.Close;
 
-            // initialization period
+            // accumulate DM initialization period values
             if (i <= lookbackPeriods)
             {
                 sumTr += tr;
@@ -100,6 +100,7 @@ public static partial class Adx
 
             if (double.IsNaN(prevTrs))
             {
+                // initialize smoothed values at first calculation after lookback
                 trs = sumTr;
                 pdm = sumPdm;
                 mdm = sumMdm;
@@ -135,30 +136,28 @@ public static partial class Adx
             double adx = double.NaN;
             double adxr = double.NaN;
 
-            if (i >= (2 * lookbackPeriods) - 1)
-            {
-                if (double.IsNaN(prevAdx))
-                {
-                    // initial ADX
-                    sumDx += dx;
-                    adx = sumDx / lookbackPeriods;
-                }
-                else
-                {
-                    adx = ((prevAdx * (lookbackPeriods - 1)) + dx) / lookbackPeriods;
-
-                    double priorAdx = results[i - lookbackPeriods + 1].Adx.Null2NaN();
-
-                    adxr = (adx + priorAdx) / 2;
-                }
-
-                prevAdx = adx;
-            }
-
-            // ADX initialization period
-            else
+            // ADX initialization period - accumulate DX values
+            if (i < (2 * lookbackPeriods))
             {
                 sumDx += dx;
+
+                // calculate initial ADX after accumulating lookbackPeriods DX values
+                if (double.IsNaN(prevAdx) && i == (2 * lookbackPeriods) - 1)
+                {
+                    adx = sumDx / lookbackPeriods;
+                    prevAdx = adx;
+                }
+            }
+            // ongoing ADX smoothing
+            else
+            {
+                adx = ((prevAdx * (lookbackPeriods - 1)) + dx) / lookbackPeriods;
+
+                double priorAdx = results[i - lookbackPeriods + 1].Adx.Null2NaN();
+
+                adxr = (adx + priorAdx) / 2;
+
+                prevAdx = adx;
             }
 
             AdxResult r = new(
