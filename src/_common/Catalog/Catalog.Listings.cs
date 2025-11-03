@@ -204,6 +204,7 @@ public static partial class Catalog
         // HT Trendline (Hilbert Transform)
         _listings.Add(HtTrendline.BufferListing);
         _listings.Add(HtTrendline.SeriesListing);
+        _listings.Add(HtTrendline.StreamListing);
 
         // Hurst Exponent
         _listings.Add(Hurst.SeriesListing);
@@ -270,6 +271,7 @@ public static partial class Catalog
         // Pivot Points
         _listings.Add(PivotPoints.SeriesListing);
         _listings.Add(PivotPoints.BufferListing);
+        _listings.Add(PivotPoints.StreamListing);
 
         // Pivots
         _listings.Add(Pivots.SeriesListing);
@@ -398,6 +400,7 @@ public static partial class Catalog
         // TSI (True Strength Index)
         _listings.Add(Tsi.SeriesListing);
         _listings.Add(Tsi.BufferListing);
+        _listings.Add(Tsi.StreamListing);
 
         // Ulcer Index
         _listings.Add(UlcerIndex.SeriesListing);
@@ -436,7 +439,5 @@ public static partial class Catalog
 
         // ZigZag
         _listings.Add(ZigZag.SeriesListing);
-        _listings.Add(ZigZag.StreamListing);
-        _listings.Add(ZigZag.BufferListing);
     }
 }
