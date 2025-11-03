@@ -75,6 +75,7 @@ public class StreamIndicators
     [Benchmark] public object GatorHub() => quoteHub.ToGatorHub().Results;
     [Benchmark] public object HmaHub() => quoteHub.ToHmaHub(n).Results;
     [Benchmark] public object HeikinAshiHub() => quoteHub.ToHeikinAshiHub().Results;
+    [Benchmark] public object HtTrendlineHub() => quoteHub.ToHtTrendlineHub().Results;
     [Benchmark] public object HurstHub() => quoteHub.ToHurstHub(100).Results;
     [Benchmark] public object IchimokuHub() => quoteHub.ToIchimokuHub().Results;
     [Benchmark] public object KamaHub() => quoteHub.ToKamaHub(10, 2, 30).Results;
