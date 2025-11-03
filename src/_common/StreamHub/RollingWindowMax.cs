@@ -146,8 +146,6 @@ public sealed class RollingWindowMax<T> where T : IComparable<T>
     }
 
     private static bool IsNaN(T value)
-    {
-        return (value is double d && double.IsNaN(d))
-            || (value is float f && float.IsNaN(f));
-    }
+        => (value is double d && double.IsNaN(d))
+        || (value is float f && float.IsNaN(f));
 }
