@@ -270,6 +270,7 @@ public static partial class Catalog
         // Pivot Points
         _listings.Add(PivotPoints.SeriesListing);
         _listings.Add(PivotPoints.BufferListing);
+        _listings.Add(PivotPoints.StreamListing);
 
         // Pivots
         _listings.Add(Pivots.SeriesListing);
@@ -436,7 +437,5 @@ public static partial class Catalog
 
         // ZigZag
         _listings.Add(ZigZag.SeriesListing);
-        _listings.Add(ZigZag.StreamListing);
-        _listings.Add(ZigZag.BufferListing);
     }
 }
