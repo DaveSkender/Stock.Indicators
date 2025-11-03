@@ -159,8 +159,8 @@ public class ParabolicSarList : BufferList<ParabolicSarResult>, IIncrementFromQu
             // _buffer contains the PREVIOUS quotes (not including current)
             if (_buffer.Count >= 2)
             {
-                (double h1, double l1) = _buffer.ElementAt(1);  // i-1
-                (double h2, double l2) = _buffer.ElementAt(0);  // i-2
+                (double h1, double _) = _buffer.ElementAt(1);  // i-1
+                (double h2, double _) = _buffer.ElementAt(0);  // i-2
                 double maxLastTwo = Math.Max(h1, h2);
                 sar = Math.Max(sar, maxLastTwo);
             }
