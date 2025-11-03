@@ -34,5 +34,12 @@ public static partial class VolatilityStop
             .WithMethodName("ToVolatilityStopList")
             .Build();
 
-    // No StreamListing for Volatility Stop.
+    /// <summary>
+    /// Volatility Stop Stream Listing
+    /// </summary>
+    internal static readonly IndicatorListing StreamListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Stream)
+            .WithMethodName("ToVolatilityStopHub")
+            .Build();
 }

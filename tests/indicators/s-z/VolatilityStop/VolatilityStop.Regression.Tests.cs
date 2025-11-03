@@ -12,5 +12,5 @@ public class VolatilitystopTests : RegressionTestBase<VolatilityStopResult>
     public override void Buffer() => new VolatilityStopList(7, 3, Quotes).AssertEquals(Expected);
 
     [TestMethod]
-    public override void Stream() => Assert.Inconclusive("Stream implementation not yet available");
+    public override void Stream() => QuoteHub.ToVolatilityStopHub().Results.AssertEquals(Expected);
 }
