@@ -148,8 +148,7 @@ public class StdDevChannelsHub
         // Calculate Standard Deviation
         double stdDevY = Math.Sqrt(sumSqY / lookbackPeriods);
 
-        return new SlopeResult(s.Timestamp)
-        {
+        return new SlopeResult(s.Timestamp) {
             Slope = slope,
             Intercept = intercept,
             StdDev = stdDevY.NaN2Null()
@@ -214,12 +213,14 @@ public class StdDevChannelsHub
                 // Assign values to all points in this window
                 for (int p = wi - LookbackPeriods + 1; p <= wi; p++)
                 {
-                    if (p < 0) continue;
+                    if (p < 0)
+                    {
+                        continue;
+                    }
 
                     double? c = (s.Slope * (p + 1)) + s.Intercept;
 
-                    Cache[p] = Cache[p] with
-                    {
+                    Cache[p] = Cache[p] with {
                         Centerline = c,
                         UpperChannel = c + width,
                         LowerChannel = c - width,
