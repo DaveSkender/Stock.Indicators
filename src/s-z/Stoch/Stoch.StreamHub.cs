@@ -131,8 +131,8 @@ public class StochHub
                 }
 
                 // Use O(1) max/min retrieval from rolling windows
-                double highHigh = _highWindow.Max;
-                double lowLow = _lowWindow.Min;
+                double highHigh = _highWindow.GetMax();
+                double lowLow = _lowWindow.GetMin();
 
                 rawK = highHigh - lowLow != 0
                      ? 100 * (close - lowLow) / (highHigh - lowLow)
