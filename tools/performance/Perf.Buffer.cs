@@ -47,6 +47,7 @@ public class BufferIndicators
     [Benchmark] public HmaList HmaList() => new(n) { q };
     [Benchmark] public HtlList HtlList() => new() { q };
     [Benchmark] public HurstList HurstList() => new(100) { q };
+    [Benchmark] public IchimokuList IchimokuList() => new() { q };
     [Benchmark] public KamaList KamaList() => new(10, 2, 30) { q };
     [Benchmark] public KeltnerList KeltnerList() => new() { q };
     [Benchmark] public KvoList KvoList() => new() { q };
@@ -57,6 +58,7 @@ public class BufferIndicators
     [Benchmark] public MfiList MfiList() => new() { q };
     [Benchmark] public ObvList ObvList() => new() { q };
     [Benchmark] public ParabolicSarList ParabolicSarList() => new() { q };
+    [Benchmark] public PivotPointsList PivotPointsList() => new(PeriodSize.Month, PivotPointType.Standard) { q };
     [Benchmark] public PivotsList PivotsList() => new(2, 2, 20) { q };
     [Benchmark] public PmoList PmoList() => new() { q };
     [Benchmark] public QuotePartList QuotePartList() => new(CandlePart.Close) { q };
@@ -92,5 +94,4 @@ public class BufferIndicators
     [Benchmark] public VwmaList VwmaList() => new(n) { q };
     [Benchmark] public WilliamsRList WilliamsRList() => new() { q };
     [Benchmark] public WmaList WmaList() => new(n) { q };
-    [Benchmark] public ZigZagList ZigZagList() => new() { q };
 }

@@ -57,7 +57,7 @@ public class MaEnvelopesTests : TestBase
         listing.Uiid.Should().Be("MA-ENV");
         listing.Style.Should().Be(Style.Stream);
         listing.Category.Should().Be(Category.PriceChannel);
-        listing.MethodName.Should().Be("ToMaEnvelopes");
+        listing.MethodName.Should().Be("ToMaEnvelopesHub");
 
         listing.Parameters.Should().NotBeNull();
         listing.Parameters.Should().HaveCount(3);

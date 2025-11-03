@@ -10,7 +10,6 @@ public static partial class Keltner
             .WithName("Keltner Channels")
             .WithId("KELTNER")
             .WithCategory(Category.PriceChannel)
-            .WithMethodName("ToKeltner")
             .AddParameter<int>("emaPeriods", "EMA Periods", defaultValue: 20, minimum: 2, maximum: 250)
             .AddParameter<double>("multiplier", "Multiplier", defaultValue: 2.0, minimum: 0.01, maximum: 10.0)
             .AddParameter<int>("atrPeriods", "ATR Periods", defaultValue: 10, minimum: 2, maximum: 250)
@@ -26,6 +25,7 @@ public static partial class Keltner
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
+            .WithMethodName("ToKeltner")
             .Build();
 
     /// <summary>
@@ -34,6 +34,7 @@ public static partial class Keltner
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)
+            .WithMethodName("ToKeltnerList")
             .Build();
 
     /// <summary>
@@ -42,5 +43,6 @@ public static partial class Keltner
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
+            .WithMethodName("ToKeltnerHub")
             .Build();
 }

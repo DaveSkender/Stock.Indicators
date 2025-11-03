@@ -174,8 +174,8 @@ public sealed class StochRsiHub
         }
 
         // Get high/low RSI from rolling windows (O(1))
-        double highRsi = _rsiMaxWindow.Max;
-        double lowRsi = _rsiMinWindow.Min;
+        double highRsi = _rsiMaxWindow.GetMax();
+        double lowRsi = _rsiMinWindow.GetMin();
 
         double k = lowRsi != highRsi
             ? 100d * (rsiValue - lowRsi) / (highRsi - lowRsi)
