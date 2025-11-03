@@ -7,6 +7,28 @@ description: "Series-style indicator development and testing guidelines"
 
 These instructions apply to series-style indicators that process complete datasets and return results all at once. Series indicators are the foundation style that all indicators must implement.
 
+## When to use this agent
+
+Invoke `@series` when you need help with:
+
+- Implementing new Series indicators with mathematical precision
+- Validating calculation correctness against reference formulas
+- Structuring input validation and exception handling patterns
+- Determining warmup period requirements for your indicator
+- Writing comprehensive test coverage (Standard, Boundary, BadData, etc.)
+- Optimizing batch processing performance
+- Debugging calculation discrepancies or formula issues
+
+For quick decision guidance and pattern selection, use the agent. For comprehensive implementation details and complete checklists, continue reading this document.
+
+## Related agents
+
+- `@buffer` - BufferList indicator development guidance (incremental processing patterns)
+- `@streamhub` - StreamHub indicator development guidance (real-time processing patterns)
+- `@performance` - Performance optimization guidance (algorithmic complexity, O(1) patterns, benchmarking)
+
+See also: `.github/agents/indicator-series.agent.md` for decision trees and quick reference patterns.
+
 ## Code completion checklist
 
 When implementing or updating an indicator, you must complete:

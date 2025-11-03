@@ -13,7 +13,7 @@ You specialize in:
 
 - StreamHub architecture and provider pattern selection
 - Real-time quote processing and incremental state updates
-- Performance optimization (O(1) updates, avoiding O(n^2) anti-patterns)
+- Performance optimization (O(1) updates, avoiding O(n²) anti-patterns)
 - State management and rollback handling
 - Repaint-by-design indicator patterns
 - Test coverage and Series parity validation
@@ -51,7 +51,7 @@ Most indicators maintain state and update incrementally:
 
 Some indicators have stable historical values but repaint from an anchor point forward:
 
-- **Examples**: ZigZag (from last confirmed pivot), VolatilityStop (from trailing stop trigger)
+- **Examples**: Indicators with confirmed anchors/pivots that become stable over time
 - **State**: Track last confirmed anchor (pivot, stop level, etc.)
 - **Performance**: O(k) where k = quotes since anchor (not O(n) for entire series)
 - **RollbackState**: REQUIRED - Restore anchor state from cache
@@ -75,7 +75,7 @@ Some indicators have stable historical values but repaint from an anchor point f
 - Track anchor state (last pivot point, stop level, etc.)
 - Find last anchor in cache on rollback
 - Only recalculate from anchor index forward
-- See ZigZag implementation as reference pattern
+- Consult documentation for reference patterns
 
 **Important**: See `.github/instructions/indicator-stream.instructions.md` for detailed implementation guidance and reference implementations.
 
@@ -108,12 +108,12 @@ StreamHub implementations follow this member order:
 ### Key requirements
 
 - Maintain O(1) state updates where possible (incremental pattern)
-- For repaint indicators: Optimize to recalculate only from pivot, not entire series
-- Override RollbackState for stateful indicators and pivot-tracking indicators
+- For repaint indicators: Optimize to recalculate only from anchor, not entire series
+- Override RollbackState for stateful indicators and anchor-tracking indicators
 - Implement proper warmup period handling
 - Ensure bit-for-bit parity with Series implementations
 - Use RollingWindowMax/Min for efficient window operations
-- **Avoid**: Full series rebuild on every update (use pivot-based partial rebuild)
+- **Avoid**: Full series rebuild on every update (use anchor-based partial rebuild when applicable)
 
 ## Reference implementations
 
@@ -128,8 +128,8 @@ Point developers to these canonical patterns:
 
 **Repaint from anchor (partial rebuild)**:
 
-- ZigZag: `src/s-z/ZigZag/ZigZag.StreamHub.cs` - Tracks pivot state, recalculates from last pivot forward
 - Pattern: Maintain anchor state, only rebuild from anchor (O(k) not O(n))
+- See instruction file for reference implementations when available
 
 For detailed implementation guidance, see `.github/instructions/indicator-stream.instructions.md`.
 
@@ -270,9 +270,12 @@ Invoke `@streamhub` when you need help with:
 For specialized topics, consult these expert agents:
 
 - `@streamhub-state` - Deep dive into RollbackState patterns, cache replay strategies, and state restoration after provider history mutations (Insert/Remove)
-- `@streamhub-performance` - Performance optimization techniques, O(1) patterns, RollingWindow utilities, and avoiding O(n²) anti-patterns
+- `@streamhub-performance` - StreamHub-specific performance deep dive (RollingWindow utilities, Wilder's smoothing patterns)
 - `@streamhub-testing` - Comprehensive test coverage guidance, test interface selection, rollback validation, and Series parity checks
 - `@streamhub-pairs` - Dual-stream indicator patterns, PairsProvider usage, timestamp synchronization, and dual-cache coordination
+- `@performance` - General performance optimization patterns (O(1) algorithms, complexity analysis, benchmarking)
+- `@series` - Series indicator development guidance (canonical reference for mathematical correctness)
+- `@buffer` - BufferList indicator development guidance (incremental processing patterns)
 
 See also: `.github/instructions/indicator-stream.instructions.md` for comprehensive StreamHub development guidelines.
 

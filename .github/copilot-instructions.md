@@ -129,15 +129,22 @@ This repository provides specialized custom agents that developers can invoke in
 
 | Agent | Description | When to Use |
 | ----- | ----------- | ----------- |
+| `@series` | Series indicator development - mathematical precision, validation patterns, test coverage | Implementing new Series indicators, validating calculations, structuring tests |
+| `@buffer` | BufferList indicator development - incremental processing, interface selection, buffer management | Implementing BufferList indicators, choosing interfaces, managing state efficiently |
 | `@streamhub` | StreamHub indicator development - implementation patterns, provider selection, state management | Implementing new StreamHub indicators, choosing provider base classes, optimizing real-time processing |
 | `@streamhub-state` | RollbackState patterns, cache replay strategies, window rebuilding | Implementing state management, handling provider history mutations (Insert/Remove) |
 | `@streamhub-performance` | O(1) optimization patterns, RollingWindow utilities, avoiding O(n²) anti-patterns | Performance optimization, achieving ≤1.5x Series benchmark, eliminating bottlenecks |
 | `@streamhub-testing` | Test interface selection, comprehensive rollback validation, Series parity checks | Writing StreamHub tests, selecting test interfaces, implementing rollback validation |
 | `@streamhub-pairs` | PairsProvider dual-stream patterns, timestamp synchronization, dual-cache coordination | Implementing dual-stream indicators (Correlation, Beta), managing synchronized inputs |
+| `@performance` | Performance optimization - algorithmic complexity, O(1) patterns, memory efficiency, benchmarking | Identifying bottlenecks, eliminating O(n²) anti-patterns, meeting performance targets across all styles |
 
 **Usage examples:**
 
 ```text
+@series I need to implement a new momentum indicator (RSI-style)
+
+@buffer Which interface should I use for my indicator that needs OHLCV data?
+
 @streamhub I need to implement a new VWAP StreamHub. What provider base should I use?
 
 @streamhub-state How do I rebuild RollingWindowMax state after a provider Insert?
@@ -147,9 +154,11 @@ This repository provides specialized custom agents that developers can invoke in
 @streamhub-testing Which test interfaces should I implement for a ChainProvider hub?
 
 @streamhub-pairs How do I handle timestamp synchronization for dual-stream indicators?
+
+@performance My indicator is 10x slower than expected. How do I identify the bottleneck?
 ```
 
-Custom agent definitions are in `.github/agents/`.
+Custom agent definitions are in `.github/agents/`. Official GitHub Copilot documentation: [Configure custom agents for Copilot Chat](https://docs.github.com/en/copilot/reference/custom-agents-configuration).
 
 ## Common indicator requirements (all styles)
 
@@ -172,8 +181,8 @@ Use these cross-cutting requirements for Series, Stream, and Buffer indicators. 
 See the style-specific guides for implementation requirements and additional checklist items:
 
 - Series: [.github/instructions/indicator-series.instructions.md](.github/instructions/indicator-series.instructions.md)
-- Stream: [.github/instructions/indicator-stream.instructions.md](.github/instructions/indicator-stream.instructions.md)
 - Buffer: [.github/instructions/indicator-buffer.instructions.md](.github/instructions/indicator-buffer.instructions.md)
+- Stream: [.github/instructions/indicator-stream.instructions.md](.github/instructions/indicator-stream.instructions.md)
 
 ### Series as the canonical reference
 
