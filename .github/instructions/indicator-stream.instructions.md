@@ -9,6 +9,39 @@ These instructions apply to stream-style indicators that support real-time data 
 
 **Important test rule**: Each StreamHub test class must implement exactly one observer interface (ITestQuoteObserver OR ITestChainObserver OR ITestPairsObserver) and at most one provider interface (ITestChainProvider).
 
+## When to use this agent
+
+Invoke `@streamhub` when you need help with:
+
+- Implementing new StreamHub indicators with real-time processing
+- Choosing the correct provider base class (ChainProvider, QuoteProvider, PairsProvider)
+- Deciding between implementation patterns (incremental state, repaint from anchor, full rebuild)
+- Optimizing real-time processing performance (O(1) updates, avoiding O(n²) anti-patterns)
+- Implementing state management and RollbackState override logic
+- Writing comprehensive StreamHub tests with rollback validation
+- Debugging StreamHub performance issues or state management problems
+
+For specialized topics, consult these expert sub-agents:
+
+- `@streamhub-state` - Deep dive into RollbackState patterns, cache replay strategies, and state restoration
+- `@streamhub-performance` - Performance optimization, O(1) patterns, RollingWindow utilities, avoiding anti-patterns
+- `@streamhub-testing` - Comprehensive test coverage, test interface selection, rollback validation
+- `@streamhub-pairs` - Dual-stream indicators, PairsProvider usage, timestamp synchronization
+
+For quick decision guidance and pattern selection, use the main agent. For comprehensive implementation details and complete checklists, continue reading this document.
+
+## Related agents
+
+- `@series` - Series indicator development guidance (canonical reference for mathematical correctness)
+- `@buffer` - BufferList indicator development guidance (incremental processing patterns)
+- `@streamhub-state` - RollbackState patterns and cache replay strategies
+- `@streamhub-performance` - StreamHub-specific performance deep dive (RollingWindow utilities, Wilder's smoothing)
+- `@streamhub-testing` - Test interface selection and comprehensive rollback validation
+- `@streamhub-pairs` - PairsProvider dual-stream patterns and timestamp synchronization
+- `@performance` - General performance optimization guidance (algorithmic complexity, benchmarking)
+
+See also: `.github/agents/indicator-stream.agent.md` for decision trees and quick reference patterns.
+
 ## Code completion checklist
 
 When implementing or updating an indicator, you must complete:
