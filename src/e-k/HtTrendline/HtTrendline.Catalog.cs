@@ -39,5 +39,6 @@ public static partial class HtTrendline
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
+            .WithMethodName("ToHtTrendlineHub")
             .Build();
 }

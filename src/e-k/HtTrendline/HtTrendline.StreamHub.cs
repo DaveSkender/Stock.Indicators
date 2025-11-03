@@ -181,7 +181,10 @@ public class HtTrendlineHub
 
         // rebuild state from provider cache
         int index = ProviderCache.IndexGte(timestamp);
-        if (index <= 0) return;
+        if (index <= 0)
+        {
+            return;
+        }
 
         int targetIndex = index - 1;
 
