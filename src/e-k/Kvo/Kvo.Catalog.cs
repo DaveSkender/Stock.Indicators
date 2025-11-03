@@ -10,7 +10,6 @@ public static partial class Kvo
             .WithName("Klinger Volume Oscillator")
             .WithId("KVO")
             .WithCategory(Category.VolumeBased)
-            .WithMethodName("ToKvo")
             .AddParameter<int>("fastPeriods", "Fast Periods", defaultValue: 34, minimum: 3, maximum: 200)
             .AddParameter<int>("slowPeriods", "Slow Periods", defaultValue: 55, minimum: 4, maximum: 250)
             .AddParameter<int>("signalPeriods", "Signal Periods", defaultValue: 13, minimum: 1, maximum: 50)
@@ -24,6 +23,7 @@ public static partial class Kvo
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
+            .WithMethodName("ToKvo")
             .Build();
 
     /// <summary>
@@ -32,6 +32,7 @@ public static partial class Kvo
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)
+            .WithMethodName("ToKvoList")
             .Build();
 
     /// <summary>
@@ -39,7 +40,7 @@ public static partial class Kvo
     /// </summary>
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
-            .WithMethodName("ToKvoHub")
             .WithStyle(Style.Stream)
+            .WithMethodName("ToKvoHub")
             .Build();
 }
