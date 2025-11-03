@@ -109,6 +109,7 @@ public class StreamIndicators
     [Benchmark] public object TemaHub() => quoteHub.ToTemaHub(20).Results;
     [Benchmark] public object TrHub() => quoteHub.ToTrHub().Results;
     [Benchmark] public object TrixHub() => quoteHub.ToTrixHub(n).Results;
+    [Benchmark] public object TsiHub() => quoteHub.ToTsiHub(25, 13, 7).Results;
     [Benchmark] public object UltimateHub() => quoteHub.ToUltimateHub(7, n, 28).Results;
     [Benchmark] public object VwmaHub() => quoteHub.ToVwmaHub(n).Results;
     [Benchmark] public object WilliamsRHub() => quoteHub.ToWilliamsRHub().Results;

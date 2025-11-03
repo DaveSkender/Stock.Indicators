@@ -401,6 +401,7 @@ public static partial class Catalog
         // TSI (True Strength Index)
         _listings.Add(Tsi.SeriesListing);
         _listings.Add(Tsi.BufferListing);
+        _listings.Add(Tsi.StreamListing);
 
         // Ulcer Index
         _listings.Add(UlcerIndex.SeriesListing);
