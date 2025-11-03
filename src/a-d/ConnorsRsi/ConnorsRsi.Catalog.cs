@@ -38,5 +38,12 @@ public static partial class ConnorsRsi
             .WithMethodName("ToConnorsRsiList")
             .Build();
 
-    // No StreamListing for CRSI.
+    /// <summary>
+    /// CRSI Stream Listing
+    /// </summary>
+    internal static readonly IndicatorListing StreamListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Stream)
+            .WithMethodName("ToConnorsRsiHub")
+            .Build();
 }

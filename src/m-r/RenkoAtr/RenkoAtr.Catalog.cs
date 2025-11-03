@@ -29,6 +29,7 @@ public static partial class RenkoAtr
             .WithMethodName("ToRenkoAtr")
             .Build();
 
-    // No StreamListing for Renko (ATR).
-    // No BufferListing for Renko (ATR).
+    // BufferList and StreamHub not implemented - would require buffering all quotes
+    // and recalculating entire Renko series on each add to maintain ATR accuracy.
+    // Series-only implementation maintained for correctness.
 }

@@ -59,4 +59,24 @@ public class VwapTests : TestBase
         listing.Results.Should().NotBeNull();
         listing.Results.Should().HaveCount(3);
     }
+
+    [TestMethod]
+    public void VwapStreamListing()
+    {
+        // Act
+        IndicatorListing listing = Vwap.StreamListing;
+
+        // Assert
+        listing.Should().NotBeNull();
+        listing.Name.Should().Be("Volume Weighted Average Price");
+        listing.Uiid.Should().Be("VWAP");
+        listing.Style.Should().Be(Style.Stream);
+        listing.Category.Should().Be(Category.PriceChannel);
+        listing.MethodName.Should().Be("ToVwapHub");
+
+        listing.Parameters?.Count.Should().Be(1);
+
+        listing.Results.Should().NotBeNull();
+        listing.Results.Should().HaveCount(3);
+    }
 }
