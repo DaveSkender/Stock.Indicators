@@ -1,7 +1,7 @@
 namespace StreamHub;
 
 [TestClass]
-public class SmiHub : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
+public class SmiHubTest : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
 {
     private const int lookbackPeriods = 13;
     private const int firstSmoothPeriods = 25;
@@ -24,7 +24,7 @@ public class SmiHub : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
         quoteHub.Add(quotesList.Take(20));
 
         // initialize observer
-        Skender.Stock.Indicators.SmiHub observer = quoteHub.ToSmiHub(
+        SmiHub observer = quoteHub.ToSmiHub(
             lookbackPeriods, firstSmoothPeriods, secondSmoothPeriods, signalPeriods);
 
         // fetch initial results (early)
@@ -105,7 +105,7 @@ public class SmiHub : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
     {
         QuoteHub quoteHub = new();
 
-        Skender.Stock.Indicators.SmiHub hub = new(
+        SmiHub hub = new(
             quoteHub, lookbackPeriods, firstSmoothPeriods, secondSmoothPeriods, signalPeriods);
         hub.ToString().Should().Be($"SMI({lookbackPeriods},{firstSmoothPeriods},{secondSmoothPeriods},{signalPeriods})");
     }
@@ -117,7 +117,7 @@ public class SmiHub : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
 
         // setup quote provider hub with incremental updates
         QuoteHub quoteHub = new();
-        Skender.Stock.Indicators.SmiHub observer = quoteHub.ToSmiHub(
+        SmiHub observer = quoteHub.ToSmiHub(
             lookbackPeriods,
             firstSmoothPeriods,
             secondSmoothPeriods,
@@ -151,7 +151,7 @@ public class SmiHub : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
         const int testSignalPeriods = 7;
 
         QuoteHub quoteHub = new();
-        Skender.Stock.Indicators.SmiHub observer = quoteHub.ToSmiHub(
+        SmiHub observer = quoteHub.ToSmiHub(
             testLookbackPeriods,
             testFirstSmoothPeriods,
             testSecondSmoothPeriods,
@@ -172,7 +172,7 @@ public class SmiHub : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
     public void DefaultParameters()
     {
         QuoteHub quoteHub = new();
-        Skender.Stock.Indicators.SmiHub observer = quoteHub.ToSmiHub();
+        SmiHub observer = quoteHub.ToSmiHub();
 
         // verify default properties
         observer.LookbackPeriods.Should().Be(13);
@@ -190,7 +190,7 @@ public class SmiHub : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
 
         // streaming calculation
         QuoteHub quoteHub = new();
-        Skender.Stock.Indicators.SmiHub streamObserver = quoteHub.ToSmiHub(
+        SmiHub streamObserver = quoteHub.ToSmiHub(
             lookbackPeriods,
             firstSmoothPeriods,
             secondSmoothPeriods,
@@ -220,7 +220,7 @@ public class SmiHub : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
     {
         // Test batch processing with all quotes added at once
         QuoteHub quoteHub = new();
-        Skender.Stock.Indicators.SmiHub observer = quoteHub.ToSmiHub(
+        SmiHub observer = quoteHub.ToSmiHub(
             lookbackPeriods,
             firstSmoothPeriods,
             secondSmoothPeriods,
