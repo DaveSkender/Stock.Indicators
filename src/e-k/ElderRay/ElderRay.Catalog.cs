@@ -10,7 +10,6 @@ public static partial class ElderRay
             .WithName("Elder-ray Index")
             .WithId("ELDER-RAY")
             .WithCategory(Category.PriceTrend)
-            .WithMethodName("ToElderRay")
             .AddParameter<int>("lookbackPeriods", "Lookback Periods", defaultValue: 13, minimum: 1, maximum: 250)
             .AddResult("Ema", "EMA", ResultType.Default)
             .AddResult("BullPower", "Bull Power", ResultType.Default)
@@ -24,6 +23,7 @@ public static partial class ElderRay
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
+            .WithMethodName("ToElderRay")
             .Build();
 
     /// <summary>

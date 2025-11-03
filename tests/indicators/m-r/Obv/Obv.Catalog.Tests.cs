@@ -44,7 +44,7 @@ public class ObvTests : TestBase
         listing.Uiid.Should().Be("OBV");
         listing.Style.Should().Be(Style.Stream);
         listing.Category.Should().Be(Category.VolumeBased);
-        listing.MethodName.Should().Be("ToObv");
+        listing.MethodName.Should().Be("ToObvHub");
 
         listing.Parameters?.Count.Should().Be(0);
 
@@ -64,7 +64,7 @@ public class ObvTests : TestBase
         listing.Uiid.Should().Be("OBV");
         listing.Style.Should().Be(Style.Buffer);
         listing.Category.Should().Be(Category.VolumeBased);
-        listing.MethodName.Should().Be("ToObv");
+        listing.MethodName.Should().Be("ToObvList");
 
         listing.Parameters?.Count.Should().Be(0);
 

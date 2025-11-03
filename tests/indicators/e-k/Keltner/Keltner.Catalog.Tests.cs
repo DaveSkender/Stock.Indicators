@@ -63,7 +63,7 @@ public class KeltnerTests : TestBase
         listing.Uiid.Should().Be("KELTNER");
         listing.Style.Should().Be(Style.Stream);
         listing.Category.Should().Be(Category.PriceChannel);
-        listing.MethodName.Should().Be("ToKeltner");
+        listing.MethodName.Should().Be("ToKeltnerHub");
 
         listing.Parameters.Should().NotBeNull();
         listing.Parameters.Should().HaveCount(3);

@@ -10,7 +10,6 @@ public static partial class Aroon
             .WithName("Aroon Up/Down")
             .WithId("AROON")
             .WithCategory(Category.PriceTrend)
-            .WithMethodName("ToAroon")
             .AddParameter<int>("lookbackPeriods", "Lookback Periods", defaultValue: 25, minimum: 1, maximum: 250)
             .AddResult("AroonUp", "Aroon Up", ResultType.Default)
             .AddResult("AroonDown", "Aroon Down", ResultType.Default)
@@ -23,6 +22,7 @@ public static partial class Aroon
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
+            .WithMethodName("ToAroon")
             .Build();
 
     // No StreamListing for AROON.
