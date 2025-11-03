@@ -24,8 +24,6 @@ public static partial class HtTrendline
             .WithMethodName("ToHtTrendline")
             .Build();
 
-    // No StreamListing for HTL.
-
     /// <summary>
     /// HTL Buffer Listing
     /// </summary>
@@ -33,5 +31,14 @@ public static partial class HtTrendline
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)
             .WithMethodName("ToHtTrendlineList")
+            .Build();
+
+    /// <summary>
+    /// HTL Stream Listing
+    /// </summary>
+    internal static readonly IndicatorListing StreamListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Stream)
+            .WithMethodName("ToHtTrendlineHub")
             .Build();
 }
