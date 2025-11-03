@@ -41,7 +41,6 @@ public class StdDevChannelsHub
 
     private readonly string hubName;
     private int _lastSyncCount = -1;
-    private readonly List<SlopeResult> _slopeCache = [];
 
     /// <summary>
     /// Initializes a new instance of the <see cref="StdDevChannelsHub"/> class.
@@ -94,65 +93,8 @@ public class StdDevChannelsHub
     /// <inheritdoc/>
     protected override void RollbackState(DateTime timestamp)
     {
-        // Reset sync counter and clear slope cache to force full recalculation
+        // Reset sync counter to force full recalculation
         _lastSyncCount = -1;
-        _slopeCache.Clear();
-    }
-
-    /// <summary>
-    /// Calculates Slope result for a single period incrementally.
-    /// </summary>
-    private static SlopeResult CalculateSlope(IReadOnlyList<IReusable> source, int index, int lookbackPeriods)
-    {
-        IReusable s = source[index];
-
-        // Skip initialization period
-        if (index < lookbackPeriods - 1)
-        {
-            return new SlopeResult(s.Timestamp);
-        }
-
-        // Get averages for period
-        double sumX = 0;
-        double sumY = 0;
-
-        for (int p = index - lookbackPeriods + 1; p <= index; p++)
-        {
-            IReusable ps = source[p];
-            sumX += p + 1d;
-            sumY += ps.Value;
-        }
-
-        double avgX = sumX / lookbackPeriods;
-        double avgY = sumY / lookbackPeriods;
-
-        // Least squares method
-        double sumSqX = 0;
-        double sumSqY = 0;
-        double sumSqXy = 0;
-
-        for (int p = index - lookbackPeriods + 1; p <= index; p++)
-        {
-            IReusable ps = source[p];
-            double devX = p + 1d - avgX;
-            double devY = ps.Value - avgY;
-
-            sumSqX += devX * devX;
-            sumSqY += devY * devY;
-            sumSqXy += devX * devY;
-        }
-
-        double? slope = (sumSqXy / sumSqX).NaN2Null();
-        double? intercept = (avgY - (slope * avgX)).NaN2Null();
-
-        // Calculate Standard Deviation
-        double stdDevY = Math.Sqrt(sumSqY / lookbackPeriods);
-
-        return new SlopeResult(s.Timestamp) {
-            Slope = slope,
-            Intercept = intercept,
-            StdDev = stdDevY.NaN2Null()
-        };
     }
 
     /// <summary>
@@ -160,12 +102,13 @@ public class StdDevChannelsHub
     /// </summary>
     /// <remarks>
     /// <para>
-    /// Standard Deviation Channels is a repaint-by-design indicator where ALL values
-    /// may change as new data arrives because window boundaries shift with each new quote.
+    /// Standard Deviation Channels is a repaint-by-design indicator where window values
+    /// change as new data arrives because window boundaries shift with dataset growth.
     /// </para>
     /// <para>
-    /// Performance optimization: Caches Slope results and only calculates new Slope values
-    /// incrementally. Window application is O(n) but avoids O(n²) Slope recalculation.
+    /// Performance: Only calculates Slope for new windows and applies channels to the
+    /// lookback period, not the entire dataset. Provider history mutations (Insert/Remove)
+    /// trigger full recalculation via RollbackState.
     /// </para>
     /// </remarks>
     /// <inheritdoc/>
@@ -177,62 +120,98 @@ public class StdDevChannelsHub
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
         int currentCount = ProviderCache.Count;
 
-        // Incrementally calculate new Slope values
-        if (_slopeCache.Count < currentCount)
+        // Handle rollback (Insert/Remove) - full recalculation needed
+        if (_lastSyncCount == -1)
         {
-            for (int si = _slopeCache.Count; si < currentCount; si++)
-            {
-                SlopeResult slopeResult = CalculateSlope(ProviderCache, si, LookbackPeriods);
-                _slopeCache.Add(slopeResult);
-            }
-        }
+            IReadOnlyList<StdDevChannelsResult> seriesResults =
+                ProviderCache.ToStdDevChannels(LookbackPeriods, StandardDeviations);
 
-        // Recalculate channel assignments when provider count changes
-        // Window boundaries shift, so all assignments must be recomputed
-        if (currentCount != _lastSyncCount)
-        {
-            // Resize cache if needed
-            while (Cache.Count < currentCount)
-            {
-                int idx = Cache.Count;
-                Cache.Add(new StdDevChannelsResult(_slopeCache[idx].Timestamp));
-            }
-
-            // Reset all values to empty before reapplying windows
-            for (int ri = 0; ri < currentCount; ri++)
-            {
-                Cache[ri] = new StdDevChannelsResult(_slopeCache[ri].Timestamp);
-            }
-
-            // Apply regression lines in reverse windows
-            for (int wi = currentCount - 1; wi >= LookbackPeriods - 1; wi -= LookbackPeriods)
-            {
-                SlopeResult s = _slopeCache[wi];
-                double? width = StandardDeviations * s.StdDev;
-
-                // Assign values to all points in this window
-                for (int p = wi - LookbackPeriods + 1; p <= wi; p++)
-                {
-                    if (p < 0)
-                    {
-                        continue;
-                    }
-
-                    double? c = (s.Slope * (p + 1)) + s.Intercept;
-
-                    Cache[p] = Cache[p] with {
-                        Centerline = c,
-                        UpperChannel = c + width,
-                        LowerChannel = c - width,
-                        BreakPoint = p == wi - LookbackPeriods + 1
-                    };
-                }
-            }
-
+            Cache.Clear();
+            Cache.AddRange(seriesResults);
             _lastSyncCount = currentCount;
+
+            return (Cache[i], i);
         }
 
+        // Add new result placeholder if cache needs to grow
+        if (Cache.Count < currentCount)
+        {
+            Cache.Add(new StdDevChannelsResult(item.Timestamp));
+        }
+
+        // Check if we have enough data for a new window at current index
+        if (i >= LookbackPeriods - 1 && (i + 1) % LookbackPeriods == 0)
+        {
+            // Calculate Slope for this window endpoint
+            SlopeResult slope = CalculateWindowSlope(i);
+            double? width = StandardDeviations * slope.StdDev;
+
+            // Apply channels to the entire window
+            int windowStart = i - LookbackPeriods + 1;
+            for (int p = windowStart; p <= i; p++)
+            {
+                double? c = (slope.Slope * (p + 1)) + slope.Intercept;
+
+                Cache[p] = Cache[p] with {
+                    Centerline = c,
+                    UpperChannel = c + width,
+                    LowerChannel = c - width,
+                    BreakPoint = p == windowStart
+                };
+            }
+        }
+
+        _lastSyncCount = currentCount;
         return (Cache[i], i);
+    }
+
+    /// <summary>
+    /// Calculates Slope result for a window ending at the specified index.
+    /// </summary>
+    private SlopeResult CalculateWindowSlope(int endIndex)
+    {
+        IReusable item = ProviderCache[endIndex];
+
+        // Get averages for window
+        double sumX = 0;
+        double sumY = 0;
+        int windowStart = endIndex - LookbackPeriods + 1;
+
+        for (int p = windowStart; p <= endIndex; p++)
+        {
+            IReusable ps = ProviderCache[p];
+            sumX += p + 1d;
+            sumY += ps.Value;
+        }
+
+        double avgX = sumX / LookbackPeriods;
+        double avgY = sumY / LookbackPeriods;
+
+        // Least squares regression
+        double sumSqX = 0;
+        double sumSqY = 0;
+        double sumSqXy = 0;
+
+        for (int p = windowStart; p <= endIndex; p++)
+        {
+            IReusable ps = ProviderCache[p];
+            double devX = p + 1d - avgX;
+            double devY = ps.Value - avgY;
+
+            sumSqX += devX * devX;
+            sumSqY += devY * devY;
+            sumSqXy += devX * devY;
+        }
+
+        double? slope = (sumSqXy / sumSqX).NaN2Null();
+        double? intercept = (avgY - (slope * avgX)).NaN2Null();
+        double stdDevY = Math.Sqrt(sumSqY / LookbackPeriods);
+
+        return new SlopeResult(item.Timestamp) {
+            Slope = slope,
+            Intercept = intercept,
+            StdDev = stdDevY.NaN2Null()
+        };
     }
 
     #endregion methods
@@ -255,6 +234,19 @@ public static partial class StdDevChannels
         int lookbackPeriods = 20,
         double standardDeviations = 2)
              => new(chainProvider, lookbackPeriods, standardDeviations);
+
+    /// <summary>
+    /// Creates a Standard Deviation Channels hub from a quote provider.
+    /// </summary>
+    /// <param name="quoteProvider">The quote provider.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
+    /// <param name="standardDeviations">Number of standard deviations for the channels.</param>
+    /// <returns>An instance of <see cref="StdDevChannelsHub"/>.</returns>
+    public static StdDevChannelsHub ToStdDevChannelsHub(
+        this IQuoteProvider<IQuote> quoteProvider,
+        int lookbackPeriods = 20,
+        double standardDeviations = 2)
+             => new(quoteProvider, lookbackPeriods, standardDeviations);
 
     /// <summary>
     /// Creates a Standard Deviation Channels hub from a collection of quotes.
