@@ -12,5 +12,5 @@ public class SupertrendTests : RegressionTestBase<SuperTrendResult>
     public override void Buffer() => Assert.Inconclusive("Buffer implementation not yet available");
 
     [TestMethod]
-    public override void Stream() => Assert.Inconclusive("Stream implementation not yet available");
+    public override void Stream() => Quotes.ToSuperTrendHub(10, 3).Results.AssertEquals(Expected);
 }
