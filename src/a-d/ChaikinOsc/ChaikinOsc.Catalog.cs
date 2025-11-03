@@ -10,7 +10,6 @@ public static partial class ChaikinOsc
             .WithName("Chaikin Money Flow Oscillator")
             .WithId("CHAIKIN-OSC")
             .WithCategory(Category.VolumeBased)
-            .WithMethodName("ToChaikinOsc")
             .AddParameter<int>("fastPeriods", "Fast Periods", defaultValue: 3, minimum: 1, maximum: 100)
             .AddParameter<int>("slowPeriods", "Slow Periods", defaultValue: 10, minimum: 1, maximum: 100)
             .AddResult("MoneyFlowMultiplier", "Money Flow Multiplier", ResultType.Default)
@@ -25,6 +24,7 @@ public static partial class ChaikinOsc
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
+            .WithMethodName("ToChaikinOsc")
             .Build();
 
     // No StreamListing for CHAIKIN-OSC.

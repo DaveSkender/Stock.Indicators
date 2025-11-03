@@ -24,15 +24,78 @@ applyTo: '**/src/**/*.Catalog.cs,**/tests/indicators/**/*.Catalog.Tests.cs'
 ## Builder pattern requirements
 
 - Use `IndicatorDefinitionBuilder()` to construct listings
-- Required methods in order:
+- **CRITICAL**: `.WithMethodName()` must be specified in the **style-specific listings** (SeriesListing, StreamListing, BufferListing), NOT in the CommonListing
+- Required methods in CommonListing (in order):
   1. `WithName()` - Full display name of the indicator
   2. `WithId()` - Uppercase abbreviated identifier
-  3. `WithStyle()` - Style.Series, Style.Stream, or Style.Buffer
-  4. `WithCategory()` - Appropriate category from Category enum
-  5. `WithMethodName()` - Method name for automation (e.g., "ToEma")
-  6. Parameters (if any) using `AddParameter<T>()`, `AddEnumParameter<T>()`, `AddDateParameter()`, or `AddSeriesParameter()`
-  7. Results using `AddResult()`
-  8. `Build()`
+  3. `WithCategory()` - Appropriate category from Category enum
+  4. Parameters (if any) using `AddParameter<T>()`, `AddEnumParameter<T>()`, `AddDateParameter()`, or `AddSeriesParameter()`
+  5. Results using `AddResult()`
+  6. `Build()`
+- Required methods in style-specific listings (in order):
+  1. `WithStyle()` - Style.Series, Style.Stream, or Style.Buffer
+  2. `WithMethodName()` - Method name for automation (e.g., "ToEma" for Series, "ToEmaHub" for Stream, "ToEmaList" for Buffer)
+  3. `Build()`
+
+## Method naming conventions
+
+Each style has a specific method naming pattern:
+
+- **Series**: `To{IndicatorName}` (e.g., `ToEma`, `ToRocWb`, `ToRsi`)
+- **Stream**: `To{IndicatorName}Hub` (e.g., `ToEmaHub`, `ToRocWbHub`, `ToRsiHub`)
+- **Buffer**: `To{IndicatorName}List` (e.g., `ToEmaList`, `ToRocWbList`, `ToRsiList`)
+
+The method name MUST match the actual extension method name in the indicator's implementation.
+
+## Complete example
+
+Here's a complete example showing the correct pattern with CommonListing and style-specific listings:
+
+```csharp
+public static partial class Ema
+{
+    /// <summary>
+    /// EMA Common Base Listing
+    /// </summary>
+    internal static readonly IndicatorListing CommonListing =
+        new CatalogListingBuilder()
+            .WithName("Exponential Moving Average")
+            .WithId("EMA")
+            .WithCategory(Category.MovingAverage)
+            .AddParameter<int>("lookbackPeriods", "Lookback Period", description: "Number of periods for the EMA calculation", isRequired: true, defaultValue: 20, minimum: 2, maximum: 250)
+            .AddResult("Ema", "EMA", ResultType.Default, isReusable: true)
+            .Build();
+
+    /// <summary>
+    /// EMA Series Listing
+    /// </summary>
+    internal static readonly IndicatorListing SeriesListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Series)
+            .WithMethodName("ToEma")
+            .Build();
+
+    /// <summary>
+    /// EMA Stream Listing
+    /// </summary>
+    internal static readonly IndicatorListing StreamListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Stream)
+            .WithMethodName("ToEmaHub")
+            .Build();
+
+    /// <summary>
+    /// EMA Buffer Listing
+    /// </summary>
+    internal static readonly IndicatorListing BufferListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Buffer)
+            .WithMethodName("ToEmaList")
+            .Build();
+}
+```
+
+Note: `.WithMethodName()` appears ONLY in the style-specific listings, and each style has its own unique method name following the naming conventions.
 
 ## Parameter guidelines
 
@@ -109,6 +172,9 @@ Choose the most appropriate category:
 
 ## Common anti-patterns to avoid
 
+- **❌ CRITICAL**: Putting `.WithMethodName()` in CommonListing instead of style-specific listings
+- **❌ CRITICAL**: Using the wrong indicator's method name (e.g., "ToRocWb" in EMA's SeriesListing)
+- **❌ CRITICAL**: Inconsistent method naming across styles (e.g., "ToEma", "ToRocWbHub", "ToEmaList")
 - Setting `isReusable: true` for `ISeries` models (never allowed)
 - Multiple `isReusable: true` results in `IReusable` models (only one allowed)
 - Missing parameter constraints on numeric values
