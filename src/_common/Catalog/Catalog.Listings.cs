@@ -358,6 +358,7 @@ public static partial class Catalog
         // STC (Schaff Trend Cycle)
         _listings.Add(Stc.BufferListing);
         _listings.Add(Stc.SeriesListing);
+        _listings.Add(Stc.StreamListing);
 
         // Standard Deviation
         _listings.Add(StdDev.SeriesListing);
@@ -407,6 +408,8 @@ public static partial class Catalog
 
         // Ulcer Index
         _listings.Add(UlcerIndex.SeriesListing);
+        _listings.Add(UlcerIndex.StreamListing);
+        _listings.Add(UlcerIndex.BufferListing);
 
         // Ultimate Oscillator
         _listings.Add(Ultimate.BufferListing);
@@ -420,6 +423,7 @@ public static partial class Catalog
         // Vortex Indicator
         _listings.Add(Vortex.SeriesListing);
         _listings.Add(Vortex.BufferListing);
+        _listings.Add(Vortex.StreamListing);
 
         // VWAP (Volume Weighted Average Price)
         _listings.Add(Vwap.SeriesListing);

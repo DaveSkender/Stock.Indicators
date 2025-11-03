@@ -23,6 +23,21 @@ public static partial class UlcerIndex
             .WithMethodName("ToUlcerIndex")
             .Build();
 
-    // No StreamListing for Ulcer Index.
-    // No BufferListing for Ulcer Index.
+    /// <summary>
+    /// Ulcer Index Stream Listing
+    /// </summary>
+    internal static readonly IndicatorListing StreamListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Stream)
+            .WithMethodName("ToUlcerIndexHub")
+            .Build();
+
+    /// <summary>
+    /// Ulcer Index Buffer Listing
+    /// </summary>
+    internal static readonly IndicatorListing BufferListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Buffer)
+            .WithMethodName("ToUlcerIndexList")
+            .Build();
 }
