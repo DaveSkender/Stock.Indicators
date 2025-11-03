@@ -1,7 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Interface for Ichimoku Hub.
+/// Interface for Ichimoku indicator configuration properties.
 /// </summary>
 public interface IIchimoku
 {

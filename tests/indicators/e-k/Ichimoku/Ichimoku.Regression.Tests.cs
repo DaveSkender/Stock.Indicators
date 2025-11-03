@@ -9,7 +9,7 @@ public class IchimokuTests : RegressionTestBase<IchimokuResult>
     public override void Series() => Quotes.ToIchimoku(9, 26, 52).AssertEquals(Expected);
 
     [TestMethod]
-    public override void Buffer() => Assert.Inconclusive("Buffer implementation not yet available");
+    public override void Buffer() => Quotes.ToIchimokuList(9, 26, 52).AssertEquals(Expected);
 
     [TestMethod]
     public override void Stream() => QuoteHub.ToIchimokuHub(9, 26, 52).Results.AssertEquals(Expected);

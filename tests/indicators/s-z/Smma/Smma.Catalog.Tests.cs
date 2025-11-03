@@ -47,7 +47,7 @@ public class SmmaTests : TestBase
         listing.Uiid.Should().Be("SMMA");
         listing.Style.Should().Be(Style.Stream);
         listing.Category.Should().Be(Category.MovingAverage);
-        listing.MethodName.Should().Be("ToSmma");
+        listing.MethodName.Should().Be("ToSmmaHub");
 
         listing.Parameters.Should().NotBeNull();
         listing.Parameters.Should().HaveCount(1);
@@ -76,7 +76,7 @@ public class SmmaTests : TestBase
         listing.Uiid.Should().Be("SMMA");
         listing.Style.Should().Be(Style.Buffer);
         listing.Category.Should().Be(Category.MovingAverage);
-        listing.MethodName.Should().Be("ToSmma");
+        listing.MethodName.Should().Be("ToSmmaList");
 
         listing.Parameters.Should().NotBeNull();
         listing.Parameters.Should().HaveCount(1);
