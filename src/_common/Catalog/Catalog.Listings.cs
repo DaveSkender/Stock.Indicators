@@ -130,6 +130,7 @@ public static partial class Catalog
         // ConnorsRSI
         _listings.Add(ConnorsRsi.SeriesListing);
         _listings.Add(ConnorsRsi.BufferListing);
+        _listings.Add(ConnorsRsi.StreamListing);
 
         // Correlation
         _listings.Add(Correlation.SeriesListing);
@@ -212,7 +213,9 @@ public static partial class Catalog
         _listings.Add(Hurst.StreamListing);
 
         // Ichimoku Cloud
+        _listings.Add(Ichimoku.BufferListing);
         _listings.Add(Ichimoku.SeriesListing);
+        _listings.Add(Ichimoku.StreamListing);
 
         // KAMA (Kaufman Adaptive Moving Average)
         _listings.Add(Kama.BufferListing);
@@ -417,6 +420,7 @@ public static partial class Catalog
         // Vortex Indicator
         _listings.Add(Vortex.SeriesListing);
         _listings.Add(Vortex.BufferListing);
+        _listings.Add(Vortex.StreamListing);
 
         // VWAP (Volume Weighted Average Price)
         _listings.Add(Vwap.SeriesListing);
