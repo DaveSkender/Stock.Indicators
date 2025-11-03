@@ -14,13 +14,14 @@ public class SmiHub : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
     [TestMethod]
     public void QuoteObserver()
     {
+        List<Quote> quotesList = Quotes.ToList();
         int length = Quotes.Count;
 
         // setup quote provider hub
         QuoteHub quoteHub = new();
 
         // prefill quotes at provider
-        quoteHub.Add(Quotes.Take(20));
+        quoteHub.Add(quotesList.Take(20));
 
         // initialize observer
         Skender.Stock.Indicators.SmiHub observer = quoteHub.ToSmiHub(
@@ -35,7 +36,7 @@ public class SmiHub : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
             // skip one (add later)
             if (i == 80) { continue; }
 
-            Quote q = Quotes[i];
+            Quote q = quotesList[i];
             quoteHub.Add(q);
 
             // resend duplicate quotes
@@ -43,11 +44,11 @@ public class SmiHub : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
         }
 
         // late arrival, should equal series
-        quoteHub.Insert(Quotes[80]);
+        quoteHub.Insert(quotesList[80]);
         actuals.Should().BeEquivalentTo(expectedOriginal, static options => options.WithStrictOrdering());
 
         // delete, should equal series (revised)
-        quoteHub.Remove(Quotes[removeAtIndex]);
+        quoteHub.Remove(quotesList[removeAtIndex]);
 
         IReadOnlyList<SmiResult> expectedRevised = RevisedQuotes.ToSmi(
             lookbackPeriods, firstSmoothPeriods, secondSmoothPeriods, signalPeriods);
@@ -107,5 +108,136 @@ public class SmiHub : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
         Skender.Stock.Indicators.SmiHub hub = new(
             quoteHub, lookbackPeriods, firstSmoothPeriods, secondSmoothPeriods, signalPeriods);
         hub.ToString().Should().Be($"SMI({lookbackPeriods},{firstSmoothPeriods},{secondSmoothPeriods},{signalPeriods})");
+    }
+
+    [TestMethod]
+    public void IncrementalUpdates()
+    {
+        List<Quote> quotesList = Quotes.ToList();
+
+        // setup quote provider hub with incremental updates
+        QuoteHub quoteHub = new();
+        Skender.Stock.Indicators.SmiHub observer = quoteHub.ToSmiHub(
+            lookbackPeriods,
+            firstSmoothPeriods,
+            secondSmoothPeriods,
+            signalPeriods);
+
+        // add quotes one by one
+        foreach (Quote quote in quotesList)
+        {
+            quoteHub.Add(quote);
+        }
+
+        // close observations
+        quoteHub.EndTransmission();
+
+        // verify consistency
+        IReadOnlyList<SmiResult> expected = Quotes.ToSmi(
+            lookbackPeriods,
+            firstSmoothPeriods,
+            secondSmoothPeriods,
+            signalPeriods);
+
+        observer.Cache.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
+    }
+
+    [TestMethod]
+    public void Properties()
+    {
+        const int testLookbackPeriods = 21;
+        const int testFirstSmoothPeriods = 30;
+        const int testSecondSmoothPeriods = 5;
+        const int testSignalPeriods = 7;
+
+        QuoteHub quoteHub = new();
+        Skender.Stock.Indicators.SmiHub observer = quoteHub.ToSmiHub(
+            testLookbackPeriods,
+            testFirstSmoothPeriods,
+            testSecondSmoothPeriods,
+            testSignalPeriods);
+
+        // verify properties
+        observer.LookbackPeriods.Should().Be(testLookbackPeriods);
+        observer.FirstSmoothPeriods.Should().Be(testFirstSmoothPeriods);
+        observer.SecondSmoothPeriods.Should().Be(testSecondSmoothPeriods);
+        observer.SignalPeriods.Should().Be(testSignalPeriods);
+        observer.K1.Should().BeApproximately(2d / (testFirstSmoothPeriods + 1), 1e-10);
+        observer.K2.Should().BeApproximately(2d / (testSecondSmoothPeriods + 1), 1e-10);
+        observer.KS.Should().BeApproximately(2d / (testSignalPeriods + 1), 1e-10);
+        observer.ToString().Should().Be($"SMI({testLookbackPeriods},{testFirstSmoothPeriods},{testSecondSmoothPeriods},{testSignalPeriods})");
+    }
+
+    [TestMethod]
+    public void DefaultParameters()
+    {
+        QuoteHub quoteHub = new();
+        Skender.Stock.Indicators.SmiHub observer = quoteHub.ToSmiHub();
+
+        // verify default properties
+        observer.LookbackPeriods.Should().Be(13);
+        observer.FirstSmoothPeriods.Should().Be(25);
+        observer.SecondSmoothPeriods.Should().Be(2);
+        observer.SignalPeriods.Should().Be(3);
+        observer.ToString().Should().Be("SMI(13,25,2,3)");
+    }
+
+    [TestMethod]
+    public void StreamingAccuracy()
+    {
+        // Test that streaming produces accurate results compared to batch processing
+        List<Quote> quotesList = Quotes.ToList();
+
+        // streaming calculation
+        QuoteHub quoteHub = new();
+        Skender.Stock.Indicators.SmiHub streamObserver = quoteHub.ToSmiHub(
+            lookbackPeriods,
+            firstSmoothPeriods,
+            secondSmoothPeriods,
+            signalPeriods);
+
+        foreach (Quote quote in quotesList)
+        {
+            quoteHub.Add(quote);
+        }
+
+        quoteHub.EndTransmission();
+
+        // batch calculation
+        IReadOnlyList<SmiResult> batchResults = Quotes.ToSmi(
+            lookbackPeriods,
+            firstSmoothPeriods,
+            secondSmoothPeriods,
+            signalPeriods);
+
+        // compare results with strict ordering
+        streamObserver.Cache.Should().HaveCount(batchResults.Count);
+        streamObserver.Cache.Should().BeEquivalentTo(batchResults, static options => options.WithStrictOrdering());
+    }
+
+    [TestMethod]
+    public void BatchProcessing()
+    {
+        // Test batch processing with all quotes added at once
+        QuoteHub quoteHub = new();
+        Skender.Stock.Indicators.SmiHub observer = quoteHub.ToSmiHub(
+            lookbackPeriods,
+            firstSmoothPeriods,
+            secondSmoothPeriods,
+            signalPeriods);
+
+        // add all quotes at once
+        quoteHub.Add(Quotes);
+        quoteHub.EndTransmission();
+
+        // verify against static series calculation
+        IReadOnlyList<SmiResult> expected = Quotes.ToSmi(
+            lookbackPeriods,
+            firstSmoothPeriods,
+            secondSmoothPeriods,
+            signalPeriods);
+
+        observer.Cache.Should().HaveCount(Quotes.Count);
+        observer.Cache.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
     }
 }

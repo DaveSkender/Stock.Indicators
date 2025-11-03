@@ -72,8 +72,8 @@ public class WilliamsRHub
         if (i >= LookbackPeriods - 1 && hasHL && hasClose)
         {
             // Get highest high and lowest low from rolling windows (O(1))
-            decimal highHigh = _highWindow.Max;
-            decimal lowLow = _lowWindow.Min;
+            decimal highHigh = _highWindow.GetMax();
+            decimal lowLow = _lowWindow.GetMin();
 
             // Return NaN when range is zero (undefined %R)
             williamsR = highHigh == lowLow

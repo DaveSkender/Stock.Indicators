@@ -10,7 +10,6 @@ public static partial class QuoteParts
             .WithName("Quote Part")
             .WithId("QUOTEPART")
             .WithCategory(Category.PriceTransform)
-            .WithMethodName("ToQuotePart")
             .AddEnumParameter<CandlePart>("candlePart", "Candle Part", defaultValue: CandlePart.Close)
             .AddResult("Value", "Value", ResultType.Default, isReusable: true)
             .Build();
@@ -21,6 +20,7 @@ public static partial class QuoteParts
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
+            .WithMethodName("ToQuotePart")
             .Build();
 
     /// <summary>
@@ -29,6 +29,7 @@ public static partial class QuoteParts
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
+            .WithMethodName("ToQuotePartHub")
             .Build();
 
     /// <summary>
@@ -37,5 +38,6 @@ public static partial class QuoteParts
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)
+            .WithMethodName("ToQuotePartList")
             .Build();
 }

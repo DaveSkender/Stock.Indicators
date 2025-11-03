@@ -59,7 +59,7 @@ public class SmaAnalysisTests : TestBase
         listing.Uiid.Should().Be("SMA-ANALYSIS");
         listing.Style.Should().Be(Style.Stream);
         listing.Category.Should().Be(Category.PriceCharacteristic);
-        listing.MethodName.Should().Be("ToSmaAnalysis");
+        listing.MethodName.Should().Be("ToSmaAnalysisHub");
 
         listing.Parameters.Should().NotBeNull();
         listing.Parameters.Should().HaveCount(1);
@@ -100,7 +100,7 @@ public class SmaAnalysisTests : TestBase
         listing.Uiid.Should().Be("SMA-ANALYSIS");
         listing.Style.Should().Be(Style.Buffer);
         listing.Category.Should().Be(Category.PriceCharacteristic);
-        listing.MethodName.Should().Be("ToSmaAnalysis");
+        listing.MethodName.Should().Be("ToSmaAnalysisList");
 
         listing.Parameters.Should().NotBeNull();
         listing.Parameters.Should().HaveCount(1);

@@ -66,7 +66,7 @@ public class RenkoTests : TestBase
         listing.Uiid.Should().Be("RENKO");
         listing.Style.Should().Be(Style.Stream);
         listing.Category.Should().Be(Category.PriceTransform);
-        listing.MethodName.Should().Be("ToRenko");
+        listing.MethodName.Should().Be("ToRenkoHub");
 
         listing.Parameters.Should().NotBeNull();
         listing.Parameters.Should().HaveCount(2);

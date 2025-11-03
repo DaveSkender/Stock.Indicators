@@ -10,7 +10,6 @@ public static partial class Chop
             .WithName("Choppiness Index")
             .WithId("CHOP")
             .WithCategory(Category.Oscillator)
-            .WithMethodName("ToChop")
             .AddParameter<int>("lookbackPeriods", "Lookback Periods", defaultValue: 14, minimum: 1, maximum: 250)
             .AddResult("Chop", "CHOP", ResultType.Default, isReusable: true)
             .Build();
@@ -21,6 +20,7 @@ public static partial class Chop
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
+            .WithMethodName("ToChop")
             .Build();
 
     /// <summary>
@@ -29,6 +29,7 @@ public static partial class Chop
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
+            .WithMethodName("ToChopHub")
             .Build();
 
     // No BufferListing for CHOP.
