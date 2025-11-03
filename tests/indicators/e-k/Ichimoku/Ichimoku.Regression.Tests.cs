@@ -12,5 +12,5 @@ public class IchimokuTests : RegressionTestBase<IchimokuResult>
     public override void Buffer() => Quotes.ToIchimokuList(9, 26, 52).AssertEquals(Expected);
 
     [TestMethod]
-    public override void Stream() => Assert.Inconclusive("Stream implementation not yet available");
+    public override void Stream() => QuoteHub.ToIchimokuHub(9, 26, 52).Results.AssertEquals(Expected);
 }

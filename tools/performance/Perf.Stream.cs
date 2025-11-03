@@ -60,6 +60,7 @@ public class StreamIndicators
     [Benchmark] public object ChopHub() => quoteHub.ToChopHub(n).Results;
     [Benchmark] public object CmfHub() => quoteHub.ToCmfHub(20).Results;
     [Benchmark] public object CmoHub() => quoteHub.ToCmoHub(n).Results;
+    [Benchmark] public object ConnorsRsiHub() => quoteHub.ToConnorsRsiHub(3, 2, 100).Results;
     [Benchmark] public object CorrelationHub() => quoteHub.ToCorrelationHub(quoteHubOther, 20);
     [Benchmark] public object DemaHub() => quoteHub.ToDemaHub(n).Results;
     [Benchmark] public object DojiHub() => quoteHub.ToDojiHub().Results;
@@ -77,6 +78,7 @@ public class StreamIndicators
     [Benchmark] public object HeikinAshiHub() => quoteHub.ToHeikinAshiHub().Results;
     [Benchmark] public object HtTrendlineHub() => quoteHub.ToHtTrendlineHub().Results;
     [Benchmark] public object HurstHub() => quoteHub.ToHurstHub(100).Results;
+    [Benchmark] public object IchimokuHub() => quoteHub.ToIchimokuHub().Results;
     [Benchmark] public object KamaHub() => quoteHub.ToKamaHub(10, 2, 30).Results;
     [Benchmark] public object KvoHub() => quoteHub.ToKvoHub(34, 55, 13).Results;
     [Benchmark] public object KeltnerHub() => quoteHub.ToKeltnerHub(20, 2, 10).Results;
