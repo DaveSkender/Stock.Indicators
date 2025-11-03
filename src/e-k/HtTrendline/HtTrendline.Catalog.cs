@@ -10,7 +10,6 @@ public static partial class HtTrendline
             .WithName("Hilbert Transform Instantaneous Trendline")
             .WithId("HTL")
             .WithCategory(Category.MovingAverage)
-            .WithMethodName("ToHtTrendline")
             .AddResult("DcPeriods", "Dominant Cycle Periods", ResultType.Default)
             .AddResult("Trendline", "Trendline", ResultType.Default, isReusable: true)
             .AddResult("SmoothPrice", "Smooth Price", ResultType.Default)
@@ -22,6 +21,7 @@ public static partial class HtTrendline
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
+            .WithMethodName("ToHtTrendline")
             .Build();
 
     /// <summary>
@@ -30,6 +30,7 @@ public static partial class HtTrendline
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)
+            .WithMethodName("ToHtTrendlineList")
             .Build();
 
     /// <summary>

@@ -10,7 +10,6 @@ public static partial class Ultimate
             .WithName("Ultimate Oscillator")
             .WithId("UO")
             .WithCategory(Category.Oscillator)
-            .WithMethodName("ToUltimate")
             .AddParameter<int>("shortPeriods", "Short Periods", description: "Number of short periods for the Ultimate Oscillator calculation", isRequired: false, defaultValue: 7, minimum: 1, maximum: 50)
             .AddParameter<int>("middlePeriods", "Middle Periods", description: "Number of middle periods for the Ultimate Oscillator calculation", isRequired: false, defaultValue: 14, minimum: 1, maximum: 50)
             .AddParameter<int>("longPeriods", "Long Periods", description: "Number of long periods for the Ultimate Oscillator calculation", isRequired: false, defaultValue: 28, minimum: 1, maximum: 250)
@@ -23,6 +22,7 @@ public static partial class Ultimate
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
+            .WithMethodName("ToUltimate")
             .Build();
 
     /// <summary>
@@ -31,6 +31,7 @@ public static partial class Ultimate
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
+            .WithMethodName("ToUltimateHub")
             .Build();
 
     /// <summary>
@@ -39,5 +40,6 @@ public static partial class Ultimate
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)
+            .WithMethodName("ToUltimateList")
             .Build();
 }

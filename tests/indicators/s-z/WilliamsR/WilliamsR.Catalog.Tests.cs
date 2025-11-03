@@ -47,7 +47,7 @@ public class WilliamsRTests : TestBase
         listing.Uiid.Should().Be("WILLR");
         listing.Style.Should().Be(Style.Buffer);
         listing.Category.Should().Be(Category.Oscillator);
-        listing.MethodName.Should().Be("ToWilliamsR");
+        listing.MethodName.Should().Be("ToWilliamsRList");
 
         listing.Parameters.Should().NotBeNull();
         listing.Parameters.Should().HaveCount(1);
@@ -76,7 +76,7 @@ public class WilliamsRTests : TestBase
         listing.Uiid.Should().Be("WILLR");
         listing.Style.Should().Be(Style.Stream);
         listing.Category.Should().Be(Category.Oscillator);
-        listing.MethodName.Should().Be("ToWilliamsR");
+        listing.MethodName.Should().Be("ToWilliamsRHub");
 
         listing.Parameters.Should().NotBeNull();
         listing.Parameters.Should().HaveCount(1);

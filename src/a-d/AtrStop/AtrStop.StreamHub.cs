@@ -82,8 +82,8 @@ public class AtrStopHub
         QuoteD newQ = item.ToQuoteD();
         double prevClose = (double)ProviderCache[i - 1].Close;
 
-        // initialize direction on first evaluation
-        if (i == LookbackPeriods)
+        // initialize direction on first evaluation (when no prior ATR exists)
+        if (Cache[i - 1].Atr is null)
         {
             IsBullish = newQ.Close >= prevClose;
         }

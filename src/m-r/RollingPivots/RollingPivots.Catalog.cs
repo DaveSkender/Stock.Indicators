@@ -10,7 +10,6 @@ public static partial class RollingPivots
             .WithName("Rolling Pivots")
             .WithId("ROLLING-PIVOTS")
             .WithCategory(Category.PriceTrend)
-            .WithMethodName("ToRollingPivots")
             .AddParameter<int>("windowPeriods", "Window Periods", description: "Number of periods for the rolling window", isRequired: false, defaultValue: 20, minimum: 1, maximum: 250)
             .AddParameter<int>("offsetPeriods", "Offset Periods", description: "Number of periods to offset the pivots", isRequired: false, defaultValue: 0, minimum: 0, maximum: 100)
             .AddEnumParameter<PivotPointType>("pointType", "Point Type", description: "Type of pivot points to calculate", isRequired: false, defaultValue: PivotPointType.Standard)
@@ -29,6 +28,7 @@ public static partial class RollingPivots
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
+            .WithMethodName("ToRollingPivots")
             .Build();
 
     /// <summary>
@@ -37,6 +37,7 @@ public static partial class RollingPivots
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
+            .WithMethodName("ToRollingPivotsHub")
             .Build();
 
     /// <summary>
@@ -45,5 +46,6 @@ public static partial class RollingPivots
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)
+            .WithMethodName("ToRollingPivotsList")
             .Build();
 }

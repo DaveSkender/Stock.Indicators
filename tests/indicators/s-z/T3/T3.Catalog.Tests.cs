@@ -49,7 +49,7 @@ public class T3Tests : TestBase
         listing.Uiid.Should().Be("T3");
         listing.Style.Should().Be(Style.Stream);
         listing.Category.Should().Be(Category.MovingAverage);
-        listing.MethodName.Should().Be("ToT3");
+        listing.MethodName.Should().Be("ToT3Hub");
 
         listing.Parameters.Should().NotBeNull();
         listing.Parameters.Should().HaveCount(2);
@@ -70,7 +70,7 @@ public class T3Tests : TestBase
         listing.Uiid.Should().Be("T3");
         listing.Style.Should().Be(Style.Buffer);
         listing.Category.Should().Be(Category.MovingAverage);
-        listing.MethodName.Should().Be("ToT3");
+        listing.MethodName.Should().Be("ToT3List");
 
         listing.Parameters.Should().NotBeNull();
         listing.Parameters.Should().HaveCount(2);

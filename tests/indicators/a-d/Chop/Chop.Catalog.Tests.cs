@@ -47,7 +47,7 @@ public class ChopTests : TestBase
         listing.Uiid.Should().Be("CHOP");
         listing.Style.Should().Be(Style.Stream);
         listing.Category.Should().Be(Category.Oscillator);
-        listing.MethodName.Should().Be("ToChop");
+        listing.MethodName.Should().Be("ToChopHub");
 
         listing.Parameters.Should().NotBeNull();
         listing.Parameters.Should().HaveCount(1);
