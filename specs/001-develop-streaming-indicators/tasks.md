@@ -192,7 +192,7 @@ Note on former deferrals: Some indicators were previously marked as deferred due
 - [x] **T082** Implement Vwma BufferList in `src/s-z/Vwma/Vwma.BufferList.cs` ✅
 - [x] **T083** Implement WilliamsR BufferList in `src/s-z/WilliamsR/WilliamsR.BufferList.cs` ✅
 - [x] **T084** Implement Wma BufferList in `src/s-z/Wma/Wma.BufferList.cs` ✅
-- [x] **T085** Implement ZigZag BufferList in `src/s-z/ZigZag/ZigZag.BufferList.cs` ✅
+- [ ] **T085** (human only) Implement ZigZag BufferList in `src/s-z/ZigZag/ZigZag.BufferList.cs` ✅
 
 **BufferList**: 73/85 complete, 12 remaining
 
@@ -292,7 +292,7 @@ Note on former deferrals: Indicators like Fractal, HtTrendline, Hurst, Ichimoku,
 - [x] **T167** Implement Vwma StreamHub in `src/s-z/Vwma/Vwma.StreamHub.cs` ✅
 - [x] **T168** Implement WilliamsR StreamHub in `src/s-z/WilliamsR/WilliamsR.StreamHub.cs` ✅
 - [x] **T169** Implement Wma StreamHub in `src/s-z/Wma/Wma.StreamHub.cs` ✅
-- [ ] **T170** Implement ZigZag StreamHub in `src/s-z/ZigZag/ZigZag.StreamHub.cs`
+- [ ] **T170** (human only) Implement ZigZag StreamHub in `src/s-z/ZigZag/ZigZag.StreamHub.cs`
 
 **StreamHub**: 53/85 complete, 32 remaining
 
