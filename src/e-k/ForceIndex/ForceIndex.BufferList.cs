@@ -79,14 +79,17 @@ public class ForceIndexList : BufferList<ForceIndexResult>, IIncrementFromQuote,
             }
 
             // calculate EMA
-            if (Count > LookbackPeriods)
+            if (Count >= LookbackPeriods)
             {
-                fi = _previousFi + (_k * (rawFi - _previousFi));
-            }
-            // initialization period - first EMA value
-            else if (Count == LookbackPeriods)
-            {
-                fi = _sumRawFi / LookbackPeriods;
+                if (!_previousFi.HasValue)
+                {
+                    // initialization period - first EMA value
+                    fi = _sumRawFi / LookbackPeriods;
+                }
+                else
+                {
+                    fi = _previousFi + (_k * (rawFi - _previousFi));
+                }
             }
         }
 

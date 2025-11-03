@@ -53,7 +53,7 @@ public class VolatilityStopTests : TestBase
         listing.Uiid.Should().Be("VOL-STOP");
         listing.Style.Should().Be(Style.Buffer);
         listing.Category.Should().Be(Category.StopAndReverse);
-        listing.MethodName.Should().Be("ToVolatilityStop");
+        listing.MethodName.Should().Be("ToVolatilityStopList");
 
         listing.Parameters.Should().NotBeNull();
         listing.Parameters.Should().HaveCount(2);
