@@ -52,9 +52,9 @@ As a developer building real-time trading applications, I need indicators that u
 
 BufferList implementations MUST implement ONE of three increment interfaces based on data requirements:
 
-- **FR-011**: `IIncrementFromChain` MUST be used for chainable indicators that work with single reusable values (SMA, EMA, RSI, MACD). These indicators MUST accept `IReusable` inputs and MUST NOT have `Add(IQuote)` methods. Constructor MUST accept `IReadOnlyList<IReusable> values`. Extension method MUST use `<T>` generic with `where T : IReusable` constraint.
+- **FR-011**: `IIncrementFromChain` MUST be used for chainable indicators that work with single reusable values (SMA, EMA, RSI, MACD). These indicators MUST accept `IReusable` inputs and MUST NOT have `Add(IQuote)` methods. Constructor MUST accept `IReadOnlyList<IReusable>` values. Extension method MUST use `<T>` generic with `where T : IReusable` constraint.
 
-- **FR-012**: `IIncrementFromQuote` MUST be used for indicators requiring multiple OHLC values per quote (VWMA needs price+volume, Stoch needs HLC, Vwap needs HLCV). Constructor MUST accept `IReadOnlyList<IQuote> quotes`. Extension method MUST use `<TQuote>` generic with `where TQuote : IQuote` constraint.
+- **FR-012**: `IIncrementFromQuote` MUST be used for indicators requiring multiple OHLC values per quote (VWMA needs price+volume, Stoch needs HLC, Vwap needs HLCV). Constructor MUST accept `IReadOnlyList<IQuote>` quotes. Extension method MUST use `<TQuote>` generic with `where TQuote : IQuote` constraint.
 
 - **FR-013**: `IIncrementFromPairs` MUST be used for indicators requiring two synchronized input series (Correlation, Beta). These indicators MUST accept paired `IReusable` values.
 
