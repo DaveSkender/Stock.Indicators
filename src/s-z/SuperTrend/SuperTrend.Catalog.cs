@@ -32,6 +32,7 @@ public static partial class SuperTrend
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
+            .WithMethodName("ToSuperTrendHub")
             .Build();
 
     // No BufferListing for SuperTrend.

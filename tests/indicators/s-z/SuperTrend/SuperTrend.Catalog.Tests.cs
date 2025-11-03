@@ -57,7 +57,7 @@ public class SuperTrendTests : TestBase
         listing.Uiid.Should().Be("SUPERTREND");
         listing.Style.Should().Be(Style.Stream);
         listing.Category.Should().Be(Category.PriceTrend);
-        listing.MethodName.Should().Be("ToSuperTrend");
+        listing.MethodName.Should().Be("ToSuperTrendHub");
 
         listing.Parameters.Should().NotBeNull();
         listing.Parameters.Should().HaveCount(2);

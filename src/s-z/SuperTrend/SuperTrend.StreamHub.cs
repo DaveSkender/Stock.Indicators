@@ -237,6 +237,7 @@ public class SuperTrendHub
                         (double)ProviderCache[p].Low,
                         (double)ProviderCache[p - 1].Close);
                 }
+
                 atr = sumTr / LookbackPeriods;
             }
 
