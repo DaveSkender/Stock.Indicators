@@ -15,9 +15,13 @@ Created by J. Welles Wilder, [Volatility Stop](https://archive.org/details/newco
 ![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
-// C# usage syntax
+// C# usage syntax (Series)
 IReadOnlyList<VolatilityStopResult> results =
   quotes.ToVolatilityStop(lookbackPeriods, multiplier);
+
+// Usage with quote provider (streaming)
+VolatilityStopHub hub =
+  quoteProvider.ToVolatilityStopHub(lookbackPeriods, multiplier);
 ```
 
 ## Parameters

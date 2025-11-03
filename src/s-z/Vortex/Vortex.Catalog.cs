@@ -10,7 +10,6 @@ public static partial class Vortex
             .WithName("Vortex Indicator")
             .WithId("VORTEX")
             .WithCategory(Category.PriceTrend)
-            .WithMethodName("ToVortex")
             .AddParameter<int>("lookbackPeriods", "Lookback Periods", description: "Number of periods for the Vortex calculation", isRequired: false, defaultValue: 14, minimum: 2, maximum: 100)
             .AddResult("Pvi", "VI+", ResultType.Default, isReusable: true)
             .AddResult("Nvi", "VI-", ResultType.Default)
@@ -22,6 +21,7 @@ public static partial class Vortex
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
+            .WithMethodName("ToVortex")
             .Build();
 
     /// <summary>
@@ -30,7 +30,15 @@ public static partial class Vortex
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)
+            .WithMethodName("ToVortexList")
             .Build();
 
-    // No StreamListing for Vortex Indicator.
+    /// <summary>
+    /// Vortex Indicator Stream Listing
+    /// </summary>
+    internal static readonly IndicatorListing StreamListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Stream)
+            .WithMethodName("ToVortexHub")
+            .Build();
 }

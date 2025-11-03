@@ -38,10 +38,10 @@ public static partial class Adx
         double prevHigh = 0;
         double prevLow = 0;
         double prevClose = 0;
-        double prevTrs = 0; // smoothed
-        double prevPdm = 0;
-        double prevMdm = 0;
-        double prevAdx = 0;
+        double prevTrs = double.NaN; // smoothed
+        double prevPdm = double.NaN;
+        double prevMdm = double.NaN;
+        double prevAdx = double.NaN;
 
         double sumTr = 0;
         double sumPdm = 0;
@@ -78,7 +78,7 @@ public static partial class Adx
             prevLow = q.Low;
             prevClose = q.Close;
 
-            // initialization period
+            // accumulate DM initialization period values
             if (i <= lookbackPeriods)
             {
                 sumTr += tr;
@@ -98,9 +98,9 @@ public static partial class Adx
             double pdm;
             double mdm;
 
-            // TODO: update healing, without requiring specific indexing
-            if (i == lookbackPeriods)
+            if (double.IsNaN(prevTrs))
             {
+                // initialize smoothed values at first calculation after lookback
                 trs = sumTr;
                 pdm = sumPdm;
                 mdm = sumMdm;
@@ -136,30 +136,37 @@ public static partial class Adx
             double adx = double.NaN;
             double adxr = double.NaN;
 
-            if (i > (2 * lookbackPeriods) - 1)
+            // ADX initialization period - accumulate DX values
+            if (i < (2 * lookbackPeriods))
+            {
+                sumDx += dx;
+
+                // calculate initial ADX after accumulating lookbackPeriods DX values
+                if (double.IsNaN(prevAdx) && i == (2 * lookbackPeriods) - 1)
+                {
+                    adx = sumDx / lookbackPeriods;
+                    prevAdx = adx;
+                }
+            }
+            // ongoing ADX smoothing
+            else
             {
                 adx = ((prevAdx * (lookbackPeriods - 1)) + dx) / lookbackPeriods;
 
-                double priorAdx = results[i - lookbackPeriods + 1].Adx.Null2NaN();
+                // Calculate ADXR only if we have a valid prior ADX value
+                int priorAdxIndex = i - lookbackPeriods;
+                if (priorAdxIndex >= (2 * lookbackPeriods) - 1)
+                {
+                    double priorAdx = results[priorAdxIndex].Adx.Null2NaN();
 
-                adxr = (adx + priorAdx) / 2;
+                    // Only compute ADXR if prior ADX actually exists
+                    if (!double.IsNaN(priorAdx))
+                    {
+                        adxr = (adx + priorAdx) / 2;
+                    }
+                }
+
                 prevAdx = adx;
-            }
-
-            // initial ADX
-            else if (i == (2 * lookbackPeriods) - 1)
-            {
-                sumDx += dx;
-                adx = sumDx / lookbackPeriods;
-                prevAdx = adx;
-            }
-
-            // ADX initialization period
-            // TODO: update healing, without requiring specific indexing
-            //       see ADX BufferList for hint
-            else
-            {
-                sumDx += dx;
             }
 
             AdxResult r = new(

@@ -1,18 +1,18 @@
 namespace BufferLists;
 
 [TestClass]
-public class ZigZag : BufferListTestBase, ITestQuoteBufferList
+public class PivotPoints : BufferListTestBase, ITestQuoteBufferList
 {
-    private const EndType endType = EndType.Close;
-    private const decimal percentChange = 5;
+    private const PeriodSize windowSize = PeriodSize.Month;
+    private const PivotPointType pointType = PivotPointType.Standard;
 
-    private static readonly IReadOnlyList<ZigZagResult> series
-       = Quotes.ToZigZag(endType, percentChange);
+    private static readonly IReadOnlyList<PivotPointsResult> series
+       = Quotes.ToPivotPoints(windowSize, pointType);
 
     [TestMethod]
     public void AddQuote_IncrementsResults()
     {
-        ZigZagList sut = new(endType, percentChange);
+        PivotPointsList sut = new(windowSize, pointType);
 
         foreach (Quote quote in Quotes)
         {
@@ -26,7 +26,7 @@ public class ZigZag : BufferListTestBase, ITestQuoteBufferList
     [TestMethod]
     public void AddQuotesBatch_IncrementsResults()
     {
-        ZigZagList sut = Quotes.ToZigZagList(endType, percentChange);
+        PivotPointsList sut = Quotes.ToPivotPointsList(windowSize, pointType);
 
         sut.Should().HaveCount(Quotes.Count);
         sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
@@ -35,7 +35,7 @@ public class ZigZag : BufferListTestBase, ITestQuoteBufferList
     [TestMethod]
     public void QuotesCtor_OnInstantiation_IncrementsResults()
     {
-        ZigZagList sut = new(endType, percentChange, Quotes);
+        PivotPointsList sut = new(windowSize, pointType, Quotes);
 
         sut.Should().HaveCount(Quotes.Count);
         sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
@@ -45,9 +45,9 @@ public class ZigZag : BufferListTestBase, ITestQuoteBufferList
     public override void Clear_WithState_ResetsState()
     {
         List<Quote> subset = Quotes.Take(80).ToList();
-        IReadOnlyList<ZigZagResult> expected = subset.ToZigZag(endType, percentChange);
+        IReadOnlyList<PivotPointsResult> expected = subset.ToPivotPoints(windowSize, pointType);
 
-        ZigZagList sut = new(endType, percentChange, subset);
+        PivotPointsList sut = new(windowSize, pointType, subset);
 
         sut.Should().HaveCount(subset.Count);
         sut.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
@@ -67,15 +67,14 @@ public class ZigZag : BufferListTestBase, ITestQuoteBufferList
     {
         const int maxListSize = 120;
 
-        ZigZagList sut = new(endType, percentChange) {
+        PivotPointsList sut = new(windowSize, pointType) {
             MaxListSize = maxListSize
         };
 
         sut.Add(Quotes);
 
-        IReadOnlyList<ZigZagResult> expected = series
-            .Skip(series.Count - maxListSize)
-            .ToList();
+        IReadOnlyList<PivotPointsResult> expected
+            = series.Skip(series.Count - maxListSize).ToList();
 
         sut.Should().HaveCount(maxListSize);
         sut.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());

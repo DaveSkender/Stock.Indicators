@@ -109,12 +109,10 @@ public class StochHub
         double high = (double)item.High;
         double low = (double)item.Low;
         double close = (double)item.Close;
-        ValidateFinite(high, nameof(IQuote.High), item.Timestamp);
-        ValidateFinite(low, nameof(IQuote.Low), item.Timestamp);
-        ValidateFinite(close, nameof(IQuote.Close), item.Timestamp);
 
         // Normal incremental update - O(1) amortized operation
         // Using monotonic deque pattern eliminates nested O(n) linear scans
+        // NaN values are allowed and will propagate naturally through calculations
         _highWindow.Add(high);
         _lowWindow.Add(low);
 
@@ -133,8 +131,8 @@ public class StochHub
                 }
 
                 // Use O(1) max/min retrieval from rolling windows
-                double highHigh = _highWindow.Max;
-                double lowLow = _lowWindow.Min;
+                double highHigh = _highWindow.GetMax();
+                double lowLow = _lowWindow.GetMin();
 
                 rawK = highHigh - lowLow != 0
                      ? 100 * (close - lowLow) / (highHigh - lowLow)
@@ -262,16 +260,6 @@ public class StochHub
         return (result, i);
     }
 
-    private static void ValidateFinite(double value, string paramName, DateTime timestamp)
-    {
-        if (!double.IsFinite(value))
-        {
-            string message = FormattableString.Invariant(
-                $"Quote at {timestamp:O} contains a non-finite {paramName} value.");
-            throw new InvalidQuotesException(paramName, value, message);
-        }
-    }
-
     /// <summary>
     /// Restores the rolling window state up to the specified timestamp.
     /// </summary>
@@ -300,8 +288,6 @@ public class StochHub
             IQuote quote = ProviderCache[p];
             double cachedHigh = (double)quote.High;
             double cachedLow = (double)quote.Low;
-            ValidateFinite(cachedHigh, nameof(IQuote.High), quote.Timestamp);
-            ValidateFinite(cachedLow, nameof(IQuote.Low), quote.Timestamp);
 
             _highWindow.Add(cachedHigh);
             _lowWindow.Add(cachedLow);
@@ -322,8 +308,6 @@ public class StochHub
                     IQuote q = ProviderCache[r];
                     double h = (double)q.High;
                     double l = (double)q.Low;
-                    ValidateFinite(h, nameof(IQuote.High), q.Timestamp);
-                    ValidateFinite(l, nameof(IQuote.Low), q.Timestamp);
                     if (h > hh)
                     {
                         hh = h;

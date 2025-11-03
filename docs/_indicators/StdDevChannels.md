@@ -84,3 +84,9 @@ var results = quotesEval
 ```
 
 Results **cannot** be further chained with additional transforms.
+
+## Streaming and real-time usage
+
+**⚠️ Streaming not supported**: Due to the reverse-window algorithm that recalculates the entire dataset on each new data point, Standard Deviation Channels is only available as a batch Series implementation. The computational cost grows quadratically (O(n²)) as the dataset size increases, making it impractical for incremental streaming (StreamHub) or buffer (BufferList) scenarios.
+
+**Recommendation**: Use the Series implementation (`ToStdDevChannels()`) with periodic batch recalculation. For real-time scenarios, consider recalculating at appropriate intervals (e.g., end of period, every N bars) rather than on every tick.

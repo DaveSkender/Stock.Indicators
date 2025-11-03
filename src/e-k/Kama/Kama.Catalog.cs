@@ -10,7 +10,6 @@ public static partial class Kama
             .WithName("Kaufman's Adaptive Moving Average")
             .WithId("KAMA")
             .WithCategory(Category.MovingAverage)
-            .WithMethodName("ToKama")
             .AddParameter<int>("erPeriods", "ER Periods", defaultValue: 10, minimum: 2, maximum: 250)
             .AddParameter<int>("fastPeriods", "Fast Periods", defaultValue: 2, minimum: 1, maximum: 50)
             .AddParameter<int>("slowPeriods", "Slow Periods", defaultValue: 30, minimum: 1, maximum: 250)
@@ -24,6 +23,7 @@ public static partial class Kama
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
+            .WithMethodName("ToKama")
             .Build();
 
     /// <summary>
@@ -32,6 +32,7 @@ public static partial class Kama
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
+            .WithMethodName("ToKamaHub")
             .Build();
 
     /// <summary>
@@ -40,5 +41,6 @@ public static partial class Kama
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)
+            .WithMethodName("ToKamaList")
             .Build();
 }

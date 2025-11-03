@@ -47,7 +47,7 @@ public class TrixTests : TestBase
         listing.Uiid.Should().Be("TRIX");
         listing.Style.Should().Be(Style.Buffer);
         listing.Category.Should().Be(Category.Oscillator);
-        listing.MethodName.Should().Be("ToTrix");
+        listing.MethodName.Should().Be("ToTrixList");
 
         listing.Parameters.Should().NotBeNull();
         listing.Parameters.Should().HaveCount(1);
@@ -76,7 +76,7 @@ public class TrixTests : TestBase
         listing.Uiid.Should().Be("TRIX");
         listing.Style.Should().Be(Style.Stream);
         listing.Category.Should().Be(Category.Oscillator);
-        listing.MethodName.Should().Be("ToTrix");
+        listing.MethodName.Should().Be("ToTrixHub");
 
         listing.Parameters.Should().NotBeNull();
         listing.Parameters.Should().HaveCount(1);

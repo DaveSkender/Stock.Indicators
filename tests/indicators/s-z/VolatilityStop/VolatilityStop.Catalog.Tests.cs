@@ -53,12 +53,47 @@ public class VolatilityStopTests : TestBase
         listing.Uiid.Should().Be("VOL-STOP");
         listing.Style.Should().Be(Style.Buffer);
         listing.Category.Should().Be(Category.StopAndReverse);
-        listing.MethodName.Should().Be("ToVolatilityStop");
+        listing.MethodName.Should().Be("ToVolatilityStopList");
 
         listing.Parameters.Should().NotBeNull();
         listing.Parameters.Should().HaveCount(2);
 
         listing.Results.Should().NotBeNull();
         listing.Results.Should().HaveCount(2);
+    }
+
+    [TestMethod]
+    public void VolatilityStopStreamListing()
+    {
+        // Act
+        IndicatorListing listing = VolatilityStop.StreamListing;
+
+        // Assert
+        listing.Should().NotBeNull();
+        listing.Name.Should().Be("Volatility Stop");
+        listing.Uiid.Should().Be("VOL-STOP");
+        listing.Style.Should().Be(Style.Stream);
+        listing.Category.Should().Be(Category.StopAndReverse);
+        listing.MethodName.Should().Be("ToVolatilityStopHub");
+
+        listing.Parameters.Should().NotBeNull();
+        listing.Parameters.Should().HaveCount(2);
+
+        IndicatorParam lookbackPeriodsParam = listing.Parameters.SingleOrDefault(static p => p.ParameterName == "lookbackPeriods");
+        lookbackPeriodsParam.Should().NotBeNull();
+        IndicatorParam multiplierParam = listing.Parameters.SingleOrDefault(static p => p.ParameterName == "multiplier");
+        multiplierParam.Should().NotBeNull();
+
+        listing.Results.Should().NotBeNull();
+        listing.Results.Should().HaveCount(2);
+
+        IndicatorResult sarResult = listing.Results.SingleOrDefault(static r => r.DataName == "Sar");
+        sarResult.Should().NotBeNull();
+        sarResult?.DisplayName.Should().Be("Stop and Reverse");
+        sarResult.IsReusable.Should().Be(true);
+        IndicatorResult isStopResult = listing.Results.SingleOrDefault(static r => r.DataName == "IsStop");
+        isStopResult.Should().NotBeNull();
+        isStopResult?.DisplayName.Should().Be("Is Stop");
+        isStopResult.IsReusable.Should().Be(false);
     }
 }

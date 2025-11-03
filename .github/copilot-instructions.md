@@ -40,6 +40,39 @@ This repository hosts **Stock Indicators for .NET**, the production source for t
 4. **Index out of range** and buffer reuse issues in streaming indicators—guard shared spans and caches.
 5. **Performance regressions** from unnecessary allocations or LINQ. Prefer span-friendly loops and avoid boxing.
 6. **Documentation drift** between code comments, XML docs, and the published docs site.
+7. **Improper NaN handling** - Do not reject NaN inputs; however, always guard against division by zero when denominators can be zero. See NaN handling policy below.
+
+## NaN handling policy
+
+This library uses non-nullable `double` types internally for performance, with intentional NaN propagation through calculations:
+
+### Core principles
+
+1. **Natural propagation** - NaN values propagate naturally through calculations (any operation with NaN produces NaN)
+2. **Internal representation** - Use `double.NaN` internally when a value cannot be calculated
+3. **External representation** - Convert NaN to `null` (via `.NaN2Null()`) **only at the final result boundary** when returning to users
+4. **No rejection** - Never reject NaN inputs with validation; allow them to flow through the system
+5. **Performance first** - Non-nullable `double` provides significant performance gains over `double?`
+
+### Implementation guidelines
+
+- **Division by zero** - MUST guard variable denominators with ternary checks (e.g., `denom != 0 ? num / denom : double.NaN`); choose fallback (NaN, 0, null) based on mathematical meaning
+- **No epsilon comparisons** - NEVER use epsilon values (e.g., `1e-8`, `1e-9`) for zero checks in division guards. Use exact zero comparison (`!= 0` or `== 0`). Epsilon comparisons assume floating-point precision issues that don't exist in our calculations and cause incorrect results by treating near-zero values as zero.
+- **NaN propagation** - Accept NaN inputs and allow natural propagation through calculations; never reject or filter NaN values
+- **RollingWindow utilities** - Accept NaN values and return NaN for Min/Max when NaN is present in the window
+- **Quote validation** - Only validate for null/missing quotes, not for NaN values in quote properties (High/Low/Close/etc.)
+- **State initialization** - Use `double.NaN` to represent uninitialized state instead of sentinel values like `0` or `-1`
+
+### Rationale
+
+This approach aligns with **Constitution §1: Mathematical Precision** and **Constitution §2: Performance First**:
+
+- Maintains numerical correctness (NaN is mathematically correct for undefined values)
+- Prevents silent data corruption from substituting invalid placeholders
+- Follows established IEEE 754 standard
+- Achieves performance gains from non-nullable types while maintaining mathematical integrity
+
+See [src/_common/README.md](../src/_common/README.md#nan-handling-policy) for complete policy documentation.
 
 ## Guiding principles
 
@@ -60,6 +93,13 @@ All public methods require complete input validation with descriptive error mess
 ### IV. Test-Driven Quality
 
 Every indicator requires comprehensive unit tests covering all code paths. Mathematical accuracy must be verified against reference implementations. Performance tests are mandatory for computationally intensive indicators.
+
+**Test epsilon usage rules:**
+
+- ✅ **Use epsilon** (`BeApproximately`) ONLY when comparing against **manually calculated reference values** (e.g., `Money4 = 0.00005` for 4 decimal places) or for **recursive algorithms** where calculation order legitimately differs (e.g., Fisher Transform)
+- ❌ **DO NOT use epsilon** for regression tests comparing calculated-vs-calculated results - use exact equality (default `AssertEquals()`)
+- ❌ **DO NOT use epsilon** when comparing computed formulas or constants (e.g., `2d / (period + 1)`) - these should use exact comparison (`.Be()`)
+- ❌ **DO NOT use epsilon** for zero evaluations in production code - use exact comparison (`!= 0` or `== 0`)
 
 ### V. Documentation Excellence
 

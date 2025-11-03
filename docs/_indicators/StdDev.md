@@ -15,13 +15,12 @@ layout: indicator
 ![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
-// C# usage syntax
+// C# usage syntax (series)
 IReadOnlyList<StdDevResult> results =
   quotes.ToStdDev(lookbackPeriods);
 
-// usage with optional SMA of SD (shown above)
-IReadOnlyList<StdDevResult> results =
-  quotes.ToStdDev(lookbackPeriods, smaPeriods);
+// usage with streaming quotes
+StdDevHub hub = quotes.ToStdDevHub(lookbackPeriods);
 ```
 
 ## Parameters

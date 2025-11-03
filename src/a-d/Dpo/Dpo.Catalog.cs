@@ -10,7 +10,6 @@ public static partial class Dpo
             .WithName("Detrended Price Oscillator")
             .WithId("DPO")
             .WithCategory(Category.Oscillator)
-            .WithMethodName("ToDpo")
             .AddParameter<int>("lookbackPeriods", "Lookback Periods", defaultValue: 14, minimum: 2, maximum: 250)
             .AddResult("Dpo", "DPO", ResultType.Default, isReusable: true)
             .AddResult("Sma", "SMA", ResultType.Default)
@@ -22,6 +21,7 @@ public static partial class Dpo
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
+            .WithMethodName("ToDpo")
             .Build();
 
     /// <summary>
@@ -30,6 +30,7 @@ public static partial class Dpo
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)
+            .WithMethodName("ToDpoList")
             .Build();
 
     // DPO StreamHub Listing

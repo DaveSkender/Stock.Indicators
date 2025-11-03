@@ -10,7 +10,6 @@ public static partial class Stc
             .WithName("Schaff Trend Cycle")
             .WithId("STC")
             .WithCategory(Category.Oscillator)
-            .WithMethodName("ToStc")
             .AddParameter<int>("cyclePeriods", "Cycle Periods", description: "Number of periods for the cycle calculation", isRequired: false, defaultValue: 10, minimum: 1, maximum: 250)
             .AddParameter<int>("fastPeriods", "Fast Periods", description: "Number of periods for the fast MA", isRequired: false, defaultValue: 23, minimum: 1, maximum: 250)
             .AddParameter<int>("slowPeriods", "Slow Periods", description: "Number of periods for the slow MA", isRequired: false, defaultValue: 50, minimum: 1, maximum: 250)
@@ -23,6 +22,7 @@ public static partial class Stc
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
+            .WithMethodName("ToStc")
             .Build();
 
     /// <summary>
@@ -31,7 +31,15 @@ public static partial class Stc
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)
+            .WithMethodName("ToStcList")
             .Build();
 
-    // No StreamListing for STC.
+    /// <summary>
+    /// Schaff Trend Cycle Stream Listing
+    /// </summary>
+    internal static readonly IndicatorListing StreamListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Stream)
+            .WithMethodName("ToStcHub")
+            .Build();
 }

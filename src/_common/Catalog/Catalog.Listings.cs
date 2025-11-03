@@ -130,6 +130,7 @@ public static partial class Catalog
         // ConnorsRSI
         _listings.Add(ConnorsRsi.SeriesListing);
         _listings.Add(ConnorsRsi.BufferListing);
+        _listings.Add(ConnorsRsi.StreamListing);
 
         // Correlation
         _listings.Add(Correlation.SeriesListing);
@@ -205,13 +206,17 @@ public static partial class Catalog
         // HT Trendline (Hilbert Transform)
         _listings.Add(HtTrendline.BufferListing);
         _listings.Add(HtTrendline.SeriesListing);
+        _listings.Add(HtTrendline.StreamListing);
 
         // Hurst Exponent
         _listings.Add(Hurst.SeriesListing);
         _listings.Add(Hurst.BufferListing);
+        _listings.Add(Hurst.StreamListing);
 
         // Ichimoku Cloud
+        _listings.Add(Ichimoku.BufferListing);
         _listings.Add(Ichimoku.SeriesListing);
+        _listings.Add(Ichimoku.StreamListing);
 
         // KAMA (Kaufman Adaptive Moving Average)
         _listings.Add(Kama.BufferListing);
@@ -269,6 +274,8 @@ public static partial class Catalog
 
         // Pivot Points
         _listings.Add(PivotPoints.SeriesListing);
+        _listings.Add(PivotPoints.BufferListing);
+        _listings.Add(PivotPoints.StreamListing);
 
         // Pivots
         _listings.Add(Pivots.SeriesListing);
@@ -308,11 +315,13 @@ public static partial class Catalog
 
         // ROC with Bands
         _listings.Add(RocWb.SeriesListing);
+        _listings.Add(RocWb.StreamListing);
         _listings.Add(RocWb.BufferListing);
 
         // Rolling Pivots
         _listings.Add(RollingPivots.BufferListing);
         _listings.Add(RollingPivots.SeriesListing);
+        _listings.Add(RollingPivots.StreamListing);
 
         // RSI (Relative Strength Index)
         _listings.Add(Rsi.BufferListing);
@@ -329,11 +338,14 @@ public static partial class Catalog
         _listings.Add(Sma.BufferListing);
 
         // SMA Analysis
+        _listings.Add(SmaAnalysis.BufferListing);
         _listings.Add(SmaAnalysis.SeriesListing);
+        _listings.Add(SmaAnalysis.StreamListing);
 
         // SMI (Stochastic Momentum Index)
         _listings.Add(Smi.BufferListing);
         _listings.Add(Smi.SeriesListing);
+        _listings.Add(Smi.StreamListing);
 
         // SMMA (Smoothed Moving Average)
         _listings.Add(Smma.SeriesListing);
@@ -347,12 +359,14 @@ public static partial class Catalog
         // STC (Schaff Trend Cycle)
         _listings.Add(Stc.BufferListing);
         _listings.Add(Stc.SeriesListing);
+        _listings.Add(Stc.StreamListing);
 
         // Standard Deviation
+        _listings.Add(StdDev.BufferListing);
         _listings.Add(StdDev.SeriesListing);
+        _listings.Add(StdDev.StreamListing);
 
         // Standard Deviation Channels
-        _listings.Add(StdDevChannels.BufferListing);
         _listings.Add(StdDevChannels.SeriesListing);
 
         // Stochastic Oscillator
@@ -366,7 +380,9 @@ public static partial class Catalog
         _listings.Add(StochRsi.StreamListing);
 
         // SuperTrend
+        _listings.Add(SuperTrend.BufferListing);
         _listings.Add(SuperTrend.SeriesListing);
+        _listings.Add(SuperTrend.StreamListing);
 
         // T3 (Triple Exponential Moving Average)
         _listings.Add(T3.BufferListing);
@@ -391,9 +407,12 @@ public static partial class Catalog
         // TSI (True Strength Index)
         _listings.Add(Tsi.SeriesListing);
         _listings.Add(Tsi.BufferListing);
+        _listings.Add(Tsi.StreamListing);
 
         // Ulcer Index
         _listings.Add(UlcerIndex.SeriesListing);
+        _listings.Add(UlcerIndex.StreamListing);
+        _listings.Add(UlcerIndex.BufferListing);
 
         // Ultimate Oscillator
         _listings.Add(Ultimate.BufferListing);
@@ -403,14 +422,17 @@ public static partial class Catalog
         // Volatility Stop
         _listings.Add(VolatilityStop.SeriesListing);
         _listings.Add(VolatilityStop.BufferListing);
+        _listings.Add(VolatilityStop.StreamListing);
 
         // Vortex Indicator
         _listings.Add(Vortex.SeriesListing);
         _listings.Add(Vortex.BufferListing);
+        _listings.Add(Vortex.StreamListing);
 
         // VWAP (Volume Weighted Average Price)
         _listings.Add(Vwap.SeriesListing);
         _listings.Add(Vwap.BufferListing);
+        _listings.Add(Vwap.StreamListing);
 
         // VWMA (Volume Weighted Moving Average)
         _listings.Add(Vwma.SeriesListing);
@@ -429,7 +451,5 @@ public static partial class Catalog
 
         // ZigZag
         _listings.Add(ZigZag.SeriesListing);
-        _listings.Add(ZigZag.StreamListing);
-        _listings.Add(ZigZag.BufferListing);
     }
 }
