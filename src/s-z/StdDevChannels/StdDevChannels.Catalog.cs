@@ -25,22 +25,4 @@ public static partial class StdDevChannels
             .WithStyle(Style.Series)
             .WithMethodName("ToStdDevChannels")
             .Build();
-
-    /// <summary>
-    /// Standard Deviation Channels Buffer Listing
-    /// </summary>
-    internal static readonly IndicatorListing BufferListing =
-        new CatalogListingBuilder(CommonListing)
-            .WithStyle(Style.Buffer)
-            .WithMethodName("ToStdDevChannelsList")
-            .Build();
-
-    /// <summary>
-    /// Standard Deviation Channels Stream Listing
-    /// </summary>
-    internal static readonly IndicatorListing StreamListing =
-        new CatalogListingBuilder(CommonListing)
-            .WithStyle(Style.Stream)
-            .WithMethodName("ToStdDevChannelsHub")
-            .Build();
 }
