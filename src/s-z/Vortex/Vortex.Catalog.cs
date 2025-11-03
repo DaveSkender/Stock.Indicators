@@ -39,5 +39,6 @@ public static partial class Vortex
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
+            .WithMethodName("ToVortexHub")
             .Build();
 }

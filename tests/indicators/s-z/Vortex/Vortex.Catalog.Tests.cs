@@ -72,7 +72,7 @@ public class VortexTests : TestBase
         listing.Uiid.Should().Be("VORTEX");
         listing.Style.Should().Be(Style.Stream);
         listing.Category.Should().Be(Category.PriceTrend);
-        listing.MethodName.Should().Be("ToVortex");
+        listing.MethodName.Should().Be("ToVortexHub");
 
         listing.Parameters.Should().NotBeNull();
         listing.Parameters.Should().HaveCount(1);
