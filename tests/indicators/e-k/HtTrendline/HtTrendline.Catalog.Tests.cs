@@ -52,7 +52,7 @@ public class HtTrendlineTests : TestBase
         listing.Uiid.Should().Be("HTL");
         listing.Style.Should().Be(Style.Buffer);
         listing.Category.Should().Be(Category.MovingAverage);
-        listing.MethodName.Should().Be("ToHtTrendline");
+        listing.MethodName.Should().Be("ToHtTrendlineList");
 
         listing.Parameters?.Count.Should().Be(0);
         // No parameters for this indicator

@@ -47,7 +47,7 @@ public class WmaTests : TestBase
         listing.Uiid.Should().Be("WMA");
         listing.Style.Should().Be(Style.Stream);
         listing.Category.Should().Be(Category.MovingAverage);
-        listing.MethodName.Should().Be("ToWma");
+        listing.MethodName.Should().Be("ToWmaHub");
 
         listing.Parameters.Should().NotBeNull();
         listing.Parameters.Should().HaveCount(1);
@@ -68,7 +68,7 @@ public class WmaTests : TestBase
         listing.Uiid.Should().Be("WMA");
         listing.Style.Should().Be(Style.Buffer);
         listing.Category.Should().Be(Category.MovingAverage);
-        listing.MethodName.Should().Be("ToWma");
+        listing.MethodName.Should().Be("ToWmaList");
 
         listing.Parameters.Should().NotBeNull();
         listing.Parameters.Should().HaveCount(1);

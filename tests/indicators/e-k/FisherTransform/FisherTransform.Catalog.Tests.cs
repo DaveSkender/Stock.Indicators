@@ -51,7 +51,7 @@ public class FisherTransformTests : TestBase
         listing.Uiid.Should().Be("FISHER");
         listing.Style.Should().Be(Style.Stream);
         listing.Category.Should().Be(Category.PriceTransform);
-        listing.MethodName.Should().Be("ToFisherTransform");
+        listing.MethodName.Should().Be("ToFisherTransformHub");
 
         listing.Parameters.Should().NotBeNull();
         listing.Parameters.Should().HaveCount(1);
@@ -84,7 +84,7 @@ public class FisherTransformTests : TestBase
         listing.Uiid.Should().Be("FISHER");
         listing.Style.Should().Be(Style.Buffer);
         listing.Category.Should().Be(Category.PriceTransform);
-        listing.MethodName.Should().Be("ToFisherTransform");
+        listing.MethodName.Should().Be("ToFisherTransformList");
 
         listing.Parameters.Should().NotBeNull();
         listing.Parameters.Should().HaveCount(1);

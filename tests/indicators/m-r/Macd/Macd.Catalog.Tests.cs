@@ -55,7 +55,7 @@ public class MacdTests : TestBase
         listing.Uiid.Should().Be("MACD");
         listing.Style.Should().Be(Style.Buffer);
         listing.Category.Should().Be(Category.PriceTrend);
-        listing.MethodName.Should().Be("ToMacd");
+        listing.MethodName.Should().Be("ToMacdList");
 
         listing.Parameters.Should().NotBeNull();
         listing.Parameters.Should().HaveCount(3);
@@ -99,7 +99,7 @@ public class MacdTests : TestBase
         listing.Uiid.Should().Be("MACD");
         listing.Style.Should().Be(Style.Stream);
         listing.Category.Should().Be(Category.PriceTrend);
-        listing.MethodName.Should().Be("ToMacd");
+        listing.MethodName.Should().Be("ToMacdHub");
 
         listing.Parameters.Should().NotBeNull();
         listing.Parameters.Should().HaveCount(3);

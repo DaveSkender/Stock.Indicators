@@ -64,7 +64,7 @@ public static partial class SuperTrend
                 double? lowerEval = mid - (multiplier * atr);
 
                 // initial values
-                if (i == lookbackPeriods)
+                if (upperBand is null)
                 {
                     isBullish = q.Close >= mid;
 
