@@ -187,7 +187,7 @@ public class VolatilityStopHub
                 NullificationDone = true;
                 NullifyResultsBeforeFirstStop(i);
 
-                // Also nullify the current result
+                // Return nullified result (consistent with nullification)
                 result = result with {
                     Sar = null,
                     UpperBand = null,
@@ -201,14 +201,14 @@ public class VolatilityStopHub
     }
 
     /// <summary>
-    /// Nullifies all results from lookbackPeriods to current position (inclusive).
+    /// Nullifies all results from 0 to stopIndex (inclusive).
     /// This is called when the first stop is detected.
     /// </summary>
     /// <param name="stopIndex">The index of the first stop.</param>
     private void NullifyResultsBeforeFirstStop(int stopIndex)
     {
-        // Nullify all results from lookbackPeriods to stopIndex (inclusive of the stop)
-        for (int idx = LookbackPeriods; idx <= stopIndex && idx < Cache.Count; idx++)
+        // Nullify all results from 0 to stopIndex (inclusive of the stop)
+        for (int idx = 0; idx <= stopIndex && idx < Cache.Count; idx++)
         {
             VolatilityStopResult existing = Cache[idx];
             Cache[idx] = existing with {
@@ -224,9 +224,6 @@ public class VolatilityStopHub
     /// Restores the Volatility Stop state up to the specified timestamp.
     /// </summary>
     /// <inheritdoc/>
-    /// <summary>
-    /// Restores the Volatility Stop state up to the specified timestamp.
-    /// </summary>
     /// <inheritdoc/>
     protected override void RollbackState(DateTime timestamp)
     {
@@ -285,6 +282,7 @@ public class VolatilityStopHub
                         (double)ProviderCache[p].Low,
                         (double)ProviderCache[p - 1].Close);
                 }
+
                 atr = sumTr / LookbackPeriods;
             }
 
@@ -302,6 +300,7 @@ public class VolatilityStopHub
                 {
                     FirstStopFound = true;
                 }
+
                 Sic = close;
                 IsLong = !IsLong;
             }
@@ -339,7 +338,7 @@ public static partial class VolatilityStop
     /// <param name="multiplier">The multiplier for the ATR.</param>
     /// <returns>An instance of <see cref="VolatilityStopHub"/>.</returns>
     public static VolatilityStopHub ToVolatilityStopHub(
-        this IReadOnlyList<IQuote> quotes,
+       this IReadOnlyList<IQuote> quotes,
        int lookbackPeriods = 7,
        double multiplier = 3)
     {
