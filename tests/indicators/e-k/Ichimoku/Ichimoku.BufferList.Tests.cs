@@ -1,7 +1,7 @@
 namespace BufferLists;
 
 [TestClass]
-public class Ichimoku : BufferListTestBase, ITestQuoteBufferList
+public class Ichimoku : BufferListTestBase, ITestQuoteBufferList, ITestCustomBufferListCache
 {
     private const int tenkanPeriods = 9;
     private const int kijunPeriods = 26;
@@ -80,6 +80,33 @@ public class Ichimoku : BufferListTestBase, ITestQuoteBufferList
             = series.Skip(series.Count - maxListSize).ToList();
 
         sut.Should().HaveCount(maxListSize);
+        sut.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
+    }
+
+    [TestMethod]
+    public void CustomBuffer_OverMaxListSize_AutoAdjustsListAndBuffers()
+    {
+        const int maxListSize = 150;
+        const int quotesSize = 1000;
+
+        // Use a test data that exceeds all cache size thresholds
+        List<Quote> quotes = LongishQuotes
+            .Take(quotesSize)
+            .ToList();
+
+        // Expected results after pruning (tail end)
+        IReadOnlyList<IchimokuResult> expected = quotes
+            .ToIchimoku(tenkanPeriods, kijunPeriods, senkouBPeriods, senkouOffset, chikouOffset)
+            .Skip(quotesSize - maxListSize)
+            .ToList();
+
+        // Generate buffer list
+        IchimokuList sut = new(tenkanPeriods, kijunPeriods, senkouBPeriods, senkouOffset, chikouOffset, quotes) {
+            MaxListSize = maxListSize
+        };
+
+        // Verify expected results matching equivalent series values
+        sut.Count.Should().Be(maxListSize);
         sut.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
     }
 }
