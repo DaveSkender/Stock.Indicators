@@ -29,14 +29,7 @@ public static partial class RenkoAtr
             .WithMethodName("ToRenkoAtr")
             .Build();
 
-    /// <summary>
-    /// Renko (ATR) Stream Listing
-    /// </summary>
-    internal static readonly IndicatorListing StreamListing =
-        new CatalogListingBuilder(CommonListing)
-            .WithStyle(Style.Stream)
-            .WithMethodName("ToRenkoAtrHub")
-            .Build();
-
-    // No BufferListing for Renko (ATR).
+    // BufferList and StreamHub not implemented - ATR calculation requires full dataset
+    // to determine final brick size. Incremental processing would require buffering all
+    // quotes and recalculating entire series on each add. Series-only implementation maintained.
 }

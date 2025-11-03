@@ -54,33 +54,4 @@ public class RenkoAtrTests : TestBase
         isupResult5?.DisplayName.Should().Be("Is Up");
         isupResult5.IsReusable.Should().Be(false);
     }
-
-    [TestMethod]
-    public void RenkoAtrStreamListing()
-    {
-        // Act
-        IndicatorListing listing = RenkoAtr.StreamListing;
-
-        // Assert
-        listing.Should().NotBeNull();
-        listing.Name.Should().Be("Renko (ATR)");
-        listing.Uiid.Should().Be("RENKO-ATR");
-        listing.Style.Should().Be(Style.Stream);
-        listing.Category.Should().Be(Category.PriceTrend);
-        listing.MethodName.Should().Be("ToRenkoAtrHub");
-
-        listing.Parameters.Should().NotBeNull();
-        listing.Parameters.Should().HaveCount(2);
-
-        IndicatorParam atrPeriodsParam = listing.Parameters.SingleOrDefault(static p => p.ParameterName == "atrPeriods");
-        atrPeriodsParam.Should().NotBeNull();
-
-        listing.Results.Should().NotBeNull();
-        listing.Results.Should().HaveCount(6);
-
-        IndicatorResult closeResult = listing.Results.SingleOrDefault(static r => r.DataName == "Close");
-        closeResult.Should().NotBeNull();
-        closeResult?.DisplayName.Should().Be("Close");
-        closeResult.IsReusable.Should().Be(true);
-    }
 }

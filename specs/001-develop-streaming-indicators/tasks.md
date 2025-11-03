@@ -262,7 +262,7 @@ Note on former deferrals: Indicators like Fractal, HtTrendline, Hurst, Ichimoku,
 - [x] **T137** Implement Pvo StreamHub in `src/m-r/Pvo/Pvo.StreamHub.cs` ✅
 - [x] **T138** Implement QuotePart StreamHub in `src/_common/QuotePart/QuotePart.StreamHub.cs` ✅
 - [x] **T139** Implement Renko StreamHub in `src/m-r/Renko/Renko.StreamHub.cs` ✅
-- [x] **T140** Implement RenkoAtr StreamHub in `src/m-r/RenkoAtr/RenkoAtr.StreamHub.cs`
+- [ ] **T140** ~~Implement RenkoAtr StreamHub~~ **NOT IMPLEMENTED** — ATR calculation requires full dataset to determine final brick size. Real-time streaming would require buffering all history and recalculating entire Renko series on each new quote, defeating incremental processing purpose. Series-only implementation maintained.
 - [x] **T141** Implement Roc StreamHub in `src/m-r/Roc/Roc.StreamHub.cs` ✅
 - [ ] **T142** Implement RocWb StreamHub in `src/m-r/RocWb/RocWb.StreamHub.cs`
 - [x] **T143** Implement RollingPivots StreamHub in `src/m-r/RollingPivots/RollingPivots.StreamHub.cs` ✅
@@ -294,9 +294,9 @@ Note on former deferrals: Indicators like Fractal, HtTrendline, Hurst, Ichimoku,
 - [x] **T169** Implement Wma StreamHub in `src/s-z/Wma/Wma.StreamHub.cs` ✅
 - [ ] **T170** Implement ZigZag StreamHub in `src/s-z/ZigZag/ZigZag.StreamHub.cs`
 
-**StreamHub**: 53/85 complete, 32 remaining
+**StreamHub**: 52/85 complete, 33 remaining (T140 not implemented due to algorithmic constraints)
 
-**Checkpoint**: Phase 3 completion achieves 1:1:1 parity across all three implementation styles (Series, BufferList, StreamHub)
+**Checkpoint**: Phase 3 completion achieves 1:1:1 parity across all three implementation styles (Series, BufferList, StreamHub) except where algorithmically impractical
 
 ---
 
@@ -458,18 +458,19 @@ Each task should follow these guidelines:
 **Implementation Coverage (1:1:1 Parity)**:
 
 - **Total Series implementations**: 85 indicators (baseline)
-- **Total BufferList implementations**: 72 complete, 13 remaining (T001-T085)
-- **Total StreamHub implementations**: 53 complete, 32 remaining (T086-T170)
-- **1:1:1 Target**: 85 BufferList + 85 StreamHub = 170 streaming implementations total
-- **Current streaming coverage**: 125/170 = **74% complete**
+- **Total BufferList implementations**: 72 complete, 13 remaining (T001-T085; T055 not implemented)
+- **Total StreamHub implementations**: 52 complete, 33 remaining (T086-T170; T140 not implemented)
+- **1:1:1 Target**: 85 BufferList + 85 StreamHub = 170 streaming implementations total (excluding algorithmically impractical indicators)
+- **Streaming implementations excluded**: RenkoAtr (BufferList + StreamHub) due to ATR requiring full dataset for final brick size
+- **Current streaming coverage**: 124/168 = **74% complete** (adjusted target excludes 2 impractical implementations)
 
 **Task Breakdown**:
 
 - **Phase 1**: 10 tasks (A001-A006, T171-T174) — 8 complete, 2 remaining
-- **Phase 2**: 85 BufferList implementation tasks (T001-T085) — 72 complete, 13 remaining
-- **Phase 3**: 85 StreamHub implementation tasks (T086-T170) — 53 complete, 32 remaining
+- **Phase 2**: 85 BufferList implementation tasks (T001-T085) — 72 complete, 13 remaining (T055 not implemented)
+- **Phase 3**: 85 StreamHub implementation tasks (T086-T170) — 52 complete, 33 remaining (T140 not implemented)
 - **Phase 4**: 17 test infrastructure tasks (T175-T185, Q001-Q006) — 0 complete, 17 remaining
 - **Phase 5**: 7 documentation tasks (D001-D007) — 2 complete, 5 remaining
-- **Total**: 204 tasks — 135 complete, 69 remaining
+- **Total**: 204 tasks — 134 complete, 70 remaining (2 marked as not implementable due to algorithmic constraints)
 
 Removed blanket deferral: The above indicators are complex but unblocked with established reference patterns (see instruction files).
