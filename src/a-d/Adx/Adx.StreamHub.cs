@@ -180,15 +180,12 @@ public class AdxHub
                     // First valid ADXR when: i - lookbackPeriods >= (2 * lookbackPeriods) - 1
                     // Which simplifies to: i >= (3 * lookbackPeriods) - 1
                     int priorAdxIndex = i - LookbackPeriods;
-                    if (priorAdxIndex >= (2 * LookbackPeriods) - 1)
+                    if (priorAdxIndex >= (2 * LookbackPeriods) - 1 && priorAdxIndex >= 0 && priorAdxIndex < Results.Count)
                     {
-                        if (priorAdxIndex >= 0 && priorAdxIndex < Results.Count)
+                        double? priorAdx = Results[priorAdxIndex].Adx;
+                        if (priorAdx.HasValue && adx.HasValue)
                         {
-                            double? priorAdx = Results[priorAdxIndex].Adx;
-                            if (priorAdx.HasValue && adx.HasValue)
-                            {
-                                adxr = (adx.Value + priorAdx.Value) / 2d;
-                            }
+                            adxr = (adx.Value + priorAdx.Value) / 2d;
                         }
                     }
                 }
