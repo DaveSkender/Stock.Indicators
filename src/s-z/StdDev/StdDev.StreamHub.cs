@@ -77,6 +77,7 @@ public class StdDevHub
                     hasNaN = true;
                     break;
                 }
+
                 sum += value;
             }
 
