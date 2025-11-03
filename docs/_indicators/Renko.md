@@ -92,6 +92,8 @@ This indicator must be generated from `quotes` and **cannot** be generated from 
 
 ## Streaming
 
+**Fixed brick size only** - Streaming implementations are only available for fixed brick size Renko. The [ATR variant](#atr-variant) requires full dataset processing and does not support incremental streaming.
+
 Subscribe to a `QuoteHub` for streaming scenarios:
 
 ```csharp
@@ -147,9 +149,12 @@ IReadOnlyList<RenkoResult>
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
 - It does not return a single incremental indicator value.
+- See [RenkoResult](#renkoresult) above for detailed response structure.
 
 > &#128073; **Repaint warning**: When using the `ToRenkoAtr()` variant, the last [Average True Range (ATR)]({{site.baseurl}}/indicators/Atr/#content) value is used to set `brickSize`.  Since the ATR changes over time, historical bricks will be repainted as new periods are added or updated in `quotes`.
 
-**ATR variant - streaming not supported**: The `ToRenkoAtr()` method requires calculating ATR across the full dataset to determine the final brick size. Incremental streaming would require buffering all historical quotes and recalculating the entire Renko series on each new data point, which defeats the purpose of incremental processing.
+### Streaming limitations for ATR
+
+**ATR variant does not support streaming**: The `ToRenkoAtr()` method requires calculating ATR across the full dataset to determine the final brick size. Incremental streaming would require buffering all historical quotes and recalculating the entire Renko series on each new data point, which defeats the purpose of incremental processing.
 
 **Recommendation**: Use the Series implementation (`ToRenkoAtr()`) with periodic batch recalculation. For real-time scenarios, consider recalculating at appropriate intervals rather than on every tick.
