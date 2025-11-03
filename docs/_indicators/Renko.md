@@ -150,6 +150,19 @@ foreach (Quote quote in quotes)  // simulating incremental data
 IReadOnlyList<RenkoResult> results = buffer;
 ```
 
+For the ATR variant:
+
+```csharp
+RenkoAtrList buffer = new(atrPeriods, endType);
+
+foreach (Quote quote in quotes)  // simulating incremental data
+{
+  buffer.Add(quote);
+}
+
+IReadOnlyList<RenkoResult> results = buffer;
+```
+
 The buffering approach is ideal for growing datasets where quotes arrive incrementally over time.
 
 > &#128681; **Warning**: Unlike most indicators in this library, this indicator DOES NOT return the same number of elements as there are in the historical quotes.  Renko bricks are added to the results once the `brickSize` change is achieved.  For example, if it takes 3 days for a $2.50 price change to occur an entry is made on the third day while the first two are skipped.  If a period change occurs at multiples of `brickSize`, multiple bricks are drawn with the same `Timestamp`.  See [online documentation](https://www.investopedia.com/terms/r/renkochart.asp) for more information.

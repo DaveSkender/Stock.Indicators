@@ -67,7 +67,7 @@ public class RenkoAtrTests : TestBase
         listing.Uiid.Should().Be("RENKO-ATR");
         listing.Style.Should().Be(Style.Buffer);
         listing.Category.Should().Be(Category.PriceTrend);
-        listing.MethodName.Should().Be("ToRenkoAtr");
+        listing.MethodName.Should().Be("ToRenkoAtrList");
 
         listing.Parameters.Should().NotBeNull();
         listing.Parameters.Should().HaveCount(2);

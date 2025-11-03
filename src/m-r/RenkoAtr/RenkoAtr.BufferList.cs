@@ -90,10 +90,10 @@ public class RenkoAtrList : BufferList<RenkoResult>, IIncrementFromQuote, IRenko
         if (brickSize > 0)
         {
             // Generate Renko results with the current brick size
-            IReadOnlyList<RenkoResult> renkoResults = _quoteBuffer.ToRenko(brickSize, EndType);
+
 
             // Add all results
-            foreach (RenkoResult result in renkoResults)
+            foreach (RenkoResult result in _quoteBuffer.ToRenko(brickSize, EndType))
             {
                 AddInternal(result);
             }
