@@ -47,7 +47,7 @@ public class StdDevTests : TestBase
         listing.Uiid.Should().Be("STDEV");
         listing.Style.Should().Be(Style.Stream);
         listing.Category.Should().Be(Category.PriceCharacteristic);
-        listing.MethodName.Should().Be("ToStdDev");
+        listing.MethodName.Should().Be("ToStdDevHub");
 
         listing.Parameters.Should().NotBeNull();
         listing.Parameters.Should().HaveCount(1);
@@ -76,7 +76,7 @@ public class StdDevTests : TestBase
         listing.Uiid.Should().Be("STDEV");
         listing.Style.Should().Be(Style.Buffer);
         listing.Category.Should().Be(Category.PriceCharacteristic);
-        listing.MethodName.Should().Be("ToStdDev");
+        listing.MethodName.Should().Be("ToStdDevList");
 
         listing.Parameters.Should().NotBeNull();
         listing.Parameters.Should().HaveCount(1);
