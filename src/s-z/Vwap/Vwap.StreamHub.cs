@@ -94,7 +94,10 @@ public class VwapHub : ChainProvider<IQuote, VwapResult>
 
         // Rebuild cumulative state from ProviderCache
         int index = ProviderCache.IndexGte(timestamp);
-        if (index <= 0) return;
+        if (index <= 0)
+        {
+            return;
+        }
 
         int targetIndex = index - 1;
 
