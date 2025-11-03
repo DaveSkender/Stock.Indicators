@@ -102,12 +102,11 @@ public static partial class Kvo
             {
                 vfFastEma[i] = (vf[i] * kFast) + (vfFastEma[i - 1] * (1 - kFast));
             }
-
-            // TODO: update healing, without requiring specific indexing
             else if (i == fastPeriods + 1)
             {
+                // initialize fast EMA with average of most recent fastPeriods values
                 double sum = 0;
-                for (int p = 2; p <= i; p++)
+                for (int p = i - fastPeriods + 1; p <= i; p++)
                 {
                     sum += vf[p];
                 }
@@ -120,12 +119,11 @@ public static partial class Kvo
             {
                 vfSlowEma[i] = (vf[i] * kSlow) + (vfSlowEma[i - 1] * (1 - kSlow));
             }
-
-            // TODO: update healing, without requiring specific indexing
             else if (i == slowPeriods + 1)
             {
+                // initialize slow EMA with average of most recent slowPeriods values
                 double sum = 0;
-                for (int p = 2; p <= i; p++)
+                for (int p = i - slowPeriods + 1; p <= i; p++)
                 {
                     sum += vf[p];
                 }
@@ -144,10 +142,9 @@ public static partial class Kvo
                     sig = (kvo * kSignal)
                         + (results[i - 1].Signal * (1 - kSignal));
                 }
-
-                // TODO: update healing, without requiring specific indexing
                 else if (i == slowPeriods + signalPeriods)
                 {
+                    // initialize signal
                     double? sum = kvo;
                     for (int p = slowPeriods + 1; p < i; p++)
                     {

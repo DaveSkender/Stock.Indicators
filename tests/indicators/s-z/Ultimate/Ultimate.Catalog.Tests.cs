@@ -51,7 +51,7 @@ public class UltimateTests : TestBase
         listing.Uiid.Should().Be("UO");
         listing.Style.Should().Be(Style.Buffer);
         listing.Category.Should().Be(Category.Oscillator);
-        listing.MethodName.Should().Be("ToUltimate");
+        listing.MethodName.Should().Be("ToUltimateList");
 
         listing.Parameters.Should().NotBeNull();
         listing.Parameters.Should().HaveCount(3);
@@ -76,7 +76,7 @@ public class UltimateTests : TestBase
         listing.Uiid.Should().Be("UO");
         listing.Style.Should().Be(Style.Stream);
         listing.Category.Should().Be(Category.Oscillator);
-        listing.MethodName.Should().Be("ToUltimate");
+        listing.MethodName.Should().Be("ToUltimateHub");
 
         listing.Parameters.Should().NotBeNull();
         listing.Parameters.Should().HaveCount(3);

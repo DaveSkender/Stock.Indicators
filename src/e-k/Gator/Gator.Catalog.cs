@@ -10,7 +10,6 @@ public static partial class Gator
             .WithName("Gator Oscillator")
             .WithId("GATOR")
             .WithCategory(Category.Oscillator)
-            .WithMethodName("ToGator")
             .AddResult("Upper", "Upper", ResultType.Default, false)
             .AddResult("Lower", "Lower", ResultType.Default, false)
             .AddResult("UpperIsExpanding", "Upper Is Expanding", ResultType.Default, false)
@@ -23,6 +22,7 @@ public static partial class Gator
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
+            .WithMethodName("ToGator")
             .Build();
 
     /// <summary>
@@ -31,6 +31,7 @@ public static partial class Gator
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)
+            .WithMethodName("ToGatorList")
             .Build();
 
     /// <summary>
@@ -39,5 +40,6 @@ public static partial class Gator
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
+            .WithMethodName("ToGatorHub")
             .Build();
 }

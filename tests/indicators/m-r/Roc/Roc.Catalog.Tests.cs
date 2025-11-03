@@ -47,7 +47,7 @@ public class RocTests : TestBase
         listing.Uiid.Should().Be("ROC");
         listing.Style.Should().Be(Style.Stream);
         listing.Category.Should().Be(Category.Oscillator);
-        listing.MethodName.Should().Be("ToRoc");
+        listing.MethodName.Should().Be("ToRocHub");
 
         listing.Parameters.Should().NotBeNull();
         listing.Parameters.Should().HaveCount(1);
@@ -76,7 +76,7 @@ public class RocTests : TestBase
         listing.Uiid.Should().Be("ROC");
         listing.Style.Should().Be(Style.Buffer);
         listing.Category.Should().Be(Category.Oscillator);
-        listing.MethodName.Should().Be("ToRoc");
+        listing.MethodName.Should().Be("ToRocList");
 
         listing.Parameters.Should().NotBeNull();
         listing.Parameters.Should().HaveCount(1);

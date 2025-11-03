@@ -69,7 +69,7 @@ public class BollingerBandsTests : TestBase
         listing.Uiid.Should().Be("BB");
         listing.Style.Should().Be(Style.Stream);
         listing.Category.Should().Be(Category.PriceChannel);
-        listing.MethodName.Should().Be("ToBollingerBands");
+        listing.MethodName.Should().Be("ToBollingerBandsHub");
 
         listing.Parameters.Should().NotBeNull();
         listing.Parameters.Should().HaveCount(2);
@@ -94,7 +94,7 @@ public class BollingerBandsTests : TestBase
         listing.Uiid.Should().Be("BB");
         listing.Style.Should().Be(Style.Buffer);
         listing.Category.Should().Be(Category.PriceChannel);
-        listing.MethodName.Should().Be("ToBollingerBands");
+        listing.MethodName.Should().Be("ToBollingerBandsList");
 
         listing.Parameters.Should().NotBeNull();
         listing.Parameters.Should().HaveCount(2);
