@@ -64,9 +64,9 @@ public class RocWbHub
         if (i >= LookbackPeriods)
         {
             IReusable back = ProviderCache[i - LookbackPeriods];
-            roc = Math.Abs(back.Value) < double.Epsilon
-                ? double.NaN
-                : 100d * (item.Value - back.Value) / back.Value;
+            roc = back.Value != 0
+                ? 100d * (item.Value - back.Value) / back.Value
+                : double.NaN;
         }
         else
         {
@@ -175,9 +175,9 @@ public class RocWbHub
             if (p >= LookbackPeriods)
             {
                 IReusable back = ProviderCache[p - LookbackPeriods];
-                roc = Math.Abs(back.Value) < double.Epsilon
-                    ? double.NaN
-                    : 100d * (current.Value - back.Value) / back.Value;
+                roc = back.Value != 0
+                    ? 100d * (current.Value - back.Value) / back.Value
+                    : double.NaN;
             }
             else
             {

@@ -142,8 +142,8 @@ public class StcHub
             _macdHighWindow.Count >= CyclePeriods &&
             _macdLowWindow.Count >= CyclePeriods)
         {
-            double highHigh = _macdHighWindow.Max;
-            double lowLow = _macdLowWindow.Min;
+            double highHigh = _macdHighWindow.GetMax();
+            double lowLow = _macdLowWindow.GetMin();
 
             rawK = (highHigh - lowLow) != 0
                  ? 100 * (macd - lowLow) / (highHigh - lowLow)
@@ -262,7 +262,7 @@ public class StcHub
                 }
 
                 double macdAtP = _macdCache[p].Macd;
-                double rawAtP = Math.Abs(hh - ll) > 1e-8 ? 100 * (macdAtP - ll) / (hh - ll) : 0;
+                double rawAtP = (hh - ll) != 0 ? 100 * (macdAtP - ll) / (hh - ll) : 0;
                 _rawKBuffer.Enqueue(rawAtP);
             }
         }
