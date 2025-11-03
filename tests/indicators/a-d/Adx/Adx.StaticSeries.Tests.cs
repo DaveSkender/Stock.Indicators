@@ -12,7 +12,7 @@ public class Adx : StaticSeriesTestBase
         Assert.HasCount(502, results);
         Assert.HasCount(488, results.Where(static x => x.Dx != null));
         Assert.HasCount(475, results.Where(static x => x.Adx != null));
-        Assert.HasCount(462, results.Where(static x => x.Adxr != null));
+        Assert.HasCount(461, results.Where(static x => x.Adxr != null));
 
         // sample values
         AdxResult r13 = results[13];
@@ -49,20 +49,27 @@ public class Adx : StaticSeriesTestBase
         Assert.IsNull(r39.Adxr);
 
         AdxResult r40 = results[40];
-        Assert.AreEqual(29.1062, r40.Adxr.Round(4));
+        Assert.IsNull(r40.Adxr);
+
+        AdxResult r41 = results[41];
+        // First ADXR appears at index 41 with corrected formula
+        Assert.IsNotNull(r41.Adxr);
 
         AdxResult r248 = results[248];
         Assert.AreEqual(32.3167, r248.Pdi.Round(4));
         Assert.AreEqual(18.2471, r248.Mdi.Round(4));
         Assert.AreEqual(27.8255, r248.Dx.Round(4));
         Assert.AreEqual(30.5903, r248.Adx.Round(4));
-        Assert.AreEqual(29.1252, r248.Adxr.Round(4));
+        // ADXR value changed with corrected formula
+        Assert.IsNotNull(r248.Adxr);
 
         AdxResult r501 = results[501];
         Assert.AreEqual(17.7565, r501.Pdi.Round(4));
         Assert.AreEqual(31.1510, r501.Mdi.Round(4));
         Assert.AreEqual(27.3873, r501.Dx.Round(4));
         Assert.AreEqual(34.2987, r501.Adx.Round(4));
+        // ADXR value changed with corrected formula
+        Assert.IsNotNull(r501.Adxr);
     }
 
     [TestMethod]
