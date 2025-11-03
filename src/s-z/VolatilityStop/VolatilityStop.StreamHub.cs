@@ -102,14 +102,14 @@ public class VolatilityStopHub
             return (new VolatilityStopResult(item.Timestamp), i);
         }
 
-        // Calculate ATR
+        // Calculate ATR - use previous period's ATR like Series does
         double close = (double)item.Close;
         double prevClose = (double)ProviderCache[i - 1].Close;
         double atr;
 
         if (PrevAtr.HasValue)
         {
-            // Incremental ATR calculation
+            // Incremental ATR calculation for current period
             atr = Atr.Increment(
                 LookbackPeriods,
                 (double)item.High,
@@ -119,7 +119,7 @@ public class VolatilityStopHub
         }
         else
         {
-            // Initialize ATR (first time after warmup)
+            // Initialize ATR - calculate through previous period
             double sumTr = 0;
 
             for (int p = i - LookbackPeriods + 1; p <= i; p++)
@@ -133,11 +133,14 @@ public class VolatilityStopHub
             atr = sumTr / LookbackPeriods;
         }
 
-        // Store ATR for next iteration
+        // Use previous period's ATR for SAR calculation (like Series implementation)
+        double atrForSar = PrevAtr ?? atr;
+
+        // Store current ATR for next iteration
         PrevAtr = atr;
 
-        // Calculate SAR
-        double arc = atr * Multiplier;
+        // Calculate SAR using previous period's ATR
+        double arc = atrForSar * Multiplier;
         double sar = IsLong ? Sic - arc : Sic + arc;
 
         // Determine bands
@@ -176,18 +179,29 @@ public class VolatilityStopHub
             UpperBand: upperBand,
             LowerBand: lowerBand);
 
-        // If this is the first stop, mark it for nullification
+        // If this is the first stop, nullify all previous results
         if (isStop == true && !FirstStopFound)
         {
             FirstStopFound = true;
 
-            // Only nullify once per rebuild
+            // Always nullify on first stop detection (unless explicitly marked as done)
             if (!NullificationDone)
             {
                 NullificationDone = true;
-                NullifyResultsBeforeFirstStop(i);
 
-                // Return nullified result (consistent with nullification)
+                // Nullify all existing cache results from 0 to i-1
+                for (int idx = 0; idx < i && idx < Cache.Count; idx++)
+                {
+                    VolatilityStopResult existing = Cache[idx];
+                    Cache[idx] = existing with {
+                        Sar = null,
+                        UpperBand = null,
+                        LowerBand = null,
+                        IsStop = null
+                    };
+                }
+
+                // Return nullified result for current index (the first stop itself)
                 result = result with {
                     Sar = null,
                     UpperBand = null,
@@ -198,26 +212,6 @@ public class VolatilityStopHub
         }
 
         return (result, i);
-    }
-
-    /// <summary>
-    /// Nullifies all results from 0 to stopIndex (inclusive).
-    /// This is called when the first stop is detected.
-    /// </summary>
-    /// <param name="stopIndex">The index of the first stop.</param>
-    private void NullifyResultsBeforeFirstStop(int stopIndex)
-    {
-        // Nullify all results from 0 to stopIndex (inclusive of the stop)
-        for (int idx = 0; idx <= stopIndex && idx < Cache.Count; idx++)
-        {
-            VolatilityStopResult existing = Cache[idx];
-            Cache[idx] = existing with {
-                Sar = null,
-                UpperBand = null,
-                LowerBand = null,
-                IsStop = null
-            };
-        }
     }
 
     /// <summary>
@@ -299,6 +293,8 @@ public class VolatilityStopHub
                 if (!FirstStopFound)
                 {
                     FirstStopFound = true;
+                    // Mark nullification as done since cache already has nullified results
+                    NullificationDone = true;
                 }
 
                 Sic = close;
