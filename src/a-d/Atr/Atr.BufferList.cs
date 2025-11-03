@@ -66,18 +66,20 @@ public class AtrList : BufferList<AtrResult>, IIncrementFromQuote, IAtr
         double atr;
         double? atrp;
 
-        if (Count > _lookbackPeriods)
+        if (Count >= _lookbackPeriods)
         {
-            // Use ATR incremental calculation for steady state
-            atr = ((_previousAtr!.Value * (_lookbackPeriods - 1)) + tr) / _lookbackPeriods;
-            atrp = close == 0 ? null : atr / close * 100;
-            _previousAtr = atr;
-        }
-        else if (Count == _lookbackPeriods)
-        {
-            // Initialize ATR after accumulating enough TR values
-            _sumTr += tr;
-            atr = _sumTr / _lookbackPeriods;
+            if (_previousAtr is null)
+            {
+                // Initialize ATR after accumulating enough TR values
+                _sumTr += tr;
+                atr = _sumTr / _lookbackPeriods;
+            }
+            else
+            {
+                // Use ATR incremental calculation for steady state
+                atr = ((_previousAtr.Value * (_lookbackPeriods - 1)) + tr) / _lookbackPeriods;
+            }
+
             atrp = close == 0 ? null : atr / close * 100;
             _previousAtr = atr;
         }

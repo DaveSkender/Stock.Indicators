@@ -10,7 +10,6 @@ public static partial class Prs
             .WithName("Price Relative Strength")
             .WithId("PRS")
             .WithCategory(Category.PriceCharacteristic)
-            .WithMethodName("ToPrs")
             .AddSeriesParameter("sourceEval", "Source Evaluated", description: "Source data to be evaluated")
             .AddSeriesParameter("sourceBase", "Source Base", description: "Base source data for comparison")
             .AddParameter<int>("lookbackPeriods", "Lookback Periods", description: "Number of periods for the PRS calculation", isRequired: false, defaultValue: 20, minimum: 1, maximum: 250)
@@ -25,6 +24,7 @@ public static partial class Prs
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
+            .WithMethodName("ToPrs")
             .Build();
 
     // No StreamListing for PRS.

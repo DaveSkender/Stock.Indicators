@@ -10,7 +10,6 @@ public static partial class Obv
             .WithName("On-Balance Volume")
             .WithId("OBV")
             .WithCategory(Category.VolumeBased)
-            .WithMethodName("ToObv")
             .AddResult("Obv", "OBV", ResultType.Default, isReusable: true)
             .Build();
 
@@ -20,6 +19,7 @@ public static partial class Obv
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
+            .WithMethodName("ToObv")
             .Build();
 
     /// <summary>
@@ -28,6 +28,7 @@ public static partial class Obv
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
+            .WithMethodName("ToObvHub")
             .Build();
 
     /// <summary>
@@ -36,5 +37,6 @@ public static partial class Obv
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)
+            .WithMethodName("ToObvList")
             .Build();
 }

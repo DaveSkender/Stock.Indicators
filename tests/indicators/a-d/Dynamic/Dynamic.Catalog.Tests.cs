@@ -49,7 +49,7 @@ public class DynamicTests : TestBase
         listing.Uiid.Should().Be("DYNAMIC");
         listing.Style.Should().Be(Style.Stream);
         listing.Category.Should().Be(Category.MovingAverage);
-        listing.MethodName.Should().Be("ToDynamic");
+        listing.MethodName.Should().Be("ToDynamicHub");
 
         listing.Parameters.Should().NotBeNull();
         listing.Parameters.Should().HaveCount(2);
@@ -80,7 +80,7 @@ public class DynamicTests : TestBase
         listing.Uiid.Should().Be("DYNAMIC");
         listing.Style.Should().Be(Style.Buffer);
         listing.Category.Should().Be(Category.MovingAverage);
-        listing.MethodName.Should().Be("ToDynamic");
+        listing.MethodName.Should().Be("ToDynamicList");
 
         listing.Parameters.Should().NotBeNull();
         listing.Parameters.Should().HaveCount(2);

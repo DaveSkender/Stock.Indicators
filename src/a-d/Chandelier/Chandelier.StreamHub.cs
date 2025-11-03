@@ -113,25 +113,14 @@ public class ChandelierHub
         return (r, i);
     }
 
-    private static void ValidateFinite(double value, string paramName, DateTime timestamp)
-    {
-        if (!double.IsFinite(value))
-        {
-            string message = FormattableString.Invariant(
-                $"Quote at {timestamp:O} contains a non-finite {paramName} value.");
-            throw new InvalidQuotesException(paramName, value, message);
-        }
-    }
-
     private void AddCurrentQuoteToWindows(IQuote item)
     {
         double high = (double)item.High;
         double low = (double)item.Low;
-        ValidateFinite(high, nameof(IQuote.High), item.Timestamp);
-        ValidateFinite(low, nameof(IQuote.Low), item.Timestamp);
 
         // Normal incremental update - O(1) amortized operation
         // Using monotonic deque pattern eliminates O(n) linear scans on every quote
+        // NaN values are allowed and will propagate naturally through calculations
         _highWindow.Add(high);
         _lowWindow.Add(low);
     }
@@ -162,8 +151,6 @@ public class ChandelierHub
             IQuote quote = ProviderCache[p];
             double cachedHigh = (double)quote.High;
             double cachedLow = (double)quote.Low;
-            ValidateFinite(cachedHigh, nameof(IQuote.High), quote.Timestamp);
-            ValidateFinite(cachedLow, nameof(IQuote.Low), quote.Timestamp);
 
             _highWindow.Add(cachedHigh);
             _lowWindow.Add(cachedLow);

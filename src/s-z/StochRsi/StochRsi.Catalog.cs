@@ -10,7 +10,6 @@ public static partial class StochRsi
             .WithName("Stochastic RSI")
             .WithId("STOCH-RSI")
             .WithCategory(Category.Oscillator)
-            .WithMethodName("ToStochRsi")
             .AddParameter<int>("rsiPeriods", "RSI Periods", description: "Number of periods for the RSI calculation", isRequired: false, defaultValue: 14, minimum: 1, maximum: 250)
             .AddParameter<int>("stochPeriods", "Stochastic Periods", description: "Number of periods for the Stochastic calculation", isRequired: false, defaultValue: 14, minimum: 1, maximum: 250)
             .AddParameter<int>("signalPeriods", "Signal Periods", description: "Number of periods for the signal line", isRequired: false, defaultValue: 3, minimum: 1, maximum: 50)
@@ -25,6 +24,7 @@ public static partial class StochRsi
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
+            .WithMethodName("ToStochRsi")
             .Build();
 
     /// <summary>
@@ -33,6 +33,7 @@ public static partial class StochRsi
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
+            .WithMethodName("ToStochRsiHub")
             .Build();
 
     /// <summary>
@@ -41,5 +42,6 @@ public static partial class StochRsi
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)
+            .WithMethodName("ToStochRsiList")
             .Build();
 }
