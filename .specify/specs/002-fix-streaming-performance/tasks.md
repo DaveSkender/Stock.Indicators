@@ -1,6 +1,6 @@
 # Tasks: Fix Streaming Performance Issues
 
-**Input**: Design documents from `/specs/002-fix-streaming-performance/`  
+**Input**: Design documents from `/.specify/specs/002-fix-streaming-performance/`  
 **Prerequisites**: plan.md (required), spec.md (required for user stories)
 
 **Tests**: Tests are OPTIONAL in this feature - we use existing regression tests to validate correctness. New tests only if needed for complexity/memory validation.
@@ -352,7 +352,7 @@
 
 - [ ] T073 [US10] Create list of all remaining indicators with 1.3x-2x slowdown from `tools/performance/baselines/PERFORMANCE_REVIEW.md`:
   - Run: `python tools/performance/baselines/analyze_performance.py --filter "1.3x-2x"`
-  - Document in: `specs/002-fix-streaming-performance/us10-indicators.md`
+  - Document in: `.specify/specs/002-fix-streaming-performance/us10-indicators.md`
   - Categorize by pattern: allocations, LINQ, spans, caching opportunities
 - [ ] T074 [P] [US10] Review and optimize indicators in batch (group by similar patterns):
   - Reduce allocations in hot paths
@@ -393,9 +393,9 @@
   - Highlight: O(n²) eliminations, significant improvements
   - Document: architectural constraints for remaining gaps
 - [ ] T085 Create performance comparison report showing before/after metrics:
-  - File: `specs/002-fix-streaming-performance/performance-comparison.md`
+  - File: `.specify/specs/002-fix-streaming-performance/performance-comparison.md`
   - Include: improvements by user story, metrics summary
-  - Command: `python tools/performance/baselines/analyze_performance.py --compare before-fixes/ ./ > specs/002-fix-streaming-performance/performance-comparison.md`
+  - Command: `python tools/performance/baselines/analyze_performance.py --compare before-fixes/ ./ > .specify/specs/002-fix-streaming-performance/performance-comparison.md`
 - [ ] T086 Update `src/MigrationGuide.V3.md` if any public API surface changed (unlikely for performance-only fixes)
   - **Assessment**: No public API changes (performance-only optimizations)
   - **Action**: No migration guide updates needed

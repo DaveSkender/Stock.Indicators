@@ -105,7 +105,7 @@ dotnet test --settings tests/tests.regression.runsettings --nologo
 
 ### Step 5: Create Comparison Report (20 mins)
 
-Create `specs/002-fix-streaming-performance/performance-comparison.md`:
+Create `.specify/specs/002-fix-streaming-performance/performance-comparison.md`:
 
 **Template**:
 
@@ -256,7 +256,7 @@ If pursuing Option A (full completion):
 cd tools/performance/baselines
 
 # Identify indicators with 1.3x-2x slowdown
-# Create specs/002-fix-streaming-performance/us10-indicators.md
+# Create .specify/specs/002-fix-streaming-performance/us10-indicators.md
 ```
 
 ### Step 2: Categorize by Pattern (15 mins)

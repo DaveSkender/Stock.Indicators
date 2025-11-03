@@ -103,7 +103,7 @@ reviews:
   path_instructions:
 
     # Spec Kit ephemeral planning documents - Allow historical context
-    - path: "specs/**/*.md"
+    - path: ".specify/specs/**/*.md"
       instructions: |
         These are ephemeral planning documents that track feature evolution and decision-making.
         Unlike production documentation, specs/ files are permitted to:

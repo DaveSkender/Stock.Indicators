@@ -1,6 +1,6 @@
 # Tasks: streaming indicators framework
 
-**Input**: Design documents from `/specs/001-develop-streaming-indicators/`
+**Input**: Design documents from `/.specify/specs/001-develop-streaming-indicators/`
 **Prerequisites**: [plan.md](plan.md) (required), [spec.md](spec.md) (required for user stories), [data-model.md](data-model.md)
 
 ## Format: `[ID] Description`
@@ -143,8 +143,8 @@ Note on former deferrals: Some indicators were previously marked as deferred due
 - [x] **T033** Implement HeikinAshi BufferList in `src/e-k/HeikinAshi/HeikinAshi.BufferList.cs` ✅
 - [x] **T034** Implement Hma BufferList in `src/e-k/Hma/Hma.BufferList.cs` ✅
 - [x] **T035** Implement HtTrendline BufferList in `src/e-k/HtTrendline/HtTrendline.BufferList.cs` (complex but unblocked — use HMA multi-buffer as a baseline) ✅
-- [ ] **T036** Implement Hurst BufferList in `src/e-k/Hurst/Hurst.BufferList.cs` (complex but unblocked — adapt ADX complex state + HMA buffers)
-- [ ] **T037** Implement Ichimoku BufferList in `src/e-k/Ichimoku/Ichimoku.BufferList.cs` (complex but unblocked — follow multi-line series patterns from Alligator/AtrStop and HMA buffers)
+- [x] **T036** Implement Hurst BufferList in `src/e-k/Hurst/Hurst.BufferList.cs` (complex but unblocked — adapt ADX complex state + HMA buffers) ✅
+- [x] **T037** Implement Ichimoku BufferList in `src/e-k/Ichimoku/Ichimoku.BufferList.cs` (complex but unblocked — follow multi-line series patterns from Alligator/AtrStop and HMA buffers) ✅
 - [x] **T038** Implement Kama BufferList in `src/e-k/Kama/Kama.BufferList.cs` ✅
 - [x] **T039** Implement Keltner BufferList in `src/e-k/Keltner/Keltner.BufferList.cs` ✅
 - [x] **T040** Implement Kvo BufferList in `src/e-k/Kvo/Kvo.BufferList.cs` ✅
@@ -192,9 +192,9 @@ Note on former deferrals: Some indicators were previously marked as deferred due
 - [x] **T082** Implement Vwma BufferList in `src/s-z/Vwma/Vwma.BufferList.cs` ✅
 - [x] **T083** Implement WilliamsR BufferList in `src/s-z/WilliamsR/WilliamsR.BufferList.cs` ✅
 - [x] **T084** Implement Wma BufferList in `src/s-z/Wma/Wma.BufferList.cs` ✅
-- [ ] **T085** (human only) Implement ZigZag BufferList in `src/s-z/ZigZag/ZigZag.BufferList.cs` ✅
+- [ ] **T085** (human only) Implement ZigZag BufferList in `src/s-z/ZigZag/ZigZag.BufferList.cs`
 
-**BufferList**: 73/85 complete, 12 remaining (T068 not implemented due to algorithmic constraints)
+**BufferList**: 82/85 complete, 3 remaining — T055 (RenkoAtr - not implementing), T068 (StdDevChannels - not implementing), T085 (ZigZag - human only)
 
 **Checkpoint**: Phase 2 completion achieves complete BufferList coverage for all Series indicators (except StdDevChannels)
 
@@ -225,7 +225,7 @@ Note on former deferrals: Indicators like Fractal, HtTrendline, Hurst, Ichimoku,
 - [x] **T100** Implement Chop StreamHub in `src/a-d/Chop/Chop.StreamHub.cs` ✅
 - [x] **T101** Implement Cmf StreamHub in `src/a-d/Cmf/Cmf.StreamHub.cs` ✅
 - [x] **T102** Implement Cmo StreamHub in `src/a-d/Cmo/Cmo.StreamHub.cs` ✅
-- [ ] **T103** Implement ConnorsRsi StreamHub in `src/a-d/ConnorsRsi/ConnorsRsi.StreamHub.cs`
+- [x] **T103** Implement ConnorsRsi StreamHub in `src/a-d/ConnorsRsi/ConnorsRsi.StreamHub.cs` ✅
 - [x] **T104** Implement Correlation StreamHub in `src/a-d/Correlation/Correlation.StreamHub.cs` ✅
 - [x] **T105** Implement Dema StreamHub in `src/a-d/Dema/Dema.StreamHub.cs` ✅
 - [x] **T106** Implement Doji StreamHub in `src/a-d/Doji/Doji.StreamHub.cs` ✅
@@ -235,16 +235,16 @@ Note on former deferrals: Indicators like Fractal, HtTrendline, Hurst, Ichimoku,
 - [x] **T110** Implement ElderRay StreamHub in `src/e-k/ElderRay/ElderRay.StreamHub.cs` ✅
 - [x] **T111** Implement Ema StreamHub in `src/e-k/Ema/Ema.StreamHub.cs` ✅
 - [x] **T112** Implement Epma StreamHub in `src/e-k/Epma/Epma.StreamHub.cs` ✅
-- [x] **T113** Implement Fcb StreamHub in `src/e-k/Fcb/Fcb.StreamHub.cs`
+- [x] **T113** Implement Fcb StreamHub in `src/e-k/Fcb/Fcb.StreamHub.cs` ✅
 - [x] **T114** Implement FisherTransform StreamHub in `src/e-k/FisherTransform/FisherTransform.StreamHub.cs` ✅
 - [x] **T115** Implement ForceIndex StreamHub in `src/e-k/ForceIndex/ForceIndex.StreamHub.cs` ✅
 - [x] **T116** Implement Fractal StreamHub in `src/e-k/Fractal/Fractal.StreamHub.cs` ✅
 - [x] **T117** Implement Gator StreamHub in `src/e-k/Gator/Gator.StreamHub.cs` ✅
 - [x] **T118** Implement HeikinAshi StreamHub in `src/e-k/HeikinAshi/HeikinAshi.StreamHub.cs` ✅
 - [x] **T119** Implement Hma StreamHub in `src/e-k/Hma/Hma.StreamHub.cs` ✅
-- [ ] **T120** Implement HtTrendline StreamHub in `src/e-k/HtTrendline/HtTrendline.StreamHub.cs` (complex but unblocked — model after EMA chain provider with HMA-like buffers)
+- [x] **T120** Implement HtTrendline StreamHub in `src/e-k/HtTrendline/HtTrendline.StreamHub.cs` (complex but unblocked — model after EMA chain provider with HMA-like buffers) ✅
 - [x] **T121** Implement Hurst StreamHub in `src/e-k/Hurst/Hurst.StreamHub.cs` (complex but unblocked — use ADX-like complex state and EMA hub shape) ✅
-- [ ] **T122** Implement Ichimoku StreamHub in `src/e-k/Ichimoku/Ichimoku.StreamHub.cs` (complex but unblocked — multi-line series via quote provider pattern like Alligator/AtrStop)
+- [x] **T122** Implement Ichimoku StreamHub in `src/e-k/Ichimoku/Ichimoku.StreamHub.cs` (complex but unblocked — multi-line series via quote provider pattern like Alligator/AtrStop) ✅
 - [x] **T123** Implement Kama StreamHub in `src/e-k/Kama/Kama.StreamHub.cs` ✅
 - [x] **T124** Implement Keltner StreamHub in `src/e-k/Keltner/Keltner.StreamHub.cs` ✅
 - [x] **T125** Implement Kvo StreamHub in `src/e-k/Kvo/Kvo.StreamHub.cs` ✅
@@ -264,37 +264,37 @@ Note on former deferrals: Indicators like Fractal, HtTrendline, Hurst, Ichimoku,
 - [x] **T139** Implement Renko StreamHub in `src/m-r/Renko/Renko.StreamHub.cs` ✅
 - [ ] **T140** ~~Implement RenkoAtr StreamHub~~ **NOT IMPLEMENTED** — ATR calculation requires full dataset to determine final brick size. Real-time streaming would require buffering all history and recalculating entire Renko series on each new quote, defeating incremental processing purpose. Series-only implementation maintained.
 - [x] **T141** Implement Roc StreamHub in `src/m-r/Roc/Roc.StreamHub.cs` ✅
-- [ ] **T142** Implement RocWb StreamHub in `src/m-r/RocWb/RocWb.StreamHub.cs`
+- [x] **T142** Implement RocWb StreamHub in `src/m-r/RocWb/RocWb.StreamHub.cs` ✅
 - [x] **T143** Implement RollingPivots StreamHub in `src/m-r/RollingPivots/RollingPivots.StreamHub.cs` ✅
 - [x] **T144** Implement Rsi StreamHub in `src/m-r/Rsi/Rsi.StreamHub.cs` ✅
 - [ ] **T145** Implement Slope StreamHub in `src/s-z/Slope/Slope.StreamHub.cs` (complex but unblocked — repaint-friendly logic modeled after VolatilityStop tests and series parity)
 - [x] **T146** Implement Sma StreamHub in `src/s-z/Sma/Sma.StreamHub.cs` ✅
-- [x] **T147** Implement SmaAnalysis StreamHub in `src/s-z/SmaAnalysis/SmaAnalysis.StreamHub.cs`
+- [x] **T147** Implement SmaAnalysis StreamHub in `src/s-z/SmaAnalysis/SmaAnalysis.StreamHub.cs` ✅
 - [x] **T148** Implement Smi StreamHub in `src/s-z/Smi/Smi.StreamHub.cs` ✅
 - [x] **T149** Implement Smma StreamHub in `src/s-z/Smma/Smma.StreamHub.cs` ✅
-- [ ] **T150** Implement StarcBands StreamHub in `src/s-z/StarcBands/StarcBands.StreamHub.cs`
-- [ ] **T151** Implement Stc StreamHub in `src/s-z/Stc/Stc.StreamHub.cs`
-- [ ] **T152** Implement StdDev StreamHub in `src/s-z/StdDev/StdDev.StreamHub.cs`
+- [x] **T150** Implement StarcBands StreamHub in `src/s-z/StarcBands/StarcBands.StreamHub.cs` ✅
+- [x] **T151** Implement Stc StreamHub in `src/s-z/Stc/Stc.StreamHub.cs` ✅
+- [x] **T152** Implement StdDev StreamHub in `src/s-z/StdDev/StdDev.StreamHub.cs` ✅
 - [ ] **T153** ~~Implement StdDevChannels StreamHub~~ **NOT IMPLEMENTED** — Repaint-by-design algorithm recalculates entire dataset (O(n²)) on each new data point, making real-time streaming impractical. Series-only implementation maintained. See user documentation for details.
 - [x] **T154** Implement Stoch StreamHub in `src/s-z/Stoch/Stoch.StreamHub.cs` ✅
 - [x] **T155** Implement StochRsi StreamHub in `src/s-z/StochRsi/StochRsi.StreamHub.cs` ✅
-- [ ] **T156** Implement SuperTrend StreamHub in `src/s-z/SuperTrend/SuperTrend.StreamHub.cs`
+- [x] **T156** Implement SuperTrend StreamHub in `src/s-z/SuperTrend/SuperTrend.StreamHub.cs` ✅
 - [x] **T157** Implement T3 StreamHub in `src/s-z/T3/T3.StreamHub.cs` ✅
 - [x] **T158** Implement Tema StreamHub in `src/s-z/Tema/Tema.StreamHub.cs` ✅
 - [x] **T159** Implement Tr StreamHub in `src/s-z/Tr/Tr.StreamHub.cs` ✅
 - [x] **T160** Implement Trix StreamHub in `src/s-z/Trix/Trix.StreamHub.cs` ✅
-- [ ] **T161** Implement Tsi StreamHub in `src/s-z/Tsi/Tsi.StreamHub.cs`
-- [ ] **T162** Implement UlcerIndex StreamHub in `src/s-z/UlcerIndex/UlcerIndex.StreamHub.cs`
+- [x] **T161** Implement Tsi StreamHub in `src/s-z/Tsi/Tsi.StreamHub.cs` ✅
+- [x] **T162** Implement UlcerIndex StreamHub in `src/s-z/UlcerIndex/UlcerIndex.StreamHub.cs` ✅
 - [x] **T163** Implement Ultimate StreamHub in `src/s-z/Ultimate/Ultimate.StreamHub.cs` ✅
-- [ ] **T164** Implement VolatilityStop StreamHub in `src/s-z/VolatilityStop/VolatilityStop.StreamHub.cs`
-- [ ] **T165** Implement Vortex StreamHub in `src/s-z/Vortex/Vortex.StreamHub.cs`
-- [ ] **T166** Implement Vwap StreamHub in `src/s-z/Vwap/Vwap.StreamHub.cs`
+- [x] **T164** Implement VolatilityStop StreamHub in `src/s-z/VolatilityStop/VolatilityStop.StreamHub.cs` ✅
+- [x] **T165** Implement Vortex StreamHub in `src/s-z/Vortex/Vortex.StreamHub.cs` ✅
+- [x] **T166** Implement Vwap StreamHub in `src/s-z/Vwap/Vwap.StreamHub.cs` ✅
 - [x] **T167** Implement Vwma StreamHub in `src/s-z/Vwma/Vwma.StreamHub.cs` ✅
 - [x] **T168** Implement WilliamsR StreamHub in `src/s-z/WilliamsR/WilliamsR.StreamHub.cs` ✅
 - [x] **T169** Implement Wma StreamHub in `src/s-z/Wma/Wma.StreamHub.cs` ✅
 - [ ] **T170** (human only) Implement ZigZag StreamHub in `src/s-z/ZigZag/ZigZag.StreamHub.cs`
 
-**StreamHub**: 53/85 complete, 32 remaining (T153 not implemented due to algorithmic constraints)
+**StreamHub**: 79/85 complete, 6 remaining — T108 (Dpo), T145 (Slope), T140 (RenkoAtr - not implementing), T153 (StdDevChannels - not implementing), T170 (ZigZag - human only)
 
 **Checkpoint**: Phase 3 completion achieves 1:1:1 parity across all three implementation styles (Series, BufferList, StreamHub) except where algorithmically impractical
 
@@ -365,6 +365,14 @@ Note on former deferrals: Indicators like Fractal, HtTrendline, Hurst, Ichimoku,
 **Purpose**: Complete user-facing documentation and migration guidance
 
 **Dependencies**: Phases 2 and 3 implementations
+
+> **CRITICAL**: Phase 5 documentation tasks are **mandatory for production readiness** per Constitution Principle 5 (Documentation Excellence). Users require:
+>
+> - Streaming usage examples for major indicators (RSI, MACD, Bollinger Bands)
+> - README overview with quick-start guidance
+> - Migration guide documenting streaming capabilities and API patterns
+>
+> Current status: 2/7 Phase 5 tasks complete (SMA, EMA done). Do not release to production until documentation is complete.
 
 ### Documentation Updates (D-series)
 
@@ -453,6 +461,86 @@ Each task should follow these guidelines:
 
 ---
 
+## Phase 6: Priority 4 Enhancements (Post-Coverage)
+
+**Purpose**: Address performance optimizations and feature enhancements after achieving comprehensive streaming coverage
+
+**Dependencies**: Phases 2, 3, and 4 substantially complete
+
+### ZigZag StreamHub Optimization (Issue #1692, P4.1)
+
+- [ ] **E001** Analyze ZigZag Series implementation to identify pivot detection logic that can be incrementalized
+  - Document current O(n) recalculation pattern triggering performance issues
+  - Design incremental pivot-based update algorithm maintaining Series parity
+  - Identify state requirements for rollback scenarios (Insert/Remove operations)
+
+- [ ] **E002** Refactor ZigZag StreamHub to use incremental pivot updates in `src/s-z/ZigZag/ZigZag.StreamHub.cs`
+  - Extract reusable pivot detection methods from Series implementation
+  - Implement cache replay strategy for provider history mutations
+  - Avoid recursive `.ToZigZag()` Series calls within StreamHub
+  - Maintain mathematical parity with Series baseline
+
+- [ ] **E003** Validate ZigZag StreamHub performance meets latency requirements (<5ms mean, <10ms p95)
+  - Add performance benchmark to `tools/performance/Tests.Performance.StreamIndicators.cs`
+  - Compare before/after optimization metrics
+  - Verify no regression in Series parity tests
+
+### QuoteHub Self-Healing (Issue #1585, P4.2)
+
+- [ ] **E004** Design QuoteHub update semantics for intra-period quote modifications
+  - Define update vs insert behavior (e.g., update only most recent quote)
+  - Specify rollback strategy for subscribed indicators
+  - Document limitations and edge cases (e.g., cannot update arbitrary historical quotes)
+
+- [ ] **E005** Implement QuoteHub quote update capability in `src/_common/Streaming/QuoteHub.cs`
+  - Add `Update(IQuote quote)` method with timestamp validation
+  - Trigger recalculation for affected subscribed indicators
+  - Guard against index out of range exceptions
+  - Maintain strict timestamp ordering constraints
+
+- [ ] **E006** Add comprehensive tests for QuoteHub update scenarios
+  - Test updating most recent quote properties (Close, High, Low)
+  - Verify subscribed indicators recalculate correctly
+  - Test edge cases (updating non-most-recent quote should throw)
+  - Document update semantics in user documentation
+
+### ADX DMI Output Enhancement (Issue #1262, P4.3)
+
+- [ ] **E007** Update ADX result classes to include DMI properties across all implementation styles
+  - Add `Pdi` (Plus Directional Indicator) and `Mdi` (Minus Directional Indicator) properties to `AdxResult`
+  - Verify Series implementation outputs DMI values (completed in prior PR)
+  - Update BufferList implementation (T002) to output DMI values
+  - Update StreamHub implementation (T087) to output DMI values
+
+- [ ] **E008** Update ADX documentation and tests for DMI output
+  - Update `docs/_indicators/Adx.md` with DMI property descriptions
+  - Add DMI validation to existing regression tests
+  - Document DMI vs ADX distinctions and usage patterns
+  - Update migration guide with new property additions
+
+### BufferList Configuration Enhancements (GitHub Project #6)
+
+- [ ] **E009** Complete and validate BufferList configuration implementation (Issue [#1831](https://github.com/DaveSkender/Stock.Indicators/issues/1831))
+  - **Status**: Partially implemented - `MaxListSize` property already exists in `BufferList<TResult>` base class with default 90% of int.MaxValue (~1.9B elements)
+  - Audit all BufferList implementations to verify consistent `MaxListSize` usage
+  - Ensure `PruneList()` override pattern is followed where custom pruning logic is needed
+  - Validate that automatic pruning occurs via `AddInternal()` when list exceeds `MaxListSize`
+  - Document buffer capacity management strategies in user documentation
+  - Consider if additional configuration properties are needed (e.g., pruning strategy enum)
+  - Implementation location: `src/_common/BufferLists/BufferList.cs`
+
+- [ ] **E010** Implement composite naming for chained indicators
+  - **Requirements**: When indicators are chained (e.g., SMA of RSI output), the resulting StreamHub should display a composite name showing the full chain for debugging and logging purposes
+  - Design naming convention showing full indicator chain (e.g., "SMA(5) of RSI(14)")
+  - Inherit provider name from upstream provider in chain
+  - Update `Name` property on all StreamHub implementations to support composite names
+  - Document naming conventions in `.github/instructions/indicator-stream.instructions.md`
+  - Example: `ChainProvider<TIn, TOut>` should propagate upstream provider names through the chain
+
+**Checkpoint**: Phase 6 addresses critical performance issues and feature requests identified during initial streaming rollout
+
+---
+
 ## Summary
 
 **Implementation Coverage (1:1:1 Parity)**:
@@ -462,15 +550,15 @@ Each task should follow these guidelines:
 - **Total StreamHub implementations**: 53 complete, 32 remaining (T086-T170; T153 not implemented)
 - **1:1:1 Target**: 85 BufferList + 85 StreamHub = 170 streaming implementations total (excluding algorithmically impractical indicators)
 - **Streaming implementations excluded**: StdDevChannels (BufferList + StreamHub) due to repaint-by-design O(n²) recalculation
-- **Current streaming coverage**: 126/168 = **75% complete** (adjusted target excludes 2 impractical implementations)
+- **Current streaming coverage**: 161/168 = **95.8% complete** (adjusted target excludes RenkoAtr/StdDevChannels implementations and human-only ZigZag)
 **Task Breakdown**:
 
 - **Phase 1**: 10 tasks (A001-A006, T171-T174) — 8 complete, 2 remaining
-- **Phase 2**: 85 BufferList implementation tasks (T001-T085) — 73 complete, 12 remaining (T068 not implemented)
-- **Phase 3**: 85 StreamHub implementation tasks (T086-T170) — 53 complete, 32 remaining (T153 not implemented)
+- **Phase 2**: 85 BufferList implementation tasks (T001-T085) — 82 complete, 3 remaining (T055/T068 not implementing, T085 human-only)
+- **Phase 3**: 85 StreamHub implementation tasks (T086-T170) — 79 complete, 6 remaining (T108, T145 implementable; T140/T153 not implementing, T170 human-only)
 - **Phase 4**: 17 test infrastructure tasks (T175-T185, Q001-Q006) — 0 complete, 17 remaining
 - **Phase 5**: 7 documentation tasks (D001-D007) — 2 complete, 5 remaining
-- **Total**: 204 tasks — 136 complete, 68 remaining (2 marked as not implementable due to algorithmic constraints)2 complete, 5 remaining
-- **Total**: 204 tasks — 136 complete, 68 remaining
+- **Phase 6**: 10 enhancement tasks (E001-E010) — 0 complete, 10 remaining (Priority 4 enhancements + private project items)
+- **Total**: 214 tasks — 171 complete, 43 remaining (4 marked as not implementing, 2 human-only)
 
 Removed blanket deferral: The above indicators are complex but unblocked with established reference patterns (see instruction files).
