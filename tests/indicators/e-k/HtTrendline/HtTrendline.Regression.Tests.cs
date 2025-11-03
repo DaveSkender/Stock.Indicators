@@ -12,5 +12,5 @@ public class HtTrendlineTests : RegressionTestBase<HtlResult>
     public override void Buffer() => Quotes.ToHtlList().AssertEquals(Expected);
 
     [TestMethod]
-    public override void Stream() => Assert.Inconclusive("Stream implementation not yet available");
+    public override void Stream() => Quotes.ToHtTrendlineHub().Results.AssertEquals(Expected);
 }
