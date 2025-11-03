@@ -96,14 +96,14 @@ public class StcHub
 
         // Calculate MACD Fast EMA
         double fastEma = i >= FastPeriods - 1
-            ? i > 0 && _macdCache.Count > i - 1
+            ? i > 0 && _macdCache.Count > i - 1 && !double.IsNaN(_macdCache[i - 1].FastEma)
                 ? Ema.Increment(_fastK, _macdCache[i - 1].FastEma, item.Value)
                 : Sma.Increment(ProviderCache, FastPeriods, i)
             : double.NaN;
 
         // Calculate MACD Slow EMA
         double slowEma = i >= SlowPeriods - 1
-            ? i > 0 && _macdCache.Count > i - 1
+            ? i > 0 && _macdCache.Count > i - 1 && !double.IsNaN(_macdCache[i - 1].SlowEma)
                 ? Ema.Increment(_slowK, _macdCache[i - 1].SlowEma, item.Value)
                 : Sma.Increment(ProviderCache, SlowPeriods, i)
             : double.NaN;
@@ -145,38 +145,32 @@ public class StcHub
             double highHigh = _macdHighWindow.Max;
             double lowLow = _macdLowWindow.Min;
 
-            const double EPSILON = 1e-8;
-            rawK = Math.Abs(highHigh - lowLow) > EPSILON
+            rawK = (highHigh - lowLow) != 0
                  ? 100 * (macd - lowLow) / (highHigh - lowLow)
                  : 0;
         }
 
-        // Buffer raw %K for smoothing (only if valid)
-        if (!double.IsNaN(rawK))
+        // Buffer raw %K for smoothing (match Stoch.StreamHub pattern: always enqueue, even NaN)
+        _rawKBuffer.Enqueue(rawK);
+        if (_rawKBuffer.Count > 3)
         {
-            _rawKBuffer.Enqueue(rawK);
-            if (_rawKBuffer.Count > 3)
-            {
-                _rawKBuffer.Dequeue();
-            }
+            _rawKBuffer.Dequeue();
         }
 
         // Calculate smoothed %K (STC value) using SMA with smoothPeriods=3
+        // Match Stoch.StreamHub pattern: check index >= smoothPeriods before calculating
+        // Natural NaN propagation through summation
         double? stc = null;
-        if (i >= SlowPeriods + CyclePeriods && _rawKBuffer.Count >= 3)
+        if (i >= SlowPeriods + CyclePeriods)
         {
             double sum = 0;
-            int validCount = 0;
-            foreach (double rawKValue in _rawKBuffer.Where(v => !double.IsNaN(v)))
+            foreach (double rawKValue in _rawKBuffer)
             {
-                sum += rawKValue;
-                validCount++;
+                sum += rawKValue;  // NaN propagates naturally
             }
 
-            if (validCount == 3)
-            {
-                stc = sum / 3;
-            }
+            double smoothedK = sum / 3;
+            stc = double.IsNaN(smoothedK) ? null : smoothedK;
         }
 
         StcResult result = new(
@@ -214,14 +208,14 @@ public class StcHub
 
             // Calculate Fast EMA
             double fastEma = p >= FastPeriods - 1
-                ? p > 0 && _macdCache.Count > 0
+                ? p > 0 && _macdCache.Count > 0 && !double.IsNaN(_macdCache[p - 1].FastEma)
                     ? Ema.Increment(_fastK, _macdCache[p - 1].FastEma, item.Value)
                     : Sma.Increment(ProviderCache, FastPeriods, p)
                 : double.NaN;
 
             // Calculate Slow EMA
             double slowEma = p >= SlowPeriods - 1
-                ? p > 0 && _macdCache.Count > 0
+                ? p > 0 && _macdCache.Count > 0 && !double.IsNaN(_macdCache[p - 1].SlowEma)
                     ? Ema.Increment(_slowK, _macdCache[p - 1].SlowEma, item.Value)
                     : Sma.Increment(ProviderCache, SlowPeriods, p)
                 : double.NaN;

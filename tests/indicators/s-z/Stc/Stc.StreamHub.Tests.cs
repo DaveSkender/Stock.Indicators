@@ -140,6 +140,35 @@ public class StcHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
     }
 
     [TestMethod]
+    public void QuoteObserverDefaults()
+    {
+        int length = Quotes.Count;
+
+        // setup quote provider hub
+        QuoteHub quoteHub = new();
+
+        // initialize observer with default parameters (10, 23, 50)
+        StcHub observer = quoteHub.ToStcHub();
+
+        // emulate quote stream
+        for (int i = 0; i < length; i++) { quoteHub.Add(Quotes[i]); }
+
+        // final results
+        IReadOnlyList<StcResult> actuals = observer.Results;
+
+        // time-series, for comparison
+        IReadOnlyList<StcResult> expected = Quotes.ToStc();
+
+        // assert, should equal series
+        actuals.Should().HaveCount(length);
+        actuals.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
+
+        // cleanup
+        observer.Unsubscribe();
+        quoteHub.EndTransmission();
+    }
+
+    [TestMethod]
     public override void CustomToString()
     {
         StcHub hub = new(new QuoteHub(), cyclePeriods, fastPeriods, slowPeriods);

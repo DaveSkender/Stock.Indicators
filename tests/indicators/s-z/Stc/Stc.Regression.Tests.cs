@@ -12,5 +12,10 @@ public class StcTests : RegressionTestBase<StcResult>
     public override void Buffer() => Quotes.ToStcList(10, 23, 50).AssertEquals(Expected);
 
     [TestMethod]
-    public override void Stream() => Assert.Inconclusive("Stream implementation not yet available");
+    public override void Stream()
+    {
+        QuoteHub hub = new();
+        hub.Add(Quotes);
+        hub.ToStcHub(10, 23, 50).Results.AssertEquals(Expected);
+    }
 }
