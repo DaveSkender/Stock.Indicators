@@ -10,7 +10,7 @@ namespace Skender.Stock.Indicators;
 /// older values are automatically removed. This is significantly more efficient than
 /// scanning the entire window on each update (O(n) per operation).
 /// </remarks>
-public sealed class RollingWindowMax<T> where T : IComparable<T>
+internal sealed class RollingWindowMax<T> where T : IComparable<T>
 {
     private readonly int _capacity;
     private readonly Queue<T> _window;
@@ -22,7 +22,7 @@ public sealed class RollingWindowMax<T> where T : IComparable<T>
     /// </summary>
     /// <param name="capacity">The maximum number of elements in the rolling window.</param>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when capacity is less than or equal to zero.</exception>
-    public RollingWindowMax(int capacity)
+    internal RollingWindowMax(int capacity)
     {
         if (capacity <= 0)
         {
@@ -40,47 +40,45 @@ public sealed class RollingWindowMax<T> where T : IComparable<T>
     /// <summary>
     /// Gets the current maximum value in the rolling window.
     /// </summary>
-    /// <value>
+    /// <returns>
     /// The maximum value. Returns NaN (for numeric types) if any NaN values are present in the window.
-    /// </value>
+    /// </returns>
     /// <exception cref="InvalidOperationException">
     /// Thrown if the window is empty.
     /// </exception>
-    public T Max
+    internal T GetMax()
     {
-        get {
-            if (_window.Count == 0)
-            {
-                throw new InvalidOperationException("Cannot retrieve maximum from an empty rolling window.");
-            }
-
-            // If NaN is present in the window, return NaN for numeric types
-            if (_nanCount > 0)
-            {
-                if (typeof(T) == typeof(double))
-                {
-                    return (T)(object)double.NaN;
-                }
-
-                if (typeof(T) == typeof(float))
-                {
-                    return (T)(object)float.NaN;
-                }
-            }
-
-            if (_deque.Count == 0)
-            {
-                throw new InvalidOperationException("Cannot retrieve maximum from an empty rolling window.");
-            }
-
-            return _deque.First!.Value;
+        if (_window.Count == 0)
+        {
+            throw new InvalidOperationException("Cannot retrieve maximum from an empty rolling window.");
         }
+
+        // If NaN is present in the window, return NaN for numeric types
+        if (_nanCount > 0)
+        {
+            if (typeof(T) == typeof(double))
+            {
+                return (T)(object)double.NaN;
+            }
+
+            if (typeof(T) == typeof(float))
+            {
+                return (T)(object)float.NaN;
+            }
+        }
+
+        if (_deque.Count == 0)
+        {
+            throw new InvalidOperationException("Cannot retrieve maximum from an empty rolling window.");
+        }
+
+        return _deque.First!.Value;
     }
 
     /// <summary>
     /// Gets the current number of elements in the rolling window.
     /// </summary>
-    public int Count => _window.Count;
+    internal int Count => _window.Count;
 
     /// <summary>
     /// Adds a new value to the rolling window.
@@ -92,7 +90,7 @@ public sealed class RollingWindowMax<T> where T : IComparable<T>
     /// ensuring O(1) amortized time complexity.
     /// NaN values are accepted and will cause Max to return NaN when present in the window.
     /// </remarks>
-    public void Add(T value)
+    internal void Add(T value)
     {
         // Check for NaN - if present, track it
         bool isNaN = IsNaN(value);
@@ -138,7 +136,7 @@ public sealed class RollingWindowMax<T> where T : IComparable<T>
     /// <summary>
     /// Resets the rolling window, removing all elements.
     /// </summary>
-    public void Clear()
+    internal void Clear()
     {
         _window.Clear();
         _deque.Clear();
