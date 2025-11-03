@@ -75,3 +75,33 @@ var results = quotes
     .ToHurst(..)
     .ToSlope(..);
 ```
+
+## Streaming
+
+Use the buffer-style `List<T>` when you need incremental calculations without a hub:
+
+```csharp
+HurstList hurstList = new(lookbackPeriods);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  hurstList.Add(quote);
+}
+
+// based on `ICollection<HurstResult>`
+IReadOnlyList<HurstResult> results = hurstList;
+```
+
+Subscribe to a `QuoteHub` for advanced streaming scenarios:
+
+```csharp
+QuoteHub<Quote> quoteHub = new();
+HurstHub<Quote> observer = quoteHub.ToHurstHub(lookbackPeriods);
+
+foreach (Quote quote in quotes)  // simulating stream
+{
+  quoteHub.Add(quote);
+}
+
+IReadOnlyList<HurstResult> results = observer.Results;
+```
