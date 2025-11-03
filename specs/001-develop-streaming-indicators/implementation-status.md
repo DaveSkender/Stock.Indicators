@@ -318,12 +318,12 @@ The **Develop Streaming Indicators Framework** feature is **73% complete** with 
 
 ### Medium Priority
 
-4. **Complete complex indicators**:
+1. **Complete complex indicators**:
    - Hurst, Ichimoku BufferList (patterns available)
    - Fractal, HtTrendline, Ichimoku StreamHub
    - Est: 10-15 hours
 
-5. **Finish Phase 5 documentation**:
+2. **Finish Phase 5 documentation**:
    - RSI, MACD, BollingerBands indicator pages
    - README overview
    - Migration guide
@@ -331,7 +331,7 @@ The **Develop Streaming Indicators Framework** feature is **73% complete** with 
 
 ### Low Priority
 
-6. **Complete remaining StreamHub indicators** (remaining S-Z):
+1. **Complete remaining StreamHub indicators** (remaining S-Z):
    - Slope, SmaAnalysis, StarcBands, Stc, StdDev, Tsi, UlcerIndex, VolatilityStop, Vortex
    - Est: 5-8 hours
 

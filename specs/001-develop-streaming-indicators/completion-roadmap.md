@@ -183,7 +183,7 @@ dotnet test tests/public-api/Tests.PublicApi.csproj --no-restore --nologo
 1. **Create implementation file** (`src/{category}/{Indicator}.BufferList.cs`):
 
    ```csharp
-   public sealed class {Indicator}List : BufferList<{Result}>, IIncrementFrom{Interface}
+   public sealed class {Indicator}List : `BufferList<{Result}>`, IIncrementFrom{Interface}
    {
        // Constructor with parameters
        public {Indicator}List(int period, /* other params */)
@@ -227,7 +227,7 @@ dotnet test tests/public-api/Tests.PublicApi.csproj --no-restore --nologo
 1. **Create StreamHub file** (`src/{category}/{Indicator}.StreamHub.cs`):
 
    ```csharp
-   public sealed class {Indicator}Hub : StreamHub<{Input}, {Result}>
+   public sealed class {Indicator}Hub : `StreamHub<{Input}, {Result}>`
    {
        public {Indicator}Hub(int period, /* params */)
            : base(new {Indicator}Provider(period, /* params */))

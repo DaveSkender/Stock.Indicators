@@ -146,8 +146,8 @@ Prerequisites: research.md complete (decisions documented in Phase 0 above)
 
 | Indicator Type | BufferList Interface | StreamHub Interface | Constructor Pattern |
 |----------------|---------------------|---------------------|---------------------|
-| Chainable (single value) | `IIncrementFromChain` | `IChainProvider<T>` | `IReadOnlyList<IReusable> values` |
-| Multi-OHLC required | `IIncrementFromQuote` | `IQuoteProvider<T>` | `IReadOnlyList<IQuote> quotes` |
+| Chainable (single value) | `IIncrementFromChain` | `IChainProvider<T>` | `IReadOnlyList<IReusable>` values |
+| Multi-OHLC required | `IIncrementFromQuote` | `IQuoteProvider<T>` | `IReadOnlyList<IQuote>` quotes |
 | Dual-series input | `IIncrementFromPairs` | `IPairsProvider<T>` | Paired `IReusable` series |
 
 ### Quality gates

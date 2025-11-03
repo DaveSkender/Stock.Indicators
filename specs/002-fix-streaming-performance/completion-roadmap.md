@@ -262,9 +262,10 @@ cd tools/performance/baselines
 ### Step 2: Categorize by Pattern (15 mins)
 
 Group indicators by optimization opportunity:
+
 - Allocation reduction (List → Array)
 - LINQ removal (Replace with for loops)
-- Span adoption (Use Span<T> in hot paths)
+- Span adoption (Use `Span<T>` in hot paths)
 - Caching (Cache intermediate calculations)
 
 ### Step 3: Batch Optimization (2-3 hours)
@@ -302,6 +303,7 @@ Implement optimizations in batches, test incrementally.
 4. ⏭️ Create GitHub issue for future fine-tuning work (US10) if desired
 
 **Rationale**:
+
 - Critical O(n²) issues resolved (primary goal achieved)
 - Significant performance improvements demonstrated
 - 100% correctness maintained

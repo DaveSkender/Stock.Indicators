@@ -108,7 +108,7 @@ Sample benchmark for SMMA:
 1. **Algorithmic improvements**: Further reduction of per-quote overhead
 2. **Memory optimization**: Better cache locality and reduced allocations
 3. **Architecture review**: Evaluate fundamental streaming model overhead
-4. **Span-based operations**: Replace remaining allocations with `span<T>`
+4. **Span-based operations**: Replace remaining allocations with `Span<T>`
 5. **Benchmarking methodology**: Verify measurement conditions match Series benchmarks
 
 ## Regression Test Results
