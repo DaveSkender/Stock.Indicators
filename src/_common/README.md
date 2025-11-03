@@ -74,10 +74,11 @@ The library follows IEEE 754 floating-point standard for NaN (Not-a-Number) hand
 
 ### Implementation guidelines
 
+- Division by zero - MUST guard variable denominators with ternary checks (e.g., `denom != 0 ? num / denom : double.NaN`); choose appropriate fallback (NaN, 0, or null) based on mathematical meaning
+- NaN propagation - Accept NaN inputs and allow natural propagation; never reject NaN values in calculations
 - RollingWindow utilities - Accept NaN values and return NaN for Min/Max when NaN is present in the window
 - Quote validation - Only validate for null/missing quotes, not for NaN values in quote properties (High/Low/Close/etc.)
-- Division by zero - Allow natural NaN propagation (e.g., `x / 0.0 = Infinity`, `0.0 / 0.0 = NaN`)
-- Zero-range checks - Remove unnecessary guards like `if (range != 0)`; let division produce NaN naturally
+- State initialization - Use `double.NaN` for uninitialized state instead of sentinel values (0, -1)
 
 ### Constitutional alignment
 

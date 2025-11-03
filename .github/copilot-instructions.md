@@ -40,6 +40,38 @@ This repository hosts **Stock Indicators for .NET**, the production source for t
 4. **Index out of range** and buffer reuse issues in streaming indicators—guard shared spans and caches.
 5. **Performance regressions** from unnecessary allocations or LINQ. Prefer span-friendly loops and avoid boxing.
 6. **Documentation drift** between code comments, XML docs, and the published docs site.
+7. **Improper NaN handling** - Never reject NaN inputs or guard against division by zero in internal calculations. See NaN handling policy below.
+
+## NaN handling policy
+
+This library uses non-nullable `double` types internally for performance, with intentional NaN propagation through calculations:
+
+### Core principles
+
+1. **Natural propagation** - NaN values propagate naturally through calculations (any operation with NaN produces NaN)
+2. **Internal representation** - Use `double.NaN` internally when a value cannot be calculated
+3. **External representation** - Convert NaN to `null` (via `.NaN2Null()`) **only at the final result boundary** when returning to users
+4. **No rejection** - Never reject NaN inputs with validation; allow them to flow through the system
+5. **Performance first** - Non-nullable `double` provides significant performance gains over `double?`
+
+### Implementation guidelines
+
+- **Division by zero** - MUST guard variable denominators with ternary checks (e.g., `denom != 0 ? num / denom : double.NaN`); choose fallback (NaN, 0, null) based on mathematical meaning
+- **NaN propagation** - Accept NaN inputs and allow natural propagation through calculations; never reject or filter NaN values
+- **RollingWindow utilities** - Accept NaN values and return NaN for Min/Max when NaN is present in the window
+- **Quote validation** - Only validate for null/missing quotes, not for NaN values in quote properties (High/Low/Close/etc.)
+- **State initialization** - Use `double.NaN` to represent uninitialized state instead of sentinel values like `0` or `-1`
+
+### Rationale
+
+This approach aligns with **Constitution §1: Mathematical Precision** and **Constitution §2: Performance First**:
+
+- Maintains numerical correctness (NaN is mathematically correct for undefined values)
+- Prevents silent data corruption from substituting invalid placeholders
+- Follows established IEEE 754 standard
+- Achieves performance gains from non-nullable types while maintaining mathematical integrity
+
+See [src/_common/README.md](../src/_common/README.md#nan-handling-policy) for complete policy documentation.
 
 ## Guiding principles
 
