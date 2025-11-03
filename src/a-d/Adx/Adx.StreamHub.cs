@@ -110,83 +110,40 @@ public class AdxHub
         double? adx = null;
         double? adxr = null; // Average Directional Movement Rating (ADX rating)
 
+        // Accumulate TR/PDM/MDM during warmup
+        if (i <= LookbackPeriods)
+        {
+            _sumTr += tr;
+            _sumPdm += pdm1;
+            _sumMdm += mdm1;
+        }
+
+        // Skip calculation until we have enough data
         if (i < LookbackPeriods)
         {
-            // Accumulation phase
-            _sumTr += tr;
-            _sumPdm += pdm1;
-            _sumMdm += mdm1;
+            // Continue accumulation only
         }
-        else if (i == LookbackPeriods)
-        {
-            // First calculated values
-            _sumTr += tr;
-            _sumPdm += pdm1;
-            _sumMdm += mdm1;
-            // Initialize with SUM values (not averages) per StaticSeries implementation
-            _prevTrs = _sumTr;
-            _prevPdm = _sumPdm;
-            _prevMdm = _sumMdm;
-
-            pdi = _prevTrs != 0 ? 100 * _prevPdm / _prevTrs : null;
-            mdi = _prevTrs != 0 ? 100 * _prevMdm / _prevTrs : null;
-
-            if (pdi.HasValue && mdi.HasValue)
-            {
-                dx = pdi.Value + mdi.Value != 0
-                    ? 100 * Math.Abs(pdi.Value - mdi.Value) / (pdi.Value + mdi.Value)
-                    : 0;
-                _sumDx = dx.Value;
-            }
-        }
-        else if (i < (2 * LookbackPeriods) - 1)
-        {
-            // Smoothed values calculation
-            // Wilder's smoothing keeps values on SUM scale
-            _prevTrs = _prevTrs - (_prevTrs / LookbackPeriods) + tr;
-            _prevPdm = _prevPdm - (_prevPdm / LookbackPeriods) + pdm1;
-            _prevMdm = _prevMdm - (_prevMdm / LookbackPeriods) + mdm1;
-
-            pdi = _prevTrs != 0 ? 100 * _prevPdm / _prevTrs : null;
-            mdi = _prevTrs != 0 ? 100 * _prevMdm / _prevTrs : null;
-
-            if (pdi.HasValue && mdi.HasValue)
-            {
-                dx = pdi.Value + mdi.Value != 0
-                    ? 100 * Math.Abs(pdi.Value - mdi.Value) / (pdi.Value + mdi.Value)
-                    : 0;
-                _sumDx += dx.Value;
-            }
-        }
-        else if (i == (2 * LookbackPeriods) - 1)
-        {
-            // First ADX calculation
-            // Final smoothing before initial ADX
-            _prevTrs = _prevTrs - (_prevTrs / LookbackPeriods) + tr;
-            _prevPdm = _prevPdm - (_prevPdm / LookbackPeriods) + pdm1;
-            _prevMdm = _prevMdm - (_prevMdm / LookbackPeriods) + mdm1;
-
-            pdi = _prevTrs != 0 ? 100 * _prevPdm / _prevTrs : null;
-            mdi = _prevTrs != 0 ? 100 * _prevMdm / _prevTrs : null;
-
-            if (pdi.HasValue && mdi.HasValue)
-            {
-                dx = pdi.Value + mdi.Value != 0
-                    ? 100 * Math.Abs(pdi.Value - mdi.Value) / (pdi.Value + mdi.Value)
-                    : 0;
-                _sumDx += dx.Value;
-
-                _prevAdx = _sumDx / LookbackPeriods;
-                adx = _prevAdx;
-            }
-        }
+        // Calculate smoothed TR/PDM/MDM and directional indicators
         else
         {
-            // Subsequent ADX calculations
-            _prevTrs = _prevTrs - (_prevTrs / LookbackPeriods) + tr;
-            _prevPdm = _prevPdm - (_prevPdm / LookbackPeriods) + pdm1;
-            _prevMdm = _prevMdm - (_prevMdm / LookbackPeriods) + mdm1;
+            // Initialize smoothed values on first calculation
+            if (_prevTrs == 0)
+            {
+                // Initialize with SUM values (not averages) per StaticSeries implementation
+                _prevTrs = _sumTr;
+                _prevPdm = _sumPdm;
+                _prevMdm = _sumMdm;
+            }
+            // Apply Wilder's smoothing for subsequent periods
+            else
+            {
+                // Wilder's smoothing keeps values on SUM scale
+                _prevTrs = _prevTrs - (_prevTrs / LookbackPeriods) + tr;
+                _prevPdm = _prevPdm - (_prevPdm / LookbackPeriods) + pdm1;
+                _prevMdm = _prevMdm - (_prevMdm / LookbackPeriods) + mdm1;
+            }
 
+            // Calculate directional indicators
             pdi = _prevTrs != 0 ? 100 * _prevPdm / _prevTrs : null;
             mdi = _prevTrs != 0 ? 100 * _prevMdm / _prevTrs : null;
 
@@ -196,21 +153,38 @@ public class AdxHub
                     ? 100 * Math.Abs(pdi.Value - mdi.Value) / (pdi.Value + mdi.Value)
                     : 0;
 
-                _prevAdx = ((_prevAdx * (LookbackPeriods - 1)) + dx.Value) / LookbackPeriods;
-                adx = _prevAdx;
-
-                // ADXR becomes available once we have an ADX value from (lookbackPeriods - 1) periods earlier
-                // Static series: i >= 3*lookbackPeriods - 2 (because first ADX at index 2*lookback -1)
-                int firstAdxrIndex = (3 * LookbackPeriods) - 2; // matches series implementation expectation
-                if (i >= firstAdxrIndex)
+                // ADX initialization and calculation
+                if (i < (2 * LookbackPeriods))
                 {
-                    int priorAdxIndex = i - LookbackPeriods + 1; // same offset as static series
-                    if (priorAdxIndex >= 0 && priorAdxIndex < Results.Count)
+                    // Accumulate DX values for initial ADX
+                    _sumDx += dx.Value;
+
+                    // Calculate initial ADX when we have enough DX values
+                    if (_prevAdx == 0 && i == (2 * LookbackPeriods) - 1)
                     {
-                        double? priorAdx = Results[priorAdxIndex].Adx;
-                        if (priorAdx.HasValue && adx.HasValue)
+                        _prevAdx = _sumDx / LookbackPeriods;
+                        adx = _prevAdx;
+                    }
+                }
+                // Ongoing ADX smoothing
+                else
+                {
+                    _prevAdx = ((_prevAdx * (LookbackPeriods - 1)) + dx.Value) / LookbackPeriods;
+                    adx = _prevAdx;
+
+                    // ADXR becomes available once we have an ADX value from (lookbackPeriods - 1) periods earlier
+                    // Static series: i >= 3*lookbackPeriods - 2 (because first ADX at index 2*lookback -1)
+                    int firstAdxrIndex = (3 * LookbackPeriods) - 2; // matches series implementation expectation
+                    if (i >= firstAdxrIndex)
+                    {
+                        int priorAdxIndex = i - LookbackPeriods + 1; // same offset as static series
+                        if (priorAdxIndex >= 0 && priorAdxIndex < Results.Count)
                         {
-                            adxr = (adx.Value + priorAdx.Value) / 2d;
+                            double? priorAdx = Results[priorAdxIndex].Adx;
+                            if (priorAdx.HasValue && adx.HasValue)
+                            {
+                                adxr = (adx.Value + priorAdx.Value) / 2d;
+                            }
                         }
                     }
                 }
@@ -297,68 +271,36 @@ public class AdxHub
             double pdm1 = hmph > plml ? Math.Max(hmph, 0) : 0;
             double mdm1 = plml > hmph ? Math.Max(plml, 0) : 0;
 
+            // Accumulate TR/PDM/MDM during warmup
+            if (i <= LookbackPeriods)
+            {
+                _sumTr += tr;
+                _sumPdm += pdm1;
+                _sumMdm += mdm1;
+            }
+
+            // Skip calculation until we have enough data
             if (i < LookbackPeriods)
             {
-                _sumTr += tr;
-                _sumPdm += pdm1;
-                _sumMdm += mdm1;
+                // Continue accumulation only
             }
-            else if (i == LookbackPeriods)
-            {
-                _sumTr += tr;
-                _sumPdm += pdm1;
-                _sumMdm += mdm1;
-                _prevTrs = _sumTr;
-                _prevPdm = _sumPdm;
-                _prevMdm = _sumMdm;
-
-                double? pdi = _prevTrs != 0 ? 100 * _prevPdm / _prevTrs : null;
-                double? mdi = _prevTrs != 0 ? 100 * _prevMdm / _prevTrs : null;
-                if (pdi.HasValue && mdi.HasValue)
-                {
-                    _sumDx = pdi.Value + mdi.Value != 0
-                        ? 100 * Math.Abs(pdi.Value - mdi.Value) / (pdi.Value + mdi.Value)
-                        : 0;
-                }
-            }
-            else if (i < (2 * LookbackPeriods) - 1)
-            {
-                _prevTrs = _prevTrs - (_prevTrs / LookbackPeriods) + tr;
-                _prevPdm = _prevPdm - (_prevPdm / LookbackPeriods) + pdm1;
-                _prevMdm = _prevMdm - (_prevMdm / LookbackPeriods) + mdm1;
-
-                double? pdi = _prevTrs != 0 ? 100 * _prevPdm / _prevTrs : null;
-                double? mdi = _prevTrs != 0 ? 100 * _prevMdm / _prevTrs : null;
-                if (pdi.HasValue && mdi.HasValue)
-                {
-                    double dx = pdi.Value + mdi.Value != 0
-                        ? 100 * Math.Abs(pdi.Value - mdi.Value) / (pdi.Value + mdi.Value)
-                        : 0;
-                    _sumDx += dx;
-                }
-            }
-            else if (i == (2 * LookbackPeriods) - 1)
-            {
-                _prevTrs = _prevTrs - (_prevTrs / LookbackPeriods) + tr;
-                _prevPdm = _prevPdm - (_prevPdm / LookbackPeriods) + pdm1;
-                _prevMdm = _prevMdm - (_prevMdm / LookbackPeriods) + mdm1;
-
-                double? pdi = _prevTrs != 0 ? 100 * _prevPdm / _prevTrs : null;
-                double? mdi = _prevTrs != 0 ? 100 * _prevMdm / _prevTrs : null;
-                if (pdi.HasValue && mdi.HasValue)
-                {
-                    double dx = pdi.Value + mdi.Value != 0
-                        ? 100 * Math.Abs(pdi.Value - mdi.Value) / (pdi.Value + mdi.Value)
-                        : 0;
-                    _sumDx += dx;
-                    _prevAdx = _sumDx / LookbackPeriods;
-                }
-            }
+            // Calculate smoothed TR/PDM/MDM and directional indicators
             else
             {
-                _prevTrs = _prevTrs - (_prevTrs / LookbackPeriods) + tr;
-                _prevPdm = _prevPdm - (_prevPdm / LookbackPeriods) + pdm1;
-                _prevMdm = _prevMdm - (_prevMdm / LookbackPeriods) + mdm1;
+                // Initialize smoothed values on first calculation
+                if (_prevTrs == 0)
+                {
+                    _prevTrs = _sumTr;
+                    _prevPdm = _sumPdm;
+                    _prevMdm = _sumMdm;
+                }
+                // Apply Wilder's smoothing for subsequent periods
+                else
+                {
+                    _prevTrs = _prevTrs - (_prevTrs / LookbackPeriods) + tr;
+                    _prevPdm = _prevPdm - (_prevPdm / LookbackPeriods) + pdm1;
+                    _prevMdm = _prevMdm - (_prevMdm / LookbackPeriods) + mdm1;
+                }
 
                 double? pdi = _prevTrs != 0 ? 100 * _prevPdm / _prevTrs : null;
                 double? mdi = _prevTrs != 0 ? 100 * _prevMdm / _prevTrs : null;
@@ -367,7 +309,24 @@ public class AdxHub
                     double dx = pdi.Value + mdi.Value != 0
                         ? 100 * Math.Abs(pdi.Value - mdi.Value) / (pdi.Value + mdi.Value)
                         : 0;
-                    _prevAdx = ((_prevAdx * (LookbackPeriods - 1)) + dx) / LookbackPeriods;
+
+                    // ADX initialization and calculation
+                    if (i < (2 * LookbackPeriods))
+                    {
+                        // Accumulate DX values for initial ADX
+                        _sumDx += dx;
+
+                        // Calculate initial ADX when we have enough DX values
+                        if (_prevAdx == 0 && i == (2 * LookbackPeriods) - 1)
+                        {
+                            _prevAdx = _sumDx / LookbackPeriods;
+                        }
+                    }
+                    // Ongoing ADX smoothing
+                    else
+                    {
+                        _prevAdx = ((_prevAdx * (LookbackPeriods - 1)) + dx) / LookbackPeriods;
+                    }
                 }
             }
 
