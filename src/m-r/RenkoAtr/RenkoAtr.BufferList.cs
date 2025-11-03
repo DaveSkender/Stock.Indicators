@@ -84,7 +84,7 @@ public class RenkoAtrList : BufferList<RenkoResult>, IIncrementFromQuote, IRenko
         IReadOnlyList<AtrResult> atrResults = _quoteBuffer.ToAtr(AtrPeriods);
 
         // Get the last ATR value as brick size
-        AtrResult? lastAtr = atrResults[^1];
+        AtrResult? lastAtr = atrResults.Count > 0 ? atrResults[^1] : null;
         decimal brickSize = (decimal?)lastAtr?.Atr ?? 0;
 
         if (brickSize > 0)
