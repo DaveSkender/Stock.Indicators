@@ -76,8 +76,8 @@ public class DonchianHub
 
         // Get highest high and lowest low from rolling windows (O(1))
         // This gives us the max/min of the PRIOR LookbackPeriods items
-        decimal upperBand = _highWindow.Max;
-        decimal lowerBand = _lowWindow.Min;
+        decimal upperBand = _highWindow.GetMax();
+        decimal lowerBand = _lowWindow.GetMin();
         decimal centerline = (upperBand + lowerBand) / 2m;
         decimal? width = centerline == 0 ? null : (upperBand - lowerBand) / centerline;
 

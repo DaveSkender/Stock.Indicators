@@ -101,8 +101,8 @@ public class ChandelierHub
 
         // Calculate exit using O(1) max/min retrieval from rolling windows
         double? exit = Type switch {
-            Direction.Long => _highWindow.Max - (atr.Value * Multiplier),
-            Direction.Short => _lowWindow.Min + (atr.Value * Multiplier),
+            Direction.Long => _highWindow.GetMax() - (atr.Value * Multiplier),
+            Direction.Short => _lowWindow.GetMin() + (atr.Value * Multiplier),
             _ => throw new InvalidOperationException($"Unknown direction type: {Type}")
         };
 

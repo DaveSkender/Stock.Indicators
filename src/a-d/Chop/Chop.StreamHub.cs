@@ -80,8 +80,8 @@ public class ChopHub
         if (i >= LookbackPeriods)
         {
             // Get max/min from rolling windows (O(1))
-            double maxTrueHigh = _trueHighWindow.Max;
-            double minTrueLow = _trueLowWindow.Min;
+            double maxTrueHigh = _trueHighWindow.GetMax();
+            double minTrueLow = _trueLowWindow.GetMin();
             double range = maxTrueHigh - minTrueLow;
 
             // calculate CHOP
