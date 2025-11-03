@@ -55,7 +55,7 @@ public class TsiTests : TestBase
         listing.Uiid.Should().Be("TSI");
         listing.Style.Should().Be(Style.Stream);
         listing.Category.Should().Be(Category.Oscillator);
-        listing.MethodName.Should().Be("ToTsi");
+        listing.MethodName.Should().Be("ToTsiHub");
 
         listing.Parameters.Should().NotBeNull();
         listing.Parameters.Should().HaveCount(3);

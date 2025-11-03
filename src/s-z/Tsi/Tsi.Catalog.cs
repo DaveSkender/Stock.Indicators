@@ -41,5 +41,6 @@ public static partial class Tsi
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
+            .WithMethodName("ToTsiHub")
             .Build();
 }

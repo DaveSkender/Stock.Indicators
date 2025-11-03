@@ -118,6 +118,7 @@ public class TsiHub
                 sumC += pChange;
                 sumA += Math.Abs(pChange);
             }
+
             return (sumC / LookbackPeriods, sumA / LookbackPeriods);
         }
         // normal first smoothing
@@ -159,6 +160,7 @@ public class TsiHub
                     sumC += jValue - jPrevValue;
                     sumA += Math.Abs(jValue - jPrevValue);
                 }
+
                 tempCs1 = sumC / LookbackPeriods;
                 tempAs1 = sumA / LookbackPeriods;
             }
@@ -196,6 +198,7 @@ public class TsiHub
                 sumCs += pCs1;
                 sumAs += pAs1;
             }
+
             return (sumCs / SmoothPeriods, sumAs / SmoothPeriods);
         }
         // normal second smoothing
@@ -233,6 +236,7 @@ public class TsiHub
                     sumCs += jCs1;
                     sumAs += jAs1;
                 }
+
                 tempCs2 = sumCs / SmoothPeriods;
                 tempAs2 = sumAs / SmoothPeriods;
             }
@@ -260,6 +264,7 @@ public class TsiHub
                 {
                     sum += Cache[p].Tsi.Null2NaN();
                 }
+
                 return sum / SignalPeriods;
             }
             // normal signal
