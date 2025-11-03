@@ -90,6 +90,14 @@ See `.github/instructions/indicator-buffer.instructions.md` for complete impleme
 
 The streaming framework targets comprehensive coverage across the library's indicator catalog. Initial implementation focuses on establishing patterns and infrastructure through systematic rollout.
 
+### Priority 4 Enhancements (Post-Initial Coverage)
+
+After achieving comprehensive BufferList and StreamHub coverage, the following enhancements address performance optimizations and feature requests:
+
+- **ZigZag StreamHub optimization** (P4.1): Refactor from O(n) Series recalculation to incremental pivot-based updates
+- **QuoteHub self-healing** (P4.2): Enable intra-period quote updates for live tick aggregation scenarios
+- **ADX DMI output** (P4.3): Add +DI/-DI properties to ADX results across all implementation styles
+
 ### Target Coverage
 
 - **Total indicators with Series implementations**: ~85 (80 implementable + 5 deferred to v2)
@@ -119,6 +127,39 @@ The following indicators serve as reference implementations for pattern validati
 - **Alligator**: Offset-based calculations (T001, in PR #1497)
 - **AtrStop**: Nested indicator composition (T003, in PR #1497)
 - **Correlation**: Dual-series input pattern (T012, in PR #1499)
+
+### Priority 4 User Stories (Performance & Enhancements)
+
+**P4.1: ZigZag StreamHub Performance Optimization** (Issue #1692)
+
+As a developer using ZigZag in real-time scenarios, I want the StreamHub implementation to use incremental pivot-based updates instead of recursive full Series recalculation, so that per-tick latency remains acceptable (<5ms mean) for live trading applications.
+
+*Acceptance criteria*:
+- ZigZag StreamHub avoids O(n) Series recalculation on each quote
+- Uses incremental pivot detection and cache replay for rollback scenarios
+- Maintains mathematical parity with Series implementation
+- Achieves <5ms mean latency, <10ms p95 latency per NFR-001
+
+**P4.2: QuoteHub Self-Healing for Live Tick Aggregation** (Issue #1585)
+
+As a developer aggregating live ticks into period-based quotes (e.g., 1-minute bars), I want QuoteHub to support updating existing quotes without causing index out of range exceptions, so that I can handle intra-period quote updates during bar formation.
+
+*Acceptance criteria*:
+- QuoteHub supports updating the most recent quote (e.g., updating Close/High/Low as ticks arrive)
+- No index out of range exceptions when quote properties change
+- Subscribed indicators recalculate affected results correctly
+- Documentation clarifies update vs insert semantics and limitations
+
+**P4.3: ADX DMI Output Enhancement** (Issue #1262)
+
+As a developer using ADX for trend analysis, I want DMI (Directional Movement Indicator) values included in ADX results, so that I can analyze directional movement alongside ADX without calculating separately.
+
+*Acceptance criteria*:
+- ADX result includes +DI and -DI output properties
+- Values match established DMI calculation formulas
+- Documentation clarifies DMI vs ADX distinctions and usage
+- Applies to Series, BufferList, and StreamHub implementations
+- Migration guide documents new properties for existing users
 
 ---
 

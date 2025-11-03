@@ -336,6 +336,18 @@ The following base classes and utilities already exist in `src/_common/`:
 - Update `README.md` with streaming overview paragraph
 - Update `src/MigrationGuide.V3.md` migration guide with streaming capability summary (public release notes remain automated via GitHub Releases)
 
+### Priority 4 enhancements (deferred to post-coverage phase)
+
+The following enhancements are tracked in spec.md P4 user stories but deferred until comprehensive BufferList/StreamHub coverage is achieved:
+
+- **ZigZag StreamHub optimization** (Issue #1692, P4.1): Refactor from O(n) Series recalculation to incremental pivot-based updates. Current implementation (T170) uses Series for correctness but requires performance optimization for production use.
+
+- **QuoteHub self-healing** (Issue #1585, P4.2): Enable updating most recent quote properties without index exceptions. Requires design decision on update semantics and rollback behavior for subscribed indicators.
+
+- **ADX DMI output** (Issue #1262, P4.3): Add +DI/-DI properties to ADX results. Series implementation complete (PR merged), requires propagation to BufferList (T002) and StreamHub (T087) implementations.
+
+**Note**: Issues #1062 (incremental ADX) is resolved by existing streaming implementations (T002, T087).
+
 ### Quality gates and conformance
 
 - Run public API approval tests (`tests/public-api`) to confirm streaming additions respect existing signatures and conventions
@@ -367,6 +379,36 @@ The following base classes and utilities already exist in `src/_common/`:
 **Phase 3**: Task execution (/tasks command creates tasks.md)  
 **Phase 4**: Implementation (execute tasks.md following constitutional principles)  
 **Phase 5**: Validation (run tests, performance validation, documentation review)
+
+## v3 Milestone Issues Outside Project Scope
+
+The following GitHub Issues marked with v3 milestone are NOT included in this streaming indicators project as they represent separate initiatives:
+
+- **Issue #1549**: Migrate to `agents.md` industry standard format
+  - Scope: Repository-level AI guidance infrastructure
+  - Recommendation: Create separate spec kit project for AI instruction consolidation
+
+- **Issue #1533**: Implement consistent test method naming conventions
+  - Scope: Repository-wide test quality refactoring
+  - Recommendation: Create separate spec kit project for test modernization
+
+- **Issue #1532**: Refactor legacy Round() to FluentAssertions BeApproximately()
+  - Scope: Test assertion modernization across repository
+  - Recommendation: Include in test modernization project with #1533
+
+- **Issue #1323**: Heap allocation optimization (structs, ArrayPool)
+  - Scope: Performance optimization across library (not streaming-specific)
+  - Recommendation: Create separate spec kit project for memory optimization
+
+- **Issue #1320**: Consider Docusaurus as documentation framework
+  - Scope: Documentation infrastructure migration
+  - Recommendation: Create separate spec kit project for docs migration (evaluate MkDocs vs Docusaurus vs current Jekyll)
+
+- **Issue #1297**: Add MkDocs as documentation framework
+  - Scope: Documentation infrastructure migration (alternative to #1320)
+  - Recommendation: Consolidate with #1320 into single docs migration project
+
+These issues are valuable but orthogonal to streaming indicators development. Each should be evaluated for separate spec kit project creation with appropriate constitutional analysis.
 
 ## Complexity tracking
 

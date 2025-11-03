@@ -453,6 +453,85 @@ Each task should follow these guidelines:
 
 ---
 
+## Phase 6: Priority 4 Enhancements (Post-Coverage)
+
+**Purpose**: Address performance optimizations and feature enhancements after achieving comprehensive streaming coverage
+
+**Dependencies**: Phases 2, 3, and 4 substantially complete
+
+### ZigZag StreamHub Optimization (Issue #1692, P4.1)
+
+- [ ] **E001** Analyze ZigZag Series implementation to identify pivot detection logic that can be incrementalized
+  - Document current O(n) recalculation pattern triggering performance issues
+  - Design incremental pivot-based update algorithm maintaining Series parity
+  - Identify state requirements for rollback scenarios (Insert/Remove operations)
+
+- [ ] **E002** Refactor ZigZag StreamHub to use incremental pivot updates in `src/s-z/ZigZag/ZigZag.StreamHub.cs`
+  - Extract reusable pivot detection methods from Series implementation
+  - Implement cache replay strategy for provider history mutations
+  - Avoid recursive `.ToZigZag()` Series calls within StreamHub
+  - Maintain mathematical parity with Series baseline
+
+- [ ] **E003** Validate ZigZag StreamHub performance meets latency requirements (<5ms mean, <10ms p95)
+  - Add performance benchmark to `tools/performance/Tests.Performance.StreamIndicators.cs`
+  - Compare before/after optimization metrics
+  - Verify no regression in Series parity tests
+
+### QuoteHub Self-Healing (Issue #1585, P4.2)
+
+- [ ] **E004** Design QuoteHub update semantics for intra-period quote modifications
+  - Define update vs insert behavior (e.g., update only most recent quote)
+  - Specify rollback strategy for subscribed indicators
+  - Document limitations and edge cases (e.g., cannot update arbitrary historical quotes)
+
+- [ ] **E005** Implement QuoteHub quote update capability in `src/_common/Streaming/QuoteHub.cs`
+  - Add `Update(IQuote quote)` method with timestamp validation
+  - Trigger recalculation for affected subscribed indicators
+  - Guard against index out of range exceptions
+  - Maintain strict timestamp ordering constraints
+
+- [ ] **E006** Add comprehensive tests for QuoteHub update scenarios
+  - Test updating most recent quote properties (Close, High, Low)
+  - Verify subscribed indicators recalculate correctly
+  - Test edge cases (updating non-most-recent quote should throw)
+  - Document update semantics in user documentation
+
+### ADX DMI Output Enhancement (Issue #1262, P4.3)
+
+- [ ] **E007** Update ADX result classes to include DMI properties across all implementation styles
+  - Add `Pdi` (Plus Directional Indicator) and `Mdi` (Minus Directional Indicator) properties to `AdxResult`
+  - Verify Series implementation outputs DMI values (completed in prior PR)
+  - Update BufferList implementation (T002) to output DMI values
+  - Update StreamHub implementation (T087) to output DMI values
+
+- [ ] **E008** Update ADX documentation and tests for DMI output
+  - Update `docs/_indicators/Adx.md` with DMI property descriptions
+  - Add DMI validation to existing regression tests
+  - Document DMI vs ADX distinctions and usage patterns
+  - Update migration guide with new property additions
+
+### BufferList Configuration Enhancements (GitHub Project #6)
+
+- [ ] **E009** Complete and validate BufferList configuration implementation
+  - **Status**: Partially implemented - `MaxListSize` property already exists in `BufferList<TResult>` base class with default 90% of int.MaxValue (~1.9B elements)
+  - Audit all BufferList implementations to verify consistent `MaxListSize` usage
+  - Ensure `PruneList()` override pattern is followed where custom pruning logic is needed
+  - Validate that automatic pruning occurs via `AddInternal()` when list exceeds `MaxListSize`
+  - Document buffer capacity management strategies in user documentation
+  - Consider if additional configuration properties are needed (e.g., pruning strategy enum)
+  - Related: Private project item #84942277, `src/_common/BufferLists/BufferList.cs`
+
+- [ ] **E010** Implement composite naming for chained indicators
+  - Design naming convention showing full indicator chain (e.g., "SMA(5) of RSI(14)")
+  - Inherit provider name from upstream provider in chain
+  - Update `Name` property on all StreamHub implementations to support composite names
+  - Document naming conventions in instruction files
+  - Related: Private project item #84960056
+
+**Checkpoint**: Phase 6 addresses critical performance issues and feature requests identified during initial streaming rollout
+
+---
+
 ## Summary
 
 **Implementation Coverage (1:1:1 Parity)**:
@@ -470,6 +549,7 @@ Each task should follow these guidelines:
 - **Phase 3**: 85 StreamHub implementation tasks (T086-T170) — 79 complete, 6 remaining (T108, T145 implementable; T140/T153 not implementing, T170 human-only)
 - **Phase 4**: 17 test infrastructure tasks (T175-T185, Q001-Q006) — 0 complete, 17 remaining
 - **Phase 5**: 7 documentation tasks (D001-D007) — 2 complete, 5 remaining
-- **Total**: 204 tasks — 171 complete, 33 remaining (4 marked as not implementing, 2 human-only)
+- **Phase 6**: 10 enhancement tasks (E001-E010) — 0 complete, 10 remaining (Priority 4 enhancements + private project items)
+- **Total**: 214 tasks — 171 complete, 43 remaining (4 marked as not implementing, 2 human-only)
 
 Removed blanket deferral: The above indicators are complex but unblocked with established reference patterns (see instruction files).
