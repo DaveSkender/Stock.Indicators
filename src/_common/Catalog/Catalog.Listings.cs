@@ -130,6 +130,7 @@ public static partial class Catalog
         // ConnorsRSI
         _listings.Add(ConnorsRsi.SeriesListing);
         _listings.Add(ConnorsRsi.BufferListing);
+        _listings.Add(ConnorsRsi.StreamListing);
 
         // Correlation
         _listings.Add(Correlation.SeriesListing);
