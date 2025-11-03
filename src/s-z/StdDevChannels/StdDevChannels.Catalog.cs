@@ -10,7 +10,6 @@ public static partial class StdDevChannels
             .WithName("Standard Deviation Channels")
             .WithId("STDEV-CHANNELS")
             .WithCategory(Category.PriceChannel)
-            .WithMethodName("ToStdDevChannels")
             .AddParameter<int>("lookbackPeriods", "Lookback Periods", description: "Number of periods for the standard deviation calculation", isRequired: false, defaultValue: 20, minimum: 1, maximum: 250)
             .AddParameter<double>("stdDeviations", "Standard Deviations", description: "Number of standard deviations for the channels", isRequired: false, defaultValue: 2.0, minimum: 0.01, maximum: 10.0)
             .AddResult("UpperChannel", "Upper Channel", ResultType.Default)
@@ -24,6 +23,7 @@ public static partial class StdDevChannels
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
+            .WithMethodName("ToStdDevChannels")
             .Build();
 
     /// <summary>
@@ -32,6 +32,7 @@ public static partial class StdDevChannels
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)
+            .WithMethodName("ToStdDevChannelsList")
             .Build();
 
     // No StreamListing for Standard Deviation Channels.

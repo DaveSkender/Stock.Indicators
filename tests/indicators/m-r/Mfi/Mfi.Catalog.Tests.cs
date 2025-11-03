@@ -47,7 +47,7 @@ public class MfiTests : TestBase
         listing.Uiid.Should().Be("MFI");
         listing.Style.Should().Be(Style.Stream);
         listing.Category.Should().Be(Category.VolumeBased);
-        listing.MethodName.Should().Be("ToMfi");
+        listing.MethodName.Should().Be("ToMfiHub");
 
         listing.Parameters.Should().NotBeNull();
         listing.Parameters.Should().HaveCount(1);
@@ -76,7 +76,7 @@ public class MfiTests : TestBase
         listing.Uiid.Should().Be("MFI");
         listing.Style.Should().Be(Style.Buffer);
         listing.Category.Should().Be(Category.VolumeBased);
-        listing.MethodName.Should().Be("ToMfi");
+        listing.MethodName.Should().Be("ToMfiList");
 
         listing.Parameters.Should().NotBeNull();
         listing.Parameters.Should().HaveCount(1);

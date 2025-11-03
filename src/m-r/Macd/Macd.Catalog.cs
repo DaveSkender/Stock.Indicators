@@ -10,7 +10,6 @@ public static partial class Macd
             .WithName("Moving Average Convergence/Divergence")
             .WithId("MACD")
             .WithCategory(Category.PriceTrend)
-            .WithMethodName("ToMacd")
             .AddParameter<int>("fastPeriods", "Fast Periods", description: "Number of periods for the fast EMA", isRequired: false, defaultValue: 12, minimum: 1, maximum: 200)
             .AddParameter<int>("slowPeriods", "Slow Periods", description: "Number of periods for the slow EMA", isRequired: false, defaultValue: 26, minimum: 1, maximum: 250)
             .AddParameter<int>("signalPeriods", "Signal Periods", description: "Number of periods for the signal line", isRequired: false, defaultValue: 9, minimum: 1, maximum: 50)
@@ -25,6 +24,7 @@ public static partial class Macd
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
+            .WithMethodName("ToMacd")
             .Build();
 
     /// <summary>
@@ -33,6 +33,7 @@ public static partial class Macd
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
+            .WithMethodName("ToMacdHub")
             .Build();
 
     /// <summary>
@@ -41,5 +42,6 @@ public static partial class Macd
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)
+            .WithMethodName("ToMacdList")
             .Build();
 }

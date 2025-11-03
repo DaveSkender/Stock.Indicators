@@ -10,7 +10,6 @@ public static partial class WilliamsR
             .WithName("Williams %R")
             .WithId("WILLR")
             .WithCategory(Category.Oscillator)
-            .WithMethodName("ToWilliamsR")
             .AddParameter<int>("lookbackPeriods", "Lookback Periods", description: "Number of periods for the Williams %R calculation", isRequired: false, defaultValue: 14, minimum: 1, maximum: 250)
             .AddResult("WilliamsR", "Williams %R", ResultType.Default, isReusable: true)
             .Build();
@@ -21,6 +20,7 @@ public static partial class WilliamsR
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
+            .WithMethodName("ToWilliamsR")
             .Build();
 
     /// <summary>
@@ -29,6 +29,7 @@ public static partial class WilliamsR
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
+            .WithMethodName("ToWilliamsRHub")
             .Build();
 
     /// <summary>
@@ -37,5 +38,6 @@ public static partial class WilliamsR
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)
+            .WithMethodName("ToWilliamsRList")
             .Build();
 }

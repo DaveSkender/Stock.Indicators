@@ -60,21 +60,20 @@ public static partial class Atr
             double atr;
             double? atrp;
 
-            if (i > lookbackPeriods)
+            if (i >= lookbackPeriods)
             {
-                // calculate ATR
-                atr = ((prevAtr * (lookbackPeriods - 1)) + tr) / lookbackPeriods;
-                atrp = q.Close == 0 ? null : atr / q.Close * 100;
-                prevAtr = atr;
-            }
+                if (double.IsNaN(prevAtr))
+                {
+                    // initialize ATR
+                    sumTr += tr;
+                    atr = sumTr / lookbackPeriods;
+                }
+                else
+                {
+                    // calculate ATR
+                    atr = ((prevAtr * (lookbackPeriods - 1)) + tr) / lookbackPeriods;
+                }
 
-            // TODO: update healing, without requiring specific indexing,
-            // have had trouble gettng this one to work when evaluating previous ATR values
-            else if (i == lookbackPeriods)
-            {
-                // initialize ATR
-                sumTr += tr;
-                atr = sumTr / lookbackPeriods;
                 atrp = q.Close == 0 ? null : atr / q.Close * 100;
                 prevAtr = atr;
             }

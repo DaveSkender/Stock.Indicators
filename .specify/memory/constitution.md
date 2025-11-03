@@ -1,20 +1,18 @@
 <!--
 Sync Impact Report
-- Version change: 1.2.1 → 1.2.2 (PATCH: clarified that all implementation styles must match precisely)
-- Modified principles: Principle 1: Mathematical Precision (NON‑NEGOTIABLE) - expanded streaming/batch parity rule to include all three implementation styles (Series, BufferList, StreamHub)
-- Added sections: None
+- Version change: 1.2.2 → 1.3.0 (MINOR: added NaN handling policy as explicit guidance under Principle 1)
+- Modified principles: Principle 1: Mathematical Precision (NON‑NEGOTIABLE) - added NaN/Infinity Handling Policy subsection
+- Added sections: NaN/Infinity Handling Policy (under Principle 1)
 - Removed sections: None
 - Templates requiring updates:
-	- .specify/templates/plan-template.md (✅ no changes needed)
+	- .specify/templates/plan-template.md (✅ no changes needed - Constitution Check will enforce)
 	- .specify/templates/spec-template.md (✅ no changes needed)
 	- .specify/templates/tasks-template.md (✅ no changes needed)
-	- specs/001-develop-streaming-indicators/spec.md (✅ already enforces three-way parity)
-	- specs/001-develop-streaming-indicators/plan.md (✅ already enforces deterministic equality across styles)
-	- specs/001-develop-streaming-indicators/tasks.md (✅ already references deterministic checklists)
-	- specs/001-develop-streaming-indicators/checklists/buffer-list.md (✅ enforces Series baseline parity)
-	- specs/001-develop-streaming-indicators/checklists/stream-hub.md (✅ enforces Series baseline parity)
-- Follow-up TODOs: None
-- Rationale: The previous phrasing "streaming and batch paths" was ambiguous about which implementation served as the baseline. The library has three implementation styles (Series/batch, BufferList/streaming, StreamHub/streaming), and Series is the validated baseline. All streaming implementations (BufferList and StreamHub) must match the Series results precisely—not just match each other. This clarification establishes the Series style as the mathematical source of truth for parity testing.
+	- .github/copilot-instructions.md (✅ updated with dedicated NaN handling section)
+	- src/_common/README.md (✅ already contains detailed NaN handling policy)
+	- .github/instructions/source-code-completion.instructions.md (⚠ should reference NaN policy)
+- Follow-up TODOs: Review .github/instructions/source-code-completion.instructions.md for NaN policy reference
+- Rationale: NaN handling is a critical implementation detail directly supporting mathematical precision and performance. The library intentionally uses non-nullable double internally with IEEE 754 NaN propagation, converting to null only at result boundaries. This approach prevents silent data corruption while achieving significant performance gains. Making this explicit in the constitution ensures consistent application across all indicators and prevents accidental introduction of zero-guards or NaN rejection that would violate the established pattern.
 -->
 
 # Stock Indicators Project Constitution
@@ -69,6 +67,20 @@ Examples:
 
 - ConnorsRSI includes links to [the guidebook PDF](https://alvarezquanttrading.com/wp-content/uploads/2016/05/ConnorsRSIGuidebook.pdf)
 - Parabolic SAR links to [Wikipedia](https://en.wikipedia.org/wiki/Parabolic_SAR) with proper citations
+
+**NaN/Infinity Handling Policy:**
+
+The library uses non-nullable `double` types internally for performance, with intentional IEEE 754 NaN/Infinity propagation:
+
+- **Internal calculations**: Use `double.NaN` to represent undefined/incalculable values; allow natural propagation through operations
+- **Division by zero**: MUST guard variable denominators with ternary checks (e.g., `denom != 0 ? num / denom : double.NaN`) to prevent Infinity; choose appropriate fallback (NaN, 0, or null) based on mathematical meaning
+- **Result boundaries**: Convert NaN to `null` via `.NaN2Null()` ONLY when returning final results to users
+- **Input validation**: Never reject NaN inputs; allow them to flow through calculations naturally
+- **State initialization**: Use `double.NaN` for uninitialized state rather than sentinel values (0, -1)
+
+Rationale: This approach achieves significant performance gains from non-nullable types while maintaining mathematical correctness per IEEE 754 standard. NaN is the mathematically correct representation for undefined values. Division-by-zero guards prevent computational errors (Infinity) and allow explicit handling with mathematically appropriate fallbacks.
+
+Detailed implementation guidance: [`src/_common/README.md#nan-handling-policy`](../../src/_common/README.md#nan-handling-policy)
 
 **Reputation Criteria:**
 
@@ -219,4 +231,4 @@ Rules:
 
 Rationale: Consolidates long‑standing design tenets (Discussion #648) that were implicit but not yet enforceable as a formal principle.
 
-**Version**: 1.2.2 | **Ratified**: 2025-10-02 | **Last Amended**: 2025-10-07
+**Version**: 1.3.0 | **Ratified**: 2025-10-02 | **Last Amended**: 2025-11-02

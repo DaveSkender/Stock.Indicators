@@ -51,7 +51,7 @@ public class FractalTests : TestBase
         listing.Uiid.Should().Be("FRACTAL");
         listing.Style.Should().Be(Style.Buffer);
         listing.Category.Should().Be(Category.PricePattern);
-        listing.MethodName.Should().Be("ToFractal");
+        listing.MethodName.Should().Be("ToFractalList");
 
         listing.Parameters.Should().NotBeNull();
         listing.Parameters.Should().HaveCount(2);
@@ -72,7 +72,7 @@ public class FractalTests : TestBase
         listing.Uiid.Should().Be("FRACTAL");
         listing.Style.Should().Be(Style.Stream);
         listing.Category.Should().Be(Category.PricePattern);
-        listing.MethodName.Should().Be("ToFractal");
+        listing.MethodName.Should().Be("ToFractalHub");
 
         listing.Parameters.Should().NotBeNull();
         listing.Parameters.Should().HaveCount(2);

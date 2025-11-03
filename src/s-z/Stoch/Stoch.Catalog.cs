@@ -10,7 +10,6 @@ public static partial class Stoch
             .WithName("Stochastic Oscillator")
             .WithId("STOCH")
             .WithCategory(Category.Oscillator)
-            .WithMethodName("ToStoch")
             .AddParameter<int>("lookbackPeriods", "Lookback Periods", description: "Number of periods for the stochastic calculation", isRequired: false, defaultValue: 14, minimum: 1, maximum: 250)
             .AddParameter<int>("signalPeriods", "Signal Periods", description: "Number of periods for the signal line", isRequired: false, defaultValue: 3, minimum: 1, maximum: 250)
             .AddParameter<int>("smoothPeriods", "Smooth Periods", description: "Number of periods for smoothing", isRequired: false, defaultValue: 3, minimum: 1, maximum: 50)
@@ -24,6 +23,7 @@ public static partial class Stoch
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
+            .WithMethodName("ToStoch")
             .Build();
 
     /// <summary>
@@ -32,6 +32,7 @@ public static partial class Stoch
     internal static readonly IndicatorListing StreamListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
+            .WithMethodName("ToStochHub")
             .Build();
 
     /// <summary>
@@ -40,5 +41,6 @@ public static partial class Stoch
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Buffer)
+            .WithMethodName("ToStochList")
             .Build();
 }
