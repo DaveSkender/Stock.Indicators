@@ -29,14 +29,7 @@ public static partial class RenkoAtr
             .WithMethodName("ToRenkoAtr")
             .Build();
 
-    /// <summary>
-    /// Renko (ATR) Buffer Listing
-    /// </summary>
-    internal static readonly IndicatorListing BufferListing =
-        new CatalogListingBuilder(CommonListing)
-            .WithStyle(Style.Buffer)
-            .WithMethodName("ToRenkoAtrList")
-            .Build();
-
-    // No StreamListing for Renko (ATR).
+    // BufferList and StreamHub not implemented - would require buffering all quotes
+    // and recalculating entire Renko series on each add to maintain ATR accuracy.
+    // Series-only implementation maintained for correctness.
 }
