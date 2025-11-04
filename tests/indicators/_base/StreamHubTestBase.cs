@@ -14,6 +14,21 @@ public abstract class StreamHubTestBase : TestBase  // default: quote observer
     /// Tests hub-unique name string
     /// </summary>
     public abstract void CustomToString();
+
+    /// <summary>
+    /// Optional method for indicator-specific provider history testing.
+    /// Override in test classes to add custom validation for Insert/Remove scenarios.
+    /// </summary>
+    /// <remarks>
+    /// This method can be called from QuoteObserver, ChainObserver, or ChainProvider tests
+    /// to validate indicator-specific behavior during provider history mutations.
+    /// Base implementation does nothing; subclasses override as needed.
+    /// </remarks>
+    protected virtual void ProviderHistoryTesting()
+    {
+        // Base implementation: no-op
+        // Subclasses can override to add indicator-specific provider history validation
+    }
 }
 
 public interface ITestQuoteObserver
