@@ -308,8 +308,17 @@ Note on former deferrals: Indicators like Fractal, HtTrendline, Hurst, Ichimoku,
 
 ### StreamHub Test Interface Compliance
 
-- [ ] **T175** Audit all existing StreamHub test classes for proper test interface implementation according to updated guidelines in `.github/instructions/indicator-stream.instructions.md`
+- [x] **T175** Audit all existing StreamHub test classes for proper test interface implementation according to updated guidelines in `.github/instructions/indicator-stream.instructions.md` ✅
+  - Created comprehensive audit checklist: `.specify/specs/001-develop-streaming-indicators/checklists/T175-test-interface-audit.md`
+  - Audited 81 StreamHub test files
+  - Identified 13 issues (6 missing ITestChainProvider, 5 wrong observer for IReusable, 2 wrong observer for IQuote, 1 unexpected ChainProvider)
+  - 65 tests already compliant (80.2%)
 - [ ] **T176** Update StreamHub test classes that implement wrong interfaces (e.g., missing `ITestChainObserver` for chainable indicators)
+  - Use audit checklist from T175 as guide: `.specify/specs/001-develop-streaming-indicators/checklists/T175-test-interface-audit.md`
+  - Priority 1: Fix 6 indicators missing ITestChainProvider
+  - Priority 2: Fix 5 indicators with wrong observer for IReusable chains
+  - Priority 3: Fix 2 indicators with wrong observer for IQuote chains
+  - Priority 4: Review MaEnvelopes hub implementation
 - [ ] **T177** Add comprehensive rollback validation tests to all StreamHub test classes following canonical pattern from `Adx.StreamHub.Tests.cs`
   - Implement in appropriate observer test methods (QuoteObserver, ChainObserver, PairsObserver)
   - Use mutable `List<Quote>` (not static array)
@@ -556,9 +565,9 @@ Each task should follow these guidelines:
 - **Phase 1**: 10 tasks (A001-A006, T171-T174) — 8 complete, 2 remaining
 - **Phase 2**: 85 BufferList implementation tasks (T001-T085) — 82 complete, 3 remaining (T055/T068 not implementing, T085 human-only)
 - **Phase 3**: 85 StreamHub implementation tasks (T086-T170) — 79 complete, 6 remaining (T108, T145 implementable; T140/T153 not implementing, T170 human-only)
-- **Phase 4**: 17 test infrastructure tasks (T175-T185, Q001-Q006) — 0 complete, 17 remaining
+- **Phase 4**: 17 test infrastructure tasks (T175-T185, Q001-Q006) — 1 complete, 16 remaining
 - **Phase 5**: 7 documentation tasks (D001-D007) — 2 complete, 5 remaining
 - **Phase 6**: 10 enhancement tasks (E001-E010) — 0 complete, 10 remaining (Priority 4 enhancements + private project items)
-- **Total**: 214 tasks — 171 complete, 43 remaining (4 marked as not implementing, 2 human-only)
+- **Total**: 214 tasks — 172 complete, 42 remaining (4 marked as not implementing, 2 human-only)
 
 Removed blanket deferral: The above indicators are complex but unblocked with established reference patterns (see instruction files).
