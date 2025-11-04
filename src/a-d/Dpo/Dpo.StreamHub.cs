@@ -1,21 +1,27 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Represents a Detrended Price Oscillator (DPO) stream hub.
-/// Note: DPO requires lookahead, so results are delayed by offset periods.
-/// Input and output are not indexed 1:1 - output lags by offset.
+/// Provides methods for calculating the Detrended Price Oscillator (DPO) indicator.
+/// DPO uses a centered moving average, causing repaint behavior as new data arrives.
 /// </summary>
+/// <remarks>
+/// DPO calculates value[i] = price[i] - SMA[i+offset].
+/// In streaming mode, results initially appear as null until sufficient future
+/// data arrives. This "repaint-by-design" pattern is similar to indicators
+/// like Parabolic SAR that adjust historical values based on new information.
+/// </remarks>
 public class DpoHub
     : ChainProvider<IReusable, DpoResult>, IDpo
 {
     private readonly string hubName;
     private readonly int offset;
+    private readonly int warmupIndex;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="DpoHub"/> class.
     /// </summary>
     /// <param name="provider">The chain provider.</param>
-    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <exception cref="ArgumentNullException">Thrown when the provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
     internal DpoHub(
@@ -25,6 +31,7 @@ public class DpoHub
         Dpo.Validate(lookbackPeriods);
         LookbackPeriods = lookbackPeriods;
         offset = (lookbackPeriods / 2) + 1;
+        warmupIndex = LookbackPeriods - offset - 1;
         hubName = $"DPO({lookbackPeriods})";
 
         Reinitialize();
@@ -37,103 +44,143 @@ public class DpoHub
     public override string ToString() => hubName;
 
     /// <summary>
-    /// Override OnAdd to handle DPO's lookahead requirement with delayed emission.
-    /// Strategy: Use a two-phase approach for proper chaining support:
-    /// 1. Calculate and update historical value at position i-offset (if applicable)
-    /// 2. Add placeholder for current position i
-    /// 3. Use AppendCache for proper notification
-    /// This maintains 1:1 input/output correspondence with the last offset positions remaining empty.
+    /// Override OnAdd to handle DPO's repaint behavior.
+    /// When new data arrives, we calculate and update earlier positions
+    /// that can now be computed with this new data.
     /// </summary>
-    /// <inheritdoc />
     public override void OnAdd(IReusable item, bool notify, int? indexHint)
     {
         ArgumentNullException.ThrowIfNull(item);
 
-        // Get current position in provider
-        int i = indexHint ?? ProviderCache.Count - 1;
+        // Add the current item to cache (may have null values initially)
+        (DpoResult result, int currentIndex) = ToIndicator(item, indexHint);
+        AppendCache(result, notify);
 
-        // Calculate which earlier position we can now fill with actual values
-        int targetIndex = i - offset;
+        // DPO[i] needs SMA[i+offset], so when we're at position N,
+        // we can calculate DPO[N-offset] (if it exists)
+        int targetIndex = currentIndex - offset;
 
-        // Update historical value if applicable
-        // We can only update targetIndex if:
-        // 1. targetIndex >= 0 (valid index)
-        // 2. Cache[targetIndex] exists (was previously added as placeholder)
-        // 3. We're not updating the "trailing empty" range
-        if (targetIndex >= 0 && targetIndex < Cache.Count && (targetIndex + offset) < ProviderCache.Count)
+        // In streaming mode, update just one earlier position
+        if (notify && targetIndex >= warmupIndex && targetIndex < Cache.Count)
         {
-            // Calculate SMA at current position i (represents "future" value for targetIndex)
+            IReusable targetItem = ProviderCache[targetIndex];
+            (DpoResult updatedResult, int _) = ToIndicator(targetItem, targetIndex);
+            Cache[targetIndex] = updatedResult;
+            return;
+        }
+
+        // In rebuild mode (notify=false), update ALL affected earlier positions
+        // that can now be calculated with the new data
+        if (!notify)
+        {
+            // Start from the target position and work backwards to fill gaps
+            while (targetIndex >= warmupIndex && targetIndex < Cache.Count)
+            {
+                // Check if this position needs recalculation
+                DpoResult currentCacheValue = Cache[targetIndex];
+                IReusable targetItem = ProviderCache[targetIndex];
+                (DpoResult updatedResult, int _) = ToIndicator(targetItem, targetIndex);
+
+                // Update if value changed or was null
+                if (currentCacheValue.Dpo != updatedResult.Dpo)
+                {
+                    Cache[targetIndex] = updatedResult;
+                }
+
+                // Move to next earlier position
+                targetIndex--;
+
+                // Stop if we've gone too far back
+                // (positions that can't be calculated anyway)
+                if (targetIndex < warmupIndex || targetIndex >= ProviderCache.Count - offset)
+                {
+                    break;
+                }
+            }
+        }
+    }
+
+    /// <inheritdoc/>
+    protected override (DpoResult result, int index)
+        ToIndicator(IReusable item, int? indexHint)
+    {
+        ArgumentNullException.ThrowIfNull(item);
+
+        int i = indexHint ?? ProviderCache.IndexOf(item, true);
+
+        double? dpoSma = null;
+        double? dpoVal = null;
+
+        // DPO calculation: at position i, we need SMA at i+offset
+        // Only calculate when:
+        // 1. We have warmed up (i >= warmupIndex)
+        // 2. Future data exists (i + offset < ProviderCache.Count)
+        // 3. We're not in the final offset positions (i < ProviderCache.Count - offset)
+        //    because those positions will never have enough future data
+        if (i >= warmupIndex
+            && i + offset < ProviderCache.Count
+            && i < ProviderCache.Count - offset)
+        {
             double smaValue = Sma.Increment(
                 ProviderCache,
                 LookbackPeriods,
-                i);
+                i + offset);
 
-            // Get the input value from the target (earlier) position
-            IReusable targetItem = ProviderCache[targetIndex];
+            if (!double.IsNaN(smaValue))
+            {
+                dpoSma = smaValue;
+                double currentValue = item.Value;
 
-            // Validate input
-            double targetValue = targetItem.Value;
-            bool hasValidInput = !double.IsNaN(targetValue);
-
-            // Validate SMA
-            bool hasValidSma = !double.IsNaN(smaValue);
-
-            // Calculate DPO values
-            double? dpoSma = hasValidSma ? smaValue : null;
-            double? dpoVal = (hasValidSma && hasValidInput)
-                ? targetValue - smaValue
-                : null;
-
-            // Update the existing placeholder at targetIndex
-            Cache[targetIndex] = new DpoResult(targetItem.Timestamp, dpoVal, dpoSma);
+                if (!double.IsNaN(currentValue))
+                {
+                    dpoVal = currentValue - smaValue;
+                }
+            }
         }
 
-        // Now add placeholder for current position using AppendCache for proper notification
-        DpoResult placeholder = new(item.Timestamp, null, null);
-        AppendCache(placeholder, notify);
+        DpoResult r = new(
+            Timestamp: item.Timestamp,
+            Dpo: dpoVal,
+            Sma: dpoSma);
+
+        return (r, i);
     }
 
     /// <inheritdoc/>
     protected override void RollbackState(DateTime timestamp)
     {
-        // When rolling back, we don't need to maintain any internal state
-        // since we calculate SMA on-demand using Sma.Increment
-        int affectedIndex = ProviderCache.IndexGte(timestamp);
-        if (affectedIndex < 0)
+        // DPO depends on future data: DPO[i] needs SMA[i+offset]
+        // Use known parameters to calculate affected range and fill gaps
+
+        int provIndex = ProviderCache.IndexGte(timestamp);
+
+        if (provIndex < 0)
         {
             base.RollbackState(timestamp);
             return;
         }
 
-        // Due to lookahead, the last offset positions must always be empty.
-        // Clear from the EARLIER of: affected index OR first trailing empty position
-        int firstTrailingEmpty = ProviderCache.Count - offset;
-        int clearFromIndex = Math.Min(affectedIndex, firstTrailingEmpty);
+        // Calculate earliest affected position using known dependency formula
+        int earliestAffected = provIndex - offset - LookbackPeriods + 1;
+        earliestAffected = Math.Max(0, earliestAffected);
+        earliestAffected = Math.Max(earliestAffected, warmupIndex);
 
-        // Clear Cache from clearFromIndex onwards
-        while (Cache.Count > clearFromIndex)
+        // Recalculate all positions from earliest affected to provIndex
+        // This handles both affected positions AND fills gaps from Insert operations
+        for (int i = earliestAffected; i < provIndex && i < Cache.Count; i++)
         {
-            Cache.RemoveAt(Cache.Count - 1);
+            if (i < ProviderCache.Count)
+            {
+                IReusable item = ProviderCache[i];
+                (DpoResult updatedResult, int _) = ToIndicator(item, i);
+
+                // Always update to ensure positions are recalculated correctly
+                // (handles both mutations and gap-filling after inserts)
+                Cache[i] = updatedResult;
+            }
         }
 
-        // If clearFromIndex < affectedIndex, add placeholders for the gap
-        // These positions are now in the "last offset empty" range
-        for (int i = clearFromIndex; i < affectedIndex && i < ProviderCache.Count; i++)
-        {
-            Cache.Add(new DpoResult(ProviderCache[i].Timestamp, null, null));
-        }
-    }
-
-    /// <inheritdoc />
-    protected override (DpoResult result, int index) ToIndicator(IReusable item, int? indexHint)
-    {
-        ArgumentNullException.ThrowIfNull(item);
-
-        // For DPO with delayed emission, Insert operations should trigger rebuild rather than
-        // try to insert at a specific position, since the output index doesn't match input index.
-        // Returning -1 signals the base class to treat this as Add + Rebuild.
-
-        return (new DpoResult(item.Timestamp, null, null), -1);
+        base.RollbackState(timestamp);
     }
 }/// <summary>
 /// Provides methods for creating DPO hubs.

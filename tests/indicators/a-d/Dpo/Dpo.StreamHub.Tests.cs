@@ -99,10 +99,9 @@ public class DpoHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
         // setup quote provider hub
         QuoteHub quoteHub = new();
 
-        // initialize observer
-        SmaHub observer = quoteHub
-            .ToDpoHub(dpoPeriods)
-            .ToSmaHub(smaPeriods);
+        // initialize observer with intermediate DPO access
+        DpoHub dpoHub = quoteHub.ToDpoHub(dpoPeriods);
+        SmaHub observer = dpoHub.ToSmaHub(smaPeriods);
 
         // emulate adding quotes to provider hub
         for (int i = 0; i < length; i++)
@@ -123,15 +122,29 @@ public class DpoHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
         // delete
         quoteHub.Remove(Quotes[removeAtIndex]);
 
+        // DEBUG: Check DPO results at positions 17-26
+        IReadOnlyList<DpoResult> dpoResults = dpoHub.Results;
+        Console.WriteLine($"After Remove: DPO.Count = {dpoResults.Count}");
+        for (int i = 17; i <= 26 && i < dpoResults.Count; i++)
+        {
+            Console.WriteLine($"DPO[{i}].Dpo = {dpoResults[i].Dpo}");
+        }
+
         // final results
         IReadOnlyList<SmaResult> actuals
             = observer.Results;
 
         // time-series, for comparison (revised)
         // DPO maintains 1:1 output with input, last offset positions empty
-        IReadOnlyList<SmaResult> seriesList = RevisedQuotes
-            .ToDpo(dpoPeriods)
-            .ToSma(smaPeriods);
+        IReadOnlyList<DpoResult> seriesDpo = RevisedQuotes.ToDpo(dpoPeriods);
+        IReadOnlyList<SmaResult> seriesList = seriesDpo.ToSma(smaPeriods);
+
+        // DEBUG: Check Series DPO at positions 17-26
+        Console.WriteLine($"Series DPO.Count = {seriesDpo.Count}");
+        for (int i = 17; i <= 26 && i < seriesDpo.Count; i++)
+        {
+            Console.WriteLine($"Series DPO[{i}].Dpo = {seriesDpo[i].Dpo}, Series SMA[{i}].Sma = {seriesList[i].Sma}");
+        }
 
         // assert - full count maintained with nulls at end
         actuals.Should().HaveCount(seriesList.Count);
