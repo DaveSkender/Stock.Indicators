@@ -1,7 +1,7 @@
 namespace StreamHub;
 
 [TestClass]
-public class CciHubTests : StreamHubTestBase, ITestQuoteObserver
+public class CciHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
 {
     [TestMethod]
     public void QuoteObserver()
@@ -65,7 +65,7 @@ public class CciHubTests : StreamHubTestBase, ITestQuoteObserver
     }
 
     [TestMethod]
-    public void QuoteProvider()
+    public void ChainProvider()
     {
         const int cciPeriods = 20;
 

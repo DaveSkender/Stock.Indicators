@@ -1,7 +1,7 @@
 namespace StreamHubs;
 
 [TestClass]
-public class BollingerBandsStreamHubTests : StreamHubTestBase, ITestQuoteObserver
+public class BollingerBandsStreamHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
 {
     [TestMethod]
     public void QuoteObserver()

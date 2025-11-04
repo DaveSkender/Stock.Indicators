@@ -1,7 +1,7 @@
 namespace StreamHub;
 
 [TestClass]
-public class ObvHubTests : StreamHubTestBase, ITestQuoteObserver
+public class ObvHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
 {
     [TestMethod]
     public void QuoteObserver()
@@ -55,6 +55,46 @@ public class ObvHubTests : StreamHubTestBase, ITestQuoteObserver
 
         streamList.Should().HaveCount(length - 1);
         streamList.Should().BeEquivalentTo(seriesList);
+
+        observer.Unsubscribe();
+        quoteHub.EndTransmission();
+    }
+
+    [TestMethod]
+    public void ChainProvider()
+    {
+        const int smaPeriods = 10;
+
+        List<Quote> quotesList = Quotes.ToList();
+        int length = quotesList.Count;
+
+        // setup quote provider hub
+        QuoteHub quoteHub = new();
+
+        // initialize observer - chain OBV to SMA
+        SmaHub observer = quoteHub
+            .ToObvHub()
+            .ToSmaHub(smaPeriods);
+
+        // emulate quote stream
+        for (int i = 0; i < length; i++)
+        {
+            quoteHub.Add(quotesList[i]);
+        }
+
+        // final results
+        IReadOnlyList<SmaResult> streamList = observer.Results;
+
+        // time-series, for comparison
+        IReadOnlyList<SmaResult> seriesList = quotesList
+            .ToObv()
+            .ToSma(smaPeriods);
+
+        // assert, should equal series
+        streamList.Should().HaveCount(length);
+        streamList.Should().BeEquivalentTo(
+            seriesList,
+            options => options.WithStrictOrdering());
 
         observer.Unsubscribe();
         quoteHub.EndTransmission();

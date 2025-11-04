@@ -1,7 +1,7 @@
 namespace StreamHub;
 
 [TestClass]
-public class KvoHubTests : StreamHubTestBase, ITestQuoteObserver
+public class KvoHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
 {
     [TestMethod]
     public void QuoteObserver()
@@ -122,6 +122,49 @@ public class KvoHubTests : StreamHubTestBase, ITestQuoteObserver
 
         streamList.Should().HaveCount(length);
         streamList.Should().BeEquivalentTo(seriesList, static options => options.WithStrictOrdering());
+
+        observer.Unsubscribe();
+        quoteHub.EndTransmission();
+    }
+
+    [TestMethod]
+    public void ChainProvider()
+    {
+        const int kvoFast = 34;
+        const int kvoSlow = 55;
+        const int kvoSignal = 13;
+        const int smaPeriods = 10;
+
+        List<Quote> quotesList = Quotes.ToList();
+        int length = quotesList.Count;
+
+        // setup quote provider hub
+        QuoteHub quoteHub = new();
+
+        // initialize observer - chain KVO to SMA
+        SmaHub observer = quoteHub
+            .ToKvoHub(kvoFast, kvoSlow, kvoSignal)
+            .ToSmaHub(smaPeriods);
+
+        // emulate quote stream
+        for (int i = 0; i < length; i++)
+        {
+            quoteHub.Add(quotesList[i]);
+        }
+
+        // final results
+        IReadOnlyList<SmaResult> streamList = observer.Results;
+
+        // time-series, for comparison
+        IReadOnlyList<SmaResult> seriesList = quotesList
+            .ToKvo(kvoFast, kvoSlow, kvoSignal)
+            .ToSma(smaPeriods);
+
+        // assert, should equal series
+        streamList.Should().HaveCount(length);
+        streamList.Should().BeEquivalentTo(
+            seriesList,
+            options => options.WithStrictOrdering());
 
         observer.Unsubscribe();
         quoteHub.EndTransmission();

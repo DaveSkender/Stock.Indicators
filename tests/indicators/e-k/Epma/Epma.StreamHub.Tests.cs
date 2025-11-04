@@ -1,7 +1,7 @@
 namespace StreamHub;
 
 [TestClass]
-public class EpmaStreamHubTests : StreamHubTestBase, ITestQuoteObserver
+public class EpmaStreamHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProvider
 {
     private const int lookbackPeriods = 20;
 
@@ -88,6 +88,62 @@ public class EpmaStreamHubTests : StreamHubTestBase, ITestQuoteObserver
         }
 
         epmaHub.Results.Should().HaveCount(110);
+    }
+
+    [TestMethod]
+    public void ChainObserver()
+    {
+        // Test EPMA observing another indicator chain
+        const int smaPeriods = 10;
+
+        QuoteHub quoteHub = new();
+        EpmaHub epmaHub = quoteHub
+            .ToSmaHub(smaPeriods)
+            .ToEpmaHub(lookbackPeriods);
+
+        foreach (Quote quote in Quotes)
+        {
+            quoteHub.Add(quote);
+        }
+
+        IReadOnlyList<EpmaResult> streamResults = epmaHub.Results;
+        IReadOnlyList<EpmaResult> seriesResults = Quotes
+            .ToSma(smaPeriods)
+            .ToEpma(lookbackPeriods);
+
+        streamResults.Should().HaveCount(Quotes.Count);
+        streamResults.Should().BeEquivalentTo(seriesResults, options => options.WithStrictOrdering());
+
+        epmaHub.Unsubscribe();
+        quoteHub.EndTransmission();
+    }
+
+    [TestMethod]
+    public void ChainProvider()
+    {
+        // Test EPMA chaining to other indicators
+        const int smaPeriods = 10;
+
+        QuoteHub quoteHub = new();
+        SmaHub smaHub = quoteHub
+            .ToEpmaHub(lookbackPeriods)
+            .ToSmaHub(smaPeriods);
+
+        foreach (Quote quote in Quotes)
+        {
+            quoteHub.Add(quote);
+        }
+
+        IReadOnlyList<SmaResult> chainedResults = smaHub.Results;
+        IReadOnlyList<SmaResult> expectedChained = Quotes
+            .ToEpma(lookbackPeriods)
+            .ToSma(smaPeriods);
+
+        chainedResults.Should().HaveCount(Quotes.Count);
+        chainedResults.Should().BeEquivalentTo(expectedChained, options => options.WithStrictOrdering());
+
+        smaHub.Unsubscribe();
+        quoteHub.EndTransmission();
     }
 
     [TestMethod]

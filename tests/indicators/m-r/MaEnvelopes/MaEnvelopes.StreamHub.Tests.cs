@@ -1,7 +1,7 @@
 namespace StreamHub;
 
 [TestClass]
-public class MaEnvelopesHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProvider
+public class MaEnvelopesHubTests : StreamHubTestBase, ITestChainObserver
 {
     private const int lookbackPeriods = 20;
     private const double percentOffset = 2.5;

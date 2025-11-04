@@ -1,7 +1,7 @@
 namespace StreamHub;
 
 [TestClass]
-public class TemaHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
+public class TemaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProvider
 {
     [TestMethod]
     public void QuoteObserver()
@@ -62,6 +62,45 @@ public class TemaHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPro
         // assert, should equal series
         streamList.Should().BeEquivalentTo(seriesList);
         streamList.Should().HaveCount(501);
+
+        observer.Unsubscribe();
+        quoteHub.EndTransmission();
+    }
+
+    [TestMethod]
+    public void ChainObserver()
+    {
+        const int temaPeriods = 20;
+        const int smaPeriods = 10;
+        int length = Quotes.Count;
+
+        // setup quote provider hub
+        QuoteHub quoteHub = new();
+
+        // initialize observer - chain SMA to TEMA
+        TemaHub observer = quoteHub
+            .ToSmaHub(smaPeriods)
+            .ToTemaHub(temaPeriods);
+
+        // emulate quote stream
+        for (int i = 0; i < length; i++)
+        {
+            quoteHub.Add(Quotes[i]);
+        }
+
+        // final results
+        IReadOnlyList<TemaResult> streamList = observer.Results;
+
+        // time-series, for comparison
+        IReadOnlyList<TemaResult> seriesList = Quotes
+            .ToSma(smaPeriods)
+            .ToTema(temaPeriods);
+
+        // assert, should equal series
+        streamList.Should().HaveCount(length);
+        streamList.Should().BeEquivalentTo(
+            seriesList,
+            options => options.WithStrictOrdering());
 
         observer.Unsubscribe();
         quoteHub.EndTransmission();

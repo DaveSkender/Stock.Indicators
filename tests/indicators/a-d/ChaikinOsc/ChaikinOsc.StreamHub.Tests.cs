@@ -1,7 +1,7 @@
 namespace StreamHub;
 
 [TestClass]
-public class ChaikinOscHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProvider
+public class ChaikinOscHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
 {
     [TestMethod]
     public void QuoteObserver()

@@ -1,7 +1,7 @@
 namespace StreamHub;
 
 [TestClass]
-public class T3HubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
+public class T3HubTests : StreamHubTestBase, ITestChainObserver, ITestChainProvider
 {
     [TestMethod]
     public void QuoteObserver()
@@ -63,6 +63,46 @@ public class T3HubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProvi
         // assert, should equal series
         streamList.Should().BeEquivalentTo(seriesList);
         streamList.Should().HaveCount(501);
+
+        observer.Unsubscribe();
+        quoteHub.EndTransmission();
+    }
+
+    [TestMethod]
+    public void ChainObserver()
+    {
+        const int t3Periods = 5;
+        const double volumeFactor = 0.7;
+        const int smaPeriods = 10;
+        int length = Quotes.Count;
+
+        // setup quote provider hub
+        QuoteHub quoteHub = new();
+
+        // initialize observer - chain SMA to T3
+        T3Hub observer = quoteHub
+            .ToSmaHub(smaPeriods)
+            .ToT3Hub(t3Periods, volumeFactor);
+
+        // emulate quote stream
+        for (int i = 0; i < length; i++)
+        {
+            quoteHub.Add(Quotes[i]);
+        }
+
+        // final results
+        IReadOnlyList<T3Result> streamList = observer.Results;
+
+        // time-series, for comparison
+        IReadOnlyList<T3Result> seriesList = Quotes
+            .ToSma(smaPeriods)
+            .ToT3(t3Periods, volumeFactor);
+
+        // assert, should equal series
+        streamList.Should().HaveCount(length);
+        streamList.Should().BeEquivalentTo(
+            seriesList,
+            options => options.WithStrictOrdering());
 
         observer.Unsubscribe();
         quoteHub.EndTransmission();

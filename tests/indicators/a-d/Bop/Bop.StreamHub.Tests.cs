@@ -1,7 +1,7 @@
 namespace StreamHub;
 
 [TestClass]
-public class BopHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProvider
+public class BopHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
 {
     [TestMethod]
     public void QuoteObserver()
