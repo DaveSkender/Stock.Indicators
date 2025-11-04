@@ -9,29 +9,48 @@ public class CmfHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProv
     [TestMethod]
     public void QuoteObserver()
     {
-        List<Quote> quotesList = Quotes.ToList();
-        int length = quotesList.Count;
+        int length = Quotes.Count;
 
         // setup quote provider hub
         QuoteHub quoteHub = new();
 
-        // initialize observer
-        CmfHub observer = quoteHub
-            .ToCmfHub(lookbackPeriods);
+        // prefill quotes at provider (warmup coverage)
+        quoteHub.Add(Quotes.Take(25));
 
-        // emulate quote stream
-        for (int i = 0; i < length; i++)
+        // initialize observer
+        CmfHub observer = quoteHub.ToCmfHub(lookbackPeriods);
+
+        // fetch initial results (early)
+        IReadOnlyList<CmfResult> actuals = observer.Results;
+
+        // emulate adding quotes to provider hub
+        for (int i = 25; i < length; i++)
         {
-            quoteHub.Add(quotesList[i]);
+            // skip one (add later)
+            if (i == 80) { continue; }
+
+            Quote q = Quotes[i];
+            quoteHub.Add(q);
+
+            // resend duplicate quotes
+            if (i is > 100 and < 105) { quoteHub.Add(q); }
         }
 
-        // final results
-        IReadOnlyList<CmfResult> streamList = observer.Results;
+        // late arrival, should equal series
+        quoteHub.Insert(Quotes[80]);
 
-        // assert, should equal series
-        streamList.Should().HaveCount(length);
-        streamList.Should().BeEquivalentTo(expectedOriginal, static options => options.WithStrictOrdering());
+        actuals.Should().HaveCount(length);
+        actuals.Should().BeEquivalentTo(expectedOriginal, static options => options.WithStrictOrdering());
 
+        // delete, should equal series (revised)
+        quoteHub.Remove(Quotes[removeAtIndex]);
+
+        IReadOnlyList<CmfResult> expectedRevised = RevisedQuotes.ToCmf(lookbackPeriods);
+
+        actuals.Should().HaveCount(501);
+        actuals.Should().BeEquivalentTo(expectedRevised, static options => options.WithStrictOrdering());
+
+        // cleanup
         observer.Unsubscribe();
         quoteHub.EndTransmission();
     }

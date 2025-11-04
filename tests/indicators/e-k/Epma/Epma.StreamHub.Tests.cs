@@ -11,20 +11,50 @@ public class EpmaStreamHubTests : StreamHubTestBase, ITestChainObserver, ITestCh
     [TestMethod]
     public void QuoteObserver()
     {
-        // Test streaming with state maintenance
-        QuoteHub quoteHub = new();
-        EpmaHub epmaHub = quoteHub.ToEpmaHub(lookbackPeriods);
+        int length = Quotes.Count;
 
-        foreach (Quote quote in Quotes)
+        // setup quote provider hub
+        QuoteHub quoteHub = new();
+
+        // prefill quotes at provider (warmup coverage)
+        quoteHub.Add(Quotes.Take(20));
+
+        // initialize observer
+        EpmaHub observer = quoteHub.ToEpmaHub(lookbackPeriods);
+
+        // fetch initial results (early)
+        IReadOnlyList<EpmaResult> actuals = observer.Results;
+
+        // emulate adding quotes to provider hub
+        for (int i = 20; i < length; i++)
         {
-            quoteHub.Add(quote);
+            // skip one (add later)
+            if (i == 80) { continue; }
+
+            Quote q = Quotes[i];
+            quoteHub.Add(q);
+
+            // resend duplicate quotes
+            if (i is > 100 and < 105) { quoteHub.Add(q); }
         }
 
-        IReadOnlyList<EpmaResult> results = epmaHub.Results;
+        // late arrival, should equal series
+        quoteHub.Insert(Quotes[80]);
 
-        // Verify results match series calculation exactly
-        results.Should().HaveCount(Quotes.Count);
-        results.Should().BeEquivalentTo(series);
+        actuals.Should().HaveCount(length);
+        actuals.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
+
+        // delete, should equal series (revised)
+        quoteHub.Remove(Quotes[removeAtIndex]);
+
+        IReadOnlyList<EpmaResult> expectedRevised = RevisedQuotes.ToEpma(lookbackPeriods);
+
+        actuals.Should().HaveCount(501);
+        actuals.Should().BeEquivalentTo(expectedRevised, static options => options.WithStrictOrdering());
+
+        // cleanup
+        observer.Unsubscribe();
+        quoteHub.EndTransmission();
     }
 
     [TestMethod]
