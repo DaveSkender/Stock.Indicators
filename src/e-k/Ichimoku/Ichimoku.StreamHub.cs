@@ -104,7 +104,6 @@ public class IchimokuHub
     /// <param name="item">New item from provider.</param>
     /// <param name="notify">Whether to notify observers.</param>
     /// <param name="indexHint">Provider index hint.</param>
-    [Obsolete]
     public override void OnAdd(IQuote item, bool notify, int? indexHint)
     {
         ArgumentNullException.ThrowIfNull(item);
