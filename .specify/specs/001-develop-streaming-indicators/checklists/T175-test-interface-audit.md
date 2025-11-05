@@ -14,8 +14,8 @@
 
 - **Issues Fixed**: 10 of 13 (76.9%)
 - **Audit Errors**: 4 (already correct or architecturally correct)
-  - Pivots: StreamHub<IQuote>, not ChainProvider
-  - ForceIndex, Ultimate, Vwma: Can provide to chains but cannot observe them (IQuoteProvider constructor)
+  - Pivots: `StreamHub<IQuote>`, not ChainProvider
+  - ForceIndex, Ultimate, Vwma: Can provide to chains but cannot observe them (`IQuoteProvider` constructor)
 - **Remaining Issues**: 0 (all 13 items resolved or explained)
 
 ## Interface Selection Rules (from instruction file)
@@ -39,31 +39,31 @@ Per `.github/instructions/indicator-stream.instructions.md`, test interfaces sho
 
 These indicators extend ChainProvider or QuoteProvider but were missing the `ITestChainProvider` interface:
 
-- [x] **BollingerBands** (ChainProvider<IReusable>) ✅ FIXED
+- [x] **BollingerBands** (`ChainProvider<IReusable>`) ✅ FIXED
   - Was: `ITestQuoteObserver`
   - Now: `ITestQuoteObserver`, `ITestChainProvider`
   - File: `tests/indicators/a-d/BollingerBands/BollingerBands.StreamHub.Tests.cs`
-  - Note: Kept ITestQuoteObserver (hub takes IQuote input), added ITestChainProvider
+  - Note: Kept ITestQuoteObserver (hub takes `IQuote` input), added ITestChainProvider
 
-- [x] **Cci** (ChainProvider<IQuote>) ✅ FIXED
+- [x] **Cci** (`ChainProvider<IQuote>`) ✅ FIXED
   - Was: `ITestQuoteObserver`
   - Now: `ITestQuoteObserver`, `ITestChainProvider`
   - File: `tests/indicators/a-d/Cci/Cci.StreamHub.Tests.cs`
   - Action: Added `ITestChainProvider`, renamed QuoteProvider→ChainProvider test
 
-- [x] **Epma** (ChainProvider<IReusable>) ✅ FIXED
+- [x] **Epma** (`ChainProvider<IReusable>`) ✅ FIXED
   - Was: `ITestQuoteObserver`
   - Now: `ITestChainObserver`, `ITestChainProvider`
   - File: `tests/indicators/e-k/Epma/Epma.StreamHub.Tests.cs`
   - Action: Replaced `ITestQuoteObserver` with `ITestChainObserver`, added both test methods
 
-- [x] **Kvo** (ChainProvider<IQuote>) ✅ FIXED
+- [x] **Kvo** (`ChainProvider<IQuote>`) ✅ FIXED
   - Was: `ITestQuoteObserver`
   - Now: `ITestQuoteObserver`, `ITestChainProvider`
   - File: `tests/indicators/e-k/Kvo/Kvo.StreamHub.Tests.cs`
   - Action: Added `ITestChainProvider` + ChainProvider test method
 
-- [x] **Obv** (ChainProvider<IQuote>) ✅ FIXED
+- [x] **Obv** (`ChainProvider<IQuote>`) ✅ FIXED
   - Was: `ITestQuoteObserver`
   - Now: `ITestQuoteObserver`, `ITestChainProvider`
   - File: `tests/indicators/m-r/Obv/Obv.StreamHub.Tests.cs`
@@ -73,25 +73,25 @@ These indicators extend ChainProvider or QuoteProvider but were missing the `ITe
   - Hub extends: `StreamHub<IQuote>` (NOT ChainProvider)
   - Current: `ITestQuoteObserver` ✅ CORRECT
   - File: `tests/indicators/m-r/Pivots/Pivots.StreamHub.Tests.cs`
-  - Note: Audit incorrectly identified as ChainProvider; StreamHub<IQuote> only needs ITestQuoteObserver
+  - Note: Audit incorrectly identified as ChainProvider; `StreamHub<IQuote>` only needs ITestQuoteObserver
 
 ### Category 2: Wrong Observer Type (5 indicators) - 2 FIXED, 3 AUDIT ERRORS
 
-These ChainProvider<IReusable> indicators should use `ITestChainObserver` instead of `ITestQuoteObserver`:
+These `ChainProvider<IReusable>` indicators should use `ITestChainObserver` instead of `ITestQuoteObserver`:
 
 - [x] **ForceIndex** ❌ AUDIT ERROR - Already Correct
   - Hub extends: `ChainProvider<IReusable>` but constructor takes `IQuoteProvider<IQuote>`
   - Current: `ITestQuoteObserver`, `ITestChainProvider` ✅ CORRECT
   - File: `tests/indicators/e-k/ForceIndex/ForceIndex.StreamHub.Tests.cs`
-  - Note: Can PROVIDE to chains but cannot OBSERVE chains (takes IQuoteProvider constructor)
+  - Note: Can PROVIDE to chains but cannot OBSERVE chains (takes `IQuoteProvider` constructor)
 
-- [x] **T3** (ChainProvider<IReusable>) ✅ FIXED
+- [x] **T3** (`ChainProvider<IReusable>`) ✅ FIXED
   - Was: `ITestQuoteObserver`, `ITestChainProvider`
   - Now: `ITestChainObserver`, `ITestChainProvider`
   - File: `tests/indicators/s-z/T3/T3.StreamHub.Tests.cs`
   - Action: Replaced `ITestQuoteObserver` with `ITestChainObserver`, added ChainObserver test
 
-- [x] **Tema** (ChainProvider<IReusable>) ✅ FIXED
+- [x] **Tema** (`ChainProvider<IReusable>`) ✅ FIXED
   - Was: `ITestQuoteObserver`, `ITestChainProvider`
   - Now: `ITestChainObserver`, `ITestChainProvider`
   - File: `tests/indicators/s-z/Tema/Tema.StreamHub.Tests.cs`
@@ -111,15 +111,15 @@ These ChainProvider<IReusable> indicators should use `ITestChainObserver` instea
 
 ### Category 3: Wrong Observer Type for Quote Provider (2 indicators) - 2 FIXED
 
-These ChainProvider<IQuote> indicators should use `ITestQuoteObserver` instead of `ITestChainObserver`:
+These `ChainProvider<IQuote>` indicators should use `ITestQuoteObserver` instead of `ITestChainObserver`:
 
-- [x] **Bop** (ChainProvider<IQuote>) ✅ FIXED
+- [x] **Bop** (`ChainProvider<IQuote>`) ✅ FIXED
   - Was: `ITestChainObserver`, `ITestChainProvider`
   - Now: `ITestQuoteObserver`, `ITestChainProvider`
   - File: `tests/indicators/a-d/Bop/Bop.StreamHub.Tests.cs`
   - Action: Replaced `ITestChainObserver` with `ITestQuoteObserver`
 
-- [x] **ChaikinOsc** (ChainProvider<IQuote>) ✅ FIXED
+- [x] **ChaikinOsc** (`ChainProvider<IQuote>`) ✅ FIXED
   - Was: `ITestChainObserver`, `ITestChainProvider`
   - Now: `ITestQuoteObserver`, `ITestChainProvider`
   - File: `tests/indicators/a-d/ChaikinOsc/ChaikinOsc.StreamHub.Tests.cs`
@@ -129,7 +129,7 @@ These ChainProvider<IQuote> indicators should use `ITestQuoteObserver` instead o
 
 This indicator extends `StreamHub<IReusable>` directly (not ChainProvider) but implemented ChainProvider test interface:
 
-- [x] **MaEnvelopes** (StreamHub<IReusable>) ✅ FIXED
+- [x] **MaEnvelopes** (`StreamHub<IReusable>`) ✅ FIXED
   - Was: `ITestChainObserver`, `ITestChainProvider`
   - Now: `ITestChainObserver`
   - File: `tests/indicators/m-r/MaEnvelopes/MaEnvelopes.StreamHub.Tests.cs`
@@ -151,15 +151,15 @@ Test files exist but corresponding hub implementation not found:
 
 These indicators correctly implement test interfaces per guidelines:
 
-✓ **Ema** (ChainProvider<IReusable>): `ITestChainObserver`, `ITestChainProvider`  
-✓ **Sma** (ChainProvider<IReusable>): `ITestChainObserver`, `ITestChainProvider`  
-✓ **Rsi** (ChainProvider<IReusable>): `ITestChainObserver`, `ITestChainProvider`  
-✓ **Correlation** (PairsProvider): `ITestPairsObserver`  
-✓ **Beta** (PairsProvider): `ITestPairsObserver`  
-✓ **Adx** (ChainProvider<IQuote>): `ITestQuoteObserver`, `ITestChainProvider`  
-✓ **Atr** (ChainProvider<IQuote>): `ITestQuoteObserver`, `ITestChainProvider`  
-✓ **Chandelier** (StreamHub<IQuote>): `ITestQuoteObserver`  
-✓ **Alligator** (StreamHub<IReusable>): `ITestChainObserver`  
+✓ **Ema** (`ChainProvider<IReusable>`): `ITestChainObserver`, `ITestChainProvider`  
+✓ **Sma** (`ChainProvider<IReusable>`): `ITestChainObserver`, `ITestChainProvider`  
+✓ **Rsi** (`ChainProvider<IReusable>`): `ITestChainObserver`, `ITestChainProvider`  
+✓ **Correlation** (`PairsProvider`): `ITestPairsObserver`  
+✓ **Beta** (`PairsProvider`): `ITestPairsObserver`  
+✓ **Adx** (`ChainProvider<IQuote>`): `ITestQuoteObserver`, `ITestChainProvider`  
+✓ **Atr** (`ChainProvider<IQuote>`): `ITestQuoteObserver`, `ITestChainProvider`  
+✓ **Chandelier** (`StreamHub<IQuote>`): `ITestQuoteObserver`  
+✓ **Alligator** (`StreamHub<IReusable>`): `ITestChainObserver`  
 
 Full list available in `/tmp/audit_results_detailed.txt`
 
@@ -169,10 +169,11 @@ Task T176 addressed the 13 issues identified above with the following results:
 
 - **10 items fixed**: BollingerBands, Cci, Epma, Kvo, Obv, T3, Tema, Bop, ChaikinOsc, MaEnvelopes
 - **4 items identified as audit errors** (already correct):
-  - Pivots: StreamHub<IQuote> correctly uses ITestQuoteObserver only
+  - Pivots: `StreamHub<IQuote>` correctly uses ITestQuoteObserver only
   - ForceIndex, Ultimate, Vwma: Architecturally correct (can provide but not observe chains)
 
 Each fix included:
+
 - Updated test class declaration to implement correct interfaces
 - Added corresponding test methods where needed (ChainObserver, ChainProvider)
 - Followed canonical patterns from `Ema.StreamHub.Tests.cs`

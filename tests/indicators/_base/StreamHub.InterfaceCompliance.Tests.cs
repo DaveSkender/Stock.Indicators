@@ -75,7 +75,9 @@ public class StreamHubInterfaceComplianceTests
 
             // Skip if we don't have expectations defined (not all indicators validated yet)
             if (!_expectations.ContainsKey(className))
+            {
                 continue;
+            }
 
             validated++;
             (Type _, Type[] expectedInterfaces) = _expectations[className];

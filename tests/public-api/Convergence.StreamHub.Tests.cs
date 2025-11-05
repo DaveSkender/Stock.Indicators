@@ -33,7 +33,9 @@ public class ConvergenceStreamHub : TestBase
             AdxHub hub = provider.ToAdxHub(lookback);
 
             foreach (Quote q in qts)
+            {
                 provider.Add(q);
+            }
 
             AdxResult l = hub.Results[^1];
             Console.WriteLine($"ADX({lookback}) StreamHub on {l.Timestamp:d} with {qts.Count,4} streaming qts: {l.Adx:N8}");
@@ -67,7 +69,9 @@ public class ConvergenceStreamHub : TestBase
             AtrHub hub = provider.ToAtrHub(lookback);
 
             foreach (Quote q in qts)
+            {
                 provider.Add(q);
+            }
 
             AtrResult l = hub.Results[^1];
             Console.WriteLine($"ATR({lookback}) StreamHub on {l.Timestamp:d} with {qts.Count,4} periods: {l.Atr:N8}");
@@ -101,7 +105,9 @@ public class ConvergenceStreamHub : TestBase
             EmaHub hub = provider.ToEmaHub(lookback);
 
             foreach (Quote q in qts)
+            {
                 provider.Add(q);
+            }
 
             EmaResult l = hub.Results[^1];
             Console.WriteLine($"EMA({lookback}) StreamHub on {l.Timestamp:d} with {qts.Count,4} periods: {l.Ema:N8}");
@@ -135,7 +141,9 @@ public class ConvergenceStreamHub : TestBase
             MacdHub hub = provider.ToMacdHub(fast, slow, signal);
 
             foreach (Quote q in qts)
+            {
                 provider.Add(q);
+            }
 
             MacdResult l = hub.Results[^1];
             Console.WriteLine($"MACD StreamHub on {l.Timestamp:d} with {qts.Count,4} periods: {l.Macd:N8}");
@@ -169,7 +177,9 @@ public class ConvergenceStreamHub : TestBase
             RsiHub hub = provider.ToRsiHub(lookback);
 
             foreach (Quote q in qts)
+            {
                 provider.Add(q);
+            }
 
             RsiResult l = hub.Results[^1];
             Console.WriteLine($"RSI({lookback}) StreamHub on {l.Timestamp:d} with {qts.Count,4} periods: {l.Rsi:N8}");
@@ -203,7 +213,9 @@ public class ConvergenceStreamHub : TestBase
             SmaHub hub = provider.ToSmaHub(lookback);
 
             foreach (Quote q in qts)
+            {
                 provider.Add(q);
+            }
 
             SmaResult l = hub.Results[^1];
             Console.WriteLine($"SMA({lookback}) StreamHub on {l.Timestamp:d} with {qts.Count,4} periods: {l.Sma:N8}");
@@ -237,7 +249,9 @@ public class ConvergenceStreamHub : TestBase
             StochHub hub = provider.ToStochHub(lookbackPeriods, signalPeriods, smoothPeriods);
 
             foreach (Quote q in qts)
+            {
                 provider.Add(q);
+            }
 
             StochResult l = hub.Results[^1];
             Console.WriteLine($"STOCH StreamHub on {l.Timestamp:d} with {qts.Count,4} periods: {l.K:N8}");
