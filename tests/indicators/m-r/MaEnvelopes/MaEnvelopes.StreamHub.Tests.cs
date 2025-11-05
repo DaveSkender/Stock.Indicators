@@ -55,7 +55,7 @@ public class MaEnvelopesHubTests : StreamHubTestBase, ITestChainObserver
     }
 
     [TestMethod]
-    public void ChainObserver()
+    public void ChainObserver_ChainedProvider_MatchesSeriesExactly()
     {
         const int smaPeriods = 12;
         const int maPeriods = 20;
@@ -151,7 +151,7 @@ public class MaEnvelopesHubTests : StreamHubTestBase, ITestChainObserver
         quoteHub.EndTransmission();
     }
 
-    public override void CustomToString()
+    public override void ToStringOverride_ReturnsExpectedName()
     {
         MaEnvelopesHub hub = new(new QuoteHub(), lookbackPeriods, percentOffset, MaType.SMA);
         hub.ToString().Should().Be($"MAENV({lookbackPeriods},{percentOffset},{MaType.SMA})");

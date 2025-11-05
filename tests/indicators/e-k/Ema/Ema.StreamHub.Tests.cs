@@ -54,7 +54,7 @@ public class EmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
     }
 
     [TestMethod]
-    public void ChainObserver()
+    public void ChainObserver_ChainedProvider_MatchesSeriesExactly()
     {
         const int emaPeriods = 12;
         const int smaPeriods = 8;
@@ -89,7 +89,7 @@ public class EmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
     }
 
     [TestMethod]
-    public void ChainProvider()
+    public void ChainProvider_MatchesSeriesExactly()
     {
         const int emaPeriods = 20;
         const int smaPeriods = 10;
@@ -141,7 +141,7 @@ public class EmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
     }
 
     [TestMethod]
-    public override void CustomToString()
+    public override void ToStringOverride_ReturnsExpectedName()
     {
         EmaHub hub = new(new QuoteHub(), 14);
         hub.ToString().Should().Be("EMA(14)");

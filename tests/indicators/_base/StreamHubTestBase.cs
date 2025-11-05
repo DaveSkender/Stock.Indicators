@@ -13,7 +13,7 @@ public abstract class StreamHubTestBase : TestBase  // default: quote observer
     /// <summary>
     /// Tests hub-unique name string
     /// </summary>
-    public abstract void CustomToString();
+    public abstract void ToStringOverride_ReturnsExpectedName();
 
     /// <summary>
     /// Optional method for indicator-specific provider history testing.
@@ -24,10 +24,12 @@ public abstract class StreamHubTestBase : TestBase  // default: quote observer
     /// to validate indicator-specific behavior during provider history mutations.
     /// Base implementation does nothing; subclasses override as needed.
     /// </remarks>
-    protected virtual void ProviderHistoryTesting()
+    protected virtual void AssertProviderHistoryIntegrity()
     {
         // Base implementation: no-op
         // Subclasses can override to add indicator-specific provider history validation
+
+        // TODO: Is this used or needed?
     }
 }
 
@@ -36,7 +38,7 @@ public interface ITestQuoteObserver
     /// <summary>
     /// Tests hub compatibility with quote provider
     /// </summary>
-    void QuoteObserver();
+    void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly();
 }
 
 /// <summary>
@@ -47,7 +49,7 @@ public interface ITestChainObserver : ITestQuoteObserver
     /// <summary>
     /// Tests hub compatibility with chain providers
     /// </summary>
-    void ChainObserver();
+    void ChainObserver_ChainedProvider_MatchesSeriesExactly();
 }
 
 /// <summary>
@@ -58,7 +60,7 @@ public interface ITestChainProvider
     /// <summary>
     /// Tests hub capability as a chain provider
     /// </summary>
-    void ChainProvider();
+    void ChainProvider_MatchesSeriesExactly();
 }
 
 /// <summary>
@@ -74,10 +76,10 @@ public interface ITestPairsObserver
     /// <summary>
     /// Tests hub capability with dual synchronized providers
     /// </summary>
-    void PairsObserver();
+    void PairsObserver_SynchronizedProviders_MatchesSeriesExactly();
 
     /// <summary>
     /// Tests hub behavior when timestamps don't match between providers
     /// </summary>
-    void TimestampMismatch();
+    void PairsObserver_TimestampMismatch_ThrowsInvalidQuotesException();
 }

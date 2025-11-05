@@ -106,7 +106,7 @@ public class ChaikinOscHubTests : StreamHubTestBase, ITestQuoteObserver, ITestCh
     }
 
     [TestMethod]
-    public void ChainProvider()
+    public void ChainProvider_MatchesSeriesExactly()
     {
         const int fastPeriods = 3;
         const int slowPeriods = 10;
@@ -149,7 +149,7 @@ public class ChaikinOscHubTests : StreamHubTestBase, ITestQuoteObserver, ITestCh
     }
 
     [TestMethod]
-    public override void CustomToString()
+    public override void ToStringOverride_ReturnsExpectedName()
     {
         QuoteHub quoteHub = new();
         ChaikinOscHub chaikinOscHub = quoteHub.ToChaikinOscHub(3, 10);

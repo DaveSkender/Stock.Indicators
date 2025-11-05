@@ -56,7 +56,7 @@ public class CmfHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProv
     }
 
     [TestMethod]
-    public void ChainProvider()
+    public void ChainProvider_MatchesSeriesExactly()
     {
         // CMF emits IReusable results (CmfResult implements IReusable with Value = Cmf),
         // so it can act as a chain provider for downstream indicators.
@@ -96,7 +96,7 @@ public class CmfHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProv
     }
 
     [TestMethod]
-    public override void CustomToString()
+    public override void ToStringOverride_ReturnsExpectedName()
     {
         QuoteHub quoteHub = new();
 

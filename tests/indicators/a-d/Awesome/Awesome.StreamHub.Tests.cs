@@ -65,7 +65,7 @@ public class AwesomeHubTests : StreamHubTestBase, ITestChainObserver, ITestChain
     }
 
     [TestMethod]
-    public void ChainObserver()
+    public void ChainObserver_ChainedProvider_MatchesSeriesExactly()
     {
         const int emaPeriods = 12;
         const int fastPeriods = 5;
@@ -108,7 +108,7 @@ public class AwesomeHubTests : StreamHubTestBase, ITestChainObserver, ITestChain
     }
 
     [TestMethod]
-    public void ChainProvider()
+    public void ChainProvider_MatchesSeriesExactly()
     {
         const int fastPeriods = 5;
         const int slowPeriods = 34;
@@ -151,7 +151,7 @@ public class AwesomeHubTests : StreamHubTestBase, ITestChainObserver, ITestChain
     }
 
     [TestMethod]
-    public override void CustomToString()
+    public override void ToStringOverride_ReturnsExpectedName()
     {
         QuoteHub quoteHub = new();
         AwesomeHub awesomeHub = quoteHub.ToAwesomeHub(5, 34);

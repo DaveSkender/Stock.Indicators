@@ -68,7 +68,7 @@ public class TemaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
     }
 
     [TestMethod]
-    public void ChainObserver()
+    public void ChainObserver_ChainedProvider_MatchesSeriesExactly()
     {
         const int temaPeriods = 20;
         const int smaPeriods = 10;
@@ -107,7 +107,7 @@ public class TemaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
     }
 
     [TestMethod]
-    public void ChainProvider()
+    public void ChainProvider_MatchesSeriesExactly()
     {
         const int temaPeriods = 20;
         const int smaPeriods = 10;
@@ -152,7 +152,7 @@ public class TemaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
     }
 
     [TestMethod]
-    public override void CustomToString()
+    public override void ToStringOverride_ReturnsExpectedName()
     {
         TemaHub hub = new(new QuoteHub(), 20);
         hub.ToString().Should().Be("TEMA(20)");

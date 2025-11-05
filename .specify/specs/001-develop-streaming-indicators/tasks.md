@@ -355,8 +355,8 @@ Note on former deferrals: Indicators like Fractal, HtTrendline, Hurst, Ichimoku,
   - Stoch updated with comprehensive validation in T177 (QuoteObserver test)
   - Vwma, WilliamsR have original tests (comprehensive pattern reverted)
   - ChainProvider tests have basic Insert/Remove
-- [x] **T184** Add virtual ProviderHistoryTesting() method to StreamHubTestBase class in `tests/indicators/_base/StreamHubTestBase.cs` ✅
-  - Added `protected virtual ProviderHistoryTesting()` method
+- [x] **T184** Add virtual AssertProviderHistoryIntegrity() method to StreamHubTestBase class in `tests/indicators/_base/StreamHubTestBase.cs` ✅
+  - Added `protected virtual AssertProviderHistoryIntegrity()` method
   - Allows indicator-specific provider history validation
   - No-op base implementation, subclasses override as needed
 - [x] **T185** Update `indicator-stream.instructions.md` to require comprehensive rollback validation testing for all StreamHub indicators ✅

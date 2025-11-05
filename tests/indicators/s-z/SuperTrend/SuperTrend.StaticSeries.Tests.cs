@@ -4,7 +4,7 @@ namespace StaticSeries;
 public class SuperTrend : StaticSeriesTestBase
 {
     [TestMethod]
-    public override void Standard()
+    public override void DefaultParameters_ReturnsExpectedResults()
     {
         const int lookbackPeriods = 14;
         const double multiplier = 3;
@@ -63,7 +63,7 @@ public class SuperTrend : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadData()
+    public override void BadQuotes_DoesNotFail()
     {
         IReadOnlyList<SuperTrendResult> r = BadQuotes
             .ToSuperTrend(7);
@@ -72,7 +72,7 @@ public class SuperTrend : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes()
+    public override void NoQuotes_ReturnsEmpty()
     {
         IReadOnlyList<SuperTrendResult> r0 = Noquotes
             .ToSuperTrend();

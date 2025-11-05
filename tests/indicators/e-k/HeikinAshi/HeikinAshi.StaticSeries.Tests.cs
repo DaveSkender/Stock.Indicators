@@ -4,7 +4,7 @@ namespace StaticSeries;
 public class HeikinAshi : StaticSeriesTestBase
 {
     [TestMethod]
-    public override void Standard()
+    public override void DefaultParameters_ReturnsExpectedResults()
     {
         IReadOnlyList<HeikinAshiResult> results = Quotes
             .ToHeikinAshi();
@@ -30,7 +30,7 @@ public class HeikinAshi : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadData()
+    public override void BadQuotes_DoesNotFail()
     {
         IReadOnlyList<HeikinAshiResult> r = BadQuotes
             .ToHeikinAshi();
@@ -39,7 +39,7 @@ public class HeikinAshi : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes()
+    public override void NoQuotes_ReturnsEmpty()
     {
         IReadOnlyList<HeikinAshiResult> r0 = Noquotes
             .ToHeikinAshi();

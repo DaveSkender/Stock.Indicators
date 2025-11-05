@@ -4,7 +4,7 @@ namespace StaticSeries;
 public class Kvo : StaticSeriesTestBase
 {
     [TestMethod]
-    public override void Standard()
+    public override void DefaultParameters_ReturnsExpectedResults()
     {
         IReadOnlyList<KvoResult> results =
             Quotes.ToKvo();
@@ -45,7 +45,7 @@ public class Kvo : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Chainor()
+    public void ChainingFromResults_WorksAsExpected()
     {
         IReadOnlyList<SmaResult> results = Quotes
             .ToKvo()
@@ -56,7 +56,7 @@ public class Kvo : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadData()
+    public override void BadQuotes_DoesNotFail()
     {
         IReadOnlyList<KvoResult> r = BadQuotes
             .ToKvo();
@@ -66,7 +66,7 @@ public class Kvo : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes()
+    public override void NoQuotes_ReturnsEmpty()
     {
         IReadOnlyList<KvoResult> r0 = Noquotes
             .ToKvo();

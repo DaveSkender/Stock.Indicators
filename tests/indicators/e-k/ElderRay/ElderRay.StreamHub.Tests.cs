@@ -56,7 +56,7 @@ public class ElderRay : StreamHubTestBase, ITestQuoteObserver
     }
 
     [TestMethod]
-    public override void CustomToString()
+    public override void ToStringOverride_ReturnsExpectedName()
     {
         ElderRayHub hub = new(new QuoteHub(), 14);
         hub.ToString().Should().Be("ELDER-RAY(14)");

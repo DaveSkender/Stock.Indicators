@@ -53,7 +53,7 @@ public class HtTrendlineHubTests : StreamHubTestBase, ITestChainObserver, ITestC
     }
 
     [TestMethod]
-    public void ChainObserver()
+    public void ChainObserver_ChainedProvider_MatchesSeriesExactly()
     {
         const int smaPeriods = 8;
         int length = Quotes.Count;
@@ -87,7 +87,7 @@ public class HtTrendlineHubTests : StreamHubTestBase, ITestChainObserver, ITestC
     }
 
     [TestMethod]
-    public void ChainProvider()
+    public void ChainProvider_MatchesSeriesExactly()
     {
         const int smaPeriods = 10;
         int length = Quotes.Count;
@@ -138,7 +138,7 @@ public class HtTrendlineHubTests : StreamHubTestBase, ITestChainObserver, ITestC
     }
 
     [TestMethod]
-    public override void CustomToString()
+    public override void ToStringOverride_ReturnsExpectedName()
     {
         HtTrendlineHub hub = new(new QuoteHub());
         hub.ToString().Should().Be("HTL()");

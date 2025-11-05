@@ -78,7 +78,7 @@ public class QuotePartHubTests : StreamHubTestBase, ITestQuoteObserver, ITestCha
     }
 
     [TestMethod]
-    public void ChainProvider()
+    public void ChainProvider_MatchesSeriesExactly()
     {
         const int smaPeriods = 8;
         const CandlePart candlePart = CandlePart.OHLC4;
@@ -134,7 +134,7 @@ public class QuotePartHubTests : StreamHubTestBase, ITestQuoteObserver, ITestCha
     }
 
     [TestMethod]
-    public override void CustomToString()
+    public override void ToStringOverride_ReturnsExpectedName()
     {
         QuotePartHub hub = new(new QuoteHub(), CandlePart.Close);
         hub.ToString().Should().Be("QUOTE-PART(CLOSE)");

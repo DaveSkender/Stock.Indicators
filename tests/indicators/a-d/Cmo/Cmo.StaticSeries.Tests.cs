@@ -7,7 +7,7 @@ public class Cmo : StaticSeriesTestBase
     // when there’s no price change
 
     [TestMethod]
-    public override void Standard()
+    public override void DefaultParameters_ReturnsExpectedResults()
     {
         IReadOnlyList<CmoResult> results = Quotes
             .ToCmo(14);
@@ -53,7 +53,7 @@ public class Cmo : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Chainor()
+    public void ChainingFromResults_WorksAsExpected()
     {
         IReadOnlyList<SmaResult> results = Quotes
             .ToCmo(20)
@@ -64,7 +64,7 @@ public class Cmo : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadData()
+    public override void BadQuotes_DoesNotFail()
     {
         IReadOnlyList<CmoResult> r = BadQuotes
             .ToCmo(35);
@@ -74,7 +74,7 @@ public class Cmo : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes()
+    public override void NoQuotes_ReturnsEmpty()
     {
         IReadOnlyList<CmoResult> r0 = Noquotes
             .ToCmo(5);

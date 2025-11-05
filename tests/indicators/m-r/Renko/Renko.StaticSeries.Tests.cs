@@ -7,7 +7,7 @@ public class Renko : StaticSeriesTestBase
     /// close
     /// </summary>
     [TestMethod]
-    public override void Standard()
+    public override void DefaultParameters_ReturnsExpectedResults()
     {
         IReadOnlyList<RenkoResult> results = Quotes
             .ToRenko(2.5m);
@@ -116,7 +116,7 @@ public class Renko : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadData()
+    public override void BadQuotes_DoesNotFail()
     {
         IReadOnlyList<RenkoResult> r = BadQuotes
             .ToRenko(100m);
@@ -125,7 +125,7 @@ public class Renko : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes()
+    public override void NoQuotes_ReturnsEmpty()
     {
         IReadOnlyList<RenkoResult> r0 = Noquotes
             .ToRenko(0.01m);

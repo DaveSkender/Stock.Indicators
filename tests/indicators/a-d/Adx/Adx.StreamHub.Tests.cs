@@ -56,7 +56,7 @@ public class AdxHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProv
     }
 
     [TestMethod]
-    public void ChainProvider()
+    public void ChainProvider_MatchesSeriesExactly()
     {
         // ADX emits IReusable results (AdxResult implements IReusable with Value = Adx),
         // so it can act as a chain provider for downstream indicators.
@@ -96,7 +96,7 @@ public class AdxHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProv
     }
 
     [TestMethod]
-    public override void CustomToString()
+    public override void ToStringOverride_ReturnsExpectedName()
     {
         QuoteHub quoteHub = new();
 

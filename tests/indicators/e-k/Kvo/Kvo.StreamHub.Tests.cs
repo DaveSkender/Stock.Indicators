@@ -61,7 +61,7 @@ public class KvoHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProv
     }
 
     [TestMethod]
-    public override void CustomToString()
+    public override void ToStringOverride_ReturnsExpectedName()
     {
         KvoHub hub = new(new QuoteHub(), 34, 55, 13);
         hub.ToString().Should().Be("KVO(34,55,13)");
@@ -128,7 +128,7 @@ public class KvoHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProv
     }
 
     [TestMethod]
-    public void ChainProvider()
+    public void ChainProvider_MatchesSeriesExactly()
     {
         const int kvoFast = 34;
         const int kvoSlow = 55;

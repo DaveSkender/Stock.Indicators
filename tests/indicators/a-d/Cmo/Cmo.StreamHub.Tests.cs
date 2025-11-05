@@ -65,7 +65,7 @@ public class CmoHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
     }
 
     [TestMethod]
-    public void ChainObserver()
+    public void ChainObserver_ChainedProvider_MatchesSeriesExactly()
     {
         const int emaPeriods = 12;
         const int cmoPeriods = 14;
@@ -107,7 +107,7 @@ public class CmoHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
     }
 
     [TestMethod]
-    public void ChainProvider()
+    public void ChainProvider_MatchesSeriesExactly()
     {
         const int emaPeriods = 12;
         const int cmoPeriods = 14;
@@ -149,7 +149,7 @@ public class CmoHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
     }
 
     [TestMethod]
-    public override void CustomToString()
+    public override void ToStringOverride_ReturnsExpectedName()
     {
         QuoteHub quoteHub = new();
         CmoHub observer = quoteHub.ToCmoHub(14);

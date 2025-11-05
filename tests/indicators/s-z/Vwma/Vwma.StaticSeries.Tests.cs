@@ -4,7 +4,7 @@ namespace StaticSeries;
 public class Vwma : StaticSeriesTestBase
 {
     [TestMethod]
-    public override void Standard()
+    public override void DefaultParameters_ReturnsExpectedResults()
     {
         IReadOnlyList<VwmaResult> results = Quotes
             .ToVwma(10);
@@ -25,7 +25,7 @@ public class Vwma : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Chainor()
+    public void ChainingFromResults_WorksAsExpected()
     {
         IReadOnlyList<SmaResult> results = Quotes
             .ToVwma(10)
@@ -36,7 +36,7 @@ public class Vwma : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadData()
+    public override void BadQuotes_DoesNotFail()
     {
         IReadOnlyList<VwmaResult> r = BadQuotes
             .ToVwma(15);
@@ -46,7 +46,7 @@ public class Vwma : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes()
+    public override void NoQuotes_ReturnsEmpty()
     {
         IReadOnlyList<VwmaResult> r0 = Noquotes
             .ToVwma(4);

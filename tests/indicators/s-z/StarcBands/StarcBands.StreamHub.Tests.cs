@@ -64,7 +64,7 @@ public class StarcBandsHubTests : StreamHubTestBase, ITestQuoteObserver
     }
 
     [TestMethod]
-    public override void CustomToString()
+    public override void ToStringOverride_ReturnsExpectedName()
     {
         QuoteHub quoteHub = new();
         quoteHub.Add(Quotes);

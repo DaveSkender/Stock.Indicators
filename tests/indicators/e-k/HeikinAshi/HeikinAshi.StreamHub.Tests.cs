@@ -65,7 +65,7 @@ public class HeikinAshiHubTests : StreamHubTestBase, ITestQuoteObserver, ITestCh
     }
 
     [TestMethod]
-    public void ChainProvider()
+    public void ChainProvider_MatchesSeriesExactly()
     {
         const int smaPeriods = 50;
 
@@ -109,7 +109,7 @@ public class HeikinAshiHubTests : StreamHubTestBase, ITestQuoteObserver, ITestCh
     }
 
     [TestMethod]
-    public override void CustomToString()
+    public override void ToStringOverride_ReturnsExpectedName()
     {
         QuoteHub quoteHub = new();
         HeikinAshiHub heikinAshiHub = quoteHub.ToHeikinAshiHub();

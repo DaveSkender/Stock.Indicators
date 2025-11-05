@@ -9,47 +9,6 @@ namespace Tests.Data;
 [TestClass]
 public class StreamHubInterfaceComplianceTests
 {
-    private static readonly Dictionary<string, (Type hubType, Type[] expectedInterfaces)> _expectations = new() {
-        // ChainProvider<IReusable, T> should have ITestChainObserver + ITestChainProvider
-        ["EmaHubTests"] = (typeof(ITestChainObserver),
-            [typeof(ITestChainObserver), typeof(ITestChainProvider)]),
-        ["SmaHubTests"] = (typeof(ITestChainObserver),
-            [typeof(ITestChainObserver), typeof(ITestChainProvider)]),
-        ["RsiHubTests"] = (typeof(ITestChainObserver),
-            [typeof(ITestChainObserver), typeof(ITestChainProvider)]),
-        ["MacdHubTests"] = (typeof(ITestChainObserver),
-            [typeof(ITestChainObserver), typeof(ITestChainProvider)]),
-
-        // ChainProvider<IQuote, T> should have ITestQuoteObserver + ITestChainProvider
-        ["AdxHubTests"] = (typeof(ITestQuoteObserver),
-            [typeof(ITestQuoteObserver), typeof(ITestChainProvider)]),
-        ["AtrHubTests"] = (typeof(ITestQuoteObserver),
-            [typeof(ITestQuoteObserver), typeof(ITestChainProvider)]),
-        ["CciHubTests"] = (typeof(ITestQuoteObserver),
-            [typeof(ITestQuoteObserver), typeof(ITestChainProvider)]),
-        ["BollingerBandsStreamHubTests"] = (typeof(ITestQuoteObserver),
-            [typeof(ITestQuoteObserver), typeof(ITestChainProvider)]),
-
-        // PairsProvider<T> should have only ITestPairsObserver
-        ["BetaHub"] = (typeof(ITestPairsObserver),
-            [typeof(ITestPairsObserver)]),
-        ["CorrelationHub"] = (typeof(ITestPairsObserver),
-            [typeof(ITestPairsObserver)]),
-        ["PrsHub"] = (typeof(ITestPairsObserver),
-            [typeof(ITestPairsObserver)]),
-
-        // StreamHub<IQuote, T> should have only ITestQuoteObserver
-        ["PivotsHubTests"] = (typeof(ITestQuoteObserver),
-            [typeof(ITestQuoteObserver)]),
-        ["ChandelierHubTests"] = (typeof(ITestQuoteObserver),
-            [typeof(ITestQuoteObserver)]),
-
-        // StreamHub<IReusable, T> should have only ITestChainObserver
-        ["AlligatorHubTests"] = (typeof(ITestChainObserver),
-            [typeof(ITestChainObserver)]),
-        ["MaEnvelopesHubTests"] = (typeof(ITestChainObserver),
-            [typeof(ITestChainObserver)]),
-    };
 
     [TestMethod]
     public void AllStreamHubTests_ImplementCorrectInterfaces()
@@ -67,47 +26,60 @@ public class StreamHubInterfaceComplianceTests
         Console.WriteLine($"\nFound {streamHubTestClasses.Count} StreamHub test classes");
 
         List<string> violations = [];
+        List<string> warnings = [];
         int validated = 0;
+
+        // Define observer and provider interface types
+        Type[] observerTypes = [
+            typeof(ITestChainObserver),
+            typeof(ITestQuoteObserver),
+            typeof(ITestPairsObserver)
+        ];
+        Type[] providerTypes = [
+            typeof(ITestChainProvider)
+        ]; // Add more provider interfaces here if needed
 
         foreach (Type testClass in streamHubTestClasses)
         {
             string className = testClass.Name;
-
-            // Skip if we don't have expectations defined (not all indicators validated yet)
-            if (!_expectations.ContainsKey(className))
-            {
-                continue;
-            }
-
-            validated++;
-            (Type _, Type[] expectedInterfaces) = _expectations[className];
             Type[] actualInterfaces = testClass.GetInterfaces()
                 .Where(i => i.Namespace == "Tests.Data"
                          && i.Name.StartsWith("ITest", StringComparison.Ordinal))
                 .ToArray();
 
-            // Check if all expected interfaces are implemented
-            foreach (Type expectedInterface in expectedInterfaces)
+            // Find which observer/provider interfaces are implemented
+            List<Type> implementedObservers = actualInterfaces.Where(i => observerTypes.Contains(i)).ToList();
+            List<Type> implementedProviders = actualInterfaces.Where(i => providerTypes.Contains(i)).ToList();
+
+            // Must implement at least one observer
+            if (implementedObservers.Count == 0)
             {
-                if (!actualInterfaces.Contains(expectedInterface))
-                {
-                    violations.Add($"{className}: Missing {expectedInterface.Name}");
-                }
+                violations.Add($"{className}: Does not implement any observer interface");
             }
 
-            // Check for unexpected interfaces (e.g., ITestChainProvider on non-chainable hubs)
-            if (expectedInterfaces.Length == 1 && actualInterfaces.Length > 1)
+            // PairsObserver must not implement any provider
+            if (implementedObservers.Any(i => i == typeof(ITestPairsObserver)) && implementedProviders.Count > 0)
             {
-                foreach (Type actualInterface in actualInterfaces)
-                {
-                    if (!expectedInterfaces.Contains(actualInterface)
-                        && actualInterface.Name != "ITestQuoteObserver")
-                    {
-                        // ITestChainObserver inherits ITestQuoteObserver
-                        violations.Add($"{className}: Unexpected {actualInterface.Name}");
-                    }
-                }
+                violations.Add($"{className}: PairsObserver should not implement provider interfaces");
             }
+
+            // PairsObserver must not implement other observer types
+            if (implementedObservers.Contains(typeof(ITestPairsObserver)) &&
+                (implementedObservers.Contains(typeof(ITestChainObserver)) || implementedObservers.Contains(typeof(ITestQuoteObserver))))
+            {
+                violations.Add($"{className}: PairsObserver should not be combined with other observer interfaces");
+            }
+
+            // Warn if both ITestChainObserver and ITestQuoteObserver are implemented (redundant)
+            if (implementedObservers.Contains(typeof(ITestChainObserver)) && implementedObservers.Contains(typeof(ITestQuoteObserver)))
+            {
+                warnings.Add($"{className}: Implements both ITestChainObserver and ITestQuoteObserver (redundant)");
+            }
+
+            // If implements provider, must also have a valid observer (already checked above)
+            // Add more rules as new provider/observer types are introduced
+
+            validated++;
         }
 
         Console.WriteLine($"Validated {validated} test classes");
@@ -119,7 +91,16 @@ public class StreamHubInterfaceComplianceTests
             Assert.Fail(message);
         }
 
-        Console.WriteLine("✅ All validated StreamHub tests implement correct interfaces");
+        if (warnings.Count > 0)
+        {
+            Console.WriteLine($"\n[WARN] {warnings.Count} redundant observer interface implementations detected:");
+            foreach (string w in warnings)
+            {
+                Console.WriteLine("  - " + w);
+            }
+        }
+
+        Console.WriteLine("✅ All validated StreamHub tests implement correct observer/provider interfaces");
     }
 
     [TestMethod]

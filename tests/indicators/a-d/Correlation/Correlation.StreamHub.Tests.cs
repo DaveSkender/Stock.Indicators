@@ -4,7 +4,7 @@ namespace StreamHub;
 public class CorrelationHubTests : StreamHubTestBase, ITestPairsObserver
 {
     [TestMethod]
-    public void PairsObserver()
+    public void PairsObserver_SynchronizedProviders_MatchesSeriesExactly()
     {
         // Test dual-provider pattern with direct providers
         QuoteHub quoteHubA = new();
@@ -36,7 +36,7 @@ public class CorrelationHubTests : StreamHubTestBase, ITestPairsObserver
     }
 
     [TestMethod]
-    public void TimestampMismatch()
+    public void PairsObserver_TimestampMismatch_ThrowsInvalidQuotesException()
     {
         // Create two providers with mismatched timestamps
         QuoteHub quoteHubA = new();
@@ -68,7 +68,7 @@ public class CorrelationHubTests : StreamHubTestBase, ITestPairsObserver
     }
 
     [TestMethod]
-    public override void CustomToString()
+    public override void ToStringOverride_ReturnsExpectedName()
     {
         QuoteHub quoteHub = new();
         SmaHub smaHubA = quoteHub.ToSmaHub(10);

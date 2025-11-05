@@ -4,7 +4,7 @@ namespace StaticSeries;
 public class Mama : StaticSeriesTestBase
 {
     [TestMethod]
-    public override void Standard()
+    public override void DefaultParameters_ReturnsExpectedResults()
     {
         const double fastLimit = 0.5;
         const double slowLimit = 0.05;
@@ -69,7 +69,7 @@ public class Mama : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Chainor()
+    public void ChainingFromResults_WorksAsExpected()
     {
         IReadOnlyList<SmaResult> results = Quotes
             .ToMama()
@@ -80,7 +80,7 @@ public class Mama : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadData()
+    public override void BadQuotes_DoesNotFail()
     {
         IReadOnlyList<MamaResult> r = BadQuotes
             .ToMama();
@@ -90,7 +90,7 @@ public class Mama : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes()
+    public override void NoQuotes_ReturnsEmpty()
     {
         IReadOnlyList<MamaResult> r0 = Noquotes.ToMama();
 

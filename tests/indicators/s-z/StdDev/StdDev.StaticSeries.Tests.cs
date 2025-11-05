@@ -4,7 +4,7 @@ namespace StaticSeries;
 public class StdDev : StaticSeriesTestBase
 {
     [TestMethod]
-    public override void Standard()
+    public override void DefaultParameters_ReturnsExpectedResults()
     {
         IReadOnlyList<StdDevResult> results = Quotes
             .ToStdDev(10);
@@ -59,7 +59,7 @@ public class StdDev : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Chainor()
+    public void ChainingFromResults_WorksAsExpected()
     {
         IReadOnlyList<SmaResult> results = Quotes
             .ToStdDev(10)
@@ -70,7 +70,7 @@ public class StdDev : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadData()
+    public override void BadQuotes_DoesNotFail()
     {
         IReadOnlyList<StdDevResult> r = BadQuotes
             .ToStdDev(15);
@@ -80,7 +80,7 @@ public class StdDev : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void BigData()
+    public void BigQuoteValues_DoesNotFail()
     {
         IReadOnlyList<StdDevResult> r = BigQuotes
             .ToStdDev(200);
@@ -89,7 +89,7 @@ public class StdDev : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes()
+    public override void NoQuotes_ReturnsEmpty()
     {
         IReadOnlyList<StdDevResult> r0 = Noquotes
             .ToStdDev(10);

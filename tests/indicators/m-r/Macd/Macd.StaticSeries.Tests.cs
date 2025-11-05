@@ -4,7 +4,7 @@ namespace StaticSeries;
 public class Macd : StaticSeriesTestBase
 {
     [TestMethod]
-    public override void Standard()
+    public override void DefaultParameters_ReturnsExpectedResults()
     {
         const int fastPeriods = 12;
         const int slowPeriods = 26;
@@ -65,7 +65,7 @@ public class Macd : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Chainor()
+    public void ChainingFromResults_WorksAsExpected()
     {
         IReadOnlyList<SmaResult> results = Quotes
             .ToMacd()
@@ -76,7 +76,7 @@ public class Macd : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadData()
+    public override void BadQuotes_DoesNotFail()
     {
         IReadOnlyList<MacdResult> r = BadQuotes
             .ToMacd(10, 20, 5);
@@ -86,7 +86,7 @@ public class Macd : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes()
+    public override void NoQuotes_ReturnsEmpty()
     {
         IReadOnlyList<MacdResult> r0 = Noquotes
             .ToMacd();

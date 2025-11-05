@@ -4,7 +4,7 @@ namespace StaticSeries;
 public class Slope : StaticSeriesTestBase
 {
     [TestMethod]
-    public override void Standard()
+    public override void DefaultParameters_ReturnsExpectedResults()
     {
         IReadOnlyList<SlopeResult> results = Quotes
             .ToSlope(20);
@@ -61,7 +61,7 @@ public class Slope : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Chainor()
+    public void ChainingFromResults_WorksAsExpected()
     {
         IReadOnlyList<SmaResult> results = Quotes
             .ToSlope(20)
@@ -72,7 +72,7 @@ public class Slope : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadData()
+    public override void BadQuotes_DoesNotFail()
     {
         IReadOnlyList<SlopeResult> r = BadQuotes
             .ToSlope(15);
@@ -82,7 +82,7 @@ public class Slope : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void BigData()
+    public void BigQuoteValues_DoesNotFail()
     {
         IReadOnlyList<SlopeResult> r = BigQuotes
             .ToSlope(250);
@@ -91,7 +91,7 @@ public class Slope : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes()
+    public override void NoQuotes_ReturnsEmpty()
     {
         IReadOnlyList<SlopeResult> r0 = Noquotes
             .ToSlope(5);

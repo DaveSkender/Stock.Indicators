@@ -38,7 +38,7 @@ public class QuoteHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPr
     }
 
     [TestMethod]
-    public void ChainProvider()
+    public void ChainProvider_MatchesSeriesExactly()
     {
         const int smaPeriods = 8;
 
@@ -83,7 +83,7 @@ public class QuoteHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPr
     }
 
     [TestMethod]
-    public override void CustomToString()
+    public override void ToStringOverride_ReturnsExpectedName()
     {
         QuoteHub hub = new();
 

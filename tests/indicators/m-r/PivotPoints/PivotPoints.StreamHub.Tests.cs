@@ -227,7 +227,7 @@ public class PivotPointsHubTests : StreamHubTestBase, ITestQuoteObserver
     }
 
     [TestMethod]
-    public override void CustomToString()
+    public override void ToStringOverride_ReturnsExpectedName()
     {
         PivotPointsHub hub1 = new(new QuoteHub(), PeriodSize.Month, PivotPointType.Standard);
         hub1.ToString().Should().Be("PIVOT-POINTS(Month,Standard)");

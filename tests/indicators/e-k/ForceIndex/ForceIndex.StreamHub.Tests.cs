@@ -54,7 +54,7 @@ public class ForceIndex : StreamHubTestBase, ITestQuoteObserver, ITestChainProvi
     }
 
     [TestMethod]
-    public void ChainProvider()
+    public void ChainProvider_MatchesSeriesExactly()
     {
         const int forcePeriods = 13;
         const int smaPeriods = 10;
@@ -106,7 +106,7 @@ public class ForceIndex : StreamHubTestBase, ITestQuoteObserver, ITestChainProvi
     }
 
     [TestMethod]
-    public override void CustomToString()
+    public override void ToStringOverride_ReturnsExpectedName()
     {
         QuoteHub quoteHub = new();
         ForceIndexHub observer = quoteHub.ToForceIndexHub(lookbackPeriods);

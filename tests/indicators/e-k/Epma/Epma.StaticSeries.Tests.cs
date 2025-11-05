@@ -4,7 +4,7 @@ namespace StaticSeries;
 public class Epma : StaticSeriesTestBase
 {
     [TestMethod]
-    public override void Standard()
+    public override void DefaultParameters_ReturnsExpectedResults()
     {
         IReadOnlyList<EpmaResult> results = Quotes
             .ToEpma(20);
@@ -53,7 +53,7 @@ public class Epma : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Chainor()
+    public void ChainingFromResults_WorksAsExpected()
     {
         IReadOnlyList<SmaResult> results = Quotes
             .ToEpma(20)
@@ -64,7 +64,7 @@ public class Epma : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadData()
+    public override void BadQuotes_DoesNotFail()
     {
         IReadOnlyList<EpmaResult> r = BadQuotes
             .ToEpma(15);
@@ -74,7 +74,7 @@ public class Epma : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes()
+    public override void NoQuotes_ReturnsEmpty()
     {
         IReadOnlyList<EpmaResult> r0 = Noquotes
             .ToEpma(5);

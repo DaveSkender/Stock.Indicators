@@ -4,7 +4,7 @@ namespace StaticSeries;
 public class Gator : StaticSeriesTestBase
 {
     [TestMethod]
-    public override void Standard()
+    public override void DefaultParameters_ReturnsExpectedResults()
     {
         IReadOnlyList<GatorResult> results = Quotes
             .ToGator();
@@ -165,7 +165,7 @@ public class Gator : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadData()
+    public override void BadQuotes_DoesNotFail()
     {
         IReadOnlyList<GatorResult> r = BadQuotes
             .ToGator();
@@ -175,7 +175,7 @@ public class Gator : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes()
+    public override void NoQuotes_ReturnsEmpty()
     {
         IReadOnlyList<GatorResult> r0 = Noquotes
             .ToGator();

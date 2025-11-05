@@ -95,7 +95,7 @@ public class Fcb : StreamHubTestBase, ITestQuoteObserver
     }
 
     [TestMethod]
-    public override void CustomToString()
+    public override void ToStringOverride_ReturnsExpectedName()
     {
         FcbHub hub = new(new QuoteHub(), 2);
         hub.ToString().Should().Be("FCB(2)");

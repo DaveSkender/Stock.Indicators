@@ -65,7 +65,7 @@ public class AroonHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPr
     }
 
     [TestMethod]
-    public override void CustomToString()
+    public override void ToStringOverride_ReturnsExpectedName()
     {
         QuoteHub quoteHub = new();
         AroonHub aroonHub = quoteHub.ToAroonHub(25);
@@ -77,7 +77,7 @@ public class AroonHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPr
     }
 
     [TestMethod]
-    public void ChainProvider()
+    public void ChainProvider_MatchesSeriesExactly()
     {
         List<Quote> quotesList = Quotes.ToList();
         int length = quotesList.Count;

@@ -66,7 +66,7 @@ public class AtrHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProv
     }
 
     [TestMethod]
-    public void ChainProvider()
+    public void ChainProvider_MatchesSeriesExactly()
     {
         const int smaPeriods = 8;
 
@@ -112,7 +112,7 @@ public class AtrHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProv
     }
 
     [TestMethod]
-    public override void CustomToString()
+    public override void ToStringOverride_ReturnsExpectedName()
     {
         AtrHub hub = new(new QuoteHub(), 20);
         hub.ToString().Should().Be("ATR(20)");

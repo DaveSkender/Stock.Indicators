@@ -4,7 +4,7 @@ namespace StaticSeries;
 public class Cmf : StaticSeriesTestBase
 {
     [TestMethod]
-    public override void Standard()
+    public override void DefaultParameters_ReturnsExpectedResults()
     {
         IReadOnlyList<CmfResult> results = Quotes
             .ToCmf();
@@ -31,7 +31,7 @@ public class Cmf : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Chainor()
+    public void ChainingFromResults_WorksAsExpected()
     {
         IReadOnlyList<SmaResult> results = Quotes
             .ToCmf()
@@ -42,7 +42,7 @@ public class Cmf : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadData()
+    public override void BadQuotes_DoesNotFail()
     {
         IReadOnlyList<CmfResult> r = BadQuotes
             .ToCmf(15);
@@ -52,7 +52,7 @@ public class Cmf : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void BigData()
+    public void BigQuoteValues_DoesNotFail()
     {
         IReadOnlyList<CmfResult> r = BigQuotes
             .ToCmf(150);
@@ -61,7 +61,7 @@ public class Cmf : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes()
+    public override void NoQuotes_ReturnsEmpty()
     {
         IReadOnlyList<CmfResult> r0 = Noquotes
             .ToCmf();

@@ -4,7 +4,7 @@ namespace StaticSeries;
 public class ChaikinOsc : StaticSeriesTestBase
 {
     [TestMethod]
-    public override void Standard()
+    public override void DefaultParameters_ReturnsExpectedResults()
     {
         const int fastPeriods = 3;
         const int slowPeriods = 10;
@@ -25,7 +25,7 @@ public class ChaikinOsc : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Chainor()
+    public void ChainingFromResults_WorksAsExpected()
     {
         IReadOnlyList<SmaResult> results = Quotes
             .ToChaikinOsc()
@@ -36,7 +36,7 @@ public class ChaikinOsc : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadData()
+    public override void BadQuotes_DoesNotFail()
     {
         IReadOnlyList<ChaikinOscResult> r = BadQuotes
             .ToChaikinOsc(5, 15);
@@ -46,7 +46,7 @@ public class ChaikinOsc : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes()
+    public override void NoQuotes_ReturnsEmpty()
     {
         IReadOnlyList<ChaikinOscResult> r0 = Noquotes
             .ToChaikinOsc();

@@ -7,7 +7,7 @@ public class Stoch : StaticSeriesTestBase
     /// Slow
     /// </summary>
     [TestMethod]
-    public override void Standard()
+    public override void DefaultParameters_ReturnsExpectedResults()
     {
         const int lookbackPeriods = 14;
         const int signalPeriods = 3;
@@ -103,7 +103,7 @@ public class Stoch : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Chainor()
+    public void ChainingFromResults_WorksAsExpected()
     {
         IReadOnlyList<SmaResult> results = Quotes
             .ToStoch()
@@ -170,7 +170,7 @@ public class Stoch : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadData()
+    public override void BadQuotes_DoesNotFail()
     {
         IReadOnlyList<StochResult> r = BadQuotes
             .ToStoch(15);
@@ -181,7 +181,7 @@ public class Stoch : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes()
+    public override void NoQuotes_ReturnsEmpty()
     {
         IReadOnlyList<StochResult> r0 = Noquotes
             .ToStoch();

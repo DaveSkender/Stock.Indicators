@@ -4,7 +4,7 @@ namespace StaticSeries;
 public class Mfi : StaticSeriesTestBase
 {
     [TestMethod]
-    public override void Standard()
+    public override void DefaultParameters_ReturnsExpectedResults()
     {
         IReadOnlyList<MfiResult> results = Quotes
             .ToMfi();
@@ -22,7 +22,7 @@ public class Mfi : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Chainor()
+    public void ChainingFromResults_WorksAsExpected()
     {
         IReadOnlyList<SmaResult> results = Quotes
             .ToMfi()
@@ -53,7 +53,7 @@ public class Mfi : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadData()
+    public override void BadQuotes_DoesNotFail()
     {
         IReadOnlyList<MfiResult> r = BadQuotes
             .ToMfi(15);
@@ -63,7 +63,7 @@ public class Mfi : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes()
+    public override void NoQuotes_ReturnsEmpty()
     {
         IReadOnlyList<MfiResult> r0 = Noquotes
             .ToMfi();

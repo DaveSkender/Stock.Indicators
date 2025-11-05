@@ -4,7 +4,7 @@ namespace StaticSeries;
 public class Hma : StaticSeriesTestBase
 {
     [TestMethod]
-    public override void Standard()
+    public override void DefaultParameters_ReturnsExpectedResults()
     {
         IReadOnlyList<HmaResult> results = Quotes
             .ToHma(20);
@@ -44,7 +44,7 @@ public class Hma : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Chainor()
+    public void ChainingFromResults_WorksAsExpected()
     {
         IReadOnlyList<SmaResult> results = Quotes
             .ToHma(20)
@@ -55,7 +55,7 @@ public class Hma : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadData()
+    public override void BadQuotes_DoesNotFail()
     {
         IReadOnlyList<HmaResult> r = BadQuotes
             .ToHma(15);
@@ -65,7 +65,7 @@ public class Hma : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes()
+    public override void NoQuotes_ReturnsEmpty()
     {
         IReadOnlyList<HmaResult> r0 = Noquotes
             .ToHma(5);

@@ -118,7 +118,7 @@ public class VwapHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPro
     }
 
     [TestMethod]
-    public void ChainProvider()
+    public void ChainProvider_MatchesSeriesExactly()
     {
         const int smaPeriods = 8;
 
@@ -161,7 +161,7 @@ public class VwapHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPro
     }
 
     [TestMethod]
-    public override void CustomToString()
+    public override void ToStringOverride_ReturnsExpectedName()
     {
         QuoteHub quoteHub = new();
 

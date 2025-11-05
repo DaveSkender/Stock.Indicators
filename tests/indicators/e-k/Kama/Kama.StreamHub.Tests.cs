@@ -65,7 +65,7 @@ public class KamaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
     }
 
     [TestMethod]
-    public void ChainObserver()
+    public void ChainObserver_ChainedProvider_MatchesSeriesExactly()
     {
         const int erPeriods = 10;
         const int fastPeriods = 2;
@@ -109,7 +109,7 @@ public class KamaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
     }
 
     [TestMethod]
-    public void ChainProvider()
+    public void ChainProvider_MatchesSeriesExactly()
     {
         const int erPeriods = 10;
         const int fastPeriods = 2;
@@ -172,7 +172,7 @@ public class KamaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
     }
 
     [TestMethod]
-    public override void CustomToString()
+    public override void ToStringOverride_ReturnsExpectedName()
     {
         KamaHub hub = new(new QuoteHub(), 10, 2, 30);
         hub.ToString().Should().Be("KAMA(10,2,30)");

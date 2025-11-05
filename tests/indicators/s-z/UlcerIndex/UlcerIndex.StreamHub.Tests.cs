@@ -54,7 +54,7 @@ public class UlcerIndexHubTests : StreamHubTestBase, ITestChainObserver, ITestCh
     }
 
     [TestMethod]
-    public void ChainObserver()
+    public void ChainObserver_ChainedProvider_MatchesSeriesExactly()
     {
         const int ulcerPeriods = 14;
         const int smaPeriods = 8;
@@ -89,7 +89,7 @@ public class UlcerIndexHubTests : StreamHubTestBase, ITestChainObserver, ITestCh
     }
 
     [TestMethod]
-    public void ChainProvider()
+    public void ChainProvider_MatchesSeriesExactly()
     {
         const int ulcerPeriods = 14;
         const int smaPeriods = 10;
@@ -141,7 +141,7 @@ public class UlcerIndexHubTests : StreamHubTestBase, ITestChainObserver, ITestCh
     }
 
     [TestMethod]
-    public override void CustomToString()
+    public override void ToStringOverride_ReturnsExpectedName()
     {
         UlcerIndexHub hub = new(new QuoteHub(), 14);
         hub.ToString().Should().Be("ULCER(14)");

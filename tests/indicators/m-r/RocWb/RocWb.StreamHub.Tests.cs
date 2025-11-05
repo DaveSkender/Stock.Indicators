@@ -72,7 +72,7 @@ public class RocWbHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPr
     }
 
     [TestMethod]
-    public void ChainObserver()
+    public void ChainObserver_ChainedProvider_MatchesSeriesExactly()
     {
         const int emaInnerPeriods = 12;
 
@@ -113,7 +113,7 @@ public class RocWbHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPr
     }
 
     [TestMethod]
-    public void ChainProvider()
+    public void ChainProvider_MatchesSeriesExactly()
     {
         const int emaOuterPeriods = 12;
 
@@ -154,7 +154,7 @@ public class RocWbHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPr
     }
 
     [TestMethod]
-    public override void CustomToString()
+    public override void ToStringOverride_ReturnsExpectedName()
     {
         QuoteHub quoteHub = new();
         RocWbHub observer = quoteHub.ToRocWbHub(lookbackPeriods, emaPeriods, stdDevPeriods);

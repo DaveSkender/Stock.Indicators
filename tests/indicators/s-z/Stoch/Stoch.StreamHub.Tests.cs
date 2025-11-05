@@ -57,7 +57,7 @@ public class Stoch : StreamHubTestBase, ITestQuoteObserver
     }
 
     [TestMethod]
-    public override void CustomToString()
+    public override void ToStringOverride_ReturnsExpectedName()
     {
         StochHub hub = new(new QuoteHub(), 14, 3, 3);
         hub.ToString().Should().Be("STOCH(14,3,3)");

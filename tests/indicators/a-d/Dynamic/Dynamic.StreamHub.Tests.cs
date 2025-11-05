@@ -55,7 +55,7 @@ public class DynamicHubTests : StreamHubTestBase, ITestChainObserver, ITestChain
     }
 
     [TestMethod]
-    public void ChainObserver()
+    public void ChainObserver_ChainedProvider_MatchesSeriesExactly()
     {
         const int dynamicPeriods = 14;
         const int smaPeriods = 8;
@@ -90,7 +90,7 @@ public class DynamicHubTests : StreamHubTestBase, ITestChainObserver, ITestChain
     }
 
     [TestMethod]
-    public void ChainProvider()
+    public void ChainProvider_MatchesSeriesExactly()
     {
         const int dynamicPeriods = 20;
         const int smaPeriods = 10;
@@ -142,7 +142,7 @@ public class DynamicHubTests : StreamHubTestBase, ITestChainObserver, ITestChain
     }
 
     [TestMethod]
-    public override void CustomToString()
+    public override void ToStringOverride_ReturnsExpectedName()
     {
         DynamicHub hub = new(new QuoteHub(), 14, 0.6);
         hub.ToString().Should().Be("DYNAMIC(14,0.6)");

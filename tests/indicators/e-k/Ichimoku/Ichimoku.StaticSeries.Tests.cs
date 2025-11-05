@@ -4,7 +4,7 @@ namespace StaticSeries;
 public class Ichimoku : StaticSeriesTestBase
 {
     [TestMethod]
-    public override void Standard()
+    public override void DefaultParameters_ReturnsExpectedResults()
     {
         const int tenkanPeriods = 9;
         const int kijunPeriods = 26;
@@ -61,7 +61,7 @@ public class Ichimoku : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadData()
+    public override void BadQuotes_DoesNotFail()
     {
         IReadOnlyList<IchimokuResult> r = BadQuotes
             .ToIchimoku();
@@ -70,7 +70,7 @@ public class Ichimoku : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes()
+    public override void NoQuotes_ReturnsEmpty()
     {
         IReadOnlyList<IchimokuResult> r0 = Noquotes
             .ToIchimoku();

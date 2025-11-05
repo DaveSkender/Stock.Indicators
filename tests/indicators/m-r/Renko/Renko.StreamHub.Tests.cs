@@ -69,7 +69,7 @@ public class RenkoHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPr
     }
 
     [TestMethod]
-    public void ChainProvider()
+    public void ChainProvider_MatchesSeriesExactly()
     {
         const decimal brickSize = 2.5m;
         const EndType endType = EndType.Close;
@@ -115,7 +115,7 @@ public class RenkoHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPr
     }
 
     [TestMethod]
-    public override void CustomToString()
+    public override void ToStringOverride_ReturnsExpectedName()
     {
         RenkoHub hub = new(new QuoteHub(), 2.5m, EndType.Close);
         hub.ToString().Should().Be("RENKO(2.5,CLOSE)");

@@ -106,7 +106,7 @@ public class BopHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProv
     }
 
     [TestMethod]
-    public void ChainProvider()
+    public void ChainProvider_MatchesSeriesExactly()
     {
         const int smoothPeriods = 14;
         const int emaPeriods = 12;
@@ -148,7 +148,7 @@ public class BopHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProv
     }
 
     [TestMethod]
-    public override void CustomToString()
+    public override void ToStringOverride_ReturnsExpectedName()
     {
         QuoteHub quoteHub = new();
         BopHub bopHub = quoteHub.ToBopHub(14);

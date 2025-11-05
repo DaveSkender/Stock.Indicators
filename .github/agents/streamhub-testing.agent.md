@@ -298,7 +298,7 @@ public void CustomToString()
 
 ### Interface methods - based on provider pattern
 
-- `QuoteObserver()` - If implementing ITestQuoteObserver
+- `QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()` - If implementing ITestQuoteObserver
 - `ChainObserver()` - If implementing ITestChainObserver
 - `ChainProvider()` - If implementing ITestChainProvider
 - `PairsObserver()` - If implementing ITestPairsObserver

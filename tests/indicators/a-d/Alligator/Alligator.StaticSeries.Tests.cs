@@ -4,7 +4,7 @@ namespace StaticSeries;
 public class Alligator : StaticSeriesTestBase
 {
     [TestMethod]
-    public override void Standard()
+    public override void DefaultParameters_ReturnsExpectedResults()
     {
         IReadOnlyList<AlligatorResult> results = Quotes
             .ToAlligator();
@@ -54,7 +54,7 @@ public class Alligator : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadData()
+    public override void BadQuotes_DoesNotFail()
     {
         IReadOnlyList<AlligatorResult> r = BadQuotes
             .ToAlligator(3, 3, 2, 1, 1, 1);
@@ -64,7 +64,7 @@ public class Alligator : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes()
+    public override void NoQuotes_ReturnsEmpty()
     {
         IReadOnlyList<AlligatorResult> r0 = Noquotes
             .ToAlligator();

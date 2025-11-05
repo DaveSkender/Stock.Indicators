@@ -12,7 +12,7 @@ public class EmaTests : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void Standard()
+    public override void DefaultParameters_ReturnsExpectedResults()
     {
         IReadOnlyList<EmaResult> results = Quotes.ToEma(20);
 
@@ -81,7 +81,7 @@ public class EmaTests : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Chainor()
+    public void ChainingFromResults_WorksAsExpected()
     {
         IReadOnlyList<SmaResult> results = Quotes
             .ToEma(20)
@@ -119,7 +119,7 @@ public class EmaTests : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadData()
+    public override void BadQuotes_DoesNotFail()
     {
         IReadOnlyList<EmaResult> r = BadQuotes.ToEma(15);
 
@@ -128,7 +128,7 @@ public class EmaTests : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes()
+    public override void NoQuotes_ReturnsEmpty()
     {
         IReadOnlyList<EmaResult> r0 = Noquotes.ToEma(10);
 

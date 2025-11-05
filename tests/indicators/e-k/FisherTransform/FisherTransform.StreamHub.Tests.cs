@@ -54,7 +54,7 @@ public class FisherTransformHubTests : StreamHubTestBase, ITestChainObserver, IT
     }
 
     [TestMethod]
-    public void ChainObserver()
+    public void ChainObserver_ChainedProvider_MatchesSeriesExactly()
     {
         const int fisherPeriods = 10;
         const int smaPeriods = 8;
@@ -89,7 +89,7 @@ public class FisherTransformHubTests : StreamHubTestBase, ITestChainObserver, IT
     }
 
     [TestMethod]
-    public void ChainProvider()
+    public void ChainProvider_MatchesSeriesExactly()
     {
         const int fisherPeriods = 10;
         const int smaPeriods = 5;
@@ -141,7 +141,7 @@ public class FisherTransformHubTests : StreamHubTestBase, ITestChainObserver, IT
     }
 
     [TestMethod]
-    public override void CustomToString()
+    public override void ToStringOverride_ReturnsExpectedName()
     {
         FisherTransformHub hub = new(new QuoteHub(), 10);
         hub.ToString().Should().Be("FISHER(10)");

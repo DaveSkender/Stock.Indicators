@@ -54,7 +54,7 @@ public class MfiHub : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
     }
 
     [TestMethod]
-    public void ChainProvider()
+    public void ChainProvider_MatchesSeriesExactly()
     {
         // MFI emits IReusable results (MfiResult implements IReusable with Value = Mfi),
         // so it can act as a chain provider for downstream indicators.
@@ -94,7 +94,7 @@ public class MfiHub : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
     }
 
     [TestMethod]
-    public override void CustomToString()
+    public override void ToStringOverride_ReturnsExpectedName()
     {
         QuoteHub quoteHub = new();
 

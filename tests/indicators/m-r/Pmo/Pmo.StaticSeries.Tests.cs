@@ -4,7 +4,7 @@ namespace StaticSeries;
 public class Pmo : StaticSeriesTestBase
 {
     [TestMethod]
-    public override void Standard()
+    public override void DefaultParameters_ReturnsExpectedResults()
     {
         IReadOnlyList<PmoResult> results = Quotes
             .ToPmo();
@@ -47,7 +47,7 @@ public class Pmo : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Chainor()
+    public void ChainingFromResults_WorksAsExpected()
     {
         IReadOnlyList<SmaResult> results = Quotes
             .ToPmo()
@@ -58,7 +58,7 @@ public class Pmo : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadData()
+    public override void BadQuotes_DoesNotFail()
     {
         IReadOnlyList<PmoResult> r = BadQuotes
             .ToPmo(25, 15, 5);
@@ -68,7 +68,7 @@ public class Pmo : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes()
+    public override void NoQuotes_ReturnsEmpty()
     {
         IReadOnlyList<PmoResult> r0 = Noquotes
             .ToPmo();

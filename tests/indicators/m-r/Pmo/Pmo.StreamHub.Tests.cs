@@ -4,7 +4,7 @@ namespace StreamHub;
 public class PmoHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProvider
 {
     [TestMethod]
-    public override void CustomToString()
+    public override void ToStringOverride_ReturnsExpectedName()
     {
         List<Quote> quotesList = Quotes.ToList();
 
@@ -84,7 +84,7 @@ public class PmoHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
     }
 
     [TestMethod]
-    public void ChainObserver()
+    public void ChainObserver_ChainedProvider_MatchesSeriesExactly()
     {
         const int emaPeriods = 12;
         const int timePeriods = 35;
@@ -128,7 +128,7 @@ public class PmoHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
     }
 
     [TestMethod]
-    public void ChainProvider()
+    public void ChainProvider_MatchesSeriesExactly()
     {
         const int smaPeriods = 10;
         const int timePeriods = 35;

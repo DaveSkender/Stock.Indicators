@@ -4,7 +4,7 @@ namespace StaticSeries;
 public class Alma : StaticSeriesTestBase
 {
     [TestMethod]
-    public override void Standard()
+    public override void DefaultParameters_ReturnsExpectedResults()
     {
         const int lookbackPeriods = 10;
         const double offset = 0.85;
@@ -63,7 +63,7 @@ public class Alma : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Chainor()
+    public void ChainingFromResults_WorksAsExpected()
     {
         const int lookbackPeriods = 10;
         const double offset = 0.85;
@@ -92,7 +92,7 @@ public class Alma : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadData()
+    public override void BadQuotes_DoesNotFail()
     {
         IReadOnlyList<AlmaResult> r = BadQuotes.ToAlma(14, 0.5, 3);
 
@@ -101,7 +101,7 @@ public class Alma : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes()
+    public override void NoQuotes_ReturnsEmpty()
     {
         IReadOnlyList<AlmaResult> r0 = Noquotes.ToAlma();
 

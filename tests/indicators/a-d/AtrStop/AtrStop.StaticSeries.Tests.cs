@@ -4,7 +4,7 @@ namespace StaticSeries;
 public class AtrStop : StaticSeriesTestBase
 {
     [TestMethod]
-    public override void Standard()
+    public override void DefaultParameters_ReturnsExpectedResults()
     {
         const int lookbackPeriods = 21;
         const double multiplier = 3;
@@ -94,7 +94,7 @@ public class AtrStop : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadData()
+    public override void BadQuotes_DoesNotFail()
     {
         IReadOnlyList<AtrStopResult> r = BadQuotes
             .ToAtrStop(7);
@@ -103,7 +103,7 @@ public class AtrStop : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes()
+    public override void NoQuotes_ReturnsEmpty()
     {
         IReadOnlyList<AtrStopResult> r0 = Noquotes
             .ToAtrStop();

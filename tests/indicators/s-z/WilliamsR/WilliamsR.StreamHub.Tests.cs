@@ -36,7 +36,7 @@ public class WilliamsR : StreamHubTestBase, ITestQuoteObserver
     }
 
     [TestMethod]
-    public override void CustomToString()
+    public override void ToStringOverride_ReturnsExpectedName()
     {
         WilliamsRHub hub = new(new QuoteHub(), 14);
         hub.ToString().Should().Be("WILLR(14)");

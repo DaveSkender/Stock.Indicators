@@ -140,7 +140,7 @@ public class PivotsHubTests : StreamHubTestBase, ITestQuoteObserver
     }
 
     [TestMethod]
-    public override void CustomToString()
+    public override void ToStringOverride_ReturnsExpectedName()
     {
         PivotsHub hub1 = new(new QuoteHub(), 2, 2, 20, EndType.HighLow);
         hub1.ToString().Should().Be("PIVOTS(2,2,20,HIGHLOW)");

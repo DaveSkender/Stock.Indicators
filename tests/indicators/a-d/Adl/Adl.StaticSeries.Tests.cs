@@ -4,7 +4,7 @@ namespace StaticSeries;
 public class Adl : StaticSeriesTestBase
 {
     [TestMethod]
-    public override void Standard()
+    public override void DefaultParameters_ReturnsExpectedResults()
     {
         IReadOnlyList<AdlResult> results = Quotes
             .ToAdl();
@@ -25,7 +25,7 @@ public class Adl : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Chainor()
+    public void ChainingFromResults_WorksAsExpected()
     {
         IReadOnlyList<SmaResult> results = Quotes
             .ToAdl()
@@ -39,7 +39,7 @@ public class Adl : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadData()
+    public override void BadQuotes_DoesNotFail()
     {
         IReadOnlyList<AdlResult> r = BadQuotes
             .ToAdl();
@@ -49,7 +49,7 @@ public class Adl : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void BigData()
+    public void BigQuoteValues_DoesNotFail()
     {
         IReadOnlyList<AdlResult> r = BigQuotes
             .ToAdl();
@@ -58,7 +58,7 @@ public class Adl : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void RandomData()
+    public void RandomQuotes_WorksAsExpected()
     {
         IReadOnlyList<AdlResult> r = RandomQuotes
             .ToAdl();
@@ -67,7 +67,7 @@ public class Adl : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes()
+    public override void NoQuotes_ReturnsEmpty()
     {
         IReadOnlyList<AdlResult> r0 = Noquotes
             .ToAdl();

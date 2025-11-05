@@ -56,7 +56,7 @@ public class StcHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
     }
 
     [TestMethod]
-    public void ChainObserver()
+    public void ChainObserver_ChainedProvider_MatchesSeriesExactly()
     {
         const int smaPeriods = 8;
         int length = Quotes.Count;
@@ -90,7 +90,7 @@ public class StcHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
     }
 
     [TestMethod]
-    public void ChainProvider()
+    public void ChainProvider_MatchesSeriesExactly()
     {
         const int smaPeriods = 10;
         int length = Quotes.Count;
@@ -169,7 +169,7 @@ public class StcHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
     }
 
     [TestMethod]
-    public override void CustomToString()
+    public override void ToStringOverride_ReturnsExpectedName()
     {
         StcHub hub = new(new QuoteHub(), cyclePeriods, fastPeriods, slowPeriods);
         hub.ToString().Should().Be($"STC({cyclePeriods},{fastPeriods},{slowPeriods})");

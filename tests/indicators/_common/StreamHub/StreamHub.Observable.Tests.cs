@@ -79,7 +79,7 @@ public class StreamObservables : TestBase, ITestChainProvider
     }
 
     [TestMethod]
-    public void ChainProvider()
+    public void ChainProvider_MatchesSeriesExactly()
     {
         // setup quote provider hub
         QuoteHub quoteHub = new();

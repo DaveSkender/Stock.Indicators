@@ -4,7 +4,7 @@ namespace StaticSeries;
 public class Adx : StaticSeriesTestBase
 {
     [TestMethod]
-    public override void Standard()
+    public override void DefaultParameters_ReturnsExpectedResults()
     {
         IReadOnlyList<AdxResult> results = Quotes.ToAdx();
 
@@ -73,7 +73,7 @@ public class Adx : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Chainor()
+    public void ChainingFromResults_WorksAsExpected()
     {
         IReadOnlyList<SmaResult> results = Quotes
             .ToAdx()
@@ -84,7 +84,7 @@ public class Adx : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadData()
+    public override void BadQuotes_DoesNotFail()
     {
         IReadOnlyList<AdxResult> r = BadQuotes.ToAdx(20);
 
@@ -93,7 +93,7 @@ public class Adx : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void BigData()
+    public void BigQuoteValues_DoesNotFail()
     {
         IReadOnlyList<AdxResult> r = BigQuotes.ToAdx(200);
 
@@ -101,7 +101,7 @@ public class Adx : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes()
+    public override void NoQuotes_ReturnsEmpty()
     {
         IReadOnlyList<AdxResult> r0 = Noquotes.ToAdx(5);
 

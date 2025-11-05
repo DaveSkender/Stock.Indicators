@@ -58,7 +58,7 @@ public class EpmaStreamHubTests : StreamHubTestBase, ITestChainObserver, ITestCh
     }
 
     [TestMethod]
-    public override void CustomToString()
+    public override void ToStringOverride_ReturnsExpectedName()
     {
         QuoteHub quoteHub = new();
         EpmaHub epmaHub = quoteHub.ToEpmaHub(lookbackPeriods);
@@ -121,7 +121,7 @@ public class EpmaStreamHubTests : StreamHubTestBase, ITestChainObserver, ITestCh
     }
 
     [TestMethod]
-    public void ChainObserver()
+    public void ChainObserver_ChainedProvider_MatchesSeriesExactly()
     {
         // Test EPMA observing another indicator chain
         const int smaPeriods = 10;
@@ -149,7 +149,7 @@ public class EpmaStreamHubTests : StreamHubTestBase, ITestChainObserver, ITestCh
     }
 
     [TestMethod]
-    public void ChainProvider()
+    public void ChainProvider_MatchesSeriesExactly()
     {
         // Test EPMA chaining to other indicators
         const int smaPeriods = 10;

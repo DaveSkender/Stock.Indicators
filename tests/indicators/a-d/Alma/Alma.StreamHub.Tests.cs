@@ -65,7 +65,7 @@ public class AlmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
     }
 
     [TestMethod]
-    public void ChainObserver()
+    public void ChainObserver_ChainedProvider_MatchesSeriesExactly()
     {
         const int almaPeriods = 12;
         const int smaPeriods = 8;
@@ -107,7 +107,7 @@ public class AlmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
     }
 
     [TestMethod]
-    public void ChainProvider()
+    public void ChainProvider_MatchesSeriesExactly()
     {
         const int almaPeriods = 20;
         const int smaPeriods = 10;
@@ -153,7 +153,7 @@ public class AlmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
     }
 
     [TestMethod]
-    public override void CustomToString()
+    public override void ToStringOverride_ReturnsExpectedName()
     {
         QuoteHub quoteHub = new();
         AlmaHub observer = quoteHub.ToAlmaHub(14, 0.85, 6);

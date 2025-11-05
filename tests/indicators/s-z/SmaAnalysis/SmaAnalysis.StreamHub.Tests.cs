@@ -67,7 +67,7 @@ public class SmaAnalysisHubTests : StreamHubTestBase, ITestChainObserver, ITestC
     }
 
     [TestMethod]
-    public void ChainObserver()
+    public void ChainObserver_ChainedProvider_MatchesSeriesExactly()
     {
         List<Quote> quotesList = Quotes.ToList();
 
@@ -111,7 +111,7 @@ public class SmaAnalysisHubTests : StreamHubTestBase, ITestChainObserver, ITestC
     }
 
     [TestMethod]
-    public void ChainProvider()
+    public void ChainProvider_MatchesSeriesExactly()
     {
         const int emaPeriods = 12;
         const int smaAnalysisPeriods = 8;
@@ -158,7 +158,7 @@ public class SmaAnalysisHubTests : StreamHubTestBase, ITestChainObserver, ITestC
     }
 
     [TestMethod]
-    public override void CustomToString()
+    public override void ToStringOverride_ReturnsExpectedName()
     {
         SmaAnalysisHub hub = new(new QuoteHub(), 5);
         hub.ToString().Should().Be("SMA-ANALYSIS(5)");

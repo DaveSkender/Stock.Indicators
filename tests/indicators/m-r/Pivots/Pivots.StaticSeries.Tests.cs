@@ -4,7 +4,7 @@ namespace StaticSeries;
 public class Pivots : StaticSeriesTestBase
 {
     [TestMethod]
-    public override void Standard()
+    public override void DefaultParameters_ReturnsExpectedResults()
     {
         IReadOnlyList<PivotsResult> results = Quotes
             .ToPivots(4, 4);
@@ -85,7 +85,7 @@ public class Pivots : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadData()
+    public override void BadQuotes_DoesNotFail()
     {
         IReadOnlyList<PivotsResult> r = BadQuotes
             .ToPivots();
@@ -94,7 +94,7 @@ public class Pivots : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes()
+    public override void NoQuotes_ReturnsEmpty()
     {
         IReadOnlyList<PivotsResult> r0 = Noquotes
             .ToPivots();

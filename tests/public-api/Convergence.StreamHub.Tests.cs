@@ -7,8 +7,12 @@ namespace Behavioral;
 /// produce consistent results when streaming data incrementally vs batch processing
 /// and match Series calculations at convergence point.
 /// </summary>
+/// <remarks>
+/// Convergence tests are the only kind of test allowed to use
+/// <c>BeApproximately()</c> precision instead of exact matching.
+/// </remarks>
 [TestClass, TestCategory("Integration")]
-public class ConvergenceStreamHub : TestBase
+public class ConvergenceStreamHubs : TestBase
 {
     private static readonly int[] QuotesQuantities =
         [14, 28, 40, 50, 75, 100, 150, 200, 250, 350, 500];
@@ -162,6 +166,8 @@ public class ConvergenceStreamHub : TestBase
             if (qty > MacdConvergence && convergedResult != null)
             {
                 l.Macd.Should().BeApproximately(convergedResult.Macd!.Value, 0.0001);
+                l.Signal.Should().BeApproximately(convergedResult.Signal!.Value, 0.0001);
+                l.Histogram.Should().BeApproximately(convergedResult.Histogram!.Value, 0.0001);
             }
         }
     }
@@ -270,6 +276,7 @@ public class ConvergenceStreamHub : TestBase
             if (qty > StochConvergence && convergedResult != null)
             {
                 l.K.Should().BeApproximately(convergedResult.K!.Value, 0.0001);
+                l.D.Should().BeApproximately(convergedResult.D!.Value, 0.0001);
             }
         }
     }

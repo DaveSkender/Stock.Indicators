@@ -4,7 +4,7 @@ namespace StaticSeries;
 public class Correlation : StaticSeriesTestBase
 {
     [TestMethod]
-    public override void Standard()
+    public override void DefaultParameters_ReturnsExpectedResults()
     {
         IReadOnlyList<CorrResult> results = Quotes
             .ToCorrelation(OtherQuotes, 20);
@@ -44,7 +44,7 @@ public class Correlation : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Chainor()
+    public void ChainingFromResults_WorksAsExpected()
     {
         IReadOnlyList<SmaResult> results = Quotes
             .ToCorrelation(OtherQuotes, 20)
@@ -67,7 +67,7 @@ public class Correlation : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadData()
+    public override void BadQuotes_DoesNotFail()
     {
         IReadOnlyList<CorrResult> r = BadQuotes
             .ToCorrelation(BadQuotes, 15);
@@ -77,7 +77,7 @@ public class Correlation : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void BigData()
+    public void BigQuoteValues_DoesNotFail()
     {
         IReadOnlyList<CorrResult> r = BigQuotes
             .ToCorrelation(BigQuotes, 150);
@@ -86,7 +86,7 @@ public class Correlation : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes()
+    public override void NoQuotes_ReturnsEmpty()
     {
         IReadOnlyList<CorrResult> r0 = Noquotes
             .ToCorrelation(Noquotes, 10);

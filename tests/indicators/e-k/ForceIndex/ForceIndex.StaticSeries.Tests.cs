@@ -4,7 +4,7 @@ namespace StaticSeries;
 public class ForceIndex : StaticSeriesTestBase
 {
     [TestMethod]
-    public override void Standard()
+    public override void DefaultParameters_ReturnsExpectedResults()
     {
         IReadOnlyList<ForceIndexResult> r = Quotes.ToForceIndex(13).ToList();
 
@@ -23,7 +23,7 @@ public class ForceIndex : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Chainor()
+    public void ChainingFromResults_WorksAsExpected()
     {
         IReadOnlyList<SmaResult> results = Quotes
             .ToForceIndex(13)
@@ -34,7 +34,7 @@ public class ForceIndex : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadData()
+    public override void BadQuotes_DoesNotFail()
     {
         IReadOnlyList<ForceIndexResult> r = BadQuotes
             .ToForceIndex();
@@ -44,7 +44,7 @@ public class ForceIndex : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes()
+    public override void NoQuotes_ReturnsEmpty()
     {
         IReadOnlyList<ForceIndexResult> r0 = Noquotes
             .ToForceIndex(5);

@@ -7,7 +7,7 @@ public class Fractal : StaticSeriesTestBase
     /// Span 2
     /// </summary>
     [TestMethod]
-    public override void Standard()
+    public override void DefaultParameters_ReturnsExpectedResults()
     {
         IReadOnlyList<FractalResult> results = Quotes
             .ToFractal();
@@ -81,7 +81,7 @@ public class Fractal : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadData()
+    public override void BadQuotes_DoesNotFail()
     {
         IReadOnlyList<FractalResult> r = BadQuotes
             .ToFractal();
@@ -90,7 +90,7 @@ public class Fractal : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes()
+    public override void NoQuotes_ReturnsEmpty()
     {
         IReadOnlyList<FractalResult> r0 = Noquotes
             .ToFractal();

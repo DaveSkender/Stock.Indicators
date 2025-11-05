@@ -4,7 +4,7 @@ namespace StaticSeries;
 public class Dema : StaticSeriesTestBase
 {
     [TestMethod]
-    public override void Standard()
+    public override void DefaultParameters_ReturnsExpectedResults()
     {
         IReadOnlyList<DemaResult> results = Quotes
             .ToDema(20);
@@ -50,7 +50,7 @@ public class Dema : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Chainor()
+    public void ChainingFromResults_WorksAsExpected()
     {
         IReadOnlyList<SmaResult> results = Quotes
             .ToDema(20)
@@ -61,7 +61,7 @@ public class Dema : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadData()
+    public override void BadQuotes_DoesNotFail()
     {
         IReadOnlyList<DemaResult> r = BadQuotes
             .ToDema(15);
@@ -71,7 +71,7 @@ public class Dema : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes()
+    public override void NoQuotes_ReturnsEmpty()
     {
         IReadOnlyList<DemaResult> r0 = Noquotes
             .ToDema(5);

@@ -4,7 +4,7 @@ namespace StaticSeries;
 public class WilliamsR : StaticSeriesTestBase
 {
     [TestMethod]
-    public override void Standard()
+    public override void DefaultParameters_ReturnsExpectedResults()
     {
         IReadOnlyList<WilliamsResult> results = Quotes
             .ToWilliamsR();
@@ -30,7 +30,7 @@ public class WilliamsR : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Chainor()
+    public void ChainingFromResults_WorksAsExpected()
     {
         IReadOnlyList<SmaResult> results = Quotes
             .ToWilliamsR()
@@ -41,7 +41,7 @@ public class WilliamsR : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadData()
+    public override void BadQuotes_DoesNotFail()
     {
         IReadOnlyList<WilliamsResult> results = BadQuotes
             .ToWilliamsR(20);
@@ -51,7 +51,7 @@ public class WilliamsR : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes()
+    public override void NoQuotes_ReturnsEmpty()
     {
         IReadOnlyList<WilliamsResult> r0 = Noquotes
             .ToWilliamsR();

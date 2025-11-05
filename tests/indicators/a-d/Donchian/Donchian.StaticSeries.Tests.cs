@@ -4,7 +4,7 @@ namespace StaticSeries;
 public class Donchian : StaticSeriesTestBase
 {
     [TestMethod]
-    public override void Standard()
+    public override void DefaultParameters_ReturnsExpectedResults()
     {
         IReadOnlyList<DonchianResult> results = Quotes
             .ToDonchian();
@@ -49,7 +49,7 @@ public class Donchian : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadData()
+    public override void BadQuotes_DoesNotFail()
     {
         IReadOnlyList<DonchianResult> r = BadQuotes
             .ToDonchian(15);
@@ -58,7 +58,7 @@ public class Donchian : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes()
+    public override void NoQuotes_ReturnsEmpty()
     {
         IReadOnlyList<DonchianResult> r0 = Noquotes
             .ToDonchian();

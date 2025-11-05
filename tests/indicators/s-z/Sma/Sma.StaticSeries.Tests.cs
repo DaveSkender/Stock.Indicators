@@ -4,7 +4,7 @@ namespace StaticSeries;
 public partial class Sma : StaticSeriesTestBase
 {
     [TestMethod]
-    public override void Standard()
+    public override void DefaultParameters_ReturnsExpectedResults()
     {
         IReadOnlyList<SmaResult> results = Quotes
             .ToSma(20);
@@ -64,7 +64,7 @@ public partial class Sma : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Chainor()
+    public void ChainingFromResults_WorksAsExpected()
     {
         IReadOnlyList<EmaResult> results = Quotes
             .ToSma(10)
@@ -84,7 +84,7 @@ public partial class Sma : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadData()
+    public override void BadQuotes_DoesNotFail()
     {
         IReadOnlyList<SmaResult> r = BadQuotes
             .ToSma(15);
@@ -94,7 +94,7 @@ public partial class Sma : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes()
+    public override void NoQuotes_ReturnsEmpty()
     {
         IReadOnlyList<SmaResult> r0 = Noquotes
             .ToSma(5);

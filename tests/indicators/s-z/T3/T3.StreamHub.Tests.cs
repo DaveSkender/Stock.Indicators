@@ -69,7 +69,7 @@ public class T3HubTests : StreamHubTestBase, ITestChainObserver, ITestChainProvi
     }
 
     [TestMethod]
-    public void ChainObserver()
+    public void ChainObserver_ChainedProvider_MatchesSeriesExactly()
     {
         const int t3Periods = 5;
         const double volumeFactor = 0.7;
@@ -109,7 +109,7 @@ public class T3HubTests : StreamHubTestBase, ITestChainObserver, ITestChainProvi
     }
 
     [TestMethod]
-    public void ChainProvider()
+    public void ChainProvider_MatchesSeriesExactly()
     {
         const int t3Periods = 5;
         const double volumeFactor = 0.7;
@@ -155,7 +155,7 @@ public class T3HubTests : StreamHubTestBase, ITestChainObserver, ITestChainProvi
     }
 
     [TestMethod]
-    public override void CustomToString()
+    public override void ToStringOverride_ReturnsExpectedName()
     {
         T3Hub hub = new(new QuoteHub(), 5, 0.7);
         hub.ToString().Should().Be("T3(5,0.7)");

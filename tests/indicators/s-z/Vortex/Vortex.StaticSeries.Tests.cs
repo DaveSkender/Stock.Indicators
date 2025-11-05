@@ -4,7 +4,7 @@ namespace StaticSeries;
 public class Vortex : StaticSeriesTestBase
 {
     [TestMethod]
-    public override void Standard()
+    public override void DefaultParameters_ReturnsExpectedResults()
     {
         IReadOnlyList<VortexResult> results = Quotes
             .ToVortex(14);
@@ -36,7 +36,7 @@ public class Vortex : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadData()
+    public override void BadQuotes_DoesNotFail()
     {
         IReadOnlyList<VortexResult> r = BadQuotes
             .ToVortex(20);
@@ -46,7 +46,7 @@ public class Vortex : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes()
+    public override void NoQuotes_ReturnsEmpty()
     {
         IReadOnlyList<VortexResult> r0 = Noquotes
             .ToVortex(5);

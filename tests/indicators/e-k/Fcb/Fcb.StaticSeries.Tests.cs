@@ -4,7 +4,7 @@ namespace StaticSeries;
 public class Fcb : StaticSeriesTestBase
 {
     [TestMethod]
-    public override void Standard()
+    public override void DefaultParameters_ReturnsExpectedResults()
     {
         IReadOnlyList<FcbResult> results = Quotes
             .ToFcb();
@@ -41,7 +41,7 @@ public class Fcb : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadData()
+    public override void BadQuotes_DoesNotFail()
     {
         IReadOnlyList<FcbResult> r = BadQuotes
             .ToFcb();
@@ -50,7 +50,7 @@ public class Fcb : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes()
+    public override void NoQuotes_ReturnsEmpty()
     {
         IReadOnlyList<FcbResult> r0 = Noquotes
             .ToFcb();

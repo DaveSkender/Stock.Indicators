@@ -61,7 +61,7 @@ public class ObvHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProv
     }
 
     [TestMethod]
-    public void ChainProvider()
+    public void ChainProvider_MatchesSeriesExactly()
     {
         const int smaPeriods = 10;
 
@@ -101,7 +101,7 @@ public class ObvHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProv
     }
 
     [TestMethod]
-    public override void CustomToString()
+    public override void ToStringOverride_ReturnsExpectedName()
     {
         ObvHub hub = new(new QuoteHub());
         hub.ToString().Should().Be("OBV");
