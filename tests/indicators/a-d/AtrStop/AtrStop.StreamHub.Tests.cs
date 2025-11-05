@@ -4,7 +4,7 @@ namespace StreamHub;
 public class AtrStop : StreamHubTestBase, ITestQuoteObserver
 {
     [TestMethod]
-    public void QuoteObserver()
+    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
         List<Quote> quotesList = Quotes.ToList();
 
@@ -67,7 +67,7 @@ public class AtrStop : StreamHubTestBase, ITestQuoteObserver
     }
 
     [TestMethod]
-    public void QuoteObserverHighLow()
+    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactlyHighLow()
     {
         // simple test, just to check High/Low variant
 

@@ -9,7 +9,7 @@ public class SuperTrendHubTests : StreamHubTestBase, ITestQuoteObserver
         = Quotes.ToSuperTrend(lookbackPeriods, multiplier);
 
     [TestMethod]
-    public void QuoteObserver()
+    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
         int length = Quotes.Count;
 

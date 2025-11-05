@@ -8,7 +8,7 @@ public class DynamicHubTests : StreamHubTestBase, ITestChainObserver, ITestChain
     private readonly IReadOnlyList<DynamicResult> expectedOriginal = Quotes.ToDynamic(lookbackPeriods, kFactor);
 
     [TestMethod]
-    public void QuoteObserver()
+    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
         int length = Quotes.Count;
 

@@ -7,7 +7,7 @@ public class StdDevHubTests : StreamHubTestBase, ITestChainObserver, ITestChainP
     private readonly IReadOnlyList<StdDevResult> expectedOriginal = Quotes.ToStdDev(lookbackPeriods);
 
     [TestMethod]
-    public void QuoteObserver()
+    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
         int length = Quotes.Count;
 

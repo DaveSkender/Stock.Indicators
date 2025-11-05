@@ -4,7 +4,7 @@ namespace StreamHub;
 public class T3HubTests : StreamHubTestBase, ITestChainObserver, ITestChainProvider
 {
     [TestMethod]
-    public void QuoteObserver()
+    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
         const int lookbackPeriods = 5;
         const double volumeFactor = 0.7;

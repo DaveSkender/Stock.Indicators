@@ -6,7 +6,7 @@ public class HtTrendlineHubTests : StreamHubTestBase, ITestChainObserver, ITestC
     private readonly IReadOnlyList<HtlResult> expectedOriginal = Quotes.ToHtTrendline();
 
     [TestMethod]
-    public void QuoteObserver()
+    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
         int length = Quotes.Count;
 

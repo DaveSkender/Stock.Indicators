@@ -4,7 +4,7 @@ namespace StreamHub;
 public class VwapHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
 {
     [TestMethod]
-    public void QuoteObserver()
+    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
         List<Quote> quotesList = Quotes.ToList();
         int length = quotesList.Count;
@@ -61,7 +61,7 @@ public class VwapHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPro
     }
 
     [TestMethod]
-    public void QuoteObserverWithStartDate()
+    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactlyWithStartDate()
     {
         List<Quote> quotesList = Quotes.ToList();
         int length = quotesList.Count;

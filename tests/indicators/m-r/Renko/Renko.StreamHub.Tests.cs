@@ -4,7 +4,7 @@ namespace StreamHub;
 public class RenkoHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
 {
     [TestMethod]
-    public void QuoteObserver()
+    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
         const decimal brickSize = 2.5m;
         const EndType endType = EndType.HighLow;

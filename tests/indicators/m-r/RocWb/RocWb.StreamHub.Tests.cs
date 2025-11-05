@@ -8,7 +8,7 @@ public class RocWbHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPr
     private const int stdDevPeriods = 5;
 
     [TestMethod]
-    public void QuoteObserver()
+    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
         List<Quote> quotesList = Quotes.ToList();
 

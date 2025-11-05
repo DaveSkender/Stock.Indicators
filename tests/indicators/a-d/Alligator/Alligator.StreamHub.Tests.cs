@@ -4,7 +4,7 @@ namespace StreamHub;
 public class AlligatorHubTests : StreamHubTestBase, ITestChainObserver
 {
     [TestMethod]
-    public void QuoteObserver()
+    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
         List<Quote> quotesList = Quotes.ToList();
 

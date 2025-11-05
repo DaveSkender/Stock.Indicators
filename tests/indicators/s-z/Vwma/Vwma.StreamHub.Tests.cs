@@ -7,7 +7,7 @@ public class Vwma : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
     private readonly IReadOnlyList<VwmaResult> expectedOriginal = Quotes.ToVwma(lookbackPeriods);
 
     [TestMethod]
-    public void QuoteObserver()
+    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
         int length = Quotes.Count;
 

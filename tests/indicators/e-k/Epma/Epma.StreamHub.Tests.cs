@@ -9,7 +9,7 @@ public class EpmaStreamHubTests : StreamHubTestBase, ITestChainObserver, ITestCh
         = Quotes.ToEpma(lookbackPeriods);
 
     [TestMethod]
-    public void QuoteObserver()
+    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
         int length = Quotes.Count;
 

@@ -77,7 +77,7 @@ Every StreamHub QuoteObserver test MUST cover these scenarios:
 
 ```csharp
 [TestMethod]
-public void QuoteObserver()
+public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
 {
     IQuoteProvider<IQuote> quotes = GetQuotesProvider();
     
@@ -215,7 +215,7 @@ public void Standard()
 
 ```csharp
 [TestMethod]
-public void QuoteObserver()
+public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
 {
     // Warmup + stream + duplicates + Insert + Remove + parity check
     // (See canonical pattern above)

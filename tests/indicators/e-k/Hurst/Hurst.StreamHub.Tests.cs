@@ -7,7 +7,7 @@ public class HurstHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPr
     private readonly IReadOnlyList<HurstResult> expectedOriginal = Quotes.ToHurst(lookbackPeriods);
 
     [TestMethod]
-    public void QuoteObserver()
+    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
         int length = Quotes.Count;
 

@@ -4,7 +4,7 @@ namespace StreamHub;
 public class QuotePartHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
 {
     [TestMethod]
-    public void QuoteObserver()
+    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
         const CandlePart candlePart = CandlePart.HLC3;
 

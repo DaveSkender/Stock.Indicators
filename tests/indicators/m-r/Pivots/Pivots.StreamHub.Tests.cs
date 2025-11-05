@@ -4,7 +4,7 @@ namespace StreamHub;
 public class PivotsHubTests : StreamHubTestBase, ITestQuoteObserver
 {
     [TestMethod]
-    public void QuoteObserver()
+    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
         List<Quote> quotesList = Quotes.ToList();
 
@@ -70,7 +70,7 @@ public class PivotsHubTests : StreamHubTestBase, ITestQuoteObserver
     }
 
     [TestMethod]
-    public void QuoteObserverClose()
+    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactlyClose()
     {
         // simple test, just to check Close variant
 
@@ -105,7 +105,7 @@ public class PivotsHubTests : StreamHubTestBase, ITestQuoteObserver
     }
 
     [TestMethod]
-    public void QuoteObserverDifferentSpans()
+    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactlyDifferentSpans()
     {
         // test with different left and right spans and maxTrendPeriods
 

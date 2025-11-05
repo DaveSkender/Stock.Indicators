@@ -4,7 +4,7 @@ namespace StreamHub;
 public class Stoch : StreamHubTestBase, ITestQuoteObserver
 {
     [TestMethod]
-    public void QuoteObserver()
+    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
         const int lookbackPeriods = 14;
         const int signalPeriods = 3;

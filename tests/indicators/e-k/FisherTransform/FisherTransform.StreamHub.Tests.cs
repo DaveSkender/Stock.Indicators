@@ -7,7 +7,7 @@ public class FisherTransformHubTests : StreamHubTestBase, ITestChainObserver, IT
     private readonly IReadOnlyList<FisherTransformResult> expectedOriginal = Quotes.ToFisherTransform(lookbackPeriods);
 
     [TestMethod]
-    public void QuoteObserver()
+    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
         int length = Quotes.Count;
 
