@@ -131,8 +131,9 @@ public class IchimokuHub
                 {
                     IchimokuResult pastResult = Cache[backfillCacheIndex];
 
-                    // Only update if ChikouSpan is currently null
-                    if (pastResult.ChikouSpan is null)
+                    // During normal streaming (notify=true), only update if ChikouSpan is null
+                    // During rebuilds (notify=false), always update to ensure correctness
+                    if (!notify || pastResult.ChikouSpan is null)
                     {
                         decimal chikouClose = ProviderCache[providerIndex].Close;
 
@@ -285,6 +286,31 @@ public class IchimokuHub
             IQuote quote = ProviderCache[p];
             kijunHighWindow.Add(quote.High);
             kijunLowWindow.Add(quote.Low);
+        }
+
+        // Null out ChikouSpan for results that now point past the end of ProviderCache
+        // This handles the case where Remove operations shrink the ProviderCache
+        if (ChikouOffset > 0 && Cache.Count > 0)
+        {
+            int firstInvalidChikouIndex = ProviderCache.Count - ChikouOffset;
+            if (firstInvalidChikouIndex >= 0 && firstInvalidChikouIndex < Cache.Count)
+            {
+                // Null out ChikouSpan for all results from firstInvalidChikouIndex onwards
+                for (int i = firstInvalidChikouIndex; i < Cache.Count; i++)
+                {
+                    IchimokuResult result = Cache[i];
+                    if (result.ChikouSpan is not null)
+                    {
+                        Cache[i] = new(
+                            Timestamp: result.Timestamp,
+                            TenkanSen: result.TenkanSen,
+                            KijunSen: result.KijunSen,
+                            SenkouSpanA: result.SenkouSpanA,
+                            SenkouSpanB: result.SenkouSpanB,
+                            ChikouSpan: null);
+                    }
+                }
+            }
         }
     }
 
