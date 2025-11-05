@@ -104,6 +104,7 @@ public class IchimokuHub
     /// <param name="item">New item from provider.</param>
     /// <param name="notify">Whether to notify observers.</param>
     /// <param name="indexHint">Provider index hint.</param>
+    [Obsolete]
     public override void OnAdd(IQuote item, bool notify, int? indexHint)
     {
         ArgumentNullException.ThrowIfNull(item);
@@ -116,17 +117,17 @@ public class IchimokuHub
         if (ChikouOffset > 0 && Cache.Count > ChikouOffset && ProviderCache.Count > ChikouOffset)
         {
             int providerIndex = indexHint ?? ProviderCache.IndexOf(item, true);
-            
+
             // Find the past result that should be updated
             // It's the result that is ChikouOffset periods before the current item
             int backfillProviderIndex = providerIndex - ChikouOffset;
-            
+
             if (backfillProviderIndex >= 0 && backfillProviderIndex < ProviderCache.Count)
             {
                 // Find the past result in Cache by timestamp (not by index)
-                DateTime backfillTimestamp = ProviderCache[backfillProviderIndex].Date;
+                DateTime backfillTimestamp = ProviderCache[backfillProviderIndex].Timestamp;
                 int backfillCacheIndex = Cache.IndexOf(backfillTimestamp, false);
-                
+
                 if (backfillCacheIndex >= 0 && backfillCacheIndex < Cache.Count)
                 {
                     IchimokuResult pastResult = Cache[backfillCacheIndex];
