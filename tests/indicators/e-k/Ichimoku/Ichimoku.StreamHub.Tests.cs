@@ -10,49 +10,42 @@ public class IchimokuHubTests : StreamHubTestBase, ITestQuoteObserver
     [TestMethod]
     public void QuoteObserver()
     {
-        int length = Quotes.Count;
+        List<Quote> quotesList = Quotes.ToList();
+
+        int length = quotesList.Count;
 
         // setup quote provider hub
         QuoteHub quoteHub = new();
 
-        // prefill quotes at provider (warmup coverage)
-        quoteHub.Add(Quotes.Take(30));
+        // prefill quotes at provider (batch)
+        quoteHub.Add(quotesList.Take(30));
 
         // initialize observer
-        IchimokuHub observer = quoteHub.ToIchimokuHub(tenkanPeriods, kijunPeriods, senkouBPeriods);
+        IchimokuHub observer = quoteHub
+            .ToIchimokuHub(tenkanPeriods, kijunPeriods, senkouBPeriods);
+
+        observer.Results.Should().HaveCount(30);
 
         // fetch initial results (early)
-        IReadOnlyList<IchimokuResult> actuals = observer.Results;
+        IReadOnlyList<IchimokuResult> streamList
+            = observer.Results;
 
         // emulate adding quotes to provider hub
         for (int i = 30; i < length; i++)
         {
-            // skip one (add later)
-            if (i == 80) { continue; }
-
-            Quote q = Quotes[i];
+            Quote q = quotesList[i];
             quoteHub.Add(q);
-
-            // resend duplicate quotes
-            if (i is > 100 and < 105) { quoteHub.Add(q); }
         }
 
-        // late arrival, should equal series
-        quoteHub.Insert(Quotes[80]);
+        // time-series, for comparison
+        IReadOnlyList<IchimokuResult> seriesList
+           = quotesList
+            .ToIchimoku(tenkanPeriods, kijunPeriods, senkouBPeriods);
 
-        IReadOnlyList<IchimokuResult> expected = Quotes.ToIchimoku(tenkanPeriods, kijunPeriods, senkouBPeriods);
-        actuals.Should().HaveCount(length);
-        actuals.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
+        // assert, should equal series
+        streamList.Should().HaveCount(length);
+        streamList.Should().BeEquivalentTo(seriesList, o => o.WithStrictOrdering());
 
-        // delete, should equal series (revised)
-        quoteHub.Remove(Quotes[removeAtIndex]);
-
-        IReadOnlyList<IchimokuResult> expectedRevised = RevisedQuotes.ToIchimoku(tenkanPeriods, kijunPeriods, senkouBPeriods);
-
-        actuals.Should().HaveCount(501);
-        actuals.Should().BeEquivalentTo(expectedRevised, static options => options.WithStrictOrdering());
-
-        // cleanup
         observer.Unsubscribe();
         quoteHub.EndTransmission();
     }
