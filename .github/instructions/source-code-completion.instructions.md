@@ -36,8 +36,8 @@ These instructions apply to all files in the `src/` and `tests/` folders and cov
 
 - Run `dotnet restore` (or the **Restore: .NET Packages** task).
 - Run `dotnet format` to auto-correct stylistic issues.
-- Run `npm run lint:md:fix` whenever documentation changed.
-- If tooling changed, delete `package-lock.json` and `node_modules/`, then run `npm install` to regenerate the lock file.
+- Run `npx markdownlint-cli2 --fix` (or the **Fix: Markdown files** task) whenever documentation changed.
+- If linting configuration changed, verify `npx markdownlint-cli2` still works correctly.
 
 ### Step 2 – Formatting and analyzer checks
 
@@ -79,10 +79,10 @@ These instructions apply to all files in the `src/` and `tests/` folders and cov
 
 ### Step 2 – Lint markdown documentation
 
-- Run `npm run lint:md:fix` to auto-correct basic issues.
-- Run `npm run lint:md` (or the **Lint: Markdown Files** task) and fix remaining warnings.
+- Run `npx markdownlint-cli2 --fix` (or the **Fix: Markdown files** task) to auto-correct basic issues.
+- Run `npx markdownlint-cli2` (or the **Lint: Markdown Files** task) and fix remaining warnings.
 
-> **Verification**: `npm run lint:md` exits with zero warnings.
+> **Verification**: `npx markdownlint-cli2` exits with zero warnings.
 
 ### Step 3 – Final verification: Perform a full clean sweep
 
@@ -92,7 +92,7 @@ Run this sequence and confirm each command completes successfully.
 dotnet format --verify-no-changes
 dotnet build "Stock.Indicators.sln" -v minimal --nologo
 dotnet test "Stock.Indicators.sln" --no-build --nologo
-npm run lint:md
+npx markdownlint-cli2
 ```
 
 If any command fails, fix the issue and restart this step from the top.
@@ -121,7 +121,7 @@ chmod +x codacy-analysis-cli
 Run the following sequence to detect hidden state issues.
 
 ```bash
-npm run clean
+bash tools/scripts/clean.sh
 dotnet restore
 dotnet build "Stock.Indicators.sln" -v minimal --nologo
 dotnet test "Stock.Indicators.sln" --no-build --nologo

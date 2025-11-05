@@ -312,24 +312,21 @@ dotnet run --project tools/performance/Tests.Performance.csproj -c Release
 ### Code Quality Validation
 
 ```bash
-# Restore NPM packages (if not already done)
-npm install
-
 # Format check
 dotnet format --verify-no-changes --severity info --no-restore
 
 # Roslynator analysis
-npm run lint:code
+bash tools/scripts/lint-code-check.sh
 
 # Markdown lint
-npm run lint:md
+npx markdownlint-cli2
 ```
 
 ### Coverage Validation
 
 ```bash
 # Generate coverage report
-npm run test:coverage
+dotnet test --collect:"Code Coverage" --no-restore --nologo
 
 # Expected coverage:
 # - Overall: ≥85%
