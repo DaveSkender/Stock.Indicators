@@ -29,6 +29,23 @@
   // tasks
   "tasks": [
     {
+      "label": "Initialize: Pull, rebuild, fixers, and unit test",
+      "detail": "Pull latest, clean, rebuild non-incremental, fix all, and test",
+      "dependsOn": [
+        "Git: pull",
+        "Clean: .NET Solution (dotnet clean)",
+        "Build: .NET Solution (not incremental)",
+        "Lint: .NET code & markdown files (fix)",
+        "Test: Unit tests"
+      ],
+      "dependsOrder": "sequence",
+      "group": "build",
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      }
+    },
+    {
       "label": "Git: pull",
       "detail": "Pull latest changes from Git",
       "type": "shell",
@@ -129,23 +146,6 @@
       "command": "dotnet build -v minimal --nologo --no-incremental",
       "group": "build",
       "problemMatcher": "$msCompile"
-    },
-    {
-      "label": "Fix: Pull, rebuild, fixers, and unit test",
-      "detail": "Pull latest, clean, rebuild non-incremental, fix all, and test",
-      "dependsOn": [
-        "Git: pull",
-        "Clean: .NET Solution (dotnet clean)",
-        "Build: .NET Solution (not incremental)",
-        "Lint: .NET code & markdown files (fix)",
-        "Test: Unit tests"
-      ],
-      "dependsOrder": "sequence",
-      "group": "build",
-      "presentation": {
-        "reveal": "always",
-        "panel": "shared"
-      }
     },
     {
       "label": "Lint: .NET code (format check)",
