@@ -4,7 +4,7 @@ namespace StaticSeries;
 public class PivotPointz : StaticSeriesTestBase
 {
     [TestMethod]
-    public override void Standard()
+    public override void DefaultParameters_ReturnsExpectedResults()
     {
         const PeriodSize periodSize = PeriodSize.Month;
         const PivotPointType pointType = PivotPointType.Standard;
@@ -376,7 +376,7 @@ public class PivotPointz : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadData()
+    public override void BadQuotes_DoesNotFail()
     {
         IReadOnlyList<PivotPointsResult> r = BadQuotes
             .ToPivotPoints(PeriodSize.Week);
@@ -385,7 +385,7 @@ public class PivotPointz : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes()
+    public override void NoQuotes_ReturnsEmpty()
     {
         IReadOnlyList<PivotPointsResult> r0 = Noquotes
             .ToPivotPoints(PeriodSize.Week);

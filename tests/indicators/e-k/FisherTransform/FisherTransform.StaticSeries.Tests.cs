@@ -4,7 +4,7 @@ namespace StaticSeries;
 public class FisherTransform : StaticSeriesTestBase
 {
     [TestMethod]
-    public override void Standard()
+    public override void DefaultParameters_ReturnsExpectedResults()
     {
         IReadOnlyList<FisherTransformResult> results = Quotes
             .ToFisherTransform();
@@ -68,7 +68,7 @@ public class FisherTransform : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Chainor()
+    public void ChainingFromResults_WorksAsExpected()
     {
         IReadOnlyList<SmaResult> results = Quotes
             .ToFisherTransform()
@@ -79,7 +79,7 @@ public class FisherTransform : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadData()
+    public override void BadQuotes_DoesNotFail()
     {
         IReadOnlyList<FisherTransformResult> r = BadQuotes
             .ToFisherTransform(9);
@@ -89,7 +89,7 @@ public class FisherTransform : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes()
+    public override void NoQuotes_ReturnsEmpty()
     {
         IReadOnlyList<FisherTransformResult> r0 = Noquotes
             .ToFisherTransform();

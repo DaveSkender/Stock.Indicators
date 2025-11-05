@@ -7,7 +7,7 @@ public class ParabolicSarHubTests : StreamHubTestBase, ITestQuoteObserver, ITest
     private const double maxAccelerationFactor = 0.2;
 
     [TestMethod]
-    public void QuoteObserver()
+    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
         List<Quote> quotesList = Quotes.ToList();
         int length = quotesList.Count;
@@ -74,7 +74,7 @@ public class ParabolicSarHubTests : StreamHubTestBase, ITestQuoteObserver, ITest
     }
 
     [TestMethod]
-    public void ChainProvider()
+    public void ChainProvider_MatchesSeriesExactly()
     {
         const int smaPeriods = 10;
         List<Quote> quotesList = Quotes.ToList();
@@ -132,7 +132,7 @@ public class ParabolicSarHubTests : StreamHubTestBase, ITestQuoteObserver, ITest
     }
 
     [TestMethod]
-    public override void CustomToString()
+    public override void ToStringOverride_ReturnsExpectedName()
     {
         ParabolicSarHub hub = new(new QuoteHub(), 0.02, 0.2);
         hub.ToString().Should().Be("PSAR(0.02,0.2,0.02)");

@@ -1,7 +1,7 @@
 namespace StreamHub;
 
 [TestClass]
-public class EpmaStreamHubTests : StreamHubTestBase, ITestQuoteObserver
+public class EpmaStreamHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProvider
 {
     private const int lookbackPeriods = 20;
 
@@ -9,26 +9,56 @@ public class EpmaStreamHubTests : StreamHubTestBase, ITestQuoteObserver
         = Quotes.ToEpma(lookbackPeriods);
 
     [TestMethod]
-    public void QuoteObserver()
+    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
-        // Test streaming with state maintenance
-        QuoteHub quoteHub = new();
-        EpmaHub epmaHub = quoteHub.ToEpmaHub(lookbackPeriods);
+        int length = Quotes.Count;
 
-        foreach (Quote quote in Quotes)
+        // setup quote provider hub
+        QuoteHub quoteHub = new();
+
+        // prefill quotes at provider (warmup coverage)
+        quoteHub.Add(Quotes.Take(20));
+
+        // initialize observer
+        EpmaHub observer = quoteHub.ToEpmaHub(lookbackPeriods);
+
+        // fetch initial results (early)
+        IReadOnlyList<EpmaResult> actuals = observer.Results;
+
+        // emulate adding quotes to provider hub
+        for (int i = 20; i < length; i++)
         {
-            quoteHub.Add(quote);
+            // skip one (add later)
+            if (i == 80) { continue; }
+
+            Quote q = Quotes[i];
+            quoteHub.Add(q);
+
+            // resend duplicate quotes
+            if (i is > 100 and < 105) { quoteHub.Add(q); }
         }
 
-        IReadOnlyList<EpmaResult> results = epmaHub.Results;
+        // late arrival, should equal series
+        quoteHub.Insert(Quotes[80]);
 
-        // Verify results match series calculation exactly
-        results.Should().HaveCount(Quotes.Count);
-        results.Should().BeEquivalentTo(series);
+        actuals.Should().HaveCount(length);
+        actuals.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
+
+        // delete, should equal series (revised)
+        quoteHub.Remove(Quotes[removeAtIndex]);
+
+        IReadOnlyList<EpmaResult> expectedRevised = RevisedQuotes.ToEpma(lookbackPeriods);
+
+        actuals.Should().HaveCount(501);
+        actuals.Should().BeEquivalentTo(expectedRevised, static options => options.WithStrictOrdering());
+
+        // cleanup
+        observer.Unsubscribe();
+        quoteHub.EndTransmission();
     }
 
     [TestMethod]
-    public override void CustomToString()
+    public override void ToStringOverride_ReturnsExpectedName()
     {
         QuoteHub quoteHub = new();
         EpmaHub epmaHub = quoteHub.ToEpmaHub(lookbackPeriods);
@@ -88,6 +118,62 @@ public class EpmaStreamHubTests : StreamHubTestBase, ITestQuoteObserver
         }
 
         epmaHub.Results.Should().HaveCount(110);
+    }
+
+    [TestMethod]
+    public void ChainObserver_ChainedProvider_MatchesSeriesExactly()
+    {
+        // Test EPMA observing another indicator chain
+        const int smaPeriods = 10;
+
+        QuoteHub quoteHub = new();
+        EpmaHub epmaHub = quoteHub
+            .ToSmaHub(smaPeriods)
+            .ToEpmaHub(lookbackPeriods);
+
+        foreach (Quote quote in Quotes)
+        {
+            quoteHub.Add(quote);
+        }
+
+        IReadOnlyList<EpmaResult> streamResults = epmaHub.Results;
+        IReadOnlyList<EpmaResult> seriesResults = Quotes
+            .ToSma(smaPeriods)
+            .ToEpma(lookbackPeriods);
+
+        streamResults.Should().HaveCount(Quotes.Count);
+        streamResults.Should().BeEquivalentTo(seriesResults, options => options.WithStrictOrdering());
+
+        epmaHub.Unsubscribe();
+        quoteHub.EndTransmission();
+    }
+
+    [TestMethod]
+    public void ChainProvider_MatchesSeriesExactly()
+    {
+        // Test EPMA chaining to other indicators
+        const int smaPeriods = 10;
+
+        QuoteHub quoteHub = new();
+        SmaHub smaHub = quoteHub
+            .ToEpmaHub(lookbackPeriods)
+            .ToSmaHub(smaPeriods);
+
+        foreach (Quote quote in Quotes)
+        {
+            quoteHub.Add(quote);
+        }
+
+        IReadOnlyList<SmaResult> chainedResults = smaHub.Results;
+        IReadOnlyList<SmaResult> expectedChained = Quotes
+            .ToEpma(lookbackPeriods)
+            .ToSma(smaPeriods);
+
+        chainedResults.Should().HaveCount(Quotes.Count);
+        chainedResults.Should().BeEquivalentTo(expectedChained, options => options.WithStrictOrdering());
+
+        smaHub.Unsubscribe();
+        quoteHub.EndTransmission();
     }
 
     [TestMethod]

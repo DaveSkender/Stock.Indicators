@@ -1,10 +1,10 @@
 namespace StreamHub;
 
 [TestClass]
-public class ChaikinOscHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProvider
+public class ChaikinOscHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
 {
     [TestMethod]
-    public void QuoteObserver()
+    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
         List<Quote> quotesList = Quotes.ToList();
 
@@ -106,7 +106,7 @@ public class ChaikinOscHubTests : StreamHubTestBase, ITestChainObserver, ITestCh
     }
 
     [TestMethod]
-    public void ChainProvider()
+    public void ChainProvider_MatchesSeriesExactly()
     {
         const int fastPeriods = 3;
         const int slowPeriods = 10;
@@ -149,7 +149,7 @@ public class ChaikinOscHubTests : StreamHubTestBase, ITestChainObserver, ITestCh
     }
 
     [TestMethod]
-    public override void CustomToString()
+    public override void ToStringOverride_ReturnsExpectedName()
     {
         QuoteHub quoteHub = new();
         ChaikinOscHub chaikinOscHub = quoteHub.ToChaikinOscHub(3, 10);

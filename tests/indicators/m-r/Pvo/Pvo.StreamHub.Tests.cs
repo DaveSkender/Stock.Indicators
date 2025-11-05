@@ -3,7 +3,7 @@ namespace StreamHub;
 [TestClass]
 public class PvoHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProvider
 {
-    public override void CustomToString()
+    public override void ToStringOverride_ReturnsExpectedName()
     {
         // setup quote provider hub
         QuoteHub quoteHub = new();
@@ -19,7 +19,7 @@ public class PvoHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
     }
 
     [TestMethod]
-    public void QuoteObserver()
+    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
         List<Quote> quotesList = Quotes.ToList();
 
@@ -80,7 +80,7 @@ public class PvoHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
     }
 
     [TestMethod]
-    public void ChainObserver()
+    public void ChainObserver_ChainedProvider_MatchesSeriesExactly()
     {
         const int pvoFast = 12;
         const int pvoSlow = 26;
@@ -122,7 +122,7 @@ public class PvoHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
     }
 
     [TestMethod]
-    public void ChainProvider()
+    public void ChainProvider_MatchesSeriesExactly()
     {
         const int pvoFast = 12;
         const int pvoSlow = 26;

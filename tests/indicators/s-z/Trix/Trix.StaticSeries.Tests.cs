@@ -4,7 +4,7 @@ namespace StaticSeries;
 public class Trix : StaticSeriesTestBase
 {
     [TestMethod]
-    public override void Standard()
+    public override void DefaultParameters_ReturnsExpectedResults()
     {
         IReadOnlyList<TrixResult> results = Quotes
             .ToTrix(20);
@@ -55,7 +55,7 @@ public class Trix : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Chainor()
+    public void ChainingFromResults_WorksAsExpected()
     {
         IReadOnlyList<SmaResult> results = Quotes
             .ToTrix(20)
@@ -66,7 +66,7 @@ public class Trix : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadData()
+    public override void BadQuotes_DoesNotFail()
     {
         IReadOnlyList<TrixResult> r = BadQuotes
             .ToTrix(15);
@@ -76,7 +76,7 @@ public class Trix : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes()
+    public override void NoQuotes_ReturnsEmpty()
     {
         IReadOnlyList<TrixResult> r0 = Noquotes
             .ToTrix(5);

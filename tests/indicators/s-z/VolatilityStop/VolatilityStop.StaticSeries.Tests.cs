@@ -4,7 +4,7 @@ namespace StaticSeries;
 public class VolatilityStop : StaticSeriesTestBase
 {
     [TestMethod]
-    public override void Standard()
+    public override void DefaultParameters_ReturnsExpectedResults()
     {
         IReadOnlyList<VolatilityStopResult> results =
             Quotes.ToVolatilityStop(14);
@@ -61,7 +61,7 @@ public class VolatilityStop : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Chainor()
+    public void ChainingFromResults_WorksAsExpected()
     {
         IReadOnlyList<SmaResult> results = Quotes
             .ToVolatilityStop()
@@ -72,7 +72,7 @@ public class VolatilityStop : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadData()
+    public override void BadQuotes_DoesNotFail()
     {
         IReadOnlyList<VolatilityStopResult> r = BadQuotes
             .ToVolatilityStop();
@@ -82,7 +82,7 @@ public class VolatilityStop : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes()
+    public override void NoQuotes_ReturnsEmpty()
     {
         IReadOnlyList<VolatilityStopResult> r0 = Noquotes
             .ToVolatilityStop();

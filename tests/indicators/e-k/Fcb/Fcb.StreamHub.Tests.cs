@@ -4,7 +4,7 @@ namespace StreamHub;
 public class Fcb : StreamHubTestBase, ITestQuoteObserver
 {
     [TestMethod]
-    public void QuoteObserver()
+    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
         List<Quote> quotesList = Quotes.ToList();
 
@@ -65,7 +65,7 @@ public class Fcb : StreamHubTestBase, ITestQuoteObserver
     }
 
     [TestMethod]
-    public void QuoteObserverWithCustomWindowSpan()
+    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactlyWithCustomWindowSpan()
     {
         // simple test with custom window span
 
@@ -95,7 +95,7 @@ public class Fcb : StreamHubTestBase, ITestQuoteObserver
     }
 
     [TestMethod]
-    public override void CustomToString()
+    public override void ToStringOverride_ReturnsExpectedName()
     {
         FcbHub hub = new(new QuoteHub(), 2);
         hub.ToString().Should().Be("FCB(2)");

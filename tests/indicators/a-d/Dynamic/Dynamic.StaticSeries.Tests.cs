@@ -4,7 +4,7 @@ namespace StaticSeries;
 public class McGinleyDynamic : StaticSeriesTestBase
 {
     [TestMethod]
-    public override void Standard()
+    public override void DefaultParameters_ReturnsExpectedResults()
     {
         IReadOnlyList<DynamicResult> results = Quotes
             .ToDynamic(14);
@@ -51,7 +51,7 @@ public class McGinleyDynamic : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Chainor()
+    public void ChainingFromResults_WorksAsExpected()
     {
         IReadOnlyList<SmaResult> results = Quotes
             .ToDynamic(14)
@@ -62,7 +62,7 @@ public class McGinleyDynamic : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadData()
+    public override void BadQuotes_DoesNotFail()
     {
         IReadOnlyList<DynamicResult> r = BadQuotes
             .ToDynamic(15);
@@ -72,7 +72,7 @@ public class McGinleyDynamic : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes()
+    public override void NoQuotes_ReturnsEmpty()
     {
         IReadOnlyList<DynamicResult> r0 = Noquotes
             .ToDynamic(14);

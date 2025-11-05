@@ -4,7 +4,7 @@ namespace StaticSeries;
 public class Ultimate : StaticSeriesTestBase
 {
     [TestMethod]
-    public override void Standard()
+    public override void DefaultParameters_ReturnsExpectedResults()
     {
         IReadOnlyList<UltimateResult> results = Quotes
             .ToUltimate();
@@ -25,7 +25,7 @@ public class Ultimate : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Chainor()
+    public void ChainingFromResults_WorksAsExpected()
     {
         IReadOnlyList<SmaResult> results = Quotes
             .ToUltimate()
@@ -36,7 +36,7 @@ public class Ultimate : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadData()
+    public override void BadQuotes_DoesNotFail()
     {
         IReadOnlyList<UltimateResult> r = BadQuotes
             .ToUltimate(1, 2, 3);
@@ -46,7 +46,7 @@ public class Ultimate : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes()
+    public override void NoQuotes_ReturnsEmpty()
     {
         IReadOnlyList<UltimateResult> r0 = Noquotes
             .ToUltimate();

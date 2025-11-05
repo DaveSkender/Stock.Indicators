@@ -22,8 +22,8 @@ reviews:
   estimate_code_review_effort: false
   poem: false
 
-  related_issues: false
-  related_prs: false
+  related_issues: true
+  related_prs: true
 
   suggested_labels: false
   auto_apply_labels: false

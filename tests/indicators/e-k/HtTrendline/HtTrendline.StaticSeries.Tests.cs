@@ -4,7 +4,7 @@ namespace StaticSeries;
 public class HtTrendline : StaticSeriesTestBase
 {
     [TestMethod]
-    public override void Standard()
+    public override void DefaultParameters_ReturnsExpectedResults()
     {
         IReadOnlyList<HtlResult> results = Quotes
             .ToHtTrendline();
@@ -79,7 +79,7 @@ public class HtTrendline : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Chainor()
+    public void ChainingFromResults_WorksAsExpected()
     {
         IReadOnlyList<SmaResult> results = Quotes
             .ToHtTrendline()
@@ -90,7 +90,7 @@ public class HtTrendline : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadData()
+    public override void BadQuotes_DoesNotFail()
     {
         IReadOnlyList<HtlResult> r = BadQuotes
             .ToHtTrendline();
@@ -126,7 +126,7 @@ public class HtTrendline : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes()
+    public override void NoQuotes_ReturnsEmpty()
     {
         IReadOnlyList<HtlResult> r0 = Noquotes
             .ToHtTrendline();

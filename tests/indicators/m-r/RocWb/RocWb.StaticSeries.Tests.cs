@@ -4,7 +4,7 @@ namespace StaticSeries;
 public class RocWb : StaticSeriesTestBase
 {
     [TestMethod]
-    public override void Standard()
+    public override void DefaultParameters_ReturnsExpectedResults()
     {
         IReadOnlyList<RocWbResult> results = Quotes
             .ToRocWb(20, 3, 20);
@@ -89,7 +89,7 @@ public class RocWb : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Chainor()
+    public void ChainingFromResults_WorksAsExpected()
     {
         IReadOnlyList<SmaResult> results = Quotes
             .ToRocWb(20, 3, 20)
@@ -100,7 +100,7 @@ public class RocWb : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadData()
+    public override void BadQuotes_DoesNotFail()
     {
         IReadOnlyList<RocWbResult> r = BadQuotes
             .ToRocWb(35, 3, 35);
@@ -110,7 +110,7 @@ public class RocWb : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes()
+    public override void NoQuotes_ReturnsEmpty()
     {
         IReadOnlyList<RocWbResult> r0 = Noquotes
             .ToRocWb(5, 3, 2);

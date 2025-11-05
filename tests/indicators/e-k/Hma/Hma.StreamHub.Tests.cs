@@ -6,7 +6,7 @@ public class HmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
     private const int LookbackPeriods = 20;
 
     [TestMethod]
-    public void QuoteObserver()
+    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
         List<Quote> quotesList = Quotes.ToList();
         int length = quotesList.Count;
@@ -52,7 +52,7 @@ public class HmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
     }
 
     [TestMethod]
-    public void ChainObserver()
+    public void ChainObserver_ChainedProvider_MatchesSeriesExactly()
     {
         const int smaPeriods = 10;
 
@@ -83,7 +83,7 @@ public class HmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
     }
 
     [TestMethod]
-    public void ChainProvider()
+    public void ChainProvider_MatchesSeriesExactly()
     {
         const int smaPeriods = 10;
 
@@ -229,7 +229,7 @@ public class HmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
     }
 
     [TestMethod]
-    public override void CustomToString()
+    public override void ToStringOverride_ReturnsExpectedName()
     {
         HmaHub hub = new(new QuoteHub(), LookbackPeriods);
         hub.ToString().Should().Be($"HMA({LookbackPeriods})");

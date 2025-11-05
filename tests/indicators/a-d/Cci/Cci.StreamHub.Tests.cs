@@ -1,10 +1,10 @@
 namespace StreamHub;
 
 [TestClass]
-public class CciHubTests : StreamHubTestBase, ITestQuoteObserver
+public class CciHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
 {
     [TestMethod]
-    public void QuoteObserver()
+    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
         List<Quote> quotesList = Quotes.ToList();
 
@@ -65,7 +65,7 @@ public class CciHubTests : StreamHubTestBase, ITestQuoteObserver
     }
 
     [TestMethod]
-    public void QuoteProvider()
+    public void ChainProvider_MatchesSeriesExactly()
     {
         const int cciPeriods = 20;
 
@@ -100,7 +100,7 @@ public class CciHubTests : StreamHubTestBase, ITestQuoteObserver
     }
 
     [TestMethod]
-    public override void CustomToString()
+    public override void ToStringOverride_ReturnsExpectedName()
     {
         QuoteHub quoteHub = new();
         CciHub observer = quoteHub.ToCciHub(20);

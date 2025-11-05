@@ -9,7 +9,7 @@ public class ZigZag : StaticSeriesTestBase
     /// on Close
     /// </summary>
     [TestMethod]
-    public override void Standard()
+    public override void DefaultParameters_ReturnsExpectedResults()
     {
         IReadOnlyList<ZigZagResult> results =
             Quotes.ToZigZag(EndType.Close, 3);
@@ -111,7 +111,7 @@ public class ZigZag : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Chainor()
+    public void ChainingFromResults_WorksAsExpected()
     {
         IReadOnlyList<SmaResult> results = Quotes
             .ToZigZag(EndType.Close, 3)
@@ -154,7 +154,7 @@ public class ZigZag : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadData()
+    public override void BadQuotes_DoesNotFail()
     {
         IReadOnlyList<ZigZagResult> r1 = BadQuotes
             .ToZigZag();
@@ -168,7 +168,7 @@ public class ZigZag : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes()
+    public override void NoQuotes_ReturnsEmpty()
     {
         IReadOnlyList<ZigZagResult> r0 = Noquotes
             .ToZigZag();

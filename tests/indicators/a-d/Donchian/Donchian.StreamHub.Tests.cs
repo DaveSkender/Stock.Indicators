@@ -4,7 +4,7 @@ namespace StreamHub;
 public class Donchian : StreamHubTestBase, ITestQuoteObserver
 {
     [TestMethod]
-    public void QuoteObserver()
+    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
         List<Quote> quotesList = Quotes.ToList();
 
@@ -66,7 +66,7 @@ public class Donchian : StreamHubTestBase, ITestQuoteObserver
     }
 
     [TestMethod]
-    public override void CustomToString()
+    public override void ToStringOverride_ReturnsExpectedName()
     {
         DonchianHub hub = new(new QuoteHub(), 20);
         hub.ToString().Should().Be("DONCHIAN(20)");

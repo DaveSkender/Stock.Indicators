@@ -4,7 +4,7 @@ namespace StreamHub;
 public class VolatilityStop : StreamHubTestBase, ITestQuoteObserver
 {
     [TestMethod]
-    public void QuoteObserver()
+    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
         List<Quote> quotesList = Quotes.ToList();
 
@@ -67,7 +67,7 @@ public class VolatilityStop : StreamHubTestBase, ITestQuoteObserver
     }
 
     [TestMethod]
-    public void QuoteObserverCustomParameters()
+    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactlyCustomParameters()
     {
         // simple test with custom parameters
 
@@ -99,7 +99,7 @@ public class VolatilityStop : StreamHubTestBase, ITestQuoteObserver
     }
 
     [TestMethod]
-    public override void CustomToString()
+    public override void ToStringOverride_ReturnsExpectedName()
     {
         VolatilityStopHub hub = new(new QuoteHub(), 7, 3);
         hub.ToString().Should().Be("VOLATILITY-STOP(7,3)");

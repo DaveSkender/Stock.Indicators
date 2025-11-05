@@ -4,7 +4,7 @@ namespace StaticSeries;
 public class StdDevChannels : StaticSeriesTestBase
 {
     [TestMethod]
-    public override void Standard()
+    public override void DefaultParameters_ReturnsExpectedResults()
     {
         const int lookbackPeriods = 20;
         const double standardDeviations = 2;
@@ -118,7 +118,7 @@ public class StdDevChannels : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadData()
+    public override void BadQuotes_DoesNotFail()
     {
         IReadOnlyList<StdDevChannelsResult> r = BadQuotes
             .ToStdDevChannels();
@@ -128,7 +128,7 @@ public class StdDevChannels : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes()
+    public override void NoQuotes_ReturnsEmpty()
     {
         IReadOnlyList<StdDevChannelsResult> r0 = Noquotes
             .ToStdDevChannels();

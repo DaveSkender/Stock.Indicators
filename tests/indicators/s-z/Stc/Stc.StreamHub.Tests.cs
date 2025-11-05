@@ -9,7 +9,7 @@ public class StcHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
     private readonly IReadOnlyList<StcResult> expectedOriginal = Quotes.ToStc(cyclePeriods, fastPeriods, slowPeriods);
 
     [TestMethod]
-    public void QuoteObserver()
+    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
         int length = Quotes.Count;
 
@@ -56,7 +56,7 @@ public class StcHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
     }
 
     [TestMethod]
-    public void ChainObserver()
+    public void ChainObserver_ChainedProvider_MatchesSeriesExactly()
     {
         const int smaPeriods = 8;
         int length = Quotes.Count;
@@ -90,7 +90,7 @@ public class StcHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
     }
 
     [TestMethod]
-    public void ChainProvider()
+    public void ChainProvider_MatchesSeriesExactly()
     {
         const int smaPeriods = 10;
         int length = Quotes.Count;
@@ -140,7 +140,7 @@ public class StcHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
     }
 
     [TestMethod]
-    public void QuoteObserverDefaults()
+    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactlyDefaults()
     {
         int length = Quotes.Count;
 
@@ -169,7 +169,7 @@ public class StcHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
     }
 
     [TestMethod]
-    public override void CustomToString()
+    public override void ToStringOverride_ReturnsExpectedName()
     {
         StcHub hub = new(new QuoteHub(), cyclePeriods, fastPeriods, slowPeriods);
         hub.ToString().Should().Be($"STC({cyclePeriods},{fastPeriods},{slowPeriods})");

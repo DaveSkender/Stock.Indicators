@@ -48,7 +48,7 @@ public class Beta : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void Standard()
+    public override void DefaultParameters_ReturnsExpectedResults()
     {
         IReadOnlyList<BetaResult> results = OtherQuotes
             .ToBeta(Quotes, 20);
@@ -104,7 +104,7 @@ public class Beta : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Chainor()
+    public void ChainingFromResults_WorksAsExpected()
     {
         IReadOnlyList<SmaResult> results = OtherQuotes
             .ToBeta(Quotes, 20)
@@ -127,7 +127,7 @@ public class Beta : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadData()
+    public override void BadQuotes_DoesNotFail()
     {
         IReadOnlyList<BetaResult> r1 = BadQuotes
             .ToBeta(BadQuotes, 15);
@@ -149,7 +149,7 @@ public class Beta : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void BigData()
+    public void BigQuoteValues_DoesNotFail()
     {
         IReadOnlyList<BetaResult> r = BigQuotes
             .ToBeta(BigQuotes, 150, BetaType.All);
@@ -209,7 +209,7 @@ public class Beta : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes()
+    public override void NoQuotes_ReturnsEmpty()
     {
         IReadOnlyList<BetaResult> r0 = Noquotes
             .ToBeta(Noquotes, 5);

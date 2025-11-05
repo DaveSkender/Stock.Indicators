@@ -19,20 +19,9 @@ fi
 # Apply to current session
 eval "$TOOLS_PATH_LINE"
 
-# Verify Node.js and npm are available
-echo "🔍 Verifying Node.js environment..."
-node --version
-npm install --global npm@latest
-npm --version
-
 # Verify .NET is available
 echo "🔍 Verifying .NET environment..."
 dotnet --version
-
-# Restore global tools
-echo "🧰 Installing NPM-based tools..."
-npm install --global @angular/cli
-npm list --global
 
 echo "🧰 Installing .NET-based tools..."
 dotnet tool install --global dotnet-format

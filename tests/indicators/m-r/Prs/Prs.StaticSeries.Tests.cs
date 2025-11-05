@@ -4,7 +4,7 @@ namespace StaticSeries;
 public class Prs : StaticSeriesTestBase
 {
     [TestMethod]
-    public override void Standard()
+    public override void DefaultParameters_ReturnsExpectedResults()
     {
         const int lookbackPeriods = 30;
 
@@ -41,7 +41,7 @@ public class Prs : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Chainor()
+    public void ChainingFromResults_WorksAsExpected()
     {
         IReadOnlyList<SmaResult> results = OtherQuotes
             .ToPrs(Quotes, 20)
@@ -64,7 +64,7 @@ public class Prs : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadData()
+    public override void BadQuotes_DoesNotFail()
     {
         IReadOnlyList<PrsResult> r = BadQuotes
             .ToPrs(BadQuotes, 15);
@@ -74,7 +74,7 @@ public class Prs : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes()
+    public override void NoQuotes_ReturnsEmpty()
     {
         IReadOnlyList<PrsResult> r0 = Noquotes
             .ToPrs(Noquotes);

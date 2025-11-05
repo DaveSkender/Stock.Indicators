@@ -4,7 +4,7 @@ namespace StaticSeries;
 public class BollingerBands : StaticSeriesTestBase
 {
     [TestMethod]
-    public override void Standard()
+    public override void DefaultParameters_ReturnsExpectedResults()
     {
         IReadOnlyList<BollingerBandsResult> results =
             Quotes.ToBollingerBands();
@@ -59,7 +59,7 @@ public class BollingerBands : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Chainor()
+    public void ChainingFromResults_WorksAsExpected()
     {
         IReadOnlyList<SmaResult> results = Quotes
             .ToBollingerBands()
@@ -70,7 +70,7 @@ public class BollingerBands : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadData()
+    public override void BadQuotes_DoesNotFail()
     {
         IReadOnlyList<BollingerBandsResult> r = BadQuotes
             .ToBollingerBands(15, 3);
@@ -80,7 +80,7 @@ public class BollingerBands : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes()
+    public override void NoQuotes_ReturnsEmpty()
     {
         IReadOnlyList<BollingerBandsResult> r0 = Noquotes
             .ToBollingerBands();

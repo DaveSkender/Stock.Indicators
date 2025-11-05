@@ -7,7 +7,7 @@ public class StdDevHubTests : StreamHubTestBase, ITestChainObserver, ITestChainP
     private readonly IReadOnlyList<StdDevResult> expectedOriginal = Quotes.ToStdDev(lookbackPeriods);
 
     [TestMethod]
-    public void QuoteObserver()
+    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
         int length = Quotes.Count;
 
@@ -54,7 +54,7 @@ public class StdDevHubTests : StreamHubTestBase, ITestChainObserver, ITestChainP
     }
 
     [TestMethod]
-    public void ChainObserver()
+    public void ChainObserver_ChainedProvider_MatchesSeriesExactly()
     {
         const int stdDevPeriods = 10;
         const int smaPeriods = 8;
@@ -89,7 +89,7 @@ public class StdDevHubTests : StreamHubTestBase, ITestChainObserver, ITestChainP
     }
 
     [TestMethod]
-    public void ChainProvider()
+    public void ChainProvider_MatchesSeriesExactly()
     {
         const int stdDevPeriods = 10;
         const int smaPeriods = 8;
@@ -141,7 +141,7 @@ public class StdDevHubTests : StreamHubTestBase, ITestChainObserver, ITestChainP
     }
 
     [TestMethod]
-    public override void CustomToString()
+    public override void ToStringOverride_ReturnsExpectedName()
     {
         StdDevHub hub = new(new QuoteHub(), 14);
         hub.ToString().Should().Be("STDDEV(14)");

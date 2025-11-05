@@ -4,7 +4,7 @@ namespace StreamHub;
 public class UltimateHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
 {
     [TestMethod]
-    public void QuoteObserver()
+    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
         List<Quote> quotesList = Quotes.ToList();
 
@@ -66,7 +66,7 @@ public class UltimateHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChai
     }
 
     [TestMethod]
-    public void ChainProvider()
+    public void ChainProvider_MatchesSeriesExactly()
     {
         const int smaPeriods = 8;
 
@@ -112,7 +112,7 @@ public class UltimateHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChai
     }
 
     [TestMethod]
-    public override void CustomToString()
+    public override void ToStringOverride_ReturnsExpectedName()
     {
         UltimateHub hub = new(new QuoteHub(), 7, 14, 28);
         hub.ToString().Should().Be("UO(7,14,28)");

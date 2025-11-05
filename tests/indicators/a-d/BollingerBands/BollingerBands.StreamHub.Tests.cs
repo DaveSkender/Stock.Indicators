@@ -1,10 +1,10 @@
 namespace StreamHubs;
 
 [TestClass]
-public class BollingerBandsStreamHubTests : StreamHubTestBase, ITestQuoteObserver
+public class BollingerBandsStreamHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
 {
     [TestMethod]
-    public void QuoteObserver()
+    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
         List<Quote> quotesList = Quotes.ToList();
         int length = quotesList.Count;
@@ -64,7 +64,7 @@ public class BollingerBandsStreamHubTests : StreamHubTestBase, ITestQuoteObserve
     }
 
     [TestMethod]
-    public override void CustomToString()
+    public override void ToStringOverride_ReturnsExpectedName()
     {
         QuoteHub quoteHub = new();
         quoteHub.Add(Quotes);
@@ -74,7 +74,7 @@ public class BollingerBandsStreamHubTests : StreamHubTestBase, ITestQuoteObserve
     }
 
     [TestMethod]
-    public void ChainProvider()
+    public void ChainProvider_MatchesSeriesExactly()
     {
         // arrange
         const int lookbackPeriods = 20;

@@ -4,7 +4,7 @@ namespace StaticSeries;
 public class Marubozu : StaticSeriesTestBase
 {
     [TestMethod]
-    public override void Standard()
+    public override void DefaultParameters_ReturnsExpectedResults()
     {
         IReadOnlyList<CandleResult> results = Quotes
             .ToMarubozu();
@@ -40,7 +40,7 @@ public class Marubozu : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadData()
+    public override void BadQuotes_DoesNotFail()
     {
         IReadOnlyList<CandleResult> r = BadQuotes
             .ToMarubozu();
@@ -49,7 +49,7 @@ public class Marubozu : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes()
+    public override void NoQuotes_ReturnsEmpty()
     {
         IReadOnlyList<CandleResult> r0 = Noquotes
             .ToMarubozu();

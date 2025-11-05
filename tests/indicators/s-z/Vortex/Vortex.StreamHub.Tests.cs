@@ -7,7 +7,7 @@ public class VortexHubTests : StreamHubTestBase, ITestQuoteObserver
     private readonly IReadOnlyList<VortexResult> expectedOriginal = Quotes.ToVortex(lookbackPeriods);
 
     [TestMethod]
-    public void QuoteObserver()
+    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
         int length = Quotes.Count;
 
@@ -54,7 +54,7 @@ public class VortexHubTests : StreamHubTestBase, ITestQuoteObserver
     }
 
     [TestMethod]
-    public override void CustomToString()
+    public override void ToStringOverride_ReturnsExpectedName()
     {
         VortexHub hub = new(new QuoteHub(), 14);
         hub.ToString().Should().Be("VORTEX(14)");

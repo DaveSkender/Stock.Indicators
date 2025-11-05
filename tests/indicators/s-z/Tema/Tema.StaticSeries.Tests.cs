@@ -4,7 +4,7 @@ namespace StaticSeries;
 public class Tema : StaticSeriesTestBase
 {
     [TestMethod]
-    public override void Standard()
+    public override void DefaultParameters_ReturnsExpectedResults()
     {
         IReadOnlyList<TemaResult> results = Quotes
             .ToTema(20);
@@ -50,7 +50,7 @@ public class Tema : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Chainor()
+    public void ChainingFromResults_WorksAsExpected()
     {
         IReadOnlyList<SmaResult> results = Quotes
             .ToTema(20)
@@ -61,7 +61,7 @@ public class Tema : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadData()
+    public override void BadQuotes_DoesNotFail()
     {
         IReadOnlyList<TemaResult> r = BadQuotes
             .ToTema(15);
@@ -71,7 +71,7 @@ public class Tema : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes()
+    public override void NoQuotes_ReturnsEmpty()
     {
         IReadOnlyList<TemaResult> r0 = Noquotes
             .ToTema(5);

@@ -4,7 +4,7 @@ namespace StaticSeries;
 public class Stc : StaticSeriesTestBase
 {
     [TestMethod]
-    public override void Standard()
+    public override void DefaultParameters_ReturnsExpectedResults()
     {
         const int cyclePeriods = 9;
         const int fastPeriods = 12;
@@ -57,7 +57,7 @@ public class Stc : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Chainor()
+    public void ChainingFromResults_WorksAsExpected()
     {
         IReadOnlyList<SmaResult> results = Quotes
             .ToStc(9, 12, 26)
@@ -68,7 +68,7 @@ public class Stc : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadData()
+    public override void BadQuotes_DoesNotFail()
     {
         IReadOnlyList<StcResult> r = BadQuotes
             .ToStc();
@@ -78,7 +78,7 @@ public class Stc : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes()
+    public override void NoQuotes_ReturnsEmpty()
     {
         IReadOnlyList<StcResult> r0 = Noquotes
             .ToStc();

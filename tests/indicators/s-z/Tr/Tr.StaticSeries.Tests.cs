@@ -4,7 +4,7 @@ namespace StaticSeries;
 public class Tr : StaticSeriesTestBase
 {
     [TestMethod]
-    public override void Standard()
+    public override void DefaultParameters_ReturnsExpectedResults()
     {
         IReadOnlyList<TrResult> results = Quotes
             .ToTr();
@@ -37,7 +37,7 @@ public class Tr : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Chainor()
+    public void ChainingFromResults_WorksAsExpected()
     {
         // same as ATR
         IReadOnlyList<SmmaResult> results = Quotes
@@ -58,7 +58,7 @@ public class Tr : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadData()
+    public override void BadQuotes_DoesNotFail()
     {
         IReadOnlyList<TrResult> r = BadQuotes
             .ToTr();
@@ -68,7 +68,7 @@ public class Tr : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes()
+    public override void NoQuotes_ReturnsEmpty()
     {
         IReadOnlyList<TrResult> r0 = Noquotes
             .ToTr();

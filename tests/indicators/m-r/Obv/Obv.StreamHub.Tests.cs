@@ -1,10 +1,10 @@
 namespace StreamHub;
 
 [TestClass]
-public class ObvHubTests : StreamHubTestBase, ITestQuoteObserver
+public class ObvHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
 {
     [TestMethod]
-    public void QuoteObserver()
+    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
         List<Quote> quotesList = Quotes.ToList();
         int length = quotesList.Count;
@@ -61,7 +61,47 @@ public class ObvHubTests : StreamHubTestBase, ITestQuoteObserver
     }
 
     [TestMethod]
-    public override void CustomToString()
+    public void ChainProvider_MatchesSeriesExactly()
+    {
+        const int smaPeriods = 10;
+
+        List<Quote> quotesList = Quotes.ToList();
+        int length = quotesList.Count;
+
+        // setup quote provider hub
+        QuoteHub quoteHub = new();
+
+        // initialize observer - chain OBV to SMA
+        SmaHub observer = quoteHub
+            .ToObvHub()
+            .ToSmaHub(smaPeriods);
+
+        // emulate quote stream
+        for (int i = 0; i < length; i++)
+        {
+            quoteHub.Add(quotesList[i]);
+        }
+
+        // final results
+        IReadOnlyList<SmaResult> streamList = observer.Results;
+
+        // time-series, for comparison
+        IReadOnlyList<SmaResult> seriesList = quotesList
+            .ToObv()
+            .ToSma(smaPeriods);
+
+        // assert, should equal series
+        streamList.Should().HaveCount(length);
+        streamList.Should().BeEquivalentTo(
+            seriesList,
+            options => options.WithStrictOrdering());
+
+        observer.Unsubscribe();
+        quoteHub.EndTransmission();
+    }
+
+    [TestMethod]
+    public override void ToStringOverride_ReturnsExpectedName()
     {
         ObvHub hub = new(new QuoteHub());
         hub.ToString().Should().Be("OBV");

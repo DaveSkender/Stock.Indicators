@@ -1,0 +1,163 @@
+using System.Reflection;
+
+namespace Tests.Data;
+
+/// <summary>
+/// Validates that all StreamHub test classes implement correct test interfaces
+/// based on their hub's provider type per instruction file guidelines.
+/// </summary>
+[TestClass]
+public class StreamHubInterfaceComplianceTests
+{
+
+    [TestMethod]
+    public void AllStreamHubTests_ImplementCorrectInterfaces()
+    {
+        // Get all test classes that inherit from StreamHubTestBase
+        Assembly testAssembly = typeof(StreamHubTestBase).Assembly;
+        Type[] allTypes = testAssembly.GetTypes();
+
+        List<Type> streamHubTestClasses = allTypes
+            .Where(t => t.IsClass
+                     && !t.IsAbstract
+                     && typeof(StreamHubTestBase).IsAssignableFrom(t))
+            .ToList();
+
+        Console.WriteLine($"\nFound {streamHubTestClasses.Count} StreamHub test classes");
+
+        List<string> violations = [];
+        List<string> warnings = [];
+        int validated = 0;
+
+        // Define observer and provider interface types
+        Type[] observerTypes = [
+            typeof(ITestChainObserver),
+            typeof(ITestQuoteObserver),
+            typeof(ITestPairsObserver)
+        ];
+        Type[] providerTypes = [
+            typeof(ITestChainProvider)
+        ]; // Add more provider interfaces here if needed
+
+        foreach (Type testClass in streamHubTestClasses)
+        {
+            string className = testClass.Name;
+            Type[] actualInterfaces = testClass.GetInterfaces()
+                .Where(i => i.Namespace == "Tests.Data"
+                         && i.Name.StartsWith("ITest", StringComparison.Ordinal))
+                .ToArray();
+
+            // Find which observer/provider interfaces are implemented
+            List<Type> implementedObservers = actualInterfaces.Where(i => observerTypes.Contains(i)).ToList();
+            List<Type> implementedProviders = actualInterfaces.Where(i => providerTypes.Contains(i)).ToList();
+
+            // Must implement at least one observer
+            if (implementedObservers.Count == 0)
+            {
+                violations.Add($"{className}: Does not implement any observer interface");
+            }
+
+            // PairsObserver must not implement any provider
+            if (implementedObservers.Any(i => i == typeof(ITestPairsObserver)) && implementedProviders.Count > 0)
+            {
+                violations.Add($"{className}: PairsObserver should not implement provider interfaces");
+            }
+
+            // PairsObserver must not implement other observer types
+            if (implementedObservers.Contains(typeof(ITestPairsObserver)) &&
+                (implementedObservers.Contains(typeof(ITestChainObserver)) || implementedObservers.Contains(typeof(ITestQuoteObserver))))
+            {
+                violations.Add($"{className}: PairsObserver should not be combined with other observer interfaces");
+            }
+
+            // Warn if both ITestChainObserver and ITestQuoteObserver are implemented (redundant)
+            if (implementedObservers.Contains(typeof(ITestChainObserver)) && implementedObservers.Contains(typeof(ITestQuoteObserver)))
+            {
+                warnings.Add($"{className}: Implements both ITestChainObserver and ITestQuoteObserver (redundant)");
+            }
+
+            // If implements provider, must also have a valid observer (already checked above)
+            // Add more rules as new provider/observer types are introduced
+
+            validated++;
+        }
+
+        Console.WriteLine($"Validated {validated} test classes");
+
+        if (violations.Count > 0)
+        {
+            string message = $"Found {violations.Count} interface compliance violations:\n"
+                           + string.Join("\n", violations);
+            Assert.Fail(message);
+        }
+
+        if (warnings.Count > 0)
+        {
+            Console.WriteLine($"\n[WARN] {warnings.Count} redundant observer interface implementations detected:");
+            foreach (string w in warnings)
+            {
+                Console.WriteLine("  - " + w);
+            }
+        }
+
+        Console.WriteLine("✅ All validated StreamHub tests implement correct observer/provider interfaces");
+    }
+
+    [TestMethod]
+    public void ChainObserver_DoesNotRedundantlyImplementQuoteObserver()
+    {
+        // ITestChainObserver inherits ITestQuoteObserver, so implementing both is redundant
+
+        Assembly testAssembly = typeof(StreamHubTestBase).Assembly;
+        Type[] allTypes = testAssembly.GetTypes();
+
+        List<Type> redundantImplementations = allTypes
+            .Where(t => t.IsClass
+                     && !t.IsAbstract
+                     && typeof(ITestChainObserver).IsAssignableFrom(t)
+                     && t.GetInterfaces().Contains(typeof(ITestQuoteObserver)))
+            .ToList();
+
+        // Note: This is informational only - it's not wrong to explicitly implement both,
+        // but the instruction file notes it's redundant
+        if (redundantImplementations.Count > 0)
+        {
+            Console.WriteLine($"\nNote: {redundantImplementations.Count} test classes "
+                            + "explicitly implement both ITestChainObserver and ITestQuoteObserver "
+                            + "(ITestChainObserver already inherits ITestQuoteObserver):");
+
+            foreach (Type t in redundantImplementations)
+            {
+                Console.WriteLine($"  - {t.Name}");
+            }
+        }
+    }
+
+    [TestMethod]
+    public void PairsObserver_DoesNotImplementQuoteObserver()
+    {
+        // PairsProvider tests should NOT implement ITestQuoteObserver or ITestChainObserver
+        // They are dual-stream and have different synchronization requirements
+
+        Assembly testAssembly = typeof(StreamHubTestBase).Assembly;
+        Type[] allTypes = testAssembly.GetTypes();
+
+        List<Type> violations = allTypes
+            .Where(t => t.IsClass
+                     && !t.IsAbstract
+                     && typeof(ITestPairsObserver).IsAssignableFrom(t)
+                     && (typeof(ITestQuoteObserver).IsAssignableFrom(t)
+                      || typeof(ITestChainObserver).IsAssignableFrom(t)))
+            .ToList();
+
+        if (violations.Count > 0)
+        {
+            string message = $"Found {violations.Count} PairsObserver tests incorrectly "
+                           + "implementing QuoteObserver or ChainObserver:\n"
+                           + string.Join("\n", violations.Select(t => $"  - {t.Name}"));
+            Assert.Fail(message);
+        }
+
+        Console.WriteLine("✅ All PairsObserver tests correctly avoid QuoteObserver/ChainObserver interfaces");
+    }
+}

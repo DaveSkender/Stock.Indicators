@@ -4,7 +4,7 @@ namespace StaticSeries;
 public class Obv : StaticSeriesTestBase
 {
     [TestMethod]
-    public override void Standard()
+    public override void DefaultParameters_ReturnsExpectedResults()
     {
         IReadOnlyList<ObvResult> results = Quotes
             .ToObv();
@@ -21,7 +21,7 @@ public class Obv : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Chainor()
+    public void ChainingFromResults_WorksAsExpected()
     {
         IReadOnlyList<SmaResult> results = Quotes
             .ToObv()
@@ -32,7 +32,7 @@ public class Obv : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadData()
+    public override void BadQuotes_DoesNotFail()
     {
         IReadOnlyList<ObvResult> r = BadQuotes
             .ToObv();
@@ -42,7 +42,7 @@ public class Obv : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void BigData()
+    public void BigQuoteValues_DoesNotFail()
     {
         IReadOnlyList<ObvResult> r = BigQuotes
             .ToObv();
@@ -51,7 +51,7 @@ public class Obv : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes()
+    public override void NoQuotes_ReturnsEmpty()
     {
         IReadOnlyList<ObvResult> r0 = Noquotes
             .ToObv();

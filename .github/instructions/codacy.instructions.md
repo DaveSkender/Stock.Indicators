@@ -15,7 +15,7 @@ Configuration for AI behavior when interacting with Codacy's MCP Server
   - repository: Stock.Indicators
   - Avoid calling `git remote -v` unless really necessary
 
-## CRITICAL: After ANY successful `edit_file` or `reapply` operation
+## After ANY successful `edit_file` or `reapply` operation
 
 - For complex or significant file changes run the `codacy_cli_analyze` tool from Codacy's MCP Server for each file that was edited before finishing your turn, with:
   - `rootPath`: set to the workspace path
@@ -26,12 +26,10 @@ Configuration for AI behavior when interacting with Codacy's MCP Server
 
 ## When you tried to run the `codacy_cli_analyze` tool and the Codacy CLI is not installed
 
-- Check if the project has `@codacy/codacy-mcp` NPM package installed in `package.json` devDependencies
-- If the NPM package is installed but CLI is not available, recommend running `npm install` to ensure dependencies are installed
-- If the NPM package is not installed, ask the user 'Codacy CLI is not available. This project uses NPM packages for Codacy. Would you like me to add the @codacy/codacy-mcp package to devDependencies?'
-- If the user responds with "yes", run `npm install --save-dev @codacy/codacy-mcp` and then continue with the original task
-- If the user responds with "no", instruct the user that they can disable automatic analysis in the extension settings
-- Wait for the user to respond before proceeding with any other actions
+- Simply use `npx @codacy/codacy-mcp` to invoke the Codacy CLI directly
+- npx will automatically download and run the tool without requiring installation
+- Do not ask the user to install anything
+- Continue with the analysis using the npx command
 
 ## After every response
 
@@ -51,12 +49,11 @@ Configuration for AI behavior when interacting with Codacy's MCP Server
 ## CRITICAL: Dependencies and Security Checks
 
 - IMMEDIATELY after ANY of these actions:
-  - Running npm/yarn/pnpm install
-  - Adding dependencies to package.json
-  - Adding requirements to requirements.txt
+  - Adding dependencies to requirements.txt
   - Adding dependencies to pom.xml
   - Adding dependencies to build.gradle
-  - Any other package manager operations
+  - Adding dependencies to .csproj files
+  - Any other package manager operations (excluding npm/yarn/pnpm as this project does not use Node.js packages)
 - You MUST run the `codacy_cli_analyze` tool with:
   - `rootPath`: set to the workspace path
   - `tool`: set to "trivy"
@@ -65,10 +62,6 @@ Configuration for AI behavior when interacting with Codacy's MCP Server
   - Stop all other operations
   - Propose and apply fixes for the security issues
   - Only continue with the original task after security issues are resolved
-- EXAMPLE:
-  - After: npm install react-markdown
-  - Do: Run codacy_cli_analyze with trivy
-  - Before: Continuing with any other tasks
 
 ## General
 
@@ -78,7 +71,7 @@ Configuration for AI behavior when interacting with Codacy's MCP Server
 - Do not run `codacy_cli_analyze` looking for changes in duplicated code or code complexity metrics.
 - Complexity metrics are different from complexity issues. When trying to fix complexity in a repository or file, focus on solving the complexity issues and ignore the complexity metric.
 - Do not run `codacy_cli_analyze` looking for changes in code coverage.
-- The Codacy CLI is available through the `@codacy/codacy-mcp` NPM package installed in this project's devDependencies.
+- The Codacy CLI can be invoked via `npx @codacy/codacy-mcp` when needed.
 - When calling `codacy_cli_analyze`, only send provider, organization and repository if the project is a git repository.
 
 ## Whenever a call to a Codacy tool that uses `repository` or `organization` as a parameter returns a 404 error
@@ -89,4 +82,4 @@ Configuration for AI behavior when interacting with Codacy's MCP Server
 - After setup, immediately retry the action that failed (only retry once)
 
 ---
-Last updated: October 12, 2025
+Last updated: November 5, 2025

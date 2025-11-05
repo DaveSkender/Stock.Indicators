@@ -4,7 +4,7 @@ namespace StaticSeries;
 public class ConnorsRsi : StaticSeriesTestBase
 {
     [TestMethod]
-    public override void Standard()
+    public override void DefaultParameters_ReturnsExpectedResults()
     {
         const int rsiPeriods = 3;
         const int streakPeriods = 2;
@@ -57,7 +57,7 @@ public class ConnorsRsi : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Chainor()
+    public void ChainingFromResults_WorksAsExpected()
     {
         IReadOnlyList<SmaResult> results = Quotes
             .ToConnorsRsi()
@@ -68,7 +68,7 @@ public class ConnorsRsi : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadData()
+    public override void BadQuotes_DoesNotFail()
     {
         IReadOnlyList<ConnorsRsiResult> r = BadQuotes
             .ToConnorsRsi(4, 3, 25);
@@ -78,7 +78,7 @@ public class ConnorsRsi : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes()
+    public override void NoQuotes_ReturnsEmpty()
     {
         IReadOnlyList<ConnorsRsiResult> r0 = Noquotes
             .ToConnorsRsi();

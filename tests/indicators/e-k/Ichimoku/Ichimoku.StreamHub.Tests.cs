@@ -8,7 +8,7 @@ public class IchimokuHubTests : StreamHubTestBase, ITestQuoteObserver
     private const int senkouBPeriods = 52;
 
     [TestMethod]
-    public void QuoteObserver()
+    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
         List<Quote> quotesList = Quotes.ToList();
 
@@ -51,7 +51,7 @@ public class IchimokuHubTests : StreamHubTestBase, ITestQuoteObserver
     }
 
     [TestMethod]
-    public void QuoteObserverWithOffsets()
+    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactlyWithOffsets()
     {
         // Simple test for different offset parameters
 
@@ -85,7 +85,7 @@ public class IchimokuHubTests : StreamHubTestBase, ITestQuoteObserver
     }
 
     [TestMethod]
-    public override void CustomToString()
+    public override void ToStringOverride_ReturnsExpectedName()
     {
         IchimokuHub hub = new(new QuoteHub(), 9, 26, 52, 26, 26);
         hub.ToString().Should().Be("ICHIMOKU(9,26,52)");

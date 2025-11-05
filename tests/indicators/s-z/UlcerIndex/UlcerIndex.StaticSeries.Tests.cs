@@ -4,7 +4,7 @@ namespace StaticSeries;
 public class UlcerIndex : StaticSeriesTestBase
 {
     [TestMethod]
-    public override void Standard()
+    public override void DefaultParameters_ReturnsExpectedResults()
     {
         IReadOnlyList<UlcerIndexResult> results = Quotes
             .ToUlcerIndex();
@@ -41,7 +41,7 @@ public class UlcerIndex : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Chainor()
+    public void ChainingFromResults_WorksAsExpected()
     {
         IReadOnlyList<SmaResult> results = Quotes
             .ToUlcerIndex()
@@ -52,7 +52,7 @@ public class UlcerIndex : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadData()
+    public override void BadQuotes_DoesNotFail()
     {
         IReadOnlyList<UlcerIndexResult> r = BadQuotes
             .ToUlcerIndex(15);
@@ -62,7 +62,7 @@ public class UlcerIndex : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes()
+    public override void NoQuotes_ReturnsEmpty()
     {
         IReadOnlyList<UlcerIndexResult> r0 = Noquotes
             .ToUlcerIndex();

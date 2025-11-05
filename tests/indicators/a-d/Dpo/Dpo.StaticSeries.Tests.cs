@@ -4,7 +4,7 @@ namespace StaticSeries;
 public class Dpo : StaticSeriesTestBase
 {
     [TestMethod]
-    public override void Standard()
+    public override void DefaultParameters_ReturnsExpectedResults()
     {
         // get expected data
         List<Quote> qot = [];
@@ -64,7 +64,7 @@ public class Dpo : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Chainor()
+    public void ChainingFromResults_WorksAsExpected()
     {
         IReadOnlyList<SmaResult> results = Quotes
             .ToDpo(14)
@@ -75,7 +75,7 @@ public class Dpo : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadData()
+    public override void BadQuotes_DoesNotFail()
     {
         IReadOnlyList<DpoResult> r = BadQuotes
             .ToDpo(5);
@@ -85,7 +85,7 @@ public class Dpo : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes()
+    public override void NoQuotes_ReturnsEmpty()
     {
         IReadOnlyList<DpoResult> r0 = Noquotes
             .ToDpo(5);

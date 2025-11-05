@@ -4,7 +4,7 @@ namespace StaticSeries;
 public class Atr : StaticSeriesTestBase
 {
     [TestMethod]
-    public override void Standard()
+    public override void DefaultParameters_ReturnsExpectedResults()
     {
         IReadOnlyList<AtrResult> results = Quotes
             .ToAtr();
@@ -62,7 +62,7 @@ public class Atr : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Chainor()
+    public void ChainingFromResults_WorksAsExpected()
     {
         IReadOnlyList<SmaResult> results = Quotes
             .ToAtr(10)
@@ -73,7 +73,7 @@ public class Atr : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadData()
+    public override void BadQuotes_DoesNotFail()
     {
         IReadOnlyList<AtrResult> r = BadQuotes
             .ToAtr(20);
@@ -83,7 +83,7 @@ public class Atr : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes()
+    public override void NoQuotes_ReturnsEmpty()
     {
         IReadOnlyList<AtrResult> r0 = Noquotes
             .ToAtr();

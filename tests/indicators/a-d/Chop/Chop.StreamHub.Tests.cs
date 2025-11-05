@@ -4,7 +4,7 @@ namespace StreamHub;
 public class ChopHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
 {
     [TestMethod]
-    public void QuoteObserver()
+    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
         List<Quote> quotesList = Quotes.ToList();
 
@@ -65,7 +65,7 @@ public class ChopHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPro
     }
 
     [TestMethod]
-    public void ChainProvider()
+    public void ChainProvider_MatchesSeriesExactly()
     {
         const int smaPeriods = 8;
         const int chopPeriods = 14;
@@ -107,7 +107,7 @@ public class ChopHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPro
     }
 
     [TestMethod]
-    public override void CustomToString()
+    public override void ToStringOverride_ReturnsExpectedName()
     {
         QuoteHub quoteHub = new();
         ChopHub observer = quoteHub.ToChopHub(14);

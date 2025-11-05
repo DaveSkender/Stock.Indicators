@@ -7,7 +7,7 @@ public class MaEnvelopes : StaticSeriesTestBase
     /// SMA
     /// </summary>
     [TestMethod]
-    public override void Standard()
+    public override void DefaultParameters_ReturnsExpectedResults()
     {
         IReadOnlyList<MaEnvelopeResult> results =
             Quotes.ToMaEnvelopes(20);
@@ -262,7 +262,7 @@ public class MaEnvelopes : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadData()
+    public override void BadQuotes_DoesNotFail()
     {
         IReadOnlyList<MaEnvelopeResult> a = BadQuotes
             .ToMaEnvelopes(5, 2.5, MaType.ALMA);
@@ -306,7 +306,7 @@ public class MaEnvelopes : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes()
+    public override void NoQuotes_ReturnsEmpty()
     {
         IReadOnlyList<MaEnvelopeResult> r0 = Noquotes
             .ToMaEnvelopes(10);

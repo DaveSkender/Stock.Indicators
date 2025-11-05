@@ -4,7 +4,7 @@ namespace StaticSeries;
 public class Chandelier : StaticSeriesTestBase
 {
     [TestMethod]
-    public override void Standard()
+    public override void DefaultParameters_ReturnsExpectedResults()
     {
         const int lookbackPeriods = 22;
 
@@ -31,7 +31,7 @@ public class Chandelier : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Chainor()
+    public void ChainingFromResults_WorksAsExpected()
     {
         IReadOnlyList<SmaResult> results = Quotes
             .ToChandelier()
@@ -42,7 +42,7 @@ public class Chandelier : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadData()
+    public override void BadQuotes_DoesNotFail()
     {
         IReadOnlyList<ChandelierResult> r = BadQuotes
             .ToChandelier(15, 2);
@@ -52,7 +52,7 @@ public class Chandelier : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes()
+    public override void NoQuotes_ReturnsEmpty()
     {
         IReadOnlyList<ChandelierResult> r0 = Noquotes
             .ToChandelier();

@@ -4,7 +4,7 @@ namespace StaticSeries;
 public class Hurst : StaticSeriesTestBase
 {
     [TestMethod]
-    public override void Standard()
+    public override void DefaultParameters_ReturnsExpectedResults()
     {
         IReadOnlyList<HurstResult> results = LongestQuotes
             .ToHurst(LongestQuotes.Count - 1);
@@ -32,7 +32,7 @@ public class Hurst : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Chainor()
+    public void ChainingFromResults_WorksAsExpected()
     {
         IReadOnlyList<SmaResult> results = Quotes
             .ToHurst()
@@ -54,7 +54,7 @@ public class Hurst : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadData()
+    public override void BadQuotes_DoesNotFail()
     {
         IReadOnlyList<HurstResult> r = BadQuotes
             .ToHurst(150);
@@ -64,7 +64,7 @@ public class Hurst : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes()
+    public override void NoQuotes_ReturnsEmpty()
     {
         IReadOnlyList<HurstResult> r0 = Noquotes
             .ToHurst();

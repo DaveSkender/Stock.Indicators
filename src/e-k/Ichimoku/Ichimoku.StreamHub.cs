@@ -115,27 +115,26 @@ public class IchimokuHub
         // This happens when a new quote provides the forward data needed
         if (ChikouOffset > 0 && Cache.Count > ChikouOffset && ProviderCache.Count > ChikouOffset)
         {
-            // The newly added result is at Cache.Count - 1 (let's call this currentIndex)
-            // It completes ChikouSpan for the result at currentIndex - ChikouOffset
-            int currentCacheIndex = Cache.Count - 1;
-            int backfillCacheIndex = currentCacheIndex - ChikouOffset;
+            int providerIndex = indexHint ?? ProviderCache.IndexOf(item, true);
 
-            if (backfillCacheIndex >= 0 && backfillCacheIndex < Cache.Count)
+            // Find the past result that should be updated
+            // It's the result that is ChikouOffset periods before the current item
+            int backfillProviderIndex = providerIndex - ChikouOffset;
+
+            if (backfillProviderIndex >= 0 && backfillProviderIndex < ProviderCache.Count)
             {
-                IchimokuResult pastResult = Cache[backfillCacheIndex];
+                // Find the past result in Cache by timestamp (not by index)
+                DateTime backfillTimestamp = ProviderCache[backfillProviderIndex].Timestamp;
+                int backfillCacheIndex = Cache.IndexOf(backfillTimestamp, false);
 
-                // Only update if ChikouSpan is currently null
-                // and we have the corresponding data in ProviderCache
-                if (pastResult.ChikouSpan is null)
+                if (backfillCacheIndex >= 0 && backfillCacheIndex < Cache.Count)
                 {
-                    // Assuming Cache and ProviderCache have matching indices
-                    // (they should, as they're both sorted by timestamp)
-                    int pastProviderIndex = backfillCacheIndex;
-                    int chikouProviderIndex = pastProviderIndex + ChikouOffset;
+                    IchimokuResult pastResult = Cache[backfillCacheIndex];
 
-                    if (chikouProviderIndex < ProviderCache.Count)
+                    // Only update if ChikouSpan is currently null
+                    if (pastResult.ChikouSpan is null)
                     {
-                        decimal chikouClose = ProviderCache[chikouProviderIndex].Close;
+                        decimal chikouClose = ProviderCache[providerIndex].Close;
 
                         // Update the past result
                         Cache[backfillCacheIndex] = new(

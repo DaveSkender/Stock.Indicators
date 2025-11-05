@@ -7,7 +7,7 @@ public class ElderRay : StreamHubTestBase, ITestQuoteObserver
     private static readonly IReadOnlyList<ElderRayResult> expectedOriginal = Quotes.ToElderRay(lookbackPeriods);
 
     [TestMethod]
-    public void QuoteObserver()
+    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
         List<Quote> quotesList = Quotes.ToList();
         int length = quotesList.Count;
@@ -56,7 +56,7 @@ public class ElderRay : StreamHubTestBase, ITestQuoteObserver
     }
 
     [TestMethod]
-    public override void CustomToString()
+    public override void ToStringOverride_ReturnsExpectedName()
     {
         ElderRayHub hub = new(new QuoteHub(), 14);
         hub.ToString().Should().Be("ELDER-RAY(14)");

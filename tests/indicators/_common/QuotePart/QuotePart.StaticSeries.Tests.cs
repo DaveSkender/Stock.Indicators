@@ -4,7 +4,7 @@ namespace StaticSeries;
 public class QuoteParts : StaticSeriesTestBase
 {
     [TestMethod]
-    public override void Standard()
+    public override void DefaultParameters_ReturnsExpectedResults()
     {
         // compose data
         IReadOnlyList<QuotePart> o = Quotes.Use(CandlePart.Open);
@@ -52,7 +52,7 @@ public class QuoteParts : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Chainor()
+    public void ChainingFromResults_WorksAsExpected()
     {
         IReadOnlyList<SmaResult> results = Quotes
             .Use(CandlePart.Close)
@@ -63,7 +63,7 @@ public class QuoteParts : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadData()
+    public override void BadQuotes_DoesNotFail()
     {
         IReadOnlyList<QuotePart> r = BadQuotes
             .Use(CandlePart.Close);
@@ -73,7 +73,7 @@ public class QuoteParts : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes()
+    public override void NoQuotes_ReturnsEmpty()
     {
         IReadOnlyList<QuotePart> r0 = Noquotes
             .Use(CandlePart.Close);

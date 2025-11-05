@@ -4,7 +4,7 @@ namespace StaticSeries;
 public class ElderRay : StaticSeriesTestBase
 {
     [TestMethod]
-    public override void Standard()
+    public override void DefaultParameters_ReturnsExpectedResults()
     {
         IReadOnlyList<ElderRayResult> results = Quotes
             .ToElderRay();
@@ -47,7 +47,7 @@ public class ElderRay : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Chainor()
+    public void ChainingFromResults_WorksAsExpected()
     {
         IReadOnlyList<SmaResult> results = Quotes
             .ToElderRay()
@@ -58,7 +58,7 @@ public class ElderRay : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadData()
+    public override void BadQuotes_DoesNotFail()
     {
         IReadOnlyList<ElderRayResult> r = BadQuotes
             .ToElderRay();
@@ -68,7 +68,7 @@ public class ElderRay : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes()
+    public override void NoQuotes_ReturnsEmpty()
     {
         IReadOnlyList<ElderRayResult> r0 = Noquotes
             .ToElderRay();

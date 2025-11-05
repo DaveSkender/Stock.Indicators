@@ -27,6 +27,28 @@ public abstract class TestBase
     /// </summary>
     internal const double Money6 = 0.0000005;
 
+    /// <summary>
+    /// 13 decimal places: &#177;1e-13d (equivalent to .Round(13))
+    /// </summary>
+    /// <remarks>
+    /// Double has 15-17 points of precision (13 decimal places for hundreds values)
+    /// <see href="https://learn.microsoft.com/dotnet/api/system.double"></see>
+    /// While <see langword="double" /> can support 16 significant digits, any mathematical computations
+    /// will have compounding floating point rounding that varies based on CPU processor type.
+    /// </remarks>
+    internal const double HighPrecision = 1e-13d;  // TODO: double-check if floating point precision is a problem
+
+    /// <summary>
+    /// 13 decimal places: &#177;1e-15d (equivalent to .Round(15))
+    /// </summary>
+    /// <remarks>
+    /// Double has 15-17 points of precision
+    /// <see href="https://learn.microsoft.com/dotnet/api/system.double"></see>
+    /// While <see langword="double" /> can support 16 significant digits, any mathematical computations
+    /// will have compounding floating point rounding that varies based on CPU processor type.
+    /// </remarks>
+    internal const double MaxPrecision = 1e-15d;  // TODO: double-check if floating point precision is a problem
+
     internal static readonly IReadOnlyList<Quote> Quotes = Data.GetDefault();
     internal static readonly IReadOnlyList<Quote> Intraday = Data.GetIntraday();
     internal static readonly IReadOnlyList<Quote> OtherQuotes = Data.GetCompare();

@@ -29,6 +29,23 @@
   // tasks
   "tasks": [
     {
+      "label": "Initialize: Pull, rebuild, fixers, and unit test",
+      "detail": "Pull latest, clean, rebuild non-incremental, fix all, and test",
+      "dependsOn": [
+        "Git: pull",
+        "Clean: .NET Solution (dotnet clean)",
+        "Build: .NET Solution (not incremental)",
+        "Lint: .NET code & markdown files (fix)",
+        "Test: Unit tests"
+      ],
+      "dependsOrder": "sequence",
+      "group": "build",
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      }
+    },
+    {
       "label": "Git: pull",
       "detail": "Pull latest changes from Git",
       "type": "shell",
@@ -37,9 +54,8 @@
     },
     {
       "label": "Restore: All code dependencies",
-      "detail": "Restore both NPM and .NET packages in parallel",
+      "detail": "Restore .NET packages",
       "dependsOn": [
-        "Restore: NPM packages",
         "Restore: .NET packages"
       ],
       "dependsOrder": "parallel"
@@ -52,14 +68,7 @@
       "problemMatcher": "$msCompile",
       "presentation": { "group": "install" }
     },
-    {
-      "label": "Restore: NPM packages",
-      "detail": "Install root workspace NPM dependencies",
-      "type": "npm",
-      "script": "install",
-      "problemMatcher": [ "$tsc", "$eslint-stylish" ],
-      "presentation": { "group": "install" }
-    },
+
     {
       "label": "Restore: Ruby packages",
       "detail": "Install Ruby gems for docs site (Jekyll)",
@@ -104,8 +113,8 @@
     {
       "label": "Delete: Temporary caches (and restore)",
       "detail": "Delete bin, obj, node_modules, other caches, and lock files",
-      "type": "npm",
-      "script": "clean",
+      "type": "shell",
+      "command": "bash tools/scripts/clean.sh",
       "group": "build",
       "problemMatcher": "$msCompile",
       "presentation": { "group": "install" }
@@ -113,8 +122,8 @@
     {
       "label": "Delete: Temporary caches (and build)",
       "detail": "Delete temporary caches then rebuild",
-      "type": "npm",
-      "script": "clean:build",
+      "type": "shell",
+      "command": "bash tools/scripts/clean.sh && dotnet build --no-incremental",
       "group": "build",
       "problemMatcher": "$msCompile",
       "presentation": { "group": "install" }
@@ -150,8 +159,8 @@
     {
       "label": "Lint: .NET code (full analysis)",
       "detail": "Run Roslynator analysis and .NET format check",
-      "type": "npm",
-      "script": "lint:code",
+      "type": "shell",
+      "command": "bash tools/scripts/lint-code-check.sh",
       "group": "test",
       "problemMatcher": "$msCompile",
       "dependsOn": ["Build: .NET Solution (incremental)"],
@@ -159,71 +168,57 @@
       "presentation": { "group": "analysis" }
     },
     {
+      "label": "Lint: .NET code (fix)",
+      "detail": "Auto-fix .NET code formatting issues",
+      "type": "shell",
+      "command": "bash tools/scripts/lint-code-fix.sh",
+      "group": "none",
+      "problemMatcher": "$msCompile",
+      "presentation": { "group": "analysis" }
+    },
+    {
       "label": "Lint: Markdown files",
       "detail": "Run markdownlint over documentation",
-      "type": "npm",
-      "script": "lint:md",
+      "type": "shell",
+      "command": "npx markdownlint-cli2",
       "group": "test",
+      "problemMatcher": "$markdownlint",
+      "presentation": { "group": "analysis" }
+    },
+    {
+      "label": "Lint: Markdown files (fix)",
+      "detail": "Auto-fix markdown formatting issues",
+      "type": "shell",
+      "command": "npx markdownlint-cli2 --fix",
+      "group": "none",
       "problemMatcher": "$markdownlint",
       "presentation": { "group": "analysis" }
     },
     {
       "label": "Lint: .NET code & markdown files",
       "detail": "Run all linting checks (code + markdown) in sequence",
-      "type": "npm",
-      "script": "lint",
-      "group": "test",
-      "problemMatcher": ["$msCompile", "$markdownlint"],
-      "dependsOn": ["Build: .NET Solution (incremental)"],
-      "dependsOrder": "sequence",
-      "presentation": { "group": "analysis" }
-    },
-    {
-      "label": "Fix: .NET code",
-      "detail": "Auto-fix .NET code formatting issues",
-      "type": "npm",
-      "script": "lint:code:fix",
-      "group": "none",
-      "problemMatcher": "$msCompile",
-      "presentation": { "group": "analysis" }
-    },
-    {
-      "label": "Fix: Markdown files",
-      "detail": "Auto-fix markdown formatting issues",
-      "type": "npm",
-      "script": "lint:md:fix",
-      "group": "none",
-      "problemMatcher": "$markdownlint",
-      "presentation": { "group": "analysis" }
-    },
-    {
-      "label": "Fix: All .NET and markdown formatting",
-      "detail": "Auto-fix code format and markdown issues",
-      "type": "npm",
-      "script": "lint:fix",
-      "group": "none",
-      "problemMatcher": ["$msCompile", "$markdownlint"],
-      "dependsOn": ["Build: .NET Solution (incremental)"],
-      "dependsOrder": "sequence",
-      "presentation": { "group": "analysis" }
-    },
-    {
-      "label": "Fix: Pull, rebuild, fixers, and unit test",
-      "detail": "Pull latest, clean, rebuild non-incremental, install NPM, fix all, and test",
       "dependsOn": [
-        "Git: pull",
-        "Clean: .NET Solution (dotnet clean)",
-        "Build: .NET Solution (not incremental)",
-        "Restore: NPM packages",
-        "Fix: All .NET and markdown formatting",
-        "Test: Unit tests"
+        "Build: .NET Solution (incremental)",
+        "Lint: .NET code (full analysis)",
+        "Lint: Markdown files"
       ],
       "dependsOrder": "sequence",
-      "group": "build",
-      "presentation": {
-        "reveal": "always",
-        "panel": "shared"
-      }
+      "group": "test",
+      "problemMatcher": ["$msCompile", "$markdownlint"],
+      "presentation": { "group": "analysis" }
+    },
+    {
+      "label": "Lint: .NET code & markdown files (fix)",
+      "detail": "Auto-fix code format and markdown issues",
+      "dependsOn": [
+        "Build: .NET Solution (incremental)",
+        "Lint: .NET code (fix)",
+        "Lint: Markdown files (fix)"
+      ],
+      "dependsOrder": "sequence",
+      "group": "none",
+      "problemMatcher": ["$msCompile", "$markdownlint"],
+      "presentation": { "group": "analysis" }
     },
     {
       "label": "CI: Verify (build + lint + unit test)",
@@ -281,9 +276,9 @@
     },
     {
       "label": "Test: Unit tests with coverage",
-      "detail": "Run tests with coverage collection (npm script)",
-      "type": "npm",
-      "script": "test:coverage",
+      "detail": "Run tests with coverage collection",
+      "type": "shell",
+      "command": "dotnet test --collect:\"Code Coverage\" --no-restore --nologo",
       "group": "test",
       "problemMatcher": "$msCompile",
       "presentation": { "clear": true }

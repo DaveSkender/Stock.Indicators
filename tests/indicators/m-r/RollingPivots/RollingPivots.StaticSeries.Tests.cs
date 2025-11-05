@@ -4,7 +4,7 @@ namespace StaticSeries;
 public class RollingPivots : StaticSeriesTestBase
 {
     [TestMethod]
-    public override void Standard()
+    public override void DefaultParameters_ReturnsExpectedResults()
     {
         const int windowPeriods = 11;
         const int offsetPeriods = 9;
@@ -369,7 +369,7 @@ public class RollingPivots : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadData()
+    public override void BadQuotes_DoesNotFail()
     {
         IReadOnlyList<RollingPivotsResult> r = BadQuotes
             .ToRollingPivots(5, 5);
@@ -378,7 +378,7 @@ public class RollingPivots : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes()
+    public override void NoQuotes_ReturnsEmpty()
     {
         IReadOnlyList<RollingPivotsResult> r0 = Noquotes
             .ToRollingPivots(5, 2);

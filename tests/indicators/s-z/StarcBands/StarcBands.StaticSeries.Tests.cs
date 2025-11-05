@@ -4,7 +4,7 @@ namespace StaticSeries;
 public class StarcBands : StaticSeriesTestBase
 {
     [TestMethod]
-    public override void Standard()
+    public override void DefaultParameters_ReturnsExpectedResults()
     {
         const int smaPeriods = 20;
         const int multiplier = 2;
@@ -47,7 +47,7 @@ public class StarcBands : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadData()
+    public override void BadQuotes_DoesNotFail()
     {
         IReadOnlyList<StarcBandsResult> r = BadQuotes
             .ToStarcBands(10, 3, 15);
@@ -57,7 +57,7 @@ public class StarcBands : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes()
+    public override void NoQuotes_ReturnsEmpty()
     {
         IReadOnlyList<StarcBandsResult> r0 = Noquotes
             .ToStarcBands(10);

@@ -4,7 +4,7 @@ namespace StreamHub;
 public class GatorHubTests : StreamHubTestBase, ITestChainObserver
 {
     [TestMethod]
-    public void QuoteObserver()
+    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
         List<Quote> quotesList = Quotes.ToList();
 
@@ -67,7 +67,7 @@ public class GatorHubTests : StreamHubTestBase, ITestChainObserver
     }
 
     [TestMethod]
-    public void ChainObserver()
+    public void ChainObserver_ChainedProvider_MatchesSeriesExactly()
     {
         List<Quote> quotesList = Quotes.ToList();
 
@@ -203,7 +203,7 @@ public class GatorHubTests : StreamHubTestBase, ITestChainObserver
     }
 
     [TestMethod]
-    public override void CustomToString()
+    public override void ToStringOverride_ReturnsExpectedName()
     {
         GatorHub hub = new(new AlligatorHub(new QuoteHub(), 13, 8, 8, 5, 5, 3));
         hub.ToString().Should().Be("GATOR()");

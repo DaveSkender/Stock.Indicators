@@ -4,7 +4,7 @@ namespace StaticSeries;
 public class Cci : StaticSeriesTestBase
 {
     [TestMethod]
-    public override void Standard()
+    public override void DefaultParameters_ReturnsExpectedResults()
     {
         IReadOnlyList<CciResult> results = Quotes
             .ToCci();
@@ -19,7 +19,7 @@ public class Cci : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Chainor()
+    public void ChainingFromResults_WorksAsExpected()
     {
         IReadOnlyList<SmaResult> results = Quotes
             .ToCci()
@@ -30,7 +30,7 @@ public class Cci : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadData()
+    public override void BadQuotes_DoesNotFail()
     {
         IReadOnlyList<CciResult> r = BadQuotes
             .ToCci(15);
@@ -40,7 +40,7 @@ public class Cci : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes()
+    public override void NoQuotes_ReturnsEmpty()
     {
         IReadOnlyList<CciResult> r0 = Noquotes
             .ToCci();

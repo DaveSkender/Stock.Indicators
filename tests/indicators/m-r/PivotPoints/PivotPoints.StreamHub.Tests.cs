@@ -4,7 +4,7 @@ namespace StreamHub;
 public class PivotPointsHubTests : StreamHubTestBase, ITestQuoteObserver
 {
     [TestMethod]
-    public void QuoteObserver()
+    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
         List<Quote> quotesList = Quotes.ToList();
 
@@ -67,7 +67,7 @@ public class PivotPointsHubTests : StreamHubTestBase, ITestQuoteObserver
     }
 
     [TestMethod]
-    public void QuoteObserverWithWeekly()
+    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactlyWithWeekly()
     {
         // Test with weekly window size
 
@@ -99,7 +99,7 @@ public class PivotPointsHubTests : StreamHubTestBase, ITestQuoteObserver
     }
 
     [TestMethod]
-    public void QuoteObserverWithCamarilla()
+    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactlyWithCamarilla()
     {
         // Test with Camarilla pivot point type
 
@@ -131,7 +131,7 @@ public class PivotPointsHubTests : StreamHubTestBase, ITestQuoteObserver
     }
 
     [TestMethod]
-    public void QuoteObserverWithDemark()
+    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactlyWithDemark()
     {
         // Test with Demark pivot point type
 
@@ -163,7 +163,7 @@ public class PivotPointsHubTests : StreamHubTestBase, ITestQuoteObserver
     }
 
     [TestMethod]
-    public void QuoteObserverWithFibonacci()
+    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactlyWithFibonacci()
     {
         // Test with Fibonacci pivot point type
 
@@ -195,7 +195,7 @@ public class PivotPointsHubTests : StreamHubTestBase, ITestQuoteObserver
     }
 
     [TestMethod]
-    public void QuoteObserverWithWoodie()
+    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactlyWithWoodie()
     {
         // Test with Woodie pivot point type
 
@@ -227,7 +227,7 @@ public class PivotPointsHubTests : StreamHubTestBase, ITestQuoteObserver
     }
 
     [TestMethod]
-    public override void CustomToString()
+    public override void ToStringOverride_ReturnsExpectedName()
     {
         PivotPointsHub hub1 = new(new QuoteHub(), PeriodSize.Month, PivotPointType.Standard);
         hub1.ToString().Should().Be("PIVOT-POINTS(Month,Standard)");

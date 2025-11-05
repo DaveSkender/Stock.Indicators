@@ -7,7 +7,7 @@ public class StochRsi : StaticSeriesTestBase
     /// Fast RSI
     /// </summary>
     [TestMethod]
-    public override void Standard()
+    public override void DefaultParameters_ReturnsExpectedResults()
     {
         const int rsiPeriods = 14;
         const int stochPeriods = 14;
@@ -102,7 +102,7 @@ public class StochRsi : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Chainor()
+    public void ChainingFromResults_WorksAsExpected()
     {
         IReadOnlyList<SmaResult> results = Quotes
             .ToStochRsi(14, 14, 3, 3)
@@ -113,7 +113,7 @@ public class StochRsi : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadData()
+    public override void BadQuotes_DoesNotFail()
     {
         IReadOnlyList<StochRsiResult> r = BadQuotes
             .ToStochRsi(15, 20, 3, 2);
@@ -123,7 +123,7 @@ public class StochRsi : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes()
+    public override void NoQuotes_ReturnsEmpty()
     {
         IReadOnlyList<StochRsiResult> r0 = Noquotes
             .ToStochRsi(10, 20, 3);

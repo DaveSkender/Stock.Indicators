@@ -4,7 +4,7 @@ namespace StaticSeries;
 public class Pvo : StaticSeriesTestBase
 {
     [TestMethod]
-    public override void Standard()
+    public override void DefaultParameters_ReturnsExpectedResults()
     {
         const int fastPeriods = 12;
         const int slowPeriods = 26;
@@ -47,7 +47,7 @@ public class Pvo : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Chainor()
+    public void ChainingFromResults_WorksAsExpected()
     {
         IReadOnlyList<SmaResult> results = Quotes
             .ToPvo()
@@ -58,7 +58,7 @@ public class Pvo : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadData()
+    public override void BadQuotes_DoesNotFail()
     {
         IReadOnlyList<PvoResult> r = BadQuotes
             .ToPvo(10, 20, 5);
@@ -68,7 +68,7 @@ public class Pvo : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes()
+    public override void NoQuotes_ReturnsEmpty()
     {
         IReadOnlyList<PvoResult> r0 = Noquotes
             .ToPvo();

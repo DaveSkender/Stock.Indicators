@@ -4,38 +4,60 @@ namespace StreamHub;
 public class Stoch : StreamHubTestBase, ITestQuoteObserver
 {
     [TestMethod]
-    public void QuoteObserver()
+    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
-        List<Quote> quotesList = Quotes.ToList();
+        const int lookbackPeriods = 14;
+        const int signalPeriods = 3;
+        const int smoothPeriods = 3;
         int length = Quotes.Count;
 
-        // setup quote provider hub and observer BEFORE adding data
+        // setup quote provider hub
         QuoteHub quoteHub = new();
-        StochHub observer = quoteHub.ToStochHub(14, 3, 3);
 
-        // add base quotes (batch)
-        quoteHub.Add(quotesList.Take(200));
+        // prefill quotes at provider (warmup coverage)
+        quoteHub.Add(Quotes.Take(20));
 
-        // add incremental quotes
-        for (int i = 200; i < length; i++)
+        // initialize observer
+        StochHub observer = quoteHub.ToStochHub(lookbackPeriods, signalPeriods, smoothPeriods);
+
+        // fetch initial results (early)
+        IReadOnlyList<StochResult> actuals = observer.Results;
+
+        // emulate adding quotes to provider hub
+        for (int i = 20; i < length; i++)
         {
-            Quote q = quotesList[i];
+            // skip one (add later)
+            if (i == 80) { continue; }
+
+            Quote q = Quotes[i];
             quoteHub.Add(q);
+
+            // resend duplicate quotes
+            if (i is > 100 and < 105) { quoteHub.Add(q); }
         }
 
-        // close observations
+        // late arrival, should equal series
+        quoteHub.Insert(Quotes[80]);
+
+        IReadOnlyList<StochResult> expected = Quotes.ToStoch(lookbackPeriods, signalPeriods, smoothPeriods);
+        actuals.Should().HaveCount(length);
+        actuals.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
+
+        // delete, should equal series (revised)
+        quoteHub.Remove(Quotes[removeAtIndex]);
+
+        IReadOnlyList<StochResult> expectedRevised = RevisedQuotes.ToStoch(lookbackPeriods, signalPeriods, smoothPeriods);
+
+        actuals.Should().HaveCount(501);
+        actuals.Should().BeEquivalentTo(expectedRevised, static options => options.WithStrictOrdering());
+
+        // cleanup
+        observer.Unsubscribe();
         quoteHub.EndTransmission();
-
-        // assert results
-        observer.Cache.Should().HaveCount(length);
-
-        // verify against static series calculation
-        IReadOnlyList<StochResult> expected = Quotes.ToStoch(14, 3, 3);
-        observer.Cache.Should().BeEquivalentTo(expected);
     }
 
     [TestMethod]
-    public override void CustomToString()
+    public override void ToStringOverride_ReturnsExpectedName()
     {
         StochHub hub = new(new QuoteHub(), 14, 3, 3);
         hub.ToString().Should().Be("STOCH(14,3,3)");

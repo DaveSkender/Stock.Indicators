@@ -4,7 +4,7 @@ namespace StaticSeries;
 public class Roc : StaticSeriesTestBase
 {
     [TestMethod]
-    public override void Standard()
+    public override void DefaultParameters_ReturnsExpectedResults()
     {
         IReadOnlyList<RocResult> results = Quotes
             .ToRoc(20);
@@ -51,7 +51,7 @@ public class Roc : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Chainor()
+    public void ChainingFromResults_WorksAsExpected()
     {
         IReadOnlyList<SmaResult> results = Quotes
             .ToRoc(20)
@@ -62,7 +62,7 @@ public class Roc : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadData()
+    public override void BadQuotes_DoesNotFail()
     {
         IReadOnlyList<RocResult> r = BadQuotes
             .ToRoc(35);
@@ -72,7 +72,7 @@ public class Roc : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes()
+    public override void NoQuotes_ReturnsEmpty()
     {
         IReadOnlyList<RocResult> r0 = Noquotes
             .ToRoc(5);

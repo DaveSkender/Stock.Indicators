@@ -4,7 +4,7 @@ namespace StaticSeries;
 public class Rsi : StaticSeriesTestBase
 {
     [TestMethod]
-    public override void Standard()
+    public override void DefaultParameters_ReturnsExpectedResults()
     {
         IReadOnlyList<RsiResult> results = Quotes
             .ToRsi();
@@ -80,7 +80,7 @@ public class Rsi : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Chainor()
+    public void ChainingFromResults_WorksAsExpected()
     {
         IReadOnlyList<SmaResult> results = Quotes
             .ToRsi()
@@ -100,7 +100,7 @@ public class Rsi : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadData()
+    public override void BadQuotes_DoesNotFail()
     {
         IReadOnlyList<RsiResult> r = BadQuotes
             .ToRsi(20);
@@ -110,7 +110,7 @@ public class Rsi : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes()
+    public override void NoQuotes_ReturnsEmpty()
     {
         IReadOnlyList<RsiResult> r0 = Noquotes
             .ToRsi();

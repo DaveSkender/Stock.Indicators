@@ -6,7 +6,7 @@ public class WmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
     private const int LookbackPeriods = 14;
 
     [TestMethod]
-    public void QuoteObserver()
+    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
         List<Quote> quotesList = Quotes.ToList();
         int length = quotesList.Count;
@@ -52,7 +52,7 @@ public class WmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
     }
 
     [TestMethod]
-    public void ChainObserver()
+    public void ChainObserver_ChainedProvider_MatchesSeriesExactly()
     {
         List<Quote> quotesList = Quotes.ToList();
         int length = quotesList.Count;
@@ -81,7 +81,7 @@ public class WmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
     }
 
     [TestMethod]
-    public void ChainProvider()
+    public void ChainProvider_MatchesSeriesExactly()
     {
         const int emaPeriods = 10;
 
@@ -128,7 +128,7 @@ public class WmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
     }
 
     [TestMethod]
-    public override void CustomToString()
+    public override void ToStringOverride_ReturnsExpectedName()
     {
         WmaHub hub = new(new QuoteHub(), LookbackPeriods);
         hub.ToString().Should().Be($"WMA({LookbackPeriods})");

@@ -4,7 +4,7 @@ namespace StreamHub;
 public class TrixHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProvider
 {
     [TestMethod]
-    public void QuoteObserver()
+    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
         List<Quote> quotesList = Quotes.ToList();
 
@@ -65,7 +65,7 @@ public class TrixHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
     }
 
     [TestMethod]
-    public void ChainObserver()
+    public void ChainObserver_ChainedProvider_MatchesSeriesExactly()
     {
         const int trixPeriods = 14;
         const int smaPeriods = 8;
@@ -107,7 +107,7 @@ public class TrixHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
     }
 
     [TestMethod]
-    public void ChainProvider()
+    public void ChainProvider_MatchesSeriesExactly()
     {
         const int trixPeriods = 14;
         const int emaPeriods = 10;
@@ -146,7 +146,7 @@ public class TrixHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
         quoteHub.EndTransmission();
     }
 
-    public override void CustomToString()
+    public override void ToStringOverride_ReturnsExpectedName()
     {
         TrixHub hub = new(new QuoteHub(), 14);
         hub.ToString().Should().Be("TRIX(14)");

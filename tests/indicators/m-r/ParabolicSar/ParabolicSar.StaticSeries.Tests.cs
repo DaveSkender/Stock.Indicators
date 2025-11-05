@@ -4,7 +4,7 @@ namespace StaticSeries;
 public class ParabolicSar : StaticSeriesTestBase
 {
     [TestMethod]
-    public override void Standard()
+    public override void DefaultParameters_ReturnsExpectedResults()
     {
         const double acclerationStep = 0.02;
         const double maxAccelerationFactor = 0.2;
@@ -74,7 +74,7 @@ public class ParabolicSar : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Chainor()
+    public void ChainingFromResults_WorksAsExpected()
     {
         IReadOnlyList<SmaResult> results = Quotes
             .ToParabolicSar()
@@ -107,7 +107,7 @@ public class ParabolicSar : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadData()
+    public override void BadQuotes_DoesNotFail()
     {
         IReadOnlyList<ParabolicSarResult> r = BadQuotes
             .ToParabolicSar(0.2, 0.2, 0.2);
@@ -117,7 +117,7 @@ public class ParabolicSar : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes()
+    public override void NoQuotes_ReturnsEmpty()
     {
         IReadOnlyList<ParabolicSarResult> r0 = Noquotes
             .ToParabolicSar();

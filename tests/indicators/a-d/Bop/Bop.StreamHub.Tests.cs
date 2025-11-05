@@ -1,10 +1,10 @@
 namespace StreamHub;
 
 [TestClass]
-public class BopHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProvider
+public class BopHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
 {
     [TestMethod]
-    public void QuoteObserver()
+    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
         List<Quote> quotesList = Quotes.ToList();
 
@@ -106,7 +106,7 @@ public class BopHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
     }
 
     [TestMethod]
-    public void ChainProvider()
+    public void ChainProvider_MatchesSeriesExactly()
     {
         const int smoothPeriods = 14;
         const int emaPeriods = 12;
@@ -148,7 +148,7 @@ public class BopHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
     }
 
     [TestMethod]
-    public override void CustomToString()
+    public override void ToStringOverride_ReturnsExpectedName()
     {
         QuoteHub quoteHub = new();
         BopHub bopHub = quoteHub.ToBopHub(14);

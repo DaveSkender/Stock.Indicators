@@ -4,7 +4,7 @@ namespace StaticSeries;
 public class Keltner : StaticSeriesTestBase
 {
     [TestMethod]
-    public override void Standard()
+    public override void DefaultParameters_ReturnsExpectedResults()
     {
         const int emaPeriods = 20;
         const int multiplier = 2;
@@ -37,7 +37,7 @@ public class Keltner : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadData()
+    public override void BadQuotes_DoesNotFail()
     {
         IReadOnlyList<KeltnerResult> r = BadQuotes
             .ToKeltner(10, 3, 15);
@@ -47,7 +47,7 @@ public class Keltner : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes()
+    public override void NoQuotes_ReturnsEmpty()
     {
         IReadOnlyList<KeltnerResult> r0 = Noquotes
             .ToKeltner();

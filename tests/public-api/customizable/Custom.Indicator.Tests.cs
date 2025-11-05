@@ -76,7 +76,7 @@ public class CustomIndicators
     }
 
     [TestMethod]
-    public void Chainor()
+    public void ChainingFromResults_WorksAsExpected()
     {
         IReadOnlyList<EmaResult> results = quotes
             .GetIndicator(10)

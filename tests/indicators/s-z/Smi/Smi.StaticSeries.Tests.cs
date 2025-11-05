@@ -4,7 +4,7 @@ namespace StaticSeries;
 public class Smi : StaticSeriesTestBase
 {
     [TestMethod]
-    public override void Standard()
+    public override void DefaultParameters_ReturnsExpectedResults()
     {
         IReadOnlyList<SmiResult> results = Quotes
             .ToSmi(14, 20, 5);
@@ -45,7 +45,7 @@ public class Smi : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Chainor()
+    public void ChainingFromResults_WorksAsExpected()
     {
         IReadOnlyList<SmaResult> results = Quotes
             .ToSmi(14, 20, 5)
@@ -90,7 +90,7 @@ public class Smi : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadData()
+    public override void BadQuotes_DoesNotFail()
     {
         IReadOnlyList<SmiResult> r = BadQuotes
             .ToSmi(5, 5, 1, 5);
@@ -100,7 +100,7 @@ public class Smi : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes()
+    public override void NoQuotes_ReturnsEmpty()
     {
         IReadOnlyList<SmiResult> r0 = Noquotes
             .ToSmi(5, 5);

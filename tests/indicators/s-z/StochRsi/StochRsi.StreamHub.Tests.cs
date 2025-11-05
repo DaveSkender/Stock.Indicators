@@ -4,7 +4,7 @@ namespace StreamHub;
 public class StochRsiHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProvider
 {
     [TestMethod]
-    public void QuoteObserver()
+    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
         List<Quote> quotesList = Quotes.ToList();
 
@@ -65,7 +65,7 @@ public class StochRsiHubTests : StreamHubTestBase, ITestChainObserver, ITestChai
     }
 
     [TestMethod]
-    public void ChainObserver()
+    public void ChainObserver_ChainedProvider_MatchesSeriesExactly()
     {
         const int emaPeriods = 12;
         const int rsiPeriods = 14;
@@ -110,7 +110,7 @@ public class StochRsiHubTests : StreamHubTestBase, ITestChainObserver, ITestChai
     }
 
     [TestMethod]
-    public void ChainProvider()
+    public void ChainProvider_MatchesSeriesExactly()
     {
         const int rsiPeriods = 14;
         const int stochPeriods = 14;
@@ -155,7 +155,7 @@ public class StochRsiHubTests : StreamHubTestBase, ITestChainObserver, ITestChai
     }
 
     [TestMethod]
-    public override void CustomToString()
+    public override void ToStringOverride_ReturnsExpectedName()
     {
         QuoteHub quoteHub = new();
         StochRsiHub observer = quoteHub.ToStochRsiHub(14, 14, 3, 1);

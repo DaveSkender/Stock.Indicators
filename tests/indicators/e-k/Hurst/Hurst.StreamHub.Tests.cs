@@ -7,7 +7,7 @@ public class HurstHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPr
     private readonly IReadOnlyList<HurstResult> expectedOriginal = Quotes.ToHurst(lookbackPeriods);
 
     [TestMethod]
-    public void QuoteObserver()
+    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
         int length = Quotes.Count;
 
@@ -54,7 +54,7 @@ public class HurstHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPr
     }
 
     [TestMethod]
-    public void ChainObserver()
+    public void ChainObserver_ChainedProvider_MatchesSeriesExactly()
     {
         const int hurstPeriods = 100;
         const int smaPeriods = 20;
@@ -89,7 +89,7 @@ public class HurstHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPr
     }
 
     [TestMethod]
-    public void ChainProvider()
+    public void ChainProvider_MatchesSeriesExactly()
     {
         const int hurstPeriods = 100;
         const int smaPeriods = 20;
@@ -141,7 +141,7 @@ public class HurstHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPr
     }
 
     [TestMethod]
-    public override void CustomToString()
+    public override void ToStringOverride_ReturnsExpectedName()
     {
         HurstHub hub = new(new QuoteHub(), lookbackPeriods);
         hub.ToString().Should().Be("HURST(100)");

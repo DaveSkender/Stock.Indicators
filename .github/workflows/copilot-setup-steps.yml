@@ -32,14 +32,6 @@ jobs:
           bundler-cache: true
           working-directory: docs
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v6
-        with:
-          node-version: ">=24.10.0"
-          cache: "npm"
-          cache-dependency-path: package-lock.json
-        continue-on-error: true
-
       - name: Setup .NET SDK
         uses: actions/setup-dotnet@v5
         with:
@@ -68,7 +60,7 @@ jobs:
 
       - name: Restore packages
         run: |
-          dotnet restore && npm ci
+          dotnet restore
         continue-on-error: true
 
       - name: Build .NET Solution

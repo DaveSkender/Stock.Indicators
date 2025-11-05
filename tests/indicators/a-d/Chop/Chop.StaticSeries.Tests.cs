@@ -4,7 +4,7 @@ namespace StaticSeries;
 public class Chop : StaticSeriesTestBase
 {
     [TestMethod]
-    public override void Standard()
+    public override void DefaultParameters_ReturnsExpectedResults()
     {
         IReadOnlyList<ChopResult> results = Quotes
             .ToChop();
@@ -28,7 +28,7 @@ public class Chop : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Chainor()
+    public void ChainingFromResults_WorksAsExpected()
     {
         IReadOnlyList<SmaResult> results = Quotes
             .ToChop()
@@ -51,7 +51,7 @@ public class Chop : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadData()
+    public override void BadQuotes_DoesNotFail()
     {
         IReadOnlyList<ChopResult> r = BadQuotes
             .ToChop(20);
@@ -61,7 +61,7 @@ public class Chop : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes()
+    public override void NoQuotes_ReturnsEmpty()
     {
         IReadOnlyList<ChopResult> r0 = Noquotes
             .ToChop();

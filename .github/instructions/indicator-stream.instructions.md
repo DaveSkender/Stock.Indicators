@@ -396,14 +396,14 @@ public class CorrelationHub : StreamHubTestBase, ITestPairsObserver
 
 #### ITestQuoteObserver interface
 
-The `ITestQuoteObserver` interface is required for all indicators that support direct quote provider observation. It replaces the need to override `QuoteObserver()` in the test class. Implement this interface and provide a `QuoteObserver()` method to test hub compatibility with quote providers. See `Ema.StreamHub.Tests.cs` for a reference implementation.
+The `ITestQuoteObserver` interface is required for all indicators that support direct quote provider observation. It replaces the need to override `QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()` in the test class. Implement this interface and provide a `QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()` method to test hub compatibility with quote providers. See `Ema.StreamHub.Tests.cs` for a reference implementation.
 
 **When to use:**
 
 - All indicators that can be observed directly from a quote provider (e.g., EMA, SMA, Renko, etc.)
 - Not required for dual-stream (pairs) indicators
 
-**Do not override `QuoteObserver()` in the test class; implement `ITestQuoteObserver` instead.**
+**Do not override `QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()` in the test class; implement `ITestQuoteObserver` instead.**
 
 ### Comprehensive rollback validation (required)
 
@@ -420,7 +420,7 @@ These scenarios replace the need for a separate rollback-specific interface.
 
 ### Provider history (Insert/Remove) testing
 
-Provider history mutations are required and are part of the “Comprehensive rollback validation” section above (see EMA hub tests for the canonical pattern). Use `ProviderHistoryTesting()` in `StreamHubTestBase` as needed for indicator-specific logic.
+Provider history mutations are required and are part of the “Comprehensive rollback validation” section above (see EMA hub tests for the canonical pattern). Use `AssertProviderHistoryIntegrity()` in `StreamHubTestBase` as needed for indicator-specific logic.
 
 ### Performance benchmarking
 

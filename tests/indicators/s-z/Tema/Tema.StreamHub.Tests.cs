@@ -1,10 +1,10 @@
 namespace StreamHub;
 
 [TestClass]
-public class TemaHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
+public class TemaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProvider
 {
     [TestMethod]
-    public void QuoteObserver()
+    public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
         const int lookbackPeriods = 20;
 
@@ -68,7 +68,46 @@ public class TemaHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPro
     }
 
     [TestMethod]
-    public void ChainProvider()
+    public void ChainObserver_ChainedProvider_MatchesSeriesExactly()
+    {
+        const int temaPeriods = 20;
+        const int smaPeriods = 10;
+        int length = Quotes.Count;
+
+        // setup quote provider hub
+        QuoteHub quoteHub = new();
+
+        // initialize observer - chain SMA to TEMA
+        TemaHub observer = quoteHub
+            .ToSmaHub(smaPeriods)
+            .ToTemaHub(temaPeriods);
+
+        // emulate quote stream
+        for (int i = 0; i < length; i++)
+        {
+            quoteHub.Add(Quotes[i]);
+        }
+
+        // final results
+        IReadOnlyList<TemaResult> streamList = observer.Results;
+
+        // time-series, for comparison
+        IReadOnlyList<TemaResult> seriesList = Quotes
+            .ToSma(smaPeriods)
+            .ToTema(temaPeriods);
+
+        // assert, should equal series
+        streamList.Should().HaveCount(length);
+        streamList.Should().BeEquivalentTo(
+            seriesList,
+            options => options.WithStrictOrdering());
+
+        observer.Unsubscribe();
+        quoteHub.EndTransmission();
+    }
+
+    [TestMethod]
+    public void ChainProvider_MatchesSeriesExactly()
     {
         const int temaPeriods = 20;
         const int smaPeriods = 10;
@@ -113,7 +152,7 @@ public class TemaHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPro
     }
 
     [TestMethod]
-    public override void CustomToString()
+    public override void ToStringOverride_ReturnsExpectedName()
     {
         TemaHub hub = new(new QuoteHub(), 20);
         hub.ToString().Should().Be("TEMA(20)");

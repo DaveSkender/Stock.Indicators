@@ -4,7 +4,7 @@ namespace StaticSeries;
 public class Tsi : StaticSeriesTestBase
 {
     [TestMethod]
-    public override void Standard()
+    public override void DefaultParameters_ReturnsExpectedResults()
     {
         IReadOnlyList<TsiResult> results = Quotes
             .ToTsi();
@@ -63,7 +63,7 @@ public class Tsi : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Chainor()
+    public void ChainingFromResults_WorksAsExpected()
     {
         IReadOnlyList<SmaResult> results = Quotes
             .ToTsi()
@@ -74,7 +74,7 @@ public class Tsi : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void BadData()
+    public override void BadQuotes_DoesNotFail()
     {
         IReadOnlyList<TsiResult> r = BadQuotes
             .ToTsi();
@@ -84,7 +84,7 @@ public class Tsi : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void BigData()
+    public void BigQuoteValues_DoesNotFail()
     {
         IReadOnlyList<TsiResult> r = BigQuotes
             .ToTsi();
@@ -93,7 +93,7 @@ public class Tsi : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public override void NoQuotes()
+    public override void NoQuotes_ReturnsEmpty()
     {
         IReadOnlyList<TsiResult> r0 = Noquotes
             .ToTsi();
