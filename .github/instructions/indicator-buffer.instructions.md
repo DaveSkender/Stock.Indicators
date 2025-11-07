@@ -27,7 +27,7 @@ For quick decision guidance and pattern selection, use the agent. For comprehens
 - `@streamhub` - StreamHub indicator development guidance (real-time processing with state management)
 - `@performance` - Performance optimization guidance (algorithmic complexity, O(1) patterns, benchmarking)
 
-See also: `.github/agents/indicator-buffer.agent.md` for decision trees and quick reference patterns.
+See also: [`.github/cheatsheets/indicator-buffer.agent.md`](../cheatsheets/indicator-buffer.agent.md) for decision trees and quick reference patterns.
 
 ## Code completion checklist
 

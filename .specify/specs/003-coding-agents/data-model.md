@@ -14,7 +14,7 @@ This document defines the data structures and relationships for custom GitHub Co
 
 **Purpose**: Markdown file defining a custom GitHub Copilot agent with expertise, decision guidance, and usage patterns.
 
-**Location**: `.github/agents/indicator-{style}.agent.md`
+**Location**: `.github/cheatsheets/indicator-{style}.agent.md`
 
 **Schema**:
 
@@ -228,7 +228,7 @@ For comprehensive implementation details, continue reading this document.
 - `@streamhub-testing` - Test coverage and rollback validation
 - `@streamhub-pairs` - Dual-stream indicators (PairsProvider usage)
 
-See also: `.github/agents/{agent-name}.agent.md` for decision trees and quick reference.
+See also: `.github/cheatsheets/{agent-name}.agent.md` for decision trees and quick reference.
 
 # {Existing first heading}
 
@@ -441,22 +441,22 @@ Current → Updated
 
 ### New Files (2)
 
-1. `.github/agents/indicator-series.agent.md` - Series agent definition (YAML `name: series`, invoked as `@series`)
-2. `.github/agents/indicator-buffer.agent.md` - Buffer agent definition (YAML `name: buffer`, invoked as `@buffer`)
+1. `.github/cheatsheets/indicator-series.agent.md` - Series agent definition (YAML `name: series`, invoked as `@series`)
+2. `.github/cheatsheets/indicator-buffer.agent.md` - Buffer agent definition (YAML `name: buffer`, invoked as `@buffer`)
 
 ### Updated Files (4)
 
-1. `.github/agents/indicator-stream.agent.md` - Align with new agent pattern (YAML `name: streamhub`, invoked as `@streamhub`)
+1. `.github/cheatsheets/indicator-stream.agent.md` - Align with new agent pattern (YAML `name: streamhub`, invoked as `@streamhub`)
 2. `.github/instructions/indicator-series.instructions.md` - Add agent reference sections
 3. `.github/instructions/indicator-buffer.instructions.md` - Add agent reference sections
 4. `.github/instructions/indicator-stream.instructions.md` - Add agent reference sections
 
 ### Unchanged Files (4)
 
-1. `.github/agents/streamhub-state.agent.md` - No changes required
-2. `.github/agents/streamhub-performance.agent.md` - No changes required
-3. `.github/agents/streamhub-testing.agent.md` - No changes required
-4. `.github/agents/streamhub-pairs.agent.md` - No changes required
+1. `.github/cheatsheets/streamhub-state.agent.md` - No changes required
+2. `.github/cheatsheets/streamhub-performance.agent.md` - No changes required
+3. `.github/cheatsheets/streamhub-testing.agent.md` - No changes required
+4. `.github/cheatsheets/streamhub-pairs.agent.md` - No changes required
 
 ## Next Steps
 

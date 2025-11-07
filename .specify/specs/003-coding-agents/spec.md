@@ -96,7 +96,7 @@ Developers implementing StreamHub indicators need expert guidance on provider se
 
 - **Custom Agent**: A specialized AI assistant invoked via `@<agent-name>` that provides expert guidance on a specific indicator implementation style
 - **Scoped Instruction File**: Markdown file in `.github/instructions/` containing comprehensive guidelines for a specific indicator style (e.g., `indicator-series.instructions.md`)
-- **Agent Definition File**: Markdown file in `.github/agents/` containing agent metadata (name, description, expertise, usage examples) and instructions. Uses YAML frontmatter with minimal properties: `name` (unique agent identifier) and `description` (agent purpose and capabilities), following the pattern established by existing StreamHub agents.
+- **Agent Definition File**: Markdown file in `.github/cheatsheets/` containing agent metadata (name, description, expertise, usage examples) and instructions. Uses YAML frontmatter with minimal properties: `name` (unique agent identifier) and `description` (agent purpose and capabilities), following the pattern established by existing StreamHub agents.
 - **Indicator Style**: One of three implementation approaches (Series, Buffer, StreamHub) with distinct patterns, base classes, and requirements
 - **Reference Implementation**: Canonical code example in the repository that demonstrates correct implementation patterns (e.g., `Ema.StaticSeries.cs`, `Sma.BufferList.cs`, `Adx.StreamHub.cs`)
 - **Test Interface**: Interface defining required test methods for a specific indicator style or capability (e.g., `ITestChainObserver`, `BufferListTestBase`)
@@ -118,7 +118,7 @@ Developers implementing StreamHub indicators need expert guidance on provider se
 
 - Developers are familiar with basic GitHub Copilot Chat usage and custom agent invocation syntax (`@agent-name`)
 - Scoped instruction files (`.github/instructions/indicator-*.instructions.md`) are comprehensive and up-to-date
-- Existing StreamHub agent structure (`.github/agents/streamhub*.agent.md`) provides a viable pattern for Series and BufferList agents
+- Existing StreamHub agent structure (`.github/cheatsheets/streamhub*.agent.md`) provides a viable pattern for Series and BufferList agents
 - Developers have access to reference implementations in the repository
 - GitHub Copilot supports the custom agent pattern used in this repository
 - The instruction file pattern (scoped to file paths via `applyTo`) works consistently with custom agent definitions

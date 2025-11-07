@@ -582,7 +582,7 @@ For related topics, consult:
 - `@{related-agent-1}` - {Brief description}
 - `@{related-agent-2}` - {Brief description}
 
-See also: `.github/agents/{agent-name}.agent.md` for decision trees and quick reference.
+See also: `.github/cheatsheets/{agent-name}.agent.md` for decision trees and quick reference.
 ```
 
 ### Placement Strategy

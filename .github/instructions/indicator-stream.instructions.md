@@ -40,7 +40,7 @@ For quick decision guidance and pattern selection, use the main agent. For compr
 - `@streamhub-pairs` - PairsProvider dual-stream patterns and timestamp synchronization
 - `@performance` - General performance optimization guidance (algorithmic complexity, benchmarking)
 
-See also: `.github/agents/indicator-stream.agent.md` for decision trees and quick reference patterns.
+See also: [`.github/cheatsheets/indicator-stream.agent.md`](../cheatsheets/indicator-stream.agent.md) for decision trees and quick reference patterns.
 
 ## Code completion checklist
 
@@ -794,7 +794,7 @@ This repository provides specialized custom agents that can help with StreamHub 
 @streamhub-pairs How do I handle timestamp synchronization for dual-stream indicators?
 ```
 
-Agent definitions are in `.github/agents/`. For general guidance about custom agents, see `.github/copilot-instructions.md`.
+Agent definitions are in [`.github/cheatsheets/`](../cheatsheets/). For general guidance about custom agents, see [`.github/copilot-instructions.md`](../copilot-instructions.md).
 
 ---
 Last updated: October 31, 2025

@@ -11,7 +11,7 @@ Create three custom GitHub Copilot agents (`@series`, `@buffer`, `@streamhub`) t
 
 **Language/Version**: Markdown (GitHub Flavored), YAML frontmatter (GitHub Copilot custom agent format)  
 **Primary Dependencies**: GitHub Copilot Chat, VS Code API (#vscodeAPI reference), existing scoped instruction files  
-**Storage**: Git repository files (`.github/agents/*.agent.md`, `.github/instructions/*.instructions.md`)  
+**Storage**: Git repository files (`.github/cheatsheets/*.agent.md`, `.github/instructions/*.instructions.md`)  
 **Testing**: Manual validation via agent invocation in GitHub Copilot Chat, developer feedback collection  
 **Target Platform**: GitHub Copilot Chat in VS Code  
 **Project Type**: Documentation artifacts (agent definitions + instruction file updates)  
@@ -76,7 +76,7 @@ Create three custom GitHub Copilot agents (`@series`, `@buffer`, `@streamhub`) t
     └── indicator-stream.instructions.md    # UPDATE: Add agent reference sections
 ```
 
-**Structure Decision**: Agent definitions live in `.github/agents/` (established pattern from existing StreamHub agents). Each agent definition is a standalone markdown file with YAML frontmatter. Instruction files remain in `.github/instructions/` with minimal additions to reference agents.
+**Structure Decision**: Agent definitions live in `.github/cheatsheets/` (established pattern from existing StreamHub agents). Each agent definition is a standalone markdown file with YAML frontmatter. Instruction files remain in `.github/instructions/` with minimal additions to reference agents.
 
 **Naming Convention**:
 

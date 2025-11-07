@@ -158,7 +158,7 @@ This repository provides specialized custom agents that developers can invoke in
 @performance My indicator is 10x slower than expected. How do I identify the bottleneck?
 ```
 
-Custom agent definitions are in `.github/agents/`. Official GitHub Copilot documentation: [Configure custom agents for Copilot Chat](https://docs.github.com/en/copilot/reference/custom-agents-configuration).
+Custom agent definitions are in [`.github/cheatsheets/`](.github/cheatsheets/). Official GitHub Copilot documentation: [Configure custom agents for Copilot Chat](https://docs.github.com/en/copilot/reference/custom-agents-configuration).
 
 ## Common indicator requirements (all styles)
 
