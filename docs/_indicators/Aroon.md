@@ -72,3 +72,33 @@ var results = quotes
 ```
 
 This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.
+
+## Streaming
+
+Use the buffer-style `List<T>` when you need incremental calculations without a hub:
+
+```csharp
+AroonList aroonList = new(lookbackPeriods);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  aroonList.Add(quote);
+}
+
+// based on `ICollection<AroonResult>`
+IReadOnlyList<AroonResult> results = aroonList;
+```
+
+Subscribe to a `QuoteHub` for advanced streaming scenarios:
+
+```csharp
+QuoteHub<Quote> quoteHub = new();
+AroonHub<Quote> observer = quoteHub.ToAroon(lookbackPeriods);
+
+foreach (Quote quote in quotes)  // simulating stream
+{
+  quoteHub.Add(quote);
+}
+
+IReadOnlyList<AroonResult> results = observer.Results;
+```

@@ -87,3 +87,33 @@ var results = quotes
     .ToConnorsRsi(..)
     .ToSma(..);
 ```
+
+## Streaming
+
+Use the buffer-style `List<T>` when you need incremental calculations without a hub:
+
+```csharp
+ConnorsRsiList connorsRsiList = new(rsiPeriods, streakPeriods, rankPeriods);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  connorsRsiList.Add(quote);
+}
+
+// based on `ICollection<ConnorsRsiResult>`
+IReadOnlyList<ConnorsRsiResult> results = connorsRsiList;
+```
+
+Subscribe to a `QuoteHub` for advanced streaming scenarios:
+
+```csharp
+QuoteHub<Quote> quoteHub = new();
+ConnorsRsiHub<Quote> observer = quoteHub.ToConnorsRsi(rsiPeriods, streakPeriods, rankPeriods);
+
+foreach (Quote quote in quotes)  // simulating stream
+{
+  quoteHub.Add(quote);
+}
+
+IReadOnlyList<ConnorsRsiResult> results = observer.Results;
+```

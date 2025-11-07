@@ -88,3 +88,33 @@ var results = quotes
     .ToStochRsi(..)
     .ToSlope(..);
 ```
+
+## Streaming
+
+Use the buffer-style `List<T>` when you need incremental calculations without a hub:
+
+```csharp
+StochRsiList stochRsiList = new(rsiPeriods, stochPeriods, signalPeriods, smoothPeriods);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  stochRsiList.Add(quote);
+}
+
+// based on `ICollection<StochRsiResult>`
+IReadOnlyList<StochRsiResult> results = stochRsiList;
+```
+
+Subscribe to a `QuoteHub` for advanced streaming scenarios:
+
+```csharp
+QuoteHub<Quote> quoteHub = new();
+StochRsiHub<Quote> observer = quoteHub.ToStochRsi(rsiPeriods, stochPeriods, signalPeriods, smoothPeriods);
+
+foreach (Quote quote in quotes)  // simulating stream
+{
+  quoteHub.Add(quote);
+}
+
+IReadOnlyList<StochRsiResult> results = observer.Results;
+```
