@@ -102,7 +102,7 @@ Subscribe to a `QuoteHub` for advanced streaming scenarios:
 QuoteHub<Quote> quoteHub = new();
 KeltnerHub<Quote> observer = quoteHub.ToKeltner(emaPeriods, multiplier, atrPeriods);
 
-foreach (Quote quote in quotes)  // simulating stream
+foreach (IQuote quote in quotes)  // simulating stream
 {
   quoteHub.Add(quote);
 }
