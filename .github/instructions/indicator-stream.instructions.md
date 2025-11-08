@@ -82,7 +82,6 @@ The codebase implements several types of stream hub I/O patterns:
 6. **Dual IReusable → IReusable** (e.g., Correlation, Beta): Takes two synchronized reusable inputs, produces reusable output
    - Extends `PairsProvider<TIn, TResult>` which implements `IChainProvider<TOut>` and `IPairsObserver<TIn>`
    - Generic constraint: `where TIn : IReusable`
-   - **NEW**: Added for dual-stream indicators requiring synchronized pair inputs
 
 **Provider Selection Guidelines**:
 
