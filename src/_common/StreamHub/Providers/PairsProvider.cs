@@ -16,7 +16,7 @@ namespace Skender.Stock.Indicators;
 public abstract class PairsProvider<TIn, TOut>(
     IStreamObservable<TIn> providerA,
     IStreamObservable<TIn> providerB
-) : StreamHub<TIn, TOut>(providerA), IPairsProvider<TOut>
+) : StreamHub<TIn, TOut>(providerA), IChainProvider<TOut>
      where TIn : IReusable
      where TOut : IReusable
 {

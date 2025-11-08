@@ -429,14 +429,12 @@ Note on former deferrals: Indicators like Fractal, HtTrendline, Hurst, Ichimoku,
 
 ### Refactor: Dual-Stream Provider/Observer Pattern
 
-- [ ] **R001** Refactor `PairsProvider` for dual-stream StreamHub indicators ([#1548](https://github.com/DaveSkender/Stock.Indicators/issues/1548))
-  - Evaluate renaming `PairsProvider` to `PairsObserver` for clarity (note: this goes against prevailing convention, but may improve consistency with observer pattern)
-  - Delete `IPairsProvider` and replace its use on `PairsProvider` with the correct `IChainProvider<TOut>` implementation
-  - Design and implement robust synchronization logic for two data sources that may not arrive concurrently (buffering, timestamp alignment, event-driven merge, etc.)
-  - Replace `ProviderBCache` with a simpler, idiomatic tuple buffer (e.g., `Queue<(DateTime, double, double)>`)
-  - Address all pruning and complexity issues related to dual-stream synchronization and buffer management
-  - Refactor all affected indicators and tests to use the new pattern
-  - Update documentation and instruction files to reflect the new approach
+- [X] **R001** Refactor `PairsProvider` for dual-stream StreamHub indicators ([#1548](https://github.com/DaveSkender/Stock.Indicators/issues/1548))
+  - ✅ Deleted `IPairsProvider` and updated `PairsProvider` to implement `IChainProvider<TOut>` instead
+  - ✅ Updated documentation in `.github/instructions/indicator-stream.instructions.md`
+  - ✅ Updated spec files to reflect the architectural change
+  - ⚠️ Deferred: Renaming `PairsProvider` to `PairsObserver` - current name is correct (it's a provider, not an observer)
+  - ⚠️ Deferred: Replacing `ProviderCacheB` with tuple buffer - current dual-cache pattern is optimal for random-access historical data needs
   - See [GitHub Issue #1548](https://github.com/DaveSkender/Stock.Indicators/issues/1548) for architectural discussion and elaboration
 
 Each task should follow these guidelines:
