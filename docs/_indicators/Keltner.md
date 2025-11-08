@@ -80,12 +80,32 @@ var results = quotes
     .ToKeltner(..);
 ```
 
-### Stream indicator
+## Streaming
 
-This indicator supports real-time streaming with `ToKeltnerHub()`.  See [StreamHub guide]({{site.baseurl}}/guide/#streaming-hub-style-indicators) for usage.
+Use the buffer-style `List<T>` when you need incremental calculations without a hub:
 
 ```csharp
-// example - to stream real-time data
-var quoteHub = new QuoteHub();
-var keltnerHub = quoteHub.ToKeltnerHub(emaPeriods, multiplier, atrPeriods);
+KeltnerList keltnerList = new(emaPeriods, multiplier, atrPeriods);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  keltnerList.Add(quote);
+}
+
+// based on `ICollection<KeltnerResult>`
+IReadOnlyList<KeltnerResult> results = keltnerList;
+```
+
+Subscribe to a `QuoteHub` for advanced streaming scenarios:
+
+```csharp
+QuoteHub<Quote> quoteHub = new();
+KeltnerHub<Quote> observer = quoteHub.ToKeltner(emaPeriods, multiplier, atrPeriods);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  quoteHub.Add(quote);
+}
+
+IReadOnlyList<KeltnerResult> results = observer.Results;
 ```

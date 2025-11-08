@@ -409,11 +409,17 @@ Note on former deferrals: Indicators like Fractal, HtTrendline, Hurst, Ichimoku,
 
 - [x] **D001** Update `docs/_indicators/Sma.md` with streaming usage section and examples ✅
 - [x] **D002** Update `docs/_indicators/Ema.md` with streaming usage section and examples ✅
-- [ ] **D003** Update `docs/_indicators/Rsi.md` with streaming usage section and examples
-- [ ] **D004** Update `docs/_indicators/Macd.md` with streaming usage section and examples
-- [ ] **D005** Update `docs/_indicators/BollingerBands.md` with streaming usage section and examples
-- [ ] **D006** Update `README.md` with streaming overview paragraph and quick-start example
-- [ ] **D007** Update `src/MigrationGuide.V3.md` with streaming capability summary and migration guidance
+- [x] **D003** Update `docs/_indicators/Rsi.md` with streaming usage section and examples ✅
+- [x] **D004** Update `docs/_indicators/Macd.md` with streaming usage section and examples ✅
+- [x] **D005** Update `docs/_indicators/BollingerBands.md` with streaming usage section and examples ✅
+- [x] **D006** Update `README.md` with streaming overview paragraph and quick-start example ✅
+- [x] **D007** Update `src/MigrationGuide.V3.md` with streaming capability summary and migration guidance ✅
+  - Overview of three calculation styles (Series, BufferList, StreamHub)
+  - Migration examples from v2 Series to v3 streaming
+  - Performance considerations
+  - Links to indicator-specific documentation
+  - Completed guide.md TODO sections (BufferList and StreamHub)
+  - Added comprehensive streaming performance documentation to performance.md
 
 **Checkpoint**: Phase 5 completion delivers polished user-facing documentation for all streaming features
 
@@ -588,8 +594,8 @@ Each task should follow these guidelines:
 - **Phase 2**: 85 BufferList implementation tasks (T001-T085) — 82 complete, 3 remaining (T055/T068 not implementing, T085 human-only)
 - **Phase 3**: 85 StreamHub implementation tasks (T086-T170) — 79 complete, 6 remaining (T108, T145 implementable; T140/T153 not implementing, T170 human-only)
 - **Phase 4**: 17 test infrastructure tasks (T175-T185, Q001-Q006) — 12 complete, 5 remaining
-- **Phase 5**: 7 documentation tasks (D001-D007) — 2 complete, 5 remaining
+- **Phase 5**: 7 documentation tasks (D001-D007) — 7 complete, 0 remaining ✅
 - **Phase 6**: 10 enhancement tasks (E001-E010) — 0 complete, 10 remaining (Priority 4 enhancements + private project items)
-- **Total**: 214 tasks — 183 complete, 31 remaining (4 marked as not implementing, 2 human-only)
+- **Total**: 214 tasks — 188 complete, 26 remaining (4 marked as not implementing, 2 human-only)
 
 Removed blanket deferral: The above indicators are complex but unblocked with established reference patterns (see instruction files).

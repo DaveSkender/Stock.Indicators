@@ -102,3 +102,146 @@ This guide provides a migration path from v2 to v3 of the Stock Indicators libra
 5. Remove `SyncSeries()` utility function and related `SyncType` enum.
 6. Deprecate `ToTupleCollection()` utility method.
 7. Remove `Find()` and `FindIndex()` utility methods.
+
+## New v3 Feature: Streaming Capabilities
+
+v3 introduces comprehensive **streaming capabilities** for real-time and incremental data processing. Most indicators now support three calculation styles:
+
+### Calculation Styles
+
+#### Series Style (Traditional Batch Processing)
+
+The Series style processes complete historical datasets and returns all results at once. This is the same pattern from v2 and remains the default approach for backtesting and historical analysis.
+
+```csharp
+// v2 and v3 Series style
+IReadOnlyList<SmaResult> results = quotes.ToSma(20);
+```
+
+**Use when:**
+
+- Processing complete historical datasets
+- Backtesting strategies
+- One-time calculations
+- No real-time requirements
+
+#### BufferList Style (Incremental Processing)
+
+The BufferList style allows incremental calculations with efficient buffer management. Use this when you need to add data points incrementally without maintaining a full hub infrastructure.
+
+```csharp
+// v3 BufferList style
+SmaList smaList = new(20);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+    smaList.Add(quote);
+}
+
+IReadOnlyList<SmaResult> results = smaList;
+```
+
+**Use when:**
+
+- Growing datasets with frequent appends
+- Accumulating historical data
+- Incremental calculations without real-time subscriptions
+- Memory-efficient processing
+
+#### StreamHub Style (Real-Time Observable Patterns)
+
+The StreamHub style provides real-time processing with observable patterns and state management. Multiple indicators can subscribe to a single `QuoteHub` for coordinated real-time analysis.
+
+```csharp
+// v3 StreamHub style
+QuoteHub<Quote> quoteHub = new();
+SmaHub<Quote> smaHub = quoteHub.ToSma(20);
+RsiHub<Quote> rsiHub = quoteHub.ToRsi(14);
+
+foreach (Quote quote in liveQuotes)  // streaming data
+{
+    quoteHub.Add(quote);
+    
+    // Access real-time results
+    SmaResult smaResult = smaHub.Results.LastOrDefault();
+    RsiResult rsiResult = rsiHub.Results.LastOrDefault();
+}
+```
+
+**Use when:**
+
+- Live data feeds and WebSocket integration
+- Multiple indicators need coordinated updates
+- Trading applications requiring low latency
+- Real-time dashboards and monitoring
+
+### Migration Examples
+
+#### From v2 Series to v3 BufferList
+
+If you were building up results incrementally in v2, you can now use BufferList for better performance:
+
+```csharp
+// v2 approach (inefficient for incremental updates)
+List<Quote> quotes = new();
+foreach (Quote newQuote in stream)
+{
+    quotes.Add(newQuote);
+    var results = quotes.ToSma(20);  // Recalculates everything!
+    // Use results...
+}
+
+// v3 BufferList (efficient incremental updates)
+SmaList smaList = new(20);
+foreach (Quote newQuote in stream)
+{
+    smaList.Add(newQuote);
+    SmaResult latest = smaList.LastOrDefault();
+    // Use latest...
+}
+```
+
+#### From v2 Series to v3 StreamHub
+
+If you need to coordinate multiple indicators with live data:
+
+```csharp
+// v2 approach (requires maintaining separate lists)
+List<Quote> quotes = new();
+foreach (Quote newQuote in stream)
+{
+    quotes.Add(newQuote);
+    var smaResults = quotes.ToSma(20);
+    var rsiResults = quotes.ToRsi(14);
+    var macdResults = quotes.ToMacd();
+    // Process results...
+}
+
+// v3 StreamHub (coordinated real-time updates)
+QuoteHub<Quote> hub = new();
+var smaHub = hub.ToSma(20);
+var rsiHub = hub.ToRsi(14);
+var macdHub = hub.ToMacd();
+
+foreach (Quote newQuote in stream)
+{
+    hub.Add(newQuote);  // Single update propagates to all observers
+    // Access latest results from each hub
+}
+```
+
+### Performance Considerations
+
+- **Series**: Best throughput for complete datasets, optimized for batch processing
+- **BufferList**: Balanced performance for incremental updates, ~10-20% overhead vs Series
+- **StreamHub**: Low latency per quote for real-time scenarios, ~20-30% overhead vs Series
+
+### Streaming Documentation
+
+For indicator-specific streaming examples, see the documentation for each indicator. Indicators with streaming support include a "## Streaming" section with BufferList and StreamHub examples.
+
+Popular indicators with complete streaming documentation:
+
+- Moving Averages: [SMA](https://dotnet.stockindicators.dev/indicators/Sma/), [EMA](https://dotnet.stockindicators.dev/indicators/Ema/), [WMA](https://dotnet.stockindicators.dev/indicators/Wma/)
+- Oscillators: [RSI](https://dotnet.stockindicators.dev/indicators/Rsi/), [MACD](https://dotnet.stockindicators.dev/indicators/Macd/), [Stochastic](https://dotnet.stockindicators.dev/indicators/Stoch/)
+- Channels: [Bollinger Bands](https://dotnet.stockindicators.dev/indicators/BollingerBands/), [Keltner](https://dotnet.stockindicators.dev/indicators/Keltner/)
