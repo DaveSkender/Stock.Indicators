@@ -136,7 +136,8 @@ Prerequisites: research.md complete (decisions documented in Phase 0 above)
 - **`IIncrementFromPairs`**: Interface for dual-series indicators working with paired `IReusable` values
 - **`IChainProvider<T>`**: Interface for chainable stream hubs working with `IReusable` values
 - **`IQuoteProvider<T>`**: Interface for stream hubs requiring OHLC quote data
-- **`PairsProvider<TIn, TOut>`**: **UPDATED** - Base class for dual-stream hubs requiring synchronized paired `IReusable` values; implements `IChainProvider<TOut>`
+- **`IPairsObserver<T>`**: **NEW** - Interface marking observers that consume paired `IReusable` values from synchronized dual streams
+- **`PairsProvider<TIn, TOut>`**: **UPDATED** - Base class for dual-stream hubs requiring synchronized paired `IReusable` values; implements `IChainProvider<TOut>` and `IPairsObserver<TIn>`
 - **StreamingState**: Enum { NotWarmedUp, Ready }
 - **StreamingResult\<T>**: Wrapper containing { DateTime, T Value, StreamingState }
 - **BufferList**: List-backed implementation with `Add()`, `Reset()`, bounded capacity (implements one of the three `IIncrementFrom*` interfaces)
@@ -148,7 +149,7 @@ Prerequisites: research.md complete (decisions documented in Phase 0 above)
 |----------------|---------------------|---------------------|---------------------|
 | Chainable (single value) | `IIncrementFromChain` | `IChainProvider<T>` | `IReadOnlyList<IReusable>` values |
 | Multi-OHLC required | `IIncrementFromQuote` | `IQuoteProvider<T>` | `IReadOnlyList<IQuote>` quotes |
-| Dual-series input | `IIncrementFromPairs` | `PairsProvider<TIn, TOut>` (implements `IChainProvider<T>`) | Paired `IReusable` series |
+| Dual-series input | `IIncrementFromPairs` | `PairsProvider<TIn, TOut>` (implements `IChainProvider<T>` + `IPairsObserver<T>`) | Paired `IReusable` series |
 
 ### Quality gates
 
@@ -220,10 +221,11 @@ The following base classes and utilities already exist in `src/_common/`:
 - ✅ `BufferListUtilities` - Extension methods for buffer management (Update, Prune, etc.)
 - ✅ `StreamHub<TIn, TOut>` - Abstract base for hub-based streaming
 - ✅ `ChainProvider<TIn, TResult>` / `QuoteProvider<TIn, TResult>` - Provider implementations
-- ✅ `PairsProvider<TIn, TResult>` - **UPDATED** - Dual-stream provider implementing `IChainProvider<TOut>`
+- ✅ `IPairsObserver<T>` - **NEW** - Interface for dual-stream observers
+- ✅ `PairsProvider<TIn, TResult>` - **UPDATED** - Dual-stream provider implementing `IChainProvider<TOut>` and `IPairsObserver<TIn>`
 - ✅ `IStreamObservable<T>` / `IStreamObserver<T>` - Observer pattern interfaces
 
-**All foundational types are production-ready** - dual-stream architecture complete. `IPairsProvider` was removed as redundant (replaced by `IChainProvider<TOut>` implementation on `PairsProvider`).
+**All foundational types are production-ready** - dual-stream architecture complete with proper interface separation.
 
 ### Regression test workflow
 

@@ -430,10 +430,11 @@ Note on former deferrals: Indicators like Fractal, HtTrendline, Hurst, Ichimoku,
 ### Refactor: Dual-Stream Provider/Observer Pattern
 
 - [X] **R001** Refactor `PairsProvider` for dual-stream StreamHub indicators ([#1548](https://github.com/DaveSkender/Stock.Indicators/issues/1548))
-  - ✅ Deleted `IPairsProvider` and updated `PairsProvider` to implement `IChainProvider<TOut>` instead
+  - ✅ Created `IPairsObserver<TIn>` interface to mark dual-stream observers
+  - ✅ Updated `PairsProvider` to implement both `IChainProvider<TOut>` (for output chaining) and `IPairsObserver<TIn>` (for paired input observation)
+  - ✅ Aligned dual-stream architecture with observer/provider pattern used elsewhere
   - ✅ Updated documentation in `.github/instructions/indicator-stream.instructions.md`
-  - ✅ Updated spec files to reflect the architectural change
-  - ⚠️ Deferred: Renaming `PairsProvider` to `PairsObserver` - current name is correct (it's a provider, not an observer)
+  - ✅ Updated spec files to reflect the architectural changes
   - ⚠️ Deferred: Replacing `ProviderCacheB` with tuple buffer - current dual-cache pattern is optimal for random-access historical data needs
   - See [GitHub Issue #1548](https://github.com/DaveSkender/Stock.Indicators/issues/1548) for architectural discussion and elaboration
 
