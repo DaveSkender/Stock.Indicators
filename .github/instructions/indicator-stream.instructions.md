@@ -80,15 +80,14 @@ The codebase implements several types of stream hub I/O patterns:
    - Uses `IQuoteProvider<IQuote>` and extends `QuoteProvider<TIn, TResult>`
    - Generic constraint: `where TIn : IQuote`
 6. **Dual IReusable → IReusable** (e.g., Correlation, Beta): Takes two synchronized reusable inputs, produces reusable output
-   - Uses `IPairsProvider<TIn>` and extends `PairsProvider<TIn, TResult>`
+   - Extends `PairsProvider<TIn, TResult>` which implements `IChainProvider<TOut>` and `IPairsObserver<TIn>`
    - Generic constraint: `where TIn : IReusable`
-   - **NEW**: Added for dual-stream indicators requiring synchronized pair inputs
 
 **Provider Selection Guidelines**:
 
 - Use `IQuoteProvider<IQuote>` and `QuoteProvider<TIn, TResult>` when the indicator requires multiple quote properties (e.g., OHLCV data)
 - Use `IChainProvider<IReusable>` and `ChainProvider<IReusable, TResult>` when the indicator can work with single reusable values. Heuristic: if the result type implements `IReusable` and exposes a chainable `Value` property, the hub should act as a chain provider (for example, `AdxResult : IReusable` with `Value => Adx`).
-- Use `IPairsProvider<TIn>` and `PairsProvider<TIn, TResult>` when the indicator requires synchronized dual inputs (e.g., Correlation, Beta)
+- Use `PairsProvider<TIn, TResult>` when the indicator requires synchronized dual inputs (e.g., Correlation, Beta). PairsProvider implements both `IChainProvider<TOut>` (for output chaining) and `IPairsObserver<TIn>` (for observing paired inputs), and extends `StreamHub<TIn, TOut>`.
 
 Note: IQuote → QuotePart selectors exist but are rarely used for new indicators.
 
