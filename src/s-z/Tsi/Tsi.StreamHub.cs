@@ -376,6 +376,7 @@ public class TsiHub
                             sum += Cache[p].Tsi.Null2NaN();
                         }
                     }
+
                     _prevSignal = sum / SignalPeriods;
                 }
                 else if (!double.IsNaN(_prevSignal) && !double.IsNaN(tsi))
