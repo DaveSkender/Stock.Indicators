@@ -8,6 +8,7 @@
     ".specify/scripts/ps/": true
   },
   "chat.useNestedAgentsMdFiles": true,
+  "chatgpt.openOnStartup": false,
   "codacy.guardrails.instructionsFile": "manual",
   "dotnet.defaultSolution": "Stock.Indicators.sln",
   "files.encoding": "utf8",

@@ -24,12 +24,12 @@ jobs:
     strategy:
       matrix:
         os: [windows-latest, ubuntu-latest, macos-latest]
-        dotnet-version: ["6.0.x", "9.0.x"]
+        dotnet-version: ["6.0.x", "10.0.x"]
 
     env:
       TARGET_FRAMEWORK: >
         ${{ matrix.dotnet-version == '6.0.x' && 'net6.0' ||
-            matrix.dotnet-version == '9.0.x' && 'net9.0' }}
+            matrix.dotnet-version == '10.0.x' && 'net10.0' }}
 
     steps:
       - name: Checkout source
