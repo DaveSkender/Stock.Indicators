@@ -10,7 +10,7 @@ echo "=== Running Roslynator analysis ==="
 roslynator analyze \
 --severity-level info \
 --verbosity normal \
---properties TargetFramework=net9.0 || exit 1
+--properties TargetFramework=net10.0 || exit 1
 
 echo ""
 echo "=== Running .NET format check ==="

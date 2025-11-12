@@ -32,18 +32,10 @@ jobs:
           bundler-cache: true
           working-directory: docs
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v6
-        with:
-          node-version: ">=24.10.0"
-          cache: "npm"
-          cache-dependency-path: package-lock.json
-        continue-on-error: true
-
       - name: Setup .NET SDK
         uses: actions/setup-dotnet@v5
         with:
-          dotnet-version: "9.x"
+          dotnet-version: "10.x"
           dotnet-quality: "ga"
           cache: true
           cache-dependency-path: "**/packages.lock.json"
@@ -68,17 +60,7 @@ jobs:
 
       - name: Restore packages
         run: |
-          dotnet restore && npm ci
-        continue-on-error: true
-
-      - name: Build .NET Solution
-        run: |
-          dotnet build --no-restore
-        continue-on-error: true
-
-      - name: Test environment
-        run: |
-          dotnet test --no-build --verbosity minimal
+          dotnet restore
         continue-on-error: true
 
       - name: Environment summary
@@ -95,7 +77,7 @@ jobs:
           echo "### Spec-Kit Integration" >> $GITHUB_STEP_SUMMARY
           echo "- Spec-Kit CLI: $(~/.local/bin/specify --version 2>/dev/null || echo 'Installation pending')" >> $GITHUB_STEP_SUMMARY
           echo "- Constitution: ✅ Available at \`.specify/memory/constitution.md\`" >> $GITHUB_STEP_SUMMARY
-          echo "- Specifications: ✅ Available at \`specs/\`" >> $GITHUB_STEP_SUMMARY
+          echo "- Specifications: ✅ Available at \`.specify/specs/\`" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "### Available Commands" >> $GITHUB_STEP_SUMMARY
           echo "- \`/constitution\` - Review/update project principles" >> $GITHUB_STEP_SUMMARY
