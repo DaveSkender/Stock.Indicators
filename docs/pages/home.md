@@ -67,9 +67,9 @@ See the [guide]({{site.baseurl}}/guide/#content) and the [full list of indicator
 
 ## Optimized for modern .NET frameworks
 
-Our [NuGet library](https://www.nuget.org/packages/Skender.Stock.Indicators) directly targets all current frameworks for peak performance.
+Our [NuGet library](https://www.nuget.org/packages/Skender.Stock.Indicators) directly targets all actively [supported Microsoft .NET platforms](https://dotnet.microsoft.com/platform/support/policy) for peak performance.
 
-- .NET 9.0, 8.0
+- .NET 10.0, 9.0, 8.0
 
 The compiled library package is [Common Language Specification (CLS) compliant](https://docs.microsoft.com/en-us/dotnet/standard/common-type-system) and can be used in other programming languages, including Python and everything in the .NET universe.
 

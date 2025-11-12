@@ -35,7 +35,7 @@ jobs:
       - name: Setup .NET SDK
         uses: actions/setup-dotnet@v5
         with:
-          dotnet-version: "9.x"
+          dotnet-version: "10.x"
           dotnet-quality: "ga"
           cache: true
           cache-dependency-path: "**/packages.lock.json"
@@ -62,17 +62,7 @@ jobs:
         run: |
           dotnet restore
         continue-on-error: true
-
-      - name: Build .NET Solution
-        run: |
-          dotnet build --no-restore
-        continue-on-error: true
-
-      - name: Test environment
-        run: |
-          dotnet test --no-restore --verbosity minimal --settings tests/tests.unit.runsettings
-        continue-on-error: true
-        timeout-minutes: 10
+        timeout-minutes: 5
 
       - name: Environment summary
         run: |

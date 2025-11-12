@@ -1,7 +1,7 @@
 {
   "version": 1,
   "dependencies": {
-    "net9.0": {
+    "net10.0": {
       "Roslynator.Analyzers": {
         "type": "Direct",
         "requested": "[4.14.1, )",
