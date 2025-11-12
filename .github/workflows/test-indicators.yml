@@ -87,7 +87,7 @@ jobs:
       - name: Run Roslynator analysis
         run: >
           roslynator analyze
-          --properties TargetFramework=net9.0
+          --properties TargetFramework=net10.0
           --severity-level hidden
           --verbosity normal
 
