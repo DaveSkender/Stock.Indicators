@@ -13,8 +13,8 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read # Required for checkout
-  checks: write # Required for test results
+  contents: read  # Required for checkout
+  checks: write   # Required for test results
 
 jobs:
   quick-check:
@@ -88,7 +88,7 @@ jobs:
         run: >
           roslynator analyze
           --properties TargetFramework=net10.0
-          --severity-level hidden
+          --severity-level info
           --verbosity normal
 
       - name: Check .NET code formatting
