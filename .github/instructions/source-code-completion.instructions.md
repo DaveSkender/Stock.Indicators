@@ -8,9 +8,9 @@ description: ".NET development, testing, formatting, linting, and performance gu
 These instructions apply to all files in the `src/` and `tests/` folders and cover .NET development, unit testing, performance benchmarking, code formatting, and library-specific patterns. Use the VS Code tasks **Restore: .NET Packages**, **Build: .NET Solution**, **Test: .NET Solution**, and **Lint: Markdown Files** (`Ctrl+Shift+P` → `Tasks: Run Task`) whenever you prefer a guided experience over CLI commands. Before final verification, ensure:
 
 - All style-specific instruction files are followed:
-  - Series: [indicator-series.instructions.md](file:../../.github/instructions/indicator-series.instructions.md)
-  - Stream: [indicator-stream.instructions.md](file:../../.github/instructions/indicator-stream.instructions.md)
-  - Buffer: [indicator-buffer.instructions.md](file:../../.github/instructions/indicator-buffer.instructions.md)
+  - Series: [indicator-series.instructions.md](../../.github/instructions/indicator-series.instructions.md)
+  - Stream: [indicator-stream.instructions.md](../../.github/instructions/indicator-stream.instructions.md)
+  - Buffer: [indicator-buffer.instructions.md](../../.github/instructions/indicator-buffer.instructions.md)
 
 ## Coding agent assistant reminders
 

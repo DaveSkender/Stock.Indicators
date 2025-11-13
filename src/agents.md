@@ -15,7 +15,7 @@ AI agents **MUST NOT**:
 - "Optimize" or "simplify" formulas without verification
 - Apply formulas from unverified sources (TradingView, random websites, uncited calculators)
 
-**Rationale**: Every formula in this library has been validated against authoritative sources and reference calculations. Arbitrary changes break mathematical correctness and violate [Constitution §1: Mathematical Precision](file:../.specify/memory/constitution.md).
+**Rationale**: Every formula in this library has been validated against authoritative sources and reference calculations. Arbitrary changes break mathematical correctness and violate [Constitution §1: Mathematical Precision](../.specify/memory/constitution.md).
 
 **Exceptions**: Formula changes require:
 
@@ -59,7 +59,7 @@ All implementations **MUST** match these reference calculations exactly.
 - ❌ AI-generated formulas without authoritative verification
 - ❌ "Common knowledge" or "industry standard" without citations
 
-**Reference**: [Constitution §1: Mathematical Precision - Formula Sourcing Hierarchy](file:../.specify/memory/constitution.md)
+**Reference**: [Constitution §1: Mathematical Precision - Formula Sourcing Hierarchy](../.specify/memory/constitution.md)
 <!-- ai:rule end -->
 
 ## 🔒 Implementation style parity requirements
@@ -75,7 +75,7 @@ All implementation styles (Series, BufferList, StreamHub) **MUST** produce **ide
 
 **Test requirement**: Every streaming implementation must pass regression tests with deterministic equality against Series baseline results.
 
-**Reference**: [Constitution §1: Mathematical Precision](file:../.specify/memory/constitution.md)
+**Reference**: [Constitution §1: Mathematical Precision](../.specify/memory/constitution.md)
 <!-- ai:rule end -->
 
 ## 🛠️ Safe modifications vs. prohibited changes
@@ -123,11 +123,11 @@ Before implementing **any** changes to indicator code, AI agents must verify:
 - [ ] Change does not alter default parameter values
 - [ ] All existing tests pass without modification to expected values
 - [ ] Manual calculation spreadsheets remain valid (if formula unchanged)
-- [ ] Changes comply with [Constitution §1: Mathematical Precision](file:../.specify/memory/constitution.md)
+- [ ] Changes comply with [Constitution §1: Mathematical Precision](../.specify/memory/constitution.md)
 - [ ] Changes follow style-specific guidelines:
-  - Series: [indicator-series.instructions.md](file:../.github/instructions/indicator-series.instructions.md)
-  - Stream: [indicator-stream.instructions.md](file:../.github/instructions/indicator-stream.instructions.md)
-  - Buffer: [indicator-buffer.instructions.md](file:../.github/instructions/indicator-buffer.instructions.md)
+  - Series: [indicator-series.instructions.md](../.github/instructions/indicator-series.instructions.md)
+  - Stream: [indicator-stream.instructions.md](../.github/instructions/indicator-stream.instructions.md)
+  - Buffer: [indicator-buffer.instructions.md](../.github/instructions/indicator-buffer.instructions.md)
 
 <!-- ai:rule end -->
 
@@ -175,12 +175,12 @@ double average = sum / period;  // Keep original if tests verify correctness
 
 For comprehensive guidance, AI agents should consult:
 
-- [Constitution: Mathematical Precision](file:../.specify/memory/constitution.md) - NON-NEGOTIABLE principles
-- [Source Code Completion Checklist](file:../.github/instructions/source-code-completion.instructions.md) - Pre-commit requirements
-- [Indicator Series Guidelines](file:../.github/instructions/indicator-series.instructions.md) - Series implementation patterns
-- [Indicator Stream Guidelines](file:../.github/instructions/indicator-stream.instructions.md) - StreamHub patterns
-- [Indicator Buffer Guidelines](file:../.github/instructions/indicator-buffer.instructions.md) - BufferList patterns
-- [Spec Kit Instructions](file:../.github/instructions/spec-kit.instructions.md) - Specification-driven development
+- [Constitution: Mathematical Precision](../.specify/memory/constitution.md) - NON-NEGOTIABLE principles
+- [Source Code Completion Checklist](../.github/instructions/source-code-completion.instructions.md) - Pre-commit requirements
+- [Indicator Series Guidelines](../.github/instructions/indicator-series.instructions.md) - Series implementation patterns
+- [Indicator Stream Guidelines](../.github/instructions/indicator-stream.instructions.md) - StreamHub patterns
+- [Indicator Buffer Guidelines](../.github/instructions/indicator-buffer.instructions.md) - BufferList patterns
+- [Spec Kit Instructions](../.github/instructions/spec-kit.instructions.md) - Specification-driven development
 
 ## 📞 When in doubt
 

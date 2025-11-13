@@ -739,7 +739,7 @@ public class GoodHub : StreamHub<IQuote, GoodResult>
 - Use appropriate synchronization when necessary
 
 > [!NOTE]
-> Contributor-facing checklist: see [stream-hub-tests.md](file:../../.specify/specs/001-develop-streaming-indicators/checklists/stream-hub-tests.md).
+> Contributor-facing checklist: see [stream-hub-tests.md](../../.specify/specs/001-develop-streaming-indicators/checklists/stream-hub-tests.md).
 
 ## Integration patterns
 

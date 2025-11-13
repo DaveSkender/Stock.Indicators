@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.1.32319.34
+# Visual Studio Version 18
+VisualStudioVersion = 18.0.11205.157 d18.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleApp", "ConsoleApp\ConsoleApp.csproj", "{E52986AB-499A-4448-822F-01848DE216E3}"
 EndProject
@@ -10,8 +10,6 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CustomIndicatorsLibrary", "CustomIndicatorsLibrary\CustomIndicatorsLibrary.csproj", "{D201089E-E9F6-4A67-A763-4164C8318E04}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CustomIndicatorsUsage", "CustomIndicatorsUsage\CustomIndicatorsUsage.csproj", "{4C6528AB-8311-4F10-99D2-83A2AB2DFB53}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ObserveStream", "ObserveStream\ObserveStream.csproj", "{5FAD383B-DFCD-42FD-A847-53D772876595}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UseQuoteApi", "UseQuoteApi\UseQuoteApi.csproj", "{E6B2E0AE-6457-47F3-9BA5-01F4AA84118A}"
 EndProject
@@ -46,10 +44,6 @@ Global
 		{E6B2E0AE-6457-47F3-9BA5-01F4AA84118A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E6B2E0AE-6457-47F3-9BA5-01F4AA84118A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E6B2E0AE-6457-47F3-9BA5-01F4AA84118A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9B9ED801-0F01-4851-A086-9A3805584BE2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9B9ED801-0F01-4851-A086-9A3805584BE2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9B9ED801-0F01-4851-A086-9A3805584BE2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9B9ED801-0F01-4851-A086-9A3805584BE2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -20,7 +20,7 @@
 
   <ItemGroup>
     <PackageReference Include="Roslynator.Analyzers" Version="4.14.1" PrivateAssets="All" />
-    <PackageReference Include="Skender.Stock.Indicators" Version="2.6.1" PrivateAssets="All" />
+    <PackageReference Include="Skender.Stock.Indicators" Version="2.7.0" PrivateAssets="All" />
     <!-- <ProjectReference Include="..\..\..\src\Indicators.csproj" /> -->
   </ItemGroup>
 

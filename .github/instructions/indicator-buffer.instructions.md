@@ -314,8 +314,8 @@ When implementing other complex or previously deferred indicators (for example: 
 > [!NOTE]
 > For PRs, use the dev-facing Code completion checklist above, and the contributor-facing checklists in SpecKit:
 >
-> - BufferList tests: [buffer-list-tests.md](file:../../.specify/specs/001-develop-streaming-indicators/checklists/buffer-list-tests.md)
-> - StreamHub tests: [stream-hub-tests.md](file:../../.specify/specs/001-develop-streaming-indicators/checklists/stream-hub-tests.md)
+> - BufferList tests: [buffer-list-tests.md](../../.specify/specs/001-develop-streaming-indicators/checklists/buffer-list-tests.md)
+> - StreamHub tests: [stream-hub-tests.md](../../.specify/specs/001-develop-streaming-indicators/checklists/stream-hub-tests.md)
 
 ---
 Last updated: October 28, 2025

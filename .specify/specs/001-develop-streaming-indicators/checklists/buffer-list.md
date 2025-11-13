@@ -3,7 +3,7 @@
 **Purpose**: Validate requirements quality and completeness for BufferList indicator implementations
 **Created**: October 7, 2025 | **Simplified**: October 12, 2025
 **Feature**: [spec.md](../spec.md) | [tasks.md](../tasks.md)
-**Instructions**: [indicator-buffer.instructions.md](file:../../../.github/instructions/indicator-buffer.instructions.md)
+**Instructions**: [indicator-buffer.instructions.md](../../../.github/instructions/indicator-buffer.instructions.md)
 
 **Note**: This checklist validates requirement quality for BufferList implementations. Focus on essential constitution compliance and instruction file adherence.
 
