@@ -118,8 +118,7 @@ Rules for Mermaid diagrams:
 ## Linting and automation (optional)
 
 - Focus on content quality first; add automation only when it adds consistency value.
-- Install with: `npm i -D markdownlint-cli2` and add a lean `.markdownlint-cli2.jsonc`.
-- Provide scripts: `lint:md` (list) and `lint:md:fix` (apply safe fixes).
+- Lint with: `npx markdownlint-cli2` and add a lean `.markdownlint-cli2.jsonc`.
 - Recommend VS Code extension: `DavidAnson.vscode-markdownlint` (add to `.vscode/extensions.json`).
 - Keep configuration minimal; avoid separate ignore files unless required.
 

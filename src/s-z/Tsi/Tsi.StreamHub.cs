@@ -11,6 +11,19 @@ public class TsiHub
     private readonly double mult2;  // smoothing constant for second EMA (smoothPeriods)
     private readonly double multS;  // smoothing constant for signal EMA (signalPeriods)
 
+    // State variables for incremental calculation
+    private bool _isFirstPeriod;
+    private double _prevValue;
+    private double _prevCs1;
+    private double _prevAs1;
+    private double _prevCs2;
+    private double _prevAs2;
+    private double _prevSignal;
+
+    // History lists for second smoothing initialization
+    private readonly List<double> _cs1History;
+    private readonly List<double> _as1History;
+
     /// <summary>
     /// Initializes a new instance of the <see cref="TsiHub"/> class.
     /// </summary>
@@ -37,6 +50,17 @@ public class TsiHub
 
         hubName = $"TSI({lookbackPeriods},{smoothPeriods},{signalPeriods})";
 
+        _isFirstPeriod = true;
+        _prevValue = double.NaN;
+        _prevCs1 = double.NaN;
+        _prevAs1 = double.NaN;
+        _prevCs2 = double.NaN;
+        _prevAs2 = double.NaN;
+        _prevSignal = double.NaN;
+
+        _cs1History = [];
+        _as1History = [];
+
         Reinitialize();
     }
 
@@ -59,22 +83,101 @@ public class TsiHub
         ArgumentNullException.ThrowIfNull(item);
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
-        // Skip first period (no previous value for change calculation)
-        if (i == 0)
+        double currentValue = item.Value;
+
+        // Handle first period
+        if (_isFirstPeriod)
         {
+            _prevValue = currentValue;
+            _isFirstPeriod = false;
+            _cs1History.Add(double.NaN);
+            _as1History.Add(double.NaN);
             return (new TsiResult(item.Timestamp), i);
         }
 
-        double currentValue = item.Value;
-        double prevValue = ProviderCache[i - 1].Value;
-
         // Price change
-        double change = currentValue - prevValue;
+        double change = currentValue - _prevValue;
         double absChange = Math.Abs(change);
+        _prevValue = currentValue;
 
-        // Get intermediate smoothing states
-        (double cs1, double as1) = CalculateFirstSmoothing(i, change, absChange);
-        (double cs2, double as2) = CalculateSecondSmoothing(i, cs1, as1);
+        // Calculate first smoothing (EMA of price change)
+        double cs1;
+        double as1;
+
+        // re/initialize first smoothing
+        if (double.IsNaN(_prevCs1) && i >= LookbackPeriods)
+        {
+            // Initialize first smoothing with SMA
+            double sumC = 0;
+            double sumA = 0;
+
+            for (int p = i - LookbackPeriods + 1; p <= i; p++)
+            {
+                double pValue = ProviderCache[p].Value;
+                double pPrevValue = ProviderCache[p - 1].Value;
+                double pChange = pValue - pPrevValue;
+                sumC += pChange;
+                sumA += Math.Abs(pChange);
+            }
+
+            cs1 = sumC / LookbackPeriods;
+            as1 = sumA / LookbackPeriods;
+            _prevCs1 = cs1;
+            _prevAs1 = as1;
+        }
+        // normal first smoothing
+        else if (!double.IsNaN(_prevCs1))
+        {
+            cs1 = ((change - _prevCs1) * mult1) + _prevCs1;
+            as1 = ((absChange - _prevAs1) * mult1) + _prevAs1;
+            _prevCs1 = cs1;
+            _prevAs1 = as1;
+        }
+        else
+        {
+            cs1 = double.NaN;
+            as1 = double.NaN;
+        }
+
+        // Store in history for second smoothing initialization
+        _cs1History.Add(cs1);
+        _as1History.Add(as1);
+
+        // Calculate second smoothing (EMA of first EMA)
+        double cs2;
+        double as2;
+
+        // re/initialize second smoothing
+        if (double.IsNaN(_prevCs2) && i >= SmoothPeriods && !double.IsNaN(cs1))
+        {
+            // Initialize second smoothing with SMA from history
+            double sumCs = 0;
+            double sumAs = 0;
+
+            for (int p = i - SmoothPeriods + 1; p <= i; p++)
+            {
+                sumCs += _cs1History[p];
+                sumAs += _as1History[p];
+            }
+
+            cs2 = sumCs / SmoothPeriods;
+            as2 = sumAs / SmoothPeriods;
+            _prevCs2 = cs2;
+            _prevAs2 = as2;
+        }
+        // normal second smoothing
+        else if (!double.IsNaN(_prevCs2) && !double.IsNaN(cs1))
+        {
+            cs2 = ((cs1 - _prevCs2) * mult2) + _prevCs2;
+            as2 = ((as1 - _prevAs2) * mult2) + _prevAs2;
+            _prevCs2 = cs2;
+            _prevAs2 = as2;
+        }
+        else
+        {
+            cs2 = double.NaN;
+            as2 = double.NaN;
+        }
 
         // Calculate TSI
         double tsi = as2 != 0
@@ -93,171 +196,12 @@ public class TsiHub
         return (r, i);
     }
 
-    private (double cs1, double as1) CalculateFirstSmoothing(int index, double change, double absChange)
-    {
-        // Get previous first smoothing values from cache (if available)
-        double prevCs1 = double.NaN;
-        double prevAs1 = double.NaN;
-
-        if (index > 1)
-        {
-            // Need to recalculate cs1/as1 from previous index
-            (prevCs1, prevAs1) = RecalculateFirstSmoothingAtIndex(index - 1);
-        }
-
-        // re/initialize first smoothing
-        if (double.IsNaN(prevCs1) && index >= LookbackPeriods)
-        {
-            double sumC = 0;
-            double sumA = 0;
-            for (int p = index - LookbackPeriods + 1; p <= index; p++)
-            {
-                double pValue = ProviderCache[p].Value;
-                double pPrevValue = ProviderCache[p - 1].Value;
-                double pChange = pValue - pPrevValue;
-                sumC += pChange;
-                sumA += Math.Abs(pChange);
-            }
-
-            return (sumC / LookbackPeriods, sumA / LookbackPeriods);
-        }
-        // normal first smoothing
-        else if (!double.IsNaN(prevCs1))
-        {
-            double cs1 = ((change - prevCs1) * mult1) + prevCs1;
-            double as1 = ((absChange - prevAs1) * mult1) + prevAs1;
-            return (cs1, as1);
-        }
-
-        return (double.NaN, double.NaN);
-    }
-
-    private (double cs1, double as1) RecalculateFirstSmoothingAtIndex(int index)
-    {
-        if (index == 0)
-        {
-            return (double.NaN, double.NaN);
-        }
-
-        double tempCs1 = double.NaN;
-        double tempAs1 = double.NaN;
-
-        for (int p = 1; p <= index; p++)
-        {
-            double pValue = ProviderCache[p].Value;
-            double pPrevValue = ProviderCache[p - 1].Value;
-            double pChange = pValue - pPrevValue;
-            double pAbsChange = Math.Abs(pChange);
-
-            if (double.IsNaN(tempCs1) && p >= LookbackPeriods)
-            {
-                double sumC = 0;
-                double sumA = 0;
-                for (int j = p - LookbackPeriods + 1; j <= p; j++)
-                {
-                    double jValue = ProviderCache[j].Value;
-                    double jPrevValue = ProviderCache[j - 1].Value;
-                    sumC += jValue - jPrevValue;
-                    sumA += Math.Abs(jValue - jPrevValue);
-                }
-
-                tempCs1 = sumC / LookbackPeriods;
-                tempAs1 = sumA / LookbackPeriods;
-            }
-            else if (!double.IsNaN(tempCs1))
-            {
-                tempCs1 = ((pChange - tempCs1) * mult1) + tempCs1;
-                tempAs1 = ((pAbsChange - tempAs1) * mult1) + tempAs1;
-            }
-        }
-
-        return (tempCs1, tempAs1);
-    }
-
-    private (double cs2, double as2) CalculateSecondSmoothing(int index, double cs1, double as1)
-    {
-        // Get previous second smoothing values from cache (if available)
-        double prevCs2 = double.NaN;
-        double prevAs2 = double.NaN;
-
-        if (index > 1)
-        {
-            // Need to recalculate cs2/as2 from previous index
-            (prevCs2, prevAs2) = RecalculateSecondSmoothingAtIndex(index - 1);
-        }
-
-        // re/initialize second smoothing
-        if (double.IsNaN(prevCs2) && index >= SmoothPeriods && !double.IsNaN(cs1))
-        {
-            double sumCs = 0;
-            double sumAs = 0;
-            for (int p = index - SmoothPeriods + 1; p <= index; p++)
-            {
-                // Recalculate cs1/as1 for this window
-                (double pCs1, double pAs1) = RecalculateFirstSmoothingAtIndex(p);
-                sumCs += pCs1;
-                sumAs += pAs1;
-            }
-
-            return (sumCs / SmoothPeriods, sumAs / SmoothPeriods);
-        }
-        // normal second smoothing
-        else if (!double.IsNaN(prevCs2))
-        {
-            double cs2 = ((cs1 - prevCs2) * mult2) + prevCs2;
-            double as2 = ((as1 - prevAs2) * mult2) + prevAs2;
-            return (cs2, as2);
-        }
-
-        return (double.NaN, double.NaN);
-    }
-
-    private (double cs2, double as2) RecalculateSecondSmoothingAtIndex(int index)
-    {
-        if (index == 0)
-        {
-            return (double.NaN, double.NaN);
-        }
-
-        double tempCs2 = double.NaN;
-        double tempAs2 = double.NaN;
-
-        for (int p = 1; p <= index; p++)
-        {
-            (double pCs1, double pAs1) = RecalculateFirstSmoothingAtIndex(p);
-
-            if (double.IsNaN(tempCs2) && p >= SmoothPeriods && !double.IsNaN(pCs1))
-            {
-                double sumCs = 0;
-                double sumAs = 0;
-                for (int j = p - SmoothPeriods + 1; j <= p; j++)
-                {
-                    (double jCs1, double jAs1) = RecalculateFirstSmoothingAtIndex(j);
-                    sumCs += jCs1;
-                    sumAs += jAs1;
-                }
-
-                tempCs2 = sumCs / SmoothPeriods;
-                tempAs2 = sumAs / SmoothPeriods;
-            }
-            else if (!double.IsNaN(tempCs2))
-            {
-                tempCs2 = ((pCs1 - tempCs2) * mult2) + tempCs2;
-                tempAs2 = ((pAs1 - tempAs2) * mult2) + tempAs2;
-            }
-        }
-
-        return (tempCs2, tempAs2);
-    }
-
     private double CalculateSignal(int index, double tsi)
     {
         if (SignalPeriods > 1)
         {
-            double prevSignal = index > 0 ? Cache[index - 1].Signal ?? double.NaN : double.NaN;
-
             // re/initialize signal
-            if (double.IsNaN(prevSignal) && index > SignalPeriods)
+            if (double.IsNaN(_prevSignal) && index > SignalPeriods)
             {
                 double sum = tsi;
                 for (int p = index - SignalPeriods + 1; p < index; p++)
@@ -265,12 +209,14 @@ public class TsiHub
                     sum += Cache[p].Tsi.Null2NaN();
                 }
 
-                return sum / SignalPeriods;
+                _prevSignal = sum / SignalPeriods;
+                return _prevSignal;
             }
             // normal signal
-            else if (!double.IsNaN(prevSignal))
+            else if (!double.IsNaN(_prevSignal) && !double.IsNaN(tsi))
             {
-                return ((tsi - prevSignal) * multS) + prevSignal;
+                _prevSignal = ((tsi - _prevSignal) * multS) + _prevSignal;
+                return _prevSignal;
             }
         }
         else if (SignalPeriods == 1)
@@ -284,7 +230,165 @@ public class TsiHub
     /// <inheritdoc/>
     protected override void RollbackState(DateTime timestamp)
     {
-        // No member state to roll back - all state is derived from cache
+        // Reset all state
+        _isFirstPeriod = true;
+        _prevValue = double.NaN;
+        _prevCs1 = double.NaN;
+        _prevAs1 = double.NaN;
+        _prevCs2 = double.NaN;
+        _prevAs2 = double.NaN;
+        _prevSignal = double.NaN;
+
+        _cs1History.Clear();
+        _as1History.Clear();
+
+        if (timestamp <= DateTime.MinValue || ProviderCache.Count == 0)
+        {
+            return;
+        }
+
+        // Find the first index at or after timestamp
+        int index = ProviderCache.IndexGte(timestamp);
+
+        if (index <= 0)
+        {
+            // Rolling back before all data, keep cleared state
+            return;
+        }
+
+        // We need to rebuild state up to the index before timestamp
+        int targetIndex = index - 1;
+
+        for (int i = 0; i <= targetIndex; i++)
+        {
+            IReusable item = ProviderCache[i];
+            double currentValue = item.Value;
+
+            // Handle first period
+            if (_isFirstPeriod)
+            {
+                _prevValue = currentValue;
+                _isFirstPeriod = false;
+                _cs1History.Add(double.NaN);
+                _as1History.Add(double.NaN);
+                continue;
+            }
+
+            // Price change
+            double change = currentValue - _prevValue;
+            double absChange = Math.Abs(change);
+            _prevValue = currentValue;
+
+            // Calculate first smoothing (EMA of price change)
+            double cs1;
+            double as1;
+
+            // re/initialize first smoothing
+            if (double.IsNaN(_prevCs1) && i >= LookbackPeriods)
+            {
+                double sumC = 0;
+                double sumA = 0;
+
+                for (int p = i - LookbackPeriods + 1; p <= i; p++)
+                {
+                    double pValue = ProviderCache[p].Value;
+                    double pPrevValue = ProviderCache[p - 1].Value;
+                    double pChange = pValue - pPrevValue;
+                    sumC += pChange;
+                    sumA += Math.Abs(pChange);
+                }
+
+                cs1 = sumC / LookbackPeriods;
+                as1 = sumA / LookbackPeriods;
+                _prevCs1 = cs1;
+                _prevAs1 = as1;
+            }
+            // normal first smoothing
+            else if (!double.IsNaN(_prevCs1))
+            {
+                cs1 = ((change - _prevCs1) * mult1) + _prevCs1;
+                as1 = ((absChange - _prevAs1) * mult1) + _prevAs1;
+                _prevCs1 = cs1;
+                _prevAs1 = as1;
+            }
+            else
+            {
+                cs1 = double.NaN;
+                as1 = double.NaN;
+            }
+
+            // Store in history
+            _cs1History.Add(cs1);
+            _as1History.Add(as1);
+
+            // Calculate second smoothing (EMA of first EMA)
+            double cs2;
+            double as2;
+
+            // re/initialize second smoothing
+            if (double.IsNaN(_prevCs2) && i >= SmoothPeriods && !double.IsNaN(cs1))
+            {
+                // Initialize second smoothing with SMA from history
+                double sumCs = 0;
+                double sumAs = 0;
+
+                for (int p = i - SmoothPeriods + 1; p <= i; p++)
+                {
+                    sumCs += _cs1History[p];
+                    sumAs += _as1History[p];
+                }
+
+                cs2 = sumCs / SmoothPeriods;
+                as2 = sumAs / SmoothPeriods;
+                _prevCs2 = cs2;
+                _prevAs2 = as2;
+            }
+            // normal second smoothing
+            else if (!double.IsNaN(_prevCs2) && !double.IsNaN(cs1))
+            {
+                cs2 = ((cs1 - _prevCs2) * mult2) + _prevCs2;
+                as2 = ((as1 - _prevAs2) * mult2) + _prevAs2;
+                _prevCs2 = cs2;
+                _prevAs2 = as2;
+            }
+            else
+            {
+                cs2 = double.NaN;
+                as2 = double.NaN;
+            }
+
+            // Calculate TSI (needed for signal calculation)
+            double tsi = as2 != 0
+                ? 100d * (cs2 / as2)
+                : double.NaN;
+
+            // Calculate signal line (need to rebuild for state restoration)
+            if (SignalPeriods > 1)
+            {
+                if (double.IsNaN(_prevSignal) && i > SignalPeriods && !double.IsNaN(tsi))
+                {
+                    // We need to look back in Cache to get previous TSI values
+                    double sum = tsi;
+                    for (int p = i - SignalPeriods + 1; p < i; p++)
+                    {
+                        if (p >= 0 && p < Cache.Count)
+                        {
+                            sum += Cache[p].Tsi.Null2NaN();
+                        }
+                    }
+
+                    _prevSignal = sum / SignalPeriods;
+                }
+                else if (!double.IsNaN(_prevSignal) && !double.IsNaN(tsi))
+                {
+                    _prevSignal = ((tsi - _prevSignal) * multS) + _prevSignal;
+                }
+            }
+            else if (SignalPeriods == 1)
+            {
+                _prevSignal = tsi;
+            }
+        }
     }
 }
 

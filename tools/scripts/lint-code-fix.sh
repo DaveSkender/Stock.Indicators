@@ -10,7 +10,7 @@ echo "=== Running Roslynator fixer ==="
 roslynator fix \
 --severity-level hidden \
 --verbosity normal \
---properties TargetFramework=net9.0 || exit 1
+--properties TargetFramework=net10.0 || exit 1
 
 echo ""
 echo "=== Running .NET format fixer ==="

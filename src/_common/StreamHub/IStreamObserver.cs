@@ -1,5 +1,7 @@
 namespace Skender.Stock.Indicators;
 
+// STREAM (OBSERVER) INTERFACES
+
 /// <summary>
 /// Management of observing + processing of streamed inbound data.
 /// </summary>
@@ -121,3 +123,18 @@ public interface IStreamObserver<in T>
     /// </param>
     void Rebuild(int fromIndex);
 }
+
+/// <summary>
+/// Observer for dual-stream indicators that process synchronized pairs of reusable inputs.
+/// </summary>
+/// <typeparam name="T">
+/// The type of input data (must be IReusable).
+/// </typeparam>
+/// <remarks>
+/// This interface marks observers that consume paired input values from two synchronized
+/// data sources (e.g., Correlation, Beta, PRS). Both input series must be synchronized
+/// with matching timestamps.
+/// </remarks>
+public interface IPairsObserver<in T> : IStreamObserver<T>
+    where T : IReusable;
+

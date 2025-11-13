@@ -15,11 +15,11 @@ Implement two streaming indicator styles (BufferList and StreamHub) enabling inc
 
 ## Technical context
 
-- Language/version: C# / .NET 8.0 and .NET 9.0
+- Language/version: C# / .NET 8, .NET 9, and .NET 10
 - Primary dependencies: None (library follows zero-dependency principle)
 - Storage: In-memory state (bounded buffers, no persistence)
 - Testing: MSTest with streaming parity tests, unit tests, performance benchmarks
-- Target platform: Multi-target `net8.0;net9.0`
+- Target platform: Multi-target `net10.0;net9.0;net8.0`
 - Project type: Single project (library enhancement)
 - Performance goals: <5ms average per-tick latency (p95 <10ms), <10KB memory per instance
 - Constraints: O(1) incremental updates, deterministic mathematical equality with batch calculations, bounded buffers
@@ -136,7 +136,8 @@ Prerequisites: research.md complete (decisions documented in Phase 0 above)
 - **`IIncrementFromPairs`**: Interface for dual-series indicators working with paired `IReusable` values
 - **`IChainProvider<T>`**: Interface for chainable stream hubs working with `IReusable` values
 - **`IQuoteProvider<T>`**: Interface for stream hubs requiring OHLC quote data
-- **`IPairsProvider<T>`**: **NEW** - Interface for dual-stream hubs requiring synchronized paired `IReusable` values
+- **`IPairsObserver<T>`**: Interface marking observers that consume paired `IReusable` values from synchronized dual streams
+- **`PairsProvider<TIn, TOut>`**: Base class for dual-stream hubs requiring synchronized paired `IReusable` values; implements `IChainProvider<TOut>` and `IPairsObserver<TIn>`
 - **StreamingState**: Enum { NotWarmedUp, Ready }
 - **StreamingResult\<T>**: Wrapper containing { DateTime, T Value, StreamingState }
 - **BufferList**: List-backed implementation with `Add()`, `Reset()`, bounded capacity (implements one of the three `IIncrementFrom*` interfaces)
@@ -148,7 +149,7 @@ Prerequisites: research.md complete (decisions documented in Phase 0 above)
 |----------------|---------------------|---------------------|---------------------|
 | Chainable (single value) | `IIncrementFromChain` | `IChainProvider<T>` | `IReadOnlyList<IReusable>` values |
 | Multi-OHLC required | `IIncrementFromQuote` | `IQuoteProvider<T>` | `IReadOnlyList<IQuote>` quotes |
-| Dual-series input | `IIncrementFromPairs` | `IPairsProvider<T>` | Paired `IReusable` series |
+| Dual-series input | `IIncrementFromPairs` | `PairsProvider<TIn, TOut>` (implements `IChainProvider<T>` + `IPairsObserver<T>`) | Paired `IReusable` series |
 
 ### Quality gates
 
@@ -204,7 +205,7 @@ For authoritative implementation guidance, see:
 - **Provider pattern**: Uses one of three provider base classes:
   - `ChainProvider<TIn, TResult>` - For single-input chainable indicators
   - `QuoteProvider<TIn, TResult>` - For quote-based indicators
-  - `PairsProvider<TIn, TResult>` - **NEW** - For dual-input synchronized indicators
+  - `PairsProvider<TIn, TResult>` - For dual-input synchronized indicators
 - **Interfaces**: Implements indicator-specific interface (e.g., `ISma`, `IEma`, `ICorrelation`)
 - **Core method**: Overrides `ToIndicator(IReusable item, int? indexHint)` for result generation
 - **Observer pattern**: Supports subscription via `IStreamObservable`/`IStreamObserver`
@@ -220,11 +221,11 @@ The following base classes and utilities already exist in `src/_common/`:
 - ✅ `BufferListUtilities` - Extension methods for buffer management (Update, Prune, etc.)
 - ✅ `StreamHub<TIn, TOut>` - Abstract base for hub-based streaming
 - ✅ `ChainProvider<TIn, TResult>` / `QuoteProvider<TIn, TResult>` - Provider implementations
-- ✅ `PairsProvider<TIn, TResult>` - **NEW** - Dual-stream provider implementation
+- ✅ `IPairsObserver<T>` - Interface for dual-stream observers
+- ✅ `PairsProvider<TIn, TResult>` - Dual-stream provider implementing `IChainProvider<TOut>` and `IPairsObserver<TIn>`
 - ✅ `IStreamObservable<T>` / `IStreamObserver<T>` - Observer pattern interfaces
-- ✅ `IPairsProvider<T>` - **NEW** - Dual-stream interface
 
-**All foundational types are production-ready** - dual-stream architecture now complete.
+**All foundational types are production-ready** - dual-stream architecture complete with proper interface separation.
 
 ### Regression test workflow
 

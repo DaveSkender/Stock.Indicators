@@ -1,6 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.0.32014.148
+# Visual Studio Version 18
+VisualStudioVersion = 18.0.11205.157
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Configuration", "Configuration", "{89F97043-8E6C-4953-95AA-ACAC19C3B164}"
 	ProjectSection(SolutionItems) = preProject
@@ -33,6 +33,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.DataGenerator", "tools\baselining\Test.DataGenerator.csproj", "{F449BEB0-5A04-6992-4A1F-DE3FFE72A1C6}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{990C3D8F-0F57-4FD3-AF4B-57D6AE2EDBB1}"
+	ProjectSection(SolutionItems) = preProject
+		tools\Directory.Build.props = tools\Directory.Build.props
+		tools\Directory.Packages.props = tools\Directory.Packages.props
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

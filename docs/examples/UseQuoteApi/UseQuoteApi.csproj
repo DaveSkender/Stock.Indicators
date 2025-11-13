@@ -1,14 +1,14 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net9.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Alpaca.Markets" Version="7.2.0" />
-    <PackageReference Include="Skender.Stock.Indicators" Version="2.6.1" PrivateAssets="All" />
+    <PackageReference Include="Skender.Stock.Indicators" Version="2.7.0" PrivateAssets="All" />
   </ItemGroup>
 
 </Project>

@@ -69,3 +69,33 @@ See [Utilities and helpers]({{site.baseurl}}/utilities#utilities-for-indicator-r
 ## Chaining
 
 This indicator is not chain-enabled and must be generated from `quotes`.  It **cannot** be used for further processing by other chain-enabled indicators.
+
+## Streaming
+
+Use the buffer-style `List<T>` when you need incremental calculations without a hub:
+
+```csharp
+SuperTrendList superTrendList = new(lookbackPeriods, multiplier);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  superTrendList.Add(quote);
+}
+
+// based on `ICollection<SuperTrendResult>`
+IReadOnlyList<SuperTrendResult> results = superTrendList;
+```
+
+Subscribe to a `QuoteHub` for advanced streaming scenarios:
+
+```csharp
+QuoteHub<Quote> quoteHub = new();
+SuperTrendHub<Quote> observer = quoteHub.ToSuperTrend(lookbackPeriods, multiplier);
+
+foreach (Quote quote in quotes)  // simulating stream
+{
+  quoteHub.Add(quote);
+}
+
+IReadOnlyList<SuperTrendResult> results = observer.Results;
+```

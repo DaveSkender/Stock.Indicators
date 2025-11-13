@@ -15,9 +15,6 @@ public abstract class BufferList<TResult> : IReadOnlyList<TResult>
 {
     private readonly List<TResult> _internalList = [];
 
-    private const int DefaultMaxListSize = (int)(int.MaxValue * 0.9);
-    private int _maxListSize = DefaultMaxListSize;
-
     /// <summary>
     /// Gets the result at the specified index.
     /// </summary>
@@ -38,7 +35,7 @@ public abstract class BufferList<TResult> : IReadOnlyList<TResult>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when a parameter is out of the valid range</exception>
     public int MaxListSize
     {
-        get => _maxListSize;
+        get;
         set {
             if (value <= 0)
             {
@@ -47,14 +44,14 @@ public abstract class BufferList<TResult> : IReadOnlyList<TResult>
                     "MaxListSize must be greater than 0.");
             }
 
-            _maxListSize = value;
+            field = value;
 
-            if (_internalList.Count > _maxListSize)
+            if (_internalList.Count > field)
             {
                 PruneList();
             }
         }
-    }
+    } = (int)(int.MaxValue * 0.9);
 
     /// <summary>
     /// Adds an item to the list using internal buffer logic.
@@ -65,7 +62,7 @@ public abstract class BufferList<TResult> : IReadOnlyList<TResult>
     {
         _internalList.Add(item);
 
-        if (_internalList.Count > _maxListSize)
+        if (_internalList.Count > MaxListSize)
         {
             PruneList();
         }
@@ -102,7 +99,7 @@ public abstract class BufferList<TResult> : IReadOnlyList<TResult>
     /// </summary>
     protected virtual void PruneList()
     {
-        int overflow = _internalList.Count - _maxListSize;
+        int overflow = _internalList.Count - MaxListSize;
 
         if (overflow <= 0)
         {
