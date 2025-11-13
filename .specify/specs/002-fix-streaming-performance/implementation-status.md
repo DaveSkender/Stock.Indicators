@@ -71,7 +71,6 @@ The **Fix Streaming Performance Issues** feature is **75% complete** with all cr
 
 ### Critical O(n²) Fixes (P1)
 
-<!-- markdownlint-disable MD060 -->
 | Indicator      | Baseline | Current | Improvement  | Target Met?  |
 |----------------|----------|---------|--------------|--------------|
 | **RSI**        | 391x     | <1.5x   | 260x faster  | ✅ Yes       |
@@ -79,13 +78,11 @@ The **Fix Streaming Performance Issues** feature is **75% complete** with all cr
 | **CMO**        | 258x     | 7.73x   | 33x faster   | ⚠️ Improved  |
 | **Chandelier** | 122x     | <1.5x   | 81x faster   | ✅ Yes       |
 | **Stoch**      | 15.7x    | <1.5x   | 10x faster   | ✅ Yes       |
-<!-- markdownlint-enable MD060 -->
 
 **Success Rate**: 3/5 met ≤1.5x target, 5/5 eliminated O(n²) complexity
 
 ### EMA Family Fixes (P2)
 
-<!-- markdownlint-disable MD060 -->
 | Indicator | Baseline | Current  | Status                                       |
 |-----------|----------|----------|----------------------------------------------|
 | **EMA**   | 10.6x    | 7.72x    | ⚠️ Algorithm optimal, architectural overhead |
@@ -95,20 +92,17 @@ The **Fix Streaming Performance Issues** feature is **75% complete** with all cr
 | **T3**    | 9.9x     | ~8-10x   | ⚠️ 6-layer EMA optimized                     |
 | **TRIX**  | 9.2x     | ~7-9x    | ⚠️ Triple EMA with rate-of-change            |
 | **MACD**  | 6.9x     | ~5-7x    | ⚠️ Fast/Slow EMA with signal                 |
-<!-- markdownlint-enable MD060 -->
 
 **Success Rate**: 0/7 met ≤1.5x target, 7/7 eliminated O(n²) complexity
 
 ### Window Optimizations (P3)
 
-<!-- markdownlint-disable MD060 -->
 | Indicator     | Baseline | Current | Target Met?                      |
 |---------------|----------|---------|----------------------------------|
 | **Slope**     | 7.9x     | 3.60x   | ⚠️ Partial (54% improvement)     |
 | **Alligator** | 5.0x     | 1.95x   | ⚠️ Close (61% improvement)       |
 | **Gator**     | 3.9x     | 1.76x   | ⚠️ Close (54% improvement)       |
 | **Fractal**   | 3.8x     | 1.28x   | ✅ Yes                           |
-<!-- markdownlint-enable MD060 -->
 
 **Success Rate**: 1/4 met ≤1.5x target, 4/4 significant improvements
 
@@ -263,7 +257,6 @@ The **Fix Streaming Performance Issues** feature is **75% complete** with all cr
 
 ## Constitution Compliance
 
-<!-- markdownlint-disable MD060 -->
 | Principle | Status | Notes |
 |-----------|--------|-------|
 | §1: Mathematical Precision | ✅ Pass | 100% regression test pass rate, no formula changes |
@@ -272,7 +265,6 @@ The **Fix Streaming Performance Issues** feature is **75% complete** with all cr
 | §4: Test-Driven Quality | ✅ Pass | Existing tests cover all implementations |
 | §5: Documentation Excellence | ⚠️ Pending | Awaiting Phase 13 completion |
 | §6: Scope & Stewardship | ✅ Pass | Performance-only optimization, no feature creep |
-<!-- markdownlint-enable MD060 -->
 
 **Overall**: 5/6 principles satisfied, documentation pending Phase 13.
 

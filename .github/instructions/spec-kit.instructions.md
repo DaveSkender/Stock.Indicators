@@ -46,9 +46,9 @@ Each feature lives in `.specify/specs/{###-feature-name}/` with:
 
 **Examples of existing instructions to honor:**
 
-- Language-specific style guides (see `.github/instructions/source-code-completion.instructions.md`)
+- Language-specific style guides (see [source-code-completion.instructions.md](file:source-code-completion.instructions.md))
 - Testing framework conventions (MSTest, test organization patterns)
-- Documentation formatting requirements (see `.github/instructions/markdown.instructions.md`)
+- Documentation formatting requirements (see [markdown.instructions.md](file:markdown.instructions.md))
 - Package management policies (NuGet via Directory.Packages.props)
 - Git workflow and branch naming conventions (see PR guidelines in main copilot-instructions.md)
 
@@ -176,13 +176,13 @@ Include a "Dependencies" section mapping task relationships:
 
 #### 5. Quickstart & Validation (`.specify/specs/{###-feature}/quickstart.md`)
 
-- **Critical: Honor repository testing conventions** (see `.github/instructions/source-code-completion.instructions.md`)
+- **Critical: Honor repository testing conventions** (see [source-code-completion.instructions.md](file:source-code-completion.instructions.md))
 - Follow existing test file organization: `tests/indicators/`, `tests/integration/`, etc.
 - Use MSTest framework with standard patterns from existing tests
 - Include warmup period validation for indicators
 - Test both batch and streaming paths (if applicable)
 - Align with repository-wide quality gates (see constitution)
-- Respect documentation formatting standards (see `.github/instructions/markdown.instructions.md`)
+- Respect documentation formatting standards (see [markdown.instructions.md](file:markdown.instructions.md))
 
 **Stock Indicators quickstart essentials:**
 
@@ -277,18 +277,16 @@ The project constitution is **non-negotiable** during analysis and implementatio
 
 Spec Kit instructions work alongside existing scoped instructions:
 
-<!-- markdownlint-disable MD060 -->
-| Spec Kit Artifact          | Also Apply Instructions                                          |
-|----------------------------|------------------------------------------------------------------|
-| `plan.md` code examples    | `.github/instructions/source-code-completion.instructions.md`    |
-| `quickstart.md` test scenarios | `.github/instructions/source-code-completion.instructions.md` |
-| Series indicator specs     | `.github/instructions/indicator-series.instructions.md`          |
-| Stream indicator specs     | `.github/instructions/indicator-stream.instructions.md`          |
-| Buffer indicator specs     | `.github/instructions/indicator-buffer.instructions.md`          |
-| Performance specs          | `.github/instructions/performance-testing.instructions.md`       |
-| Any markdown files         | `.github/instructions/markdown.instructions.md`                  |
-| Documentation specs        | `.github/instructions/documentation.instructions.md`             |
-<!-- markdownlint-enable MD060 -->
+| Spec Kit Artifact        | Also Apply Instructions                                       |
+|--------------------------|---------------------------------------------------------------|
+| `plan.md` code examples  | [source-code-completion.instructions.md](file:source-code-completion.instructions.md) |
+| `quickstart.md` testing  | [source-code-completion.instructions.md](file:source-code-completion.instructions.md) |
+| Series indicator specs   | [indicator-series.instructions.md](file:indicator-series.instructions.md) |
+| Stream indicator specs   | [indicator-stream.instructions.md](file:indicator-stream.instructions.md) |
+| Buffer indicator specs   | [indicator-buffer.instructions.md](file:indicator-buffer.instructions.md) |
+| Performance specs        | [performance-testing.instructions.md](file:performance-testing.instructions.md) |
+| Any markdown files       | [markdown.instructions.md](file:markdown.instructions.md) |
+| Documentation specs      | [documentation.instructions.md](file:documentation.instructions.md) |
 
 **When conflicts arise:**
 
@@ -358,9 +356,9 @@ specify check
 ## References
 
 - [Spec Kit GitHub Repository](https://github.com/github/spec-kit) - Canonical source
-- Local constitution: `.specify/memory/constitution.md` - Project principles
-- Command templates: `.github/prompts/speckit.*.prompt.md` - Slash command implementations
-- Main Copilot instructions: `.github/copilot-instructions.md` - Repository-wide guidance
+- Local constitution: [constitution.md](file:../../.specify/memory/constitution.md) - Project principles
+- Command templates: [speckit.*.prompt.md](file:../prompts/) - Slash command implementations
+- Main Copilot instructions: [copilot-instructions.md](file:../copilot-instructions.md) - Repository-wide guidance
 - Stock Indicators guiding principles: [Discussion #648](https://github.com/DaveSkender/Stock.Indicators/discussions/648)
 
 ---

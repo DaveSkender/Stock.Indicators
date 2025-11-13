@@ -7,11 +7,10 @@ description: ".NET development, testing, formatting, linting, and performance gu
 
 These instructions apply to all files in the `src/` and `tests/` folders and cover .NET development, unit testing, performance benchmarking, code formatting, and library-specific patterns. Use the VS Code tasks **Restore: .NET Packages**, **Build: .NET Solution**, **Test: .NET Solution**, and **Lint: Markdown Files** (`Ctrl+Shift+P` → `Tasks: Run Task`) whenever you prefer a guided experience over CLI commands. Before final verification, ensure:
 
-- You completed the common items for indicators in `.github/copilot-instructions.md` (Common indicator requirements).
-- You satisfied the style-specific “Code completion checklist” for the relevant indicator type(s):
-  - Series: `.github/instructions/indicator-series.instructions.md`
-  - Stream: `.github/instructions/indicator-stream.instructions.md`
-  - Buffer: `.github/instructions/indicator-buffer.instructions.md`
+- All style-specific instruction files are followed:
+  - Series: [indicator-series.instructions.md](file:../../.github/instructions/indicator-series.instructions.md)
+  - Stream: [indicator-stream.instructions.md](file:../../.github/instructions/indicator-stream.instructions.md)
+  - Buffer: [indicator-buffer.instructions.md](file:../../.github/instructions/indicator-buffer.instructions.md)
 
 ## Coding agent assistant reminders
 

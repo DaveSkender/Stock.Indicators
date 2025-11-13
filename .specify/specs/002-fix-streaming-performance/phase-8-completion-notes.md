@@ -68,7 +68,6 @@ All refactored indicators share these characteristics:
 
 From `tools/performance/baselines/PERFORMANCE_REVIEW.md`:
 
-<!-- markdownlint-disable MD060 -->
 | Indicator | Series (ns) | Stream (ns) | Baseline Slowdown |
 |-----------|-------------|-------------|-------------------|
 | SMMA      | 2,866       | 29,832      | 10.41x            |
@@ -77,7 +76,6 @@ From `tools/performance/baselines/PERFORMANCE_REVIEW.md`:
 | T3        | 4,375       | 43,414      | 9.92x             |
 | TRIX      | *N/A*       | *N/A*       | 9.2x (est)        |
 | MACD      | *N/A*       | *N/A*       | 6.9x (est)        |
-<!-- markdownlint-enable MD060 -->
 
 ### Current Performance (October 21, 2025)
 

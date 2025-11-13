@@ -110,16 +110,16 @@ This repository uses scoped instruction files for specific development areas. Th
 
 | Pattern | File | Description |
 | ------- | ---- | ----------- |
-| `.specify/**,.github/prompts/speckit.*` | [spec-kit.instructions.md](.github/instructions/spec-kit.instructions.md) | Spec Kit development workflow and artifact editing guidelines |
-| `src/**` | [agents.md](../src/agents.md) | **CRITICAL**: Formula change rules and mathematical precision requirements for AI agents |
-| `src/**/*.*Series.cs,tests/**/*.*Series.Tests.cs` | [indicator-series.instructions.md](.github/instructions/indicator-series.instructions.md) | Series-style indicator development and testing guidelines |
-| `src/**/*.StreamHub.cs,tests/**/*.StreamHub.Tests.cs` | [indicator-stream.instructions.md](.github/instructions/indicator-stream.instructions.md) | Stream indicator development guidelines |
-| `src/**/*.BufferList.cs,tests/**/*.BufferList.Tests.cs` | [indicator-buffer.instructions.md](.github/instructions/indicator-buffer.instructions.md) | Buffer indicator development guidelines |
-| `**/src/**/*.Catalog.cs,**/tests/**/*.Catalog.Tests.cs` | [catalog.instructions.md](.github/instructions/catalog.instructions.md) | Catalog file conventions |
-| `src/**,tests/**` | [source-code-completion.instructions.md](.github/instructions/source-code-completion.instructions.md) | Source code, testing, and pre-commit code completion checklist |
-| `**/*.md` | [markdown.instructions.md](.github/instructions/markdown.instructions.md) | Markdown formatting rules |
-| `docs/**` | [documentation.instructions.md](.github/instructions/documentation.instructions.md) | Documentation website instructions |
-| `tools/performance/**` | [performance-testing.instructions.md](.github/instructions/performance-testing.instructions.md) | Performance testing and benchmarking guidelines |
+| `.specify/**,.github/prompts/speckit.*` | [spec-kit.instructions.md](file:instructions/spec-kit.instructions.md) | Spec Kit development workflow and artifact editing guidelines |
+| `src/**` | [agents.md](file:../src/agents.md) | **CRITICAL**: Formula change rules and mathematical precision requirements for AI agents |
+| `src/**/*.*Series.cs,tests/**/*.*Series.Tests.cs` | [indicator-series.instructions.md](file:instructions/indicator-series.instructions.md) | Series-style indicator development and testing guidelines |
+| `src/**/*.StreamHub.cs,tests/**/*.StreamHub.Tests.cs` | [indicator-stream.instructions.md](file:instructions/indicator-stream.instructions.md) | Stream indicator development guidelines |
+| `src/**/*.BufferList.cs,tests/**/*.BufferList.Tests.cs` | [indicator-buffer.instructions.md](file:instructions/indicator-buffer.instructions.md) | Buffer indicator development guidelines |
+| `**/src/**/*.Catalog.cs,**/tests/**/*.Catalog.Tests.cs` | [catalog.instructions.md](file:instructions/catalog.instructions.md) | Catalog file conventions |
+| `src/**,tests/**` | [source-code-completion.instructions.md](file:instructions/source-code-completion.instructions.md) | Source code, testing, and pre-commit code completion checklist |
+| `**/*.md` | [markdown.instructions.md](file:instructions/markdown.instructions.md) | Markdown formatting rules |
+| `docs/**` | [documentation.instructions.md](file:instructions/documentation.instructions.md) | Documentation website instructions |
+| `tools/performance/**` | [performance-testing.instructions.md](file:instructions/performance-testing.instructions.md) | Performance testing and benchmarking guidelines |
 
 These scoped files are automatically applied when working with files matching their patterns.
 
@@ -180,9 +180,9 @@ Use these cross-cutting requirements for Series, Stream, and Buffer indicators. 
 
 See the style-specific guides for implementation requirements and additional checklist items:
 
-- Series: [.github/instructions/indicator-series.instructions.md](.github/instructions/indicator-series.instructions.md)
-- Buffer: [.github/instructions/indicator-buffer.instructions.md](.github/instructions/indicator-buffer.instructions.md)
-- Stream: [.github/instructions/indicator-stream.instructions.md](.github/instructions/indicator-stream.instructions.md)
+- Series: [indicator-series.instructions.md](file:instructions/indicator-series.instructions.md)
+- Buffer: [indicator-buffer.instructions.md](file:instructions/indicator-buffer.instructions.md)
+- Stream: [indicator-stream.instructions.md](file:instructions/indicator-stream.instructions.md)
 
 ### Series as the canonical reference
 
@@ -215,7 +215,7 @@ See the style-specific guides for implementation requirements and additional che
 
 ## Spec-driven development integration
 
-This repository uses [Spec Kit](https://github.com/github/spec-kit) for Specification-Driven Development. Before adding or changing indicators, consult the relevant spec in `.specify/specs/` and use chat commands to align with the active plan.
+This repository uses [Spec Kit](https://github.com/github/spec-kit) for Specification-Driven Development. Before adding or changing indicators, consult the relevant spec in [.specify/specs/](file:../.specify/specs/) and use chat commands to align with the active plan.
 
 **Core workflow commands:**
 
@@ -231,7 +231,7 @@ This repository uses [Spec Kit](https://github.com/github/spec-kit) for Specific
 
 - **`/speckit.checklist`** — Generate custom quality checklists for validation
 
-For detailed Spec Kit workflow guidance, see [spec-kit.instructions.md](.github/instructions/spec-kit.instructions.md).
+For detailed Spec Kit workflow guidance, see [spec-kit.instructions.md](file:instructions/spec-kit.instructions.md).
 
 ## Pull request guidelines
 

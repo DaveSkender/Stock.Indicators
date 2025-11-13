@@ -356,14 +356,12 @@ Use `StreamHubTestBase` as the base for all stream hub test classes, and impleme
 
 **Additional interfaces based on implementation:**
 
-<!-- markdownlint-disable MD060 -->
-| Provider Base Class                           | Test Interfaces Required                          | Notes                                                                                               |
-|-----------------------------------------------|---------------------------------------------------|-----------------------------------------------------------------------------------------------------|
-| `ChainProvider<TIn, TResult>`                 | `ITestChainProvider`                              | Always required for chainable indicators                                                            |
-| `ChainProvider<TIn, TResult>` + supports chaining | `ITestChainProvider`, `ITestChainObserver`    | Most indicators support both providing and observing                                                |
-| `QuoteProvider<TIn, TResult>`                 | `ITestQuoteObserver`, `ITestChainProvider`        | Quote providers require quote observer and chain provider tests                                     |
-| `PairsProvider<TIn, TResult>`                 | `ITestPairsObserver`                              | Dual-stream indicators with synchronized inputs (must not also implement `ITestQuoteObserver`)      |
-<!-- markdownlint-enable MD060 -->
+| Provider Base Class            | Test Interfaces Required                   | Notes                                                                             |
+|--------------------------------|--------------------------------------------|-----------------------------------------------------------------------------------|
+| `ChainProvider<TIn, TResult>`  | `ITestChainProvider`                       | Always required for chainable indicators                                          |
+| `ChainProvider<TIn, TResult>`  | `ITestChainProvider`, `ITestChainObserver` | Most indicators support both providing and observing                              |
+| `QuoteProvider<TIn, TResult>`  | `ITestQuoteObserver`, `ITestChainProvider` | Quote providers require quote observer and chain provider tests                   |
+| `PairsProvider<TIn, TResult>`  | `ITestPairsObserver`                       | Dual-stream indicators with synchronized inputs (cannot use `ITestQuoteObserver`) |
 
 Note: `ITestChainObserver` inherits `ITestQuoteObserver`. Do not redundantly implement both on the same class.
 
@@ -741,7 +739,7 @@ public class GoodHub : StreamHub<IQuote, GoodResult>
 - Use appropriate synchronization when necessary
 
 > [!NOTE]
-> Contributor-facing checklist: see `.specify/specs/001-develop-streaming-indicators/checklists/stream-hub-tests.md`.
+> Contributor-facing checklist: see [stream-hub-tests.md](file:../../.specify/specs/001-develop-streaming-indicators/checklists/stream-hub-tests.md).
 
 ## Integration patterns
 

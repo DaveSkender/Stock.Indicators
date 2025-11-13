@@ -9,14 +9,12 @@ Successfully optimized Slope BufferList performance from 7.85x slower to 3.60x s
 
 ## Performance Results
 
-<!-- markdownlint-disable MD060 -->
 | Metric      | Baseline   | Optimized | Improvement             |
 |-------------|------------|-----------|-------------------------|
 | Series Time | 43.086 µs  | 82.925 µs | (baseline variation)    |
 | Buffer Time | 338.188 µs | 298.7 µs  | 11.7% faster            |
 | Ratio       | 7.85x      | 3.60x     | **54.1% improvement**   |
 | Target      | -          | ≤1.5x     | Not fully met           |
-<!-- markdownlint-enable MD060 -->
 
 ## Optimizations Implemented
 

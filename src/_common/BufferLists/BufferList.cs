@@ -15,8 +15,6 @@ public abstract class BufferList<TResult> : IReadOnlyList<TResult>
 {
     private readonly List<TResult> _internalList = [];
 
-    private const int DefaultMaxListSize = (int)(int.MaxValue * 0.9);
-
     /// <summary>
     /// Gets the result at the specified index.
     /// </summary>
@@ -53,7 +51,7 @@ public abstract class BufferList<TResult> : IReadOnlyList<TResult>
                 PruneList();
             }
         }
-    } = DefaultMaxListSize;
+    } = (int)(int.MaxValue * 0.9);
 
     /// <summary>
     /// Adds an item to the list using internal buffer logic.
