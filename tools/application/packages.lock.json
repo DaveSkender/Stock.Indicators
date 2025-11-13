@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "dependencies": {
+    "net10.0": {
+      "Roslynator.Analyzers": {
+        "type": "Direct",
+        "requested": "[4.14.1, )",
+        "resolved": "4.14.1",
+        "contentHash": "yMSjze/xMYDF6PCE60/ULWx0tttNyKAndw2KijNxbKil0FX8nvDeEneDZGma8Uifk17RlfZqIXxf1mmBmhRHjg=="
+      },
+      "Skender.Stock.Indicators": {
+        "type": "Direct",
+        "requested": "[2.7.0, )",
+        "resolved": "2.7.0",
+        "contentHash": "pWTlrvoWgDa8OW0tfjrM5Ffw4IRzl8dVWGFcFDlAbcpX7qklbJzSJR8hv8Dt9c9tMeEn+DjrOqs8wNqbxz8XWg=="
+      }
+    }
+  }
+}

@@ -16,8 +16,8 @@ Created by Igor Levshin, the [Balance of Power](https://school.stockcharts.com/d
 
 ```csharp
 // C# usage syntax
-IEnumerable<BopResult> results =
-  quotes.GetBop(smoothPeriods);
+IReadOnlyList<BopResult> results =
+  quotes.ToBop(smoothPeriods);
 ```
 
 ## Parameters
@@ -33,7 +33,7 @@ You must have at least `N` periods of `quotes` to cover the warmup periods.
 ## Response
 
 ```csharp
-IEnumerable<BopResult>
+IReadOnlyList<BopResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
@@ -43,7 +43,7 @@ IEnumerable<BopResult>
 
 ### BopResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`Bop`** _`double`_ - Balance of Power
 
@@ -63,8 +63,8 @@ Results can be further processed on `Bop` with additional chain-enabled indicato
 ```csharp
 // example
 var results = quotes
-    .GetBop(..)
-    .GetSlope(..);
+    .ToBop(..)
+    .ToSlope(..);
 ```
 
 This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.

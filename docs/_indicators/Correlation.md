@@ -16,13 +16,13 @@ Created by Karl Pearson, the [Correlation Coefficient](https://en.wikipedia.org/
 
 ```csharp
 // C# usage syntax
-IEnumerable<CorrResult> results =
-  quotesA.GetCorrelation(quotesB, lookbackPeriods);
+IReadOnlyList<CorrResult> results =
+  quotesA.ToCorrelation(quotesB, lookbackPeriods);
 ```
 
 ## Parameters
 
-**`quotesB`** _`IEnumerable<TQuote>`_ - [Historical quotes]({{site.baseurl}}/guide/#historical-quotes) (B) must have at least the same matching date elements of `quotesA`.
+**`quotesB`** _`IReadOnlyList<TQuote>`_ - [Historical quotes]({{site.baseurl}}/guide/#historical-quotes) (B) must have at least the same matching date elements of `quotesA`.
 
 **`lookbackPeriods`** _`int`_ - Number of periods (`N`) in the lookback period.  Must be greater than 0 to calculate; however we suggest a larger period for statistically appropriate sample size.
 
@@ -30,12 +30,12 @@ IEnumerable<CorrResult> results =
 
 You must have at least `N` periods for both versions of `quotes` to cover the warmup periods.  Mismatch histories will produce a `InvalidQuotesException`.  Historical price quotes should have a consistent frequency (day, hour, minute, etc).
 
-`quotesA` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
+`quotesA` is an `IReadOnlyList<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
 
 ## Response
 
 ```csharp
-IEnumerable<CorrResult>
+IReadOnlyList<CorrResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
@@ -45,7 +45,7 @@ IEnumerable<CorrResult>
 
 ### CorrResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`VarianceA`** _`double`_ - Variance of A
 
@@ -74,7 +74,7 @@ This indicator may be generated from any chain-enabled indicator or method.
 // example
 var results = quotes
     .Use(CandlePart.HL2)
-    .GetCorrelation(quotesMarket.Use(CandlePart.HL2),20);
+    .ToCorrelation(quotesMarket.Use(CandlePart.HL2),20);
 ```
 
 > &#128681; **Warning!** Both `quotesA` and `quotesB` arguments must contain the same number of elements and be the results of a chainable indicator or `.Use()` method.
@@ -84,6 +84,6 @@ Results can be further processed on `Correlation` with additional chain-enabled 
 ```csharp
 // example
 var results = quotes
-    .GetCorrelation(..)
-    .GetSlope(..);
+    .ToCorrelation(..)
+    .ToSlope(..);
 ```

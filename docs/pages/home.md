@@ -40,7 +40,7 @@ You'll get all of the industry standard indicators out-of-the-box.  Additionally
 
 ```csharp
 // example: get 20-period simple moving average
-IEnumerable<SmaResult> results = quotes.GetSma(20);
+IReadOnlyList<SmaResult> results = quotes.ToSma(20);
 ```
 
 See more [usage examples]({{site.baseurl}}/guide/#example-usage).
@@ -51,26 +51,25 @@ Optional chaining enables advanced uses cases; such as, indicator of indicators,
 
 ```csharp
 // example: advanced chaining (RSI of OBV)
-IEnumerable<RsiResult> results
+IReadOnlyList<RsiResult> results
   = quotes
-    .GetObv()
-    .GetRsi(14);
+    .ToObv()
+    .ToRsi(14);
 
 // example: use any candle variant
-IEnumerable<EmaResult> results
+IReadOnlyList<EmaResult> results
   = quotes
     .Use(CandlePart.HL2)
-    .GetEma(20);
+    .ToEma(20);
 ```
 
 See the [guide]({{site.baseurl}}/guide/#content) and the [full list of indicators and overlays]({{site.baseurl}}/indicators/#content) for more information.
 
 ## Optimized for modern .NET frameworks
 
-Our [NuGet library](https://www.nuget.org/packages/Skender.Stock.Indicators) directly targets all current frameworks for peak performance, including the .NET Standard for older framework compatibility.
+Our [NuGet library](https://www.nuget.org/packages/Skender.Stock.Indicators) directly targets all actively [supported Microsoft .NET platforms](https://dotnet.microsoft.com/platform/support/policy) for peak performance.
 
-- .NET 10.0, 9.0, 8.0, 6.0
-- .NET Standard 2.1, 2.0
+- .NET 10.0, 9.0, 8.0
 
 The compiled library package is [Common Language Specification (CLS) compliant](https://docs.microsoft.com/en-us/dotnet/standard/common-type-system) and can be used in other programming languages, including Python and everything in the .NET universe.
 

@@ -1,18 +1,21 @@
-namespace Tests.Common;
+namespace Utilities;
 
-[TestClass]
-public class CustomExceptions : TestBase
+// invalid quotes exceptions
+
+public partial class Quotes : TestBase
 {
-    // bad quotes exceptions
     [TestMethod]
     public void BadHistory()
-        => Assert.ThrowsExactly<InvalidQuotesException>(() => throw new InvalidQuotesException());
+        => Assert.ThrowsExactly<InvalidQuotesException>(
+            static () => throw new InvalidQuotesException());
 
     [TestMethod]
     public void BadHistoryWithMessage()
-        => Assert.ThrowsExactly<InvalidQuotesException>(() => throw new InvalidQuotesException("This is a quotes exception."));
+        => Assert.ThrowsExactly<InvalidQuotesException>(
+            static () => throw new InvalidQuotesException("This is a quotes exception."));
 
     [TestMethod]
     public void BadHistoryWithInner()
-        => Assert.ThrowsExactly<InvalidQuotesException>(() => throw new InvalidQuotesException("This has an inner Exception.", new ArgumentException()));
+        => Assert.ThrowsExactly<InvalidQuotesException>(
+            static () => throw new InvalidQuotesException("This has an inner Exception.", new ArgumentException()));
 }

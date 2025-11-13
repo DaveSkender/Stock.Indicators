@@ -15,20 +15,17 @@ layout: indicator
 ![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
-// C# usage syntax
-IEnumerable<StdDevResult> results =
-  quotes.GetStdDev(lookbackPeriods);
+// C# usage syntax (series)
+IReadOnlyList<StdDevResult> results =
+  quotes.ToStdDev(lookbackPeriods);
 
-// usage with optional SMA of SD (shown above)
-IEnumerable<StdDevResult> results =
-  quotes.GetStdDev(lookbackPeriods, smaPeriods);
+// usage with streaming quotes
+StdDevHub hub = quotes.ToStdDevHub(lookbackPeriods);
 ```
 
 ## Parameters
 
 **`lookbackPeriods`** _`int`_ - Number of periods (`N`) in the lookback period.  Must be greater than 1 to calculate; however we suggest a larger period for statistically appropriate sample size.
-
-**`smaPeriods`** _`int`_ - Optional.  Number of periods in the moving average of `StdDev`.  Must be greater than 0, if specified.
 
 ### Historical quotes requirements
 
@@ -39,7 +36,7 @@ You must have at least `N` periods of `quotes` to cover the warmup periods.
 ## Response
 
 ```csharp
-IEnumerable<StdDevResult>
+IReadOnlyList<StdDevResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
@@ -49,15 +46,13 @@ IEnumerable<StdDevResult>
 
 ### StdDevResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`StdDev`** _`double`_ - Standard Deviation of price
 
 **`Mean`** _`double`_ - Mean value of price
 
 **`ZScore`** _`double`_ - Z-Score of current price (number of standard deviations from mean)
-
-**`StdDevSma`** _`double`_ - Moving average (SMA) of `StdDev` based on `smaPeriods` periods, if specified
 
 ### Utilities
 
@@ -76,7 +71,7 @@ This indicator may be generated from any chain-enabled indicator or method.
 // example
 var results = quotes
     .Use(CandlePart.HL2)
-    .GetStdDev(..);
+    .ToStdDev(..);
 ```
 
 Results can be further processed on `StdDev` with additional chain-enabled indicators.
@@ -84,6 +79,6 @@ Results can be further processed on `StdDev` with additional chain-enabled indic
 ```csharp
 // example
 var results = quotes
-    .GetStdDev(..)
-    .GetSlope(..);
+    .ToStdDev(..)
+    .ToSlope(..);
 ```
