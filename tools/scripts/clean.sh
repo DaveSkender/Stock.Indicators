@@ -15,7 +15,6 @@ DELETE_FOLDERS=(
 )
 
 DELETE_FILES=(
-  "package-lock.json"
   "*.tmp"
   "*.bak"
 )
@@ -58,7 +57,6 @@ done
 # restore
 echo ""
 echo "=== Restoring caches ==="
-npm install
 dotnet restore --force-evaluate
 
 echo ""

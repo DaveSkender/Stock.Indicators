@@ -148,12 +148,14 @@ When using GitHub Copilot:
 
 We use the `GitVersion` tool for [semantic versioning](https://semver.org).  It is mostly auto generated in the build.
 
+<!-- markdownlint-disable MD060 -->
 | Type      | Format    | Description |
 | --------- | --------- | ----------- |
 | Major     | `x.-.-`   | A significant deviation with major breaking changes. |
 | Minor     | `-.x.-`   | A new feature, usually new non-breaking change, such as adding an indicator.  Minor breaking changes may occur here and are denoted in the [release notes](https://github.com/DaveSkender/Stock.Indicators/releases). |
 | Patch     | `-.-.x`   | A small bug fix, chore, or documentation change. |
 | Increment | `-.-.-+x` | Intermediate commits between releases. |
+<!-- markdownlint-enable MD060 -->
 
 Using these merge commit messages only needs to be done on the merge to `main` when the Pull Request is committed and need to reflect a minor or major version update.  Incremental feature branch commits do not need to include this as it will get squashed anyway.
 

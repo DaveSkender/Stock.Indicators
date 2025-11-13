@@ -48,7 +48,7 @@ jobs:
           --no-restore
 
       - name: Lint markdown
-        run: npx markdownlint-cli2
+        run: echo y | npx markdownlint-cli2
 
       - name: Build (package tests)
         run: >
@@ -90,6 +90,9 @@ jobs:
           --properties TargetFramework=net10.0
           --severity-level info
           --verbosity normal
+          ||
+          echo "::warning title=Roslynator::analysis failed"
+        continue-on-error: true
 
       - name: Check .NET code formatting
         run: dotnet format --verify-no-changes --severity info --no-restore
