@@ -30,6 +30,8 @@ public abstract class BufferList<TResult> : IReadOnlyList<TResult>
     /// <inheritdoc/>
     public bool IsReadOnly => true;
 
+    private int _maxListSize = DefaultMaxListSize;
+
     /// <summary>
     /// Gets or sets the maximum number of results to retain in the list.
     /// When the list exceeds this value, the oldest items are pruned.
@@ -37,7 +39,7 @@ public abstract class BufferList<TResult> : IReadOnlyList<TResult>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when a parameter is out of the valid range</exception>
     public int MaxListSize
     {
-        get;
+        get => _maxListSize;
         set {
             if (value <= 0)
             {
@@ -46,14 +48,14 @@ public abstract class BufferList<TResult> : IReadOnlyList<TResult>
                     "MaxListSize must be greater than 0.");
             }
 
-            field = value;
+            _maxListSize = value;
 
-            if (_internalList.Count > field)
+            if (_internalList.Count > _maxListSize)
             {
                 PruneList();
             }
         }
-    } = DefaultMaxListSize;
+    }
 
     /// <summary>
     /// Adds an item to the list using internal buffer logic.
