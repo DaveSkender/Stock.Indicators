@@ -142,7 +142,7 @@ Rules:
 
 ### Performance & Compatibility Standards
 
-- Supported Targets: net8.0, net9.0 (both must build & pass tests).
+- Supported Targets: net10.0, net9.0, net8.0 (both must build & pass tests).
 - Baseline Complexity: Single pass O(n) unless mathematically impossible (justify exceptions in PR).
 - Warmup Guidance: Provide a deterministic WarmupPeriod helper or documented rule for each indicator.
 - Precision Policy: Use double for speed; escalate to decimal only when rounding materially affects financial correctness (> 0.5 tick at 4-decimal pricing).

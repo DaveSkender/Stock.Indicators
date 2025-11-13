@@ -30,7 +30,7 @@ public static class Program
      * 
      * Examples, to run cohorts:
      * dotnet run -c Release --filter *Stream*
-     * dotnet run -c Release --filter *External.EmaHub*
+     * dotnet run -c Release --filter *External.Ema*
      * 
      * Performance results are exported to:
      * - BenchmarkDotNet.Artifacts/results/*.md (GitHub markdown)

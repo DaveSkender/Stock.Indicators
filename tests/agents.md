@@ -23,11 +23,11 @@ public void CalculateAlma_WhenInputIsNull_ReturnsNaN()
 
 ### Explanation
 
-| Component | Description | Example |
-|------------|-------------|----------|
-| `MethodName` | The production method or logical operation being tested. Use imperative verbs. | `CalculateAlma` |
-| `StateUnderTest` | The specific condition, input, or setup for this test. | `WhenInputIsNull` |
-| `ExpectedBehavior` | The expected outcome or system response. | `ReturnsNaN` |
+| Component          | Description                                                                    | Example           |
+|--------------------|--------------------------------------------------------------------------------|-------------------|
+| `MethodName`       | The production method or logical operation being tested. Use imperative verbs. | `CalculateAlma`   |
+| `StateUnderTest`   | The specific condition, input, or setup for this test.                         | `WhenInputIsNull` |
+| `ExpectedBehavior` | The expected outcome or system response.                                       | `ReturnsNaN`      |
 <!-- ai:rule end -->
 
 ---
@@ -208,12 +208,12 @@ result.Adx?.Should().BeApproximately(15.9459, Money4);
 
 **Precision tolerance mapping for BeApproximately():**
 
-| Round() Digits | TestBase Constant | BeApproximately() Tolerance | Example |
-|----------------|-------------------|----------------------------|---------|
-| `.Round(3)`    | `Money3`         | `0.0005`                  | `BeApproximately(123.456, Money3)` |
-| `.Round(4)`    | `Money4`         | `0.00005`                 | `BeApproximately(15.9459, Money4)` |
-| `.Round(5)`    | `Money5`         | `0.000005`                | `BeApproximately(1.23456, Money5)` |
-| `.Round(6)`    | `Money6`         | `0.0000005`               | `BeApproximately(1.234567, Money6)` |
+| Round() Digits | TestBase Constant | BeApproximately() Tolerance | Example                                 |
+|----------------|-------------------|-----------------------------|-----------------------------------------|
+| `.Round(3)`    | `Money3`          | `0.0005`                    | `BeApproximately(123.456, Money3)`      |
+| `.Round(4)`    | `Money4`          | `0.00005`                   | `BeApproximately(15.9459, Money4)`      |
+| `.Round(5)`    | `Money5`          | `0.000005`                  | `BeApproximately(1.23456, Money5)`      |
+| `.Round(6)`    | `Money6`          | `0.0000005`                 | `BeApproximately(1.234567, Money6)`     |
 
 > **Rationale**: Tolerance is half of the last decimal place to ensure only values that would round to the same result will pass.
 > **Constants**: Use `Money3`, `Money4`, `Money5`, `Money6` from `TestBase` for consistent precision across all tests.

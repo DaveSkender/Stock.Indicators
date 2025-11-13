@@ -76,15 +76,8 @@ public class ConnorsRsiList : BufferList<ConnorsRsiResult>, IIncrementFromChain
             base.MaxListSize = value;
 
             // Propagate MaxListSize to inner RSI buffer lists
-            if (_rsiClose != null)
-            {
-                _rsiClose.MaxListSize = value;
-            }
-
-            if (_rsiStreak != null)
-            {
-                _rsiStreak.MaxListSize = value;
-            }
+            _rsiClose.MaxListSize = value;
+            _rsiStreak.MaxListSize = value;
         }
     }
 

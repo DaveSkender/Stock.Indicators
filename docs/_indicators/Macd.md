@@ -89,3 +89,33 @@ var results = quotes
     .ToMacd(..)
     .ToSlope(..);
 ```
+
+## Streaming
+
+Use the buffer-style `List<T>` when you need incremental calculations without a hub:
+
+```csharp
+MacdList macdList = new(fastPeriods, slowPeriods, signalPeriods);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  macdList.Add(quote);
+}
+
+// based on `ICollection<MacdResult>`
+IReadOnlyList<MacdResult> results = macdList;
+```
+
+Subscribe to a `QuoteHub` for advanced streaming scenarios:
+
+```csharp
+QuoteHub<Quote> quoteHub = new();
+MacdHub<Quote> observer = quoteHub.ToMacd(fastPeriods, slowPeriods, signalPeriods);
+
+foreach (Quote quote in quotes)  // simulating stream
+{
+  quoteHub.Add(quote);
+}
+
+IReadOnlyList<MacdResult> results = observer.Results;
+```

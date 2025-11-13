@@ -1,8 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+
+    <TargetFramework>net10.0</TargetFramework>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net9.0</TargetFramework>
     <RootNamespace>Test.DataGenerator</RootNamespace>
     <AssemblyName>Test.DataGenerator</AssemblyName>
     <Nullable>enable</Nullable>
