@@ -74,16 +74,16 @@ This library has three indicator styles available to support different uses case
 
 ### Feature comparison
 
-| feature        | Series batch | Buffer lists | Stream hub   |
-| -------------- | ------------ | ------------ | ------------ |
-| incrementing   | no           | yes          | yes          |
-| batch speed    | fastest      | faster       | fast         |
-| scaling        | low          | moderate     | high         |
-| class type     | static       | instance     | instance     |
+| feature        | Series batch    | Buffer lists  | Stream hub   |
+| -------------- | --------------- | ------------- | ------------ |
+| incrementing   | no              | yes           | yes          |
+| batch speed    | fastest         | faster        | fast         |
+| scaling        | low             | moderate      | high         |
+| class type     | static          | instance      | instance     |
 | base interface | `IReadOnlyList` | `ICollection` | `IStreamHub` |
-| complexity     | lowest       | moderate     | highest      |
-| chainable      | yes          | yes          | yes          |
-| pruning        | with utility | auto-preset  | auto-preset  |
+| complexity     | lowest          | moderate      | highest      |
+| chainable      | yes             | yes           | yes          |
+| pruning        | with utility    | auto-preset   | auto-preset  |
 
 ### Example usage
 

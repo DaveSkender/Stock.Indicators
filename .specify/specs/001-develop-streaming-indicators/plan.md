@@ -15,11 +15,11 @@ Implement two streaming indicator styles (BufferList and StreamHub) enabling inc
 
 ## Technical context
 
-- Language/version: C# / .NET 8.0 and .NET 9.0
+- Language/version: C# / .NET 8, .NET 9, and .NET 10
 - Primary dependencies: None (library follows zero-dependency principle)
 - Storage: In-memory state (bounded buffers, no persistence)
 - Testing: MSTest with streaming parity tests, unit tests, performance benchmarks
-- Target platform: Multi-target `net8.0;net9.0`
+- Target platform: Multi-target `net10.0;net9.0;net8.0`
 - Project type: Single project (library enhancement)
 - Performance goals: <5ms average per-tick latency (p95 <10ms), <10KB memory per instance
 - Constraints: O(1) incremental updates, deterministic mathematical equality with batch calculations, bounded buffers

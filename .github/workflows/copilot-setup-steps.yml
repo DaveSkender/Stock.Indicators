@@ -14,17 +14,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v5
 
-      - name: Setup Python for Spec-Kit
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.13"
-
-      - name: Setup uv package manager
-        run: |
-          curl -LsSf https://astral.sh/uv/install.sh | sh
-          export PATH="$HOME/.cargo/bin:$PATH"
-        continue-on-error: true
-
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1.265.0
         with:
@@ -49,15 +38,6 @@ jobs:
           npm install --global @angular/cli
         continue-on-error: true
 
-      - name: Install Spec-Kit CLI
-        run: |
-          export PATH="$HOME/.cargo/bin:$PATH"
-          uv tool install --force specify-cli --from git+https://github.com/github/spec-kit.git
-
-          export PATH="$HOME/.local/bin:$PATH"
-          specify --help || echo "Specify help not available"
-        continue-on-error: true
-
       - name: Restore packages
         run: |
           dotnet restore
@@ -72,18 +52,6 @@ jobs:
           echo "- Repository: ${{ github.repository }}" >> $GITHUB_STEP_SUMMARY
           echo "- .NET SDKs: $(dotnet --list-sdks | wc -l) versions available" >> $GITHUB_STEP_SUMMARY
           echo "- .NET Tools: $(dotnet tool list --global | wc -l) installed" >> $GITHUB_STEP_SUMMARY
-          echo "- Python: $(python --version)" >> $GITHUB_STEP_SUMMARY
           echo "- Node.js: $(node --version 2>/dev/null || echo 'Not available')" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "### Spec-Kit Integration" >> $GITHUB_STEP_SUMMARY
-          echo "- Spec-Kit CLI: $(~/.local/bin/specify --version 2>/dev/null || echo 'Installation pending')" >> $GITHUB_STEP_SUMMARY
-          echo "- Constitution: ✅ Available at \`.specify/memory/constitution.md\`" >> $GITHUB_STEP_SUMMARY
-          echo "- Specifications: ✅ Available at \`.specify/specs/\`" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "### Available Commands" >> $GITHUB_STEP_SUMMARY
-          echo "- \`/constitution\` - Review/update project principles" >> $GITHUB_STEP_SUMMARY
-          echo "- \`/specify\` - Create feature specifications" >> $GITHUB_STEP_SUMMARY
-          echo "- \`/plan\` - Define implementation approach" >> $GITHUB_STEP_SUMMARY
-          echo "- \`/tasks\` - Generate actionable task breakdown" >> $GITHUB_STEP_SUMMARY
-          echo "- \`/implement\` - Execute planned implementation" >> $GITHUB_STEP_SUMMARY
         continue-on-error: true

@@ -5,7 +5,7 @@
   // https://github.com/devcontainers/features
   "$schema": "https://raw.githubusercontent.com/devcontainers/spec/main/schemas/devContainer.schema.json",
   "name": "Stock Indicators Dev Container",
-  "image": "mcr.microsoft.com/dotnet/sdk:9.0",
+  "image": "mcr.microsoft.com/dotnet/sdk:10.0",
   "features": {
     "ghcr.io/devcontainers/features/common-utils:2": {
       "installZsh": true,
@@ -13,6 +13,9 @@
       "configureZshAsDefaultShell": true,
       "username": "vscode",
       "upgradePackages": true
+    },
+    "ghcr.io/devcontainers/features/node:1": {
+      "version": "lts"
     },
     "ghcr.io/devcontainers/features/git:1": {
       "version": "latest",
@@ -26,9 +29,6 @@
     },
     "ghcr.io/devcontainers/features/ruby:1": {
       "version": "3.3"
-    },
-    "ghcr.io/devcontainers-extra/features/uv:1": {
-      "version": "latest"
     }
   },
   "remoteEnv": {

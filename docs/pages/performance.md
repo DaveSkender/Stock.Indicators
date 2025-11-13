@@ -124,11 +124,11 @@ v3 introduces BufferList and StreamHub styles for incremental and real-time proc
 
 ### Performance Comparison
 
-| Style | Use Case | Relative Performance | Latency per Quote |
-|-------|----------|---------------------|-------------------|
-| **Series** | Batch processing | Baseline (fastest) | N/A |
-| **BufferList** | Incremental updates | ~10-20% overhead | <100μs typical |
-| **StreamHub** | Real-time coordination | ~20-30% overhead | <1ms typical |
+| Style          | Use Case                | Relative Performance | Latency per Quote |
+|----------------|-------------------------|----------------------|-------------------|
+| **Series**     | Batch processing        | Baseline (fastest)   | N/A               |
+| **BufferList** | Incremental updates     | ~10-20% overhead     | <100μs typical    |
+| **StreamHub**  | Real-time coordination  | ~20-30% overhead     | <1ms typical      |
 
 ### BufferList vs Series
 
@@ -187,11 +187,11 @@ Rollback (Insert):        ~2-5μs for state rebuild
 
 Typical memory footprint per indicator instance:
 
-| Style | Memory per Instance | Scaling Factor |
-|-------|-------------------|----------------|
-| **Series** | ~4KB (results only) | N/A |
-| **BufferList** | ~8KB (buffers + results) | Grows with lookback |
-| **StreamHub** | ~12KB (cache + state + results) | Grows with lookback |
+| Style          | Memory per Instance              | Scaling Factor       |
+|----------------|----------------------------------|----------------------|
+| **Series**     | ~4KB (results only)              | N/A                  |
+| **BufferList** | ~8KB (buffers + results)         | Grows with lookback  |
+| **StreamHub**  | ~12KB (cache + state + results)  | Grows with lookback  |
 
 **Memory optimization tips:**
 
@@ -204,12 +204,12 @@ Typical memory footprint per indicator instance:
 
 Real-time performance targets for trading applications:
 
-| Scenario | Target | Typical Performance |
-|----------|--------|-------------------|
-| Single indicator per quote | <100μs | 60-80μs |
-| 5 indicators on hub per quote | <500μs | 300-400μs |
-| Complex chains (EMA→RSI→Slope) | <200μs | 120-150μs |
-| State rebuild (Insert/Remove) | <5ms | 2-3ms |
+| Scenario                           | Target  | Typical Performance |
+|------------------------------------|---------|---------------------|
+| Single indicator per quote         | <100μs  | 60-80μs             |
+| 5 indicators on hub per quote      | <500μs  | 300-400μs           |
+| Complex chains (EMA→RSI→Slope)     | <200μs  | 120-150μs           |
+| State rebuild (Insert/Remove)      | <5ms    | 2-3ms               |
 
 ### When to Choose Each Style
 
