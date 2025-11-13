@@ -2,7 +2,7 @@
 
 This repository hosts **Stock Indicators for .NET**, the production source for the widely used <a href="https://www.nuget.org/packages/Skender.Stock.Indicators">Skender.Stock.Indicators</a> NuGet package. The library offers more than 200 technical analysis indicators with a focus on accuracy, performance, and ergonomics for financial analytics.
 
-- Multi-targets `net9.0` and `net8.0` with analyzers enabled for strict code quality.
+- Multi-targets `net10.0`, `net9.0`, and `net8.0` with analyzers enabled for strict code quality.
 - Active development expands streaming indicator support—consult open specs before modifying stateful pipelines.
 - Documentation at <a href="https://dotnet.stockindicators.dev">dotnet.stockindicators.dev</a> is sourced from the `docs/` content in this repository.
 

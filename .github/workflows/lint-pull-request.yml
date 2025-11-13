@@ -93,7 +93,7 @@ jobs:
             - `test: Add unit tests for sign-in flow`
 
             #### Infrastructure
-            - `build: Update .NET SDK version to 9.0`
+            - `build: Update .NET SDK version to 10.0`
             - `ci: Add workflow for performance testing`
             - `chore: Update NuGet dependencies`
 

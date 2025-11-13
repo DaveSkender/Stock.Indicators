@@ -91,7 +91,7 @@ To run Roslynator analysis:
 
 ```bash
 roslynator analyze \
---properties TargetFramework=net9.0 \
+--properties TargetFramework=net10.0 \
 --verbosity normal \
 --severity-level hidden \
 --language csharp
@@ -101,7 +101,7 @@ To apply automatic fixes:
 
 ```bash
 roslynator fix \
---properties TargetFramework=net9.0 \
+--properties TargetFramework=net10.0 \
 --verbosity normal \
 --severity-level hidden \
 --language csharp
