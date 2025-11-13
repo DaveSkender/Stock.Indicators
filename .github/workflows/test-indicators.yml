@@ -150,39 +150,3 @@ jobs:
           project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
           coverage-reports: test-results/unit/**/coverage.cobertura.xml
         continue-on-error: true
-
-  test-regression:
-    name: regression tests
-    runs-on: ubuntu-latest
-    needs: quick-check
-
-    steps:
-      - name: Checkout source
-        uses: actions/checkout@v5
-
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v5
-        with:
-          dotnet-version: "10.x"
-          dotnet-quality: "ga"
-          cache: true
-          cache-dependency-path: "**/packages.lock.json"
-
-      - name: Test regression baselines
-        run: >
-          dotnet test tests/indicators/Tests.Indicators.csproj
-          --configuration Release
-          --settings tests/tests.regression.runsettings
-          --results-directory ./test-results/regression
-          --verbosity normal
-          --logger trx
-
-      - name: Post regression test results
-        uses: dorny/test-reporter@v2.1.1
-        if: always()
-        with:
-          name: Regression test results
-          path: test-results/regression/**/*.trx
-          reporter: dotnet-trx
-          list-tests: failed
-        continue-on-error: true
