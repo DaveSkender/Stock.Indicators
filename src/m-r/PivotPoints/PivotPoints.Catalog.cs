@@ -12,6 +12,8 @@ public static partial class PivotPoints
             .WithCategory(Category.PriceTrend)
             .AddEnumParameter<PeriodSize>("windowSize", "Window Size", description: "Size of the window for pivot calculation", isRequired: false, defaultValue: PeriodSize.Month)
             .AddEnumParameter<PivotPointType>("pointType", "Point Type", description: "Type of pivot points to calculate", isRequired: false, defaultValue: PivotPointType.Standard)
+            .AddResult("R5", "Resistance 5", ResultType.Default)
+            .AddResult("R4", "Resistance 4", ResultType.Default)
             .AddResult("R3", "Resistance 3", ResultType.Default)
             .AddResult("R2", "Resistance 2", ResultType.Default)
             .AddResult("R1", "Resistance 1", ResultType.Default)
@@ -19,6 +21,8 @@ public static partial class PivotPoints
             .AddResult("S1", "Support 1", ResultType.Default)
             .AddResult("S2", "Support 2", ResultType.Default)
             .AddResult("S3", "Support 3", ResultType.Default)
+            .AddResult("S4", "Support 4", ResultType.Default)
+            .AddResult("S5", "Support 5", ResultType.Default)
             .Build();
 
     /// <summary>
