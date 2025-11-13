@@ -48,7 +48,7 @@ jobs:
           --no-restore
 
       - name: Lint markdown
-        run: npx markdownlint-cli2
+        run: echo y | npx markdownlint-cli2
 
       - name: Build (package tests)
         run: >

@@ -180,7 +180,7 @@
       "label": "Lint: Markdown files",
       "detail": "Run markdownlint over documentation",
       "type": "shell",
-      "command": "npx markdownlint-cli2",
+      "command": "echo y | npx markdownlint-cli2",
       "group": "test",
       "problemMatcher": "$markdownlint",
       "presentation": { "group": "analysis" }
@@ -189,7 +189,7 @@
       "label": "Lint: Markdown files (fix)",
       "detail": "Auto-fix markdown formatting issues",
       "type": "shell",
-      "command": "npx markdownlint-cli2 --fix",
+      "command": "echo y | npx markdownlint-cli2 --fix",
       "group": "none",
       "problemMatcher": "$markdownlint",
       "presentation": { "group": "analysis" }

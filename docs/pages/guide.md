@@ -92,14 +92,14 @@ More examples available:
 
 You must provide historical price quotes to the library in the standard OHLCV `IEnumerable<Quote>` or a compatible `List` or `ICollection` format.  It should have a consistent period frequency (day, hour, minute, etc).  See [using custom quote classes](#using-custom-quote-classes) if you prefer to use your own quote class.
 
-| name | type | notes
-| -- |-- |--
-| `Date` | DateTime | Date
-| `Open` | decimal | Open price
-| `High` | decimal | High price
-| `Low` | decimal | Low price
-| `Close` | decimal | Close price
-| `Volume` | decimal | Volume
+| name        | type     | notes       |
+| ----------- | -------- | ----------- |
+| `Timestamp` | DateTime | Close date  |
+| `Open`      | decimal  | Open price  |
+| `High`      | decimal  | High price  |
+| `Low`       | decimal  | Low price   |
+| `Close`     | decimal  | Close price |
+| `Volume`    | decimal  | Volume      |
 
 ### Where can I get historical quote data?
 
@@ -243,16 +243,16 @@ IEnumerable<RsiResult> rsiOfObv = obvResults.GetRsi(14);
 
 When a candlestick pattern is recognized, it produces a matching signal.  In some cases, an intrinsic confirmation is also available after the signal.  In cases where previous bars were used to identify a pattern, they are indicated as the basis for the signal.  This `enum` can also be referenced as an `int` value.  [Documentation for each candlestick pattern]({{site.baseurl}}/indicators/#candlestick-pattern) will indicate whether confirmation and/or basis information is produced.
 
-| type | int | description
-|-- |--: |--
-| `Match.BullConfirmed` | 200 | Confirmation of a prior bull signal
-| `Match.BullSignal` | 100 | Bullish signal
-| `Match.BullBasis` | 10 | Bars supporting a bullish signal
-| `Match.Neutral` | 1 | Signal for non-directional patterns
-| `Match.None` | 0 | No match
-| `Match.BearBasis` | -10 | Bars supporting a bearish signal
-| `Match.BearSignal` | -100 | Bearish signal
-| `Match.BearConfirmed` | -200 | Confirmation of a prior bear signal
+| type                  |  int | description                         |
+| --------------------- | ---: | ----------------------------------- |
+| `Match.BullConfirmed` |  200 | Confirmation of a prior bull signal |
+| `Match.BullSignal`    |  100 | Bullish signal                      |
+| `Match.BullBasis`     |   10 | Bars supporting a bullish signal    |
+| `Match.Neutral`       |    1 | Signal for non-directional patterns |
+| `Match.None`          |    0 | No match                            |
+| `Match.BearBasis`     |  -10 | Bars supporting a bearish signal    |
+| `Match.BearSignal`    | -100 | Bearish signal                      |
+| `Match.BearConfirmed` | -200 | Confirmation of a prior bear signal |
 
 ### Candle
 
