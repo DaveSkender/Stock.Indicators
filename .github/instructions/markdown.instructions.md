@@ -64,10 +64,7 @@ Include a `Last updated: <Month Day, Year>` line at the end, preceded by a blank
 Rules for Last updated element:
 
 - Use only for specification, instructional, and developer documentation.
-  - **Do not include on:**
-    - Markdown files used as website source pages (e.g. Jekyll in `docs/**`)
-    - Spec Kit files (`.specify/**`, `.github/prompts/speckit.*`)
-    - Feature specification files (`specs/**`)
+  - **Do not include on:** Markdown files used as website source pages (e.g. Jekyll in `docs/**`)
   - **Do include on:** instruction files (`.github/instructions/**`), repository root documentation
 - Place it last.
 - Use the current date.
@@ -118,8 +115,7 @@ Rules for Mermaid diagrams:
 ## Linting and automation (optional)
 
 - Focus on content quality first; add automation only when it adds consistency value.
-- Install with: `npm i -D markdownlint-cli2` and add a lean `.markdownlint-cli2.jsonc`.
-- Provide scripts: `lint:md` (list) and `lint:md:fix` (apply safe fixes).
+- Lint with: `npx markdownlint-cli2` and add a lean `.markdownlint-cli2.jsonc`.
 - Recommend VS Code extension: `DavidAnson.vscode-markdownlint` (add to `.vscode/extensions.json`).
 - Keep configuration minimal; avoid separate ignore files unless required.
 
