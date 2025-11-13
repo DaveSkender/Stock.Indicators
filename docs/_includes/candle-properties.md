@@ -1,5 +1,6 @@
 #### CandleProperties
 
+<!-- markdownlint-disable MD060 -->
 | name | type | notes
 | -- |-- |--
 | `Timestamp` | DateTime | Close date
@@ -17,3 +18,4 @@
 | `LowerWickPct` | double | `LowerWick/Size`
 | `IsBullish` | bool | `Close>Open` direction
 | `IsBearish` | bool | `Close<Open` direction
+<!-- markdownlint-enable MD060 -->

@@ -356,12 +356,14 @@ Use `StreamHubTestBase` as the base for all stream hub test classes, and impleme
 
 **Additional interfaces based on implementation:**
 
-| Provider Base Class | Test Interfaces Required | Notes |
-|---------------------|-------------------------|-------|
-| `ChainProvider<TIn, TResult>` | `ITestChainProvider` | Always required for chainable indicators |
-| `ChainProvider<TIn, TResult>` + supports chaining | `ITestChainProvider`, `ITestChainObserver` | Most indicators support both providing and observing |
-| `QuoteProvider<TIn, TResult>` | `ITestQuoteObserver`, `ITestChainProvider` | Quote providers require quote observer and chain provider tests |
-| `PairsProvider<TIn, TResult>` | `ITestPairsObserver` | Dual-stream indicators with synchronized inputs (must not also implement `ITestQuoteObserver`) |
+<!-- markdownlint-disable MD060 -->
+| Provider Base Class                           | Test Interfaces Required                          | Notes                                                                                               |
+|-----------------------------------------------|---------------------------------------------------|-----------------------------------------------------------------------------------------------------|
+| `ChainProvider<TIn, TResult>`                 | `ITestChainProvider`                              | Always required for chainable indicators                                                            |
+| `ChainProvider<TIn, TResult>` + supports chaining | `ITestChainProvider`, `ITestChainObserver`    | Most indicators support both providing and observing                                                |
+| `QuoteProvider<TIn, TResult>`                 | `ITestQuoteObserver`, `ITestChainProvider`        | Quote providers require quote observer and chain provider tests                                     |
+| `PairsProvider<TIn, TResult>`                 | `ITestPairsObserver`                              | Dual-stream indicators with synchronized inputs (must not also implement `ITestQuoteObserver`)      |
+<!-- markdownlint-enable MD060 -->
 
 Note: `ITestChainObserver` inherits `ITestQuoteObserver`. Do not redundantly implement both on the same class.
 
@@ -771,13 +773,13 @@ foreach (var quote in liveQuotes)
 
 This repository provides specialized custom agents that can help with StreamHub development. These agents have deep expertise in specific areas:
 
-| Agent | Focus Area | When to Use |
-|-------|-----------|-------------|
-| `@streamhub` | General StreamHub development, provider selection, implementation patterns | Starting a new StreamHub, choosing provider base, understanding patterns |
-| `@streamhub-state` | RollbackState patterns, cache replay, state management | Implementing stateful indicators, handling Insert/Remove mutations |
-| `@streamhub-performance` | O(1) optimization, avoiding O(n²) anti-patterns, RollingWindow utilities | Performance optimization, meeting ≤1.5x Series target |
-| `@streamhub-testing` | Test interface selection, rollback validation, Series parity | Writing comprehensive tests, debugging test failures |
-| `@streamhub-pairs` | Dual-stream patterns, timestamp synchronization, PairsProvider | Implementing Correlation, Beta, or other dual-input indicators |
+| Agent                    | Focus area                                                                 | When to use                                                              |
+|--------------------------|----------------------------------------------------------------------------|--------------------------------------------------------------------------|
+| `@streamhub`             | General StreamHub development, provider selection, implementation patterns | Starting a new StreamHub, choosing provider base, understanding patterns |
+| `@streamhub-state`       | RollbackState patterns, cache replay, state management                     | Implementing stateful indicators, handling Insert/Remove mutations       |
+| `@streamhub-performance` | O(1) optimization, avoiding O(n²) anti-patterns, RollingWindow utilities   | Performance optimization, meeting ≤1.5x Series target                    |
+| `@streamhub-testing`     | Test interface selection, rollback validation, Series parity               | Writing comprehensive tests, debugging test failures                     |
+| `@streamhub-pairs`       | Dual-stream patterns, timestamp synchronization, PairsProvider             | Implementing Correlation, Beta, or other dual-input indicators           |
 
 **Usage examples:**
 

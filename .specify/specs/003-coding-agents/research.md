@@ -368,6 +368,7 @@ Clarification requirement: "avoid having duplicative content between agents and 
 
 ### Series Reference Implementations
 
+<!-- markdownlint-disable MD060 -->
 | Pattern Category | File Path | Key Characteristics | When to Use |
 |------------------|-----------|---------------------|-------------|
 | Basic moving average | `src/s-z/Sma/Sma.StaticSeries.cs` | Simple loop, straightforward calculation | Starting point for simple indicators |
@@ -375,9 +376,11 @@ Clarification requirement: "avoid having duplicative content between agents and 
 | High/Low tracking | `src/a-d/Donchian/Donchian.StaticSeries.cs` | Window-based max/min | Range indicators |
 | Multi-output | `src/a-d/Alligator/Alligator.StaticSeries.cs` | Multiple EMA lines | Complex multi-value indicators |
 | Chained calculation | `src/a-d/AtrStop/AtrStop.StaticSeries.cs` | Uses intermediate indicator | Composite indicators |
+<!-- markdownlint-enable MD060 -->
 
 ### Buffer Reference Implementations
 
+<!-- markdownlint-disable MD060 -->
 | Pattern Category | File Path | Key Characteristics | When to Use |
 |------------------|-----------|---------------------|-------------|
 | Basic buffer (Chain) | `src/s-z/Sma/Sma.BufferList.cs` | IIncrementFromChain, simple buffer | Chainable indicators |
@@ -385,9 +388,11 @@ Clarification requirement: "avoid having duplicative content between agents and 
 | Pairs-based | (rare pattern, consult instruction file) | IIncrementFromPairs | Dual-stream indicators |
 | UpdateWithDequeue | `src/a-d/Adx/Adx.BufferList.cs` | Size-limited buffer | Memory-conscious indicators |
 | Tuple state | `src/a-d/Alligator/Alligator.BufferList.cs` | Internal state as tuple | Multi-value state management |
+<!-- markdownlint-enable MD060 -->
 
 ### StreamHub Reference Implementations
 
+<!-- markdownlint-disable MD060 -->
 | Pattern Category | File Path | Key Characteristics | When to Use |
 |------------------|-----------|---------------------|-------------|
 | **Incremental State (Standard)** - Chain provider | `src/e-k/Ema/Ema.StreamHub.cs` | ChainProvider, O(1) state | Most indicators |
@@ -397,6 +402,7 @@ Clarification requirement: "avoid having duplicative content between agents and 
 | **Incremental State (Standard)** - Quote provider | `src/m-r/Renko/Renko.StreamHub.cs` | QuoteProvider pattern | Quote-only indicators |
 | **Repaint from Anchor (Partial Rebuild)** - Pivot tracking | `src/s-z/ZigZag/ZigZag.StreamHub.cs` | Anchor state, O(k) from pivot | Pivot/anchor-based indicators |
 | **Full Session Rebuild** - Session-based | `src/m-r/PivotPoints/PivotPoints.StreamHub.cs` | Session boundaries | Session-dependent calculations |
+<!-- markdownlint-enable MD060 -->
 
 ### Reference Implementation Documentation Format
 
@@ -634,6 +640,7 @@ description: "..."
 
 ## Technical Decisions Summary
 
+<!-- markdownlint-disable MD060 -->
 | Decision Point | Resolution | Rationale |
 |----------------|------------|-----------|
 | Agent frontmatter properties | name + description only (no tools) | Matches existing pattern, tools defaults to all |
@@ -643,6 +650,7 @@ description: "..."
 | Reference implementations | 5-8 per agent with 1-line descriptions | Sufficient variety without exhaustive catalog |
 | Test guidance depth | Interface names + when to use, link for details | Quick orientation without duplicating test structure |
 | Instruction file insertion point | After frontmatter, before first heading | Maximizes discoverability |
+<!-- markdownlint-enable MD060 -->
 | Instruction file additions | 2 sections, ~15-25 lines total | Minimal impact, backward compatible |
 
 ## Best Practices from Existing Agents

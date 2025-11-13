@@ -1,5 +1,6 @@
 #### CandlePart options
 
+<!-- markdownlint-disable MD060 -->
 | type | description
 |-- |--
 | `CandlePart.Open` | `Open` price
@@ -12,3 +13,4 @@
 | `CandlePart.OC2` | `(Open+Close)/2`
 | `CandlePart.OHL3` | `(Open+High+Low)/3`
 | `CandlePart.OHLC4` | `(Open+High+Low+Close)/4`
+<!-- markdownlint-enable MD060 -->

@@ -277,16 +277,18 @@ The project constitution is **non-negotiable** during analysis and implementatio
 
 Spec Kit instructions work alongside existing scoped instructions:
 
-| Spec Kit Artifact | Also Apply Instructions |
-|-------------------|-------------------------|
-| `plan.md` code examples | `.github/instructions/source-code-completion.instructions.md` |
+<!-- markdownlint-disable MD060 -->
+| Spec Kit Artifact          | Also Apply Instructions                                          |
+|----------------------------|------------------------------------------------------------------|
+| `plan.md` code examples    | `.github/instructions/source-code-completion.instructions.md`    |
 | `quickstart.md` test scenarios | `.github/instructions/source-code-completion.instructions.md` |
-| Series indicator specs | `.github/instructions/indicator-series.instructions.md` |
-| Stream indicator specs | `.github/instructions/indicator-stream.instructions.md` |
-| Buffer indicator specs | `.github/instructions/indicator-buffer.instructions.md` |
-| Performance specs | `.github/instructions/performance-testing.instructions.md` |
-| Any markdown files | `.github/instructions/markdown.instructions.md` |
-| Documentation specs | `.github/instructions/documentation.instructions.md` |
+| Series indicator specs     | `.github/instructions/indicator-series.instructions.md`          |
+| Stream indicator specs     | `.github/instructions/indicator-stream.instructions.md`          |
+| Buffer indicator specs     | `.github/instructions/indicator-buffer.instructions.md`          |
+| Performance specs          | `.github/instructions/performance-testing.instructions.md`       |
+| Any markdown files         | `.github/instructions/markdown.instructions.md`                  |
+| Documentation specs        | `.github/instructions/documentation.instructions.md`             |
+<!-- markdownlint-enable MD060 -->
 
 **When conflicts arise:**
 

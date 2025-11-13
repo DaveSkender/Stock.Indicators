@@ -16,29 +16,29 @@ Analysis of performance baseline data reveals **significant performance degradat
 
 ### Top 10 Most Critical StreamHub Issues
 
-| Indicator | Series (ns) | Stream (ns) | Slowdown | Status |
-|-----------|-------------|-------------|----------|--------|
-| **Rsi** | 7,073 | 2,767,983 | **391.33x** | 🔴 CRITICAL O(n²) likely |
-| **StochRsi** | 31,449 | 8,916,843 | **283.53x** | 🔴 CRITICAL O(n²) likely |
-| **Cmo** | 15,321 | 3,949,622 | **257.78x** | 🔴 CRITICAL O(n²) likely |
-| **Chandelier** | 27,156 | 3,303,438 | **121.65x** | 🔴 CRITICAL O(n²) likely |
-| **Stoch** | 25,160 | 394,738 | **15.69x** | 🔴 CRITICAL |
-| **Tema** | 3,374 | 36,201 | **10.73x** | 🔴 CRITICAL |
-| **Ema** | 2,749 | 29,165 | **10.61x** | 🔴 CRITICAL |
-| **Smma** | 2,866 | 29,832 | **10.41x** | 🔴 CRITICAL |
-| **T3** | 4,375 | 43,414 | **9.92x** | 🔴 CRITICAL |
-| **Dema** | 3,470 | 32,208 | **9.28x** | 🔴 CRITICAL |
+| Indicator      | Series (ns) | Stream (ns) | Slowdown     | Status                       |
+|----------------|-------------|-------------|--------------|------------------------------|
+| **Rsi**        | 7,073       | 2,767,983   | **391.33x**  | 🔴 CRITICAL O(n²) likely     |
+| **StochRsi**   | 31,449      | 8,916,843   | **283.53x**  | 🔴 CRITICAL O(n²) likely     |
+| **Cmo**        | 15,321      | 3,949,622   | **257.78x**  | 🔴 CRITICAL O(n²) likely     |
+| **Chandelier** | 27,156      | 3,303,438   | **121.65x**  | 🔴 CRITICAL O(n²) likely     |
+| **Stoch**      | 25,160      | 394,738     | **15.69x**   | 🔴 CRITICAL                  |
+| **Tema**       | 3,374       | 36,201      | **10.73x**   | 🔴 CRITICAL                  |
+| **Ema**        | 2,749       | 29,165      | **10.61x**   | 🔴 CRITICAL                  |
+| **Smma**       | 2,866       | 29,832      | **10.41x**   | 🔴 CRITICAL                  |
+| **T3**         | 4,375       | 43,414      | **9.92x**    | 🔴 CRITICAL                  |
+| **Dema**       | 3,470       | 32,208      | **9.28x**    | 🔴 CRITICAL                  |
 
 ### Top 6 Most Critical BufferList Issues
 
-| Indicator | Series (ns) | Buffer (ns) | Slowdown | Status |
-|-----------|-------------|-------------|----------|--------|
-| **Slope** | 43,086 | 338,188 | **7.85x** | 🔴 CRITICAL |
-| **Alligator** | 10,645 | 53,352 | **5.01x** | 🔴 CRITICAL |
-| **Gator** | 14,949 | 57,777 | **3.86x** | 🔴 CRITICAL |
-| **Fractal** | 18,882 | 71,439 | **3.78x** | 🔴 CRITICAL |
-| **Adx** | 23,930 | 51,784 | **2.16x** | 🔴 CRITICAL |
-| **Stoch** | 25,160 | 53,633 | **2.13x** | 🔴 CRITICAL |
+| Indicator     | Series (ns) | Buffer (ns) | Slowdown  | Status      |
+|---------------|-------------|-------------|-----------|-------------|
+| **Slope**     | 43,086      | 338,188     | **7.85x** | 🔴 CRITICAL |
+| **Alligator** | 10,645      | 53,352      | **5.01x** | 🔴 CRITICAL |
+| **Gator**     | 14,949      | 57,777      | **3.86x** | 🔴 CRITICAL |
+| **Fractal**   | 18,882      | 71,439      | **3.78x** | 🔴 CRITICAL |
+| **Adx**       | 23,930      | 51,784      | **2.16x** | 🔴 CRITICAL |
+| **Stoch**     | 25,160      | 53,633      | **2.13x** | 🔴 CRITICAL |
 
 ## Root Cause Analysis
 
