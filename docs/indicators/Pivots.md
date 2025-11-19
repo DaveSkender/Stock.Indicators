@@ -5,12 +5,12 @@ description: Pivots is an extended customizable version of Williams Fractal that
 
 
 
-# 
+# {{ $frontmatter.title }}
 
 Pivots is an extended customizable version of <a href="/indicators/Fractal/" rel="nofollow">Williams Fractal</a> that includes identification of Higher High, Lower Low, Higher Low, and Lower Low trends between pivots in a lookback window.
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/436 "Community discussion about this indicator")
 
-<img src="/assets/charts/Pivots.png" alt="chart for " />
+<img src="/assets/charts/Pivots.png" alt="chart for Pivots" />
 
 ```csharp
 // C# usage syntax

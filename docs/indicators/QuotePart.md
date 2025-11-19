@@ -8,7 +8,7 @@ redirect-from:
 
 
 
-# 
+# {{ $frontmatter.title }}
 
 Returns a reusable (chainable) basic quote transform (e.g. HL2, OHL3, etc.) by isolating a single component part value or calculated value from the full OHLCV quote candle parts.
 

@@ -5,12 +5,12 @@ description: Volume Weighted Moving Average is the volume adjusted average price
 
 
 
-# 
+# {{ $frontmatter.title }}
 
 Volume Weighted Moving Average is the volume adjusted average price over a lookback window.
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/657 "Community discussion about this indicator")
 
-<img src="/assets/charts/Vwma.png" alt="chart for " />
+<img src="/assets/charts/Vwma.png" alt="chart for Volume Weighted Moving Average (VWMA)" />
 
 ```csharp
 // C# usage syntax

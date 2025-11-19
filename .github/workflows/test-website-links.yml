@@ -21,52 +21,31 @@ jobs:
     defaults:
       run:
         working-directory: docs
-    env:
-      BUNDLE_GEMFILE: ${{github.workspace}}/docs/Gemfile
-      JEKYLL_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
       - name: Checkout source
         uses: actions/checkout@v5
 
-      - name: Setup Ruby
-        uses: ruby/setup-ruby@v1.265.0
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          ruby-version: 3.3
-          bundler-cache: true
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: docs/package-lock.json
 
       - name: Install dependencies
-        run: gem install html-proofer
-
-      - name: Replace "data-src"
-        uses: jacobtomlinson/gha-find-replace@f1069b438f125e5395d84d1c6fd3b559a7880cb5
-        with:
-          find: "data-src"
-          replace: "src"
-          regex: false
-
-      - name: Use 'localhost'
-        uses: jacobtomlinson/gha-find-replace@f1069b438f125e5395d84d1c6fd3b559a7880cb5
-        with:
-          find: "https://dotnet.stockindicators.dev"
-          replace: "http://127.0.0.1:4000"
-          regex: false
+        run: npm ci
 
       - name: Build site
-        run: bundle exec jekyll build
+        run: npm run docs:build
 
-      - name: Serve site
-        run: bundle exec jekyll serve --port 4000 --detach
+      - name: Install htmlproofer
+        run: gem install html-proofer
 
-        # see help in setup step
       - name: Test for broken URLs
         run: >
-          htmlproofer _site
+          htmlproofer .vitepress/dist
           --no-enforce-https
           --no-check-external-hash
           --ignore-status-codes "0,302,403,406,408,429,503,999"
           --ignore-urls "/fonts.gstatic.com/"
-
-      - name: Kill site (failsafe)
-        if: always()
-        run: pkill -f jekyll

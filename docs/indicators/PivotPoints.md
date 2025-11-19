@@ -5,13 +5,13 @@ description: Pivot Points depict classic support and resistance levels, based on
 
 
 
-# 
+# {{ $frontmatter.title }}
 
 [Pivot Points](https://en.wikipedia.org/wiki/Pivot_point_(technical_analysis)) depict support and resistance levels, based on prior calendar windows.  You can specify window size (e.g. month, week, day, etc) and any of the traditional Floor Trading, Camarilla, Demark, Fibonacci, and Woodie variants.
 
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/274 "Community discussion about this indicator")
 
-<img src="/assets/charts/PivotPoints.png" alt="chart for " />
+<img src="/assets/charts/PivotPoints.png" alt="chart for Pivot Points" />
 
 ```csharp
 // C# usage syntax

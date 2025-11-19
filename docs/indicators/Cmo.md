@@ -5,12 +5,12 @@ description: The Chande Momentum Oscillator is a momentum indicator depicting th
 
 
 
-# 
+# {{ $frontmatter.title }}
 
 Created by Tushar Chande, the [Chande Momentum Oscillator](https://www.investopedia.com/terms/c/chandemomentumoscillator.asp) is a weighted percent of higher prices over a lookback window.
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/892 "Community discussion about this indicator")
 
-<img src="/assets/charts/Cmo.png" alt="chart for " />
+<img src="/assets/charts/Cmo.png" alt="chart for Chande Momentum Oscillator (CMO)" />
 
 ```csharp
 // C# usage syntax

@@ -5,12 +5,12 @@ description: Detrended Price Oscillator depicts the difference between price and
 
 
 
-# 
+# {{ $frontmatter.title }}
 
 [Detrended Price Oscillator](https://en.wikipedia.org/wiki/Detrended_price_oscillator) depicts the difference between price and an offset simple moving average.  It is used to identify trend cycles and duration.
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/551 "Community discussion about this indicator")
 
-<img src="/assets/charts/Dpo.png" alt="chart for " />
+<img src="/assets/charts/Dpo.png" alt="chart for Detrended Price Oscillator (DPO)" />
 
 ```csharp
 // C# usage syntax

@@ -7,6 +7,10 @@ export default defineConfig({
   title: "Stock Indicators for .NET",
   description: "Transform price quotes into trading insights.",
   
+  sitemap: {
+    hostname: 'https://dotnet.stockindicators.dev'
+  },
+  
   head: [
     ['link', { rel: 'icon', href: '/favicon.ico' }],
     ['link', { rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' }],
@@ -26,6 +30,9 @@ export default defineConfig({
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     logo: '/assets/icons/android-chrome-192x192.png',
+    
+    // Force dark theme only
+    appearance: false, // Disable theme toggle
     
     nav: [
       { text: 'Home', link: '/' },
@@ -130,10 +137,7 @@ export default defineConfig({
   ],
   
   markdown: {
-    theme: {
-      light: 'github-light',
-      dark: 'github-dark'
-    },
+    theme: 'github-dark-dimmed',
     config: (md) => {
       // Override image rendering to use HTML instead of imports
       const defaultImageRender = md.renderer.rules.image || function(tokens, idx, options, env, self) {

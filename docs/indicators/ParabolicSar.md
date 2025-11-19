@@ -5,12 +5,12 @@ description: Created by J. Welles Wilder, Parabolic SAR (stop and reverse) is a 
 
 
 
-# 
+# {{ $frontmatter.title }}
 
 Created by J. Welles Wilder, [Parabolic SAR](https://en.wikipedia.org/wiki/Parabolic_SAR) (stop and reverse) is a price-time based indicator used to determine trend direction and reversals.
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/245 "Community discussion about this indicator")
 
-<img src="/assets/charts/ParabolicSar.png" alt="chart for " />
+<img src="/assets/charts/ParabolicSar.png" alt="chart for Parabolic SAR" />
 
 ```csharp
 // C# usage syntax (standard)

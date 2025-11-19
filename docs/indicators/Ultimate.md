@@ -5,12 +5,12 @@ description: Created by Larry Williams, the Ultimate Oscillator uses several mov
 
 
 
-# 
+# {{ $frontmatter.title }}
 
 Created by Larry Williams, the [Ultimate Oscillator](https://en.wikipedia.org/wiki/Ultimate_oscillator) uses several moving averages to weigh buying power against true range price to produce on oversold / overbought oscillator.
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/231 "Community discussion about this indicator")
 
-<img src="/assets/charts/Ultimate.png" alt="chart for " />
+<img src="/assets/charts/Ultimate.png" alt="chart for Ultimate Oscillator" />
 
 ```csharp
 // C# usage syntax
