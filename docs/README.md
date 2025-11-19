@@ -2,4 +2,28 @@
 
 Visit [dotnet.stockindicators.dev](https://dotnet.stockindicators.dev) to read our documentation.
 
-It is developed with Jekyll for GitHub Pages and is not intended to be read from the code repo.
+This site is built with [Vitepress](https://vitepress.dev) and deployed to Cloudflare Pages.
+
+## Local Development
+
+```bash
+cd docs
+npm install
+npm run docs:dev
+```
+
+The site will open at `http://localhost:5173/`
+
+## Building
+
+```bash
+npm run docs:build
+```
+
+The built site will be in `.vitepress/dist/`
+
+## Preview Build
+
+```bash
+npm run docs:preview
+```

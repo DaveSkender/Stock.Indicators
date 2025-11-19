@@ -102,6 +102,13 @@ export default defineConfig({
     },
     ssr: {
       noExternal: ['**']
+    },
+    build: {
+      rollupOptions: {
+        output: {
+          assetFileNames: 'assets/[name].[hash][extname]'
+        }
+      }
     }
   },
   

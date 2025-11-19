@@ -1,11 +1,11 @@
 ---
 applyTo: "docs/**"
-description: "Documentation website development, Jekyll builds, accessibility testing, and content guidelines"
+description: "Documentation website development, Vitepress builds, accessibility testing, and content guidelines"
 ---
 
 # Documentation website instructions
 
-These instructions apply to all files in the `docs/` folder and cover Jekyll site development, content creation, accessibility testing, and documentation maintenance.
+These instructions apply to all files in the `docs/` folder and cover Vitepress site development, content creation, accessibility testing, and documentation maintenance.
 
 ## Build and development workflow
 
@@ -13,16 +13,16 @@ These instructions apply to all files in the `docs/` folder and cover Jekyll sit
 
 ```bash
 # from /docs folder
-bundle install
-bundle exec jekyll serve -o -l
+npm install
+npm run docs:dev
 
-# the site will open at http://127.0.0.1:4000
+# the site will open at http://localhost:5173/
 ```
 
 ### Code cleanup and formatting
 
 - **Markdown linting**: Use repository-wide markdown linting rules
-- **Jekyll configuration**: Follow Jekyll best practices in `_config.yml`
+- **Vitepress configuration**: Follow Vitepress best practices in `.vitepress/config.mts`
 - **Front matter validation**: Ensure YAML front matter follows documented schema
 - **Asset optimization**: Optimize images to `webp` format using ImageMagick or cwebp
 
@@ -37,10 +37,11 @@ cwebp -resize 832 0 -q 100 examples.png -o examples-832.webp
 
 When adding or updating indicators:
 
-- Add or update files in `/docs/_indicators/` directory
-- Place image assets in `/docs/assets/` folder
+- Add or update files in `/docs/indicators/` directory
+- Place image assets in `/docs/.vitepress/public/assets/` folder
 - Follow consistent naming conventions for asset files
 - Include comprehensive examples with sample data
+- Use HTML `<img>` tags instead of markdown syntax for images to avoid SSR import issues
 
 ### Accessibility requirements
 
@@ -49,7 +50,7 @@ When adding or updating indicators:
 
 ```bash
 # accessibility testing after local build
-npx pa11y-ci --sitemap http://127.0.0.1:4000/sitemap.xml
+npx pa11y-ci --sitemap http://localhost:5173/sitemap.xml
 ```
 
 ### Content structure
@@ -59,7 +60,7 @@ npx pa11y-ci --sitemap http://127.0.0.1:4000/sitemap.xml
 - Ensure proper heading hierarchy (no skipping levels)
 - Include descriptive link text (avoid "click here")
 
-## Jekyll-specific guidelines
+## Vitepress-specific guidelines
 
 ### Front matter requirements
 
@@ -68,19 +69,20 @@ npx pa11y-ci --sitemap http://127.0.0.1:4000/sitemap.xml
 - Set appropriate page titles and descriptions
 - Include navigation metadata when applicable
 
-### Template and includes
+### Components and layouts
 
-- Follow established patterns in `_layouts/` and `_includes/`
-- Maintain consistency in template structure
-- Use Jekyll's data files in `_data/` for structured content
-- Leverage Jekyll plugins appropriately
+- Use Vue components for interactive elements
+- Follow Vitepress default theme conventions
+- Leverage Vitepress built-in components when possible
+- Use custom components sparingly
 
 ### Asset management
 
-- Place static assets in appropriate subdirectories under `/assets/`
-- Use Jekyll's asset pipeline for CSS and JavaScript
-- Optimize images for web delivery
+- Place static assets in `.vitepress/public/` directory
+- Assets in public directory are served from root path
+- Use absolute paths starting with `/` for assets
 - Follow naming conventions for asset files
+- For images in markdown content, use HTML `<img>` tags with absolute paths
 
 ## Testing and validation
 
@@ -88,16 +90,29 @@ npx pa11y-ci --sitemap http://127.0.0.1:4000/sitemap.xml
 
 Before committing documentation changes:
 
-1. **Build verification**: Ensure Jekyll builds without errors
+1. **Build verification**: Ensure Vitepress builds without errors
 2. **Link checking**: Verify all internal and external links work
 3. **Accessibility audit**: Run accessibility tests
 4. **Content review**: Check for typos and formatting consistency
+
+### Build commands
+
+```bash
+# Development server
+npm run docs:dev
+
+# Production build
+npm run docs:build
+
+# Preview production build
+npm run docs:preview
+```
 
 ### Continuous integration
 
 The documentation site should:
 
-- Build successfully in the CI/CD pipeline  
+- Build successfully in the CI/CD pipeline
 - Pass all accessibility tests
 - Have no broken links
 - Meet performance benchmarks
@@ -119,4 +134,4 @@ The documentation site should:
 - Provide migration guidance for breaking changes
 
 ---
-Last updated: December 28, 2024
+Last updated: November 19, 2025

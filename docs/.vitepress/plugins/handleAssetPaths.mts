@@ -22,8 +22,16 @@ export default function handleAssetPaths() {
     },
     resolveId(id) {
       if (id.startsWith('/assets/')) {
-        // Return as external to prevent module resolution
-        return { id, external: true }
+        // During SSR, return a dummy module to prevent import errors
+        return '\0virtual-asset:' + id
+      }
+      return null
+    },
+    load(id) {
+      if (id.startsWith('\0virtual-asset:')) {
+        // Return a dummy export for asset imports during SSR
+        const path = id.replace('\0virtual-asset:', '')
+        return `export default "${path}"`
       }
       return null
     }

@@ -5,9 +5,6 @@ on: workflow_dispatch
 concurrency:
   group: docs-website
 
-env:
-  JEKYLL_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
 permissions:
   contents: read
 
@@ -18,9 +15,6 @@ jobs:
     defaults:
       run:
         working-directory: docs
-    env:
-      BUNDLE_GEMFILE: ${{github.workspace}}/docs/Gemfile
-      JEKYLL_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     environment:
       name: stockindicators.dev
@@ -30,34 +24,29 @@ jobs:
       - name: Checkout source
         uses: actions/checkout@v5
 
-      - name: Setup Ruby
-        uses: ruby/setup-ruby@v1.265.0
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          ruby-version: 3.3
-          bundler-cache: true
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: docs/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
 
       - name: Define tag
         id: tag
         run: echo "version=$(date +'%Y.%m.%d')-${{ github.run_number }}" >> $GITHUB_OUTPUT
 
-      - name: Replace cache markers
-        uses: jacobtomlinson/gha-find-replace@f1069b438f125e5395d84d1c6fd3b559a7880cb5
-        with:
-          find: "YYYY.MM.DD"
-          replace: "${{ steps.tag.outputs.version }}"
-          regex: false
-
       - name: Build site (production)
         if: github.ref == 'refs/heads/main'
+        run: npm run docs:build
         env:
-          JEKYLL_ENV: production
-        run: bundle exec jekyll build
+          NODE_ENV: production
 
       - name: Build site (preview)
         if: github.ref != 'refs/heads/main'
-        env:
-          JEKYLL_ENV: preview
-        run: bundle exec jekyll build
+        run: npm run docs:build
 
       - name: Publish to Cloudflare Pages
         id: deploy
@@ -67,5 +56,5 @@ jobs:
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           wranglerVersion: "latest"
           command: >
-            pages deploy docs/_site
+            pages deploy docs/.vitepress/dist
             --project-name=${{ vars.CLOUDFLARE_PROJECT_NAME }}
