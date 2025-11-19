@@ -5,12 +5,12 @@ description: Created by J. Welles Wilder, Volatility Stop, also known his Volati
 
 
 
-# 
+# {{ $frontmatter.title }}
 
 Created by J. Welles Wilder, [Volatility Stop](https://archive.org/details/newconceptsintec00wild), also known his Volatility System, is an [ATR](/indicators/Atr/#content) based indicator used to determine trend direction, stops, and reversals.  It is similar to Wilder's [Parabolic SAR](/indicators/ParabolicSar/#content) and [SuperTrend](/indicators/SuperTrend/#content).
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/564 "Community discussion about this indicator")
 
-<img src="/assets/charts/VolatilityStop.png" alt="chart for " />
+<img src="/assets/charts/VolatilityStop.png" alt="chart for Volatility Stop" />
 
 ```csharp
 // C# usage syntax (Series)

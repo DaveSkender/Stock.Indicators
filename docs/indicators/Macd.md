@@ -5,12 +5,12 @@ description: Created by Gerald Appel, MACD is a simple oscillator view of two co
 
 
 
-# 
+# {{ $frontmatter.title }}
 
 Created by Gerald Appel, [MACD](https://en.wikipedia.org/wiki/MACD) is a simple oscillator view of two converging / diverging exponential moving averages and their differences.
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/248 "Community discussion about this indicator")
 
-<img src="/assets/charts/Macd.png" alt="chart for " />
+<img src="/assets/charts/Macd.png" alt="chart for Moving Average Convergence / Divergence (MACD)" />
 
 ```csharp
 // C# usage syntax (with Close price)

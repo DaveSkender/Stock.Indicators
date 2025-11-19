@@ -7,12 +7,12 @@ redirect_from:
 
 
 
-# 
+# {{ $frontmatter.title }}
 
 Created by Patrick G. Mulloy, the [Double exponential moving average](https://en.wikipedia.org/wiki/Double_exponential_moving_average) is a faster smoothed EMA of the price over a lookback window.
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/807 "Community discussion about this indicator")
 
-<img src="/assets/charts/Dema.png" alt="chart for " />
+<img src="/assets/charts/Dema.png" alt="chart for Double Exponential Moving Average (DEMA)" />
 
 ```csharp
 // C# usage syntax

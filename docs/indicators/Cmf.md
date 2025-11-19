@@ -5,12 +5,12 @@ description: Created by Marc Chaikin, Chaikin Money Flow is the simple moving av
 
 
 
-# 
+# {{ $frontmatter.title }}
 
 Created by Marc Chaikin, [Chaikin Money Flow](https://en.wikipedia.org/wiki/Chaikin_Analytics#Chaikin_Money_Flow) is the simple moving average of the directional Money Flow Volume.
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/261 "Community discussion about this indicator")
 
-<img src="/assets/charts/Cmf.png" alt="chart for " />
+<img src="/assets/charts/Cmf.png" alt="chart for Chaikin Money Flow (CMF)" />
 
 ```csharp
 // C# usage syntax

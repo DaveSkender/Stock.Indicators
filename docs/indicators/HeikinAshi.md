@@ -5,12 +5,12 @@ description: Created by Munehisa Homma, [Heikin-Ashi](https://en.wikipedia.org/w
 
 
 
-# 
+# {{ $frontmatter.title }}
 
 Created by Munehisa Homma, [Heikin-Ashi](https://en.wikipedia.org/wiki/Candlestick_chart#Heikin-Ashi_candlesticks) is a modified candlestick pattern based on prior period prices for smoothing.
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/254 "Community discussion about this indicator")
 
-<img src="/assets/charts/HeikinAshi.png" alt="chart for " />
+<img src="/assets/charts/HeikinAshi.png" alt="chart for Heikin-Ashi" />
 
 ```csharp
 // C# usage syntax

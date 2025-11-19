@@ -1,9 +1,9 @@
 ---
-title: Indicators and Overlays
+title: Indicators and overlays
 description: The Stock Indicators for .NET library contains financial market technical analysis methods to view price patterns or to develop your own trading strategies in Microsoft .NET programming languages and developer platforms.
 ---
 
-# Indicators and Overlays
+# Indicators and overlays
 
 The Stock Indicators for .NET library contains financial market technical analysis methods to view price patterns or to develop your own trading strategies in Microsoft .NET programming languages and developer platforms.
 

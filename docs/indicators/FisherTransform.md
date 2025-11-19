@@ -5,12 +5,12 @@ description: Created by John Ehlers, the Fisher Transform converts financial mar
 
 
 
-# 
+# {{ $frontmatter.title }}
 
 Created by John Ehlers, the [Fisher Transform](https://www.investopedia.com/terms/f/fisher-transform.asp) converts prices into a Gaussian normal distribution.
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/409 "Community discussion about this indicator")
 
-<img src="/assets/charts/FisherTransform.png" alt="chart for " />
+<img src="/assets/charts/FisherTransform.png" alt="chart for Ehlers Fisher Transform" />
 
 ```csharp
 // C# usage syntax

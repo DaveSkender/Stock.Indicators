@@ -1,0 +1,105 @@
+/**
+ * Custom CSS for Stock Indicators documentation
+ * Using GitHub Primer dark-dimmed theme colors
+ */
+
+/* Force dark theme globally */
+:root {
+  --vp-c-bg: #22272e;
+  --vp-c-bg-alt: #2d333b;
+  --vp-c-bg-elv: #2d333b;
+  --vp-c-bg-soft: #2d333b;
+  
+  --vp-c-border: #444c56;
+  --vp-c-divider: #444c56;
+  --vp-c-gutter: #2d333b;
+  
+  --vp-c-text-1: #adbac7;
+  --vp-c-text-2: #909dab;
+  --vp-c-text-3: #768390;
+  
+  --vp-c-brand-1: #539bf5;
+  --vp-c-brand-2: #6cb6ff;
+  --vp-c-brand-3: #316dca;
+  --vp-c-brand-soft: rgba(83, 155, 245, 0.14);
+  
+  --vp-c-tip-1: #57ab5a;
+  --vp-c-tip-2: #46954a;
+  --vp-c-tip-3: #347d39;
+  --vp-c-tip-soft: rgba(87, 171, 90, 0.14);
+  
+  --vp-c-warning-1: #c69026;
+  --vp-c-warning-2: #9e6a03;
+  --vp-c-warning-3: #7d4e00;
+  --vp-c-warning-soft: rgba(198, 144, 38, 0.14);
+  
+  --vp-c-danger-1: #e5534b;
+  --vp-c-danger-2: #d1242f;
+  --vp-c-danger-3: #a40e26;
+  --vp-c-danger-soft: rgba(229, 83, 75, 0.14);
+  
+  /* Code block colors */
+  --vp-code-block-bg: #2d333b;
+  --vp-code-bg: #2d333b;
+  --vp-code-tab-divider: #444c56;
+  
+  /* Sidebar colors */
+  --vp-sidebar-bg-color: #22272e;
+  
+  /* Navbar colors */
+  --vp-nav-bg-color: #22272e;
+  --vp-nav-screen-bg-color: #22272e;
+  
+  /* Button colors */
+  --vp-button-brand-bg: #539bf5;
+  --vp-button-brand-hover-bg: #6cb6ff;
+  --vp-button-brand-active-bg: #316dca;
+  
+  /* Link colors */
+  --vp-c-brand: #539bf5;
+  --vp-c-brand-dark: #316dca;
+  --vp-c-brand-darker: #1f4d99;
+  --vp-c-brand-light: #6cb6ff;
+  --vp-c-brand-lighter: #96d0ff;
+}
+
+/* Ensure dark theme is always applied */
+html:not(.dark) {
+  color-scheme: dark;
+}
+
+/* Custom styles for better readability */
+.vp-doc h1, .vp-doc h2, .vp-doc h3 {
+  color: var(--vp-c-text-1);
+}
+
+.vp-doc a {
+  color: var(--vp-c-brand-1);
+}
+
+.vp-doc a:hover {
+  color: var(--vp-c-brand-2);
+}
+
+/* Code blocks */
+.vp-code {
+  background-color: var(--vp-code-block-bg);
+  color: var(--vp-c-text-1);
+}
+
+/* Home page hero */
+.VPHero {
+  background-color: var(--vp-c-bg);
+}
+
+.VPHero .name {
+  color: var(--vp-c-text-1);
+}
+
+.VPHero .text {
+  color: var(--vp-c-brand-1);
+}
+
+.VPHero .tagline {
+  color: var(--vp-c-text-2);
+}

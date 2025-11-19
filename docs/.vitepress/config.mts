@@ -27,6 +27,9 @@ export default defineConfig({
     // https://vitepress.dev/reference/default-theme-config
     logo: '/assets/icons/android-chrome-192x192.png',
     
+    // Force dark theme only
+    appearance: false, // Disable theme toggle
+    
     nav: [
       { text: 'Home', link: '/' },
       { text: 'Guide', link: '/guide' },
@@ -130,10 +133,7 @@ export default defineConfig({
   ],
   
   markdown: {
-    theme: {
-      light: 'github-light',
-      dark: 'github-dark'
-    },
+    theme: 'github-dark-dimmed',
     config: (md) => {
       // Override image rendering to use HTML instead of imports
       const defaultImageRender = md.renderer.rules.image || function(tokens, idx, options, env, self) {

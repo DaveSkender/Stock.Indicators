@@ -5,12 +5,12 @@ description: Created by John Bollinger, the Bollinger Bands price channels depic
 
 
 
-# 
+# {{ $frontmatter.title }}
 
 Created by John Bollinger, [Bollinger Bands](https://en.wikipedia.org/wiki/Bollinger_Bands) price channels depict volatility as standard deviation boundary line range from a moving average of price.  Bollinger Bands&#174; is a registered trademark of John A. Bollinger.
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/267 "Community discussion about this indicator")
 
-<img src="/assets/charts/BollingerBands.png" alt="chart for " />
+<img src="/assets/charts/BollingerBands.png" alt="chart for Bollinger Bands<img src="/assets/charts/BollingerBands.png" alt="chart for Bollinger Bands&#174;" />#174;" />
 
 ```csharp
 // C# usage syntax
