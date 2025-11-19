@@ -7,6 +7,10 @@ export default defineConfig({
   title: "Stock Indicators for .NET",
   description: "Transform price quotes into trading insights.",
   
+  sitemap: {
+    hostname: 'https://dotnet.stockindicators.dev'
+  },
+  
   head: [
     ['link', { rel: 'icon', href: '/favicon.ico' }],
     ['link', { rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' }],
