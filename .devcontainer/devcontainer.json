@@ -48,8 +48,8 @@
         "DotJoshJohnson.xml",
         "EditorConfig.EditorConfig",
         "github.vscode-github-actions",
-        "GitHub.copilot",
-        "ms-dotnettools.vscodeintellicode-csharp",
+        "GitHub.copilot-chat",
+        "ms-dotnettools.csdevkit",
         "redhat.vscode-yaml"
       ]
     }
