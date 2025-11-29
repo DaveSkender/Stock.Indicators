@@ -5,7 +5,7 @@ public class VpvrResult : ResultBase
 {
     private VpvrResult? previousResult;
 
-    // internal cumulative store (shared) kept for incremental updates but not used for final aggregation
+    // internal cumulative store kept per-result to avoid shared mutable state
     private Dictionary<decimal, decimal> _cumulative;
 
     public VpvrResult(IQuote quote, VpvrResult? previousResult)
@@ -22,8 +22,10 @@ public class VpvrResult : ResultBase
         Low = quote.Low;
         Volume = quote.Volume;
 
-        // share cumulative dictionary with previous result to avoid expensive copying when updating incrementally
-        _cumulative = previousResult?._cumulative ?? new Dictionary<decimal, decimal>();
+        // copy cumulative totals from previous result (do not share the same dictionary)
+        _cumulative = previousResult?._cumulative != null
+            ? new Dictionary<decimal, decimal>(previousResult._cumulative)
+            : new Dictionary<decimal, decimal>();
     }
 
     public decimal High { get; private set; }
@@ -37,7 +39,7 @@ public class VpvrResult : ResultBase
         internal set {
             _volumeProfile = value ?? Array.Empty<VpvrValue>();
 
-            // update cumulative totals incrementally (shared dictionary)
+            // update cumulative totals incrementally (per-result dictionary)
             foreach (VpvrValue item in _volumeProfile)
             {
                 if (_cumulative.ContainsKey(item.Price))
@@ -51,11 +53,11 @@ public class VpvrResult : ResultBase
             }
 
             // ensure totals sum exactly to previous total + this.Volume to avoid tiny rounding errors
-            decimal previousTotal = previousResult?._cumulative.Sum(kvp => kvp.Value) ?? 0M;
+            decimal previousTotal = previousResult?._cumulative.Sum(kvp => kvp.Value) ??0M;
             decimal expectedTotal = previousTotal + this.Volume;
             decimal currentTotal = _cumulative.Sum(kvp => kvp.Value);
             decimal diff = expectedTotal - currentTotal;
-            if (diff != 0M && _cumulative.Count > 0)
+            if (diff !=0M && _cumulative.Count >0)
             {
                 decimal maxKey = _cumulative.Keys.Max();
                 _cumulative[maxKey] += diff;
@@ -66,46 +68,7 @@ public class VpvrResult : ResultBase
     public IEnumerable<VpvrValue> CumulativeVolumeProfile
     {
         get {
-            // aggregate from chain into a local dictionary to avoid shared-state errors
-            Dictionary<decimal, decimal> totals = new Dictionary<decimal, decimal>();
-
-            VpvrResult? node = this;
-            // walk back through previous results and aggregate each VolumeProfile
-            while (node != null)
-            {
-                foreach (VpvrValue item in node.VolumeProfile)
-                {
-                    if (totals.ContainsKey(item.Price))
-                    {
-                        totals[item.Price] += item.Volume;
-                    }
-                    else
-                    {
-                        totals[item.Price] = item.Volume;
-                    }
-                }
-
-                node = node.previousResult;
-            }
-
-            // ensure totals sum exactly to sum of volumes of chain (defensive adjustment)
-            decimal expected = 0M;
-            node = this;
-            while (node != null)
-            {
-                expected += node.Volume;
-                node = node.previousResult;
-            }
-
-            decimal current = totals.Sum(kvp => kvp.Value);
-            decimal remainder = expected - current;
-            if (remainder != 0M && totals.Count > 0)
-            {
-                decimal maxKey = totals.Keys.Max();
-                totals[maxKey] += remainder;
-            }
-
-            List<VpvrValue> vpvrValues = totals.Select((kvp) => new VpvrValue(kvp.Key, kvp.Value)).ToList();
+            List<VpvrValue> vpvrValues = _cumulative.Select((kvp) => new VpvrValue(kvp.Key, kvp.Value)).ToList();
             vpvrValues.Sort((first, second) => first.Price.CompareTo(second.Price));
             return vpvrValues;
         }
