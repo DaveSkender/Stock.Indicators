@@ -65,7 +65,7 @@ Rules for Last updated element:
 
 - Use only for specification, instructional, and developer documentation.
   - **Do not include on:**
-    - Markdown files used as website source pages (e.g. Jekyll in `docs/**`)
+    - Markdown files used as website source pages (e.g. VitePress in `docs/**`)
     - Spec Kit files (`.specify/**`, `.github/prompts/speckit.*`)
     - Feature specification files (`.specify/specs/**`)
   - **Do include on:** instruction files (`.github/instructions/**`), repository root documentation

@@ -20,7 +20,7 @@ This repository hosts **Stock Indicators for .NET**, the production source for t
 ├── tests/                 # Unit, integration, performance, and simulation suites
 └── Stock.Indicators.sln   # Primary solution for src + tests
 .
-├── docs/                  # Public documentation site (Jekyll)
+├── docs/                  # Public documentation site (VitePress)
 └── .specify/              # Spec Kit configuration and active specifications
 ```
 

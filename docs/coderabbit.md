@@ -84,7 +84,7 @@ The configuration respects existing development tools:
 - **EditorConfig**: Follows established formatting rules
 - **.NET Analyzers**: Coordinates with existing code quality rules
 - **GitHub Actions**: Works alongside CI/CD workflows
-- **Jekyll**: Understands documentation site requirements
+- **VitePress**: Understands documentation site requirements
 
 ## Review Templates
 
@@ -101,7 +101,7 @@ The configuration excludes files that don't require review:
 - Generated code (`*.Designer.cs`, `*.g.cs`)
 - Build artifacts (`bin/`, `obj/`)
 - Third-party dependencies (`node_modules/`, `packages/`)
-- Cache directories (`.vs/`, `.jekyll-cache/`)
+- Cache directories (`.vs/`, `.vitepress/cache/`)
 - Manual calculation spreadsheets (`*.Calc.xlsx`)
 
 ## Metrics and Reporting

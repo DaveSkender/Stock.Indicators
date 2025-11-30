@@ -33,7 +33,8 @@ reviews:
   # Automatic review scheduling
   auto_review:
     enabled: true
-    drafts: false
+    auto_incremental_review: true     # Review each push (default: true)
+    drafts: false                     # Review Draft pull requests (default: false)
     base_branches:
       - ".*"
 
@@ -61,49 +62,11 @@ reviews:
     - `docs: Improve API examples` (not "Update documentation files")
     - `chore: Update dependencies` (when that's the sole purpose)
 
-  # Code enhancement features
-  finishing_touches:
-    docstrings:
-      enabled: false              # Generate docstrings for PRs/MRs (default: true)
-    unit_tests:
-      enabled: false              # Generate unit tests for PRs/MRs (default: true)
-
-  # Pre-merge validation checks
-  pre_merge_checks:
-    docstrings:                   # Docstring coverage check (default: warning)
-      mode: off
-    description:                  # PR description validation (default: warning)
-      mode: off
-    issue_assessment:             # Linked issue assessment (default: warning)
-      mode: off
-    title:                        # PR title validation (default: warning)
-      mode: off
-
-  # Files to include/exclude from reviews
-  path_filters:
-    - "**"                    # Include all (base)
-    - "!.specify/scripts/"    # Spec Kit (except memory)
-    - "!.specify/templates/"  # Spec Kit (except memory)
-    - "!.github/prompts/speckit.*"  # Spec Kit prompts
-    - "!**/_testdata/**/*.csv"      # Test data
-    - "!**/_testdata/**/*.json"     # Test data
-    - "!node_modules/"        # NPM dependencies
-    - "!*-lock.json"          # NPM/PNPM lock files
-    - "!packages/"            # NuGet packages cache
-    - "!.jekyll-cache/"       # Jekyll cache
-    - "!vendor/"              # Ruby vendor gem files
-    - "!Gemfile.lock"         # Ruby dependencies lock
-    - "!bin/"                 # .NET build output
-    - "!obj/"                 # .NET build intermediate files
-    - "!*.g.cs"               # Generated source files
-    - "!*.xlsx"               # Manual calculation spreadsheets
-    - "!*.bak"                # Backup files
-
-  # Path-based configuration
+# Path-based configuration
   path_instructions:
 
     # Indicator documentation pages must stay aligned with the current API surface
-    - path: "docs/_indicators/*.md"
+    - path: "docs/indicators/*.md"
       instructions: |
         Keep each indicator page synchronized with its public API:
         - Refresh the primary usage example (extension method and `Get{Indicator}` call) to match the latest signature and defaults
@@ -155,14 +118,15 @@ reviews:
         - **Link validity**: Check for broken internal/external links
         - **Mathematical formulas**: Verify calculation descriptions are correct
 
-    # Jekyll site files
-    - path: "docs/**/*.{html,liquid,scss,js}"
+    # VitePress site files
+    - path: "docs/**/*.{html,vue,mts,ts,js,css}"
       instructions: |
         Focus on:
         - **Accessibility**: WCAG compliance, semantic HTML, proper ARIA labels
         - **Performance**: Optimize images, minimize CSS/JS, efficient loading
         - **Mobile responsiveness**: Ensure layouts work across devices
         - **SEO**: Check meta tags, structured data, semantic markup
+        - **VitePress patterns**: Follow VitePress conventions and Vue best practices
 
     # Configuration and workflow files
     - path: ".github/**/*.yml"
@@ -182,6 +146,44 @@ reviews:
         - **Performance**: Compiler optimizations enabled for release builds
         - **Analyzers**: Code quality rules properly configured
         - **Packaging**: NuGet metadata complete and accurate
+
+  # Code enhancement features
+  finishing_touches:
+    docstrings:
+      enabled: false              # Generate docstrings for PRs/MRs (default: true)
+    unit_tests:
+      enabled: false              # Generate unit tests for PRs/MRs (default: true)
+
+  # Pre-merge validation checks
+  pre_merge_checks:
+    docstrings:                   # Docstring coverage check (default: warning)
+      mode: off
+    description:                  # PR description validation (default: warning)
+      mode: off
+    issue_assessment:             # Linked issue assessment (default: warning)
+      mode: off
+    title:                        # PR title validation (default: warning)
+      mode: off
+
+  # Files to include/exclude from reviews
+  path_filters:
+    - "**"                    # Include all (base)
+    - "!node_modules/"        # NPM dependencies
+    - "!*-lock.json"          # NPM/PNPM lock files
+    - "!packages/"            # NuGet packages cache
+    - "!.jekyll-cache/"       # Jekyll cache
+    - "!vendor/"              # Ruby vendor and gem files
+    - "!Gemfile.lock"         # Ruby dependencies lock
+    - "!.vitepress/cache/"    # VitePress cache
+    - "!.vitepress/dist/"     # VitePress build output
+    - "!bin/"                 # .NET build output
+    - "!obj/"                 # .NET build intermediate files
+    - "!*.g.cs"               # Generated source code
+    - "!*.docx"               # Office Word
+    - "!*.pptx"               # Office PowerPoint
+    - "!*.xlsx"               # Office Spreadsheets
+    - "!*.bak"                # Backup files
+    - "!*.zip"                # Compressed files
 
   # Tool integrations
   tools:

@@ -120,7 +120,7 @@ export default defineConfig({
     }
   },
 
-  // Exclude Jekyll and build directories
+  // Exclude legacy Jekyll directories and build artifacts
   srcExclude: [
     'vendor/**',
     '.bundle/**',

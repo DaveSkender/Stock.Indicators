@@ -101,23 +101,22 @@ When reviewing PRs with baseline changes, verify the reason is documented, revie
 
 ## Documentation
 
-This site uses [Jekyll](https://jekyllrb.com) construction with _Front Matter_.
+This site uses [VitePress](https://vitepress.dev) with Vue components and Markdown.
 Our documentation site code is in the `docs` folder.
 Build the site locally to test that it works properly.
-See [Ruby Jekyll documentation](https://jekyllrb.com/docs) for initial setup.
 
 ```bash
 # from /docs folder
-bundle install
-bundle exec jekyll serve -o -l
+npm install
+npm run docs:dev
 
-# the site will open http://127.0.0.1:4000
+# the site will open at http://localhost:5173/
 ```
 
 When adding or updating indicators:
 
-- Add or update the `/docs/_indicators/` documentation files.
-- Page image assets go here: `/docs/assets/` and can be optimized to `webp` format using [ImageMagick](https://imagemagick.org) or the [cwebp Encoder CLI](https://developers.google.com/speed/webp/docs/cwebp) and a command like `cwebp -resize 832 0 -q 100 examples.png -o examples-832.webp`
+- Add or update the `/docs/indicators/` documentation files.
+- Page image assets go in `/docs/.vitepress/public/assets/` and can be optimized to `webp` format using [ImageMagick](https://imagemagick.org) or the [cwebp Encoder CLI](https://developers.google.com/speed/webp/docs/cwebp) and a command like `cwebp -resize 832 0 -q 100 examples.png -o examples-832.webp`
 
 ### Accessibility testing
 
@@ -125,7 +124,7 @@ When adding or updating indicators:
 - build the site locally (see above), then:
 
 ```bash
-npx pa11y-ci --sitemap http://127.0.0.1:4000/sitemap.xml
+npx pa11y-ci --sitemap http://localhost:5173/sitemap.xml
 ```
 
 ## Submitting changes

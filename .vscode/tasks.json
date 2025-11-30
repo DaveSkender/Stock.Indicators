@@ -70,36 +70,25 @@
     },
 
     {
-      "label": "Restore: Ruby packages",
-      "detail": "Install Ruby gems for docs site (Jekyll)",
+      "label": "Restore: Docs packages",
+      "detail": "Install npm packages for docs site (VitePress)",
       "type": "shell",
-      "command": "bundle install --jobs 4 && bundle clean --force",
+      "command": "npm install",
       "options": {
-        "cwd": "${workspaceFolder}/docs",
-        "env": {
-          "BUNDLE_GEMFILE": "${workspaceFolder}/docs/Gemfile",
-          "BUNDLE_PATH": "${workspaceFolder}/docs/vendor/bundle"
-        }
+        "cwd": "${workspaceFolder}/docs"
       },
-      "problemMatcher": {
-        "owner": "bundle",
-        "fileLocation": "relative",
-        "pattern": { "regexp": "^(.*):(\\d+):\\s+(.*)$", "file": 1, "line": 2, "message": 3 }
-      },
+      "problemMatcher": [],
       "presentation": { "group": "install" }
     },
     {
-      "label": "Update: Ruby packages",
-      "detail": "Update Ruby gems conservatively and clean",
+      "label": "Update: Docs packages",
+      "detail": "Update npm packages for docs site",
       "type": "shell",
-      "command": "bundle lock --add-platform x86_64-linux x64-mingw-ucrt && bundle update --conservative && bundle clean --force",
+      "command": "npm update",
       "options": {
-        "cwd": "${workspaceFolder}/docs",
-        "env": {
-          "BUNDLE_GEMFILE": "${workspaceFolder}/docs/Gemfile",
-          "BUNDLE_PATH": "${workspaceFolder}/docs/vendor/bundle"
-        }
+        "cwd": "${workspaceFolder}/docs"
       },
+      "problemMatcher": [],
       "presentation": { "group": "install" }
     },
     {
@@ -337,20 +326,16 @@
     },
     {
       "label": "Run: Doc site with LiveReload",
-      "detail": "Serve Jekyll docs site with livereload",
+      "detail": "Serve VitePress docs site with hot reload",
       "type": "shell",
-      "command": "bundle exec jekyll serve --livereload --open-url",
-      "dependsOn": "Restore: Ruby packages",
+      "command": "npm run docs:dev -- --open",
+      "dependsOn": "Restore: Docs packages",
       "isBackground": true,
       "options": {
-        "cwd": "${workspaceFolder}/docs",
-        "env": {
-          "BUNDLE_GEMFILE": "${workspaceFolder}/docs/Gemfile",
-          "BUNDLE_PATH": "${workspaceFolder}/docs/vendor/bundle"
-        }
+        "cwd": "${workspaceFolder}/docs"
       },
       "problemMatcher": {
-        "owner": "jekyll",
+        "owner": "vitepress",
         "pattern": {
           "regexp": ".*",
           "file": 0,
@@ -360,8 +345,8 @@
         },
         "background": {
           "activeOnStart": true,
-          "beginsPattern": ".*Configuration file:.*_config.yml.*",
-          "endsPattern": ".*Server running.*"
+          "beginsPattern": ".*vitepress.*",
+          "endsPattern": ".*Local:.*http.*"
         }
       },
       "presentation": {
@@ -372,20 +357,16 @@
     },
     {
       "label": "Run: Documentation site (serve)",
-      "detail": "Alias: run docs site (background) with simple readiness matcher",
+      "detail": "Alias: run VitePress docs site (background)",
       "type": "shell",
-      "command": "bundle exec jekyll serve --livereload",
-      "dependsOn": "Restore: Ruby packages",
+      "command": "npm run docs:dev",
+      "dependsOn": "Restore: Docs packages",
       "isBackground": true,
       "options": {
-        "cwd": "${workspaceFolder}/docs",
-        "env": {
-          "BUNDLE_GEMFILE": "${workspaceFolder}/docs/Gemfile",
-          "BUNDLE_PATH": "${workspaceFolder}/docs/vendor/bundle"
-        }
+        "cwd": "${workspaceFolder}/docs"
       },
       "problemMatcher": {
-        "owner": "jekyll",
+        "owner": "vitepress",
         "pattern": {
           "regexp": ".*",
           "file": 0,
@@ -395,8 +376,54 @@
         },
         "background": {
           "activeOnStart": true,
-          "beginsPattern": ".*Configuration file:.*_config.yml.*",
-          "endsPattern": ".*Server running.*"
+          "beginsPattern": ".*vitepress.*",
+          "endsPattern": ".*Local:.*http.*"
+        }
+      },
+      "presentation": {
+        "clear": true,
+        "panel": "dedicated",
+        "group": "hosted"
+      }
+    },
+    {
+      "label": "Build: Documentation site",
+      "detail": "Build VitePress docs site for production",
+      "type": "shell",
+      "command": "npm run docs:build",
+      "dependsOn": "Restore: Docs packages",
+      "options": {
+        "cwd": "${workspaceFolder}/docs"
+      },
+      "problemMatcher": [],
+      "presentation": {
+        "clear": true,
+        "panel": "shared"
+      }
+    },
+    {
+      "label": "Preview: Documentation site",
+      "detail": "Preview production build of VitePress docs site",
+      "type": "shell",
+      "command": "npm run docs:preview -- --open",
+      "dependsOn": "Build: Documentation site",
+      "isBackground": true,
+      "options": {
+        "cwd": "${workspaceFolder}/docs"
+      },
+      "problemMatcher": {
+        "owner": "vitepress",
+        "pattern": {
+          "regexp": ".*",
+          "file": 0,
+          "line": 0,
+          "column": 0,
+          "message": 0
+        },
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": ".*vitepress.*",
+          "endsPattern": ".*Local:.*http.*"
         }
       },
       "presentation": {

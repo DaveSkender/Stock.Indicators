@@ -1,10 +1,10 @@
-# Jekyll site
-_site/
-vendor/
-.bundle/
-
-# Vitepress
+# VitePress site
 node_modules/
 .vitepress/dist/
 .vitepress/cache/
 .vitepress/.temp/
+
+# Legacy Jekyll (can be removed after migration)
+_site/
+vendor/
+.bundle/
