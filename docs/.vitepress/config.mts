@@ -6,11 +6,11 @@ import handleAssetPaths from './plugins/handleAssetPaths.mts'
 export default defineConfig({
   title: "Stock Indicators for .NET",
   description: "Transform price quotes into trading insights.",
-  
+
   sitemap: {
     hostname: 'https://dotnet.stockindicators.dev'
   },
-  
+
   head: [
     ['link', { rel: 'icon', href: '/favicon.ico' }],
     ['link', { rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' }],
@@ -30,16 +30,17 @@ export default defineConfig({
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     logo: '/assets/icons/android-chrome-192x192.png',
-    
+
     // Force dark theme only
     appearance: false, // Disable theme toggle
-    
+
     nav: [
       { text: 'Home', link: '/' },
       { text: 'Guide', link: '/guide' },
       { text: 'Indicators', link: '/indicators' },
       { text: 'Utilities', link: '/utilities' },
-      { text: 'Examples', link: '/examples/' },
+      // TODO: Examples page needs VitePress conversion - currently excluded in srcExclude
+      // { text: 'Examples', link: '/examples/' },
     ],
 
     sidebar: {
@@ -95,11 +96,11 @@ export default defineConfig({
 
   srcDir: '.',
   outDir: '.vitepress/dist',
-  
+
   cleanUrls: true,
-  
+
   ignoreDeadLinks: true,
-  
+
   vite: {
     plugins: [handleAssetPaths()],
     server: {
@@ -118,7 +119,7 @@ export default defineConfig({
       }
     }
   },
-  
+
   // Exclude Jekyll and build directories
   srcExclude: [
     'vendor/**',
@@ -135,7 +136,7 @@ export default defineConfig({
     '_headers',
     'examples/**'
   ],
-  
+
   markdown: {
     theme: 'github-dark-dimmed',
     config: (md) => {
@@ -143,7 +144,7 @@ export default defineConfig({
       const defaultImageRender = md.renderer.rules.image || function(tokens, idx, options, env, self) {
         return self.renderToken(tokens, idx, options)
       }
-      
+
       md.renderer.rules.image = function (tokens, idx, options, env, self) {
         const token = tokens[idx]
         const srcIndex = token.attrIndex('src')

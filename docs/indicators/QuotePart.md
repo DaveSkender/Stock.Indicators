@@ -32,8 +32,6 @@ You must have at least 1 period of `quotes`.
 
 `quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/#historical-quotes) for more information.
 
-
-
 ## Response
 
 ```csharp

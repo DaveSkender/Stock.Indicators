@@ -3,8 +3,7 @@ title: Utilities and helpers
 description: The Stock Indicators for .NET library includes utilities to help you use and transform historical prices quotes and indicator results, and to create custom indicators.
 ---
 
-
-# 
+# {{ $frontmatter.title }}
 
 - [for historical quotes](#utilities-for-historical-quotes)
 - [for indicator results](#utilities-for-indicator-results)
@@ -24,8 +23,6 @@ var results = quotes
   .Use(CandlePart.HL2)
   .ToRsi(14);
 ```
-
-
 
 ### Sort quotes
 
@@ -77,8 +74,6 @@ CandleProperties candle = quote.ToCandle();
 // collection of quotes
 IReadOnlyList<CandleProperties> candles = quotes.ToCandles();
 ```
-
-
 
 ### Validate quote history
 

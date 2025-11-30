@@ -43,12 +43,9 @@ Categories include price trends, price channels, oscillators, stop and reverse, 
 
 ## Candlestick patterns {#candlestick-pattern}
 
-
 ### Other price patterns {#price-pattern}
 
-
 ## Volume-based {#volume-based}
-
 
 ## Moving averages {#moving-average}
 
@@ -82,4 +79,3 @@ Categories include price trends, price channels, oscillators, stop and reverse, 
 - [Mean square error](/indicators/Sma)
 - [R-Squared (Coefficient of Determination)](/indicators/Correlation)
 - [Z-Score](/indicators/StdDev)
-

@@ -41,8 +41,6 @@ IReadOnlyList<CandleResult>
 - `Price` is `Close` price; however, all OHLCV elements are included in `CandleProperties`.
 - There is no intrinsic basis or confirmation signal provided for this pattern.
 
-
-
 ### Utilities
 
 - [.Condense()](/utilities#condense)
