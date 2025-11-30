@@ -1,14 +1,14 @@
 namespace Skender.Stock.Indicators;
 
 [Serializable]
-public class VpvrResult : ResultBase
+public class VolumeProfileResult : ResultBase
 {
-    private VpvrResult? previousResult;
+    private VolumeProfileResult? previousResult;
 
     // internal cumulative store kept per-result to avoid shared mutable state
     private Dictionary<decimal, decimal> _cumulative;
 
-    public VpvrResult(IQuote quote, VpvrResult? previousResult)
+    public VolumeProfileResult(IQuote quote, VolumeProfileResult? previousResult)
     {
         this.previousResult = previousResult;
 
@@ -32,15 +32,15 @@ public class VpvrResult : ResultBase
     public decimal Low { get; private set; }
     public decimal Volume { get; private set; }
 
-    private IEnumerable<VpvrValue> _volumeProfile = Array.Empty<VpvrValue>();
-    public IEnumerable<VpvrValue> VolumeProfile
+    private IEnumerable<VolumeProfileValue> _volumeProfile = Array.Empty<VolumeProfileValue>();
+    public IEnumerable<VolumeProfileValue> VolumeProfile
     {
         get => _volumeProfile;
         internal set {
-            _volumeProfile = value ?? Array.Empty<VpvrValue>();
+            _volumeProfile = value ?? Array.Empty<VolumeProfileValue>();
 
             // update cumulative totals incrementally (per-result dictionary)
-            foreach (VpvrValue item in _volumeProfile)
+            foreach (VolumeProfileValue item in _volumeProfile)
             {
                 if (_cumulative.ContainsKey(item.Price))
                 {
@@ -65,19 +65,19 @@ public class VpvrResult : ResultBase
         }
     }
 
-    public IEnumerable<VpvrValue> CumulativeVolumeProfile
+    public IEnumerable<VolumeProfileValue> CumulativeVolumeProfile
     {
         get {
-            List<VpvrValue> vpvrValues = _cumulative.Select((kvp) => new VpvrValue(kvp.Key, kvp.Value)).ToList();
+            List<VolumeProfileValue> vpvrValues = _cumulative.Select((kvp) => new VolumeProfileValue(kvp.Key, kvp.Value)).ToList();
             vpvrValues.Sort((first, second) => first.Price.CompareTo(second.Price));
             return vpvrValues;
         }
     }
 }
 
-public class VpvrValue
+public class VolumeProfileValue
 {
-    public VpvrValue(decimal price, decimal volume)
+    public VolumeProfileValue(decimal price, decimal volume)
     {
         Price = price;
         Volume = volume;

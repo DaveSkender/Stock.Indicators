@@ -11,7 +11,7 @@ public class VpvrAnalysisTests : TestBase
  {
  // create series with typical precision used in other tests
  var results = quotes
- .GetVpvr(0.01M)
+ .GetVolumeProfile(0.01M)
  .ToList();
 
  // proper quantities
