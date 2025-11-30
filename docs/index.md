@@ -8,21 +8,18 @@ hero:
   text: for .NET
   tagline: Transform price quotes into trading insights
   image:
-    src: /assets/icons/android-chrome-192x192.png
+    src: /favicon.svg
     alt: Stock Indicators Logo
   actions:
     - theme: brand
       text: Get Started
       link: /guide
     - theme: alt
-      text: View Indicators
+      text: Indicators
       link: /indicators
-    - theme: alt
-      text: View on GitHub
-      link: https://github.com/DaveSkender/Stock.Indicators
 ---
 
-<p style="text-align:center; margin-top: 2rem;">
+<p style="display:flex; justify-content:left; gap:1rem; margin-top: 2rem; flex-wrap:wrap;">
 <a href="https://www.nuget.org/packages/Skender.Stock.Indicators" aria-label="Get the NuGet package."><img src="https://img.shields.io/nuget/v/skender.stock.indicators?logo=NuGet&label=NuGet%20Package&color=blue&cacheSeconds=259200" alt="NuGet Package" width="170" height="20" /></a>
 <a href="https://www.nuget.org/packages/Skender.Stock.Indicators" aria-label="Read more about package downloads."><img src="https://img.shields.io/nuget/dt/skender.stock.indicators?logo=NuGet&label=Downloads&cacheSeconds=259200" alt="Downloads" width="130" height="20" /></a>
 </p>
