@@ -53,15 +53,16 @@
       "problemMatcher": []
     },
     {
-      "label": "Restore: All code dependencies",
+      "label": "Install: All code dependencies",
       "detail": "Restore .NET packages",
       "dependsOn": [
-        "Restore: .NET packages"
+        "Install: .NET packages",
+        "Install: NPM (pnpm) packages"
       ],
       "dependsOrder": "parallel"
     },
     {
-      "label": "Restore: .NET packages",
+      "label": "Install: .NET packages",
       "detail": "Restore NuGet packages for solution",
       "type": "shell",
       "command": "dotnet restore",
@@ -70,10 +71,10 @@
     },
 
     {
-      "label": "Restore: Docs packages",
+      "label": "Install: NPM (pnpm) packages",
       "detail": "Install npm packages for docs site (VitePress)",
       "type": "shell",
-      "command": "npm install",
+      "command": "pnpm install",
       "options": {
         "cwd": "${workspaceFolder}/docs"
       },
@@ -81,10 +82,10 @@
       "presentation": { "group": "install" }
     },
     {
-      "label": "Update: Docs packages",
-      "detail": "Update npm packages for docs site",
+      "label": "Update: NPM (pnpm) packages",
+      "detail": "Update pnpm packages for docs site",
       "type": "shell",
-      "command": "npm update",
+      "command": "pnpm update",
       "options": {
         "cwd": "${workspaceFolder}/docs"
       },
@@ -169,7 +170,7 @@
       "label": "Lint: Markdown files",
       "detail": "Run markdownlint over documentation",
       "type": "shell",
-      "command": "echo y | npx markdownlint-cli2",
+      "command": "echo y | pnpm dlx markdownlint-cli2",
       "group": "test",
       "problemMatcher": "$markdownlint",
       "presentation": { "group": "analysis" }
@@ -178,7 +179,7 @@
       "label": "Lint: Markdown files (fix)",
       "detail": "Auto-fix markdown formatting issues",
       "type": "shell",
-      "command": "echo y | npx markdownlint-cli2 --fix",
+      "command": "echo y | pnpm dlx markdownlint-cli2 --fix",
       "group": "none",
       "problemMatcher": "$markdownlint",
       "presentation": { "group": "analysis" }
@@ -328,8 +329,8 @@
       "label": "Run: Doc site with LiveReload",
       "detail": "Serve VitePress docs site with hot reload",
       "type": "shell",
-      "command": "npm run docs:dev -- --open",
-      "dependsOn": "Restore: Docs packages",
+      "command": "pnpm run docs:dev -- --open",
+      "dependsOn": "Install: NPM (pnpm) packages",
       "isBackground": true,
       "options": {
         "cwd": "${workspaceFolder}/docs"
@@ -359,8 +360,8 @@
       "label": "Run: Documentation site (serve)",
       "detail": "Alias: run VitePress docs site (background)",
       "type": "shell",
-      "command": "npm run docs:dev",
-      "dependsOn": "Restore: Docs packages",
+      "command": "pnpm run docs:dev",
+      "dependsOn": "Install: NPM (pnpm) packages",
       "isBackground": true,
       "options": {
         "cwd": "${workspaceFolder}/docs"
@@ -390,8 +391,8 @@
       "label": "Build: Documentation site",
       "detail": "Build VitePress docs site for production",
       "type": "shell",
-      "command": "npm run docs:build",
-      "dependsOn": "Restore: Docs packages",
+      "command": "pnpm run docs:build",
+      "dependsOn": "Install: NPM (pnpm) packages",
       "options": {
         "cwd": "${workspaceFolder}/docs"
       },
@@ -405,7 +406,7 @@
       "label": "Preview: Documentation site",
       "detail": "Preview production build of VitePress docs site",
       "type": "shell",
-      "command": "npm run docs:preview -- --open",
+      "command": "pnpm run docs:preview -- --open",
       "dependsOn": "Build: Documentation site",
       "isBackground": true,
       "options": {
@@ -446,7 +447,7 @@
       }
     },
     {
-      "label": "Run: Simulation Demo",
+      "label": "Run: Simulation demo",
       "detail": "Run streaming indicators simulation demo",
       "type": "shell",
       "command": "dotnet run --project tools/simulate/Test.Simulation.csproj",

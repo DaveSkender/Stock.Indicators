@@ -46,8 +46,45 @@ export default defineConfig({
     sidebar: {
       '/guide': [
         {
-          text: 'Guide and Pro Tips',
+          text: 'Documentation',
           items: [
+            { text: 'Indicators', link: '/indicators' },
+            { text: 'Getting Started', link: '/guide' },
+            { text: 'Utilities', link: '/utilities' },
+            { text: 'Performance', link: '/performance' },
+            { text: 'Contributing', link: '/contributing' },
+          ]
+        }
+      ],
+      '/utilities': [
+        {
+          text: 'Documentation',
+          items: [
+            { text: 'Indicators', link: '/indicators' },
+            { text: 'Getting Started', link: '/guide' },
+            { text: 'Utilities', link: '/utilities' },
+            { text: 'Performance', link: '/performance' },
+            { text: 'Contributing', link: '/contributing' },
+          ]
+        }
+      ],
+      '/performance': [
+        {
+          text: 'Documentation',
+          items: [
+            { text: 'Indicators', link: '/indicators' },
+            { text: 'Getting Started', link: '/guide' },
+            { text: 'Utilities', link: '/utilities' },
+            { text: 'Performance', link: '/performance' },
+            { text: 'Contributing', link: '/contributing' },
+          ]
+        }
+      ],
+      '/contributing': [
+        {
+          text: 'Documentation',
+          items: [
+            { text: 'Indicators', link: '/indicators' },
             { text: 'Getting Started', link: '/guide' },
             { text: 'Utilities', link: '/utilities' },
             { text: 'Performance', link: '/performance' },
@@ -57,6 +94,16 @@ export default defineConfig({
       ],
       '/indicators': [
         {
+          text: 'Documentation',
+          items: [
+            { text: 'Indicators', link: '/indicators' },
+            { text: 'Getting Started', link: '/guide' },
+            { text: 'Utilities', link: '/utilities' },
+            { text: 'Performance', link: '/performance' },
+            { text: 'Contributing', link: '/contributing' },
+          ]
+        },
+        {
           text: 'Indicators',
           items: [
             { text: 'Overview', link: '/indicators' },
@@ -64,7 +111,7 @@ export default defineConfig({
         },
         {
           text: 'Moving Averages',
-          collapsed: false,
+          collapsed: true,
           items: [
             { text: 'Arnaud Legoux Moving Average', link: '/indicators/Alma' },
             { text: 'Double Exponential Moving Average', link: '/indicators/Dema' },
@@ -85,7 +132,7 @@ export default defineConfig({
         },
         {
           text: 'Oscillators',
-          collapsed: false,
+          collapsed: true,
           items: [
             { text: 'Awesome Oscillator', link: '/indicators/Awesome' },
             { text: 'Balance of Power', link: '/indicators/Bop' },
@@ -111,7 +158,7 @@ export default defineConfig({
         },
         {
           text: 'Price Channels',
-          collapsed: false,
+          collapsed: true,
           items: [
             { text: 'Bollinger Bands', link: '/indicators/BollingerBands' },
             { text: 'Donchian Channels', link: '/indicators/Donchian' },
@@ -125,7 +172,7 @@ export default defineConfig({
         },
         {
           text: 'Price Trends',
-          collapsed: false,
+          collapsed: true,
           items: [
             { text: 'Average Directional Index', link: '/indicators/Adx' },
             { text: 'Williams Alligator', link: '/indicators/Alligator' },
@@ -145,7 +192,7 @@ export default defineConfig({
         },
         {
           text: 'Stop & Reverse',
-          collapsed: false,
+          collapsed: true,
           items: [
             { text: 'Parabolic SAR', link: '/indicators/ParabolicSar' },
             { text: 'Volatility Stop', link: '/indicators/VolatilityStop' },
@@ -153,7 +200,7 @@ export default defineConfig({
         },
         {
           text: 'Volume Based',
-          collapsed: false,
+          collapsed: true,
           items: [
             { text: 'Accumulation Distribution Line', link: '/indicators/Adl' },
             { text: 'Chaikin Oscillator', link: '/indicators/ChaikinOsc' },
@@ -167,7 +214,7 @@ export default defineConfig({
         },
         {
           text: 'Price Characteristics',
-          collapsed: false,
+          collapsed: true,
           items: [
             { text: 'Average True Range', link: '/indicators/Atr' },
             { text: 'Beta', link: '/indicators/Beta' },
@@ -181,7 +228,7 @@ export default defineConfig({
         },
         {
           text: 'Candlestick Patterns',
-          collapsed: false,
+          collapsed: true,
           items: [
             { text: 'Doji', link: '/indicators/Doji' },
             { text: 'Marubozu', link: '/indicators/Marubozu' },
@@ -189,7 +236,7 @@ export default defineConfig({
         },
         {
           text: 'Price Transforms',
-          collapsed: false,
+          collapsed: true,
           items: [
             { text: 'Ehlers Fisher Transform', link: '/indicators/FisherTransform' },
             { text: 'Heikin Ashi', link: '/indicators/HeikinAshi' },
@@ -200,7 +247,7 @@ export default defineConfig({
         },
         {
           text: 'Price Patterns',
-          collapsed: false,
+          collapsed: true,
           items: [
             { text: 'Williams Fractal', link: '/indicators/Fractal' },
           ]
@@ -210,8 +257,6 @@ export default defineConfig({
 
     socialLinks: [
       { icon: 'github', link: 'https://github.com/DaveSkender/Stock.Indicators' },
-      { icon: 'twitter', link: 'https://twitter.com/daveskender' },
-      { icon: 'linkedin', link: 'https://www.linkedin.com/in/skender' },
     ],
 
     footer: {

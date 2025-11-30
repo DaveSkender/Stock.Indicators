@@ -3,13 +3,14 @@
   "version": "1.0.0",
   "description": "Stock Indicators for .NET documentation",
   "type": "module",
+  "packageManager": "pnpm@10.24.0",
   "scripts": {
     "docs:dev": "vitepress dev",
     "docs:build": "vitepress build",
     "docs:preview": "vitepress preview"
   },
   "devDependencies": {
-    "vitepress": "2.0.0-alpha.13",
-    "vue": "^3.5.0"
+    "vitepress": "2.0.0-alpha.15",
+    "vue": "3.5.25"
   }
 }

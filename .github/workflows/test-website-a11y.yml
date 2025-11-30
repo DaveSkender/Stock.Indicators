@@ -26,33 +26,39 @@ jobs:
       - name: Checkout source
         uses: actions/checkout@v5
 
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.24.0
+          run_install: false
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-          cache: 'npm'
-          cache-dependency-path: docs/package-lock.json
+          cache: 'pnpm'
+          cache-dependency-path: docs/pnpm-lock.yaml
 
       - name: Install dependencies
-        run: npm ci
+        run: pnpm install --frozen-lockfile
 
       - name: Build site
-        run: npm run docs:build
+        run: pnpm run docs:build
 
       - name: Serve site
-        run: npm run docs:preview &
-        
+        run: pnpm run docs:preview &
+
       - name: Wait for server
         run: sleep 5
 
       - name: Show environment
-        run: npx pa11y --environment
+        run: pnpm dlx pa11y --environment
 
       - name: Test accessibility
         run: >
-          npx pa11y-ci
+          pnpm dlx pa11y-ci
           --sitemap http://localhost:4173/sitemap.xml
-          
+
       - name: Kill site (failsafe)
         if: always()
         run: pkill -f vitepress

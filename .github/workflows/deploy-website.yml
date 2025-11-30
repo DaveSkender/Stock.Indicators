@@ -26,15 +26,21 @@ jobs:
       - name: Checkout source
         uses: actions/checkout@v5
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v6
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
         with:
-          node-version: 24
-          cache: "npm"
-          cache-dependency-path: docs/package-lock.json
+          version: 10.24.0
+          run_install: false
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "pnpm"
+          cache-dependency-path: docs/pnpm-lock.yaml
 
       - name: Install dependencies
-        run: npm ci
+        run: pnpm install --frozen-lockfile
 
       - name: Define tag
         id: tag
@@ -42,13 +48,13 @@ jobs:
 
       - name: Build site (production)
         if: github.ref == 'refs/heads/main'
-        run: npm run docs:build
+        run: pnpm run docs:build
         env:
           NODE_ENV: production
 
       - name: Build site (preview)
         if: github.ref != 'refs/heads/main'
-        run: npm run docs:build
+        run: pnpm run docs:build
 
       - name: Publish to Cloudflare Pages
         id: deploy
