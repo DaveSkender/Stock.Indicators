@@ -3,7 +3,7 @@ using System.Collections.ObjectModel;
 namespace Tests.Common;
 
 [TestClass]
-public class TransformTests : TestBase
+public class Transforms : TestBase
 {
     [TestMethod]
     public void ToCollection()
@@ -13,8 +13,8 @@ public class TransformTests : TestBase
             .ToCollection();
 
         Assert.IsNotNull(collection);
-        Assert.AreEqual(502, collection.Count);
-        Assert.AreEqual(collection.LastOrDefault().Close, 245.28m);
+        Assert.HasCount(502, collection);
+        Assert.AreEqual(245.28m, collection.LastOrDefault().Close);
     }
 
     // null ToCollection
@@ -23,7 +23,7 @@ public class TransformTests : TestBase
     {
         List<Quote> nullQuotes = null;
 
-        Assert.ThrowsException<ArgumentNullException>(()
-            => nullQuotes.ToCollection());
+        Assert.ThrowsExactly<ArgumentNullException>(
+            () => nullQuotes.ToCollection());
     }
 }

@@ -16,8 +16,10 @@ concurrency:
 jobs:
   lock:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
+
     steps:
-      - uses: dessant/lock-threads@v5
+      - uses: dessant/lock-threads@v5.0.1
         with:
           process-only: issues, prs
           issue-inactive-days: "90"

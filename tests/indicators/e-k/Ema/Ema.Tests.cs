@@ -11,7 +11,7 @@ public class EmaTests : TestBase
             .ToList();
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
         Assert.AreEqual(483, results.Count(x => x.Ema != null));
 
         // sample values
@@ -33,9 +33,9 @@ public class EmaTests : TestBase
             .GetEma(20)
             .ToList();
 
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
         Assert.AreEqual(483, results.Count(x => x.Ema != null));
-        Assert.AreEqual(0, results.Count(x => x.Ema is double and double.NaN));
+        Assert.IsEmpty(results.Where(x => x.Ema is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -45,8 +45,8 @@ public class EmaTests : TestBase
             .GetEma(6)
             .ToList();
 
-        Assert.AreEqual(200, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Ema is double and double.NaN));
+        Assert.HasCount(200, r);
+        Assert.IsEmpty(r.Where(x => x.Ema is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -57,9 +57,9 @@ public class EmaTests : TestBase
             .GetEma(20)
             .ToList();
 
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
         Assert.AreEqual(482, results.Count(x => x.Ema != null));
-        Assert.AreEqual(0, results.Count(x => x.Ema is double and double.NaN));
+        Assert.IsEmpty(results.Where(x => x.Ema is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -70,9 +70,9 @@ public class EmaTests : TestBase
             .GetSma(10)
             .ToList();
 
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
         Assert.AreEqual(474, results.Count(x => x.Sma != null));
-        Assert.AreEqual(0, results.Count(x => x.Sma is double and double.NaN));
+        Assert.IsEmpty(results.Where(x => x.Sma is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -117,9 +117,9 @@ public class EmaTests : TestBase
             .ToList();
 
         // assertions
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
         Assert.AreEqual(469, results.Count(x => x.Ema != null));
-        Assert.AreEqual(0, results.Count(x => x.Ema is double and double.NaN));
+        Assert.IsEmpty(results.Where(x => x.Ema is double v && double.IsNaN(v)));
 
         // sample values
         EmaResult r32 = results[32];
@@ -144,7 +144,7 @@ public class EmaTests : TestBase
             .ToList();
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
         Assert.AreEqual(483, results.Count(x => x.Ema != null));
 
         // sample values
@@ -165,8 +165,8 @@ public class EmaTests : TestBase
             .GetEma(15)
             .ToList();
 
-        Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Ema is double and double.NaN));
+        Assert.HasCount(502, r);
+        Assert.IsEmpty(r.Where(x => x.Ema is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -176,13 +176,13 @@ public class EmaTests : TestBase
             .GetEma(10)
             .ToList();
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         List<EmaResult> r1 = onequote
             .GetEma(10)
             .ToList();
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     [TestMethod]
@@ -194,7 +194,7 @@ public class EmaTests : TestBase
             .ToList();
 
         // assertions
-        Assert.AreEqual(502 - (20 + 100), results.Count);
+        Assert.HasCount(502 - (20 + 100), results);
 
         EmaResult last = results.LastOrDefault();
         Assert.AreEqual(249.3519, last.Ema.Round(4));
@@ -204,12 +204,12 @@ public class EmaTests : TestBase
     public void Exceptions()
     {
         // bad lookback period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetEma(0));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetEma(0));
 
         // null quote added
         EmaBase emaBase = quotes.InitEma(14);
-        Assert.ThrowsException<InvalidQuotesException>(() =>
+        Assert.ThrowsExactly<InvalidQuotesException>(() =>
         emaBase.Add(null));
     }
 }

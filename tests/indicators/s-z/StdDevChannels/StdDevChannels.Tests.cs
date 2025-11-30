@@ -14,10 +14,10 @@ public class StdDevChannelsTests : TestBase
             .ToList();
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(500, results.Count(x => x.Centerline != null));
-        Assert.AreEqual(500, results.Count(x => x.UpperChannel != null));
-        Assert.AreEqual(500, results.Count(x => x.LowerChannel != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(500, results.Where(x => x.Centerline != null));
+        Assert.HasCount(500, results.Where(x => x.UpperChannel != null));
+        Assert.HasCount(500, results.Where(x => x.LowerChannel != null));
 
         // sample value
         StdDevChannelsResult r1 = results[1];
@@ -73,11 +73,11 @@ public class StdDevChannelsTests : TestBase
             .ToList();
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(502, results.Count(x => x.Centerline != null));
-        Assert.AreEqual(502, results.Count(x => x.UpperChannel != null));
-        Assert.AreEqual(502, results.Count(x => x.LowerChannel != null));
-        Assert.AreEqual(501, results.Count(x => x.BreakPoint == false));
+        Assert.HasCount(502, results);
+        Assert.HasCount(502, results.Where(x => x.Centerline != null));
+        Assert.HasCount(502, results.Where(x => x.UpperChannel != null));
+        Assert.HasCount(502, results.Where(x => x.LowerChannel != null));
+        Assert.HasCount(501, results.Where(x => !x.BreakPoint));
 
         // sample value
         StdDevChannelsResult r1 = results[0];
@@ -105,8 +105,8 @@ public class StdDevChannelsTests : TestBase
             .GetStdDevChannels(20, 2)
             .ToList();
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(500, results.Count(x => x.Centerline != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(500, results.Where(x => x.Centerline != null));
     }
 
     [TestMethod]
@@ -116,8 +116,8 @@ public class StdDevChannelsTests : TestBase
             .GetStdDevChannels(6, 1.1)
             .ToList();
 
-        Assert.AreEqual(200, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.UpperChannel is double and double.NaN));
+        Assert.HasCount(200, r);
+        Assert.IsEmpty(r.Where(x => x.UpperChannel is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -128,8 +128,8 @@ public class StdDevChannelsTests : TestBase
             .GetStdDevChannels(20, 2)
             .ToList();
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(500, results.Count(x => x.Centerline != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(500, results.Where(x => x.Centerline != null));
     }
 
     [TestMethod]
@@ -139,8 +139,8 @@ public class StdDevChannelsTests : TestBase
             .GetStdDevChannels()
             .ToList();
 
-        Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.UpperChannel is double and double.NaN));
+        Assert.HasCount(502, r);
+        Assert.IsEmpty(r.Where(x => x.UpperChannel is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -150,13 +150,13 @@ public class StdDevChannelsTests : TestBase
             .GetStdDevChannels()
             .ToList();
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         List<StdDevChannelsResult> r1 = onequote
             .GetStdDevChannels()
             .ToList();
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     [TestMethod]
@@ -171,7 +171,7 @@ public class StdDevChannelsTests : TestBase
             .ToList();
 
         // assertions
-        Assert.AreEqual(500, results.Count);
+        Assert.HasCount(500, results);
         StdDevChannelsResult last = results.LastOrDefault();
         Assert.AreEqual(235.8131, last.Centerline.Round(4));
         Assert.AreEqual(257.6536, last.UpperChannel.Round(4));
@@ -191,7 +191,7 @@ public class StdDevChannelsTests : TestBase
             .ToList();
 
         // assertions
-        Assert.AreEqual(500, results.Count);
+        Assert.HasCount(500, results);
         StdDevChannelsResult last = results.LastOrDefault();
         Assert.AreEqual(235.8131, last.Centerline.Round(4));
         Assert.AreEqual(257.6536, last.UpperChannel.Round(4));
@@ -203,11 +203,11 @@ public class StdDevChannelsTests : TestBase
     public void Exceptions()
     {
         // bad lookback period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetStdDevChannels(0));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetStdDevChannels(0));
 
         // bad standard deviations
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetStdDevChannels(20, 0));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetStdDevChannels(20, 0));
     }
 }

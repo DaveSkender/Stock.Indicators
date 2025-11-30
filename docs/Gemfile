@@ -1,5 +1,4 @@
 source 'https://rubygems.org'
-# local dev: bundle exec jekyll serve -o -l
 
 # jekyll plugins
 group :jekyll_plugins do
@@ -12,6 +11,9 @@ group :jekyll_plugins do
   gem 'jekyll-minifier'
 end
 
-gem 'wdm', '>= 0.2.0' if Gem.win_platform? # windows compatibilty pack
-gem 'webrick' # needed for ruby > v3.0
-gem 'faraday' # reload/retry on file changes
+platforms :mingw, :mswin, :x64_mingw do
+  gem 'wdm', '>= 0.2.0' # windows compatibility pack
+end
+
+gem 'webrick'           # needed for ruby > v3.0
+gem 'faraday'           # reload/retry on file changes

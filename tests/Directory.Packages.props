@@ -1,0 +1,21 @@
+<Project>
+  <PropertyGroup>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+    <CentralPackageTransitivePinningEnabled>false</CentralPackageTransitivePinningEnabled>
+    <!-- NuGet lock file for deterministic package restore -->
+    <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+    <RestoreLockedMode Condition="'$(ContinuousIntegrationBuild)' == 'true'">true</RestoreLockedMode>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageVersion Include="Alpaca.Markets" Version="7.2.0" />
+    <PackageVersion Include="BenchmarkDotNet" Version="0.15.4" />
+    <PackageVersion Include="coverlet.collector" Version="6.0.4" />
+    <!-- FluentAssertions pinned to v6.x to avoid licensing in v7+ -->
+    <PackageVersion Include="FluentAssertions" Version="6.12.2" />
+    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="18.0.0" />
+    <PackageVersion Include="MSTest.TestAdapter" Version="4.0.1" />
+    <PackageVersion Include="MSTest.TestFramework" Version="4.0.1" />
+    <PackageVersion Include="Roslynator.Analyzers" Version="4.14.1" />
+  </ItemGroup>
+</Project>

@@ -1,60 +1,64 @@
-name: Website
+name: Website a11y
 
 on:
   pull_request:
-    branches: [main]
+    branches: ["*"]
     paths:
-      - 'docs/**'
-      - ".github/workflows/test-website-a11y.yml"
+      - docs/**
+      - .github/workflows/test-website-a11y.yml
 
-env:
-  JEKYLL_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+# Prevent multiple concurrent runs
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
 
 jobs:
   test:
-    name: test a11y
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: docs
+    env:
+      BUNDLE_GEMFILE: ${{github.workspace}}/docs/Gemfile
+      JEKYLL_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
       - name: Checkout source
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Setup Ruby
-        uses: ruby/setup-ruby@v1
+        uses: ruby/setup-ruby@v1.265.0
         with:
-          working-directory: docs
-          ruby-version: 3.2
+          ruby-version: 3.3
+          bundler-cache: true
 
-      - name: Install GEMs
-        working-directory: docs
-        env:
-          BUNDLE_GEMFILE: ${{github.workspace}}/docs/GemFile
-        run: |
-          pwd
-          bundle install
+      - name: Install dependencies
+        run: npm install -g pa11y-ci
+
+      - name: Use 'localhost'
+        uses: jacobtomlinson/gha-find-replace@f1069b438f125e5395d84d1c6fd3b559a7880cb5
+        with:
+          find: "https://dotnet.stockindicators.dev"
+          replace: "http://127.0.0.1:4000"
+          regex: false
 
       - name: Build site
-        working-directory: docs
-        env:
-          BUNDLE_GEMFILE: ${{github.workspace}}/docs/GemFile
         run: bundle exec jekyll build
 
       - name: Serve site
-        working-directory: docs
-        env:
-          BUNDLE_GEMFILE: ${{github.workspace}}/docs/GemFile
-        run: bundle exec jekyll serve --detach
+        run: bundle exec jekyll serve --port 4000 --detach
 
       - name: Show environment
-        working-directory: docs
         run: npx pa11y --environment
 
       - name: Test accessibility
-        working-directory: docs
-        run: |
-          npx pa11y-ci \
-            --sitemap http://127.0.0.1:4000/sitemap.xml \
-            --sitemap-exclude "/*.pdf"
+        run: >
+          npx pa11y-ci
+          --sitemap http://127.0.0.1:4000/sitemap.xml
+          --config ./.pa11yci
 
       - name: Kill site (failsafe)
         if: always()

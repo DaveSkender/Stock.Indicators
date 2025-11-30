@@ -33,7 +33,7 @@ internal sealed class MyGenericQuote : IQuote
 }
 
 [TestClass]
-public class PublicClassTests
+public class PublicClasses
 {
     internal static readonly CultureInfo EnglishCulture = new("en-US", false);
 
@@ -66,7 +66,7 @@ public class PublicClassTests
             MyProperty = true
         };
 
-        Assert.AreEqual(true, myQuote.MyProperty);
+        Assert.IsTrue(myQuote.MyProperty);
     }
 
     [TestMethod]
@@ -106,8 +106,8 @@ public class PublicClassTests
             .ToList();
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(483, results.Count(x => x.Ema != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(483, results.Where(x => x.Ema != null));
 
         // sample values
         EmaResult r1 = results[501];
@@ -140,7 +140,7 @@ public class PublicClassTests
             .ToList();
 
         // proper quantities
-        Assert.AreEqual(20, quotesList.Count);
+        Assert.HasCount(20, quotesList);
 
         // sample values
         Quote r19 = quotesList[19];
@@ -167,7 +167,7 @@ public class PublicClassTests
             .ToList();
 
         // proper quantities
-        Assert.AreEqual(20, quotesList.Count);
+        Assert.HasCount(20, quotesList);
 
         // sample values
         Quote r19 = quotesList[19];
@@ -184,7 +184,7 @@ public class PublicClassTests
             MyProperty = false
         };
 
-        Assert.AreEqual(false, myIndicator.MyProperty);
+        Assert.IsFalse(myIndicator.MyProperty);
     }
 
     [TestMethod]

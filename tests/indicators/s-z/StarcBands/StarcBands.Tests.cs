@@ -15,16 +15,16 @@ public class StarcBandsTests : TestBase
             .ToList();
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(483, results.Count(x => x.Centerline != null));
-        Assert.AreEqual(483, results.Count(x => x.UpperBand != null));
-        Assert.AreEqual(483, results.Count(x => x.LowerBand != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(483, results.Where(x => x.Centerline != null));
+        Assert.HasCount(483, results.Where(x => x.UpperBand != null));
+        Assert.HasCount(483, results.Where(x => x.LowerBand != null));
 
         // sample value
         StarcBandsResult r1 = results[18];
-        Assert.AreEqual(null, r1.Centerline);
-        Assert.AreEqual(null, r1.UpperBand);
-        Assert.AreEqual(null, r1.LowerBand);
+        Assert.IsNull(r1.Centerline);
+        Assert.IsNull(r1.UpperBand);
+        Assert.IsNull(r1.LowerBand);
 
         StarcBandsResult r19 = results[19];
         Assert.AreEqual(214.5250, r19.Centerline.Round(4));
@@ -54,8 +54,8 @@ public class StarcBandsTests : TestBase
             .GetStarcBands(10, 3, 15)
             .ToList();
 
-        Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.UpperBand is double and double.NaN));
+        Assert.HasCount(502, r);
+        Assert.IsEmpty(r.Where(x => x.UpperBand is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -65,13 +65,13 @@ public class StarcBandsTests : TestBase
             .GetStarcBands(10)
             .ToList();
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         List<StarcBandsResult> r1 = onequote
             .GetStarcBands(10)
             .ToList();
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     [TestMethod]
@@ -88,7 +88,7 @@ public class StarcBandsTests : TestBase
             .ToList();
 
         // assertions
-        Assert.AreEqual(502 - lookbackPeriods + 1, results.Count);
+        Assert.HasCount(502 - lookbackPeriods + 1, results);
 
         StarcBandsResult last = results.LastOrDefault();
         Assert.AreEqual(251.8600, last.Centerline.Round(4));
@@ -110,7 +110,7 @@ public class StarcBandsTests : TestBase
             .ToList();
 
         // assertions
-        Assert.AreEqual(502 - (lookbackPeriods + 150), results.Count);
+        Assert.HasCount(502 - (lookbackPeriods + 150), results);
 
         StarcBandsResult last = results.LastOrDefault();
         Assert.AreEqual(251.8600, last.Centerline.Round(4));
@@ -122,15 +122,15 @@ public class StarcBandsTests : TestBase
     public void Exceptions()
     {
         // bad EMA period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetStarcBands(1, 2, 10));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetStarcBands(1, 2, 10));
 
         // bad ATR period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetStarcBands(20, 2, 1));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetStarcBands(20, 2, 1));
 
         // bad multiplier
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetStarcBands(20, 0, 10));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetStarcBands(20, 0, 10));
     }
 }

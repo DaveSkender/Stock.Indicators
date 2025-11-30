@@ -11,9 +11,9 @@ public class PmoTests : TestBase
             .ToList();
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(448, results.Count(x => x.Pmo != null));
-        Assert.AreEqual(439, results.Count(x => x.Signal != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(448, results.Where(x => x.Pmo != null));
+        Assert.HasCount(439, results.Where(x => x.Signal != null));
 
         // sample values
         PmoResult r1 = results[92];
@@ -33,8 +33,8 @@ public class PmoTests : TestBase
             .GetPmo()
             .ToList();
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(448, results.Count(x => x.Pmo != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(448, results.Where(x => x.Pmo != null));
     }
 
     [TestMethod]
@@ -44,8 +44,8 @@ public class PmoTests : TestBase
             .GetPmo()
             .ToList();
 
-        Assert.AreEqual(200, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Pmo is double and double.NaN));
+        Assert.HasCount(200, r);
+        Assert.IsEmpty(r.Where(x => x.Pmo is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -56,8 +56,8 @@ public class PmoTests : TestBase
             .GetPmo()
             .ToList();
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(447, results.Count(x => x.Pmo != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(447, results.Where(x => x.Pmo != null));
     }
 
     [TestMethod]
@@ -68,8 +68,8 @@ public class PmoTests : TestBase
             .GetSma(10)
             .ToList();
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(439, results.Count(x => x.Sma != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(439, results.Where(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -79,8 +79,8 @@ public class PmoTests : TestBase
             .GetPmo(25, 15, 5)
             .ToList();
 
-        Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Pmo is double and double.NaN));
+        Assert.HasCount(502, r);
+        Assert.IsEmpty(r.Where(x => x.Pmo is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -90,13 +90,13 @@ public class PmoTests : TestBase
             .GetPmo()
             .ToList();
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         List<PmoResult> r1 = onequote
             .GetPmo()
             .ToList();
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     [TestMethod]
@@ -108,7 +108,7 @@ public class PmoTests : TestBase
             .ToList();
 
         // assertions
-        Assert.AreEqual(502 - (35 + 20 + 250), results.Count);
+        Assert.HasCount(502 - (35 + 20 + 250), results);
 
         PmoResult last = results.LastOrDefault();
         Assert.AreEqual(-2.7016, last.Pmo.Round(4));
@@ -119,15 +119,15 @@ public class PmoTests : TestBase
     public void Exceptions()
     {
         // bad time period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetPmo(1));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetPmo(1));
 
         // bad smoothing period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetPmo(5, 0));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetPmo(5, 0));
 
         // bad signal period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetPmo(5, 5, 0));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetPmo(5, 5, 0));
     }
 }

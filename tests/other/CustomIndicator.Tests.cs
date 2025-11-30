@@ -1,7 +1,7 @@
 using System.Collections.ObjectModel;
 using System.Globalization;
 
-namespace Tests.CustomIndicators;
+namespace Tests.Customizations;
 
 public sealed class MyResult : ResultBase, IReusableResult
 {
@@ -80,7 +80,7 @@ public static class CustomIndicator
 }
 
 [TestClass]
-public class CustomIndicatorTests
+public class CustomIndicators
 {
     private static readonly CultureInfo EnglishCulture = new("en-US", false);
 
@@ -106,8 +106,8 @@ public class CustomIndicatorTests
             .ToList();
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(483, results.Count(x => x.Sma != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(483, results.Where(x => x.Sma != null));
 
         // sample values
         Assert.IsNull(results[18].Sma);
@@ -126,8 +126,8 @@ public class CustomIndicatorTests
             .GetIndicator(20)
             .ToList();
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(483, results.Count(x => x.Sma != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(483, results.Where(x => x.Sma != null));
 
         // sample values
         Assert.IsNull(results[18].Sma);
@@ -146,8 +146,8 @@ public class CustomIndicatorTests
             .GetIndicator(20)
             .ToList();
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(483, results.Count(x => x.Sma != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(483, results.Where(x => x.Sma != null));
 
         // sample values
         MyResult r24 = results[24];
@@ -169,8 +169,8 @@ public class CustomIndicatorTests
             .GetEma(10)
             .ToList();
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(484, results.Count(x => x.Ema != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(484, results.Where(x => x.Ema != null));
     }
 
     [TestMethod]
@@ -181,7 +181,7 @@ public class CustomIndicatorTests
         Collection<Quote> h = mismatch.ToSortedCollection();
 
         // proper quantities
-        Assert.AreEqual(502, h.Count);
+        Assert.HasCount(502, h);
 
         // check first date
         DateTime firstDate = DateTime.ParseExact("01/18/2016", "MM/dd/yyyy", EnglishCulture);
@@ -203,8 +203,8 @@ public class CustomIndicatorTests
             .GetIndicator(6)
             .ToList();
 
-        Assert.AreEqual(200, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Sma is not null and double.NaN));
+        Assert.HasCount(200, r);
+        Assert.IsEmpty(r.Where(x => x.Sma is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -214,7 +214,7 @@ public class CustomIndicatorTests
             .GetIndicator(50)
             .ToList();
 
-        Assert.AreEqual(0, r.Count(x => x.Sma is not null and double.NaN));
+        Assert.IsEmpty(r.Where(x => x.Sma is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -224,8 +224,8 @@ public class CustomIndicatorTests
             .GetIndicator(15)
             .ToList();
 
-        Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Sma is not null and double.NaN));
+        Assert.HasCount(502, r);
+        Assert.IsEmpty(r.Where(x => x.Sma is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -235,13 +235,13 @@ public class CustomIndicatorTests
             .GetIndicator(5)
             .ToList();
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         List<MyResult> r1 = onequote
             .GetIndicator(5)
             .ToList();
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     [TestMethod]
@@ -252,13 +252,13 @@ public class CustomIndicatorTests
             .RemoveWarmupPeriods(19)
             .ToList();
 
-        Assert.AreEqual(502 - 19, results.Count);
+        Assert.HasCount(502 - 19, results);
         Assert.AreEqual(251.8600, Math.Round(results.LastOrDefault().Sma.Value, 4));
     }
 
     // bad lookback period
     [TestMethod]
     public void Exceptions()
-        => Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => quotes.GetIndicator(0));
+        => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetIndicator(0));
 }

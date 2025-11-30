@@ -1,79 +1,71 @@
-name: Website
+name: Website URLs
 
 on:
   pull_request:
-    branches: [main]
+    branches: ["*"]
     paths:
-      - 'docs/**'
-      - ".github/workflows/test-website-links.yml"
+      - docs/**
+      - .github/workflows/test-website-links.yml
 
-env:
-  JEKYLL_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+# Prevent multiple concurrent runs
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
 
 jobs:
   test:
-    name: test URLs
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: docs
+    env:
+      BUNDLE_GEMFILE: ${{github.workspace}}/docs/Gemfile
+      JEKYLL_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
       - name: Checkout source
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Setup Ruby
-        uses: ruby/setup-ruby@v1
+        uses: ruby/setup-ruby@v1.265.0
         with:
-          working-directory: docs
-          ruby-version: 3.2
+          ruby-version: 3.3
+          bundler-cache: true
 
-      - name: Install GEMs
-        working-directory: docs
-        env:
-          BUNDLE_GEMFILE: ${{github.workspace}}/docs/GemFile
-        run: |
-          pwd
-          bundle install
-
-      - name: Setup HTML Proofer
-        run: |
-          gem install html-proofer
-          htmlproofer --help
+      - name: Install dependencies
+        run: gem install html-proofer
 
       - name: Replace "data-src"
-        uses: jacobtomlinson/gha-find-replace@v3
+        uses: jacobtomlinson/gha-find-replace@f1069b438f125e5395d84d1c6fd3b559a7880cb5
         with:
           find: "data-src"
           replace: "src"
           regex: false
 
-      - name: Replace "dotnet.stockindicators.dev"
-        uses: jacobtomlinson/gha-find-replace@v3
+      - name: Use 'localhost'
+        uses: jacobtomlinson/gha-find-replace@f1069b438f125e5395d84d1c6fd3b559a7880cb5
         with:
           find: "https://dotnet.stockindicators.dev"
           replace: "http://127.0.0.1:4000"
           regex: false
 
       - name: Build site
-        working-directory: docs
-        env:
-          BUNDLE_GEMFILE: ${{github.workspace}}/docs/GemFile
-        run: bundle exec jekyll build --trace
+        run: bundle exec jekyll build
 
       - name: Serve site
-        working-directory: docs
-        env:
-          BUNDLE_GEMFILE: ${{github.workspace}}/docs/GemFile
-        run: bundle exec jekyll serve --detach
+        run: bundle exec jekyll serve --port 4000 --detach
 
         # see help in setup step
       - name: Test for broken URLs
-        working-directory: docs
-        run: |
-          htmlproofer _site \
-            --no-enforce-https \
-            --no-check-external-hash \
-            --ignore-status-codes "0,302,403,406,408,429,503,999" \
-            --swap-urls "https\://dotnet.stockindicators.dev:http\://127.0.0.1:4000" \
-            --ignore-urls "/fonts.gstatic.com/"
+        run: >
+          htmlproofer _site
+          --no-enforce-https
+          --no-check-external-hash
+          --ignore-status-codes "0,302,403,406,408,429,503,999"
+          --ignore-urls "/fonts.gstatic.com/"
 
       - name: Kill site (failsafe)
         if: always()

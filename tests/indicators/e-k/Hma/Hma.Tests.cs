@@ -11,7 +11,7 @@ public class HmaTests : TestBase
             .ToList();
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
         Assert.AreEqual(480, results.Count(x => x.Hma != null));
 
         // sample values
@@ -30,7 +30,7 @@ public class HmaTests : TestBase
             .GetHma(20)
             .ToList();
 
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
         Assert.AreEqual(480, results.Count(x => x.Hma != null));
     }
 
@@ -41,8 +41,8 @@ public class HmaTests : TestBase
             .GetHma(6)
             .ToList();
 
-        Assert.AreEqual(200, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Hma is double and double.NaN));
+        Assert.HasCount(200, r);
+        Assert.IsEmpty(r.Where(x => x.Hma is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -53,7 +53,7 @@ public class HmaTests : TestBase
             .GetHma(19)
             .ToList();
 
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
         Assert.AreEqual(480, results.Count(x => x.Hma != null));
     }
 
@@ -65,7 +65,7 @@ public class HmaTests : TestBase
             .GetSma(10)
             .ToList();
 
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
         Assert.AreEqual(471, results.Count(x => x.Sma != null));
     }
 
@@ -76,8 +76,8 @@ public class HmaTests : TestBase
             .GetHma(15)
             .ToList();
 
-        Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Hma is double and double.NaN));
+        Assert.HasCount(502, r);
+        Assert.IsEmpty(r.Where(x => x.Hma is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -87,13 +87,13 @@ public class HmaTests : TestBase
             .GetHma(5)
             .ToList();
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         List<HmaResult> r1 = onequote
             .GetHma(5)
             .ToList();
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     [TestMethod]
@@ -105,7 +105,7 @@ public class HmaTests : TestBase
             .ToList();
 
         // assertions
-        Assert.AreEqual(480, results.Count);
+        Assert.HasCount(480, results);
 
         HmaResult last = results.LastOrDefault();
         Assert.AreEqual(235.6972, last.Hma.Round(4));
@@ -114,6 +114,6 @@ public class HmaTests : TestBase
     // bad lookback period
     [TestMethod]
     public void Exceptions()
-        => Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => quotes.GetHma(1));
+        => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetHma(1));
 }

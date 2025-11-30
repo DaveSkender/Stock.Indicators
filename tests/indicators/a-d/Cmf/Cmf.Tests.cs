@@ -11,7 +11,7 @@ public class CmfTests : TestBase
             .ToList();
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
         Assert.AreEqual(483, results.Count(x => x.Cmf != null));
 
         // sample values
@@ -39,7 +39,7 @@ public class CmfTests : TestBase
             .GetSma(10)
             .ToList();
 
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
         Assert.AreEqual(474, results.Count(x => x.Sma != null));
     }
 
@@ -50,8 +50,8 @@ public class CmfTests : TestBase
             .GetCmf(15)
             .ToList();
 
-        Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Cmf is double and double.NaN));
+        Assert.HasCount(502, r);
+        Assert.IsEmpty(r.Where(x => x.Cmf is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -61,7 +61,7 @@ public class CmfTests : TestBase
             .GetCmf(150)
             .ToList();
 
-        Assert.AreEqual(1246, r.Count);
+        Assert.HasCount(1246, r);
     }
 
     [TestMethod]
@@ -71,13 +71,13 @@ public class CmfTests : TestBase
             .GetCmf()
             .ToList();
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         List<CmfResult> r1 = onequote
             .GetCmf()
             .ToList();
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     [TestMethod]
@@ -89,7 +89,7 @@ public class CmfTests : TestBase
             .ToList();
 
         // assertions
-        Assert.AreEqual(502 - 19, results.Count);
+        Assert.HasCount(502 - 19, results);
 
         CmfResult last = results.LastOrDefault();
         Assert.AreEqual(0.8052, last.MoneyFlowMultiplier.Round(4));
@@ -100,6 +100,6 @@ public class CmfTests : TestBase
     // bad lookback period
     [TestMethod]
     public void Exceptions()
-        => Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => quotes.GetCmf(0));
+        => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetCmf(0));
 }

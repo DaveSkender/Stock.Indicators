@@ -15,17 +15,17 @@ public class KamaTests : TestBase
             .ToList();
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(492, results.Count(x => x.ER != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(492, results.Where(x => x.ER != null));
         Assert.AreEqual(493, results.Count(x => x.Kama != null));
 
         // sample values
         KamaResult r1 = results[8];
-        Assert.AreEqual(null, r1.ER);
-        Assert.AreEqual(null, r1.Kama);
+        Assert.IsNull(r1.ER);
+        Assert.IsNull(r1.Kama);
 
         KamaResult r2 = results[9];
-        Assert.AreEqual(null, r2.ER);
+        Assert.IsNull(r2.ER);
         Assert.AreEqual(213.7500, r2.Kama.Round(4));
 
         KamaResult r3 = results[10];
@@ -57,7 +57,7 @@ public class KamaTests : TestBase
             .GetKama()
             .ToList();
 
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
         Assert.AreEqual(493, results.Count(x => x.Kama != null));
     }
 
@@ -68,8 +68,8 @@ public class KamaTests : TestBase
             .GetKama()
             .ToList();
 
-        Assert.AreEqual(200, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Kama is double and double.NaN));
+        Assert.HasCount(200, r);
+        Assert.IsEmpty(r.Where(x => x.Kama is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -80,7 +80,7 @@ public class KamaTests : TestBase
             .GetKama()
             .ToList();
 
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
         Assert.AreEqual(492, results.Count(x => x.Kama != null));
     }
 
@@ -92,7 +92,7 @@ public class KamaTests : TestBase
             .GetSma(10)
             .ToList();
 
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
         Assert.AreEqual(484, results.Count(x => x.Sma != null));
     }
 
@@ -103,8 +103,8 @@ public class KamaTests : TestBase
             .GetKama()
             .ToList();
 
-        Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Kama is double and double.NaN));
+        Assert.HasCount(502, r);
+        Assert.IsEmpty(r.Where(x => x.Kama is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -114,13 +114,13 @@ public class KamaTests : TestBase
             .GetKama()
             .ToList();
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         List<KamaResult> r1 = onequote
             .GetKama()
             .ToList();
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     [TestMethod]
@@ -136,7 +136,7 @@ public class KamaTests : TestBase
             .ToList();
 
         // assertions
-        Assert.AreEqual(502 - Math.Max(erPeriods + 100, erPeriods * 10), results.Count);
+        Assert.HasCount(502 - Math.Max(erPeriods + 100, erPeriods * 10), results);
 
         KamaResult last = results.LastOrDefault();
         Assert.AreEqual(0.2214, last.ER.Round(4));
@@ -147,15 +147,15 @@ public class KamaTests : TestBase
     public void Exceptions()
     {
         // bad ER period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetKama(0, 2, 30));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetKama(0, 2, 30));
 
         // bad fast period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetKama(10, 0, 30));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetKama(10, 0, 30));
 
         // bad slow period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetKama(10, 5, 5));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetKama(10, 5, 5));
     }
 }

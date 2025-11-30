@@ -1,7 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net8.0;net7.0;net6.0;netstandard2.1;netstandard2.0</TargetFrameworks>
+  
+    <TargetFrameworks>net10.0;net9.0;net8.0;net6.0;netstandard2.1;netstandard2.0</TargetFrameworks>
+    <LangVersion>latest</LangVersion>
 
     <Authors>Dave Skender</Authors>
     <Product>Stock Indicators for .NET</Product>
@@ -14,7 +16,6 @@
 
     <AssemblyName>Skender.Stock.Indicators</AssemblyName>
     <RootNamespace>Skender.Stock.Indicators</RootNamespace>
-    <LangVersion>12.0</LangVersion>
     <NeutralLanguage>en-US</NeutralLanguage>
 
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
@@ -34,7 +35,6 @@
        Alligator;Gator;Fractal;Chaos;Choppiness;Endpoint;WMA;ZigZag;.NET;C#;Library;Package;
     </PackageTags>
     <PackageReadmeFile>README.md</PackageReadmeFile>
-    <PackageReleaseNotes>https://github.com/DaveSkender/Stock.Indicators/releases</PackageReleaseNotes>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageIcon>icon.png</PackageIcon>
 
@@ -76,7 +76,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" PrivateAssets="All" />
   </ItemGroup>
 
 </Project>

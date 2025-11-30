@@ -1,0 +1,66 @@
+name: Test Indicators (matrix)
+
+on:
+  push:
+    branches:
+      - "main"
+      - "v[0-9]*"
+  pull_request:
+    branches:
+      - "main"
+      - "v[0-9]*"
+    paths:
+      - ".github/workflows/test-indicators-matrix.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read # Required for checkout
+
+jobs:
+  test:
+    name: matrix validation
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [windows-latest, ubuntu-latest, macos-latest]
+        dotnet-version: ["6.0.x", "10.0.x"]
+
+    env:
+      TARGET_FRAMEWORK: >
+        ${{ matrix.dotnet-version == '6.0.x' && 'net6.0' ||
+            matrix.dotnet-version == '10.0.x' && 'net10.0' }}
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v5
+
+      - name: Setup .NET SDK (legacy sut)
+        uses: actions/setup-dotnet@v5
+        if: matrix.dotnet-version != '10.0.x'
+        with:
+          dotnet-version: ${{ matrix.dotnet-version }}
+          dotnet-quality: "ga"
+
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: "10.x"
+          dotnet-quality: "ga"
+          cache: true
+          cache-dependency-path: "**/packages.lock.json"
+
+      - name: Build library
+        run: >
+          dotnet build
+          --configuration Release
+          --property:ContinuousIntegrationBuild=true
+          -warnAsError
+
+      - name: Test indicators
+        run: >
+          dotnet test
+          --configuration Release
+          --settings tests/tests.unit.runsettings
+          --property:TestFramework="${{ env.TARGET_FRAMEWORK }}"
+          --no-build

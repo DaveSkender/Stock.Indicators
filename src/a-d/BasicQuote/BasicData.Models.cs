@@ -2,8 +2,8 @@ namespace Skender.Stock.Indicators;
 
 public interface IBasicData
 {
-    public DateTime Date { get; }
-    public double Value { get; }
+    DateTime Date { get; }
+    double Value { get; }
 }
 
 public class BasicData : ISeries, IBasicData, IReusableResult

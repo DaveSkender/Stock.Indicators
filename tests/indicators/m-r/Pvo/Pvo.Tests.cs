@@ -15,16 +15,16 @@ public class PvoTests : TestBase
             .ToList();
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(477, results.Count(x => x.Pvo != null));
-        Assert.AreEqual(469, results.Count(x => x.Signal != null));
-        Assert.AreEqual(469, results.Count(x => x.Histogram != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(477, results.Where(x => x.Pvo != null));
+        Assert.HasCount(469, results.Where(x => x.Signal != null));
+        Assert.HasCount(469, results.Where(x => x.Histogram != null));
 
         // sample values
         PvoResult r1 = results[24];
-        Assert.AreEqual(null, r1.Pvo);
-        Assert.AreEqual(null, r1.Signal);
-        Assert.AreEqual(null, r1.Histogram);
+        Assert.IsNull(r1.Pvo);
+        Assert.IsNull(r1.Signal);
+        Assert.IsNull(r1.Histogram);
 
         PvoResult r2 = results[33];
         Assert.AreEqual(1.5795, r2.Pvo.Round(4));
@@ -55,8 +55,8 @@ public class PvoTests : TestBase
             .GetSma(10)
             .ToList();
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(468, results.Count(x => x.Sma != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(468, results.Where(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -66,8 +66,8 @@ public class PvoTests : TestBase
             .GetPvo(10, 20, 5)
             .ToList();
 
-        Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Pvo is double and double.NaN));
+        Assert.HasCount(502, r);
+        Assert.IsEmpty(r.Where(x => x.Pvo is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -77,13 +77,13 @@ public class PvoTests : TestBase
             .GetPvo()
             .ToList();
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         List<PvoResult> r1 = onequote
             .GetPvo()
             .ToList();
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     [TestMethod]
@@ -99,7 +99,7 @@ public class PvoTests : TestBase
             .ToList();
 
         // assertions
-        Assert.AreEqual(502 - (slowPeriods + signalPeriods + 250), results.Count);
+        Assert.HasCount(502 - (slowPeriods + signalPeriods + 250), results);
 
         PvoResult last = results.LastOrDefault();
         Assert.AreEqual(10.4395, last.Pvo.Round(4));
@@ -111,15 +111,15 @@ public class PvoTests : TestBase
     public void Exceptions()
     {
         // bad fast period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetPvo(0, 26, 9));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetPvo(0, 26, 9));
 
         // bad slow periods must be larger than faster period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetPvo(12, 12, 9));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetPvo(12, 12, 9));
 
         // bad signal period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetPvo(12, 26, -1));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetPvo(12, 26, -1));
     }
 }

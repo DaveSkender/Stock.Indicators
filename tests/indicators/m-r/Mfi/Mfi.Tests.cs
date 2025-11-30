@@ -11,8 +11,8 @@ public class MfiTests : TestBase
             .ToList();
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(488, results.Count(x => x.Mfi != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(488, results.Where(x => x.Mfi != null));
 
         // sample values
         MfiResult r1 = results[439];
@@ -30,8 +30,8 @@ public class MfiTests : TestBase
             .GetSma(10)
             .ToList();
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(479, results.Count(x => x.Sma != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(479, results.Where(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -44,8 +44,8 @@ public class MfiTests : TestBase
             .ToList();
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(498, results.Count(x => x.Mfi != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(498, results.Where(x => x.Mfi != null));
 
         // sample values
         MfiResult r1 = results[31];
@@ -62,8 +62,8 @@ public class MfiTests : TestBase
             .GetMfi(15)
             .ToList();
 
-        Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Mfi is double and double.NaN));
+        Assert.HasCount(502, r);
+        Assert.IsEmpty(r.Where(x => x.Mfi is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -73,13 +73,13 @@ public class MfiTests : TestBase
             .GetMfi()
             .ToList();
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         List<MfiResult> r1 = onequote
             .GetMfi()
             .ToList();
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     [TestMethod]
@@ -93,7 +93,7 @@ public class MfiTests : TestBase
             .ToList();
 
         // assertions
-        Assert.AreEqual(502 - 14, results.Count);
+        Assert.HasCount(502 - 14, results);
 
         MfiResult last = results.LastOrDefault();
         Assert.AreEqual(39.9494, last.Mfi.Round(4));
@@ -102,6 +102,6 @@ public class MfiTests : TestBase
     // bad lookback period
     [TestMethod]
     public void Exceptions()
-        => Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => quotes.GetMfi(1));
+        => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetMfi(1));
 }

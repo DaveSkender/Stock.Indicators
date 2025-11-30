@@ -8,63 +8,60 @@ concurrency:
 env:
   JEKYLL_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+permissions:
+  contents: read
+
 jobs:
   deploy:
     name: Cloudflare Pages
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: docs
+    env:
+      BUNDLE_GEMFILE: ${{github.workspace}}/docs/Gemfile
+      JEKYLL_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     environment:
       name: stockindicators.dev
-      url: ${{ steps.deploy.outputs.deployment-alias-url }}
+      url: ${{ steps.deploy.outputs.pages-deployment-alias-url }}
 
     steps:
       - name: Checkout source
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Setup Ruby
-        uses: ruby/setup-ruby@v1
+        uses: ruby/setup-ruby@v1.265.0
         with:
-          working-directory: docs
           ruby-version: 3.3
+          bundler-cache: true
 
       - name: Define tag
         id: tag
         run: echo "version=$(date +'%Y.%m.%d')-${{ github.run_number }}" >> $GITHUB_OUTPUT
 
       - name: Replace cache markers
-        uses: jacobtomlinson/gha-find-replace@v3
+        uses: jacobtomlinson/gha-find-replace@f1069b438f125e5395d84d1c6fd3b559a7880cb5
         with:
           find: "YYYY.MM.DD"
           replace: "${{ steps.tag.outputs.version }}"
           regex: false
 
-      - name: Install GEMs
-        working-directory: docs
-        env:
-          BUNDLE_GEMFILE: ${{github.workspace}}/docs/GemFile
-        run: |
-          pwd
-          bundle install
-
       - name: Build site (production)
         if: github.ref == 'refs/heads/main'
-        working-directory: docs
         env:
           JEKYLL_ENV: production
-          BUNDLE_GEMFILE: ${{github.workspace}}/docs/GemFile
         run: bundle exec jekyll build
 
       - name: Build site (preview)
         if: github.ref != 'refs/heads/main'
-        working-directory: docs
         env:
           JEKYLL_ENV: preview
-          BUNDLE_GEMFILE: ${{github.workspace}}/docs/GemFile
         run: bundle exec jekyll build
 
       - name: Publish to Cloudflare Pages
         id: deploy
-        uses: cloudflare/wrangler-action@v3
+        uses: cloudflare/wrangler-action@v3.14.1
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_KEY }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}

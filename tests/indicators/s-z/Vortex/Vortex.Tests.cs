@@ -11,7 +11,7 @@ public class VortexTests : TestBase
             .ToList();
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
         Assert.AreEqual(488, results.Count(x => x.Pvi != null));
 
         // sample values
@@ -43,8 +43,8 @@ public class VortexTests : TestBase
             .GetVortex(20)
             .ToList();
 
-        Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Pvi is double and double.NaN));
+        Assert.HasCount(502, r);
+        Assert.IsEmpty(r.Where(x => x.Pvi is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -54,13 +54,13 @@ public class VortexTests : TestBase
             .GetVortex(5)
             .ToList();
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         List<VortexResult> r1 = onequote
             .GetVortex(5)
             .ToList();
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     [TestMethod]
@@ -72,7 +72,7 @@ public class VortexTests : TestBase
             .ToList();
 
         // assertions
-        Assert.AreEqual(502 - 14, results.Count);
+        Assert.HasCount(502 - 14, results);
 
         VortexResult last = results.LastOrDefault();
         Assert.AreEqual(0.8712, last.Pvi.Round(4));
@@ -88,7 +88,7 @@ public class VortexTests : TestBase
             .ToList();
 
         // assertions
-        Assert.AreEqual(502 - 14, results.Count);
+        Assert.HasCount(502 - 14, results);
 
         VortexResult last = results.LastOrDefault();
         Assert.AreEqual(0.8712, last.Pvi.Round(4));
@@ -98,6 +98,6 @@ public class VortexTests : TestBase
     // bad lookback period
     [TestMethod]
     public void Exceptions()
-        => Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => quotes.GetVortex(1));
+        => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetVortex(1));
 }

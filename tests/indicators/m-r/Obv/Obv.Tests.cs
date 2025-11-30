@@ -11,17 +11,17 @@ public class ObvTests : TestBase
             .ToList();
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(502, results.Count(x => x.ObvSma == null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(502, results.Where(x => x.ObvSma == null));
 
         // sample values
         ObvResult r1 = results[249];
         Assert.AreEqual(1780918888, r1.Obv);
-        Assert.AreEqual(null, r1.ObvSma);
+        Assert.IsNull(r1.ObvSma);
 
         ObvResult r2 = results[501];
         Assert.AreEqual(539843504, r2.Obv);
-        Assert.AreEqual(null, r2.ObvSma);
+        Assert.IsNull(r2.ObvSma);
     }
 
     [TestMethod]
@@ -32,8 +32,8 @@ public class ObvTests : TestBase
             .ToList();
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(482, results.Count(x => x.ObvSma != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(482, results.Where(x => x.ObvSma != null));
 
         // sample values
         ObvResult r1 = results[501];
@@ -49,8 +49,8 @@ public class ObvTests : TestBase
             .GetSma(10)
             .ToList();
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(493, results.Count(x => x.Sma != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(493, results.Where(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -60,8 +60,8 @@ public class ObvTests : TestBase
             .GetObv()
             .ToList();
 
-        Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => double.IsNaN(x.Obv)));
+        Assert.HasCount(502, r);
+        Assert.IsEmpty(r.Where(x => double.IsNaN(x.Obv)));
     }
 
     [TestMethod]
@@ -71,7 +71,7 @@ public class ObvTests : TestBase
             .GetObv()
             .ToList();
 
-        Assert.AreEqual(1246, r.Count);
+        Assert.HasCount(1246, r);
     }
 
     [TestMethod]
@@ -81,18 +81,18 @@ public class ObvTests : TestBase
             .GetObv()
             .ToList();
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         List<ObvResult> r1 = onequote
             .GetObv()
             .ToList();
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     // bad SMA period
     [TestMethod]
     public void Exceptions()
-        => Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => quotes.GetObv(0));
+        => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetObv(0));
 }

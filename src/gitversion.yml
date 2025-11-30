@@ -1,3 +1,5 @@
+# https://gitversion.net/docs/reference/configuration
+
 mode: ContinuousDelivery
 
 commit-message-incrementing: Enabled
@@ -7,7 +9,35 @@ patch-version-bump-message: '\+semver:\s?(fix|patch)'
 no-bump-message: '\+semver:\s?(none|skip)'
 
 branches:
-  pull-request:
-    tag: preview.
+  main:
+    increment: Patch
+    source-branches: []
+    is-main-branch: true
+    label: ''
+
+  release:
+    regex: ^v[0-9]+\.*
+    increment: Patch
+    source-branches: [main]
+    label: ''
+
   feature:
-    tag: preview.
+    regex: ^feature/.*
+    increment: Minor
+    source-branches: [main]
+    label: preview
+
+  pull-request:
+    increment: Inherit
+    label: preview
+
+  unknown:
+    increment: Inherit
+    label: preview
+
+label: preview
+
+ignore:
+  sha: []
+
+merge-message-formats: {}

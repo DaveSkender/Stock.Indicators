@@ -13,7 +13,7 @@ public class HurstTests : TestBase
         // assertions
 
         // proper quantities
-        Assert.AreEqual(15821, results.Count);
+        Assert.HasCount(15821, results);
         Assert.AreEqual(1, results.Count(x => x.HurstExponent != null));
 
         // sample value
@@ -29,7 +29,7 @@ public class HurstTests : TestBase
             .GetHurst(100)
             .ToList();
 
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
         Assert.AreEqual(402, results.Count(x => x.HurstExponent != null));
     }
 
@@ -40,8 +40,8 @@ public class HurstTests : TestBase
             .GetHurst(100)
             .ToList();
 
-        Assert.AreEqual(200, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.HurstExponent is double and double.NaN));
+        Assert.HasCount(200, r);
+        Assert.IsEmpty(r.Where(x => x.HurstExponent is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -52,7 +52,7 @@ public class HurstTests : TestBase
             .GetSma(10)
             .ToList();
 
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
         Assert.AreEqual(393, results.Count(x => x.Sma != null));
     }
 
@@ -64,7 +64,7 @@ public class HurstTests : TestBase
             .GetHurst(100)
             .ToList();
 
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
         Assert.AreEqual(393, results.Count(x => x.HurstExponent != null));
     }
 
@@ -75,8 +75,8 @@ public class HurstTests : TestBase
             .GetHurst(150)
             .ToList();
 
-        Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.HurstExponent is double and double.NaN));
+        Assert.HasCount(502, r);
+        Assert.IsEmpty(r.Where(x => x.HurstExponent is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -86,13 +86,13 @@ public class HurstTests : TestBase
             .GetHurst()
             .ToList();
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         List<HurstResult> r1 = onequote
             .GetHurst()
             .ToList();
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     [TestMethod]
@@ -103,7 +103,7 @@ public class HurstTests : TestBase
             .ToList();
 
         // assertions
-        Assert.AreEqual(1, results.Count);
+        Assert.HasCount(1, results);
 
         HurstResult last = results.LastOrDefault();
         Assert.AreEqual(0.483563, last.HurstExponent.Round(6));
@@ -112,6 +112,6 @@ public class HurstTests : TestBase
     // bad lookback period
     [TestMethod]
     public void Exceptions()
-        => Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => quotes.GetHurst(19));
+        => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetHurst(19));
 }

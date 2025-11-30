@@ -14,13 +14,13 @@ public class MamaTests : TestBase
             .ToList();
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(497, results.Count(x => x.Mama != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(497, results.Where(x => x.Mama != null));
 
         // sample values
         MamaResult r1 = results[4];
-        Assert.AreEqual(null, r1.Mama);
-        Assert.AreEqual(null, r1.Fama);
+        Assert.IsNull(r1.Mama);
+        Assert.IsNull(r1.Fama);
 
         MamaResult r2 = results[5];
         Assert.AreEqual(213.73, r2.Mama);
@@ -55,8 +55,8 @@ public class MamaTests : TestBase
             .GetMama()
             .ToList();
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(497, results.Count(x => x.Mama != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(497, results.Where(x => x.Mama != null));
     }
 
     [TestMethod]
@@ -66,8 +66,8 @@ public class MamaTests : TestBase
             .GetMama()
             .ToList();
 
-        Assert.AreEqual(200, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Mama is double and double.NaN));
+        Assert.HasCount(200, r);
+        Assert.IsEmpty(r.Where(x => x.Mama is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -78,8 +78,8 @@ public class MamaTests : TestBase
             .GetMama()
             .ToList();
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(496, results.Count(x => x.Mama != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(496, results.Where(x => x.Mama != null));
     }
 
     [TestMethod]
@@ -90,8 +90,8 @@ public class MamaTests : TestBase
             .GetSma(10)
             .ToList();
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(488, results.Count(x => x.Sma != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(488, results.Where(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -101,8 +101,8 @@ public class MamaTests : TestBase
             .GetMama()
             .ToList();
 
-        Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Mama is double and double.NaN));
+        Assert.HasCount(502, r);
+        Assert.IsEmpty(r.Where(x => x.Mama is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -112,13 +112,13 @@ public class MamaTests : TestBase
             .GetMama()
             .ToList();
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         List<MamaResult> r1 = onequote
             .GetMama()
             .ToList();
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     [TestMethod]
@@ -133,7 +133,7 @@ public class MamaTests : TestBase
             .ToList();
 
         // assertions
-        Assert.AreEqual(502 - 50, results.Count);
+        Assert.HasCount(502 - 50, results);
 
         MamaResult last = results.LastOrDefault();
         Assert.AreEqual(244.1092, last.Mama.Round(4));
@@ -144,15 +144,15 @@ public class MamaTests : TestBase
     public void Exceptions()
     {
         // bad fast period (same as slow period)
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetMama(0.5, 0.5));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetMama(0.5, 0.5));
 
         // bad fast period (cannot be 1 or more)
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetMama(1, 0.5));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetMama(1, 0.5));
 
         // bad slow period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetMama(0.5, 0));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetMama(0.5, 0));
     }
 }

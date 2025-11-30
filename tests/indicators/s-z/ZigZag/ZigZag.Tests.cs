@@ -13,18 +13,18 @@ public class ZigZagTests : TestBase
             .ToList();
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(234, results.Count(x => x.ZigZag != null));
-        Assert.AreEqual(234, results.Count(x => x.RetraceHigh != null));
-        Assert.AreEqual(221, results.Count(x => x.RetraceLow != null));
-        Assert.AreEqual(14, results.Count(x => x.PointType != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(234, results.Where(x => x.ZigZag != null));
+        Assert.HasCount(234, results.Where(x => x.RetraceHigh != null));
+        Assert.HasCount(221, results.Where(x => x.RetraceLow != null));
+        Assert.HasCount(14, results.Where(x => x.PointType != null));
 
         // sample values
         ZigZagResult r0 = results[249];
-        Assert.AreEqual(null, r0.ZigZag);
-        Assert.AreEqual(null, r0.RetraceHigh);
-        Assert.AreEqual(null, r0.RetraceLow);
-        Assert.AreEqual(null, r0.PointType);
+        Assert.IsNull(r0.ZigZag);
+        Assert.IsNull(r0.RetraceHigh);
+        Assert.IsNull(r0.RetraceLow);
+        Assert.IsNull(r0.PointType);
 
         ZigZagResult r1 = results[277];
         Assert.AreEqual(248.13m, r1.ZigZag);
@@ -42,19 +42,19 @@ public class ZigZagTests : TestBase
         Assert.AreEqual(276.0133m, r3.ZigZag.Round(4));
         Assert.AreEqual(280.9158m, r3.RetraceHigh.Round(4));
         Assert.AreEqual(264.5769m, r3.RetraceLow.Round(4));
-        Assert.AreEqual(null, r3.PointType);
+        Assert.IsNull(r3.PointType);
 
         ZigZagResult r4 = results[500];
         Assert.AreEqual(241.4575m, r4.ZigZag.Round(4));
         Assert.AreEqual(246.7933m, r4.RetraceHigh.Round(4));
-        Assert.AreEqual(null, r4.RetraceLow);
-        Assert.AreEqual(null, r4.PointType);
+        Assert.IsNull(r4.RetraceLow);
+        Assert.IsNull(r4.PointType);
 
         ZigZagResult r5 = results[501];
         Assert.AreEqual(245.28m, r5.ZigZag);
         Assert.AreEqual(245.28m, r5.RetraceHigh);
-        Assert.AreEqual(null, r5.RetraceLow);
-        Assert.AreEqual(null, r5.PointType);
+        Assert.IsNull(r5.RetraceLow);
+        Assert.IsNull(r5.PointType);
     }
 
     [TestMethod]
@@ -65,24 +65,24 @@ public class ZigZagTests : TestBase
             .ToList();
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(463, results.Count(x => x.ZigZag != null));
-        Assert.AreEqual(463, results.Count(x => x.RetraceHigh != null));
-        Assert.AreEqual(442, results.Count(x => x.RetraceLow != null));
-        Assert.AreEqual(30, results.Count(x => x.PointType != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(463, results.Where(x => x.ZigZag != null));
+        Assert.HasCount(463, results.Where(x => x.RetraceHigh != null));
+        Assert.HasCount(442, results.Where(x => x.RetraceLow != null));
+        Assert.HasCount(30, results.Where(x => x.PointType != null));
 
         // sample values
         ZigZagResult r38 = results[38];
-        Assert.AreEqual(null, r38.ZigZag);
-        Assert.AreEqual(null, r38.RetraceHigh);
-        Assert.AreEqual(null, r38.RetraceLow);
-        Assert.AreEqual(null, r38.PointType);
+        Assert.IsNull(r38.ZigZag);
+        Assert.IsNull(r38.RetraceHigh);
+        Assert.IsNull(r38.RetraceLow);
+        Assert.IsNull(r38.PointType);
 
         ZigZagResult r277 = results[277];
         Assert.AreEqual(252.9550m, r277.ZigZag);
         Assert.AreEqual(262.8054m, r277.RetraceHigh.Round(4));
         Assert.AreEqual(245.4467m, r277.RetraceLow.Round(4));
-        Assert.AreEqual(null, r277.PointType);
+        Assert.IsNull(r277.PointType);
 
         ZigZagResult r316 = results[316];
         Assert.AreEqual(249.48m, r316.ZigZag);
@@ -94,19 +94,19 @@ public class ZigZagTests : TestBase
         Assert.AreEqual(261.3325m, r456.ZigZag.Round(4));
         Assert.AreEqual(274.3419m, r456.RetraceHigh.Round(4));
         Assert.AreEqual(256.1050m, r456.RetraceLow.Round(4));
-        Assert.AreEqual(null, r456.PointType);
+        Assert.IsNull(r456.PointType);
 
         ZigZagResult r500 = results[500];
         Assert.AreEqual(240.1667m, r500.ZigZag.Round(4));
         Assert.AreEqual(246.95083m, r500.RetraceHigh.Round(5));
-        Assert.AreEqual(null, r500.RetraceLow);
-        Assert.AreEqual(null, r500.PointType);
+        Assert.IsNull(r500.RetraceLow);
+        Assert.IsNull(r500.PointType);
 
         ZigZagResult r501 = results[501];
         Assert.AreEqual(245.54m, r501.ZigZag);
         Assert.AreEqual(245.54m, r501.RetraceHigh);
-        Assert.AreEqual(null, r501.RetraceLow);
-        Assert.AreEqual(null, r501.PointType);
+        Assert.IsNull(r501.RetraceLow);
+        Assert.IsNull(r501.PointType);
     }
 
     [TestMethod]
@@ -117,8 +117,8 @@ public class ZigZagTests : TestBase
             .GetSma(10)
             .ToList();
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(225, results.Count(x => x.Sma != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(225, results.Where(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -134,7 +134,7 @@ public class ZigZagTests : TestBase
             .GetZigZag(EndType.Close, 5m)
             .ToList();
 
-        Assert.AreEqual(0, results.Count(x => x.PointType != null));
+        Assert.IsEmpty(results.Where(x => x.PointType != null));
     }
 
     [TestMethod]
@@ -151,7 +151,7 @@ public class ZigZagTests : TestBase
             .GetZigZag(EndType.Close, 5m)
             .ToList();
 
-        Assert.AreEqual(17, resultsList.Count);
+        Assert.HasCount(17, resultsList);
     }
 
     [TestMethod]
@@ -161,13 +161,13 @@ public class ZigZagTests : TestBase
             .GetZigZag(EndType.Close)
             .ToList();
 
-        Assert.AreEqual(502, r1.Count);
+        Assert.HasCount(502, r1);
 
         List<ZigZagResult> r2 = badQuotes
             .GetZigZag(EndType.HighLow)
             .ToList();
 
-        Assert.AreEqual(502, r2.Count);
+        Assert.HasCount(502, r2);
     }
 
     [TestMethod]
@@ -177,13 +177,13 @@ public class ZigZagTests : TestBase
             .GetZigZag()
             .ToList();
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         List<ZigZagResult> r1 = onequote
             .GetZigZag()
             .ToList();
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     [TestMethod]
@@ -195,7 +195,7 @@ public class ZigZagTests : TestBase
             .ToList();
 
         // assertions
-        Assert.AreEqual(14, results.Count);
+        Assert.HasCount(14, results);
     }
 
     [TestMethod]
@@ -209,23 +209,23 @@ public class ZigZagTests : TestBase
             .ToList();
 
         List<ZigZagResult> r1 = h.GetZigZag(EndType.Close, 0.25m).ToList();
-        Assert.AreEqual(342, r1.Count);
+        Assert.HasCount(342, r1);
 
         // first period has High/Low that exceeds threhold
         // where it is both a H and L pivot simultaenously
         List<ZigZagResult> r2 = h.GetZigZag(EndType.HighLow, 3).ToList();
-        Assert.AreEqual(342, r2.Count);
+        Assert.HasCount(342, r2);
     }
 
     [TestMethod]
     public void Exceptions()
     {
         // bad lookback period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => quotes.GetZigZag(EndType.Close, 0));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetZigZag(EndType.Close, 0));
 
         // bad end type
-        Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => quotes.GetZigZag((EndType)int.MaxValue, 2));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetZigZag((EndType)int.MaxValue, 2));
     }
 }

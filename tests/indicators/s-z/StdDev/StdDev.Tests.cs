@@ -11,35 +11,35 @@ public class StdDevTests : TestBase
             .ToList();
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(493, results.Count(x => x.StdDev != null));
-        Assert.AreEqual(493, results.Count(x => x.ZScore != null));
-        Assert.AreEqual(false, results.Any(x => x.StdDevSma != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(493, results.Where(x => x.StdDev != null));
+        Assert.HasCount(493, results.Where(x => x.ZScore != null));
+        Assert.IsFalse(results.Any(x => x.StdDevSma != null));
 
         // sample values
         StdDevResult r1 = results[8];
-        Assert.AreEqual(null, r1.StdDev);
-        Assert.AreEqual(null, r1.Mean);
-        Assert.AreEqual(null, r1.ZScore);
-        Assert.AreEqual(null, r1.StdDevSma);
+        Assert.IsNull(r1.StdDev);
+        Assert.IsNull(r1.Mean);
+        Assert.IsNull(r1.ZScore);
+        Assert.IsNull(r1.StdDevSma);
 
         StdDevResult r2 = results[9];
         Assert.AreEqual(0.5020, r2.StdDev.Round(4));
         Assert.AreEqual(214.0140, r2.Mean.Round(4));
         Assert.AreEqual(-0.525917, r2.ZScore.Round(6));
-        Assert.AreEqual(null, r2.StdDevSma);
+        Assert.IsNull(r2.StdDevSma);
 
         StdDevResult r3 = results[249];
         Assert.AreEqual(0.9827, r3.StdDev.Round(4));
         Assert.AreEqual(257.2200, r3.Mean.Round(4));
         Assert.AreEqual(0.783563, r3.ZScore.Round(6));
-        Assert.AreEqual(null, r3.StdDevSma);
+        Assert.IsNull(r3.StdDevSma);
 
         StdDevResult r4 = results[501];
         Assert.AreEqual(5.4738, r4.StdDev.Round(4));
         Assert.AreEqual(242.4100, r4.Mean.Round(4));
         Assert.AreEqual(0.524312, r4.ZScore.Round(6));
-        Assert.AreEqual(null, r4.StdDevSma);
+        Assert.IsNull(r4.StdDevSma);
     }
 
     [TestMethod]
@@ -50,8 +50,8 @@ public class StdDevTests : TestBase
             .GetStdDev(10)
             .ToList();
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(493, results.Count(x => x.StdDev != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(493, results.Where(x => x.StdDev != null));
     }
 
     [TestMethod]
@@ -61,8 +61,8 @@ public class StdDevTests : TestBase
             .GetStdDev(6)
             .ToList();
 
-        Assert.AreEqual(200, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.StdDev is double and double.NaN));
+        Assert.HasCount(200, r);
+        Assert.IsEmpty(r.Where(x => x.StdDev is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -73,8 +73,8 @@ public class StdDevTests : TestBase
             .GetStdDev(10)
             .ToList();
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(492, results.Count(x => x.StdDev != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(492, results.Where(x => x.StdDev != null));
     }
 
     [TestMethod]
@@ -85,8 +85,8 @@ public class StdDevTests : TestBase
             .GetSma(10)
             .ToList();
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(484, results.Count(x => x.Sma != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(484, results.Where(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -99,10 +99,10 @@ public class StdDevTests : TestBase
             .ToList();
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(493, results.Count(x => x.StdDev != null));
-        Assert.AreEqual(493, results.Count(x => x.ZScore != null));
-        Assert.AreEqual(489, results.Count(x => x.StdDevSma != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(493, results.Where(x => x.StdDev != null));
+        Assert.HasCount(493, results.Where(x => x.ZScore != null));
+        Assert.HasCount(489, results.Where(x => x.StdDevSma != null));
 
         // sample values
         StdDevResult r1 = results[19];
@@ -123,8 +123,8 @@ public class StdDevTests : TestBase
             .GetStdDev(15, 3)
             .ToList();
 
-        Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.StdDev is double and double.NaN));
+        Assert.HasCount(502, r);
+        Assert.IsEmpty(r.Where(x => x.StdDev is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -134,7 +134,7 @@ public class StdDevTests : TestBase
             .GetStdDev(200, 3)
             .ToList();
 
-        Assert.AreEqual(1246, r.Count);
+        Assert.HasCount(1246, r);
     }
 
     [TestMethod]
@@ -144,13 +144,13 @@ public class StdDevTests : TestBase
             .GetStdDev(10)
             .ToList();
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         List<StdDevResult> r1 = onequote
             .GetStdDev(10)
             .ToList();
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     [TestMethod]
@@ -162,24 +162,24 @@ public class StdDevTests : TestBase
             .ToList();
 
         // assertions
-        Assert.AreEqual(502 - 9, results.Count);
+        Assert.HasCount(502 - 9, results);
 
         StdDevResult last = results.LastOrDefault();
         Assert.AreEqual(5.4738, last.StdDev.Round(4));
         Assert.AreEqual(242.4100, last.Mean.Round(4));
         Assert.AreEqual(0.524312, last.ZScore.Round(6));
-        Assert.AreEqual(null, last.StdDevSma);
+        Assert.IsNull(last.StdDevSma);
     }
 
     [TestMethod]
     public void Exceptions()
     {
         // bad lookback period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetStdDev(1));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetStdDev(1));
 
         // bad SMA period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetStdDev(14, 0));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetStdDev(14, 0));
     }
 }

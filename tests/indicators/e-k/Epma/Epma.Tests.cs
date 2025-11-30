@@ -11,7 +11,7 @@ public class EpmaTests : TestBase
             .ToList();
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
         Assert.AreEqual(483, results.Count(x => x.Epma != null));
 
         // sample values
@@ -39,7 +39,7 @@ public class EpmaTests : TestBase
             .GetEpma(20)
             .ToList();
 
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
         Assert.AreEqual(483, results.Count(x => x.Epma != null));
     }
 
@@ -50,8 +50,8 @@ public class EpmaTests : TestBase
             .GetEpma(6)
             .ToList();
 
-        Assert.AreEqual(200, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Epma is double and double.NaN));
+        Assert.HasCount(200, r);
+        Assert.IsEmpty(r.Where(x => x.Epma is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -62,7 +62,7 @@ public class EpmaTests : TestBase
             .GetEpma(20)
             .ToList();
 
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
         Assert.AreEqual(482, results.Count(x => x.Epma != null));
     }
 
@@ -74,7 +74,7 @@ public class EpmaTests : TestBase
             .GetSma(10)
             .ToList();
 
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
         Assert.AreEqual(474, results.Count(x => x.Sma != null));
     }
 
@@ -85,8 +85,8 @@ public class EpmaTests : TestBase
             .GetEpma(15)
             .ToList();
 
-        Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Epma is double and double.NaN));
+        Assert.HasCount(502, r);
+        Assert.IsEmpty(r.Where(x => x.Epma is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -96,13 +96,13 @@ public class EpmaTests : TestBase
             .GetEpma(5)
             .ToList();
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         List<EpmaResult> r1 = onequote
             .GetEpma(5)
             .ToList();
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     [TestMethod]
@@ -114,7 +114,7 @@ public class EpmaTests : TestBase
             .ToList();
 
         // assertions
-        Assert.AreEqual(502 - 19, results.Count);
+        Assert.HasCount(502 - 19, results);
 
         EpmaResult last = results.LastOrDefault();
         Assert.AreEqual(235.8131, last.Epma.Round(4));
@@ -123,6 +123,6 @@ public class EpmaTests : TestBase
     // bad lookback period
     [TestMethod]
     public void Exceptions()
-        => Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => quotes.GetEpma(0));
+        => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetEpma(0));
 }

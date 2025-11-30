@@ -55,9 +55,10 @@ exclude:
     "docs/README.md",
     "examples/Backtest",
     "examples/ConsoleApp",
-    "GemFile",
+    "Gemfile",
     "node_modules",
     "vendor",
+    ".devcontainer"
   ]
 
 include:

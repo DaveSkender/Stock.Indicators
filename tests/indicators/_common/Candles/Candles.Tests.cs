@@ -12,7 +12,7 @@ public class Candles : TestBase
         List<CandleResult> candles = quotes.ToCandleResults();
 
         // proper quantities
-        Assert.AreEqual(502, candles.Count);
+        Assert.HasCount(502, candles);
 
         // sample values
         DateTime firstDate = DateTime.ParseExact("01/18/2016", "MM/dd/yyyy", EnglishCulture);
@@ -31,7 +31,7 @@ public class Candles : TestBase
         List<CandleResult> candles = quotes.ToCandleResults();
 
         // proper quantities
-        Assert.AreEqual(502, candles.Count);
+        Assert.HasCount(502, candles);
 
         // sample values
         CandleResult r0 = candles[0];
@@ -73,6 +73,7 @@ public class Candles : TestBase
     public void ToCandles()
     {
         IEnumerable<CandleProperties> candles = quotes.ToCandles();
-        Assert.AreEqual(quotes.Count(), candles.Count());
+        candles.Should().HaveCount(502);
+        candles.Should().BeEquivalentTo(quotes);
     }
 }

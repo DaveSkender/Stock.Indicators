@@ -10,7 +10,7 @@ public static partial class Indicator
 
     // 2.4.1
     [ExcludeFromCodeCoverage]
-    [Obsolete("Rename 'ToBasicTuple(..)' to 'ToTuple(..)' to fix.", false)]
+    [Obsolete("'ToBasicTuple(..)' was deprecated.", false)]
     public static List<(DateTime, double)> ToBasicTuple<TQuote>(
         this IEnumerable<TQuote> quotes,
         CandlePart candlePart)

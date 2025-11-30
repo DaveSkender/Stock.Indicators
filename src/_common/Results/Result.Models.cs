@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 
 public interface IReusableResult : ISeries
 {
-    public double? Value { get; }
+    double? Value { get; }
 }
 
 [Serializable]

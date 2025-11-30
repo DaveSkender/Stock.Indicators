@@ -14,25 +14,25 @@ public class ParabolicSarTests : TestBase
                 .ToList();
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(488, results.Count(x => x.Sar != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(488, results.Where(x => x.Sar != null));
 
         // sample values
         ParabolicSarResult r14 = results[14];
         Assert.AreEqual(212.83, r14.Sar);
-        Assert.AreEqual(true, r14.IsReversal);
+        Assert.IsTrue(r14.IsReversal);
 
         ParabolicSarResult r16 = results[16];
         Assert.AreEqual(212.9924, r16.Sar.Round(4));
-        Assert.AreEqual(false, r16.IsReversal);
+        Assert.IsFalse(r16.IsReversal);
 
         ParabolicSarResult r94 = results[94];
         Assert.AreEqual(228.3600, r94.Sar.Round(4));
-        Assert.AreEqual(false, r94.IsReversal);
+        Assert.IsFalse(r94.IsReversal);
 
         ParabolicSarResult r501 = results[501];
         Assert.AreEqual(229.7662, r501.Sar.Round(4));
-        Assert.AreEqual(false, r501.IsReversal);
+        Assert.IsFalse(r501.IsReversal);
     }
 
     [TestMethod]
@@ -48,29 +48,29 @@ public class ParabolicSarTests : TestBase
                 .ToList();
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(488, results.Count(x => x.Sar != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(488, results.Where(x => x.Sar != null));
 
         // sample values
         ParabolicSarResult r14 = results[14];
         Assert.AreEqual(212.83, r14.Sar);
-        Assert.AreEqual(true, r14.IsReversal);
+        Assert.IsTrue(r14.IsReversal);
 
         ParabolicSarResult r16 = results[16];
         Assert.AreEqual(212.9518, r16.Sar.Round(4));
-        Assert.AreEqual(false, r16.IsReversal);
+        Assert.IsFalse(r16.IsReversal);
 
         ParabolicSarResult r94 = results[94];
         Assert.AreEqual(228.36, r94.Sar);
-        Assert.AreEqual(false, r94.IsReversal);
+        Assert.IsFalse(r94.IsReversal);
 
         ParabolicSarResult r486 = results[486];
         Assert.AreEqual(273.4148, r486.Sar.Round(4));
-        Assert.AreEqual(false, r486.IsReversal);
+        Assert.IsFalse(r486.IsReversal);
 
         ParabolicSarResult r501 = results[501];
         Assert.AreEqual(246.73, r501.Sar);
-        Assert.AreEqual(false, r501.IsReversal);
+        Assert.IsFalse(r501.IsReversal);
     }
 
     [TestMethod]
@@ -81,8 +81,8 @@ public class ParabolicSarTests : TestBase
             .GetSma(10)
             .ToList();
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(479, results.Count(x => x.Sma != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(479, results.Where(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -102,8 +102,8 @@ public class ParabolicSarTests : TestBase
         // assertions
 
         // proper quantities
-        Assert.AreEqual(10, results.Count);
-        Assert.AreEqual(0, results.Count(x => x.Sar != null));
+        Assert.HasCount(10, results);
+        Assert.IsEmpty(results.Where(x => x.Sar != null));
     }
 
     [TestMethod]
@@ -113,8 +113,8 @@ public class ParabolicSarTests : TestBase
             .GetParabolicSar(0.2, 0.2, 0.2)
             .ToList();
 
-        Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Sar is double and double.NaN));
+        Assert.HasCount(502, r);
+        Assert.IsEmpty(r.Where(x => x.Sar is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -124,13 +124,13 @@ public class ParabolicSarTests : TestBase
             .GetParabolicSar()
             .ToList();
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         List<ParabolicSarResult> r1 = onequote
             .GetParabolicSar()
             .ToList();
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     [TestMethod]
@@ -145,30 +145,30 @@ public class ParabolicSarTests : TestBase
             .ToList();
 
         // assertions
-        Assert.AreEqual(488, results.Count);
+        Assert.HasCount(488, results);
 
         ParabolicSarResult last = results.LastOrDefault();
         Assert.AreEqual(229.7662, last.Sar.Round(4));
-        Assert.AreEqual(false, last.IsReversal);
+        Assert.IsFalse(last.IsReversal);
     }
 
     [TestMethod]
     public void Exceptions()
     {
         // bad acceleration step
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetParabolicSar(0, 1));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetParabolicSar(0, 1));
 
         // insufficient acceleration step
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetParabolicSar(0.02, 0));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetParabolicSar(0.02, 0));
 
         // step larger than factor
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetParabolicSar(6, 2));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetParabolicSar(6, 2));
 
         // insufficient initial factor
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetParabolicSar(0.02, 0.5, 0));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetParabolicSar(0.02, 0.5, 0));
     }
 }
