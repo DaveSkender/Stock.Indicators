@@ -3,8 +3,6 @@ title: Pivot Points
 description: Pivot Points depict classic support and resistance levels, based on prior calendar windows.  You can specify window size (e.g. month, week, day, etc) and any of the traditional Floor Trading, Camarilla, Demark, Fibonacci, and Woodie variants.
 ---
 
-
-
 # {{ $frontmatter.title }}
 
 [Pivot Points](https://en.wikipedia.org/wiki/Pivot_point_(technical_analysis)) depict support and resistance levels, based on prior calendar windows.  You can specify window size (e.g. month, week, day, etc) and any of the traditional Floor Trading, Camarilla, Demark, Fibonacci, and Woodie variants.
@@ -88,11 +86,11 @@ IReadOnlyList<PivotPointsResult>
 
 ### Utilities
 
-- [.Find(lookupDate)](/utilities#find-indicator-result-by-date)
-- [.RemoveWarmupPeriods()](/utilities#remove-warmup-periods)
-- [.RemoveWarmupPeriods(qty)](/utilities#remove-warmup-periods)
+- [.Find(lookupDate)](/utilities/#find-indicator-result-by-date)
+- [.RemoveWarmupPeriods()](/utilities/#remove-warmup-periods)
+- [.RemoveWarmupPeriods(qty)](/utilities/#remove-warmup-periods)
 
-See [Utilities and helpers](/utilities#utilities-for-indicator-results) for more information.
+See [Utilities and helpers](/utilities/#utilities-for-indicator-results) for more information.
 
 ## Chaining
 

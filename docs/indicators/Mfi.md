@@ -3,8 +3,6 @@ title: Money Flow Index (MFI)
 description: Created by Quong and Soudack, the Money Flow Index is a price-volume oscillator that shows buying and selling momentum.
 ---
 
-
-
 # {{ $frontmatter.title }}
 
 Created by Quong and Soudack, the [Money Flow Index](https://en.wikipedia.org/wiki/Money_flow_index) is a price-volume oscillator that shows buying and selling momentum.
@@ -47,12 +45,12 @@ IReadOnlyList<MfiResult>
 
 ### Utilities
 
-- [.Condense()](/utilities#condense)
-- [.Find(lookupDate)](/utilities#find-indicator-result-by-date)
-- [.RemoveWarmupPeriods()](/utilities#remove-warmup-periods)
-- [.RemoveWarmupPeriods(qty)](/utilities#remove-warmup-periods)
+- [.Condense()](/utilities/#condense)
+- [.Find(lookupDate)](/utilities/#find-indicator-result-by-date)
+- [.RemoveWarmupPeriods()](/utilities/#remove-warmup-periods)
+- [.RemoveWarmupPeriods(qty)](/utilities/#remove-warmup-periods)
 
-See [Utilities and helpers](/utilities#utilities-for-indicator-results) for more information.
+See [Utilities and helpers](/utilities/#utilities-for-indicator-results) for more information.
 
 ## Streaming
 

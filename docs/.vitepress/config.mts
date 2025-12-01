@@ -283,7 +283,7 @@ export default defineConfig({
 
   cleanUrls: true,
 
-  ignoreDeadLinks: true,
+  ignoreDeadLinks: false,
 
   vite: {
     plugins: [handleAssetPaths()],

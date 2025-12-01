@@ -3,8 +3,6 @@ title: Weighted Moving Average (WMA)
 description: Weighted Moving Average is the linear weighted average of financial market prices over a lookback window.  This also called Linear Weighted Moving Average (LWMA).
 ---
 
-
-
 # {{ $frontmatter.title }}
 
 [Weighted Moving Average](https://en.wikipedia.org/wiki/Moving_average#Weighted_moving_average) is the linear weighted average of price over a lookback window.  This also called Linear Weighted Moving Average (LWMA).
@@ -47,12 +45,12 @@ IReadOnlyList<WmaResult>
 
 ### Utilities
 
-- [.Condense()](/utilities#condense)
-- [.Find(lookupDate)](/utilities#find-indicator-result-by-date)
-- [.RemoveWarmupPeriods()](/utilities#remove-warmup-periods)
-- [.RemoveWarmupPeriods(qty)](/utilities#remove-warmup-periods)
+- [.Condense()](/utilities/#condense)
+- [.Find(lookupDate)](/utilities/#find-indicator-result-by-date)
+- [.RemoveWarmupPeriods()](/utilities/#remove-warmup-periods)
+- [.RemoveWarmupPeriods(qty)](/utilities/#remove-warmup-periods)
 
-See [Utilities and helpers](/utilities#utilities-for-indicator-results) for more information.
+See [Utilities and helpers](/utilities/#utilities-for-indicator-results) for more information.
 
 ## Chaining
 

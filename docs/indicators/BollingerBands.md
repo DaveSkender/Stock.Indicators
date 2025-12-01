@@ -3,8 +3,6 @@ title: Bollinger Bands&#174;
 description: Created by John Bollinger, the Bollinger Bands price channels depict volatility as standard deviation boundary line range from a moving average of price.  Bollinger Bands&#174; is a registered trademark of John A. Bollinger.
 ---
 
-
-
 # {{ $frontmatter.title }}
 
 Created by John Bollinger, [Bollinger Bands](https://en.wikipedia.org/wiki/Bollinger_Bands) price channels depict volatility as standard deviation boundary line range from a moving average of price.  Bollinger Bands&#174; is a registered trademark of John A. Bollinger.
@@ -59,12 +57,12 @@ IReadOnlyList<BollingerBandsResult>
 
 ### Utilities
 
-- [.Condense()](/utilities#condense)
-- [.Find(lookupDate)](/utilities#find-indicator-result-by-date)
-- [.RemoveWarmupPeriods()](/utilities#remove-warmup-periods)
-- [.RemoveWarmupPeriods(qty)](/utilities#remove-warmup-periods)
+- [.Condense()](/utilities/#condense)
+- [.Find(lookupDate)](/utilities/#find-indicator-result-by-date)
+- [.RemoveWarmupPeriods()](/utilities/#remove-warmup-periods)
+- [.RemoveWarmupPeriods(qty)](/utilities/#remove-warmup-periods)
 
-See [Utilities and helpers](/utilities#utilities-for-indicator-results) for more information.
+See [Utilities and helpers](/utilities/#utilities-for-indicator-results) for more information.
 
 ## Chaining
 

@@ -3,8 +3,6 @@ title: Detrended Price Oscillator (DPO)
 description: Detrended Price Oscillator depicts the difference between price and an offset simple moving average.  It is used to identify trend cycles and duration.
 ---
 
-
-
 # {{ $frontmatter.title }}
 
 [Detrended Price Oscillator](https://en.wikipedia.org/wiki/Detrended_price_oscillator) depicts the difference between price and an offset simple moving average.  It is used to identify trend cycles and duration.
@@ -49,11 +47,11 @@ IReadOnlyList<DpoResult>
 
 ### Utilities
 
-- [.Condense()](/utilities#condense)
-- [.Find(lookupDate)](/utilities#find-indicator-result-by-date)
-- [.RemoveWarmupPeriods(qty)](/utilities#remove-warmup-periods)
+- [.Condense()](/utilities/#condense)
+- [.Find(lookupDate)](/utilities/#find-indicator-result-by-date)
+- [.RemoveWarmupPeriods(qty)](/utilities/#remove-warmup-periods)
 
-See [Utilities and helpers](/utilities#utilities-for-indicator-results) for more information.
+See [Utilities and helpers](/utilities/#utilities-for-indicator-results) for more information.
 
 ## Chaining
 

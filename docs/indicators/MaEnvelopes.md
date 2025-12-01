@@ -3,8 +3,6 @@ title: Moving Average Envelopes
 description:  Moving Average Envelopes is a price band channel overlay that is offset from the moving average of price.
 ---
 
-
-
 # {{ $frontmatter.title }}
 
 [Moving Average Envelopes](https://en.wikipedia.org/wiki/Moving_average_envelope) is a price band channel overlay that is offset from the moving average of price.
@@ -36,23 +34,23 @@ See links in the supported [MaType options](#matype-options) section below for d
 
 These are the supported moving average types:
 
-**`MaType.ALMA`** - [Arnaud Legoux Moving Average](/indicators/Alma/#content)
+**`MaType.ALMA`** - [Arnaud Legoux Moving Average](/indicators/Alma)
 
-**`MaType.DEMA`** - [Double Exponential Moving Average](/indicators/Dema/#content)
+**`MaType.DEMA`** - [Double Exponential Moving Average](/indicators/Dema)
 
-**`MaType.EPMA`** - [Endpoint Moving Average](/indicators/Epma/#content)
+**`MaType.EPMA`** - [Endpoint Moving Average](/indicators/Epma)
 
-**`MaType.EMA`** - [Exponential Moving Average](/indicators/Ema/#content)
+**`MaType.EMA`** - [Exponential Moving Average](/indicators/Ema)
 
-**`MaType.HMA`** - [Hull Moving Average](/indicators/Hma/#content)
+**`MaType.HMA`** - [Hull Moving Average](/indicators/Hma)
 
-**`MaType.SMA`** - [Simple Moving Average](/indicators/Sma/#content) (default)
+**`MaType.SMA`** - [Simple Moving Average](/indicators/Sma) (default)
 
-**`MaType.SMMA`** - [Smoothed Moving Average](/indicators/Smma/#content)
+**`MaType.SMMA`** - [Smoothed Moving Average](/indicators/Smma)
 
-**`MaType.TEMA`** - [Triple Exponential Moving Average](/indicators/Tema/#content)
+**`MaType.TEMA`** - [Triple Exponential Moving Average](/indicators/Tema)
 
-**`MaType.WMA`** - [Weighted Moving Average](/indicators/Wma/#content)
+**`MaType.WMA`** - [Weighted Moving Average](/indicators/Wma)
 
 > &#128681;  **Warning**: For ALMA, default values are used for `offset` and `sigma`.
 
@@ -83,11 +81,11 @@ The moving average `Centerline` is based on the `movingAverageType` type specifi
 
 ### Utilities
 
-- [.Condense()](/utilities#condense)
-- [.Find(lookupDate)](/utilities#find-indicator-result-by-date)
-- [.RemoveWarmupPeriods(qty)](/utilities#remove-warmup-periods)
+- [.Condense()](/utilities/#condense)
+- [.Find(lookupDate)](/utilities/#find-indicator-result-by-date)
+- [.RemoveWarmupPeriods(qty)](/utilities/#remove-warmup-periods)
 
-See [Utilities and helpers](/utilities#utilities-for-indicator-results) for more information.
+See [Utilities and helpers](/utilities/#utilities-for-indicator-results) for more information.
 
 ## Streaming
 

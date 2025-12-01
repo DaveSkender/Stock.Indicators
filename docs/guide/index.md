@@ -1,6 +1,7 @@
 ---
 title: Guide and Pro tips
 description: Learn how to use the Stock Indicators for .NET Nuget library in your own software tools and platforms.  Whether you're just getting started or an advanced professional, this guide explains how to get setup, example usage code, and instructions on how to use historical price quotes, make custom quote classes, chain indicators of indicators, and create custom technical indicators.
+permalink: /guide/index
 ---
 
 <nav role="navigation" aria-label="guide page menu">

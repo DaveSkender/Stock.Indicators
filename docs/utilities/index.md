@@ -10,9 +10,12 @@ description: The Stock Indicators for .NET library includes utilities to help yo
 - [for numerical analysis](#utilities-for-numerical-analysis)
 - [indicator metadata catalog](#indicator-catalog-metadata)
 
+See [individual indicator pages](/indicators/#content) for information on recommended pruning quantities.
+
 ## Utilities for historical quotes
 
 ### Use alternate price
+> _The Catalog_ provides a programatic way to interact with indicators and options; however, it is not the idiomatic .NET way to use this library.  See the examples in [the Guide](/guide/) for normal syntax examples.
 
 `quotes.Use()` can be used before most indicator calls to specify which price element to analyze.  It cannot be used for indicators that require the full OHLCV quote profile.
 
@@ -22,17 +25,12 @@ description: The Stock Indicators for .NET library includes utilities to help yo
 var results = quotes
   .Use(CandlePart.HL2)
   .ToRsi(14);
-```
 
 ### Sort quotes
-
+permalink: /utilities/index
 `quotes.ToSortedList()` sorts any collection of `TQuote` or `ISeries` and returns it as a `IReadOnlyList` sorted by ascending `Timestamp`.  You **do need to sort quotes** before using library indicators.
 
 ### Resize quote history
-
-`quotes.Aggregate(newSize)` is a tool to convert quotes to larger bar sizes.  For example if you have minute bar sizes in `quotes`, but want to convert it to hourly or daily.
-
-```csharp
 // aggregate into larger bars
 IReadOnlyList<Quote> dayBarQuotes =
   minuteBarQuotes.Aggregate(PeriodSize.Day);
@@ -142,7 +140,7 @@ See [individual indicator pages](/indicators/#content) for information on recomm
 
 ### Sort results
 
-`results.ToSortedList()` sorts any collection of indicator results and returns it as a `IReadOnlyList` sorted by ascending `Timestamp`.  Results from the library indicators are already sorted, so you'd only potentially need this if you're creating [custom indicators](/custom-indicators/#content).
+`results.ToSortedList()` sorts any collection of indicator results and returns it as a `IReadOnlyList` sorted by ascending `Timestamp`.  Results from the library indicators are already sorted, so you'd only potentially need this if you're creating [custom indicators](/custom-indicators/).
 
 ## Utilities for numerical analysis
 

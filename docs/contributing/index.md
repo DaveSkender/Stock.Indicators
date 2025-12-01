@@ -3,6 +3,7 @@ title: Contributing guidelines
 description: >-
   This NuGet package is an open-source project.
   Learn how to contribute issues, fixes, new indicators, new features, or to our discussions.
+permalink: /contributing/index
 ---
 
 
@@ -166,7 +167,7 @@ This repository is optimized for GitHub Copilot and coding agents with:
 - **Environment setup workflow** in `.github/workflows/copilot-setup-steps.yml` for automated dependency installation
 - **MCP server configurations** in `.github/mcp-servers.md` for extended AI capabilities with financial mathematics and .NET performance analysis
 - **Spec-Kit integration** in `.specify/` directory enabling Spec-Driven Development workflows with structured commands
-- **CodeRabbit AI review configuration** in `.coderabbit.yml` with domain-specific code review focus on financial accuracy and performance - see [CodeRabbit Configuration Guide](coderabbit.md)
+- **CodeRabbit AI review configuration** in `.coderabbit.yml` with domain-specific code review focus on financial accuracy and performance - see [CodeRabbit Configuration Guide](/coderabbit/)
 
 ### Spec-Driven Development
 

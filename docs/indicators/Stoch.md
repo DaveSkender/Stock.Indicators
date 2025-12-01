@@ -3,8 +3,6 @@ title: Stochastic Oscillator
 description: Created by George Lane, the Stochastic Oscillator, also known as KDJ Index, is a momentum oscillator that compares current financial market price with recent highs and lows and is presented on a scale of 0 to 100.  %J is also included for the KDJ Index extension.
 ---
 
-
-
 # {{ $frontmatter.title }}
 
 Created by George Lane, the [Stochastic Oscillator](https://en.wikipedia.org/wiki/Stochastic_oscillator), also known as KDJ Index, is a momentum oscillator that compares current price with recent highs and lows and is presented on a scale of 0 to 100.
@@ -47,9 +45,9 @@ You must have at least `N+S` periods of `quotes` to cover the [warmup and conver
 
 These are the supported moving average types:
 
-**`MaType.SMA`** - [Simple Moving Average](/indicators/Sma/#content) (default)
+**`MaType.SMA`** - [Simple Moving Average](/indicators/Sma) (default)
 
-**`MaType.SMMA`** - [Smoothed Moving Average](/indicators/Smma/#content)
+**`MaType.SMMA`** - [Smoothed Moving Average](/indicators/Smma)
 
 ## Response
 
@@ -78,12 +76,12 @@ Note: aliases of `K`, `D`, and `J` are also provided.  They can be used intercha
 
 ### Utilities
 
-- [.Condense()](/utilities#condense)
-- [.Find(lookupDate)](/utilities#find-indicator-result-by-date)
-- [.RemoveWarmupPeriods()](/utilities#remove-warmup-periods)
-- [.RemoveWarmupPeriods(qty)](/utilities#remove-warmup-periods)
+- [.Condense()](/utilities/#condense)
+- [.Find(lookupDate)](/utilities/#find-indicator-result-by-date)
+- [.RemoveWarmupPeriods()](/utilities/#remove-warmup-periods)
+- [.RemoveWarmupPeriods(qty)](/utilities/#remove-warmup-periods)
 
-See [Utilities and helpers](/utilities#utilities-for-indicator-results) for more information.
+See [Utilities and helpers](/utilities/#utilities-for-indicator-results) for more information.
 
 ## Chaining
 

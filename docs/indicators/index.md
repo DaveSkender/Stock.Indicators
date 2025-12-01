@@ -1,6 +1,7 @@
 ---
 title: Indicators and overlays
 description: The Stock Indicators for .NET library contains financial market technical analysis methods to view price patterns or to develop your own trading strategies in Microsoft .NET programming languages and developer platforms.
+permalink: /indicators/index
 ---
 
 # Indicators and overlays
@@ -55,11 +56,11 @@ Categories include price trends, price channels, oscillators, stop and reverse, 
 
 ## Price transforms {#price-transform}
 
-- [HL2](/indicators/quotepart)
-- [HLC3](/indicators/quotepart)
-- [OC2](/indicators/quotepart)
-- [OHL3](/indicators/quotepart)
-- [OHLC4](/indicators/quotepart)
+- [HL2](/indicators/QuotePart)
+- [HLC3](/indicators/QuotePart)
+- [OC2](/indicators/QuotePart)
+- [OHL3](/indicators/QuotePart)
+- [OHLC4](/indicators/QuotePart)
 
 ## Price characteristics {#price-characteristic}
 

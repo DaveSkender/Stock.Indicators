@@ -65,33 +65,19 @@ The configuration includes domain-specific pattern detection:
 # Validation patterns
 - pattern: "ArgumentOutOfRangeException"
   message: "Ensure lookback period validation includes edge cases..."
-```
-
-### Knowledge Base
-
 CodeRabbit is informed about domain-specific concepts:
 
 - Financial indicator calculation principles
 - Performance priorities (`double` vs `decimal`)
 - Data handling patterns (null values, insufficient data)
-- Real-time streaming requirements
-- Interface design (`IReusable`, `ISeries`)
-
-### Integration with Existing Tools
 
 The configuration respects existing development tools:
 
 - **EditorConfig**: Follows established formatting rules
 - **.NET Analyzers**: Coordinates with existing code quality rules
-- **GitHub Actions**: Works alongside CI/CD workflows
-- **VitePress**: Understands documentation site requirements
-
-## Review Templates
-
 Predefined templates ensure consistent review quality:
-
 - **Performance Analysis**: Checks for allocations, span usage, LINQ optimization
-- **Financial Accuracy**: Validates mathematical formulas and precision handling
+See [Contributing](/contributing/) for project contribution guidelines.
 - **API Consistency**: Ensures naming patterns and documentation standards
 
 ## Ignored Files

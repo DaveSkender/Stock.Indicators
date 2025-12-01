@@ -3,8 +3,6 @@ title: Ehlers Fisher Transform
 description: Created by John Ehlers, the Fisher Transform converts financial market prices into a Gaussian normal distribution.
 ---
 
-
-
 # {{ $frontmatter.title }}
 
 Created by John Ehlers, the [Fisher Transform](https://www.investopedia.com/terms/f/fisher-transform.asp) converts prices into a Gaussian normal distribution.
@@ -50,9 +48,9 @@ IReadOnlyList<FisherTransformResult>
 
 ### Utilities
 
-- [.Condense()](/utilities#condense)
-- [.Find(lookupDate)](/utilities#find-indicator-result-by-date)
-- [.RemoveWarmupPeriods(qty)](/utilities#remove-warmup-periods)
+- [.Condense()](/utilities/#condense)
+- [.Find(lookupDate)](/utilities/#find-indicator-result-by-date)
+- [.RemoveWarmupPeriods(qty)](/utilities/#remove-warmup-periods)
 
 For pruning of warmup periods, we recommend using the following guidelines:
 
@@ -61,7 +59,7 @@ quotes.ToFisherTransform(lookbackPeriods)
   .RemoveWarmupPeriods(lookbackPeriods+15);
 ```
 
-See [Utilities and helpers](/utilities#utilities-for-indicator-results) for more information.
+See [Utilities and helpers](/utilities/#utilities-for-indicator-results) for more information.
 
 ## Chaining
 

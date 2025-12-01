@@ -1,6 +1,7 @@
 ---
 title: Renko Chart
 description: The Renko Chart is a Japanese price transformed candlestick pattern that uses "bricks" to show a defined increment of change over a non-linear time series.  Transitions can use either Close or High/Low price values.  An Average True Range (ATR) variant is also provided where brick size is determined by current Average True Range values.
+---
 
 # {{ $frontmatter.title }}
 
@@ -67,10 +68,10 @@ Each result record represents one Renko brick.
 
 ### Utilities
 
-- [.Find(lookupDate)](/utilities#find-indicator-result-by-date)
-- [.RemoveWarmupPeriods(qty)](/utilities#remove-warmup-periods)
+- [.Find(lookupDate)](/utilities/#find-indicator-result-by-date)
+- [.RemoveWarmupPeriods(qty)](/utilities/#remove-warmup-periods)
 
-See [Utilities and helpers](/utilities#utilities-for-indicator-results) for more information.
+See [Utilities and helpers](/utilities/#utilities-for-indicator-results) for more information.
 
 ## Chaining
 
@@ -146,7 +147,7 @@ IReadOnlyList<RenkoResult>
 - It does not return a single incremental indicator value.
 - See [RenkoResult](#renkoresult) above for detailed response structure.
 
-> &#128073; **Repaint warning**: When using the `ToRenkoAtr()` variant, the last [Average True Range (ATR)](/indicators/Atr/#content) value is used to set `brickSize`.  Since the ATR changes over time, historical bricks will be repainted as new periods are added or updated in `quotes`.
+> &#128073; **Repaint warning**: When using the `ToRenkoAtr()` variant, the last [Average True Range (ATR)](/indicators/Atr) value is used to set `brickSize`.  Since the ATR changes over time, historical bricks will be repainted as new periods are added or updated in `quotes`.
 
 ### Streaming limitations for ATR
 

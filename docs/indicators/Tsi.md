@@ -3,8 +3,6 @@ title: True Strength Index (TSI)
 description: Created by William Blau, the True Strength Index is a momentum oscillator that uses a series of exponential moving averages to depicts trends in price changes.
 ---
 
-
-
 # {{ $frontmatter.title }}
 
 Created by William Blau, the [True Strength Index](https://en.wikipedia.org/wiki/True_strength_index) is a momentum oscillator that uses a series of exponential moving averages to depicts trends in price changes.
@@ -56,16 +54,16 @@ IReadOnlyList<TsiResult>
 
 ### Utilities
 
-- [.Condense()](/utilities#condense)
-- [.Find(lookupDate)](/utilities#find-indicator-result-by-date)
-- [.RemoveWarmupPeriods()](/utilities#remove-warmup-periods)
-- [.RemoveWarmupPeriods(qty)](/utilities#remove-warmup-periods)
+- [.Condense()](/utilities/#condense)
+- [.Find(lookupDate)](/utilities/#find-indicator-result-by-date)
+- [.RemoveWarmupPeriods()](/utilities/#remove-warmup-periods)
+- [.RemoveWarmupPeriods(qty)](/utilities/#remove-warmup-periods)
 
-See [Utilities and helpers](/utilities#utilities-for-indicator-results) for more information.
+See [Utilities and helpers](/utilities/#utilities-for-indicator-results) for more information.
 
 ## Streaming
 
-This indicator can be used with the buffer style for incremental streaming scenarios.  See [Streaming guide](/guide) for more information.
+This indicator can be used with the buffer style for incremental streaming scenarios.  See [Streaming guide](/guide/) for more information.
 
 ```csharp
 // buffer-style streaming

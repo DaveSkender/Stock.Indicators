@@ -3,11 +3,9 @@ title: Gator Oscillator
 description: Created by Bill Williams, the Gator Oscillator is an expanded oscillator view of Williams Alligator's three moving averages.
 ---
 
-
-
 # {{ $frontmatter.title }}
 
-Created by Bill Williams, the Gator Oscillator is an expanded oscillator view of [Williams Alligator](/indicators/Alligator/#content)'s three moving averages.
+Created by Bill Williams, the Gator Oscillator is an expanded oscillator view of [Williams Alligator](/indicators/Alligator/)'s three moving averages.
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/385 "Community discussion about this indicator")
 
 <img src="/assets/charts/Gator.png" alt="chart for Gator Oscillator (Gator)" />
@@ -56,12 +54,12 @@ IReadOnlyList<GatorResult>
 
 ### Utilities
 
-- [.Condense()](/utilities#condense)
-- [.Find(lookupDate)](/utilities#find-indicator-result-by-date)
-- [.RemoveWarmupPeriods()](/utilities#remove-warmup-periods)
-- [.RemoveWarmupPeriods(qty)](/utilities#remove-warmup-periods)
+- [.Condense()](/utilities/#condense)
+- [.Find(lookupDate)](/utilities/#find-indicator-result-by-date)
+- [.RemoveWarmupPeriods()](/utilities/#remove-warmup-periods)
+- [.RemoveWarmupPeriods(qty)](/utilities/#remove-warmup-periods)
 
-See [Utilities and helpers](/utilities#utilities-for-indicator-results) for more information.
+See [Utilities and helpers](/utilities/#utilities-for-indicator-results) for more information.
 
 ## Chaining
 

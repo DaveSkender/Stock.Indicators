@@ -6,8 +6,6 @@ redirect-from:
   - /indicators/BasicQuote/
 ---
 
-
-
 # {{ $frontmatter.title }}
 
 Returns a reusable (chainable) basic quote transform (e.g. HL2, OHL3, etc.) by isolating a single component part value or calculated value from the full OHLCV quote candle parts.
@@ -50,9 +48,9 @@ IReadOnlyList<QuotePart>
 
 ### Utilities
 
-- [.Find(lookupDate)](/utilities#find-indicator-result-by-date)
+- [.Find(lookupDate)](/utilities/#find-indicator-result-by-date)
 
-See [Utilities and helpers](/utilities#utilities-for-indicator-results) for more information.
+See [Utilities and helpers](/utilities/#utilities-for-indicator-results) for more information.
 
 ## Chaining
 

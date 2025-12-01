@@ -3,11 +3,9 @@ title: ROC with Bands
 description: Rate of Change with Bands, created by Vitali Apirine, is a volatility banded variant of the basic Rate of Change (ROC) indicator.
 ---
 
-
-
 # {{ $frontmatter.title }}
 
-Rate of Change (ROC) with Bands, created by Vitali Apirine, is a volatility banded variant of [Rate of Change (ROC)](/indicators/Roc/#content).
+Rate of Change (ROC) with Bands, created by Vitali Apirine, is a volatility banded variant of [Rate of Change (ROC)](/indicators/Roc).
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/242 "Community discussion about this indicator")
 
 <img src="/assets/charts/RocWb.png" alt="chart for ROC with Bands" />
@@ -38,10 +36,6 @@ You must have at least `N+1` periods of `quotes` to cover the warmup periods.
 IReadOnlyList<RocWbResult>
 ```
 
-- This method returns a time series of all available indicator values for the `quotes` provided.
-- It always returns the same number of elements as there are in the historical quotes.
-- It does not return a single incremental indicator value.
-- The first `N` periods will have `null` values for ROC since there's not enough data to calculate.
 
 ### RocWbResult
 
@@ -57,12 +51,8 @@ IReadOnlyList<RocWbResult>
 
 ### Utilities
 
-- [.Condense()](/utilities#condense)
-- [.Find(lookupDate)](/utilities#find-indicator-result-by-date)
-- [.RemoveWarmupPeriods()](/utilities#remove-warmup-periods)
-- [.RemoveWarmupPeriods(qty)](/utilities#remove-warmup-periods)
 
-See [Utilities and helpers](/utilities#utilities-for-indicator-results) for more information.
+See [Utilities and helpers](/utilities/#utilities-for-indicator-results) for more information.
 
 ## Streaming
 

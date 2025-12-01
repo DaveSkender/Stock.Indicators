@@ -3,8 +3,6 @@ title: Standard Deviation Channels
 description: Standard Deviation Channels are price ranges based on an linear regression centerline and standard deviations band widths.
 ---
 
-
-
 # {{ $frontmatter.title }}
 
 Standard Deviation Channels are prices ranges based on an linear regression centerline and standard deviations band widths.
@@ -57,12 +55,12 @@ IReadOnlyList<StdDevChannelsResult>
 
 ### Utilities
 
-- [.Condense()](/utilities#condense)
-- [.Find(lookupDate)](/utilities#find-indicator-result-by-date)
-- [.RemoveWarmupPeriods()](/utilities#remove-warmup-periods)
-- [.RemoveWarmupPeriods(qty)](/utilities#remove-warmup-periods)
+- [.Condense()](/utilities/#condense)
+- [.Find(lookupDate)](/utilities/#find-indicator-result-by-date)
+- [.RemoveWarmupPeriods()](/utilities/#remove-warmup-periods)
+- [.RemoveWarmupPeriods(qty)](/utilities/#remove-warmup-periods)
 
-See [Utilities and helpers](/utilities#utilities-for-indicator-results) for more information.
+See [Utilities and helpers](/utilities/#utilities-for-indicator-results) for more information.
 
 ## Alternative depiction for full quotes variant
 
