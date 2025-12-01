@@ -17,14 +17,14 @@
     "ghcr.io/devcontainers/features/node:1": {
       "version": "lts"
     },
+    "ghcr.io/devcontainers-extra/features/pnpm:1": {
+      "version": "10.24.0"
+    },
     "ghcr.io/devcontainers/features/git:1": {
       "version": "latest",
       "ppa": true
     },
     "ghcr.io/devcontainers/features/github-cli:1": {
-      "version": "latest"
-    },
-    "ghcr.io/devcontainers-extra/features/angular-cli:2": {
       "version": "latest"
     }
   },

@@ -36,7 +36,6 @@ You must have at least `N+1` periods of `quotes` to cover the warmup periods.
 IReadOnlyList<RocWbResult>
 ```
 
-
 ### RocWbResult
 
 **`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
@@ -50,7 +49,6 @@ IReadOnlyList<RocWbResult>
 **`LowerBand`** _`double`_ - Lower band of ROC (oversold indicator)
 
 ### Utilities
-
 
 See [Utilities and helpers](/utilities/#utilities-for-indicator-results) for more information.
 

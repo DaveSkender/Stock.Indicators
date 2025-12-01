@@ -10,13 +10,9 @@ description: The Stock Indicators for .NET library includes utilities to help yo
 - [for numerical analysis](#utilities-for-numerical-analysis)
 - [indicator metadata catalog](#indicator-catalog-metadata)
 
-See [individual indicator pages](/indicators/#content) for information on recommended pruning quantities.
-
 ## Utilities for historical quotes
 
 ### Use alternate price
->
-> _The Catalog_ provides a programatic way to interact with indicators and options; however, it is not the idiomatic .NET way to use this library.  See the examples in [the Guide](/guide/) for normal syntax examples.
 
 `quotes.Use()` can be used before most indicator calls to specify which price element to analyze.  It cannot be used for indicators that require the full OHLCV quote profile.
 
@@ -141,7 +137,7 @@ See [individual indicator pages](/indicators/#content) for information on recomm
 
 ### Sort results
 
-`results.ToSortedList()` sorts any collection of indicator results and returns it as a `IReadOnlyList` sorted by ascending `Timestamp`.  Results from the library indicators are already sorted, so you'd only potentially need this if you're creating [custom indicators](/custom-indicators/).
+`results.ToSortedList()` sorts any collection of indicator results and returns it as a `IReadOnlyList` sorted by ascending `Timestamp`.  Results from the library indicators are already sorted, so you'd only potentially need this if you're creating [custom indicators](/custom-indicators/#content).
 
 ## Utilities for numerical analysis
 
@@ -178,7 +174,7 @@ Use the indicator catalog to discover indicators, build simple pickers, or expor
 - Optionally execute an indicator by ID (no compile-time generics required)
 
 > [!IMPORTANT]
-> _The Catalog_ provides a programatic way to interact with indicators and options; however, it is not the idiomatic .NET way to use this library.  See the examples in [the Guide](/guide/) for normal syntax examples.
+> _The Catalog_ provides a programatic way to interact with indicators and options; however, it is not the idiomatic .NET way to use this library.  See the examples in [the Guide](guide.md) for normal sytax examples.
 
 ### Browse or export the catalog
 

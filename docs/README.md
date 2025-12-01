@@ -6,7 +6,6 @@ This site is built with [Vitepress](https://vitepress.dev) and deployed to Cloud
 
 ## Local Development
 
-
 ```bash
 cd docs
 pnpm install
@@ -17,7 +16,6 @@ The site will open at `http://localhost:5173/`
 
 ## Building
 
-
 ```bash
 pnpm run docs:build
 ```
@@ -25,7 +23,6 @@ pnpm run docs:build
 The built site will be in `.vitepress/dist/`
 
 ## Preview Build
-
 
 ```bash
 pnpm run docs:preview
