@@ -141,11 +141,11 @@ See [individual indicator pages](/indicators/#content) for information on recomm
 
 ### Sort results
 
-`results.ToSortedList()` sorts any collection of indicator results and returns it as a `IReadOnlyList` sorted by ascending `Timestamp`.  Results from the library indicators are already sorted, so you'd only potentially need this if you're creating [custom indicators](/custom-indicators/).
+`results.ToSortedList()` sorts any collection of indicator results and returns it as a `IReadOnlyList` sorted by ascending `Timestamp`.  Results from the library indicators are already sorted, so you'd only potentially need this if you're creating [custom indicators](/custom-indicators).
 
 ## Utilities for numerical analysis
 
-This library also includes several tools that we use internally to calculate indicator algorithms.  These can be useful if you are creating your own [custom indicators](/custom-indicators/).
+This library also includes several tools that we use internally to calculate indicator algorithms.  These can be useful if you are creating your own [custom indicators](/custom-indicators).
 
 ### Numerical methods
 
