@@ -1,9 +1,6 @@
 ---
 title: Renko Chart
 description: The Renko Chart is a Japanese price transformed candlestick pattern that uses "bricks" to show a defined increment of change over a non-linear time series.  Transitions can use either Close or High/Low price values.  An Average True Range (ATR) variant is also provided where brick size is determined by current Average True Range values.
----
-
-
 
 # {{ $frontmatter.title }}
 

@@ -1,5 +1,6 @@
 # VitePress site
 node_modules/
+--open/
 .vitepress/dist/
 .vitepress/cache/
 .vitepress/.temp/

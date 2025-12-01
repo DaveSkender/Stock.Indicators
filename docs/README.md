@@ -6,24 +6,27 @@ This site is built with [Vitepress](https://vitepress.dev) and deployed to Cloud
 
 ## Local Development
 
+
 ```bash
 cd docs
-npm install
-npm run docs:dev
+pnpm install
+pnpm run docs:dev
 ```
 
 The site will open at `http://localhost:5173/`
 
 ## Building
 
+
 ```bash
-npm run docs:build
+pnpm run docs:build
 ```
 
 The built site will be in `.vitepress/dist/`
 
 ## Preview Build
 
+
 ```bash
-npm run docs:preview
+pnpm run docs:preview
 ```

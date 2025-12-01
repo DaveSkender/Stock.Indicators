@@ -11,7 +11,6 @@
       "type": "promptString"
     }
   ],
-
   // defaults
   "group": "none",
   "presentation": {
@@ -24,8 +23,9 @@
     "clear": false
   },
   "problemMatcher": "$msCompile",
-  "options": { "cwd": "${workspaceFolder}" },
-
+  "options": {
+    "cwd": "${workspaceFolder}"
+  },
   // tasks
   "tasks": [
     {
@@ -67,19 +67,22 @@
       "type": "shell",
       "command": "dotnet restore",
       "problemMatcher": "$msCompile",
-      "presentation": { "group": "install" }
+      "presentation": {
+        "group": "install"
+      }
     },
-
     {
       "label": "Install: NPM (pnpm) packages",
-      "detail": "Install npm packages for docs site (VitePress)",
+      "detail": "Install pnpm packages for docs site (VitePress), ensuring pnpm@10.24.0 is present",
       "type": "shell",
-      "command": "pnpm install",
+      "command": "if command -v corepack > /dev/null 2>&1; then corepack enable && corepack prepare pnpm@10.24.0 --activate; else npm install -g pnpm@10.24.0; fi && pnpm --version && pnpm install",
       "options": {
         "cwd": "${workspaceFolder}/docs"
       },
       "problemMatcher": [],
-      "presentation": { "group": "install" }
+      "presentation": {
+        "group": "install"
+      }
     },
     {
       "label": "Update: NPM (pnpm) packages",
@@ -90,7 +93,9 @@
         "cwd": "${workspaceFolder}/docs"
       },
       "problemMatcher": [],
-      "presentation": { "group": "install" }
+      "presentation": {
+        "group": "install"
+      }
     },
     {
       "label": "Clean: .NET Solution (dotnet clean)",
@@ -107,7 +112,9 @@
       "command": "bash tools/scripts/clean.sh",
       "group": "build",
       "problemMatcher": "$msCompile",
-      "presentation": { "group": "install" }
+      "presentation": {
+        "group": "install"
+      }
     },
     {
       "label": "Delete: Temporary caches (and build)",
@@ -116,7 +123,9 @@
       "command": "bash tools/scripts/clean.sh && dotnet build --no-incremental",
       "group": "build",
       "problemMatcher": "$msCompile",
-      "presentation": { "group": "install" }
+      "presentation": {
+        "group": "install"
+      }
     },
     {
       "label": "Build: .NET Solution (incremental)",
@@ -144,7 +153,9 @@
       "command": "dotnet format --verify-no-changes --severity info --no-restore",
       "group": "test",
       "problemMatcher": "$msCompile",
-      "presentation": { "group": "analysis" }
+      "presentation": {
+        "group": "analysis"
+      }
     },
     {
       "label": "Lint: .NET code (full analysis)",
@@ -153,9 +164,13 @@
       "command": "bash tools/scripts/lint-code-check.sh",
       "group": "test",
       "problemMatcher": "$msCompile",
-      "dependsOn": ["Build: .NET Solution (incremental)"],
+      "dependsOn": [
+        "Build: .NET Solution (incremental)"
+      ],
       "dependsOrder": "sequence",
-      "presentation": { "group": "analysis" }
+      "presentation": {
+        "group": "analysis"
+      }
     },
     {
       "label": "Lint: .NET code (fix)",
@@ -164,25 +179,31 @@
       "command": "bash tools/scripts/lint-code-fix.sh",
       "group": "none",
       "problemMatcher": "$msCompile",
-      "presentation": { "group": "analysis" }
+      "presentation": {
+        "group": "analysis"
+      }
     },
     {
       "label": "Lint: Markdown files",
       "detail": "Run markdownlint over documentation",
       "type": "shell",
-      "command": "echo y | pnpm dlx markdownlint-cli2",
+      "command": "pnpm dlx markdownlint-cli2",
       "group": "test",
       "problemMatcher": "$markdownlint",
-      "presentation": { "group": "analysis" }
+      "presentation": {
+        "group": "analysis"
+      }
     },
     {
       "label": "Lint: Markdown files (fix)",
       "detail": "Auto-fix markdown formatting issues",
       "type": "shell",
-      "command": "echo y | pnpm dlx markdownlint-cli2 --fix",
+      "command": "pnpm dlx markdownlint-cli2 --fix",
       "group": "none",
       "problemMatcher": "$markdownlint",
-      "presentation": { "group": "analysis" }
+      "presentation": {
+        "group": "analysis"
+      }
     },
     {
       "label": "Lint: .NET code & markdown files",
@@ -194,8 +215,13 @@
       ],
       "dependsOrder": "sequence",
       "group": "test",
-      "problemMatcher": ["$msCompile", "$markdownlint"],
-      "presentation": { "group": "analysis" }
+      "problemMatcher": [
+        "$msCompile",
+        "$markdownlint"
+      ],
+      "presentation": {
+        "group": "analysis"
+      }
     },
     {
       "label": "Lint: .NET code & markdown files (fix)",
@@ -207,8 +233,13 @@
       ],
       "dependsOrder": "sequence",
       "group": "none",
-      "problemMatcher": ["$msCompile", "$markdownlint"],
-      "presentation": { "group": "analysis" }
+      "problemMatcher": [
+        "$msCompile",
+        "$markdownlint"
+      ],
+      "presentation": {
+        "group": "analysis"
+      }
     },
     {
       "label": "CI: Verify (build + lint + unit test)",
@@ -235,7 +266,9 @@
         "isDefault": true
       },
       "problemMatcher": "$msCompile",
-      "presentation": { "clear": true }
+      "presentation": {
+        "clear": true
+      }
     },
     {
       "label": "Test: Regression tests",
@@ -244,7 +277,9 @@
       "command": "dotnet test tests/indicators/Tests.Indicators.csproj --no-restore --nologo --settings tests/tests.regression.runsettings",
       "group": "test",
       "problemMatcher": "$msCompile",
-      "presentation": { "clear": true }
+      "presentation": {
+        "clear": true
+      }
     },
     {
       "label": "Test: Integration",
@@ -253,7 +288,9 @@
       "command": "dotnet test tests/integration/Tests.Integration.csproj --no-restore --nologo && dotnet test tests/public-api/Tests.PublicApi.csproj --no-restore --nologo",
       "group": "test",
       "problemMatcher": "$msCompile",
-      "presentation": { "clear": true }
+      "presentation": {
+        "clear": true
+      }
     },
     {
       "label": "Test: All tests",
@@ -262,7 +299,9 @@
       "command": "dotnet test --no-restore --nologo",
       "group": "test",
       "problemMatcher": "$msCompile",
-      "presentation": { "clear": true }
+      "presentation": {
+        "clear": true
+      }
     },
     {
       "label": "Test: Unit tests with coverage",
@@ -271,7 +310,9 @@
       "command": "dotnet test --collect:\"Code Coverage\" --no-restore --nologo",
       "group": "test",
       "problemMatcher": "$msCompile",
-      "presentation": { "clear": true }
+      "presentation": {
+        "clear": true
+      }
     },
     {
       "label": "Test: Performance (all)",
@@ -326,12 +367,15 @@
       }
     },
     {
-      "label": "Run: Doc site with LiveReload",
-      "detail": "Serve VitePress docs site with hot reload",
+      "label": "Run: Doc site with LiveReload (external browser)",
+      "detail": "Serve VitePress docs site with hot reload (port 5173, opens browser)",
       "type": "shell",
       "command": "pnpm run docs:dev -- --open",
       "dependsOn": "Install: NPM (pnpm) packages",
       "isBackground": true,
+      "runOptions": {
+        "instanceLimit": 1
+      },
       "options": {
         "cwd": "${workspaceFolder}/docs"
       },
@@ -357,12 +401,49 @@
       }
     },
     {
-      "label": "Run: Documentation site (serve)",
-      "detail": "Alias: run VitePress docs site (background)",
+      "label": "Run: Doc site with LiveReload (Simple Browser)",
+      "detail": "Serve VitePress docs site on port 5174 with hot reload (VS Code Simple Browser)",
+      "type": "shell",
+      "command": "pnpm run docs:dev -- --port 5174",
+      "dependsOn": "Install: NPM (pnpm) packages",
+      "isBackground": true,
+      "runOptions": {
+        "instanceLimit": 1
+      },
+      "options": {
+        "cwd": "${workspaceFolder}/docs"
+      },
+      "problemMatcher": {
+        "owner": "vitepress",
+        "pattern": {
+          "regexp": ".*",
+          "file": 0,
+          "line": 0,
+          "column": 0,
+          "message": 0
+        },
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": ".*vitepress.*",
+          "endsPattern": ".*Local:.*http.*"
+        }
+      },
+      "presentation": {
+        "clear": true,
+        "panel": "dedicated",
+        "group": "hosted"
+      }
+    },
+    {
+      "label": "Run: Doc site (serve only)",
+      "detail": "Serve VitePress docs site (background, port 5173, no browser open)",
       "type": "shell",
       "command": "pnpm run docs:dev",
       "dependsOn": "Install: NPM (pnpm) packages",
       "isBackground": true,
+      "runOptions": {
+        "instanceLimit": 1
+      },
       "options": {
         "cwd": "${workspaceFolder}/docs"
       },
@@ -471,6 +552,18 @@
         "$msCompile",
         "$eslint-compact"
       ]
+    },
+    {
+      "label": "Stop: All hosted servers",
+      "detail": "Stop all running VitePress dev servers and preview servers",
+      "type": "shell",
+      "command": "taskkill /F /IM node.exe /T 2>nul || echo No servers running",
+      "group": "none",
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "silent",
+        "panel": "shared"
+      }
     },
   ]
 }

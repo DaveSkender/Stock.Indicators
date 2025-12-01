@@ -2,7 +2,7 @@
 export default function handleAssetPaths() {
   return {
     name: 'handle-asset-paths',
-    enforce: 'pre',
+    enforce: 'pre' as const,
     transform(code, id) {
       // Transform markdown files to replace image syntax with HTML
       if (id.endsWith('.md')) {

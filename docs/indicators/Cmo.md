@@ -1,9 +1,6 @@
 ---
 title: Chande Momentum Oscillator (CMO)
 description: The Chande Momentum Oscillator is a momentum indicator depicting the weighted percent of higher prices in financial markets.
----
-
-
 
 # {{ $frontmatter.title }}
 

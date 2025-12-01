@@ -1,5 +1,4 @@
 import { defineConfig } from 'vitepress'
-import path from 'path'
 import handleAssetPaths from './plugins/handleAssetPaths.mts'
 
 // https://vitepress.dev/reference/site-config
@@ -30,9 +29,6 @@ export default defineConfig({
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     logo: '/favicon.svg',
-
-    // Force dark theme only
-    appearance: false, // Disable theme toggle
 
     nav: [
       { text: 'Home', link: '/' },
@@ -336,7 +332,7 @@ export default defineConfig({
       md.renderer.rules.image = function (tokens, idx, options, env, self) {
         const token = tokens[idx]
         const srcIndex = token.attrIndex('src')
-        if (srcIndex >= 0) {
+        if (srcIndex >= 0 && token.attrs) {
           const src = token.attrs[srcIndex][1]
           // If it's an absolute path starting with /assets/, keep it as-is
           if (src.startsWith('/assets/')) {

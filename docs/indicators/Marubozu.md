@@ -1,9 +1,6 @@
 ---
 title: Marubozu
 description: Marubozu is a single-bar candlestick pattern that has no wicks, representing consistent directional movement.
----
-
-
 
 # {{ $frontmatter.title }}
 

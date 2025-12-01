@@ -1,9 +1,6 @@
 ---
 title: Percentage Volume Oscillator (PVO)
 description: The Percentage Volume Oscillator is a simple oscillator view of the rate of change between two converging / diverging exponential moving averages of Volume.  It is presented similarly to MACD.
----
-
-
 
 # {{ $frontmatter.title }}
 

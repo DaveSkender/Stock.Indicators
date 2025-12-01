@@ -1,9 +1,6 @@
 ---
 title: Price Momentum Oscillator (PMO)
 description: Created by Carl Swenlin, the DecisionPoint Price Momentum Oscillator is double-smoothed momentum indicator, based on Rate of Change (ROC).
----
-
-
 
 # {{ $frontmatter.title }}
 
