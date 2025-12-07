@@ -21,7 +21,6 @@
   "customizations": {
     "vscode": {
       "settings": {
-        "chat.mcp.autostart": "never",
         "chat.tools.global.autoApprove": true,
         "terminal.integrated.defaultProfile.linux": "zsh"
       },
