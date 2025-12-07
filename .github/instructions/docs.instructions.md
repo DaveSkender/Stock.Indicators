@@ -1,35 +1,29 @@
 ---
 applyTo: "docs/**"
-description: "Documentation website development, Jekyll builds, accessibility testing, and content guidelines"
+description: "Documentation website development, Jekyll builds, and content guidelines"
 ---
 
 # Documentation website instructions
 
-These instructions apply to all files in the `docs/` folder and cover Jekyll site development, content creation, accessibility testing, and documentation maintenance.
+These instructions apply to all files in the `docs/` folder and cover Jekyll site development and content creation.
 
 ## Build and development workflow
 
 ### Local development setup
 
 ```bash
-# from /docs folder
 bundle install
-bundle exec jekyll serve -o -l
+bundle exec jekyll serve --livereload
 
-# the site will open at http://127.0.0.1:4000
 ```
+
+The site will be available at `http://127.0.0.1:4000`.
 
 ### Code cleanup and formatting
 
-- **Markdown linting**: Use repository-wide markdown linting rules
+- **Markdown linting**: Follow markdown linting rules in the `.github/instructions/markdown.instructions.md` file
 - **Jekyll configuration**: Follow Jekyll best practices in `_config.yml`
 - **Front matter validation**: Ensure YAML front matter follows documented schema
-- **Asset optimization**: Optimize images to `webp` format using ImageMagick or cwebp
-
-```bash
-# optimize images to webp
-cwebp -resize 832 0 -q 100 examples.png -o examples-832.webp
-```
 
 ## Content guidelines
 
@@ -37,20 +31,10 @@ cwebp -resize 832 0 -q 100 examples.png -o examples-832.webp
 
 When adding or updating indicators:
 
-- Add or update files in `/docs/_indicators/` directory
-- Place image assets in `/docs/assets/` folder
+- Add or update files in the `_indicators/` directory
+- Place image assets in the `assets/` folder
 - Follow consistent naming conventions for asset files
 - Include comprehensive examples with sample data
-
-### Accessibility requirements
-
-- **Lighthouse testing**: Use Chrome Lighthouse for accessibility audits
-- **Automated accessibility testing**: Run pa11y-ci against local build
-
-```bash
-# accessibility testing after local build
-npx pa11y-ci --sitemap http://127.0.0.1:4000/sitemap.xml
-```
 
 ### Content structure
 
@@ -88,19 +72,13 @@ npx pa11y-ci --sitemap http://127.0.0.1:4000/sitemap.xml
 
 Before committing documentation changes:
 
-1. **Build verification**: Ensure Jekyll builds without errors
-2. **Link checking**: Verify all internal and external links work
-3. **Accessibility audit**: Run accessibility tests
-4. **Content review**: Check for typos and formatting consistency
+1. Build verification: Ensure Jekyll builds without errors
+2. Link checking: Verify all internal and external links work
+3. Content review: Check for typos and formatting consistency
 
 ### Continuous integration
 
-The documentation site should:
-
-- Build successfully in the CI/CD pipeline  
-- Pass all accessibility tests
-- Have no broken links
-- Meet performance benchmarks
+The documentation site should build successfully in the CI/CD pipeline.
 
 ## Content maintenance
 
@@ -119,4 +97,4 @@ The documentation site should:
 - Provide migration guidance for breaking changes
 
 ---
-Last updated: December 28, 2024
+Last updated: December 7, 2025

@@ -59,9 +59,10 @@ Use the [Discussions](https://github.com/DaveSkender/Stock.Indicators/discussion
 
 ### Performance benchmarking
 
-Running the `Tests.Performance` console application in `Release` mode will produce [benchmark performance data](https://dotnet.stockindicators.dev/performance/) that we include on our documentation site.
+Running the performance benchmark application in `Release` mode will produce [benchmark performance data](https://dotnet.stockindicators.dev/performance/) that we include on our documentation site.
 
 ```bash
+# from /tests/performance folder
 # run all performance benchmarks
 dotnet run -c Release
 
@@ -79,10 +80,10 @@ See [Ruby Jekyll documentation](https://jekyllrb.com/docs) for initial setup.
 ```bash
 # from /docs folder
 bundle install
-bundle exec jekyll serve -o -l
-
-# the site will open http://127.0.0.1:4000
+bundle exec jekyll serve --livereload
 ```
+
+The site will be available at `http://127.0.0.1:4000`.
 
 When adding or updating indicators:
 
@@ -95,7 +96,11 @@ When adding or updating indicators:
 - build the site locally (see above), then:
 
 ```bash
-npx pa11y-ci --sitemap http://127.0.0.1:4000/sitemap.xml
+# from /docs folder
+npx pa11y-ci \
+  --yes
+  --sitemap http://127.0.0.1:4000/sitemap.xml \
+  --config ./.pa11yci
 ```
 
 ## Submitting changes
@@ -115,7 +120,7 @@ Examples: `feat: Add RSI indicator`, `fix: Resolve calculation error in MACD`, `
 
 Always write a clear log message for your commits. One-line messages are fine for most changes.
 
-After a Pull Request is reviewed, accepted, and [squash] merged to `main`, we may batch changes before publishing a new package version to the [public NuGet repository](https://www.nuget.org/packages/Skender.Stock.Indicators).  Please be patient with turnaround time.
+After a Pull Request is reviewed, accepted, and [squash] merged to the default branch, we may batch changes before publishing a new package version to the [public NuGet repository](https://www.nuget.org/packages/Skender.Stock.Indicators).  Please be patient with turnaround time.
 
 ## Code reviews and administration
 
@@ -124,8 +129,8 @@ If you want to contribute administratively, do code reviews, or provide general 
 ## Standards and design guidelines
 
 - [Guiding principles for this project](https://github.com/DaveSkender/Stock.Indicators/discussions/648)
-- [.NET Framework Design Guidelines](https://docs.microsoft.com/en-us/dotnet/standard/design-guidelines)
-- [NuGet Best Practices](https://docs.microsoft.com/en-us/dotnet/standard/library-guidance/nuget)
+- [.NET Design Guidelines](https://learn.microsoft.com/en-us/dotnet/standard/design-guidelines)
+- [NuGet Best Practices](https://learn.microsoft.com/en-us/dotnet/standard/library-guidance/nuget)
 - [Semantic Version 2.0](https://semver.org)
 
 ## GitHub Copilot and AI development
@@ -134,8 +139,8 @@ This repository is optimized for GitHub Copilot and coding agents with:
 
 - **Custom Copilot instructions** in `.github/copilot-instructions.md` providing repository context, coding patterns, and domain knowledge
 - **Enhanced VS Code settings** in `.vscode/settings.json` with Copilot-specific configurations for optimal suggestions
-- **Environment setup workflow** in `.github/workflows/copilot-setup-steps.yml` for automated dependency installation
-- **MCP server configurations** in `.github/mcp-servers.md` for extended AI capabilities with financial mathematics and .NET performance analysis
+- **Development container** in `.devcontainer/devcontainer.json` for consistent development environment setup
+- **MCP server configurations** in `.vscode/mcp.json` for extended AI tools for developing capabilities with financial mathematics and .NET performance analysis
 
 When using GitHub Copilot:
 
