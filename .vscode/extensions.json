@@ -6,8 +6,10 @@
     "DotJoshJohnson.xml",
     "EditorConfig.EditorConfig",
     "github.vscode-github-actions",
-    "GitHub.copilot",
-    "ms-dotnettools.vscodeintellicode-csharp",
+    "GitHub.copilot-chat",
+    "ms-dotnettools.csdevkit",
+    "ms-azuretools.vscode-containers",
+    "ms-vscode-remote.remote-containers",
     "redhat.vscode-yaml"
   ]
 }

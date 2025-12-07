@@ -5,34 +5,15 @@
   // https://github.com/devcontainers/features
   "$schema": "https://raw.githubusercontent.com/devcontainers/spec/main/schemas/devContainer.schema.json",
   "name": "Stock Indicators Dev Container",
-  "image": "mcr.microsoft.com/dotnet/sdk:10.0",
+  "image": "mcr.microsoft.com/devcontainers/base:bookworm",
   "features": {
-    "ghcr.io/devcontainers/features/common-utils:2": {
-      "installZsh": true,
-      "installOhMyZsh": true,
-      "configureZshAsDefaultShell": true,
-      "username": "vscode",
-      "upgradePackages": true
-    },
-    "ghcr.io/devcontainers/features/node:1": {
-      "version": "lts"
-    },
-    "ghcr.io/devcontainers/features/git:1": {
-      "version": "latest",
-      "ppa": true
-    },
-    "ghcr.io/devcontainers/features/github-cli:1": {
-      "version": "latest"
-    },
-    "ghcr.io/devcontainers-extra/features/angular-cli:2": {
-      "version": "latest"
-    },
+    "ghcr.io/devcontainers/features/node:1": {},
+    "ghcr.io/devcontainers/features/dotnet:2": {},
+    "ghcr.io/devcontainers/features/github-cli:1": {},
+    "ghcr.io/devcontainers-extra/features/angular-cli:2": {},
     "ghcr.io/devcontainers/features/ruby:1": {
       "version": "3.3"
     }
-  },
-  "remoteEnv": {
-    "PATH": "${containerEnv:HOME}/.local/bin:${containerEnv:HOME}/.dotnet/tools:${containerEnv:PATH}"
   },
   "customizations": {
     "vscode": {
@@ -48,8 +29,9 @@
         "DotJoshJohnson.xml",
         "EditorConfig.EditorConfig",
         "github.vscode-github-actions",
-        "GitHub.copilot",
-        "ms-dotnettools.vscodeintellicode-csharp",
+        "GitHub.copilot-chat",
+        "ms-dotnettools.csdevkit",
+        "ms-azuretools.vscode-containers",
         "redhat.vscode-yaml"
       ]
     }
