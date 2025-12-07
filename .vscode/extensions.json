@@ -8,6 +8,7 @@
     "github.vscode-github-actions",
     "GitHub.copilot-chat",
     "ms-dotnettools.csdevkit",
+    "ms-vscode-remote.remote-containers",
     "redhat.vscode-yaml"
   ]
 }
