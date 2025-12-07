@@ -14,7 +14,6 @@
       "additionalVersions": "9.0,8.0"
     },
     "ghcr.io/devcontainers/features/github-cli:1": {},
-    "ghcr.io/devcontainers-extra/features/angular-cli:2": {},
     "ghcr.io/devcontainers/features/ruby:1": {
       "version": "3.3"
     }
@@ -29,6 +28,7 @@
       "extensions": [
         "bierner.github-markdown-preview",
         "CodeRabbit.coderabbit-vscode",
+        "codacy-app.codacy",
         "DavidAnson.vscode-markdownlint",
         "DotJoshJohnson.xml",
         "EditorConfig.EditorConfig",
@@ -38,6 +38,15 @@
         "ms-azuretools.vscode-containers",
         "redhat.vscode-yaml"
       ]
+    }
+  },
+  "forwardPorts": [
+    4000
+  ],
+  "portsAttributes": {
+    "4000": {
+      "label": "Jekyll Doc Site",
+      "onAutoForward": "notify"
     }
   },
   "postCreateCommand": ".devcontainer/startup.sh",

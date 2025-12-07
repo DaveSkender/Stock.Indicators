@@ -2,6 +2,7 @@
   "recommendations": [
     "bierner.github-markdown-preview",
     "CodeRabbit.coderabbit-vscode",
+    "codacy-app.codacy",
     "DavidAnson.vscode-markdownlint",
     "DotJoshJohnson.xml",
     "EditorConfig.EditorConfig",
