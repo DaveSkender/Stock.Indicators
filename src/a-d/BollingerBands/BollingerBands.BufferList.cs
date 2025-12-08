@@ -39,7 +39,6 @@ public class BollingerBandsList : BufferList<BollingerBandsResult>, IIncrementFr
     /// </summary>
     public double StandardDeviations { get; }
 
-
     /// <summary>
     /// Adds a new value to the Bollinger Bands list.
     /// </summary>

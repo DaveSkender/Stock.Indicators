@@ -45,7 +45,6 @@ public class ForceIndexList : BufferList<ForceIndexResult>, IIncrementFromQuote,
     /// </summary>
     public int LookbackPeriods { get; init; }
 
-
     /// <inheritdoc />
     public void Add(IQuote quote)
     {

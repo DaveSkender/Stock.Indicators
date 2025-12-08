@@ -8,7 +8,6 @@ namespace Skender.Stock.Indicators;
 public class BollingerBandsHub
     : ChainProvider<IReusable, BollingerBandsResult>, IBollingerBands
 {
-    #region constructors
 
     private readonly string hubName;
 
@@ -31,10 +30,6 @@ public class BollingerBandsHub
         Reinitialize();
     }
 
-    #endregion constructors
-
-    #region properties
-
     /// <summary>
     /// Gets the number of lookback periods.
     /// </summary>
@@ -44,10 +39,6 @@ public class BollingerBandsHub
     /// Gets the number of standard deviations.
     /// </summary>
     public double StandardDeviations { get; }
-
-    #endregion properties
-
-    #region methods
 
     /// <inheritdoc/>
     public override string ToString() => hubName;
@@ -69,9 +60,7 @@ public class BollingerBandsHub
         return (r, i);
     }
 
-    #endregion methods
 }
-
 
 public static partial class BollingerBands
 {

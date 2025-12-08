@@ -2,8 +2,6 @@ namespace Skender.Stock.Indicators;
 
 // STREAM (OBSERVABLE) INTERFACE
 
-#region chain and quote variants
-
 /// <inheritdoc/>
 public interface IQuoteProvider<out T> : IChainProvider<T>
    where T : IQuote
@@ -17,8 +15,6 @@ public interface IQuoteProvider<out T> : IChainProvider<T>
 /// <inheritdoc/>
 public interface IChainProvider<out T> : IStreamObservable<T>
    where T : IReusable;
-
-#endregion chain and quote variants
 
 /// <summary>
 /// Provider of data + management of and notification to observing subscribers.

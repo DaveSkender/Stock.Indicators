@@ -53,7 +53,6 @@ public class KeltnerList : BufferList<KeltnerResult>, IIncrementFromQuote
     /// <inheritdoc />
     public int AtrPeriods { get; init; }
 
-
     /// <inheritdoc />
     public void Add(IQuote quote)
     {

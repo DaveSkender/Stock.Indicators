@@ -8,7 +8,6 @@ namespace Skender.Stock.Indicators;
 public class StochHub
     : StreamHub<IQuote, StochResult>, IStoch
 {
-    #region constructors
 
     private readonly string hubName;
     private readonly RollingWindowMax<double> _highWindow;
@@ -70,10 +69,6 @@ public class StochHub
         Reinitialize();
     }
 
-    #endregion constructors
-
-    #region properties
-
     /// <inheritdoc />
     public int LookbackPeriods { get; init; }
 
@@ -91,10 +86,6 @@ public class StochHub
 
     /// <inheritdoc />
     public MaType MovingAverageType { get; init; }
-
-    #endregion properties
-
-    #region methods
 
     /// <inheritdoc/>
     public override string ToString() => hubName;
@@ -326,9 +317,7 @@ public class StochHub
         }
     }
 
-    #endregion methods
 }
-
 
 public static partial class Stoch
 {

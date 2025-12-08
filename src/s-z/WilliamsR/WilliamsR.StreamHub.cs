@@ -1,13 +1,11 @@
 namespace Skender.Stock.Indicators;
 
-
 /// <summary>
 /// Represents a Williams %R stream hub.
 /// </summary>
 public class WilliamsRHub
     : StreamHub<IQuote, WilliamsResult>, IWilliamsR
 {
-    #region constructors
 
     private readonly string hubName;
     private readonly RollingWindowMax<decimal> _highWindow;
@@ -33,18 +31,10 @@ public class WilliamsRHub
         Reinitialize();
     }
 
-    #endregion constructors
-
-    #region properties
-
     /// <summary>
     /// Gets the lookback periods for Williams %R calculation.
     /// </summary>
     public int LookbackPeriods { get; init; }
-
-    #endregion properties
-
-    #region methods
 
     /// <inheritdoc/>
     public override string ToString() => hubName;
@@ -130,10 +120,7 @@ public class WilliamsRHub
         }
     }
 
-    #endregion methods
-
 }
-
 
 public static partial class WilliamsR
 {
@@ -164,4 +151,3 @@ public static partial class WilliamsR
         return quoteHub.ToWilliamsRHub(lookbackPeriods);
     }
 }
-

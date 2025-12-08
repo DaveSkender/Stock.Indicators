@@ -60,7 +60,6 @@ public class SmmaHub
     }
 }
 
-
 public static partial class Smma
 {
     /// <summary>

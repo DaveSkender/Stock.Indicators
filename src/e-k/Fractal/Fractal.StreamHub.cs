@@ -8,7 +8,6 @@ namespace Skender.Stock.Indicators;
 public class FractalHub
     : StreamHub<IQuote, FractalResult>, IFractal
 {
-    #region constructors
 
     private readonly string hubName;
 
@@ -49,7 +48,6 @@ public class FractalHub
 
         Reinitialize();
     }
-    #endregion constructors
 
     /// <summary>
     /// Gets the number of periods to look back for the calculation.
@@ -132,7 +130,6 @@ public class FractalHub
         return (result, i);
     }
 }
-
 
 public static partial class Fractal
 {

@@ -1,6 +1,5 @@
 namespace Skender.Stock.Indicators;
 
-
 /// <summary>
 /// Streaming hub for Chande Momentum Oscillator (CMO) calculations.
 /// </summary>
@@ -119,7 +118,6 @@ public class CmoHub
 
 }
 
-
 public static partial class Cmo
 {
     /// <summary>
@@ -149,4 +147,3 @@ public static partial class Cmo
         return quoteHub.ToCmoHub(lookbackPeriods);
     }
 }
-

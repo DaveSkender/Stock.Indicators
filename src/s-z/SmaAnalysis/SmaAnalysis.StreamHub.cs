@@ -8,13 +8,8 @@ namespace Skender.Stock.Indicators;
 public class SmaAnalysisHub
     : ChainProvider<IReusable, SmaAnalysisResult>, ISma
 {
-    #region fields
 
     private readonly string hubName;
-
-    #endregion fields
-
-    #region constructors
 
     /// <summary>
     /// Initializes a new instance of the <see cref="SmaAnalysisHub"/> class.
@@ -32,18 +27,10 @@ public class SmaAnalysisHub
         Reinitialize();
     }
 
-    #endregion constructors
-
-    #region properties
-
     /// <summary>
     /// Gets the number of lookback periods.
     /// </summary>
     public int LookbackPeriods { get; init; }
-
-    #endregion properties
-
-    #region methods
 
     /// <inheritdoc/>
     public override string ToString() => hubName;
@@ -116,7 +103,6 @@ public class SmaAnalysisHub
         return (r, i);
     }
 
-    #endregion methods
 }
 
 /// <summary>

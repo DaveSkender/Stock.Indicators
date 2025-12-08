@@ -51,9 +51,6 @@ public class EpmaList : BufferList<EpmaResult>, IIncrementFromChain, IEpma
     /// </summary>
     public int LookbackPeriods { get; init; }
 
-
-
-
     /// <inheritdoc />
     public void Add(DateTime timestamp, double value)
     {

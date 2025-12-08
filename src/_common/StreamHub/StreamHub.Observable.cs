@@ -21,8 +21,6 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamObservable<TOut>
     /// <inheritdoc/>
     public virtual BinarySettings Properties { get; init; } = new(0); // default 0b00000000
 
-    #region SUBSCRIPTION SERVICES
-
     /// <inheritdoc/>
     public IDisposable Subscribe(IStreamObserver<TOut> observer)
     {
@@ -76,9 +74,6 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamObservable<TOut>
 
         _observers.Clear();
     }
-    #endregion SUBSCRIPTION SERVICES
-
-    #region SUBSCRIBER NOTIFICATIONS
 
     /// <summary>
     /// Sends new <c>TSeries</c> item to subscribers.
@@ -130,5 +125,5 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamObservable<TOut>
             o.OnError(exception);
         }
     }
-    #endregion SUBSCRIBER NOTIFICATIONS
+
 }

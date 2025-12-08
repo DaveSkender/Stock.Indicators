@@ -49,7 +49,6 @@ public class DynamicList : BufferList<DynamicResult>, IIncrementFromChain, IDyna
     /// </summary>
     public double KFactor { get; init; }
 
-
     /// <inheritdoc />
     public void Add(DateTime timestamp, double value)
     {

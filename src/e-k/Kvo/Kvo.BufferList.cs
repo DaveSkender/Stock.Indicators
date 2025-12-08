@@ -73,7 +73,6 @@ public class KvoList : BufferList<KvoResult>, IIncrementFromQuote, IKvo
     /// <inheritdoc />
     public int SignalPeriods { get; init; }
 
-
     /// <inheritdoc />
     public void Add(IQuote quote)
     {

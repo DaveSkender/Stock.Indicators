@@ -48,9 +48,6 @@ public class TrixList : BufferList<TrixResult>, IIncrementFromChain, ITrix
     /// <inheritdoc />
     public double K { get; private init; }
 
-
-
-
     /// <inheritdoc />
     public void Add(DateTime timestamp, double value)
     {

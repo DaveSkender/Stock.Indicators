@@ -68,9 +68,6 @@ public class StochRsiList : BufferList<StochRsiResult>, IIncrementFromChain
     /// </summary>
     public int SmoothPeriods { get; init; }
 
-
-
-
     /// <inheritdoc />
     public void Add(DateTime timestamp, double value)
     {

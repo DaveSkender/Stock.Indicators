@@ -8,7 +8,6 @@ namespace Skender.Stock.Indicators;
 public class EpmaHub
     : ChainProvider<IReusable, EpmaResult>, IEpma
 {
-    #region constructors
 
     private readonly string hubName;
 
@@ -27,7 +26,6 @@ public class EpmaHub
 
         Reinitialize();
     }
-    #endregion constructors
 
     /// <summary>
     /// Gets the number of lookback periods.
@@ -54,7 +52,6 @@ public class EpmaHub
         return (r, i);
     }
 }
-
 
 public static partial class Epma
 {

@@ -66,9 +66,6 @@ public class KamaList : BufferList<KamaResult>, IIncrementFromChain, IKama
     /// </summary>
     public int SlowPeriods { get; init; }
 
-
-
-
     /// <inheritdoc />
     public void Add(DateTime timestamp, double value)
     {

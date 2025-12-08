@@ -81,9 +81,6 @@ public class StochList : BufferList<StochResult>, IIncrementFromQuote, IStoch
     /// <inheritdoc />
     public MaType MovingAverageType { get; init; }
 
-
-
-
     /// <inheritdoc />
     public void Add(IQuote quote)
     {
