@@ -111,8 +111,7 @@ public static partial class Stoch
         int smoothPeriods,
         double kFactor,
         double dFactor,
-        MaType movingAverageType,
-        double Scale = 100)
+        MaType movingAverageType)
     {
         // check parameter arguments
         Validate(
@@ -167,7 +166,7 @@ public static partial class Stoch
                 o[i] = !isViable
                      ? double.NaN
                      : highHigh - lowLow != 0
-                     ? Scale * (q.Close - lowLow) / (highHigh - lowLow)
+                     ? 100d * (q.Close - lowLow) / (highHigh - lowLow)
                      : 0;
             }
             else
