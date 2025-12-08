@@ -7,7 +7,7 @@ namespace Tests.Indicators;
 public class WilliamsRTests
 {
     [TestMethod]
-    public async Task Issue1127()
+    public async Task LiveTest()
     {
         // initialize
         IEnumerable<Quote> feedQuotes = await FeedData  // live quotes
@@ -18,16 +18,28 @@ public class WilliamsRTests
         int length = quotes.Count;
 
         // get indicators
-        IReadOnlyList<WilliamsResult> resultsList = quotes
+        IReadOnlyList<WilliamsResult> results = quotes
             .ToWilliamsR(14);
 
-        Console.WriteLine($"%R from {length} quotes.");
+        //Console.WriteLine(quotes.ToStringOut());
+        //Console.WriteLine("----------------------------------------");
+        Dictionary<string, string> args = new()
+        {
+            { "WilliamsR", "N20" }
+        };
+
+        Console.WriteLine(results.ToStringOut(args));
+        Console.WriteLine("----------------------------------------");
+        //Console.WriteLine(results.Where(x => x.WilliamsR is < (-100) or > 0).ToStringOut());
+
+
+
 
         // analyze boundary
         for (int i = 0; i < length; i++)
         {
             Quote q = quotes[i];
-            WilliamsResult r = resultsList[i];
+            WilliamsResult r = results[i];
 
             Console.WriteLine($"{q.Timestamp:s} {r.WilliamsR}");
 

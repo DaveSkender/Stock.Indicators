@@ -95,30 +95,59 @@ public class WilliamsR : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Issue1127()
+    public void Issue1127_Original()
     {
         // initialize
-        IOrderedEnumerable<Quote> test1127 = File.ReadAllLines("s-z/WilliamsR/issue1127quotes.csv")
+        IReadOnlyList<Quote> quotes = File.ReadAllLines("s-z/WilliamsR/issue1127quotes-original.csv")
             .Skip(1)
             .Select(Tests.Data.Utilities.QuoteFromCsv)
-            .OrderByDescending(static x => x.Timestamp);
+            .OrderBy(static x => x.Timestamp)
+            .ToList();
 
-        IReadOnlyList<Quote> quotesList = test1127.ToList();
-        int length = quotesList.Count;
+        int length = quotes.Count;
 
         // get indicators
-        IReadOnlyList<WilliamsResult> resultsList = quotesList
+        IReadOnlyList<WilliamsResult> results = quotes
             .ToWilliamsR();
-
-        Console.WriteLine($"%R from {length} quotes.");
 
         // analyze boundary
         for (int i = 0; i < length; i++)
         {
-            Quote q = quotesList[i];
-            WilliamsResult r = resultsList[i];
+            Quote q = quotes[i];
+            WilliamsResult r = results[i];
 
-            Console.WriteLine($"{q.Timestamp:s} {r.WilliamsR}");
+            r.WilliamsR?.Should().BeInRange(-100d, 0d);
+        }
+    }
+
+    [TestMethod]
+    public void Issue1127_Revisit()
+    {
+        // initialize
+        IReadOnlyList<Quote> quotes = File.ReadAllLines("s-z/WilliamsR/issue1127quotes-revisit.csv")
+            .Skip(1)
+            .Select(Tests.Data.Utilities.QuoteFromCsv)
+            .OrderBy(static x => x.Timestamp)
+            .ToList();
+
+        int length = quotes.Count;
+
+        // get indicators
+        IReadOnlyList<WilliamsResult> results = quotes
+            .ToWilliamsR();
+
+        Dictionary<string, string> args = new()
+        {
+            { "WilliamsR", "N20" }
+        };
+
+        Console.WriteLine(results.ToStringOut(args));
+
+        // analyze boundary
+        for (int i = 0; i < length; i++)
+        {
+            Quote q = quotes[i];
+            WilliamsResult r = results[i];
 
             r.WilliamsR?.Should().BeInRange(-100d, 0d);
         }
