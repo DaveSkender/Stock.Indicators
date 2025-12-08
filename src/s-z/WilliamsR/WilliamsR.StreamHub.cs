@@ -64,7 +64,7 @@ public class WilliamsRHub
 
             // Return NaN when range is zero (undefined %R)
             williamsR = highHigh - lowLow != 0
-                ? -100.0 * (c - lowLow) / (highHigh - lowLow)
+                ? 100d * (c - lowLow) / (highHigh - lowLow) - 100d
                 : double.NaN;
         }
 
