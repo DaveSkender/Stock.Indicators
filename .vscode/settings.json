@@ -1,19 +1,5 @@
 {
-  "chat.promptFilesRecommendations": {
-    "speckit.tasks": true,
-    "speckit.implement": true
-  },
-  "chat.tools.terminal.autoApprove": {
-    ".specify/scripts/bash/": true,
-    ".specify/scripts/ps/": true
-  },
-  "chat.useAgentsMdFile": true,
-  "chat.useNestedAgentsMdFiles": true,
   "dotnet.defaultSolution": "Stock.Indicators.sln",
-  "files.encoding": "utf8",
-  "files.eol": "\n",
-  "files.insertFinalNewline": true,
-  "files.trimFinalNewlines": false,
   "files.associations": {
     "*.md": "markdown"
   },

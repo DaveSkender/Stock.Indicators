@@ -19,6 +19,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Roslynator.Analyzers" PrivateAssets="all" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\src\Indicators.csproj" />
     <ProjectReference Include="..\..\tests\indicators\Tests.Indicators.csproj" />
   </ItemGroup>
