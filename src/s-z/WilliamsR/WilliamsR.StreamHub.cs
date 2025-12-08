@@ -6,7 +6,6 @@ namespace Skender.Stock.Indicators;
 public class WilliamsRHub
     : StreamHub<IQuote, WilliamsResult>, IWilliamsR
 {
-
     private readonly string hubName;
     private readonly RollingWindowMax<double> _highWindow;
     private readonly RollingWindowMin<double> _lowWindow;
@@ -23,8 +22,8 @@ public class WilliamsRHub
         WilliamsR.Validate(lookbackPeriods);
 
         LookbackPeriods = lookbackPeriods;
-        _highWindow = new RollingWindowMax<decimal>(lookbackPeriods);
-        _lowWindow = new RollingWindowMin<decimal>(lookbackPeriods);
+        _highWindow = new RollingWindowMax<double>(lookbackPeriods);
+        _lowWindow = new RollingWindowMin<double>(lookbackPeriods);
 
         hubName = $"WILLR({lookbackPeriods})";
 
@@ -46,15 +45,16 @@ public class WilliamsRHub
         ArgumentNullException.ThrowIfNull(item);
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
-        double o = (double)item.Open;
-        double h = (double)item.High;
-        double c = (double)item.Close;
+        double high = (double)item.High;
+        double low = (double)item.Low;
+        double close = (double)item.Close;
 
-        _highWindow.Add(h);
-        _lowWindow.Add(l);
+        // Update rolling windows for O(1) amortized max/min tracking
+        _highWindow.Add(high);
+        _lowWindow.Add(low);
 
         // Calculate Williams %R
-        // Williams %R is Fast Stochastic - 100
+        // Williams %R is Fast Stochastic (K) - 100
         double williamsR = double.NaN;
         if (i >= LookbackPeriods - 1)
         {
@@ -62,10 +62,10 @@ public class WilliamsRHub
             double highHigh = _highWindow.GetMax();
             double lowLow = _lowWindow.GetMin();
 
-            // Return NaN when range is zero (undefined %R)
-            williamsR = highHigh - lowLow != 0
-                ? 100d * (c - lowLow) / (highHigh - lowLow) - 100d
-                : double.NaN;
+            // Williams %R formula matches Stochastic %K - 100
+            williamsR = highHigh == lowLow
+                ? double.NaN
+                : (100d * (close - lowLow) / (highHigh - lowLow)) - 100d;
         }
 
         WilliamsResult result = new(
@@ -111,7 +111,6 @@ public class WilliamsRHub
             _lowWindow.Add((double)quote.Low);
         }
     }
-
 }
 
 public static partial class WilliamsR
