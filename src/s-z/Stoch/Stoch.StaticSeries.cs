@@ -112,7 +112,7 @@ public static partial class Stoch
         double kFactor,
         double dFactor,
         MaType movingAverageType,
-        Scale = 100)
+        double Scale = 100)
     {
         // check parameter arguments
         Validate(
