@@ -155,7 +155,6 @@ internal static partial class Utilities
         };
 }
 
-
 // TODO: use or lose this extension
 
 /// <summary>

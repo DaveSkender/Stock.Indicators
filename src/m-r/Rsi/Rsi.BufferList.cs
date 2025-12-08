@@ -36,9 +36,6 @@ public class RsiList : BufferList<RsiResult>, IIncrementFromChain, IRsi
     /// </summary>
     public int LookbackPeriods { get; init; }
 
-
-
-
     /// <inheritdoc />
     public void Add(DateTime timestamp, double value)
     {

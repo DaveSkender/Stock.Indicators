@@ -73,7 +73,6 @@ public class DynamicHub
     }
 }
 
-
 public static partial class MgDynamic
 {
     /// <summary>

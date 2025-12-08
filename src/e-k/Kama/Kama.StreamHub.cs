@@ -118,7 +118,6 @@ public class KamaHub
     }
 }
 
-
 public static partial class Kama
 {
     /// <summary>

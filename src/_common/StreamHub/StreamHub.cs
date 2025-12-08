@@ -8,7 +8,6 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
     where TIn : ISeries
     where TOut : ISeries
 {
-    #region constructor
 
     /// <summary>
     /// Initializes a new instance of the <see cref="StreamHub{TIn, TOut}"/> class.
@@ -28,10 +27,6 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
         // inherit max cache size
         MaxCacheSize = provider.MaxCacheSize;
     }
-
-    #endregion constructor
-
-    #region PROPERTIES
 
     /// <inheritdoc/>
     public IReadOnlyList<TOut> Results => Cache;
@@ -60,8 +55,6 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
     /// </summary>
     private TOut? LastItem { get; set; }
 
-    #endregion PROPERTIES
-
     /// <summary>
     /// Resets the fault flag and condition.
     /// </summary>
@@ -88,8 +81,6 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
     /// <param name="indexHint">Provider index hint.</param>
     /// <returns>Cacheable item candidate and index hint.</returns>
     protected abstract (TOut result, int index) ToIndicator(TIn item, int? indexHint);
-
-    #region ADD & ANALYZE
 
     /// <summary>
     /// Adds a new item to the stream.
@@ -258,9 +249,6 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
         LastItem = item;
         return false;
     }
-    #endregion ADD & ANALYZE
-
-    #region REMOVE & REMOVE RANGE
 
     /// <summary>
     /// Removes a cached item.
@@ -342,9 +330,6 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
 
         NotifyObserversOnPrune(toTimestamp);
     }
-    #endregion REMOVE & REMOVE RANGE
-
-    #region REBUILD & REINITIALIZE
 
     /// <summary>
     /// Fully resets the stream hub.
@@ -426,5 +411,5 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
         // default: do nothing
         // see AtrStopHub() for example
     }
-    #endregion REBUILD & REINITIALIZE
+
 }

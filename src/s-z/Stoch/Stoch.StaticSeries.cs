@@ -166,7 +166,7 @@ public static partial class Stoch
                 o[i] = !isViable
                      ? double.NaN
                      : highHigh - lowLow != 0
-                     ? 100 * (q.Close - lowLow) / (highHigh - lowLow)
+                     ? 100d * (q.Close - lowLow) / (highHigh - lowLow)
                      : 0;
             }
             else
@@ -198,7 +198,6 @@ public static partial class Stoch
                         k[i] = sum / smoothPeriods;
                         break;
 
-
                     // SMMA case
                     case MaType.SMMA:
                         // re/initialize
@@ -210,7 +209,6 @@ public static partial class Stoch
                         k[i] = ((prevK * (smoothPeriods - 1)) + o[i]) / smoothPeriods;
                         prevK = k[i];
                         break;
-
 
                     default:
                         throw new InvalidOperationException(
@@ -224,7 +222,6 @@ public static partial class Stoch
 
             double oscillator = k[i];
             double signal;
-
 
             // %D signal line
             if (signalPeriods <= 1)
@@ -247,7 +244,6 @@ public static partial class Stoch
                         signal = sum / signalPeriods;
                         break;
 
-
                     // SMMA case
                     case MaType.SMMA:
                         // re/initialize
@@ -260,7 +256,6 @@ public static partial class Stoch
                         signal = d;
                         prevD = d;
                         break;
-
 
                     default:
                         throw new InvalidOperationException("Invalid Stochastic moving average type.");

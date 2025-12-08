@@ -69,7 +69,6 @@ public class RocHub
     }
 }
 
-
 public static partial class Roc
 {
     /// <summary>

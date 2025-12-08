@@ -114,7 +114,7 @@ internal static class Program
         try
         {
             GenerateBaseline(listing);
-            Console.WriteLine($"✓ Baseline generated successfully");
+            Console.WriteLine("✓ Baseline generated successfully");
             return 0;
         }
         catch (Exception ex)

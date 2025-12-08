@@ -39,7 +39,6 @@ public class FisherTransformList : BufferList<FisherTransformResult>, IIncrement
     /// </summary>
     public int LookbackPeriods { get; init; }
 
-
     /// <inheritdoc />
     public void Add(DateTime timestamp, double value)
     {

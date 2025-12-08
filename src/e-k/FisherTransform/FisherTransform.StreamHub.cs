@@ -169,7 +169,6 @@ public class FisherTransformHub
     }
 }
 
-
 public static partial class FisherTransform
 {
     /// <summary>

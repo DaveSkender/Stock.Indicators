@@ -120,7 +120,6 @@ public class HmaHub
     }
 }
 
-
 public static partial class Hma
 {
     /// <summary>

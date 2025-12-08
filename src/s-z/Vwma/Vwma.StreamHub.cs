@@ -74,7 +74,6 @@ public class VwmaHub
     }
 }
 
-
 public static partial class Vwma
 {
     /// <summary>

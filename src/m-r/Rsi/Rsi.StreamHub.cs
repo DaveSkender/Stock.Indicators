@@ -48,8 +48,6 @@ public class RsiHub
         // Get previous value for gain/loss calculation
         double prevValue = i > 0 ? ProviderCache[i - 1].Value : double.NaN;
 
-
-
         // Calculate current gain/loss
         double gain;
         double loss;
@@ -212,7 +210,6 @@ public class RsiHub
         avgLoss = double.NaN;
     }
 }
-
 
 public static partial class Rsi
 {

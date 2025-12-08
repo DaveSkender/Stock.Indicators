@@ -35,9 +35,6 @@ public class WilliamsRList : BufferList<WilliamsResult>, IIncrementFromQuote, IW
     /// </summary>
     public int LookbackPeriods { get; init; }
 
-
-
-
     /// <inheritdoc />
     public void Add(IQuote quote)
     {
@@ -88,22 +85,16 @@ public class WilliamsRList : BufferList<WilliamsResult>, IIncrementFromQuote, IW
                 }
             }
 
-            if (highHigh - lowLow != 0)
-            {
-                // Match the calculation order in StaticSeries (via Stochastic)
-                // which is: 100 * (close - lowLow) / (highHigh - lowLow) - 100
-                williamsR = (100.0 * (close - lowLow) / (highHigh - lowLow)) - 100.0;
-            }
-            else
-            {
-                williamsR = 0;
-            }
+            // Williams %R is Fast Stochastic - 100
+            williamsR = highHigh - lowLow != 0
+                ? 100d * (close - lowLow) / (highHigh - lowLow) - 100d
+                : double.NaN;
         }
 
         // Add result to the list
         AddInternal(new WilliamsResult(
             Timestamp: timestamp,
-            WilliamsR: williamsR));
+            WilliamsR: williamsR.Nan2Null()));
     }
 
     /// <inheritdoc />

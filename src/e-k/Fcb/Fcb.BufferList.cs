@@ -43,7 +43,6 @@ public class FcbList : BufferList<FcbResult>, IIncrementFromQuote, IFcb
     /// </summary>
     public int WindowSpan { get; init; }
 
-
     /// <inheritdoc />
     public void Add(IQuote quote)
     {

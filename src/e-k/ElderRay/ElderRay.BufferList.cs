@@ -37,7 +37,6 @@ public class ElderRayList : BufferList<ElderRayResult>, IIncrementFromQuote, IEl
     /// </summary>
     public int LookbackPeriods { get; init; }
 
-
     /// <inheritdoc />
     public void Add(IQuote quote)
     {

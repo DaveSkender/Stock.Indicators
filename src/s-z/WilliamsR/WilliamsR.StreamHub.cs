@@ -1,17 +1,15 @@
 namespace Skender.Stock.Indicators;
 
-
 /// <summary>
 /// Represents a Williams %R stream hub.
 /// </summary>
 public class WilliamsRHub
     : StreamHub<IQuote, WilliamsResult>, IWilliamsR
 {
-    #region constructors
 
     private readonly string hubName;
-    private readonly RollingWindowMax<decimal> _highWindow;
-    private readonly RollingWindowMin<decimal> _lowWindow;
+    private readonly RollingWindowMax<double> _highWindow;
+    private readonly RollingWindowMin<double> _lowWindow;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="WilliamsRHub"/> class.
@@ -33,18 +31,10 @@ public class WilliamsRHub
         Reinitialize();
     }
 
-    #endregion constructors
-
-    #region properties
-
     /// <summary>
     /// Gets the lookback periods for Williams %R calculation.
     /// </summary>
     public int LookbackPeriods { get; init; }
-
-    #endregion properties
-
-    #region methods
 
     /// <inheritdoc/>
     public override string ToString() => hubName;
@@ -56,29 +46,26 @@ public class WilliamsRHub
         ArgumentNullException.ThrowIfNull(item);
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
-        // Add current high/low to rolling windows (only require High/Low, not Close)
-        bool hasHL = !double.IsNaN((double)item.High) &&
-                     !double.IsNaN((double)item.Low);
-        bool hasClose = !double.IsNaN((double)item.Close);
+        double o = (double)item.Open;
+        double h = (double)item.High;
+        double c = (double)item.Close;
 
-        if (hasHL)
-        {
-            _highWindow.Add(item.High);
-            _lowWindow.Add(item.Low);
-        }
+        _highWindow.Add(h);
+        _lowWindow.Add(l);
 
         // Calculate Williams %R
+        // Williams %R is Fast Stochastic - 100
         double williamsR = double.NaN;
-        if (i >= LookbackPeriods - 1 && hasHL && hasClose)
+        if (i >= LookbackPeriods - 1)
         {
             // Get highest high and lowest low from rolling windows (O(1))
-            decimal highHigh = _highWindow.GetMax();
-            decimal lowLow = _lowWindow.GetMin();
+            double highHigh = _highWindow.GetMax();
+            double lowLow = _lowWindow.GetMin();
 
             // Return NaN when range is zero (undefined %R)
-            williamsR = highHigh == lowLow
-                ? double.NaN
-                : (100 * ((double)item.Close - (double)lowLow) / ((double)highHigh - (double)lowLow)) - 100;
+            williamsR = highHigh - lowLow != 0
+                ? 100d * (c - lowLow) / (highHigh - lowLow) - 100d
+                : double.NaN;
         }
 
         WilliamsResult result = new(
@@ -120,20 +107,12 @@ public class WilliamsRHub
         {
             IQuote quote = ProviderCache[p];
 
-            // Only require High/Low to rebuild windows (not Close)
-            if (!double.IsNaN((double)quote.High) &&
-                !double.IsNaN((double)quote.Low))
-            {
-                _highWindow.Add(quote.High);
-                _lowWindow.Add(quote.Low);
-            }
+            _highWindow.Add((double)quote.High);
+            _lowWindow.Add((double)quote.Low);
         }
     }
 
-    #endregion methods
-
 }
-
 
 public static partial class WilliamsR
 {
@@ -164,4 +143,3 @@ public static partial class WilliamsR
         return quoteHub.ToWilliamsRHub(lookbackPeriods);
     }
 }
-

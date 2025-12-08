@@ -8,7 +8,6 @@ namespace Skender.Stock.Indicators;
 public class StarcBandsHub
     : StreamHub<IQuote, StarcBandsResult>, IStarcBands
 {
-    #region constructors
 
     private readonly string hubName;
     private double _prevAtr = double.NaN;
@@ -36,10 +35,6 @@ public class StarcBandsHub
         Reinitialize();
     }
 
-    #endregion constructors
-
-    #region properties
-
     /// <inheritdoc/>
     public int SmaPeriods { get; init; }
 
@@ -48,10 +43,6 @@ public class StarcBandsHub
 
     /// <inheritdoc/>
     public int AtrPeriods { get; init; }
-
-    #endregion properties
-
-    #region methods
 
     /// <inheritdoc/>
     public override string ToString() => hubName;
@@ -217,9 +208,7 @@ public class StarcBandsHub
         return (r, i);
     }
 
-    #endregion methods
 }
-
 
 public static partial class StarcBands
 {

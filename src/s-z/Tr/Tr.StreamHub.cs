@@ -6,7 +6,6 @@ namespace Skender.Stock.Indicators;
 public class TrHub
     : ChainProvider<IQuote, TrResult>
 {
-    #region constructors
 
     private const string hubName = "TRUE RANGE";
 
@@ -16,7 +15,6 @@ public class TrHub
     /// <param name="provider">The quote provider.</param>
     internal TrHub(IQuoteProvider<IQuote> provider)
         : base(provider) => Reinitialize();
-    #endregion constructors
 
     // METHODS
 
@@ -49,7 +47,6 @@ public class TrHub
         return (r, i);
     }
 }
-
 
 public static partial class Tr
 {

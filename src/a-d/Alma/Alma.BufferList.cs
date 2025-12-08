@@ -74,9 +74,6 @@ public class AlmaList : BufferList<AlmaResult>, IIncrementFromChain, IAlma
     /// </summary>
     public double Sigma { get; init; }
 
-
-
-
     /// <inheritdoc />
     public void Add(DateTime timestamp, double value)
     {

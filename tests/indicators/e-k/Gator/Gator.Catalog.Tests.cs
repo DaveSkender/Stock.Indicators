@@ -26,7 +26,6 @@ public class GatorTests : TestBase
         listing.Results.Should().NotBeNull();
         listing.Results.Should().HaveCount(4);
 
-
     }
 
     [TestMethod]

@@ -5,14 +5,12 @@ namespace Skender.Stock.Indicators;
 /// </summary>
 public static partial class Prs
 {
-    #region Overloads
 
     /// <inheritdoc cref="ToPrs(IReadOnlyList{IReusable}, IReadOnlyList{IReusable}, int)" />
     public static IReadOnlyList<PrsResult> ToPrs(
         this IReadOnlyList<IReusable> sourceEval,
         IReadOnlyList<IReusable> sourceBase)
         => sourceEval.ToPrs(sourceBase, int.MinValue);
-    #endregion Overloads
 
     /// <summary>
     /// Converts a list of evaluation source values and base source values to a list of PRS results.

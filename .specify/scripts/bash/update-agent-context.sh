@@ -352,9 +352,6 @@ create_new_agent_file() {
     return 0
 }
 
-
-
-
 update_existing_agent_file() {
     local target_file="$1"
     local current_date="$2"
@@ -466,6 +463,7 @@ update_existing_agent_file() {
     
     return 0
 }
+
 #==============================================================================
 # Main Agent File Update Function
 #==============================================================================

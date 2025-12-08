@@ -143,7 +143,6 @@ public class ChaikinOscHub
     }
 }
 
-
 public static partial class ChaikinOsc
 {
     /// <summary>

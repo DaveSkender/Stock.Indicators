@@ -65,7 +65,6 @@ public class MarubozuHub
     }
 }
 
-
 public static partial class Marubozu
 {
     /// <summary>

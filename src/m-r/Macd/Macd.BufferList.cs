@@ -83,9 +83,6 @@ public class MacdList : BufferList<MacdResult>, IIncrementFromChain, IMacd
     /// </summary>
     public double SignalK { get; private init; }
 
-
-
-
     /// <inheritdoc />
     public void Add(DateTime timestamp, double value)
     {
