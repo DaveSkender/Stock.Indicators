@@ -58,6 +58,7 @@ public class WilliamsRHub
         }
 
         // Calculate Williams %R
+        // Williams %R is Fast Stochastic - 100
         double williamsR = double.NaN;
         if (i >= LookbackPeriods - 1 && hasHL && hasClose)
         {
@@ -66,6 +67,7 @@ public class WilliamsRHub
             decimal lowLow = _lowWindow.GetMin();
 
             // Return NaN when range is zero (undefined %R)
+            // Match Stochastic calculation order: 100 * (close - lowLow) / range - 100
             williamsR = highHigh == lowLow
                 ? double.NaN
                 : (100 * ((double)item.Close - (double)lowLow) / ((double)highHigh - (double)lowLow)) - 100;
