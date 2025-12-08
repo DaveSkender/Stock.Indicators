@@ -70,7 +70,7 @@ public class WilliamsRHub
             // Match Stochastic calculation order: 100 * (close - lowLow) / range - 100
             williamsR = highHigh == lowLow
                 ? double.NaN
-                : (100 * ((double)item.Close - (double)lowLow) / ((double)highHigh - (double)lowLow)) - 100;
+                : -100d * (item.Close - lowLow) / (highHigh - lowLow);
         }
 
         WilliamsResult result = new(
