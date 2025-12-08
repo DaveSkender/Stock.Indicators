@@ -1,11 +1,17 @@
 using static Tests.Data.Utilities;
 
-namespace Tests.Utilities;
+namespace Utilities;
+
+// TODO: is ULP precision code still relevant and used?
 
 [TestClass]
 [TestCategory("Utilities")]
-public class UtilitiesPrecisionTests
+public class UlpPrecisionProfiles
 {
+    // ULP means Unit in the Last Place.
+    // It’s the smallest possible difference between two representable
+    // floating-point numbers at a specific magnitude.
+
     private static DateTime T(int i) => new DateTime(2020, 1, 1).AddDays(i);
 
     private static IReadOnlyList<TestSeries> Series(

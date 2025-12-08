@@ -188,4 +188,37 @@ public static class Numerical
                 return false;
         }
     }
+
+
+    /// <summary>
+    /// Rounds a double to the specified number of significant digits.
+    /// </summary>
+    /// <param name="value">Value to round.</param>
+    /// <param name="sigDigits">Number of significant digits (must in 1-17 range).</param>
+    /// <returns>Precision rounded value (preserves NaN/Infinity).</returns>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when digits is out of range.</exception>"
+    public static double ToPrecision(this double value, int sigDigits = 14)
+    {
+        if (double.IsNaN(value) || double.IsInfinity(value))
+        {
+            return value;
+        }
+
+        // double about 15–16 decimal digits of precision or 17 to cover IEEE‑754 double
+        if (sigDigits is <= 0 or > 17)
+        {
+            throw new ArgumentOutOfRangeException(nameof(sigDigits), "Significant digits must be in 1-17 range.");
+        }
+
+        if (value == 0.0)
+        {
+            return 0.0;
+        }
+
+        double abs = Math.Abs(value);
+        int magnitude = (int)Math.Ceiling(Math.Log10(abs));
+        double scale = Math.Pow(10.0, sigDigits - magnitude);
+        double rounded = Math.Round(abs * scale, MidpointRounding.ToEven) / scale;
+        return Math.CopySign(rounded, value);
+    }
 }

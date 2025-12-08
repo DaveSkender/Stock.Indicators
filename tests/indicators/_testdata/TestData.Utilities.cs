@@ -2,6 +2,8 @@ using FluentAssertions.Equivalency;
 using FluentAssertions.Execution;
 using FluentAssertions.Numeric;
 
+// TODO: is AssertEquals and related Precision enum used properly?
+
 namespace Tests.Data;
 
 internal static partial class Utilities

@@ -1,5 +1,7 @@
 namespace Tests.Data;
 
+// TODO: is Precision unum used or useful?
+
 /// <summary>
 /// Precision profiles for numeric comparisons inside <c>BeEquivalentTo(..)</c>.
 /// These control the allowed absolute delta when comparing nested numeric members during structural equivalence.

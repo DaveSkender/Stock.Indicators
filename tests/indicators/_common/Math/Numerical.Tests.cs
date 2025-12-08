@@ -1,6 +1,7 @@
 namespace Utilities;
 
 [TestClass]
+[TestCategory("Utilities")]
 public class Numericals : TestBase
 {
     private readonly double[] _closePrice = LongishQuotes

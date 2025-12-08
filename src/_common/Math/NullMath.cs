@@ -73,6 +73,21 @@ public static class NullMath
         => Math.Round(value, digits);
 
     /// <summary>
+    /// Rounds a nullable double value to a specified number of significant digits.
+    /// </summary>
+    /// <param name="value">The nullable double value.</param>
+    /// <param name="sigDigits">The number of significant digits.</param>
+    /// <returns>
+    /// The value rounded to the specified number of significant digits,
+    /// or <c>null</c> if the input is <c>null</c>.
+    /// </returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static double? ToPrecision(this double? value, int sigDigits)
+        => value.HasValue
+        ? ((double)value).ToPrecision(sigDigits)
+        : null;
+
+    /// <summary>
     /// Converts a nullable double value to NaN if it is null.
     /// </summary>
     /// <param name="value">The nullable double value.</param>
