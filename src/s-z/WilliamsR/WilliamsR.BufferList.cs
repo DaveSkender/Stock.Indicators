@@ -44,7 +44,7 @@ public class WilliamsRList : BufferList<WilliamsResult>, IIncrementFromQuote, IW
         _stochList.Add(quote);
 
         // Convert Stochastic result to Williams %R
-        StochResult stochResult = _stochList[_stochList.Count - 1];
+        StochResult stochResult = _stochList[^1];
         WilliamsResult williamsResult = new(
             Timestamp: stochResult.Timestamp,
             WilliamsR: stochResult.Oscillator - 100d);
