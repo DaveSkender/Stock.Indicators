@@ -31,7 +31,7 @@ public class WilliamsRTests
 
             Console.WriteLine($"{q.Timestamp:s} {r.WilliamsR}");
 
-            r.WilliamsR?.Should().BeInRange(-100d, 0d);  // TODO: address rounding at boundaries (only)
+            r.WilliamsR?.Should().BeInRange(-100d, 0d);
         }
     }
 }

@@ -5,7 +5,7 @@ namespace Skender.Stock.Indicators;
 /// </summary>
 public class WilliamsRList : BufferList<WilliamsResult>, IIncrementFromQuote, IWilliamsR
 {
-    private readonly StochList _stochList;
+    private readonly Queue<(double High, double Low)> _buffer;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="WilliamsRList"/> class.
@@ -17,9 +17,7 @@ public class WilliamsRList : BufferList<WilliamsResult>, IIncrementFromQuote, IW
         WilliamsR.Validate(lookbackPeriods);
         LookbackPeriods = lookbackPeriods;
 
-        // Williams %R is Fast Stochastic (K) - 100
-        // Fast Stochastic parameters: lookback, signal=1, smooth=1
-        _stochList = new StochList(lookbackPeriods, 1, 1, 3, 2, MaType.SMA);
+        _buffer = new Queue<(double, double)>(lookbackPeriods);
     }
 
     /// <summary>
@@ -37,19 +35,14 @@ public class WilliamsRList : BufferList<WilliamsResult>, IIncrementFromQuote, IW
     /// </summary>
     public int LookbackPeriods { get; init; }
 
+
+
+
     /// <inheritdoc />
     public void Add(IQuote quote)
     {
         ArgumentNullException.ThrowIfNull(quote);
-        _stochList.Add(quote);
-
-        // Convert Stochastic result to Williams %R
-        StochResult stochResult = _stochList[^1];
-        WilliamsResult williamsResult = new(
-            Timestamp: stochResult.Timestamp,
-            WilliamsR: stochResult.Oscillator - 100d);
-
-        AddInternal(williamsResult);
+        Add(quote.Timestamp, (double)quote.High, (double)quote.Low, (double)quote.Close);
     }
 
     /// <inheritdoc />
@@ -63,10 +56,60 @@ public class WilliamsRList : BufferList<WilliamsResult>, IIncrementFromQuote, IW
         }
     }
 
+    /// <summary>
+    /// Adds a new quote data point for Williams %R calculation.
+    /// </summary>
+    /// <param name="timestamp">The timestamp of the data point.</param>
+    /// <param name="high">The high price.</param>
+    /// <param name="low">The low price.</param>
+    /// <param name="close">The close price.</param>
+    public void Add(DateTime timestamp, double high, double low, double close)
+    {
+        // Update rolling buffer using BufferListUtilities with consolidated tuple
+        _buffer.Update(LookbackPeriods, (high, low));
+
+        // Calculate Williams %R when we have enough data
+        double? williamsR = null;
+        if (_buffer.Count == LookbackPeriods)
+        {
+            double highHigh = double.MinValue;
+            double lowLow = double.MaxValue;
+
+            foreach ((double High, double Low) in _buffer)
+            {
+                if (High > highHigh)
+                {
+                    highHigh = High;
+                }
+
+                if (Low < lowLow)
+                {
+                    lowLow = Low;
+                }
+            }
+
+            if (highHigh - lowLow != 0)
+            {
+                // Match the calculation order in StaticSeries (via Stochastic)
+                // which is: 100 * (close - lowLow) / (highHigh - lowLow) - 100
+                williamsR = (100.0 * (close - lowLow) / (highHigh - lowLow)) - 100.0;
+            }
+            else
+            {
+                williamsR = 0;
+            }
+        }
+
+        // Add result to the list
+        AddInternal(new WilliamsResult(
+            Timestamp: timestamp,
+            WilliamsR: williamsR));
+    }
+
     /// <inheritdoc />
     public override void Clear()
     {
         base.Clear();
-        _stochList.Clear();
+        _buffer.Clear();
     }
 }
