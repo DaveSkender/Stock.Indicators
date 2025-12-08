@@ -111,24 +111,13 @@ public class StochHub
         double rawK = double.NaN;
         if (i >= LookbackPeriods - 1)
         {
-            // Check for NaN values in current quote
-            bool isViable = !double.IsNaN(high) && !double.IsNaN(low) && !double.IsNaN(close);
+            // Use O(1) max/min retrieval from rolling windows
+            double highHigh = _highWindow.GetMax();
+            double lowLow = _lowWindow.GetMin();
 
-            if (isViable)
-            {
-                if (_highWindow.Count == 0 || _lowWindow.Count == 0)
-                {
-                    throw new InvalidOperationException("Rolling window is empty when calculating %K.");
-                }
-
-                // Use O(1) max/min retrieval from rolling windows
-                double highHigh = _highWindow.GetMax();
-                double lowLow = _lowWindow.GetMin();
-
-                rawK = highHigh - lowLow != 0
-                     ? 100d * (close - lowLow) / (highHigh - lowLow)
-                     : 0;
-            }
+            rawK = highHigh - lowLow != 0
+                 ? 100d * (close - lowLow) / (highHigh - lowLow)
+                 : 0;
         }
 
         // Add raw K to buffer for smoothing calculation
