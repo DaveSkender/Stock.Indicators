@@ -32,9 +32,6 @@ public class WilliamsRTests
         Console.WriteLine("----------------------------------------");
         //Console.WriteLine(results.Where(x => x.WilliamsR is < (-100) or > 0).ToStringOut());
 
-
-
-
         // analyze boundary
         for (int i = 0; i < length; i++)
         {
