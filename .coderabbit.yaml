@@ -89,6 +89,7 @@ reviews:
     - "!**/_testdata/**/*.json"     # Test data
     - "!node_modules/"        # NPM dependencies
     - "!*-lock.json"          # NPM/PNPM lock files
+    - "!packages.lock.json"   # .NET lock file
     - "!packages/"            # NuGet packages cache
     - "!.jekyll-cache/"       # Jekyll cache
     - "!vendor/"              # Ruby vendor gem files

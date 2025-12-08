@@ -28,7 +28,7 @@ internal static class IndicatorExecutor
         }
 
         // Check if this indicator uses SeriesParameter (requires IReusable lists) - not supported yet
-        if (listing.Parameters != null && listing.Parameters.Any(p => p.DataType == "IReadOnlyList<T> where T : IReusable"))
+        if (listing.Parameters?.Any(p => p.DataType == "IReadOnlyList<T> where T : IReusable") == true)
         {
             throw new NotSupportedException($"Indicator '{listing.Uiid}' uses SeriesParameter which is not yet supported for baseline generation");
         }
@@ -114,7 +114,7 @@ internal static class IndicatorExecutor
         List<object?> parameters = [TestData];
 
         // Add additional parameters from the listing with their default values
-        if (listing.Parameters != null && listing.Parameters.Count > 0)
+        if (listing.Parameters?.Count > 0)
         {
             int paramIndex = 1; // Start at 1 because first param is quotes
             foreach (IndicatorParam param in listing.Parameters)
