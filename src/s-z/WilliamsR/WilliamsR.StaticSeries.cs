@@ -32,13 +32,12 @@ public static partial class WilliamsR
         // check parameter arguments
         Validate(lookbackPeriods);
 
-        // convert Fast Stochastic to William %R
+        // Williams %R is Fast Stochastic Oscillator - 100
         return quotes.CalcStoch(lookbackPeriods, 1, 1, 3, 2, MaType.SMA)
             .ConvertAll(static s => new WilliamsResult(
                 Timestamp: s.Timestamp,
                 WilliamsR: s.Oscillator - 100
-             ))
-;
+             ));
     }
 
     /// <summary>
