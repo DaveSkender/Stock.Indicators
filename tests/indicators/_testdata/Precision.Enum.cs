@@ -1,6 +1,6 @@
 namespace Tests.Data;
 
-// TODO: is Precision unum used or useful?
+// TODO: is Precision enum used or useful?
 
 /// <summary>
 /// Precision profiles for numeric comparisons inside <c>BeEquivalentTo(..)</c>.
