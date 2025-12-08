@@ -85,17 +85,10 @@ public class WilliamsRList : BufferList<WilliamsResult>, IIncrementFromQuote, IW
                 }
             }
 
-            if (highHigh - lowLow != 0)
-            {
-                // Williams %R is Fast Stochastic - 100
-                // Match the calculation order in Stochastic:
-                // -100 * (close - lowLow) / (highHigh - lowLow)
-                williamsR = -100.0 * (close - lowLow) / (highHigh - lowLow);
-            }
-            else
-            {
-                williamsR = 0;
-            }
+            // Williams %R is Fast Stochastic - 100
+            williamR = highHigh - lowLow != 0
+                ? -100.0 * (close - lowLow) / (highHigh - lowLow);
+                : 0;
         }
 
         // Add result to the list
