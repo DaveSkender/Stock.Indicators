@@ -133,7 +133,7 @@ public class StochList : BufferList<StochResult>, IIncrementFromQuote, IStoch
             }
 
             rawK = highHigh - lowLow != 0
-                ? 100.0 * (close - lowLow) / (highHigh - lowLow)
+                ? 100d * (close - lowLow) / (highHigh - lowLow)
                 : 0;
         }
 
