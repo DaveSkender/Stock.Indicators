@@ -8,7 +8,6 @@ namespace Skender.Stock.Indicators;
 public class AtrStopHub
     : StreamHub<IQuote, AtrStopResult>, IAtrStop
 {
-    #region constructors
 
     private readonly string hubName;
 
@@ -34,7 +33,6 @@ public class AtrStopHub
 
         Reinitialize();
     }
-    #endregion constructors
 
     /// <summary>
     /// Gets the number of periods to look back.
@@ -208,7 +206,6 @@ public class AtrStopHub
         }
     }
 }
-
 
 public static partial class AtrStop
 {

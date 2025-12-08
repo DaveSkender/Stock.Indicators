@@ -37,9 +37,6 @@ public class VwmaList : BufferList<VwmaResult>, IIncrementFromQuote, IVwma
     /// </summary>
     public int LookbackPeriods { get; init; }
 
-
-
-
     /// <inheritdoc />
     public void Add(IQuote quote)
     {

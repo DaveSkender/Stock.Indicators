@@ -147,7 +147,6 @@ public class HeikinAshiHub
     }
 }
 
-
 public static partial class HeikinAshi
 {
     /// <summary>

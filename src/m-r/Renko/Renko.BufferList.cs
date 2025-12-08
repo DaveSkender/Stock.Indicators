@@ -57,9 +57,6 @@ public class RenkoList : BufferList<RenkoResult>, IIncrementFromQuote, IRenko
     /// <inheritdoc/>
     public EndType EndType { get; init; }
 
-
-
-
     /// <inheritdoc />
     public void Add(IQuote quote)
     {

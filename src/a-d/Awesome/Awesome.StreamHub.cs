@@ -86,7 +86,6 @@ public class AwesomeHub
     }
 }
 
-
 public static partial class Awesome
 {
     /// <summary>

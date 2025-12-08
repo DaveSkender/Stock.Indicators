@@ -16,7 +16,6 @@ internal record StcMacdState(double FastEma, double SlowEma, double Macd);
 public class StcHub
     : ChainProvider<IReusable, StcResult>, IStc
 {
-    #region fields
 
     private readonly string hubName;
     private readonly RollingWindowMax<double> _macdHighWindow;
@@ -25,10 +24,6 @@ public class StcHub
     private readonly List<StcMacdState> _macdCache;
     private readonly double _fastK;
     private readonly double _slowK;
-
-    #endregion fields
-
-    #region constructors
 
     /// <summary>
     /// Initializes a new instance of the <see cref="StcHub"/> class.
@@ -67,10 +62,6 @@ public class StcHub
         Reinitialize();
     }
 
-    #endregion constructors
-
-    #region properties
-
     /// <inheritdoc/>
     public int CyclePeriods { get; init; }
 
@@ -79,10 +70,6 @@ public class StcHub
 
     /// <inheritdoc/>
     public int SlowPeriods { get; init; }
-
-    #endregion properties
-
-    #region methods
 
     /// <inheritdoc/>
     public override string ToString() => hubName;
@@ -268,9 +255,7 @@ public class StcHub
         }
     }
 
-    #endregion methods
 }
-
 
 public static partial class Stc
 {

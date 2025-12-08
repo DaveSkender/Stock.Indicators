@@ -65,7 +65,6 @@ public class EmaHub
     }
 }
 
-
 public static partial class Ema
 {
     /// <summary>

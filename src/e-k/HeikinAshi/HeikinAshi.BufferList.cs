@@ -23,7 +23,6 @@ public class HeikinAshiList : BufferList<HeikinAshiResult>, IIncrementFromQuote
     public HeikinAshiList(IReadOnlyList<IQuote> quotes)
         : this() => Add(quotes);
 
-
     /// <inheritdoc />
     public void Add(IQuote quote)
     {

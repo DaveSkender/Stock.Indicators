@@ -89,7 +89,6 @@ public class AtrHub
     }
 }
 
-
 public static partial class Atr
 {
     /// <summary>

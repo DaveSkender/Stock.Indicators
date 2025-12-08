@@ -8,7 +8,6 @@ namespace Skender.Stock.Indicators;
 public class VortexHub
     : StreamHub<IQuote, VortexResult>, IVortex
 {
-    #region constructors
 
     private readonly string hubName;
     private readonly Queue<(double Tr, double Pvm, double Nvm)> _buffer;
@@ -36,16 +35,8 @@ public class VortexHub
         Reinitialize();
     }
 
-    #endregion constructors
-
-    #region properties
-
     /// <inheritdoc />
     public int LookbackPeriods { get; init; }
-
-    #endregion properties
-
-    #region methods
 
     /// <inheritdoc/>
     public override string ToString() => hubName;
@@ -190,9 +181,7 @@ public class VortexHub
         }
     }
 
-    #endregion methods
 }
-
 
 public static partial class Vortex
 {

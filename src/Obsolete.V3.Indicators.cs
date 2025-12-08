@@ -997,7 +997,6 @@ public static partial class Indicator
         this IEnumerable<IQuote> quotes, int lookbackPeriods = 5, double volumeFactor = 0.7)
         => quotes.ToSortedList().ToT3(lookbackPeriods, volumeFactor);
 
-
     [ExcludeFromCodeCoverage]
     [Obsolete("Use 'ToT3(..)' method. Tuple arguments were removed.", false)]
     public static IEnumerable<T3Result> GetT3(

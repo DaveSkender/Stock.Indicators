@@ -8,13 +8,8 @@ namespace Skender.Stock.Indicators;
 public class StdDevHub
     : ChainProvider<IReusable, StdDevResult>, IStdDev
 {
-    #region fields
 
     private readonly string hubName;
-
-    #endregion fields
-
-    #region constructors
 
     /// <summary>
     /// Initializes a new instance of the <see cref="StdDevHub"/> class.
@@ -32,18 +27,10 @@ public class StdDevHub
         Reinitialize();
     }
 
-    #endregion constructors
-
-    #region properties
-
     /// <summary>
     /// Gets the number of lookback periods.
     /// </summary>
     public int LookbackPeriods { get; init; }
-
-    #endregion properties
-
-    #region methods
 
     /// <inheritdoc/>
     public override string ToString() => hubName;
@@ -113,7 +100,6 @@ public class StdDevHub
         return (r, i);
     }
 
-    #endregion methods
 }
 
 /// <summary>

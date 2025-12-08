@@ -122,5 +122,4 @@ public class Sma : BufferListTestBase, ITestChainBufferList
         sut.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
     }
 
-
 }

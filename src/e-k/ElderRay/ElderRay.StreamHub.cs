@@ -8,7 +8,6 @@ namespace Skender.Stock.Indicators;
 public class ElderRayHub
     : StreamHub<IQuote, ElderRayResult>, IElderRay
 {
-    #region constructors
 
     private readonly string hubName;
 
@@ -31,7 +30,6 @@ public class ElderRayHub
 
         Reinitialize();
     }
-    #endregion constructors
 
     /// <summary>
     /// Gets the number of periods to look back for the calculation.
@@ -78,7 +76,6 @@ public class ElderRayHub
         return (r, i);
     }
 }
-
 
 public static partial class ElderRay
 {

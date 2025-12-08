@@ -34,9 +34,6 @@ public class CmoList : BufferList<CmoResult>, IIncrementFromChain, ICmo
     /// </summary>
     public int LookbackPeriods { get; init; }
 
-
-
-
     /// <inheritdoc />
     public void Add(DateTime timestamp, double value)
     {
