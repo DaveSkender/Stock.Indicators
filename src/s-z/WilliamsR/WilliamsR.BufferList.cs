@@ -88,13 +88,13 @@ public class WilliamsRList : BufferList<WilliamsResult>, IIncrementFromQuote, IW
             // Williams %R is Fast Stochastic - 100
             williamsR = highHigh - lowLow != 0
                 ? 100d * (close - lowLow) / (highHigh - lowLow) - 100d
-                : 0;
+                : double.NaN;
         }
 
         // Add result to the list
         AddInternal(new WilliamsResult(
             Timestamp: timestamp,
-            WilliamsR: williamsR));
+            WilliamsR: williamsR.Nan2Null()));
     }
 
     /// <inheritdoc />
