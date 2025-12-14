@@ -53,27 +53,42 @@
       "problemMatcher": []
     },
     {
-      "label": "Restore: All code dependencies",
+      "label": "Install: All code dependencies",
       "detail": "Restore .NET packages",
       "dependsOn": [
-        "Restore: .NET packages"
+        "Install: .NET packages"
       ],
       "dependsOrder": "parallel"
     },
     {
-      "label": "Restore: .NET packages",
+      "label": "Install: .NET packages",
       "detail": "Restore NuGet packages for solution",
       "type": "shell",
-      "command": "dotnet restore",
+      "command": "dotnet restore && dotnet outdated --exclude FluentAssertions",
       "problemMatcher": "$msCompile",
       "presentation": { "group": "install" }
     },
-
     {
-      "label": "Restore: Ruby packages",
+      "label": "Inspect: .NET packages",
+      "detail": "List outdated NuGet packages in the root solution using dotnet-outdated",
+      "type": "shell",
+      "command": "dotnet outdated --exclude FluentAssertions",
+      "problemMatcher": [],
+      "presentation": { "group": "install" }
+    },
+    {
+      "label": "Update: .NET packages (outdated --upgrade)",
+      "detail": "Upgrade outdated NuGet packages in the root solution using dotnet-outdated",
+      "type": "shell",
+      "command": "dotnet outdated --upgrade --exclude FluentAssertions",
+      "problemMatcher": [],
+      "presentation": { "group": "install" }
+    },
+    {
+      "label": "Install: Ruby packages",
       "detail": "Install Ruby gems for docs site (Jekyll)",
       "type": "shell",
-      "command": "bundle install --jobs 4 && bundle clean --force",
+      "command": "bundle install --jobs 4 && bundle clean --force && echo '✓ Install complete!'",
       "options": {
         "cwd": "${workspaceFolder}/docs",
         "env": {
@@ -90,9 +105,9 @@
     },
     {
       "label": "Update: Ruby packages",
-      "detail": "Update Ruby gems conservatively and clean",
+      "detail": "Install then update Ruby gems conservatively and clean",
       "type": "shell",
-      "command": "bundle lock --add-platform x86_64-linux x64-mingw-ucrt && bundle update --conservative && bundle clean --force",
+      "command": "bundle lock --add-platform x86_64-linux x64-mingw-ucrt && bundle install && bundle update --conservative && bundle clean --force && echo '✓ Update complete!'",
       "options": {
         "cwd": "${workspaceFolder}/docs",
         "env": {
@@ -340,7 +355,8 @@
       "detail": "Serve Jekyll docs site with livereload",
       "type": "shell",
       "command": "bundle exec jekyll serve --livereload --open-url",
-      "dependsOn": "Restore: Ruby packages",
+      "dependsOn": "Install: Ruby packages",
+      "dependsOrder": "sequence",
       "isBackground": true,
       "options": {
         "cwd": "${workspaceFolder}/docs",
@@ -375,7 +391,8 @@
       "detail": "Alias: run docs site (background) with simple readiness matcher",
       "type": "shell",
       "command": "bundle exec jekyll serve --livereload",
-      "dependsOn": "Restore: Ruby packages",
+      "dependsOn": "Install: Ruby packages",
+      "dependsOrder": "sequence",
       "isBackground": true,
       "options": {
         "cwd": "${workspaceFolder}/docs",

@@ -1,40 +1,42 @@
 {
-  "chat.promptFilesRecommendations": {
-    "speckit.tasks": true,
-    "speckit.implement": true
+  "[markdown]": {
+    "editor.defaultFormatter": "DavidAnson.vscode-markdownlint",
   },
-  "chat.tools.terminal.autoApprove": {
-    ".specify/scripts/bash/": true,
-    ".specify/scripts/ps/": true
-  },
-  "chat.useAgentsMdFile": true,
-  "chat.useNestedAgentsMdFiles": true,
   "dotnet.defaultSolution": "Stock.Indicators.sln",
-  "files.encoding": "utf8",
-  "files.eol": "\n",
-  "files.insertFinalNewline": true,
-  "files.trimFinalNewlines": false,
   "files.associations": {
     "*.md": "markdown"
   },
+  "github.copilot.chat.githubMcpServer.enabled": true,
+  "github.copilot.chat.githubMcpServer.readonly": true,
+  "github.copilot.chat.githubMcpServer.toolsets": [
+    "default",
+    "issues",
+    "pull_requests",
+    "actions",
+    "workflows",
+    "discussions",
+    "projects",
+    "copilot",
+    "copilot_spaces",
+    "github_support_docs_search",
+    "web_search"
+  ],
+  "github.copilot.chat.tools.memory.enabled": true,
   "githubPullRequests.ignoredPullRequestBranches": [
     "v3"
   ],
   "search.exclude": {
     "**/_site/**": true,
-    "**/vendor/**": true,
-    "**/node_modules/**": true,
     "**/_testdata/**/*.csv": true,
     "**/_testdata/**/*.json": true,
     "**/.vs/**": true,
     "**/bin/**": true,
     "**/obj/**": true,
+    "**/node_modules/**": true,
     "**/TestResults/**": true,
+    "**/vendor/**": true,
     "**/*.csproj.user": true,
     "**/*.log": true,
-    "**/*.tmp": true
-  },
-  "[markdown]": {
-    "editor.defaultFormatter": "DavidAnson.vscode-markdownlint",
+    "**/*.tmp": true,
   }
 }
