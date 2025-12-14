@@ -11,6 +11,7 @@
       "type": "promptString"
     }
   ],
+
   // defaults
   "group": "none",
   "presentation": {
@@ -23,11 +24,17 @@
     "clear": false
   },
   "problemMatcher": "$msCompile",
-  "options": {
-    "cwd": "${workspaceFolder}"
-  },
+  "options": { "cwd": "${workspaceFolder}" },
+
   // tasks
   "tasks": [
+    {
+      "label": "Setup: Dev tools",
+      "detail": "Complete one-time environment setup (global tools, SpecKit, packages)",
+      "type": "shell",
+      "command": "bash .devcontainer/startup.sh",
+      "problemMatcher": [ "$msCompile", "$eslint-compact" ]
+    },
     {
       "label": "Initialize: Pull, rebuild, fixers, and unit test",
       "detail": "Pull latest, clean, rebuild non-incremental, fix all, and test",
@@ -67,9 +74,7 @@
       "type": "shell",
       "command": "dotnet restore && dotnet outdated --exclude FluentAssertions",
       "problemMatcher": "$msCompile",
-      "presentation": {
-        "group": "install"
-      }
+      "presentation": { "group": "install" }
     },
     {
       "label": "Inspect: .NET packages",
@@ -83,7 +88,7 @@
       "label": "Update: .NET packages (outdated --upgrade)",
       "detail": "Upgrade outdated NuGet packages in the root solution using dotnet-outdated",
       "type": "shell",
-      "command": "dotnet outdated --upgrade --exclude FluentAssertions",
+      "command": "dotnet outdated --upgrade --exclude FluentAssertions && dotnet outdated --upgrade docs/Examples",
       "problemMatcher": [],
       "presentation": { "group": "install" }
     },
@@ -109,9 +114,7 @@
         "cwd": "${workspaceFolder}/docs"
       },
       "problemMatcher": [],
-      "presentation": {
-        "group": "install"
-      }
+      "presentation": { "group": "install" }
     },
     {
       "label": "Clean: .NET Solution (dotnet clean)",
@@ -128,9 +131,7 @@
       "command": "bash tools/scripts/clean.sh",
       "group": "build",
       "problemMatcher": "$msCompile",
-      "presentation": {
-        "group": "install"
-      }
+      "presentation": { "group": "install" }
     },
     {
       "label": "Delete: Temporary caches (and build)",
@@ -139,9 +140,7 @@
       "command": "bash tools/scripts/clean.sh && dotnet build --no-incremental",
       "group": "build",
       "problemMatcher": "$msCompile",
-      "presentation": {
-        "group": "install"
-      }
+      "presentation": { "group": "install" }
     },
     {
       "label": "Build: .NET Solution (incremental)",
@@ -164,14 +163,21 @@
     },
     {
       "label": "Lint: .NET code (format check)",
-      "detail": "Verify code formatting and style",
+      "detail": "Verify code formatting and style with 'dotnet format'",
       "type": "shell",
       "command": "dotnet format --verify-no-changes --severity info --no-restore",
       "group": "test",
       "problemMatcher": "$msCompile",
-      "presentation": {
-        "group": "analysis"
-      }
+      "presentation": { "group": "analysis" }
+    },
+    {
+      "label": "Lint: .NET code (Roslynator check)",
+      "detail": "Verify code formatting and style with Roslynator",
+      "type": "shell",
+      "command": "roslynator analyze --properties TargetFramework=net10.0 --severity-level hidden --verbosity normal",
+      "group": "test",
+      "problemMatcher": "$msCompile",
+      "presentation": { "group": "analysis" }
     },
     {
       "label": "Lint: .NET code (full analysis)",
@@ -180,13 +186,9 @@
       "command": "bash tools/scripts/lint-code-check.sh",
       "group": "test",
       "problemMatcher": "$msCompile",
-      "dependsOn": [
-        "Build: .NET Solution (incremental)"
-      ],
+      "dependsOn": ["Build: .NET Solution (incremental)"],
       "dependsOrder": "sequence",
-      "presentation": {
-        "group": "analysis"
-      }
+      "presentation": { "group": "analysis" }
     },
     {
       "label": "Lint: .NET code (fix)",
@@ -195,31 +197,25 @@
       "command": "bash tools/scripts/lint-code-fix.sh",
       "group": "none",
       "problemMatcher": "$msCompile",
-      "presentation": {
-        "group": "analysis"
-      }
+      "presentation": { "group": "analysis" }
     },
     {
       "label": "Lint: Markdown files",
       "detail": "Run markdownlint over documentation",
       "type": "shell",
-      "command": "pnpm dlx markdownlint-cli2",
+      "command": "echo y | npx markdownlint-cli2",
       "group": "test",
       "problemMatcher": "$markdownlint",
-      "presentation": {
-        "group": "analysis"
-      }
+      "presentation": { "group": "analysis" }
     },
     {
       "label": "Lint: Markdown files (fix)",
       "detail": "Auto-fix markdown formatting issues",
       "type": "shell",
-      "command": "pnpm dlx markdownlint-cli2 --fix",
+      "command": "echo y | npx markdownlint-cli2 --fix",
       "group": "none",
       "problemMatcher": "$markdownlint",
-      "presentation": {
-        "group": "analysis"
-      }
+      "presentation": { "group": "analysis" }
     },
     {
       "label": "Lint: .NET code & markdown files",
@@ -231,13 +227,8 @@
       ],
       "dependsOrder": "sequence",
       "group": "test",
-      "problemMatcher": [
-        "$msCompile",
-        "$markdownlint"
-      ],
-      "presentation": {
-        "group": "analysis"
-      }
+      "problemMatcher": ["$msCompile", "$markdownlint"],
+      "presentation": { "group": "analysis" }
     },
     {
       "label": "Lint: .NET code & markdown files (fix)",
@@ -249,28 +240,8 @@
       ],
       "dependsOrder": "sequence",
       "group": "none",
-      "problemMatcher": [
-        "$msCompile",
-        "$markdownlint"
-      ],
-      "presentation": {
-        "group": "analysis"
-      }
-    },
-    {
-      "label": "CI: Verify (build + lint + unit test)",
-      "detail": "Complete CI verification: build, lint, and test",
-      "dependsOn": [
-        "Build: .NET Solution (incremental)",
-        "Lint: .NET code & markdown files",
-        "Test: Unit tests"
-      ],
-      "dependsOrder": "sequence",
-      "group": "test",
-      "presentation": {
-        "reveal": "always",
-        "panel": "shared"
-      }
+      "problemMatcher": ["$msCompile", "$markdownlint"],
+      "presentation": { "group": "analysis" }
     },
     {
       "label": "Test: Unit tests",
@@ -282,9 +253,7 @@
         "isDefault": true
       },
       "problemMatcher": "$msCompile",
-      "presentation": {
-        "clear": true
-      }
+      "presentation": { "clear": true }
     },
     {
       "label": "Test: Regression tests",
@@ -293,9 +262,7 @@
       "command": "dotnet test tests/indicators/Tests.Indicators.csproj --no-restore --nologo --settings tests/tests.regression.runsettings",
       "group": "test",
       "problemMatcher": "$msCompile",
-      "presentation": {
-        "clear": true
-      }
+      "presentation": { "clear": true }
     },
     {
       "label": "Test: Integration",
@@ -304,9 +271,7 @@
       "command": "dotnet test tests/integration/Tests.Integration.csproj --no-restore --nologo && dotnet test tests/public-api/Tests.PublicApi.csproj --no-restore --nologo",
       "group": "test",
       "problemMatcher": "$msCompile",
-      "presentation": {
-        "clear": true
-      }
+      "presentation": { "clear": true }
     },
     {
       "label": "Test: All tests",
@@ -315,9 +280,7 @@
       "command": "dotnet test --no-restore --nologo",
       "group": "test",
       "problemMatcher": "$msCompile",
-      "presentation": {
-        "clear": true
-      }
+      "presentation": { "clear": true }
     },
     {
       "label": "Test: Unit tests with coverage",
@@ -326,8 +289,21 @@
       "command": "dotnet test --collect:\"Code Coverage\" --no-restore --nologo",
       "group": "test",
       "problemMatcher": "$msCompile",
+      "presentation": { "clear": true }
+    },
+    {
+      "label": "Verify: Quick checks (build + lint + unit test)",
+      "detail": "Complete CI verification: build, lint, and test",
+      "dependsOn": [
+        "Build: .NET Solution (incremental)",
+        "Lint: .NET code & markdown files",
+        "Test: Unit tests"
+      ],
+      "dependsOrder": "sequence",
+      "group": "test",
       "presentation": {
-        "clear": true
+        "reveal": "always",
+        "panel": "shared"
       }
     },
     {
@@ -546,7 +522,7 @@
       }
     },
     {
-      "label": "Run: Simulation demo",
+      "label": "Run: Simulation Demo",
       "detail": "Run streaming indicators simulation demo",
       "type": "shell",
       "command": "dotnet run --project tools/simulate/Test.Simulation.csproj",
