@@ -1,22 +1,22 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-  
+
     <TargetFrameworks>net10.0;net9.0;net8.0;net6.0;netstandard2.1;netstandard2.0</TargetFrameworks>
     <LangVersion>latest</LangVersion>
-
-    <Authors>Dave Skender</Authors>
-    <Product>Stock Indicators for .NET</Product>
-    <Copyright>@2020 Dave Skender</Copyright>
-    <Description>Stock Indicators for .NET.  Transform financial market price quotes into technical analysis indicators such as MACD, Stochastic RSI, Average True Range, Parabolic SAR, etc.  Nothing more.</Description>
-
-    <RepositoryUrl>https://github.com/DaveSkender/Stock.Indicators</RepositoryUrl>
-    <RepositoryType>git</RepositoryType>
-    <PublishRepositoryUrl>true</PublishRepositoryUrl>
 
     <AssemblyName>Skender.Stock.Indicators</AssemblyName>
     <RootNamespace>Skender.Stock.Indicators</RootNamespace>
     <NeutralLanguage>en-US</NeutralLanguage>
+
+    <Authors>Dave Skender</Authors>
+    <Product>Stock Indicators for .NET</Product>
+    <Copyright>@2020 Dave Skender</Copyright>
+    <Description>Transform financial market price data into technical analysis indicators such as MACD, Stochastic RSI, Average True Range, Parabolic SAR, and more.</Description>
+
+    <RepositoryUrl>https://github.com/DaveSkender/Stock.Indicators</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
 
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
@@ -77,6 +77,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.SourceLink.GitHub" PrivateAssets="All" />
+    <PackageReference Include="Roslynator.Analyzers" PrivateAssets="All" />
   </ItemGroup>
 
 </Project>
