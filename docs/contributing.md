@@ -110,13 +110,11 @@ Build the site locally to test that it works properly.
 
 ```bash
 # from /docs folder
-npm install
-npm run docs:dev
+pnpm install
+pnpm run docs:dev
 
 # the site will open at http://localhost:5173/
 ```
-
-The site will be available at `http://127.0.0.1:4000`.
 
 When adding or updating indicators:
 

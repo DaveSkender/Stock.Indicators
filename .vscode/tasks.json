@@ -560,9 +560,15 @@
     },
     {
       "label": "Stop: All hosted servers",
-      "detail": "Stop all running VitePress dev servers and preview servers",
+      "detail": "Stop VitePress dev/preview servers on default ports (5173/5174) across platforms",
       "type": "shell",
-      "command": "taskkill /F /IM node.exe /T 2>nul || echo No servers running",
+      "command": "pkill -f \"vitepress|docs:dev|docs:preview|5173|5174\" || true",
+      "windows": {
+        "command": "powershell -NoLogo -NoProfile -Command \"Get-Process node -ErrorAction SilentlyContinue | Where-Object { $_.Path -and ( $_.CommandLine -match 'vitepress' -or $_.CommandLine -match 'docs:dev' -or $_.CommandLine -match 'docs:preview' -or $_.CommandLine -match '5173' -or $_.CommandLine -match '5174' ) } | ForEach-Object { Write-Host \\\"Stopping VitePress process $($_.Id)\\\"; Stop-Process -Id $_.Id -Force }\""
+      },
+      "osx": {
+        "command": "pkill -f \"vitepress|docs:dev|docs:preview|5173|5174\" || true"
+      },
       "group": "none",
       "problemMatcher": [],
       "presentation": {

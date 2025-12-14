@@ -10,7 +10,7 @@ description: The Stock Indicators for .NET library includes utilities to help yo
 - [for numerical analysis](#utilities-for-numerical-analysis)
 - [indicator metadata catalog](#indicator-catalog-metadata)
 
-See [individual indicator pages](/indicators/#content) for information on recommended pruning quantities.
+See [individual indicator pages](/indicators/) for information on recommended pruning quantities.
 
 ## Utilities for historical quotes
 
@@ -133,7 +133,7 @@ IReadOnlyList<AdxResult> results =
   quotes.ToAdx(n).RemoveWarmupPeriods(n+100);
 ```
 
-See [individual indicator pages](/indicators/#content) for information on recommended pruning quantities.
+See [individual indicator pages](/indicators/) for information on recommended pruning quantities.
 
 > &#128161; **Note**: `.RemoveWarmupPeriods()` is not available on some indicators; however, you can still do a custom pruning by using the customizable `.RemoveWarmupPeriods(removePeriods)`.
 >

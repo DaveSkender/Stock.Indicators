@@ -13,8 +13,8 @@ These instructions apply to all files in the `docs/` folder and cover VitePress 
 
 ```bash
 # from /docs folder
-npm install
-npm run docs:dev
+pnpm install
+pnpm run docs:dev
 
 # the site will open at http://localhost:5173/
 ```
@@ -49,7 +49,8 @@ When adding or updating indicators:
 - **Automated accessibility testing**: Run pa11y-ci against local build
 
 ```bash
-# accessibility testing after local build
+# accessibility testing after production build
+pnpm run docs:build
 npx pa11y-ci --sitemap http://localhost:5173/sitemap.xml
 ```
 
@@ -99,13 +100,13 @@ Before committing documentation changes:
 
 ```bash
 # Development server
-npm run docs:dev
+pnpm run docs:dev
 
 # Production build
-npm run docs:build
+pnpm run docs:build
 
 # Preview production build
-npm run docs:preview
+pnpm run docs:preview
 ```
 
 ### Continuous integration

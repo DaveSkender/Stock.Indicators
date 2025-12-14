@@ -129,7 +129,7 @@ IReadOnlyList<AdxResult> results =
   quotes.ToAdx(n).RemoveWarmupPeriods(n+100);
 ```
 
-See [individual indicator pages](/indicators/#content) for information on recommended pruning quantities.
+See [individual indicator pages](/indicators/) for information on recommended pruning quantities.
 
 > &#128161; **Note**: `.RemoveWarmupPeriods()` is not available on some indicators; however, you can still do a custom pruning by using the customizable `.RemoveWarmupPeriods(removePeriods)`.
 >

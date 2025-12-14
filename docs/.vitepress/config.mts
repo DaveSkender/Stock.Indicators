@@ -280,6 +280,7 @@ export default defineConfig({
 
   srcDir: '.',
   outDir: '.vitepress/dist',
+  publicDir: '.vitepress/public',
 
   cleanUrls: true,
 
