@@ -65,11 +65,27 @@
       "label": "Install: .NET packages",
       "detail": "Restore NuGet packages for solution",
       "type": "shell",
-      "command": "dotnet restore",
+      "command": "dotnet restore && dotnet outdated --exclude FluentAssertions",
       "problemMatcher": "$msCompile",
       "presentation": {
         "group": "install"
       }
+    },
+    {
+      "label": "Inspect: .NET packages",
+      "detail": "List outdated NuGet packages in the root solution using dotnet-outdated",
+      "type": "shell",
+      "command": "dotnet outdated --exclude FluentAssertions",
+      "problemMatcher": [],
+      "presentation": { "group": "install" }
+    },
+    {
+      "label": "Update: .NET packages (outdated --upgrade)",
+      "detail": "Upgrade outdated NuGet packages in the root solution using dotnet-outdated",
+      "type": "shell",
+      "command": "dotnet outdated --upgrade --exclude FluentAssertions",
+      "problemMatcher": [],
+      "presentation": { "group": "install" }
     },
     {
       "label": "Install: NPM (pnpm) packages",
@@ -372,6 +388,7 @@
       "type": "shell",
       "command": "pnpm run docs:dev -- --open",
       "dependsOn": "Install: NPM (pnpm) packages",
+      "dependsOrder": "sequence",
       "isBackground": true,
       "runOptions": {
         "instanceLimit": 1
@@ -440,6 +457,7 @@
       "type": "shell",
       "command": "pnpm run docs:dev",
       "dependsOn": "Install: NPM (pnpm) packages",
+      "dependsOrder": "sequence",
       "isBackground": true,
       "runOptions": {
         "instanceLimit": 1
