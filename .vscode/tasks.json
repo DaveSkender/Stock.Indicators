@@ -89,7 +89,6 @@
       "detail": "Upgrade outdated NuGet packages in the root solution using dotnet-outdated",
       "type": "shell",
       "command": "dotnet outdated --upgrade --exclude FluentAssertions && dotnet outdated --upgrade docs/Examples",
-      "command": "dotnet outdated --upgrade --exclude FluentAssertions && dotnet outdated --upgrade docs/Examples",
       "problemMatcher": [],
       "presentation": { "group": "install" }
     },
@@ -184,7 +183,7 @@
       "label": "Lint: .NET code (Roslynator fix)",
       "detail": "Verify code formatting and style with Roslynator",
       "type": "shell",
-      "command": "roslynator analyze --properties TargetFramework=net10.0 --severity-level hidden --verbosity normal --fix",
+      "command": "roslynator fix --properties TargetFramework=net10.0 --severity-level hidden --verbosity normal",
       "group": "test",
       "problemMatcher": "$msCompile",
       "presentation": { "group": "analysis" }
@@ -537,7 +536,7 @@
       "type": "shell",
       "command": "dotnet run --project tools/simulate/Test.Simulation.csproj",
       "group": "none",
-      "problemMatcher": "$msCompile",
+      "problemMatcher": "$msCompile"
     },
     {
       "label": "Run: Generate test baseline data (all)",
@@ -546,6 +545,26 @@
       "command": "dotnet run --project tools/baselining/Test.DataGenerator.csproj -- --all",
       "group": "none",
       "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "Test: Website links (htmlproofer)",
+      "detail": "Build docs and run htmlproofer link checks (parity with CI)",
+      "type": "shell",
+      "command": "bash .vitepress/run-htmlproofer.sh",
+      "options": {
+        "cwd": "${workspaceFolder}/docs"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Test: Website a11y (pa11y)",
+      "detail": "Build docs, preview locally, and run pa11y-ci sitemap checks",
+      "type": "shell",
+      "command": "bash -lc 'set -e; export PUPPETEER_EXECUTABLE_PATH=\"/c/Program Files/Google/Chrome/Application/chrome.exe\"; pnpm run docs:build >/tmp/vp-build.log; pnpm run docs:preview --host --port 4173 --strictPort >/tmp/vp-preview.log 2>&1 & PREVIEW_PID=$!; trap \"kill $PREVIEW_PID 2>/dev/null || true\" EXIT; for i in {1..10}; do if curl -sSf http://localhost:4173/sitemap.xml >/dev/null; then break; fi; sleep 2; if [ $i -eq 10 ]; then echo \"Preview not ready\"; cat /tmp/vp-preview.log; exit 1; fi; done; pnpm dlx pa11y --environment; pnpm dlx pa11y-ci --sitemap http://localhost:4173/sitemap.xml --sitemap-find https://dotnet.stockindicators.dev --sitemap-replace http://localhost:4173'",
+      "options": {
+        "cwd": "${workspaceFolder}/docs"
+      },
+      "problemMatcher": []
     },
     {
       "label": "Setup: Dev tools",
@@ -574,6 +593,6 @@
         "reveal": "silent",
         "panel": "shared"
       }
-    },
+    }
   ]
 }
