@@ -8,7 +8,7 @@
   "features": {
     "ghcr.io/devcontainers/features/node:1": {
       "version": "lts",
-      "pnpmVersion": "10.24.0"
+      "pnpmVersion": "10.25.0"
     },
     "ghcr.io/devcontainers/features/dotnet:2": {
       "version": "10.0",
@@ -42,7 +42,7 @@
   ],
   "portsAttributes": {
     "4000": {
-      "label": "Jekyll Doc Site",
+      "label": "VitePress Doc Site",
       "onAutoForward": "notify"
     }
   },

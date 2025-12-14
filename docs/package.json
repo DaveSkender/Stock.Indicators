@@ -3,10 +3,10 @@
   "version": "1.0.0",
   "description": "Stock Indicators for .NET documentation",
   "type": "module",
-  "packageManager": "pnpm@10.24.0",
+  "packageManager": "pnpm@10.25.0",
   "engines": {
     "node": ">=24.11.1",
-    "pnpm": ">=10.24.0"
+    "pnpm": ">=10.25.0"
   },
   "scripts": {
     "docs:dev": "vitepress dev",

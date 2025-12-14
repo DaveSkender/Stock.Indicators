@@ -73,9 +73,9 @@
     },
     {
       "label": "Install: NPM (pnpm) packages",
-      "detail": "Install pnpm packages for docs site (VitePress), ensuring pnpm@10.24.0 is present",
+      "detail": "Install pnpm packages for docs site (VitePress)",
       "type": "shell",
-      "command": "if command -v corepack > /dev/null 2>&1; then corepack enable && corepack prepare pnpm@10.24.0 --activate; else npm install -g pnpm@10.24.0; fi && pnpm --version && pnpm install",
+      "command": "pnpm install",
       "options": {
         "cwd": "${workspaceFolder}/docs"
       },

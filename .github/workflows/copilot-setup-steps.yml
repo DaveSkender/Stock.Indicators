@@ -8,7 +8,7 @@ permissions:
 
 env:
   NODE_VERSION: "24.11.1"
-  PNPM_VERSION: "10.24.0"
+  PNPM_VERSION: "10.25.0"
 
 jobs:
   copilot-setup-steps:
@@ -45,6 +45,12 @@ jobs:
           cache: true
           cache-dependency-path: "**/packages.lock.json"
 
+      - name: Restore packages
+        run: |
+          dotnet restore
+        continue-on-error: true
+        timeout-minutes: 5
+
       - name: Install .NET global tools
         run: |
           dotnet tool install --global dotnet-format
@@ -52,12 +58,6 @@ jobs:
           dotnet tool install --global dotnet-outdated-tool
           dotnet tool install --global dotnet-reportgenerator-globaltool
         continue-on-error: true
-
-      - name: Restore packages
-        run: |
-          dotnet restore
-        continue-on-error: true
-        timeout-minutes: 5
 
       - name: Environment summary
         run: |

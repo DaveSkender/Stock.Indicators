@@ -1,11 +1,11 @@
 ---
 applyTo: "docs/**"
-description: "Documentation website development, Vitepress builds, accessibility testing, and content guidelines"
+description: "Documentation website development, VitePress builds, accessibility testing, and content guidelines"
 ---
 
 # Documentation website instructions
 
-These instructions apply to all files in the `docs/` folder and cover Vitepress site development, content creation, accessibility testing, and documentation maintenance.
+These instructions apply to all files in the `docs/` folder and cover VitePress site development, content creation, accessibility testing, and documentation maintenance.
 
 ## Build and development workflow
 
@@ -22,7 +22,7 @@ npm run docs:dev
 ### Code cleanup and formatting
 
 - **Markdown linting**: Use repository-wide markdown linting rules
-- **Vitepress configuration**: Follow Vitepress best practices in `.vitepress/config.mts`
+- **VitePress configuration**: Follow VitePress best practices in `.vitepress/config.mts`
 - **Front matter validation**: Ensure YAML front matter follows documented schema
 - **Asset optimization**: Optimize images to `webp` format using ImageMagick or cwebp
 
@@ -60,7 +60,7 @@ npx pa11y-ci --sitemap http://localhost:5173/sitemap.xml
 - Ensure proper heading hierarchy (no skipping levels)
 - Include descriptive link text (avoid "click here")
 
-## Vitepress-specific guidelines
+## VitePress-specific guidelines
 
 ### Front matter requirements
 
@@ -72,8 +72,8 @@ npx pa11y-ci --sitemap http://localhost:5173/sitemap.xml
 ### Components and layouts
 
 - Use Vue components for interactive elements
-- Follow Vitepress default theme conventions
-- Leverage Vitepress built-in components when possible
+- Follow VitePress default theme conventions
+- Leverage VitePress built-in components when possible
 - Use custom components sparingly
 
 ### Asset management
@@ -90,7 +90,7 @@ npx pa11y-ci --sitemap http://localhost:5173/sitemap.xml
 
 Before committing documentation changes:
 
-1. **Build verification**: Ensure Vitepress builds without errors
+1. **Build verification**: Ensure VitePress builds without errors
 2. **Link checking**: Verify all internal and external links work
 3. **Accessibility audit**: Run accessibility tests
 4. **Content review**: Check for typos and formatting consistency
