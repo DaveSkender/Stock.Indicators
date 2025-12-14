@@ -32,7 +32,6 @@ public class AdxList : BufferList<AdxResult>, IIncrementFromQuote, IAdx
     /// </summary>
     public int LookbackPeriods { get; private init; }
 
-
     /// <inheritdoc />
     public void Add(IQuote quote)
     {

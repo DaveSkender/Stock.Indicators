@@ -9,17 +9,12 @@ namespace Skender.Stock.Indicators;
 public class IchimokuHub
     : StreamHub<IQuote, IchimokuResult>, IIchimoku
 {
-    #region fields
 
     private readonly string hubName;
     private readonly RollingWindowMax<decimal> tenkanHighWindow;
     private readonly RollingWindowMin<decimal> tenkanLowWindow;
     private readonly RollingWindowMax<decimal> kijunHighWindow;
     private readonly RollingWindowMin<decimal> kijunLowWindow;
-
-    #endregion fields
-
-    #region constructors
 
     /// <summary>
     /// Initializes a new instance of the <see cref="IchimokuHub"/> class.
@@ -62,10 +57,6 @@ public class IchimokuHub
         Reinitialize();
     }
 
-    #endregion constructors
-
-    #region properties
-
     /// <summary>
     /// Gets the number of periods for the Tenkan-sen (conversion line).
     /// </summary>
@@ -90,10 +81,6 @@ public class IchimokuHub
     /// Gets the number of periods for the Chikou offset.
     /// </summary>
     public int ChikouOffset { get; init; }
-
-    #endregion properties
-
-    #region methods
 
     /// <inheritdoc/>
     public override string ToString() => hubName;
@@ -288,7 +275,6 @@ public class IchimokuHub
         }
     }
 
-    #endregion methods
 }
 
 public static partial class Ichimoku

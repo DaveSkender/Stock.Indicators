@@ -2,7 +2,6 @@ namespace Skender.Stock.Indicators;
 
 // STOCHASTIC RSI (STREAM HUB)
 
-
 /// <summary>
 /// Represents a Stochastic RSI stream hub that calculates Stochastic oscillator on RSI values.
 /// </summary>
@@ -245,7 +244,6 @@ public static partial class StochRsi
         int signalPeriods = 3,
         int smoothPeriods = 1)
         => new(chainProvider, rsiPeriods, stochPeriods, signalPeriods, smoothPeriods);
-
 
     /// <summary>
     /// Creates a StochRsi hub from a collection of quotes.

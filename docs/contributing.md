@@ -58,13 +58,15 @@ Use the [Discussions](https://github.com/DaveSkender/Stock.Indicators/discussion
 
 ### Performance benchmarking
 
-Running the `Tests.Performance` console application in `Release` mode will produce [benchmark performance data](https://dotnet.stockindicators.dev/performance/) that we include on our documentation site.
+Running the performance benchmark application in `Release` mode will produce [benchmark performance data](https://dotnet.stockindicators.dev/performance/) that we include on our documentation site.
 
 ```bash
+# from /tests/performance folder
 # run all performance benchmarks (~15-20 minutes)
 dotnet run -c Release
 
 # run specific benchmark categories
+dotnet run -c Release --filter *Series*
 dotnet run -c Release --filter *Stream*
 dotnet run -c Release --filter *Buffer*
 
@@ -114,6 +116,8 @@ npm run docs:dev
 # the site will open at http://localhost:5173/
 ```
 
+The site will be available at `http://127.0.0.1:4000`.
+
 When adding or updating indicators:
 
 - Add or update the `/docs/indicators/` documentation files.
@@ -154,8 +158,8 @@ If you want to contribute administratively, do code reviews, or provide general 
 ## Standards and design guidelines
 
 - [Guiding principles for this project](https://github.com/DaveSkender/Stock.Indicators/discussions/648)
-- [.NET Framework Design Guidelines](https://docs.microsoft.com/en-us/dotnet/standard/design-guidelines)
-- [NuGet Best Practices](https://docs.microsoft.com/en-us/dotnet/standard/library-guidance/nuget)
+- [.NET Design Guidelines](https://learn.microsoft.com/en-us/dotnet/standard/design-guidelines)
+- [NuGet Best Practices](https://learn.microsoft.com/en-us/dotnet/standard/library-guidance/nuget)
 - [Semantic Version 2.0](https://semver.org)
 
 ## GitHub Copilot and AI development
@@ -164,22 +168,8 @@ This repository is optimized for GitHub Copilot and coding agents with:
 
 - **Custom Copilot instructions** in `.github/copilot-instructions.md` providing repository context, coding patterns, and domain knowledge
 - **Enhanced VS Code settings** in `.vscode/settings.json` with Copilot-specific configurations for optimal suggestions
-- **Environment setup workflow** in `.github/workflows/copilot-setup-steps.yml` for automated dependency installation
-- **MCP server configurations** in `.github/mcp-servers.md` for extended AI capabilities with financial mathematics and .NET performance analysis
-- **Spec-Kit integration** in `.specify/` directory enabling Spec-Driven Development workflows with structured commands
-- **CodeRabbit AI review configuration** in `.coderabbit.yml` with domain-specific code review focus on financial accuracy and performance - see [CodeRabbit Configuration Guide](coderabbit.md)
-
-### Spec-Driven Development
-
-For new indicator development, use the integrated [GitHub Spec-Kit](https://github.com/github/spec-kit) workflow:
-
-1. **`/constitution`** - Review project governance principles
-2. **`/specify`** - Create detailed feature specifications  
-3. **`/plan`** - Define technical implementation approach
-4. **`/tasks`** - Break down into actionable development tasks
-5. **`/implement`** - Execute planned implementation
-
-See Spec-Kit Integration Guide (`.github/spec-kit-integration.md`) for detailed usage instructions.
+- **Development container** in `.devcontainer/devcontainer.json` for consistent development environment setup
+- **MCP server configurations** in `.vscode/mcp.json` for extended AI tools for developing capabilities with financial mathematics and .NET performance analysis
 
 When using GitHub Copilot:
 

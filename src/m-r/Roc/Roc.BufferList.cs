@@ -31,9 +31,6 @@ public class RocList : BufferList<RocResult>, IIncrementFromChain, IRoc
     /// </summary>
     public int LookbackPeriods { get; init; }
 
-
-
-
     /// <inheritdoc />
     public void Add(DateTime timestamp, double value)
     {

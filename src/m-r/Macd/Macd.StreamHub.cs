@@ -126,7 +126,6 @@ public class MacdHub
     }
 }
 
-
 public static partial class Macd
 {
     /// <summary>

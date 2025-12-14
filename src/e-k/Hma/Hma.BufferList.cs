@@ -53,9 +53,6 @@ public class HmaList : BufferList<HmaResult>, IIncrementFromChain, IHma
     /// </summary>
     public int LookbackPeriods { get; init; }
 
-
-
-
     /// <inheritdoc />
     public void Add(DateTime timestamp, double value)
     {

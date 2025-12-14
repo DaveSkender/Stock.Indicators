@@ -197,7 +197,6 @@ public class HtTrendlineHub
     }
 }
 
-
 public static partial class HtTrendline
 {
     /// <summary>

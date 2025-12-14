@@ -2,12 +2,14 @@
   "recommendations": [
     "bierner.github-markdown-preview",
     "CodeRabbit.coderabbit-vscode",
+    "codacy-app.codacy",
     "DavidAnson.vscode-markdownlint",
     "DotJoshJohnson.xml",
     "EditorConfig.EditorConfig",
     "github.vscode-github-actions",
     "GitHub.copilot-chat",
     "ms-dotnettools.csdevkit",
+    "ms-azuretools.vscode-containers",
     "ms-vscode-remote.remote-containers",
     "redhat.vscode-yaml"
   ]

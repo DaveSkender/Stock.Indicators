@@ -1,6 +1,5 @@
 namespace Skender.Stock.Indicators;
 
-
 /// <summary>
 /// Streaming hub for Triple Exponential Moving Average Oscillator (TRIX) calculations.
 /// </summary>
@@ -134,7 +133,6 @@ public class TrixHub
 
 }
 
-
 public static partial class Trix
 {
     /// <summary>
@@ -164,4 +162,3 @@ public static partial class Trix
         return quoteHub.ToTrixHub(lookbackPeriods);
     }
 }
-

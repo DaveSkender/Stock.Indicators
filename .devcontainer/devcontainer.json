@@ -1,54 +1,49 @@
 {
   // key references:
   // https://code.visualstudio.com/docs/devcontainers/create-dev-container
-  // https://github.com/devcontainers/images/blob/main/src/dotnet
   // https://github.com/devcontainers/features
   "$schema": "https://raw.githubusercontent.com/devcontainers/spec/main/schemas/devContainer.schema.json",
   "name": "Stock Indicators Dev Container",
-  "image": "mcr.microsoft.com/dotnet/sdk:10.0",
+  "image": "mcr.microsoft.com/devcontainers/base:bookworm",
   "features": {
-    "ghcr.io/devcontainers/features/common-utils:2": {
-      "installZsh": true,
-      "installOhMyZsh": true,
-      "configureZshAsDefaultShell": true,
-      "username": "vscode",
-      "upgradePackages": true
-    },
     "ghcr.io/devcontainers/features/node:1": {
-      "version": "lts"
+      "version": "lts",
+      "pnpmVersion": "10.24.0"
     },
-    "ghcr.io/devcontainers-extra/features/pnpm:1": {
-      "version": "10.24.0"
+    "ghcr.io/devcontainers/features/dotnet:2": {
+      "version": "10.0",
+      "additionalVersions": "9.0,8.0"
     },
-    "ghcr.io/devcontainers/features/git:1": {
-      "version": "latest",
-      "ppa": true
-    },
-    "ghcr.io/devcontainers/features/github-cli:1": {
-      "version": "latest"
-    }
-  },
-  "remoteEnv": {
-    "PATH": "${containerEnv:HOME}/.local/bin:${containerEnv:HOME}/.dotnet/tools:${containerEnv:PATH}"
+    "ghcr.io/devcontainers/features/github-cli:1": {}
   },
   "customizations": {
     "vscode": {
       "settings": {
-        "chat.mcp.autostart": "never",
         "chat.tools.global.autoApprove": true,
         "terminal.integrated.defaultProfile.linux": "zsh"
       },
       "extensions": [
         "bierner.github-markdown-preview",
         "CodeRabbit.coderabbit-vscode",
+        "codacy-app.codacy",
         "DavidAnson.vscode-markdownlint",
         "DotJoshJohnson.xml",
         "EditorConfig.EditorConfig",
         "github.vscode-github-actions",
         "GitHub.copilot-chat",
         "ms-dotnettools.csdevkit",
+        "ms-azuretools.vscode-containers",
         "redhat.vscode-yaml"
       ]
+    }
+  },
+  "forwardPorts": [
+    4000
+  ],
+  "portsAttributes": {
+    "4000": {
+      "label": "Jekyll Doc Site",
+      "onAutoForward": "notify"
     }
   },
   "postCreateCommand": ".devcontainer/startup.sh",

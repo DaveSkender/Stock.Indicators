@@ -32,9 +32,6 @@ public class CciList : BufferList<CciResult>, IIncrementFromQuote, ICci
     /// </summary>
     public int LookbackPeriods { get; init; }
 
-
-
-
     /// <inheritdoc />
     public void Add(IQuote quote)
     {

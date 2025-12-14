@@ -238,7 +238,6 @@ public class RocWbHub
     }
 }
 
-
 public static partial class RocWb
 {
     /// <summary>

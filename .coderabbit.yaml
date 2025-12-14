@@ -62,7 +62,45 @@ reviews:
     - `docs: Improve API examples` (not "Update documentation files")
     - `chore: Update dependencies` (when that's the sole purpose)
 
-# Path-based configuration
+  # Code enhancement features
+  finishing_touches:
+    docstrings:
+      enabled: false              # Generate docstrings for PRs/MRs (default: true)
+    unit_tests:
+      enabled: false              # Generate unit tests for PRs/MRs (default: true)
+
+  # Pre-merge validation checks
+  pre_merge_checks:
+    docstrings:                   # Docstring coverage check (default: warning)
+      mode: off
+    description:                  # PR description validation (default: warning)
+      mode: off
+    issue_assessment:             # Linked issue assessment (default: warning)
+      mode: off
+    title:                        # PR title validation (default: warning)
+      mode: off
+
+  # Files to include/exclude from reviews
+  path_filters:
+    - "**"                    # Include all (base)
+    - "!node_modules/"        # NPM dependencies
+    - "!*-lock.json"          # NPM/PNPM lock files
+    - "!packages/"            # NuGet packages cache
+    - "!.jekyll-cache/"       # Jekyll cache
+    - "!vendor/"              # Ruby vendor and gem files
+    - "!Gemfile.lock"         # Ruby dependencies lock
+    - "!.vitepress/cache/"    # VitePress cache
+    - "!.vitepress/dist/"     # VitePress build output
+    - "!bin/"                 # .NET build output
+    - "!obj/"                 # .NET build intermediate files
+    - "!*.g.cs"               # Generated source code
+    - "!*.docx"               # Office Word
+    - "!*.pptx"               # Office PowerPoint
+    - "!*.xlsx"               # Office Spreadsheets
+    - "!*.bak"                # Backup files
+    - "!*.zip"                # Compressed files
+
+  # Path-based configuration
   path_instructions:
 
     # Indicator documentation pages must stay aligned with the current API surface
@@ -146,44 +184,6 @@ reviews:
         - **Performance**: Compiler optimizations enabled for release builds
         - **Analyzers**: Code quality rules properly configured
         - **Packaging**: NuGet metadata complete and accurate
-
-  # Code enhancement features
-  finishing_touches:
-    docstrings:
-      enabled: false              # Generate docstrings for PRs/MRs (default: true)
-    unit_tests:
-      enabled: false              # Generate unit tests for PRs/MRs (default: true)
-
-  # Pre-merge validation checks
-  pre_merge_checks:
-    docstrings:                   # Docstring coverage check (default: warning)
-      mode: off
-    description:                  # PR description validation (default: warning)
-      mode: off
-    issue_assessment:             # Linked issue assessment (default: warning)
-      mode: off
-    title:                        # PR title validation (default: warning)
-      mode: off
-
-  # Files to include/exclude from reviews
-  path_filters:
-    - "**"                    # Include all (base)
-    - "!node_modules/"        # NPM dependencies
-    - "!*-lock.json"          # NPM/PNPM lock files
-    - "!packages/"            # NuGet packages cache
-    - "!.jekyll-cache/"       # Jekyll cache
-    - "!vendor/"              # Ruby vendor and gem files
-    - "!Gemfile.lock"         # Ruby dependencies lock
-    - "!.vitepress/cache/"    # VitePress cache
-    - "!.vitepress/dist/"     # VitePress build output
-    - "!bin/"                 # .NET build output
-    - "!obj/"                 # .NET build intermediate files
-    - "!*.g.cs"               # Generated source code
-    - "!*.docx"               # Office Word
-    - "!*.pptx"               # Office PowerPoint
-    - "!*.xlsx"               # Office Spreadsheets
-    - "!*.bak"                # Backup files
-    - "!*.zip"                # Compressed files
 
   # Tool integrations
   tools:

@@ -102,7 +102,6 @@ public class UlcerIndexHub
     }
 }
 
-
 public static partial class UlcerIndex
 {
     /// <summary>

@@ -8,7 +8,6 @@ namespace Skender.Stock.Indicators;
 public sealed class SmiHub
     : ChainProvider<IQuote, SmiResult>, ISmi
 {
-    #region fields
 
     private readonly string hubName;
 
@@ -22,10 +21,6 @@ public sealed class SmiHub
     private double _lastHlEma1 = double.NaN;
     private double _lastHlEma2 = double.NaN;
     private double _lastSignal = double.NaN;
-
-    #endregion fields
-
-    #region constructors
 
     /// <summary>
     /// Initializes a new instance of the <see cref="SmiHub"/> class.
@@ -62,10 +57,6 @@ public sealed class SmiHub
         Reinitialize();
     }
 
-    #endregion constructors
-
-    #region properties
-
     /// <inheritdoc/>
     public int LookbackPeriods { get; init; }
 
@@ -92,10 +83,6 @@ public sealed class SmiHub
     /// Gets the smoothing factor for the signal line.
     /// </summary>
     public double KS { get; private init; }
-
-    #endregion properties
-
-    #region methods
 
     /// <inheritdoc/>
     public override string ToString() => hubName;
@@ -228,9 +215,7 @@ public sealed class SmiHub
         }
     }
 
-    #endregion methods
 }
-
 
 public static partial class Smi
 {

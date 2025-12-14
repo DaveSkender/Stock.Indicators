@@ -66,7 +66,6 @@ List<Quote> quotes = barSet
     .OrderBy(x => x.Date)
     .ToList();
 
-
 // calculate 10-period SMA
 IEnumerable<SmaResult> results = quotes.GetSma(10);
 

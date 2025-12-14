@@ -75,7 +75,6 @@ public class CorrelationHub
     }
 }
 
-
 public static partial class Correlation
 {
     /// <summary>

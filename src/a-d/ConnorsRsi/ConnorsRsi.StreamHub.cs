@@ -387,7 +387,6 @@ public class ConnorsRsiHub
     }
 }
 
-
 public static partial class ConnorsRsi
 {
     /// <summary>

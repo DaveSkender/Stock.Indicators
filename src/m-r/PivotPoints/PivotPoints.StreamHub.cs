@@ -8,7 +8,6 @@ namespace Skender.Stock.Indicators;
 public class PivotPointsHub
     : StreamHub<IQuote, PivotPointsResult>
 {
-    #region fields
 
     private readonly string hubName;
     private int windowId;
@@ -18,10 +17,6 @@ public class PivotPointsHub
     private decimal windowOpen;
     private decimal windowClose;
     private WindowPoint windowPoint;
-
-    #endregion fields
-
-    #region constructors
 
     /// <summary>
     /// Initializes a new instance of the <see cref="PivotPointsHub"/> class.
@@ -50,10 +45,6 @@ public class PivotPointsHub
         Reinitialize();
     }
 
-    #endregion constructors
-
-    #region properties
-
     /// <summary>
     /// Gets the window size for pivot calculation.
     /// </summary>
@@ -63,10 +54,6 @@ public class PivotPointsHub
     /// Gets the type of pivot points to calculate.
     /// </summary>
     public PivotPointType PointType { get; init; }
-
-    #endregion properties
-
-    #region methods
 
     /// <inheritdoc/>
     public override string ToString() => hubName;
@@ -186,9 +173,7 @@ public class PivotPointsHub
         windowClose = q.Close;
     }
 
-    #endregion methods
 }
-
 
 public static partial class PivotPoints
 {

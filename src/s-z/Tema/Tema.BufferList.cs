@@ -52,9 +52,6 @@ public class TemaList : BufferList<TemaResult>, IIncrementFromChain, ITema
     /// </summary>
     public double K { get; private init; }
 
-
-
-
     /// <inheritdoc />
     public void Add(DateTime timestamp, double value)
     {

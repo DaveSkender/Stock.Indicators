@@ -75,51 +75,24 @@ See [src/_common/README.md](../src/_common/README.md#nan-handling-policy) for co
 
 ## Guiding principles
 
-This library follows the [guiding principles](https://github.com/DaveSkender/Stock.Indicators/discussions/648) that emphasize:
-
-### I. Mathematical Precision
-
-Default to `double` for performance and reach for `decimal` when price-sensitive precision requires it. All financial calculations must be mathematically accurate and verified against reference implementations.
-
-### II. Performance First
-
-Minimize memory allocations, avoid excessive LINQ operations in hot paths, and use span-friendly loops. Performance benchmarks are mandatory for computationally intensive indicators.
-
-### III. Comprehensive Validation
-
-All public methods require complete input validation with descriptive error messages. Handle edge cases (insufficient data, zero/negative values, null inputs) explicitly with consistent exception types.
-
-### IV. Test-Driven Quality
-
-Every indicator requires comprehensive unit tests covering all code paths. Mathematical accuracy must be verified against reference implementations. Performance tests are mandatory for computationally intensive indicators.
-
-**Test epsilon usage rules:**
-
-- ✅ **Use epsilon** (`BeApproximately`) ONLY when comparing against **manually calculated reference values** (e.g., `Money4 = 0.00005` for 4 decimal places) or for **recursive algorithms** where calculation order legitimately differs (e.g., Fisher Transform)
-- ❌ **DO NOT use epsilon** for regression tests comparing calculated-vs-calculated results - use exact equality (default `AssertEquals()`)
-- ❌ **DO NOT use epsilon** when comparing computed formulas or constants (e.g., `2d / (period + 1)`) - these should use exact comparison (`.Be()`)
-- ❌ **DO NOT use epsilon** for zero evaluations in production code - use exact comparison (`!= 0` or `== 0`)
-
-### V. Documentation Excellence
-
-All public methods must have complete XML documentation. Code examples must be provided for complex indicators. Documentation must include parameter constraints, return value descriptions, and usage patterns.
+This library follows the [guiding principles](https://github.com/DaveSkender/Stock.Indicators/discussions/648) that emphasize **Mathematical Precision**, **Performance First**, **Comprehensive Validation**, **Test-Driven Quality**, and **Documentation Excellence**. See the [Constitution](../../.specify/memory/constitution.md) for complete details on these principles and the **[.NET development instructions](../../.github/instructions/dotnet.instructions.md#key-references-and-standards)** for implementation-specific guidance.
 
 ## Scoped instruction files
 
-This repository uses scoped instruction files for specific development areas. These files contain detailed guidelines that apply to particular file patterns:
+This repository uses scoped instruction files for specific development areas, automatically applied when working with files matching their patterns:
 
-| Pattern | File | Description |
-| ------- | ---- | ----------- |
-| `.specify/**,.github/prompts/speckit.*` | [spec-kit.instructions.md](instructions/spec-kit.instructions.md) | Spec Kit development workflow and artifact editing guidelines |
-| `src/**` | [agents.md](../src/agents.md) | **CRITICAL**: Formula change rules and mathematical precision requirements for AI agents |
-| `src/**/*.*Series.cs,tests/**/*.*Series.Tests.cs` | [indicator-series.instructions.md](instructions/indicator-series.instructions.md) | Series-style indicator development and testing guidelines |
-| `src/**/*.StreamHub.cs,tests/**/*.StreamHub.Tests.cs` | [indicator-stream.instructions.md](instructions/indicator-stream.instructions.md) | Stream indicator development guidelines |
-| `src/**/*.BufferList.cs,tests/**/*.BufferList.Tests.cs` | [indicator-buffer.instructions.md](instructions/indicator-buffer.instructions.md) | Buffer indicator development guidelines |
-| `**/src/**/*.Catalog.cs,**/tests/**/*.Catalog.Tests.cs` | [catalog.instructions.md](instructions/catalog.instructions.md) | Catalog file conventions |
-| `src/**,tests/**` | [source-code-completion.instructions.md](instructions/source-code-completion.instructions.md) | Source code, testing, and pre-commit code completion checklist |
-| `**/*.md` | [markdown.instructions.md](instructions/markdown.instructions.md) | Markdown formatting rules |
-| `docs/**` | [documentation.instructions.md](instructions/documentation.instructions.md) | Documentation website instructions |
-| `tools/performance/**` | [performance-testing.instructions.md](instructions/performance-testing.instructions.md) | Performance testing and benchmarking guidelines |
+| Pattern | File | Primary Focus |
+| ------- | ---- | ------------- |
+| `src/**` | [dotnet.instructions.md](instructions/dotnet.instructions.md) | C# coding standards, .NET best practices, project organization |
+| `src/**/*.*Series.cs,tests/**/*.*Series.Tests.cs` | [indicator-series.instructions.md](instructions/indicator-series.instructions.md) | Series-style indicator development and testing |
+| `src/**/*.StreamHub.cs,tests/**/*.StreamHub.Tests.cs` | [indicator-stream.instructions.md](instructions/indicator-stream.instructions.md) | Stream-style real-time indicator development |
+| `src/**/*.BufferList.cs,tests/**/*.BufferList.Tests.cs` | [indicator-buffer.instructions.md](instructions/indicator-buffer.instructions.md) | Buffer-style incremental indicator development |
+| `src/**` | [agents.md](../src/agents.md) | **CRITICAL**: Formula change rules and mathematical precision requirements |
+| `**/src/**/*.Catalog.cs,**/tests/**/*.Catalog.Tests.cs` | [catalog.instructions.md](instructions/catalog.instructions.md) | Indicator catalog entry conventions |
+| `src/**,tests/**` | [source-code-completion.instructions.md](instructions/source-code-completion.instructions.md) | Testing, formatting, linting, and pre-commit checklist |
+| `**/*.md` | [markdown.instructions.md](instructions/markdown.instructions.md) | Markdown authoring and formatting standards |
+| `docs/**` | [docs.instructions.md](instructions/docs.instructions.md) | Documentation website (Jekyll) development |
+| `tools/performance/**` | [performance-testing.instructions.md](instructions/performance-testing.instructions.md) | Performance testing and BenchmarkDotNet guidelines |
 
 These scoped files are automatically applied when working with files matching their patterns.
 
@@ -203,35 +176,29 @@ See the style-specific guides for implementation requirements and additional che
 
 ### Code quality standards
 
-- Provide XML comments for all public types and members.
-- Use `/// <inheritdoc />` instead of repeating same XML code comments on implementations.
-- Cover happy paths, edge cases, and streaming flows with unit tests.
-- Add or update performance benchmarks when modifying core indicator loops.
-- Maintain `.editorconfig` conventions; let analyzers and style rules guide formatting.
-- Prefer explicit variable names over `var` (following `.editorconfig` conventions).
-- Use filenames that match the containing class name, with modifiers for partial classes spread across files.
-- Keep package metadata aligned with NuGet expectations (icon, README, license).
-- Keep `docs/_indicators/*.md` pages aligned with their indicator APIs, including usage examples, parameter defaults, warmup guidance, and notable streaming behavior.
+- All public methods must have XML documentation
+- Unit test coverage for all code paths
+- Performance tests for computationally intensive indicators
+- Validation for all user inputs
+- Consistent formatting using `.editorconfig`
 
-## Spec-driven development integration
+## MCP tools guidance
 
-This repository uses [Spec Kit](https://github.com/github/spec-kit) for Specification-Driven Development. Before adding or changing indicators, consult the relevant spec in [.specify/specs/](../.specify/specs/) and use chat commands to align with the active plan.
+### When to use MCP tools
 
-**Core workflow commands:**
+The following MCP servers are configured in [`mcp.json`](../.vscode/mcp.json) and should be used in these scenarios:
 
-- **`/speckit.constitution`** — Create or update project governing principles
-- **`/speckit.specify`** — Define what you want to build (requirements and user stories)
-- **`/speckit.clarify`** — Clarify underspecified areas (recommended before planning)
-- **`/speckit.plan`** — Create technical implementation plans with tech stack choices
-- **`/speckit.tasks`** — Generate actionable task lists for implementation
-- **`/speckit.analyze`** — Cross-artifact consistency & coverage analysis (before implementing)
-- **`/speckit.implement`** — Execute all tasks to build the feature according to the plan
+- `mslearn/*`: Research C# coding conventions, .NET best practices, performance optimization, and language features. Use when implementing indicators or utility functions that require knowledge of official Microsoft standards.
+- `context7/*`: Look up documentation for NuGet package dependencies or external libraries used in the project. Use when integrating third-party functionality.
+- `github/web_search`: Research indicator algorithms, financial calculations, and external technical analysis standards. Use for mathematical validation and algorithm research.
+- `github/*`: Get recently failed CI worklow job details, research recent library changes, pull requests, issues, and discussions. Use when updating documentation or implementing features that depend on understanding recent repository context.
 
-**Optional commands:**
+Do NOT use MCP tools for:
 
-- **`/speckit.checklist`** — Generate custom quality checklists for validation
-
-For detailed Spec Kit workflow guidance, see [spec-kit.instructions.md](instructions/spec-kit.instructions.md).
+- Local file operations (use file read/edit tools)
+- Simple code formatting (use `dotnet format`)
+- Markdown linting (use `markdownlint-cli2`)
+- Running local build tests (use `dotnet build` and `dotnet test`)
 
 ## Pull request guidelines
 
@@ -249,4 +216,4 @@ Examples:
 - `docs: Update API documentation`
 
 ---
-Last updated: October 29, 2025
+Last updated: December 7, 2025
