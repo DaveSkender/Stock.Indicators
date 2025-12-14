@@ -61,7 +61,7 @@ Use the [Discussions](https://github.com/DaveSkender/Stock.Indicators/discussion
 Running the performance benchmark application in `Release` mode will produce [benchmark performance data](https://dotnet.stockindicators.dev/performance/) that we include on our documentation site.
 
 ```bash
-# from /tests/performance folder
+# from /tools/performance folder
 # run all performance benchmarks (~15-20 minutes)
 dotnet run -c Release
 

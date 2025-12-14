@@ -10,11 +10,13 @@ description: The Stock Indicators for .NET library includes utilities to help yo
 - [for numerical analysis](#utilities-for-numerical-analysis)
 - [indicator metadata catalog](#indicator-catalog-metadata)
 
+See [individual indicator pages](/indicators/) for information on recommended pruning quantities.
+
 ## Utilities for historical quotes
 
 ### Use alternate price
 
-`quotes.Use()` can be used before most indicator calls to specify which price element to analyze.  It cannot be used for indicators that require the full OHLCV quote profile.
+`quotes.Use()` can be used before most indicator calls to specify which price element to analyze. It cannot be used for indicators that require the full OHLCV quote profile.
 
 ```csharp
 // example: use HL2 price instead of
@@ -26,7 +28,7 @@ var results = quotes
 
 ### Sort quotes
 
-`quotes.ToSortedList()` sorts any collection of `TQuote` or `ISeries` and returns it as a `IReadOnlyList` sorted by ascending `Timestamp`.  You **do need to sort quotes** before using library indicators.
+`quotes.ToSortedList()` sorts any collection of `TQuote` or `ISeries` and returns it as an `IReadOnlyList` sorted by ascending `Timestamp`. You **do need to sort quotes** before using library indicators.
 
 ### Resize quote history
 
@@ -59,13 +61,13 @@ IReadOnlyList<Quote> dayBarQuotes =
 - `PeriodSize.TwoMinutes`
 - `PeriodSize.OneMinute`
 
-> &#128681; **Warning**: Partially populated period windows at the beginning, end, and market open/close points in `quotes` can be misleading when aggregated.  For example, if you are aggregating intraday minute bars into 15 minute bars and there is a single 4:00pm minute bar at the end, the resulting 4:00pm 15-minute bar will only have one minute of data in it whereas the previous 3:45pm bar will have all 15 minutes of bars aggregated (3:45-3:59pm).
+> &#128681; **Warning**: Partially populated period windows at the beginning, end, and market open/close points in `quotes` can be misleading when aggregated. For example, if you are aggregating intraday minute bars into 15 minute bars and there is a single 4:00pm minute bar at the end, the resulting 4:00pm 15-minute bar will only have one minute of data in it whereas the previous 3:45pm bar will have all 15 minutes of bars aggregated (3:45-3:59pm).
 
 ### Extended candle properties
 
-`quote.ToCandle()` and `quotes.ToCandles()` converts a quote class into an extended quote format with additional calculated candle properties.
+`quote.ToCandle()` and `quotes.ToCandles()` convert a quote class into an extended quote format with additional calculated candle properties.
 
-``` csharp
+```csharp
 // single quote
 CandleProperties candle = quote.ToCandle();
 
@@ -75,7 +77,7 @@ IReadOnlyList<CandleProperties> candles = quotes.ToCandles();
 
 ### Validate quote history
 
-`quotes.Validate()` is an advanced check of your `IReadOnlyList<IQuote> quotes`.  It will check for duplicate dates and other bad data and will throw an `InvalidQuotesException` if validation fails.  This comes at a small performance cost, so we did not automatically add these advanced checks in the indicator methods.  Of course, you can and should do your own validation of `quotes` prior to using it in this library.  Bad historical quotes can produce unexpected results.
+`quotes.Validate()` is an advanced check of your `IReadOnlyList<IQuote> quotes`. It will check for duplicate dates and other bad data and will throw an `InvalidQuotesException` if validation fails. This comes at a small performance cost, so we did not automatically add these advanced checks in the indicator methods. Of course, you can and should do your own validation of `quotes` prior to using it in this library. Bad historical quotes can produce unexpected results.
 
 ```csharp
 // advanced validation
@@ -92,7 +94,7 @@ var results = quotes
 
 ### Condense
 
-`results.Condense()` will remove non-essential results so it only returns meaningful data records.  For example, when used on [Candlestick Patterns](/indicators/#candlestick-pattern), it will only return records where a signal is generated.
+`results.Condense()` removes non-essential results so it only returns meaningful data records. For example, when used on [Candlestick Patterns](/indicators/#candlestick-pattern), it only returns records where a signal is generated.
 
 ```csharp
 // example: only show Marubozu signals
@@ -100,18 +102,18 @@ IReadOnlyList<CandleResult> results
   = quotes.ToMarubozu(..).Condense();
 ```
 
-> &#128681; **Warning**: In all cases, `.Condense()` will remove non-essential results and will produce fewer records than are in `quotes`.
+> &#128681; **Warning**: In all cases, `.Condense()` removes non-essential results and will produce fewer records than are in `quotes`.
 
 ### Find indicator result by date
 
-`results.Find(lookupDate)` is a simple lookup for your indicator results collection.  Just specify the date you want returned.
+`results.Find(lookupDate)` is a simple lookup for your indicator results collection. Just specify the date you want returned.
 
 ```csharp
 // calculate indicator series
 IReadOnlyList<SmaResult> results = quotes.ToSma(20);
 
 // find result on a specific date
-DateTime lookupDate = [..] // the date you want to find
+DateTime lookupDate = [..];
 SmaResult result = results.Find(lookupDate);
 
 // throws 'InvalidOperationException' when not found
@@ -119,7 +121,7 @@ SmaResult result = results.Find(lookupDate);
 
 ### Remove warmup periods
 
-`results.RemoveWarmupPeriods()` will remove the recommended initial warmup periods from indicator results.  An alternative `.RemoveWarmupPeriods(removePeriods)` is also provided if you want to customize the pruning amount.
+`results.RemoveWarmupPeriods()` removes the recommended initial warmup periods from indicator results. An alternative `.RemoveWarmupPeriods(removePeriods)` is also provided if you want to customize the pruning amount.
 
 ```csharp
 // auto remove recommended warmup periods
@@ -129,22 +131,22 @@ IReadOnlyList<AdxResult> results =
 // remove a specific quantity of periods
 int n = 14;
 IReadOnlyList<AdxResult> results =
-  quotes.ToAdx(n).RemoveWarmupPeriods(n+100);
+  quotes.ToAdx(n).RemoveWarmupPeriods(n + 100);
 ```
 
 See [individual indicator pages](/indicators/) for information on recommended pruning quantities.
 
 > &#128161; **Note**: `.RemoveWarmupPeriods()` is not available on some indicators; however, you can still do a custom pruning by using the customizable `.RemoveWarmupPeriods(removePeriods)`.
 >
-> &#128681; **Warning**: without a specified `removePeriods` value, this utility will reverse-engineer the pruning amount.  When there are unusual results or when chaining multiple indicators, there will be an erroneous increase in the amount of pruning.  If you want more certainty, use a specific number for `removePeriods`.  Using this method on chained indicators without `removePeriods` is strongly discouraged.
+> &#128681; **Warning**: Without a specified `removePeriods` value, this utility will reverse-engineer the pruning amount. When there are unusual results or when chaining multiple indicators, there will be an erroneous increase in the amount of pruning. If you want more certainty, use a specific number for `removePeriods`. Using this method on chained indicators without `removePeriods` is strongly discouraged.
 
 ### Sort results
 
-`results.ToSortedList()` sorts any collection of indicator results and returns it as a `IReadOnlyList` sorted by ascending `Timestamp`.  Results from the library indicators are already sorted, so you'd only potentially need this if you're creating [custom indicators](/custom-indicators).
+`results.ToSortedList()` sorts any collection of indicator results and returns it as an `IReadOnlyList` sorted by ascending `Timestamp`. Results from the library indicators are already sorted, so you'd only potentially need this if you're creating [custom indicators](/custom-indicators).
 
 ## Utilities for numerical analysis
 
-This library also includes several tools that we use internally to calculate indicator algorithms.  These can be useful if you are creating your own [custom indicators](/custom-indicators).
+This library also includes several tools that we use internally to calculate indicator algorithms. These can be useful if you are creating your own [custom indicators](/custom-indicators).
 
 ### Numerical methods
 
@@ -157,7 +159,7 @@ This library also includes several tools that we use internally to calculate ind
 
 ### NullMath
 
-Most `NullMath` methods work exactly like the `System.Math` library in C#, except these will return `null` if a `null` is provided.  The `System.Math` library infamously does not allow `null` values, so you'd always need to apply defensive code.  This class does that defensive `null` handling for you.
+Most `NullMath` methods work exactly like the `System.Math` library in C#, except these return `null` if a `null` is provided. The `System.Math` library infamously does not allow `null` values, so you'd always need to apply defensive code. This class does that defensive `null` handling for you.
 
 <!-- markdownlint-disable MD060 -->
 | method   | example usage |
@@ -177,7 +179,7 @@ Use the indicator catalog to discover indicators, build simple pickers, or expor
 - Optionally execute an indicator by ID (no compile-time generics required)
 
 > [!IMPORTANT]
-> _The Catalog_ provides a programatic way to interact with indicators and options; however, it is not the idiomatic .NET way to use this library.  See the examples in [the Guide](guide.md) for normal sytax examples.
+> _The Catalog_ provides a programmatic way to interact with indicators and options; however, it is not the idiomatic .NET way to use this library. See the examples in [the Guide](/guide/) for normal syntax examples.
 
 ### Browse or export the catalog
 
@@ -215,7 +217,7 @@ IReadOnlyList<EmaResult> byId = quotes.ExecuteById<EmaResult>(
 ### Execute by config (JSON)
 
 ```csharp
-string string json = """
+string json = """
     {
         "id" : "EMA",
         "style" : "Series",

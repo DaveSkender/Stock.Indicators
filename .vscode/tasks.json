@@ -330,10 +330,10 @@
       "problemMatcher": "$msCompile"
     },
     {
-      "label": "Run: Doc site with LiveReload (external browser)",
+      "label": "Run: Doc site with LiveReload",
       "detail": "Serve VitePress docs site with hot reload (port 5173, opens browser)",
       "type": "shell",
-      "command": "pnpm run docs:dev -- --open",
+      "command": "pnpm run docs:dev",
       "dependsOn": "Install: NPM (pnpm) packages",
       "dependsOrder": "sequence",
       "isBackground": true,
@@ -343,21 +343,7 @@
       "options": {
         "cwd": "${workspaceFolder}/docs"
       },
-      "problemMatcher": {
-        "owner": "vitepress",
-        "pattern": {
-          "regexp": ".*",
-          "file": 0,
-          "line": 0,
-          "column": 0,
-          "message": 0
-        },
-        "background": {
-          "activeOnStart": true,
-          "beginsPattern": ".*vitepress.*",
-          "endsPattern": ".*Local:.*http.*"
-        }
-      }
+      "problemMatcher": []
     },
     {
       "label": "Run: Doc site with LiveReload (Simple Browser)",
@@ -372,21 +358,7 @@
       "options": {
         "cwd": "${workspaceFolder}/docs"
       },
-      "problemMatcher": {
-        "owner": "vitepress",
-        "pattern": {
-          "regexp": ".*",
-          "file": 0,
-          "line": 0,
-          "column": 0,
-          "message": 0
-        },
-        "background": {
-          "activeOnStart": true,
-          "beginsPattern": ".*vitepress.*",
-          "endsPattern": ".*Local:.*http.*"
-        }
-      }
+      "problemMatcher": []
     },
     {
       "label": "Run: Doc site (serve only)",
@@ -402,21 +374,7 @@
       "options": {
         "cwd": "${workspaceFolder}/docs"
       },
-      "problemMatcher": {
-        "owner": "vitepress",
-        "pattern": {
-          "regexp": ".*",
-          "file": 0,
-          "line": 0,
-          "column": 0,
-          "message": 0
-        },
-        "background": {
-          "activeOnStart": true,
-          "beginsPattern": ".*vitepress.*",
-          "endsPattern": ".*Local:.*http.*"
-        }
-      }
+      "problemMatcher": []
     },
     {
       "label": "Build: Documentation site",
@@ -439,21 +397,7 @@
       "options": {
         "cwd": "${workspaceFolder}/docs"
       },
-      "problemMatcher": {
-        "owner": "vitepress",
-        "pattern": {
-          "regexp": ".*",
-          "file": 0,
-          "line": 0,
-          "column": 0,
-          "message": 0
-        },
-        "background": {
-          "activeOnStart": true,
-          "beginsPattern": ".*vitepress.*",
-          "endsPattern": ".*Local:.*http.*"
-        }
-      }
+      "problemMatcher": []
     },
     {
       "label": "Run: Test application",
