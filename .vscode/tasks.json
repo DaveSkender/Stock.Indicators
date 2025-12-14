@@ -89,6 +89,7 @@
       "detail": "Upgrade outdated NuGet packages in the root solution using dotnet-outdated",
       "type": "shell",
       "command": "dotnet outdated --upgrade --exclude FluentAssertions && dotnet outdated --upgrade docs/Examples",
+      "command": "dotnet outdated --upgrade --exclude FluentAssertions && dotnet outdated --upgrade docs/Examples",
       "problemMatcher": [],
       "presentation": { "group": "install" }
     },
@@ -164,8 +165,18 @@
     {
       "label": "Lint: .NET code (format check)",
       "detail": "Verify code formatting and style with 'dotnet format'",
+      "detail": "Verify code formatting and style with 'dotnet format'",
       "type": "shell",
       "command": "dotnet format --verify-no-changes --severity info --no-restore",
+      "group": "test",
+      "problemMatcher": "$msCompile",
+      "presentation": { "group": "analysis" }
+    },
+    {
+      "label": "Lint: .NET code (Roslynator check)",
+      "detail": "Verify code formatting and style with Roslynator",
+      "type": "shell",
+      "command": "roslynator analyze --properties TargetFramework=net10.0 --severity-level hidden --verbosity normal",
       "group": "test",
       "problemMatcher": "$msCompile",
       "presentation": { "group": "analysis" }

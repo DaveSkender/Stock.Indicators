@@ -279,8 +279,8 @@ Spec Kit instructions work alongside existing scoped instructions:
 
 | Spec Kit Artifact        | Also Apply Instructions                                                          |
 |--------------------------|----------------------------------------------------------------------------------|
-| `plan.md` code examples  | [code-completion.instructions.md](code-completion.instructions.md) |
-| `quickstart.md` testing  | [code-completion.instructions.md](code-completion.instructions.md) |
+| `plan.md` code examples  | [code-completion.instructions.md](code-completion.instructions.md)               |
+| `quickstart.md` testing  | [code-completion.instructions.md](code-completion.instructions.md)               |
 | Series indicator specs   | [indicator-series.instructions.md](indicator-series.instructions.md)             |
 | Stream indicator specs   | [indicator-stream.instructions.md](indicator-stream.instructions.md)             |
 | Buffer indicator specs   | [indicator-buffer.instructions.md](indicator-buffer.instructions.md)             |
