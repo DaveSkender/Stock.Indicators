@@ -2,6 +2,8 @@
   "[markdown]": {
     "editor.defaultFormatter": "DavidAnson.vscode-markdownlint",
   },
+  "chat.useNestedAgentsMdFiles": true,
+  "chat.customAgentInSubagent.enabled": true,
   "dotnet.defaultSolution": "Stock.Indicators.sln",
   "github.copilot.chat.githubMcpServer.enabled": true,
   "github.copilot.chat.githubMcpServer.readonly": true,

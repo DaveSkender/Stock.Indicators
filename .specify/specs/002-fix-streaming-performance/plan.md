@@ -217,7 +217,7 @@ From `src/agents.md`:
 
 ### Code Quality Standards
 
-From `.github/instructions/source-code-completion.instructions.md`:
+From `.github/instructions/code-completion.instructions.md`:
 
 - Maintain `.editorconfig` conventions
 - Pass Roslynator analysis
