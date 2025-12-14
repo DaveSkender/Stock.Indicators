@@ -3,6 +3,8 @@ using FluentAssertions.Execution;
 using FluentAssertions.Numeric;
 
 // TODO: is AssertEquals and related Precision enum used properly?
+// TODO: consolidate namespaces and classes for test utilities
+// TODO: use or lose unused utils methods here.
 
 namespace Tests.Data;
 
