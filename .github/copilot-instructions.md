@@ -89,7 +89,7 @@ This repository uses scoped instruction files for specific development areas, au
 | `src/**/*.BufferList.cs,tests/**/*.BufferList.Tests.cs` | [indicator-buffer.instructions.md](instructions/indicator-buffer.instructions.md) | Buffer-style incremental indicator development |
 | `src/**` | [agents.md](../src/agents.md) | **CRITICAL**: Formula change rules and mathematical precision requirements |
 | `**/src/**/*.Catalog.cs,**/tests/**/*.Catalog.Tests.cs` | [catalog.instructions.md](instructions/catalog.instructions.md) | Indicator catalog entry conventions |
-| `src/**,tests/**` | [source-code-completion.instructions.md](instructions/source-code-completion.instructions.md) | Testing, formatting, linting, and pre-commit checklist |
+| `src/**,tests/**` | [code-completion.instructions.md](instructions/code-completion.instructions.md) | Testing, formatting, linting, and pre-commit checklist |
 | `**/*.md` | [markdown.instructions.md](instructions/markdown.instructions.md) | Markdown authoring and formatting standards |
 | `docs/**` | [docs.instructions.md](instructions/docs.instructions.md) | Documentation website (Jekyll) development |
 | `tools/performance/**` | [performance-testing.instructions.md](instructions/performance-testing.instructions.md) | Performance testing and BenchmarkDotNet guidelines |

@@ -10,8 +10,8 @@ Sync Impact Report
 	- .specify/templates/tasks-template.md (✅ no changes needed)
 	- .github/copilot-instructions.md (✅ updated with dedicated NaN handling section)
 	- src/_common/README.md (✅ already contains detailed NaN handling policy)
-	- .github/instructions/source-code-completion.instructions.md (⚠ should reference NaN policy)
-- Follow-up TODOs: Review .github/instructions/source-code-completion.instructions.md for NaN policy reference
+	- .github/instructions/code-completion.instructions.md (⚠ should reference NaN policy)
+- Follow-up TODOs: Review .github/instructions/code-completion.instructions.md for NaN policy reference
 - Rationale: NaN handling is a critical implementation detail directly supporting mathematical precision and performance. The library intentionally uses non-nullable double internally with IEEE 754 NaN propagation, converting to null only at result boundaries. This approach prevents silent data corruption while achieving significant performance gains. Making this explicit in the constitution ensures consistent application across all indicators and prevents accidental introduction of zero-guards or NaN rejection that would violate the established pattern.
 -->
 

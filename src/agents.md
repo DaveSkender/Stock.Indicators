@@ -176,7 +176,7 @@ double average = sum / period;  // Keep original if tests verify correctness
 For comprehensive guidance, AI agents should consult:
 
 - [Constitution: Mathematical Precision](../.specify/memory/constitution.md) - NON-NEGOTIABLE principles
-- [Source Code Completion Checklist](../.github/instructions/source-code-completion.instructions.md) - Pre-commit requirements
+- [Code Completion Checklist](../.github/instructions/code-completion.instructions.md) - Pre-commit requirements
 - [Indicator Series Guidelines](../.github/instructions/indicator-series.instructions.md) - Series implementation patterns
 - [Indicator Stream Guidelines](../.github/instructions/indicator-stream.instructions.md) - StreamHub patterns
 - [Indicator Buffer Guidelines](../.github/instructions/indicator-buffer.instructions.md) - BufferList patterns
