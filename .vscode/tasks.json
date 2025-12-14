@@ -165,7 +165,6 @@
     {
       "label": "Lint: .NET code (format check)",
       "detail": "Verify code formatting and style with 'dotnet format'",
-      "detail": "Verify code formatting and style with 'dotnet format'",
       "type": "shell",
       "command": "dotnet format --verify-no-changes --severity info --no-restore",
       "group": "test",
@@ -182,10 +181,10 @@
       "presentation": { "group": "analysis" }
     },
     {
-      "label": "Lint: .NET code (Roslynator check)",
+      "label": "Lint: .NET code (Roslynator fix)",
       "detail": "Verify code formatting and style with Roslynator",
       "type": "shell",
-      "command": "roslynator analyze --properties TargetFramework=net10.0 --severity-level hidden --verbosity normal",
+      "command": "roslynator analyze --properties TargetFramework=net10.0 --severity-level hidden --verbosity normal --fix",
       "group": "test",
       "problemMatcher": "$msCompile",
       "presentation": { "group": "analysis" }
