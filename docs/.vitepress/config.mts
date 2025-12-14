@@ -1,5 +1,10 @@
+import fs from 'fs'
+import path from 'path'
 import { defineConfig } from 'vitepress'
 import handleAssetPaths from './plugins/handleAssetPaths.mts'
+
+const publicDirPath = path.resolve(__dirname, 'public')
+const distDirPath = path.resolve(__dirname, 'dist')
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
@@ -280,14 +285,14 @@ export default defineConfig({
 
   srcDir: '.',
   outDir: '.vitepress/dist',
-  publicDir: '.vitepress/public',
+  publicDir: path.resolve(__dirname, 'public'),
 
   cleanUrls: true,
 
   ignoreDeadLinks: false,
 
   vite: {
-    plugins: [handleAssetPaths()],
+    plugins: [handleAssetPaths(), copyPublicAssets()],
     server: {
       fs: {
         allow: ['..']
@@ -297,6 +302,7 @@ export default defineConfig({
       noExternal: ['**']
     },
     build: {
+      copyPublicDir: true,
       rollupOptions: {
         output: {
           assetFileNames: 'assets/[name].[hash][extname]'
@@ -346,3 +352,17 @@ export default defineConfig({
     }
   }
 })
+
+function copyPublicAssets() {
+  return {
+    name: 'copy-public-assets',
+    apply: 'build' as const,
+    writeBundle() {
+      if (!fs.existsSync(publicDirPath)) {
+        return
+      }
+
+      fs.cpSync(publicDirPath, distDirPath, { recursive: true })
+    }
+  }
+}

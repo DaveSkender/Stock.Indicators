@@ -22,12 +22,15 @@ description: The Stock Indicators for .NET library includes utilities to help yo
 var results = quotes
   .Use(CandlePart.HL2)
   .ToRsi(14);
+```
 
 ### Sort quotes
-permalink: /utilities/index
+
 `quotes.ToSortedList()` sorts any collection of `TQuote` or `ISeries` and returns it as a `IReadOnlyList` sorted by ascending `Timestamp`.  You **do need to sort quotes** before using library indicators.
 
 ### Resize quote history
+
+```csharp
 // aggregate into larger bars
 IReadOnlyList<Quote> dayBarQuotes =
   minuteBarQuotes.Aggregate(PeriodSize.Day);
