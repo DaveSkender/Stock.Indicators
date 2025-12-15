@@ -2,8 +2,6 @@
   "[markdown]": {
     "editor.defaultFormatter": "DavidAnson.vscode-markdownlint",
   },
-  "chat.useNestedAgentsMdFiles": true,
-  "chat.customAgentInSubagent.enabled": true,
   "dotnet.defaultSolution": "Stock.Indicators.sln",
   "files.associations": {
     "*.md": "markdown"
