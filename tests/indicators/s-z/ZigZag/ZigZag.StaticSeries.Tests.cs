@@ -193,7 +193,7 @@ public class ZigZag : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void SchrodingerScenario()
+    public void SchrodingerScenario_HighAndLowThresholdMet_IsDeterministic()
     {
         string json = File.ReadAllText("_testdata/issues/issue0616.quotes.zigzag.schrodinger.json");
 
