@@ -492,7 +492,7 @@ Each task should follow these guidelines:
 - All implementation tasks can be executed in parallel as they touch different files
 - Maintain strict adherence to existing patterns and conventions
 - Run `dotnet test --no-restore` after each implementation
-- Follow pre-commit checklist from `.github/instructions/source-code-completion.instructions.md`
+- Follow pre-commit checklist from `.github/instructions/code-completion.instructions.md`
 - Update catalog entries and documentation as implementations are completed
 
 ---

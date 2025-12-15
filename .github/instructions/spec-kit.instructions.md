@@ -46,7 +46,7 @@ Each feature lives in `.specify/specs/{###-feature-name}/` with:
 
 **Examples of existing instructions to honor:**
 
-- Language-specific style guides (see [source-code-completion.instructions.md](source-code-completion.instructions.md))
+- Language-specific style guides (see [code-completion.instructions.md](code-completion.instructions.md))
 - Testing framework conventions (MSTest, test organization patterns)
 - Documentation formatting requirements (see [markdown.instructions.md](markdown.instructions.md))
 - Package management policies (NuGet via Directory.Packages.props)
@@ -176,7 +176,7 @@ Include a "Dependencies" section mapping task relationships:
 
 #### 5. Quickstart & Validation (`.specify/specs/{###-feature}/quickstart.md`)
 
-- **Critical: Honor repository testing conventions** (see [source-code-completion.instructions.md](source-code-completion.instructions.md))
+- **Critical: Honor repository testing conventions** (see [code-completion.instructions.md](code-completion.instructions.md))
 - Follow existing test file organization: `tests/indicators/`, `tests/integration/`, etc.
 - Use MSTest framework with standard patterns from existing tests
 - Include warmup period validation for indicators
@@ -279,8 +279,8 @@ Spec Kit instructions work alongside existing scoped instructions:
 
 | Spec Kit Artifact        | Also Apply Instructions                                                          |
 |--------------------------|----------------------------------------------------------------------------------|
-| `plan.md` code examples  | [source-code-completion.instructions.md](source-code-completion.instructions.md) |
-| `quickstart.md` testing  | [source-code-completion.instructions.md](source-code-completion.instructions.md) |
+| `plan.md` code examples  | [code-completion.instructions.md](code-completion.instructions.md)               |
+| `quickstart.md` testing  | [code-completion.instructions.md](code-completion.instructions.md)               |
 | Series indicator specs   | [indicator-series.instructions.md](indicator-series.instructions.md)             |
 | Stream indicator specs   | [indicator-stream.instructions.md](indicator-stream.instructions.md)             |
 | Buffer indicator specs   | [indicator-buffer.instructions.md](indicator-buffer.instructions.md)             |
