@@ -297,7 +297,7 @@ export default defineConfig({
   },
 
   vite: {
-    plugins: [handleAssetPaths(), copyPublicAssets()],
+    plugins: [handleAssetPaths()],
     server: {
       fs: {
         allow: ['..']
@@ -358,17 +358,3 @@ export default defineConfig({
     }
   }
 })
-
-function copyPublicAssets() {
-  return {
-    name: 'copy-public-assets',
-    apply: 'build' as const,
-    writeBundle() {
-      if (!fs.existsSync(publicDirPath)) {
-        return
-      }
-
-      fs.cpSync(publicDirPath, distDirPath, { recursive: true })
-    }
-  }
-}
