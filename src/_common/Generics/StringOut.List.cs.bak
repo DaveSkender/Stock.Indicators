@@ -22,11 +22,11 @@ public static partial class StringOut
     private static readonly Dictionary<string, string> defaultArgs = new()
     {
         { "Decimal" , "auto" },
-        { "Double"  , "F6" },
-        { "Single"  , "F6" },
-        { "Int16"   , "F0" },
-        { "Int32"   , "F0" },
-        { "Int64"   , "F0" },
+        { "Double"  , "N6" },
+        { "Single"  , "N6" },
+        { "Int16"   , "N0" },
+        { "Int32"   , "N0" },
+        { "Int64"   , "N0" },
         { "DateOnly", "yyyy-MM-dd" },
         { "DateTime", "yyyy-MM-dd HH:mm:ss" },
         { "DateTimeOffset", "yyyy-MM-dd HH:mm:ss" },
@@ -34,11 +34,11 @@ public static partial class StringOut
     };
 
     /// <summary>
-    /// Converts a list of ISeries to a tab-delimited formatted string and writes it to the console.
+    /// Converts a list of ISeries to a fixed-width formatted string and writes it to the console.
     /// </summary>
     /// <typeparam name="T">The type of elements in the list, which must implement ISeries.</typeparam>
     /// <param name="source">The list of ISeries elements to convert.</param>
-    /// <returns>The tab-delimited formatted string representation of the list.</returns>
+    /// <returns>The fixed-width formatted string representation of the list.</returns>
     public static string ToConsole<T>(
         this IReadOnlyList<T> source)
         where T : ISeries
@@ -49,18 +49,18 @@ public static partial class StringOut
     }
 
     /// <summary>
-    /// Converts a list of ISeries to a tab-delimited formatted string.
+    /// Converts a list of ISeries to a fixed-width formatted string.
     /// </summary>
     /// <typeparam name="T">The type of elements in the list, which must implement ISeries.</typeparam>
     /// <param name="source">The list of ISeries elements to convert.</param>
     /// <param name="args">Optional overrides for `ToString()` formatter. Key values can be type or property name.</param>
-    /// <returns>A tab-delimited formatted string representation of the list.</returns>
+    /// <returns>A fixed-width formatted string representation of the list.</returns>
     /// <remarks>
     /// Examples:
     /// <code>
     /// Dictionary&lt;string, string&gt; args = new()
     /// {
-    ///     { "Decimal", "F2" },
+    ///     { "Decimal", "N2" },
     ///     { "DateTime", "MM/dd/yyyy" },
     ///     { "MyPropertyName", "C" }
     /// };
@@ -71,19 +71,19 @@ public static partial class StringOut
         where T : ISeries => source.ToList().ToStringOut(0, int.MaxValue, args);
 
     /// <summary>
-    /// Converts a list of ISeries to a tab-delimited formatted string.
+    /// Converts a list of ISeries to a fixed-width formatted string.
     /// </summary>
     /// <typeparam name="T">The type of elements in the list, which must implement ISeries.</typeparam>
     /// <param name="source">The list of ISeries elements to convert.</param>
     /// <param name="limitQty">The maximum number of elements to include in the output.</param>
     /// <param name="args">Optional overrides for `ToString()` formatter. Key values can be type or property name.</param>
-    /// <returns>A tab-delimited formatted string representation of the list.</returns>
+    /// <returns>A fixed-width formatted string representation of the list.</returns>
     /// <remarks>
     /// Examples:
     /// <code>
     /// Dictionary&lt;string, string&gt; args = new()
     /// {
-    ///     { "Decimal", "F2" },
+    ///     { "Decimal", "N2" },
     ///     { "DateTime", "MM/dd/yyyy" },
     ///     { "MyPropertyName", "C" }
     /// };
@@ -94,20 +94,20 @@ public static partial class StringOut
         where T : ISeries => source.ToList().ToStringOut(0, limitQty - 1, args);
 
     /// <summary>
-    /// Converts a list of ISeries to a tab-delimited formatted string.
+    /// Converts a list of ISeries to a fixed-width formatted string.
     /// </summary>
     /// <typeparam name="T">The type of elements in the list, which must implement ISeries.</typeparam>
     /// <param name="source">The list of ISeries elements to convert.</param>
     /// <param name="startIndex">The starting index of the elements to include in the output.</param>
     /// <param name="endIndex">The ending index of the elements to include in the output.</param>
     /// <param name="args">Optional overrides for `ToString()` formatter. Key values can be type or property name.</param>
-    /// <returns>A tab-delimited formatted string representation of the list.</returns>
+    /// <returns>A fixed-width formatted string representation of the list.</returns>
     /// <remarks>
     /// Examples:
     /// <code>
     /// Dictionary&lt;string, string&gt; args = new()
     /// {
-    ///     { "Decimal", "F2" },
+    ///     { "Decimal", "N2" },
     ///     { "DateTime", "MM/dd/yyyy" },
     ///     { "MyPropertyName", "C" }
     /// };
@@ -320,7 +320,7 @@ public static partial class StringOut
                 .Take(1000)
                 .Max(item => ((decimal)property.GetValue(item)!).GetDecimalPlaces());
 
-            return $"F{decimalPlaces}";
+            return $"N{decimalPlaces}";
         }
         else
         {

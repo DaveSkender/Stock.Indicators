@@ -28,6 +28,7 @@ public static class Program
         TestIndicators(quotes, tuples);
         TestUtilities(quotes);
         TestResultUtilities(quotes);
+        TestStringOutput();
 
         Console.WriteLine("\n===========================================");
         Console.WriteLine("All tests completed successfully!");
@@ -338,5 +339,31 @@ public static class Program
         }
 
         Console.WriteLine("✓ All result utilities tested successfully");
+    }
+
+    /// <summary>
+    /// Tests the ToStringOut() output format for spreadsheet compatibility
+    /// </summary>
+    private static void TestStringOutput()
+    {
+        Console.WriteLine("\nTesting ToStringOut() format...");
+
+        // Create sample quotes
+        List<Quote> testQuotes = new()
+        {
+            new Quote(new DateTime(2022, 12, 12, 5, 0, 0), 154.010m, 155.9800m, 153.4300m, 155.33m, 1071384m),
+            new Quote(new DateTime(2022, 12, 13, 5, 0, 0), 159.200m, 160.2650m, 156.7600m, 157.66m, 1534443m),
+            new Quote(new DateTime(2022, 12, 14, 5, 0, 0), 157.260m, 158.4400m, 154.1600m, 154.81m, 1344449m),
+            new Quote(new DateTime(2022, 12, 15, 5, 0, 0), 152.810m, 153.0400m, 150.2400m, 150.86m, 1483896m),
+            new Quote(new DateTime(2022, 12, 16, 5, 0, 0), 149.610m, 149.9500m, 147.9050m, 149.30m, 2436691m)
+        };
+
+        string output = testQuotes.ToStringOut();
+        Console.WriteLine("===OUTPUT START===");
+        Console.WriteLine(output);
+        Console.WriteLine("===OUTPUT END===");
+        Console.WriteLine($"\nLine count: {output.Split('\n').Length}");
+        Console.WriteLine("First line (headers): " + output.Split('\n')[0]);
+        Console.WriteLine("\n✓ StringOut test complete");
     }
 }
