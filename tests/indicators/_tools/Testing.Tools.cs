@@ -1,8 +1,9 @@
 namespace Tests.Tools;
 
+/// <summary>
+/// General testing tools and utilities.
+/// </summary>
 public static class TestUtility
 {
-    // TODO: refactor to consolidate common static test utilities
-
-
+    // Reserved for common test utilities as needed.
 }
