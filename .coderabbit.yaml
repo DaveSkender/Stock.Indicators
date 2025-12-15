@@ -5,6 +5,11 @@
 language: "en-US"
 early_access: true
 
+# preview features
+issue_enrichment:
+  auto_enrich:
+    enabled: false
+
 # REVIEW CONFIGURATION
 reviews:
   profile: "chill"
