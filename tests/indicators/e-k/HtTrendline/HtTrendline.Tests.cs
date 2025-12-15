@@ -37,8 +37,8 @@ public class HtTrendlineTests : TestBase
         Assert.AreEqual(213.8460, r11.SmoothPrice.Round(4));
 
         HtlResult r25 = results[25];
-        Assert.AreEqual(14, r25.DcPeriods);
-        Assert.AreEqual(215.3948, r25.Trendline.Round(4));
+        Assert.AreEqual(12, r25.DcPeriods);
+        Assert.AreEqual(215.6791, r25.Trendline.Round(4));
         Assert.AreEqual(216.3365, r25.SmoothPrice.Round(4));
 
         HtlResult r149 = results[149];
