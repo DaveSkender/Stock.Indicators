@@ -65,7 +65,7 @@ public class WilliamsRHub
             // Williams %R formula matches Stochastic %K - 100
             williamsR = highHigh == lowLow
                 ? double.NaN
-                : (100d * (close - lowLow) / (highHigh - lowLow)) - 100d;
+                : ((100d * (close - lowLow) / (highHigh - lowLow)).ToPrecision(14)) - 100d;
         }
 
         WilliamsResult result = new(
