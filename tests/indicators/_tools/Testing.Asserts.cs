@@ -5,7 +5,7 @@ namespace Tests.Tools;
 /// <summary>
 /// Custom assertion helpers for test validation.
 /// </summary>
-public static class TestAsserts
+public static partial class TestAsserts
 {
     /// <summary>
     /// Asserts that all computed (non-null, non-NaN) values remain within inclusive bounds.

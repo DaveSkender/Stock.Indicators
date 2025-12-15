@@ -1,4 +1,4 @@
-namespace Tests.Data;
+namespace Tests.Tools;
 
 // TODO: is Precision enum used or useful?
 
@@ -7,9 +7,9 @@ namespace Tests.Data;
 /// These control the allowed absolute delta when comparing nested numeric members during structural equivalence.
 /// </summary>
 /// <remarks>
-/// Applies to <see cref="Utilities.AssertEquals{T}(IEnumerable{T}, IEnumerable{T}, Precision)"/>
+/// Applies to <see cref="TestAsserts.AssertEquals{T}(IEnumerable{T}, IEnumerable{T}, Precision)"/>
 /// </remarks>
-internal enum Precision
+public enum Precision
 {
     /// <summary>
     /// No tolerance; numeric members must match exactly (difference must be 0).

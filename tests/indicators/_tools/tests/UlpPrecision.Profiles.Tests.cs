@@ -1,6 +1,4 @@
-using static Tests.Data.Utilities;
-
-namespace Utilities;
+namespace Tests.Tools;
 
 // TODO: is ULP precision code still relevant and used?
 

@@ -1,4 +1,4 @@
-namespace Tests.Data;
+namespace Tests.Tools;
 
 /// <summary>
 /// ULP (Units in Last Place) precision profiles for native numerical type precision comparisons.
@@ -6,7 +6,7 @@ namespace Tests.Data;
 /// native significant digit precision (e.g., ~15-17 significant digits for double).
 /// </summary>
 /// <remarks>
-/// Applies to <see cref="Utilities.AssertEqualsUlp{T}(IEnumerable{T}, IEnumerable{T}, UlpPrecision)"/>
+/// Applies to <see cref="TestAsserts.AssertEqualsUlp{T}(IEnumerable{T}, IEnumerable{T}, UlpPrecision)"/>
 /// <para>
 /// ULP-based comparison is more mathematically sound than absolute tolerance for floating-point
 /// comparisons as it accounts for the varying precision across the range of representable values.

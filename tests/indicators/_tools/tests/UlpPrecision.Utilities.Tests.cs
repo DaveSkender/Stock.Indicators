@@ -1,6 +1,4 @@
-using static Tests.Data.Utilities;
-
-namespace Tests.Utilities;
+namespace Tests.Tools;
 
 [TestClass]
 [TestCategory("Utilities")]
