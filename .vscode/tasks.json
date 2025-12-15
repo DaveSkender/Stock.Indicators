@@ -436,16 +436,6 @@
       "problemMatcher": []
     },
     {
-      "label": "Setup: Dev tools",
-      "detail": "Complete one-time environment setup (global tools, SpecKit, packages)",
-      "type": "shell",
-      "command": "bash .devcontainer/startup.sh",
-      "problemMatcher": [
-        "$msCompile",
-        "$eslint-compact"
-      ]
-    },
-    {
       "label": "Stop: All hosted servers",
       "detail": "Stop VitePress dev/preview servers on default ports (5173/5174) across platforms",
       "type": "shell",
