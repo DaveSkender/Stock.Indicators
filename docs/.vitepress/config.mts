@@ -296,12 +296,7 @@ export default defineConfig({
 
   // Redirect old URLs to new locations
   rewrites: {
-    'indicators/BasicQuote': 'indicators/QuotePart',
-    'pages/guide': 'guide',
-    'pages/contributing': 'contributing',
-    'pages/utilities': 'utilities',
-    'pages/performance': 'performance',
-    'pages/custom-indicators': 'custom-indicators'
+    'indicators/BasicQuote': 'indicators/QuotePart'
   },
 
   vite: {
@@ -334,6 +329,7 @@ export default defineConfig({
     '_data/**',
     'pages/**',
     '_indicators/**',
+    'examples/**',
     'Gemfile*',
     '.pa11yci',
     '.offline/**',
