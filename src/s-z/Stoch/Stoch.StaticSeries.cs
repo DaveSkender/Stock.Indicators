@@ -166,7 +166,7 @@ public static partial class Stoch
                 o[i] = !isViable
                      ? double.NaN
                      : highHigh - lowLow != 0
-                     ? 100d * (q.Close - lowLow) / (highHigh - lowLow)
+                     ? (100d * (q.Close - lowLow) / (highHigh - lowLow)).ToPrecision(14)
                      : 0;
             }
             else

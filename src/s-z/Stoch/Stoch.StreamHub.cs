@@ -116,7 +116,7 @@ public class StochHub
             double lowLow = _lowWindow.GetMin();
 
             rawK = highHigh - lowLow != 0
-                 ? 100d * (close - lowLow) / (highHigh - lowLow)
+                 ? (100d * (close - lowLow) / (highHigh - lowLow)).ToPrecision(14)
                  : 0;
         }
 
@@ -300,7 +300,7 @@ public class StochHub
                 }
 
                 double c = (double)ProviderCache[p].Close;
-                double rawAtP = (hh - ll) != 0 ? 100 * (c - ll) / (hh - ll) : 0;
+                double rawAtP = (hh - ll) != 0 ? (100 * (c - ll) / (hh - ll)).ToPrecision(14) : 0;
                 _rawKBuffer.Enqueue(rawAtP);
             }
         }

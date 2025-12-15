@@ -237,6 +237,41 @@ public class Stoch : StaticSeriesTestBase
     }
 
     [TestMethod]
+    public void Issue1127_Revisit()
+    {
+        // initialize
+        IReadOnlyList<Quote> quotes = File.ReadAllLines("s-z/Stoch/issue1127quotes-revisit.csv")
+            .Skip(1)
+            .Select(Tests.Data.Utilities.QuoteFromCsv)
+            .OrderBy(static x => x.Timestamp)
+            .ToList();
+
+        int length = quotes.Count;
+
+        // get indicators (using Fast Stochastic parameters to match Williams %R)
+        IReadOnlyList<StochResult> results = quotes
+            .ToStoch(14, 1, 1);  // Fast Stochastic matches Williams %R formula
+
+        Dictionary<string, string> args = new()
+        {
+            { "Oscillator", "N20" },
+            { "Signal", "N20" }
+        };
+
+        Console.WriteLine(results.ToStringOut(args));
+
+        // analyze boundary
+        for (int i = 0; i < length; i++)
+        {
+            Quote q = quotes[i];
+            StochResult r = results[i];
+
+            r.Oscillator?.Should().BeInRange(0d, 100d);
+            r.Signal?.Should().BeInRange(0d, 100d);
+        }
+    }
+
+    [TestMethod]
     public void Exceptions()
     {
         // bad lookback period

@@ -177,7 +177,7 @@ public sealed class StochRsiHub
         double lowRsi = _rsiMinWindow.GetMin();
 
         double k = lowRsi != highRsi
-            ? 100d * (rsiValue - lowRsi) / (highRsi - lowRsi)
+            ? (100d * (rsiValue - lowRsi) / (highRsi - lowRsi)).ToPrecision(14)
             : 0d;
 
         if (SmoothPeriods > 1)

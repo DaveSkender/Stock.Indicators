@@ -133,7 +133,7 @@ public class StcHub
             double lowLow = _macdLowWindow.GetMin();
 
             rawK = (highHigh - lowLow) != 0
-                 ? 100 * (macd - lowLow) / (highHigh - lowLow)
+                 ? (100 * (macd - lowLow) / (highHigh - lowLow)).ToPrecision(14)
                  : 0;
         }
 
@@ -249,7 +249,7 @@ public class StcHub
                 }
 
                 double macdAtP = _macdCache[p].Macd;
-                double rawAtP = (hh - ll) != 0 ? 100 * (macdAtP - ll) / (hh - ll) : 0;
+                double rawAtP = (hh - ll) != 0 ? (100 * (macdAtP - ll) / (hh - ll)).ToPrecision(14) : 0;
                 _rawKBuffer.Enqueue(rawAtP);
             }
         }
