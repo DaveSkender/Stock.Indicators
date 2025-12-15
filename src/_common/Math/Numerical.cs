@@ -216,7 +216,15 @@ public static class Numerical
         }
 
         double abs = Math.Abs(value);
+
+        // Round values that would have magnitude beyond precision threshold to zero
+        // This prevents floating-point artifacts like 1.42e-14 from being preserved
         int magnitude = (int)Math.Ceiling(Math.Log10(abs));
+        if (magnitude <= -sigDigits)
+        {
+            return 0.0;
+        }
+
         double scale = Math.Pow(10.0, sigDigits - magnitude);
         double rounded = Math.Round(abs * scale, MidpointRounding.ToEven) / scale;
         return Math.CopySign(rounded, value);
