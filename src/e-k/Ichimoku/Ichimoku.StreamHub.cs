@@ -275,27 +275,19 @@ public class IchimokuHub
             kijunLowWindow.Add(quote.Low);
         }
 
-        // Null out ChikouSpan for results that now point past the end of ProviderCache
-        // This handles the case where Remove operations shrink the ProviderCache
+        // After Remove operations, ChikouSpan values that point past the end need to be nulled
+        // Calculate which results might have invalid ChikouSpan values
         if (ChikouOffset > 0 && Cache.Count > 0)
         {
-            int firstInvalidChikouIndex = ProviderCache.Count - ChikouOffset;
-            if (firstInvalidChikouIndex >= 0 && firstInvalidChikouIndex < Cache.Count)
+            int firstInvalidIndex = ProviderCache.Count - ChikouOffset;
+
+            // Null out ChikouSpan for results that now reference beyond ProviderCache
+            for (int i = Math.Max(0, firstInvalidIndex); i < Cache.Count; i++)
             {
-                // Null out ChikouSpan for all results from firstInvalidChikouIndex onwards
-                for (int i = firstInvalidChikouIndex; i < Cache.Count; i++)
+                IchimokuResult result = Cache[i];
+                if (result.ChikouSpan is not null)
                 {
-                    IchimokuResult result = Cache[i];
-                    if (result.ChikouSpan is not null)
-                    {
-                        Cache[i] = new(
-                            Timestamp: result.Timestamp,
-                            TenkanSen: result.TenkanSen,
-                            KijunSen: result.KijunSen,
-                            SenkouSpanA: result.SenkouSpanA,
-                            SenkouSpanB: result.SenkouSpanB,
-                            ChikouSpan: null);
-                    }
+                    Cache[i] = result with { ChikouSpan = null };
                 }
             }
         }
