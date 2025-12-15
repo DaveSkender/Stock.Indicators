@@ -72,7 +72,7 @@ internal static class IndicatorExecutor
         }
 
         // Make generic method with Quote type if it's generic, otherwise use method directly
-        MethodInfo targetMethod = method.IsGenericMethod 
+        MethodInfo targetMethod = method.IsGenericMethod
             ? method.MakeGenericMethod(typeof(Quote))
             : method;
 
