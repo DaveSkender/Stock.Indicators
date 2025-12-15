@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<indicator>
+ <summary>
+ Volume Profile breaks down historical volume data by price. The length of the bars represents the volume traded at each price and highlights prices where significant support or resistance accumulated.
+ This implementation was renamed from "VRVP" to "VolumeProfile" to clarify that the indicator itself is not range-bound — you range-bind by supplying a filtered set of input candles (e.g., a specific time window or session range) before running the indicator.
+ <para>
+ See
+ <see href="https://daveskender.github.io/Stock.Indicators/indicators/VolumeProfile/#content">documentation</see>
+ for usage and examples.
+ </para>
+ </summary>
+
+ <remarks>
+ Behavior and important implementation notes:
+ <list>
+ <item>
+ <term>Range-bounding</term>
+ <description>The indicator accepts a sequence of quotes and produces a time series of per-price volume slices. To limit the profile to a specific range (time, session, or number of candles), filter the input quotes before calling the indicator. The indicator itself does not perform any automatic range-windowing.</description>
+ </item>
+ <item>
+ <term>Precision (bucket width)</term>
+ <description>The <see cref="precision"/> parameter controls the width of each price slice (bucket). Prices are grouped by the specified precision to accumulate volumes per bucket. Choose an appropriate precision for the instrument's tick size and the desired granularity (a smaller precision yields more buckets).</description>
+ </item>
+ <item>
+ <term>Incremental cumulative totals</term>
+ <description>Each result stores its own per-result cumulative dictionary (copied from the previous result) to avoid shared mutable state across results. When the indicator assigns the per-candle volume profile, it increments the per-price cumulative totals for that result.</description>
+ </item>
+ <item>
+ <term>Rounding / tiny discrepancy handling</term>
+ <description>
+ Due to decimal rounding and grouping, the sum of bucketed volumes for a candle can be off by a very small amount relative to the expected total (previous cumulative total + this candle's reported volume). The implementation offers several strategies to correct that tiny discrepancy:
+ <list type="bullet">
+ <item>
+ <description><b>HighestPriceBucket (current/default)</b> — Add the residual difference to the bucket with the highest price key. This is deterministic and avoids reallocating across many buckets. Chosen for simplicity and reproducibility.</description>
+ </item>
+ <item>
+ <description><b>LastProfileBucket</b> — Add the residual to the last price bucket for the current candle's volume profile. This keeps the adjustment localized to the most recently observed price for this candle.</description>
+ </item>
+ <item>
+ <description><b>ProportionalDistribution</b> — Distribute the residual proportionally across existing buckets according to their current weight. This minimizes bias but is more complex and may introduce additional fractional arithmetic.</description>
+ </item>
+ </list>
+ The current implementation uses the <b>HighestPriceBucket</b> approach to keep behavior deterministic and simple. If you prefer a different correction policy, we can add a configuration parameter and corresponding unit tests.
+ </description>
+ </item>
+ <item>
+ <term>Performance considerations</term>
+ <description>Using a <c>Dictionary&lt;decimal,decimal&gt;</c> keyed by raw price can create many buckets if prices have high precision. If you expect high-granularity prices, normalize prices to a grid or increase the precision parameter to limit bucket count.</description>
+ </item>
+ <item>
+ <term>Serialization & public API</term>
+ <description>Because this change is currently on an early feature branch, no backward compatibility shims were added for consumers. If/when this lands in main and becomes a public release, consider adding short-lived compatibility facades or documenting the rename in CHANGELOGs to help downstream users migrate from "VRVP" to "VolumeProfile".</description>
+ </item>
+ </list>
+ </remarks>
+
+ <param name="quotes">Historical price quotes to analyze. Range-bound the input prior to calling the indicator if you want a restricted profile.</param>
+ <param name="precision">Width of each volume slice (bucket). Choose according to instrument tick size and desired granularity.</param>
+ <returns>Time series of volume-per-price values and cumulative per-price volume across the results.</returns>
+ <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
+</indicator>
