@@ -11,71 +11,133 @@ Categories include price trends, price channels, oscillators, stop and reverse, 
 
 ## Categories
 
-- [Price trends](#price-trend)
-- [Price channels](#price-channel)
-- [Oscillators](#oscillator)
-- [Stop and reverse](#stop-and-reverse)
-- [Candlestick patterns](#candlestick-pattern)
-  - [Other price patterns](#price-pattern)
-- [Volume-based](#volume-based)
-- [Moving averages](#moving-average)
-- [Price transforms](#price-transform)
-- [Price characteristics](#price-characteristic)
-  - [Numerical analysis](#numerical-analysis)
+- [Moving Averages](#moving-averages)
+- [Oscillators](#oscillators)
+- [Price Channels](#price-channels)
+- [Price Trends](#price-trends)
+- [Stop & Reverse](#stop--reverse)
+- [Volume Based](#volume-based)
+- [Price Characteristics](#price-characteristics)
+- [Candlestick Patterns](#candlestick-patterns)
+- [Price Transforms](#price-transforms)
+- [Price Patterns](#price-patterns)
 
-## Price trends {#price-trend}
+## Moving Averages
 
-- [Directional Movement Index (DMI)](/indicators/Adx)
-- [Hurst Exponent](/indicators/Hurst)
+- [Arnaud Legoux Moving Average](/indicators/Alma)
+- [Double Exponential Moving Average](/indicators/Dema)
+- [McGinley Dynamic](/indicators/Dynamic)
+- [Exponential Moving Average](/indicators/Ema)
+- [Endpoint Moving Average](/indicators/Epma) (LSMA)
+- [Hull Moving Average](/indicators/Hma)
+- [Hilbert Transform Instantaneous Trendline](/indicators/HtTrendline)
+- [Kaufman's Adaptive Moving Average](/indicators/Kama)
+- [MESA Adaptive Moving Average](/indicators/Mama)
+- [Simple Moving Average](/indicators/Sma)
+- [Smoothed Moving Average](/indicators/Smma) (MMA, RMA)
+- [T3 Moving Average](/indicators/T3)
+- [Triple Exponential Moving Average](/indicators/Tema)
+- [Volume Weighted Moving Average](/indicators/Vwma)
+- [Weighted Moving Average](/indicators/Wma)
 
-## Price channels {#price-channel}
+## Oscillators
 
-- [Price Channels](/indicators/Donchian)
+- [Awesome Oscillator](/indicators/Awesome)
+- [Balance of Power](/indicators/Bop)
+- [Commodity Channel Index](/indicators/Cci)
+- [Choppiness Index](/indicators/Chop)
+- [Chande Momentum Oscillator](/indicators/Cmo)
+- [ConnorsRSI](/indicators/ConnorsRsi)
+- [Correlation Coefficient](/indicators/Correlation) (R-Squared)
+- [Detrended Price Oscillator](/indicators/Dpo)
+- [Gator Oscillator](/indicators/Gator)
+- [Price Momentum Oscillator](/indicators/Pmo)
+- [Rate of Change](/indicators/Roc) (Momentum)
+- [Relative Strength Index](/indicators/Rsi)
+- [Stochastic Momentum Index](/indicators/Smi)
+- [Schaff Trend Cycle](/indicators/Stc)
+- [Stochastic Oscillator](/indicators/Stoch) (KDJ Index)
+- [Stochastic RSI](/indicators/StochRsi)
+- [TRIX](/indicators/Trix)
+- [True Strength Index](/indicators/Tsi)
+- [Ultimate Oscillator](/indicators/Ultimate)
+- [Williams Percent Range](/indicators/WilliamsR)
 
-## Oscillators {#oscillator}
+## Price Channels
 
-- [KDJ Index](/indicators/Stoch)
+- [Bollinger Bands](/indicators/BollingerBands)
+- [Donchian Channels](/indicators/Donchian) (Price Channels)
+- [Fractal Chaos Bands](/indicators/Fcb)
+- [Keltner Channels](/indicators/Keltner)
+- [Moving Average Envelopes](/indicators/MaEnvelopes)
+- [STARC Bands](/indicators/StarcBands)
+- [Standard Deviation Channels](/indicators/StdDevChannels)
+- [Volume Weighted Average Price](/indicators/Vwap)
 
-## Stop and reverse {#stop-and-reverse}
+## Price Trends
 
+- [Average Directional Index](/indicators/Adx) (DMI)
+- [Williams Alligator](/indicators/Alligator)
+- [Aroon Indicator](/indicators/Aroon)
 - [ATR Trailing Stop](/indicators/AtrStop)
+- [Chandelier Exit](/indicators/Chandelier)
+- [Elder-ray Index](/indicators/ElderRay) (Bull and Bear Power)
+- [Hurst Exponent](/indicators/Hurst) (Rescaled Range Analysis)
+- [Ichimoku Cloud](/indicators/Ichimoku)
+- [Moving Average Convergence Divergence](/indicators/Macd)
+- [Pivot Points](/indicators/PivotPoints)
+- [Pivots](/indicators/Pivots)
+- [Rate of Change with Bands](/indicators/RocWb)
+- [Rolling Pivots](/indicators/RollingPivots)
 - [SuperTrend](/indicators/SuperTrend)
+- [Vortex Indicator](/indicators/Vortex)
 
-## Candlestick patterns {#candlestick-pattern}
+## Stop & Reverse
 
-### Other price patterns {#price-pattern}
+- [Parabolic SAR](/indicators/ParabolicSar)
+- [Volatility Stop](/indicators/VolatilityStop)
 
-## Volume-based {#volume-based}
+## Volume Based
 
-## Moving averages {#moving-average}
+- [Accumulation Distribution Line](/indicators/Adl)
+- [Chaikin Oscillator](/indicators/ChaikinOsc)
+- [Chaikin Money Flow](/indicators/Cmf)
+- [Force Index](/indicators/ForceIndex)
+- [Klinger Volume Oscillator](/indicators/Kvo)
+- [Money Flow Index](/indicators/Mfi)
+- [On-Balance Volume](/indicators/Obv)
+- [Price Volume Oscillator](/indicators/Pvo)
 
-- [Least Squares Moving Average (LSMA)](/indicators/Epma)
-- [Modified Moving Average (MMA)](/indicators/Smma)
-- [Running Moving Average (RMA)](/indicators/Smma)
+## Price Characteristics
 
-## Price transforms {#price-transform}
+- [Average True Range](/indicators/Atr) (NATR, TR)
+- [Beta](/indicators/Beta)
+- [Price Relative Strength](/indicators/Prs)
+- [Linear Regression Slope](/indicators/Slope) (best-fit line)
+- [Standard Deviation](/indicators/StdDev) (HV, Z-Score)
+- [Ulcer Index](/indicators/UlcerIndex)
 
-- [HL2](/indicators/QuotePart)
-- [HLC3](/indicators/QuotePart)
-- [OC2](/indicators/QuotePart)
-- [OHL3](/indicators/QuotePart)
-- [OHLC4](/indicators/QuotePart)
+### Numerical Analysis
 
-## Price characteristics {#price-characteristic}
+The [Simple Moving Average](/indicators/Sma) documentation includes methods for:
 
-- [Bull and Bear Power](/indicators/ElderRay)
-- [Dominant Cycle Periods](/indicators/HtTrendline)
-- [Historical Volatility (HV)](/indicators/StdDev)
-- [Momentum Oscillator](/indicators/Roc)
-- [Normalized Average True Range](/indicators/Atr)
-- [Rescaled Range Analysis](/indicators/Hurst)
-- [True Range (TR)](/indicators/Atr)
+- Mean absolute deviation
+- Mean absolute percentage error
+- Mean square error
 
-### Numerical analysis {#numerical-analysis}
+## Candlestick Patterns
 
-- [Linear Regression (best-fit line)](/indicators/Slope)
-- [Mean absolute deviation](/indicators/Sma)
-- [Mean absolute percentage error](/indicators/Sma)
-- [Mean square error](/indicators/Sma)
-- [R-Squared (Coefficient of Determination)](/indicators/Correlation)
-- [Z-Score](/indicators/StdDev)
+- [Doji](/indicators/Doji)
+- [Marubozu](/indicators/Marubozu)
+
+## Price Transforms
+
+- [Ehlers Fisher Transform](/indicators/FisherTransform)
+- [Heikin Ashi](/indicators/HeikinAshi)
+- [Quote Part](/indicators/QuotePart) (HL2, HLC3, OC2, OHL3, OHLC4)
+- [Renko Charts](/indicators/Renko)
+- [ZigZag](/indicators/ZigZag)
+
+## Price Patterns
+
+- [Williams Fractal](/indicators/Fractal)

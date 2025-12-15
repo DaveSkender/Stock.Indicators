@@ -329,11 +329,11 @@ export default defineConfig({
     '_data/**',
     'pages/**',
     '_indicators/**',
+    'examples/**',
     'Gemfile*',
     '.pa11yci',
     '.offline/**',
     '_headers',
     'README.md'
-     'README.md'
    ]
 })

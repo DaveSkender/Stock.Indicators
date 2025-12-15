@@ -43,7 +43,7 @@ Explore more information:
 
 You'll get all of the industry standard indicators out-of-the-box. Additionally, you can create compatible [custom indicators](https://github.com/DaveSkender/Stock.Indicators/tree/main/docs/examples/CustomIndicatorsLibrary).
 
-![sample indicators shown in chart](examples.webp)
+<img src="/assets/examples.webp" alt="sample indicators shown in chart" />
 
 ## Easy to use in your application
 

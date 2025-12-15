@@ -3,7 +3,7 @@ title: Performance benchmarks
 description: The Stock Indicators for .NET library is built for speed and production workloads.  Compare our execution times with other options.
 ---
 
-# for v2.6.0
+# Performance benchmarks for v3.0.0
 
 These are the execution times for the current indicators using two years of historical daily stock quotes (502 periods) with default or typical parameters.
 
