@@ -296,7 +296,12 @@ export default defineConfig({
 
   // Redirect old URLs to new locations
   rewrites: {
-    'indicators/BasicQuote': 'indicators/QuotePart'
+    'indicators/BasicQuote': 'indicators/QuotePart',
+    'pages/guide.md': 'guide.md',
+    'pages/contributing.md': 'contributing.md',
+    'pages/utilities.md': 'utilities.md',
+    'pages/performance.md': 'performance.md',
+    'pages/custom-indicators.md': 'custom-indicators.md'
   },
 
   vite: {
