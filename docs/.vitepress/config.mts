@@ -331,5 +331,6 @@ export default defineConfig({
     '.offline/**',
     '_headers',
     'README.md'
-  ]
-}
+     'README.md'
+   ]
+})
