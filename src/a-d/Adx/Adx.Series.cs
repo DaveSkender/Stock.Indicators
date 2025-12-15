@@ -106,13 +106,16 @@ public static partial class Indicator
             r.Pdi = pdi;
             r.Mdi = mdi;
 
-            // calculate ADX
+            // calculate DMI/DX
             double dx = (pdi == mdi)
                 ? 0
                 : (pdi + mdi != 0)
                 ? 100 * Math.Abs(pdi - mdi) / (pdi + mdi)
                 : double.NaN;
 
+            r.Dmi = dx.NaN2Null();
+
+            // calculate ADX
             double adx;
 
             if (i > (2 * lookbackPeriods) - 1)

@@ -47,13 +47,23 @@ IEnumerable<AdxResult>
 
 **`Date`** _`DateTime`_ - Date from evaluated `TQuote`
 
-**`Pdi`** _`double`_ - Plus Directional Index (+DI)
+**`Pdi`** _`double`_ - Plus Directional Index (+DI) - Measures upward price movement
 
-**`Mdi`** _`double`_ - Minus Directional Index (-DI)
+**`Mdi`** _`double`_ - Minus Directional Index (-DI) - Measures downward price movement
 
-**`Adx`** _`double`_ - Average Directional Index (ADX)
+**`Dmi`** _`double`_ - Directional Movement Index (DMI) - Also known as the Directional Index (DX), this is the normalized difference between +DI and -DI, calculated as `100 × |+DI - -DI| / (+DI + -DI)`
 
-**`Adxr`** _`double`_ - Average Directional Index Rating (ADXR)
+**`Adx`** _`double`_ - Average Directional Index (ADX) - A smoothed moving average of the DMI that measures the strength of the trend (regardless of direction)
+
+**`Adxr`** _`double`_ - Average Directional Index Rating (ADXR) - A smoothed version of ADX
+
+>&#128161; **About DMI and ADX**: The relationship between these indicators:
+>
+>- **+DI and -DI** indicate the _direction_ of price movement (upward vs. downward)
+>- **DMI (DX)** measures the _separation_ between +DI and -DI, indicating how directional the movement is
+>- **ADX** is a smoothed average of DMI that measures the _strength_ of the trend, regardless of whether it's up or down
+>
+>Traders often use +DI/-DI crossovers to identify potential entry points, while ADX acts as a filter to confirm trend strength. An ADX above 25 typically indicates a strong trend, while below 20 suggests a weak or range-bound market.
 
 ### Utilities
 

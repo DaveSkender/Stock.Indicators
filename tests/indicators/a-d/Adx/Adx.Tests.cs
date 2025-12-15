@@ -19,11 +19,13 @@ public class AdxTests : TestBase
         AdxResult r19 = results[19];
         Assert.AreEqual(21.0361, r19.Pdi.Round(4));
         Assert.AreEqual(25.0124, r19.Mdi.Round(4));
+        Assert.AreEqual(8.6351, r19.Dmi.Round(4));
         Assert.IsNull(r19.Adx);
 
         AdxResult r29 = results[29];
         Assert.AreEqual(37.9719, r29.Pdi.Round(4));
         Assert.AreEqual(14.1658, r29.Mdi.Round(4));
+        Assert.AreEqual(45.66, r29.Dmi.Round(4));
         Assert.AreEqual(19.7949, r29.Adx.Round(4));
 
         AdxResult r39 = results[39];
@@ -35,12 +37,14 @@ public class AdxTests : TestBase
         AdxResult r248 = results[248];
         Assert.AreEqual(32.3167, r248.Pdi.Round(4));
         Assert.AreEqual(18.2471, r248.Mdi.Round(4));
+        Assert.AreEqual(27.8255, r248.Dmi.Round(4));
         Assert.AreEqual(30.5903, r248.Adx.Round(4));
         Assert.AreEqual(29.1252, r248.Adxr.Round(4));
 
         AdxResult r501 = results[501];
         Assert.AreEqual(17.7565, r501.Pdi.Round(4));
         Assert.AreEqual(31.1510, r501.Mdi.Round(4));
+        Assert.AreEqual(27.3873, r501.Dmi.Round(4));
         Assert.AreEqual(34.2987, r501.Adx.Round(4));
     }
 
@@ -129,6 +133,7 @@ public class AdxTests : TestBase
         AdxResult last = r.LastOrDefault();
         Assert.AreEqual(17.7565, last.Pdi.Round(4));
         Assert.AreEqual(31.1510, last.Mdi.Round(4));
+        Assert.AreEqual(27.3873, last.Dmi.Round(4));
         Assert.AreEqual(34.2987, last.Adx.Round(4));
     }
 
