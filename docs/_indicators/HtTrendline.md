@@ -38,7 +38,7 @@ IEnumerable<HtlResult>
 - The first `6` periods will have `null` values for `SmoothPrice` since there's not enough data to calculate.
 - The first `7` periods will have `null` values for `DcPeriods` since there is not enough data to calculate; and are generally unreliable for the first ~25 periods.
 
->&#9886; **Convergence warning**: The first `100` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
+>&#128161; **Convergence**: The indicator uses signal processing algorithms that require a brief warmup period. Values stabilize quickly after the first ~25 periods.
 
 ### HtlResult
 
