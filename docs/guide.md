@@ -1,7 +1,6 @@
 ---
 title: Guide and Pro tips
 description: Learn how to use the Stock Indicators for .NET Nuget library in your own software tools and platforms.  Whether you're just getting started or an advanced professional, this guide explains how to get setup, example usage code, and instructions on how to use historical price quotes, make custom quote classes, chain indicators of indicators, and create custom technical indicators.
-permalink: /guide/index
 ---
 
 <nav role="navigation" aria-label="guide page menu">
@@ -188,7 +187,7 @@ foreach (Quote quote in liveQuotes)
 - Optimized for low-latency real-time scenarios
 - Results accessible via `.Results` property
 
-See [individual indicator pages](/indicators/) for specific usage guidance.
+See [individual indicator pages](/indicators) for specific usage guidance.
 
 More examples available:
 
@@ -304,11 +303,11 @@ IReadOnlyList<RsiResult> rsiOfObv = obvResults.ToRsi(14);
 
 ## Candlestick patterns
 
-[Candlestick Patterns](/indicators/#candlestick-pattern) are a unique form of indicator and have a common output model.
+[Candlestick Patterns](/indicators#candlestick-pattern) are a unique form of indicator and have a common output model.
 
 ### Match
 
-When a candlestick pattern is recognized, it produces a matching signal.  In some cases, an intrinsic confirmation is also available after the signal.  In cases where previous bars were used to identify a pattern, they are indicated as the basis for the signal.  This `enum` can also be referenced as an `int` value.  [Documentation for each candlestick pattern](/indicators/#candlestick-pattern) will indicate whether confirmation and/or basis information is produced.
+When a candlestick pattern is recognized, it produces a matching signal.  In some cases, an intrinsic confirmation is also available after the signal.  In cases where previous bars were used to identify a pattern, they are indicated as the basis for the signal.  This `enum` can also be referenced as an `int` value.  [Documentation for each candlestick pattern](/indicators#candlestick-pattern) will indicate whether confirmation and/or basis information is produced.
 
 | type                  |  int | description                         |
 | --------------------- | ---: | ----------------------------------- |
@@ -323,7 +322,7 @@ When a candlestick pattern is recognized, it produces a matching signal.  In som
 
 ### Candle
 
-The `CandleProperties` class is an extended version of `Quote`, and contains additional calculated properties.  `TQuote` classes can be converted to `CandleProperties` with the `.ToCandle()` [utility](/utilities/#extended-candle-properties), and further used as the basis for calculating indicators.
+The `CandleProperties` class is an extended version of `Quote`, and contains additional calculated properties.  `TQuote` classes can be converted to `CandleProperties` with the `.ToCandle()` [utility](/utilities#extended-candle-properties), and further used as the basis for calculating indicators.
 
 ## Incremental buffer style indicators
 
@@ -472,4 +471,4 @@ See individual indicator documentation for specific streaming examples.
 
 ## Utilities
 
-See [Utilities and helper functions](/utilities/) for additional tools.
+See [Utilities and helper functions](/utilities) for additional tools.

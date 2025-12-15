@@ -1,0 +1,11 @@
+# Redirect old URLs to new locations
+/indicators/BasicQuote /indicators/QuotePart 301
+/indicators/BasicQuote/ /indicators/QuotePart 301
+
+# Handle trailing slash variations for Jekyll-style URLs
+/guide/ /guide 301
+/indicators/ /indicators 301
+/utilities/ /utilities 301
+/contributing/ /contributing 301
+/performance/ /performance 301
+/custom-indicators/ /custom-indicators 301

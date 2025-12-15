@@ -10,7 +10,7 @@ description: The Stock Indicators for .NET library includes utilities to help yo
 - [for numerical analysis](#utilities-for-numerical-analysis)
 - [indicator metadata catalog](#indicator-catalog-metadata)
 
-See [individual indicator pages](/indicators/) for information on recommended pruning quantities.
+See [individual indicator pages](/indicators) for information on recommended pruning quantities.
 
 ## Utilities for historical quotes
 
@@ -94,7 +94,7 @@ var results = quotes
 
 ### Condense
 
-`results.Condense()` removes non-essential results so it only returns meaningful data records. For example, when used on [Candlestick Patterns](/indicators/#candlestick-pattern), it only returns records where a signal is generated.
+`results.Condense()` removes non-essential results so it only returns meaningful data records. For example, when used on [Candlestick Patterns](/indicators#candlestick-pattern), it only returns records where a signal is generated.
 
 ```csharp
 // example: only show Marubozu signals
@@ -134,7 +134,7 @@ IReadOnlyList<AdxResult> results =
   quotes.ToAdx(n).RemoveWarmupPeriods(n + 100);
 ```
 
-See [individual indicator pages](/indicators/) for information on recommended pruning quantities.
+See [individual indicator pages](/indicators) for information on recommended pruning quantities.
 
 > &#128161; **Note**: `.RemoveWarmupPeriods()` is not available on some indicators; however, you can still do a custom pruning by using the customizable `.RemoveWarmupPeriods(removePeriods)`.
 >
@@ -179,7 +179,7 @@ Use the indicator catalog to discover indicators, build simple pickers, or expor
 - Optionally execute an indicator by ID (no compile-time generics required)
 
 > [!IMPORTANT]
-> _The Catalog_ provides a programmatic way to interact with indicators and options; however, it is not the idiomatic .NET way to use this library. See the examples in [the Guide](/guide/) for normal syntax examples.
+> _The Catalog_ provides a programmatic way to interact with indicators and options; however, it is not the idiomatic .NET way to use this library. See the examples in [the Guide](/guide) for normal syntax examples.
 
 ### Browse or export the catalog
 

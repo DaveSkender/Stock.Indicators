@@ -26,7 +26,7 @@ IReadOnlyList<DynamicResult> results =
 
 You must have at least `2` periods of `quotes`, to cover the [warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) periods.  Since this uses a smoothing technique, we recommend you use at least `4×N` data points prior to the intended usage date for better precision.
 
-`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/#historical-quotes) for more information.
+`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide#historical-quotes) for more information.
 
 ### Pro tips
 
@@ -55,11 +55,11 @@ IReadOnlyList<DynamicResult>
 
 ### Utilities
 
-- [.Condense()](/utilities/#condense)
-- [.Find(lookupDate)](/utilities/#find-indicator-result-by-date)
-- [.RemoveWarmupPeriods(qty)](/utilities/#remove-warmup-periods)
+- [.Condense()](/utilities#condense)
+- [.Find(lookupDate)](/utilities#find-indicator-result-by-date)
+- [.RemoveWarmupPeriods(qty)](/utilities#remove-warmup-periods)
 
-See [Utilities and helpers](/utilities/#utilities-for-indicator-results) for more information.
+See [Utilities and helpers](/utilities#utilities-for-indicator-results) for more information.
 
 ## Chaining
 

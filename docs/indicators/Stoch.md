@@ -39,7 +39,7 @@ IReadOnlyList<StochResult> results =
 
 You must have at least `N+S` periods of `quotes` to cover the [warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) periods.
 
-`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/#historical-quotes) for more information.
+`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide#historical-quotes) for more information.
 
 ### MaType options
 
@@ -76,12 +76,12 @@ Note: aliases of `K`, `D`, and `J` are also provided.  They can be used intercha
 
 ### Utilities
 
-- [.Condense()](/utilities/#condense)
-- [.Find(lookupDate)](/utilities/#find-indicator-result-by-date)
-- [.RemoveWarmupPeriods()](/utilities/#remove-warmup-periods)
-- [.RemoveWarmupPeriods(qty)](/utilities/#remove-warmup-periods)
+- [.Condense()](/utilities#condense)
+- [.Find(lookupDate)](/utilities#find-indicator-result-by-date)
+- [.RemoveWarmupPeriods()](/utilities#remove-warmup-periods)
+- [.RemoveWarmupPeriods(qty)](/utilities#remove-warmup-periods)
 
-See [Utilities and helpers](/utilities/#utilities-for-indicator-results) for more information.
+See [Utilities and helpers](/utilities#utilities-for-indicator-results) for more information.
 
 ## Chaining
 

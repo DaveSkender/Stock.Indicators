@@ -28,7 +28,7 @@ IReadOnlyList<MaEnvelopeResult> results =
 
 See links in the supported [MaType options](#matype-options) section below for details on the inherited requirements for `quotes` and `lookbackPeriods`.
 
-`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/#historical-quotes) for more information.
+`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide#historical-quotes) for more information.
 
 ### MaType options
 
@@ -81,11 +81,11 @@ The moving average `Centerline` is based on the `movingAverageType` type specifi
 
 ### Utilities
 
-- [.Condense()](/utilities/#condense)
-- [.Find(lookupDate)](/utilities/#find-indicator-result-by-date)
-- [.RemoveWarmupPeriods(qty)](/utilities/#remove-warmup-periods)
+- [.Condense()](/utilities#condense)
+- [.Find(lookupDate)](/utilities#find-indicator-result-by-date)
+- [.RemoveWarmupPeriods(qty)](/utilities#remove-warmup-periods)
 
-See [Utilities and helpers](/utilities/#utilities-for-indicator-results) for more information.
+See [Utilities and helpers](/utilities#utilities-for-indicator-results) for more information.
 
 ## Streaming
 

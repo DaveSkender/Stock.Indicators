@@ -52,7 +52,7 @@ See overloads usage above to determine which parameters are relevant for each.  
 
 You must have at least the greater of `T`,`K`, `S`, and offset periods for `quotes` to cover the warmup periods; though, given the leading and lagging nature, we recommend notably more.
 
-`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/#historical-quotes) for more information.
+`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide#historical-quotes) for more information.
 
 ## Response
 
@@ -81,11 +81,11 @@ IReadOnlyList<IchimokuResult>
 
 ### Utilities
 
-- [.Condense()](/utilities/#condense)
-- [.Find(lookupDate)](/utilities/#find-indicator-result-by-date)
-- [.RemoveWarmupPeriods(qty)](/utilities/#remove-warmup-periods)
+- [.Condense()](/utilities#condense)
+- [.Find(lookupDate)](/utilities#find-indicator-result-by-date)
+- [.RemoveWarmupPeriods(qty)](/utilities#remove-warmup-periods)
 
-See [Utilities and helpers](/utilities/#utilities-for-indicator-results) for more information.
+See [Utilities and helpers](/utilities#utilities-for-indicator-results) for more information.
 
 ## Chaining
 

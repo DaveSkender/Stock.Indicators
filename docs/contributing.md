@@ -3,7 +3,6 @@ title: Contributing guidelines
 description: >-
   This NuGet package is an open-source project.
   Learn how to contribute issues, fixes, new indicators, new features, or to our discussions.
-permalink: /contributing/index
 ---
 
 

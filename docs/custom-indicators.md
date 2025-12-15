@@ -163,7 +163,7 @@ You can also implement your custom indicator in other styles:
 - **Buffer list style** - For incremental processing
 - **Stream hub style** - For real-time data feeds
 
-See the [Guide](/guide/) for more information about different indicator styles.
+See the [Guide](/guide) for more information about different indicator styles.
 
 ### Best practices
 
@@ -185,6 +185,6 @@ For complete working examples, see:
 
 ## See also
 
-- [Utilities and helpers](/utilities/) - Tools for working with quotes and results
-- [Guide](/guide/) - General usage patterns and indicator styles
-- [Contributing guidelines](/contributing/) - How to contribute indicators to the library
+- [Utilities and helpers](/utilities) - Tools for working with quotes and results
+- [Guide](/guide) - General usage patterns and indicator styles
+- [Contributing guidelines](/contributing) - How to contribute indicators to the library

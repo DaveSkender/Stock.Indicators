@@ -291,6 +291,11 @@ export default defineConfig({
 
   ignoreDeadLinks: false,
 
+  // Redirect old URLs to new locations
+  rewrites: {
+    'indicators/BasicQuote': 'indicators/QuotePart'
+  },
+
   vite: {
     plugins: [handleAssetPaths(), copyPublicAssets()],
     server: {
@@ -325,7 +330,8 @@ export default defineConfig({
     '.pa11yci',
     '.offline/**',
     '_headers',
-    'examples/**'
+    'examples/**',
+    'README.md'
   ],
 
   markdown: {

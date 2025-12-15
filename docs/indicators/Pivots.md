@@ -32,7 +32,7 @@ The total evaluation window size is `L+R+1`.
 
 You must have at least `L+R+1` periods of `quotes` to cover the warmup periods; however, more is typically provided since this is a chartable candlestick pattern.
 
-`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/#historical-quotes) for more information.
+`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide#historical-quotes) for more information.
 
 ### EndType options
 
@@ -81,11 +81,11 @@ IReadOnlyList<PivotsResult>
 
 ### Utilities
 
-- [.Condense()](/utilities/#condense)
-- [.Find(lookupDate)](/utilities/#find-indicator-result-by-date)
-- [.RemoveWarmupPeriods(qty)](/utilities/#remove-warmup-periods)
+- [.Condense()](/utilities#condense)
+- [.Find(lookupDate)](/utilities#find-indicator-result-by-date)
+- [.RemoveWarmupPeriods(qty)](/utilities#remove-warmup-periods)
 
-See [Utilities and helpers](/utilities/#utilities-for-indicator-results) for more information.
+See [Utilities and helpers](/utilities#utilities-for-indicator-results) for more information.
 
 ## Chaining
 

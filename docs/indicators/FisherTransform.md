@@ -24,7 +24,7 @@ IReadOnlyList<FisherTransformResult> results =
 
 You must have at least `N` periods of `quotes` to cover the [warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) periods.
 
-`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/#historical-quotes) for more information.
+`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide#historical-quotes) for more information.
 
 ## Response
 
@@ -48,9 +48,9 @@ IReadOnlyList<FisherTransformResult>
 
 ### Utilities
 
-- [.Condense()](/utilities/#condense)
-- [.Find(lookupDate)](/utilities/#find-indicator-result-by-date)
-- [.RemoveWarmupPeriods(qty)](/utilities/#remove-warmup-periods)
+- [.Condense()](/utilities#condense)
+- [.Find(lookupDate)](/utilities#find-indicator-result-by-date)
+- [.RemoveWarmupPeriods(qty)](/utilities#remove-warmup-periods)
 
 For pruning of warmup periods, we recommend using the following guidelines:
 
@@ -59,7 +59,7 @@ quotes.ToFisherTransform(lookbackPeriods)
   .RemoveWarmupPeriods(lookbackPeriods+15);
 ```
 
-See [Utilities and helpers](/utilities/#utilities-for-indicator-results) for more information.
+See [Utilities and helpers](/utilities#utilities-for-indicator-results) for more information.
 
 ## Chaining
 

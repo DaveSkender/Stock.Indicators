@@ -22,13 +22,13 @@ IReadOnlyList<QuotePart> results =
 
 ## Parameters
 
-**`candlePart`** _`CandlePart`_ - The [OHLCV](/guide/#historical-quotes) element or simple price transform.
+**`candlePart`** _`CandlePart`_ - The [OHLCV](/guide#historical-quotes) element or simple price transform.
 
 ### Historical quotes requirements
 
 You must have at least 1 period of `quotes`.
 
-`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/#historical-quotes) for more information.
+`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide#historical-quotes) for more information.
 
 ## Response
 
@@ -48,9 +48,9 @@ IReadOnlyList<QuotePart>
 
 ### Utilities
 
-- [.Find(lookupDate)](/utilities/#find-indicator-result-by-date)
+- [.Find(lookupDate)](/utilities#find-indicator-result-by-date)
 
-See [Utilities and helpers](/utilities/#utilities-for-indicator-results) for more information.
+See [Utilities and helpers](/utilities#utilities-for-indicator-results) for more information.
 
 ## Chaining
 
