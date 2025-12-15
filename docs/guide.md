@@ -303,11 +303,11 @@ IReadOnlyList<RsiResult> rsiOfObv = obvResults.ToRsi(14);
 
 ## Candlestick patterns
 
-[Candlestick Patterns](/indicators#candlestick-pattern) are a unique form of indicator and have a common output model.
+[Candlestick Patterns](/indicators#candlestick-patterns) are a unique form of indicator and have a common output model.
 
 ### Match
 
-When a candlestick pattern is recognized, it produces a matching signal.  In some cases, an intrinsic confirmation is also available after the signal.  In cases where previous bars were used to identify a pattern, they are indicated as the basis for the signal.  This `enum` can also be referenced as an `int` value.  [Documentation for each candlestick pattern](/indicators#candlestick-pattern) will indicate whether confirmation and/or basis information is produced.
+When a candlestick pattern is recognized, it produces a matching signal.  In some cases, an intrinsic confirmation is also available after the signal.  In cases where previous bars were used to identify a pattern, they are indicated as the basis for the signal.  This `enum` can also be referenced as an `int` value.  [Documentation for each candlestick pattern](/indicators#candlestick-patterns) will indicate whether confirmation and/or basis information is produced.
 
 | type                  |  int | description                         |
 | --------------------- | ---: | ----------------------------------- |

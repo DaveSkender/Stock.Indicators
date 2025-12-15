@@ -300,7 +300,18 @@ export default defineConfig({
   },
 
   vite: {
-    plugins: [handleAssetPaths()],
+    plugins: [
+      handleAssetPaths(),
+      {
+        // Ensure public assets (favicons, manifest, redirects) are copied to dist
+        name: 'copy-public-assets',
+        closeBundle() {
+          if (fs.existsSync(publicDirPath)) {
+            fs.cpSync(publicDirPath, distDirPath, { recursive: true, dereference: true })
+          }
+        }
+      }
+    ],
     server: {
       fs: {
         allow: ['..']

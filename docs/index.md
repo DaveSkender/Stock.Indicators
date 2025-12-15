@@ -56,7 +56,7 @@ See more [usage examples](/guide#example-usage).
 
 ## Use chaining for unique insights
 
-Optional chaining enables advanced uses cases; such as, indicator of indicators, [slope](/indicators/Slope) (direction) of any result, or [moving average](/indicators#moving-average) of an indicator.
+Optional chaining enables advanced uses cases; such as, indicator of indicators, [slope](/indicators/Slope) (direction) of any result, or [moving average](/indicators#moving-averages) of an indicator.
 
 ```csharp
 // example: advanced chaining (RSI of OBV)

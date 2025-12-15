@@ -94,7 +94,7 @@ var results = quotes
 
 ### Condense
 
-`results.Condense()` removes non-essential results so it only returns meaningful data records. For example, when used on [Candlestick Patterns](/indicators#candlestick-pattern), it only returns records where a signal is generated.
+`results.Condense()` removes non-essential results so it only returns meaningful data records. For example, when used on [Candlestick Patterns](/indicators#candlestick-patterns), it only returns records where a signal is generated.
 
 ```csharp
 // example: only show Marubozu signals
