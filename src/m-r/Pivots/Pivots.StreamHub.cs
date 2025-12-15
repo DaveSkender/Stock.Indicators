@@ -8,13 +8,8 @@ namespace Skender.Stock.Indicators;
 public class PivotsHub
     : StreamHub<IQuote, PivotsResult>, IPivots
 {
-    #region fields
 
     private readonly string hubName;
-
-    #endregion fields
-
-    #region constructors
 
     /// <summary>
     /// Initializes a new instance of the <see cref="PivotsHub"/> class.
@@ -42,10 +37,6 @@ public class PivotsHub
         Reinitialize();
     }
 
-    #endregion constructors
-
-    #region properties
-
     /// <summary>
     /// Gets the number of periods to the left for pivot identification.
     /// </summary>
@@ -65,10 +56,6 @@ public class PivotsHub
     /// Gets the end type for price calculations.
     /// </summary>
     public EndType EndType { get; init; }
-
-    #endregion properties
-
-    #region methods
 
     /// <inheritdoc/>
     public override string ToString() => hubName;
@@ -281,9 +268,7 @@ public class PivotsHub
         return (result, i);
     }
 
-    #endregion methods
 }
-
 
 public static partial class Pivots
 {

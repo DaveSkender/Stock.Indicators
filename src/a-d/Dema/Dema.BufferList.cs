@@ -47,9 +47,6 @@ public class DemaList : BufferList<DemaResult>, IIncrementFromChain, IDema
     /// </summary>
     public double K { get; private init; }
 
-
-
-
     /// <inheritdoc />
     public void Add(DateTime timestamp, double value)
     {

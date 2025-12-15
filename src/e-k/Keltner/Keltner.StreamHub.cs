@@ -8,7 +8,6 @@ namespace Skender.Stock.Indicators;
 public class KeltnerHub
     : StreamHub<IQuote, KeltnerResult>, IKeltner
 {
-    #region constructors
 
     private readonly string hubName;
     private readonly int _lookbackPeriods;
@@ -38,10 +37,6 @@ public class KeltnerHub
         Reinitialize();
     }
 
-    #endregion constructors
-
-    #region properties
-
     /// <inheritdoc/>
     public int EmaPeriods { get; init; }
 
@@ -55,10 +50,6 @@ public class KeltnerHub
     /// Gets the smoothing factor for the EMA.
     /// </summary>
     public double EmaK { get; private init; }
-
-    #endregion properties
-
-    #region methods
 
     /// <inheritdoc/>
     public override string ToString() => hubName;
@@ -183,9 +174,7 @@ public class KeltnerHub
         }
     }
 
-    #endregion methods
 }
-
 
 public static partial class Keltner
 {

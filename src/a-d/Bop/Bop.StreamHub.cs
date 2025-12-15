@@ -82,7 +82,6 @@ public class BopHub
     }
 }
 
-
 public static partial class Bop
 {
     /// <summary>

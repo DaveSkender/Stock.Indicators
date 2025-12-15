@@ -65,7 +65,6 @@ public class DojiHub
     }
 }
 
-
 public static partial class Doji
 {
     /// <summary>

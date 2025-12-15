@@ -8,7 +8,6 @@ namespace Skender.Stock.Indicators;
 public class SuperTrendHub
     : StreamHub<IQuote, SuperTrendResult>, ISuperTrend
 {
-    #region constructors
 
     private readonly string hubName;
 
@@ -31,7 +30,6 @@ public class SuperTrendHub
 
         Reinitialize();
     }
-    #endregion constructors
 
     /// <summary>
     /// Gets the number of periods to look back.
@@ -267,7 +265,6 @@ public class SuperTrendHub
         }
     }
 }
-
 
 public static partial class SuperTrend
 {

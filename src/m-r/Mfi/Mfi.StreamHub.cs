@@ -159,7 +159,6 @@ public class MfiHub : ChainProvider<IQuote, MfiResult>, IMfi
     }
 }
 
-
 public static partial class Mfi
 {
     /// <summary>

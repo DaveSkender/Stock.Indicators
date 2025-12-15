@@ -397,7 +397,6 @@ public class BetaHub
     }
 }
 
-
 public static partial class Beta
 {
     /// <summary>

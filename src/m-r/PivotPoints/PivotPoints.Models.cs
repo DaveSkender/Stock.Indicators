@@ -111,7 +111,6 @@ internal record WindowPoint : IPivotPoint
     public decimal? R4 { get; init; }
 }
 
-
 /// <summary>
 /// Enum representing different types of pivot points.
 /// </summary>

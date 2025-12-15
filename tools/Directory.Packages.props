@@ -9,6 +9,6 @@
   <ItemGroup>
     <PackageVersion Include="Alpaca.Markets" Version="7.2.0" />
     <PackageVersion Include="BenchmarkDotNet" Version="0.15.8" />
-    <PackageVersion Include="Roslynator.Analyzers" Version="4.14.1" />
+    <PackageVersion Include="Roslynator.Analyzers" Version="4.15.0" />
   </ItemGroup>
 </Project>

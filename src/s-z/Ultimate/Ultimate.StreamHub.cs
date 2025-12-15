@@ -4,7 +4,6 @@ namespace Skender.Stock.Indicators;
 public class UltimateHub
     : ChainProvider<IReusable, UltimateResult>, IUltimate
 {
-    #region constructors
 
     private readonly string hubName;
 
@@ -30,7 +29,6 @@ public class UltimateHub
 
         Reinitialize();
     }
-    #endregion constructors
 
     /// <summary>
     /// Gets the number of short lookback periods.
@@ -129,7 +127,6 @@ public class UltimateHub
         return (r, i);
     }
 }
-
 
 public static partial class Ultimate
 {

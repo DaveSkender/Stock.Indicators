@@ -6,7 +6,6 @@ namespace Skender.Stock.Indicators;
 public class RenkoHub
     : QuoteProvider<IQuote, RenkoResult>, IRenko
 {
-    #region constructors
 
     private readonly string hubName;
 
@@ -32,7 +31,6 @@ public class RenkoHub
 
         Reinitialize();
     }
-    #endregion constructors
 
     /// <summary>
     /// Renko hub settings. Since it can produce 0 or many bricks per quote,
@@ -189,7 +187,6 @@ public class RenkoHub
         }
     }
 }
-
 
 public static partial class Renko
 {

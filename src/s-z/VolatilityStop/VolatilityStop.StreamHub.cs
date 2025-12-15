@@ -8,7 +8,6 @@ namespace Skender.Stock.Indicators;
 public class VolatilityStopHub
     : StreamHub<IQuote, VolatilityStopResult>, IVolatilityStop
 {
-    #region constructors
 
     private readonly string hubName;
 
@@ -31,7 +30,6 @@ public class VolatilityStopHub
 
         Reinitialize();
     }
-    #endregion constructors
 
     /// <summary>
     /// Gets the number of periods to look back.
@@ -309,7 +307,6 @@ public class VolatilityStopHub
     }
 
 }
-
 
 public static partial class VolatilityStop
 {

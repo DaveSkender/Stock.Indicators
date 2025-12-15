@@ -20,7 +20,6 @@ public class GatorList : BufferList<GatorResult>, IIncrementFromChain
     public GatorList(IReadOnlyList<IReusable> values)
         : this() => Add(values);
 
-
     /// <inheritdoc />
     public void Add(DateTime timestamp, double value)
     {

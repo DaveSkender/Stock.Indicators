@@ -8,7 +8,6 @@ namespace Skender.Stock.Indicators;
 public class FcbHub
     : StreamHub<IQuote, FcbResult>, IFcb
 {
-    #region constructors
 
     private readonly string hubName;
 
@@ -27,7 +26,6 @@ public class FcbHub
 
         Reinitialize();
     }
-    #endregion constructors
 
     /// <summary>
     /// Gets the window span for the calculation.
@@ -126,7 +124,6 @@ public class FcbHub
         }
     }
 }
-
 
 public static partial class Fcb
 {

@@ -93,7 +93,6 @@ public class CmfHub : ChainProvider<IQuote, CmfResult>, ICmf
     }
 }
 
-
 public static partial class Cmf
 {
     /// <summary>

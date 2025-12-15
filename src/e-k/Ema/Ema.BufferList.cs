@@ -41,7 +41,6 @@ public class EmaList : BufferList<EmaResult>, IIncrementFromChain, IEma
     /// <inheritdoc />
     public double K { get; private init; }
 
-
     /// <inheritdoc />
     public void Add(DateTime timestamp, double value)
     {

@@ -124,7 +124,6 @@ public class ForceIndexHub
     }
 }
 
-
 public static partial class ForceIndex
 {
     /// <summary>

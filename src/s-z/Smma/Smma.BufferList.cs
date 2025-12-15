@@ -41,9 +41,6 @@ public class SmmaList : BufferList<SmmaResult>, IIncrementFromChain, ISmma
     /// </summary>
     public int LookbackPeriods { get; init; }
 
-
-
-
     /// <inheritdoc />
     public void Add(DateTime timestamp, double value)
     {

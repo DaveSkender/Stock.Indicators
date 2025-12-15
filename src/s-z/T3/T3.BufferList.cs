@@ -71,9 +71,6 @@ public class T3List : BufferList<T3Result>, IIncrementFromChain, IT3
     /// <inheritdoc/>
     public double C4 { get; private init; }
 
-
-
-
     /// <inheritdoc />
     public void Add(DateTime timestamp, double value)
     {

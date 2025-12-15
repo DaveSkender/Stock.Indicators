@@ -40,7 +40,6 @@ public class ObvHub : ChainProvider<IQuote, ObvResult>
     public override string ToString() => "OBV";
 }
 
-
 public static partial class Obv
 {
     /// <summary>

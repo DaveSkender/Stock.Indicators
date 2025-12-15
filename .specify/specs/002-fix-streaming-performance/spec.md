@@ -173,7 +173,7 @@ After MVP, incrementally deliver each user story independently.
   - `src/agents.md` (Formula change rules)
   - `.github/instructions/indicator-stream.instructions.md`
   - `.github/instructions/indicator-buffer.instructions.md`
-  - `.github/instructions/source-code-completion.instructions.md`
+  - `.github/instructions/code-completion.instructions.md`
 
 ## Out of Scope
 

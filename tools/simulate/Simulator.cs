@@ -80,7 +80,6 @@ public class Go
         Console.WriteLine(m);
     }
 
-
     internal void EmaHub()
     {
         EmaHub emaHub = quoteHub.ToEmaHub(14);

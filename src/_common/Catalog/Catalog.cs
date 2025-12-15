@@ -31,7 +31,6 @@ public static partial class Catalog
     /// <returns>All indicator listings.</returns>
     public static IReadOnlyCollection<IndicatorListing> Get() => Listings;
 
-
     /// <summary>
     /// Gets an indicator by its ID and style.
     /// </summary>

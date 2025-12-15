@@ -58,9 +58,6 @@ public class UltimateList : BufferList<UltimateResult>, IIncrementFromQuote, IUl
     /// </summary>
     public int LongPeriods { get; init; }
 
-
-
-
     /// <inheritdoc />
     public void Add(IQuote quote)
     {
