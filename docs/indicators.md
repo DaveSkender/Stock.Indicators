@@ -15,7 +15,7 @@ Categories include price trends, price channels, oscillators, stop and reverse, 
 - [Oscillators](#oscillators)
 - [Price Channels](#price-channels)
 - [Price Trends](#price-trends)
-- [Stop & Reverse](#stop-reverse)
+- [Stop & Reverse](#stop--reverse)
 - [Volume Based](#volume-based)
 - [Price Characteristics](#price-characteristics)
 - [Candlestick Patterns](#candlestick-patterns)
@@ -141,4 +141,3 @@ The [Simple Moving Average](/indicators/Sma) documentation includes methods for:
 ## Price Patterns
 
 - [Williams Fractal](/indicators/Fractal)
-
