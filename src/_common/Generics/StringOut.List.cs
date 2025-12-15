@@ -34,11 +34,11 @@ public static partial class StringOut
     };
 
     /// <summary>
-    /// Converts a list of ISeries to a tab-delimited formatted string and writes it to the console.
+    /// Converts a list of ISeries to a fixed-width formatted string and writes it to the console.
     /// </summary>
     /// <typeparam name="T">The type of elements in the list, which must implement ISeries.</typeparam>
     /// <param name="source">The list of ISeries elements to convert.</param>
-    /// <returns>The tab-delimited formatted string representation of the list.</returns>
+    /// <returns>The fixed-width formatted string representation of the list.</returns>
     public static string ToConsole<T>(
         this IReadOnlyList<T> source)
         where T : ISeries
@@ -49,12 +49,12 @@ public static partial class StringOut
     }
 
     /// <summary>
-    /// Converts a list of ISeries to a tab-delimited formatted string.
+    /// Converts a list of ISeries to a fixed-width formatted string.
     /// </summary>
     /// <typeparam name="T">The type of elements in the list, which must implement ISeries.</typeparam>
     /// <param name="source">The list of ISeries elements to convert.</param>
     /// <param name="args">Optional overrides for `ToString()` formatter. Key values can be type or property name.</param>
-    /// <returns>A tab-delimited formatted string representation of the list.</returns>
+    /// <returns>A fixed-width formatted string representation of the list.</returns>
     /// <remarks>
     /// Examples:
     /// <code>
@@ -71,13 +71,13 @@ public static partial class StringOut
         where T : ISeries => source.ToList().ToStringOut(0, int.MaxValue, args);
 
     /// <summary>
-    /// Converts a list of ISeries to a tab-delimited formatted string.
+    /// Converts a list of ISeries to a fixed-width formatted string.
     /// </summary>
     /// <typeparam name="T">The type of elements in the list, which must implement ISeries.</typeparam>
     /// <param name="source">The list of ISeries elements to convert.</param>
     /// <param name="limitQty">The maximum number of elements to include in the output.</param>
     /// <param name="args">Optional overrides for `ToString()` formatter. Key values can be type or property name.</param>
-    /// <returns>A tab-delimited formatted string representation of the list.</returns>
+    /// <returns>A fixed-width formatted string representation of the list.</returns>
     /// <remarks>
     /// Examples:
     /// <code>
@@ -94,14 +94,14 @@ public static partial class StringOut
         where T : ISeries => source.ToList().ToStringOut(0, limitQty - 1, args);
 
     /// <summary>
-    /// Converts a list of ISeries to a tab-delimited formatted string.
+    /// Converts a list of ISeries to a fixed-width formatted string.
     /// </summary>
     /// <typeparam name="T">The type of elements in the list, which must implement ISeries.</typeparam>
     /// <param name="source">The list of ISeries elements to convert.</param>
     /// <param name="startIndex">The starting index of the elements to include in the output.</param>
     /// <param name="endIndex">The ending index of the elements to include in the output.</param>
     /// <param name="args">Optional overrides for `ToString()` formatter. Key values can be type or property name.</param>
-    /// <returns>A tab-delimited formatted string representation of the list.</returns>
+    /// <returns>A fixed-width formatted string representation of the list.</returns>
     /// <remarks>
     /// Examples:
     /// <code>
@@ -118,12 +118,12 @@ public static partial class StringOut
         where T : ISeries => source.ToList().ToStringOut(startIndex, endIndex, args);
 
     /// <summary>
-    /// Converts a list of ISeries to a tab-delimited formatted string.
+    /// Converts a list of ISeries to a fixed-width formatted string.
     /// </summary>
     /// <typeparam name="T">The type of elements in the list, which must implement ISeries.</typeparam>
     /// <param name="source">The list of ISeries elements to convert.</param>
     /// <param name="args">Optional overrides for `ToString()` formatter. Key values can be type or property name.</param>
-    /// <returns>A tab-delimited formatted string representation of the list.</returns>
+    /// <returns>A fixed-width formatted string representation of the list.</returns>
     /// <remarks>
     /// Examples:
     /// <code>
@@ -141,13 +141,13 @@ public static partial class StringOut
         where T : ISeries => source.ToStringOut(0, int.MaxValue, args);
 
     /// <summary>
-    /// Converts a list of ISeries to a tab-delimited formatted string.
+    /// Converts a list of ISeries to a fixed-width formatted string.
     /// </summary>
     /// <typeparam name="T">The type of elements in the list, which must implement ISeries.</typeparam>
     /// <param name="source">The list of ISeries elements to convert.</param>
     /// <param name="limitQty">The maximum number of elements to include in the output.</param>
     /// <param name="args">Optional overrides for `ToString()` formatter. Key values can be type or property name.</param>
-    /// <returns>A tab-delimited formatted string representation of the list.</returns>
+    /// <returns>A fixed-width formatted string representation of the list.</returns>
     /// <remarks>
     /// Examples:
     /// <code>
@@ -166,14 +166,14 @@ public static partial class StringOut
         where T : ISeries => source.ToStringOut(0, limitQty - 1, args);
 
     /// <summary>
-    /// Converts a list of ISeries to a tab-delimited formatted string.
+    /// Converts a list of ISeries to a fixed-width formatted string.
     /// </summary>
     /// <typeparam name="T">The type of elements in the list, which must implement ISeries.</typeparam>
     /// <param name="source">The list of ISeries elements to convert.</param>
     /// <param name="startIndex">The starting index of the elements to include in the output.</param>
     /// <param name="endIndex">The ending index of the elements to include in the output.</param>
     /// <param name="args">Optional overrides for `ToString()` formatter. Key values can be type or property name.</param>
-    /// <returns>A tab-delimited formatted string representation of the list.</returns>
+    /// <returns>A fixed-width formatted string representation of the list.</returns>
     /// <remarks>
     /// Examples:
     /// <code>
@@ -214,8 +214,11 @@ public static partial class StringOut
 
         // Set formatting for each column
         string[] formats = new string[columnCount];
+        bool[] alignLeft = new bool[columnCount];
+        int[] columnWidth = headers.Select(header => header.Length).ToArray();
 
-        formats[0] = "F0";     // index is always an integer
+        formats[0] = "N0";     // index is always an integer
+        alignLeft[0] = false;  // index is always right-aligned
 
         for (int i = 1; i < columnCount; i++)
         {
@@ -240,6 +243,9 @@ public static partial class StringOut
             {
                 formats[i] = AutoFormat(property, sourceSubset);
             }
+
+            // set alignment
+            alignLeft[i] = !property.PropertyType.IsNumeric();
         }
 
         // Compile formatted values
@@ -254,21 +260,36 @@ public static partial class StringOut
                 row[i] = value is IFormattable formattable
                     ? formattable.ToString(formats[i], culture) ?? string.Empty
                     : value?.ToString() ?? string.Empty;
+
+                columnWidth[i] = Math.Max(columnWidth[i], row[i].Length);
             }
 
             return row;
         }).ToArray();
 
+        columnWidth[0] = dataRows.Max(row => row[0].Length);
+
         // Compile formatted string
         StringBuilder sb = new();
 
-        // Create header line
-        sb.AppendJoin("\t", headers).AppendLine();
+        // Create header line with proper alignment
+        sb.AppendJoin("  ",
+            headers.Select((header, index) => alignLeft[index]
+                ? header.PadRight(columnWidth[index])
+                : header.PadLeft(columnWidth[index])
+        )).AppendLine();
 
-        // Create data lines
+        // Create separator
+        sb.AppendLine(new string('-', columnWidth.Sum(w => w + 2) - 2));
+
+        // Create data lines with proper alignment
         foreach (string[] row in dataRows)
         {
-            sb.AppendJoin("\t", row).AppendLine();
+            sb.AppendJoin("  ",
+                row.Select((value, index) => alignLeft[index]
+                    ? value.PadRight(columnWidth[index])
+                    : value.PadLeft(columnWidth[index])
+            )).AppendLine();
         }
 
         return sb.ToString();  // includes a trailing newline
