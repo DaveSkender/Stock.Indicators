@@ -77,7 +77,7 @@ public static class CustomIndicators
         List<AtrWmaResult> results = new(quotesList.Count);
 
         // Get ATR values (prerequisite indicator)
-        IReadOnlyList<AtrResult> atrResults = quotes.ToAtr(lookbackPeriods);
+        IReadOnlyList<AtrResult> atrResults = quotesList.ToAtr(lookbackPeriods);
 
         // Calculate custom indicator
         for (int i = 0; i < quotesList.Count; i++)

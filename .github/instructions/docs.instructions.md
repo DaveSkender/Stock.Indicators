@@ -26,10 +26,10 @@ pnpm run docs:dev
 - **Front matter validation**: Ensure YAML front matter follows documented schema
 - **Asset optimization**: Optimize images to `webp` format using ImageMagick or cwebp
 
-```bash
-# optimize images to webp
-cwebp -resize 832 0 -q 100 examples.png -o examples-832.webp
-```
+  ```bash
+  # optimize images to webp
+  cwebp -resize 832 0 -q 100 examples.png -o examples-832.webp
+  ```
 
 ## Content guidelines
 
@@ -135,4 +135,4 @@ The documentation site should:
 - Provide migration guidance for breaking changes
 
 ---
-Last updated: November 19, 2025
+Last updated: December 14, 2025

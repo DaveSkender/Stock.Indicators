@@ -300,7 +300,7 @@ export default defineConfig({
   },
 
   vite: {
-    plugins: [handleAssetPaths(), copyPublicAssets()],
+    plugins: [handleAssetPaths()],
     server: {
       fs: {
         allow: ['..']
@@ -333,45 +333,7 @@ export default defineConfig({
     '.pa11yci',
     '.offline/**',
     '_headers',
-    'examples/**',
     'README.md'
-  ],
-
-  markdown: {
-    theme: 'github-dark-dimmed',
-    config: (md) => {
-      // Override image rendering to use HTML instead of imports
-      const defaultImageRender = md.renderer.rules.image || function(tokens, idx, options, env, self) {
-        return self.renderToken(tokens, idx, options)
-      }
-
-      md.renderer.rules.image = function (tokens, idx, options, env, self) {
-        const token = tokens[idx]
-        const srcIndex = token.attrIndex('src')
-        if (srcIndex >= 0 && token.attrs) {
-          const src = token.attrs[srcIndex][1]
-          // If it's an absolute path starting with /assets/, keep it as-is
-          if (src.startsWith('/assets/')) {
-            const alt = token.content
-            return `<img src="${src}" alt="${alt}" />`
-          }
-        }
-        return defaultImageRender(tokens, idx, options, env, self)
-      }
-    }
-  }
+     'README.md'
+   ]
 })
-
-function copyPublicAssets() {
-  return {
-    name: 'copy-public-assets',
-    apply: 'build' as const,
-    writeBundle() {
-      if (!fs.existsSync(publicDirPath)) {
-        return
-      }
-
-      fs.cpSync(publicDirPath, distDirPath, { recursive: true })
-    }
-  }
-}

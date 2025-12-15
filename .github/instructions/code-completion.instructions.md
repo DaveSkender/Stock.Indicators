@@ -111,7 +111,7 @@ chmod +x codacy-analysis-cli
 
 ### Step 5 – Manual inspection of documentation site
 
-- Start the site via the **Run: Doc Site with LiveReload** task (runs `npm run docs:dev`).
+- Start the site via the **Run: Doc Site with LiveReload** task (runs `pnpm run docs:dev`).
 - Inspect key pages using the Playwright MCP server or a browser to confirm layout and content.
 - Stop the server with `Ctrl+C` after verification.
 
@@ -126,7 +126,7 @@ dotnet build "Stock.Indicators.sln" -v minimal --nologo
 dotnet test "Stock.Indicators.sln" --no-build --nologo
 ```
 
-- If benchmarks or docs packaging were affected, rerun `dotnet run -c Release` from `tools/performance` and `npm run docs:build` from `docs`.
+- If benchmarks or docs packaging were affected, rerun `dotnet run -c Release` from `tools/performance` and `pnpm run docs:build` from `docs`.
 
 ### Step 7 – Sign-off: Confirm completion
 
