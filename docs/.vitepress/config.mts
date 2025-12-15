@@ -11,6 +11,9 @@ export default defineConfig({
   title: "Stock Indicators for .NET",
   description: "Transform price quotes into trading insights.",
 
+  // Default to dark theme (toggle still available)
+  appearance: 'dark',
+
   sitemap: {
     hostname: 'https://dotnet.stockindicators.dev'
   },
