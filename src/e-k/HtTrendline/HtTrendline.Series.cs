@@ -120,7 +120,7 @@ public static partial class Indicator
                 r.SmoothPrice = null;
 
                 pd[i] = 0;
-                sp[i] = pr[i];
+                sp[i] = pr[i]; // mod from Ehlers 0 for faster convergence
                 dt[i] = 0;
 
                 i1[i] = 0;
