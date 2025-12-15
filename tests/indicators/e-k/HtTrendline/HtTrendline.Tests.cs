@@ -144,6 +144,32 @@ public class HtTrendlineTests : TestBase
     }
 
     [TestMethod]
+    public void ConvergenceImprovement()
+    {
+        // This test validates that the smooth price initialization fix
+        // improves convergence by initializing sp[i] = pr[i] instead of sp[i] = 0
+        // The fix eliminates the step impulse artifact that causes slower convergence
+
+        List<HtlResult> results = quotes
+            .GetHtTrendline()
+            .ToList();
+
+        // Verify early period convergence - the fix should produce
+        // more stable values in the early periods (indices 7-30)
+        // Previously, DcPeriods at index 25 was 14, now it's 12 (faster convergence)
+        HtlResult r25 = results[25];
+        Assert.AreEqual(12, r25.DcPeriods);
+
+        // Verify that trendline values are computed without NaN
+        Assert.IsNotNull(r25.Trendline);
+        Assert.IsFalse(double.IsNaN(r25.Trendline.Value));
+
+        // Verify smooth price is also valid
+        Assert.IsNotNull(r25.SmoothPrice);
+        Assert.IsFalse(double.IsNaN(r25.SmoothPrice.Value));
+    }
+
+    [TestMethod]
     public void NoQuotes()
     {
         List<HtlResult> r0 = noquotes
