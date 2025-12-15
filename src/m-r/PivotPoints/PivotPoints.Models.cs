@@ -6,6 +6,11 @@ namespace Skender.Stock.Indicators;
 internal interface IPivotPoint
 {
     /// <summary>
+    /// Gets the fifth resistance level.
+    /// </summary>
+    decimal? R5 { get; }
+
+    /// <summary>
     /// Gets the fourth resistance level.
     /// </summary>
     decimal? R4 { get; }
@@ -49,6 +54,11 @@ internal interface IPivotPoint
     /// Gets the fourth support level.
     /// </summary>
     decimal? S4 { get; }
+
+    /// <summary>
+    /// Gets the fifth support level.
+    /// </summary>
+    decimal? S5 { get; }
 }
 
 /// <summary>
@@ -73,6 +83,8 @@ public record PivotPointsResult : IPivotPoint, ISeries
     public decimal? S3 { get; init; }
     /// <inheritdoc/>
     public decimal? S4 { get; init; }
+    /// <inheritdoc/>
+    public decimal? S5 { get; init; }
 
     /// <inheritdoc/>
     public decimal? R1 { get; init; }
@@ -82,6 +94,8 @@ public record PivotPointsResult : IPivotPoint, ISeries
     public decimal? R3 { get; init; }
     /// <inheritdoc/>
     public decimal? R4 { get; init; }
+    /// <inheritdoc/>
+    public decimal? R5 { get; init; }
 }
 
 /// <summary>
@@ -100,6 +114,8 @@ internal record WindowPoint : IPivotPoint
     public decimal? S3 { get; init; }
     /// <inheritdoc/>
     public decimal? S4 { get; init; }
+    /// <inheritdoc/>
+    public decimal? S5 { get; init; }
 
     /// <inheritdoc/>
     public decimal? R1 { get; init; }
@@ -109,6 +125,8 @@ internal record WindowPoint : IPivotPoint
     public decimal? R3 { get; init; }
     /// <inheritdoc/>
     public decimal? R4 { get; init; }
+    /// <inheritdoc/>
+    public decimal? R5 { get; init; }
 }
 
 /// <summary>
