@@ -5,26 +5,10 @@
       "command": "npx",
       "args": ["mcp-remote@latest","https://docs.mcp.cloudflare.com/mcp"]
     },
-    "codacy": {
-      "type": "stdio",
-      "command": "npx",
-      "args": ["-y","@codacy/codacy-mcp@latest"],
-      "env": {
-        "CODACY_ACCOUNT_TOKEN": "${input:codacy_account_token}"
-      }
-    },
     "context7": {
       "type": "stdio",
       "command": "npx",
       "args": ["-y","@upstash/context7-mcp@latest"]
-    },
-    "github": {
-      "type": "http",
-      "url": "https://api.githubcopilot.com/mcp/",
-      "headers": {
-        "X-MCP-Toolsets": "default,issues,pull_requests,actions,discussions,projects,copilot,copilot_spaces,github_support_docs_search,web_search",
-        "X-MCP-Readonly": "true"
-      }
     },
     "mslearn": {
       "type": "http",

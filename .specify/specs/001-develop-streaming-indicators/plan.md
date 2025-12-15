@@ -324,7 +324,7 @@ The following base classes and utilities already exist in `src/_common/`:
   - Existing batch calculation patterns (unchanged by this feature)
   - Reference for mathematical correctness and parity validation
 
-- **Source code completion**: See `.github/instructions/source-code-completion.instructions.md`
+- **Source code completion**: See `.github/instructions/code-completion.instructions.md`
   - Pre-commit checklist for code quality, testing, and documentation
   - Ensures consistency with library standards
 

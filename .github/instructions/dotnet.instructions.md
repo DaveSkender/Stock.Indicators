@@ -214,7 +214,7 @@ For testing best practices, consult #tool:mslearn documentation.
 
 ### Testing and quality
 
-- **[Source code completion](source-code-completion.instructions.md)** - Unit testing, code formatting, linting, and pre-commit checklist
+- **[Source code completion](code-completion.instructions.md)** - Unit testing, code formatting, linting, and pre-commit checklist
 - **[Performance testing](performance-testing.instructions.md)** - BenchmarkDotNet guidelines and regression detection
 
 ### Tools and research
