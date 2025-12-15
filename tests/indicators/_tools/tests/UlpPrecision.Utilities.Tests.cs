@@ -4,7 +4,7 @@ namespace Tests.Utilities;
 
 [TestClass]
 [TestCategory("Utilities")]
-public class UtilitiesUlpPrecisionTests
+public class UlpPrecisionUtilities
 {
     private static DateTime T(int i) => new DateTime(2020, 1, 1).AddDays(i);
 

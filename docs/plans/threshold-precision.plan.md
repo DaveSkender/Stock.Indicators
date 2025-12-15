@@ -1,3 +1,5 @@
+# Bounded indicator threshold precision
+
 ## Purpose
 
 - Eliminate floating-point boundary violations in indicators with mathematically guaranteed bounds.
@@ -13,7 +15,7 @@
 
 ## Shared tasks (all bounded indicators)
 
-- Add `AssertAlwaysBounded(results, min, max)` helper in tests to enforce zero-tolerance bounds (skip bounds check for null/NaN warmup values; enforce for computed values).
+- Add `TestAsserts.AlwaysBounded(results, min, max)` helper in tests to enforce zero-tolerance bounds (skip bounds check for null/NaN warmup values; enforce for computed values).
 - Raise assertion precision in existing indicator tests (use the maximum sensible decimals for each reference dataset; prefer 10–14 where stable).
 - Add or extend boundary-focused tests using quote feeds that previously exposed rounding drift.
 - Apply `ToPrecision(14)` to the raw bounded computation before downstream arithmetic in Series, StreamHub, and BufferList implementations.
@@ -21,38 +23,38 @@
 
 ## Indicator task list (guaranteed-bounded cohort)
 
-- Stoch (0–100)
- 	- Confirm ToPrecision(14) present in Series, StreamHub, BufferList.
- 	- Add strict bound tests via shared helper; increase precision assertions.
- 	- Add XML remark on result.
-- WilliamsR (-100–0)
- 	- Confirm ToPrecision(14) present in all styles.
- 	- Add strict bound tests; raise precision assertions.
- 	- Add XML remark.
-- StochRsi (0–100)
- 	- Verify ToPrecision(14) in Series/BufferList; align with StreamHub.
- 	- Add strict bound tests; raise precision assertions.
- 	- Add XML remark.
-- Stc (0–100)
- 	- Verify ToPrecision(14) present in all styles (StreamHub already uses it); align Series/BufferList if needed.
- 	- Add strict bound tests; raise precision assertions.
- 	- Add XML remark.
-- Rsi (0–100)
- 	- Add ToPrecision(14) to bounded math in all styles.
- 	- Add strict bound tests; raise precision assertions.
- 	- Add XML remark.
-- Cmo (-100–100)
- 	- Add ToPrecision(14) to bounded math in all styles.
- 	- Add strict bound tests; raise precision assertions.
- 	- Add XML remark.
-- ConnorsRsi (0–100)
- 	- Add ToPrecision(14) to composite bounded outputs in all styles.
- 	- Add strict bound tests; raise precision assertions.
- 	- Add XML remark.
+- [ ] Stoch (0–100)
+  - [ ] Confirm ToPrecision(14) present in Series, StreamHub, BufferList.
+  - [ ] Add strict bound tests via shared helper; increase precision assertions.
+  - [ ] Add XML remark on result.
+- [ ] WilliamsR (-100–0)
+  - [ ] Confirm ToPrecision(14) present in all styles.
+  - [ ] Add strict bound tests; raise precision assertions.
+  - [ ] Add XML remark.
+- [ ] StochRsi (0–100)
+  - [ ] Verify ToPrecision(14) in Series/BufferList; align with StreamHub.
+  - [ ] Add strict bound tests; raise precision assertions.
+  - [ ] Add XML remark.
+- [ ] Stc (0–100)
+  - [ ] Verify ToPrecision(14) present in all styles (StreamHub already uses it); align Series/BufferList if needed.
+  - [ ] Add strict bound tests; raise precision assertions.
+  - [ ] Add XML remark.
+- [ ] Rsi (0–100)
+  - [ ] Add ToPrecision(14) to bounded math in all styles.
+  - [ ] Add strict bound tests; raise precision assertions.
+  - [ ] Add XML remark.
+- [ ] Cmo (-100–100)
+  - [ ] Add ToPrecision(14) to bounded math in all styles.
+  - [ ] Add strict bound tests; raise precision assertions.
+  - [ ] Add XML remark.
+- [ ] ConnorsRsi (0–100)
+  - [ ] Add ToPrecision(14) to composite bounded outputs in all styles.
+  - [ ] Add strict bound tests; raise precision assertions.
+  - [ ] Add XML remark.
 - Chop (0–100)
- 	- Confirm formula is strictly bounded; if yes, add ToPrecision(14) in all styles.
- 	- Add strict bound tests; raise precision assertions.
- 	- Add XML remark.
+  - [ ] Confirm formula is strictly bounded; if yes, add ToPrecision(14) in all styles.
+  - [ ] Add strict bound tests; raise precision assertions.
+  - [ ] Add XML remark.
 
 ## Implementation order
 
@@ -61,7 +63,7 @@
 
 ## Done criteria
 
-- Shared bound assertion helper in place and used by all bounded indicators.
-- All bounded indicators apply ToPrecision(14) in every style and have strict bound tests with heightened precision.
-- XML remarks added for bounded results.
-- Series/Stream/Buffer parity confirmed via tests.
+- [ ] Shared bound assertion helper in place and used by all bounded indicators.
+- [ ] All bounded indicators apply ToPrecision(14) in every style and have strict bound tests with heightened precision.
+- [ ] XML remarks added for bounded results.
+- [ ] Series/Stream/Buffer parity confirmed via tests.
