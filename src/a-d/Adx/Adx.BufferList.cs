@@ -102,14 +102,14 @@ public class AdxList : BufferList<AdxResult>, IIncrementFromQuote, IAdx
         }
 
         // directional increments
-        double pdi = 100 * curr.Pdm / curr.Trs;
-        double mdi = 100 * curr.Mdm / curr.Trs;
+        double pdi = (100 * curr.Pdm / curr.Trs).ToPrecision(14);
+        double mdi = (100 * curr.Mdm / curr.Trs).ToPrecision(14);
 
         // calculate directional index (DX)
         curr.Dx = pdi == mdi
             ? 0
             : pdi + mdi != 0
-            ? 100 * Math.Abs(pdi - mdi) / (pdi + mdi)
+            ? (100 * Math.Abs(pdi - mdi) / (pdi + mdi)).ToPrecision(14)
             : double.NaN;
 
         // skip incalculable ADX periods
@@ -135,21 +135,21 @@ public class AdxList : BufferList<AdxResult>, IIncrementFromQuote, IAdx
                 sumDx += buffer.Dx;
             }
 
-            curr.Adx = sumDx / LookbackPeriods;
+            curr.Adx = (sumDx / LookbackPeriods).ToPrecision(14);
         }
 
         // normal ADX calculation
         else
         {
             curr.Adx
-                = ((last.Adx * (LookbackPeriods - 1)) + curr.Dx)
-                / LookbackPeriods;
+                = (((last.Adx * (LookbackPeriods - 1)) + curr.Dx)
+                / LookbackPeriods).ToPrecision(14);
 
             // Calculate ADXR using the prior ADX value (lookbackPeriods ago)
             // priorForAdxr was captured before buffer update, so it's from the correct period
             if (priorForAdxr != null && !double.IsNaN(priorForAdxr.Adx))
             {
-                adxr = (curr.Adx + priorForAdxr.Adx) / 2;
+                adxr = ((curr.Adx + priorForAdxr.Adx) / 2).ToPrecision(14);
             }
         }
 

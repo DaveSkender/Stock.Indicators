@@ -9,6 +9,13 @@ public class Mfi : BufferListTestBase
        = Quotes.ToMfi(lookbackPeriods);
 
     [TestMethod]
+    public void Results_AreAlwaysBounded()
+    {
+        MfiList results = new(14, Quotes);
+        TestAsserts.AlwaysBounded(results, x => x.Mfi, 0, 100);
+    }
+
+    [TestMethod]
     public void AddQuotes()
     {
         MfiList sut = new(lookbackPeriods);

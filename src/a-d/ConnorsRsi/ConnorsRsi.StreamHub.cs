@@ -173,7 +173,7 @@ public class ConnorsRsiHub
                         if (i >= StreakPeriods + rsiWarmupOffset)
                         {
                             rsiStreak = streakAvgLoss > 0
-                                ? 100 - (100 / (1 + (streakAvgGain / streakAvgLoss)))
+                                ? (100 - (100 / (1 + (streakAvgGain / streakAvgLoss)))).ToPrecision(14)
                                 : 100;
                         }
                     }
@@ -188,7 +188,7 @@ public class ConnorsRsiHub
                     if (i >= StreakPeriods + rsiWarmupOffset)
                     {
                         rsiStreak = streakAvgLoss > 0
-                            ? 100 - (100 / (1 + (streakAvgGain / streakAvgLoss)))
+                            ? (100 - (100 / (1 + (streakAvgGain / streakAvgLoss)))).ToPrecision(14)
                             : 100;
                     }
                 }
@@ -227,7 +227,9 @@ public class ConnorsRsiHub
                 }
             }
 
-            percentRank = isViableRank ? 100.0 * qty / RankPeriods : null;
+            percentRank = isViableRank
+                ? (100d * qty / RankPeriods).ToPrecision(14)
+                : null;
         }
 
         // Calculate ConnorsRsi
@@ -236,7 +238,8 @@ public class ConnorsRsiHub
 
         if (i >= startPeriod - 1 && rsi.HasValue && rsiStreak.HasValue && percentRank.HasValue)
         {
-            connorsRsi = (rsi.Value + rsiStreak.Value + percentRank.Value) / 3;
+            connorsRsi = ((rsi.Value + rsiStreak.Value + percentRank.Value) / 3d)
+                .ToPrecision(14);
         }
 
         // Update previous value

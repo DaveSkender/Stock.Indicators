@@ -4,6 +4,14 @@ namespace StreamHub;
 public class ChopHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
 {
     [TestMethod]
+    public void Results_AreAlwaysBounded()
+    {
+        ChopHub sut = Quotes.ToChopHub(14);
+
+        TestAsserts.AlwaysBounded(sut.Results, static x => x.Chop, 0d, 100d);
+    }
+
+    [TestMethod]
     public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
         List<Quote> quotesList = Quotes.ToList();

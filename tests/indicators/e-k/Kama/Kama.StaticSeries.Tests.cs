@@ -49,6 +49,15 @@ public class Kama : StaticSeriesTestBase
     }
 
     [TestMethod]
+    public void Results_AreAlwaysBounded()
+    {
+        IReadOnlyList<KamaResult> results = Quotes
+            .ToKama();
+
+        TestAsserts.AlwaysBounded(results, x => x.Er, 0, 1);
+    }
+
+    [TestMethod]
     public void UseReusable()
     {
         IReadOnlyList<KamaResult> results = Quotes

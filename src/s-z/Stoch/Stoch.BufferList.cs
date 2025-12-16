@@ -154,7 +154,7 @@ public class StochList : BufferList<StochResult>, IIncrementFromQuote, IStoch
                 case MaType.SMA:
                     if (_rawKBuffer.Count == SmoothPeriods)
                     {
-                        smoothK = _rawKBuffer.Average();
+                        smoothK = _rawKBuffer.Average().ToPrecision(14);
                     }
 
                     break;
@@ -166,7 +166,7 @@ public class StochList : BufferList<StochResult>, IIncrementFromQuote, IStoch
                         _prevSmoothK = rawK;
                     }
 
-                    smoothK = ((_prevSmoothK * (SmoothPeriods - 1)) + rawK) / SmoothPeriods;
+                    smoothK = (((_prevSmoothK * (SmoothPeriods - 1)) + rawK) / SmoothPeriods).ToPrecision(14);
                     _prevSmoothK = smoothK;
                     break;
 
@@ -191,7 +191,7 @@ public class StochList : BufferList<StochResult>, IIncrementFromQuote, IStoch
                 case MaType.SMA:
                     if (_smoothKBuffer.Count == SignalPeriods)
                     {
-                        signal = _smoothKBuffer.Average();
+                        signal = _smoothKBuffer.Average().ToPrecision(14);
                     }
 
                     break;
@@ -203,7 +203,7 @@ public class StochList : BufferList<StochResult>, IIncrementFromQuote, IStoch
                         _prevSignal = smoothK;
                     }
 
-                    signal = ((_prevSignal * (SignalPeriods - 1)) + smoothK) / SignalPeriods;
+                    signal = (((_prevSignal * (SignalPeriods - 1)) + smoothK) / SignalPeriods).ToPrecision(14);
                     _prevSignal = signal;
                     break;
 

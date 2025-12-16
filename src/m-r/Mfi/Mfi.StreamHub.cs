@@ -102,7 +102,7 @@ public class MfiHub : ChainProvider<IQuote, MfiResult>, IMfi
         }
 
         double mfRatio = sumPosMFs / sumNegMFs;
-        return 100 - (100 / (1 + mfRatio));
+        return (100 - (100 / (1 + mfRatio))).ToPrecision(14);
     }
 
     /// <summary>

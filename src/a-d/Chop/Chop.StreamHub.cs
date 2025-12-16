@@ -87,7 +87,8 @@ public class ChopHub
             // calculate CHOP
             if (range != 0)
             {
-                chop = 100 * (Math.Log(_sumTrueRange / range) / Math.Log(LookbackPeriods));
+                chop = (100d * (Math.Log(_sumTrueRange / range) / Math.Log(LookbackPeriods)))
+                    .ToPrecision(14);
             }
         }
 

@@ -14,6 +14,15 @@ public class Tsi : BufferListTestBase, ITestChainBufferList
        = Quotes.ToTsi(lookbackPeriods, smoothPeriods, signalPeriods);
 
     [TestMethod]
+    public void Results_AreAlwaysBounded()
+    {
+        TsiList sut = Quotes.ToTsiList(lookbackPeriods, smoothPeriods, signalPeriods);
+
+        TestAsserts.AlwaysBounded(sut, x => x.Tsi, -100, 100);
+        TestAsserts.AlwaysBounded(sut, x => x.Signal, -100, 100);
+    }
+
+    [TestMethod]
     public void AddQuote_IncrementsResults()
     {
         TsiList sut = new(lookbackPeriods, smoothPeriods, signalPeriods);

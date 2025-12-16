@@ -146,7 +146,7 @@ public class StochHub
                         sum += rawKValue;
                     }
 
-                    oscillator = sum / SmoothPeriods;
+                    oscillator = (sum / SmoothPeriods).ToPrecision(14);
                     break;
 
                 case MaType.SMMA:
@@ -162,7 +162,7 @@ public class StochHub
                         prevSmoothK = rawK;
                     }
 
-                    oscillator = ((prevSmoothK * (SmoothPeriods - 1)) + rawK) / SmoothPeriods;
+                    oscillator = (((prevSmoothK * (SmoothPeriods - 1)) + rawK) / SmoothPeriods).ToPrecision(14);
                     break;
 
                 default:
@@ -200,7 +200,7 @@ public class StochHub
                         sum += smoothKAtP;
                     }
 
-                    signal = sum / SignalPeriods;
+                    signal = (sum / SignalPeriods).ToPrecision(14);
                     break;
 
                 case MaType.SMMA:
@@ -216,7 +216,7 @@ public class StochHub
                         prevSignal = oscillator;
                     }
 
-                    signal = ((prevSignal * (SignalPeriods - 1)) + oscillator) / SignalPeriods;
+                    signal = (((prevSignal * (SignalPeriods - 1)) + oscillator) / SignalPeriods).ToPrecision(14);
                     break;
 
                 default:

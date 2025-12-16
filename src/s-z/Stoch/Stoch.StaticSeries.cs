@@ -195,7 +195,7 @@ public static partial class Stoch
                             sum += o[p];
                         }
 
-                        k[i] = sum / smoothPeriods;
+                        k[i] = (sum / smoothPeriods).ToPrecision(14);
                         break;
 
                     // SMMA case
@@ -206,7 +206,7 @@ public static partial class Stoch
                             prevK = o[i];
                         }
 
-                        k[i] = ((prevK * (smoothPeriods - 1)) + o[i]) / smoothPeriods;
+                        k[i] = (((prevK * (smoothPeriods - 1)) + o[i]) / smoothPeriods).ToPrecision(14);
                         prevK = k[i];
                         break;
 
@@ -241,7 +241,7 @@ public static partial class Stoch
                             sum += k[p];
                         }
 
-                        signal = sum / signalPeriods;
+                        signal = (sum / signalPeriods).ToPrecision(14);
                         break;
 
                     // SMMA case
@@ -252,7 +252,7 @@ public static partial class Stoch
                             prevD = k[i];
                         }
 
-                        double d = ((prevD * (signalPeriods - 1)) + k[i]) / signalPeriods;
+                        double d = (((prevD * (signalPeriods - 1)) + k[i]) / signalPeriods).ToPrecision(14);
                         signal = d;
                         prevD = d;
                         break;

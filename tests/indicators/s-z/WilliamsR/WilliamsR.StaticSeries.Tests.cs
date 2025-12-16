@@ -19,14 +19,15 @@ public class WilliamsR : StaticSeriesTestBase
 
         WilliamsResult r2 = results[501];
         Assert.AreEqual(-52.0121, r2.WilliamsR.Round(4));
+    }
 
-        // test boundary condition
-        for (int i = 0; i < results.Count; i++)
-        {
-            WilliamsResult r = results[i];
+    [TestMethod]
+    public void Results_AreAlwaysBounded()
+    {
+        IReadOnlyList<WilliamsResult> results = Quotes
+            .ToWilliamsR();
 
-            r.WilliamsR?.Should().BeInRange(-100d, 0d);
-        }
+        TestAsserts.AlwaysBounded(results, static x => x.WilliamsR, -100d, 0d);
     }
 
     [TestMethod]
@@ -85,13 +86,7 @@ public class WilliamsR : StaticSeriesTestBase
             .GetRandom(2500)
             .ToWilliamsR();
 
-        // analyze boundary
-        for (int i = 0; i < results.Count; i++)
-        {
-            WilliamsResult r = results[i];
-
-            r.WilliamsR?.Should().BeInRange(-100d, 0d);
-        }
+        TestAsserts.AlwaysBounded(results, static x => x.WilliamsR, -100d, 0d);
     }
 
     [TestMethod]
@@ -110,14 +105,7 @@ public class WilliamsR : StaticSeriesTestBase
         IReadOnlyList<WilliamsResult> results = quotes
             .ToWilliamsR();
 
-        // analyze boundary
-        for (int i = 0; i < length; i++)
-        {
-            Quote q = quotes[i];
-            WilliamsResult r = results[i];
-
-            r.WilliamsR?.Should().BeInRange(-100d, 0d);
-        }
+        TestAsserts.AlwaysBounded(results, static x => x.WilliamsR, -100d, 0d);
     }
 
     [TestMethod]
@@ -143,14 +131,7 @@ public class WilliamsR : StaticSeriesTestBase
 
         Console.WriteLine(results.ToStringOut(args));
 
-        // analyze boundary
-        for (int i = 0; i < length; i++)
-        {
-            Quote q = quotes[i];
-            WilliamsResult r = results[i];
-
-            r.WilliamsR?.Should().BeInRange(-100d, 0d);
-        }
+        TestAsserts.AlwaysBounded(results, static x => x.WilliamsR, -100d, 0d);
     }
 
     /// <summary>

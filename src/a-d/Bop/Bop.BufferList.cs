@@ -57,7 +57,7 @@ public class BopList : BufferList<BopResult>, IIncrementFromQuote, IBop
                 sum += val;
             }
 
-            bop = (sum / SmoothPeriods).NaN2Null();
+            bop = (sum / SmoothPeriods).ToPrecision(14).NaN2Null();
         }
 
         AddInternal(new BopResult(timestamp, bop));

@@ -5,6 +5,7 @@ namespace Skender.Stock.Indicators;
 /// </summary>
 /// <param name="Timestamp">The timestamp of the RSI result.</param>
 /// <param name="Rsi">The RSI value.</param>
+/// <remarks>RSI is bounded from 0 to 100; precision handling preserves this range.</remarks>
 [Serializable]
 public record RsiResult
 (

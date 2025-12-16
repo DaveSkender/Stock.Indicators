@@ -87,7 +87,8 @@ public class ChopList : BufferList<ChopResult>, IIncrementFromQuote, IChop
 
                 if (range != 0)
                 {
-                    chop = 100 * (Math.Log(sumTrueRange / range) / Math.Log(LookbackPeriods));
+                    chop = (100d * (Math.Log(sumTrueRange / range) / Math.Log(LookbackPeriods)))
+                        .ToPrecision(14);
                 }
             }
 

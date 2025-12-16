@@ -157,7 +157,9 @@ public class StcHub
             }
 
             double smoothedK = sum / 3;
-            stc = double.IsNaN(smoothedK) ? null : smoothedK;
+            stc = double.IsNaN(smoothedK)
+                ? null
+                : smoothedK.ToPrecision(14);
         }
 
         StcResult result = new(

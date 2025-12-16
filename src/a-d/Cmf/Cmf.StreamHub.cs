@@ -78,7 +78,7 @@ public class CmfHub : ChainProvider<IQuote, CmfResult>, ICmf
 
             if (avgVol != 0)
             {
-                cmf = avgMfv / avgVol;
+                cmf = (avgMfv / avgVol).ToPrecision(14);
             }
         }
 

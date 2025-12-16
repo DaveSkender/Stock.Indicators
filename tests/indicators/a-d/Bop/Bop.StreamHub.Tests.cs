@@ -58,10 +58,19 @@ public class BopHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProv
 
         // assert, should equal series (with tolerance for floating point precision)
         streamList.Should().HaveCount(length - 1);
-        streamList.AssertEquals(seriesList, Precision.LastDigit);
+        streamList.AssertEquals(seriesList);
 
         bopHub.Unsubscribe();
         quoteHub.EndTransmission();
+    }
+
+    [TestMethod]
+    public void Results_AreAlwaysBounded()
+    {
+        QuoteHub provider = new();
+        BopHub hub = new(provider, 14);
+        provider.Add(Quotes);
+        TestAsserts.AlwaysBounded(hub.Results, static x => x.Bop, -1d, 1d);
     }
 
     [TestMethod]
@@ -99,7 +108,7 @@ public class BopHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProv
 
         // assert, should equal series (with tolerance for floating point precision)
         streamList.Should().HaveCount(length);
-        streamList.AssertEquals(seriesList, Precision.LastDigit);
+        streamList.AssertEquals(seriesList);
 
         bopHub.Unsubscribe();
         quoteHub.EndTransmission();
@@ -141,7 +150,7 @@ public class BopHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProv
 
         // assert, should equal series (with tolerance for floating point precision)
         streamList.Should().HaveCount(length);
-        streamList.AssertEquals(seriesList, Precision.LastDigit);
+        streamList.AssertEquals(seriesList);
 
         emaHub.Unsubscribe();
         quoteHub.EndTransmission();

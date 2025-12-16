@@ -53,7 +53,7 @@ public static partial class Bop
                     sum += raw[p];
                 }
 
-                bop = (sum / smoothPeriods).NaN2Null();
+                bop = (sum / smoothPeriods).ToPrecision(14).NaN2Null();
             }
 
             results.Add(new(

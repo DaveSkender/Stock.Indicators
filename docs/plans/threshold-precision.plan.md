@@ -67,3 +67,4 @@
 - [ ] All bounded indicators apply ToPrecision(14) in every style and have strict bound tests with heightened precision.
 - [ ] XML remarks added for bounded results.
 - [ ] Series/Stream/Buffer parity confirmed via tests.
+- [ ] Code [completion checklist](../../.github/instructions/code-completion.instructions.md) is completed with no lint, build, or test failures.

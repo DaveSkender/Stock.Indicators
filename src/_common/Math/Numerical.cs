@@ -189,6 +189,15 @@ public static class Numerical
         }
     }
 
+    /// <summary>
+    /// Rounds a double to the specified number of significant digits
+    /// or <see langword="null"/>.
+    /// </summary>
+    /// <inheritdoc cref="ToPrecision(double, int)" />
+    public static double? ToNullablePrecision(this double? value, int sigDigits = 14)
+        => value.HasValue
+            ? value.Value.ToPrecision(sigDigits)
+            : null;
 
     /// <summary>
     /// Rounds a double to the specified number of significant digits.

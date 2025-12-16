@@ -78,15 +78,15 @@ public class AroonList : BufferList<AroonResult>, IIncrementFromQuote, IAroon
             int periodsSinceHigh = currentIndex - 1 - lastHighIndex;
             int periodsSinceLow = currentIndex - 1 - lastLowIndex;
 
-            aroonUp = 100.0 * (LookbackPeriods - periodsSinceHigh) / LookbackPeriods;
-            aroonDown = 100.0 * (LookbackPeriods - periodsSinceLow) / LookbackPeriods;
+            aroonUp = (100.0 * (LookbackPeriods - periodsSinceHigh) / LookbackPeriods).ToPrecision(14);
+            aroonDown = (100.0 * (LookbackPeriods - periodsSinceLow) / LookbackPeriods).ToPrecision(14);
         }
 
         AddInternal(new AroonResult(
             Timestamp: quote.Timestamp,
             AroonUp: aroonUp,
             AroonDown: aroonDown,
-            Oscillator: aroonUp - aroonDown
+            Oscillator: (aroonUp - aroonDown).ToPrecision(14)
         ));
     }
 

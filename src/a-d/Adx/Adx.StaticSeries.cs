@@ -123,14 +123,14 @@ public static partial class Adx
             }
 
             // directional increments
-            double pdi = 100 * pdm / trs;
-            double mdi = 100 * mdm / trs;
+            double pdi = (100 * pdm / trs).ToPrecision(14);
+            double mdi = (100 * mdm / trs).ToPrecision(14);
 
             // calculate ADX
             double dx = pdi == mdi
                 ? 0
                 : pdi + mdi != 0
-                ? 100 * Math.Abs(pdi - mdi) / (pdi + mdi)
+                ? (100 * Math.Abs(pdi - mdi) / (pdi + mdi)).ToPrecision(14)
                 : double.NaN;
 
             double adx = double.NaN;
@@ -144,14 +144,14 @@ public static partial class Adx
                 // calculate initial ADX after accumulating lookbackPeriods DX values
                 if (double.IsNaN(prevAdx) && i == (2 * lookbackPeriods) - 1)
                 {
-                    adx = sumDx / lookbackPeriods;
+                    adx = (sumDx / lookbackPeriods).ToPrecision(14);
                     prevAdx = adx;
                 }
             }
             // ongoing ADX smoothing
             else
             {
-                adx = ((prevAdx * (lookbackPeriods - 1)) + dx) / lookbackPeriods;
+                adx = (((prevAdx * (lookbackPeriods - 1)) + dx) / lookbackPeriods).ToPrecision(14);
 
                 // Calculate ADXR only if we have a valid prior ADX value
                 int priorAdxIndex = i - lookbackPeriods;
@@ -162,7 +162,7 @@ public static partial class Adx
                     // Only compute ADXR if prior ADX actually exists
                     if (!double.IsNaN(priorAdx))
                     {
-                        adxr = (adx + priorAdx) / 2;
+                        adxr = ((adx + priorAdx) / 2).ToPrecision(14);
                     }
                 }
 

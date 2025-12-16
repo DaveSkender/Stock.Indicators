@@ -73,6 +73,17 @@ public class Adx : StaticSeriesTestBase
     }
 
     [TestMethod]
+    public void Results_AreAlwaysBounded()
+    {
+        IReadOnlyList<AdxResult> results = Quotes.ToAdx(14);
+        TestAsserts.AlwaysBounded(results, x => x.Pdi, 0, 100);
+        TestAsserts.AlwaysBounded(results, x => x.Mdi, 0, 100);
+        TestAsserts.AlwaysBounded(results, x => x.Dx, 0, 100);
+        TestAsserts.AlwaysBounded(results, x => x.Adx, 0, 100);
+        TestAsserts.AlwaysBounded(results, x => x.Adxr, 0, 100);
+    }
+
+    [TestMethod]
     public void ChainingFromResults_WorksAsExpected()
     {
         IReadOnlyList<SmaResult> results = Quotes

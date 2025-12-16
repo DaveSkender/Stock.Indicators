@@ -46,14 +46,16 @@ public class Stoch : StaticSeriesTestBase
         Assert.AreEqual(43.1353, r501.Oscillator.Round(4));
         Assert.AreEqual(35.5674, r501.Signal.Round(4));
         Assert.AreEqual(58.2712, r501.PercentJ.Round(4));
+    }
 
-        // test boundary condition
+    [TestMethod]
+    public void Results_AreAlwaysBounded()
+    {
+        IReadOnlyList<StochResult> results = Quotes
+            .ToStoch();
 
-        foreach (StochResult r in results)
-        {
-            r.Oscillator?.Should().BeInRange(0d, 100d);
-            r.Signal?.Should().BeInRange(0d, 100d);
-        }
+        TestAsserts.AlwaysBounded(results, static x => x.Oscillator, 0d, 100d);
+        TestAsserts.AlwaysBounded(results, static x => x.Signal, 0d, 100d);
     }
 
     /// <summary>
@@ -227,13 +229,8 @@ public class Stoch : StaticSeriesTestBase
 
         // test boundary condition
 
-        for (int i = 0; i < results.Count; i++)
-        {
-            StochResult r = results[i];
-
-            r.Oscillator?.Should().BeInRange(0d, 100d);
-            r.Signal?.Should().BeInRange(0d, 100d);
-        }
+        TestAsserts.AlwaysBounded(results, static x => x.Oscillator, 0d, 100d);
+        TestAsserts.AlwaysBounded(results, static x => x.Signal, 0d, 100d);
     }
 
     [TestMethod]
@@ -261,14 +258,8 @@ public class Stoch : StaticSeriesTestBase
         Console.WriteLine(results.ToStringOut(args));
 
         // analyze boundary
-        for (int i = 0; i < length; i++)
-        {
-            Quote q = quotes[i];
-            StochResult r = results[i];
-
-            r.Oscillator?.Should().BeInRange(0d, 100d);
-            r.Signal?.Should().BeInRange(0d, 100d);
-        }
+        TestAsserts.AlwaysBounded(results, static x => x.Oscillator, 0d, 100d);
+        TestAsserts.AlwaysBounded(results, static x => x.Signal, 0d, 100d);
     }
 
     [TestMethod]

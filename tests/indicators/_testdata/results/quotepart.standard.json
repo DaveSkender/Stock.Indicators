@@ -1,2010 +1,2010 @@
 [
   {
     "timestamp": "2017-01-03T00:00:00",
-    "williamsR": null
+    "value": 212.8
   },
   {
     "timestamp": "2017-01-04T00:00:00",
-    "williamsR": null
+    "value": 214.06
   },
   {
     "timestamp": "2017-01-05T00:00:00",
-    "williamsR": null
+    "value": 213.89
   },
   {
     "timestamp": "2017-01-06T00:00:00",
-    "williamsR": null
+    "value": 214.66
   },
   {
     "timestamp": "2017-01-09T00:00:00",
-    "williamsR": null
+    "value": 213.95
   },
   {
     "timestamp": "2017-01-10T00:00:00",
-    "williamsR": null
+    "value": 213.95
   },
   {
     "timestamp": "2017-01-11T00:00:00",
-    "williamsR": null
+    "value": 214.55
   },
   {
     "timestamp": "2017-01-12T00:00:00",
-    "williamsR": null
+    "value": 214.02
   },
   {
     "timestamp": "2017-01-13T00:00:00",
-    "williamsR": null
+    "value": 214.51
   },
   {
     "timestamp": "2017-01-17T00:00:00",
-    "williamsR": null
+    "value": 213.75
   },
   {
     "timestamp": "2017-01-18T00:00:00",
-    "williamsR": null
+    "value": 214.22
   },
   {
     "timestamp": "2017-01-19T00:00:00",
-    "williamsR": null
+    "value": 213.43
   },
   {
     "timestamp": "2017-01-20T00:00:00",
-    "williamsR": null
+    "value": 214.21
   },
   {
     "timestamp": "2017-01-23T00:00:00",
-    "williamsR": -41.369863013699
+    "value": 213.66
   },
   {
     "timestamp": "2017-01-24T00:00:00",
-    "williamsR": -15.254237288135
+    "value": 215.03
   },
   {
     "timestamp": "2017-01-25T00:00:00",
-    "williamsR": 0
+    "value": 216.89
   },
   {
     "timestamp": "2017-01-26T00:00:00",
-    "williamsR": -8.017817371938
+    "value": 216.66
   },
   {
     "timestamp": "2017-01-27T00:00:00",
-    "williamsR": -15.590200445435
+    "value": 216.32
   },
   {
     "timestamp": "2017-01-30T00:00:00",
-    "williamsR": -45.43429844098
+    "value": 214.98
   },
   {
     "timestamp": "2017-01-31T00:00:00",
-    "williamsR": -45.879732739421
+    "value": 214.96
   },
   {
     "timestamp": "2017-02-01T00:00:00",
-    "williamsR": -43.875278396436
+    "value": 215.05
   },
   {
     "timestamp": "2017-02-02T00:00:00",
-    "williamsR": -43.675417661098
+    "value": 215.19
   },
   {
     "timestamp": "2017-02-03T00:00:00",
-    "williamsR": -8.353221957041
+    "value": 216.67
   },
   {
     "timestamp": "2017-02-06T00:00:00",
-    "williamsR": -17.661097852029
+    "value": 216.28
   },
   {
     "timestamp": "2017-02-07T00:00:00",
-    "williamsR": -17.422434367542
+    "value": 216.29
   },
   {
     "timestamp": "2017-02-08T00:00:00",
-    "williamsR": -10.501193317422
+    "value": 216.58
   },
   {
     "timestamp": "2017-02-09T00:00:00",
-    "williamsR": -6.15671641791
+    "value": 217.86
   },
   {
     "timestamp": "2017-02-10T00:00:00",
-    "williamsR": -4.807692307692
+    "value": 218.72
   },
   {
     "timestamp": "2017-02-13T00:00:00",
-    "williamsR": -4.395604395604
+    "value": 219.91
   },
   {
     "timestamp": "2017-02-14T00:00:00",
-    "williamsR": -0.14326647564501
+    "value": 220.79
   },
   {
     "timestamp": "2017-02-15T00:00:00",
-    "williamsR": -2.521008403361
+    "value": 221.94
   },
   {
     "timestamp": "2017-02-16T00:00:00",
-    "williamsR": -4.916067146283
+    "value": 221.75
   },
   {
     "timestamp": "2017-02-17T00:00:00",
-    "williamsR": -0.71942446043199
+    "value": 222.1
   },
   {
     "timestamp": "2017-02-21T00:00:00",
-    "williamsR": -2.036441586281
+    "value": 223.43
   },
   {
     "timestamp": "2017-02-22T00:00:00",
-    "williamsR": -4.180064308682
+    "value": 223.23
   },
   {
     "timestamp": "2017-02-23T00:00:00",
-    "williamsR": -5.302096177559
+    "value": 223.38
   },
   {
     "timestamp": "2017-02-24T00:00:00",
-    "williamsR": -1.849568434032
+    "value": 223.66
   },
   {
     "timestamp": "2017-02-27T00:00:00",
-    "williamsR": -2.235294117647
+    "value": 224.01
   },
   {
     "timestamp": "2017-02-28T00:00:00",
-    "williamsR": -9.294117647059
+    "value": 223.41
   },
   {
     "timestamp": "2017-03-01T00:00:00",
-    "williamsR": -5
+    "value": 226.53
   },
   {
     "timestamp": "2017-03-02T00:00:00",
-    "williamsR": -21.069868995633
+    "value": 225.11
   },
   {
     "timestamp": "2017-03-03T00:00:00",
-    "williamsR": -22.91933418694
+    "value": 225.25
   },
   {
     "timestamp": "2017-03-06T00:00:00",
-    "williamsR": -31.906614785992
+    "value": 224.58
   },
   {
     "timestamp": "2017-03-07T00:00:00",
-    "williamsR": -47.859327217125
+    "value": 223.91
   },
   {
     "timestamp": "2017-03-08T00:00:00",
-    "williamsR": -58.10147299509
+    "value": 223.49
   },
   {
     "timestamp": "2017-03-09T00:00:00",
-    "williamsR": -54.063018242123
+    "value": 223.78
   },
   {
     "timestamp": "2017-03-10T00:00:00",
-    "williamsR": -53.563714902808
+    "value": 224.56
   },
   {
     "timestamp": "2017-03-13T00:00:00",
-    "williamsR": -51.187904967603
+    "value": 224.67
   },
   {
     "timestamp": "2017-03-14T00:00:00",
-    "williamsR": -69.762419006479
+    "value": 223.81
   },
   {
     "timestamp": "2017-03-15T00:00:00",
-    "williamsR": -27.861771058315
+    "value": 225.75
   },
   {
     "timestamp": "2017-03-16T00:00:00",
-    "williamsR": -40.046296296296
+    "value": 225.31
   },
   {
     "timestamp": "2017-03-17T00:00:00",
-    "williamsR": -49.305555555556
+    "value": 224.91
   },
   {
     "timestamp": "2017-03-20T00:00:00",
-    "williamsR": -55.092592592593
+    "value": 224.66
   },
   {
     "timestamp": "2017-03-21T00:00:00",
-    "williamsR": -97.021276595744
+    "value": 221.78
   },
   {
     "timestamp": "2017-03-22T00:00:00",
-    "williamsR": -76.968503937008
+    "value": 222.3
   },
   {
     "timestamp": "2017-03-23T00:00:00",
-    "williamsR": -81.692913385827
+    "value": 222.06
   },
   {
     "timestamp": "2017-03-24T00:00:00",
-    "williamsR": -83.527131782946
+    "value": 221.9
   },
   {
     "timestamp": "2017-03-27T00:00:00",
-    "williamsR": -70.496894409938
+    "value": 221.67
   },
   {
     "timestamp": "2017-03-28T00:00:00",
-    "williamsR": -45.341614906833
+    "value": 223.29
   },
   {
     "timestamp": "2017-03-29T00:00:00",
-    "williamsR": -42.080745341615
+    "value": 223.5
   },
   {
     "timestamp": "2017-03-30T00:00:00",
-    "williamsR": -31.055900621118
+    "value": 224.21
   },
   {
     "timestamp": "2017-03-31T00:00:00",
-    "williamsR": -39.130434782609
+    "value": 223.69
   },
   {
     "timestamp": "2017-04-03T00:00:00",
-    "williamsR": -45.186335403727
+    "value": 223.3
   },
   {
     "timestamp": "2017-04-04T00:00:00",
-    "williamsR": -40.996784565917
+    "value": 223.44
   },
   {
     "timestamp": "2017-04-05T00:00:00",
-    "williamsR": -50.082918739635
+    "value": 222.78
   },
   {
     "timestamp": "2017-04-06T00:00:00",
-    "williamsR": -36.203866432337
+    "value": 223.4
   },
   {
     "timestamp": "2017-04-07T00:00:00",
-    "williamsR": -40.246045694201
+    "value": 223.17
   },
   {
     "timestamp": "2017-04-10T00:00:00",
-    "williamsR": -35.401459854015
+    "value": 223.31
   },
   {
     "timestamp": "2017-04-11T00:00:00",
-    "williamsR": -40.328467153285
+    "value": 223.04
   },
   {
     "timestamp": "2017-04-12T00:00:00",
-    "williamsR": -58.211678832117
+    "value": 222.06
   },
   {
     "timestamp": "2017-04-13T00:00:00",
-    "williamsR": -84.489051094891
+    "value": 220.62
   },
   {
     "timestamp": "2017-04-17T00:00:00",
-    "williamsR": -57.667386609071
+    "value": 222.58
   },
   {
     "timestamp": "2017-04-18T00:00:00",
-    "williamsR": -72.138228941685
+    "value": 221.91
   },
   {
     "timestamp": "2017-04-19T00:00:00",
-    "williamsR": -80.993520518359
+    "value": 221.5
   },
   {
     "timestamp": "2017-04-20T00:00:00",
-    "williamsR": -41.900647948164
+    "value": 223.31
   },
   {
     "timestamp": "2017-04-21T00:00:00",
-    "williamsR": -57.235421166307
+    "value": 222.6
   },
   {
     "timestamp": "2017-04-24T00:00:00",
-    "williamsR": -4.94623655914
+    "value": 225.04
   },
   {
     "timestamp": "2017-04-25T00:00:00",
-    "williamsR": -6.219312602291
+    "value": 226.35
   },
   {
     "timestamp": "2017-04-26T00:00:00",
-    "williamsR": -16.066066066066
+    "value": 226.21
   },
   {
     "timestamp": "2017-04-27T00:00:00",
-    "williamsR": -13.213213213213
+    "value": 226.4
   },
   {
     "timestamp": "2017-04-28T00:00:00",
-    "williamsR": -20.570570570571
+    "value": 225.91
   },
   {
     "timestamp": "2017-05-01T00:00:00",
-    "williamsR": -12.012012012012
+    "value": 226.48
   },
   {
     "timestamp": "2017-05-02T00:00:00",
-    "williamsR": -10.810810810811
+    "value": 226.56
   },
   {
     "timestamp": "2017-05-03T00:00:00",
-    "williamsR": -14.864864864865
+    "value": 226.29
   },
   {
     "timestamp": "2017-05-04T00:00:00",
-    "williamsR": -11.568938193344
+    "value": 226.55
   },
   {
     "timestamp": "2017-05-05T00:00:00",
-    "williamsR": -0.31746031746
+    "value": 227.44
   },
   {
     "timestamp": "2017-05-08T00:00:00",
-    "williamsR": -3.755868544601
+    "value": 227.41
   },
   {
     "timestamp": "2017-05-09T00:00:00",
-    "williamsR": -11.677631578948
+    "value": 227.2
   },
   {
     "timestamp": "2017-05-10T00:00:00",
-    "williamsR": -5.217391304348
+    "value": 227.61
   },
   {
     "timestamp": "2017-05-11T00:00:00",
-    "williamsR": -14.419475655431
+    "value": 227.14
   },
   {
     "timestamp": "2017-05-12T00:00:00",
-    "williamsR": -48.728813559323
+    "value": 226.76
   },
   {
     "timestamp": "2017-05-15T00:00:00",
-    "williamsR": -5.384615384616
+    "value": 228.01
   },
   {
     "timestamp": "2017-05-16T00:00:00",
-    "williamsR": -19.928825622776
+    "value": 227.8
   },
   {
     "timestamp": "2017-05-17T00:00:00",
-    "williamsR": -98.712446351931
+    "value": 223.76
   },
   {
     "timestamp": "2017-05-18T00:00:00",
-    "williamsR": -74.446680080483
+    "value": 224.66
   },
   {
     "timestamp": "2017-05-19T00:00:00",
-    "williamsR": -45.070422535211
+    "value": 226.12
   },
   {
     "timestamp": "2017-05-22T00:00:00",
-    "williamsR": -21.931589537223
+    "value": 227.27
   },
   {
     "timestamp": "2017-05-23T00:00:00",
-    "williamsR": -11.670020120725
+    "value": 227.78
   },
   {
     "timestamp": "2017-05-24T00:00:00",
-    "williamsR": -2.186878727634
+    "value": 228.31
   },
   {
     "timestamp": "2017-05-25T00:00:00",
-    "williamsR": -4.754358161648
+    "value": 229.4
   },
   {
     "timestamp": "2017-05-26T00:00:00",
-    "williamsR": -5.546751188589
+    "value": 229.35
   },
   {
     "timestamp": "2017-05-30T00:00:00",
-    "williamsR": -8.716323296355
+    "value": 229.15
   },
   {
     "timestamp": "2017-05-31T00:00:00",
-    "williamsR": -9.667194928684
+    "value": 229.09
   },
   {
     "timestamp": "2017-06-01T00:00:00",
-    "williamsR": -0.264900662252
+    "value": 230.92
   },
   {
     "timestamp": "2017-06-02T00:00:00",
-    "williamsR": -2.007083825266
+    "value": 231.69
   },
   {
     "timestamp": "2017-06-05T00:00:00",
-    "williamsR": -4.132231404959
+    "value": 231.51
   },
   {
     "timestamp": "2017-06-06T00:00:00",
-    "williamsR": -12.868949232586
+    "value": 230.77
   },
   {
     "timestamp": "2017-06-07T00:00:00",
-    "williamsR": -7.792207792208
+    "value": 231.2
   },
   {
     "timestamp": "2017-06-08T00:00:00",
-    "williamsR": -8.035714285715
+    "value": 231.32
   },
   {
     "timestamp": "2017-06-09T00:00:00",
-    "williamsR": -25.894378194208
+    "value": 230.96
   },
   {
     "timestamp": "2017-06-12T00:00:00",
-    "williamsR": -29.885057471264
+    "value": 230.92
   },
   {
     "timestamp": "2017-06-13T00:00:00",
-    "williamsR": -8.921161825726
+    "value": 232.05
   },
   {
     "timestamp": "2017-06-14T00:00:00",
-    "williamsR": -17.632850241546
+    "value": 231.75
   },
   {
     "timestamp": "2017-06-15T00:00:00",
-    "williamsR": -28.260869565217
+    "value": 231.31
   },
   {
     "timestamp": "2017-06-16T00:00:00",
-    "williamsR": -27.053140096618
+    "value": 231.36
   },
   {
     "timestamp": "2017-06-19T00:00:00",
-    "williamsR": -1.397205588822
+    "value": 233.28
   },
   {
     "timestamp": "2017-06-20T00:00:00",
-    "williamsR": -40.29484029484
+    "value": 231.71
   },
   {
     "timestamp": "2017-06-21T00:00:00",
-    "williamsR": -45.092838196286
+    "value": 231.65
   },
   {
     "timestamp": "2017-06-22T00:00:00",
-    "williamsR": -47.745358090185
+    "value": 231.55
   },
   {
     "timestamp": "2017-06-23T00:00:00",
-    "williamsR": -40.583554376658
+    "value": 231.82
   },
   {
     "timestamp": "2017-06-26T00:00:00",
-    "williamsR": -36.339522546419
+    "value": 231.98
   },
   {
     "timestamp": "2017-06-27T00:00:00",
-    "williamsR": -85.941644562334
+    "value": 230.11
   },
   {
     "timestamp": "2017-06-28T00:00:00",
-    "williamsR": -31.299734748011
+    "value": 232.17
   },
   {
     "timestamp": "2017-06-29T00:00:00",
-    "williamsR": -70.769230769231
+    "value": 230.13
   },
   {
     "timestamp": "2017-06-30T00:00:00",
-    "williamsR": -61.318681318681
+    "value": 230.56
   },
   {
     "timestamp": "2017-07-03T00:00:00",
-    "williamsR": -52.747252747253
+    "value": 230.95
   },
   {
     "timestamp": "2017-07-05T00:00:00",
-    "williamsR": -41.098901098901
+    "value": 231.48
   },
   {
     "timestamp": "2017-07-06T00:00:00",
-    "williamsR": -87.692307692308
+    "value": 229.36
   },
   {
     "timestamp": "2017-07-07T00:00:00",
-    "williamsR": -54.945054945055
+    "value": 230.85
   },
   {
     "timestamp": "2017-07-10T00:00:00",
-    "williamsR": -45.497630331754
+    "value": 231.1
   },
   {
     "timestamp": "2017-07-11T00:00:00",
-    "williamsR": -49.526066350711
+    "value": 230.93
   },
   {
     "timestamp": "2017-07-12T00:00:00",
-    "williamsR": -8.530805687204
+    "value": 232.66
   },
   {
     "timestamp": "2017-07-13T00:00:00",
-    "williamsR": -2.96803652968
+    "value": 233.05
   },
   {
     "timestamp": "2017-07-14T00:00:00",
-    "williamsR": -6.806282722513
+    "value": 234.14
   },
   {
     "timestamp": "2017-07-17T00:00:00",
-    "williamsR": -7.329842931937
+    "value": 234.11
   },
   {
     "timestamp": "2017-07-18T00:00:00",
-    "williamsR": -5.061082024433
+    "value": 234.24
   },
   {
     "timestamp": "2017-07-19T00:00:00",
-    "williamsR": -0.14903129657201
+    "value": 235.5
   },
   {
     "timestamp": "2017-07-20T00:00:00",
-    "williamsR": -4.444444444444
+    "value": 235.61
   },
   {
     "timestamp": "2017-07-21T00:00:00",
-    "williamsR": -7.555555555555
+    "value": 235.4
   },
   {
     "timestamp": "2017-07-24T00:00:00",
-    "williamsR": -8.444444444444
+    "value": 235.34
   },
   {
     "timestamp": "2017-07-25T00:00:00",
-    "williamsR": -5.196629213483
+    "value": 235.91
   },
   {
     "timestamp": "2017-07-26T00:00:00",
-    "williamsR": -5.217391304348
+    "value": 235.92
   },
   {
     "timestamp": "2017-07-27T00:00:00",
-    "williamsR": -11.290322580645
+    "value": 235.7
   },
   {
     "timestamp": "2017-07-28T00:00:00",
-    "williamsR": -15.24926686217
+    "value": 235.43
   },
   {
     "timestamp": "2017-07-31T00:00:00",
-    "williamsR": -26.339285714286
+    "value": 235.29
   },
   {
     "timestamp": "2017-08-01T00:00:00",
-    "williamsR": -16.049382716049
+    "value": 235.82
   },
   {
     "timestamp": "2017-08-02T00:00:00",
-    "williamsR": -15.340909090909
+    "value": 235.93
   },
   {
     "timestamp": "2017-08-03T00:00:00",
-    "williamsR": -31.132075471698
+    "value": 235.48
   },
   {
     "timestamp": "2017-08-04T00:00:00",
-    "williamsR": -17.924528301887
+    "value": 235.9
   },
   {
     "timestamp": "2017-08-07T00:00:00",
-    "williamsR": -5.882352941176
+    "value": 236.34
   },
   {
     "timestamp": "2017-08-08T00:00:00",
-    "williamsR": -51.14006514658
+    "value": 235.76
   },
   {
     "timestamp": "2017-08-09T00:00:00",
-    "williamsR": -51.465798045603
+    "value": 235.75
   },
   {
     "timestamp": "2017-08-10T00:00:00",
-    "williamsR": -98.991935483871
+    "value": 232.42
   },
   {
     "timestamp": "2017-08-11T00:00:00",
-    "williamsR": -91.935483870968
+    "value": 232.77
   },
   {
     "timestamp": "2017-08-14T00:00:00",
-    "williamsR": -45.564516129033
+    "value": 235.07
   },
   {
     "timestamp": "2017-08-15T00:00:00",
-    "williamsR": -45.967741935484
+    "value": 235.05
   },
   {
     "timestamp": "2017-08-16T00:00:00",
-    "williamsR": -37.701612903226
+    "value": 235.46
   },
   {
     "timestamp": "2017-08-17T00:00:00",
-    "williamsR": -100
+    "value": 231.79
   },
   {
     "timestamp": "2017-08-18T00:00:00",
-    "williamsR": -92.488262910798
+    "value": 231.42
   },
   {
     "timestamp": "2017-08-21T00:00:00",
-    "williamsR": -84.888888888889
+    "value": 231.6
   },
   {
     "timestamp": "2017-08-22T00:00:00",
-    "williamsR": -48.888888888889
+    "value": 234.03
   },
   {
     "timestamp": "2017-08-23T00:00:00",
-    "williamsR": -61.333333333334
+    "value": 233.19
   },
   {
     "timestamp": "2017-08-24T00:00:00",
-    "williamsR": -69.481481481482
+    "value": 232.64
   },
   {
     "timestamp": "2017-08-25T00:00:00",
-    "williamsR": -61.333333333334
+    "value": 233.19
   },
   {
     "timestamp": "2017-08-28T00:00:00",
-    "williamsR": -52.189781021898
+    "value": 233.2
   },
   {
     "timestamp": "2017-08-29T00:00:00",
-    "williamsR": -47.445255474453
+    "value": 233.46
   },
   {
     "timestamp": "2017-08-30T00:00:00",
-    "williamsR": -27.189781021898
+    "value": 234.57
   },
   {
     "timestamp": "2017-08-31T00:00:00",
-    "williamsR": -4.761904761905
+    "value": 235.98
   },
   {
     "timestamp": "2017-09-01T00:00:00",
-    "williamsR": -7.58064516129
+    "value": 236.31
   },
   {
     "timestamp": "2017-09-05T00:00:00",
-    "williamsR": -34.838709677419
+    "value": 234.62
   },
   {
     "timestamp": "2017-09-06T00:00:00",
-    "williamsR": -21.935483870968
+    "value": 235.42
   },
   {
     "timestamp": "2017-09-07T00:00:00",
-    "williamsR": -22.41935483871
+    "value": 235.39
   },
   {
     "timestamp": "2017-09-08T00:00:00",
-    "williamsR": -26.935483870968
+    "value": 235.11
   },
   {
     "timestamp": "2017-09-11T00:00:00",
-    "williamsR": -1.480263157895
+    "value": 237.62
   },
   {
     "timestamp": "2017-09-12T00:00:00",
-    "williamsR": -0.58565153733601
+    "value": 238.42
   },
   {
     "timestamp": "2017-09-13T00:00:00",
-    "williamsR": -0.432276657061
+    "value": 238.54
   },
   {
     "timestamp": "2017-09-14T00:00:00",
-    "williamsR": -3.120567375887
+    "value": 238.46
   },
   {
     "timestamp": "2017-09-15T00:00:00",
-    "williamsR": -1.379310344828
+    "value": 238.78
   },
   {
     "timestamp": "2017-09-18T00:00:00",
-    "williamsR": -4.726368159204
+    "value": 239.29
   },
   {
     "timestamp": "2017-09-19T00:00:00",
-    "williamsR": -2.177293934681
+    "value": 239.53
   },
   {
     "timestamp": "2017-09-20T00:00:00",
-    "williamsR": -2.10355987055
+    "value": 239.61
   },
   {
     "timestamp": "2017-09-21T00:00:00",
-    "williamsR": -12.459546925566
+    "value": 238.97
   },
   {
     "timestamp": "2017-09-22T00:00:00",
-    "williamsR": -11.650485436893
+    "value": 239.02
   },
   {
     "timestamp": "2017-09-25T00:00:00",
-    "williamsR": -24.395161290323
+    "value": 238.53
   },
   {
     "timestamp": "2017-09-26T00:00:00",
-    "williamsR": -21.676891615542
+    "value": 238.68
   },
   {
     "timestamp": "2017-09-27T00:00:00",
-    "williamsR": -8.301158301158
+    "value": 239.6
   },
   {
     "timestamp": "2017-09-28T00:00:00",
-    "williamsR": -3.954802259887
+    "value": 239.89
   },
   {
     "timestamp": "2017-09-29T00:00:00",
-    "williamsR": -2.58064516129
+    "value": 240.74
   },
   {
     "timestamp": "2017-10-02T00:00:00",
-    "williamsR": 0
+    "value": 241.78
   },
   {
     "timestamp": "2017-10-03T00:00:00",
-    "williamsR": -0.650759219089
+    "value": 242.3
   },
   {
     "timestamp": "2017-10-04T00:00:00",
-    "williamsR": -5.263157894736
+    "value": 242.58
   },
   {
     "timestamp": "2017-10-05T00:00:00",
-    "williamsR": -0.316455696202
+    "value": 244.02
   },
   {
     "timestamp": "2017-10-06T00:00:00",
-    "williamsR": -5.047318611987
+    "value": 243.74
   },
   {
     "timestamp": "2017-10-09T00:00:00",
-    "williamsR": -11.356466876972
+    "value": 243.34
   },
   {
     "timestamp": "2017-10-10T00:00:00",
-    "williamsR": -6.287425149701
+    "value": 243.98
   },
   {
     "timestamp": "2017-10-11T00:00:00",
-    "williamsR": -0.44910179640701
+    "value": 244.37
   },
   {
     "timestamp": "2017-10-12T00:00:00",
-    "williamsR": -6.128550074738
+    "value": 244
   },
   {
     "timestamp": "2017-10-13T00:00:00",
-    "williamsR": -5
+    "value": 244.3
   },
   {
     "timestamp": "2017-10-16T00:00:00",
-    "williamsR": -3.296703296703
+    "value": 244.63
   },
   {
     "timestamp": "2017-10-17T00:00:00",
-    "williamsR": -0.88495575221199
+    "value": 244.8
   },
   {
     "timestamp": "2017-10-18T00:00:00",
-    "williamsR": -3.942652329749
+    "value": 245.04
   },
   {
     "timestamp": "2017-10-19T00:00:00",
-    "williamsR": -3.587443946188
+    "value": 245.1
   },
   {
     "timestamp": "2017-10-20T00:00:00",
-    "williamsR": -0.63694267515901
+    "value": 246.37
   },
   {
     "timestamp": "2017-10-23T00:00:00",
-    "williamsR": -28.270042194093
+    "value": 245.41
   },
   {
     "timestamp": "2017-10-24T00:00:00",
-    "williamsR": -22.033898305085
+    "value": 245.84
   },
   {
     "timestamp": "2017-10-25T00:00:00",
-    "williamsR": -57.297297297298
+    "value": 244.63
   },
   {
     "timestamp": "2017-10-26T00:00:00",
-    "williamsR": -48.918918918919
+    "value": 244.94
   },
   {
     "timestamp": "2017-10-27T00:00:00",
-    "williamsR": -4.8
+    "value": 246.94
   },
   {
     "timestamp": "2017-10-30T00:00:00",
-    "williamsR": -29.490616621984
+    "value": 246.02
   },
   {
     "timestamp": "2017-10-31T00:00:00",
-    "williamsR": -19.034852546917
+    "value": 246.41
   },
   {
     "timestamp": "2017-11-01T00:00:00",
-    "williamsR": -21.22641509434
+    "value": 246.73
   },
   {
     "timestamp": "2017-11-02T00:00:00",
-    "williamsR": -18.867924528301
+    "value": 246.83
   },
   {
     "timestamp": "2017-11-03T00:00:00",
-    "williamsR": -1.160092807424
+    "value": 247.65
   },
   {
     "timestamp": "2017-11-06T00:00:00",
-    "williamsR": -2.922755741128
+    "value": 248.04
   },
   {
     "timestamp": "2017-11-07T00:00:00",
-    "williamsR": -12.865497076023
+    "value": 247.86
   },
   {
     "timestamp": "2017-11-08T00:00:00",
-    "williamsR": -4.483430799221
+    "value": 248.29
   },
   {
     "timestamp": "2017-11-09T00:00:00",
-    "williamsR": -22.027290448343
+    "value": 247.39
   },
   {
     "timestamp": "2017-11-10T00:00:00",
-    "williamsR": -23.586744639376
+    "value": 247.31
   },
   {
     "timestamp": "2017-11-13T00:00:00",
-    "williamsR": -19.103313840156
+    "value": 247.54
   },
   {
     "timestamp": "2017-11-14T00:00:00",
-    "williamsR": -42.048517520216
+    "value": 246.96
   },
   {
     "timestamp": "2017-11-15T00:00:00",
-    "williamsR": -78.151260504202
+    "value": 245.73
   },
   {
     "timestamp": "2017-11-16T00:00:00",
-    "williamsR": -19.607843137255
+    "value": 247.82
   },
   {
     "timestamp": "2017-11-17T00:00:00",
-    "williamsR": -40.056022408964
+    "value": 247.09
   },
   {
     "timestamp": "2017-11-20T00:00:00",
-    "williamsR": -28.291316526611
+    "value": 247.51
   },
   {
     "timestamp": "2017-11-21T00:00:00",
-    "williamsR": -4.566210045662
+    "value": 249.13
   },
   {
     "timestamp": "2017-11-22T00:00:00",
-    "williamsR": -9.589041095891
+    "value": 248.91
   },
   {
     "timestamp": "2017-11-24T00:00:00",
-    "williamsR": -2.58064516129
+    "value": 249.48
   },
   {
     "timestamp": "2017-11-27T00:00:00",
-    "williamsR": -10.183299389002
+    "value": 249.36
   },
   {
     "timestamp": "2017-11-28T00:00:00",
-    "williamsR": -0.430416068867
+    "value": 251.89
   },
   {
     "timestamp": "2017-11-29T00:00:00",
-    "williamsR": -11.473272490222
+    "value": 251.74
   },
   {
     "timestamp": "2017-11-30T00:00:00",
-    "williamsR": -10.01001001001
+    "value": 253.94
   },
   {
     "timestamp": "2017-12-01T00:00:00",
-    "williamsR": -15.315315315315
+    "value": 253.41
   },
   {
     "timestamp": "2017-12-04T00:00:00",
-    "williamsR": -23.738317757009
+    "value": 253.11
   },
   {
     "timestamp": "2017-12-05T00:00:00",
-    "williamsR": -32.242990654206
+    "value": 252.2
   },
   {
     "timestamp": "2017-12-06T00:00:00",
-    "williamsR": -38.185890257559
+    "value": 252.24
   },
   {
     "timestamp": "2017-12-07T00:00:00",
-    "williamsR": -30.173410404624
+    "value": 253.04
   },
   {
     "timestamp": "2017-12-08T00:00:00",
-    "williamsR": -14.369158878505
+    "value": 254.42
   },
   {
     "timestamp": "2017-12-11T00:00:00",
-    "williamsR": -5.623471882641
+    "value": 255.19
   },
   {
     "timestamp": "2017-12-12T00:00:00",
-    "williamsR": -6.873315363881
+    "value": 255.64
   },
   {
     "timestamp": "2017-12-13T00:00:00",
-    "williamsR": -10.635359116022
+    "value": 255.61
   },
   {
     "timestamp": "2017-12-14T00:00:00",
-    "williamsR": -25.138121546961
+    "value": 254.56
   },
   {
     "timestamp": "2017-12-15T00:00:00",
-    "williamsR": -6.873315363881
+    "value": 256.68
   },
   {
     "timestamp": "2017-12-18T00:00:00",
-    "williamsR": -4.416761041902
+    "value": 258.31
   },
   {
     "timestamp": "2017-12-19T00:00:00",
-    "williamsR": -15.628539071348
+    "value": 257.32
   },
   {
     "timestamp": "2017-12-20T00:00:00",
-    "williamsR": -17.214043035107
+    "value": 257.18
   },
   {
     "timestamp": "2017-12-21T00:00:00",
-    "williamsR": -14.224137931035
+    "value": 257.71
   },
   {
     "timestamp": "2017-12-22T00:00:00",
-    "williamsR": -15.086206896552
+    "value": 257.65
   },
   {
     "timestamp": "2017-12-26T00:00:00",
-    "williamsR": -19.540229885058
+    "value": 257.34
   },
   {
     "timestamp": "2017-12-27T00:00:00",
-    "williamsR": -18.39762611276
+    "value": 257.46
   },
   {
     "timestamp": "2017-12-28T00:00:00",
-    "williamsR": -12.456140350877
+    "value": 257.99
   },
   {
     "timestamp": "2017-12-29T00:00:00",
-    "williamsR": -38.979118329466
+    "value": 257.02
   },
   {
     "timestamp": "2018-01-02T00:00:00",
-    "williamsR": -0.91116173120599
+    "value": 258.86
   },
   {
     "timestamp": "2018-01-03T00:00:00",
-    "williamsR": -2.601626016261
+    "value": 260.5
   },
   {
     "timestamp": "2018-01-04T00:00:00",
-    "williamsR": -6.964520367937
+    "value": 261.59
   },
   {
     "timestamp": "2018-01-05T00:00:00",
-    "williamsR": -1.651842439645
+    "value": 263.34
   },
   {
     "timestamp": "2018-01-08T00:00:00",
-    "williamsR": -2.367688022284
+    "value": 263.82
   },
   {
     "timestamp": "2018-01-09T00:00:00",
-    "williamsR": -8.202653799759
+    "value": 264.42
   },
   {
     "timestamp": "2018-01-10T00:00:00",
-    "williamsR": -13.148371531967
+    "value": 264.01
   },
   {
     "timestamp": "2018-01-11T00:00:00",
-    "williamsR": 0
+    "value": 265.94
   },
   {
     "timestamp": "2018-01-12T00:00:00",
-    "williamsR": -1.719457013575
+    "value": 267.67
   },
   {
     "timestamp": "2018-01-16T00:00:00",
-    "williamsR": -23.166023166023
+    "value": 266.76
   },
   {
     "timestamp": "2018-01-17T00:00:00",
-    "williamsR": -3.552123552123
+    "value": 269.3
   },
   {
     "timestamp": "2018-01-18T00:00:00",
-    "williamsR": -7.027027027027
+    "value": 268.85
   },
   {
     "timestamp": "2018-01-19T00:00:00",
-    "williamsR": 0
+    "value": 270.07
   },
   {
     "timestamp": "2018-01-22T00:00:00",
-    "williamsR": 0
+    "value": 272.27
   },
   {
     "timestamp": "2018-01-23T00:00:00",
-    "williamsR": -2.266288951842
+    "value": 272.84
   },
   {
     "timestamp": "2018-01-24T00:00:00",
-    "williamsR": -10.711665443874
+    "value": 272.74
   },
   {
     "timestamp": "2018-01-25T00:00:00",
-    "williamsR": -10.993485342019
+    "value": 272.85
   },
   {
     "timestamp": "2018-01-26T00:00:00",
-    "williamsR": -0.378787878788
+    "value": 276.01
   },
   {
     "timestamp": "2018-01-29T00:00:00",
-    "williamsR": -14.242424242424
+    "value": 274.18
   },
   {
     "timestamp": "2018-01-30T00:00:00",
-    "williamsR": -35.530303030303
+    "value": 271.37
   },
   {
     "timestamp": "2018-01-31T00:00:00",
-    "williamsR": -39.156626506024
+    "value": 271.51
   },
   {
     "timestamp": "2018-02-01T00:00:00",
-    "williamsR": -47.834645669291
+    "value": 271.2
   },
   {
     "timestamp": "2018-02-02T00:00:00",
-    "williamsR": -99.629972247918
+    "value": 265.29
   },
   {
     "timestamp": "2018-02-05T00:00:00",
-    "williamsR": -97.328584149599
+    "value": 254.2
   },
   {
     "timestamp": "2018-02-06T00:00:00",
-    "williamsR": -62.639405204461
+    "value": 259.21
   },
   {
     "timestamp": "2018-02-07T00:00:00",
-    "williamsR": -67.881040892193
+    "value": 257.8
   },
   {
     "timestamp": "2018-02-08T00:00:00",
-    "williamsR": -99.856989631748
+    "value": 248.13
   },
   {
     "timestamp": "2018-02-09T00:00:00",
-    "williamsR": -74.530335694487
+    "value": 251.86
   },
   {
     "timestamp": "2018-02-12T00:00:00",
-    "williamsR": -63.135201724669
+    "value": 255.56
   },
   {
     "timestamp": "2018-02-13T00:00:00",
-    "williamsR": -61.194949183862
+    "value": 256.19
   },
   {
     "timestamp": "2018-02-14T00:00:00",
-    "williamsR": -50.538959039113
+    "value": 259.65
   },
   {
     "timestamp": "2018-02-15T00:00:00",
-    "williamsR": -39.993804213135
+    "value": 262.96
   },
   {
     "timestamp": "2018-02-16T00:00:00",
-    "williamsR": -36.541598694943
+    "value": 263.04
   },
   {
     "timestamp": "2018-02-20T00:00:00",
-    "williamsR": -39.166097060834
+    "value": 261.39
   },
   {
     "timestamp": "2018-02-21T00:00:00",
-    "williamsR": -43.162245952463
+    "value": 260.09
   },
   {
     "timestamp": "2018-02-22T00:00:00",
-    "williamsR": -35.993918662106
+    "value": 260.43
   },
   {
     "timestamp": "2018-02-23T00:00:00",
-    "williamsR": -4.979628791308
+    "value": 264.58
   },
   {
     "timestamp": "2018-02-26T00:00:00",
-    "williamsR": -0.45510964005
+    "value": 267.65
   },
   {
     "timestamp": "2018-02-27T00:00:00",
-    "williamsR": -17.252396166134
+    "value": 264.31
   },
   {
     "timestamp": "2018-02-28T00:00:00",
-    "williamsR": -27.955271565495
+    "value": 261.63
   },
   {
     "timestamp": "2018-03-01T00:00:00",
-    "williamsR": -43.130990415336
+    "value": 257.83
   },
   {
     "timestamp": "2018-03-02T00:00:00",
-    "williamsR": -57.013847080072
+    "value": 259.16
   },
   {
     "timestamp": "2018-03-05T00:00:00",
-    "williamsR": -43.11377245509
+    "value": 262.15
   },
   {
     "timestamp": "2018-03-06T00:00:00",
-    "williamsR": -41.264204545455
+    "value": 262.82
   },
   {
     "timestamp": "2018-03-07T00:00:00",
-    "williamsR": -43.519882179676
+    "value": 262.72
   },
   {
     "timestamp": "2018-03-08T00:00:00",
-    "williamsR": -34.167893961708
+    "value": 263.99
   },
   {
     "timestamp": "2018-03-09T00:00:00",
-    "williamsR": -0.294550810015
+    "value": 268.59
   },
   {
     "timestamp": "2018-03-12T00:00:00",
-    "williamsR": -9.215955983494
+    "value": 268.25
   },
   {
     "timestamp": "2018-03-13T00:00:00",
-    "williamsR": -23.635153129161
+    "value": 266.52
   },
   {
     "timestamp": "2018-03-14T00:00:00",
-    "williamsR": -32.756324900133
+    "value": 265.15
   },
   {
     "timestamp": "2018-03-15T00:00:00",
-    "williamsR": -34.687083888149
+    "value": 264.86
   },
   {
     "timestamp": "2018-03-16T00:00:00",
-    "williamsR": -32.756324900133
+    "value": 265.15
   },
   {
     "timestamp": "2018-03-19T00:00:00",
-    "williamsR": -56.657789613848
+    "value": 261.56
   },
   {
     "timestamp": "2018-03-20T00:00:00",
-    "williamsR": -53.728362183755
+    "value": 262
   },
   {
     "timestamp": "2018-03-21T00:00:00",
-    "williamsR": -57.057256990679
+    "value": 261.5
   },
   {
     "timestamp": "2018-03-22T00:00:00",
-    "williamsR": -98.05321219987
+    "value": 254.96
   },
   {
     "timestamp": "2018-03-23T00:00:00",
-    "williamsR": -98.987951807229
+    "value": 249.53
   },
   {
     "timestamp": "2018-03-26T00:00:00",
-    "williamsR": -66.072289156626
+    "value": 256.36
   },
   {
     "timestamp": "2018-03-27T00:00:00",
-    "williamsR": -87.084337349398
+    "value": 252
   },
   {
     "timestamp": "2018-03-28T00:00:00",
-    "williamsR": -90.698795180723
+    "value": 251.25
   },
   {
     "timestamp": "2018-03-29T00:00:00",
-    "williamsR": -75.228915662651
+    "value": 254.46
   },
   {
     "timestamp": "2018-04-02T00:00:00",
-    "williamsR": -88.618227635447
+    "value": 248.97
   },
   {
     "timestamp": "2018-04-03T00:00:00",
-    "williamsR": -72.57089725709
+    "value": 252.16
   },
   {
     "timestamp": "2018-04-04T00:00:00",
-    "williamsR": -57.320099255583
+    "value": 254.86
   },
   {
     "timestamp": "2018-04-05T00:00:00",
-    "williamsR": -47.055888223553
+    "value": 256.87
   },
   {
     "timestamp": "2018-04-06T00:00:00",
-    "williamsR": -74.423480083857
+    "value": 251.14
   },
   {
     "timestamp": "2018-04-09T00:00:00",
-    "williamsR": -65.981100611451
+    "value": 252.38
   },
   {
     "timestamp": "2018-04-10T00:00:00",
-    "williamsR": -43.635352973874
+    "value": 256.4
   },
   {
     "timestamp": "2018-04-11T00:00:00",
-    "williamsR": -35.979606700655
+    "value": 255.05
   },
   {
     "timestamp": "2018-04-12T00:00:00",
-    "williamsR": -8.640939597316
+    "value": 257.15
   },
   {
     "timestamp": "2018-04-13T00:00:00",
-    "williamsR": -18.55421686747
+    "value": 256.4
   },
   {
     "timestamp": "2018-04-16T00:00:00",
-    "williamsR": -6.422018348624
+    "value": 258.5
   },
   {
     "timestamp": "2018-04-17T00:00:00",
-    "williamsR": -4.211869814933
+    "value": 261.27
   },
   {
     "timestamp": "2018-04-18T00:00:00",
-    "williamsR": -5.47263681592
+    "value": 261.46
   },
   {
     "timestamp": "2018-04-19T00:00:00",
-    "williamsR": -14.490049751244
+    "value": 260.01
   },
   {
     "timestamp": "2018-04-20T00:00:00",
-    "williamsR": -31.878958479944
+    "value": 257.81
   },
   {
     "timestamp": "2018-04-23T00:00:00",
-    "williamsR": -32.160450387051
+    "value": 257.77
   },
   {
     "timestamp": "2018-04-24T00:00:00",
-    "williamsR": -62.519440124417
+    "value": 254.3
   },
   {
     "timestamp": "2018-04-25T00:00:00",
-    "williamsR": -57.620528771384
+    "value": 254.93
   },
   {
     "timestamp": "2018-04-26T00:00:00",
-    "williamsR": -43.85805277525
+    "value": 257.52
   },
   {
     "timestamp": "2018-04-27T00:00:00",
-    "williamsR": -45.346534653465
+    "value": 257.76
   },
   {
     "timestamp": "2018-04-30T00:00:00",
-    "williamsR": -64.950495049505
+    "value": 255.78
   },
   {
     "timestamp": "2018-05-01T00:00:00",
-    "williamsR": -60.49504950495
+    "value": 256.23
   },
   {
     "timestamp": "2018-05-02T00:00:00",
-    "williamsR": -77.524752475248
+    "value": 254.51
   },
   {
     "timestamp": "2018-05-03T00:00:00",
-    "williamsR": -70.861486486487
+    "value": 253.95
   },
   {
     "timestamp": "2018-05-04T00:00:00",
-    "williamsR": -43.074324324324
+    "value": 257.24
   },
   {
     "timestamp": "2018-05-07T00:00:00",
-    "williamsR": -35.726351351351
+    "value": 258.11
   },
   {
     "timestamp": "2018-05-08T00:00:00",
-    "williamsR": -27.316141356256
+    "value": 258.11
   },
   {
     "timestamp": "2018-05-09T00:00:00",
-    "williamsR": -3.34928229665
+    "value": 260.6
   },
   {
     "timestamp": "2018-05-10T00:00:00",
-    "williamsR": -2.790697674418
+    "value": 263.04
   },
   {
     "timestamp": "2018-05-11T00:00:00",
-    "williamsR": -2.127659574468
+    "value": 263.84
   },
   {
     "timestamp": "2018-05-14T00:00:00",
-    "williamsR": -7.295251204404
+    "value": 263.97
   },
   {
     "timestamp": "2018-05-15T00:00:00",
-    "williamsR": -19.821059876118
+    "value": 262.15
   },
   {
     "timestamp": "2018-05-16T00:00:00",
-    "williamsR": -12.250516173434
+    "value": 263.25
   },
   {
     "timestamp": "2018-05-17T00:00:00",
-    "williamsR": -13.764624913971
+    "value": 263.03
   },
   {
     "timestamp": "2018-05-18T00:00:00",
-    "williamsR": -18.306951135581
+    "value": 262.37
   },
   {
     "timestamp": "2018-05-21T00:00:00",
-    "williamsR": -4.74879559532
+    "value": 264.34
   },
   {
     "timestamp": "2018-05-22T00:00:00",
-    "williamsR": -10.816326530612
+    "value": 263.61
   },
   {
     "timestamp": "2018-05-23T00:00:00",
-    "williamsR": -6.866614048935
+    "value": 264.33
   },
   {
     "timestamp": "2018-05-24T00:00:00",
-    "williamsR": -16.022727272727
+    "value": 263.79
   },
   {
     "timestamp": "2018-05-25T00:00:00",
-    "williamsR": -23.181818181818
+    "value": 263.16
   },
   {
     "timestamp": "2018-05-29T00:00:00",
-    "williamsR": -73.015873015873
+    "value": 260.14
   },
   {
     "timestamp": "2018-05-30T00:00:00",
-    "williamsR": -25.318471337579
+    "value": 263.61
   },
   {
     "timestamp": "2018-05-31T00:00:00",
-    "williamsR": -51.114649681529
+    "value": 261.99
   },
   {
     "timestamp": "2018-06-01T00:00:00",
-    "williamsR": -10.031847133758
+    "value": 264.57
   },
   {
     "timestamp": "2018-06-04T00:00:00",
-    "williamsR": -3.899721448468
+    "value": 265.82
   },
   {
     "timestamp": "2018-06-05T00:00:00",
-    "williamsR": -5.459387483356
+    "value": 266.02
   },
   {
     "timestamp": "2018-06-06T00:00:00",
-    "williamsR": -1.271186440678
+    "value": 268.24
   },
   {
     "timestamp": "2018-06-07T00:00:00",
-    "williamsR": -8.652900688299
+    "value": 268.21
   },
   {
     "timestamp": "2018-06-08T00:00:00",
-    "williamsR": -0.88495575221199
+    "value": 269
   },
   {
     "timestamp": "2018-06-11T00:00:00",
-    "williamsR": -7.034728406055
+    "value": 269.36
   },
   {
     "timestamp": "2018-06-12T00:00:00",
-    "williamsR": -3.918076580588
+    "value": 269.71
   },
   {
     "timestamp": "2018-06-13T00:00:00",
-    "williamsR": -12.356575463371
+    "value": 268.85
   },
   {
     "timestamp": "2018-06-14T00:00:00",
-    "williamsR": -6.354810238306
+    "value": 269.53
   },
   {
     "timestamp": "2018-06-15T00:00:00",
-    "williamsR": -9.443954104148
+    "value": 269.18
   },
   {
     "timestamp": "2018-06-18T00:00:00",
-    "williamsR": -18.161434977578
+    "value": 268.63
   },
   {
     "timestamp": "2018-06-19T00:00:00",
-    "williamsR": -29.708520179372
+    "value": 267.6
   },
   {
     "timestamp": "2018-06-20T00:00:00",
-    "williamsR": -31.693198263386
+    "value": 268.06
   },
   {
     "timestamp": "2018-06-21T00:00:00",
-    "williamsR": -75.5859375
+    "value": 266.38
   },
   {
     "timestamp": "2018-06-22T00:00:00",
-    "williamsR": -66.2109375
+    "value": 266.86
   },
   {
     "timestamp": "2018-06-25T00:00:00",
-    "williamsR": -79.143179255919
+    "value": 263.23
   },
   {
     "timestamp": "2018-06-26T00:00:00",
-    "williamsR": -72.60428410372
+    "value": 263.81
   },
   {
     "timestamp": "2018-06-27T00:00:00",
-    "williamsR": -97.181510710259
+    "value": 261.63
   },
   {
     "timestamp": "2018-06-28T00:00:00",
-    "williamsR": -75.369978858351
+    "value": 263.12
   },
   {
     "timestamp": "2018-06-29T00:00:00",
-    "williamsR": -71.353065539112
+    "value": 263.5
   },
   {
     "timestamp": "2018-07-02T00:00:00",
-    "williamsR": -65.433403805497
+    "value": 264.06
   },
   {
     "timestamp": "2018-07-03T00:00:00",
-    "williamsR": -74.892703862661
+    "value": 263.13
   },
   {
     "timestamp": "2018-07-05T00:00:00",
-    "williamsR": -48.744292237443
+    "value": 265.28
   },
   {
     "timestamp": "2018-07-06T00:00:00",
-    "williamsR": -15.769712140175
+    "value": 267.52
   },
   {
     "timestamp": "2018-07-09T00:00:00",
-    "williamsR": -0.652173913044
+    "value": 269.93
   },
   {
     "timestamp": "2018-07-10T00:00:00",
-    "williamsR": -1.076320939335
+    "value": 270.9
   },
   {
     "timestamp": "2018-07-11T00:00:00",
-    "williamsR": -20.450097847358
+    "value": 268.92
   },
   {
     "timestamp": "2018-07-12T00:00:00",
-    "williamsR": -0.564440263405
+    "value": 271.36
   },
   {
     "timestamp": "2018-07-13T00:00:00",
-    "williamsR": -2.970297029703
+    "value": 271.57
   },
   {
     "timestamp": "2018-07-16T00:00:00",
-    "williamsR": -5.130513051305
+    "value": 271.33
   },
   {
     "timestamp": "2018-07-17T00:00:00",
-    "williamsR": -3.482587064677
+    "value": 272.43
   },
   {
     "timestamp": "2018-07-18T00:00:00",
-    "williamsR": -0.97323600973201
+    "value": 273
   },
   {
     "timestamp": "2018-07-19T00:00:00",
-    "williamsR": -9.913793103448
+    "value": 271.97
   },
   {
     "timestamp": "2018-07-20T00:00:00",
-    "williamsR": -12.586206896552
+    "value": 271.66
   },
   {
     "timestamp": "2018-07-23T00:00:00",
-    "williamsR": -9.186602870813
+    "value": 272.16
   },
   {
     "timestamp": "2018-07-24T00:00:00",
-    "williamsR": -8.251996450754
+    "value": 273.53
   },
   {
     "timestamp": "2018-07-25T00:00:00",
-    "williamsR": -3.089143865843
+    "value": 275.87
   },
   {
     "timestamp": "2018-07-26T00:00:00",
-    "williamsR": -13.202614379086
+    "value": 275.21
   },
   {
     "timestamp": "2018-07-27T00:00:00",
-    "williamsR": -37.614678899082
+    "value": 273.35
   },
   {
     "timestamp": "2018-07-30T00:00:00",
-    "williamsR": -56.356487549148
+    "value": 271.92
   },
   {
     "timestamp": "2018-07-31T00:00:00",
-    "williamsR": -44.984802431611
+    "value": 273.26
   },
   {
     "timestamp": "2018-08-01T00:00:00",
-    "williamsR": -58.894645941278
+    "value": 272.81
   },
   {
     "timestamp": "2018-08-02T00:00:00",
-    "williamsR": -33.333333333333
+    "value": 274.29
   },
   {
     "timestamp": "2018-08-03T00:00:00",
-    "williamsR": -12.953367875648
+    "value": 275.47
   },
   {
     "timestamp": "2018-08-06T00:00:00",
-    "williamsR": -5.902777777777
+    "value": 276.48
   },
   {
     "timestamp": "2018-08-07T00:00:00",
-    "williamsR": -6.222222222222
+    "value": 277.39
   },
   {
     "timestamp": "2018-08-08T00:00:00",
-    "williamsR": -8
+    "value": 277.27
   },
   {
     "timestamp": "2018-08-09T00:00:00",
-    "williamsR": -13.481481481482
+    "value": 276.9
   },
   {
     "timestamp": "2018-08-10T00:00:00",
-    "williamsR": -41.591591591591
+    "value": 275.04
   },
   {
     "timestamp": "2018-08-13T00:00:00",
-    "williamsR": -57.057057057057
+    "value": 274.01
   },
   {
     "timestamp": "2018-08-14T00:00:00",
-    "williamsR": -30.780780780781
+    "value": 275.76
   },
   {
     "timestamp": "2018-08-15T00:00:00",
-    "williamsR": -61.711711711712
+    "value": 273.7
   },
   {
     "timestamp": "2018-08-16T00:00:00",
-    "williamsR": -28.528528528528
+    "value": 275.91
   },
   {
     "timestamp": "2018-08-17T00:00:00",
-    "williamsR": -13.813813813814
+    "value": 276.89
   },
   {
     "timestamp": "2018-08-20T00:00:00",
-    "williamsR": -4.954954954955
+    "value": 277.48
   },
   {
     "timestamp": "2018-08-21T00:00:00",
-    "williamsR": -11.868686868687
+    "value": 278.13
   },
   {
     "timestamp": "2018-08-22T00:00:00",
-    "williamsR": -15.994236311239
+    "value": 277.96
   },
   {
     "timestamp": "2018-08-23T00:00:00",
-    "williamsR": -21.325648414986
+    "value": 277.59
   },
   {
     "timestamp": "2018-08-24T00:00:00",
-    "williamsR": -2.057613168725
+    "value": 279.27
   },
   {
     "timestamp": "2018-08-27T00:00:00",
-    "williamsR": -1.268498942917
+    "value": 281.47
   },
   {
     "timestamp": "2018-08-28T00:00:00",
-    "williamsR": -4.819277108433
+    "value": 281.61
   },
   {
     "timestamp": "2018-08-29T00:00:00",
-    "williamsR": -2.224199288256
+    "value": 283.12
   },
   {
     "timestamp": "2018-08-30T00:00:00",
-    "williamsR": -12.366548042704
+    "value": 281.98
   },
   {
     "timestamp": "2018-08-31T00:00:00",
-    "williamsR": -12.366548042704
+    "value": 281.98
   },
   {
     "timestamp": "2018-09-04T00:00:00",
-    "williamsR": -16.637010676157
+    "value": 281.5
   },
   {
     "timestamp": "2018-09-05T00:00:00",
-    "williamsR": -32.309582309582
+    "value": 280.74
   },
   {
     "timestamp": "2018-09-06T00:00:00",
-    "williamsR": -42.681426814269
+    "value": 279.9
   },
   {
     "timestamp": "2018-09-07T00:00:00",
-    "williamsR": -62.037037037037
+    "value": 279.35
   },
   {
     "timestamp": "2018-09-10T00:00:00",
-    "williamsR": -57.585644371942
+    "value": 279.84
   },
   {
     "timestamp": "2018-09-11T00:00:00",
-    "williamsR": -42.57748776509
+    "value": 280.76
   },
   {
     "timestamp": "2018-09-12T00:00:00",
-    "williamsR": -41.435562805873
+    "value": 280.83
   },
   {
     "timestamp": "2018-09-13T00:00:00",
-    "williamsR": -16.923076923077
+    "value": 282.49
   },
   {
     "timestamp": "2018-09-14T00:00:00",
-    "williamsR": -17.008196721311
+    "value": 282.54
   },
   {
     "timestamp": "2018-09-17T00:00:00",
-    "williamsR": -47.745901639344
+    "value": 281.04
   },
   {
     "timestamp": "2018-09-18T00:00:00",
-    "williamsR": -16.393442622951
+    "value": 282.57
   },
   {
     "timestamp": "2018-09-19T00:00:00",
-    "williamsR": -9.504132231405
+    "value": 282.87
   },
   {
     "timestamp": "2018-09-20T00:00:00",
-    "williamsR": -4.985754985755
+    "value": 285.16
   },
   {
     "timestamp": "2018-09-21T00:00:00",
-    "williamsR": -15.768725361367
+    "value": 284.9
   },
   {
     "timestamp": "2018-09-24T00:00:00",
-    "williamsR": -28.252299605782
+    "value": 283.95
   },
   {
     "timestamp": "2018-09-25T00:00:00",
-    "williamsR": -31.668856767412
+    "value": 283.69
   },
   {
     "timestamp": "2018-09-26T00:00:00",
-    "williamsR": -42.838370565047
+    "value": 282.84
   },
   {
     "timestamp": "2018-09-27T00:00:00",
-    "williamsR": -33.605442176871
+    "value": 283.63
   },
   {
     "timestamp": "2018-09-28T00:00:00",
-    "williamsR": -33.197278911564
+    "value": 283.66
   },
   {
     "timestamp": "2018-10-01T00:00:00",
-    "williamsR": -23.615635179154
+    "value": 284.65
   },
   {
     "timestamp": "2018-10-02T00:00:00",
-    "williamsR": -30.223880597015
+    "value": 284.48
   },
   {
     "timestamp": "2018-10-03T00:00:00",
-    "williamsR": -27.23880597015
+    "value": 284.64
   },
   {
     "timestamp": "2018-10-04T00:00:00",
-    "williamsR": -68.081180811808
+    "value": 282.41
   },
   {
     "timestamp": "2018-10-05T00:00:00",
-    "williamsR": -77.159590043924
+    "value": 280.83
   },
   {
     "timestamp": "2018-10-08T00:00:00",
-    "williamsR": -69.986719787517
+    "value": 280.83
   },
   {
     "timestamp": "2018-10-09T00:00:00",
-    "williamsR": -75.43160690571
+    "value": 280.42
   },
   {
     "timestamp": "2018-10-10T00:00:00",
-    "williamsR": -97.261189044756
+    "value": 271.54
   },
   {
     "timestamp": "2018-10-11T00:00:00",
-    "williamsR": -92.104082548228
+    "value": 265.56
   },
   {
     "timestamp": "2018-10-12T00:00:00",
-    "williamsR": -75.54957379991
+    "value": 269.25
   },
   {
     "timestamp": "2018-10-15T00:00:00",
-    "williamsR": -82.323912068192
+    "value": 267.74
   },
   {
     "timestamp": "2018-10-16T00:00:00",
-    "williamsR": -56.078959174518
+    "value": 273.59
   },
   {
     "timestamp": "2018-10-17T00:00:00",
-    "williamsR": -55.85464333782
+    "value": 273.64
   },
   {
     "timestamp": "2018-10-18T00:00:00",
-    "williamsR": -73.575594436967
+    "value": 269.69
   },
   {
     "timestamp": "2018-10-19T00:00:00",
-    "williamsR": -74.248541947061
+    "value": 269.54
   },
   {
     "timestamp": "2018-10-22T00:00:00",
-    "williamsR": -79.676985195155
+    "value": 268.33
   },
   {
     "timestamp": "2018-10-23T00:00:00",
-    "williamsR": -77.898550724637
+    "value": 266.97
   },
   {
     "timestamp": "2018-10-24T00:00:00",
-    "williamsR": -97.555110220441
+    "value": 258.88
   },
   {
     "timestamp": "2018-10-25T00:00:00",
-    "williamsR": -77.735368956743
+    "value": 263.52
   },
   {
     "timestamp": "2018-10-26T00:00:00",
-    "williamsR": -88.546085615118
+    "value": 258.89
   },
   {
     "timestamp": "2018-10-29T00:00:00",
-    "williamsR": -85.189393939394
+    "value": 257.45
   },
   {
     "timestamp": "2018-10-30T00:00:00",
-    "williamsR": -62.800769971126
+    "value": 261.27
   },
   {
     "timestamp": "2018-10-31T00:00:00",
-    "williamsR": -49.374398460058
+    "value": 264.06
   },
   {
     "timestamp": "2018-11-01T00:00:00",
-    "williamsR": -35.851780558229
+    "value": 266.87
   },
   {
     "timestamp": "2018-11-02T00:00:00",
-    "williamsR": -43.455245428296
+    "value": 265.29
   },
   {
     "timestamp": "2018-11-05T00:00:00",
-    "williamsR": -36.429258902791
+    "value": 266.75
   },
   {
     "timestamp": "2018-11-06T00:00:00",
-    "williamsR": -24.480486568677
+    "value": 268.44
   },
   {
     "timestamp": "2018-11-07T00:00:00",
-    "williamsR": -0.38591413410499
+    "value": 274.19
   },
   {
     "timestamp": "2018-11-08T00:00:00",
-    "williamsR": -3.357314148681
+    "value": 273.69
   },
   {
     "timestamp": "2018-11-09T00:00:00",
-    "williamsR": -16.163069544365
+    "value": 271.02
   },
   {
     "timestamp": "2018-11-12T00:00:00",
-    "williamsR": -40.479616306954
+    "value": 265.95
   },
   {
     "timestamp": "2018-11-13T00:00:00",
-    "williamsR": -42.877697841727
+    "value": 265.45
   },
   {
     "timestamp": "2018-11-14T00:00:00",
-    "williamsR": -51.558752997602
+    "value": 263.64
   },
   {
     "timestamp": "2018-11-15T00:00:00",
-    "williamsR": -38.369304556355
+    "value": 266.39
   },
   {
     "timestamp": "2018-11-16T00:00:00",
-    "williamsR": -41.392978482446
+    "value": 267.08
   },
   {
     "timestamp": "2018-11-19T00:00:00",
-    "williamsR": -85.281385281385
+    "value": 262.57
   },
   {
     "timestamp": "2018-11-20T00:00:00",
-    "williamsR": -94.611457742484
+    "value": 257.71
   },
   {
     "timestamp": "2018-11-21T00:00:00",
-    "williamsR": -89.676687464549
+    "value": 258.58
   },
   {
     "timestamp": "2018-11-23T00:00:00",
-    "williamsR": -98.983625070582
+    "value": 256.86
   },
   {
     "timestamp": "2018-11-26T00:00:00",
-    "williamsR": -75.607001693958
+    "value": 261
   },
   {
     "timestamp": "2018-11-27T00:00:00",
-    "williamsR": -70.638057594579
+    "value": 261.88
   },
   {
     "timestamp": "2018-11-28T00:00:00",
-    "williamsR": -36.589497459062
+    "value": 267.91
   },
   {
     "timestamp": "2018-11-29T00:00:00",
-    "williamsR": -32.509505703422
+    "value": 267.33
   },
   {
     "timestamp": "2018-11-30T00:00:00",
-    "williamsR": -12.535612535613
+    "value": 268.96
   },
   {
     "timestamp": "2018-12-03T00:00:00",
-    "williamsR": -6.327616794796
+    "value": 272.52
   },
   {
     "timestamp": "2018-12-04T00:00:00",
-    "williamsR": -58.545239503252
+    "value": 263.69
   },
   {
     "timestamp": "2018-12-06T00:00:00",
-    "williamsR": -58.789954337899
+    "value": 263.29
   },
   {
     "timestamp": "2018-12-07T00:00:00",
-    "williamsR": -93.721461187214
+    "value": 257.17
   },
   {
     "timestamp": "2018-12-10T00:00:00",
-    "williamsR": -74.964705882353
+    "value": 257.66
   },
   {
     "timestamp": "2018-12-11T00:00:00",
-    "williamsR": -74.682352941176
+    "value": 257.72
   },
   {
     "timestamp": "2018-12-12T00:00:00",
-    "williamsR": -68.611764705882
+    "value": 259.01
   },
   {
     "timestamp": "2018-12-13T00:00:00",
-    "williamsR": -68.988235294118
+    "value": 258.93
   },
   {
     "timestamp": "2018-12-14T00:00:00",
-    "williamsR": -91.482352941176
+    "value": 254.15
   },
   {
     "timestamp": "2018-12-17T00:00:00",
-    "williamsR": -93.173150266972
+    "value": 249.16
   },
   {
     "timestamp": "2018-12-18T00:00:00",
-    "williamsR": -93.348450491308
+    "value": 248.89
   },
   {
     "timestamp": "2018-12-19T00:00:00",
-    "williamsR": -93.859359524596
+    "value": 245.16
   },
   {
     "timestamp": "2018-12-20T00:00:00",
-    "williamsR": -92.947247706422
+    "value": 241.17
   },
   {
     "timestamp": "2018-12-21T00:00:00",
-    "williamsR": -98.135014447071
+    "value": 236.23
   },
   {
     "timestamp": "2018-12-24T00:00:00",
-    "williamsR": -99.833965844402
+    "value": 229.99
   },
   {
     "timestamp": "2018-12-26T00:00:00",
-    "williamsR": -65.379153649531
+    "value": 241.61
   },
   {
     "timestamp": "2018-12-27T00:00:00",
-    "williamsR": -60.124964498722
+    "value": 243.46
   },
   {
     "timestamp": "2018-12-28T00:00:00",
-    "williamsR": -58.456883509834
+    "value": 243.15
   },
   {
     "timestamp": "2018-12-31T00:00:00",
-    "williamsR": -52.012102874433
+    "value": 245.28
   }
 ]

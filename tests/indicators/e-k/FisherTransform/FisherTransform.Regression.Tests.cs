@@ -8,7 +8,7 @@ public class FisherTransformTests : RegressionTestBase<FisherTransformResult>
     public FisherTransformTests() : base("fisher.standard.json") { }
 
     [TestMethod]
-    public override void Series() => Quotes.ToFisherTransform(10).AssertEquals(Expected, Precision.LastDigit);
+    public override void Series() => Quotes.ToFisherTransform(10).AssertEquals(Expected);
 
     [TestMethod]
     public override void Buffer() =>

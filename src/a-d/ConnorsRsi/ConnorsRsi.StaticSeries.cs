@@ -49,7 +49,8 @@ public static partial class ConnorsRsi
 
                 if (i >= startPeriod - 1)
                 {
-                    crsi = (sInfo.Rsi + sRsi.Rsi + sInfo.PercentRank) / 3;
+                    crsi = ((sInfo.Rsi + sRsi.Rsi + sInfo.PercentRank) / 3d)
+                        .ToPrecision(14);
                 }
 
                 results.Add(sInfo with {
@@ -161,7 +162,9 @@ public static partial class ConnorsRsi
                     }
                 }
 
-                percentRank = isViableRank ? 100 * qty / rankPeriods : null;
+                percentRank = isViableRank
+                    ? (100d * qty / rankPeriods).ToPrecision(14)
+                    : null;
             }
 
             results.Add(new ConnorsRsiResult(

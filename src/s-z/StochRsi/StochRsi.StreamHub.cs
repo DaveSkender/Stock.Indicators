@@ -199,7 +199,7 @@ public sealed class StochRsiHub
                 sumK += item;
             }
 
-            k = sumK / SmoothPeriods;
+            k = (sumK / SmoothPeriods).ToPrecision(14);
         }
 
         signalBuffer.Enqueue(k);
@@ -217,7 +217,7 @@ public sealed class StochRsiHub
                 sumSignal += item;
             }
 
-            signal = sumSignal / SignalPeriods;
+            signal = (sumSignal / SignalPeriods).ToPrecision(14);
         }
 
         return (k, signal);

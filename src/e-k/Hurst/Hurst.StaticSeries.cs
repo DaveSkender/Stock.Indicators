@@ -51,7 +51,7 @@ public static partial class Hurst
                 }
 
                 // calculate hurst exponent
-                h = CalcHurstWindow(values).NaN2Null();
+                h = CalcHurstWindow(values).ToPrecision(14).NaN2Null();
             }
 
             results.Add(new(

@@ -162,7 +162,7 @@ public class ConnorsRsiList : BufferList<ConnorsRsiResult>, IIncrementFromChain
             }
         }
 
-        return 100.0 * qty / RankPeriods;
+        return (100d * qty / RankPeriods).ToPrecision(14);
     }
 
     private double? CalculateConnorsRsi(double? rsi, double? rsiStreak, double? percentRank)
@@ -170,7 +170,7 @@ public class ConnorsRsiList : BufferList<ConnorsRsiResult>, IIncrementFromChain
         int startPeriod = Math.Max(RsiPeriods, Math.Max(StreakPeriods, RankPeriods)) + 2;
 
         return _processedCount >= startPeriod - 1 && rsi.HasValue && rsiStreak.HasValue && percentRank.HasValue
-            ? (rsi.Value + rsiStreak.Value + percentRank.Value) / 3
+            ? ((rsi.Value + rsiStreak.Value + percentRank.Value) / 3d).ToPrecision(14)
             : null;
     }
 

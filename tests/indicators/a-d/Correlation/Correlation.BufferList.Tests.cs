@@ -19,6 +19,17 @@ public class Correlation : BufferListTestBase, ITestChainBufferList
        = quotesA.ToCorrelation(quotesB, lookbackPeriods);
 
     [TestMethod]
+    public void Results_AreAlwaysBounded()
+    {
+        CorrelationList sut = new(lookbackPeriods) {
+            { quotesA, quotesB }
+        };
+
+        TestAsserts.AlwaysBounded(sut, x => x.Correlation, -1, 1);
+        TestAsserts.AlwaysBounded(sut, x => x.RSquared, 0, 1);
+    }
+
+    [TestMethod]
     public void AddReusableItem_IncrementsResults()
     {
         CorrelationList sut = new(lookbackPeriods);

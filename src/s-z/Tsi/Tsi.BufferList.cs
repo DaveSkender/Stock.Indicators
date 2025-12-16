@@ -165,7 +165,7 @@ public class TsiList : BufferList<TsiResult>, IIncrementFromChain, ITsi
 
         // Calculate TSI
         double tsi = as2 != 0
-            ? 100d * (cs2 / as2)
+            ? (100d * (cs2 / as2)).ToPrecision(14)
             : double.NaN;
 
         _tsiHistory.Add(tsi);
@@ -202,7 +202,7 @@ public class TsiList : BufferList<TsiResult>, IIncrementFromChain, ITsi
                         sum += _tsiHistory[p];
                     }
 
-                    signal = sum / SignalPeriods;
+                    signal = (sum / SignalPeriods).ToPrecision(14);
                 }
                 else
                 {
@@ -212,7 +212,7 @@ public class TsiList : BufferList<TsiResult>, IIncrementFromChain, ITsi
             else if (!double.IsNaN(_prevSignal) && !double.IsNaN(tsi))
             {
                 // Continue with EMA
-                signal = ((tsi - _prevSignal) * _multS) + _prevSignal;
+                signal = (((tsi - _prevSignal) * _multS) + _prevSignal).ToPrecision(14);
             }
             else
             {

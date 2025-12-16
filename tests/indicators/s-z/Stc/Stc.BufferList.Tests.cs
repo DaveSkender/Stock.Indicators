@@ -123,4 +123,16 @@ public class Stc : BufferListTestBase, ITestChainBufferList
         sut.Should().HaveCount(maxListSize);
         sut.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
     }
+
+    [TestMethod]
+    public void Results_AreAlwaysBounded()
+    {
+        StcList sut = Quotes.ToStcList(cyclePeriods, fastPeriods, slowPeriods);
+
+        TestAsserts.AlwaysBounded(
+            sut,
+            static x => x.Stc,
+            0,
+            100);
+    }
 }

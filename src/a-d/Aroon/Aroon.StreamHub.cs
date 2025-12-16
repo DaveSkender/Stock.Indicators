@@ -71,8 +71,8 @@ public class AroonHub
                 }
             }
 
-            aroonUp = 100d * (LookbackPeriods - (i - lastHighIndex)) / LookbackPeriods;
-            aroonDown = 100d * (LookbackPeriods - (i - lastLowIndex)) / LookbackPeriods;
+            aroonUp = (100d * (LookbackPeriods - (i - lastHighIndex)) / LookbackPeriods).ToPrecision(14);
+            aroonDown = (100d * (LookbackPeriods - (i - lastLowIndex)) / LookbackPeriods).ToPrecision(14);
         }
 
         // Candidate result
@@ -80,7 +80,7 @@ public class AroonHub
             Timestamp: item.Timestamp,
             AroonUp: aroonUp,
             AroonDown: aroonDown,
-            Oscillator: aroonUp - aroonDown);
+            Oscillator: (aroonUp - aroonDown).ToPrecision(14));
 
         return (r, i);
     }

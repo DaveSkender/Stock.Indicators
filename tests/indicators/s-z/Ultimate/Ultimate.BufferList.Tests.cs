@@ -11,6 +11,13 @@ public class Ultimate : BufferListTestBase
        = Quotes.ToUltimate(shortPeriods, middlePeriods, longPeriods);
 
     [TestMethod]
+    public void Results_AreAlwaysBounded()
+    {
+        UltimateList results = new(7, 14, 28, Quotes);
+        TestAsserts.AlwaysBounded(results, x => x.Ultimate, 0, 100);
+    }
+
+    [TestMethod]
     public void AddQuotes()
     {
         UltimateList sut = new(shortPeriods, middlePeriods, longPeriods);

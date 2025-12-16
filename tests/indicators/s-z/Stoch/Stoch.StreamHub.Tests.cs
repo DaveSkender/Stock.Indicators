@@ -64,6 +64,16 @@ public class Stoch : StreamHubTestBase, ITestQuoteObserver
     }
 
     [TestMethod]
+    public void Results_AreAlwaysBounded()
+    {
+        QuoteHub provider = new();
+        StochHub hub = new(provider, 14, 3, 3);
+        provider.Add(Quotes);
+        TestAsserts.AlwaysBounded(hub.Results, static x => x.Oscillator, 0d, 100d);
+        TestAsserts.AlwaysBounded(hub.Results, static x => x.Signal, 0d, 100d);
+    }
+
+    [TestMethod]
     public void ExtendedParameters()
     {
         const int lookbackPeriods = 9;
@@ -200,30 +210,6 @@ public class Stoch : StreamHubTestBase, ITestQuoteObserver
             streamResult.Oscillator.Should().Be(batchResult.Oscillator);
             streamResult.Signal.Should().Be(batchResult.Signal);
             streamResult.PercentJ.Should().Be(batchResult.PercentJ);
-        }
-    }
-
-    [TestMethod]
-    public void BoundaryValues()
-    {
-        // Test oscillator stays within 0-100 bounds
-        QuoteHub quoteHub = new();
-        StochHub observer = quoteHub.ToStochHub(14, 3, 3);
-
-        quoteHub.Add(Quotes);
-        quoteHub.EndTransmission();
-
-        foreach (StochResult result in observer.Cache)
-        {
-            if (result.Oscillator.HasValue)
-            {
-                result.Oscillator.Value.Should().BeInRange(0, 100);
-            }
-
-            if (result.Signal.HasValue)
-            {
-                result.Signal.Value.Should().BeInRange(0, 100);
-            }
         }
     }
 }

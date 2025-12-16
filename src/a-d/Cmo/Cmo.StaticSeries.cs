@@ -82,7 +82,7 @@ public static partial class Cmo
                 }
 
                 cmo = sH + sL != 0
-                    ? (100 * (sH - sL) / (sH + sL)).NaN2Null()
+                    ? (100 * (sH - sL) / (sH + sL)).ToPrecision(14).NaN2Null()
                     : 0d;
             }
 

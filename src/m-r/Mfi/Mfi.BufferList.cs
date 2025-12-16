@@ -80,7 +80,7 @@ public class MfiList : BufferList<MfiResult>, IIncrementFromQuote
             if (sumNegMFs != 0)
             {
                 double mfRatio = sumPosMFs / sumNegMFs;
-                mfi = 100 - (100 / (1 + mfRatio));
+                mfi = (100 - (100 / (1 + mfRatio))).ToPrecision(14);
             }
             else
             {

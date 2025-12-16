@@ -71,7 +71,8 @@ public static partial class Chop
                     // calculate CHOP
                     if (range != 0)
                     {
-                        chop = 100 * (Math.Log(sum / range) / Math.Log(lookbackPeriods));
+                        chop = (100d * (Math.Log(sum / range) / Math.Log(lookbackPeriods)))
+                            .ToPrecision(14);
                     }
                 }
             }

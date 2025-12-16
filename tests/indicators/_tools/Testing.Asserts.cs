@@ -5,7 +5,7 @@ namespace Tests.Tools;
 /// <summary>
 /// Custom assertion helpers for test validation.
 /// </summary>
-public static partial class TestAsserts
+public static class TestAsserts
 {
     /// <summary>
     /// Asserts that all computed (non-null, non-NaN) values remain within inclusive bounds.
@@ -38,7 +38,12 @@ public static partial class TestAsserts
         }
     }
 
-    /// <inheritdoc cref="AssertEquals{T}(IEnumerable{T}, IEnumerable{T}, Precision)" />
+    /// <summary>
+    /// Asserts that two <see cref="IEnumerable{T}" /> series are equivalent with a precision profile.
+    /// </summary>
+    /// <typeparam name="T">List elements must be <see cref="ISeries"/> interface types.</typeparam>
+    /// <param name="actual">The actual list of series to be compared.</param>
+    /// <param name="expected">The expected list of series to compare against.</param>
     public static void AssertEquals<T>(
         this IEnumerable<T> actual,
         IEnumerable<T> expected
@@ -50,13 +55,12 @@ public static partial class TestAsserts
             // This enforces value-based structural equivalency for our result records/classes
             .ComparingByMembers<T>());
 
-    /// <summary>
-    /// Asserts that two <see cref="IEnumerable{T}" /> series are equivalent with a precision profile.
-    /// </summary>
-    /// <typeparam name="T">List elements must be <see cref="ISeries"/> interface types.</typeparam>
+
+    /// <inheritdoc cref="AssertEquals{T}(IEnumerable{T}, IEnumerable{T})" />
     /// <param name="actual">The actual list of series to be compared.</param>
     /// <param name="expected">The expected list of series to compare against.</param>
     /// <param name="precision">The precision profile to use for comparisons.</param>
+    [Obsolete("DO NOT USE this since it hides real math errors!")]
     public static void AssertEquals<T>(
         this IEnumerable<T> actual,
         IEnumerable<T> expected,
@@ -170,6 +174,7 @@ public static partial class TestAsserts
     /// <see cref="Precision.LastDigit"/> to avoid masking financial rounding issues.
     /// Adjust profiles as needed per repository standards.
     /// </remarks>
+    [Obsolete]
     private static (double dTol, float fTol, decimal mTol) GetTolerances(Precision profile)
         => profile switch {
             Precision.Strict => (0d, 0f, 0m),
