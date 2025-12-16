@@ -441,7 +441,7 @@
       "type": "shell",
       "command": "pkill -f \"vitepress|docs:dev|docs:preview|5173|5174\" || true",
       "windows": {
-        "command": "powershell -NoLogo -NoProfile -Command \"Get-Process node -ErrorAction SilentlyContinue | Where-Object { $_.Path -and ( $_.CommandLine -match 'vitepress' -or $_.CommandLine -match 'docs:dev' -or $_.CommandLine -match 'docs:preview' -or $_.CommandLine -match '5173' -or $_.CommandLine -match '5174' ) } | ForEach-Object { Write-Host \\\"Stopping VitePress process $($_.Id)\\\"; Stop-Process -Id $_.Id -Force }\""
+        "command": "powershell -NoLogo -NoProfile -Command \"Get-CimInstance Win32_Process -Filter \\\"Name='node.exe'\\\" -ErrorAction SilentlyContinue | Where-Object { $_.CommandLine -match 'vitepress|docs:dev|docs:preview|5173|5174' } | ForEach-Object { Write-Host \\\"Stopping VitePress process $($_.ProcessId)\\\"; Stop-Process -Id $_.ProcessId -Force -ErrorAction SilentlyContinue }\""
       },
       "osx": {
         "command": "pkill -f \"vitepress|docs:dev|docs:preview|5173|5174\" || true"
