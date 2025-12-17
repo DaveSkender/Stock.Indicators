@@ -16,6 +16,9 @@ public class Utility
     public object ToListQuoteD() => quotes.ToQuoteDList();
 
     [Benchmark]
+    public object ToListQuoteX() => quotes.ToQuoteXList();
+
+    [Benchmark]
     public object ToReusableClose() => quotes.ToReusable(CandlePart.Close);
 
     [Benchmark]

@@ -121,3 +121,95 @@ internal record QuoteD
     [JsonIgnore]
     public double Value => Close;
 }
+
+/// <summary>
+/// Experimental Quote with internal long storage.
+/// Uses decimal.ToOACurrency() for price/volume and DateTime.Ticks for timestamp.
+/// Public interface remains compatible with IQuote (decimal properties).
+/// For research purposes only - comparing size and performance characteristics.
+/// </summary>
+[Serializable]
+internal sealed class QuoteX : IQuote
+{
+    // Internal storage as long values
+    private readonly long _timestampTicks;
+    private readonly DateTimeKind _timestampKind;
+    private readonly long _open;
+    private readonly long _high;
+    private readonly long _low;
+    private readonly long _close;
+    private readonly long _volume;
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="QuoteX"/> class.
+    /// </summary>
+    /// <param name="timestamp">Close date/time of the aggregate</param>
+    /// <param name="open">Aggregate bar's first tick price</param>
+    /// <param name="high">Aggregate bar's highest tick price</param>
+    /// <param name="low">Aggregate bar's lowest tick price</param>
+    /// <param name="close">Aggregate bar's last tick price</param>
+    /// <param name="volume">Aggregate bar's tick volume</param>
+    public QuoteX(
+        DateTime timestamp,
+        decimal open,
+        decimal high,
+        decimal low,
+        decimal close,
+        decimal volume)
+    {
+        _timestampTicks = timestamp.Ticks;
+        _timestampKind = timestamp.Kind;
+        _open = decimal.ToOACurrency(open);
+        _high = decimal.ToOACurrency(high);
+        _low = decimal.ToOACurrency(low);
+        _close = decimal.ToOACurrency(close);
+        _volume = decimal.ToOACurrency(volume);
+    }
+
+    /// <inheritdoc/>
+    public DateTime Timestamp => new(_timestampTicks, _timestampKind);
+
+    /// <inheritdoc/>
+    public decimal Open => decimal.FromOACurrency(_open);
+
+    /// <inheritdoc/>
+    public decimal High => decimal.FromOACurrency(_high);
+
+    /// <inheritdoc/>
+    public decimal Low => decimal.FromOACurrency(_low);
+
+    /// <inheritdoc/>
+    public decimal Close => decimal.FromOACurrency(_close);
+
+    /// <inheritdoc/>
+    public decimal Volume => decimal.FromOACurrency(_volume);
+
+    /// <inheritdoc/>
+    [JsonIgnore]
+    public double Value => (double)Close;
+
+    /// <summary>
+    /// Gets internal long representation of Open price.
+    /// </summary>
+    internal long OpenLong => _open;
+
+    /// <summary>
+    /// Gets internal long representation of High price.
+    /// </summary>
+    internal long HighLong => _high;
+
+    /// <summary>
+    /// Gets internal long representation of Low price.
+    /// </summary>
+    internal long LowLong => _low;
+
+    /// <summary>
+    /// Gets internal long representation of Close price.
+    /// </summary>
+    internal long CloseLong => _close;
+
+    /// <summary>
+    /// Gets internal long representation of Volume.
+    /// </summary>
+    internal long VolumeLong => _volume;
+}
