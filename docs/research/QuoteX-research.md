@@ -55,9 +55,9 @@ Two benchmark suites were created to measure performance:
 
 | Method         | Mean     | Allocated Memory | Relative Performance |
 |----------------|----------|------------------|----------------------|
-| MacdWithQuote  | 16.09 µs | 56,280 bytes     | Baseline (1.00x)     |
-| MacdWithQuoteX | 18.66 µs | 56,280 bytes     | 1.16x slower         |
-| MacdWithQuoteD | 46.16 µs | 112,632 bytes    | 2.87x slower         |
+| MacdWithQuote  | 15.24 µs | 56,280 bytes     | Baseline (1.00x)     |
+| MacdWithQuoteX | 17.93 µs | 56,280 bytes     | 1.18x slower         |
+| MacdWithQuoteD | 45.67 µs | 112,632 bytes    | 3.00x slower         |
 
 ## Analysis
 
@@ -87,9 +87,10 @@ Two benchmark suites were created to measure performance:
 
 **Calculation Performance**:
 
-- QuoteX MACD calculation is 16% slower than Quote
-- Limited benefit from long arithmetic due to frequent conversions
-- The experimental SMA helper using long summation doesn't offset conversion costs
+- QuoteX MACD calculation is 18% slower than Quote (17.93 µs vs 15.24 µs)
+- Uses internal long values directly via `CloseLong` accessor
+- Converts from OACurrency long to double once per iteration
+- Long summation in SMA helper reduces conversion overhead during initialization
 
 **QuoteD Performance**:
 
@@ -109,9 +110,9 @@ Two benchmark suites were created to measure performance:
 ### Cons of QuoteX
 
 - ❌ 86% slower creation time
-- ❌ 16% slower calculations
+- ❌ 18% slower calculations
 - ❌ Increased code complexity
-- ❌ Conversion overhead on every property access
+- ❌ Conversion overhead on property access
 - ❌ Limited benefit from long arithmetic in practice
 
 ### Verdict
@@ -119,7 +120,7 @@ Two benchmark suites were created to measure performance:
 **Not recommended for general use.** The memory savings (28%) do not justify the performance penalties:
 
 - Creation: 86% slower
-- Calculations: 16% slower
+- Calculations: 18% slower
 
 The standard `Quote` class using `decimal` provides the best balance of:
 

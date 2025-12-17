@@ -9,6 +9,7 @@ public static partial class Macd
     /// <summary>
     /// Converts a list of QuoteX values to MACD (Moving Average Convergence Divergence) results.
     /// This is an experimental method using internal long storage for performance comparison.
+    /// Uses long values directly from QuoteX and converts to double once for calculations.
     /// </summary>
     /// <param name="source">The list of QuoteX values to transform.</param>
     /// <param name="fastPeriods">The number of periods for the fast EMA. Default is 12.</param>
@@ -42,20 +43,20 @@ public static partial class Macd
         // roll through source values
         for (int i = 0; i < length; i++)
         {
-            // Convert from internal long to double for calculations
-            // In a real scenario, we'd do more long-based math here
-            double closeValue = (double)source[i].Close;
+            // Use internal long value directly and convert once to double
+            long closeValueLong = source[i].CloseLong;
+            double closeValue = (double)decimal.FromOACurrency(closeValueLong);
 
             // Fast EMA
             double emaFast
                 = i >= fastPeriods - 1 && results[i - 1].FastEma is null
-                ? IncrementSmaX(source, fastPeriods, i)
+                ? IncrementSmaXLong(source, fastPeriods, i)
                 : Ema.Increment(kFast, lastEmaFast, closeValue);
 
             // Slow EMA
             double emaSlow
                 = i >= slowPeriods - 1 && results[i - 1].SlowEma is null
-                ? IncrementSmaX(source, slowPeriods, i)
+                ? IncrementSmaXLong(source, slowPeriods, i)
                 : Ema.Increment(kSlow, lastEmaSlow, closeValue);
 
             // MACD
@@ -97,9 +98,10 @@ public static partial class Macd
     }
 
     /// <summary>
-    /// Helper method to calculate SMA for QuoteX using internal long values where possible.
+    /// Helper method to calculate SMA for QuoteX using internal long values.
+    /// Uses long arithmetic for summation, then converts final result to double.
     /// </summary>
-    private static double IncrementSmaX(
+    private static double IncrementSmaXLong(
         List<QuoteX> source,
         int lookbackPeriods,
         int endIndex)
@@ -110,7 +112,6 @@ public static partial class Macd
         }
 
         // Use long arithmetic for summation to leverage internal storage
-        // Then convert to double at the end
         long sumLong = 0;
         int startIndex = endIndex - lookbackPeriods + 1;
 
@@ -119,8 +120,7 @@ public static partial class Macd
             sumLong += source[i].CloseLong;
         }
 
-        // Convert OACurrency long back to decimal, then to double
-        // This mimics what would happen in a fully long-based calculation
+        // Convert OACurrency long sum to decimal, then average and convert to double
         return (double)decimal.FromOACurrency(sumLong) / lookbackPeriods;
     }
 }
