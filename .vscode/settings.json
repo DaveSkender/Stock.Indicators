@@ -29,8 +29,8 @@
   ],
   "search.exclude": {
     "**/_site/**": true,
-    "**/_testdata/**/*.csv": true,
-    "**/_testdata/**/*.json": true,
+    "**/_data/**/*.csv": true,
+    "**/_data/**/*.json": true,
     "**/.vs/**": true,
     "**/bin/**": true,
     "**/obj/**": true,

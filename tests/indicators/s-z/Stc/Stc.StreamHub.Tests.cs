@@ -150,7 +150,7 @@ public class StcHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
             provider.Add(quote);
         }
 
-        TestAsserts.AlwaysBounded(
+        TestAssert.IsBetween(
             hub.Results,
             static x => x.Stc,
             0,

@@ -10,7 +10,7 @@ public class Dpo : StaticSeriesTestBase
         List<Quote> qot = [];
         List<DpoResult> exp = [];
 
-        List<string> csvData = File.ReadAllLines("_testdata/results/dpo.standard.csv")
+        List<string> csvData = File.ReadAllLines("_data/results/dpo.standard.csv")
             .Skip(1)
             .ToList();
 

@@ -8,8 +8,8 @@ public class StochRsiHubTests : StreamHubTestBase, ITestChainObserver, ITestChai
     {
         StochRsiHub sut = Quotes.ToStochRsiHub(14, 14, 3, 1);
 
-        TestAsserts.AlwaysBounded(sut.Results, static x => x.StochRsi, 0d, 100d);
-        TestAsserts.AlwaysBounded(sut.Results, static x => x.Signal, 0d, 100d);
+        TestAssert.IsBetween(sut.Results, static x => x.StochRsi, 0d, 100d);
+        TestAssert.IsBetween(sut.Results, static x => x.Signal, 0d, 100d);
     }
 
     [TestMethod]

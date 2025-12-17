@@ -89,7 +89,7 @@ public class ConnorsRsi : BufferListTestBase, ITestChainBufferList
     {
         ConnorsRsiList sut = new(rsiPeriods, streakPeriods, rankPeriods, Quotes);
 
-        TestAsserts.AlwaysBounded(sut, static x => x.ConnorsRsi, 0d, 100d);
+        TestAssert.IsBetween(sut, static x => x.ConnorsRsi, 0d, 100d);
     }
 
     [TestMethod]

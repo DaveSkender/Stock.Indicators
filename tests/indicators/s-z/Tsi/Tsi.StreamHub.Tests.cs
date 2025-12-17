@@ -34,8 +34,8 @@ public class TsiHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
             quoteHub.Add(quote);
         }
 
-        TestAsserts.AlwaysBounded(observer.Results, x => x.Tsi, -100, 100);
-        TestAsserts.AlwaysBounded(observer.Results, x => x.Signal, -100, 100);
+        TestAssert.IsBetween(observer.Results, x => x.Tsi, -100, 100);
+        TestAssert.IsBetween(observer.Results, x => x.Signal, -100, 100);
 
         observer.Unsubscribe();
         quoteHub.EndTransmission();

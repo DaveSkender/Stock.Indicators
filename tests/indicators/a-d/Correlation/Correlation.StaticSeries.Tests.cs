@@ -38,8 +38,8 @@ public class Correlation : StaticSeriesTestBase
         IReadOnlyList<CorrResult> results = Quotes
             .ToCorrelation(OtherQuotes, 20);
 
-        TestAsserts.AlwaysBounded(results, x => x.Correlation, -1, 1);
-        TestAsserts.AlwaysBounded(results, x => x.RSquared, 0, 1);
+        TestAssert.IsBetween(results, x => x.Correlation, -1, 1);
+        TestAssert.IsBetween(results, x => x.RSquared, 0, 1);
     }
 
     [TestMethod]

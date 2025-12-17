@@ -73,7 +73,7 @@ public class ConnorsRsi : StaticSeriesTestBase
         IReadOnlyList<ConnorsRsiResult> results = Quotes
             .ToConnorsRsi();
 
-        TestAsserts.AlwaysBounded(results, static x => x.ConnorsRsi, 0d, 100d);
+        TestAssert.IsBetween(results, static x => x.ConnorsRsi, 0d, 100d);
     }
 
     [TestMethod]

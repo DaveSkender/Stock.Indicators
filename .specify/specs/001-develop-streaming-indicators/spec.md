@@ -46,7 +46,7 @@ As a developer building real-time trading applications, I need indicators that u
 - **NFR-004**: API design MUST follow existing library conventions (no breaking changes to batch APIs)
 - **NFR-005**: Documentation MUST include streaming usage examples, warmup guidance, and performance characteristics
 - **NFR-006**: Release deliverable MUST leverage existing GitHub Releases automation and update `src/MigrationGuide.V3.md` with streaming migration guidance per Constitution Principle 5
-- **NFR-007**: Regression tests MUST validate all three implementation styles (Series, BufferList, StreamHub) against baseline results with deterministic equality (NOT approximate equality). Baselines stored in `tests/indicators/_testdata/results/{indicator}.standard.json` and generated using catalog default parameters.
+- **NFR-007**: Regression tests MUST validate all three implementation styles (Series, BufferList, StreamHub) against baseline results with deterministic equality (NOT approximate equality). Baselines stored in `tests/indicators/_data/results/{indicator}.standard.json` and generated using catalog default parameters.
 
 ### Interface architecture requirements
 

@@ -88,8 +88,8 @@ public class Stoch : BufferListTestBase
     public void Results_AreAlwaysBounded()
     {
         StochList results = new(lookbackPeriods, signalPeriods, smoothPeriods, kFactor, dFactor, movingAverageType, Quotes);
-        TestAsserts.AlwaysBounded(results, static x => x.Oscillator, 0d, 100d);
-        TestAsserts.AlwaysBounded(results, static x => x.Signal, 0d, 100d);
+        TestAssert.IsBetween(results, static x => x.Oscillator, 0d, 100d);
+        TestAssert.IsBetween(results, static x => x.Signal, 0d, 100d);
     }
 
     [TestMethod]

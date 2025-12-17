@@ -27,7 +27,7 @@ public class WilliamsR : StaticSeriesTestBase
         IReadOnlyList<WilliamsResult> results = Quotes
             .ToWilliamsR();
 
-        TestAsserts.AlwaysBounded(results, static x => x.WilliamsR, -100d, 0d);
+        TestAssert.IsBetween(results, static x => x.WilliamsR, -100d, 0d);
     }
 
     [TestMethod]
@@ -86,16 +86,16 @@ public class WilliamsR : StaticSeriesTestBase
             .GetRandom(2500)
             .ToWilliamsR();
 
-        TestAsserts.AlwaysBounded(results, static x => x.WilliamsR, -100d, 0d);
+        TestAssert.IsBetween(results, static x => x.WilliamsR, -100d, 0d);
     }
 
     [TestMethod]
     public void Issue1127_Original_BoundaryThreshold_Maintained()
     {
         // initialize
-        IReadOnlyList<Quote> quotes = File.ReadAllLines("_testdata/issues/issue1127.quotes.williamr.original.csv")
+        IReadOnlyList<Quote> quotes = File.ReadAllLines("_data/issues/issue1127.quotes.williamr.original.csv")
             .Skip(1)
-            .Select(Tests.Data.Utilities.QuoteFromCsv)
+            .Select(Test.Data.Utilities.QuoteFromCsv)
             .OrderBy(static x => x.Timestamp)
             .ToList();
 
@@ -105,16 +105,16 @@ public class WilliamsR : StaticSeriesTestBase
         IReadOnlyList<WilliamsResult> results = quotes
             .ToWilliamsR();
 
-        TestAsserts.AlwaysBounded(results, static x => x.WilliamsR, -100d, 0d);
+        TestAssert.IsBetween(results, static x => x.WilliamsR, -100d, 0d);
     }
 
     [TestMethod]
     public void Issue1127_Revisit_BoundaryThreshold_Maintained()
     {
         // initialize
-        IReadOnlyList<Quote> quotes = File.ReadAllLines("_testdata/issues/issue1127.quotes.williamr.revisit.csv")
+        IReadOnlyList<Quote> quotes = File.ReadAllLines("_data/issues/issue1127.quotes.williamr.revisit.csv")
             .Skip(1)
-            .Select(Tests.Data.Utilities.QuoteFromCsv)
+            .Select(Test.Data.Utilities.QuoteFromCsv)
             .OrderBy(static x => x.Timestamp)
             .ToList();
 
@@ -131,7 +131,7 @@ public class WilliamsR : StaticSeriesTestBase
 
         Console.WriteLine(results.ToStringOut(args));
 
-        TestAsserts.AlwaysBounded(results, static x => x.WilliamsR, -100d, 0d);
+        TestAssert.IsBetween(results, static x => x.WilliamsR, -100d, 0d);
     }
 
     /// <summary>

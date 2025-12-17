@@ -1,6 +1,6 @@
 using System.Text.Json;
 
-namespace Tests.Data;
+namespace Test.Data;
 
 // TEST DATA FILE LOADERS
 
@@ -15,7 +15,7 @@ internal static class Data
         where TResult : ISeries
     {
         // Check if baseline file exists
-        string filepath = Path.Combine("_testdata", "results", filename);
+        string filepath = Path.Combine("_data", "results", filename);
 
         if (!File.Exists(filepath))
         {
@@ -33,7 +33,7 @@ internal static class Data
 
     // DEFAULT: SnP 500 ~2 years of daily data
     internal static IReadOnlyList<Quote> GetDefault(int days = 502)
-        => File.ReadAllLines("_testdata/quotes/default.csv")
+        => File.ReadAllLines("_data/quotes/default.csv")
             .Skip(1)
             .Select(Utilities.QuoteFromCsv)
             .OrderByDescending(static x => x.Timestamp)
@@ -54,7 +54,7 @@ internal static class Data
 
     // BAD DATA
     internal static IReadOnlyList<Quote> GetBad(int days = 502)
-        => File.ReadAllLines("_testdata/quotes/bad.csv")
+        => File.ReadAllLines("_data/quotes/bad.csv")
             .Skip(1)
             .Select(Utilities.QuoteFromCsv)
             .OrderByDescending(static x => x.Timestamp)
@@ -63,7 +63,7 @@ internal static class Data
 
     // BITCOIN DATA
     internal static IReadOnlyList<Quote> GetBitcoin(int days = 1246)
-        => File.ReadAllLines("_testdata/quotes/bitcoin.csv")
+        => File.ReadAllLines("_data/quotes/bitcoin.csv")
             .Skip(1)
             .Select(Utilities.QuoteFromCsv)
             .OrderByDescending(static x => x.Timestamp)
@@ -72,7 +72,7 @@ internal static class Data
 
     // BTCUSD, 69288 records, 15-minute bars
     internal static IReadOnlyList<Quote> GetBtcUsdNan(int bars = 69288)
-        => File.ReadAllLines("_testdata/quotes/btcusd15x69k.csv")
+        => File.ReadAllLines("_data/quotes/btcusd15x69k.csv")
             .Skip(1)
             .Select(Utilities.QuoteFromCsv)
             .OrderByDescending(static x => x.Timestamp)
@@ -81,7 +81,7 @@ internal static class Data
 
     // COMPARE DATA ~2 years of TSLA data (matches default time)
     internal static IReadOnlyList<Quote> GetCompare(int days = 502)
-        => File.ReadAllLines("_testdata/quotes/compare.csv")
+        => File.ReadAllLines("_data/quotes/compare.csv")
             .Skip(1)
             .Select(Utilities.QuoteFromCsv)
             .OrderByDescending(static x => x.Timestamp)
@@ -90,7 +90,7 @@ internal static class Data
 
     // INTRADAY DATA
     internal static IReadOnlyList<Quote> GetIntraday(int days = 1564)
-        => File.ReadAllLines("_testdata/quotes/intraday.csv")
+        => File.ReadAllLines("_data/quotes/intraday.csv")
             .Skip(1)
             .Select(Utilities.QuoteFromCsv)
             .OrderByDescending(static x => x.Timestamp)
@@ -99,14 +99,14 @@ internal static class Data
 
     // LONGEST DATA ~62 years of SnP 500 daily data (15,821)
     internal static IReadOnlyList<Quote> GetLongest()
-        => File.ReadAllLines("_testdata/quotes/longest.csv")
+        => File.ReadAllLines("_data/quotes/longest.csv")
             .Skip(1)
             .Select(Utilities.QuoteFromCsv)
             .ToSortedList();
 
     // LONGISH DATA ~20 years of SnP 500 daily data
     internal static IReadOnlyList<Quote> GetLongish(int days = 5285)
-        => File.ReadAllLines("_testdata/quotes/longish.csv")
+        => File.ReadAllLines("_data/quotes/longish.csv")
             .Skip(1)
             .Select(Utilities.QuoteFromCsv)
             .OrderByDescending(static x => x.Timestamp)
@@ -115,14 +115,14 @@ internal static class Data
 
     // MISMATCH DATA is in incorrect sequence
     internal static IReadOnlyList<Quote> GetMismatch()
-        => File.ReadAllLines("_testdata/quotes/mismatch.csv")
+        => File.ReadAllLines("_data/quotes/mismatch.csv")
             .Skip(1)
             .Select(Utilities.QuoteFromCsv)
             .ToList();  // not sorted
 
     // MSFT, 30 years, daily
     internal static IReadOnlyList<Quote> GetMsft(int days = 8111)
-        => File.ReadAllLines("_testdata/quotes/msft.csv")
+        => File.ReadAllLines("_data/quotes/msft.csv")
             .Skip(1)
             .Select(Utilities.QuoteFromCsv)
             .OrderByDescending(static x => x.Timestamp)
@@ -131,14 +131,14 @@ internal static class Data
 
     // PENNY DATA
     internal static IReadOnlyList<Quote> GetPenny()
-        => File.ReadAllLines("_testdata/quotes/penny.csv")
+        => File.ReadAllLines("_data/quotes/penny.csv")
             .Skip(1)
             .Select(Utilities.QuoteFromCsv)
             .ToSortedList();
 
     // SPX, 30 years, daily
     internal static IReadOnlyList<Quote> GetSpx(int days = 8111)
-        => File.ReadAllLines("_testdata/quotes/spx.csv")
+        => File.ReadAllLines("_data/quotes/spx.csv")
             .Skip(1)
             .Select(Utilities.QuoteFromCsv)
             .OrderByDescending(static x => x.Timestamp)
@@ -147,7 +147,7 @@ internal static class Data
 
     // TOO BIG DATA
     internal static IReadOnlyList<Quote> GetTooBig(int days = 1246)
-        => File.ReadAllLines("_testdata/quotes/toobig.csv")
+        => File.ReadAllLines("_data/quotes/toobig.csv")
             .Skip(1)
             .Select(Utilities.QuoteFromCsv)
             .OrderByDescending(static x => x.Timestamp)
@@ -156,7 +156,7 @@ internal static class Data
 
     // MAX SIZE DATA
     internal static IReadOnlyList<Quote> GetMax(int days = 502)
-        => File.ReadAllLines("_testdata/quotes/toobig.csv")
+        => File.ReadAllLines("_data/quotes/toobig.csv")
             .Skip(1)
             .Select(Utilities.QuoteFromCsv)
             .OrderByDescending(static x => x.Timestamp)
@@ -165,7 +165,7 @@ internal static class Data
 
     // ZEROS (200)
     internal static IReadOnlyList<Quote> GetZeros(int days = 200)
-        => File.ReadAllLines("_testdata/quotes/zeros.csv")
+        => File.ReadAllLines("_data/quotes/zeros.csv")
             .Skip(1)
             .Select(Utilities.QuoteFromCsv)
             .OrderByDescending(static x => x.Timestamp)

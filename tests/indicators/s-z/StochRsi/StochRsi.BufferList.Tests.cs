@@ -53,8 +53,8 @@ public class StochRsi : BufferListTestBase, ITestChainBufferList
     {
         StochRsiList sut = new(rsiPeriods, stochPeriods, signalPeriods, smoothPeriods, Quotes);
 
-        TestAsserts.AlwaysBounded(sut, static x => x.StochRsi, 0d, 100d);
-        TestAsserts.AlwaysBounded(sut, static x => x.Signal, 0d, 100d);
+        TestAssert.IsBetween(sut, static x => x.StochRsi, 0d, 100d);
+        TestAssert.IsBetween(sut, static x => x.Signal, 0d, 100d);
     }
 
     [TestMethod]

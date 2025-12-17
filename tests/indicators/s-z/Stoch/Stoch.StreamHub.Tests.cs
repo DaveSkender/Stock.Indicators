@@ -69,8 +69,8 @@ public class Stoch : StreamHubTestBase, ITestQuoteObserver
         QuoteHub provider = new();
         StochHub hub = new(provider, 14, 3, 3);
         provider.Add(Quotes);
-        TestAsserts.AlwaysBounded(hub.Results, static x => x.Oscillator, 0d, 100d);
-        TestAsserts.AlwaysBounded(hub.Results, static x => x.Signal, 0d, 100d);
+        TestAssert.IsBetween(hub.Results, static x => x.Oscillator, 0d, 100d);
+        TestAssert.IsBetween(hub.Results, static x => x.Signal, 0d, 100d);
     }
 
     [TestMethod]

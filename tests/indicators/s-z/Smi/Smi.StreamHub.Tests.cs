@@ -253,7 +253,7 @@ public class SmiHubTest : StreamHubTestBase, ITestQuoteObserver, ITestChainProvi
 
         quoteHub.Add(Quotes);
 
-        TestAsserts.AlwaysBounded(observer.Results, static x => x.Smi, -100d, 100d);
+        TestAssert.IsBetween(observer.Results, static x => x.Smi, -100d, 100d);
 
         observer.Unsubscribe();
         quoteHub.EndTransmission();

@@ -1,6 +1,6 @@
 using System.Globalization;
 
-namespace Tests.Data;
+namespace Test.Data;
 
 internal static class Utilities
 {

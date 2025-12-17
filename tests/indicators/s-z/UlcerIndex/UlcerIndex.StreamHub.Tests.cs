@@ -155,7 +155,7 @@ public class UlcerIndexHubTests : StreamHubTestBase, ITestChainObserver, ITestCh
 
         quoteHub.Add(Quotes);
 
-        TestAsserts.AlwaysBounded(observer.Results, static x => x.UlcerIndex, 0d, 100d);
+        TestAssert.IsBetween(observer.Results, static x => x.UlcerIndex, 0d, 100d);
 
         observer.Unsubscribe();
         quoteHub.EndTransmission();

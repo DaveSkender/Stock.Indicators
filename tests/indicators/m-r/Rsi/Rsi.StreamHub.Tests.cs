@@ -168,7 +168,7 @@ public class RsiHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
 
         quoteHub.Add(Quotes);
 
-        TestAsserts.AlwaysBounded(observer.Results, static x => x.Rsi, 0d, 100d);
+        TestAssert.IsBetween(observer.Results, static x => x.Rsi, 0d, 100d);
 
         observer.Unsubscribe();
         quoteHub.EndTransmission();

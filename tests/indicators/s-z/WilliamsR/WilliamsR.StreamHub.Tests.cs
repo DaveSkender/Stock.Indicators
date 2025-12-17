@@ -8,7 +8,7 @@ public class WilliamsR : StreamHubTestBase, ITestQuoteObserver
     {
         WilliamsRHub sut = Quotes.ToWilliamsRHub(14);
 
-        TestAsserts.AlwaysBounded(sut.Results, static x => x.WilliamsR, -100d, 0d);
+        TestAssert.IsBetween(sut.Results, static x => x.WilliamsR, -100d, 0d);
     }
 
     [TestMethod]

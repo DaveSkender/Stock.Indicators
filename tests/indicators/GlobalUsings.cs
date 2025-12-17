@@ -1,5 +1,6 @@
 global using FluentAssertions;
 global using Microsoft.VisualStudio.TestTools.UnitTesting;
 global using Skender.Stock.Indicators;
-global using Tests.Data;
-global using Tests.Tools;
+global using Test.Base;
+global using Test.Data;
+global using Test.Tools;

@@ -23,7 +23,9 @@ public class Go
     private readonly bool verbose = true;
     private static readonly QuoteHub quoteHub = new();
 
-    private static readonly IReadOnlyList<Quote> quotesList = Tests.Data.Data.GetDefault();
+    // TODO: fix awkward `Test.Data.Data.GetDefault()` reference, throughout codebase.
+    // Ideally this would be `Test.Data.GetDefault()` or even `Data.GetDefault()`.
+    private static readonly IReadOnlyList<Quote> quotesList = Test.Data.Data.GetDefault();
 
     private static readonly int quotesLength = quotesList.Count;
 

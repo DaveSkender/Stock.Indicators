@@ -54,8 +54,8 @@ public class Stoch : StaticSeriesTestBase
         IReadOnlyList<StochResult> results = Quotes
             .ToStoch();
 
-        TestAsserts.AlwaysBounded(results, static x => x.Oscillator, 0d, 100d);
-        TestAsserts.AlwaysBounded(results, static x => x.Signal, 0d, 100d);
+        TestAssert.IsBetween(results, static x => x.Oscillator, 0d, 100d);
+        TestAssert.IsBetween(results, static x => x.Signal, 0d, 100d);
     }
 
     /// <summary>
@@ -229,17 +229,17 @@ public class Stoch : StaticSeriesTestBase
 
         // test boundary condition
 
-        TestAsserts.AlwaysBounded(results, static x => x.Oscillator, 0d, 100d);
-        TestAsserts.AlwaysBounded(results, static x => x.Signal, 0d, 100d);
+        TestAssert.IsBetween(results, static x => x.Oscillator, 0d, 100d);
+        TestAssert.IsBetween(results, static x => x.Signal, 0d, 100d);
     }
 
     [TestMethod]
     public void Issue1127_BoundaryThreshold_Maintained()
     {
         // initialize
-        IReadOnlyList<Quote> quotes = File.ReadAllLines("_testdata/issues/issue1127.quotes.williamr.revisit.csv")
+        IReadOnlyList<Quote> quotes = File.ReadAllLines("_data/issues/issue1127.quotes.williamr.revisit.csv")
             .Skip(1)
-            .Select(Tests.Data.Utilities.QuoteFromCsv)
+            .Select(Test.Data.Utilities.QuoteFromCsv)
             .OrderBy(static x => x.Timestamp)
             .ToList();
 
@@ -258,8 +258,8 @@ public class Stoch : StaticSeriesTestBase
         Console.WriteLine(results.ToStringOut(args));
 
         // analyze boundary
-        TestAsserts.AlwaysBounded(results, static x => x.Oscillator, 0d, 100d);
-        TestAsserts.AlwaysBounded(results, static x => x.Signal, 0d, 100d);
+        TestAssert.IsBetween(results, static x => x.Oscillator, 0d, 100d);
+        TestAssert.IsBetween(results, static x => x.Signal, 0d, 100d);
     }
 
     [TestMethod]

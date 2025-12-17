@@ -6,7 +6,7 @@ public class ChopTests : RegressionTestBase<ChopResult>
     public ChopTests() : base("chop.standard.json") { }
 
     [TestMethod]
-    public override void Series() => Quotes.ToChop(14).AssertEquals(Expected);
+    public override void Series() => Quotes.ToChop(14).IsExactly(Expected);
 
     [TestMethod]
     public override void Buffer() => Assert.Inconclusive("Buffer implementation not yet available");

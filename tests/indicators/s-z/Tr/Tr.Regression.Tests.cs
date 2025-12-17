@@ -6,7 +6,7 @@ public class TrTests : RegressionTestBase<TrResult>
     public TrTests() : base("tr.standard.json") { }
 
     [TestMethod]
-    public override void Series() => Quotes.ToTr().AssertEquals(Expected);
+    public override void Series() => Quotes.ToTr().IsExactly(Expected);
 
     [TestMethod]
     public override void Buffer() => Assert.Inconclusive("Buffer implementation not yet available");

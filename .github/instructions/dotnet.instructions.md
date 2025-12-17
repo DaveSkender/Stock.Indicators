@@ -158,7 +158,7 @@ public static partial class Ema
 
 ### Regression tests
 
-- Maintain baseline JSON files in `tests/indicators/_testdata/results/` for validation
+- Maintain baseline JSON files in `tests/indicators/_data/results/` for validation
 - Update baseline files when algorithmic changes occur (use the data generator tool)
 - Compare streaming and buffer implementations against Series results for parity validation
 

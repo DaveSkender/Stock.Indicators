@@ -48,8 +48,8 @@ public class StochRsi : StaticSeriesTestBase
         IReadOnlyList<StochRsiResult> results = Quotes
             .ToStochRsi(14, 14, 3, 1);
 
-        TestAsserts.AlwaysBounded(results, static x => x.StochRsi, 0d, 100d);
-        TestAsserts.AlwaysBounded(results, static x => x.Signal, 0d, 100d);
+        TestAssert.IsBetween(results, static x => x.StochRsi, 0d, 100d);
+        TestAssert.IsBetween(results, static x => x.Signal, 0d, 100d);
     }
 
     [TestMethod]

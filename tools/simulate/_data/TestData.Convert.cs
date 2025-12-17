@@ -1,7 +1,7 @@
 using System.Globalization;
 using Skender.Stock.Indicators;
 
-namespace Tests.Data;
+namespace Test.Data;
 
 // TEST DATA CONVERTER UTILITIES
 

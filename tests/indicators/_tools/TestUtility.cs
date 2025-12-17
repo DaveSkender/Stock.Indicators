@@ -1,4 +1,4 @@
-namespace Tests.Tools;
+namespace Test.Tools;
 
 /// <summary>
 /// General testing tools and utilities.

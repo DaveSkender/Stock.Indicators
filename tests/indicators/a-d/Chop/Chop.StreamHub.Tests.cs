@@ -8,7 +8,7 @@ public class ChopHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPro
     {
         ChopHub sut = Quotes.ToChopHub(14);
 
-        TestAsserts.AlwaysBounded(sut.Results, static x => x.Chop, 0d, 100d);
+        TestAssert.IsBetween(sut.Results, static x => x.Chop, 0d, 100d);
     }
 
     [TestMethod]

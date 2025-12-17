@@ -18,8 +18,8 @@ public class Tsi : BufferListTestBase, ITestChainBufferList
     {
         TsiList sut = Quotes.ToTsiList(lookbackPeriods, smoothPeriods, signalPeriods);
 
-        TestAsserts.AlwaysBounded(sut, x => x.Tsi, -100, 100);
-        TestAsserts.AlwaysBounded(sut, x => x.Signal, -100, 100);
+        TestAssert.IsBetween(sut, x => x.Tsi, -100, 100);
+        TestAssert.IsBetween(sut, x => x.Signal, -100, 100);
     }
 
     [TestMethod]

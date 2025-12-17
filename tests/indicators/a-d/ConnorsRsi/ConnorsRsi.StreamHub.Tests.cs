@@ -22,7 +22,7 @@ public class ConnorsRsiHubTests : StreamHubTestBase, ITestChainObserver, ITestCh
     {
         ConnorsRsiHub sut = Quotes.ToConnorsRsiHub(rsiPeriods, streakPeriods, rankPeriods);
 
-        TestAsserts.AlwaysBounded(sut.Results, static x => x.ConnorsRsi, 0d, 100d);
+        TestAssert.IsBetween(sut.Results, static x => x.ConnorsRsi, 0d, 100d);
     }
 
     [TestMethod]

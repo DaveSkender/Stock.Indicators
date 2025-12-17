@@ -10,12 +10,12 @@ public class CacheManagement : TestBase
         SmaHub observer = quoteHub.ToSmaHub(20);
         quoteHub.Add(Quotes.Take(21));
 
-        observer.Results[19].Sma.Should().BeApproximately(214.5250, precision: HighPrecision); // 16 digits of precision asdf
+        observer.Results[19].Sma.Should().Be(214.5250);
 
         quoteHub.Remove(Quotes[14]);
         quoteHub.EndTransmission();
 
-        observer.Results[19].Sma.Should().BeApproximately(214.5260, precision: HighPrecision);
+        observer.Results[19].Sma.Should().Be(214.5260);
 
         // TODO: double-check that this floating point issue is a problem.
         // Double has 15-17 points of precision (13 decimal places for hundreds values)

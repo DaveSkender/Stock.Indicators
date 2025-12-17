@@ -12,9 +12,9 @@ public class Aroon : BufferListTestBase
     public void Results_AreAlwaysBounded()
     {
         AroonList results = new(25, Quotes);
-        TestAsserts.AlwaysBounded(results, x => x.AroonUp, 0, 100);
-        TestAsserts.AlwaysBounded(results, x => x.AroonDown, 0, 100);
-        TestAsserts.AlwaysBounded(results, x => x.Oscillator, -100, 100);
+        TestAssert.IsBetween(results, x => x.AroonUp, 0, 100);
+        TestAssert.IsBetween(results, x => x.AroonDown, 0, 100);
+        TestAssert.IsBetween(results, x => x.Oscillator, -100, 100);
     }
 
     [TestMethod]

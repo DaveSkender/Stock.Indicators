@@ -6,7 +6,7 @@ public class UltimateTests : RegressionTestBase<UltimateResult>
     public UltimateTests() : base("uo.standard.json") { }
 
     [TestMethod]
-    public override void Series() => Quotes.ToUltimate(7, 14, 28).AssertEquals(Expected);
+    public override void Series() => Quotes.ToUltimate(7, 14, 28).IsExactly(Expected);
 
     [TestMethod]
     public override void Buffer() => Assert.Inconclusive("Buffer implementation not yet available");

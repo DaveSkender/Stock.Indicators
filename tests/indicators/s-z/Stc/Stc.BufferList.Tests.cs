@@ -129,7 +129,7 @@ public class Stc : BufferListTestBase, ITestChainBufferList
     {
         StcList sut = Quotes.ToStcList(cyclePeriods, fastPeriods, slowPeriods);
 
-        TestAsserts.AlwaysBounded(
+        TestAssert.IsBetween(
             sut,
             static x => x.Stc,
             0,

@@ -10,7 +10,7 @@ public class MfiHub : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
     public void Results_AreAlwaysBounded()
     {
         MfiResult[] results = [.. Quotes.ToMfiHub(14).Results];
-        TestAsserts.AlwaysBounded(results, x => x.Mfi, 0, 100);
+        TestAssert.IsBetween(results, x => x.Mfi, 0, 100);
     }
 
     [TestMethod]

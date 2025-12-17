@@ -6,10 +6,10 @@ public class KvoTests : RegressionTestBase<KvoResult>
     public KvoTests() : base("kvo.standard.json") { }
 
     [TestMethod]
-    public override void Series() => Quotes.ToKvo(34, 55, 13).AssertEquals(Expected);
+    public override void Series() => Quotes.ToKvo(34, 55, 13).IsExactly(Expected);
 
     [TestMethod]
-    public override void Buffer() => Quotes.ToKvoList(34, 55, 13).AssertEquals(Expected);
+    public override void Buffer() => Quotes.ToKvoList(34, 55, 13).IsExactly(Expected);
 
     [TestMethod]
     public override void Stream()
@@ -22,7 +22,7 @@ public class KvoTests : RegressionTestBase<KvoResult>
             quoteHub.Add(q);
         }
 
-        hub.Results.AssertEquals(Expected);
+        hub.Results.IsExactly(Expected);
 
         hub.Unsubscribe();
         quoteHub.EndTransmission();

@@ -35,13 +35,13 @@
 
   <ItemGroup>
 
-    <None Update="_testdata/issues/*.*">
+    <None Update="_data/issues/*.*">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="_testdata/quotes/*.*">
+    <None Update="_data/quotes/*.*">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="_testdata/results/*.*">
+    <None Update="_data/results/*.*">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
 

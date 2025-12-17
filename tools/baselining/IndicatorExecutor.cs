@@ -1,6 +1,6 @@
 using System.Reflection;
 using Skender.Stock.Indicators;
-using Tests.Data;
+using Test.Data;
 
 namespace Test.DataGenerator;
 
@@ -9,7 +9,7 @@ namespace Test.DataGenerator;
 /// </summary>
 internal static class IndicatorExecutor
 {
-    private static readonly IReadOnlyList<Quote> TestData = Data.GetDefault();
+    private static readonly IReadOnlyList<Quote> TestData = Test.Data.Data.GetDefault();
 
     /// <summary>
     /// Executes an indicator and returns its results.
@@ -106,11 +106,11 @@ internal static class IndicatorExecutor
     /// <returns>The full path to the baseline file.</returns>
     public static string GetBaselinePath(IndicatorListing listing)
     {
-        // Baselines are stored in _testdata/results/ directory
+        // Baselines are stored in _data/results/ directory
         // Filename pattern: {uiid-lowercase}.standard.json
         string resultsDir = Path.Combine(
             Directory.GetCurrentDirectory(),
-            "_testdata",
+            "_data",
             "results");
 
         // Create results directory if it doesn't exist
