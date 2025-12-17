@@ -148,13 +148,13 @@ public class AdxHub
             }
 
             // Calculate directional indicators
-            pdi = _prevTrs != 0 ? (100 * _prevPdm / _prevTrs).ToPrecision(14) : null;
-            mdi = _prevTrs != 0 ? (100 * _prevMdm / _prevTrs).ToPrecision(14) : null;
+            pdi = _prevTrs != 0 ? 100 * _prevPdm / _prevTrs : null;
+            mdi = _prevTrs != 0 ? 100 * _prevMdm / _prevTrs : null;
 
             if (pdi.HasValue && mdi.HasValue)
             {
                 dx = pdi.Value + mdi.Value != 0
-                    ? (100 * Math.Abs(pdi.Value - mdi.Value) / (pdi.Value + mdi.Value)).ToPrecision(14)
+                    ? 100 * Math.Abs(pdi.Value - mdi.Value) / (pdi.Value + mdi.Value)
                     : 0;
 
                 // ADX initialization and calculation
@@ -166,14 +166,14 @@ public class AdxHub
                     // Calculate initial ADX when we have enough DX values
                     if (double.IsNaN(_prevAdx) && i == (2 * LookbackPeriods) - 1)
                     {
-                        _prevAdx = (_sumDx / LookbackPeriods).ToPrecision(14);
+                        _prevAdx = _sumDx / LookbackPeriods;
                         adx = _prevAdx;
                     }
                 }
                 // Ongoing ADX smoothing
                 else
                 {
-                    _prevAdx = (((_prevAdx * (LookbackPeriods - 1)) + dx.Value) / LookbackPeriods).ToPrecision(14);
+                    _prevAdx = ((_prevAdx * (LookbackPeriods - 1)) + dx.Value) / LookbackPeriods;
                     adx = _prevAdx;
 
                     // ADXR calculation: average of current ADX and ADX from lookbackPeriods ago
@@ -185,7 +185,7 @@ public class AdxHub
                         double? priorAdx = Results[priorAdxIndex].Adx;
                         if (priorAdx.HasValue && adx.HasValue)
                         {
-                            adxr = ((adx.Value + priorAdx.Value) / 2d).ToPrecision(14);
+                            adxr = (adx.Value + priorAdx.Value) / 2d;
                         }
                     }
                 }
@@ -199,11 +199,11 @@ public class AdxHub
 
         AdxResult result = new(
             item.Timestamp,
-            pdi,
-            mdi,
-            dx,
-            adx,
-            adxr);
+            pdi.ToPrecision(14),
+            mdi.ToPrecision(14),
+            dx.ToPrecision(14),
+            adx.ToPrecision(14),
+            adxr.ToPrecision(14));
 
         return (result, i);
     }

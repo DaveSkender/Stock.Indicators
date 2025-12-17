@@ -76,11 +76,11 @@ public class Adx : StaticSeriesTestBase
     public void Results_AreAlwaysBounded()
     {
         IReadOnlyList<AdxResult> results = Quotes.ToAdx(14);
-        TestAsserts.AlwaysBounded(results, x => x.Pdi, 0, 100);
-        TestAsserts.AlwaysBounded(results, x => x.Mdi, 0, 100);
-        TestAsserts.AlwaysBounded(results, x => x.Dx, 0, 100);
-        TestAsserts.AlwaysBounded(results, x => x.Adx, 0, 100);
-        TestAsserts.AlwaysBounded(results, x => x.Adxr, 0, 100);
+        TestAssert.IsBetween(results, x => x.Pdi, 0, 100);
+        TestAssert.IsBetween(results, x => x.Mdi, 0, 100);
+        TestAssert.IsBetween(results, x => x.Dx, 0, 100);
+        TestAssert.IsBetween(results, x => x.Adx, 0, 100);
+        TestAssert.IsBetween(results, x => x.Adxr, 0, 100);
     }
 
     [TestMethod]
@@ -127,9 +127,9 @@ public class Adx : StaticSeriesTestBase
     public void Issue859_HasInlineNaN_NaNsConverted()
     {
         // quotes that produce in-sequence NaN values
-        List<Quote> quotes = File.ReadAllLines("_testdata/issues/issue0859.quotes.adx.nan.csv")
+        List<Quote> quotes = File.ReadAllLines("_data/issues/issue0859.quotes.adx.nan.csv")
             .Skip(1)
-            .Select(Tests.Data.Utilities.QuoteFromCsv)
+            .Select(Test.Data.Utilities.QuoteFromCsv)
             .OrderByDescending(static x => x.Timestamp)
             .ToList();
 

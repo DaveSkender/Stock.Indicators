@@ -102,23 +102,23 @@ public class AdxList : BufferList<AdxResult>, IIncrementFromQuote, IAdx
         }
 
         // directional increments
-        double pdi = (100 * curr.Pdm / curr.Trs).ToPrecision(14);
-        double mdi = (100 * curr.Mdm / curr.Trs).ToPrecision(14);
+        double pdi = 100 * curr.Pdm / curr.Trs;
+        double mdi = 100 * curr.Mdm / curr.Trs;
 
         // calculate directional index (DX)
         curr.Dx = pdi == mdi
             ? 0
             : pdi + mdi != 0
-            ? (100 * Math.Abs(pdi - mdi) / (pdi + mdi)).ToPrecision(14)
+            ? 100 * Math.Abs(pdi - mdi) / (pdi + mdi)
             : double.NaN;
 
         // skip incalculable ADX periods
         if (Count < (2 * LookbackPeriods) - 1)
         {
             AddInternal(new AdxResult(timestamp,
-                Pdi: pdi.NaN2Null(),
-                Mdi: mdi.NaN2Null(),
-                Dx: curr.Dx.NaN2Null()));
+                Pdi: pdi.ToPrecision(14).NaN2Null(),
+                Mdi: mdi.ToPrecision(14).NaN2Null(),
+                Dx: curr.Dx.ToPrecision(14).NaN2Null()));
 
             return;
         }
@@ -135,15 +135,14 @@ public class AdxList : BufferList<AdxResult>, IIncrementFromQuote, IAdx
                 sumDx += buffer.Dx;
             }
 
-            curr.Adx = (sumDx / LookbackPeriods).ToPrecision(14);
+            curr.Adx = sumDx / LookbackPeriods;
         }
 
         // normal ADX calculation
         else
         {
             curr.Adx
-                = (((last.Adx * (LookbackPeriods - 1)) + curr.Dx)
-                / LookbackPeriods).ToPrecision(14);
+                = ((last.Adx * (LookbackPeriods - 1)) + curr.Dx) / LookbackPeriods;
 
             // Calculate ADXR using the prior ADX value (lookbackPeriods ago)
             // priorForAdxr was captured before buffer update, so it's from the correct period
@@ -155,11 +154,11 @@ public class AdxList : BufferList<AdxResult>, IIncrementFromQuote, IAdx
 
         AdxResult r = new(
             Timestamp: timestamp,
-            Pdi: pdi,
-            Mdi: mdi,
-            Dx: curr.Dx.NaN2Null(),
-            Adx: curr.Adx.NaN2Null(),
-            Adxr: adxr.NaN2Null());
+            Pdi: pdi.ToPrecision(14),
+            Mdi: mdi.ToPrecision(14),
+            Dx: curr.Dx.ToPrecision(14).NaN2Null(),
+            Adx: curr.Adx.ToPrecision(14).NaN2Null(),
+            Adxr: adxr.ToPrecision(14).NaN2Null());
 
         AddInternal(r);
     }
