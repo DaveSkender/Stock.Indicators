@@ -103,12 +103,8 @@ public class ManualTest
             ?? throw new InvalidOperationException("MethodName is required");
 
         // Find the extension method
-        MethodInfo method = FindExtensionMethod(methodName, typeof(IReadOnlyList<Quote>));
-
-        if (method == null)
-        {
-            throw new InvalidOperationException($"Method {methodName} not found");
-        }
+        MethodInfo method = FindExtensionMethod(methodName, typeof(IReadOnlyList<Quote>))
+            ?? throw new InvalidOperationException($"Method {methodName} not found");
 
         // Build parameter array
         List<object> parameters = [quoteData];
@@ -127,12 +123,8 @@ public class ManualTest
             ?? throw new InvalidOperationException("MethodName is required");
 
         // Find the extension method
-        MethodInfo method = FindExtensionMethod(methodName, typeof(IQuoteProvider<IQuote>));
-
-        if (method == null)
-        {
-            throw new InvalidOperationException($"Method {methodName} not found");
-        }
+        MethodInfo method = FindExtensionMethod(methodName, typeof(IQuoteProvider<IQuote>))
+            ?? throw new InvalidOperationException($"Method {methodName} not found");
 
         // Build parameter array
         List<object> parameters = [hub];
@@ -160,12 +152,8 @@ public class ManualTest
             ?? throw new InvalidOperationException("MethodName is required");
 
         // Find the extension method
-        MethodInfo method = FindExtensionMethod(methodName, typeof(IReadOnlyList<Quote>));
-
-        if (method == null)
-        {
-            throw new InvalidOperationException($"Method {methodName} not found");
-        }
+        MethodInfo method = FindExtensionMethod(methodName, typeof(IReadOnlyList<Quote>))
+            ?? throw new InvalidOperationException($"Method {methodName} not found");
 
         // Build parameter array
         List<object> parameters = [quoteData];
