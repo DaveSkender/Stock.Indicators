@@ -1,4 +1,4 @@
-name: Manual performance test
+name: Test performance (manual)
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
