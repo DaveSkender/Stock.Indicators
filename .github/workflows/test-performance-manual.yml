@@ -1,0 +1,88 @@
+name: Manual performance test
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+on:
+  workflow_dispatch:
+    inputs:
+      keyword:
+        description: Indicator keyword (case-insensitive, e.g., "sma", "ema", "rsi")
+        type: string
+        required: true
+      periods:
+        description: Number of randomly generated quote periods
+        type: number
+        required: true
+        default: 500000
+
+permissions:
+  contents: read
+
+jobs:
+  analyze:
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: "10.x"
+          dotnet-quality: "ga"
+          cache: true
+          cache-dependency-path: "**/packages.lock.json"
+
+      - name: Setup GitVersion Tool
+        run: dotnet tool install --global GitVersion.Tool
+
+      - name: Determine version
+        id: gitversion
+        run: |
+          dotnet gitversion -config src/gitversion.yml -updateassemblyinfo
+          # Export GitVersion variables to environment
+          dotnet gitversion -config src/gitversion.yml | jq -r 'to_entries[] | "\(.key)=\(.value)"' >> $GITHUB_ENV
+
+      - name: Build library
+        run: >
+          dotnet build
+          --configuration Release
+          --property:ContinuousIntegrationBuild=true
+
+      - name: Run manual performance test
+        working-directory: tools/performance
+        run: |
+          dotnet run -c Release -- --filter "Performance.ManualTestDirect*" --job short --exporters json markdown
+        env:
+          PERF_TEST_KEYWORD: ${{ inputs.keyword }}
+          PERF_TEST_PERIODS: ${{ inputs.periods }}
+
+      - name: Save test results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: manual-test-results
+          path: tools/performance/BenchmarkDotNet.Artifacts/results
+
+      - name: Publish summary
+        working-directory: tools/performance/BenchmarkDotNet.Artifacts/results
+        env:
+          INDICATOR_KEYWORD: ${{ inputs.keyword }}
+          INDICATOR_PERIODS: ${{ inputs.periods }}
+        run: |
+          echo "## Manual Performance Test Results" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Indicator:** $INDICATOR_KEYWORD" >> $GITHUB_STEP_SUMMARY
+          echo "**Periods:** $INDICATOR_PERIODS" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          if [ -f Performance.ManualTestDirect-report-github.md ]; then
+            cat Performance.ManualTestDirect-report-github.md >> $GITHUB_STEP_SUMMARY
+          else
+            echo "⚠️ No results generated. Check if the indicator keyword is supported in ManualTestDirect.cs." >> $GITHUB_STEP_SUMMARY
+          fi
