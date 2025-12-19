@@ -57,7 +57,7 @@ jobs:
       - name: Run manual performance test
         working-directory: tools/performance
         run: |
-          dotnet run -c Release -- --filter Performance.ManualTest* --job short --exporters json markdown
+          dotnet run -c Release -- --filter "Performance.ManualTestDirect*" --job short --exporters json markdown
         env:
           PERF_TEST_KEYWORD: ${{ inputs.keyword }}
           PERF_TEST_PERIODS: ${{ inputs.periods }}
@@ -81,8 +81,8 @@ jobs:
           echo "**Periods:** $INDICATOR_PERIODS" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
 
-          if [ -f Performance.ManualTest-report-github.md ]; then
-            cat Performance.ManualTest-report-github.md >> $GITHUB_STEP_SUMMARY
+          if [ -f Performance.ManualTestDirect-report-github.md ]; then
+            cat Performance.ManualTestDirect-report-github.md >> $GITHUB_STEP_SUMMARY
           else
-            echo "⚠️ No results generated. Check if the indicator keyword exists and supports all three styles." >> $GITHUB_STEP_SUMMARY
+            echo "⚠️ No results generated. Check if the indicator keyword is supported in ManualTestDirect.cs." >> $GITHUB_STEP_SUMMARY
           fi

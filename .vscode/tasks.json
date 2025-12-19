@@ -325,9 +325,9 @@
     },
     {
       "label": "Run: Manual perf test (keyword + periods)",
-      "detail": "Run ManualTest benchmark for a single indicator keyword using a custom-sized random dataset",
+      "detail": "Run ManualTestDirect benchmark for a single indicator keyword using a custom-sized random dataset (direct calls, no catalog overhead)",
       "type": "shell",
-      "command": "dotnet run --project Tests.Performance.csproj -c Release -- --filter \"Performance.ManualTest*\" --job short --exporters json markdown",
+      "command": "dotnet run --project Tests.Performance.csproj -c Release -- --filter \"Performance.ManualTestDirect*\" --job short --exporters json markdown",
       "options": {
         "cwd": "${workspaceFolder}/tools/performance",
         "env": {

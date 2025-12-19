@@ -47,22 +47,25 @@ dotnet run -c Release --filter *.ToEma
 Test a specific indicator with a custom number of randomly generated periods:
 
 ```bash
-# Test SMA with 100,000 periods
-PERF_TEST_KEYWORD=sma PERF_TEST_PERIODS=100000 dotnet run -c Release --filter Performance.ManualTest*
+# Test SMA with 100,000 periods (direct calls, no catalog overhead)
+PERF_TEST_KEYWORD=sma PERF_TEST_PERIODS=100000 dotnet run -c Release --filter "Performance.ManualTestDirect*"
 
 # Test EMA with 500,000 periods (default)
-PERF_TEST_KEYWORD=ema PERF_TEST_PERIODS=500000 dotnet run -c Release --filter Performance.ManualTest*
+PERF_TEST_KEYWORD=ema PERF_TEST_PERIODS=500000 dotnet run -c Release --filter "Performance.ManualTestDirect*"
 
 # Test RSI with 1,000,000 periods
-PERF_TEST_KEYWORD=rsi PERF_TEST_PERIODS=1000000 dotnet run -c Release --filter Performance.ManualTest*
+PERF_TEST_KEYWORD=rsi PERF_TEST_PERIODS=1000000 dotnet run -c Release --filter "Performance.ManualTestDirect*"
 ```
 
-This manual test:
+The direct manual test (`ManualTestDirect`):
 
-- Generates random quotes once before benchmarking (not counted in performance metrics)
+- Uses precompiled delegates for common indicators (SMA, EMA, RSI, MACD, etc.)
+- Zero catalog/reflection overhead - measures pure indicator performance
+- Generates random quotes once before benchmarking (not counted in metrics)
 - Runs all three indicator styles (Series, Buffer, Stream) with the same data
-- Uses the Catalog system to find indicators by keyword (case-insensitive)
-- Ideal for testing scalability with large datasets
+- Best for accurate performance measurements and scalability testing
+
+For dynamic indicator discovery (with catalog/reflection overhead), use `Performance.ManualTest*` filter instead. This supports any catalog-registered indicator but includes method lookup and invocation overhead in the measurements.
 
 **Note:** The manual test can also be triggered from GitHub Actions via the "Manual performance test" workflow with custom inputs.
 
