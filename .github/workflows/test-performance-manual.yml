@@ -64,19 +64,23 @@ jobs:
 
       - name: Save test results
         uses: actions/upload-artifact@v4
+        if: always()
         with:
           name: manual-test-results
           path: tools/performance/BenchmarkDotNet.Artifacts/results
 
       - name: Publish summary
         working-directory: tools/performance/BenchmarkDotNet.Artifacts/results
+        env:
+          INDICATOR_KEYWORD: ${{ inputs.keyword }}
+          INDICATOR_PERIODS: ${{ inputs.periods }}
         run: |
           echo "## Manual Performance Test Results" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "**Indicator:** ${{ inputs.keyword }}" >> $GITHUB_STEP_SUMMARY
-          echo "**Periods:** ${{ inputs.periods }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Indicator:** $INDICATOR_KEYWORD" >> $GITHUB_STEP_SUMMARY
+          echo "**Periods:** $INDICATOR_PERIODS" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          
+
           if [ -f Performance.ManualTest-report-github.md ]; then
             cat Performance.ManualTest-report-github.md >> $GITHUB_STEP_SUMMARY
           else

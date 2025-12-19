@@ -319,4 +319,4 @@ When contributing performance improvements:
 
 ---
 
-Last updated: October 1, 2025
+Last updated: December 19, 2025
