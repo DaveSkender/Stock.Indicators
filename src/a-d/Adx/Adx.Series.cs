@@ -17,10 +17,10 @@ public static partial class Indicator
         double prevHigh = 0;
         double prevLow = 0;
         double prevClose = 0;
-        double prevTrs = 0; // smoothed
-        double prevPdm = 0;
-        double prevMdm = 0;
-        double prevAdx = 0;
+        double prevTrs = double.NaN; // smoothed
+        double prevPdm = double.NaN;
+        double prevMdm = double.NaN;
+        double prevAdx = double.NaN;
 
         double sumTr = 0;
         double sumPdm = 0;
@@ -32,15 +32,14 @@ public static partial class Indicator
         {
             QuoteD q = qdList[i];
 
-            AdxResult r = new(q.Date);
-            results.Add(r);
-
             // skip first period
             if (i == 0)
             {
                 prevHigh = q.High;
                 prevLow = q.Low;
                 prevClose = q.Close;
+
+                results.Add(new(date: q.Date));
                 continue;
             }
 
@@ -69,6 +68,7 @@ public static partial class Indicator
             // skip DM initialization period
             if (i < lookbackPeriods)
             {
+                results.Add(new(date: q.Date));
                 continue;
             }
 
@@ -77,8 +77,9 @@ public static partial class Indicator
             double pdm;
             double mdm;
 
-            if (i == lookbackPeriods)
+            if (double.IsNaN(prevTrs))
             {
+                // re/initialize smoothed values
                 trs = sumTr;
                 pdm = sumPdm;
                 mdm = sumMdm;
@@ -94,8 +95,9 @@ public static partial class Indicator
             prevPdm = pdm;
             prevMdm = mdm;
 
-            if (trs is 0)
+            if (trs == 0)
             {
+                results.Add(new(date: q.Date));
                 continue;
             }
 
@@ -103,43 +105,56 @@ public static partial class Indicator
             double pdi = 100 * pdm / trs;
             double mdi = 100 * mdm / trs;
 
-            r.Pdi = pdi;
-            r.Mdi = mdi;
-
             // calculate ADX
-            double dx = (pdi == mdi)
+            double dx = pdi == mdi
                 ? 0
-                : (pdi + mdi != 0)
+                : pdi + mdi != 0
                 ? 100 * Math.Abs(pdi - mdi) / (pdi + mdi)
                 : double.NaN;
 
-            double adx;
+            double adx = double.NaN;
+            double adxr = double.NaN;
 
-            if (i > (2 * lookbackPeriods) - 1)
-            {
-                adx = ((prevAdx * (lookbackPeriods - 1)) + dx) / lookbackPeriods;
-                r.Adx = adx.NaN2Null();
-
-                double? priorAdx = results[i + 1 - lookbackPeriods].Adx;
-
-                r.Adxr = (adx + priorAdx).NaN2Null() / 2;
-                prevAdx = adx;
-            }
-
-            // initial ADX
-            else if (i == (2 * lookbackPeriods) - 1)
+            // ADX initialization period - accumulate DX values
+            if (i < (2 * lookbackPeriods))
             {
                 sumDx += dx;
-                adx = sumDx / lookbackPeriods;
-                r.Adx = adx.NaN2Null();
-                prevAdx = adx;
-            }
 
-            // ADX initialization period
+                // calculate initial ADX after accumulating lookbackPeriods DX values
+                if (double.IsNaN(prevAdx) && i == (2 * lookbackPeriods) - 1)
+                {
+                    adx = sumDx / lookbackPeriods;
+                    prevAdx = adx;
+                }
+            }
+            // ongoing ADX smoothing
             else
             {
-                sumDx += dx;
+                adx = ((prevAdx * (lookbackPeriods - 1)) + dx) / lookbackPeriods;
+
+                // Calculate ADXR only if we have a valid prior ADX value
+                int priorAdxIndex = i - lookbackPeriods;
+                if (priorAdxIndex >= (2 * lookbackPeriods) - 1)
+                {
+                    double priorAdx = results[priorAdxIndex].Adx.Null2NaN();
+
+                    // Only compute ADXR if prior ADX actually exists
+                    if (!double.IsNaN(priorAdx))
+                    {
+                        adxr = (adx + priorAdx) / 2;
+                    }
+                }
+
+                prevAdx = adx;
             }
+
+            results.Add(new(date: q.Date) {
+                Pdi = pdi,
+                Mdi = mdi,
+                Dx = dx.NaN2Null(),
+                Adx = adx.NaN2Null(),
+                Adxr = adxr.NaN2Null()
+            });
         }
 
         return results;
