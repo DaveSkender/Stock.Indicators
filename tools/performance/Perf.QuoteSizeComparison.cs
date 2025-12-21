@@ -1,6 +1,3 @@
-using System.Runtime.InteropServices;
-using BenchmarkDotNet.Attributes;
-
 namespace Performance;
 
 /// <summary>
@@ -30,6 +27,7 @@ public class QuoteSizeComparison
                 Close: q.Close,
                 Volume: q.Volume));
         }
+
         return list;
     }
 

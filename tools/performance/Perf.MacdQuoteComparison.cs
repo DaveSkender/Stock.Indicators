@@ -1,4 +1,5 @@
 namespace Performance;
+#pragma warning disable CS1591, CA1707
 
 /// <summary>
 /// Benchmarks for comparing MACD calculation performance
@@ -10,8 +11,8 @@ namespace Performance;
 public class MacdQuoteComparison
 {
     private static readonly IReadOnlyList<Quote> quotes = Data.GetDefault();
-    private static readonly List<QuoteD> quotesD = quotes.ToQuoteDList();
-    private static readonly List<QuoteX> quotesX = quotes.ToQuoteXList();
+    private static readonly IReadOnlyList<QuoteD> quotesD = quotes.ToQuoteDList();
+    private static readonly IReadOnlyList<QuoteX> quotesX = quotes.ToQuoteXList();
 
     private const int FastPeriods = 12;
     private const int SlowPeriods = 26;
@@ -22,7 +23,7 @@ public class MacdQuoteComparison
     /// Uses the standard ToMacd() extension method.
     /// </summary>
     [Benchmark(Baseline = true)]
-    public object MacdWithQuote()
+    public object Macd_Decimal()
         => quotes.ToMacd(FastPeriods, SlowPeriods, SignalPeriods);
 
     /// <summary>
@@ -31,22 +32,9 @@ public class MacdQuoteComparison
     /// so this converts through IReusable interface.
     /// </summary>
     [Benchmark]
-    public object MacdWithQuoteD()
+    public object Macd_Double()
     {
-        // QuoteD doesn't implement IQuote, only IReusable
-        // So we can't directly use it with ToMacd(IQuote)
-        // This measures the conversion overhead
-        IReadOnlyList<Quote> converted = quotesD
-            .Select(qd => new Quote(
-                qd.Timestamp,
-                (decimal)qd.Open,
-                (decimal)qd.High,
-                (decimal)qd.Low,
-                (decimal)qd.Close,
-                (decimal)qd.Volume))
-            .ToList();
-
-        return converted.ToMacd(FastPeriods, SlowPeriods, SignalPeriods);
+        return quotesD.ToMacdQuoteD(FastPeriods, SlowPeriods, SignalPeriods);
     }
 
     /// <summary>
@@ -54,6 +42,6 @@ public class MacdQuoteComparison
     /// Uses experimental ToMacdX() method that leverages internal long arithmetic.
     /// </summary>
     [Benchmark]
-    public object MacdWithQuoteX()
+    public object Macd_Long()
         => quotesX.ToMacdX(FastPeriods, SlowPeriods, SignalPeriods);
 }

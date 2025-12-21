@@ -128,88 +128,74 @@ internal record QuoteD
 /// Public interface remains compatible with IQuote (decimal properties).
 /// For research purposes only - comparing size and performance characteristics.
 /// </summary>
+/// <remarks>
+/// Initializes a new instance of the <see cref="QuoteX"/> class.
+/// </remarks>
+/// <param name="timestamp">Close date/time of the aggregate</param>
+/// <param name="open">Aggregate bar's first tick price</param>
+/// <param name="high">Aggregate bar's highest tick price</param>
+/// <param name="low">Aggregate bar's lowest tick price</param>
+/// <param name="close">Aggregate bar's last tick price</param>
+/// <param name="volume">Aggregate bar's tick volume</param>
 [Serializable]
-internal sealed class QuoteX : IQuote
+internal sealed class QuoteX(
+    DateTime timestamp,
+    decimal open,
+    decimal high,
+    decimal low,
+    decimal close,
+    decimal volume) : IQuote
 {
-    // Internal storage as long values
-    private readonly long _timestampTicks;
-    private readonly DateTimeKind _timestampKind;
-    private readonly long _open;
-    private readonly long _high;
-    private readonly long _low;
-    private readonly long _close;
-    private readonly long _volume;
+    private const double OaCurrencyScale = 10000d;
 
-    /// <summary>
-    /// Initializes a new instance of the <see cref="QuoteX"/> class.
-    /// </summary>
-    /// <param name="timestamp">Close date/time of the aggregate</param>
-    /// <param name="open">Aggregate bar's first tick price</param>
-    /// <param name="high">Aggregate bar's highest tick price</param>
-    /// <param name="low">Aggregate bar's lowest tick price</param>
-    /// <param name="close">Aggregate bar's last tick price</param>
-    /// <param name="volume">Aggregate bar's tick volume</param>
-    public QuoteX(
-        DateTime timestamp,
-        decimal open,
-        decimal high,
-        decimal low,
-        decimal close,
-        decimal volume)
-    {
-        _timestampTicks = timestamp.Ticks;
-        _timestampKind = timestamp.Kind;
-        _open = decimal.ToOACurrency(open);
-        _high = decimal.ToOACurrency(high);
-        _low = decimal.ToOACurrency(low);
-        _close = decimal.ToOACurrency(close);
-        _volume = decimal.ToOACurrency(volume);
-    }
+    // Internal storage as long values
+    private readonly long _timestampTicks = timestamp.Ticks;
+    private readonly DateTimeKind _timestampKind = timestamp.Kind;
 
     /// <inheritdoc/>
     public DateTime Timestamp => new(_timestampTicks, _timestampKind);
 
     /// <inheritdoc/>
-    public decimal Open => decimal.FromOACurrency(_open);
+    public decimal Open => decimal.FromOACurrency(OpenLong);
 
     /// <inheritdoc/>
-    public decimal High => decimal.FromOACurrency(_high);
+    public decimal High => decimal.FromOACurrency(HighLong);
 
     /// <inheritdoc/>
-    public decimal Low => decimal.FromOACurrency(_low);
+    public decimal Low => decimal.FromOACurrency(LowLong);
 
     /// <inheritdoc/>
-    public decimal Close => decimal.FromOACurrency(_close);
+    public decimal Close => decimal.FromOACurrency(CloseLong);
 
     /// <inheritdoc/>
-    public decimal Volume => decimal.FromOACurrency(_volume);
+    public decimal Volume => decimal.FromOACurrency(VolumeLong);
 
     /// <inheritdoc/>
     [JsonIgnore]
-    public double Value => (double)Close;
+    public double Value => CloseLong / OaCurrencyScale;
 
     /// <summary>
     /// Gets internal long representation of Open price.
     /// </summary>
-    internal long OpenLong => _open;
+    internal long OpenLong { get; } = decimal.ToOACurrency(open);
 
     /// <summary>
     /// Gets internal long representation of High price.
     /// </summary>
-    internal long HighLong => _high;
+    internal long HighLong { get; } = decimal.ToOACurrency(high);
 
     /// <summary>
     /// Gets internal long representation of Low price.
     /// </summary>
-    internal long LowLong => _low;
+    internal long LowLong { get; } = decimal.ToOACurrency(low);
 
     /// <summary>
     /// Gets internal long representation of Close price.
     /// </summary>
-    internal long CloseLong => _close;
+    internal long CloseLong { get; } = decimal.ToOACurrency(close);
 
     /// <summary>
     /// Gets internal long representation of Volume.
     /// </summary>
-    internal long VolumeLong => _volume;
+    internal long VolumeLong { get; } = decimal.ToOACurrency(volume);
 }

@@ -6,10 +6,12 @@ namespace Skender.Stock.Indicators;
 /// </summary>
 public static partial class Macd
 {
+    private const double OaCurrencyScale = 10000d;
+
     /// <summary>
     /// Converts a list of QuoteX values to MACD (Moving Average Convergence Divergence) results.
     /// This is an experimental method using internal long storage for performance comparison.
-    /// Uses long values directly from QuoteX and converts to double once for calculations.
+    /// Uses long values directly from QuoteX and converts to double only at the result boundary.
     /// </summary>
     /// <param name="source">The list of QuoteX values to transform.</param>
     /// <param name="fastPeriods">The number of periods for the fast EMA. Default is 12.</param>
@@ -19,99 +21,133 @@ public static partial class Macd
     /// <exception cref="ArgumentNullException">Thrown when the source list is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when any of the parameters are out of their valid range.</exception>
     internal static IReadOnlyList<MacdResult> ToMacdX(
-        this List<QuoteX> source,
+        this IReadOnlyList<QuoteX> source,
         int fastPeriods = 12,
         int slowPeriods = 26,
         int signalPeriods = 9)
     {
-        // check parameter arguments
         ArgumentNullException.ThrowIfNull(source);
         Validate(fastPeriods, slowPeriods, signalPeriods);
 
-        // initialize
         int length = source.Count;
         List<MacdResult> results = new(length);
 
-        double lastEmaFast = double.NaN;
-        double lastEmaSlow = double.NaN;
-        double lastEmaMacd = double.NaN;
+        long lastEmaFast = 0;
+        long lastEmaSlow = 0;
+        long lastSignal = 0;
+
+        bool hasEmaFast = false;
+        bool hasEmaSlow = false;
+        bool hasSignal = false;
+
+        long[] macdValues = new long[length];
+        bool[] macdReady = new bool[length];
 
         double kFast = 2d / (fastPeriods + 1);
         double kSlow = 2d / (slowPeriods + 1);
         double kMacd = 2d / (signalPeriods + 1);
 
-        // roll through source values
         for (int i = 0; i < length; i++)
         {
-            // Use internal long value directly and convert once to double
-            long closeValueLong = source[i].CloseLong;
-            double closeValue = (double)decimal.FromOACurrency(closeValueLong);
+            long closeValue = source[i].CloseLong;
 
-            // Fast EMA
-            double emaFast
-                = i >= fastPeriods - 1 && results[i - 1].FastEma is null
-                ? IncrementSmaXLong(source, fastPeriods, i)
-                : Ema.Increment(kFast, lastEmaFast, closeValue);
+            bool seedFast = i >= fastPeriods - 1 && !hasEmaFast;
+            long emaFast = seedFast
+                ? IncrementSmaLong(source, fastPeriods, i)
+                : hasEmaFast
+                    ? Increment(kFast, lastEmaFast, closeValue)
+                    : lastEmaFast;
+            hasEmaFast |= seedFast;
 
-            // Slow EMA
-            double emaSlow
-                = i >= slowPeriods - 1 && results[i - 1].SlowEma is null
-                ? IncrementSmaXLong(source, slowPeriods, i)
-                : Ema.Increment(kSlow, lastEmaSlow, closeValue);
+            bool seedSlow = i >= slowPeriods - 1 && !hasEmaSlow;
+            long emaSlow = seedSlow
+                ? IncrementSmaLong(source, slowPeriods, i)
+                : hasEmaSlow
+                    ? Increment(kSlow, lastEmaSlow, closeValue)
+                    : lastEmaSlow;
+            hasEmaSlow |= seedSlow;
 
-            // MACD
-            double macd = emaFast - emaSlow;
+            bool macdIsReady = hasEmaFast && hasEmaSlow;
+            long macd = macdIsReady
+                ? emaFast - emaSlow
+                : 0;
 
-            // Signal
-            double signal;
+            macdValues[i] = macd;
+            macdReady[i] = macdIsReady;
 
-            if (i >= signalPeriods + slowPeriods - 2 && results[i - 1].Signal is null)
+            bool signalIsReady = false;
+            long signal = 0;
+
+            if (macdIsReady)
             {
-                double sum = macd;
-                for (int p = i - signalPeriods + 1; p < i; p++)
+                signalIsReady = i >= signalPeriods + slowPeriods - 2 && !hasSignal
+                    ? SeedSignal(macdValues, macdReady, signalPeriods, i, out signal)
+                    : hasSignal && Increment(kMacd, lastSignal, macd, out signal);
+
+                if (signalIsReady)
                 {
-                    sum += results[p].Value;
+                    hasSignal = true;
                 }
-
-                signal = sum / signalPeriods;
-            }
-            else
-            {
-                signal = Ema.Increment(kMacd, lastEmaMacd, macd);
             }
 
-            // results
+            bool histogramReady = macdIsReady && signalIsReady;
+            long histogram = histogramReady
+                ? macd - signal
+                : 0;
+
             results.Add(new MacdResult(
                 Timestamp: source[i].Timestamp,
-                Macd: macd.NaN2Null(),
-                Signal: signal.NaN2Null(),
-                Histogram: (macd - signal).NaN2Null(),
-                FastEma: emaFast.NaN2Null(),
-                SlowEma: emaSlow.NaN2Null()));
+                Macd: macdIsReady ? ScaleToDouble(macd) : null,
+                Signal: signalIsReady ? ScaleToDouble(signal) : null,
+                Histogram: histogramReady ? ScaleToDouble(histogram) : null,
+                FastEma: hasEmaFast ? ScaleToDouble(emaFast) : null,
+                SlowEma: hasEmaSlow ? ScaleToDouble(emaSlow) : null));
 
-            lastEmaMacd = signal;
-            lastEmaFast = emaFast;
-            lastEmaSlow = emaSlow;
+            if (hasEmaFast)
+            {
+                lastEmaFast = emaFast;
+            }
+
+            if (hasEmaSlow)
+            {
+                lastEmaSlow = emaSlow;
+            }
+            if (signalIsReady)
+            {
+                lastSignal = signal;
+            }
         }
 
         return results;
     }
 
     /// <summary>
-    /// Helper method to calculate SMA for QuoteX using internal long values.
-    /// Uses long arithmetic for summation, then converts final result to double.
+    /// Increments the EMA value using the smoothing factor.
     /// </summary>
-    private static double IncrementSmaXLong(
-        List<QuoteX> source,
+    /// <param name="k">The smoothing factor.</param>
+    /// <param name="lastEma">The last EMA value.</param>
+    /// <param name="newPrice">The new price value.</param>
+    /// <returns>The incremented EMA value.</returns>
+    private static long Increment(
+        double k,
+        long lastEma,
+        long newPrice)
+        => (long)(lastEma + (k * (newPrice - lastEma)));
+
+    /// <summary>
+    /// Helper method to calculate SMA for QuoteX using internal long values.
+    /// Uses long arithmetic for summation and returns the scaled long average.
+    /// </summary>
+    private static long IncrementSmaLong(
+        IReadOnlyList<QuoteX> source,
         int lookbackPeriods,
         int endIndex)
     {
         if (endIndex < lookbackPeriods - 1 || endIndex >= source.Count)
         {
-            return double.NaN;
+            return 0;
         }
 
-        // Use long arithmetic for summation to leverage internal storage
         long sumLong = 0;
         int startIndex = endIndex - lookbackPeriods + 1;
 
@@ -120,7 +156,53 @@ public static partial class Macd
             sumLong += source[i].CloseLong;
         }
 
-        // Convert OACurrency long sum to decimal, then average and convert to double
-        return (double)decimal.FromOACurrency(sumLong) / lookbackPeriods;
+        return sumLong / lookbackPeriods;
     }
+
+    /// <summary>
+    /// Seeds the initial MACD signal average using long-based MACD values.
+    /// </summary>
+    private static bool SeedSignal(
+        long[] macdValues,
+        bool[] macdReady,
+        int lookbackPeriods,
+        int endIndex,
+        out long signal)
+    {
+        signal = 0;
+
+        if (endIndex < lookbackPeriods - 1)
+        {
+            return false;
+        }
+
+        long sum = 0;
+        int startIndex = endIndex - lookbackPeriods + 1;
+
+        for (int i = startIndex; i <= endIndex; i++)
+        {
+            if (!macdReady[i])
+            {
+                return false;
+            }
+
+            sum += macdValues[i];
+        }
+
+        signal = sum / lookbackPeriods;
+        return true;
+    }
+
+    private static bool Increment(
+        double k,
+        long lastSignal,
+        long macd,
+        out long signal)
+    {
+        signal = (long)(lastSignal + (k * (macd - lastSignal)));
+        return true;
+    }
+
+    private static double ScaleToDouble(long value)
+        => value / OaCurrencyScale;
 }
