@@ -32,6 +32,18 @@ public static partial class Quotes
             .Select(static x => x.ToQuoteD())
             .ToList();
 
+    /// <summary>
+    /// Convert IQuote list to QuoteX type list.
+    /// </summary>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <returns>A list of converted quotes with internal long storage.</returns>
+    internal static List<QuoteX> ToQuoteXList(
+        this IReadOnlyList<IQuote> quotes)
+
+          => quotes
+            .Select(static x => x.ToQuoteX())
+            .ToList();
+
     /* TYPES */
 
     /// <summary>
@@ -65,4 +77,19 @@ public static partial class Quotes
             Low: (double)quote.Low,
             Close: (double)quote.Close,
             Volume: (double)quote.Volume);
+
+    /// <summary>
+    /// Convert to quote with internal long storage.
+    /// </summary>
+    /// <param name="quote">The quote to convert.</param>
+    /// <returns>A converted quote with internal long storage.</returns>
+    internal static QuoteX ToQuoteX(this IQuote quote)
+
+        => new(
+            timestamp: quote.Timestamp,
+            open: quote.Open,
+            high: quote.High,
+            low: quote.Low,
+            close: quote.Close,
+            volume: quote.Volume);
 }
