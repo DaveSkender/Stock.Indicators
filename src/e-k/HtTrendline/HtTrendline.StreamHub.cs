@@ -126,7 +126,7 @@ public class HtTrendlineHub
                   ? (((4 * it[i]) + (3 * it[i - 1]) + (2 * it[i - 2]) + it[i - 3]) / 10d).NaN2Null()
                   : pr[i].NaN2Null(),
 
-                SmoothPrice: (((4 * pr[i]) + (3 * pr[i - 1]) + (2 * pr[i - 2]) + pr[i - 3]) / 10d).NaN2Null());
+                SmoothPrice: sp[i].NaN2Null());
 
             return (result, i);
         }
