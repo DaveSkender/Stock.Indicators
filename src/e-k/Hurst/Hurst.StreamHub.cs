@@ -70,7 +70,7 @@ public class HurstHub
             }
 
             // Calculate hurst exponent
-            h = Hurst.CalcHurstWindow(values).ToPrecision(14).NaN2Null();
+            h = Hurst.CalcHurstWindow(values).ToNullablePrecision(14);
         }
 
         // Candidate result

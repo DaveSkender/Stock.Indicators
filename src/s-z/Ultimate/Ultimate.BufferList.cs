@@ -130,7 +130,7 @@ public class UltimateList : BufferList<UltimateResult>, IIncrementFromQuote, IUl
             double avg3 = sumTr3 == 0 ? double.NaN : sumBp3 / sumTr3;
 
             // Calculate Ultimate Oscillator with weighted average
-            ultimate = (100d * ((4d * avg1) + (2d * avg2) + avg3) / 7d).ToPrecision(14).NaN2Null();
+            ultimate = (100d * ((4d * avg1) + (2d * avg2) + avg3) / 7d).ToNullablePrecision(14);
         }
 
         AddInternal(new UltimateResult(timestamp, ultimate));

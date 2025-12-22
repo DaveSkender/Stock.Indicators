@@ -53,7 +53,7 @@ public class MfiHub : ChainProvider<IQuote, MfiResult>, IMfi
 
         MfiResult r = new(
             Timestamp: item.Timestamp,
-            Mfi: mfi);
+            Mfi: mfi.ToNullablePrecision(14));
 
         return (r, i);
     }
@@ -102,7 +102,7 @@ public class MfiHub : ChainProvider<IQuote, MfiResult>, IMfi
         }
 
         double mfRatio = sumPosMFs / sumNegMFs;
-        return (100 - (100 / (1 + mfRatio))).ToPrecision(14);
+        return 100 - (100 / (1 + mfRatio));
     }
 
     /// <summary>

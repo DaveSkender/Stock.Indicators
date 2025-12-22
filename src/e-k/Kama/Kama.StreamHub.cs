@@ -111,7 +111,7 @@ public class KamaHub
         // candidate result
         KamaResult result = new(
             Timestamp: item.Timestamp,
-            Er: er.ToPrecision(14).NaN2Null(),
+            Er: er.ToNullablePrecision(14),
             Kama: kama.NaN2Null());
 
         return (result, i);

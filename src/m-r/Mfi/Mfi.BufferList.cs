@@ -80,7 +80,7 @@ public class MfiList : BufferList<MfiResult>, IIncrementFromQuote
             if (sumNegMFs != 0)
             {
                 double mfRatio = sumPosMFs / sumNegMFs;
-                mfi = (100 - (100 / (1 + mfRatio))).ToPrecision(14);
+                mfi = 100 - (100 / (1 + mfRatio));
             }
             else
             {
@@ -90,7 +90,7 @@ public class MfiList : BufferList<MfiResult>, IIncrementFromQuote
 
         _prevTruePrice = truePrice;
 
-        AddInternal(new MfiResult(timestamp, mfi));
+        AddInternal(new MfiResult(timestamp, mfi.ToNullablePrecision(14)));
     }
 
     /// <inheritdoc />

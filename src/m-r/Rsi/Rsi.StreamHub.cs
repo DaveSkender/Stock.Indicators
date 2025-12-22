@@ -166,7 +166,7 @@ public class RsiHub
 
             rsi = !double.IsNaN(avgGain / avgLoss)
                 ? avgLoss > 0
-                  ? (100 - (100 / (1 + (avgGain / avgLoss)))).ToPrecision(14)
+                  ? 100 - (100 / (1 + (avgGain / avgLoss)))
                   : 100
                 : null;
         }
@@ -181,7 +181,7 @@ public class RsiHub
                 if (avgLoss > 0)
                 {
                     double rs = avgGain / avgLoss;
-                    rsi = (100 - (100 / (1 + rs))).ToPrecision(14);
+                    rsi = 100 - (100 / (1 + rs));
                 }
                 else
                 {
@@ -199,7 +199,7 @@ public class RsiHub
         // candidate result
         RsiResult r = new(
             Timestamp: item.Timestamp,
-            Rsi: rsi);
+            Rsi: rsi.ToNullablePrecision(14));
 
         return (r, i);
     }

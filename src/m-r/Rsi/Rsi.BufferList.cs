@@ -85,7 +85,7 @@ public class RsiList : BufferList<RsiResult>, IIncrementFromChain, IRsi
 
             rsi = !double.IsNaN(_avgGain / _avgLoss)
                         ? _avgLoss > 0
-                            ? (100 - (100 / (1 + (_avgGain / _avgLoss)))).ToPrecision(14)
+                            ? 100 - (100 / (1 + (_avgGain / _avgLoss)))
                             : 100
                         : null;
         }
@@ -98,7 +98,7 @@ public class RsiList : BufferList<RsiResult>, IIncrementFromChain, IRsi
             if (_avgLoss > 0)
             {
                 double rs = _avgGain / _avgLoss;
-                rsi = (100 - (100 / (1 + rs))).ToPrecision(14);
+                rsi = 100 - (100 / (1 + rs));
             }
             else
             {
@@ -106,7 +106,7 @@ public class RsiList : BufferList<RsiResult>, IIncrementFromChain, IRsi
             }
         }
 
-        AddInternal(new RsiResult(timestamp, rsi));
+        AddInternal(new RsiResult(timestamp, rsi.ToNullablePrecision(14)));
     }
 
     /// <inheritdoc />

@@ -71,8 +71,8 @@ public class AroonHub
                 }
             }
 
-            aroonUp = (100d * (LookbackPeriods - (i - lastHighIndex)) / LookbackPeriods).ToPrecision(14);
-            aroonDown = (100d * (LookbackPeriods - (i - lastLowIndex)) / LookbackPeriods).ToPrecision(14);
+            aroonUp = 100d * (LookbackPeriods - (i - lastHighIndex)) / LookbackPeriods;
+            aroonDown = 100d * (LookbackPeriods - (i - lastLowIndex)) / LookbackPeriods;
         }
 
         // Candidate result

@@ -181,7 +181,7 @@ public class TsiHub
 
         // Calculate TSI
         double tsi = as2 != 0
-            ? (100d * (cs2 / as2)).ToPrecision(14)
+            ? 100d * (cs2 / as2)
             : double.NaN;
 
         // Calculate signal line
@@ -190,8 +190,8 @@ public class TsiHub
         // Candidate result
         TsiResult r = new(
             Timestamp: item.Timestamp,
-            Tsi: tsi.NaN2Null(),
-            Signal: signal.NaN2Null());
+            Tsi: tsi.ToNullablePrecision(14),
+            Signal: signal.ToNullablePrecision(14));
 
         return (r, i);
     }
@@ -209,13 +209,13 @@ public class TsiHub
                     sum += Cache[p].Tsi.Null2NaN();
                 }
 
-                _prevSignal = (sum / SignalPeriods).ToPrecision(14);
+                _prevSignal = sum / SignalPeriods;
                 return _prevSignal;
             }
             // normal signal
             else if (!double.IsNaN(_prevSignal) && !double.IsNaN(tsi))
             {
-                _prevSignal = (((tsi - _prevSignal) * multS) + _prevSignal).ToPrecision(14);
+                _prevSignal = ((tsi - _prevSignal) * multS) + _prevSignal;
                 return _prevSignal;
             }
         }

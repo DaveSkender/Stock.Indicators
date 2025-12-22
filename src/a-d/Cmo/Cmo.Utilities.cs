@@ -51,7 +51,7 @@ public static partial class Cmo
         }
 
         return sH + sL != 0
-            ? (100 * (sH - sL) / (sH + sL)).ToPrecision(14).NaN2Null()
+            ? (100 * (sH - sL) / (sH + sL)).ToNullablePrecision(14)
             : 0d;
     }
 }
