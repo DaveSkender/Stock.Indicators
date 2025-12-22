@@ -268,9 +268,9 @@ public static partial class Stoch
 
             results.Add(new(
                 Timestamp: q.Timestamp,
-                Oscillator: oscillator.ToPrecision(14).NaN2Null(),
-                Signal: signal.ToPrecision(14).NaN2Null(),
-                PercentJ: ((kFactor * oscillator) - (dFactor * signal)).ToPrecision(14).NaN2Null()));
+                Oscillator: oscillator.ToNullablePrecision(14),
+                Signal: signal.ToNullablePrecision(14),
+                PercentJ: ((kFactor * oscillator) - (dFactor * signal)).ToNullablePrecision(14)));
         }
 
         return results;

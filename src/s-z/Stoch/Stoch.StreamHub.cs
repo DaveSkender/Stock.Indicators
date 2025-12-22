@@ -233,9 +233,9 @@ public class StochHub
 
         StochResult result = new(
             Timestamp: item.Timestamp,
-            Oscillator: oscillator.ToPrecision(14).NaN2Null(),
-            Signal: signal.ToPrecision(14).NaN2Null(),
-            PercentJ: percentJ.ToPrecision(14).NaN2Null());
+            Oscillator: oscillator.ToNullablePrecision(14),
+            Signal: signal.ToNullablePrecision(14),
+            PercentJ: percentJ.ToNullablePrecision(14));
 
         return (result, i);
     }

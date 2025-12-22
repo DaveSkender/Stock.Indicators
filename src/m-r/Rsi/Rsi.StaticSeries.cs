@@ -70,7 +70,7 @@ public static partial class Rsi
 
                 rsi = !double.IsNaN(avgGain / avgLoss)
                     ? avgLoss > 0
-                    ? (100 - (100 / (1 + (avgGain / avgLoss)))).ToPrecision(14)
+                    ? 100 - (100 / (1 + (avgGain / avgLoss)))
                     : 100
                     : null;
             }
@@ -84,7 +84,7 @@ public static partial class Rsi
                 if (avgLoss > 0)
                 {
                     double rs = avgGain / avgLoss;
-                    rsi = (100 - (100 / (1 + rs))).ToPrecision(14);
+                    rsi = 100 - (100 / (1 + rs));
                 }
                 else
                 {
@@ -94,7 +94,7 @@ public static partial class Rsi
 
             RsiResult r = new(
                 Timestamp: s.Timestamp,
-                Rsi: rsi);
+                Rsi: rsi.ToNullablePrecision(14));
 
             results.Add(r);
         }

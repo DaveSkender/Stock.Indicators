@@ -67,14 +67,14 @@ public static partial class Aroon
                     }
                 }
 
-                aroonUp = (100d * (lookbackPeriods - (i + 1 - lastHighIndex)) / lookbackPeriods).ToPrecision(14);
-                aroonDown = (100d * (lookbackPeriods - (i + 1 - lastLowIndex)) / lookbackPeriods).ToPrecision(14);
+                aroonUp = 100d * (lookbackPeriods - (i + 1 - lastHighIndex)) / lookbackPeriods;
+                aroonDown = 100d * (lookbackPeriods - (i + 1 - lastLowIndex)) / lookbackPeriods;
             }
 
             AroonResult r = new(
                 Timestamp: q.Timestamp,
-                AroonUp: aroonUp,
-                AroonDown: aroonDown,
+                AroonUp: aroonUp.ToPrecision(14),
+                AroonDown: aroonDown.ToPrecision(14),
                 Oscillator: (aroonUp - aroonDown).ToPrecision(14));
 
             results.Add(r);

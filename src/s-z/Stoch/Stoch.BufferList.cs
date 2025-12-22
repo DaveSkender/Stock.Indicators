@@ -218,9 +218,9 @@ public class StochList : BufferList<StochResult>, IIncrementFromQuote, IStoch
         // Add result to the list
         AddInternal(new StochResult(
             Timestamp: timestamp,
-            Oscillator: smoothK.ToPrecision(14).NaN2Null(),
-            Signal: signal.ToPrecision(14).NaN2Null(),
-            PercentJ: percentJ.ToPrecision(14).NaN2Null()));
+            Oscillator: smoothK.ToNullablePrecision(14),
+            Signal: signal.ToNullablePrecision(14),
+            PercentJ: percentJ.ToNullablePrecision(14)));
     }
 
     /// <inheritdoc />

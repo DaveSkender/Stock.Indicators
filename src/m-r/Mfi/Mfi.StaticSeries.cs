@@ -91,7 +91,7 @@ public static partial class Mfi
                 if (sumNegMFs != 0)
                 {
                     double mfRatio = sumPosMFs / sumNegMFs;
-                    mfi = (100 - (100 / (1 + mfRatio))).ToPrecision(14);
+                    mfi = 100 - (100 / (1 + mfRatio));
                 }
 
                 // handle no negative case
@@ -107,7 +107,7 @@ public static partial class Mfi
 
             results.Add(new(
                 Timestamp: q.Timestamp,
-                Mfi: mfi.NaN2Null()));
+                Mfi: mfi.ToNullablePrecision(14)));
 
             prevTp = tp[i];
         }

@@ -191,13 +191,23 @@ public static class Numerical
 
     /// <summary>
     /// Rounds a double to the specified number of significant digits
-    /// or <see langword="null"/>.
+    /// or <see langword="null"/>. Converts NaN to null.
     /// </summary>
     /// <inheritdoc cref="ToPrecision(double, int)" />
     public static double? ToNullablePrecision(this double? value, int sigDigits = 14)
-        => value.HasValue
+        => value.HasValue && !double.IsNaN(value.Value)
             ? value.Value.ToPrecision(sigDigits)
             : null;
+
+    /// <summary>
+    /// Rounds a double to the specified number of significant digits,
+    /// converting NaN to <see langword="null"/>.
+    /// </summary>
+    /// <inheritdoc cref="ToPrecision(double, int)" />
+    public static double? ToNullablePrecision(this double value, int sigDigits = 14)
+        => double.IsNaN(value)
+            ? null
+            : value.ToPrecision(sigDigits);
 
     /// <summary>
     /// Rounds a double to the specified number of significant digits.
