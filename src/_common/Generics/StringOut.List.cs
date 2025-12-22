@@ -218,7 +218,7 @@ public static partial class StringOut
         int[] columnWidth = headers.Select(header => header.Length).ToArray();
 
         formats[0] = "N0";     // index is always an integer
-        alignLeft[0] = false;  // index is always right-aligned
+        alignLeft[0] = true;   // index is always left-aligned (for Excel paste compatibility)
 
         for (int i = 1; i < columnCount; i++)
         {
@@ -279,8 +279,10 @@ public static partial class StringOut
                 : header.PadLeft(columnWidth[index])
         )).AppendLine();
 
-        // Create separator
-        sb.AppendLine(new string('-', columnWidth.Sum(w => w + 2) - 2));
+        // Create separator with column boundaries
+        sb.AppendJoin("  ",
+            columnWidth.Select(width => new string('-', width))
+        ).AppendLine();
 
         // Create data lines with proper alignment
         foreach (string[] row in dataRows)
