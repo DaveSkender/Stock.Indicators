@@ -12,7 +12,7 @@ issue_enrichment:
   auto_enrich:
     enabled: false              # Enable auto issue enrichment (default: true)
   planning:
-    enabled: true               # Enable generating a planning for issues (default: true)
+    enabled: true               # Enable generating a plan for issues (default: true)
     auto_planning:
       enabled: true             # Enable auto-generated plans based on labels (default: true)
       labels:                   # Triggering labels for auto-planning (default: [])
