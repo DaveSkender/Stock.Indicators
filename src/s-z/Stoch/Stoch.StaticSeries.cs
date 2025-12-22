@@ -166,7 +166,7 @@ public static partial class Stoch
                 o[i] = !isViable
                      ? double.NaN
                      : highHigh - lowLow != 0
-                     ? (100d * (q.Close - lowLow) / (highHigh - lowLow)).ToPrecision(14)
+                     ? 100d * (q.Close - lowLow) / (highHigh - lowLow)
                      : 0;
             }
             else
@@ -195,7 +195,7 @@ public static partial class Stoch
                             sum += o[p];
                         }
 
-                        k[i] = (sum / smoothPeriods).ToPrecision(14);
+                        k[i] = sum / smoothPeriods;
                         break;
 
                     // SMMA case
@@ -206,7 +206,7 @@ public static partial class Stoch
                             prevK = o[i];
                         }
 
-                        k[i] = (((prevK * (smoothPeriods - 1)) + o[i]) / smoothPeriods).ToPrecision(14);
+                        k[i] = ((prevK * (smoothPeriods - 1)) + o[i]) / smoothPeriods;
                         prevK = k[i];
                         break;
 
@@ -241,7 +241,7 @@ public static partial class Stoch
                             sum += k[p];
                         }
 
-                        signal = (sum / signalPeriods).ToPrecision(14);
+                        signal = sum / signalPeriods;
                         break;
 
                     // SMMA case
@@ -252,7 +252,7 @@ public static partial class Stoch
                             prevD = k[i];
                         }
 
-                        double d = (((prevD * (signalPeriods - 1)) + k[i]) / signalPeriods).ToPrecision(14);
+                        double d = ((prevD * (signalPeriods - 1)) + k[i]) / signalPeriods;
                         signal = d;
                         prevD = d;
                         break;
@@ -268,9 +268,9 @@ public static partial class Stoch
 
             results.Add(new(
                 Timestamp: q.Timestamp,
-                Oscillator: oscillator.NaN2Null(),
-                Signal: signal.NaN2Null(),
-                PercentJ: ((kFactor * oscillator) - (dFactor * signal)).NaN2Null()));
+                Oscillator: oscillator.ToPrecision(14).NaN2Null(),
+                Signal: signal.ToPrecision(14).NaN2Null(),
+                PercentJ: ((kFactor * oscillator) - (dFactor * signal)).ToPrecision(14).NaN2Null()));
         }
 
         return results;

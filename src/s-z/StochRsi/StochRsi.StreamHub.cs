@@ -177,7 +177,7 @@ public sealed class StochRsiHub
         double lowRsi = _rsiMinWindow.GetMin();
 
         double k = lowRsi != highRsi
-            ? (100d * (rsiValue - lowRsi) / (highRsi - lowRsi)).ToPrecision(14)
+            ? 100d * (rsiValue - lowRsi) / (highRsi - lowRsi)
             : 0d;
 
         if (SmoothPeriods > 1)
@@ -199,7 +199,7 @@ public sealed class StochRsiHub
                 sumK += item;
             }
 
-            k = (sumK / SmoothPeriods).ToPrecision(14);
+            k = sumK / SmoothPeriods;
         }
 
         signalBuffer.Enqueue(k);
@@ -217,10 +217,10 @@ public sealed class StochRsiHub
                 sumSignal += item;
             }
 
-            signal = (sumSignal / SignalPeriods).ToPrecision(14);
+            signal = sumSignal / SignalPeriods;
         }
 
-        return (k, signal);
+        return (k.ToPrecision(14), signal.ToNullablePrecision(14));
     }
 }
 

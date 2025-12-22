@@ -116,7 +116,7 @@ public class StochHub
             double lowLow = _lowWindow.GetMin();
 
             rawK = highHigh - lowLow != 0
-                 ? (100d * (close - lowLow) / (highHigh - lowLow)).ToPrecision(14)
+                 ? 100d * (close - lowLow) / (highHigh - lowLow)
                  : 0;
         }
 
@@ -146,7 +146,7 @@ public class StochHub
                         sum += rawKValue;
                     }
 
-                    oscillator = (sum / SmoothPeriods).ToPrecision(14);
+                    oscillator = sum / SmoothPeriods;
                     break;
 
                 case MaType.SMMA:
@@ -162,7 +162,7 @@ public class StochHub
                         prevSmoothK = rawK;
                     }
 
-                    oscillator = (((prevSmoothK * (SmoothPeriods - 1)) + rawK) / SmoothPeriods).ToPrecision(14);
+                    oscillator = ((prevSmoothK * (SmoothPeriods - 1)) + rawK) / SmoothPeriods;
                     break;
 
                 default:
@@ -200,7 +200,7 @@ public class StochHub
                         sum += smoothKAtP;
                     }
 
-                    signal = (sum / SignalPeriods).ToPrecision(14);
+                    signal = sum / SignalPeriods;
                     break;
 
                 case MaType.SMMA:
@@ -216,7 +216,7 @@ public class StochHub
                         prevSignal = oscillator;
                     }
 
-                    signal = (((prevSignal * (SignalPeriods - 1)) + oscillator) / SignalPeriods).ToPrecision(14);
+                    signal = ((prevSignal * (SignalPeriods - 1)) + oscillator) / SignalPeriods;
                     break;
 
                 default:
@@ -233,9 +233,9 @@ public class StochHub
 
         StochResult result = new(
             Timestamp: item.Timestamp,
-            Oscillator: oscillator.NaN2Null(),
-            Signal: signal.NaN2Null(),
-            PercentJ: percentJ.NaN2Null());
+            Oscillator: oscillator.ToPrecision(14).NaN2Null(),
+            Signal: signal.ToPrecision(14).NaN2Null(),
+            PercentJ: percentJ.ToPrecision(14).NaN2Null());
 
         return (result, i);
     }
@@ -300,7 +300,7 @@ public class StochHub
                 }
 
                 double c = (double)ProviderCache[p].Close;
-                double rawAtP = (hh - ll) != 0 ? (100 * (c - ll) / (hh - ll)).ToPrecision(14) : 0;
+                double rawAtP = (hh - ll) != 0 ? 100 * (c - ll) / (hh - ll) : 0;
                 _rawKBuffer.Enqueue(rawAtP);
             }
         }

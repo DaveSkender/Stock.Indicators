@@ -133,7 +133,7 @@ public class StochList : BufferList<StochResult>, IIncrementFromQuote, IStoch
             }
 
             rawK = highHigh - lowLow != 0
-                ? (100d * (close - lowLow) / (highHigh - lowLow)).ToPrecision(14)
+                ? 100d * (close - lowLow) / (highHigh - lowLow)
                 : 0;
         }
 
@@ -154,7 +154,7 @@ public class StochList : BufferList<StochResult>, IIncrementFromQuote, IStoch
                 case MaType.SMA:
                     if (_rawKBuffer.Count == SmoothPeriods)
                     {
-                        smoothK = _rawKBuffer.Average().ToPrecision(14);
+                        smoothK = _rawKBuffer.Average();
                     }
 
                     break;
@@ -166,7 +166,7 @@ public class StochList : BufferList<StochResult>, IIncrementFromQuote, IStoch
                         _prevSmoothK = rawK;
                     }
 
-                    smoothK = (((_prevSmoothK * (SmoothPeriods - 1)) + rawK) / SmoothPeriods).ToPrecision(14);
+                    smoothK = ((_prevSmoothK * (SmoothPeriods - 1)) + rawK) / SmoothPeriods;
                     _prevSmoothK = smoothK;
                     break;
 
@@ -191,7 +191,7 @@ public class StochList : BufferList<StochResult>, IIncrementFromQuote, IStoch
                 case MaType.SMA:
                     if (_smoothKBuffer.Count == SignalPeriods)
                     {
-                        signal = _smoothKBuffer.Average().ToPrecision(14);
+                        signal = _smoothKBuffer.Average();
                     }
 
                     break;
@@ -203,7 +203,7 @@ public class StochList : BufferList<StochResult>, IIncrementFromQuote, IStoch
                         _prevSignal = smoothK;
                     }
 
-                    signal = (((_prevSignal * (SignalPeriods - 1)) + smoothK) / SignalPeriods).ToPrecision(14);
+                    signal = ((_prevSignal * (SignalPeriods - 1)) + smoothK) / SignalPeriods;
                     _prevSignal = signal;
                     break;
 
@@ -218,9 +218,9 @@ public class StochList : BufferList<StochResult>, IIncrementFromQuote, IStoch
         // Add result to the list
         AddInternal(new StochResult(
             Timestamp: timestamp,
-            Oscillator: smoothK.NaN2Null(),
-            Signal: signal.NaN2Null(),
-            PercentJ: percentJ.NaN2Null()));
+            Oscillator: smoothK.ToPrecision(14).NaN2Null(),
+            Signal: signal.ToPrecision(14).NaN2Null(),
+            PercentJ: percentJ.ToPrecision(14).NaN2Null()));
     }
 
     /// <inheritdoc />
