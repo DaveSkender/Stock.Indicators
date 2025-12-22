@@ -238,8 +238,7 @@ public class ConnorsRsiHub
 
         if (i >= startPeriod - 1 && rsi.HasValue && rsiStreak.HasValue && percentRank.HasValue)
         {
-            connorsRsi = ((rsi.Value + rsiStreak.Value + percentRank.Value) / 3d)
-                .ToPrecision(14);
+            connorsRsi = (rsi.Value + rsiStreak.Value + percentRank.Value) / 3d;
         }
 
         // Update previous value

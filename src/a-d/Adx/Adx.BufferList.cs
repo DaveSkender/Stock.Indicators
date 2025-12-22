@@ -116,9 +116,9 @@ public class AdxList : BufferList<AdxResult>, IIncrementFromQuote, IAdx
         if (Count < (2 * LookbackPeriods) - 1)
         {
             AddInternal(new AdxResult(timestamp,
-                Pdi: pdi.ToPrecision(14).NaN2Null(),
-                Mdi: mdi.ToPrecision(14).NaN2Null(),
-                Dx: curr.Dx.ToPrecision(14).NaN2Null()));
+                Pdi: pdi.ToNullablePrecision(14),
+                Mdi: mdi.ToNullablePrecision(14),
+                Dx: curr.Dx.ToNullablePrecision(14)));
 
             return;
         }
@@ -148,17 +148,17 @@ public class AdxList : BufferList<AdxResult>, IIncrementFromQuote, IAdx
             // priorForAdxr was captured before buffer update, so it's from the correct period
             if (priorForAdxr != null && !double.IsNaN(priorForAdxr.Adx))
             {
-                adxr = ((curr.Adx + priorForAdxr.Adx) / 2).ToPrecision(14);
+                adxr = (curr.Adx + priorForAdxr.Adx) / 2;
             }
         }
 
         AdxResult r = new(
             Timestamp: timestamp,
-            Pdi: pdi.ToPrecision(14),
-            Mdi: mdi.ToPrecision(14),
-            Dx: curr.Dx.ToPrecision(14).NaN2Null(),
-            Adx: curr.Adx.ToPrecision(14).NaN2Null(),
-            Adxr: adxr.ToPrecision(14).NaN2Null());
+            Pdi: pdi.ToNullablePrecision(14),
+            Mdi: mdi.ToNullablePrecision(14),
+            Dx: curr.Dx.ToNullablePrecision(14),
+            Adx: curr.Adx.ToNullablePrecision(14),
+            Adxr: adxr.ToNullablePrecision(14));
 
         AddInternal(r);
     }

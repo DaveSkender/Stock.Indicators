@@ -303,12 +303,12 @@ public class AdxHub
                     _prevMdm = _prevMdm - (_prevMdm / LookbackPeriods) + mdm1;
                 }
 
-                double? pdi = _prevTrs != 0 ? (100 * _prevPdm / _prevTrs).ToPrecision(14) : null;
-                double? mdi = _prevTrs != 0 ? (100 * _prevMdm / _prevTrs).ToPrecision(14) : null;
+                double? pdi = _prevTrs != 0 ? 100 * _prevPdm / _prevTrs : null;
+                double? mdi = _prevTrs != 0 ? 100 * _prevMdm / _prevTrs : null;
                 if (pdi.HasValue && mdi.HasValue)
                 {
                     double dx = pdi.Value + mdi.Value != 0
-                        ? (100 * Math.Abs(pdi.Value - mdi.Value) / (pdi.Value + mdi.Value)).ToPrecision(14)
+                        ? 100 * Math.Abs(pdi.Value - mdi.Value) / (pdi.Value + mdi.Value)
                         : 0;
 
                     // ADX initialization and calculation
@@ -320,13 +320,13 @@ public class AdxHub
                         // Calculate initial ADX when we have enough DX values
                         if (double.IsNaN(_prevAdx) && i == (2 * LookbackPeriods) - 1)
                         {
-                            _prevAdx = (_sumDx / LookbackPeriods).ToPrecision(14);
+                            _prevAdx = _sumDx / LookbackPeriods;
                         }
                     }
                     // Ongoing ADX smoothing
                     else
                     {
-                        _prevAdx = (((_prevAdx * (LookbackPeriods - 1)) + dx) / LookbackPeriods).ToPrecision(14);
+                        _prevAdx = ((_prevAdx * (LookbackPeriods - 1)) + dx) / LookbackPeriods;
                     }
                 }
             }
