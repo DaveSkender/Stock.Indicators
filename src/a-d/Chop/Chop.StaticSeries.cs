@@ -71,15 +71,14 @@ public static partial class Chop
                     // calculate CHOP
                     if (range != 0)
                     {
-                        chop = (100d * (Math.Log(sum / range) / Math.Log(lookbackPeriods)))
-                            .ToPrecision(14);
+                        chop = 100d * (Math.Log(sum / range) / Math.Log(lookbackPeriods));
                     }
                 }
             }
 
             results.Add(new(
                 Timestamp: quotes[i].Timestamp,
-                Chop: chop));
+                Chop: chop.ToNullablePrecision(14)));
         }
 
         return results;

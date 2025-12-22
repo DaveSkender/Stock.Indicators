@@ -89,8 +89,8 @@ public static partial class Kama
 
             results.Add(new KamaResult(
                 Timestamp: source[i].Timestamp,
-                Er: er.ToPrecision(14).NaN2Null(),
-                Kama: kama.NaN2Null()));
+                Er: er.ToNullablePrecision(14),
+                Kama: kama.ToNullablePrecision(14)));
 
             prevKama = kama;
         }

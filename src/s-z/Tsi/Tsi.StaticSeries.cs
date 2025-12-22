@@ -111,7 +111,7 @@ public static partial class Tsi
 
             // true strength index
             double tsi = as2[i] != 0
-                ? (100d * (cs2[i] / as2[i])).ToPrecision(14)
+                ? 100d * (cs2[i] / as2[i])
                 : double.NaN;
 
             // signal line
@@ -128,13 +128,13 @@ public static partial class Tsi
                         sum += results[p].Tsi.Null2NaN();
                     }
 
-                    signal = (sum / signalPeriods).ToPrecision(14);
+                    signal = sum / signalPeriods;
                 }
 
                 // normal signal
                 else
                 {
-                    signal = (((tsi - prevSignal) * multS) + prevSignal).ToPrecision(14);
+                    signal = ((tsi - prevSignal) * multS) + prevSignal;
                 }
             }
             else
@@ -146,8 +146,8 @@ public static partial class Tsi
 
             results.Add(new TsiResult(
                 Timestamp: s.Timestamp,
-                Tsi: tsi.NaN2Null(),
-                Signal: signal.NaN2Null()));
+                Tsi: tsi.ToNullablePrecision(14),
+                Signal: signal.ToNullablePrecision(14)));
 
             prevSignal = signal;
         }
