@@ -146,8 +146,8 @@ public static partial class Tsi
 
             results.Add(new TsiResult(
                 Timestamp: s.Timestamp,
-                Tsi: tsi.ToNullablePrecision(14),
-                Signal: signal.ToNullablePrecision(14)));
+                Tsi: tsi.NaN2Null(),
+                Signal: signal.NaN2Null()));
 
             prevSignal = signal;
         }

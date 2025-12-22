@@ -220,7 +220,7 @@ public sealed class StochRsiHub
             signal = sumSignal / SignalPeriods;
         }
 
-        return (k.ToNullablePrecision(14), signal.ToNullablePrecision(14));
+        return (k, signal);
     }
 }
 

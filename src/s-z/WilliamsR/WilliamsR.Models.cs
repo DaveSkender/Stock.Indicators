@@ -5,9 +5,6 @@ namespace Skender.Stock.Indicators;
 /// </summary>
 /// <param name="Timestamp">The timestamp of the data point.</param>
 /// <param name="WilliamsR">The value of the Williams %R at this point.</param>
-/// <remarks>
-/// Williams %R is bounded between -100 and 0 when calculated.
-/// </remarks>
 [Serializable]
 public record WilliamsResult
 (

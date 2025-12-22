@@ -6,9 +6,6 @@ namespace Skender.Stock.Indicators;
 /// <param name="Timestamp">The timestamp of the data point.</param>
 /// <param name="StochRsi">The value of the Stochastic RSI at this point.</param>
 /// <param name="Signal">The signal line value at this point.</param>
-/// <remarks>
-/// StochRsi and Signal are bounded between 0 and 100 when calculated.
-/// </remarks>
 [Serializable]
 public record StochRsiResult
 (

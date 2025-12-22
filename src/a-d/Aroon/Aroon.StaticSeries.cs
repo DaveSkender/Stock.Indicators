@@ -73,9 +73,9 @@ public static partial class Aroon
 
             AroonResult r = new(
                 Timestamp: q.Timestamp,
-                AroonUp: aroonUp.ToPrecision(14),
-                AroonDown: aroonDown.ToPrecision(14),
-                Oscillator: (aroonUp - aroonDown).ToPrecision(14));
+                AroonUp: aroonUp,
+                AroonDown: aroonDown,
+                Oscillator: aroonUp - aroonDown);
 
             results.Add(r);
 

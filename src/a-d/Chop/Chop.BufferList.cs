@@ -87,14 +87,14 @@ public class ChopList : BufferList<ChopResult>, IIncrementFromQuote, IChop
 
                 if (range != 0)
                 {
-                    chop = 100d * (Math.Log(sumTrueRange / range) / Math.Log(LookbackPeriods));
+                    chop = 100 * (Math.Log(sumTrueRange / range) / Math.Log(LookbackPeriods));
                 }
             }
 
             _previousClose = close;
         }
 
-        AddInternal(new ChopResult(timestamp, chop.ToNullablePrecision(14)));
+        AddInternal(new ChopResult(timestamp, chop));
     }
 
     /// <inheritdoc />

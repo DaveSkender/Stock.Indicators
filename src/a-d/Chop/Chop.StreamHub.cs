@@ -87,14 +87,14 @@ public class ChopHub
             // calculate CHOP
             if (range != 0)
             {
-                chop = 100d * (Math.Log(_sumTrueRange / range) / Math.Log(LookbackPeriods));
+                chop = 100 * (Math.Log(_sumTrueRange / range) / Math.Log(LookbackPeriods));
             }
         }
 
         // candidate result
         ChopResult r = new(
             Timestamp: item.Timestamp,
-            Chop: chop.ToNullablePrecision(14));
+            Chop: chop);
 
         return (r, i);
     }

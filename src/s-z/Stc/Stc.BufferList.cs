@@ -82,7 +82,7 @@ public class StcList : BufferList<StcResult>, IIncrementFromChain, IStc
             StochResult stochResult = _stochList[^1];
             result = new StcResult(
                 Timestamp: timestamp,
-                Stc: stochResult.Oscillator.ToNullablePrecision(14));
+                Stc: stochResult.Oscillator);
         }
         else
         {

@@ -68,7 +68,7 @@ public class CmfList : BufferList<CmfResult>, IIncrementFromQuote, ICmf
 
             if (avgVol != 0)
             {
-                cmf = (avgMfv / avgVol).NaN2Null();
+                cmf = avgMfv / avgVol;
             }
         }
 

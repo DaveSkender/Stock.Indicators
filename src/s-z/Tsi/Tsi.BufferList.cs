@@ -230,8 +230,8 @@ public class TsiList : BufferList<TsiResult>, IIncrementFromChain, ITsi
 
         TsiResult result = new(
             Timestamp: timestamp,
-            Tsi: tsi.ToNullablePrecision(14),
-            Signal: signal.ToNullablePrecision(14));
+            Tsi: tsi.NaN2Null(),
+            Signal: signal.NaN2Null());
 
         AddInternal(result);
     }

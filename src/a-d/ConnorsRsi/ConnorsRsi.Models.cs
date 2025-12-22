@@ -9,7 +9,6 @@ namespace Skender.Stock.Indicators;
 /// <param name="RsiStreak">The RSI streak value.</param>
 /// <param name="PercentRank">The percent rank value.</param>
 /// <param name="ConnorsRsi">The Connors RSI value.</param>
-/// <remarks>Connors RSI is bounded from 0 to 100; precision handling preserves this range.</remarks>
 [Serializable]
 public record ConnorsRsiResult
 (

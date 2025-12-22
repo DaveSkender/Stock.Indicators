@@ -171,11 +171,11 @@ public static partial class Adx
 
             AdxResult r = new(
                 Timestamp: q.Timestamp,
-                Pdi: pdi.ToPrecision(14),
-                Mdi: mdi.ToPrecision(14),
-                Dx: dx.ToPrecision(14).NaN2Null(),
-                Adx: adx.ToPrecision(14).NaN2Null(),
-                Adxr: adxr.ToPrecision(14).NaN2Null());
+                Pdi: pdi,
+                Mdi: mdi,
+                Dx: dx.NaN2Null(),
+                Adx: adx.NaN2Null(),
+                Adxr: adxr.NaN2Null());
 
             results.Add(r);
         }

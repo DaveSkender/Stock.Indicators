@@ -64,7 +64,7 @@ public static partial class Cmf
 
                 if (avgVol != 0)
                 {
-                    cmf = (avgMfv / avgVol).ToNullablePrecision(14);
+                    cmf = avgMfv / avgVol;
                 }
             }
 

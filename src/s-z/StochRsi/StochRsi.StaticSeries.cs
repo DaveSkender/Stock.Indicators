@@ -64,8 +64,8 @@ public static partial class StochRsi
 
             results.Add(new StochRsiResult(
                 Timestamp: r.Timestamp,
-                StochRsi: r.Oscillator.ToPrecision(14),
-                Signal: r.Signal.ToPrecision(14)));
+                StochRsi: r.Oscillator,
+                Signal: r.Signal));
         }
 
         return results;

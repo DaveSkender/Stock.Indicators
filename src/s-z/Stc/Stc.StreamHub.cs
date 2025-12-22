@@ -157,14 +157,12 @@ public class StcHub
             }
 
             double smoothedK = sum / 3;
-            stc = double.IsNaN(smoothedK)
-                ? null
-                : smoothedK;
+            stc = double.IsNaN(smoothedK) ? null : smoothedK;
         }
 
         StcResult result = new(
             Timestamp: item.Timestamp,
-            Stc: stc.ToNullablePrecision(14));
+            Stc: stc);
 
         return (result, i);
     }

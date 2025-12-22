@@ -1,14 +1,17 @@
 namespace Skender.Stock.Indicators;
 
+
 /// <summary>
 /// Represents a Williams %R stream hub.
 /// </summary>
 public class WilliamsRHub
     : StreamHub<IQuote, WilliamsResult>, IWilliamsR
 {
+    #region constructors
+
     private readonly string hubName;
-    private readonly RollingWindowMax<double> _highWindow;
-    private readonly RollingWindowMin<double> _lowWindow;
+    private readonly RollingWindowMax<decimal> _highWindow;
+    private readonly RollingWindowMin<decimal> _lowWindow;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="WilliamsRHub"/> class.
@@ -22,18 +25,26 @@ public class WilliamsRHub
         WilliamsR.Validate(lookbackPeriods);
 
         LookbackPeriods = lookbackPeriods;
-        _highWindow = new RollingWindowMax<double>(lookbackPeriods);
-        _lowWindow = new RollingWindowMin<double>(lookbackPeriods);
+        _highWindow = new RollingWindowMax<decimal>(lookbackPeriods);
+        _lowWindow = new RollingWindowMin<decimal>(lookbackPeriods);
 
         hubName = $"WILLR({lookbackPeriods})";
 
         Reinitialize();
     }
 
+    #endregion constructors
+
+    #region properties
+
     /// <summary>
     /// Gets the lookback periods for Williams %R calculation.
     /// </summary>
     public int LookbackPeriods { get; init; }
+
+    #endregion properties
+
+    #region methods
 
     /// <inheritdoc/>
     public override string ToString() => hubName;
@@ -45,32 +56,34 @@ public class WilliamsRHub
         ArgumentNullException.ThrowIfNull(item);
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
-        double high = (double)item.High;
-        double low = (double)item.Low;
-        double close = (double)item.Close;
+        // Add current high/low to rolling windows (only require High/Low, not Close)
+        bool hasHL = !double.IsNaN((double)item.High) &&
+                     !double.IsNaN((double)item.Low);
+        bool hasClose = !double.IsNaN((double)item.Close);
 
-        // Update rolling windows for O(1) amortized max/min tracking
-        _highWindow.Add(high);
-        _lowWindow.Add(low);
+        if (hasHL)
+        {
+            _highWindow.Add(item.High);
+            _lowWindow.Add(item.Low);
+        }
 
         // Calculate Williams %R
-        // Williams %R is Fast Stochastic (K) - 100
         double williamsR = double.NaN;
-        if (i >= LookbackPeriods - 1)
+        if (i >= LookbackPeriods - 1 && hasHL && hasClose)
         {
             // Get highest high and lowest low from rolling windows (O(1))
-            double highHigh = _highWindow.GetMax();
-            double lowLow = _lowWindow.GetMin();
+            decimal highHigh = _highWindow.GetMax();
+            decimal lowLow = _lowWindow.GetMin();
 
-            // Williams %R formula matches Stochastic %K - 100
+            // Return NaN when range is zero (undefined %R)
             williamsR = highHigh == lowLow
                 ? double.NaN
-                : ((100d * (close - lowLow) / (highHigh - lowLow)) - 100d);
+                : (100 * ((double)item.Close - (double)lowLow) / ((double)highHigh - (double)lowLow)) - 100;
         }
 
         WilliamsResult result = new(
             Timestamp: item.Timestamp,
-            WilliamsR: williamsR.ToNullablePrecision(14));
+            WilliamsR: williamsR.NaN2Null());
 
         return (result, i);
     }
@@ -107,11 +120,20 @@ public class WilliamsRHub
         {
             IQuote quote = ProviderCache[p];
 
-            _highWindow.Add((double)quote.High);
-            _lowWindow.Add((double)quote.Low);
+            // Only require High/Low to rebuild windows (not Close)
+            if (!double.IsNaN((double)quote.High) &&
+                !double.IsNaN((double)quote.Low))
+            {
+                _highWindow.Add(quote.High);
+                _lowWindow.Add(quote.Low);
+            }
         }
     }
+
+    #endregion methods
+
 }
+
 
 public static partial class WilliamsR
 {
@@ -142,3 +164,4 @@ public static partial class WilliamsR
         return quoteHub.ToWilliamsRHub(lookbackPeriods);
     }
 }
+

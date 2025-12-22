@@ -51,12 +51,12 @@ public static partial class Hurst
                 }
 
                 // calculate hurst exponent
-                h = CalcHurstWindow(values);
+                h = CalcHurstWindow(values).NaN2Null();
             }
 
             results.Add(new(
                 Timestamp: s.Timestamp,
-                HurstExponent: h.ToNullablePrecision(14)));
+                HurstExponent: h));
         }
 
         return results;

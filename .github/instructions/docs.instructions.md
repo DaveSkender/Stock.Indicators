@@ -56,7 +56,7 @@ When adding or updating indicators:
 
 - Follow established patterns in `_layouts/` and `_includes/`
 - Maintain consistency in template structure
-- Use Jekyll's data files in `_testdata/` for structured content
+- Use Jekyll's data files in `_data/` for structured content
 - Leverage Jekyll plugins appropriately
 
 ### Asset management

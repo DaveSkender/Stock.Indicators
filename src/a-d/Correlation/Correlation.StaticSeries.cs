@@ -116,7 +116,7 @@ public static partial class Correlation
 
         double? corr = divisor == 0
             ? null
-            : (cov / divisor).ToPrecision(14).NaN2Null();
+            : (cov / divisor).NaN2Null();
 
         return new(
             Timestamp: timestamp,
@@ -124,6 +124,6 @@ public static partial class Correlation
             VarianceB: varB.NaN2Null(),
             Covariance: cov.NaN2Null(),
             Correlation: corr,
-            RSquared: (corr * corr)?.ToPrecision(14));
+            RSquared: corr * corr);
     }
 }
