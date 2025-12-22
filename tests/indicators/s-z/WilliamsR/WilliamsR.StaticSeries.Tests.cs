@@ -93,7 +93,7 @@ public class WilliamsR : StaticSeriesTestBase
     public void Issue1127_Original_BoundaryThreshold_Maintained()
     {
         // initialize
-        IReadOnlyList<Quote> quotes = File.ReadAllLines("_data/issues/issue1127.quotes.williamr.original.csv")
+        IReadOnlyList<Quote> quotes = File.ReadAllLines("_testdata/issues/issue1127.quotes.williamr.original.csv")
             .Skip(1)
             .Select(Test.Data.Utilities.QuoteFromCsv)
             .OrderBy(static x => x.Timestamp)
@@ -112,7 +112,7 @@ public class WilliamsR : StaticSeriesTestBase
     public void Issue1127_Revisit_BoundaryThreshold_Maintained()
     {
         // initialize
-        IReadOnlyList<Quote> quotes = File.ReadAllLines("_data/issues/issue1127.quotes.williamr.revisit.csv")
+        IReadOnlyList<Quote> quotes = File.ReadAllLines("_testdata/issues/issue1127.quotes.williamr.revisit.csv")
             .Skip(1)
             .Select(Test.Data.Utilities.QuoteFromCsv)
             .OrderBy(static x => x.Timestamp)

@@ -124,7 +124,7 @@ public class Adx : StaticSeriesTestBase
     public void Issue859_HasInlineNaN_NaNsConverted()
     {
         // quotes that produce in-sequence NaN values
-        List<Quote> quotes = File.ReadAllLines("_data/issues/issue0859.quotes.adx.nan.csv")
+        List<Quote> quotes = File.ReadAllLines("_testdata/issues/issue0859.quotes.adx.nan.csv")
             .Skip(1)
             .Select(Test.Data.Utilities.QuoteFromCsv)
             .OrderByDescending(static x => x.Timestamp)

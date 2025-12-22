@@ -244,14 +244,14 @@ Assert.IsNull(result.Value);        // ❌
 **Test data sources:**
 
 - **Static datasets**: Use `TestBase` properties like `Quotes`, `LongishQuotes`, `RandomQuotes`
-- **CSV files**: Located in `tests/indicators/_data/quotes/` (e.g., `default.csv`, `bitcoin.csv`)
-- **Baseline results**: JSON files in `tests/indicators/_data/results/` for regression testing
+- **CSV files**: Located in `tests/indicators/_testdata/quotes/` (e.g., `default.csv`, `bitcoin.csv`)
+- **Baseline results**: JSON files in `tests/indicators/_testdata/results/` for regression testing
 - **Custom data**: Use `Data.GetRandom()`, `Data.GetDefault()` methods from `TestData` classes
 
 **File naming conventions:**
 
-- **Quote data**: `{symbol}.csv` or `{description}.csv` in `_data/quotes/`
-- **Expected results**: `{indicator}.{variant}.json` in `_data/results/`
+- **Quote data**: `{symbol}.csv` or `{description}.csv` in `_testdata/quotes/`
+- **Expected results**: `{indicator}.{variant}.json` in `_testdata/results/`
 - **Test files**: `{Indicator}.{TestType}.Tests.cs` (e.g., `Adx.StaticSeries.Tests.cs`)
 
 **Data loading patterns:**
