@@ -80,7 +80,7 @@ public class StringOutputs : TestBase
             DecimalProperty         Decimal              7922815.2514264337593543950335  A 'Decimal' type
             CharProperty            Char                                              A  A 'Char' type
             BoolProperty            Boolean                                        True  A 'Boolean' type
-            NoXmlProperty           Boolean                                       False
+            NoXmlProperty           Boolean                                       False  
             StringProperty          String          The lazy dog jumped over the sly...  A 'String' type
             """.WithDefaultLineEndings();
 
