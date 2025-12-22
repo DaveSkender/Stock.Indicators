@@ -2,23 +2,35 @@
 # CodeRabbit config docs: https://docs.coderabbit.ai/reference/configuration
 
 # General settings
-language: "en-US"
-early_access: true
+language: "en-US"               # Language for reviews (default: "en-US")
+inheritance: false              # top-level instructions (default: false)
 
 # preview features
+early_access: true              # Enable early-access features (default: false)
+
 issue_enrichment:
   auto_enrich:
-    enabled: false
+    enabled: false              # Enable auto issue enrichment (default: true)
+  planning:
+    enabled: true               # Enable generating a plan for issues (default: true)
+    auto_planning:
+      enabled: true             # Enable auto-generated plans based on labels (default: true)
+      labels:                   # Triggering labels for auto-planning (default: [])
+        - rabbit-plan
+  labeling:
+    auto_apply_labels: false
+    labeling_instructions: []
 
-# REVIEW CONFIGURATION
+# REVIEWS
 reviews:
   profile: "chill"
   review_status: true
   commit_status: true
   fail_commit_status: false
   request_changes_workflow: false
-  in_progress_fortune: false
 
+  in_progress_fortune: false
+  assess_linked_issues: true
   high_level_summary: false
   high_level_summary_in_walkthrough: false
   collapse_walkthrough: true
@@ -26,21 +38,26 @@ reviews:
   sequence_diagrams: false
   estimate_code_review_effort: false
   poem: false
+  enable_prompt_for_ai_agents: true
 
   related_issues: true
   related_prs: true
 
-  suggested_labels: false
-  auto_apply_labels: false
-  suggested_reviewers: false
-  auto_assign_reviewers: false
-
   # Automatic review scheduling
   auto_review:
     enabled: true
-    drafts: false
+    auto_incremental_review: true     # Review each push (default: true)
+    drafts: false                     # Review Draft pull requests (default: false)
     base_branches:
       - ".*"
+
+  # Automatic labels
+  suggested_labels: false
+  auto_apply_labels: false
+
+  # Automatic reviewers
+  suggested_reviewers: false
+  auto_assign_reviewers: false
 
   # Automatic PR titles
   auto_title_placeholder: "@coderabbitai"
@@ -87,22 +104,21 @@ reviews:
   # Files to include/exclude from reviews
   path_filters:
     - "**"                    # Include all (base)
-    - "!.specify/scripts/"    # Spec Kit (except memory)
-    - "!.specify/templates/"  # Spec Kit (except memory)
-    - "!.github/prompts/speckit.*"  # Spec Kit prompts
     - "!**/_testdata/**/*.csv"      # Test data
     - "!**/_testdata/**/*.json"     # Test data
     - "!node_modules/"        # NPM dependencies
     - "!*-lock.json"          # NPM/PNPM lock files
-    - "!packages.lock.json"   # .NET lock file
+    - "!packages.lock.json"   # NuGet lock file
     - "!packages/"            # NuGet packages cache
     - "!.jekyll-cache/"       # Jekyll cache
-    - "!vendor/"              # Ruby vendor gem files
+    - "!vendor/"              # Ruby vendor and gem files
     - "!Gemfile.lock"         # Ruby dependencies lock
     - "!bin/"                 # .NET build output
     - "!obj/"                 # .NET build intermediate files
-    - "!*.g.cs"               # Generated source files
-    - "!*.xlsx"               # Manual calculation spreadsheets
+    - "!*.g.cs"               # Generated source code
+    - "!*.docx"               # Office Word
+    - "!*.pptx"               # Office PowerPoint
+    - "!*.xlsx"               # Office Spreadsheets
     - "!*.bak"                # Backup files
 
   # Path-based configuration
@@ -227,7 +243,12 @@ reviews:
     oxc:
       enabled: false
 
-# KNOWLEDGE BASE CONFIGURATION
+# CHAT FEATURES
+chat:
+  art: true
+  auto_reply: true
+
+# KNOWLEDGE BASE
 knowledge_base:
   opt_out: false
   code_guidelines:

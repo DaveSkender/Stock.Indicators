@@ -42,6 +42,33 @@ dotnet run -c Release --filter *StyleComparison*
 dotnet run -c Release --filter *.ToEma
 ```
 
+### Run manual performance test with custom data size
+
+Test a specific indicator with a custom number of randomly generated periods:
+
+```bash
+# Test SMA with 100,000 periods (direct calls, no catalog overhead)
+PERF_TEST_KEYWORD=sma PERF_TEST_PERIODS=100000 dotnet run -c Release --filter "Performance.ManualTestDirect*"
+
+# Test EMA with 500,000 periods (default)
+PERF_TEST_KEYWORD=ema PERF_TEST_PERIODS=500000 dotnet run -c Release --filter "Performance.ManualTestDirect*"
+
+# Test RSI with 1,000,000 periods
+PERF_TEST_KEYWORD=rsi PERF_TEST_PERIODS=1000000 dotnet run -c Release --filter "Performance.ManualTestDirect*"
+```
+
+The direct manual test (`ManualTestDirect`):
+
+- Uses precompiled delegates for common indicators (SMA, EMA, RSI, MACD, etc.)
+- Zero catalog/reflection overhead - measures pure indicator performance
+- Generates random quotes once before benchmarking (not counted in metrics)
+- Runs all three indicator styles (Series, Buffer, Stream) with the same data
+- Best for accurate performance measurements and scalability testing
+
+For dynamic indicator discovery (with catalog/reflection overhead), use `Performance.ManualTest*` filter instead. This supports any catalog-registered indicator but includes method lookup and invocation overhead in the measurements.
+
+**Note:** The manual test can also be triggered from GitHub Actions via the "Manual performance test" workflow with custom inputs.
+
 ### Run individual benchmarks
 
 ```bash
@@ -129,14 +156,33 @@ The script identifies:
 
 ## CI/CD integration
 
-### GitHub Actions workflow
+### GitHub Actions workflows
 
-The `.github/workflows/test-performance.yml` workflow:
+The library includes two performance testing workflows:
+
+**Automated testing** (`.github/workflows/test-performance.yml`):
 
 1. Runs on pushes to main/version branches
 2. Runs on PR changes to performance tests
 3. Generates GitHub Summary with results
 4. Uploads artifacts for historical tracking
+
+**Manual testing** (`.github/workflows/test-performance-manual.yml`):
+
+1. Manually triggered via GitHub Actions UI
+2. Accepts two inputs:
+   - **keyword**: Indicator name (case-insensitive, e.g., "sma", "ema", "rsi")
+   - **periods**: Number of randomly generated quote periods (default: 500,000)
+3. Runs all three styles (Series, Buffer, Stream) with the same data
+4. Ideal for testing scalability and performance with custom dataset sizes
+5. Generates GitHub Summary with results
+
+To trigger the manual workflow:
+
+1. Go to **Actions** → **Manual performance test**
+2. Click **Run workflow**
+3. Enter indicator keyword and desired number of periods
+4. Click **Run workflow** button
 
 ### Adding regression gates (optional)
 
@@ -276,4 +322,4 @@ When contributing performance improvements:
 
 ---
 
-Last updated: October 1, 2025
+Last updated: December 19, 2025

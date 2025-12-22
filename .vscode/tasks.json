@@ -9,6 +9,18 @@
       "description": "Enter a brief description of the feature to implement",
       "default": "New indicator or feature",
       "type": "promptString"
+    },
+    {
+      "id": "manualPerfKeyword",
+      "description": "Manual perf test: indicator keyword (e.g., sma, ema, rsi)",
+      "default": "sma",
+      "type": "promptString"
+    },
+    {
+      "id": "manualPerfPeriods",
+      "description": "Manual perf test: number of randomly generated quote periods",
+      "default": "500000",
+      "type": "promptString"
     }
   ],
 
@@ -309,6 +321,21 @@
       "type": "shell",
       "command": "dotnet run --project tools/performance/Tests.Performance.csproj -c Release -- --filter *StreamIndicators*",
       "group": "test",
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "Run: Manual perf test (keyword + periods)",
+      "detail": "Run ManualTestDirect benchmark for a single indicator keyword using a custom-sized random dataset (direct calls, no catalog overhead)",
+      "type": "shell",
+      "command": "dotnet run --project Tests.Performance.csproj -c Release -- --filter \"Performance.ManualTestDirect*\" --job short --exporters json markdown",
+      "options": {
+        "cwd": "${workspaceFolder}/tools/performance",
+        "env": {
+          "PERF_TEST_KEYWORD": "${input:manualPerfKeyword}",
+          "PERF_TEST_PERIODS": "${input:manualPerfPeriods}"
+        }
+      },
+      "group": "none",
       "problemMatcher": "$msCompile"
     },
     {
