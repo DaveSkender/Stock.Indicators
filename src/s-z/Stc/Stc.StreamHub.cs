@@ -164,7 +164,7 @@ public class StcHub
 
         StcResult result = new(
             Timestamp: item.Timestamp,
-            Stc: stc.ToNullablePrecision(14));
+            Stc: stc.NaN2Null());
 
         return (result, i);
     }

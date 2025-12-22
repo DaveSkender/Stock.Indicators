@@ -199,11 +199,11 @@ public class AdxHub
 
         AdxResult result = new(
             item.Timestamp,
-            pdi.ToPrecision(14),
-            mdi.ToPrecision(14),
-            dx.ToPrecision(14),
-            adx.ToPrecision(14),
-            adxr.ToPrecision(14));
+            pdi,
+            mdi,
+            dx,
+            adx,
+            adxr);
 
         return (result, i);
     }

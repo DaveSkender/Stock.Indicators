@@ -199,7 +199,7 @@ public class RsiHub
         // candidate result
         RsiResult r = new(
             Timestamp: item.Timestamp,
-            Rsi: rsi.ToNullablePrecision(14));
+            Rsi: rsi.NaN2Null());
 
         return (r, i);
     }

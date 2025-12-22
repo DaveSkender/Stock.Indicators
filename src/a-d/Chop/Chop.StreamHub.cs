@@ -94,7 +94,7 @@ public class ChopHub
         // candidate result
         ChopResult r = new(
             Timestamp: item.Timestamp,
-            Chop: chop.ToNullablePrecision(14));
+            Chop: chop.NaN2Null());
 
         return (r, i);
     }

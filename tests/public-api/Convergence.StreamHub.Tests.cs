@@ -26,6 +26,33 @@ public class ConvergenceStreamHubs : TestBase
     private const int SmaConvergence = 50;
     private const int StochConvergence = 200;
 
+    // Precision tolerance for StreamHub convergence tests (14th decimal place)
+    // Required because SMMA calculations retrieve previous values from Cache
+    // which have ToPrecision applied, creating minor cascading precision differences
+    private const double PrecisionTolerance = 1e-13;
+
+    /// <summary>
+    /// Configures BeEquivalentTo to use approximate matching for double values.
+    /// Required for StreamHub convergence tests due to minor precision differences
+    /// from SMMA calculations retrieving rounded previous values from Cache.
+    /// </summary>
+    private static EquivalencyAssertionOptions<T> WithPrecisionTolerance<T>(EquivalencyAssertionOptions<T> options)
+        => options
+            .Using<double>(ctx => ctx.Subject.Should().BeApproximately(ctx.Expectation, PrecisionTolerance))
+            .WhenTypeIs<double>()
+            .Using<double?>(ctx =>
+            {
+                if (ctx.Expectation.HasValue)
+                {
+                    ctx.Subject.Should().BeApproximately(ctx.Expectation.Value, PrecisionTolerance);
+                }
+                else
+                {
+                    ctx.Subject.Should().BeNull();
+                }
+            })
+            .WhenTypeIs<double?>();
+
     [TestMethod]
     public void Adx()
     {
@@ -46,11 +73,11 @@ public class ConvergenceStreamHubs : TestBase
             AdxResult l = hub.Results[^1];
             Console.WriteLine($"ADX({lookback}) StreamHub on {l.Timestamp:d} with {qts.Count,4} streaming qts: {l.Adx:N8}");
 
-            // At convergence point, verify matches Series
+            // At convergence point, verify matches Series (with tolerance for floating-point precision)
             if (qty == AdxConvergence)
             {
                 IReadOnlyList<AdxResult> series = qts.ToAdx(lookback);
-                l.Should().BeEquivalentTo(series[^1]);
+                l.Should().BeEquivalentTo(series[^1], WithPrecisionTolerance);
                 convergedResult = l;
             }
 

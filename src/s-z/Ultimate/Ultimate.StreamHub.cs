@@ -118,7 +118,7 @@ public class UltimateHub
         double avg3 = sumTr3 == 0 ? double.NaN : sumBp3 / sumTr3;
 
         // Calculate Ultimate Oscillator with weighted average
-        double ultimate = (100d * ((4d * avg1) + (2d * avg2) + avg3) / 7d).ToNullablePrecision(14) ?? double.NaN;
+        double ultimate = (100d * ((4d * avg1) + (2d * avg2) + avg3) / 7d).NaN2Null() ?? double.NaN;
 
         UltimateResult r = new(
             item.Timestamp,

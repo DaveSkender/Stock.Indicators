@@ -116,9 +116,9 @@ public class AdxList : BufferList<AdxResult>, IIncrementFromQuote, IAdx
         if (Count < (2 * LookbackPeriods) - 1)
         {
             AddInternal(new AdxResult(timestamp,
-                Pdi: pdi.ToNullablePrecision(14),
-                Mdi: mdi.ToNullablePrecision(14),
-                Dx: curr.Dx.ToNullablePrecision(14)));
+                Pdi: pdi.NaN2Null(),
+                Mdi: mdi.NaN2Null(),
+                Dx: curr.Dx.NaN2Null()));
 
             return;
         }
@@ -154,11 +154,11 @@ public class AdxList : BufferList<AdxResult>, IIncrementFromQuote, IAdx
 
         AdxResult r = new(
             Timestamp: timestamp,
-            Pdi: pdi.ToNullablePrecision(14),
-            Mdi: mdi.ToNullablePrecision(14),
-            Dx: curr.Dx.ToNullablePrecision(14),
-            Adx: curr.Adx.ToNullablePrecision(14),
-            Adxr: adxr.ToNullablePrecision(14));
+            Pdi: pdi.NaN2Null(),
+            Mdi: mdi.NaN2Null(),
+            Dx: curr.Dx.NaN2Null(),
+            Adx: curr.Adx.NaN2Null(),
+            Adxr: adxr.NaN2Null());
 
         AddInternal(r);
     }

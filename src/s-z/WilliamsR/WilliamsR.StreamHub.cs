@@ -70,7 +70,7 @@ public class WilliamsRHub
 
         WilliamsResult result = new(
             Timestamp: item.Timestamp,
-            WilliamsR: williamsR.ToNullablePrecision(14));
+            WilliamsR: williamsR.NaN2Null());
 
         return (result, i);
     }

@@ -135,7 +135,7 @@ public class KamaList : BufferList<KamaResult>, IIncrementFromChain, IKama
 
         AddInternal(new KamaResult(
             Timestamp: timestamp,
-            Er: er.ToNullablePrecision(14),
+            Er: er.NaN2Null(),
             Kama: kama.NaN2Null()));
 
         _prevKama = kama;

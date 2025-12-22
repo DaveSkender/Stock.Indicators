@@ -106,7 +106,7 @@ public class RsiList : BufferList<RsiResult>, IIncrementFromChain, IRsi
             }
         }
 
-        AddInternal(new RsiResult(timestamp, rsi.ToNullablePrecision(14)));
+        AddInternal(new RsiResult(timestamp, rsi.NaN2Null()));
     }
 
     /// <inheritdoc />

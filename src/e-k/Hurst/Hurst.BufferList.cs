@@ -61,7 +61,7 @@ public class HurstList : BufferList<HurstResult>, IIncrementFromChain, IHurst
             }
 
             // calculate hurst exponent
-            h = Hurst.CalcHurstWindow(values).ToNullablePrecision(14);
+            h = Hurst.CalcHurstWindow(values).NaN2Null();
         }
 
         AddInternal(new HurstResult(timestamp, h));

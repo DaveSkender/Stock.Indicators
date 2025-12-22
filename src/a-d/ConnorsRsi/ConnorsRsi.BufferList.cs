@@ -105,10 +105,10 @@ public class ConnorsRsiList : BufferList<ConnorsRsiResult>, IIncrementFromChain
         AddInternal(new ConnorsRsiResult(
             Timestamp: timestamp,
             Streak: _streak,
-            Rsi: rsi.ToNullablePrecision(14),
-            RsiStreak: rsiStreak.ToNullablePrecision(14),
-            PercentRank: percentRank.ToNullablePrecision(14),
-            ConnorsRsi: connorsRsi.ToNullablePrecision(14)));
+            Rsi: rsi.NaN2Null(),
+            RsiStreak: rsiStreak.NaN2Null(),
+            PercentRank: percentRank.NaN2Null(),
+            ConnorsRsi: connorsRsi.NaN2Null()));
 
         _prevValue = value;
         _processedCount++;

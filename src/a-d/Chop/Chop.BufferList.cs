@@ -94,7 +94,7 @@ public class ChopList : BufferList<ChopResult>, IIncrementFromQuote, IChop
             _previousClose = close;
         }
 
-        AddInternal(new ChopResult(timestamp, chop.ToNullablePrecision(14)));
+        AddInternal(new ChopResult(timestamp, chop.NaN2Null()));
     }
 
     /// <inheritdoc />
