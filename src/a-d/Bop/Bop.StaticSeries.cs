@@ -53,12 +53,12 @@ public static partial class Bop
                     sum += raw[p];
                 }
 
-                bop = (sum / smoothPeriods).NaN2Null();
+                bop = sum / smoothPeriods;
             }
 
             results.Add(new(
                 Timestamp: quotes[i].Timestamp,
-                Bop: bop));
+                Bop: bop.ToNullablePrecision(14)));
         }
 
         return results;

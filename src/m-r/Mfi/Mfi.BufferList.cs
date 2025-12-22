@@ -90,7 +90,7 @@ public class MfiList : BufferList<MfiResult>, IIncrementFromQuote
 
         _prevTruePrice = truePrice;
 
-        AddInternal(new MfiResult(timestamp, mfi));
+        AddInternal(new MfiResult(timestamp, mfi.ToNullablePrecision(14)));
     }
 
     /// <inheritdoc />

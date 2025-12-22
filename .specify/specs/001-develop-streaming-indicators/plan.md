@@ -233,7 +233,7 @@ The following base classes and utilities already exist in `src/_common/`:
 
 - ✅ `RegressionTestBase<TResult>` base class established in TestBase.cs
 - ✅ Baseline generator tool at `tools/baselining/` (generates all 84/84 baselines)
-- ✅ Baseline storage at `tests/indicators/_testdata/results/{indicator}.standard.json`
+- ✅ Baseline storage at `tests/indicators/_data/results/{indicator}.standard.json`
 - ✅ Test isolation via `tests.regression.runsettings` configuration
 - ✅ VS Code task integration: "Test: Regression tests" and "Generate: Regression test baselines (all)"
 - ✅ `AssertEquals` helper extension for deterministic equality validation

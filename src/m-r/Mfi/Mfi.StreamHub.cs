@@ -53,7 +53,7 @@ public class MfiHub : ChainProvider<IQuote, MfiResult>, IMfi
 
         MfiResult r = new(
             Timestamp: item.Timestamp,
-            Mfi: mfi);
+            Mfi: mfi.ToNullablePrecision(14));
 
         return (r, i);
     }

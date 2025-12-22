@@ -5,6 +5,7 @@ namespace Skender.Stock.Indicators;
 /// </summary>
 /// <param name="Timestamp">The timestamp of the result.</param>
 /// <param name="Cmo">The Chande Momentum Oscillator value.</param>
+/// <remarks>CMO oscillates between -100 and 100.</remarks>
 [Serializable]
 public record CmoResult
 (

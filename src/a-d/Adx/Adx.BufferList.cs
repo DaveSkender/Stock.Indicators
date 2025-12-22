@@ -116,9 +116,9 @@ public class AdxList : BufferList<AdxResult>, IIncrementFromQuote, IAdx
         if (Count < (2 * LookbackPeriods) - 1)
         {
             AddInternal(new AdxResult(timestamp,
-                Pdi: pdi.NaN2Null(),
-                Mdi: mdi.NaN2Null(),
-                Dx: curr.Dx.NaN2Null()));
+                Pdi: pdi.ToNullablePrecision(14),
+                Mdi: mdi.ToNullablePrecision(14),
+                Dx: curr.Dx.ToNullablePrecision(14)));
 
             return;
         }
@@ -142,8 +142,7 @@ public class AdxList : BufferList<AdxResult>, IIncrementFromQuote, IAdx
         else
         {
             curr.Adx
-                = ((last.Adx * (LookbackPeriods - 1)) + curr.Dx)
-                / LookbackPeriods;
+                = ((last.Adx * (LookbackPeriods - 1)) + curr.Dx) / LookbackPeriods;
 
             // Calculate ADXR using the prior ADX value (lookbackPeriods ago)
             // priorForAdxr was captured before buffer update, so it's from the correct period
@@ -155,11 +154,11 @@ public class AdxList : BufferList<AdxResult>, IIncrementFromQuote, IAdx
 
         AdxResult r = new(
             Timestamp: timestamp,
-            Pdi: pdi,
-            Mdi: mdi,
-            Dx: curr.Dx.NaN2Null(),
-            Adx: curr.Adx.NaN2Null(),
-            Adxr: adxr.NaN2Null());
+            Pdi: pdi.ToNullablePrecision(14),
+            Mdi: mdi.ToNullablePrecision(14),
+            Dx: curr.Dx.ToNullablePrecision(14),
+            Adx: curr.Adx.ToNullablePrecision(14),
+            Adxr: adxr.ToNullablePrecision(14));
 
         AddInternal(r);
     }

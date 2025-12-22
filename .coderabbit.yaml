@@ -104,8 +104,8 @@ reviews:
   # Files to include/exclude from reviews
   path_filters:
     - "**"                    # Include all (base)
-    - "!**/_testdata/**/*.csv"      # Test data
-    - "!**/_testdata/**/*.json"     # Test data
+    - "!**/_data/**/*.csv"    # Test data
+    - "!**/_data/**/*.json"   # Test data
     - "!node_modules/"        # NPM dependencies
     - "!*-lock.json"          # NPM/PNPM lock files
     - "!packages.lock.json"   # NuGet lock file

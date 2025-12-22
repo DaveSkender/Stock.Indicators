@@ -86,7 +86,7 @@ public class AroonList : BufferList<AroonResult>, IIncrementFromQuote, IAroon
             Timestamp: quote.Timestamp,
             AroonUp: aroonUp,
             AroonDown: aroonDown,
-            Oscillator: aroonUp - aroonDown
+            Oscillator: (aroonUp - aroonDown).ToPrecision(14)
         ));
     }
 

@@ -107,7 +107,7 @@ public static partial class Mfi
 
             results.Add(new(
                 Timestamp: q.Timestamp,
-                Mfi: mfi.NaN2Null()));
+                Mfi: mfi.ToNullablePrecision(14)));
 
             prevTp = tp[i];
         }

@@ -49,11 +49,11 @@ public static partial class ConnorsRsi
 
                 if (i >= startPeriod - 1)
                 {
-                    crsi = (sInfo.Rsi + sRsi.Rsi + sInfo.PercentRank) / 3;
+                    crsi = (sInfo.Rsi + sRsi.Rsi + sInfo.PercentRank) / 3d;
                 }
 
                 results.Add(sInfo with {
-                    ConnorsRsi = crsi,
+                    ConnorsRsi = crsi.ToNullablePrecision(14),
                     RsiStreak = sRsi.Rsi
                 });
             }
@@ -161,14 +161,16 @@ public static partial class ConnorsRsi
                     }
                 }
 
-                percentRank = isViableRank ? 100 * qty / rankPeriods : null;
+                percentRank = isViableRank
+                    ? 100d * qty / rankPeriods
+                    : null;
             }
 
             results.Add(new ConnorsRsiResult(
                 Timestamp: s.Timestamp,
                 Streak: streak,
                 Rsi: rsiResults[i].Rsi,
-                PercentRank: percentRank));
+                PercentRank: percentRank.ToNullablePrecision(14)));
 
             prevPrice = s.Value;
         }

@@ -97,7 +97,7 @@ public static partial class Ultimate
                 double avg2 = sumTr2 == 0 ? double.NaN : sumBp2 / sumTr2;
                 double avg3 = sumTr3 == 0 ? double.NaN : sumBp3 / sumTr3;
 
-                ultimate = (100d * ((4d * avg1) + (2d * avg2) + avg3) / 7d).NaN2Null();
+                ultimate = 100d * ((4d * avg1) + (2d * avg2) + avg3) / 7d;
             }
             else
             {

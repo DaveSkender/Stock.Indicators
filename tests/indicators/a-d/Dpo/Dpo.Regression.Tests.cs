@@ -6,13 +6,13 @@ public class DpoTests : RegressionTestBase<DpoResult>
     public DpoTests() : base("dpo.standard.json") { }
 
     [TestMethod]
-    public override void Series() => Quotes.ToDpo().AssertEquals(Expected);
+    public override void Series() => Quotes.ToDpo().IsExactly(Expected);
 
     [TestMethod]
     public override void Buffer()
     {
         DpoList list = Quotes.ToDpoList(14);
-        list.AssertEquals(Expected.Take(list.Count));
+        list.IsExactly(Expected.Take(list.Count));
     }
 
     [TestMethod]

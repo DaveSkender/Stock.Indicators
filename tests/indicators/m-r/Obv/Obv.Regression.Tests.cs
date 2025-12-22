@@ -6,7 +6,7 @@ public class ObvTests : RegressionTestBase<ObvResult>
     public ObvTests() : base("obv.standard.json") { }
 
     [TestMethod]
-    public override void Series() => Quotes.ToObv().AssertEquals(Expected);
+    public override void Series() => Quotes.ToObv().IsExactly(Expected);
 
     [TestMethod]
     public override void Buffer() => Assert.Inconclusive("Buffer implementation not yet available");

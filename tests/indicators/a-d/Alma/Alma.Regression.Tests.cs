@@ -6,11 +6,11 @@ public class AlmaTests : RegressionTestBase<AlmaResult>
     public AlmaTests() : base("alma.standard.json") { }
 
     [TestMethod]
-    public override void Series() => Quotes.ToAlma(9, 0.85, 6).AssertEquals(Expected);
+    public override void Series() => Quotes.ToAlma(9, 0.85, 6).IsExactly(Expected);
 
     [TestMethod]
     public override void Buffer() => Assert.Inconclusive("Buffer implementation not yet available");
 
     [TestMethod]
-    public override void Stream() => QuoteHub.ToAlmaHub(9, 0.85, 6).Results.AssertEquals(Expected);
+    public override void Stream() => QuoteHub.ToAlmaHub(9, 0.85, 6).Results.IsExactly(Expected);
 }

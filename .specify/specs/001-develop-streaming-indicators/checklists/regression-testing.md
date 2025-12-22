@@ -19,7 +19,7 @@
 
 - [x] CHK006 - Base Class: Are `RegressionTestBase<TResult>` inheritance requirements explicit? [TestBase.cs]
 - [x] CHK007 - Test Methods: Are three test method requirements clearly defined (Series, Buffer, Stream)? [TestBase.cs]
-- [x] CHK008 - Baseline Files: Are baseline file location and naming requirements specified (`tests/indicators/_testdata/results/{indicator}.standard.json`)? [PR #1506]
+- [x] CHK008 - Baseline Files: Are baseline file location and naming requirements specified (`tests/indicators/_data/results/{indicator}.standard.json`)? [PR #1506]
 - [x] CHK009 - Test Category: Are test categorization requirements documented (`[TestCategory("Regression")]`)? [PR #1506]
 - [x] CHK010 - Assertions: Are `AssertEquals` helper usage requirements defined (deterministic equality, no approximation)? [TestBase.cs]
 

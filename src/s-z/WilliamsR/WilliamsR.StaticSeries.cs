@@ -36,7 +36,7 @@ public static partial class WilliamsR
         return quotes.CalcStoch(lookbackPeriods, 1, 1, 3, 2, MaType.SMA)
             .ConvertAll(static s => new WilliamsResult(
                 Timestamp: s.Timestamp,
-                WilliamsR: s.Oscillator - 100d
+                WilliamsR: (s.Oscillator - 100d).ToPrecision(14)
              ));
     }
 

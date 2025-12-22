@@ -41,6 +41,13 @@ public class Bop : BufferListTestBase
     }
 
     [TestMethod]
+    public void Results_AreAlwaysBounded()
+    {
+        BopList results = new(smoothPeriods, Quotes);
+        TestAssert.IsBetween(results, static x => x.Bop, -1d, 1d);
+    }
+
+    [TestMethod]
     public override void Clear_WithState_ResetsState()
     {
         List<Quote> subset = Quotes.Take(80).ToList();

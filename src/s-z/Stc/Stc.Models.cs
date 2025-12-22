@@ -12,6 +12,9 @@ public record StcResult
     double? Stc
 ) : IReusable
 {
+    /// <summary>
+    /// STC oscillates between 0 and 100.
+    /// </summary>
     /// <inheritdoc/>
     [JsonIgnore]
     public double Value => Stc.Null2NaN();

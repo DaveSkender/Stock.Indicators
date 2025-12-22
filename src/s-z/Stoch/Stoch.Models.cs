@@ -7,6 +7,9 @@ namespace Skender.Stock.Indicators;
 /// <param name="Oscillator">The Stochastic Oscillator (%K) at this point.</param>
 /// <param name="Signal">The %D signal at this point.</param>
 /// <param name="PercentJ">The %J at this point.</param>
+/// <remarks>
+/// Oscillator and Signal are bounded between 0 and 100 when calculated; PercentJ can exceed this range.
+/// </remarks>
 [Serializable]
 public record StochResult
 (

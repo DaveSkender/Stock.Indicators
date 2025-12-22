@@ -1,6 +1,6 @@
 using System.Reflection;
 using Skender.Stock.Indicators;
-using Tests.Data;
+using Test.Data;
 
 namespace Test.DataGenerator;
 
@@ -9,7 +9,7 @@ namespace Test.DataGenerator;
 /// </summary>
 internal static class IndicatorExecutor
 {
-    private static readonly IReadOnlyList<Quote> TestData = Data.GetDefault();
+    private static readonly IReadOnlyList<Quote> TestData = Test.Data.Data.GetDefault();
 
     /// <summary>
     /// Executes an indicator and returns its results.
@@ -50,21 +50,39 @@ internal static class IndicatorExecutor
             }
         }
 
+        // If no generic method found, try to find a non-generic method
+        if (method == null)
+        {
+            foreach (Type type in indicatorsAssembly.GetTypes())
+            {
+                method = type
+                    .GetMethods(BindingFlags.Public | BindingFlags.Static)
+                    .FirstOrDefault(m => m.Name == methodName && !m.IsGenericMethod);
+
+                if (method != null)
+                {
+                    break;
+                }
+            }
+        }
+
         if (method == null)
         {
             throw new InvalidOperationException($"Method '{methodName}' not found for indicator '{listing.Uiid}'");
         }
 
-        // Make generic method with Quote type
-        MethodInfo genericMethod = method.MakeGenericMethod(typeof(Quote));
+        // Make generic method with Quote type if it's generic, otherwise use method directly
+        MethodInfo targetMethod = method.IsGenericMethod
+            ? method.MakeGenericMethod(typeof(Quote))
+            : method;
 
         // Prepare parameters
-        object?[] parameters = PrepareParameters(listing, genericMethod);
+        object?[] parameters = PrepareParameters(listing, targetMethod);
 
         // Invoke the method
         try
         {
-            object? result = genericMethod.Invoke(null, parameters);
+            object? result = targetMethod.Invoke(null, parameters);
 
             return result
                 ?? throw new InvalidOperationException($"Indicator '{listing.Uiid}' returned null result");
@@ -88,11 +106,11 @@ internal static class IndicatorExecutor
     /// <returns>The full path to the baseline file.</returns>
     public static string GetBaselinePath(IndicatorListing listing)
     {
-        // Baselines are stored in _testdata/results/ directory
+        // Baselines are stored in _data/results/ directory
         // Filename pattern: {uiid-lowercase}.standard.json
         string resultsDir = Path.Combine(
             Directory.GetCurrentDirectory(),
-            "_testdata",
+            "_data",
             "results");
 
         // Create results directory if it doesn't exist

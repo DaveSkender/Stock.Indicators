@@ -58,7 +58,7 @@ public class ChaikinOscHubTests : StreamHubTestBase, ITestQuoteObserver, ITestCh
 
         // assert, should equal series (with tolerance for floating point precision)
         streamList.Should().HaveCount(length - 1);
-        streamList.AssertEquals(seriesList, Precision.LastDigit);
+        streamList.IsExactly(seriesList);
 
         chaikinOscHub.Unsubscribe();
         quoteHub.EndTransmission();
@@ -99,7 +99,7 @@ public class ChaikinOscHubTests : StreamHubTestBase, ITestQuoteObserver, ITestCh
 
         // assert, should equal series (with tolerance for floating point precision)
         streamList.Should().HaveCount(length);
-        streamList.AssertEquals(seriesList, Precision.LastDigit);
+        streamList.IsExactly(seriesList);
 
         chaikinOscHub.Unsubscribe();
         quoteHub.EndTransmission();
@@ -142,7 +142,7 @@ public class ChaikinOscHubTests : StreamHubTestBase, ITestQuoteObserver, ITestCh
 
         // assert, should equal series (with tolerance for floating point precision)
         streamList.Should().HaveCount(length);
-        streamList.AssertEquals(seriesList, Precision.LastDigit);
+        streamList.IsExactly(seriesList);
 
         emaHub.Unsubscribe();
         quoteHub.EndTransmission();

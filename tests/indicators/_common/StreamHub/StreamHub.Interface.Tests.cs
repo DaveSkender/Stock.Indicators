@@ -1,6 +1,6 @@
 using System.Reflection;
 
-namespace Tests.Data;
+namespace Test.Data;
 
 /// <summary>
 /// Validates that all StreamHub test classes implement correct test interfaces
@@ -43,7 +43,7 @@ public class StreamHubInterfaceComplianceTests
         {
             string className = testClass.Name;
             Type[] actualInterfaces = testClass.GetInterfaces()
-                .Where(i => i.Namespace == "Tests.Data"
+                .Where(i => i.Namespace == "Test.Data"
                          && i.Name.StartsWith("ITest", StringComparison.Ordinal))
                 .ToArray();
 

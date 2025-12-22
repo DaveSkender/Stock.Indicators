@@ -70,7 +70,7 @@ public class BopHub
                 }
             }
 
-            bop = (sum / SmoothPeriods).NaN2Null();
+            bop = (sum / SmoothPeriods).ToNullablePrecision(14);
         }
 
         // Candidate result

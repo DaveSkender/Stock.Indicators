@@ -6,10 +6,10 @@ public class MaenvelopesTests : RegressionTestBase<MaEnvelopeResult>
     public MaenvelopesTests() : base("ma-env.standard.json") { }
 
     [TestMethod]
-    public override void Series() => Quotes.ToMaEnvelopes(20, 2.5).AssertEquals(Expected);
+    public override void Series() => Quotes.ToMaEnvelopes(20, 2.5).IsExactly(Expected);
 
     [TestMethod]
-    public override void Buffer() => Quotes.ToMaEnvelopesList(20, 2.5).AssertEquals(Expected);
+    public override void Buffer() => Quotes.ToMaEnvelopesList(20, 2.5).IsExactly(Expected);
 
     [TestMethod]
     public override void Stream() => Assert.Inconclusive("Stream implementation not yet available");

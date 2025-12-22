@@ -189,6 +189,25 @@ public static class Numerical
         }
     }
 
+    /// <summary>
+    /// Rounds a double to the specified number of significant digits
+    /// or <see langword="null"/>. Converts NaN to null.
+    /// </summary>
+    /// <inheritdoc cref="ToPrecision(double, int)" />
+    public static double? ToNullablePrecision(this double? value, int sigDigits = 14)
+        => value.HasValue && !double.IsNaN(value.Value)
+            ? value.Value.ToPrecision(sigDigits)
+            : null;
+
+    /// <summary>
+    /// Rounds a double to the specified number of significant digits,
+    /// converting NaN to <see langword="null"/>.
+    /// </summary>
+    /// <inheritdoc cref="ToPrecision(double, int)" />
+    public static double? ToNullablePrecision(this double value, int sigDigits = 14)
+        => double.IsNaN(value)
+            ? null
+            : value.ToPrecision(sigDigits);
 
     /// <summary>
     /// Rounds a double to the specified number of significant digits.
@@ -216,7 +235,15 @@ public static class Numerical
         }
 
         double abs = Math.Abs(value);
+
+        // Round values that would have magnitude beyond precision threshold to zero
+        // This prevents floating-point artifacts like 1.42e-14 from being preserved
         int magnitude = (int)Math.Ceiling(Math.Log10(abs));
+        if (magnitude <= -sigDigits)
+        {
+            return 0.0;
+        }
+
         double scale = Math.Pow(10.0, sigDigits - magnitude);
         double rounded = Math.Round(abs * scale, MidpointRounding.ToEven) / scale;
         return Math.CopySign(rounded, value);

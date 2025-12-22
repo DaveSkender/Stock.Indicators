@@ -6,7 +6,7 @@ public class AtrstopTests : RegressionTestBase<AtrStopResult>
     public AtrstopTests() : base("atr-stop.standard.json") { }
 
     [TestMethod]
-    public override void Series() => Quotes.ToAtrStop(21, 3).AssertEquals(Expected);
+    public override void Series() => Quotes.ToAtrStop(21, 3).IsExactly(Expected);
 
     [TestMethod]
     public override void Buffer() => Assert.Inconclusive("Buffer implementation not yet available");

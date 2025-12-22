@@ -4,6 +4,14 @@ namespace StreamHub;
 public class WilliamsR : StreamHubTestBase, ITestQuoteObserver
 {
     [TestMethod]
+    public void Results_AreAlwaysBounded()
+    {
+        WilliamsRHub sut = Quotes.ToWilliamsRHub(14);
+
+        TestAssert.IsBetween(sut.Results, static x => x.WilliamsR, -100d, 0d);
+    }
+
+    [TestMethod]
     public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
         const int lookbackPeriods = 14;
@@ -139,24 +147,7 @@ public class WilliamsR : StreamHubTestBase, ITestQuoteObserver
         streamObserver.Cache.Should().BeEquivalentTo(batchResults);
     }
 
-    [TestMethod]
-    public void BoundaryValues()
-    {
-        // Test Williams %R stays within [-100, 0] bounds
-        QuoteHub quoteHub = new();
-        WilliamsRHub observer = quoteHub.ToWilliamsRHub(14);
 
-        quoteHub.Add(Quotes);
-        quoteHub.EndTransmission();
-
-        foreach (WilliamsResult result in observer.Cache)
-        {
-            if (result.WilliamsR.HasValue)
-            {
-                result.WilliamsR.Value.Should().BeInRange(-100d, 0d);
-            }
-        }
-    }
 
     [TestMethod]
     public void ParameterValidation()

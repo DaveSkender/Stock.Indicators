@@ -227,7 +227,9 @@ public class ConnorsRsiHub
                 }
             }
 
-            percentRank = isViableRank ? 100.0 * qty / RankPeriods : null;
+            percentRank = isViableRank
+                ? 100d * qty / RankPeriods
+                : null;
         }
 
         // Calculate ConnorsRsi
@@ -236,7 +238,7 @@ public class ConnorsRsiHub
 
         if (i >= startPeriod - 1 && rsi.HasValue && rsiStreak.HasValue && percentRank.HasValue)
         {
-            connorsRsi = (rsi.Value + rsiStreak.Value + percentRank.Value) / 3;
+            connorsRsi = (rsi.Value + rsiStreak.Value + percentRank.Value) / 3d;
         }
 
         // Update previous value
@@ -246,10 +248,10 @@ public class ConnorsRsiHub
         ConnorsRsiResult r = new(
             Timestamp: item.Timestamp,
             Streak: currentStreak,
-            Rsi: rsi,
-            RsiStreak: rsiStreak,
-            PercentRank: percentRank,
-            ConnorsRsi: connorsRsi);
+            Rsi: rsi.ToNullablePrecision(14),
+            RsiStreak: rsiStreak.ToNullablePrecision(14),
+            PercentRank: percentRank.ToNullablePrecision(14),
+            ConnorsRsi: connorsRsi.ToNullablePrecision(14));
 
         return (r, i);
     }

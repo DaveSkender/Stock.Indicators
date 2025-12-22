@@ -80,7 +80,7 @@ public class AroonHub
             Timestamp: item.Timestamp,
             AroonUp: aroonUp,
             AroonDown: aroonDown,
-            Oscillator: aroonUp - aroonDown);
+            Oscillator: (aroonUp - aroonDown).ToPrecision(14));
 
         return (r, i);
     }

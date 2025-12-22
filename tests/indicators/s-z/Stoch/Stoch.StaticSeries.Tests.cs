@@ -46,14 +46,16 @@ public class Stoch : StaticSeriesTestBase
         Assert.AreEqual(43.1353, r501.Oscillator.Round(4));
         Assert.AreEqual(35.5674, r501.Signal.Round(4));
         Assert.AreEqual(58.2712, r501.PercentJ.Round(4));
+    }
 
-        // test boundary condition
+    [TestMethod]
+    public void Results_AreAlwaysBounded()
+    {
+        IReadOnlyList<StochResult> results = Quotes
+            .ToStoch();
 
-        foreach (StochResult r in results)
-        {
-            r.Oscillator?.Should().BeInRange(0d, 100d);
-            r.Signal?.Should().BeInRange(0d, 100d);
-        }
+        TestAssert.IsBetween(results, static x => x.Oscillator, 0d, 100d);
+        TestAssert.IsBetween(results, static x => x.Signal, 0d, 100d);
     }
 
     /// <summary>
@@ -227,13 +229,37 @@ public class Stoch : StaticSeriesTestBase
 
         // test boundary condition
 
-        for (int i = 0; i < results.Count; i++)
-        {
-            StochResult r = results[i];
+        TestAssert.IsBetween(results, static x => x.Oscillator, 0d, 100d);
+        TestAssert.IsBetween(results, static x => x.Signal, 0d, 100d);
+    }
 
-            r.Oscillator?.Should().BeInRange(0d, 100d);
-            r.Signal?.Should().BeInRange(0d, 100d);
-        }
+    [TestMethod]
+    public void Issue1127_BoundaryThreshold_Maintained()
+    {
+        // initialize
+        IReadOnlyList<Quote> quotes = File.ReadAllLines("_data/issues/issue1127.quotes.williamr.revisit.csv")
+            .Skip(1)
+            .Select(Test.Data.Utilities.QuoteFromCsv)
+            .OrderBy(static x => x.Timestamp)
+            .ToList();
+
+        int length = quotes.Count;
+
+        // get indicators (using Fast Stochastic parameters to match Williams %R)
+        IReadOnlyList<StochResult> results = quotes
+            .ToStoch(14, 1, 1);  // Fast Stochastic matches Williams %R formula
+
+        Dictionary<string, string> args = new()
+        {
+            { "Oscillator", "N20" },
+            { "Signal", "N20" }
+        };
+
+        Console.WriteLine(results.ToStringOut(args));
+
+        // analyze boundary
+        TestAssert.IsBetween(results, static x => x.Oscillator, 0d, 100d);
+        TestAssert.IsBetween(results, static x => x.Signal, 0d, 100d);
     }
 
     [TestMethod]

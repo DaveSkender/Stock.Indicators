@@ -82,13 +82,13 @@ public static partial class Cmo
                 }
 
                 cmo = sH + sL != 0
-                    ? (100 * (sH - sL) / (sH + sL)).NaN2Null()
+                    ? 100 * (sH - sL) / (sH + sL)
                     : 0d;
             }
 
             results.Add(new(
                 Timestamp: s.Timestamp,
-                Cmo: cmo));
+                Cmo: cmo.ToNullablePrecision(14)));
 
             prevValue = s.Value;
         }

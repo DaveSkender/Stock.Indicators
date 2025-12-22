@@ -35,33 +35,16 @@
 
   <ItemGroup>
 
-    <None Update="_testdata/quotes/*.csv">
+    <None Update="_data/issues/*.*">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="_testdata/results/*.json">
+    <None Update="_data/quotes/*.*">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="a-d/Adx/issue859quotes.csv">
+    <None Update="_data/results/*.*">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="a-d/Dpo/Dpo.Data.csv">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="s-z/WilliamsR/*.csv">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="s-z/ZigZag/data.ethusdt.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="s-z/ZigZag/data.issue632.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="s-z/ZigZag/data.schrodinger.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="s-z/ZigZag/zigzag.csv">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+
   </ItemGroup>
 
 </Project>

@@ -11,7 +11,7 @@ public class PrsTests : RegressionTestBase<PrsResult>
         // Prs requires two IReusable series - use same quotes for both sourceEval and sourceMrkt
         IReadOnlyList<IReusable> sourceEval = Quotes.Cast<IReusable>().ToList();
         IReadOnlyList<IReusable> sourceMrkt = Quotes.Cast<IReusable>().ToList();
-        sourceEval.ToPrs(sourceMrkt).AssertEquals(Expected);
+        sourceEval.ToPrs(sourceMrkt).IsExactly(Expected);
     }
 
     [TestMethod]

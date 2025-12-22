@@ -11,7 +11,7 @@ public class CorrelationTests : RegressionTestBase<CorrResult>
         // Correlation requires two IReusable series - use same quotes for both sourceEval and sourceMrkt
         IReadOnlyList<IReusable> sourceEval = Quotes.Cast<IReusable>().ToList();
         IReadOnlyList<IReusable> sourceMrkt = Quotes.Cast<IReusable>().ToList();
-        sourceEval.ToCorrelation(sourceMrkt, 50).AssertEquals(Expected);
+        sourceEval.ToCorrelation(sourceMrkt, 50).IsExactly(Expected);
     }
 
     [TestMethod]

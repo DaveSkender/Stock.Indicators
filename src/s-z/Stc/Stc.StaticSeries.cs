@@ -47,7 +47,7 @@ public static partial class Stc
 
             results.Add(new StcResult(
                 Timestamp: r.Timestamp,
-                Stc: r.Oscillator));
+                Stc: r.Oscillator.ToPrecision(14)));
         }
 
         return results;

@@ -146,4 +146,18 @@ public class UlcerIndexHubTests : StreamHubTestBase, ITestChainObserver, ITestCh
         UlcerIndexHub hub = new(new QuoteHub(), 14);
         hub.ToString().Should().Be("ULCER(14)");
     }
+
+    [TestMethod]
+    public void Results_AreAlwaysBounded()
+    {
+        QuoteHub quoteHub = new();
+        UlcerIndexHub observer = quoteHub.ToUlcerIndexHub(14);
+
+        quoteHub.Add(Quotes);
+
+        TestAssert.IsBetween(observer.Results, static x => x.UlcerIndex, 0d, 100d);
+
+        observer.Unsubscribe();
+        quoteHub.EndTransmission();
+    }
 }

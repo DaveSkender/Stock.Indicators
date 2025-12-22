@@ -18,6 +18,14 @@ public class ConnorsRsiHubTests : StreamHubTestBase, ITestChainObserver, ITestCh
     }
 
     [TestMethod]
+    public void Results_AreAlwaysBounded()
+    {
+        ConnorsRsiHub sut = Quotes.ToConnorsRsiHub(rsiPeriods, streakPeriods, rankPeriods);
+
+        TestAssert.IsBetween(sut.Results, static x => x.ConnorsRsi, 0d, 100d);
+    }
+
+    [TestMethod]
     public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
         List<Quote> quotesList = Quotes.ToList();

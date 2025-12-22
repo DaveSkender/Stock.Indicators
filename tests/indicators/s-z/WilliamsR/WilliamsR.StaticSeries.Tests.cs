@@ -19,14 +19,15 @@ public class WilliamsR : StaticSeriesTestBase
 
         WilliamsResult r2 = results[501];
         Assert.AreEqual(-52.0121, r2.WilliamsR.Round(4));
+    }
 
-        // test boundary condition
-        for (int i = 0; i < results.Count; i++)
-        {
-            WilliamsResult r = results[i];
+    [TestMethod]
+    public void Results_AreAlwaysBounded()
+    {
+        IReadOnlyList<WilliamsResult> results = Quotes
+            .ToWilliamsR();
 
-            r.WilliamsR?.Should().BeInRange(-100d, 0d);
-        }
+        TestAssert.IsBetween(results, static x => x.WilliamsR, -100d, 0d);
     }
 
     [TestMethod]
@@ -85,22 +86,16 @@ public class WilliamsR : StaticSeriesTestBase
             .GetRandom(2500)
             .ToWilliamsR();
 
-        // analyze boundary
-        for (int i = 0; i < results.Count; i++)
-        {
-            WilliamsResult r = results[i];
-
-            r.WilliamsR?.Should().BeInRange(-100d, 0d);
-        }
+        TestAssert.IsBetween(results, static x => x.WilliamsR, -100d, 0d);
     }
 
     [TestMethod]
-    public void Issue1127_Original()
+    public void Issue1127_Original_BoundaryThreshold_Maintained()
     {
         // initialize
-        IReadOnlyList<Quote> quotes = File.ReadAllLines("s-z/WilliamsR/issue1127quotes-original.csv")
+        IReadOnlyList<Quote> quotes = File.ReadAllLines("_data/issues/issue1127.quotes.williamr.original.csv")
             .Skip(1)
-            .Select(Tests.Data.Utilities.QuoteFromCsv)
+            .Select(Test.Data.Utilities.QuoteFromCsv)
             .OrderBy(static x => x.Timestamp)
             .ToList();
 
@@ -110,23 +105,16 @@ public class WilliamsR : StaticSeriesTestBase
         IReadOnlyList<WilliamsResult> results = quotes
             .ToWilliamsR();
 
-        // analyze boundary
-        for (int i = 0; i < length; i++)
-        {
-            Quote q = quotes[i];
-            WilliamsResult r = results[i];
-
-            r.WilliamsR?.Should().BeInRange(-100d, 0d);
-        }
+        TestAssert.IsBetween(results, static x => x.WilliamsR, -100d, 0d);
     }
 
     [TestMethod]
-    public void Issue1127_Revisit()
+    public void Issue1127_Revisit_BoundaryThreshold_Maintained()
     {
         // initialize
-        IReadOnlyList<Quote> quotes = File.ReadAllLines("s-z/WilliamsR/issue1127quotes-revisit.csv")
+        IReadOnlyList<Quote> quotes = File.ReadAllLines("_data/issues/issue1127.quotes.williamr.revisit.csv")
             .Skip(1)
-            .Select(Tests.Data.Utilities.QuoteFromCsv)
+            .Select(Test.Data.Utilities.QuoteFromCsv)
             .OrderBy(static x => x.Timestamp)
             .ToList();
 
@@ -143,14 +131,7 @@ public class WilliamsR : StaticSeriesTestBase
 
         Console.WriteLine(results.ToStringOut(args));
 
-        // analyze boundary
-        for (int i = 0; i < length; i++)
-        {
-            Quote q = quotes[i];
-            WilliamsResult r = results[i];
-
-            r.WilliamsR?.Should().BeInRange(-100d, 0d);
-        }
+        TestAssert.IsBetween(results, static x => x.WilliamsR, -100d, 0d);
     }
 
     /// <summary>

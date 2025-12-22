@@ -165,8 +165,10 @@ public class RsiHub
             avgLoss = sumLoss / LookbackPeriods;
 
             rsi = !double.IsNaN(avgGain / avgLoss)
-                  ? avgLoss > 0 ? 100 - (100 / (1 + (avgGain / avgLoss))) : 100
-                  : null;
+                ? avgLoss > 0
+                  ? 100 - (100 / (1 + (avgGain / avgLoss)))
+                  : 100
+                : null;
         }
         // Calculate RSI incrementally
         else if (i > LookbackPeriods && !double.IsNaN(avgGain) && !double.IsNaN(avgLoss))
@@ -197,7 +199,7 @@ public class RsiHub
         // candidate result
         RsiResult r = new(
             Timestamp: item.Timestamp,
-            Rsi: rsi);
+            Rsi: rsi.ToNullablePrecision(14));
 
         return (r, i);
     }
