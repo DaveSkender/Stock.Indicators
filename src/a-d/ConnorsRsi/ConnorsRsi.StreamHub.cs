@@ -248,10 +248,10 @@ public class ConnorsRsiHub
         ConnorsRsiResult r = new(
             Timestamp: item.Timestamp,
             Streak: currentStreak,
-            Rsi: rsi.NaN2Null(),
-            RsiStreak: rsiStreak.NaN2Null(),
-            PercentRank: percentRank.NaN2Null(),
-            ConnorsRsi: connorsRsi.NaN2Null());
+            Rsi: rsi.ToNullablePrecision(14),
+            RsiStreak: rsiStreak.ToNullablePrecision(14),
+            PercentRank: percentRank.ToNullablePrecision(14),
+            ConnorsRsi: connorsRsi.ToNullablePrecision(14));
 
         return (r, i);
     }

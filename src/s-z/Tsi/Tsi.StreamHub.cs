@@ -190,8 +190,8 @@ public class TsiHub
         // Candidate result
         TsiResult r = new(
             Timestamp: item.Timestamp,
-            Tsi: tsi.NaN2Null(),
-            Signal: signal.NaN2Null());
+            Tsi: tsi.ToNullablePrecision(14),
+            Signal: signal.ToNullablePrecision(14));
 
         return (r, i);
     }

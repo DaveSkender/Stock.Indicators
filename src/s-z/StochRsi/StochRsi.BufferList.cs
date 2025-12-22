@@ -91,8 +91,8 @@ public class StochRsiList : BufferList<StochRsiResult>, IIncrementFromChain
             StochResult stochResult = _stochList[^1];
             result = new StochRsiResult(
                 Timestamp: timestamp,
-                StochRsi: stochResult.Oscillator.NaN2Null(),
-                Signal: stochResult.Signal.NaN2Null());
+                StochRsi: stochResult.Oscillator.ToNullablePrecision(14),
+                Signal: stochResult.Signal.ToNullablePrecision(14));
         }
         else
         {

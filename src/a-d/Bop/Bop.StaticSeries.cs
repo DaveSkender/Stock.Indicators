@@ -58,7 +58,7 @@ public static partial class Bop
 
             results.Add(new(
                 Timestamp: quotes[i].Timestamp,
-                Bop: bop));
+                Bop: bop.ToNullablePrecision(14)));
         }
 
         return results;

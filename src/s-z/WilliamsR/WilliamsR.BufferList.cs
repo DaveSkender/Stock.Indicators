@@ -47,7 +47,7 @@ public class WilliamsRList : BufferList<WilliamsResult>, IIncrementFromQuote, IW
         StochResult stochResult = _stochList[^1];
         WilliamsResult williamsResult = new(
             Timestamp: stochResult.Timestamp,
-            WilliamsR: (stochResult.Oscillator - 100d).NaN2Null());
+            WilliamsR: (stochResult.Oscillator - 100d).ToNullablePrecision(14));
 
         AddInternal(williamsResult);
     }
