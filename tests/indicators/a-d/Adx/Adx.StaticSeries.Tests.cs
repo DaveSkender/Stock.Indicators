@@ -52,7 +52,6 @@ public class Adx : StaticSeriesTestBase
         Assert.IsNull(r40.Adxr);
 
         AdxResult r41 = results[41];
-        // First ADXR appears at index 41 with corrected formula
         Assert.IsNotNull(r41.Adxr);
 
         AdxResult r248 = results[248];
@@ -60,7 +59,6 @@ public class Adx : StaticSeriesTestBase
         Assert.AreEqual(18.2471, r248.Mdi.Round(4));
         Assert.AreEqual(27.8255, r248.Dx.Round(4));
         Assert.AreEqual(30.5903, r248.Adx.Round(4));
-        // ADXR value changed with corrected formula
         Assert.IsNotNull(r248.Adxr);
 
         AdxResult r501 = results[501];
@@ -68,7 +66,6 @@ public class Adx : StaticSeriesTestBase
         Assert.AreEqual(31.1510, r501.Mdi.Round(4));
         Assert.AreEqual(27.3873, r501.Dx.Round(4));
         Assert.AreEqual(34.2987, r501.Adx.Round(4));
-        // ADXR value changed with corrected formula
         Assert.IsNotNull(r501.Adxr);
     }
 
@@ -161,13 +158,11 @@ public class Adx : StaticSeriesTestBase
         AdxResult last = results[^1];
         Assert.AreEqual(17.7565, last.Pdi.Round(4));
         Assert.AreEqual(31.1510, last.Mdi.Round(4));
+        Assert.AreEqual(27.3873, last.Dx.Round(4));
         Assert.AreEqual(34.2987, last.Adx.Round(4));
     }
 
-    /// <summary>
-    /// bad lookback period
-    /// </summary>
-    [TestMethod]
+    [TestMethod] // bad lookback period
     public void Exceptions()
         => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
                 static () => Quotes.ToAdx(1));
