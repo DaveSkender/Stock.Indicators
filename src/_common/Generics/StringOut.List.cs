@@ -218,7 +218,7 @@ public static partial class StringOut
         int[] columnWidth = headers.Select(header => header.Length).ToArray();
 
         formats[0] = "N0";     // index is always an integer
-        alignLeft[0] = true;   // index is always left-aligned (for Excel paste compatibility)
+        alignLeft[0] = true;   // index is always left-aligned
 
         for (int i = 1; i < columnCount; i++)
         {
