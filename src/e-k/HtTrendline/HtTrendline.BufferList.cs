@@ -174,7 +174,7 @@ public class HtlList : BufferList<HtlResult>, IIncrementFromChain
                 ? (((4 * it[i]) + (3 * it[i - 1]) + (2 * it[i - 2]) + it[i - 3]) / 10d).NaN2Null()
                 : pr[i].NaN2Null();
 
-            double? smoothPrice = (((4 * pr[i]) + (3 * pr[i - 1]) + (2 * pr[i - 2]) + pr[i - 3]) / 10d).NaN2Null();
+            double? smoothPrice = sp[i].NaN2Null();
 
             AddInternal(new HtlResult(
                 Timestamp: timestamp,

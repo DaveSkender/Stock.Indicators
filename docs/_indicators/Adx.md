@@ -1,6 +1,6 @@
 ---
 title: Average Directional Index (ADX)
-description: Created by J. Welles Wilder, the Directional Movement Index (DMI) and Average Directional Movement Index (ADX) is a measure of price directional movement.  It includes upward and downward indicators, and is often used to measure strength of trend.
+description: Created by J. Welles Wilder, the Average Directional Index (ADX) is part of the Directional Movement system (commonly referred to as DMI). This system includes the Positive and Negative Directional Indicators (+DI and −DI), the Directional Index (DX), and ADX, and is used to measure the strength of price trends.
 permalink: /indicators/Adx/
 image: /assets/charts/AdIndex.png
 type: price-trend
@@ -9,7 +9,7 @@ layout: indicator
 
 # {{ page.title }}
 
-Created by J. Welles Wilder, the Directional Movement Index (DMI) and [Average Directional Movement Index](https://en.wikipedia.org/wiki/Average_directional_movement_index) (ADX) is a measure of price directional movement.  It includes upward and downward indicators, and is often used to measure strength of trend.
+Created by J. Welles Wilder, the [Average Directional Movement Index](https://en.wikipedia.org/wiki/Average_directional_movement_index) (ADX) is part of the Directional Movement system (commonly referred to as DMI). This system includes the Positive and Negative Directional Indicators (+DI and −DI), the Directional Index (DX), and ADX, and is used to measure the strength of price trends.
 [[Discuss] &#128172;]({{site.github.repository_url}}/discussions/270 "Community discussion about this indicator")
 
 ![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
@@ -50,6 +50,8 @@ IReadOnlyList<AdxResult>
 **`Pdi`** _`double`_ - Plus Directional Index (+DI)
 
 **`Mdi`** _`double`_ - Minus Directional Index (-DI)
+
+**`Dx`** _`double`_ - Directional Index (DX)
 
 **`Adx`** _`double`_ - Average Directional Index (ADX)
 

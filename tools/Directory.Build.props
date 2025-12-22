@@ -2,8 +2,9 @@
 <Project>
   <PropertyGroup>
     <!-- Additional warnings suppression specific to tool projects -->
-    <!-- CS1591: Missing XML documentation comments (not required for tools) -->
-    <!-- CA1303: Do not pass literals as localized parameters (tools use hardcoded strings) -->
-    <NoWarn>$(NoWarn);CS1591;CA1303</NoWarn>
+    <!-- CA1303: Do not pass literals as localized parameters (tests use hardcoded strings) -->
+    <!-- CA1707: Identifiers should not contain underscores (allow underscores in test method names, see tests/agents.md) -->
+    <!-- CS1591: Missing XML documentation comments (not required for tests) -->
+    <NoWarn>$(NoWarn);CA1303;CA1707;CS1591</NoWarn>
   </PropertyGroup>
 </Project>
