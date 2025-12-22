@@ -22,11 +22,11 @@ public static partial class StringOut
     private static readonly Dictionary<string, string> defaultArgs = new()
     {
         { "Decimal" , "auto" },
-        { "Double"  , "N6" },
-        { "Single"  , "N6" },
-        { "Int16"   , "N0" },
-        { "Int32"   , "N0" },
-        { "Int64"   , "N0" },
+        { "Double"  , "F6" },
+        { "Single"  , "F6" },
+        { "Int16"   , "F0" },
+        { "Int32"   , "F0" },
+        { "Int64"   , "F0" },
         { "DateOnly", "yyyy-MM-dd" },
         { "DateTime", "yyyy-MM-dd HH:mm:ss" },
         { "DateTimeOffset", "yyyy-MM-dd HH:mm:ss" },
@@ -60,7 +60,7 @@ public static partial class StringOut
     /// <code>
     /// Dictionary&lt;string, string&gt; args = new()
     /// {
-    ///     { "Decimal", "N2" },
+    ///     { "Decimal", "F2" },
     ///     { "DateTime", "MM/dd/yyyy" },
     ///     { "MyPropertyName", "C" }
     /// };
@@ -83,7 +83,7 @@ public static partial class StringOut
     /// <code>
     /// Dictionary&lt;string, string&gt; args = new()
     /// {
-    ///     { "Decimal", "N2" },
+    ///     { "Decimal", "F2" },
     ///     { "DateTime", "MM/dd/yyyy" },
     ///     { "MyPropertyName", "C" }
     /// };
@@ -107,7 +107,7 @@ public static partial class StringOut
     /// <code>
     /// Dictionary&lt;string, string&gt; args = new()
     /// {
-    ///     { "Decimal", "N2" },
+    ///     { "Decimal", "F2" },
     ///     { "DateTime", "MM/dd/yyyy" },
     ///     { "MyPropertyName", "C" }
     /// };
@@ -129,7 +129,7 @@ public static partial class StringOut
     /// <code>
     /// Dictionary&lt;string, string&gt; args = new()
     /// {
-    ///     { "Decimal", "N2" },
+    ///     { "Decimal", "F2" },
     ///     { "DateTime", "MM/dd/yyyy" },
     ///     { "MyPropertyName", "C" }
     /// };
@@ -153,7 +153,7 @@ public static partial class StringOut
     /// <code>
     /// Dictionary&lt;string, string&gt; args = new()
     /// {
-    ///     { "Decimal", "N2" },
+    ///     { "Decimal", "F2" },
     ///     { "DateTime", "MM/dd/yyyy" },
     ///     { "MyPropertyName", "C" }
     /// };
@@ -179,7 +179,7 @@ public static partial class StringOut
     /// <code>
     /// Dictionary&lt;string, string&gt; args = new()
     /// {
-    ///     { "Decimal", "N2" },
+    ///     { "Decimal", "F2" },
     ///     { "DateTime", "MM/dd/yyyy" },
     ///     { "MyPropertyName", "C" }
     /// };
@@ -218,7 +218,7 @@ public static partial class StringOut
         int[] columnWidth = headers.Select(header => header.Length).ToArray();
 
         formats[0] = "N0";     // index is always an integer
-        alignLeft[0] = false;  // index is always right-aligned
+        alignLeft[0] = true;   // index is always left-aligned
 
         for (int i = 1; i < columnCount; i++)
         {
@@ -279,8 +279,10 @@ public static partial class StringOut
                 : header.PadLeft(columnWidth[index])
         )).AppendLine();
 
-        // Create separator
-        sb.AppendLine(new string('-', columnWidth.Sum(w => w + 2) - 2));
+        // Create separator with column boundaries
+        sb.AppendJoin("  ",
+            columnWidth.Select(width => new string('-', width))
+        ).AppendLine();
 
         // Create data lines with proper alignment
         foreach (string[] row in dataRows)
@@ -341,7 +343,7 @@ public static partial class StringOut
                 .Take(1000)
                 .Max(item => ((decimal)property.GetValue(item)!).GetDecimalPlaces());
 
-            return $"N{decimalPlaces}";
+            return $"F{decimalPlaces}";
         }
         else
         {
