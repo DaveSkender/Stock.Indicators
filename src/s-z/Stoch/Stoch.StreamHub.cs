@@ -14,6 +14,10 @@ public class StochHub
     private readonly RollingWindowMin<double> _lowWindow;
     private readonly Queue<double> _rawKBuffer;
 
+    // Private fields for unrounded SMMA state (prevents cascading precision errors)
+    private double _prevSmoothK;  // Previous smoothed %K (oscillator) for SMMA
+    private double _prevSignal;   // Previous %D signal for SMMA
+
     /// <summary>
     /// Initializes a new instance of the <see cref="StochHub"/> class.
     /// </summary>
@@ -65,6 +69,10 @@ public class StochHub
 
         // Initialize buffer for raw K values (needed for SMA smoothing)
         _rawKBuffer = new Queue<double>(smoothPeriods);
+
+        // Initialize SMMA state
+        _prevSmoothK = double.NaN;
+        _prevSignal = double.NaN;
 
         Reinitialize();
     }
@@ -150,11 +158,11 @@ public class StochHub
                     break;
 
                 case MaType.SMMA:
-                    // Get previous smoothed K from cache
+                    // Use private field for previous smoothed K (prevents cascading precision from rounded Cache values)
                     double prevSmoothK;
-                    if (i > SmoothPeriods && Cache.Count >= i && Cache[i - 1].Oscillator.HasValue)
+                    if (i > SmoothPeriods && !double.IsNaN(_prevSmoothK))
                     {
-                        prevSmoothK = Cache[i - 1].Oscillator!.Value;
+                        prevSmoothK = _prevSmoothK;
                     }
                     else
                     {
@@ -204,11 +212,11 @@ public class StochHub
                     break;
 
                 case MaType.SMMA:
-                    // Get previous signal from cache
+                    // Use private field for previous signal (prevents cascading precision from rounded Cache values)
                     double prevSignal;
-                    if (i > SignalPeriods && Cache.Count >= i && Cache[i - 1].Signal.HasValue)
+                    if (i > SignalPeriods && !double.IsNaN(_prevSignal))
                     {
-                        prevSignal = Cache[i - 1].Signal!.Value;
+                        prevSignal = _prevSignal;
                     }
                     else
                     {
@@ -231,6 +239,11 @@ public class StochHub
             percentJ = (KFactor * oscillator) - (DFactor * signal);
         }
 
+        // Update private fields with UNROUNDED values for next SMMA calculation
+        // (Store before applying ToPrecision to prevent cascading precision errors)
+        _prevSmoothK = oscillator;
+        _prevSignal = signal;
+
         StochResult result = new(
             Timestamp: item.Timestamp,
             Oscillator: oscillator.ToNullablePrecision(14),
@@ -250,6 +263,10 @@ public class StochHub
         _highWindow.Clear();
         _lowWindow.Clear();
         _rawKBuffer.Clear();
+
+        // Reset SMMA state (will be rebuilt during normal processing)
+        _prevSmoothK = double.NaN;
+        _prevSignal = double.NaN;
 
         // Rebuild windows from ProviderCache up to the rollback point
         int index = ProviderCache.IndexGte(timestamp);
