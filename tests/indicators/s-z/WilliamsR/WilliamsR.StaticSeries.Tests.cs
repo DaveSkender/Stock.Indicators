@@ -90,26 +90,31 @@ public class WilliamsR : StaticSeriesTestBase
     public void Issue1127_Revisit_BoundaryThreshold_Maintained()
     {
         // initialize
-        IReadOnlyList<Quote> quotes = File.ReadAllLines("_testdata/issues/issue1127.quotes.williamr.revisit.csv")
-            .Skip(1)
-            .Select(Test.Data.Utilities.QuoteFromCsv)
-            .OrderBy(static x => x.Timestamp)
-            .ToList();
+        IReadOnlyList<Quote> quotes
+            = File.ReadAllLines("_testdata/issues/issue1127.quotes.williamr.revisit.csv")
+                .Skip(1)
+                .Select(Test.Data.Utilities.QuoteFromCsv)
+                .OrderByDescending(static x => x.Timestamp)
+                .ToList();
 
         int length = quotes.Count;
 
         // get indicators
-        IReadOnlyList<WilliamsResult> results = quotes
+        IReadOnlyList<WilliamsResult> resultsList = quotes
             .ToWilliamsR();
 
-        Dictionary<string, string> args = new()
+        Console.WriteLine($"%R from {length} quotes.");
+
+        // analyze boundary
+        for (int i = 0; i < length; i++)
         {
-            { "WilliamsR", "N20" }
-        };
+            Quote q = quotes[i];
+            WilliamsResult r = resultsList[i];
 
-        Console.WriteLine(results.ToStringOut(args));
+            Console.WriteLine($"{q.Timestamp:s} {r.WilliamsR}");
 
-        results.IsBetween(static x => x.WilliamsR, -100d, 0d);
+            r.WilliamsR?.Should().BeInRange(-100d, 0d);
+        }
     }
 
     /// <summary>

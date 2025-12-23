@@ -25,26 +25,19 @@ public class StreamHubInterfaceComplianceTests
 
         Console.WriteLine($"\nFound {streamHubTestClasses.Count} StreamHub test classes");
 
-        List<string> violations = [];
-        List<string> warnings = [];
+        List<string> violations = new();
+        List<string> warnings = new();
         int validated = 0;
 
         // Define observer and provider interface types
-        Type[] observerTypes = [
-            typeof(ITestChainObserver),
-            typeof(ITestQuoteObserver),
-            typeof(ITestPairsObserver)
-        ];
-        Type[] providerTypes = [
-            typeof(ITestChainProvider)
-        ]; // Add more provider interfaces here if needed
+        Type[] observerTypes = [typeof(ITestChainObserver), typeof(ITestQuoteObserver), typeof(ITestPairsObserver)];
+        Type[] providerTypes = [typeof(ITestChainProvider)]; // Add more provider interfaces here if needed
 
         foreach (Type testClass in streamHubTestClasses)
         {
             string className = testClass.Name;
             Type[] actualInterfaces = testClass.GetInterfaces()
-                .Where(i => i.Namespace == "Test.Data"
-                         && i.Name.StartsWith("ITest", StringComparison.Ordinal))
+                .Where(i => i.Name.StartsWith("ITest", StringComparison.Ordinal))
                 .ToArray();
 
             // Find which observer/provider interfaces are implemented

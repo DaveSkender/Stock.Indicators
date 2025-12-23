@@ -12,7 +12,7 @@ public class CacheManagement : TestBase
         SmaHub observer = quoteHub.ToSmaHub(20);
         quoteHub.Add(Quotes.Take(21));
 
-        observer.Results[19].Sma.Should().BeApproximately(214.5250, precision: TestPrecision.HighPrecision); // 16 digits of precision asdf
+        observer.Results[19].Sma.Should().BeApproximately(214.5250, precision: TestPrecision.HighPrecision); // 16 digits of precision
 
         quoteHub.Remove(Quotes[14]);
         quoteHub.EndTransmission();
