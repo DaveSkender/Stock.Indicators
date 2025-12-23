@@ -10,7 +10,6 @@ public class CacheManagement : TestBase
         SmaHub observer = quoteHub.ToSmaHub(20);
 
         List<Quote> quotes = Quotes.Take(21).ToList();
-        Console.WriteLine(quotes.ToStringOut());
 
         quoteHub.Add(quotes);
 
