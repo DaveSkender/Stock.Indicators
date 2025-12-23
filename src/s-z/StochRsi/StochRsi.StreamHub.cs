@@ -176,9 +176,26 @@ public sealed class StochRsiHub
         double highRsi = _rsiMaxWindow.GetMax();
         double lowRsi = _rsiMinWindow.GetMin();
 
-        double k = lowRsi != highRsi
-            ? 100d * (rsiValue - lowRsi) / (highRsi - lowRsi)
-            : 0d;
+        // Boundary detection to avoid floating-point precision errors at 0 and 100
+        double k;
+        if (lowRsi == highRsi)
+        {
+            k = 0d;
+        }
+        else if (rsiValue >= highRsi)
+        {
+            // Exact 100 when RSI equals or exceeds highRsi
+            k = 100d;
+        }
+        else if (rsiValue <= lowRsi)
+        {
+            // Exact 0 when RSI equals or falls below lowRsi
+            k = 0d;
+        }
+        else
+        {
+            k = 100d * (rsiValue - lowRsi) / (highRsi - lowRsi);
+        }
 
         if (SmoothPeriods > 1)
         {

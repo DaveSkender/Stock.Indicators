@@ -163,11 +163,30 @@ public static partial class Stoch
                     }
                 }
 
-                o[i] = !isViable
-                     ? double.NaN
-                     : highHigh - lowLow != 0
-                     ? 100d * (q.Close - lowLow) / (highHigh - lowLow)
-                     : 0;
+                // Calculate raw %K oscillator with boundary detection
+                // to avoid floating-point precision errors at 0 and 100
+                if (!isViable)
+                {
+                    o[i] = double.NaN;
+                }
+                else if (highHigh == lowLow)
+                {
+                    o[i] = 0;
+                }
+                else if (q.Close >= highHigh)
+                {
+                    // Boundary detection: exact 100 when close equals or exceeds highHigh
+                    o[i] = 100d;
+                }
+                else if (q.Close <= lowLow)
+                {
+                    // Boundary detection: exact 0 when close equals or falls below lowLow
+                    o[i] = 0d;
+                }
+                else
+                {
+                    o[i] = 100d * (q.Close - lowLow) / (highHigh - lowLow);
+                }
             }
             else
             {

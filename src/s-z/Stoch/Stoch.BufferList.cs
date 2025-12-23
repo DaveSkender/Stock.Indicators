@@ -132,9 +132,25 @@ public class StochList : BufferList<StochResult>, IIncrementFromQuote, IStoch
                 }
             }
 
-            rawK = highHigh - lowLow != 0
-                ? 100d * (close - lowLow) / (highHigh - lowLow)
-                : 0;
+            // Boundary detection to avoid floating-point precision errors at 0 and 100
+            if (highHigh == lowLow)
+            {
+                rawK = 0;
+            }
+            else if (close >= highHigh)
+            {
+                // Exact 100 when close equals or exceeds highHigh
+                rawK = 100d;
+            }
+            else if (close <= lowLow)
+            {
+                // Exact 0 when close equals or falls below lowLow
+                rawK = 0d;
+            }
+            else
+            {
+                rawK = 100d * (close - lowLow) / (highHigh - lowLow);
+            }
         }
 
         // Calculate smoothed %K (final oscillator) - logic matches StaticSeries
