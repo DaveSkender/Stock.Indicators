@@ -16,18 +16,16 @@ public class CacheManagement : TestBase
 
         Console.WriteLine(observer.Results.ToStringOut());
 
-        observer.Results[19].Sma.Should().Be(214.5250);
+        // Using BeApproximately for floating-point comparison after cache operations
+        // SMA calculations can have minor precision drift due to IEEE 754 representation
+        observer.Results[19].Sma.Should().BeApproximately(214.5250, 1e-10);
 
         quoteHub.Remove(Quotes[14]);
         quoteHub.EndTransmission();
 
         Console.WriteLine(observer.Results.ToStringOut());
 
-        observer.Results[19].Sma.Should().Be(214.5260);
-
-        // TODO: double-check that this floating point issue is a problem.
-        // Double has 15-17 points of precision (13 decimal places for hundreds values)
-        // https://learn.microsoft.com/dotnet/api/system.double
+        observer.Results[19].Sma.Should().BeApproximately(214.5260, 1e-10);
     }
 
     /// <summary>

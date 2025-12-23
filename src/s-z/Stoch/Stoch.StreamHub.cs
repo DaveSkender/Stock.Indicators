@@ -118,7 +118,7 @@ public class StochHub
             // Boundary detection to avoid floating-point precision errors at 0 and 100
             if (highHigh == lowLow)
             {
-                rawK = 0;
+                rawK = 0d;
             }
             else if (close >= highHigh)
             {
@@ -321,7 +321,7 @@ public class StochHub
                 double rawAtP;
                 if (hh == ll)
                 {
-                    rawAtP = 0;
+                    rawAtP = 0d;
                 }
                 else if (c >= hh)
                 {

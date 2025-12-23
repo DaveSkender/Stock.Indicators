@@ -135,7 +135,7 @@ public class StochList : BufferList<StochResult>, IIncrementFromQuote, IStoch
             // Boundary detection to avoid floating-point precision errors at 0 and 100
             if (highHigh == lowLow)
             {
-                rawK = 0;
+                rawK = 0d;
             }
             else if (close >= highHigh)
             {

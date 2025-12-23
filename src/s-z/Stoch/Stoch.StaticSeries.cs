@@ -171,7 +171,7 @@ public static partial class Stoch
                 }
                 else if (highHigh == lowLow)
                 {
-                    o[i] = 0;
+                    o[i] = 0d;
                 }
                 else if (q.Close >= highHigh)
                 {
