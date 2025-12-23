@@ -54,8 +54,8 @@ public class Stoch : StaticSeriesTestBase
         IReadOnlyList<StochResult> results = Quotes
             .ToStoch();
 
-        TestAssert.IsBetween(results, static x => x.Oscillator, 0d, 100d);
-        TestAssert.IsBetween(results, static x => x.Signal, 0d, 100d);
+        results.IsBetween(static x => x.Oscillator, 0d, 100d);
+        results.IsBetween(static x => x.Signal, 0d, 100d);
     }
 
     /// <summary>
@@ -229,8 +229,8 @@ public class Stoch : StaticSeriesTestBase
 
         // test boundary condition
 
-        TestAssert.IsBetween(results, static x => x.Oscillator, 0d, 100d);
-        TestAssert.IsBetween(results, static x => x.Signal, 0d, 100d);
+        results.IsBetween(static x => x.Oscillator, 0d, 100d);
+        results.IsBetween(static x => x.Signal, 0d, 100d);
     }
 
     [TestMethod]
@@ -258,8 +258,8 @@ public class Stoch : StaticSeriesTestBase
         Console.WriteLine(results.ToStringOut(args));
 
         // analyze boundary
-        TestAssert.IsBetween(results, static x => x.Oscillator, 0d, 100d);
-        TestAssert.IsBetween(results, static x => x.Signal, 0d, 100d);
+        results.IsBetween(static x => x.Oscillator, 0d, 100d);
+        results.IsBetween(static x => x.Signal, 0d, 100d);
     }
 
     [TestMethod]

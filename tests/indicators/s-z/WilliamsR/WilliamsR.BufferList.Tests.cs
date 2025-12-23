@@ -45,7 +45,7 @@ public class WilliamsR : BufferListTestBase
     {
         WilliamsRList sut = new(lookbackPeriods, Quotes);
 
-        TestAssert.IsBetween(sut, static x => x.WilliamsR, -100d, 0d);
+        sut.IsBetween(static x => x.WilliamsR, -100d, 0d);
     }
 
     [TestMethod]

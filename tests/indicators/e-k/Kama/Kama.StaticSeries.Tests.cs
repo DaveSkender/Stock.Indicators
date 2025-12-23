@@ -54,7 +54,7 @@ public class Kama : StaticSeriesTestBase
         IReadOnlyList<KamaResult> results = Quotes
             .ToKama();
 
-        TestAssert.IsBetween(results, x => x.Er, 0, 1);
+        results.IsBetween(x => x.Er, 0, 1);
     }
 
     [TestMethod]

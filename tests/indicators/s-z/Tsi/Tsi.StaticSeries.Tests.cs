@@ -46,8 +46,8 @@ public class Tsi : StaticSeriesTestBase
         IReadOnlyList<TsiResult> results = Quotes
             .ToTsi();
 
-        TestAssert.IsBetween(results, x => x.Tsi, -100, 100);
-        TestAssert.IsBetween(results, x => x.Signal, -100, 100);
+        results.IsBetween(x => x.Tsi, -100, 100);
+        results.IsBetween(x => x.Signal, -100, 100);
     }
 
     [TestMethod]

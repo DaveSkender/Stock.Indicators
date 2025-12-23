@@ -8,12 +8,20 @@ public class CacheManagement : TestBase
     {
         QuoteHub quoteHub = new();
         SmaHub observer = quoteHub.ToSmaHub(20);
-        quoteHub.Add(Quotes.Take(21));
+
+        IEnumerable<Quote> quotes = Quotes.Take(21);
+        Console.WriteLine(quotes.ToStringOut());
+
+        quoteHub.Add(quotes);
+
+        Console.WriteLine(observer.Results.ToStringOut());
 
         observer.Results[19].Sma.Should().Be(214.5250);
 
         quoteHub.Remove(Quotes[14]);
         quoteHub.EndTransmission();
+
+        Console.WriteLine(observer.Results.ToStringOut());
 
         observer.Results[19].Sma.Should().Be(214.5260);
 

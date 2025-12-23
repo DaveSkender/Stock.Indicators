@@ -87,7 +87,7 @@ public class Rsi : BufferListTestBase, ITestChainBufferList
     {
         RsiList sut = new(lookbackPeriods, Quotes);
 
-        TestAssert.IsBetween(sut, static x => x.Rsi, 0d, 100d);
+        sut.IsBetween(static x => x.Rsi, 0d, 100d);
     }
 
     [TestMethod]

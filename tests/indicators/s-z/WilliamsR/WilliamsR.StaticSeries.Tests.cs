@@ -27,7 +27,7 @@ public class WilliamsR : StaticSeriesTestBase
         IReadOnlyList<WilliamsResult> results = Quotes
             .ToWilliamsR();
 
-        TestAssert.IsBetween(results, static x => x.WilliamsR, -100d, 0d);
+        results.IsBetween(static x => x.WilliamsR, -100d, 0d);
     }
 
     [TestMethod]
@@ -86,7 +86,7 @@ public class WilliamsR : StaticSeriesTestBase
             .GetRandom(2500)
             .ToWilliamsR();
 
-        TestAssert.IsBetween(results, static x => x.WilliamsR, -100d, 0d);
+        results.IsBetween(static x => x.WilliamsR, -100d, 0d);
     }
 
     [TestMethod]
@@ -105,7 +105,7 @@ public class WilliamsR : StaticSeriesTestBase
         IReadOnlyList<WilliamsResult> results = quotes
             .ToWilliamsR();
 
-        TestAssert.IsBetween(results, static x => x.WilliamsR, -100d, 0d);
+        results.IsBetween(static x => x.WilliamsR, -100d, 0d);
     }
 
     [TestMethod]
@@ -131,7 +131,7 @@ public class WilliamsR : StaticSeriesTestBase
 
         Console.WriteLine(results.ToStringOut(args));
 
-        TestAssert.IsBetween(results, static x => x.WilliamsR, -100d, 0d);
+        results.IsBetween(static x => x.WilliamsR, -100d, 0d);
     }
 
     /// <summary>

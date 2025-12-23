@@ -33,7 +33,7 @@ public class Rsi : StaticSeriesTestBase
         IReadOnlyList<RsiResult> results = Quotes
             .ToRsi();
 
-        TestAssert.IsBetween(results, static x => x.Rsi, 0d, 100d);
+        results.IsBetween(static x => x.Rsi, 0d, 100d);
     }
 
     [TestMethod]

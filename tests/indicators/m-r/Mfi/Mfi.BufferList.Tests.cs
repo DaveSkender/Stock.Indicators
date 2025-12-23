@@ -12,7 +12,7 @@ public class Mfi : BufferListTestBase
     public void Results_AreAlwaysBounded()
     {
         MfiList results = new(14, Quotes);
-        TestAssert.IsBetween(results, x => x.Mfi, 0, 100);
+        results.IsBetween(x => x.Mfi, 0, 100);
     }
 
     [TestMethod]

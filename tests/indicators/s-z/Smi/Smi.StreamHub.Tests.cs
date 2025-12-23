@@ -243,19 +243,8 @@ public class SmiHubTest : StreamHubTestBase, ITestQuoteObserver, ITestChainProvi
 
     [TestMethod]
     public void Results_AreAlwaysBounded()
-    {
-        QuoteHub quoteHub = new();
-        SmiHub observer = quoteHub.ToSmiHub(
-            lookbackPeriods,
-            firstSmoothPeriods,
-            secondSmoothPeriods,
-            signalPeriods);
-
-        quoteHub.Add(Quotes);
-
-        TestAssert.IsBetween(observer.Results, static x => x.Smi, -100d, 100d);
-
-        observer.Unsubscribe();
-        quoteHub.EndTransmission();
-    }
+        => Quotes
+            .ToSmiHub(lookbackPeriods, firstSmoothPeriods, secondSmoothPeriods, signalPeriods)
+            .Results
+            .IsBetween(static x => x.Smi, -100d, 100d);
 }

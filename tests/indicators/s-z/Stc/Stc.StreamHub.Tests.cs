@@ -150,8 +150,7 @@ public class StcHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
             provider.Add(quote);
         }
 
-        TestAssert.IsBetween(
-            hub.Results,
+        hub.Results.IsBetween(
             static x => x.Stc,
             0,
             100);

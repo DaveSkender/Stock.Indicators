@@ -45,7 +45,7 @@ public class Chop : BufferListTestBase
     {
         ChopList sut = new(lookbackPeriods, Quotes);
 
-        TestAssert.IsBetween(sut, static x => x.Chop, 0d, 100d);
+        sut.IsBetween(static x => x.Chop, 0d, 100d);
     }
 
     [TestMethod]

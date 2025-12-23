@@ -73,11 +73,11 @@ public class Adx : StaticSeriesTestBase
     public void Results_AreAlwaysBounded()
     {
         IReadOnlyList<AdxResult> results = Quotes.ToAdx(14);
-        TestAssert.IsBetween(results, x => x.Pdi, 0, 100);
-        TestAssert.IsBetween(results, x => x.Mdi, 0, 100);
-        TestAssert.IsBetween(results, x => x.Dx, 0, 100);
-        TestAssert.IsBetween(results, x => x.Adx, 0, 100);
-        TestAssert.IsBetween(results, x => x.Adxr, 0, 100);
+        results.IsBetween(x => x.Pdi, 0, 100);
+        results.IsBetween(x => x.Mdi, 0, 100);
+        results.IsBetween(x => x.Dx, 0, 100);
+        results.IsBetween(x => x.Adx, 0, 100);
+        results.IsBetween(x => x.Adxr, 0, 100);
     }
 
     [TestMethod]

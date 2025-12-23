@@ -6,10 +6,10 @@ public class AroonHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPr
     [TestMethod]
     public void Results_AreAlwaysBounded()
     {
-        AroonResult[] results = [.. Quotes.ToAroonHub(25).Results];
-        TestAssert.IsBetween(results, x => x.AroonUp, 0, 100);
-        TestAssert.IsBetween(results, x => x.AroonDown, 0, 100);
-        TestAssert.IsBetween(results, x => x.Oscillator, -100, 100);
+        IReadOnlyList<AroonResult> results = Quotes.ToAroonHub(25).Results;
+        results.IsBetween(x => x.AroonUp, 0, 100);
+        results.IsBetween(x => x.AroonDown, 0, 100);
+        results.IsBetween(x => x.Oscillator, -100, 100);
     }
 
     [TestMethod]

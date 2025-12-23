@@ -46,9 +46,9 @@ public class Aroon : StaticSeriesTestBase
     public void Results_AreAlwaysBounded()
     {
         IReadOnlyList<AroonResult> results = Quotes.ToAroon(25);
-        TestAssert.IsBetween(results, x => x.AroonUp, 0, 100);
-        TestAssert.IsBetween(results, x => x.AroonDown, 0, 100);
-        TestAssert.IsBetween(results, x => x.Oscillator, -100, 100);
+        results.IsBetween(x => x.AroonUp, 0, 100);
+        results.IsBetween(x => x.AroonDown, 0, 100);
+        results.IsBetween(x => x.Oscillator, -100, 100);
     }
 
     [TestMethod]

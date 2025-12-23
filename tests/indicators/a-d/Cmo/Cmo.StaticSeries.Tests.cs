@@ -35,7 +35,7 @@ public class Cmo : StaticSeriesTestBase
     {
         IReadOnlyList<CmoResult> results = Quotes.ToCmo(14);
 
-        TestAssert.IsBetween(results, static x => x.Cmo, -100d, 100d);
+        results.IsBetween(static x => x.Cmo, -100d, 100d);
     }
 
     [TestMethod]

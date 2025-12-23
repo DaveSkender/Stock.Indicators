@@ -70,7 +70,7 @@ public class BopHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProv
         QuoteHub provider = new();
         BopHub hub = new(provider, 14);
         provider.Add(Quotes);
-        TestAssert.IsBetween(hub.Results, static x => x.Bop, -1d, 1d);
+        hub.Results.IsBetween(static x => x.Bop, -1d, 1d);
     }
 
     [TestMethod]

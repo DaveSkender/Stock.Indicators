@@ -25,8 +25,8 @@ public class Correlation : BufferListTestBase, ITestChainBufferList
             { quotesA, quotesB }
         };
 
-        TestAssert.IsBetween(sut, x => x.Correlation, -1, 1);
-        TestAssert.IsBetween(sut, x => x.RSquared, 0, 1);
+        sut.IsBetween(x => x.Correlation, -1, 1);
+        sut.IsBetween(x => x.RSquared, 0, 1);
     }
 
     [TestMethod]

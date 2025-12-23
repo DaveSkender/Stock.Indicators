@@ -14,7 +14,7 @@ public static class TestAssert
     /// <param name="minInclusive">Minimum inclusive bound.</param>
     /// <param name="maxInclusive">Maximum inclusive bound.</param>
     public static void IsBetween<T>(
-        IEnumerable<T> results,
+        this IEnumerable<T> results,
         Func<T, double?> selector,
         double minInclusive,
         double maxInclusive)

@@ -127,8 +127,7 @@ public class Stc : StaticSeriesTestBase
     {
         IReadOnlyList<StcResult> results = Quotes.ToStc(9, 12, 26);
 
-        TestAssert.IsBetween(
-            results,
+        results.IsBetween(
             static x => x.Stc,
             0,
             100);

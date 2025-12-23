@@ -36,7 +36,7 @@ public class Bop : StaticSeriesTestBase
         IReadOnlyList<BopResult> results = Quotes
             .ToBop();
 
-        TestAssert.IsBetween(results, static x => x.Bop, -1d, 1d);
+        results.IsBetween(static x => x.Bop, -1d, 1d);
     }
 
     [TestMethod]

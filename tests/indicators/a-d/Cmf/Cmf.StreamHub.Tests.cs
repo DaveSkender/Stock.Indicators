@@ -101,7 +101,7 @@ public class CmfHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProv
         QuoteHub provider = new();
         CmfHub hub = new(provider, 20);
         provider.Add(Quotes);
-        TestAssert.IsBetween(hub.Results, static x => x.Cmf, -1d, 1d);
+        hub.Results.IsBetween(static x => x.Cmf, -1d, 1d);
     }
 
     [TestMethod]
