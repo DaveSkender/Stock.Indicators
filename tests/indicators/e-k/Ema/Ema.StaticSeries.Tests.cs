@@ -22,13 +22,13 @@ public class EmaTests : StaticSeriesTestBase
 
         // sample values
         EmaResult r29 = results[29];
-        Assert.AreEqual(216.6228, r29.Ema.Round(4));
+        r29.Ema.Round(4).Should().Be(216.6228);
 
         EmaResult r249 = results[249];
-        Assert.AreEqual(255.3873, r249.Ema.Round(4));
+        r249.Ema.Round(4).Should().Be(255.3873);
 
         EmaResult r501 = results[501];
-        Assert.AreEqual(249.3519, r501.Ema.Round(4));
+        r501.Ema.Round(4).Should().Be(249.3519);
     }
 
     [TestMethod]
@@ -47,13 +47,13 @@ public class EmaTests : StaticSeriesTestBase
 
         // sample values
         EmaResult r29 = results[29];
-        Assert.AreEqual(216.2643, r29.Ema.Round(4));
+        r29.Ema.Round(4).Should().Be(216.2643);
 
         EmaResult r249 = results[249];
-        Assert.AreEqual(255.4875, r249.Ema.Round(4));
+        r249.Ema.Round(4).Should().Be(255.487);
 
         EmaResult r501 = results[501];
-        Assert.AreEqual(249.9157, r501.Ema.Round(4));
+        r501.Ema.Round(4).Should().Be(249.9157);
     }
 
     [TestMethod]
@@ -109,13 +109,13 @@ public class EmaTests : StaticSeriesTestBase
         Assert.IsNull(r32.Ema);
 
         EmaResult r33 = results[33];
-        Assert.AreEqual(67.4565, r33.Ema.Round(4));
+        r33.Ema.Round(4).Should().Be(67.4565);
 
         EmaResult r249 = results[249];
-        Assert.AreEqual(70.4659, r249.Ema.Round(4));
+        r249.Ema.Round(4).Should().Be(70.4659);
 
         EmaResult r501 = results[501];
-        Assert.AreEqual(37.0728, r501.Ema.Round(4));
+        r501.Ema.Round(4).Should().Be(37.0728);
     }
 
     [TestMethod]
@@ -149,7 +149,7 @@ public class EmaTests : StaticSeriesTestBase
         Assert.HasCount(502 - (20 + 100), results);
 
         EmaResult last = results[^1];
-        Assert.AreEqual(249.3519, last.Ema.Round(4));
+        last.Ema.Round(4).Should().Be(249.3519);
     }
 
     /// <summary>
