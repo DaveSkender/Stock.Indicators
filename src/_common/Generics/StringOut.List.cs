@@ -90,7 +90,9 @@ public static partial class StringOut
         where T : ISeries
     {
         Dictionary<string, string>? argsDict = args?.Length > 0
-            ? args.ToDictionary(x => x.key, x => x.value)
+            ? args
+                .GroupBy(x => x.key)
+                .ToDictionary(g => g.Key, g => g.Last().value)
             : null;
         return source.ToConsole(filter, argsDict);
     }
@@ -112,7 +114,9 @@ public static partial class StringOut
         where T : ISeries
     {
         Dictionary<string, string>? argsDict = args?.Length > 0
-            ? args.ToDictionary(x => x.key, x => x.value)
+            ? args
+                .GroupBy(x => x.key)
+                .ToDictionary(g => g.Key, g => g.Last().value)
             : null;
         string? output = source.ToStringOut(filter, limitQty, argsDict);
         Console.WriteLine(output);
@@ -206,6 +210,8 @@ public static partial class StringOut
         IDictionary<string, string>? args = null)
         where T : ISeries
     {
+        ArgumentNullException.ThrowIfNull(filter);
+
         List<T> sourceList = source.ToList();
         int[] indices = sourceList
             .Select((item, index) => new { item, index })
@@ -232,6 +238,8 @@ public static partial class StringOut
         IDictionary<string, string>? args = null)
         where T : ISeries
     {
+        ArgumentNullException.ThrowIfNull(filter);
+
         List<T> sourceList = source.ToList();
         int[] indices = sourceList
             .Select((item, index) => new { item, index })

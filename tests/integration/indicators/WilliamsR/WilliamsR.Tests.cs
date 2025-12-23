@@ -6,7 +6,7 @@ namespace Tests.Indicators;
 public class WilliamsRTests
 {
     [TestMethod]
-    public async Task ToWilliamsR_WithLiveData_MaintainsBoundaryRange()
+    public async Task ToWilliamsR_LiveData_MaintainsBoundaryRange()
     {
         // initialize
         IEnumerable<Quote> feedQuotes = await FeedData  // live quotes
