@@ -108,8 +108,6 @@ public class Stoch : BufferListTestBase
         incremental.Should().BeEquivalentTo(batch, static options => options.WithStrictOrdering());
     }
 
-
-
     [TestMethod]
     public void ParameterValidation()
     {

@@ -1,5 +1,5 @@
-
 using Skender.Stock.Indicators;
+using TestData = Test.Data.Data;
 
 namespace Test.Application;
 
@@ -23,9 +23,7 @@ public class Go
     private readonly bool verbose = true;
     private static readonly QuoteHub quoteHub = new();
 
-    // TODO: fix awkward `Test.Data.Data.GetDefault()` reference, throughout codebase.
-    // Ideally this would be `Test.Data.GetDefault()` or even `Data.GetDefault()`.
-    private static readonly IReadOnlyList<Quote> quotesList = Test.Data.Data.GetDefault();
+    private static readonly IReadOnlyList<Quote> quotesList = TestData.GetDefault();
 
     private static readonly int quotesLength = quotesList.Count;
 

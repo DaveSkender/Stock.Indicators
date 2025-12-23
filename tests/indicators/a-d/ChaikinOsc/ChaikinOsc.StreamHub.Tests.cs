@@ -56,7 +56,7 @@ public class ChaikinOscHubTests : StreamHubTestBase, ITestQuoteObserver, ITestCh
         // time-series, for comparison
         IReadOnlyList<ChaikinOscResult> seriesList = quotesList.ToChaikinOsc(3, 10);
 
-        // assert, should equal series (with tolerance for floating point precision)
+        // assert
         streamList.Should().HaveCount(length - 1);
         streamList.IsExactly(seriesList);
 
@@ -97,7 +97,7 @@ public class ChaikinOscHubTests : StreamHubTestBase, ITestQuoteObserver, ITestCh
            = quotesList
             .ToChaikinOsc(fastPeriods, slowPeriods);
 
-        // assert, should equal series (with tolerance for floating point precision)
+        // assert
         streamList.Should().HaveCount(length);
         streamList.IsExactly(seriesList);
 
@@ -140,7 +140,7 @@ public class ChaikinOscHubTests : StreamHubTestBase, ITestQuoteObserver, ITestCh
             .ToChaikinOsc(fastPeriods, slowPeriods)
             .ToEma(emaPeriods);
 
-        // assert, should equal series (with tolerance for floating point precision)
+        // assert
         streamList.Should().HaveCount(length);
         streamList.IsExactly(seriesList);
 

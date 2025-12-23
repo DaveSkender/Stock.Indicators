@@ -147,8 +147,6 @@ public class WilliamsR : StreamHubTestBase, ITestQuoteObserver
         streamObserver.Cache.Should().BeEquivalentTo(batchResults);
     }
 
-
-
     [TestMethod]
     public void ParameterValidation()
     {
