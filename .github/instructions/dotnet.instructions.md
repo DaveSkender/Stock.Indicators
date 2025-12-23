@@ -79,10 +79,10 @@ For indicators with mathematically guaranteed bounds (e.g., 0-100 range for RSI,
 
 #### Guardrails
 
-- **No clamping** - Use `Math.Clamp()` only when necessary; boundary violations indicate formula errors
+- **No clamping** - Never use `Math.Clamp()`; boundary violations indicate formula errors
 - **No epsilon tolerance** - Bound checks must use exact comparison (`<=`, `>=`, `==`)
 - **No forced rounding** - Cannot use rounding to hide precision issues
-- **Algorithm-level fixes** - Address root cause in formulas, not symptoms
+- **Algorithm-level fixes** - Address root cause in formulas, not symptoms; use algebraically stable algorithms
 
 #### Recommended approach: Boundary detection
 
