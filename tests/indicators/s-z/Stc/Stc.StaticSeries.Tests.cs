@@ -126,11 +126,7 @@ public class Stc : StaticSeriesTestBase
     public void Results_AreAlwaysBounded()
     {
         IReadOnlyList<StcResult> results = Quotes.ToStc(9, 12, 26);
-
-        results.IsBetween(
-            static x => x.Stc,
-            0,
-            100);
+        results.IsBetween(x => x.Stc, 0, 100);
     }
 
     [TestMethod]

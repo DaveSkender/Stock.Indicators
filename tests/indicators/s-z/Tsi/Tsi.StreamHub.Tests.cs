@@ -26,6 +26,14 @@ public class TsiHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
     [TestMethod]
     public void Results_AreAlwaysBounded()
     {
+        IReadOnlyList<TsiResult> results = Quotes.ToTsiHub(25, 13, 7).Results;
+        results.IsBetween(x => x.Tsi, -100, 100);
+        results.IsBetween(x => x.Signal, -100, 100);
+    }
+
+    [TestMethod]
+    public void OldBoundaryTest()
+    {
         QuoteHub quoteHub = new();
         TsiHub observer = quoteHub.ToTsiHub(lookbackPeriods, smoothPeriods, signalPeriods);
 

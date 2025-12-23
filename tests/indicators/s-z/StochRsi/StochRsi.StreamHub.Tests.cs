@@ -6,10 +6,9 @@ public class StochRsiHubTests : StreamHubTestBase, ITestChainObserver, ITestChai
     [TestMethod]
     public void Results_AreAlwaysBounded()
     {
-        StochRsiHub sut = Quotes.ToStochRsiHub(14, 14, 3, 1);
-
-        sut.Results.IsBetween(static x => x.StochRsi, 0d, 100d);
-        sut.Results.IsBetween(static x => x.Signal, 0d, 100d);
+        IReadOnlyList<StochRsiResult> results = Quotes.ToStochRsiHub(14, 14, 3, 1).Results;
+        results.IsBetween(x => x.StochRsi, 0, 100);
+        results.IsBetween(x => x.Signal, 0, 100);
     }
 
     [TestMethod]

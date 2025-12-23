@@ -21,12 +21,9 @@ public class Correlation : BufferListTestBase, ITestChainBufferList
     [TestMethod]
     public void Results_AreAlwaysBounded()
     {
-        CorrelationList sut = new(lookbackPeriods) {
-            { quotesA, quotesB }
-        };
-
-        sut.IsBetween(x => x.Correlation, -1, 1);
-        sut.IsBetween(x => x.RSquared, 0, 1);
+        CorrelationList results = new(20, Quotes, OtherQuotes);
+        results.IsBetween(x => x.Correlation, -1, 1);
+        results.IsBetween(x => x.RSquared, 0, 1);
     }
 
     [TestMethod]

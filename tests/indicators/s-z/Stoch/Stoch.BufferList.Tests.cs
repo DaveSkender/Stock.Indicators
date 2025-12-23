@@ -87,9 +87,9 @@ public class Stoch : BufferListTestBase
     [TestMethod]
     public void Results_AreAlwaysBounded()
     {
-        StochList results = new(lookbackPeriods, signalPeriods, smoothPeriods, kFactor, dFactor, movingAverageType, Quotes);
-        results.IsBetween(static x => x.Oscillator, 0d, 100d);
-        results.IsBetween(static x => x.Signal, 0d, 100d);
+        StochList results = new(14, 3, 3, 1, 1, MaType.SMA, Quotes);
+        results.IsBetween(x => x.Oscillator, 0, 100);
+        results.IsBetween(x => x.Signal, 0, 100);
     }
 
     [TestMethod]

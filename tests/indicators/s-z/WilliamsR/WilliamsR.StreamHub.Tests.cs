@@ -6,9 +6,8 @@ public class WilliamsR : StreamHubTestBase, ITestQuoteObserver
     [TestMethod]
     public void Results_AreAlwaysBounded()
     {
-        WilliamsRHub sut = Quotes.ToWilliamsRHub(14);
-
-        sut.Results.IsBetween(static x => x.WilliamsR, -100d, 0d);
+        IReadOnlyList<WilliamsResult> results = Quotes.ToWilliamsRHub(14).Results;
+        results.IsBetween(x => x.WilliamsR, -100, 0);
     }
 
     [TestMethod]

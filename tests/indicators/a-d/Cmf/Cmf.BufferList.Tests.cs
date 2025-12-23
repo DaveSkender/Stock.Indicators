@@ -43,8 +43,8 @@ public class Cmf : BufferListTestBase
     [TestMethod]
     public void Results_AreAlwaysBounded()
     {
-        CmfList results = new(lookbackPeriods, Quotes);
-        results.IsBetween(static x => x.Cmf, -1d, 1d);
+        CmfList results = new(20, Quotes);
+        results.IsBetween(x => x.Cmf, -1, 1);
     }
 
     [TestMethod]

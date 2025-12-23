@@ -149,26 +149,19 @@ public class RsiHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
     }
 
     [TestMethod]
+    public void Results_AreAlwaysBounded()
+    {
+        IReadOnlyList<RsiResult> results = Quotes.ToRsiHub(14).Results;
+        results.IsBetween(x => x.Rsi, 0, 100);
+    }
+
+    [TestMethod]
     public override void ToStringOverride_ReturnsExpectedName()
     {
         QuoteHub quoteHub = new();
         RsiHub observer = quoteHub.ToRsiHub(14);
 
         observer.ToString().Should().Be("RSI(14)");
-
-        observer.Unsubscribe();
-        quoteHub.EndTransmission();
-    }
-
-    [TestMethod]
-    public void Results_AreAlwaysBounded()
-    {
-        QuoteHub quoteHub = new();
-        RsiHub observer = quoteHub.ToRsiHub(14);
-
-        quoteHub.Add(Quotes);
-
-        observer.Results.IsBetween(static x => x.Rsi, 0d, 100d);
 
         observer.Unsubscribe();
         quoteHub.EndTransmission();

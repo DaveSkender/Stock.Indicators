@@ -24,10 +24,8 @@ public class WilliamsR : StaticSeriesTestBase
     [TestMethod]
     public void Results_AreAlwaysBounded()
     {
-        IReadOnlyList<WilliamsResult> results = Quotes
-            .ToWilliamsR();
-
-        results.IsBetween(static x => x.WilliamsR, -100d, 0d);
+        IReadOnlyList<WilliamsResult> results = Quotes.ToWilliamsR(14);
+        results.IsBetween(x => x.WilliamsR, -100, 0);
     }
 
     [TestMethod]

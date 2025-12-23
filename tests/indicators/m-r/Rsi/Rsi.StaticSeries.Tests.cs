@@ -30,10 +30,8 @@ public class Rsi : StaticSeriesTestBase
     [TestMethod]
     public void Results_AreAlwaysBounded()
     {
-        IReadOnlyList<RsiResult> results = Quotes
-            .ToRsi();
-
-        results.IsBetween(static x => x.Rsi, 0d, 100d);
+        IReadOnlyList<RsiResult> results = Quotes.ToRsi(14);
+        results.IsBetween(x => x.Rsi, 0, 100);
     }
 
     [TestMethod]

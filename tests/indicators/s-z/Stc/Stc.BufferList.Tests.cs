@@ -127,11 +127,7 @@ public class Stc : BufferListTestBase, ITestChainBufferList
     [TestMethod]
     public void Results_AreAlwaysBounded()
     {
-        StcList sut = Quotes.ToStcList(cyclePeriods, fastPeriods, slowPeriods);
-
-        sut.IsBetween(
-            static x => x.Stc,
-            0,
-            100);
+        StcList results = new(9, 12, 26, Quotes);
+        results.IsBetween(x => x.Stc, 0, 100);
     }
 }

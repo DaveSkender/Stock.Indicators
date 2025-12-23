@@ -51,11 +51,9 @@ public class Stoch : StaticSeriesTestBase
     [TestMethod]
     public void Results_AreAlwaysBounded()
     {
-        IReadOnlyList<StochResult> results = Quotes
-            .ToStoch();
-
-        results.IsBetween(static x => x.Oscillator, 0d, 100d);
-        results.IsBetween(static x => x.Signal, 0d, 100d);
+        IReadOnlyList<StochResult> results = Quotes.ToStoch(14, 3, 3);
+        results.IsBetween(x => x.Oscillator, 0, 100);
+        results.IsBetween(x => x.Signal, 0, 100);
     }
 
     /// <summary>

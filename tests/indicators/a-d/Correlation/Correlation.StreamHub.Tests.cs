@@ -44,12 +44,10 @@ public class CorrelationHubTests : StreamHubTestBase, ITestPairsObserver
         quoteHubA.Add(Quotes);
         quoteHubB.Add(OtherQuotes);
 
-        CorrelationHub correlationHub = quoteHubA.ToCorrelationHub(quoteHubB, 20);
+        IReadOnlyList<CorrResult> results = quoteHubA.ToCorrelationHub(quoteHubB, 20).Results;
+        results.IsBetween(x => x.Correlation, -1, 1);
+        results.IsBetween(x => x.RSquared, 0, 1);
 
-        correlationHub.Results.IsBetween(x => x.Correlation, -1, 1);
-        correlationHub.Results.IsBetween(x => x.RSquared, 0, 1);
-
-        correlationHub.Unsubscribe();
         quoteHubA.EndTransmission();
         quoteHubB.EndTransmission();
     }

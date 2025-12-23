@@ -34,8 +34,7 @@ public class Cmo : StaticSeriesTestBase
     public void Results_AreAlwaysBounded()
     {
         IReadOnlyList<CmoResult> results = Quotes.ToCmo(14);
-
-        results.IsBetween(static x => x.Cmo, -100d, 100d);
+        results.IsBetween(x => x.Cmo, -100, 100);
     }
 
     [TestMethod]

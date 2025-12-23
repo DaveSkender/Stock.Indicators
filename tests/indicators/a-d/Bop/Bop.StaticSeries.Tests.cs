@@ -33,10 +33,8 @@ public class Bop : StaticSeriesTestBase
     [TestMethod]
     public void Results_AreAlwaysBounded()
     {
-        IReadOnlyList<BopResult> results = Quotes
-            .ToBop();
-
-        results.IsBetween(static x => x.Bop, -1d, 1d);
+        IReadOnlyList<BopResult> results = Quotes.ToBop(14);
+        results.IsBetween(x => x.Bop, -1, 1);
     }
 
     [TestMethod]
