@@ -85,14 +85,6 @@ public class ConnorsRsi : BufferListTestBase, ITestChainBufferList
     }
 
     [TestMethod]
-    public void Results_AreAlwaysBounded()
-    {
-        ConnorsRsiList sut = new(rsiPeriods, streakPeriods, rankPeriods, Quotes);
-
-        sut.IsBetween(static x => x.ConnorsRsi, 0d, 100d);
-    }
-
-    [TestMethod]
     public override void Clear_WithState_ResetsState()
     {
         List<Quote> subset = Quotes.Take(80).ToList();

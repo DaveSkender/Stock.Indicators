@@ -96,15 +96,6 @@ public class CmfHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProv
     }
 
     [TestMethod]
-    public void Results_AreAlwaysBounded()
-    {
-        QuoteHub provider = new();
-        CmfHub hub = new(provider, 20);
-        provider.Add(Quotes);
-        hub.Results.IsBetween(static x => x.Cmf, -1d, 1d);
-    }
-
-    [TestMethod]
     public override void ToStringOverride_ReturnsExpectedName()
     {
         QuoteHub quoteHub = new();

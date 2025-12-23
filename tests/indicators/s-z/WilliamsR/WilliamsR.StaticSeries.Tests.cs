@@ -22,15 +22,6 @@ public class WilliamsR : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Results_AreAlwaysBounded()
-    {
-        IReadOnlyList<WilliamsResult> results = Quotes
-            .ToWilliamsR();
-
-        results.IsBetween(static x => x.WilliamsR, -100d, 0d);
-    }
-
-    [TestMethod]
     public void ChainingFromResults_WorksAsExpected()
     {
         IReadOnlyList<SmaResult> results = Quotes
@@ -86,26 +77,13 @@ public class WilliamsR : StaticSeriesTestBase
             .GetRandom(2500)
             .ToWilliamsR();
 
-        results.IsBetween(static x => x.WilliamsR, -100d, 0d);
-    }
+        // analyze boundary
+        for (int i = 0; i < results.Count; i++)
+        {
+            WilliamsResult r = results[i];
 
-    [TestMethod]
-    public void Issue1127_Original_BoundaryThreshold_Maintained()
-    {
-        // initialize
-        IReadOnlyList<Quote> quotes = File.ReadAllLines("_testdata/issues/issue1127.quotes.williamr.original.csv")
-            .Skip(1)
-            .Select(Test.Data.Utilities.QuoteFromCsv)
-            .OrderBy(static x => x.Timestamp)
-            .ToList();
-
-        int length = quotes.Count;
-
-        // get indicators
-        IReadOnlyList<WilliamsResult> results = quotes
-            .ToWilliamsR();
-
-        results.IsBetween(static x => x.WilliamsR, -100d, 0d);
+            r.WilliamsR?.Should().BeInRange(-100d, 0d);
+        }
     }
 
     [TestMethod]

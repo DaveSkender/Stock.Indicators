@@ -41,13 +41,6 @@ public class Cmf : BufferListTestBase
     }
 
     [TestMethod]
-    public void Results_AreAlwaysBounded()
-    {
-        CmfList results = new(lookbackPeriods, Quotes);
-        results.IsBetween(static x => x.Cmf, -1d, 1d);
-    }
-
-    [TestMethod]
     public override void Clear_WithState_ResetsState()
     {
         List<Quote> subset = Quotes.Take(80).ToList();

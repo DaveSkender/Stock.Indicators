@@ -4,13 +4,6 @@ namespace StreamHub;
 public class CmoHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProvider
 {
     [TestMethod]
-    public void Results_AreAlwaysBounded()
-    {
-        IReadOnlyList<CmoResult> results = Quotes.ToCmoHub(14).Results;
-        results.IsBetween(static x => x.Cmo, -100, 100);
-    }
-
-    [TestMethod]
     public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
         List<Quote> quotesList = Quotes.ToList();

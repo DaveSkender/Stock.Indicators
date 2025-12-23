@@ -21,16 +21,7 @@ public class WilliamsRTests
         IReadOnlyList<WilliamsResult> results = quotes
             .ToWilliamsR(14);
 
-        //Console.WriteLine(quotes.ToStringOut());
-        //Console.WriteLine("----------------------------------------");
-        Dictionary<string, string> args = new()
-        {
-            { "WilliamsR", "N20" }
-        };
-
-        Console.WriteLine(results.ToStringOut(args));
-        Console.WriteLine("----------------------------------------");
-        //Console.WriteLine(results.Where(x => x.WilliamsR is < (-100) or > 0).ToStringOut());
+        Console.WriteLine($"%R from {length} quotes.");
 
         // analyze boundary
         for (int i = 0; i < length; i++)

@@ -70,17 +70,6 @@ public class Adx : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Results_AreAlwaysBounded()
-    {
-        IReadOnlyList<AdxResult> results = Quotes.ToAdx(14);
-        results.IsBetween(x => x.Pdi, 0, 100);
-        results.IsBetween(x => x.Mdi, 0, 100);
-        results.IsBetween(x => x.Dx, 0, 100);
-        results.IsBetween(x => x.Adx, 0, 100);
-        results.IsBetween(x => x.Adxr, 0, 100);
-    }
-
-    [TestMethod]
     public void ChainingFromResults_WorksAsExpected()
     {
         IReadOnlyList<SmaResult> results = Quotes

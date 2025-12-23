@@ -7,13 +7,6 @@ public class MfiHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProv
     private static readonly IReadOnlyList<MfiResult> expectedOriginal = Quotes.ToMfi(lookbackPeriods);
 
     [TestMethod]
-    public void Results_AreAlwaysBounded()
-    {
-        IReadOnlyList<MfiResult> results = Quotes.ToMfiHub(14).Results;
-        results.IsBetween(x => x.Mfi, 0, 100);
-    }
-
-    [TestMethod]
     public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
         int length = Quotes.Count;

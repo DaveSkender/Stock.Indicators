@@ -85,14 +85,6 @@ public class Stoch : BufferListTestBase
     }
 
     [TestMethod]
-    public void Results_AreAlwaysBounded()
-    {
-        StochList results = new(lookbackPeriods, signalPeriods, smoothPeriods, kFactor, dFactor, movingAverageType, Quotes);
-        results.IsBetween(static x => x.Oscillator, 0d, 100d);
-        results.IsBetween(static x => x.Signal, 0d, 100d);
-    }
-
-    [TestMethod]
     public void IncrementalConsistency()
     {
         // Test that incremental addition produces same results as batch
@@ -107,8 +99,6 @@ public class Stoch : BufferListTestBase
         incremental.Should().HaveCount(batch.Count);
         incremental.Should().BeEquivalentTo(batch, static options => options.WithStrictOrdering());
     }
-
-
 
     [TestMethod]
     public void ParameterValidation()

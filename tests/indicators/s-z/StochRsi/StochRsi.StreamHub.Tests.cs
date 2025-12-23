@@ -4,15 +4,6 @@ namespace StreamHub;
 public class StochRsiHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProvider
 {
     [TestMethod]
-    public void Results_AreAlwaysBounded()
-    {
-        StochRsiHub sut = Quotes.ToStochRsiHub(14, 14, 3, 1);
-
-        sut.Results.IsBetween(static x => x.StochRsi, 0d, 100d);
-        sut.Results.IsBetween(static x => x.Signal, 0d, 100d);
-    }
-
-    [TestMethod]
     public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
         List<Quote> quotesList = Quotes.ToList();

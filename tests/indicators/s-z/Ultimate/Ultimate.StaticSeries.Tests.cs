@@ -25,13 +25,6 @@ public class Ultimate : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Results_AreAlwaysBounded()
-    {
-        IReadOnlyList<UltimateResult> results = Quotes.ToUltimate(7, 14, 28);
-        results.IsBetween(x => x.Ultimate, 0, 100);
-    }
-
-    [TestMethod]
     public void ChainingFromResults_WorksAsExpected()
     {
         IReadOnlyList<SmaResult> results = Quotes

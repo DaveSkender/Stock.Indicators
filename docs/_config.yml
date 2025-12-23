@@ -55,7 +55,6 @@ exclude:
     "docs/README.md",
     "examples/Backtest",
     "examples/ConsoleApp",
-    "plans",
     "Gemfile",
     "node_modules",
     "vendor",

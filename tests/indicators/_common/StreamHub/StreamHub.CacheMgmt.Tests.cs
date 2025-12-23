@@ -1,3 +1,5 @@
+using Tests.Tools;
+
 namespace Observables;
 
 [TestClass]
@@ -8,22 +10,14 @@ public class CacheManagement : TestBase
     {
         QuoteHub quoteHub = new();
         SmaHub observer = quoteHub.ToSmaHub(20);
+        quoteHub.Add(Quotes.Take(21));
 
-        IEnumerable<Quote> quotes = Quotes.Take(21);
-        Console.WriteLine(quotes.ToStringOut());
-
-        quoteHub.Add(quotes);
-
-        Console.WriteLine(observer.Results.ToStringOut());
-
-        observer.Results[19].Sma.Should().Be(214.5250);
+        observer.Results[19].Sma.Should().BeApproximately(214.5250, precision: TestPrecision.HighPrecision); // 16 digits of precision asdf
 
         quoteHub.Remove(Quotes[14]);
         quoteHub.EndTransmission();
 
-        Console.WriteLine(observer.Results.ToStringOut());
-
-        observer.Results[19].Sma.Should().Be(214.5260);
+        observer.Results[19].Sma.Should().BeApproximately(214.5260, precision: TestPrecision.HighPrecision);
 
         // TODO: double-check that this floating point issue is a problem.
         // Double has 15-17 points of precision (13 decimal places for hundreds values)

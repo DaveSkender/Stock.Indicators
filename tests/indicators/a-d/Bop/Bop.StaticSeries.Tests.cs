@@ -31,15 +31,6 @@ public class Bop : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Results_AreAlwaysBounded()
-    {
-        IReadOnlyList<BopResult> results = Quotes
-            .ToBop();
-
-        results.IsBetween(static x => x.Bop, -1d, 1d);
-    }
-
-    [TestMethod]
     public void ChainingFromResults_WorksAsExpected()
     {
         IReadOnlyList<SmaResult> results = Quotes

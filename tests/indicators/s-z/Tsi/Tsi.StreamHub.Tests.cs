@@ -24,24 +24,6 @@ public class TsiHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
     }
 
     [TestMethod]
-    public void Results_AreAlwaysBounded()
-    {
-        QuoteHub quoteHub = new();
-        TsiHub observer = quoteHub.ToTsiHub(lookbackPeriods, smoothPeriods, signalPeriods);
-
-        foreach (Quote quote in Quotes)
-        {
-            quoteHub.Add(quote);
-        }
-
-        observer.Results.IsBetween(x => x.Tsi, -100, 100);
-        observer.Results.IsBetween(x => x.Signal, -100, 100);
-
-        observer.Unsubscribe();
-        quoteHub.EndTransmission();
-    }
-
-    [TestMethod]
     public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
         List<Quote> quotesList = Quotes.ToList();

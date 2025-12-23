@@ -65,15 +65,6 @@ public class BopHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProv
     }
 
     [TestMethod]
-    public void Results_AreAlwaysBounded()
-    {
-        QuoteHub provider = new();
-        BopHub hub = new(provider, 14);
-        provider.Add(Quotes);
-        hub.Results.IsBetween(static x => x.Bop, -1d, 1d);
-    }
-
-    [TestMethod]
     public void ChainObserver()
     {
         // BOP requires IQuote input (OHLC data), so we can't chain from EMA

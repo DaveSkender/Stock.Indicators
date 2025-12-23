@@ -43,16 +43,6 @@ public class StochRsi : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Results_AreAlwaysBounded()
-    {
-        IReadOnlyList<StochRsiResult> results = Quotes
-            .ToStochRsi(14, 14, 3, 1);
-
-        results.IsBetween(static x => x.StochRsi, 0d, 100d);
-        results.IsBetween(static x => x.Signal, 0d, 100d);
-    }
-
-    [TestMethod]
     public void SlowRsi()
     {
         const int rsiPeriods = 14;

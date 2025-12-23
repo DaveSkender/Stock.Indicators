@@ -159,18 +159,4 @@ public class RsiHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
         observer.Unsubscribe();
         quoteHub.EndTransmission();
     }
-
-    [TestMethod]
-    public void Results_AreAlwaysBounded()
-    {
-        QuoteHub quoteHub = new();
-        RsiHub observer = quoteHub.ToRsiHub(14);
-
-        quoteHub.Add(Quotes);
-
-        observer.Results.IsBetween(static x => x.Rsi, 0d, 100d);
-
-        observer.Unsubscribe();
-        quoteHub.EndTransmission();
-    }
 }

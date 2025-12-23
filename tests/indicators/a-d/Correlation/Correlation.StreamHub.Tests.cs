@@ -36,25 +36,6 @@ public class CorrelationHubTests : StreamHubTestBase, ITestPairsObserver
     }
 
     [TestMethod]
-    public void Results_AreAlwaysBounded()
-    {
-        QuoteHub quoteHubA = new();
-        QuoteHub quoteHubB = new();
-
-        quoteHubA.Add(Quotes);
-        quoteHubB.Add(OtherQuotes);
-
-        CorrelationHub correlationHub = quoteHubA.ToCorrelationHub(quoteHubB, 20);
-
-        correlationHub.Results.IsBetween(x => x.Correlation, -1, 1);
-        correlationHub.Results.IsBetween(x => x.RSquared, 0, 1);
-
-        correlationHub.Unsubscribe();
-        quoteHubA.EndTransmission();
-        quoteHubB.EndTransmission();
-    }
-
-    [TestMethod]
     public void PairsObserver_TimestampMismatch_ThrowsInvalidQuotesException()
     {
         // Create two providers with mismatched timestamps

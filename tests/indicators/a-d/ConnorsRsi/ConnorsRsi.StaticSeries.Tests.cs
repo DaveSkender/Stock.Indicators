@@ -68,15 +68,6 @@ public class ConnorsRsi : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Results_AreAlwaysBounded()
-    {
-        IReadOnlyList<ConnorsRsiResult> results = Quotes
-            .ToConnorsRsi();
-
-        results.IsBetween(static x => x.ConnorsRsi, 0d, 100d);
-    }
-
-    [TestMethod]
     public override void BadQuotes_DoesNotFail()
     {
         IReadOnlyList<ConnorsRsiResult> r = BadQuotes

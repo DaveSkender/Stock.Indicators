@@ -1,6 +1,5 @@
 using System.Reflection;
 using Skender.Stock.Indicators;
-using Test.Data;
 
 namespace Test.DataGenerator;
 

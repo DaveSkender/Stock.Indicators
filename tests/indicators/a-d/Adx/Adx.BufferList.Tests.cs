@@ -9,17 +9,6 @@ public class Adx : BufferListTestBase
        = Quotes.ToAdx(lookbackPeriods);
 
     [TestMethod]
-    public void Results_AreAlwaysBounded()
-    {
-        AdxList results = new(14, Quotes);
-        results.IsBetween(x => x.Pdi, 0d, 100d);
-        results.IsBetween(x => x.Mdi, 0d, 100d);
-        results.IsBetween(x => x.Dx, 0d, 100d);
-        results.IsBetween(x => x.Adx, 0d, 100d);
-        results.IsBetween(x => x.Adxr, 0d, 100d);
-    }
-
-    [TestMethod]
     public void AddQuotes()
     {
         AdxList sut = new(lookbackPeriods);

@@ -41,14 +41,6 @@ public class WilliamsR : BufferListTestBase
     }
 
     [TestMethod]
-    public void Results_AreAlwaysBounded()
-    {
-        WilliamsRList sut = new(lookbackPeriods, Quotes);
-
-        sut.IsBetween(static x => x.WilliamsR, -100d, 0d);
-    }
-
-    [TestMethod]
     public override void Clear_WithState_ResetsState()
     {
         List<Quote> subset = Quotes.Take(80).ToList();

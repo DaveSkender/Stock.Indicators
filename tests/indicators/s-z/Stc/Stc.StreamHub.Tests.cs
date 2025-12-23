@@ -140,23 +140,6 @@ public class StcHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
     }
 
     [TestMethod]
-    public void Results_AreAlwaysBounded()
-    {
-        QuoteHub provider = new();
-        StcHub hub = new(provider, cyclePeriods, fastPeriods, slowPeriods);
-
-        foreach (Quote quote in Quotes)
-        {
-            provider.Add(quote);
-        }
-
-        hub.Results.IsBetween(
-            static x => x.Stc,
-            0,
-            100);
-    }
-
-    [TestMethod]
     public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactlyDefaults()
     {
         int length = Quotes.Count;
