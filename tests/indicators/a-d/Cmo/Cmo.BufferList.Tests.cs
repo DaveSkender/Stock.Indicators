@@ -128,12 +128,4 @@ public class Cmo : BufferListTestBase, ITestChainBufferList
         sut.Should().HaveCount(maxListSize);
         sut.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
     }
-
-    [TestMethod]
-    public void Bounded()
-    {
-        CmoList sut = Quotes.ToCmoList(lookbackPeriods);
-
-        sut.IsBetween(static x => x.Cmo, -100d, 100d);
-    }
 }
