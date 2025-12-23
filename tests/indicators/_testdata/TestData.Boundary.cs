@@ -26,13 +26,15 @@ internal static class BoundaryQuotes
         for (int i = 0; i < bars; i++)
         {
             decimal close = startPrice + (i * increment);
-            // Open slightly below close, High above close, Low below Open
-            // This creates realistic bullish candles
+            // Valid OHLC: High is max, Low is min, Open and Close between them
+            decimal open = close - increment;
+            decimal high = close + increment;
+            decimal low = open - increment;  // Low is minimum of all values
             quotes.Add(new Quote(
                 Timestamp: timestamp.AddDays(i),
-                Open: close - increment,
-                High: close + increment,
-                Low: close - (2 * increment),
+                Open: open,
+                High: high,
+                Low: low,
                 Close: close,
                 Volume: 1000m));
         }
@@ -59,11 +61,15 @@ internal static class BoundaryQuotes
         for (int i = 0; i < bars; i++)
         {
             decimal close = startPrice - (i * decrement);
+            // Valid bearish OHLC: High is max (above open), Low is min (below close)
+            decimal open = close + decrement;
+            decimal high = open + decrement;  // High is maximum of all values
+            decimal low = close - decrement;  // Low is minimum of all values
             quotes.Add(new Quote(
                 Timestamp: timestamp.AddDays(i),
-                Open: close + (decrement / 2),
-                High: close + (decrement / 2),
-                Low: close - (decrement / 2),
+                Open: open,
+                High: high,
+                Low: low,
                 Close: close,
                 Volume: 1000m));
         }
@@ -189,19 +195,23 @@ internal static class BoundaryQuotes
     /// <returns>List of quotes with tiny price movements.</returns>
     internal static IReadOnlyList<Quote> GetTinyMovements(int bars = 100)
     {
+        // Large base price to magnify floating-point precision issues
+        // When divided, small differences relative to this base expose precision limits
+        const decimal largePriceBase = 1000000m;
+        const decimal tinyIncrement = 0.0000001m;
+
         List<Quote> quotes = new(bars);
         DateTime timestamp = DateTime.Today.AddDays(-bars);
-        decimal basePrice = 1000000m; // Large base to magnify precision issues
 
         for (int i = 0; i < bars; i++)
         {
             // Very small increments that exercise floating-point precision
-            decimal close = basePrice + (i * 0.0000001m);
+            decimal close = largePriceBase + (i * tinyIncrement);
             quotes.Add(new Quote(
                 Timestamp: timestamp.AddDays(i),
                 Open: close,
-                High: close + 0.0000001m,
-                Low: close - 0.0000001m,
+                High: close + tinyIncrement,
+                Low: close - tinyIncrement,
                 Close: close,
                 Volume: 1000m));
         }

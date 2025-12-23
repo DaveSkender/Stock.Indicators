@@ -286,7 +286,8 @@ public class PrecisionAnalysisTests : TestBase
             Console.WriteLine("  PASS: All values within bounds");
         }
 
-        // Assert bounds (these may fail to document the issue)
+        // Assert bounds - these assertions enforce that indicators stay within mathematical limits.
+        // If an indicator has precision issues, these will fail and document the exact violation.
         if (minValue.HasValue)
         {
             minValue.Value.Should().BeGreaterThanOrEqualTo(minBound,
