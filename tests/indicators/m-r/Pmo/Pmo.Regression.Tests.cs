@@ -6,11 +6,11 @@ public class PmoTests : RegressionTestBase<PmoResult>
     public PmoTests() : base("pmo.standard.json") { }
 
     [TestMethod]
-    public override void Series() => Quotes.ToPmo(35, 20, 10).AssertEquals(Expected);
+    public override void Series() => Quotes.ToPmo(35, 20, 10).IsExactly(Expected);
 
     [TestMethod]
-    public override void Buffer() => new PmoList(35, 20, 10) { Quotes }.AssertEquals(Expected);
+    public override void Buffer() => new PmoList(35, 20, 10) { Quotes }.IsExactly(Expected);
 
     [TestMethod]
-    public override void Stream() => QuoteHub.ToPmoHub(35, 20, 10).Results.AssertEquals(Expected);
+    public override void Stream() => QuoteHub.ToPmoHub(35, 20, 10).Results.IsExactly(Expected);
 }

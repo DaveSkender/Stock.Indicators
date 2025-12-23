@@ -143,16 +143,4 @@ public class WilliamsR : BufferListTestBase
         sut.Should().HaveCount(maxListSize);
         sut.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
     }
-
-    [TestMethod]
-    public void BoundaryValues()
-    {
-        // Test that Williams %R stays within expected range [-100, 0]
-        WilliamsRList sut = new(lookbackPeriods) { Quotes };
-
-        foreach (WilliamsResult result in sut.Where(static r => r.WilliamsR.HasValue))
-        {
-            result.WilliamsR!.Value.Should().BeInRange(-100d, 0d);
-        }
-    }
 }

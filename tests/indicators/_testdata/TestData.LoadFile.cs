@@ -1,6 +1,6 @@
 using System.Text.Json;
 
-namespace Tests.Data;
+namespace Test.Data;
 
 // TEST DATA FILE LOADERS
 

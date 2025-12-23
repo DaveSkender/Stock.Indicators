@@ -92,7 +92,7 @@ public class Stc : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Issue1107()
+    public void Issue1107_Magic58_IsNotOutOfRange()
     {
         // stochastic SMMA variant initialization bug
 

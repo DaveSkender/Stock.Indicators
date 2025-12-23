@@ -6,7 +6,7 @@ public class ChaikinoscTests : RegressionTestBase<ChaikinOscResult>
     public ChaikinoscTests() : base("chaikin-osc.standard.json") { }
 
     [TestMethod]
-    public override void Series() => Quotes.ToChaikinOsc(3, 10).AssertEquals(Expected);
+    public override void Series() => Quotes.ToChaikinOsc(3, 10).IsExactly(Expected);
 
     [TestMethod]
     public override void Buffer() => Assert.Inconclusive("Buffer implementation not yet available");

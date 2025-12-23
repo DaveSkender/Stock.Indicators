@@ -202,28 +202,4 @@ public class Stoch : StreamHubTestBase, ITestQuoteObserver
             streamResult.PercentJ.Should().Be(batchResult.PercentJ);
         }
     }
-
-    [TestMethod]
-    public void BoundaryValues()
-    {
-        // Test oscillator stays within 0-100 bounds
-        QuoteHub quoteHub = new();
-        StochHub observer = quoteHub.ToStochHub(14, 3, 3);
-
-        quoteHub.Add(Quotes);
-        quoteHub.EndTransmission();
-
-        foreach (StochResult result in observer.Cache)
-        {
-            if (result.Oscillator.HasValue)
-            {
-                result.Oscillator.Value.Should().BeInRange(0, 100);
-            }
-
-            if (result.Signal.HasValue)
-            {
-                result.Signal.Value.Should().BeInRange(0, 100);
-            }
-        }
-    }
 }

@@ -122,10 +122,10 @@ public class ZigZag : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void NoEntry()
+    public void NoEntry_ThresholdNeverMet_ReturnsExpected()
     {
         // thresholds are never met
-        string json = File.ReadAllText("./s-z/ZigZag/data.ethusdt.json");
+        string json = File.ReadAllText("_testdata/issues/issue0616.quotes.zigzag.thresholds.json");
 
         IReadOnlyList<Quote> quotes = JsonConvert
             .DeserializeObject<IReadOnlyCollection<Quote>>(json)
@@ -138,10 +138,10 @@ public class ZigZag : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Issue632()
+    public void Issue632_ThresholdNeverMet_ReturnsExpected()
     {
         // thresholds are never met
-        string json = File.ReadAllText("./s-z/ZigZag/data.issue632.json");
+        string json = File.ReadAllText("_testdata/issues/issue0632.quotes.zigzag.thresholds.json");
 
         IReadOnlyList<Quote> quotesList = JsonConvert
             .DeserializeObject<IReadOnlyCollection<Quote>>(json)
@@ -193,9 +193,9 @@ public class ZigZag : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void SchrodingerScenario()
+    public void SchrodingerScenario_HighAndLowThresholdMet_IsDeterministic()
     {
-        string json = File.ReadAllText("./s-z/ZigZag/data.schrodinger.json");
+        string json = File.ReadAllText("_testdata/issues/issue0616.quotes.zigzag.schrodinger.json");
 
         IReadOnlyList<Quote> h = JsonConvert
             .DeserializeObject<IReadOnlyCollection<Quote>>(json)

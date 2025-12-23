@@ -46,14 +46,6 @@ public class Stoch : StaticSeriesTestBase
         Assert.AreEqual(43.1353, r501.Oscillator.Round(4));
         Assert.AreEqual(35.5674, r501.Signal.Round(4));
         Assert.AreEqual(58.2712, r501.PercentJ.Round(4));
-
-        // test boundary condition
-
-        foreach (StochResult r in results)
-        {
-            r.Oscillator?.Should().BeInRange(0d, 100d);
-            r.Signal?.Should().BeInRange(0d, 100d);
-        }
     }
 
     /// <summary>

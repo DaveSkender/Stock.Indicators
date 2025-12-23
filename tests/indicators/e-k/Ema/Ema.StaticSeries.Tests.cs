@@ -8,7 +8,7 @@ public class EmaTests : StaticSeriesTestBase
     {
         double ema = Ema.Increment(20, 217.5693, 222.10);
 
-        ema.Should().BeApproximately(218.0008, Money4);
+        ema.Should().BeApproximately(218.0008, TestPrecision.Money4);
     }
 
     [TestMethod]
@@ -22,13 +22,13 @@ public class EmaTests : StaticSeriesTestBase
 
         // sample values
         EmaResult r29 = results[29];
-        r29.Ema.Should().BeApproximately(216.6228, Money4);
+        r29.Ema.Should().BeApproximately(216.6228, TestPrecision.Money4);
 
         EmaResult r249 = results[249];
-        r249.Ema.Should().BeApproximately(255.3873, Money4);
+        r249.Ema.Should().BeApproximately(255.3873, TestPrecision.Money4);
 
         EmaResult r501 = results[501];
-        r501.Ema.Should().BeApproximately(249.3519, Money4);
+        r501.Ema.Should().BeApproximately(249.3519, TestPrecision.Money4);
     }
 
     [TestMethod]
@@ -47,13 +47,13 @@ public class EmaTests : StaticSeriesTestBase
 
         // sample values
         EmaResult r29 = results[29];
-        r29.Ema.Should().BeApproximately(216.2643, Money4);
+        r29.Ema.Should().BeApproximately(216.2643, TestPrecision.Money4);
 
         EmaResult r249 = results[249];
-        r249.Ema.Should().BeApproximately(255.4875, Money4);
+        r249.Ema.Should().BeApproximately(255.4875, TestPrecision.Money4);
 
         EmaResult r501 = results[501];
-        r501.Ema.Should().BeApproximately(249.9157, Money4);
+        r501.Ema.Should().BeApproximately(249.9157, TestPrecision.Money4);
     }
 
     [TestMethod]

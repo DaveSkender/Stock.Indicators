@@ -6,7 +6,7 @@ public class RsiTests : RegressionTestBase<RsiResult>
     public RsiTests() : base("rsi.standard.json") { }
 
     [TestMethod]
-    public override void Series() => Quotes.ToRsi(14).AssertEquals(Expected);
+    public override void Series() => Quotes.ToRsi(14).IsExactly(Expected);
 
     [TestMethod]
     public override void Buffer() => Assert.Inconclusive("Buffer implementation not yet available");
