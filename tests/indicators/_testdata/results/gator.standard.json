@@ -1,0 +1,3516 @@
+[
+  {
+    "timestamp": "2017-01-03T00:00:00",
+    "upper": null,
+    "lower": null,
+    "upperIsExpanding": null,
+    "lowerIsExpanding": null
+  },
+  {
+    "timestamp": "2017-01-04T00:00:00",
+    "upper": null,
+    "lower": null,
+    "upperIsExpanding": null,
+    "lowerIsExpanding": null
+  },
+  {
+    "timestamp": "2017-01-05T00:00:00",
+    "upper": null,
+    "lower": null,
+    "upperIsExpanding": null,
+    "lowerIsExpanding": null
+  },
+  {
+    "timestamp": "2017-01-06T00:00:00",
+    "upper": null,
+    "lower": null,
+    "upperIsExpanding": null,
+    "lowerIsExpanding": null
+  },
+  {
+    "timestamp": "2017-01-09T00:00:00",
+    "upper": null,
+    "lower": null,
+    "upperIsExpanding": null,
+    "lowerIsExpanding": null
+  },
+  {
+    "timestamp": "2017-01-10T00:00:00",
+    "upper": null,
+    "lower": null,
+    "upperIsExpanding": null,
+    "lowerIsExpanding": null
+  },
+  {
+    "timestamp": "2017-01-11T00:00:00",
+    "upper": null,
+    "lower": null,
+    "upperIsExpanding": null,
+    "lowerIsExpanding": null
+  },
+  {
+    "timestamp": "2017-01-12T00:00:00",
+    "upper": null,
+    "lower": null,
+    "upperIsExpanding": null,
+    "lowerIsExpanding": null
+  },
+  {
+    "timestamp": "2017-01-13T00:00:00",
+    "upper": null,
+    "lower": null,
+    "upperIsExpanding": null,
+    "lowerIsExpanding": null
+  },
+  {
+    "timestamp": "2017-01-17T00:00:00",
+    "upper": null,
+    "lower": null,
+    "upperIsExpanding": null,
+    "lowerIsExpanding": null
+  },
+  {
+    "timestamp": "2017-01-18T00:00:00",
+    "upper": null,
+    "lower": null,
+    "upperIsExpanding": null,
+    "lowerIsExpanding": null
+  },
+  {
+    "timestamp": "2017-01-19T00:00:00",
+    "upper": null,
+    "lower": null,
+    "upperIsExpanding": null,
+    "lowerIsExpanding": null
+  },
+  {
+    "timestamp": "2017-01-20T00:00:00",
+    "upper": null,
+    "lower": -0.14023139999997625,
+    "upperIsExpanding": null,
+    "lowerIsExpanding": null
+  },
+  {
+    "timestamp": "2017-01-23T00:00:00",
+    "upper": null,
+    "lower": -0.0406069949999619,
+    "upperIsExpanding": null,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2017-01-24T00:00:00",
+    "upper": null,
+    "lower": -0.015729736624990664,
+    "upperIsExpanding": null,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2017-01-25T00:00:00",
+    "upper": null,
+    "lower": -0.07104741234684298,
+    "upperIsExpanding": null,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2017-01-26T00:00:00",
+    "upper": null,
+    "lower": -0.018743600043478637,
+    "upperIsExpanding": null,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2017-01-27T00:00:00",
+    "upper": null,
+    "lower": -0.14053734143004704,
+    "upperIsExpanding": null,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2017-01-30T00:00:00",
+    "upper": null,
+    "lower": -0.6585295268648679,
+    "upperIsExpanding": null,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2017-01-31T00:00:00",
+    "upper": null,
+    "lower": -1.001785818497666,
+    "upperIsExpanding": null,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2017-02-01T00:00:00",
+    "upper": 0.40040193120736944,
+    "lower": -1.0130205771781675,
+    "upperIsExpanding": null,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2017-02-02T00:00:00",
+    "upper": 0.7298376365520198,
+    "lower": -0.6071843938250368,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2017-02-03T00:00:00",
+    "upper": 0.9148641905173349,
+    "lower": -0.2171694556322734,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2017-02-06T00:00:00",
+    "upper": 0.7166657899651909,
+    "lower": -0.2587297625065048,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2017-02-07T00:00:00",
+    "upper": 0.4707972184618541,
+    "lower": -0.2752287332558012,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2017-02-08T00:00:00",
+    "upper": 0.3537418605316702,
+    "lower": -0.4892722944489094,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2017-02-09T00:00:00",
+    "upper": 0.34348809200599817,
+    "lower": -0.6788709799228627,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2017-02-10T00:00:00",
+    "upper": 0.5404611242351791,
+    "lower": -0.6949932852565723,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2017-02-13T00:00:00",
+    "upper": 0.6467137548411301,
+    "lower": -0.6374040668587497,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2017-02-14T00:00:00",
+    "upper": 0.7889109396109006,
+    "lower": -0.8101565123088221,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2017-02-15T00:00:00",
+    "upper": 0.7595902913517705,
+    "lower": -1.1574543113161155,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2017-02-16T00:00:00",
+    "upper": 0.8953352457256472,
+    "lower": -1.5208764128383052,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2017-02-17T00:00:00",
+    "upper": 1.103433716126375,
+    "lower": -1.749374973582917,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2017-02-21T00:00:00",
+    "upper": 1.4643648487950145,
+    "lower": -1.9979645917645712,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2017-02-22T00:00:00",
+    "upper": 1.7194499477889735,
+    "lower": -2.16202820969761,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2017-02-23T00:00:00",
+    "upper": 2.0209662782476414,
+    "lower": -2.104322037008302,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2017-02-24T00:00:00",
+    "upper": 2.201604792481106,
+    "lower": -2.290569665200593,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2017-02-27T00:00:00",
+    "upper": 2.3179223925112353,
+    "lower": -2.415303763305161,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2017-02-28T00:00:00",
+    "upper": 2.4951123541460163,
+    "lower": -2.302610037895761,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2017-03-01T00:00:00",
+    "upper": 2.623370473599607,
+    "lower": -2.13578417916176,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2017-03-02T00:00:00",
+    "upper": 2.721883084758332,
+    "lower": -2.0951114735689202,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2017-03-03T00:00:00",
+    "upper": 2.660134779494598,
+    "lower": -1.9783877928147149,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2017-03-06T00:00:00",
+    "upper": 2.664538698517248,
+    "lower": -2.3105965214663797,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2017-03-07T00:00:00",
+    "upper": 2.6042539917805527,
+    "lower": -2.500377718485879,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2017-03-08T00:00:00",
+    "upper": 2.879560055649165,
+    "lower": -2.154090113437377,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2017-03-09T00:00:00",
+    "upper": 2.9978403374694835,
+    "lower": -1.7693365370675451,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2017-03-10T00:00:00",
+    "upper": 3.0232990233871533,
+    "lower": -1.452525620181973,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2017-03-13T00:00:00",
+    "upper": 2.7511858560188784,
+    "lower": -1.197319837857492,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2017-03-14T00:00:00",
+    "upper": 2.4859099722212363,
+    "lower": -0.9113677942839047,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2017-03-15T00:00:00",
+    "upper": 2.255918777882556,
+    "lower": -0.8534171689252901,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2017-03-16T00:00:00",
+    "upper": 2.0193305172831515,
+    "lower": -0.9067663019511656,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2017-03-17T00:00:00",
+    "upper": 1.917188744132858,
+    "lower": -0.6921915375204719,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2017-03-20T00:00:00",
+    "upper": 1.8634185740486657,
+    "lower": -0.7939344139809634,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2017-03-21T00:00:00",
+    "upper": 1.7465905657686278,
+    "lower": -1.0183060671537874,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2017-03-22T00:00:00",
+    "upper": 1.7732238036408319,
+    "lower": -0.9777835726959552,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2017-03-23T00:00:00",
+    "upper": 1.8039831130410846,
+    "lower": -0.7695982372580659,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2017-03-24T00:00:00",
+    "upper": 1.8679234868543517,
+    "lower": -0.3645035465200692,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2017-03-27T00:00:00",
+    "upper": 1.7200202937145264,
+    "lower": -0.23117532565950683,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2017-03-28T00:00:00",
+    "upper": 1.4108963656620404,
+    "lower": -0.4433711530437279,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2017-03-29T00:00:00",
+    "upper": 0.9280376510267558,
+    "lower": -0.487448953386604,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2017-03-30T00:00:00",
+    "upper": 0.6205552502537728,
+    "lower": -0.8128671897919446,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2017-03-31T00:00:00",
+    "upper": 0.3791698953000662,
+    "lower": -0.6805882755308801,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2017-04-03T00:00:00",
+    "upper": 0.1489723980749602,
+    "lower": -0.26347832865985765,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2017-04-04T00:00:00",
+    "upper": 0.1071400695654745,
+    "lower": -0.011835592366338687,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2017-04-05T00:00:00",
+    "upper": 0.20068761125429546,
+    "lower": -0.182259447275527,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2017-04-06T00:00:00",
+    "upper": 0.450854014048673,
+    "lower": -0.027749659530059034,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2017-04-07T00:00:00",
+    "upper": 0.5762686661705061,
+    "lower": -0.10885093337998342,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2017-04-10T00:00:00",
+    "upper": 0.49538945570958504,
+    "lower": -0.07849992491750868,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2017-04-11T00:00:00",
+    "upper": 0.38770442557088813,
+    "lower": -0.08105802760277925,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2017-04-12T00:00:00",
+    "upper": 0.3816635894437468,
+    "lower": -0.006052751207590745,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2017-04-13T00:00:00",
+    "upper": 0.36734537959637237,
+    "lower": -0.03862102240535137,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2017-04-17T00:00:00",
+    "upper": 0.35772927376203256,
+    "lower": -0.16982286162576088,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2017-04-18T00:00:00",
+    "upper": 0.3043111760327406,
+    "lower": -0.3368630089069029,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2017-04-19T00:00:00",
+    "upper": 0.16054741271258877,
+    "lower": -0.490244536781006,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2017-04-20T00:00:00",
+    "upper": 0.04096372490872113,
+    "lower": -0.5734804928733297,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2017-04-21T00:00:00",
+    "upper": 0.1808727510570236,
+    "lower": -0.5185336498161348,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2017-04-24T00:00:00",
+    "upper": 0.25927074365381486,
+    "lower": -0.4332325184307422,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2017-04-25T00:00:00",
+    "upper": 0.32615690360066196,
+    "lower": -0.21944091350016492,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2017-04-26T00:00:00",
+    "upper": 0.28516921640775195,
+    "lower": -0.09155076721125965,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2017-04-27T00:00:00",
+    "upper": 0.17191791890186892,
+    "lower": -0.16701110437128364,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2017-04-28T00:00:00",
+    "upper": 0.08432150631153945,
+    "lower": -0.8368291368697669,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2017-05-01T00:00:00",
+    "upper": 0.12502868757215424,
+    "lower": -1.3275310311969406,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2017-05-02T00:00:00",
+    "upper": 0.539551645251521,
+    "lower": -1.3340840814460364,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2017-05-03T00:00:00",
+    "upper": 0.9748437298651709,
+    "lower": -1.2340691145842584,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2017-05-04T00:00:00",
+    "upper": 1.2069561469582482,
+    "lower": -1.2263319099163823,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2017-05-05T00:00:00",
+    "upper": 1.2264319824280392,
+    "lower": -1.1918825689010077,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2017-05-08T00:00:00",
+    "upper": 1.2206583112456997,
+    "lower": -1.0454709659677235,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2017-05-09T00:00:00",
+    "upper": 1.2315655546056803,
+    "lower": -0.9244710697652181,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2017-05-10T00:00:00",
+    "upper": 1.1909851977559924,
+    "lower": -1.0126593656793261,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2017-05-11T00:00:00",
+    "upper": 1.1341608210912852,
+    "lower": -1.1281996886772276,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2017-05-12T00:00:00",
+    "upper": 1.1780318935823573,
+    "lower": -1.1224979225588072,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2017-05-15T00:00:00",
+    "upper": 1.2736293762330035,
+    "lower": -1.039694238211922,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2017-05-16T00:00:00",
+    "upper": 1.3541732143716843,
+    "lower": -0.8202393032138389,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2017-05-17T00:00:00",
+    "upper": 1.34332234119168,
+    "lower": -0.679364866134847,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2017-05-18T00:00:00",
+    "upper": 1.2207281518809623,
+    "lower": -0.8016436385261727,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2017-05-19T00:00:00",
+    "upper": 1.1226162282850112,
+    "lower": -0.9069476882369258,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2017-05-22T00:00:00",
+    "upper": 1.1413756724163306,
+    "lower": -0.31773683082852244,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2017-05-23T00:00:00",
+    "upper": 1.2217546881337853,
+    "lower": -0.30765419012806206,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2017-05-24T00:00:00",
+    "upper": 0.921803559596583,
+    "lower": -0.17023655004447846,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2017-05-25T00:00:00",
+    "upper": 0.515864152320404,
+    "lower": -0.231961711765166,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2017-05-26T00:00:00",
+    "upper": 0.32649132190195473,
+    "lower": -0.49845145223778786,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2017-05-30T00:00:00",
+    "upper": 0.49655085000719623,
+    "lower": -0.67003298426269,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2017-05-31T00:00:00",
+    "upper": 0.7650936337652752,
+    "lower": -0.9521392320735345,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2017-06-01T00:00:00",
+    "upper": 0.9422330587835859,
+    "lower": -1.140060124739307,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2017-06-02T00:00:00",
+    "upper": 1.1578818918870013,
+    "lower": -1.096728246486805,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2017-06-05T00:00:00",
+    "upper": 1.3150128542793311,
+    "lower": -0.978852725547938,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2017-06-06T00:00:00",
+    "upper": 1.389474277228146,
+    "lower": -1.1222435427520452,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2017-06-07T00:00:00",
+    "upper": 1.3341885584826798,
+    "lower": -1.4736860262260905,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2017-06-08T00:00:00",
+    "upper": 1.4113213572028656,
+    "lower": -1.6529786140022793,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2017-06-09T00:00:00",
+    "upper": 1.625050527734544,
+    "lower": -1.5391589600955058,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2017-06-12T00:00:00",
+    "upper": 1.8557543719357454,
+    "lower": -1.3456312283583998,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2017-06-13T00:00:00",
+    "upper": 1.9015079155988417,
+    "lower": -1.289771035433489,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2017-06-14T00:00:00",
+    "upper": 1.820371278599822,
+    "lower": -1.1924246245002053,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2017-06-15T00:00:00",
+    "upper": 1.7561323479602606,
+    "lower": -0.9419715212343931,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2017-06-16T00:00:00",
+    "upper": 1.6873130929440663,
+    "lower": -0.9823550609174561,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2017-06-19T00:00:00",
+    "upper": 1.5591579918450122,
+    "lower": -1.0664396621726837,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2017-06-20T00:00:00",
+    "upper": 1.5505119679587835,
+    "lower": -0.805762891497011,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2017-06-21T00:00:00",
+    "upper": 1.5498698720510333,
+    "lower": -0.6352700797366424,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2017-06-22T00:00:00",
+    "upper": 1.470362122740454,
+    "lower": -0.9531683595109257,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2017-06-23T00:00:00",
+    "upper": 1.3399869971170801,
+    "lower": -1.0779929463651854,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2017-06-26T00:00:00",
+    "upper": 1.4398764437567024,
+    "lower": -0.8294203335040606,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2017-06-27T00:00:00",
+    "upper": 1.5291633386987655,
+    "lower": -0.6828089961636579,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2017-06-28T00:00:00",
+    "upper": 1.507105029433717,
+    "lower": -0.6057358351212656,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2017-06-29T00:00:00",
+    "upper": 1.3551338466673712,
+    "lower": -0.6637662265135589,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2017-06-30T00:00:00",
+    "upper": 1.2335404505227814,
+    "lower": -0.4535433448253343,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2017-07-03T00:00:00",
+    "upper": 1.249671356997112,
+    "lower": -0.3134237440229697,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2017-07-05T00:00:00",
+    "upper": 1.0875590953321819,
+    "lower": -0.1370044298606956,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2017-07-06T00:00:00",
+    "upper": 1.0216457388399647,
+    "lower": -0.019914200799405535,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2017-07-07T00:00:00",
+    "upper": 0.7703633572612887,
+    "lower": -0.11086561275851636,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2017-07-10T00:00:00",
+    "upper": 0.6788433244740588,
+    "lower": -0.10276484193013857,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2017-07-11T00:00:00",
+    "upper": 0.6284921121797993,
+    "lower": -0.20247481869802186,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2017-07-12T00:00:00",
+    "upper": 0.6107229396327511,
+    "lower": -0.35108071067028845,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2017-07-13T00:00:00",
+    "upper": 0.43328704123283046,
+    "lower": -0.16457781728405507,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2017-07-14T00:00:00",
+    "upper": 0.25768220943646725,
+    "lower": -0.1434113464816278,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2017-07-17T00:00:00",
+    "upper": 0.23558136251017459,
+    "lower": -0.17011546674214628,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2017-07-18T00:00:00",
+    "upper": 0.23157124227637382,
+    "lower": -0.5667063493301896,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2017-07-19T00:00:00",
+    "upper": 0.4575479601425343,
+    "lower": -0.8322773084085497,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2017-07-20T00:00:00",
+    "upper": 0.6420623480330789,
+    "lower": -1.0733700470532028,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2017-07-21T00:00:00",
+    "upper": 0.962275292598207,
+    "lower": -1.0516757129281586,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2017-07-24T00:00:00",
+    "upper": 1.1496850238566196,
+    "lower": -1.204572786217426,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2017-07-25T00:00:00",
+    "upper": 1.226874758489771,
+    "lower": -1.4372364178644546,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2017-07-26T00:00:00",
+    "upper": 1.370884979169574,
+    "lower": -1.3736700495707623,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2017-07-27T00:00:00",
+    "upper": 1.504019340303529,
+    "lower": -1.259331840525931,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2017-07-28T00:00:00",
+    "upper": 1.5929065229472599,
+    "lower": -1.3508117981813825,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2017-07-31T00:00:00",
+    "upper": 1.5756336077465392,
+    "lower": -1.3894524735856635,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2017-08-01T00:00:00",
+    "upper": 1.6172532377022435,
+    "lower": -1.1817646345290314,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2017-08-02T00:00:00",
+    "upper": 1.667001273073197,
+    "lower": -0.9460890313261814,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2017-08-03T00:00:00",
+    "upper": 1.6196631355548163,
+    "lower": -0.8894638833010049,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2017-08-04T00:00:00",
+    "upper": 1.4751336481788542,
+    "lower": -0.8804646826008593,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2017-08-07T00:00:00",
+    "upper": 1.3869547002196043,
+    "lower": -0.7920286250457309,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2017-08-08T00:00:00",
+    "upper": 1.3554740624427382,
+    "lower": -0.6989476691310017,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2017-08-09T00:00:00",
+    "upper": 1.3235043736379168,
+    "lower": -0.7029423082624078,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2017-08-10T00:00:00",
+    "upper": 1.258802852164422,
+    "lower": -0.7420399979478134,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2017-08-11T00:00:00",
+    "upper": 1.2338631343188808,
+    "lower": -0.7659823807788939,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2017-08-14T00:00:00",
+    "upper": 1.2413746782290218,
+    "lower": -0.5219674892411774,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2017-08-15T00:00:00",
+    "upper": 1.270313091788836,
+    "lower": -0.021517122066228467,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2017-08-16T00:00:00",
+    "upper": 1.120029569166121,
+    "lower": -0.47941842192972217,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2017-08-17T00:00:00",
+    "upper": 0.7716752858057987,
+    "lower": -0.291963871285958,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2017-08-18T00:00:00",
+    "upper": 0.3464499484204566,
+    "lower": -0.04567841094683445,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2017-08-21T00:00:00",
+    "upper": 0.2788982341051849,
+    "lower": -0.19313604823614128,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2017-08-22T00:00:00",
+    "upper": 0.38410744336874814,
+    "lower": -0.15009700686727,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2017-08-23T00:00:00",
+    "upper": 0.5895253869723547,
+    "lower": -0.794732720267973,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2017-08-24T00:00:00",
+    "upper": 0.377896366546679,
+    "lower": -1.1889844016417896,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2017-08-25T00:00:00",
+    "upper": 0.03565876886008823,
+    "lower": -0.898985968562414,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2017-08-28T00:00:00",
+    "upper": 0.5135238900649881,
+    "lower": -0.5551374161927924,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2017-08-29T00:00:00",
+    "upper": 0.5300829890183252,
+    "lower": -0.5245649941292072,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2017-08-30T00:00:00",
+    "upper": 0.4171106940477216,
+    "lower": -0.39342517383150266,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2017-08-31T00:00:00",
+    "upper": 0.27579546835954716,
+    "lower": -0.33254167027726567,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2017-09-01T00:00:00",
+    "upper": 0.22929282964636855,
+    "lower": -0.45698467603239123,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2017-09-05T00:00:00",
+    "upper": 0.22914365193912545,
+    "lower": -0.24067016316016066,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2017-09-06T00:00:00",
+    "upper": 0.2885506271377096,
+    "lower": -0.2838917499294098,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2017-09-07T00:00:00",
+    "upper": 0.20625865876792204,
+    "lower": -0.7488627953438538,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2017-09-08T00:00:00",
+    "upper": 0.06416234124966991,
+    "lower": -0.607995957250381,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2017-09-11T00:00:00",
+    "upper": 0.47672197259799987,
+    "lower": -0.44768927165370087,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2017-09-12T00:00:00",
+    "upper": 0.5266574251044176,
+    "lower": -0.519657359944631,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2017-09-13T00:00:00",
+    "upper": 0.5250508922720201,
+    "lower": -0.48541858774973434,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2017-09-14T00:00:00",
+    "upper": 0.44702204948168855,
+    "lower": -0.8118159825195335,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2017-09-15T00:00:00",
+    "upper": 0.48325815675218564,
+    "lower": -1.2866237592954235,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2017-09-18T00:00:00",
+    "upper": 0.7072540688095614,
+    "lower": -1.4533236090561559,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2017-09-19T00:00:00",
+    "upper": 1.0231040932712006,
+    "lower": -1.44505541366226,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2017-09-20T00:00:00",
+    "upper": 1.3212608044395324,
+    "lower": -1.431141291544975,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2017-09-21T00:00:00",
+    "upper": 1.4426444864943733,
+    "lower": -1.5316228737742676,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2017-09-22T00:00:00",
+    "upper": 1.4836885711685284,
+    "lower": -1.5870444094903746,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2017-09-25T00:00:00",
+    "upper": 1.5878617879133117,
+    "lower": -1.462788374254444,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2017-09-26T00:00:00",
+    "upper": 1.6773107150157216,
+    "lower": -1.3261144402328853,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2017-09-27T00:00:00",
+    "upper": 1.6951126300309909,
+    "lower": -1.1745398254120119,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2017-09-28T00:00:00",
+    "upper": 1.6461246322545549,
+    "lower": -0.9328240994020689,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2017-09-29T00:00:00",
+    "upper": 1.5488062048942481,
+    "lower": -0.8361774887100353,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2017-10-02T00:00:00",
+    "upper": 1.4104066462099638,
+    "lower": -0.8884954240078855,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2017-10-03T00:00:00",
+    "upper": 1.3278492464437193,
+    "lower": -0.9396555931161856,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2017-10-04T00:00:00",
+    "upper": 1.3158043346475097,
+    "lower": -1.0514763216640972,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2017-10-05T00:00:00",
+    "upper": 1.3765007103635298,
+    "lower": -1.293963923606043,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2017-10-06T00:00:00",
+    "upper": 1.4740679685345413,
+    "lower": -1.5353561468752162,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2017-10-09T00:00:00",
+    "upper": 1.650717792744416,
+    "lower": -1.6639467994918107,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2017-10-10T00:00:00",
+    "upper": 1.860985748906785,
+    "lower": -1.8308615863361126,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2017-10-11T00:00:00",
+    "upper": 2.037923465913849,
+    "lower": -1.9474303974687075,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2017-10-12T00:00:00",
+    "upper": 2.2147008194011732,
+    "lower": -1.8784678053248172,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2017-10-13T00:00:00",
+    "upper": 2.341043097031246,
+    "lower": -1.8142322956909709,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2017-10-16T00:00:00",
+    "upper": 2.391588368414915,
+    "lower": -1.7721616315549795,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2017-10-17T00:00:00",
+    "upper": 2.3922538917592533,
+    "lower": -1.6771581258709318,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2017-10-18T00:00:00",
+    "upper": 2.368875527039677,
+    "lower": -1.6007267187453351,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2017-10-19T00:00:00",
+    "upper": 2.343561506236938,
+    "lower": -1.54995656578879,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2017-10-20T00:00:00",
+    "upper": 2.308946705720899,
+    "lower": -1.4737935445744768,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2017-10-23T00:00:00",
+    "upper": 2.276912186979871,
+    "lower": -1.4561345911101,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2017-10-24T00:00:00",
+    "upper": 2.240635150814228,
+    "lower": -1.2877449589072967,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2017-10-25T00:00:00",
+    "upper": 2.233924514384171,
+    "lower": -1.3398035923925988,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2017-10-26T00:00:00",
+    "upper": 2.1214954953985057,
+    "lower": -1.4961245460225427,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2017-10-27T00:00:00",
+    "upper": 2.1677403695312023,
+    "lower": -1.3910210999129333,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2017-10-30T00:00:00",
+    "upper": 2.1972291104698343,
+    "lower": -0.9905481601383883,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2017-10-31T00:00:00",
+    "upper": 2.223669736704238,
+    "lower": -0.8209533982927439,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2017-11-01T00:00:00",
+    "upper": 1.9754230335021248,
+    "lower": -0.9943382300434962,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2017-11-02T00:00:00",
+    "upper": 1.8093350902091174,
+    "lower": -1.0882241565179243,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2017-11-03T00:00:00",
+    "upper": 1.7744723755280916,
+    "lower": -1.0721137011370843,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2017-11-06T00:00:00",
+    "upper": 1.8595883331364291,
+    "lower": -1.1324085398420323,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2017-11-07T00:00:00",
+    "upper": 1.8876667187707028,
+    "lower": -1.0006797134394674,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2017-11-08T00:00:00",
+    "upper": 1.9137332348717848,
+    "lower": -0.9833275421216854,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2017-11-09T00:00:00",
+    "upper": 1.8142702936949888,
+    "lower": -1.1793478336462044,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2017-11-10T00:00:00",
+    "upper": 1.8185572422282235,
+    "lower": -1.2370783418721771,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2017-11-13T00:00:00",
+    "upper": 1.850879804099037,
+    "lower": -1.1743127390835468,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2017-11-14T00:00:00",
+    "upper": 1.9381799521091239,
+    "lower": -0.8381439986544308,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2017-11-15T00:00:00",
+    "upper": 1.9333725721162125,
+    "lower": -0.640997280387694,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2017-11-16T00:00:00",
+    "upper": 1.7089764904669664,
+    "lower": -0.6423446455912938,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2017-11-17T00:00:00",
+    "upper": 1.5458683428803965,
+    "lower": -0.44310418509402894,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2017-11-20T00:00:00",
+    "upper": 1.4056091819173844,
+    "lower": -0.12018325811857267,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2017-11-21T00:00:00",
+    "upper": 1.278999771313437,
+    "lower": -0.2955090277827708,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2017-11-22T00:00:00",
+    "upper": 1.038574864947634,
+    "lower": -0.5122243408532086,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2017-11-24T00:00:00",
+    "upper": 1.0335338361045956,
+    "lower": -0.47674445148115296,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2017-11-27T00:00:00",
+    "upper": 1.0681782566918798,
+    "lower": -0.6458649176337019,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2017-11-28T00:00:00",
+    "upper": 1.1527162670057294,
+    "lower": -0.8923526209996169,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2017-11-29T00:00:00",
+    "upper": 1.2149612343073102,
+    "lower": -1.0467101978307483,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2017-11-30T00:00:00",
+    "upper": 1.3438902344902317,
+    "lower": -1.0900927466667554,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2017-12-01T00:00:00",
+    "upper": 1.5044300977678802,
+    "lower": -1.3195832121853357,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2017-12-04T00:00:00",
+    "upper": 1.5699196979366548,
+    "lower": -1.69336195774369,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2017-12-05T00:00:00",
+    "upper": 1.7398832240543811,
+    "lower": -2.1784230306909365,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2017-12-06T00:00:00",
+    "upper": 1.9805279641488767,
+    "lower": -2.0511302059867376,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2017-12-07T00:00:00",
+    "upper": 2.4086878699545764,
+    "lower": -2.1404969735441455,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2017-12-08T00:00:00",
+    "upper": 2.450483487432706,
+    "lower": -2.124041286495725,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2017-12-11T00:00:00",
+    "upper": 2.675919529555074,
+    "lower": -1.6301712733994407,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2017-12-12T00:00:00",
+    "upper": 2.550782106562025,
+    "lower": -1.4408329823970973,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2017-12-13T00:00:00",
+    "upper": 2.4483078215814658,
+    "lower": -1.5759003541354843,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2017-12-14T00:00:00",
+    "upper": 2.2223833238896873,
+    "lower": -1.8336750054989466,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2017-12-15T00:00:00",
+    "upper": 2.2322386976397013,
+    "lower": -2.0644003863158957,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2017-12-18T00:00:00",
+    "upper": 2.4273888197297424,
+    "lower": -2.1374231432298814,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2017-12-19T00:00:00",
+    "upper": 2.6605159489204198,
+    "lower": -1.9231034944889416,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2017-12-20T00:00:00",
+    "upper": 2.8043348229886647,
+    "lower": -1.9045021530080533,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2017-12-21T00:00:00",
+    "upper": 2.7474737710535067,
+    "lower": -2.33861866014621,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2017-12-22T00:00:00",
+    "upper": 2.751812212076544,
+    "lower": -2.430159748639255,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2017-12-26T00:00:00",
+    "upper": 2.9663085277866514,
+    "lower": -2.164359516868444,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2017-12-27T00:00:00",
+    "upper": 3.1272833546315155,
+    "lower": -2.026565366707132,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2017-12-28T00:00:00",
+    "upper": 3.1317026055963026,
+    "lower": -1.8058203274265452,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2017-12-29T00:00:00",
+    "upper": 3.0023710140140167,
+    "lower": -1.53990329174448,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2018-01-02T00:00:00",
+    "upper": 2.83187846875515,
+    "lower": -1.4076387844734484,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2018-01-03T00:00:00",
+    "upper": 2.670741427692633,
+    "lower": -1.356362659771861,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2018-01-04T00:00:00",
+    "upper": 2.512412073106674,
+    "lower": -1.257185305986411,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2018-01-05T00:00:00",
+    "upper": 2.4364305552380756,
+    "lower": -1.2217065256870114,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2018-01-08T00:00:00",
+    "upper": 2.35293172777466,
+    "lower": -1.513078716335258,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2018-01-09T00:00:00",
+    "upper": 2.312769869748621,
+    "lower": -1.969962281880612,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2018-01-10T00:00:00",
+    "upper": 2.4452086587492943,
+    "lower": -2.384906720715321,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2018-01-11T00:00:00",
+    "upper": 2.7416475973772947,
+    "lower": -2.650995159881745,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2018-01-12T00:00:00",
+    "upper": 3.1205343593712485,
+    "lower": -2.871857188301192,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2018-01-16T00:00:00",
+    "upper": 3.4085723752185686,
+    "lower": -2.7152891784872963,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2018-01-17T00:00:00",
+    "upper": 3.6636841151797057,
+    "lower": -2.727434342155391,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2018-01-18T00:00:00",
+    "upper": 3.6419600963484413,
+    "lower": -3.1415000981691605,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2018-01-19T00:00:00",
+    "upper": 3.741077618673728,
+    "lower": -3.434058624924603,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2018-01-22T00:00:00",
+    "upper": 3.929681409603063,
+    "lower": -3.480998128030251,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2018-01-23T00:00:00",
+    "upper": 4.265239457953669,
+    "lower": -3.482830827003454,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2018-01-24T00:00:00",
+    "upper": 4.457755194525703,
+    "lower": -3.476417945609626,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2018-01-25T00:00:00",
+    "upper": 4.5615875664250325,
+    "lower": -3.6366434799936656,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2018-01-26T00:00:00",
+    "upper": 4.605436909435753,
+    "lower": -3.955510267062664,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2018-01-29T00:00:00",
+    "upper": 4.779695639276781,
+    "lower": -4.01470426133443,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2018-01-30T00:00:00",
+    "upper": 5.0365998476169125,
+    "lower": -3.821897450791255,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2018-01-31T00:00:00",
+    "upper": 5.225959017356786,
+    "lower": -3.943510247141319,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2018-02-01T00:00:00",
+    "upper": 5.248749510056712,
+    "lower": -4.003676448407816,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2018-02-02T00:00:00",
+    "upper": 5.352169239640773,
+    "lower": -3.2823258780841797,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2018-02-05T00:00:00",
+    "upper": 5.405775855462139,
+    "lower": -2.4279473319055,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2018-02-06T00:00:00",
+    "upper": 5.113056431169184,
+    "lower": -1.9618086662828205,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2018-02-07T00:00:00",
+    "upper": 4.559772892017463,
+    "lower": -0.8990913836898358,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2018-02-08T00:00:00",
+    "upper": 4.011353755663947,
+    "lower": -1.5402879987174742,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2018-02-09T00:00:00",
+    "upper": 3.1932425901893566,
+    "lower": -4.053721366434672,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2018-02-12T00:00:00",
+    "upper": 1.5355543162465324,
+    "lower": -3.9367816896757972,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2018-02-13T00:00:00",
+    "upper": 0.5716703888250549,
+    "lower": -4.465629373702711,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2018-02-14T00:00:00",
+    "upper": 1.4373935122595753,
+    "lower": -6.339432018178968,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2018-02-15T00:00:00",
+    "upper": 2.4388680204926345,
+    "lower": -5.750733068857926,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2018-02-16T00:00:00",
+    "upper": 3.443531392330044,
+    "lower": -4.483125477611679,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2018-02-20T00:00:00",
+    "upper": 3.972937083118552,
+    "lower": -3.633597026799066,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2018-02-21T00:00:00",
+    "upper": 3.8134865152638895,
+    "lower": -2.2320871855602604,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2018-02-22T00:00:00",
+    "upper": 3.0242813785807243,
+    "lower": -0.7577281170540573,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2018-02-23T00:00:00",
+    "upper": 2.2730072164656008,
+    "lower": -0.32810856617339823,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2018-02-26T00:00:00",
+    "upper": 1.281949169983534,
+    "lower": -0.29179716640260267,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2018-02-27T00:00:00",
+    "upper": 0.7545373904212624,
+    "lower": -0.2787092574029657,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2018-02-28T00:00:00",
+    "upper": 0.5246130935592532,
+    "lower": -0.00517001033182396,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2018-03-01T00:00:00",
+    "upper": 0.6536202663479571,
+    "lower": -1.0421312474878732,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2018-03-02T00:00:00",
+    "upper": 0.4508124033470722,
+    "lower": -1.6724508323099485,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2018-03-05T00:00:00",
+    "upper": 0.14752098987815998,
+    "lower": -1.162863270877608,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2018-03-06T00:00:00",
+    "upper": 0.7423044902727725,
+    "lower": -0.09354460389693031,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2018-03-07T00:00:00",
+    "upper": 0.7952805435696177,
+    "lower": -1.2393165011416727,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2018-03-08T00:00:00",
+    "upper": 0.06609504292896418,
+    "lower": -1.090748916684447,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2018-03-09T00:00:00",
+    "upper": 0.8681614676166873,
+    "lower": -0.27210788464731195,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2018-03-12T00:00:00",
+    "upper": 1.12757863509961,
+    "lower": -0.044756465105081134,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2018-03-13T00:00:00",
+    "upper": 0.805544629652104,
+    "lower": -0.22025844020203067,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2018-03-14T00:00:00",
+    "upper": 0.4120215422747151,
+    "lower": -1.2246374129119317,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2018-03-15T00:00:00",
+    "upper": 0.07348345687114488,
+    "lower": -2.194586758486139,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2018-03-16T00:00:00",
+    "upper": 0.5333981068862386,
+    "lower": -2.350186631425913,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2018-03-19T00:00:00",
+    "upper": 1.334452465047093,
+    "lower": -1.8386018766981351,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2018-03-20T00:00:00",
+    "upper": 1.8213670190900757,
+    "lower": -1.3054025014712352,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2018-03-21T00:00:00",
+    "upper": 1.736794476018133,
+    "lower": -1.127152876275602,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2018-03-22T00:00:00",
+    "upper": 1.4053436289598835,
+    "lower": -0.43207431673175734,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2018-03-23T00:00:00",
+    "upper": 1.1914761791343835,
+    "lower": -0.2905325328671893,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2018-03-26T00:00:00",
+    "upper": 0.7305978910144404,
+    "lower": -0.33221901426480827,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2018-03-27T00:00:00",
+    "upper": 0.3071423708885277,
+    "lower": -1.3640940758864986,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2018-03-28T00:00:00",
+    "upper": 0.0013980818360437297,
+    "lower": -3.172179267124534,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2018-03-29T00:00:00",
+    "upper": 0.7108511331855425,
+    "lower": -3.7362844193130513,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2018-04-02T00:00:00",
+    "upper": 1.8522750074993155,
+    "lower": -3.4867509153621654,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2018-04-03T00:00:00",
+    "upper": 2.7847012616805955,
+    "lower": -3.7356586897125794,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2018-04-04T00:00:00",
+    "upper": 3.133298416387788,
+    "lower": -3.531502664515017,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2018-04-05T00:00:00",
+    "upper": 3.3320374796475676,
+    "lower": -3.7474308802638348,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2018-04-06T00:00:00",
+    "upper": 3.307585978053055,
+    "lower": -4.046644859281429,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2018-04-09T00:00:00",
+    "upper": 3.7245425923608195,
+    "lower": -3.525678523111708,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2018-04-10T00:00:00",
+    "upper": 3.877473486682902,
+    "lower": -2.0888601247151257,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2018-04-11T00:00:00",
+    "upper": 3.9522208101095657,
+    "lower": -1.8049907427196388,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2018-04-12T00:00:00",
+    "upper": 3.1179088327800173,
+    "lower": -1.9785324067547663,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2018-04-13T00:00:00",
+    "upper": 2.8403115738525173,
+    "lower": -1.2399232614105244,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2018-04-16T00:00:00",
+    "upper": 2.5697011765086586,
+    "lower": -0.7210237781342244,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2018-04-17T00:00:00",
+    "upper": 2.4237302673414263,
+    "lower": -0.2522685453874942,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2018-04-18T00:00:00",
+    "upper": 1.9995928958281013,
+    "lower": -0.06979183116990839,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2018-04-19T00:00:00",
+    "upper": 1.4890916256073865,
+    "lower": -0.4038642989808068,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2018-04-20T00:00:00",
+    "upper": 1.2173012571059871,
+    "lower": -1.2029934189739606,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2018-04-23T00:00:00",
+    "upper": 0.8099676781519634,
+    "lower": -1.814558967494861,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2018-04-24T00:00:00",
+    "upper": 0.2377466367067882,
+    "lower": -1.6119158772720539,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2018-04-25T00:00:00",
+    "upper": 0.3738813836595227,
+    "lower": -1.0291428171843222,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2018-04-26T00:00:00",
+    "upper": 0.5922263098818235,
+    "lower": -0.5935981046932852,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2018-04-27T00:00:00",
+    "upper": 0.40226234346630463,
+    "lower": -0.01300185333218451,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2018-04-30T00:00:00",
+    "upper": 0.07775046344346492,
+    "lower": -0.7853655689538073,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2018-05-01T00:00:00",
+    "upper": 0.32991057872345664,
+    "lower": -0.550713625330161,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2018-05-02T00:00:00",
+    "upper": 0.8440799726013779,
+    "lower": -0.038935575839616376,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2018-05-03T00:00:00",
+    "upper": 0.847216021766144,
+    "lower": -0.09996662726246086,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2018-05-04T00:00:00",
+    "upper": 0.6227084458822674,
+    "lower": -0.42206080242306143,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2018-05-07T00:00:00",
+    "upper": 0.2911570533810277,
+    "lower": -0.6955534831424188,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2018-05-08T00:00:00",
+    "upper": 0.5380659570013222,
+    "lower": -1.1913595225674385,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2018-05-09T00:00:00",
+    "upper": 0.7270782834157785,
+    "lower": -1.1055147621007677,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2018-05-10T00:00:00",
+    "upper": 1.2383278712562173,
+    "lower": -0.06141056072152651,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2018-05-11T00:00:00",
+    "upper": 1.1614205395960084,
+    "lower": -0.3192476442619636,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2018-05-14T00:00:00",
+    "upper": 0.7564048049896996,
+    "lower": -0.6908521966438457,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2018-05-15T00:00:00",
+    "upper": 0.2707055116058541,
+    "lower": -1.6152040783950952,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2018-05-16T00:00:00",
+    "upper": 0.23525070143114135,
+    "lower": -2.2783702936610553,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2018-05-17T00:00:00",
+    "upper": 0.7960206167549586,
+    "lower": -2.6031273870057134,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2018-05-18T00:00:00",
+    "upper": 1.4694211193553883,
+    "lower": -2.219129167671838,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2018-05-21T00:00:00",
+    "upper": 1.9937117068465682,
+    "lower": -1.9697271849462936,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2018-05-22T00:00:00",
+    "upper": 1.940747261100455,
+    "lower": -2.053402617414804,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2018-05-23T00:00:00",
+    "upper": 1.9312784081796508,
+    "lower": -1.822640354707346,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2018-05-24T00:00:00",
+    "upper": 1.8672239653572547,
+    "lower": -1.8035407619444754,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2018-05-25T00:00:00",
+    "upper": 1.881716300333835,
+    "lower": -1.9547075279618866,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2018-05-29T00:00:00",
+    "upper": 1.9415301449270714,
+    "lower": -1.7062815759749697,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2018-05-30T00:00:00",
+    "upper": 2.030115075704998,
+    "lower": -1.3716013701847487,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2018-05-31T00:00:00",
+    "upper": 2.0162306440669227,
+    "lower": -1.243035191877027,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2018-06-01T00:00:00",
+    "upper": 1.88163907770479,
+    "lower": -0.6132129872646601,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2018-06-04T00:00:00",
+    "upper": 1.73147243681899,
+    "lower": -0.5135071193543581,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2018-06-05T00:00:00",
+    "upper": 1.3303140688264534,
+    "lower": -0.6763753338332776,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2018-06-06T00:00:00",
+    "upper": 1.2595677517090849,
+    "lower": -0.8839737006226756,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2018-06-07T00:00:00",
+    "upper": 1.1244498825786309,
+    "lower": -1.3939432148597461,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2018-06-08T00:00:00",
+    "upper": 1.414984970179205,
+    "lower": -1.6093232944542137,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2018-06-11T00:00:00",
+    "upper": 1.6906576854510718,
+    "lower": -1.851106267808916,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2018-06-12T00:00:00",
+    "upper": 1.9700408623489807,
+    "lower": -2.1902016924620398,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2018-06-13T00:00:00",
+    "upper": 2.253244189243958,
+    "lower": -2.2845634474076633,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2018-06-14T00:00:00",
+    "upper": 2.49334837453182,
+    "lower": -2.4680025896843745,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2018-06-15T00:00:00",
+    "upper": 2.694890712893823,
+    "lower": -2.5382099245360337,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2018-06-18T00:00:00",
+    "upper": 2.9153682677929282,
+    "lower": -2.3648998108187698,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2018-06-19T00:00:00",
+    "upper": 3.0043562134057424,
+    "lower": -2.200585235946221,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2018-06-20T00:00:00",
+    "upper": 3.035660359733356,
+    "lower": -1.844425402636773,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2018-06-21T00:00:00",
+    "upper": 2.9465631283082416,
+    "lower": -1.4026278842542865,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2018-06-22T00:00:00",
+    "upper": 2.7267003343849865,
+    "lower": -0.9123039242801951,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2018-06-25T00:00:00",
+    "upper": 2.449102497616366,
+    "lower": -0.869394554191274,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2018-06-26T00:00:00",
+    "upper": 2.03811864390309,
+    "lower": -0.7128731312742502,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2018-06-27T00:00:00",
+    "upper": 1.920611313558652,
+    "lower": -0.46636130695048905,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2018-06-28T00:00:00",
+    "upper": 1.6886764379577244,
+    "lower": -0.316856002749887,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2018-06-29T00:00:00",
+    "upper": 1.60212638037666,
+    "lower": -0.9180617194713818,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2018-07-02T00:00:00",
+    "upper": 0.9490270417498436,
+    "lower": -0.9698291781896842,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2018-07-03T00:00:00",
+    "upper": 0.5045619313036696,
+    "lower": -1.2879456698377112,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2018-07-05T00:00:00",
+    "upper": 0.06999816968078676,
+    "lower": -1.0549285722454442,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2018-07-06T00:00:00",
+    "upper": 0.2027744663384965,
+    "lower": -1.0160683896247065,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2018-07-09T00:00:00",
+    "upper": 0.17926607171619935,
+    "lower": -1.0217145520495592,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2018-07-10T00:00:00",
+    "upper": 0.3543240407547614,
+    "lower": -0.73137400194571,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2018-07-11T00:00:00",
+    "upper": 0.2671658230478897,
+    "lower": -0.17585126682433838,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2018-07-12T00:00:00",
+    "upper": 0.30482489890920306,
+    "lower": -0.8089109294311925,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2018-07-13T00:00:00",
+    "upper": 0.06365070230771153,
+    "lower": -1.5917716935742874,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2018-07-16T00:00:00",
+    "upper": 0.6741151234607514,
+    "lower": -1.5989799361351515,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2018-07-17T00:00:00",
+    "upper": 1.3446429720510764,
+    "lower": -1.6453012075243123,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2018-07-18T00:00:00",
+    "upper": 1.6154092827197246,
+    "lower": -1.9405935673086105,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2018-07-19T00:00:00",
+    "upper": 1.775880059772021,
+    "lower": -2.002658379974946,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2018-07-20T00:00:00",
+    "upper": 1.896347994508801,
+    "lower": -1.9871622893419953,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2018-07-23T00:00:00",
+    "upper": 2.0801264418490746,
+    "lower": -2.1193859686653695,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2018-07-24T00:00:00",
+    "upper": 2.1765424335291073,
+    "lower": -2.04833289497509,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2018-07-25T00:00:00",
+    "upper": 2.3029597495636835,
+    "lower": -1.8192624210175268,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2018-07-26T00:00:00",
+    "upper": 2.3302779687689394,
+    "lower": -1.614181528721815,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2018-07-27T00:00:00",
+    "upper": 2.2981092422734264,
+    "lower": -1.7943953658967757,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2018-07-30T00:00:00",
+    "upper": 2.151808451235979,
+    "lower": -2.1830601677718278,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2018-07-31T00:00:00",
+    "upper": 2.268000038751552,
+    "lower": -2.400924024890003,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2018-08-01T00:00:00",
+    "upper": 2.5118182436799543,
+    "lower": -2.1016556242504976,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2018-08-02T00:00:00",
+    "upper": 2.8229135414713937,
+    "lower": -1.4222513531966001,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2018-08-03T00:00:00",
+    "upper": 2.7630490364041407,
+    "lower": -1.149362079628986,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2018-08-06T00:00:00",
+    "upper": 2.409667618499782,
+    "lower": -1.0859805361408803,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2018-08-07T00:00:00",
+    "upper": 2.103766592322188,
+    "lower": -0.8963389422957562,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2018-08-08T00:00:00",
+    "upper": 1.9178583924064014,
+    "lower": -1.1533063530467302,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2018-08-09T00:00:00",
+    "upper": 1.8260396694705605,
+    "lower": -1.5963508817462753,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2018-08-10T00:00:00",
+    "upper": 1.9446568579697896,
+    "lower": -1.9844482797922751,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2018-08-13T00:00:00",
+    "upper": 2.1778701942771477,
+    "lower": -2.0971302514296895,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2018-08-14T00:00:00",
+    "upper": 2.5782264448111505,
+    "lower": -1.9732043752901518,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2018-08-15T00:00:00",
+    "upper": 2.7383870082731505,
+    "lower": -1.4230011526101976,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2018-08-16T00:00:00",
+    "upper": 2.7833398959898545,
+    "lower": -0.8995338679189899,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2018-08-17T00:00:00",
+    "upper": 2.419952421684229,
+    "lower": -0.7917434219371557,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2018-08-20T00:00:00",
+    "upper": 2.066207226844199,
+    "lower": -0.345746524201445,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2018-08-21T00:00:00",
+    "upper": 1.780237961522971,
+    "lower": -0.4950300326814272,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2018-08-22T00:00:00",
+    "upper": 1.439933574518136,
+    "lower": -0.8987777378003443,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2018-08-23T00:00:00",
+    "upper": 1.4976210544900255,
+    "lower": -1.0938066879385815,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2018-08-24T00:00:00",
+    "upper": 1.546304970481856,
+    "lower": -1.3961067858369347,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2018-08-27T00:00:00",
+    "upper": 1.856815970220623,
+    "lower": -1.4284391847198208,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2018-08-28T00:00:00",
+    "upper": 2.0365862395266845,
+    "lower": -1.312610884319895,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2018-08-29T00:00:00",
+    "upper": 2.1229238970477127,
+    "lower": -1.3959658019319363,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2018-08-30T00:00:00",
+    "upper": 2.1106108137277033,
+    "lower": -1.8789150992120653,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2018-08-31T00:00:00",
+    "upper": 2.1148424501449767,
+    "lower": -2.2630067298278504,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2018-09-04T00:00:00",
+    "upper": 2.403117594461321,
+    "lower": -2.445295703013187,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2018-09-05T00:00:00",
+    "upper": 2.7162136956931136,
+    "lower": -2.4116405916676626,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2018-09-06T00:00:00",
+    "upper": 3.024087338075674,
+    "lower": -2.1465409989340287,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2018-09-07T00:00:00",
+    "upper": 3.071032517133915,
+    "lower": -1.8105577590471853,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2018-09-10T00:00:00",
+    "upper": 2.990718695246983,
+    "lower": -1.4254805471501868,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2018-09-11T00:00:00",
+    "upper": 2.7579583131916934,
+    "lower": -1.0621644851435121,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2018-09-12T00:00:00",
+    "upper": 2.4714214823663383,
+    "lower": -0.7302891296102416,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2018-09-13T00:00:00",
+    "upper": 2.1706472970615778,
+    "lower": -0.6625941524966947,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2018-09-14T00:00:00",
+    "upper": 1.8693907695360394,
+    "lower": -0.632392814704815,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2018-09-17T00:00:00",
+    "upper": 1.7342471245198112,
+    "lower": -0.6628170578828758,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2018-09-18T00:00:00",
+    "upper": 1.6209171888863239,
+    "lower": -0.996168601660429,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2018-09-19T00:00:00",
+    "upper": 1.6449976525199759,
+    "lower": -1.1916104672632173,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2018-09-20T00:00:00",
+    "upper": 1.7871876649498972,
+    "lower": -1.0215045115036219,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2018-09-21T00:00:00",
+    "upper": 1.9326854859033915,
+    "lower": -0.9696427296842671,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2018-09-24T00:00:00",
+    "upper": 1.9142155962321112,
+    "lower": -1.1252234141686017,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2018-09-25T00:00:00",
+    "upper": 1.852910919995395,
+    "lower": -1.4202493079534406,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2018-09-26T00:00:00",
+    "upper": 1.8609637688041971,
+    "lower": -1.7995112009040213,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2018-09-27T00:00:00",
+    "upper": 2.0681798796805424,
+    "lower": -1.6133817459467537,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2018-09-28T00:00:00",
+    "upper": 2.3456603934683358,
+    "lower": -1.3087565838280284,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2018-10-01T00:00:00",
+    "upper": 2.333715227744392,
+    "lower": -1.1720500557492528,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2018-10-02T00:00:00",
+    "upper": 2.227925716700554,
+    "lower": -1.064054234700393,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2018-10-03T00:00:00",
+    "upper": 1.9957214412738153,
+    "lower": -0.9143558040986477,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2018-10-04T00:00:00",
+    "upper": 1.9140783588014756,
+    "lower": -1.020208007574979,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2018-10-05T00:00:00",
+    "upper": 1.7729043464315737,
+    "lower": -1.099424349819003,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2018-10-08T00:00:00",
+    "upper": 1.8191877946478598,
+    "lower": -1.0928901806443605,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2018-10-09T00:00:00",
+    "upper": 1.8108572355662886,
+    "lower": -0.5446190077059896,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2018-10-10T00:00:00",
+    "upper": 1.8860435413507162,
+    "lower": -0.20791128854352792,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2018-10-11T00:00:00",
+    "upper": 1.5006070619713228,
+    "lower": -0.7544847137045849,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2018-10-12T00:00:00",
+    "upper": 1.0192871453382395,
+    "lower": -0.8469739934747054,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2018-10-15T00:00:00",
+    "upper": 0.38024714396783565,
+    "lower": -1.7911671394768973,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2018-10-16T00:00:00",
+    "upper": 0.1377509203228442,
+    "lower": -4.147198163191547,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2018-10-17T00:00:00",
+    "upper": 0.6458782499319113,
+    "lower": -5.333489925712001,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2018-10-18T00:00:00",
+    "upper": 2.169906827349905,
+    "lower": -5.08818191133355,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2018-10-19T00:00:00",
+    "upper": 3.554748112693744,
+    "lower": -4.233886753485251,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2018-10-22T00:00:00",
+    "upper": 4.240199265157116,
+    "lower": -3.3767829741543096,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2018-10-23T00:00:00",
+    "upper": 3.8950809722894633,
+    "lower": -3.299265754268845,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2018-10-24T00:00:00",
+    "upper": 3.4397923417781726,
+    "lower": -3.32177205649225,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2018-10-25T00:00:00",
+    "upper": 3.289753521540433,
+    "lower": -3.370732166636344,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2018-10-26T00:00:00",
+    "upper": 3.3442918444105203,
+    "lower": -4.153235939571289,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2018-10-29T00:00:00",
+    "upper": 3.6167142220708683,
+    "lower": -5.043282682136464,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2018-10-30T00:00:00",
+    "upper": 4.202404274968899,
+    "lower": -5.237108334878712,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2018-10-31T00:00:00",
+    "upper": 4.986111584281105,
+    "lower": -5.46535858342628,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2018-11-01T00:00:00",
+    "upper": 5.560393338107531,
+    "lower": -5.837499792823962,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2018-11-02T00:00:00",
+    "upper": 6.0140402033316605,
+    "lower": -5.647936144581706,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2018-11-05T00:00:00",
+    "upper": 6.375985361749883,
+    "lower": -4.02266818719761,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2018-11-06T00:00:00",
+    "upper": 6.56144120737855,
+    "lower": -2.6191639123487676,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2018-11-07T00:00:00",
+    "upper": 5.76285322493078,
+    "lower": -2.083106822145851,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2018-11-08T00:00:00",
+    "upper": 4.84997588117551,
+    "lower": -1.6305391884502,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2018-11-09T00:00:00",
+    "upper": 3.999286720054215,
+    "lower": -0.9893533651519419,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2018-11-12T00:00:00",
+    "upper": 3.6315254099172307,
+    "lower": -0.43471054528561126,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2018-11-13T00:00:00",
+    "upper": 3.1232227612497354,
+    "lower": -1.6029375189597772,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2018-11-14T00:00:00",
+    "upper": 2.1023992492370667,
+    "lower": -1.4492479625577062,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2018-11-15T00:00:00",
+    "upper": 1.0772879582917767,
+    "lower": -0.5516840740122575,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2018-11-16T00:00:00",
+    "upper": 0.5944837621601096,
+    "lower": -0.19915274981980247,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2018-11-19T00:00:00",
+    "upper": 0.8911661060330403,
+    "lower": -0.806884707756808,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2018-11-20T00:00:00",
+    "upper": 1.4237637096800881,
+    "lower": -1.358499960618758,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2018-11-21T00:00:00",
+    "upper": 1.9312102000326945,
+    "lower": -1.0426681386067003,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2018-11-23T00:00:00",
+    "upper": 2.309136113394061,
+    "lower": -1.0476441597330677,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2018-11-26T00:00:00",
+    "upper": 2.1964595807879164,
+    "lower": -2.445436270528205,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2018-11-27T00:00:00",
+    "upper": 2.2302933469445634,
+    "lower": -3.084504841321575,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2018-11-28T00:00:00",
+    "upper": 2.838627414350526,
+    "lower": -3.2962402198439236,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2018-11-29T00:00:00",
+    "upper": 3.431670051348135,
+    "lower": -3.004173979313464,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2018-11-30T00:00:00",
+    "upper": 4.033774969198646,
+    "lower": -2.358623261459286,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2018-12-03T00:00:00",
+    "upper": 3.803563797374011,
+    "lower": -1.2270221774248853,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2018-12-04T00:00:00",
+    "upper": 3.583887814387083,
+    "lower": -0.15264913583479256,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2018-12-06T00:00:00",
+    "upper": 2.663342906836249,
+    "lower": -0.9151028267207266,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2018-12-07T00:00:00",
+    "upper": 1.7091687227871262,
+    "lower": -1.9971928396728913,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2018-12-10T00:00:00",
+    "upper": 0.7821033364130017,
+    "lower": -1.8264760277475602,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2018-12-11T00:00:00",
+    "upper": 0.2145370077392954,
+    "lower": -0.4443126412938341,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2018-12-12T00:00:00",
+    "upper": 0.3389432760186537,
+    "lower": -1.635631893590471,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2018-12-13T00:00:00",
+    "upper": 0.6224876541789399,
+    "lower": -2.595664572858368,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2018-12-14T00:00:00",
+    "upper": 1.6937156395867987,
+    "lower": -2.7535458340244645,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2018-12-17T00:00:00",
+    "upper": 2.925825592804813,
+    "lower": -1.8319740709900998,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2018-12-18T00:00:00",
+    "upper": 2.995310308934677,
+    "lower": -1.6830744850913106,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": false
+  },
+  {
+    "timestamp": "2018-12-19T00:00:00",
+    "upper": 2.8410930574537474,
+    "lower": -2.520517912834862,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2018-12-20T00:00:00",
+    "upper": 2.4777724595513178,
+    "lower": -3.9499653644344335,
+    "upperIsExpanding": false,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2018-12-21T00:00:00",
+    "upper": 2.8419387799036144,
+    "lower": -4.880204446443258,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2018-12-24T00:00:00",
+    "upper": 3.881775627304478,
+    "lower": -5.213741692688359,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2018-12-26T00:00:00",
+    "upper": 4.854607546096474,
+    "lower": -6.421624222742793,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2018-12-27T00:00:00",
+    "upper": 5.550504407946789,
+    "lower": -7.500851388212311,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2018-12-28T00:00:00",
+    "upper": 6.527185484749452,
+    "lower": -8.936164119335672,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": true
+  },
+  {
+    "timestamp": "2018-12-31T00:00:00",
+    "upper": 7.453762647890585,
+    "lower": -9.239853928138615,
+    "upperIsExpanding": true,
+    "lowerIsExpanding": true
+  }
+]

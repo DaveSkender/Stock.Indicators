@@ -1,0 +1,130 @@
+namespace StaticSeries;
+
+[TestClass]
+public class StarcBands : StaticSeriesTestBase
+{
+    [TestMethod]
+    public override void DefaultParameters_ReturnsExpectedResults()
+    {
+        const int smaPeriods = 20;
+        const int multiplier = 2;
+        const int atrPeriods = 14;
+
+        IReadOnlyList<StarcBandsResult> results = Quotes
+            .ToStarcBands(smaPeriods, multiplier, atrPeriods);
+
+        // proper quantities
+        Assert.HasCount(502, results);
+        Assert.HasCount(483, results.Where(static x => x.Centerline != null));
+        Assert.HasCount(483, results.Where(static x => x.UpperBand != null));
+        Assert.HasCount(483, results.Where(static x => x.LowerBand != null));
+
+        // sample value
+        StarcBandsResult r1 = results[18];
+        Assert.IsNull(r1.Centerline);
+        Assert.IsNull(r1.UpperBand);
+        Assert.IsNull(r1.LowerBand);
+
+        StarcBandsResult r19 = results[19];
+        Assert.AreEqual(214.5250, r19.Centerline.Round(4));
+        Assert.AreEqual(217.2345, r19.UpperBand.Round(4));
+        Assert.AreEqual(211.8155, r19.LowerBand.Round(4));
+
+        StarcBandsResult r249 = results[249];
+        Assert.AreEqual(255.5500, r249.Centerline.Round(4));
+        Assert.AreEqual(258.2261, r249.UpperBand.Round(4));
+        Assert.AreEqual(252.8739, r249.LowerBand.Round(4));
+
+        StarcBandsResult r485 = results[485];
+        Assert.AreEqual(265.4855, r485.Centerline.Round(4));
+        Assert.AreEqual(275.1161, r485.UpperBand.Round(4));
+        Assert.AreEqual(255.8549, r485.LowerBand.Round(4));
+
+        StarcBandsResult r501 = results[501];
+        Assert.AreEqual(251.8600, r501.Centerline.Round(4));
+        Assert.AreEqual(264.1595, r501.UpperBand.Round(4));
+        Assert.AreEqual(239.5605, r501.LowerBand.Round(4));
+    }
+
+    [TestMethod]
+    public override void BadQuotes_DoesNotFail()
+    {
+        IReadOnlyList<StarcBandsResult> r = BadQuotes
+            .ToStarcBands(10, 3, 15);
+
+        Assert.HasCount(502, r);
+        Assert.IsEmpty(r.Where(static x => x.UpperBand is double v && double.IsNaN(v)));
+    }
+
+    [TestMethod]
+    public override void NoQuotes_ReturnsEmpty()
+    {
+        IReadOnlyList<StarcBandsResult> r0 = Noquotes
+            .ToStarcBands(10);
+
+        Assert.IsEmpty(r0);
+
+        IReadOnlyList<StarcBandsResult> r1 = Onequote
+            .ToStarcBands(10);
+
+        Assert.HasCount(1, r1);
+    }
+
+    [TestMethod]
+    public void Condense()
+    {
+        const int smaPeriods = 20;
+        const int multiplier = 2;
+        const int atrPeriods = 14;
+        int lookbackPeriods = Math.Max(smaPeriods, atrPeriods);
+
+        IReadOnlyList<StarcBandsResult> results = Quotes
+            .ToStarcBands(smaPeriods, multiplier, atrPeriods)
+            .Condense();
+
+        // assertions
+        Assert.HasCount(502 - lookbackPeriods + 1, results);
+
+        StarcBandsResult last = results[^1];
+        Assert.AreEqual(251.8600, last.Centerline.Round(4));
+        Assert.AreEqual(264.1595, last.UpperBand.Round(4));
+        Assert.AreEqual(239.5605, last.LowerBand.Round(4));
+    }
+
+    [TestMethod]
+    public void Removed()
+    {
+        const int smaPeriods = 20;
+        const int multiplier = 2;
+        const int atrPeriods = 14;
+        int lookbackPeriods = Math.Max(smaPeriods, atrPeriods);
+
+        IReadOnlyList<StarcBandsResult> results = Quotes
+            .ToStarcBands(smaPeriods, multiplier, atrPeriods)
+            .RemoveWarmupPeriods();
+
+        // assertions
+        Assert.HasCount(502 - (lookbackPeriods + 150), results);
+
+        StarcBandsResult last = results[^1];
+        Assert.AreEqual(251.8600, last.Centerline.Round(4));
+        Assert.AreEqual(264.1595, last.UpperBand.Round(4));
+        Assert.AreEqual(239.5605, last.LowerBand.Round(4));
+    }
+
+    [TestMethod]
+    public void Exceptions()
+    {
+        // bad EMA period
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            static () => Quotes.ToStarcBands(1));
+
+        // bad ATR period
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            static () => Quotes.ToStarcBands(20, 2, 1));
+
+        // bad multiplier
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            static () => Quotes.ToStarcBands(20, 0));
+    }
+}

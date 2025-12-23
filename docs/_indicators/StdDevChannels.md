@@ -16,8 +16,8 @@ Standard Deviation Channels are prices ranges based on an linear regression cent
 
 ```csharp
 // C# usage syntax
-IEnumerable<StdDevChannelsResult> results =
-  quotes.GetStdDevChannels(lookbackPeriods, stdDeviations);
+IReadOnlyList<StdDevChannelsResult> results =
+  quotes.ToStdDevChannels(lookbackPeriods, stdDeviations);
 ```
 
 ## Parameters
@@ -35,7 +35,7 @@ You must have at least `N` periods of `quotes` to cover the warmup periods.
 ## Response
 
 ```csharp
-IEnumerable<StdDevChannelsResult>
+IReadOnlyList<StdDevChannelsResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
@@ -47,7 +47,7 @@ IEnumerable<StdDevChannelsResult>
 
 ### StdDevChannelsResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`Centerline`** _`double`_ - Linear regression line (center line)
 
@@ -80,7 +80,13 @@ This indicator may be generated from any chain-enabled indicator or method.
 // example
 var results = quotesEval
     .Use(CandlePart.HL2)
-    .GetStdDevChannels(..);
+    .ToStdDevChannels(..);
 ```
 
 Results **cannot** be further chained with additional transforms.
+
+## Streaming and real-time usage
+
+**⚠️ Streaming not supported**: Due to the reverse-window algorithm that recalculates the entire dataset on each new data point, Standard Deviation Channels is only available as a batch Series implementation. The computational cost grows quadratically (O(n²)) as the dataset size increases, making it impractical for incremental streaming (StreamHub) or buffer (BufferList) scenarios.
+
+**Recommendation**: Use the Series implementation (`ToStdDevChannels()`) with periodic batch recalculation. For real-time scenarios, consider recalculating at appropriate intervals (e.g., end of period, every N bars) rather than on every tick.

@@ -1,0 +1,13 @@
+// modifications from base
+// Spec Kit files unmodified from source
+{
+  "ignores": [
+    "**/scripts/**",
+    "**/templates/**"
+  ],
+  "config": {
+    "MD036": false,
+    "MD040": false,
+    "MD060": false
+  }
+}

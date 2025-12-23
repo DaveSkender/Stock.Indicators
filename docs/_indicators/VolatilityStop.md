@@ -15,9 +15,13 @@ Created by J. Welles Wilder, [Volatility Stop](https://archive.org/details/newco
 ![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
-// C# usage syntax
-IEnumerable<VolatilityStopResult> results =
-  quotes.GetVolatilityStop(lookbackPeriods, multiplier);
+// C# usage syntax (Series)
+IReadOnlyList<VolatilityStopResult> results =
+  quotes.ToVolatilityStop(lookbackPeriods, multiplier);
+
+// Usage with quote provider (streaming)
+VolatilityStopHub hub =
+  quoteProvider.ToVolatilityStopHub(lookbackPeriods, multiplier);
 ```
 
 ## Parameters
@@ -35,7 +39,7 @@ You must have at least `N+100` periods of `quotes` to cover the [warmup and conv
 ## Response
 
 ```csharp
-IEnumerable<VolatilityStopResult>
+IReadOnlyList<VolatilityStopResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
@@ -47,7 +51,7 @@ IEnumerable<VolatilityStopResult>
 
 ### VolatilityStopResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`Sar`** _`double`_ - Stop and Reverse value contains both Upper and Lower segments
 
@@ -75,8 +79,8 @@ Results can be further processed on `Sar` with additional chain-enabled indicato
 ```csharp
 // example
 var results = quotes
-    .GetVolatilityStop(..)
-    .GetEma(..);
+    .ToVolatilityStop(..)
+    .ToEma(..);
 ```
 
 This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.

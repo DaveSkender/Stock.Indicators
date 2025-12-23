@@ -1,14 +1,25 @@
 namespace Skender.Stock.Indicators;
 
+/// <summary>
+/// Represents the result of a Triple Exponential Moving Average (TEMA) calculation.
+/// </summary>
+/// <param name="Timestamp">The timestamp of the data point.</param>
+/// <param name="Tema">The value of the TEMA at this point.</param>
 [Serializable]
-public sealed class TemaResult : ResultBase, IReusableResult
+public record TemaResult
+(
+    DateTime Timestamp,
+    double? Tema = null
+) : IReusable
 {
-    public TemaResult(DateTime date)
-    {
-        Date = date;
-    }
+    /// <summary>
+    /// internal state (not exposed publicly) to support robust stream recalculations
+    /// </summary>
+    [JsonIgnore] internal double Ema1 { get; init; }
+    [JsonIgnore] internal double Ema2 { get; init; }
+    [JsonIgnore] internal double Ema3 { get; init; }
 
-    public double? Tema { get; set; }
-
-    double? IReusableResult.Value => Tema;
+    /// <inheritdoc/>
+    [JsonIgnore]
+    public double Value => Tema.Null2NaN();
 }

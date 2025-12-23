@@ -8,7 +8,7 @@ cd "$(dirname "$0")/../.." || exit 1
 echo ""
 echo "=== Running Roslynator analysis ==="
 roslynator analyze \
---severity-level info \
+--severity-level hidden \
 --verbosity normal \
 --properties TargetFramework=net10.0 || exit 1
 

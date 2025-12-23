@@ -15,17 +15,25 @@ Created by Goichi Hosoda (細田悟一, Hosoda Goichi), [Ichimoku Cloud](https:/
 ![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
-// C# usage syntax
-IEnumerable<IchimokuResult> results =
-  quotes.GetIchimoku(tenkanPeriods, kijunPeriods, senkouBPeriods);
+// C# usage syntax (batch)
+IReadOnlyList<IchimokuResult> results =
+  quotes.ToIchimoku(tenkanPeriods, kijunPeriods, senkouBPeriods);
 
 // usage with custom offset
-IEnumerable<IchimokuResult> results =
-  quotes.GetIchimoku(tenkanPeriods, kijunPeriods, senkouBPeriods, offsetPeriods);
+IReadOnlyList<IchimokuResult> results =
+  quotes.ToIchimoku(tenkanPeriods, kijunPeriods, senkouBPeriods, offsetPeriods);
 
 // usage with different custom offsets
-IEnumerable<IchimokuResult> results =
-  quotes.GetIchimoku(tenkanPeriods, kijunPeriods, senkouBPeriods, senkouOffset, chikouOffset);
+IReadOnlyList<IchimokuResult> results =
+  quotes.ToIchimoku(tenkanPeriods, kijunPeriods, senkouBPeriods, senkouOffset, chikouOffset);
+
+// buffered usage (incremental)
+IchimokuList buffer = quotes.ToIchimokuList(tenkanPeriods, kijunPeriods, senkouBPeriods);
+IReadOnlyList<IchimokuResult> results = buffer;
+
+// streaming usage (real-time)
+IchimokuHub hub = quotes.ToIchimokuHub(tenkanPeriods, kijunPeriods, senkouBPeriods);
+IReadOnlyList<IchimokuResult> results = hub.Results;
 ```
 
 ## Parameters
@@ -53,7 +61,7 @@ You must have at least the greater of `T`,`K`, `S`, and offset periods for `quot
 ## Response
 
 ```csharp
-IEnumerable<IchimokuResult>
+IReadOnlyList<IchimokuResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
@@ -63,7 +71,7 @@ IEnumerable<IchimokuResult>
 
 ### IchimokuResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`TenkanSen`** _`decimal`_ - Conversion / signal line
 
@@ -85,4 +93,13 @@ See [Utilities and helpers]({{site.baseurl}}/utilities#utilities-for-indicator-r
 
 ## Chaining
 
-This indicator is not chain-enabled and must be generated from `quotes`.  It **cannot** be used for further processing by other chain-enabled indicators.
+Results can be used for chaining in subsequent indicators when streaming.
+
+```csharp
+// example: chain to another indicator (streaming)
+var emaHub = quotes
+    .ToIchimokuHub()
+    .ToEmaHub(14);
+```
+
+Note: `TenkanSen` is the primary reusable value for chaining purposes.

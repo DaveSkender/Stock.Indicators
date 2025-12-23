@@ -63,12 +63,45 @@ Running the performance benchmark application in `Release` mode will produce [be
 
 ```bash
 # from /tests/performance folder
-# run all performance benchmarks
+# run all performance benchmarks (~15-20 minutes)
 dotnet run -c Release
 
+# run specific benchmark categories
+dotnet run -c Release --filter *Series*
+dotnet run -c Release --filter *Stream*
+dotnet run -c Release --filter *Buffer*
+
 # run individual performance benchmark
-dotnet run -c Release --filter *.GetAdx
+dotnet run -c Release --filter *.ToAdx
 ```
+
+#### Performance regression detection
+
+Use the regression detection script to compare results with baseline:
+
+```bash
+# from tools/performance directory
+pwsh detect-regressions.ps1
+```
+
+### Regression baseline testing
+
+Regression baselines detect unintended behavioral changes in indicators. Each baseline is a JSON file with expected outputs for standard test data.
+
+```bash
+# run all regression baseline tests
+dotnet test --filter "TestCategory=Regression"
+
+# regenerate all baselines (locally)
+dotnet run --project tools/baselining -- --all
+
+# regenerate specific baseline
+dotnet run --project tools/baselining -- --indicator SMA
+```
+
+Regenerate baselines after intentional algorithm changes, .NET upgrades, or test data changes. Use the [Regenerate Baselines workflow](https://github.com/DaveSkender/Stock.Indicators/actions/workflows/regenerate-baselines.yml) for automated regeneration via GitHub Actions.
+
+When reviewing PRs with baseline changes, verify the reason is documented, review numeric differences, and ensure no unexpected indicators were affected.
 
 ## Documentation
 
@@ -113,14 +146,14 @@ When ready, submit a [Pull Request](https://help.github.com/pull-requests) with 
 
 Pull Request titles must follow the [Conventional Commits](https://www.conventionalcommits.org) format: `type: Subject` where:
 
-- `type` is one of: feat, fix, docs, style, refactor, perf, test, build, ci, chore, revert (lowercase)
+- `type` is one of: feat, fix, docs, style, refactor, perf, test, build, ci, chore, revert, plan (lowercase)
 - `Subject` starts with an uppercase letter
 
-Examples: `feat: Add RSI indicator`, `fix: Resolve calculation error in MACD`, `docs: Update API documentation`
+Examples: `feat: Add RSI indicator`, `fix: Resolve calculation error in MACD`, `docs: Update API documentation`, `plan: Define technical implementation approach`
 
 Always write a clear log message for your commits. One-line messages are fine for most changes.
 
-After a Pull Request is reviewed, accepted, and [squash] merged to the default branch, we may batch changes before publishing a new package version to the [public NuGet repository](https://www.nuget.org/packages/Skender.Stock.Indicators).  Please be patient with turnaround time.
+After a Pull Request is reviewed, accepted, and _squash_ merged to `main`, we may batch changes before publishing a new package version to the [public NuGet repository](https://www.nuget.org/packages/Skender.Stock.Indicators).  Please be patient with turnaround time.
 
 ## Code reviews and administration
 
@@ -145,7 +178,8 @@ This repository is optimized for GitHub Copilot and coding agents with:
 When using GitHub Copilot:
 
 - Follow the established patterns documented in the Copilot instructions
-- Ensure all financial calculations maintain decimal precision
+- Use spec-kit commands for structured feature development
+- Ensure financial calculations prioritize accuracy – default to `double` for performance and reach for `decimal` when price-sensitive precision requires it
 - Include comprehensive unit tests for any new indicators
 - Validate mathematical accuracy against reference implementations
 

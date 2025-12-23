@@ -1,14 +1,24 @@
 namespace Skender.Stock.Indicators;
 
+/// <summary>
+/// Represents the result of a DEMA (Double Exponential Moving Average) calculation.
+/// </summary>
+/// <param name="Timestamp">The timestamp of the DEMA result.</param>
+/// <param name="Dema">The DEMA value.</param>
 [Serializable]
-public sealed class DemaResult : ResultBase, IReusableResult
+public record DemaResult
+(
+    DateTime Timestamp,
+    double? Dema = null
+) : IReusable
 {
-    public DemaResult(DateTime date)
-    {
-        Date = date;
-    }
+    /// <summary>
+    /// internal state (not exposed publicly) to support robust stream recalculations
+    /// </summary>
+    [JsonIgnore] internal double Ema1 { get; init; }
+    [JsonIgnore] internal double Ema2 { get; init; }
 
-    public double? Dema { get; set; }
-
-    double? IReusableResult.Value => Dema;
+    /// <inheritdoc/>
+    [JsonIgnore]
+    public double Value => Dema.Null2NaN();
 }

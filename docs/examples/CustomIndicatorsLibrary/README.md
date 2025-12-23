@@ -21,14 +21,14 @@ using Skender.Stock.Indicators;
 namespace Custom.Stock.Indicators;
 
 // custom results class
-public class AtrWmaResult : ResultBase, IReusableResult
+public class AtrWmaResult : ResultBase, IReusable
 {
   // date property is inherited here,
   // so you only need to add custom items
   public double? AtrWma { get; set; }
 
   // to enable further chaining
-  double? IReusableResult.Value => AtrWma;
+  double? IReusable.Value => AtrWma;
 }
 ```
 
@@ -44,10 +44,9 @@ namespace Custom.Stock.Indicators;
 public static class CustomIndicator
 {
   // Custom ATR WMA calculation
-  public static IEnumerable<AtrWmaResult> GetAtrWma<TQuote>(
-    this IEnumerable<TQuote> quotes,
+  public static IReadOnlyList<AtrWmaResult> ToAtrWma(
+    this IReadOnlyList<IQuote> quotes,
     int lookbackPeriods)
-    where TQuote : IQuote
   {
     // sort quotes and convert to collection or list
     Collection<TQuote> quotesList = quotes
@@ -61,7 +60,7 @@ public static class CustomIndicator
       .GetAtr(lookbackPeriods)
       .ToList();
 
-    // roll through quotes
+    // roll through source values
     for (int i = 0; i < quotesList.Count; i++)
     {
       TQuote q = quotesList[i];
@@ -107,10 +106,10 @@ using Custom.Stock.Indicators; // your custom library
 [..]
 
 // fetch historical quotes from your feed (your method)
-IEnumerable<Quote> quotes = GetQuotesFromFeed("MSFT");
+IReadOnlyList<Quote> quotes = GetQuotesFromFeed("MSFT");
 
 // calculate 10-period ATR WMA
-IEnumerable<AtrWmaResult> results = quotes.GetAtrWma(10);
+IReadOnlyList<AtrWmaResult> results = quotes.ToAtrWma(10);
 
 // use results as needed for your use case (example only)
 foreach (AtrWmaResult r in results)
