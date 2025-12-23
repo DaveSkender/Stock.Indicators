@@ -14,7 +14,6 @@ public class WilliamsRTests
             .ConfigureAwait(false);
 
         List<Quote> quotes = feedQuotes.ToList();
-        int length = quotes.Count;
 
         // get indicators
         IReadOnlyList<WilliamsResult> results = quotes

@@ -70,6 +70,9 @@ public static partial class StringOut
         IDictionary<string, string>? args = null)
         where T : ISeries
     {
+        ArgumentNullException.ThrowIfNull(source);
+        ArgumentNullException.ThrowIfNull(filter);
+
         string? output = source.ToStringOut(filter, args);
         Console.WriteLine(output);
         return output ?? string.Empty;
@@ -83,12 +86,16 @@ public static partial class StringOut
     /// <param name="filter">A predicate to filter the elements.</param>
     /// <param name="args">Optional formatting arguments as key-value pairs.</param>
     /// <returns>The fixed-width formatted string representation of the filtered list.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when <paramref name="source"/> or <paramref name="filter"/> is <c>null</c>.</exception>
     public static string ToConsole<T>(
         this IEnumerable<T> source,
         Func<T, bool> filter,
         params (string key, string value)[] args)
         where T : ISeries
     {
+        ArgumentNullException.ThrowIfNull(source);
+        ArgumentNullException.ThrowIfNull(filter);
+
         Dictionary<string, string>? argsDict = args?.Length > 0
             ? args
                 .GroupBy(x => x.key)
@@ -106,6 +113,8 @@ public static partial class StringOut
     /// <param name="limitQty">The maximum number of elements to include in the output.</param>
     /// <param name="args">Optional formatting arguments as key-value pairs.</param>
     /// <returns>The fixed-width formatted string representation of the filtered list.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when <paramref name="source"/> or <paramref name="filter"/> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="limitQty"/> is negative.</exception>
     public static string ToConsole<T>(
         this IEnumerable<T> source,
         Func<T, bool> filter,
@@ -113,6 +122,15 @@ public static partial class StringOut
         params (string key, string value)[] args)
         where T : ISeries
     {
+        ArgumentNullException.ThrowIfNull(source);
+        ArgumentNullException.ThrowIfNull(filter);
+
+        if (limitQty < 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(limitQty), limitQty,
+                "limitQty must be greater than or equal to 0.");
+        }
+
         Dictionary<string, string>? argsDict = args?.Length > 0
             ? args
                 .GroupBy(x => x.key)
@@ -170,7 +188,12 @@ public static partial class StringOut
     /// </remarks>
     public static string ToStringOut<T>(
         this IEnumerable<T> source, int limitQty, IDictionary<string, string>? args = null)
-        where T : ISeries => source.ToList().ToStringOut(0, limitQty - 1, args);
+        where T : ISeries
+    {
+        ArgumentNullException.ThrowIfNull(source);
+
+        return source.ToList().ToStringOut(0, limitQty - 1, args);
+    }
 
     /// <summary>
     /// Converts a list of ISeries to a fixed-width formatted string.
@@ -204,12 +227,14 @@ public static partial class StringOut
     /// <param name="filter">A predicate to filter the elements.</param>
     /// <param name="args">Optional overrides for `ToString()` formatter. Key values can be type or property name.</param>
     /// <returns>A fixed-width formatted string representation of the filtered list.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when <paramref name="source"/> or <paramref name="filter"/> is <c>null</c>.</exception>
     public static string ToStringOut<T>(
         this IEnumerable<T> source,
         Func<T, bool> filter,
         IDictionary<string, string>? args = null)
         where T : ISeries
     {
+        ArgumentNullException.ThrowIfNull(source);
         ArgumentNullException.ThrowIfNull(filter);
 
         List<T> sourceList = source.ToList();
@@ -231,6 +256,8 @@ public static partial class StringOut
     /// <param name="limitQty">The maximum number of elements to include in the output.</param>
     /// <param name="args">Optional overrides for `ToString()` formatter. Key values can be type or property name.</param>
     /// <returns>A fixed-width formatted string representation of the filtered list.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when <paramref name="source"/> or <paramref name="filter"/> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="limitQty"/> is less than or equal to zero.</exception>
     public static string ToStringOut<T>(
         this IEnumerable<T> source,
         Func<T, bool> filter,
@@ -238,7 +265,14 @@ public static partial class StringOut
         IDictionary<string, string>? args = null)
         where T : ISeries
     {
+        ArgumentNullException.ThrowIfNull(source);
         ArgumentNullException.ThrowIfNull(filter);
+
+        if (limitQty <= 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(limitQty), limitQty,
+                "limitQty must be positive.");
+        }
 
         List<T> sourceList = source.ToList();
         int[] indices = sourceList
