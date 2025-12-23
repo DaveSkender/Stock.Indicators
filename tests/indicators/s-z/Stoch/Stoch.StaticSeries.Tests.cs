@@ -235,9 +235,7 @@ public class Stoch : StaticSeriesTestBase
     public void Issue1127_BoundaryThreshold_Maintained()
     {
         // initialize
-        IReadOnlyList<Quote> quotes = File.ReadAllLines("_testdata/issues/issue1127.quotes.williamr.revisit.csv")
-            .Skip(1)
-            .Select(Test.Data.Utilities.QuoteFromCsv)
+        IReadOnlyList<Quote> quotes = Data.GetFile("issues/issue1127.quotes.williamr.revisit")
             .OrderBy(static x => x.Timestamp)
             .ToList();
 
