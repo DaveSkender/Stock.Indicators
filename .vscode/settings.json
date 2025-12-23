@@ -9,15 +9,12 @@
   "github.copilot.chat.githubMcpServer.enabled": true,
   "github.copilot.chat.githubMcpServer.readonly": true,
   "github.copilot.chat.githubMcpServer.toolsets": [
-    "default",
-    "issues",
-    "pull_requests",
+    "default", // default: context, repos, issues, pull_requests, users
+    "orgs",
     "actions",
-    "workflows",
-    "discussions",
-    "projects",
+    // "projects",
+    // "discussions",
     "copilot",
-    "copilot_spaces",
     "github_support_docs_search",
     "web_search"
   ],
