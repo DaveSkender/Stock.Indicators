@@ -246,5 +246,6 @@ public class SmiHubTest : StreamHubTestBase, ITestQuoteObserver, ITestChainProvi
     {
         IReadOnlyList<SmiResult> results = Quotes.ToSmiHub(14, 20, 5, 3).Results;
         results.IsBetween(x => x.Smi, -100, 100);
+        results.IsBetween(x => x.Signal, -100, 100);
     }
 }
