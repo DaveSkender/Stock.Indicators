@@ -56,7 +56,7 @@ public class BopHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProv
         // time-series, for comparison
         IReadOnlyList<BopResult> seriesList = quotesList.ToBop(14);
 
-        // assert, should equal series (with tolerance for floating point precision)
+        // assert
         streamList.Should().HaveCount(length - 1);
         streamList.IsExactly(seriesList);
 
@@ -106,7 +106,7 @@ public class BopHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProv
            = quotesList
             .ToBop(smoothPeriods);
 
-        // assert, should equal series (with tolerance for floating point precision)
+        // assert
         streamList.Should().HaveCount(length);
         streamList.IsExactly(seriesList);
 
@@ -148,7 +148,7 @@ public class BopHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProv
             .ToBop(smoothPeriods)
             .ToEma(emaPeriods);
 
-        // assert, should equal series (with tolerance for floating point precision)
+        // assert
         streamList.Should().HaveCount(length);
         streamList.IsExactly(seriesList);
 
