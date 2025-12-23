@@ -30,8 +30,16 @@ public class StreamHubInterfaceComplianceTests
         int validated = 0;
 
         // Define observer and provider interface types
-        Type[] observerTypes = [typeof(ITestChainObserver), typeof(ITestQuoteObserver), typeof(ITestPairsObserver)];
-        Type[] providerTypes = [typeof(ITestChainProvider)]; // Add more provider interfaces here if needed
+        Type[] observerTypes = [
+            typeof(ITestChainObserver),
+            typeof(ITestQuoteObserver),
+            typeof(ITestPairsObserver)
+        ];
+
+        // Add more provider interfaces here if needed
+        Type[] providerTypes = [
+            typeof(ITestChainProvider)
+        ];
 
         foreach (Type testClass in streamHubTestClasses)
         {
