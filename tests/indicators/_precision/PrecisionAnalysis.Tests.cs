@@ -60,10 +60,17 @@ public class PrecisionAnalysisTests : TestBase
         // Arrange
         IReadOnlyList<Quote> quotes = BoundaryQuotes.GetCloseEqualsHigh(100);
 
+        // Using minimal smoothing/signal periods to test raw oscillator boundary
+        const int lookbackPeriods = 14;
+        const int signalPeriods = 1;
+        const int smoothPeriods = 1;
+
         // Act
-        IReadOnlyList<StochResult> seriesResults = quotes.ToStoch(14, 1, 1);
-        IReadOnlyList<StochResult> bufferResults = new StochList(14, 1, 1, 1, 1, MaType.SMA, quotes);
-        IReadOnlyList<StochResult> streamResults = quotes.ToStochHub(14, 1, 1).Results;
+        IReadOnlyList<StochResult> seriesResults = quotes.ToStoch(lookbackPeriods, signalPeriods, smoothPeriods);
+        IReadOnlyList<StochResult> bufferResults = new StochList(
+            lookbackPeriods, signalPeriods, smoothPeriods,
+            kFactor: 1, dFactor: 1, movingAverageType: MaType.SMA, quotes);
+        IReadOnlyList<StochResult> streamResults = quotes.ToStochHub(lookbackPeriods, signalPeriods, smoothPeriods).Results;
 
         // Analyze
         AnalyzeBounds("Stoch Series (close=high)", seriesResults, x => x.Oscillator, 0, 100);
@@ -81,10 +88,17 @@ public class PrecisionAnalysisTests : TestBase
         // Arrange
         IReadOnlyList<Quote> quotes = BoundaryQuotes.GetCloseEqualsLow(100);
 
+        // Using minimal smoothing/signal periods to test raw oscillator boundary
+        const int lookbackPeriods = 14;
+        const int signalPeriods = 1;
+        const int smoothPeriods = 1;
+
         // Act
-        IReadOnlyList<StochResult> seriesResults = quotes.ToStoch(14, 1, 1);
-        IReadOnlyList<StochResult> bufferResults = new StochList(14, 1, 1, 1, 1, MaType.SMA, quotes);
-        IReadOnlyList<StochResult> streamResults = quotes.ToStochHub(14, 1, 1).Results;
+        IReadOnlyList<StochResult> seriesResults = quotes.ToStoch(lookbackPeriods, signalPeriods, smoothPeriods);
+        IReadOnlyList<StochResult> bufferResults = new StochList(
+            lookbackPeriods, signalPeriods, smoothPeriods,
+            kFactor: 1, dFactor: 1, movingAverageType: MaType.SMA, quotes);
+        IReadOnlyList<StochResult> streamResults = quotes.ToStochHub(lookbackPeriods, signalPeriods, smoothPeriods).Results;
 
         // Analyze
         AnalyzeBounds("Stoch Series (close=low)", seriesResults, x => x.Oscillator, 0, 100);

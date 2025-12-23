@@ -26,11 +26,13 @@ internal static class BoundaryQuotes
         for (int i = 0; i < bars; i++)
         {
             decimal close = startPrice + (i * increment);
+            // Open slightly below close, High above close, Low below Open
+            // This creates realistic bullish candles
             quotes.Add(new Quote(
                 Timestamp: timestamp.AddDays(i),
-                Open: close - (increment / 2),
-                High: close + (increment / 2),
-                Low: close - (increment / 2),
+                Open: close - increment,
+                High: close + increment,
+                Low: close - (2 * increment),
                 Close: close,
                 Volume: 1000m));
         }
@@ -77,6 +79,10 @@ internal static class BoundaryQuotes
     /// <returns>List of quotes where Close equals High.</returns>
     internal static IReadOnlyList<Quote> GetCloseEqualsHigh(int bars = 100)
     {
+        // Range offsets for creating realistic candles where Close = High
+        const decimal openOffset = 1m;  // Open below Close/High
+        const decimal lowOffset = 2m;   // Low below Open
+
         List<Quote> quotes = new(bars);
         DateTime timestamp = DateTime.Today.AddDays(-bars);
 
@@ -85,10 +91,10 @@ internal static class BoundaryQuotes
             decimal price = 100m + (i * 0.1m);
             quotes.Add(new Quote(
                 Timestamp: timestamp.AddDays(i),
-                Open: price - 1m,
-                High: price, // Close = High
-                Low: price - 2m,
-                Close: price, // Close = High
+                Open: price - openOffset,
+                High: price,                    // Close = High (boundary condition)
+                Low: price - lowOffset,
+                Close: price,                   // Close = High (boundary condition)
                 Volume: 1000m));
         }
 
