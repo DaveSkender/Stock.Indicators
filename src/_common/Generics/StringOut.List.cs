@@ -121,7 +121,7 @@ public static partial class StringOut
     /// <param name="args">Optional formatting arguments as key-value pairs.</param>
     /// <returns>The fixed-width formatted string representation of the filtered list.</returns>
     /// <exception cref="ArgumentNullException">Thrown when <paramref name="source"/> or <paramref name="filter"/> is <c>null</c>.</exception>
-    /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="limitQty"/> is negative.</exception>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="limitQty"/> is less than or equal to zero.</exception>
     public static string ToConsole<T>(
         this IEnumerable<T> source,
         Func<T, bool> filter,
@@ -132,10 +132,10 @@ public static partial class StringOut
         ArgumentNullException.ThrowIfNull(source);
         ArgumentNullException.ThrowIfNull(filter);
 
-        if (limitQty < 0)
+        if (limitQty <= 0)
         {
             throw new ArgumentOutOfRangeException(nameof(limitQty), limitQty,
-                "limitQty must be greater than or equal to 0.");
+                "limitQty must be positive.");
         }
 
         string? output = source.ToStringOut(filter, limitQty, args);
@@ -153,7 +153,7 @@ public static partial class StringOut
     /// <param name="args">Optional formatting arguments as key-value pairs.</param>
     /// <returns>The fixed-width formatted string representation of the filtered list.</returns>
     /// <exception cref="ArgumentNullException">Thrown when <paramref name="source"/> or <paramref name="filter"/> is <c>null</c>.</exception>
-    /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="limitQty"/> is negative.</exception>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="limitQty"/> is less than or equal to zero.</exception>
     public static string ToConsole<T>(
         this IEnumerable<T> source,
         Func<T, bool> filter,
@@ -164,10 +164,10 @@ public static partial class StringOut
         ArgumentNullException.ThrowIfNull(source);
         ArgumentNullException.ThrowIfNull(filter);
 
-        if (limitQty < 0)
+        if (limitQty <= 0)
         {
             throw new ArgumentOutOfRangeException(nameof(limitQty), limitQty,
-                "limitQty must be greater than or equal to 0.");
+                "limitQty must be positive.");
         }
 
         Dictionary<string, string>? argsDict = args?.Length > 0
