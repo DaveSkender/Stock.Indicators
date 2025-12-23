@@ -63,7 +63,7 @@ These indicators use ratio-based or exponential smoothing formulas where floatin
 
 | Indicator  | Bounds   | Risk source                                                                                                   |
 | ---------- | -------- | ------------------------------------------------------------------------------------------------------------- |
-| RSI        | 0-100    | `100 - 100/(1+rs)` with Wilder's smoothing; rs = avgGain/avgLoss where avgGain or avgLoss can approach zero   |
+| RSI        | 0-100    | `100 - 100/(1+rs)` with Wilder's smoothing; as avgLoss approaches zero, rs approaches infinity causing 100+   |
 | CMO        | -100-100 | `100 * (sH - sL) / (sH + sL)` where sH approximately equals sL creates boundary conditions                    |
 | TSI        | -100-100 | Double EMA smoothing of price changes; `100 * (smoothed_change / smoothed_abs_change)`                        |
 | MFI        | 0-100    | Same formula structure as RSI: `100 - 100/(1 + ratio)`                                                        |
@@ -213,17 +213,17 @@ For each indicator:
 
 The following files contain `Results_AreAlwaysBounded` tests that need updating:
 
-### Static Series (17 tests)
+### Static Series (18 tests)
 
 - Adx, Aroon, Bop, Chop, Cmf, Cmo, ConnorsRsi, Correlation, Hurst, Kama
 - Mfi, Rsi, Stc, Stoch, StochRsi, Tsi, Ultimate, WilliamsR
 
-### BufferList (15 tests)
+### BufferList (16 tests)
 
 - Adx, Aroon, Bop, Chop, Cmf, Cmo, ConnorsRsi, Correlation
 - Mfi, Rsi, Stc, Stoch, StochRsi, Tsi, Ultimate, WilliamsR
 
-### StreamHub (19 tests)
+### StreamHub (17 tests)
 
 - Aroon, Bop, Chop, Cmf, Cmo, ConnorsRsi, Correlation, Mfi
 - Rsi, Smi, Stc, Stoch, StochRsi, Tsi, UlcerIndex, Ultimate, WilliamsR
