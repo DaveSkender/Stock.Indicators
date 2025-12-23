@@ -253,7 +253,7 @@ public class Stoch : StaticSeriesTestBase
             { "Signal", "N20" }
         };
 
-        Console.WriteLine(results.ToStringOut(args));
+        results.ToConsole(args);
 
         // analyze boundary
         results.IsBetween(static x => x.Oscillator, 0d, 100d);
