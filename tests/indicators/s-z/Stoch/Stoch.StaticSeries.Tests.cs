@@ -241,8 +241,6 @@ public class Stoch : StaticSeriesTestBase
             .OrderBy(static x => x.Timestamp)
             .ToList();
 
-        int length = quotes.Count;
-
         // get indicators (using Fast Stochastic parameters to match Williams %R)
         IReadOnlyList<StochResult> results = quotes
             .ToStoch(14, 1, 1);  // Fast Stochastic matches Williams %R formula
