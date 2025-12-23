@@ -247,14 +247,6 @@ public class Stoch : StaticSeriesTestBase
         IReadOnlyList<StochResult> results = quotes
             .ToStoch(14, 1, 1);  // Fast Stochastic matches Williams %R formula
 
-        Dictionary<string, string> args = new()
-        {
-            { "Oscillator", "N20" },
-            { "Signal", "N20" }
-        };
-
-        results.ToConsole(args);
-
         // analyze boundary
         results.IsBetween(static x => x.Oscillator, 0d, 100d);
         results.IsBetween(static x => x.Signal, 0d, 100d);
