@@ -197,6 +197,21 @@ For each indicator:
 - **Series as canonical**: All styles must match Series results exactly.
 - **Algorithm-level fixes**: Address root cause in formulas, not symptoms.
 
+## Phase 4: Test infrastructure cleanup (COMPLETED)
+
+Eliminated reliance on `BeApproximately` for precision-hiding:
+
+### Changes made
+
+1. **SMA CacheManagement.Remove test**: Changed from hardcoded expected values with `BeApproximately` to comparing StreamHub vs Series results for exact match
+2. **Regression tests (MAMA, Hurst, FisherTransform)**: Changed from `IsApproximately` to `IsExactly` after regenerating baselines
+3. **EMA tests**: Changed from `BeApproximately` with `TestPrecision` constants to `Assert.AreEqual` with `.Round(4)` for manual reference value comparisons
+4. **Removed unused files**: `TestPrecision.cs` and `IsApproximately` method from `TestAssert.cs`
+
+### Remaining `BeApproximately` uses (appropriate)
+
+The convergence tests (`Convergence.BufferLists.Tests.cs`, `Convergence.StreamHub.Tests.cs`) appropriately use `BeApproximately(0.0001)` to test convergence behavior of exponential smoothing algorithms across different dataset sizes. This is a mathematical property of these algorithms, not a precision workaround.
+
 ## Done criteria
 
 - [x] All `Results_AreAlwaysBounded` tests pass (51/51 passing)
@@ -205,6 +220,7 @@ For each indicator:
 - [x] Algebraically stable formulas documented in code comments
 - [ ] ~~XML remarks added for bounded results stating the range guarantee~~ (deferred to separate task)
 - [x] Code [completion checklist](../../.github/instructions/code-completion.instructions.md) completed with no failures
+- [x] Removed unused `IsApproximately` and `TestPrecision` from test infrastructure
 
 ## Lessons learned
 
