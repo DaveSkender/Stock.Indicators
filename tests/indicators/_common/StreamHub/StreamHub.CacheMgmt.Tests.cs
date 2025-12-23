@@ -1,5 +1,3 @@
-using Test.Tools;
-
 namespace Observables;
 
 [TestClass]

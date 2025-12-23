@@ -8,6 +8,10 @@ namespace Skender.Stock.Indicators;
 /// </summary>
 public static partial class StringOut
 {
+    // =======================================
+    // CONSTANTS
+    // =======================================
+
     private static readonly string[] IndexHeaderName = ["i"];
 
     /// <summary>
@@ -33,6 +37,10 @@ public static partial class StringOut
         { "Timestamp", "auto" }
     };
 
+    // =======================================
+    // CONSOLE OUTPUT
+    // =======================================
+
     /// <summary>
     /// Converts a list of ISeries to a fixed-width formatted string and writes it to the console.
     /// </summary>
@@ -47,6 +55,73 @@ public static partial class StringOut
         Console.WriteLine(output);
         return output ?? string.Empty;
     }
+
+    /// <summary>
+    /// Converts a list of ISeries to a fixed-width formatted string and writes it to the console.
+    /// </summary>
+    /// <typeparam name="T">The type of elements in the list, which must implement ISeries.</typeparam>
+    /// <param name="source">The list of ISeries elements to convert.</param>
+    /// <param name="filter">A predicate to filter the elements.</param>
+    /// <param name="args">Optional overrides for `ToString()` formatter. Key values can be type or property name.</param>
+    /// <returns>The fixed-width formatted string representation of the filtered list.</returns>
+    public static string ToConsole<T>(
+        this IEnumerable<T> source,
+        Func<T, bool> filter,
+        IDictionary<string, string>? args = null)
+        where T : ISeries
+    {
+        string? output = source.ToStringOut(filter, args);
+        Console.WriteLine(output);
+        return output ?? string.Empty;
+    }
+
+    /// <summary>
+    /// Converts a list of ISeries to a fixed-width formatted string and writes it to the console.
+    /// </summary>
+    /// <typeparam name="T">The type of elements in the list, which must implement ISeries.</typeparam>
+    /// <param name="source">The list of ISeries elements to convert.</param>
+    /// <param name="filter">A predicate to filter the elements.</param>
+    /// <param name="args">Optional formatting arguments as key-value pairs.</param>
+    /// <returns>The fixed-width formatted string representation of the filtered list.</returns>
+    public static string ToConsole<T>(
+        this IEnumerable<T> source,
+        Func<T, bool> filter,
+        params (string key, string value)[] args)
+        where T : ISeries
+    {
+        Dictionary<string, string>? argsDict = args?.Length > 0
+            ? args.ToDictionary(x => x.key, x => x.value)
+            : null;
+        return source.ToConsole(filter, argsDict);
+    }
+
+    /// <summary>
+    /// Converts a list of ISeries to a fixed-width formatted string and writes it to the console.
+    /// </summary>
+    /// <typeparam name="T">The type of elements in the list, which must implement ISeries.</typeparam>
+    /// <param name="source">The list of ISeries elements to convert.</param>
+    /// <param name="filter">A predicate to filter the elements.</param>
+    /// <param name="limitQty">The maximum number of elements to include in the output.</param>
+    /// <param name="args">Optional formatting arguments as key-value pairs.</param>
+    /// <returns>The fixed-width formatted string representation of the filtered list.</returns>
+    public static string ToConsole<T>(
+        this IEnumerable<T> source,
+        Func<T, bool> filter,
+        int limitQty,
+        params (string key, string value)[] args)
+        where T : ISeries
+    {
+        Dictionary<string, string>? argsDict = args?.Length > 0
+            ? args.ToDictionary(x => x.key, x => x.value)
+            : null;
+        string? output = source.ToStringOut(filter, limitQty, argsDict);
+        Console.WriteLine(output);
+        return output ?? string.Empty;
+    }
+
+    // =======================================
+    // STRING OUTPUT
+    // =======================================
 
     /// <summary>
     /// Converts a list of ISeries to a fixed-width formatted string.
@@ -118,8 +193,58 @@ public static partial class StringOut
         where T : ISeries => source.ToList().ToStringOut(startIndex, endIndex, args);
 
     /// <summary>
-    /// Converts a list of ISeries to a fixed-width formatted string.
+    /// Converts a filtered list of ISeries to a fixed-width formatted string.
     /// </summary>
+    /// <typeparam name="T">The type of elements in the list, which must implement ISeries.</typeparam>
+    /// <param name="source">The list of ISeries elements to convert.</param>
+    /// <param name="filter">A predicate to filter the elements.</param>
+    /// <param name="args">Optional overrides for `ToString()` formatter. Key values can be type or property name.</param>
+    /// <returns>A fixed-width formatted string representation of the filtered list.</returns>
+    public static string ToStringOut<T>(
+        this IEnumerable<T> source,
+        Func<T, bool> filter,
+        IDictionary<string, string>? args = null)
+        where T : ISeries
+    {
+        List<T> sourceList = source.ToList();
+        int[] indices = sourceList
+            .Select((item, index) => new { item, index })
+            .Where(x => filter(x.item))
+            .Select(x => x.index)
+            .ToArray();
+
+        return ToStringOutPreserveIndices(sourceList, indices, args);
+    }
+
+    /// <summary>
+    /// Converts a filtered list of ISeries to a fixed-width formatted string.
+    /// </summary>
+    /// <typeparam name="T">The type of elements in the list, which must implement ISeries.</typeparam>
+    /// <param name="source">The list of ISeries elements to convert.</param>
+    /// <param name="filter">A predicate to filter the elements.</param>
+    /// <param name="limitQty">The maximum number of elements to include in the output.</param>
+    /// <param name="args">Optional overrides for `ToString()` formatter. Key values can be type or property name.</param>
+    /// <returns>A fixed-width formatted string representation of the filtered list.</returns>
+    public static string ToStringOut<T>(
+        this IEnumerable<T> source,
+        Func<T, bool> filter,
+        int limitQty,
+        IDictionary<string, string>? args = null)
+        where T : ISeries
+    {
+        List<T> sourceList = source.ToList();
+        int[] indices = sourceList
+            .Select((item, index) => new { item, index })
+            .Where(x => filter(x.item))
+            .Take(limitQty)
+            .Select(x => x.index)
+            .ToArray();
+
+        return ToStringOutPreserveIndices(sourceList, indices, args);
+    }
+
+    /// <summary>
+    /// Converts a list of ISeries to a fixed-width formatted string.</summary>
     /// <typeparam name="T">The type of elements in the list, which must implement ISeries.</typeparam>
     /// <param name="source">The list of ISeries elements to convert.</param>
     /// <param name="args">Optional overrides for `ToString()` formatter. Key values can be type or property name.</param>
@@ -297,6 +422,10 @@ public static partial class StringOut
         return sb.ToString();  // includes a trailing newline
     }
 
+    // =======================================
+    // HELPER METHODS
+    // =======================================
+
     /// <summary>
     /// Determines the appropriate date precision or decimal places
     /// based on the first 1,000 actual values.
@@ -368,5 +497,99 @@ public static partial class StringOut
 
         // Return the type's name (C# alias for primitives, or the actual type name)
         return actualType.Name;
+    }
+
+    /// <summary>
+    /// Formats a list of ISeries items using specific indices, preserving original index numbers.
+    /// Reuses core formatting logic by delegating to the main ToStringOut implementation.
+    /// </summary>
+    /// <typeparam name="T">The type of series items, must implement ISeries.</typeparam>
+    /// <param name="source">The source list of series items.</param>
+    /// <param name="indices">Array of indices to include in the output.</param>
+    /// <param name="args">Optional format arguments for specific properties or types.</param>
+    /// <returns>Formatted string representation of the specified items.</returns>
+    private static string ToStringOutPreserveIndices<T>(
+        IReadOnlyList<T> source,
+        int[] indices,
+        IDictionary<string, string>? args = null)
+        where T : ISeries
+    {
+        if (indices.Length == 0)
+        {
+            return string.Empty;
+        }
+
+        // Create a wrapper that tracks original indices
+        var indexedItems = indices.Select(i => new { Index = i, Item = source[i] }).ToList();
+
+        // Build format arguments (merge with defaults)
+        Dictionary<string, string> formatArgs = defaultArgs
+            .Concat(args ?? Enumerable.Empty<KeyValuePair<string, string>>())
+            .GroupBy(kvp => kvp.Key.ToUpperInvariant())
+            .ToDictionary(g => g.Key, g => g.Last().Value);
+
+        // Get properties
+        PropertyInfo[] properties = GetStringOutProperties(typeof(T));
+        string[] headers = IndexHeaderName.Concat(properties.Select(p => p.Name)).ToArray();
+
+        // Prepare formatting configuration
+        string[] formats = new string[headers.Length];
+        bool[] alignLeft = new bool[headers.Length];
+        int[] columnWidth = headers.Select(h => h.Length).ToArray();
+
+        formats[0] = "N0";
+        alignLeft[0] = true;
+
+        for (int i = 1; i < headers.Length; i++)
+        {
+            PropertyInfo property = properties[i - 1];
+
+            // Property name takes precedence over type
+            formats[i] = formatArgs.TryGetValue(property.Name.ToUpperInvariant(), out string? propFormat)
+                ? propFormat
+                : formatArgs.TryGetValue(ColloquialTypeName(property.PropertyType).ToUpperInvariant(), out string? typeFormat)
+                    ? typeFormat
+                    : "auto";
+
+            if (formats[i] == "auto")
+            {
+                formats[i] = AutoFormat(property, source);
+            }
+
+            alignLeft[i] = !property.PropertyType.IsNumeric();
+        }
+
+        // Format all data rows (using original indices)
+        string[][] dataRows = indexedItems.Select(x => {
+            string[] row = new string[headers.Length];
+            row[0] = x.Index.ToString("N0", culture);
+
+            for (int i = 1; i < headers.Length; i++)
+            {
+                object? value = properties[i - 1].GetValue(x.Item);
+                row[i] = value is IFormattable f
+                    ? f.ToString(formats[i], culture) ?? string.Empty
+                    : value?.ToString() ?? string.Empty;
+            }
+
+            return row;
+        }).ToArray();
+
+        // Calculate column widths
+        for (int i = 0; i < headers.Length; i++)
+        {
+            columnWidth[i] = Math.Max(columnWidth[i], dataRows.Max(row => row[i].Length));
+        }
+
+        // Build output
+        StringBuilder sb = new();
+        sb.AppendJoin("  ", headers.Select((h, i) => alignLeft[i] ? h.PadRight(columnWidth[i]) : h.PadLeft(columnWidth[i]))).AppendLine()
+          .AppendJoin("  ", columnWidth.Select(w => new string('-', w))).AppendLine();
+        foreach (string[] row in dataRows)
+        {
+            sb.AppendJoin("  ", row.Select((v, i) => alignLeft[i] ? v.PadRight(columnWidth[i]) : v.PadLeft(columnWidth[i]))).AppendLine();
+        }
+
+        return sb.ToString();
     }
 }

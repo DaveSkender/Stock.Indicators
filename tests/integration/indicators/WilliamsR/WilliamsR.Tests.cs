@@ -1,5 +1,4 @@
-using FluentAssertions;
-using Skender.Stock.Indicators;
+using Test.Tools;
 
 namespace Tests.Indicators;
 
@@ -7,7 +6,7 @@ namespace Tests.Indicators;
 public class WilliamsRTests
 {
     [TestMethod]
-    public async Task LiveTest()
+    public async Task ToWilliamsR_WithLiveData_MaintainsBoundaryRange()
     {
         // initialize
         IEnumerable<Quote> feedQuotes = await FeedData  // live quotes
@@ -21,17 +20,9 @@ public class WilliamsRTests
         IReadOnlyList<WilliamsResult> results = quotes
             .ToWilliamsR(14);
 
-        Console.WriteLine($"%R from {length} quotes.");
+        results.ToConsole(r => r.WilliamsR is > 0d or < -100d, (nameof(WilliamsResult.WilliamsR), "F20"));
 
-        // analyze boundary
-        for (int i = 0; i < length; i++)
-        {
-            Quote q = quotes[i];
-            WilliamsResult r = results[i];
-
-            Console.WriteLine($"{q.Timestamp:s} {r.WilliamsR}");
-
-            r.WilliamsR?.Should().BeInRange(-100d, 0d);  // TODO: address rounding at boundaries (only)
-        }
+        // TODO: address rounding at boundaries (only)
+        results.IsBetween(results => results.WilliamsR, -100d, 0d);
     }
 }
