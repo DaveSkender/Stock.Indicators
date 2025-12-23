@@ -8,7 +8,7 @@ public class EmaTests : StaticSeriesTestBase
     {
         double ema = Ema.Increment(20, 217.5693, 222.10);
 
-        Assert.AreEqual(218.0008, ema.Round(4));
+        ema.Round(4).Should().Be(218.0008);
     }
 
     [TestMethod]
