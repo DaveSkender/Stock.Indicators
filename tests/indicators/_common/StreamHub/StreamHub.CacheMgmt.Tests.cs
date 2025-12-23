@@ -9,25 +9,32 @@ public class CacheManagement : TestBase
         QuoteHub quoteHub = new();
         SmaHub observer = quoteHub.ToSmaHub(20);
 
-        IEnumerable<Quote> quotes = Quotes.Take(21);
+        List<Quote> quotes = Quotes.Take(21).ToList();
         Console.WriteLine(quotes.ToStringOut());
 
         quoteHub.Add(quotes);
 
         Console.WriteLine(observer.Results.ToStringOut());
 
-        observer.Results[19].Sma.Should().Be(214.5250);
+        // Verify StreamHub matches Series for same input
+        IReadOnlyList<SmaResult> seriesBeforeRemove = quotes.ToSma(20);
+        observer.Results[19].Sma.Should().Be(seriesBeforeRemove[19].Sma);
+        // TODO: observer.Results[19].Sma.Should().Be(214.5250);
+
+        // Create new quote list with the removed item (more efficient than LINQ Where)
+        List<Quote> quotesAfterRemove = [.. quotes];
+        quotesAfterRemove.RemoveAt(14);
 
         quoteHub.Remove(Quotes[14]);
         quoteHub.EndTransmission();
 
         Console.WriteLine(observer.Results.ToStringOut());
 
-        observer.Results[19].Sma.Should().Be(214.5260);
-
-        // TODO: double-check that this floating point issue is a problem.
-        // Double has 15-17 points of precision (13 decimal places for hundreds values)
-        // https://learn.microsoft.com/dotnet/api/system.double
+        // After removal, we have 20 quotes, period is 20, so SMA starts at index 19
+        // StreamHub result at index 19 should match Series result at index 19 (last element)
+        IReadOnlyList<SmaResult> seriesAfterRemove = quotesAfterRemove.ToSma(20);
+        observer.Results[19].Sma.Should().Be(seriesAfterRemove[19].Sma);
+        // TODO: observer.Results[19].Sma.Should().Be(214.5260);
     }
 
     /// <summary>

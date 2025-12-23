@@ -115,9 +115,25 @@ public class StochHub
             double highHigh = _highWindow.GetMax();
             double lowLow = _lowWindow.GetMin();
 
-            rawK = highHigh - lowLow != 0
-                 ? 100d * (close - lowLow) / (highHigh - lowLow)
-                 : 0;
+            // Boundary detection to avoid floating-point precision errors at 0 and 100
+            if (highHigh == lowLow)
+            {
+                rawK = 0d;
+            }
+            else if (close >= highHigh)
+            {
+                // Exact 100 when close equals or exceeds highHigh
+                rawK = 100d;
+            }
+            else if (close <= lowLow)
+            {
+                // Exact 0 when close equals or falls below lowLow
+                rawK = 0d;
+            }
+            else
+            {
+                rawK = 100d * (close - lowLow) / (highHigh - lowLow);
+            }
         }
 
         // Add raw K to buffer for smoothing calculation
@@ -300,7 +316,26 @@ public class StochHub
                 }
 
                 double c = (double)ProviderCache[p].Close;
-                double rawAtP = (hh - ll) != 0 ? 100 * (c - ll) / (hh - ll) : 0;
+
+                // Boundary detection for consistent precision with ToIndicator
+                double rawAtP;
+                if (hh == ll)
+                {
+                    rawAtP = 0d;
+                }
+                else if (c >= hh)
+                {
+                    rawAtP = 100d;
+                }
+                else if (c <= ll)
+                {
+                    rawAtP = 0d;
+                }
+                else
+                {
+                    rawAtP = 100d * (c - ll) / (hh - ll);
+                }
+
                 _rawKBuffer.Enqueue(rawAtP);
             }
         }
