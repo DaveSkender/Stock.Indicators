@@ -1,4 +1,4 @@
-using Tests.Tools;
+using Test.Tools;
 
 namespace StaticSeries;
 

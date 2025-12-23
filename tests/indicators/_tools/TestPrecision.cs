@@ -1,4 +1,4 @@
-namespace Tests.Tools;
+namespace Test.Tools;
 
 internal static class TestPrecision
 {
@@ -30,9 +30,8 @@ internal static class TestPrecision
     /// will have compounding floating point rounding that varies based on CPU processor type.
     /// </remarks>
     internal const double HighPrecision = 1e-13d;  // TODO: double-check if floating point precision is a problem
-
     /// <summary>
-    /// 13 decimal places: &#177;1e-15d (equivalent to .Round(15))
+    /// 13 decimal places: &#177;1e-13d (equivalent to .Round(13))
     /// </summary>
     /// <remarks>
     /// Double has 15-17 points of precision

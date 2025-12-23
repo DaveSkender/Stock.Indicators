@@ -60,7 +60,7 @@ public static class TestAssert
     /// <typeparam name="T">List elements must be <see cref="ISeries"/> interface types.</typeparam>
     /// <param name="actual">The actual list of series to be compared.</param>
     /// <param name="expected">The expected list of series to compare against.</param>
-    /// <param name="precision">Decimal precision for double comparisons (default: 13 decimal places).</param>
+    /// <param name="precision">Decimal precision for double comparisons (default: 14 decimal places).</param>
     public static void IsApproximately<T>(
         this IEnumerable<T> actual,
         IEnumerable<T> expected,
