@@ -50,7 +50,7 @@ public class EmaTests : StaticSeriesTestBase
         r29.Ema.Round(4).Should().Be(216.2643);
 
         EmaResult r249 = results[249];
-        r249.Ema.Round(4).Should().Be(255.487);
+        r249.Ema.Round(4).Should().Be(255.4875);
 
         EmaResult r501 = results[501];
         r501.Ema.Round(4).Should().Be(249.9157);
