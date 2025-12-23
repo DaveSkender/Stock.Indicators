@@ -235,15 +235,14 @@ public class Stoch : StaticSeriesTestBase
     public void Issue1127_BoundaryThreshold_Maintained()
     {
         // initialize
-        IReadOnlyList<Quote> quotes = Data.GetFile("issues/issue1127.quotes.williamr.revisit")
-            .OrderBy(static x => x.Timestamp)
-            .ToList();
+        IReadOnlyList<Quote> quotes = Data.QuotesFromCsv("_issue1127.williamr.revisit.csv");
 
         // get indicators (using Fast Stochastic parameters to match Williams %R)
         IReadOnlyList<StochResult> results = quotes
             .ToStoch(14, 1, 1);  // Fast Stochastic matches Williams %R formula
 
         // analyze boundary
+        results.Should().HaveCountGreaterThan(0);
         results.IsBetween(static x => x.Oscillator, 0d, 100d);
         results.IsBetween(static x => x.Signal, 0d, 100d);
     }

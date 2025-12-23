@@ -169,7 +169,7 @@ internal static class BoundaryQuotes
     {
         List<Quote> quotes = new(bars);
         DateTime timestamp = DateTime.Today.AddDays(-bars);
-        decimal basePrice = 100m;
+        const decimal basePrice = 100m;
 
         for (int i = 0; i < bars; i++)
         {

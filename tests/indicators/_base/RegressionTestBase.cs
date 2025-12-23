@@ -1,3 +1,5 @@
+using TestData = Test.Data.Data;
+
 namespace Test.Base;
 
 /// <summary>
@@ -7,7 +9,7 @@ namespace Test.Base;
 public abstract class RegressionTestBase<TResult>(string filename) : TestBase
     where TResult : ISeries
 {
-    protected IReadOnlyList<TResult> Expected { get; init; } = Test.Data.Data.Results<TResult>(filename);
+    protected IReadOnlyList<TResult> Expected { get; init; } = TestData.ResultsFromJson<TResult>(filename);
 
     private static QuoteHub CreateQuoteHub()
     {

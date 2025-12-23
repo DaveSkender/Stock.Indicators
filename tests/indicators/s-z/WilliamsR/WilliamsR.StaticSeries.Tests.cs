@@ -91,18 +91,13 @@ public class WilliamsR : StaticSeriesTestBase
     public void Issue1127_Original_BoundaryThreshold_Maintained()
     {
         // initialize
-        IReadOnlyList<Quote> quotes = File.ReadAllLines("_testdata/issues/issue1127.quotes.williamr.original.csv")
-            .Skip(1)
-            .Select(Test.Data.Utilities.QuoteFromCsv)
-            .OrderBy(static x => x.Timestamp)
-            .ToList();
-
-        int length = quotes.Count;
+        IReadOnlyList<Quote> quotes = Data.QuotesFromCsv("_issue1127.williamr.original.csv");
 
         // get indicators
         IReadOnlyList<WilliamsResult> results = quotes
             .ToWilliamsR();
 
+        results.Should().HaveCountGreaterThan(0);
         results.IsBetween(static x => x.WilliamsR, -100d, 0d);
     }
 
@@ -110,25 +105,15 @@ public class WilliamsR : StaticSeriesTestBase
     public void Issue1127_Revisit_BoundaryThreshold_Maintained()
     {
         // initialize
-        IReadOnlyList<Quote> quotes = File.ReadAllLines("_testdata/issues/issue1127.quotes.williamr.revisit.csv")
-            .Skip(1)
-            .Select(Test.Data.Utilities.QuoteFromCsv)
-            .OrderBy(static x => x.Timestamp)
-            .ToList();
-
-        int length = quotes.Count;
+        IReadOnlyList<Quote> quotes = Data.QuotesFromCsv("_issue1127.williamr.revisit.csv");
 
         // get indicators
         IReadOnlyList<WilliamsResult> results = quotes
             .ToWilliamsR();
 
-        Dictionary<string, string> args = new()
-        {
-            { "WilliamsR", "N20" }
-        };
+        results.ToConsole(args: (nameof(WilliamsResult.WilliamsR), "F20"));
 
-        Console.WriteLine(results.ToStringOut(args));
-
+        results.Should().HaveCountGreaterThan(0);
         results.IsBetween(static x => x.WilliamsR, -100d, 0d);
     }
 

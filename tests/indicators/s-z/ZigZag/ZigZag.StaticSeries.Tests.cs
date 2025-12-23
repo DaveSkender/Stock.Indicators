@@ -1,5 +1,3 @@
-using Newtonsoft.Json;
-
 namespace StaticSeries;
 
 [TestClass]
@@ -125,15 +123,12 @@ public class ZigZag : StaticSeriesTestBase
     public void NoEntry_ThresholdNeverMet_ReturnsExpected()
     {
         // thresholds are never met
-        string json = File.ReadAllText("_testdata/issues/issue0616.quotes.zigzag.thresholds.json");
-
-        IReadOnlyList<Quote> quotes = JsonConvert
-            .DeserializeObject<IReadOnlyCollection<Quote>>(json)
-            .ToList();
+        IReadOnlyList<Quote> quotes = Data.QuotesFromJson("_issue0616.zigzag.thresholds.json");
 
         IReadOnlyList<ZigZagResult> results = quotes
             .ToZigZag();
 
+        results.Should().HaveCountGreaterThan(0);
         Assert.IsEmpty(results.Where(static x => x.PointType != null));
     }
 
@@ -141,16 +136,12 @@ public class ZigZag : StaticSeriesTestBase
     public void Issue632_ThresholdNeverMet_ReturnsExpected()
     {
         // thresholds are never met
-        string json = File.ReadAllText("_testdata/issues/issue0632.quotes.zigzag.thresholds.json");
+        IReadOnlyList<Quote> quotes = Data.QuotesFromJson("_issue0632.zigzag.thresholds.json");
 
-        IReadOnlyList<Quote> quotesList = JsonConvert
-            .DeserializeObject<IReadOnlyCollection<Quote>>(json)
-            .ToList();
-
-        IReadOnlyList<ZigZagResult> resultsList = quotesList
+        IReadOnlyList<ZigZagResult> results = quotes
             .ToZigZag();
 
-        Assert.HasCount(17, resultsList);
+        Assert.HasCount(17, results);
     }
 
     [TestMethod]
@@ -195,19 +186,14 @@ public class ZigZag : StaticSeriesTestBase
     [TestMethod]
     public void SchrodingerScenario_HighAndLowThresholdMet_IsDeterministic()
     {
-        string json = File.ReadAllText("_testdata/issues/issue0616.quotes.zigzag.schrodinger.json");
+        IReadOnlyList<Quote> quotes = Data.QuotesFromJson("_issue0616.zigzag.schrodinger.json");
 
-        IReadOnlyList<Quote> h = JsonConvert
-            .DeserializeObject<IReadOnlyCollection<Quote>>(json)
-            .OrderBy(static x => x.Timestamp)
-            .ToList();
-
-        IReadOnlyList<ZigZagResult> r1 = h.ToZigZag(EndType.Close, 0.25m).ToList();
+        IReadOnlyList<ZigZagResult> r1 = quotes.ToZigZag(EndType.Close, 0.25m).ToList();
         Assert.HasCount(342, r1);
 
         // first period has High/Low that exceeds threhold
         // where it is both a H and L pivot simultaenously
-        IReadOnlyList<ZigZagResult> r2 = h.ToZigZag(EndType.HighLow, 3).ToList();
+        IReadOnlyList<ZigZagResult> r2 = quotes.ToZigZag(EndType.HighLow, 3).ToList();
         Assert.HasCount(342, r2);
     }
 
