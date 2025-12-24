@@ -24,3 +24,8 @@ Use this checklist to verify BufferList tests meet project standards.
 - [ ] Results strictly match Series outputs for the same inputs
 - [ ] Edge cases covered (insufficient data, parameter bounds, reset)
 - [ ] Performance placeholder present in benchmarks project if applicable
+
+---
+
+**Source**: Migrated from .specify/specs/001-develop-streaming-indicators/checklists/buffer-list-tests.md  
+**Last updated**: December 24, 2025

@@ -52,14 +52,17 @@ exclude:
     "*.pptx",
     "*.sln",
     ".offline",
-    "docs/README.md",
+    "PRINCIPLES.md",
+    "README.md",
+    "checklists",
     "examples/Backtest",
     "examples/ConsoleApp",
     "plans",
     "Gemfile",
     "node_modules",
     "vendor",
-    ".devcontainer"
+    ".devcontainer",
+    ".vitepress"
   ]
 
 include:
