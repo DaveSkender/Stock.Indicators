@@ -13,19 +13,19 @@ public partial class Quotes : TestBase
         IReadOnlyList<Quote> h = quotes.ToSortedList();
 
         // proper quantities
-        Assert.HasCount(502, h);
+        h.Should().HaveCount(502);
 
         // check first date
         DateTime firstDate = DateTime.ParseExact("01/18/2016", "MM/dd/yyyy", TestBase.invariantCulture);
-        Assert.AreEqual(firstDate, h[0].Timestamp);
+        h[0].Timestamp.Should().Be(firstDate);
 
         // check last date
         DateTime lastDate = DateTime.ParseExact("12/31/2018", "MM/dd/yyyy", TestBase.invariantCulture);
-        Assert.AreEqual(lastDate, h[^1].Timestamp);
+        h[^1].Timestamp.Should().Be(lastDate);
 
         // spot check an out of sequence date
         DateTime spotDate = DateTime.ParseExact("03/16/2017", "MM/dd/yyyy", TestBase.invariantCulture);
-        Assert.AreEqual(spotDate, h[50].Timestamp);
+        h[50].Timestamp.Should().Be(spotDate);
     }
 
     [TestMethod]

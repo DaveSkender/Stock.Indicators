@@ -36,7 +36,7 @@ public class Cci : StaticSeriesTestBase
             .ToCci(15);
 
         r.Should().HaveCount(502);
-        Assert.IsEmpty(r.Where(static x => x.Cci is double.NaN));
+        r.Where(static x => x.Cci is double.NaN).Should().BeEmpty();
     }
 
     [TestMethod]

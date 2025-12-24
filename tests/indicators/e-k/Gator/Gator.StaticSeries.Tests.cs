@@ -25,51 +25,51 @@ public class Gator : StaticSeriesTestBase
 
         GatorResult r12 = sut[12];
         r12.Upper.Should().BeNull();
-        Assert.AreEqual(-0.1402, Math.Round(r12.Lower.Value, 4));
+        (r12.Lower.Value).Should().BeApproximately(-0.1402, Money4);
         r12.UpperIsExpanding.Should().BeNull();
         r12.LowerIsExpanding.Should().BeNull();
 
         GatorResult r13 = sut[13];
         r13.Upper.Should().BeNull();
-        Assert.AreEqual(-0.0406, Math.Round(r13.Lower.Value, 4));
+        (r13.Lower.Value).Should().BeApproximately(-0.0406, Money4);
         r13.UpperIsExpanding.Should().BeNull();
-        Assert.IsFalse(r13.LowerIsExpanding);
+        r13.LowerIsExpanding.Should().BeFalse();
 
         GatorResult r19 = sut[19];
         r19.Upper.Should().BeNull();
-        Assert.AreEqual(-1.0018, Math.Round(r19.Lower.Value, 4));
+        (r19.Lower.Value).Should().BeApproximately(-1.0018, Money4);
         r19.UpperIsExpanding.Should().BeNull();
-        Assert.IsTrue(r19.LowerIsExpanding);
+        r19.LowerIsExpanding.Should().BeTrue();
 
         GatorResult r20 = sut[20];
-        Assert.AreEqual(0.4004, Math.Round(r20.Upper.Value, 4));
-        Assert.AreEqual(-1.0130, Math.Round(r20.Lower.Value, 4));
+        (r20.Upper.Value).Should().BeApproximately(0.4004, Money4);
+        (r20.Lower.Value).Should().BeApproximately(-1.0130, Money4);
         r20.UpperIsExpanding.Should().BeNull();
-        Assert.IsTrue(r20.LowerIsExpanding);
+        r20.LowerIsExpanding.Should().BeTrue();
 
         GatorResult r21 = sut[21];
-        Assert.AreEqual(0.7298, Math.Round(r21.Upper.Value, 4));
-        Assert.AreEqual(-0.6072, Math.Round(r21.Lower.Value, 4));
-        Assert.IsTrue(r21.UpperIsExpanding);
-        Assert.IsFalse(r21.LowerIsExpanding);
+        (r21.Upper.Value).Should().BeApproximately(0.7298, Money4);
+        (r21.Lower.Value).Should().BeApproximately(-0.6072, Money4);
+        r21.UpperIsExpanding.Should().BeTrue();
+        r21.LowerIsExpanding.Should().BeFalse();
 
         GatorResult r99 = sut[99];
-        Assert.AreEqual(0.5159, Math.Round(r99.Upper.Value, 4));
-        Assert.AreEqual(-0.2320, Math.Round(r99.Lower.Value, 4));
-        Assert.IsFalse(r99.UpperIsExpanding);
-        Assert.IsTrue(r99.LowerIsExpanding);
+        (r99.Upper.Value).Should().BeApproximately(0.5159, Money4);
+        (r99.Lower.Value).Should().BeApproximately(-0.2320, Money4);
+        r99.UpperIsExpanding.Should().BeFalse();
+        r99.LowerIsExpanding.Should().BeTrue();
 
         GatorResult r249 = sut[249];
-        Assert.AreEqual(3.1317, Math.Round(r249.Upper.Value, 4));
-        Assert.AreEqual(-1.8058, Math.Round(r249.Lower.Value, 4));
-        Assert.IsTrue(r249.UpperIsExpanding);
-        Assert.IsFalse(r249.LowerIsExpanding);
+        (r249.Upper.Value).Should().BeApproximately(3.1317, Money4);
+        (r249.Lower.Value).Should().BeApproximately(-1.8058, Money4);
+        r249.UpperIsExpanding.Should().BeTrue();
+        r249.LowerIsExpanding.Should().BeFalse();
 
         GatorResult r501 = sut[501];
-        Assert.AreEqual(7.4538, Math.Round(r501.Upper.Value, 4));
-        Assert.AreEqual(-9.2399, Math.Round(r501.Lower.Value, 4));
-        Assert.IsTrue(r501.UpperIsExpanding);
-        Assert.IsTrue(r501.LowerIsExpanding);
+        (r501.Upper.Value).Should().BeApproximately(7.4538, Money4);
+        (r501.Lower.Value).Should().BeApproximately(-9.2399, Money4);
+        r501.UpperIsExpanding.Should().BeTrue();
+        r501.LowerIsExpanding.Should().BeTrue();
     }
 
     [TestMethod]
@@ -95,51 +95,51 @@ public class Gator : StaticSeriesTestBase
 
         GatorResult r12 = sut[12];
         r12.Upper.Should().BeNull();
-        Assert.AreEqual(-0.1402, Math.Round(r12.Lower.Value, 4));
+        (r12.Lower.Value).Should().BeApproximately(-0.1402, Money4);
         r12.UpperIsExpanding.Should().BeNull();
         r12.LowerIsExpanding.Should().BeNull();
 
         GatorResult r13 = sut[13];
         r13.Upper.Should().BeNull();
-        Assert.AreEqual(-0.0406, Math.Round(r13.Lower.Value, 4));
+        (r13.Lower.Value).Should().BeApproximately(-0.0406, Money4);
         r13.UpperIsExpanding.Should().BeNull();
-        Assert.IsFalse(r13.LowerIsExpanding);
+        r13.LowerIsExpanding.Should().BeFalse();
 
         GatorResult r19 = sut[19];
         r19.Upper.Should().BeNull();
-        Assert.AreEqual(-1.0018, Math.Round(r19.Lower.Value, 4));
+        (r19.Lower.Value).Should().BeApproximately(-1.0018, Money4);
         r19.UpperIsExpanding.Should().BeNull();
-        Assert.IsTrue(r19.LowerIsExpanding);
+        r19.LowerIsExpanding.Should().BeTrue();
 
         GatorResult r20 = sut[20];
-        Assert.AreEqual(0.4004, Math.Round(r20.Upper.Value, 4));
-        Assert.AreEqual(-1.0130, Math.Round(r20.Lower.Value, 4));
+        (r20.Upper.Value).Should().BeApproximately(0.4004, Money4);
+        (r20.Lower.Value).Should().BeApproximately(-1.0130, Money4);
         r20.UpperIsExpanding.Should().BeNull();
-        Assert.IsTrue(r20.LowerIsExpanding);
+        r20.LowerIsExpanding.Should().BeTrue();
 
         GatorResult r21 = sut[21];
-        Assert.AreEqual(0.7298, Math.Round(r21.Upper.Value, 4));
-        Assert.AreEqual(-0.6072, Math.Round(r21.Lower.Value, 4));
-        Assert.IsTrue(r21.UpperIsExpanding);
-        Assert.IsFalse(r21.LowerIsExpanding);
+        (r21.Upper.Value).Should().BeApproximately(0.7298, Money4);
+        (r21.Lower.Value).Should().BeApproximately(-0.6072, Money4);
+        r21.UpperIsExpanding.Should().BeTrue();
+        r21.LowerIsExpanding.Should().BeFalse();
 
         GatorResult r99 = sut[99];
-        Assert.AreEqual(0.5159, Math.Round(r99.Upper.Value, 4));
-        Assert.AreEqual(-0.2320, Math.Round(r99.Lower.Value, 4));
-        Assert.IsFalse(r99.UpperIsExpanding);
-        Assert.IsTrue(r99.LowerIsExpanding);
+        (r99.Upper.Value).Should().BeApproximately(0.5159, Money4);
+        (r99.Lower.Value).Should().BeApproximately(-0.2320, Money4);
+        r99.UpperIsExpanding.Should().BeFalse();
+        r99.LowerIsExpanding.Should().BeTrue();
 
         GatorResult r249 = sut[249];
-        Assert.AreEqual(3.1317, Math.Round(r249.Upper.Value, 4));
-        Assert.AreEqual(-1.8058, Math.Round(r249.Lower.Value, 4));
-        Assert.IsTrue(r249.UpperIsExpanding);
-        Assert.IsFalse(r249.LowerIsExpanding);
+        (r249.Upper.Value).Should().BeApproximately(3.1317, Money4);
+        (r249.Lower.Value).Should().BeApproximately(-1.8058, Money4);
+        r249.UpperIsExpanding.Should().BeTrue();
+        r249.LowerIsExpanding.Should().BeFalse();
 
         GatorResult r501 = sut[501];
-        Assert.AreEqual(7.4538, Math.Round(r501.Upper.Value, 4));
-        Assert.AreEqual(-9.2399, Math.Round(r501.Lower.Value, 4));
-        Assert.IsTrue(r501.UpperIsExpanding);
-        Assert.IsTrue(r501.LowerIsExpanding);
+        (r501.Upper.Value).Should().BeApproximately(7.4538, Money4);
+        (r501.Lower.Value).Should().BeApproximately(-9.2399, Money4);
+        r501.UpperIsExpanding.Should().BeTrue();
+        r501.LowerIsExpanding.Should().BeTrue();
     }
 
     [TestMethod]
@@ -171,7 +171,7 @@ public class Gator : StaticSeriesTestBase
             .ToGator();
 
         r.Should().HaveCount(502);
-        Assert.IsEmpty(r.Where(static x => x.Upper is double v && double.IsNaN(v)));
+        r.Where(static x => x.Upper is double v && double.IsNaN(v)).Should().BeEmpty();
     }
 
     [TestMethod]
@@ -199,10 +199,10 @@ public class Gator : StaticSeriesTestBase
         sut.Should().HaveCount(490);
 
         GatorResult last = sut[^1];
-        Assert.AreEqual(7.4538, Math.Round(last.Upper.Value, 4));
-        Assert.AreEqual(-9.2399, Math.Round(last.Lower.Value, 4));
-        Assert.IsTrue(last.UpperIsExpanding);
-        Assert.IsTrue(last.LowerIsExpanding);
+        (last.Upper.Value).Should().BeApproximately(7.4538, Money4);
+        (last.Lower.Value).Should().BeApproximately(-9.2399, Money4);
+        last.UpperIsExpanding.Should().BeTrue();
+        last.LowerIsExpanding.Should().BeTrue();
     }
 
     [TestMethod]
@@ -216,9 +216,9 @@ public class Gator : StaticSeriesTestBase
         sut.Should().HaveCount(502 - 150);
 
         GatorResult last = sut[^1];
-        Assert.AreEqual(7.4538, Math.Round(last.Upper.Value, 4));
-        Assert.AreEqual(-9.2399, Math.Round(last.Lower.Value, 4));
-        Assert.IsTrue(last.UpperIsExpanding);
-        Assert.IsTrue(last.LowerIsExpanding);
+        (last.Upper.Value).Should().BeApproximately(7.4538, Money4);
+        (last.Lower.Value).Should().BeApproximately(-9.2399, Money4);
+        last.UpperIsExpanding.Should().BeTrue();
+        last.LowerIsExpanding.Should().BeTrue();
     }
 }

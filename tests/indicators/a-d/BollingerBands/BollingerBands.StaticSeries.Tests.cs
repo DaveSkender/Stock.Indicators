@@ -76,7 +76,7 @@ public class BollingerBands : StaticSeriesTestBase
             .ToBollingerBands(15, 3);
 
         r.Should().HaveCount(502);
-        Assert.IsEmpty(r.Where(static x => x.UpperBand is double v && double.IsNaN(v)));
+        r.Where(static x => x.UpperBand is double v && double.IsNaN(v)).Should().BeEmpty();
     }
 
     [TestMethod]

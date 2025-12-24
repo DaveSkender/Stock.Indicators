@@ -58,7 +58,7 @@ public class UlcerIndex : StaticSeriesTestBase
             .ToUlcerIndex(15);
 
         r.Should().HaveCount(502);
-        Assert.IsEmpty(r.Where(static x => x.UlcerIndex is double.NaN));
+        r.Where(static x => x.UlcerIndex is double.NaN).Should().BeEmpty();
     }
 
     [TestMethod]

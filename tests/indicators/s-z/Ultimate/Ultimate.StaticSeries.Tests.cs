@@ -49,7 +49,7 @@ public class Ultimate : StaticSeriesTestBase
             .ToUltimate(1, 2, 3);
 
         r.Should().HaveCount(502);
-        Assert.IsEmpty(r.Where(static x => x.Ultimate is double.NaN));
+        r.Where(static x => x.Ultimate is double.NaN).Should().BeEmpty();
     }
 
     [TestMethod]

@@ -13,8 +13,8 @@ public partial class Sma : StaticSeriesTestBase
         ];
 
         // sut
-        double? mid = results.Average(2, 1);
-        double? end = results.Average(2);
+        double? mid = sut.Average(2, 1);
+        double? end = sut.Average(2);
 
         // assert
         mid.Should().Be(2);

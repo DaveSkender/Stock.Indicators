@@ -83,12 +83,12 @@ public class Alma : StaticSeriesTestBase
         IReadOnlyList<AlmaResult> r1
             = Data.GetBtcUsdNan().ToAlma();
 
-        Assert.IsEmpty(r1.Where(static x => x.Alma is double.NaN));
+        r1.Where(static x => x.Alma is double.NaN).Should().BeEmpty();
 
         IReadOnlyList<AlmaResult> r2
             = Data.GetBtcUsdNan().ToAlma(20);
 
-        Assert.IsEmpty(r2.Where(static x => x.Alma is double.NaN));
+        r2.Where(static x => x.Alma is double.NaN).Should().BeEmpty();
     }
 
     [TestMethod]
@@ -97,7 +97,7 @@ public class Alma : StaticSeriesTestBase
         IReadOnlyList<AlmaResult> r = BadQuotes.ToAlma(14, 0.5, 3);
 
         r.Should().HaveCount(502);
-        Assert.IsEmpty(r.Where(static x => x.Alma is double.NaN));
+        r.Where(static x => x.Alma is double.NaN).Should().BeEmpty();
     }
 
     [TestMethod]

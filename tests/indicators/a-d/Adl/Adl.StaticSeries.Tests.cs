@@ -15,13 +15,13 @@ public class Adl : StaticSeriesTestBase
         // sample values
         AdlResult r1 = sut[249];
         r1.MoneyFlowMultiplier.Should().BeApproximately(0.7778, Money4);
-        Assert.AreEqual(36433792.89, r1.MoneyFlowVolume.Round(2));
-        Assert.AreEqual(3266400865.74, r1.Adl.Round(2));
+        r1.MoneyFlowVolume.Should().BeApproximately(36433792.89, 0.005);
+        r1.Adl.Should().BeApproximately(3266400865.74, 0.005);
 
         AdlResult r2 = sut[501];
         r2.MoneyFlowMultiplier.Should().BeApproximately(0.8052, Money4);
-        Assert.AreEqual(118396116.25, r2.MoneyFlowVolume.Round(2));
-        Assert.AreEqual(3439986548.42, r2.Adl.Round(2));
+        r2.MoneyFlowVolume.Should().BeApproximately(118396116.25, 0.005);
+        r2.Adl.Should().BeApproximately(3439986548.42, 0.005);
     }
 
     [TestMethod]
@@ -45,7 +45,7 @@ public class Adl : StaticSeriesTestBase
             .ToAdl();
 
         r.Should().HaveCount(502);
-        Assert.IsEmpty(r.Where(static x => double.IsNaN(x.Adl)));
+        r.Where(static x => double.IsNaN(x.Adl)).Should().BeEmpty();
     }
 
     [TestMethod]

@@ -68,7 +68,7 @@ public class Roc : StaticSeriesTestBase
             .ToRoc(35);
 
         r.Should().HaveCount(502);
-        Assert.IsEmpty(r.Where(static x => x.Roc is double.NaN));
+        r.Where(static x => x.Roc is double.NaN).Should().BeEmpty();
     }
 
     [TestMethod]

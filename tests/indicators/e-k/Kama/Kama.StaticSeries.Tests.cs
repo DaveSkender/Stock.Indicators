@@ -95,7 +95,7 @@ public class Kama : StaticSeriesTestBase
             .ToKama();
 
         r.Should().HaveCount(502);
-        Assert.IsEmpty(r.Where(static x => x.Kama is double.NaN));
+        r.Where(static x => x.Kama is double.NaN).Should().BeEmpty();
     }
 
     [TestMethod]

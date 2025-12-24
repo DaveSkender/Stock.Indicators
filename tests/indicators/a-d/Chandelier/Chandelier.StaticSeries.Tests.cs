@@ -48,7 +48,7 @@ public class Chandelier : StaticSeriesTestBase
             .ToChandelier(15, 2);
 
         r.Should().HaveCount(502);
-        Assert.IsEmpty(r.Where(static x => x.ChandelierExit is double.NaN));
+        r.Where(static x => x.ChandelierExit is double.NaN).Should().BeEmpty();
     }
 
     [TestMethod]

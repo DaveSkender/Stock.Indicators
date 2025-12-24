@@ -69,38 +69,38 @@ public class CatalogSearchTests : TestBase
     [TestMethod]
     public void SearchByNameWithStyleShouldReturnCorrectIndicators()
     {
-        IReadOnlyCollection<IndicatorListing> results = Catalog.Search("Moving", Style.Series);
-        results.Should().NotBeEmpty();
-        results.Should().Contain(static l => l.Uiid == "EMA" && l.Style == Style.Series);
-        results.Should().Contain(static l => l.Uiid == "SMA" && l.Style == Style.Series);
-        results.Should().NotContain(static l => l.Style != Style.Series);
-        results.Should().OnlyContain(static l => l.Name.Contains("Moving"));
+        IReadOnlyCollection<IndicatorListing> sut = Catalog.Search("Moving", Style.Series);
+        sut.Should().NotBeEmpty();
+        sut.Should().Contain(static l => l.Uiid == "EMA" && l.Style == Style.Series);
+        sut.Should().Contain(static l => l.Uiid == "SMA" && l.Style == Style.Series);
+        sut.Should().NotContain(static l => l.Style != Style.Series);
+        sut.Should().OnlyContain(static l => l.Name.Contains("Moving"));
     }
 
     [TestMethod]
     public void SearchByNameWithCategoryShouldReturnCorrectIndicators()
     {
-        IReadOnlyCollection<IndicatorListing> results = Catalog.Search("Moving", Category.MovingAverage);
-        results.Should().NotBeEmpty();
-        results.Should().Contain(static l => l.Uiid == "EMA");
-        results.Should().Contain(static l => l.Uiid == "SMA");
-        results.Should().OnlyContain(static l => l.Category == Category.MovingAverage);
-        results.Should().OnlyContain(static l => l.Name.Contains("Moving"));
+        IReadOnlyCollection<IndicatorListing> sut = Catalog.Search("Moving", Category.MovingAverage);
+        sut.Should().NotBeEmpty();
+        sut.Should().Contain(static l => l.Uiid == "EMA");
+        sut.Should().Contain(static l => l.Uiid == "SMA");
+        sut.Should().OnlyContain(static l => l.Category == Category.MovingAverage);
+        sut.Should().OnlyContain(static l => l.Name.Contains("Moving"));
     }
 
     [TestMethod]
     public void InvalidUiidShouldReturnEmptyCollection()
     {
-        IReadOnlyCollection<IndicatorListing> results = Catalog.Get("NONEXISTENT_INDICATOR");
-        results.Should().BeEmpty();
+        IReadOnlyCollection<IndicatorListing> sut = Catalog.Get("NONEXISTENT_INDICATOR");
+        sut.Should().BeEmpty();
     }
 
     [TestMethod]
     public void EmptySearchShouldReturnAllIndicators()
     {
-        IReadOnlyCollection<IndicatorListing> results = Catalog.Search("");
+        IReadOnlyCollection<IndicatorListing> sut = Catalog.Search("");
         IReadOnlyCollection<IndicatorListing> allIndicators = Catalog.Get();
-        results.Count.Should().Be(allIndicators.Count);
+        sut.Count.Should().Be(allIndicators.Count);
     }
 
     [TestMethod]

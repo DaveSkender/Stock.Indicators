@@ -97,7 +97,7 @@ public class Adx : StaticSeriesTestBase
         IReadOnlyList<AdxResult> r = BadQuotes.ToAdx(20);
 
         r.Should().HaveCount(502);
-        Assert.IsEmpty(r.Where(static x => x.Adx is double v && double.IsNaN(v)));
+        r.Where(static x => x.Adx is double v && double.IsNaN(v)).Should().BeEmpty();
     }
 
     [TestMethod]
@@ -129,7 +129,7 @@ public class Adx : StaticSeriesTestBase
         IReadOnlyList<AdxResult> sut = quotes.ToAdx();
 
         sut.Should().HaveCountGreaterThan(0);
-        Assert.IsEmpty(sut.Where(static x => x.Adx is double v && double.IsNaN(v)));
+        sut.Where(static x => x.Adx is double v && double.IsNaN(v)).Should().BeEmpty();
         sut.Should().HaveCount(595);
     }
 
@@ -138,7 +138,7 @@ public class Adx : StaticSeriesTestBase
     {
         IReadOnlyList<AdxResult> r = ZeroesQuotes.ToAdx();
 
-        Assert.IsEmpty(r.Where(static x => x.Adx is double v && double.IsNaN(v)));
+        r.Where(static x => x.Adx is double v && double.IsNaN(v)).Should().BeEmpty();
         r.Should().HaveCount(200);
     }
 

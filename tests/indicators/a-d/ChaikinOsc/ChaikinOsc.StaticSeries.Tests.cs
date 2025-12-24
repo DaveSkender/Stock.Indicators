@@ -18,10 +18,10 @@ public class ChaikinOsc : StaticSeriesTestBase
 
         // sample value
         ChaikinOscResult r = sut[501];
-        Assert.AreEqual(3439986548.42, r.Adl.Round(2));
+        r.Adl.Should().BeApproximately(3439986548.42, 0.005);
         r.MoneyFlowMultiplier.Should().BeApproximately(0.8052, Money4);
-        Assert.AreEqual(118396116.25, r.MoneyFlowVolume.Round(2));
-        Assert.AreEqual(-19135200.72, r.Oscillator.Round(2));
+        r.MoneyFlowVolume.Should().BeApproximately(118396116.25, 0.005);
+        r.Oscillator.Should().BeApproximately(-19135200.72, 0.005);
     }
 
     [TestMethod]
@@ -42,7 +42,7 @@ public class ChaikinOsc : StaticSeriesTestBase
             .ToChaikinOsc(5, 15);
 
         r.Should().HaveCount(502);
-        Assert.IsEmpty(r.Where(static x => x.Oscillator is double v && double.IsNaN(v)));
+        r.Where(static x => x.Oscillator is double v && double.IsNaN(v)).Should().BeEmpty();
     }
 
     [TestMethod]
@@ -73,10 +73,10 @@ public class ChaikinOsc : StaticSeriesTestBase
         sut.Should().HaveCount(502 - (slowPeriods + 100));
 
         ChaikinOscResult last = sut[^1];
-        Assert.AreEqual(3439986548.42, last.Adl.Round(2));
+        last.Adl.Should().BeApproximately(3439986548.42, 0.005);
         last.MoneyFlowMultiplier.Should().BeApproximately(0.8052, Money4);
-        Assert.AreEqual(118396116.25, last.MoneyFlowVolume.Round(2));
-        Assert.AreEqual(-19135200.72, last.Oscillator.Round(2));
+        last.MoneyFlowVolume.Should().BeApproximately(118396116.25, 0.005);
+        last.Oscillator.Should().BeApproximately(-19135200.72, 0.005);
     }
 
     [TestMethod]

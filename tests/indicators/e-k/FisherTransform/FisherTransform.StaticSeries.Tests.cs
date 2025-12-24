@@ -21,28 +21,28 @@ public class FisherTransform : StaticSeriesTestBase
         sut[1].Trigger.Should().Be(0);
 
         Assert.AreEqual(0.6873, Math.Round(sut[2].Fisher, 4));
-        Assert.AreEqual(0.3428, Math.Round(sut[2].Trigger.Value, 4));
+        (sut[2].Trigger.Value).Should().BeApproximately(0.3428, Money4);
 
         Assert.AreEqual(1.3324, Math.Round(sut[9].Fisher, 4));
-        Assert.AreEqual(1.4704, Math.Round(sut[9].Trigger.Value, 4));
+        (sut[9].Trigger.Value).Should().BeApproximately(1.4704, Money4);
 
         Assert.AreEqual(0.9790, Math.Round(sut[10].Fisher, 4));
-        Assert.AreEqual(1.3324, Math.Round(sut[10].Trigger.Value, 4));
+        (sut[10].Trigger.Value).Should().BeApproximately(1.3324, Money4);
 
         Assert.AreEqual(6.1509, Math.Round(sut[35].Fisher, 4));
-        Assert.AreEqual(4.7014, Math.Round(sut[35].Trigger.Value, 4));
+        (sut[35].Trigger.Value).Should().BeApproximately(4.7014, Money4);
 
         Assert.AreEqual(5.4455, Math.Round(sut[36].Fisher, 4));
-        Assert.AreEqual(6.1509, Math.Round(sut[36].Trigger.Value, 4));
+        (sut[36].Trigger.Value).Should().BeApproximately(6.1509, Money4);
 
         Assert.AreEqual(1.0349, Math.Round(sut[149].Fisher, 4));
-        Assert.AreEqual(0.7351, Math.Round(sut[149].Trigger.Value, 4));
+        (sut[149].Trigger.Value).Should().BeApproximately(0.7351, Money4);
 
         Assert.AreEqual(1.3496, Math.Round(sut[249].Fisher, 4));
-        Assert.AreEqual(1.4408, Math.Round(sut[249].Trigger.Value, 4));
+        (sut[249].Trigger.Value).Should().BeApproximately(1.4408, Money4);
 
         Assert.AreEqual(-1.2876, Math.Round(sut[501].Fisher, 4));
-        Assert.AreEqual(-2.0071, Math.Round(sut[501].Trigger.Value, 4));
+        (sut[501].Trigger.Value).Should().BeApproximately(-2.0071, Money4);
     }
 
     [TestMethod]
@@ -85,7 +85,7 @@ public class FisherTransform : StaticSeriesTestBase
             .ToFisherTransform(9);
 
         r.Should().HaveCount(502);
-        Assert.IsEmpty(r.Where(static x => x.Fisher is double v && double.IsNaN(v)));
+        r.Where(static x => x.Fisher is double v && double.IsNaN(v)).Should().BeEmpty();
     }
 
     [TestMethod]

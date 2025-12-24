@@ -16,7 +16,7 @@ public class Marubozu : StaticSeriesTestBase
         // sample values
         CandleResult r31 = sut[31];
         r31.Price.Should().BeNull();
-        Assert.AreEqual(0, (int)r31.Match);
+        ((int)r31.Match).Should().Be(0);
 
         CandleResult r32 = sut[32];
         r32.Price.Should().Be(222.10m);

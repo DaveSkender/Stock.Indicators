@@ -42,7 +42,7 @@ public class Vwma : StaticSeriesTestBase
             .ToVwma(15);
 
         r.Should().HaveCount(502);
-        Assert.IsEmpty(r.Where(static x => x.Vwma is double v && double.IsNaN(v)));
+        r.Where(static x => x.Vwma is double v && double.IsNaN(v)).Should().BeEmpty();
     }
 
     [TestMethod]

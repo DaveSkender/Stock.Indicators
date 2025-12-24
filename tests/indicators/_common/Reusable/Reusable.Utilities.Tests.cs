@@ -14,17 +14,16 @@ public class Reusable : TestBase
         original[249] = original[249] with { Adx = null };
         original[345] = original[345] with { Adx = double.NaN };
 
-        IReadOnlyList<AdxResult> results
-            = original.Condense();
+        IReadOnlyList<AdxResult> sut = original.Condense();
 
         // proper quantities
-        Assert.HasCount(473, results);
+        sut.Should().HaveCount(473);
 
         // sample values
-        AdxResult last = results[^1];
-        Assert.AreEqual(17.7565, last.Pdi.Round(4));
-        Assert.AreEqual(31.1510, last.Mdi.Round(4));
-        Assert.AreEqual(34.2987, last.Adx.Round(4));
+        AdxResult last = sut[^1];
+        last.Pdi.Should().BeApproximately(17.7565, Money4);
+        last.Mdi.Should().BeApproximately(31.1510, Money4);
+        last.Adx.Should().BeApproximately(34.2987, Money4);
     }
 
     [TestMethod]
@@ -33,9 +32,9 @@ public class Reusable : TestBase
         IReadOnlyList<IReusable> reusableList = Quotes
             .ToReusable(CandlePart.Close);
 
-        Assert.IsNotNull(reusableList);
-        Assert.HasCount(502, reusableList);
-        Assert.AreEqual(245.28d, reusableList[^1].Value);
+        reusableList.Should().NotBeNull();
+        reusableList.Should().HaveCount(502);
+        reusableList[^1].Value.Should().Be(245.28d);
     }
 
     [TestMethod]

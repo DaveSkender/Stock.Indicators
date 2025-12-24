@@ -27,7 +27,7 @@ public class Dpo : StaticSeriesTestBase
         IReadOnlyList<DpoResult> act = qot.ToDpo(14);
 
         // assertions
-        Assert.HasCount(exp.Count, act);
+        act.Should().HaveCount(exp.Count);
 
         // compare all values
         for (int i = 0; i < exp.Count; i++)
@@ -81,7 +81,7 @@ public class Dpo : StaticSeriesTestBase
             .ToDpo(5);
 
         r.Should().HaveCount(502);
-        Assert.IsEmpty(r.Where(static x => x.Dpo is double v && double.IsNaN(v)));
+        r.Where(static x => x.Dpo is double v && double.IsNaN(v)).Should().BeEmpty();
     }
 
     [TestMethod]

@@ -25,7 +25,7 @@ public class Renko : StaticSeriesTestBase
         r0.Low.Should().Be(212.53m);
         r0.Close.Should().Be(215.5m);
         r0.Volume.Should().Be(1180981564m);
-        Assert.IsTrue(r0.IsUp);
+        r0.IsUp.Should().BeTrue();
 
         RenkoResult r5 = sut[5];
         r5.Open.Should().Be(225.5m);
@@ -33,7 +33,7 @@ public class Renko : StaticSeriesTestBase
         r5.Low.Should().Be(219.77m);
         r5.Close.Should().Be(228m);
         r5.Volume.Should().Be(4192959240m);
-        Assert.IsTrue(r5.IsUp);
+        r5.IsUp.Should().BeTrue();
 
         RenkoResult last = sut[^1];
         last.Open.Should().Be(240.5m);
@@ -41,7 +41,7 @@ public class Renko : StaticSeriesTestBase
         last.Low.Should().Be(234.52m);
         last.Close.Should().Be(243m);
         last.Volume.Should().Be(189794032m);
-        Assert.IsTrue(last.IsUp);
+        last.IsUp.Should().BeTrue();
     }
 
     [TestMethod]
@@ -60,24 +60,24 @@ public class Renko : StaticSeriesTestBase
         r0.High.Should().Be(216.89m);
         r0.Low.Should().Be(212.53m);
         r0.Close.Should().Be(215.5m);
-        Assert.AreEqual(1180981564m, r0.Volume.Round(0));
-        Assert.IsTrue(r0.IsUp);
+        r0.Volume.Should().BeApproximately(1180981564m, 0.5m);
+        r0.IsUp.Should().BeTrue();
 
         RenkoResult r25 = sut[25];
         r25.Open.Should().Be(270.5m);
         r25.High.Should().Be(273.16m);
         r25.Low.Should().Be(271.96m);
         r25.Close.Should().Be(273m);
-        Assert.AreEqual(100801672m, r25.Volume.Round(0));
-        Assert.IsTrue(r25.IsUp);
+        r25.Volume.Should().BeApproximately(100801672m, 0.5m);
+        r25.IsUp.Should().BeTrue();
 
         RenkoResult last = sut[^1];
         last.Open.Should().Be(243m);
         last.High.Should().Be(246.73m);
         last.Low.Should().Be(241.87m);
         last.Close.Should().Be(245.5m);
-        Assert.AreEqual(51999637m, last.Volume.Round(0));
-        Assert.IsTrue(last.IsUp);
+        last.Volume.Should().BeApproximately(51999637m, 0.5m);
+        last.IsUp.Should().BeTrue();
     }
 
     [TestMethod]
@@ -95,16 +95,16 @@ public class Renko : StaticSeriesTestBase
         ((double?)r0.High).Should().BeApproximately((double)220.19m, Money3);
         ((double?)r0.Low).Should().BeApproximately((double)212.53m, Money3);
         ((double?)r0.Close).Should().BeApproximately((double)218.9497m, Money3);
-        Assert.AreEqual(2090292272m, r0.Volume.Round(0));
-        Assert.IsTrue(r0.IsUp);
+        r0.Volume.Should().BeApproximately(2090292272m, 0.5m);
+        r0.IsUp.Should().BeTrue();
 
         RenkoResult last = sut[^1];
         ((double?)last.Open).Should().BeApproximately((double)237.3990m, Money3);
         ((double?)last.High).Should().BeApproximately((double)246.73m, Money3);
         ((double?)last.Low).Should().BeApproximately((double)229.42m, Money3);
         ((double?)last.Close).Should().BeApproximately((double)243.5487m, Money3);
-        Assert.AreEqual(715446448m, last.Volume.Round(0));
-        Assert.IsTrue(last.IsUp);
+        last.Volume.Should().BeApproximately(715446448m, 0.5m);
+        last.IsUp.Should().BeTrue();
     }
 
     [TestMethod]
@@ -121,7 +121,7 @@ public class Renko : StaticSeriesTestBase
         IReadOnlyList<RenkoResult> r = BadQuotes
             .ToRenko(100m);
 
-        Assert.AreNotEqual(0, r.Count);
+        r.Count.Should().NotBe(0);
     }
 
     [TestMethod]

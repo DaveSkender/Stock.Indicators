@@ -42,7 +42,7 @@ public class Vortex : StaticSeriesTestBase
             .ToVortex(20);
 
         r.Should().HaveCount(502);
-        Assert.IsEmpty(r.Where(static x => x.Pvi is double v && double.IsNaN(v)));
+        r.Where(static x => x.Pvi is double v && double.IsNaN(v)).Should().BeEmpty();
     }
 
     [TestMethod]

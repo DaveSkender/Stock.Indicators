@@ -23,43 +23,43 @@ public class StdDevChannels : StaticSeriesTestBase
         r1.Centerline.Should().BeNull();
         r1.UpperChannel.Should().BeNull();
         r1.LowerChannel.Should().BeNull();
-        Assert.IsFalse(r1.BreakPoint);
+        r1.BreakPoint.Should().BeFalse();
 
         StdDevChannelsResult r2 = sut[2];
         r2.Centerline.Should().BeApproximately(213.7993, Money4);
         r2.UpperChannel.Should().BeApproximately(215.7098, Money4);
         r2.LowerChannel.Should().BeApproximately(211.8888, Money4);
-        Assert.IsTrue(r2.BreakPoint);
+        r2.BreakPoint.Should().BeTrue();
 
         StdDevChannelsResult r3 = sut[141];
         r3.Centerline.Should().BeApproximately(236.1744, Money4);
         r3.UpperChannel.Should().BeApproximately(240.4784, Money4);
         r3.LowerChannel.Should().BeApproximately(231.8704, Money4);
-        Assert.IsFalse(r3.BreakPoint);
+        r3.BreakPoint.Should().BeFalse();
 
         StdDevChannelsResult r4 = sut[142];
         r4.Centerline.Should().BeApproximately(236.3269, Money4);
         r4.UpperChannel.Should().BeApproximately(239.5585, Money4);
         r4.LowerChannel.Should().BeApproximately(233.0953, Money4);
-        Assert.IsTrue(r4.BreakPoint);
+        r4.BreakPoint.Should().BeTrue();
 
         StdDevChannelsResult r5 = sut[249];
         r5.Centerline.Should().BeApproximately(259.6044, Money4);
         r5.UpperChannel.Should().BeApproximately(267.5754, Money4);
         r5.LowerChannel.Should().BeApproximately(251.6333, Money4);
-        Assert.IsFalse(r5.BreakPoint);
+        r5.BreakPoint.Should().BeFalse();
 
         StdDevChannelsResult r6 = sut[482];
         r6.Centerline.Should().BeApproximately(267.9069, Money4);
         r6.UpperChannel.Should().BeApproximately(289.7473, Money4);
         r6.LowerChannel.Should().BeApproximately(246.0664, Money4);
-        Assert.IsTrue(r6.BreakPoint);
+        r6.BreakPoint.Should().BeTrue();
 
         StdDevChannelsResult r7 = sut[501];
         r7.Centerline.Should().BeApproximately(235.8131, Money4);
         r7.UpperChannel.Should().BeApproximately(257.6536, Money4);
         r7.LowerChannel.Should().BeApproximately(213.9727, Money4);
-        Assert.IsFalse(r7.BreakPoint);
+        r7.BreakPoint.Should().BeFalse();
     }
 
     [TestMethod]
@@ -82,7 +82,7 @@ public class StdDevChannels : StaticSeriesTestBase
         r1.Centerline.Should().BeApproximately(219.2605, Money4);
         r1.UpperChannel.Should().BeApproximately(258.7104, Money4);
         r1.LowerChannel.Should().BeApproximately(179.8105, Money4);
-        Assert.IsTrue(r1.BreakPoint);
+        r1.BreakPoint.Should().BeTrue();
 
         StdDevChannelsResult r2 = sut[249];
         r2.Centerline.Should().BeApproximately(249.3814, Money4);
@@ -124,7 +124,7 @@ public class StdDevChannels : StaticSeriesTestBase
             .ToStdDevChannels();
 
         r.Should().HaveCount(502);
-        Assert.IsEmpty(r.Where(static x => x.UpperChannel is double v && double.IsNaN(v)));
+        r.Where(static x => x.UpperChannel is double v && double.IsNaN(v)).Should().BeEmpty();
     }
 
     [TestMethod]
@@ -157,7 +157,7 @@ public class StdDevChannels : StaticSeriesTestBase
         last.Centerline.Should().BeApproximately(235.8131, Money4);
         last.UpperChannel.Should().BeApproximately(257.6536, Money4);
         last.LowerChannel.Should().BeApproximately(213.9727, Money4);
-        Assert.IsFalse(last.BreakPoint);
+        last.BreakPoint.Should().BeFalse();
     }
 
     [TestMethod]
@@ -176,7 +176,7 @@ public class StdDevChannels : StaticSeriesTestBase
         last.Centerline.Should().BeApproximately(235.8131, Money4);
         last.UpperChannel.Should().BeApproximately(257.6536, Money4);
         last.LowerChannel.Should().BeApproximately(213.9727, Money4);
-        Assert.IsFalse(last.BreakPoint);
+        last.BreakPoint.Should().BeFalse();
     }
 
     [TestMethod]

@@ -46,7 +46,7 @@ public class WilliamsR : StaticSeriesTestBase
             .ToWilliamsR(20);
 
         sut.Should().HaveCount(502);
-        Assert.IsEmpty(sut.Where(static x => x.WilliamsR is double v && double.IsNaN(v)));
+        sut.Where(static x => x.WilliamsR is double v && double.IsNaN(v)).Should().BeEmpty();
     }
 
     [TestMethod]

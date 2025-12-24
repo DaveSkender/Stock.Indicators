@@ -71,7 +71,7 @@ public class Correlation : StaticSeriesTestBase
 
         sut.Should().HaveCount(502);
         sut.Where(static x => x.Correlation != null).Should().HaveCount(482);
-        Assert.IsEmpty(sut.Where(static x => x.Correlation is double v && double.IsNaN(v)));
+        sut.Where(static x => x.Correlation is double v && double.IsNaN(v)).Should().BeEmpty();
     }
 
     [TestMethod]
@@ -81,7 +81,7 @@ public class Correlation : StaticSeriesTestBase
             .ToCorrelation(BadQuotes, 15);
 
         r.Should().HaveCount(502);
-        Assert.IsEmpty(r.Where(static x => x.Correlation is double v && double.IsNaN(v)));
+        r.Where(static x => x.Correlation is double v && double.IsNaN(v)).Should().BeEmpty();
     }
 
     [TestMethod]

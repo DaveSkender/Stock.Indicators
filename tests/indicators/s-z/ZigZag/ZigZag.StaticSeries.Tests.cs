@@ -129,7 +129,7 @@ public class ZigZag : StaticSeriesTestBase
             .ToZigZag();
 
         sut.Should().HaveCountGreaterThan(0);
-        Assert.IsEmpty(sut.Where(static x => x.PointType != null));
+        sut.Where(static x => x.PointType != null).Should().BeEmpty();
     }
 
     [TestMethod]

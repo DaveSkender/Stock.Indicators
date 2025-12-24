@@ -120,8 +120,8 @@ public class Vwma : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
         QuoteHub quoteHub = new();
         VwmaHub observer = quoteHub.ToVwmaHub(lookbackPeriods);
 
-        IReadOnlyList<VwmaResult> results = observer.Results;
-        results.Should().BeEmpty();
+        IReadOnlyList<VwmaResult> sut = observer.Results;
+        sut.Should().BeEmpty();
     }
 
     [TestMethod]
@@ -136,9 +136,9 @@ public class Vwma : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
             quoteHub.Add(Quotes[i]);
         }
 
-        IReadOnlyList<VwmaResult> results = observer.Results;
-        results.Should().HaveCount(lookbackPeriods - 1);
-        results.All(static r => r.Vwma == null).Should().BeTrue();
+        IReadOnlyList<VwmaResult> sut = observer.Results;
+        sut.Should().HaveCount(lookbackPeriods - 1);
+        sut.All(static r => r.Vwma == null).Should().BeTrue();
     }
 
     [TestMethod]
@@ -162,9 +162,9 @@ public class Vwma : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
             quoteHub.Add(quote);
         }
 
-        IReadOnlyList<VwmaResult> results = observer.Results;
+        IReadOnlyList<VwmaResult> sut = observer.Results;
 
         // Results with sufficient data but zero volume should have null VWMA
-        results.Skip(lookbackPeriods - 1).All(static r => r.Vwma == null).Should().BeTrue();
+        sut.Skip(lookbackPeriods - 1).All(static r => r.Vwma == null).Should().BeTrue();
     }
 }

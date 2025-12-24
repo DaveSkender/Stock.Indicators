@@ -20,19 +20,19 @@ public class ParabolicSar : StaticSeriesTestBase
         // sample values
         ParabolicSarResult r14 = sut[14];
         r14.Sar.Should().Be(212.83);
-        Assert.IsTrue(r14.IsReversal);
+        r14.IsReversal.Should().BeTrue();
 
         ParabolicSarResult r16 = sut[16];
         r16.Sar.Should().BeApproximately(212.9924, Money4);
-        Assert.IsFalse(r16.IsReversal);
+        r16.IsReversal.Should().BeFalse();
 
         ParabolicSarResult r94 = sut[94];
         r94.Sar.Should().BeApproximately(228.3600, Money4);
-        Assert.IsFalse(r94.IsReversal);
+        r94.IsReversal.Should().BeFalse();
 
         ParabolicSarResult r501 = sut[501];
         r501.Sar.Should().BeApproximately(229.7662, Money4);
-        Assert.IsFalse(r501.IsReversal);
+        r501.IsReversal.Should().BeFalse();
     }
 
     [TestMethod]
@@ -54,23 +54,23 @@ public class ParabolicSar : StaticSeriesTestBase
         // sample values
         ParabolicSarResult r14 = sut[14];
         r14.Sar.Should().Be(212.83);
-        Assert.IsTrue(r14.IsReversal);
+        r14.IsReversal.Should().BeTrue();
 
         ParabolicSarResult r16 = sut[16];
         r16.Sar.Should().BeApproximately(212.9518, Money4);
-        Assert.IsFalse(r16.IsReversal);
+        r16.IsReversal.Should().BeFalse();
 
         ParabolicSarResult r94 = sut[94];
         r94.Sar.Should().Be(228.36);
-        Assert.IsFalse(r94.IsReversal);
+        r94.IsReversal.Should().BeFalse();
 
         ParabolicSarResult r486 = sut[486];
         r486.Sar.Should().BeApproximately(273.4148, Money4);
-        Assert.IsFalse(r486.IsReversal);
+        r486.IsReversal.Should().BeFalse();
 
         ParabolicSarResult r501 = sut[501];
         r501.Sar.Should().Be(246.73);
-        Assert.IsFalse(r501.IsReversal);
+        r501.IsReversal.Should().BeFalse();
     }
 
     [TestMethod]
@@ -103,7 +103,7 @@ public class ParabolicSar : StaticSeriesTestBase
 
         // proper quantities
         sut.Should().HaveCount(10);
-        Assert.IsEmpty(sut.Where(static x => x.Sar != null));
+        sut.Where(static x => x.Sar != null).Should().BeEmpty();
     }
 
     [TestMethod]
@@ -113,7 +113,7 @@ public class ParabolicSar : StaticSeriesTestBase
             .ToParabolicSar(0.2, 0.2, 0.2);
 
         r.Should().HaveCount(502);
-        Assert.IsEmpty(r.Where(static x => x.Sar is double v && double.IsNaN(v)));
+        r.Where(static x => x.Sar is double v && double.IsNaN(v)).Should().BeEmpty();
     }
 
     [TestMethod]
@@ -145,7 +145,7 @@ public class ParabolicSar : StaticSeriesTestBase
 
         ParabolicSarResult last = sut[^1];
         last.Sar.Should().BeApproximately(229.7662, Money4);
-        Assert.IsFalse(last.IsReversal);
+        last.IsReversal.Should().BeFalse();
     }
 
     [TestMethod]

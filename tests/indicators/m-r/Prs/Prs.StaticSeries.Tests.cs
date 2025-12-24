@@ -60,7 +60,7 @@ public class Prs : StaticSeriesTestBase
 
         sut.Should().HaveCount(502);
         sut.Where(static x => x.Prs != null).Should().HaveCount(501);
-        Assert.IsEmpty(sut.Where(static x => x.Prs is double.NaN));
+        sut.Where(static x => x.Prs is double.NaN).Should().BeEmpty();
     }
 
     [TestMethod]
@@ -70,7 +70,7 @@ public class Prs : StaticSeriesTestBase
             .ToPrs(BadQuotes, 15);
 
         r.Should().HaveCount(502);
-        Assert.IsEmpty(r.Where(static x => x.Prs is double.NaN));
+        r.Where(static x => x.Prs is double.NaN).Should().BeEmpty();
     }
 
     [TestMethod]

@@ -17,10 +17,10 @@ public partial class Quotes : TestBase
         Assert.IsTrue(q1.Equals(q2));
         Assert.IsFalse(q1.Equals(q3));
 
-        Assert.IsTrue(q1 == q2);
-        Assert.IsFalse(q1 == q3);
+        q1 == q2.Should().BeTrue();
+        q1 == q3.Should().BeFalse();
 
-        Assert.IsFalse(q1 != q2);
-        Assert.IsTrue(q1 != q3);
+        q1 != q2.Should().BeFalse();
+        q1 != q3.Should().BeTrue();
     }
 }

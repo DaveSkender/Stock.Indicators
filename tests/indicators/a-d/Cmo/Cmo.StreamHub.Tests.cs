@@ -6,8 +6,8 @@ public class CmoHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
     [TestMethod]
     public void Results_AreAlwaysBounded()
     {
-        IReadOnlyList<CmoResult> results = Quotes.ToCmoHub(14).Results;
-        results.IsBetween(x => x.Cmo, -100, 100);
+        IReadOnlyList<CmoResult> sut = Quotes.ToCmoHub(14).Results;
+        sut.IsBetween(x => x.Cmo, -100, 100);
     }
 
     [TestMethod]

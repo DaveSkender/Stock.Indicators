@@ -6,8 +6,8 @@ public class ChopHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPro
     [TestMethod]
     public void Results_AreAlwaysBounded()
     {
-        IReadOnlyList<ChopResult> results = Quotes.ToChopHub(14).Results;
-        results.IsBetween(x => x.Chop, 0, 100);
+        IReadOnlyList<ChopResult> sut = Quotes.ToChopHub(14).Results;
+        sut.IsBetween(x => x.Chop, 0, 100);
     }
 
     [TestMethod]

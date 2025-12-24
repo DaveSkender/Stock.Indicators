@@ -16,7 +16,7 @@ public class Doji : StaticSeriesTestBase
         // sample values
         CandleResult r1 = sut[1];
         r1.Price.Should().BeNull();
-        Assert.AreEqual(0, (int)r1.Match);
+        ((int)r1.Match).Should().Be(0);
 
         CandleResult r23 = sut[23];
         r23.Price.Should().Be(216.28m);
@@ -32,7 +32,7 @@ public class Doji : StaticSeriesTestBase
 
         CandleResult r451 = sut[451];
         r451.Price.Should().Be(273.64m);
-        Assert.AreEqual(1, (int)r451.Match);
+        ((int)r451.Match).Should().Be(1);
 
         CandleResult r477 = sut[477];
         r477.Price.Should().Be(256.86m);

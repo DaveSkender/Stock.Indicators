@@ -77,7 +77,7 @@ public class Cmo : StaticSeriesTestBase
             .ToCmo(35);
 
         r.Should().HaveCount(502);
-        Assert.IsEmpty(r.Where(static x => x.Cmo is double.NaN));
+        r.Where(static x => x.Cmo is double.NaN).Should().BeEmpty();
     }
 
     [TestMethod]

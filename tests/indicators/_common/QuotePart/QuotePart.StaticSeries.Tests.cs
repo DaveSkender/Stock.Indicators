@@ -69,7 +69,7 @@ public class QuoteParts : StaticSeriesTestBase
             .Use(CandlePart.Close);
 
         r.Should().HaveCount(502);
-        Assert.IsEmpty(r.Where(static x => x.Value is double.NaN));
+        r.Where(static x => x.Value is double.NaN).Should().BeEmpty();
     }
 
     [TestMethod]

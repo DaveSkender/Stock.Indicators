@@ -74,7 +74,7 @@ public class Stc : StaticSeriesTestBase
             .ToStc();
 
         r.Should().HaveCount(502);
-        Assert.IsEmpty(r.Where(static x => x.Stc is double v && double.IsNaN(v)));
+        r.Where(static x => x.Stc is double v && double.IsNaN(v)).Should().BeEmpty();
     }
 
     [TestMethod]

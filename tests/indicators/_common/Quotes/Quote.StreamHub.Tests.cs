@@ -126,7 +126,7 @@ public class QuoteHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPr
         }
 
         // confirm public interfaces
-        Assert.HasCount(quoteHub.Cache.Count, quoteHub.Quotes);
+        quoteHub.Quotes.Should().HaveCount(quoteHub.Cache.Count);
 
         // close observations
         quoteHub.EndTransmission();

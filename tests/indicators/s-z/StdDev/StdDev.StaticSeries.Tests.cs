@@ -76,7 +76,7 @@ public class StdDev : StaticSeriesTestBase
             .ToStdDev(15);
 
         r.Should().HaveCount(502);
-        Assert.IsEmpty(r.Where(static x => x.StdDev is double.NaN));
+        r.Where(static x => x.StdDev is double.NaN).Should().BeEmpty();
     }
 
     [TestMethod]

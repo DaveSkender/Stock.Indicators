@@ -61,7 +61,7 @@ public class SmaAnalyses : StaticSeriesTestBase
             .ToSmaAnalysis(15);
 
         r.Should().HaveCount(502);
-        Assert.IsEmpty(r.Where(static x => x.Mape is double.NaN));
+        r.Where(static x => x.Mape is double.NaN).Should().BeEmpty();
     }
 
     [TestMethod]
@@ -87,7 +87,7 @@ public class SmaAnalyses : StaticSeriesTestBase
 
         // assertions
         sut.Should().HaveCount(502 - 19);
-        Assert.AreEqual(251.8600, Math.Round(sut[^1].Sma.Value, 4));
+        (sut[^1].Sma.Value).Should().BeApproximately(251.8600, Money4);
     }
 
     /// <summary>

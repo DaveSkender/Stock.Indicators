@@ -54,7 +54,7 @@ public class Bop : StaticSeriesTestBase
         IReadOnlyList<BopResult> r = Data.GetBtcUsdNan()
             .ToBop(50);
 
-        Assert.IsEmpty(r.Where(static x => x.Bop is double v && double.IsNaN(v)));
+        r.Where(static x => x.Bop is double v && double.IsNaN(v)).Should().BeEmpty();
     }
 
     [TestMethod]
@@ -64,7 +64,7 @@ public class Bop : StaticSeriesTestBase
             .ToBop();
 
         r.Should().HaveCount(502);
-        Assert.IsEmpty(r.Where(static x => x.Bop is double v && double.IsNaN(v)));
+        r.Where(static x => x.Bop is double v && double.IsNaN(v)).Should().BeEmpty();
     }
 
     [TestMethod]

@@ -36,7 +36,7 @@ public class McGinleyDynamic : StaticSeriesTestBase
 
         sut.Should().HaveCount(502);
         sut.Where(static x => x.Dynamic != null).Should().HaveCount(501);
-        Assert.IsEmpty(sut.Where(static x => x.Dynamic is double v && double.IsNaN(v)));
+        sut.Where(static x => x.Dynamic is double v && double.IsNaN(v)).Should().BeEmpty();
     }
 
     [TestMethod]
@@ -68,7 +68,7 @@ public class McGinleyDynamic : StaticSeriesTestBase
             .ToDynamic(15);
 
         r.Should().HaveCount(502);
-        Assert.IsEmpty(r.Where(static x => x.Dynamic is double v && double.IsNaN(v)));
+        r.Where(static x => x.Dynamic is double v && double.IsNaN(v)).Should().BeEmpty();
     }
 
     [TestMethod]

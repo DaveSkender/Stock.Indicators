@@ -60,7 +60,7 @@ public class Alligator : StaticSeriesTestBase
             .ToAlligator(3, 3, 2, 1, 1, 1);
 
         r.Should().HaveCount(502);
-        Assert.IsEmpty(r.Where(static x => x.Jaw is double.NaN));
+        r.Where(static x => x.Jaw is double.NaN).Should().BeEmpty();
     }
 
     [TestMethod]

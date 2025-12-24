@@ -53,7 +53,7 @@ public class StarcBands : StaticSeriesTestBase
             .ToStarcBands(10, 3, 15);
 
         r.Should().HaveCount(502);
-        Assert.IsEmpty(r.Where(static x => x.UpperBand is double v && double.IsNaN(v)));
+        r.Where(static x => x.UpperBand is double v && double.IsNaN(v)).Should().BeEmpty();
     }
 
     [TestMethod]

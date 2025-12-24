@@ -61,7 +61,7 @@ public class Hma : StaticSeriesTestBase
             .ToHma(15);
 
         r.Should().HaveCount(502);
-        Assert.IsEmpty(r.Where(static x => x.Hma is double v && double.IsNaN(v)));
+        r.Where(static x => x.Hma is double v && double.IsNaN(v)).Should().BeEmpty();
     }
 
     [TestMethod]

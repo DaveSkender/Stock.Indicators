@@ -38,7 +38,7 @@ public class Obv : StaticSeriesTestBase
             .ToObv();
 
         r.Should().HaveCount(502);
-        Assert.IsEmpty(r.Where(static x => double.IsNaN(x.Obv)));
+        r.Where(static x => double.IsNaN(x.Obv)).Should().BeEmpty();
     }
 
     [TestMethod]

@@ -80,7 +80,7 @@ public partial class Sma : StaticSeriesTestBase
         IReadOnlyList<SmaResult> r = Data.GetBtcUsdNan()
             .ToSma(50);
 
-        Assert.IsEmpty(r.Where(static x => x.Sma is double.NaN));
+        r.Where(static x => x.Sma is double.NaN).Should().BeEmpty();
     }
 
     [TestMethod]
@@ -90,7 +90,7 @@ public partial class Sma : StaticSeriesTestBase
             .ToSma(15);
 
         r.Should().HaveCount(502);
-        Assert.IsEmpty(r.Where(static x => x.Sma is double.NaN));
+        r.Where(static x => x.Sma is double.NaN).Should().BeEmpty();
     }
 
     [TestMethod]
@@ -134,11 +134,11 @@ public partial class Sma : StaticSeriesTestBase
         Assert.IsTrue(r1.Equals(r2));
         Assert.IsFalse(r1.Equals(r3));
 
-        Assert.IsTrue(r1 == r2);
-        Assert.IsFalse(r1 == r3);
+        (r1 == r2).Should().BeTrue();
+        (r1 == r3).Should().BeFalse();
 
-        Assert.IsFalse(r1 != r2);
-        Assert.IsTrue(r1 != r3);
+        (r1 != r2).Should().BeFalse();
+        (r1 != r3).Should().BeTrue();
     }
 
     /// <summary>

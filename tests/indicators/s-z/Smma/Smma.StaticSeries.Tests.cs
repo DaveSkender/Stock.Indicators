@@ -65,7 +65,7 @@ public class Smma : StaticSeriesTestBase
             .ToSmma(15);
 
         r.Should().HaveCount(502);
-        Assert.IsEmpty(r.Where(static x => x.Smma is double v && double.IsNaN(v)));
+        r.Where(static x => x.Smma is double v && double.IsNaN(v)).Should().BeEmpty();
     }
 
     [TestMethod]

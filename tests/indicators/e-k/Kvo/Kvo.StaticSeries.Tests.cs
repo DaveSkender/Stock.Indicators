@@ -20,28 +20,28 @@ public class Kvo : StaticSeriesTestBase
         r55.Signal.Should().BeNull();
 
         KvoResult r56 = sut[56];
-        Assert.AreEqual(-2138454001, Math.Round(r56.Oscillator.Value, 0));
+        (r56.Oscillator.Value).Should().BeApproximately(-2138454001, 0.5);
         r56.Signal.Should().BeNull();
 
         KvoResult r57 = sut[57];
-        Assert.AreEqual(-2265495450, Math.Round(r57.Oscillator.Value, 0));
+        (r57.Oscillator.Value).Should().BeApproximately(-2265495450, 0.5);
         r57.Signal.Should().BeNull();
 
         KvoResult r68 = sut[68];
-        Assert.AreEqual(-1241548491, Math.Round(r68.Oscillator.Value, 0));
-        Assert.AreEqual(-1489659254, Math.Round(r68.Signal.Value, 0));
+        (r68.Oscillator.Value).Should().BeApproximately(-1241548491, 0.5);
+        (r68.Signal.Value).Should().BeApproximately(-1489659254, 0.5);
 
         KvoResult r149 = sut[149];
-        Assert.AreEqual(-62800843, Math.Round(r149.Oscillator.Value, 0));
-        Assert.AreEqual(-18678832, Math.Round(r149.Signal.Value, 0));
+        (r149.Oscillator.Value).Should().BeApproximately(-62800843, 0.5);
+        (r149.Signal.Value).Should().BeApproximately(-18678832, 0.5);
 
         KvoResult r249 = sut[249];
-        Assert.AreEqual(-51541005, Math.Round(r249.Oscillator.Value, 0));
-        Assert.AreEqual(135207969, Math.Round(r249.Signal.Value, 0));
+        (r249.Oscillator.Value).Should().BeApproximately(-51541005, 0.5);
+        (r249.Signal.Value).Should().BeApproximately(135207969, 0.5);
 
         KvoResult r501 = sut[501];
-        Assert.AreEqual(-539224047, Math.Round(r501.Oscillator.Value, 0));
-        Assert.AreEqual(-1548306127, Math.Round(r501.Signal.Value, 0));
+        (r501.Oscillator.Value).Should().BeApproximately(-539224047, 0.5);
+        (r501.Signal.Value).Should().BeApproximately(-1548306127, 0.5);
     }
 
     [TestMethod]
@@ -62,7 +62,7 @@ public class Kvo : StaticSeriesTestBase
             .ToKvo();
 
         r.Should().HaveCount(502);
-        Assert.IsEmpty(r.Where(static x => x.Oscillator is double v && double.IsNaN(v)));
+        r.Where(static x => x.Oscillator is double v && double.IsNaN(v)).Should().BeEmpty();
     }
 
     [TestMethod]
@@ -90,8 +90,8 @@ public class Kvo : StaticSeriesTestBase
         sut.Should().HaveCount(502 - (55 + 150));
 
         KvoResult last = sut[^1];
-        Assert.AreEqual(-539224047, Math.Round(last.Oscillator.Value, 0));
-        Assert.AreEqual(-1548306127, Math.Round(last.Signal.Value, 0));
+        (last.Oscillator.Value).Should().BeApproximately(-539224047, 0.5);
+        (last.Signal.Value).Should().BeApproximately(-1548306127, 0.5);
     }
 
     [TestMethod]

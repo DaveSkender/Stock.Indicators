@@ -67,7 +67,7 @@ public class Tema : StaticSeriesTestBase
             .ToTema(15);
 
         r.Should().HaveCount(502);
-        Assert.IsEmpty(r.Where(static x => x.Tema is double v && double.IsNaN(v)));
+        r.Where(static x => x.Tema is double v && double.IsNaN(v)).Should().BeEmpty();
     }
 
     [TestMethod]

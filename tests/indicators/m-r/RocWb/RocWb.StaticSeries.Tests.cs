@@ -24,46 +24,46 @@ public class RocWb : StaticSeriesTestBase
         r19.LowerBand.Should().BeNull();
 
         RocWbResult r20 = sut[20];
-        Assert.AreEqual(1.0573, Math.Round(r20.Roc.Value, 4));
+        (r20.Roc.Value).Should().BeApproximately(1.0573, Money4);
         r20.RocEma.Should().BeNull();
         r20.UpperBand.Should().BeNull();
         r20.LowerBand.Should().BeNull();
 
         RocWbResult r22 = sut[22];
-        Assert.AreEqual(0.9617, Math.Round(r22.RocEma.Value, 4));
+        (r22.RocEma.Value).Should().BeApproximately(0.9617, Money4);
         r22.UpperBand.Should().BeNull();
         r22.LowerBand.Should().BeNull();
 
         RocWbResult r23 = sut[23];
-        Assert.AreEqual(0.8582, Math.Round(r23.RocEma.Value, 4));
+        (r23.RocEma.Value).Should().BeApproximately(0.8582, Money4);
         r23.UpperBand.Should().BeNull();
         r23.LowerBand.Should().BeNull();
 
         RocWbResult r38 = sut[38];
-        Assert.AreEqual(3.6872, Math.Round(r38.RocEma.Value, 4));
+        (r38.RocEma.Value).Should().BeApproximately(3.6872, Money4);
         r38.UpperBand.Should().BeNull();
         r38.LowerBand.Should().BeNull();
 
         RocWbResult r39 = sut[39];
-        Assert.AreEqual(4.5348, Math.Round(r39.RocEma.Value, 4));
-        Assert.AreEqual(3.0359, Math.Round(r39.UpperBand.Value, 4));
-        Assert.AreEqual(-3.0359, Math.Round(r39.LowerBand.Value, 4));
+        (r39.RocEma.Value).Should().BeApproximately(4.5348, Money4);
+        (r39.UpperBand.Value).Should().BeApproximately(3.0359, Money4);
+        (r39.LowerBand.Value).Should().BeApproximately(-3.0359, Money4);
 
         RocWbResult r49 = sut[49];
-        Assert.AreEqual(2.3147, Math.Round(r49.RocEma.Value, 4));
-        Assert.AreEqual(3.6761, Math.Round(r49.UpperBand.Value, 4));
+        (r49.RocEma.Value).Should().BeApproximately(2.3147, Money4);
+        (r49.UpperBand.Value).Should().BeApproximately(3.6761, Money4);
 
         RocWbResult r149 = sut[149];
-        Assert.AreEqual(1.7377, Math.Round(r149.UpperBand.Value, 4));
+        (r149.UpperBand.Value).Should().BeApproximately(1.7377, Money4);
 
         RocWbResult r249 = sut[249];
-        Assert.AreEqual(3.0683, Math.Round(r249.UpperBand.Value, 4));
+        (r249.UpperBand.Value).Should().BeApproximately(3.0683, Money4);
 
         RocWbResult r501 = sut[501];
-        Assert.AreEqual(-8.2482, Math.Round(r501.Roc.Value, 4));
-        Assert.AreEqual(-8.3390, Math.Round(r501.RocEma.Value, 4));
-        Assert.AreEqual(6.1294, Math.Round(r501.UpperBand.Value, 4));
-        Assert.AreEqual(-6.1294, Math.Round(r501.LowerBand.Value, 4));
+        (r501.Roc.Value).Should().BeApproximately(-8.2482, Money4);
+        (r501.RocEma.Value).Should().BeApproximately(-8.3390, Money4);
+        (r501.UpperBand.Value).Should().BeApproximately(6.1294, Money4);
+        (r501.LowerBand.Value).Should().BeApproximately(-6.1294, Money4);
     }
 
     [TestMethod]
@@ -106,7 +106,7 @@ public class RocWb : StaticSeriesTestBase
             .ToRocWb(35, 3, 35);
 
         r.Should().HaveCount(502);
-        Assert.IsEmpty(r.Where(static x => x.Roc is double v && double.IsNaN(v)));
+        r.Where(static x => x.Roc is double v && double.IsNaN(v)).Should().BeEmpty();
     }
 
     [TestMethod]
@@ -134,10 +134,10 @@ public class RocWb : StaticSeriesTestBase
         sut.Should().HaveCount(502 - (20 + 3 + 100));
 
         RocWbResult last = sut[^1];
-        Assert.AreEqual(-8.2482, Math.Round(last.Roc.Value, 4));
-        Assert.AreEqual(-8.3390, Math.Round(last.RocEma.Value, 4));
-        Assert.AreEqual(6.1294, Math.Round(last.UpperBand.Value, 4));
-        Assert.AreEqual(-6.1294, Math.Round(last.LowerBand.Value, 4));
+        (last.Roc.Value).Should().BeApproximately(-8.2482, Money4);
+        (last.RocEma.Value).Should().BeApproximately(-8.3390, Money4);
+        (last.UpperBand.Value).Should().BeApproximately(6.1294, Money4);
+        (last.LowerBand.Value).Should().BeApproximately(-6.1294, Money4);
     }
 
     [TestMethod]

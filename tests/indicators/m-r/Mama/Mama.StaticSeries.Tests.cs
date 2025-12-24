@@ -86,7 +86,7 @@ public class Mama : StaticSeriesTestBase
             .ToMama();
 
         r.Should().HaveCount(502);
-        Assert.IsEmpty(r.Where(static x => x.Mama is double v && double.IsNaN(v)));
+        r.Where(static x => x.Mama is double v && double.IsNaN(v)).Should().BeEmpty();
     }
 
     [TestMethod]

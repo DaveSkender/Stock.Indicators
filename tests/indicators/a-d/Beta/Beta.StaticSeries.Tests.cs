@@ -123,7 +123,7 @@ public class Beta : StaticSeriesTestBase
 
         sut.Should().HaveCount(502);
         sut.Where(static x => x.Beta != null).Should().HaveCount(481);
-        Assert.IsEmpty(sut.Where(static x => x.Beta is double.NaN));
+        sut.Where(static x => x.Beta is double.NaN).Should().BeEmpty();
     }
 
     [TestMethod]
@@ -133,19 +133,19 @@ public class Beta : StaticSeriesTestBase
             .ToBeta(BadQuotes, 15);
 
         r1.Should().HaveCount(502);
-        Assert.IsEmpty(r1.Where(static x => x.Beta is double.NaN));
+        r1.Where(static x => x.Beta is double.NaN).Should().BeEmpty();
 
         IReadOnlyList<BetaResult> r2 = BadQuotes
             .ToBeta(BadQuotes, 15, BetaType.Up);
 
         r2.Should().HaveCount(502);
-        Assert.IsEmpty(r2.Where(static x => x.BetaUp is double.NaN));
+        r2.Where(static x => x.BetaUp is double.NaN).Should().BeEmpty();
 
         IReadOnlyList<BetaResult> r3 = BadQuotes
             .ToBeta(BadQuotes, 15, BetaType.Down);
 
         r3.Should().HaveCount(502);
-        Assert.IsEmpty(r3.Where(static x => x.BetaDown is double.NaN));
+        r3.Where(static x => x.BetaDown is double.NaN).Should().BeEmpty();
     }
 
     [TestMethod]
@@ -175,7 +175,7 @@ public class Beta : StaticSeriesTestBase
             .Aggregate(PeriodSize.Month)
             .ToBeta(mktQuotes.Aggregate(PeriodSize.Month), 60);
 
-        Assert.AreEqual(0.91, sut[385].Beta.Round(2));
+        sut[385].Beta.Should().BeApproximately(0.91, 0.005);
     }
 
     [TestMethod]

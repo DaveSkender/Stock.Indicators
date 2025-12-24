@@ -67,8 +67,8 @@ public class BopHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProv
     [TestMethod]
     public void Results_AreAlwaysBounded()
     {
-        IReadOnlyList<BopResult> results = Quotes.ToBopHub(14).Results;
-        results.IsBetween(x => x.Bop, -1, 1);
+        IReadOnlyList<BopResult> sut = Quotes.ToBopHub(14).Results;
+        sut.IsBetween(x => x.Bop, -1, 1);
     }
 
     [TestMethod]

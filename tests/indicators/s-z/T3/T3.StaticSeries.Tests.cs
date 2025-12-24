@@ -72,7 +72,7 @@ public class T3 : StaticSeriesTestBase
             .ToT3();
 
         r.Should().HaveCount(502);
-        Assert.IsEmpty(r.Where(static x => x.T3 is double v && double.IsNaN(v)));
+        r.Where(static x => x.T3 is double v && double.IsNaN(v)).Should().BeEmpty();
     }
 
     [TestMethod]

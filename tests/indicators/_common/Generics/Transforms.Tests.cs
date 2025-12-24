@@ -12,8 +12,8 @@ public class Transforms : TestBase
             .ToSortedList()
             .ToCollection();
 
-        Assert.IsNotNull(collection);
-        Assert.HasCount(502, collection);
+        collection.Should().NotBeNull();
+        collection.Should().HaveCount(502);
         Assert.AreEqual(245.28m, collection.LastOrDefault().Close);
     }
 

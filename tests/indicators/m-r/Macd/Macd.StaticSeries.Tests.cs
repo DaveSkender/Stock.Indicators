@@ -82,7 +82,7 @@ public class Macd : StaticSeriesTestBase
             .ToMacd(10, 20, 5);
 
         r.Should().HaveCount(502);
-        Assert.IsEmpty(r.Where(static x => x.Macd is double v && double.IsNaN(v)));
+        r.Where(static x => x.Macd is double v && double.IsNaN(v)).Should().BeEmpty();
     }
 
     [TestMethod]
