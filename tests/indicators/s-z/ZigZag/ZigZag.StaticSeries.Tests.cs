@@ -124,6 +124,7 @@ public class ZigZag : StaticSeriesTestBase
     {
         // thresholds are never met
         IReadOnlyList<Quote> quotes = Data.QuotesFromJson("_issue0616.zigzag.thresholds.json");
+        IReadOnlyList<Quote> quotes = Data.QuotesFromJson("_issue0616.zigzag.thresholds.json");
 
         IReadOnlyList<ZigZagResult> sut = quotes
             .ToZigZag();
@@ -136,6 +137,7 @@ public class ZigZag : StaticSeriesTestBase
     public void Issue632_ThresholdNeverMet_ReturnsExpected()
     {
         // thresholds are never met
+        IReadOnlyList<Quote> quotes = Data.QuotesFromJson("_issue0632.zigzag.thresholds.json");
         IReadOnlyList<Quote> quotes = Data.QuotesFromJson("_issue0632.zigzag.thresholds.json");
 
         IReadOnlyList<ZigZagResult> sut = quotes
@@ -186,6 +188,7 @@ public class ZigZag : StaticSeriesTestBase
     [TestMethod]
     public void SchrodingerScenario_HighAndLowThresholdMet_IsDeterministic()
     {
+        IReadOnlyList<Quote> quotes = Data.QuotesFromJson("_issue0616.zigzag.schrodinger.json");
         IReadOnlyList<Quote> quotes = Data.QuotesFromJson("_issue0616.zigzag.schrodinger.json");
 
         IReadOnlyList<ZigZagResult> r1 = quotes.ToZigZag(EndType.Close, 0.25m).ToList();

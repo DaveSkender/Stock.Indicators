@@ -58,6 +58,13 @@ public class Chop : StaticSeriesTestBase
     }
 
     [TestMethod]
+    public void Results_AreAlwaysBounded()
+    {
+        IReadOnlyList<ChopResult> results = Quotes.ToChop(14);
+        results.IsBetween(x => x.Chop, 0, 100);
+    }
+
+    [TestMethod]
     public override void BadQuotes_DoesNotFail()
     {
         IReadOnlyList<ChopResult> r = BadQuotes

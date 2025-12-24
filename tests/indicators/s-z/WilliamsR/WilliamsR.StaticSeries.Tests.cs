@@ -106,6 +106,7 @@ public class WilliamsR : StaticSeriesTestBase
     {
         // initialize
         IReadOnlyList<Quote> quotes = Data.QuotesFromCsv("_issue1127.williamr.revisit.csv");
+        IReadOnlyList<Quote> quotes = Data.QuotesFromCsv("_issue1127.williamr.revisit.csv");
 
         // get indicators
         IReadOnlyList<WilliamsResult> sut = quotes

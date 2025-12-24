@@ -56,6 +56,13 @@ public class Kama : StaticSeriesTestBase
     }
 
     [TestMethod]
+    public void Results_AreAlwaysBounded()
+    {
+        IReadOnlyList<KamaResult> results = Quotes.ToKama(10, 2, 30);
+        results.IsBetween(x => x.Er, 0, 1);
+    }
+
+    [TestMethod]
     public void UseReusable()
     {
         IReadOnlyList<KamaResult> sut = Quotes
