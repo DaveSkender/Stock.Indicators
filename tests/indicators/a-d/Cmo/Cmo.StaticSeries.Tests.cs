@@ -31,6 +31,13 @@ public class Cmo : StaticSeriesTestBase
     }
 
     [TestMethod]
+    public void Results_AreAlwaysBounded()
+    {
+        IReadOnlyList<CmoResult> results = Quotes.ToCmo(14);
+        results.IsBetween(x => x.Cmo, -100, 100);
+    }
+
+    [TestMethod]
     public void UseReusable()
     {
         IReadOnlyList<CmoResult> results = Quotes

@@ -92,7 +92,7 @@ public class Stc : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Issue1107()
+    public void Issue1107_Magic58_IsNotOutOfRange()
     {
         // stochastic SMMA variant initialization bug
 
@@ -120,6 +120,13 @@ public class Stc : StaticSeriesTestBase
 
         StcResult last = results[^1];
         Assert.AreEqual(19.2544, last.Stc.Round(4));
+    }
+
+    [TestMethod]
+    public void Results_AreAlwaysBounded()
+    {
+        IReadOnlyList<StcResult> results = Quotes.ToStc(9, 12, 26);
+        results.IsBetween(x => x.Stc, 0, 100);
     }
 
     [TestMethod]

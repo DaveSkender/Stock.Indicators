@@ -14,6 +14,14 @@ public class Tsi : BufferListTestBase, ITestChainBufferList
        = Quotes.ToTsi(lookbackPeriods, smoothPeriods, signalPeriods);
 
     [TestMethod]
+    public void Results_AreAlwaysBounded()
+    {
+        TsiList results = new(25, 13, 7, Quotes);
+        results.IsBetween(x => x.Tsi, -100, 100);
+        results.IsBetween(x => x.Signal, -100, 100);
+    }
+
+    [TestMethod]
     public void AddQuote_IncrementsResults()
     {
         TsiList sut = new(lookbackPeriods, smoothPeriods, signalPeriods);

@@ -1,4 +1,4 @@
-namespace Tests.Data;
+namespace Test.Base;
 
 /// <summary>
 /// Base tests that all buffered list indicators should have for essential interfaces.

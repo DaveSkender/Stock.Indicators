@@ -19,14 +19,13 @@ public class WilliamsR : StaticSeriesTestBase
 
         WilliamsResult r2 = results[501];
         Assert.AreEqual(-52.0121, r2.WilliamsR.Round(4));
+    }
 
-        // test boundary condition
-        for (int i = 0; i < results.Count; i++)
-        {
-            WilliamsResult r = results[i];
-
-            r.WilliamsR?.Should().BeInRange(-100d, 0d);
-        }
+    [TestMethod]
+    public void Results_AreAlwaysBounded()
+    {
+        IReadOnlyList<WilliamsResult> results = Quotes.ToWilliamsR(14);
+        results.IsBetween(x => x.WilliamsR, -100, 0);
     }
 
     [TestMethod]
@@ -85,43 +84,37 @@ public class WilliamsR : StaticSeriesTestBase
             .GetRandom(2500)
             .ToWilliamsR();
 
-        // analyze boundary
-        for (int i = 0; i < results.Count; i++)
-        {
-            WilliamsResult r = results[i];
-
-            r.WilliamsR?.Should().BeInRange(-100d, 0d);
-        }
+        results.IsBetween(static x => x.WilliamsR, -100d, 0d);
     }
 
     [TestMethod]
-    public void Issue1127()
+    public void Issue1127_Original_BoundaryThreshold_Maintained()
     {
         // initialize
-        IOrderedEnumerable<Quote> test1127 = File.ReadAllLines("s-z/WilliamsR/issue1127quotes.csv")
-            .Skip(1)
-            .Select(Tests.Data.Utilities.QuoteFromCsv)
-            .OrderByDescending(static x => x.Timestamp);
-
-        IReadOnlyList<Quote> quotesList = test1127.ToList();
-        int length = quotesList.Count;
+        IReadOnlyList<Quote> quotes = Data.QuotesFromCsv("_issue1127.williamr.original.csv");
 
         // get indicators
-        IReadOnlyList<WilliamsResult> resultsList = quotesList
+        IReadOnlyList<WilliamsResult> results = quotes
             .ToWilliamsR();
 
-        Console.WriteLine($"%R from {length} quotes.");
+        results.Should().HaveCountGreaterThan(0);
+        results.IsBetween(static x => x.WilliamsR, -100d, 0d);
+    }
 
-        // analyze boundary
-        for (int i = 0; i < length; i++)
-        {
-            Quote q = quotesList[i];
-            WilliamsResult r = resultsList[i];
+    [TestMethod]
+    public void Issue1127_Revisit_BoundaryThreshold_Maintained()
+    {
+        // initialize
+        IReadOnlyList<Quote> quotes = Data.QuotesFromCsv("_issue1127.williamr.revisit.csv");
 
-            Console.WriteLine($"{q.Timestamp:s} {r.WilliamsR}");
+        // get indicators
+        IReadOnlyList<WilliamsResult> results = quotes
+            .ToWilliamsR();
 
-            r.WilliamsR?.Should().BeInRange(-100d, 0d);
-        }
+        results.ToConsole(args: (nameof(WilliamsResult.WilliamsR), "F20"));
+
+        results.Should().HaveCountGreaterThan(0);
+        results.IsBetween(static x => x.WilliamsR, -100d, 0d);
     }
 
     /// <summary>

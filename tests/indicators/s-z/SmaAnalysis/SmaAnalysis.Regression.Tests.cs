@@ -6,11 +6,11 @@ public class SmaAnalysisTests : RegressionTestBase<SmaAnalysisResult>
     public SmaAnalysisTests() : base("sma-analysis.standard.json") { }
 
     [TestMethod]
-    public override void Series() => Quotes.ToSmaAnalysis(20).AssertEquals(Expected);
+    public override void Series() => Quotes.ToSmaAnalysis(20).IsExactly(Expected);
 
     [TestMethod]
-    public override void Buffer() => new SmaAnalysisList(20, Quotes).AssertEquals(Expected);
+    public override void Buffer() => new SmaAnalysisList(20, Quotes).IsExactly(Expected);
 
     [TestMethod]
-    public override void Stream() => Quotes.ToSmaAnalysisHub(20).Results.AssertEquals(Expected);
+    public override void Stream() => Quotes.ToSmaAnalysisHub(20).Results.IsExactly(Expected);
 }

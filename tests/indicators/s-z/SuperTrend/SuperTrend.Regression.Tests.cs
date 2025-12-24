@@ -6,11 +6,11 @@ public class SupertrendTests : RegressionTestBase<SuperTrendResult>
     public SupertrendTests() : base("supertrend.standard.json") { }
 
     [TestMethod]
-    public override void Series() => Quotes.ToSuperTrend(10, 3).AssertEquals(Expected);
+    public override void Series() => Quotes.ToSuperTrend(10, 3).IsExactly(Expected);
 
     [TestMethod]
     public override void Buffer() => Assert.Inconclusive("Buffer implementation not yet available");
 
     [TestMethod]
-    public override void Stream() => Quotes.ToSuperTrendHub(10, 3).Results.AssertEquals(Expected);
+    public override void Stream() => Quotes.ToSuperTrendHub(10, 3).Results.IsExactly(Expected);
 }

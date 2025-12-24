@@ -15,13 +15,13 @@ AI agents **MUST NOT**:
 - "Optimize" or "simplify" formulas without verification
 - Apply formulas from unverified sources (TradingView, random websites, uncited calculators)
 
-**Rationale**: Every formula in this library has been validated against authoritative sources and reference calculations. Arbitrary changes break mathematical correctness and violate [Constitution §1: Mathematical Precision](../.specify/memory/constitution.md).
+**Rationale**: Every formula in this library has been validated against authoritative sources and reference calculations. Arbitrary changes break mathematical correctness and violate [Project Principles §1: Mathematical Precision](../docs/PRINCIPLES.md#1-mathematical-precision-nonnegotiable).
 
 **Exceptions**: Formula changes require:
 
 1. Explicit user authorization with source citations
 2. Updated reference calculations in `tests/indicators/` matching the new formula
-3. Constitutional amendment if changing sourcing hierarchy
+3. Update to project principles if changing sourcing hierarchy
 4. MAJOR version bump per semantic versioning
 
 <!-- ai:rule end -->
@@ -59,7 +59,7 @@ All implementations **MUST** match these reference calculations exactly.
 - ❌ AI-generated formulas without authoritative verification
 - ❌ "Common knowledge" or "industry standard" without citations
 
-**Reference**: [Constitution §1: Mathematical Precision - Formula Sourcing Hierarchy](../.specify/memory/constitution.md)
+**Reference**: [Project Principles §1: Mathematical Precision - Formula Sourcing Hierarchy](../docs/PRINCIPLES.md#1-mathematical-precision-nonnegotiable)
 <!-- ai:rule end -->
 
 ## 🔒 Implementation style parity requirements
@@ -75,7 +75,7 @@ All implementation styles (Series, BufferList, StreamHub) **MUST** produce **ide
 
 **Test requirement**: Every streaming implementation must pass regression tests with deterministic equality against Series baseline results.
 
-**Reference**: [Constitution §1: Mathematical Precision](../.specify/memory/constitution.md)
+**Reference**: [Project Principles §1: Mathematical Precision](../docs/PRINCIPLES.md#1-mathematical-precision-nonnegotiable)
 <!-- ai:rule end -->
 
 ## 🛠️ Safe modifications vs. prohibited changes
@@ -108,7 +108,7 @@ AI agents **MUST NOT** modify:
 
 1. User authorization with authoritative source citation
 2. Updated manual calculations in spreadsheets
-3. Constitution compliance check
+3. Project principles compliance check
 4. Regression test baseline updates
 
 <!-- ai:rule end -->
@@ -123,7 +123,7 @@ Before implementing **any** changes to indicator code, AI agents must verify:
 - [ ] Change does not alter default parameter values
 - [ ] All existing tests pass without modification to expected values
 - [ ] Manual calculation spreadsheets remain valid (if formula unchanged)
-- [ ] Changes comply with [Constitution §1: Mathematical Precision](../.specify/memory/constitution.md)
+- [ ] Changes comply with [Project Principles §1: Mathematical Precision](../docs/PRINCIPLES.md#1-mathematical-precision-nonnegotiable)
 - [ ] Changes follow style-specific guidelines:
   - Series: [indicator-series.instructions.md](../.github/instructions/indicator-series.instructions.md)
   - Stream: [indicator-stream.instructions.md](../.github/instructions/indicator-stream.instructions.md)
@@ -175,7 +175,7 @@ double average = sum / period;  // Keep original if tests verify correctness
 
 For comprehensive guidance, AI agents should consult:
 
-- [Constitution: Mathematical Precision](../.specify/memory/constitution.md) - NON-NEGOTIABLE principles
+- [Project Principles: Mathematical Precision](../docs/PRINCIPLES.md) - NON-NEGOTIABLE principles
 - [Code Completion Checklist](../.github/instructions/code-completion.instructions.md) - Pre-commit requirements
 - [Indicator Series Guidelines](../.github/instructions/indicator-series.instructions.md) - Series implementation patterns
 - [Indicator Stream Guidelines](../.github/instructions/indicator-stream.instructions.md) - StreamHub patterns

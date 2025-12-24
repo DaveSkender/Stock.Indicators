@@ -1,0 +1,3516 @@
+[
+  {
+    "timestamp": "2017-01-03T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-01-04T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-01-05T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-01-06T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-01-09T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-01-10T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-01-11T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-01-12T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-01-13T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-01-17T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-01-18T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-01-19T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-01-20T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-01-23T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-01-24T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-01-25T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-01-26T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-01-27T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-01-30T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-01-31T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-02-01T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-02-02T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-02-03T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-02-06T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-02-07T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-02-08T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-02-09T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-02-10T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-02-13T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-02-14T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-02-15T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-02-16T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-02-17T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-02-21T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-02-22T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-02-23T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-02-24T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-02-27T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-02-28T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-03-01T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-03-02T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-03-03T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-03-06T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-03-07T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-03-08T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-03-09T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-03-10T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-03-13T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-03-14T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-03-15T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-03-16T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-03-17T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-03-20T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-03-21T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-03-22T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-03-23T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-03-24T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-03-27T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-03-28T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-03-29T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-03-30T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-03-31T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-04-03T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-04-04T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-04-05T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-04-06T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-04-07T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-04-10T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-04-11T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-04-12T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-04-13T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-04-17T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-04-18T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-04-19T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-04-20T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-04-21T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-04-24T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-04-25T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-04-26T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-04-27T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-04-28T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-05-01T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-05-02T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-05-03T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-05-04T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-05-05T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-05-08T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-05-09T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-05-10T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-05-11T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-05-12T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-05-15T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-05-16T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-05-17T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-05-18T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-05-19T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-05-22T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-05-23T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-05-24T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-05-25T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-05-26T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-05-30T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-05-31T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-06-01T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-06-02T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-06-05T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-06-06T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-06-07T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-06-08T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-06-09T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-06-12T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-06-13T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-06-14T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-06-15T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-06-16T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-06-19T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-06-20T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-06-21T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-06-22T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-06-23T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-06-26T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-06-27T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-06-28T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-06-29T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-06-30T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-07-03T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-07-05T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-07-06T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-07-07T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-07-10T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-07-11T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-07-12T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-07-13T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-07-14T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-07-17T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-07-18T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-07-19T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-07-20T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-07-21T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-07-24T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-07-25T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-07-26T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-07-27T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-07-28T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-07-31T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-08-01T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-08-02T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-08-03T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-08-04T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-08-07T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-08-08T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-08-09T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-08-10T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-08-11T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-08-14T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-08-15T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-08-16T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-08-17T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-08-18T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-08-21T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-08-22T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-08-23T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-08-24T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-08-25T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-08-28T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-08-29T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-08-30T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-08-31T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-09-01T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-09-05T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-09-06T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-09-07T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-09-08T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-09-11T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-09-12T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-09-13T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-09-14T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-09-15T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-09-18T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-09-19T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-09-20T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-09-21T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-09-22T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-09-25T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-09-26T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-09-27T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-09-28T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-09-29T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-10-02T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-10-03T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-10-04T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-10-05T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-10-06T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-10-09T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-10-10T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-10-11T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-10-12T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-10-13T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-10-16T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-10-17T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-10-18T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-10-19T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-10-20T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-10-23T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-10-24T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-10-25T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-10-26T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-10-27T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-10-30T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-10-31T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-11-01T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-11-02T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-11-03T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-11-06T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-11-07T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-11-08T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-11-09T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-11-10T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-11-13T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-11-14T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-11-15T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-11-16T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-11-17T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-11-20T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-11-21T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-11-22T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-11-24T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-11-27T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-11-28T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-11-29T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-11-30T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-12-01T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-12-04T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-12-05T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-12-06T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-12-07T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-12-08T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-12-11T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-12-12T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-12-13T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-12-14T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-12-15T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-12-18T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-12-19T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-12-20T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-12-21T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-12-22T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-12-26T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-12-27T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-12-28T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2017-12-29T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2018-01-02T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2018-01-03T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2018-01-04T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2018-01-05T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2018-01-08T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2018-01-09T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2018-01-10T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2018-01-11T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2018-01-12T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2018-01-16T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2018-01-17T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2018-01-18T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2018-01-19T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2018-01-22T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2018-01-23T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2018-01-24T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2018-01-25T00:00:00",
+    "zigZag": null,
+    "pointType": null,
+    "retraceHigh": null,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2018-01-26T00:00:00",
+    "zigZag": 276.01000000000000000000000001,
+    "pointType": "H",
+    "retraceHigh": 276.01,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2018-01-29T00:00:00",
+    "zigZag": 272.91222222222222222222222222,
+    "pointType": null,
+    "retraceHigh": 275.75413793103448275862068966,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2018-01-30T00:00:00",
+    "zigZag": 269.81444444444444444444444444,
+    "pointType": null,
+    "retraceHigh": 275.49827586206896551724137931,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2018-01-31T00:00:00",
+    "zigZag": 266.71666666666666666666666667,
+    "pointType": null,
+    "retraceHigh": 275.24241379310344827586206897,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2018-02-01T00:00:00",
+    "zigZag": 263.61888888888888888888888889,
+    "pointType": null,
+    "retraceHigh": 274.98655172413793103448275862,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2018-02-02T00:00:00",
+    "zigZag": 260.52111111111111111111111111,
+    "pointType": null,
+    "retraceHigh": 274.73068965517241379310344828,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2018-02-05T00:00:00",
+    "zigZag": 257.42333333333333333333333333,
+    "pointType": null,
+    "retraceHigh": 274.47482758620689655172413793,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2018-02-06T00:00:00",
+    "zigZag": 254.32555555555555555555555556,
+    "pointType": null,
+    "retraceHigh": 274.21896551724137931034482759,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2018-02-07T00:00:00",
+    "zigZag": 251.22777777777777777777777778,
+    "pointType": null,
+    "retraceHigh": 273.96310344827586206896551724,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2018-02-08T00:00:00",
+    "zigZag": 248.13000000000000000000000000,
+    "pointType": "L",
+    "retraceHigh": 273.70724137931034482758620690,
+    "retraceLow": 248.130
+  },
+  {
+    "timestamp": "2018-02-09T00:00:00",
+    "zigZag": 249.153,
+    "pointType": null,
+    "retraceHigh": 273.45137931034482758620689655,
+    "retraceLow": 248.154
+  },
+  {
+    "timestamp": "2018-02-12T00:00:00",
+    "zigZag": 250.176,
+    "pointType": null,
+    "retraceHigh": 273.19551724137931034482758621,
+    "retraceLow": 248.178
+  },
+  {
+    "timestamp": "2018-02-13T00:00:00",
+    "zigZag": 251.199,
+    "pointType": null,
+    "retraceHigh": 272.93965517241379310344827586,
+    "retraceLow": 248.202
+  },
+  {
+    "timestamp": "2018-02-14T00:00:00",
+    "zigZag": 252.222,
+    "pointType": null,
+    "retraceHigh": 272.68379310344827586206896552,
+    "retraceLow": 248.226
+  },
+  {
+    "timestamp": "2018-02-15T00:00:00",
+    "zigZag": 253.245,
+    "pointType": null,
+    "retraceHigh": 272.42793103448275862068965517,
+    "retraceLow": 248.250
+  },
+  {
+    "timestamp": "2018-02-16T00:00:00",
+    "zigZag": 254.268,
+    "pointType": null,
+    "retraceHigh": 272.17206896551724137931034483,
+    "retraceLow": 248.274
+  },
+  {
+    "timestamp": "2018-02-20T00:00:00",
+    "zigZag": 255.291,
+    "pointType": null,
+    "retraceHigh": 271.91620689655172413793103448,
+    "retraceLow": 248.298
+  },
+  {
+    "timestamp": "2018-02-21T00:00:00",
+    "zigZag": 256.314,
+    "pointType": null,
+    "retraceHigh": 271.66034482758620689655172414,
+    "retraceLow": 248.322
+  },
+  {
+    "timestamp": "2018-02-22T00:00:00",
+    "zigZag": 257.337,
+    "pointType": null,
+    "retraceHigh": 271.40448275862068965517241379,
+    "retraceLow": 248.346
+  },
+  {
+    "timestamp": "2018-02-23T00:00:00",
+    "zigZag": 258.360,
+    "pointType": null,
+    "retraceHigh": 271.14862068965517241379310345,
+    "retraceLow": 248.370
+  },
+  {
+    "timestamp": "2018-02-26T00:00:00",
+    "zigZag": 259.383,
+    "pointType": null,
+    "retraceHigh": 270.89275862068965517241379310,
+    "retraceLow": 248.394
+  },
+  {
+    "timestamp": "2018-02-27T00:00:00",
+    "zigZag": 260.406,
+    "pointType": null,
+    "retraceHigh": 270.63689655172413793103448276,
+    "retraceLow": 248.418
+  },
+  {
+    "timestamp": "2018-02-28T00:00:00",
+    "zigZag": 261.429,
+    "pointType": null,
+    "retraceHigh": 270.38103448275862068965517241,
+    "retraceLow": 248.442
+  },
+  {
+    "timestamp": "2018-03-01T00:00:00",
+    "zigZag": 262.452,
+    "pointType": null,
+    "retraceHigh": 270.12517241379310344827586207,
+    "retraceLow": 248.466
+  },
+  {
+    "timestamp": "2018-03-02T00:00:00",
+    "zigZag": 263.475,
+    "pointType": null,
+    "retraceHigh": 269.86931034482758620689655172,
+    "retraceLow": 248.490
+  },
+  {
+    "timestamp": "2018-03-05T00:00:00",
+    "zigZag": 264.498,
+    "pointType": null,
+    "retraceHigh": 269.61344827586206896551724138,
+    "retraceLow": 248.514
+  },
+  {
+    "timestamp": "2018-03-06T00:00:00",
+    "zigZag": 265.521,
+    "pointType": null,
+    "retraceHigh": 269.35758620689655172413793104,
+    "retraceLow": 248.538
+  },
+  {
+    "timestamp": "2018-03-07T00:00:00",
+    "zigZag": 266.544,
+    "pointType": null,
+    "retraceHigh": 269.10172413793103448275862069,
+    "retraceLow": 248.562
+  },
+  {
+    "timestamp": "2018-03-08T00:00:00",
+    "zigZag": 267.567,
+    "pointType": null,
+    "retraceHigh": 268.84586206896551724137931035,
+    "retraceLow": 248.586
+  },
+  {
+    "timestamp": "2018-03-09T00:00:00",
+    "zigZag": 268.590,
+    "pointType": "H",
+    "retraceHigh": 268.59,
+    "retraceLow": 248.610
+  },
+  {
+    "timestamp": "2018-03-12T00:00:00",
+    "zigZag": 267.282,
+    "pointType": null,
+    "retraceHigh": 268.71274074074074074074074074,
+    "retraceLow": 248.634
+  },
+  {
+    "timestamp": "2018-03-13T00:00:00",
+    "zigZag": 265.974,
+    "pointType": null,
+    "retraceHigh": 268.83548148148148148148148148,
+    "retraceLow": 248.658
+  },
+  {
+    "timestamp": "2018-03-14T00:00:00",
+    "zigZag": 264.666,
+    "pointType": null,
+    "retraceHigh": 268.95822222222222222222222222,
+    "retraceLow": 248.682
+  },
+  {
+    "timestamp": "2018-03-15T00:00:00",
+    "zigZag": 263.358,
+    "pointType": null,
+    "retraceHigh": 269.08096296296296296296296296,
+    "retraceLow": 248.706
+  },
+  {
+    "timestamp": "2018-03-16T00:00:00",
+    "zigZag": 262.050,
+    "pointType": null,
+    "retraceHigh": 269.20370370370370370370370370,
+    "retraceLow": 248.730
+  },
+  {
+    "timestamp": "2018-03-19T00:00:00",
+    "zigZag": 260.742,
+    "pointType": null,
+    "retraceHigh": 269.32644444444444444444444444,
+    "retraceLow": 248.754
+  },
+  {
+    "timestamp": "2018-03-20T00:00:00",
+    "zigZag": 259.434,
+    "pointType": null,
+    "retraceHigh": 269.44918518518518518518518518,
+    "retraceLow": 248.778
+  },
+  {
+    "timestamp": "2018-03-21T00:00:00",
+    "zigZag": 258.126,
+    "pointType": null,
+    "retraceHigh": 269.57192592592592592592592593,
+    "retraceLow": 248.802
+  },
+  {
+    "timestamp": "2018-03-22T00:00:00",
+    "zigZag": 256.818,
+    "pointType": null,
+    "retraceHigh": 269.69466666666666666666666667,
+    "retraceLow": 248.826
+  },
+  {
+    "timestamp": "2018-03-23T00:00:00",
+    "zigZag": 255.510,
+    "pointType": null,
+    "retraceHigh": 269.81740740740740740740740741,
+    "retraceLow": 248.850
+  },
+  {
+    "timestamp": "2018-03-26T00:00:00",
+    "zigZag": 254.202,
+    "pointType": null,
+    "retraceHigh": 269.94014814814814814814814815,
+    "retraceLow": 248.874
+  },
+  {
+    "timestamp": "2018-03-27T00:00:00",
+    "zigZag": 252.894,
+    "pointType": null,
+    "retraceHigh": 270.06288888888888888888888889,
+    "retraceLow": 248.898
+  },
+  {
+    "timestamp": "2018-03-28T00:00:00",
+    "zigZag": 251.586,
+    "pointType": null,
+    "retraceHigh": 270.18562962962962962962962963,
+    "retraceLow": 248.922
+  },
+  {
+    "timestamp": "2018-03-29T00:00:00",
+    "zigZag": 250.278,
+    "pointType": null,
+    "retraceHigh": 270.30837037037037037037037037,
+    "retraceLow": 248.946
+  },
+  {
+    "timestamp": "2018-04-02T00:00:00",
+    "zigZag": 248.970,
+    "pointType": "L",
+    "retraceHigh": 270.43111111111111111111111111,
+    "retraceLow": 248.97
+  },
+  {
+    "timestamp": "2018-04-03T00:00:00",
+    "zigZag": 249.27158333333333333333333333,
+    "pointType": null,
+    "retraceHigh": 270.55385185185185185185185185,
+    "retraceLow": 249.02768707482993197278911565
+  },
+  {
+    "timestamp": "2018-04-04T00:00:00",
+    "zigZag": 249.57316666666666666666666667,
+    "pointType": null,
+    "retraceHigh": 270.67659259259259259259259259,
+    "retraceLow": 249.08537414965986394557823129
+  },
+  {
+    "timestamp": "2018-04-05T00:00:00",
+    "zigZag": 249.87475000000000000000000000,
+    "pointType": null,
+    "retraceHigh": 270.79933333333333333333333333,
+    "retraceLow": 249.14306122448979591836734694
+  },
+  {
+    "timestamp": "2018-04-06T00:00:00",
+    "zigZag": 250.17633333333333333333333333,
+    "pointType": null,
+    "retraceHigh": 270.92207407407407407407407407,
+    "retraceLow": 249.20074829931972789115646259
+  },
+  {
+    "timestamp": "2018-04-09T00:00:00",
+    "zigZag": 250.47791666666666666666666667,
+    "pointType": null,
+    "retraceHigh": 271.04481481481481481481481481,
+    "retraceLow": 249.25843537414965986394557823
+  },
+  {
+    "timestamp": "2018-04-10T00:00:00",
+    "zigZag": 250.77950000000000000000000000,
+    "pointType": null,
+    "retraceHigh": 271.16755555555555555555555555,
+    "retraceLow": 249.31612244897959183673469388
+  },
+  {
+    "timestamp": "2018-04-11T00:00:00",
+    "zigZag": 251.08108333333333333333333333,
+    "pointType": null,
+    "retraceHigh": 271.29029629629629629629629630,
+    "retraceLow": 249.37380952380952380952380952
+  },
+  {
+    "timestamp": "2018-04-12T00:00:00",
+    "zigZag": 251.38266666666666666666666667,
+    "pointType": null,
+    "retraceHigh": 271.41303703703703703703703704,
+    "retraceLow": 249.43149659863945578231292517
+  },
+  {
+    "timestamp": "2018-04-13T00:00:00",
+    "zigZag": 251.68425000000000000000000000,
+    "pointType": null,
+    "retraceHigh": 271.53577777777777777777777778,
+    "retraceLow": 249.48918367346938775510204082
+  },
+  {
+    "timestamp": "2018-04-16T00:00:00",
+    "zigZag": 251.98583333333333333333333333,
+    "pointType": null,
+    "retraceHigh": 271.65851851851851851851851852,
+    "retraceLow": 249.54687074829931972789115646
+  },
+  {
+    "timestamp": "2018-04-17T00:00:00",
+    "zigZag": 252.28741666666666666666666667,
+    "pointType": null,
+    "retraceHigh": 271.78125925925925925925925926,
+    "retraceLow": 249.60455782312925170068027211
+  },
+  {
+    "timestamp": "2018-04-18T00:00:00",
+    "zigZag": 252.58900000000000000000000000,
+    "pointType": null,
+    "retraceHigh": 271.90400000000000000000000000,
+    "retraceLow": 249.66224489795918367346938776
+  },
+  {
+    "timestamp": "2018-04-19T00:00:00",
+    "zigZag": 252.89058333333333333333333333,
+    "pointType": null,
+    "retraceHigh": 272.02674074074074074074074074,
+    "retraceLow": 249.71993197278911564625850340
+  },
+  {
+    "timestamp": "2018-04-20T00:00:00",
+    "zigZag": 253.19216666666666666666666667,
+    "pointType": null,
+    "retraceHigh": 272.14948148148148148148148148,
+    "retraceLow": 249.77761904761904761904761905
+  },
+  {
+    "timestamp": "2018-04-23T00:00:00",
+    "zigZag": 253.49375000000000000000000000,
+    "pointType": null,
+    "retraceHigh": 272.27222222222222222222222222,
+    "retraceLow": 249.83530612244897959183673469
+  },
+  {
+    "timestamp": "2018-04-24T00:00:00",
+    "zigZag": 253.79533333333333333333333333,
+    "pointType": null,
+    "retraceHigh": 272.39496296296296296296296296,
+    "retraceLow": 249.89299319727891156462585034
+  },
+  {
+    "timestamp": "2018-04-25T00:00:00",
+    "zigZag": 254.09691666666666666666666667,
+    "pointType": null,
+    "retraceHigh": 272.51770370370370370370370370,
+    "retraceLow": 249.95068027210884353741496599
+  },
+  {
+    "timestamp": "2018-04-26T00:00:00",
+    "zigZag": 254.39850000000000000000000000,
+    "pointType": null,
+    "retraceHigh": 272.64044444444444444444444444,
+    "retraceLow": 250.00836734693877551020408163
+  },
+  {
+    "timestamp": "2018-04-27T00:00:00",
+    "zigZag": 254.70008333333333333333333333,
+    "pointType": null,
+    "retraceHigh": 272.76318518518518518518518518,
+    "retraceLow": 250.06605442176870748299319728
+  },
+  {
+    "timestamp": "2018-04-30T00:00:00",
+    "zigZag": 255.00166666666666666666666667,
+    "pointType": null,
+    "retraceHigh": 272.88592592592592592592592592,
+    "retraceLow": 250.12374149659863945578231293
+  },
+  {
+    "timestamp": "2018-05-01T00:00:00",
+    "zigZag": 255.30325000000000000000000000,
+    "pointType": null,
+    "retraceHigh": 273.00866666666666666666666667,
+    "retraceLow": 250.18142857142857142857142857
+  },
+  {
+    "timestamp": "2018-05-02T00:00:00",
+    "zigZag": 255.60483333333333333333333333,
+    "pointType": null,
+    "retraceHigh": 273.13140740740740740740740741,
+    "retraceLow": 250.23911564625850340136054422
+  },
+  {
+    "timestamp": "2018-05-03T00:00:00",
+    "zigZag": 255.90641666666666666666666667,
+    "pointType": null,
+    "retraceHigh": 273.25414814814814814814814815,
+    "retraceLow": 250.29680272108843537414965986
+  },
+  {
+    "timestamp": "2018-05-04T00:00:00",
+    "zigZag": 256.20800000000000000000000000,
+    "pointType": null,
+    "retraceHigh": 273.37688888888888888888888889,
+    "retraceLow": 250.35448979591836734693877551
+  },
+  {
+    "timestamp": "2018-05-07T00:00:00",
+    "zigZag": 256.50958333333333333333333333,
+    "pointType": null,
+    "retraceHigh": 273.49962962962962962962962963,
+    "retraceLow": 250.41217687074829931972789116
+  },
+  {
+    "timestamp": "2018-05-08T00:00:00",
+    "zigZag": 256.81116666666666666666666667,
+    "pointType": null,
+    "retraceHigh": 273.62237037037037037037037037,
+    "retraceLow": 250.46986394557823129251700680
+  },
+  {
+    "timestamp": "2018-05-09T00:00:00",
+    "zigZag": 257.11275000000000000000000000,
+    "pointType": null,
+    "retraceHigh": 273.74511111111111111111111111,
+    "retraceLow": 250.52755102040816326530612245
+  },
+  {
+    "timestamp": "2018-05-10T00:00:00",
+    "zigZag": 257.41433333333333333333333333,
+    "pointType": null,
+    "retraceHigh": 273.86785185185185185185185185,
+    "retraceLow": 250.58523809523809523809523810
+  },
+  {
+    "timestamp": "2018-05-11T00:00:00",
+    "zigZag": 257.71591666666666666666666667,
+    "pointType": null,
+    "retraceHigh": 273.99059259259259259259259259,
+    "retraceLow": 250.64292517006802721088435374
+  },
+  {
+    "timestamp": "2018-05-14T00:00:00",
+    "zigZag": 258.01750000000000000000000000,
+    "pointType": null,
+    "retraceHigh": 274.11333333333333333333333333,
+    "retraceLow": 250.70061224489795918367346939
+  },
+  {
+    "timestamp": "2018-05-15T00:00:00",
+    "zigZag": 258.31908333333333333333333333,
+    "pointType": null,
+    "retraceHigh": 274.23607407407407407407407407,
+    "retraceLow": 250.75829931972789115646258504
+  },
+  {
+    "timestamp": "2018-05-16T00:00:00",
+    "zigZag": 258.62066666666666666666666667,
+    "pointType": null,
+    "retraceHigh": 274.35881481481481481481481481,
+    "retraceLow": 250.81598639455782312925170068
+  },
+  {
+    "timestamp": "2018-05-17T00:00:00",
+    "zigZag": 258.92225000000000000000000000,
+    "pointType": null,
+    "retraceHigh": 274.48155555555555555555555555,
+    "retraceLow": 250.87367346938775510204081633
+  },
+  {
+    "timestamp": "2018-05-18T00:00:00",
+    "zigZag": 259.22383333333333333333333333,
+    "pointType": null,
+    "retraceHigh": 274.60429629629629629629629629,
+    "retraceLow": 250.93136054421768707482993197
+  },
+  {
+    "timestamp": "2018-05-21T00:00:00",
+    "zigZag": 259.52541666666666666666666667,
+    "pointType": null,
+    "retraceHigh": 274.72703703703703703703703704,
+    "retraceLow": 250.98904761904761904761904762
+  },
+  {
+    "timestamp": "2018-05-22T00:00:00",
+    "zigZag": 259.82700000000000000000000000,
+    "pointType": null,
+    "retraceHigh": 274.84977777777777777777777778,
+    "retraceLow": 251.04673469387755102040816327
+  },
+  {
+    "timestamp": "2018-05-23T00:00:00",
+    "zigZag": 260.12858333333333333333333333,
+    "pointType": null,
+    "retraceHigh": 274.97251851851851851851851852,
+    "retraceLow": 251.10442176870748299319727891
+  },
+  {
+    "timestamp": "2018-05-24T00:00:00",
+    "zigZag": 260.43016666666666666666666666,
+    "pointType": null,
+    "retraceHigh": 275.09525925925925925925925926,
+    "retraceLow": 251.16210884353741496598639456
+  },
+  {
+    "timestamp": "2018-05-25T00:00:00",
+    "zigZag": 260.73175000000000000000000000,
+    "pointType": null,
+    "retraceHigh": 275.21800000000000000000000000,
+    "retraceLow": 251.21979591836734693877551021
+  },
+  {
+    "timestamp": "2018-05-29T00:00:00",
+    "zigZag": 261.03333333333333333333333333,
+    "pointType": null,
+    "retraceHigh": 275.34074074074074074074074074,
+    "retraceLow": 251.27748299319727891156462585
+  },
+  {
+    "timestamp": "2018-05-30T00:00:00",
+    "zigZag": 261.33491666666666666666666666,
+    "pointType": null,
+    "retraceHigh": 275.46348148148148148148148148,
+    "retraceLow": 251.33517006802721088435374150
+  },
+  {
+    "timestamp": "2018-05-31T00:00:00",
+    "zigZag": 261.63650000000000000000000000,
+    "pointType": null,
+    "retraceHigh": 275.58622222222222222222222222,
+    "retraceLow": 251.39285714285714285714285714
+  },
+  {
+    "timestamp": "2018-06-01T00:00:00",
+    "zigZag": 261.93808333333333333333333333,
+    "pointType": null,
+    "retraceHigh": 275.70896296296296296296296296,
+    "retraceLow": 251.45054421768707482993197279
+  },
+  {
+    "timestamp": "2018-06-04T00:00:00",
+    "zigZag": 262.23966666666666666666666666,
+    "pointType": null,
+    "retraceHigh": 275.83170370370370370370370370,
+    "retraceLow": 251.50823129251700680272108844
+  },
+  {
+    "timestamp": "2018-06-05T00:00:00",
+    "zigZag": 262.54125000000000000000000000,
+    "pointType": null,
+    "retraceHigh": 275.95444444444444444444444444,
+    "retraceLow": 251.56591836734693877551020408
+  },
+  {
+    "timestamp": "2018-06-06T00:00:00",
+    "zigZag": 262.84283333333333333333333333,
+    "pointType": null,
+    "retraceHigh": 276.07718518518518518518518518,
+    "retraceLow": 251.62360544217687074829931973
+  },
+  {
+    "timestamp": "2018-06-07T00:00:00",
+    "zigZag": 263.14441666666666666666666666,
+    "pointType": null,
+    "retraceHigh": 276.19992592592592592592592592,
+    "retraceLow": 251.68129251700680272108843538
+  },
+  {
+    "timestamp": "2018-06-08T00:00:00",
+    "zigZag": 263.44600000000000000000000000,
+    "pointType": null,
+    "retraceHigh": 276.32266666666666666666666666,
+    "retraceLow": 251.73897959183673469387755102
+  },
+  {
+    "timestamp": "2018-06-11T00:00:00",
+    "zigZag": 263.74758333333333333333333333,
+    "pointType": null,
+    "retraceHigh": 276.44540740740740740740740740,
+    "retraceLow": 251.79666666666666666666666667
+  },
+  {
+    "timestamp": "2018-06-12T00:00:00",
+    "zigZag": 264.04916666666666666666666666,
+    "pointType": null,
+    "retraceHigh": 276.56814814814814814814814815,
+    "retraceLow": 251.85435374149659863945578232
+  },
+  {
+    "timestamp": "2018-06-13T00:00:00",
+    "zigZag": 264.35075000000000000000000000,
+    "pointType": null,
+    "retraceHigh": 276.69088888888888888888888889,
+    "retraceLow": 251.91204081632653061224489796
+  },
+  {
+    "timestamp": "2018-06-14T00:00:00",
+    "zigZag": 264.65233333333333333333333333,
+    "pointType": null,
+    "retraceHigh": 276.81362962962962962962962963,
+    "retraceLow": 251.96972789115646258503401361
+  },
+  {
+    "timestamp": "2018-06-15T00:00:00",
+    "zigZag": 264.95391666666666666666666666,
+    "pointType": null,
+    "retraceHigh": 276.93637037037037037037037037,
+    "retraceLow": 252.02741496598639455782312925
+  },
+  {
+    "timestamp": "2018-06-18T00:00:00",
+    "zigZag": 265.25550000000000000000000000,
+    "pointType": null,
+    "retraceHigh": 277.05911111111111111111111111,
+    "retraceLow": 252.08510204081632653061224490
+  },
+  {
+    "timestamp": "2018-06-19T00:00:00",
+    "zigZag": 265.55708333333333333333333333,
+    "pointType": null,
+    "retraceHigh": 277.18185185185185185185185185,
+    "retraceLow": 252.14278911564625850340136055
+  },
+  {
+    "timestamp": "2018-06-20T00:00:00",
+    "zigZag": 265.85866666666666666666666666,
+    "pointType": null,
+    "retraceHigh": 277.30459259259259259259259259,
+    "retraceLow": 252.20047619047619047619047619
+  },
+  {
+    "timestamp": "2018-06-21T00:00:00",
+    "zigZag": 266.16025000000000000000000000,
+    "pointType": null,
+    "retraceHigh": 277.42733333333333333333333333,
+    "retraceLow": 252.25816326530612244897959184
+  },
+  {
+    "timestamp": "2018-06-22T00:00:00",
+    "zigZag": 266.46183333333333333333333333,
+    "pointType": null,
+    "retraceHigh": 277.55007407407407407407407407,
+    "retraceLow": 252.31585034013605442176870749
+  },
+  {
+    "timestamp": "2018-06-25T00:00:00",
+    "zigZag": 266.76341666666666666666666666,
+    "pointType": null,
+    "retraceHigh": 277.67281481481481481481481481,
+    "retraceLow": 252.37353741496598639455782313
+  },
+  {
+    "timestamp": "2018-06-26T00:00:00",
+    "zigZag": 267.06500000000000000000000000,
+    "pointType": null,
+    "retraceHigh": 277.79555555555555555555555555,
+    "retraceLow": 252.43122448979591836734693878
+  },
+  {
+    "timestamp": "2018-06-27T00:00:00",
+    "zigZag": 267.36658333333333333333333333,
+    "pointType": null,
+    "retraceHigh": 277.91829629629629629629629629,
+    "retraceLow": 252.48891156462585034013605442
+  },
+  {
+    "timestamp": "2018-06-28T00:00:00",
+    "zigZag": 267.66816666666666666666666666,
+    "pointType": null,
+    "retraceHigh": 278.04103703703703703703703703,
+    "retraceLow": 252.54659863945578231292517007
+  },
+  {
+    "timestamp": "2018-06-29T00:00:00",
+    "zigZag": 267.96975000000000000000000000,
+    "pointType": null,
+    "retraceHigh": 278.16377777777777777777777778,
+    "retraceLow": 252.60428571428571428571428572
+  },
+  {
+    "timestamp": "2018-07-02T00:00:00",
+    "zigZag": 268.27133333333333333333333333,
+    "pointType": null,
+    "retraceHigh": 278.28651851851851851851851852,
+    "retraceLow": 252.66197278911564625850340136
+  },
+  {
+    "timestamp": "2018-07-03T00:00:00",
+    "zigZag": 268.57291666666666666666666666,
+    "pointType": null,
+    "retraceHigh": 278.40925925925925925925925926,
+    "retraceLow": 252.71965986394557823129251701
+  },
+  {
+    "timestamp": "2018-07-05T00:00:00",
+    "zigZag": 268.87450000000000000000000000,
+    "pointType": null,
+    "retraceHigh": 278.53200000000000000000000000,
+    "retraceLow": 252.77734693877551020408163266
+  },
+  {
+    "timestamp": "2018-07-06T00:00:00",
+    "zigZag": 269.17608333333333333333333333,
+    "pointType": null,
+    "retraceHigh": 278.65474074074074074074074074,
+    "retraceLow": 252.83503401360544217687074830
+  },
+  {
+    "timestamp": "2018-07-09T00:00:00",
+    "zigZag": 269.47766666666666666666666666,
+    "pointType": null,
+    "retraceHigh": 278.77748148148148148148148148,
+    "retraceLow": 252.89272108843537414965986395
+  },
+  {
+    "timestamp": "2018-07-10T00:00:00",
+    "zigZag": 269.77925000000000000000000000,
+    "pointType": null,
+    "retraceHigh": 278.90022222222222222222222222,
+    "retraceLow": 252.95040816326530612244897959
+  },
+  {
+    "timestamp": "2018-07-11T00:00:00",
+    "zigZag": 270.08083333333333333333333333,
+    "pointType": null,
+    "retraceHigh": 279.02296296296296296296296296,
+    "retraceLow": 253.00809523809523809523809524
+  },
+  {
+    "timestamp": "2018-07-12T00:00:00",
+    "zigZag": 270.38241666666666666666666666,
+    "pointType": null,
+    "retraceHigh": 279.14570370370370370370370370,
+    "retraceLow": 253.06578231292517006802721089
+  },
+  {
+    "timestamp": "2018-07-13T00:00:00",
+    "zigZag": 270.68400000000000000000000000,
+    "pointType": null,
+    "retraceHigh": 279.26844444444444444444444444,
+    "retraceLow": 253.12346938775510204081632653
+  },
+  {
+    "timestamp": "2018-07-16T00:00:00",
+    "zigZag": 270.98558333333333333333333333,
+    "pointType": null,
+    "retraceHigh": 279.39118518518518518518518518,
+    "retraceLow": 253.18115646258503401360544218
+  },
+  {
+    "timestamp": "2018-07-17T00:00:00",
+    "zigZag": 271.28716666666666666666666666,
+    "pointType": null,
+    "retraceHigh": 279.51392592592592592592592592,
+    "retraceLow": 253.23884353741496598639455783
+  },
+  {
+    "timestamp": "2018-07-18T00:00:00",
+    "zigZag": 271.58875000000000000000000000,
+    "pointType": null,
+    "retraceHigh": 279.63666666666666666666666666,
+    "retraceLow": 253.29653061224489795918367347
+  },
+  {
+    "timestamp": "2018-07-19T00:00:00",
+    "zigZag": 271.89033333333333333333333333,
+    "pointType": null,
+    "retraceHigh": 279.75940740740740740740740740,
+    "retraceLow": 253.35421768707482993197278912
+  },
+  {
+    "timestamp": "2018-07-20T00:00:00",
+    "zigZag": 272.19191666666666666666666666,
+    "pointType": null,
+    "retraceHigh": 279.88214814814814814814814814,
+    "retraceLow": 253.41190476190476190476190477
+  },
+  {
+    "timestamp": "2018-07-23T00:00:00",
+    "zigZag": 272.49350000000000000000000000,
+    "pointType": null,
+    "retraceHigh": 280.00488888888888888888888888,
+    "retraceLow": 253.46959183673469387755102041
+  },
+  {
+    "timestamp": "2018-07-24T00:00:00",
+    "zigZag": 272.79508333333333333333333333,
+    "pointType": null,
+    "retraceHigh": 280.12762962962962962962962963,
+    "retraceLow": 253.52727891156462585034013606
+  },
+  {
+    "timestamp": "2018-07-25T00:00:00",
+    "zigZag": 273.09666666666666666666666666,
+    "pointType": null,
+    "retraceHigh": 280.25037037037037037037037037,
+    "retraceLow": 253.58496598639455782312925170
+  },
+  {
+    "timestamp": "2018-07-26T00:00:00",
+    "zigZag": 273.39825000000000000000000000,
+    "pointType": null,
+    "retraceHigh": 280.37311111111111111111111111,
+    "retraceLow": 253.64265306122448979591836735
+  },
+  {
+    "timestamp": "2018-07-27T00:00:00",
+    "zigZag": 273.69983333333333333333333333,
+    "pointType": null,
+    "retraceHigh": 280.49585185185185185185185185,
+    "retraceLow": 253.70034013605442176870748300
+  },
+  {
+    "timestamp": "2018-07-30T00:00:00",
+    "zigZag": 274.00141666666666666666666666,
+    "pointType": null,
+    "retraceHigh": 280.61859259259259259259259259,
+    "retraceLow": 253.75802721088435374149659864
+  },
+  {
+    "timestamp": "2018-07-31T00:00:00",
+    "zigZag": 274.30300000000000000000000000,
+    "pointType": null,
+    "retraceHigh": 280.74133333333333333333333333,
+    "retraceLow": 253.81571428571428571428571429
+  },
+  {
+    "timestamp": "2018-08-01T00:00:00",
+    "zigZag": 274.60458333333333333333333333,
+    "pointType": null,
+    "retraceHigh": 280.86407407407407407407407407,
+    "retraceLow": 253.87340136054421768707482994
+  },
+  {
+    "timestamp": "2018-08-02T00:00:00",
+    "zigZag": 274.90616666666666666666666666,
+    "pointType": null,
+    "retraceHigh": 280.98681481481481481481481481,
+    "retraceLow": 253.93108843537414965986394558
+  },
+  {
+    "timestamp": "2018-08-03T00:00:00",
+    "zigZag": 275.20775000000000000000000000,
+    "pointType": null,
+    "retraceHigh": 281.10955555555555555555555555,
+    "retraceLow": 253.98877551020408163265306123
+  },
+  {
+    "timestamp": "2018-08-06T00:00:00",
+    "zigZag": 275.50933333333333333333333333,
+    "pointType": null,
+    "retraceHigh": 281.23229629629629629629629629,
+    "retraceLow": 254.04646258503401360544217687
+  },
+  {
+    "timestamp": "2018-08-07T00:00:00",
+    "zigZag": 275.81091666666666666666666666,
+    "pointType": null,
+    "retraceHigh": 281.35503703703703703703703703,
+    "retraceLow": 254.10414965986394557823129252
+  },
+  {
+    "timestamp": "2018-08-08T00:00:00",
+    "zigZag": 276.11250000000000000000000000,
+    "pointType": null,
+    "retraceHigh": 281.47777777777777777777777777,
+    "retraceLow": 254.16183673469387755102040817
+  },
+  {
+    "timestamp": "2018-08-09T00:00:00",
+    "zigZag": 276.41408333333333333333333333,
+    "pointType": null,
+    "retraceHigh": 281.60051851851851851851851851,
+    "retraceLow": 254.21952380952380952380952381
+  },
+  {
+    "timestamp": "2018-08-10T00:00:00",
+    "zigZag": 276.71566666666666666666666666,
+    "pointType": null,
+    "retraceHigh": 281.72325925925925925925925926,
+    "retraceLow": 254.27721088435374149659863946
+  },
+  {
+    "timestamp": "2018-08-13T00:00:00",
+    "zigZag": 277.01725000000000000000000000,
+    "pointType": null,
+    "retraceHigh": 281.84600000000000000000000000,
+    "retraceLow": 254.33489795918367346938775511
+  },
+  {
+    "timestamp": "2018-08-14T00:00:00",
+    "zigZag": 277.31883333333333333333333333,
+    "pointType": null,
+    "retraceHigh": 281.96874074074074074074074074,
+    "retraceLow": 254.39258503401360544217687075
+  },
+  {
+    "timestamp": "2018-08-15T00:00:00",
+    "zigZag": 277.62041666666666666666666666,
+    "pointType": null,
+    "retraceHigh": 282.09148148148148148148148148,
+    "retraceLow": 254.45027210884353741496598640
+  },
+  {
+    "timestamp": "2018-08-16T00:00:00",
+    "zigZag": 277.92200000000000000000000000,
+    "pointType": null,
+    "retraceHigh": 282.21422222222222222222222222,
+    "retraceLow": 254.50795918367346938775510204
+  },
+  {
+    "timestamp": "2018-08-17T00:00:00",
+    "zigZag": 278.22358333333333333333333333,
+    "pointType": null,
+    "retraceHigh": 282.33696296296296296296296296,
+    "retraceLow": 254.56564625850340136054421769
+  },
+  {
+    "timestamp": "2018-08-20T00:00:00",
+    "zigZag": 278.52516666666666666666666666,
+    "pointType": null,
+    "retraceHigh": 282.45970370370370370370370370,
+    "retraceLow": 254.62333333333333333333333334
+  },
+  {
+    "timestamp": "2018-08-21T00:00:00",
+    "zigZag": 278.82675000000000000000000000,
+    "pointType": null,
+    "retraceHigh": 282.58244444444444444444444444,
+    "retraceLow": 254.68102040816326530612244898
+  },
+  {
+    "timestamp": "2018-08-22T00:00:00",
+    "zigZag": 279.12833333333333333333333333,
+    "pointType": null,
+    "retraceHigh": 282.70518518518518518518518518,
+    "retraceLow": 254.73870748299319727891156463
+  },
+  {
+    "timestamp": "2018-08-23T00:00:00",
+    "zigZag": 279.42991666666666666666666666,
+    "pointType": null,
+    "retraceHigh": 282.82792592592592592592592592,
+    "retraceLow": 254.79639455782312925170068028
+  },
+  {
+    "timestamp": "2018-08-24T00:00:00",
+    "zigZag": 279.73150000000000000000000000,
+    "pointType": null,
+    "retraceHigh": 282.95066666666666666666666666,
+    "retraceLow": 254.85408163265306122448979592
+  },
+  {
+    "timestamp": "2018-08-27T00:00:00",
+    "zigZag": 280.03308333333333333333333333,
+    "pointType": null,
+    "retraceHigh": 283.07340740740740740740740740,
+    "retraceLow": 254.91176870748299319727891157
+  },
+  {
+    "timestamp": "2018-08-28T00:00:00",
+    "zigZag": 280.33466666666666666666666666,
+    "pointType": null,
+    "retraceHigh": 283.19614814814814814814814814,
+    "retraceLow": 254.96945578231292517006802722
+  },
+  {
+    "timestamp": "2018-08-29T00:00:00",
+    "zigZag": 280.63625000000000000000000000,
+    "pointType": null,
+    "retraceHigh": 283.31888888888888888888888888,
+    "retraceLow": 255.02714285714285714285714286
+  },
+  {
+    "timestamp": "2018-08-30T00:00:00",
+    "zigZag": 280.93783333333333333333333333,
+    "pointType": null,
+    "retraceHigh": 283.44162962962962962962962962,
+    "retraceLow": 255.08482993197278911564625851
+  },
+  {
+    "timestamp": "2018-08-31T00:00:00",
+    "zigZag": 281.23941666666666666666666666,
+    "pointType": null,
+    "retraceHigh": 283.56437037037037037037037036,
+    "retraceLow": 255.14251700680272108843537415
+  },
+  {
+    "timestamp": "2018-09-04T00:00:00",
+    "zigZag": 281.54100000000000000000000000,
+    "pointType": null,
+    "retraceHigh": 283.68711111111111111111111111,
+    "retraceLow": 255.20020408163265306122448980
+  },
+  {
+    "timestamp": "2018-09-05T00:00:00",
+    "zigZag": 281.84258333333333333333333333,
+    "pointType": null,
+    "retraceHigh": 283.80985185185185185185185185,
+    "retraceLow": 255.25789115646258503401360545
+  },
+  {
+    "timestamp": "2018-09-06T00:00:00",
+    "zigZag": 282.14416666666666666666666666,
+    "pointType": null,
+    "retraceHigh": 283.93259259259259259259259259,
+    "retraceLow": 255.31557823129251700680272109
+  },
+  {
+    "timestamp": "2018-09-07T00:00:00",
+    "zigZag": 282.44575000000000000000000000,
+    "pointType": null,
+    "retraceHigh": 284.05533333333333333333333333,
+    "retraceLow": 255.37326530612244897959183674
+  },
+  {
+    "timestamp": "2018-09-10T00:00:00",
+    "zigZag": 282.74733333333333333333333333,
+    "pointType": null,
+    "retraceHigh": 284.17807407407407407407407407,
+    "retraceLow": 255.43095238095238095238095239
+  },
+  {
+    "timestamp": "2018-09-11T00:00:00",
+    "zigZag": 283.04891666666666666666666666,
+    "pointType": null,
+    "retraceHigh": 284.30081481481481481481481481,
+    "retraceLow": 255.48863945578231292517006803
+  },
+  {
+    "timestamp": "2018-09-12T00:00:00",
+    "zigZag": 283.35050000000000000000000000,
+    "pointType": null,
+    "retraceHigh": 284.42355555555555555555555555,
+    "retraceLow": 255.54632653061224489795918368
+  },
+  {
+    "timestamp": "2018-09-13T00:00:00",
+    "zigZag": 283.65208333333333333333333333,
+    "pointType": null,
+    "retraceHigh": 284.54629629629629629629629629,
+    "retraceLow": 255.60401360544217687074829932
+  },
+  {
+    "timestamp": "2018-09-14T00:00:00",
+    "zigZag": 283.95366666666666666666666666,
+    "pointType": null,
+    "retraceHigh": 284.66903703703703703703703703,
+    "retraceLow": 255.66170068027210884353741497
+  },
+  {
+    "timestamp": "2018-09-17T00:00:00",
+    "zigZag": 284.25525000000000000000000000,
+    "pointType": null,
+    "retraceHigh": 284.79177777777777777777777777,
+    "retraceLow": 255.71938775510204081632653062
+  },
+  {
+    "timestamp": "2018-09-18T00:00:00",
+    "zigZag": 284.55683333333333333333333333,
+    "pointType": null,
+    "retraceHigh": 284.91451851851851851851851851,
+    "retraceLow": 255.77707482993197278911564626
+  },
+  {
+    "timestamp": "2018-09-19T00:00:00",
+    "zigZag": 284.85841666666666666666666666,
+    "pointType": null,
+    "retraceHigh": 285.03725925925925925925925925,
+    "retraceLow": 255.83476190476190476190476191
+  },
+  {
+    "timestamp": "2018-09-20T00:00:00",
+    "zigZag": 285.16000000000000000000000000,
+    "pointType": "H",
+    "retraceHigh": 285.16,
+    "retraceLow": 255.89244897959183673469387756
+  },
+  {
+    "timestamp": "2018-09-21T00:00:00",
+    "zigZag": 284.13370370370370370370370370,
+    "pointType": null,
+    "retraceHigh": 284.83735294117647058823529412,
+    "retraceLow": 255.95013605442176870748299320
+  },
+  {
+    "timestamp": "2018-09-24T00:00:00",
+    "zigZag": 283.10740740740740740740740741,
+    "pointType": null,
+    "retraceHigh": 284.51470588235294117647058824,
+    "retraceLow": 256.00782312925170068027210885
+  },
+  {
+    "timestamp": "2018-09-25T00:00:00",
+    "zigZag": 282.08111111111111111111111111,
+    "pointType": null,
+    "retraceHigh": 284.19205882352941176470588235,
+    "retraceLow": 256.06551020408163265306122449
+  },
+  {
+    "timestamp": "2018-09-26T00:00:00",
+    "zigZag": 281.05481481481481481481481481,
+    "pointType": null,
+    "retraceHigh": 283.86941176470588235294117647,
+    "retraceLow": 256.12319727891156462585034014
+  },
+  {
+    "timestamp": "2018-09-27T00:00:00",
+    "zigZag": 280.02851851851851851851851852,
+    "pointType": null,
+    "retraceHigh": 283.54676470588235294117647059,
+    "retraceLow": 256.18088435374149659863945579
+  },
+  {
+    "timestamp": "2018-09-28T00:00:00",
+    "zigZag": 279.00222222222222222222222222,
+    "pointType": null,
+    "retraceHigh": 283.22411764705882352941176471,
+    "retraceLow": 256.23857142857142857142857143
+  },
+  {
+    "timestamp": "2018-10-01T00:00:00",
+    "zigZag": 277.97592592592592592592592593,
+    "pointType": null,
+    "retraceHigh": 282.90147058823529411764705882,
+    "retraceLow": 256.29625850340136054421768708
+  },
+  {
+    "timestamp": "2018-10-02T00:00:00",
+    "zigZag": 276.94962962962962962962962963,
+    "pointType": null,
+    "retraceHigh": 282.57882352941176470588235294,
+    "retraceLow": 256.35394557823129251700680273
+  },
+  {
+    "timestamp": "2018-10-03T00:00:00",
+    "zigZag": 275.92333333333333333333333333,
+    "pointType": null,
+    "retraceHigh": 282.25617647058823529411764706,
+    "retraceLow": 256.41163265306122448979591837
+  },
+  {
+    "timestamp": "2018-10-04T00:00:00",
+    "zigZag": 274.89703703703703703703703704,
+    "pointType": null,
+    "retraceHigh": 281.93352941176470588235294118,
+    "retraceLow": 256.46931972789115646258503402
+  },
+  {
+    "timestamp": "2018-10-05T00:00:00",
+    "zigZag": 273.87074074074074074074074074,
+    "pointType": null,
+    "retraceHigh": 281.61088235294117647058823529,
+    "retraceLow": 256.52700680272108843537414967
+  },
+  {
+    "timestamp": "2018-10-08T00:00:00",
+    "zigZag": 272.84444444444444444444444444,
+    "pointType": null,
+    "retraceHigh": 281.28823529411764705882352941,
+    "retraceLow": 256.58469387755102040816326531
+  },
+  {
+    "timestamp": "2018-10-09T00:00:00",
+    "zigZag": 271.81814814814814814814814815,
+    "pointType": null,
+    "retraceHigh": 280.96558823529411764705882353,
+    "retraceLow": 256.64238095238095238095238096
+  },
+  {
+    "timestamp": "2018-10-10T00:00:00",
+    "zigZag": 270.79185185185185185185185185,
+    "pointType": null,
+    "retraceHigh": 280.64294117647058823529411765,
+    "retraceLow": 256.70006802721088435374149660
+  },
+  {
+    "timestamp": "2018-10-11T00:00:00",
+    "zigZag": 269.76555555555555555555555556,
+    "pointType": null,
+    "retraceHigh": 280.32029411764705882352941176,
+    "retraceLow": 256.75775510204081632653061225
+  },
+  {
+    "timestamp": "2018-10-12T00:00:00",
+    "zigZag": 268.73925925925925925925925926,
+    "pointType": null,
+    "retraceHigh": 279.99764705882352941176470588,
+    "retraceLow": 256.81544217687074829931972790
+  },
+  {
+    "timestamp": "2018-10-15T00:00:00",
+    "zigZag": 267.71296296296296296296296296,
+    "pointType": null,
+    "retraceHigh": 279.67500000000000000000000000,
+    "retraceLow": 256.87312925170068027210884354
+  },
+  {
+    "timestamp": "2018-10-16T00:00:00",
+    "zigZag": 266.68666666666666666666666667,
+    "pointType": null,
+    "retraceHigh": 279.35235294117647058823529412,
+    "retraceLow": 256.93081632653061224489795919
+  },
+  {
+    "timestamp": "2018-10-17T00:00:00",
+    "zigZag": 265.66037037037037037037037037,
+    "pointType": null,
+    "retraceHigh": 279.02970588235294117647058823,
+    "retraceLow": 256.98850340136054421768707484
+  },
+  {
+    "timestamp": "2018-10-18T00:00:00",
+    "zigZag": 264.63407407407407407407407407,
+    "pointType": null,
+    "retraceHigh": 278.70705882352941176470588235,
+    "retraceLow": 257.04619047619047619047619048
+  },
+  {
+    "timestamp": "2018-10-19T00:00:00",
+    "zigZag": 263.60777777777777777777777778,
+    "pointType": null,
+    "retraceHigh": 278.38441176470588235294117647,
+    "retraceLow": 257.10387755102040816326530613
+  },
+  {
+    "timestamp": "2018-10-22T00:00:00",
+    "zigZag": 262.58148148148148148148148148,
+    "pointType": null,
+    "retraceHigh": 278.06176470588235294117647059,
+    "retraceLow": 257.16156462585034013605442178
+  },
+  {
+    "timestamp": "2018-10-23T00:00:00",
+    "zigZag": 261.55518518518518518518518518,
+    "pointType": null,
+    "retraceHigh": 277.73911764705882352941176470,
+    "retraceLow": 257.21925170068027210884353742
+  },
+  {
+    "timestamp": "2018-10-24T00:00:00",
+    "zigZag": 260.52888888888888888888888889,
+    "pointType": null,
+    "retraceHigh": 277.41647058823529411764705882,
+    "retraceLow": 257.27693877551020408163265307
+  },
+  {
+    "timestamp": "2018-10-25T00:00:00",
+    "zigZag": 259.50259259259259259259259259,
+    "pointType": null,
+    "retraceHigh": 277.09382352941176470588235294,
+    "retraceLow": 257.33462585034013605442176871
+  },
+  {
+    "timestamp": "2018-10-26T00:00:00",
+    "zigZag": 258.47629629629629629629629630,
+    "pointType": null,
+    "retraceHigh": 276.77117647058823529411764706,
+    "retraceLow": 257.39231292517006802721088436
+  },
+  {
+    "timestamp": "2018-10-29T00:00:00",
+    "zigZag": 257.45000000000000000000000000,
+    "pointType": "L",
+    "retraceHigh": 276.44852941176470588235294118,
+    "retraceLow": 257.45
+  },
+  {
+    "timestamp": "2018-10-30T00:00:00",
+    "zigZag": 259.84142857142857142857142857,
+    "pointType": null,
+    "retraceHigh": 276.12588235294117647058823529,
+    "retraceLow": 257.41722222222222222222222222
+  },
+  {
+    "timestamp": "2018-10-31T00:00:00",
+    "zigZag": 262.23285714285714285714285714,
+    "pointType": null,
+    "retraceHigh": 275.80323529411764705882352941,
+    "retraceLow": 257.38444444444444444444444444
+  },
+  {
+    "timestamp": "2018-11-01T00:00:00",
+    "zigZag": 264.62428571428571428571428571,
+    "pointType": null,
+    "retraceHigh": 275.48058823529411764705882353,
+    "retraceLow": 257.35166666666666666666666667
+  },
+  {
+    "timestamp": "2018-11-02T00:00:00",
+    "zigZag": 267.01571428571428571428571429,
+    "pointType": null,
+    "retraceHigh": 275.15794117647058823529411765,
+    "retraceLow": 257.31888888888888888888888889
+  },
+  {
+    "timestamp": "2018-11-05T00:00:00",
+    "zigZag": 269.40714285714285714285714286,
+    "pointType": null,
+    "retraceHigh": 274.83529411764705882352941176,
+    "retraceLow": 257.28611111111111111111111111
+  },
+  {
+    "timestamp": "2018-11-06T00:00:00",
+    "zigZag": 271.79857142857142857142857143,
+    "pointType": null,
+    "retraceHigh": 274.51264705882352941176470588,
+    "retraceLow": 257.25333333333333333333333333
+  },
+  {
+    "timestamp": "2018-11-07T00:00:00",
+    "zigZag": 274.19000000000000000000000000,
+    "pointType": "H",
+    "retraceHigh": 274.19,
+    "retraceLow": 257.22055555555555555555555556
+  },
+  {
+    "timestamp": "2018-11-08T00:00:00",
+    "zigZag": 272.61454545454545454545454545,
+    "pointType": null,
+    "retraceHigh": 274.09176470588235294117647059,
+    "retraceLow": 257.18777777777777777777777778
+  },
+  {
+    "timestamp": "2018-11-09T00:00:00",
+    "zigZag": 271.03909090909090909090909091,
+    "pointType": null,
+    "retraceHigh": 273.99352941176470588235294118,
+    "retraceLow": 257.15500000000000000000000000
+  },
+  {
+    "timestamp": "2018-11-12T00:00:00",
+    "zigZag": 269.46363636363636363636363636,
+    "pointType": null,
+    "retraceHigh": 273.89529411764705882352941176,
+    "retraceLow": 257.12222222222222222222222222
+  },
+  {
+    "timestamp": "2018-11-13T00:00:00",
+    "zigZag": 267.88818181818181818181818182,
+    "pointType": null,
+    "retraceHigh": 273.79705882352941176470588235,
+    "retraceLow": 257.08944444444444444444444444
+  },
+  {
+    "timestamp": "2018-11-14T00:00:00",
+    "zigZag": 266.31272727272727272727272727,
+    "pointType": null,
+    "retraceHigh": 273.69882352941176470588235294,
+    "retraceLow": 257.05666666666666666666666667
+  },
+  {
+    "timestamp": "2018-11-15T00:00:00",
+    "zigZag": 264.73727272727272727272727273,
+    "pointType": null,
+    "retraceHigh": 273.60058823529411764705882353,
+    "retraceLow": 257.02388888888888888888888889
+  },
+  {
+    "timestamp": "2018-11-16T00:00:00",
+    "zigZag": 263.16181818181818181818181818,
+    "pointType": null,
+    "retraceHigh": 273.50235294117647058823529412,
+    "retraceLow": 256.99111111111111111111111111
+  },
+  {
+    "timestamp": "2018-11-19T00:00:00",
+    "zigZag": 261.58636363636363636363636364,
+    "pointType": null,
+    "retraceHigh": 273.40411764705882352941176471,
+    "retraceLow": 256.95833333333333333333333333
+  },
+  {
+    "timestamp": "2018-11-20T00:00:00",
+    "zigZag": 260.01090909090909090909090909,
+    "pointType": null,
+    "retraceHigh": 273.30588235294117647058823529,
+    "retraceLow": 256.92555555555555555555555556
+  },
+  {
+    "timestamp": "2018-11-21T00:00:00",
+    "zigZag": 258.43545454545454545454545454,
+    "pointType": null,
+    "retraceHigh": 273.20764705882352941176470588,
+    "retraceLow": 256.89277777777777777777777778
+  },
+  {
+    "timestamp": "2018-11-23T00:00:00",
+    "zigZag": 256.86000000000000000000000000,
+    "pointType": "L",
+    "retraceHigh": 273.10941176470588235294117647,
+    "retraceLow": 256.8600
+  },
+  {
+    "timestamp": "2018-11-26T00:00:00",
+    "zigZag": 259.47,
+    "pointType": null,
+    "retraceHigh": 273.01117647058823529411764706,
+    "retraceLow": 255.5165
+  },
+  {
+    "timestamp": "2018-11-27T00:00:00",
+    "zigZag": 262.08,
+    "pointType": null,
+    "retraceHigh": 272.91294117647058823529411765,
+    "retraceLow": 254.1730
+  },
+  {
+    "timestamp": "2018-11-28T00:00:00",
+    "zigZag": 264.69,
+    "pointType": null,
+    "retraceHigh": 272.81470588235294117647058823,
+    "retraceLow": 252.8295
+  },
+  {
+    "timestamp": "2018-11-29T00:00:00",
+    "zigZag": 267.30,
+    "pointType": null,
+    "retraceHigh": 272.71647058823529411764705882,
+    "retraceLow": 251.4860
+  },
+  {
+    "timestamp": "2018-11-30T00:00:00",
+    "zigZag": 269.91,
+    "pointType": null,
+    "retraceHigh": 272.61823529411764705882352941,
+    "retraceLow": 250.1425
+  },
+  {
+    "timestamp": "2018-12-03T00:00:00",
+    "zigZag": 272.52,
+    "pointType": "H",
+    "retraceHigh": 272.52,
+    "retraceLow": 248.7990
+  },
+  {
+    "timestamp": "2018-12-04T00:00:00",
+    "zigZag": 269.48214285714285714285714286,
+    "pointType": null,
+    "retraceHigh": 271.00666666666666666666666667,
+    "retraceLow": 247.4555
+  },
+  {
+    "timestamp": "2018-12-06T00:00:00",
+    "zigZag": 266.44428571428571428571428571,
+    "pointType": null,
+    "retraceHigh": 269.49333333333333333333333333,
+    "retraceLow": 246.1120
+  },
+  {
+    "timestamp": "2018-12-07T00:00:00",
+    "zigZag": 263.40642857142857142857142857,
+    "pointType": null,
+    "retraceHigh": 267.98000000000000000000000000,
+    "retraceLow": 244.7685
+  },
+  {
+    "timestamp": "2018-12-10T00:00:00",
+    "zigZag": 260.36857142857142857142857143,
+    "pointType": null,
+    "retraceHigh": 266.46666666666666666666666667,
+    "retraceLow": 243.4250
+  },
+  {
+    "timestamp": "2018-12-11T00:00:00",
+    "zigZag": 257.33071428571428571428571429,
+    "pointType": null,
+    "retraceHigh": 264.95333333333333333333333333,
+    "retraceLow": 242.0815
+  },
+  {
+    "timestamp": "2018-12-12T00:00:00",
+    "zigZag": 254.29285714285714285714285714,
+    "pointType": null,
+    "retraceHigh": 263.44000000000000000000000000,
+    "retraceLow": 240.7380
+  },
+  {
+    "timestamp": "2018-12-13T00:00:00",
+    "zigZag": 251.25500000000000000000000000,
+    "pointType": null,
+    "retraceHigh": 261.92666666666666666666666667,
+    "retraceLow": 239.3945
+  },
+  {
+    "timestamp": "2018-12-14T00:00:00",
+    "zigZag": 248.21714285714285714285714286,
+    "pointType": null,
+    "retraceHigh": 260.41333333333333333333333333,
+    "retraceLow": 238.0510
+  },
+  {
+    "timestamp": "2018-12-17T00:00:00",
+    "zigZag": 245.17928571428571428571428571,
+    "pointType": null,
+    "retraceHigh": 258.90000000000000000000000000,
+    "retraceLow": 236.7075
+  },
+  {
+    "timestamp": "2018-12-18T00:00:00",
+    "zigZag": 242.14142857142857142857142857,
+    "pointType": null,
+    "retraceHigh": 257.38666666666666666666666667,
+    "retraceLow": 235.3640
+  },
+  {
+    "timestamp": "2018-12-19T00:00:00",
+    "zigZag": 239.10357142857142857142857143,
+    "pointType": null,
+    "retraceHigh": 255.87333333333333333333333333,
+    "retraceLow": 234.0205
+  },
+  {
+    "timestamp": "2018-12-20T00:00:00",
+    "zigZag": 236.06571428571428571428571428,
+    "pointType": null,
+    "retraceHigh": 254.36000000000000000000000000,
+    "retraceLow": 232.6770
+  },
+  {
+    "timestamp": "2018-12-21T00:00:00",
+    "zigZag": 233.02785714285714285714285714,
+    "pointType": null,
+    "retraceHigh": 252.84666666666666666666666667,
+    "retraceLow": 231.3335
+  },
+  {
+    "timestamp": "2018-12-24T00:00:00",
+    "zigZag": 229.99000000000000000000000000,
+    "pointType": "L",
+    "retraceHigh": 251.33333333333333333333333333,
+    "retraceLow": 229.9900
+  },
+  {
+    "timestamp": "2018-12-26T00:00:00",
+    "zigZag": 233.8125,
+    "pointType": null,
+    "retraceHigh": 249.82000000000000000000000000,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2018-12-27T00:00:00",
+    "zigZag": 237.6350,
+    "pointType": null,
+    "retraceHigh": 248.30666666666666666666666667,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2018-12-28T00:00:00",
+    "zigZag": 241.4575,
+    "pointType": null,
+    "retraceHigh": 246.79333333333333333333333333,
+    "retraceLow": null
+  },
+  {
+    "timestamp": "2018-12-31T00:00:00",
+    "zigZag": 245.2800,
+    "pointType": null,
+    "retraceHigh": 245.28000000000000000000000000,
+    "retraceLow": null
+  }
+]

@@ -6,7 +6,7 @@ public class DemaTests : RegressionTestBase<DemaResult>
     public DemaTests() : base("dema.standard.json") { }
 
     [TestMethod]
-    public override void Series() => Quotes.ToDema().AssertEquals(Expected);
+    public override void Series() => Quotes.ToDema().IsExactly(Expected);
 
     [TestMethod]
     public override void Buffer() => Assert.Inconclusive("Buffer implementation not yet available");

@@ -165,6 +165,9 @@ See also: Common indicator requirements and Series-as-canonical policy in `.gith
 - Include Excel/manual calculation files in test folders when applicable
 - Handle floating-point precision appropriately (typically 6 decimal places)
 - Document any known precision limitations
+- **Use algebraically stable formulas** - Prefer boundary detection or reformulation over clamping for bounded indicators
+- **Test with real-world data** - Synthetic boundary data may not expose precision edge cases; irregular values trigger issues more reliably
+- **Fix formulas, not symptoms** - When all styles (Series, BufferList, StreamHub) fail identically, fix the core algorithm
 
 ### Performance expectations
 

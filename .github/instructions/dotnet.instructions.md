@@ -68,10 +68,65 @@ All files use the **single namespace** `Skender.Stock.Indicators` declared as `n
 ### Numeric precision
 
 - **Use `double` by default** for performance and allocation efficiency
-- Use `decimal` ONLY when price-sensitive precision is required (see [Constitution §1: Mathematical Precision](../../.specify/memory/constitution.md#1-mathematical-precision-non%E2%80%91negotiable))
+- Use `decimal` ONLY when price-sensitive precision is required (see [Project Principles §1: Mathematical Precision](../../docs/PRINCIPLES.md#1-mathematical-precision-nonnegotiable))
 - Never use `float` for indicator values
 - Guard division by variable denominators with ternary checks (e.g., `denom != 0 ? num / denom : double.NaN`)
 - Document precision requirements and NaN handling in XML comments
+
+### Bounded indicator precision
+
+For indicators with mathematically guaranteed bounds (e.g., 0-100 range for RSI, Stochastic):
+
+#### Guardrails
+
+- **No clamping** - Never use `Math.Clamp()`; boundary violations indicate formula errors
+- **No epsilon tolerance** - Bound checks must use exact comparison (`<=`, `>=`, `==`)
+- **No forced rounding** - Cannot use rounding to hide precision issues
+- **Algorithm-level fixes** - Address root cause in formulas, not symptoms; use algebraically stable algorithms
+
+#### Recommended approach: Boundary detection
+
+For oscillator formulas where values can exactly equal boundaries:
+
+```csharp
+// Algebraically stable: detect boundary conditions first
+double oscillator;
+if (q.Close == highHigh)
+{
+    oscillator = 100d;  // Exact value, no calculation
+}
+else if (q.Close == lowLow)
+{
+    oscillator = 0d;    // Exact value, no calculation
+}
+else
+{
+    oscillator = 100d * (q.Close - lowLow) / (highHigh - lowLow);
+}
+```
+
+**Why this works**:
+
+- Eliminates floating-point division when result is exactly at boundary
+- Produces mathematically correct values without precision errors
+- Non-boundary calculations remain unchanged
+
+#### Alternative: Formula reformulation
+
+For ratio-based formulas like RSI `100 - 100/(1+rs)`:
+
+```csharp
+// Reformulated: Algebraically equivalent, inherently bounded
+double rsi = avgLoss > 0
+    ? 100d * avgGain / (avgGain + avgLoss)
+    : 100;
+```
+
+**Why this works**:
+
+- Single division instead of nested operations
+- Numerator always ≤ denominator by construction
+- Result cannot exceed bounds mathematically
 
 ### Collections and LINQ
 
@@ -197,7 +252,7 @@ For testing best practices, consult #tool:mslearn documentation.
 
 ### Governance and architecture
 
-- **[Constitution](../../.specify/memory/constitution.md)** - Project principles: Mathematical Precision, Performance First, Comprehensive Validation, Test-Driven Quality, Documentation Excellence, and Scope & Stewardship
+- **[Project Principles](../../docs/PRINCIPLES.md)** - Project principles: Mathematical Precision, Performance First, Comprehensive Validation, Test-Driven Quality, Documentation Excellence, and Scope & Stewardship
 - **[NaN handling policy](../../src/_common/README.md#nan-handling-policy)** - Division-by-zero guards, internal NaN propagation, and result boundary conversion
 - **[Copilot instructions](../copilot-instructions.md)** - Entry-point guidance for all development areas and custom agents
 

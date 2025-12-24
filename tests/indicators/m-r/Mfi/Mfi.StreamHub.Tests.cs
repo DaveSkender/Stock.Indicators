@@ -1,10 +1,17 @@
 namespace StreamHub;
 
 [TestClass]
-public class MfiHub : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
+public class MfiHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
 {
     private const int lookbackPeriods = 14;
     private static readonly IReadOnlyList<MfiResult> expectedOriginal = Quotes.ToMfi(lookbackPeriods);
+
+    [TestMethod]
+    public void Results_AreAlwaysBounded()
+    {
+        IReadOnlyList<MfiResult> results = Quotes.ToMfiHub(14).Results;
+        results.IsBetween(x => x.Mfi, 0, 100);
+    }
 
     [TestMethod]
     public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
@@ -18,7 +25,7 @@ public class MfiHub : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
         quoteHub.Add(Quotes.Take(20));
 
         // initialize observer
-        Skender.Stock.Indicators.MfiHub observer = quoteHub.ToMfiHub(lookbackPeriods);
+        MfiHub observer = quoteHub.ToMfiHub(lookbackPeriods);
 
         // fetch initial results (early)
         IReadOnlyList<MfiResult> actuals = observer.Results;
@@ -98,7 +105,7 @@ public class MfiHub : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
     {
         QuoteHub quoteHub = new();
 
-        Skender.Stock.Indicators.MfiHub hub = new(quoteHub, lookbackPeriods);
+        MfiHub hub = new(quoteHub, lookbackPeriods);
         hub.ToString().Should().Be($"MFI({lookbackPeriods})");
     }
 }

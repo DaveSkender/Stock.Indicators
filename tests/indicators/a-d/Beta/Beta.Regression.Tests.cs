@@ -11,7 +11,7 @@ public class BetaTests : RegressionTestBase<BetaResult>
         // Beta requires two IReusable series - use same quotes for both sourceEval and sourceMrkt
         IReadOnlyList<IReusable> sourceEval = Quotes.Cast<IReusable>().ToList();
         IReadOnlyList<IReusable> sourceMrkt = Quotes.Cast<IReusable>().ToList();
-        sourceEval.ToBeta(sourceMrkt, 50).AssertEquals(Expected);
+        sourceEval.ToBeta(sourceMrkt, 50).IsExactly(Expected);
     }
 
     [TestMethod]
@@ -20,7 +20,7 @@ public class BetaTests : RegressionTestBase<BetaResult>
         // Beta requires two IReusable series - use same quotes for both sourceEval and sourceMrkt
         IReadOnlyList<IReusable> sourceEval = Quotes.Cast<IReusable>().ToList();
         IReadOnlyList<IReusable> sourceMrkt = Quotes.Cast<IReusable>().ToList();
-        sourceEval.ToBetaList(sourceMrkt, 50).AssertEquals(Expected);
+        sourceEval.ToBetaList(sourceMrkt, 50).IsExactly(Expected);
     }
 
     [TestMethod]

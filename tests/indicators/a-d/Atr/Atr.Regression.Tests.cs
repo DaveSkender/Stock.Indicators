@@ -6,7 +6,7 @@ public class AtrTests : RegressionTestBase<AtrResult>
     public AtrTests() : base("atr.standard.json") { }
 
     [TestMethod]
-    public override void Series() => Quotes.ToAtr(14).AssertEquals(Expected);
+    public override void Series() => Quotes.ToAtr(14).IsExactly(Expected);
 
     [TestMethod]
     public override void Buffer() => Assert.Inconclusive("Buffer implementation not yet available");
