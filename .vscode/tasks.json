@@ -287,21 +287,6 @@
       "problemMatcher": "$msCompile"
     },
     {
-      "label": "Verify: Quick checks (build + lint + unit test)",
-      "detail": "Complete CI verification: build, lint, and test",
-      "dependsOn": [
-        "Build: .NET Solution (incremental)",
-        "Lint: .NET code & markdown files",
-        "Test: Unit tests"
-      ],
-      "dependsOrder": "sequence",
-      "group": "test",
-      "presentation": {
-        "reveal": "always",
-        "panel": "shared"
-      }
-    },
-    {
       "label": "Test: Performance (all)",
       "detail": "Run all BenchmarkDotNet performance tests (Release mode)",
       "type": "shell",
