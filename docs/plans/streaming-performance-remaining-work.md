@@ -22,13 +22,13 @@ This document consolidates incomplete tasks from the streaming performance optim
 
 ### Critical O(n²) Fixes (P1) - COMPLETE
 
-| Indicator      | Baseline | Current | Improvement  | Status       |
-|----------------|----------|---------|--------------|--------------|
-| **RSI**        | 391x     | <1.5x   | 260x faster  | ✅ Target met |
-| **StochRsi**   | 284x     | 4.56x   | 62x faster   | ✅ Improved  |
-| **CMO**        | 258x     | 7.73x   | 33x faster   | ✅ Improved  |
-| **Chandelier** | 122x     | <1.5x   | 81x faster   | ✅ Target met |
-| **Stoch**      | 15.7x    | <1.5x   | 10x faster   | ✅ Target met |
+| Indicator      | Baseline | Current | Improvement | Status          |
+|----------------|----------|---------|-------------|-----------------|
+| **RSI**        | 391x     | \<1.5x  | 260x faster | ✅ Target met   |
+| **StochRsi**   | 284x     | 4.56x   | 62x faster  | ✅ Improved     |
+| **CMO**        | 258x     | 7.73x   | 33x faster  | ✅ Improved     |
+| **Chandelier** | 122x     | \<1.5x  | 81x faster  | ✅ Target met   |
+| **Stoch**      | 15.7x    | \<1.5x  | 10x faster  | ✅ Target met   |
 
 **Success Rate**: 3/5 met ≤1.5x target, 5/5 eliminated O(n²) complexity
 
@@ -74,7 +74,7 @@ This document consolidates incomplete tasks from the streaming performance optim
 - Identify common optimization opportunities:
   - Allocation reductions
   - LINQ elimination in hot paths
-  - Span<T> usage for zero-copy operations
+  - `Span<T>` usage for zero-copy operations
   - Caching improvements
 - **Effort**: 5-8 hours (depends on scope)
 
