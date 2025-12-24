@@ -21,9 +21,9 @@ public class Reusable : TestBase
 
         // sample values
         AdxResult last = sut[^1];
-        last.Pdi.Should().BeApproximately(17.7565, Money4);
-        last.Mdi.Should().BeApproximately(31.1510, Money4);
-        last.Adx.Should().BeApproximately(34.2987, Money4);
+        last.Pdi.Should().BeApproximately(17.7565, 0.00005);
+        last.Mdi.Should().BeApproximately(31.1510, 0.00005);
+        last.Adx.Should().BeApproximately(34.2987, 0.00005);
     }
 
     [TestMethod]

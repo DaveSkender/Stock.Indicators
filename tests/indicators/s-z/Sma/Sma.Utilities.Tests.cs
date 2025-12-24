@@ -12,9 +12,9 @@ public partial class Sma : StaticSeriesTestBase
             new QuotePart(Quotes[2].Timestamp, 8.0)
         ];
 
-        // sut
-        double? mid = sut.Average(2, 1);
-        double? end = sut.Average(2);
+        // calculate
+        double? mid = results.Average(2, 1);
+        double? end = results.Average(2);
 
         // assert
         mid.Should().Be(2);

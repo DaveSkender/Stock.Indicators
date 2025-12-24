@@ -53,7 +53,7 @@ public partial class Quotes : TestBase
 
         for (int i = 1; i < r1.Count; i++)
         {
-            r1[i].Timestamp >= r1[i - 1].Timestamp.Should().BeTrue();
+            (r1[i].Timestamp >= r1[i - 1].Timestamp).Should().BeTrue();
         }
 
         // should be 50 results and no index corruption
@@ -62,7 +62,7 @@ public partial class Quotes : TestBase
 
         for (int i = 1; i < r2.Count; i++)
         {
-            r2[i].Timestamp >= r2[i - 1].Timestamp.Should().BeTrue();
+            (r2[i].Timestamp >= r2[i - 1].Timestamp).Should().BeTrue();
         }
 
         // should be original 200 periods and no index corruption, after temp mods
