@@ -106,7 +106,7 @@ internal static class DeMath
         for (int k = 1; k < 20; k++)
         {
             term *= y2;
-            double denominator = (2 * k) + 1;
+            int denominator = (k << 1) + 1;
             series += term / denominator;
         }
 
@@ -263,6 +263,7 @@ internal static class DeMath
     }
 
     // CORDIC core assumes input is finite and |x| <= 1.
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private static double AtanCordic(double x)
     {
         // CORDIC vectoring with constant x=1.0 to get atan(y)
@@ -273,15 +274,26 @@ internal static class DeMath
 
         for (int i = 0; i < AtanTable.Length; i++)
         {
-            double direction = currentY >= 0d ? 1d : -1d;
+            double a = AtanTable[i];
+            if (currentY >= 0d)
+            {
+                double nextX = currentX + (currentY * factor);
+                double nextY = currentY - (currentX * factor);
+                angle += a;
 
-            double nextX = currentX + (direction * currentY * factor);
-            double nextY = currentY - (direction * currentX * factor);
+                currentX = nextX;
+                currentY = nextY;
+            }
+            else
+            {
+                double nextX = currentX - (currentY * factor);
+                double nextY = currentY + (currentX * factor);
+                angle -= a;
 
-            angle += direction * AtanTable[i];
+                currentX = nextX;
+                currentY = nextY;
+            }
 
-            currentX = nextX;
-            currentY = nextY;
             factor *= 0.5d;
         }
 
