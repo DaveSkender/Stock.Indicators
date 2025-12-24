@@ -312,10 +312,10 @@ When implementing other complex or previously deferred indicators (for example: 
 - For synchronized dual-series inputs, start from Correlation/Beta.
 
 > [!NOTE]
-> For PRs, use the dev-facing Code completion checklist above, and the contributor-facing checklists in SpecKit:
+> For PRs, use the dev-facing Code completion checklist above, and the contributor-facing checklists:
 >
-> - BufferList tests: [buffer-list-tests.md](../../.specify/specs/001-develop-streaming-indicators/checklists/buffer-list-tests.md)
-> - StreamHub tests: [stream-hub-tests.md](../../.specify/specs/001-develop-streaming-indicators/checklists/stream-hub-tests.md)
+> - BufferList tests: [buffer-list-tests.md](../../docs/checklists/buffer-list-tests.md)
+> - StreamHub tests: [stream-hub-tests.md](../../docs/checklists/stream-hub-tests.md)
 
 ---
 Last updated: October 28, 2025

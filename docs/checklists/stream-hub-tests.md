@@ -22,3 +22,8 @@ Use this checklist to verify StreamHub tests meet project standards.
 - [ ] Reset/state behavior covered (`Reset()`, reinitialize)
 - [ ] Bad/insufficient data and boundary period tests included
 - [ ] Performance placeholder present in benchmarks project if applicable
+
+---
+
+**Source**: Migrated from .specify/specs/001-develop-streaming-indicators/checklists/stream-hub-tests.md  
+**Last updated**: December 24, 2025
