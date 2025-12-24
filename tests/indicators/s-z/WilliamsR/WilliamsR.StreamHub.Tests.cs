@@ -4,6 +4,13 @@ namespace StreamHub;
 public class WilliamsR : StreamHubTestBase, ITestQuoteObserver
 {
     [TestMethod]
+    public void Results_AreAlwaysBounded()
+    {
+        IReadOnlyList<WilliamsResult> results = Quotes.ToWilliamsRHub(14).Results;
+        results.IsBetween(x => x.WilliamsR, -100, 0);
+    }
+
+    [TestMethod]
     public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
         const int lookbackPeriods = 14;
@@ -138,7 +145,6 @@ public class WilliamsR : StreamHubTestBase, ITestQuoteObserver
         streamObserver.Cache.Should().HaveCount(batchResults.Count);
         streamObserver.Cache.Should().BeEquivalentTo(batchResults);
     }
-
 
     [TestMethod]
     public void ParameterValidation()

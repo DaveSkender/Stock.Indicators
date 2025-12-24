@@ -35,9 +35,6 @@
 
   <ItemGroup>
 
-    <None Update="_testdata/issues/*.*">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Update="_testdata/quotes/*.*">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

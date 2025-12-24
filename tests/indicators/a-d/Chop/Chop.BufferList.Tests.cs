@@ -41,6 +41,13 @@ public class Chop : BufferListTestBase
     }
 
     [TestMethod]
+    public void Results_AreAlwaysBounded()
+    {
+        ChopList results = new(14, Quotes);
+        results.IsBetween(x => x.Chop, 0, 100);
+    }
+
+    [TestMethod]
     public override void Clear_WithState_ResetsState()
     {
         List<Quote> subset = Quotes.Take(80).ToList();

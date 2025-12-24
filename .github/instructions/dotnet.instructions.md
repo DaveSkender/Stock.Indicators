@@ -73,6 +73,61 @@ All files use the **single namespace** `Skender.Stock.Indicators` declared as `n
 - Guard division by variable denominators with ternary checks (e.g., `denom != 0 ? num / denom : double.NaN`)
 - Document precision requirements and NaN handling in XML comments
 
+### Bounded indicator precision
+
+For indicators with mathematically guaranteed bounds (e.g., 0-100 range for RSI, Stochastic):
+
+#### Guardrails
+
+- **No clamping** - Never use `Math.Clamp()`; boundary violations indicate formula errors
+- **No epsilon tolerance** - Bound checks must use exact comparison (`<=`, `>=`, `==`)
+- **No forced rounding** - Cannot use rounding to hide precision issues
+- **Algorithm-level fixes** - Address root cause in formulas, not symptoms; use algebraically stable algorithms
+
+#### Recommended approach: Boundary detection
+
+For oscillator formulas where values can exactly equal boundaries:
+
+```csharp
+// Algebraically stable: detect boundary conditions first
+double oscillator;
+if (q.Close == highHigh)
+{
+    oscillator = 100d;  // Exact value, no calculation
+}
+else if (q.Close == lowLow)
+{
+    oscillator = 0d;    // Exact value, no calculation
+}
+else
+{
+    oscillator = 100d * (q.Close - lowLow) / (highHigh - lowLow);
+}
+```
+
+**Why this works**:
+
+- Eliminates floating-point division when result is exactly at boundary
+- Produces mathematically correct values without precision errors
+- Non-boundary calculations remain unchanged
+
+#### Alternative: Formula reformulation
+
+For ratio-based formulas like RSI `100 - 100/(1+rs)`:
+
+```csharp
+// Reformulated: Algebraically equivalent, inherently bounded
+double rsi = avgLoss > 0
+    ? 100d * avgGain / (avgGain + avgLoss)
+    : 100;
+```
+
+**Why this works**:
+
+- Single division instead of nested operations
+- Numerator always ≤ denominator by construction
+- Result cannot exceed bounds mathematically
+
 ### Collections and LINQ
 
 - **Avoid LINQ in hot loops** (allocation risk); prefer `for` loops

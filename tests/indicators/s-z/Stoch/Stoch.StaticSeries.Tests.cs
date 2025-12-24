@@ -48,6 +48,14 @@ public class Stoch : StaticSeriesTestBase
         Assert.AreEqual(58.2712, r501.PercentJ.Round(4));
     }
 
+    [TestMethod]
+    public void Results_AreAlwaysBounded()
+    {
+        IReadOnlyList<StochResult> results = Quotes.ToStoch(14, 3, 3);
+        results.IsBetween(x => x.Oscillator, 0, 100);
+        results.IsBetween(x => x.Signal, 0, 100);
+    }
+
     /// <summary>
     /// with extra parameters
     /// </summary>
@@ -219,13 +227,24 @@ public class Stoch : StaticSeriesTestBase
 
         // test boundary condition
 
-        for (int i = 0; i < results.Count; i++)
-        {
-            StochResult r = results[i];
+        results.IsBetween(static x => x.Oscillator, 0d, 100d);
+        results.IsBetween(static x => x.Signal, 0d, 100d);
+    }
 
-            r.Oscillator?.Should().BeInRange(0d, 100d);
-            r.Signal?.Should().BeInRange(0d, 100d);
-        }
+    [TestMethod]
+    public void Issue1127_BoundaryThreshold_Maintained()
+    {
+        // initialize
+        IReadOnlyList<Quote> quotes = Data.QuotesFromCsv("_issue1127.williamr.revisit.csv");
+
+        // get indicators (using Fast Stochastic parameters to match Williams %R)
+        IReadOnlyList<StochResult> results = quotes
+            .ToStoch(14, 1, 1);  // Fast Stochastic matches Williams %R formula
+
+        // analyze boundary
+        results.Should().HaveCountGreaterThan(0);
+        results.IsBetween(static x => x.Oscillator, 0d, 100d);
+        results.IsBetween(static x => x.Signal, 0d, 100d);
     }
 
     [TestMethod]

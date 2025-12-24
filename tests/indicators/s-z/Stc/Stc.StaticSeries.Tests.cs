@@ -123,6 +123,13 @@ public class Stc : StaticSeriesTestBase
     }
 
     [TestMethod]
+    public void Results_AreAlwaysBounded()
+    {
+        IReadOnlyList<StcResult> results = Quotes.ToStc(9, 12, 26);
+        results.IsBetween(x => x.Stc, 0, 100);
+    }
+
+    [TestMethod]
     public void Exceptions()
     {
         // bad fast period

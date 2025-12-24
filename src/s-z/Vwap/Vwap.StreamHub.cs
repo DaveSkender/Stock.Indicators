@@ -23,7 +23,7 @@ public class VwapHub : ChainProvider<IQuote, VwapResult>
         : base(provider)
     {
         StartDate = startDate;
-        _autoAnchor = startDate == null;
+        _autoAnchor = (startDate ?? default) == default;
         Reinitialize();
     }
 

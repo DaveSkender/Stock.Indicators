@@ -14,6 +14,13 @@ public class Cmo : BufferListTestBase, ITestChainBufferList
        = Quotes.ToCmo(lookbackPeriods);
 
     [TestMethod]
+    public void Results_AreAlwaysBounded()
+    {
+        CmoList results = new(14, Quotes);
+        results.IsBetween(x => x.Cmo, -100, 100);
+    }
+
+    [TestMethod]
     public void AddQuote_IncrementsResults()
     {
         CmoList sut = new(lookbackPeriods);
@@ -120,13 +127,5 @@ public class Cmo : BufferListTestBase, ITestChainBufferList
 
         sut.Should().HaveCount(maxListSize);
         sut.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
-    }
-
-    [TestMethod]
-    public void Bounded()
-    {
-        CmoList sut = Quotes.ToCmoList(lookbackPeriods);
-
-        sut.IsBetween(static x => x.Cmo, -100d, 100d);
     }
 }

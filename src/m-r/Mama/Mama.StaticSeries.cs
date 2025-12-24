@@ -43,8 +43,8 @@ public static partial class Mama
         double[] q2 = new double[length]; // adj. quadrature
         double[] i2 = new double[length]; // adj. in-phase
 
-        double[] re = new double[length];
-        double[] im = new double[length];
+        double[] re = new double[length]; // real part
+        double[] im = new double[length]; // imaginary part
 
         double[] ph = new double[length]; // phase
 
@@ -123,8 +123,8 @@ public static partial class Mama
 
                 // calculate period
                 pd[i] = im[i] != 0 && re[i] != 0
-                    ? 2 * Math.PI / Math.Atan(im[i] / re[i])
-                    : 0;
+                    ? 2 * Math.PI / DeMath.Atan(im[i] / re[i])
+                    : 0d;
 
                 // adjust period to thresholds
                 pd[i] = pd[i] > 1.5 * pd[i - 1] ? 1.5 * pd[i - 1] : pd[i];
@@ -136,7 +136,7 @@ public static partial class Mama
                 pd[i] = (0.2 * pd[i]) + (0.8 * pd[i - 1]);
 
                 // determine phase position
-                ph[i] = i1[i] != 0 ? Math.Atan(q1[i] / i1[i]) * 180 / Math.PI : 0;
+                ph[i] = i1[i] != 0 ? DeMath.Atan(q1[i] / i1[i]) * 180d / Math.PI : 0d;
 
                 // change in phase
                 double delta = Math.Max(ph[i - 1] - ph[i], 1);

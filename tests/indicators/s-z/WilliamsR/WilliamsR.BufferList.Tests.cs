@@ -41,6 +41,13 @@ public class WilliamsR : BufferListTestBase
     }
 
     [TestMethod]
+    public void Results_AreAlwaysBounded()
+    {
+        WilliamsRList results = new(14, Quotes);
+        results.IsBetween(x => x.WilliamsR, -100, 0);
+    }
+
+    [TestMethod]
     public override void Clear_WithState_ResetsState()
     {
         List<Quote> subset = Quotes.Take(80).ToList();

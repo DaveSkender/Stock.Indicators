@@ -4,6 +4,15 @@ namespace StreamHub;
 public class AroonHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
 {
     [TestMethod]
+    public void Results_AreAlwaysBounded()
+    {
+        IReadOnlyList<AroonResult> results = Quotes.ToAroonHub(25).Results;
+        results.IsBetween(x => x.AroonUp, 0, 100);
+        results.IsBetween(x => x.AroonDown, 0, 100);
+        results.IsBetween(x => x.Oscillator, -100, 100);
+    }
+
+    [TestMethod]
     public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
         List<Quote> quotesList = Quotes.ToList();

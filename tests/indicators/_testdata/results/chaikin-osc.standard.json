@@ -3,62 +3,82 @@
     "timestamp": "2017-01-03T00:00:00",
     "moneyFlowMultiplier": 0.39890710382515004,
     "moneyFlowVolume": 38577859.234973975,
-    "adl": 38577859.234973975
+    "adl": 38577859.234973975,
+    "oscillator": null,
+    "fastEma": null,
+    "slowEma": null
   },
   {
     "timestamp": "2017-01-04T00:00:00",
     "moneyFlowMultiplier": 0.7009345794392569,
     "moneyFlowVolume": 58422022.42990692,
-    "adl": 96999881.6648809
+    "adl": 96999881.6648809,
+    "oscillator": null,
+    "fastEma": null,
+    "slowEma": null
   },
   {
     "timestamp": "2017-01-05T00:00:00",
     "moneyFlowMultiplier": 0.6730769230768899,
     "moneyFlowVolume": 55839786.1538434,
     "adl": 152839667.8187243,
-    "fastEma": 96139136.23952639
+    "oscillator": null,
+    "fastEma": 96139136.23952639,
+    "slowEma": null
   },
   {
     "timestamp": "2017-01-06T00:00:00",
     "moneyFlowMultiplier": 0.41714285714286753,
     "moneyFlowVolume": 31596131.977143645,
     "adl": 184435799.79586795,
-    "fastEma": 140287468.01769716
+    "oscillator": null,
+    "fastEma": 140287468.01769716,
+    "slowEma": null
   },
   {
     "timestamp": "2017-01-09T00:00:00",
     "moneyFlowMultiplier": -0.8709677419355105,
     "moneyFlowVolume": -43273436.51613036,
     "adl": 141162363.2797376,
-    "fastEma": 140724915.64871737
+    "oscillator": null,
+    "fastEma": 140724915.64871737,
+    "slowEma": null
   },
   {
     "timestamp": "2017-01-10T00:00:00",
     "moneyFlowMultiplier": -0.3722627737226483,
     "moneyFlowVolume": -25128032.05839555,
     "adl": 116034331.22134204,
-    "fastEma": 128379623.43502972
+    "oscillator": null,
+    "fastEma": 128379623.43502972,
+    "slowEma": null
   },
   {
     "timestamp": "2017-01-11T00:00:00",
     "moneyFlowMultiplier": 1,
     "moneyFlowVolume": 79014928,
     "adl": 195049259.22134203,
-    "fastEma": 161714441.32818586
+    "oscillator": null,
+    "fastEma": 161714441.32818586,
+    "slowEma": null
   },
   {
     "timestamp": "2017-01-12T00:00:00",
     "moneyFlowMultiplier": 0.7633136094674687,
     "moneyFlowVolume": 58263544.615385614,
     "adl": 253312803.83672765,
-    "fastEma": 207513622.58245677
+    "oscillator": null,
+    "fastEma": 207513622.58245677,
+    "slowEma": null
   },
   {
     "timestamp": "2017-01-13T00:00:00",
     "moneyFlowMultiplier": 0.01492537313431443,
     "moneyFlowVolume": 990822.1492528067,
     "adl": 254303625.98598045,
-    "fastEma": 230908624.2842186
+    "oscillator": null,
+    "fastEma": 230908624.2842186,
+    "slowEma": null
   },
   {
     "timestamp": "2017-01-17T00:00:00",

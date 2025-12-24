@@ -70,6 +70,17 @@ public class Adx : StaticSeriesTestBase
     }
 
     [TestMethod]
+    public void Results_AreAlwaysBounded()
+    {
+        IReadOnlyList<AdxResult> results = Quotes.ToAdx(14);
+        results.IsBetween(x => x.Pdi, 0, 100);
+        results.IsBetween(x => x.Mdi, 0, 100);
+        results.IsBetween(x => x.Dx, 0, 100);
+        results.IsBetween(x => x.Adx, 0, 100);
+        results.IsBetween(x => x.Adxr, 0, 100);
+    }
+
+    [TestMethod]
     public void ChainingFromResults_WorksAsExpected()
     {
         IReadOnlyList<SmaResult> results = Quotes
@@ -113,16 +124,13 @@ public class Adx : StaticSeriesTestBase
     public void Issue859_HasInlineNaN_NaNsConverted()
     {
         // quotes that produce in-sequence NaN values
-        List<Quote> quotes = File.ReadAllLines("_testdata/issues/issue0859.quotes.adx.nan.csv")
-            .Skip(1)
-            .Select(Test.Data.Utilities.QuoteFromCsv)
-            .OrderByDescending(static x => x.Timestamp)
-            .ToList();
+        IReadOnlyList<Quote> quotes = Data.QuotesFromCsv("_issue0859.adx.nan.csv");
 
-        IReadOnlyList<AdxResult> r = quotes.ToAdx();
+        IReadOnlyList<AdxResult> results = quotes.ToAdx();
 
-        Assert.IsEmpty(r.Where(static x => x.Adx is double v && double.IsNaN(v)));
-        Assert.HasCount(595, r);
+        results.Should().HaveCountGreaterThan(0);
+        Assert.IsEmpty(results.Where(static x => x.Adx is double v && double.IsNaN(v)));
+        Assert.HasCount(595, results);
     }
 
     [TestMethod]

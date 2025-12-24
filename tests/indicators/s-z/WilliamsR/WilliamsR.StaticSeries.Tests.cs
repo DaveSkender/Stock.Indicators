@@ -22,6 +22,13 @@ public class WilliamsR : StaticSeriesTestBase
     }
 
     [TestMethod]
+    public void Results_AreAlwaysBounded()
+    {
+        IReadOnlyList<WilliamsResult> results = Quotes.ToWilliamsR(14);
+        results.IsBetween(x => x.WilliamsR, -100, 0);
+    }
+
+    [TestMethod]
     public void ChainingFromResults_WorksAsExpected()
     {
         IReadOnlyList<SmaResult> results = Quotes
@@ -77,44 +84,37 @@ public class WilliamsR : StaticSeriesTestBase
             .GetRandom(2500)
             .ToWilliamsR();
 
-        // analyze boundary
-        for (int i = 0; i < results.Count; i++)
-        {
-            WilliamsResult r = results[i];
+        results.IsBetween(static x => x.WilliamsR, -100d, 0d);
+    }
 
-            r.WilliamsR?.Should().BeInRange(-100d, 0d);
-        }
+    [TestMethod]
+    public void Issue1127_Original_BoundaryThreshold_Maintained()
+    {
+        // initialize
+        IReadOnlyList<Quote> quotes = Data.QuotesFromCsv("_issue1127.williamr.original.csv");
+
+        // get indicators
+        IReadOnlyList<WilliamsResult> results = quotes
+            .ToWilliamsR();
+
+        results.Should().HaveCountGreaterThan(0);
+        results.IsBetween(static x => x.WilliamsR, -100d, 0d);
     }
 
     [TestMethod]
     public void Issue1127_Revisit_BoundaryThreshold_Maintained()
     {
         // initialize
-        IReadOnlyList<Quote> quotes
-            = File.ReadAllLines("_testdata/issues/issue1127.quotes.williamr.revisit.csv")
-                .Skip(1)
-                .Select(Test.Data.Utilities.QuoteFromCsv)
-                .OrderByDescending(static x => x.Timestamp)
-                .ToList();
-
-        int length = quotes.Count;
+        IReadOnlyList<Quote> quotes = Data.QuotesFromCsv("_issue1127.williamr.revisit.csv");
 
         // get indicators
-        IReadOnlyList<WilliamsResult> resultsList = quotes
+        IReadOnlyList<WilliamsResult> results = quotes
             .ToWilliamsR();
 
-        Console.WriteLine($"%R from {length} quotes.");
+        results.ToConsole(args: (nameof(WilliamsResult.WilliamsR), "F20"));
 
-        // analyze boundary
-        for (int i = 0; i < length; i++)
-        {
-            Quote q = quotes[i];
-            WilliamsResult r = resultsList[i];
-
-            Console.WriteLine($"{q.Timestamp:s} {r.WilliamsR}");
-
-            r.WilliamsR?.Should().BeInRange(-100d, 0d);
-        }
+        results.Should().HaveCountGreaterThan(0);
+        results.IsBetween(static x => x.WilliamsR, -100d, 0d);
     }
 
     /// <summary>

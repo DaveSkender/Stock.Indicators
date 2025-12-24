@@ -123,4 +123,11 @@ public class Stc : BufferListTestBase, ITestChainBufferList
         sut.Should().HaveCount(maxListSize);
         sut.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
     }
+
+    [TestMethod]
+    public void Results_AreAlwaysBounded()
+    {
+        StcList results = new(9, 12, 26, Quotes);
+        results.IsBetween(x => x.Stc, 0, 100);
+    }
 }

@@ -83,6 +83,13 @@ public class Rsi : BufferListTestBase, ITestChainBufferList
     }
 
     [TestMethod]
+    public void Results_AreAlwaysBounded()
+    {
+        RsiList results = new(14, Quotes);
+        results.IsBetween(x => x.Rsi, 0, 100);
+    }
+
+    [TestMethod]
     public override void Clear_WithState_ResetsState()
     {
         List<Quote> subset = Quotes.Take(80).ToList();

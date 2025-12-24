@@ -46,15 +46,24 @@ public static partial class StringOut
     /// </summary>
     /// <typeparam name="T">The type of elements in the list, which must implement ISeries.</typeparam>
     /// <param name="source">The list of ISeries elements to convert.</param>
+    /// <param name="args">Optional overrides for `ToString()` formatter. Key values can be type or property name.</param>
     /// <returns>The fixed-width formatted string representation of the list.</returns>
     public static string ToConsole<T>(
-        this IReadOnlyList<T> source)
-        where T : ISeries
-    {
-        string? output = source.ToStringOut();
-        Console.WriteLine(output);
-        return output ?? string.Empty;
-    }
+        this IReadOnlyList<T> source,
+        IDictionary<string, string>? args = null)
+        where T : ISeries => source.ToConsole(filter: _ => true, args: args);
+
+    /// <summary>
+    /// Writes the contents of the series to the console and returns the output as a string.
+    /// </summary>
+    /// <typeparam name="T">The type of elements in the series. Must implement <see cref="ISeries"/>.</typeparam>
+    /// <param name="source">The read-only list of series elements to be written to the console.</param>
+    /// <param name="args">Optional key-value pairs that provide additional formatting or output options.</param>
+    /// <returns>A string containing the console output generated from the series.</returns>
+    public static string ToConsole<T>(
+        this IReadOnlyList<T> source,
+        params (string key, string value)[] args)
+    where T : ISeries => source.ToConsole(filter: _ => true, args: args);
 
     /// <summary>
     /// Converts a list of ISeries to a fixed-width formatted string and writes it to the console.
@@ -93,14 +102,12 @@ public static partial class StringOut
         params (string key, string value)[] args)
         where T : ISeries
     {
-        ArgumentNullException.ThrowIfNull(source);
-        ArgumentNullException.ThrowIfNull(filter);
-
         Dictionary<string, string>? argsDict = args?.Length > 0
             ? args
                 .GroupBy(x => x.key)
                 .ToDictionary(g => g.Key, g => g.Last().value)
             : null;
+
         return source.ToConsole(filter, argsDict);
     }
 
@@ -114,7 +121,39 @@ public static partial class StringOut
     /// <param name="args">Optional formatting arguments as key-value pairs.</param>
     /// <returns>The fixed-width formatted string representation of the filtered list.</returns>
     /// <exception cref="ArgumentNullException">Thrown when <paramref name="source"/> or <paramref name="filter"/> is <c>null</c>.</exception>
-    /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="limitQty"/> is negative.</exception>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="limitQty"/> is less than or equal to zero.</exception>
+    public static string ToConsole<T>(
+        this IEnumerable<T> source,
+        Func<T, bool> filter,
+        int limitQty = int.MaxValue,
+        IDictionary<string, string>? args = null)
+        where T : ISeries
+    {
+        ArgumentNullException.ThrowIfNull(source);
+        ArgumentNullException.ThrowIfNull(filter);
+
+        if (limitQty <= 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(limitQty), limitQty,
+                "limitQty must be positive.");
+        }
+
+        string? output = source.ToStringOut(filter, limitQty, args);
+        Console.WriteLine(output);
+        return output ?? string.Empty;
+    }
+
+    /// <summary>
+    /// Converts a list of ISeries to a fixed-width formatted string and writes it to the console.
+    /// </summary>
+    /// <typeparam name="T">The type of elements in the list, which must implement ISeries.</typeparam>
+    /// <param name="source">The list of ISeries elements to convert.</param>
+    /// <param name="filter">A predicate to filter the elements.</param>
+    /// <param name="limitQty">The maximum number of elements to include in the output.</param>
+    /// <param name="args">Optional formatting arguments as key-value pairs.</param>
+    /// <returns>The fixed-width formatted string representation of the filtered list.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when <paramref name="source"/> or <paramref name="filter"/> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="limitQty"/> is less than or equal to zero.</exception>
     public static string ToConsole<T>(
         this IEnumerable<T> source,
         Func<T, bool> filter,
@@ -125,10 +164,10 @@ public static partial class StringOut
         ArgumentNullException.ThrowIfNull(source);
         ArgumentNullException.ThrowIfNull(filter);
 
-        if (limitQty < 0)
+        if (limitQty <= 0)
         {
             throw new ArgumentOutOfRangeException(nameof(limitQty), limitQty,
-                "limitQty must be greater than or equal to 0.");
+                "limitQty must be positive.");
         }
 
         Dictionary<string, string>? argsDict = args?.Length > 0
@@ -136,6 +175,7 @@ public static partial class StringOut
                 .GroupBy(x => x.key)
                 .ToDictionary(g => g.Key, g => g.Last().value)
             : null;
+
         string? output = source.ToStringOut(filter, limitQty, argsDict);
         Console.WriteLine(output);
         return output ?? string.Empty;

@@ -36,44 +36,24 @@ namespace Skender.Stock.Indicators;
 public class MamaList : BufferList<MamaResult>, IIncrementFromChain, IMama
 {
     /// <summary>
-    /// Internal state arrays matching StaticSeries implementation
+    /// State arrays for MESA algorithm
     /// These arrays grow with each added value to support indexed lookback access
     /// </summary>
-    private readonly List<double> pr = []; // price (HL2 when quote)
-    /// <summary>
-    /// smooth
-    /// </summary>
-    private readonly List<double> sm = [];
-    /// <summary>
-    /// detrender
-    /// </summary>
-    private readonly List<double> dt = [];
-    /// <summary>
-    /// period
-    /// </summary>
-    private readonly List<double> pd = [];
-    /// <summary>
-    /// quadrature
-    /// </summary>
-    private readonly List<double> q1 = [];
-    /// <summary>
-    /// in-phase
-    /// </summary>
-    private readonly List<double> i1 = [];
-    /// <summary>
-    /// adj. quadrature
-    /// </summary>
-    private readonly List<double> q2 = [];
-    /// <summary>
-    /// adj. in-phase
-    /// </summary>
-    private readonly List<double> i2 = [];
-    private readonly List<double> re = [];
-    private readonly List<double> im = [];
-    /// <summary>
-    /// phase
-    /// </summary>
-    private readonly List<double> ph = [];
+    private readonly List<double> pr = []; // price
+    private readonly List<double> sm = []; // smooth
+    private readonly List<double> dt = []; // detrender
+    private readonly List<double> pd = []; // period
+
+    private readonly List<double> q1 = []; // quadrature
+    private readonly List<double> i1 = []; // in-phase
+
+    private readonly List<double> q2 = []; // adj. quadrature
+    private readonly List<double> i2 = []; // adj. in-phase
+
+    private readonly List<double> re = []; // real part
+    private readonly List<double> im = []; // imaginary part
+
+    private readonly List<double> ph = []; // phase
 
     private double prevMama = double.NaN;
     private double prevFama = double.NaN;
@@ -187,16 +167,22 @@ public class MamaList : BufferList<MamaResult>, IIncrementFromChain, IMama
         re[i] = (0.2 * re[i]) + (0.8 * re[i - 1]);
         im[i] = (0.2 * im[i]) + (0.8 * im[i - 1]);
 
-        // Period calculation & constraints
-        pd[i] = im[i] != 0 && re[i] != 0 ? 2 * Math.PI / Math.Atan(im[i] / re[i]) : 0d;
+        // calculate period
+        pd[i] = im[i] != 0 && re[i] != 0
+            ? 2 * Math.PI / DeMath.Atan(im[i] / re[i])
+            : 0d;
+
+        // adjust period to thresholds
         pd[i] = pd[i] > 1.5 * pd[i - 1] ? 1.5 * pd[i - 1] : pd[i];
         pd[i] = pd[i] < 0.67 * pd[i - 1] ? 0.67 * pd[i - 1] : pd[i];
         pd[i] = pd[i] < 6 ? 6 : pd[i];
         pd[i] = pd[i] > 50 ? 50 : pd[i];
+
+        // smooth the period
         pd[i] = (0.2 * pd[i]) + (0.8 * pd[i - 1]);
 
         // Phase & delta
-        ph[i] = i1[i] != 0 ? Math.Atan(q1[i] / i1[i]) * 180d / Math.PI : 0d;
+        ph[i] = i1[i] != 0 ? DeMath.Atan(q1[i] / i1[i]) * 180d / Math.PI : 0d;
         double delta = Math.Max(ph[i - 1] - ph[i], 1d);
 
         // Adaptive alpha & final outputs
