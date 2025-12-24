@@ -6,37 +6,37 @@ public class Marubozu : StaticSeriesTestBase
     [TestMethod]
     public override void DefaultParameters_ReturnsExpectedResults()
     {
-        IReadOnlyList<CandleResult> results = Quotes
+        IReadOnlyList<CandleResult> sut = Quotes
             .ToMarubozu();
 
         // proper quantities
-        Assert.HasCount(502, results);
-        Assert.HasCount(6, results.Where(static x => x.Match != Match.None));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Match != Match.None).Should().HaveCount(6);
 
         // sample values
-        CandleResult r31 = results[31];
-        Assert.IsNull(r31.Price);
+        CandleResult r31 = sut[31];
+        r31.Price.Should().BeNull();
         Assert.AreEqual(0, (int)r31.Match);
 
-        CandleResult r32 = results[32];
-        Assert.AreEqual(222.10m, r32.Price);
-        Assert.AreEqual(Match.BullSignal, r32.Match);
+        CandleResult r32 = sut[32];
+        r32.Price.Should().Be(222.10m);
+        r32.Match.Should().Be(Match.BullSignal);
 
-        CandleResult r33 = results[33];
-        Assert.IsNull(r33.Price);
-        Assert.AreEqual(Match.None, r33.Match);
+        CandleResult r33 = sut[33];
+        r33.Price.Should().BeNull();
+        r33.Match.Should().Be(Match.None);
 
-        CandleResult r34 = results[34];
-        Assert.IsNull(r34.Price);
-        Assert.AreEqual(Match.None, r34.Match);
+        CandleResult r34 = sut[34];
+        r34.Price.Should().BeNull();
+        r34.Match.Should().Be(Match.None);
 
-        CandleResult r274 = results[274];
-        Assert.IsNull(r274.Price);
-        Assert.AreEqual(Match.None, r274.Match);
+        CandleResult r274 = sut[274];
+        r274.Price.Should().BeNull();
+        r274.Match.Should().Be(Match.None);
 
-        CandleResult r277 = results[277];
-        Assert.AreEqual(248.13m, r277.Price);
-        Assert.AreEqual(Match.BearSignal, r277.Match);
+        CandleResult r277 = sut[277];
+        r277.Price.Should().Be(248.13m);
+        r277.Match.Should().Be(Match.BearSignal);
     }
 
     [TestMethod]
@@ -45,7 +45,7 @@ public class Marubozu : StaticSeriesTestBase
         IReadOnlyList<CandleResult> r = BadQuotes
             .ToMarubozu();
 
-        Assert.HasCount(502, r);
+        r.Should().HaveCount(502);
     }
 
     [TestMethod]
@@ -54,22 +54,22 @@ public class Marubozu : StaticSeriesTestBase
         IReadOnlyList<CandleResult> r0 = Noquotes
             .ToMarubozu();
 
-        Assert.IsEmpty(r0);
+        r0.Should().BeEmpty();
 
         IReadOnlyList<CandleResult> r1 = Onequote
             .ToMarubozu();
 
-        Assert.HasCount(1, r1);
+        r1.Should().HaveCount(1);
     }
 
     [TestMethod]
     public void Condense()
     {
-        IReadOnlyList<CandleResult> results = Quotes
+        IReadOnlyList<CandleResult> sut = Quotes
             .ToMarubozu()
             .Condense();
 
-        Assert.HasCount(6, results);
+        sut.Should().HaveCount(6);
     }
 
     [TestMethod]

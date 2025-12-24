@@ -35,7 +35,7 @@ public class Dpo : StaticSeriesTestBase
             DpoResult e = exp[i];
             DpoResult a = act[i];
 
-            Assert.AreEqual(e.Timestamp, a.Timestamp);
+            a.Timestamp.Should().Be(e.Timestamp);
             Assert.AreEqual(e.Sma, a.Sma.Round(5), $"at index {i}");
             Assert.AreEqual(e.Dpo, a.Dpo.Round(5), $"at index {i}");
         }
@@ -44,34 +44,34 @@ public class Dpo : StaticSeriesTestBase
     [TestMethod]
     public void UseReusable()
     {
-        IReadOnlyList<DpoResult> results = Quotes
+        IReadOnlyList<DpoResult> sut = Quotes
             .Use(CandlePart.Close)
             .ToDpo(14);
 
-        Assert.HasCount(502, results);
-        Assert.HasCount(489, results.Where(static x => x.Dpo != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Dpo != null).Should().HaveCount(489);
     }
 
     [TestMethod]
     public void Chainee()
     {
-        IReadOnlyList<DpoResult> results = Quotes
+        IReadOnlyList<DpoResult> sut = Quotes
             .ToSma(2)
             .ToDpo(14);
 
-        Assert.HasCount(502, results);
-        Assert.HasCount(488, results.Where(static x => x.Dpo != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Dpo != null).Should().HaveCount(488);
     }
 
     [TestMethod]
     public void ChainingFromResults_WorksAsExpected()
     {
-        IReadOnlyList<SmaResult> results = Quotes
+        IReadOnlyList<SmaResult> sut = Quotes
             .ToDpo(14)
             .ToSma(10);
 
-        Assert.HasCount(502, results);
-        Assert.HasCount(480, results.Where(static x => x.Sma is not null and not double.NaN));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Sma is not null and not double.NaN).Should().HaveCount(480);
     }
 
     [TestMethod]
@@ -80,7 +80,7 @@ public class Dpo : StaticSeriesTestBase
         IReadOnlyList<DpoResult> r = BadQuotes
             .ToDpo(5);
 
-        Assert.HasCount(502, r);
+        r.Should().HaveCount(502);
         Assert.IsEmpty(r.Where(static x => x.Dpo is double v && double.IsNaN(v)));
     }
 
@@ -90,12 +90,12 @@ public class Dpo : StaticSeriesTestBase
         IReadOnlyList<DpoResult> r0 = Noquotes
             .ToDpo(5);
 
-        Assert.IsEmpty(r0);
+        r0.Should().BeEmpty();
 
         IReadOnlyList<DpoResult> r1 = Onequote
             .ToDpo(5);
 
-        Assert.HasCount(1, r1);
+        r1.Should().HaveCount(1);
     }
 
     /// <summary>
@@ -103,6 +103,8 @@ public class Dpo : StaticSeriesTestBase
     /// </summary>
     [TestMethod]
     public void Exceptions()
-        => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToDpo(0));
+        => FluentActions
+            .Invoking(static () => Quotes.ToDpo(0))
+            .Should()
+            .ThrowExactly<ArgumentOutOfRangeException>();
 }

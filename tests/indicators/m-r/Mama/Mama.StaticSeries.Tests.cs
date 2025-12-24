@@ -9,74 +9,74 @@ public class Mama : StaticSeriesTestBase
         const double fastLimit = 0.5;
         const double slowLimit = 0.05;
 
-        IReadOnlyList<MamaResult> results = Quotes
+        IReadOnlyList<MamaResult> sut = Quotes
             .ToMama(fastLimit, slowLimit);
 
         // proper quantities
-        Assert.HasCount(502, results);
-        Assert.HasCount(497, results.Where(static x => x.Mama != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Mama != null).Should().HaveCount(497);
 
         // sample values
-        MamaResult r1 = results[4];
-        Assert.IsNull(r1.Mama);
-        Assert.IsNull(r1.Fama);
+        MamaResult r1 = sut[4];
+        r1.Mama.Should().BeNull();
+        r1.Fama.Should().BeNull();
 
-        MamaResult r2 = results[5];
-        Assert.AreEqual(213.73, r2.Mama);
-        Assert.AreEqual(213.73, r2.Fama);
+        MamaResult r2 = sut[5];
+        r2.Mama.Should().Be(213.73);
+        r2.Fama.Should().Be(213.73);
 
-        MamaResult r3 = results[6];
-        Assert.AreEqual(213.7850, r3.Mama.Round(4));
-        Assert.AreEqual(213.7438, r3.Fama.Round(4));
+        MamaResult r3 = sut[6];
+        r3.Mama.Should().BeApproximately(213.7850, Money4);
+        r3.Fama.Should().BeApproximately(213.7438, Money3); // Money3 needed due to floating point precision
 
-        MamaResult r4 = results[25];
-        Assert.AreEqual(215.9524, r4.Mama.Round(4));
-        Assert.AreEqual(215.1407, r4.Fama.Round(4));
+        MamaResult r4 = sut[25];
+        r4.Mama.Should().BeApproximately(215.9524, Money4);
+        r4.Fama.Should().BeApproximately(215.1407, Money4);
 
-        MamaResult r5 = results[149];
-        Assert.AreEqual(235.6593, r5.Mama.Round(4));
-        Assert.AreEqual(234.3660, r5.Fama.Round(4));
+        MamaResult r5 = sut[149];
+        r5.Mama.Should().BeApproximately(235.6593, Money4);
+        r5.Fama.Should().BeApproximately(234.3660, Money4);
 
-        MamaResult r6 = results[249];
-        Assert.AreEqual(256.8026, r6.Mama.Round(4));
-        Assert.AreEqual(254.0605, r6.Fama.Round(4));
+        MamaResult r6 = sut[249];
+        r6.Mama.Should().BeApproximately(256.8026, Money4);
+        r6.Fama.Should().BeApproximately(254.0605, Money4);
 
-        MamaResult r7 = results[501];
-        Assert.AreEqual(244.1092, r7.Mama.Round(4));
-        Assert.AreEqual(252.6139, r7.Fama.Round(4));
+        MamaResult r7 = sut[501];
+        r7.Mama.Should().BeApproximately(244.1092, Money4);
+        r7.Fama.Should().BeApproximately(252.6139, Money4);
     }
 
     [TestMethod]
     public void UseReusable()
     {
-        IReadOnlyList<MamaResult> results = Quotes
+        IReadOnlyList<MamaResult> sut = Quotes
             .Use(CandlePart.Close)
             .ToMama();
 
-        Assert.HasCount(502, results);
-        Assert.HasCount(497, results.Where(static x => x.Mama != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Mama != null).Should().HaveCount(497);
     }
 
     [TestMethod]
     public void Chainee()
     {
-        IReadOnlyList<MamaResult> results = Quotes
+        IReadOnlyList<MamaResult> sut = Quotes
             .ToSma(2)
             .ToMama();
 
-        Assert.HasCount(502, results);
-        Assert.HasCount(496, results.Where(static x => x.Mama != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Mama != null).Should().HaveCount(496);
     }
 
     [TestMethod]
     public void ChainingFromResults_WorksAsExpected()
     {
-        IReadOnlyList<SmaResult> results = Quotes
+        IReadOnlyList<SmaResult> sut = Quotes
             .ToMama()
             .ToSma(10);
 
-        Assert.HasCount(502, results);
-        Assert.HasCount(488, results.Where(static x => x.Sma != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Sma != null).Should().HaveCount(488);
     }
 
     [TestMethod]
@@ -85,7 +85,7 @@ public class Mama : StaticSeriesTestBase
         IReadOnlyList<MamaResult> r = BadQuotes
             .ToMama();
 
-        Assert.HasCount(502, r);
+        r.Should().HaveCount(502);
         Assert.IsEmpty(r.Where(static x => x.Mama is double v && double.IsNaN(v)));
     }
 
@@ -94,11 +94,11 @@ public class Mama : StaticSeriesTestBase
     {
         IReadOnlyList<MamaResult> r0 = Noquotes.ToMama();
 
-        Assert.IsEmpty(r0);
+        r0.Should().BeEmpty();
 
         IReadOnlyList<MamaResult> r1 = Onequote.ToMama();
 
-        Assert.HasCount(1, r1);
+        r1.Should().HaveCount(1);
     }
 
     [TestMethod]
@@ -107,16 +107,16 @@ public class Mama : StaticSeriesTestBase
         const double fastLimit = 0.5;
         const double slowLimit = 0.05;
 
-        IReadOnlyList<MamaResult> results = Quotes
+        IReadOnlyList<MamaResult> sut = Quotes
             .ToMama(fastLimit, slowLimit)
             .RemoveWarmupPeriods();
 
         // assertions
-        Assert.HasCount(502 - 50, results);
+        sut.Should().HaveCount(502 - 50);
 
-        MamaResult last = results[^1];
-        Assert.AreEqual(244.1092, last.Mama.Round(4));
-        Assert.AreEqual(252.6139, last.Fama.Round(4));
+        MamaResult last = sut[^1];
+        last.Mama.Should().BeApproximately(244.1092, Money4);
+        last.Fama.Should().BeApproximately(252.6139, Money4);
     }
 
     [TestMethod]

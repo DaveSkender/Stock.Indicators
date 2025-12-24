@@ -6,29 +6,29 @@ public class Obv : StaticSeriesTestBase
     [TestMethod]
     public override void DefaultParameters_ReturnsExpectedResults()
     {
-        IReadOnlyList<ObvResult> results = Quotes
+        IReadOnlyList<ObvResult> sut = Quotes
             .ToObv();
 
         // proper quantities
-        Assert.HasCount(502, results);
+        sut.Should().HaveCount(502);
 
         // sample values
-        ObvResult r1 = results[249];
-        Assert.AreEqual(1780918888, r1.Obv);
+        ObvResult r1 = sut[249];
+        r1.Obv.Should().Be(1780918888);
 
-        ObvResult r2 = results[501];
-        Assert.AreEqual(539843504, r2.Obv);
+        ObvResult r2 = sut[501];
+        r2.Obv.Should().Be(539843504);
     }
 
     [TestMethod]
     public void ChainingFromResults_WorksAsExpected()
     {
-        IReadOnlyList<SmaResult> results = Quotes
+        IReadOnlyList<SmaResult> sut = Quotes
             .ToObv()
             .ToSma(10);
 
-        Assert.HasCount(502, results);
-        Assert.HasCount(493, results.Where(static x => x.Sma != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Sma != null).Should().HaveCount(493);
     }
 
     [TestMethod]
@@ -37,7 +37,7 @@ public class Obv : StaticSeriesTestBase
         IReadOnlyList<ObvResult> r = BadQuotes
             .ToObv();
 
-        Assert.HasCount(502, r);
+        r.Should().HaveCount(502);
         Assert.IsEmpty(r.Where(static x => double.IsNaN(x.Obv)));
     }
 
@@ -47,7 +47,7 @@ public class Obv : StaticSeriesTestBase
         IReadOnlyList<ObvResult> r = BigQuotes
             .ToObv();
 
-        Assert.HasCount(1246, r);
+        r.Should().HaveCount(1246);
     }
 
     [TestMethod]
@@ -56,11 +56,11 @@ public class Obv : StaticSeriesTestBase
         IReadOnlyList<ObvResult> r0 = Noquotes
             .ToObv();
 
-        Assert.IsEmpty(r0);
+        r0.Should().BeEmpty();
 
         IReadOnlyList<ObvResult> r1 = Onequote
             .ToObv();
 
-        Assert.HasCount(1, r1);
+        r1.Should().HaveCount(1);
     }
 }

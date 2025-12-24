@@ -6,59 +6,59 @@ public class Roc : StaticSeriesTestBase
     [TestMethod]
     public override void DefaultParameters_ReturnsExpectedResults()
     {
-        IReadOnlyList<RocResult> results = Quotes
+        IReadOnlyList<RocResult> sut = Quotes
             .ToRoc(20);
 
         // proper quantities
-        Assert.HasCount(502, results);
-        Assert.HasCount(482, results.Where(static x => x.Momentum != null));
-        Assert.HasCount(482, results.Where(static x => x.Roc != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Momentum != null).Should().HaveCount(482);
+        sut.Where(static x => x.Roc != null).Should().HaveCount(482);
 
         // sample values
-        RocResult r49 = results[49];
-        Assert.AreEqual(4.96, r49.Momentum.Round(4));
-        Assert.AreEqual(2.2465, r49.Roc.Round(4));
+        RocResult r49 = sut[49];
+        r49.Momentum.Should().BeApproximately(4.96, Money4);
+        r49.Roc.Should().BeApproximately(2.2465, Money4);
 
-        RocResult r249 = results[249];
-        Assert.AreEqual(6.25, r249.Momentum.Round(4));
-        Assert.AreEqual(2.4827, r249.Roc.Round(4));
+        RocResult r249 = sut[249];
+        r249.Momentum.Should().BeApproximately(6.25, Money4);
+        r249.Roc.Should().BeApproximately(2.4827, Money4);
 
-        RocResult r501 = results[501];
-        Assert.AreEqual(-22.05, r501.Momentum.Round(4));
-        Assert.AreEqual(-8.2482, r501.Roc.Round(4));
+        RocResult r501 = sut[501];
+        r501.Momentum.Should().BeApproximately(-22.05, Money4);
+        r501.Roc.Should().BeApproximately(-8.2482, Money4);
     }
 
     [TestMethod]
     public void UseReusable()
     {
-        IReadOnlyList<RocResult> results = Quotes
+        IReadOnlyList<RocResult> sut = Quotes
             .Use(CandlePart.Close)
             .ToRoc(20);
 
-        Assert.HasCount(502, results);
-        Assert.HasCount(482, results.Where(static x => x.Roc != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Roc != null).Should().HaveCount(482);
     }
 
     [TestMethod]
     public void Chainee()
     {
-        IReadOnlyList<RocResult> results = Quotes
+        IReadOnlyList<RocResult> sut = Quotes
             .ToSma(2)
             .ToRoc(20);
 
-        Assert.HasCount(502, results);
-        Assert.HasCount(481, results.Where(static x => x.Roc != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Roc != null).Should().HaveCount(481);
     }
 
     [TestMethod]
     public void ChainingFromResults_WorksAsExpected()
     {
-        IReadOnlyList<SmaResult> results = Quotes
+        IReadOnlyList<SmaResult> sut = Quotes
             .ToRoc(20)
             .ToSma(10);
 
-        Assert.HasCount(502, results);
-        Assert.HasCount(473, results.Where(static x => x.Sma != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Sma != null).Should().HaveCount(473);
     }
 
     [TestMethod]
@@ -67,7 +67,7 @@ public class Roc : StaticSeriesTestBase
         IReadOnlyList<RocResult> r = BadQuotes
             .ToRoc(35);
 
-        Assert.HasCount(502, r);
+        r.Should().HaveCount(502);
         Assert.IsEmpty(r.Where(static x => x.Roc is double.NaN));
     }
 
@@ -77,30 +77,32 @@ public class Roc : StaticSeriesTestBase
         IReadOnlyList<RocResult> r0 = Noquotes
             .ToRoc(5);
 
-        Assert.IsEmpty(r0);
+        r0.Should().BeEmpty();
 
         IReadOnlyList<RocResult> r1 = Onequote
             .ToRoc(5);
 
-        Assert.HasCount(1, r1);
+        r1.Should().HaveCount(1);
     }
 
     [TestMethod]
     public void Removed()
     {
-        IReadOnlyList<RocResult> results = Quotes
+        IReadOnlyList<RocResult> sut = Quotes
             .ToRoc(20)
             .RemoveWarmupPeriods();
 
         // assertions
-        Assert.HasCount(502 - 20, results);
+        sut.Should().HaveCount(502 - 20);
 
-        RocResult last = results[^1];
-        Assert.AreEqual(-8.2482, last.Roc.Round(4));
+        RocResult last = sut[^1];
+        last.Roc.Should().BeApproximately(-8.2482, Money4);
     }
 
     [TestMethod] // bad lookback period
     public void Exceptions()
-        => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToRoc(0));
+        => FluentActions
+            .Invoking(static () => Quotes.ToRoc(0))
+            .Should()
+            .ThrowExactly<ArgumentOutOfRangeException>();
 }

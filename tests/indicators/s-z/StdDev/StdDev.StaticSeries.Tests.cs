@@ -6,67 +6,67 @@ public class StdDev : StaticSeriesTestBase
     [TestMethod]
     public override void DefaultParameters_ReturnsExpectedResults()
     {
-        IReadOnlyList<StdDevResult> results = Quotes
+        IReadOnlyList<StdDevResult> sut = Quotes
             .ToStdDev(10);
 
         // proper quantities
-        Assert.HasCount(502, results);
-        Assert.HasCount(493, results.Where(static x => x.StdDev != null));
-        Assert.HasCount(493, results.Where(static x => x.ZScore != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.StdDev != null).Should().HaveCount(493);
+        sut.Where(static x => x.ZScore != null).Should().HaveCount(493);
 
         // sample values
-        StdDevResult r1 = results[8];
-        Assert.IsNull(r1.StdDev);
-        Assert.IsNull(r1.Mean);
-        Assert.IsNull(r1.ZScore);
+        StdDevResult r1 = sut[8];
+        r1.StdDev.Should().BeNull();
+        r1.Mean.Should().BeNull();
+        r1.ZScore.Should().BeNull();
 
-        StdDevResult r2 = results[9];
-        Assert.AreEqual(0.5020, r2.StdDev.Round(4));
-        Assert.AreEqual(214.0140, r2.Mean.Round(4));
-        Assert.AreEqual(-0.525917, r2.ZScore.Round(6));
+        StdDevResult r2 = sut[9];
+        r2.StdDev.Should().BeApproximately(0.5020, Money4);
+        r2.Mean.Should().BeApproximately(214.0140, Money4);
+        r2.ZScore.Should().BeApproximately(-0.525917, Money6);
 
-        StdDevResult r3 = results[249];
-        Assert.AreEqual(0.9827, r3.StdDev.Round(4));
-        Assert.AreEqual(257.2200, r3.Mean.Round(4));
-        Assert.AreEqual(0.783563, r3.ZScore.Round(6));
+        StdDevResult r3 = sut[249];
+        r3.StdDev.Should().BeApproximately(0.9827, Money4);
+        r3.Mean.Should().BeApproximately(257.2200, Money4);
+        r3.ZScore.Should().BeApproximately(0.783563, Money6);
 
-        StdDevResult r4 = results[501];
-        Assert.AreEqual(5.4738, r4.StdDev.Round(4));
-        Assert.AreEqual(242.4100, r4.Mean.Round(4));
-        Assert.AreEqual(0.524312, r4.ZScore.Round(6));
+        StdDevResult r4 = sut[501];
+        r4.StdDev.Should().BeApproximately(5.4738, Money4);
+        r4.Mean.Should().BeApproximately(242.4100, Money4);
+        r4.ZScore.Should().BeApproximately(0.524312, Money6);
     }
 
     [TestMethod]
     public void UseReusable()
     {
-        IReadOnlyList<StdDevResult> results = Quotes
+        IReadOnlyList<StdDevResult> sut = Quotes
             .Use(CandlePart.Close)
             .ToStdDev(10);
 
-        Assert.HasCount(502, results);
-        Assert.HasCount(493, results.Where(static x => x.StdDev != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.StdDev != null).Should().HaveCount(493);
     }
 
     [TestMethod]
     public void Chainee()
     {
-        IReadOnlyList<StdDevResult> results = Quotes
+        IReadOnlyList<StdDevResult> sut = Quotes
             .ToSma(2)
             .ToStdDev(10);
 
-        Assert.HasCount(502, results);
-        Assert.HasCount(492, results.Where(static x => x.StdDev != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.StdDev != null).Should().HaveCount(492);
     }
 
     [TestMethod]
     public void ChainingFromResults_WorksAsExpected()
     {
-        IReadOnlyList<SmaResult> results = Quotes
+        IReadOnlyList<SmaResult> sut = Quotes
             .ToStdDev(10)
             .ToSma(10);
 
-        Assert.HasCount(502, results);
-        Assert.HasCount(484, results.Where(static x => x.Sma != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Sma != null).Should().HaveCount(484);
     }
 
     [TestMethod]
@@ -75,7 +75,7 @@ public class StdDev : StaticSeriesTestBase
         IReadOnlyList<StdDevResult> r = BadQuotes
             .ToStdDev(15);
 
-        Assert.HasCount(502, r);
+        r.Should().HaveCount(502);
         Assert.IsEmpty(r.Where(static x => x.StdDev is double.NaN));
     }
 
@@ -85,7 +85,7 @@ public class StdDev : StaticSeriesTestBase
         IReadOnlyList<StdDevResult> r = BigQuotes
             .ToStdDev(200);
 
-        Assert.HasCount(1246, r);
+        r.Should().HaveCount(1246);
     }
 
     [TestMethod]
@@ -94,32 +94,34 @@ public class StdDev : StaticSeriesTestBase
         IReadOnlyList<StdDevResult> r0 = Noquotes
             .ToStdDev(10);
 
-        Assert.IsEmpty(r0);
+        r0.Should().BeEmpty();
 
         IReadOnlyList<StdDevResult> r1 = Onequote
             .ToStdDev(10);
 
-        Assert.HasCount(1, r1);
+        r1.Should().HaveCount(1);
     }
 
     [TestMethod]
     public void Removed()
     {
-        IReadOnlyList<StdDevResult> results = Quotes
+        IReadOnlyList<StdDevResult> sut = Quotes
             .ToStdDev(10)
             .RemoveWarmupPeriods();
 
         // assertions
-        Assert.HasCount(502 - 9, results);
+        sut.Should().HaveCount(502 - 9);
 
-        StdDevResult last = results[^1];
-        Assert.AreEqual(5.4738, last.StdDev.Round(4));
-        Assert.AreEqual(242.4100, last.Mean.Round(4));
-        Assert.AreEqual(0.524312, last.ZScore.Round(6));
+        StdDevResult last = sut[^1];
+        last.StdDev.Should().BeApproximately(5.4738, Money4);
+        last.Mean.Should().BeApproximately(242.4100, Money4);
+        last.ZScore.Should().BeApproximately(0.524312, Money6);
     }
 
     [TestMethod] // bad lookback period
     public void Exceptions()
-        => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToStdDev(1));
+        => FluentActions
+            .Invoking(static () => Quotes.ToStdDev(1))
+            .Should()
+            .ThrowExactly<ArgumentOutOfRangeException>();
 }

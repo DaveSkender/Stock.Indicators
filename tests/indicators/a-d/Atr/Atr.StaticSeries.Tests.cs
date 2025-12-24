@@ -6,38 +6,38 @@ public class Atr : StaticSeriesTestBase
     [TestMethod]
     public override void DefaultParameters_ReturnsExpectedResults()
     {
-        IReadOnlyList<AtrResult> results = Quotes
+        IReadOnlyList<AtrResult> sut = Quotes
             .ToAtr();
 
         // proper quantities
-        Assert.HasCount(502, results);
-        Assert.HasCount(488, results.Where(static x => x.Atr != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Atr != null).Should().HaveCount(488);
 
         // sample values
-        AtrResult r13 = results[13];
+        AtrResult r13 = sut[13];
         Assert.AreEqual(1.45, r13.Tr.Round(8));
-        Assert.IsNull(r13.Atr);
-        Assert.IsNull(r13.Atrp);
+        r13.Atr.Should().BeNull();
+        r13.Atrp.Should().BeNull();
 
-        AtrResult r14 = results[14];
+        AtrResult r14 = sut[14];
         Assert.AreEqual(1.82, r14.Tr.Round(8));
-        Assert.AreEqual(1.3364, r14.Atr.Round(4));
-        Assert.AreEqual(0.6215, r14.Atrp.Round(4));
+        r14.Atr.Should().BeApproximately(1.3364, Money4);
+        r14.Atrp.Should().BeApproximately(0.6215, Money4);
 
-        AtrResult r24 = results[24];
+        AtrResult r24 = sut[24];
         Assert.AreEqual(0.88, r24.Tr.Round(8));
-        Assert.AreEqual(1.3034, r24.Atr.Round(4));
-        Assert.AreEqual(0.6026, r24.Atrp.Round(4));
+        r24.Atr.Should().BeApproximately(1.3034, Money4);
+        r24.Atrp.Should().BeApproximately(0.6026, Money4);
 
-        AtrResult r249 = results[249];
+        AtrResult r249 = sut[249];
         Assert.AreEqual(0.58, r249.Tr.Round(8));
-        Assert.AreEqual(1.3381, r249.Atr.Round(4));
-        Assert.AreEqual(0.5187, r249.Atrp.Round(4));
+        r249.Atr.Should().BeApproximately(1.3381, Money4);
+        r249.Atrp.Should().BeApproximately(0.5187, Money4);
 
-        AtrResult r501 = results[501];
+        AtrResult r501 = sut[501];
         Assert.AreEqual(2.67, r501.Tr.Round(8));
-        Assert.AreEqual(6.1497, r501.Atr.Round(4));
-        Assert.AreEqual(2.5072, r501.Atrp.Round(4));
+        r501.Atr.Should().BeApproximately(6.1497, Money4);
+        r501.Atrp.Should().BeApproximately(2.5072, Money4);
     }
 
     [TestMethod]
@@ -64,12 +64,12 @@ public class Atr : StaticSeriesTestBase
     [TestMethod]
     public void ChainingFromResults_WorksAsExpected()
     {
-        IReadOnlyList<SmaResult> results = Quotes
+        IReadOnlyList<SmaResult> sut = Quotes
             .ToAtr(10)
             .ToSma(10);
 
-        Assert.HasCount(502, results);
-        Assert.AreEqual(502 - 19, results.Count(static x => x.Sma != null));
+        sut.Should().HaveCount(502);
+        Assert.AreEqual(502 - 19, sut.Count(static x => x.Sma != null));
     }
 
     [TestMethod]
@@ -78,7 +78,7 @@ public class Atr : StaticSeriesTestBase
         IReadOnlyList<AtrResult> r = BadQuotes
             .ToAtr(20);
 
-        Assert.HasCount(502, r);
+        r.Should().HaveCount(502);
         Assert.IsEmpty(r.Where(static x => x.Atr is double v && double.IsNaN(v)));
     }
 
@@ -88,28 +88,28 @@ public class Atr : StaticSeriesTestBase
         IReadOnlyList<AtrResult> r0 = Noquotes
             .ToAtr();
 
-        Assert.IsEmpty(r0);
+        r0.Should().BeEmpty();
 
         IReadOnlyList<AtrResult> r1 = Onequote
             .ToAtr();
 
-        Assert.HasCount(1, r1);
+        r1.Should().HaveCount(1);
     }
 
     [TestMethod]
     public void Removed()
     {
-        IReadOnlyList<AtrResult> results = Quotes
+        IReadOnlyList<AtrResult> sut = Quotes
             .ToAtr()
             .RemoveWarmupPeriods();
 
         // assertions
-        Assert.HasCount(502 - 14, results);
+        sut.Should().HaveCount(502 - 14);
 
-        AtrResult last = results[^1];
+        AtrResult last = sut[^1];
         Assert.AreEqual(2.67, last.Tr.Round(8));
-        Assert.AreEqual(6.1497, last.Atr.Round(4));
-        Assert.AreEqual(2.5072, last.Atrp.Round(4));
+        last.Atr.Should().BeApproximately(6.1497, Money4);
+        last.Atrp.Should().BeApproximately(2.5072, Money4);
     }
 
     /// <summary>
@@ -117,6 +117,8 @@ public class Atr : StaticSeriesTestBase
     /// </summary>
     [TestMethod]
     public void Exceptions()
-        => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToAtr(1));
+        => FluentActions
+            .Invoking(static () => Quotes.ToAtr(1))
+            .Should()
+            .ThrowExactly<ArgumentOutOfRangeException>();
 }

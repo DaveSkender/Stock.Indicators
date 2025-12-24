@@ -6,52 +6,52 @@ public class Hma : StaticSeriesTestBase
     [TestMethod]
     public override void DefaultParameters_ReturnsExpectedResults()
     {
-        IReadOnlyList<HmaResult> results = Quotes
+        IReadOnlyList<HmaResult> sut = Quotes
             .ToHma(20);
 
         // proper quantities
-        Assert.HasCount(502, results);
-        Assert.HasCount(480, results.Where(static x => x.Hma != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Hma != null).Should().HaveCount(480);
 
         // sample values
-        HmaResult r1 = results[149];
-        Assert.AreEqual(236.0835, r1.Hma.Round(4));
+        HmaResult r1 = sut[149];
+        r1.Hma.Should().BeApproximately(236.0835, Money4);
 
-        HmaResult r2 = results[501];
-        Assert.AreEqual(235.6972, r2.Hma.Round(4));
+        HmaResult r2 = sut[501];
+        r2.Hma.Should().BeApproximately(235.6972, Money4);
     }
 
     [TestMethod]
     public void UseReusable()
     {
-        IReadOnlyList<HmaResult> results = Quotes
+        IReadOnlyList<HmaResult> sut = Quotes
             .Use(CandlePart.Close)
             .ToHma(20);
 
-        Assert.HasCount(502, results);
-        Assert.HasCount(480, results.Where(static x => x.Hma != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Hma != null).Should().HaveCount(480);
     }
 
     [TestMethod]
     public void Chainee()
     {
-        IReadOnlyList<HmaResult> results = Quotes
+        IReadOnlyList<HmaResult> sut = Quotes
             .ToSma(2)
             .ToHma(19);
 
-        Assert.HasCount(502, results);
-        Assert.HasCount(480, results.Where(static x => x.Hma != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Hma != null).Should().HaveCount(480);
     }
 
     [TestMethod]
     public void ChainingFromResults_WorksAsExpected()
     {
-        IReadOnlyList<SmaResult> results = Quotes
+        IReadOnlyList<SmaResult> sut = Quotes
             .ToHma(20)
             .ToSma(10);
 
-        Assert.HasCount(502, results);
-        Assert.HasCount(471, results.Where(static x => x.Sma != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Sma != null).Should().HaveCount(471);
     }
 
     [TestMethod]
@@ -60,7 +60,7 @@ public class Hma : StaticSeriesTestBase
         IReadOnlyList<HmaResult> r = BadQuotes
             .ToHma(15);
 
-        Assert.HasCount(502, r);
+        r.Should().HaveCount(502);
         Assert.IsEmpty(r.Where(static x => x.Hma is double v && double.IsNaN(v)));
     }
 
@@ -70,26 +70,26 @@ public class Hma : StaticSeriesTestBase
         IReadOnlyList<HmaResult> r0 = Noquotes
             .ToHma(5);
 
-        Assert.IsEmpty(r0);
+        r0.Should().BeEmpty();
 
         IReadOnlyList<HmaResult> r1 = Onequote
             .ToHma(5);
 
-        Assert.HasCount(1, r1);
+        r1.Should().HaveCount(1);
     }
 
     [TestMethod]
     public void Removed()
     {
-        IReadOnlyList<HmaResult> results = Quotes
+        IReadOnlyList<HmaResult> sut = Quotes
             .ToHma(20)
             .RemoveWarmupPeriods();
 
         // assertions
-        Assert.HasCount(480, results);
+        sut.Should().HaveCount(480);
 
-        HmaResult last = results[^1];
-        Assert.AreEqual(235.6972, last.Hma.Round(4));
+        HmaResult last = sut[^1];
+        last.Hma.Should().BeApproximately(235.6972, Money4);
     }
 
     /// <summary>
@@ -97,6 +97,8 @@ public class Hma : StaticSeriesTestBase
     /// </summary>
     [TestMethod]
     public void Exceptions()
-        => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToHma(1));
+        => FluentActions
+            .Invoking(static () => Quotes.ToHma(1))
+            .Should()
+            .ThrowExactly<ArgumentOutOfRangeException>();
 }

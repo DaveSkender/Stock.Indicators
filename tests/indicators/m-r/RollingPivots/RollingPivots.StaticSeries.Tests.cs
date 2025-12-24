@@ -10,68 +10,68 @@ public class RollingPivots : StaticSeriesTestBase
         const int offsetPeriods = 9;
         const PivotPointType pointType = PivotPointType.Standard;
 
-        IReadOnlyList<RollingPivotsResult> results =
+        IReadOnlyList<RollingPivotsResult> sut =
             Quotes.ToRollingPivots(windowPeriods, offsetPeriods, pointType);
 
         // proper quantities
-        Assert.HasCount(502, results);
-        Assert.HasCount(482, results.Where(static x => x.PP != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.PP != null).Should().HaveCount(482);
 
         // sample values
-        RollingPivotsResult r1 = results[19];
-        Assert.IsNull(r1.PP);
-        Assert.IsNull(r1.S1);
-        Assert.IsNull(r1.S2);
-        Assert.IsNull(r1.S3);
-        Assert.IsNull(r1.S4);
-        Assert.IsNull(r1.R1);
-        Assert.IsNull(r1.R2);
-        Assert.IsNull(r1.R3);
-        Assert.IsNull(r1.R4);
+        RollingPivotsResult r1 = sut[19];
+        r1.PP.Should().BeNull();
+        r1.S1.Should().BeNull();
+        r1.S2.Should().BeNull();
+        r1.S3.Should().BeNull();
+        r1.S4.Should().BeNull();
+        r1.R1.Should().BeNull();
+        r1.R2.Should().BeNull();
+        r1.R3.Should().BeNull();
+        r1.R4.Should().BeNull();
 
-        RollingPivotsResult r2 = results[20];
-        Assert.AreEqual(213.6367m, r2.PP.Round(4));
-        Assert.AreEqual(212.1033m, r2.S1.Round(4));
-        Assert.AreEqual(209.9867m, r2.S2.Round(4));
-        Assert.AreEqual(208.4533m, r2.S3.Round(4));
-        Assert.IsNull(r2.S4);
-        Assert.AreEqual(215.7533m, r2.R1.Round(4));
-        Assert.AreEqual(217.2867m, r2.R2.Round(4));
-        Assert.AreEqual(219.4033m, r2.R3.Round(4));
-        Assert.IsNull(r2.R4);
+        RollingPivotsResult r2 = sut[20];
+        ((double?)r2.PP).Should().BeApproximately((double)213.6367m, Money3);
+        ((double?)r2.S1).Should().BeApproximately((double)212.1033m, Money3);
+        ((double?)r2.S2).Should().BeApproximately((double)209.9867m, Money3);
+        ((double?)r2.S3).Should().BeApproximately((double)208.4533m, Money3);
+        r2.S4.Should().BeNull();
+        ((double?)r2.R1).Should().BeApproximately((double)215.7533m, Money3);
+        ((double?)r2.R2).Should().BeApproximately((double)217.2867m, Money3);
+        ((double?)r2.R3).Should().BeApproximately((double)219.4033m, Money3);
+        r2.R4.Should().BeNull();
 
-        RollingPivotsResult r3 = results[149];
-        Assert.AreEqual(233.6333m, r3.PP.Round(4));
-        Assert.AreEqual(231.3567m, r3.S1.Round(4));
-        Assert.AreEqual(227.3733m, r3.S2.Round(4));
-        Assert.AreEqual(225.0967m, r3.S3.Round(4));
-        Assert.IsNull(r3.S4);
-        Assert.AreEqual(237.6167m, r3.R1.Round(4));
-        Assert.AreEqual(239.8933m, r3.R2.Round(4));
-        Assert.AreEqual(243.8767m, r3.R3.Round(4));
-        Assert.IsNull(r3.R4);
+        RollingPivotsResult r3 = sut[149];
+        ((double?)r3.PP).Should().BeApproximately((double)233.6333m, Money3);
+        ((double?)r3.S1).Should().BeApproximately((double)231.3567m, Money3);
+        ((double?)r3.S2).Should().BeApproximately((double)227.3733m, Money3);
+        ((double?)r3.S3).Should().BeApproximately((double)225.0967m, Money3);
+        r3.S4.Should().BeNull();
+        ((double?)r3.R1).Should().BeApproximately((double)237.6167m, Money3);
+        ((double?)r3.R2).Should().BeApproximately((double)239.8933m, Money3);
+        ((double?)r3.R3).Should().BeApproximately((double)243.8767m, Money3);
+        r3.R4.Should().BeNull();
 
-        RollingPivotsResult r4 = results[249];
-        Assert.AreEqual(253.9533m, r4.PP.Round(4));
-        Assert.AreEqual(251.5267m, r4.S1.Round(4));
-        Assert.AreEqual(247.4433m, r4.S2.Round(4));
-        Assert.AreEqual(245.0167m, r4.S3.Round(4));
-        Assert.IsNull(r4.S4);
-        Assert.AreEqual(258.0367m, r4.R1.Round(4));
-        Assert.AreEqual(260.4633m, r4.R2.Round(4));
-        Assert.AreEqual(264.5467m, r4.R3.Round(4));
-        Assert.IsNull(r4.R4);
+        RollingPivotsResult r4 = sut[249];
+        ((double?)r4.PP).Should().BeApproximately((double)253.9533m, Money3);
+        ((double?)r4.S1).Should().BeApproximately((double)251.5267m, Money3);
+        ((double?)r4.S2).Should().BeApproximately((double)247.4433m, Money3);
+        ((double?)r4.S3).Should().BeApproximately((double)245.0167m, Money3);
+        r4.S4.Should().BeNull();
+        ((double?)r4.R1).Should().BeApproximately((double)258.0367m, Money3);
+        ((double?)r4.R2).Should().BeApproximately((double)260.4633m, Money3);
+        ((double?)r4.R3).Should().BeApproximately((double)264.5467m, Money3);
+        r4.R4.Should().BeNull();
 
-        RollingPivotsResult r5 = results[501];
-        Assert.AreEqual(260.0267m, r5.PP.Round(4));
-        Assert.AreEqual(246.4633m, r5.S1.Round(4));
-        Assert.AreEqual(238.7767m, r5.S2.Round(4));
-        Assert.AreEqual(225.2133m, r5.S3.Round(4));
-        Assert.IsNull(r5.S4);
-        Assert.AreEqual(267.7133m, r5.R1.Round(4));
-        Assert.AreEqual(281.2767m, r5.R2.Round(4));
-        Assert.AreEqual(288.9633m, r5.R3.Round(4));
-        Assert.IsNull(r5.R4);
+        RollingPivotsResult r5 = sut[501];
+        ((double?)r5.PP).Should().BeApproximately((double)260.0267m, Money3);
+        ((double?)r5.S1).Should().BeApproximately((double)246.4633m, Money3);
+        ((double?)r5.S2).Should().BeApproximately((double)238.7767m, Money3);
+        ((double?)r5.S3).Should().BeApproximately((double)225.2133m, Money3);
+        r5.S4.Should().BeNull();
+        ((double?)r5.R1).Should().BeApproximately((double)267.7133m, Money3);
+        ((double?)r5.R2).Should().BeApproximately((double)281.2767m, Money3);
+        ((double?)r5.R3).Should().BeApproximately((double)288.9633m, Money3);
+        r5.R4.Should().BeNull();
     }
 
     [TestMethod]
@@ -83,68 +83,68 @@ public class RollingPivots : StaticSeriesTestBase
 
         IReadOnlyList<Quote> h = Data.GetDefault(38);
 
-        IReadOnlyList<RollingPivotsResult> results = h
+        IReadOnlyList<RollingPivotsResult> sut = h
             .ToRollingPivots(windowPeriods, offsetPeriods, pointType);
 
         // proper quantities
-        Assert.HasCount(38, results);
-        Assert.HasCount(28, results.Where(static x => x.PP != null));
+        sut.Should().HaveCount(38);
+        sut.Where(static x => x.PP != null).Should().HaveCount(28);
 
         // sample values
-        RollingPivotsResult r1 = results[9];
-        Assert.IsNull(r1.R4);
-        Assert.IsNull(r1.R3);
-        Assert.IsNull(r1.PP);
-        Assert.IsNull(r1.S1);
-        Assert.IsNull(r1.S2);
-        Assert.IsNull(r1.R1);
-        Assert.IsNull(r1.R2);
-        Assert.IsNull(r1.S3);
-        Assert.IsNull(r1.S4);
+        RollingPivotsResult r1 = sut[9];
+        r1.R4.Should().BeNull();
+        r1.R3.Should().BeNull();
+        r1.PP.Should().BeNull();
+        r1.S1.Should().BeNull();
+        r1.S2.Should().BeNull();
+        r1.R1.Should().BeNull();
+        r1.R2.Should().BeNull();
+        r1.S3.Should().BeNull();
+        r1.S4.Should().BeNull();
 
-        RollingPivotsResult r2 = results[10];
-        Assert.AreEqual(267.0800m, r2.PP.Round(4));
-        Assert.AreEqual(265.8095m, r2.S1.Round(4));
-        Assert.AreEqual(264.5390m, r2.S2.Round(4));
-        Assert.AreEqual(263.2685m, r2.S3.Round(4));
-        Assert.AreEqual(259.4570m, r2.S4.Round(4));
-        Assert.AreEqual(268.3505m, r2.R1.Round(4));
-        Assert.AreEqual(269.6210m, r2.R2.Round(4));
-        Assert.AreEqual(270.8915m, r2.R3.Round(4));
-        Assert.AreEqual(274.7030m, r2.R4.Round(4));
+        RollingPivotsResult r2 = sut[10];
+        ((double?)r2.PP).Should().BeApproximately((double)267.0800m, Money3);
+        ((double?)r2.S1).Should().BeApproximately((double)265.8095m, Money3);
+        ((double?)r2.S2).Should().BeApproximately((double)264.5390m, Money3);
+        ((double?)r2.S3).Should().BeApproximately((double)263.2685m, Money3);
+        ((double?)r2.S4).Should().BeApproximately((double)259.4570m, Money3);
+        ((double?)r2.R1).Should().BeApproximately((double)268.3505m, Money3);
+        ((double?)r2.R2).Should().BeApproximately((double)269.6210m, Money3);
+        ((double?)r2.R3).Should().BeApproximately((double)270.8915m, Money3);
+        ((double?)r2.R4).Should().BeApproximately((double)274.7030m, Money3);
 
-        RollingPivotsResult r3 = results[22];
-        Assert.AreEqual(263.2900m, r3.PP.Round(4));
-        Assert.AreEqual(261.6840m, r3.S1.Round(4));
-        Assert.AreEqual(260.0780m, r3.S2.Round(4));
-        Assert.AreEqual(258.4720m, r3.S3.Round(4));
-        Assert.AreEqual(253.6540m, r3.S4.Round(4));
-        Assert.AreEqual(264.8960m, r3.R1.Round(4));
-        Assert.AreEqual(266.5020m, r3.R2.Round(4));
-        Assert.AreEqual(268.1080m, r3.R3.Round(4));
-        Assert.AreEqual(272.9260m, r3.R4.Round(4));
+        RollingPivotsResult r3 = sut[22];
+        ((double?)r3.PP).Should().BeApproximately((double)263.2900m, Money3);
+        ((double?)r3.S1).Should().BeApproximately((double)261.6840m, Money3);
+        ((double?)r3.S2).Should().BeApproximately((double)260.0780m, Money3);
+        ((double?)r3.S3).Should().BeApproximately((double)258.4720m, Money3);
+        ((double?)r3.S4).Should().BeApproximately((double)253.6540m, Money3);
+        ((double?)r3.R1).Should().BeApproximately((double)264.8960m, Money3);
+        ((double?)r3.R2).Should().BeApproximately((double)266.5020m, Money3);
+        ((double?)r3.R3).Should().BeApproximately((double)268.1080m, Money3);
+        ((double?)r3.R4).Should().BeApproximately((double)272.9260m, Money3);
 
-        RollingPivotsResult r4 = results[23];
-        Assert.AreEqual(257.1700m, r4.PP.Round(4));
-        Assert.AreEqual(255.5640m, r4.S1.Round(4));
-        Assert.AreEqual(253.9580m, r4.S2.Round(4));
-        Assert.AreEqual(252.3520m, r4.S3.Round(4));
-        Assert.AreEqual(247.5340m, r4.S4.Round(4));
-        Assert.AreEqual(258.7760m, r4.R1.Round(4));
-        Assert.AreEqual(260.3820m, r4.R2.Round(4));
-        Assert.AreEqual(261.9880m, r4.R3.Round(4));
-        Assert.AreEqual(266.8060m, r4.R4.Round(4));
+        RollingPivotsResult r4 = sut[23];
+        ((double?)r4.PP).Should().BeApproximately((double)257.1700m, Money3);
+        ((double?)r4.S1).Should().BeApproximately((double)255.5640m, Money3);
+        ((double?)r4.S2).Should().BeApproximately((double)253.9580m, Money3);
+        ((double?)r4.S3).Should().BeApproximately((double)252.3520m, Money3);
+        ((double?)r4.S4).Should().BeApproximately((double)247.5340m, Money3);
+        ((double?)r4.R1).Should().BeApproximately((double)258.7760m, Money3);
+        ((double?)r4.R2).Should().BeApproximately((double)260.3820m, Money3);
+        ((double?)r4.R3).Should().BeApproximately((double)261.9880m, Money3);
+        ((double?)r4.R4).Should().BeApproximately((double)266.8060m, Money3);
 
-        RollingPivotsResult r5 = results[37];
-        Assert.AreEqual(243.1500m, r5.PP.Round(4));
-        Assert.AreEqual(240.5650m, r5.S1.Round(4));
-        Assert.AreEqual(237.9800m, r5.S2.Round(4));
-        Assert.AreEqual(235.3950m, r5.S3.Round(4));
-        Assert.AreEqual(227.6400m, r5.S4.Round(4));
-        Assert.AreEqual(245.7350m, r5.R1.Round(4));
-        Assert.AreEqual(248.3200m, r5.R2.Round(4));
-        Assert.AreEqual(250.9050m, r5.R3.Round(4));
-        Assert.AreEqual(258.6600m, r5.R4.Round(4));
+        RollingPivotsResult r5 = sut[37];
+        ((double?)r5.PP).Should().BeApproximately((double)243.1500m, Money3);
+        ((double?)r5.S1).Should().BeApproximately((double)240.5650m, Money3);
+        ((double?)r5.S2).Should().BeApproximately((double)237.9800m, Money3);
+        ((double?)r5.S3).Should().BeApproximately((double)235.3950m, Money3);
+        ((double?)r5.S4).Should().BeApproximately((double)227.6400m, Money3);
+        ((double?)r5.R1).Should().BeApproximately((double)245.7350m, Money3);
+        ((double?)r5.R2).Should().BeApproximately((double)248.3200m, Money3);
+        ((double?)r5.R3).Should().BeApproximately((double)250.9050m, Money3);
+        ((double?)r5.R4).Should().BeApproximately((double)258.6600m, Money3);
     }
 
     [TestMethod]
@@ -154,79 +154,79 @@ public class RollingPivots : StaticSeriesTestBase
         const int offsetPeriods = 10;
         const PivotPointType pointType = PivotPointType.Demark;
 
-        IReadOnlyList<RollingPivotsResult> results = Quotes
+        IReadOnlyList<RollingPivotsResult> sut = Quotes
             .ToRollingPivots(windowPeriods, offsetPeriods, pointType);
 
         // proper quantities
-        Assert.HasCount(502, results);
-        Assert.HasCount(482, results.Where(static x => x.PP != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.PP != null).Should().HaveCount(482);
 
         // sample values
-        RollingPivotsResult r1 = results[19];
-        Assert.IsNull(r1.PP);
-        Assert.IsNull(r1.S1);
-        Assert.IsNull(r1.S2);
-        Assert.IsNull(r1.S3);
-        Assert.IsNull(r1.S4);
-        Assert.IsNull(r1.R1);
-        Assert.IsNull(r1.R2);
-        Assert.IsNull(r1.R3);
-        Assert.IsNull(r1.R4);
+        RollingPivotsResult r1 = sut[19];
+        r1.PP.Should().BeNull();
+        r1.S1.Should().BeNull();
+        r1.S2.Should().BeNull();
+        r1.S3.Should().BeNull();
+        r1.S4.Should().BeNull();
+        r1.R1.Should().BeNull();
+        r1.R2.Should().BeNull();
+        r1.R3.Should().BeNull();
+        r1.R4.Should().BeNull();
 
-        RollingPivotsResult r2 = results[20];
-        Assert.AreEqual(212.9900m, r2.PP.Round(4));
-        Assert.AreEqual(210.8100m, r2.S1.Round(4));
-        Assert.AreEqual(214.4600m, r2.R1.Round(4));
-        Assert.IsNull(r2.R2);
-        Assert.IsNull(r2.R3);
-        Assert.IsNull(r2.R4);
-        Assert.IsNull(r2.S2);
-        Assert.IsNull(r2.S3);
-        Assert.IsNull(r2.S4);
+        RollingPivotsResult r2 = sut[20];
+        ((double?)r2.PP).Should().BeApproximately((double)212.9900m, Money3);
+        ((double?)r2.S1).Should().BeApproximately((double)210.8100m, Money3);
+        ((double?)r2.R1).Should().BeApproximately((double)214.4600m, Money3);
+        r2.R2.Should().BeNull();
+        r2.R3.Should().BeNull();
+        r2.R4.Should().BeNull();
+        r2.S2.Should().BeNull();
+        r2.S3.Should().BeNull();
+        r2.S4.Should().BeNull();
 
-        RollingPivotsResult r3 = results[149];
-        Assert.AreEqual(232.6525m, r3.PP.Round(4));
-        Assert.AreEqual(229.3950m, r3.S1.Round(4));
-        Assert.AreEqual(235.6550m, r3.R1.Round(4));
-        Assert.IsNull(r3.R2);
-        Assert.IsNull(r3.R3);
-        Assert.IsNull(r3.R4);
-        Assert.IsNull(r3.S2);
-        Assert.IsNull(r3.S3);
-        Assert.IsNull(r3.S4);
+        RollingPivotsResult r3 = sut[149];
+        ((double?)r3.PP).Should().BeApproximately((double)232.6525m, Money3);
+        ((double?)r3.S1).Should().BeApproximately((double)229.3950m, Money3);
+        ((double?)r3.R1).Should().BeApproximately((double)235.6550m, Money3);
+        r3.R2.Should().BeNull();
+        r3.R3.Should().BeNull();
+        r3.R4.Should().BeNull();
+        r3.S2.Should().BeNull();
+        r3.S3.Should().BeNull();
+        r3.S4.Should().BeNull();
 
-        RollingPivotsResult r4 = results[250];
-        Assert.AreEqual(252.9325m, r4.PP.Round(4));
-        Assert.AreEqual(249.4850m, r4.S1.Round(4));
-        Assert.AreEqual(255.9950m, r4.R1.Round(4));
-        Assert.IsNull(r4.R2);
-        Assert.IsNull(r4.R3);
-        Assert.IsNull(r4.R4);
-        Assert.IsNull(r4.S2);
-        Assert.IsNull(r4.S3);
-        Assert.IsNull(r4.S4);
+        RollingPivotsResult r4 = sut[250];
+        ((double?)r4.PP).Should().BeApproximately((double)252.9325m, Money3);
+        ((double?)r4.S1).Should().BeApproximately((double)249.4850m, Money3);
+        ((double?)r4.R1).Should().BeApproximately((double)255.9950m, Money3);
+        r4.R2.Should().BeNull();
+        r4.R3.Should().BeNull();
+        r4.R4.Should().BeNull();
+        r4.S2.Should().BeNull();
+        r4.S3.Should().BeNull();
+        r4.S4.Should().BeNull();
 
-        RollingPivotsResult r5 = results[251];
-        Assert.AreEqual(252.6700m, r5.PP.Round(4));
-        Assert.AreEqual(248.9600m, r5.S1.Round(4));
-        Assert.AreEqual(255.4700m, r5.R1.Round(4));
-        Assert.IsNull(r5.R2);
-        Assert.IsNull(r5.R3);
-        Assert.IsNull(r5.R4);
-        Assert.IsNull(r5.S2);
-        Assert.IsNull(r5.S3);
-        Assert.IsNull(r5.S4);
+        RollingPivotsResult r5 = sut[251];
+        ((double?)r5.PP).Should().BeApproximately((double)252.6700m, Money3);
+        ((double?)r5.S1).Should().BeApproximately((double)248.9600m, Money3);
+        ((double?)r5.R1).Should().BeApproximately((double)255.4700m, Money3);
+        r5.R2.Should().BeNull();
+        r5.R3.Should().BeNull();
+        r5.R4.Should().BeNull();
+        r5.S2.Should().BeNull();
+        r5.S3.Should().BeNull();
+        r5.S4.Should().BeNull();
 
-        RollingPivotsResult r6 = results[501];
-        Assert.AreEqual(264.6125m, r6.PP.Round(4));
-        Assert.AreEqual(255.6350m, r6.S1.Round(4));
-        Assert.AreEqual(276.8850m, r6.R1.Round(4));
-        Assert.IsNull(r6.R2);
-        Assert.IsNull(r6.R3);
-        Assert.IsNull(r6.R4);
-        Assert.IsNull(r6.S2);
-        Assert.IsNull(r6.S3);
-        Assert.IsNull(r6.S4);
+        RollingPivotsResult r6 = sut[501];
+        ((double?)r6.PP).Should().BeApproximately((double)264.6125m, Money3);
+        ((double?)r6.S1).Should().BeApproximately((double)255.6350m, Money3);
+        ((double?)r6.R1).Should().BeApproximately((double)276.8850m, Money3);
+        r6.R2.Should().BeNull();
+        r6.R3.Should().BeNull();
+        r6.R4.Should().BeNull();
+        r6.S2.Should().BeNull();
+        r6.S3.Should().BeNull();
+        r6.S4.Should().BeNull();
     }
 
     [TestMethod]
@@ -238,69 +238,69 @@ public class RollingPivots : StaticSeriesTestBase
 
         IReadOnlyList<Quote> h = Data.GetIntraday(300);
 
-        IReadOnlyList<RollingPivotsResult> results =
+        IReadOnlyList<RollingPivotsResult> sut =
             h.ToRollingPivots(windowPeriods, offsetPeriods, pointType);
 
         // proper quantities
-        Assert.HasCount(300, results);
-        Assert.HasCount(241, results.Where(static x => x.PP != null));
+        sut.Should().HaveCount(300);
+        sut.Where(static x => x.PP != null).Should().HaveCount(241);
 
         // sample values
-        RollingPivotsResult r1 = results[58];
-        Assert.IsNull(r1.R4);
-        Assert.IsNull(r1.R3);
-        Assert.IsNull(r1.PP);
-        Assert.IsNull(r1.S1);
-        Assert.IsNull(r1.S2);
-        Assert.IsNull(r1.R1);
-        Assert.IsNull(r1.R2);
-        Assert.IsNull(r1.S3);
-        Assert.IsNull(r1.S4);
+        RollingPivotsResult r1 = sut[58];
+        r1.R4.Should().BeNull();
+        r1.R3.Should().BeNull();
+        r1.PP.Should().BeNull();
+        r1.S1.Should().BeNull();
+        r1.S2.Should().BeNull();
+        r1.R1.Should().BeNull();
+        r1.R2.Should().BeNull();
+        r1.S3.Should().BeNull();
+        r1.S4.Should().BeNull();
 
-        RollingPivotsResult r2 = results[59];
-        Assert.AreEqual(368.4283m, r2.PP.Round(4));
-        Assert.AreEqual(367.8553m, r2.S1.Round(4));
-        Assert.AreEqual(367.5013m, r2.S2.Round(4));
-        Assert.AreEqual(366.9283m, r2.S3.Round(4));
-        Assert.AreEqual(369.0013m, r2.R1.Round(4));
-        Assert.AreEqual(369.3553m, r2.R2.Round(4));
-        Assert.AreEqual(369.9283m, r2.R3.Round(4));
+        RollingPivotsResult r2 = sut[59];
+        ((double?)r2.PP).Should().BeApproximately((double)368.4283m, Money3);
+        ((double?)r2.S1).Should().BeApproximately((double)367.8553m, Money3);
+        ((double?)r2.S2).Should().BeApproximately((double)367.5013m, Money3);
+        ((double?)r2.S3).Should().BeApproximately((double)366.9283m, Money3);
+        ((double?)r2.R1).Should().BeApproximately((double)369.0013m, Money3);
+        ((double?)r2.R2).Should().BeApproximately((double)369.3553m, Money3);
+        ((double?)r2.R3).Should().BeApproximately((double)369.9283m, Money3);
 
-        RollingPivotsResult r3 = results[118];
-        Assert.AreEqual(369.1573m, r3.PP.Round(4));
-        Assert.AreEqual(368.7333m, r3.S1.Round(4));
-        Assert.AreEqual(368.4713m, r3.S2.Round(4));
-        Assert.AreEqual(368.0473m, r3.S3.Round(4));
-        Assert.AreEqual(369.5813m, r3.R1.Round(4));
-        Assert.AreEqual(369.8433m, r3.R2.Round(4));
-        Assert.AreEqual(370.2673m, r3.R3.Round(4));
+        RollingPivotsResult r3 = sut[118];
+        ((double?)r3.PP).Should().BeApproximately((double)369.1573m, Money3);
+        ((double?)r3.S1).Should().BeApproximately((double)368.7333m, Money3);
+        ((double?)r3.S2).Should().BeApproximately((double)368.4713m, Money3);
+        ((double?)r3.S3).Should().BeApproximately((double)368.0473m, Money3);
+        ((double?)r3.R1).Should().BeApproximately((double)369.5813m, Money3);
+        ((double?)r3.R2).Should().BeApproximately((double)369.8433m, Money3);
+        ((double?)r3.R3).Should().BeApproximately((double)370.2673m, Money3);
 
-        RollingPivotsResult r4 = results[119];
-        Assert.AreEqual(369.1533m, r4.PP.Round(4));
-        Assert.AreEqual(368.7293m, r4.S1.Round(4));
-        Assert.AreEqual(368.4674m, r4.S2.Round(4));
-        Assert.AreEqual(368.0433m, r4.S3.Round(4));
-        Assert.AreEqual(369.5774m, r4.R1.Round(4));
-        Assert.AreEqual(369.8393m, r4.R2.Round(4));
-        Assert.AreEqual(370.2633m, r4.R3.Round(4));
+        RollingPivotsResult r4 = sut[119];
+        ((double?)r4.PP).Should().BeApproximately((double)369.1533m, Money3);
+        ((double?)r4.S1).Should().BeApproximately((double)368.7293m, Money3);
+        ((double?)r4.S2).Should().BeApproximately((double)368.4674m, Money3);
+        ((double?)r4.S3).Should().BeApproximately((double)368.0433m, Money3);
+        ((double?)r4.R1).Should().BeApproximately((double)369.5774m, Money3);
+        ((double?)r4.R2).Should().BeApproximately((double)369.8393m, Money3);
+        ((double?)r4.R3).Should().BeApproximately((double)370.2633m, Money3);
 
-        RollingPivotsResult r5 = results[149];
-        Assert.AreEqual(369.0183m, r5.PP.Round(4));
-        Assert.AreEqual(368.6593m, r5.S1.Round(4));
-        Assert.AreEqual(368.4374m, r5.S2.Round(4));
-        Assert.AreEqual(368.0783m, r5.S3.Round(4));
-        Assert.AreEqual(369.3774m, r5.R1.Round(4));
-        Assert.AreEqual(369.5993m, r5.R2.Round(4));
-        Assert.AreEqual(369.9583m, r5.R3.Round(4));
+        RollingPivotsResult r5 = sut[149];
+        ((double?)r5.PP).Should().BeApproximately((double)369.0183m, Money3);
+        ((double?)r5.S1).Should().BeApproximately((double)368.6593m, Money3);
+        ((double?)r5.S2).Should().BeApproximately((double)368.4374m, Money3);
+        ((double?)r5.S3).Should().BeApproximately((double)368.0783m, Money3);
+        ((double?)r5.R1).Should().BeApproximately((double)369.3774m, Money3);
+        ((double?)r5.R2).Should().BeApproximately((double)369.5993m, Money3);
+        ((double?)r5.R3).Should().BeApproximately((double)369.9583m, Money3);
 
-        RollingPivotsResult r6 = results[299];
-        Assert.AreEqual(367.7567m, r6.PP.Round(4));
-        Assert.AreEqual(367.3174m, r6.S1.Round(4));
-        Assert.AreEqual(367.0460m, r6.S2.Round(4));
-        Assert.AreEqual(366.6067m, r6.S3.Round(4));
-        Assert.AreEqual(368.1960m, r6.R1.Round(4));
-        Assert.AreEqual(368.4674m, r6.R2.Round(4));
-        Assert.AreEqual(368.9067m, r6.R3.Round(4));
+        RollingPivotsResult r6 = sut[299];
+        ((double?)r6.PP).Should().BeApproximately((double)367.7567m, Money3);
+        ((double?)r6.S1).Should().BeApproximately((double)367.3174m, Money3);
+        ((double?)r6.S2).Should().BeApproximately((double)367.0460m, Money3);
+        ((double?)r6.S3).Should().BeApproximately((double)366.6067m, Money3);
+        ((double?)r6.R1).Should().BeApproximately((double)368.1960m, Money3);
+        ((double?)r6.R2).Should().BeApproximately((double)368.4674m, Money3);
+        ((double?)r6.R3).Should().BeApproximately((double)368.9067m, Money3);
     }
 
     [TestMethod]
@@ -312,60 +312,60 @@ public class RollingPivots : StaticSeriesTestBase
 
         IReadOnlyList<Quote> h = Data.GetIntraday();
 
-        IReadOnlyList<RollingPivotsResult> results = h
+        IReadOnlyList<RollingPivotsResult> sut = h
             .ToRollingPivots(windowPeriods, offsetPeriods, pointType);
 
         // proper quantities
-        Assert.HasCount(1564, results);
-        Assert.HasCount(1173, results.Where(static x => x.PP != null));
+        sut.Should().HaveCount(1564);
+        sut.Where(static x => x.PP != null).Should().HaveCount(1173);
 
         // sample values
-        RollingPivotsResult r2 = results[390];
-        Assert.IsNull(r2.R4);
-        Assert.IsNull(r2.R3);
-        Assert.IsNull(r2.PP);
-        Assert.IsNull(r2.S1);
-        Assert.IsNull(r2.S2);
-        Assert.IsNull(r2.R1);
-        Assert.IsNull(r2.R2);
-        Assert.IsNull(r2.S3);
-        Assert.IsNull(r2.S4);
+        RollingPivotsResult r2 = sut[390];
+        r2.R4.Should().BeNull();
+        r2.R3.Should().BeNull();
+        r2.PP.Should().BeNull();
+        r2.S1.Should().BeNull();
+        r2.S2.Should().BeNull();
+        r2.R1.Should().BeNull();
+        r2.R2.Should().BeNull();
+        r2.S3.Should().BeNull();
+        r2.S4.Should().BeNull();
 
-        RollingPivotsResult r3 = results[391];
-        Assert.AreEqual(368.7850m, r3.PP.Round(4));
-        Assert.AreEqual(367.9901m, r3.S1.Round(4));
-        Assert.AreEqual(365.1252m, r3.S2.Round(4));
-        Assert.AreEqual(364.3303m, r3.S3.Round(4));
-        Assert.AreEqual(371.6499m, r3.R1.Round(4));
-        Assert.AreEqual(372.4448m, r3.R2.Round(4));
-        Assert.AreEqual(375.3097m, r3.R3.Round(4));
+        RollingPivotsResult r3 = sut[391];
+        ((double?)r3.PP).Should().BeApproximately((double)368.7850m, Money3);
+        ((double?)r3.S1).Should().BeApproximately((double)367.9901m, Money3);
+        ((double?)r3.S2).Should().BeApproximately((double)365.1252m, Money3);
+        ((double?)r3.S3).Should().BeApproximately((double)364.3303m, Money3);
+        ((double?)r3.R1).Should().BeApproximately((double)371.6499m, Money3);
+        ((double?)r3.R2).Should().BeApproximately((double)372.4448m, Money3);
+        ((double?)r3.R3).Should().BeApproximately((double)375.3097m, Money3);
 
-        RollingPivotsResult r4 = results[1172];
-        Assert.AreEqual(371.75m, r4.PP.Round(4));
-        Assert.AreEqual(371.04m, r4.S1.Round(4));
-        Assert.AreEqual(369.35m, r4.S2.Round(4));
-        Assert.AreEqual(368.64m, r4.S3.Round(4));
-        Assert.AreEqual(373.44m, r4.R1.Round(4));
-        Assert.AreEqual(374.15m, r4.R2.Round(4));
-        Assert.AreEqual(375.84m, r4.R3.Round(4));
+        RollingPivotsResult r4 = sut[1172];
+        ((double?)r4.PP).Should().BeApproximately((double)371.75m, Money3);
+        ((double?)r4.S1).Should().BeApproximately((double)371.04m, Money3);
+        ((double?)r4.S2).Should().BeApproximately((double)369.35m, Money3);
+        ((double?)r4.S3).Should().BeApproximately((double)368.64m, Money3);
+        ((double?)r4.R1).Should().BeApproximately((double)373.44m, Money3);
+        ((double?)r4.R2).Should().BeApproximately((double)374.15m, Money3);
+        ((double?)r4.R3).Should().BeApproximately((double)375.84m, Money3);
 
-        RollingPivotsResult r5 = results[1173];
-        Assert.AreEqual(371.3625m, r5.PP.Round(4));
-        Assert.AreEqual(370.2650m, r5.S1.Round(4));
-        Assert.AreEqual(369.9525m, r5.S2.Round(4));
-        Assert.AreEqual(368.8550m, r5.S3.Round(4));
-        Assert.AreEqual(371.6750m, r5.R1.Round(4));
-        Assert.AreEqual(372.7725m, r5.R2.Round(4));
-        Assert.AreEqual(373.0850m, r5.R3.Round(4));
+        RollingPivotsResult r5 = sut[1173];
+        ((double?)r5.PP).Should().BeApproximately((double)371.3625m, Money3);
+        ((double?)r5.S1).Should().BeApproximately((double)370.2650m, Money3);
+        ((double?)r5.S2).Should().BeApproximately((double)369.9525m, Money3);
+        ((double?)r5.S3).Should().BeApproximately((double)368.8550m, Money3);
+        ((double?)r5.R1).Should().BeApproximately((double)371.6750m, Money3);
+        ((double?)r5.R2).Should().BeApproximately((double)372.7725m, Money3);
+        ((double?)r5.R3).Should().BeApproximately((double)373.0850m, Money3);
 
-        RollingPivotsResult r6 = results[1563];
-        Assert.AreEqual(369.38m, r6.PP.Round(4));
-        Assert.AreEqual(366.52m, r6.S1.Round(4));
-        Assert.AreEqual(364.16m, r6.S2.Round(4));
-        Assert.AreEqual(361.30m, r6.S3.Round(4));
-        Assert.AreEqual(371.74m, r6.R1.Round(4));
-        Assert.AreEqual(374.60m, r6.R2.Round(4));
-        Assert.AreEqual(376.96m, r6.R3.Round(4));
+        RollingPivotsResult r6 = sut[1563];
+        ((double?)r6.PP).Should().BeApproximately((double)369.38m, Money3);
+        ((double?)r6.S1).Should().BeApproximately((double)366.52m, Money3);
+        ((double?)r6.S2).Should().BeApproximately((double)364.16m, Money3);
+        ((double?)r6.S3).Should().BeApproximately((double)361.30m, Money3);
+        ((double?)r6.R1).Should().BeApproximately((double)371.74m, Money3);
+        ((double?)r6.R2).Should().BeApproximately((double)374.60m, Money3);
+        ((double?)r6.R3).Should().BeApproximately((double)376.96m, Money3);
     }
 
     [TestMethod]
@@ -374,7 +374,7 @@ public class RollingPivots : StaticSeriesTestBase
         IReadOnlyList<RollingPivotsResult> r = BadQuotes
             .ToRollingPivots(5, 5);
 
-        Assert.HasCount(502, r);
+        r.Should().HaveCount(502);
     }
 
     [TestMethod]
@@ -383,12 +383,12 @@ public class RollingPivots : StaticSeriesTestBase
         IReadOnlyList<RollingPivotsResult> r0 = Noquotes
             .ToRollingPivots(5, 2);
 
-        Assert.IsEmpty(r0);
+        r0.Should().BeEmpty();
 
         IReadOnlyList<RollingPivotsResult> r1 = Onequote
             .ToRollingPivots(5, 2);
 
-        Assert.HasCount(1, r1);
+        r1.Should().HaveCount(1);
     }
 
     [TestMethod]
@@ -398,23 +398,23 @@ public class RollingPivots : StaticSeriesTestBase
         const int offsetPeriods = 9;
         const PivotPointType pointType = PivotPointType.Standard;
 
-        IReadOnlyList<RollingPivotsResult> results = Quotes
+        IReadOnlyList<RollingPivotsResult> sut = Quotes
             .ToRollingPivots(windowPeriods, offsetPeriods, pointType)
             .RemoveWarmupPeriods();
 
         // assertions
-        Assert.HasCount(502 - (windowPeriods + offsetPeriods), results);
+        sut.Should().HaveCount(502 - (windowPeriods + offsetPeriods));
 
-        RollingPivotsResult last = results[^1];
-        Assert.AreEqual(260.0267m, last.PP.Round(4));
-        Assert.AreEqual(246.4633m, last.S1.Round(4));
-        Assert.AreEqual(238.7767m, last.S2.Round(4));
-        Assert.AreEqual(225.2133m, last.S3.Round(4));
-        Assert.IsNull(last.S4);
-        Assert.AreEqual(267.7133m, last.R1.Round(4));
-        Assert.AreEqual(281.2767m, last.R2.Round(4));
-        Assert.AreEqual(288.9633m, last.R3.Round(4));
-        Assert.IsNull(last.R4);
+        RollingPivotsResult last = sut[^1];
+        ((double?)last.PP).Should().BeApproximately((double)260.0267m, Money3);
+        ((double?)last.S1).Should().BeApproximately((double)246.4633m, Money3);
+        ((double?)last.S2).Should().BeApproximately((double)238.7767m, Money3);
+        ((double?)last.S3).Should().BeApproximately((double)225.2133m, Money3);
+        last.S4.Should().BeNull();
+        ((double?)last.R1).Should().BeApproximately((double)267.7133m, Money3);
+        ((double?)last.R2).Should().BeApproximately((double)281.2767m, Money3);
+        ((double?)last.R3).Should().BeApproximately((double)288.9633m, Money3);
+        last.R4.Should().BeNull();
     }
 
     [TestMethod]

@@ -6,38 +6,38 @@ public class Fcb : StaticSeriesTestBase
     [TestMethod]
     public override void DefaultParameters_ReturnsExpectedResults()
     {
-        IReadOnlyList<FcbResult> results = Quotes
+        IReadOnlyList<FcbResult> sut = Quotes
             .ToFcb();
 
         // proper quantities
-        Assert.HasCount(502, results);
-        Assert.HasCount(497, results.Where(static x => x.UpperBand != null));
-        Assert.HasCount(493, results.Where(static x => x.LowerBand != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.UpperBand != null).Should().HaveCount(497);
+        sut.Where(static x => x.LowerBand != null).Should().HaveCount(493);
 
         // sample values
-        FcbResult r1 = results[4];
-        Assert.IsNull(r1.UpperBand);
-        Assert.IsNull(r1.LowerBand);
+        FcbResult r1 = sut[4];
+        r1.UpperBand.Should().BeNull();
+        r1.LowerBand.Should().BeNull();
 
-        FcbResult r2 = results[10];
-        Assert.AreEqual(214.84m, r2.UpperBand);
-        Assert.AreEqual(212.53m, r2.LowerBand);
+        FcbResult r2 = sut[10];
+        r2.UpperBand.Should().Be(214.84m);
+        r2.LowerBand.Should().Be(212.53m);
 
-        FcbResult r3 = results[120];
-        Assert.AreEqual(233.35m, r3.UpperBand);
-        Assert.AreEqual(231.14m, r3.LowerBand);
+        FcbResult r3 = sut[120];
+        r3.UpperBand.Should().Be(233.35m);
+        r3.LowerBand.Should().Be(231.14m);
 
-        FcbResult r4 = results[180];
-        Assert.AreEqual(236.78m, r4.UpperBand);
-        Assert.AreEqual(233.56m, r4.LowerBand);
+        FcbResult r4 = sut[180];
+        r4.UpperBand.Should().Be(236.78m);
+        r4.LowerBand.Should().Be(233.56m);
 
-        FcbResult r5 = results[250];
-        Assert.AreEqual(258.70m, r5.UpperBand);
-        Assert.AreEqual(257.04m, r5.LowerBand);
+        FcbResult r5 = sut[250];
+        r5.UpperBand.Should().Be(258.70m);
+        r5.LowerBand.Should().Be(257.04m);
 
-        FcbResult r6 = results[501];
-        Assert.AreEqual(262.47m, r6.UpperBand);
-        Assert.AreEqual(229.42m, r6.LowerBand);
+        FcbResult r6 = sut[501];
+        r6.UpperBand.Should().Be(262.47m);
+        r6.LowerBand.Should().Be(229.42m);
     }
 
     [TestMethod]
@@ -46,7 +46,7 @@ public class Fcb : StaticSeriesTestBase
         IReadOnlyList<FcbResult> r = BadQuotes
             .ToFcb();
 
-        Assert.HasCount(502, r);
+        r.Should().HaveCount(502);
     }
 
     [TestMethod]
@@ -55,42 +55,42 @@ public class Fcb : StaticSeriesTestBase
         IReadOnlyList<FcbResult> r0 = Noquotes
             .ToFcb();
 
-        Assert.IsEmpty(r0);
+        r0.Should().BeEmpty();
 
         IReadOnlyList<FcbResult> r1 = Onequote
             .ToFcb();
 
-        Assert.HasCount(1, r1);
+        r1.Should().HaveCount(1);
     }
 
     [TestMethod]
     public void Condense()
     {
-        IReadOnlyList<FcbResult> results = Quotes
+        IReadOnlyList<FcbResult> sut = Quotes
             .ToFcb()
             .Condense();
 
         // assertions
-        Assert.HasCount(502 - 5, results);
+        sut.Should().HaveCount(502 - 5);
 
-        FcbResult last = results[^1];
-        Assert.AreEqual(262.47m, last.UpperBand);
-        Assert.AreEqual(229.42m, last.LowerBand);
+        FcbResult last = sut[^1];
+        last.UpperBand.Should().Be(262.47m);
+        last.LowerBand.Should().Be(229.42m);
     }
 
     [TestMethod]
     public void Removed()
     {
-        IReadOnlyList<FcbResult> results = Quotes
+        IReadOnlyList<FcbResult> sut = Quotes
             .ToFcb()
             .RemoveWarmupPeriods();
 
         // assertions
-        Assert.HasCount(502 - 5, results);
+        sut.Should().HaveCount(502 - 5);
 
-        FcbResult last = results[^1];
-        Assert.AreEqual(262.47m, last.UpperBand);
-        Assert.AreEqual(229.42m, last.LowerBand);
+        FcbResult last = sut[^1];
+        last.UpperBand.Should().Be(262.47m);
+        last.LowerBand.Should().Be(229.42m);
     }
 
     /// <summary>
@@ -98,6 +98,8 @@ public class Fcb : StaticSeriesTestBase
     /// </summary>
     [TestMethod]
     public void Exceptions()
-        => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToFcb(1));
+        => FluentActions
+            .Invoking(static () => Quotes.ToFcb(1))
+            .Should()
+            .ThrowExactly<ArgumentOutOfRangeException>();
 }

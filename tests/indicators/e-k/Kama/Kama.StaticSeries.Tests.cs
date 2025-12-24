@@ -10,82 +10,82 @@ public class Kama : StaticSeriesTestBase
         const int fastPeriods = 2;
         const int slowPeriods = 30;
 
-        IReadOnlyList<KamaResult> results = Quotes
+        IReadOnlyList<KamaResult> sut = Quotes
             .ToKama(erPeriods, fastPeriods, slowPeriods);
 
         // proper quantities
-        Assert.HasCount(502, results);
-        Assert.HasCount(492, results.Where(static x => x.Er != null));
-        Assert.HasCount(493, results.Where(static x => x.Kama != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Er != null).Should().HaveCount(492);
+        sut.Where(static x => x.Kama != null).Should().HaveCount(493);
 
         // sample values
-        KamaResult r1 = results[8];
-        Assert.IsNull(r1.Er);
-        Assert.IsNull(r1.Kama);
+        KamaResult r1 = sut[8];
+        r1.Er.Should().BeNull();
+        r1.Kama.Should().BeNull();
 
-        KamaResult r2 = results[9];
-        Assert.IsNull(r2.Er);
-        Assert.AreEqual(213.7500, r2.Kama.Round(4));
+        KamaResult r2 = sut[9];
+        r2.Er.Should().BeNull();
+        r2.Kama.Should().BeApproximately(213.7500, Money4);
 
-        KamaResult r3 = results[10];
-        Assert.AreEqual(0.2465, r3.Er.Round(4));
-        Assert.AreEqual(213.7713, r3.Kama.Round(4));
+        KamaResult r3 = sut[10];
+        r3.Er.Should().BeApproximately(0.2465, Money4);
+        r3.Kama.Should().BeApproximately(213.7713, Money4);
 
-        KamaResult r4 = results[24];
-        Assert.AreEqual(0.2136, r4.Er.Round(4));
-        Assert.AreEqual(214.7423, r4.Kama.Round(4));
+        KamaResult r4 = sut[24];
+        r4.Er.Should().BeApproximately(0.2136, Money4);
+        r4.Kama.Should().BeApproximately(214.7423, Money4);
 
-        KamaResult r5 = results[149];
-        Assert.AreEqual(0.3165, r5.Er.Round(4));
-        Assert.AreEqual(235.5510, r5.Kama.Round(4));
+        KamaResult r5 = sut[149];
+        r5.Er.Should().BeApproximately(0.3165, Money4);
+        r5.Kama.Should().BeApproximately(235.5510, Money4);
 
-        KamaResult r6 = results[249];
-        Assert.AreEqual(0.3182, r6.Er.Round(4));
-        Assert.AreEqual(256.0898, r6.Kama.Round(4));
+        KamaResult r6 = sut[249];
+        r6.Er.Should().BeApproximately(0.3182, Money4);
+        r6.Kama.Should().BeApproximately(256.0898, Money4);
 
-        KamaResult r7 = results[501];
-        Assert.AreEqual(0.2214, r7.Er.Round(4));
-        Assert.AreEqual(240.1138, r7.Kama.Round(4));
+        KamaResult r7 = sut[501];
+        r7.Er.Should().BeApproximately(0.2214, Money4);
+        r7.Kama.Should().BeApproximately(240.1138, Money4);
     }
 
     [TestMethod]
     public void Results_AreAlwaysBounded()
     {
-        IReadOnlyList<KamaResult> results = Quotes.ToKama(10, 2, 30);
-        results.IsBetween(x => x.Er, 0, 1);
+        IReadOnlyList<KamaResult> sut = Quotes.ToKama(10, 2, 30);
+        sut.IsBetween(x => x.Er, 0, 1);
     }
 
     [TestMethod]
     public void UseReusable()
     {
-        IReadOnlyList<KamaResult> results = Quotes
+        IReadOnlyList<KamaResult> sut = Quotes
             .Use(CandlePart.Close)
             .ToKama();
 
-        Assert.HasCount(502, results);
-        Assert.HasCount(493, results.Where(static x => x.Kama != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Kama != null).Should().HaveCount(493);
     }
 
     [TestMethod]
     public void Chainee()
     {
-        IReadOnlyList<KamaResult> results = Quotes
+        IReadOnlyList<KamaResult> sut = Quotes
             .ToSma(2)
             .ToKama();
 
-        Assert.HasCount(502, results);
-        Assert.HasCount(492, results.Where(static x => x.Kama != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Kama != null).Should().HaveCount(492);
     }
 
     [TestMethod]
     public void ChainingFromResults_WorksAsExpected()
     {
-        IReadOnlyList<SmaResult> results = Quotes
+        IReadOnlyList<SmaResult> sut = Quotes
             .ToKama()
             .ToSma(10);
 
-        Assert.HasCount(502, results);
-        Assert.HasCount(484, results.Where(static x => x.Sma != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Sma != null).Should().HaveCount(484);
     }
 
     [TestMethod]
@@ -94,7 +94,7 @@ public class Kama : StaticSeriesTestBase
         IReadOnlyList<KamaResult> r = BadQuotes
             .ToKama();
 
-        Assert.HasCount(502, r);
+        r.Should().HaveCount(502);
         Assert.IsEmpty(r.Where(static x => x.Kama is double.NaN));
     }
 
@@ -104,12 +104,12 @@ public class Kama : StaticSeriesTestBase
         IReadOnlyList<KamaResult> r0 = Noquotes
             .ToKama();
 
-        Assert.IsEmpty(r0);
+        r0.Should().BeEmpty();
 
         IReadOnlyList<KamaResult> r1 = Onequote
             .ToKama();
 
-        Assert.HasCount(1, r1);
+        r1.Should().HaveCount(1);
     }
 
     [TestMethod]
@@ -119,16 +119,16 @@ public class Kama : StaticSeriesTestBase
         const int fastPeriods = 2;
         const int slowPeriods = 30;
 
-        IReadOnlyList<KamaResult> results = Quotes
+        IReadOnlyList<KamaResult> sut = Quotes
             .ToKama(erPeriods, fastPeriods, slowPeriods)
             .RemoveWarmupPeriods();
 
         // assertions
-        Assert.HasCount(502 - Math.Max(erPeriods + 100, erPeriods * 10), results);
+        Assert.HasCount(502 - Math.Max(erPeriods + 100, erPeriods * 10), sut);
 
-        KamaResult last = results[^1];
-        Assert.AreEqual(0.2214, last.Er.Round(4));
-        Assert.AreEqual(240.1138, last.Kama.Round(4));
+        KamaResult last = sut[^1];
+        last.Er.Should().BeApproximately(0.2214, Money4);
+        last.Kama.Should().BeApproximately(240.1138, Money4);
     }
 
     [TestMethod]

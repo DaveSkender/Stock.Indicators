@@ -6,124 +6,124 @@ public class Beta : StaticSeriesTestBase
     [TestMethod]
     public void All()
     {
-        IReadOnlyList<BetaResult> results = OtherQuotes
+        IReadOnlyList<BetaResult> sut = OtherQuotes
             .ToBeta(Quotes, 20, BetaType.All);
 
         // proper quantities
-        Assert.HasCount(502, results);
-        Assert.HasCount(482, results.Where(static x => x.Beta != null));
-        Assert.HasCount(482, results.Where(static x => x.BetaUp != null));
-        Assert.HasCount(482, results.Where(static x => x.BetaDown != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Beta != null).Should().HaveCount(482);
+        sut.Where(static x => x.BetaUp != null).Should().HaveCount(482);
+        sut.Where(static x => x.BetaDown != null).Should().HaveCount(482);
 
         // sample values
-        BetaResult r19 = results[19];
-        Assert.IsNull(r19.Beta);
-        Assert.IsNull(r19.BetaUp);
-        Assert.IsNull(r19.BetaDown);
-        Assert.IsNull(r19.Ratio);
-        Assert.IsNull(r19.Convexity);
+        BetaResult r19 = sut[19];
+        r19.Beta.Should().BeNull();
+        r19.BetaUp.Should().BeNull();
+        r19.BetaDown.Should().BeNull();
+        r19.Ratio.Should().BeNull();
+        r19.Convexity.Should().BeNull();
 
-        BetaResult r20 = results[20];
-        Assert.AreEqual(1.5139, r20.Beta.Round(4));
-        Assert.AreEqual(1.8007, r20.BetaUp.Round(4));
-        Assert.AreEqual(0.3292, r20.BetaDown.Round(4));
-        Assert.AreEqual(5.4693, r20.Ratio.Round(4));
-        Assert.AreEqual(2.1652, r20.Convexity.Round(4));
-        Assert.AreEqual(-0.010678, r20.ReturnsEval.Round(6));
-        Assert.AreEqual(0.000419, r20.ReturnsMrkt.Round(6));
+        BetaResult r20 = sut[20];
+        r20.Beta.Should().BeApproximately(1.5139, Money4);
+        r20.BetaUp.Should().BeApproximately(1.8007, Money4);
+        r20.BetaDown.Should().BeApproximately(0.3292, Money4);
+        r20.Ratio.Should().BeApproximately(5.4693, Money4);
+        r20.Convexity.Should().BeApproximately(2.1652, Money4);
+        r20.ReturnsEval.Should().BeApproximately(-0.010678, Money6);
+        r20.ReturnsMrkt.Should().BeApproximately(0.000419, Money6);
 
-        BetaResult r249 = results[249];
-        Assert.AreEqual(1.9200, r249.Beta.Round(4));
-        Assert.AreEqual(-1.2289, r249.BetaUp.Round(4));
-        Assert.AreEqual(-0.3956, r249.BetaDown.Round(4));
-        Assert.AreEqual(3.1066, r249.Ratio.Round(4));
-        Assert.AreEqual(0.6944, r249.Convexity.Round(4));
+        BetaResult r249 = sut[249];
+        r249.Beta.Should().BeApproximately(1.9200, Money4);
+        r249.BetaUp.Should().BeApproximately(-1.2289, Money4);
+        r249.BetaDown.Should().BeApproximately(-0.3956, Money4);
+        r249.Ratio.Should().BeApproximately(3.1066, Money4);
+        r249.Convexity.Should().BeApproximately(0.6944, Money4);
 
-        BetaResult r501 = results[501];
-        Assert.AreEqual(1.5123, r501.Beta.Round(4));
-        Assert.AreEqual(2.0721, r501.BetaUp.Round(4));
-        Assert.AreEqual(1.5908, r501.BetaDown.Round(4));
-        Assert.AreEqual(1.3026, r501.Ratio.Round(4));
-        Assert.AreEqual(0.2316, r501.Convexity.Round(4));
+        BetaResult r501 = sut[501];
+        r501.Beta.Should().BeApproximately(1.5123, Money4);
+        r501.BetaUp.Should().BeApproximately(2.0721, Money4);
+        r501.BetaDown.Should().BeApproximately(1.5908, Money4);
+        r501.Ratio.Should().BeApproximately(1.3026, Money4);
+        r501.Convexity.Should().BeApproximately(0.2316, Money4);
     }
 
     [TestMethod]
     public override void DefaultParameters_ReturnsExpectedResults()
     {
-        IReadOnlyList<BetaResult> results = OtherQuotes
+        IReadOnlyList<BetaResult> sut = OtherQuotes
             .ToBeta(Quotes, 20);
 
         // proper quantities
-        Assert.HasCount(502, results);
-        Assert.HasCount(482, results.Where(static x => x.Beta != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Beta != null).Should().HaveCount(482);
 
         // sample value
-        BetaResult r = results[501];
-        Assert.AreEqual(1.5123, r.Beta.Round(4));
+        BetaResult r = sut[501];
+        r.Beta.Should().BeApproximately(1.5123, Money4);
     }
 
     [TestMethod]
     public void Up()
     {
-        IReadOnlyList<BetaResult> results = OtherQuotes
+        IReadOnlyList<BetaResult> sut = OtherQuotes
             .ToBeta(Quotes, 20, BetaType.Up);
 
         // proper quantities
-        Assert.HasCount(502, results);
-        Assert.HasCount(482, results.Where(static x => x.BetaUp != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.BetaUp != null).Should().HaveCount(482);
 
         // sample value
-        BetaResult r = results[501];
-        Assert.AreEqual(2.0721, r.BetaUp.Round(4));
+        BetaResult r = sut[501];
+        r.BetaUp.Should().BeApproximately(2.0721, Money4);
     }
 
     [TestMethod]
     public void Down()
     {
-        IReadOnlyList<BetaResult> results = OtherQuotes
+        IReadOnlyList<BetaResult> sut = OtherQuotes
             .ToBeta(Quotes, 20, BetaType.Down);
 
         // proper quantities
-        Assert.HasCount(502, results);
-        Assert.HasCount(482, results.Where(static x => x.BetaDown != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.BetaDown != null).Should().HaveCount(482);
 
         // sample value
-        BetaResult r = results[501];
-        Assert.AreEqual(1.5908, r.BetaDown.Round(4));
+        BetaResult r = sut[501];
+        r.BetaDown.Should().BeApproximately(1.5908, Money4);
     }
 
     [TestMethod]
     public void UseReusable()
     {
-        IReadOnlyList<BetaResult> results = OtherQuotes
+        IReadOnlyList<BetaResult> sut = OtherQuotes
             .Use(CandlePart.Close)
             .ToBeta(Quotes.Use(CandlePart.Close), 20);
 
-        Assert.HasCount(502, results);
-        Assert.HasCount(482, results.Where(static x => x.Beta != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Beta != null).Should().HaveCount(482);
     }
 
     [TestMethod]
     public void ChainingFromResults_WorksAsExpected()
     {
-        IReadOnlyList<SmaResult> results = OtherQuotes
+        IReadOnlyList<SmaResult> sut = OtherQuotes
             .ToBeta(Quotes, 20)
             .ToSma(10);
 
-        Assert.HasCount(502, results);
-        Assert.HasCount(473, results.Where(static x => x.Sma != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Sma != null).Should().HaveCount(473);
     }
 
     [TestMethod]
     public void Chainee()
     {
-        IReadOnlyList<BetaResult> results = Quotes
+        IReadOnlyList<BetaResult> sut = Quotes
             .ToSma(2)
             .ToBeta(OtherQuotes.ToSma(2), 20);
 
-        Assert.HasCount(502, results);
-        Assert.HasCount(481, results.Where(static x => x.Beta != null));
-        Assert.IsEmpty(results.Where(static x => x.Beta is double.NaN));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Beta != null).Should().HaveCount(481);
+        Assert.IsEmpty(sut.Where(static x => x.Beta is double.NaN));
     }
 
     [TestMethod]
@@ -132,19 +132,19 @@ public class Beta : StaticSeriesTestBase
         IReadOnlyList<BetaResult> r1 = BadQuotes
             .ToBeta(BadQuotes, 15);
 
-        Assert.HasCount(502, r1);
+        r1.Should().HaveCount(502);
         Assert.IsEmpty(r1.Where(static x => x.Beta is double.NaN));
 
         IReadOnlyList<BetaResult> r2 = BadQuotes
             .ToBeta(BadQuotes, 15, BetaType.Up);
 
-        Assert.HasCount(502, r2);
+        r2.Should().HaveCount(502);
         Assert.IsEmpty(r2.Where(static x => x.BetaUp is double.NaN));
 
         IReadOnlyList<BetaResult> r3 = BadQuotes
             .ToBeta(BadQuotes, 15, BetaType.Down);
 
-        Assert.HasCount(502, r3);
+        r3.Should().HaveCount(502);
         Assert.IsEmpty(r3.Where(static x => x.BetaDown is double.NaN));
     }
 
@@ -154,7 +154,7 @@ public class Beta : StaticSeriesTestBase
         IReadOnlyList<BetaResult> r = BigQuotes
             .ToBeta(BigQuotes, 150, BetaType.All);
 
-        Assert.HasCount(1246, r);
+        r.Should().HaveCount(1246);
     }
 
     [TestMethod]
@@ -171,41 +171,41 @@ public class Beta : StaticSeriesTestBase
         IReadOnlyList<Quote> evalQuotes = Data.GetMsft();
         IReadOnlyList<Quote> mktQuotes = Data.GetSpx();
 
-        IReadOnlyList<BetaResult> results = evalQuotes
+        IReadOnlyList<BetaResult> sut = evalQuotes
             .Aggregate(PeriodSize.Month)
             .ToBeta(mktQuotes.Aggregate(PeriodSize.Month), 60);
 
-        Assert.AreEqual(0.91, results[385].Beta.Round(2));
+        Assert.AreEqual(0.91, sut[385].Beta.Round(2));
     }
 
     [TestMethod]
     public void Removed()
     {
-        IReadOnlyList<BetaResult> results = OtherQuotes
+        IReadOnlyList<BetaResult> sut = OtherQuotes
             .ToBeta(Quotes, 20)
             .RemoveWarmupPeriods();
 
         // assertions
-        Assert.HasCount(502 - 20, results);
+        sut.Should().HaveCount(502 - 20);
 
-        BetaResult last = results[^1];
-        Assert.AreEqual(1.5123, last.Beta.Round(4));
+        BetaResult last = sut[^1];
+        last.Beta.Should().BeApproximately(1.5123, Money4);
     }
 
     [TestMethod]
     public void SameSame()
     {
         // Beta should be 1 if evaluating against self
-        IReadOnlyList<BetaResult> results = Quotes
+        IReadOnlyList<BetaResult> sut = Quotes
             .ToBeta(Quotes, 20);
 
         // proper quantities
-        Assert.HasCount(502, results);
-        Assert.HasCount(482, results.Where(static x => x.Beta != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Beta != null).Should().HaveCount(482);
 
         // sample value
-        BetaResult r = results[501];
-        Assert.AreEqual(1, r.Beta.Round(4));
+        BetaResult r = sut[501];
+        r.Beta.Should().BeApproximately(1, Money4);
     }
 
     [TestMethod]
@@ -214,12 +214,12 @@ public class Beta : StaticSeriesTestBase
         IReadOnlyList<BetaResult> r0 = Noquotes
             .ToBeta(Noquotes, 5);
 
-        Assert.IsEmpty(r0);
+        r0.Should().BeEmpty();
 
         IReadOnlyList<BetaResult> r1 = Onequote
             .ToBeta(Onequote, 5);
 
-        Assert.HasCount(1, r1);
+        r1.Should().HaveCount(1);
     }
 
     [TestMethod]

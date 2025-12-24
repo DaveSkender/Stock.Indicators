@@ -6,60 +6,60 @@ public class Aroon : StaticSeriesTestBase
     [TestMethod]
     public override void DefaultParameters_ReturnsExpectedResults()
     {
-        IReadOnlyList<AroonResult> results = Quotes
+        IReadOnlyList<AroonResult> sut = Quotes
             .ToAroon();
 
         // proper quantities
-        Assert.HasCount(502, results);
-        Assert.HasCount(477, results.Where(static x => x.AroonUp != null));
-        Assert.HasCount(477, results.Where(static x => x.AroonDown != null));
-        Assert.HasCount(477, results.Where(static x => x.Oscillator != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.AroonUp != null).Should().HaveCount(477);
+        sut.Where(static x => x.AroonDown != null).Should().HaveCount(477);
+        sut.Where(static x => x.Oscillator != null).Should().HaveCount(477);
 
         // sample values
-        AroonResult r1 = results[210];
-        Assert.AreEqual(100, r1.AroonUp);
-        Assert.AreEqual(000, r1.AroonDown);
-        Assert.AreEqual(100, r1.Oscillator);
+        AroonResult r1 = sut[210];
+        r1.AroonUp.Should().Be(100);
+        r1.AroonDown.Should().Be(000);
+        r1.Oscillator.Should().Be(100);
 
-        AroonResult r2 = results[293];
-        Assert.AreEqual(0, r2.AroonUp);
-        Assert.AreEqual(40, r2.AroonDown);
-        Assert.AreEqual(-40, r2.Oscillator);
+        AroonResult r2 = sut[293];
+        r2.AroonUp.Should().Be(0);
+        r2.AroonDown.Should().Be(40);
+        r2.Oscillator.Should().Be(-40);
 
-        AroonResult r3 = results[298];
-        Assert.AreEqual(0, r3.AroonUp);
-        Assert.AreEqual(20, r3.AroonDown);
-        Assert.AreEqual(-20, r3.Oscillator);
+        AroonResult r3 = sut[298];
+        r3.AroonUp.Should().Be(0);
+        r3.AroonDown.Should().Be(20);
+        r3.Oscillator.Should().Be(-20);
 
-        AroonResult r4 = results[458];
-        Assert.AreEqual(0, r4.AroonUp);
-        Assert.AreEqual(100, r4.AroonDown);
-        Assert.AreEqual(-100, r4.Oscillator);
+        AroonResult r4 = sut[458];
+        r4.AroonUp.Should().Be(0);
+        r4.AroonDown.Should().Be(100);
+        r4.Oscillator.Should().Be(-100);
 
-        AroonResult r5 = results[501];
-        Assert.AreEqual(28, r5.AroonUp);
-        Assert.AreEqual(88, r5.AroonDown);
-        Assert.AreEqual(-60, r5.Oscillator);
+        AroonResult r5 = sut[501];
+        r5.AroonUp.Should().Be(28);
+        r5.AroonDown.Should().Be(88);
+        r5.Oscillator.Should().Be(-60);
     }
 
     [TestMethod]
     public void Results_AreAlwaysBounded()
     {
-        IReadOnlyList<AroonResult> results = Quotes.ToAroon(25);
-        results.IsBetween(x => x.AroonUp, 0, 100);
-        results.IsBetween(x => x.AroonDown, 0, 100);
-        results.IsBetween(x => x.Oscillator, -100, 100);
+        IReadOnlyList<AroonResult> sut = Quotes.ToAroon(25);
+        sut.IsBetween(x => x.AroonUp, 0, 100);
+        sut.IsBetween(x => x.AroonDown, 0, 100);
+        sut.IsBetween(x => x.Oscillator, -100, 100);
     }
 
     [TestMethod]
     public void ChainingFromResults_WorksAsExpected()
     {
-        IReadOnlyList<SmaResult> results = Quotes
+        IReadOnlyList<SmaResult> sut = Quotes
             .ToAroon()
             .ToSma(10);
 
-        Assert.HasCount(502, results);
-        Assert.HasCount(468, results.Where(static x => x.Sma != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Sma != null).Should().HaveCount(468);
     }
 
     [TestMethod]
@@ -68,7 +68,7 @@ public class Aroon : StaticSeriesTestBase
         IReadOnlyList<AroonResult> r = BadQuotes
             .ToAroon(20);
 
-        Assert.HasCount(502, r);
+        r.Should().HaveCount(502);
         Assert.IsEmpty(r.Where(static x => x.Oscillator is double v && double.IsNaN(v)));
     }
 
@@ -78,28 +78,28 @@ public class Aroon : StaticSeriesTestBase
         IReadOnlyList<AroonResult> r0 = Noquotes
             .ToAroon();
 
-        Assert.IsEmpty(r0);
+        r0.Should().BeEmpty();
 
         IReadOnlyList<AroonResult> r1 = Onequote
             .ToAroon();
 
-        Assert.HasCount(1, r1);
+        r1.Should().HaveCount(1);
     }
 
     [TestMethod]
     public void Removed()
     {
-        IReadOnlyList<AroonResult> results = Quotes
+        IReadOnlyList<AroonResult> sut = Quotes
             .ToAroon()
             .RemoveWarmupPeriods();
 
         // assertions
-        Assert.HasCount(502 - 25, results);
+        sut.Should().HaveCount(502 - 25);
 
-        AroonResult last = results[^1];
-        Assert.AreEqual(28, last.AroonUp);
-        Assert.AreEqual(88, last.AroonDown);
-        Assert.AreEqual(-60, last.Oscillator);
+        AroonResult last = sut[^1];
+        last.AroonUp.Should().Be(28);
+        last.AroonDown.Should().Be(88);
+        last.Oscillator.Should().Be(-60);
     }
 
     /// <summary>
@@ -107,6 +107,8 @@ public class Aroon : StaticSeriesTestBase
     /// </summary>
     [TestMethod]
     public void Exceptions()
-        => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToAroon(0));
+        => FluentActions
+            .Invoking(static () => Quotes.ToAroon(0))
+            .Should()
+            .ThrowExactly<ArgumentOutOfRangeException>();
 }

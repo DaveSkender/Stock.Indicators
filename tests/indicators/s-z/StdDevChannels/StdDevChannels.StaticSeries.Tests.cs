@@ -9,56 +9,56 @@ public class StdDevChannels : StaticSeriesTestBase
         const int lookbackPeriods = 20;
         const double standardDeviations = 2;
 
-        IReadOnlyList<StdDevChannelsResult> results =
+        IReadOnlyList<StdDevChannelsResult> sut =
             Quotes.ToStdDevChannels(lookbackPeriods, standardDeviations);
 
         // proper quantities
-        Assert.HasCount(502, results);
-        Assert.HasCount(500, results.Where(static x => x.Centerline != null));
-        Assert.HasCount(500, results.Where(static x => x.UpperChannel != null));
-        Assert.HasCount(500, results.Where(static x => x.LowerChannel != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Centerline != null).Should().HaveCount(500);
+        sut.Where(static x => x.UpperChannel != null).Should().HaveCount(500);
+        sut.Where(static x => x.LowerChannel != null).Should().HaveCount(500);
 
         // sample value
-        StdDevChannelsResult r1 = results[1];
-        Assert.IsNull(r1.Centerline);
-        Assert.IsNull(r1.UpperChannel);
-        Assert.IsNull(r1.LowerChannel);
+        StdDevChannelsResult r1 = sut[1];
+        r1.Centerline.Should().BeNull();
+        r1.UpperChannel.Should().BeNull();
+        r1.LowerChannel.Should().BeNull();
         Assert.IsFalse(r1.BreakPoint);
 
-        StdDevChannelsResult r2 = results[2];
-        Assert.AreEqual(213.7993, r2.Centerline.Round(4));
-        Assert.AreEqual(215.7098, r2.UpperChannel.Round(4));
-        Assert.AreEqual(211.8888, r2.LowerChannel.Round(4));
+        StdDevChannelsResult r2 = sut[2];
+        r2.Centerline.Should().BeApproximately(213.7993, Money4);
+        r2.UpperChannel.Should().BeApproximately(215.7098, Money4);
+        r2.LowerChannel.Should().BeApproximately(211.8888, Money4);
         Assert.IsTrue(r2.BreakPoint);
 
-        StdDevChannelsResult r3 = results[141];
-        Assert.AreEqual(236.1744, r3.Centerline.Round(4));
-        Assert.AreEqual(240.4784, r3.UpperChannel.Round(4));
-        Assert.AreEqual(231.8704, r3.LowerChannel.Round(4));
+        StdDevChannelsResult r3 = sut[141];
+        r3.Centerline.Should().BeApproximately(236.1744, Money4);
+        r3.UpperChannel.Should().BeApproximately(240.4784, Money4);
+        r3.LowerChannel.Should().BeApproximately(231.8704, Money4);
         Assert.IsFalse(r3.BreakPoint);
 
-        StdDevChannelsResult r4 = results[142];
-        Assert.AreEqual(236.3269, r4.Centerline.Round(4));
-        Assert.AreEqual(239.5585, r4.UpperChannel.Round(4));
-        Assert.AreEqual(233.0953, r4.LowerChannel.Round(4));
+        StdDevChannelsResult r4 = sut[142];
+        r4.Centerline.Should().BeApproximately(236.3269, Money4);
+        r4.UpperChannel.Should().BeApproximately(239.5585, Money4);
+        r4.LowerChannel.Should().BeApproximately(233.0953, Money4);
         Assert.IsTrue(r4.BreakPoint);
 
-        StdDevChannelsResult r5 = results[249];
-        Assert.AreEqual(259.6044, r5.Centerline.Round(4));
-        Assert.AreEqual(267.5754, r5.UpperChannel.Round(4));
-        Assert.AreEqual(251.6333, r5.LowerChannel.Round(4));
+        StdDevChannelsResult r5 = sut[249];
+        r5.Centerline.Should().BeApproximately(259.6044, Money4);
+        r5.UpperChannel.Should().BeApproximately(267.5754, Money4);
+        r5.LowerChannel.Should().BeApproximately(251.6333, Money4);
         Assert.IsFalse(r5.BreakPoint);
 
-        StdDevChannelsResult r6 = results[482];
-        Assert.AreEqual(267.9069, r6.Centerline.Round(4));
-        Assert.AreEqual(289.7473, r6.UpperChannel.Round(4));
-        Assert.AreEqual(246.0664, r6.LowerChannel.Round(4));
+        StdDevChannelsResult r6 = sut[482];
+        r6.Centerline.Should().BeApproximately(267.9069, Money4);
+        r6.UpperChannel.Should().BeApproximately(289.7473, Money4);
+        r6.LowerChannel.Should().BeApproximately(246.0664, Money4);
         Assert.IsTrue(r6.BreakPoint);
 
-        StdDevChannelsResult r7 = results[501];
-        Assert.AreEqual(235.8131, r7.Centerline.Round(4));
-        Assert.AreEqual(257.6536, r7.UpperChannel.Round(4));
-        Assert.AreEqual(213.9727, r7.LowerChannel.Round(4));
+        StdDevChannelsResult r7 = sut[501];
+        r7.Centerline.Should().BeApproximately(235.8131, Money4);
+        r7.UpperChannel.Should().BeApproximately(257.6536, Money4);
+        r7.LowerChannel.Should().BeApproximately(213.9727, Money4);
         Assert.IsFalse(r7.BreakPoint);
     }
 
@@ -67,54 +67,54 @@ public class StdDevChannels : StaticSeriesTestBase
     {
         // full history linear regression
 
-        IReadOnlyList<StdDevChannelsResult> results =
+        IReadOnlyList<StdDevChannelsResult> sut =
             Quotes.ToStdDevChannels(Quotes.Count);
 
         // proper quantities
-        Assert.HasCount(502, results);
-        Assert.HasCount(502, results.Where(static x => x.Centerline != null));
-        Assert.HasCount(502, results.Where(static x => x.UpperChannel != null));
-        Assert.HasCount(502, results.Where(static x => x.LowerChannel != null));
-        Assert.HasCount(501, results.Where(static x => !x.BreakPoint));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Centerline != null).Should().HaveCount(502);
+        sut.Where(static x => x.UpperChannel != null).Should().HaveCount(502);
+        sut.Where(static x => x.LowerChannel != null).Should().HaveCount(502);
+        sut.Where(static x => !x.BreakPoint).Should().HaveCount(501);
 
         // sample value
-        StdDevChannelsResult r1 = results[0];
-        Assert.AreEqual(219.2605, r1.Centerline.Round(4));
-        Assert.AreEqual(258.7104, r1.UpperChannel.Round(4));
-        Assert.AreEqual(179.8105, r1.LowerChannel.Round(4));
+        StdDevChannelsResult r1 = sut[0];
+        r1.Centerline.Should().BeApproximately(219.2605, Money4);
+        r1.UpperChannel.Should().BeApproximately(258.7104, Money4);
+        r1.LowerChannel.Should().BeApproximately(179.8105, Money4);
         Assert.IsTrue(r1.BreakPoint);
 
-        StdDevChannelsResult r2 = results[249];
-        Assert.AreEqual(249.3814, r2.Centerline.Round(4));
-        Assert.AreEqual(288.8314, r2.UpperChannel.Round(4));
-        Assert.AreEqual(209.9315, r2.LowerChannel.Round(4));
+        StdDevChannelsResult r2 = sut[249];
+        r2.Centerline.Should().BeApproximately(249.3814, Money4);
+        r2.UpperChannel.Should().BeApproximately(288.8314, Money4);
+        r2.LowerChannel.Should().BeApproximately(209.9315, Money4);
 
-        StdDevChannelsResult r3 = results[501];
-        Assert.AreEqual(279.8653, r3.Centerline.Round(4));
-        Assert.AreEqual(319.3152, r3.UpperChannel.Round(4));
-        Assert.AreEqual(240.4153, r3.LowerChannel.Round(4));
+        StdDevChannelsResult r3 = sut[501];
+        r3.Centerline.Should().BeApproximately(279.8653, Money4);
+        r3.UpperChannel.Should().BeApproximately(319.3152, Money4);
+        r3.LowerChannel.Should().BeApproximately(240.4153, Money4);
     }
 
     [TestMethod]
     public void UseReusable()
     {
-        IReadOnlyList<StdDevChannelsResult> results = Quotes
+        IReadOnlyList<StdDevChannelsResult> sut = Quotes
             .Use(CandlePart.Close)
             .ToStdDevChannels();
 
-        Assert.HasCount(502, results);
-        Assert.HasCount(500, results.Where(static x => x.Centerline != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Centerline != null).Should().HaveCount(500);
     }
 
     [TestMethod]
     public void Chainee()
     {
-        IReadOnlyList<StdDevChannelsResult> results = Quotes
+        IReadOnlyList<StdDevChannelsResult> sut = Quotes
             .ToSma(2)
             .ToStdDevChannels();
 
-        Assert.HasCount(502, results);
-        Assert.HasCount(500, results.Where(static x => x.Centerline != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Centerline != null).Should().HaveCount(500);
     }
 
     [TestMethod]
@@ -123,7 +123,7 @@ public class StdDevChannels : StaticSeriesTestBase
         IReadOnlyList<StdDevChannelsResult> r = BadQuotes
             .ToStdDevChannels();
 
-        Assert.HasCount(502, r);
+        r.Should().HaveCount(502);
         Assert.IsEmpty(r.Where(static x => x.UpperChannel is double v && double.IsNaN(v)));
     }
 
@@ -133,12 +133,12 @@ public class StdDevChannels : StaticSeriesTestBase
         IReadOnlyList<StdDevChannelsResult> r0 = Noquotes
             .ToStdDevChannels();
 
-        Assert.IsEmpty(r0);
+        r0.Should().BeEmpty();
 
         IReadOnlyList<StdDevChannelsResult> r1 = Onequote
             .ToStdDevChannels();
 
-        Assert.HasCount(1, r1);
+        r1.Should().HaveCount(1);
     }
 
     [TestMethod]
@@ -147,16 +147,16 @@ public class StdDevChannels : StaticSeriesTestBase
         const int lookbackPeriods = 20;
         const double standardDeviations = 2;
 
-        IReadOnlyList<StdDevChannelsResult> results = Quotes
+        IReadOnlyList<StdDevChannelsResult> sut = Quotes
             .ToStdDevChannels(lookbackPeriods, standardDeviations)
             .Condense();
 
         // assertions
-        Assert.HasCount(500, results);
-        StdDevChannelsResult last = results[^1];
-        Assert.AreEqual(235.8131, last.Centerline.Round(4));
-        Assert.AreEqual(257.6536, last.UpperChannel.Round(4));
-        Assert.AreEqual(213.9727, last.LowerChannel.Round(4));
+        sut.Should().HaveCount(500);
+        StdDevChannelsResult last = sut[^1];
+        last.Centerline.Should().BeApproximately(235.8131, Money4);
+        last.UpperChannel.Should().BeApproximately(257.6536, Money4);
+        last.LowerChannel.Should().BeApproximately(213.9727, Money4);
         Assert.IsFalse(last.BreakPoint);
     }
 
@@ -166,16 +166,16 @@ public class StdDevChannels : StaticSeriesTestBase
         const int lookbackPeriods = 20;
         const double standardDeviations = 2;
 
-        IReadOnlyList<StdDevChannelsResult> results = Quotes
+        IReadOnlyList<StdDevChannelsResult> sut = Quotes
             .ToStdDevChannels(lookbackPeriods, standardDeviations)
             .RemoveWarmupPeriods();
 
         // assertions
-        Assert.HasCount(500, results);
-        StdDevChannelsResult last = results[^1];
-        Assert.AreEqual(235.8131, last.Centerline.Round(4));
-        Assert.AreEqual(257.6536, last.UpperChannel.Round(4));
-        Assert.AreEqual(213.9727, last.LowerChannel.Round(4));
+        sut.Should().HaveCount(500);
+        StdDevChannelsResult last = sut[^1];
+        last.Centerline.Should().BeApproximately(235.8131, Money4);
+        last.UpperChannel.Should().BeApproximately(257.6536, Money4);
+        last.LowerChannel.Should().BeApproximately(213.9727, Money4);
         Assert.IsFalse(last.BreakPoint);
     }
 

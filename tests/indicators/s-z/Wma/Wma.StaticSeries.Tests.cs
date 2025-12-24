@@ -6,52 +6,52 @@ public class Wma : StaticSeriesTestBase
     [TestMethod]
     public override void DefaultParameters_ReturnsExpectedResults()
     {
-        IReadOnlyList<WmaResult> results = Quotes
+        IReadOnlyList<WmaResult> sut = Quotes
             .ToWma(20);
 
         // proper quantities
-        Assert.HasCount(502, results);
-        Assert.HasCount(483, results.Where(static x => x.Wma != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Wma != null).Should().HaveCount(483);
 
         // sample values
-        WmaResult r1 = results[149];
-        Assert.AreEqual(235.5253, r1.Wma.Round(4));
+        WmaResult r1 = sut[149];
+        r1.Wma.Should().BeApproximately(235.5253, Money4);
 
-        WmaResult r2 = results[501];
-        Assert.AreEqual(246.5110, r2.Wma.Round(4));
+        WmaResult r2 = sut[501];
+        r2.Wma.Should().BeApproximately(246.5110, Money4);
     }
 
     [TestMethod]
     public void UseReusable()
     {
-        IReadOnlyList<WmaResult> results = Quotes
+        IReadOnlyList<WmaResult> sut = Quotes
             .Use(CandlePart.Close)
             .ToWma(20);
 
-        Assert.HasCount(502, results);
-        Assert.HasCount(483, results.Where(static x => x.Wma != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Wma != null).Should().HaveCount(483);
     }
 
     [TestMethod]
     public void Chainee()
     {
-        IReadOnlyList<WmaResult> results = Quotes
+        IReadOnlyList<WmaResult> sut = Quotes
             .ToSma(2)
             .ToWma(20);
 
-        Assert.HasCount(502, results);
-        Assert.HasCount(482, results.Where(static x => x.Wma != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Wma != null).Should().HaveCount(482);
     }
 
     [TestMethod]
     public void ChainingFromResults_WorksAsExpected()
     {
-        IReadOnlyList<SmaResult> results = Quotes
+        IReadOnlyList<SmaResult> sut = Quotes
             .ToWma(20)
             .ToSma(10);
 
-        Assert.HasCount(502, results);
-        Assert.HasCount(474, results.Where(static x => x.Sma != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Sma != null).Should().HaveCount(474);
     }
 
     [TestMethod]
@@ -60,18 +60,18 @@ public class Wma : StaticSeriesTestBase
         IReadOnlyList<WmaResult> standard = Quotes
             .ToWma(17);
 
-        IReadOnlyList<WmaResult> results = Quotes
+        IReadOnlyList<WmaResult> sut = Quotes
             .Use(CandlePart.Close)
             .ToWma(17);
 
         // assertions
-        for (int i = 0; i < results.Count; i++)
+        for (int i = 0; i < sut.Count; i++)
         {
             WmaResult s = standard[i];
-            WmaResult c = results[i];
+            WmaResult c = sut[i];
 
-            Assert.AreEqual(s.Timestamp, c.Timestamp);
-            Assert.AreEqual(s.Wma, c.Wma);
+            c.Timestamp.Should().Be(s.Timestamp);
+            c.Wma.Should().Be(s.Wma);
         }
     }
 
@@ -81,7 +81,7 @@ public class Wma : StaticSeriesTestBase
         IReadOnlyList<WmaResult> r = BadQuotes
             .ToWma(15);
 
-        Assert.HasCount(502, r);
+        r.Should().HaveCount(502);
         Assert.IsEmpty(r.Where(static x => x.Wma is double v && double.IsNaN(v)));
     }
 
@@ -91,26 +91,26 @@ public class Wma : StaticSeriesTestBase
         IReadOnlyList<WmaResult> r0 = Noquotes
             .ToWma(5);
 
-        Assert.IsEmpty(r0);
+        r0.Should().BeEmpty();
 
         IReadOnlyList<WmaResult> r1 = Onequote
             .ToWma(5);
 
-        Assert.HasCount(1, r1);
+        r1.Should().HaveCount(1);
     }
 
     [TestMethod]
     public void Removed()
     {
-        IReadOnlyList<WmaResult> results = Quotes
+        IReadOnlyList<WmaResult> sut = Quotes
             .ToWma(20)
             .RemoveWarmupPeriods();
 
         // assertions
-        Assert.HasCount(502 - 19, results);
+        sut.Should().HaveCount(502 - 19);
 
-        WmaResult last = results[^1];
-        Assert.AreEqual(246.5110, last.Wma.Round(4));
+        WmaResult last = sut[^1];
+        last.Wma.Should().BeApproximately(246.5110, Money4);
     }
 
     /// <summary>
@@ -118,6 +118,8 @@ public class Wma : StaticSeriesTestBase
     /// </summary>
     [TestMethod]
     public void Exceptions()
-        => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToWma(0));
+        => FluentActions
+            .Invoking(static () => Quotes.ToWma(0))
+            .Should()
+            .ThrowExactly<ArgumentOutOfRangeException>();
 }

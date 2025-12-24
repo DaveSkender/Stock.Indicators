@@ -11,24 +11,24 @@ public class Vwap : StaticSeriesTestBase
     [TestMethod]
     public override void DefaultParameters_ReturnsExpectedResults()
     {
-        IReadOnlyList<VwapResult> results = intraday.ToVwap();
+        IReadOnlyList<VwapResult> sut = intraday.ToVwap();
 
         // proper quantities
-        Assert.HasCount(391, results);
-        Assert.HasCount(391, results.Where(static x => x.Vwap != null));
+        sut.Should().HaveCount(391);
+        sut.Where(static x => x.Vwap != null).Should().HaveCount(391);
 
         // sample values
-        VwapResult r1 = results[0];
-        Assert.AreEqual(367.4800, r1.Vwap.Round(4));
+        VwapResult r1 = sut[0];
+        r1.Vwap.Should().BeApproximately(367.4800, Money4);
 
-        VwapResult r2 = results[1];
-        Assert.AreEqual(367.4223, r2.Vwap.Round(4));
+        VwapResult r2 = sut[1];
+        r2.Vwap.Should().BeApproximately(367.4223, Money4);
 
-        VwapResult r3 = results[369];
-        Assert.AreEqual(367.9494, r3.Vwap.Round(4));
+        VwapResult r3 = sut[369];
+        r3.Vwap.Should().BeApproximately(367.9494, Money4);
 
-        VwapResult r4 = results[390];
-        Assert.AreEqual(368.1804, r4.Vwap.Round(4));
+        VwapResult r4 = sut[390];
+        r4.Vwap.Should().BeApproximately(368.1804, Money4);
     }
 
     [TestMethod]
@@ -37,36 +37,36 @@ public class Vwap : StaticSeriesTestBase
         DateTime startDate =
             DateTime.ParseExact("2020-12-15 10:00", "yyyy-MM-dd h:mm", invariantCulture);
 
-        IReadOnlyList<VwapResult> results = intraday
+        IReadOnlyList<VwapResult> sut = intraday
             .ToVwap(startDate);
 
         // proper quantities
-        Assert.HasCount(391, results);
-        Assert.HasCount(361, results.Where(static x => x.Vwap != null));
+        sut.Should().HaveCount(391);
+        sut.Where(static x => x.Vwap != null).Should().HaveCount(361);
 
         // sample values
-        VwapResult r1 = results[29];
-        Assert.IsNull(r1.Vwap);
+        VwapResult r1 = sut[29];
+        r1.Vwap.Should().BeNull();
 
-        VwapResult r2 = results[30];
-        Assert.AreEqual(366.8100, r2.Vwap.Round(4));
+        VwapResult r2 = sut[30];
+        r2.Vwap.Should().BeApproximately(366.8100, Money4);
 
-        VwapResult r3 = results[369];
-        Assert.AreEqual(368.0511, r3.Vwap.Round(4));
+        VwapResult r3 = sut[369];
+        r3.Vwap.Should().BeApproximately(368.0511, Money4);
 
-        VwapResult r4 = results[390];
-        Assert.AreEqual(368.2908, r4.Vwap.Round(4));
+        VwapResult r4 = sut[390];
+        r4.Vwap.Should().BeApproximately(368.2908, Money4);
     }
 
     [TestMethod]
     public void ChainingFromResults_WorksAsExpected()
     {
-        IReadOnlyList<SmaResult> results = Quotes
+        IReadOnlyList<SmaResult> sut = Quotes
             .ToVwap()
             .ToSma(10);
 
-        Assert.HasCount(502, results);
-        Assert.HasCount(493, results.Where(static x => x.Sma != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Sma != null).Should().HaveCount(493);
     }
 
     [TestMethod]
@@ -75,7 +75,7 @@ public class Vwap : StaticSeriesTestBase
         IReadOnlyList<VwapResult> r = BadQuotes
             .ToVwap();
 
-        Assert.HasCount(502, r);
+        r.Should().HaveCount(502);
         Assert.IsEmpty(r.Where(static x => x.Vwap is double v && double.IsNaN(v)));
     }
 
@@ -85,27 +85,27 @@ public class Vwap : StaticSeriesTestBase
         IReadOnlyList<VwapResult> r0 = Noquotes
             .ToVwap();
 
-        Assert.IsEmpty(r0);
+        r0.Should().BeEmpty();
 
         IReadOnlyList<VwapResult> r1 = Onequote
             .ToVwap();
 
-        Assert.HasCount(1, r1);
+        r1.Should().HaveCount(1);
     }
 
     [TestMethod]
     public void Removed()
     {
         // no start date
-        IReadOnlyList<VwapResult> results = intraday
+        IReadOnlyList<VwapResult> sut = intraday
             .ToVwap()
             .RemoveWarmupPeriods();
 
         // assertions
-        Assert.HasCount(391, results);
+        sut.Should().HaveCount(391);
 
-        VwapResult last = results[^1];
-        Assert.AreEqual(368.1804, last.Vwap.Round(4));
+        VwapResult last = sut[^1];
+        last.Vwap.Should().BeApproximately(368.1804, Money4);
 
         // with start date
         DateTime startDate =
@@ -116,10 +116,10 @@ public class Vwap : StaticSeriesTestBase
             .RemoveWarmupPeriods();
 
         // assertions
-        Assert.HasCount(361, sdResults);
+        sdResults.Should().HaveCount(361);
 
         VwapResult sdLast = sdResults[^1];
-        Assert.AreEqual(368.2908, sdLast.Vwap.Round(4));
+        sdLast.Vwap.Should().BeApproximately(368.2908, Money4);
     }
 
     [TestMethod]

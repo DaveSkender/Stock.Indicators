@@ -10,69 +10,69 @@ public class Macd : StaticSeriesTestBase
         const int slowPeriods = 26;
         const int signalPeriods = 9;
 
-        IReadOnlyList<MacdResult> results =
+        IReadOnlyList<MacdResult> sut =
             Quotes.ToMacd(fastPeriods, slowPeriods, signalPeriods);
 
         // proper quantities
-        Assert.HasCount(502, results);
-        Assert.HasCount(477, results.Where(static x => x.Macd != null));
-        Assert.HasCount(469, results.Where(static x => x.Signal != null));
-        Assert.HasCount(469, results.Where(static x => x.Histogram != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Macd != null).Should().HaveCount(477);
+        sut.Where(static x => x.Signal != null).Should().HaveCount(469);
+        sut.Where(static x => x.Histogram != null).Should().HaveCount(469);
 
         // sample values
-        MacdResult r49 = results[49];
-        Assert.AreEqual(1.7203, r49.Macd.Round(4));
-        Assert.AreEqual(1.9675, r49.Signal.Round(4));
-        Assert.AreEqual(-0.2472, r49.Histogram.Round(4));
-        Assert.AreEqual(224.1840, r49.FastEma.Round(4));
-        Assert.AreEqual(222.4637, r49.SlowEma.Round(4));
+        MacdResult r49 = sut[49];
+        r49.Macd.Should().BeApproximately(1.7203, Money4);
+        r49.Signal.Should().BeApproximately(1.9675, Money4);
+        r49.Histogram.Should().BeApproximately(-0.2472, Money4);
+        r49.FastEma.Should().BeApproximately(224.1840, Money4);
+        r49.SlowEma.Should().BeApproximately(222.4637, Money4);
 
-        MacdResult r249 = results[249];
-        Assert.AreEqual(2.2353, r249.Macd.Round(4));
-        Assert.AreEqual(2.3141, r249.Signal.Round(4));
-        Assert.AreEqual(-0.0789, r249.Histogram.Round(4));
-        Assert.AreEqual(256.6780, r249.FastEma.Round(4));
-        Assert.AreEqual(254.4428, r249.SlowEma.Round(4));
+        MacdResult r249 = sut[249];
+        r249.Macd.Should().BeApproximately(2.2353, Money4);
+        r249.Signal.Should().BeApproximately(2.3141, Money4);
+        r249.Histogram.Should().BeApproximately(-0.0789, Money4);
+        r249.FastEma.Should().BeApproximately(256.6780, Money4);
+        r249.SlowEma.Should().BeApproximately(254.4428, Money4);
 
-        MacdResult r501 = results[501];
-        Assert.AreEqual(-6.2198, r501.Macd.Round(4));
-        Assert.AreEqual(-5.8569, r501.Signal.Round(4));
-        Assert.AreEqual(-0.3629, r501.Histogram.Round(4));
-        Assert.AreEqual(245.4957, r501.FastEma.Round(4));
-        Assert.AreEqual(251.7155, r501.SlowEma.Round(4));
+        MacdResult r501 = sut[501];
+        r501.Macd.Should().BeApproximately(-6.2198, Money4);
+        r501.Signal.Should().BeApproximately(-5.8569, Money4);
+        r501.Histogram.Should().BeApproximately(-0.3629, Money4);
+        r501.FastEma.Should().BeApproximately(245.4957, Money4);
+        r501.SlowEma.Should().BeApproximately(251.7155, Money4);
     }
 
     [TestMethod]
     public void UseReusable()
     {
-        IReadOnlyList<MacdResult> results = Quotes
+        IReadOnlyList<MacdResult> sut = Quotes
             .Use(CandlePart.Close)
             .ToMacd();
 
-        Assert.HasCount(502, results);
-        Assert.HasCount(477, results.Where(static x => x.Macd != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Macd != null).Should().HaveCount(477);
     }
 
     [TestMethod]
     public void Chainee()
     {
-        IReadOnlyList<MacdResult> results = Quotes
+        IReadOnlyList<MacdResult> sut = Quotes
             .ToSma(2)
             .ToMacd();
 
-        Assert.HasCount(502, results);
-        Assert.HasCount(476, results.Where(static x => x.Macd != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Macd != null).Should().HaveCount(476);
     }
 
     [TestMethod]
     public void ChainingFromResults_WorksAsExpected()
     {
-        IReadOnlyList<SmaResult> results = Quotes
+        IReadOnlyList<SmaResult> sut = Quotes
             .ToMacd()
             .ToSma(10);
 
-        Assert.HasCount(502, results);
-        Assert.HasCount(468, results.Where(static x => x.Sma != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Sma != null).Should().HaveCount(468);
     }
 
     [TestMethod]
@@ -81,7 +81,7 @@ public class Macd : StaticSeriesTestBase
         IReadOnlyList<MacdResult> r = BadQuotes
             .ToMacd(10, 20, 5);
 
-        Assert.HasCount(502, r);
+        r.Should().HaveCount(502);
         Assert.IsEmpty(r.Where(static x => x.Macd is double v && double.IsNaN(v)));
     }
 
@@ -91,12 +91,12 @@ public class Macd : StaticSeriesTestBase
         IReadOnlyList<MacdResult> r0 = Noquotes
             .ToMacd();
 
-        Assert.IsEmpty(r0);
+        r0.Should().BeEmpty();
 
         IReadOnlyList<MacdResult> r1 = Onequote
             .ToMacd();
 
-        Assert.HasCount(1, r1);
+        r1.Should().HaveCount(1);
     }
 
     [TestMethod]
@@ -106,17 +106,17 @@ public class Macd : StaticSeriesTestBase
         const int slowPeriods = 26;
         const int signalPeriods = 9;
 
-        IReadOnlyList<MacdResult> results = Quotes
+        IReadOnlyList<MacdResult> sut = Quotes
             .ToMacd(fastPeriods, slowPeriods, signalPeriods)
             .RemoveWarmupPeriods();
 
         // assertions
-        Assert.HasCount(502 - (slowPeriods + signalPeriods + 250), results);
+        sut.Should().HaveCount(502 - (slowPeriods + signalPeriods + 250));
 
-        MacdResult last = results[^1];
-        Assert.AreEqual(-6.2198, last.Macd.Round(4));
-        Assert.AreEqual(-5.8569, last.Signal.Round(4));
-        Assert.AreEqual(-0.3629, last.Histogram.Round(4));
+        MacdResult last = sut[^1];
+        last.Macd.Should().BeApproximately(-6.2198, Money4);
+        last.Signal.Should().BeApproximately(-5.8569, Money4);
+        last.Histogram.Should().BeApproximately(-0.3629, Money4);
     }
 
     [TestMethod]

@@ -6,69 +6,69 @@ public class VolatilityStop : StaticSeriesTestBase
     [TestMethod]
     public override void DefaultParameters_ReturnsExpectedResults()
     {
-        IReadOnlyList<VolatilityStopResult> results =
+        IReadOnlyList<VolatilityStopResult> sut =
             Quotes.ToVolatilityStop(14);
 
         // proper quantities
-        Assert.HasCount(502, results);
-        Assert.HasCount(448, results.Where(static x => x.Sar != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Sar != null).Should().HaveCount(448);
 
         // sample values
-        VolatilityStopResult r53 = results[53];
-        Assert.IsNull(r53.Sar);
-        Assert.IsNull(r53.IsStop);
-        Assert.IsNull(r53.LowerBand);
-        Assert.IsNull(r53.UpperBand);
+        VolatilityStopResult r53 = sut[53];
+        r53.Sar.Should().BeNull();
+        r53.IsStop.Should().BeNull();
+        r53.LowerBand.Should().BeNull();
+        r53.UpperBand.Should().BeNull();
 
-        VolatilityStopResult r54 = results[54];
-        Assert.AreEqual(226.2118, r54.Sar.Round(4));
+        VolatilityStopResult r54 = sut[54];
+        r54.Sar.Should().BeApproximately(226.2118, Money4);
         Assert.IsFalse(r54.IsStop);
-        Assert.AreEqual(226.2118, r54.UpperBand.Round(4));
-        Assert.IsNull(r54.LowerBand);
+        r54.UpperBand.Should().BeApproximately(226.2118, Money4);
+        r54.LowerBand.Should().BeNull();
 
-        VolatilityStopResult r55 = results[55];
-        Assert.AreEqual(226.2124, r55.Sar.Round(4));
+        VolatilityStopResult r55 = sut[55];
+        r55.Sar.Should().BeApproximately(226.2124, Money4);
         Assert.IsFalse(r55.IsStop);
-        Assert.AreEqual(226.2124, r55.UpperBand.Round(4));
-        Assert.IsNull(r55.LowerBand);
+        r55.UpperBand.Should().BeApproximately(226.2124, Money4);
+        r55.LowerBand.Should().BeNull();
 
-        VolatilityStopResult r168 = results[168];
+        VolatilityStopResult r168 = sut[168];
         Assert.IsTrue(r168.IsStop);
 
-        VolatilityStopResult r282 = results[282];
-        Assert.AreEqual(261.8687, r282.Sar.Round(4));
+        VolatilityStopResult r282 = sut[282];
+        r282.Sar.Should().BeApproximately(261.8687, Money4);
         Assert.IsTrue(r282.IsStop);
-        Assert.AreEqual(261.8687, r282.UpperBand.Round(4));
-        Assert.IsNull(r282.LowerBand);
+        r282.UpperBand.Should().BeApproximately(261.8687, Money4);
+        r282.LowerBand.Should().BeNull();
 
-        VolatilityStopResult r283 = results[283];
-        Assert.AreEqual(249.3219, r283.Sar.Round(4));
+        VolatilityStopResult r283 = sut[283];
+        r283.Sar.Should().BeApproximately(249.3219, Money4);
         Assert.IsFalse(r283.IsStop);
-        Assert.AreEqual(249.3219, r283.LowerBand.Round(4));
-        Assert.IsNull(r283.UpperBand);
+        r283.LowerBand.Should().BeApproximately(249.3219, Money4);
+        r283.UpperBand.Should().BeNull();
 
-        VolatilityStopResult r284 = results[284];
-        Assert.AreEqual(249.7460, r284.Sar.Round(4));
+        VolatilityStopResult r284 = sut[284];
+        r284.Sar.Should().BeApproximately(249.7460, Money4);
         Assert.IsFalse(r284.IsStop);
-        Assert.AreEqual(249.7460, r284.LowerBand.Round(4));
-        Assert.IsNull(r284.UpperBand);
+        r284.LowerBand.Should().BeApproximately(249.7460, Money4);
+        r284.UpperBand.Should().BeNull();
 
-        VolatilityStopResult last = results[^1];
-        Assert.AreEqual(249.2423, last.Sar.Round(4));
+        VolatilityStopResult last = sut[^1];
+        last.Sar.Should().BeApproximately(249.2423, Money4);
         Assert.IsFalse(last.IsStop);
-        Assert.AreEqual(249.2423, last.UpperBand.Round(4));
-        Assert.IsNull(last.LowerBand);
+        last.UpperBand.Should().BeApproximately(249.2423, Money4);
+        last.LowerBand.Should().BeNull();
     }
 
     [TestMethod]
     public void ChainingFromResults_WorksAsExpected()
     {
-        IReadOnlyList<SmaResult> results = Quotes
+        IReadOnlyList<SmaResult> sut = Quotes
             .ToVolatilityStop()
             .ToSma(10);
 
-        Assert.HasCount(502, results);
-        Assert.HasCount(439, results.Where(static x => x.Sma != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Sma != null).Should().HaveCount(439);
     }
 
     [TestMethod]
@@ -77,7 +77,7 @@ public class VolatilityStop : StaticSeriesTestBase
         IReadOnlyList<VolatilityStopResult> r = BadQuotes
             .ToVolatilityStop();
 
-        Assert.HasCount(502, r);
+        r.Should().HaveCount(502);
         Assert.IsEmpty(r.Where(static x => x.Sar is double v && double.IsNaN(v)));
     }
 
@@ -87,26 +87,26 @@ public class VolatilityStop : StaticSeriesTestBase
         IReadOnlyList<VolatilityStopResult> r0 = Noquotes
             .ToVolatilityStop();
 
-        Assert.IsEmpty(r0);
+        r0.Should().BeEmpty();
 
         IReadOnlyList<VolatilityStopResult> r1 = Onequote
             .ToVolatilityStop();
 
-        Assert.HasCount(1, r1);
+        r1.Should().HaveCount(1);
     }
 
     [TestMethod]
     public void Removed()
     {
-        IReadOnlyList<VolatilityStopResult> results = Quotes
+        IReadOnlyList<VolatilityStopResult> sut = Quotes
             .ToVolatilityStop(14)
             .RemoveWarmupPeriods();
 
         // assertions
-        Assert.HasCount(402, results);
+        sut.Should().HaveCount(402);
 
-        VolatilityStopResult last = results[^1];
-        Assert.AreEqual(249.2423, last.Sar.Round(4));
+        VolatilityStopResult last = sut[^1];
+        last.Sar.Should().BeApproximately(249.2423, Money4);
         Assert.IsFalse(last.IsStop);
     }
 

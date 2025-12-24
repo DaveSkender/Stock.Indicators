@@ -6,27 +6,27 @@ public class Cci : StaticSeriesTestBase
     [TestMethod]
     public override void DefaultParameters_ReturnsExpectedResults()
     {
-        IReadOnlyList<CciResult> results = Quotes
+        IReadOnlyList<CciResult> sut = Quotes
             .ToCci();
 
         // proper quantities
-        Assert.HasCount(502, results);
-        Assert.HasCount(483, results.Where(static x => x.Cci != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Cci != null).Should().HaveCount(483);
 
         // sample value
-        CciResult r = results[501];
-        Assert.AreEqual(-52.9946, r.Cci.Round(4));
+        CciResult r = sut[501];
+        r.Cci.Should().BeApproximately(-52.9946, Money4);
     }
 
     [TestMethod]
     public void ChainingFromResults_WorksAsExpected()
     {
-        IReadOnlyList<SmaResult> results = Quotes
+        IReadOnlyList<SmaResult> sut = Quotes
             .ToCci()
             .ToSma(10);
 
-        Assert.HasCount(502, results);
-        Assert.HasCount(474, results.Where(static x => x.Sma != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Sma != null).Should().HaveCount(474);
     }
 
     [TestMethod]
@@ -35,7 +35,7 @@ public class Cci : StaticSeriesTestBase
         IReadOnlyList<CciResult> r = BadQuotes
             .ToCci(15);
 
-        Assert.HasCount(502, r);
+        r.Should().HaveCount(502);
         Assert.IsEmpty(r.Where(static x => x.Cci is double.NaN));
     }
 
@@ -45,26 +45,26 @@ public class Cci : StaticSeriesTestBase
         IReadOnlyList<CciResult> r0 = Noquotes
             .ToCci();
 
-        Assert.IsEmpty(r0);
+        r0.Should().BeEmpty();
 
         IReadOnlyList<CciResult> r1 = Onequote
             .ToCci();
 
-        Assert.HasCount(1, r1);
+        r1.Should().HaveCount(1);
     }
 
     [TestMethod]
     public void Removed()
     {
-        IReadOnlyList<CciResult> results = Quotes
+        IReadOnlyList<CciResult> sut = Quotes
             .ToCci()
             .RemoveWarmupPeriods();
 
         // assertions
-        Assert.HasCount(502 - 19, results);
+        sut.Should().HaveCount(502 - 19);
 
-        CciResult last = results[^1];
-        Assert.AreEqual(-52.9946, last.Cci.Round(4));
+        CciResult last = sut[^1];
+        last.Cci.Should().BeApproximately(-52.9946, Money4);
     }
 
     /// <summary>
@@ -72,6 +72,8 @@ public class Cci : StaticSeriesTestBase
     /// </summary>
     [TestMethod]
     public void Exceptions()
-        => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToCci(0));
+        => FluentActions
+            .Invoking(static () => Quotes.ToCci(0))
+            .Should()
+            .ThrowExactly<ArgumentOutOfRangeException>();
 }

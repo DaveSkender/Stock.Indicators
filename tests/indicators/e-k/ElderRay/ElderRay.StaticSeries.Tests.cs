@@ -6,55 +6,55 @@ public class ElderRay : StaticSeriesTestBase
     [TestMethod]
     public override void DefaultParameters_ReturnsExpectedResults()
     {
-        IReadOnlyList<ElderRayResult> results = Quotes
+        IReadOnlyList<ElderRayResult> sut = Quotes
             .ToElderRay();
 
         // proper quantities
-        Assert.HasCount(502, results);
-        Assert.HasCount(490, results.Where(static x => x.BullPower != null));
-        Assert.HasCount(490, results.Where(static x => x.BearPower != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.BullPower != null).Should().HaveCount(490);
+        sut.Where(static x => x.BearPower != null).Should().HaveCount(490);
 
         // sample values
-        ElderRayResult r1 = results[11];
-        Assert.IsNull(r1.Ema);
-        Assert.IsNull(r1.BullPower);
-        Assert.IsNull(r1.BearPower);
+        ElderRayResult r1 = sut[11];
+        r1.Ema.Should().BeNull();
+        r1.BullPower.Should().BeNull();
+        r1.BearPower.Should().BeNull();
 
-        ElderRayResult r2 = results[12];
-        Assert.AreEqual(214.0000, r2.Ema.Round(4));
-        Assert.AreEqual(0.7500, r2.BullPower.Round(4));
-        Assert.AreEqual(-0.5100, r2.BearPower.Round(4));
+        ElderRayResult r2 = sut[12];
+        r2.Ema.Should().BeApproximately(214.0000, Money4);
+        r2.BullPower.Should().BeApproximately(0.7500, Money4);
+        r2.BearPower.Should().BeApproximately(-0.5100, Money4);
 
-        ElderRayResult r3 = results[24];
-        Assert.AreEqual(215.5426, r3.Ema.Round(4));
-        Assert.AreEqual(1.4274, r3.BullPower.Round(4));
-        Assert.AreEqual(0.5474, r3.BearPower.Round(4));
+        ElderRayResult r3 = sut[24];
+        r3.Ema.Should().BeApproximately(215.5426, Money4);
+        r3.BullPower.Should().BeApproximately(1.4274, Money4);
+        r3.BearPower.Should().BeApproximately(0.5474, Money4);
 
-        ElderRayResult r4 = results[149];
-        Assert.AreEqual(235.3970, r4.Ema.Round(4));
-        Assert.AreEqual(0.9430, r4.BullPower.Round(4));
-        Assert.AreEqual(0.4730, r4.BearPower.Round(4));
+        ElderRayResult r4 = sut[149];
+        r4.Ema.Should().BeApproximately(235.3970, Money4);
+        r4.BullPower.Should().BeApproximately(0.9430, Money4);
+        r4.BearPower.Should().BeApproximately(0.4730, Money4);
 
-        ElderRayResult r5 = results[249];
-        Assert.AreEqual(256.5206, r5.Ema.Round(4));
-        Assert.AreEqual(1.5194, r5.BullPower.Round(4));
-        Assert.AreEqual(1.0694, r5.BearPower.Round(4));
+        ElderRayResult r5 = sut[249];
+        r5.Ema.Should().BeApproximately(256.5206, Money4);
+        r5.BullPower.Should().BeApproximately(1.5194, Money4);
+        r5.BearPower.Should().BeApproximately(1.0694, Money4);
 
-        ElderRayResult r6 = results[501];
-        Assert.AreEqual(246.0129, r6.Ema.Round(4));
-        Assert.AreEqual(-0.4729, r6.BullPower.Round(4));
-        Assert.AreEqual(-3.1429, r6.BearPower.Round(4));
+        ElderRayResult r6 = sut[501];
+        r6.Ema.Should().BeApproximately(246.0129, Money4);
+        r6.BullPower.Should().BeApproximately(-0.4729, Money4);
+        r6.BearPower.Should().BeApproximately(-3.1429, Money4);
     }
 
     [TestMethod]
     public void ChainingFromResults_WorksAsExpected()
     {
-        IReadOnlyList<SmaResult> results = Quotes
+        IReadOnlyList<SmaResult> sut = Quotes
             .ToElderRay()
             .ToSma(10);
 
-        Assert.HasCount(502, results);
-        Assert.HasCount(481, results.Where(static x => x.Sma != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Sma != null).Should().HaveCount(481);
     }
 
     [TestMethod]
@@ -63,7 +63,7 @@ public class ElderRay : StaticSeriesTestBase
         IReadOnlyList<ElderRayResult> r = BadQuotes
             .ToElderRay();
 
-        Assert.HasCount(502, r);
+        r.Should().HaveCount(502);
         Assert.IsEmpty(r.Where(static x => x.BullPower is double v && double.IsNaN(v)));
     }
 
@@ -73,28 +73,28 @@ public class ElderRay : StaticSeriesTestBase
         IReadOnlyList<ElderRayResult> r0 = Noquotes
             .ToElderRay();
 
-        Assert.IsEmpty(r0);
+        r0.Should().BeEmpty();
 
         IReadOnlyList<ElderRayResult> r1 = Onequote
             .ToElderRay();
 
-        Assert.HasCount(1, r1);
+        r1.Should().HaveCount(1);
     }
 
     [TestMethod]
     public void Removed()
     {
-        IReadOnlyList<ElderRayResult> results = Quotes
+        IReadOnlyList<ElderRayResult> sut = Quotes
             .ToElderRay()
             .RemoveWarmupPeriods();
 
         // assertions
-        Assert.HasCount(502 - (100 + 13), results);
+        sut.Should().HaveCount(502 - (100 + 13));
 
-        ElderRayResult last = results[^1];
-        Assert.AreEqual(246.0129, last.Ema.Round(4));
-        Assert.AreEqual(-0.4729, last.BullPower.Round(4));
-        Assert.AreEqual(-3.1429, last.BearPower.Round(4));
+        ElderRayResult last = sut[^1];
+        last.Ema.Should().BeApproximately(246.0129, Money4);
+        last.BullPower.Should().BeApproximately(-0.4729, Money4);
+        last.BearPower.Should().BeApproximately(-3.1429, Money4);
     }
 
     /// <summary>
@@ -102,6 +102,8 @@ public class ElderRay : StaticSeriesTestBase
     /// </summary>
     [TestMethod]
     public void Exceptions()
-        => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToElderRay(0));
+        => FluentActions
+            .Invoking(static () => Quotes.ToElderRay(0))
+            .Should()
+            .ThrowExactly<ArgumentOutOfRangeException>();
 }

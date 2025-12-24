@@ -9,75 +9,75 @@ public class Fractal : StaticSeriesTestBase
     [TestMethod]
     public override void DefaultParameters_ReturnsExpectedResults()
     {
-        IReadOnlyList<FractalResult> results = Quotes
+        IReadOnlyList<FractalResult> sut = Quotes
             .ToFractal();
 
         // proper quantities
-        Assert.HasCount(502, results);
-        Assert.HasCount(63, results.Where(static x => x.FractalBear != null));
-        Assert.HasCount(71, results.Where(static x => x.FractalBull != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.FractalBear != null).Should().HaveCount(63);
+        sut.Where(static x => x.FractalBull != null).Should().HaveCount(71);
 
         // sample values
-        FractalResult r1 = results[1];
-        Assert.IsNull(r1.FractalBear);
-        Assert.IsNull(r1.FractalBull);
+        FractalResult r1 = sut[1];
+        r1.FractalBear.Should().BeNull();
+        r1.FractalBull.Should().BeNull();
 
-        FractalResult r2 = results[3];
-        Assert.AreEqual(215.17m, r2.FractalBear);
-        Assert.IsNull(r2.FractalBull);
+        FractalResult r2 = sut[3];
+        r2.FractalBear.Should().Be(215.17m);
+        r2.FractalBull.Should().BeNull();
 
-        FractalResult r3 = results[133];
-        Assert.AreEqual(234.53m, r3.FractalBear);
-        Assert.IsNull(r3.FractalBull);
+        FractalResult r3 = sut[133];
+        r3.FractalBear.Should().Be(234.53m);
+        r3.FractalBull.Should().BeNull();
 
-        FractalResult r4 = results[180];
-        Assert.AreEqual(239.74m, r4.FractalBear);
-        Assert.AreEqual(238.52m, r4.FractalBull);
+        FractalResult r4 = sut[180];
+        r4.FractalBear.Should().Be(239.74m);
+        r4.FractalBull.Should().Be(238.52m);
 
-        FractalResult r5 = results[250];
-        Assert.IsNull(r5.FractalBear);
-        Assert.AreEqual(256.81m, r5.FractalBull);
+        FractalResult r5 = sut[250];
+        r5.FractalBear.Should().BeNull();
+        r5.FractalBull.Should().Be(256.81m);
 
-        FractalResult r6 = results[500];
-        Assert.IsNull(r6.FractalBear);
-        Assert.IsNull(r6.FractalBull);
+        FractalResult r6 = sut[500];
+        r6.FractalBear.Should().BeNull();
+        r6.FractalBull.Should().BeNull();
     }
 
     [TestMethod]
     public void StandardSpan4()
     {
-        IReadOnlyList<FractalResult> results = Quotes
+        IReadOnlyList<FractalResult> sut = Quotes
             .ToFractal(4, 4);
 
         // proper quantities
-        Assert.HasCount(502, results);
-        Assert.AreEqual(35, results.Count(static x => x.FractalBear != null));
-        Assert.AreEqual(34, results.Count(static x => x.FractalBull != null));
+        sut.Should().HaveCount(502);
+        Assert.AreEqual(35, sut.Count(static x => x.FractalBear != null));
+        Assert.AreEqual(34, sut.Count(static x => x.FractalBull != null));
 
         // sample values
-        FractalResult r1 = results[3];
-        Assert.IsNull(r1.FractalBear);
-        Assert.IsNull(r1.FractalBull);
+        FractalResult r1 = sut[3];
+        r1.FractalBear.Should().BeNull();
+        r1.FractalBull.Should().BeNull();
 
-        FractalResult r2 = results[7];
-        Assert.IsNull(r2.FractalBear);
-        Assert.AreEqual(212.53m, r2.FractalBull);
+        FractalResult r2 = sut[7];
+        r2.FractalBear.Should().BeNull();
+        r2.FractalBull.Should().Be(212.53m);
 
-        FractalResult r3 = results[120];
-        Assert.AreEqual(233.02m, r3.FractalBear);
-        Assert.IsNull(r3.FractalBull);
+        FractalResult r3 = sut[120];
+        r3.FractalBear.Should().Be(233.02m);
+        r3.FractalBull.Should().BeNull();
 
-        FractalResult r4 = results[180];
-        Assert.AreEqual(239.74m, r4.FractalBear);
-        Assert.IsNull(r4.FractalBull);
+        FractalResult r4 = sut[180];
+        r4.FractalBear.Should().Be(239.74m);
+        r4.FractalBull.Should().BeNull();
 
-        FractalResult r5 = results[250];
-        Assert.IsNull(r5.FractalBear);
-        Assert.AreEqual(256.81m, r5.FractalBull);
+        FractalResult r5 = sut[250];
+        r5.FractalBear.Should().BeNull();
+        r5.FractalBull.Should().Be(256.81m);
 
-        FractalResult r6 = results[500];
-        Assert.IsNull(r6.FractalBear);
-        Assert.IsNull(r6.FractalBull);
+        FractalResult r6 = sut[500];
+        r6.FractalBear.Should().BeNull();
+        r6.FractalBull.Should().BeNull();
     }
 
     [TestMethod]
@@ -86,7 +86,7 @@ public class Fractal : StaticSeriesTestBase
         IReadOnlyList<FractalResult> r = BadQuotes
             .ToFractal();
 
-        Assert.HasCount(502, r);
+        r.Should().HaveCount(502);
     }
 
     [TestMethod]
@@ -95,22 +95,22 @@ public class Fractal : StaticSeriesTestBase
         IReadOnlyList<FractalResult> r0 = Noquotes
             .ToFractal();
 
-        Assert.IsEmpty(r0);
+        r0.Should().BeEmpty();
 
         IReadOnlyList<FractalResult> r1 = Onequote
             .ToFractal();
 
-        Assert.HasCount(1, r1);
+        r1.Should().HaveCount(1);
     }
 
     [TestMethod]
     public void Condense()
     {
-        IReadOnlyList<FractalResult> results = Quotes
+        IReadOnlyList<FractalResult> sut = Quotes
             .ToFractal()
             .Condense();
 
-        Assert.HasCount(129, results);
+        sut.Should().HaveCount(129);
     }
 
     /// <summary>
@@ -118,6 +118,8 @@ public class Fractal : StaticSeriesTestBase
     /// </summary>
     [TestMethod]
     public void Exceptions()
-        => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToFractal(1));
+        => FluentActions
+            .Invoking(static () => Quotes.ToFractal(1))
+            .Should()
+            .ThrowExactly<ArgumentOutOfRangeException>();
 }

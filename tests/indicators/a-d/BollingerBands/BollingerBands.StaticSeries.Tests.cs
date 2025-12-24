@@ -6,67 +6,67 @@ public class BollingerBands : StaticSeriesTestBase
     [TestMethod]
     public override void DefaultParameters_ReturnsExpectedResults()
     {
-        IReadOnlyList<BollingerBandsResult> results =
+        IReadOnlyList<BollingerBandsResult> sut =
             Quotes.ToBollingerBands();
 
         // proper quantities
-        Assert.HasCount(502, results);
-        Assert.HasCount(483, results.Where(static x => x.Sma != null));
-        Assert.HasCount(483, results.Where(static x => x.UpperBand != null));
-        Assert.HasCount(483, results.Where(static x => x.LowerBand != null));
-        Assert.HasCount(483, results.Where(static x => x.PercentB != null));
-        Assert.HasCount(483, results.Where(static x => x.ZScore != null));
-        Assert.HasCount(483, results.Where(static x => x.Width != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Sma != null).Should().HaveCount(483);
+        sut.Where(static x => x.UpperBand != null).Should().HaveCount(483);
+        sut.Where(static x => x.LowerBand != null).Should().HaveCount(483);
+        sut.Where(static x => x.PercentB != null).Should().HaveCount(483);
+        sut.Where(static x => x.ZScore != null).Should().HaveCount(483);
+        sut.Where(static x => x.Width != null).Should().HaveCount(483);
 
         // sample values
-        BollingerBandsResult r1 = results[249];
-        Assert.AreEqual(255.5500, r1.Sma.Round(4));
-        Assert.AreEqual(259.5642, r1.UpperBand.Round(4));
-        Assert.AreEqual(251.5358, r1.LowerBand.Round(4));
-        Assert.AreEqual(0.803923, r1.PercentB.Round(6));
-        Assert.AreEqual(1.215692, r1.ZScore.Round(6));
-        Assert.AreEqual(0.031416, r1.Width.Round(6));
+        BollingerBandsResult r1 = sut[249];
+        r1.Sma.Should().BeApproximately(255.5500, Money4);
+        r1.UpperBand.Should().BeApproximately(259.5642, Money4);
+        r1.LowerBand.Should().BeApproximately(251.5358, Money4);
+        r1.PercentB.Should().BeApproximately(0.803923, Money6);
+        r1.ZScore.Should().BeApproximately(1.215692, Money6);
+        r1.Width.Should().BeApproximately(0.031416, Money6);
 
-        BollingerBandsResult r2 = results[501];
-        Assert.AreEqual(251.8600, r2.Sma.Round(4));
-        Assert.AreEqual(273.7004, r2.UpperBand.Round(4));
-        Assert.AreEqual(230.0196, r2.LowerBand.Round(4));
-        Assert.AreEqual(0.349362, r2.PercentB.Round(6));
-        Assert.AreEqual(-0.602552, r2.ZScore.Round(6));
-        Assert.AreEqual(0.173433, r2.Width.Round(6));
+        BollingerBandsResult r2 = sut[501];
+        r2.Sma.Should().BeApproximately(251.8600, Money4);
+        r2.UpperBand.Should().BeApproximately(273.7004, Money4);
+        r2.LowerBand.Should().BeApproximately(230.0196, Money4);
+        r2.PercentB.Should().BeApproximately(0.349362, Money6);
+        r2.ZScore.Should().BeApproximately(-0.602552, Money6);
+        r2.Width.Should().BeApproximately(0.173433, Money6);
     }
 
     [TestMethod]
     public void UseReusable()
     {
-        IReadOnlyList<BollingerBandsResult> results = Quotes
+        IReadOnlyList<BollingerBandsResult> sut = Quotes
             .Use(CandlePart.Close)
             .ToBollingerBands();
 
-        Assert.HasCount(502, results);
-        Assert.HasCount(483, results.Where(static x => x.Sma != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Sma != null).Should().HaveCount(483);
     }
 
     [TestMethod]
     public void Chainee()
     {
-        IReadOnlyList<BollingerBandsResult> results = Quotes
+        IReadOnlyList<BollingerBandsResult> sut = Quotes
             .ToSma(2)
             .ToBollingerBands();
 
-        Assert.HasCount(502, results);
-        Assert.HasCount(482, results.Where(static x => x.UpperBand != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.UpperBand != null).Should().HaveCount(482);
     }
 
     [TestMethod]
     public void ChainingFromResults_WorksAsExpected()
     {
-        IReadOnlyList<SmaResult> results = Quotes
+        IReadOnlyList<SmaResult> sut = Quotes
             .ToBollingerBands()
             .ToSma(10);
 
-        Assert.HasCount(502, results);
-        Assert.HasCount(474, results.Where(static x => x.Sma != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Sma != null).Should().HaveCount(474);
     }
 
     [TestMethod]
@@ -75,7 +75,7 @@ public class BollingerBands : StaticSeriesTestBase
         IReadOnlyList<BollingerBandsResult> r = BadQuotes
             .ToBollingerBands(15, 3);
 
-        Assert.HasCount(502, r);
+        r.Should().HaveCount(502);
         Assert.IsEmpty(r.Where(static x => x.UpperBand is double v && double.IsNaN(v)));
     }
 
@@ -85,31 +85,31 @@ public class BollingerBands : StaticSeriesTestBase
         IReadOnlyList<BollingerBandsResult> r0 = Noquotes
             .ToBollingerBands();
 
-        Assert.IsEmpty(r0);
+        r0.Should().BeEmpty();
 
         IReadOnlyList<BollingerBandsResult> r1 = Onequote
             .ToBollingerBands();
 
-        Assert.HasCount(1, r1);
+        r1.Should().HaveCount(1);
     }
 
     [TestMethod]
     public void Removed()
     {
-        IReadOnlyList<BollingerBandsResult> results = Quotes
+        IReadOnlyList<BollingerBandsResult> sut = Quotes
             .ToBollingerBands()
             .RemoveWarmupPeriods();
 
         // assertions
-        Assert.HasCount(502 - 19, results);
+        sut.Should().HaveCount(502 - 19);
 
-        BollingerBandsResult last = results[^1];
-        Assert.AreEqual(251.8600, last.Sma.Round(4));
-        Assert.AreEqual(273.7004, last.UpperBand.Round(4));
-        Assert.AreEqual(230.0196, last.LowerBand.Round(4));
-        Assert.AreEqual(0.349362, last.PercentB.Round(6));
-        Assert.AreEqual(-0.602552, last.ZScore.Round(6));
-        Assert.AreEqual(0.173433, last.Width.Round(6));
+        BollingerBandsResult last = sut[^1];
+        last.Sma.Should().BeApproximately(251.8600, Money4);
+        last.UpperBand.Should().BeApproximately(273.7004, Money4);
+        last.LowerBand.Should().BeApproximately(230.0196, Money4);
+        last.PercentB.Should().BeApproximately(0.349362, Money6);
+        last.ZScore.Should().BeApproximately(-0.602552, Money6);
+        last.Width.Should().BeApproximately(0.173433, Money6);
     }
 
     [TestMethod]

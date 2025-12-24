@@ -6,55 +6,55 @@ public class Pmo : StaticSeriesTestBase
     [TestMethod]
     public override void DefaultParameters_ReturnsExpectedResults()
     {
-        IReadOnlyList<PmoResult> results = Quotes
+        IReadOnlyList<PmoResult> sut = Quotes
             .ToPmo();
 
         // proper quantities
-        Assert.HasCount(502, results);
-        Assert.HasCount(448, results.Where(static x => x.Pmo != null));
-        Assert.HasCount(439, results.Where(static x => x.Signal != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Pmo != null).Should().HaveCount(448);
+        sut.Where(static x => x.Signal != null).Should().HaveCount(439);
 
         // sample values
-        PmoResult r1 = results[92];
-        Assert.AreEqual(0.6159, r1.Pmo.Round(4));
-        Assert.AreEqual(0.5582, r1.Signal.Round(4));
+        PmoResult r1 = sut[92];
+        r1.Pmo.Should().BeApproximately(0.6159, Money4);
+        r1.Signal.Should().BeApproximately(0.5582, Money4);
 
-        PmoResult r2 = results[501];
-        Assert.AreEqual(-2.7016, r2.Pmo.Round(4));
-        Assert.AreEqual(-2.3117, r2.Signal.Round(4));
+        PmoResult r2 = sut[501];
+        r2.Pmo.Should().BeApproximately(-2.7016, Money4);
+        r2.Signal.Should().BeApproximately(-2.3117, Money4);
     }
 
     [TestMethod]
     public void UseReusable()
     {
-        IReadOnlyList<PmoResult> results = Quotes
+        IReadOnlyList<PmoResult> sut = Quotes
             .Use(CandlePart.Close)
             .ToPmo();
 
-        Assert.HasCount(502, results);
-        Assert.HasCount(448, results.Where(static x => x.Pmo != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Pmo != null).Should().HaveCount(448);
     }
 
     [TestMethod]
     public void Chainee()
     {
-        IReadOnlyList<PmoResult> results = Quotes
+        IReadOnlyList<PmoResult> sut = Quotes
             .ToSma(2)
             .ToPmo();
 
-        Assert.HasCount(502, results);
-        Assert.HasCount(447, results.Where(static x => x.Pmo != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Pmo != null).Should().HaveCount(447);
     }
 
     [TestMethod]
     public void ChainingFromResults_WorksAsExpected()
     {
-        IReadOnlyList<SmaResult> results = Quotes
+        IReadOnlyList<SmaResult> sut = Quotes
             .ToPmo()
             .ToSma(10);
 
-        Assert.HasCount(502, results);
-        Assert.HasCount(439, results.Where(static x => x.Sma != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Sma != null).Should().HaveCount(439);
     }
 
     [TestMethod]
@@ -63,7 +63,7 @@ public class Pmo : StaticSeriesTestBase
         IReadOnlyList<PmoResult> r = BadQuotes
             .ToPmo(25, 15, 5);
 
-        Assert.HasCount(502, r);
+        r.Should().HaveCount(502);
         Assert.IsEmpty(r.Where(static x => x.Pmo is double v && double.IsNaN(v)));
     }
 
@@ -73,27 +73,27 @@ public class Pmo : StaticSeriesTestBase
         IReadOnlyList<PmoResult> r0 = Noquotes
             .ToPmo();
 
-        Assert.IsEmpty(r0);
+        r0.Should().BeEmpty();
 
         IReadOnlyList<PmoResult> r1 = Onequote
             .ToPmo();
 
-        Assert.HasCount(1, r1);
+        r1.Should().HaveCount(1);
     }
 
     [TestMethod]
     public void Removed()
     {
-        IReadOnlyList<PmoResult> results = Quotes
+        IReadOnlyList<PmoResult> sut = Quotes
             .ToPmo()
             .RemoveWarmupPeriods();
 
         // assertions
-        Assert.HasCount(502 - (35 + 20 + 250), results);
+        sut.Should().HaveCount(502 - (35 + 20 + 250));
 
-        PmoResult last = results[^1];
-        Assert.AreEqual(-2.7016, last.Pmo.Round(4));
-        Assert.AreEqual(-2.3117, last.Signal.Round(4));
+        PmoResult last = sut[^1];
+        last.Pmo.Should().BeApproximately(-2.7016, Money4);
+        last.Signal.Should().BeApproximately(-2.3117, Money4);
     }
 
     [TestMethod]

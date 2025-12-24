@@ -6,56 +6,56 @@ public class Smma : StaticSeriesTestBase
     [TestMethod]
     public override void DefaultParameters_ReturnsExpectedResults()
     {
-        IReadOnlyList<SmmaResult> results = Quotes
+        IReadOnlyList<SmmaResult> sut = Quotes
             .ToSmma(20);
 
         // proper quantities
-        Assert.HasCount(502, results);
-        Assert.HasCount(483, results.Where(static x => x.Smma != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Smma != null).Should().HaveCount(483);
 
         // starting calculations at proper index
-        Assert.IsNull(results[18].Smma);
-        Assert.IsNotNull(results[19].Smma);
+        sut[18].Smma.Should().BeNull();
+        sut[19].Smma.Should().NotBeNull();
 
         // sample values
-        Assert.AreEqual(214.52500, Math.Round(results[19].Smma.Value, 5));
-        Assert.AreEqual(214.55125, Math.Round(results[20].Smma.Value, 5));
-        Assert.AreEqual(214.58319, Math.Round(results[21].Smma.Value, 5));
-        Assert.AreEqual(225.78071, Math.Round(results[100].Smma.Value, 5));
-        Assert.AreEqual(255.67462, Math.Round(results[501].Smma.Value, 5));
+        Assert.AreEqual(214.52500, Math.Round(sut[19].Smma.Value, 5));
+        Assert.AreEqual(214.55125, Math.Round(sut[20].Smma.Value, 5));
+        Assert.AreEqual(214.58319, Math.Round(sut[21].Smma.Value, 5));
+        Assert.AreEqual(225.78071, Math.Round(sut[100].Smma.Value, 5));
+        Assert.AreEqual(255.67462, Math.Round(sut[501].Smma.Value, 5));
     }
 
     [TestMethod]
     public void UseReusable()
     {
-        IReadOnlyList<SmmaResult> results = Quotes
+        IReadOnlyList<SmmaResult> sut = Quotes
             .Use(CandlePart.Close)
             .ToSmma(20);
 
-        Assert.HasCount(502, results);
-        Assert.HasCount(483, results.Where(static x => x.Smma != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Smma != null).Should().HaveCount(483);
     }
 
     [TestMethod]
     public void Chainee()
     {
-        IReadOnlyList<SmmaResult> results = Quotes
+        IReadOnlyList<SmmaResult> sut = Quotes
             .ToSma(2)
             .ToSmma(20);
 
-        Assert.HasCount(502, results);
-        Assert.HasCount(482, results.Where(static x => x.Smma != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Smma != null).Should().HaveCount(482);
     }
 
     [TestMethod]
     public void ChainingFromResults_WorksAsExpected()
     {
-        IReadOnlyList<SmaResult> results = Quotes
+        IReadOnlyList<SmaResult> sut = Quotes
             .ToSmma(20)
             .ToSma(10);
 
-        Assert.HasCount(502, results);
-        Assert.HasCount(474, results.Where(static x => x.Sma != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Sma != null).Should().HaveCount(474);
     }
 
     [TestMethod]
@@ -64,7 +64,7 @@ public class Smma : StaticSeriesTestBase
         IReadOnlyList<SmmaResult> r = BadQuotes
             .ToSmma(15);
 
-        Assert.HasCount(502, r);
+        r.Should().HaveCount(502);
         Assert.IsEmpty(r.Where(static x => x.Smma is double v && double.IsNaN(v)));
     }
 
@@ -74,24 +74,24 @@ public class Smma : StaticSeriesTestBase
         IReadOnlyList<SmmaResult> r0 = Noquotes
             .ToSmma(5);
 
-        Assert.IsEmpty(r0);
+        r0.Should().BeEmpty();
 
         IReadOnlyList<SmmaResult> r1 = Onequote
             .ToSmma(5);
 
-        Assert.HasCount(1, r1);
+        r1.Should().HaveCount(1);
     }
 
     [TestMethod]
     public void Removed()
     {
-        IReadOnlyList<SmmaResult> results = Quotes
+        IReadOnlyList<SmmaResult> sut = Quotes
             .ToSmma(20)
             .RemoveWarmupPeriods();
 
         // assertions
-        Assert.HasCount(502 - (20 + 100), results);
-        Assert.AreEqual(255.67462, Math.Round(results[^1].Smma.Value, 5));
+        sut.Should().HaveCount(502 - (20 + 100));
+        Assert.AreEqual(255.67462, Math.Round(sut[^1].Smma.Value, 5));
     }
 
     /// <summary>
@@ -99,6 +99,8 @@ public class Smma : StaticSeriesTestBase
     /// </summary>
     [TestMethod]
     public void Exceptions()
-        => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToSmma(0));
+        => FluentActions
+            .Invoking(static () => Quotes.ToSmma(0))
+            .Should()
+            .ThrowExactly<ArgumentOutOfRangeException>();
 }

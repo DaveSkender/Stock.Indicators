@@ -6,58 +6,58 @@ public class Dema : StaticSeriesTestBase
     [TestMethod]
     public override void DefaultParameters_ReturnsExpectedResults()
     {
-        IReadOnlyList<DemaResult> results = Quotes
+        IReadOnlyList<DemaResult> sut = Quotes
             .ToDema(20);
 
         // proper quantities
-        Assert.HasCount(502, results);
-        Assert.HasCount(483, results.Where(static x => x.Dema != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Dema != null).Should().HaveCount(483);
 
         // sample values
-        DemaResult r25 = results[25];
-        Assert.AreEqual(215.7605, r25.Dema.Round(4));
+        DemaResult r25 = sut[25];
+        r25.Dema.Should().BeApproximately(215.7605, Money4);
 
-        DemaResult r51 = results[51];
-        Assert.AreEqual(225.8259, r51.Dema.Round(4));
+        DemaResult r51 = sut[51];
+        r51.Dema.Should().BeApproximately(225.8259, Money4);
 
-        DemaResult r249 = results[249];
-        Assert.AreEqual(258.4452, r249.Dema.Round(4));
+        DemaResult r249 = sut[249];
+        r249.Dema.Should().BeApproximately(258.4452, Money4);
 
-        DemaResult r251 = results[501];
-        Assert.AreEqual(241.1677, r251.Dema.Round(4));
+        DemaResult r251 = sut[501];
+        r251.Dema.Should().BeApproximately(241.1677, Money4);
     }
 
     [TestMethod]
     public void UseReusable()
     {
-        IReadOnlyList<DemaResult> results = Quotes
+        IReadOnlyList<DemaResult> sut = Quotes
             .Use(CandlePart.Close)
             .ToDema(20);
 
-        Assert.HasCount(502, results);
-        Assert.HasCount(483, results.Where(static x => x.Dema != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Dema != null).Should().HaveCount(483);
     }
 
     [TestMethod]
     public void Chainee()
     {
-        IReadOnlyList<DemaResult> results = Quotes
+        IReadOnlyList<DemaResult> sut = Quotes
             .ToSma(2)
             .ToDema(20);
 
-        Assert.HasCount(502, results);
-        Assert.HasCount(482, results.Where(static x => x.Dema != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Dema != null).Should().HaveCount(482);
     }
 
     [TestMethod]
     public void ChainingFromResults_WorksAsExpected()
     {
-        IReadOnlyList<SmaResult> results = Quotes
+        IReadOnlyList<SmaResult> sut = Quotes
             .ToDema(20)
             .ToSma(10);
 
-        Assert.HasCount(502, results);
-        Assert.HasCount(474, results.Where(static x => x.Sma != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Sma != null).Should().HaveCount(474);
     }
 
     [TestMethod]
@@ -66,7 +66,7 @@ public class Dema : StaticSeriesTestBase
         IReadOnlyList<DemaResult> r = BadQuotes
             .ToDema(15);
 
-        Assert.HasCount(502, r);
+        r.Should().HaveCount(502);
         Assert.IsEmpty(r.Where(static x => x.Dema is double v && double.IsNaN(v)));
     }
 
@@ -76,26 +76,26 @@ public class Dema : StaticSeriesTestBase
         IReadOnlyList<DemaResult> r0 = Noquotes
             .ToDema(5);
 
-        Assert.IsEmpty(r0);
+        r0.Should().BeEmpty();
 
         IReadOnlyList<DemaResult> r1 = Onequote
             .ToDema(5);
 
-        Assert.HasCount(1, r1);
+        r1.Should().HaveCount(1);
     }
 
     [TestMethod]
     public void Removed()
     {
-        IReadOnlyList<DemaResult> results = Quotes
+        IReadOnlyList<DemaResult> sut = Quotes
             .ToDema(20)
             .RemoveWarmupPeriods();
 
         // assertions
-        Assert.HasCount(502 - (40 + 100), results);
+        sut.Should().HaveCount(502 - (40 + 100));
 
-        DemaResult last = results[^1];
-        Assert.AreEqual(241.1677, last.Dema.Round(4));
+        DemaResult last = sut[^1];
+        last.Dema.Should().BeApproximately(241.1677, Money4);
     }
 
     /// <summary>

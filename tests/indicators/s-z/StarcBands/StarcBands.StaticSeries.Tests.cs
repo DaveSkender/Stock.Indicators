@@ -10,40 +10,40 @@ public class StarcBands : StaticSeriesTestBase
         const int multiplier = 2;
         const int atrPeriods = 14;
 
-        IReadOnlyList<StarcBandsResult> results = Quotes
+        IReadOnlyList<StarcBandsResult> sut = Quotes
             .ToStarcBands(smaPeriods, multiplier, atrPeriods);
 
         // proper quantities
-        Assert.HasCount(502, results);
-        Assert.HasCount(483, results.Where(static x => x.Centerline != null));
-        Assert.HasCount(483, results.Where(static x => x.UpperBand != null));
-        Assert.HasCount(483, results.Where(static x => x.LowerBand != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Centerline != null).Should().HaveCount(483);
+        sut.Where(static x => x.UpperBand != null).Should().HaveCount(483);
+        sut.Where(static x => x.LowerBand != null).Should().HaveCount(483);
 
         // sample value
-        StarcBandsResult r1 = results[18];
-        Assert.IsNull(r1.Centerline);
-        Assert.IsNull(r1.UpperBand);
-        Assert.IsNull(r1.LowerBand);
+        StarcBandsResult r1 = sut[18];
+        r1.Centerline.Should().BeNull();
+        r1.UpperBand.Should().BeNull();
+        r1.LowerBand.Should().BeNull();
 
-        StarcBandsResult r19 = results[19];
-        Assert.AreEqual(214.5250, r19.Centerline.Round(4));
-        Assert.AreEqual(217.2345, r19.UpperBand.Round(4));
-        Assert.AreEqual(211.8155, r19.LowerBand.Round(4));
+        StarcBandsResult r19 = sut[19];
+        r19.Centerline.Should().BeApproximately(214.5250, Money4);
+        r19.UpperBand.Should().BeApproximately(217.2345, Money4);
+        r19.LowerBand.Should().BeApproximately(211.8155, Money4);
 
-        StarcBandsResult r249 = results[249];
-        Assert.AreEqual(255.5500, r249.Centerline.Round(4));
-        Assert.AreEqual(258.2261, r249.UpperBand.Round(4));
-        Assert.AreEqual(252.8739, r249.LowerBand.Round(4));
+        StarcBandsResult r249 = sut[249];
+        r249.Centerline.Should().BeApproximately(255.5500, Money4);
+        r249.UpperBand.Should().BeApproximately(258.2261, Money4);
+        r249.LowerBand.Should().BeApproximately(252.8739, Money4);
 
-        StarcBandsResult r485 = results[485];
-        Assert.AreEqual(265.4855, r485.Centerline.Round(4));
-        Assert.AreEqual(275.1161, r485.UpperBand.Round(4));
-        Assert.AreEqual(255.8549, r485.LowerBand.Round(4));
+        StarcBandsResult r485 = sut[485];
+        r485.Centerline.Should().BeApproximately(265.4855, Money4);
+        r485.UpperBand.Should().BeApproximately(275.1161, Money4);
+        r485.LowerBand.Should().BeApproximately(255.8549, Money4);
 
-        StarcBandsResult r501 = results[501];
-        Assert.AreEqual(251.8600, r501.Centerline.Round(4));
-        Assert.AreEqual(264.1595, r501.UpperBand.Round(4));
-        Assert.AreEqual(239.5605, r501.LowerBand.Round(4));
+        StarcBandsResult r501 = sut[501];
+        r501.Centerline.Should().BeApproximately(251.8600, Money4);
+        r501.UpperBand.Should().BeApproximately(264.1595, Money4);
+        r501.LowerBand.Should().BeApproximately(239.5605, Money4);
     }
 
     [TestMethod]
@@ -52,7 +52,7 @@ public class StarcBands : StaticSeriesTestBase
         IReadOnlyList<StarcBandsResult> r = BadQuotes
             .ToStarcBands(10, 3, 15);
 
-        Assert.HasCount(502, r);
+        r.Should().HaveCount(502);
         Assert.IsEmpty(r.Where(static x => x.UpperBand is double v && double.IsNaN(v)));
     }
 
@@ -62,12 +62,12 @@ public class StarcBands : StaticSeriesTestBase
         IReadOnlyList<StarcBandsResult> r0 = Noquotes
             .ToStarcBands(10);
 
-        Assert.IsEmpty(r0);
+        r0.Should().BeEmpty();
 
         IReadOnlyList<StarcBandsResult> r1 = Onequote
             .ToStarcBands(10);
 
-        Assert.HasCount(1, r1);
+        r1.Should().HaveCount(1);
     }
 
     [TestMethod]
@@ -78,17 +78,17 @@ public class StarcBands : StaticSeriesTestBase
         const int atrPeriods = 14;
         int lookbackPeriods = Math.Max(smaPeriods, atrPeriods);
 
-        IReadOnlyList<StarcBandsResult> results = Quotes
+        IReadOnlyList<StarcBandsResult> sut = Quotes
             .ToStarcBands(smaPeriods, multiplier, atrPeriods)
             .Condense();
 
         // assertions
-        Assert.HasCount(502 - lookbackPeriods + 1, results);
+        sut.Should().HaveCount(502 - lookbackPeriods + 1);
 
-        StarcBandsResult last = results[^1];
-        Assert.AreEqual(251.8600, last.Centerline.Round(4));
-        Assert.AreEqual(264.1595, last.UpperBand.Round(4));
-        Assert.AreEqual(239.5605, last.LowerBand.Round(4));
+        StarcBandsResult last = sut[^1];
+        last.Centerline.Should().BeApproximately(251.8600, Money4);
+        last.UpperBand.Should().BeApproximately(264.1595, Money4);
+        last.LowerBand.Should().BeApproximately(239.5605, Money4);
     }
 
     [TestMethod]
@@ -99,17 +99,17 @@ public class StarcBands : StaticSeriesTestBase
         const int atrPeriods = 14;
         int lookbackPeriods = Math.Max(smaPeriods, atrPeriods);
 
-        IReadOnlyList<StarcBandsResult> results = Quotes
+        IReadOnlyList<StarcBandsResult> sut = Quotes
             .ToStarcBands(smaPeriods, multiplier, atrPeriods)
             .RemoveWarmupPeriods();
 
         // assertions
-        Assert.HasCount(502 - (lookbackPeriods + 150), results);
+        sut.Should().HaveCount(502 - (lookbackPeriods + 150));
 
-        StarcBandsResult last = results[^1];
-        Assert.AreEqual(251.8600, last.Centerline.Round(4));
-        Assert.AreEqual(264.1595, last.UpperBand.Round(4));
-        Assert.AreEqual(239.5605, last.LowerBand.Round(4));
+        StarcBandsResult last = sut[^1];
+        last.Centerline.Should().BeApproximately(251.8600, Money4);
+        last.UpperBand.Should().BeApproximately(264.1595, Money4);
+        last.LowerBand.Should().BeApproximately(239.5605, Money4);
     }
 
     [TestMethod]

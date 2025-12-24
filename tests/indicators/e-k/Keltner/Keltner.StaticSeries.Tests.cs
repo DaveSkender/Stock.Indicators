@@ -10,30 +10,30 @@ public class Keltner : StaticSeriesTestBase
         const int multiplier = 2;
         const int atrPeriods = 10;
 
-        IReadOnlyList<KeltnerResult> results = Quotes
+        IReadOnlyList<KeltnerResult> sut = Quotes
             .ToKeltner(emaPeriods, multiplier, atrPeriods);
 
         // proper quantities
-        Assert.HasCount(502, results);
+        sut.Should().HaveCount(502);
 
         int warmupPeriod = 502 - Math.Max(emaPeriods, atrPeriods) + 1;
-        Assert.HasCount(warmupPeriod, results.Where(static x => x.Centerline != null));
-        Assert.HasCount(warmupPeriod, results.Where(static x => x.UpperBand != null));
-        Assert.HasCount(warmupPeriod, results.Where(static x => x.LowerBand != null));
-        Assert.HasCount(warmupPeriod, results.Where(static x => x.Width != null));
+        sut.Where(static x => x.Centerline != null).Should().HaveCount(warmupPeriod);
+        sut.Where(static x => x.UpperBand != null).Should().HaveCount(warmupPeriod);
+        sut.Where(static x => x.LowerBand != null).Should().HaveCount(warmupPeriod);
+        sut.Where(static x => x.Width != null).Should().HaveCount(warmupPeriod);
 
         // sample value
-        KeltnerResult r1 = results[485];
-        Assert.AreEqual(275.4260, r1.UpperBand.Round(4));
-        Assert.AreEqual(265.4599, r1.Centerline.Round(4));
-        Assert.AreEqual(255.4938, r1.LowerBand.Round(4));
-        Assert.AreEqual(0.075085, r1.Width.Round(6));
+        KeltnerResult r1 = sut[485];
+        r1.UpperBand.Should().BeApproximately(275.4260, Money4);
+        r1.Centerline.Should().BeApproximately(265.4599, Money4);
+        r1.LowerBand.Should().BeApproximately(255.4938, Money4);
+        r1.Width.Should().BeApproximately(0.075085, Money6);
 
-        KeltnerResult r2 = results[501];
-        Assert.AreEqual(262.1873, r2.UpperBand.Round(4));
-        Assert.AreEqual(249.3519, r2.Centerline.Round(4));
-        Assert.AreEqual(236.5165, r2.LowerBand.Round(4));
-        Assert.AreEqual(0.102950, r2.Width.Round(6));
+        KeltnerResult r2 = sut[501];
+        r2.UpperBand.Should().BeApproximately(262.1873, Money4);
+        r2.Centerline.Should().BeApproximately(249.3519, Money4);
+        r2.LowerBand.Should().BeApproximately(236.5165, Money4);
+        r2.Width.Should().BeApproximately(0.102950, Money6);
     }
 
     [TestMethod]
@@ -42,7 +42,7 @@ public class Keltner : StaticSeriesTestBase
         IReadOnlyList<KeltnerResult> r = BadQuotes
             .ToKeltner(10, 3, 15);
 
-        Assert.HasCount(502, r);
+        r.Should().HaveCount(502);
         Assert.IsEmpty(r.Where(static x => x.UpperBand is double v && double.IsNaN(v)));
     }
 
@@ -52,12 +52,12 @@ public class Keltner : StaticSeriesTestBase
         IReadOnlyList<KeltnerResult> r0 = Noquotes
             .ToKeltner();
 
-        Assert.IsEmpty(r0);
+        r0.Should().BeEmpty();
 
         IReadOnlyList<KeltnerResult> r1 = Onequote
             .ToKeltner();
 
-        Assert.HasCount(1, r1);
+        r1.Should().HaveCount(1);
     }
 
     [TestMethod]
@@ -67,18 +67,18 @@ public class Keltner : StaticSeriesTestBase
         const int multiplier = 2;
         const int atrPeriods = 10;
 
-        IReadOnlyList<KeltnerResult> results = Quotes
+        IReadOnlyList<KeltnerResult> sut = Quotes
             .ToKeltner(emaPeriods, multiplier, atrPeriods)
             .Condense();
 
         // assertions
-        Assert.HasCount(483, results);
+        sut.Should().HaveCount(483);
 
-        KeltnerResult last = results[^1];
-        Assert.AreEqual(262.1873, last.UpperBand.Round(4));
-        Assert.AreEqual(249.3519, last.Centerline.Round(4));
-        Assert.AreEqual(236.5165, last.LowerBand.Round(4));
-        Assert.AreEqual(0.102950, last.Width.Round(6));
+        KeltnerResult last = sut[^1];
+        last.UpperBand.Should().BeApproximately(262.1873, Money4);
+        last.Centerline.Should().BeApproximately(249.3519, Money4);
+        last.LowerBand.Should().BeApproximately(236.5165, Money4);
+        last.Width.Should().BeApproximately(0.102950, Money6);
     }
 
     [TestMethod]
@@ -89,18 +89,18 @@ public class Keltner : StaticSeriesTestBase
         const int atrPeriods = 10;
         int n = Math.Max(emaPeriods, atrPeriods);
 
-        IReadOnlyList<KeltnerResult> results = Quotes
+        IReadOnlyList<KeltnerResult> sut = Quotes
             .ToKeltner(emaPeriods, multiplier, atrPeriods)
             .RemoveWarmupPeriods();
 
         // assertions
-        Assert.HasCount(502 - Math.Max(2 * n, n + 100), results);
+        Assert.HasCount(502 - Math.Max(2 * n, n + 100), sut);
 
-        KeltnerResult last = results[^1];
-        Assert.AreEqual(262.1873, last.UpperBand.Round(4));
-        Assert.AreEqual(249.3519, last.Centerline.Round(4));
-        Assert.AreEqual(236.5165, last.LowerBand.Round(4));
-        Assert.AreEqual(0.102950, last.Width.Round(6));
+        KeltnerResult last = sut[^1];
+        last.UpperBand.Should().BeApproximately(262.1873, Money4);
+        last.Centerline.Should().BeApproximately(249.3519, Money4);
+        last.LowerBand.Should().BeApproximately(236.5165, Money4);
+        last.Width.Should().BeApproximately(0.102950, Money6);
     }
 
     [TestMethod]

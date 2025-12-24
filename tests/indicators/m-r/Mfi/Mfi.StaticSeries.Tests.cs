@@ -6,37 +6,37 @@ public class Mfi : StaticSeriesTestBase
     [TestMethod]
     public override void DefaultParameters_ReturnsExpectedResults()
     {
-        IReadOnlyList<MfiResult> results = Quotes
+        IReadOnlyList<MfiResult> sut = Quotes
             .ToMfi();
 
         // proper quantities
-        Assert.HasCount(502, results);
-        Assert.HasCount(488, results.Where(static x => x.Mfi != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Mfi != null).Should().HaveCount(488);
 
         // sample values
-        MfiResult r1 = results[439];
-        Assert.AreEqual(69.0622, r1.Mfi.Round(4));
+        MfiResult r1 = sut[439];
+        r1.Mfi.Should().BeApproximately(69.0622, Money4);
 
-        MfiResult r2 = results[501];
-        Assert.AreEqual(39.9494, r2.Mfi.Round(4));
+        MfiResult r2 = sut[501];
+        r2.Mfi.Should().BeApproximately(39.9494, Money4);
     }
 
     [TestMethod]
     public void Results_AreAlwaysBounded()
     {
-        IReadOnlyList<MfiResult> results = Quotes.ToMfi(14);
-        results.IsBetween(x => x.Mfi, 0, 100);
+        IReadOnlyList<MfiResult> sut = Quotes.ToMfi(14);
+        sut.IsBetween(x => x.Mfi, 0, 100);
     }
 
     [TestMethod]
     public void ChainingFromResults_WorksAsExpected()
     {
-        IReadOnlyList<SmaResult> results = Quotes
+        IReadOnlyList<SmaResult> sut = Quotes
             .ToMfi()
             .ToSma(10);
 
-        Assert.HasCount(502, results);
-        Assert.HasCount(479, results.Where(static x => x.Sma != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Sma != null).Should().HaveCount(479);
     }
 
     [TestMethod]
@@ -44,19 +44,19 @@ public class Mfi : StaticSeriesTestBase
     {
         const int lookbackPeriods = 4;
 
-        IReadOnlyList<MfiResult> results = Quotes
+        IReadOnlyList<MfiResult> sut = Quotes
             .ToMfi(lookbackPeriods);
 
         // proper quantities
-        Assert.HasCount(502, results);
-        Assert.HasCount(498, results.Where(static x => x.Mfi != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Mfi != null).Should().HaveCount(498);
 
         // sample values
-        MfiResult r1 = results[31];
-        Assert.AreEqual(100, r1.Mfi.Round(4));
+        MfiResult r1 = sut[31];
+        r1.Mfi.Should().BeApproximately(100, Money4);
 
-        MfiResult r2 = results[43];
-        Assert.AreEqual(0, r2.Mfi.Round(4));
+        MfiResult r2 = sut[43];
+        r2.Mfi.Should().BeApproximately(0, Money4);
     }
 
     [TestMethod]
@@ -65,7 +65,7 @@ public class Mfi : StaticSeriesTestBase
         IReadOnlyList<MfiResult> r = BadQuotes
             .ToMfi(15);
 
-        Assert.HasCount(502, r);
+        r.Should().HaveCount(502);
         Assert.IsEmpty(r.Where(static x => x.Mfi is double v && double.IsNaN(v)));
     }
 
@@ -75,12 +75,12 @@ public class Mfi : StaticSeriesTestBase
         IReadOnlyList<MfiResult> r0 = Noquotes
             .ToMfi();
 
-        Assert.IsEmpty(r0);
+        r0.Should().BeEmpty();
 
         IReadOnlyList<MfiResult> r1 = Onequote
             .ToMfi();
 
-        Assert.HasCount(1, r1);
+        r1.Should().HaveCount(1);
     }
 
     [TestMethod]
@@ -88,15 +88,15 @@ public class Mfi : StaticSeriesTestBase
     {
         const int lookbackPeriods = 14;
 
-        IReadOnlyList<MfiResult> results = Quotes
+        IReadOnlyList<MfiResult> sut = Quotes
             .ToMfi(lookbackPeriods)
             .RemoveWarmupPeriods();
 
         // assertions
-        Assert.HasCount(502 - 14, results);
+        sut.Should().HaveCount(502 - 14);
 
-        MfiResult last = results[^1];
-        Assert.AreEqual(39.9494, last.Mfi.Round(4));
+        MfiResult last = sut[^1];
+        last.Mfi.Should().BeApproximately(39.9494, Money4);
     }
 
     /// <summary>
@@ -104,6 +104,8 @@ public class Mfi : StaticSeriesTestBase
     /// </summary>
     [TestMethod]
     public void Exceptions()
-        => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToMfi(1));
+        => FluentActions
+            .Invoking(static () => Quotes.ToMfi(1))
+            .Should()
+            .ThrowExactly<ArgumentOutOfRangeException>();
 }

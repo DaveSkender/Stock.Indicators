@@ -6,62 +6,62 @@ public class Awesome : StaticSeriesTestBase
     [TestMethod]
     public override void DefaultParameters_ReturnsExpectedResults()
     {
-        IReadOnlyList<AwesomeResult> results = Quotes
+        IReadOnlyList<AwesomeResult> sut = Quotes
             .ToAwesome();
 
         // proper quantities
-        Assert.HasCount(502, results);
-        Assert.HasCount(469, results.Where(static x => x.Oscillator != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Oscillator != null).Should().HaveCount(469);
 
         // sample values
-        AwesomeResult r1 = results[32];
-        Assert.IsNull(r1.Oscillator);
-        Assert.IsNull(r1.Normalized);
+        AwesomeResult r1 = sut[32];
+        r1.Oscillator.Should().BeNull();
+        r1.Normalized.Should().BeNull();
 
-        AwesomeResult r2 = results[33];
-        Assert.AreEqual(5.4756, r2.Oscillator.Round(4));
-        Assert.AreEqual(2.4548, r2.Normalized.Round(4));
+        AwesomeResult r2 = sut[33];
+        r2.Oscillator.Should().BeApproximately(5.4756, Money4);
+        r2.Normalized.Should().BeApproximately(2.4548, Money4);
 
-        AwesomeResult r3 = results[249];
-        Assert.AreEqual(5.0618, r3.Oscillator.Round(4));
-        Assert.AreEqual(1.9634, r3.Normalized.Round(4));
+        AwesomeResult r3 = sut[249];
+        r3.Oscillator.Should().BeApproximately(5.0618, Money4);
+        r3.Normalized.Should().BeApproximately(1.9634, Money4);
 
-        AwesomeResult r4 = results[501];
-        Assert.AreEqual(-17.7692, r4.Oscillator.Round(4));
-        Assert.AreEqual(-7.2763, r4.Normalized.Round(4));
+        AwesomeResult r4 = sut[501];
+        r4.Oscillator.Should().BeApproximately(-17.7692, Money4);
+        r4.Normalized.Should().BeApproximately(-7.2763, Money4);
     }
 
     [TestMethod]
     public void UseReusable()
     {
-        IReadOnlyList<AwesomeResult> results = Quotes
+        IReadOnlyList<AwesomeResult> sut = Quotes
             .Use(CandlePart.Close)
             .ToAwesome();
 
-        Assert.HasCount(502, results);
-        Assert.HasCount(469, results.Where(static x => x.Oscillator != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Oscillator != null).Should().HaveCount(469);
     }
 
     [TestMethod]
     public void Chainee()
     {
-        IReadOnlyList<AwesomeResult> results = Quotes
+        IReadOnlyList<AwesomeResult> sut = Quotes
             .ToSma(2)
             .ToAwesome();
 
-        Assert.HasCount(502, results);
-        Assert.HasCount(468, results.Where(static x => x.Oscillator != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Oscillator != null).Should().HaveCount(468);
     }
 
     [TestMethod]
     public void ChainingFromResults_WorksAsExpected()
     {
-        IReadOnlyList<SmaResult> results = Quotes
+        IReadOnlyList<SmaResult> sut = Quotes
             .ToAwesome()
             .ToSma(10);
 
-        Assert.HasCount(502, results);
-        Assert.HasCount(460, results.Where(static x => x.Sma != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Sma != null).Should().HaveCount(460);
     }
 
     [TestMethod]
@@ -70,7 +70,7 @@ public class Awesome : StaticSeriesTestBase
         IReadOnlyList<AwesomeResult> r = BadQuotes
             .ToAwesome();
 
-        Assert.HasCount(502, r);
+        r.Should().HaveCount(502);
         Assert.IsEmpty(r.Where(static x => x.Oscillator is double v && double.IsNaN(v)));
     }
 
@@ -80,27 +80,27 @@ public class Awesome : StaticSeriesTestBase
         IReadOnlyList<AwesomeResult> r0 = Noquotes
             .ToAwesome();
 
-        Assert.IsEmpty(r0);
+        r0.Should().BeEmpty();
 
         IReadOnlyList<AwesomeResult> r1 = Onequote
             .ToAwesome();
 
-        Assert.HasCount(1, r1);
+        r1.Should().HaveCount(1);
     }
 
     [TestMethod]
     public void Removed()
     {
-        IReadOnlyList<AwesomeResult> results = Quotes
+        IReadOnlyList<AwesomeResult> sut = Quotes
             .ToAwesome()
             .RemoveWarmupPeriods();
 
         // assertions
-        Assert.HasCount(502 - 33, results);
+        sut.Should().HaveCount(502 - 33);
 
-        AwesomeResult last = results[^1];
-        Assert.AreEqual(-17.7692, last.Oscillator.Round(4));
-        Assert.AreEqual(-7.2763, last.Normalized.Round(4));
+        AwesomeResult last = sut[^1];
+        last.Oscillator.Should().BeApproximately(-17.7692, Money4);
+        last.Normalized.Should().BeApproximately(-7.2763, Money4);
     }
 
     [TestMethod]

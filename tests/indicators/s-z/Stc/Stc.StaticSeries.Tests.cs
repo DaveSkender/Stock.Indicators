@@ -10,61 +10,61 @@ public class Stc : StaticSeriesTestBase
         const int fastPeriods = 12;
         const int slowPeriods = 26;
 
-        IReadOnlyList<StcResult> results = Quotes
+        IReadOnlyList<StcResult> sut = Quotes
             .ToStc(cyclePeriods, fastPeriods, slowPeriods);
 
         // proper quantities
-        Assert.HasCount(502, results);
-        Assert.HasCount(467, results.Where(static x => x.Stc != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Stc != null).Should().HaveCount(467);
 
         // sample values
-        StcResult r34 = results[34];
-        Assert.IsNull(r34.Stc);
+        StcResult r34 = sut[34];
+        r34.Stc.Should().BeNull();
 
-        StcResult r35 = results[35];
-        Assert.AreEqual(100d, r35.Stc);
+        StcResult r35 = sut[35];
+        r35.Stc.Should().Be(100d);
 
-        StcResult r49 = results[49];
-        Assert.AreEqual(0.8370, r49.Stc.Round(4));
+        StcResult r49 = sut[49];
+        r49.Stc.Should().BeApproximately(0.8370, Money4);
 
-        StcResult r249 = results[249];
-        Assert.AreEqual(27.7340, r249.Stc.Round(4));
+        StcResult r249 = sut[249];
+        r249.Stc.Should().BeApproximately(27.7340, Money4);
 
-        StcResult last = results[^1];
-        Assert.AreEqual(19.2544, last.Stc.Round(4));
+        StcResult last = sut[^1];
+        last.Stc.Should().BeApproximately(19.2544, Money4);
     }
 
     [TestMethod]
     public void UseReusable()
     {
-        IReadOnlyList<StcResult> results = Quotes
+        IReadOnlyList<StcResult> sut = Quotes
             .Use(CandlePart.Close)
             .ToStc(9, 12, 26);
 
-        Assert.HasCount(502, results);
-        Assert.HasCount(467, results.Where(static x => x.Stc != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Stc != null).Should().HaveCount(467);
     }
 
     [TestMethod]
     public void Chainee()
     {
-        IReadOnlyList<StcResult> results = Quotes
+        IReadOnlyList<StcResult> sut = Quotes
             .ToSma(2)
             .ToStc(9, 12, 26);
 
-        Assert.HasCount(502, results);
-        Assert.HasCount(466, results.Where(static x => x.Stc != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Stc != null).Should().HaveCount(466);
     }
 
     [TestMethod]
     public void ChainingFromResults_WorksAsExpected()
     {
-        IReadOnlyList<SmaResult> results = Quotes
+        IReadOnlyList<SmaResult> sut = Quotes
             .ToStc(9, 12, 26)
             .ToSma(10);
 
-        Assert.HasCount(502, results);
-        Assert.HasCount(458, results.Where(static x => x.Sma != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Sma != null).Should().HaveCount(458);
     }
 
     [TestMethod]
@@ -73,7 +73,7 @@ public class Stc : StaticSeriesTestBase
         IReadOnlyList<StcResult> r = BadQuotes
             .ToStc();
 
-        Assert.HasCount(502, r);
+        r.Should().HaveCount(502);
         Assert.IsEmpty(r.Where(static x => x.Stc is double v && double.IsNaN(v)));
     }
 
@@ -83,12 +83,12 @@ public class Stc : StaticSeriesTestBase
         IReadOnlyList<StcResult> r0 = Noquotes
             .ToStc();
 
-        Assert.IsEmpty(r0);
+        r0.Should().BeEmpty();
 
         IReadOnlyList<StcResult> r1 = Onequote
             .ToStc();
 
-        Assert.HasCount(1, r1);
+        r1.Should().HaveCount(1);
     }
 
     [TestMethod]
@@ -98,10 +98,10 @@ public class Stc : StaticSeriesTestBase
 
         RandomGbm quotes = new(58);
 
-        IReadOnlyList<StcResult> results = quotes
+        IReadOnlyList<StcResult> sut = quotes
             .ToStc();
 
-        Assert.HasCount(58, results);
+        sut.Should().HaveCount(58);
     }
 
     [TestMethod]
@@ -111,22 +111,22 @@ public class Stc : StaticSeriesTestBase
         const int fastPeriods = 12;
         const int slowPeriods = 26;
 
-        IReadOnlyList<StcResult> results = Quotes
+        IReadOnlyList<StcResult> sut = Quotes
             .ToStc(cyclePeriods, fastPeriods, slowPeriods)
             .RemoveWarmupPeriods();
 
         // assertions
-        Assert.HasCount(502 - (slowPeriods + cyclePeriods + 250), results);
+        sut.Should().HaveCount(502 - (slowPeriods + cyclePeriods + 250));
 
-        StcResult last = results[^1];
-        Assert.AreEqual(19.2544, last.Stc.Round(4));
+        StcResult last = sut[^1];
+        last.Stc.Should().BeApproximately(19.2544, Money4);
     }
 
     [TestMethod]
     public void Results_AreAlwaysBounded()
     {
-        IReadOnlyList<StcResult> results = Quotes.ToStc(9, 12, 26);
-        results.IsBetween(x => x.Stc, 0, 100);
+        IReadOnlyList<StcResult> sut = Quotes.ToStc(9, 12, 26);
+        sut.IsBetween(x => x.Stc, 0, 100);
     }
 
     [TestMethod]

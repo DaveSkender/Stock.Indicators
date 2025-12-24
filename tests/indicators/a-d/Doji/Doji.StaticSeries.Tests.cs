@@ -6,37 +6,37 @@ public class Doji : StaticSeriesTestBase
     [TestMethod]
     public override void DefaultParameters_ReturnsExpectedResults()
     {
-        IReadOnlyList<CandleResult> results = Quotes
+        IReadOnlyList<CandleResult> sut = Quotes
             .ToDoji();
 
         // proper quantities
-        Assert.HasCount(502, results);
-        Assert.HasCount(112, results.Where(static x => x.Match != Match.None));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Match != Match.None).Should().HaveCount(112);
 
         // sample values
-        CandleResult r1 = results[1];
-        Assert.IsNull(r1.Price);
+        CandleResult r1 = sut[1];
+        r1.Price.Should().BeNull();
         Assert.AreEqual(0, (int)r1.Match);
 
-        CandleResult r23 = results[23];
-        Assert.AreEqual(216.28m, r23.Price);
-        Assert.AreEqual(Match.Neutral, r23.Match);
+        CandleResult r23 = sut[23];
+        r23.Price.Should().Be(216.28m);
+        r23.Match.Should().Be(Match.Neutral);
 
-        CandleResult r46 = results[46];
-        Assert.IsNull(r46.Price);
-        Assert.AreEqual(Match.None, r46.Match);
+        CandleResult r46 = sut[46];
+        r46.Price.Should().BeNull();
+        r46.Match.Should().Be(Match.None);
 
-        CandleResult r392 = results[392];
-        Assert.IsNull(r392.Price);
-        Assert.AreEqual(Match.None, r392.Match);
+        CandleResult r392 = sut[392];
+        r392.Price.Should().BeNull();
+        r392.Match.Should().Be(Match.None);
 
-        CandleResult r451 = results[451];
-        Assert.AreEqual(273.64m, r451.Price);
+        CandleResult r451 = sut[451];
+        r451.Price.Should().Be(273.64m);
         Assert.AreEqual(1, (int)r451.Match);
 
-        CandleResult r477 = results[477];
-        Assert.AreEqual(256.86m, r477.Price);
-        Assert.AreEqual(Match.Neutral, r477.Match);
+        CandleResult r477 = sut[477];
+        r477.Price.Should().Be(256.86m);
+        r477.Match.Should().Be(Match.Neutral);
     }
 
     [TestMethod]
@@ -45,7 +45,7 @@ public class Doji : StaticSeriesTestBase
         IReadOnlyList<CandleResult> r = BadQuotes
             .ToDoji();
 
-        Assert.HasCount(502, r);
+        r.Should().HaveCount(502);
     }
 
     [TestMethod]
@@ -54,22 +54,22 @@ public class Doji : StaticSeriesTestBase
         IReadOnlyList<CandleResult> r0 = Noquotes
             .ToDoji();
 
-        Assert.IsEmpty(r0);
+        r0.Should().BeEmpty();
 
         IReadOnlyList<CandleResult> r1 = Onequote
             .ToDoji();
 
-        Assert.HasCount(1, r1);
+        r1.Should().HaveCount(1);
     }
 
     [TestMethod]
     public void Condense()
     {
-        IReadOnlyList<CandleResult> results = Quotes
+        IReadOnlyList<CandleResult> sut = Quotes
             .ToDoji()
             .Condense();
 
-        Assert.HasCount(112, results);
+        sut.Should().HaveCount(112);
     }
 
     [TestMethod]

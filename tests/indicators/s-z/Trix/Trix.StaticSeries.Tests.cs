@@ -6,63 +6,63 @@ public class Trix : StaticSeriesTestBase
     [TestMethod]
     public override void DefaultParameters_ReturnsExpectedResults()
     {
-        IReadOnlyList<TrixResult> results = Quotes
+        IReadOnlyList<TrixResult> sut = Quotes
             .ToTrix(20);
 
         // proper quantities
-        Assert.HasCount(502, results);
-        Assert.HasCount(482, results.Where(static x => x.Ema3 != null));
-        Assert.HasCount(482, results.Where(static x => x.Trix != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Ema3 != null).Should().HaveCount(482);
+        sut.Where(static x => x.Trix != null).Should().HaveCount(482);
 
         // sample values
-        TrixResult r24 = results[24];
-        Assert.AreEqual(214.5486, r24.Ema3.Round(4));
-        Assert.AreEqual(0.005047, r24.Trix.Round(6));
+        TrixResult r24 = sut[24];
+        r24.Ema3.Should().BeApproximately(214.5486, Money4);
+        r24.Trix.Should().BeApproximately(0.005047, Money6);
 
-        TrixResult r67 = results[67];
-        Assert.AreEqual(221.7837, r67.Ema3.Round(4));
-        Assert.AreEqual(0.050030, r67.Trix.Round(6));
+        TrixResult r67 = sut[67];
+        r67.Ema3.Should().BeApproximately(221.7837, Money4);
+        r67.Trix.Should().BeApproximately(0.050030, Money6);
 
-        TrixResult r249 = results[249];
-        Assert.AreEqual(249.4469, r249.Ema3.Round(4));
-        Assert.AreEqual(0.121781, r249.Trix.Round(6));
+        TrixResult r249 = sut[249];
+        r249.Ema3.Should().BeApproximately(249.4469, Money4);
+        r249.Trix.Should().BeApproximately(0.121781, Money6);
 
-        TrixResult r501 = results[501];
-        Assert.AreEqual(263.3216, r501.Ema3.Round(4));
-        Assert.AreEqual(-0.230742, r501.Trix.Round(6));
+        TrixResult r501 = sut[501];
+        r501.Ema3.Should().BeApproximately(263.3216, Money4);
+        r501.Trix.Should().BeApproximately(-0.230742, Money6);
     }
 
     [TestMethod]
     public void UseReusable()
     {
-        IReadOnlyList<TrixResult> results = Quotes
+        IReadOnlyList<TrixResult> sut = Quotes
             .Use(CandlePart.Close)
             .ToTrix(20);
 
-        Assert.HasCount(502, results);
-        Assert.HasCount(482, results.Where(static x => x.Trix != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Trix != null).Should().HaveCount(482);
     }
 
     [TestMethod]
     public void Chainee()
     {
-        IReadOnlyList<TrixResult> results = Quotes
+        IReadOnlyList<TrixResult> sut = Quotes
             .ToSma(2)
             .ToTrix(20);
 
-        Assert.HasCount(502, results);
-        Assert.HasCount(481, results.Where(static x => x.Trix != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Trix != null).Should().HaveCount(481);
     }
 
     [TestMethod]
     public void ChainingFromResults_WorksAsExpected()
     {
-        IReadOnlyList<SmaResult> results = Quotes
+        IReadOnlyList<SmaResult> sut = Quotes
             .ToTrix(20)
             .ToSma(10);
 
-        Assert.HasCount(502, results);
-        Assert.HasCount(473, results.Where(static x => x.Sma != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Sma != null).Should().HaveCount(473);
     }
 
     [TestMethod]
@@ -71,7 +71,7 @@ public class Trix : StaticSeriesTestBase
         IReadOnlyList<TrixResult> r = BadQuotes
             .ToTrix(15);
 
-        Assert.HasCount(502, r);
+        r.Should().HaveCount(502);
         Assert.IsEmpty(r.Where(static x => x.Trix is double v && double.IsNaN(v)));
     }
 
@@ -81,27 +81,27 @@ public class Trix : StaticSeriesTestBase
         IReadOnlyList<TrixResult> r0 = Noquotes
             .ToTrix(5);
 
-        Assert.IsEmpty(r0);
+        r0.Should().BeEmpty();
 
         IReadOnlyList<TrixResult> r1 = Onequote
             .ToTrix(5);
 
-        Assert.HasCount(1, r1);
+        r1.Should().HaveCount(1);
     }
 
     [TestMethod]
     public void Removed()
     {
-        IReadOnlyList<TrixResult> results = Quotes
+        IReadOnlyList<TrixResult> sut = Quotes
             .ToTrix(20)
             .RemoveWarmupPeriods();
 
         // assertions
-        Assert.HasCount(502 - ((3 * 20) + 100), results);
+        sut.Should().HaveCount(502 - ((3 * 20) + 100));
 
-        TrixResult last = results[^1];
-        Assert.AreEqual(263.3216, last.Ema3.Round(4));
-        Assert.AreEqual(-0.230742, last.Trix.Round(6));
+        TrixResult last = sut[^1];
+        last.Ema3.Should().BeApproximately(263.3216, Money4);
+        last.Trix.Should().BeApproximately(-0.230742, Money6);
     }
 
     /// <summary>
@@ -109,6 +109,8 @@ public class Trix : StaticSeriesTestBase
     /// </summary>
     [TestMethod]
     public void Exceptions()
-        => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToTrix(0));
+        => FluentActions
+            .Invoking(static () => Quotes.ToTrix(0))
+            .Should()
+            .ThrowExactly<ArgumentOutOfRangeException>();
 }
