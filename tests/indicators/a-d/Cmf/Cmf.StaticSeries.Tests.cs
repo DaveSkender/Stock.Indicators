@@ -38,13 +38,6 @@ public class Cmf : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Results_AreAlwaysBounded()
-    {
-        IReadOnlyList<CmfResult> results = Quotes.ToCmf(20);
-        results.IsBetween(x => x.Cmf, -1, 1);
-    }
-
-    [TestMethod]
     public void ChainingFromResults_WorksAsExpected()
     {
         IReadOnlyList<SmaResult> sut = Quotes

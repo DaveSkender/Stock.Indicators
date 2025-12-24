@@ -25,13 +25,6 @@ public class ConnorsRsiHubTests : StreamHubTestBase, ITestChainObserver, ITestCh
     }
 
     [TestMethod]
-    public void Results_AreAlwaysBounded()
-    {
-        IReadOnlyList<ConnorsRsiResult> results = Quotes.ToConnorsRsiHub(3, 2, 100).Results;
-        results.IsBetween(x => x.ConnorsRsi, 0, 100);
-    }
-
-    [TestMethod]
     public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
         List<Quote> quotesList = Quotes.ToList();

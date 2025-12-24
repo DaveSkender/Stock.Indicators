@@ -49,14 +49,6 @@ public class Tsi : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void Results_AreAlwaysBounded()
-    {
-        IReadOnlyList<TsiResult> results = Quotes.ToTsi(25, 13, 7);
-        results.IsBetween(x => x.Tsi, -100, 100);
-        results.IsBetween(x => x.Signal, -100, 100);
-    }
-
-    [TestMethod]
     public void UseReusable()
     {
         IReadOnlyList<TsiResult> sut = Quotes

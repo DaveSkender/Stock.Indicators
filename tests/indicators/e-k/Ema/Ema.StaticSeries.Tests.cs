@@ -9,7 +9,6 @@ public class EmaTests : StaticSeriesTestBase
         double ema = Ema.Increment(20, 217.5693, 222.10);
 
         ema.Should().BeApproximately(218.0008, Money4);
-        ema.Should().BeApproximately(218.0008, Money4);
     }
 
     [TestMethod]
@@ -109,8 +108,6 @@ public class EmaTests : StaticSeriesTestBase
 
         r.Should().HaveCount(502);
         r.Where(static x => x.Ema is double.NaN).Should().BeEmpty();
-        r.Should().HaveCount(502);
-        r.Where(static x => x.Ema is double.NaN).Should().BeEmpty();
     }
 
     [TestMethod]
@@ -119,11 +116,9 @@ public class EmaTests : StaticSeriesTestBase
         IReadOnlyList<EmaResult> r0 = Noquotes.ToEma(10);
 
         r0.Should().BeEmpty();
-        r0.Should().BeEmpty();
 
         IReadOnlyList<EmaResult> r1 = Onequote.ToEma(10);
 
-        r1.Should().HaveCount(1);
         r1.Should().HaveCount(1);
     }
 
@@ -143,10 +138,6 @@ public class EmaTests : StaticSeriesTestBase
     /// </summary>
     [TestMethod]
     public void Exceptions()
-        => FluentActions
-            .Invoking(static () => Quotes.ToEma(0))
-            .Should()
-            .ThrowExactly<ArgumentOutOfRangeException>();
         => FluentActions
             .Invoking(static () => Quotes.ToEma(0))
             .Should()
