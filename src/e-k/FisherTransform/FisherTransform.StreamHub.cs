@@ -89,7 +89,7 @@ public class FisherTransformHub
             minPrice = currentValue;
         }
 
-        double? fisher;
+        double fisher;
         double? trigger = null;
 
         if (i > 0)
@@ -98,15 +98,14 @@ public class FisherTransformHub
             xv[i] = maxPrice - minPrice != 0
                 ? (0.33 * 2 * (((currentValue - minPrice) / (maxPrice - minPrice)) - 0.5))
                       + (0.67 * xv[i - 1])
-                : 0;
+                : 0d;
 
             // limit xv to prevent log issues
             xv[i] = xv[i] > 0.99 ? 0.999 : xv[i];
             xv[i] = xv[i] < -0.99 ? -0.999 : xv[i];
 
             // calculate Fisher Transform
-            fisher = ((0.5 * Math.Log((1 + xv[i]) / (1 - xv[i])))
-                  + (0.5 * Cache[i - 1].Fisher)).NaN2Null();
+            fisher = DeMath.Atanh(xv[i]) + (0.5d * Cache[i - 1].Fisher);
 
             trigger = Cache[i - 1].Fisher;
         }

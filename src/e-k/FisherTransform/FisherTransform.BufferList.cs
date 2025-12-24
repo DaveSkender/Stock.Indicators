@@ -62,7 +62,7 @@ public class FisherTransformList : BufferList<FisherTransformResult>, IIncrement
             }
         }
 
-        double? fisher;
+        double fisher;
         double? trigger = null;
 
         if (Count > 0)
@@ -71,15 +71,14 @@ public class FisherTransformList : BufferList<FisherTransformResult>, IIncrement
             double xv = maxPrice - minPrice != 0
                 ? (0.33 * 2 * (((value - minPrice) / (maxPrice - minPrice)) - 0.5))
                       + (0.67 * _previousXv)
-                : 0;
+                : 0d;
 
             // limit xv to prevent log issues
             xv = xv > 0.99 ? 0.999 : xv;
             xv = xv < -0.99 ? -0.999 : xv;
 
             // calculate Fisher Transform
-            fisher = ((0.5 * Math.Log((1 + xv) / (1 - xv)))
-                  + (0.5 * this[^1].Fisher)).NaN2Null();
+            fisher = DeMath.Atanh(xv) + (0.5d * this[^1].Fisher);
 
             trigger = this[^1].Fisher;
             _previousXv = xv;
@@ -90,7 +89,7 @@ public class FisherTransformList : BufferList<FisherTransformResult>, IIncrement
             fisher = 0;
         }
 
-        AddInternal(new FisherTransformResult(
+        AddInternal(new(
             Timestamp: timestamp,
             Fisher: fisher,
             Trigger: trigger));

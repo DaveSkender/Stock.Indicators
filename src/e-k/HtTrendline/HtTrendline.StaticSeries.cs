@@ -33,8 +33,8 @@ public static partial class HtTrendline
         double[] q2 = new double[length]; // adj. quadrature
         double[] i2 = new double[length]; // adj. in-phase
 
-        double[] re = new double[length];
-        double[] im = new double[length];
+        double[] re = new double[length]; // real part
+        double[] im = new double[length]; // imaginary part
 
         double[] sd = new double[length]; // smooth period
         double[] it = new double[length]; // instantaneous trend (raw)
@@ -77,7 +77,7 @@ public static partial class HtTrendline
 
                 // calculate period
                 pd[i] = im[i] != 0 && re[i] != 0
-                    ? 2 * Math.PI / Math.Atan(im[i] / re[i])
+                    ? 2 * Math.PI / DeMath.Atan(im[i] / re[i])
                     : 0d;
 
                 // adjust period to thresholds

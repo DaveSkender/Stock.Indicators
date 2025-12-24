@@ -37,12 +37,16 @@ public class HtlList : BufferList<HtlResult>, IIncrementFromChain
     private readonly List<double> sp;  // smooth price
     private readonly List<double> dt;  // detrender
     private readonly List<double> pd;  // period
+
     private readonly List<double> q1;  // quadrature
     private readonly List<double> i1;  // in-phase
+
     private readonly List<double> q2;  // adj. quadrature
     private readonly List<double> i2;  // adj. in-phase
-    private readonly List<double> re;
-    private readonly List<double> im;
+
+    private readonly List<double> re;  // real part
+    private readonly List<double> im;  // imaginary part
+
     private readonly List<double> sd;  // smooth period
     private readonly List<double> it;  // instantaneous trend (raw)
 
@@ -133,7 +137,7 @@ public class HtlList : BufferList<HtlResult>, IIncrementFromChain
 
             // calculate period
             double pdValue = im[i] != 0 && re[i] != 0
-                ? 2 * Math.PI / Math.Atan(im[i] / re[i])
+                ? 2 * Math.PI / DeMath.Atan(im[i] / re[i])
                 : 0d;
 
             // adjust period to thresholds

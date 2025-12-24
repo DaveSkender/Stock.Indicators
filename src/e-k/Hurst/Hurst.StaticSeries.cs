@@ -144,8 +144,8 @@ public static partial class Hurst
             }
 
             // set results
-            logSize[setNum] = Math.Log10(chunkSize);
-            logRs[setNum] = Math.Log10(sumChunkRs / chunkQty);
+            logSize[setNum] = DeMath.Log10(chunkSize);
+            logRs[setNum] = DeMath.Log10(sumChunkRs / chunkQty);
 
             // increment set
             setNum++;

@@ -8,7 +8,6 @@ public class HtTrendlineHub
 {
     private readonly string hubName;
 
-    // arrays to maintain full state (similar to series implementation)
     private readonly List<double> pr = [];   // price
     private readonly List<double> sp = [];   // smooth price
     private readonly List<double> dt = [];   // detrender
@@ -84,7 +83,7 @@ public class HtTrendlineHub
 
             // calculate period
             pd.Add(im[i] != 0 && re[i] != 0
-                ? 2 * Math.PI / Math.Atan(im[i] / re[i])
+                ? 2 * Math.PI / DeMath.Atan(im[i] / re[i])
                 : 0d);
 
             // adjust period to thresholds
