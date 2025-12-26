@@ -118,19 +118,14 @@ public class IchimokuHub
                 {
                     IchimokuResult pastResult = Cache[backfillCacheIndex];
 
-                    // Only update if ChikouSpan is currently null
-                    if (pastResult.ChikouSpan is null)
+                    // During normal streaming (notify=true), only update if ChikouSpan is null
+                    // During rebuilds (notify=false), always update to ensure correctness
+                    if (!notify || pastResult.ChikouSpan is null)
                     {
                         decimal chikouClose = ProviderCache[providerIndex].Close;
 
                         // Update the past result
-                        Cache[backfillCacheIndex] = new(
-                            Timestamp: pastResult.Timestamp,
-                            TenkanSen: pastResult.TenkanSen,
-                            KijunSen: pastResult.KijunSen,
-                            SenkouSpanA: pastResult.SenkouSpanA,
-                            SenkouSpanB: pastResult.SenkouSpanB,
-                            ChikouSpan: chikouClose);
+                        Cache[backfillCacheIndex] = pastResult with { ChikouSpan = chikouClose };
                     }
                 }
             }
@@ -272,6 +267,23 @@ public class IchimokuHub
             IQuote quote = ProviderCache[p];
             kijunHighWindow.Add(quote.High);
             kijunLowWindow.Add(quote.Low);
+        }
+
+        // After Remove operations, ChikouSpan values that point past the end need to be nulled
+        // Calculate which results might have invalid ChikouSpan values
+        if (ChikouOffset > 0 && Cache.Count > 0)
+        {
+            int firstInvalidIndex = ProviderCache.Count - ChikouOffset;
+
+            // Null out ChikouSpan for results that now reference beyond ProviderCache
+            for (int i = Math.Max(0, firstInvalidIndex); i < Cache.Count; i++)
+            {
+                IchimokuResult result = Cache[i];
+                if (result.ChikouSpan is not null)
+                {
+                    Cache[i] = result with { ChikouSpan = null };
+                }
+            }
         }
     }
 
