@@ -23,21 +23,53 @@ public static partial class Sma
 
         // initialize
         int length = source.Count;
-        SmaResult[] results = new SmaResult[length];
-        double[] values = new double[length];
 
+        // convert to array of values
+        double[] values = new double[length];
         for (int i = 0; i < length; i++)
         {
             values[i] = source[i].Value;
         }
 
+        // calculate using array-based method
+        double[] smaValues = values.ToSma(lookbackPeriods);
+
+        // convert back to result objects
+        SmaResult[] results = new SmaResult[length];
+        for (int i = 0; i < length; i++)
+        {
+            results[i] = new SmaResult(
+                Timestamp: source[i].Timestamp,
+                Sma: smaValues[i].NaN2Null());
+        }
+
+        return new List<SmaResult>(results);
+    }
+
+    /// <summary>
+    /// Calculates the Simple Moving Average (SMA) for a given array of values and lookback period.
+    /// This is an experimental high-performance method that operates on arrays.
+    /// </summary>
+    /// <param name="source">The source array of values to analyze.</param>
+    /// <param name="lookbackPeriods">The number of periods to look back for the SMA calculation.</param>
+    /// <returns>An array of SMA values with the same length as the input, where values before the lookback period are NaN.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when the source array is null.</exception>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback period is less than 1.</exception>
+    public static double[] ToSma(
+        this double[] source,
+        int lookbackPeriods)
+    {
+        // check parameter arguments
+        ArgumentNullException.ThrowIfNull(source);
+        Validate(lookbackPeriods);
+
+        // initialize
+        int length = source.Length;
+        double[] results = new double[length];
+
         // roll through source values
         for (int i = 0; i < length; i++)
         {
-            IReusable s = source[i];
-
-            double sma;
-
             if (i >= lookbackPeriods - 1)
             {
                 double sum = 0;
@@ -46,22 +78,18 @@ public static partial class Sma
 
                 for (int p = start; p < end; p++)
                 {
-                    sum += source[p].Value;
+                    sum += source[p];
                 }
 
-                sma = sum / lookbackPeriods;
+                results[i] = sum / lookbackPeriods;
             }
             else
             {
-                sma = double.NaN;
+                results[i] = double.NaN;
             }
-
-            results[i] = new SmaResult(
-                Timestamp: s.Timestamp,
-                Sma: sma.NaN2Null());
         }
 
-        return new List<SmaResult>(results);
+        return results;
     }
 }
 

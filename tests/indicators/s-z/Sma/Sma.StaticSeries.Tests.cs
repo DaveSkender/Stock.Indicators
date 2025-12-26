@@ -150,4 +150,81 @@ public partial class Sma : StaticSeriesTestBase
             .Invoking(static () => Quotes.ToSma(0))
             .Should()
             .ThrowExactly<ArgumentOutOfRangeException>();
+
+    /// <summary>
+    /// Array-based interface tests
+    /// </summary>
+    [TestMethod]
+    public void ArrayInterface_DefaultParameters()
+    {
+        // convert quotes to array
+        double[] values = Quotes.Select(static q => (double)q.Close).ToArray();
+
+        // calculate using array method
+        double[] sut = values.ToSma(20);
+
+        // proper quantities
+        sut.Should().HaveCount(502);
+        sut.Count(static x => !double.IsNaN(x)).Should().Be(483);
+
+        // sample values - should match the IReusable interface results
+        double.IsNaN(sut[18]).Should().BeTrue();
+        sut[19].Should().BeApproximately(214.5250, Money4);
+        sut[24].Should().BeApproximately(215.0310, Money4);
+        sut[149].Should().BeApproximately(234.9350, Money4);
+        sut[249].Should().BeApproximately(255.5500, Money4);
+        sut[501].Should().BeApproximately(251.8600, Money4);
+    }
+
+    [TestMethod]
+    public void ArrayInterface_Parity()
+    {
+        // convert quotes to array
+        double[] values = Quotes.Select(static q => (double)q.Close).ToArray();
+
+        // calculate using both methods
+        double[] arrayResults = values.ToSma(10);
+        IReadOnlyList<SmaResult> objectResults = Quotes.ToSma(10);
+
+        // ensure results match
+        arrayResults.Should().HaveCount(objectResults.Count);
+
+        for (int i = 0; i < arrayResults.Length; i++)
+        {
+            if (double.IsNaN(arrayResults[i]))
+            {
+                objectResults[i].Sma.Should().BeNull();
+            }
+            else
+            {
+                objectResults[i].Sma.Should().BeApproximately(arrayResults[i], Money6);
+            }
+        }
+    }
+
+    [TestMethod]
+    public void ArrayInterface_EmptyArray()
+    {
+        double[] empty = [];
+        double[] sut = empty.ToSma(5);
+        sut.Should().BeEmpty();
+    }
+
+    [TestMethod]
+    public void ArrayInterface_Exceptions()
+    {
+        double[] values = Quotes.Select(static q => (double)q.Close).ToArray();
+
+        // null array
+        FluentActions
+            .Invoking(static () => ((double[])null!).ToSma(10))
+            .Should()
+            .ThrowExactly<ArgumentNullException>();
+
+        // invalid lookback
+        FluentActions
+            .Invoking(() => values.ToSma(0))
+            .Should()
+            .ThrowExactly<ArgumentOutOfRangeException>();
+    }
 }
