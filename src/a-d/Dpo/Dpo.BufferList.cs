@@ -2,13 +2,19 @@ namespace Skender.Stock.Indicators;
 
 /// <summary>
 /// Detrended Price Oscillator (DPO) from incremental reusable values.
-/// Note: DPO requires lookahead, so results are delayed by offset periods.
 /// </summary>
+/// <remarks>
+/// DPO calculation at any position relies on data values before and after it in the timeline.
+/// Therefore, it can only be calculated after sufficient subsequent data arrives and is
+/// retroactively updated. For incremental processing, DPO values are initially null
+/// (incalculable) and are updated as enough data becomes available with an offset delay.
+/// Results maintain 1:1 correspondence with inputs.
+/// </remarks>
 public class DpoList : BufferList<DpoResult>, IIncrementFromChain
 {
     private readonly SmaList smaList;
     private readonly int offset;
-    private readonly Queue<(DateTime Timestamp, double Value)> buffer;
+    private readonly List<(DateTime Timestamp, double Value)> buffer;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="DpoList"/> class.
@@ -21,7 +27,10 @@ public class DpoList : BufferList<DpoResult>, IIncrementFromChain
 
         offset = (lookbackPeriods / 2) + 1;
         smaList = new SmaList(lookbackPeriods);
-        buffer = new Queue<(DateTime, double)>(offset);
+
+        // Use List instead of Queue for O(1) indexing (needed for retroactive updates)
+        int maxBufferSize = lookbackPeriods + offset;
+        buffer = new List<(DateTime, double)>(maxBufferSize);
     }
 
     /// <summary>
@@ -37,33 +46,58 @@ public class DpoList : BufferList<DpoResult>, IIncrementFromChain
     /// </summary>
     public int LookbackPeriods { get; init; }
 
+    /// <remarks>
+    /// Add a single value to the buffer list, calculate and emit DPO result.
+    /// DPO calculation is offset-based: DPO[i] = Value[i] - SMA[i + offset].
+    /// Results at index (i) represent the detrended value at time (i),
+    /// calculated using the centered moving average from time range [i .. i + offset + lookbackPeriods - 1].
+    /// Maintains 1:1 correspondence with input - emits null initially, then retroactively updates when sufficient data available.
+    /// </remarks>
     /// <inheritdoc />
     public void Add(DateTime timestamp, double value)
     {
-        // Add to SMA calculation first
+        // Add the value to the centered SMA buffer
         smaList.Add(timestamp, value);
 
-        bool canEmit = smaList.Count > offset
-            && buffer.Count == offset;
+        // Track value and timestamp in buffer for retroactive updates
+        // Buffer maintains 1:1 correspondence with results list
+        buffer.Add((timestamp, value));
 
-        // Emit result before updating buffer so we use the correct oldest value
-        if (canEmit)
+        // Always emit a result for current position (null initially, retroactively updated)
+        AddInternal(new DpoResult(timestamp, null, null));
+
+        // Check if we now have enough data to calculate DPO for a previous position
+        // At current index i (Count-1), we can calculate DPO[i - offset]
+        // DPO[i - offset] = buffer[i - offset].Value - SMA[i].Sma
+        //
+        // We need:
+        // 1. SMA[i] to be valid (i >= LookbackPeriods - 1, i.e., Count >= LookbackPeriods)
+        // 2. Target index (i - offset) to be >= 0
+        // 3. Target index to be within the buffer
+        if (Count >= LookbackPeriods)
         {
-            (DateTime oldestTimestamp, double oldestValue) = buffer.Peek();
+            int currentIndex = Count - 1;
+            int targetIndex = currentIndex - offset;
 
-            // Get the current SMA result (this is the "future" SMA for the oldest value)
-            SmaResult currentSma = smaList[^1];
+            // Make sure target index is valid
+            if (targetIndex >= 0 && targetIndex < buffer.Count)
+            {
+                // Get the value at the target position from the buffer
+                (DateTime targetTimestamp, double targetValue) = buffer[targetIndex];
 
-            double? dpoSma = currentSma.Sma;
-            double? dpoVal = currentSma.Sma.HasValue
-                ? oldestValue - currentSma.Sma.Value
-                : null;
+                // Get the SMA at the current position (most recent SMA)
+                // Note: after pruning, smaList may have more items than results list
+                SmaResult smaResultAtOffset = smaList[^1];
 
-            AddInternal(new DpoResult(oldestTimestamp, dpoVal, dpoSma));
+                double? dpoSma = smaResultAtOffset.Sma;
+                double? dpoVal = smaResultAtOffset.Sma.HasValue
+                    ? targetValue - smaResultAtOffset.Sma.Value
+                    : null;
+
+                // Retroactively update the target position with calculated DPO values
+                UpdateInternal(targetIndex, new DpoResult(targetTimestamp, dpoVal, dpoSma));
+            }
         }
-
-        // Now update the buffers for the next iteration
-        buffer.Update(offset, (timestamp, value));
     }
 
     /// <summary>
@@ -107,16 +141,20 @@ public class DpoList : BufferList<DpoResult>, IIncrementFromChain
     /// </summary>
     protected override void PruneList()
     {
-        // Keep enough SMA history to support DPO lookahead while following MaxListSize
-        smaList.MaxListSize = Math.Max(LookbackPeriods + offset, MaxListSize + offset);
+        // Call base first to prune the results list
+        base.PruneList();
 
-        // Ensure the buffered values don't exceed their intended capacity
-        while (buffer.Count > offset)
+        // Synchronize buffer with pruned results list
+        // After pruning, Count reflects the new list size
+        // We need to trim buffer from the front to match
+        int itemsToRemove = buffer.Count - Count;
+        for (int i = 0; i < itemsToRemove; i++)
         {
-            buffer.Dequeue();
+            buffer.RemoveAt(0);
         }
 
-        base.PruneList();
+        // Keep enough SMA history to support DPO offset calculations
+        smaList.MaxListSize = Math.Max(LookbackPeriods + offset, MaxListSize + offset);
     }
 }
 

@@ -6,8 +6,11 @@ namespace Skender.Stock.Indicators;
 /// Provides methods for calculating the Detrended Price Oscillator (DPO) using a stream hub.
 /// </summary>
 /// <remarks>
-/// DPO requires lookahead data, so results are emitted with a delay of offset periods.
-/// This hub overrides OnAdd to handle the delayed emission pattern.
+/// DPO calculation at any position relies on data values before and after it in the timeline.
+/// Therefore, it can only be calculated after sufficient subsequent data arrives and is
+/// retroactively updated. For real-time processing, DPO values are initially null
+/// (incalculable) and are updated as enough data becomes available with an offset delay.
+/// Results maintain 1:1 correspondence with inputs.
 /// </remarks>
 public class DpoHub
     : ChainProvider<IReusable, DpoResult>, IDpo
@@ -44,12 +47,14 @@ public class DpoHub
     /// <inheritdoc/>
     public override string ToString() => hubName;
 
-    /// <inheritdoc/>
     /// <remarks>
-    /// Overrides OnAdd to implement batch emission pattern for DPO's lookahead requirement.
-    /// Emits results only when sufficient lookahead data is available.
-    /// During Rebuild, ensures all calculable positions are emitted.
+    /// DPO at any position requires an offset number of subsequent values for calculation.
+    /// Emits results for all positions from Cache.Count to current index, calculating DPO when
+    /// sufficient subsequent data is available, otherwise emitting null values.
+    /// As new data arrives, retroactively recalculates earlier positions that now have sufficient data.
+    /// Maintains 1:1 correspondence between inputs and outputs.
     /// </remarks>
+    /// <inheritdoc />
     public override void OnAdd(IReusable item, bool notify, int? indexHint)
     {
         ArgumentNullException.ThrowIfNull(item);
@@ -57,12 +62,41 @@ public class DpoHub
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
         // DPO at position dpoIndex requires SMA at position (dpoIndex + offset)
-        // So with input at position i, we can calculate DPO up to position (i - offset)
+        // Calculate the range of positions that now have sufficient lookahead data
         int maxCalculableIndex = i - Offset;
 
+        // Determine the starting position for emission
+        int startIndex = Cache.Count;
+
+        // Check if we need to recalculate any existing results due to new lookahead data
+        if (notify && startIndex > 0 && maxCalculableIndex >= 0)
+        {
+            // Check if there are positions in our cache that have null values
+            // but now have sufficient lookahead data for calculation
+            // This happens during normal streaming when quotes arrive in order
+
+            // Look backwards from maxCalculableIndex to find positions with null DPO
+            for (int checkIndex = Math.Max(0, maxCalculableIndex - LookbackPeriods);
+                checkIndex <= Math.Min(maxCalculableIndex, startIndex - 1);
+                checkIndex++)
+            {
+                if (checkIndex >= 0 && checkIndex < Cache.Count)
+                {
+                    DpoResult existingResult = Cache[checkIndex];
+                    if (!existingResult.Dpo.HasValue)
+                    {
+                        // Found a null position that now has lookahead data
+                        // Trigger rebuild from this position
+                        Rebuild(ProviderCache[checkIndex].Timestamp);
+                        return;
+                    }
+                }
+            }
+        }
+
         // Emit all results from current cache size up to current provider index
-        // to maintain 1:1 correspondence
-        for (int dpoIndex = Cache.Count; dpoIndex <= i; dpoIndex++)
+        // to maintain 1:1 correspondence (some will be null if insufficient lookahead)
+        for (int dpoIndex = startIndex; dpoIndex <= i; dpoIndex++)
         {
             if (dpoIndex < 0 || dpoIndex >= ProviderCache.Count)
             {
@@ -77,6 +111,7 @@ public class DpoHub
     /// <summary>
     /// Calculates DPO result for a specific index position.
     /// </summary>
+    /// <param name="dpoIndex">The DPO value to calculate (index position).</param>
     private DpoResult CalculateDpoAtIndex(int dpoIndex)
     {
         IReusable dpoTargetItem = ProviderCache[dpoIndex];
@@ -132,23 +167,39 @@ public class DpoHub
     }
 
     /// <summary>
-    /// Rebuilds the cache from a specific timestamp.
-    /// For DPO, always rebuilds from the beginning to ensure lookahead data is considered.
+    /// Restores the DPO state and adjusts cache for retroactive calculation requirements.
     /// </summary>
-    public new void Rebuild(DateTime fromTimestamp)
-    {
-        // For DPO, always rebuild from the beginning
-        base.Rebuild(DateTime.MinValue);
-    }
-
-    /// <summary>
-    /// Restores the DPO state up to the specified timestamp.
-    /// For DPO, no persistent state needs restoration.
-    /// </summary>
-    /// <inheritdoc/>
+    /// <param name="timestamp">Point in time to restore from.</param>
+    /// <remarks>
+    /// DPO calculation at any position relies on data values with an offset: DPO[i] = Value[i] - SMA[i + offset].
+    /// When a quote is inserted/removed at position p, all positions from (p - offset) onward
+    /// are affected because their calculations depend on SMA values that include the mutation position.
+    /// This override clears cache entries from the earlier affected position to ensure
+    /// all offset-dependent positions are retroactively recalculated during rebuild.
+    /// </remarks>
     protected override void RollbackState(DateTime timestamp)
     {
-        // No state to restore for DPO
+        // Get the mutation index in provider cache
+        int mutationIndex = ProviderCache.IndexGte(timestamp);
+        if (mutationIndex < 0)
+        {
+            return;
+        }
+
+        // Calculate first affected index accounting for lookahead
+        // Positions as early as (mutationIndex - Offset) are affected
+        // because they need SMA values that include the mutation position
+        int firstAffectedIndex = Math.Max(0, mutationIndex - Offset);
+
+        // Remove cache entries from the earlier affected position
+        // This ensures all lookahead-dependent positions are recalculated
+        if (firstAffectedIndex < mutationIndex && Cache.Count > firstAffectedIndex)
+        {
+            DateTime adjustedTimestamp = ProviderCache[firstAffectedIndex].Timestamp;
+            Cache.RemoveAll(c => c.Timestamp >= adjustedTimestamp);
+        }
+
+        // No internal state to restore for DPO (stateless indicator)
     }
 }
 
