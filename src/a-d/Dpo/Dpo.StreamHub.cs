@@ -87,11 +87,12 @@ public class DpoHub
             int smaIndex = dpoIndex + Offset;
 
             // Check if we can calculate DPO for this position
+            // Condition from Series: i >= lookbackPeriods - offset - 1 && smaIndex < ProviderCache.Count
             int firstValidDpoIndex = LookbackPeriods - Offset - 1;
 
             DpoResult result;
 
-            if (dpoIndex >= firstValidDpoIndex && smaIndex >= LookbackPeriods - 1 && smaIndex < ProviderCache.Count)
+            if (dpoIndex >= firstValidDpoIndex && smaIndex < ProviderCache.Count && smaIndex >= LookbackPeriods - 1)
             {
                 // Calculate SMA at smaIndex
                 double sum = 0;
@@ -121,21 +122,6 @@ public class DpoHub
             }
 
             AppendCache(result, notify);
-        }
-
-        // Check if provider is completed and we need to emit trailing empty results
-        if (i == ProviderCache.Count - 1)
-        {
-            // Emit trailing empty results for positions that can never have DPO values
-            int startTrailingIndex = Math.Max(Cache.Count, ProviderCache.Count - Offset);
-            for (int j = startTrailingIndex; j < ProviderCache.Count; j++)
-            {
-                if (j >= Cache.Count)
-                {
-                    DpoResult emptyResult = new(ProviderCache[j].Timestamp);
-                    AppendCache(emptyResult, notify);
-                }
-            }
         }
     }
 
