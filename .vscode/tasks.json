@@ -71,7 +71,8 @@
       "label": "Install: All code dependencies",
       "detail": "Restore .NET packages",
       "dependsOn": [
-        "Install: .NET packages"
+        "Install: .NET packages",
+        "Install: NPM (pnpm) packages"
       ],
       "dependsOrder": "parallel"
     },
@@ -95,35 +96,28 @@
       "command": "dotnet outdated --upgrade --exclude FluentAssertions && dotnet outdated --upgrade docs/Examples"
     },
     {
-      "label": "Install: Ruby packages",
-      "detail": "Install Ruby gems for docs site (Jekyll)",
+      "label": "Install: NPM (pnpm) packages",
+      "detail": "Install pnpm packages for docs site (VitePress)",
       "type": "shell",
-      "command": "bundle install --jobs 4 && bundle clean --force && echo '✓ Install complete!'",
+      "command": "pnpm install",
       "options": {
-        "cwd": "${workspaceFolder}/docs",
-        "env": {
-          "BUNDLE_GEMFILE": "${workspaceFolder}/docs/Gemfile",
-          "BUNDLE_PATH": "${workspaceFolder}/docs/vendor/bundle"
-        }
+        "cwd": "${workspaceFolder}/docs"
       },
-      "problemMatcher": {
-        "owner": "bundle",
-        "fileLocation": "relative",
-        "pattern": { "regexp": "^(.*):(\\d+):\\s+(.*)$", "file": 1, "line": 2, "message": 3 }
+      "problemMatcher": [],
+      "presentation": {
+        "group": "install"
       }
     },
     {
-      "label": "Update: Ruby packages",
-      "detail": "Install then update Ruby gems conservatively and clean",
+      "label": "Update: NPM (pnpm) packages",
+      "detail": "Update pnpm packages for docs site",
       "type": "shell",
-      "command": "bundle lock --add-platform x86_64-linux x64-mingw-ucrt && bundle install && bundle update --conservative && bundle clean --force && echo '✓ Update complete!'",
+      "command": "pnpm update",
       "options": {
-        "cwd": "${workspaceFolder}/docs",
-        "env": {
-          "BUNDLE_GEMFILE": "${workspaceFolder}/docs/Gemfile",
-          "BUNDLE_PATH": "${workspaceFolder}/docs/vendor/bundle"
-        }
-      }
+        "cwd": "${workspaceFolder}/docs"
+      },
+      "problemMatcher": [],
+      "presentation": { "group": "install" }
     },
     {
       "label": "Clean: .NET Solution (dotnet clean)",
@@ -190,7 +184,8 @@
       "type": "shell",
       "command": "roslynator fix --properties TargetFramework=net10.0 --severity-level hidden --verbosity normal",
       "group": "test",
-      "problemMatcher": "$msCompile"
+      "problemMatcher": "$msCompile",
+      "presentation": { "group": "analysis" }
     },
     {
       "label": "Lint: .NET code (full analysis)",
@@ -351,65 +346,73 @@
     },
     {
       "label": "Run: Doc site with LiveReload",
-      "detail": "Serve Jekyll docs site with livereload",
+      "detail": "Serve VitePress docs site with hot reload (port 5173, opens browser)",
       "type": "shell",
-      "command": "bundle exec jekyll serve --livereload --open-url",
-      "dependsOn": "Install: Ruby packages",
+      "command": "pnpm run docs:dev",
+      "dependsOn": "Install: NPM (pnpm) packages",
       "dependsOrder": "sequence",
       "isBackground": true,
-      "options": {
-        "cwd": "${workspaceFolder}/docs",
-        "env": {
-          "BUNDLE_GEMFILE": "${workspaceFolder}/docs/Gemfile",
-          "BUNDLE_PATH": "${workspaceFolder}/docs/vendor/bundle"
-        }
+      "runOptions": {
+        "instanceLimit": 1
       },
-      "problemMatcher": {
-        "owner": "jekyll",
-        "pattern": {
-          "regexp": ".*",
-          "file": 0,
-          "line": 0,
-          "column": 0,
-          "message": 0
-        },
-        "background": {
-          "activeOnStart": true,
-          "beginsPattern": ".*Configuration file:.*_config.yml.*",
-          "endsPattern": ".*Server running.*"
-        }
-      }
+      "options": {
+        "cwd": "${workspaceFolder}/docs"
+      },
+      "problemMatcher": []
     },
     {
-      "label": "Run: Documentation site (serve)",
-      "detail": "Alias: run docs site (background) with simple readiness matcher",
+      "label": "Run: Doc site with LiveReload (Simple Browser)",
+      "detail": "Serve VitePress docs site on port 5174 with hot reload (VS Code Simple Browser)",
       "type": "shell",
-      "command": "bundle exec jekyll serve --livereload",
-      "dependsOn": "Install: Ruby packages",
+      "command": "pnpm run docs:dev -- --port 5174",
+      "dependsOn": "Install: NPM (pnpm) packages",
+      "isBackground": true,
+      "runOptions": {
+        "instanceLimit": 1
+      },
+      "options": {
+        "cwd": "${workspaceFolder}/docs"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Run: Doc site (serve only)",
+      "detail": "Serve VitePress docs site (background, port 5173, no browser open)",
+      "type": "shell",
+      "command": "pnpm run docs:dev",
+      "dependsOn": "Install: NPM (pnpm) packages",
       "dependsOrder": "sequence",
       "isBackground": true,
-      "options": {
-        "cwd": "${workspaceFolder}/docs",
-        "env": {
-          "BUNDLE_GEMFILE": "${workspaceFolder}/docs/Gemfile",
-          "BUNDLE_PATH": "${workspaceFolder}/docs/vendor/bundle"
-        }
+      "runOptions": {
+        "instanceLimit": 1
       },
-      "problemMatcher": {
-        "owner": "jekyll",
-        "pattern": {
-          "regexp": ".*",
-          "file": 0,
-          "line": 0,
-          "column": 0,
-          "message": 0
-        },
-        "background": {
-          "activeOnStart": true,
-          "beginsPattern": ".*Configuration file:.*_config.yml.*",
-          "endsPattern": ".*Server running.*"
-        }
-      }
+      "options": {
+        "cwd": "${workspaceFolder}/docs"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Build: Documentation site",
+      "detail": "Build VitePress docs site for production",
+      "type": "shell",
+      "command": "pnpm run docs:build",
+      "dependsOn": "Install: NPM (pnpm) packages",
+      "options": {
+        "cwd": "${workspaceFolder}/docs"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Preview: Documentation site",
+      "detail": "Preview production build of VitePress docs site",
+      "type": "shell",
+      "command": "pnpm run docs:preview -- --open",
+      "dependsOn": "Build: Documentation site",
+      "isBackground": true,
+      "options": {
+        "cwd": "${workspaceFolder}/docs"
+      },
+      "problemMatcher": []
     },
     {
       "label": "Run: Test application",
@@ -425,7 +428,7 @@
       "type": "shell",
       "command": "dotnet run --project tools/simulate/Test.Simulation.csproj",
       "group": "none",
-      "problemMatcher": "$msCompile",
+      "problemMatcher": "$msCompile"
     },
     {
       "label": "Run: Generate test baseline data (all)",
@@ -434,6 +437,44 @@
       "command": "dotnet run --project tools/baselining/Test.DataGenerator.csproj -- --all",
       "group": "none",
       "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "Test: Website links (htmlproofer)",
+      "detail": "Build docs and run htmlproofer link checks (parity with CI)",
+      "type": "shell",
+      "command": "bash .vitepress/run-htmlproofer.sh",
+      "options": {
+        "cwd": "${workspaceFolder}/docs"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Test: Website a11y (pa11y)",
+      "detail": "Build docs, preview locally, and run pa11y-ci sitemap checks",
+      "type": "shell",
+      "command": "bash .vitepress/run-pa11y.sh",
+      "options": {
+        "cwd": "${workspaceFolder}/docs"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Stop: All hosted servers",
+      "detail": "Stop VitePress dev/preview servers on default ports (5173/5174) across platforms",
+      "type": "shell",
+      "command": "pkill -f \"vitepress|docs:dev|docs:preview|5173|5174\" || true",
+      "windows": {
+        "command": "powershell -NoLogo -NoProfile -Command \"Get-CimInstance Win32_Process -Filter \\\"Name='node.exe'\\\" -ErrorAction SilentlyContinue | Where-Object { $_.CommandLine -match 'vitepress|docs:dev|docs:preview|5173|5174' } | ForEach-Object { Write-Host \\\"Stopping VitePress process $($_.ProcessId)\\\"; Stop-Process -Id $_.ProcessId -Force -ErrorAction SilentlyContinue }\""
+      },
+      "osx": {
+        "command": "pkill -f \"vitepress|docs:dev|docs:preview|5173|5174\" || true"
+      },
+      "group": "none",
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "silent",
+        "panel": "shared"
+      }
     }
   ]
 }

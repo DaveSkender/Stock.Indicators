@@ -9,6 +9,10 @@ echo "🚀 Starting Stock Indicators dev container setup..."
 echo "🔍 Verifying .NET environment..."
 dotnet --version
 
+# Verify pnpm is available (installed via devcontainer feature)
+echo "🔍 Verifying pnpm..."
+pnpm --version
+
 echo "🧰 Installing .NET-based tools..."
 dotnet tool install --global dotnet-format
 dotnet tool install --global roslynator.dotnet.cli@0.11.0  # bug in 0.12.0
