@@ -148,9 +148,16 @@ public class DpoList : BufferList<DpoResult>, IIncrementFromChain
         // After pruning, Count reflects the new list size
         // We need to trim buffer from the front to match
         int itemsToRemove = buffer.Count - Count;
-        for (int i = 0; i < itemsToRemove; i++)
+        if (itemsToRemove > 0)
         {
-            buffer.RemoveAt(0);
+            if (itemsToRemove >= buffer.Count)
+            {
+                buffer.Clear();
+            }
+            else
+            {
+                buffer.RemoveRange(0, itemsToRemove);
+            }
         }
 
         // Keep enough SMA history to support DPO offset calculations
