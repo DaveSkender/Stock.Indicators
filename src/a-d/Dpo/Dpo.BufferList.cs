@@ -8,9 +8,7 @@ public class DpoList : BufferList<DpoResult>, IIncrementFromChain
 {
     private readonly SmaList smaList;
     private readonly int offset;
-    private readonly Queue<double> valueBuffer;
-    private readonly Queue<DateTime> timestampBuffer;
-    private int inputCount;
+    private readonly Queue<(DateTime Timestamp, double Value)> buffer;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="DpoList"/> class.
@@ -23,9 +21,7 @@ public class DpoList : BufferList<DpoResult>, IIncrementFromChain
 
         offset = (lookbackPeriods / 2) + 1;
         smaList = new SmaList(lookbackPeriods);
-        valueBuffer = new Queue<double>(offset);
-        timestampBuffer = new Queue<DateTime>(offset);
-        inputCount = 0;
+        buffer = new Queue<(DateTime, double)>(offset);
     }
 
     /// <summary>
@@ -47,19 +43,13 @@ public class DpoList : BufferList<DpoResult>, IIncrementFromChain
         // Add to SMA calculation first
         smaList.Add(timestamp, value);
 
-        // Track total inputs to determine when we can emit
-        inputCount++;
+        bool canEmit = smaList.Count > offset
+            && buffer.Count == offset;
 
-        // Calculate the index of the value we can now emit a DPO result for
-        int dpoIndex = inputCount - offset - 1;
-
-        // If we can emit a result, do so BEFORE updating buffers
-        // This ensures we use the correct oldest value before it gets dequeued
-        if (dpoIndex >= 0 && valueBuffer.Count == offset)
+        // Emit result before updating buffer so we use the correct oldest value
+        if (canEmit)
         {
-            // Get the oldest buffered value and timestamp (this is what we're calculating DPO for)
-            double oldestValue = valueBuffer.Peek();
-            DateTime oldestTimestamp = timestampBuffer.Peek();
+            (DateTime oldestTimestamp, double oldestValue) = buffer.Peek();
 
             // Get the current SMA result (this is the "future" SMA for the oldest value)
             SmaResult currentSma = smaList[^1];
@@ -73,8 +63,7 @@ public class DpoList : BufferList<DpoResult>, IIncrementFromChain
         }
 
         // Now update the buffers for the next iteration
-        valueBuffer.Update(offset, value);
-        timestampBuffer.Update(offset, timestamp);
+        buffer.Update(offset, (timestamp, value));
     }
 
     /// <summary>
@@ -110,9 +99,24 @@ public class DpoList : BufferList<DpoResult>, IIncrementFromChain
     {
         base.Clear();
         smaList.Clear();
-        valueBuffer.Clear();
-        timestampBuffer.Clear();
-        inputCount = 0;
+        buffer.Clear();
+    }
+
+    /// <summary>
+    /// Synchronizes pruning of internal buffers with the parent list.
+    /// </summary>
+    protected override void PruneList()
+    {
+        // Keep enough SMA history to support DPO lookahead while following MaxListSize
+        smaList.MaxListSize = Math.Max(LookbackPeriods + offset, MaxListSize + offset);
+
+        // Ensure the buffered values don't exceed their intended capacity
+        while (buffer.Count > offset)
+        {
+            buffer.Dequeue();
+        }
+
+        base.PruneList();
     }
 }
 
