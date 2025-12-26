@@ -6,52 +6,52 @@ public class SmaAnalyses : StaticSeriesTestBase
     [TestMethod]
     public override void DefaultParameters_ReturnsExpectedResults()
     {
-        IReadOnlyList<SmaAnalysisResult> results = Quotes
+        IReadOnlyList<SmaAnalysisResult> sut = Quotes
             .ToSmaAnalysis(20);
 
         // proper quantities
-        Assert.HasCount(502, results);
-        Assert.HasCount(483, results.Where(static x => x.Sma != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Sma != null).Should().HaveCount(483);
 
         // sample value
-        SmaAnalysisResult r = results[501];
-        Assert.AreEqual(251.86, r.Sma.Round(6));
-        Assert.AreEqual(9.450000, r.Mad.Round(6));
-        Assert.AreEqual(119.25102, r.Mse.Round(6));
-        Assert.AreEqual(0.037637, r.Mape.Round(6));
+        SmaAnalysisResult r = sut[501];
+        r.Sma.Should().BeApproximately(251.86, Money6);
+        r.Mad.Should().BeApproximately(9.450000, Money6);
+        r.Mse.Should().BeApproximately(119.25102, Money6);
+        r.Mape.Should().BeApproximately(0.037637, Money6);
     }
 
     [TestMethod]
     public void UseReusable()
     {
-        IReadOnlyList<SmaAnalysisResult> results = Quotes
+        IReadOnlyList<SmaAnalysisResult> sut = Quotes
             .Use(CandlePart.Close)
             .ToSmaAnalysis(20);
 
-        Assert.HasCount(502, results);
-        Assert.HasCount(483, results.Where(static x => x.Sma != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Sma != null).Should().HaveCount(483);
     }
 
     [TestMethod]
     public void Chainee()
     {
-        IReadOnlyList<SmaAnalysisResult> results = Quotes
+        IReadOnlyList<SmaAnalysisResult> sut = Quotes
             .ToSma(2)
             .ToSmaAnalysis(20);
 
-        Assert.HasCount(502, results);
-        Assert.HasCount(482, results.Where(static x => x.Sma != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Sma != null).Should().HaveCount(482);
     }
 
     [TestMethod]
     public void ChainingFromResults_WorksAsExpected()
     {
-        IReadOnlyList<EmaResult> results = Quotes
+        IReadOnlyList<EmaResult> sut = Quotes
             .ToSmaAnalysis(10)
             .ToEma(10);
 
-        Assert.HasCount(502, results);
-        Assert.HasCount(484, results.Where(static x => x.Ema != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Ema != null).Should().HaveCount(484);
     }
 
     [TestMethod]
@@ -60,8 +60,8 @@ public class SmaAnalyses : StaticSeriesTestBase
         IReadOnlyList<SmaAnalysisResult> r = BadQuotes
             .ToSmaAnalysis(15);
 
-        Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(static x => x.Mape is double.NaN));
+        r.Should().HaveCount(502);
+        r.Where(static x => x.Mape is double.NaN).Should().BeEmpty();
     }
 
     [TestMethod]
@@ -70,24 +70,24 @@ public class SmaAnalyses : StaticSeriesTestBase
         IReadOnlyList<SmaAnalysisResult> r0 = Noquotes
             .ToSmaAnalysis(6);
 
-        Assert.IsEmpty(r0);
+        r0.Should().BeEmpty();
 
         IReadOnlyList<SmaAnalysisResult> r1 = Onequote
             .ToSmaAnalysis(6);
 
-        Assert.HasCount(1, r1);
+        r1.Should().HaveCount(1);
     }
 
     [TestMethod]
     public void Removed()
     {
-        IReadOnlyList<SmaAnalysisResult> results = Quotes
+        IReadOnlyList<SmaAnalysisResult> sut = Quotes
             .ToSmaAnalysis(20)
             .RemoveWarmupPeriods();
 
         // assertions
-        Assert.HasCount(502 - 19, results);
-        Assert.AreEqual(251.8600, Math.Round(results[^1].Sma.Value, 4));
+        sut.Should().HaveCount(502 - 19);
+        (sut[^1].Sma.Value).Should().BeApproximately(251.8600, Money4);
     }
 
     /// <summary>
@@ -95,6 +95,8 @@ public class SmaAnalyses : StaticSeriesTestBase
     /// </summary>
     [TestMethod]
     public void Exceptions()
-        => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToSmaAnalysis(0));
+        => FluentActions
+            .Invoking(static () => Quotes.ToSmaAnalysis(0))
+            .Should()
+            .ThrowExactly<ArgumentOutOfRangeException>();
 }

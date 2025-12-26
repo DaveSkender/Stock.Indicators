@@ -6,59 +6,59 @@ public class McGinleyDynamic : StaticSeriesTestBase
     [TestMethod]
     public override void DefaultParameters_ReturnsExpectedResults()
     {
-        IReadOnlyList<DynamicResult> results = Quotes
+        IReadOnlyList<DynamicResult> sut = Quotes
             .ToDynamic(14);
 
         // assertions
-        Assert.HasCount(502, results);
-        Assert.HasCount(501, results.Where(static x => x.Dynamic != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Dynamic != null).Should().HaveCount(501);
 
         // sample values
-        DynamicResult r1 = results[1];
-        Assert.AreEqual(212.9465, r1.Dynamic.Round(4));
+        DynamicResult r1 = sut[1];
+        r1.Dynamic.Should().BeApproximately(212.9465, Money4);
 
-        DynamicResult r25 = results[25];
-        Assert.AreEqual(215.4801, r25.Dynamic.Round(4));
+        DynamicResult r25 = sut[25];
+        r25.Dynamic.Should().BeApproximately(215.4801, Money4);
 
-        DynamicResult r250 = results[250];
-        Assert.AreEqual(256.0554, r250.Dynamic.Round(4));
+        DynamicResult r250 = sut[250];
+        r250.Dynamic.Should().BeApproximately(256.0554, Money4);
 
-        DynamicResult r501 = results[501];
-        Assert.AreEqual(245.7356, r501.Dynamic.Round(4));
+        DynamicResult r501 = sut[501];
+        r501.Dynamic.Should().BeApproximately(245.7356, Money4);
     }
 
     [TestMethod]
     public void UseReusable()
     {
-        IReadOnlyList<DynamicResult> results = Quotes
+        IReadOnlyList<DynamicResult> sut = Quotes
             .Use(CandlePart.Close)
             .ToDynamic(20);
 
-        Assert.HasCount(502, results);
-        Assert.HasCount(501, results.Where(static x => x.Dynamic != null));
-        Assert.IsEmpty(results.Where(static x => x.Dynamic is double v && double.IsNaN(v)));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Dynamic != null).Should().HaveCount(501);
+        sut.Where(static x => x.Dynamic is double v && double.IsNaN(v)).Should().BeEmpty();
     }
 
     [TestMethod]
     public void Chainee()
     {
-        IReadOnlyList<DynamicResult> results = Quotes
+        IReadOnlyList<DynamicResult> sut = Quotes
             .ToSma(10)
             .ToDynamic(14);
 
-        Assert.HasCount(502, results);
-        Assert.HasCount(492, results.Where(static x => x.Dynamic != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Dynamic != null).Should().HaveCount(492);
     }
 
     [TestMethod]
     public void ChainingFromResults_WorksAsExpected()
     {
-        IReadOnlyList<SmaResult> results = Quotes
+        IReadOnlyList<SmaResult> sut = Quotes
             .ToDynamic(14)
             .ToSma(10);
 
-        Assert.HasCount(502, results);
-        Assert.HasCount(492, results.Where(static x => x.Sma != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Sma != null).Should().HaveCount(492);
     }
 
     [TestMethod]
@@ -67,8 +67,8 @@ public class McGinleyDynamic : StaticSeriesTestBase
         IReadOnlyList<DynamicResult> r = BadQuotes
             .ToDynamic(15);
 
-        Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(static x => x.Dynamic is double v && double.IsNaN(v)));
+        r.Should().HaveCount(502);
+        r.Where(static x => x.Dynamic is double v && double.IsNaN(v)).Should().BeEmpty();
     }
 
     [TestMethod]
@@ -77,12 +77,12 @@ public class McGinleyDynamic : StaticSeriesTestBase
         IReadOnlyList<DynamicResult> r0 = Noquotes
             .ToDynamic(14);
 
-        Assert.IsEmpty(r0);
+        r0.Should().BeEmpty();
 
         IReadOnlyList<DynamicResult> r1 = Onequote
             .ToDynamic(14);
 
-        Assert.HasCount(1, r1);
+        r1.Should().HaveCount(1);
     }
 
     [TestMethod]

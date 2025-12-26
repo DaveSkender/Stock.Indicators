@@ -8,59 +8,59 @@ public class Prs : StaticSeriesTestBase
     {
         const int lookbackPeriods = 30;
 
-        IReadOnlyList<PrsResult> results = OtherQuotes
+        IReadOnlyList<PrsResult> sut = OtherQuotes
             .ToPrs(Quotes, lookbackPeriods);
 
         // proper quantities
-        Assert.HasCount(502, results);
-        Assert.HasCount(502, results.Where(static x => x.Prs != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Prs != null).Should().HaveCount(502);
 
         // sample values
-        PrsResult r1 = results[8];
-        Assert.AreEqual(1.108340, r1.Prs.Round(6));
-        Assert.IsNull(r1.PrsPercent);
+        PrsResult r1 = sut[8];
+        r1.Prs.Should().BeApproximately(1.108340, Money6);
+        r1.PrsPercent.Should().BeNull();
 
-        PrsResult r2 = results[249];
-        Assert.AreEqual(1.222373, r2.Prs.Round(6));
-        Assert.AreEqual(-0.023089, r2.PrsPercent.Round(6));
+        PrsResult r2 = sut[249];
+        r2.Prs.Should().BeApproximately(1.222373, Money6);
+        r2.PrsPercent.Should().BeApproximately(-0.023089, Money6);
 
-        PrsResult r3 = results[501];
-        Assert.AreEqual(1.356817, r3.Prs.Round(6));
-        Assert.AreEqual(0.037082, r3.PrsPercent.Round(6));
+        PrsResult r3 = sut[501];
+        r3.Prs.Should().BeApproximately(1.356817, Money6);
+        r3.PrsPercent.Should().BeApproximately(0.037082, Money6);
     }
 
     [TestMethod]
     public void UseReusable()
     {
-        IReadOnlyList<PrsResult> results = OtherQuotes
+        IReadOnlyList<PrsResult> sut = OtherQuotes
             .Use(CandlePart.Close)
             .ToPrs(Quotes.Use(CandlePart.Close), 20);
 
-        Assert.HasCount(502, results);
-        Assert.HasCount(502, results.Where(static x => x.Prs != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Prs != null).Should().HaveCount(502);
     }
 
     [TestMethod]
     public void ChainingFromResults_WorksAsExpected()
     {
-        IReadOnlyList<SmaResult> results = OtherQuotes
+        IReadOnlyList<SmaResult> sut = OtherQuotes
             .ToPrs(Quotes, 20)
             .ToSma(10);
 
-        Assert.HasCount(502, results);
-        Assert.HasCount(493, results.Where(static x => x.Sma != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Sma != null).Should().HaveCount(493);
     }
 
     [TestMethod]
     public void Chainee()
     {
-        IReadOnlyList<PrsResult> results = Quotes
+        IReadOnlyList<PrsResult> sut = Quotes
             .ToSma(2)
             .ToPrs(OtherQuotes.ToSma(2), 20);
 
-        Assert.HasCount(502, results);
-        Assert.HasCount(501, results.Where(static x => x.Prs != null));
-        Assert.IsEmpty(results.Where(static x => x.Prs is double.NaN));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Prs != null).Should().HaveCount(501);
+        sut.Where(static x => x.Prs is double.NaN).Should().BeEmpty();
     }
 
     [TestMethod]
@@ -69,8 +69,8 @@ public class Prs : StaticSeriesTestBase
         IReadOnlyList<PrsResult> r = BadQuotes
             .ToPrs(BadQuotes, 15);
 
-        Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(static x => x.Prs is double.NaN));
+        r.Should().HaveCount(502);
+        r.Where(static x => x.Prs is double.NaN).Should().BeEmpty();
     }
 
     [TestMethod]
@@ -79,12 +79,12 @@ public class Prs : StaticSeriesTestBase
         IReadOnlyList<PrsResult> r0 = Noquotes
             .ToPrs(Noquotes);
 
-        Assert.IsEmpty(r0);
+        r0.Should().BeEmpty();
 
         IReadOnlyList<PrsResult> r1 = Onequote
             .ToPrs(Onequote);
 
-        Assert.HasCount(1, r1);
+        r1.Should().HaveCount(1);
     }
 
     [TestMethod]

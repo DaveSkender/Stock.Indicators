@@ -21,18 +21,18 @@ public class CatalogExecutionTests : TestBase
         IReadOnlyList<Quote> quotes = Quotes.Take(50).ToList();
 
         // Act
-        IReadOnlyList<RsiResult> results = quotes.ExecuteById<RsiResult>(id, style);
+        IReadOnlyList<RsiResult> sut = quotes.ExecuteById<RsiResult>(id, style);
 
         // Assert
-        results.Should().NotBeNullOrEmpty();
+        sut.Should().NotBeNullOrEmpty();
 
         IReadOnlyList<RsiResult> directResults = quotes.ToRsi();
-        results.Should().HaveCount(directResults.Count);
+        sut.Should().HaveCount(directResults.Count);
 
-        for (int i = 0; i < results.Count; i++)
+        for (int i = 0; i < sut.Count; i++)
         {
-            results[i].Timestamp.Should().Be(directResults[i].Timestamp);
-            results[i].Rsi.Should().Be(directResults[i].Rsi);
+            sut[i].Timestamp.Should().Be(directResults[i].Timestamp);
+            sut[i].Rsi.Should().Be(directResults[i].Rsi);
         }
     }
 
@@ -44,16 +44,16 @@ public class CatalogExecutionTests : TestBase
         Dictionary<string, object> parameters = new() { { "lookbackPeriods", 10 } };
 
         // Act
-        IReadOnlyList<RsiResult> results = quotes.ExecuteById<RsiResult>("RSI", Style.Series, parameters);
+        IReadOnlyList<RsiResult> sut = quotes.ExecuteById<RsiResult>("RSI", Style.Series, parameters);
 
         // Assert
-        results.Should().NotBeNullOrEmpty();
+        sut.Should().NotBeNullOrEmpty();
         IReadOnlyList<RsiResult> directResults = quotes.ToRsi(10);
-        results.Should().HaveCount(directResults.Count);
-        for (int i = 0; i < results.Count; i++)
+        sut.Should().HaveCount(directResults.Count);
+        for (int i = 0; i < sut.Count; i++)
         {
-            results[i].Timestamp.Should().Be(directResults[i].Timestamp);
-            results[i].Rsi.Should().Be(directResults[i].Rsi);
+            sut[i].Timestamp.Should().Be(directResults[i].Timestamp);
+            sut[i].Rsi.Should().Be(directResults[i].Rsi);
         }
     }
 
@@ -65,16 +65,16 @@ public class CatalogExecutionTests : TestBase
         Dictionary<string, object> parameters = new() { { "lookbackPeriods", 20 } };
 
         // Act
-        IReadOnlyList<EmaResult> results = quotes.ExecuteById<EmaResult>("EMA", Style.Series, parameters);
+        IReadOnlyList<EmaResult> sut = quotes.ExecuteById<EmaResult>("EMA", Style.Series, parameters);
 
         // Assert
-        results.Should().NotBeNullOrEmpty();
+        sut.Should().NotBeNullOrEmpty();
         IReadOnlyList<EmaResult> directResults = quotes.ToEma(20);
-        results.Should().HaveCount(directResults.Count);
-        for (int i = 0; i < results.Count; i++)
+        sut.Should().HaveCount(directResults.Count);
+        for (int i = 0; i < sut.Count; i++)
         {
-            results[i].Timestamp.Should().Be(directResults[i].Timestamp);
-            results[i].Ema.Should().Be(directResults[i].Ema);
+            sut[i].Timestamp.Should().Be(directResults[i].Timestamp);
+            sut[i].Ema.Should().Be(directResults[i].Ema);
         }
     }
 
@@ -86,16 +86,16 @@ public class CatalogExecutionTests : TestBase
         Dictionary<string, object> parameters = new() { { "lookbackPeriods", 10 } };
 
         // Act
-        IReadOnlyList<SmaResult> results = quotes.ExecuteById<SmaResult>("SMA", Style.Series, parameters);
+        IReadOnlyList<SmaResult> sut = quotes.ExecuteById<SmaResult>("SMA", Style.Series, parameters);
 
         // Assert
-        results.Should().NotBeNullOrEmpty();
+        sut.Should().NotBeNullOrEmpty();
         IReadOnlyList<SmaResult> directResults = quotes.ToSma(10);
-        results.Should().HaveCount(directResults.Count);
-        for (int i = 0; i < results.Count; i++)
+        sut.Should().HaveCount(directResults.Count);
+        for (int i = 0; i < sut.Count; i++)
         {
-            results[i].Timestamp.Should().Be(directResults[i].Timestamp);
-            results[i].Sma.Should().Be(directResults[i].Sma);
+            sut[i].Timestamp.Should().Be(directResults[i].Timestamp);
+            sut[i].Sma.Should().Be(directResults[i].Sma);
         }
     }
 
@@ -134,16 +134,16 @@ public class CatalogExecutionTests : TestBase
         Dictionary<string, object> parameters = [];
 
         // Act
-        IReadOnlyList<RsiResult> results = quotes.ExecuteById<RsiResult>("RSI", Style.Series, parameters);
+        IReadOnlyList<RsiResult> sut = quotes.ExecuteById<RsiResult>("RSI", Style.Series, parameters);
 
         // Assert
-        results.Should().NotBeNullOrEmpty();
+        sut.Should().NotBeNullOrEmpty();
         IReadOnlyList<RsiResult> defaultResults = quotes.ToRsi();
-        results.Should().HaveCount(defaultResults.Count);
-        for (int i = 0; i < results.Count; i++)
+        sut.Should().HaveCount(defaultResults.Count);
+        for (int i = 0; i < sut.Count; i++)
         {
-            results[i].Timestamp.Should().Be(defaultResults[i].Timestamp);
-            results[i].Rsi.Should().Be(defaultResults[i].Rsi);
+            sut[i].Timestamp.Should().Be(defaultResults[i].Timestamp);
+            sut[i].Rsi.Should().Be(defaultResults[i].Rsi);
         }
     }
 
@@ -160,16 +160,16 @@ public class CatalogExecutionTests : TestBase
         IReadOnlyList<Quote> quotes = Quotes.Take(50).ToList();
 
         // Act
-        IReadOnlyList<RsiResult> results = quotes.ExecuteFromJson<RsiResult>(json);
+        IReadOnlyList<RsiResult> sut = quotes.ExecuteFromJson<RsiResult>(json);
 
         // Assert
-        results.Should().NotBeNullOrEmpty();
+        sut.Should().NotBeNullOrEmpty();
         IReadOnlyList<RsiResult> directResults = quotes.ToRsi(14);
-        results.Should().HaveCount(directResults.Count);
-        for (int i = 0; i < results.Count; i++)
+        sut.Should().HaveCount(directResults.Count);
+        for (int i = 0; i < sut.Count; i++)
         {
-            results[i].Timestamp.Should().Be(directResults[i].Timestamp);
-            results[i].Rsi.Should().Be(directResults[i].Rsi);
+            sut[i].Timestamp.Should().Be(directResults[i].Timestamp);
+            sut[i].Rsi.Should().Be(directResults[i].Rsi);
         }
     }
 
@@ -180,8 +180,8 @@ public class CatalogExecutionTests : TestBase
         string json = JsonSerializer.Serialize(config);
         IReadOnlyList<Quote> quotes = Quotes.Take(50).ToList();
 
-        IReadOnlyList<EmaResult> results = quotes.ExecuteFromJson<EmaResult>(json);
-        results.Should().NotBeNullOrEmpty();
+        IReadOnlyList<EmaResult> sut = quotes.ExecuteFromJson<EmaResult>(json);
+        sut.Should().NotBeNullOrEmpty();
     }
 
     [TestMethod]

@@ -31,20 +31,20 @@ public class QuoteParts : TestBase
 
         // proper last date
         DateTime lastDate = DateTime.ParseExact("12/31/2018", "MM/dd/yyyy", invariantCulture);
-        Assert.AreEqual(lastDate, c.Timestamp);
+        c.Timestamp.Should().Be(lastDate);
 
         // last values should be correct
-        Assert.AreEqual(245.28, c.Value);
-        Assert.AreEqual(244.92, o.Value);
-        Assert.AreEqual(245.54, h.Value);
-        Assert.AreEqual(242.87, l.Value);
-        Assert.AreEqual(245.28, c.Value);
-        Assert.AreEqual(147031456, v.Value);
-        Assert.AreEqual(244.205, hl.Value);
-        Assert.AreEqual(244.5633, hlc.Value.Round(4));
-        Assert.AreEqual(245.1, oc.Value);
-        Assert.AreEqual(244.4433, ohl.Value.Round(4));
-        Assert.AreEqual(244.6525, ohlc.Value);
+        c.Value.Should().Be(245.28);
+        o.Value.Should().Be(244.92);
+        h.Value.Should().Be(245.54);
+        l.Value.Should().Be(242.87);
+        c.Value.Should().Be(245.28);
+        v.Value.Should().Be(147031456);
+        hl.Value.Should().Be(244.205);
+        hlc.Value.Should().BeApproximately(244.5633, 0.00005);
+        oc.Value.Should().Be(245.1);
+        ohl.Value.Should().BeApproximately(244.4433, 0.00005);
+        ohlc.Value.Should().Be(244.6525);
     }
 
     [TestMethod]
@@ -63,7 +63,7 @@ public class QuoteParts : TestBase
         IReadOnlyList<QuotePart> ohlc = Quotes.ToQuotePart(CandlePart.OHLC4);
 
         // proper quantities
-        Assert.HasCount(502, c);
+        c.Should().HaveCount(502);
 
         // samples
         QuotePart ro = o[501];
@@ -79,19 +79,19 @@ public class QuoteParts : TestBase
 
         // proper last date
         DateTime lastDate = DateTime.ParseExact("12/31/2018", "MM/dd/yyyy", invariantCulture);
-        Assert.AreEqual(lastDate, rc.Timestamp);
+        rc.Timestamp.Should().Be(lastDate);
 
         // last values should be correct
-        Assert.AreEqual(245.28, rc.Value);
-        Assert.AreEqual(244.92, ro.Value);
-        Assert.AreEqual(245.54, rh.Value);
-        Assert.AreEqual(242.87, rl.Value);
-        Assert.AreEqual(245.28, rc.Value);
-        Assert.AreEqual(147031456, rv.Value);
-        Assert.AreEqual(244.205, rhl.Value);
-        Assert.AreEqual(244.5633, rhlc.Value.Round(4));
-        Assert.AreEqual(245.1, roc.Value);
-        Assert.AreEqual(244.4433, rohl.Value.Round(4));
-        Assert.AreEqual(244.6525, rohlc.Value);
+        rc.Value.Should().Be(245.28);
+        ro.Value.Should().Be(244.92);
+        rh.Value.Should().Be(245.54);
+        rl.Value.Should().Be(242.87);
+        rc.Value.Should().Be(245.28);
+        rv.Value.Should().Be(147031456);
+        rhl.Value.Should().Be(244.205);
+        rhlc.Value.Should().BeApproximately(244.5633, 0.00005);
+        roc.Value.Should().Be(245.1);
+        rohl.Value.Should().BeApproximately(244.4433, 0.00005);
+        rohlc.Value.Should().Be(244.6525);
     }
 }

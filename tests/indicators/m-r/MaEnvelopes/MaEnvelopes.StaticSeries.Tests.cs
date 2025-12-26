@@ -9,256 +9,256 @@ public class MaEnvelopes : StaticSeriesTestBase
     [TestMethod]
     public override void DefaultParameters_ReturnsExpectedResults()
     {
-        IReadOnlyList<MaEnvelopeResult> results =
+        IReadOnlyList<MaEnvelopeResult> sut =
             Quotes.ToMaEnvelopes(20);
 
         // proper quantities
-        Assert.HasCount(502, results);
-        Assert.HasCount(483, results.Where(static x => x.Centerline != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Centerline != null).Should().HaveCount(483);
 
         // sample values
-        MaEnvelopeResult r1 = results[24];
-        Assert.AreEqual(215.0310, r1.Centerline.Round(4));
-        Assert.AreEqual(220.4068, r1.UpperEnvelope.Round(4));
-        Assert.AreEqual(209.6552, r1.LowerEnvelope.Round(4));
+        MaEnvelopeResult r1 = sut[24];
+        r1.Centerline.Should().BeApproximately(215.0310, Money4);
+        r1.UpperEnvelope.Should().BeApproximately(220.4068, Money4);
+        r1.LowerEnvelope.Should().BeApproximately(209.6552, Money4);
 
-        MaEnvelopeResult r2 = results[249];
-        Assert.AreEqual(255.5500, r2.Centerline.Round(4));
-        Assert.AreEqual(261.9388, r2.UpperEnvelope.Round(4));
-        Assert.AreEqual(249.16125, r2.LowerEnvelope.Round(5));
+        MaEnvelopeResult r2 = sut[249];
+        r2.Centerline.Should().BeApproximately(255.5500, Money4);
+        r2.UpperEnvelope.Should().BeApproximately(261.9388, Money4);
+        r2.LowerEnvelope.Should().BeApproximately(249.16125, Money5);
 
-        MaEnvelopeResult r3 = results[501];
-        Assert.AreEqual(251.8600, r3.Centerline.Round(4));
-        Assert.AreEqual(258.1565, r3.UpperEnvelope.Round(4));
-        Assert.AreEqual(245.5635, r3.LowerEnvelope.Round(4));
+        MaEnvelopeResult r3 = sut[501];
+        r3.Centerline.Should().BeApproximately(251.8600, Money4);
+        r3.UpperEnvelope.Should().BeApproximately(258.1565, Money4);
+        r3.LowerEnvelope.Should().BeApproximately(245.5635, Money4);
     }
 
     [TestMethod]
     public void Alma()
     {
-        IReadOnlyList<MaEnvelopeResult> results =
+        IReadOnlyList<MaEnvelopeResult> sut =
             Quotes.ToMaEnvelopes(10, 2.5, MaType.ALMA);
 
         // proper quantities
-        Assert.HasCount(502, results);
-        Assert.HasCount(493, results.Where(static x => x.Centerline != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Centerline != null).Should().HaveCount(493);
 
         // sample values
-        MaEnvelopeResult r1 = results[24];
-        Assert.AreEqual(216.0619, r1.Centerline.Round(4));
-        Assert.AreEqual(221.4635, r1.UpperEnvelope.Round(4));
-        Assert.AreEqual(210.6604, r1.LowerEnvelope.Round(4));
+        MaEnvelopeResult r1 = sut[24];
+        r1.Centerline.Should().BeApproximately(216.0619, Money4);
+        r1.UpperEnvelope.Should().BeApproximately(221.4635, Money4);
+        r1.LowerEnvelope.Should().BeApproximately(210.6604, Money4);
 
-        MaEnvelopeResult r2 = results[249];
-        Assert.AreEqual(257.5787, r2.Centerline.Round(4));
-        Assert.AreEqual(264.0182, r2.UpperEnvelope.Round(4));
-        Assert.AreEqual(251.1393, r2.LowerEnvelope.Round(4));
+        MaEnvelopeResult r2 = sut[249];
+        r2.Centerline.Should().BeApproximately(257.5787, Money4);
+        r2.UpperEnvelope.Should().BeApproximately(264.0182, Money4);
+        r2.LowerEnvelope.Should().BeApproximately(251.1393, Money4);
 
-        MaEnvelopeResult r3 = results[501];
-        Assert.AreEqual(242.1871, r3.Centerline.Round(4));
-        Assert.AreEqual(248.2418, r3.UpperEnvelope.Round(4));
-        Assert.AreEqual(236.1324, r3.LowerEnvelope.Round(4));
+        MaEnvelopeResult r3 = sut[501];
+        r3.Centerline.Should().BeApproximately(242.1871, Money4);
+        r3.UpperEnvelope.Should().BeApproximately(248.2418, Money4);
+        r3.LowerEnvelope.Should().BeApproximately(236.1324, Money4);
     }
 
     [TestMethod]
     public void Dema()
     {
-        IReadOnlyList<MaEnvelopeResult> results =
+        IReadOnlyList<MaEnvelopeResult> sut =
             Quotes.ToMaEnvelopes(20, 2.5, MaType.DEMA);
 
         // proper quantities
-        Assert.HasCount(502, results);
-        Assert.HasCount(483, results.Where(static x => x.Centerline != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Centerline != null).Should().HaveCount(483);
 
         // sample values
-        MaEnvelopeResult r1 = results[38];
-        Assert.AreEqual(223.4594, r1.Centerline.Round(4));
-        Assert.AreEqual(229.0459, r1.UpperEnvelope.Round(4));
-        Assert.AreEqual(217.8730, r1.LowerEnvelope.Round(4));
+        MaEnvelopeResult r1 = sut[38];
+        r1.Centerline.Should().BeApproximately(223.4594, Money4);
+        r1.UpperEnvelope.Should().BeApproximately(229.0459, Money4);
+        r1.LowerEnvelope.Should().BeApproximately(217.8730, Money4);
 
-        MaEnvelopeResult r2 = results[249];
-        Assert.AreEqual(258.4452, r2.Centerline.Round(4));
-        Assert.AreEqual(264.9064, r2.UpperEnvelope.Round(4));
-        Assert.AreEqual(251.9841, r2.LowerEnvelope.Round(4));
+        MaEnvelopeResult r2 = sut[249];
+        r2.Centerline.Should().BeApproximately(258.4452, Money4);
+        r2.UpperEnvelope.Should().BeApproximately(264.9064, Money4);
+        r2.LowerEnvelope.Should().BeApproximately(251.9841, Money4);
 
-        MaEnvelopeResult r3 = results[501];
-        Assert.AreEqual(241.1677, r3.Centerline.Round(4));
-        Assert.AreEqual(247.1969, r3.UpperEnvelope.Round(4));
-        Assert.AreEqual(235.1385, r3.LowerEnvelope.Round(4));
+        MaEnvelopeResult r3 = sut[501];
+        r3.Centerline.Should().BeApproximately(241.1677, Money4);
+        r3.UpperEnvelope.Should().BeApproximately(247.1969, Money4);
+        r3.LowerEnvelope.Should().BeApproximately(235.1385, Money4);
     }
 
     [TestMethod]
     public void Epma()
     {
-        IReadOnlyList<MaEnvelopeResult> results =
+        IReadOnlyList<MaEnvelopeResult> sut =
             Quotes.ToMaEnvelopes(20, 2.5, MaType.EPMA);
 
         // proper quantities
-        Assert.HasCount(502, results);
-        Assert.HasCount(483, results.Where(static x => x.Centerline != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Centerline != null).Should().HaveCount(483);
 
         // sample values
-        MaEnvelopeResult r1 = results[24];
-        Assert.AreEqual(216.2859, r1.Centerline.Round(4));
-        Assert.AreEqual(221.6930, r1.UpperEnvelope.Round(4));
-        Assert.AreEqual(210.8787, r1.LowerEnvelope.Round(4));
+        MaEnvelopeResult r1 = sut[24];
+        r1.Centerline.Should().BeApproximately(216.2859, Money4);
+        r1.UpperEnvelope.Should().BeApproximately(221.6930, Money4);
+        r1.LowerEnvelope.Should().BeApproximately(210.8787, Money4);
 
-        MaEnvelopeResult r2 = results[249];
-        Assert.AreEqual(258.5179, r2.Centerline.Round(4));
-        Assert.AreEqual(264.9808, r2.UpperEnvelope.Round(4));
-        Assert.AreEqual(252.0549, r2.LowerEnvelope.Round(4));
+        MaEnvelopeResult r2 = sut[249];
+        r2.Centerline.Should().BeApproximately(258.5179, Money4);
+        r2.UpperEnvelope.Should().BeApproximately(264.9808, Money4);
+        r2.LowerEnvelope.Should().BeApproximately(252.0549, Money4);
 
-        MaEnvelopeResult r3 = results[501];
-        Assert.AreEqual(235.8131, r3.Centerline.Round(4));
-        Assert.AreEqual(241.7085, r3.UpperEnvelope.Round(4));
-        Assert.AreEqual(229.9178, r3.LowerEnvelope.Round(4));
+        MaEnvelopeResult r3 = sut[501];
+        r3.Centerline.Should().BeApproximately(235.8131, Money4);
+        r3.UpperEnvelope.Should().BeApproximately(241.7085, Money4);
+        r3.LowerEnvelope.Should().BeApproximately(229.9178, Money4);
     }
 
     [TestMethod]
     public void Ema()
     {
-        IReadOnlyList<MaEnvelopeResult> results =
+        IReadOnlyList<MaEnvelopeResult> sut =
             Quotes.ToMaEnvelopes(20, 2.5, MaType.EMA);
 
         // proper quantities
-        Assert.HasCount(502, results);
-        Assert.HasCount(483, results.Where(static x => x.Centerline != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Centerline != null).Should().HaveCount(483);
 
         // sample values
-        MaEnvelopeResult r1 = results[24];
-        Assert.AreEqual(215.0920, r1.Centerline.Round(4));
-        Assert.AreEqual(220.4693, r1.UpperEnvelope.Round(4));
-        Assert.AreEqual(209.7147, r1.LowerEnvelope.Round(4));
+        MaEnvelopeResult r1 = sut[24];
+        r1.Centerline.Should().BeApproximately(215.0920, Money4);
+        r1.UpperEnvelope.Should().BeApproximately(220.4693, Money4);
+        r1.LowerEnvelope.Should().BeApproximately(209.7147, Money4);
 
-        MaEnvelopeResult r2 = results[249];
-        Assert.AreEqual(255.3873, r2.Centerline.Round(4));
-        Assert.AreEqual(261.7719, r2.UpperEnvelope.Round(4));
-        Assert.AreEqual(249.0026, r2.LowerEnvelope.Round(4));
+        MaEnvelopeResult r2 = sut[249];
+        r2.Centerline.Should().BeApproximately(255.3873, Money4);
+        r2.UpperEnvelope.Should().BeApproximately(261.7719, Money4);
+        r2.LowerEnvelope.Should().BeApproximately(249.0026, Money4);
 
-        MaEnvelopeResult r3 = results[501];
-        Assert.AreEqual(249.3519, r3.Centerline.Round(4));
-        Assert.AreEqual(255.5857, r3.UpperEnvelope.Round(4));
-        Assert.AreEqual(243.1181, r3.LowerEnvelope.Round(4));
+        MaEnvelopeResult r3 = sut[501];
+        r3.Centerline.Should().BeApproximately(249.3519, Money4);
+        r3.UpperEnvelope.Should().BeApproximately(255.5857, Money4);
+        r3.LowerEnvelope.Should().BeApproximately(243.1181, Money4);
     }
 
     [TestMethod]
     public void Hma()
     {
-        IReadOnlyList<MaEnvelopeResult> results =
+        IReadOnlyList<MaEnvelopeResult> sut =
             Quotes.ToMaEnvelopes(20, 2.5, MaType.HMA);
 
         // proper quantities
-        Assert.HasCount(502, results);
-        Assert.HasCount(480, results.Where(static x => x.Centerline != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Centerline != null).Should().HaveCount(480);
 
         // sample values
-        MaEnvelopeResult r2 = results[149];
-        Assert.AreEqual(236.0835, r2.Centerline.Round(4));
-        Assert.AreEqual(241.9856, r2.UpperEnvelope.Round(4));
-        Assert.AreEqual(230.1814, r2.LowerEnvelope.Round(4));
+        MaEnvelopeResult r2 = sut[149];
+        r2.Centerline.Should().BeApproximately(236.0835, Money4);
+        r2.UpperEnvelope.Should().BeApproximately(241.9856, Money4);
+        r2.LowerEnvelope.Should().BeApproximately(230.1814, Money4);
 
-        MaEnvelopeResult r3 = results[501];
-        Assert.AreEqual(235.6972, r3.Centerline.Round(4));
-        Assert.AreEqual(241.5897, r3.UpperEnvelope.Round(4));
-        Assert.AreEqual(229.8048, r3.LowerEnvelope.Round(4));
+        MaEnvelopeResult r3 = sut[501];
+        r3.Centerline.Should().BeApproximately(235.6972, Money4);
+        r3.UpperEnvelope.Should().BeApproximately(241.5897, Money4);
+        r3.LowerEnvelope.Should().BeApproximately(229.8048, Money4);
     }
 
     [TestMethod]
     public void Smma()
     {
-        IReadOnlyList<MaEnvelopeResult> results =
+        IReadOnlyList<MaEnvelopeResult> sut =
             Quotes.ToMaEnvelopes(20, 2.5, MaType.SMMA);
 
         // proper quantities
-        Assert.HasCount(502, results);
-        Assert.HasCount(483, results.Where(static x => x.Centerline != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Centerline != null).Should().HaveCount(483);
 
         // sample values
-        MaEnvelopeResult r1 = results[24];
-        Assert.AreEqual(214.8433, r1.Centerline.Round(4));
-        Assert.AreEqual(220.2144, r1.UpperEnvelope.Round(4));
-        Assert.AreEqual(209.4722, r1.LowerEnvelope.Round(4));
+        MaEnvelopeResult r1 = sut[24];
+        r1.Centerline.Should().BeApproximately(214.8433, Money4);
+        r1.UpperEnvelope.Should().BeApproximately(220.2144, Money4);
+        r1.LowerEnvelope.Should().BeApproximately(209.4722, Money4);
 
-        MaEnvelopeResult r2 = results[249];
-        Assert.AreEqual(252.5574, r2.Centerline.Round(4));
-        Assert.AreEqual(258.8714, r2.UpperEnvelope.Round(4));
-        Assert.AreEqual(246.2435, r2.LowerEnvelope.Round(4));
+        MaEnvelopeResult r2 = sut[249];
+        r2.Centerline.Should().BeApproximately(252.5574, Money4);
+        r2.UpperEnvelope.Should().BeApproximately(258.8714, Money4);
+        r2.LowerEnvelope.Should().BeApproximately(246.2435, Money4);
 
-        MaEnvelopeResult r3 = results[501];
-        Assert.AreEqual(255.6746, r3.Centerline.Round(4));
-        Assert.AreEqual(262.0665, r3.UpperEnvelope.Round(4));
-        Assert.AreEqual(249.2828, r3.LowerEnvelope.Round(4));
+        MaEnvelopeResult r3 = sut[501];
+        r3.Centerline.Should().BeApproximately(255.6746, Money4);
+        r3.UpperEnvelope.Should().BeApproximately(262.0665, Money4);
+        r3.LowerEnvelope.Should().BeApproximately(249.2828, Money4);
     }
 
     [TestMethod]
     public void Tema()
     {
-        IReadOnlyList<MaEnvelopeResult> results =
+        IReadOnlyList<MaEnvelopeResult> sut =
             Quotes.ToMaEnvelopes(20, 2.5, MaType.TEMA);
 
         // proper quantities
-        Assert.HasCount(502, results);
-        Assert.HasCount(483, results.Where(static x => x.Centerline != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Centerline != null).Should().HaveCount(483);
 
         // sample values
-        MaEnvelopeResult r1 = results[57];
-        Assert.AreEqual(222.6349, r1.Centerline.Round(4));
-        Assert.AreEqual(228.2008, r1.UpperEnvelope.Round(4));
-        Assert.AreEqual(217.0690, r1.LowerEnvelope.Round(4));
+        MaEnvelopeResult r1 = sut[57];
+        r1.Centerline.Should().BeApproximately(222.6349, Money4);
+        r1.UpperEnvelope.Should().BeApproximately(228.2008, Money4);
+        r1.LowerEnvelope.Should().BeApproximately(217.0690, Money4);
 
-        MaEnvelopeResult r2 = results[249];
-        Assert.AreEqual(258.6208, r2.Centerline.Round(4));
-        Assert.AreEqual(265.0863, r2.UpperEnvelope.Round(4));
-        Assert.AreEqual(252.1553, r2.LowerEnvelope.Round(4));
+        MaEnvelopeResult r2 = sut[249];
+        r2.Centerline.Should().BeApproximately(258.6208, Money4);
+        r2.UpperEnvelope.Should().BeApproximately(265.0863, Money4);
+        r2.LowerEnvelope.Should().BeApproximately(252.1553, Money4);
 
-        MaEnvelopeResult r3 = results[501];
-        Assert.AreEqual(238.7690, r3.Centerline.Round(4));
-        Assert.AreEqual(244.7382, r3.UpperEnvelope.Round(4));
-        Assert.AreEqual(232.7998, r3.LowerEnvelope.Round(4));
+        MaEnvelopeResult r3 = sut[501];
+        r3.Centerline.Should().BeApproximately(238.7690, Money4);
+        r3.UpperEnvelope.Should().BeApproximately(244.7382, Money4);
+        r3.LowerEnvelope.Should().BeApproximately(232.7998, Money4);
     }
 
     [TestMethod]
     public void Wma()
     {
-        IReadOnlyList<MaEnvelopeResult> results =
+        IReadOnlyList<MaEnvelopeResult> sut =
             Quotes.ToMaEnvelopes(20, 2.5, MaType.WMA);
 
         // proper quantities
-        Assert.HasCount(502, results);
-        Assert.HasCount(483, results.Where(static x => x.Centerline != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Centerline != null).Should().HaveCount(483);
 
         // sample values
-        MaEnvelopeResult r1 = results[149];
-        Assert.AreEqual(235.5253, r1.Centerline.Round(4));
-        Assert.AreEqual(241.4135, r1.UpperEnvelope.Round(4));
-        Assert.AreEqual(229.6372, r1.LowerEnvelope.Round(4));
+        MaEnvelopeResult r1 = sut[149];
+        r1.Centerline.Should().BeApproximately(235.5253, Money4);
+        r1.UpperEnvelope.Should().BeApproximately(241.4135, Money4);
+        r1.LowerEnvelope.Should().BeApproximately(229.6372, Money4);
 
-        MaEnvelopeResult r2 = results[501];
-        Assert.AreEqual(246.5110, r2.Centerline.Round(4));
-        Assert.AreEqual(252.6738, r2.UpperEnvelope.Round(4));
-        Assert.AreEqual(240.3483, r2.LowerEnvelope.Round(4));
+        MaEnvelopeResult r2 = sut[501];
+        r2.Centerline.Should().BeApproximately(246.5110, Money4);
+        r2.UpperEnvelope.Should().BeApproximately(252.6738, Money4);
+        r2.LowerEnvelope.Should().BeApproximately(240.3483, Money4);
     }
 
     [TestMethod]
     public void UseReusable()
     {
-        IReadOnlyList<MaEnvelopeResult> results = Quotes
+        IReadOnlyList<MaEnvelopeResult> sut = Quotes
             .Use(CandlePart.Close)
             .ToMaEnvelopes(10);
 
-        Assert.HasCount(502, results);
-        Assert.HasCount(493, results.Where(static x => x.Centerline != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Centerline != null).Should().HaveCount(493);
     }
 
     [TestMethod]
     public void Chainee()
     {
-        IReadOnlyList<MaEnvelopeResult> results = Quotes
+        IReadOnlyList<MaEnvelopeResult> sut = Quotes
             .ToSma(2)
             .ToMaEnvelopes(10);
 
-        Assert.HasCount(502, results);
-        Assert.HasCount(492, results.Where(static x => x.Centerline != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Centerline != null).Should().HaveCount(492);
     }
 
     [TestMethod]
@@ -267,42 +267,42 @@ public class MaEnvelopes : StaticSeriesTestBase
         IReadOnlyList<MaEnvelopeResult> a = BadQuotes
             .ToMaEnvelopes(5, 2.5, MaType.ALMA);
 
-        Assert.HasCount(502, a);
+        a.Should().HaveCount(502);
 
         IReadOnlyList<MaEnvelopeResult> d = BadQuotes
             .ToMaEnvelopes(5, 2.5, MaType.DEMA);
 
-        Assert.HasCount(502, d);
+        d.Should().HaveCount(502);
 
         IReadOnlyList<MaEnvelopeResult> p = BadQuotes
             .ToMaEnvelopes(5, 2.5, MaType.EPMA);
 
-        Assert.HasCount(502, p);
+        p.Should().HaveCount(502);
 
         IReadOnlyList<MaEnvelopeResult> e = BadQuotes
             .ToMaEnvelopes(5, 2.5, MaType.EMA);
 
-        Assert.HasCount(502, e);
+        e.Should().HaveCount(502);
 
         IReadOnlyList<MaEnvelopeResult> h = BadQuotes
             .ToMaEnvelopes(5, 2.5, MaType.HMA);
 
-        Assert.HasCount(502, h);
+        h.Should().HaveCount(502);
 
         IReadOnlyList<MaEnvelopeResult> s = BadQuotes
             .ToMaEnvelopes(5);
 
-        Assert.HasCount(502, s);
+        s.Should().HaveCount(502);
 
         IReadOnlyList<MaEnvelopeResult> t = BadQuotes
             .ToMaEnvelopes(5, 2.5, MaType.TEMA);
 
-        Assert.HasCount(502, t);
+        t.Should().HaveCount(502);
 
         IReadOnlyList<MaEnvelopeResult> w = BadQuotes
             .ToMaEnvelopes(5, 2.5, MaType.WMA);
 
-        Assert.HasCount(502, w);
+        w.Should().HaveCount(502);
     }
 
     [TestMethod]
@@ -311,22 +311,22 @@ public class MaEnvelopes : StaticSeriesTestBase
         IReadOnlyList<MaEnvelopeResult> r0 = Noquotes
             .ToMaEnvelopes(10);
 
-        Assert.IsEmpty(r0);
+        r0.Should().BeEmpty();
 
         IReadOnlyList<MaEnvelopeResult> r1 = Onequote
             .ToMaEnvelopes(10);
 
-        Assert.HasCount(1, r1);
+        r1.Should().HaveCount(1);
     }
 
     [TestMethod]
     public void Condense()
     {
-        IReadOnlyList<MaEnvelopeResult> results = Quotes
+        IReadOnlyList<MaEnvelopeResult> sut = Quotes
             .ToMaEnvelopes(20)
             .Condense();
 
-        Assert.HasCount(483, results);
+        sut.Should().HaveCount(483);
     }
 
     [TestMethod]

@@ -14,14 +14,14 @@ public class ConnorsRsiHubTests : StreamHubTestBase, ITestChainObserver, ITestCh
         string actual = hub.ToString();
         string expected = $"CRSI({rsiPeriods},{streakPeriods},{rankPeriods})";
 
-        Assert.AreEqual(expected, actual);
+        actual.Should().Be(expected);
     }
 
     [TestMethod]
     public void Results_AreAlwaysBounded()
     {
-        IReadOnlyList<ConnorsRsiResult> results = Quotes.ToConnorsRsiHub(3, 2, 100).Results;
-        results.IsBetween(x => x.ConnorsRsi, 0, 100);
+        IReadOnlyList<ConnorsRsiResult> sut = Quotes.ToConnorsRsiHub(3, 2, 100).Results;
+        sut.IsBetween(x => x.ConnorsRsi, 0, 100);
     }
 
     [TestMethod]

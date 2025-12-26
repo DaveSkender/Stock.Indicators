@@ -6,49 +6,49 @@ public class UlcerIndex : StaticSeriesTestBase
     [TestMethod]
     public override void DefaultParameters_ReturnsExpectedResults()
     {
-        IReadOnlyList<UlcerIndexResult> results = Quotes
+        IReadOnlyList<UlcerIndexResult> sut = Quotes
             .ToUlcerIndex();
 
         // proper quantities
-        Assert.HasCount(502, results);
-        Assert.HasCount(489, results.Where(static x => x.UlcerIndex != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.UlcerIndex != null).Should().HaveCount(489);
 
         // sample value
-        UlcerIndexResult r = results[501];
-        Assert.AreEqual(5.7255, r.UlcerIndex.Round(4));
+        UlcerIndexResult r = sut[501];
+        r.UlcerIndex.Should().BeApproximately(5.7255, Money4);
     }
 
     [TestMethod]
     public void UseReusable()
     {
-        IReadOnlyList<UlcerIndexResult> results = Quotes
+        IReadOnlyList<UlcerIndexResult> sut = Quotes
             .Use(CandlePart.Close)
             .ToUlcerIndex();
 
-        Assert.HasCount(502, results);
-        Assert.HasCount(489, results.Where(static x => x.UlcerIndex != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.UlcerIndex != null).Should().HaveCount(489);
     }
 
     [TestMethod]
     public void Chainee()
     {
-        IReadOnlyList<UlcerIndexResult> results = Quotes
+        IReadOnlyList<UlcerIndexResult> sut = Quotes
             .ToSma(2)
             .ToUlcerIndex();
 
-        Assert.HasCount(502, results);
-        Assert.HasCount(488, results.Where(static x => x.UlcerIndex != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.UlcerIndex != null).Should().HaveCount(488);
     }
 
     [TestMethod]
     public void ChainingFromResults_WorksAsExpected()
     {
-        IReadOnlyList<SmaResult> results = Quotes
+        IReadOnlyList<SmaResult> sut = Quotes
             .ToUlcerIndex()
             .ToSma(10);
 
-        Assert.HasCount(502, results);
-        Assert.HasCount(480, results.Where(static x => x.Sma != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Sma != null).Should().HaveCount(480);
     }
 
     [TestMethod]
@@ -57,8 +57,8 @@ public class UlcerIndex : StaticSeriesTestBase
         IReadOnlyList<UlcerIndexResult> r = BadQuotes
             .ToUlcerIndex(15);
 
-        Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(static x => x.UlcerIndex is double.NaN));
+        r.Should().HaveCount(502);
+        r.Where(static x => x.UlcerIndex is double.NaN).Should().BeEmpty();
     }
 
     [TestMethod]
@@ -67,26 +67,26 @@ public class UlcerIndex : StaticSeriesTestBase
         IReadOnlyList<UlcerIndexResult> r0 = Noquotes
             .ToUlcerIndex();
 
-        Assert.IsEmpty(r0);
+        r0.Should().BeEmpty();
 
         IReadOnlyList<UlcerIndexResult> r1 = Onequote
             .ToUlcerIndex();
 
-        Assert.HasCount(1, r1);
+        r1.Should().HaveCount(1);
     }
 
     [TestMethod]
     public void Removed()
     {
-        IReadOnlyList<UlcerIndexResult> results = Quotes
+        IReadOnlyList<UlcerIndexResult> sut = Quotes
             .ToUlcerIndex()
             .RemoveWarmupPeriods();
 
         // assertions
-        Assert.HasCount(502 - 13, results);
+        sut.Should().HaveCount(502 - 13);
 
-        UlcerIndexResult last = results[^1];
-        Assert.AreEqual(5.7255, last.UlcerIndex.Round(4));
+        UlcerIndexResult last = sut[^1];
+        last.UlcerIndex.Should().BeApproximately(5.7255, Money4);
     }
 
     /// <summary>
@@ -94,6 +94,8 @@ public class UlcerIndex : StaticSeriesTestBase
     /// </summary>
     [TestMethod]
     public void Exceptions()
-        => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToUlcerIndex(0));
+        => FluentActions
+            .Invoking(static () => Quotes.ToUlcerIndex(0))
+            .Should()
+            .ThrowExactly<ArgumentOutOfRangeException>();
 }

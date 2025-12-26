@@ -6,46 +6,46 @@ public class Bop : StaticSeriesTestBase
     [TestMethod]
     public override void DefaultParameters_ReturnsExpectedResults()
     {
-        IReadOnlyList<BopResult> results = Quotes
+        IReadOnlyList<BopResult> sut = Quotes
             .ToBop();
 
         // proper quantities
-        Assert.HasCount(502, results);
-        Assert.HasCount(489, results.Where(static x => x.Bop != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Bop != null).Should().HaveCount(489);
 
         // sample values
-        BopResult r1 = results[12];
-        Assert.IsNull(r1.Bop);
+        BopResult r1 = sut[12];
+        r1.Bop.Should().BeNull();
 
-        BopResult r2 = results[13];
-        Assert.AreEqual(0.081822, r2.Bop.Round(6));
+        BopResult r2 = sut[13];
+        r2.Bop.Should().BeApproximately(0.081822, Money6);
 
-        BopResult r3 = results[149];
-        Assert.AreEqual(-0.016203, r3.Bop.Round(6));
+        BopResult r3 = sut[149];
+        r3.Bop.Should().BeApproximately(-0.016203, Money6);
 
-        BopResult r4 = results[249];
-        Assert.AreEqual(-0.058682, r4.Bop.Round(6));
+        BopResult r4 = sut[249];
+        r4.Bop.Should().BeApproximately(-0.058682, Money6);
 
-        BopResult r5 = results[501];
-        Assert.AreEqual(-0.292788, r5.Bop.Round(6));
+        BopResult r5 = sut[501];
+        r5.Bop.Should().BeApproximately(-0.292788, Money6);
     }
 
     [TestMethod]
     public void Results_AreAlwaysBounded()
     {
-        IReadOnlyList<BopResult> results = Quotes.ToBop(14);
-        results.IsBetween(x => x.Bop, -1, 1);
+        IReadOnlyList<BopResult> sut = Quotes.ToBop(14);
+        sut.IsBetween(x => x.Bop, -1, 1);
     }
 
     [TestMethod]
     public void ChainingFromResults_WorksAsExpected()
     {
-        IReadOnlyList<SmaResult> results = Quotes
+        IReadOnlyList<SmaResult> sut = Quotes
             .ToBop()
             .ToSma(10);
 
-        Assert.HasCount(502, results);
-        Assert.HasCount(480, results.Where(static x => x.Sma != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Sma != null).Should().HaveCount(480);
     }
 
     [TestMethod]
@@ -54,7 +54,7 @@ public class Bop : StaticSeriesTestBase
         IReadOnlyList<BopResult> r = Data.GetBtcUsdNan()
             .ToBop(50);
 
-        Assert.IsEmpty(r.Where(static x => x.Bop is double v && double.IsNaN(v)));
+        r.Where(static x => x.Bop is double v && double.IsNaN(v)).Should().BeEmpty();
     }
 
     [TestMethod]
@@ -63,8 +63,8 @@ public class Bop : StaticSeriesTestBase
         IReadOnlyList<BopResult> r = BadQuotes
             .ToBop();
 
-        Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(static x => x.Bop is double v && double.IsNaN(v)));
+        r.Should().HaveCount(502);
+        r.Where(static x => x.Bop is double v && double.IsNaN(v)).Should().BeEmpty();
     }
 
     [TestMethod]
@@ -72,25 +72,25 @@ public class Bop : StaticSeriesTestBase
     {
         IReadOnlyList<BopResult> r0 = Noquotes
             .ToBop();
-        Assert.IsEmpty(r0);
+        r0.Should().BeEmpty();
 
         IReadOnlyList<BopResult> r1 = Onequote
             .ToBop();
-        Assert.HasCount(1, r1);
+        r1.Should().HaveCount(1);
     }
 
     [TestMethod]
     public void Removed()
     {
-        IReadOnlyList<BopResult> results = Quotes
+        IReadOnlyList<BopResult> sut = Quotes
             .ToBop()
             .RemoveWarmupPeriods();
 
         // assertions
-        Assert.HasCount(502 - 13, results);
+        sut.Should().HaveCount(502 - 13);
 
-        BopResult last = results[^1];
-        Assert.AreEqual(-0.292788, last.Bop.Round(6));
+        BopResult last = sut[^1];
+        last.Bop.Should().BeApproximately(-0.292788, Money6);
     }
 
     /// <summary>
@@ -98,6 +98,8 @@ public class Bop : StaticSeriesTestBase
     /// </summary>
     [TestMethod]
     public void Exceptions()
-        => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToBop(0));
+        => FluentActions
+            .Invoking(static () => Quotes.ToBop(0))
+            .Should()
+            .ThrowExactly<ArgumentOutOfRangeException>();
 }

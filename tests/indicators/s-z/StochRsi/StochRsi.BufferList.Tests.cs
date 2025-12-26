@@ -51,9 +51,9 @@ public class StochRsi : BufferListTestBase, ITestChainBufferList
     [TestMethod]
     public void Results_AreAlwaysBounded()
     {
-        StochRsiList results = new(14, 14, 3, 1, Quotes);
-        results.IsBetween(x => x.StochRsi, 0, 100);
-        results.IsBetween(x => x.Signal, 0, 100);
+        StochRsiList sut = new(14, 14, 3, 1, Quotes);
+        sut.IsBetween(x => x.StochRsi, 0, 100);
+        sut.IsBetween(x => x.Signal, 0, 100);
     }
 
     [TestMethod]

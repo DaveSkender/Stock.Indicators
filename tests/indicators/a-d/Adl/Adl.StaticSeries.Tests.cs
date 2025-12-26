@@ -6,36 +6,36 @@ public class Adl : StaticSeriesTestBase
     [TestMethod]
     public override void DefaultParameters_ReturnsExpectedResults()
     {
-        IReadOnlyList<AdlResult> results = Quotes
+        IReadOnlyList<AdlResult> sut = Quotes
             .ToAdl();
 
         // proper quantities
-        Assert.HasCount(502, results);
+        sut.Should().HaveCount(502);
 
         // sample values
-        AdlResult r1 = results[249];
-        Assert.AreEqual(0.7778, r1.MoneyFlowMultiplier.Round(4));
-        Assert.AreEqual(36433792.89, r1.MoneyFlowVolume.Round(2));
-        Assert.AreEqual(3266400865.74, r1.Adl.Round(2));
+        AdlResult r1 = sut[249];
+        r1.MoneyFlowMultiplier.Should().BeApproximately(0.7778, Money4);
+        r1.MoneyFlowVolume.Should().BeApproximately(36433792.89, 0.005);
+        r1.Adl.Should().BeApproximately(3266400865.74, 0.005);
 
-        AdlResult r2 = results[501];
-        Assert.AreEqual(0.8052, r2.MoneyFlowMultiplier.Round(4));
-        Assert.AreEqual(118396116.25, r2.MoneyFlowVolume.Round(2));
-        Assert.AreEqual(3439986548.42, r2.Adl.Round(2));
+        AdlResult r2 = sut[501];
+        r2.MoneyFlowMultiplier.Should().BeApproximately(0.8052, Money4);
+        r2.MoneyFlowVolume.Should().BeApproximately(118396116.25, 0.005);
+        r2.Adl.Should().BeApproximately(3439986548.42, 0.005);
     }
 
     [TestMethod]
     public void ChainingFromResults_WorksAsExpected()
     {
-        IReadOnlyList<SmaResult> results = Quotes
+        IReadOnlyList<SmaResult> sut = Quotes
             .ToAdl()
             .ToSma(10);
 
         // assertions
 
         // proper quantities
-        Assert.HasCount(502, results);
-        Assert.HasCount(493, results.Where(static x => x.Sma != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Sma != null).Should().HaveCount(493);
     }
 
     [TestMethod]
@@ -44,8 +44,8 @@ public class Adl : StaticSeriesTestBase
         IReadOnlyList<AdlResult> r = BadQuotes
             .ToAdl();
 
-        Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(static x => double.IsNaN(x.Adl)));
+        r.Should().HaveCount(502);
+        r.Where(static x => double.IsNaN(x.Adl)).Should().BeEmpty();
     }
 
     [TestMethod]
@@ -54,7 +54,7 @@ public class Adl : StaticSeriesTestBase
         IReadOnlyList<AdlResult> r = BigQuotes
             .ToAdl();
 
-        Assert.HasCount(1246, r);
+        r.Should().HaveCount(1246);
     }
 
     [TestMethod]
@@ -63,7 +63,7 @@ public class Adl : StaticSeriesTestBase
         IReadOnlyList<AdlResult> r = RandomQuotes
             .ToAdl();
 
-        Assert.HasCount(1000, r);
+        r.Should().HaveCount(1000);
     }
 
     [TestMethod]
@@ -72,11 +72,11 @@ public class Adl : StaticSeriesTestBase
         IReadOnlyList<AdlResult> r0 = Noquotes
             .ToAdl();
 
-        Assert.IsEmpty(r0);
+        r0.Should().BeEmpty();
 
         IReadOnlyList<AdlResult> r1 = Onequote
             .ToAdl();
 
-        Assert.HasCount(1, r1);
+        r1.Should().HaveCount(1);
     }
 }

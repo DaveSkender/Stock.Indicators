@@ -120,8 +120,8 @@ public class ForceIndex : StreamHubTestBase, ITestQuoteObserver, ITestChainProvi
         QuoteHub quoteHub = new();
         ForceIndexHub observer = quoteHub.ToForceIndexHub(lookbackPeriods);
 
-        IReadOnlyList<ForceIndexResult> results = observer.Results;
-        results.Should().BeEmpty();
+        IReadOnlyList<ForceIndexResult> sut = observer.Results;
+        sut.Should().BeEmpty();
     }
 
     [TestMethod]
@@ -136,9 +136,9 @@ public class ForceIndex : StreamHubTestBase, ITestQuoteObserver, ITestChainProvi
             quoteHub.Add(Quotes[i]);
         }
 
-        IReadOnlyList<ForceIndexResult> results = observer.Results;
-        results.Should().HaveCount(lookbackPeriods);
-        results.All(static r => r.ForceIndex == null).Should().BeTrue();
+        IReadOnlyList<ForceIndexResult> sut = observer.Results;
+        sut.Should().HaveCount(lookbackPeriods);
+        sut.All(static r => r.ForceIndex == null).Should().BeTrue();
     }
 
     [TestMethod]
@@ -162,10 +162,10 @@ public class ForceIndex : StreamHubTestBase, ITestQuoteObserver, ITestChainProvi
             quoteHub.Add(quote);
         }
 
-        IReadOnlyList<ForceIndexResult> results = observer.Results;
+        IReadOnlyList<ForceIndexResult> sut = observer.Results;
 
         // With zero volume, raw FI should be zero, leading to EMA converging to zero
-        results.Skip(lookbackPeriods).All(static r => r.ForceIndex == 0).Should().BeTrue();
+        sut.Skip(lookbackPeriods).All(static r => r.ForceIndex == 0).Should().BeTrue();
     }
 
     [TestMethod]
@@ -189,9 +189,9 @@ public class ForceIndex : StreamHubTestBase, ITestQuoteObserver, ITestChainProvi
             quoteHub.Add(quote);
         }
 
-        IReadOnlyList<ForceIndexResult> results = observer.Results;
+        IReadOnlyList<ForceIndexResult> sut = observer.Results;
 
         // With no price change, raw FI should be zero, leading to EMA converging to zero
-        results.Skip(lookbackPeriods).All(static r => r.ForceIndex == 0).Should().BeTrue();
+        sut.Skip(lookbackPeriods).All(static r => r.ForceIndex == 0).Should().BeTrue();
     }
 }

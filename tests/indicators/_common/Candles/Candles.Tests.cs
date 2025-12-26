@@ -13,17 +13,17 @@ public class Candles : TestBase
             .ToCandles();  // not sorted
 
         // proper quantities
-        Assert.HasCount(502, candles);
+        candles.Should().HaveCount(502);
 
         // sample values
         DateTime firstDate = DateTime.ParseExact("01/18/2016", "MM/dd/yyyy", invariantCulture);
-        Assert.AreEqual(firstDate, candles[0].Timestamp);
+        candles[0].Timestamp.Should().Be(firstDate);
 
         DateTime lastDate = DateTime.ParseExact("12/31/2018", "MM/dd/yyyy", invariantCulture);
-        Assert.AreEqual(lastDate, candles[^1].Timestamp);
+        candles[^1].Timestamp.Should().Be(lastDate);
 
         DateTime spotDate = DateTime.ParseExact("03/16/2017", "MM/dd/yyyy", invariantCulture);
-        Assert.AreEqual(spotDate, candles[50].Timestamp);
+        candles[50].Timestamp.Should().Be(spotDate);
     }
 
     [TestMethod]
@@ -33,42 +33,42 @@ public class Candles : TestBase
             .ToCandles();
 
         // proper quantities
-        Assert.HasCount(502, candles);
+        candles.Should().HaveCount(502);
 
         // sample values
         CandleProperties r0 = candles[0];
-        Assert.AreEqual(212.8m, r0.Close);
-        Assert.AreEqual(1.83m, r0.Size);
-        Assert.AreEqual(0.19m, r0.Body);
-        Assert.AreEqual(0.55m, r0.UpperWick);
-        Assert.AreEqual(1.09m, r0.LowerWick);
-        Assert.AreEqual(0.10383, r0.BodyPct.Round(5));
-        Assert.AreEqual(0.30055, r0.UpperWickPct.Round(5));
-        Assert.AreEqual(0.59563, r0.LowerWickPct.Round(5));
-        Assert.IsTrue(r0.IsBullish);
-        Assert.IsFalse(r0.IsBearish);
+        r0.Close.Should().Be(212.8m);
+        r0.Size.Should().Be(1.83m);
+        r0.Body.Should().Be(0.19m);
+        r0.UpperWick.Should().Be(0.55m);
+        r0.LowerWick.Should().Be(1.09m);
+        r0.BodyPct.Should().BeApproximately(0.10383, 0.000005);
+        r0.UpperWickPct.Should().BeApproximately(0.30055, 0.000005);
+        r0.LowerWickPct.Should().BeApproximately(0.59563, 0.000005);
+        r0.IsBullish.Should().BeTrue();
+        r0.IsBearish.Should().BeFalse();
 
         CandleProperties r351 = candles[351];
-        Assert.AreEqual(1.24m, r351.Size);
-        Assert.AreEqual(0m, r351.Body);
-        Assert.AreEqual(0.69m, r351.UpperWick);
-        Assert.AreEqual(0.55m, r351.LowerWick);
-        Assert.AreEqual(0, r351.BodyPct.Round(5));
-        Assert.AreEqual(0.55645, r351.UpperWickPct.Round(5));
-        Assert.AreEqual(0.44355, r351.LowerWickPct.Round(5));
-        Assert.IsFalse(r351.IsBullish);
-        Assert.IsFalse(r351.IsBearish);
+        r351.Size.Should().Be(1.24m);
+        r351.Body.Should().Be(0m);
+        r351.UpperWick.Should().Be(0.69m);
+        r351.LowerWick.Should().Be(0.55m);
+        r351.BodyPct.Should().BeApproximately(0, 0.000005);
+        r351.UpperWickPct.Should().BeApproximately(0.55645, 0.000005);
+        r351.LowerWickPct.Should().BeApproximately(0.44355, 0.000005);
+        r351.IsBullish.Should().BeFalse();
+        r351.IsBearish.Should().BeFalse();
 
         CandleProperties r501 = candles[501];
-        Assert.AreEqual(2.67m, r501.Size);
-        Assert.AreEqual(0.36m, r501.Body);
-        Assert.AreEqual(0.26m, r501.UpperWick);
-        Assert.AreEqual(2.05m, r501.LowerWick);
-        Assert.AreEqual(0.13483, r501.BodyPct.Round(5));
-        Assert.AreEqual(0.09738, r501.UpperWickPct.Round(5));
-        Assert.AreEqual(0.76779, r501.LowerWickPct.Round(5));
-        Assert.IsTrue(r501.IsBullish);
-        Assert.IsFalse(r501.IsBearish);
+        r501.Size.Should().Be(2.67m);
+        r501.Body.Should().Be(0.36m);
+        r501.UpperWick.Should().Be(0.26m);
+        r501.LowerWick.Should().Be(2.05m);
+        r501.BodyPct.Should().BeApproximately(0.13483, 0.000005);
+        r501.UpperWickPct.Should().BeApproximately(0.09738, 0.000005);
+        r501.LowerWickPct.Should().BeApproximately(0.76779, 0.000005);
+        r501.IsBullish.Should().BeTrue();
+        r501.IsBearish.Should().BeFalse();
     }
 
     [TestMethod]
@@ -77,6 +77,6 @@ public class Candles : TestBase
         IReadOnlyList<CandleProperties> candles
             = Quotes.ToCandles();
 
-        Assert.HasCount(Quotes.Count, candles);
+        candles.Should().HaveCount(Quotes.Count);
     }
 }

@@ -13,47 +13,47 @@ public class Stoch : StaticSeriesTestBase
         const int signalPeriods = 3;
         const int smoothPeriods = 3;
 
-        IReadOnlyList<StochResult> results = Quotes
+        IReadOnlyList<StochResult> sut = Quotes
             .ToStoch(lookbackPeriods, signalPeriods, smoothPeriods);
 
         // proper quantities
-        Assert.HasCount(502, results);
-        Assert.HasCount(487, results.Where(static x => x.Oscillator != null));
-        Assert.HasCount(485, results.Where(static x => x.Signal != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Oscillator != null).Should().HaveCount(487);
+        sut.Where(static x => x.Signal != null).Should().HaveCount(485);
 
         // sample values
-        StochResult r15 = results[15];
-        Assert.AreEqual(81.1253, r15.Oscillator.Round(4));
-        Assert.IsNull(r15.Signal);
-        Assert.IsNull(r15.PercentJ);
+        StochResult r15 = sut[15];
+        r15.Oscillator.Should().BeApproximately(81.1253, Money4);
+        r15.Signal.Should().BeNull();
+        r15.PercentJ.Should().BeNull();
 
-        StochResult r17 = results[17];
-        Assert.AreEqual(92.1307, r17.Oscillator.Round(4));
-        Assert.AreEqual(88.4995, r17.Signal.Round(4));
-        Assert.AreEqual(99.3929, r17.PercentJ.Round(4));
+        StochResult r17 = sut[17];
+        r17.Oscillator.Should().BeApproximately(92.1307, Money4);
+        r17.Signal.Should().BeApproximately(88.4995, Money4);
+        r17.PercentJ.Should().BeApproximately(99.3929, Money4);
 
-        StochResult r149 = results[149];
-        Assert.AreEqual(81.6870, r149.Oscillator.Round(4));
-        Assert.AreEqual(79.7935, r149.Signal.Round(4));
-        Assert.AreEqual(85.4741, r149.PercentJ.Round(4));
+        StochResult r149 = sut[149];
+        r149.Oscillator.Should().BeApproximately(81.6870, Money4);
+        r149.Signal.Should().BeApproximately(79.7935, Money4);
+        r149.PercentJ.Should().BeApproximately(85.4741, Money4);
 
-        StochResult r249 = results[249];  // also testing aliases here
-        Assert.AreEqual(83.2020, r249.K.Round(4));
-        Assert.AreEqual(83.0813, r249.D.Round(4));
-        Assert.AreEqual(83.4435, r249.J.Round(4));
+        StochResult r249 = sut[249];  // also testing aliases here
+        r249.K.Should().BeApproximately(83.2020, Money4);
+        r249.D.Should().BeApproximately(83.0813, Money4);
+        r249.J.Should().BeApproximately(83.4435, Money4);
 
-        StochResult r501 = results[501];
-        Assert.AreEqual(43.1353, r501.Oscillator.Round(4));
-        Assert.AreEqual(35.5674, r501.Signal.Round(4));
-        Assert.AreEqual(58.2712, r501.PercentJ.Round(4));
+        StochResult r501 = sut[501];
+        r501.Oscillator.Should().BeApproximately(43.1353, Money4);
+        r501.Signal.Should().BeApproximately(35.5674, Money4);
+        r501.PercentJ.Should().BeApproximately(58.2712, Money4);
     }
 
     [TestMethod]
     public void Results_AreAlwaysBounded()
     {
-        IReadOnlyList<StochResult> results = Quotes.ToStoch(14, 3, 3);
-        results.IsBetween(x => x.Oscillator, 0, 100);
-        results.IsBetween(x => x.Signal, 0, 100);
+        IReadOnlyList<StochResult> sut = Quotes.ToStoch(14, 3, 3);
+        sut.IsBetween(x => x.Oscillator, 0, 100);
+        sut.IsBetween(x => x.Signal, 0, 100);
     }
 
     /// <summary>
@@ -62,55 +62,55 @@ public class Stoch : StaticSeriesTestBase
     [TestMethod]
     public void Extended()
     {
-        IReadOnlyList<StochResult> results =
+        IReadOnlyList<StochResult> sut =
             Quotes.ToStoch(9, 3, 3, 5, 4, MaType.SMMA);
 
         // proper quantities
-        Assert.HasCount(502, results);
-        Assert.HasCount(494, results.Where(static x => x.K != null));
-        Assert.HasCount(494, results.Where(static x => x.D != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.K != null).Should().HaveCount(494);
+        sut.Where(static x => x.D != null).Should().HaveCount(494);
 
         // sample values
-        StochResult r7 = results[7];
-        Assert.IsNull(r7.K);
-        Assert.IsNull(r7.D);
-        Assert.IsNull(r7.J);
+        StochResult r7 = sut[7];
+        r7.K.Should().BeNull();
+        r7.D.Should().BeNull();
+        r7.J.Should().BeNull();
 
-        StochResult r8 = results[8];
-        Assert.AreEqual(81.9178, r8.K.Round(4));
-        Assert.AreEqual(81.9178, r8.D.Round(4));
-        Assert.AreEqual(81.9178, r8.J.Round(4));
+        StochResult r8 = sut[8];
+        r8.K.Should().BeApproximately(81.9178, Money4);
+        r8.D.Should().BeApproximately(81.9178, Money4);
+        r8.J.Should().BeApproximately(81.9178, Money4);
 
-        StochResult r17 = results[17];
-        Assert.AreEqual(82.5181, r17.K.Round(4));
-        Assert.AreEqual(76.2603, r17.D.Round(4));
-        Assert.AreEqual(107.5491, r17.J.Round(4));
+        StochResult r17 = sut[17];
+        r17.K.Should().BeApproximately(82.5181, Money4);
+        r17.D.Should().BeApproximately(76.2603, Money4);
+        r17.J.Should().BeApproximately(107.5491, Money4);
 
-        StochResult r149 = results[149];
-        Assert.AreEqual(77.1571, r149.K.Round(4));
-        Assert.AreEqual(72.8206, r149.D.Round(4));
-        Assert.AreEqual(94.5030, r149.J.Round(4));
+        StochResult r149 = sut[149];
+        r149.K.Should().BeApproximately(77.1571, Money4);
+        r149.D.Should().BeApproximately(72.8206, Money4);
+        r149.J.Should().BeApproximately(94.5030, Money4);
 
-        StochResult r249 = results[249];  // also testing aliases here
-        Assert.AreEqual(74.3652, r249.K.Round(4));
-        Assert.AreEqual(75.5660, r249.D.Round(4));
-        Assert.AreEqual(69.5621, r249.J.Round(4));
+        StochResult r249 = sut[249];  // also testing aliases here
+        r249.K.Should().BeApproximately(74.3652, Money4);
+        r249.D.Should().BeApproximately(75.5660, Money4);
+        r249.J.Should().BeApproximately(69.5621, Money4);
 
-        StochResult r501 = results[501];
-        Assert.AreEqual(46.9807, r501.K.Round(4));
-        Assert.AreEqual(32.0413, r501.D.Round(4));
-        Assert.AreEqual(106.7382, r501.J.Round(4));
+        StochResult r501 = sut[501];
+        r501.K.Should().BeApproximately(46.9807, Money4);
+        r501.D.Should().BeApproximately(32.0413, Money4);
+        r501.J.Should().BeApproximately(106.7382, Money4);
     }
 
     [TestMethod]
     public void ChainingFromResults_WorksAsExpected()
     {
-        IReadOnlyList<SmaResult> results = Quotes
+        IReadOnlyList<SmaResult> sut = Quotes
             .ToStoch()
             .ToSma(10);
 
-        Assert.HasCount(502, results);
-        Assert.HasCount(478, results.Where(static x => x.Sma != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Sma != null).Should().HaveCount(478);
     }
 
     [TestMethod]
@@ -120,15 +120,15 @@ public class Stoch : StaticSeriesTestBase
         const int signalPeriods = 1;
         const int smoothPeriods = 3;
 
-        IReadOnlyList<StochResult> results = Quotes
+        IReadOnlyList<StochResult> sut = Quotes
             .ToStoch(lookbackPeriods, signalPeriods, smoothPeriods);
 
         // signal equals oscillator
-        StochResult r1 = results[487];
-        Assert.AreEqual(r1.Oscillator, r1.Signal);
+        StochResult r1 = sut[487];
+        r1.Signal.Should().Be(r1.Oscillator);
 
-        StochResult r2 = results[501];
-        Assert.AreEqual(r2.Oscillator, r2.Signal);
+        StochResult r2 = sut[501];
+        r2.Signal.Should().Be(r2.Oscillator);
     }
 
     [TestMethod]
@@ -138,17 +138,17 @@ public class Stoch : StaticSeriesTestBase
         const int signalPeriods = 10;
         const int smoothPeriods = 1;
 
-        IReadOnlyList<StochResult> results = Quotes
+        IReadOnlyList<StochResult> sut = Quotes
             .ToStoch(lookbackPeriods, signalPeriods, smoothPeriods);
 
         // sample values
-        StochResult r1 = results[487];
-        Assert.AreEqual(25.0353, r1.Oscillator.Round(4));
-        Assert.AreEqual(60.5706, r1.Signal.Round(4));
+        StochResult r1 = sut[487];
+        r1.Oscillator.Should().BeApproximately(25.0353, Money4);
+        r1.Signal.Should().BeApproximately(60.5706, Money4);
 
-        StochResult r2 = results[501];
-        Assert.AreEqual(91.6233, r2.Oscillator.Round(4));
-        Assert.AreEqual(36.0608, r2.Signal.Round(4));
+        StochResult r2 = sut[501];
+        r2.Oscillator.Should().BeApproximately(91.6233, Money4);
+        r2.Signal.Should().BeApproximately(36.0608, Money4);
     }
 
     [TestMethod]
@@ -158,15 +158,15 @@ public class Stoch : StaticSeriesTestBase
         const int signalPeriods = 10;
         const int smoothPeriods = 1;
 
-        IReadOnlyList<StochResult> results = Quotes
+        IReadOnlyList<StochResult> sut = Quotes
             .ToStoch(lookbackPeriods, signalPeriods, smoothPeriods);
 
         // sample values
-        StochResult r1 = results[70];
-        Assert.AreEqual(0, r1.Oscillator);
+        StochResult r1 = sut[70];
+        r1.Oscillator.Should().Be(0);
 
-        StochResult r2 = results[71];
-        Assert.AreEqual(100, r2.Oscillator);
+        StochResult r2 = sut[71];
+        r2.Oscillator.Should().Be(100);
     }
 
     [TestMethod]
@@ -175,8 +175,8 @@ public class Stoch : StaticSeriesTestBase
         IReadOnlyList<StochResult> r = BadQuotes
             .ToStoch(15);
 
-        Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(static x => x.Oscillator is double v && double.IsNaN(v)));
+        r.Should().HaveCount(502);
+        r.Where(static x => x.Oscillator is double v && double.IsNaN(v)).Should().BeEmpty();
 
     }
 
@@ -186,12 +186,12 @@ public class Stoch : StaticSeriesTestBase
         IReadOnlyList<StochResult> r0 = Noquotes
             .ToStoch();
 
-        Assert.IsEmpty(r0);
+        r0.Should().BeEmpty();
 
         IReadOnlyList<StochResult> r1 = Onequote
             .ToStoch();
 
-        Assert.HasCount(1, r1);
+        r1.Should().HaveCount(1);
     }
 
     [TestMethod]
@@ -201,17 +201,17 @@ public class Stoch : StaticSeriesTestBase
         const int signalPeriods = 3;
         const int smoothPeriods = 3;
 
-        IReadOnlyList<StochResult> results = Quotes
+        IReadOnlyList<StochResult> sut = Quotes
             .ToStoch(lookbackPeriods, signalPeriods, smoothPeriods)
             .RemoveWarmupPeriods();
 
         // assertions
-        Assert.HasCount(502 - (lookbackPeriods + smoothPeriods - 2), results);
+        sut.Should().HaveCount(502 - (lookbackPeriods + smoothPeriods - 2));
 
-        StochResult last = results[^1];
-        Assert.AreEqual(43.1353, last.Oscillator.Round(4));
-        Assert.AreEqual(35.5674, last.Signal.Round(4));
-        Assert.AreEqual(58.2712, last.PercentJ.Round(4));
+        StochResult last = sut[^1];
+        last.Oscillator.Should().BeApproximately(43.1353, Money4);
+        last.Signal.Should().BeApproximately(35.5674, Money4);
+        last.PercentJ.Should().BeApproximately(58.2712, Money4);
     }
 
     [TestMethod]
@@ -221,14 +221,14 @@ public class Stoch : StaticSeriesTestBase
         const int signalPeriods = 3;
         const int smoothPeriods = 3;
 
-        IReadOnlyList<StochResult> results = Data
+        IReadOnlyList<StochResult> sut = Data
             .GetRandom(2500)
             .ToStoch(lookbackPeriods, signalPeriods, smoothPeriods);
 
         // test boundary condition
 
-        results.IsBetween(static x => x.Oscillator, 0d, 100d);
-        results.IsBetween(static x => x.Signal, 0d, 100d);
+        sut.IsBetween(static x => x.Oscillator, 0d, 100d);
+        sut.IsBetween(static x => x.Signal, 0d, 100d);
     }
 
     [TestMethod]
@@ -238,13 +238,13 @@ public class Stoch : StaticSeriesTestBase
         IReadOnlyList<Quote> quotes = Data.QuotesFromCsv("_issue1127.williamr.revisit.csv");
 
         // get indicators (using Fast Stochastic parameters to match Williams %R)
-        IReadOnlyList<StochResult> results = quotes
+        IReadOnlyList<StochResult> sut = quotes
             .ToStoch(14, 1, 1);  // Fast Stochastic matches Williams %R formula
 
         // analyze boundary
-        results.Should().HaveCountGreaterThan(0);
-        results.IsBetween(static x => x.Oscillator, 0d, 100d);
-        results.IsBetween(static x => x.Signal, 0d, 100d);
+        sut.Should().HaveCountGreaterThan(0);
+        sut.IsBetween(static x => x.Oscillator, 0d, 100d);
+        sut.IsBetween(static x => x.Signal, 0d, 100d);
     }
 
     [TestMethod]

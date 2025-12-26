@@ -26,9 +26,9 @@ public class TsiHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
     [TestMethod]
     public void Results_AreAlwaysBounded()
     {
-        IReadOnlyList<TsiResult> results = Quotes.ToTsiHub(25, 13, 7).Results;
-        results.IsBetween(x => x.Tsi, -100, 100);
-        results.IsBetween(x => x.Signal, -100, 100);
+        IReadOnlyList<TsiResult> sut = Quotes.ToTsiHub(25, 13, 7).Results;
+        sut.IsBetween(x => x.Tsi, -100, 100);
+        sut.IsBetween(x => x.Signal, -100, 100);
     }
 
     [TestMethod]

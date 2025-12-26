@@ -12,33 +12,33 @@ public class Chandelier : StaticSeriesTestBase
             Quotes.ToChandelier(lookbackPeriods);
 
         // proper quantities
-        Assert.HasCount(502, longResult);
-        Assert.HasCount(480, longResult.Where(static x => x.ChandelierExit != null));
+        longResult.Should().HaveCount(502);
+        longResult.Where(static x => x.ChandelierExit != null).Should().HaveCount(480);
 
         // sample values (long)
         ChandelierResult a = longResult[501];
-        Assert.AreEqual(256.5860, a.ChandelierExit.Round(4));
+        a.ChandelierExit.Should().BeApproximately(256.5860, Money4);
 
         ChandelierResult b = longResult[492];
-        Assert.AreEqual(259.0480, b.ChandelierExit.Round(4));
+        b.ChandelierExit.Should().BeApproximately(259.0480, Money4);
 
         // short
         IReadOnlyList<ChandelierResult> shortResult =
             Quotes.ToChandelier(lookbackPeriods, 3, Direction.Short);
 
         ChandelierResult c = shortResult[501];
-        Assert.AreEqual(246.4240, c.ChandelierExit.Round(4));
+        c.ChandelierExit.Should().BeApproximately(246.4240, Money4);
     }
 
     [TestMethod]
     public void ChainingFromResults_WorksAsExpected()
     {
-        IReadOnlyList<SmaResult> results = Quotes
+        IReadOnlyList<SmaResult> sut = Quotes
             .ToChandelier()
             .ToSma(10);
 
-        Assert.HasCount(502, results);
-        Assert.HasCount(471, results.Where(static x => x.Sma != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Sma != null).Should().HaveCount(471);
     }
 
     [TestMethod]
@@ -47,8 +47,8 @@ public class Chandelier : StaticSeriesTestBase
         IReadOnlyList<ChandelierResult> r = BadQuotes
             .ToChandelier(15, 2);
 
-        Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(static x => x.ChandelierExit is double.NaN));
+        r.Should().HaveCount(502);
+        r.Where(static x => x.ChandelierExit is double.NaN).Should().BeEmpty();
     }
 
     [TestMethod]
@@ -57,26 +57,26 @@ public class Chandelier : StaticSeriesTestBase
         IReadOnlyList<ChandelierResult> r0 = Noquotes
             .ToChandelier();
 
-        Assert.IsEmpty(r0);
+        r0.Should().BeEmpty();
 
         IReadOnlyList<ChandelierResult> r1 = Onequote
             .ToChandelier();
 
-        Assert.HasCount(1, r1);
+        r1.Should().HaveCount(1);
     }
 
     [TestMethod]
     public void Removed()
     {
-        IReadOnlyList<ChandelierResult> results = Quotes
+        IReadOnlyList<ChandelierResult> sut = Quotes
             .ToChandelier()
             .RemoveWarmupPeriods();
 
         // assertions
-        Assert.HasCount(502 - 22, results);
+        sut.Should().HaveCount(502 - 22);
 
-        ChandelierResult last = results[^1];
-        Assert.AreEqual(256.5860, last.ChandelierExit.Round(4));
+        ChandelierResult last = sut[^1];
+        last.ChandelierExit.Should().BeApproximately(256.5860, Money4);
     }
 
     [TestMethod]

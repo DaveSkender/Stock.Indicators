@@ -6,46 +6,46 @@ public class Cmf : StaticSeriesTestBase
     [TestMethod]
     public override void DefaultParameters_ReturnsExpectedResults()
     {
-        IReadOnlyList<CmfResult> results = Quotes
+        IReadOnlyList<CmfResult> sut = Quotes
             .ToCmf();
 
         // proper quantities
-        Assert.HasCount(502, results);
-        Assert.HasCount(483, results.Where(static x => x.Cmf != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Cmf != null).Should().HaveCount(483);
 
         // sample values
-        CmfResult r1 = results[49];
-        Assert.AreEqual(0.5468, r1.MoneyFlowMultiplier.Round(4));
-        Assert.AreEqual(55609259, r1.MoneyFlowVolume.Round(2));
-        Assert.AreEqual(0.350596, r1.Cmf.Round(6));
+        CmfResult r1 = sut[49];
+        r1.MoneyFlowMultiplier.Should().BeApproximately(0.5468, Money4);
+        r1.MoneyFlowVolume.Should().BeApproximately(55609259, 0.005);
+        r1.Cmf.Should().BeApproximately(0.350596, Money6);
 
-        CmfResult r2 = results[249];
-        Assert.AreEqual(0.7778, r2.MoneyFlowMultiplier.Round(4));
-        Assert.AreEqual(36433792.89, r2.MoneyFlowVolume.Round(2));
-        Assert.AreEqual(-0.040226, r2.Cmf.Round(6));
+        CmfResult r2 = sut[249];
+        r2.MoneyFlowMultiplier.Should().BeApproximately(0.7778, Money4);
+        r2.MoneyFlowVolume.Should().BeApproximately(36433792.89, 0.005);
+        r2.Cmf.Should().BeApproximately(-0.040226, Money6);
 
-        CmfResult r3 = results[501];
-        Assert.AreEqual(0.8052, r3.MoneyFlowMultiplier.Round(4));
-        Assert.AreEqual(118396116.25, r3.MoneyFlowVolume.Round(2));
-        Assert.AreEqual(-0.123754, r3.Cmf.Round(6));
+        CmfResult r3 = sut[501];
+        r3.MoneyFlowMultiplier.Should().BeApproximately(0.8052, Money4);
+        r3.MoneyFlowVolume.Should().BeApproximately(118396116.25, 0.005);
+        r3.Cmf.Should().BeApproximately(-0.123754, Money6);
     }
 
     [TestMethod]
     public void Results_AreAlwaysBounded()
     {
-        IReadOnlyList<CmfResult> results = Quotes.ToCmf(20);
-        results.IsBetween(x => x.Cmf, -1, 1);
+        IReadOnlyList<CmfResult> sut = Quotes.ToCmf(20);
+        sut.IsBetween(x => x.Cmf, -1, 1);
     }
 
     [TestMethod]
     public void ChainingFromResults_WorksAsExpected()
     {
-        IReadOnlyList<SmaResult> results = Quotes
+        IReadOnlyList<SmaResult> sut = Quotes
             .ToCmf()
             .ToSma(10);
 
-        Assert.HasCount(502, results);
-        Assert.HasCount(474, results.Where(static x => x.Sma != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Sma != null).Should().HaveCount(474);
     }
 
     [TestMethod]
@@ -54,8 +54,8 @@ public class Cmf : StaticSeriesTestBase
         IReadOnlyList<CmfResult> r = BadQuotes
             .ToCmf(15);
 
-        Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(static x => x.Cmf is double v && double.IsNaN(v)));
+        r.Should().HaveCount(502);
+        r.Where(static x => x.Cmf is double v && double.IsNaN(v)).Should().BeEmpty();
     }
 
     [TestMethod]
@@ -64,7 +64,7 @@ public class Cmf : StaticSeriesTestBase
         IReadOnlyList<CmfResult> r = BigQuotes
             .ToCmf(150);
 
-        Assert.HasCount(1246, r);
+        r.Should().HaveCount(1246);
     }
 
     [TestMethod]
@@ -73,28 +73,28 @@ public class Cmf : StaticSeriesTestBase
         IReadOnlyList<CmfResult> r0 = Noquotes
             .ToCmf();
 
-        Assert.IsEmpty(r0);
+        r0.Should().BeEmpty();
 
         IReadOnlyList<CmfResult> r1 = Onequote
             .ToCmf();
 
-        Assert.HasCount(1, r1);
+        r1.Should().HaveCount(1);
     }
 
     [TestMethod]
     public void Removed()
     {
-        IReadOnlyList<CmfResult> results = Quotes
+        IReadOnlyList<CmfResult> sut = Quotes
             .ToCmf()
             .RemoveWarmupPeriods();
 
         // assertions
-        Assert.HasCount(502 - 19, results);
+        sut.Should().HaveCount(502 - 19);
 
-        CmfResult last = results[^1];
-        Assert.AreEqual(0.8052, last.MoneyFlowMultiplier.Round(4));
-        Assert.AreEqual(118396116.25, last.MoneyFlowVolume.Round(2));
-        Assert.AreEqual(-0.123754, last.Cmf.Round(6));
+        CmfResult last = sut[^1];
+        last.MoneyFlowMultiplier.Should().BeApproximately(0.8052, Money4);
+        last.MoneyFlowVolume.Should().BeApproximately(118396116.25, 0.005);
+        last.Cmf.Should().BeApproximately(-0.123754, Money6);
     }
 
     /// <summary>
@@ -102,6 +102,8 @@ public class Cmf : StaticSeriesTestBase
     /// </summary>
     [TestMethod]
     public void Exceptions()
-        => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToCmf(0));
+        => FluentActions
+            .Invoking(static () => Quotes.ToCmf(0))
+            .Should()
+            .ThrowExactly<ArgumentOutOfRangeException>();
 }

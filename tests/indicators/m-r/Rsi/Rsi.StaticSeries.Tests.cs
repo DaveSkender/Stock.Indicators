@@ -6,51 +6,41 @@ public class Rsi : StaticSeriesTestBase
     [TestMethod]
     public override void DefaultParameters_ReturnsExpectedResults()
     {
-        IReadOnlyList<RsiResult> results = Quotes
+        IReadOnlyList<RsiResult> sut = Quotes
             .ToRsi();
 
         // proper quantities
-        Assert.HasCount(502, results);
-        Assert.HasCount(488, results.Where(static x => x.Rsi != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Rsi != null).Should().HaveCount(488);
 
         // sample values
-        RsiResult r1 = results[13];
-        Assert.IsNull(r1.Rsi);
-
-        RsiResult r2 = results[14];
-        Assert.AreEqual(62.0541, r2.Rsi.Round(4));
-
-        RsiResult r3 = results[249];
-        Assert.AreEqual(70.9368, r3.Rsi.Round(4));
-
-        RsiResult r4 = results[501];
-        Assert.AreEqual(42.0773, r4.Rsi.Round(4));
+        sut[13].Rsi.Should().BeNull();
+        sut[14].Rsi.Should().BeApproximately(62.0541, Money4);
+        sut[249].Rsi.Should().BeApproximately(70.9368, Money4);
+        sut[501].Rsi.Should().BeApproximately(42.0773, Money4);
     }
 
     [TestMethod]
     public void Results_AreAlwaysBounded()
     {
-        IReadOnlyList<RsiResult> results = Quotes.ToRsi(14);
-        results.IsBetween(x => x.Rsi, 0, 100);
+        IReadOnlyList<RsiResult> sut = Quotes.ToRsi(14);
+        sut.IsBetween(x => x.Rsi, 0, 100);
     }
 
     [TestMethod]
     public void SmallLookback()
     {
         const int lookbackPeriods = 1;
-        IReadOnlyList<RsiResult> results = Quotes
+        IReadOnlyList<RsiResult> sut = Quotes
             .ToRsi(lookbackPeriods);
 
         // proper quantities
-        Assert.HasCount(502, results);
-        Assert.HasCount(501, results.Where(static x => x.Rsi != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Rsi != null).Should().HaveCount(501);
 
         // sample values
-        RsiResult r1 = results[28];
-        Assert.AreEqual(100, r1.Rsi);
-
-        RsiResult r2 = results[52];
-        Assert.AreEqual(0, r2.Rsi);
+        sut[28].Rsi.Should().Be(100);
+        sut[52].Rsi.Should().Be(0);
     }
 
     [TestMethod]
@@ -58,62 +48,62 @@ public class Rsi : StaticSeriesTestBase
     {
         IReadOnlyList<Quote> btc = Data.GetBitcoin();
 
-        IReadOnlyList<RsiResult> r = btc
+        IReadOnlyList<RsiResult> sut = btc
             .ToRsi(1);
 
-        Assert.HasCount(1246, r);
+        sut.Should().HaveCount(1246);
     }
 
     [TestMethod]
     public void UseReusable()
     {
-        IReadOnlyList<RsiResult> results = Quotes
+        IReadOnlyList<RsiResult> sut = Quotes
             .Use(CandlePart.Close)
             .ToRsi();
 
-        Assert.HasCount(502, results);
-        Assert.HasCount(488, results.Where(static x => x.Rsi != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Rsi != null).Should().HaveCount(488);
     }
 
     [TestMethod]
     public void Chainee()
     {
-        IReadOnlyList<RsiResult> results = Quotes
+        IReadOnlyList<RsiResult> sut = Quotes
             .ToSma(2)
             .ToRsi();
 
-        Assert.HasCount(502, results);
-        Assert.HasCount(487, results.Where(static x => x.Rsi != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Rsi != null).Should().HaveCount(487);
     }
 
     [TestMethod]
     public void ChainingFromResults_WorksAsExpected()
     {
-        IReadOnlyList<SmaResult> results = Quotes
+        IReadOnlyList<SmaResult> sut = Quotes
             .ToRsi()
             .ToSma(10);
 
-        Assert.HasCount(502, results);
-        Assert.HasCount(479, results.Where(static x => x.Sma != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Sma != null).Should().HaveCount(479);
     }
 
     [TestMethod]
     public void NaN()
     {
-        IReadOnlyList<RsiResult> r = Data.GetBtcUsdNan()
+        IReadOnlyList<RsiResult> sut = Data.GetBtcUsdNan()
             .ToRsi();
 
-        Assert.IsEmpty(r.Where(static x => x.Rsi is double v && double.IsNaN(v)));
+        sut.Where(static x => x.Rsi is double v && double.IsNaN(v)).Should().BeEmpty();
     }
 
     [TestMethod]
     public override void BadQuotes_DoesNotFail()
     {
-        IReadOnlyList<RsiResult> r = BadQuotes
+        IReadOnlyList<RsiResult> sut = BadQuotes
             .ToRsi(20);
 
-        Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(static x => x.Rsi is double v && double.IsNaN(v)));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Rsi is double v && double.IsNaN(v)).Should().BeEmpty();
     }
 
     [TestMethod]
@@ -122,26 +112,24 @@ public class Rsi : StaticSeriesTestBase
         IReadOnlyList<RsiResult> r0 = Noquotes
             .ToRsi();
 
-        Assert.IsEmpty(r0);
+        r0.Should().BeEmpty();
 
         IReadOnlyList<RsiResult> r1 = Onequote
             .ToRsi();
 
-        Assert.HasCount(1, r1);
+        r1.Should().HaveCount(1);
     }
 
     [TestMethod]
     public void Removed()
     {
-        IReadOnlyList<RsiResult> results = Quotes
+        IReadOnlyList<RsiResult> sut = Quotes
             .ToRsi()
             .RemoveWarmupPeriods();
 
         // assertions
-        Assert.HasCount(502 - (10 * 14), results);
-
-        RsiResult last = results[^1];
-        Assert.AreEqual(42.0773, last.Rsi.Round(4));
+        sut.Should().HaveCount(502 - (10 * 14));
+        sut[^1].Rsi.Should().BeApproximately(42.0773, Money4);
     }
 
     /// <summary>
@@ -149,6 +137,8 @@ public class Rsi : StaticSeriesTestBase
     /// </summary>
     [TestMethod]
     public void Exceptions()
-        => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToRsi(0));
+        => FluentActions
+            .Invoking(static () => Quotes.ToRsi(0))
+            .Should()
+            .ThrowExactly<ArgumentOutOfRangeException>();
 }

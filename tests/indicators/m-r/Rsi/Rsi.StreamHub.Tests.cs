@@ -151,8 +151,8 @@ public class RsiHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
     [TestMethod]
     public void Results_AreAlwaysBounded()
     {
-        IReadOnlyList<RsiResult> results = Quotes.ToRsiHub(14).Results;
-        results.IsBetween(x => x.Rsi, 0, 100);
+        IReadOnlyList<RsiResult> sut = Quotes.ToRsiHub(14).Results;
+        sut.IsBetween(x => x.Rsi, 0, 100);
     }
 
     [TestMethod]

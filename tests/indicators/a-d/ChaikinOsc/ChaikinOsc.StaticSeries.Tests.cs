@@ -9,30 +9,30 @@ public class ChaikinOsc : StaticSeriesTestBase
         const int fastPeriods = 3;
         const int slowPeriods = 10;
 
-        IReadOnlyList<ChaikinOscResult> results = Quotes
+        IReadOnlyList<ChaikinOscResult> sut = Quotes
             .ToChaikinOsc(fastPeriods, slowPeriods);
 
         // proper quantities
-        Assert.HasCount(502, results);
-        Assert.HasCount(493, results.Where(static x => x.Oscillator != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Oscillator != null).Should().HaveCount(493);
 
         // sample value
-        ChaikinOscResult r = results[501];
-        Assert.AreEqual(3439986548.42, r.Adl.Round(2));
-        Assert.AreEqual(0.8052, r.MoneyFlowMultiplier.Round(4));
-        Assert.AreEqual(118396116.25, r.MoneyFlowVolume.Round(2));
-        Assert.AreEqual(-19135200.72, r.Oscillator.Round(2));
+        ChaikinOscResult r = sut[501];
+        r.Adl.Should().BeApproximately(3439986548.42, 0.005);
+        r.MoneyFlowMultiplier.Should().BeApproximately(0.8052, Money4);
+        r.MoneyFlowVolume.Should().BeApproximately(118396116.25, 0.005);
+        r.Oscillator.Should().BeApproximately(-19135200.72, 0.005);
     }
 
     [TestMethod]
     public void ChainingFromResults_WorksAsExpected()
     {
-        IReadOnlyList<SmaResult> results = Quotes
+        IReadOnlyList<SmaResult> sut = Quotes
             .ToChaikinOsc()
             .ToSma(10);
 
-        Assert.HasCount(502, results);
-        Assert.HasCount(484, results.Where(static x => x.Sma != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Sma != null).Should().HaveCount(484);
     }
 
     [TestMethod]
@@ -41,8 +41,8 @@ public class ChaikinOsc : StaticSeriesTestBase
         IReadOnlyList<ChaikinOscResult> r = BadQuotes
             .ToChaikinOsc(5, 15);
 
-        Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(static x => x.Oscillator is double v && double.IsNaN(v)));
+        r.Should().HaveCount(502);
+        r.Where(static x => x.Oscillator is double v && double.IsNaN(v)).Should().BeEmpty();
     }
 
     [TestMethod]
@@ -51,12 +51,12 @@ public class ChaikinOsc : StaticSeriesTestBase
         IReadOnlyList<ChaikinOscResult> r0 = Noquotes
             .ToChaikinOsc();
 
-        Assert.IsEmpty(r0);
+        r0.Should().BeEmpty();
 
         IReadOnlyList<ChaikinOscResult> r1 = Onequote
             .ToChaikinOsc();
 
-        Assert.HasCount(1, r1);
+        r1.Should().HaveCount(1);
     }
 
     [TestMethod]
@@ -65,18 +65,18 @@ public class ChaikinOsc : StaticSeriesTestBase
         const int fastPeriods = 3;
         const int slowPeriods = 10;
 
-        IReadOnlyList<ChaikinOscResult> results = Quotes
+        IReadOnlyList<ChaikinOscResult> sut = Quotes
             .ToChaikinOsc(fastPeriods, slowPeriods)
             .RemoveWarmupPeriods();
 
         // assertions
-        Assert.HasCount(502 - (slowPeriods + 100), results);
+        sut.Should().HaveCount(502 - (slowPeriods + 100));
 
-        ChaikinOscResult last = results[^1];
-        Assert.AreEqual(3439986548.42, last.Adl.Round(2));
-        Assert.AreEqual(0.8052, last.MoneyFlowMultiplier.Round(4));
-        Assert.AreEqual(118396116.25, last.MoneyFlowVolume.Round(2));
-        Assert.AreEqual(-19135200.72, last.Oscillator.Round(2));
+        ChaikinOscResult last = sut[^1];
+        last.Adl.Should().BeApproximately(3439986548.42, 0.005);
+        last.MoneyFlowMultiplier.Should().BeApproximately(0.8052, Money4);
+        last.MoneyFlowVolume.Should().BeApproximately(118396116.25, 0.005);
+        last.Oscillator.Should().BeApproximately(-19135200.72, 0.005);
     }
 
     [TestMethod]

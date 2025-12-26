@@ -43,8 +43,8 @@ public class WilliamsR : BufferListTestBase
     [TestMethod]
     public void Results_AreAlwaysBounded()
     {
-        WilliamsRList results = new(14, Quotes);
-        results.IsBetween(x => x.WilliamsR, -100, 0);
+        WilliamsRList sut = new(14, Quotes);
+        sut.IsBetween(x => x.WilliamsR, -100, 0);
     }
 
     [TestMethod]
@@ -74,7 +74,7 @@ public class WilliamsR : BufferListTestBase
     [TestMethod]
     public void IncrementalConsistency()
     {
-        // Test that incremental addition produces same results as batch
+        // Test that incremental addition produces same sut as batch
         WilliamsRList incremental = new(lookbackPeriods);
         WilliamsRList batch = new(lookbackPeriods) { Quotes };
 
