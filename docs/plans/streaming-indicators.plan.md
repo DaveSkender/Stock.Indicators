@@ -194,7 +194,7 @@ These items were identified as enhancements beyond the core framework:
 
 **E009** - BufferList configuration implementation
 
-- Complete BufferList configuration feature ([Issue #1831](https://github.com/DaveSkender/Stock.Indicators/issues/1831))
+- Complete BufferList configuration feature
 - **Priority**: Low - Future enhancement
 
 **E010** - Composite naming for chained indicators
