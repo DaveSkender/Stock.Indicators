@@ -13,8 +13,6 @@ public class DpoHub
     : ChainProvider<IReusable, DpoResult>, IDpo
 {
     private readonly string hubName;
-    private readonly Queue<(double Value, DateTime Timestamp)> valueBuffer;
-    private int inputCount;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="DpoHub"/> class.
@@ -29,10 +27,6 @@ public class DpoHub
         LookbackPeriods = lookbackPeriods;
         Offset = (lookbackPeriods / 2) + 1;
         hubName = $"DPO({lookbackPeriods})";
-
-        // Initialize buffer for lookahead offset
-        valueBuffer = new Queue<(double, DateTime)>(Offset);
-        inputCount = 0;
 
         Reinitialize();
     }
@@ -52,9 +46,9 @@ public class DpoHub
 
     /// <inheritdoc/>
     /// <remarks>
-    /// Overridden to handle DPO's lookahead offset pattern.
-    /// When new data arrives, we emit all DPO results that can now be calculated
-    /// with the available lookahead data.
+    /// Overrides OnAdd to implement batch emission pattern for DPO's lookahead requirement.
+    /// Emits results only when sufficient lookahead data is available.
+    /// During Rebuild, ensures all calculable positions are emitted.
     /// </remarks>
     public override void OnAdd(IReusable item, bool notify, int? indexHint)
     {
@@ -62,106 +56,46 @@ public class DpoHub
 
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
-        // Track total inputs
-        inputCount++;
+        // DPO at position dpoIndex requires SMA at position (dpoIndex + offset)
+        // So with input at position i, we can calculate DPO up to position (i - offset)
+        int maxCalculableIndex = i - Offset;
 
-        // Add current value to buffer (for potential future use)
-        valueBuffer.Update(Offset, (item.Value, item.Timestamp));
-
-        // Calculate how many results we can emit now
-        // With input at position i, we can calculate DPO up to position (i - offset)
-        int maxDpoIndex = i - Offset;
-
-        // We need to emit results starting from the last emitted position
-        int startEmitIndex = Cache.Count;
-
-        // Emit all results from startEmitIndex to maxDpoIndex (inclusive)
-        for (int dpoIndex = startEmitIndex; dpoIndex <= maxDpoIndex; dpoIndex++)
+        // Emit all results from current cache size up to current provider index
+        // to maintain 1:1 correspondence
+        for (int dpoIndex = Cache.Count; dpoIndex <= i; dpoIndex++)
         {
             if (dpoIndex < 0 || dpoIndex >= ProviderCache.Count)
             {
-                continue; // Skip invalid indices
+                continue;
             }
 
-            IReusable dpoTargetItem = ProviderCache[dpoIndex];
-            int smaIndex = dpoIndex + Offset;
-
-            // Check if we can calculate DPO for this position
-            // Condition from Series: i >= lookbackPeriods - offset - 1 && smaIndex < ProviderCache.Count
-            int firstValidDpoIndex = LookbackPeriods - Offset - 1;
-
-            DpoResult result;
-
-            if (dpoIndex >= firstValidDpoIndex && smaIndex < ProviderCache.Count && smaIndex >= LookbackPeriods - 1)
-            {
-                // Calculate SMA at smaIndex
-                double sum = 0;
-                bool hasNaN = false;
-
-                for (int p = smaIndex - LookbackPeriods + 1; p <= smaIndex; p++)
-                {
-                    double value = ProviderCache[p].Value;
-                    if (double.IsNaN(value))
-                    {
-                        hasNaN = true;
-                        break;
-                    }
-
-                    sum += value;
-                }
-
-                double? sma = hasNaN ? null : sum / LookbackPeriods;
-                double? dpoVal = sma.HasValue ? dpoTargetItem.Value - sma.Value : null;
-
-                result = new DpoResult(dpoTargetItem.Timestamp, dpoVal, sma);
-            }
-            else
-            {
-                // Empty result for positions outside valid range
-                result = new DpoResult(dpoTargetItem.Timestamp);
-            }
-
+            DpoResult result = CalculateDpoAtIndex(dpoIndex);
             AppendCache(result, notify);
         }
     }
 
-    /// <inheritdoc/>
-    /// <remarks>
-    /// This method is only used during Rebuild() operations, not during normal streaming.
-    /// It maintains compatibility with the base StreamHub rebuild mechanism.
-    /// </remarks>
-    protected override (DpoResult result, int index)
-        ToIndicator(IReusable item, int? indexHint)
+    /// <summary>
+    /// Calculates DPO result for a specific index position.
+    /// </summary>
+    private DpoResult CalculateDpoAtIndex(int dpoIndex)
     {
-        ArgumentNullException.ThrowIfNull(item);
+        IReusable dpoTargetItem = ProviderCache[dpoIndex];
+        int smaIndex = dpoIndex + Offset;
 
-        int i = indexHint ?? ProviderCache.IndexOf(item, true);
+        // Check if we can calculate DPO for this position
+        int firstValidDpoIndex = LookbackPeriods - Offset - 1;
 
-        // During rebuild, we need to check if we can calculate DPO for this position
-        // DPO at position i needs data at position (i + offset)
-        int futureIndex = i + Offset;
-
-        // If we don't have future data yet, return empty result
-        if (futureIndex >= ProviderCache.Count)
+        // Need sufficient historical data AND lookahead data
+        if (dpoIndex >= firstValidDpoIndex
+            && smaIndex < ProviderCache.Count
+            && smaIndex >= LookbackPeriods - 1)
         {
-            return (new DpoResult(item.Timestamp), i);
-        }
-
-        // Calculate SMA at the future position
-        double? sma = null;
-        if (futureIndex >= LookbackPeriods - 1)
-        {
+            // Calculate SMA at the lookahead position
             double sum = 0;
             bool hasNaN = false;
 
-            for (int p = futureIndex - LookbackPeriods + 1; p <= futureIndex; p++)
+            for (int p = smaIndex - LookbackPeriods + 1; p <= smaIndex; p++)
             {
-                if (p >= ProviderCache.Count)
-                {
-                    hasNaN = true;
-                    break;
-                }
-
                 double value = ProviderCache[p].Value;
                 if (double.IsNaN(value))
                 {
@@ -172,48 +106,49 @@ public class DpoHub
                 sum += value;
             }
 
-            sma = hasNaN ? null : sum / LookbackPeriods;
+            double? sma = hasNaN ? null : sum / LookbackPeriods;
+            double? dpoVal = sma.HasValue ? dpoTargetItem.Value - sma.Value : null;
+
+            return new DpoResult(dpoTargetItem.Timestamp, dpoVal, sma);
         }
 
-        double? dpoVal = sma.HasValue
-            ? item.Value - sma.Value
-            : null;
+        // Return empty result if we can't calculate
+        return new DpoResult(dpoTargetItem.Timestamp);
+    }
 
-        DpoResult result = new(item.Timestamp, dpoVal, sma);
+    /// <inheritdoc/>
+    /// <remarks>
+    /// ToIndicator is used during explicit calls and must handle lookahead correctly.
+    /// This implementation delegates to CalculateDpoAtIndex for consistency.
+    /// </remarks>
+    protected override (DpoResult result, int index)
+        ToIndicator(IReusable item, int? indexHint)
+    {
+        ArgumentNullException.ThrowIfNull(item);
+
+        int i = indexHint ?? ProviderCache.IndexOf(item, true);
+        DpoResult result = CalculateDpoAtIndex(i);
         return (result, i);
     }
 
     /// <summary>
+    /// Rebuilds the cache from a specific timestamp.
+    /// For DPO, always rebuilds from the beginning to ensure lookahead data is considered.
+    /// </summary>
+    public new void Rebuild(DateTime fromTimestamp)
+    {
+        // For DPO, always rebuild from the beginning
+        base.Rebuild(DateTime.MinValue);
+    }
+
+    /// <summary>
     /// Restores the DPO state up to the specified timestamp.
+    /// For DPO, no persistent state needs restoration.
     /// </summary>
     /// <inheritdoc/>
     protected override void RollbackState(DateTime timestamp)
     {
-        // Clear state
-        valueBuffer.Clear();
-        inputCount = 0;
-
-        // Find the target index in provider cache
-        int targetIndex = ProviderCache.IndexGte(timestamp);
-
-        if (targetIndex < 0)
-        {
-            return;
-        }
-
-        int restoreIndex = targetIndex > 0 ? targetIndex - 1 : 0;
-
-        // Track inputs up to restoreIndex
-        inputCount = restoreIndex + 1;
-
-        // Rebuild buffer up to restoreIndex
-        // We need to populate the buffer with the last 'Offset' values before restoreIndex
-        int startIdx = Math.Max(0, restoreIndex - Offset + 1);
-        for (int p = startIdx; p <= restoreIndex; p++)
-        {
-            IReusable providerItem = ProviderCache[p];
-            valueBuffer.Update(Offset, (providerItem.Value, providerItem.Timestamp));
-        }
+        // No state to restore for DPO
     }
 }
 

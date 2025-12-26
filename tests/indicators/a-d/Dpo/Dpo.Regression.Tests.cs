@@ -16,5 +16,25 @@ public class DpoTests : RegressionTestBase<DpoResult>
     }
 
     [TestMethod]
-    public override void Stream() => Assert.Inconclusive("Stream implementation not feasible - DPO requires lookahead");
+    public override void Stream()
+    {
+        QuoteHub quoteHub = new();
+        DpoHub hub = quoteHub.ToDpoHub(14);
+
+        // Add quotes to the hub
+        foreach (Quote q in Quotes)
+        {
+            quoteHub.Add(q);
+        }
+
+        // Get results
+        IReadOnlyList<DpoResult> actuals = hub.Results;
+
+        // Verify results match expected
+        actuals.IsExactly(Expected);
+
+        // Cleanup
+        hub.Unsubscribe();
+        quoteHub.EndTransmission();
+    }
 }
