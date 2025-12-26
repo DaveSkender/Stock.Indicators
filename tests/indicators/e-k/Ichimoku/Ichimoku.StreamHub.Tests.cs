@@ -7,46 +7,57 @@ public class IchimokuHubTests : StreamHubTestBase, ITestQuoteObserver
     private const int kijunPeriods = 26;
     private const int senkouBPeriods = 52;
 
+    private static readonly IReadOnlyList<IchimokuResult> expectedOriginal
+        = Quotes.ToIchimoku(tenkanPeriods, kijunPeriods, senkouBPeriods);
+
     [TestMethod]
     public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
-        List<Quote> quotesList = Quotes.ToList();
-
-        int length = quotesList.Count;
+        int length = Quotes.Count;
 
         // setup quote provider hub
         QuoteHub quoteHub = new();
 
-        // prefill quotes at provider (batch)
-        quoteHub.Add(quotesList.Take(30));
+        // prefill quotes at provider (warmup coverage)
+        quoteHub.Add(Quotes.Take(20));
 
         // initialize observer
-        IchimokuHub observer = quoteHub
+        IchimokuHub sut = quoteHub
             .ToIchimokuHub(tenkanPeriods, kijunPeriods, senkouBPeriods);
 
-        observer.Results.Should().HaveCount(30);
-
         // fetch initial results (early)
-        IReadOnlyList<IchimokuResult> streamList
-            = observer.Results;
+        IReadOnlyList<IchimokuResult> actuals = sut.Results;
 
         // emulate adding quotes to provider hub
-        for (int i = 30; i < length; i++)
+        for (int i = 20; i < length; i++)
         {
-            Quote q = quotesList[i];
+            // skip one (add later)
+            if (i == 80) { continue; }
+
+            Quote q = Quotes[i];
             quoteHub.Add(q);
+
+            // resend duplicate quotes
+            if (i is > 100 and < 105) { quoteHub.Add(q); }
         }
 
-        // time-series, for comparison
-        IReadOnlyList<IchimokuResult> seriesList
-           = quotesList
-            .ToIchimoku(tenkanPeriods, kijunPeriods, senkouBPeriods);
+        // late arrival, should equal series
+        quoteHub.Insert(Quotes[80]);
 
-        // assert, should equal series
-        streamList.Should().HaveCount(length);
-        streamList.Should().BeEquivalentTo(seriesList, o => o.WithStrictOrdering());
+        actuals.Should().HaveCount(length);
+        actuals.Should().BeEquivalentTo(expectedOriginal, static options => options.WithStrictOrdering());
 
-        observer.Unsubscribe();
+        // delete, should equal series (revised)
+        quoteHub.Remove(Quotes[removeAtIndex]);
+
+        IReadOnlyList<IchimokuResult> expectedRevised
+            = RevisedQuotes.ToIchimoku(tenkanPeriods, kijunPeriods, senkouBPeriods);
+
+        actuals.Should().HaveCount(501);
+        actuals.Should().BeEquivalentTo(expectedRevised, static options => options.WithStrictOrdering());
+
+        // cleanup
+        sut.Unsubscribe();
         quoteHub.EndTransmission();
     }
 
@@ -61,7 +72,7 @@ public class IchimokuHubTests : StreamHubTestBase, ITestQuoteObserver
         QuoteHub quoteHub = new();
 
         // initialize observer with custom offsets
-        IchimokuHub observer = quoteHub
+        IchimokuHub sut = quoteHub
             .ToIchimokuHub(3, 13, 40, 0);
 
         // add quotes to quoteHub
@@ -69,7 +80,7 @@ public class IchimokuHubTests : StreamHubTestBase, ITestQuoteObserver
 
         // stream results
         IReadOnlyList<IchimokuResult> streamList
-            = observer.Results;
+            = sut.Results;
 
         // time-series, for comparison
         IReadOnlyList<IchimokuResult> seriesList
@@ -78,16 +89,16 @@ public class IchimokuHubTests : StreamHubTestBase, ITestQuoteObserver
 
         // assert, should equal series
         streamList.Should().HaveCount(quotesList.Count);
-        streamList.Should().BeEquivalentTo(seriesList, o => o.WithStrictOrdering());
+        streamList.Should().BeEquivalentTo(seriesList, static o => o.WithStrictOrdering());
 
-        observer.Unsubscribe();
+        sut.Unsubscribe();
         quoteHub.EndTransmission();
     }
 
     [TestMethod]
     public override void ToStringOverride_ReturnsExpectedName()
     {
-        IchimokuHub hub = new(new QuoteHub(), 9, 26, 52, 26, 26);
-        hub.ToString().Should().Be("ICHIMOKU(9,26,52)");
+        IchimokuHub sut = new(new QuoteHub(), 9, 26, 52, 26, 26);
+        sut.ToString().Should().Be("ICHIMOKU(9,26,52)");
     }
 }
