@@ -60,7 +60,7 @@ The library uses non-nullable `double` types internally for performance, with in
 
 Rationale: This approach achieves significant performance gains from non-nullable types while maintaining mathematical correctness per IEEE 754 standard. NaN is the mathematically correct representation for undefined values.
 
-Detailed implementation guidance: [`src/_common/README.md#nan-handling-policy`](../src/_common/README.md#nan-handling-policy)
+Detailed implementation guidance: [`src/_common/README.md#nan-handling-policy`](https://github.com/DaveSkender/Stock.Indicators/blob/main/src/_common/README.md#nan-handling-policy)
 
 **Reputation Criteria:**
 
