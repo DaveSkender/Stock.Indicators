@@ -294,9 +294,46 @@ export default defineConfig({
 
   ignoreDeadLinks: false,
 
-  // Redirect old URLs to new locations
+  // Redirect old URLs to new locations (including aliases from legacy Jekyll site)
   rewrites: {
-    'indicators/BasicQuote': 'indicators/QuotePart'
+    // Legacy BasicQuote redirect
+    'indicators/BasicQuote': 'indicators/QuotePart',
+    
+    // Alternative indicator names (aliases)
+    'indicators/AtrTrailingStop': 'indicators/AtrStop',
+    'indicators/BullAndBearPower': 'indicators/ElderRay',
+    'indicators/DominantCyclePeriods': 'indicators/HtTrendline',
+    'indicators/DirectionalMovementIndex': 'indicators/Adx',
+    'indicators/DMI': 'indicators/Adx',
+    'indicators/HistoricalVolatility': 'indicators/StdDev',
+    'indicators/HV': 'indicators/StdDev',
+    'indicators/HurstExponent': 'indicators/Hurst',
+    'indicators/KDJ': 'indicators/Stoch',
+    'indicators/KDJIndex': 'indicators/Stoch',
+    'indicators/LeastSquaresMovingAverage': 'indicators/Epma',
+    'indicators/LSMA': 'indicators/Epma',
+    'indicators/LinearRegression': 'indicators/Slope',
+    'indicators/MeanAbsoluteDeviation': 'indicators/Sma',
+    'indicators/MeanSquareError': 'indicators/Sma',
+    'indicators/MeanAbsolutePercentageError': 'indicators/Sma',
+    'indicators/ModifiedMovingAverage': 'indicators/Smma',
+    'indicators/MMA': 'indicators/Smma',
+    'indicators/MomentumOscillator': 'indicators/Roc',
+    'indicators/NormalizedAverageTrueRange': 'indicators/Atr',
+    'indicators/HL2': 'indicators/QuotePart',
+    'indicators/HLC3': 'indicators/QuotePart',
+    'indicators/OC2': 'indicators/QuotePart',
+    'indicators/OHL3': 'indicators/QuotePart',
+    'indicators/OHLC4': 'indicators/QuotePart',
+    'indicators/PriceChannels': 'indicators/Donchian',
+    'indicators/RSquared': 'indicators/Correlation',
+    'indicators/CoefficientOfDetermination': 'indicators/Correlation',
+    'indicators/RescaledRangeAnalysis': 'indicators/Hurst',
+    'indicators/RunningMovingAverage': 'indicators/Smma',
+    'indicators/RMA': 'indicators/Smma',
+    'indicators/TrueRange': 'indicators/Atr',
+    'indicators/TR': 'indicators/Atr',
+    'indicators/ZScore': 'indicators/StdDev'
   },
 
   vite: {
