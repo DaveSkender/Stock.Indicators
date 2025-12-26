@@ -125,13 +125,7 @@ public class IchimokuHub
                         decimal chikouClose = ProviderCache[providerIndex].Close;
 
                         // Update the past result
-                        Cache[backfillCacheIndex] = new(
-                            Timestamp: pastResult.Timestamp,
-                            TenkanSen: pastResult.TenkanSen,
-                            KijunSen: pastResult.KijunSen,
-                            SenkouSpanA: pastResult.SenkouSpanA,
-                            SenkouSpanB: pastResult.SenkouSpanB,
-                            ChikouSpan: chikouClose);
+                        Cache[backfillCacheIndex] = pastResult with { ChikouSpan = chikouClose };
                     }
                 }
             }
