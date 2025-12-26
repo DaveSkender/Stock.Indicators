@@ -17,7 +17,7 @@ public class Stackoverflow : TestBase
         QuoteHub quoteHub = new();
 
         // setup: define ~10 subscribers (flat)
-        List<(string label, IReadOnlyList<ISeries> results, bool irregular)> subscribers =
+        List<(string label, IReadOnlyList<ISeries> sut, bool irregular)> subscribers =
         [
             HubRef(quoteHub.ToAdlHub()),
             HubRef(quoteHub.ToEmaHub(14))
@@ -43,9 +43,9 @@ public class Stackoverflow : TestBase
         Console.WriteLine("--------------------");
 
         // assert: all non-irregular subscribers have the same count
-        foreach ((string label, IReadOnlyList<ISeries> results, bool irregular) in subscribers)
+        foreach ((string label, IReadOnlyList<ISeries> sut, bool irregular) in subscribers)
         {
-            int resultQty = results.Count;
+            int resultQty = sut.Count;
             Console.WriteLine($"Hub: {resultQty} - {label}");
             if (irregular) { continue; }
 
@@ -53,7 +53,7 @@ public class Stackoverflow : TestBase
         }
 
         // assert: [last subscriber] has the same dates
-        IReadOnlyList<ISeries> lastSubscriber = subscribers[^1].results.ToList();
+        IReadOnlyList<ISeries> lastSubscriber = subscribers[^1].sut.ToList();
         for (int i = 0; i < qtyQuotes; i++)
         {
             Quote q = quotesList[i];
@@ -70,9 +70,9 @@ public class Stackoverflow : TestBase
         Console.WriteLine("--------------------");
 
         // assert: all have same count
-        foreach ((string label, IReadOnlyList<ISeries> results, bool irregular) in subscribers)
+        foreach ((string label, IReadOnlyList<ISeries> sut, bool irregular) in subscribers)
         {
-            int resultQty = results.Count;
+            int resultQty = sut.Count;
             Console.WriteLine($"Cut: {resultQty} - {label}");
             if (irregular) { continue; }
 
@@ -96,7 +96,7 @@ public class Stackoverflow : TestBase
         QuoteHub quoteHub = new();
 
         // setup: subscribe a large chain depth
-        List<(string label, IReadOnlyList<ISeries> results, bool irregular)> subscribers = new(chainDepth + 2);
+        List<(string label, IReadOnlyList<ISeries> sut, bool irregular)> subscribers = new(chainDepth + 2);
 
         SmaHub init = quoteHub.ToSmaHub(1);
         SmaHub sma = init.ToSmaHub(2);
@@ -129,9 +129,9 @@ public class Stackoverflow : TestBase
         // assert: this just has to not fail, really
 
         // assert: all non-irregular subscribers have the same count
-        foreach ((string label, IReadOnlyList<ISeries> results, bool irregular) in subscribers)
+        foreach ((string label, IReadOnlyList<ISeries> sut, bool irregular) in subscribers)
         {
-            int resultQty = results.Count;
+            int resultQty = sut.Count;
             Console.WriteLine($"Hub: {resultQty} - {label}");
             if (irregular) { continue; }
 
@@ -139,7 +139,7 @@ public class Stackoverflow : TestBase
         }
 
         // assert: [last subscriber] has the same dates
-        IReadOnlyList<ISeries> lastSubscriber = subscribers[^1].results.ToList();
+        IReadOnlyList<ISeries> lastSubscriber = subscribers[^1].sut.ToList();
         for (int i = 0; i < qtyQuotes; i++)
         {
             Quote q = quotesList[i];
@@ -154,9 +154,9 @@ public class Stackoverflow : TestBase
         quoteHub.Quotes.Count.Should().Be(cutoff);
 
         // assert: all have same count
-        foreach ((string label, IReadOnlyList<ISeries> results, bool irregular) in subscribers)
+        foreach ((string label, IReadOnlyList<ISeries> sut, bool irregular) in subscribers)
         {
-            int resultQty = results.Count;
+            int resultQty = sut.Count;
             Console.WriteLine($"Cut: {resultQty} - {label}");
             if (irregular) { continue; }
 
@@ -180,7 +180,7 @@ public class Stackoverflow : TestBase
 
         // setup: define all possible subscribers
         // TODO: add to this as more Hubs come online
-        List<(string label, IReadOnlyList<ISeries> results, bool irregular)> subscribers =
+        List<(string label, IReadOnlyList<ISeries> sut, bool irregular)> subscribers =
         [
             HubRef(quoteHub.ToAdlHub()),
             HubRef(quoteHub.ToAlligatorHub()),
@@ -215,9 +215,9 @@ public class Stackoverflow : TestBase
         Console.WriteLine("--------------------");
 
         // assert: all non-irregular subscribers have the same count
-        foreach ((string label, IReadOnlyList<ISeries> results, bool irregular) in subscribers)
+        foreach ((string label, IReadOnlyList<ISeries> sut, bool irregular) in subscribers)
         {
-            int resultQty = results.Count;
+            int resultQty = sut.Count;
             Console.WriteLine($"Hub: {resultQty} - {label}");
             if (irregular) { continue; }
 
@@ -225,7 +225,7 @@ public class Stackoverflow : TestBase
         }
 
         // assert: [last subscriber] has the same dates
-        IReadOnlyList<ISeries> lastSubscriber = subscribers[^1].results.ToList();
+        IReadOnlyList<ISeries> lastSubscriber = subscribers[^1].sut.ToList();
         for (int i = 0; i < qtyQuotes; i++)
         {
             Quote q = quotesList[i];
@@ -242,9 +242,9 @@ public class Stackoverflow : TestBase
         Console.WriteLine("--------------------");
 
         // assert: all have same count
-        foreach ((string label, IReadOnlyList<ISeries> results, bool irregular) in subscribers)
+        foreach ((string label, IReadOnlyList<ISeries> sut, bool irregular) in subscribers)
         {
-            int resultQty = results.Count;
+            int resultQty = sut.Count;
             Console.WriteLine($"Cut: {resultQty} - {label}");
             if (irregular) { continue; }
 
@@ -253,7 +253,7 @@ public class Stackoverflow : TestBase
     }
 
     /// <summary>
-    /// Utility to get references to a hub's results.
+    /// Utility to get references to a hub's sut.
     /// </summary>
     /// <param name="hub">Stream hub</param>
     /// <param name="irregular">Is not normal</param>
@@ -262,7 +262,7 @@ public class Stackoverflow : TestBase
         where TIn : ISeries
         where TOut : ISeries
     {
-        IReadOnlyList<TOut> results = hub.Cache;
-        return (hub.ToString(), results, irregular);
+        IReadOnlyList<TOut> sut = hub.Cache;
+        return (hub.ToString(), sut, irregular);
     }
 }

@@ -240,4 +240,12 @@ public class SmiHubTest : StreamHubTestBase, ITestQuoteObserver, ITestChainProvi
         observer.Cache.Should().HaveCount(Quotes.Count);
         observer.Cache.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
     }
+
+    [TestMethod]
+    public void Results_AreAlwaysBounded()
+    {
+        IReadOnlyList<SmiResult> sut = Quotes.ToSmiHub(14, 20, 5, 3).Results;
+        sut.IsBetween(x => x.Smi, -100, 100);
+        sut.IsBetween(x => x.Signal, -100, 100);
+    }
 }

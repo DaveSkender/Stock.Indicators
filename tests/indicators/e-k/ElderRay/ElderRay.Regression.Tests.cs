@@ -6,11 +6,11 @@ public class ElderrayTests : RegressionTestBase<ElderRayResult>
     public ElderrayTests() : base("elder-ray.standard.json") { }
 
     [TestMethod]
-    public override void Series() => Quotes.ToElderRay(13).AssertEquals(Expected);
+    public override void Series() => Quotes.ToElderRay(13).IsExactly(Expected);
 
     [TestMethod]
-    public override void Buffer() => new ElderRayList(13, Quotes).AssertEquals(Expected);
+    public override void Buffer() => new ElderRayList(13, Quotes).IsExactly(Expected);
 
     [TestMethod]
-    public override void Stream() => Quotes.ToElderRayHub(13).Results.AssertEquals(Expected);
+    public override void Stream() => Quotes.ToElderRayHub(13).Results.IsExactly(Expected);
 }

@@ -85,9 +85,17 @@ public class Stoch : BufferListTestBase
     }
 
     [TestMethod]
+    public void Results_AreAlwaysBounded()
+    {
+        StochList sut = new(14, 3, 3, 1, 1, MaType.SMA, Quotes);
+        sut.IsBetween(x => x.Oscillator, 0, 100);
+        sut.IsBetween(x => x.Signal, 0, 100);
+    }
+
+    [TestMethod]
     public void IncrementalConsistency()
     {
-        // Test that incremental addition produces same results as batch
+        // Test that incremental addition produces same sut as batch
         StochList incremental = new(lookbackPeriods, signalPeriods, smoothPeriods);
         StochList batch = new(lookbackPeriods, signalPeriods, smoothPeriods) { Quotes };
 

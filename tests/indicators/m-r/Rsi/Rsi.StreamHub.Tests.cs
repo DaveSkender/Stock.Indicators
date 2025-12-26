@@ -149,6 +149,13 @@ public class RsiHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
     }
 
     [TestMethod]
+    public void Results_AreAlwaysBounded()
+    {
+        IReadOnlyList<RsiResult> sut = Quotes.ToRsiHub(14).Results;
+        sut.IsBetween(x => x.Rsi, 0, 100);
+    }
+
+    [TestMethod]
     public override void ToStringOverride_ReturnsExpectedName()
     {
         QuoteHub quoteHub = new();

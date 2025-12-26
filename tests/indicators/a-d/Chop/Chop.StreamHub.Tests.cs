@@ -4,6 +4,13 @@ namespace StreamHub;
 public class ChopHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
 {
     [TestMethod]
+    public void Results_AreAlwaysBounded()
+    {
+        IReadOnlyList<ChopResult> sut = Quotes.ToChopHub(14).Results;
+        sut.IsBetween(x => x.Chop, 0, 100);
+    }
+
+    [TestMethod]
     public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
         List<Quote> quotesList = Quotes.ToList();

@@ -85,6 +85,13 @@ public class ConnorsRsi : BufferListTestBase, ITestChainBufferList
     }
 
     [TestMethod]
+    public void Results_AreAlwaysBounded()
+    {
+        ConnorsRsiList sut = new(3, 2, 100, Quotes);
+        sut.IsBetween(x => x.ConnorsRsi, 0, 100);
+    }
+
+    [TestMethod]
     public override void Clear_WithState_ResetsState()
     {
         List<Quote> subset = Quotes.Take(80).ToList();

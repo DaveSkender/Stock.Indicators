@@ -24,7 +24,7 @@ public class Sorting : TestBase
         IReadOnlyList<SmaResult> sortResults = baseline
             .ToSortedList();
 
-        Assert.AreEqual(5, sortResults[4].Sma);
+        sortResults[4].Sma.Should().Be(5);
         Assert.AreEqual(DateTime.Parse("1/9/2000", invariantCulture), sortResults[^1].Timestamp);
     }
 }

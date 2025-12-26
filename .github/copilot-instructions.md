@@ -20,8 +20,7 @@ This repository hosts **Stock Indicators for .NET**, the production source for t
 ├── tests/                 # Unit, integration, performance, and simulation suites
 └── Stock.Indicators.sln   # Primary solution for src + tests
 .
-├── docs/                  # Public documentation site (Jekyll)
-└── .specify/              # Spec Kit configuration and active specifications
+└── docs/                  # Public documentation site (Jekyll)
 ```
 
 ## Build and verification
@@ -75,7 +74,7 @@ See [src/_common/README.md](../src/_common/README.md#nan-handling-policy) for co
 
 ## Guiding principles
 
-This library follows the [guiding principles](https://github.com/DaveSkender/Stock.Indicators/discussions/648) that emphasize **Mathematical Precision**, **Performance First**, **Comprehensive Validation**, **Test-Driven Quality**, and **Documentation Excellence**. See the [Constitution](../../.specify/memory/constitution.md) for complete details on these principles and the **[.NET development instructions](../../.github/instructions/dotnet.instructions.md#key-references-and-standards)** for implementation-specific guidance.
+This library follows the [guiding principles](https://github.com/DaveSkender/Stock.Indicators/discussions/648) that emphasize **Mathematical Precision**, **Performance First**, **Comprehensive Validation**, **Test-Driven Quality**, and **Documentation Excellence**. See the [Project Principles](../docs/PRINCIPLES.md) for complete details on these principles and the **[.NET development instructions](instructions/dotnet.instructions.md#key-references-and-standards)** for implementation-specific guidance.
 
 ## Scoped instruction files
 
@@ -93,7 +92,6 @@ This repository uses scoped instruction files for specific development areas, au
 | `**/*.md` | [markdown.instructions.md](instructions/markdown.instructions.md) | Markdown authoring and formatting standards |
 | `docs/**` | [docs.instructions.md](instructions/docs.instructions.md) | Documentation website (Jekyll) development |
 | `tools/performance/**` | [performance-testing.instructions.md](instructions/performance-testing.instructions.md) | Performance testing and BenchmarkDotNet guidelines |
-| `.specify/**,.github/prompts/speckit.*` | [spec-kit.instructions.md](instructions/spec-kit.instructions.md) | Spec Kit specification-driven development workflow |
 
 These scoped files are automatically applied when working with files matching their patterns.
 

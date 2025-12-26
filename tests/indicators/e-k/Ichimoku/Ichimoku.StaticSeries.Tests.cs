@@ -10,54 +10,54 @@ public class Ichimoku : StaticSeriesTestBase
         const int kijunPeriods = 26;
         const int senkouBPeriods = 52;
 
-        IReadOnlyList<IchimokuResult> results = Quotes
+        IReadOnlyList<IchimokuResult> sut = Quotes
             .ToIchimoku(tenkanPeriods, kijunPeriods, senkouBPeriods);
 
         // proper quantities
-        Assert.HasCount(502, results);
-        Assert.HasCount(494, results.Where(static x => x.TenkanSen != null));
-        Assert.HasCount(477, results.Where(static x => x.KijunSen != null));
-        Assert.HasCount(451, results.Where(static x => x.SenkouSpanA != null));
-        Assert.HasCount(425, results.Where(static x => x.SenkouSpanB != null));
-        Assert.HasCount(476, results.Where(static x => x.ChikouSpan != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.TenkanSen != null).Should().HaveCount(494);
+        sut.Where(static x => x.KijunSen != null).Should().HaveCount(477);
+        sut.Where(static x => x.SenkouSpanA != null).Should().HaveCount(451);
+        sut.Where(static x => x.SenkouSpanB != null).Should().HaveCount(425);
+        sut.Where(static x => x.ChikouSpan != null).Should().HaveCount(476);
 
         // sample values
-        IchimokuResult r1 = results[51];
-        Assert.AreEqual(224.465m, r1.TenkanSen);
-        Assert.AreEqual(221.94m, r1.KijunSen);
-        Assert.AreEqual(214.8325m, r1.SenkouSpanA);
-        Assert.IsNull(r1.SenkouSpanB);
-        Assert.AreEqual(226.35m, r1.ChikouSpan);
+        IchimokuResult r1 = sut[51];
+        r1.TenkanSen.Should().Be(224.465m);
+        r1.KijunSen.Should().Be(221.94m);
+        r1.SenkouSpanA.Should().Be(214.8325m);
+        r1.SenkouSpanB.Should().BeNull();
+        r1.ChikouSpan.Should().Be(226.35m);
 
-        IchimokuResult r2 = results[249];
-        Assert.AreEqual(257.15m, r2.TenkanSen);
-        Assert.AreEqual(253.085m, r2.KijunSen);
-        Assert.AreEqual(246.3125m, r2.SenkouSpanA);
-        Assert.AreEqual(241.685m, r2.SenkouSpanB);
-        Assert.AreEqual(259.21m, r2.ChikouSpan);
+        IchimokuResult r2 = sut[249];
+        r2.TenkanSen.Should().Be(257.15m);
+        r2.KijunSen.Should().Be(253.085m);
+        r2.SenkouSpanA.Should().Be(246.3125m);
+        r2.SenkouSpanB.Should().Be(241.685m);
+        r2.ChikouSpan.Should().Be(259.21m);
 
-        IchimokuResult r3 = results[475];
-        Assert.AreEqual(265.575m, r3.TenkanSen);
-        Assert.AreEqual(263.965m, r3.KijunSen);
-        Assert.AreEqual(274.9475m, r3.SenkouSpanA);
-        Assert.AreEqual(274.95m, r3.SenkouSpanB);
-        Assert.AreEqual(245.28m, r3.ChikouSpan);
+        IchimokuResult r3 = sut[475];
+        r3.TenkanSen.Should().Be(265.575m);
+        r3.KijunSen.Should().Be(263.965m);
+        r3.SenkouSpanA.Should().Be(274.9475m);
+        r3.SenkouSpanB.Should().Be(274.95m);
+        r3.ChikouSpan.Should().Be(245.28m);
 
-        IchimokuResult r4 = results[501];
-        Assert.AreEqual(241.26m, r4.TenkanSen);
-        Assert.AreEqual(251.505m, r4.KijunSen);
-        Assert.AreEqual(264.77m, r4.SenkouSpanA);
-        Assert.AreEqual(269.82m, r4.SenkouSpanB);
-        Assert.IsNull(r4.ChikouSpan);
+        IchimokuResult r4 = sut[501];
+        r4.TenkanSen.Should().Be(241.26m);
+        r4.KijunSen.Should().Be(251.505m);
+        r4.SenkouSpanA.Should().Be(264.77m);
+        r4.SenkouSpanB.Should().Be(269.82m);
+        r4.ChikouSpan.Should().BeNull();
     }
 
     [TestMethod]
     public void Extended()
     {
-        IReadOnlyList<IchimokuResult> results = Quotes
+        IReadOnlyList<IchimokuResult> sut = Quotes
             .ToIchimoku(3, 13, 40, 0, 0);
 
-        Assert.HasCount(502, results);
+        sut.Should().HaveCount(502);
     }
 
     [TestMethod]
@@ -66,7 +66,7 @@ public class Ichimoku : StaticSeriesTestBase
         IReadOnlyList<IchimokuResult> r = BadQuotes
             .ToIchimoku();
 
-        Assert.HasCount(502, r);
+        r.Should().HaveCount(502);
     }
 
     [TestMethod]
@@ -75,22 +75,22 @@ public class Ichimoku : StaticSeriesTestBase
         IReadOnlyList<IchimokuResult> r0 = Noquotes
             .ToIchimoku();
 
-        Assert.IsEmpty(r0);
+        r0.Should().BeEmpty();
 
         IReadOnlyList<IchimokuResult> r1 = Onequote
             .ToIchimoku();
 
-        Assert.HasCount(1, r1);
+        r1.Should().HaveCount(1);
     }
 
     [TestMethod]
     public void Condense()
     {
-        IReadOnlyList<IchimokuResult> results = Quotes
+        IReadOnlyList<IchimokuResult> sut = Quotes
             .ToIchimoku()
             .Condense();
 
-        Assert.HasCount(502, results);
+        sut.Should().HaveCount(502);
     }
 
     [TestMethod]

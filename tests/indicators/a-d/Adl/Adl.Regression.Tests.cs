@@ -6,11 +6,11 @@ public class AdlTests : RegressionTestBase<AdlResult>
     public AdlTests() : base("adl.standard.json") { }
 
     [TestMethod]
-    public override void Series() => Quotes.ToAdl().AssertEquals(Expected);
+    public override void Series() => Quotes.ToAdl().IsExactly(Expected);
 
     [TestMethod]
     public override void Buffer() => Assert.Inconclusive("Buffer implementation not yet available");
 
     [TestMethod]
-    public override void Stream() => QuoteHub.ToAdlHub().Results.AssertEquals(Expected);
+    public override void Stream() => QuoteHub.ToAdlHub().Results.IsExactly(Expected);
 }

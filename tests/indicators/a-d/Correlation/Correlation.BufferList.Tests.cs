@@ -19,6 +19,14 @@ public class Correlation : BufferListTestBase, ITestChainBufferList
        = quotesA.ToCorrelation(quotesB, lookbackPeriods);
 
     [TestMethod]
+    public void Results_AreAlwaysBounded()
+    {
+        CorrelationList sut = new(20, Quotes, OtherQuotes);
+        sut.IsBetween(x => x.Correlation, -1, 1);
+        sut.IsBetween(x => x.RSquared, 0, 1);
+    }
+
+    [TestMethod]
     public void AddReusableItem_IncrementsResults()
     {
         CorrelationList sut = new(lookbackPeriods);

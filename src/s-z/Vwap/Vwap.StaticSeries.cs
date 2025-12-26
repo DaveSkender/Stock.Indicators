@@ -43,6 +43,12 @@ public static partial class Vwap
         this List<QuoteD> quotes,
         DateTime startDate)
     {
+        // If caller passed default(DateTime) treat as unspecified and start at first quote
+        if (startDate == default && quotes.Count > 0)
+        {
+            startDate = quotes[0].Timestamp;
+        }
+
         // check parameter arguments
         Validate(quotes, startDate);
 

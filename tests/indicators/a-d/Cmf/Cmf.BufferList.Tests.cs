@@ -41,6 +41,13 @@ public class Cmf : BufferListTestBase
     }
 
     [TestMethod]
+    public void Results_AreAlwaysBounded()
+    {
+        CmfList sut = new(20, Quotes);
+        sut.IsBetween(x => x.Cmf, -1, 1);
+    }
+
+    [TestMethod]
     public override void Clear_WithState_ResetsState()
     {
         List<Quote> subset = Quotes.Take(80).ToList();

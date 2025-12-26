@@ -56,12 +56,19 @@ public class BopHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProv
         // time-series, for comparison
         IReadOnlyList<BopResult> seriesList = quotesList.ToBop(14);
 
-        // assert, should equal series (with tolerance for floating point precision)
+        // assert
         streamList.Should().HaveCount(length - 1);
-        streamList.AssertEquals(seriesList, Precision.LastDigit);
+        streamList.IsExactly(seriesList);
 
         bopHub.Unsubscribe();
         quoteHub.EndTransmission();
+    }
+
+    [TestMethod]
+    public void Results_AreAlwaysBounded()
+    {
+        IReadOnlyList<BopResult> sut = Quotes.ToBopHub(14).Results;
+        sut.IsBetween(x => x.Bop, -1, 1);
     }
 
     [TestMethod]
@@ -97,9 +104,9 @@ public class BopHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProv
            = quotesList
             .ToBop(smoothPeriods);
 
-        // assert, should equal series (with tolerance for floating point precision)
+        // assert
         streamList.Should().HaveCount(length);
-        streamList.AssertEquals(seriesList, Precision.LastDigit);
+        streamList.IsExactly(seriesList);
 
         bopHub.Unsubscribe();
         quoteHub.EndTransmission();
@@ -139,9 +146,9 @@ public class BopHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProv
             .ToBop(smoothPeriods)
             .ToEma(emaPeriods);
 
-        // assert, should equal series (with tolerance for floating point precision)
+        // assert
         streamList.Should().HaveCount(length);
-        streamList.AssertEquals(seriesList, Precision.LastDigit);
+        streamList.IsExactly(seriesList);
 
         emaHub.Unsubscribe();
         quoteHub.EndTransmission();

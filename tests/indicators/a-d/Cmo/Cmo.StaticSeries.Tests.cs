@@ -9,58 +9,65 @@ public class Cmo : StaticSeriesTestBase
     [TestMethod]
     public override void DefaultParameters_ReturnsExpectedResults()
     {
-        IReadOnlyList<CmoResult> results = Quotes
+        IReadOnlyList<CmoResult> sut = Quotes
             .ToCmo(14);
 
         // proper quantities
-        Assert.HasCount(502, results);
-        Assert.HasCount(488, results.Where(static x => x.Cmo != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Cmo != null).Should().HaveCount(488);
 
         // sample values
-        CmoResult r13 = results[13];
-        Assert.IsNull(r13.Cmo);
+        CmoResult r13 = sut[13];
+        r13.Cmo.Should().BeNull();
 
-        CmoResult r14 = results[14];
-        Assert.AreEqual(24.1081, r14.Cmo.Round(4));
+        CmoResult r14 = sut[14];
+        r14.Cmo.Should().BeApproximately(24.1081, Money4);
 
-        CmoResult r249 = results[249];
-        Assert.AreEqual(48.9614, r249.Cmo.Round(4));
+        CmoResult r249 = sut[249];
+        r249.Cmo.Should().BeApproximately(48.9614, Money4);
 
-        CmoResult r501 = results[501];
-        Assert.AreEqual(-26.7502, r501.Cmo.Round(4));
+        CmoResult r501 = sut[501];
+        r501.Cmo.Should().BeApproximately(-26.7502, Money4);
+    }
+
+    [TestMethod]
+    public void Results_AreAlwaysBounded()
+    {
+        IReadOnlyList<CmoResult> sut = Quotes.ToCmo(14);
+        sut.IsBetween(x => x.Cmo, -100, 100);
     }
 
     [TestMethod]
     public void UseReusable()
     {
-        IReadOnlyList<CmoResult> results = Quotes
+        IReadOnlyList<CmoResult> sut = Quotes
             .Use(CandlePart.Close)
             .ToCmo(14);
 
-        Assert.HasCount(502, results);
-        Assert.HasCount(488, results.Where(static x => x.Cmo != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Cmo != null).Should().HaveCount(488);
     }
 
     [TestMethod]
     public void Chainee()
     {
-        IReadOnlyList<CmoResult> results = Quotes
+        IReadOnlyList<CmoResult> sut = Quotes
             .ToSma(2)
             .ToCmo(20);
 
-        Assert.HasCount(502, results);
-        Assert.HasCount(481, results.Where(static x => x.Cmo != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Cmo != null).Should().HaveCount(481);
     }
 
     [TestMethod]
     public void ChainingFromResults_WorksAsExpected()
     {
-        IReadOnlyList<SmaResult> results = Quotes
+        IReadOnlyList<SmaResult> sut = Quotes
             .ToCmo(20)
             .ToSma(10);
 
-        Assert.HasCount(502, results);
-        Assert.HasCount(473, results.Where(static x => x.Sma != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Sma != null).Should().HaveCount(473);
     }
 
     [TestMethod]
@@ -69,8 +76,8 @@ public class Cmo : StaticSeriesTestBase
         IReadOnlyList<CmoResult> r = BadQuotes
             .ToCmo(35);
 
-        Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(static x => x.Cmo is double.NaN));
+        r.Should().HaveCount(502);
+        r.Where(static x => x.Cmo is double.NaN).Should().BeEmpty();
     }
 
     [TestMethod]
@@ -79,26 +86,26 @@ public class Cmo : StaticSeriesTestBase
         IReadOnlyList<CmoResult> r0 = Noquotes
             .ToCmo(5);
 
-        Assert.IsEmpty(r0);
+        r0.Should().BeEmpty();
 
         IReadOnlyList<CmoResult> r1 = Onequote
             .ToCmo(5);
 
-        Assert.HasCount(1, r1);
+        r1.Should().HaveCount(1);
     }
 
     [TestMethod]
     public void Removed()
     {
-        IReadOnlyList<CmoResult> results = Quotes
+        IReadOnlyList<CmoResult> sut = Quotes
             .ToCmo(14)
             .RemoveWarmupPeriods();
 
         // assertions
-        Assert.HasCount(488, results);
+        sut.Should().HaveCount(488);
 
-        CmoResult last = results[^1];
-        Assert.AreEqual(-26.7502, last.Cmo.Round(4));
+        CmoResult last = sut[^1];
+        last.Cmo.Should().BeApproximately(-26.7502, Money4);
     }
 
     /// <summary>
@@ -106,6 +113,8 @@ public class Cmo : StaticSeriesTestBase
     /// </summary>
     [TestMethod]
     public void Exceptions()
-        => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToCmo(0));
+        => FluentActions
+            .Invoking(static () => Quotes.ToCmo(0))
+            .Should()
+            .ThrowExactly<ArgumentOutOfRangeException>();
 }

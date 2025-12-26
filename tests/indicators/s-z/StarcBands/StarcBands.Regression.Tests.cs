@@ -6,7 +6,7 @@ public class StarcBandsTests : RegressionTestBase<StarcBandsResult>
     public StarcBandsTests() : base("starc.standard.json") { }
 
     [TestMethod]
-    public override void Series() => Quotes.ToStarcBands().AssertEquals(Expected);
+    public override void Series() => Quotes.ToStarcBands().IsExactly(Expected);
 
     [TestMethod]
     public override void Buffer() => Assert.Inconclusive("Buffer implementation not yet available");

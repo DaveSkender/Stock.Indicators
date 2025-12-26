@@ -1,6 +1,7 @@
 namespace Utilities;
 
 [TestClass]
+[TestCategory("Utilities")]
 public class Numericals : TestBase
 {
     private readonly double[] _closePrice = LongishQuotes
@@ -20,31 +21,39 @@ public class Numericals : TestBase
 
     [TestMethod]
     public void StdDevNull()
-        => Assert.ThrowsExactly<ArgumentNullException>(
-            static () => Numerical.StdDev(null));
+        => FluentActions
+            .Invoking(static () => Numerical.StdDev(null))
+            .Should()
+            .ThrowExactly<ArgumentNullException>();
 
     [TestMethod]
     public void Slope()
     {
         double s = Numerical.Slope(_x, _x);
 
-        Assert.AreEqual(1d, s);
+        s.Should().Be(1d);
     }
 
     [TestMethod]
     public void SlopeXnull()
-        => Assert.ThrowsExactly<ArgumentNullException>(
-            () => Numerical.Slope(null, _x));
+        => FluentActions
+            .Invoking(() => Numerical.Slope(null, _x))
+            .Should()
+            .ThrowExactly<ArgumentNullException>();
 
     [TestMethod]
     public void SlopeYnull()
-        => Assert.ThrowsExactly<ArgumentNullException>(
-            () => Numerical.Slope(_x, null));
+        => FluentActions
+            .Invoking(() => Numerical.Slope(_x, null))
+            .Should()
+            .ThrowExactly<ArgumentNullException>();
 
     [TestMethod]
     public void SlopeMismatch()
-        => Assert.ThrowsExactly<ArgumentException>(
-            () => Numerical.Slope(_x, _y));
+        => FluentActions
+            .Invoking(() => Numerical.Slope(_x, _y))
+            .Should()
+            .ThrowExactly<ArgumentException>();
 
     [TestMethod]
     public void RoundDownDate()
@@ -55,7 +64,7 @@ public class Numericals : TestBase
         DateTime rnDate = evDate.RoundDown(interval);
         DateTime exDate = DateTime.Parse("2020-12-15 09:00:00", invariantCulture);
 
-        Assert.AreEqual(exDate, rnDate);
+        rnDate.Should().Be(exDate);
     }
 
     [TestMethod]
@@ -73,6 +82,6 @@ public class Numericals : TestBase
         Assert.AreEqual(PeriodSize.Day.ToTimeSpan(), TimeSpan.FromHours(24));
         Assert.AreEqual(PeriodSize.Week.ToTimeSpan(), TimeSpan.FromDays(7));
 
-        Assert.AreEqual(PeriodSize.Month.ToTimeSpan(), TimeSpan.Zero);
+        TimeSpan.Zero.Should().Be(PeriodSize.Month.ToTimeSpan());
     }
 }

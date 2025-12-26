@@ -9,11 +9,11 @@ public class ForceIndex : StaticSeriesTestBase
         IReadOnlyList<ForceIndexResult> r = Quotes.ToForceIndex(13).ToList();
 
         // proper quantities
-        Assert.HasCount(502, r);
-        Assert.HasCount(489, r.Where(static x => x.ForceIndex != null));
+        r.Should().HaveCount(502);
+        r.Where(static x => x.ForceIndex != null).Should().HaveCount(489);
 
         // sample values
-        Assert.IsNull(r[12].ForceIndex);
+        r[12].ForceIndex.Should().BeNull();
 
         Assert.AreEqual(10668240.778, Math.Round(r[13].ForceIndex.Value, 3));
         Assert.AreEqual(15883211.364, Math.Round(r[24].ForceIndex.Value, 3));
@@ -25,12 +25,12 @@ public class ForceIndex : StaticSeriesTestBase
     [TestMethod]
     public void ChainingFromResults_WorksAsExpected()
     {
-        IReadOnlyList<SmaResult> results = Quotes
+        IReadOnlyList<SmaResult> sut = Quotes
             .ToForceIndex(13)
             .ToSma(10);
 
-        Assert.HasCount(502, results);
-        Assert.HasCount(480, results.Where(static x => x.Sma != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Sma != null).Should().HaveCount(480);
     }
 
     [TestMethod]
@@ -39,8 +39,8 @@ public class ForceIndex : StaticSeriesTestBase
         IReadOnlyList<ForceIndexResult> r = BadQuotes
             .ToForceIndex();
 
-        Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(static x => x.ForceIndex is double v && double.IsNaN(v)));
+        r.Should().HaveCount(502);
+        r.Where(static x => x.ForceIndex is double v && double.IsNaN(v)).Should().BeEmpty();
     }
 
     [TestMethod]
@@ -49,25 +49,25 @@ public class ForceIndex : StaticSeriesTestBase
         IReadOnlyList<ForceIndexResult> r0 = Noquotes
             .ToForceIndex(5);
 
-        Assert.IsEmpty(r0);
+        r0.Should().BeEmpty();
 
         IReadOnlyList<ForceIndexResult> r1 = Onequote
             .ToForceIndex(5);
 
-        Assert.HasCount(1, r1);
+        r1.Should().HaveCount(1);
     }
 
     [TestMethod]
     public void Removed()
     {
-        IReadOnlyList<ForceIndexResult> results = Quotes
+        IReadOnlyList<ForceIndexResult> sut = Quotes
             .ToForceIndex(13)
             .RemoveWarmupPeriods();
 
         // assertions
-        Assert.HasCount(502 - (13 + 100), results);
+        sut.Should().HaveCount(502 - (13 + 100));
 
-        ForceIndexResult last = results[^1];
+        ForceIndexResult last = sut[^1];
         Assert.AreEqual(-16824018.428, Math.Round(last.ForceIndex.Value, 3));
     }
 
@@ -76,6 +76,8 @@ public class ForceIndex : StaticSeriesTestBase
     /// </summary>
     [TestMethod]
     public void Exceptions()
-        => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToForceIndex(0));
+        => FluentActions
+            .Invoking(static () => Quotes.ToForceIndex(0))
+            .Should()
+            .ThrowExactly<ArgumentOutOfRangeException>();
 }

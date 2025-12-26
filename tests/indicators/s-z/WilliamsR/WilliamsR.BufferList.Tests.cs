@@ -41,6 +41,13 @@ public class WilliamsR : BufferListTestBase
     }
 
     [TestMethod]
+    public void Results_AreAlwaysBounded()
+    {
+        WilliamsRList sut = new(14, Quotes);
+        sut.IsBetween(x => x.WilliamsR, -100, 0);
+    }
+
+    [TestMethod]
     public override void Clear_WithState_ResetsState()
     {
         List<Quote> subset = Quotes.Take(80).ToList();
@@ -67,7 +74,7 @@ public class WilliamsR : BufferListTestBase
     [TestMethod]
     public void IncrementalConsistency()
     {
-        // Test that incremental addition produces same results as batch
+        // Test that incremental addition produces same sut as batch
         WilliamsRList incremental = new(lookbackPeriods);
         WilliamsRList batch = new(lookbackPeriods) { Quotes };
 
@@ -142,17 +149,5 @@ public class WilliamsR : BufferListTestBase
 
         sut.Should().HaveCount(maxListSize);
         sut.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
-    }
-
-    [TestMethod]
-    public void BoundaryValues()
-    {
-        // Test that Williams %R stays within expected range [-100, 0]
-        WilliamsRList sut = new(lookbackPeriods) { Quotes };
-
-        foreach (WilliamsResult result in sut.Where(static r => r.WilliamsR.HasValue))
-        {
-            result.WilliamsR!.Value.Should().BeInRange(-100d, 0d);
-        }
     }
 }

@@ -140,6 +140,13 @@ public class StcHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
     }
 
     [TestMethod]
+    public void Results_AreAlwaysBounded()
+    {
+        IReadOnlyList<StcResult> sut = Quotes.ToStcHub(9, 12, 26).Results;
+        sut.IsBetween(x => x.Stc, 0, 100);
+    }
+
+    [TestMethod]
     public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactlyDefaults()
     {
         int length = Quotes.Count;

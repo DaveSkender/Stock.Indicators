@@ -6,7 +6,7 @@ public class ChandelierTests : RegressionTestBase<ChandelierResult>
     public ChandelierTests() : base("chexit.standard.json") { }
 
     [TestMethod]
-    public override void Series() => Quotes.ToChandelier(22, 3).AssertEquals(Expected);
+    public override void Series() => Quotes.ToChandelier(22, 3).IsExactly(Expected);
 
     [TestMethod]
     public override void Buffer() => Assert.Inconclusive("Buffer implementation not yet available");
@@ -16,7 +16,7 @@ public class ChandelierTests : RegressionTestBase<ChandelierResult>
     {
         QuoteHub hub = new();
         hub.Add(Quotes);
-        hub.ToChandelierHub(22, 3).Results.AssertEquals(Expected);
+        hub.ToChandelierHub(22, 3).Results.IsExactly(Expected);
         hub.EndTransmission();
     }
 }

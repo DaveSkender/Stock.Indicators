@@ -6,48 +6,47 @@ public class WilliamsR : StaticSeriesTestBase
     [TestMethod]
     public override void DefaultParameters_ReturnsExpectedResults()
     {
-        IReadOnlyList<WilliamsResult> results = Quotes
+        IReadOnlyList<WilliamsResult> sut = Quotes
             .ToWilliamsR();
 
         // proper quantities
-        Assert.HasCount(502, results);
-        Assert.HasCount(489, results.Where(static x => x.WilliamsR != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.WilliamsR != null).Should().HaveCount(489);
 
         // sample values
-        WilliamsResult r1 = results[343];
-        Assert.AreEqual(-19.8211, r1.WilliamsR.Round(4));
+        WilliamsResult r1 = sut[343];
+        r1.WilliamsR.Should().BeApproximately(-19.8211, Money4);
 
-        WilliamsResult r2 = results[501];
-        Assert.AreEqual(-52.0121, r2.WilliamsR.Round(4));
+        WilliamsResult r2 = sut[501];
+        r2.WilliamsR.Should().BeApproximately(-52.0121, Money4);
+    }
 
-        // test boundary condition
-        for (int i = 0; i < results.Count; i++)
-        {
-            WilliamsResult r = results[i];
-
-            r.WilliamsR?.Should().BeInRange(-100d, 0d);
-        }
+    [TestMethod]
+    public void Results_AreAlwaysBounded()
+    {
+        IReadOnlyList<WilliamsResult> sut = Quotes.ToWilliamsR(14);
+        sut.IsBetween(x => x.WilliamsR, -100, 0);
     }
 
     [TestMethod]
     public void ChainingFromResults_WorksAsExpected()
     {
-        IReadOnlyList<SmaResult> results = Quotes
+        IReadOnlyList<SmaResult> sut = Quotes
             .ToWilliamsR()
             .ToSma(10);
 
-        Assert.HasCount(502, results);
-        Assert.HasCount(480, results.Where(static x => x.Sma != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Sma != null).Should().HaveCount(480);
     }
 
     [TestMethod]
     public override void BadQuotes_DoesNotFail()
     {
-        IReadOnlyList<WilliamsResult> results = BadQuotes
+        IReadOnlyList<WilliamsResult> sut = BadQuotes
             .ToWilliamsR(20);
 
-        Assert.HasCount(502, results);
-        Assert.IsEmpty(results.Where(static x => x.WilliamsR is double v && double.IsNaN(v)));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.WilliamsR is double v && double.IsNaN(v)).Should().BeEmpty();
     }
 
     [TestMethod]
@@ -56,72 +55,66 @@ public class WilliamsR : StaticSeriesTestBase
         IReadOnlyList<WilliamsResult> r0 = Noquotes
             .ToWilliamsR();
 
-        Assert.IsEmpty(r0);
+        r0.Should().BeEmpty();
 
         IReadOnlyList<WilliamsResult> r1 = Onequote
             .ToWilliamsR();
 
-        Assert.HasCount(1, r1);
+        r1.Should().HaveCount(1);
     }
 
     [TestMethod]
     public void Removed()
     {
-        IReadOnlyList<WilliamsResult> results = Quotes
+        IReadOnlyList<WilliamsResult> sut = Quotes
             .ToWilliamsR()
             .RemoveWarmupPeriods();
 
         // assertions
-        Assert.HasCount(502 - 13, results);
+        sut.Should().HaveCount(502 - 13);
 
-        WilliamsResult last = results[^1];
-        Assert.AreEqual(-52.0121, last.WilliamsR.Round(4));
+        WilliamsResult last = sut[^1];
+        last.WilliamsR.Should().BeApproximately(-52.0121, Money4);
     }
 
     [TestMethod]
     public void Boundary()
     {
-        IReadOnlyList<WilliamsResult> results = Data
+        IReadOnlyList<WilliamsResult> sut = Data
             .GetRandom(2500)
             .ToWilliamsR();
 
-        // analyze boundary
-        for (int i = 0; i < results.Count; i++)
-        {
-            WilliamsResult r = results[i];
-
-            r.WilliamsR?.Should().BeInRange(-100d, 0d);
-        }
+        sut.IsBetween(static x => x.WilliamsR, -100d, 0d);
     }
 
     [TestMethod]
-    public void Issue1127()
+    public void Issue1127_Original_BoundaryThreshold_Maintained()
     {
         // initialize
-        IOrderedEnumerable<Quote> test1127 = File.ReadAllLines("s-z/WilliamsR/issue1127quotes.csv")
-            .Skip(1)
-            .Select(Tests.Data.Utilities.QuoteFromCsv)
-            .OrderByDescending(static x => x.Timestamp);
-
-        IReadOnlyList<Quote> quotesList = test1127.ToList();
-        int length = quotesList.Count;
+        IReadOnlyList<Quote> quotes = Data.QuotesFromCsv("_issue1127.williamr.original.csv");
 
         // get indicators
-        IReadOnlyList<WilliamsResult> resultsList = quotesList
+        IReadOnlyList<WilliamsResult> sut = quotes
             .ToWilliamsR();
 
-        Console.WriteLine($"%R from {length} quotes.");
+        sut.Should().HaveCountGreaterThan(0);
+        sut.IsBetween(static x => x.WilliamsR, -100d, 0d);
+    }
 
-        // analyze boundary
-        for (int i = 0; i < length; i++)
-        {
-            Quote q = quotesList[i];
-            WilliamsResult r = resultsList[i];
+    [TestMethod]
+    public void Issue1127_Revisit_BoundaryThreshold_Maintained()
+    {
+        // initialize
+        IReadOnlyList<Quote> quotes = Data.QuotesFromCsv("_issue1127.williamr.revisit.csv");
 
-            Console.WriteLine($"{q.Timestamp:s} {r.WilliamsR}");
+        // get indicators
+        IReadOnlyList<WilliamsResult> sut = quotes
+            .ToWilliamsR();
 
-            r.WilliamsR?.Should().BeInRange(-100d, 0d);
-        }
+        sut.ToConsole(args: (nameof(WilliamsResult.WilliamsR), "F20"));
+
+        sut.Should().HaveCountGreaterThan(0);
+        sut.IsBetween(static x => x.WilliamsR, -100d, 0d);
     }
 
     /// <summary>
@@ -129,6 +122,8 @@ public class WilliamsR : StaticSeriesTestBase
     /// </summary>
     [TestMethod]
     public void Exceptions()
-        => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToWilliamsR(0));
+        => FluentActions
+            .Invoking(static () => Quotes.ToWilliamsR(0))
+            .Should()
+            .ThrowExactly<ArgumentOutOfRangeException>();
 }

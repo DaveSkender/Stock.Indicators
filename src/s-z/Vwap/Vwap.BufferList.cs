@@ -9,7 +9,7 @@ namespace Skender.Stock.Indicators;
 /// <param name="startDate">The start date for VWAP calculation. If null, auto-anchors to first quote.</param>
 public class VwapList(DateTime? startDate = null) : BufferList<VwapResult>, IIncrementFromQuote
 {
-    private readonly bool _autoAnchor = startDate == null;
+    private readonly bool _autoAnchor = (startDate ?? default) == default;
     private double _cumVolume;
     private double _cumVolumeTp;
 

@@ -6,33 +6,40 @@ public class Ultimate : StaticSeriesTestBase
     [TestMethod]
     public override void DefaultParameters_ReturnsExpectedResults()
     {
-        IReadOnlyList<UltimateResult> results = Quotes
+        IReadOnlyList<UltimateResult> sut = Quotes
             .ToUltimate();
 
         // proper quantities
-        Assert.HasCount(502, results);
-        Assert.HasCount(474, results.Where(static x => x.Ultimate != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Ultimate != null).Should().HaveCount(474);
 
         // sample values
-        UltimateResult r1 = results[74];
-        Assert.AreEqual(51.7770, r1.Ultimate.Round(4));
+        UltimateResult r1 = sut[74];
+        r1.Ultimate.Should().BeApproximately(51.7770, Money4);
 
-        UltimateResult r2 = results[249];
-        Assert.AreEqual(45.3121, r2.Ultimate.Round(4));
+        UltimateResult r2 = sut[249];
+        r2.Ultimate.Should().BeApproximately(45.3121, Money4);
 
-        UltimateResult r3 = results[501];
-        Assert.AreEqual(49.5257, r3.Ultimate.Round(4));
+        UltimateResult r3 = sut[501];
+        r3.Ultimate.Should().BeApproximately(49.5257, Money4);
+    }
+
+    [TestMethod]
+    public void Results_AreAlwaysBounded()
+    {
+        IReadOnlyList<UltimateResult> sut = Quotes.ToUltimate(7, 14, 28);
+        sut.IsBetween(x => x.Ultimate, 0, 100);
     }
 
     [TestMethod]
     public void ChainingFromResults_WorksAsExpected()
     {
-        IReadOnlyList<SmaResult> results = Quotes
+        IReadOnlyList<SmaResult> sut = Quotes
             .ToUltimate()
             .ToSma(10);
 
-        Assert.HasCount(502, results);
-        Assert.HasCount(465, results.Where(static x => x.Sma != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Sma != null).Should().HaveCount(465);
     }
 
     [TestMethod]
@@ -41,8 +48,8 @@ public class Ultimate : StaticSeriesTestBase
         IReadOnlyList<UltimateResult> r = BadQuotes
             .ToUltimate(1, 2, 3);
 
-        Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(static x => x.Ultimate is double.NaN));
+        r.Should().HaveCount(502);
+        r.Where(static x => x.Ultimate is double.NaN).Should().BeEmpty();
     }
 
     [TestMethod]
@@ -51,26 +58,26 @@ public class Ultimate : StaticSeriesTestBase
         IReadOnlyList<UltimateResult> r0 = Noquotes
             .ToUltimate();
 
-        Assert.IsEmpty(r0);
+        r0.Should().BeEmpty();
 
         IReadOnlyList<UltimateResult> r1 = Onequote
             .ToUltimate();
 
-        Assert.HasCount(1, r1);
+        r1.Should().HaveCount(1);
     }
 
     [TestMethod]
     public void Removed()
     {
-        IReadOnlyList<UltimateResult> results = Quotes
+        IReadOnlyList<UltimateResult> sut = Quotes
             .ToUltimate()
             .RemoveWarmupPeriods();
 
         // assertions
-        Assert.HasCount(502 - 28, results);
+        sut.Should().HaveCount(502 - 28);
 
-        UltimateResult last = results[^1];
-        Assert.AreEqual(49.5257, last.Ultimate.Round(4));
+        UltimateResult last = sut[^1];
+        last.Ultimate.Should().BeApproximately(49.5257, Money4);
     }
 
     [TestMethod]

@@ -13,44 +13,20 @@ public class MamaHub
     /// These arrays grow with each added value to support indexed lookback access
     /// </summary>
     private readonly List<double> pr = []; // price
-    /// <summary>
-    /// smooth
-    /// </summary>
-    private readonly List<double> sm = [];
-    /// <summary>
-    /// detrender
-    /// </summary>
-    private readonly List<double> dt = [];
-    /// <summary>
-    /// period
-    /// </summary>
-    private readonly List<double> pd = [];
+    private readonly List<double> sm = []; // smooth
+    private readonly List<double> dt = []; // detrender
+    private readonly List<double> pd = []; // period
 
-    /// <summary>
-    /// quadrature
-    /// </summary>
-    private readonly List<double> q1 = [];
-    /// <summary>
-    /// in-phase
-    /// </summary>
-    private readonly List<double> i1 = [];
+    private readonly List<double> q1 = []; // quadrature
+    private readonly List<double> i1 = []; // in-phase
 
-    /// <summary>
-    /// adj. quadrature
-    /// </summary>
-    private readonly List<double> q2 = [];
-    /// <summary>
-    /// adj. in-phase
-    /// </summary>
-    private readonly List<double> i2 = [];
+    private readonly List<double> q2 = []; // adj. quadrature
+    private readonly List<double> i2 = []; // adj. in-phase
 
-    private readonly List<double> re = [];
-    private readonly List<double> im = [];
+    private readonly List<double> re = []; // real part
+    private readonly List<double> im = []; // imaginary part
 
-    /// <summary>
-    /// phase
-    /// </summary>
-    private readonly List<double> ph = [];
+    private readonly List<double> ph = []; // phase
 
     /// <summary>
     /// Initializes a new instance of the <see cref="MamaHub"/> class.
@@ -197,22 +173,22 @@ public class MamaHub
             re[i] = (0.2 * re[i]) + (0.8 * re[i - 1]);  // smoothing it
             im[i] = (0.2 * im[i]) + (0.8 * im[i - 1]);
 
-            // Calculate period
+            // calculate period
             pd[i] = im[i] != 0 && re[i] != 0
-                ? 2 * Math.PI / Math.Atan(im[i] / re[i])
-                : 0;
+                ? 2 * Math.PI / DeMath.Atan(im[i] / re[i])
+                : 0d;
 
-            // Adjust period to thresholds
+            // adjust period to thresholds
             pd[i] = pd[i] > 1.5 * pd[i - 1] ? 1.5 * pd[i - 1] : pd[i];
             pd[i] = pd[i] < 0.67 * pd[i - 1] ? 0.67 * pd[i - 1] : pd[i];
             pd[i] = pd[i] < 6 ? 6 : pd[i];
             pd[i] = pd[i] > 50 ? 50 : pd[i];
 
-            // Smooth the period
+            // smooth the period
             pd[i] = (0.2 * pd[i]) + (0.8 * pd[i - 1]);
 
             // Determine phase position
-            ph[i] = i1[i] != 0 ? Math.Atan(q1[i] / i1[i]) * 180 / Math.PI : 0;
+            ph[i] = i1[i] != 0 ? DeMath.Atan(q1[i] / i1[i]) * 180d / Math.PI : 0d;
 
             // Change in phase
             double delta = Math.Max(ph[i - 1] - ph[i], 1);

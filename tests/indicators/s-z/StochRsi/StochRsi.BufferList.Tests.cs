@@ -49,6 +49,14 @@ public class StochRsi : BufferListTestBase, ITestChainBufferList
     }
 
     [TestMethod]
+    public void Results_AreAlwaysBounded()
+    {
+        StochRsiList sut = new(14, 14, 3, 1, Quotes);
+        sut.IsBetween(x => x.StochRsi, 0, 100);
+        sut.IsBetween(x => x.Signal, 0, 100);
+    }
+
+    [TestMethod]
     public override void Clear_WithState_ResetsState()
     {
         List<Quote> subset = Quotes.Take(80).ToList();

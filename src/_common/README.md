@@ -93,8 +93,8 @@ This approach aligns with Constitution §1: Mathematical Precision:
 For streaming and buffer indicators experiencing performance issues, consult:
 
 - Analysis: [tools/performance/baselines/PERFORMANCE_REVIEW.md](../../tools/performance/baselines/PERFORMANCE_REVIEW.md) - Root cause analysis of performance bottlenecks
-- Active work: [.specify/specs/002-fix-streaming-performance/](../../.specify/specs/002-fix-streaming-performance/) - Current performance optimization specification
-- Constitution: [.specify/memory/constitution.md](../../.specify/memory/constitution.md) - Performance First principles
+- Remaining work: [docs/plans/streaming-performance-remaining-work.md](../../docs/plans/streaming-performance-remaining-work.md) - Performance optimization tasks
+- Project principles: [docs/PRINCIPLES.md](../../docs/PRINCIPLES.md) - Performance First principles
 
 ---
-Last updated: November 2, 2025
+Last updated: December 24, 2025

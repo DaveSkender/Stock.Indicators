@@ -6,72 +6,72 @@ public partial class Sma : StaticSeriesTestBase
     [TestMethod]
     public override void DefaultParameters_ReturnsExpectedResults()
     {
-        IReadOnlyList<SmaResult> results = Quotes
+        IReadOnlyList<SmaResult> sut = Quotes
             .ToSma(20);
 
         // proper quantities
-        Assert.HasCount(502, results);
-        Assert.HasCount(483, results.Where(static x => x.Sma != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Sma != null).Should().HaveCount(483);
 
         // sample values
-        Assert.IsNull(results[18].Sma);
-        Assert.AreEqual(214.5250, results[19].Sma.Round(4));
-        Assert.AreEqual(215.0310, results[24].Sma.Round(4));
-        Assert.AreEqual(234.9350, results[149].Sma.Round(4));
-        Assert.AreEqual(255.5500, results[249].Sma.Round(4));
-        Assert.AreEqual(251.8600, results[501].Sma.Round(4));
+        sut[18].Sma.Should().BeNull();
+        sut[19].Sma.Should().BeApproximately(214.5250, Money4);
+        sut[24].Sma.Should().BeApproximately(215.0310, Money4);
+        sut[149].Sma.Should().BeApproximately(234.9350, Money4);
+        sut[249].Sma.Should().BeApproximately(255.5500, Money4);
+        sut[501].Sma.Should().BeApproximately(251.8600, Money4);
     }
 
     [TestMethod]
     public void CandlePartOpen()
     {
-        IReadOnlyList<SmaResult> results = Quotes
+        IReadOnlyList<SmaResult> sut = Quotes
             .Use(CandlePart.Open)
             .ToSma(20);
 
-        Assert.HasCount(502, results);
-        Assert.HasCount(483, results.Where(static x => x.Sma != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Sma != null).Should().HaveCount(483);
 
         // sample values
-        Assert.IsNull(results[18].Sma);
-        Assert.AreEqual(214.3795, results[19].Sma.Round(4));
-        Assert.AreEqual(214.9535, results[24].Sma.Round(4));
-        Assert.AreEqual(234.8280, results[149].Sma.Round(4));
-        Assert.AreEqual(255.6915, results[249].Sma.Round(4));
-        Assert.AreEqual(253.1725, results[501].Sma.Round(4));
+        sut[18].Sma.Should().BeNull();
+        sut[19].Sma.Should().BeApproximately(214.3795, Money4);
+        sut[24].Sma.Should().BeApproximately(214.9535, Money4);
+        sut[149].Sma.Should().BeApproximately(234.8280, Money4);
+        sut[249].Sma.Should().BeApproximately(255.6915, Money4);
+        sut[501].Sma.Should().BeApproximately(253.1725, Money4);
     }
 
     [TestMethod]
     public void CandlePartVolume()
     {
-        IReadOnlyList<SmaResult> results = Quotes
+        IReadOnlyList<SmaResult> sut = Quotes
             .Use(CandlePart.Volume)
             .ToSma(20);
 
-        Assert.HasCount(502, results);
-        Assert.HasCount(483, results.Where(static x => x.Sma != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Sma != null).Should().HaveCount(483);
 
         // sample values
-        SmaResult r24 = results[24];
-        Assert.AreEqual(77293768.2, r24.Sma);
+        SmaResult r24 = sut[24];
+        r24.Sma.Should().Be(77293768.2);
 
-        SmaResult r290 = results[290];
-        Assert.AreEqual(157958070.8, r290.Sma);
+        SmaResult r290 = sut[290];
+        r290.Sma.Should().Be(157958070.8);
 
-        SmaResult r501 = results[501];
+        SmaResult r501 = sut[501];
         Assert.AreEqual(DateTime.ParseExact("12/31/2018", "MM/dd/yyyy", invariantCulture), r501.Timestamp);
-        Assert.AreEqual(163695200, r501.Sma);
+        r501.Sma.Should().Be(163695200);
     }
 
     [TestMethod]
     public void ChainingFromResults_WorksAsExpected()
     {
-        IReadOnlyList<EmaResult> results = Quotes
+        IReadOnlyList<EmaResult> sut = Quotes
             .ToSma(10)
             .ToEma(10);
 
-        Assert.HasCount(502, results);
-        Assert.HasCount(484, results.Where(static x => x.Ema != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Ema != null).Should().HaveCount(484);
     }
 
     [TestMethod]
@@ -80,7 +80,7 @@ public partial class Sma : StaticSeriesTestBase
         IReadOnlyList<SmaResult> r = Data.GetBtcUsdNan()
             .ToSma(50);
 
-        Assert.IsEmpty(r.Where(static x => x.Sma is double.NaN));
+        r.Where(static x => x.Sma is double.NaN).Should().BeEmpty();
     }
 
     [TestMethod]
@@ -89,8 +89,8 @@ public partial class Sma : StaticSeriesTestBase
         IReadOnlyList<SmaResult> r = BadQuotes
             .ToSma(15);
 
-        Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(static x => x.Sma is double.NaN));
+        r.Should().HaveCount(502);
+        r.Where(static x => x.Sma is double.NaN).Should().BeEmpty();
     }
 
     [TestMethod]
@@ -99,24 +99,24 @@ public partial class Sma : StaticSeriesTestBase
         IReadOnlyList<SmaResult> r0 = Noquotes
             .ToSma(5);
 
-        Assert.IsEmpty(r0);
+        r0.Should().BeEmpty();
 
         IReadOnlyList<SmaResult> r1 = Onequote
             .ToSma(5);
 
-        Assert.HasCount(1, r1);
+        r1.Should().HaveCount(1);
     }
 
     [TestMethod]
     public void Removed()
     {
-        IReadOnlyList<SmaResult> results = Quotes
+        IReadOnlyList<SmaResult> sut = Quotes
             .ToSma(20)
             .RemoveWarmupPeriods();
 
         // assertions
-        Assert.HasCount(502 - 19, results);
-        Assert.AreEqual(251.8600, results[^1].Sma.Round(4));
+        sut.Should().HaveCount(502 - 19);
+        sut[^1].Sma.Should().BeApproximately(251.8600, Money4);
     }
 
     [TestMethod]
@@ -134,11 +134,11 @@ public partial class Sma : StaticSeriesTestBase
         Assert.IsTrue(r1.Equals(r2));
         Assert.IsFalse(r1.Equals(r3));
 
-        Assert.IsTrue(r1 == r2);
-        Assert.IsFalse(r1 == r3);
+        (r1 == r2).Should().BeTrue();
+        (r1 == r3).Should().BeFalse();
 
-        Assert.IsFalse(r1 != r2);
-        Assert.IsTrue(r1 != r3);
+        (r1 != r2).Should().BeFalse();
+        (r1 != r3).Should().BeTrue();
     }
 
     /// <summary>
@@ -146,6 +146,8 @@ public partial class Sma : StaticSeriesTestBase
     /// </summary>
     [TestMethod]
     public void Exceptions()
-        => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToSma(0));
+        => FluentActions
+            .Invoking(static () => Quotes.ToSma(0))
+            .Should()
+            .ThrowExactly<ArgumentOutOfRangeException>();
 }

@@ -9,43 +9,43 @@ public class SuperTrend : StaticSeriesTestBase
         const int lookbackPeriods = 14;
         const double multiplier = 3;
 
-        IReadOnlyList<SuperTrendResult> results = Quotes
+        IReadOnlyList<SuperTrendResult> sut = Quotes
             .ToSuperTrend(lookbackPeriods, multiplier);
 
         // proper quantities
-        Assert.HasCount(502, results);
-        Assert.HasCount(488, results.Where(static x => x.SuperTrend != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.SuperTrend != null).Should().HaveCount(488);
 
         // sample values
-        SuperTrendResult r13 = results[13];
-        Assert.IsNull(r13.SuperTrend);
-        Assert.IsNull(r13.UpperBand);
-        Assert.IsNull(r13.LowerBand);
+        SuperTrendResult r13 = sut[13];
+        r13.SuperTrend.Should().BeNull();
+        r13.UpperBand.Should().BeNull();
+        r13.LowerBand.Should().BeNull();
 
-        SuperTrendResult r14 = results[14];
-        Assert.AreEqual(210.6157m, r14.SuperTrend.Round(4));
-        Assert.IsNull(r14.UpperBand);
-        Assert.AreEqual(r14.SuperTrend, r14.LowerBand);
+        SuperTrendResult r14 = sut[14];
+        ((double?)r14.SuperTrend).Should().BeApproximately((double)210.6157m, Money3);
+        r14.UpperBand.Should().BeNull();
+        r14.LowerBand.Should().Be(r14.SuperTrend);
 
-        SuperTrendResult r151 = results[151];
-        Assert.AreEqual(232.8520m, r151.SuperTrend.Round(4));
-        Assert.IsNull(r151.UpperBand);
-        Assert.AreEqual(r151.SuperTrend, r151.LowerBand);
+        SuperTrendResult r151 = sut[151];
+        ((double?)r151.SuperTrend).Should().BeApproximately((double)232.8520m, Money3);
+        r151.UpperBand.Should().BeNull();
+        r151.LowerBand.Should().Be(r151.SuperTrend);
 
-        SuperTrendResult r152 = results[152];
-        Assert.AreEqual(237.6436m, r152.SuperTrend.Round(4));
-        Assert.AreEqual(r152.SuperTrend, r152.UpperBand);
-        Assert.IsNull(r152.LowerBand);
+        SuperTrendResult r152 = sut[152];
+        ((double?)r152.SuperTrend).Should().BeApproximately((double)237.6436m, Money3);
+        r152.UpperBand.Should().Be(r152.SuperTrend);
+        r152.LowerBand.Should().BeNull();
 
-        SuperTrendResult r249 = results[249];
-        Assert.AreEqual(253.8008m, r249.SuperTrend.Round(4));
-        Assert.IsNull(r249.UpperBand);
-        Assert.AreEqual(r249.SuperTrend, r249.LowerBand);
+        SuperTrendResult r249 = sut[249];
+        ((double?)r249.SuperTrend).Should().BeApproximately((double)253.8008m, Money3);
+        r249.UpperBand.Should().BeNull();
+        r249.LowerBand.Should().Be(r249.SuperTrend);
 
-        SuperTrendResult r501 = results[501];
-        Assert.AreEqual(250.7954m, r501.SuperTrend.Round(4));
-        Assert.AreEqual(r501.SuperTrend, r501.UpperBand);
-        Assert.IsNull(r501.LowerBand);
+        SuperTrendResult r501 = sut[501];
+        ((double?)r501.SuperTrend).Should().BeApproximately((double)250.7954m, Money3);
+        r501.UpperBand.Should().Be(r501.SuperTrend);
+        r501.LowerBand.Should().BeNull();
     }
 
     [TestMethod]
@@ -53,13 +53,13 @@ public class SuperTrend : StaticSeriesTestBase
     {
         IReadOnlyList<Quote> h = Data.GetBitcoin();
 
-        IReadOnlyList<SuperTrendResult> results = h
+        IReadOnlyList<SuperTrendResult> sut = h
             .ToSuperTrend();
 
-        Assert.HasCount(1246, results);
+        sut.Should().HaveCount(1246);
 
-        SuperTrendResult r = results[1208];
-        Assert.AreEqual(16242.2704m, r.LowerBand.Round(4));
+        SuperTrendResult r = sut[1208];
+        ((double?)r.LowerBand).Should().BeApproximately((double)16242.2704m, Money3);
     }
 
     [TestMethod]
@@ -68,7 +68,7 @@ public class SuperTrend : StaticSeriesTestBase
         IReadOnlyList<SuperTrendResult> r = BadQuotes
             .ToSuperTrend(7);
 
-        Assert.HasCount(502, r);
+        r.Should().HaveCount(502);
     }
 
     [TestMethod]
@@ -77,12 +77,12 @@ public class SuperTrend : StaticSeriesTestBase
         IReadOnlyList<SuperTrendResult> r0 = Noquotes
             .ToSuperTrend();
 
-        Assert.IsEmpty(r0);
+        r0.Should().BeEmpty();
 
         IReadOnlyList<SuperTrendResult> r1 = Onequote
             .ToSuperTrend();
 
-        Assert.HasCount(1, r1);
+        r1.Should().HaveCount(1);
     }
 
     [TestMethod]
@@ -91,17 +91,17 @@ public class SuperTrend : StaticSeriesTestBase
         const int lookbackPeriods = 14;
         const double multiplier = 3;
 
-        IReadOnlyList<SuperTrendResult> results = Quotes
+        IReadOnlyList<SuperTrendResult> sut = Quotes
             .ToSuperTrend(lookbackPeriods, multiplier)
             .Condense();
 
         // assertions
-        Assert.HasCount(488, results);
+        sut.Should().HaveCount(488);
 
-        SuperTrendResult last = results[^1];
-        Assert.AreEqual(250.7954m, last.SuperTrend.Round(4));
-        Assert.AreEqual(last.SuperTrend, last.UpperBand);
-        Assert.IsNull(last.LowerBand);
+        SuperTrendResult last = sut[^1];
+        ((double?)last.SuperTrend).Should().BeApproximately((double)250.7954m, Money3);
+        last.UpperBand.Should().Be(last.SuperTrend);
+        last.LowerBand.Should().BeNull();
     }
 
     [TestMethod]
@@ -110,17 +110,17 @@ public class SuperTrend : StaticSeriesTestBase
         const int lookbackPeriods = 14;
         const double multiplier = 3;
 
-        IReadOnlyList<SuperTrendResult> results = Quotes
+        IReadOnlyList<SuperTrendResult> sut = Quotes
             .ToSuperTrend(lookbackPeriods, multiplier)
             .RemoveWarmupPeriods();
 
         // assertions
-        Assert.HasCount(488, results);
+        sut.Should().HaveCount(488);
 
-        SuperTrendResult last = results[^1];
-        Assert.AreEqual(250.7954m, last.SuperTrend.Round(4));
-        Assert.AreEqual(last.SuperTrend, last.UpperBand);
-        Assert.IsNull(last.LowerBand);
+        SuperTrendResult last = sut[^1];
+        ((double?)last.SuperTrend).Should().BeApproximately((double)250.7954m, Money3);
+        last.UpperBand.Should().Be(last.SuperTrend);
+        last.LowerBand.Should().BeNull();
     }
 
     [TestMethod]

@@ -6,7 +6,7 @@ public class TemaTests : RegressionTestBase<TemaResult>
     public TemaTests() : base("tema.standard.json") { }
 
     [TestMethod]
-    public override void Series() => Quotes.ToTema(20).AssertEquals(Expected);
+    public override void Series() => Quotes.ToTema(20).IsExactly(Expected);
 
     [TestMethod]
     public override void Buffer() => Assert.Inconclusive("Buffer implementation not yet available");

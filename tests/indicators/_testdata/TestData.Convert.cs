@@ -1,8 +1,8 @@
 using System.Globalization;
 
-namespace Tests.Data;
+namespace Test.Data;
 
-internal static partial class Utilities
+internal static class Utilities
 {
     private static readonly CultureInfo EnglishCulture = new("en-US", false);
 
