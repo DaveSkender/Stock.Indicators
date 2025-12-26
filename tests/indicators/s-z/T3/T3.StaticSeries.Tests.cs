@@ -6,63 +6,63 @@ public class T3 : StaticSeriesTestBase
     [TestMethod]
     public override void DefaultParameters_ReturnsExpectedResults()
     {
-        IReadOnlyList<T3Result> results = Quotes
+        IReadOnlyList<T3Result> sut = Quotes
             .ToT3();
 
         // proper quantities
-        Assert.HasCount(502, results);
-        Assert.HasCount(502, results.Where(static x => x.T3 != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.T3 != null).Should().HaveCount(502);
 
         // sample values
-        T3Result r5 = results[5];
-        Assert.AreEqual(213.9654, r5.T3.Round(4));
+        T3Result r5 = sut[5];
+        r5.T3.Should().BeApproximately(213.9654, Money4);
 
-        T3Result r24 = results[24];
-        Assert.AreEqual(215.9481, r24.T3.Round(4));
+        T3Result r24 = sut[24];
+        r24.T3.Should().BeApproximately(215.9481, Money4);
 
-        T3Result r44 = results[44];
-        Assert.AreEqual(224.9412, r44.T3.Round(4));
+        T3Result r44 = sut[44];
+        r44.T3.Should().BeApproximately(224.9412, Money4);
 
-        T3Result r149 = results[149];
-        Assert.AreEqual(235.8851, r149.T3.Round(4));
+        T3Result r149 = sut[149];
+        r149.T3.Should().BeApproximately(235.8851, Money4);
 
-        T3Result r249 = results[249];
-        Assert.AreEqual(257.8735, r249.T3.Round(4));
+        T3Result r249 = sut[249];
+        r249.T3.Should().BeApproximately(257.8735, Money4);
 
-        T3Result r501 = results[501];
-        Assert.AreEqual(238.9308, r501.T3.Round(4));
+        T3Result r501 = sut[501];
+        r501.T3.Should().BeApproximately(238.9308, Money4);
     }
 
     [TestMethod]
     public void UseReusable()
     {
-        IReadOnlyList<T3Result> results = Quotes
+        IReadOnlyList<T3Result> sut = Quotes
             .Use(CandlePart.Close)
             .ToT3();
 
-        Assert.HasCount(502, results);
-        Assert.HasCount(502, results.Where(static x => x.T3 != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.T3 != null).Should().HaveCount(502);
     }
 
     [TestMethod]
     public void Chainee()
     {
-        IReadOnlyList<T3Result> results = Quotes
+        IReadOnlyList<T3Result> sut = Quotes
             .ToSma(2)
             .ToT3();
 
-        Assert.HasCount(502, results);
-        Assert.HasCount(501, results.Where(static x => x.T3 != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.T3 != null).Should().HaveCount(501);
     }
 
     [TestMethod]
     public void ChainingFromResults_WorksAsExpected()
     {
-        IReadOnlyList<SmaResult> results = Quotes
+        IReadOnlyList<SmaResult> sut = Quotes
             .ToT3()
             .ToSma(10);
 
-        Assert.HasCount(502, results);
+        sut.Should().HaveCount(502);
     }
 
     [TestMethod]
@@ -71,8 +71,8 @@ public class T3 : StaticSeriesTestBase
         IReadOnlyList<T3Result> r = BadQuotes
             .ToT3();
 
-        Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(static x => x.T3 is double v && double.IsNaN(v)));
+        r.Should().HaveCount(502);
+        r.Where(static x => x.T3 is double v && double.IsNaN(v)).Should().BeEmpty();
     }
 
     [TestMethod]
@@ -81,12 +81,12 @@ public class T3 : StaticSeriesTestBase
         IReadOnlyList<T3Result> r0 = Noquotes
             .ToT3();
 
-        Assert.IsEmpty(r0);
+        r0.Should().BeEmpty();
 
         IReadOnlyList<T3Result> r1 = Onequote
             .ToT3();
 
-        Assert.HasCount(1, r1);
+        r1.Should().HaveCount(1);
     }
 
     [TestMethod]

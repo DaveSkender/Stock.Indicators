@@ -6,82 +6,82 @@ public class Pivots : StaticSeriesTestBase
     [TestMethod]
     public override void DefaultParameters_ReturnsExpectedResults()
     {
-        IReadOnlyList<PivotsResult> results = Quotes
+        IReadOnlyList<PivotsResult> sut = Quotes
             .ToPivots(4, 4);
 
         // proper quantities
-        Assert.HasCount(502, results);
-        Assert.HasCount(35, results.Where(static x => x.HighPoint != null));
-        Assert.HasCount(333, results.Where(static x => x.HighTrend != null));
-        Assert.HasCount(338, results.Where(static x => x.HighLine != null));
-        Assert.HasCount(34, results.Where(static x => x.LowPoint != null));
-        Assert.HasCount(328, results.Where(static x => x.LowTrend != null));
-        Assert.HasCount(333, results.Where(static x => x.LowLine != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.HighPoint != null).Should().HaveCount(35);
+        sut.Where(static x => x.HighTrend != null).Should().HaveCount(333);
+        sut.Where(static x => x.HighLine != null).Should().HaveCount(338);
+        sut.Where(static x => x.LowPoint != null).Should().HaveCount(34);
+        sut.Where(static x => x.LowTrend != null).Should().HaveCount(328);
+        sut.Where(static x => x.LowLine != null).Should().HaveCount(333);
 
         // sample values
-        PivotsResult r3 = results[3];
-        Assert.IsNull(r3.HighPoint);
-        Assert.IsNull(r3.HighTrend);
-        Assert.IsNull(r3.HighLine);
-        Assert.IsNull(r3.LowPoint);
-        Assert.IsNull(r3.LowTrend);
-        Assert.IsNull(r3.LowLine);
+        PivotsResult r3 = sut[3];
+        r3.HighPoint.Should().BeNull();
+        r3.HighTrend.Should().BeNull();
+        r3.HighLine.Should().BeNull();
+        r3.LowPoint.Should().BeNull();
+        r3.LowTrend.Should().BeNull();
+        r3.LowLine.Should().BeNull();
 
-        PivotsResult r7 = results[7];
-        Assert.IsNull(r7.HighPoint);
-        Assert.IsNull(r7.HighTrend);
-        Assert.IsNull(r7.HighLine);
-        Assert.AreEqual(212.53m, r7.LowPoint);
-        Assert.IsNull(r7.LowTrend);
-        Assert.AreEqual(212.53m, r7.LowLine);
+        PivotsResult r7 = sut[7];
+        r7.HighPoint.Should().BeNull();
+        r7.HighTrend.Should().BeNull();
+        r7.HighLine.Should().BeNull();
+        r7.LowPoint.Should().Be(212.53m);
+        r7.LowTrend.Should().BeNull();
+        r7.LowLine.Should().Be(212.53m);
 
-        PivotsResult r120 = results[120];
-        Assert.AreEqual(233.02m, r120.HighPoint);
-        Assert.AreEqual(PivotTrend.Lh, r120.HighTrend);
-        Assert.AreEqual(233.02m, r120.HighLine);
-        Assert.IsNull(r120.LowPoint);
-        Assert.AreEqual(PivotTrend.Ll, r120.LowTrend);
-        Assert.AreEqual(228.9671m, r120.LowLine.Round(4));
+        PivotsResult r120 = sut[120];
+        r120.HighPoint.Should().Be(233.02m);
+        r120.HighTrend.Should().Be(PivotTrend.Lh);
+        r120.HighLine.Should().Be(233.02m);
+        r120.LowPoint.Should().BeNull();
+        r120.LowTrend.Should().Be(PivotTrend.Ll);
+        ((double?)r120.LowLine).Should().BeApproximately((double)228.9671m, Money3);
 
-        PivotsResult r180 = results[180];
-        Assert.AreEqual(239.74m, r180.HighPoint);
-        Assert.AreEqual(PivotTrend.Hh, r180.HighTrend);
-        Assert.AreEqual(239.74m, r180.HighLine);
-        Assert.IsNull(r180.LowPoint);
-        Assert.AreEqual(PivotTrend.Hl, r180.LowTrend);
-        Assert.AreEqual(236.7050m, r180.LowLine.Round(4));
+        PivotsResult r180 = sut[180];
+        r180.HighPoint.Should().Be(239.74m);
+        r180.HighTrend.Should().Be(PivotTrend.Hh);
+        r180.HighLine.Should().Be(239.74m);
+        r180.LowPoint.Should().BeNull();
+        r180.LowTrend.Should().Be(PivotTrend.Hl);
+        ((double?)r180.LowLine).Should().BeApproximately((double)236.7050m, Money3);
 
-        PivotsResult r250 = results[250];
-        Assert.IsNull(r250.HighPoint);
-        Assert.IsNull(r250.HighTrend);
-        Assert.IsNull(r250.HighLine);
-        Assert.AreEqual(256.81m, r250.LowPoint);
-        Assert.IsNull(r250.LowTrend);
-        Assert.IsNull(r250.LowLine);
+        PivotsResult r250 = sut[250];
+        r250.HighPoint.Should().BeNull();
+        r250.HighTrend.Should().BeNull();
+        r250.HighLine.Should().BeNull();
+        r250.LowPoint.Should().Be(256.81m);
+        r250.LowTrend.Should().BeNull();
+        r250.LowLine.Should().BeNull();
 
-        PivotsResult r472 = results[472];
-        Assert.IsNull(r472.HighPoint);
-        Assert.AreEqual(PivotTrend.Lh, r472.HighTrend);
-        Assert.AreEqual(274.14m, r472.HighLine);
-        Assert.IsNull(r472.LowPoint);
-        Assert.AreEqual(PivotTrend.Hl, r472.LowTrend);
-        Assert.AreEqual(255.8078m, r472.LowLine.Round(4));
+        PivotsResult r472 = sut[472];
+        r472.HighPoint.Should().BeNull();
+        r472.HighTrend.Should().Be(PivotTrend.Lh);
+        r472.HighLine.Should().Be(274.14m);
+        r472.LowPoint.Should().BeNull();
+        r472.LowTrend.Should().Be(PivotTrend.Hl);
+        ((double?)r472.LowLine).Should().BeApproximately((double)255.8078m, Money3);
 
-        PivotsResult r497 = results[497];
-        Assert.IsNull(r497.HighPoint);
-        Assert.IsNull(r497.HighTrend);
-        Assert.IsNull(r497.HighLine);
-        Assert.IsNull(r497.LowPoint);
-        Assert.IsNull(r497.LowTrend);
-        Assert.IsNull(r497.LowLine);
+        PivotsResult r497 = sut[497];
+        r497.HighPoint.Should().BeNull();
+        r497.HighTrend.Should().BeNull();
+        r497.HighLine.Should().BeNull();
+        r497.LowPoint.Should().BeNull();
+        r497.LowTrend.Should().BeNull();
+        r497.LowLine.Should().BeNull();
 
-        PivotsResult r498 = results[498];
-        Assert.IsNull(r498.HighPoint);
-        Assert.IsNull(r498.HighTrend);
-        Assert.IsNull(r498.HighLine);
-        Assert.IsNull(r498.LowPoint);
-        Assert.IsNull(r498.LowTrend);
-        Assert.IsNull(r498.LowLine);
+        PivotsResult r498 = sut[498];
+        r498.HighPoint.Should().BeNull();
+        r498.HighTrend.Should().BeNull();
+        r498.HighLine.Should().BeNull();
+        r498.LowPoint.Should().BeNull();
+        r498.LowTrend.Should().BeNull();
+        r498.LowLine.Should().BeNull();
     }
 
     [TestMethod]
@@ -90,7 +90,7 @@ public class Pivots : StaticSeriesTestBase
         IReadOnlyList<PivotsResult> r = BadQuotes
             .ToPivots();
 
-        Assert.HasCount(502, r);
+        r.Should().HaveCount(502);
     }
 
     [TestMethod]
@@ -99,21 +99,21 @@ public class Pivots : StaticSeriesTestBase
         IReadOnlyList<PivotsResult> r0 = Noquotes
             .ToPivots();
 
-        Assert.IsEmpty(r0);
+        r0.Should().BeEmpty();
 
         IReadOnlyList<PivotsResult> r1 = Onequote
             .ToPivots();
 
-        Assert.HasCount(1, r1);
+        r1.Should().HaveCount(1);
     }
 
     [TestMethod]
     public void Condense()
     {
-        IReadOnlyList<PivotsResult> results = Quotes
+        IReadOnlyList<PivotsResult> sut = Quotes
             .ToPivots(4, 4)
             .Condense();
-        Assert.HasCount(67, results);
+        sut.Should().HaveCount(67);
     }
 
     [TestMethod]

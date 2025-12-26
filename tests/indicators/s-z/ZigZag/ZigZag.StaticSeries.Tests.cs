@@ -9,114 +9,114 @@ public class ZigZag : StaticSeriesTestBase
     [TestMethod]
     public override void DefaultParameters_ReturnsExpectedResults()
     {
-        IReadOnlyList<ZigZagResult> results =
+        IReadOnlyList<ZigZagResult> sut =
             Quotes.ToZigZag(EndType.Close, 3);
 
         // proper quantities
-        Assert.HasCount(502, results);
-        Assert.HasCount(234, results.Where(static x => x.ZigZag != null));
-        Assert.HasCount(234, results.Where(static x => x.RetraceHigh != null));
-        Assert.HasCount(221, results.Where(static x => x.RetraceLow != null));
-        Assert.HasCount(14, results.Where(static x => x.PointType != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.ZigZag != null).Should().HaveCount(234);
+        sut.Where(static x => x.RetraceHigh != null).Should().HaveCount(234);
+        sut.Where(static x => x.RetraceLow != null).Should().HaveCount(221);
+        sut.Where(static x => x.PointType != null).Should().HaveCount(14);
 
         // sample values
-        ZigZagResult r0 = results[249];
-        Assert.IsNull(r0.ZigZag);
-        Assert.IsNull(r0.RetraceHigh);
-        Assert.IsNull(r0.RetraceLow);
-        Assert.IsNull(r0.PointType);
+        ZigZagResult r0 = sut[249];
+        r0.ZigZag.Should().BeNull();
+        r0.RetraceHigh.Should().BeNull();
+        r0.RetraceLow.Should().BeNull();
+        r0.PointType.Should().BeNull();
 
-        ZigZagResult r1 = results[277];
-        Assert.AreEqual(248.13m, r1.ZigZag);
-        Assert.AreEqual(272.248m, r1.RetraceHigh);
-        Assert.AreEqual(248.13m, r1.RetraceLow);
-        Assert.AreEqual("L", r1.PointType);
+        ZigZagResult r1 = sut[277];
+        r1.ZigZag.Should().Be(248.13m);
+        r1.RetraceHigh.Should().Be(272.248m);
+        r1.RetraceLow.Should().Be(248.13m);
+        r1.PointType.Should().Be("L");
 
-        ZigZagResult r2 = results[483];
-        Assert.AreEqual(272.52m, r2.ZigZag);
-        Assert.AreEqual(272.52m, r2.RetraceHigh);
-        Assert.AreEqual(248.799m, r2.RetraceLow);
-        Assert.AreEqual("H", r2.PointType);
+        ZigZagResult r2 = sut[483];
+        r2.ZigZag.Should().Be(272.52m);
+        r2.RetraceHigh.Should().Be(272.52m);
+        r2.RetraceLow.Should().Be(248.799m);
+        r2.PointType.Should().Be("H");
 
-        ZigZagResult r3 = results[439];
-        Assert.AreEqual(276.0133m, r3.ZigZag.Round(4));
-        Assert.AreEqual(280.9158m, r3.RetraceHigh.Round(4));
-        Assert.AreEqual(264.5769m, r3.RetraceLow.Round(4));
-        Assert.IsNull(r3.PointType);
+        ZigZagResult r3 = sut[439];
+        ((double?)r3.ZigZag).Should().BeApproximately((double)276.0133m, Money3);
+        ((double?)r3.RetraceHigh).Should().BeApproximately((double)280.9158m, Money3);
+        ((double?)r3.RetraceLow).Should().BeApproximately((double)264.5769m, Money3);
+        r3.PointType.Should().BeNull();
 
-        ZigZagResult r4 = results[500];
-        Assert.AreEqual(241.4575m, r4.ZigZag.Round(4));
-        Assert.AreEqual(246.7933m, r4.RetraceHigh.Round(4));
-        Assert.IsNull(r4.RetraceLow);
-        Assert.IsNull(r4.PointType);
+        ZigZagResult r4 = sut[500];
+        ((double?)r4.ZigZag).Should().BeApproximately((double)241.4575m, Money3);
+        ((double?)r4.RetraceHigh).Should().BeApproximately((double)246.7933m, Money3);
+        r4.RetraceLow.Should().BeNull();
+        r4.PointType.Should().BeNull();
 
-        ZigZagResult r5 = results[501];
-        Assert.AreEqual(245.28m, r5.ZigZag);
-        Assert.AreEqual(245.28m, r5.RetraceHigh);
-        Assert.IsNull(r5.RetraceLow);
-        Assert.IsNull(r5.PointType);
+        ZigZagResult r5 = sut[501];
+        r5.ZigZag.Should().Be(245.28m);
+        r5.RetraceHigh.Should().Be(245.28m);
+        r5.RetraceLow.Should().BeNull();
+        r5.PointType.Should().BeNull();
     }
 
     [TestMethod]
     public void StandardHighLow()
     {
-        IReadOnlyList<ZigZagResult> results =
+        IReadOnlyList<ZigZagResult> sut =
             Quotes.ToZigZag(EndType.HighLow, 3);
 
         // proper quantities
-        Assert.HasCount(502, results);
-        Assert.HasCount(463, results.Where(static x => x.ZigZag != null));
-        Assert.HasCount(463, results.Where(static x => x.RetraceHigh != null));
-        Assert.HasCount(442, results.Where(static x => x.RetraceLow != null));
-        Assert.HasCount(30, results.Where(static x => x.PointType != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.ZigZag != null).Should().HaveCount(463);
+        sut.Where(static x => x.RetraceHigh != null).Should().HaveCount(463);
+        sut.Where(static x => x.RetraceLow != null).Should().HaveCount(442);
+        sut.Where(static x => x.PointType != null).Should().HaveCount(30);
 
         // sample values
-        ZigZagResult r38 = results[38];
-        Assert.IsNull(r38.ZigZag);
-        Assert.IsNull(r38.RetraceHigh);
-        Assert.IsNull(r38.RetraceLow);
-        Assert.IsNull(r38.PointType);
+        ZigZagResult r38 = sut[38];
+        r38.ZigZag.Should().BeNull();
+        r38.RetraceHigh.Should().BeNull();
+        r38.RetraceLow.Should().BeNull();
+        r38.PointType.Should().BeNull();
 
-        ZigZagResult r277 = results[277];
-        Assert.AreEqual(252.9550m, r277.ZigZag);
-        Assert.AreEqual(262.8054m, r277.RetraceHigh.Round(4));
-        Assert.AreEqual(245.4467m, r277.RetraceLow.Round(4));
-        Assert.IsNull(r277.PointType);
+        ZigZagResult r277 = sut[277];
+        r277.ZigZag.Should().Be(252.9550m);
+        ((double?)r277.RetraceHigh).Should().BeApproximately((double)262.8054m, Money3);
+        ((double?)r277.RetraceLow).Should().BeApproximately((double)245.4467m, Money3);
+        r277.PointType.Should().BeNull();
 
-        ZigZagResult r316 = results[316];
-        Assert.AreEqual(249.48m, r316.ZigZag);
-        Assert.AreEqual(258.34m, r316.RetraceHigh);
-        Assert.AreEqual(249.48m, r316.RetraceLow);
-        Assert.AreEqual("L", r316.PointType);
+        ZigZagResult r316 = sut[316];
+        r316.ZigZag.Should().Be(249.48m);
+        r316.RetraceHigh.Should().Be(258.34m);
+        r316.RetraceLow.Should().Be(249.48m);
+        r316.PointType.Should().Be("L");
 
-        ZigZagResult r456 = results[456];
-        Assert.AreEqual(261.3325m, r456.ZigZag.Round(4));
-        Assert.AreEqual(274.3419m, r456.RetraceHigh.Round(4));
-        Assert.AreEqual(256.1050m, r456.RetraceLow.Round(4));
-        Assert.IsNull(r456.PointType);
+        ZigZagResult r456 = sut[456];
+        ((double?)r456.ZigZag).Should().BeApproximately((double)261.3325m, Money3);
+        ((double?)r456.RetraceHigh).Should().BeApproximately((double)274.3419m, Money3);
+        ((double?)r456.RetraceLow).Should().BeApproximately((double)256.1050m, Money3);
+        r456.PointType.Should().BeNull();
 
-        ZigZagResult r500 = results[500];
-        Assert.AreEqual(240.1667m, r500.ZigZag.Round(4));
-        Assert.AreEqual(246.95083m, r500.RetraceHigh.Round(5));
-        Assert.IsNull(r500.RetraceLow);
-        Assert.IsNull(r500.PointType);
+        ZigZagResult r500 = sut[500];
+        ((double?)r500.ZigZag).Should().BeApproximately((double)240.1667m, Money3);
+        ((double?)r500.RetraceHigh).Should().BeApproximately((double)246.95083m, Money5);
+        r500.RetraceLow.Should().BeNull();
+        r500.PointType.Should().BeNull();
 
-        ZigZagResult r501 = results[501];
-        Assert.AreEqual(245.54m, r501.ZigZag);
-        Assert.AreEqual(245.54m, r501.RetraceHigh);
-        Assert.IsNull(r501.RetraceLow);
-        Assert.IsNull(r501.PointType);
+        ZigZagResult r501 = sut[501];
+        r501.ZigZag.Should().Be(245.54m);
+        r501.RetraceHigh.Should().Be(245.54m);
+        r501.RetraceLow.Should().BeNull();
+        r501.PointType.Should().BeNull();
     }
 
     [TestMethod]
     public void ChainingFromResults_WorksAsExpected()
     {
-        IReadOnlyList<SmaResult> results = Quotes
+        IReadOnlyList<SmaResult> sut = Quotes
             .ToZigZag(EndType.Close, 3)
             .ToSma(10);
 
-        Assert.HasCount(502, results);
-        Assert.HasCount(225, results.Where(static x => x.Sma != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Sma != null).Should().HaveCount(225);
     }
 
     [TestMethod]
@@ -125,11 +125,11 @@ public class ZigZag : StaticSeriesTestBase
         // thresholds are never met
         IReadOnlyList<Quote> quotes = Data.QuotesFromJson("_issue0616.zigzag.thresholds.json");
 
-        IReadOnlyList<ZigZagResult> results = quotes
+        IReadOnlyList<ZigZagResult> sut = quotes
             .ToZigZag();
 
-        results.Should().HaveCountGreaterThan(0);
-        Assert.IsEmpty(results.Where(static x => x.PointType != null));
+        sut.Should().HaveCountGreaterThan(0);
+        sut.Where(static x => x.PointType != null).Should().BeEmpty();
     }
 
     [TestMethod]
@@ -138,10 +138,10 @@ public class ZigZag : StaticSeriesTestBase
         // thresholds are never met
         IReadOnlyList<Quote> quotes = Data.QuotesFromJson("_issue0632.zigzag.thresholds.json");
 
-        IReadOnlyList<ZigZagResult> results = quotes
+        IReadOnlyList<ZigZagResult> sut = quotes
             .ToZigZag();
 
-        Assert.HasCount(17, results);
+        sut.Should().HaveCount(17);
     }
 
     [TestMethod]
@@ -150,12 +150,12 @@ public class ZigZag : StaticSeriesTestBase
         IReadOnlyList<ZigZagResult> r1 = BadQuotes
             .ToZigZag();
 
-        Assert.HasCount(502, r1);
+        r1.Should().HaveCount(502);
 
         IReadOnlyList<ZigZagResult> r2 = BadQuotes
             .ToZigZag(EndType.HighLow);
 
-        Assert.HasCount(502, r2);
+        r2.Should().HaveCount(502);
     }
 
     [TestMethod]
@@ -164,23 +164,23 @@ public class ZigZag : StaticSeriesTestBase
         IReadOnlyList<ZigZagResult> r0 = Noquotes
             .ToZigZag();
 
-        Assert.IsEmpty(r0);
+        r0.Should().BeEmpty();
 
         IReadOnlyList<ZigZagResult> r1 = Onequote
             .ToZigZag();
 
-        Assert.HasCount(1, r1);
+        r1.Should().HaveCount(1);
     }
 
     [TestMethod]
     public void Condense()
     {
-        IReadOnlyList<ZigZagResult> results = Quotes
+        IReadOnlyList<ZigZagResult> sut = Quotes
             .ToZigZag(EndType.Close, 3)
             .Condense();
 
         // assertions
-        Assert.HasCount(14, results);
+        sut.Should().HaveCount(14);
     }
 
     [TestMethod]
@@ -189,12 +189,12 @@ public class ZigZag : StaticSeriesTestBase
         IReadOnlyList<Quote> quotes = Data.QuotesFromJson("_issue0616.zigzag.schrodinger.json");
 
         IReadOnlyList<ZigZagResult> r1 = quotes.ToZigZag(EndType.Close, 0.25m).ToList();
-        Assert.HasCount(342, r1);
+        r1.Should().HaveCount(342);
 
         // first period has High/Low that exceeds threhold
         // where it is both a H and L pivot simultaenously
         IReadOnlyList<ZigZagResult> r2 = quotes.ToZigZag(EndType.HighLow, 3).ToList();
-        Assert.HasCount(342, r2);
+        r2.Should().HaveCount(342);
     }
 
     [TestMethod]

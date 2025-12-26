@@ -10,56 +10,56 @@ public class Alma : StaticSeriesTestBase
         const double offset = 0.85;
         const double sigma = 6;
 
-        IReadOnlyList<AlmaResult> results = Quotes
+        IReadOnlyList<AlmaResult> sut = Quotes
             .ToAlma(lookbackPeriods, offset, sigma);
 
         // proper quantities
-        Assert.HasCount(502, results);
-        Assert.HasCount(493, results.Where(static x => x.Alma != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Alma != null).Should().HaveCount(493);
 
         // sample values
-        AlmaResult r1 = results[8];
-        Assert.IsNull(r1.Alma);
+        AlmaResult r1 = sut[8];
+        r1.Alma.Should().BeNull();
 
-        AlmaResult r2 = results[9];
-        Assert.AreEqual(214.1839, r2.Alma.Round(4));
+        AlmaResult r2 = sut[9];
+        r2.Alma.Should().BeApproximately(214.1839, Money4);
 
-        AlmaResult r3 = results[24];
-        Assert.AreEqual(216.0619, r3.Alma.Round(4));
+        AlmaResult r3 = sut[24];
+        r3.Alma.Should().BeApproximately(216.0619, Money4);
 
-        AlmaResult r4 = results[149];
-        Assert.AreEqual(235.8609, r4.Alma.Round(4));
+        AlmaResult r4 = sut[149];
+        r4.Alma.Should().BeApproximately(235.8609, Money4);
 
-        AlmaResult r5 = results[249];
-        Assert.AreEqual(257.5787, r5.Alma.Round(4));
+        AlmaResult r5 = sut[249];
+        r5.Alma.Should().BeApproximately(257.5787, Money4);
 
-        AlmaResult r6 = results[501];
-        Assert.AreEqual(242.1871, r6.Alma.Round(4));
+        AlmaResult r6 = sut[501];
+        r6.Alma.Should().BeApproximately(242.1871, Money4);
     }
 
     [TestMethod]
     public void UseReusable()
     {
-        IReadOnlyList<AlmaResult> results = Quotes
+        IReadOnlyList<AlmaResult> sut = Quotes
             .Use(CandlePart.Close)
             .ToAlma(10);
 
-        Assert.HasCount(502, results);
-        Assert.HasCount(493, results.Where(static x => x.Alma != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Alma != null).Should().HaveCount(493);
 
-        AlmaResult last = results[^1];
-        Assert.AreEqual(242.1871, last.Alma.Round(4));
+        AlmaResult last = sut[^1];
+        last.Alma.Should().BeApproximately(242.1871, Money4);
     }
 
     [TestMethod]
     public void Chainee()
     {
-        IReadOnlyList<AlmaResult> results = Quotes
+        IReadOnlyList<AlmaResult> sut = Quotes
             .ToSma(2)
             .ToAlma(10);
 
-        Assert.HasCount(502, results);
-        Assert.HasCount(492, results.Where(static x => x.Alma != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Alma != null).Should().HaveCount(492);
     }
 
     [TestMethod]
@@ -69,12 +69,12 @@ public class Alma : StaticSeriesTestBase
         const double offset = 0.85;
         const double sigma = 6;
 
-        IReadOnlyList<SmaResult> results = Quotes
+        IReadOnlyList<SmaResult> sut = Quotes
             .ToAlma(lookbackPeriods, offset, sigma)
             .ToSma(10);
 
-        Assert.HasCount(502, results);
-        Assert.HasCount(484, results.Where(static x => x.Sma != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Sma != null).Should().HaveCount(484);
     }
 
     [TestMethod]
@@ -83,12 +83,12 @@ public class Alma : StaticSeriesTestBase
         IReadOnlyList<AlmaResult> r1
             = Data.GetBtcUsdNan().ToAlma();
 
-        Assert.IsEmpty(r1.Where(static x => x.Alma is double.NaN));
+        r1.Where(static x => x.Alma is double.NaN).Should().BeEmpty();
 
         IReadOnlyList<AlmaResult> r2
             = Data.GetBtcUsdNan().ToAlma(20);
 
-        Assert.IsEmpty(r2.Where(static x => x.Alma is double.NaN));
+        r2.Where(static x => x.Alma is double.NaN).Should().BeEmpty();
     }
 
     [TestMethod]
@@ -96,8 +96,8 @@ public class Alma : StaticSeriesTestBase
     {
         IReadOnlyList<AlmaResult> r = BadQuotes.ToAlma(14, 0.5, 3);
 
-        Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(static x => x.Alma is double.NaN));
+        r.Should().HaveCount(502);
+        r.Where(static x => x.Alma is double.NaN).Should().BeEmpty();
     }
 
     [TestMethod]
@@ -105,25 +105,25 @@ public class Alma : StaticSeriesTestBase
     {
         IReadOnlyList<AlmaResult> r0 = Noquotes.ToAlma();
 
-        Assert.IsEmpty(r0);
+        r0.Should().BeEmpty();
 
         IReadOnlyList<AlmaResult> r1 = Onequote.ToAlma();
 
-        Assert.HasCount(1, r1);
+        r1.Should().HaveCount(1);
     }
 
     [TestMethod]
     public void Removed()
     {
-        IReadOnlyList<AlmaResult> results = Quotes
+        IReadOnlyList<AlmaResult> sut = Quotes
             .ToAlma(10)
             .RemoveWarmupPeriods();
 
         // assertions
-        Assert.HasCount(502 - 9, results);
+        sut.Should().HaveCount(502 - 9);
 
-        AlmaResult last = results[^1];
-        Assert.AreEqual(242.1871, last.Alma.Round(4));
+        AlmaResult last = sut[^1];
+        last.Alma.Should().BeApproximately(242.1871, Money4);
     }
 
     [TestMethod]

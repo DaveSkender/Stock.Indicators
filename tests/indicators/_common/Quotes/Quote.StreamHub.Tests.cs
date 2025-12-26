@@ -122,11 +122,11 @@ public class QuoteHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPr
             Quote o = quotesList[i];
             IQuote q = quoteHub.Cache[i];
 
-            Assert.AreEqual(o, q);  // same ref
+            q.Should().Be(o);  // same ref
         }
 
         // confirm public interfaces
-        Assert.HasCount(quoteHub.Cache.Count, quoteHub.Quotes);
+        quoteHub.Quotes.Should().HaveCount(quoteHub.Cache.Count);
 
         // close observations
         quoteHub.EndTransmission();

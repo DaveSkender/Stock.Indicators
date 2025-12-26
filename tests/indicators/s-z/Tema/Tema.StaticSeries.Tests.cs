@@ -6,58 +6,58 @@ public class Tema : StaticSeriesTestBase
     [TestMethod]
     public override void DefaultParameters_ReturnsExpectedResults()
     {
-        IReadOnlyList<TemaResult> results = Quotes
+        IReadOnlyList<TemaResult> sut = Quotes
             .ToTema(20);
 
         // proper quantities
-        Assert.HasCount(502, results);
-        Assert.HasCount(483, results.Where(static x => x.Tema != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Tema != null).Should().HaveCount(483);
 
         // sample values
-        TemaResult r25 = results[25];
-        Assert.AreEqual(216.1441, r25.Tema.Round(4));
+        TemaResult r25 = sut[25];
+        r25.Tema.Should().BeApproximately(216.1441, Money4);
 
-        TemaResult r67 = results[67];
-        Assert.AreEqual(222.9562, r67.Tema.Round(4));
+        TemaResult r67 = sut[67];
+        r67.Tema.Should().BeApproximately(222.9562, Money4);
 
-        TemaResult r249 = results[249];
-        Assert.AreEqual(258.6208, r249.Tema.Round(4));
+        TemaResult r249 = sut[249];
+        r249.Tema.Should().BeApproximately(258.6208, Money4);
 
-        TemaResult r501 = results[501];
-        Assert.AreEqual(238.7690, r501.Tema.Round(4));
+        TemaResult r501 = sut[501];
+        r501.Tema.Should().BeApproximately(238.7690, Money4);
     }
 
     [TestMethod]
     public void UseReusable()
     {
-        IReadOnlyList<TemaResult> results = Quotes
+        IReadOnlyList<TemaResult> sut = Quotes
             .Use(CandlePart.Close)
             .ToTema(20);
 
-        Assert.HasCount(502, results);
-        Assert.HasCount(483, results.Where(static x => x.Tema != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Tema != null).Should().HaveCount(483);
     }
 
     [TestMethod]
     public void Chainee()
     {
-        IReadOnlyList<TemaResult> results = Quotes
+        IReadOnlyList<TemaResult> sut = Quotes
             .ToSma(2)
             .ToTema(20);
 
-        Assert.HasCount(502, results);
-        Assert.HasCount(482, results.Where(static x => x.Tema != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Tema != null).Should().HaveCount(482);
     }
 
     [TestMethod]
     public void ChainingFromResults_WorksAsExpected()
     {
-        IReadOnlyList<SmaResult> results = Quotes
+        IReadOnlyList<SmaResult> sut = Quotes
             .ToTema(20)
             .ToSma(10);
 
-        Assert.HasCount(502, results);
-        Assert.HasCount(474, results.Where(static x => x.Sma != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Sma != null).Should().HaveCount(474);
     }
 
     [TestMethod]
@@ -66,8 +66,8 @@ public class Tema : StaticSeriesTestBase
         IReadOnlyList<TemaResult> r = BadQuotes
             .ToTema(15);
 
-        Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(static x => x.Tema is double v && double.IsNaN(v)));
+        r.Should().HaveCount(502);
+        r.Where(static x => x.Tema is double v && double.IsNaN(v)).Should().BeEmpty();
     }
 
     [TestMethod]
@@ -76,26 +76,26 @@ public class Tema : StaticSeriesTestBase
         IReadOnlyList<TemaResult> r0 = Noquotes
             .ToTema(5);
 
-        Assert.IsEmpty(r0);
+        r0.Should().BeEmpty();
 
         IReadOnlyList<TemaResult> r1 = Onequote
             .ToTema(5);
 
-        Assert.HasCount(1, r1);
+        r1.Should().HaveCount(1);
     }
 
     [TestMethod]
     public void Removed()
     {
-        IReadOnlyList<TemaResult> results = Quotes
+        IReadOnlyList<TemaResult> sut = Quotes
             .ToTema(20)
             .RemoveWarmupPeriods();
 
         // assertions
-        Assert.HasCount(502 - ((3 * 20) + 100), results);
+        sut.Should().HaveCount(502 - ((3 * 20) + 100));
 
-        TemaResult last = results[^1];
-        Assert.AreEqual(238.7690, last.Tema.Round(4));
+        TemaResult last = sut[^1];
+        last.Tema.Should().BeApproximately(238.7690, Money4);
     }
 
     /// <summary>
@@ -103,6 +103,8 @@ public class Tema : StaticSeriesTestBase
     /// </summary>
     [TestMethod]
     public void Exceptions()
-        => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToTema(0));
+        => FluentActions
+            .Invoking(static () => Quotes.ToTema(0))
+            .Should()
+            .ThrowExactly<ArgumentOutOfRangeException>();
 }

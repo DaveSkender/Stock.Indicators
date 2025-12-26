@@ -43,8 +43,8 @@ public class Chop : BufferListTestBase
     [TestMethod]
     public void Results_AreAlwaysBounded()
     {
-        ChopList results = new(14, Quotes);
-        results.IsBetween(x => x.Chop, 0, 100);
+        ChopList sut = new(14, Quotes);
+        sut.IsBetween(x => x.Chop, 0, 100);
     }
 
     [TestMethod]

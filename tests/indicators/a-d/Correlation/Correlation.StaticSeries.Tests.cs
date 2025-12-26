@@ -6,72 +6,72 @@ public class Correlation : StaticSeriesTestBase
     [TestMethod]
     public override void DefaultParameters_ReturnsExpectedResults()
     {
-        IReadOnlyList<CorrResult> results = Quotes
+        IReadOnlyList<CorrResult> sut = Quotes
             .ToCorrelation(OtherQuotes, 20);
 
         // proper quantities
-        // should always be the same number of results as there is quotes
-        Assert.HasCount(502, results);
-        Assert.HasCount(483, results.Where(static x => x.Correlation != null));
+        // should always be the same number of sut as there is quotes
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Correlation != null).Should().HaveCount(483);
 
         // sample values
-        CorrResult r18 = results[18];
-        Assert.IsNull(r18.Correlation);
-        Assert.IsNull(r18.RSquared);
+        CorrResult r18 = sut[18];
+        r18.Correlation.Should().BeNull();
+        r18.RSquared.Should().BeNull();
 
-        CorrResult r19 = results[19];
-        Assert.AreEqual(0.6933, r19.Correlation.Round(4));
-        Assert.AreEqual(0.4806, r19.RSquared.Round(4));
+        CorrResult r19 = sut[19];
+        r19.Correlation.Should().BeApproximately(0.6933, Money4);
+        r19.RSquared.Should().BeApproximately(0.4806, Money4);
 
-        CorrResult r257 = results[257];
-        Assert.AreEqual(-0.1347, r257.Correlation.Round(4));
-        Assert.AreEqual(0.0181, r257.RSquared.Round(4));
+        CorrResult r257 = sut[257];
+        r257.Correlation.Should().BeApproximately(-0.1347, Money4);
+        r257.RSquared.Should().BeApproximately(0.0181, Money4);
 
-        CorrResult r501 = results[501];
-        Assert.AreEqual(0.8460, r501.Correlation.Round(4));
-        Assert.AreEqual(0.7157, r501.RSquared.Round(4));
+        CorrResult r501 = sut[501];
+        r501.Correlation.Should().BeApproximately(0.8460, Money4);
+        r501.RSquared.Should().BeApproximately(0.7157, Money4);
     }
 
     [TestMethod]
     public void Results_AreAlwaysBounded()
     {
-        IReadOnlyList<CorrResult> results = Quotes.ToCorrelation(OtherQuotes, 20);
-        results.IsBetween(x => x.Correlation, -1, 1);
-        results.IsBetween(x => x.RSquared, 0, 1);
+        IReadOnlyList<CorrResult> sut = Quotes.ToCorrelation(OtherQuotes, 20);
+        sut.IsBetween(x => x.Correlation, -1, 1);
+        sut.IsBetween(x => x.RSquared, 0, 1);
     }
 
     [TestMethod]
     public void UseReusable()
     {
-        IReadOnlyList<CorrResult> results = Quotes
+        IReadOnlyList<CorrResult> sut = Quotes
             .Use(CandlePart.Close)
             .ToCorrelation(OtherQuotes.Use(CandlePart.Close), 20);
 
-        Assert.HasCount(502, results);
-        Assert.HasCount(483, results.Where(static x => x.Correlation != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Correlation != null).Should().HaveCount(483);
     }
 
     [TestMethod]
     public void ChainingFromResults_WorksAsExpected()
     {
-        IReadOnlyList<SmaResult> results = Quotes
+        IReadOnlyList<SmaResult> sut = Quotes
             .ToCorrelation(OtherQuotes, 20)
             .ToSma(10);
 
-        Assert.HasCount(502, results);
-        Assert.HasCount(474, results.Where(static x => x.Sma != null));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Sma != null).Should().HaveCount(474);
     }
 
     [TestMethod]
     public void Chainee()
     {
-        IReadOnlyList<CorrResult> results = Quotes
+        IReadOnlyList<CorrResult> sut = Quotes
             .ToSma(2)
             .ToCorrelation(OtherQuotes.ToSma(2), 20);
 
-        Assert.HasCount(502, results);
-        Assert.HasCount(482, results.Where(static x => x.Correlation != null));
-        Assert.IsEmpty(results.Where(static x => x.Correlation is double v && double.IsNaN(v)));
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Correlation != null).Should().HaveCount(482);
+        sut.Where(static x => x.Correlation is double v && double.IsNaN(v)).Should().BeEmpty();
     }
 
     [TestMethod]
@@ -80,8 +80,8 @@ public class Correlation : StaticSeriesTestBase
         IReadOnlyList<CorrResult> r = BadQuotes
             .ToCorrelation(BadQuotes, 15);
 
-        Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(static x => x.Correlation is double v && double.IsNaN(v)));
+        r.Should().HaveCount(502);
+        r.Where(static x => x.Correlation is double v && double.IsNaN(v)).Should().BeEmpty();
     }
 
     [TestMethod]
@@ -90,7 +90,7 @@ public class Correlation : StaticSeriesTestBase
         IReadOnlyList<CorrResult> r = BigQuotes
             .ToCorrelation(BigQuotes, 150);
 
-        Assert.HasCount(1246, r);
+        r.Should().HaveCount(1246);
     }
 
     [TestMethod]
@@ -99,27 +99,27 @@ public class Correlation : StaticSeriesTestBase
         IReadOnlyList<CorrResult> r0 = Noquotes
             .ToCorrelation(Noquotes, 10);
 
-        Assert.IsEmpty(r0);
+        r0.Should().BeEmpty();
 
         IReadOnlyList<CorrResult> r1 = Onequote
             .ToCorrelation(Onequote, 10);
 
-        Assert.HasCount(1, r1);
+        r1.Should().HaveCount(1);
     }
 
     [TestMethod]
     public void Removed()
     {
-        IReadOnlyList<CorrResult> results = Quotes
+        IReadOnlyList<CorrResult> sut = Quotes
             .ToCorrelation(OtherQuotes, 20)
             .RemoveWarmupPeriods();
 
         // assertions
-        Assert.HasCount(502 - 19, results);
+        sut.Should().HaveCount(502 - 19);
 
-        CorrResult last = results[^1];
-        Assert.AreEqual(0.8460, last.Correlation.Round(4));
-        Assert.AreEqual(0.7157, last.RSquared.Round(4));
+        CorrResult last = sut[^1];
+        last.Correlation.Should().BeApproximately(0.8460, Money4);
+        last.RSquared.Should().BeApproximately(0.7157, Money4);
     }
 
     [TestMethod]

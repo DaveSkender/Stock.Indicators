@@ -12,14 +12,14 @@ public partial class Quotes : TestBase
         IReadOnlyList<Quote> h = quotes.Validate();
 
         // proper quantities
-        Assert.HasCount(502, h);
+        h.Should().HaveCount(502);
 
         // sample values
         DateTime lastDate = DateTime.ParseExact("12/31/2018", "MM/dd/yyyy", invariantCulture);
-        Assert.AreEqual(lastDate, h[501].Timestamp);
+        h[501].Timestamp.Should().Be(lastDate);
 
         DateTime spotDate = DateTime.ParseExact("02/01/2017", "MM/dd/yyyy", invariantCulture);
-        Assert.AreEqual(spotDate, h[20].Timestamp);
+        h[20].Timestamp.Should().Be(spotDate);
     }
 
     [TestMethod]
@@ -28,11 +28,11 @@ public partial class Quotes : TestBase
         IReadOnlyList<Quote> h = LongishQuotes.Validate();
 
         // proper quantities
-        Assert.HasCount(5285, h);
+        h.Should().HaveCount(5285);
 
         // sample values
         DateTime lastDate = DateTime.ParseExact("09/04/2020", "MM/dd/yyyy", invariantCulture);
-        Assert.AreEqual(lastDate, h[5284].Timestamp);
+        h[5284].Timestamp.Should().Be(lastDate);
     }
 
     [TestMethod]
@@ -45,32 +45,32 @@ public partial class Quotes : TestBase
         IReadOnlyList<Quote> h = quotes.Validate();
 
         // should be 200 periods, initially
-        Assert.HasCount(200, h);
+        h.Should().HaveCount(200);
 
         // should be 20 results and no index corruption
         IReadOnlyList<SmaResult> r1 = h.TakeLast(20).ToList().ToSma(14).ToList();
-        Assert.HasCount(20, r1);
+        r1.Should().HaveCount(20);
 
         for (int i = 1; i < r1.Count; i++)
         {
-            Assert.IsTrue(r1[i].Timestamp >= r1[i - 1].Timestamp);
+            (r1[i].Timestamp >= r1[i - 1].Timestamp).Should().BeTrue();
         }
 
         // should be 50 results and no index corruption
         IReadOnlyList<SmaResult> r2 = h.TakeLast(50).ToList().ToSma(14).ToList();
-        Assert.HasCount(50, r2);
+        r2.Should().HaveCount(50);
 
         for (int i = 1; i < r2.Count; i++)
         {
-            Assert.IsTrue(r2[i].Timestamp >= r2[i - 1].Timestamp);
+            (r2[i].Timestamp >= r2[i - 1].Timestamp).Should().BeTrue();
         }
 
         // should be original 200 periods and no index corruption, after temp mods
-        Assert.HasCount(200, h);
+        h.Should().HaveCount(200);
 
         for (int i = 1; i < h.Count; i++)
         {
-            Assert.IsTrue(h[i].Timestamp >= h[i - 1].Timestamp);
+            (h[i].Timestamp >= h[i - 1].Timestamp).Should().BeTrue();
         }
     }
 

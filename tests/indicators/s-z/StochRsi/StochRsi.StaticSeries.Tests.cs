@@ -14,40 +14,40 @@ public class StochRsi : StaticSeriesTestBase
         const int signalPeriods = 3;
         const int smoothPeriods = 1;
 
-        IReadOnlyList<StochRsiResult> results =
+        IReadOnlyList<StochRsiResult> sut =
             Quotes.ToStochRsi(rsiPeriods, stochPeriods, signalPeriods, smoothPeriods);
 
         // assertions
 
         // proper quantities
-        Assert.HasCount(502, results);
-        Assert.HasCount(475, results.Where(static x => x.StochRsi != null));
-        Assert.HasCount(473, results.Where(static x => x.Signal != null));
+        sut.Should().HaveCount(502);
+        Assert.HasCount(475, sut.Where(static x => x.StochRsi != null));
+        Assert.HasCount(473, sut.Where(static x => x.Signal != null));
 
         // sample values
-        StochRsiResult r1 = results[31];
-        Assert.AreEqual(93.3333, r1.StochRsi.Round(4));
-        Assert.AreEqual(97.7778, r1.Signal.Round(4));
+        StochRsiResult r1 = sut[31];
+        r1.StochRsi.Should().BeApproximately(93.3333, Money4);
+        r1.Signal.Should().BeApproximately(97.7778, Money4);
 
-        StochRsiResult r2 = results[152];
-        Assert.AreEqual(0, r2.StochRsi);
-        Assert.AreEqual(0, r2.Signal);
+        StochRsiResult r2 = sut[152];
+        r2.StochRsi.Should().Be(0);
+        r2.Signal.Should().Be(0);
 
-        StochRsiResult r3 = results[249];
-        Assert.AreEqual(36.5517, r3.StochRsi.Round(4));
-        Assert.AreEqual(27.3094, r3.Signal.Round(4));
+        StochRsiResult r3 = sut[249];
+        r3.StochRsi.Should().BeApproximately(36.5517, Money4);
+        r3.Signal.Should().BeApproximately(27.3094, Money4);
 
-        StochRsiResult r4 = results[501];
-        Assert.AreEqual(97.5244, r4.StochRsi.Round(4));
-        Assert.AreEqual(89.8385, r4.Signal.Round(4));
+        StochRsiResult r4 = sut[501];
+        r4.StochRsi.Should().BeApproximately(97.5244, Money4);
+        r4.Signal.Should().BeApproximately(89.8385, Money4);
     }
 
     [TestMethod]
     public void Results_AreAlwaysBounded()
     {
-        IReadOnlyList<StochRsiResult> results = Quotes.ToStochRsi(14, 14, 3, 1);
-        results.IsBetween(x => x.StochRsi, 0, 100);
-        results.IsBetween(x => x.Signal, 0, 100);
+        IReadOnlyList<StochRsiResult> sut = Quotes.ToStochRsi(14, 14, 3, 1);
+        sut.IsBetween(x => x.StochRsi, 0, 100);
+        sut.IsBetween(x => x.Signal, 0, 100);
     }
 
     [TestMethod]
@@ -58,66 +58,66 @@ public class StochRsi : StaticSeriesTestBase
         const int signalPeriods = 3;
         const int smoothPeriods = 3;
 
-        IReadOnlyList<StochRsiResult> results =
+        IReadOnlyList<StochRsiResult> sut =
             Quotes.ToStochRsi(rsiPeriods, stochPeriods, signalPeriods, smoothPeriods);
 
         // assertions
 
         // proper quantities
-        Assert.HasCount(502, results);
-        Assert.HasCount(473, results.Where(static x => x.StochRsi != null));
-        Assert.HasCount(471, results.Where(static x => x.Signal != null));
+        sut.Should().HaveCount(502);
+        Assert.HasCount(473, sut.Where(static x => x.StochRsi != null));
+        Assert.HasCount(471, sut.Where(static x => x.Signal != null));
 
         // sample values
-        StochRsiResult r1 = results[31];
-        Assert.AreEqual(97.7778, r1.StochRsi.Round(4));
-        Assert.AreEqual(99.2593, r1.Signal.Round(4));
+        StochRsiResult r1 = sut[31];
+        r1.StochRsi.Should().BeApproximately(97.7778, Money4);
+        r1.Signal.Should().BeApproximately(99.2593, Money4);
 
-        StochRsiResult r2 = results[152];
-        Assert.AreEqual(0, r2.StochRsi);
-        Assert.AreEqual(20.0263, r2.Signal.Round(4));
+        StochRsiResult r2 = sut[152];
+        r2.StochRsi.Should().Be(0);
+        r2.Signal.Should().BeApproximately(20.0263, Money4);
 
-        StochRsiResult r3 = results[249];
-        Assert.AreEqual(27.3094, r3.StochRsi.Round(4));
-        Assert.AreEqual(33.2716, r3.Signal.Round(4));
+        StochRsiResult r3 = sut[249];
+        r3.StochRsi.Should().BeApproximately(27.3094, Money4);
+        r3.Signal.Should().BeApproximately(33.2716, Money4);
 
-        StochRsiResult r4 = results[501];
-        Assert.AreEqual(89.8385, r4.StochRsi.Round(4));
-        Assert.AreEqual(73.4176, r4.Signal.Round(4));
+        StochRsiResult r4 = sut[501];
+        r4.StochRsi.Should().BeApproximately(89.8385, Money4);
+        r4.Signal.Should().BeApproximately(73.4176, Money4);
     }
 
     [TestMethod]
     public void UseReusable()
     {
-        IReadOnlyList<StochRsiResult> results = Quotes
+        IReadOnlyList<StochRsiResult> sut = Quotes
             .Use(CandlePart.Close)
             .ToStochRsi(14, 14, 3);
 
-        Assert.HasCount(502, results);
-        Assert.HasCount(475, results.Where(static x => x.StochRsi != null));
-        Assert.IsEmpty(results.Where(static x => x.StochRsi is double v && double.IsNaN(v)));
+        sut.Should().HaveCount(502);
+        Assert.HasCount(475, sut.Where(static x => x.StochRsi != null));
+        sut.Where(static x => x.StochRsi is double v && double.IsNaN(v)).Should().BeEmpty();
     }
 
     [TestMethod]
     public void Chainee()
     {
-        IReadOnlyList<StochRsiResult> results = Quotes
+        IReadOnlyList<StochRsiResult> sut = Quotes
             .ToSma(2)
             .ToStochRsi(14, 14, 3);
 
-        Assert.HasCount(502, results);
-        Assert.HasCount(474, results.Where(static x => x.StochRsi != null));
+        sut.Should().HaveCount(502);
+        Assert.HasCount(474, sut.Where(static x => x.StochRsi != null));
     }
 
     [TestMethod]
     public void ChainingFromResults_WorksAsExpected()
     {
-        IReadOnlyList<SmaResult> results = Quotes
+        IReadOnlyList<SmaResult> sut = Quotes
             .ToStochRsi(14, 14, 3, 3)
             .ToSma(10);
 
-        Assert.HasCount(502, results);
-        Assert.HasCount(464, results.Where(static x => x.Sma != null));
+        sut.Should().HaveCount(502);
+        Assert.HasCount(464, sut.Where(static x => x.Sma != null));
     }
 
     [TestMethod]
@@ -126,8 +126,8 @@ public class StochRsi : StaticSeriesTestBase
         IReadOnlyList<StochRsiResult> r = BadQuotes
             .ToStochRsi(15, 20, 3, 2);
 
-        Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(static x => x.StochRsi is double v && double.IsNaN(v)));
+        r.Should().HaveCount(502);
+        r.Where(static x => x.StochRsi is double v && double.IsNaN(v)).Should().BeEmpty();
     }
 
     [TestMethod]
@@ -136,12 +136,12 @@ public class StochRsi : StaticSeriesTestBase
         IReadOnlyList<StochRsiResult> r0 = Noquotes
             .ToStochRsi(10, 20, 3);
 
-        Assert.IsEmpty(r0);
+        r0.Should().BeEmpty();
 
         IReadOnlyList<StochRsiResult> r1 = Onequote
             .ToStochRsi(8, 13, 2);
 
-        Assert.HasCount(1, r1);
+        r1.Should().HaveCount(1);
     }
 
     [TestMethod]
@@ -152,17 +152,17 @@ public class StochRsi : StaticSeriesTestBase
         const int signalPeriods = 3;
         const int smoothPeriods = 3;
 
-        IReadOnlyList<StochRsiResult> results = Quotes
+        IReadOnlyList<StochRsiResult> sut = Quotes
             .ToStochRsi(rsiPeriods, stochPeriods, signalPeriods, smoothPeriods)
             .RemoveWarmupPeriods();
 
         // assertions
         const int removeQty = rsiPeriods + stochPeriods + smoothPeriods + 100;
-        Assert.HasCount(502 - removeQty, results);
+        sut.Should().HaveCount(502 - removeQty);
 
-        StochRsiResult last = results[^1];
-        Assert.AreEqual(89.8385, last.StochRsi.Round(4));
-        Assert.AreEqual(73.4176, last.Signal.Round(4));
+        StochRsiResult last = sut[^1];
+        last.StochRsi.Should().BeApproximately(89.8385, Money4);
+        last.Signal.Should().BeApproximately(73.4176, Money4);
     }
 
     [TestMethod]

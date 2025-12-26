@@ -213,8 +213,8 @@ public class EpmaStreamHubTests : StreamHubTestBase, ITestChainObserver, ITestCh
             quoteHub.Add(quote);
         }
 
-        IReadOnlyList<EpmaResult> results = epmaHub.Results;
-        results.Should().HaveCount(Quotes.Count);
-        results.Should().BeEquivalentTo(series);
+        IReadOnlyList<EpmaResult> sut = epmaHub.Results;
+        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().BeEquivalentTo(series);
     }
 }

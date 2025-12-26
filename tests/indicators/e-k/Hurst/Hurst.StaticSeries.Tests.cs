@@ -6,58 +6,58 @@ public class Hurst : StaticSeriesTestBase
     [TestMethod]
     public override void DefaultParameters_ReturnsExpectedResults()
     {
-        IReadOnlyList<HurstResult> results = LongestQuotes
+        IReadOnlyList<HurstResult> sut = LongestQuotes
             .ToHurst(LongestQuotes.Count - 1);
 
         // assertions
 
         // proper quantities
-        Assert.HasCount(15821, results);
-        Assert.HasCount(1, results.Where(static x => x.HurstExponent != null));
+        sut.Should().HaveCount(15821);
+        sut.Where(static x => x.HurstExponent != null).Should().HaveCount(1);
 
         // sample value
-        HurstResult r15820 = results[15820];
-        Assert.AreEqual(0.483563, r15820.HurstExponent.Round(6));
+        HurstResult r15820 = sut[15820];
+        r15820.HurstExponent.Should().BeApproximately(0.483563, Money6);
     }
 
     [TestMethod]
     public void Results_AreAlwaysBounded()
     {
-        IReadOnlyList<HurstResult> results = Quotes.ToHurst(100);
-        results.IsBetween(x => x.HurstExponent, 0, 1);
+        IReadOnlyList<HurstResult> sut = Quotes.ToHurst(100);
+        sut.IsBetween(x => x.HurstExponent, 0, 1);
     }
 
     [TestMethod]
     public void UseReusable()
     {
-        IReadOnlyList<HurstResult> results = Quotes
+        IReadOnlyList<HurstResult> sut = Quotes
             .Use(CandlePart.Close)
             .ToHurst();
 
-        Assert.HasCount(502, results);
-        Assert.AreEqual(402, results.Count(static x => x.HurstExponent != null));
+        sut.Should().HaveCount(502);
+        Assert.AreEqual(402, sut.Count(static x => x.HurstExponent != null));
     }
 
     [TestMethod]
     public void ChainingFromResults_WorksAsExpected()
     {
-        IReadOnlyList<SmaResult> results = Quotes
+        IReadOnlyList<SmaResult> sut = Quotes
             .ToHurst()
             .ToSma(10);
 
-        Assert.HasCount(502, results);
-        Assert.AreEqual(393, results.Count(static x => x.Sma != null));
+        sut.Should().HaveCount(502);
+        Assert.AreEqual(393, sut.Count(static x => x.Sma != null));
     }
 
     [TestMethod]
     public void Chainee()
     {
-        IReadOnlyList<HurstResult> results = Quotes
+        IReadOnlyList<HurstResult> sut = Quotes
             .ToSma(10)
             .ToHurst();
 
-        Assert.HasCount(502, results);
-        Assert.AreEqual(393, results.Count(static x => x.HurstExponent != null));
+        sut.Should().HaveCount(502);
+        Assert.AreEqual(393, sut.Count(static x => x.HurstExponent != null));
     }
 
     [TestMethod]
@@ -66,8 +66,8 @@ public class Hurst : StaticSeriesTestBase
         IReadOnlyList<HurstResult> r = BadQuotes
             .ToHurst(150);
 
-        Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(static x => x.HurstExponent is double v && double.IsNaN(v)));
+        r.Should().HaveCount(502);
+        r.Where(static x => x.HurstExponent is double v && double.IsNaN(v)).Should().BeEmpty();
     }
 
     [TestMethod]
@@ -76,25 +76,25 @@ public class Hurst : StaticSeriesTestBase
         IReadOnlyList<HurstResult> r0 = Noquotes
             .ToHurst();
 
-        Assert.IsEmpty(r0);
+        r0.Should().BeEmpty();
 
         IReadOnlyList<HurstResult> r1 = Onequote
             .ToHurst();
 
-        Assert.HasCount(1, r1);
+        r1.Should().HaveCount(1);
     }
 
     [TestMethod]
     public void Removed()
     {
-        IReadOnlyList<HurstResult> results = LongestQuotes.ToHurst(LongestQuotes.Count - 1)
+        IReadOnlyList<HurstResult> sut = LongestQuotes.ToHurst(LongestQuotes.Count - 1)
             .RemoveWarmupPeriods();
 
         // assertions
-        Assert.HasCount(1, results);
+        sut.Should().HaveCount(1);
 
-        HurstResult last = results[^1];
-        Assert.AreEqual(0.483563, last.HurstExponent.Round(6));
+        HurstResult last = sut[^1];
+        last.HurstExponent.Should().BeApproximately(0.483563, Money6);
     }
 
     /// <summary>
@@ -102,6 +102,8 @@ public class Hurst : StaticSeriesTestBase
     /// </summary>
     [TestMethod]
     public void Exceptions()
-        => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            static () => Quotes.ToHurst(19));
+        => FluentActions
+            .Invoking(static () => Quotes.ToHurst(19))
+            .Should()
+            .ThrowExactly<ArgumentOutOfRangeException>();
 }

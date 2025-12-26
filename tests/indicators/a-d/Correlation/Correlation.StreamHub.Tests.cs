@@ -44,9 +44,9 @@ public class CorrelationHubTests : StreamHubTestBase, ITestPairsObserver
         quoteHubA.Add(Quotes);
         quoteHubB.Add(OtherQuotes);
 
-        IReadOnlyList<CorrResult> results = quoteHubA.ToCorrelationHub(quoteHubB, 20).Results;
-        results.IsBetween(x => x.Correlation, -1, 1);
-        results.IsBetween(x => x.RSquared, 0, 1);
+        IReadOnlyList<CorrResult> sut = quoteHubA.ToCorrelationHub(quoteHubB, 20).Results;
+        sut.IsBetween(x => x.Correlation, -1, 1);
+        sut.IsBetween(x => x.RSquared, 0, 1);
 
         quoteHubA.EndTransmission();
         quoteHubB.EndTransmission();

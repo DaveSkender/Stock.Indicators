@@ -6,19 +6,19 @@ public class HeikinAshi : StaticSeriesTestBase
     [TestMethod]
     public override void DefaultParameters_ReturnsExpectedResults()
     {
-        IReadOnlyList<HeikinAshiResult> results = Quotes
+        IReadOnlyList<HeikinAshiResult> sut = Quotes
             .ToHeikinAshi();
 
         // proper quantities
-        Assert.HasCount(502, results);
+        sut.Should().HaveCount(502);
 
         // sample value
-        HeikinAshiResult r = results[501];
-        Assert.AreEqual(241.3018m, r.Open.Round(4));
-        Assert.AreEqual(245.54m, r.High.Round(4));
-        Assert.AreEqual(241.3018m, r.Low.Round(4));
-        Assert.AreEqual(244.6525m, r.Close.Round(4));
-        Assert.AreEqual(147031456m, r.Volume);
+        HeikinAshiResult r = sut[501];
+        ((double?)r.Open).Should().BeApproximately((double)241.3018m, Money3);
+        ((double?)r.High).Should().BeApproximately((double)245.54m, Money3);
+        ((double?)r.Low).Should().BeApproximately((double)241.3018m, Money3);
+        ((double?)r.Close).Should().BeApproximately((double)244.6525m, Money3);
+        r.Volume.Should().Be(147031456m);
     }
 
     [TestMethod]
@@ -35,7 +35,7 @@ public class HeikinAshi : StaticSeriesTestBase
         IReadOnlyList<HeikinAshiResult> r = BadQuotes
             .ToHeikinAshi();
 
-        Assert.HasCount(502, r);
+        r.Should().HaveCount(502);
     }
 
     [TestMethod]
@@ -44,11 +44,11 @@ public class HeikinAshi : StaticSeriesTestBase
         IReadOnlyList<HeikinAshiResult> r0 = Noquotes
             .ToHeikinAshi();
 
-        Assert.IsEmpty(r0);
+        r0.Should().BeEmpty();
 
         IReadOnlyList<HeikinAshiResult> r1 = Onequote
             .ToHeikinAshi();
 
-        Assert.HasCount(1, r1);
+        r1.Should().HaveCount(1);
     }
 }
