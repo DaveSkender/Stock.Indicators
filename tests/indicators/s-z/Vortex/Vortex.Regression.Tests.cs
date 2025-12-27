@@ -9,8 +9,8 @@ public class VortexTests : RegressionTestBase<VortexResult>
     public override void Series() => Quotes.ToVortex(14).IsExactly(Expected);
 
     [TestMethod]
-    public override void Buffer() => Assert.Inconclusive("Buffer implementation not yet available");
+    public override void Buffer() => new VortexList(14) { Quotes }.IsExactly(Expected);
 
     [TestMethod]
-    public override void Stream() => Assert.Inconclusive("Stream implementation not yet available");
+    public override void Stream() => QuoteHub.ToVortexHub(14).Results.IsExactly(Expected);
 }

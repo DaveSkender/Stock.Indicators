@@ -9,7 +9,7 @@ public class SupertrendTests : RegressionTestBase<SuperTrendResult>
     public override void Series() => Quotes.ToSuperTrend(10, 3).IsExactly(Expected);
 
     [TestMethod]
-    public override void Buffer() => Assert.Inconclusive("Buffer implementation not yet available");
+    public override void Buffer() => new SuperTrendList(10, 3) { Quotes }.IsExactly(Expected);
 
     [TestMethod]
     public override void Stream() => Quotes.ToSuperTrendHub(10, 3).Results.IsExactly(Expected);

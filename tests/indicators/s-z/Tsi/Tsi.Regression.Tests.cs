@@ -12,5 +12,5 @@ public class TsiTests : RegressionTestBase<TsiResult>
     public override void Buffer() => Quotes.ToTsiList(25, 13, 7).IsExactly(Expected);
 
     [TestMethod]
-    public override void Stream() => Assert.Inconclusive("Stream implementation not yet available");
+    public override void Stream() => QuoteHub.ToTsiHub(25, 13, 7).Results.IsExactly(Expected);
 }
