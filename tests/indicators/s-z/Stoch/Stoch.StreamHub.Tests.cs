@@ -41,7 +41,7 @@ public class Stoch : StreamHubTestBase, ITestQuoteObserver
 
         IReadOnlyList<StochResult> expected = Quotes.ToStoch(lookbackPeriods, signalPeriods, smoothPeriods);
         actuals.Should().HaveCount(length);
-        actuals.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
+        actuals.IsExactly(expected);
 
         // delete, should equal series (revised)
         quoteHub.Remove(Quotes[removeAtIndex]);
@@ -49,7 +49,7 @@ public class Stoch : StreamHubTestBase, ITestQuoteObserver
         IReadOnlyList<StochResult> expectedRevised = RevisedQuotes.ToStoch(lookbackPeriods, signalPeriods, smoothPeriods);
 
         actuals.Should().HaveCount(501);
-        actuals.Should().BeEquivalentTo(expectedRevised, static options => options.WithStrictOrdering());
+        actuals.IsExactly(expectedRevised);
 
         // cleanup
         observer.Unsubscribe();

@@ -21,7 +21,7 @@ public class Pvo : BufferListTestBase, ITestQuoteBufferList
         }
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
+        sut.IsExactly(series);
     }
 
     [TestMethod]
@@ -30,7 +30,7 @@ public class Pvo : BufferListTestBase, ITestQuoteBufferList
         PvoList sut = Quotes.ToPvoList(fastPeriods, slowPeriods, signalPeriods);
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
+        sut.IsExactly(series);
     }
 
     [TestMethod]
@@ -39,7 +39,7 @@ public class Pvo : BufferListTestBase, ITestQuoteBufferList
         PvoList sut = new(fastPeriods, slowPeriods, signalPeriods, Quotes);
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
+        sut.IsExactly(series);
     }
 
     [TestMethod]
@@ -51,7 +51,7 @@ public class Pvo : BufferListTestBase, ITestQuoteBufferList
         PvoList sut = new(fastPeriods, slowPeriods, signalPeriods, subset);
 
         sut.Should().HaveCount(subset.Count);
-        sut.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
+        sut.IsExactly(expected);
 
         sut.Clear();
 
@@ -60,7 +60,7 @@ public class Pvo : BufferListTestBase, ITestQuoteBufferList
         sut.Add(subset);
 
         sut.Should().HaveCount(expected.Count);
-        sut.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
+        sut.IsExactly(expected);
     }
 
     [TestMethod]
@@ -78,6 +78,6 @@ public class Pvo : BufferListTestBase, ITestQuoteBufferList
             = series.Skip(series.Count - maxListSize).ToList();
 
         sut.Should().HaveCount(maxListSize);
-        sut.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
+        sut.IsExactly(expected);
     }
 }

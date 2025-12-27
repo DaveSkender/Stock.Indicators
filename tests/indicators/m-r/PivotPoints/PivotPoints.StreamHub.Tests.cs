@@ -60,7 +60,7 @@ public class PivotPointsHubTests : StreamHubTestBase, ITestQuoteObserver
 
         // assert, should equal series
         streamList.Should().HaveCount(length - 1);
-        streamList.Should().BeEquivalentTo(seriesList, static options => options.WithStrictOrdering());
+        streamList.IsExactly(seriesList);
 
         observer.Unsubscribe();
         quoteHub.EndTransmission();
@@ -92,7 +92,7 @@ public class PivotPointsHubTests : StreamHubTestBase, ITestQuoteObserver
 
         // assert, should equal series
         streamList.Should().HaveCount(Quotes.Count);
-        streamList.Should().BeEquivalentTo(seriesList, static options => options.WithStrictOrdering());
+        streamList.IsExactly(seriesList);
 
         observer.Unsubscribe();
         quoteHub.EndTransmission();
@@ -124,7 +124,7 @@ public class PivotPointsHubTests : StreamHubTestBase, ITestQuoteObserver
 
         // assert, should equal series
         streamList.Should().HaveCount(Quotes.Count);
-        streamList.Should().BeEquivalentTo(seriesList, static options => options.WithStrictOrdering());
+        streamList.IsExactly(seriesList);
 
         observer.Unsubscribe();
         quoteHub.EndTransmission();
@@ -156,7 +156,7 @@ public class PivotPointsHubTests : StreamHubTestBase, ITestQuoteObserver
 
         // assert, should equal series
         streamList.Should().HaveCount(Quotes.Count);
-        streamList.Should().BeEquivalentTo(seriesList, static options => options.WithStrictOrdering());
+        streamList.IsExactly(seriesList);
 
         observer.Unsubscribe();
         quoteHub.EndTransmission();
@@ -188,7 +188,7 @@ public class PivotPointsHubTests : StreamHubTestBase, ITestQuoteObserver
 
         // assert, should equal series
         streamList.Should().HaveCount(Quotes.Count);
-        streamList.Should().BeEquivalentTo(seriesList, static options => options.WithStrictOrdering());
+        streamList.IsExactly(seriesList);
 
         observer.Unsubscribe();
         quoteHub.EndTransmission();
@@ -220,7 +220,7 @@ public class PivotPointsHubTests : StreamHubTestBase, ITestQuoteObserver
 
         // assert, should equal series
         streamList.Should().HaveCount(Quotes.Count);
-        streamList.Should().BeEquivalentTo(seriesList, static options => options.WithStrictOrdering());
+        streamList.IsExactly(seriesList);
 
         observer.Unsubscribe();
         quoteHub.EndTransmission();

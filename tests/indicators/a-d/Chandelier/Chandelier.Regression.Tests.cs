@@ -9,7 +9,7 @@ public class ChandelierTests : RegressionTestBase<ChandelierResult>
     public override void Series() => Quotes.ToChandelier(22, 3).IsExactly(Expected);
 
     [TestMethod]
-    public override void Buffer() => Assert.Inconclusive("Buffer implementation not yet available");
+    public override void Buffer() => new ChandelierList(22, 3) { Quotes }.IsExactly(Expected);
 
     [TestMethod]
     public override void Stream()

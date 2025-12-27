@@ -54,7 +54,7 @@ public class ParabolicSarHubTests : StreamHubTestBase, ITestQuoteObserver, ITest
         IReadOnlyList<ParabolicSarResult> expectedOriginal = quotesList
             .ToParabolicSar(accelerationStep, maxAccelerationFactor);
 
-        streamList.Should().BeEquivalentTo(expectedOriginal, static options => options.WithStrictOrdering());
+        streamList.IsExactly(expectedOriginal);
 
         // delete
         quoteHub.Remove(quotesList[removeAtIndex]);
@@ -66,7 +66,7 @@ public class ParabolicSarHubTests : StreamHubTestBase, ITestQuoteObserver, ITest
 
         // assert, should equal series (revised)
         streamList.Should().HaveCount(501);
-        streamList.Should().BeEquivalentTo(seriesList, static options => options.WithStrictOrdering());
+        streamList.IsExactly(seriesList);
 
         // cleanup
         observer.Unsubscribe();
@@ -124,7 +124,7 @@ public class ParabolicSarHubTests : StreamHubTestBase, ITestQuoteObserver, ITest
 
         // assert, should equal series
         streamList.Should().HaveCount(501);
-        streamList.Should().BeEquivalentTo(seriesList, static options => options.WithStrictOrdering());
+        streamList.IsExactly(seriesList);
 
         // cleanup
         observer.Unsubscribe();
@@ -160,7 +160,7 @@ public class ParabolicSarHubTests : StreamHubTestBase, ITestQuoteObserver, ITest
             .ToParabolicSar(accelerationStep, maxAccelerationFactor, customInitialFactor);
 
         // assert, should equal series
-        streamList.Should().BeEquivalentTo(seriesList, static options => options.WithStrictOrdering());
+        streamList.IsExactly(seriesList);
 
         // cleanup
         observer.Unsubscribe();
