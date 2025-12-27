@@ -76,3 +76,28 @@ var results = quotes
     .ToDpo(..)
     .ToRsi(..);
 ```
+
+## Streaming
+
+This indicator is available for streaming with `QuoteHub` for real-time processing.
+
+```csharp
+// example: initialize stream
+QuoteHub quoteHub = new();
+DpoHub dpoHub = quoteHub.ToDpoHub(14);
+
+// stream quotes
+foreach (Quote q in quotes)
+{
+    quoteHub.Add(q);
+}
+
+// access results
+var results = dpoHub.Results;
+
+// cleanup
+dpoHub.Unsubscribe();
+quoteHub.EndTransmission();
+```
+
+**Note**: DPO has a lookahead requirement (offset = N/2+1 periods), which means results are calculated when sufficient future data becomes available. This introduces a delay in real-time scenarios but maintains mathematical accuracy with the series implementation.
