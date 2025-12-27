@@ -5,9 +5,18 @@ namespace Skender.Stock.Indicators;
 /// </summary>
 public static partial class Dpo
 {
+    /* REPAINTING INDICATOR
+     * The value of DPO at any given point relies on future data points.
+     * Therefore, it can only be calculated X number of periods later and retroactively updated.
+     * For batch processing in series, this is not an issue since all data is available.
+     * For incremental and real-time processing, this means that DPO values are initially
+     * 'null' (incalculable) and are updated retroactively as enough data becomes available.
+     */
+
     /// <summary>
     /// Converts a list of source data to Detrended Price Oscillator (DPO) results.
-    /// </summary>    /// <param name="source">The list of source data.</param>
+    /// </summary>
+    /// <param name="source">The list of source data.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>A list of DPO results.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the source list is null.</exception>
