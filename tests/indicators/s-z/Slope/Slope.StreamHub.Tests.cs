@@ -38,7 +38,7 @@ public class SlopeHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPr
 
         // late arrival, should equal series
         quoteHub.Insert(Quotes[80]);
-        actuals.Should().BeEquivalentTo(expectedOriginal, static options => options.WithStrictOrdering());
+        actuals.IsExactly(expectedOriginal);
 
         // delete, should equal series (revised)
         quoteHub.Remove(Quotes[removeAtIndex]);
@@ -46,7 +46,7 @@ public class SlopeHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPr
         IReadOnlyList<SlopeResult> expectedRevised = RevisedQuotes.ToSlope(lookbackPeriods);
 
         actuals.Should().HaveCount(501);
-        actuals.Should().BeEquivalentTo(expectedRevised, static options => options.WithStrictOrdering());
+        actuals.IsExactly(expectedRevised);
 
         // cleanup
         observer.Unsubscribe();
@@ -81,7 +81,7 @@ public class SlopeHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPr
 
         // assert, should equal series
         actuals.Should().HaveCount(length);
-        actuals.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
+        actuals.IsExactly(expected);
 
         // cleanup
         observer.Unsubscribe();
@@ -164,7 +164,7 @@ public class SlopeHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPr
 
         // Assert
         results.Should().HaveCount(Quotes.Count);
-        results.Should().BeEquivalentTo(expectedOriginal, static options => options.WithStrictOrdering());
+        results.IsExactly(expectedOriginal);
 
         // cleanup
         sut.Unsubscribe();
@@ -200,7 +200,7 @@ public class SlopeHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPr
         List<Quote> expectedBatch = Quotes.Take(lookbackPeriods + 6).ToList();
         IReadOnlyList<SlopeResult> expected = expectedBatch.ToSlope(lookbackPeriods);
 
-        sut.Results.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
+        sut.Results.IsExactly(expected);
 
         // cleanup
         sut.Unsubscribe();
