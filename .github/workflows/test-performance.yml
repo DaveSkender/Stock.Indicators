@@ -64,6 +64,34 @@ jobs:
           name: test-summaries
           path: tools/performance/BenchmarkDotNet.Artifacts/results
 
+      - name: Detect performance regressions (Q005)
+        if: github.event_name == 'pull_request'
+        working-directory: tools/performance
+        continue-on-error: true
+        run: |
+          # Compare StyleComparison results with baseline (15% threshold for PRs)
+          pwsh detect-regressions.ps1 \
+            -BaselineFile baselines/Performance.StyleComparison-report-full.json \
+            -CurrentFile BenchmarkDotNet.Artifacts/results/Performance.StyleComparison-report-full.json \
+            -ThresholdPercent 15 | tee regression-report.txt
+
+      - name: Add regression analysis to summary
+        if: github.event_name == 'pull_request'
+        working-directory: tools/performance
+        continue-on-error: true
+        run: |
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "## Performance Regression Analysis" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          if [ -f regression-report.txt ]; then
+            echo '```' >> $GITHUB_STEP_SUMMARY
+            cat regression-report.txt >> $GITHUB_STEP_SUMMARY
+            echo '```' >> $GITHUB_STEP_SUMMARY
+          else
+            echo "✅ No regression analysis output available" >> $GITHUB_STEP_SUMMARY
+          fi
+
       - name: Publish summary
         working-directory: tools/performance/BenchmarkDotNet.Artifacts/results
         run: |
