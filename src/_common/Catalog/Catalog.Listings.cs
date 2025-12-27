@@ -151,6 +151,7 @@ public static partial class Catalog
         // DPO (Detrended Price Oscillator)
         _listings.Add(Dpo.BufferListing);
         _listings.Add(Dpo.SeriesListing);
+        _listings.Add(Dpo.StreamListing);
 
         // Elder Ray
         _listings.Add(ElderRay.BufferListing);
