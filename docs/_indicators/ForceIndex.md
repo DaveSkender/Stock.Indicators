@@ -90,8 +90,8 @@ IReadOnlyList<ForceIndexResult> results = forceIndexList;
 Subscribe to a `QuoteHub` for advanced streaming scenarios:
 
 ```csharp
-QuoteHub<Quote> quoteHub = new();
-ForceIndexHub<Quote> observer = quoteHub.ToForceIndex(lookbackPeriods);
+QuoteHub quoteHub = new();
+ForceIndexHub observer = quoteHub.ToForceIndexHub(lookbackPeriods);
 
 foreach (Quote quote in quotes)  // simulating stream
 {

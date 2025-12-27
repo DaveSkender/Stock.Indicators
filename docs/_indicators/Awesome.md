@@ -99,8 +99,8 @@ IReadOnlyList<AwesomeResult> results = awesomeList;
 Subscribe to a `QuoteHub` for advanced streaming scenarios:
 
 ```csharp
-QuoteHub<Quote> quoteHub = new();
-AwesomeHub<Quote> observer = quoteHub.ToAwesome(fastPeriods, slowPeriods);
+QuoteHub quoteHub = new();
+AwesomeHub observer = quoteHub.ToAwesomeHub(fastPeriods, slowPeriods);
 
 foreach (Quote quote in quotes)  // simulating stream
 {

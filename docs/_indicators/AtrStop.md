@@ -85,8 +85,8 @@ This indicator is not chain-enabled and must be generated from `quotes`.  It **c
 Subscribe to a `QuoteHub` for streaming scenarios:
 
 ```csharp
-QuoteHub<Quote> quoteHub = new();
-AtrStopHub<Quote> observer = quoteHub.ToAtrStop(lookbackPeriods, multiplier: 3.0, endType: EndType.Close);
+QuoteHub quoteHub = new();
+AtrStopHub observer = quoteHub.ToAtrStopHub(lookbackPeriods, multiplier: 3.0, endType: EndType.Close);
 
 foreach (Quote quote in quotes)  // simulating stream
 {

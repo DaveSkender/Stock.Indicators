@@ -97,8 +97,8 @@ IReadOnlyList<RocResult> results = rocList;
 Subscribe to a `QuoteHub` for advanced streaming scenarios:
 
 ```csharp
-QuoteHub<Quote> quoteHub = new();
-RocHub<Quote> observer = quoteHub.ToRoc(lookbackPeriods);
+QuoteHub quoteHub = new();
+RocHub observer = quoteHub.ToRocHub(lookbackPeriods);
 
 foreach (Quote quote in quotes)  // simulating stream
 {

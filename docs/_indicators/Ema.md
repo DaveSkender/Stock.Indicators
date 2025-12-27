@@ -97,8 +97,8 @@ IReadOnlyList<EmaResult> results = emaList;
 Subscribe to a `QuoteHub` for advanced streaming scenarios:
 
 ```csharp
-QuoteHub<Quote> quoteHub = new();
-EmaHub<Quote> observer = quoteHub.ToEma(lookbackPeriods);
+QuoteHub quoteHub = new();
+EmaHub observer = quoteHub.ToEmaHub(lookbackPeriods);
 
 foreach (Quote quote in quotes)  // simulating stream
 {

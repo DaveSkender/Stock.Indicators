@@ -104,8 +104,8 @@ IReadOnlyList<VolatilityStopResult> results = volatilityStopList;
 Subscribe to a `QuoteHub` for advanced streaming scenarios:
 
 ```csharp
-QuoteHub<Quote> quoteHub = new();
-VolatilityStopHub<Quote> observer = quoteHub.ToVolatilityStop(lookbackPeriods, multiplier);
+QuoteHub quoteHub = new();
+VolatilityStopHub observer = quoteHub.ToVolatilityStopHub(lookbackPeriods, multiplier);
 
 foreach (Quote quote in quotes)  // simulating stream
 {

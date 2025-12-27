@@ -101,8 +101,8 @@ IReadOnlyList<StcResult> results = stcList;
 Subscribe to a `QuoteHub` for advanced streaming scenarios:
 
 ```csharp
-QuoteHub<Quote> quoteHub = new();
-StcHub<Quote> observer = quoteHub.ToStc(cyclePeriods, fastPeriods, slowPeriods);
+QuoteHub quoteHub = new();
+StcHub observer = quoteHub.ToStcHub(cyclePeriods, fastPeriods, slowPeriods);
 
 foreach (Quote quote in quotes)  // simulating stream
 {

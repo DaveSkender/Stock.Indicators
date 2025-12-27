@@ -118,8 +118,8 @@ IReadOnlyList<PrsResult> results = prsList;
 Subscribe to dual `QuoteHub` providers for advanced streaming scenarios:
 
 ```csharp
-QuoteHub<Quote> quoteHubEval = new();
-QuoteHub<Quote> quoteHubBase = new();
+QuoteHub quoteHubEval = new();
+QuoteHub quoteHubBase = new();
 
 // Add quotes to both hubs
 quoteHubEval.Add(quotesEval);

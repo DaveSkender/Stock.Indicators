@@ -99,8 +99,8 @@ IReadOnlyList<TrixResult> results = trixList;
 Subscribe to a `QuoteHub` for advanced streaming scenarios:
 
 ```csharp
-QuoteHub<Quote> quoteHub = new();
-TrixHub<Quote> observer = quoteHub.ToTrix(lookbackPeriods);
+QuoteHub quoteHub = new();
+TrixHub observer = quoteHub.ToTrixHub(lookbackPeriods);
 
 foreach (Quote quote in quotes)  // simulating stream
 {

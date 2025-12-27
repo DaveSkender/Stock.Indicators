@@ -104,8 +104,8 @@ IReadOnlyList<DynamicResult> results = dynamicList;
 Subscribe to a `QuoteHub` for advanced streaming scenarios:
 
 ```csharp
-QuoteHub<Quote> quoteHub = new();
-DynamicHub<Quote> observer = quoteHub.ToDynamic(lookbackPeriods, kFactor);
+QuoteHub quoteHub = new();
+DynamicHub observer = quoteHub.ToDynamicHub(lookbackPeriods, kFactor);
 
 foreach (Quote quote in quotes)  // simulating stream
 {

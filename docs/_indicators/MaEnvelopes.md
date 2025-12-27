@@ -110,8 +110,8 @@ IReadOnlyList<MaEnvelopeResult> results = maEnvList;
 Subscribe to a `QuoteHub` for advanced streaming scenarios:
 
 ```csharp
-QuoteHub<Quote> quoteHub = new();
-MaEnvelopesHub<Quote> observer = quoteHub.ToMaEnvelopesHub(lookbackPeriods, percentOffset, movingAverageType);
+QuoteHub quoteHub = new();
+MaEnvelopesHub observer = quoteHub.ToMaEnvelopesHub(lookbackPeriods, percentOffset, movingAverageType);
 
 foreach (Quote quote in quotes)  // simulating stream
 {

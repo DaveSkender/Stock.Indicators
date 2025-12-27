@@ -101,8 +101,8 @@ IReadOnlyList<MamaResult> results = mamaList;
 Subscribe to a `QuoteHub` for advanced streaming scenarios:
 
 ```csharp
-QuoteHub<Quote> quoteHub = new();
-MamaHub<Quote> observer = quoteHub.ToMama(fastLimit, slowLimit);
+QuoteHub quoteHub = new();
+MamaHub observer = quoteHub.ToMamaHub(fastLimit, slowLimit);
 
 foreach (Quote quote in quotes)  // simulating stream
 {

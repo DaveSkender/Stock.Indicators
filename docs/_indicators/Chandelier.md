@@ -99,8 +99,8 @@ IReadOnlyList<ChandelierResult> results = chandelierList;
 Subscribe to a `QuoteHub` for advanced streaming scenarios:
 
 ```csharp
-QuoteHub<Quote> quoteHub = new();
-ChandelierHub<Quote> observer = quoteHub.ToChandelier(lookbackPeriods, multiplier, type);
+QuoteHub quoteHub = new();
+ChandelierHub observer = quoteHub.ToChandelierHub(lookbackPeriods, multiplier, type);
 
 foreach (Quote quote in quotes)  // simulating stream
 {

@@ -86,8 +86,8 @@ IReadOnlyList<DonchianResult> results = donchianList;
 Subscribe to a `QuoteHub` for advanced streaming scenarios:
 
 ```csharp
-QuoteHub<Quote> quoteHub = new();
-DonchianHub<Quote> observer = quoteHub.ToDonchian(lookbackPeriods);
+QuoteHub quoteHub = new();
+DonchianHub observer = quoteHub.ToDonchianHub(lookbackPeriods);
 
 foreach (Quote quote in quotes)  // simulating stream
 {
