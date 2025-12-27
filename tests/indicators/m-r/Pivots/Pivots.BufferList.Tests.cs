@@ -21,7 +21,7 @@ public class Pivots : BufferListTestBase, ITestQuoteBufferList
         }
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
+        sut.IsExactly(series);
     }
 
     [TestMethod]
@@ -30,7 +30,7 @@ public class Pivots : BufferListTestBase, ITestQuoteBufferList
         PivotsList sut = Quotes.ToPivotsList(leftSpan, rightSpan, maxTrendPeriods);
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
+        sut.IsExactly(series);
     }
 
     [TestMethod]
@@ -39,7 +39,7 @@ public class Pivots : BufferListTestBase, ITestQuoteBufferList
         PivotsList sut = new(leftSpan, rightSpan, maxTrendPeriods, EndType.HighLow, Quotes);
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
+        sut.IsExactly(series);
     }
 
     [TestMethod]
@@ -51,7 +51,7 @@ public class Pivots : BufferListTestBase, ITestQuoteBufferList
         PivotsList sut = new(leftSpan, rightSpan, maxTrendPeriods, EndType.HighLow, subset);
 
         sut.Should().HaveCount(subset.Count);
-        sut.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
+        sut.IsExactly(expected);
 
         sut.Clear();
 
@@ -60,7 +60,7 @@ public class Pivots : BufferListTestBase, ITestQuoteBufferList
         sut.Add(subset);
 
         sut.Should().HaveCount(expected.Count);
-        sut.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
+        sut.IsExactly(expected);
     }
 
     [TestMethod]
@@ -78,6 +78,6 @@ public class Pivots : BufferListTestBase, ITestQuoteBufferList
             = series.Skip(series.Count - maxListSize).ToList();
 
         sut.Should().HaveCount(maxListSize);
-        sut.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
+        sut.IsExactly(expected);
     }
 }
