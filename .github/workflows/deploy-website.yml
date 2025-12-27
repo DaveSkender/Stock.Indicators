@@ -15,6 +15,7 @@ jobs:
   deploy:
     name: Cloudflare Pages
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     defaults:
       run:
         working-directory: docs
