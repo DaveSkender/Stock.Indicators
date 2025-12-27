@@ -95,8 +95,8 @@ IReadOnlyList<HurstResult> results = hurstList;
 Subscribe to a `QuoteHub` for advanced streaming scenarios:
 
 ```csharp
-QuoteHub<Quote> quoteHub = new();
-HurstHub<Quote> observer = quoteHub.ToHurstHub(lookbackPeriods);
+QuoteHub quoteHub = new();
+HurstHub observer = quoteHub.ToHurstHub(lookbackPeriods);
 
 foreach (Quote quote in quotes)  // simulating stream
 {

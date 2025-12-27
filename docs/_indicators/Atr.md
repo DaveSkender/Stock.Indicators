@@ -102,8 +102,8 @@ IReadOnlyList<AtrResult> results = atrList;
 Subscribe to a `QuoteHub` for advanced streaming scenarios:
 
 ```csharp
-QuoteHub<Quote> quoteHub = new();
-AtrHub<Quote> observer = quoteHub.ToAtr(lookbackPeriods);
+QuoteHub quoteHub = new();
+AtrHub observer = quoteHub.ToAtrHub(lookbackPeriods);
 
 foreach (Quote quote in quotes)  // simulating stream
 {

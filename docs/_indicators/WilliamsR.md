@@ -88,8 +88,8 @@ IReadOnlyList<WilliamsRResult> results = williamsRList;
 Subscribe to a `QuoteHub` for advanced streaming scenarios:
 
 ```csharp
-QuoteHub<Quote> quoteHub = new();
-WilliamsRHub<Quote> observer = quoteHub.ToWilliamsR(lookbackPeriods);
+QuoteHub quoteHub = new();
+WilliamsRHub observer = quoteHub.ToWilliamsRHub(lookbackPeriods);
 
 foreach (Quote quote in quotes)  // simulating stream
 {

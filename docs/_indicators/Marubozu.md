@@ -52,3 +52,33 @@ IReadOnlyList<CandleResult>
 - [.RemoveWarmupPeriods(qty)]({{site.baseurl}}/utilities#remove-warmup-periods)
 
 See [Utilities and helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
+
+## Streaming
+
+Use the buffer-style `List<T>` when you need incremental calculations without a hub:
+
+```csharp
+MarubozuList marubozuList = new(minBodyPercent);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  marubozuList.Add(quote);
+}
+
+// based on `ICollection<MarubozuResult>`
+IReadOnlyList<MarubozuResult> results = marubozuList;
+```
+
+Subscribe to a `QuoteHub` for advanced streaming scenarios:
+
+```csharp
+QuoteHub quoteHub = new();
+MarubozuHub observer = quoteHub.ToMarubozuHub(minBodyPercent);
+
+foreach (Quote quote in quotes)  // simulating stream
+{
+  quoteHub.Add(quote);
+}
+
+IReadOnlyList<MarubozuResult> results = observer.Results;
+```

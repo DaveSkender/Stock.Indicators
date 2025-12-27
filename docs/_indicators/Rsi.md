@@ -97,8 +97,8 @@ IReadOnlyList<RsiResult> results = rsiList;
 Subscribe to a `QuoteHub` for advanced streaming scenarios:
 
 ```csharp
-QuoteHub<Quote> quoteHub = new();
-RsiHub<Quote> observer = quoteHub.ToRsi(lookbackPeriods);
+QuoteHub quoteHub = new();
+RsiHub observer = quoteHub.ToRsiHub(lookbackPeriods);
 
 foreach (Quote quote in quotes)  // simulating stream
 {

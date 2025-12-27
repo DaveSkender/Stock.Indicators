@@ -77,3 +77,33 @@ var results = quotes
     .ToRoc(..)
     .ToEma(..);
 ```
+
+## Streaming
+
+Use the buffer-style `List<T>` when you need incremental calculations without a hub:
+
+```csharp
+RocList rocList = new(lookbackPeriods);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  rocList.Add(quote);
+}
+
+// based on `ICollection<RocResult>`
+IReadOnlyList<RocResult> results = rocList;
+```
+
+Subscribe to a `QuoteHub` for advanced streaming scenarios:
+
+```csharp
+QuoteHub quoteHub = new();
+RocHub observer = quoteHub.ToRocHub(lookbackPeriods);
+
+foreach (Quote quote in quotes)  // simulating stream
+{
+  quoteHub.Add(quote);
+}
+
+IReadOnlyList<RocResult> results = observer.Results;
+```
