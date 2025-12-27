@@ -25,7 +25,7 @@ public class Dpo : BufferListTestBase, ITestChainBufferList, ITestCustomBufferLi
 
         // DPO maintains 1:1 correspondence - retroactively updates as lookahead becomes available
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
+        sut.IsExactly(series);
     }
 
     [TestMethod]
@@ -40,7 +40,7 @@ public class Dpo : BufferListTestBase, ITestChainBufferList, ITestCustomBufferLi
 
         // DPO maintains 1:1 correspondence - retroactively updates as lookahead becomes available
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
+        sut.IsExactly(series);
     }
 
     [TestMethod]
@@ -50,7 +50,7 @@ public class Dpo : BufferListTestBase, ITestChainBufferList, ITestCustomBufferLi
 
         // DPO maintains 1:1 correspondence - retroactively updates as lookahead becomes available
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
+        sut.IsExactly(series);
     }
 
     [TestMethod]
@@ -65,7 +65,7 @@ public class Dpo : BufferListTestBase, ITestChainBufferList, ITestCustomBufferLi
 
         // DPO maintains 1:1 correspondence - retroactively updates as lookahead becomes available
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
+        sut.IsExactly(series);
     }
 
     [TestMethod]
@@ -75,7 +75,7 @@ public class Dpo : BufferListTestBase, ITestChainBufferList, ITestCustomBufferLi
 
         // DPO maintains 1:1 correspondence - retroactively updates as lookahead becomes available
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
+        sut.IsExactly(series);
     }
 
     [TestMethod]
@@ -85,7 +85,7 @@ public class Dpo : BufferListTestBase, ITestChainBufferList, ITestCustomBufferLi
 
         // DPO maintains 1:1 correspondence - retroactively updates as lookahead becomes available
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
+        sut.IsExactly(series);
     }
 
     [TestMethod]
@@ -98,7 +98,7 @@ public class Dpo : BufferListTestBase, ITestChainBufferList, ITestCustomBufferLi
 
         // DPO maintains 1:1 correspondence - retroactively updates as lookahead becomes available
         sut.Should().HaveCount(subset.Count);
-        sut.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
+        sut.IsExactly(expected);
 
         sut.Clear();
 
@@ -107,7 +107,7 @@ public class Dpo : BufferListTestBase, ITestChainBufferList, ITestCustomBufferLi
         sut.Add(subset);
 
         sut.Should().HaveCount(subset.Count);
-        sut.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
+        sut.IsExactly(expected);
     }
 
     [TestMethod]
@@ -132,7 +132,7 @@ public class Dpo : BufferListTestBase, ITestChainBufferList, ITestCustomBufferLi
             .Take(expectedCount)
             .ToList();
 
-        sut.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
+        sut.IsExactly(expected);
     }
 
     [TestMethod]
@@ -157,6 +157,6 @@ public class Dpo : BufferListTestBase, ITestChainBufferList, ITestCustomBufferLi
             .Take(expectedCount)
             .ToList();
 
-        sut.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
+        sut.IsExactly(expected);
     }
 }

@@ -17,7 +17,7 @@ public class ParabolicSar : BufferListTestBase, ITestQuoteBufferList
         foreach (Quote q in Quotes) { sut.Add(q); }
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
+        sut.IsExactly(series);
     }
 
     [TestMethod]
@@ -26,7 +26,7 @@ public class ParabolicSar : BufferListTestBase, ITestQuoteBufferList
         ParabolicSarList sut = Quotes.ToParabolicSarList(accelerationStep, maxAccelerationFactor);
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
+        sut.IsExactly(series);
     }
 
     [TestMethod]
@@ -39,7 +39,7 @@ public class ParabolicSar : BufferListTestBase, ITestQuoteBufferList
             Quotes);
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
+        sut.IsExactly(series);
     }
 
     [TestMethod]
@@ -59,7 +59,7 @@ public class ParabolicSar : BufferListTestBase, ITestQuoteBufferList
             Quotes);
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(seriesExt, static options => options.WithStrictOrdering());
+        sut.IsExactly(seriesExt);
     }
 
     [TestMethod]
@@ -77,7 +77,7 @@ public class ParabolicSar : BufferListTestBase, ITestQuoteBufferList
             = series.Skip(series.Count - maxListSize).ToList();
 
         sut.Should().HaveCount(maxListSize);
-        sut.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
+        sut.IsExactly(expected);
     }
 
     [TestMethod]
@@ -93,7 +93,7 @@ public class ParabolicSar : BufferListTestBase, ITestQuoteBufferList
             subset);
 
         sut.Should().HaveCount(subset.Count);
-        sut.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
+        sut.IsExactly(expected);
 
         sut.Clear();
 
@@ -102,6 +102,6 @@ public class ParabolicSar : BufferListTestBase, ITestQuoteBufferList
         sut.Add(subset);
 
         sut.Should().HaveCount(expected.Count);
-        sut.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
+        sut.IsExactly(expected);
     }
 }
