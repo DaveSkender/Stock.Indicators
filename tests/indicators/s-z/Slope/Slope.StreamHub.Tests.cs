@@ -225,8 +225,7 @@ public class SlopeHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPr
         // Assert - All results should have null values
         results.Should().HaveCount(lookbackPeriods - 1);
         results.Should().AllSatisfy(
-            r =>
-            {
+            r => {
                 r.Slope.Should().BeNull();
                 r.Intercept.Should().BeNull();
                 r.StdDev.Should().BeNull();
