@@ -111,10 +111,7 @@ public class RsiHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
     {
         const int emaPeriods = 12;
         const int rsiPeriods = 14;
-
-        List<Quote> quotesList = Quotes.ToList();
-
-        int length = quotesList.Count;
+        int length = Quotes.Count;
 
         // setup quote provider hub
         QuoteHub quoteHub = new();
@@ -124,25 +121,37 @@ public class RsiHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
             .ToRsiHub(rsiPeriods)
             .ToEmaHub(emaPeriods);
 
-        // emulate quote stream
+        // emulate adding quotes to provider hub
         for (int i = 0; i < length; i++)
         {
-            quoteHub.Add(quotesList[i]);
+            // skip one (add later)
+            if (i == 80) { continue; }
+
+            Quote q = Quotes[i];
+            quoteHub.Add(q);
+
+            // resend duplicate quotes
+            if (i is > 100 and < 105) { quoteHub.Add(q); }
         }
 
+        // late arrival
+        quoteHub.Insert(Quotes[80]);
+
+        // delete
+        quoteHub.Remove(Quotes[removeAtIndex]);
+
         // final results
-        IReadOnlyList<EmaResult> streamList
+        IReadOnlyList<EmaResult> actuals
             = observer.Results;
 
-        // time-series, for comparison
-        IReadOnlyList<EmaResult> seriesList
-           = quotesList
+        // time-series, for comparison (revised)
+        IReadOnlyList<EmaResult> seriesList = RevisedQuotes
             .ToRsi(rsiPeriods)
             .ToEma(emaPeriods);
 
         // assert, should equal series
-        streamList.Should().HaveCount(length);
-        streamList.Should().BeEquivalentTo(seriesList);
+        actuals.Should().HaveCount(length - 1);
+        actuals.Should().BeEquivalentTo(seriesList);
 
         observer.Unsubscribe();
         quoteHub.EndTransmission();
