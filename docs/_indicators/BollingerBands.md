@@ -107,8 +107,8 @@ IReadOnlyList<BollingerBandsResult> results = bbList;
 Subscribe to a `QuoteHub` for advanced streaming scenarios:
 
 ```csharp
-QuoteHub<Quote> quoteHub = new();
-BollingerBandsHub<Quote> observer = quoteHub.ToBollingerBands(lookbackPeriods, standardDeviations);
+QuoteHub quoteHub = new();
+BollingerBandsHub observer = quoteHub.ToBollingerBandsHub(lookbackPeriods, standardDeviations);
 
 foreach (Quote quote in quotes)  // simulating stream
 {

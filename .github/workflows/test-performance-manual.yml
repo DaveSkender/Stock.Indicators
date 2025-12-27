@@ -23,6 +23,7 @@ permissions:
 jobs:
   analyze:
     runs-on: ubuntu-22.04
+    timeout-minutes: 120
 
     steps:
       - name: Checkout source

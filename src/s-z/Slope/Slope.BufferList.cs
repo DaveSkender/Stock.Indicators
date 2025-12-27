@@ -11,7 +11,7 @@ namespace Skender.Stock.Indicators;
 /// - Minimizes Line value updates to only necessary items
 /// Current performance: ~3.6x slower than Series (improved from 7.85x baseline)
 /// </remarks>
-public class SlopeList : BufferList<SlopeResult>, IIncrementFromChain
+public class SlopeList : BufferList<SlopeResult>, ISlope, IIncrementFromChain
 {
     private readonly Queue<double> buffer;
     private readonly int lookbackPeriods;

@@ -79,3 +79,33 @@ var results = quotes
     .ToTrix(..)
     .ToRsi(..);
 ```
+
+## Streaming
+
+Use the buffer-style `List<T>` when you need incremental calculations without a hub:
+
+```csharp
+TrixList trixList = new(lookbackPeriods);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  trixList.Add(quote);
+}
+
+// based on `ICollection<TrixResult>`
+IReadOnlyList<TrixResult> results = trixList;
+```
+
+Subscribe to a `QuoteHub` for advanced streaming scenarios:
+
+```csharp
+QuoteHub quoteHub = new();
+TrixHub observer = quoteHub.ToTrixHub(lookbackPeriods);
+
+foreach (Quote quote in quotes)  // simulating stream
+{
+  quoteHub.Add(quote);
+}
+
+IReadOnlyList<TrixResult> results = observer.Results;
+```

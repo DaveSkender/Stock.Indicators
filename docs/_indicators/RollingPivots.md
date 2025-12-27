@@ -88,3 +88,33 @@ See [Utilities and helpers]({{site.baseurl}}/utilities#utilities-for-indicator-r
 ## Chaining
 
 This indicator is not chain-enabled and must be generated from `quotes`.  It **cannot** be used for further processing by other chain-enabled indicators.
+
+## Streaming
+
+Use the buffer-style `List<T>` when you need incremental calculations without a hub:
+
+```csharp
+RollingPivotsList rollingPivotsList = new(windowPeriods, offsetPeriods, pointType);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  rollingPivotsList.Add(quote);
+}
+
+// based on `ICollection<RollingPivotsResult>`
+IReadOnlyList<RollingPivotsResult> results = rollingPivotsList;
+```
+
+Subscribe to a `QuoteHub` for advanced streaming scenarios:
+
+```csharp
+QuoteHub quoteHub = new();
+RollingPivotsHub observer = quoteHub.ToRollingPivotsHub(windowPeriods, offsetPeriods, pointType);
+
+foreach (Quote quote in quotes)  // simulating stream
+{
+  quoteHub.Add(quote);
+}
+
+IReadOnlyList<RollingPivotsResult> results = observer.Results;
+```

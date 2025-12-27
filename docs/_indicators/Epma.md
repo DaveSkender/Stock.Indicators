@@ -95,8 +95,8 @@ IReadOnlyList<EpmaResult> results = epmaList;
 Subscribe to a `QuoteHub` for advanced streaming scenarios:
 
 ```csharp
-QuoteHub<Quote> quoteHub = new();
-EpmaHub<Quote> observer = quoteHub.ToEpma(lookbackPeriods);
+QuoteHub quoteHub = new();
+EpmaHub observer = quoteHub.ToEpmaHub(lookbackPeriods);
 
 foreach (Quote quote in quotes)  // simulating stream
 {

@@ -95,8 +95,8 @@ IReadOnlyList<WmaResult> results = wmaList;
 Subscribe to a `QuoteHub` for advanced streaming scenarios:
 
 ```csharp
-QuoteHub<Quote> quoteHub = new();
-WmaHub<Quote> observer = quoteHub.ToWma(lookbackPeriods);
+QuoteHub quoteHub = new();
+WmaHub observer = quoteHub.ToWmaHub(lookbackPeriods);
 
 foreach (Quote quote in quotes)  // simulating stream
 {

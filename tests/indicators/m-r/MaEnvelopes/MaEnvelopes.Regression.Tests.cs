@@ -12,5 +12,5 @@ public class MaenvelopesTests : RegressionTestBase<MaEnvelopeResult>
     public override void Buffer() => Quotes.ToMaEnvelopesList(20, 2.5).IsExactly(Expected);
 
     [TestMethod]
-    public override void Stream() => Assert.Inconclusive("Stream implementation not yet available");
+    public override void Stream() => QuoteHub.ToMaEnvelopesHub(20, 2.5).Results.IsExactly(Expected);
 }

@@ -54,7 +54,7 @@ public class VwapHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPro
         IReadOnlyList<VwapResult> seriesList = quotesList.ToVwap();
 
         streamList.Should().HaveCount(length - 1);
-        streamList.Should().BeEquivalentTo(seriesList, options => options.WithStrictOrdering());
+        streamList.IsExactly(seriesList);
 
         observer.Unsubscribe();
         quoteHub.EndTransmission();
@@ -111,7 +111,7 @@ public class VwapHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPro
         IReadOnlyList<VwapResult> seriesList = quotesList.ToVwap(startDate);
 
         observer.Results.Should().HaveCount(length - 1);
-        observer.Results.Should().BeEquivalentTo(seriesList, options => options.WithStrictOrdering());
+        observer.Results.IsExactly(seriesList);
 
         observer.Unsubscribe();
         quoteHub.EndTransmission();
@@ -154,7 +154,7 @@ public class VwapHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPro
 
         // assert, should equal series
         streamList.Should().HaveCount(length - 1);
-        streamList.Should().BeEquivalentTo(seriesList, options => options.WithStrictOrdering());
+        streamList.IsExactly(seriesList);
 
         observer.Unsubscribe();
         quoteHub.EndTransmission();

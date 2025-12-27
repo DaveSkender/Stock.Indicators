@@ -72,3 +72,33 @@ var results = quotes
 ```
 
 This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.
+
+## Streaming
+
+Use the buffer-style `List<T>` when you need incremental calculations without a hub:
+
+```csharp
+UltimateList ultimateList = new(shortPeriods, middlePeriods, longPeriods);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  ultimateList.Add(quote);
+}
+
+// based on `ICollection<UltimateResult>`
+IReadOnlyList<UltimateResult> results = ultimateList;
+```
+
+Subscribe to a `QuoteHub` for advanced streaming scenarios:
+
+```csharp
+QuoteHub quoteHub = new();
+UltimateHub observer = quoteHub.ToUltimateHub(shortPeriods, middlePeriods, longPeriods);
+
+foreach (Quote quote in quotes)  // simulating stream
+{
+  quoteHub.Add(quote);
+}
+
+IReadOnlyList<UltimateResult> results = observer.Results;
+```
