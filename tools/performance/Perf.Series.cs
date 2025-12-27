@@ -7,6 +7,7 @@ public class SeriesIndicators
 {
     private static readonly IReadOnlyList<Quote> q = Data.GetDefault();
     private static readonly IReadOnlyList<Quote> o = Data.GetCompare();
+    private static readonly double[] v = q.ToValuesArray();
     private const int n = 14;
 
     /* Parameter arguments should match the Catalog default values */
@@ -73,8 +74,14 @@ public class SeriesIndicators
     [Benchmark] public void ToRollingPivots() => q.ToRollingPivots(20, 0, PivotPointType.Standard);
     [Benchmark] public void ToRsi() => q.ToRsi();
     [Benchmark] public void ToSlope() => q.ToSlope(20);
-    [Benchmark] public void ToSma() => q.ToSma(10);
-    [Benchmark] public void ToSmaAnalysis() => q.ToSmaAnalysis(10);
+
+    // TODO: this is for experimental comparison only - remove later
+    [Benchmark] public void ToSmaOrig() => q.ToSma(10);
+    [Benchmark] public void ToSmaArray() => q.ToSmaArray(10);
+    [Benchmark] public void ToSmaArrayLoop() => v.ToSmaArrayLoop(10);
+    [Benchmark] public void ToSmaArrayRoll() => v.ToSmaArrayRoll(10);
+    //[Benchmark] public void ToSmaAnalysis() => q.ToSmaAnalysis(10);
+
     [Benchmark] public void ToSmi() => q.ToSmi(5, 20, 5, 3);
     [Benchmark] public void ToSmma() => q.ToSmma(10);
     [Benchmark] public void ToStarcBands() => q.ToStarcBands(10);

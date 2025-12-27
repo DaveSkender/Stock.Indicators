@@ -24,14 +24,7 @@ public static partial class Sma
         // initialize
         int length = source.Count;
         SmaResult[] results = new SmaResult[length];
-        double[] values = new double[length];
 
-        for (int i = 0; i < length; i++)
-        {
-            values[i] = source[i].Value;
-        }
-
-        // roll through source values
         for (int i = 0; i < length; i++)
         {
             IReusable s = source[i];
@@ -58,10 +51,97 @@ public static partial class Sma
 
             results[i] = new SmaResult(
                 Timestamp: s.Timestamp,
+                Sma: sma.NaN2Null()); results[i] = new SmaResult(
+                Timestamp: source[i].Timestamp,
                 Sma: sma.NaN2Null());
         }
 
-        return new List<SmaResult>(results);
+        return results;
     }
-}
 
+    /// <remarks>
+    /// EXPERIMENTAL: Internal conversion to/from array looping method.
+    /// </remarks>
+    /// <inheritdoc cref="ToSma(IReadOnlyList{IReusable}, int)"/>
+    public static IReadOnlyList<SmaResult> ToSmaArray(
+        this IReadOnlyList<IReusable> source,
+        int lookbackPeriods)
+    {
+        // check parameter arguments
+        ArgumentNullException.ThrowIfNull(source);
+        Validate(lookbackPeriods);
+
+        // initialize
+        int length = source.Count;
+
+        // convert to array of values
+        double[] srcValues = source.ToValuesArray();
+
+        // calculate using array-based method
+        double[] smaValues = srcValues.ToSmaArrayLoop(lookbackPeriods);
+
+        // convert back to result objects
+        SmaResult[] results = new SmaResult[length];
+
+        for (int i = 0; i < length; i++)
+        {
+            results[i] = new SmaResult(
+                Timestamp: source[i].Timestamp,
+                Sma: smaValues[i].NaN2Null());
+        }
+
+        return results;
+    }
+
+    /// <remarks>
+    /// EXPERIMENTAL: Array I/O with looping sum.
+    /// </remarks>
+    /// <inheritdoc cref="ToSma(IReadOnlyList{IReusable}, int)"/>
+    public static double[] ToSmaArrayLoop(
+        this double[] source,
+        int lookbackPeriods)
+    {
+        // check parameter arguments
+        ArgumentNullException.ThrowIfNull(source);
+        Validate(lookbackPeriods);
+
+        // initialize
+        int length = source.Length;
+        double[] results = new double[length];
+
+        // roll through source values
+        for (int i = 0; i < length; i++)
+        {
+            results[i] = Sma.Increment(source, lookbackPeriods, i);
+        }
+
+        return results;
+    }
+
+    /// <remarks>
+    /// EXPERIMENTAL: Array I/O with rolling sum.
+    /// </remarks>
+    /// <inheritdoc cref="ToSma(IReadOnlyList{IReusable}, int)"/>
+    public static double[] ToSmaArrayRoll(
+        this double[] source,
+        int lookbackPeriods)
+    {
+        // check parameter arguments
+        ArgumentNullException.ThrowIfNull(source);
+        Validate(lookbackPeriods);
+
+        // initialize
+        int length = source.Length;
+        double[] results = new double[length];
+        double sum = double.NaN;
+
+        // roll through source values
+        for (int i = 0; i < length; i++)
+        {
+            (results[i], sum, _) = Increment(source, lookbackPeriods, i, sum);
+        }
+
+        return results;
+    }
+
+}
