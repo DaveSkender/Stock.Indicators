@@ -83,7 +83,7 @@ public static class Reusable
     /// An array of double values corresponding to the <c>Value</c> property of each element in <paramref
     /// name="source"/>. The array will be empty if <paramref name="source"/> contains no elements.
     /// </returns>
-    internal static double[] ToValueArray(
+    internal static double[] ToValuesArray(
         this IReadOnlyList<IReusable> source)
     {
         int length = source.Count;

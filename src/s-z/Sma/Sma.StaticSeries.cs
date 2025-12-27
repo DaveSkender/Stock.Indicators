@@ -75,7 +75,7 @@ public static partial class Sma
         int length = source.Count;
 
         // convert to array of values
-        double[] srcValues = source.ToValueArray();
+        double[] srcValues = source.ToValuesArray();
 
         // calculate using array-based method
         double[] smaValues = srcValues.ToSmaArrayLoop(lookbackPeriods);

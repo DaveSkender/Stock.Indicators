@@ -5,9 +5,9 @@ namespace Performance;
 [ShortRunJob]
 public class SeriesIndicators
 {
-    private static readonly IReadOnlyList<Quote> q = Data.GetRandom(500000);
+    private static readonly IReadOnlyList<Quote> q = Data.GetDefault();
     private static readonly IReadOnlyList<Quote> o = Data.GetCompare();
-    private static readonly double[] v = q.ToValueArray();
+    private static readonly double[] v = q.ToValuesArray();
     private const int n = 14;
 
     /* Parameter arguments should match the Catalog default values */

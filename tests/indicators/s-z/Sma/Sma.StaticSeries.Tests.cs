@@ -158,7 +158,7 @@ public partial class SmaTests : StaticSeriesTestBase
     public void ArrayInterface_DefaultParameters()
     {
         // convert quotes to array
-        double[] values = Quotes.ToValueArray();
+        double[] values = Quotes.ToValuesArray();
 
         // calculate using array method
         double[] sut = values.ToSmaArrayLoop(20);
@@ -213,7 +213,7 @@ public partial class SmaTests : StaticSeriesTestBase
     [TestMethod]
     public void ArrayInterface_Exceptions()
     {
-        double[] values = Quotes.ToValueArray();
+        double[] values = Quotes.ToValuesArray();
 
         // null array
         FluentActions
@@ -238,7 +238,7 @@ public partial class SmaTests : StaticSeriesTestBase
     public void PrecisionComparison_RollingSumVsBruteForce()
     {
         // use longest dataset (~62 years of S&P 500 daily data, 15,821 bars)
-        double[] values = LongestQuotes.ToValueArray();
+        double[] values = LongestQuotes.ToValuesArray();
         decimal[] decimalValues = LongestQuotes.Select(q => q.Close).ToArray();
         const int lookbackPeriods = 20;
         int length = values.Length;
