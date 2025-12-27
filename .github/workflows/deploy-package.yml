@@ -54,6 +54,7 @@ permissions:
 jobs:
   validate:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
 
     steps:
       - name: Checkout source
@@ -111,6 +112,7 @@ jobs:
   package:
     needs: validate
     runs-on: ubuntu-latest
+    timeout-minutes: 30
 
     outputs:
       version: ${{ steps.version_info.outputs.version }}
@@ -257,6 +259,7 @@ jobs:
   deploy:
     needs: package
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     if: success()
 
     permissions:
@@ -347,6 +350,7 @@ jobs:
   cleanup:
     needs: [package, deploy]
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     if: success() && needs.package.outputs.is_ci_push == 'true' && needs.package.outputs.dry_run != 'true'
 
     permissions:
