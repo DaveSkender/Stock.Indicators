@@ -187,7 +187,7 @@ public class SlopeHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPr
         }
 
         // Get Line value from a position within the window
-        int midIndex = lookbackPeriods + 2;
+        const int midIndex = lookbackPeriods + 2;
         decimal? lineBefore = sut.Results[midIndex].Line;
 
         // Add one more value - this should update Line values for the last lookbackPeriods results

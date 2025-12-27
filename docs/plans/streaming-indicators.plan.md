@@ -38,7 +38,7 @@ This document consolidates incomplete tasks from the streaming indicators develo
 - **Effort**: 30-60 minutes
 - **Priority**: High
 
-- [ ] **T145** - Implement Slope StreamHub in `src/s-z/Slope/Slope.StreamHub.cs`
+- [x] **T145** - Implement Slope StreamHub in `src/s-z/Slope/Slope.StreamHub.cs`
 
 - Pattern: Repaint-friendly logic modeled after VolatilityStop
 - Complex but unblocked

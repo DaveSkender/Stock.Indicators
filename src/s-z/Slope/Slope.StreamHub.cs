@@ -122,6 +122,7 @@ public class SlopeHub
     /// <summary>
     /// Calculates slope, intercept, standard deviation, and R-squared.
     /// </summary>
+    /// <param name="currentIndex">The current index in the provider cache.</param>
     private (double? slope, double? intercept, double? stdDev, double? rSquared)
         CalculateStatistics(int currentIndex)
     {
@@ -183,6 +184,9 @@ public class SlopeHub
     /// Updates Line values for the last lookbackPeriods results using the current slope/intercept.
     /// This is legitimate historical repaint behavior matching the Series implementation.
     /// </summary>
+    /// <param name="currentIndex">The current index in the provider cache.</param>
+    /// <param name="slope">The calculated slope value.</param>
+    /// <param name="intercept">The calculated intercept value.</param>
     private void UpdateLineValues(int currentIndex, double? slope, double? intercept)
     {
         // Only update if we have enough results
