@@ -107,8 +107,8 @@ IReadOnlyList<SlopeResult> results = slopeList;
 Subscribe to a `QuoteHub` for advanced streaming scenarios:
 
 ```csharp
-QuoteHub<Quote> quoteHub = new();
-SlopeHub<Quote> observer = quoteHub.ToSlope(lookbackPeriods);
+QuoteHub quoteHub = new();
+SlopeHub observer = quoteHub.ToSlopeHub(lookbackPeriods);
 
 foreach (Quote quote in quotes)  // simulating stream
 {
@@ -117,3 +117,5 @@ foreach (Quote quote in quotes)  // simulating stream
 
 IReadOnlyList<SlopeResult> results = observer.Results;
 ```
+
+> &#128073; **Repaint note**: The streaming implementation exhibits the same repaint behavior as the series version. `Line` values are recalculated for the last `N` periods as new data arrives, matching the series implementation's behavior.

@@ -15,6 +15,7 @@ public static partial class Slope
             .AddResult("Intercept", "Intercept", ResultType.Default)
             .AddResult("StdDev", "Standard Deviation", ResultType.Default)
             .AddResult("RSquared", "R-Squared", ResultType.Default)
+            .AddResult("Line", "Line", ResultType.Default)
             .Build();
 
     /// <summary>
