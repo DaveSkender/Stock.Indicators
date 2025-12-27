@@ -2,24 +2,22 @@
 
 This document consolidates incomplete tasks from the streaming indicators development feature (originally tracked in .specify/specs/001-develop-streaming-indicators/).
 
-**Status**: 96% complete - Framework is production-ready with comprehensive BufferList (96%) and StreamHub (96%) coverage.
+**Status**: 98% complete - Framework is production-ready with comprehensive BufferList (96%) and StreamHub (98%) coverage.
 
 - Total indicators: 85
 - With BufferList: 82 (96%)
-- With StreamHub: 82 (96%)
-- With streaming documentation: 48 of 82 streamable (59%)
+- With StreamHub: 83 (98%)
+- With streaming documentation: 81 of 82 streamable (99%)
 
 ## Phase 1: Infrastructure & Compliance
 
 ### Documentation Updates
 
-- [ ] **T174** - Update indicator documentation pages for all streaming-enabled indicators
-  - Add "## Streaming" sections to 34 indicators missing streaming documentation
-  - Use SMA/EMA documentation patterns as template (BufferList + StreamHub examples)
-  - Ensure consistency with instruction file references
-  - Verify code examples compile and produce correct results
-  - **Priority**: Medium - 59% coverage currently, need 100%
-  - **Effort**: 4-6 hours
+- [x] **T174** - Update indicator documentation pages for all streaming-enabled indicators
+  - ✅ Streaming documentation added to 81 of 82 streamable indicators (PR #1785)
+  - Only ZigZag missing docs (excluded from streaming, Series-only)
+  - SMA/EMA documentation patterns used as template
+  - **Status**: COMPLETE
 
 ### Quality Validation
 
@@ -34,16 +32,14 @@ This document consolidates incomplete tasks from the streaming indicators develo
 
 ### Completed StreamHub Implementations
 
-- [x] **T108** - Implement Dpo StreamHub in `src/a-d/Dpo/Dpo.StreamHub.cs`
+- [x] **T108** - Dpo StreamHub in `src/a-d/Dpo/Dpo.StreamHub.cs`
+  - ✅ Implemented with lookahead offset pattern
+  - Has both BufferList and StreamHub
 
-### Remaining StreamHub Implementations
-
-- [x] **T145** - Implement Slope StreamHub in `src/s-z/Slope/Slope.StreamHub.cs`
-
-- Pattern: Repaint-friendly logic modeled after VolatilityStop
-- Complex but unblocked
-- **Effort**: 30-60 minutes
-- **Priority**: High
+- [x] **T145** - Slope StreamHub in `src/s-z/Slope/Slope.StreamHub.cs`
+  - ✅ Implemented via PR #1779
+  - Repaint-friendly logic modeled after VolatilityStop
+  - Has both BufferList and StreamHub
 
 ### Excluded StreamHub Implementations (Not Implementing)
 
@@ -125,29 +121,25 @@ The following were evaluated and intentionally excluded from streaming implement
 
 ## Phase 5: Documentation & Polish
 
-- [ ] **D003** - RSI documentation updates
-  - Add streaming examples
-  - Update parameter descriptions
-  - **Priority**: Low (part of T174)
-  - **Effort**: 30 minutes
+- [x] **D003** - RSI documentation updates
+  - ✅ Streaming examples added (PR #1785)
+  - Parameter descriptions updated
+  - **Status**: COMPLETE
 
-- [ ] **D004** - MACD documentation updates
-  - Add streaming examples
-  - Update parameter descriptions
-  - **Priority**: Low (part of T174)
-  - **Effort**: 30 minutes
+- [x] **D004** - MACD documentation updates
+  - ✅ Streaming examples added (PR #1785)
+  - Parameter descriptions updated
+  - **Status**: COMPLETE
 
-- [ ] **D005** - BollingerBands documentation updates
-  - Add streaming examples
-  - Update parameter descriptions
-  - **Priority**: Low (part of T174)
-  - **Effort**: 30 minutes
+- [x] **D005** - BollingerBands documentation updates
+  - ✅ Streaming examples added (PR #1785)
+  - Parameter descriptions updated
+  - **Status**: COMPLETE
 
-- [ ] **D006** - README overview updates
-  - Add streaming indicators section (✅ Basic section exists)
-  - Update quick start examples
-  - **Priority**: Low
-  - **Effort**: 1 hour
+- [x] **D006** - README overview updates
+  - ✅ Streaming indicators section exists
+  - Quick start examples included
+  - **Status**: COMPLETE
 
 - [ ] **D007** - Migration guide updates
   - Document migration path from Series to streaming
@@ -184,43 +176,44 @@ These items were identified as enhancements beyond the core framework:
 
 ## Summary
 
-**Total remaining implementable work**: ~15-20 hours
+**Total remaining implementable work**: ~8-12 hours
 
 **Implementation status**:
 
 - BufferList implementations: 82/85 (96%) - 3 excluded (RenkoAtr, StdDevChannels, ZigZag)
-- StreamHub implementations: 82/85 (96%) - 3 excluded (RenkoAtr, StdDevChannels, ZigZag)
-- Streaming documentation: 48/82 (59%) - 34 indicators need docs added
+- StreamHub implementations: 83/85 (98%) - 2 excluded (RenkoAtr, StdDevChannels), 1 deferred (ZigZag)
+- Streaming documentation: 81/82 (99%) - Only ZigZag missing (Series-only, excluded from streaming)
+- **Catalog entries**: ✅ Added via PR #1784
 
 **Breakdown by priority**:
 
-- **High** (1 StreamHub implementation): 0.5-1 hour
-  - [ ] Slope StreamHub
-- **Medium** (Documentation + Test infrastructure): 12-16 hours
-  - [ ] Add streaming docs to 34 indicators (4-6 hours)
+- **High** - All implementations complete! ✅
+  - [x] Dpo StreamHub
+  - [x] Slope StreamHub
+- **Medium** (Test infrastructure + validation): 8-10 hours
   - [ ] StreamHub audit validation (0.5-1 hour)
   - [ ] Performance benchmarks (2-4 hours)
   - [ ] Memory validation (1-2 hours)
   - [ ] Test interface compliance (3-4 hours)
   - [ ] Provider history testing (2-3 hours)
-- **Low** (Polish + enhancements): 3-5 hours
+- **Low** (Polish + enhancements): 2-4 hours
   - [ ] Test base updates (1-2 hours)
   - [ ] Performance regression automation (2-3 hours)
-  - [ ] Migration guide updates (1-2 hours, overlap with docs)
+  - [ ] Migration guide updates (1-2 hours)
 
 **Recommendation**:
 
-1. Complete T145 (Slope StreamHub) to reach 100% implementable StreamHub coverage
-2. Complete T174 (Add streaming docs to 34 indicators) for user-facing completeness
+1. ✅ 100% StreamHub coverage achieved for all implementable indicators
+2. ✅ 99% documentation coverage achieved (only ZigZag excluded)
 3. Execute Phase 4 quality gates to validate production readiness
 4. Enhancement backlog items should be evaluated as separate features
 
 **Next steps**:
 
-- [ ] Implement Slope StreamHub
-- [ ] Add streaming documentation to remaining 34 indicators
+- [ ] Run StreamHub audit to validate test coverage completeness
 - [ ] Run performance and memory benchmarks
-- [ ] Validate test coverage completeness
+- [ ] Validate test interface compliance
+- [ ] Add provider history testing where missing
 - [ ] Update migration guide with streaming best practices
 
 ---
