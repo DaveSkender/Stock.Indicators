@@ -68,6 +68,7 @@ public static partial class Catalog
         _listings.Add(Adx.StreamListing);
 
         // Alligator
+        _listings.Add(Alligator.BufferListing);
         _listings.Add(Alligator.SeriesListing);
         _listings.Add(Alligator.StreamListing);
 
@@ -77,7 +78,9 @@ public static partial class Catalog
         _listings.Add(Alma.StreamListing);
 
         // Aroon
+        _listings.Add(Aroon.BufferListing);
         _listings.Add(Aroon.SeriesListing);
+        _listings.Add(Aroon.StreamListing);
 
         // ATR (Average True Range)
         _listings.Add(Atr.BufferListing);
@@ -85,11 +88,14 @@ public static partial class Catalog
         _listings.Add(Atr.StreamListing);
 
         // ATR Stop
+        _listings.Add(AtrStop.BufferListing);
         _listings.Add(AtrStop.SeriesListing);
         _listings.Add(AtrStop.StreamListing);
 
         // Awesome Oscillator
+        _listings.Add(Awesome.BufferListing);
         _listings.Add(Awesome.SeriesListing);
+        _listings.Add(Awesome.StreamListing);
 
         // Beta
         _listings.Add(Beta.BufferListing);
@@ -101,7 +107,9 @@ public static partial class Catalog
         _listings.Add(BollingerBands.StreamListing);
 
         // BOP (Balance of Power)
+        _listings.Add(Bop.BufferListing);
         _listings.Add(Bop.SeriesListing);
+        _listings.Add(Bop.StreamListing);
 
         // CCI (Commodity Channel Index)
         _listings.Add(Cci.BufferListing);
@@ -109,16 +117,22 @@ public static partial class Catalog
         _listings.Add(Cci.StreamListing);
 
         // Chaikin Oscillator
+        _listings.Add(ChaikinOsc.BufferListing);
         _listings.Add(ChaikinOsc.SeriesListing);
+        _listings.Add(ChaikinOsc.StreamListing);
 
         // Chandelier Exit
+        _listings.Add(Chandelier.BufferListing);
         _listings.Add(Chandelier.SeriesListing);
+        _listings.Add(Chandelier.StreamListing);
 
         // CHOP (Choppiness Index)
+        _listings.Add(Chop.BufferListing);
         _listings.Add(Chop.SeriesListing);
         _listings.Add(Chop.StreamListing);
 
         // CMF (Chaikin Money Flow)
+        _listings.Add(Cmf.BufferListing);
         _listings.Add(Cmf.SeriesListing);
         _listings.Add(Cmf.StreamListing);
 
@@ -133,7 +147,9 @@ public static partial class Catalog
         _listings.Add(ConnorsRsi.StreamListing);
 
         // Correlation
+        _listings.Add(Correlation.BufferListing);
         _listings.Add(Correlation.SeriesListing);
+        _listings.Add(Correlation.StreamListing);
 
         // DEMA (Double Exponential Moving Average)
         _listings.Add(Dema.BufferListing);
@@ -141,7 +157,9 @@ public static partial class Catalog
         _listings.Add(Dema.StreamListing);
 
         // Doji
+        _listings.Add(Doji.BufferListing);
         _listings.Add(Doji.SeriesListing);
+        _listings.Add(Doji.StreamListing);
 
         // Donchian Channels
         _listings.Add(Donchian.SeriesListing);
@@ -249,6 +267,7 @@ public static partial class Catalog
         _listings.Add(Mama.StreamListing);
 
         // Marubozu
+        _listings.Add(Marubozu.BufferListing);
         _listings.Add(Marubozu.SeriesListing);
         _listings.Add(Marubozu.StreamListing);
 
@@ -288,7 +307,9 @@ public static partial class Catalog
         _listings.Add(Pmo.StreamListing);
 
         // PRS (Price Relative Strength)
+        _listings.Add(Prs.BufferListing);
         _listings.Add(Prs.SeriesListing);
+        _listings.Add(Prs.StreamListing);
 
         // PVO (Price Volume Oscillator)
         _listings.Add(Pvo.BufferListing);
@@ -331,6 +352,7 @@ public static partial class Catalog
         // Slope
         _listings.Add(Slope.SeriesListing);
         _listings.Add(Slope.BufferListing);
+        _listings.Add(Slope.StreamListing);
 
         // SMA (Simple Moving Average)
         _listings.Add(Sma.SeriesListing);
@@ -355,6 +377,7 @@ public static partial class Catalog
         // STARC Bands
         _listings.Add(StarcBands.BufferListing);
         _listings.Add(StarcBands.SeriesListing);
+        _listings.Add(StarcBands.StreamListing);
 
         // STC (Schaff Trend Cycle)
         _listings.Add(Stc.BufferListing);

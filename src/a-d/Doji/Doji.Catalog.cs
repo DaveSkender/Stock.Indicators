@@ -23,6 +23,21 @@ public static partial class Doji
             .WithMethodName("ToDoji")
             .Build();
 
-    // No StreamListing for DOJI.
-    // No BufferListing for DOJI.
+    /// <summary>
+    /// DOJI Stream Listing
+    /// </summary>
+    internal static readonly IndicatorListing StreamListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Stream)
+            .WithMethodName("ToDojiHub")
+            .Build();
+
+    /// <summary>
+    /// DOJI Buffer Listing
+    /// </summary>
+    internal static readonly IndicatorListing BufferListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Buffer)
+            .WithMethodName("ToDojiList")
+            .Build();
 }

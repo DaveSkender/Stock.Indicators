@@ -79,3 +79,33 @@ var results = quotes
     .ToAwesome(..)
     .ToRsi(..);
 ```
+
+## Streaming
+
+Use the buffer-style `List<T>` when you need incremental calculations without a hub:
+
+```csharp
+AwesomeList awesomeList = new(fastPeriods, slowPeriods);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  awesomeList.Add(quote);
+}
+
+// based on `ICollection<AwesomeResult>`
+IReadOnlyList<AwesomeResult> results = awesomeList;
+```
+
+Subscribe to a `QuoteHub` for advanced streaming scenarios:
+
+```csharp
+QuoteHub<Quote> quoteHub = new();
+AwesomeHub<Quote> observer = quoteHub.ToAwesome(fastPeriods, slowPeriods);
+
+foreach (Quote quote in quotes)  // simulating stream
+{
+  quoteHub.Add(quote);
+}
+
+IReadOnlyList<AwesomeResult> results = observer.Results;
+```

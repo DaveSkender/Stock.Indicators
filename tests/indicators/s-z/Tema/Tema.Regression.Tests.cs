@@ -9,8 +9,8 @@ public class TemaTests : RegressionTestBase<TemaResult>
     public override void Series() => Quotes.ToTema(20).IsExactly(Expected);
 
     [TestMethod]
-    public override void Buffer() => Assert.Inconclusive("Buffer implementation not yet available");
+    public override void Buffer() => new TemaList(20) { Quotes }.IsExactly(Expected);
 
     [TestMethod]
-    public override void Stream() => Assert.Inconclusive("Stream implementation not yet available");
+    public override void Stream() => QuoteHub.ToTemaHub(20).Results.IsExactly(Expected);
 }

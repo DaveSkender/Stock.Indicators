@@ -75,3 +75,33 @@ var results = quotes
     .ToAlma(..)
     .ToRsi(..);
 ```
+
+## Streaming
+
+Use the buffer-style `List<T>` when you need incremental calculations without a hub:
+
+```csharp
+UlcerIndexList ulcerIndexList = new(lookbackPeriods);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  ulcerIndexList.Add(quote);
+}
+
+// based on `ICollection<UlcerIndexResult>`
+IReadOnlyList<UlcerIndexResult> results = ulcerIndexList;
+```
+
+Subscribe to a `QuoteHub` for advanced streaming scenarios:
+
+```csharp
+QuoteHub<Quote> quoteHub = new();
+UlcerIndexHub<Quote> observer = quoteHub.ToUlcerIndex(lookbackPeriods);
+
+foreach (Quote quote in quotes)  // simulating stream
+{
+  quoteHub.Add(quote);
+}
+
+IReadOnlyList<UlcerIndexResult> results = observer.Results;
+```

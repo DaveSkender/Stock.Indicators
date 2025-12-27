@@ -34,5 +34,12 @@ public static partial class Cmf
             .WithMethodName("ToCmfHub")
             .Build();
 
-    // No BufferListing for CMF.
+    /// <summary>
+    /// CMF Buffer Listing
+    /// </summary>
+    internal static readonly IndicatorListing BufferListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Buffer)
+            .WithMethodName("ToCmfList")
+            .Build();
 }

@@ -9,8 +9,8 @@ public class HmaTests : RegressionTestBase<HmaResult>
     public override void Series() => Quotes.ToHma().IsExactly(Expected);
 
     [TestMethod]
-    public override void Buffer() => Assert.Inconclusive("Buffer implementation not yet available");
+    public override void Buffer() => new HmaList(14) { Quotes }.IsExactly(Expected);
 
     [TestMethod]
-    public override void Stream() => Assert.Inconclusive("Stream implementation not yet available");
+    public override void Stream() => QuoteHub.ToHmaHub(14).Results.IsExactly(Expected);
 }

@@ -24,5 +24,9 @@ public class BetaTests : RegressionTestBase<BetaResult>
     }
 
     [TestMethod]
-    public override void Stream() => Assert.Inconclusive("Stream implementation not yet available");
+    public override void Stream() =>
+        // Beta StreamHub requires dual-provider pattern which is tested separately in Beta.StreamHub.Tests.cs
+        // Regression test data appears to have been generated with different eval/mrkt sources
+        // Further investigation needed to determine correct setup for regression test
+        Assert.Inconclusive("Beta StreamHub requires dual-provider pattern - see Beta.StreamHub.Tests.cs for comprehensive StreamHub tests");
 }

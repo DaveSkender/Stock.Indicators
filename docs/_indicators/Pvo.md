@@ -78,3 +78,33 @@ var results = quotes
 ```
 
 This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.
+
+## Streaming
+
+Use the buffer-style `List<T>` when you need incremental calculations without a hub:
+
+```csharp
+PvoList pvoList = new(fastPeriods, slowPeriods, signalPeriods);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  pvoList.Add(quote);
+}
+
+// based on `ICollection<PvoResult>`
+IReadOnlyList<PvoResult> results = pvoList;
+```
+
+Subscribe to a `QuoteHub` for advanced streaming scenarios:
+
+```csharp
+QuoteHub<Quote> quoteHub = new();
+PvoHub<Quote> observer = quoteHub.ToPvo(fastPeriods, slowPeriods, signalPeriods);
+
+foreach (Quote quote in quotes)  // simulating stream
+{
+  quoteHub.Add(quote);
+}
+
+IReadOnlyList<PvoResult> results = observer.Results;
+```

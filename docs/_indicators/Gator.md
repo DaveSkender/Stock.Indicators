@@ -77,3 +77,33 @@ var results = quotes
 ```
 
 Results **cannot** be further chained with additional transforms.
+
+## Streaming
+
+Use the buffer-style `List<T>` when you need incremental calculations without a hub:
+
+```csharp
+GatorList gatorList = new();
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  gatorList.Add(quote);
+}
+
+// based on `ICollection<GatorResult>`
+IReadOnlyList<GatorResult> results = gatorList;
+```
+
+Subscribe to a `QuoteHub` for advanced streaming scenarios:
+
+```csharp
+QuoteHub<Quote> quoteHub = new();
+GatorHub<Quote> observer = quoteHub.ToGator();
+
+foreach (Quote quote in quotes)  // simulating stream
+{
+  quoteHub.Add(quote);
+}
+
+IReadOnlyList<GatorResult> results = observer.Results;
+```

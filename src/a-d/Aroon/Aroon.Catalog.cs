@@ -25,6 +25,21 @@ public static partial class Aroon
             .WithMethodName("ToAroon")
             .Build();
 
-    // No StreamListing for AROON.
-    // No BufferListing for AROON.
+    /// <summary>
+    /// AROON Stream Listing
+    /// </summary>
+    internal static readonly IndicatorListing StreamListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Stream)
+            .WithMethodName("ToAroonHub")
+            .Build();
+
+    /// <summary>
+    /// AROON Buffer Listing
+    /// </summary>
+    internal static readonly IndicatorListing BufferListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Buffer)
+            .WithMethodName("ToAroonList")
+            .Build();
 }

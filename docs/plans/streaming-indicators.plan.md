@@ -34,17 +34,16 @@ This document consolidates incomplete tasks from the streaming indicators develo
 
 ### Completed StreamHub Implementations
 
-- [x] **T108** - Dpo StreamHub in `src/a-d/Dpo/Dpo.StreamHub.cs`
-  - ✅ Implemented with lookahead offset pattern
-  - Has both BufferList and StreamHub
+- [x] **T108** - Implement Dpo StreamHub in `src/a-d/Dpo/Dpo.StreamHub.cs`
 
 ### Remaining StreamHub Implementations
 
-- [ ] **T145** - Implement Slope StreamHub in `src/s-z/Slope/Slope.StreamHub.cs`
-  - Pattern: Repaint-friendly logic modeled after VolatilityStop
-  - BufferList exists, need StreamHub
-  - **Effort**: 30-60 minutes
-  - **Priority**: High
+- [x] **T145** - Implement Slope StreamHub in `src/s-z/Slope/Slope.StreamHub.cs`
+
+- Pattern: Repaint-friendly logic modeled after VolatilityStop
+- Complex but unblocked
+- **Effort**: 30-60 minutes
+- **Priority**: High
 
 ### Excluded StreamHub Implementations (Not Implementing)
 

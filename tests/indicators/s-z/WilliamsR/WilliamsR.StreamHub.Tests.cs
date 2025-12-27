@@ -47,7 +47,7 @@ public class WilliamsR : StreamHubTestBase, ITestQuoteObserver
         IReadOnlyList<WilliamsResult> expectedOriginal = Quotes.ToWilliamsR(lookbackPeriods);
 
         actuals.Should().HaveCount(length);
-        actuals.Should().BeEquivalentTo(expectedOriginal, static options => options.WithStrictOrdering());
+        actuals.IsExactly(expectedOriginal);
 
         // delete, should equal series (revised)
         quoteHub.Remove(Quotes[removeAtIndex]);
@@ -55,7 +55,7 @@ public class WilliamsR : StreamHubTestBase, ITestQuoteObserver
         IReadOnlyList<WilliamsResult> expectedRevised = RevisedQuotes.ToWilliamsR(lookbackPeriods);
 
         actuals.Should().HaveCount(501);
-        actuals.Should().BeEquivalentTo(expectedRevised, static options => options.WithStrictOrdering());
+        actuals.IsExactly(expectedRevised);
 
         // cleanup
         observer.Unsubscribe();

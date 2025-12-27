@@ -15,8 +15,23 @@ public class PrsTests : RegressionTestBase<PrsResult>
     }
 
     [TestMethod]
-    public override void Buffer() => Assert.Inconclusive("Buffer implementation not yet available");
+    public override void Buffer()
+    {
+        IReadOnlyList<IReusable> sourceEval = Quotes.Cast<IReusable>().ToList();
+        IReadOnlyList<IReusable> sourceMrkt = Quotes.Cast<IReusable>().ToList();
+        sourceEval.ToPrsList(sourceMrkt).IsExactly(Expected);
+    }
 
     [TestMethod]
-    public override void Stream() => Assert.Inconclusive("Stream implementation not yet available");
+    public override void Stream()
+    {
+        // Create two separate quote hubs for dual-provider pattern
+        QuoteHub quoteHubEval = new();
+        QuoteHub quoteHubMrkt = new();
+
+        quoteHubEval.Add(Quotes);
+        quoteHubMrkt.Add(Quotes);
+
+        quoteHubEval.ToPrsHub(quoteHubMrkt).Results.IsExactly(Expected);
+    }
 }

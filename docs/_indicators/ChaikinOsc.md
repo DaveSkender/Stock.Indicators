@@ -80,3 +80,33 @@ var results = quotes
 ```
 
 This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.
+
+## Streaming
+
+Use the buffer-style `List<T>` when you need incremental calculations without a hub:
+
+```csharp
+ChaikinOscList chaikinOscList = new(fastPeriods, slowPeriods);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  chaikinOscList.Add(quote);
+}
+
+// based on `ICollection<ChaikinOscResult>`
+IReadOnlyList<ChaikinOscResult> results = chaikinOscList;
+```
+
+Subscribe to a `QuoteHub` for advanced streaming scenarios:
+
+```csharp
+QuoteHub<Quote> quoteHub = new();
+ChaikinOscHub<Quote> observer = quoteHub.ToChaikinOsc(fastPeriods, slowPeriods);
+
+foreach (Quote quote in quotes)  // simulating stream
+{
+  quoteHub.Add(quote);
+}
+
+IReadOnlyList<ChaikinOscResult> results = observer.Results;
+```
