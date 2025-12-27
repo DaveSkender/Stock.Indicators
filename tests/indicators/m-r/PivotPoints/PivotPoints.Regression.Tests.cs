@@ -12,5 +12,5 @@ public class PivotPointsTests : RegressionTestBase<PivotPointsResult>
     public override void Buffer() => Quotes.ToPivotPointsList().IsExactly(Expected);
 
     [TestMethod]
-    public override void Stream() => Assert.Inconclusive("Stream implementation not yet available");
+    public override void Stream() => QuoteHub.ToPivotPointsHub().Results.IsExactly(Expected);
 }

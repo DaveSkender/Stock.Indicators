@@ -9,8 +9,8 @@ public class RollingPivotsTests : RegressionTestBase<RollingPivotsResult>
     public override void Series() => Quotes.ToRollingPivots().IsExactly(Expected);
 
     [TestMethod]
-    public override void Buffer() => Assert.Inconclusive("Buffer implementation not yet available");
+    public override void Buffer() => new RollingPivotsList() { Quotes }.IsExactly(Expected);
 
     [TestMethod]
-    public override void Stream() => Assert.Inconclusive("Stream implementation not yet available");
+    public override void Stream() => QuoteHub.ToRollingPivotsHub().Results.IsExactly(Expected);
 }
