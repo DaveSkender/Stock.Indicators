@@ -101,6 +101,7 @@ public class StreamIndicators
     [Benchmark] public object RocWbHub() => quoteHub.ToRocWbHub(20, 5, 5).Results;
     [Benchmark] public object RollingPivotsHub() => quoteHub.ToRollingPivotsHub(20, 0, PivotPointType.Standard).Results;
     [Benchmark] public object RsiHub() => quoteHub.ToRsiHub(n).Results;
+    [Benchmark] public object SlopeHub() => quoteHub.ToSlopeHub(20).Results;
     [Benchmark] public object SmaHub() => quoteHub.ToSmaHub(10).Results;
     [Benchmark] public object SmiHub() => quoteHub.ToSmiHub(13, 25, 2, 3).Results;
     [Benchmark] public object SmaAnalysisHub() => quoteHub.ToSmaAnalysisHub(20).Results;
