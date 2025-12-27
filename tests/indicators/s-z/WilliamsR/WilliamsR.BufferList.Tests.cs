@@ -19,7 +19,7 @@ public class WilliamsR : BufferListTestBase
         }
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
+        sut.IsExactly(series);
     }
 
     [TestMethod]
@@ -28,7 +28,7 @@ public class WilliamsR : BufferListTestBase
         WilliamsRList sut = new(lookbackPeriods) { Quotes };
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
+        sut.IsExactly(series);
     }
 
     [TestMethod]
@@ -37,7 +37,7 @@ public class WilliamsR : BufferListTestBase
         WilliamsRList sut = new(lookbackPeriods, Quotes);
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
+        sut.IsExactly(series);
     }
 
     [TestMethod]
@@ -68,7 +68,7 @@ public class WilliamsR : BufferListTestBase
         IReadOnlyList<WilliamsResult> expected = subset.ToWilliamsR(lookbackPeriods);
 
         sut.Should().HaveCount(expected.Count);
-        sut.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
+        sut.IsExactly(expected);
     }
 
     [TestMethod]
@@ -84,7 +84,7 @@ public class WilliamsR : BufferListTestBase
         }
 
         incremental.Should().HaveCount(batch.Count);
-        incremental.Should().BeEquivalentTo(batch, static options => options.WithStrictOrdering());
+        incremental.IsExactly(batch);
     }
 
     [TestMethod]
@@ -127,7 +127,7 @@ public class WilliamsR : BufferListTestBase
         WilliamsRList fromConstructor = new(lookbackPeriods) { Quotes };
 
         fromExtension.Should().HaveCount(fromConstructor.Count);
-        fromExtension.Should().BeEquivalentTo(fromConstructor, static options => options.WithStrictOrdering());
+        fromExtension.IsExactly(fromConstructor);
     }
 
     [TestMethod]
@@ -148,6 +148,6 @@ public class WilliamsR : BufferListTestBase
             = series.Skip(series.Count - maxListSize).ToList();
 
         sut.Should().HaveCount(maxListSize);
-        sut.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
+        sut.IsExactly(expected);
     }
 }

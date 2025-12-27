@@ -45,7 +45,7 @@ public class MfiHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProv
 
         // late arrival, should equal series
         quoteHub.Insert(Quotes[80]);
-        actuals.Should().BeEquivalentTo(expectedOriginal, static options => options.WithStrictOrdering());
+        actuals.IsExactly(expectedOriginal);
 
         // delete, should equal series (revised)
         quoteHub.Remove(Quotes[removeAtIndex]);
@@ -53,7 +53,7 @@ public class MfiHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProv
         IReadOnlyList<MfiResult> expectedRevised = RevisedQuotes.ToMfi(lookbackPeriods);
 
         actuals.Should().HaveCount(501);
-        actuals.Should().BeEquivalentTo(expectedRevised, static options => options.WithStrictOrdering());
+        actuals.IsExactly(expectedRevised);
 
         // cleanup
         observer.Unsubscribe();
@@ -94,7 +94,7 @@ public class MfiHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProv
             .ToEma(emaPeriods);
 
         streamList.Should().HaveCount(seriesList.Count);
-        streamList.Should().BeEquivalentTo(seriesList, static o => o.WithStrictOrdering());
+        streamList.IsExactly(seriesList);
 
         observer.Unsubscribe();
         quoteHub.EndTransmission();

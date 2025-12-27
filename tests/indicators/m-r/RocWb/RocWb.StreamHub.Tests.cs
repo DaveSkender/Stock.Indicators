@@ -56,7 +56,7 @@ public class RocWbHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPr
         // compare to expectedOriginal after Insert (before Remove)
         IReadOnlyList<RocWbResult> expectedOriginal = quotesList.ToRocWb(lookbackPeriods, emaPeriods, stdDevPeriods);
         streamList.Should().HaveCount(length);
-        streamList.Should().BeEquivalentTo(expectedOriginal, options => options.WithStrictOrdering());
+        streamList.IsExactly(expectedOriginal);
 
         // delete
         quoteHub.Remove(quotesList[400]);
@@ -65,7 +65,7 @@ public class RocWbHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPr
         // compare to expectedRevised after Remove
         IReadOnlyList<RocWbResult> expectedRevised = quotesList.ToRocWb(lookbackPeriods, emaPeriods, stdDevPeriods);
         streamList.Should().HaveCount(length - 1);
-        streamList.Should().BeEquivalentTo(expectedRevised, options => options.WithStrictOrdering());
+        streamList.IsExactly(expectedRevised);
 
         observer.Unsubscribe();
         quoteHub.EndTransmission();
@@ -106,7 +106,7 @@ public class RocWbHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPr
 
         // assert, should equal series
         streamList.Should().HaveCount(length);
-        streamList.Should().BeEquivalentTo(seriesList, options => options.WithStrictOrdering());
+        streamList.IsExactly(seriesList);
 
         observer.Unsubscribe();
         quoteHub.EndTransmission();
@@ -147,7 +147,7 @@ public class RocWbHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPr
 
         // assert, should equal series
         streamList.Should().HaveCount(length);
-        streamList.Should().BeEquivalentTo(seriesList, options => options.WithStrictOrdering());
+        streamList.IsExactly(seriesList);
 
         observer.Unsubscribe();
         quoteHub.EndTransmission();

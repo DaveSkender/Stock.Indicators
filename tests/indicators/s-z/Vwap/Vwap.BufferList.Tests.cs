@@ -22,7 +22,7 @@ public class Vwap : BufferListTestBase, ITestQuoteBufferList
         }
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
+        sut.IsExactly(series);
     }
 
     [TestMethod]
@@ -31,7 +31,7 @@ public class Vwap : BufferListTestBase, ITestQuoteBufferList
         VwapList sut = Quotes.ToVwapList(startDate);
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
+        sut.IsExactly(series);
     }
 
     [TestMethod]
@@ -40,7 +40,7 @@ public class Vwap : BufferListTestBase, ITestQuoteBufferList
         VwapList sut = new(startDate, Quotes);
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
+        sut.IsExactly(series);
     }
 
     [TestMethod]
@@ -49,7 +49,7 @@ public class Vwap : BufferListTestBase, ITestQuoteBufferList
         VwapList sut = Quotes.ToVwapList();
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(seriesDefault, static options => options.WithStrictOrdering());
+        sut.IsExactly(seriesDefault);
     }
 
     [TestMethod]
@@ -61,7 +61,7 @@ public class Vwap : BufferListTestBase, ITestQuoteBufferList
         VwapList sut = new(startDate, subset);
 
         sut.Should().HaveCount(subset.Count);
-        sut.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
+        sut.IsExactly(expected);
 
         sut.Clear();
 
@@ -70,7 +70,7 @@ public class Vwap : BufferListTestBase, ITestQuoteBufferList
         sut.Add(subset);
 
         sut.Should().HaveCount(expected.Count);
-        sut.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
+        sut.IsExactly(expected);
     }
 
     [TestMethod]
@@ -89,6 +89,6 @@ public class Vwap : BufferListTestBase, ITestQuoteBufferList
             .ToList();
 
         sut.Should().HaveCount(maxListSize);
-        sut.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
+        sut.IsExactly(expected);
     }
 }

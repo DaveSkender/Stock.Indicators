@@ -9,8 +9,8 @@ public class MacdTests : RegressionTestBase<MacdResult>
     public override void Series() => Quotes.ToMacd(12, 26, 9).IsExactly(Expected);
 
     [TestMethod]
-    public override void Buffer() => Assert.Inconclusive("Buffer implementation not yet available");
+    public override void Buffer() => new MacdList(12, 26, 9) { Quotes }.IsExactly(Expected);
 
     [TestMethod]
-    public override void Stream() => Assert.Inconclusive("Stream implementation not yet available");
+    public override void Stream() => QuoteHub.ToMacdHub(12, 26, 9).Results.IsExactly(Expected);
 }

@@ -12,5 +12,5 @@ public class RenkoTests : RegressionTestBase<RenkoResult>
     public override void Buffer() => new RenkoList(1.0m) { Quotes }.IsExactly(Expected);
 
     [TestMethod]
-    public override void Stream() => Assert.Inconclusive("Stream implementation not yet available");
+    public override void Stream() => QuoteHub.ToRenkoHub(1.0m).Results.IsExactly(Expected);
 }

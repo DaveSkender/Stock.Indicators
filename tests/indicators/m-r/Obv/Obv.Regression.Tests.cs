@@ -9,8 +9,8 @@ public class ObvTests : RegressionTestBase<ObvResult>
     public override void Series() => Quotes.ToObv().IsExactly(Expected);
 
     [TestMethod]
-    public override void Buffer() => Assert.Inconclusive("Buffer implementation not yet available");
+    public override void Buffer() => new ObvList() { Quotes }.IsExactly(Expected);
 
     [TestMethod]
-    public override void Stream() => Assert.Inconclusive("Stream implementation not yet available");
+    public override void Stream() => QuoteHub.ToObvHub().Results.IsExactly(Expected);
 }

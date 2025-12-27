@@ -21,7 +21,7 @@ public class Keltner : BufferListTestBase
         }
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
+        sut.IsExactly(series);
     }
 
     [TestMethod]
@@ -30,7 +30,7 @@ public class Keltner : BufferListTestBase
         KeltnerList sut = Quotes.ToKeltnerList(emaPeriods, multiplier, atrPeriods);
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
+        sut.IsExactly(series);
     }
 
     [TestMethod]
@@ -39,7 +39,7 @@ public class Keltner : BufferListTestBase
         KeltnerList sut = new(emaPeriods, multiplier, atrPeriods, Quotes);
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
+        sut.IsExactly(series);
     }
 
     [TestMethod]
@@ -51,7 +51,7 @@ public class Keltner : BufferListTestBase
         KeltnerList sut = new(emaPeriods, multiplier, atrPeriods, subset);
 
         sut.Should().HaveCount(subset.Count);
-        sut.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
+        sut.IsExactly(expected);
 
         sut.Clear();
 
@@ -60,7 +60,7 @@ public class Keltner : BufferListTestBase
         sut.Add(subset);
 
         sut.Should().HaveCount(expected.Count);
-        sut.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
+        sut.IsExactly(expected);
     }
 
     [TestMethod]
@@ -78,6 +78,6 @@ public class Keltner : BufferListTestBase
             = series.Skip(series.Count - maxListSize).ToList();
 
         sut.Should().HaveCount(maxListSize);
-        sut.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
+        sut.IsExactly(expected);
     }
 }

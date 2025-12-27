@@ -29,7 +29,7 @@ public class Tsi : BufferListTestBase, ITestChainBufferList
         foreach (Quote q in Quotes) { sut.Add(q); }
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
+        sut.IsExactly(series);
     }
 
     [TestMethod]
@@ -38,7 +38,7 @@ public class Tsi : BufferListTestBase, ITestChainBufferList
         TsiList sut = Quotes.ToTsiList(lookbackPeriods, smoothPeriods, signalPeriods);
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
+        sut.IsExactly(series);
     }
 
     [TestMethod]
@@ -47,7 +47,7 @@ public class Tsi : BufferListTestBase, ITestChainBufferList
         TsiList sut = new(lookbackPeriods, smoothPeriods, signalPeriods, Quotes);
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
+        sut.IsExactly(series);
     }
 
     [TestMethod]
@@ -58,7 +58,7 @@ public class Tsi : BufferListTestBase, ITestChainBufferList
         foreach (IReusable item in reusables) { sut.Add(item); }
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
+        sut.IsExactly(series);
     }
 
     [TestMethod]
@@ -67,7 +67,7 @@ public class Tsi : BufferListTestBase, ITestChainBufferList
         TsiList sut = new(lookbackPeriods, smoothPeriods, signalPeriods) { reusables };
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
+        sut.IsExactly(series);
     }
 
     [TestMethod]
@@ -81,7 +81,7 @@ public class Tsi : BufferListTestBase, ITestChainBufferList
         }
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
+        sut.IsExactly(series);
     }
 
     [TestMethod]
@@ -99,7 +99,7 @@ public class Tsi : BufferListTestBase, ITestChainBufferList
             = series.Skip(series.Count - maxListSize).ToList();
 
         sut.Should().HaveCount(maxListSize);
-        sut.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
+        sut.IsExactly(expected);
     }
 
     [TestMethod]
@@ -111,7 +111,7 @@ public class Tsi : BufferListTestBase, ITestChainBufferList
         TsiList sut = new(lookbackPeriods, smoothPeriods, signalPeriods, subset);
 
         sut.Should().HaveCount(subset.Count);
-        sut.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
+        sut.IsExactly(expected);
 
         sut.Clear();
 
@@ -120,6 +120,6 @@ public class Tsi : BufferListTestBase, ITestChainBufferList
         sut.Add(subset);
 
         sut.Should().HaveCount(expected.Count);
-        sut.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
+        sut.IsExactly(expected);
     }
 }

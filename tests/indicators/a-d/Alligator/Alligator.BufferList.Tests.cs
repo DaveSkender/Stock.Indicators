@@ -27,7 +27,7 @@ public class Alligator : BufferListTestBase, ITestChainBufferList
         }
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
+        sut.IsExactly(series);
     }
 
     [TestMethod]
@@ -36,7 +36,7 @@ public class Alligator : BufferListTestBase, ITestChainBufferList
         AlligatorList sut = Quotes.ToAlligatorList(jawPeriods, jawOffset, teethPeriods, teethOffset, lipsPeriods, lipsOffset);
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
+        sut.IsExactly(series);
     }
 
     [TestMethod]
@@ -45,7 +45,7 @@ public class Alligator : BufferListTestBase, ITestChainBufferList
         AlligatorList sut = new(jawPeriods, jawOffset, teethPeriods, teethOffset, lipsPeriods, lipsOffset, Quotes);
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
+        sut.IsExactly(series);
     }
 
     [TestMethod]
@@ -59,7 +59,7 @@ public class Alligator : BufferListTestBase, ITestChainBufferList
         }
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
+        sut.IsExactly(series);
     }
 
     [TestMethod]
@@ -68,7 +68,7 @@ public class Alligator : BufferListTestBase, ITestChainBufferList
         AlligatorList sut = new(jawPeriods, jawOffset, teethPeriods, teethOffset, lipsPeriods, lipsOffset) { reusables };
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
+        sut.IsExactly(series);
     }
 
     [TestMethod]
@@ -82,7 +82,7 @@ public class Alligator : BufferListTestBase, ITestChainBufferList
         }
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
+        sut.IsExactly(series);
     }
 
     [TestMethod]
@@ -94,7 +94,7 @@ public class Alligator : BufferListTestBase, ITestChainBufferList
         AlligatorList sut = new(jawPeriods, jawOffset, teethPeriods, teethOffset, lipsPeriods, lipsOffset, subset);
 
         sut.Should().HaveCount(subset.Count);
-        sut.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
+        sut.IsExactly(expected);
 
         sut.Clear();
 
@@ -103,7 +103,7 @@ public class Alligator : BufferListTestBase, ITestChainBufferList
         sut.Add(subset);
 
         sut.Should().HaveCount(expected.Count);
-        sut.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
+        sut.IsExactly(expected);
     }
 
     [TestMethod]
@@ -121,6 +121,6 @@ public class Alligator : BufferListTestBase, ITestChainBufferList
             = series.Skip(series.Count - maxListSize).ToList();
 
         sut.Should().HaveCount(maxListSize);
-        sut.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
+        sut.IsExactly(expected);
     }
 }

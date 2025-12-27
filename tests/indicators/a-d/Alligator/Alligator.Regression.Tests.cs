@@ -9,7 +9,7 @@ public class AlligatorTests : RegressionTestBase<AlligatorResult>
     public override void Series() => Quotes.ToAlligator().IsExactly(Expected);
 
     [TestMethod]
-    public override void Buffer() => Assert.Inconclusive("Buffer implementation not yet available");
+    public override void Buffer() => new AlligatorList() { Quotes }.IsExactly(Expected);
 
     [TestMethod]
     public override void Stream() => QuoteHub.ToAlligatorHub().Results.IsExactly(Expected);
