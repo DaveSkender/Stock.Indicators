@@ -31,14 +31,14 @@ This document consolidates incomplete tasks from the streaming indicators develo
 
 ### High Priority StreamHub Implementations
 
-**T108** - Implement Dpo StreamHub in `src/a-d/Dpo/Dpo.StreamHub.cs`
+- [x] **T108** - Implement Dpo StreamHub in `src/a-d/Dpo/Dpo.StreamHub.cs`
 
 - Pattern: Lookahead offset pattern
 - Reference: Similar offset handling in existing StreamHub implementations
 - **Effort**: 30-60 minutes
 - **Priority**: High
 
-**T145** - Implement Slope StreamHub in `src/s-z/Slope/Slope.StreamHub.cs`
+- [ ] **T145** - Implement Slope StreamHub in `src/s-z/Slope/Slope.StreamHub.cs`
 
 - Pattern: Repaint-friendly logic modeled after VolatilityStop
 - Complex but unblocked
