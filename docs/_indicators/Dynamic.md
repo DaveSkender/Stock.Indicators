@@ -84,3 +84,33 @@ var results = quotes
     .ToDynamic(..)
     .ToRsi(..);
 ```
+
+## Streaming
+
+Use the buffer-style `List<T>` when you need incremental calculations without a hub:
+
+```csharp
+DynamicList dynamicList = new(lookbackPeriods, kFactor);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  dynamicList.Add(quote);
+}
+
+// based on `ICollection<DynamicResult>`
+IReadOnlyList<DynamicResult> results = dynamicList;
+```
+
+Subscribe to a `QuoteHub` for advanced streaming scenarios:
+
+```csharp
+QuoteHub<Quote> quoteHub = new();
+DynamicHub<Quote> observer = quoteHub.ToDynamic(lookbackPeriods, kFactor);
+
+foreach (Quote quote in quotes)  // simulating stream
+{
+  quoteHub.Add(quote);
+}
+
+IReadOnlyList<DynamicResult> results = observer.Results;
+```

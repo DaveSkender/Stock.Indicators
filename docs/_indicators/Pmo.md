@@ -83,3 +83,33 @@ var results = quotes
     .ToPmo(..)
     .ToRsi(..);
 ```
+
+## Streaming
+
+Use the buffer-style `List<T>` when you need incremental calculations without a hub:
+
+```csharp
+PmoList pmoList = new(timePeriods, smoothPeriods, signalPeriods);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  pmoList.Add(quote);
+}
+
+// based on `ICollection<PmoResult>`
+IReadOnlyList<PmoResult> results = pmoList;
+```
+
+Subscribe to a `QuoteHub` for advanced streaming scenarios:
+
+```csharp
+QuoteHub<Quote> quoteHub = new();
+PmoHub<Quote> observer = quoteHub.ToPmo(timePeriods, smoothPeriods, signalPeriods);
+
+foreach (Quote quote in quotes)  // simulating stream
+{
+  quoteHub.Add(quote);
+}
+
+IReadOnlyList<PmoResult> results = observer.Results;
+```

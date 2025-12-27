@@ -77,3 +77,33 @@ var results = quotes
 ```
 
 This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.
+
+## Streaming
+
+Use the buffer-style `List<T>` when you need incremental calculations without a hub:
+
+```csharp
+HeikinAshiList heikinAshiList = new();
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  heikinAshiList.Add(quote);
+}
+
+// based on `ICollection<HeikinAshiResult>`
+IReadOnlyList<HeikinAshiResult> results = heikinAshiList;
+```
+
+Subscribe to a `QuoteHub` for advanced streaming scenarios:
+
+```csharp
+QuoteHub<Quote> quoteHub = new();
+HeikinAshiHub<Quote> observer = quoteHub.ToHeikinAshi();
+
+foreach (Quote quote in quotes)  // simulating stream
+{
+  quoteHub.Add(quote);
+}
+
+IReadOnlyList<HeikinAshiResult> results = observer.Results;
+```
