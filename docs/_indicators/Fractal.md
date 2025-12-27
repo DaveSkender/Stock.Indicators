@@ -92,8 +92,8 @@ IReadOnlyList<FractalResult> results = fractalList;
 Subscribe to a `QuoteHub` for advanced streaming scenarios:
 
 ```csharp
-QuoteHub<Quote> quoteHub = new();
-FractalHub<Quote> observer = quoteHub.ToFractal(windowSpan);
+QuoteHub quoteHub = new();
+FractalHub observer = quoteHub.ToFractalHub(windowSpan);
 
 foreach (Quote quote in quotes)  // simulating stream
 {

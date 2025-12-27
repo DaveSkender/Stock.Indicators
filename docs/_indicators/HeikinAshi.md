@@ -97,8 +97,8 @@ IReadOnlyList<HeikinAshiResult> results = heikinAshiList;
 Subscribe to a `QuoteHub` for advanced streaming scenarios:
 
 ```csharp
-QuoteHub<Quote> quoteHub = new();
-HeikinAshiHub<Quote> observer = quoteHub.ToHeikinAshi();
+QuoteHub quoteHub = new();
+HeikinAshiHub observer = quoteHub.ToHeikinAshiHub();
 
 foreach (Quote quote in quotes)  // simulating stream
 {

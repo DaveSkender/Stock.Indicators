@@ -119,8 +119,8 @@ IReadOnlyList<PivotPointsResult> results = pivotPointsList;
 Subscribe to a `QuoteHub` for advanced streaming scenarios:
 
 ```csharp
-QuoteHub<Quote> quoteHub = new();
-PivotPointsHub<Quote> observer = quoteHub.ToPivotPoints(windowSize, pointType);
+QuoteHub quoteHub = new();
+PivotPointsHub observer = quoteHub.ToPivotPointsHub(windowSize, pointType);
 
 foreach (Quote quote in quotes)  // simulating stream
 {

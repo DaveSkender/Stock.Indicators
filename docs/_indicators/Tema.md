@@ -109,8 +109,8 @@ IReadOnlyList<TemaResult> results = temaList;
 Subscribe to a `QuoteHub` for advanced streaming scenarios:
 
 ```csharp
-QuoteHub<Quote> quoteHub = new();
-TemaHub<Quote> observer = quoteHub.ToTema(lookbackPeriods);
+QuoteHub quoteHub = new();
+TemaHub observer = quoteHub.ToTemaHub(lookbackPeriods);
 
 foreach (Quote quote in quotes)  // simulating stream
 {

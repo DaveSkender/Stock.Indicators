@@ -81,8 +81,8 @@ IReadOnlyList<VortexResult> results = vortexList;
 Subscribe to a `QuoteHub` for advanced streaming scenarios:
 
 ```csharp
-QuoteHub<Quote> quoteHub = new();
-VortexHub<Quote> observer = quoteHub.ToVortex(lookbackPeriods);
+QuoteHub quoteHub = new();
+VortexHub observer = quoteHub.ToVortexHub(lookbackPeriods);
 
 foreach (Quote quote in quotes)  // simulating stream
 {

@@ -89,8 +89,8 @@ IReadOnlyList<StarcBandsResult> results = starcBandsList;
 Subscribe to a `QuoteHub` for advanced streaming scenarios:
 
 ```csharp
-QuoteHub<Quote> quoteHub = new();
-StarcBandsHub<Quote> observer = quoteHub.ToStarcBands(smaPeriods, multiplier, atrPeriods);
+QuoteHub quoteHub = new();
+StarcBandsHub observer = quoteHub.ToStarcBandsHub(smaPeriods, multiplier, atrPeriods);
 
 foreach (Quote quote in quotes)  // simulating stream
 {

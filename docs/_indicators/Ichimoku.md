@@ -123,8 +123,8 @@ IReadOnlyList<IchimokuResult> results = ichimokuList;
 Subscribe to a `QuoteHub` for advanced streaming scenarios:
 
 ```csharp
-QuoteHub<Quote> quoteHub = new();
-IchimokuHub<Quote> observer = quoteHub.ToIchimoku(tenkanPeriods, kijunPeriods, senkouBPeriods);
+QuoteHub quoteHub = new();
+IchimokuHub observer = quoteHub.ToIchimokuHub(tenkanPeriods, kijunPeriods, senkouBPeriods);
 
 foreach (Quote quote in quotes)  // simulating stream
 {

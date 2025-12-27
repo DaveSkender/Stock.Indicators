@@ -72,8 +72,8 @@ IReadOnlyList<DojiResult> results = dojiList;
 Subscribe to a `QuoteHub` for advanced streaming scenarios:
 
 ```csharp
-QuoteHub<Quote> quoteHub = new();
-DojiHub<Quote> observer = quoteHub.ToDoji(maxPriceChangePercent);
+QuoteHub quoteHub = new();
+DojiHub observer = quoteHub.ToDojiHub(maxPriceChangePercent);
 
 foreach (Quote quote in quotes)  // simulating stream
 {

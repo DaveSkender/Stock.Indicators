@@ -102,8 +102,8 @@ IReadOnlyList<StdDevResult> results = stdDevList;
 Subscribe to a `QuoteHub` for advanced streaming scenarios:
 
 ```csharp
-QuoteHub<Quote> quoteHub = new();
-StdDevHub<Quote> observer = quoteHub.ToStdDev(lookbackPeriods);
+QuoteHub quoteHub = new();
+StdDevHub observer = quoteHub.ToStdDevHub(lookbackPeriods);
 
 foreach (Quote quote in quotes)  // simulating stream
 {
