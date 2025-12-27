@@ -37,5 +37,12 @@ public static partial class AtrStop
             .WithMethodName("ToAtrStopHub")
             .Build();
 
-    // No BufferListing for ATR-STOP.
+    /// <summary>
+    /// ATR-STOP Buffer Listing
+    /// </summary>
+    internal static readonly IndicatorListing BufferListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Buffer)
+            .WithMethodName("ToAtrStopList")
+            .Build();
 }

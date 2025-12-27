@@ -27,6 +27,21 @@ public static partial class Prs
             .WithMethodName("ToPrs")
             .Build();
 
-    // No StreamListing for PRS.
-    // No BufferListing for PRS.
+    /// <summary>
+    /// Price Relative Strength Stream Listing
+    /// </summary>
+    internal static readonly IndicatorListing StreamListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Stream)
+            .WithMethodName("ToPrsHub")
+            .Build();
+
+    /// <summary>
+    /// Price Relative Strength Buffer Listing
+    /// </summary>
+    internal static readonly IndicatorListing BufferListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Buffer)
+            .WithMethodName("ToPrsList")
+            .Build();
 }
