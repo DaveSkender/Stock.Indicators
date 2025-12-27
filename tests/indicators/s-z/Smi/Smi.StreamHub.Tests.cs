@@ -45,7 +45,7 @@ public class SmiHubTest : StreamHubTestBase, ITestQuoteObserver, ITestChainProvi
 
         // late arrival, should equal series
         quoteHub.Insert(quotesList[80]);
-        actuals.Should().BeEquivalentTo(expectedOriginal, static options => options.WithStrictOrdering());
+        actuals.IsExactly(expectedOriginal);
 
         // delete, should equal series (revised)
         quoteHub.Remove(quotesList[removeAtIndex]);
@@ -54,7 +54,7 @@ public class SmiHubTest : StreamHubTestBase, ITestQuoteObserver, ITestChainProvi
             lookbackPeriods, firstSmoothPeriods, secondSmoothPeriods, signalPeriods);
 
         actuals.Should().HaveCount(501);
-        actuals.Should().BeEquivalentTo(expectedRevised, static options => options.WithStrictOrdering());
+        actuals.IsExactly(expectedRevised);
 
         // cleanup
         observer.Unsubscribe();
@@ -94,7 +94,7 @@ public class SmiHubTest : StreamHubTestBase, ITestQuoteObserver, ITestChainProvi
             .ToEma(emaPeriods);
 
         streamList.Should().HaveCount(seriesList.Count);
-        streamList.Should().BeEquivalentTo(seriesList, static o => o.WithStrictOrdering());
+        streamList.IsExactly(seriesList);
 
         observer.Unsubscribe();
         quoteHub.EndTransmission();
@@ -139,7 +139,7 @@ public class SmiHubTest : StreamHubTestBase, ITestQuoteObserver, ITestChainProvi
             secondSmoothPeriods,
             signalPeriods);
 
-        observer.Cache.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
+        observer.Cache.IsExactly(expected);
     }
 
     [TestMethod]
@@ -212,7 +212,7 @@ public class SmiHubTest : StreamHubTestBase, ITestQuoteObserver, ITestChainProvi
 
         // compare results with strict ordering
         streamObserver.Cache.Should().HaveCount(batchResults.Count);
-        streamObserver.Cache.Should().BeEquivalentTo(batchResults, static options => options.WithStrictOrdering());
+        streamObserver.Cache.IsExactly(batchResults);
     }
 
     [TestMethod]
@@ -238,7 +238,7 @@ public class SmiHubTest : StreamHubTestBase, ITestQuoteObserver, ITestChainProvi
             signalPeriods);
 
         observer.Cache.Should().HaveCount(Quotes.Count);
-        observer.Cache.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
+        observer.Cache.IsExactly(expected);
     }
 
     [TestMethod]

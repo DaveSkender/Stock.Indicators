@@ -21,7 +21,7 @@ public class FisherTransform : BufferListTestBase, ITestChainBufferList
         foreach (Quote q in Quotes) { sut.Add(q); }
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
+        sut.IsExactly(series);
     }
 
     [TestMethod]
@@ -33,7 +33,7 @@ public class FisherTransform : BufferListTestBase, ITestChainBufferList
             = Quotes.ToFisherTransform(lookbackPeriods);
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
+        sut.IsExactly(series);
     }
 
     [TestMethod]
@@ -42,7 +42,7 @@ public class FisherTransform : BufferListTestBase, ITestChainBufferList
         FisherTransformList sut = new(lookbackPeriods, Quotes);
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
+        sut.IsExactly(series);
     }
 
     [TestMethod]
@@ -60,7 +60,7 @@ public class FisherTransform : BufferListTestBase, ITestChainBufferList
             = series.Skip(series.Count - maxListSize).ToList();
 
         sut.Should().HaveCount(maxListSize);
-        sut.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
+        sut.IsExactly(expected);
     }
 
     [TestMethod]
@@ -72,7 +72,7 @@ public class FisherTransform : BufferListTestBase, ITestChainBufferList
         FisherTransformList sut = new(lookbackPeriods, subset);
 
         sut.Should().HaveCount(subset.Count);
-        sut.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
+        sut.IsExactly(expected);
 
         sut.Clear();
 
@@ -81,7 +81,7 @@ public class FisherTransform : BufferListTestBase, ITestChainBufferList
         sut.Add(subset);
 
         sut.Should().HaveCount(expected.Count);
-        sut.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
+        sut.IsExactly(expected);
     }
 
     [TestMethod]
@@ -99,7 +99,7 @@ public class FisherTransform : BufferListTestBase, ITestChainBufferList
         IReadOnlyList<FisherTransformResult> reusableSeries = reusables.ToFisherTransform(lookbackPeriods);
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(reusableSeries, static options => options.WithStrictOrdering());
+        sut.IsExactly(reusableSeries);
     }
 
     [TestMethod]
@@ -114,7 +114,7 @@ public class FisherTransform : BufferListTestBase, ITestChainBufferList
 
         // FisherTransform with IReusable derived from IQuote should use HL2, same as IQuote
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
+        sut.IsExactly(series);
     }
 
     [TestMethod]
@@ -124,6 +124,6 @@ public class FisherTransform : BufferListTestBase, ITestChainBufferList
 
         // FisherTransform with IReusable derived from IQuote should use HL2, same as IQuote
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
+        sut.IsExactly(series);
     }
 }

@@ -15,8 +15,23 @@ public class CorrelationTests : RegressionTestBase<CorrResult>
     }
 
     [TestMethod]
-    public override void Buffer() => Assert.Inconclusive("Buffer implementation not yet available");
+    public override void Buffer()
+    {
+        IReadOnlyList<IReusable> sourceEval = Quotes.Cast<IReusable>().ToList();
+        IReadOnlyList<IReusable> sourceMrkt = Quotes.Cast<IReusable>().ToList();
+        sourceEval.ToCorrelationList(sourceMrkt, 50).IsExactly(Expected);
+    }
 
     [TestMethod]
-    public override void Stream() => Assert.Inconclusive("Stream implementation has dual-provider synchronization issues - requires architectural review");
+    public override void Stream()
+    {
+        // Create two separate quote hubs for dual-provider pattern
+        QuoteHub quoteHubEval = new();
+        QuoteHub quoteHubMrkt = new();
+
+        quoteHubEval.Add(Quotes);
+        quoteHubMrkt.Add(Quotes);
+
+        quoteHubEval.ToCorrelationHub(quoteHubMrkt, 50).Results.IsExactly(Expected);
+    }
 }

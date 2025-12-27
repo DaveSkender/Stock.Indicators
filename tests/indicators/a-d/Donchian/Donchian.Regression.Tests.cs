@@ -9,8 +9,8 @@ public class DonchianTests : RegressionTestBase<DonchianResult>
     public override void Series() => Quotes.ToDonchian(20).IsExactly(Expected);
 
     [TestMethod]
-    public override void Buffer() => Assert.Inconclusive("Buffer implementation not yet available");
+    public override void Buffer() => new DonchianList(20) { Quotes }.IsExactly(Expected);
 
     [TestMethod]
-    public override void Stream() => Assert.Inconclusive("Stream implementation not yet available");
+    public override void Stream() => QuoteHub.ToDonchianHub(20).Results.IsExactly(Expected);
 }

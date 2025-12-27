@@ -20,7 +20,7 @@ public class Renko : BufferListTestBase, ITestQuoteBufferList
         }
 
         sut.Should().HaveCount(series.Count);
-        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
+        sut.IsExactly(series);
     }
 
     [TestMethod]
@@ -29,7 +29,7 @@ public class Renko : BufferListTestBase, ITestQuoteBufferList
         RenkoList sut = new(brickSize, endType) { Quotes };
 
         sut.Should().HaveCount(series.Count);
-        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
+        sut.IsExactly(series);
     }
 
     [TestMethod]
@@ -38,7 +38,7 @@ public class Renko : BufferListTestBase, ITestQuoteBufferList
         RenkoList sut = new(brickSize, endType, Quotes);
 
         sut.Should().HaveCount(series.Count);
-        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
+        sut.IsExactly(series);
     }
 
     [TestMethod]
@@ -62,7 +62,7 @@ public class Renko : BufferListTestBase, ITestQuoteBufferList
         IReadOnlyList<RenkoResult> expected = subset.ToRenko(brickSize, endType);
 
         sut.Should().HaveCount(expected.Count);
-        sut.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
+        sut.IsExactly(expected);
     }
 
     [TestMethod]
@@ -83,6 +83,6 @@ public class Renko : BufferListTestBase, ITestQuoteBufferList
             = series.Skip(series.Count - maxListSize).ToList();
 
         sut.Should().HaveCount(maxListSize);
-        sut.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
+        sut.IsExactly(expected);
     }
 }
