@@ -72,4 +72,28 @@ public static class Reusable
     /// <returns>A reusable type.</returns>
     internal static IReusable ToReusable(this IQuote q, CandlePart candlePart)
         => q.ToQuotePart(candlePart);
+
+    /// <summary>
+    /// Creates a new array containing the double values from each element in the specified list.
+    /// </summary>
+    /// <param name="source">
+    /// The list of <see cref="IReusable"/> objects to extract values from. Cannot be null.
+    /// </param>
+    /// <returns>
+    /// An array of double values corresponding to the <c>Value</c> property of each element in <paramref
+    /// name="source"/>. The array will be empty if <paramref name="source"/> contains no elements.
+    /// </returns>
+    internal static double[] ToValueArray(
+        this IReadOnlyList<IReusable> source)
+    {
+        int length = source.Count;
+        double[] values = new double[length];
+
+        for (int i = 0; i < length; i++)
+        {
+            values[i] = source[i].Value;
+        }
+
+        return values;
+    }
 }

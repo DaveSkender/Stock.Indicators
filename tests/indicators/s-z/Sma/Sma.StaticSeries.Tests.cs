@@ -1,7 +1,7 @@
 namespace StaticSeries;
 
 [TestClass]
-public partial class Sma : StaticSeriesTestBase
+public partial class SmaTests : StaticSeriesTestBase
 {
     [TestMethod]
     public override void DefaultParameters_ReturnsExpectedResults()
@@ -227,4 +227,130 @@ public partial class Sma : StaticSeriesTestBase
             .Should()
             .ThrowExactly<ArgumentOutOfRangeException>();
     }
+
+    /// <summary>
+    /// Precision drift comparison between brute force, rolling sum, and SIMD methods.
+    /// Uses the longest available dataset (15,821 S and P 500 daily bars) to demonstrate
+    /// floating-point accumulation errors over time in different optimization approaches.
+    /// Uses decimal calculation as the precision baseline for comparison.
+    /// </summary>
+    [TestMethod]
+    public void PrecisionComparison_RollingSumVsBruteForce()
+    {
+        // use longest dataset (~62 years of S&P 500 daily data, 15,821 bars)
+        double[] values = LongestQuotes.ToValueArray();
+        decimal[] decimalValues = LongestQuotes.Select(q => q.Close).ToArray();
+        const int lookbackPeriods = 20;
+        int length = values.Length;
+        List<PrecisionRecord> results = new(LongestQuotes.Count);
+
+        // allocate result arrays
+        double[] fullResults = new double[length];
+        double[] loopResults = new double[length];
+        double[] rollResults = new double[length];
+        double[] simdResults = new double[length];
+
+        double rollingSum = double.NaN;
+
+        // calculate all methods
+        for (int i = 0; i < length; i++)
+        {
+            // decimal baseline (highest precision)
+            if (i >= lookbackPeriods - 1)
+            {
+                decimal sum = 0m;
+                for (int j = i - lookbackPeriods + 1; j <= i; j++)
+                {
+                    sum += decimalValues[j];
+                }
+
+                fullResults[i] = (double)(sum / lookbackPeriods);
+            }
+            else
+            {
+                fullResults[i] = double.NaN;
+            }
+
+            // double-based methods
+            loopResults[i] = Sma.Increment(
+                source: values,
+                lookbackPeriods: lookbackPeriods,
+                endIndex: i);
+
+            (double average, double newSum, double dropValue) = Sma.Increment(
+                source: values,
+                lookbackPeriods: lookbackPeriods,
+                endIndex: i,
+                priorSum: rollingSum);
+
+            rollingSum = newSum;
+            rollResults[i] = average;
+
+            simdResults[i] = Sma.IncrementSimd(
+                source: values,
+                lookbackPeriods: lookbackPeriods,
+                endIndex: i);
+
+            // record precision differences compared to decimal baseline
+            results.Add(new PrecisionRecord(
+                Timestamp: LongestQuotes[i].Timestamp,
+                Index: i,
+                Full: fullResults[i],
+                Loop: loopResults[i],
+                Roll: rollResults[i],
+                Simd: simdResults[i],
+                LoopDiff: loopResults[i] - fullResults[i],
+                RollDiff: rollResults[i] - fullResults[i],
+                SimdDiff: simdResults[i] - fullResults[i]));
+        }
+
+        results.TakeLast(50).ToList().ToConsole(("LoopDiff", "F16"), ("RollDiff", "F16"), ("SimdDiff", "F16"));
+
+        // Analyze precision differences
+        List<PrecisionRecord> warmedUp = results.Skip(lookbackPeriods).ToList();
+
+        double maxLoopDiff = warmedUp.Max(r => Math.Abs(r.LoopDiff));
+        double maxRollDiff = warmedUp.Max(r => Math.Abs(r.RollDiff));
+        double maxSimdDiff = warmedUp.Max(r => Math.Abs(r.SimdDiff));
+
+        double avgLoopDiff = warmedUp.Average(r => Math.Abs(r.LoopDiff));
+        double avgRollDiff = warmedUp.Average(r => Math.Abs(r.RollDiff));
+        double avgSimdDiff = warmedUp.Average(r => Math.Abs(r.SimdDiff));
+
+        // Get sample data points for inspection
+        PrecisionRecord last = results[^1];
+        PrecisionRecord middle = results[length / 2];
+        PrecisionRecord afterWarmup = results[lookbackPeriods + 100];
+
+        // Build diagnostic message
+        string diagnostics = "\n" +
+            "Precision Analysis (vs Decimal Baseline):\n" +
+            $"{'=',-70}\n" +
+            "Method   Max Abs Error    Avg Abs Error\n" +
+            $"{'-',-70}\n" +
+            $"Loop     {maxLoopDiff,-16:E9}  {avgLoopDiff,-16:E9}\n" +
+            $"Roll     {maxRollDiff,-16:E9}  {avgRollDiff,-16:E9}\n" +
+            $"Simd     {maxSimdDiff,-16:E9}  {avgSimdDiff,-16:E9}\n\n" +
+            "Sample Points:\n" +
+            $"{'-',-70}\n" +
+            $"After Warmup (index {afterWarmup.Index}):\n" +
+            $"  Loop: {afterWarmup.LoopDiff,18:E9}  Roll: {afterWarmup.RollDiff,18:E9}  Simd: {afterWarmup.SimdDiff,18:E9}\n" +
+            $"Middle (index {middle.Index}):\n" +
+            $"  Loop: {middle.LoopDiff,18:E9}  Roll: {middle.RollDiff,18:E9}  Simd: {middle.SimdDiff,18:E9}\n" +
+            $"Last (index {last.Index}):\n" +
+            $"  Loop: {last.LoopDiff,18:E9}  Roll: {last.RollDiff,18:E9}  Simd: {last.SimdDiff,18:E9}\n";
+
+        Assert.Inconclusive(diagnostics);
+    }
+
+    private record PrecisionRecord(
+        DateTime Timestamp,
+        int Index,
+        double Full,
+        double Loop,
+        double Roll,
+        double Simd,
+        double LoopDiff,
+        double RollDiff,
+        double SimdDiff) : ISeries;
 }
