@@ -158,10 +158,10 @@ public partial class SmaTests : StaticSeriesTestBase
     public void ArrayInterface_DefaultParameters()
     {
         // convert quotes to array
-        double[] values = Quotes.Select(static q => (double)q.Close).ToArray();
+        double[] values = Quotes.ToValueArray();
 
         // calculate using array method
-        double[] sut = values.ToSma(20);
+        double[] sut = values.ToSmaArrayLoop(20);
 
         // proper quantities
         sut.Should().HaveCount(502);
@@ -183,7 +183,7 @@ public partial class SmaTests : StaticSeriesTestBase
         double[] values = Quotes.Select(static q => (double)q.Close).ToArray();
 
         // calculate using both methods
-        double[] arrayResults = values.ToSma(10);
+        double[] arrayResults = values.ToSmaArrayLoop(10);
         IReadOnlyList<SmaResult> objectResults = Quotes.ToSma(10);
 
         // ensure results match
@@ -206,24 +206,24 @@ public partial class SmaTests : StaticSeriesTestBase
     public void ArrayInterface_EmptyArray()
     {
         double[] empty = [];
-        double[] sut = empty.ToSma(5);
+        double[] sut = empty.ToSmaArrayLoop(5);
         sut.Should().BeEmpty();
     }
 
     [TestMethod]
     public void ArrayInterface_Exceptions()
     {
-        double[] values = Quotes.Select(static q => (double)q.Close).ToArray();
+        double[] values = Quotes.ToValueArray();
 
         // null array
         FluentActions
-            .Invoking(static () => ((double[])null!).ToSma(10))
+            .Invoking(static () => ((double[])null!).ToSmaArrayLoop(10))
             .Should()
             .ThrowExactly<ArgumentNullException>();
 
         // invalid lookback
         FluentActions
-            .Invoking(() => values.ToSma(0))
+            .Invoking(() => values.ToSmaArrayLoop(0))
             .Should()
             .ThrowExactly<ArgumentOutOfRangeException>();
     }

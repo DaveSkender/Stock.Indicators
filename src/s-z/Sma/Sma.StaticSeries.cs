@@ -23,12 +23,58 @@ public static partial class Sma
 
         // initialize
         int length = source.Count;
+        SmaResult[] results = new SmaResult[length];
+
+        for (int i = 0; i < length; i++)
+        {
+            IReusable s = source[i];
+
+            double sma;
+
+            if (i >= lookbackPeriods - 1)
+            {
+                double sum = 0;
+                int end = i + 1;
+                int start = end - lookbackPeriods;
+
+                for (int p = start; p < end; p++)
+                {
+                    sum += source[p].Value;
+                }
+
+                sma = sum / lookbackPeriods;
+            }
+            else
+            {
+                sma = double.NaN;
+            }
+
+            results[i] = new SmaResult(
+                Timestamp: s.Timestamp,
+                Sma: sma.NaN2Null()); results[i] = new SmaResult(
+                Timestamp: source[i].Timestamp,
+                Sma: sma.NaN2Null());
+        }
+
+        return results;
+    }
+
+    public static IReadOnlyList<SmaResult> ToSmaArray(
+        this IReadOnlyList<IReusable> source,
+        int lookbackPeriods)
+    {
+        // check parameter arguments
+        ArgumentNullException.ThrowIfNull(source);
+        Validate(lookbackPeriods);
+
+        // initialize
+        int length = source.Count;
 
         // convert to array of values
         double[] srcValues = source.ToValueArray();
 
         // calculate using array-based method
-        double[] smaValues = srcValues.ToSma(lookbackPeriods);
+        double[] smaValues = srcValues.ToSmaArrayLoop(lookbackPeriods);
 
         // convert back to result objects
         SmaResult[] results = new SmaResult[length];
@@ -52,7 +98,28 @@ public static partial class Sma
     /// <returns>An array of SMA values with the same length as the input, where values before the lookback period are NaN.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the source array is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback period is less than 1.</exception>
-    public static double[] ToSma(
+    public static double[] ToSmaArrayLoop(
+        this double[] source,
+        int lookbackPeriods)
+    {
+        // check parameter arguments
+        ArgumentNullException.ThrowIfNull(source);
+        Validate(lookbackPeriods);
+
+        // initialize
+        int length = source.Length;
+        double[] results = new double[length];
+
+        // roll through source values
+        for (int i = 0; i < length; i++)
+        {
+            results[i] = Sma.Increment(source, lookbackPeriods, i);
+        }
+
+        return results;
+    }
+
+    public static double[] ToSmaArrayRoll(
         this double[] source,
         int lookbackPeriods)
     {
@@ -68,16 +135,10 @@ public static partial class Sma
         // roll through source values
         for (int i = 0; i < length; i++)
         {
-            if (i < lookbackPeriods - 1)
-            {
-                results[i] = double.NaN;
-            }
-            else
-            {
-                (results[i], sum, _) = Increment(source, lookbackPeriods, i, sum);
-            }
+            (results[i], sum, _) = Increment(source, lookbackPeriods, i, sum);
         }
 
         return results;
     }
+
 }
