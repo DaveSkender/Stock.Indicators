@@ -108,8 +108,8 @@ IReadOnlyList<RollingPivotsResult> results = rollingPivotsList;
 Subscribe to a `QuoteHub` for advanced streaming scenarios:
 
 ```csharp
-QuoteHub<Quote> quoteHub = new();
-RollingPivotsHub<Quote> observer = quoteHub.ToRollingPivots(windowPeriods, offsetPeriods, pointType);
+QuoteHub quoteHub = new();
+RollingPivotsHub observer = quoteHub.ToRollingPivotsHub(windowPeriods, offsetPeriods, pointType);
 
 foreach (Quote quote in quotes)  // simulating stream
 {

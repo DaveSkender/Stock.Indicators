@@ -72,8 +72,8 @@ IReadOnlyList<MarubozuResult> results = marubozuList;
 Subscribe to a `QuoteHub` for advanced streaming scenarios:
 
 ```csharp
-QuoteHub<Quote> quoteHub = new();
-MarubozuHub<Quote> observer = quoteHub.ToMarubozu(minBodyPercent);
+QuoteHub quoteHub = new();
+MarubozuHub observer = quoteHub.ToMarubozuHub(minBodyPercent);
 
 foreach (Quote quote in quotes)  // simulating stream
 {

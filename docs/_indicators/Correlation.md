@@ -125,8 +125,8 @@ IReadOnlyList<CorrResult> results = correlationList;
 Subscribe to dual `QuoteHub` providers for advanced streaming scenarios:
 
 ```csharp
-QuoteHub<Quote> quoteHubA = new();
-QuoteHub<Quote> quoteHubB = new();
+QuoteHub quoteHubA = new();
+QuoteHub quoteHubB = new();
 
 // Add quotes to both hubs
 quoteHubA.Add(quotesA);

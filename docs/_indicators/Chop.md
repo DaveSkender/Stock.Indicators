@@ -87,8 +87,8 @@ IReadOnlyList<ChopResult> results = chopList;
 Subscribe to a `QuoteHub` for advanced streaming scenarios:
 
 ```csharp
-QuoteHub<Quote> quoteHub = new();
-ChopHub<Quote> observer = quoteHub.ToChop(lookbackPeriods);
+QuoteHub quoteHub = new();
+ChopHub observer = quoteHub.ToChopHub(lookbackPeriods);
 
 foreach (Quote quote in quotes)  // simulating stream
 {

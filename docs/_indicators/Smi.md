@@ -100,8 +100,8 @@ IReadOnlyList<SmiResult> results = smiList;
 Subscribe to a `QuoteHub` for advanced streaming scenarios:
 
 ```csharp
-QuoteHub<Quote> quoteHub = new();
-SmiHub<Quote> observer = quoteHub.ToSmi(lookbackPeriods, firstSmoothPeriods,
+QuoteHub quoteHub = new();
+SmiHub observer = quoteHub.ToSmiHub(lookbackPeriods, firstSmoothPeriods,
                  secondSmoothPeriods, signalPeriods);
 
 foreach (Quote quote in quotes)  // simulating stream

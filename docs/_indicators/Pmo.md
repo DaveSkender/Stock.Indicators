@@ -103,8 +103,8 @@ IReadOnlyList<PmoResult> results = pmoList;
 Subscribe to a `QuoteHub` for advanced streaming scenarios:
 
 ```csharp
-QuoteHub<Quote> quoteHub = new();
-PmoHub<Quote> observer = quoteHub.ToPmo(timePeriods, smoothPeriods, signalPeriods);
+QuoteHub quoteHub = new();
+PmoHub observer = quoteHub.ToPmoHub(timePeriods, smoothPeriods, signalPeriods);
 
 foreach (Quote quote in quotes)  // simulating stream
 {

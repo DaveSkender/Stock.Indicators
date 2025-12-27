@@ -95,8 +95,8 @@ IReadOnlyList<UlcerIndexResult> results = ulcerIndexList;
 Subscribe to a `QuoteHub` for advanced streaming scenarios:
 
 ```csharp
-QuoteHub<Quote> quoteHub = new();
-UlcerIndexHub<Quote> observer = quoteHub.ToUlcerIndex(lookbackPeriods);
+QuoteHub quoteHub = new();
+UlcerIndexHub observer = quoteHub.ToUlcerIndexHub(lookbackPeriods);
 
 foreach (Quote quote in quotes)  // simulating stream
 {

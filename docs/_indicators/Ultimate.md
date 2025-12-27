@@ -92,8 +92,8 @@ IReadOnlyList<UltimateResult> results = ultimateList;
 Subscribe to a `QuoteHub` for advanced streaming scenarios:
 
 ```csharp
-QuoteHub<Quote> quoteHub = new();
-UltimateHub<Quote> observer = quoteHub.ToUltimate(shortPeriods, middlePeriods, longPeriods);
+QuoteHub quoteHub = new();
+UltimateHub observer = quoteHub.ToUltimateHub(shortPeriods, middlePeriods, longPeriods);
 
 foreach (Quote quote in quotes)  // simulating stream
 {

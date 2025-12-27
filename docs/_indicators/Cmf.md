@@ -94,8 +94,8 @@ IReadOnlyList<CmfResult> results = cmfList;
 Subscribe to a `QuoteHub` for advanced streaming scenarios:
 
 ```csharp
-QuoteHub<Quote> quoteHub = new();
-CmfHub<Quote> observer = quoteHub.ToCmf(lookbackPeriods);
+QuoteHub quoteHub = new();
+CmfHub observer = quoteHub.ToCmfHub(lookbackPeriods);
 
 foreach (Quote quote in quotes)  // simulating stream
 {

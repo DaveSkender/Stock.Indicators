@@ -100,8 +100,8 @@ IReadOnlyList<ChaikinOscResult> results = chaikinOscList;
 Subscribe to a `QuoteHub` for advanced streaming scenarios:
 
 ```csharp
-QuoteHub<Quote> quoteHub = new();
-ChaikinOscHub<Quote> observer = quoteHub.ToChaikinOsc(fastPeriods, slowPeriods);
+QuoteHub quoteHub = new();
+ChaikinOscHub observer = quoteHub.ToChaikinOscHub(fastPeriods, slowPeriods);
 
 foreach (Quote quote in quotes)  // simulating stream
 {

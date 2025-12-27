@@ -98,8 +98,8 @@ IReadOnlyList<AdxResult> results = adxList;
 Subscribe to a `QuoteHub` for advanced streaming scenarios:
 
 ```csharp
-QuoteHub<Quote> quoteHub = new();
-AdxHub<Quote> observer = quoteHub.ToAdx(lookbackPeriods);
+QuoteHub quoteHub = new();
+AdxHub observer = quoteHub.ToAdxHub(lookbackPeriods);
 
 foreach (Quote quote in quotes)  // simulating stream
 {

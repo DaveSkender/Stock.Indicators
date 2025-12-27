@@ -95,8 +95,8 @@ IReadOnlyList<CmoResult> results = cmoList;
 Subscribe to a `QuoteHub` for advanced streaming scenarios:
 
 ```csharp
-QuoteHub<Quote> quoteHub = new();
-CmoHub<Quote> observer = quoteHub.ToCmo(lookbackPeriods);
+QuoteHub quoteHub = new();
+CmoHub observer = quoteHub.ToCmoHub(lookbackPeriods);
 
 // stream quotes into provider
 foreach (Quote quote in quotes)
