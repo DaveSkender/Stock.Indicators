@@ -35,5 +35,12 @@ public static partial class Slope
             .WithMethodName("ToSlopeList")
             .Build();
 
-    // No StreamListing for Slope.
+    /// <summary>
+    /// Slope Stream Listing
+    /// </summary>
+    internal static readonly IndicatorListing StreamListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Stream)
+            .WithMethodName("ToSlopeHub")
+            .Build();
 }
