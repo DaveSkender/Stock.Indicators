@@ -59,6 +59,10 @@ public static partial class Sma
         return results;
     }
 
+    /// <remarks>
+    /// EXPERIMENTAL: Internal conversion to/from array looping method.
+    /// </remarks>
+    /// <inheritdoc cref="ToSma(IReadOnlyList{IReusable}, int)"/>
     public static IReadOnlyList<SmaResult> ToSmaArray(
         this IReadOnlyList<IReusable> source,
         int lookbackPeriods)
@@ -89,15 +93,10 @@ public static partial class Sma
         return results;
     }
 
-    /// <summary>
-    /// Calculates the Simple Moving Average (SMA) for a given array of values and lookback period.
-    /// This is an experimental high-performance method that operates on arrays.
-    /// </summary>
-    /// <param name="source">The source array of values to analyze.</param>
-    /// <param name="lookbackPeriods">The number of periods to look back for the SMA calculation.</param>
-    /// <returns>An array of SMA values with the same length as the input, where values before the lookback period are NaN.</returns>
-    /// <exception cref="ArgumentNullException">Thrown when the source array is null.</exception>
-    /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback period is less than 1.</exception>
+    /// <remarks>
+    /// EXPERIMENTAL: Array I/O with looping sum.
+    /// </remarks>
+    /// <inheritdoc cref="ToSma(IReadOnlyList{IReusable}, int)"/>
     public static double[] ToSmaArrayLoop(
         this double[] source,
         int lookbackPeriods)
@@ -119,6 +118,10 @@ public static partial class Sma
         return results;
     }
 
+    /// <remarks>
+    /// EXPERIMENTAL: Array I/O with rolling sum.
+    /// </remarks>
+    /// <inheritdoc cref="ToSma(IReadOnlyList{IReusable}, int)"/>
     public static double[] ToSmaArrayRoll(
         this double[] source,
         int lookbackPeriods)
