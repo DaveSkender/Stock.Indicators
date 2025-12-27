@@ -32,5 +32,12 @@ public static partial class Marubozu
             .WithMethodName("ToMarubozuHub")
             .Build();
 
-    // No BufferListing for MARUBOZU.
+    /// <summary>
+    /// MARUBOZU Buffer Listing
+    /// </summary>
+    internal static readonly IndicatorListing BufferListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Buffer)
+            .WithMethodName("ToMarubozuList")
+            .Build();
 }

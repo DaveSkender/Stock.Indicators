@@ -25,6 +25,21 @@ public static partial class Awesome
             .WithMethodName("ToAwesome")
             .Build();
 
-    // No StreamListing for AWESOME.
-    // No BufferListing for AWESOME.
+    /// <summary>
+    /// AWESOME Stream Listing
+    /// </summary>
+    internal static readonly IndicatorListing StreamListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Stream)
+            .WithMethodName("ToAwesomeHub")
+            .Build();
+
+    /// <summary>
+    /// AWESOME Buffer Listing
+    /// </summary>
+    internal static readonly IndicatorListing BufferListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Buffer)
+            .WithMethodName("ToAwesomeList")
+            .Build();
 }
