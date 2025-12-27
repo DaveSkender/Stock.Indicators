@@ -32,5 +32,12 @@ public static partial class Chop
             .WithMethodName("ToChopHub")
             .Build();
 
-    // No BufferListing for CHOP.
+    /// <summary>
+    /// CHOP Buffer Listing
+    /// </summary>
+    internal static readonly IndicatorListing BufferListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Buffer)
+            .WithMethodName("ToChopList")
+            .Build();
 }

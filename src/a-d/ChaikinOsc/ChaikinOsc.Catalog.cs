@@ -27,6 +27,21 @@ public static partial class ChaikinOsc
             .WithMethodName("ToChaikinOsc")
             .Build();
 
-    // No StreamListing for CHAIKIN-OSC.
-    // No BufferListing for CHAIKIN-OSC.
+    /// <summary>
+    /// CHAIKIN-OSC Stream Listing
+    /// </summary>
+    internal static readonly IndicatorListing StreamListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Stream)
+            .WithMethodName("ToChaikinOscHub")
+            .Build();
+
+    /// <summary>
+    /// CHAIKIN-OSC Buffer Listing
+    /// </summary>
+    internal static readonly IndicatorListing BufferListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Buffer)
+            .WithMethodName("ToChaikinOscList")
+            .Build();
 }
