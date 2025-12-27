@@ -18,12 +18,6 @@ layout: indicator
 // C# usage syntax
 IReadOnlyList<ZigZagResult> results =
   quotes.ToZigZag(endType, percentChange);
-
-// usage with buffers
-ZigZagList buffer = new(endType, percentChange);
-foreach(var quote in quotes) {
-  buffer.Add(quote);
-}
 ```
 
 ## Parameters
