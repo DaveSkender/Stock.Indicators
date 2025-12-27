@@ -37,7 +37,7 @@ public class HtTrendlineHubTests : StreamHubTestBase, ITestChainObserver, ITestC
 
         // late arrival, should equal series
         quoteHub.Insert(Quotes[80]);
-        actuals.Should().BeEquivalentTo(expectedOriginal, static options => options.WithStrictOrdering());
+        actuals.IsExactly(expectedOriginal);
 
         // delete, should equal series (revised)
         quoteHub.Remove(Quotes[removeAtIndex]);
@@ -45,7 +45,7 @@ public class HtTrendlineHubTests : StreamHubTestBase, ITestChainObserver, ITestC
         IReadOnlyList<HtlResult> expectedRevised = RevisedQuotes.ToHtTrendline();
 
         actuals.Should().HaveCount(501);
-        actuals.Should().BeEquivalentTo(expectedRevised, static options => options.WithStrictOrdering());
+        actuals.IsExactly(expectedRevised);
 
         // cleanup
         observer.Unsubscribe();
@@ -79,7 +79,7 @@ public class HtTrendlineHubTests : StreamHubTestBase, ITestChainObserver, ITestC
 
         // assert, should equal series
         actuals.Should().HaveCount(length);
-        actuals.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
+        actuals.IsExactly(expected);
 
         // cleanup
         observer.Unsubscribe();

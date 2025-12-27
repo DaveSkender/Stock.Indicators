@@ -20,7 +20,7 @@ public class PivotPoints : BufferListTestBase, ITestQuoteBufferList
         }
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
+        sut.IsExactly(series);
     }
 
     [TestMethod]
@@ -29,7 +29,7 @@ public class PivotPoints : BufferListTestBase, ITestQuoteBufferList
         PivotPointsList sut = Quotes.ToPivotPointsList(windowSize, pointType);
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
+        sut.IsExactly(series);
     }
 
     [TestMethod]
@@ -38,7 +38,7 @@ public class PivotPoints : BufferListTestBase, ITestQuoteBufferList
         PivotPointsList sut = new(windowSize, pointType, Quotes);
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
+        sut.IsExactly(series);
     }
 
     [TestMethod]
@@ -50,7 +50,7 @@ public class PivotPoints : BufferListTestBase, ITestQuoteBufferList
         PivotPointsList sut = new(windowSize, pointType, subset);
 
         sut.Should().HaveCount(subset.Count);
-        sut.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
+        sut.IsExactly(expected);
 
         sut.Clear();
 
@@ -59,7 +59,7 @@ public class PivotPoints : BufferListTestBase, ITestQuoteBufferList
         sut.Add(subset);
 
         sut.Should().HaveCount(expected.Count);
-        sut.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
+        sut.IsExactly(expected);
     }
 
     [TestMethod]
@@ -77,6 +77,6 @@ public class PivotPoints : BufferListTestBase, ITestQuoteBufferList
             = series.Skip(series.Count - maxListSize).ToList();
 
         sut.Should().HaveCount(maxListSize);
-        sut.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
+        sut.IsExactly(expected);
     }
 }

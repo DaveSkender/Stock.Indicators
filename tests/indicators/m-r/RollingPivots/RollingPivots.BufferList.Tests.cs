@@ -21,7 +21,7 @@ public class RollingPivots : BufferListTestBase, ITestQuoteBufferList
         }
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
+        sut.IsExactly(series);
     }
 
     [TestMethod]
@@ -30,7 +30,7 @@ public class RollingPivots : BufferListTestBase, ITestQuoteBufferList
         RollingPivotsList sut = new(windowPeriods, offsetPeriods, pointType) { Quotes };
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
+        sut.IsExactly(series);
     }
 
     [TestMethod]
@@ -39,7 +39,7 @@ public class RollingPivots : BufferListTestBase, ITestQuoteBufferList
         RollingPivotsList sut = new(windowPeriods, offsetPeriods, pointType, Quotes);
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
+        sut.IsExactly(series);
     }
 
     [TestMethod]
@@ -51,7 +51,7 @@ public class RollingPivots : BufferListTestBase, ITestQuoteBufferList
         RollingPivotsList sut = new(windowPeriods, offsetPeriods, pointType, subset);
 
         sut.Should().HaveCount(subset.Count);
-        sut.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
+        sut.IsExactly(expected);
 
         sut.Clear();
 
@@ -60,7 +60,7 @@ public class RollingPivots : BufferListTestBase, ITestQuoteBufferList
         sut.Add(subset);
 
         sut.Should().HaveCount(expected.Count);
-        sut.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
+        sut.IsExactly(expected);
     }
 
     [TestMethod]
@@ -79,7 +79,7 @@ public class RollingPivots : BufferListTestBase, ITestQuoteBufferList
             .ToList();
 
         sut.Should().HaveCount(maxListSize);
-        sut.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
+        sut.IsExactly(expected);
     }
 
     [TestMethod]
@@ -93,7 +93,7 @@ public class RollingPivots : BufferListTestBase, ITestQuoteBufferList
         RollingPivotsList sut = new(altWindowPeriods, altOffsetPeriods, altPointType) { Quotes };
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
+        sut.IsExactly(expected);
     }
 
     [TestMethod]

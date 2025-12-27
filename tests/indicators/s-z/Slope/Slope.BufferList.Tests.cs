@@ -24,7 +24,7 @@ public class Slope : BufferListTestBase, ITestChainBufferList
         }
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
+        sut.IsExactly(series);
     }
 
     [TestMethod]
@@ -33,7 +33,7 @@ public class Slope : BufferListTestBase, ITestChainBufferList
         SlopeList sut = new(lookbackPeriods) { Quotes };
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
+        sut.IsExactly(series);
     }
 
     [TestMethod]
@@ -42,7 +42,7 @@ public class Slope : BufferListTestBase, ITestChainBufferList
         SlopeList sut = new(lookbackPeriods, Quotes);
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
+        sut.IsExactly(series);
     }
 
     [TestMethod]
@@ -54,7 +54,7 @@ public class Slope : BufferListTestBase, ITestChainBufferList
         SlopeList sut = new(lookbackPeriods, subset);
 
         sut.Should().HaveCount(subset.Count);
-        sut.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
+        sut.IsExactly(expected);
 
         sut.Clear();
 
@@ -63,7 +63,7 @@ public class Slope : BufferListTestBase, ITestChainBufferList
         sut.Add(subset);
 
         sut.Should().HaveCount(expected.Count);
-        sut.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
+        sut.IsExactly(expected);
     }
 
     [TestMethod]
@@ -77,7 +77,7 @@ public class Slope : BufferListTestBase, ITestChainBufferList
         }
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
+        sut.IsExactly(series);
     }
 
     [TestMethod]
@@ -86,7 +86,7 @@ public class Slope : BufferListTestBase, ITestChainBufferList
         SlopeList sut = new(lookbackPeriods) { reusables };
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
+        sut.IsExactly(series);
     }
 
     [TestMethod]
@@ -100,7 +100,7 @@ public class Slope : BufferListTestBase, ITestChainBufferList
         }
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
+        sut.IsExactly(series);
     }
 
     [TestMethod]
@@ -119,7 +119,7 @@ public class Slope : BufferListTestBase, ITestChainBufferList
             .ToList();
 
         sut.Should().HaveCount(maxListSize);
-        sut.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
+        sut.IsExactly(expected);
     }
 
     [TestMethod]
@@ -150,6 +150,6 @@ public class Slope : BufferListTestBase, ITestChainBufferList
         // Verify the final result matches series implementation
         List<Quote> expectedBatch = Quotes.Take(lookbackPeriods + 6).ToList();
         IReadOnlyList<SlopeResult> expected = expectedBatch.ToSlope(lookbackPeriods);
-        sut.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
+        sut.IsExactly(expected);
     }
 }

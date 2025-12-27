@@ -26,7 +26,7 @@ public class ConnorsRsi : BufferListTestBase, ITestChainBufferList
         }
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
+        sut.IsExactly(series);
     }
 
     [TestMethod]
@@ -35,7 +35,7 @@ public class ConnorsRsi : BufferListTestBase, ITestChainBufferList
         ConnorsRsiList sut = Quotes.ToConnorsRsiList(rsiPeriods, streakPeriods, rankPeriods);
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
+        sut.IsExactly(series);
     }
 
     [TestMethod]
@@ -44,7 +44,7 @@ public class ConnorsRsi : BufferListTestBase, ITestChainBufferList
         ConnorsRsiList sut = new(rsiPeriods, streakPeriods, rankPeriods, Quotes);
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
+        sut.IsExactly(series);
     }
 
     [TestMethod]
@@ -58,7 +58,7 @@ public class ConnorsRsi : BufferListTestBase, ITestChainBufferList
         }
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
+        sut.IsExactly(series);
     }
 
     [TestMethod]
@@ -67,7 +67,7 @@ public class ConnorsRsi : BufferListTestBase, ITestChainBufferList
         ConnorsRsiList sut = new(rsiPeriods, streakPeriods, rankPeriods) { reusables };
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
+        sut.IsExactly(series);
     }
 
     [TestMethod]
@@ -81,7 +81,7 @@ public class ConnorsRsi : BufferListTestBase, ITestChainBufferList
         }
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
+        sut.IsExactly(series);
     }
 
     [TestMethod]
@@ -100,7 +100,7 @@ public class ConnorsRsi : BufferListTestBase, ITestChainBufferList
         ConnorsRsiList sut = new(rsiPeriods, streakPeriods, rankPeriods, subset);
 
         sut.Should().HaveCount(subset.Count);
-        sut.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
+        sut.IsExactly(expected);
 
         sut.Clear();
 
@@ -109,7 +109,7 @@ public class ConnorsRsi : BufferListTestBase, ITestChainBufferList
         sut.Add(subset);
 
         sut.Should().HaveCount(expected.Count);
-        sut.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
+        sut.IsExactly(expected);
     }
 
     [TestMethod]
@@ -128,6 +128,6 @@ public class ConnorsRsi : BufferListTestBase, ITestChainBufferList
             .ToList();
 
         sut.Should().HaveCount(maxListSize);
-        sut.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
+        sut.IsExactly(expected);
     }
 }
