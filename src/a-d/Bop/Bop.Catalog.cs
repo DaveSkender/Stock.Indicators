@@ -23,6 +23,21 @@ public static partial class Bop
             .WithMethodName("ToBop")
             .Build();
 
-    // No StreamListing for BOP.
-    // No BufferListing for BOP.
+    /// <summary>
+    /// BOP Stream Listing
+    /// </summary>
+    internal static readonly IndicatorListing StreamListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Stream)
+            .WithMethodName("ToBopHub")
+            .Build();
+
+    /// <summary>
+    /// BOP Buffer Listing
+    /// </summary>
+    internal static readonly IndicatorListing BufferListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Buffer)
+            .WithMethodName("ToBopList")
+            .Build();
 }
