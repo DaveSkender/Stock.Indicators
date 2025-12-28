@@ -51,13 +51,7 @@ public class BopList : BufferList<BopResult>, IIncrementFromQuote, IBop
         double? bop = null;
         if (_buffer.Count == SmoothPeriods)
         {
-            double sum = 0;
-            foreach (double val in _buffer)
-            {
-                sum += val;
-            }
-
-            bop = (sum / SmoothPeriods).NaN2Null();
+            bop = _buffer.Average().NaN2Null();
         }
 
         AddInternal(new BopResult(timestamp, bop));

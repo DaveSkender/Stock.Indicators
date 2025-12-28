@@ -93,8 +93,8 @@ IReadOnlyList<SmmaResult> results = smmaList;
 Subscribe to a `QuoteHub` for advanced streaming scenarios:
 
 ```csharp
-QuoteHub<Quote> quoteHub = new();
-SmmaHub<Quote> observer = quoteHub.ToSmma(lookbackPeriods);
+QuoteHub quoteHub = new();
+SmmaHub observer = quoteHub.ToSmmaHub(lookbackPeriods);
 
 foreach (Quote quote in quotes)  // simulating stream
 {

@@ -104,7 +104,7 @@ public class StreamObservables : TestBase, ITestChainProvider
 
         // assert, should equal series
         streamList.Should().HaveCount(Quotes.Count);
-        streamList.Should().BeEquivalentTo(seriesList);
+        streamList.IsExactly(seriesList);
 
         observer.Unsubscribe();
         quoteHub.EndTransmission();

@@ -9,8 +9,8 @@ public class TrTests : RegressionTestBase<TrResult>
     public override void Series() => Quotes.ToTr().IsExactly(Expected);
 
     [TestMethod]
-    public override void Buffer() => Assert.Inconclusive("Buffer implementation not yet available");
+    public override void Buffer() => Quotes.ToTrList().IsExactly(Expected);
 
     [TestMethod]
-    public override void Stream() => Assert.Inconclusive("Stream implementation not yet available");
+    public override void Stream() => QuoteHub.ToTrHub().Results.IsExactly(Expected);
 }

@@ -1,4 +1,4 @@
-namespace StreamHub;
+namespace StreamHubs;
 
 [TestClass]
 public class StdDevHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProvider
@@ -38,7 +38,7 @@ public class StdDevHubTests : StreamHubTestBase, ITestChainObserver, ITestChainP
 
         // late arrival, should equal series
         quoteHub.Insert(Quotes[80]);
-        actuals.Should().BeEquivalentTo(expectedOriginal, static options => options.WithStrictOrdering());
+        actuals.IsExactly(expectedOriginal);
 
         // delete, should equal series (revised)
         quoteHub.Remove(Quotes[removeAtIndex]);
@@ -46,7 +46,7 @@ public class StdDevHubTests : StreamHubTestBase, ITestChainObserver, ITestChainP
         IReadOnlyList<StdDevResult> expectedRevised = RevisedQuotes.ToStdDev(lookbackPeriods);
 
         actuals.Should().HaveCount(501);
-        actuals.Should().BeEquivalentTo(expectedRevised, static options => options.WithStrictOrdering());
+        actuals.IsExactly(expectedRevised);
 
         // cleanup
         observer.Unsubscribe();
@@ -81,7 +81,7 @@ public class StdDevHubTests : StreamHubTestBase, ITestChainObserver, ITestChainP
 
         // assert, should equal series
         actuals.Should().HaveCount(length);
-        actuals.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
+        actuals.IsExactly(expected);
 
         // cleanup
         observer.Unsubscribe();
@@ -133,7 +133,7 @@ public class StdDevHubTests : StreamHubTestBase, ITestChainObserver, ITestChainP
 
         // assert, should equal series
         actuals.Should().HaveCount(length - 1);
-        actuals.Should().BeEquivalentTo(seriesList);
+        actuals.IsExactly(seriesList);
 
         // cleanup
         observer.Unsubscribe();

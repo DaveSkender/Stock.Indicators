@@ -80,3 +80,33 @@ var results = quotes
 ```
 
 This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.
+
+## Streaming
+
+Use the buffer-style `List<T>` when you need incremental calculations without a hub:
+
+```csharp
+VolatilityStopList volatilityStopList = new(lookbackPeriods, multiplier);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  volatilityStopList.Add(quote);
+}
+
+// based on `ICollection<VolatilityStopResult>`
+IReadOnlyList<VolatilityStopResult> results = volatilityStopList;
+```
+
+Subscribe to a `QuoteHub` for advanced streaming scenarios:
+
+```csharp
+QuoteHub quoteHub = new();
+VolatilityStopHub observer = quoteHub.ToVolatilityStopHub(lookbackPeriods, multiplier);
+
+foreach (Quote quote in quotes)  // simulating stream
+{
+  quoteHub.Add(quote);
+}
+
+IReadOnlyList<VolatilityStopResult> results = observer.Results;
+```

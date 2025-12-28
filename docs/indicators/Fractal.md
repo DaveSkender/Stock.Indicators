@@ -8,7 +8,7 @@ description: Created by Larry Williams, Fractal is a retrospective price pattern
 Created by Larry Williams, [Fractal](https://www.investopedia.com/terms/f/fractal.asp) is a retrospective price pattern that identifies a central high or low point chevron.
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/255 "Community discussion about this indicator")
 
-<img src="/assets/charts/Fractal.png" alt="chart for Williams Fractal" />
+<img src="/assets/charts/Fractal.png" alt="Williams Fractal indicator chart" />
 
 ```csharp
 // C# usage syntax
@@ -68,3 +68,33 @@ See [Utilities and helpers](/utilities#utilities-for-indicator-results) for more
 ## Chaining
 
 This indicator is not chain-enabled and must be generated from `quotes`.  It **cannot** be used for further processing by other chain-enabled indicators.
+
+## Streaming
+
+Use the buffer-style `List<T>` when you need incremental calculations without a hub:
+
+```csharp
+FractalList fractalList = new(windowSpan);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  fractalList.Add(quote);
+}
+
+// based on `ICollection<FractalResult>`
+IReadOnlyList<FractalResult> results = fractalList;
+```
+
+Subscribe to a `QuoteHub` for advanced streaming scenarios:
+
+```csharp
+QuoteHub quoteHub = new();
+FractalHub observer = quoteHub.ToFractalHub(windowSpan);
+
+foreach (Quote quote in quotes)  // simulating stream
+{
+  quoteHub.Add(quote);
+}
+
+IReadOnlyList<FractalResult> results = observer.Results;
+```

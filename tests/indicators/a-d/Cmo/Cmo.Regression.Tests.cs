@@ -9,8 +9,8 @@ public class CmoTests : RegressionTestBase<CmoResult>
     public override void Series() => Quotes.ToCmo(14).IsExactly(Expected);
 
     [TestMethod]
-    public override void Buffer() => Assert.Inconclusive("Buffer implementation not yet available");
+    public override void Buffer() => Quotes.ToCmoList(14).IsExactly(Expected);
 
     [TestMethod]
-    public override void Stream() => Assert.Inconclusive("Stream implementation not yet available");
+    public override void Stream() => QuoteHub.ToCmoHub(14).Results.IsExactly(Expected);
 }

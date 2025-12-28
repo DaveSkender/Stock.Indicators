@@ -9,8 +9,8 @@ public class BollingerbandsTests : RegressionTestBase<BollingerBandsResult>
     public override void Series() => Quotes.ToBollingerBands(20, 2).IsExactly(Expected);
 
     [TestMethod]
-    public override void Buffer() => Assert.Inconclusive("Buffer implementation not yet available");
+    public override void Buffer() => Quotes.ToBollingerBandsList(20, 2).IsExactly(Expected);
 
     [TestMethod]
-    public override void Stream() => Assert.Inconclusive("Stream implementation not yet available");
+    public override void Stream() => QuoteHub.ToBollingerBandsHub(20, 2).Results.IsExactly(Expected);
 }

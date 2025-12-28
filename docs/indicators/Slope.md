@@ -83,3 +83,35 @@ var results = quotes
     .ToSlope(..)
     .ToRsi(..);
 ```
+
+## Streaming
+
+Use the buffer-style `List<T>` when you need incremental calculations without a hub:
+
+```csharp
+SlopeList slopeList = new(lookbackPeriods);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  slopeList.Add(quote);
+}
+
+// based on `ICollection<SlopeResult>`
+IReadOnlyList<SlopeResult> results = slopeList;
+```
+
+Subscribe to a `QuoteHub` for advanced streaming scenarios:
+
+```csharp
+QuoteHub quoteHub = new();
+SlopeHub observer = quoteHub.ToSlopeHub(lookbackPeriods);
+
+foreach (Quote quote in quotes)  // simulating stream
+{
+  quoteHub.Add(quote);
+}
+
+IReadOnlyList<SlopeResult> results = observer.Results;
+```
+
+> &#128073; **Repaint note**: The streaming implementation exhibits the same repaint behavior as the series version. `Line` values are recalculated for the last `N` periods as new data arrives, matching the series implementation's behavior.

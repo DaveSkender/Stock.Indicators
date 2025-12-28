@@ -9,8 +9,8 @@ public class AtrstopTests : RegressionTestBase<AtrStopResult>
     public override void Series() => Quotes.ToAtrStop(21, 3).IsExactly(Expected);
 
     [TestMethod]
-    public override void Buffer() => Assert.Inconclusive("Buffer implementation not yet available");
+    public override void Buffer() => Quotes.ToAtrStopList(21, 3).IsExactly(Expected);
 
     [TestMethod]
-    public override void Stream() => Assert.Inconclusive("Stream implementation not yet available");
+    public override void Stream() => QuoteHub.ToAtrStopHub(21, 3).Results.IsExactly(Expected);
 }

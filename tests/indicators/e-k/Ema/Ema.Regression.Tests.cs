@@ -9,7 +9,7 @@ public class EmaTests : RegressionTestBase<EmaResult>
     public override void Series() => Quotes.ToEma(20).IsExactly(Expected);
 
     [TestMethod]
-    public override void Buffer() => Assert.Inconclusive("Buffer implementation not yet available");
+    public override void Buffer() => Quotes.ToEmaList(20).IsExactly(Expected);
 
     [TestMethod]
     public override void Stream() => QuoteHub.ToEmaHub(20).Results.IsExactly(Expected);

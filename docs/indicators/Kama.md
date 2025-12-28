@@ -101,8 +101,8 @@ IReadOnlyList<KamaResult> results = kamaList;
 Subscribe to a `QuoteHub` for advanced streaming scenarios:
 
 ```csharp
-QuoteHub<Quote> quoteHub = new();
-KamaHub<Quote> observer = quoteHub.ToKama(erPeriods, fastPeriods, slowPeriods);
+QuoteHub quoteHub = new();
+KamaHub observer = quoteHub.ToKamaHub(erPeriods, fastPeriods, slowPeriods);
 
 foreach (Quote quote in quotes)  // simulating stream
 {

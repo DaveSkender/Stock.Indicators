@@ -1,7 +1,7 @@
-namespace StreamHub;
+namespace StreamHubs;
 
 [TestClass]
-public class WilliamsR : StreamHubTestBase, ITestQuoteObserver
+public class WilliamsRHubTests : StreamHubTestBase, ITestQuoteObserver
 {
     [TestMethod]
     public void Results_AreAlwaysBounded()
@@ -47,7 +47,7 @@ public class WilliamsR : StreamHubTestBase, ITestQuoteObserver
         IReadOnlyList<WilliamsResult> expectedOriginal = Quotes.ToWilliamsR(lookbackPeriods);
 
         actuals.Should().HaveCount(length);
-        actuals.Should().BeEquivalentTo(expectedOriginal, static options => options.WithStrictOrdering());
+        actuals.IsExactly(expectedOriginal);
 
         // delete, should equal series (revised)
         quoteHub.Remove(Quotes[removeAtIndex]);
@@ -55,7 +55,7 @@ public class WilliamsR : StreamHubTestBase, ITestQuoteObserver
         IReadOnlyList<WilliamsResult> expectedRevised = RevisedQuotes.ToWilliamsR(lookbackPeriods);
 
         actuals.Should().HaveCount(501);
-        actuals.Should().BeEquivalentTo(expectedRevised, static options => options.WithStrictOrdering());
+        actuals.IsExactly(expectedRevised);
 
         // cleanup
         observer.Unsubscribe();
@@ -92,7 +92,7 @@ public class WilliamsR : StreamHubTestBase, ITestQuoteObserver
         // verify consistency
         IReadOnlyList<WilliamsResult> expected = Quotes.ToWilliamsR(lookbackPeriods);
         observer.Cache.Should().HaveCount(expected.Count);
-        observer.Cache.Should().BeEquivalentTo(expected);
+        observer.Cache.IsExactly(expected);
     }
 
     [TestMethod]
@@ -143,7 +143,7 @@ public class WilliamsR : StreamHubTestBase, ITestQuoteObserver
 
         // compare results
         streamObserver.Cache.Should().HaveCount(batchResults.Count);
-        streamObserver.Cache.Should().BeEquivalentTo(batchResults);
+        streamObserver.Cache.IsExactly(batchResults);
     }
 
     [TestMethod]

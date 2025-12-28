@@ -95,8 +95,8 @@ IReadOnlyList<DemaResult> results = demaList;
 Subscribe to a `QuoteHub` for advanced streaming scenarios:
 
 ```csharp
-QuoteHub<Quote> quoteHub = new();
-DemaHub<Quote> observer = quoteHub.ToDema(lookbackPeriods);
+QuoteHub quoteHub = new();
+DemaHub observer = quoteHub.ToDemaHub(lookbackPeriods);
 
 foreach (Quote quote in quotes)  // simulating stream
 {

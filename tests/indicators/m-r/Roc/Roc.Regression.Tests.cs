@@ -9,8 +9,8 @@ public class RocTests : RegressionTestBase<RocResult>
     public override void Series() => Quotes.ToRoc().IsExactly(Expected);
 
     [TestMethod]
-    public override void Buffer() => Assert.Inconclusive("Buffer implementation not yet available");
+    public override void Buffer() => Quotes.ToRocList(14).IsExactly(Expected);
 
     [TestMethod]
-    public override void Stream() => Assert.Inconclusive("Stream implementation not yet available");
+    public override void Stream() => QuoteHub.ToRocHub(14).Results.IsExactly(Expected);
 }

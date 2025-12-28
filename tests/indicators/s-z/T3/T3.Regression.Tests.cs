@@ -9,8 +9,8 @@ public class T3Tests : RegressionTestBase<T3Result>
     public override void Series() => Quotes.ToT3(5, 0.7).IsExactly(Expected);
 
     [TestMethod]
-    public override void Buffer() => Assert.Inconclusive("Buffer implementation not yet available");
+    public override void Buffer() => Quotes.ToT3List(5, 0.7).IsExactly(Expected);
 
     [TestMethod]
-    public override void Stream() => Assert.Inconclusive("Stream implementation not yet available");
+    public override void Stream() => QuoteHub.ToT3Hub(5, 0.7).Results.IsExactly(Expected);
 }

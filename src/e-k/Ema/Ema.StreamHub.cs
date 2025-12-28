@@ -78,7 +78,7 @@ public static partial class Ema
     public static EmaHub ToEmaHub(
         this IChainProvider<IReusable> chainProvider,
         int lookbackPeriods)
-             => new(chainProvider, lookbackPeriods);
+        => new(chainProvider, lookbackPeriods);
 
     /// <summary>
     /// Creates a Ema hub from a collection of quotes.

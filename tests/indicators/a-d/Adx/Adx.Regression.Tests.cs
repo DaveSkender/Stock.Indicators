@@ -9,7 +9,7 @@ public class AdxTests : RegressionTestBase<AdxResult>
     public override void Series() => Quotes.ToAdx(14).IsExactly(Expected);
 
     [TestMethod]
-    public override void Buffer() => Assert.Inconclusive("Buffer implementation not yet available");
+    public override void Buffer() => Quotes.ToAdxList(14).IsExactly(Expected);
 
     [TestMethod]
     public override void Stream() => QuoteHub.ToAdxHub(14).Results.IsExactly(Expected);

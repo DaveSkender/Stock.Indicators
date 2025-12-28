@@ -66,3 +66,33 @@ var results = quotes
 ```
 
 This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.
+
+## Streaming
+
+Use the buffer-style `List<T>` when you need incremental calculations without a hub:
+
+```csharp
+ForceIndexList forceIndexList = new(lookbackPeriods);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  forceIndexList.Add(quote);
+}
+
+// based on `ICollection<ForceIndexResult>`
+IReadOnlyList<ForceIndexResult> results = forceIndexList;
+```
+
+Subscribe to a `QuoteHub` for advanced streaming scenarios:
+
+```csharp
+QuoteHub quoteHub = new();
+ForceIndexHub observer = quoteHub.ToForceIndexHub(lookbackPeriods);
+
+foreach (Quote quote in quotes)  // simulating stream
+{
+  quoteHub.Add(quote);
+}
+
+IReadOnlyList<ForceIndexResult> results = observer.Results;
+```

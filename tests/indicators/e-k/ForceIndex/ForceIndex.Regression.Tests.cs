@@ -9,7 +9,7 @@ public class ForceIndexTests : RegressionTestBase<ForceIndexResult>
     public override void Series() => Quotes.ToForceIndex().IsExactly(Expected);
 
     [TestMethod]
-    public override void Buffer() => new ForceIndexList(2, Quotes).IsExactly(Expected);
+    public override void Buffer() => Quotes.ToForceIndexList(2).IsExactly(Expected);
 
     [TestMethod]
     public override void Stream() => Quotes.ToForceIndexHub().Results.IsExactly(Expected);

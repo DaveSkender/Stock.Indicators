@@ -42,14 +42,24 @@ public static class TestAssert
     /// <typeparam name="T">List elements must be <see cref="ISeries"/> interface types.</typeparam>
     /// <param name="actual">The actual list of series to be compared.</param>
     /// <param name="expected">The expected list of series to compare against.</param>
+    /// <param name="because">
+    /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+    /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+    /// </param>
+    /// <param name="becauseArgs">
+    /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+    /// </param>
     public static void IsExactly<T>(
         this IEnumerable<T> actual,
-        IEnumerable<T> expected
+        IEnumerable<T> expected,
+        string because = "",
+        params object[] becauseArgs
     ) where T : ISeries
-        => actual.Should().BeEquivalentTo(expected, static options => options
-            // Require same sequence order; prevents passing when items are equivalent but re-ordered
-            .WithStrictOrdering()
-            // Compare instances of T by their members (property values) rather than reference or Equals
-            // This enforces value-based structural equivalency for our result records/classes
-            .ComparingByMembers<T>());
+        => actual.Should().BeEquivalentTo(
+            expectation: expected,
+            config: static options => options
+                .WithStrictOrdering()     // require same sequence order
+                .ComparingByMembers<T>(), // enforces value-based structural equivalency
+            because: because,
+            becauseArgs: becauseArgs);
 }

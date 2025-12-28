@@ -1,7 +1,7 @@
 namespace BufferLists;
 
 [TestClass]
-public class Dpo : BufferListTestBase, ITestChainBufferList
+public class Dpo : BufferListTestBase, ITestChainBufferList, ITestCustomBufferListCache
 {
     private const int lookbackPeriods = 20;
 
@@ -23,12 +23,9 @@ public class Dpo : BufferListTestBase, ITestChainBufferList
             sut.Add(item.Timestamp, item.Value);
         }
 
-        // DPO results are delayed by offset periods
-        const int offset = (lookbackPeriods / 2) + 1;
-        int expectedCount = Quotes.Count - offset;
-
-        sut.Should().HaveCount(expectedCount);
-        sut.Should().BeEquivalentTo(series.Take(expectedCount), static options => options.WithStrictOrdering());
+        // DPO maintains 1:1 correspondence - retroactively updates as lookahead becomes available
+        sut.Should().HaveCount(Quotes.Count);
+        sut.IsExactly(series);
     }
 
     [TestMethod]
@@ -41,11 +38,9 @@ public class Dpo : BufferListTestBase, ITestChainBufferList
             sut.Add(item);
         }
 
-        const int offset = (lookbackPeriods / 2) + 1;
-        int expectedCount = Quotes.Count - offset;
-
-        sut.Should().HaveCount(expectedCount);
-        sut.Should().BeEquivalentTo(series.Take(expectedCount), static options => options.WithStrictOrdering());
+        // DPO maintains 1:1 correspondence - retroactively updates as lookahead becomes available
+        sut.Should().HaveCount(Quotes.Count);
+        sut.IsExactly(series);
     }
 
     [TestMethod]
@@ -53,11 +48,9 @@ public class Dpo : BufferListTestBase, ITestChainBufferList
     {
         DpoList sut = new(lookbackPeriods) { reusables };
 
-        const int offset = (lookbackPeriods / 2) + 1;
-        int expectedCount = Quotes.Count - offset;
-
-        sut.Should().HaveCount(expectedCount);
-        sut.Should().BeEquivalentTo(series.Take(expectedCount), static options => options.WithStrictOrdering());
+        // DPO maintains 1:1 correspondence - retroactively updates as lookahead becomes available
+        sut.Should().HaveCount(Quotes.Count);
+        sut.IsExactly(series);
     }
 
     [TestMethod]
@@ -70,11 +63,9 @@ public class Dpo : BufferListTestBase, ITestChainBufferList
             sut.Add(quote);
         }
 
-        const int offset = (lookbackPeriods / 2) + 1;
-        int expectedCount = Quotes.Count - offset;
-
-        sut.Should().HaveCount(expectedCount);
-        sut.Should().BeEquivalentTo(series.Take(expectedCount), static options => options.WithStrictOrdering());
+        // DPO maintains 1:1 correspondence - retroactively updates as lookahead becomes available
+        sut.Should().HaveCount(Quotes.Count);
+        sut.IsExactly(series);
     }
 
     [TestMethod]
@@ -82,11 +73,9 @@ public class Dpo : BufferListTestBase, ITestChainBufferList
     {
         DpoList sut = Quotes.ToDpoList(lookbackPeriods);
 
-        const int offset = (lookbackPeriods / 2) + 1;
-        int expectedCount = Quotes.Count - offset;
-
-        sut.Should().HaveCount(expectedCount);
-        sut.Should().BeEquivalentTo(series.Take(expectedCount), static options => options.WithStrictOrdering());
+        // DPO maintains 1:1 correspondence - retroactively updates as lookahead becomes available
+        sut.Should().HaveCount(Quotes.Count);
+        sut.IsExactly(series);
     }
 
     [TestMethod]
@@ -94,11 +83,9 @@ public class Dpo : BufferListTestBase, ITestChainBufferList
     {
         DpoList sut = new(lookbackPeriods, Quotes);
 
-        const int offset = (lookbackPeriods / 2) + 1;
-        int expectedCount = Quotes.Count - offset;
-
-        sut.Should().HaveCount(expectedCount);
-        sut.Should().BeEquivalentTo(series.Take(expectedCount), static options => options.WithStrictOrdering());
+        // DPO maintains 1:1 correspondence - retroactively updates as lookahead becomes available
+        sut.Should().HaveCount(Quotes.Count);
+        sut.IsExactly(series);
     }
 
     [TestMethod]
@@ -109,11 +96,9 @@ public class Dpo : BufferListTestBase, ITestChainBufferList
 
         DpoList sut = new(lookbackPeriods, subset);
 
-        const int offset = (lookbackPeriods / 2) + 1;
-        int expectedCount = subset.Count - offset;
-
-        sut.Should().HaveCount(expectedCount);
-        sut.Should().BeEquivalentTo(expected.Take(expectedCount), static options => options.WithStrictOrdering());
+        // DPO maintains 1:1 correspondence - retroactively updates as lookahead becomes available
+        sut.Should().HaveCount(subset.Count);
+        sut.IsExactly(expected);
 
         sut.Clear();
 
@@ -121,8 +106,8 @@ public class Dpo : BufferListTestBase, ITestChainBufferList
 
         sut.Add(subset);
 
-        sut.Should().HaveCount(expectedCount);
-        sut.Should().BeEquivalentTo(expected.Take(expectedCount), static options => options.WithStrictOrdering());
+        sut.Should().HaveCount(subset.Count);
+        sut.IsExactly(expected);
     }
 
     [TestMethod]
@@ -136,18 +121,42 @@ public class Dpo : BufferListTestBase, ITestChainBufferList
 
         sut.Add(Quotes);
 
-        const int offset = (lookbackPeriods / 2) + 1;
-        int totalResults = Quotes.Count - offset;
-        int expectedCount = Math.Min(maxListSize, totalResults);
+        // DPO maintains 1:1 correspondence with maxListSize pruning
+        int expectedCount = Math.Min(maxListSize, Quotes.Count);
 
         sut.Should().HaveCount(expectedCount);
 
         // Compare with the last expectedCount results from series
         IReadOnlyList<DpoResult> expected = series
-            .Skip(totalResults - expectedCount)
+            .Skip(Quotes.Count - expectedCount)
             .Take(expectedCount)
             .ToList();
 
-        sut.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
+        sut.IsExactly(expected);
+    }
+
+    [TestMethod]
+    public void CustomBuffer_OverMaxListSize_AutoAdjustsListAndBuffers()
+    {
+        const int maxListSize = 120;
+
+        DpoList sut = new(lookbackPeriods) {
+            MaxListSize = maxListSize
+        };
+
+        sut.Add(Quotes);
+
+        // DPO maintains 1:1 correspondence with maxListSize pruning
+        int expectedCount = Math.Min(maxListSize, Quotes.Count);
+
+        sut.Should().HaveCount(expectedCount);
+
+        // Compare with the last expectedCount results from series
+        IReadOnlyList<DpoResult> expected = series
+            .Skip(Quotes.Count - expectedCount)
+            .Take(expectedCount)
+            .ToList();
+
+        sut.IsExactly(expected);
     }
 }

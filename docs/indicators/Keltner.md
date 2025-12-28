@@ -95,8 +95,8 @@ IReadOnlyList<KeltnerResult> results = keltnerList;
 Subscribe to a `QuoteHub` for advanced streaming scenarios:
 
 ```csharp
-QuoteHub<Quote> quoteHub = new();
-KeltnerHub<Quote> observer = quoteHub.ToKeltner(emaPeriods, multiplier, atrPeriods);
+QuoteHub quoteHub = new();
+KeltnerHub observer = quoteHub.ToKeltnerHub(emaPeriods, multiplier, atrPeriods);
 
 foreach (IQuote quote in quotes)  // simulating stream
 {

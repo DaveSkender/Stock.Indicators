@@ -14,7 +14,7 @@ public class HtTrendline : BufferListTestBase, ITestChainBufferList, ITestCustom
     [TestMethod]
     public void AddQuote_IncrementsResults()
     {
-        HtlList sut = new();
+        HtTrendlineList sut = new();
 
         foreach (Quote quote in Quotes)
         {
@@ -22,31 +22,31 @@ public class HtTrendline : BufferListTestBase, ITestChainBufferList, ITestCustom
         }
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
+        sut.IsExactly(series);
     }
 
     [TestMethod]
     public void AddQuotesBatch_IncrementsResults()
     {
-        HtlList sut = new() { Quotes };
+        HtTrendlineList sut = new() { Quotes };
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
+        sut.IsExactly(series);
     }
 
     [TestMethod]
     public void QuotesCtor_OnInstantiation_IncrementsResults()
     {
-        HtlList sut = new(Quotes);
+        HtTrendlineList sut = new(Quotes);
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
+        sut.IsExactly(series);
     }
 
     [TestMethod]
     public void AddReusableItem_IncrementsResults()
     {
-        HtlList sut = new();
+        HtTrendlineList sut = new();
 
         foreach (IReusable item in reusables)
         {
@@ -54,22 +54,22 @@ public class HtTrendline : BufferListTestBase, ITestChainBufferList, ITestCustom
         }
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
+        sut.IsExactly(series);
     }
 
     [TestMethod]
     public void AddReusableItemBatch_IncrementsResults()
     {
-        HtlList sut = new() { reusables };
+        HtTrendlineList sut = new() { reusables };
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
+        sut.IsExactly(series);
     }
 
     [TestMethod]
     public void AddDateAndValue_IncrementsResults()
     {
-        HtlList sut = new();
+        HtTrendlineList sut = new();
 
         foreach (IReusable item in reusables)
         {
@@ -77,7 +77,7 @@ public class HtTrendline : BufferListTestBase, ITestChainBufferList, ITestCustom
         }
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
+        sut.IsExactly(series);
     }
 
     [TestMethod]
@@ -86,10 +86,10 @@ public class HtTrendline : BufferListTestBase, ITestChainBufferList, ITestCustom
         List<Quote> subset = Quotes.Take(80).ToList();
         IReadOnlyList<HtlResult> expected = subset.ToHtTrendline();
 
-        HtlList sut = new(subset);
+        HtTrendlineList sut = new(subset);
 
         sut.Should().HaveCount(subset.Count);
-        sut.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
+        sut.IsExactly(expected);
 
         sut.Clear();
 
@@ -98,7 +98,7 @@ public class HtTrendline : BufferListTestBase, ITestChainBufferList, ITestCustom
         sut.Add(subset);
 
         sut.Should().HaveCount(expected.Count);
-        sut.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
+        sut.IsExactly(expected);
     }
 
     [TestMethod]
@@ -106,7 +106,7 @@ public class HtTrendline : BufferListTestBase, ITestChainBufferList, ITestCustom
     {
         const int maxListSize = 120;
 
-        HtlList sut = new() { MaxListSize = maxListSize };
+        HtTrendlineList sut = new() { MaxListSize = maxListSize };
 
         sut.Add(Quotes);
 
@@ -115,7 +115,7 @@ public class HtTrendline : BufferListTestBase, ITestChainBufferList, ITestCustom
             .ToList();
 
         sut.Should().HaveCount(maxListSize);
-        sut.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
+        sut.IsExactly(expected);
     }
 
     [TestMethod]
@@ -136,10 +136,10 @@ public class HtTrendline : BufferListTestBase, ITestChainBufferList, ITestCustom
             .ToList();
 
         // Generate buffer list
-        HtlList sut = new(quotes) { MaxListSize = maxListSize };
+        HtTrendlineList sut = new(quotes) { MaxListSize = maxListSize };
 
         sut.Should().HaveCount(maxListSize);
-        sut.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
+        sut.IsExactly(expected);
 
         // Add more quotes to verify continued operation after pruning
         List<Quote> moreQuotes = LongishQuotes.Skip(quotesSize).Take(50).ToList();
@@ -155,6 +155,6 @@ public class HtTrendline : BufferListTestBase, ITestChainBufferList, ITestCustom
             .ToList();
 
         sut.Should().HaveCount(maxListSize);
-        sut.Should().BeEquivalentTo(finalExpected, static options => options.WithStrictOrdering());
+        sut.IsExactly(finalExpected);
     }
 }

@@ -23,7 +23,7 @@ public class Ichimoku : BufferListTestBase, ITestQuoteBufferList, ITestCustomBuf
         }
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
+        sut.IsExactly(series);
     }
 
     [TestMethod]
@@ -32,7 +32,7 @@ public class Ichimoku : BufferListTestBase, ITestQuoteBufferList, ITestCustomBuf
         IchimokuList sut = Quotes.ToIchimokuList(tenkanPeriods, kijunPeriods, senkouBPeriods, senkouOffset, chikouOffset);
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
+        sut.IsExactly(series);
     }
 
     [TestMethod]
@@ -41,7 +41,7 @@ public class Ichimoku : BufferListTestBase, ITestQuoteBufferList, ITestCustomBuf
         IchimokuList sut = new(tenkanPeriods, kijunPeriods, senkouBPeriods, senkouOffset, chikouOffset, Quotes);
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
+        sut.IsExactly(series);
     }
 
     [TestMethod]
@@ -53,7 +53,7 @@ public class Ichimoku : BufferListTestBase, ITestQuoteBufferList, ITestCustomBuf
         IchimokuList sut = new(tenkanPeriods, kijunPeriods, senkouBPeriods, senkouOffset, chikouOffset, subset);
 
         sut.Should().HaveCount(subset.Count);
-        sut.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
+        sut.IsExactly(expected);
 
         sut.Clear();
 
@@ -62,7 +62,7 @@ public class Ichimoku : BufferListTestBase, ITestQuoteBufferList, ITestCustomBuf
         sut.Add(subset);
 
         sut.Should().HaveCount(expected.Count);
-        sut.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
+        sut.IsExactly(expected);
     }
 
     [TestMethod]
@@ -80,7 +80,7 @@ public class Ichimoku : BufferListTestBase, ITestQuoteBufferList, ITestCustomBuf
             = series.Skip(series.Count - maxListSize).ToList();
 
         sut.Should().HaveCount(maxListSize);
-        sut.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
+        sut.IsExactly(expected);
     }
 
     [TestMethod]
@@ -107,6 +107,6 @@ public class Ichimoku : BufferListTestBase, ITestQuoteBufferList, ITestCustomBuf
 
         // Verify expected results matching equivalent series values
         sut.Count.Should().Be(maxListSize);
-        sut.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
+        sut.IsExactly(expected);
     }
 }

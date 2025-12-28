@@ -9,8 +9,8 @@ public class BopTests : RegressionTestBase<BopResult>
     public override void Series() => Quotes.ToBop().IsExactly(Expected);
 
     [TestMethod]
-    public override void Buffer() => Assert.Inconclusive("Buffer implementation not yet available");
+    public override void Buffer() => Quotes.ToBopList(14).IsExactly(Expected);
 
     [TestMethod]
-    public override void Stream() => Assert.Inconclusive("Stream implementation not yet available");
+    public override void Stream() => QuoteHub.ToBopHub(14).Results.IsExactly(Expected);
 }

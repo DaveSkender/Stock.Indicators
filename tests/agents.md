@@ -139,7 +139,7 @@ public class MyIndicatorRegression : RegressionTestBase
 ```csharp
 // Collections and counts
 results.Should().HaveCount(502);
-streamData.Should().BeEquivalentTo(staticData);
+streamData.IsExactly(staticData);
 
 // Exception testing
 Action act = () => quotes.ToIndicator(-1);
@@ -194,7 +194,7 @@ Use the FluentAssertions syntax with the subject on the left: `actual.Should().B
 ```csharp
 // Exact comparisons for all indicator results (preferred)
 result.Adx.Should().Be(15.9459);
-streamResult.Should().BeEquivalentTo(seriesResult);
+streamResult.IsExactly(seriesResult);
 
 // Handle nulls explicitly without approximation
 result.Value.Should().BeNull();
@@ -218,17 +218,9 @@ result.Adx?.Should().BeApproximately(15.9459, Money4);
 | `.Round(6)`    | `Money6`          | `0.0000005`                 | `BeApproximately(1.234567, Money6)`     |
 
 > **Rationale**: Tolerance is half of the last decimal place to ensure only values that would round to the same result will pass.
-> **Constants**: Use `Money3`, `Money4`, `Money5`, `Money6` from `TestBase` for consistent precision across all tests.
+> **Constants**: Use precision constants from `TestBase` (e.g., `Money6` and others) for assertions against manually calculated values. Use the maximum precision needed.
 
-**🔄 Legacy patterns to be refactored:**
-
-```csharp
-// Legacy Round() usage - will be refactored to BeApproximately()
-Assert.AreEqual(21.9669, r14.Pdi.Round(4));  // 🔄 Legacy - replace with BeApproximately(21.9669, Money4)
-Assert.AreEqual(18.5462, r14.Mdi.Round(4));  // 🔄 Legacy - replace with BeApproximately(18.5462, Money4)
-```
-
-**🚫 Avoid these patterns:**
+**Avoid these patterns:**
 
 ```csharp
 // Do NOT use approximation - indicators are deterministic
@@ -280,7 +272,7 @@ AI coding agents must:
 2. **Attributes**: Preserve `[TestMethod]` attributes for MSTest.
 3. **Assertions**: Use FluentAssertions syntax exclusively (`Should()`) - avoid legacy MSTest assertions.
 4. **Precision**: Use exact comparisons (`Should().Be()`) - indicators are deterministic. Only use `BeApproximately()` for Series assertions against manually calculated reference values.
-5. **Precision constants**: Use `Money3`, `Money4`, `Money5`, `Money6` constants from `TestBase` for BeApproximately() tolerances.
+5. **Precision constants**: Use precision constants from `TestBase` (e.g., `Money3` through `Money12`) for BeApproximately() tolerances when comparing against manually calculated values. Use the maximum precision needed. Do not use to accommodate algorithmic differences.
 6. **Base classes**: **REQUIRED** - Inherit from appropriate test base classes (`StaticSeriesTestBase`, `StreamHubTestBase`, `BufferListTestBase`, `RegressionTestBase`).
 7. **Test data**: Use appropriate `TestBase` properties and `Data.GetFile()` methods for consistent test datasets.
 8. **Deterministic results**: Stream and Buffer results must match Series results exactly without precision modifiers.

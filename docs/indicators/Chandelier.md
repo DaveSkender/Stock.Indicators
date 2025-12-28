@@ -74,3 +74,33 @@ var results = quotes
 ```
 
 This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.
+
+## Streaming
+
+Use the buffer-style `List<T>` when you need incremental calculations without a hub:
+
+```csharp
+ChandelierList chandelierList = new(lookbackPeriods, multiplier, type);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  chandelierList.Add(quote);
+}
+
+// based on `ICollection<ChandelierResult>`
+IReadOnlyList<ChandelierResult> results = chandelierList;
+```
+
+Subscribe to a `QuoteHub` for advanced streaming scenarios:
+
+```csharp
+QuoteHub quoteHub = new();
+ChandelierHub observer = quoteHub.ToChandelierHub(lookbackPeriods, multiplier, type);
+
+foreach (Quote quote in quotes)  // simulating stream
+{
+  quoteHub.Add(quote);
+}
+
+IReadOnlyList<ChandelierResult> results = observer.Results;
+```

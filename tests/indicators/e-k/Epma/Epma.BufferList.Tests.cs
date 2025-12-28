@@ -24,7 +24,7 @@ public class Epma : BufferListTestBase, ITestChainBufferList, ITestCustomBufferL
         }
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
+        sut.IsExactly(series);
     }
 
     [TestMethod]
@@ -33,7 +33,7 @@ public class Epma : BufferListTestBase, ITestChainBufferList, ITestCustomBufferL
         EpmaList sut = new(lookbackPeriods) { Quotes };
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
+        sut.IsExactly(series);
     }
 
     [TestMethod]
@@ -42,7 +42,7 @@ public class Epma : BufferListTestBase, ITestChainBufferList, ITestCustomBufferL
         EpmaList sut = new(lookbackPeriods, Quotes);
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
+        sut.IsExactly(series);
     }
 
     [TestMethod]
@@ -56,7 +56,7 @@ public class Epma : BufferListTestBase, ITestChainBufferList, ITestCustomBufferL
         }
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
+        sut.IsExactly(series);
     }
 
     [TestMethod]
@@ -65,7 +65,7 @@ public class Epma : BufferListTestBase, ITestChainBufferList, ITestCustomBufferL
         EpmaList sut = new(lookbackPeriods) { reusables };
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
+        sut.IsExactly(series);
     }
 
     [TestMethod]
@@ -79,7 +79,7 @@ public class Epma : BufferListTestBase, ITestChainBufferList, ITestCustomBufferL
         }
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, static options => options.WithStrictOrdering());
+        sut.IsExactly(series);
     }
 
     [TestMethod]
@@ -91,7 +91,7 @@ public class Epma : BufferListTestBase, ITestChainBufferList, ITestCustomBufferL
         EpmaList sut = new(lookbackPeriods, subset);
 
         sut.Should().HaveCount(subset.Count);
-        sut.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
+        sut.IsExactly(expected);
 
         sut.Clear();
 
@@ -100,7 +100,7 @@ public class Epma : BufferListTestBase, ITestChainBufferList, ITestCustomBufferL
         sut.Add(subset);
 
         sut.Should().HaveCount(expected.Count);
-        sut.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
+        sut.IsExactly(expected);
     }
 
     [TestMethod]
@@ -119,7 +119,7 @@ public class Epma : BufferListTestBase, ITestChainBufferList, ITestCustomBufferL
             .ToList();
 
         sut.Should().HaveCount(maxListSize);
-        sut.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
+        sut.IsExactly(expected);
     }
 
     [TestMethod]
@@ -146,6 +146,6 @@ public class Epma : BufferListTestBase, ITestChainBufferList, ITestCustomBufferL
 
         // Verify expected results matching equivalent series values
         sut.Count.Should().Be(maxListSize);
-        sut.Should().BeEquivalentTo(expected, static options => options.WithStrictOrdering());
+        sut.IsExactly(expected);
     }
 }

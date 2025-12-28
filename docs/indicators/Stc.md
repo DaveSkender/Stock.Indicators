@@ -77,3 +77,33 @@ var results = quotes
     .ToStc(..)
     .ToRsi(..);
 ```
+
+## Streaming
+
+Use the buffer-style `List<T>` when you need incremental calculations without a hub:
+
+```csharp
+StcList stcList = new(cyclePeriods, fastPeriods, slowPeriods);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  stcList.Add(quote);
+}
+
+// based on `ICollection<StcResult>`
+IReadOnlyList<StcResult> results = stcList;
+```
+
+Subscribe to a `QuoteHub` for advanced streaming scenarios:
+
+```csharp
+QuoteHub quoteHub = new();
+StcHub observer = quoteHub.ToStcHub(cyclePeriods, fastPeriods, slowPeriods);
+
+foreach (Quote quote in quotes)  // simulating stream
+{
+  quoteHub.Add(quote);
+}
+
+IReadOnlyList<StcResult> results = observer.Results;
+```

@@ -9,8 +9,8 @@ public class FisherTransformTests : RegressionTestBase<FisherTransformResult>
     public override void Series() => Quotes.ToFisherTransform(10).IsExactly(Expected);
 
     [TestMethod]
-    public override void Buffer() => Assert.Inconclusive("Stream implementation not yet available");
+    public override void Buffer() => Quotes.ToFisherTransformList(10).IsExactly(Expected);
 
     [TestMethod]
-    public override void Stream() => Assert.Inconclusive("Stream implementation not yet available");
+    public override void Stream() => QuoteHub.ToFisherTransformHub(10).Results.IsExactly(Expected);
 }
