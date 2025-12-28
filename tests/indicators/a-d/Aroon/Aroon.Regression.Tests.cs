@@ -9,7 +9,7 @@ public class AroonTests : RegressionTestBase<AroonResult>
     public override void Series() => Quotes.ToAroon(25).IsExactly(Expected);
 
     [TestMethod]
-    public override void Buffer() => new AroonList(25) { Quotes }.IsExactly(Expected);
+    public override void Buffer() => Quotes.ToAroonList(25).IsExactly(Expected);
 
     [TestMethod]
     public override void Stream() => QuoteHub.ToAroonHub(25).Results.IsExactly(Expected);

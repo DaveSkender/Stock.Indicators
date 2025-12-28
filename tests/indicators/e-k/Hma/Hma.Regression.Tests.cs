@@ -9,7 +9,7 @@ public class HmaTests : RegressionTestBase<HmaResult>
     public override void Series() => Quotes.ToHma().IsExactly(Expected);
 
     [TestMethod]
-    public override void Buffer() => new HmaList(14) { Quotes }.IsExactly(Expected);
+    public override void Buffer() => Quotes.ToHmaList(14).IsExactly(Expected);
 
     [TestMethod]
     public override void Stream() => QuoteHub.ToHmaHub(14).Results.IsExactly(Expected);

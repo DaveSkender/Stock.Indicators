@@ -9,7 +9,7 @@ public class RollingPivotsTests : RegressionTestBase<RollingPivotsResult>
     public override void Series() => Quotes.ToRollingPivots().IsExactly(Expected);
 
     [TestMethod]
-    public override void Buffer() => new RollingPivotsList() { Quotes }.IsExactly(Expected);
+    public override void Buffer() => Quotes.ToRollingPivotsList().IsExactly(Expected);
 
     [TestMethod]
     public override void Stream() => QuoteHub.ToRollingPivotsHub().Results.IsExactly(Expected);

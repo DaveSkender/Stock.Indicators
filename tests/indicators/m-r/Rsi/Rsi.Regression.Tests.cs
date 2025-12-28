@@ -9,7 +9,7 @@ public class RsiTests : RegressionTestBase<RsiResult>
     public override void Series() => Quotes.ToRsi(14).IsExactly(Expected);
 
     [TestMethod]
-    public override void Buffer() => new RsiList(14) { Quotes }.IsExactly(Expected);
+    public override void Buffer() => Quotes.ToRsiList(14).IsExactly(Expected);
 
     [TestMethod]
     public override void Stream() => QuoteHub.ToRsiHub(14).Results.IsExactly(Expected);

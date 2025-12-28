@@ -9,7 +9,7 @@ public class SlopeTests : RegressionTestBase<SlopeResult>
     public override void Series() => Quotes.ToSlope().IsExactly(Expected);
 
     [TestMethod]
-    public override void Buffer() => new SlopeList(14) { Quotes }.IsExactly(Expected);
+    public override void Buffer() => Quotes.ToSlopeList(14).IsExactly(Expected);
 
     [TestMethod]
     public override void Stream() => Assert.Inconclusive("Stream implementation not yet available");

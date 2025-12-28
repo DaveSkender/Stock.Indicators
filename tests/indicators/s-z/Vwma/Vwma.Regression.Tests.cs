@@ -9,7 +9,7 @@ public class VwmaTests : RegressionTestBase<VwmaResult>
     public override void Series() => Quotes.ToVwma(14).IsExactly(Expected);
 
     [TestMethod]
-    public override void Buffer() => new VwmaList(14) { Quotes }.IsExactly(Expected);
+    public override void Buffer() => Quotes.ToVwmaList(14).IsExactly(Expected);
 
     [TestMethod]
     public override void Stream() => QuoteHub.ToVwmaHub(14).Results.IsExactly(Expected);
