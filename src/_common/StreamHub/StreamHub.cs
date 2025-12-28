@@ -359,7 +359,7 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
     /// Rebuilds the cache from a specific timestamp.
     /// </summary>
     /// <inheritdoc/>
-    public void Rebuild(DateTime fromTimestamp)
+    public virtual void Rebuild(DateTime fromTimestamp)
     {
         // clear cache
         RemoveRange(fromTimestamp, notify: false);
