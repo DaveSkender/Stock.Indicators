@@ -14,8 +14,6 @@ namespace Behavioral;
 [TestClass, TestCategory("Integration")]
 public class ConvergenceStreamHubs : TestBaseWithPrecision
 {
-    private static IReadOnlyList<Quote> Qts => Data.GetLongish();
-
     private static readonly int[] QuotesQuantities =
         [14, 28, 40, 50, 75, 100, 150, 200, 250, 350, 500];
 
@@ -38,15 +36,16 @@ public class ConvergenceStreamHubs : TestBaseWithPrecision
 
         foreach (int qty in QuotesQuantities)
         {
-            AdxHub hub = Qts.ToAdxHub(lookback);
+            IReadOnlyList<Quote> qts = Data.GetLongish(qty);
+            AdxHub hub = qts.ToAdxHub(lookback);
 
             AdxResult l = hub.Results[^1];
-            Console.WriteLine($"ADX({lookback}) StreamHub on {l.Timestamp:d} with {Qts.Count,4} streaming qts: {l.Adx:N8}");
+            Console.WriteLine($"ADX({lookback}) StreamHub on {l.Timestamp:d} with {qty,4} streaming qts: {l.Adx:N8}");
 
             // At convergence point, verify matches Series
             if (qty == AdxConvergence)
             {
-                IReadOnlyList<AdxResult> series = Qts.ToAdx(lookback);
+                IReadOnlyList<AdxResult> series = qts.ToAdx(lookback);
                 l.Should().Be(series[^1]);
                 convergedResult = l;
             }
@@ -67,15 +66,16 @@ public class ConvergenceStreamHubs : TestBaseWithPrecision
 
         foreach (int qty in QuotesQuantities)
         {
-            AtrHub hub = Qts.ToAtrHub(lookback);
+            IReadOnlyList<Quote> qts = Data.GetLongish(qty);
+            AtrHub hub = qts.ToAtrHub(lookback);
 
             AtrResult l = hub.Results[^1];
-            Console.WriteLine($"ATR({lookback}) StreamHub on {l.Timestamp:d} with {Qts.Count,4} periods: {l.Atr:N8}");
+            Console.WriteLine($"ATR({lookback}) StreamHub on {l.Timestamp:d} with {qty,4} periods: {l.Atr:N8}");
 
             // At convergence point, verify matches Series
             if (qty == AtrConvergence)
             {
-                IReadOnlyList<AtrResult> series = Qts.ToAtr(lookback);
+                IReadOnlyList<AtrResult> series = qts.ToAtr(lookback);
                 l.Should().Be(series[^1]);
                 convergedResult = l;
             }
@@ -96,15 +96,16 @@ public class ConvergenceStreamHubs : TestBaseWithPrecision
 
         foreach (int qty in QuotesQuantities)
         {
-            EmaHub hub = Qts.ToEmaHub(lookback);
+            IReadOnlyList<Quote> qts = Data.GetLongish(qty);
+            EmaHub hub = qts.ToEmaHub(lookback);
 
             EmaResult l = hub.Results[^1];
-            Console.WriteLine($"EMA({lookback}) StreamHub on {l.Timestamp:d} with {Qts.Count,4} periods: {l.Ema:N8}");
+            Console.WriteLine($"EMA({lookback}) StreamHub on {l.Timestamp:d} with {qty,4} periods: {l.Ema:N8}");
 
             // At convergence point, verify matches Series
             if (qty == EmaConvergence)
             {
-                IReadOnlyList<EmaResult> series = Qts.ToEma(lookback);
+                IReadOnlyList<EmaResult> series = qts.ToEma(lookback);
                 l.Should().Be(series[^1]);
                 convergedResult = l;
             }
@@ -125,15 +126,16 @@ public class ConvergenceStreamHubs : TestBaseWithPrecision
 
         foreach (int qty in QuotesQuantities)
         {
-            MacdHub hub = Qts.ToMacdHub(fast, slow, signal);
+            IReadOnlyList<Quote> qts = Data.GetLongish(qty);
+            MacdHub hub = qts.ToMacdHub(fast, slow, signal);
 
             MacdResult l = hub.Results[^1];
-            Console.WriteLine($"MACD StreamHub on {l.Timestamp:d} with {Qts.Count,4} periods: {l.Macd:N8}");
+            Console.WriteLine($"MACD StreamHub on {l.Timestamp:d} with {qty,4} periods: {l.Macd:N8}");
 
             // At convergence point, verify matches Series
             if (qty == MacdConvergence)
             {
-                IReadOnlyList<MacdResult> series = Qts.ToMacd(fast, slow, signal);
+                IReadOnlyList<MacdResult> series = qts.ToMacd(fast, slow, signal);
                 l.Should().Be(series[^1]);
                 convergedResult = l;
             }
@@ -156,15 +158,16 @@ public class ConvergenceStreamHubs : TestBaseWithPrecision
 
         foreach (int qty in QuotesQuantities)
         {
-            RsiHub hub = Qts.ToRsiHub(lookback);
+            IReadOnlyList<Quote> qts = Data.GetLongish(qty);
+            RsiHub hub = qts.ToRsiHub(lookback);
 
             RsiResult l = hub.Results[^1];
-            Console.WriteLine($"RSI({lookback}) StreamHub on {l.Timestamp:d} with {Qts.Count,4} periods: {l.Rsi:N8}");
+            Console.WriteLine($"RSI({lookback}) StreamHub on {l.Timestamp:d} with {qty,4} periods: {l.Rsi:N8}");
 
             // At convergence point, verify matches Series
             if (qty == RsiConvergence)
             {
-                IReadOnlyList<RsiResult> series = Qts.ToRsi(lookback);
+                IReadOnlyList<RsiResult> series = qts.ToRsi(lookback);
                 l.Should().Be(series[^1]);
                 convergedResult = l;
             }
@@ -185,15 +188,16 @@ public class ConvergenceStreamHubs : TestBaseWithPrecision
 
         foreach (int qty in QuotesQuantities)
         {
-            SmaHub hub = Qts.ToSmaHub(lookback);
+            IReadOnlyList<Quote> qts = Data.GetLongish(qty);
+            SmaHub hub = qts.ToSmaHub(lookback);
 
             SmaResult l = hub.Results[^1];
-            Console.WriteLine($"SMA({lookback}) StreamHub on {l.Timestamp:d} with {Qts.Count,4} periods: {l.Sma:N8}");
+            Console.WriteLine($"SMA({lookback}) StreamHub on {l.Timestamp:d} with {qty,4} periods: {l.Sma:N8}");
 
             // At convergence point, verify matches Series
             if (qty == SmaConvergence)
             {
-                IReadOnlyList<SmaResult> series = Qts.ToSma(lookback);
+                IReadOnlyList<SmaResult> series = qts.ToSma(lookback);
                 l.Should().Be(series[^1]);
                 convergedResult = l;
             }
@@ -214,15 +218,16 @@ public class ConvergenceStreamHubs : TestBaseWithPrecision
 
         foreach (int qty in QuotesQuantities)
         {
-            StochHub hub = Qts.ToStochHub(lookbackPeriods, signalPeriods, smoothPeriods);
+            IReadOnlyList<Quote> qts = Data.GetLongish(qty);
+            StochHub hub = qts.ToStochHub(lookbackPeriods, signalPeriods, smoothPeriods);
 
             StochResult l = hub.Results[^1];
-            Console.WriteLine($"STOCH StreamHub on {l.Timestamp:d} with {Qts.Count,4} periods: {l.K:N8}");
+            Console.WriteLine($"STOCH StreamHub on {l.Timestamp:d} with {qty,4} periods: {l.K:N8}");
 
             // At convergence point, verify matches Series
             if (qty == StochConvergence)
             {
-                IReadOnlyList<StochResult> series = Qts.ToStoch(lookbackPeriods, signalPeriods, smoothPeriods);
+                IReadOnlyList<StochResult> series = qts.ToStoch(lookbackPeriods, signalPeriods, smoothPeriods);
                 l.Should().Be(series[^1]);
                 convergedResult = l;
             }
