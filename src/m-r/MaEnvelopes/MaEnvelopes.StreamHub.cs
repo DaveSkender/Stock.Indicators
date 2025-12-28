@@ -187,28 +187,7 @@ public class MaEnvelopesHub
     }
 
     private double? CalculateSma(int index)
-    {
-        if (index < lookbackPeriods - 1)
-        {
-            return null;
-        }
-
-        double sum = 0;
-        int count = 0;
-        for (int p = index - lookbackPeriods + 1; p <= index; p++)
-        {
-            double val = ProviderCache[p].Value;
-            if (double.IsNaN(val))
-            {
-                return null; // Not enough valid data yet
-            }
-
-            sum += val;
-            count++;
-        }
-
-        return count == lookbackPeriods ? sum / lookbackPeriods : null;
-    }
+        => Sma.Increment(ProviderCache, lookbackPeriods, index).NaN2Null();
 
     private double? CalculateEma(int index)
     {
@@ -270,20 +249,14 @@ public class MaEnvelopesHub
 
     private double InitializeDema(int index)
     {
-        double sum = 0;
-        for (int p = index - lookbackPeriods + 1; p <= index; p++)
+        double sma = Sma.Increment(ProviderCache, lookbackPeriods, index);
+        if (double.IsNaN(sma))
         {
-            double val = ProviderCache[p].Value;
-            if (double.IsNaN(val))
-            {
-                lastEma1 = lastEma2 = double.NaN;
-                return double.NaN;
-            }
-
-            sum += val;
+            lastEma1 = lastEma2 = double.NaN;
+            return double.NaN;
         }
 
-        lastEma1 = lastEma2 = sum / lookbackPeriods;
+        lastEma1 = lastEma2 = sma;
         return (2 * lastEma1) - lastEma2;
     }
 
@@ -326,20 +299,14 @@ public class MaEnvelopesHub
 
     private double InitializeTema(int index)
     {
-        double sum = 0;
-        for (int p = index - lookbackPeriods + 1; p <= index; p++)
+        double sma = Sma.Increment(ProviderCache, lookbackPeriods, index);
+        if (double.IsNaN(sma))
         {
-            double val = ProviderCache[p].Value;
-            if (double.IsNaN(val))
-            {
-                lastEma3 = lastEma4 = lastEma5 = double.NaN;
-                return double.NaN;
-            }
-
-            sum += val;
+            lastEma3 = lastEma4 = lastEma5 = double.NaN;
+            return double.NaN;
         }
 
-        lastEma3 = lastEma4 = lastEma5 = sum / lookbackPeriods;
+        lastEma3 = lastEma4 = lastEma5 = sma;
         return (3 * lastEma3) - (3 * lastEma4) + lastEma5;
     }
 
