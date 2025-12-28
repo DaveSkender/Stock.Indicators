@@ -88,16 +88,19 @@ public class DpoHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
     [TestMethod]
     public void ChainProvider_MatchesSeriesExactly()
     {
-        // DpoHub with downstream chained observers (e.g., SmaHub) now correctly handles
-        // provider history mutations (Insert/Remove) after making StreamHub.Rebuild() and
-        // OnRebuild() virtual methods. DpoHub overrides Rebuild() to notify downstream
-        // observers of the adjusted rebuild position (accounting for backward offset).
+        // FRAMEWORK FIX APPLIED: StreamHub.Rebuild() and OnRebuild() are now virtual methods.
+        // DpoHub overrides Rebuild() to adjust the timestamp backward by offset, ensuring
+        // downstream observers (e.g., SmaHub) are notified of the actual affected position
+        // during provider history mutations (Insert/Remove).
         //
-        // Example: When Insert(Quotes[80]) occurs with offset=11:
-        //   1. DpoHub.RollbackState() correctly removes cache from position 69 ✓
+        // How it works: When Insert(Quotes[80]) occurs with offset=11:
+        //   1. DpoHub.RollbackState() removes cache from position 69 ✓
         //   2. DpoHub.OnAdd() recalculates positions [69, 80] ✓
-        //   3. DpoHub.Rebuild() notifies downstream from adjusted position 69 ✓
-        //   4. Downstream SmaHub recalculates [69, end] correctly ✓
+        //   3. DpoHub.Rebuild() adjusts timestamp to position 69 and notifies downstream ✓
+        //   4. Downstream SmaHub recalculates from position 69, maintaining correctness ✓
+        //
+        // Note: DPO QuoteObserver test passes without this override because it has no
+        // downstream observers requiring adjusted rebuild positions.
 
         const int dpoPeriods = 20;
         const int smaPeriods = 10;
