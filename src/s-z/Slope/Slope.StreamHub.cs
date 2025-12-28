@@ -136,19 +136,13 @@ public class SlopeHub
         double avgX = sumX / LookbackPeriods;
 
         // Calculate sums for least squares method
-        double sumY = 0;
-        double sumSqY = 0;
-        double sumSqXy = 0;
 
-        // First pass: get sumY to calculate avgY
-        foreach (double bufferValue in buffer)
-        {
-            sumY += bufferValue;
-        }
-
-        double avgY = sumY / LookbackPeriods;
+        // First pass: calculate avgY
+        double avgY = buffer.Average();
 
         // Second pass: calculate deviations and their products
+        double sumSqY = 0;
+        double sumSqXy = 0;
         int relativeIndex = 0;
         foreach (double bufferValue in buffer)
         {

@@ -24,44 +24,34 @@ public static partial class Sma
         // initialize
         int length = source.Count;
         SmaResult[] results = new SmaResult[length];
-        double[] values = new double[length];
-
-        for (int i = 0; i < length; i++)
-        {
-            values[i] = source[i].Value;
-        }
 
         // roll through source values
         for (int i = 0; i < length; i++)
         {
             IReusable s = source[i];
 
-            double sma;
-
             if (i >= lookbackPeriods - 1)
             {
                 double sum = 0;
-                int end = i + 1;
-                int start = end - lookbackPeriods;
+                int start = i - lookbackPeriods + 1;
 
-                for (int p = start; p < end; p++)
+                for (int p = start; p <= i; p++)
                 {
                     sum += source[p].Value;
                 }
 
-                sma = sum / lookbackPeriods;
+                results[i] = new SmaResult(
+                    Timestamp: s.Timestamp,
+                    Sma: (sum / lookbackPeriods).NaN2Null());
             }
             else
             {
-                sma = double.NaN;
+                results[i] = new SmaResult(
+                    Timestamp: s.Timestamp,
+                    Sma: null);
             }
-
-            results[i] = new SmaResult(
-                Timestamp: s.Timestamp,
-                Sma: sma.NaN2Null());
         }
 
-        return new List<SmaResult>(results);
+        return results;
     }
 }
-
