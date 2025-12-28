@@ -1,7 +1,7 @@
 namespace StreamHubs;
 
 [TestClass]
-public class KeltnerStreamHub : StreamHubTestBase, ITestQuoteObserver
+public class KeltnerHubTests : StreamHubTestBase, ITestQuoteObserver
 {
     [TestMethod]
     public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
@@ -55,9 +55,7 @@ public class KeltnerStreamHub : StreamHubTestBase, ITestQuoteObserver
 
         // assert, should equal series
         streamList.Should().HaveCount(length - 1);
-        streamList.Should().BeEquivalentTo(
-            seriesList,
-            static options => options.WithStrictOrdering());
+        streamList.IsExactly(seriesList);
 
         observer.Unsubscribe();
         quoteHub.EndTransmission();
@@ -92,18 +90,14 @@ public class KeltnerStreamHub : StreamHubTestBase, ITestQuoteObserver
             .ToList()
             .ToKeltner(5, 1, 3);
 
-        initialResults.Should().BeEquivalentTo(
-            expectedInitial,
-            static options => options.WithStrictOrdering());
+        initialResults.IsExactly(expectedInitial);
 
         for (int i = 5; i < quotes.Count; i++)
         {
             quoteHub.Add(quotes[i]);
         }
 
-        observer.Results.Should().BeEquivalentTo(
-            quotes.ToKeltner(5, 1, 3),
-            static options => options.WithStrictOrdering());
+        observer.Results.IsExactly(quotes.ToKeltner(5, 1, 3));
 
         observer.Unsubscribe();
         quoteHub.EndTransmission();

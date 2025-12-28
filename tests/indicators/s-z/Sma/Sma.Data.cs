@@ -1,6 +1,6 @@
 namespace StaticSeries;
 
-public partial class Sma : StaticSeriesTestBase
+public partial class SmaTests : StaticSeriesTestBase
 {
     /// <summary>
     /// Manually calculated SMA(20) from default <see cref="TestBase.Quotes" /> quotes

@@ -1,4 +1,4 @@
-namespace StreamHub;
+namespace StreamHubs;
 
 [TestClass]
 public class T3HubTests : StreamHubTestBase, ITestChainObserver, ITestChainProvider
@@ -61,7 +61,7 @@ public class T3HubTests : StreamHubTestBase, ITestChainObserver, ITestChainProvi
             .ToT3(lookbackPeriods, volumeFactor);
 
         // assert, should equal series
-        streamList.Should().BeEquivalentTo(seriesList);
+        streamList.IsExactly(seriesList);
         streamList.Should().HaveCount(501);
 
         observer.Unsubscribe();
@@ -100,9 +100,7 @@ public class T3HubTests : StreamHubTestBase, ITestChainObserver, ITestChainProvi
 
         // assert, should equal series
         streamList.Should().HaveCount(length);
-        streamList.Should().BeEquivalentTo(
-            seriesList,
-            options => options.WithStrictOrdering());
+        streamList.IsExactly(seriesList);
 
         observer.Unsubscribe();
         quoteHub.EndTransmission();
@@ -147,7 +145,7 @@ public class T3HubTests : StreamHubTestBase, ITestChainObserver, ITestChainProvi
             .ToSma(smaPeriods);
 
         // assert, should equal series
-        streamList.Should().BeEquivalentTo(seriesList);
+        streamList.IsExactly(seriesList);
         streamList.Should().HaveCount(501);
 
         observer.Unsubscribe();

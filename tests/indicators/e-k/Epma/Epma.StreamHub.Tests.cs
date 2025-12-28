@@ -1,7 +1,7 @@
-namespace StreamHub;
+namespace StreamHubs;
 
 [TestClass]
-public class EpmaStreamHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProvider
+public class EpmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProvider
 {
     private const int lookbackPeriods = 20;
 
@@ -82,7 +82,7 @@ public class EpmaStreamHubTests : StreamHubTestBase, ITestChainObserver, ITestCh
         IReadOnlyList<EpmaResult> seriesResults = Quotes.ToEpma(lookbackPeriods);
 
         streamResults.Should().HaveCount(seriesResults.Count);
-        streamResults.Should().BeEquivalentTo(seriesResults);
+        streamResults.IsExactly(seriesResults);
     }
 
     [TestMethod]
@@ -198,7 +198,7 @@ public class EpmaStreamHubTests : StreamHubTestBase, ITestChainObserver, ITestCh
             .ToSma(10);
 
         chainedResults.Should().HaveCount(expectedChained.Count);
-        chainedResults.Should().BeEquivalentTo(expectedChained);
+        chainedResults.IsExactly(expectedChained);
     }
 
     [TestMethod]
@@ -215,6 +215,6 @@ public class EpmaStreamHubTests : StreamHubTestBase, ITestChainObserver, ITestCh
 
         IReadOnlyList<EpmaResult> sut = epmaHub.Results;
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series);
+        sut.IsExactly(series);
     }
 }

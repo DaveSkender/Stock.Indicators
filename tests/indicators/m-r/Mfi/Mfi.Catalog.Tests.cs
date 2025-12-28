@@ -111,6 +111,6 @@ public class MfiTests : TestBase
         IReadOnlyList<MfiResult> directResults = quotes.ToMfi(lookbackValue);
 
         // Assert - Results should be identical
-        catalogResults.Should().BeEquivalentTo(directResults);
+        catalogResults.IsExactly(directResults);
     }
 }

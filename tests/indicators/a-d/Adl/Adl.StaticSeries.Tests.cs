@@ -15,13 +15,13 @@ public class Adl : StaticSeriesTestBase
         // sample values
         AdlResult r1 = sut[249];
         r1.MoneyFlowMultiplier.Should().BeApproximately(0.7778, Money4);
-        r1.MoneyFlowVolume.Should().BeApproximately(36433792.89, 0.005);
-        r1.Adl.Should().BeApproximately(3266400865.74, 0.005);
+        r1.MoneyFlowVolume.Should().BeApproximately(36433792.89, Money2);
+        r1.Adl.Should().BeApproximately(3266400865.74, Money2);
 
         AdlResult r2 = sut[501];
         r2.MoneyFlowMultiplier.Should().BeApproximately(0.8052, Money4);
-        r2.MoneyFlowVolume.Should().BeApproximately(118396116.25, 0.005);
-        r2.Adl.Should().BeApproximately(3439986548.42, 0.005);
+        r2.MoneyFlowVolume.Should().BeApproximately(118396116.25, Money2);
+        r2.Adl.Should().BeApproximately(3439986548.42, Money2);
     }
 
     [TestMethod]

@@ -127,7 +127,7 @@ public class Macd : BufferListTestBase, ITestChainBufferList
         MacdResult streamResult = sut[50];
         MacdResult seriesResult = series[50];
 
-        streamResult.Should().BeEquivalentTo(seriesResult, static options => options.WithStrictOrdering());
+        streamResult.Should().Be(seriesResult);
         sut.Should().HaveCount(100);
         sut.IsExactly(series.Take(100));
     }

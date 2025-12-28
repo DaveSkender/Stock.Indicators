@@ -1,4 +1,4 @@
-namespace StreamHub;
+namespace StreamHubs;
 
 [TestClass]
 public class VwapHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider

@@ -174,9 +174,7 @@ You specialize in:
 **SeriesParity validation**:
 
 ```csharp
-bufferResults.Should().BeEquivalentTo(
-    seriesResults, 
-    o => o.WithStrictOrdering());
+bufferResults.IsExactly(seriesResults);
 ```
 
 **Reference**: [Test structure](../instructions/indicator-buffer.instructions.md#test-interfaces)
@@ -243,7 +241,7 @@ Tests must:
 - Implement appropriate test interface (ITestChainBufferList, ITestQuoteBufferList, or ITestPairsBufferList)
 - Include SeriesParity test with strict ordering validation
 - Cover all 5 required test patterns
-- Verify equivalence with Series results using `.Should().BeEquivalentTo(series, o => o.WithStrictOrdering())`
+- Verify equivalence with Series results using `.IsExactly(series)`
 
 **Reference test examples**:
 

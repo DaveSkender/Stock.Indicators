@@ -1,4 +1,4 @@
-namespace StreamHub;
+namespace StreamHubs;
 
 [TestClass]
 public class MarubozuHubTests : StreamHubTestBase, ITestQuoteObserver
@@ -58,7 +58,7 @@ public class MarubozuHubTests : StreamHubTestBase, ITestQuoteObserver
 
         // assert, should equal series
         streamList.Should().HaveCount(length - 1);
-        streamList.Should().BeEquivalentTo(seriesList);
+        streamList.IsExactly(seriesList);
 
         marubozuHub.Unsubscribe();
         quoteHub.EndTransmission();

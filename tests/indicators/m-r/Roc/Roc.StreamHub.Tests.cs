@@ -1,4 +1,4 @@
-namespace StreamHub;
+namespace StreamHubs;
 
 [TestClass]
 public class RocHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProvider
@@ -58,7 +58,7 @@ public class RocHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
 
         // assert, should equal series
         streamList.Should().HaveCount(length - 1);
-        streamList.Should().BeEquivalentTo(seriesList);
+        streamList.IsExactly(seriesList);
 
         observer.Unsubscribe();
         quoteHub.EndTransmission();
@@ -100,7 +100,7 @@ public class RocHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
 
         // assert, should equal series
         streamList.Should().HaveCount(length);
-        streamList.Should().BeEquivalentTo(seriesList);
+        streamList.IsExactly(seriesList);
 
         observer.Unsubscribe();
         quoteHub.EndTransmission();
@@ -142,7 +142,7 @@ public class RocHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
 
         // assert, should equal series
         streamList.Should().HaveCount(length);
-        streamList.Should().BeEquivalentTo(seriesList);
+        streamList.IsExactly(seriesList);
 
         observer.Unsubscribe();
         quoteHub.EndTransmission();
