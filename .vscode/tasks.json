@@ -110,7 +110,7 @@
     },
     {
       "label": "Install: NPM (pnpm) packages",
-      "detail": "Install pnpm packages for docs site (VitePress)",
+      "detail": "Install pnpm packages for website (VitePress)",
       "type": "shell",
       "command": "pnpm install",
       "options": {
@@ -123,7 +123,7 @@
     },
     {
       "label": "Update: NPM (pnpm) packages",
-      "detail": "Update pnpm packages for docs site",
+      "detail": "Update pnpm packages for website",
       "type": "shell",
       "command": "pnpm update",
       "options": {
@@ -396,8 +396,8 @@
       "problemMatcher": "$msCompile"
     },
     {
-      "label": "Run: Website with LiveReload",
-      "detail": "Serve VitePress docs site with hot reload (port 5173, opens browser)",
+      "label": "Run: Website (dev server)",
+      "detail": "Serve VitePress website with hot reload (port 5173, opens browser)",
       "type": "shell",
       "command": "pnpm run docs:dev",
       "dependsOn": "Install: NPM (pnpm) packages",
@@ -412,8 +412,8 @@
       "problemMatcher": []
     },
     {
-      "label": "Run: Doc site with LiveReload (Simple Browser)",
-      "detail": "Serve VitePress docs site on port 5174 with hot reload (VS Code Simple Browser)",
+      "label": "Run: Website (Simple Browser)",
+      "detail": "Serve VitePress website with hot reload on port 5174 (VS Code Simple Browser)",
       "type": "shell",
       "command": "pnpm run docs:dev -- --port 5174",
       "dependsOn": "Install: NPM (pnpm) packages",
@@ -427,8 +427,8 @@
       "problemMatcher": []
     },
     {
-      "label": "Build: Documentation site",
-      "detail": "Build VitePress docs site for production",
+      "label": "Build: Website",
+      "detail": "Build VitePress website for production",
       "type": "shell",
       "command": "pnpm run docs:build",
       "dependsOn": "Install: NPM (pnpm) packages",
@@ -438,11 +438,11 @@
       "problemMatcher": []
     },
     {
-      "label": "Preview: Documentation site",
-      "detail": "Preview production build of VitePress docs site",
+      "label": "Run: Website (prod preview)",
+      "detail": "Preview production build of VitePress website",
       "type": "shell",
       "command": "pnpm run docs:preview -- --open",
-      "dependsOn": "Build: Documentation site",
+      "dependsOn": "Build: Website",
       "isBackground": true,
       "options": {
         "cwd": "${workspaceFolder}/docs"
@@ -475,7 +475,7 @@
     },
     {
       "label": "Test: Website links (htmlproofer)",
-      "detail": "Build docs and run htmlproofer link checks (parity with CI)",
+      "detail": "Build website and run htmlproofer link checks (parity with CI)",
       "type": "shell",
       "command": "bash .vitepress/run-htmlproofer.sh",
       "options": {
@@ -485,7 +485,7 @@
     },
     {
       "label": "Test: Website a11y (pa11y)",
-      "detail": "Build docs, preview locally, and run pa11y-ci sitemap checks",
+      "detail": "Build website, preview locally, and run pa11y-ci sitemap checks",
       "type": "shell",
       "command": "bash .vitepress/run-pa11y.sh",
       "options": {
