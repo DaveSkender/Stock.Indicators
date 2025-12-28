@@ -53,8 +53,7 @@
       "description": "Select command type for Roslynator",
       "options": [
         "analyze",
-        "fix",
-        "format"
+        "fix"
       ],
       "default": "fix",
       "type": "pickString"
