@@ -4,23 +4,29 @@
     ".offline"
   ],
   "config": {
+    "MD013": false,
+    "MD025": false,
     "MD033": {
       "allowed_elements": [
+        "a",
         "code",
         "details",
         "summary",
-        "br",
         "sub",
         "sup",
         "kbd",
         "abbr",
-        "a",
         "img",
+        "br",
         "p",
         "h1",
         "ul",
         "li",
-        "nav"
+        "nav",
+        "ClientOnly",
+        "IndicatorChart",
+        "clientonly",
+        "indicatorchart"
       ]
     },
     "MD041": false
