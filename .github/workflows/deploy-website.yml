@@ -28,10 +28,10 @@ jobs:
 
     steps:
       - name: Checkout source
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: Setup Ruby
-        uses: ruby/setup-ruby@v1.265.0
+        uses: ruby/setup-ruby@v1.276.0
         with:
           ruby-version: 3.3
           bundler-cache: true
@@ -41,7 +41,7 @@ jobs:
         run: echo "version=$(date +'%Y.%m.%d')-${{ github.run_number }}" >> $GITHUB_OUTPUT
 
       - name: Replace cache markers
-        uses: jacobtomlinson/gha-find-replace@f1069b438f125e5395d84d1c6fd3b559a7880cb5
+        uses: jacobtomlinson/gha-find-replace@v3
         with:
           find: "YYYY.MM.DD"
           replace: "${{ steps.tag.outputs.version }}"

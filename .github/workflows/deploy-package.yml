@@ -57,7 +57,7 @@ jobs:
 
     steps:
       - name: Checkout source
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
 
@@ -139,7 +139,7 @@ jobs:
           fi
 
       - name: Checkout source
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
 
@@ -191,7 +191,7 @@ jobs:
           echo "Generated version: $ver"
 
       - name: Replace "dumb" version markers
-        uses: jacobtomlinson/gha-find-replace@f1069b438f125e5395d84d1c6fd3b559a7880cb5
+        uses: jacobtomlinson/gha-find-replace@v3
         with:
           find: "#{PACKAGE_VERSION}#"
           replace: "${{ steps.version_info.outputs.version }}"
@@ -227,7 +227,7 @@ jobs:
           -p:PackageVersion=${{ steps.version_info.outputs.version }}
 
       - name: Save package
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: packages
           path: NuGet
@@ -262,7 +262,7 @@ jobs:
     permissions:
       contents: write
       packages: write
-      id-token: write  # Required for OIDC authentication to nuget.org
+      id-token: write # Required for OIDC authentication to nuget.org
 
     environment:
       name: ${{ needs.package.outputs.environ != '' && needs.package.outputs.environ || null }}

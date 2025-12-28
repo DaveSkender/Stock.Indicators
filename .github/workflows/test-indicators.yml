@@ -13,8 +13,8 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read  # Required for checkout
-  checks: write   # Required for test results
+  contents: read # Required for checkout
+  checks: write # Required for test results
 
 jobs:
   quick-check:
@@ -23,7 +23,7 @@ jobs:
 
     steps:
       - name: Checkout source
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: Setup .NET
         uses: actions/setup-dotnet@v5
@@ -64,7 +64,7 @@ jobs:
 
     steps:
       - name: Checkout source
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: Setup .NET
         uses: actions/setup-dotnet@v5
@@ -104,7 +104,7 @@ jobs:
 
     steps:
       - name: Checkout source
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: Setup .NET
         uses: actions/setup-dotnet@v5
@@ -125,8 +125,8 @@ jobs:
           --collect:"XPlat Code Coverage"
 
       - name: Post unit test results
-        uses: dorny/test-reporter@v2.1.1
-        if: always()
+        uses: dorny/test-reporter@v2.3.0
+        if: ${{ !cancelled() }}
         with:
           name: Unit test results
           path: test-results/unit/**/*.trx
@@ -135,8 +135,8 @@ jobs:
         continue-on-error: true
 
       - name: Upload coverage reports
-        uses: actions/upload-artifact@v4
-        if: always()
+        uses: actions/upload-artifact@v6
+        if: ${{ !cancelled() }}
         with:
           name: coverage-unit
           path: test-results/unit/**/coverage.cobertura.xml
