@@ -9,7 +9,7 @@ public class TrixTests : RegressionTestBase<TrixResult>
     public override void Series() => Quotes.ToTrix().IsExactly(Expected);
 
     [TestMethod]
-    public override void Buffer() => new TrixList(14) { Quotes }.IsExactly(Expected);
+    public override void Buffer() => Quotes.ToTrixList(14).IsExactly(Expected);
 
     [TestMethod]
     public override void Stream() => QuoteHub.ToTrixHub(14).Results.IsExactly(Expected);

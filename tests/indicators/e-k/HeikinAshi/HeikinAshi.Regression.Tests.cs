@@ -9,7 +9,7 @@ public class HeikinashiTests : RegressionTestBase<HeikinAshiResult>
     public override void Series() => Quotes.ToHeikinAshi().IsExactly(Expected);
 
     [TestMethod]
-    public override void Buffer() => new HeikinAshiList() { Quotes }.IsExactly(Expected);
+    public override void Buffer() => Quotes.ToHeikinAshiList().IsExactly(Expected);
 
     [TestMethod]
     public override void Stream() => Quotes.ToHeikinAshiHub().Results.IsExactly(Expected);

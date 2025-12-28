@@ -9,7 +9,7 @@ public class MacdTests : RegressionTestBase<MacdResult>
     public override void Series() => Quotes.ToMacd(12, 26, 9).IsExactly(Expected);
 
     [TestMethod]
-    public override void Buffer() => new MacdList(12, 26, 9) { Quotes }.IsExactly(Expected);
+    public override void Buffer() => Quotes.ToMacdList(12, 26, 9).IsExactly(Expected);
 
     [TestMethod]
     public override void Stream() => QuoteHub.ToMacdHub(12, 26, 9).Results.IsExactly(Expected);

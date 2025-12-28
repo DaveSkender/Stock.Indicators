@@ -9,7 +9,7 @@ public class DemaTests : RegressionTestBase<DemaResult>
     public override void Series() => Quotes.ToDema().IsExactly(Expected);
 
     [TestMethod]
-    public override void Buffer() => new DemaList(14) { Quotes }.IsExactly(Expected);
+    public override void Buffer() => Quotes.ToDemaList(14).IsExactly(Expected);
 
     [TestMethod]
     public override void Stream() => QuoteHub.ToDemaHub(14).Results.IsExactly(Expected);

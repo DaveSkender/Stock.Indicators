@@ -9,7 +9,7 @@ public class BopTests : RegressionTestBase<BopResult>
     public override void Series() => Quotes.ToBop().IsExactly(Expected);
 
     [TestMethod]
-    public override void Buffer() => new BopList(14) { Quotes }.IsExactly(Expected);
+    public override void Buffer() => Quotes.ToBopList(14).IsExactly(Expected);
 
     [TestMethod]
     public override void Stream() => QuoteHub.ToBopHub(14).Results.IsExactly(Expected);

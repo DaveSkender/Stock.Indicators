@@ -31,7 +31,7 @@ namespace Skender.Stock.Indicators;
 /// </list>
 /// </para>
 /// </remarks>
-public class HtlList : BufferList<HtlResult>, IIncrementFromChain
+public class HtTrendlineList : BufferList<HtlResult>, IIncrementFromChain
 {
     private readonly List<double> pr;  // price
     private readonly List<double> sp;  // smooth price
@@ -61,9 +61,9 @@ public class HtlList : BufferList<HtlResult>, IIncrementFromChain
     private const int MaxBufferSize = 1000;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="HtlList"/> class.
+    /// Initializes a new instance of the <see cref="HtTrendlineList"/> class.
     /// </summary>
-    public HtlList()
+    public HtTrendlineList()
     {
         pr = [];
         sp = [];
@@ -80,10 +80,10 @@ public class HtlList : BufferList<HtlResult>, IIncrementFromChain
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="HtlList"/> class with initial reusable values.
+    /// Initializes a new instance of the <see cref="HtTrendlineList"/> class with initial reusable values.
     /// </summary>
     /// <param name="values">Initial reusable values to populate the list.</param>
-    public HtlList(IReadOnlyList<IReusable> values)
+    public HtTrendlineList(IReadOnlyList<IReusable> values)
         : this() => Add(values);
 
     /// <inheritdoc />
@@ -312,7 +312,7 @@ public static partial class HtTrendline
     /// Creates a buffer list for Hilbert Transform Instantaneous Trendline (HTL) calculations.
     /// </summary>
     /// <param name="source">The source reusable values.</param>
-    public static HtlList ToHtTrendlineList(
+    public static HtTrendlineList ToHtTrendlineList(
         this IReadOnlyList<IReusable> source)
         => new() { source };
 }

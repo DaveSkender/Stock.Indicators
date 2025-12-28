@@ -9,7 +9,7 @@ public class PmoTests : RegressionTestBase<PmoResult>
     public override void Series() => Quotes.ToPmo(35, 20, 10).IsExactly(Expected);
 
     [TestMethod]
-    public override void Buffer() => new PmoList(35, 20, 10) { Quotes }.IsExactly(Expected);
+    public override void Buffer() => Quotes.ToPmoList(35, 20, 10).IsExactly(Expected);
 
     [TestMethod]
     public override void Stream() => QuoteHub.ToPmoHub(35, 20, 10).Results.IsExactly(Expected);

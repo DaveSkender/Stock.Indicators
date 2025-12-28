@@ -9,7 +9,7 @@ public class TrTests : RegressionTestBase<TrResult>
     public override void Series() => Quotes.ToTr().IsExactly(Expected);
 
     [TestMethod]
-    public override void Buffer() => new TrList() { Quotes }.IsExactly(Expected);
+    public override void Buffer() => Quotes.ToTrList().IsExactly(Expected);
 
     [TestMethod]
     public override void Stream() => QuoteHub.ToTrHub().Results.IsExactly(Expected);
