@@ -1,4 +1,4 @@
-namespace StreamHub;
+namespace StreamHubs;
 
 // QUOTEHUB
 
@@ -34,7 +34,7 @@ public class QuoteHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPr
 
         // assert same as original
         observer.Cache.Should().HaveCount(length);
-        observer.Cache.Should().BeEquivalentTo(quoteHub.Cache);
+        observer.Cache.IsExactly(quoteHub.Cache);
     }
 
     [TestMethod]
@@ -75,7 +75,7 @@ public class QuoteHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPr
 
         // assert, should equal series
         streamList.Should().HaveCount(length - 1);
-        streamList.Should().BeEquivalentTo(seriesList);
+        streamList.IsExactly(seriesList);
 
         // cleanup
         observer.Unsubscribe();

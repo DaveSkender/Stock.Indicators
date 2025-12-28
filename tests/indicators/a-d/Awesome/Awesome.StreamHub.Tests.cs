@@ -1,4 +1,4 @@
-namespace StreamHub;
+namespace StreamHubs;
 
 [TestClass]
 public class AwesomeHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProvider
@@ -58,7 +58,7 @@ public class AwesomeHubTests : StreamHubTestBase, ITestChainObserver, ITestChain
 
         // assert, should equal series
         streamList.Should().HaveCount(length - 1);
-        streamList.Should().BeEquivalentTo(seriesList);
+        streamList.IsExactly(seriesList);
 
         awesomeHub.Unsubscribe();
         quoteHub.EndTransmission();
@@ -101,7 +101,7 @@ public class AwesomeHubTests : StreamHubTestBase, ITestChainObserver, ITestChain
 
         // assert, should equal series
         streamList.Should().HaveCount(length);
-        streamList.Should().BeEquivalentTo(seriesList);
+        streamList.IsExactly(seriesList);
 
         awesomeHub.Unsubscribe();
         quoteHub.EndTransmission();
@@ -144,7 +144,7 @@ public class AwesomeHubTests : StreamHubTestBase, ITestChainObserver, ITestChain
 
         // assert, should equal series
         streamList.Should().HaveCount(length);
-        streamList.Should().BeEquivalentTo(seriesList);
+        streamList.IsExactly(seriesList);
 
         emaHub.Unsubscribe();
         quoteHub.EndTransmission();

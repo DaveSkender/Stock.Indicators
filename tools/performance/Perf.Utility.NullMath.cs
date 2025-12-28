@@ -20,20 +20,6 @@ public class UtilityNullMath
     [Benchmark]
     public double? AbsDblNul() => dblNul.Abs();
 
-    // Round()
-
-    [Benchmark]
-    public decimal? RoundDecVal() => decVal.Round(2);
-
-    [Benchmark]
-    public decimal? RoundDecNul() => decNul.Round(2);
-
-    [Benchmark]
-    public double? RoundDblVal() => dblVal.Round(2);
-
-    [Benchmark]
-    public double? RoundDblNul() => dblNul.Round(2);
-
     // Null2NaN()
 
     [Benchmark]

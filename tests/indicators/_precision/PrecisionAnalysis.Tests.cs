@@ -1,12 +1,15 @@
 namespace Precision;
 
+// TODO: this Boundary Test class may be obsolete
+// since we've added Results_AreAlwaysBounded to indicator test classes.
+
 /// <summary>
 /// Phase 1: Precision analysis tests to document exactly which indicators
 /// fail boundary checks and by how much when using boundary test data.
 /// These tests are designed to expose precision vulnerabilities, not to pass.
 /// </summary>
 [TestClass]
-public class PrecisionAnalysisTests : TestBase
+public class BoundaryTests : TestBase
 {
     /// <summary>
     /// Tests RSI with monotonically increasing prices.

@@ -312,7 +312,7 @@ public static partial class HtTrendline
     /// Creates a buffer list for Hilbert Transform Instantaneous Trendline (HTL) calculations.
     /// </summary>
     /// <param name="source">The source reusable values.</param>
-    public static HtlList ToHtlList(
+    public static HtlList ToHtTrendlineList(
         this IReadOnlyList<IReusable> source)
         => new() { source };
 }

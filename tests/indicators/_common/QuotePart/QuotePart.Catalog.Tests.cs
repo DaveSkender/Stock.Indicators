@@ -25,7 +25,7 @@ public class QuotePartTests : TestBase
         IReadOnlyList<QuotePart> directResults = quotes.ToQuotePart(candlePartValue);
 
         // Assert - Results from catalog-driven execution should match direct call
-        catalogResults.Should().BeEquivalentTo(directResults);
+        catalogResults.IsExactly(directResults);
 
         // Assert - Lookup gets correct values
         candlePartValue.Should().Be(CandlePart.Close);

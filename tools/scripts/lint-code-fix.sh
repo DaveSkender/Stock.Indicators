@@ -13,7 +13,11 @@ roslynator fix \
 --properties TargetFramework=net10.0 || exit 1
 
 echo ""
-echo "=== Running .NET format fixer ==="
+echo "=== Running Roslynator formatter ==="
+roslynator format || exit 1
+
+echo ""
+echo "=== Running .NET formatter ==="
 dotnet format \
 --severity info \
 --no-restore || exit 1
