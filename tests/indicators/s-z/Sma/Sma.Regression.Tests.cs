@@ -9,7 +9,7 @@ public class SmaTests : RegressionTestBase<SmaResult>
     public override void Series() => Quotes.ToSma(20).IsExactly(Expected);
 
     [TestMethod]
-    public override void Buffer() => new SmaList(20) { Quotes }.IsExactly(Expected);
+    public override void Buffer() => Quotes.ToSmaList(20).IsExactly(Expected);
 
     [TestMethod]
     public override void Stream() => QuoteHub.ToSmaHub(20).Results.IsExactly(Expected);

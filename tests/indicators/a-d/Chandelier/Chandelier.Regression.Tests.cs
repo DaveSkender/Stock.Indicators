@@ -9,7 +9,7 @@ public class ChandelierTests : RegressionTestBase<ChandelierResult>
     public override void Series() => Quotes.ToChandelier(22, 3).IsExactly(Expected);
 
     [TestMethod]
-    public override void Buffer() => new ChandelierList(22, 3) { Quotes }.IsExactly(Expected);
+    public override void Buffer() => Quotes.ToChandelierList(22, 3).IsExactly(Expected);
 
     [TestMethod]
     public override void Stream()

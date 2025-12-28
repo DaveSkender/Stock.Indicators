@@ -9,7 +9,7 @@ public class BollingerbandsTests : RegressionTestBase<BollingerBandsResult>
     public override void Series() => Quotes.ToBollingerBands(20, 2).IsExactly(Expected);
 
     [TestMethod]
-    public override void Buffer() => new BollingerBandsList(20, 2) { Quotes }.IsExactly(Expected);
+    public override void Buffer() => Quotes.ToBollingerBandsList(20, 2).IsExactly(Expected);
 
     [TestMethod]
     public override void Stream() => QuoteHub.ToBollingerBandsHub(20, 2).Results.IsExactly(Expected);

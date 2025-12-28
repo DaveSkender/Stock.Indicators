@@ -9,7 +9,7 @@ public class DojiTests : RegressionTestBase<CandleResult>
     public override void Series() => Quotes.ToDoji(0.1).IsExactly(Expected);
 
     [TestMethod]
-    public override void Buffer() => new DojiList(0.1) { Quotes }.IsExactly(Expected);
+    public override void Buffer() => Quotes.ToDojiList(0.1).IsExactly(Expected);
 
     [TestMethod]
     public override void Stream() => QuoteHub.ToDojiHub(0.1).Results.IsExactly(Expected);

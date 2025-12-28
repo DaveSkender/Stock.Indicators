@@ -9,7 +9,7 @@ public class VolatilitystopTests : RegressionTestBase<VolatilityStopResult>
     public override void Series() => Quotes.ToVolatilityStop().IsExactly(Expected);
 
     [TestMethod]
-    public override void Buffer() => new VolatilityStopList(7, 3, Quotes).IsExactly(Expected);
+    public override void Buffer() => Quotes.ToVolatilityStopList().IsExactly(Expected);
 
     [TestMethod]
     public override void Stream() => QuoteHub.ToVolatilityStopHub().Results.IsExactly(Expected);

@@ -9,7 +9,7 @@ public class StarcBandsTests : RegressionTestBase<StarcBandsResult>
     public override void Series() => Quotes.ToStarcBands().IsExactly(Expected);
 
     [TestMethod]
-    public override void Buffer() => new StarcBandsList() { Quotes }.IsExactly(Expected);
+    public override void Buffer() => Quotes.ToStarcBandsList().IsExactly(Expected);
 
     [TestMethod]
     public override void Stream() => QuoteHub.ToStarcBandsHub().Results.IsExactly(Expected);

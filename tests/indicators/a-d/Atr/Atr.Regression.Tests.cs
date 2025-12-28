@@ -9,7 +9,7 @@ public class AtrTests : RegressionTestBase<AtrResult>
     public override void Series() => Quotes.ToAtr(14).IsExactly(Expected);
 
     [TestMethod]
-    public override void Buffer() => new AtrList(14) { Quotes }.IsExactly(Expected);
+    public override void Buffer() => Quotes.ToAtrList(14).IsExactly(Expected);
 
     [TestMethod]
     public override void Stream() => QuoteHub.ToAtrHub(14).Results.IsExactly(Expected);

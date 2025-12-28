@@ -9,7 +9,7 @@ public class KamaTests : RegressionTestBase<KamaResult>
     public override void Series() => Quotes.ToKama(10, 2, 30).IsExactly(Expected);
 
     [TestMethod]
-    public override void Buffer() => new KamaList(10, 2, 30) { Quotes }.IsExactly(Expected);
+    public override void Buffer() => Quotes.ToKamaList(10, 2, 30).IsExactly(Expected);
 
     [TestMethod]
     public override void Stream() => QuoteHub.ToKamaHub(10, 2, 30).Results.IsExactly(Expected);

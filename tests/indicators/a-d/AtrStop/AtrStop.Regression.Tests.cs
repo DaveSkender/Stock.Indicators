@@ -9,7 +9,7 @@ public class AtrstopTests : RegressionTestBase<AtrStopResult>
     public override void Series() => Quotes.ToAtrStop(21, 3).IsExactly(Expected);
 
     [TestMethod]
-    public override void Buffer() => new AtrStopList(21, 3) { Quotes }.IsExactly(Expected);
+    public override void Buffer() => Quotes.ToAtrStopList(21, 3).IsExactly(Expected);
 
     [TestMethod]
     public override void Stream() => QuoteHub.ToAtrStopHub(21, 3).Results.IsExactly(Expected);
