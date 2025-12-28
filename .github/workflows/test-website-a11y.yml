@@ -27,10 +27,10 @@ jobs:
 
     steps:
       - name: Checkout source
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: Setup Ruby
-        uses: ruby/setup-ruby@v1.265.0
+        uses: ruby/setup-ruby@v1.276.0
         with:
           ruby-version: 3.3
           bundler-cache: true
@@ -39,7 +39,7 @@ jobs:
         run: npm install -g pa11y-ci
 
       - name: Use 'localhost'
-        uses: jacobtomlinson/gha-find-replace@f1069b438f125e5395d84d1c6fd3b559a7880cb5
+        uses: jacobtomlinson/gha-find-replace@dfbfef71bc27c27c39d89534540a8960e0eee6b0
         with:
           find: "https://dotnet.stockindicators.dev"
           replace: "http://127.0.0.1:4000"
