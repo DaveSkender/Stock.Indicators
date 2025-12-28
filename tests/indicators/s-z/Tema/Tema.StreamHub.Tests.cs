@@ -8,60 +8,43 @@ public class TemaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
     {
         const int lookbackPeriods = 20;
 
-        List<Quote> quotesList = Quotes.ToList();
-
-        int length = quotesList.Count;
-
         // setup quote provider hub
         QuoteHub quoteHub = new();
 
         // prefill quotes at provider
-        for (int i = 0; i < 50; i++)
-        {
-            quoteHub.Add(quotesList[i]);
-        }
+        quoteHub.Add(Quotes.Take(50));
 
         // initialize observer
-        TemaHub observer = quoteHub
-            .ToTemaHub(lookbackPeriods);
+        TemaHub observer = quoteHub.ToTemaHub(lookbackPeriods);
 
         // fetch initial results (early)
-        IReadOnlyList<TemaResult> streamList
-            = observer.Results;
+        IReadOnlyList<TemaResult> sut = observer.Results;
 
         // emulate adding quotes to provider hub
-        for (int i = 50; i < length; i++)
+        for (int i = 50; i < quotesCount; i++)
         {
             // skip one (add later)
-            if (i == 80)
-            {
-                continue;
-            }
+            if (i == 80) { continue; }
 
-            Quote q = quotesList[i];
+            Quote q = Quotes[i];
             quoteHub.Add(q);
 
             // resend duplicate quotes
-            if (i is > 100 and < 105)
-            {
-                quoteHub.Add(q);
-            }
+            if (i is > 100 and < 105) { quoteHub.Add(q); }
         }
 
-        // late arrival
-        quoteHub.Insert(quotesList[80]);
+        // late arrival, should equal series
+        quoteHub.Insert(Quotes[80]);
 
-        // delete
-        quoteHub.Remove(quotesList[400]);
-        quotesList.RemoveAt(400);
+        IReadOnlyList<TemaResult> expectedOriginal = Quotes.ToTema(lookbackPeriods);
+        sut.IsExactly(expectedOriginal);
 
-        // time-series, for comparison
-        IReadOnlyList<TemaResult> seriesList = quotesList
-            .ToTema(lookbackPeriods);
+        // delete, should equal series (revised)
+        quoteHub.Remove(Quotes[removeAtIndex]);
 
-        // assert, should equal series
-        streamList.IsExactly(seriesList);
-        streamList.Should().HaveCount(501);
+        IReadOnlyList<TemaResult> expectedRevised = RevisedQuotes.ToTema(lookbackPeriods);
+        sut.IsExactly(expectedRevised);
+        sut.Should().HaveCount(quotesCount - 1);
 
         observer.Unsubscribe();
         quoteHub.EndTransmission();

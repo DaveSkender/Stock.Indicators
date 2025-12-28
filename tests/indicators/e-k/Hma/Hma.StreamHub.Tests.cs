@@ -8,26 +8,23 @@ public class HmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
     [TestMethod]
     public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
-        List<Quote> quotesList = Quotes.ToList();
-        int length = quotesList.Count;
-
         QuoteHub quoteHub = new();
 
         for (int i = 0; i < LookbackPeriods; i++)
         {
-            quoteHub.Add(quotesList[i]);
+            quoteHub.Add(Quotes[i]);
         }
 
         HmaHub observer = quoteHub.ToHmaHub(LookbackPeriods);
 
-        for (int i = LookbackPeriods; i < length; i++)
+        for (int i = LookbackPeriods; i < quotesCount; i++)
         {
             if (i == 80)
             {
                 continue;
             }
 
-            Quote quote = quotesList[i];
+            Quote quote = Quotes[i];
             quoteHub.Add(quote);
 
             if (i is > 120 and < 126)
@@ -36,16 +33,15 @@ public class HmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
             }
         }
 
-        quoteHub.Insert(quotesList[80]);
+        quoteHub.Insert(Quotes[80]);
 
-        quoteHub.Remove(quotesList[400]);
-        quotesList.RemoveAt(400);
+        quoteHub.Remove(Quotes[removeAtIndex]);
 
-        IReadOnlyList<HmaResult> streamList = observer.Results;
-        IReadOnlyList<HmaResult> seriesList = quotesList.ToHma(LookbackPeriods);
+        IReadOnlyList<HmaResult> actuals = observer.Results;
+        IReadOnlyList<HmaResult> expected = RevisedQuotes.ToHma(LookbackPeriods);
 
-        streamList.Should().HaveCount(length - 1);
-        streamList.IsExactly(seriesList);
+        actuals.Should().HaveCount(quotesCount - 1);
+        actuals.IsExactly(expected);
 
         observer.Unsubscribe();
         quoteHub.EndTransmission();

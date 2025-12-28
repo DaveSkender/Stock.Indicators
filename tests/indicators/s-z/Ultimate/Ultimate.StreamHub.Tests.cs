@@ -13,60 +13,43 @@ public class UltimateHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChai
     [TestMethod]
     public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
-        List<Quote> quotesList = Quotes.ToList();
-
-        int length = quotesList.Count;
-
         // setup quote provider hub
         QuoteHub quoteHub = new();
 
         // prefill quotes at provider
-        for (int i = 0; i < 20; i++)
-        {
-            quoteHub.Add(quotesList[i]);
-        }
+        quoteHub.Add(Quotes.Take(20));
 
         // initialize observer
-        UltimateHub observer = quoteHub
-            .ToUltimateHub(7, 14, 28);
+        UltimateHub observer = quoteHub.ToUltimateHub(7, 14, 28);
 
         // fetch initial results (early)
-        IReadOnlyList<UltimateResult> streamList
-            = observer.Results;
+        IReadOnlyList<UltimateResult> sut = observer.Results;
 
         // emulate adding quotes to provider hub
-        for (int i = 20; i < length; i++)
+        for (int i = 20; i < quotesCount; i++)
         {
             // skip one (add later)
-            if (i == 80)
-            {
-                continue;
-            }
+            if (i == 80) { continue; }
 
-            Quote q = quotesList[i];
+            Quote q = Quotes[i];
             quoteHub.Add(q);
 
             // resend duplicate quotes
-            if (i is > 100 and < 105)
-            {
-                quoteHub.Add(q);
-            }
+            if (i is > 100 and < 105) { quoteHub.Add(q); }
         }
 
-        // late arrival
-        quoteHub.Insert(quotesList[80]);
+        // late arrival, should equal series
+        quoteHub.Insert(Quotes[80]);
 
-        // delete
-        quoteHub.Remove(quotesList[400]);
-        quotesList.RemoveAt(400);
+        IReadOnlyList<UltimateResult> expectedOriginal = Quotes.ToUltimate(7, 14, 28);
+        sut.IsExactly(expectedOriginal);
 
-        // time-series, for comparison
-        IReadOnlyList<UltimateResult> seriesList = quotesList
-            .ToUltimate(7, 14, 28);
+        // delete, should equal series (revised)
+        quoteHub.Remove(Quotes[removeAtIndex]);
 
-        // assert, should equal series
-        streamList.Should().HaveCount(length - 1);
-        streamList.IsExactly(seriesList);
+        IReadOnlyList<UltimateResult> expectedRevised = RevisedQuotes.ToUltimate(7, 14, 28);
+        sut.IsExactly(expectedRevised);
+        sut.Should().HaveCount(quotesCount - 1);
 
         observer.Unsubscribe();
         quoteHub.EndTransmission();

@@ -6,17 +6,13 @@ public class BopHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProv
     [TestMethod]
     public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
-        List<Quote> quotesList = Quotes.ToList();
-
-        int length = quotesList.Count;
-
         // setup quote provider
         QuoteHub quoteHub = new();
 
         // prefill quotes to provider
         for (int i = 0; i < 40; i++)
         {
-            quoteHub.Add(quotesList[i]);
+            quoteHub.Add(Quotes[i]);
         }
 
         // initialize observer
@@ -24,11 +20,11 @@ public class BopHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProv
             .ToBopHub(14);
 
         // fetch initial results (early)
-        IReadOnlyList<BopResult> streamList
+        IReadOnlyList<BopResult> actuals
             = bopHub.Results;
 
         // emulate adding quotes to provider
-        for (int i = 40; i < length; i++)
+        for (int i = 40; i < quotesCount; i++)
         {
             // skip one (add later)
             if (i == 80)
@@ -36,7 +32,7 @@ public class BopHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProv
                 continue;
             }
 
-            Quote q = quotesList[i];
+            Quote q = Quotes[i];
             quoteHub.Add(q);
 
             // resend duplicate quotes
@@ -47,18 +43,17 @@ public class BopHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProv
         }
 
         // late arrival
-        quoteHub.Insert(quotesList[80]);
+        quoteHub.Insert(Quotes[80]);
 
         // delete
-        quoteHub.Remove(quotesList[400]);
-        quotesList.RemoveAt(400);
+        quoteHub.Remove(Quotes[removeAtIndex]);
 
         // time-series, for comparison
-        IReadOnlyList<BopResult> seriesList = quotesList.ToBop(14);
+        IReadOnlyList<BopResult> expected = RevisedQuotes.ToBop(14);
 
         // assert
-        streamList.Should().HaveCount(length - 1);
-        streamList.IsExactly(seriesList);
+        actuals.Should().HaveCount(quotesCount - 1);
+        actuals.IsExactly(expected);
 
         bopHub.Unsubscribe();
         quoteHub.EndTransmission();

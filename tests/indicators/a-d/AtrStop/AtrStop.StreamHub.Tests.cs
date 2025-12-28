@@ -6,15 +6,11 @@ public class AtrStopHubTests : StreamHubTestBase, ITestQuoteObserver
     [TestMethod]
     public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
-        List<Quote> quotesList = Quotes.ToList();
-
-        int length = quotesList.Count;
-
         // setup quote provider hub
         QuoteHub quoteHub = new();
 
         // prefill quotes at provider (batch)
-        quoteHub.Add(quotesList.Take(20));
+        quoteHub.Add(Quotes.Take(20));
 
         // initialize observer
         AtrStopHub observer = quoteHub
@@ -23,11 +19,11 @@ public class AtrStopHubTests : StreamHubTestBase, ITestQuoteObserver
         observer.Results.Should().HaveCount(20);
 
         // fetch initial results (early)
-        IReadOnlyList<AtrStopResult> streamList
+        IReadOnlyList<AtrStopResult> actuals
             = observer.Results;
 
         // emulate adding quotes to provider hub
-        for (int i = 20; i < length; i++)
+        for (int i = 20; i < quotesCount; i++)
         {
             // skip one (add later)
             if (i is 30 or 80)
@@ -35,7 +31,7 @@ public class AtrStopHubTests : StreamHubTestBase, ITestQuoteObserver
                 continue;
             }
 
-            Quote q = quotesList[i];
+            Quote q = Quotes[i];
             quoteHub.Add(q);
 
             // resend duplicate quotes
@@ -46,21 +42,18 @@ public class AtrStopHubTests : StreamHubTestBase, ITestQuoteObserver
         }
 
         // late arrivals
-        quoteHub.Insert(quotesList[30]);  // rebuilds complete series
-        quoteHub.Insert(quotesList[80]);  // rebuilds from last reversal
+        quoteHub.Insert(Quotes[30]);  // rebuilds complete series
+        quoteHub.Insert(Quotes[80]);  // rebuilds from last reversal
 
         // delete
-        quoteHub.Remove(quotesList[400]);
-        quotesList.RemoveAt(400);
+        quoteHub.Remove(Quotes[removeAtIndex]);
 
         // time-series, for comparison
-        IReadOnlyList<AtrStopResult> seriesList
-           = quotesList
-            .ToAtrStop();
+        IReadOnlyList<AtrStopResult> expected = RevisedQuotes.ToAtrStop();
 
         // assert, should equal series
-        streamList.Should().HaveCount(length - 1);
-        streamList.IsExactly(seriesList);
+        actuals.Should().HaveCount(quotesCount - 1);
+        actuals.IsExactly(expected);
 
         observer.Unsubscribe();
         quoteHub.EndTransmission();

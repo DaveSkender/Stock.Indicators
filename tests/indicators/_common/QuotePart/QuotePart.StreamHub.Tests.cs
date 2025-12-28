@@ -8,64 +8,48 @@ public class QuotePartHubTests : StreamHubTestBase, ITestQuoteObserver, ITestCha
     {
         const CandlePart candlePart = CandlePart.HLC3;
 
-        List<Quote> quotesList = Quotes.ToList();
-
-        int length = quotesList.Count;
-
         // setup quote provider hub
         QuoteHub quoteHub = new();
 
         // prefill quotes at provider
-        for (int i = 0; i < 20; i++)
-        {
-            quoteHub.Add(quotesList[i]);
-        }
+        quoteHub.Add(Quotes.Take(20));
 
         // initialize observer
-        QuotePartHub observer = quoteHub
-            .ToQuotePartHub(candlePart);
+        QuotePartHub observer = quoteHub.ToQuotePartHub(candlePart);
 
         // fetch initial results (early)
-        IReadOnlyList<QuotePart> streamList
-            = observer.Results;
+        IReadOnlyList<QuotePart> sut = observer.Results;
 
         // emulate adding quotes to provider hub
-        for (int i = 20; i < length; i++)
+        for (int i = 20; i < quotesCount; i++)
         {
             // skip one (add later)
-            if (i == 80)
-            {
-                continue;
-            }
+            if (i == 80) { continue; }
 
-            Quote q = quotesList[i];
+            Quote q = Quotes[i];
             quoteHub.Add(q);
 
             // resend duplicate quotes
-            if (i is > 100 and < 105)
-            {
-                quoteHub.Add(q);
-            }
+            if (i is > 100 and < 105) { quoteHub.Add(q); }
         }
 
-        // late arrival
-        quoteHub.Insert(quotesList[80]);
+        // late arrival, should equal series
+        quoteHub.Insert(Quotes[80]);
 
-        // delete
-        quoteHub.Remove(quotesList[400]);
-        quotesList.RemoveAt(400);
+        IReadOnlyList<QuotePart> expectedOriginal = Quotes.Use(candlePart);
+        sut.IsExactly(expectedOriginal);
 
-        // time-series, for comparison
-        IReadOnlyList<QuotePart> seriesList
-           = quotesList
-            .Use(candlePart);
+        // delete, should equal series (revised)
+        quoteHub.Remove(Quotes[removeAtIndex]);
+
+        IReadOnlyList<QuotePart> expectedRevised = RevisedQuotes.Use(candlePart);
 
         // assert, should equal series
-        for (int i = 0; i < length - 1; i++)
+        for (int i = 0; i < quotesCount - 1; i++)
         {
-            Quote q = quotesList[i];
-            QuotePart s = seriesList[i];
-            QuotePart r = streamList[i];
+            Quote q = RevisedQuotes[i];
+            QuotePart s = expectedRevised[i];
+            QuotePart r = sut[i];
 
             r.Timestamp.Should().Be(q.Timestamp);
             r.Timestamp.Should().Be(s.Timestamp);

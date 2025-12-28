@@ -6,17 +6,13 @@ public class AwesomeHubTests : StreamHubTestBase, ITestChainObserver, ITestChain
     [TestMethod]
     public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
-        List<Quote> quotesList = Quotes.ToList();
-
-        int length = quotesList.Count;
-
         // setup quote provider
         QuoteHub quoteHub = new();
 
         // prefill quotes to provider
         for (int i = 0; i < 40; i++)
         {
-            quoteHub.Add(quotesList[i]);
+            quoteHub.Add(Quotes[i]);
         }
 
         // initialize observer
@@ -24,11 +20,11 @@ public class AwesomeHubTests : StreamHubTestBase, ITestChainObserver, ITestChain
             .ToAwesomeHub(5, 34);
 
         // fetch initial results (early)
-        IReadOnlyList<AwesomeResult> streamList
+        IReadOnlyList<AwesomeResult> actuals
             = awesomeHub.Results;
 
         // emulate adding quotes to provider
-        for (int i = 40; i < length; i++)
+        for (int i = 40; i < quotesCount; i++)
         {
             // skip one (add later)
             if (i == 80)
@@ -36,7 +32,7 @@ public class AwesomeHubTests : StreamHubTestBase, ITestChainObserver, ITestChain
                 continue;
             }
 
-            Quote q = quotesList[i];
+            Quote q = Quotes[i];
             quoteHub.Add(q);
 
             // resend duplicate quotes
@@ -47,18 +43,17 @@ public class AwesomeHubTests : StreamHubTestBase, ITestChainObserver, ITestChain
         }
 
         // late arrival
-        quoteHub.Insert(quotesList[80]);
+        quoteHub.Insert(Quotes[80]);
 
         // delete
-        quoteHub.Remove(quotesList[400]);
-        quotesList.RemoveAt(400);
+        quoteHub.Remove(Quotes[removeAtIndex]);
 
         // time-series, for comparison
-        IReadOnlyList<AwesomeResult> seriesList = quotesList.ToAwesome(5, 34);
+        IReadOnlyList<AwesomeResult> expected = RevisedQuotes.ToAwesome(5, 34);
 
         // assert, should equal series
-        streamList.Should().HaveCount(length - 1);
-        streamList.IsExactly(seriesList);
+        actuals.Should().HaveCount(quotesCount - 1);
+        actuals.IsExactly(expected);
 
         awesomeHub.Unsubscribe();
         quoteHub.EndTransmission();

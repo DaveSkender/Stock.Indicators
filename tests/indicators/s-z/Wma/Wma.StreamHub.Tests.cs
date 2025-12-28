@@ -8,44 +8,43 @@ public class WmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
     [TestMethod]
     public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
-        List<Quote> quotesList = Quotes.ToList();
-        int length = quotesList.Count;
-
+        // setup quote provider hub
         QuoteHub quoteHub = new();
 
-        for (int i = 0; i < LookbackPeriods; i++)
-        {
-            quoteHub.Add(quotesList[i]);
-        }
+        // prefill quotes at provider
+        quoteHub.Add(Quotes.Take(20));
 
+        // initialize observer
         WmaHub observer = quoteHub.ToWmaHub(LookbackPeriods);
 
-        for (int i = LookbackPeriods; i < length; i++)
+        // fetch initial results (early)
+        IReadOnlyList<WmaResult> sut = observer.Results;
+
+        // emulate adding quotes to provider hub
+        for (int i = 20; i < quotesCount; i++)
         {
-            if (i == 80)
-            {
-                continue;
-            }
+            // skip one (add later)
+            if (i == 80) { continue; }
 
-            Quote quote = quotesList[i];
-            quoteHub.Add(quote);
+            Quote q = Quotes[i];
+            quoteHub.Add(q);
 
-            if (i is > 110 and < 115)
-            {
-                quoteHub.Add(quote);
-            }
+            // resend duplicate quotes
+            if (i is > 100 and < 105) { quoteHub.Add(q); }
         }
 
-        quoteHub.Insert(quotesList[80]);
+        // late arrival, should equal series
+        quoteHub.Insert(Quotes[80]);
 
-        quoteHub.Remove(quotesList[400]);
-        quotesList.RemoveAt(400);
+        IReadOnlyList<WmaResult> expectedOriginal = Quotes.ToWma(LookbackPeriods);
+        sut.IsExactly(expectedOriginal);
 
-        IReadOnlyList<WmaResult> streamList = observer.Results;
-        IReadOnlyList<WmaResult> seriesList = quotesList.ToWma(LookbackPeriods);
+        // delete, should equal series (revised)
+        quoteHub.Remove(Quotes[removeAtIndex]);
 
-        streamList.Should().HaveCount(length - 1);
-        streamList.IsExactly(seriesList);
+        IReadOnlyList<WmaResult> expectedRevised = RevisedQuotes.ToWma(LookbackPeriods);
+        sut.IsExactly(expectedRevised);
+        sut.Should().HaveCount(quotesCount - 1);
 
         observer.Unsubscribe();
         quoteHub.EndTransmission();

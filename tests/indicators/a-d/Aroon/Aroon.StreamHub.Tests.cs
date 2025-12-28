@@ -15,17 +15,13 @@ public class AroonHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPr
     [TestMethod]
     public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
-        List<Quote> quotesList = Quotes.ToList();
-
-        int length = quotesList.Count;
-
         // setup quote provider
         QuoteHub quoteHub = new();
 
         // prefill quotes to provider
         for (int i = 0; i < 30; i++)
         {
-            quoteHub.Add(quotesList[i]);
+            quoteHub.Add(Quotes[i]);
         }
 
         // initialize observer
@@ -33,11 +29,11 @@ public class AroonHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPr
             .ToAroonHub(25);
 
         // fetch initial results (early)
-        IReadOnlyList<AroonResult> streamList
+        IReadOnlyList<AroonResult> actuals
             = aroonHub.Results;
 
         // emulate adding quotes to provider
-        for (int i = 30; i < length; i++)
+        for (int i = 30; i < quotesCount; i++)
         {
             // skip one (add later)
             if (i == 80)
@@ -45,7 +41,7 @@ public class AroonHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPr
                 continue;
             }
 
-            Quote q = quotesList[i];
+            Quote q = Quotes[i];
             quoteHub.Add(q);
 
             // resend duplicate quotes
@@ -56,18 +52,17 @@ public class AroonHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPr
         }
 
         // late arrival
-        quoteHub.Insert(quotesList[80]);
+        quoteHub.Insert(Quotes[80]);
 
         // delete
-        quoteHub.Remove(quotesList[400]);
-        quotesList.RemoveAt(400);
+        quoteHub.Remove(Quotes[removeAtIndex]);
 
         // time-series, for comparison
-        IReadOnlyList<AroonResult> seriesList = quotesList.ToAroon(25);
+        IReadOnlyList<AroonResult> expected = RevisedQuotes.ToAroon(25);
 
         // assert, should equal series
-        streamList.Should().HaveCount(length - 1);
-        streamList.IsExactly(seriesList);
+        actuals.Should().HaveCount(quotesCount - 1);
+        actuals.IsExactly(expected);
 
         aroonHub.Unsubscribe();
         quoteHub.EndTransmission();

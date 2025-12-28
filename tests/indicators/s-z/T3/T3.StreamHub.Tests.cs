@@ -9,60 +9,43 @@ public class T3HubTests : StreamHubTestBase, ITestChainObserver, ITestChainProvi
         const int lookbackPeriods = 5;
         const double volumeFactor = 0.7;
 
-        List<Quote> quotesList = Quotes.ToList();
-
-        int length = quotesList.Count;
-
         // setup quote provider hub
         QuoteHub quoteHub = new();
 
         // prefill quotes at provider
-        for (int i = 0; i < 50; i++)
-        {
-            quoteHub.Add(quotesList[i]);
-        }
+        quoteHub.Add(Quotes.Take(50));
 
         // initialize observer
-        T3Hub observer = quoteHub
-            .ToT3Hub(lookbackPeriods, volumeFactor);
+        T3Hub observer = quoteHub.ToT3Hub(lookbackPeriods, volumeFactor);
 
         // fetch initial results (early)
-        IReadOnlyList<T3Result> streamList
-            = observer.Results;
+        IReadOnlyList<T3Result> sut = observer.Results;
 
         // emulate adding quotes to provider hub
-        for (int i = 50; i < length; i++)
+        for (int i = 50; i < quotesCount; i++)
         {
             // skip one (add later)
-            if (i == 80)
-            {
-                continue;
-            }
+            if (i == 80) { continue; }
 
-            Quote q = quotesList[i];
+            Quote q = Quotes[i];
             quoteHub.Add(q);
 
             // resend duplicate quotes
-            if (i is > 100 and < 105)
-            {
-                quoteHub.Add(q);
-            }
+            if (i is > 100 and < 105) { quoteHub.Add(q); }
         }
 
-        // late arrival
-        quoteHub.Insert(quotesList[80]);
+        // late arrival, should equal series
+        quoteHub.Insert(Quotes[80]);
 
-        // delete
-        quoteHub.Remove(quotesList[400]);
-        quotesList.RemoveAt(400);
+        IReadOnlyList<T3Result> expectedOriginal = Quotes.ToT3(lookbackPeriods, volumeFactor);
+        sut.IsExactly(expectedOriginal);
 
-        // time-series, for comparison
-        IReadOnlyList<T3Result> seriesList = quotesList
-            .ToT3(lookbackPeriods, volumeFactor);
+        // delete, should equal series (revised)
+        quoteHub.Remove(Quotes[removeAtIndex]);
 
-        // assert, should equal series
-        streamList.IsExactly(seriesList);
-        streamList.Should().HaveCount(501);
+        IReadOnlyList<T3Result> expectedRevised = RevisedQuotes.ToT3(lookbackPeriods, volumeFactor);
+        sut.IsExactly(expectedRevised);
+        sut.Should().HaveCount(quotesCount - 1);
 
         observer.Unsubscribe();
         quoteHub.EndTransmission();
