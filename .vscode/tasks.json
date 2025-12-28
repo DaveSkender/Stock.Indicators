@@ -196,8 +196,14 @@
       "type": "shell",
       "command": "bundle exec jekyll build && echo '✓ Build complete!'",
       "group": "build",
+      "dependsOn": "Install: Ruby packages",
+      "dependsOrder": "sequence",
       "options": {
-        "cwd": "${workspaceFolder}/docs"
+        "cwd": "${workspaceFolder}/docs",
+        "env": {
+          "BUNDLE_GEMFILE": "${workspaceFolder}/docs/Gemfile",
+          "BUNDLE_PATH": "${workspaceFolder}/docs/vendor/bundle"
+        }
       }
     },
     {
@@ -278,7 +284,7 @@
       "detail": "Run all linting checks (code + markdown) in sequence",
       "dependsOn": [
         "Build: .NET Solution (incremental)",
-        "Lint: .NET code (full analysis)",
+        "Lint: .NET code",
         "Lint: Markdown"
       ],
       "dependsOrder": "sequence",
@@ -473,7 +479,7 @@
       "type": "shell",
       "command": "dotnet run --project tools/simulate/Test.Simulation.csproj",
       "group": "none",
-      "problemMatcher": "$msCompile",
+      "problemMatcher": "$msCompile"
     }
   ]
 }
