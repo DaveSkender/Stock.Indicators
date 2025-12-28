@@ -58,7 +58,7 @@ public class DojiHubTests : StreamHubTestBase, ITestQuoteObserver
 
         // assert, should equal series
         streamList.Should().HaveCount(length - 1);
-        streamList.Should().BeEquivalentTo(seriesList);
+        streamList.IsExactly(seriesList);
 
         dojiHub.Unsubscribe();
         quoteHub.EndTransmission();

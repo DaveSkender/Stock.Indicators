@@ -82,7 +82,7 @@ public class EpmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
         IReadOnlyList<EpmaResult> seriesResults = Quotes.ToEpma(lookbackPeriods);
 
         streamResults.Should().HaveCount(seriesResults.Count);
-        streamResults.Should().BeEquivalentTo(seriesResults);
+        streamResults.IsExactly(seriesResults);
     }
 
     [TestMethod]

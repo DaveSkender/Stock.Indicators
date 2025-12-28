@@ -61,7 +61,7 @@ public class RenkoHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPr
             .ToRenko(brickSize, endType);
 
         // assert, should equal series
-        streamList.Should().BeEquivalentTo(seriesList);
+        streamList.IsExactly(seriesList);
         streamList.Should().HaveCount(159);
 
         observer.Unsubscribe();
@@ -107,7 +107,7 @@ public class RenkoHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPr
             .ToSma(smaPeriods);
 
         // assert, should equal series
-        streamList.Should().BeEquivalentTo(seriesList);
+        streamList.IsExactly(seriesList);
         streamList.Should().HaveCount(112);
 
         observer.Unsubscribe();

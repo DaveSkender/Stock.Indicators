@@ -15,27 +15,27 @@ public class Atr : StaticSeriesTestBase
 
         // sample values
         AtrResult r13 = sut[13];
-        Assert.AreEqual(1.45, r13.Tr.Round(8));
+        r13.Tr.Should().BeApproximately(1.45, Money8);
         r13.Atr.Should().BeNull();
         r13.Atrp.Should().BeNull();
 
         AtrResult r14 = sut[14];
-        Assert.AreEqual(1.82, r14.Tr.Round(8));
+        r14.Tr.Should().BeApproximately(1.82, Money8);
         r14.Atr.Should().BeApproximately(1.3364, Money4);
         r14.Atrp.Should().BeApproximately(0.6215, Money4);
 
         AtrResult r24 = sut[24];
-        Assert.AreEqual(0.88, r24.Tr.Round(8));
+        r24.Tr.Should().BeApproximately(0.88, Money8);
         r24.Atr.Should().BeApproximately(1.3034, Money4);
         r24.Atrp.Should().BeApproximately(0.6026, Money4);
 
         AtrResult r249 = sut[249];
-        Assert.AreEqual(0.58, r249.Tr.Round(8));
+        r249.Tr.Should().BeApproximately(0.58, Money8);
         r249.Atr.Should().BeApproximately(1.3381, Money4);
         r249.Atrp.Should().BeApproximately(0.5187, Money4);
 
         AtrResult r501 = sut[501];
-        Assert.AreEqual(2.67, r501.Tr.Round(8));
+        r501.Tr.Should().BeApproximately(2.67, Money8);
         r501.Atr.Should().BeApproximately(6.1497, Money4);
         r501.Atrp.Should().BeApproximately(2.5072, Money4);
     }
@@ -107,7 +107,7 @@ public class Atr : StaticSeriesTestBase
         sut.Should().HaveCount(502 - 14);
 
         AtrResult last = sut[^1];
-        Assert.AreEqual(2.67, last.Tr.Round(8));
+        last.Tr.Should().BeApproximately(2.67, Money8);
         last.Atr.Should().BeApproximately(6.1497, Money4);
         last.Atrp.Should().BeApproximately(2.5072, Money4);
     }

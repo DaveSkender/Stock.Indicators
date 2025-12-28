@@ -60,7 +60,7 @@ public class SmaAnalysisHubTests : StreamHubTestBase, ITestChainObserver, ITestC
 
         // assert, should equal series
         streamList.Should().HaveCount(length - 1);
-        streamList.Should().BeEquivalentTo(seriesList);
+        streamList.IsExactly(seriesList);
 
         observer.Unsubscribe();
         quoteHub.EndTransmission();
@@ -104,7 +104,7 @@ public class SmaAnalysisHubTests : StreamHubTestBase, ITestChainObserver, ITestC
 
         // assert, should equal series
         streamList.Should().HaveCount(length);
-        streamList.Should().BeEquivalentTo(seriesList);
+        streamList.IsExactly(seriesList);
 
         observer.Unsubscribe();
         quoteHub.EndTransmission();
@@ -151,7 +151,7 @@ public class SmaAnalysisHubTests : StreamHubTestBase, ITestChainObserver, ITestC
 
         // assert, should equal series
         streamList.Should().HaveCount(length - 1);
-        streamList.Should().BeEquivalentTo(seriesList);
+        streamList.IsExactly(seriesList);
 
         observer.Unsubscribe();
         quoteHub.EndTransmission();

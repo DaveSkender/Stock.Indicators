@@ -139,7 +139,7 @@ public class MyIndicatorRegression : RegressionTestBase
 ```csharp
 // Collections and counts
 results.Should().HaveCount(502);
-streamData.Should().BeEquivalentTo(staticData);
+streamData.IsExactly(staticData);
 
 // Exception testing
 Action act = () => quotes.ToIndicator(-1);
@@ -194,7 +194,7 @@ Use the FluentAssertions syntax with the subject on the left: `actual.Should().B
 ```csharp
 // Exact comparisons for all indicator results (preferred)
 result.Adx.Should().Be(15.9459);
-streamResult.Should().BeEquivalentTo(seriesResult);
+streamResult.IsExactly(seriesResult);
 
 // Handle nulls explicitly without approximation
 result.Value.Should().BeNull();
@@ -220,15 +220,7 @@ result.Adx?.Should().BeApproximately(15.9459, Money4);
 > **Rationale**: Tolerance is half of the last decimal place to ensure only values that would round to the same result will pass.
 > **Constants**: Use precision constants from `TestBase` (e.g., `Money6` and others) for assertions against manually calculated values. Use the maximum precision needed.
 
-**🔄 Legacy patterns to be refactored:**
-
-```csharp
-// Legacy Round() usage - will be refactored to BeApproximately()
-Assert.AreEqual(21.9669, r14.Pdi.Round(4));  // 🔄 Legacy - replace with BeApproximately(21.9669, Money4)
-Assert.AreEqual(18.5462, r14.Mdi.Round(4));  // 🔄 Legacy - replace with BeApproximately(18.5462, Money4)
-```
-
-**🚫 Avoid these patterns:**
+** Avoid these patterns:**
 
 ```csharp
 // Do NOT use approximation - indicators are deterministic

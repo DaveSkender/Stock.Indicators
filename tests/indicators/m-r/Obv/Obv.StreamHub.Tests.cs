@@ -54,7 +54,7 @@ public class ObvHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProv
         IReadOnlyList<ObvResult> seriesList = quotesList.ToObv();
 
         streamList.Should().HaveCount(length - 1);
-        streamList.Should().BeEquivalentTo(seriesList);
+        streamList.IsExactly(seriesList);
 
         observer.Unsubscribe();
         quoteHub.EndTransmission();
@@ -92,9 +92,7 @@ public class ObvHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProv
 
         // assert, should equal series
         streamList.Should().HaveCount(length);
-        streamList.Should().BeEquivalentTo(
-            seriesList,
-            options => options.WithStrictOrdering());
+        streamList.IsExactly(seriesList);
 
         observer.Unsubscribe();
         quoteHub.EndTransmission();

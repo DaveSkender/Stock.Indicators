@@ -45,7 +45,7 @@ public class WmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
         IReadOnlyList<WmaResult> seriesList = quotesList.ToWma(LookbackPeriods);
 
         streamList.Should().HaveCount(length - 1);
-        streamList.Should().BeEquivalentTo(seriesList);
+        streamList.IsExactly(seriesList);
 
         observer.Unsubscribe();
         quoteHub.EndTransmission();
@@ -74,7 +74,7 @@ public class WmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
             .ToWma(LookbackPeriods);
 
         streamList.Should().HaveCount(length);
-        streamList.Should().BeEquivalentTo(seriesList);
+        streamList.IsExactly(seriesList);
 
         observer.Unsubscribe();
         quoteHub.EndTransmission();
@@ -121,7 +121,7 @@ public class WmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
             .ToEma(emaPeriods);
 
         streamList.Should().HaveCount(length - 1);
-        streamList.Should().BeEquivalentTo(seriesList);
+        streamList.IsExactly(seriesList);
 
         observer.Unsubscribe();
         quoteHub.EndTransmission();
