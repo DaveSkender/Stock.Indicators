@@ -23,6 +23,8 @@ public abstract class TestBase
     internal static readonly IReadOnlyList<Quote> RandomQuotes = TestData.GetRandom(1000);
     internal static readonly IReadOnlyList<Quote> ZeroesQuotes = TestData.GetZeros();
 
+    internal const int quotesCount = 502;
+
     protected static readonly DateTime EvalDate
         = DateTime.ParseExact("12/31/2018", "MM/dd/yyyy", invariantCulture);
 }
