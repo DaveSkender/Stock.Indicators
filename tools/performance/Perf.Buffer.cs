@@ -45,7 +45,7 @@ public class BufferIndicators
     [Benchmark] public GatorList GatorList() => q.ToGatorList();
     [Benchmark] public HeikinAshiList HeikinAshiList() => q.ToHeikinAshiList();
     [Benchmark] public HmaList HmaList() => q.ToHmaList(n);
-    [Benchmark] public HtlList HtlList() => q.ToHtlList();
+    [Benchmark] public HtTrendlineList HtTrendlineList() => q.ToHtTrendlineList();
     [Benchmark] public HurstList HurstList() => q.ToHurstList(100);
     [Benchmark] public IchimokuList IchimokuList() => q.ToIchimokuList();
     [Benchmark] public KamaList KamaList() => q.ToKamaList(10, 2, 30);
