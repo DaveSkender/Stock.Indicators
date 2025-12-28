@@ -189,32 +189,30 @@ public class DpoHub
     }
 
     /// <summary>
-    /// Rebuilds the cache from a specific timestamp with offset adjustment for downstream observers.
+    /// Rebuilds the cache from a specific timestamp, adjusting for DPO's backward offset.
     /// </summary>
     /// <param name="fromTimestamp">Point in time to rebuild from.</param>
     /// <remarks>
-    /// DPO has a backward offset dependency. When provider history is mutated at position p,
-    /// DPO positions from (p - offset) are affected. This override adjusts the rebuild timestamp
-    /// backward to notify downstream observers of the actual affected position, ensuring chained
-    /// observers (e.g., SmaHub) recalculate from the correct starting point.
+    /// DPO requires lookahead data for calculation: DPO[i] = Value[i] - SMA[i + offset].
+    /// When provider history is mutated (Insert/Remove), downstream observers need to be
+    /// notified from the adjusted position that accounts for the backward offset.
+    /// This ensures chained observers recalculate all affected positions.
     /// </remarks>
     public override void Rebuild(DateTime fromTimestamp)
     {
-        // Adjust timestamp backward by offset to notify downstream of actual affected position
-        DateTime adjustedTimestamp = fromTimestamp;
-        if (ProviderCache.Count > 0)
+        // Calculate adjusted timestamp accounting for backward offset
+        int mutationIndex = ProviderCache.IndexGte(fromTimestamp);
+        if (mutationIndex >= 0)
         {
-            int mutationIndex = ProviderCache.IndexGte(fromTimestamp);
-            if (mutationIndex >= 0)
+            int firstAffectedIndex = Math.Max(0, mutationIndex - Offset);
+            if (firstAffectedIndex < mutationIndex)
             {
-                int adjustedIndex = Math.Max(0, mutationIndex - Offset);
-                adjustedTimestamp = ProviderCache[adjustedIndex].Timestamp;
+                fromTimestamp = ProviderCache[firstAffectedIndex].Timestamp;
             }
         }
 
-        // Call base rebuild with adjusted timestamp
-        // This will notify downstream observers from the adjusted position
-        base.Rebuild(adjustedTimestamp);
+        // Call base implementation with adjusted timestamp
+        base.Rebuild(fromTimestamp);
     }
 }
 
