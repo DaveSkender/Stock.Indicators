@@ -1,7 +1,7 @@
 namespace Utilities;
 
 [TestClass]
-public class Reusable : TestBase
+public class Reusable : TestBaseWithPrecision
 {
     [TestMethod]
     public void Condense()
@@ -21,9 +21,9 @@ public class Reusable : TestBase
 
         // sample values
         AdxResult last = sut[^1];
-        last.Pdi.Should().BeApproximately(17.7565, 0.00005);
-        last.Mdi.Should().BeApproximately(31.1510, 0.00005);
-        last.Adx.Should().BeApproximately(34.2987, 0.00005);
+        last.Pdi.Should().BeApproximately(17.7565, Money4);
+        last.Mdi.Should().BeApproximately(31.1510, Money4);
+        last.Adx.Should().BeApproximately(34.2987, Money4);
     }
 
     [TestMethod]
@@ -56,25 +56,25 @@ public class Reusable : TestBase
         Quote q = new(t, o, h, l, c, v);
 
         q.ToReusable(CandlePart.Open).Value.Should()
-            .BeApproximately((double)o, 0.00000000005);
+            .BeApproximately((double)o, Money10);
         q.ToReusable(CandlePart.High).Value.Should()
-            .BeApproximately((double)h, 0.00000000005);
+            .BeApproximately((double)h, Money10);
         q.ToReusable(CandlePart.Low).Value.Should()
-            .BeApproximately((double)l, 0.00000000005);
+            .BeApproximately((double)l, Money10);
         q.ToReusable(CandlePart.Close).Value.Should()
-            .BeApproximately((double)c, 0.00000000005);
+            .BeApproximately((double)c, Money10);
         q.ToReusable(CandlePart.Volume).Value.Should()
-            .BeApproximately((double)v, 0.00000000005);
+            .BeApproximately((double)v, Money10);
         q.ToReusable(CandlePart.HL2).Value.Should()
-            .BeApproximately((double)hl2, 0.00000000005);
+            .BeApproximately((double)hl2, Money10);
         q.ToReusable(CandlePart.HLC3).Value.Should()
-            .BeApproximately((double)hlc3, 0.00000000005);
+            .BeApproximately((double)hlc3, Money10);
         q.ToReusable(CandlePart.OC2).Value.Should()
-            .BeApproximately((double)oc2, 0.00000000005);
+            .BeApproximately((double)oc2, Money10);
         q.ToReusable(CandlePart.OHL3).Value.Should()
-            .BeApproximately((double)ohl3, 0.00000000005);
+            .BeApproximately((double)ohl3, Money10);
         q.ToReusable(CandlePart.OHLC4).Value.Should()
-            .BeApproximately((double)ohlc4, 0.00000000005);
+            .BeApproximately((double)ohlc4, Money10);
 
         // bad argument
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(()

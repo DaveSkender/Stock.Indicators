@@ -1,7 +1,7 @@
 namespace Utilities;
 
 [TestClass]
-public class QuoteParts : TestBase
+public class QuoteParts : TestBaseWithPrecision
 {
     [TestMethod]
     public void Instantiation()
@@ -41,9 +41,9 @@ public class QuoteParts : TestBase
         c.Value.Should().Be(245.28);
         v.Value.Should().Be(147031456);
         hl.Value.Should().Be(244.205);
-        hlc.Value.Should().BeApproximately(244.5633, 0.00005);
+        hlc.Value.Should().BeApproximately(244.5633, Money4);
         oc.Value.Should().Be(245.1);
-        ohl.Value.Should().BeApproximately(244.4433, 0.00005);
+        ohl.Value.Should().BeApproximately(244.4433, Money4);
         ohlc.Value.Should().Be(244.6525);
     }
 
@@ -89,9 +89,9 @@ public class QuoteParts : TestBase
         rc.Value.Should().Be(245.28);
         rv.Value.Should().Be(147031456);
         rhl.Value.Should().Be(244.205);
-        rhlc.Value.Should().BeApproximately(244.5633, 0.00005);
+        rhlc.Value.Should().BeApproximately(244.5633, Money4);
         roc.Value.Should().Be(245.1);
-        rohl.Value.Should().BeApproximately(244.4433, 0.00005);
+        rohl.Value.Should().BeApproximately(244.4433, Money4);
         rohlc.Value.Should().Be(244.6525);
     }
 }
