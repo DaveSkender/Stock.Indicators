@@ -41,4 +41,16 @@ public abstract class StaticSeriesTestBase : TestBase
     /// 6 decimal places: &#177;0.0000005 (equivalent to .Round(6))
     /// </summary>
     protected const double Money6 = 0.0000005;
+    /// <summary>
+    /// 8 decimal places: &#177;0.000000005 (equivalent to .Round(8))
+    /// </summary>
+    protected const double Money8 = 0.000000005;
+    /// <summary>
+    /// 10 decimal places: &#177;0.00000000005 (equivalent to .Round(10))
+    /// </summary>
+    protected const double Money10 = 0.00000000005;
+    /// <summary>
+    /// 12 decimal places: &#177;0.0000000000005 (equivalent to .Round(12))
+    /// </summary>
+    protected const double Money12 = 0.0000000000005;
 }

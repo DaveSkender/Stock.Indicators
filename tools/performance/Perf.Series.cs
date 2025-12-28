@@ -77,9 +77,10 @@ public class SeriesIndicators
 
     // TODO: this is for experimental comparison only - remove later
     [Benchmark] public void ToSmaOrig() => q.ToSma(10);
-    [Benchmark] public void ToSmaArray() => q.ToSmaArray(10);
-    [Benchmark] public void ToSmaArrayLoop() => v.ToSmaArrayLoop(10);
-    [Benchmark] public void ToSmaArrayRoll() => v.ToSmaArrayRoll(10);
+    [Benchmark] public void ToSmaConv() => q.ToSmaArray(10);
+    [Benchmark] public void ToSmaLoop() => v.ToSmaArrayLoop(10);
+    [Benchmark] public void ToSmaRoll() => v.ToSmaArrayRoll(10);
+    [Benchmark] public void ToSmaSimd() => v.ToSmaArraySimd(10);
     //[Benchmark] public void ToSmaAnalysis() => q.ToSmaAnalysis(10);
 
     [Benchmark] public void ToSmi() => q.ToSmi(5, 20, 5, 3);

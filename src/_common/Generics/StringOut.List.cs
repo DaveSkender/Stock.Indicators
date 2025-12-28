@@ -464,9 +464,20 @@ public static partial class StringOut
             for (int i = 1; i < columnCount; i++)
             {
                 object? value = properties[i - 1].GetValue(item);
-                row[i] = value is IFormattable formattable
-                    ? formattable.ToString(formats[i], culture) ?? string.Empty
-                    : value?.ToString() ?? string.Empty;
+                // Allow a special "unset" format to mean "no format string" (use default ToString)
+                string fmt = formats[i];
+                if (string.Equals(fmt, "unset", StringComparison.OrdinalIgnoreCase))
+                {
+                    row[i] = value is IFormattable formattable
+                        ? formattable.ToString(null, culture) ?? string.Empty
+                        : value?.ToString() ?? string.Empty;
+                }
+                else
+                {
+                    row[i] = value is IFormattable formattable
+                        ? formattable.ToString(formats[i], culture) ?? string.Empty
+                        : value?.ToString() ?? string.Empty;
+                }
 
                 columnWidth[i] = Math.Max(columnWidth[i], row[i].Length);
             }
@@ -649,9 +660,20 @@ public static partial class StringOut
             for (int i = 1; i < headers.Length; i++)
             {
                 object? value = properties[i - 1].GetValue(x.Item);
-                row[i] = value is IFormattable f
-                    ? f.ToString(formats[i], culture) ?? string.Empty
-                    : value?.ToString() ?? string.Empty;
+                // Support "unset" to avoid forcing a numeric format and use natural ToString()
+                string fmt = formats[i];
+                if (string.Equals(fmt, "unset", StringComparison.OrdinalIgnoreCase))
+                {
+                    row[i] = value is IFormattable f
+                        ? f.ToString(null, culture) ?? string.Empty
+                        : value?.ToString() ?? string.Empty;
+                }
+                else
+                {
+                    row[i] = value is IFormattable f
+                        ? f.ToString(formats[i], culture) ?? string.Empty
+                        : value?.ToString() ?? string.Empty;
+                }
             }
 
             return row;

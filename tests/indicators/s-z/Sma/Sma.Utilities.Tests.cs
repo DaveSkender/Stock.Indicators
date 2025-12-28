@@ -1,6 +1,6 @@
 namespace StaticSeries;
 
-public partial class SmaTests : StaticSeriesTestBase
+public partial class Sma : StaticSeriesTestBase
 {
     [TestMethod]
     public void Average()
