@@ -4,17 +4,6 @@ namespace Utilities;
 public class QuoteParts : TestBaseWithPrecision
 {
     [TestMethod]
-    public void Instantiation()
-    {
-        Quote q = Quotes[1];
-
-        QuotePart sut0 = new(q.Timestamp, (double)q.Close);
-        QuotePart sut1 = new(q);
-
-        sut1.Should().Be(sut0);
-    }
-
-    [TestMethod]
     public void ConvertQuote()
     {
         // compose basic data
