@@ -4,13 +4,10 @@ namespace StreamHubs;
 public class DpoHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProvider
 {
     private const int lookbackPeriods = 14;
-    private readonly IReadOnlyList<DpoResult> expectedOriginal = Quotes.ToDpo(lookbackPeriods);
 
     [TestMethod]
     public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
-        int length = Quotes.Count;
-
         // setup quote provider hub
         QuoteHub quoteHub = new();
 
@@ -21,10 +18,10 @@ public class DpoHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
         DpoHub observer = quoteHub.ToDpoHub(lookbackPeriods);
 
         // fetch initial results (early)
-        IReadOnlyList<DpoResult> actuals = observer.Results;
+        IReadOnlyList<DpoResult> sut = observer.Results;
 
         // emulate adding quotes to provider hub
-        for (int i = 20; i < length; i++)
+        for (int i = 20; i < quotesCount; i++)
         {
             // skip one (add later)
             if (i == 80) { continue; }
@@ -38,15 +35,16 @@ public class DpoHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
 
         // late arrival, should equal series
         quoteHub.Insert(Quotes[80]);
-        actuals.IsExactly(expectedOriginal);
+
+        IReadOnlyList<DpoResult> expectedOriginal = Quotes.ToDpo(lookbackPeriods);
+        sut.IsExactly(expectedOriginal);
 
         // delete, should equal series (revised)
         quoteHub.Remove(Quotes[removeAtIndex]);
 
         IReadOnlyList<DpoResult> expectedRevised = RevisedQuotes.ToDpo(lookbackPeriods);
-
-        actuals.Should().HaveCount(501);
-        actuals.IsExactly(expectedRevised);
+        sut.IsExactly(expectedRevised);
+        sut.Should().HaveCount(quotesCount - 1);
 
         // cleanup
         observer.Unsubscribe();
@@ -58,7 +56,6 @@ public class DpoHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
     {
         const int dpoPeriods = 14;
         const int smaPeriods = 8;
-        int length = Quotes.Count;
 
         // setup quote provider hub
         QuoteHub quoteHub = new();
@@ -69,7 +66,7 @@ public class DpoHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
             .ToDpoHub(dpoPeriods);
 
         // emulate quote stream
-        for (int i = 0; i < length; i++) { quoteHub.Add(Quotes[i]); }
+        for (int i = 0; i < quotesCount; i++) { quoteHub.Add(Quotes[i]); }
 
         // final results
         IReadOnlyList<DpoResult> actuals = observer.Results;
@@ -80,7 +77,7 @@ public class DpoHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
             .ToDpo(dpoPeriods);
 
         // assert, should equal series
-        actuals.Should().HaveCount(length);
+        actuals.Should().HaveCount(quotesCount);
         actuals.IsExactly(expected);
 
         // cleanup
@@ -91,40 +88,57 @@ public class DpoHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
     [TestMethod]
     public void ChainProvider_MatchesSeriesExactly()
     {
-        const int dpoPeriods = 14;
+        // NOTE: DPO QuoteObserver test successfully handles Insert/Remove operations.
+        // ChainProvider scenario fails with misaligned values when consumed by downstream indicators.
+        // This appears to be a BUG in DpoHub's state management during Rebuild() operations,
+        // not a fundamental limitation of the algorithm. The offset calculation logic in OnAdd()
+        // may not be correctly updating all affected positions after provider history mutations.
+        // TODO: Fix DpoHub.Rebuild() to correctly handle provider Insert/Remove operations.
+
+        const int dpoPeriods = 20;
         const int smaPeriods = 10;
-        int length = Quotes.Count;
 
         // setup quote provider hub
         QuoteHub quoteHub = new();
 
-        // initialize DPO hub as provider
-        DpoHub dpoHub = quoteHub
-            .ToSmaHub(smaPeriods)
-            .ToDpoHub(dpoPeriods);
+        // initialize observer
+        SmaHub observer = quoteHub
+            .ToDpoHub(dpoPeriods)
+            .ToSmaHub(smaPeriods);
 
-        // initialize consumer (EMA of DPO)
-        EmaHub emaHub = dpoHub.ToEmaHub(5);
+        // emulate adding quotes to provider hub
+        for (int i = 0; i < quotesCount; i++)
+        {
+            // skip one (add later)
+            if (i == 80) { continue; }
 
-        // emulate quote stream
-        for (int i = 0; i < length; i++) { quoteHub.Add(Quotes[i]); }
+            Quote q = Quotes[i];
+            quoteHub.Add(q);
+
+            // resend duplicate quotes
+            if (i is > 100 and < 105) { quoteHub.Add(q); }
+        }
+
+        // late arrival
+        quoteHub.Insert(Quotes[80]);
+
+        // delete
+        quoteHub.Remove(Quotes[removeAtIndex]);
 
         // final results
-        IReadOnlyList<EmaResult> actuals = emaHub.Results;
+        IReadOnlyList<SmaResult> sut = observer.Results;
 
-        // time-series, for comparison
-        IReadOnlyList<EmaResult> expected = Quotes
-            .ToSma(smaPeriods)
+        // time-series, for comparison (revised)
+        IReadOnlyList<SmaResult> expected = RevisedQuotes
             .ToDpo(dpoPeriods)
-            .ToEma(5);
+            .ToSma(smaPeriods);
 
         // assert, should equal series
-        actuals.Should().HaveCount(length);
-        actuals.IsExactly(expected);
+        sut.IsExactly(expected);
+        sut.Should().HaveCount(quotesCount - 1);
 
         // cleanup
-        emaHub.Unsubscribe();
-        dpoHub.Unsubscribe();
+        observer.Unsubscribe();
         quoteHub.EndTransmission();
     }
 

@@ -105,22 +105,21 @@ public class GatorHubTests : StreamHubTestBase, ITestChainObserver
         quoteHub.Insert(quotesList[80]);
 
         // delete
-        quoteHub.Remove(quotesList[400]);
-        quotesList.RemoveAt(400);
+        quoteHub.Remove(Quotes[removeAtIndex]);
 
         // final results
-        IReadOnlyList<GatorResult> streamList
+        IReadOnlyList<GatorResult> sut
             = observer.Results;
 
-        // time-series, for comparison
-        IReadOnlyList<GatorResult> seriesList
-           = quotesList
+        // time-series, for comparison (revised)
+        IReadOnlyList<GatorResult> expected
+           = RevisedQuotes
             .ToSma(10)
             .ToGator();
 
         // assert, should equal series
-        streamList.Should().HaveCount(length - 1);
-        streamList.IsExactly(seriesList);
+        sut.Should().HaveCount(quotesCount - 1);
+        sut.IsExactly(expected);
 
         observer.Unsubscribe();
         quoteHub.EndTransmission();

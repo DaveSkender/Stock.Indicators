@@ -129,7 +129,7 @@ public class KamaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
             .ToSmaHub(smaPeriods);
 
         // emulate adding quotes to provider hub
-        for (int i = 0; i < length; i++)
+        for (int i = 0; i < quotesCount; i++)
         {
             // skip one (add later)
             if (i == 80)
@@ -137,7 +137,7 @@ public class KamaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
                 continue;
             }
 
-            Quote q = quotesList[i];
+            Quote q = Quotes[i];
             quoteHub.Add(q);
 
             // resend duplicate quotes

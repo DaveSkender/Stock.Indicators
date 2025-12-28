@@ -94,34 +94,33 @@ public class WmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
             .ToWmaHub(LookbackPeriods)
             .ToEmaHub(emaPeriods);
 
-        for (int i = 0; i < length; i++)
+        for (int i = 0; i < quotesCount; i++)
         {
-            if (i == 90)
+            if (i == 80)
             {
                 continue;
             }
 
-            Quote quote = quotesList[i];
-            quoteHub.Add(quote);
+            Quote q = Quotes[i];
+            quoteHub.Add(q);
 
-            if (i is > 180 and < 186)
+            if (i is > 100 and < 105)
             {
-                quoteHub.Add(quote);
+                quoteHub.Add(q);
             }
         }
 
-        quoteHub.Insert(quotesList[90]);
+        quoteHub.Insert(Quotes[80]);
 
-        quoteHub.Remove(quotesList[350]);
-        quotesList.RemoveAt(350);
+        quoteHub.Remove(Quotes[removeAtIndex]);
 
-        IReadOnlyList<EmaResult> streamList = observer.Results;
-        IReadOnlyList<EmaResult> seriesList = quotesList
+        IReadOnlyList<EmaResult> sut = observer.Results;
+        IReadOnlyList<EmaResult> expected = RevisedQuotes
             .ToWma(LookbackPeriods)
             .ToEma(emaPeriods);
 
-        streamList.Should().HaveCount(length - 1);
-        streamList.IsExactly(seriesList);
+        sut.Should().HaveCount(quotesCount - 1);
+        sut.IsExactly(expected);
 
         observer.Unsubscribe();
         quoteHub.EndTransmission();

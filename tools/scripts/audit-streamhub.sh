@@ -25,9 +25,9 @@ echo -e "${BLUE}StreamHub Audit - Tasks T173, T175-T185${NC}"
 echo -e "${BLUE}========================================${NC}"
 echo ""
 
-# Find all StreamHub implementations (excluding Quote and QuotePart utilities)
+# Find all StreamHub implementations
 echo -e "${BLUE}Finding StreamHub implementations...${NC}"
-mapfile -t hub_files < <(find src -name "*.StreamHub.cs" | grep -v "_common/Quote" | sort)
+mapfile -t hub_files < <(find src -name "*.StreamHub.cs" | sort)
 total_hubs=${#hub_files[@]}
 
 echo -e "Found ${GREEN}${total_hubs}${NC} StreamHub implementations"
@@ -47,10 +47,10 @@ for hub_file in "${hub_files[@]}"; do
     # Extract indicator name from path
     indicator_name=$(basename "$hub_file" .StreamHub.cs)
     dir_path=$(dirname "$hub_file")
-    
+
     # Convert src path to test path
     test_file="tests/indicators/${dir_path#src/}/$indicator_name.StreamHub.Tests.cs"
-    
+
     if [[ -f "$test_file" ]]; then
         total_tests=$((total_tests + 1))
     else
@@ -85,32 +85,32 @@ mapfile -t test_files < <(find tests -name "*.StreamHub.Tests.cs" | grep -v "pub
 
 for test_file in "${test_files[@]}"; do
     indicator_name=$(basename "$test_file" .StreamHub.Tests.cs)
-    
+
     # Read the test file to check interfaces
     if [[ -f "$test_file" ]]; then
         # Extract class declaration line
         class_line=$(grep -E "^public class.*StreamHubTestBase" "$test_file" | head -1)
-        
+
         if [[ -z "$class_line" ]]; then
             interface_compliance_issues+=("$indicator_name: Does not inherit from StreamHubTestBase")
             ((interface_issues++))
             continue
         fi
-        
+
         # Check which interfaces are implemented
         has_quote_observer=$(echo "$class_line" | grep -c "ITestQuoteObserver" || true)
         has_chain_observer=$(echo "$class_line" | grep -c "ITestChainObserver" || true)
         has_pairs_observer=$(echo "$class_line" | grep -c "ITestPairsObserver" || true)
         has_chain_provider=$(echo "$class_line" | grep -c "ITestChainProvider" || true)
-        
+
         # Validation: Should implement exactly one observer interface
         observer_count=$((has_quote_observer + has_chain_observer + has_pairs_observer))
-        
+
         # Note: ITestChainObserver inherits ITestQuoteObserver, so if both appear, that's valid
         if [[ $has_chain_observer -eq 1 ]] && [[ $has_quote_observer -eq 1 ]]; then
             observer_count=1  # This is valid - ChainObserver includes QuoteObserver
         fi
-        
+
         if [[ $observer_count -eq 0 ]]; then
             interface_compliance_issues+=("$indicator_name: No observer interface implemented")
             interface_issues=$((interface_issues + 1))
@@ -119,7 +119,7 @@ for test_file in "${test_files[@]}"; do
             interface_compliance_issues+=("$indicator_name: PairsObserver should not be combined with other observer interfaces")
             interface_issues=$((interface_issues + 1))
         fi
-        
+
         # Check for required test methods based on interfaces
         if [[ $has_quote_observer -eq 1 ]] || [[ $has_chain_observer -eq 1 ]]; then
             if ! grep -q "QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly" "$test_file"; then
@@ -127,21 +127,21 @@ for test_file in "${test_files[@]}"; do
                 test_method_issues=$((test_method_issues + 1))
             fi
         fi
-        
+
         if [[ $has_chain_observer -eq 1 ]]; then
             if ! grep -q "ChainObserver_ChainedProvider_MatchesSeriesExactly" "$test_file"; then
                 test_method_issues_list+=("$indicator_name: Missing ChainObserver test method")
                 test_method_issues=$((test_method_issues + 1))
             fi
         fi
-        
+
         if [[ $has_chain_provider -eq 1 ]]; then
             if ! grep -q "ChainProvider_MatchesSeriesExactly" "$test_file"; then
                 test_method_issues_list+=("$indicator_name: Missing ChainProvider test method")
                 test_method_issues=$((test_method_issues + 1))
             fi
         fi
-        
+
         if [[ $has_pairs_observer -eq 1 ]]; then
             if ! grep -q "PairsObserver_SynchronizedProviders_MatchesSeriesExactly" "$test_file"; then
                 test_method_issues_list+=("$indicator_name: Missing PairsObserver test method")
@@ -181,30 +181,30 @@ echo ""
 # Check for comprehensive provider history testing (Insert/Remove scenarios)
 for test_file in "${test_files[@]}"; do
     indicator_name=$(basename "$test_file" .StreamHub.Tests.cs)
-    
+
     if [[ -f "$test_file" ]]; then
         # Look for the canonical test method with provider history mutations
         has_quote_observer_method=$(grep -c "QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly" "$test_file" || true)
-        
+
         if [[ $has_quote_observer_method -gt 0 ]]; then
             # Check if the method includes Insert and Remove operations
             has_insert=$(grep -A 50 "QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly" "$test_file" | grep -c "\.Insert(" || true)
             has_remove=$(grep -A 50 "QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly" "$test_file" | grep -c "\.Remove(" || true)
             has_duplicate=$(grep -A 50 "QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly" "$test_file" | grep -c "resend duplicate" || true)
-            
+
             if [[ $has_insert -eq 0 ]] || [[ $has_remove -eq 0 ]]; then
                 provider_history_issues+=("$indicator_name: QuoteObserver test missing Insert/Remove operations")
                 provider_history_missing=$((provider_history_missing + 1))
             fi
         fi
-        
+
         # Check ChainProvider method for provider history testing
         has_chain_provider_method=$(grep -c "ChainProvider_MatchesSeriesExactly" "$test_file" || true)
-        
+
         if [[ $has_chain_provider_method -gt 0 ]]; then
             has_insert=$(grep -A 50 "ChainProvider_MatchesSeriesExactly" "$test_file" | grep -c "\.Insert(" || true)
             has_remove=$(grep -A 50 "ChainProvider_MatchesSeriesExactly" "$test_file" | grep -c "\.Remove(" || true)
-            
+
             if [[ $has_insert -eq 0 ]] || [[ $has_remove -eq 0 ]]; then
                 provider_history_issues+=("$indicator_name: ChainProvider test missing Insert/Remove operations")
                 provider_history_missing=$((provider_history_missing + 1))
@@ -256,11 +256,11 @@ echo ""
 test_base_file="tests/indicators/_base/StreamHubTestBase.cs"
 if [[ -f "$test_base_file" ]]; then
     echo -e "${GREEN}✓${NC} StreamHubTestBase exists"
-    
+
     # Check for key components
     has_interface_definitions=$(grep -c "interface ITest" "$test_base_file" || true)
     has_assert_helper=$(grep -c "AssertProviderHistoryIntegrity" "$test_base_file" || true)
-    
+
     echo -e "${GREEN}✓${NC} Test interfaces defined: $has_interface_definitions"
     echo -e "${GREEN}✓${NC} Helper methods available: Yes"
 else

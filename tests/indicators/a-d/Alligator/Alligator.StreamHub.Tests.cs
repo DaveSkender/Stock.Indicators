@@ -105,22 +105,21 @@ public class AlligatorHubTests : StreamHubTestBase, ITestChainObserver
         quoteHub.Insert(quotesList[80]);
 
         // delete
-        quoteHub.Remove(quotesList[400]);
-        quotesList.RemoveAt(400);
+        quoteHub.Remove(Quotes[removeAtIndex]);
 
         // final results
-        IReadOnlyList<AlligatorResult> streamList
+        IReadOnlyList<AlligatorResult> sut
             = observer.Results;
 
-        // time-series, for comparison
-        IReadOnlyList<AlligatorResult> seriesList
-           = quotesList
+        // time-series, for comparison (revised)
+        IReadOnlyList<AlligatorResult> expected
+           = RevisedQuotes
             .ToSma(10)
             .ToAlligator();
 
         // assert, should equal series
-        streamList.Should().HaveCount(length - 1);
-        streamList.IsExactly(seriesList);
+        sut.Should().HaveCount(quotesCount - 1);
+        sut.IsExactly(expected);
 
         observer.Unsubscribe();
         quoteHub.EndTransmission();

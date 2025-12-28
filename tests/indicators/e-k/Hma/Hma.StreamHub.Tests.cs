@@ -96,34 +96,33 @@ public class HmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
             .ToHmaHub(LookbackPeriods)
             .ToSmaHub(smaPeriods);
 
-        for (int i = 0; i < length; i++)
+        for (int i = 0; i < quotesCount; i++)
         {
-            if (i == 75)
+            if (i == 80)
             {
                 continue;
             }
 
-            Quote quote = quotesList[i];
-            quoteHub.Add(quote);
+            Quote q = Quotes[i];
+            quoteHub.Add(q);
 
-            if (i is > 180 and < 185)
+            if (i is > 100 and < 105)
             {
-                quoteHub.Add(quote);
+                quoteHub.Add(q);
             }
         }
 
-        quoteHub.Insert(quotesList[75]);
+        quoteHub.Insert(Quotes[80]);
 
-        quoteHub.Remove(quotesList[300]);
-        quotesList.RemoveAt(300);
+        quoteHub.Remove(Quotes[removeAtIndex]);
 
-        IReadOnlyList<SmaResult> streamList = observer.Results;
-        IReadOnlyList<SmaResult> seriesList = quotesList
+        IReadOnlyList<SmaResult> sut = observer.Results;
+        IReadOnlyList<SmaResult> expected = RevisedQuotes
             .ToHma(LookbackPeriods)
             .ToSma(smaPeriods);
 
-        streamList.Should().HaveCount(length - 1);
-        streamList.IsExactly(seriesList);
+        sut.Should().HaveCount(quotesCount - 1);
+        sut.IsExactly(expected);
 
         observer.Unsubscribe();
         quoteHub.EndTransmission();

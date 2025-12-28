@@ -3,6 +3,11 @@ namespace StreamHubs;
 [TestClass]
 public class RenkoHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
 {
+    // NOTE: Renko transforms quotes to variable brick counts (non-1:1 timestamps).
+    // Intentionally excluded from comprehensive provider history testing (Insert/Remove)
+    // as quote transformations don't preserve timestamp mappings.
+    // TODO: Revisit to explore alternative testing approach for quote transformations.
+
     [TestMethod]
     public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
