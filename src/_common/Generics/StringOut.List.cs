@@ -459,14 +459,26 @@ public static partial class StringOut
         string[][] dataRows = sourceSubset.Select((item, index) => {
             string[] row = new string[columnCount];
 
-            row[0] = (index + startIndex).ToString(formats[0], culture);
+            row[0] = (index + startIndex).ToString(formats[0], invariantCulture);
 
             for (int i = 1; i < columnCount; i++)
             {
                 object? value = properties[i - 1].GetValue(item);
-                row[i] = value is IFormattable formattable
-                    ? formattable.ToString(formats[i], culture) ?? string.Empty
-                    : value?.ToString() ?? string.Empty;
+
+                // Allow a special "unset" format to mean "no format string" (use default ToString)
+                string fmt = formats[i];
+                if (string.Equals(fmt, "unset", StringComparison.OrdinalIgnoreCase))
+                {
+                    row[i] = value is IFormattable formattable
+                        ? formattable.ToString(null, invariantCulture) ?? string.Empty
+                        : value?.ToString() ?? string.Empty;
+                }
+                else
+                {
+                    row[i] = value is IFormattable formattable
+                        ? formattable.ToString(formats[i], invariantCulture) ?? string.Empty
+                        : value?.ToString() ?? string.Empty;
+                }
 
                 columnWidth[i] = Math.Max(columnWidth[i], row[i].Length);
             }
@@ -533,7 +545,7 @@ public static partial class StringOut
         {
             List<string> dateValues = list
                 .Take(1000)
-                .Select(item => ((DateTime)property.GetValue(item)!).ToString("o", culture))
+                .Select(item => ((DateTime)property.GetValue(item)!).ToString("o", invariantCulture))
                 .ToList();
 
             bool sameHour = dateValues.Select(d => d.Substring(11, 2)).Distinct().Count() == 1;
@@ -644,14 +656,25 @@ public static partial class StringOut
         // Format all data rows (using original indices)
         string[][] dataRows = indexedItems.Select(x => {
             string[] row = new string[headers.Length];
-            row[0] = x.Index.ToString("N0", culture);
+            row[0] = x.Index.ToString("N0", invariantCulture);
 
             for (int i = 1; i < headers.Length; i++)
             {
                 object? value = properties[i - 1].GetValue(x.Item);
-                row[i] = value is IFormattable f
-                    ? f.ToString(formats[i], culture) ?? string.Empty
-                    : value?.ToString() ?? string.Empty;
+                // Support "unset" to avoid forcing a numeric format and use natural ToString()
+                string fmt = formats[i];
+                if (string.Equals(fmt, "unset", StringComparison.OrdinalIgnoreCase))
+                {
+                    row[i] = value is IFormattable f
+                        ? f.ToString(null, invariantCulture) ?? string.Empty
+                        : value?.ToString() ?? string.Empty;
+                }
+                else
+                {
+                    row[i] = value is IFormattable f
+                        ? f.ToString(formats[i], invariantCulture) ?? string.Empty
+                        : value?.ToString() ?? string.Empty;
+                }
             }
 
             return row;
