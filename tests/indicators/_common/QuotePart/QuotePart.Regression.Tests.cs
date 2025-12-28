@@ -9,8 +9,8 @@ public class QuotePartTests : RegressionTestBase<QuotePart>
     public override void Series() => Quotes.ToQuotePart(CandlePart.Close).IsExactly(Expected);
 
     [TestMethod]
-    public override void Buffer() => new QuotePartList(CandlePart.Close) { Quotes }.IsExactly(Expected);
+    public override void Buffer() => Quotes.ToQuotePartList(CandlePart.Close).IsExactly(Expected);
 
     [TestMethod]
-    public override void Stream() => QuoteHub.ToQuotePartHub(CandlePart.Close).Results.IsExactly(Expected);
+    public override void Stream() => Quotes.ToQuotePartHub(CandlePart.Close).Results.IsExactly(Expected);
 }

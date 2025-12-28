@@ -83,8 +83,8 @@ public static partial class QuoteParts
     /// <param name="candlePart">The <see cref="CandlePart" /> element.</param>
     /// <returns>List of IReusable items</returns>
     internal static IReadOnlyList<IReusable> ToPreferredList<T>(
-    this IReadOnlyList<T> items, CandlePart candlePart)
-    where T : IReusable
+        this IReadOnlyList<T> items, CandlePart candlePart)
+        where T : IReusable
     {
         ArgumentNullException.ThrowIfNull(items);
 

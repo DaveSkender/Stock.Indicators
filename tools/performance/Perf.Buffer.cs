@@ -61,7 +61,7 @@ public class BufferIndicators
     [Benchmark] public PivotPointsList PivotPointsList() => q.ToPivotPointsList(PeriodSize.Month, PivotPointType.Standard);
     [Benchmark] public PivotsList PivotsList() => q.ToPivotsList(2, 2, 20);
     [Benchmark] public PmoList PmoList() => q.ToPmoList();
-    [Benchmark] public QuotePartList QuotePartList() => q.ToQuotePartList(CandlePart.Close);
+    [Benchmark] public QuotePartList QuotePartList() => q.ToQuotePartList(CandlePart.OHL3);
     [Benchmark] public PrsList PrsList() => q.ToPrsList(o);
     [Benchmark] public PvoList PvoList() => q.ToPvoList();
     [Benchmark] public RenkoList RenkoList() => q.ToRenkoList(2.5m);

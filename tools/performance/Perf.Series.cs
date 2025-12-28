@@ -66,6 +66,7 @@ public class SeriesIndicators
     [Benchmark] public void ToPmo() => q.ToPmo();
     [Benchmark] public void ToPrs() => q.ToPrs(o);
     [Benchmark] public void ToPvo() => q.ToPvo();
+    [Benchmark] public void ToQuotePart() => q.ToQuotePart(CandlePart.OHL3);
     [Benchmark] public void ToRenko() => q.ToRenko(2.5m);
     [Benchmark] public void ToRenkoAtr() => q.ToRenko(n);
     [Benchmark] public void ToRoc() => q.ToRoc(20);
