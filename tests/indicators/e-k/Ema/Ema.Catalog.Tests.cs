@@ -27,7 +27,7 @@ public class EmaTests : TestBase
         IReadOnlyList<EmaResult> direct = quotes.ToEma(lookback);
 
         // Assert
-        byId.Should().BeEquivalentTo(direct);
+        byId.IsExactly(direct);
     }
 
     [TestMethod]
@@ -51,7 +51,7 @@ public class EmaTests : TestBase
         IReadOnlyList<EmaResult> direct = quotes.ToEma(20);
 
         // Assert
-        fromJson.Should().BeEquivalentTo(direct);
+        fromJson.IsExactly(direct);
     }
 
     [TestMethod]
@@ -116,7 +116,7 @@ public class EmaTests : TestBase
             .DefaultValue;
 
         lookbackPeriod.Should().Be(20, "this is what's defined in the catalog");
-        catalogResult.Should().BeEquivalentTo(Quotes.ToEma(lookbackPeriod));
+        catalogResult.IsExactly(Quotes.ToEma(lookbackPeriod));
     }
 
     [TestMethod]

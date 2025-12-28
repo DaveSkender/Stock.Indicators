@@ -55,9 +55,7 @@ public class StarcBandsHubTests : StreamHubTestBase, ITestQuoteObserver
 
         // assert, should equal series
         streamList.Should().HaveCount(length - 1);
-        streamList.Should().BeEquivalentTo(
-            seriesList,
-            static options => options.WithStrictOrdering());
+        streamList.IsExactly(seriesList);
 
         observer.Unsubscribe();
         quoteHub.EndTransmission();

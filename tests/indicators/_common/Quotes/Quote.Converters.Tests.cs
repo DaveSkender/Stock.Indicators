@@ -50,7 +50,7 @@ public partial class Quotes : TestBase
             = myQuotes.ToQuoteList();
 
         // assert is same as original
-        sut.Should().BeEquivalentTo(quotes);
+        sut.IsExactly(quotes);
     }
 
     [TestMethod]

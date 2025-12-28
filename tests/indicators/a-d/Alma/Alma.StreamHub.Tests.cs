@@ -175,8 +175,6 @@ public class AlmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
             (lookback: 20, offset: 0.25, sigma: 3.0)
         ];
 
-        List<Quote> quotesList = Quotes.ToList();
-
         foreach ((int lookback, double offset, double sigma) in parameters)
         {
             // setup quote provider hub
@@ -187,21 +185,21 @@ public class AlmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
                 .ToAlmaHub(lookback, offset, sigma);
 
             // emulate quote stream
-            for (int i = 0; i < quotesList.Count; i++)
+            for (int i = 0; i < Quotes.Count; i++)
             {
-                quoteHub.Add(quotesList[i]);
+                quoteHub.Add(Quotes[i]);
             }
 
             // final results
             IReadOnlyList<AlmaResult> streamList = observer.Results;
 
             // time-series, for comparison
-            IReadOnlyList<AlmaResult> seriesList = quotesList.ToAlma(lookback, offset, sigma);
+            IReadOnlyList<AlmaResult> seriesList = Quotes.ToAlma(lookback, offset, sigma);
 
             // assert, should equal series
-            streamList.Should().HaveCount(quotesList.Count,
+            streamList.Should().HaveCount(Quotes.Count,
                 $"Count mismatch for parameters: lookback={lookback}, offset={offset}, sigma={sigma}");
-            streamList.Should().BeEquivalentTo(seriesList,
+            streamList.IsExactly(seriesList,
                 $"Results mismatch for parameters: lookback={lookback}, offset={offset}, sigma={sigma}");
 
             observer.Unsubscribe();
@@ -212,8 +210,6 @@ public class AlmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
     [TestMethod]
     public void Reset()
     {
-        List<Quote> quotesList = Quotes.ToList();
-
         // setup quote provider hub
         QuoteHub quoteHub = new();
 
@@ -223,7 +219,7 @@ public class AlmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
         // Add ~50 quotes to populate state
         for (int i = 0; i < 50; i++)
         {
-            quoteHub.Add(quotesList[i]);
+            quoteHub.Add(Quotes[i]);
         }
 
         // assert observer.Results has 50 entries and the last result has a non-null Alma value
@@ -245,7 +241,7 @@ public class AlmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
         AlmaHub freshObserver = freshProvider.ToAlmaHub(14, 0.85, 6);
 
         // Add one quote and assert observer.Results has count 1 and that the single result's Alma is null (since lookback period is 14)
-        freshProvider.Add(quotesList[0]);
+        freshProvider.Add(Quotes[0]);
 
         freshObserver.Results.Should().HaveCount(1);
         freshObserver.Results[^1].Alma.Should().BeNull();

@@ -215,6 +215,6 @@ public class EpmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
 
         IReadOnlyList<EpmaResult> sut = epmaHub.Results;
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series);
+        sut.IsExactly(series);
     }
 }

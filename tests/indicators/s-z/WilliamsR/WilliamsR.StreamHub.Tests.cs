@@ -92,7 +92,7 @@ public class WilliamsRHubTests : StreamHubTestBase, ITestQuoteObserver
         // verify consistency
         IReadOnlyList<WilliamsResult> expected = Quotes.ToWilliamsR(lookbackPeriods);
         observer.Cache.Should().HaveCount(expected.Count);
-        observer.Cache.Should().BeEquivalentTo(expected);
+        observer.Cache.IsExactly(expected);
     }
 
     [TestMethod]
@@ -143,7 +143,7 @@ public class WilliamsRHubTests : StreamHubTestBase, ITestQuoteObserver
 
         // compare results
         streamObserver.Cache.Should().HaveCount(batchResults.Count);
-        streamObserver.Cache.Should().BeEquivalentTo(batchResults);
+        streamObserver.Cache.IsExactly(batchResults);
     }
 
     [TestMethod]

@@ -47,7 +47,7 @@ public class StreamObservers : TestBase
 
         observer.Cache[1000].Value.Should().Be(12345);
         observer.Cache.Should().NotBeEquivalentTo(original);
-        observer.Cache.Should().BeEquivalentTo(modified);
+        observer.Cache.IsExactly(modified);
 
         // act: Rebuild()
         observer.Rebuild();

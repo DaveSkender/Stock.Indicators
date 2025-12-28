@@ -211,7 +211,7 @@ public class CacheManagement : TestBase
         observer.Results.Should().HaveCount(maxCacheSize);
 
         // assert: correct values remain
-        quoteHub.Quotes.Should().BeEquivalentTo(
+        quoteHub.Quotes.IsExactly(
             Quotes.Skip(10).Take(maxCacheSize));
 
         observer.Results.IsExactly(

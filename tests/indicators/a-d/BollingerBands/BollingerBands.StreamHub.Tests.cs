@@ -55,9 +55,7 @@ public class BollingerBandsHubTests : StreamHubTestBase, ITestQuoteObserver, ITe
 
         // assert, should equal series
         streamList.Should().HaveCount(length - 1);
-        streamList.Should().BeEquivalentTo(
-            seriesList,
-            static options => options.WithStrictOrdering());
+        streamList.IsExactly(seriesList);
 
         observer.Unsubscribe();
         quoteHub.EndTransmission();
@@ -108,9 +106,7 @@ public class BollingerBandsHubTests : StreamHubTestBase, ITestQuoteObserver, ITe
 
         // assert, should equal series
         streamList.Should().HaveCount(length);
-        streamList.Should().BeEquivalentTo(
-            seriesList,
-            static options => options.WithStrictOrdering());
+        streamList.IsExactly(seriesList);
 
         observer.Unsubscribe();
         quoteHub.EndTransmission();

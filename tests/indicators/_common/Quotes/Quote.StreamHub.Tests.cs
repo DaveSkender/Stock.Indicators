@@ -34,7 +34,7 @@ public class QuoteHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPr
 
         // assert same as original
         observer.Cache.Should().HaveCount(length);
-        observer.Cache.Should().BeEquivalentTo(quoteHub.Cache);
+        observer.Cache.IsExactly(quoteHub.Cache);
     }
 
     [TestMethod]
