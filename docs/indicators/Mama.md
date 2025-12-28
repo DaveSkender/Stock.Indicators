@@ -8,7 +8,9 @@ description: Created by John Ehlers, the MAMA indicator is a 5-period adaptive m
 Created by John Ehlers, the [MAMA](https://mesasoftware.com/papers/MAMA.pdf) indicator is a 5-period adaptive moving average of high/low price that uses classic electrical radio-frequency signal processing algorithms to reduce noise.
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/211 "Community discussion about this indicator")
 
-<img src="/assets/charts/Mama.png" alt="chart for MESA Adaptive Moving Average (MAMA)" />
+<ClientOnly>
+  <IndicatorChart src="/data/Mama.json" :height="360" />
+</ClientOnly>
 
 ```csharp
 // C# usage syntax

@@ -8,7 +8,9 @@ description: Rolling Pivot Points is a modern update to traditional fixed calend
 Created by Dave Skender, Rolling Pivot Points is a modern update to traditional fixed calendar window <a href="/indicators/PivotPoints/" rel="nofollow">Pivot Points</a>.  It depicts support and resistance levels, based on a defined _rolling_ window and offset.
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/274 "Community discussion about this indicator")
 
-<img src="/assets/charts/RollingPivots.png" alt="chart for Rolling Pivot Points" />
+<ClientOnly>
+  <IndicatorChart src="/data/RollingPivots.json" :height="360" />
+</ClientOnly>
 
 ```csharp
 // C# usage syntax

@@ -8,7 +8,9 @@ description: Created by Alexander Elder, the Elder-ray Index, also known as Bull
 Created by Alexander Elder, the [Elder-ray Index](https://www.investopedia.com/terms/e/elderray.asp), also known as Bull and Bear Power, is an oscillator that depicts buying and selling pressure.  It compares current high/low prices against an Exponential Moving Average.
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/378 "Community discussion about this indicator")
 
-<img src="/assets/charts/ElderRay.png" alt="chart for Elder-ray Index" />
+<ClientOnly>
+  <IndicatorChart src="/data/ElderRay.json" :height="360" />
+</ClientOnly>
 
 ```csharp
 // C# usage syntax

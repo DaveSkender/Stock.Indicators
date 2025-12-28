@@ -8,7 +8,9 @@ description: The Volume Weighted Average Price is a volume weighted average of p
 The [Volume Weighted Average Price](https://en.wikipedia.org/wiki/Volume-weighted_average_price) is a Volume weighted average of price, typically used on intraday data.
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/310 "Community discussion about this indicator")
 
-<img src="/assets/charts/Vwap.png" alt="chart for Volume Weighted Average Price (VWAP)" />
+<ClientOnly>
+  <IndicatorChart src="/data/Vwap.json" :height="360" />
+</ClientOnly>
 
 ```csharp
 // C# usage syntax

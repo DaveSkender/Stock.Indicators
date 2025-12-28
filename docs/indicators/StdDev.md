@@ -8,7 +8,9 @@ description: Standard Deviation represents the volatility of historical financia
 [Standard Deviation](https://en.wikipedia.org/wiki/Standard_deviation) of price over a rolling lookback window.  Also known as Historical Volatility (HV).  Z-Score is also returned.
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/239 "Community discussion about this indicator")
 
-<img src="/assets/charts/StdDev.png" alt="chart for Standard Deviation (volatility)" />
+<ClientOnly>
+  <IndicatorChart src="/data/StdDev.json" :height="360" />
+</ClientOnly>
 
 ```csharp
 // C# usage syntax (series)

@@ -8,7 +8,9 @@ description: Created by William Blau, the True Strength Index is a momentum osci
 Created by William Blau, the [True Strength Index](https://en.wikipedia.org/wiki/True_strength_index) is a momentum oscillator that uses a series of exponential moving averages to depicts trends in price changes.
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/300 "Community discussion about this indicator")
 
-<img src="/assets/charts/Tsi.png" alt="chart for True Strength Index (TSI)" />
+<ClientOnly>
+  <IndicatorChart src="/data/Tsi.json" :height="360" />
+</ClientOnly>
 
 ```csharp
 // C# usage syntax

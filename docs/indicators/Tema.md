@@ -10,7 +10,9 @@ redirect_from:
 Created by Patrick G. Mulloy, the [Triple exponential moving average](https://en.wikipedia.org/wiki/Triple_exponential_moving_average) is a faster multi-smoothed EMA of the price over a lookback window.
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/808 "Community discussion about this indicator")
 
-<img src="/assets/charts/Tema.png" alt="chart for Triple Exponential Moving Average (TEMA)" />
+<ClientOnly>
+  <IndicatorChart src="/data/Tema.json" :height="360" />
+</ClientOnly>
 
 ```csharp
 // C# usage syntax

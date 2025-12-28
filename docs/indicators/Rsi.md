@@ -8,7 +8,9 @@ description: Created by J. Welles Wilder, the Relative Strength Index is an osci
 Created by J. Welles Wilder, the [Relative Strength Index](https://en.wikipedia.org/wiki/Relative_strength_index) is an oscillator that measures strength of the winning/losing streak over `N` lookback periods on a scale of 0 to 100, to depict overbought and oversold conditions.
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/224 "Community discussion about this indicator")
 
-<img src="/assets/charts/Rsi.png" alt="chart for Relative Strength Index (RSI)" />
+<ClientOnly>
+  <IndicatorChart src="/data/Rsi.json" :height="360" />
+</ClientOnly>
 
 ```csharp
 // C# usage syntax

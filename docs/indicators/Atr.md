@@ -4,7 +4,9 @@
 Created by J. Welles Wilder, True Range and [Average True Range](https://en.wikipedia.org/wiki/Average_true_range) is a measure of volatility that captures gaps and limits between periods.
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/269 "Community discussion about this indicator")
 
-<img src="/assets/charts/Atr.png" alt="chart for Average True Range (ATR)" />
+<ClientOnly>
+  <IndicatorChart src="/data/Atr.json" :height="360" />
+</ClientOnly>
 
 ```csharp
 // C# usage syntax

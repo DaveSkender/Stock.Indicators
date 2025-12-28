@@ -8,7 +8,9 @@ description: Created by Donald Lambert, the Commodity Channel Index is an oscill
 Created by Donald Lambert, the [Commodity Channel Index](https://en.wikipedia.org/wiki/Commodity_channel_index) is an oscillator depicting deviation from typical price range, often used to identify cyclical trends.
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/265 "Community discussion about this indicator")
 
-<img src="/assets/charts/Cci.png" alt="chart for Commodity Channel Index (CCI)" />
+<ClientOnly>
+  <IndicatorChart src="/data/Cci.json" :height="360" />
+</ClientOnly>
 
 ```csharp
 // C# usage syntax
