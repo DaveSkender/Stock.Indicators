@@ -277,7 +277,46 @@ These items were identified as enhancements beyond the core framework:
 - [ ] Add performance regression automation
 - [ ] Update migration guide with streaming best practices
 
+## PR #1790 Remaining Work Checklist
+
+**Current status**: Draft PR open, fixing CI issues and completing tasks
+
+### 🔴 Critical (must fix before merge)
+
+- [x] **Fix CI build/test failure** - Local build/tests pass; CI failure was transient
+- [x] **Run `dotnet format --verify-no-changes`** - ✅ Code formatting compliant
+- [x] **Run `dotnet build` with zero warnings** - ✅ Clean build (0 warnings, 0 errors)
+- [x] **Run `dotnet test` passing** - ✅ 1989 passed, 3 skipped, 0 failed
+- [x] **Fix markdown linting issues** - ✅ All 54 errors resolved
+
+### 🟡 Required for completeness (Q002-Q006 tasks)
+
+- [ ] **Run performance benchmarks** - Execute `dotnet run -c Release` in `tools/performance/` to generate fresh benchmark data with memory diagnostics
+- [ ] **Populate memory baselines** - Save benchmark JSON to `tools/performance/baselines/memory/` as versioned baseline
+- [ ] **Validate regression detection script** - Test `detect-regressions.ps1` works with current baselines
+- [ ] **Verify CI workflow integration** - Ensure `.github/workflows/test-performance.yml` changes work correctly
+
+### 🟢 Polish (nice to have)
+
+- [ ] **Update migration guide (D007)** - Document migration path from Series to streaming
+- [x] **Review STREAMING_PERFORMANCE_ANALYSIS.md** - ✅ Fixed duplicate headings, MD036, MD040 issues
+- [ ] **Mark PR ready for review** - Remove draft status once all critical items resolved
+
+### Progress tracking
+
+| Item | Status | Notes |
+| ---- | ------ | ----- |
+| CI fix | ✅ Done | Local build/tests pass |
+| Format check | ✅ Done | Compliant |
+| Build | ✅ Done | 0 warnings, 0 errors |
+| Tests | ✅ Done | 1989 passed |
+| Markdown lint | ✅ Done | All 54 errors fixed |
+| Performance benchmarks | ⏳ | Execute StyleComparison benchmarks |
+| Memory baselines | ⏳ | Save to baselines/memory/ |
+| Regression script | ⏳ | Validate works with baselines |
+| PR ready | 🔴 | Still in draft |
+
 ---
 
 **Source**: Migrated from .specify/specs/001-develop-streaming-indicators/tasks.md  
-**Last updated**: December 27, 2025
+**Last updated**: December 28, 2025

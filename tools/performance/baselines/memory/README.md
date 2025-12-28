@@ -5,6 +5,7 @@ This directory contains memory usage baselines for streaming indicators (BufferL
 ## Purpose
 
 Track memory overhead for streaming indicators to ensure compliance with NFR-002 requirement:
+
 - **Target**: <10KB memory overhead per StreamHub instance
 - **Target**: <5KB memory overhead per BufferList instance
 
@@ -75,6 +76,7 @@ cat BenchmarkDotNet.Artifacts/results/Performance.StyleComparison-report-full.js
 Instance overhead = Total allocated - (result storage + cache)
 
 **Example for SmaHub:**
+
 - Total allocated: 24,680 bytes
 - Result storage: ~40 bytes × 502 periods = 20,080 bytes
 - Cache overhead: ~8 bytes × 502 periods = 4,016 bytes
@@ -85,18 +87,22 @@ Instance overhead = Total allocated - (result storage + cache)
 Group indicators by complexity and memory pattern:
 
 **Simple Indicators** (<2KB overhead):
+
 - Single buffer/state variable
 - Examples: SMA, EMA, ROC, Momentum
 
 **Complex Indicators** (2-5KB overhead):
+
 - Multiple buffers/state variables
 - Examples: ADX, MACD, Stochastic, RSI
 
 **Multi-Series Indicators** (3-8KB overhead):
+
 - Multiple output series with separate state
 - Examples: Alligator, Bollinger Bands, Keltner Channels
 
 **Windowed Indicators** (proportional to lookback):
+
 - Memory scales with lookback period
 - Formula: ~8 bytes × lookback + <1KB overhead
 - Examples: SMA, WMA, HMA
@@ -212,4 +218,4 @@ cat baselines/memory/baseline-memory-v3.1.0.json | \
 - Main analysis document: `../STREAMING_PERFORMANCE_ANALYSIS.md`
 - Streaming plan: `../../../docs/plans/streaming-indicators.plan.md`
 - NFR-002: <10KB memory overhead per StreamHub instance
-- BenchmarkDotNet Memory Diagnoser: https://benchmarkdotnet.org/articles/configs/diagnosers.html#memory-diagnoser
+- BenchmarkDotNet Memory Diagnoser: <https://benchmarkdotnet.org/articles/configs/diagnosers.html#memory-diagnoser>

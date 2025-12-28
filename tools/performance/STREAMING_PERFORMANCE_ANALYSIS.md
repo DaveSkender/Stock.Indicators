@@ -79,11 +79,11 @@ This script identifies all indicators where BufferList performance exceeds thres
 
 ## Q003: StreamHub vs Series Performance
 
-### Overview
+### StreamHub Overview
 
 StreamHub provides real-time streaming capabilities with stateful processing. Performance characteristics differ from BufferList due to the need to maintain internal state and handle incremental updates.
 
-### Methodology
+### StreamHub Methodology
 
 Same as Q002:
 
@@ -92,7 +92,7 @@ Same as Q002:
 - **Metrics**: Mean execution time (nanoseconds), Error, StdDev, Memory allocations
 - **Comparison**: Series batch processing vs StreamHub incremental processing
 
-### Performance Targets
+### StreamHub Performance Targets
 
 According to NFR-002:
 
@@ -100,7 +100,7 @@ According to NFR-002:
 - **Acceptable**: Up to 3x overhead for complex stateful indicators
 - **Critical**: >10x overhead indicates algorithmic issues (likely O(n²) complexity)
 
-### Results Summary
+### StreamHub Results Summary
 
 Based on the baseline analysis:
 
@@ -131,22 +131,25 @@ Based on the baseline analysis:
 
 The PERFORMANCE_REVIEW.md document identifies several patterns of performance degradation:
 
-**Pattern 1: O(n²) Complexity**
+#### Pattern 1: O(n²) Complexity
+
 - Indicators recalculating from scratch on each quote
 - Missing rolling window optimization
 - Examples: Rsi, StochRsi, Cmo, Chandelier
 
-**Pattern 2: EMA Family State Management**
+#### Pattern 2: EMA Family State Management
+
 - 9-11x slowdown across EMA-based indicators
 - Missing incremental state updates
 - Examples: Ema, Dema, Tema, T3, Smma, Trix, Macd
 
-**Pattern 3: Inefficient Window Operations**
+#### Pattern 3: Inefficient Window Operations
+
 - Not using circular buffers
 - Unnecessary allocations on each quote
 - Examples: Alma, Sma, Wma, Vwma
 
-### Recommendations
+### StreamHub Recommendations
 
 1. **47% of StreamHub implementations meet performance targets** (<1.5x overhead)
 2. **39% have critical issues** requiring algorithmic fixes
@@ -158,11 +161,11 @@ The PERFORMANCE_REVIEW.md document identifies several patterns of performance de
 
 ## Q004: Memory Overhead Validation
 
-### Overview
+### Memory Validation Overview
 
 NFR-002 specifies that streaming indicator instances should maintain **<10KB memory overhead** per instance to ensure scalability in high-frequency trading scenarios where hundreds of indicators may run concurrently.
 
-### Methodology
+### Memory Profiling Methodology
 
 **Memory Profiling Approach:**
 
@@ -202,11 +205,13 @@ dotnet run -c Release
 ### Expected Memory Patterns
 
 **Series Indicators (Baseline):**
+
 - Allocate result collection: ~40 bytes per period
 - For 502 periods: ~20KB total
 - Minimal GC pressure (batch allocation)
 
 **BufferList Indicators:**
+
 - Internal buffer: Depends on lookback period
   - 14-period SMA: ~112 bytes (14 × 8 bytes per double)
   - 20-period EMA: ~160 bytes
@@ -216,6 +221,7 @@ dotnet run -c Release
 - **Target validation**: ✅ Should meet <10KB target easily
 
 **StreamHub Indicators:**
+
 - Internal cache/provider: ~8 bytes per period for reference storage
 - State variables: Varies by indicator
   - Simple (SMA, EMA): <1KB
@@ -240,17 +246,19 @@ cat BenchmarkDotNet.Artifacts/results/Performance.StyleComparison-report-full.js
 ### Validation Criteria
 
 **PASS Criteria:**
+
 - BufferList instance overhead: <5KB (excluding result storage)
 - StreamHub instance overhead: <10KB (excluding cache and results)
 - No memory leaks during continuous operation
 - Reasonable GC pressure (mostly Gen0 collections)
 
 **FAIL Criteria:**
+
 - Instance overhead exceeds 10KB
 - Memory leaks detected (growing memory without bounds)
 - Excessive Gen2 collections (indicates memory pressure)
 
-### Next Steps
+### Memory Validation Next Steps
 
 1. **Run benchmarks with memory diagnostics** (already enabled)
 2. **Analyze memory allocation patterns** in results
@@ -260,13 +268,14 @@ cat BenchmarkDotNet.Artifacts/results/Performance.StyleComparison-report-full.js
 
 ## Q005: Automated Performance Regression Detection
 
-### Overview
+### Regression Detection Overview
 
 Automated regression detection prevents performance degradation from creeping into the codebase. The existing `detect-regressions.ps1` script provides this capability and can be integrated into CI/CD workflows.
 
 ### Current Implementation
 
 **Script Capabilities:**
+
 - Compares current benchmark results with baseline
 - Identifies regressions exceeding threshold (default: 10%)
 - Identifies improvements
@@ -290,7 +299,7 @@ pwsh detect-regressions.ps1 \
 
 ### CI/CD Integration Strategy
 
-**Option 1: Regression Detection in PR Workflow (Recommended)**
+#### Option 1: Regression Detection in PR Workflow (Recommended)
 
 Add a regression check step to the existing `test-performance.yml` workflow:
 
@@ -316,7 +325,7 @@ Add a regression check step to the existing `test-performance.yml` workflow:
       })
 ```
 
-**Option 2: Informational Reporting Only**
+#### Option 2: Informational Reporting Only
 
 Run regression detection but only report findings in the GitHub Actions summary without failing the build:
 
@@ -378,6 +387,7 @@ cp baselines/baseline-v3.1.0.json baselines/baseline-latest.json
 **GitHub Actions Integration:**
 
 The workflow can be configured to:
+
 - ✅ Post regression findings to PR comments
 - ✅ Add regression report to GitHub Actions summary
 - ✅ Upload regression reports as artifacts
@@ -415,7 +425,7 @@ The workflow can be configured to:
 
 ## Q006: Memory Baseline Measurements
 
-### Overview
+### Memory Baseline Overview
 
 Establish reference memory usage patterns for all streaming indicator types to enable automated memory regression detection similar to performance regression detection.
 
@@ -479,7 +489,7 @@ Establish reference memory usage patterns for all streaming indicator types to e
 
 **File Structure:**
 
-```
+```text
 tools/performance/baselines/
 ├── memory/
 │   ├── README.md                          # This section
@@ -563,18 +573,21 @@ param(
 ### Expected Memory Patterns by Style
 
 **Series Indicators:**
+
 - Single batch allocation for results
 - No persistent state
 - Memory proportional to input size
 - Baseline: ~40 bytes per period
 
 **BufferList Indicators:**
+
 - Fixed-size internal buffers
 - Minimal state variables
 - Memory independent of total periods processed
 - Baseline: <5KB overhead + results
 
 **StreamHub Indicators:**
+
 - Provider cache (reference storage)
 - Internal state variables
 - Rolling windows for lookback
@@ -600,7 +613,7 @@ cat BenchmarkDotNet.Artifacts/results/*.json | \
 
 **Report Format:**
 
-```
+```text
 Memory Compliance Report
 ========================
 
@@ -642,7 +655,7 @@ BufferList Indicators:
   - Collection methodology established
   - Compliance validation approach defined
 
-### Next Steps
+### Implementation Next Steps
 
 1. **Run benchmarks with memory diagnostics** to populate memory baseline data
 2. **Create memory baseline files** following the structure defined in Q006
@@ -704,6 +717,7 @@ The infrastructure is production-ready for ongoing performance monitoring and re
 ---
 
 **References:**
+
 - `docs/plans/streaming-indicators.plan.md` - Original task definitions
 - `tools/performance/baselines/PERFORMANCE_REVIEW.md` - Detailed performance analysis
 - `tools/performance/detect-regressions.ps1` - Regression detection script
