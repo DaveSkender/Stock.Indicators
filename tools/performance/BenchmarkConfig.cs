@@ -1,5 +1,6 @@
 using BenchmarkDotNet.Columns;
 using BenchmarkDotNet.Configs;
+using BenchmarkDotNet.Diagnosers;
 using BenchmarkDotNet.Exporters;
 using BenchmarkDotNet.Exporters.Json;
 using BenchmarkDotNet.Loggers;
@@ -22,6 +23,9 @@ public class PerformanceConfig : ManualConfig
         AddColumn(StatisticColumn.Mean);
         AddColumn(StatisticColumn.Error);
         AddColumn(StatisticColumn.StdDev);
+
+        // Add memory diagnostics for Q004 and Q006 (memory profiling)
+        AddDiagnoser(MemoryDiagnoser.Default);
 
         // Add logger
         AddLogger(ConsoleLogger.Default);
