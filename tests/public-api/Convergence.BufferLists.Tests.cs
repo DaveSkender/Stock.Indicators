@@ -17,8 +17,6 @@ public class ConvergenceBufferLists : TestBaseWithPrecision
     private static readonly int[] QuotesQuantities =
         [5, 14, 28, 40, 50, 75, 100, 110, 120, 130, 140, 150, 160, 175, 200, 250, 350, 500, 600, 700, 800, 900, 1000];
 
-    private static IReadOnlyList<Quote> Qts => Data.GetLongish();
-
     // Convergence thresholds: quantity needed for stable final value
     private const int AdxConvergence = 350;
     private const int AtrConvergence = 200;
@@ -38,15 +36,16 @@ public class ConvergenceBufferLists : TestBaseWithPrecision
 
         foreach (int qty in QuotesQuantities)
         {
-            AdxList buffer = Qts.ToAdxList(lookback);
+            IReadOnlyList<Quote> qts = Data.GetLongish(qty);
+            AdxList buffer = qts.ToAdxList(lookback);
 
             AdxResult l = buffer[^1];
-            Console.WriteLine($"ADX({lookback}) BufferList on {l.Timestamp:d} with {Qts.Count,4} historical qts: {l.Adx:N8}");
+            Console.WriteLine($"ADX({lookback}) BufferList on {l.Timestamp:d} with {qty,4} historical qts: {l.Adx:N8}");
 
             // At convergence point, verify matches Series and save for stability check
             if (qty == AdxConvergence)
             {
-                IReadOnlyList<AdxResult> series = Qts.ToAdx(lookback);
+                IReadOnlyList<AdxResult> series = qts.ToAdx(lookback);
                 l.Should().Be(series[^1]);
                 convergedResult = l;
             }
@@ -67,15 +66,16 @@ public class ConvergenceBufferLists : TestBaseWithPrecision
 
         foreach (int qty in QuotesQuantities)
         {
-            AtrList buffer = Qts.ToAtrList(lookback);
+            IReadOnlyList<Quote> qts = Data.GetLongish(qty);
+            AtrList buffer = qts.ToAtrList(lookback);
 
             AtrResult l = buffer[^1];
-            Console.WriteLine($"ATR({lookback}) BufferList on {l.Timestamp:d} with {Qts.Count,4} periods: {l.Atr:N8}");
+            Console.WriteLine($"ATR({lookback}) BufferList on {l.Timestamp:d} with {qty,4} periods: {l.Atr:N8}");
 
             // At convergence point, verify matches Series
             if (qty == AtrConvergence)
             {
-                IReadOnlyList<AtrResult> series = Qts.ToAtr(lookback);
+                IReadOnlyList<AtrResult> series = qts.ToAtr(lookback);
                 l.Should().Be(series[^1]);
                 convergedResult = l;
             }
@@ -96,15 +96,16 @@ public class ConvergenceBufferLists : TestBaseWithPrecision
 
         foreach (int qty in QuotesQuantities)
         {
-            EmaList buffer = Qts.ToEmaList(lookback);
+            IReadOnlyList<Quote> qts = Data.GetLongish(qty);
+            EmaList buffer = qts.ToEmaList(lookback);
 
             EmaResult l = buffer[^1];
-            Console.WriteLine($"EMA({lookback}) BufferList on {l.Timestamp:d} with {Qts.Count,4} periods: {l.Ema:N8}");
+            Console.WriteLine($"EMA({lookback}) BufferList on {l.Timestamp:d} with {qty,4} periods: {l.Ema:N8}");
 
             // At convergence point, verify matches Series
             if (qty == EmaConvergence)
             {
-                IReadOnlyList<EmaResult> series = Qts.ToEma(lookback);
+                IReadOnlyList<EmaResult> series = qts.ToEma(lookback);
                 l.Should().Be(series[^1]);
                 convergedResult = l;
             }
@@ -125,15 +126,16 @@ public class ConvergenceBufferLists : TestBaseWithPrecision
 
         foreach (int qty in QuotesQuantities)
         {
-            MacdList buffer = Qts.ToMacdList(fast, slow, signal);
+            IReadOnlyList<Quote> qts = Data.GetLongish(qty);
+            MacdList buffer = qts.ToMacdList(fast, slow, signal);
 
             MacdResult l = buffer[^1];
-            Console.WriteLine($"MACD BufferList on {l.Timestamp:d} with {Qts.Count,4} periods: {l.Macd:N8}");
+            Console.WriteLine($"MACD BufferList on {l.Timestamp:d} with {qty,4} periods: {l.Macd:N8}");
 
             // At convergence point, verify matches Series
             if (qty == MacdConvergence)
             {
-                IReadOnlyList<MacdResult> series = Qts.ToMacd(fast, slow, signal);
+                IReadOnlyList<MacdResult> series = qts.ToMacd(fast, slow, signal);
                 l.Should().Be(series[^1]);
                 convergedResult = l;
             }
@@ -156,15 +158,16 @@ public class ConvergenceBufferLists : TestBaseWithPrecision
 
         foreach (int qty in QuotesQuantities)
         {
-            RsiList buffer = Qts.ToRsiList(lookback);
+            IReadOnlyList<Quote> qts = Data.GetLongish(qty);
+            RsiList buffer = qts.ToRsiList(lookback);
 
             RsiResult l = buffer[^1];
-            Console.WriteLine($"RSI({lookback}) BufferList on {l.Timestamp:d} with {Qts.Count,4} periods: {l.Rsi:N8}");
+            Console.WriteLine($"RSI({lookback}) BufferList on {l.Timestamp:d} with {qty,4} periods: {l.Rsi:N8}");
 
             // At convergence point, verify matches Series
             if (qty == RsiConvergence)
             {
-                IReadOnlyList<RsiResult> series = Qts.ToRsi(lookback);
+                IReadOnlyList<RsiResult> series = qts.ToRsi(lookback);
                 l.Should().Be(series[^1]);
                 convergedResult = l;
             }
@@ -185,15 +188,16 @@ public class ConvergenceBufferLists : TestBaseWithPrecision
 
         foreach (int qty in QuotesQuantities)
         {
-            SmaList buffer = Qts.ToSmaList(lookback);
+            IReadOnlyList<Quote> qts = Data.GetLongish(qty);
+            SmaList buffer = qts.ToSmaList(lookback);
 
             SmaResult l = buffer[^1];
-            Console.WriteLine($"SMA({lookback}) BufferList on {l.Timestamp:d} with {Qts.Count,4} periods: {l.Sma:N8}");
+            Console.WriteLine($"SMA({lookback}) BufferList on {l.Timestamp:d} with {qty,4} periods: {l.Sma:N8}");
 
             // At convergence point, verify matches Series
             if (qty == SmaConvergence)
             {
-                IReadOnlyList<SmaResult> series = Qts.ToSma(lookback);
+                IReadOnlyList<SmaResult> series = qts.ToSma(lookback);
                 l.Should().Be(series[^1]);
                 convergedResult = l;
             }
@@ -214,15 +218,16 @@ public class ConvergenceBufferLists : TestBaseWithPrecision
 
         foreach (int qty in QuotesQuantities)
         {
-            StochList buffer = Qts.ToStochList(lookbackPeriods, signalPeriods, smoothPeriods);
+            IReadOnlyList<Quote> qts = Data.GetLongish(qty);
+            StochList buffer = qts.ToStochList(lookbackPeriods, signalPeriods, smoothPeriods);
 
             StochResult l = buffer[^1];
-            Console.WriteLine($"STOCH BufferList on {l.Timestamp:d} with {Qts.Count,4} periods: {l.K:N8}");
+            Console.WriteLine($"STOCH BufferList on {l.Timestamp:d} with {qty,4} periods: {l.K:N8}");
 
             // At convergence point, verify matches Series
             if (qty == StochConvergence)
             {
-                IReadOnlyList<StochResult> series = Qts.ToStoch(lookbackPeriods, signalPeriods, smoothPeriods);
+                IReadOnlyList<StochResult> series = qts.ToStoch(lookbackPeriods, signalPeriods, smoothPeriods);
                 l.Should().Be(series[^1]);
                 convergedResult = l;
             }

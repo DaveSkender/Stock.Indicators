@@ -54,7 +54,7 @@ public static class TestAssert
         IEnumerable<T> expected,
         string because = "",
         params object[] becauseArgs
-    ) where T : ISeries //
+    ) where T : ISeries
         => actual.Should().BeEquivalentTo(
             expectation: expected,
             config: static options => options
