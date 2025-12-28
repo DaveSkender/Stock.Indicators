@@ -35,6 +35,11 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
     public bool IsFaulted { get; private set; }
 
     /// <summary>
+    /// Gets the name of the stream hub.
+    /// </summary>
+    public string Name { get; private protected init; } = string.Empty;
+
+    /// <summary>
     /// Gets the cache of stored values (base).
     /// </summary>
     internal List<TOut> Cache { get; } = [];

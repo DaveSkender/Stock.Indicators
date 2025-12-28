@@ -9,7 +9,6 @@ public class VolatilityStopHub
     : StreamHub<IQuote, VolatilityStopResult>, IVolatilityStop
 {
 
-    private readonly string hubName;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="VolatilityStopHub"/> class.
@@ -26,7 +25,7 @@ public class VolatilityStopHub
 
         LookbackPeriods = lookbackPeriods;
         Multiplier = multiplier;
-        hubName = $"VOLATILITY-STOP({lookbackPeriods},{multiplier})";
+        Name = $"VOLATILITY-STOP({lookbackPeriods},{multiplier})";
 
         Reinitialize();
     }
@@ -69,7 +68,7 @@ public class VolatilityStopHub
     // METHODS
 
     /// <inheritdoc/>
-    public override string ToString() => hubName;
+    public override string ToString() => Name;
 
     /// <inheritdoc/>
     protected override (VolatilityStopResult result, int index)

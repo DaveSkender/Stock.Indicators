@@ -36,6 +36,8 @@ public class EpmaList : BufferList<EpmaResult>, IIncrementFromChain, IEpma
         _buffer = new Queue<double>(lookbackPeriods);
         _cache = [];
         _cacheOffset = 0;
+
+        Name = $"EPMA({lookbackPeriods})";
     }
 
     /// <summary>
@@ -98,6 +100,9 @@ public class EpmaList : BufferList<EpmaResult>, IIncrementFromChain, IEpma
         _cacheOffset = 0;
         base.Clear();
     }
+
+    /// <inheritdoc />
+    public override string ToString() => Name;
 
     /// <summary>
     /// Prunes the internal cache to prevent unbounded memory growth.

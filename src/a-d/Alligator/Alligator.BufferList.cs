@@ -67,6 +67,8 @@ public class AlligatorList : BufferList<AlligatorResult>, IIncrementFromChain, I
         _teethBufferSum = 0;
         _lipsBufferSum = 0;
         _count = 0;
+
+        Name = $"ALLIGATOR({13}, {8}, {8}, {5}, {5}, {3})";
     }
 
     /// <summary>
@@ -268,6 +270,9 @@ public class AlligatorList : BufferList<AlligatorResult>, IIncrementFromChain, I
 
         _count = 0;
     }
+
+    /// <inheritdoc />
+    public override string ToString() => Name;
 }
 
 /// <summary>

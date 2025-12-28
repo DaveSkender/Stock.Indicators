@@ -8,7 +8,6 @@ namespace Skender.Stock.Indicators;
 public class DojiHub
     : StreamHub<IQuote, CandleResult>, IDoji
 {
-    private readonly string hubName;
     private readonly double _maxPriceChangePercentDecimal;
 
     /// <summary>
@@ -25,7 +24,7 @@ public class DojiHub
         Doji.Validate(maxPriceChangePercent);
         MaxPriceChangePercent = maxPriceChangePercent;
         _maxPriceChangePercentDecimal = maxPriceChangePercent / 100;
-        hubName = $"DOJI({maxPriceChangePercent:F1})";
+        Name = $"DOJI({maxPriceChangePercent:F1})";
 
         Reinitialize();
     }
@@ -34,7 +33,7 @@ public class DojiHub
     public double MaxPriceChangePercent { get; init; }
 
     /// <inheritdoc/>
-    public override string ToString() => hubName;
+    public override string ToString() => Name;
 
     /// <inheritdoc/>
     protected override (CandleResult result, int index)

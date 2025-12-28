@@ -36,6 +36,8 @@ public class RenkoList : BufferList<RenkoResult>, IIncrementFromQuote, IRenko
             Close: default,
             Volume: default,
             IsUp: false);
+
+        Name = $"RENKO({brickSize}, {EndType.Close})";
     }
 
     /// <summary>
@@ -152,6 +154,9 @@ public class RenkoList : BufferList<RenkoResult>, IIncrementFromQuote, IRenko
         _sumV = 0;
         _isInitialized = false;
     }
+
+    /// <inheritdoc />
+    public override string ToString() => Name;
 }
 
 public static partial class Renko

@@ -51,6 +51,8 @@ public class ParabolicSarList : BufferList<ParabolicSarResult>, IIncrementFromQu
         _buffer = new Queue<(double, double)>(2);
         _isInitialized = false;
         _firstReversalFound = false;
+
+        Name = $"PARABOLICSAR({0.02}, {0.2})";
     }
 
     /// <summary>
@@ -235,6 +237,9 @@ public class ParabolicSarList : BufferList<ParabolicSarResult>, IIncrementFromQu
         _isInitialized = false;
         _firstReversalFound = false;
     }
+
+    /// <inheritdoc />
+    public override string ToString() => Name;
 
     private void NullifyResultsBeforeFirstReversal()
     {

@@ -6,7 +6,6 @@ namespace Skender.Stock.Indicators;
 public class CmoHub
     : ChainProvider<IReusable, CmoResult>, ICmo
 {
-    private readonly string hubName;
     private readonly Queue<(bool? isUp, double value)> _tickBuffer;
 
     /// <summary>
@@ -22,7 +21,7 @@ public class CmoHub
     {
         Cmo.Validate(lookbackPeriods);
         LookbackPeriods = lookbackPeriods;
-        hubName = $"CMO({lookbackPeriods})";
+        Name = $"CMO({lookbackPeriods})";
         _tickBuffer = new Queue<(bool? isUp, double value)>(lookbackPeriods);
 
         Reinitialize();
@@ -32,7 +31,7 @@ public class CmoHub
     public int LookbackPeriods { get; init; }
 
     /// <inheritdoc/>
-    public override string ToString() => hubName;
+    public override string ToString() => Name;
 
     /// <inheritdoc/>
     protected override (CmoResult result, int index)

@@ -23,6 +23,8 @@ public class ChandelierList : BufferList<ChandelierResult>, IIncrementFromQuote,
 
         _atrList = new AtrList(lookbackPeriods);
         _buffer = new Queue<(double, double)>(lookbackPeriods);
+
+        Name = $"CHANDELIER({22}, {3}, {Direction.Long})";
     }
 
     /// <summary>
@@ -127,6 +129,9 @@ public class ChandelierList : BufferList<ChandelierResult>, IIncrementFromQuote,
         _atrList.Clear();
         _buffer.Clear();
     }
+
+    /// <inheritdoc />
+    public override string ToString() => Name;
 }
 
 public static partial class Chandelier

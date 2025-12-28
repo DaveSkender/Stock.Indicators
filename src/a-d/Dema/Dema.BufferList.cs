@@ -24,6 +24,8 @@ public class DemaList : BufferList<DemaResult>, IIncrementFromChain, IDema
 
         _buffer = new Queue<double>(lookbackPeriods);
         _bufferSum = 0;
+
+        Name = $"DEMA({lookbackPeriods})";
     }
 
     /// <summary>
@@ -122,4 +124,7 @@ public class DemaList : BufferList<DemaResult>, IIncrementFromChain, IDema
         _lastEma1 = double.NaN;
         _lastEma2 = double.NaN;
     }
+
+    /// <inheritdoc />
+    public override string ToString() => Name;
 }

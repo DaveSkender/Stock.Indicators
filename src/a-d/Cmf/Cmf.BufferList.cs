@@ -19,6 +19,8 @@ public class CmfList : BufferList<CmfResult>, IIncrementFromQuote, ICmf
 
         _adlList = [];
         _buffer = new Queue<(double, double?)>(lookbackPeriods);
+
+        Name = $"CMF({20})";
     }
 
     /// <summary>
@@ -97,6 +99,9 @@ public class CmfList : BufferList<CmfResult>, IIncrementFromQuote, ICmf
         _adlList.Clear();
         _buffer.Clear();
     }
+
+    /// <inheritdoc />
+    public override string ToString() => Name;
 }
 
 public static partial class Cmf

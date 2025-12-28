@@ -6,7 +6,6 @@ namespace Skender.Stock.Indicators;
 public class HtTrendlineHub
     : ChainProvider<IReusable, HtlResult>, IHtTrendline
 {
-    private readonly string hubName;
 
     private readonly List<double> pr = [];   // price
     private readonly List<double> sp = [];   // smooth price
@@ -33,12 +32,12 @@ public class HtTrendlineHub
     internal HtTrendlineHub(
         IChainProvider<IReusable> provider) : base(provider)
     {
-        hubName = "HTL()";
+        Name = "HTL()";
         Reinitialize();
     }
 
     /// <inheritdoc/>
-    public override string ToString() => hubName;
+    public override string ToString() => Name;
 
     /// <inheritdoc/>
     protected override (HtlResult result, int index)

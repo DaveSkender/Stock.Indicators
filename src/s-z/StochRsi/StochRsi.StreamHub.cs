@@ -8,7 +8,6 @@ namespace Skender.Stock.Indicators;
 public sealed class StochRsiHub
     : ChainProvider<IReusable, StochRsiResult>
 {
-    private readonly string hubName;
     /// <summary>
     /// Internal RSI hub for incremental RSI calculation
     /// </summary>
@@ -51,7 +50,7 @@ public sealed class StochRsiHub
         SignalPeriods = signalPeriods;
         SmoothPeriods = smoothPeriods;
 
-        hubName = $"STOCH-RSI({rsiPeriods},{stochPeriods},{signalPeriods},{smoothPeriods})";
+        Name = $"STOCH-RSI({rsiPeriods},{stochPeriods},{signalPeriods},{smoothPeriods})";
 
         // Create internal RSI hub for incremental RSI calculation
         rsiHub = provider.ToRsiHub(rsiPeriods);
@@ -88,7 +87,7 @@ public sealed class StochRsiHub
     public int SmoothPeriods { get; init; }
 
     /// <inheritdoc/>
-    public override string ToString() => hubName;
+    public override string ToString() => Name;
 
     /// <inheritdoc/>
     protected override (StochRsiResult result, int index)

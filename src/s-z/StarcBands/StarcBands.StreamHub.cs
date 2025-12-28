@@ -9,7 +9,6 @@ public class StarcBandsHub
     : StreamHub<IQuote, StarcBandsResult>, IStarcBands
 {
 
-    private readonly string hubName;
     private double _prevAtr = double.NaN;
 
     /// <summary>
@@ -30,7 +29,7 @@ public class StarcBandsHub
         SmaPeriods = smaPeriods;
         Multiplier = multiplier;
         AtrPeriods = atrPeriods;
-        hubName = $"STARCBANDS({smaPeriods},{multiplier},{atrPeriods})";
+        Name = $"STARCBANDS({smaPeriods},{multiplier},{atrPeriods})";
 
         Reinitialize();
     }
@@ -45,7 +44,7 @@ public class StarcBandsHub
     public int AtrPeriods { get; init; }
 
     /// <inheritdoc/>
-    public override string ToString() => hubName;
+    public override string ToString() => Name;
 
     /// <inheritdoc/>
     protected override void RollbackState(DateTime timestamp)

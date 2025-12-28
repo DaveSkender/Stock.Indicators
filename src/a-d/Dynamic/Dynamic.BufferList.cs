@@ -24,6 +24,8 @@ public class DynamicList : BufferList<DynamicResult>, IIncrementFromChain, IDyna
 
         _previousDynamic = null;
         _previousValue = 0;
+
+        Name = $"DYNAMIC({lookbackPeriods}, {0.6})";
     }
 
     /// <summary>
@@ -100,6 +102,9 @@ public class DynamicList : BufferList<DynamicResult>, IIncrementFromChain, IDyna
         _previousDynamic = null;
         _previousValue = 0;
     }
+
+    /// <inheritdoc />
+    public override string ToString() => Name;
 }
 
 public static partial class MgDynamic

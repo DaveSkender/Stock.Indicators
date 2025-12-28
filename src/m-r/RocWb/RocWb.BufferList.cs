@@ -27,6 +27,8 @@ public class RocWbList : BufferList<RocWbResult>, IIncrementFromChain, IRocWb
         _rocSqBuffer = new Queue<double>(stdDevPeriods);
         _rocEmaInitBuffer = new Queue<double>(emaPeriods);
         k = 2d / (emaPeriods + 1);
+
+        Name = $"ROCWB({lookbackPeriods}, {emaPeriods}, {stdDevPeriods})";
     }
 
     /// <summary>
@@ -159,6 +161,9 @@ public class RocWbList : BufferList<RocWbResult>, IIncrementFromChain, IRocWb
         _rocEmaInitBuffer.Clear();
         prevEma = double.NaN;
     }
+
+    /// <inheritdoc />
+    public override string ToString() => Name;
 }
 
 public static partial class RocWb

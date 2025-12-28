@@ -29,6 +29,8 @@ public class TrixList : BufferList<TrixResult>, IIncrementFromChain, ITrix
 
         _buffer = new Queue<double>(lookbackPeriods);
         _bufferSum = 0;
+
+        Name = $"TRIX({lookbackPeriods})";
     }
 
     /// <summary>
@@ -131,6 +133,9 @@ public class TrixList : BufferList<TrixResult>, IIncrementFromChain, ITrix
         _lastEma2 = double.NaN;
         _lastEma3 = double.NaN;
     }
+
+    /// <inheritdoc />
+    public override string ToString() => Name;
 }
 
 public static partial class Trix

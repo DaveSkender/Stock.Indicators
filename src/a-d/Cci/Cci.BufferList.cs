@@ -17,6 +17,8 @@ public class CciList : BufferList<CciResult>, IIncrementFromQuote, ICci
         LookbackPeriods = lookbackPeriods;
 
         _buffer = new Queue<double>(lookbackPeriods);
+
+        Name = $"CCI({lookbackPeriods})";
     }
 
     /// <summary>
@@ -85,4 +87,7 @@ public class CciList : BufferList<CciResult>, IIncrementFromQuote, ICci
         base.Clear();
         _buffer.Clear();
     }
+
+    /// <inheritdoc />
+    public override string ToString() => Name;
 }

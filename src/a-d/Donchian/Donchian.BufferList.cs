@@ -17,6 +17,8 @@ public class DonchianList : BufferList<DonchianResult>, IIncrementFromQuote
         LookbackPeriods = lookbackPeriods;
 
         _buffer = new Queue<(decimal, decimal)>(lookbackPeriods);
+
+        Name = $"DONCHIAN({20})";
     }
 
     /// <summary>
@@ -101,6 +103,9 @@ public class DonchianList : BufferList<DonchianResult>, IIncrementFromQuote
         base.Clear();
         _buffer.Clear();
     }
+
+    /// <inheritdoc />
+    public override string ToString() => Name;
 }
 
 public static partial class Donchian

@@ -21,6 +21,8 @@ public class RsiList : BufferList<RsiResult>, IIncrementFromChain, IRsi
         LookbackPeriods = lookbackPeriods;
 
         _buffer = new Queue<(double, double)>(lookbackPeriods);
+
+        Name = $"RSI({lookbackPeriods})";
     }
 
     /// <summary>
@@ -135,6 +137,9 @@ public class RsiList : BufferList<RsiResult>, IIncrementFromChain, IRsi
         _prevValue = double.NaN;
         _isInitialized = false;
     }
+
+    /// <inheritdoc />
+    public override string ToString() => Name;
 }
 
 public static partial class Rsi

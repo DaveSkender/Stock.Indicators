@@ -29,6 +29,11 @@ public abstract class BufferList<TResult> : IReadOnlyList<TResult>
     public bool IsReadOnly => true;
 
     /// <summary>
+    /// Gets the name of the buffer list.
+    /// </summary>
+    public string Name { get; protected init; } = string.Empty;
+
+    /// <summary>
     /// Gets or sets the maximum number of results to retain in the list.
     /// When the list exceeds this value, the oldest items are pruned.
     /// </summary>

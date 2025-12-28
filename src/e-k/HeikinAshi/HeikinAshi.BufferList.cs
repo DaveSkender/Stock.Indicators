@@ -78,6 +78,9 @@ public class HeikinAshiList : BufferList<HeikinAshiResult>, IIncrementFromQuote
         _prevOpen = decimal.MinValue;
         _prevClose = decimal.MinValue;
     }
+
+    /// <inheritdoc />
+    public override string ToString() => Name;
 }
 
 public static partial class HeikinAshi

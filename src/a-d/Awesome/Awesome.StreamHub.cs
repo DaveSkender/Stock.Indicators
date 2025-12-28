@@ -8,7 +8,6 @@ namespace Skender.Stock.Indicators;
 public class AwesomeHub
     : ChainProvider<IReusable, AwesomeResult>, IAwesome
 {
-    private readonly string hubName;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AwesomeHub"/> class.
@@ -26,7 +25,7 @@ public class AwesomeHub
         Awesome.Validate(fastPeriods, slowPeriods);
         FastPeriods = fastPeriods;
         SlowPeriods = slowPeriods;
-        hubName = $"AWESOME({fastPeriods},{slowPeriods})";
+        Name = $"AWESOME({fastPeriods},{slowPeriods})";
 
         Reinitialize();
     }
@@ -38,7 +37,7 @@ public class AwesomeHub
     public int SlowPeriods { get; init; }
 
     /// <inheritdoc/>
-    public override string ToString() => hubName;
+    public override string ToString() => Name;
 
     /// <inheritdoc/>
     protected override (AwesomeResult result, int index)

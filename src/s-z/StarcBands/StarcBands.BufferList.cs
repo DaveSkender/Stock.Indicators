@@ -26,6 +26,8 @@ public class StarcBandsList : BufferList<StarcBandsResult>, IIncrementFromQuote,
 
         _smaList = new SmaList(smaPeriods);
         _atrList = new AtrList(atrPeriods);
+
+        Name = $"STARCBANDS({5}, {2}, {10})";
     }
 
     /// <summary>
@@ -108,6 +110,9 @@ public class StarcBandsList : BufferList<StarcBandsResult>, IIncrementFromQuote,
         _smaList.Clear();
         _atrList.Clear();
     }
+
+    /// <inheritdoc />
+    public override string ToString() => Name;
 }
 
 public static partial class StarcBands

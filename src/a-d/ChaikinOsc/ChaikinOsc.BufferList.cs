@@ -23,6 +23,8 @@ public class ChaikinOscList : BufferList<ChaikinOscResult>, IIncrementFromQuote,
         _adlList = [];
         _fastEmaList = new EmaList(fastPeriods);
         _slowEmaList = new EmaList(slowPeriods);
+
+        Name = $"CHAIKINOSC({3}, {10})";
     }
 
     /// <summary>
@@ -94,6 +96,9 @@ public class ChaikinOscList : BufferList<ChaikinOscResult>, IIncrementFromQuote,
         _fastEmaList.Clear();
         _slowEmaList.Clear();
     }
+
+    /// <inheritdoc />
+    public override string ToString() => Name;
 }
 
 public static partial class ChaikinOsc

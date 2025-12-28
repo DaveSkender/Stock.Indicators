@@ -6,7 +6,6 @@ namespace Skender.Stock.Indicators;
 public class CciHub
     : ChainProvider<IQuote, CciResult>, ICci
 {
-    private readonly string hubName;
     private readonly CciList _cciList;
 
     /// <summary>
@@ -22,7 +21,7 @@ public class CciHub
     {
         Cci.Validate(lookbackPeriods);
         LookbackPeriods = lookbackPeriods;
-        hubName = $"CCI({lookbackPeriods})";
+        Name = $"CCI({lookbackPeriods})";
         _cciList = new CciList(lookbackPeriods);
 
         Reinitialize();
@@ -32,7 +31,7 @@ public class CciHub
     public int LookbackPeriods { get; init; }
 
     /// <inheritdoc/>
-    public override string ToString() => hubName;
+    public override string ToString() => Name;
 
     /// <inheritdoc/>
     protected override (CciResult result, int index)

@@ -8,7 +8,6 @@ namespace Skender.Stock.Indicators;
 public class BetaHub
     : PairsProvider<IReusable, BetaResult>, IBeta
 {
-    private readonly string hubName;
     private readonly bool calcSd;
     private readonly bool calcUp;
     private readonly bool calcDn;
@@ -55,7 +54,7 @@ public class BetaHub
 
         LookbackPeriods = lookbackPeriods;
         Type = type;
-        hubName = $"BETA({lookbackPeriods},{type})";
+        Name = $"BETA({lookbackPeriods},{type})";
 
         calcSd = type is BetaType.All or BetaType.Standard;
         calcUp = type is BetaType.All or BetaType.Up;
@@ -76,7 +75,7 @@ public class BetaHub
     public BetaType Type { get; init; }
 
     /// <inheritdoc/>
-    public override string ToString() => hubName;
+    public override string ToString() => Name;
 
     /// <inheritdoc/>
     protected override (BetaResult result, int index)

@@ -16,6 +16,8 @@ public class HurstList : BufferList<HurstResult>, IIncrementFromChain, IHurst
         Hurst.Validate(lookbackPeriods);
         LookbackPeriods = lookbackPeriods;
         _buffer = new Queue<double>(lookbackPeriods + 1);
+
+        Name = $"HURST({lookbackPeriods})";
     }
 
     /// <summary>
@@ -91,6 +93,9 @@ public class HurstList : BufferList<HurstResult>, IIncrementFromChain, IHurst
         base.Clear();
         _buffer.Clear();
     }
+
+    /// <inheritdoc />
+    public override string ToString() => Name;
 }
 
 public static partial class Hurst

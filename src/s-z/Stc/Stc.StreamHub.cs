@@ -17,7 +17,6 @@ public class StcHub
     : ChainProvider<IReusable, StcResult>, IStc
 {
 
-    private readonly string hubName;
     private readonly RollingWindowMax<double> _macdHighWindow;
     private readonly RollingWindowMin<double> _macdLowWindow;
     private readonly Queue<double> _rawKBuffer;
@@ -57,7 +56,7 @@ public class StcHub
         // Cache for MACD intermediate values
         _macdCache = [];
 
-        hubName = $"STC({cyclePeriods},{fastPeriods},{slowPeriods})";
+        Name = $"STC({cyclePeriods},{fastPeriods},{slowPeriods})";
 
         Reinitialize();
     }
@@ -72,7 +71,7 @@ public class StcHub
     public int SlowPeriods { get; init; }
 
     /// <inheritdoc/>
-    public override string ToString() => hubName;
+    public override string ToString() => Name;
 
     /// <inheritdoc/>
     protected override (StcResult result, int index)

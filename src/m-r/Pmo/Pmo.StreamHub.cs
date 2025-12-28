@@ -6,7 +6,6 @@ namespace Skender.Stock.Indicators;
 public class PmoHub
     : ChainProvider<IReusable, PmoResult>, IPmo
 {
-    private readonly string hubName;
     private readonly double smoothingConstant1;
     private readonly double smoothingConstant2;
     private readonly double smoothingConstant3;
@@ -38,7 +37,7 @@ public class PmoHub
         smoothingConstant2 = 2d / timePeriods;
         smoothingConstant3 = 2d / (signalPeriods + 1);
 
-        hubName = $"PMO({timePeriods},{smoothPeriods},{signalPeriods})";
+        Name = $"PMO({timePeriods},{smoothPeriods},{signalPeriods})";
 
         Reinitialize();
     }
@@ -53,7 +52,7 @@ public class PmoHub
     public int SignalPeriods { get; init; }
 
     /// <inheritdoc/>
-    public override string ToString() => hubName;
+    public override string ToString() => Name;
 
     /// <inheritdoc/>
     protected override (PmoResult result, int index)

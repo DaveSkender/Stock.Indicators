@@ -41,6 +41,8 @@ public class StochList : BufferList<StochResult>, IIncrementFromQuote, IStoch
         _hlcBuffer = new Queue<(double, double, double)>(lookbackPeriods);
         _rawKBuffer = new Queue<double>(smoothPeriods);
         _smoothKBuffer = new Queue<double>(signalPeriods);
+
+        Name = $"STOCH({14}, {3}, {3}, {3}, {2}, {MaType.SMA})";
     }
 
     /// <summary>
@@ -249,4 +251,7 @@ public class StochList : BufferList<StochResult>, IIncrementFromQuote, IStoch
         _prevSmoothK = double.NaN;
         _prevSignal = double.NaN;
     }
+
+    /// <inheritdoc />
+    public override string ToString() => Name;
 }

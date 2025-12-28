@@ -38,6 +38,8 @@ public class SmiList : BufferList<SmiResult>, IIncrementFromQuote, ISmi
 
         _lookbackBuffer = new Queue<(double, double, double)>(lookbackPeriods);
         _isInitialized = false;
+
+        Name = $"SMI({13}, {25}, {2}, {3})";
     }
 
     /// <summary>
@@ -197,6 +199,9 @@ public class SmiList : BufferList<SmiResult>, IIncrementFromQuote, ISmi
         _lastSignal = 0;
         _isInitialized = false;
     }
+
+    /// <inheritdoc />
+    public override string ToString() => Name;
 }
 
 public static partial class Smi

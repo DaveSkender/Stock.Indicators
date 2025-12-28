@@ -6,7 +6,6 @@ namespace Skender.Stock.Indicators;
 public class DynamicHub
     : ChainProvider<IReusable, DynamicResult>, IDynamic
 {
-    private readonly string hubName;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="DynamicHub"/> class.
@@ -24,7 +23,7 @@ public class DynamicHub
         MgDynamic.Validate(lookbackPeriods, kFactor);
         LookbackPeriods = lookbackPeriods;
         KFactor = kFactor;
-        hubName = $"DYNAMIC({lookbackPeriods},{kFactor})";
+        Name = $"DYNAMIC({lookbackPeriods},{kFactor})";
 
         Reinitialize();
     }
@@ -36,7 +35,7 @@ public class DynamicHub
     public double KFactor { get; init; }
 
     /// <inheritdoc/>
-    public override string ToString() => hubName;
+    public override string ToString() => Name;
 
     /// <inheritdoc/>
     protected override (DynamicResult result, int index)

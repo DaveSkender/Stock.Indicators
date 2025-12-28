@@ -42,6 +42,8 @@ public class PivotsList : BufferList<PivotsResult>, IIncrementFromQuote
 
         // Buffer needs to hold enough quotes to compute fractals and track trends
         _quoteBuffer = [];
+
+        Name = $"PIVOTS({2}, {2}, {20}, {EndType.HighLow})";
     }
 
     /// <summary>
@@ -158,6 +160,9 @@ public class PivotsList : BufferList<PivotsResult>, IIncrementFromQuote
         _lastLowIndex = null;
         _lastLowValue = null;
     }
+
+    /// <inheritdoc />
+    public override string ToString() => Name;
 
     /// <summary>
     /// Overrides list pruning to reset pivot tracking state when pruning occurs.

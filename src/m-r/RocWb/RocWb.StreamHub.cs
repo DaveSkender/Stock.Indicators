@@ -6,7 +6,6 @@ namespace Skender.Stock.Indicators;
 public class RocWbHub
     : ChainProvider<IReusable, RocWbResult>, IRocWb
 {
-    private readonly string hubName;
     private readonly double k;
     private double prevEma = double.NaN;
     private readonly Queue<double> rocSqBuffer;
@@ -34,7 +33,7 @@ public class RocWbHub
         k = 2d / (emaPeriods + 1);
         rocSqBuffer = new Queue<double>(stdDevPeriods);
         rocEmaInitBuffer = new Queue<double>(emaPeriods);
-        hubName = $"ROCWB({lookbackPeriods},{emaPeriods},{stdDevPeriods})";
+        Name = $"ROCWB({lookbackPeriods},{emaPeriods},{stdDevPeriods})";
 
         Reinitialize();
     }
@@ -49,7 +48,7 @@ public class RocWbHub
     public int StdDevPeriods { get; init; }
 
     /// <inheritdoc/>
-    public override string ToString() => hubName;
+    public override string ToString() => Name;
 
     /// <inheritdoc/>
     protected override (RocWbResult result, int index)

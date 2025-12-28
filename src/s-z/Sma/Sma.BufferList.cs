@@ -16,6 +16,8 @@ public class SmaList : BufferList<SmaResult>, IIncrementFromChain, ISma
         Sma.Validate(lookbackPeriods);
         LookbackPeriods = lookbackPeriods;
         buffer = new Queue<double>(lookbackPeriods);
+
+        Name = $"SMA({lookbackPeriods})";
     }
 
     /// <summary>
@@ -90,6 +92,9 @@ public class SmaList : BufferList<SmaResult>, IIncrementFromChain, ISma
         base.Clear();
         buffer.Clear();
     }
+
+    /// <inheritdoc />
+    public override string ToString() => Name;
 }
 
 public static partial class Sma

@@ -76,6 +76,9 @@ public class GatorList : BufferList<GatorResult>, IIncrementFromChain
         _alligatorList.Clear();
         _previousResult = null;
     }
+
+    /// <inheritdoc />
+    public override string ToString() => Name;
 }
 
 public static partial class Gator

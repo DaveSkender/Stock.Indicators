@@ -19,6 +19,8 @@ public class AwesomeList : BufferList<AwesomeResult>, IIncrementFromChain, IAwes
         SlowPeriods = slowPeriods;
 
         _buffer = new Queue<double>(slowPeriods);
+
+        Name = $"AWESOME({5}, {34})";
     }
 
     /// <summary>
@@ -114,6 +116,9 @@ public class AwesomeList : BufferList<AwesomeResult>, IIncrementFromChain, IAwes
         base.Clear();
         _buffer.Clear();
     }
+
+    /// <inheritdoc />
+    public override string ToString() => Name;
 }
 
 /// <summary>

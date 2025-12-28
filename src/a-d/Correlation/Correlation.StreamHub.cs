@@ -8,7 +8,6 @@ namespace Skender.Stock.Indicators;
 public class CorrelationHub
     : PairsProvider<IReusable, CorrResult>, ICorrelation
 {
-    private readonly string hubName;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="CorrelationHub"/> class.
@@ -27,7 +26,7 @@ public class CorrelationHub
         Correlation.Validate(lookbackPeriods);
 
         LookbackPeriods = lookbackPeriods;
-        hubName = $"CORRELATION({lookbackPeriods})";
+        Name = $"CORRELATION({lookbackPeriods})";
 
         Reinitialize();
     }
@@ -36,7 +35,7 @@ public class CorrelationHub
     public int LookbackPeriods { get; init; }
 
     /// <inheritdoc/>
-    public override string ToString() => hubName;
+    public override string ToString() => Name;
 
     /// <inheritdoc/>
     protected override (CorrResult result, int index)

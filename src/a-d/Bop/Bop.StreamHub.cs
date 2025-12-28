@@ -8,7 +8,6 @@ namespace Skender.Stock.Indicators;
 public class BopHub
     : ChainProvider<IQuote, BopResult>, IBop
 {
-    private readonly string hubName;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="BopHub"/> class.
@@ -23,7 +22,7 @@ public class BopHub
     {
         Bop.Validate(smoothPeriods);
         SmoothPeriods = smoothPeriods;
-        hubName = $"BOP({smoothPeriods})";
+        Name = $"BOP({smoothPeriods})";
 
         Reinitialize();
     }
@@ -32,7 +31,7 @@ public class BopHub
     public int SmoothPeriods { get; init; }
 
     /// <inheritdoc/>
-    public override string ToString() => hubName;
+    public override string ToString() => Name;
 
     /// <inheritdoc/>
     protected override (BopResult result, int index)

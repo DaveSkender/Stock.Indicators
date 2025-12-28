@@ -16,6 +16,8 @@ public class StdDevList : BufferList<StdDevResult>, IIncrementFromChain, IStdDev
         StdDev.Validate(lookbackPeriods);
         LookbackPeriods = lookbackPeriods;
         _buffer = new Queue<double>(lookbackPeriods);
+
+        Name = $"STDDEV({14})";
     }
 
     /// <summary>
@@ -92,6 +94,9 @@ public class StdDevList : BufferList<StdDevResult>, IIncrementFromChain, IStdDev
         base.Clear();
         _buffer.Clear();
     }
+
+    /// <inheritdoc />
+    public override string ToString() => Name;
 }
 
 public static partial class StdDev

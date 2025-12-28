@@ -27,6 +27,8 @@ public class UltimateList : BufferList<UltimateResult>, IIncrementFromQuote, IUl
 
         _buffer = new Queue<(double, double)>(longPeriods);
         _isInitialized = false;
+
+        Name = $"ULTIMATE({7}, {14}, {28})";
     }
 
     /// <summary>
@@ -156,6 +158,9 @@ public class UltimateList : BufferList<UltimateResult>, IIncrementFromQuote, IUl
         _previousClose = 0;
         _isInitialized = false;
     }
+
+    /// <inheritdoc />
+    public override string ToString() => Name;
 }
 
 public static partial class Ultimate

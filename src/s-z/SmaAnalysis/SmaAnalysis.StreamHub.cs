@@ -9,7 +9,6 @@ public class SmaAnalysisHub
     : ChainProvider<IReusable, SmaAnalysisResult>, ISma
 {
 
-    private readonly string hubName;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="SmaAnalysisHub"/> class.
@@ -22,7 +21,7 @@ public class SmaAnalysisHub
     {
         Sma.Validate(lookbackPeriods);
         LookbackPeriods = lookbackPeriods;
-        hubName = $"SMA-ANALYSIS({lookbackPeriods})";
+        Name = $"SMA-ANALYSIS({lookbackPeriods})";
 
         Reinitialize();
     }
@@ -33,7 +32,7 @@ public class SmaAnalysisHub
     public int LookbackPeriods { get; init; }
 
     /// <inheritdoc/>
-    public override string ToString() => hubName;
+    public override string ToString() => Name;
 
     /// <inheritdoc/>
     protected override (SmaAnalysisResult result, int index)

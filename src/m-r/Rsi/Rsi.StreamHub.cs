@@ -6,7 +6,6 @@ namespace Skender.Stock.Indicators;
 public class RsiHub
     : ChainProvider<IReusable, RsiResult>, IRsi
 {
-    private readonly string hubName;
     private double avgGain;
     private double avgLoss;
 
@@ -23,7 +22,7 @@ public class RsiHub
     {
         Rsi.Validate(lookbackPeriods);
         LookbackPeriods = lookbackPeriods;
-        hubName = $"RSI({lookbackPeriods})";
+        Name = $"RSI({lookbackPeriods})";
 
         Reinitialize();
     }
@@ -32,7 +31,7 @@ public class RsiHub
     public int LookbackPeriods { get; init; }
 
     /// <inheritdoc/>
-    public override string ToString() => hubName;
+    public override string ToString() => Name;
 
     /// <inheritdoc/>
     protected override (RsiResult result, int index)

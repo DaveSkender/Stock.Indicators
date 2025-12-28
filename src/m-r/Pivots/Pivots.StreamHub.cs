@@ -9,7 +9,6 @@ public class PivotsHub
     : StreamHub<IQuote, PivotsResult>, IPivots
 {
 
-    private readonly string hubName;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="PivotsHub"/> class.
@@ -32,7 +31,7 @@ public class PivotsHub
         RightSpan = rightSpan;
         MaxTrendPeriods = maxTrendPeriods;
         EndType = endType;
-        hubName = $"PIVOTS({leftSpan},{rightSpan},{maxTrendPeriods},{endType.ToString().ToUpperInvariant()})";
+        Name = $"PIVOTS({leftSpan},{rightSpan},{maxTrendPeriods},{endType.ToString().ToUpperInvariant()})";
 
         Reinitialize();
     }
@@ -58,7 +57,7 @@ public class PivotsHub
     public EndType EndType { get; init; }
 
     /// <inheritdoc/>
-    public override string ToString() => hubName;
+    public override string ToString() => Name;
 
     /// <summary>
     /// Rebuilds the hub from the beginning, including trend line calculations.

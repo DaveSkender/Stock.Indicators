@@ -27,6 +27,8 @@ public class ForceIndexList : BufferList<ForceIndexResult>, IIncrementFromQuote,
         _previousFi = null;
         _previousClose = null;
         _k = 2d / (lookbackPeriods + 1);
+
+        Name = $"FORCEINDEX({2})";
     }
 
     /// <summary>
@@ -120,6 +122,9 @@ public class ForceIndexList : BufferList<ForceIndexResult>, IIncrementFromQuote,
         _previousFi = null;
         _previousClose = null;
     }
+
+    /// <inheritdoc />
+    public override string ToString() => Name;
 }
 
 public static partial class ForceIndex

@@ -34,6 +34,8 @@ public class VolatilityStopList : BufferList<VolatilityStopResult>, IIncrementFr
         _atrList = new AtrList(lookbackPeriods);
         _closePrices = [];
         _firstStopFound = false;
+
+        Name = $"VOLATILITYSTOP({7}, {3})";
     }
 
     /// <summary>
@@ -162,6 +164,9 @@ public class VolatilityStopList : BufferList<VolatilityStopResult>, IIncrementFr
         _isLong = false;
         _firstStopFound = false;
     }
+
+    /// <inheritdoc />
+    public override string ToString() => Name;
 
     /// <summary>
     /// Overrides list pruning to synchronize the nested ATR list.

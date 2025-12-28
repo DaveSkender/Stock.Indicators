@@ -8,7 +8,6 @@ namespace Skender.Stock.Indicators;
 public class HeikinAshiHub
     : QuoteProvider<IQuote, HeikinAshiResult>
 {
-    private readonly string hubName;
     private decimal _prevOpen = decimal.MinValue;
     private decimal _prevClose = decimal.MinValue;
 
@@ -20,12 +19,12 @@ public class HeikinAshiHub
     internal HeikinAshiHub(
         IQuoteProvider<IQuote> provider) : base(provider)
     {
-        hubName = "HEIKINASHI";
+        Name = "HEIKINASHI";
         Reinitialize();
     }
 
     /// <inheritdoc/>
-    public override string ToString() => hubName;
+    public override string ToString() => Name;
 
     /// <inheritdoc/>
     protected override (HeikinAshiResult result, int index)

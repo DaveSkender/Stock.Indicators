@@ -9,7 +9,6 @@ public class SuperTrendHub
     : StreamHub<IQuote, SuperTrendResult>, ISuperTrend
 {
 
-    private readonly string hubName;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="SuperTrendHub"/> class.
@@ -26,7 +25,7 @@ public class SuperTrendHub
 
         LookbackPeriods = lookbackPeriods;
         Multiplier = multiplier;
-        hubName = $"SUPERTREND({lookbackPeriods},{multiplier})";
+        Name = $"SUPERTREND({lookbackPeriods},{multiplier})";
 
         Reinitialize();
     }
@@ -52,7 +51,7 @@ public class SuperTrendHub
     // METHODS
 
     /// <inheritdoc/>
-    public override string ToString() => hubName;
+    public override string ToString() => Name;
 
     /// <inheritdoc/>
     protected override (SuperTrendResult result, int index)

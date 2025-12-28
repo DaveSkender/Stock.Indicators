@@ -18,6 +18,8 @@ public class CorrelationList : BufferList<CorrResult>, IIncrementFromPairs, ICor
         LookbackPeriods = lookbackPeriods;
 
         _buffer = new Queue<(double, double)>(lookbackPeriods);
+
+        Name = $"CORRELATION({lookbackPeriods})";
     }
 
     /// <summary>
@@ -129,6 +131,9 @@ public class CorrelationList : BufferList<CorrResult>, IIncrementFromPairs, ICor
         base.Clear();
         _buffer.Clear();
     }
+
+    /// <inheritdoc />
+    public override string ToString() => Name;
 }
 
 public static partial class Correlation

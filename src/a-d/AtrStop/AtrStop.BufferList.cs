@@ -33,6 +33,8 @@ public class AtrStopList : BufferList<AtrStopResult>, IIncrementFromQuote, IAtrS
         _upperBand = double.MaxValue;
         _lowerBand = double.MinValue;
         _isInitialized = false;
+
+        Name = $"ATRSTOP({21}, {3}, {EndType.Close})";
     }
 
     /// <summary>
@@ -179,6 +181,9 @@ public class AtrStopList : BufferList<AtrStopResult>, IIncrementFromQuote, IAtrS
         _previousClose = 0;
         _isInitialized = false;
     }
+
+    /// <inheritdoc />
+    public override string ToString() => Name;
 
     /// <summary>
     /// Removes oldest results from both the outer list and the nested ATR list

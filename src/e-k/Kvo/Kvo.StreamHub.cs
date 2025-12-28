@@ -35,7 +35,6 @@ public class KvoHub
     private readonly double _kFast;
     private readonly double _kSlow;
     private readonly double _kSignal;
-    private readonly string hubName;
 
     /// <summary>
     /// State variables
@@ -76,7 +75,7 @@ public class KvoHub
         SlowPeriods = slowPeriods;
         SignalPeriods = signalPeriods;
 
-        hubName = $"KVO({fastPeriods},{slowPeriods},{signalPeriods})";
+        Name = $"KVO({fastPeriods},{slowPeriods},{signalPeriods})";
 
         Reinitialize();
     }
@@ -97,7 +96,7 @@ public class KvoHub
     public int SignalPeriods { get; init; }
 
     /// <inheritdoc/>
-    public override string ToString() => hubName;
+    public override string ToString() => Name;
 
     /// <inheritdoc/>
     protected override (KvoResult result, int index)

@@ -79,6 +79,8 @@ public class MamaList : BufferList<MamaResult>, IIncrementFromChain, IMama
 
         FastLimit = fastLimit;
         SlowLimit = slowLimit;
+
+        Name = $"MAMA({0.5}, {0.05})";
     }
 
     /// <summary>
@@ -276,6 +278,9 @@ public class MamaList : BufferList<MamaResult>, IIncrementFromChain, IMama
         prevMama = double.NaN;
         prevFama = double.NaN;
     }
+
+    /// <inheritdoc />
+    public override string ToString() => Name;
 
     private void RemoveStateRange(int count)
     {

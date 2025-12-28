@@ -6,7 +6,6 @@ namespace Skender.Stock.Indicators;
 public class AtrHub
     : ChainProvider<IQuote, AtrResult>, IAtr
 {
-    private readonly string hubName;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AtrHub"/> class.
@@ -19,7 +18,7 @@ public class AtrHub
     {
         Atr.Validate(lookbackPeriods);
         LookbackPeriods = lookbackPeriods;
-        hubName = $"ATR({lookbackPeriods})";
+        Name = $"ATR({lookbackPeriods})";
 
         Reinitialize();
     }
@@ -32,7 +31,7 @@ public class AtrHub
     // METHODS
 
     /// <inheritdoc/>
-    public override string ToString() => hubName;
+    public override string ToString() => Name;
 
     /// <inheritdoc/>
     protected override (AtrResult result, int index)

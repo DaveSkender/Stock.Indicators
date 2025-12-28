@@ -51,6 +51,8 @@ public class MaEnvelopesList : BufferList<MaEnvelopeResult>, IIncrementFromChain
                         "Moving Average Envelopes does not support {0}.",
                         Enum.GetName(movingAverageType)))
         };
+
+        Name = $"MAENVELOPES({lookbackPeriods}, {percentOffset}, {movingAverageType})";
     }
 
     /// <summary>
@@ -189,6 +191,9 @@ public class MaEnvelopesList : BufferList<MaEnvelopeResult>, IIncrementFromChain
 
         clearAction();
     }
+
+    /// <inheritdoc />
+    public override string ToString() => Name;
 }
 
 public static partial class MaEnvelopes

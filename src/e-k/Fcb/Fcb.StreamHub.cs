@@ -9,7 +9,6 @@ public class FcbHub
     : StreamHub<IQuote, FcbResult>, IFcb
 {
 
-    private readonly string hubName;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="FcbHub"/> class.
@@ -22,7 +21,7 @@ public class FcbHub
     {
         Fcb.Validate(windowSpan);
         WindowSpan = windowSpan;
-        hubName = $"FCB({windowSpan})";
+        Name = $"FCB({windowSpan})";
 
         Reinitialize();
     }
@@ -41,7 +40,7 @@ public class FcbHub
     // METHODS
 
     /// <inheritdoc/>
-    public override string ToString() => hubName;
+    public override string ToString() => Name;
 
     /// <inheritdoc/>
     protected override (FcbResult result, int index)

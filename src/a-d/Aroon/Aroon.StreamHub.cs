@@ -8,7 +8,6 @@ namespace Skender.Stock.Indicators;
 public class AroonHub
     : ChainProvider<IQuote, AroonResult>, IAroon
 {
-    private readonly string hubName;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AroonHub"/> class.
@@ -23,7 +22,7 @@ public class AroonHub
     {
         Aroon.Validate(lookbackPeriods);
         LookbackPeriods = lookbackPeriods;
-        hubName = $"AROON({lookbackPeriods})";
+        Name = $"AROON({lookbackPeriods})";
 
         Reinitialize();
     }
@@ -32,7 +31,7 @@ public class AroonHub
     public int LookbackPeriods { get; init; }
 
     /// <inheritdoc/>
-    public override string ToString() => hubName;
+    public override string ToString() => Name;
 
     /// <inheritdoc/>
     protected override (AroonResult result, int index)

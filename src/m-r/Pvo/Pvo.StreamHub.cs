@@ -6,7 +6,6 @@ namespace Skender.Stock.Indicators;
 public class PvoHub
     : ChainProvider<IReusable, PvoResult>, IPvo
 {
-    private readonly string hubName;
     private double _prevFastEma = double.NaN;
     private double _prevSlowEma = double.NaN;
 
@@ -34,7 +33,7 @@ public class PvoHub
         SlowK = 2d / (slowPeriods + 1);
         SignalK = 2d / (signalPeriods + 1);
 
-        hubName = $"PVO({fastPeriods},{slowPeriods},{signalPeriods})";
+        Name = $"PVO({fastPeriods},{slowPeriods},{signalPeriods})";
 
         Reinitialize();
     }
@@ -64,7 +63,7 @@ public class PvoHub
     public double SignalK { get; private init; }
 
     /// <inheritdoc/>
-    public override string ToString() => hubName;
+    public override string ToString() => Name;
 
     /// <inheritdoc/>
     protected override (PvoResult result, int index)

@@ -19,6 +19,8 @@ public class VwmaList : BufferList<VwmaResult>, IIncrementFromQuote, IVwma
         LookbackPeriods = lookbackPeriods;
 
         _buffer = new Queue<(double, double)>(lookbackPeriods);
+
+        Name = $"VWMA({lookbackPeriods})";
     }
 
     /// <summary>
@@ -93,6 +95,9 @@ public class VwmaList : BufferList<VwmaResult>, IIncrementFromQuote, IVwma
         base.Clear();
         _buffer.Clear();
     }
+
+    /// <inheritdoc />
+    public override string ToString() => Name;
 }
 
 public static partial class Vwma

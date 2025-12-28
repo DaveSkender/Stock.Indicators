@@ -6,7 +6,6 @@ namespace Skender.Stock.Indicators;
 public class ConnorsRsiHub
     : ChainProvider<IReusable, ConnorsRsiResult>, IConnorsRsi
 {
-    private readonly string hubName;
     private readonly RsiHub rsiHub;
     private readonly List<double> streakBuffer;
     private readonly Queue<double> gainBuffer;
@@ -35,7 +34,7 @@ public class ConnorsRsiHub
         StreakPeriods = streakPeriods;
         RankPeriods = rankPeriods;
 
-        hubName = $"CRSI({rsiPeriods},{streakPeriods},{rankPeriods})";
+        Name = $"CRSI({rsiPeriods},{streakPeriods},{rankPeriods})";
 
         // Create internal hub for price RSI
         rsiHub = provider.ToRsiHub(rsiPeriods);
@@ -61,7 +60,7 @@ public class ConnorsRsiHub
     public int RankPeriods { get; init; }
 
     /// <inheritdoc/>
-    public override string ToString() => hubName;
+    public override string ToString() => Name;
 
     /// <inheritdoc/>
     protected override (ConnorsRsiResult result, int index)

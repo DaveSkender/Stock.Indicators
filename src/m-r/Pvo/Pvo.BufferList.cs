@@ -39,6 +39,8 @@ public class PvoList : BufferList<PvoResult>, IIncrementFromQuote, IPvo
 
         _fastBufferSum = 0;
         _slowBufferSum = 0;
+
+        Name = $"PVO({12}, {26}, {9})";
     }
 
     /// <summary>
@@ -207,6 +209,9 @@ public class PvoList : BufferList<PvoResult>, IIncrementFromQuote, IPvo
         _lastSlowEma = null;
         _lastSignalEma = double.NaN;
     }
+
+    /// <inheritdoc />
+    public override string ToString() => Name;
 }
 
 public static partial class Pvo

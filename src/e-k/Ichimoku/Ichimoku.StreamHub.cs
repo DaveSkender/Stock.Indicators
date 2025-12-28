@@ -10,7 +10,6 @@ public class IchimokuHub
     : StreamHub<IQuote, IchimokuResult>, IIchimoku
 {
 
-    private readonly string hubName;
     private readonly RollingWindowMax<decimal> tenkanHighWindow;
     private readonly RollingWindowMin<decimal> tenkanLowWindow;
     private readonly RollingWindowMax<decimal> kijunHighWindow;
@@ -47,7 +46,7 @@ public class IchimokuHub
         SenkouOffset = senkouOffset;
         ChikouOffset = chikouOffset;
 
-        hubName = $"ICHIMOKU({tenkanPeriods},{kijunPeriods},{senkouBPeriods})";
+        Name = $"ICHIMOKU({tenkanPeriods},{kijunPeriods},{senkouBPeriods})";
 
         tenkanHighWindow = new RollingWindowMax<decimal>(tenkanPeriods);
         tenkanLowWindow = new RollingWindowMin<decimal>(tenkanPeriods);
@@ -83,7 +82,7 @@ public class IchimokuHub
     public int ChikouOffset { get; init; }
 
     /// <inheritdoc/>
-    public override string ToString() => hubName;
+    public override string ToString() => Name;
 
     /// <summary>
     /// Handles adding a new quote and updates past results that now have sufficient data for ChikouSpan.

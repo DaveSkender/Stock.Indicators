@@ -16,6 +16,8 @@ public class BopList : BufferList<BopResult>, IIncrementFromQuote, IBop
         Bop.Validate(smoothPeriods);
         SmoothPeriods = smoothPeriods;
         _buffer = new Queue<double>(smoothPeriods);
+
+        Name = $"BOP({smoothPeriods})";
     }
 
     /// <summary>
@@ -74,6 +76,9 @@ public class BopList : BufferList<BopResult>, IIncrementFromQuote, IBop
         base.Clear();
         _buffer.Clear();
     }
+
+    /// <inheritdoc />
+    public override string ToString() => Name;
 }
 
 public static partial class Bop

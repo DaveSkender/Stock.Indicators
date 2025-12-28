@@ -17,6 +17,8 @@ public class UlcerIndexList : BufferList<UlcerIndexResult>, IIncrementFromChain
         LookbackPeriods = lookbackPeriods;
 
         _buffer = new Queue<double>(lookbackPeriods);
+
+        Name = $"ULCERINDEX({14})";
     }
 
     /// <summary>
@@ -103,6 +105,9 @@ public class UlcerIndexList : BufferList<UlcerIndexResult>, IIncrementFromChain
         base.Clear();
         _buffer.Clear();
     }
+
+    /// <inheritdoc />
+    public override string ToString() => Name;
 }
 
 public static partial class UlcerIndex

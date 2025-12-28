@@ -29,7 +29,6 @@ public static partial class RollingPivots
 public class RollingPivotsHub
     : StreamHub<IQuote, RollingPivotsResult>
 {
-    private readonly string hubName;
     private readonly RollingWindowMax<decimal> _highWindow;
     private readonly RollingWindowMin<decimal> _lowWindow;
     private readonly Queue<IQuote> _offsetBuffer;
@@ -52,7 +51,7 @@ public class RollingPivotsHub
         WindowPeriods = windowPeriods;
         OffsetPeriods = offsetPeriods;
         PointType = pointType;
-        hubName = $"ROLLING-PIVOTS({windowPeriods},{offsetPeriods},{pointType})";
+        Name = $"ROLLING-PIVOTS({windowPeriods},{offsetPeriods},{pointType})";
         _highWindow = new RollingWindowMax<decimal>(windowPeriods);
         _lowWindow = new RollingWindowMin<decimal>(windowPeriods);
         _offsetBuffer = new Queue<IQuote>(offsetPeriods + 1);
@@ -76,7 +75,7 @@ public class RollingPivotsHub
     public PivotPointType PointType { get; init; }
 
     /// <inheritdoc/>
-    public override string ToString() => hubName;
+    public override string ToString() => Name;
 
     /// <inheritdoc/>
     protected override (RollingPivotsResult result, int index)

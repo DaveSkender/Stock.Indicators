@@ -6,7 +6,6 @@ namespace Skender.Stock.Indicators;
 public class HurstHub
     : ChainProvider<IReusable, HurstResult>, IHurst
 {
-    private readonly string hubName;
     private readonly Queue<double> _buffer;
 
     /// <summary>
@@ -22,7 +21,7 @@ public class HurstHub
     {
         Hurst.Validate(lookbackPeriods);
         LookbackPeriods = lookbackPeriods;
-        hubName = $"HURST({lookbackPeriods})";
+        Name = $"HURST({lookbackPeriods})";
         _buffer = new Queue<double>(lookbackPeriods + 1);
 
         Reinitialize();
@@ -32,7 +31,7 @@ public class HurstHub
     public int LookbackPeriods { get; init; }
 
     /// <inheritdoc/>
-    public override string ToString() => hubName;
+    public override string ToString() => Name;
 
     /// <inheritdoc/>
     protected override (HurstResult result, int index)

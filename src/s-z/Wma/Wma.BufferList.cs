@@ -22,6 +22,8 @@ public class WmaList : BufferList<WmaResult>, IIncrementFromChain, IWma
         _divisor = (double)lookbackPeriods * (lookbackPeriods + 1) / 2d;
 
         _buffer = new Queue<double>(lookbackPeriods);
+
+        Name = $"WMA({lookbackPeriods})";
     }
 
     /// <summary>
@@ -80,6 +82,9 @@ public class WmaList : BufferList<WmaResult>, IIncrementFromChain, IWma
         _buffer.Clear();
         _sum = 0d;
     }
+
+    /// <inheritdoc />
+    public override string ToString() => Name;
 }
 
 public static partial class Wma

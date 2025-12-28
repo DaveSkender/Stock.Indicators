@@ -6,7 +6,6 @@ namespace Skender.Stock.Indicators;
 public class SmmaHub
     : ChainProvider<IReusable, SmmaResult>, ISmma
 {
-    private readonly string hubName;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="SmmaHub"/> class.
@@ -21,7 +20,7 @@ public class SmmaHub
     {
         Smma.Validate(lookbackPeriods);
         LookbackPeriods = lookbackPeriods;
-        hubName = $"SMMA({lookbackPeriods})";
+        Name = $"SMMA({lookbackPeriods})";
 
         Reinitialize();
     }
@@ -30,7 +29,7 @@ public class SmmaHub
     public int LookbackPeriods { get; init; }
 
     /// <inheritdoc/>
-    public override string ToString() => hubName;
+    public override string ToString() => Name;
 
     /// <inheritdoc/>
     protected override (SmmaResult result, int index)

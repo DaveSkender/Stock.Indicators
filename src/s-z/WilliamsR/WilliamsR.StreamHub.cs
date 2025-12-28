@@ -9,7 +9,6 @@ public class WilliamsRHub
 {
     #region constructors
 
-    private readonly string hubName;
     private readonly RollingWindowMax<decimal> _highWindow;
     private readonly RollingWindowMin<decimal> _lowWindow;
 
@@ -28,7 +27,7 @@ public class WilliamsRHub
         _highWindow = new RollingWindowMax<decimal>(lookbackPeriods);
         _lowWindow = new RollingWindowMin<decimal>(lookbackPeriods);
 
-        hubName = $"WILLR({lookbackPeriods})";
+        Name = $"WILLR({lookbackPeriods})";
 
         Reinitialize();
     }
@@ -47,7 +46,7 @@ public class WilliamsRHub
     #region methods
 
     /// <inheritdoc/>
-    public override string ToString() => hubName;
+    public override string ToString() => Name;
 
     /// <inheritdoc/>
     protected override (WilliamsResult result, int index)

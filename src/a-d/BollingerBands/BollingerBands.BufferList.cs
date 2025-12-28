@@ -18,6 +18,8 @@ public class BollingerBandsList : BufferList<BollingerBandsResult>, IIncrementFr
         LookbackPeriods = lookbackPeriods;
         StandardDeviations = standardDeviations;
         _buffer = new Queue<double>(lookbackPeriods);
+
+        Name = $"BOLLINGERBANDS({lookbackPeriods}, {2})";
     }
 
     /// <summary>
@@ -121,6 +123,9 @@ public class BollingerBandsList : BufferList<BollingerBandsResult>, IIncrementFr
         base.Clear();
         _buffer.Clear();
     }
+
+    /// <inheritdoc />
+    public override string ToString() => Name;
 }
 
 /// <summary>

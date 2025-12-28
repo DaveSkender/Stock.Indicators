@@ -11,7 +11,6 @@ namespace Skender.Stock.Indicators;
 public class SlopeHub
     : ChainProvider<IReusable, SlopeResult>, ISlope
 {
-    private readonly string hubName;
     private readonly Queue<double> buffer;
 
     // Pre-calculated constant for X variance (sequential integers)
@@ -30,7 +29,7 @@ public class SlopeHub
     {
         Slope.Validate(lookbackPeriods);
         LookbackPeriods = lookbackPeriods;
-        hubName = $"SLOPE({lookbackPeriods})";
+        Name = $"SLOPE({lookbackPeriods})";
         buffer = new Queue<double>(lookbackPeriods);
 
         // Pre-calculate constant sumSqX for sequential X values
@@ -45,7 +44,7 @@ public class SlopeHub
     public int LookbackPeriods { get; init; }
 
     /// <inheritdoc/>
-    public override string ToString() => hubName;
+    public override string ToString() => Name;
 
     /// <inheritdoc/>
     public override void OnAdd(IReusable item, bool notify, int? indexHint)

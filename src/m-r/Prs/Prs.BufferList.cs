@@ -20,6 +20,8 @@ public class PrsList : BufferList<PrsResult>, IIncrementFromPairs, IPrs
             throw new ArgumentOutOfRangeException(
                 nameof(lookbackPeriods), lookbackPeriods,
                 "Lookback periods must be greater than 0 for Price Relative Strength.");
+
+            Name = $"PRS({int.MinValue})";
         }
 
         LookbackPeriods = lookbackPeriods;
@@ -142,6 +144,9 @@ public class PrsList : BufferList<PrsResult>, IIncrementFromPairs, IPrs
         base.Clear();
         _buffer.Clear();
     }
+
+    /// <inheritdoc />
+    public override string ToString() => Name;
 }
 
 public static partial class Prs

@@ -6,7 +6,6 @@ namespace Skender.Stock.Indicators;
 public class HmaHub
     : ChainProvider<IReusable, HmaResult>, IHma
 {
-    private readonly string hubName;
     private readonly int wmaN1Periods;
     private readonly int wmaN2Periods;
     private readonly int sqrtPeriods;
@@ -41,7 +40,7 @@ public class HmaHub
 
         shiftQty = lookbackPeriods - 1;
 
-        hubName = $"HMA({lookbackPeriods})";
+        Name = $"HMA({lookbackPeriods})";
         Reinitialize();
     }
 
@@ -49,7 +48,7 @@ public class HmaHub
     public int LookbackPeriods { get; init; }
 
     /// <inheritdoc/>
-    public override string ToString() => hubName;
+    public override string ToString() => Name;
 
     /// <inheritdoc/>
     protected override (HmaResult result, int index)

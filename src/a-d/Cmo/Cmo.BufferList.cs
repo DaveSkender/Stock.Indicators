@@ -19,6 +19,8 @@ public class CmoList : BufferList<CmoResult>, IIncrementFromChain, ICmo
         LookbackPeriods = lookbackPeriods;
 
         _tickBuffer = new Queue<(bool? isUp, double value)>(lookbackPeriods);
+
+        Name = $"CMO({lookbackPeriods})";
     }
 
     /// <summary>
@@ -95,6 +97,9 @@ public class CmoList : BufferList<CmoResult>, IIncrementFromChain, ICmo
         _prevValue = double.NaN;
         _isInitialized = false;
     }
+
+    /// <inheritdoc />
+    public override string ToString() => Name;
 }
 
 public static partial class Cmo

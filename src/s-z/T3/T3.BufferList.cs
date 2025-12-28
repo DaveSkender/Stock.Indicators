@@ -35,6 +35,8 @@ public class T3List : BufferList<T3Result>, IIncrementFromChain, IT3
         C2 = (3 * a * a) + (3 * a * a * a);
         C3 = (-6 * a * a) - (3 * a) - (3 * a * a * a);
         C4 = 1 + (3 * a) + (a * a * a) + (3 * a * a);
+
+        Name = $"T3({5}, {0.7})";
     }
 
     /// <summary>
@@ -149,6 +151,9 @@ public class T3List : BufferList<T3Result>, IIncrementFromChain, IT3
         _lastEma5 = double.NaN;
         _lastEma6 = double.NaN;
     }
+
+    /// <inheritdoc />
+    public override string ToString() => Name;
 }
 
 public static partial class T3

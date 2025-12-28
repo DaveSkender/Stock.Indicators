@@ -6,7 +6,6 @@ namespace Skender.Stock.Indicators;
 public class ParabolicSarHub
     : ChainProvider<IQuote, ParabolicSarResult>, IParabolicSar
 {
-    private readonly string hubName;
     private readonly Queue<(double High, double Low)> _buffer;
 
     /// <summary>
@@ -51,7 +50,7 @@ public class ParabolicSarHub
         AccelerationStep = accelerationStep;
         MaxAccelerationFactor = maxAccelerationFactor;
         InitialFactor = initialFactor;
-        hubName = $"PSAR({accelerationStep},{maxAccelerationFactor},{initialFactor})";
+        Name = $"PSAR({accelerationStep},{maxAccelerationFactor},{initialFactor})";
 
         _buffer = new Queue<(double, double)>(2);
         _isInitialized = false;
@@ -70,7 +69,7 @@ public class ParabolicSarHub
     public double InitialFactor { get; init; }
 
     /// <inheritdoc/>
-    public override string ToString() => hubName;
+    public override string ToString() => Name;
 
     /// <inheritdoc/>
     protected override (ParabolicSarResult result, int index)

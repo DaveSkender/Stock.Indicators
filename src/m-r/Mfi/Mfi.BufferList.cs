@@ -19,6 +19,8 @@ public class MfiList : BufferList<MfiResult>, IIncrementFromQuote
         LookbackPeriods = lookbackPeriods;
         _buffer = new Queue<(double, double, int)>(lookbackPeriods);
         _quotesProcessed = 0;
+
+        Name = $"MFI({14})";
     }
 
     /// <summary>
@@ -112,6 +114,9 @@ public class MfiList : BufferList<MfiResult>, IIncrementFromQuote
         _prevTruePrice = null;
         _quotesProcessed = 0;
     }
+
+    /// <inheritdoc />
+    public override string ToString() => Name;
 }
 
 public static partial class Mfi

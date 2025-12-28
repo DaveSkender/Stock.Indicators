@@ -38,6 +38,8 @@ public class HmaList : BufferList<HmaResult>, IIncrementFromChain, IHma
         bufferN1 = new Queue<double>(wmaN1Periods);
         bufferN2 = new Queue<double>(wmaN2Periods);
         synthBuffer = new Queue<double>(sqrtPeriods);
+
+        Name = $"HMA({lookbackPeriods})";
     }
 
     /// <summary>
@@ -117,6 +119,9 @@ public class HmaList : BufferList<HmaResult>, IIncrementFromChain, IHma
         bufferN2.Clear();
         synthBuffer.Clear();
     }
+
+    /// <inheritdoc />
+    public override string ToString() => Name;
 }
 
 public static partial class Hma

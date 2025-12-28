@@ -289,6 +289,9 @@ public class HtTrendlineList : BufferList<HtlResult>, IIncrementFromChain
         it.Clear();
     }
 
+    /// <inheritdoc />
+    public override string ToString() => Name;
+
     private void RemoveStateRange(int count)
     {
         pr.RemoveRange(0, count);

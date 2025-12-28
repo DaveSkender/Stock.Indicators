@@ -8,7 +8,6 @@ namespace Skender.Stock.Indicators;
 public class MarubozuHub
     : StreamHub<IQuote, CandleResult>, IMarubozu
 {
-    private readonly string hubName;
     private readonly double _minBodyPercentDecimal;
 
     /// <summary>
@@ -25,7 +24,7 @@ public class MarubozuHub
         Marubozu.Validate(minBodyPercent);
         MinBodyPercent = minBodyPercent;
         _minBodyPercentDecimal = minBodyPercent / 100;
-        hubName = $"MARUBOZU({minBodyPercent:F1})";
+        Name = $"MARUBOZU({minBodyPercent:F1})";
 
         Reinitialize();
     }
@@ -34,7 +33,7 @@ public class MarubozuHub
     public double MinBodyPercent { get; init; }
 
     /// <inheritdoc/>
-    public override string ToString() => hubName;
+    public override string ToString() => Name;
 
     /// <inheritdoc/>
     protected override (CandleResult result, int index)

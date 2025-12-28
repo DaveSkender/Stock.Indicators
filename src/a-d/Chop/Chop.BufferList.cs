@@ -20,6 +20,8 @@ public class ChopList : BufferList<ChopResult>, IIncrementFromQuote, IChop
 
         _buffer = new Queue<(double, double, double)>(lookbackPeriods);
         _isInitialized = false;
+
+        Name = $"CHOP({14})";
     }
 
     /// <summary>
@@ -116,6 +118,9 @@ public class ChopList : BufferList<ChopResult>, IIncrementFromQuote, IChop
         _previousClose = 0;
         _isInitialized = false;
     }
+
+    /// <inheritdoc />
+    public override string ToString() => Name;
 }
 
 public static partial class Chop
