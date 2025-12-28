@@ -292,7 +292,11 @@ export default defineConfig({
 
   cleanUrls: true,
 
-  ignoreDeadLinks: false,
+  // Allow specific dead links that are expected (legacy Jekyll templates, etc.)
+  ignoreDeadLinks: [
+    /\.\.\/src\/_common\/README/,
+    /%7B%7Bsite\.github\.repository_url%7D%7D/
+  ],
 
   // Redirect old URLs to new locations
   rewrites: {

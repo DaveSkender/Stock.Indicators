@@ -61,6 +61,24 @@
   --vp-c-brand-darker: #1f4d99;
   --vp-c-brand-light: #6cb6ff;
   --vp-c-brand-lighter: #96d0ff;
+
+  /* Chart colors (Stock Indicators theme) */
+  --si-chart-bg: #22272e;
+  --si-chart-text: #adbac7;
+  --si-chart-grid: #2d333b;
+  --si-chart-border: #444c56;
+  --si-chart-crosshair: #768390;
+  --si-candle-up: #57ab5a;
+  --si-candle-down: #e5534b;
+  --si-candle-wick-up: #57ab5a;
+  --si-candle-wick-down: #e5534b;
+  --si-volume-up: rgba(87, 171, 90, 0.3);
+  --si-volume-down: rgba(229, 83, 75, 0.3);
+  --si-indicator-1: #539bf5;
+  --si-indicator-2: #c69026;
+  --si-indicator-3: #986ee2;
+  --si-indicator-4: #57ab5a;
+  --si-indicator-5: #e5534b;
 }
 
 /* Ensure dark theme is always applied */

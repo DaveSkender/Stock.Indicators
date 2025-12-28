@@ -11,11 +11,15 @@
   "scripts": {
     "docs:dev": "vitepress dev",
     "docs:build": "vitepress build",
-    "docs:preview": "vitepress preview"
+    "docs:preview": "vitepress preview",
+    "generate:charts": "node scripts/generate-chart-data.mjs"
   },
   "devDependencies": {
     "@playwright/test": "1.57.0",
     "vitepress": "2.0.0-alpha.15",
     "vue": "3.5.25"
+  },
+  "dependencies": {
+    "lightweight-charts": "^5.1.0"
   }
 }
