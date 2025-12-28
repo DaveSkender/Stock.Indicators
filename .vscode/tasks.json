@@ -5,48 +5,10 @@
   "version": "2.0.0",
   "inputs": [
     {
-      "id": "manualPerfKeyword",
-      "description": "Manual perf test: select indicator to benchmark",
-      "options": [
-        "adx",
-        "aroon",
-        "atr",
-        "bollingerbands",
-        "cci",
-        "dema",
-        "donchian",
-        "ema",
-        "hma",
-        "keltner",
-        "macd",
-        "obv",
-        "roc",
-        "rsi",
-        "sma",
-        "stoch",
-        "t3",
-        "tema",
-        "vwap",
-        "vwma",
-        "wma"
-      ],
-      "default": "sma",
-      "type": "pickString"
-    },
-    {
-      "id": "manualPerfPeriods",
-      "description": "Manual perf test: number of randomly generated quote periods",
-      "options": [
-        "1000",
-        "2500",
-        "5000",
-        "10000",
-        "50000",
-        "100000",
-        "500000"
-      ],
-      "default": "10000",
-      "type": "pickString"
+      "id": "perfFilter",
+      "description": "Performance benchmark wildcard filter (e.g., *Sma* or *ToEma*)",
+      "default": "*Sma*",
+      "type": "promptString"
     },
     {
       "id": "roslynatorCommand",
@@ -429,15 +391,11 @@
     },
     {
       "label": "Test: Performance (spot check)",
-      "detail": "Quick indicator performance test for spot checking change impact during development.  Input filter keyword and periods to evaluate.",
+      "detail": "Quick indicator performance benchmark using filter pattern (e.g., *Sma* matches ToSma, SmaHub, SmaList)",
       "type": "shell",
-      "command": "dotnet run --project Tests.Performance.csproj -c Release -- --filter \"Performance.ManualTestDirect*\" --job short --warmupCount 3 --iterationCount 5 --exporters json markdown",
+      "command": "dotnet run --project Tests.Performance.csproj -c Release -- --filter \"${input:perfFilter}\" --job short --warmupCount 3 --iterationCount 5 --exporters json markdown",
       "options": {
-        "cwd": "${workspaceFolder}/tools/performance",
-        "env": {
-          "PERF_TEST_KEYWORD": "${input:manualPerfKeyword}",
-          "PERF_TEST_PERIODS": "${input:manualPerfPeriods}"
-        }
+        "cwd": "${workspaceFolder}/tools/performance"
       },
       "problemMatcher": "$msCompile"
     },
