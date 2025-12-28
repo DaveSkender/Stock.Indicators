@@ -75,10 +75,6 @@ public class RenkoHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPr
         const EndType endType = EndType.Close;
         const int smaPeriods = 50;
 
-        List<Quote> quotesList = Quotes.ToList();
-
-        int length = quotesList.Count;
-
         // setup quote provider hub
         QuoteHub quoteHub = new();
 
@@ -87,28 +83,23 @@ public class RenkoHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPr
             .ToRenkoHub(brickSize, endType)
             .ToSmaHub(smaPeriods);
 
-        // emulate quote stream
-        for (int i = 0; i < length; i++)
+        // emulate quote stream (Renko transforms to bricks, no Insert/Remove)
+        for (int i = 0; i < quotesCount; i++)
         {
-            quoteHub.Add(quotesList[i]);
+            quoteHub.Add(Quotes[i]);
         }
 
-        // delete
-        quoteHub.Remove(quotesList[400]);
-        quotesList.RemoveAt(400);
-
         // final results
-        IReadOnlyList<SmaResult> streamList
-            = observer.Results;
+        IReadOnlyList<SmaResult> sut = observer.Results;
 
         // time-series, for comparison
-        IReadOnlyList<SmaResult> seriesList = quotesList
+        IReadOnlyList<SmaResult> expected = Quotes
             .ToRenko(brickSize, endType)
             .ToSma(smaPeriods);
 
         // assert, should equal series
-        streamList.IsExactly(seriesList);
-        streamList.Should().HaveCount(112);
+        sut.IsExactly(expected);
+        sut.Should().HaveCount(112);
 
         observer.Unsubscribe();
         quoteHub.EndTransmission();

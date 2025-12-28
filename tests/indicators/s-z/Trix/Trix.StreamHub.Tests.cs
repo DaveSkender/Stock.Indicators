@@ -112,10 +112,6 @@ public class TrixHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
         const int trixPeriods = 14;
         const int emaPeriods = 10;
 
-        List<Quote> quotesList = Quotes.ToList();
-
-        int length = quotesList.Count;
-
         // setup quote provider hub
         QuoteHub quoteHub = new();
 
@@ -125,22 +121,30 @@ public class TrixHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
             .ToEmaHub(emaPeriods);
 
         // emulate quote stream
-        for (int i = 0; i < length; i++)
+        for (int i = 0; i < quotesCount; i++)
         {
-            quoteHub.Add(quotesList[i]);
+            if (i == 80) { continue; }  // Skip for late arrival
+
+            Quote q = Quotes[i];
+            quoteHub.Add(q);
+
+            if (i is > 100 and < 105) { quoteHub.Add(q); }  // Duplicate quotes
         }
 
-        // final results
-        IReadOnlyList<EmaResult> streamList = emaOfTrix.Results;
+        quoteHub.Insert(Quotes[80]);  // Late arrival
+        quoteHub.Remove(Quotes[removeAtIndex]);  // Remove
 
-        // time-series, for comparison
-        IReadOnlyList<EmaResult> seriesList = quotesList
+        // final results
+        IReadOnlyList<EmaResult> sut = emaOfTrix.Results;
+
+        // time-series, for comparison (revised)
+        IReadOnlyList<EmaResult> expected = RevisedQuotes
             .ToTrix(trixPeriods)
             .ToEma(emaPeriods);
 
         // assert
-        streamList.Should().HaveCount(length);
-        streamList.IsExactly(seriesList);
+        sut.Should().HaveCount(quotesCount - 1);
+        sut.IsExactly(expected);
 
         emaOfTrix.Unsubscribe();
         quoteHub.EndTransmission();

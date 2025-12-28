@@ -131,10 +131,6 @@ public class ConnorsRsiHubTests : StreamHubTestBase, ITestChainObserver, ITestCh
     {
         const int emaPeriods = 12;
 
-        List<Quote> quotesList = Quotes.ToList();
-
-        int length = quotesList.Count;
-
         // setup quote provider hub
         QuoteHub quoteHub = new();
 
@@ -144,24 +140,30 @@ public class ConnorsRsiHubTests : StreamHubTestBase, ITestChainObserver, ITestCh
             .ToEmaHub(emaPeriods);
 
         // emulate quote stream
-        for (int i = 0; i < length; i++)
+        for (int i = 0; i < quotesCount; i++)
         {
-            quoteHub.Add(quotesList[i]);
+            if (i == 80) { continue; }  // Skip for late arrival
+
+            Quote q = Quotes[i];
+            quoteHub.Add(q);
+
+            if (i is > 100 and < 105) { quoteHub.Add(q); }  // Duplicate quotes
         }
 
-        // final results
-        IReadOnlyList<EmaResult> streamList
-            = observer.Results;
+        quoteHub.Insert(Quotes[80]);  // Late arrival
+        quoteHub.Remove(Quotes[removeAtIndex]);  // Remove
 
-        // time-series, for comparison
-        IReadOnlyList<EmaResult> seriesList
-           = quotesList
+        // final results
+        IReadOnlyList<EmaResult> sut = observer.Results;
+
+        // time-series, for comparison (revised)
+        IReadOnlyList<EmaResult> expected = RevisedQuotes
             .ToConnorsRsi(rsiPeriods, streakPeriods, rankPeriods)
             .ToEma(emaPeriods);
 
         // assert, should equal series
-        streamList.Should().HaveCount(length);
-        streamList.IsExactly(seriesList);
+        sut.Should().HaveCount(quotesCount - 1);
+        sut.IsExactly(expected);
 
         observer.Unsubscribe();
         quoteHub.EndTransmission();

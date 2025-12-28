@@ -69,10 +69,6 @@ public class CciHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProv
     {
         const int cciPeriods = 20;
 
-        List<Quote> quotesList = Quotes.ToList();
-
-        int length = quotesList.Count;
-
         // setup quote provider hub
         QuoteHub quoteHub = new();
 
@@ -80,20 +76,28 @@ public class CciHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProv
         CciHub cciHub = quoteHub.ToCciHub(cciPeriods);
 
         // emulate quote stream
-        for (int i = 0; i < length; i++)
+        for (int i = 0; i < quotesCount; i++)
         {
-            quoteHub.Add(quotesList[i]);
+            if (i == 80) { continue; }  // Skip for late arrival
+
+            Quote q = Quotes[i];
+            quoteHub.Add(q);
+
+            if (i is > 100 and < 105) { quoteHub.Add(q); }  // Duplicate quotes
         }
 
-        // final results
-        IReadOnlyList<CciResult> streamList = cciHub.Results;
+        quoteHub.Insert(Quotes[80]);  // Late arrival
+        quoteHub.Remove(Quotes[removeAtIndex]);  // Remove
 
-        // time-series, for comparison
-        IReadOnlyList<CciResult> seriesList = quotesList.ToCci(cciPeriods);
+        // final results
+        IReadOnlyList<CciResult> sut = cciHub.Results;
+
+        // time-series, for comparison (revised)
+        IReadOnlyList<CciResult> expected = RevisedQuotes.ToCci(cciPeriods);
 
         // assert, should equal series
-        streamList.Should().HaveCount(length);
-        streamList.IsExactly(seriesList);
+        sut.Should().HaveCount(quotesCount - 1);
+        sut.IsExactly(expected);
 
         cciHub.Unsubscribe();
         quoteHub.EndTransmission();

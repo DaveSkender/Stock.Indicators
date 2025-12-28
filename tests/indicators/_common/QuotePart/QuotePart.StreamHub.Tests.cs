@@ -83,45 +83,42 @@ public class QuotePartHubTests : StreamHubTestBase, ITestQuoteObserver, ITestCha
         const int smaPeriods = 8;
         const CandlePart candlePart = CandlePart.OHLC4;
 
-        List<Quote> quotesList = Quotes.ToList();
-
-        int length = quotesList.Count;
-
         // setup quote provider hub
         QuoteHub quoteHub = new();
 
         // initialize observer
-        SmaHub observer
-           = quoteHub
+        SmaHub observer = quoteHub
             .ToQuotePartHub(candlePart)
             .ToSmaHub(smaPeriods);
 
         // emulate quote stream
-        for (int i = 0; i < length; i++)
+        for (int i = 0; i < quotesCount; i++)
         {
-            quoteHub.Add(quotesList[i]);
+            if (i == 80) { continue; }  // Skip for late arrival
+
+            Quote q = Quotes[i];
+            quoteHub.Add(q);
+
+            if (i is > 100 and < 105) { quoteHub.Add(q); }  // Duplicate quotes
         }
 
-        // delete
-        quoteHub.Remove(quotesList[400]);
-        quotesList.RemoveAt(400);
+        quoteHub.Insert(Quotes[80]);  // Late arrival
+        quoteHub.Remove(Quotes[removeAtIndex]);  // Remove
 
         // final results
-        IReadOnlyList<SmaResult> streamList
-            = observer.Results;
+        IReadOnlyList<SmaResult> sut = observer.Results;
 
-        // time-series, for comparison
-        IReadOnlyList<SmaResult> seriesList
-           = quotesList
+        // time-series, for comparison (revised)
+        IReadOnlyList<SmaResult> expected = RevisedQuotes
             .Use(candlePart)
             .ToSma(smaPeriods);
 
         // assert, should equal series
-        for (int i = 0; i < length - 1; i++)
+        for (int i = 0; i < quotesCount - 1; i++)
         {
-            Quote q = quotesList[i];
-            SmaResult s = seriesList[i];
-            SmaResult r = streamList[i];
+            Quote q = RevisedQuotes[i];
+            SmaResult s = expected[i];
+            SmaResult r = sut[i];
 
             r.Timestamp.Should().Be(q.Timestamp);
             r.Timestamp.Should().Be(s.Timestamp);

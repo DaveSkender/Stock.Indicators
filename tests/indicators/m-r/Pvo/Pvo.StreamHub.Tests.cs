@@ -129,10 +129,6 @@ public class PvoHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
         const int pvoSignal = 9;
         const int emaPeriods = 10;
 
-        List<Quote> quotesList = Quotes.ToList();
-
-        int length = quotesList.Count;
-
         // setup chain quoteHub
         QuoteHub quoteProvider = new();
         PvoHub pvoHub = quoteProvider.ToPvoHub(pvoFast, pvoSlow, pvoSignal);
@@ -142,24 +138,30 @@ public class PvoHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
             .ToEmaHub(emaPeriods);
 
         // emulate live quotes
-        for (int i = 0; i < length; i++)
+        for (int i = 0; i < quotesCount; i++)
         {
-            quoteProvider.Add(quotesList[i]);
+            if (i == 80) { continue; }  // Skip for late arrival
+
+            Quote q = Quotes[i];
+            quoteProvider.Add(q);
+
+            if (i is > 100 and < 105) { quoteProvider.Add(q); }  // Duplicate quotes
         }
 
-        // final results
-        IReadOnlyList<EmaResult> streamList
-            = observer.Results;
+        quoteProvider.Insert(Quotes[80]);  // Late arrival
+        quoteProvider.Remove(Quotes[removeAtIndex]);  // Remove
 
-        // time-series, for comparison
-        IReadOnlyList<EmaResult> seriesList
-           = quotesList
+        // final results
+        IReadOnlyList<EmaResult> sut = observer.Results;
+
+        // time-series, for comparison (revised)
+        IReadOnlyList<EmaResult> expected = RevisedQuotes
             .ToPvo(pvoFast, pvoSlow, pvoSignal)
             .ToEma(emaPeriods);
 
         // assert
-        streamList.Should().HaveCount(length);
-        streamList.IsExactly(seriesList);
+        sut.Should().HaveCount(quotesCount - 1);
+        sut.IsExactly(expected);
 
         observer.Unsubscribe();
         pvoHub.EndTransmission();

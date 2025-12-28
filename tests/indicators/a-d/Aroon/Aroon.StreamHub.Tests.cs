@@ -88,9 +88,6 @@ public class AroonHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPr
     [TestMethod]
     public void ChainProvider_MatchesSeriesExactly()
     {
-        List<Quote> quotesList = Quotes.ToList();
-        int length = quotesList.Count;
-
         // Setup quote provider
         QuoteHub quoteHub = new();
 
@@ -100,22 +97,30 @@ public class AroonHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPr
             .ToEmaHub(12);
 
         // Emulate quote stream
-        for (int i = 0; i < length; i++)
+        for (int i = 0; i < quotesCount; i++)
         {
-            quoteHub.Add(quotesList[i]);
+            if (i == 80) { continue; }  // Skip for late arrival
+
+            Quote q = Quotes[i];
+            quoteHub.Add(q);
+
+            if (i is > 100 and < 105) { quoteHub.Add(q); }  // Duplicate quotes
         }
 
-        // Final results
-        IReadOnlyList<EmaResult> streamList = emaHub.Results;
+        quoteHub.Insert(Quotes[80]);  // Late arrival
+        quoteHub.Remove(Quotes[removeAtIndex]);  // Remove
 
-        // Time-series, for comparison
-        IReadOnlyList<EmaResult> seriesList = quotesList
+        // Final results
+        IReadOnlyList<EmaResult> sut = emaHub.Results;
+
+        // Time-series, for comparison (revised)
+        IReadOnlyList<EmaResult> expected = RevisedQuotes
             .ToAroon(25)
             .ToEma(12);
 
         // Assert, should equal series
-        streamList.Should().HaveCount(length);
-        streamList.IsExactly(seriesList);
+        sut.Should().HaveCount(quotesCount - 1);
+        sut.IsExactly(expected);
 
         emaHub.Unsubscribe();
         quoteHub.EndTransmission();

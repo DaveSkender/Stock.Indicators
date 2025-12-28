@@ -100,20 +100,29 @@ public class RsiHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
             .ToEmaHub(emaPeriods);
 
         // emulate quote stream
-        for (int i = 0; i < quotesCount; i++) { quoteHub.Add(Quotes[i]); }
+        for (int i = 0; i < quotesCount; i++)
+        {
+            if (i == 80) { continue; }  // Skip for late arrival
+
+            Quote q = Quotes[i];
+            quoteHub.Add(q);
+            if (i is > 100 and < 105) { quoteHub.Add(q); }  // Duplicate quotes
+        }
+
+        quoteHub.Insert(Quotes[80]);  // Late arrival
+        quoteHub.Remove(Quotes[removeAtIndex]);  // Remove
 
         // final results
         IReadOnlyList<EmaResult> sut = observer.Results;
 
-        // time-series, for comparison
-        IReadOnlyList<EmaResult> expected
-           = Quotes
+        // time-series, for comparison (revised)
+        IReadOnlyList<EmaResult> expected = RevisedQuotes
             .ToRsi(rsiPeriods)
             .ToEma(emaPeriods);
 
         // assert, should equal series
+        sut.Should().HaveCount(quotesCount - 1);
         sut.IsExactly(expected);
-        sut.Should().HaveCount(quotesCount);
 
         observer.Unsubscribe();
         quoteHub.EndTransmission();

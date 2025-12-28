@@ -135,10 +135,6 @@ public class PmoHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
         const int smoothPeriods = 20;
         const int signalPeriods = 10;
 
-        List<Quote> quotesList = Quotes.ToList();
-
-        int length = quotesList.Count;
-
         // setup chain quoteHub
         QuoteHub quoteProvider = new();
         SmaHub quoteHub = quoteProvider.ToSmaHub(smaPeriods);
@@ -149,25 +145,31 @@ public class PmoHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
             .ToSmaHub(smaPeriods);
 
         // emulate quote stream
-        for (int i = 0; i < length; i++)
+        for (int i = 0; i < quotesCount; i++)
         {
-            quoteProvider.Add(quotesList[i]);
+            if (i == 80) { continue; }  // Skip for late arrival
+
+            Quote q = Quotes[i];
+            quoteProvider.Add(q);
+
+            if (i is > 100 and < 105) { quoteProvider.Add(q); }  // Duplicate quotes
         }
 
-        // final results
-        IReadOnlyList<SmaResult> streamList
-            = observer.Results;
+        quoteProvider.Insert(Quotes[80]);  // Late arrival
+        quoteProvider.Remove(Quotes[removeAtIndex]);  // Remove
 
-        // time-series, for comparison
-        IReadOnlyList<SmaResult> seriesList
-           = quotesList
+        // final results
+        IReadOnlyList<SmaResult> sut = observer.Results;
+
+        // time-series, for comparison (revised)
+        IReadOnlyList<SmaResult> expected = RevisedQuotes
             .ToSma(smaPeriods)
             .ToPmo(timePeriods, smoothPeriods, signalPeriods)
             .ToSma(smaPeriods);
 
         // assert, should equal series
-        streamList.Should().HaveCount(length);
-        streamList.IsExactly(seriesList);
+        sut.Should().HaveCount(quotesCount - 1);
+        sut.IsExactly(expected);
 
         observer.Unsubscribe();
         quoteHub.Unsubscribe();
