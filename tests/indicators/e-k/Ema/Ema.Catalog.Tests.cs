@@ -89,7 +89,7 @@ public class EmaTests : TestBase
         IReadOnlyList<EmaResult> directResults = quotes.ToEma(lookbackValue);
 
         // Assert - Results from catalog-driven execution should match direct call
-        catalogResults.Should().BeEquivalentTo(directResults);
+        catalogResults.IsExactly(directResults);
 
         // Assert - Lookup gets correct values
         lookbackValue.Should().Be(20);
@@ -139,7 +139,7 @@ public class EmaTests : TestBase
         IReadOnlyList<EmaResult> directResults = quotes.ToEma(customLookbackPeriod);
 
         // Assert - Results should be identical
-        customResults.Should().BeEquivalentTo(directResults);
+        customResults.IsExactly(directResults);
 
         // Verify we're actually using the custom parameter (results should be different from default)
         IReadOnlyList<EmaResult> defaultResults = listing.Execute<EmaResult>(quotes);
@@ -164,7 +164,7 @@ public class EmaTests : TestBase
         IReadOnlyList<EmaResult> seriesResults = quotes.ToEma(lookbackValue);
 
         // Assert - Results should be identical
-        catalogResults.Should().BeEquivalentTo(seriesResults);
+        catalogResults.IsExactly(seriesResults);
     }
 
     [TestMethod]
@@ -191,9 +191,9 @@ public class EmaTests : TestBase
         IReadOnlyList<EmaResult> directResults = quotes.ToEma(customLookbackPeriod);
 
         // Assert - All methods should produce identical results
-        method1Results.Should().BeEquivalentTo(directResults);
-        method2Results.Should().BeEquivalentTo(directResults);
-        method1Results.Should().BeEquivalentTo(method2Results);
+        method1Results.IsExactly(directResults);
+        method2Results.IsExactly(directResults);
+        method1Results.IsExactly(method2Results);
     }
 
     [TestMethod]
@@ -341,8 +341,8 @@ public class EmaTests : TestBase
         IReadOnlyList<EmaResult> longEmaDirect = quotes.ToEma(26);
 
         // Assert - Configuration-based execution should match direct calls
-        shortEmaResults.Should().BeEquivalentTo(shortEmaDirect);
-        longEmaResults.Should().BeEquivalentTo(longEmaDirect);
+        shortEmaResults.IsExactly(shortEmaDirect);
+        longEmaResults.IsExactly(longEmaDirect);
 
         // Assert - Verify configuration roundtrip
         ListingExecutionBuilder shortBuilder = configs[0].ToBuilder();

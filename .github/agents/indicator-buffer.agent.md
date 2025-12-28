@@ -174,9 +174,7 @@ You specialize in:
 **SeriesParity validation**:
 
 ```csharp
-bufferResults.Should().BeEquivalentTo(
-    seriesResults, 
-    o => o.WithStrictOrdering());
+bufferResults.IsExactly(seriesResults);
 ```
 
 **Reference**: [Test structure](../instructions/indicator-buffer.instructions.md#test-interfaces)

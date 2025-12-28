@@ -92,18 +92,14 @@ public class KeltnerHubTests : StreamHubTestBase, ITestQuoteObserver
             .ToList()
             .ToKeltner(5, 1, 3);
 
-        initialResults.Should().BeEquivalentTo(
-            expectedInitial,
-            static options => options.WithStrictOrdering());
+        initialResults.IsExactly(expectedInitial);
 
         for (int i = 5; i < quotes.Count; i++)
         {
             quoteHub.Add(quotes[i]);
         }
 
-        observer.Results.Should().BeEquivalentTo(
-            quotes.ToKeltner(5, 1, 3),
-            static options => options.WithStrictOrdering());
+        observer.Results.IsExactly(quotes.ToKeltner(5, 1, 3));
 
         observer.Unsubscribe();
         quoteHub.EndTransmission();

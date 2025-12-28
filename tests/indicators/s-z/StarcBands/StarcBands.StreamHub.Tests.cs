@@ -92,18 +92,14 @@ public class StarcBandsHubTests : StreamHubTestBase, ITestQuoteObserver
             .ToList()
             .ToStarcBands(5, 2, 3);
 
-        initialResults.Should().BeEquivalentTo(
-            expectedInitial,
-            static options => options.WithStrictOrdering());
+        initialResults.IsExactly(expectedInitial);
 
         for (int i = 5; i < quotes.Count; i++)
         {
             quoteHub.Add(quotes[i]);
         }
 
-        observer.Results.Should().BeEquivalentTo(
-            quotes.ToStarcBands(5, 2, 3),
-            static options => options.WithStrictOrdering());
+        observer.Results.IsExactly(quotes.ToStarcBands(5, 2, 3));
 
         observer.Unsubscribe();
         quoteHub.EndTransmission();

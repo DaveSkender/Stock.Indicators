@@ -135,18 +135,14 @@ public class BollingerBandsHubTests : StreamHubTestBase, ITestQuoteObserver, ITe
             .ToList()
             .ToBollingerBands(5, 2);
 
-        initialResults.Should().BeEquivalentTo(
-            expectedInitial,
-            static options => options.WithStrictOrdering());
+        initialResults.IsExactly(expectedInitial);
 
         for (int i = 5; i < quotes.Count; i++)
         {
             quoteHub.Add(quotes[i]);
         }
 
-        observer.Results.Should().BeEquivalentTo(
-            quotes.ToBollingerBands(5, 2),
-            static options => options.WithStrictOrdering());
+        observer.Results.IsExactly(quotes.ToBollingerBands(5, 2));
 
         observer.Unsubscribe();
         quoteHub.EndTransmission();

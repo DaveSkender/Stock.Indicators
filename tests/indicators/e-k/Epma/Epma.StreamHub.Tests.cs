@@ -198,7 +198,7 @@ public class EpmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
             .ToSma(10);
 
         chainedResults.Should().HaveCount(expectedChained.Count);
-        chainedResults.Should().BeEquivalentTo(expectedChained);
+        chainedResults.IsExactly(expectedChained);
     }
 
     [TestMethod]

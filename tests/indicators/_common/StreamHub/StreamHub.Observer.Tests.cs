@@ -54,7 +54,7 @@ public class StreamObservers : TestBase
 
         // assert: restored to original
         observer.Results.Should().HaveCount(length);
-        observer.Results.Should().BeEquivalentTo(original);
+        observer.Results.IsExactly(original);
 
         observer.Cache[1000].Value.Should().NotBe(12345);
         observer.Cache[1000].Value.Should().Be((double)quotesList[1000].Close);

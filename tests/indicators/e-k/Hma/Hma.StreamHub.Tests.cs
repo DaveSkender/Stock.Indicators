@@ -166,7 +166,7 @@ public class HmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
         after.Should().NotBe(before);
 
         IReadOnlyList<HmaResult> seriesList = quotesList.ToHma(LookbackPeriods);
-        observer.Results.Should().BeEquivalentTo(seriesList);
+        observer.Results.IsExactly(seriesList);
 
         observer.Unsubscribe();
         quoteHub.EndTransmission();

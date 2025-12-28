@@ -214,7 +214,7 @@ public class CacheManagement : TestBase
         quoteHub.Quotes.Should().BeEquivalentTo(
             Quotes.Skip(10).Take(maxCacheSize));
 
-        observer.Results.Should().BeEquivalentTo(
+        observer.Results.IsExactly(
             seriesList.Skip(10).Take(maxCacheSize));
     }
 
