@@ -25,6 +25,7 @@ public static partial class Sma
         int length = source.Count;
         SmaResult[] results = new SmaResult[length];
 
+        // roll through source values
         for (int i = 0; i < length; i++)
         {
             IReusable s = source[i];
