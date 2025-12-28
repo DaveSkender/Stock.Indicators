@@ -29,17 +29,13 @@ public class MacdHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
     [TestMethod]
     public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
-        List<Quote> quotesList = Quotes.ToList();
-
-        int length = quotesList.Count;
-
         // setup quote provider hub
         QuoteHub quoteHub = new();
 
         // prefill quotes at provider
         for (int i = 0; i < 20; i++)
         {
-            quoteHub.Add(quotesList[i]);
+            quoteHub.Add(Quotes[i]);
         }
 
         // initialize observer
@@ -47,11 +43,11 @@ public class MacdHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
             .ToMacdHub(12, 26, 9);
 
         // fetch initial results (early)
-        IReadOnlyList<MacdResult> streamList
+        IReadOnlyList<MacdResult> actuals
             = observer.Results;
 
         // emulate adding quotes to provider hub
-        for (int i = 20; i < length; i++)
+        for (int i = 20; i < quotesCount; i++)
         {
             // skip one (add later)
             if (i == 80)
@@ -59,7 +55,7 @@ public class MacdHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
                 continue;
             }
 
-            Quote q = quotesList[i];
+            Quote q = Quotes[i];
             quoteHub.Add(q);
 
             // resend duplicate quotes
@@ -70,18 +66,17 @@ public class MacdHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
         }
 
         // late arrival
-        quoteHub.Insert(quotesList[80]);
+        quoteHub.Insert(Quotes[80]);
 
         // delete
-        quoteHub.Remove(quotesList[400]);
-        quotesList.RemoveAt(400);
+        quoteHub.Remove(Quotes[removeAtIndex]);
 
         // time-series, for comparison
-        IReadOnlyList<MacdResult> seriesList = quotesList.ToMacd(12, 26, 9);
+        IReadOnlyList<MacdResult> expected = RevisedQuotes.ToMacd(12, 26, 9);
 
         // assert, should equal series
-        streamList.Should().HaveCount(length - 1);
-        streamList.IsExactly(seriesList);
+        actuals.Should().HaveCount(quotesCount - 1);
+        actuals.IsExactly(expected);
 
         observer.Unsubscribe();
         quoteHub.EndTransmission();
@@ -139,10 +134,6 @@ public class MacdHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
         const int macdSlow = 10;
         const int macdSignal = 3;
 
-        List<Quote> quotesList = Quotes.ToList();
-
-        int length = quotesList.Count;
-
         // setup chain quoteHub
         QuoteHub quoteProvider = new();
         SmaHub quoteHub = quoteProvider.ToSmaHub(smaPeriods);
@@ -152,24 +143,30 @@ public class MacdHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
             .ToMacdHub(macdFast, macdSlow, macdSignal);
 
         // emulate live quotes
-        for (int i = 0; i < length; i++)
+        for (int i = 0; i < quotesCount; i++)
         {
-            quoteProvider.Add(quotesList[i]);
+            if (i == 80) { continue; }  // Skip for late arrival
+
+            Quote q = Quotes[i];
+            quoteProvider.Add(q);
+
+            if (i is > 100 and < 105) { quoteProvider.Add(q); }  // Duplicate quotes
         }
 
-        // final results
-        IReadOnlyList<MacdResult> streamList
-            = observer.Results;
+        quoteProvider.Insert(Quotes[80]);  // Late arrival
+        quoteProvider.Remove(Quotes[removeAtIndex]);  // Remove
 
-        // time-series, for comparison
-        IReadOnlyList<MacdResult> seriesList
-           = quotesList
+        // final results
+        IReadOnlyList<MacdResult> sut = observer.Results;
+
+        // time-series, for comparison (revised)
+        IReadOnlyList<MacdResult> expected = RevisedQuotes
             .ToSma(smaPeriods)
             .ToMacd(macdFast, macdSlow, macdSignal);
 
         // assert
-        streamList.Should().HaveCount(length);
-        streamList.IsExactly(seriesList);
+        sut.Should().HaveCount(quotesCount - 1);
+        sut.IsExactly(expected);
 
         observer.Unsubscribe();
         quoteHub.EndTransmission();

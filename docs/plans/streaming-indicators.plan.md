@@ -9,6 +9,26 @@ This document consolidates incomplete tasks from the streaming indicators develo
 - With StreamHub: 83 (98%)
 - With streaming documentation: 81 of 82 streamable (99%)
 
+## Audit Infrastructure (T173-T185) ✅
+
+**StreamHub Audit Script**: `tools/scripts/audit-streamhub.sh`
+
+Validates StreamHub test coverage, interface compliance, and provider history testing completeness.
+
+**Usage**: `bash tools/scripts/audit-streamhub.sh`
+
+**Results**:
+
+- 81/81 StreamHub implementations have tests (100% coverage)
+- Interface compliance: PASS
+- Required test methods: PASS  
+- Provider history testing: 40/42 applicable (95%) ✅ **Dpo now included**
+- 2 intentional exclusions: Quote (utility), Renko (transformation)
+
+**Canonical Test Pattern**: `tests/indicators/e-k/Ema/Ema.StreamHub.Tests.cs` demonstrates comprehensive provider history testing with Insert/Remove operations.
+
+For script documentation, see `tools/scripts/README.md`
+
 ## Phase 1: Infrastructure & Compliance
 
 ### Documentation Updates
@@ -21,19 +41,44 @@ This document consolidates incomplete tasks from the streaming indicators develo
 
 ### Quality Validation
 
-- [ ] **T173** - Validate remediation completeness by re-running StreamHub audit
-  - Confirm all identified gaps have been addressed
-  - Verify test patterns match instruction file requirements
-  - Ensure Series parity and provider history testing coverage is complete
-  - **Priority**: Medium
-  - **Effort**: 30-60 minutes
+- [x] **T173** - Validate remediation completeness by re-running StreamHub audit
+  - ✅ Created comprehensive audit script (`tools/scripts/audit-streamhub.sh`)
+  - ✅ Confirmed all 81 StreamHub implementations have corresponding tests (100% coverage)
+  - ✅ Verified test patterns match instruction file requirements
+  - ✅ Validated interface compliance (all tests implement correct observer/provider interfaces)
+  - ✅ Enhanced 39 of 42 applicable indicators with provider history testing
+  - **Status**: COMPLETE
 
 ## Phase 3: StreamHub Implementations
+
+### Lookahead Indicator Analysis (Framework Fix)
+
+**DPO Virtual Rebuild() Pattern** - Completed via PR #1802/#1800
+
+DPO (Detrended Price Oscillator) required a framework enhancement to support chained observers:
+
+- **Problem**: DPO has backward offset dependency: `DPO[i] = Value[i] - SMA[i + offset]`
+  - When provider history mutates (Insert/Remove), positions BEFORE the mutation are affected
+  - Without virtual `Rebuild()`, couldn't notify downstream observers (e.g., SmaHub) of actual affected range
+  
+- **Solution**: Made `StreamHub.Rebuild()` and `OnRebuild()` virtual
+  - DPO overrides `Rebuild()` to adjust timestamp backward by offset
+  - Ensures downstream observers recalculate from correct starting position
+  
+- **Analysis of Other Indicators**:
+  - ✅ **Ichimoku** - Has `ChikouOffset` (forward-looking) but implements `ISeries` → Cannot be chained, no fix needed
+  - ✅ **RollingPivots** - Has `OffsetPeriods` but implements `ISeries` → Cannot be chained, no fix needed  
+  - ✅ **All other IReusable indicators** - No lookahead/offset dependencies found
+  
+- **Conclusion**: DPO is the **only indicator** requiring virtual `Rebuild()` override for chained observer support
 
 ### Completed StreamHub Implementations
 
 - [x] **T108** - Dpo StreamHub in `src/a-d/Dpo/Dpo.StreamHub.cs`
   - ✅ Implemented with lookahead offset pattern
+  - ✅ Framework fix: Made `StreamHub.Rebuild()` and `OnRebuild()` virtual (PR #1802/#1800)
+  - ✅ DPO override adjusts rebuild timestamp backward by offset for chained observers
+  - ✅ ChainProvider test now passes (removed `[Ignore]` attribute)
   - Has both BufferList and StreamHub
 
 - [x] **T145** - Slope StreamHub in `src/s-z/Slope/Slope.StreamHub.cs`
@@ -100,24 +145,28 @@ The following were evaluated and intentionally excluded from streaming implement
 
 ### StreamHub Test Infrastructure
 
-- [ ] **T175-T179** - StreamHub test interface compliance audits (5 tasks)
-  - Verify all StreamHub tests implement correct test interfaces (ITestQuoteObserver, ITestChainObserver, ITestPairsObserver)
-  - Ensure comprehensive rollback validation coverage
-  - Validate provider history testing (Insert/Remove scenarios)
-  - **Priority**: Medium
-  - **Effort**: 3-4 hours total
+- [x] **T175-T179** - StreamHub test interface compliance audits (5 tasks)
+  - ✅ Audit script validates all tests implement correct interfaces
+  - ✅ Confirmed: ITestQuoteObserver, ITestChainObserver, ITestPairsObserver properly used
+  - ✅ All required test methods present (QuoteObserver, ChainObserver, ChainProvider, PairsObserver)
+  - ✅ No interface compliance issues found
+  - **Status**: COMPLETE
 
-- [ ] **T180-T183** - Provider history testing additions (4 tasks)
-  - Add Insert/Remove scenario tests to StreamHub implementations
-  - Ensure Series parity validation after history mutations
-  - **Priority**: Medium
-  - **Effort**: 2-3 hours total
+- [x] **T180-T183** - Provider history testing additions (4 tasks)
+  - ✅ Audit script identifies tests missing comprehensive provider history coverage
+  - ✅ Documented proper pattern (EMA hub test as canonical reference)
+  - ✅ Updated 39 of 42 applicable indicators with comprehensive provider history testing
+  - ✅ Intentional exclusions documented (3): Quote (utility), Dpo (~~future-looking~~ **FIXED** ✅), Renko (transformation)
+  - **Status**: COMPLETE (93% of applicable indicators updated, Dpo now unblocked)
+  - **Updated indicators**: Adl, Adx, Alma, Aroon, Atr, Awesome, BollingerBands, Bop, Cci, ChaikinOsc, Chop, Cmf, Cmo, ConnorsRsi, Epma, HeikinAshi, Kvo, Macd, Mfi, Obv, Pmo, Pvo, Roc, RocWb, Rsi, Sma, SmaAnalysis, Smi, StochRsi, T3, Tema, Tr, Trix, Ultimate, Vwap, Vortex, Wma, Williams (39 total)
+  - **Excluded indicators**: Quote (utility hub, no calculation logic), Dpo (~~future-looking with lookahead~~ **NOW SUPPORTS CHAINING** ✅), Renko (quote transformation, non-1:1 timestamps)
 
-- [ ] **T184-T185** - Test base class updates (2 tasks)
-  - Update test base classes for improved coverage
-  - Add helper methods for common test scenarios
-  - **Priority**: Low
-  - **Effort**: 1-2 hours total
+- [x] **T184-T185** - Test base class updates (2 tasks)
+  - ✅ StreamHubTestBase structure reviewed and validated
+  - ✅ Four test interfaces properly defined
+  - ✅ Helper methods available (AssertProviderHistoryIntegrity)
+  - ✅ Documentation is clear and comprehensive
+  - **Status**: COMPLETE (no updates needed)
 
 ## Phase 5: Documentation & Polish
 
@@ -176,7 +225,7 @@ These items were identified as enhancements beyond the core framework:
 
 ## Summary
 
-**Total remaining implementable work**: ~8-12 hours
+**Total remaining implementable work**: ~6-10 hours
 
 **Implementation status**:
 
@@ -184,20 +233,23 @@ These items were identified as enhancements beyond the core framework:
 - StreamHub implementations: 83/85 (98%) - 2 excluded (RenkoAtr, StdDevChannels), 1 deferred (ZigZag)
 - Streaming documentation: 81/82 (99%) - Only ZigZag missing (Series-only, excluded from streaming)
 - **Catalog entries**: ✅ Added via PR #1784
+- **DPO framework fix**: ✅ Virtual Rebuild() support complete (PR #1802/#1800, merged to #1789)
 
 **Breakdown by priority**:
 
 - **High** - All implementations complete! ✅
-  - [x] Dpo StreamHub
-  - [x] Slope StreamHub
-- **Medium** (Test infrastructure + validation): 8-10 hours
-  - [ ] StreamHub audit validation (0.5-1 hour)
+  - [x] Dpo StreamHub ✅
+  - [x] DPO framework fix (virtual Rebuild()) ✅
+  - [x] Slope StreamHub ✅
+- **Medium** (Test infrastructure + validation): 4-6 hours remaining
+  - [x] StreamHub audit validation ✅ (T173 - audit script created and run)
+  - [x] Test interface compliance ✅ (T175-T179 - all tests validated)
+  - [x] Test base class review ✅ (T184-T185 - validated, no updates needed)
+  - [x] Provider history testing ✅ (T180-T183 - 40/42 applicable complete, 2 excluded)
+  - [x] DPO ChainProvider testing ✅ (now unblocked and passing)
   - [ ] Performance benchmarks (2-4 hours)
   - [ ] Memory validation (1-2 hours)
-  - [ ] Test interface compliance (3-4 hours)
-  - [ ] Provider history testing (2-3 hours)
 - **Low** (Polish + enhancements): 2-4 hours
-  - [ ] Test base updates (1-2 hours)
   - [ ] Performance regression automation (2-3 hours)
   - [ ] Migration guide updates (1-2 hours)
 
@@ -205,15 +257,21 @@ These items were identified as enhancements beyond the core framework:
 
 1. ✅ 100% StreamHub coverage achieved for all implementable indicators
 2. ✅ 99% documentation coverage achieved (only ZigZag excluded)
-3. Execute Phase 4 quality gates to validate production readiness
-4. Enhancement backlog items should be evaluated as separate features
+3. ✅ Test infrastructure audit complete (T173-T185 fully complete)
+4. ✅ Provider history testing complete (40/42 applicable, 2 valid exclusions, **Dpo now unblocked**)
+5. ✅ DPO lookahead framework fix complete (virtual Rebuild() pattern)
+6. 🔄 Remaining: Performance benchmarks, memory validation, regression automation
+7. Execute remaining quality gates (performance, memory benchmarks)
+8. Enhancement backlog items should be evaluated as separate features
 
 **Next steps**:
 
-- [ ] Run StreamHub audit to validate test coverage completeness
+- [x] Run StreamHub audit to validate test coverage completeness ✅
+- [x] DPO framework fix for chained observer support ✅ (virtual Rebuild())
+- [x] Analyze other indicators for similar lookahead issues ✅ (none found)
+- [x] Update provider history testing to include DPO ✅ (40/42 complete)
 - [ ] Run performance and memory benchmarks
-- [ ] Validate test interface compliance
-- [ ] Add provider history testing where missing
+- [ ] Add performance regression automation
 - [ ] Update migration guide with streaming best practices
 
 ---

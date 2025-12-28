@@ -187,6 +187,33 @@ public class DpoHub
 
         // No internal state to restore for DPO (stateless indicator)
     }
+
+    /// <summary>
+    /// Rebuilds the cache from a specific timestamp, adjusting for DPO's backward offset.
+    /// </summary>
+    /// <param name="fromTimestamp">Point in time to rebuild from.</param>
+    /// <remarks>
+    /// DPO requires lookahead data for calculation: DPO[i] = Value[i] - SMA[i + offset].
+    /// When provider history is mutated (Insert/Remove), downstream observers need to be
+    /// notified from the adjusted position that accounts for the backward offset.
+    /// This ensures chained observers recalculate all affected positions.
+    /// </remarks>
+    public override void Rebuild(DateTime fromTimestamp)
+    {
+        // Calculate adjusted timestamp accounting for backward offset
+        int mutationIndex = ProviderCache.IndexGte(fromTimestamp);
+        if (mutationIndex >= 0)
+        {
+            int firstAffectedIndex = Math.Max(0, mutationIndex - Offset);
+            if (firstAffectedIndex < mutationIndex)
+            {
+                fromTimestamp = ProviderCache[firstAffectedIndex].Timestamp;
+            }
+        }
+
+        // Call base implementation with adjusted timestamp
+        base.Rebuild(fromTimestamp);
+    }
 }
 
 /// <summary>

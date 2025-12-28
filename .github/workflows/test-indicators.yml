@@ -50,6 +50,9 @@ jobs:
       - name: Lint markdown
         run: echo y | npx markdownlint-cli2
 
+      - name: Audit StreamHub tests
+        run: bash tools/scripts/audit-streamhub.sh
+
       - name: Build (package tests)
         run: >
           dotnet build tests/indicators/Tests.Indicators.csproj

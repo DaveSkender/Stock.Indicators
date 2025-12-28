@@ -6,17 +6,13 @@ public class HeikinAshiHubTests : StreamHubTestBase, ITestQuoteObserver, ITestCh
     [TestMethod]
     public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
-        List<Quote> quotesList = Quotes.ToList();
-
-        int length = quotesList.Count;
-
         // setup quote provider
         QuoteHub quoteHub = new();
 
         // prefill quotes to provider
         for (int i = 0; i < 20; i++)
         {
-            quoteHub.Add(quotesList[i]);
+            quoteHub.Add(Quotes[i]);
         }
 
         // initialize observer
@@ -24,11 +20,11 @@ public class HeikinAshiHubTests : StreamHubTestBase, ITestQuoteObserver, ITestCh
             .ToHeikinAshiHub();
 
         // fetch initial results (early)
-        IReadOnlyList<HeikinAshiResult> streamList
+        IReadOnlyList<HeikinAshiResult> actuals
             = heikinAshiHub.Results;
 
         // emulate adding quotes to provider
-        for (int i = 20; i < length; i++)
+        for (int i = 20; i < quotesCount; i++)
         {
             // skip one (add later)
             if (i == 80)
@@ -36,7 +32,7 @@ public class HeikinAshiHubTests : StreamHubTestBase, ITestQuoteObserver, ITestCh
                 continue;
             }
 
-            Quote q = quotesList[i];
+            Quote q = Quotes[i];
             quoteHub.Add(q);
 
             // resend duplicate quotes
@@ -47,18 +43,17 @@ public class HeikinAshiHubTests : StreamHubTestBase, ITestQuoteObserver, ITestCh
         }
 
         // late arrival
-        quoteHub.Insert(quotesList[80]);
+        quoteHub.Insert(Quotes[80]);
 
         // delete
-        quoteHub.Remove(quotesList[400]);
-        quotesList.RemoveAt(400);
+        quoteHub.Remove(Quotes[removeAtIndex]);
 
         // time-series, for comparison
-        IReadOnlyList<HeikinAshiResult> seriesList = quotesList.ToHeikinAshi();
+        IReadOnlyList<HeikinAshiResult> expected = RevisedQuotes.ToHeikinAshi();
 
         // assert, should equal series
-        streamList.Should().HaveCount(length - 1);
-        streamList.IsExactly(seriesList);
+        actuals.Should().HaveCount(quotesCount - 1);
+        actuals.IsExactly(expected);
 
         heikinAshiHub.Unsubscribe();
         quoteHub.EndTransmission();
@@ -69,10 +64,6 @@ public class HeikinAshiHubTests : StreamHubTestBase, ITestQuoteObserver, ITestCh
     {
         const int smaPeriods = 50;
 
-        List<Quote> quotesList = Quotes.ToList();
-
-        int length = quotesList.Count;
-
         // setup quote provider hub
         QuoteHub quoteHub = new();
 
@@ -82,27 +73,30 @@ public class HeikinAshiHubTests : StreamHubTestBase, ITestQuoteObserver, ITestCh
             .ToSmaHub(smaPeriods);
 
         // emulate quote stream
-        for (int i = 0; i < length; i++)
+        for (int i = 0; i < quotesCount; i++)
         {
-            quoteHub.Add(quotesList[i]);
+            if (i == 80) { continue; }  // Skip for late arrival
+
+            Quote q = Quotes[i];
+            quoteHub.Add(q);
+
+            if (i is > 100 and < 105) { quoteHub.Add(q); }  // Duplicate quotes
         }
 
-        // delete
-        quoteHub.Remove(quotesList[400]);
-        quotesList.RemoveAt(400);
+        quoteHub.Insert(Quotes[80]);  // Late arrival
+        quoteHub.Remove(Quotes[removeAtIndex]);  // Remove
 
         // final results
-        IReadOnlyList<SmaResult> streamList
-            = observer.Results;
+        IReadOnlyList<SmaResult> sut = observer.Results;
 
-        // time-series, for comparison
-        IReadOnlyList<SmaResult> seriesList = quotesList
+        // time-series, for comparison (revised)
+        IReadOnlyList<SmaResult> expected = RevisedQuotes
             .ToHeikinAshi()
             .ToSma(smaPeriods);
 
         // assert, should equal series
-        streamList.Should().HaveCount(length - 1);
-        streamList.IsExactly(seriesList);
+        sut.Should().HaveCount(quotesCount - 1);
+        sut.IsExactly(expected);
 
         observer.Unsubscribe();
         quoteHub.EndTransmission();
