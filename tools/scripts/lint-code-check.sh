@@ -1,6 +1,12 @@
 #!/usr/bin/env bash
+# DEPRECATED: This script is no longer used by VS Code tasks.
+# Use "Lint: All" task in VS Code instead, which runs Roslynator and dotnet format as composite tasks.
+# This script is kept for backwards compatibility but may be removed in the future.
+#
 # Lint check-only using Roslynator and .NET formatter
 
+echo ""
+echo "⚠️  DEPRECATED: Use 'Lint: All' task in VS Code instead"
 echo ""
 echo "=== Running code linting ==="
 cd "$(dirname "$0")/../.." || exit 1
