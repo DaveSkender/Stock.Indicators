@@ -6,7 +6,7 @@
   "inputs": [
     {
       "id": "perfFilter",
-      "description": "Performance benchmark filter (e.g., *Sma* or *ToEma*)",
+      "description": "Performance benchmark wildcard filter (e.g., *Sma* or *ToEma*)",
       "default": "*Sma*",
       "type": "promptString"
     },
