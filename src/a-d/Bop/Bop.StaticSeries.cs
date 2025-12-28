@@ -43,7 +43,7 @@ public static partial class Bop
         // roll through source values
         for (int i = 0; i < length; i++)
         {
-            double? bop = null;
+            double bop = double.NaN;
 
             if (i >= smoothPeriods - 1)
             {
@@ -53,12 +53,12 @@ public static partial class Bop
                     sum += raw[p];
                 }
 
-                bop = (sum / smoothPeriods).NaN2Null();
+                bop = sum / smoothPeriods;
             }
 
             results.Add(new(
                 Timestamp: quotes[i].Timestamp,
-                Bop: bop));
+                Bop: bop.NaN2Null()));
         }
 
         return results;

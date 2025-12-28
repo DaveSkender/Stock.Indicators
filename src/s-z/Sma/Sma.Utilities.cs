@@ -1,6 +1,3 @@
-using System.Diagnostics.CodeAnalysis;
-using System.Numerics;
-
 namespace Skender.Stock.Indicators;
 
 /// <summary>
@@ -14,20 +11,18 @@ public static partial class Sma
     /// <param name="values">List of chainable values.</param>
     /// <param name="lookbackPeriods">Window to evaluate, prior to 'endIndex'.</param>
     /// <param name="endIndex">Index position to evaluate or last position when <see langword="null"/>.</param>
-    /// <typeparam name="T">IReusable (chainable) type.</typeparam>
     /// <returns>Simple moving average or <see langword="null"/> if incalculable <see langword="double.NaN"/> values are in range.</returns>
-    public static double? Average<T>(  // public API only
-        this IReadOnlyList<T> values,
+    public static double? Average(  // public API only
+        this IReadOnlyList<IReusable> values,
         int lookbackPeriods,
         int? endIndex = null)
-        where T : IReusable
     {
         ArgumentNullException.ThrowIfNull(values);
 
         return Increment(
             values,
             lookbackPeriods,
-            endIndex ?? values.Count - 1)
+            endIndex ?? (values.Count - 1))
            .NaN2Null();
     }
 
@@ -55,80 +50,33 @@ public static partial class Sma
         }
 
         return sum / lookbackPeriods;
-
-        // TODO: apply this SMA increment method more widely in other indicators (see EMA example)
     }
 
     /// <summary>
-    /// Simple moving average calculation.
+    /// Calculates the sum of all values in a Queue buffer.
+    /// Optimized for Queue&lt;double&gt; usage in BufferList implementations.
     /// </summary>
-    /// <param name="source">List of chainable values.</param>
-    /// <param name="lookbackPeriods">Window to evaluate, prior to 'endIndex'.</param>
-    /// <param name="endIndex">Index position to evaluate.</param>
-    /// <typeparam name="T">IReusable (chainable) type.</typeparam>
-    /// <returns>Simple moving average or <see langword="double.NaN"/> when incalculable.</returns>
-    internal static double Increment<T>(
-        IReadOnlyList<T> source,
-        int lookbackPeriods,
-        int endIndex)
-        where T : IReusable
+    /// <param name="buffer">The queue buffer containing values to sum.</param>
+    /// <returns>Sum of all values in the buffer.</returns>
+    internal static double Sum(this Queue<double> buffer)
     {
-        if (endIndex < lookbackPeriods - 1 || endIndex >= source.Count)
-        {
-            return double.NaN;
-        }
-
         double sum = 0;
-        for (int i = endIndex - lookbackPeriods + 1; i <= endIndex; i++)
+        foreach (double val in buffer)
         {
-            sum += source[i].Value;
+            sum += val;
         }
 
-        return sum / lookbackPeriods;
-
-        // TODO: apply this SMA increment method more widely in other indicators (see EMA example)
+        return sum;
     }
 
     /// <summary>
-    /// Simple moving average calculation using SIMD.
+    /// Calculates the average of all values in a Queue buffer.
+    /// Uses the buffer's count as the denominator for improved conciseness.
     /// </summary>
-    /// <param name="prices">Array of prices.</param>
-    /// <param name="period">Period to evaluate.</param>
-    /// <returns>Array of simple moving averages.</returns>
-    /// <remarks>Caution: this experimental method has rounding errors.</remarks>
-    [ExcludeFromCodeCoverage]  // experimental SIMD code
-    internal static double[] Increment(this double[] prices, int period)
-    {
-        // TODO: remove/consider experiment, has rounding errors
-
-        int count = prices.Length - period + 1;
-        double[] sma = new double[count];
-
-        int simdWidth = Vector<double>.Count;
-        for (int i = 0; i < count; i++)
-        {
-            Vector<double> sumVector = Vector<double>.Zero;
-
-            int j;
-            for (j = 0; j <= period - simdWidth; j += simdWidth)
-            {
-                Vector<double> priceVector = new(prices, i + j);
-                sumVector += priceVector;
-            }
-
-            double sum = 0;
-            for (; j < period; j++) // remainder loop
-            {
-                sum += prices[i + j];
-            }
-
-            sum += Vector.Dot(sumVector, Vector<double>.One);
-
-            sma[i] = sum / period;
-        }
-
-        return sma;
-    }
+    /// <param name="buffer">The queue buffer containing values to average.</param>
+    /// <returns>Average of all values in the buffer, or NaN if buffer is empty.</returns>
+    internal static double Average(this Queue<double> buffer)
+        => buffer.Count > 0 ? buffer.Sum() / buffer.Count : double.NaN;
 
     /// <summary>
     /// Validates the lookback periods parameter.

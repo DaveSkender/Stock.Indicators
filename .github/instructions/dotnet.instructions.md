@@ -209,7 +209,7 @@ public static partial class Ema
 - Use MSTest `[TestClass]` and `[TestMethod]` attributes
 - Follow test naming convention: `MethodName_StateUnderTest_ExpectedBehavior` (e.g., `ToEma_WithSmallDataset_CalculatesCorrectly`)
 - Use FluentAssertions (v6) for readable assertions
-- Use `Money3`, `Money4`, `Money5`, `Money6` constants from `TestBase` for tolerance in epsilon comparisons
+- Use precision constants from `TestBase` (e.g., `Money6` and others) for tolerance in epsilon comparisons against manually calculated values only - use the maximum precision needed, not to accommodate algorithmic differences
 
 ### Regression tests
 

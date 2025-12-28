@@ -5,9 +5,9 @@ namespace Skender.Stock.Indicators;
 /// </summary>
 public class RocWbList : BufferList<RocWbResult>, IIncrementFromChain, IRocWb
 {
-    private readonly Queue<double> rocBuffer;
-    private readonly Queue<double> rocSqBuffer;
-    private readonly Queue<double> rocEmaInitBuffer;
+    private readonly Queue<double> _rocBuffer;
+    private readonly Queue<double> _rocSqBuffer;
+    private readonly Queue<double> _rocEmaInitBuffer;
     private double prevEma = double.NaN;
     private readonly double k;
 
@@ -23,9 +23,9 @@ public class RocWbList : BufferList<RocWbResult>, IIncrementFromChain, IRocWb
         LookbackPeriods = lookbackPeriods;
         EmaPeriods = emaPeriods;
         StdDevPeriods = stdDevPeriods;
-        rocBuffer = new Queue<double>(lookbackPeriods + 1);
-        rocSqBuffer = new Queue<double>(stdDevPeriods);
-        rocEmaInitBuffer = new Queue<double>(emaPeriods);
+        _rocBuffer = new Queue<double>(lookbackPeriods + 1);
+        _rocSqBuffer = new Queue<double>(stdDevPeriods);
+        _rocEmaInitBuffer = new Queue<double>(emaPeriods);
         k = 2d / (emaPeriods + 1);
     }
 
@@ -58,13 +58,13 @@ public class RocWbList : BufferList<RocWbResult>, IIncrementFromChain, IRocWb
     public void Add(DateTime timestamp, double value)
     {
         // Update the ROC buffer
-        rocBuffer.Update(LookbackPeriods + 1, value);
+        _rocBuffer.Update(LookbackPeriods + 1, value);
 
         // Calculate ROC
         double roc;
-        if (rocBuffer.Count > LookbackPeriods)
+        if (_rocBuffer.Count > LookbackPeriods)
         {
-            double backValue = rocBuffer.Peek();
+            double backValue = _rocBuffer.Peek();
             roc = backValue == 0 ? double.NaN : 100d * (value - backValue) / backValue;
         }
         else
@@ -76,7 +76,7 @@ public class RocWbList : BufferList<RocWbResult>, IIncrementFromChain, IRocWb
         double rocSq = roc * roc;
         if (!double.IsNaN(roc))
         {
-            rocSqBuffer.Update(StdDevPeriods, rocSq);
+            _rocSqBuffer.Update(StdDevPeriods, rocSq);
         }
 
         // Calculate EMA of ROC
@@ -86,19 +86,13 @@ public class RocWbList : BufferList<RocWbResult>, IIncrementFromChain, IRocWb
             // Accumulate ROC values for initial EMA calculation
             if (!double.IsNaN(roc))
             {
-                rocEmaInitBuffer.Update(EmaPeriods, roc);
+                _rocEmaInitBuffer.Update(EmaPeriods, roc);
             }
 
             // Initialize EMA with SMA when we have enough values
-            if (rocEmaInitBuffer.Count >= EmaPeriods)
+            if (_rocEmaInitBuffer.Count >= EmaPeriods)
             {
-                double sum = 0;
-                foreach (double rocVal in rocEmaInitBuffer)
-                {
-                    sum += rocVal;
-                }
-
-                rocEma = sum / EmaPeriods;
+                rocEma = _rocEmaInitBuffer.Average();
             }
             else
             {
@@ -115,15 +109,9 @@ public class RocWbList : BufferList<RocWbResult>, IIncrementFromChain, IRocWb
 
         // Calculate RMS deviation bands
         double? rocDev = null;
-        if (rocSqBuffer.Count >= StdDevPeriods && !double.IsNaN(roc))
+        if (_rocSqBuffer.Count >= StdDevPeriods && !double.IsNaN(roc))
         {
-            double sum = 0;
-            foreach (double sq in rocSqBuffer)
-            {
-                sum += sq;
-            }
-
-            rocDev = Math.Sqrt(sum / StdDevPeriods).NaN2Null();
+            rocDev = Math.Sqrt(_rocSqBuffer.Sum() / StdDevPeriods).NaN2Null();
         }
 
         AddInternal(new RocWbResult(
@@ -166,9 +154,9 @@ public class RocWbList : BufferList<RocWbResult>, IIncrementFromChain, IRocWb
     public override void Clear()
     {
         base.Clear();
-        rocBuffer.Clear();
-        rocSqBuffer.Clear();
-        rocEmaInitBuffer.Clear();
+        _rocBuffer.Clear();
+        _rocSqBuffer.Clear();
+        _rocEmaInitBuffer.Clear();
         prevEma = double.NaN;
     }
 }

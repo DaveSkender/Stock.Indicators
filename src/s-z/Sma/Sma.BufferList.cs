@@ -39,10 +39,12 @@ public class SmaList : BufferList<SmaResult>, IIncrementFromChain, ISma
 
         // Calculate SMA when we have enough values by recalculating the sum
         // This matches the precision of the static series implementation
-        double? sma = null;
+        double sma = double.NaN;
+
         if (buffer.Count == LookbackPeriods)
         {
             double sum = 0;
+
             foreach (double val in buffer)
             {
                 sum += val;
@@ -51,7 +53,7 @@ public class SmaList : BufferList<SmaResult>, IIncrementFromChain, ISma
             sma = sum / LookbackPeriods;
         }
 
-        AddInternal(new SmaResult(timestamp, sma));
+        AddInternal(new SmaResult(timestamp, sma.NaN2Null()));
     }
 
     /// <summary>

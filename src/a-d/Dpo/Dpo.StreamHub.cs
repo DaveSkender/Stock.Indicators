@@ -125,23 +125,9 @@ public class DpoHub
             && smaIndex < ProviderCache.Count
             && smaIndex >= LookbackPeriods - 1)
         {
-            // Calculate SMA at the lookahead position
-            double sum = 0;
-            bool hasNaN = false;
-
-            for (int p = smaIndex - LookbackPeriods + 1; p <= smaIndex; p++)
-            {
-                double value = ProviderCache[p].Value;
-                if (double.IsNaN(value))
-                {
-                    hasNaN = true;
-                    break;
-                }
-
-                sum += value;
-            }
-
-            double? sma = hasNaN ? null : sum / LookbackPeriods;
+            // Calculate SMA at the lookahead position using Sma.Increment utility
+            double smaValue = Sma.Increment(ProviderCache, LookbackPeriods, smaIndex);
+            double? sma = smaValue.NaN2Null();
             double? dpoVal = sma.HasValue ? dpoTargetItem.Value - sma.Value : null;
 
             return new DpoResult(dpoTargetItem.Timestamp, dpoVal, sma);

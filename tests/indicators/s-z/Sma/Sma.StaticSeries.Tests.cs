@@ -12,14 +12,55 @@ public partial class SmaTests : StaticSeriesTestBase
         // proper quantities
         sut.Should().HaveCount(502);
         sut.Where(static x => x.Sma != null).Should().HaveCount(483);
+        sut.Should().HaveCount(expectedDefault.Length);
 
         // sample values
         sut[18].Sma.Should().BeNull();
-        sut[19].Sma.Should().BeApproximately(214.5250, Money4);
-        sut[24].Sma.Should().BeApproximately(215.0310, Money4);
-        sut[149].Sma.Should().BeApproximately(234.9350, Money4);
-        sut[249].Sma.Should().BeApproximately(255.5500, Money4);
-        sut[501].Sma.Should().BeApproximately(251.8600, Money4);
+        sut[19].Sma.Should().BeApproximately(214.525, Money12);
+        sut[24].Sma.Should().BeApproximately(215.031, Money12);
+        sut[149].Sma.Should().BeApproximately(234.935, Money12);
+        sut[249].Sma.Should().BeApproximately(255.550, Money12);
+        sut[501].Sma.Should().BeApproximately(251.860, Money12);
+
+        // matches manual calculations with high precision
+        for (int i = 0; i < Quotes.Count; i++)
+        {
+            sut[i].Timestamp.Should().Be(Quotes[i].Timestamp);
+
+            if (double.IsNaN(expectedDefault[i]))
+            {
+                sut[i].Sma.Should().BeNull();
+                continue;
+            }
+
+            sut[i].Sma.Should().BeApproximately(expectedDefault[i], Money12);
+        }
+    }
+
+    [TestMethod]
+    public void LongestQuotes_ReturnsExpectedResults()
+    {
+        IReadOnlyList<SmaResult> sut = LongestQuotes
+            .ToSma(20);
+
+        // proper quantities
+        sut.Should().HaveCount(15821);
+        sut.Where(static x => x.Sma != null).Should().HaveCount(15802);
+        sut.Should().HaveCount(expectedLongest.Length);
+
+        // matches manual calculations with high precision
+        for (int i = 0; i < LongestQuotes.Count; i++)
+        {
+            sut[i].Timestamp.Should().Be(LongestQuotes[i].Timestamp);
+
+            if (double.IsNaN(expectedLongest[i]))
+            {
+                sut[i].Sma.Should().BeNull();
+                continue;
+            }
+
+            sut[i].Sma.Should().BeApproximately(expectedLongest[i], Money10);
+        }
     }
 
     [TestMethod]
