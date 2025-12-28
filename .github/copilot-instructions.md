@@ -30,6 +30,15 @@ This repository hosts **Stock Indicators for .NET**, the production source for t
 - Update documentation and samples when indicators change behavior, especially for streaming scenarios.
 - Update the matching `docs/_indicators/<Indicator>.md` file whenever an indicator changes. Keep the primary public API example, parameter details, warmup guidance, and outputs in sync with the implementation.
 
+### Linting tasks
+
+VS Code tasks are organized for speed vs. completeness:
+
+- **Fast development** (Roslynator only, ~seconds): Use `Lint: .NET code & markdown files (fix)` for regular development
+- **Comprehensive** (Roslynator + dotnet format, slower): Use `Lint: All (fix)` before committing to ensure CI compliance
+
+Individual tools available: `Lint: .NET format`, `Lint: .NET Roslynator (analyze)`, `Lint: Markdown` and their `(fix)` variants.
+
 ## Common pitfalls to avoid
 
 1. **Off-by-one windows** when calculating lookback or warmup periods.
