@@ -5,13 +5,29 @@
   "version": "2.0.0",
   "inputs": [
     {
-      "id": "featureDescription",
-      "description": "Enter a brief description of the feature to implement",
-      "default": "New indicator or feature",
-      "type": "promptString"
+      "id": "roslynatorCommand",
+      "description": "Select command type for Roslynator",
+      "options": [
+        "analyze",
+        "fix",
+        "format"
+      ],
+      "default": "fix",
+      "type": "pickString"
+    },
+    {
+      "id": "roslynatorSeverity",
+      "description": "Select severity level (depth) for Roslynator action",
+      "options": [
+        "error",
+        "warning",
+        "info",
+        "hidden"
+      ],
+      "default": "info",
+      "type": "pickString"
     }
   ],
-
   // defaults
   "group": "none",
   "presentation": {
@@ -24,16 +40,20 @@
     "showReuseMessage": false
   },
   "problemMatcher": [],
-  "options": { "cwd": "${workspaceFolder}" },
-
+  "options": {
+    "cwd": "${workspaceFolder}"
+  },
   // tasks
   "tasks": [
     {
       "label": "Setup: Dev tools",
-      "detail": "Complete one-time environment setup (global tools, SpecKit, packages)",
+      "detail": "Complete one-time environment setup (global tools and packages)",
       "type": "shell",
       "command": "bash .devcontainer/startup.sh",
-      "problemMatcher": [ "$msCompile", "$eslint-compact" ]
+      "problemMatcher": [
+        "$msCompile",
+        "$eslint-compact"
+      ]
     },
     {
       "label": "Initialize: Pull, rebuild, fixers, and unit test",
@@ -57,9 +77,10 @@
     },
     {
       "label": "Install: All code dependencies",
-      "detail": "Restore .NET packages",
+      "detail": "Restore .NET packages and Ruby gems",
       "dependsOn": [
-        "Install: .NET packages"
+        "Install: .NET packages",
+        "Install: Ruby packages"
       ],
       "dependsOrder": "parallel"
     },
@@ -67,14 +88,14 @@
       "label": "Install: .NET packages",
       "detail": "Restore NuGet packages for solution",
       "type": "shell",
-      "command": "dotnet restore && dotnet outdated --exclude FluentAssertions",
+      "command": "dotnet restore && dotnet restore docs/Examples && dotnet outdated --exclude FluentAssertions",
       "problemMatcher": "$msCompile"
     },
     {
       "label": "Inspect: .NET packages",
       "detail": "List outdated NuGet packages in the root solution using dotnet-outdated",
       "type": "shell",
-      "command": "dotnet outdated --exclude FluentAssertions"
+      "command": "dotnet outdated --exclude FluentAssertions && dotnet outdated docs/Examples"
     },
     {
       "label": "Update: .NET packages (outdated --upgrade)",
@@ -97,7 +118,12 @@
       "problemMatcher": {
         "owner": "bundle",
         "fileLocation": "relative",
-        "pattern": { "regexp": "^(.*):(\\d+):\\s+(.*)$", "file": 1, "line": 2, "message": 3 }
+        "pattern": {
+          "regexp": "^(.*):(\\d+):\\s+(.*)$",
+          "file": 1,
+          "line": 2,
+          "message": 3
+        }
       }
     },
     {
@@ -117,15 +143,23 @@
       "label": "Clean: .NET Solution (dotnet clean)",
       "detail": "Clean build outputs (bin/obj) for solution",
       "type": "shell",
-      "command": "dotnet clean -v minimal --nologo",
+      "command": "dotnet clean -v minimal --nologo && dotnet clean -c Release -v minimal --nologo",
+      "group": "build",
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "Delete: Temporary caches",
+      "detail": "Delete bin, obj, node_modules, other caches, and lock files",
+      "type": "shell",
+      "command": "bash tools/scripts/clean.sh",
       "group": "build",
       "problemMatcher": "$msCompile"
     },
     {
       "label": "Delete: Temporary caches (and restore)",
-      "detail": "Delete bin, obj, node_modules, other caches, and lock files",
+      "detail": "Delete temporary caches then restore",
       "type": "shell",
-      "command": "bash tools/scripts/clean.sh",
+      "command": "bash tools/scripts/clean.sh && dotnet restore --force-evaluate",
       "group": "build",
       "problemMatcher": "$msCompile"
     },
@@ -157,7 +191,17 @@
       "problemMatcher": "$msCompile"
     },
     {
-      "label": "Lint: .NET code (format check)",
+      "label": "Build: Website",
+      "detail": "Build the Jekyll website dist package in docs/_site folder",
+      "type": "shell",
+      "command": "bundle exec jekyll build && echo '✓ Build complete!'",
+      "group": "build",
+      "options": {
+        "cwd": "${workspaceFolder}/docs"
+      }
+    },
+    {
+      "label": "Lint: .NET format",
       "detail": "Verify code formatting and style with 'dotnet format'",
       "type": "shell",
       "command": "dotnet format --verify-no-changes --severity info --no-restore",
@@ -165,29 +209,46 @@
       "problemMatcher": "$msCompile"
     },
     {
-      "label": "Lint: .NET code (Roslynator check)",
-      "detail": "Verify code formatting and style with Roslynator",
+      "label": "Lint: .NET format (fix)",
+      "detail": "Fix code formatting and style with 'dotnet format'",
       "type": "shell",
-      "command": "roslynator analyze --properties TargetFramework=net10.0 --severity-level hidden --verbosity normal",
+      "command": "dotnet format --severity info --no-restore",
       "group": "test",
       "problemMatcher": "$msCompile"
     },
     {
-      "label": "Lint: .NET code (Roslynator fix)",
+      "label": "Lint: .NET Roslynator (custom)",
+      "detail": "Input params for Roslynator action",
+      "type": "shell",
+      "command": "roslynator ${input:roslynatorCommand} --properties TargetFramework=net10.0 --severity-level ${input:roslynatorSeverity} --verbosity normal",
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "Lint: .NET Roslynator (analyze)",
       "detail": "Verify code formatting and style with Roslynator",
       "type": "shell",
-      "command": "roslynator fix --properties TargetFramework=net10.0 --severity-level hidden --verbosity normal",
+      "command": "roslynator analyze --properties TargetFramework=net10.0 --severity-level info --verbosity normal",
       "group": "test",
       "problemMatcher": "$msCompile"
     },
     {
-      "label": "Lint: .NET code (full analysis)",
+      "label": "Lint: .NET Roslynator (fix)",
+      "detail": "Fix code formatting and style with Roslynator",
+      "type": "shell",
+      "command": "roslynator fix --properties TargetFramework=net10.0 --severity-level info --verbosity normal",
+      "group": "test",
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "Lint: .NET code",
       "detail": "Run Roslynator analysis and .NET format check",
       "type": "shell",
       "command": "bash tools/scripts/lint-code-check.sh",
       "group": "test",
       "problemMatcher": "$msCompile",
-      "dependsOn": ["Build: .NET Solution (incremental)"],
+      "dependsOn": [
+        "Build: .NET Solution (incremental)"
+      ],
       "dependsOrder": "sequence"
     },
     {
@@ -198,7 +259,7 @@
       "problemMatcher": "$msCompile"
     },
     {
-      "label": "Lint: Markdown files",
+      "label": "Lint: Markdown",
       "detail": "Run markdownlint over documentation",
       "type": "shell",
       "command": "echo y | npx markdownlint-cli2",
@@ -206,35 +267,41 @@
       "problemMatcher": "$markdownlint"
     },
     {
-      "label": "Lint: Markdown files (fix)",
+      "label": "Lint: Markdown (fix)",
       "detail": "Auto-fix markdown formatting issues",
       "type": "shell",
       "command": "echo y | npx markdownlint-cli2 --fix",
       "problemMatcher": "$markdownlint"
     },
     {
-      "label": "Lint: .NET code & markdown files",
+      "label": "Lint: All",
       "detail": "Run all linting checks (code + markdown) in sequence",
       "dependsOn": [
         "Build: .NET Solution (incremental)",
         "Lint: .NET code (full analysis)",
-        "Lint: Markdown files"
+        "Lint: Markdown"
       ],
       "dependsOrder": "sequence",
       "group": "test",
-      "problemMatcher": ["$msCompile", "$markdownlint"]
+      "problemMatcher": [
+        "$msCompile",
+        "$markdownlint"
+      ]
     },
     {
-      "label": "Lint: .NET code & markdown files (fix)",
+      "label": "Lint: All (fix)",
       "detail": "Auto-fix code format and markdown issues",
       "dependsOn": [
         "Build: .NET Solution (incremental)",
         "Lint: .NET code (fix)",
-        "Lint: Markdown files (fix)"
+        "Lint: Markdown (fix)"
       ],
       "dependsOrder": "sequence",
       "group": "none",
-      "problemMatcher": ["$msCompile", "$markdownlint"]
+      "problemMatcher": [
+        "$msCompile",
+        "$markdownlint"
+      ]
     },
     {
       "label": "Test: Unit tests",
@@ -323,7 +390,15 @@
       "dependsOrder": "sequence"
     },
     {
-      "label": "Run: Doc site with LiveReload",
+      "label": "Generate: Test baseline data (all)",
+      "detail": "Generate all regression test baseline JSON files",
+      "type": "shell",
+      "command": "dotnet run --project tools/baselining/Test.DataGenerator.csproj -- --all",
+      "group": "none",
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "Run: Website with LiveReload",
       "detail": "Serve Jekyll docs site with livereload",
       "type": "shell",
       "command": "bundle exec jekyll serve --livereload --open-url",
@@ -354,7 +429,7 @@
       }
     },
     {
-      "label": "Run: Documentation site (serve)",
+      "label": "Run: Website (serve)",
       "detail": "Alias: run docs site (background) with simple readiness matcher",
       "type": "shell",
       "command": "bundle exec jekyll serve --livereload",
@@ -393,20 +468,12 @@
       "problemMatcher": "$msCompile"
     },
     {
-      "label": "Run: Simulation Demo",
+      "label": "Run: Test simulation",
       "detail": "Run streaming indicators simulation demo",
       "type": "shell",
       "command": "dotnet run --project tools/simulate/Test.Simulation.csproj",
       "group": "none",
       "problemMatcher": "$msCompile",
-    },
-    {
-      "label": "Run: Generate test baseline data (all)",
-      "detail": "Generate all regression test baseline JSON files",
-      "type": "shell",
-      "command": "dotnet run --project tools/baselining/Test.DataGenerator.csproj -- --all",
-      "group": "none",
-      "problemMatcher": "$msCompile"
     }
   ]
 }
