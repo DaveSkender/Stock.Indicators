@@ -220,7 +220,7 @@ result.Adx?.Should().BeApproximately(15.9459, Money4);
 > **Rationale**: Tolerance is half of the last decimal place to ensure only values that would round to the same result will pass.
 > **Constants**: Use precision constants from `TestBase` (e.g., `Money6` and others) for assertions against manually calculated values. Use the maximum precision needed.
 
-** Avoid these patterns:**
+**Avoid these patterns:**
 
 ```csharp
 // Do NOT use approximation - indicators are deterministic
