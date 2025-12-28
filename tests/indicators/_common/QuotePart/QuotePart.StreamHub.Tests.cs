@@ -45,17 +45,8 @@ public class QuotePartHubTests : StreamHubTestBase, ITestQuoteObserver, ITestCha
         IReadOnlyList<QuotePart> expectedRevised = RevisedQuotes.Use(candlePart);
 
         // assert, should equal series
-        for (int i = 0; i < quotesCount - 1; i++)
-        {
-            Quote q = RevisedQuotes[i];
-            QuotePart s = expectedRevised[i];
-            QuotePart r = sut[i];
-
-            r.Timestamp.Should().Be(q.Timestamp);
-            r.Timestamp.Should().Be(s.Timestamp);
-            r.Value.Should().Be(s.Value);
-            r.Should().Be(s);
-        }
+        sut.Should().HaveCount(quotesCount - 1);
+        sut.IsExactly(expectedRevised);
 
         observer.Unsubscribe();
         quoteHub.EndTransmission();
@@ -98,17 +89,8 @@ public class QuotePartHubTests : StreamHubTestBase, ITestQuoteObserver, ITestCha
             .ToSma(smaPeriods);
 
         // assert, should equal series
-        for (int i = 0; i < quotesCount - 1; i++)
-        {
-            Quote q = RevisedQuotes[i];
-            SmaResult s = expected[i];
-            SmaResult r = sut[i];
-
-            r.Timestamp.Should().Be(q.Timestamp);
-            r.Timestamp.Should().Be(s.Timestamp);
-            r.Sma.Should().Be(s.Sma);
-            r.Should().Be(s);
-        }
+        sut.Should().HaveCount(quotesCount - 1);
+        sut.IsExactly(expected);
 
         observer.Unsubscribe();
         quoteHub.EndTransmission();
