@@ -1,4 +1,4 @@
-namespace StreamHub;
+namespace StreamHubs;
 
 [TestClass]
 public class KvoHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
@@ -54,7 +54,7 @@ public class KvoHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProv
         IReadOnlyList<KvoResult> seriesList = quotesList.ToKvo(34, 55, 13);
 
         streamList.Should().HaveCount(length - 1);
-        streamList.Should().BeEquivalentTo(seriesList, static options => options.WithStrictOrdering());
+        streamList.IsExactly(seriesList);
 
         observer.Unsubscribe();
         quoteHub.EndTransmission();
@@ -91,7 +91,7 @@ public class KvoHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProv
         IReadOnlyList<KvoResult> seriesList = Quotes.ToKvo(34, 55, 13);
 
         streamList.Should().HaveCount(length);
-        streamList.Should().BeEquivalentTo(seriesList, static options => options.WithStrictOrdering());
+        streamList.IsExactly(seriesList);
 
         observer.Unsubscribe();
         quoteHub.EndTransmission();
@@ -121,7 +121,7 @@ public class KvoHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProv
         IReadOnlyList<KvoResult> seriesList = Quotes.ToKvo(20, 40, 10);
 
         streamList.Should().HaveCount(length);
-        streamList.Should().BeEquivalentTo(seriesList, static options => options.WithStrictOrdering());
+        streamList.IsExactly(seriesList);
 
         observer.Unsubscribe();
         quoteHub.EndTransmission();
@@ -162,9 +162,7 @@ public class KvoHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProv
 
         // assert, should equal series
         streamList.Should().HaveCount(length);
-        streamList.Should().BeEquivalentTo(
-            seriesList,
-            options => options.WithStrictOrdering());
+        streamList.IsExactly(seriesList);
 
         observer.Unsubscribe();
         quoteHub.EndTransmission();

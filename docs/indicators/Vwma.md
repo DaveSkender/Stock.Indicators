@@ -84,8 +84,8 @@ IReadOnlyList<VwmaResult> results = vwmaList;
 Subscribe to a `QuoteHub` for advanced streaming scenarios:
 
 ```csharp
-QuoteHub<Quote> quoteHub = new();
-VwmaHub<Quote> observer = quoteHub.ToVwma(lookbackPeriods);
+QuoteHub quoteHub = new();
+VwmaHub observer = quoteHub.ToVwmaHub(lookbackPeriods);
 
 foreach (Quote quote in quotes)  // simulating stream
 {

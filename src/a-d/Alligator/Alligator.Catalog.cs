@@ -38,4 +38,13 @@ public static partial class Alligator
             .WithStyle(Style.Stream)
             .WithMethodName("ToAlligatorHub")
             .Build();
+
+    /// <summary>
+    /// Alligator Buffer Listing
+    /// </summary>
+    internal static readonly IndicatorListing BufferListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Buffer)
+            .WithMethodName("ToAlligatorList")
+            .Build();
 }

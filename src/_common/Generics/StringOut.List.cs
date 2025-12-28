@@ -202,6 +202,13 @@ public static partial class StringOut
     ///     { "MyPropertyName", "C" }
     /// };
     /// </code>
+    /// <para>
+    /// The special format token <c>unset</c> (case-insensitive) can be used to bypass
+    /// <see cref="IFormattable"/> formatting and instead call the type's default
+    /// <c>ToString(null)</c> behavior. For example, specifying <c>{ "MyPropertyName", "unset" }</c>
+    /// will cause the library to use the property's natural <c>ToString()</c> output rather than applying
+    /// a numeric or date format string.
+    /// </para>
     /// </remarks>
     public static string ToStringOut<T>(
         this IEnumerable<T> source, IDictionary<string, string>? args = null)
@@ -225,6 +232,13 @@ public static partial class StringOut
     ///     { "MyPropertyName", "C" }
     /// };
     /// </code>
+    /// <para>
+    /// The special format token <c>unset</c> (case-insensitive) can be used to bypass
+    /// <see cref="IFormattable"/> formatting and instead call the type's default
+    /// <c>ToString(null)</c> behavior. For example, specifying <c>{ "MyPropertyName", "unset" }</c>
+    /// will cause the library to use the property's natural <c>ToString()</c> output rather than applying
+    /// a numeric or date format string.
+    /// </para>
     /// </remarks>
     public static string ToStringOut<T>(
         this IEnumerable<T> source, int limitQty, IDictionary<string, string>? args = null)
@@ -459,14 +473,13 @@ public static partial class StringOut
         string[][] dataRows = sourceSubset.Select((item, index) => {
             string[] row = new string[columnCount];
 
-            row[0] = (index + startIndex).ToString(formats[0], culture);
+            row[0] = (index + startIndex).ToString(formats[0], invariantCulture);
 
             for (int i = 1; i < columnCount; i++)
             {
                 object? value = properties[i - 1].GetValue(item);
-                row[i] = value is IFormattable formattable
-                    ? formattable.ToString(formats[i], culture) ?? string.Empty
-                    : value?.ToString() ?? string.Empty;
+                // Format value (supports special "unset" token to bypass format strings)
+                row[i] = FormatValue(value, formats[i], invariantCulture);
 
                 columnWidth[i] = Math.Max(columnWidth[i], row[i].Length);
             }
@@ -533,7 +546,7 @@ public static partial class StringOut
         {
             List<string> dateValues = list
                 .Take(1000)
-                .Select(item => ((DateTime)property.GetValue(item)!).ToString("o", culture))
+                .Select(item => ((DateTime)property.GetValue(item)!).ToString("o", invariantCulture))
                 .ToList();
 
             bool sameHour = dateValues.Select(d => d.Substring(11, 2)).Distinct().Count() == 1;
@@ -560,6 +573,29 @@ public static partial class StringOut
         {
             return string.Empty;
         }
+    }
+
+    /// <summary>
+    /// Formats a value using an optional format string and provider.
+    /// Treats the literal format string "unset" (case-insensitive) as a request
+    /// to bypass IFormattable formatting and call the default ToString(null) behavior.
+    /// </summary>
+    /// <param name="value">Value to format.</param>
+    /// <param name="fmt">Format string or special token.</param>
+    /// <param name="provider">Format provider to use for IFormattable values.</param>
+    /// <returns>Formatted string or empty string when value is null.</returns>
+    private static string FormatValue(object? value, string? fmt, IFormatProvider provider)
+    {
+        if (string.Equals(fmt, "unset", StringComparison.OrdinalIgnoreCase))
+        {
+            return value is IFormattable formattable
+                ? formattable.ToString(null, provider) ?? string.Empty
+                : value?.ToString() ?? string.Empty;
+        }
+
+        return value is IFormattable formattableVal
+            ? formattableVal.ToString(fmt, provider) ?? string.Empty
+            : value?.ToString() ?? string.Empty;
     }
 
     /// <summary>
@@ -644,14 +680,13 @@ public static partial class StringOut
         // Format all data rows (using original indices)
         string[][] dataRows = indexedItems.Select(x => {
             string[] row = new string[headers.Length];
-            row[0] = x.Index.ToString("N0", culture);
+            row[0] = x.Index.ToString("N0", invariantCulture);
 
             for (int i = 1; i < headers.Length; i++)
             {
                 object? value = properties[i - 1].GetValue(x.Item);
-                row[i] = value is IFormattable f
-                    ? f.ToString(formats[i], culture) ?? string.Empty
-                    : value?.ToString() ?? string.Empty;
+                // Use centralized formatting helper (supports "unset" token)
+                row[i] = FormatValue(value, formats[i], invariantCulture);
             }
 
             return row;

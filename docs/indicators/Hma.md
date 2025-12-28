@@ -91,8 +91,8 @@ IReadOnlyList<HmaResult> results = hmaList;
 Subscribe to a `QuoteHub` for advanced streaming scenarios:
 
 ```csharp
-QuoteHub<Quote> quoteHub = new();
-HmaHub<Quote> observer = quoteHub.ToHma(lookbackPeriods);
+QuoteHub quoteHub = new();
+HmaHub observer = quoteHub.ToHmaHub(lookbackPeriods);
 
 foreach (Quote quote in quotes)  // simulating stream
 {

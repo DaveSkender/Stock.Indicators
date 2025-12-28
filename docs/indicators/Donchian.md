@@ -61,3 +61,33 @@ See [Utilities and helpers](/utilities#utilities-for-indicator-results) for more
 ## Chaining
 
 This indicator is not chain-enabled and must be generated from `quotes`.  It **cannot** be used for further processing by other chain-enabled indicators.
+
+## Streaming
+
+Use the buffer-style `List<T>` when you need incremental calculations without a hub:
+
+```csharp
+DonchianList donchianList = new(lookbackPeriods);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  donchianList.Add(quote);
+}
+
+// based on `ICollection<DonchianResult>`
+IReadOnlyList<DonchianResult> results = donchianList;
+```
+
+Subscribe to a `QuoteHub` for advanced streaming scenarios:
+
+```csharp
+QuoteHub quoteHub = new();
+DonchianHub observer = quoteHub.ToDonchianHub(lookbackPeriods);
+
+foreach (Quote quote in quotes)  // simulating stream
+{
+  quoteHub.Add(quote);
+}
+
+IReadOnlyList<DonchianResult> results = observer.Results;
+```

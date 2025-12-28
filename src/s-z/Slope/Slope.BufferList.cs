@@ -11,10 +11,11 @@ namespace Skender.Stock.Indicators;
 /// - Minimizes Line value updates to only necessary items
 /// Current performance: ~3.6x slower than Series (improved from 7.85x baseline)
 /// </remarks>
-public class SlopeList : BufferList<SlopeResult>, IIncrementFromChain
+public class SlopeList : BufferList<SlopeResult>, IIncrementFromChain, ISlope
 {
-    private readonly Queue<double> buffer;
+    private readonly Queue<double> _buffer;
     private readonly int lookbackPeriods;
+
     /// <summary>
     /// Tracks how many items have been removed from the beginning
     /// </summary>
@@ -35,7 +36,7 @@ public class SlopeList : BufferList<SlopeResult>, IIncrementFromChain
         Slope.Validate(lookbackPeriods);
         this.lookbackPeriods = lookbackPeriods;
         LookbackPeriods = lookbackPeriods;
-        buffer = new Queue<double>(lookbackPeriods);
+        _buffer = new Queue<double>(lookbackPeriods);
         globalIndexOffset = 0;
 
         // Pre-calculate constant sumSqX for sequential X values
@@ -61,10 +62,10 @@ public class SlopeList : BufferList<SlopeResult>, IIncrementFromChain
     public void Add(DateTime timestamp, double value)
     {
         // Update the rolling buffer
-        buffer.Update(lookbackPeriods, value);
+        _buffer.Update(lookbackPeriods, value);
 
         // During initialization period
-        if (buffer.Count < lookbackPeriods)
+        if (_buffer.Count < lookbackPeriods)
         {
             AddInternal(new SlopeResult(timestamp));
             return;
@@ -84,21 +85,15 @@ public class SlopeList : BufferList<SlopeResult>, IIncrementFromChain
 
         // Calculate sums for least squares method
         // Two passes required: 1) get avgY, 2) calculate deviations
-        double sumY = 0;
-        double sumSqY = 0;
-        double sumSqXy = 0;
 
-        // First pass: get sumY to calculate avgY
-        foreach (double bufferValue in buffer)
-        {
-            sumY += bufferValue;
-        }
-
-        double avgY = sumY / lookbackPeriods;
+        // First pass: calculate avgY
+        double avgY = _buffer.Average();
 
         // Second pass: calculate deviations and their products
+        double sumSqY = 0;
+        double sumSqXy = 0;
         int relativeIndex = 0;
-        foreach (double bufferValue in buffer)
+        foreach (double bufferValue in _buffer)
         {
             double xValue = firstX + relativeIndex;
             double devX = xValue - avgX;
@@ -163,7 +158,7 @@ public class SlopeList : BufferList<SlopeResult>, IIncrementFromChain
     public override void Clear()
     {
         base.Clear();
-        buffer.Clear();
+        _buffer.Clear();
         globalIndexOffset = 0;
     }
 

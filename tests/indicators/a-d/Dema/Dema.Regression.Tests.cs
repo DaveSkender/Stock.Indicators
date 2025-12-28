@@ -9,8 +9,8 @@ public class DemaTests : RegressionTestBase<DemaResult>
     public override void Series() => Quotes.ToDema().IsExactly(Expected);
 
     [TestMethod]
-    public override void Buffer() => Assert.Inconclusive("Buffer implementation not yet available");
+    public override void Buffer() => Quotes.ToDemaList(14).IsExactly(Expected);
 
     [TestMethod]
-    public override void Stream() => Assert.Inconclusive("Stream implementation not yet available");
+    public override void Stream() => QuoteHub.ToDemaHub(14).Results.IsExactly(Expected);
 }

@@ -93,8 +93,8 @@ This indicator must be generated from `quotes` and **cannot** be generated from 
 Subscribe to a `QuoteHub` for streaming scenarios:
 
 ```csharp
-QuoteHub<Quote> quoteHub = new();
-RenkoHub<Quote> observer = quoteHub.ToRenkoHub(brickSize);
+QuoteHub quoteHub = new();
+RenkoHub observer = quoteHub.ToRenkoHub(brickSize);
 
 foreach (Quote quote in quotes)  // simulating stream
 {

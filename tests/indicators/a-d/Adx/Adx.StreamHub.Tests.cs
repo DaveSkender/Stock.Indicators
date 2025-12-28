@@ -1,4 +1,4 @@
-namespace StreamHub;
+namespace StreamHubs;
 
 [TestClass]
 public class AdxHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
@@ -40,7 +40,7 @@ public class AdxHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProv
         quoteHub.Insert(Quotes[80]);
 
         actuals.Should().HaveCount(length);
-        actuals.Should().BeEquivalentTo(expectedOriginal, static options => options.WithStrictOrdering());
+        actuals.IsExactly(expectedOriginal);
 
         // delete, should equal series (revised)
         quoteHub.Remove(Quotes[removeAtIndex]);
@@ -48,7 +48,7 @@ public class AdxHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProv
         IReadOnlyList<AdxResult> expectedRevised = RevisedQuotes.ToAdx(lookbackPeriods);
 
         actuals.Should().HaveCount(501);
-        actuals.Should().BeEquivalentTo(expectedRevised, static options => options.WithStrictOrdering());
+        actuals.IsExactly(expectedRevised);
 
         // cleanup
         observer.Unsubscribe();
@@ -89,7 +89,7 @@ public class AdxHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProv
             .ToEma(emaPeriods);
 
         streamList.Should().HaveCount(seriesList.Count);
-        streamList.Should().BeEquivalentTo(seriesList, static o => o.WithStrictOrdering());
+        streamList.IsExactly(seriesList);
 
         observer.Unsubscribe();
         quoteHub.EndTransmission();
@@ -120,7 +120,7 @@ public class AdxHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProv
         quoteHub.Add(Quotes);
 
         observer.Results.Should().HaveCount(502);
-        observer.Results.Should().BeEquivalentTo(expectedOriginal, static options => options.WithStrictOrdering());
+        observer.Results.IsExactly(expectedOriginal);
 
         // Act: Remove a single historical value
         quoteHub.Remove(Quotes[removeAtIndex]);
@@ -129,7 +129,7 @@ public class AdxHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProv
         IReadOnlyList<AdxResult> expectedRevised = RevisedQuotes.ToAdx(lookbackPeriods);
 
         observer.Results.Should().HaveCount(501);
-        observer.Results.Should().BeEquivalentTo(expectedRevised, static options => options.WithStrictOrdering());
+        observer.Results.IsExactly(expectedRevised);
 
         // cleanup
         observer.Unsubscribe();

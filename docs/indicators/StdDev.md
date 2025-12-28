@@ -78,3 +78,33 @@ var results = quotes
     .ToStdDev(..)
     .ToSlope(..);
 ```
+
+## Streaming
+
+Use the buffer-style `List<T>` when you need incremental calculations without a hub:
+
+```csharp
+StdDevList stdDevList = new(lookbackPeriods);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  stdDevList.Add(quote);
+}
+
+// based on `ICollection<StdDevResult>`
+IReadOnlyList<StdDevResult> results = stdDevList;
+```
+
+Subscribe to a `QuoteHub` for advanced streaming scenarios:
+
+```csharp
+QuoteHub quoteHub = new();
+StdDevHub observer = quoteHub.ToStdDevHub(lookbackPeriods);
+
+foreach (Quote quote in quotes)  // simulating stream
+{
+  quoteHub.Add(quote);
+}
+
+IReadOnlyList<StdDevResult> results = observer.Results;
+```

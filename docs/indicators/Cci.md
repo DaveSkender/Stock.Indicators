@@ -84,8 +84,8 @@ IReadOnlyList<CciResult> results = cciList;
 Subscribe to a `QuoteHub` for advanced streaming scenarios:
 
 ```csharp
-QuoteHub<Quote> quoteHub = new();
-CciHub<Quote> observer = quoteHub.ToCci(lookbackPeriods);
+QuoteHub quoteHub = new();
+CciHub observer = quoteHub.ToCciHub(lookbackPeriods);
 
 foreach (Quote quote in quotes)  // simulating stream
 {

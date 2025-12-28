@@ -9,8 +9,8 @@ public class SmaTests : RegressionTestBase<SmaResult>
     public override void Series() => Quotes.ToSma(20).IsExactly(Expected);
 
     [TestMethod]
-    public override void Buffer() => Assert.Inconclusive("Buffer implementation not yet available");
+    public override void Buffer() => Quotes.ToSmaList(20).IsExactly(Expected);
 
     [TestMethod]
-    public override void Stream() => Assert.Inconclusive("Stream implementation not yet available");
+    public override void Stream() => QuoteHub.ToSmaHub(20).Results.IsExactly(Expected);
 }

@@ -18,6 +18,7 @@ jobs:
   deploy:
     name: Cloudflare Pages
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     defaults:
       run:
         working-directory: docs
@@ -27,7 +28,7 @@ jobs:
       url: ${{ steps.deploy.outputs.pages-deployment-alias-url }}
 
     steps:
-      - name: Checkout sources
+      - name: Checkout source
         uses: actions/checkout@v6
 
       - name: Setup pnpm

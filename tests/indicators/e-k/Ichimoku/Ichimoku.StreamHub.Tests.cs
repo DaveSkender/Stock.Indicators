@@ -1,4 +1,4 @@
-namespace StreamHub;
+namespace StreamHubs;
 
 [TestClass]
 public class IchimokuHubTests : StreamHubTestBase, ITestQuoteObserver
@@ -45,7 +45,7 @@ public class IchimokuHubTests : StreamHubTestBase, ITestQuoteObserver
         quoteHub.Insert(Quotes[80]);
 
         actuals.Should().HaveCount(length);
-        actuals.Should().BeEquivalentTo(expectedOriginal, static options => options.WithStrictOrdering());
+        actuals.IsExactly(expectedOriginal);
 
         // delete, should equal series (revised)
         quoteHub.Remove(Quotes[removeAtIndex]);
@@ -54,7 +54,7 @@ public class IchimokuHubTests : StreamHubTestBase, ITestQuoteObserver
             = RevisedQuotes.ToIchimoku(tenkanPeriods, kijunPeriods, senkouBPeriods);
 
         actuals.Should().HaveCount(501);
-        actuals.Should().BeEquivalentTo(expectedRevised, static options => options.WithStrictOrdering());
+        actuals.IsExactly(expectedRevised);
 
         // cleanup
         sut.Unsubscribe();
@@ -89,7 +89,7 @@ public class IchimokuHubTests : StreamHubTestBase, ITestQuoteObserver
 
         // assert, should equal series
         streamList.Should().HaveCount(quotesList.Count);
-        streamList.Should().BeEquivalentTo(seriesList, static o => o.WithStrictOrdering());
+        streamList.IsExactly(seriesList);
 
         sut.Unsubscribe();
         quoteHub.EndTransmission();

@@ -1,6 +1,17 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
+/// Defines the interface for Slope calculations.
+/// </summary>
+public interface ISlope
+{
+    /// <summary>
+    /// Gets the number of periods to look back.
+    /// </summary>
+    int LookbackPeriods { get; }
+}
+
+/// <summary>
 /// Provides utility methods for Slope and Linear Regression calculations.
 /// </summary>
 public static partial class Slope

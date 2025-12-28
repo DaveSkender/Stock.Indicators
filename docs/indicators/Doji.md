@@ -46,3 +46,33 @@ IReadOnlyList<CandleResult>
 - [.RemoveWarmupPeriods(qty)](/utilities#remove-warmup-periods)
 
 See [Utilities and helpers](/utilities#utilities-for-indicator-results) for more information.
+
+## Streaming
+
+Use the buffer-style `List<T>` when you need incremental calculations without a hub:
+
+```csharp
+DojiList dojiList = new(maxPriceChangePercent);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  dojiList.Add(quote);
+}
+
+// based on `ICollection<DojiResult>`
+IReadOnlyList<DojiResult> results = dojiList;
+```
+
+Subscribe to a `QuoteHub` for advanced streaming scenarios:
+
+```csharp
+QuoteHub quoteHub = new();
+DojiHub observer = quoteHub.ToDojiHub(maxPriceChangePercent);
+
+foreach (Quote quote in quotes)  // simulating stream
+{
+  quoteHub.Add(quote);
+}
+
+IReadOnlyList<DojiResult> results = observer.Results;
+```

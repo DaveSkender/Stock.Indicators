@@ -9,7 +9,7 @@ public class HtTrendlineTests : RegressionTestBase<HtlResult>
     public override void Series() => Quotes.ToHtTrendline().IsExactly(Expected);
 
     [TestMethod]
-    public override void Buffer() => Quotes.ToHtlList().IsExactly(Expected);
+    public override void Buffer() => Quotes.ToHtTrendlineList().IsExactly(Expected);
 
     [TestMethod]
     public override void Stream() => Quotes.ToHtTrendlineHub().Results.IsExactly(Expected);

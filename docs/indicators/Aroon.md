@@ -88,8 +88,8 @@ IReadOnlyList<AroonResult> results = aroonList;
 Subscribe to a `QuoteHub` for advanced streaming scenarios:
 
 ```csharp
-QuoteHub<Quote> quoteHub = new();
-AroonHub<Quote> observer = quoteHub.ToAroon(lookbackPeriods);
+QuoteHub quoteHub = new();
+AroonHub observer = quoteHub.ToAroonHub(lookbackPeriods);
 
 foreach (Quote quote in quotes)  // simulating stream
 {

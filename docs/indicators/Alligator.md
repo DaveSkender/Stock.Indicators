@@ -86,8 +86,8 @@ Results **cannot** be further chained with additional transforms.
 Subscribe to a `QuoteHub` for streaming scenarios:
 
 ```csharp
-QuoteHub<Quote> quoteHub = new();
-AlligatorHub<Quote> observer = quoteHub.ToAlligator();
+QuoteHub quoteHub = new();
+AlligatorHub observer = quoteHub.ToAlligatorHub();
 
 foreach (Quote quote in quotes)  // simulating stream
 {

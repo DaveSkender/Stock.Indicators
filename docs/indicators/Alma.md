@@ -95,8 +95,8 @@ IReadOnlyList<AlmaResult> results = almaList;
 Subscribe to a `QuoteHub` for advanced streaming scenarios:
 
 ```csharp
-QuoteHub<Quote> quoteHub = new();
-AlmaHub<Quote> observer = quoteHub.ToAlma(lookbackPeriods, offset, sigma);
+QuoteHub quoteHub = new();
+AlmaHub observer = quoteHub.ToAlmaHub(lookbackPeriods, offset, sigma);
 
 foreach (Quote quote in quotes)  // simulating stream
 {

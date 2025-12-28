@@ -115,8 +115,8 @@ IReadOnlyList<StochResult> results = stochList;
 Subscribe to a `QuoteHub` for advanced streaming scenarios:
 
 ```csharp
-QuoteHub<Quote> quoteHub = new();
-StochHub<Quote> observer = quoteHub.ToStoch(lookbackPeriods, signalPeriods, smoothPeriods);
+QuoteHub quoteHub = new();
+StochHub observer = quoteHub.ToStochHub(lookbackPeriods, signalPeriods, smoothPeriods);
 
 foreach (Quote quote in quotes)  // simulating stream
 {

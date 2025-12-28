@@ -9,7 +9,7 @@ public class AwesomeTests : RegressionTestBase<AwesomeResult>
     public override void Series() => Quotes.ToAwesome(5, 34).IsExactly(Expected);
 
     [TestMethod]
-    public override void Buffer() => Assert.Inconclusive("Buffer implementation not yet available");
+    public override void Buffer() => Quotes.ToAwesomeList(5, 34).IsExactly(Expected);
 
     [TestMethod]
     public override void Stream() => QuoteHub.ToAwesomeHub(5, 34).Results.IsExactly(Expected);

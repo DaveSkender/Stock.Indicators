@@ -105,8 +105,8 @@ IReadOnlyList<MacdResult> results = macdList;
 Subscribe to a `QuoteHub` for advanced streaming scenarios:
 
 ```csharp
-QuoteHub<Quote> quoteHub = new();
-MacdHub<Quote> observer = quoteHub.ToMacd(fastPeriods, slowPeriods, signalPeriods);
+QuoteHub quoteHub = new();
+MacdHub observer = quoteHub.ToMacdHub(fastPeriods, slowPeriods, signalPeriods);
 
 foreach (Quote quote in quotes)  // simulating stream
 {

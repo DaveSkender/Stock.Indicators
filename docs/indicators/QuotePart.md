@@ -70,8 +70,8 @@ This indicator must be generated from `quotes` and **cannot** be generated from 
 Subscribe to a `QuoteHub` for streaming scenarios:
 
 ```csharp
-QuoteHub<Quote> quoteHub = new();
-QuotePartHub<Quote> observer = quoteHub.ToQuotePartHub(CandlePart.HL2);
+QuoteHub quoteHub = new();
+QuotePartHub observer = quoteHub.ToQuotePartHub(CandlePart.HL2);
 
 foreach (Quote quote in quotes)  // simulating stream
 {

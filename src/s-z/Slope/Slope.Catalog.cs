@@ -15,6 +15,7 @@ public static partial class Slope
             .AddResult("Intercept", "Intercept", ResultType.Default)
             .AddResult("StdDev", "Standard Deviation", ResultType.Default)
             .AddResult("RSquared", "R-Squared", ResultType.Default)
+            .AddResult("Line", "Line", ResultType.Default)
             .Build();
 
     /// <summary>
@@ -35,5 +36,12 @@ public static partial class Slope
             .WithMethodName("ToSlopeList")
             .Build();
 
-    // No StreamListing for Slope.
+    /// <summary>
+    /// Slope Stream Listing
+    /// </summary>
+    internal static readonly IndicatorListing StreamListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Stream)
+            .WithMethodName("ToSlopeHub")
+            .Build();
 }

@@ -54,10 +54,5 @@ for file in "${DELETE_FILES[@]}"; do
   find "${find_args[@]}" 2>/dev/null || true
 done
 
-# restore
-echo ""
-echo "=== Restoring caches ==="
-dotnet restore --force-evaluate
-
 echo ""
 echo "✓ Cleanup completed!"

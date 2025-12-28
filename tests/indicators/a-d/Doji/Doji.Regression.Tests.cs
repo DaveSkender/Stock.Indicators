@@ -9,7 +9,7 @@ public class DojiTests : RegressionTestBase<CandleResult>
     public override void Series() => Quotes.ToDoji(0.1).IsExactly(Expected);
 
     [TestMethod]
-    public override void Buffer() => Assert.Inconclusive("Buffer implementation not yet available");
+    public override void Buffer() => Quotes.ToDojiList(0.1).IsExactly(Expected);
 
     [TestMethod]
     public override void Stream() => QuoteHub.ToDojiHub(0.1).Results.IsExactly(Expected);

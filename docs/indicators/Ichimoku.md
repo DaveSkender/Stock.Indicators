@@ -99,3 +99,33 @@ var emaHub = quotes
 ```
 
 Note: `TenkanSen` is the primary reusable value for chaining purposes.
+
+## Streaming
+
+Use the buffer-style `List<T>` when you need incremental calculations without a hub:
+
+```csharp
+IchimokuList ichimokuList = new(tenkanPeriods, kijunPeriods, senkouBPeriods);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  ichimokuList.Add(quote);
+}
+
+// based on `ICollection<IchimokuResult>`
+IReadOnlyList<IchimokuResult> results = ichimokuList;
+```
+
+Subscribe to a `QuoteHub` for advanced streaming scenarios:
+
+```csharp
+QuoteHub quoteHub = new();
+IchimokuHub observer = quoteHub.ToIchimokuHub(tenkanPeriods, kijunPeriods, senkouBPeriods);
+
+foreach (Quote quote in quotes)  // simulating stream
+{
+  quoteHub.Add(quote);
+}
+
+IReadOnlyList<IchimokuResult> results = observer.Results;
+```

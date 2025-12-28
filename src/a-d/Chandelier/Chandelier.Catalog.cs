@@ -25,6 +25,21 @@ public static partial class Chandelier
             .WithMethodName("ToChandelier")
             .Build();
 
-    // No StreamListing for CHEXIT.
-    // No BufferListing for CHEXIT.
+    /// <summary>
+    /// CHEXIT Stream Listing
+    /// </summary>
+    internal static readonly IndicatorListing StreamListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Stream)
+            .WithMethodName("ToChandelierHub")
+            .Build();
+
+    /// <summary>
+    /// CHEXIT Buffer Listing
+    /// </summary>
+    internal static readonly IndicatorListing BufferListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Buffer)
+            .WithMethodName("ToChandelierList")
+            .Build();
 }

@@ -81,8 +81,8 @@ IReadOnlyList<ObvResult> results = obvList;
 Subscribe to a `QuoteHub` for advanced streaming scenarios:
 
 ```csharp
-QuoteHub<Quote> quoteHub = new();
-ObvHub<Quote> observer = quoteHub.ToObv();
+QuoteHub quoteHub = new();
+ObvHub observer = quoteHub.ToObvHub();
 
 foreach (Quote quote in quotes)  // simulating stream
 {

@@ -1,4 +1,4 @@
-namespace StreamHub;
+namespace StreamHubs;
 
 [TestClass]
 public class MacdHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProvider
@@ -81,7 +81,7 @@ public class MacdHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
 
         // assert, should equal series
         streamList.Should().HaveCount(length - 1);
-        streamList.Should().BeEquivalentTo(seriesList);
+        streamList.IsExactly(seriesList);
 
         observer.Unsubscribe();
         quoteHub.EndTransmission();
@@ -125,7 +125,7 @@ public class MacdHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
 
         // assert
         streamList.Should().HaveCount(length);
-        streamList.Should().BeEquivalentTo(seriesList);
+        streamList.IsExactly(seriesList);
 
         observer.Unsubscribe();
         quoteHub.EndTransmission();
@@ -169,7 +169,7 @@ public class MacdHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
 
         // assert
         streamList.Should().HaveCount(length);
-        streamList.Should().BeEquivalentTo(seriesList);
+        streamList.IsExactly(seriesList);
 
         observer.Unsubscribe();
         quoteHub.EndTransmission();
@@ -245,7 +245,7 @@ public class MacdHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
         IReadOnlyList<MacdResult> streamResults = observer.Results;
         IReadOnlyList<MacdResult> seriesResults = quotesList.Take(50).ToList().ToMacd(8, 21, 5);
 
-        streamResults.Should().BeEquivalentTo(seriesResults);
+        streamResults.IsExactly(seriesResults);
 
         observer.Unsubscribe();
         quoteHub.EndTransmission();

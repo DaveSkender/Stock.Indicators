@@ -3,12 +3,29 @@
     "cloudflare": {
       "type": "stdio",
       "command": "npx",
-      "args": ["mcp-remote@latest","https://docs.mcp.cloudflare.com/mcp"]
+      "args": [
+        "mcp-remote@latest",
+        "https://docs.mcp.cloudflare.com/mcp"
+      ]
+    },
+    "codacy": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@codacy/codacy-mcp@latest"
+      ],
+      "env": {
+        "CODACY_ACCOUNT_TOKEN": "${input:codacy_account_token}"
+      }
     },
     "context7": {
       "type": "stdio",
       "command": "npx",
-      "args": ["-y","@upstash/context7-mcp@latest"]
+      "args": [
+        "-y",
+        "@upstash/context7-mcp@latest"
+      ]
     },
     "mslearn": {
       "type": "http",
@@ -17,7 +34,10 @@
     "playwright": {
       "type": "stdio",
       "command": "npx",
-      "args": ["-y","playwright","run-test-mcp-server"]
+      "args": [
+        "-y",
+        "@playwright/mcp@latest"
+      ]
     }
   },
   "inputs": [

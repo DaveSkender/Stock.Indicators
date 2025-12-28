@@ -170,7 +170,7 @@ public void Standard()
 
     // Compare to canonical Series results (see copilot-instructions.md)
     var series = Quotes.To{IndicatorName}({seriesParams});
-    sut.Results.Should().BeEquivalentTo(series, o => o.WithStrictOrdering());
+    sut.Results.IsExactly(series);
 }
 ```
 

@@ -103,8 +103,8 @@ IReadOnlyList<ConnorsRsiResult> results = connorsRsiList;
 Subscribe to a `QuoteHub` for advanced streaming scenarios:
 
 ```csharp
-QuoteHub<Quote> quoteHub = new();
-ConnorsRsiHub<Quote> observer = quoteHub.ToConnorsRsi(rsiPeriods, streakPeriods, rankPeriods);
+QuoteHub quoteHub = new();
+ConnorsRsiHub observer = quoteHub.ToConnorsRsiHub(rsiPeriods, streakPeriods, rankPeriods);
 
 foreach (Quote quote in quotes)  // simulating stream
 {

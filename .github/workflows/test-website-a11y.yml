@@ -22,12 +22,13 @@ env:
 jobs:
   test:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     defaults:
       run:
         working-directory: docs
 
     steps:
-      - name: Checkout sources
+      - name: Checkout source
         uses: actions/checkout@v6
 
       - name: Setup pnpm

@@ -9,7 +9,7 @@ public class GatorTests : RegressionTestBase<GatorResult>
     public override void Series() => Quotes.ToGator().IsExactly(Expected);
 
     [TestMethod]
-    public override void Buffer() => new GatorList { Quotes }.IsExactly(Expected);
+    public override void Buffer() => Quotes.ToGatorList().IsExactly(Expected);
 
     [TestMethod]
     public override void Stream() => Quotes.ToGatorHub().Results.IsExactly(Expected);

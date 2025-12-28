@@ -69,8 +69,17 @@ dotnet run -c Release --filter *Series*
 dotnet run -c Release --filter *Stream*
 dotnet run -c Release --filter *Buffer*
 
-# run individual performance benchmark
+# run specific performance benchmark
 dotnet run -c Release --filter *.ToAdx
+
+## run with CLI overrides from root
+dotnet run \
+--project tools/performance \
+--configuration Release \
+--filter *ToFisher* \
+--job Short \
+--warmupCount 3 \
+--iterationCount 4
 ```
 
 #### Performance regression detection

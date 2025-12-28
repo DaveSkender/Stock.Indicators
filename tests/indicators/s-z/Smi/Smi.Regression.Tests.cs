@@ -9,8 +9,8 @@ public class SmiTests : RegressionTestBase<SmiResult>
     public override void Series() => Quotes.ToSmi().IsExactly(Expected);
 
     [TestMethod]
-    public override void Buffer() => Assert.Inconclusive("Buffer implementation not yet available");
+    public override void Buffer() => Quotes.ToSmiList().IsExactly(Expected);
 
     [TestMethod]
-    public override void Stream() => Assert.Inconclusive("Stream implementation not yet available");
+    public override void Stream() => QuoteHub.ToSmiHub().Results.IsExactly(Expected);
 }

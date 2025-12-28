@@ -90,3 +90,33 @@ See [Utilities and helpers](/utilities#utilities-for-indicator-results) for more
 ## Chaining
 
 This indicator is not chain-enabled and must be generated from `quotes`.  It **cannot** be used for further processing by other chain-enabled indicators.
+
+## Streaming
+
+Use the buffer-style `List<T>` when you need incremental calculations without a hub:
+
+```csharp
+PivotsList pivotsList = new(leftSpan, rightSpan, maxTrendPeriods, endType);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  pivotsList.Add(quote);
+}
+
+// based on `ICollection<PivotsResult>`
+IReadOnlyList<PivotsResult> results = pivotsList;
+```
+
+Subscribe to a `QuoteHub` for advanced streaming scenarios:
+
+```csharp
+QuoteHub quoteHub = new();
+PivotsHub observer = quoteHub.ToPivotsHub(leftSpan, rightSpan, maxTrendPeriods, endType);
+
+foreach (Quote quote in quotes)  // simulating stream
+{
+  quoteHub.Add(quote);
+}
+
+IReadOnlyList<PivotsResult> results = observer.Results;
+```

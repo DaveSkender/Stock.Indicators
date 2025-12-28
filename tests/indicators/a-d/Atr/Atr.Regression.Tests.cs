@@ -9,8 +9,8 @@ public class AtrTests : RegressionTestBase<AtrResult>
     public override void Series() => Quotes.ToAtr(14).IsExactly(Expected);
 
     [TestMethod]
-    public override void Buffer() => Assert.Inconclusive("Buffer implementation not yet available");
+    public override void Buffer() => Quotes.ToAtrList(14).IsExactly(Expected);
 
     [TestMethod]
-    public override void Stream() => Assert.Inconclusive("Stream implementation not yet available");
+    public override void Stream() => QuoteHub.ToAtrHub(14).Results.IsExactly(Expected);
 }

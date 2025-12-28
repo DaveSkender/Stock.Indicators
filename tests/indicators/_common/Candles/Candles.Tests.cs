@@ -1,7 +1,7 @@
 namespace Utilities;
 
 [TestClass]
-public class Candles : TestBase
+public class Candles : TestBaseWithPrecision
 {
     [TestMethod]
     public void SortCandles()
@@ -42,9 +42,9 @@ public class Candles : TestBase
         r0.Body.Should().Be(0.19m);
         r0.UpperWick.Should().Be(0.55m);
         r0.LowerWick.Should().Be(1.09m);
-        r0.BodyPct.Should().BeApproximately(0.10383, 0.000005);
-        r0.UpperWickPct.Should().BeApproximately(0.30055, 0.000005);
-        r0.LowerWickPct.Should().BeApproximately(0.59563, 0.000005);
+        r0.BodyPct.Should().BeApproximately(0.10383, Money5);
+        r0.UpperWickPct.Should().BeApproximately(0.30055, Money5);
+        r0.LowerWickPct.Should().BeApproximately(0.59563, Money5);
         r0.IsBullish.Should().BeTrue();
         r0.IsBearish.Should().BeFalse();
 
@@ -53,9 +53,9 @@ public class Candles : TestBase
         r351.Body.Should().Be(0m);
         r351.UpperWick.Should().Be(0.69m);
         r351.LowerWick.Should().Be(0.55m);
-        r351.BodyPct.Should().BeApproximately(0, 0.000005);
-        r351.UpperWickPct.Should().BeApproximately(0.55645, 0.000005);
-        r351.LowerWickPct.Should().BeApproximately(0.44355, 0.000005);
+        r351.BodyPct.Should().BeApproximately(0, Money5);
+        r351.UpperWickPct.Should().BeApproximately(0.55645, Money5);
+        r351.LowerWickPct.Should().BeApproximately(0.44355, Money5);
         r351.IsBullish.Should().BeFalse();
         r351.IsBearish.Should().BeFalse();
 
@@ -64,9 +64,9 @@ public class Candles : TestBase
         r501.Body.Should().Be(0.36m);
         r501.UpperWick.Should().Be(0.26m);
         r501.LowerWick.Should().Be(2.05m);
-        r501.BodyPct.Should().BeApproximately(0.13483, 0.000005);
-        r501.UpperWickPct.Should().BeApproximately(0.09738, 0.000005);
-        r501.LowerWickPct.Should().BeApproximately(0.76779, 0.000005);
+        r501.BodyPct.Should().BeApproximately(0.13483, Money5);
+        r501.UpperWickPct.Should().BeApproximately(0.09738, Money5);
+        r501.LowerWickPct.Should().BeApproximately(0.76779, Money5);
         r501.IsBullish.Should().BeTrue();
         r501.IsBearish.Should().BeFalse();
     }

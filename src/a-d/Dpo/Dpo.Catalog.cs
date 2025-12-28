@@ -33,8 +33,12 @@ public static partial class Dpo
             .WithMethodName("ToDpoList")
             .Build();
 
-    // Note: DPO StreamHub is not feasible due to lookahead requirements.
-    // DPO requires future SMA values to calculate detrended prices,
-    // making real-time streaming implementation fundamentally incompatible
-    // with the StreamHub architecture which expects results for each input.
+    /// <summary>
+    /// DPO StreamHub Listing
+    /// </summary>
+    internal static readonly IndicatorListing StreamListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Stream)
+            .WithMethodName("ToDpoHub")
+            .Build();
 }
