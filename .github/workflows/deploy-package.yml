@@ -191,7 +191,7 @@ jobs:
           echo "Generated version: $ver"
 
       - name: Replace "dumb" version markers
-        uses: jacobtomlinson/gha-find-replace@dfbfef71bc27c27c39d89534540a8960e0eee6b0
+        uses: jacobtomlinson/gha-find-replace@v3
         with:
           find: "#{PACKAGE_VERSION}#"
           replace: "${{ steps.version_info.outputs.version }}"

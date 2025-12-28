@@ -39,7 +39,7 @@ jobs:
         run: npm install -g pa11y-ci
 
       - name: Use 'localhost'
-        uses: jacobtomlinson/gha-find-replace@dfbfef71bc27c27c39d89534540a8960e0eee6b0
+        uses: jacobtomlinson/gha-find-replace@v3
         with:
           find: "https://dotnet.stockindicators.dev"
           replace: "http://127.0.0.1:4000"
