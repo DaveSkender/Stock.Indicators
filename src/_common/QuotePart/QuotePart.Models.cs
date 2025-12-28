@@ -3,15 +3,21 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Chainable component part of an <see cref="IQuote"/>.
 /// </summary>
-/// <param name="Timestamp">Date and time of record.</param>
-/// <param name="Value">Value of the quote part</param>
 [Serializable]
-public record QuotePart
-(
-    DateTime Timestamp,
-    double Value
-) : IReusable
+public record QuotePart : IReusable
 {
+    /// <summary>
+    /// Initializes a new instance of the <see cref="QuotePart"/> class.
+    /// </summary>
+    /// <param name="Timestamp">Date and time of record.</param>
+    /// <param name="Value">Value of the quote part</param>
+    [JsonConstructor]
+    public QuotePart(DateTime Timestamp, double Value)
+    {
+        this.Timestamp = Timestamp;
+        this.Value = Value;
+    }
+
     /// <summary>
     /// Initializes a new instance of the <see cref="QuotePart"/> class using an <see cref="IReusable"/> object.
     /// </summary>
@@ -22,5 +28,8 @@ public record QuotePart
     { }
 
     /// <inheritdoc/>
-    public double Value { get; } = Value;
+    public DateTime Timestamp { get; init; }
+
+    /// <inheritdoc/>
+    public double Value { get; init; }
 }
