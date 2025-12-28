@@ -6,17 +6,13 @@ public class BopHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProv
     [TestMethod]
     public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
-        List<Quote> quotesList = Quotes.ToList();
-
-        int length = quotesList.Count;
-
         // setup quote provider
         QuoteHub quoteHub = new();
 
         // prefill quotes to provider
         for (int i = 0; i < 40; i++)
         {
-            quoteHub.Add(quotesList[i]);
+            quoteHub.Add(Quotes[i]);
         }
 
         // initialize observer
@@ -24,11 +20,11 @@ public class BopHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProv
             .ToBopHub(14);
 
         // fetch initial results (early)
-        IReadOnlyList<BopResult> streamList
+        IReadOnlyList<BopResult> actuals
             = bopHub.Results;
 
         // emulate adding quotes to provider
-        for (int i = 40; i < length; i++)
+        for (int i = 40; i < quotesCount; i++)
         {
             // skip one (add later)
             if (i == 80)
@@ -36,7 +32,7 @@ public class BopHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProv
                 continue;
             }
 
-            Quote q = quotesList[i];
+            Quote q = Quotes[i];
             quoteHub.Add(q);
 
             // resend duplicate quotes
@@ -47,18 +43,17 @@ public class BopHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProv
         }
 
         // late arrival
-        quoteHub.Insert(quotesList[80]);
+        quoteHub.Insert(Quotes[80]);
 
         // delete
-        quoteHub.Remove(quotesList[400]);
-        quotesList.RemoveAt(400);
+        quoteHub.Remove(Quotes[removeAtIndex]);
 
         // time-series, for comparison
-        IReadOnlyList<BopResult> seriesList = quotesList.ToBop(14);
+        IReadOnlyList<BopResult> expected = RevisedQuotes.ToBop(14);
 
         // assert
-        streamList.Should().HaveCount(length - 1);
-        streamList.IsExactly(seriesList);
+        actuals.Should().HaveCount(quotesCount - 1);
+        actuals.IsExactly(expected);
 
         bopHub.Unsubscribe();
         quoteHub.EndTransmission();
@@ -118,10 +113,6 @@ public class BopHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProv
         const int smoothPeriods = 14;
         const int emaPeriods = 12;
 
-        List<Quote> quotesList = Quotes.ToList();
-
-        int length = quotesList.Count;
-
         // setup quote provider
         QuoteHub quoteHub = new();
 
@@ -131,24 +122,30 @@ public class BopHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProv
             .ToEmaHub(emaPeriods);
 
         // emulate quote stream
-        for (int i = 0; i < length; i++)
+        for (int i = 0; i < quotesCount; i++)
         {
-            quoteHub.Add(quotesList[i]);
+            if (i == 80) { continue; }  // Skip for late arrival
+
+            Quote q = Quotes[i];
+            quoteHub.Add(q);
+
+            if (i is > 100 and < 105) { quoteHub.Add(q); }  // Duplicate quotes
         }
 
-        // final results
-        IReadOnlyList<EmaResult> streamList
-            = emaHub.Results;
+        quoteHub.Insert(Quotes[80]);  // Late arrival
+        quoteHub.Remove(Quotes[removeAtIndex]);  // Remove
 
-        // time-series, for comparison
-        IReadOnlyList<EmaResult> seriesList
-           = quotesList
+        // final results
+        IReadOnlyList<EmaResult> sut = emaHub.Results;
+
+        // time-series, for comparison (revised)
+        IReadOnlyList<EmaResult> expected = RevisedQuotes
             .ToBop(smoothPeriods)
             .ToEma(emaPeriods);
 
         // assert
-        streamList.Should().HaveCount(length);
-        streamList.IsExactly(seriesList);
+        sut.Should().HaveCount(quotesCount - 1);
+        sut.IsExactly(expected);
 
         emaHub.Unsubscribe();
         quoteHub.EndTransmission();
