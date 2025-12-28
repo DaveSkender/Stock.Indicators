@@ -53,24 +53,11 @@ public class SmaAnalysisHub
 
         if (i >= LookbackPeriods - 1)
         {
-            double sum = 0;
-            bool hasNaN = false;
+            double smaValue = Sma.Increment(ProviderCache, LookbackPeriods, i);
 
-            for (int p = i - LookbackPeriods + 1; p <= i; p++)
+            if (!double.IsNaN(smaValue))
             {
-                double value = ProviderCache[p].Value;
-                if (double.IsNaN(value))
-                {
-                    hasNaN = true;
-                    break;
-                }
-
-                sum += value;
-            }
-
-            if (!hasNaN)
-            {
-                sma = sum / LookbackPeriods;
+                sma = smaValue;
 
                 // Calculate analysis metrics
                 double sumMad = 0;

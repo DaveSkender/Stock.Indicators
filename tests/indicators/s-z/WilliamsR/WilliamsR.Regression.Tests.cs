@@ -9,7 +9,7 @@ public class WilliamsrTests : RegressionTestBase<WilliamsResult>
     public override void Series() => Quotes.ToWilliamsR(14).IsExactly(Expected);
 
     [TestMethod]
-    public override void Buffer() => new WilliamsRList(14) { Quotes }.IsExactly(Expected);
+    public override void Buffer() => Quotes.ToWilliamsRList(14).IsExactly(Expected);
 
     [TestMethod]
     public override void Stream() => QuoteHub.ToWilliamsRHub(14).Results.IsExactly(Expected);

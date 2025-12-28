@@ -41,7 +41,7 @@ public class BopHub
         ArgumentNullException.ThrowIfNull(item);
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
-        double? bop = null;
+        double bop = double.NaN;
 
         if (i >= SmoothPeriods - 1)
         {
@@ -70,13 +70,13 @@ public class BopHub
                 }
             }
 
-            bop = (sum / SmoothPeriods).NaN2Null();
+            bop = double.IsNaN(sum) ? double.NaN : sum / SmoothPeriods;
         }
 
         // Candidate result
         BopResult r = new(
             Timestamp: item.Timestamp,
-            Bop: bop);
+            Bop: bop.NaN2Null());
 
         return (r, i);
     }

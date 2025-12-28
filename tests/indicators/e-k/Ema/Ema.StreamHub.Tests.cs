@@ -1,4 +1,4 @@
-namespace StreamHub;
+namespace StreamHubs;
 
 [TestClass]
 public class EmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProvider
@@ -133,7 +133,7 @@ public class EmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
 
         // assert, should equal series
         actuals.Should().HaveCount(length - 1);
-        actuals.Should().BeEquivalentTo(seriesList);
+        actuals.IsExactly(seriesList);
 
         // cleanup
         observer.Unsubscribe();

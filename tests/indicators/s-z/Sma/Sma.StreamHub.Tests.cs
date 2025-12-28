@@ -1,4 +1,4 @@
-namespace StreamHub;
+namespace StreamHubs;
 
 [TestClass]
 public class SmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProvider
@@ -60,7 +60,7 @@ public class SmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
 
         // assert, should equal series
         streamList.Should().HaveCount(length - 1);
-        streamList.Should().BeEquivalentTo(seriesList);
+        streamList.IsExactly(seriesList);
 
         observer.Unsubscribe();
         quoteHub.EndTransmission();
@@ -104,7 +104,7 @@ public class SmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
 
         // assert, should equal series
         streamList.Should().HaveCount(length);
-        streamList.Should().BeEquivalentTo(seriesList);
+        streamList.IsExactly(seriesList);
 
         observer.Unsubscribe();
         quoteHub.EndTransmission();
@@ -151,7 +151,7 @@ public class SmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
 
         // assert, should equal series
         streamList.Should().HaveCount(length - 1);
-        streamList.Should().BeEquivalentTo(seriesList);
+        streamList.IsExactly(seriesList);
 
         observer.Unsubscribe();
         quoteHub.EndTransmission();

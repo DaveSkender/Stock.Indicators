@@ -9,7 +9,7 @@ public class VortexTests : RegressionTestBase<VortexResult>
     public override void Series() => Quotes.ToVortex(14).IsExactly(Expected);
 
     [TestMethod]
-    public override void Buffer() => new VortexList(14) { Quotes }.IsExactly(Expected);
+    public override void Buffer() => Quotes.ToVortexList(14).IsExactly(Expected);
 
     [TestMethod]
     public override void Stream() => QuoteHub.ToVortexHub(14).Results.IsExactly(Expected);

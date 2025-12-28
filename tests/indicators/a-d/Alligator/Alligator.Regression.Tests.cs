@@ -9,7 +9,7 @@ public class AlligatorTests : RegressionTestBase<AlligatorResult>
     public override void Series() => Quotes.ToAlligator().IsExactly(Expected);
 
     [TestMethod]
-    public override void Buffer() => new AlligatorList() { Quotes }.IsExactly(Expected);
+    public override void Buffer() => Quotes.ToAlligatorList().IsExactly(Expected);
 
     [TestMethod]
     public override void Stream() => QuoteHub.ToAlligatorHub().Results.IsExactly(Expected);

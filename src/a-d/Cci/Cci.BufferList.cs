@@ -5,7 +5,7 @@ namespace Skender.Stock.Indicators;
 /// </summary>
 public class CciList : BufferList<CciResult>, IIncrementFromQuote, ICci
 {
-    private readonly Queue<double> _tpBuffer;
+    private readonly Queue<double> _buffer; // true price
 
     /// <summary>
     /// Initializes a new instance of the <see cref="CciList"/> class.
@@ -16,7 +16,7 @@ public class CciList : BufferList<CciResult>, IIncrementFromQuote, ICci
         Cci.Validate(lookbackPeriods);
         LookbackPeriods = lookbackPeriods;
 
-        _tpBuffer = new Queue<double>(lookbackPeriods);
+        _buffer = new Queue<double>(lookbackPeriods);
     }
 
     /// <summary>
@@ -41,25 +41,19 @@ public class CciList : BufferList<CciResult>, IIncrementFromQuote, ICci
         double tp = ((double)quote.High + (double)quote.Low + (double)quote.Close) / 3d;
 
         // Update buffer using universal buffer utilities
-        _tpBuffer.Update(LookbackPeriods, tp);
+        _buffer.Update(LookbackPeriods, tp);
 
         double? cci = null;
 
         // Calculate CCI when we have enough data
-        if (_tpBuffer.Count == LookbackPeriods)
+        if (_buffer.Count == LookbackPeriods)
         {
             // Calculate average TP over lookback
-            double avgTp = 0;
-            foreach (double tpValue in _tpBuffer)
-            {
-                avgTp += tpValue;
-            }
-
-            avgTp /= LookbackPeriods;
+            double avgTp = _buffer.Average();
 
             // Calculate average Deviation over lookback
             double avgDv = 0;
-            foreach (double tpValue in _tpBuffer)
+            foreach (double tpValue in _buffer)
             {
                 avgDv += Math.Abs(avgTp - tpValue);
             }
@@ -89,6 +83,6 @@ public class CciList : BufferList<CciResult>, IIncrementFromQuote, ICci
     public override void Clear()
     {
         base.Clear();
-        _tpBuffer.Clear();
+        _buffer.Clear();
     }
 }

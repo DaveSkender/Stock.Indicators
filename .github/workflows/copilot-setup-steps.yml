@@ -12,10 +12,10 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: Setup Ruby
-        uses: ruby/setup-ruby@v1.265.0
+        uses: ruby/setup-ruby@v1.276.0
         with:
           ruby-version: 3.3
           bundler-cache: true

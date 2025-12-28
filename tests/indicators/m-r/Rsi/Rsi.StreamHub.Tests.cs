@@ -1,4 +1,4 @@
-namespace StreamHub;
+namespace StreamHubs;
 
 [TestClass]
 public class RsiHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProvider
@@ -58,7 +58,7 @@ public class RsiHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
 
         // assert, should equal series
         streamList.Should().HaveCount(length - 1);
-        streamList.Should().BeEquivalentTo(seriesList);
+        streamList.IsExactly(seriesList);
 
         observer.Unsubscribe();
         quoteHub.EndTransmission();
@@ -100,7 +100,7 @@ public class RsiHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
 
         // assert, should equal series
         streamList.Should().HaveCount(length);
-        streamList.Should().BeEquivalentTo(seriesList);
+        streamList.IsExactly(seriesList);
 
         observer.Unsubscribe();
         quoteHub.EndTransmission();
@@ -150,8 +150,8 @@ public class RsiHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
             .ToEma(emaPeriods);
 
         // assert, should equal series
-        actuals.Should().HaveCount(length - 1);
-        actuals.Should().BeEquivalentTo(seriesList);
+        streamList.Should().HaveCount(length);
+        streamList.IsExactly(seriesList);
 
         observer.Unsubscribe();
         quoteHub.EndTransmission();

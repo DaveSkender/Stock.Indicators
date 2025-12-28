@@ -1,4 +1,4 @@
-namespace StreamHub;
+namespace StreamHubs;
 
 [TestClass]
 public class DynamicHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProvider
@@ -134,7 +134,7 @@ public class DynamicHubTests : StreamHubTestBase, ITestChainObserver, ITestChain
 
         // assert, should equal series
         actuals.Should().HaveCount(length - 1);
-        actuals.Should().BeEquivalentTo(seriesList);
+        actuals.IsExactly(seriesList);
 
         // cleanup
         observer.Unsubscribe();

@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Standard Deviation from incremental reusable values.
 /// </summary>
-public class StdDevList : BufferList<StdDevResult>, IIncrementFromChain
+public class StdDevList : BufferList<StdDevResult>, IIncrementFromChain, IStdDev
 {
     private readonly Queue<double> _buffer;
 
@@ -45,13 +45,7 @@ public class StdDevList : BufferList<StdDevResult>, IIncrementFromChain
         if (_buffer.Count == LookbackPeriods)
         {
             // Calculate mean
-            double sum = 0;
-            foreach (double val in _buffer)
-            {
-                sum += val;
-            }
-
-            mean = sum / LookbackPeriods;
+            mean = _buffer.Average();
 
             // Calculate standard deviation
             double sumSq = 0;

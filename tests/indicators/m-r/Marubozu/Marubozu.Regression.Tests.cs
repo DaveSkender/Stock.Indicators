@@ -9,7 +9,7 @@ public class MarubozuTests : RegressionTestBase<CandleResult>
     public override void Series() => Quotes.ToMarubozu().IsExactly(Expected);
 
     [TestMethod]
-    public override void Buffer() => new MarubozuList() { Quotes }.IsExactly(Expected);
+    public override void Buffer() => Quotes.ToMarubozuList().IsExactly(Expected);
 
     [TestMethod]
     public override void Stream() => QuoteHub.ToMarubozuHub().Results.IsExactly(Expected);

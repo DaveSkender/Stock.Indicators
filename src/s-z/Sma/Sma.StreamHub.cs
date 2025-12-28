@@ -46,31 +46,12 @@ public class SmaHub
         // Calculate SMA efficiently using a rolling window over ProviderCache
         // This is O(lookbackPeriods) which is constant for a given configuration
         // and maintains exact precision with Series implementation
-        double? sma = null;
-        if (i >= LookbackPeriods - 1)
-        {
-            double sum = 0;
-            bool hasNaN = false;
-
-            for (int p = i - LookbackPeriods + 1; p <= i; p++)
-            {
-                double value = ProviderCache[p].Value;
-                if (double.IsNaN(value))
-                {
-                    hasNaN = true;
-                    break;
-                }
-
-                sum += value;
-            }
-
-            sma = hasNaN ? null : sum / LookbackPeriods;
-        }
+        double sma = Sma.Increment(ProviderCache, LookbackPeriods, i);
 
         // candidate result
         SmaResult r = new(
             Timestamp: item.Timestamp,
-            Sma: sma);
+            Sma: sma.NaN2Null());
 
         return (r, i);
     }

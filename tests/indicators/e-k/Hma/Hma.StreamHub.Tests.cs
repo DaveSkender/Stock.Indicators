@@ -1,4 +1,4 @@
-namespace StreamHub;
+namespace StreamHubs;
 
 [TestClass]
 public class HmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProvider
@@ -45,7 +45,7 @@ public class HmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
         IReadOnlyList<HmaResult> seriesList = quotesList.ToHma(LookbackPeriods);
 
         streamList.Should().HaveCount(length - 1);
-        streamList.Should().BeEquivalentTo(seriesList);
+        streamList.IsExactly(seriesList);
 
         observer.Unsubscribe();
         quoteHub.EndTransmission();
@@ -76,7 +76,7 @@ public class HmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
             .ToHma(LookbackPeriods);
 
         streamList.Should().HaveCount(seriesList.Count);
-        streamList.Should().BeEquivalentTo(seriesList);
+        streamList.IsExactly(seriesList);
 
         observer.Unsubscribe();
         quoteHub.EndTransmission();
@@ -123,7 +123,7 @@ public class HmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
             .ToSma(smaPeriods);
 
         streamList.Should().HaveCount(length - 1);
-        streamList.Should().BeEquivalentTo(seriesList);
+        streamList.IsExactly(seriesList);
 
         observer.Unsubscribe();
         quoteHub.EndTransmission();
@@ -166,7 +166,7 @@ public class HmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
         after.Should().NotBe(before);
 
         IReadOnlyList<HmaResult> seriesList = quotesList.ToHma(LookbackPeriods);
-        observer.Results.Should().BeEquivalentTo(seriesList);
+        observer.Results.IsExactly(seriesList);
 
         observer.Unsubscribe();
         quoteHub.EndTransmission();

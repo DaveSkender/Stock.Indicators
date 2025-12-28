@@ -9,7 +9,7 @@ public class StochTests : RegressionTestBase<StochResult>
     public override void Series() => Quotes.ToStoch(14, 3, 3).IsExactly(Expected);
 
     [TestMethod]
-    public override void Buffer() => new StochList(14, 3, 3) { Quotes }.IsExactly(Expected);
+    public override void Buffer() => Quotes.ToStochList(14, 3, 3).IsExactly(Expected);
 
     [TestMethod]
     public override void Stream() => QuoteHub.ToStochHub(14, 3, 3).Results.IsExactly(Expected);
