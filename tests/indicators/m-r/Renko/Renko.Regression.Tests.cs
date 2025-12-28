@@ -9,7 +9,7 @@ public class RenkoTests : RegressionTestBase<RenkoResult>
     public override void Series() => Quotes.ToRenko(1.0m).IsExactly(Expected);
 
     [TestMethod]
-    public override void Buffer() => new RenkoList(1.0m) { Quotes }.IsExactly(Expected);
+    public override void Buffer() => Quotes.ToRenkoList(1.0m).IsExactly(Expected);
 
     [TestMethod]
     public override void Stream() => QuoteHub.ToRenkoHub(1.0m).Results.IsExactly(Expected);

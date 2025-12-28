@@ -9,7 +9,7 @@ public class ChopTests : RegressionTestBase<ChopResult>
     public override void Series() => Quotes.ToChop(14).IsExactly(Expected);
 
     [TestMethod]
-    public override void Buffer() => new ChopList(14) { Quotes }.IsExactly(Expected);
+    public override void Buffer() => Quotes.ToChopList(14).IsExactly(Expected);
 
     [TestMethod]
     public override void Stream() => QuoteHub.ToChopHub(14).Results.IsExactly(Expected);

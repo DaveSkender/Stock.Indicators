@@ -14,7 +14,7 @@ public class HtTrendline : BufferListTestBase, ITestChainBufferList, ITestCustom
     [TestMethod]
     public void AddQuote_IncrementsResults()
     {
-        HtlList sut = new();
+        HtTrendlineList sut = new();
 
         foreach (Quote quote in Quotes)
         {
@@ -28,7 +28,7 @@ public class HtTrendline : BufferListTestBase, ITestChainBufferList, ITestCustom
     [TestMethod]
     public void AddQuotesBatch_IncrementsResults()
     {
-        HtlList sut = new() { Quotes };
+        HtTrendlineList sut = new() { Quotes };
 
         sut.Should().HaveCount(Quotes.Count);
         sut.IsExactly(series);
@@ -37,7 +37,7 @@ public class HtTrendline : BufferListTestBase, ITestChainBufferList, ITestCustom
     [TestMethod]
     public void QuotesCtor_OnInstantiation_IncrementsResults()
     {
-        HtlList sut = new(Quotes);
+        HtTrendlineList sut = new(Quotes);
 
         sut.Should().HaveCount(Quotes.Count);
         sut.IsExactly(series);
@@ -46,7 +46,7 @@ public class HtTrendline : BufferListTestBase, ITestChainBufferList, ITestCustom
     [TestMethod]
     public void AddReusableItem_IncrementsResults()
     {
-        HtlList sut = new();
+        HtTrendlineList sut = new();
 
         foreach (IReusable item in reusables)
         {
@@ -60,7 +60,7 @@ public class HtTrendline : BufferListTestBase, ITestChainBufferList, ITestCustom
     [TestMethod]
     public void AddReusableItemBatch_IncrementsResults()
     {
-        HtlList sut = new() { reusables };
+        HtTrendlineList sut = new() { reusables };
 
         sut.Should().HaveCount(Quotes.Count);
         sut.IsExactly(series);
@@ -69,7 +69,7 @@ public class HtTrendline : BufferListTestBase, ITestChainBufferList, ITestCustom
     [TestMethod]
     public void AddDateAndValue_IncrementsResults()
     {
-        HtlList sut = new();
+        HtTrendlineList sut = new();
 
         foreach (IReusable item in reusables)
         {
@@ -86,7 +86,7 @@ public class HtTrendline : BufferListTestBase, ITestChainBufferList, ITestCustom
         List<Quote> subset = Quotes.Take(80).ToList();
         IReadOnlyList<HtlResult> expected = subset.ToHtTrendline();
 
-        HtlList sut = new(subset);
+        HtTrendlineList sut = new(subset);
 
         sut.Should().HaveCount(subset.Count);
         sut.IsExactly(expected);
@@ -106,7 +106,7 @@ public class HtTrendline : BufferListTestBase, ITestChainBufferList, ITestCustom
     {
         const int maxListSize = 120;
 
-        HtlList sut = new() { MaxListSize = maxListSize };
+        HtTrendlineList sut = new() { MaxListSize = maxListSize };
 
         sut.Add(Quotes);
 
@@ -136,7 +136,7 @@ public class HtTrendline : BufferListTestBase, ITestChainBufferList, ITestCustom
             .ToList();
 
         // Generate buffer list
-        HtlList sut = new(quotes) { MaxListSize = maxListSize };
+        HtTrendlineList sut = new(quotes) { MaxListSize = maxListSize };
 
         sut.Should().HaveCount(maxListSize);
         sut.IsExactly(expected);

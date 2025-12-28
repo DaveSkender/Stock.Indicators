@@ -9,7 +9,7 @@ public class RocTests : RegressionTestBase<RocResult>
     public override void Series() => Quotes.ToRoc().IsExactly(Expected);
 
     [TestMethod]
-    public override void Buffer() => new RocList(14) { Quotes }.IsExactly(Expected);
+    public override void Buffer() => Quotes.ToRocList(14).IsExactly(Expected);
 
     [TestMethod]
     public override void Stream() => QuoteHub.ToRocHub(14).Results.IsExactly(Expected);

@@ -36,8 +36,8 @@ public class Dpo : StaticSeriesTestBase
             DpoResult a = act[i];
 
             a.Timestamp.Should().Be(e.Timestamp);
-            Assert.AreEqual(e.Sma, a.Sma.Round(5), $"at index {i}");
-            Assert.AreEqual(e.Dpo, a.Dpo.Round(5), $"at index {i}");
+            a.Sma.Should().BeApproximately(e.Sma, Money5, $"at index {i}");
+            a.Dpo.Should().BeApproximately(e.Dpo, Money5, $"at index {i}");
         }
     }
 

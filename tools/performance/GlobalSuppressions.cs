@@ -6,13 +6,6 @@ using System.Diagnostics.CodeAnalysis;
     Justification = "Required for BenchmarkDotNet")]
 
 [assembly: SuppressMessage(
-    "Design",
-    "CA1812:Avoid uninstantiated internal classes",
-    Justification = "Instantiated by BenchmarkDotNet via reflection",
-    Scope = "type",
-    Target = "~T:Performance.ManualTestDirectConfig")]
-
-[assembly: SuppressMessage(
     "Maintainability",
     "CA1515:Consider making public types internal",
     Justification = "Test projects use public class types.")]

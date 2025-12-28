@@ -9,7 +9,7 @@ public class TemaTests : RegressionTestBase<TemaResult>
     public override void Series() => Quotes.ToTema(20).IsExactly(Expected);
 
     [TestMethod]
-    public override void Buffer() => new TemaList(20) { Quotes }.IsExactly(Expected);
+    public override void Buffer() => Quotes.ToTemaList(20).IsExactly(Expected);
 
     [TestMethod]
     public override void Stream() => QuoteHub.ToTemaHub(20).Results.IsExactly(Expected);

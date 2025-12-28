@@ -1,7 +1,7 @@
-namespace StreamHub;
+namespace StreamHubs;
 
 [TestClass]
-public class Stoch : StreamHubTestBase, ITestQuoteObserver
+public class StochHubTests : StreamHubTestBase, ITestQuoteObserver
 {
     [TestMethod]
     public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
@@ -101,7 +101,7 @@ public class Stoch : StreamHubTestBase, ITestQuoteObserver
             kFactor, dFactor, movingAverageType);
 
         observer.Cache.Should().HaveCount(Quotes.Count);
-        observer.Cache.Should().BeEquivalentTo(expected);
+        observer.Cache.IsExactly(expected);
     }
 
     [TestMethod]
@@ -128,7 +128,7 @@ public class Stoch : StreamHubTestBase, ITestQuoteObserver
 
         // verify consistency
         IReadOnlyList<StochResult> expected = Quotes.ToStoch(lookbackPeriods, signalPeriods, smoothPeriods);
-        observer.Cache.Should().BeEquivalentTo(expected);
+        observer.Cache.IsExactly(expected);
     }
 
     [TestMethod]

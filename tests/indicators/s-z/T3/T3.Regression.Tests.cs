@@ -9,7 +9,7 @@ public class T3Tests : RegressionTestBase<T3Result>
     public override void Series() => Quotes.ToT3(5, 0.7).IsExactly(Expected);
 
     [TestMethod]
-    public override void Buffer() => new T3List(5, 0.7) { Quotes }.IsExactly(Expected);
+    public override void Buffer() => Quotes.ToT3List(5, 0.7).IsExactly(Expected);
 
     [TestMethod]
     public override void Stream() => QuoteHub.ToT3Hub(5, 0.7).Results.IsExactly(Expected);
