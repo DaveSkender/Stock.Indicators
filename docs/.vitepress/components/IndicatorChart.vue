@@ -66,17 +66,41 @@ const indicatorColors = [
   'var(--si-indicator-5)'
 ]
 
+// Fallback colors for CSS variables
+const colorFallbacks: Record<string, string> = {
+  '--si-indicator-1': '#539bf5',
+  '--si-indicator-2': '#e6b450',
+  '--si-indicator-3': '#c678dd',
+  '--si-indicator-4': '#56b6c2',
+  '--si-indicator-5': '#e06c75',
+  '--si-chart-bg': '#22272e',
+  '--si-chart-text': '#adbac7',
+  '--si-chart-grid': '#2d333b',
+  '--si-chart-border': '#444c56',
+  '--si-chart-crosshair': '#768390'
+}
+
 function getComputedColor(cssVar: string): string {
   if (typeof window === 'undefined') return '#539bf5'
   const style = getComputedStyle(document.documentElement)
-  const value = style.getPropertyValue(cssVar.replace('var(', '').replace(')', '')).trim()
-  return value || cssVar.replace('var(--si-indicator-1)', '#539bf5')
+  const varName = cssVar.replace('var(', '').replace(')', '')
+  const value = style.getPropertyValue(varName).trim()
+  return value || colorFallbacks[varName] || '#539bf5'
 }
 
 function parseTimestamp(timestamp: string): string {
   // Convert ISO timestamp to lightweight-charts format (YYYY-MM-DD)
-  const date = new Date(timestamp)
-  return date.toISOString().split('T')[0]
+  try {
+    const date = new Date(timestamp)
+    if (isNaN(date.getTime())) {
+      console.warn('Invalid timestamp:', timestamp)
+      return '1970-01-01'
+    }
+    return date.toISOString().split('T')[0]
+  } catch {
+    console.warn('Error parsing timestamp:', timestamp)
+    return '1970-01-01'
+  }
 }
 
 async function loadChartData(): Promise<ChartData | null> {

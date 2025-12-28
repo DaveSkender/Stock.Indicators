@@ -52,25 +52,26 @@ for (const mdFile of mdFiles) {
   }
   
   // Pattern 1: <img src="/assets/charts/Indicator.png" alt="..." />
+  // Pattern 1: HTML img tags
   const imgPattern = /<img\s+src="\/assets\/charts\/[^"]+\.png"\s+alt="[^"]*"\s*\/?>/gi;
   
-  // Pattern 2: Just ![alt](path) markdown images
+  // Pattern 2: Markdown image syntax
   const mdImgPattern = /!\[[^\]]*\]\(\/assets\/charts\/[^)]+\.png\)/gi;
   
   let updated = false;
+  const replacement = `<ClientOnly>\n  <IndicatorChart src="/data/${indicatorName}.json" :height="360" />\n</ClientOnly>`;
   
+  // Check and replace HTML img tags
   if (imgPattern.test(content)) {
-    content = content.replace(imgPattern, 
-      `<ClientOnly>\n  <IndicatorChart src="/data/${indicatorName}.json" :height="360" />\n</ClientOnly>`);
+    imgPattern.lastIndex = 0; // Reset after test()
+    content = content.replace(imgPattern, replacement);
     updated = true;
   }
   
-  // Reset regex lastIndex
-  mdImgPattern.lastIndex = 0;
-  
+  // Check and replace markdown images
   if (mdImgPattern.test(content)) {
-    content = content.replace(mdImgPattern, 
-      `<ClientOnly>\n  <IndicatorChart src="/data/${indicatorName}.json" :height="360" />\n</ClientOnly>`);
+    mdImgPattern.lastIndex = 0; // Reset after test()
+    content = content.replace(mdImgPattern, replacement);
     updated = true;
   }
   

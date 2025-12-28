@@ -44,7 +44,11 @@
         "kbd",
         "abbr",
         "img",
-        "br"
+        "br",
+        "ClientOnly",
+        "IndicatorChart",
+        "clientonly",
+        "indicatorchart"
       ]
     },
     "MD046": {
