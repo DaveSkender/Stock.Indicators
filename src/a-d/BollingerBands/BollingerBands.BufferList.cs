@@ -5,7 +5,7 @@ namespace Skender.Stock.Indicators;
 /// </summary>
 public class BollingerBandsList : BufferList<BollingerBandsResult>, IIncrementFromChain, IBollingerBands
 {
-    private readonly Queue<double> buffer;
+    private readonly Queue<double> _buffer;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="BollingerBandsList"/> class.
@@ -17,7 +17,7 @@ public class BollingerBandsList : BufferList<BollingerBandsResult>, IIncrementFr
         BollingerBands.Validate(lookbackPeriods, standardDeviations);
         LookbackPeriods = lookbackPeriods;
         StandardDeviations = standardDeviations;
-        buffer = new Queue<double>(lookbackPeriods);
+        _buffer = new Queue<double>(lookbackPeriods);
     }
 
     /// <summary>
@@ -47,22 +47,16 @@ public class BollingerBandsList : BufferList<BollingerBandsResult>, IIncrementFr
     public void Add(DateTime timestamp, double value)
     {
         // Use universal buffer extension method for consistent buffer management
-        buffer.Update(LookbackPeriods, value);
+        _buffer.Update(LookbackPeriods, value);
 
         // Calculate Bollinger Bands when we have enough values
-        if (buffer.Count == LookbackPeriods)
+        if (_buffer.Count == LookbackPeriods)
         {
-            // Calculate SMA by summing all values in buffer
-            double sum = 0;
-            foreach (double val in buffer)
-            {
-                sum += val;
-            }
-
-            double sma = sum / LookbackPeriods;
+            // Calculate SMA
+            double sma = _buffer.Average();
 
             // Calculate standard deviation using the same algorithm as the static series
-            double[] window = buffer.ToArray();
+            double[] window = _buffer.ToArray();
             double stdDev = window.StdDev();
 
             // Calculate bands
@@ -125,7 +119,7 @@ public class BollingerBandsList : BufferList<BollingerBandsResult>, IIncrementFr
     public override void Clear()
     {
         base.Clear();
-        buffer.Clear();
+        _buffer.Clear();
     }
 }
 

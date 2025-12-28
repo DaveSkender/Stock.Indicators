@@ -218,7 +218,7 @@ result.Adx?.Should().BeApproximately(15.9459, Money4);
 | `.Round(6)`    | `Money6`          | `0.0000005`                 | `BeApproximately(1.234567, Money6)`     |
 
 > **Rationale**: Tolerance is half of the last decimal place to ensure only values that would round to the same result will pass.
-> **Constants**: Use `Money3`, `Money4`, `Money5`, `Money6` from `TestBase` for consistent precision across all tests.
+> **Constants**: Use precision constants from `TestBase` (e.g., `Money6` and others) for assertions against manually calculated values. Use the maximum precision needed.
 
 **🔄 Legacy patterns to be refactored:**
 
@@ -280,7 +280,7 @@ AI coding agents must:
 2. **Attributes**: Preserve `[TestMethod]` attributes for MSTest.
 3. **Assertions**: Use FluentAssertions syntax exclusively (`Should()`) - avoid legacy MSTest assertions.
 4. **Precision**: Use exact comparisons (`Should().Be()`) - indicators are deterministic. Only use `BeApproximately()` for Series assertions against manually calculated reference values.
-5. **Precision constants**: Use `Money3`, `Money4`, `Money5`, `Money6` constants from `TestBase` for BeApproximately() tolerances.
+5. **Precision constants**: Use precision constants from `TestBase` (e.g., `Money3` through `Money12`) for BeApproximately() tolerances when comparing against manually calculated values. Use the maximum precision needed. Do not use to accommodate algorithmic differences.
 6. **Base classes**: **REQUIRED** - Inherit from appropriate test base classes (`StaticSeriesTestBase`, `StreamHubTestBase`, `BufferListTestBase`, `RegressionTestBase`).
 7. **Test data**: Use appropriate `TestBase` properties and `Data.GetFile()` methods for consistent test datasets.
 8. **Deterministic results**: Stream and Buffer results must match Series results exactly without precision modifiers.
