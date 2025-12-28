@@ -343,31 +343,17 @@ watch(() => props.src, () => {
 
 <template>
   <div class="indicator-chart-wrapper">
-    <div
-      v-if="isLoading"
-      class="chart-loading"
-      :style="{ height: `${height}px` }"
-    >
+    <div v-if="isLoading" class="chart-loading" :style="{ height: `${height}px` }">
       <span class="loading-spinner"></span>
       <span>Loading chart...</span>
     </div>
 
-    <div
-      v-else-if="hasError"
-      class="chart-error"
-      :style="{ height: `${height}px` }"
-    >
+    <div v-else-if="hasError" class="chart-error" :style="{ height: `${height}px` }">
       <span>{{ errorMessage }}</span>
     </div>
 
-    <div
-      v-show="!isLoading && !hasError"
-      ref="chartContainer"
-      class="chart-container"
-      :style="{ height: `${height}px` }"
-      role="img"
-      aria-label="Interactive indicator chart"
-    ></div>
+    <div v-show="!isLoading && !hasError" ref="chartContainer" class="chart-container"
+      :style="{ height: `${height}px` }" role="img" aria-label="Interactive indicator chart"></div>
 
     <noscript>
       <div class="chart-noscript">
