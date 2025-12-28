@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Simple Moving Average (SMA) with extended analysis from incremental reusable values.
 /// </summary>
-public class SmaAnalysisList : BufferList<SmaAnalysisResult>, IIncrementFromChain
+public class SmaAnalysisList : BufferList<SmaAnalysisResult>, IIncrementFromChain, ISma
 {
     private readonly Queue<double> _buffer;
     private readonly int lookbackPeriods;
@@ -48,13 +48,7 @@ public class SmaAnalysisList : BufferList<SmaAnalysisResult>, IIncrementFromChai
         if (_buffer.Count == lookbackPeriods)
         {
             // Calculate SMA
-            double sum = 0;
-            foreach (double val in _buffer)
-            {
-                sum += val;
-            }
-
-            sma = sum / lookbackPeriods;
+            sma = _buffer.Average();
 
             // Calculate analysis metrics
             double sumMad = 0;
