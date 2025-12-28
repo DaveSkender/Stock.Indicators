@@ -291,9 +291,9 @@ These items were identified as enhancements beyond the core framework:
 
 ### 🟡 Required for completeness (Q002-Q006 tasks)
 
-- [ ] **Run performance benchmarks** - Execute `dotnet run -c Release` in `tools/performance/` to generate fresh benchmark data with memory diagnostics
-- [ ] **Populate memory baselines** - Save benchmark JSON to `tools/performance/baselines/memory/` as versioned baseline
-- [ ] **Validate regression detection script** - Test `detect-regressions.ps1` works with current baselines
+- [x] **Run performance benchmarks** - ✅ StyleComparison benchmarks executed with MemoryDiagnoser (27 benchmarks, ~7 min)
+- [x] **Populate memory baselines** - ✅ Saved to `tools/performance/baselines/memory/baseline-memory-v3.1.0-stylecomparison.json`
+- [x] **Validate regression detection script** - ✅ Tested `detect-regressions.ps1` works correctly with existing baselines
 - [ ] **Verify CI workflow integration** - Ensure `.github/workflows/test-performance.yml` changes work correctly
 
 ### 🟢 Polish (nice to have)
@@ -311,9 +311,9 @@ These items were identified as enhancements beyond the core framework:
 | Build | ✅ Done | 0 warnings, 0 errors |
 | Tests | ✅ Done | 1989 passed |
 | Markdown lint | ✅ Done | All 54 errors fixed |
-| Performance benchmarks | ⏳ | Execute StyleComparison benchmarks |
-| Memory baselines | ⏳ | Save to baselines/memory/ |
-| Regression script | ⏳ | Validate works with baselines |
+| Performance benchmarks | ✅ Done | StyleComparison (27 benchmarks) |
+| Memory baselines | ✅ Done | Saved to baselines/memory/ |
+| Regression script | ✅ Done | Script validated working |
 | PR ready | 🔴 | Still in draft |
 
 ---
