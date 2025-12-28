@@ -21,26 +21,6 @@ public class NullMaths : TestBase
     }
 
     [TestMethod]
-    public void RoundDecimal()
-    {
-        decPos.Round(2).Should().Be(10.12m);
-        decNeg.Round(2).Should().Be(-20.99m);
-        decNul.Round(2).Should().BeNull();
-
-        10.12345m.Round(2).Should().Be(10.12m);
-    }
-
-    [TestMethod]
-    public void RoundDouble()
-    {
-        dblPos.Round(2).Should().Be(100.12d);
-        dblNeg.Round(2).Should().Be(-200.99d);
-        dblNul.Round(2).Should().BeNull();
-
-        100.12345d.Round(2).Should().Be(100.12d);
-    }
-
-    [TestMethod]
     public void Null2NaN()
     {
         // doubles

@@ -1,5 +1,4 @@
-[assembly: CLSCompliant(true)]
-[assembly: Parallelize(Scope = ExecutionScope.MethodLevel, Workers = 0)]
+using Test.Tools;
 
 namespace PublicApi;
 
@@ -125,6 +124,7 @@ public class UserInterface
         IReadOnlyList<TrResult> streamTr = trHub.Results;
 
         // assert, should be correct length
+        length.Should().Be(502);
         streamAdl.Should().HaveCount(length);
         streamAlligator.Should().HaveCount(length);
         streamAtr.Should().HaveCount(length);
@@ -135,13 +135,13 @@ public class UserInterface
         streamTr.Should().HaveCount(length);
 
         // assert, should equal static series
-        streamAdl.Should().BeEquivalentTo(staticAdl);
-        streamAtr.Should().BeEquivalentTo(staticAtr);
-        streamAtrStop.Should().BeEquivalentTo(staticAtrStop);
-        streamAlligator.Should().BeEquivalentTo(staticAlligator);
-        streamEma.Should().BeEquivalentTo(staticEma);
-        streamQuotePart.Should().BeEquivalentTo(staticQuotePart);
-        streamSma.Should().BeEquivalentTo(staticSma);
-        streamTr.Should().BeEquivalentTo(staticTr);
+        streamAdl.IsExactly(staticAdl);
+        streamAtr.IsExactly(staticAtr);
+        streamAtrStop.IsExactly(staticAtrStop);
+        streamAlligator.IsExactly(staticAlligator);
+        streamEma.IsExactly(staticEma);
+        streamQuotePart.IsExactly(staticQuotePart);
+        streamSma.IsExactly(staticSma);
+        streamTr.IsExactly(staticTr);
     }
 }

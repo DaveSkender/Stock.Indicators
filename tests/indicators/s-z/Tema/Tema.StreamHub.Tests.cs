@@ -1,4 +1,4 @@
-namespace StreamHub;
+namespace StreamHubs;
 
 [TestClass]
 public class TemaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProvider
@@ -60,7 +60,7 @@ public class TemaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
             .ToTema(lookbackPeriods);
 
         // assert, should equal series
-        streamList.Should().BeEquivalentTo(seriesList);
+        streamList.IsExactly(seriesList);
         streamList.Should().HaveCount(501);
 
         observer.Unsubscribe();
@@ -98,9 +98,7 @@ public class TemaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
 
         // assert, should equal series
         streamList.Should().HaveCount(length);
-        streamList.Should().BeEquivalentTo(
-            seriesList,
-            options => options.WithStrictOrdering());
+        streamList.IsExactly(seriesList);
 
         observer.Unsubscribe();
         quoteHub.EndTransmission();
@@ -144,7 +142,7 @@ public class TemaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
             .ToSma(smaPeriods);
 
         // assert, should equal series
-        streamList.Should().BeEquivalentTo(seriesList);
+        streamList.IsExactly(seriesList);
         streamList.Should().HaveCount(501);
 
         observer.Unsubscribe();

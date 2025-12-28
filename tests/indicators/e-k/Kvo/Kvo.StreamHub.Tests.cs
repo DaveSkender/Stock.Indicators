@@ -1,4 +1,4 @@
-namespace StreamHub;
+namespace StreamHubs;
 
 [TestClass]
 public class KvoHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
@@ -162,9 +162,7 @@ public class KvoHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProv
 
         // assert, should equal series
         streamList.Should().HaveCount(length);
-        streamList.Should().BeEquivalentTo(
-            seriesList,
-            options => options.WithStrictOrdering());
+        streamList.IsExactly(seriesList);
 
         observer.Unsubscribe();
         quoteHub.EndTransmission();

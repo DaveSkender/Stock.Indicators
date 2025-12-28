@@ -1,7 +1,7 @@
-namespace StreamHub;
+namespace StreamHubs;
 
 [TestClass]
-public class VolatilityStop : StreamHubTestBase, ITestQuoteObserver
+public class VolatilityStopHubTests : StreamHubTestBase, ITestQuoteObserver
 {
     [TestMethod]
     public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()

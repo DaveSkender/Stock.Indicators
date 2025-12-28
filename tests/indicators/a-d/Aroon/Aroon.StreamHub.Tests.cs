@@ -1,4 +1,4 @@
-namespace StreamHub;
+namespace StreamHubs;
 
 [TestClass]
 public class AroonHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
@@ -67,7 +67,7 @@ public class AroonHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPr
 
         // assert, should equal series
         streamList.Should().HaveCount(length - 1);
-        streamList.Should().BeEquivalentTo(seriesList);
+        streamList.IsExactly(seriesList);
 
         aroonHub.Unsubscribe();
         quoteHub.EndTransmission();
@@ -115,7 +115,7 @@ public class AroonHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPr
 
         // Assert, should equal series
         streamList.Should().HaveCount(length);
-        streamList.Should().BeEquivalentTo(seriesList);
+        streamList.IsExactly(seriesList);
 
         emaHub.Unsubscribe();
         quoteHub.EndTransmission();
