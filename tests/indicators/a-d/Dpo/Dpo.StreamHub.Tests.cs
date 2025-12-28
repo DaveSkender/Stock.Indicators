@@ -86,29 +86,21 @@ public class DpoHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
     }
 
     [TestMethod]
-    [Ignore("Framework limitation: Rebuild() not virtual - requires base class enhancement")]
     public void ChainProvider_MatchesSeriesExactly()
     {
-        // KNOWN FRAMEWORK LIMITATION: DpoHub with downstream chained observers (e.g., SmaHub)
-        // fails provider history mutations (Insert/Remove) because StreamHub.Rebuild() and
-        // OnRebuild() are not virtual methods. DpoHub needs to override Rebuild() to notify
-        // downstream observers of the adjusted rebuild position (accounting for backward offset),
-        // but the framework doesn't allow this.
+        // FRAMEWORK FIX APPLIED: StreamHub.Rebuild() and OnRebuild() are now virtual methods.
+        // DpoHub overrides Rebuild() to adjust the timestamp backward by offset, ensuring
+        // downstream observers (e.g., SmaHub) are notified of the actual affected position
+        // during provider history mutations (Insert/Remove).
         //
-        // Example: When Insert(Quotes[80]) occurs with offset=11:
-        //   1. DpoHub.RollbackState() correctly removes cache from position 69 ✓
+        // How it works: When Insert(Quotes[80]) occurs with offset=11:
+        //   1. DpoHub.RollbackState() removes cache from position 69 ✓
         //   2. DpoHub.OnAdd() recalculates positions [69, 80] ✓
-        //   3. DpoHub calls base.Rebuild() which notifies downstream from position 80 ✗
-        //   4. Downstream SmaHub only recalculates [80, end], leaving [69-79] stale ✗
+        //   3. DpoHub.Rebuild() adjusts timestamp to position 69 and notifies downstream ✓
+        //   4. Downstream SmaHub recalculates from position 69, maintaining correctness ✓
         //
-        // Framework fix needed: Make StreamHub.Rebuild() and OnRebuild() virtual to allow
-        // indicators with lookahead dependencies to override rebuild notification behavior.
-        //
-        // Note: DPO QuoteObserver test passes because it has no downstream observers requiring
-        // adjusted rebuild positions. This is specifically a chained observer limitation.
-        //
-        // Investigation: Subagent analysis confirmed this is a framework design issue, not a
-        // DpoHub algorithm bug. The implementation correctly handles backward offset internally.
+        // Note: DPO QuoteObserver test passes without this override because it has no
+        // downstream observers requiring adjusted rebuild positions.
 
         const int dpoPeriods = 20;
         const int smaPeriods = 10;
