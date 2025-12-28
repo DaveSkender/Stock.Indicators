@@ -1,7 +1,7 @@
-namespace StreamHub;
+namespace StreamHubs;
 
 [TestClass]
-public class Stoch : StreamHubTestBase, ITestQuoteObserver
+public class StochHubTests : StreamHubTestBase, ITestQuoteObserver
 {
     [TestMethod]
     public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()

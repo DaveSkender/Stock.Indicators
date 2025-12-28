@@ -1,7 +1,7 @@
-namespace StreamHub;
+namespace StreamHubs;
 
 [TestClass]
-public class WilliamsR : StreamHubTestBase, ITestQuoteObserver
+public class WilliamsRHubTests : StreamHubTestBase, ITestQuoteObserver
 {
     [TestMethod]
     public void Results_AreAlwaysBounded()

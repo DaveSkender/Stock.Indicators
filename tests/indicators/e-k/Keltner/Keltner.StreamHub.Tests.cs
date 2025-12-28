@@ -1,7 +1,7 @@
 namespace StreamHubs;
 
 [TestClass]
-public class KeltnerStreamHub : StreamHubTestBase, ITestQuoteObserver
+public class KeltnerHubTests : StreamHubTestBase, ITestQuoteObserver
 {
     [TestMethod]
     public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()

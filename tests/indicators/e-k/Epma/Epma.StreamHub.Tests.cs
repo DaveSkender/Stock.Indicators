@@ -1,7 +1,7 @@
-namespace StreamHub;
+namespace StreamHubs;
 
 [TestClass]
-public class EpmaStreamHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProvider
+public class EpmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProvider
 {
     private const int lookbackPeriods = 20;
 

@@ -1,7 +1,7 @@
 namespace StaticSeries;
 
 [TestClass]
-public partial class Sma : StaticSeriesTestBase
+public partial class SmaTests : StaticSeriesTestBase
 {
     [TestMethod]
     public override void DefaultParameters_ReturnsExpectedResults()

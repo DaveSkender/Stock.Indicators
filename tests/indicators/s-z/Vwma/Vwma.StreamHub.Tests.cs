@@ -1,7 +1,7 @@
 namespace StreamHubs;
 
 [TestClass]
-public class Vwma : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
+public class VwmaHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
 {
     private const int lookbackPeriods = 10;
     private readonly IReadOnlyList<VwmaResult> expectedOriginal = Quotes.ToVwma(lookbackPeriods);
