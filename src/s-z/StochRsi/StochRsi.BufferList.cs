@@ -129,9 +129,6 @@ public class StochRsiList : BufferList<StochRsiResult>, IIncrementFromChain
         _rsiList.Clear();
         _stochList.Clear();
     }
-
-    /// <inheritdoc />
-    public override string ToString() => Name;
 }
 
 public static partial class StochRsi

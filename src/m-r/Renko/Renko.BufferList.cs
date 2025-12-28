@@ -154,9 +154,6 @@ public class RenkoList : BufferList<RenkoResult>, IIncrementFromQuote, IRenko
         _sumV = 0;
         _isInitialized = false;
     }
-
-    /// <inheritdoc />
-    public override string ToString() => Name;
 }
 
 public static partial class Renko

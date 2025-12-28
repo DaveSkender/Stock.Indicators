@@ -139,9 +139,6 @@ public class TemaList : BufferList<TemaResult>, IIncrementFromChain, ITema
         _lastEma2 = double.NaN;
         _lastEma3 = double.NaN;
     }
-
-    /// <inheritdoc />
-    public override string ToString() => Name;
 }
 
 public static partial class Tema

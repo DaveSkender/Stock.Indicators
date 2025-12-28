@@ -49,10 +49,6 @@ public class KeltnerHub
     /// Gets the smoothing factor for the EMA.
     /// </summary>
     public double EmaK { get; private init; }
-
-    /// <inheritdoc/>
-    public override string ToString() => Name;
-
     /// <summary>
     /// Calculates the simple moving average of Close prices.
     /// </summary>

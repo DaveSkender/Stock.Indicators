@@ -73,10 +73,6 @@ public class RollingPivotsHub
     /// Gets the type of pivot point calculation.
     /// </summary>
     public PivotPointType PointType { get; init; }
-
-    /// <inheritdoc/>
-    public override string ToString() => Name;
-
     /// <inheritdoc/>
     protected override (RollingPivotsResult result, int index)
         ToIndicator(IQuote item, int? indexHint)

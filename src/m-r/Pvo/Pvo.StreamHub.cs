@@ -61,10 +61,6 @@ public class PvoHub
     /// Gets the smoothing factor for the signal line.
     /// </summary>
     public double SignalK { get; private init; }
-
-    /// <inheritdoc/>
-    public override string ToString() => Name;
-
     /// <inheritdoc/>
     protected override (PvoResult result, int index)
         ToIndicator(IReusable item, int? indexHint)

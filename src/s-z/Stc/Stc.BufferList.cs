@@ -28,7 +28,7 @@ public class StcList : BufferList<StcResult>, IIncrementFromChain, IStc
         _macdList = new MacdList(fastPeriods, slowPeriods, 1);
         _stochList = new StochList(cyclePeriods, 3, 3, 3, 2, MaType.SMA);
 
-        Name = $"STC({10}, {23}, {50})";
+        Name = $"STC({cyclePeriods}, {fastPeriods}, {slowPeriods})";
     }
 
     /// <summary>
@@ -119,10 +119,6 @@ public class StcList : BufferList<StcResult>, IIncrementFromChain, IStc
         _macdList.Clear();
         _stochList.Clear();
     }
-
-    /// <inheritdoc />
-    public override string ToString() => Name;
-
     /// <summary>
     /// Overrides list pruning to synchronize the nested child lists.
     /// </summary>

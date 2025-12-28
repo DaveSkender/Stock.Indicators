@@ -20,7 +20,7 @@ public class ElderRayList : BufferList<ElderRayResult>, IIncrementFromQuote, IEl
 
         _emaList = new EmaList(lookbackPeriods);
 
-        Name = $"ELDERRAY({13})";
+        Name = $"ELDERRAY({lookbackPeriods})";
     }
 
     /// <summary>
@@ -73,9 +73,6 @@ public class ElderRayList : BufferList<ElderRayResult>, IIncrementFromQuote, IEl
         base.Clear();
         _emaList.Clear();
     }
-
-    /// <inheritdoc />
-    public override string ToString() => Name;
 }
 
 public static partial class ElderRay

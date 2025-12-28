@@ -123,9 +123,6 @@ public class BollingerBandsList : BufferList<BollingerBandsResult>, IIncrementFr
         base.Clear();
         _buffer.Clear();
     }
-
-    /// <inheritdoc />
-    public override string ToString() => Name;
 }
 
 /// <summary>

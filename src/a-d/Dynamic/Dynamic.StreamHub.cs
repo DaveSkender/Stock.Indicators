@@ -33,10 +33,6 @@ public class DynamicHub
 
     /// <inheritdoc/>
     public double KFactor { get; init; }
-
-    /// <inheritdoc/>
-    public override string ToString() => Name;
-
     /// <inheritdoc/>
     protected override (DynamicResult result, int index)
         ToIndicator(IReusable item, int? indexHint)

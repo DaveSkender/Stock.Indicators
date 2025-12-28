@@ -29,10 +29,6 @@ public class MfiHub : ChainProvider<IQuote, MfiResult>, IMfi
 
     /// <inheritdoc/>
     public int LookbackPeriods { get; init; }
-
-    /// <inheritdoc/>
-    public override string ToString() => Name;
-
     /// <inheritdoc/>
     protected override (MfiResult result, int index)
         ToIndicator(IQuote item, int? indexHint)

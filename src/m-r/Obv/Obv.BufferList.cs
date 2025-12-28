@@ -66,9 +66,6 @@ public class ObvList : BufferList<ObvResult>, IIncrementFromQuote
         _previousClose = double.NaN;
         _obvValue = 0;
     }
-
-    /// <inheritdoc />
-    public override string ToString() => Name;
 }
 
 public static partial class Obv

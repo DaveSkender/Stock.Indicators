@@ -31,7 +31,7 @@ public abstract class BufferList<TResult> : IReadOnlyList<TResult>
     /// <summary>
     /// Gets the name of the buffer list.
     /// </summary>
-    public string Name { get; protected init; } = string.Empty;
+    public string Name { get; protected init; } = null!;
 
     /// <summary>
     /// Gets or sets the maximum number of results to retain in the list.
@@ -131,4 +131,7 @@ public abstract class BufferList<TResult> : IReadOnlyList<TResult>
 
     /// <inheritdoc/>
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+
+    /// <inheritdoc/>
+    public override string ToString() => Name;
 }

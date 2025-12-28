@@ -56,10 +56,6 @@ public class AtrStopHub
     private double LowerBand { get; set; } = double.MinValue;
 
     // METHODS
-
-    /// <inheritdoc/>
-    public override string ToString() => Name;
-
     /// <inheritdoc/>
     protected override (AtrStopResult result, int index)
         ToIndicator(IQuote item, int? indexHint)

@@ -85,10 +85,6 @@ public class StochHub
 
     /// <inheritdoc />
     public MaType MovingAverageType { get; init; }
-
-    /// <inheritdoc/>
-    public override string ToString() => Name;
-
     /// <inheritdoc/>
     protected override (StochResult result, int index)
         ToIndicator(IQuote item, int? indexHint)

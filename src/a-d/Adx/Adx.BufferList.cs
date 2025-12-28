@@ -183,10 +183,6 @@ public class AdxList : BufferList<AdxResult>, IIncrementFromQuote, IAdx
         base.Clear();
         _buffer.Clear();
     }
-
-    /// <inheritdoc />
-    public override string ToString() => Name;
-
     internal class AdxBuffer(
         double high,
         double low,

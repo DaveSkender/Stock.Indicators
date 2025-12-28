@@ -42,10 +42,6 @@ public class DpoHub
     /// Gets the offset for lookahead calculation.
     /// </summary>
     public int Offset { get; init; }
-
-    /// <inheritdoc/>
-    public override string ToString() => Name;
-
     /// <remarks>
     /// DPO at any position requires an offset number of subsequent values for calculation.
     /// Emits results for all positions from Cache.Count to current index, calculating DPO when

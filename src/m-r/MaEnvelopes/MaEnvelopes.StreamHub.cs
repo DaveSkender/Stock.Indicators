@@ -149,10 +149,6 @@ public class MaEnvelopesHub
     /// Gets the type of moving average used.
     /// </summary>
     public MaType MovingAverageType { get; init; }
-
-    /// <inheritdoc/>
-    public override string ToString() => Name;
-
     /// <inheritdoc/>
     protected override (MaEnvelopeResult result, int index)
         ToIndicator(IReusable item, int? indexHint)

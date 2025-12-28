@@ -98,9 +98,6 @@ public class RocList : BufferList<RocResult>, IIncrementFromChain, IRoc
         base.Clear();
         buffer.Clear();
     }
-
-    /// <inheritdoc />
-    public override string ToString() => Name;
 }
 
 public static partial class Roc

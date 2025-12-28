@@ -31,10 +31,6 @@ public class MarubozuHub
 
     /// <inheritdoc/>
     public double MinBodyPercent { get; init; }
-
-    /// <inheritdoc/>
-    public override string ToString() => Name;
-
     /// <inheritdoc/>
     protected override (CandleResult result, int index)
         ToIndicator(IQuote item, int? indexHint)

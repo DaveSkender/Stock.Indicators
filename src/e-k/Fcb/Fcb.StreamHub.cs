@@ -38,10 +38,6 @@ public class FcbHub
     private decimal? LowerLine { get; set; }
 
     // METHODS
-
-    /// <inheritdoc/>
-    public override string ToString() => Name;
-
     /// <inheritdoc/>
     protected override (FcbResult result, int index)
         ToIndicator(IQuote item, int? indexHint)

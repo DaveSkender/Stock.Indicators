@@ -41,10 +41,6 @@ public class ElderRayHub
     private double K { get; init; }
 
     // METHODS
-
-    /// <inheritdoc/>
-    public override string ToString() => Name;
-
     /// <inheritdoc/>
     protected override (ElderRayResult result, int index)
         ToIndicator(IQuote item, int? indexHint)

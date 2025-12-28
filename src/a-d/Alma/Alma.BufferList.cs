@@ -127,9 +127,6 @@ public class AlmaList : BufferList<AlmaResult>, IIncrementFromChain, IAlma
         base.Clear();
         _buffer.Clear();
     }
-
-    /// <inheritdoc />
-    public override string ToString() => Name;
 }
 
 public static partial class Alma

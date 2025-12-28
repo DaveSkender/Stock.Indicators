@@ -22,10 +22,6 @@ public class GatorHub
     }
 
     // METHODS
-
-    /// <inheritdoc/>
-    public override string ToString() => Name;
-
     /// <inheritdoc/>
     protected override (GatorResult result, int index)
         ToIndicator(AlligatorResult item, int? indexHint)

@@ -251,7 +251,4 @@ public class StochList : BufferList<StochResult>, IIncrementFromQuote, IStoch
         _prevSmoothK = double.NaN;
         _prevSignal = double.NaN;
     }
-
-    /// <inheritdoc />
-    public override string ToString() => Name;
 }

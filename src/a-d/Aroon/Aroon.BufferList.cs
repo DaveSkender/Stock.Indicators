@@ -17,7 +17,7 @@ public class AroonList : BufferList<AroonResult>, IIncrementFromQuote, IAroon
         LookbackPeriods = lookbackPeriods;
         _buffer = new Queue<(DateTime, double, double)>(lookbackPeriods + 1);
 
-        Name = $"AROON({25})";
+        Name = $"AROON({lookbackPeriods})";
     }
 
     /// <summary>
@@ -115,9 +115,6 @@ public class AroonList : BufferList<AroonResult>, IIncrementFromQuote, IAroon
         base.Clear();
         _buffer.Clear();
     }
-
-    /// <inheritdoc />
-    public override string ToString() => Name;
 }
 
 /// <summary>

@@ -49,10 +49,6 @@ public class ChaikinOscHub
     /// Gets the smoothing factor for the slow EMA.
     /// </summary>
     public double SlowK { get; private init; }
-
-    /// <inheritdoc/>
-    public override string ToString() => Name;
-
     /// <inheritdoc/>
     protected override (ChaikinOscResult result, int index)
         ToIndicator(IQuote item, int? indexHint)

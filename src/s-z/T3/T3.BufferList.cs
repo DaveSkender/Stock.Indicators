@@ -151,9 +151,6 @@ public class T3List : BufferList<T3Result>, IIncrementFromChain, IT3
         _lastEma5 = double.NaN;
         _lastEma6 = double.NaN;
     }
-
-    /// <inheritdoc />
-    public override string ToString() => Name;
 }
 
 public static partial class T3

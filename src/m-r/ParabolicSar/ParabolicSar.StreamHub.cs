@@ -67,10 +67,6 @@ public class ParabolicSarHub
 
     /// <inheritdoc/>
     public double InitialFactor { get; init; }
-
-    /// <inheritdoc/>
-    public override string ToString() => Name;
-
     /// <inheritdoc/>
     protected override (ParabolicSarResult result, int index)
         ToIndicator(IQuote item, int? indexHint)

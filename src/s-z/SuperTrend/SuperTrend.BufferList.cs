@@ -27,7 +27,7 @@ public class SuperTrendList : BufferList<SuperTrendResult>, IIncrementFromQuote
         _multiplier = multiplier;
         _atrList = new AtrList(lookbackPeriods);
 
-        Name = $"SUPERTREND({10}, {3})";
+        Name = $"SUPERTREND({lookbackPeriods}, {multiplier})";
     }
 
     /// <summary>
@@ -148,9 +148,6 @@ public class SuperTrendList : BufferList<SuperTrendResult>, IIncrementFromQuote
         _prevClose = null;
         _isInitialized = false;
     }
-
-    /// <inheritdoc />
-    public override string ToString() => Name;
 }
 
 public static partial class SuperTrend

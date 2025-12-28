@@ -101,9 +101,6 @@ public class SmaAnalysisList : BufferList<SmaAnalysisResult>, IIncrementFromChai
         base.Clear();
         _buffer.Clear();
     }
-
-    /// <inheritdoc />
-    public override string ToString() => Name;
 }
 
 public static partial class SmaAnalysis

@@ -97,9 +97,6 @@ public class CmoList : BufferList<CmoResult>, IIncrementFromChain, ICmo
         _prevValue = double.NaN;
         _isInitialized = false;
     }
-
-    /// <inheritdoc />
-    public override string ToString() => Name;
 }
 
 public static partial class Cmo

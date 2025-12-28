@@ -43,10 +43,6 @@ public class RenkoHub
 
     /// <inheritdoc/>
     public EndType EndType { get; }
-
-    /// <inheritdoc/>
-    public override string ToString() => Name;
-
     /// <inheritdoc/>
     public override void OnAdd(IQuote item, bool notify, int? indexHint)
     {

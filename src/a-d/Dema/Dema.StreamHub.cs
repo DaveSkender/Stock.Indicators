@@ -33,10 +33,6 @@ public class DemaHub
 
     /// <inheritdoc/>
     public double K { get; private init; }
-
-    /// <inheritdoc/>
-    public override string ToString() => Name;
-
     /// <inheritdoc/>
     protected override (DemaResult result, int index)
         ToIndicator(IReusable item, int? indexHint)

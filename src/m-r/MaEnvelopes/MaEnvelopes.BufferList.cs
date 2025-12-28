@@ -191,9 +191,6 @@ public class MaEnvelopesList : BufferList<MaEnvelopeResult>, IIncrementFromChain
 
         clearAction();
     }
-
-    /// <inheritdoc />
-    public override string ToString() => Name;
 }
 
 public static partial class MaEnvelopes

@@ -124,7 +124,4 @@ public class DemaList : BufferList<DemaResult>, IIncrementFromChain, IDema
         _lastEma1 = double.NaN;
         _lastEma2 = double.NaN;
     }
-
-    /// <inheritdoc />
-    public override string ToString() => Name;
 }

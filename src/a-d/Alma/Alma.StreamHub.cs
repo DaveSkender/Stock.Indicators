@@ -57,10 +57,6 @@ public class AlmaHub
 
     /// <inheritdoc/>
     public double Sigma { get; init; }
-
-    /// <inheritdoc/>
-    public override string ToString() => Name;
-
     /// <inheritdoc/>
     protected override (AlmaResult result, int index)
         ToIndicator(IReusable item, int? indexHint)

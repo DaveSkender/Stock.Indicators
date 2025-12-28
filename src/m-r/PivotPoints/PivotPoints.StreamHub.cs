@@ -53,10 +53,6 @@ public class PivotPointsHub
     /// Gets the type of pivot points to calculate.
     /// </summary>
     public PivotPointType PointType { get; init; }
-
-    /// <inheritdoc/>
-    public override string ToString() => Name;
-
     /// <inheritdoc/>
     protected override void RollbackState(DateTime timestamp)
     {

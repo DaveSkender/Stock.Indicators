@@ -29,10 +29,6 @@ public class CmoHub
 
     /// <inheritdoc/>
     public int LookbackPeriods { get; init; }
-
-    /// <inheritdoc/>
-    public override string ToString() => Name;
-
     /// <inheritdoc/>
     protected override (CmoResult result, int index)
         ToIndicator(IReusable item, int? indexHint)

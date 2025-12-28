@@ -137,9 +137,6 @@ public class RsiList : BufferList<RsiResult>, IIncrementFromChain, IRsi
         _prevValue = double.NaN;
         _isInitialized = false;
     }
-
-    /// <inheritdoc />
-    public override string ToString() => Name;
 }
 
 public static partial class Rsi

@@ -108,9 +108,6 @@ public class EmaList : BufferList<EmaResult>, IIncrementFromChain, IEma
         _buffer.Clear();
         _bufferSum = 0;
     }
-
-    /// <inheritdoc />
-    public override string ToString() => Name;
 }
 
 public static partial class Ema

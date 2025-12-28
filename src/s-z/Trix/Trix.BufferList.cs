@@ -133,9 +133,6 @@ public class TrixList : BufferList<TrixResult>, IIncrementFromChain, ITrix
         _lastEma2 = double.NaN;
         _lastEma3 = double.NaN;
     }
-
-    /// <inheritdoc />
-    public override string ToString() => Name;
 }
 
 public static partial class Trix

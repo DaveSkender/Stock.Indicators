@@ -30,10 +30,6 @@ public class SmaHub
     /// Gets the number of lookback periods.
     /// </summary>
     public int LookbackPeriods { get; init; }
-
-    /// <inheritdoc/>
-    public override string ToString() => Name;
-
     /// <inheritdoc/>
     protected override (SmaResult result, int index)
         ToIndicator(IReusable item, int? indexHint)

@@ -35,10 +35,6 @@ public class ChopHub
 
     /// <inheritdoc/>
     public int LookbackPeriods { get; init; }
-
-    /// <inheritdoc/>
-    public override string ToString() => Name;
-
     /// <inheritdoc/>
     protected override (ChopResult result, int index)
         ToIndicator(IQuote item, int? indexHint)

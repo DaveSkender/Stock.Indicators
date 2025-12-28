@@ -44,7 +44,7 @@ public class IchimokuList : BufferList<IchimokuResult>, IIncrementFromQuote, IIc
         _tenkanBuffer = new Queue<(decimal, decimal)>(tenkanPeriods);
         _kijunBuffer = new Queue<(decimal, decimal)>(kijunPeriods);
 
-        Name = $"ICHIMOKU({9}, {26}, {52}, {26}, {26})";
+        Name = $"ICHIMOKU({tenkanPeriods}, {kijunPeriods}, {senkouBPeriods}, {senkouOffset}, {chikouOffset})";
     }
 
     /// <summary>
@@ -269,10 +269,6 @@ public class IchimokuList : BufferList<IchimokuResult>, IIncrementFromQuote, IIc
         _tenkanBuffer.Clear();
         _kijunBuffer.Clear();
     }
-
-    /// <inheritdoc />
-    public override string ToString() => Name;
-
     /// <summary>
     /// Calculates the midpoint (average of high and low) for a rolling window.
     /// </summary>

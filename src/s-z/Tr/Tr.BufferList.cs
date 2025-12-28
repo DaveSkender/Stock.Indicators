@@ -66,9 +66,6 @@ public class TrList : BufferList<TrResult>, IIncrementFromQuote  // TR has no in
         base.Clear();
         _buffer.Clear();
     }
-
-    /// <inheritdoc />
-    public override string ToString() => Name;
 }
 
 public static partial class Tr

@@ -85,10 +85,6 @@ public sealed class StochRsiHub
     /// Gets the number of periods for smoothing.
     /// </summary>
     public int SmoothPeriods { get; init; }
-
-    /// <inheritdoc/>
-    public override string ToString() => Name;
-
     /// <inheritdoc/>
     protected override (StochRsiResult result, int index)
         ToIndicator(IReusable item, int? indexHint)

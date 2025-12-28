@@ -36,10 +36,6 @@ public class VortexHub
 
     /// <inheritdoc />
     public int LookbackPeriods { get; init; }
-
-    /// <inheritdoc/>
-    public override string ToString() => Name;
-
     /// <inheritdoc/>
     protected override (VortexResult result, int index)
         ToIndicator(IQuote item, int? indexHint)

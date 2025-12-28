@@ -163,10 +163,6 @@ public class SlopeList : BufferList<SlopeResult>, IIncrementFromChain, ISlope
         _buffer.Clear();
         globalIndexOffset = 0;
     }
-
-    /// <inheritdoc />
-    public override string ToString() => Name;
-
     /// <summary>
     /// Overrides list pruning to update the global index offset.
     /// </summary>

@@ -22,7 +22,7 @@ public class VortexList : BufferList<VortexResult>, IIncrementFromQuote
         _buffer = new Queue<(double, double, double)>(lookbackPeriods);
         _isInitialized = false;
 
-        Name = $"VORTEX({14})";
+        Name = $"VORTEX({lookbackPeriods})";
     }
 
     /// <summary>
@@ -125,9 +125,6 @@ public class VortexList : BufferList<VortexResult>, IIncrementFromQuote
         _prevClose = 0;
         _isInitialized = false;
     }
-
-    /// <inheritdoc />
-    public override string ToString() => Name;
 }
 
 public static partial class Vortex

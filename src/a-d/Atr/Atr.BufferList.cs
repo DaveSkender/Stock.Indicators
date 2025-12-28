@@ -120,9 +120,6 @@ public class AtrList : BufferList<AtrResult>, IIncrementFromQuote, IAtr
         _sumTr = 0;
         _isInitialized = false;
     }
-
-    /// <inheritdoc />
-    public override string ToString() => Name;
 }
 
 public static partial class Atr

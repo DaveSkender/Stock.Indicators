@@ -71,10 +71,6 @@ public class TsiHub
 
     /// <inheritdoc/>
     public int SignalPeriods { get; init; }
-
-    /// <inheritdoc/>
-    public override string ToString() => Name;
-
     /// <inheritdoc/>
     protected override (TsiResult result, int index)
         ToIndicator(IReusable item, int? indexHint)

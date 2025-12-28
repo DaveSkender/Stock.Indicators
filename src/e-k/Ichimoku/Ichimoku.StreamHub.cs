@@ -80,10 +80,6 @@ public class IchimokuHub
     /// Gets the number of periods for the Chikou offset.
     /// </summary>
     public int ChikouOffset { get; init; }
-
-    /// <inheritdoc/>
-    public override string ToString() => Name;
-
     /// <summary>
     /// Handles adding a new quote and updates past results that now have sufficient data for ChikouSpan.
     /// </summary>

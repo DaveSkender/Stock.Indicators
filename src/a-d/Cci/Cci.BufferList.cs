@@ -87,7 +87,4 @@ public class CciList : BufferList<CciResult>, IIncrementFromQuote, ICci
         base.Clear();
         _buffer.Clear();
     }
-
-    /// <inheritdoc />
-    public override string ToString() => Name;
 }

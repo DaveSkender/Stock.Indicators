@@ -34,7 +34,7 @@ public class ConnorsRsiList : BufferList<ConnorsRsiResult>, IIncrementFromChain
         _gainBuffer = new Queue<double>(rankPeriods + 1);
         _processedCount = 0;
 
-        Name = $"CONNORSRSI({3}, {2}, {100})";
+        Name = $"CONNORSRSI({rsiPeriods}, {streakPeriods}, {rankPeriods})";
     }
 
     /// <summary>
@@ -205,9 +205,6 @@ public class ConnorsRsiList : BufferList<ConnorsRsiResult>, IIncrementFromChain
         _streak = 0;
         _processedCount = 0;
     }
-
-    /// <inheritdoc />
-    public override string ToString() => Name;
 }
 
 public static partial class ConnorsRsi

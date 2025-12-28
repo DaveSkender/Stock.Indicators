@@ -49,10 +49,6 @@ public class SuperTrendHub
     private double PrevAtr { get; set; } = double.NaN;
 
     // METHODS
-
-    /// <inheritdoc/>
-    public override string ToString() => Name;
-
     /// <inheritdoc/>
     protected override (SuperTrendResult result, int index)
         ToIndicator(IQuote item, int? indexHint)

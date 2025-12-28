@@ -54,10 +54,6 @@ public class T3Hub
 
     /// <inheritdoc/>
     public double C4 { get; private init; }
-
-    /// <inheritdoc/>
-    public override string ToString() => Name;
-
     /// <inheritdoc/>
     protected override (T3Result result, int index)
         ToIndicator(IReusable item, int? indexHint)

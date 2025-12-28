@@ -49,7 +49,7 @@ public class KvoList : BufferList<KvoResult>, IIncrementFromQuote, IKvo
         _prevVfSlowEma = 0;
         _sumVf = 0;
 
-        Name = $"KVO({34}, {55}, {13})";
+        Name = $"KVO({fastPeriods}, {slowPeriods}, {signalPeriods})";
     }
 
     /// <summary>
@@ -214,9 +214,6 @@ public class KvoList : BufferList<KvoResult>, IIncrementFromQuote, IKvo
         _prevVfSlowEma = 0;
         _sumVf = 0;
     }
-
-    /// <inheritdoc />
-    public override string ToString() => Name;
 }
 
 public static partial class Kvo

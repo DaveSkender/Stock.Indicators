@@ -27,10 +27,6 @@ public class SmmaHub
 
     /// <inheritdoc/>
     public int LookbackPeriods { get; init; }
-
-    /// <inheritdoc/>
-    public override string ToString() => Name;
-
     /// <inheritdoc/>
     protected override (SmmaResult result, int index)
         ToIndicator(IReusable item, int? indexHint)

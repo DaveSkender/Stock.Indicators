@@ -161,9 +161,6 @@ public class RocWbList : BufferList<RocWbResult>, IIncrementFromChain, IRocWb
         _rocEmaInitBuffer.Clear();
         prevEma = double.NaN;
     }
-
-    /// <inheritdoc />
-    public override string ToString() => Name;
 }
 
 public static partial class RocWb

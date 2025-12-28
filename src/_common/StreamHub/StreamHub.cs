@@ -37,7 +37,7 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
     /// <summary>
     /// Gets the name of the stream hub.
     /// </summary>
-    public string Name { get; private protected init; } = string.Empty;
+    public string Name { get; private protected init; } = null!;
 
     /// <summary>
     /// Gets the cache of stored values (base).
@@ -77,7 +77,7 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
     public IReadOnlyList<TOut> GetCacheRef() => Cache;
 
     /// <inheritdoc/>
-    public abstract override string ToString();
+    public override string ToString() => Name;
 
     /// <summary>
     /// Converts incremental value into an indicator candidate and cache position.

@@ -38,10 +38,6 @@ public class BollingerBandsHub
     /// Gets the number of standard deviations.
     /// </summary>
     public double StandardDeviations { get; }
-
-    /// <inheritdoc/>
-    public override string ToString() => Name;
-
     /// <inheritdoc/>
     protected override (BollingerBandsResult result, int index)
         ToIndicator(IReusable item, int? indexHint)

@@ -29,10 +29,6 @@ public class BopHub
 
     /// <inheritdoc/>
     public int SmoothPeriods { get; init; }
-
-    /// <inheritdoc/>
-    public override string ToString() => Name;
-
     /// <inheritdoc/>
     protected override (BopResult result, int index)
         ToIndicator(IQuote item, int? indexHint)

@@ -131,9 +131,6 @@ public class CorrelationList : BufferList<CorrResult>, IIncrementFromPairs, ICor
         base.Clear();
         _buffer.Clear();
     }
-
-    /// <inheritdoc />
-    public override string ToString() => Name;
 }
 
 public static partial class Correlation

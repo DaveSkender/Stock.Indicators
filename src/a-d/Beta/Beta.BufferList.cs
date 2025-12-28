@@ -178,10 +178,6 @@ public class BetaList : BufferList<BetaResult>, IIncrementFromPairs, IBeta
         _prevMrkt = 0;
         _isFirst = true;
     }
-
-    /// <inheritdoc />
-    public override string ToString() => Name;
-
     /// <summary>
     /// Calculates the Beta value for the current window of data.
     /// </summary>

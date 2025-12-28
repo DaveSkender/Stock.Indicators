@@ -82,9 +82,6 @@ public class WmaList : BufferList<WmaResult>, IIncrementFromChain, IWma
         _buffer.Clear();
         _sum = 0d;
     }
-
-    /// <inheritdoc />
-    public override string ToString() => Name;
 }
 
 public static partial class Wma

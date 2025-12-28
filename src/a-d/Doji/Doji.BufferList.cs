@@ -72,9 +72,6 @@ public class DojiList : BufferList<CandleResult>, IIncrementFromQuote, IDoji
     /// Clears the list and resets internal state so the instance can be reused.
     /// </summary>
     public override void Clear() => base.Clear();
-
-    /// <inheritdoc />
-    public override string ToString() => Name;
 }
 
 public static partial class Doji

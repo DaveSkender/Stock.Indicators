@@ -27,10 +27,6 @@ public class TrixHub
 
     /// <inheritdoc/>
     public double K { get; private init; }
-
-    /// <inheritdoc/>
-    public override string ToString() => Name;
-
     /// <inheritdoc/>
     protected override (TrixResult result, int index)
         ToIndicator(IReusable item, int? indexHint)

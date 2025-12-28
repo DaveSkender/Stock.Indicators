@@ -82,10 +82,6 @@ public sealed class SmiHub
     /// Gets the smoothing factor for the signal line.
     /// </summary>
     public double KS { get; private init; }
-
-    /// <inheritdoc/>
-    public override string ToString() => Name;
-
     /// <inheritdoc/>
     protected override (SmiResult result, int index)
         ToIndicator(IQuote item, int? indexHint)

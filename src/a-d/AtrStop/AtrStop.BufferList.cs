@@ -181,10 +181,6 @@ public class AtrStopList : BufferList<AtrStopResult>, IIncrementFromQuote, IAtrS
         _previousClose = 0;
         _isInitialized = false;
     }
-
-    /// <inheritdoc />
-    public override string ToString() => Name;
-
     /// <summary>
     /// Removes oldest results from both the outer list and the nested ATR list
     /// when the list exceeds <see cref="BufferList{TResult}.MaxListSize"/>.

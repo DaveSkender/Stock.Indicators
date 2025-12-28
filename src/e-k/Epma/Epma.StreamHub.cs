@@ -32,10 +32,6 @@ public class EpmaHub
     public int LookbackPeriods { get; init; }
 
     // METHODS
-
-    /// <inheritdoc/>
-    public override string ToString() => Name;
-
     /// <inheritdoc/>
     protected override (EpmaResult result, int index)
         ToIndicator(IReusable item, int? indexHint)

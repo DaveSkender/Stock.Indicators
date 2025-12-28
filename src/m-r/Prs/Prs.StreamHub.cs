@@ -42,10 +42,6 @@ public class PrsHub
 
         Reinitialize();
     }
-
-    /// <inheritdoc/>
-    public override string ToString() => Name;
-
     /// <inheritdoc/>
     protected override (PrsResult result, int index)
         ToIndicator(IReusable item, int? indexHint)

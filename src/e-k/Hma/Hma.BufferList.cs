@@ -119,9 +119,6 @@ public class HmaList : BufferList<HmaResult>, IIncrementFromChain, IHma
         bufferN2.Clear();
         synthBuffer.Clear();
     }
-
-    /// <inheritdoc />
-    public override string ToString() => Name;
 }
 
 public static partial class Hma

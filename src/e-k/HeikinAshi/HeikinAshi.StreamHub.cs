@@ -22,10 +22,6 @@ public class HeikinAshiHub
         Name = "HEIKINASHI";
         Reinitialize();
     }
-
-    /// <inheritdoc/>
-    public override string ToString() => Name;
-
     /// <inheritdoc/>
     protected override (HeikinAshiResult result, int index)
         ToIndicator(IQuote item, int? indexHint)

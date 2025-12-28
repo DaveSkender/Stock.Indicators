@@ -100,10 +100,6 @@ public class EpmaList : BufferList<EpmaResult>, IIncrementFromChain, IEpma
         _cacheOffset = 0;
         base.Clear();
     }
-
-    /// <inheritdoc />
-    public override string ToString() => Name;
-
     /// <summary>
     /// Prunes the internal cache to prevent unbounded memory growth.
     /// Removes older data while preserving the minimum required periods for calculations.

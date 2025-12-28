@@ -35,10 +35,6 @@ public class HtTrendlineHub
         Name = "HTL()";
         Reinitialize();
     }
-
-    /// <inheritdoc/>
-    public override string ToString() => Name;
-
     /// <inheritdoc/>
     protected override (HtlResult result, int index)
         ToIndicator(IReusable item, int? indexHint)

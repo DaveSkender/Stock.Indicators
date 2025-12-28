@@ -43,7 +43,7 @@ public class PmoList : BufferList<PmoResult>, IIncrementFromChain, IPmo
         _rocEmaHistory = [];
         _pmoHistory = [];
 
-        Name = $"PMO({35}, {20}, {10})";
+        Name = $"PMO({timePeriods}, {smoothPeriods}, {signalPeriods})";
     }
 
     /// <summary>
@@ -181,9 +181,6 @@ public class PmoList : BufferList<PmoResult>, IIncrementFromChain, IPmo
         _prevPmo = double.NaN;
         _prevSignal = double.NaN;
     }
-
-    /// <inheritdoc />
-    public override string ToString() => Name;
 }
 
 public static partial class Pmo

@@ -73,10 +73,6 @@ public class BetaHub
 
     /// <inheritdoc/>
     public BetaType Type { get; init; }
-
-    /// <inheritdoc/>
-    public override string ToString() => Name;
-
     /// <inheritdoc/>
     protected override (BetaResult result, int index)
         ToIndicator(IReusable item, int? indexHint)

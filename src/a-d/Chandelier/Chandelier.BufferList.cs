@@ -129,9 +129,6 @@ public class ChandelierList : BufferList<ChandelierResult>, IIncrementFromQuote,
         _atrList.Clear();
         _buffer.Clear();
     }
-
-    /// <inheritdoc />
-    public override string ToString() => Name;
 }
 
 public static partial class Chandelier

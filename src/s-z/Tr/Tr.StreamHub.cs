@@ -19,10 +19,6 @@ public class TrHub
     }
 
     // METHODS
-
-    /// <inheritdoc/>
-    public override string ToString() => Name;
-
     /// <inheritdoc/>
     protected override (TrResult result, int index)
         ToIndicator(IQuote item, int? indexHint)

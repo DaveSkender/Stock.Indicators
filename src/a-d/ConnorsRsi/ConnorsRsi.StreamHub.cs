@@ -58,10 +58,6 @@ public class ConnorsRsiHub
 
     /// <inheritdoc/>
     public int RankPeriods { get; init; }
-
-    /// <inheritdoc/>
-    public override string ToString() => Name;
-
     /// <inheritdoc/>
     protected override (ConnorsRsiResult result, int index)
         ToIndicator(IReusable item, int? indexHint)

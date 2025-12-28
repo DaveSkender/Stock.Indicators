@@ -27,10 +27,6 @@ public class TemaHub
 
     /// <inheritdoc/>
     public double K { get; private init; }
-
-    /// <inheritdoc/>
-    public override string ToString() => Name;
-
     /// <inheritdoc/>
     protected override (TemaResult result, int index)
         ToIndicator(IReusable item, int? indexHint)

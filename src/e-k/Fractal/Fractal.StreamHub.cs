@@ -64,10 +64,6 @@ public class FractalHub
     public EndType EndType { get; init; }
 
     // METHODS
-
-    /// <inheritdoc/>
-    public override string ToString() => Name;
-
     /// <inheritdoc/>
     protected override (FractalResult result, int index)
         ToIndicator(IQuote item, int? indexHint)

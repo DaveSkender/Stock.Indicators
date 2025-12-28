@@ -42,10 +42,6 @@ public class SlopeHub
 
     /// <inheritdoc/>
     public int LookbackPeriods { get; init; }
-
-    /// <inheritdoc/>
-    public override string ToString() => Name;
-
     /// <inheritdoc/>
     public override void OnAdd(IReusable item, bool notify, int? indexHint)
     {

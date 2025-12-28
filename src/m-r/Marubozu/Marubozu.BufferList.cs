@@ -17,7 +17,7 @@ public class MarubozuList : BufferList<CandleResult>, IIncrementFromQuote, IMaru
         MinBodyPercent = minBodyPercent;
         this.minBodyPercent = minBodyPercent / 100;
 
-        Name = $"MARUBOZU({95})";
+        Name = $"MARUBOZU({minBodyPercent})";
     }
 
     /// <summary>
@@ -73,9 +73,6 @@ public class MarubozuList : BufferList<CandleResult>, IIncrementFromQuote, IMaru
 
     /// <inheritdoc />
     public override void Clear() => base.Clear();
-
-    /// <inheritdoc />
-    public override string ToString() => Name;
 }
 
 public static partial class Marubozu

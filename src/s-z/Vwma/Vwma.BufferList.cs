@@ -95,9 +95,6 @@ public class VwmaList : BufferList<VwmaResult>, IIncrementFromQuote, IVwma
         base.Clear();
         _buffer.Clear();
     }
-
-    /// <inheritdoc />
-    public override string ToString() => Name;
 }
 
 public static partial class Vwma

@@ -59,10 +59,6 @@ public class ChandelierHub
     public Direction Type { get; init; }
 
     // METHODS
-
-    /// <inheritdoc/>
-    public override string ToString() => Name;
-
     /// <inheritdoc/>
     protected override (ChandelierResult result, int index)
         ToIndicator(IQuote item, int? indexHint)

@@ -26,7 +26,7 @@ public class FcbList : BufferList<FcbResult>, IIncrementFromQuote, IFcb
         _upperLine = null;
         _lowerLine = null;
 
-        Name = $"FCB({2})";
+        Name = $"FCB({windowSpan})";
     }
 
     /// <summary>
@@ -133,9 +133,6 @@ public class FcbList : BufferList<FcbResult>, IIncrementFromQuote, IFcb
         _upperLine = null;
         _lowerLine = null;
     }
-
-    /// <inheritdoc />
-    public override string ToString() => Name;
 }
 
 public static partial class Fcb

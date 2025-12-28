@@ -75,10 +75,6 @@ public class AlligatorHub
     public int LipsOffset { get; init; }
 
     // METHODS
-
-    /// <inheritdoc/>
-    public override string ToString() => Name;
-
     /// <inheritdoc/>
     protected override (AlligatorResult result, int index)
         ToIndicator(IReusable item, int? indexHint)

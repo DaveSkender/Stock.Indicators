@@ -35,7 +35,7 @@ public class KamaList : BufferList<KamaResult>, IIncrementFromChain, IKama
 
         _buffer = new Queue<double>(erPeriods + 1);
 
-        Name = $"KAMA({10}, {2}, {30})";
+        Name = $"KAMA({erPeriods}, {fastPeriods}, {slowPeriods})";
     }
 
     /// <summary>
@@ -168,9 +168,6 @@ public class KamaList : BufferList<KamaResult>, IIncrementFromChain, IKama
         _buffer.Clear();
         _prevKama = double.NaN;
     }
-
-    /// <inheritdoc />
-    public override string ToString() => Name;
 }
 
 public static partial class Kama

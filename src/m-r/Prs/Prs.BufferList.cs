@@ -144,9 +144,6 @@ public class PrsList : BufferList<PrsResult>, IIncrementFromPairs, IPrs
         base.Clear();
         _buffer.Clear();
     }
-
-    /// <inheritdoc />
-    public override string ToString() => Name;
 }
 
 public static partial class Prs

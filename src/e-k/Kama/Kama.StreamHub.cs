@@ -45,10 +45,6 @@ public class KamaHub
 
     /// <inheritdoc/>
     public int SlowPeriods { get; init; }
-
-    /// <inheritdoc/>
-    public override string ToString() => Name;
-
     /// <inheritdoc/>
     protected override (KamaResult result, int index)
         ToIndicator(IReusable item, int? indexHint)

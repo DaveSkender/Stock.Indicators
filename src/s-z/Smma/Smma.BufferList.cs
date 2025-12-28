@@ -104,9 +104,6 @@ public class SmmaList : BufferList<SmmaResult>, IIncrementFromChain, ISmma
         _bufferSum = 0;
         _previousSmma = null;
     }
-
-    /// <inheritdoc />
-    public override string ToString() => Name;
 }
 
 public static partial class Smma

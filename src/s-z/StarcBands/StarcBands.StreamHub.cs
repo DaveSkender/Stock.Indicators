@@ -42,10 +42,6 @@ public class StarcBandsHub
 
     /// <inheritdoc/>
     public int AtrPeriods { get; init; }
-
-    /// <inheritdoc/>
-    public override string ToString() => Name;
-
     /// <inheritdoc/>
     protected override void RollbackState(DateTime timestamp)
     {

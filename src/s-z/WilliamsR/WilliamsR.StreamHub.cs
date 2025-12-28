@@ -44,10 +44,6 @@ public class WilliamsRHub
     #endregion properties
 
     #region methods
-
-    /// <inheritdoc/>
-    public override string ToString() => Name;
-
     /// <inheritdoc/>
     protected override (WilliamsResult result, int index)
         ToIndicator(IQuote item, int? indexHint)

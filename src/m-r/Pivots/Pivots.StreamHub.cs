@@ -55,10 +55,6 @@ public class PivotsHub
     /// Gets the end type for price calculations.
     /// </summary>
     public EndType EndType { get; init; }
-
-    /// <inheritdoc/>
-    public override string ToString() => Name;
-
     /// <summary>
     /// Rebuilds the hub from the beginning, including trend line calculations.
     /// </summary>

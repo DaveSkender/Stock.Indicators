@@ -46,10 +46,6 @@ public class RocWbHub
 
     /// <inheritdoc/>
     public int StdDevPeriods { get; init; }
-
-    /// <inheritdoc/>
-    public override string ToString() => Name;
-
     /// <inheritdoc/>
     protected override (RocWbResult result, int index)
         ToIndicator(IReusable item, int? indexHint)

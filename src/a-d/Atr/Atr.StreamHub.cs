@@ -29,10 +29,6 @@ public class AtrHub
     public int LookbackPeriods { get; init; }
 
     // METHODS
-
-    /// <inheritdoc/>
-    public override string ToString() => Name;
-
     /// <inheritdoc/>
     protected override (AtrResult result, int index)
         ToIndicator(IQuote item, int? indexHint)

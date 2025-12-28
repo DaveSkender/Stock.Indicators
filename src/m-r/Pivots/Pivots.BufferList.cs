@@ -160,10 +160,6 @@ public class PivotsList : BufferList<PivotsResult>, IIncrementFromQuote
         _lastLowIndex = null;
         _lastLowValue = null;
     }
-
-    /// <inheritdoc />
-    public override string ToString() => Name;
-
     /// <summary>
     /// Overrides list pruning to reset pivot tracking state when pruning occurs.
     /// </summary>

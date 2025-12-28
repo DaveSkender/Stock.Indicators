@@ -31,10 +31,6 @@ public class DojiHub
 
     /// <inheritdoc/>
     public double MaxPriceChangePercent { get; init; }
-
-    /// <inheritdoc/>
-    public override string ToString() => Name;
-
     /// <inheritdoc/>
     protected override (CandleResult result, int index)
         ToIndicator(IQuote item, int? indexHint)

@@ -51,10 +51,6 @@ public class DonchianHub
     /// Gets the number of periods to look back for the calculation.
     /// </summary>
     public int LookbackPeriods { get; init; }
-
-    /// <inheritdoc/>
-    public override string ToString() => Name;
-
     /// <inheritdoc/>
     protected override (DonchianResult result, int index)
         ToIndicator(IQuote item, int? indexHint)

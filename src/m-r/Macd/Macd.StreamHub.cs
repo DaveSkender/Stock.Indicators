@@ -59,10 +59,6 @@ public class MacdHub
     /// Gets the smoothing factor for the signal line.
     /// </summary>
     public double SignalK { get; private init; }
-
-    /// <inheritdoc/>
-    public override string ToString() => Name;
-
     /// <inheritdoc/>
     protected override (MacdResult result, int index)
         ToIndicator(IReusable item, int? indexHint)

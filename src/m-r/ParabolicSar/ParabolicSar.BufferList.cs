@@ -52,7 +52,7 @@ public class ParabolicSarList : BufferList<ParabolicSarResult>, IIncrementFromQu
         _isInitialized = false;
         _firstReversalFound = false;
 
-        Name = $"PARABOLICSAR({0.02}, {0.2})";
+        Name = $"PARABOLICSAR({accelerationStep}, {maxAccelerationFactor})";
     }
 
     /// <summary>
@@ -237,10 +237,6 @@ public class ParabolicSarList : BufferList<ParabolicSarResult>, IIncrementFromQu
         _isInitialized = false;
         _firstReversalFound = false;
     }
-
-    /// <inheritdoc />
-    public override string ToString() => Name;
-
     private void NullifyResultsBeforeFirstReversal()
     {
         // Only nullify if we found a reversal

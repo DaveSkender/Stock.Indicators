@@ -19,7 +19,7 @@ public class WilliamsRList : BufferList<WilliamsResult>, IIncrementFromQuote, IW
 
         _buffer = new Queue<(double, double)>(lookbackPeriods);
 
-        Name = $"WILLIAMSR({14})";
+        Name = $"WILLIAMSR({lookbackPeriods})";
     }
 
     /// <summary>
@@ -111,7 +111,4 @@ public class WilliamsRList : BufferList<WilliamsResult>, IIncrementFromQuote, IW
         base.Clear();
         _buffer.Clear();
     }
-
-    /// <inheritdoc />
-    public override string ToString() => Name;
 }

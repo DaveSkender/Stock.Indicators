@@ -94,10 +94,6 @@ public class KvoHub
     /// Gets the signal periods.
     /// </summary>
     public int SignalPeriods { get; init; }
-
-    /// <inheritdoc/>
-    public override string ToString() => Name;
-
     /// <inheritdoc/>
     protected override (KvoResult result, int index)
         ToIndicator(IQuote item, int? indexHint)

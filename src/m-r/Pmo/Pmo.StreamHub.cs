@@ -50,10 +50,6 @@ public class PmoHub
 
     /// <inheritdoc/>
     public int SignalPeriods { get; init; }
-
-    /// <inheritdoc/>
-    public override string ToString() => Name;
-
     /// <inheritdoc/>
     protected override (PmoResult result, int index)
         ToIndicator(IReusable item, int? indexHint)

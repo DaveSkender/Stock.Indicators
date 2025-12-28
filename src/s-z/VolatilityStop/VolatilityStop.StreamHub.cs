@@ -66,10 +66,6 @@ public class VolatilityStopHub
     private double? PrevAtr { get; set; }
 
     // METHODS
-
-    /// <inheritdoc/>
-    public override string ToString() => Name;
-
     /// <inheritdoc/>
     protected override (VolatilityStopResult result, int index)
         ToIndicator(IQuote item, int? indexHint)

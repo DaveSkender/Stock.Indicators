@@ -44,7 +44,7 @@ public class MacdList : BufferList<MacdResult>, IIncrementFromChain, IMacd
         _slowBufferSum = 0;
         _macdBufferSum = 0;
 
-        Name = $"MACD({12}, {26}, {9})";
+        Name = $"MACD({fastPeriods}, {slowPeriods}, {signalPeriods})";
     }
 
     /// <summary>
@@ -237,9 +237,6 @@ public class MacdList : BufferList<MacdResult>, IIncrementFromChain, IMacd
         _lastSlowEma = null;
         _lastSignalEma = null;
     }
-
-    /// <inheritdoc />
-    public override string ToString() => Name;
 }
 
 public static partial class Macd

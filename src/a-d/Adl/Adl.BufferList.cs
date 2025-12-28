@@ -58,9 +58,6 @@ public class AdlList : BufferList<AdlResult>, IIncrementFromQuote
         base.Clear();
         _previousAdl = 0;
     }
-
-    /// <inheritdoc />
-    public override string ToString() => Name;
 }
 
 public static partial class Adl

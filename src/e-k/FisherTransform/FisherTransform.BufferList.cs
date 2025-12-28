@@ -22,7 +22,7 @@ public class FisherTransformList : BufferList<FisherTransformResult>, IIncrement
         _priceBuffer = new Queue<double>(lookbackPeriods);
         _previousXv = 0;
 
-        Name = $"FISHERTRANSFORM({10})";
+        Name = $"FISHERTRANSFORM({lookbackPeriods})";
     }
 
     /// <summary>
@@ -125,9 +125,6 @@ public class FisherTransformList : BufferList<FisherTransformResult>, IIncrement
         _priceBuffer.Clear();
         _previousXv = 0;
     }
-
-    /// <inheritdoc />
-    public override string ToString() => Name;
 }
 
 public static partial class FisherTransform

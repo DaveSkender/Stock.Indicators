@@ -137,10 +137,6 @@ public class DpoList : BufferList<DpoResult>, IIncrementFromChain
         smaList.Clear();
         buffer.Clear();
     }
-
-    /// <inheritdoc />
-    public override string ToString() => Name;
-
     /// <summary>
     /// Synchronizes pruning of internal buffers with the parent list.
     /// </summary>

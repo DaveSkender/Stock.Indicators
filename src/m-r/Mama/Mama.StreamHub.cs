@@ -53,10 +53,6 @@ public class MamaHub
 
     /// <inheritdoc/>
     public double SlowLimit { get; init; }
-
-    /// <inheritdoc/>
-    public override string ToString() => Name;
-
     /// <inheritdoc/>
     protected override (MamaResult result, int index)
         ToIndicator(IReusable item, int? indexHint)

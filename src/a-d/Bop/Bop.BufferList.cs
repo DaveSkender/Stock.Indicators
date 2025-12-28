@@ -76,9 +76,6 @@ public class BopList : BufferList<BopResult>, IIncrementFromQuote, IBop
         base.Clear();
         _buffer.Clear();
     }
-
-    /// <inheritdoc />
-    public override string ToString() => Name;
 }
 
 public static partial class Bop

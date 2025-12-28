@@ -69,10 +69,6 @@ public class StcHub
 
     /// <inheritdoc/>
     public int SlowPeriods { get; init; }
-
-    /// <inheritdoc/>
-    public override string ToString() => Name;
-
     /// <inheritdoc/>
     protected override (StcResult result, int index)
         ToIndicator(IReusable item, int? indexHint)
