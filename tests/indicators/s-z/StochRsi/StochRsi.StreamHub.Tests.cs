@@ -1,4 +1,4 @@
-namespace StreamHub;
+namespace StreamHubs;
 
 [TestClass]
 public class StochRsiHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProvider
@@ -14,59 +14,43 @@ public class StochRsiHubTests : StreamHubTestBase, ITestChainObserver, ITestChai
     [TestMethod]
     public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
-        List<Quote> quotesList = Quotes.ToList();
-
-        int length = quotesList.Count;
-
         // setup quote provider hub
         QuoteHub quoteHub = new();
 
         // prefill quotes at provider
-        for (int i = 0; i < 20; i++)
-        {
-            quoteHub.Add(quotesList[i]);
-        }
+        quoteHub.Add(Quotes.Take(20));
 
         // initialize observer
-        StochRsiHub observer = quoteHub
-            .ToStochRsiHub(14, 14, 3, 1);
+        StochRsiHub observer = quoteHub.ToStochRsiHub(14, 14, 3, 1);
 
         // fetch initial results (early)
-        IReadOnlyList<StochRsiResult> streamList
-            = observer.Results;
+        IReadOnlyList<StochRsiResult> sut = observer.Results;
 
         // emulate adding quotes to provider hub
-        for (int i = 20; i < length; i++)
+        for (int i = 20; i < quotesCount; i++)
         {
             // skip one (add later)
-            if (i == 80)
-            {
-                continue;
-            }
+            if (i == 80) { continue; }
 
-            Quote q = quotesList[i];
+            Quote q = Quotes[i];
             quoteHub.Add(q);
 
             // resend duplicate quotes
-            if (i is > 100 and < 105)
-            {
-                quoteHub.Add(q);
-            }
+            if (i is > 100 and < 105) { quoteHub.Add(q); }
         }
 
-        // late arrival
-        quoteHub.Insert(quotesList[80]);
+        // late arrival, should equal series
+        quoteHub.Insert(Quotes[80]);
 
-        // delete
-        quoteHub.Remove(quotesList[400]);
-        quotesList.RemoveAt(400);
+        IReadOnlyList<StochRsiResult> expectedOriginal = Quotes.ToStochRsi(14, 14, 3, 1);
+        sut.IsExactly(expectedOriginal);
 
-        // time-series, for comparison
-        IReadOnlyList<StochRsiResult> seriesList = quotesList.ToStochRsi(14, 14, 3, 1);
+        // delete, should equal series (revised)
+        quoteHub.Remove(Quotes[removeAtIndex]);
 
-        // assert, should equal series
-        streamList.Should().HaveCount(length - 1);
-        streamList.Should().BeEquivalentTo(seriesList);
+        IReadOnlyList<StochRsiResult> expectedRevised = RevisedQuotes.ToStochRsi(14, 14, 3, 1);
+        sut.IsExactly(expectedRevised);
+        sut.Should().HaveCount(quotesCount - 1);
 
         observer.Unsubscribe();
         quoteHub.EndTransmission();
@@ -111,7 +95,7 @@ public class StochRsiHubTests : StreamHubTestBase, ITestChainObserver, ITestChai
 
         // assert, should equal series
         streamList.Should().HaveCount(length);
-        streamList.Should().BeEquivalentTo(seriesList);
+        streamList.IsExactly(seriesList);
 
         observer.Unsubscribe();
         quoteHub.EndTransmission();
@@ -126,10 +110,6 @@ public class StochRsiHubTests : StreamHubTestBase, ITestChainObserver, ITestChai
         const int smoothPeriods = 1;
         const int emaPeriods = 12;
 
-        List<Quote> quotesList = Quotes.ToList();
-
-        int length = quotesList.Count;
-
         // setup quote provider hub
         QuoteHub quoteHub = new();
 
@@ -139,24 +119,30 @@ public class StochRsiHubTests : StreamHubTestBase, ITestChainObserver, ITestChai
             .ToEmaHub(emaPeriods);
 
         // emulate quote stream
-        for (int i = 0; i < length; i++)
+        for (int i = 0; i < quotesCount; i++)
         {
-            quoteHub.Add(quotesList[i]);
+            if (i == 80) { continue; }  // Skip for late arrival
+
+            Quote q = Quotes[i];
+            quoteHub.Add(q);
+
+            if (i is > 100 and < 105) { quoteHub.Add(q); }  // Duplicate quotes
         }
 
-        // final results
-        IReadOnlyList<EmaResult> streamList
-            = observer.Results;
+        quoteHub.Insert(Quotes[80]);  // Late arrival
+        quoteHub.Remove(Quotes[removeAtIndex]);  // Remove
 
-        // time-series, for comparison
-        IReadOnlyList<EmaResult> seriesList
-           = quotesList
+        // final results
+        IReadOnlyList<EmaResult> sut = observer.Results;
+
+        // time-series, for comparison (revised)
+        IReadOnlyList<EmaResult> expected = RevisedQuotes
             .ToStochRsi(rsiPeriods, stochPeriods, signalPeriods, smoothPeriods)
             .ToEma(emaPeriods);
 
         // assert, should equal series
-        streamList.Should().HaveCount(length);
-        streamList.Should().BeEquivalentTo(seriesList);
+        sut.Should().HaveCount(quotesCount - 1);
+        sut.IsExactly(expected);
 
         observer.Unsubscribe();
         quoteHub.EndTransmission();

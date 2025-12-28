@@ -1,4 +1,4 @@
-namespace StreamHub;
+namespace StreamHubs;
 
 [TestClass]
 public class StcHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProvider
@@ -132,7 +132,7 @@ public class StcHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
 
         // assert, should equal series
         actuals.Should().HaveCount(length - 1);
-        actuals.Should().BeEquivalentTo(seriesList);
+        actuals.IsExactly(seriesList);
 
         // cleanup
         observer.Unsubscribe();

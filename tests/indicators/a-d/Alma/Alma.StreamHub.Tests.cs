@@ -1,4 +1,4 @@
-namespace StreamHub;
+namespace StreamHubs;
 
 [TestClass]
 public class AlmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProvider
@@ -6,59 +6,43 @@ public class AlmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
     [TestMethod]
     public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
-        List<Quote> quotesList = Quotes.ToList();
-
-        int length = quotesList.Count;
-
         // setup quote provider hub
         QuoteHub quoteHub = new();
 
         // prefill quotes at provider
-        for (int i = 0; i < 20; i++)
-        {
-            quoteHub.Add(quotesList[i]);
-        }
+        quoteHub.Add(Quotes.Take(20));
 
         // initialize observer
-        AlmaHub observer = quoteHub
-            .ToAlmaHub(10, 0.85, 6);
+        AlmaHub observer = quoteHub.ToAlmaHub(10, 0.85, 6);
 
         // fetch initial results (early)
-        IReadOnlyList<AlmaResult> streamList
-            = observer.Results;
+        IReadOnlyList<AlmaResult> sut = observer.Results;
 
         // emulate adding quotes to provider hub
-        for (int i = 20; i < length; i++)
+        for (int i = 20; i < quotesCount; i++)
         {
             // skip one (add later)
-            if (i == 80)
-            {
-                continue;
-            }
+            if (i == 80) { continue; }
 
-            Quote q = quotesList[i];
+            Quote q = Quotes[i];
             quoteHub.Add(q);
 
             // resend duplicate quotes
-            if (i is > 100 and < 105)
-            {
-                quoteHub.Add(q);
-            }
+            if (i is > 100 and < 105) { quoteHub.Add(q); }
         }
 
-        // late arrival
-        quoteHub.Insert(quotesList[80]);
+        // late arrival, should equal series
+        quoteHub.Insert(Quotes[80]);
 
-        // delete
-        quoteHub.Remove(quotesList[400]);
-        quotesList.RemoveAt(400);
+        IReadOnlyList<AlmaResult> expectedOriginal = Quotes.ToAlma(10, 0.85, 6);
+        sut.IsExactly(expectedOriginal);
 
-        // time-series, for comparison
-        IReadOnlyList<AlmaResult> seriesList = quotesList.ToAlma(10, 0.85, 6);
+        // delete, should equal series (revised)
+        quoteHub.Remove(Quotes[removeAtIndex]);
 
-        // assert, should equal series
-        streamList.Should().HaveCount(length - 1);
-        streamList.Should().BeEquivalentTo(seriesList);
+        IReadOnlyList<AlmaResult> expectedRevised = RevisedQuotes.ToAlma(10, 0.85, 6);
+        sut.IsExactly(expectedRevised);
+        sut.Should().HaveCount(quotesCount - 1);
 
         observer.Unsubscribe();
         quoteHub.EndTransmission();
@@ -100,7 +84,7 @@ public class AlmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
 
         // assert, should equal series
         streamList.Should().HaveCount(length);
-        streamList.Should().BeEquivalentTo(seriesList);
+        streamList.IsExactly(seriesList);
 
         observer.Unsubscribe();
         quoteHub.EndTransmission();
@@ -111,10 +95,6 @@ public class AlmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
     {
         const int almaPeriods = 20;
         const int smaPeriods = 10;
-
-        List<Quote> quotesList = Quotes.ToList();
-
-        int length = quotesList.Count;
 
         // setup quote provider hub
         QuoteHub quoteHub = new();
@@ -128,24 +108,30 @@ public class AlmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
             .ToSmaHub(smaPeriods);
 
         // emulate quote stream
-        for (int i = 0; i < length; i++)
+        for (int i = 0; i < quotesCount; i++)
         {
-            quoteHub.Add(quotesList[i]);
+            if (i == 80) { continue; }  // Skip for late arrival
+
+            Quote q = Quotes[i];
+            quoteHub.Add(q);
+
+            if (i is > 100 and < 105) { quoteHub.Add(q); }  // Duplicate quotes
         }
 
-        // final results
-        IReadOnlyList<SmaResult> streamList
-            = smaObserver.Results;
+        quoteHub.Insert(Quotes[80]);  // Late arrival
+        quoteHub.Remove(Quotes[removeAtIndex]);  // Remove
 
-        // time-series, for comparison
-        IReadOnlyList<SmaResult> seriesList
-           = quotesList
+        // final results
+        IReadOnlyList<SmaResult> sut = smaObserver.Results;
+
+        // time-series, for comparison (revised)
+        IReadOnlyList<SmaResult> expected = RevisedQuotes
             .ToAlma(almaPeriods, 0.85, 6)
             .ToSma(smaPeriods);
 
         // assert, should equal series
-        streamList.Should().HaveCount(length);
-        streamList.Should().BeEquivalentTo(seriesList);
+        sut.Should().HaveCount(quotesCount - 1);
+        sut.IsExactly(expected);
 
         almaObserver.Unsubscribe();
         smaObserver.Unsubscribe();
@@ -175,8 +161,6 @@ public class AlmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
             (lookback: 20, offset: 0.25, sigma: 3.0)
         ];
 
-        List<Quote> quotesList = Quotes.ToList();
-
         foreach ((int lookback, double offset, double sigma) in parameters)
         {
             // setup quote provider hub
@@ -187,21 +171,21 @@ public class AlmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
                 .ToAlmaHub(lookback, offset, sigma);
 
             // emulate quote stream
-            for (int i = 0; i < quotesList.Count; i++)
+            for (int i = 0; i < Quotes.Count; i++)
             {
-                quoteHub.Add(quotesList[i]);
+                quoteHub.Add(Quotes[i]);
             }
 
             // final results
             IReadOnlyList<AlmaResult> streamList = observer.Results;
 
             // time-series, for comparison
-            IReadOnlyList<AlmaResult> seriesList = quotesList.ToAlma(lookback, offset, sigma);
+            IReadOnlyList<AlmaResult> seriesList = Quotes.ToAlma(lookback, offset, sigma);
 
             // assert, should equal series
-            streamList.Should().HaveCount(quotesList.Count,
+            streamList.Should().HaveCount(Quotes.Count,
                 $"Count mismatch for parameters: lookback={lookback}, offset={offset}, sigma={sigma}");
-            streamList.Should().BeEquivalentTo(seriesList,
+            streamList.IsExactly(seriesList,
                 $"Results mismatch for parameters: lookback={lookback}, offset={offset}, sigma={sigma}");
 
             observer.Unsubscribe();
@@ -212,8 +196,6 @@ public class AlmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
     [TestMethod]
     public void Reset()
     {
-        List<Quote> quotesList = Quotes.ToList();
-
         // setup quote provider hub
         QuoteHub quoteHub = new();
 
@@ -223,7 +205,7 @@ public class AlmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
         // Add ~50 quotes to populate state
         for (int i = 0; i < 50; i++)
         {
-            quoteHub.Add(quotesList[i]);
+            quoteHub.Add(Quotes[i]);
         }
 
         // assert observer.Results has 50 entries and the last result has a non-null Alma value
@@ -245,7 +227,7 @@ public class AlmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
         AlmaHub freshObserver = freshProvider.ToAlmaHub(14, 0.85, 6);
 
         // Add one quote and assert observer.Results has count 1 and that the single result's Alma is null (since lookback period is 14)
-        freshProvider.Add(quotesList[0]);
+        freshProvider.Add(Quotes[0]);
 
         freshObserver.Results.Should().HaveCount(1);
         freshObserver.Results[^1].Alma.Should().BeNull();

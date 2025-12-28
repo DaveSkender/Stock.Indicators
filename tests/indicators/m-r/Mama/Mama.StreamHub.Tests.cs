@@ -1,4 +1,4 @@
-namespace StreamHub;
+namespace StreamHubs;
 
 [TestClass]
 public class MamaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProvider
@@ -9,17 +9,13 @@ public class MamaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
     [TestMethod]
     public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
-        List<Quote> quotesList = Quotes.ToList();
-
-        int length = quotesList.Count;
-
         // setup quote provider hub
         QuoteHub quoteHub = new();
 
         // prefill quotes at provider
         for (int i = 0; i < 20; i++)
         {
-            quoteHub.Add(quotesList[i]);
+            quoteHub.Add(Quotes[i]);
         }
 
         // initialize observer
@@ -27,11 +23,11 @@ public class MamaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
             .ToMamaHub(fastLimit, slowLimit);
 
         // fetch initial results (early)
-        IReadOnlyList<MamaResult> streamList
+        IReadOnlyList<MamaResult> actuals
             = observer.Results;
 
         // emulate adding quotes to provider hub
-        for (int i = 20; i < length; i++)
+        for (int i = 20; i < quotesCount; i++)
         {
             // skip one (add later)
             if (i == 80)
@@ -39,7 +35,7 @@ public class MamaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
                 continue;
             }
 
-            Quote q = quotesList[i];
+            Quote q = Quotes[i];
             quoteHub.Add(q);
 
             // resend duplicate quotes
@@ -50,18 +46,17 @@ public class MamaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
         }
 
         // late arrival
-        quoteHub.Insert(quotesList[80]);
+        quoteHub.Insert(Quotes[80]);
 
         // delete
-        quoteHub.Remove(quotesList[400]);
-        quotesList.RemoveAt(400);
+        quoteHub.Remove(Quotes[removeAtIndex]);
 
         // time-series, for comparison
-        IReadOnlyList<MamaResult> seriesList = quotesList.ToMama(fastLimit, slowLimit);
+        IReadOnlyList<MamaResult> expected = RevisedQuotes.ToMama(fastLimit, slowLimit);
 
         // assert, should equal series
-        streamList.Should().HaveCount(length - 1);
-        streamList.Should().BeEquivalentTo(seriesList);
+        actuals.Should().HaveCount(quotesCount - 1);
+        actuals.IsExactly(expected);
 
         observer.Unsubscribe();
         quoteHub.EndTransmission();
@@ -102,7 +97,7 @@ public class MamaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
 
         // assert, should equal series
         streamList.Should().HaveCount(length);
-        streamList.Should().BeEquivalentTo(seriesList);
+        streamList.IsExactly(seriesList);
 
         observer.Unsubscribe();
         quoteHub.EndTransmission();
@@ -162,7 +157,7 @@ public class MamaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
 
         // assert, should equal series
         streamList.Should().HaveCount(length - 1);
-        streamList.Should().BeEquivalentTo(seriesList);
+        streamList.IsExactly(seriesList);
 
         observer.Unsubscribe();
         quoteHub.EndTransmission();

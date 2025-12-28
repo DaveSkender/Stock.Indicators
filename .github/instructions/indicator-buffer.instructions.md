@@ -238,7 +238,7 @@ public class {IndicatorName}BufferListTests : BufferListTestBase, ITestChainBuff
             sut.Add(item.Timestamp, item.Value);
         
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+        sut.IsExactly(series);
     }
 
     // Additional required test methods...

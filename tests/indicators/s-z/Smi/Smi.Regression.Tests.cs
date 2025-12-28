@@ -9,7 +9,7 @@ public class SmiTests : RegressionTestBase<SmiResult>
     public override void Series() => Quotes.ToSmi().IsExactly(Expected);
 
     [TestMethod]
-    public override void Buffer() => new SmiList() { Quotes }.IsExactly(Expected);
+    public override void Buffer() => Quotes.ToSmiList().IsExactly(Expected);
 
     [TestMethod]
     public override void Stream() => QuoteHub.ToSmiHub().Results.IsExactly(Expected);

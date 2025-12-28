@@ -1,4 +1,4 @@
-namespace BufferList;
+namespace BufferLists;
 
 [TestClass]
 public class VolatilityStop : BufferListTestBase, ITestQuoteBufferList

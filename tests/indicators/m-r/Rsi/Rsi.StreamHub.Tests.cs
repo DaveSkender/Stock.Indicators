@@ -1,65 +1,52 @@
-namespace StreamHub;
+namespace StreamHubs;
 
 [TestClass]
 public class RsiHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProvider
 {
+    private const int lookbackPeriods = 5;
+
     [TestMethod]
     public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
-        List<Quote> quotesList = Quotes.ToList();
-
-        int length = quotesList.Count;
-
         // setup quote provider hub
         QuoteHub quoteHub = new();
 
         // prefill quotes at provider
-        for (int i = 0; i < 20; i++)
-        {
-            quoteHub.Add(quotesList[i]);
-        }
+        quoteHub.Add(Quotes.Take(20));
 
         // initialize observer
-        RsiHub observer = quoteHub
-            .ToRsiHub(14);
+        RsiHub observer = quoteHub.ToRsiHub(lookbackPeriods);
 
         // fetch initial results (early)
-        IReadOnlyList<RsiResult> streamList
-            = observer.Results;
+        IReadOnlyList<RsiResult> sut = observer.Results;
 
         // emulate adding quotes to provider hub
-        for (int i = 20; i < length; i++)
+        for (int i = 20; i < quotesCount; i++)
         {
             // skip one (add later)
-            if (i == 80)
-            {
-                continue;
-            }
+            if (i == 80) { continue; }
 
-            Quote q = quotesList[i];
+            Quote q = Quotes[i];
             quoteHub.Add(q);
 
             // resend duplicate quotes
-            if (i is > 100 and < 105)
-            {
-                quoteHub.Add(q);
-            }
+            if (i is > 100 and < 105) { quoteHub.Add(q); }
         }
 
-        // late arrival
-        quoteHub.Insert(quotesList[80]);
+        // late arrival, should equal series
+        quoteHub.Insert(Quotes[80]);
 
-        // delete
-        quoteHub.Remove(quotesList[400]);
-        quotesList.RemoveAt(400);
+        IReadOnlyList<RsiResult> expectedOriginal = Quotes.ToRsi(lookbackPeriods);
+        sut.IsExactly(expectedOriginal);
 
-        // time-series, for comparison
-        IReadOnlyList<RsiResult> seriesList = quotesList.ToRsi(14);
+        // delete, should equal series (revised)
+        quoteHub.Remove(Quotes[removeAtIndex]);
 
-        // assert, should equal series
-        streamList.Should().HaveCount(length - 1);
-        streamList.Should().BeEquivalentTo(seriesList);
+        IReadOnlyList<RsiResult> expectedRevised = RevisedQuotes.ToRsi(lookbackPeriods);
+        sut.IsExactly(expectedRevised);
+        sut.Should().HaveCount(quotesCount - 1);
 
+        // cleanup
         observer.Unsubscribe();
         quoteHub.EndTransmission();
     }
@@ -67,12 +54,8 @@ public class RsiHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
     [TestMethod]
     public void ChainObserver_ChainedProvider_MatchesSeriesExactly()
     {
-        const int emaPeriods = 12;
-        const int rsiPeriods = 14;
-
-        List<Quote> quotesList = Quotes.ToList();
-
-        int length = quotesList.Count;
+        const int rsiPeriods = 12;
+        const int emaPeriods = 14;
 
         // setup quote provider hub
         QuoteHub quoteHub = new();
@@ -83,25 +66,21 @@ public class RsiHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
             .ToRsiHub(rsiPeriods);
 
         // emulate quote stream
-        for (int i = 0; i < length; i++)
-        {
-            quoteHub.Add(quotesList[i]);
-        }
+        for (int i = 0; i < quotesCount; i++) { quoteHub.Add(Quotes[i]); }
 
         // final results
-        IReadOnlyList<RsiResult> streamList
-            = observer.Results;
+        IReadOnlyList<RsiResult> sut = observer.Results;
 
         // time-series, for comparison
-        IReadOnlyList<RsiResult> seriesList
-           = quotesList
+        IReadOnlyList<RsiResult> expected = Quotes
             .ToEma(emaPeriods)
             .ToRsi(rsiPeriods);
 
         // assert, should equal series
-        streamList.Should().HaveCount(length);
-        streamList.Should().BeEquivalentTo(seriesList);
+        sut.IsExactly(expected);
+        sut.Should().HaveCount(quotesCount);
 
+        // cleanup
         observer.Unsubscribe();
         quoteHub.EndTransmission();
     }
@@ -109,12 +88,8 @@ public class RsiHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
     [TestMethod]
     public void ChainProvider_MatchesSeriesExactly()
     {
+        const int rsiPeriods = 20;
         const int emaPeriods = 12;
-        const int rsiPeriods = 14;
-
-        List<Quote> quotesList = Quotes.ToList();
-
-        int length = quotesList.Count;
 
         // setup quote provider hub
         QuoteHub quoteHub = new();
@@ -125,24 +100,29 @@ public class RsiHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
             .ToEmaHub(emaPeriods);
 
         // emulate quote stream
-        for (int i = 0; i < length; i++)
+        for (int i = 0; i < quotesCount; i++)
         {
-            quoteHub.Add(quotesList[i]);
+            if (i == 80) { continue; }  // Skip for late arrival
+
+            Quote q = Quotes[i];
+            quoteHub.Add(q);
+            if (i is > 100 and < 105) { quoteHub.Add(q); }  // Duplicate quotes
         }
 
-        // final results
-        IReadOnlyList<EmaResult> streamList
-            = observer.Results;
+        quoteHub.Insert(Quotes[80]);  // Late arrival
+        quoteHub.Remove(Quotes[removeAtIndex]);  // Remove
 
-        // time-series, for comparison
-        IReadOnlyList<EmaResult> seriesList
-           = quotesList
+        // final results
+        IReadOnlyList<EmaResult> sut = observer.Results;
+
+        // time-series, for comparison (revised)
+        IReadOnlyList<EmaResult> expected = RevisedQuotes
             .ToRsi(rsiPeriods)
             .ToEma(emaPeriods);
 
         // assert, should equal series
-        streamList.Should().HaveCount(length);
-        streamList.Should().BeEquivalentTo(seriesList);
+        sut.Should().HaveCount(quotesCount - 1);
+        sut.IsExactly(expected);
 
         observer.Unsubscribe();
         quoteHub.EndTransmission();

@@ -1,4 +1,4 @@
-namespace StreamHub;
+namespace StreamHubs;
 
 [TestClass]
 public class DemaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProvider
@@ -6,17 +6,13 @@ public class DemaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
     [TestMethod]
     public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
-        List<Quote> quotesList = Quotes.ToList();
-
-        int length = quotesList.Count;
-
         // setup quote provider hub
         QuoteHub quoteHub = new();
 
         // prefill quotes at provider
         for (int i = 0; i < 20; i++)
         {
-            quoteHub.Add(quotesList[i]);
+            quoteHub.Add(Quotes[i]);
         }
 
         // initialize observer
@@ -24,11 +20,11 @@ public class DemaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
             .ToDemaHub(5);
 
         // fetch initial results (early)
-        IReadOnlyList<DemaResult> streamList
+        IReadOnlyList<DemaResult> sut
             = observer.Results;
 
         // emulate adding quotes to provider hub
-        for (int i = 20; i < length; i++)
+        for (int i = 20; i < quotesCount; i++)
         {
             // skip one (add later)
             if (i == 80)
@@ -36,7 +32,7 @@ public class DemaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
                 continue;
             }
 
-            Quote q = quotesList[i];
+            Quote q = Quotes[i];
             quoteHub.Add(q);
 
             // resend duplicate quotes
@@ -47,18 +43,17 @@ public class DemaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
         }
 
         // late arrival
-        quoteHub.Insert(quotesList[80]);
+        quoteHub.Insert(Quotes[80]);
 
         // delete
-        quoteHub.Remove(quotesList[400]);
-        quotesList.RemoveAt(400);
+        quoteHub.Remove(Quotes[removeAtIndex]);
 
         // time-series, for comparison
-        IReadOnlyList<DemaResult> seriesList = quotesList.ToDema(5);
+        IReadOnlyList<DemaResult> expected = RevisedQuotes.ToDema(5);
 
         // assert, should equal series
-        streamList.Should().HaveCount(length - 1);
-        streamList.Should().BeEquivalentTo(seriesList);
+        sut.Should().HaveCount(quotesCount - 1);
+        sut.IsExactly(expected);
 
         observer.Unsubscribe();
         quoteHub.EndTransmission();
@@ -100,7 +95,7 @@ public class DemaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
 
         // assert, should equal series
         streamList.Should().HaveCount(length);
-        streamList.Should().BeEquivalentTo(seriesList);
+        streamList.IsExactly(seriesList);
 
         observer.Unsubscribe();
         quoteHub.EndTransmission();
@@ -112,10 +107,6 @@ public class DemaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
         const int demaPeriods = 20;
         const int smaPeriods = 10;
 
-        List<Quote> quotesList = Quotes.ToList();
-
-        int length = quotesList.Count;
-
         // setup quote provider hub
         QuoteHub quoteHub = new();
 
@@ -125,7 +116,7 @@ public class DemaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
             .ToSmaHub(smaPeriods);
 
         // emulate adding quotes to provider hub
-        for (int i = 0; i < length; i++)
+        for (int i = 0; i < quotesCount; i++)
         {
             // skip one (add later)
             if (i == 80)
@@ -133,7 +124,7 @@ public class DemaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
                 continue;
             }
 
-            Quote q = quotesList[i];
+            Quote q = Quotes[i];
             quoteHub.Add(q);
 
             // resend duplicate quotes
@@ -144,24 +135,23 @@ public class DemaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
         }
 
         // late arrival
-        quoteHub.Insert(quotesList[80]);
+        quoteHub.Insert(Quotes[80]);
 
         // delete
-        quoteHub.Remove(quotesList[400]);
-        quotesList.RemoveAt(400);
+        quoteHub.Remove(Quotes[removeAtIndex]);
 
         // final results
-        IReadOnlyList<SmaResult> streamList
+        IReadOnlyList<SmaResult> sut
             = observer.Results;
 
         // time-series, for comparison
-        IReadOnlyList<SmaResult> seriesList
-           = quotesList.ToDema(demaPeriods)
+        IReadOnlyList<SmaResult> expected
+           = RevisedQuotes.ToDema(demaPeriods)
             .ToSma(smaPeriods);
 
         // assert, should equal series
-        streamList.Should().HaveCount(length - 1);
-        streamList.Should().BeEquivalentTo(seriesList);
+        sut.Should().HaveCount(quotesCount - 1);
+        sut.IsExactly(expected);
 
         observer.Unsubscribe();
         quoteHub.EndTransmission();

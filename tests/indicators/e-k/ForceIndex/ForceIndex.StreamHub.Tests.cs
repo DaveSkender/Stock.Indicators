@@ -98,7 +98,7 @@ public class ForceIndex : StreamHubTestBase, ITestQuoteObserver, ITestChainProvi
 
         // assert, should equal series
         actuals.Should().HaveCount(length - 1);
-        actuals.Should().BeEquivalentTo(seriesList);
+        actuals.IsExactly(seriesList);
 
         // cleanup
         observer.Unsubscribe();

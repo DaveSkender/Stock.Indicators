@@ -10,7 +10,7 @@ namespace Skender.Stock.Indicators;
 /// </summary>
 public static partial class StringOut
 {
-    private static readonly CultureInfo culture = CultureInfo.InvariantCulture;
+    private static readonly CultureInfo invariantCulture = CultureInfo.InvariantCulture;
 
     /// <summary>
     /// Writes the string representation of an ISeries instance to the console.
@@ -79,7 +79,7 @@ public static partial class StringOut
         string format = $"{{0,-{widthOfName}}}  {{1,-{widthOfType}}}  {{2,{widthOfValue}}}  {{3}}";
 
         // Build the header
-        sb.AppendFormat(culture, format, headers[0], headers[1], headers[2], headers[3]).AppendLine();
+        sb.AppendFormat(invariantCulture, format, headers[0], headers[1], headers[2], headers[3]).AppendLine();
 
         // Build the separator line
         int totalWidth = widthOfName + widthOfType + widthOfValue + Math.Min(widthOfDesc, 30) + 6; // +6 for spaces
@@ -88,7 +88,7 @@ public static partial class StringOut
         // Build each row
         for (int i = 0; i < names.Count; i++)
         {
-            string row = string.Format(culture, format, names[i], types[i], values[i], descriptions[i]);
+            string row = string.Format(invariantCulture, format, names[i], types[i], values[i], descriptions[i]);
             sb.AppendLine(row);
         }
 
@@ -115,12 +115,12 @@ public static partial class StringOut
     private static string FormatPropertyValue(object? value)
         => value switch {
             DateTime dateTimeValue => dateTimeValue.Kind == DateTimeKind.Utc
-                ? dateTimeValue.ToString("u", culture)
-                : dateTimeValue.ToString("s", culture),
+                ? dateTimeValue.ToString("u", invariantCulture)
+                : dateTimeValue.ToString("s", invariantCulture),
 
-            DateOnly dateOnlyValue => dateOnlyValue.ToString("yyyy-MM-dd", culture),
+            DateOnly dateOnlyValue => dateOnlyValue.ToString("yyyy-MM-dd", invariantCulture),
 
-            DateTimeOffset dateTimeOffsetValue => dateTimeOffsetValue.ToString("o", culture),
+            DateTimeOffset dateTimeOffsetValue => dateTimeOffsetValue.ToString("o", invariantCulture),
 
             string stringValue => stringValue.Length > 35
                 ? $"{stringValue.AsSpan(0, 32)}..."
@@ -229,7 +229,8 @@ public static partial class StringOut
     /// <returns>An array of <see cref="PropertyInfo"/> objects representing the properties of the type.</returns>
     private static PropertyInfo[] GetStringOutProperties(Type type)
         => type.GetProperties(BindingFlags.Public | BindingFlags.Instance)
-            .Where(static p => p.GetCustomAttribute<JsonIgnoreAttribute>() == null
-                     && p.GetCustomAttribute<ObsoleteAttribute>() == null)
+            .Where(static p
+                => p.GetCustomAttribute<JsonIgnoreAttribute>() == null
+                && p.GetCustomAttribute<ObsoleteAttribute>() == null)
             .ToArray();
 }

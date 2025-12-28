@@ -1,16 +1,13 @@
-namespace StreamHub;
+namespace StreamHubs;
 
 [TestClass]
 public class EmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProvider
 {
     private const int lookbackPeriods = 5;
-    private readonly IReadOnlyList<EmaResult> expectedOriginal = Quotes.ToEma(lookbackPeriods);
 
     [TestMethod]
     public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
-        int length = Quotes.Count;
-
         // setup quote provider hub
         QuoteHub quoteHub = new();
 
@@ -21,10 +18,10 @@ public class EmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
         EmaHub observer = quoteHub.ToEmaHub(lookbackPeriods);
 
         // fetch initial results (early)
-        IReadOnlyList<EmaResult> actuals = observer.Results;
+        IReadOnlyList<EmaResult> sut = observer.Results;
 
         // emulate adding quotes to provider hub
-        for (int i = 20; i < length; i++)
+        for (int i = 20; i < quotesCount; i++)
         {
             // skip one (add later)
             if (i == 80) { continue; }
@@ -38,15 +35,16 @@ public class EmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
 
         // late arrival, should equal series
         quoteHub.Insert(Quotes[80]);
-        actuals.IsExactly(expectedOriginal);
+
+        IReadOnlyList<EmaResult> expectedOriginal = Quotes.ToEma(lookbackPeriods);
+        sut.IsExactly(expectedOriginal);
 
         // delete, should equal series (revised)
         quoteHub.Remove(Quotes[removeAtIndex]);
 
         IReadOnlyList<EmaResult> expectedRevised = RevisedQuotes.ToEma(lookbackPeriods);
-
-        actuals.Should().HaveCount(501);
-        actuals.IsExactly(expectedRevised);
+        sut.IsExactly(expectedRevised);
+        sut.Should().HaveCount(quotesCount - 1);
 
         // cleanup
         observer.Unsubscribe();
@@ -58,7 +56,6 @@ public class EmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
     {
         const int emaPeriods = 12;
         const int smaPeriods = 8;
-        int length = Quotes.Count;
 
         // setup quote provider hub
         QuoteHub quoteHub = new();
@@ -69,10 +66,10 @@ public class EmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
             .ToEmaHub(emaPeriods);
 
         // emulate quote stream
-        for (int i = 0; i < length; i++) { quoteHub.Add(Quotes[i]); }
+        for (int i = 0; i < quotesCount; i++) { quoteHub.Add(Quotes[i]); }
 
         // final results
-        IReadOnlyList<EmaResult> actuals = observer.Results;
+        IReadOnlyList<EmaResult> sut = observer.Results;
 
         // time-series, for comparison
         IReadOnlyList<EmaResult> expected = Quotes
@@ -80,8 +77,8 @@ public class EmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
             .ToEma(emaPeriods);
 
         // assert, should equal series
-        actuals.Should().HaveCount(length);
-        actuals.IsExactly(expected);
+        sut.IsExactly(expected);
+        sut.Should().HaveCount(quotesCount);
 
         // cleanup
         observer.Unsubscribe();
@@ -93,7 +90,6 @@ public class EmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
     {
         const int emaPeriods = 20;
         const int smaPeriods = 10;
-        int length = Quotes.Count;
 
         // setup quote provider hub
         QuoteHub quoteHub = new();
@@ -104,7 +100,7 @@ public class EmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
             .ToSmaHub(smaPeriods);
 
         // emulate adding quotes to provider hub
-        for (int i = 0; i < length; i++)
+        for (int i = 0; i < quotesCount; i++)
         {
             // skip one (add later)
             if (i == 80) { continue; }
@@ -123,17 +119,16 @@ public class EmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
         quoteHub.Remove(Quotes[removeAtIndex]);
 
         // final results
-        IReadOnlyList<SmaResult> actuals
-            = observer.Results;
+        IReadOnlyList<SmaResult> sut = observer.Results;
 
         // time-series, for comparison (revised)
-        IReadOnlyList<SmaResult> seriesList = RevisedQuotes
+        IReadOnlyList<SmaResult> expected = RevisedQuotes
             .ToEma(emaPeriods)
             .ToSma(smaPeriods);
 
         // assert, should equal series
-        actuals.Should().HaveCount(length - 1);
-        actuals.Should().BeEquivalentTo(seriesList);
+        sut.Should().HaveCount(quotesCount - 1);
+        sut.IsExactly(expected);
 
         // cleanup
         observer.Unsubscribe();

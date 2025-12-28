@@ -41,5 +41,12 @@ public static partial class Beta
             .WithMethodName("ToBetaList")
             .Build();
 
-    // No StreamListing for BETA.
+    /// <summary>
+    /// BETA Stream Listing
+    /// </summary>
+    internal static readonly IndicatorListing StreamListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Stream)
+            .WithMethodName("ToBetaHub")
+            .Build();
 }

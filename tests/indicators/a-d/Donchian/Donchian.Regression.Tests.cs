@@ -9,7 +9,7 @@ public class DonchianTests : RegressionTestBase<DonchianResult>
     public override void Series() => Quotes.ToDonchian(20).IsExactly(Expected);
 
     [TestMethod]
-    public override void Buffer() => new DonchianList(20) { Quotes }.IsExactly(Expected);
+    public override void Buffer() => Quotes.ToDonchianList(20).IsExactly(Expected);
 
     [TestMethod]
     public override void Stream() => QuoteHub.ToDonchianHub(20).Results.IsExactly(Expected);

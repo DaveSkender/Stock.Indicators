@@ -1,7 +1,7 @@
 namespace StreamHubs;
 
 [TestClass]
-public class Vwma : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
+public class VwmaHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
 {
     private const int lookbackPeriods = 10;
     private readonly IReadOnlyList<VwmaResult> expectedOriginal = Quotes.ToVwma(lookbackPeriods);
@@ -98,7 +98,7 @@ public class Vwma : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
 
         // assert, should equal series
         actuals.Should().HaveCount(length - 1);
-        actuals.Should().BeEquivalentTo(seriesList);
+        actuals.IsExactly(seriesList);
 
         // cleanup
         observer.Unsubscribe();

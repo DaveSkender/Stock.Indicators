@@ -1,13 +1,13 @@
 using System.Reflection;
 
-namespace Test.Data;
+namespace TestOfTests;
 
 /// <summary>
 /// Validates that all StreamHub test classes implement correct test interfaces
 /// based on their hub's provider type per instruction file guidelines.
 /// </summary>
 [TestClass]
-public class StreamHubInterfaceComplianceTests
+public class TestCompliance
 {
 
     [TestMethod]

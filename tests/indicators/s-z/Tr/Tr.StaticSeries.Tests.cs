@@ -18,22 +18,22 @@ public class Tr : StaticSeriesTestBase
         r0.Tr.Should().BeNull();
 
         TrResult r1 = sut[1];
-        Assert.AreEqual(1.42, r1.Tr.Round(8));
+        r1.Tr.Should().BeApproximately(1.42, Money8);
 
         TrResult r12 = sut[12];
-        Assert.AreEqual(1.32, r12.Tr.Round(8));
+        r12.Tr.Should().BeApproximately(1.32, Money8);
 
         TrResult r13 = sut[13];
-        Assert.AreEqual(1.45, r13.Tr.Round(8));
+        r13.Tr.Should().BeApproximately(1.45, Money8);
 
         TrResult r24 = sut[24];
-        Assert.AreEqual(0.88, r24.Tr.Round(8));
+        r24.Tr.Should().BeApproximately(0.88, Money8);
 
         TrResult r249 = sut[249];
-        Assert.AreEqual(0.58, r249.Tr.Round(8));
+        r249.Tr.Should().BeApproximately(0.58, Money8);
 
         TrResult r501 = sut[501];
-        Assert.AreEqual(2.67, r501.Tr.Round(8));
+        r501.Tr.Should().BeApproximately(2.67, Money8);
     }
 
     [TestMethod]

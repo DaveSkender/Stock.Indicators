@@ -8,7 +8,6 @@ namespace Skender.Stock.Indicators;
 public class StdDevHub
     : ChainProvider<IReusable, StdDevResult>, IStdDev
 {
-
     private readonly string hubName;
 
     /// <summary>
@@ -52,26 +51,12 @@ public class StdDevHub
 
         if (i >= LookbackPeriods - 1)
         {
-            double sum = 0;
-            bool hasNaN = false;
+            // Calculate mean using Sma.Increment utility
+            double meanValue = Sma.Increment(ProviderCache, LookbackPeriods, i);
 
-            // Calculate sum first and check for NaN values
-            for (int p = i - LookbackPeriods + 1; p <= i; p++)
+            if (!double.IsNaN(meanValue))
             {
-                double value = ProviderCache[p].Value;
-                if (double.IsNaN(value))
-                {
-                    hasNaN = true;
-                    break;
-                }
-
-                sum += value;
-            }
-
-            if (!hasNaN)
-            {
-                // Calculate mean
-                mean = sum / LookbackPeriods;
+                mean = meanValue;
 
                 // Calculate sum of squared deviations (numerically stable method)
                 double sumSqDev = 0;

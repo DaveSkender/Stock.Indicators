@@ -1,6 +1,4 @@
-namespace StreamHub;
-
-// QUOTEHUB
+namespace StreamHubs;
 
 [TestClass]
 public class QuoteHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
@@ -8,78 +6,88 @@ public class QuoteHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPr
     [TestMethod]
     public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
-        // tests quote redistribution
+        // setup quote provider hub
+        QuoteHub provider = new();
 
-        List<Quote> quotesList = Quotes.ToList();
+        // prefill quotes at provider
+        provider.Add(Quotes.Take(20));
 
-        int length = Quotes.Count;
+        // initialize observer
+        QuoteHub observer = provider.ToQuoteHub();
 
-        // add base quotes (batch)
-        QuoteHub quoteHub = new();
+        // fetch initial results (early)
+        IReadOnlyList<IQuote> sut = observer.Results;
 
-        quoteHub.Add(quotesList.Take(200));
-
-        // add incremental quotes
-        for (int i = 200; i < length; i++)
+        // emulate adding quotes to provider hub
+        for (int i = 20; i < quotesCount; i++)
         {
-            Quote q = quotesList[i];
-            quoteHub.Add(q);
+            // skip one (add later)
+            if (i == 80) { continue; }
+
+            Quote q = Quotes[i];
+            provider.Add(q);
+
+            // resend duplicate quotes
+            if (i is > 100 and < 105) { provider.Add(q); }
         }
 
-        QuoteHub observer
-            = quoteHub.ToQuoteHub();
+        // late arrival, should equal series
+        provider.Insert(Quotes[80]);
 
-        // close observations
-        quoteHub.EndTransmission();
+        sut.IsExactly(Quotes);
 
-        // assert same as original
-        observer.Cache.Should().HaveCount(length);
-        observer.Cache.Should().BeEquivalentTo(quoteHub.Cache);
+        // delete, should equal series (revised)
+        provider.Remove(Quotes[removeAtIndex]);
+
+        sut.IsExactly(RevisedQuotes);
+        sut.Should().HaveCount(quotesCount - 1);
+
+        // cleanup
+        observer.Unsubscribe();
+        provider.EndTransmission();
     }
 
     [TestMethod]
     public void ChainProvider_MatchesSeriesExactly()
     {
-        const int smaPeriods = 8;
-
-        List<Quote> quotesList = Quotes.ToList();
-
-        int length = quotesList.Count;
+        const int emaPeriods = 14;
 
         // setup quote provider hub
-        QuoteHub quoteHub = new();
+        QuoteHub provider = new();
 
         // initialize observer
-        SmaHub observer
-           = quoteHub
-            .ToSmaHub(smaPeriods);
+        EmaHub observer = provider
+            .ToQuoteHub()
+            .ToEmaHub(emaPeriods);
 
-        // emulate quote stream
-        for (int i = 0; i < length; i++)
+        // emulate quote stream with comprehensive provider history testing
+        for (int i = 0; i < quotesCount; i++)
         {
-            quoteHub.Add(quotesList[i]);
+            if (i == 80) { continue; }  // Skip one
+
+            Quote q = Quotes[i];
+            provider.Add(q);
+
+            if (i is > 100 and < 105) { provider.Add(q); }  // Duplicates
         }
 
-        // delete
-        quoteHub.RemoveAt(400);
-        quotesList.RemoveAt(400);
+        provider.Insert(Quotes[80]);  // Late arrival
+        provider.Remove(Quotes[removeAtIndex]);  // Delete
 
         // final results
-        IReadOnlyList<SmaResult> streamList
-            = observer.Results;
+        IReadOnlyList<EmaResult> sut = observer.Results;
 
         // time-series, for comparison
-        IReadOnlyList<SmaResult> seriesList
-           = quotesList
-            .ToSma(smaPeriods);
+        IReadOnlyList<EmaResult> expected = RevisedQuotes
+            .ToEma(emaPeriods);
 
         // assert, should equal series
-        streamList.Should().HaveCount(length - 1);
-        streamList.Should().BeEquivalentTo(seriesList);
+        sut.Should().HaveCount(quotesCount - 1);
+        sut.IsExactly(expected);
 
         // cleanup
         observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        provider.EndTransmission();
     }
 
     [TestMethod]

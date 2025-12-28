@@ -9,7 +9,7 @@ public class UltimateTests : RegressionTestBase<UltimateResult>
     public override void Series() => Quotes.ToUltimate(7, 14, 28).IsExactly(Expected);
 
     [TestMethod]
-    public override void Buffer() => new UltimateList(7, 14, 28) { Quotes }.IsExactly(Expected);
+    public override void Buffer() => Quotes.ToUltimateList(7, 14, 28).IsExactly(Expected);
 
     [TestMethod]
     public override void Stream() => QuoteHub.ToUltimateHub(7, 14, 28).Results.IsExactly(Expected);

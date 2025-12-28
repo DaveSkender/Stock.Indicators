@@ -9,7 +9,7 @@ public class WmaTests : RegressionTestBase<WmaResult>
     public override void Series() => Quotes.ToWma(14).IsExactly(Expected);
 
     [TestMethod]
-    public override void Buffer() => new WmaList(14) { Quotes }.IsExactly(Expected);
+    public override void Buffer() => Quotes.ToWmaList(14).IsExactly(Expected);
 
     [TestMethod]
     public override void Stream() => QuoteHub.ToWmaHub(14).Results.IsExactly(Expected);

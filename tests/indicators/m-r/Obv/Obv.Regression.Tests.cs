@@ -9,7 +9,7 @@ public class ObvTests : RegressionTestBase<ObvResult>
     public override void Series() => Quotes.ToObv().IsExactly(Expected);
 
     [TestMethod]
-    public override void Buffer() => new ObvList() { Quotes }.IsExactly(Expected);
+    public override void Buffer() => Quotes.ToObvList().IsExactly(Expected);
 
     [TestMethod]
     public override void Stream() => QuoteHub.ToObvHub().Results.IsExactly(Expected);

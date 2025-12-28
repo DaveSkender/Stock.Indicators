@@ -1,4 +1,4 @@
-namespace StreamHub;
+namespace StreamHubs;
 
 [TestClass]
 public class CmfHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
@@ -64,8 +64,6 @@ public class CmfHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProv
         const int cmfPeriods = 20;
         const int emaPeriods = 10;
 
-        List<Quote> quotesList = Quotes.ToList();
-
         // setup quote provider hub
         QuoteHub quoteHub = new();
 
@@ -74,22 +72,30 @@ public class CmfHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProv
             .ToCmfHub(cmfPeriods)
             .ToEmaHub(emaPeriods);
 
-        // stream quotes
-        foreach (Quote q in quotesList)
+        // emulate quote stream
+        for (int i = 0; i < quotesCount; i++)
         {
+            if (i == 80) { continue; }  // Skip for late arrival
+
+            Quote q = Quotes[i];
             quoteHub.Add(q);
+
+            if (i is > 100 and < 105) { quoteHub.Add(q); }  // Duplicate quotes
         }
 
-        // results from stream
-        IReadOnlyList<EmaResult> streamList = observer.Results;
+        quoteHub.Insert(Quotes[80]);  // Late arrival
+        quoteHub.Remove(Quotes[removeAtIndex]);  // Remove
 
-        // time-series parity
-        IReadOnlyList<EmaResult> seriesList = quotesList
+        // results from stream
+        IReadOnlyList<EmaResult> sut = observer.Results;
+
+        // time-series parity (revised)
+        IReadOnlyList<EmaResult> expected = RevisedQuotes
             .ToCmf(cmfPeriods)
             .ToEma(emaPeriods);
 
-        streamList.Should().HaveCount(seriesList.Count);
-        streamList.IsExactly(seriesList);
+        sut.Should().HaveCount(quotesCount - 1);
+        sut.IsExactly(expected);
 
         observer.Unsubscribe();
         quoteHub.EndTransmission();

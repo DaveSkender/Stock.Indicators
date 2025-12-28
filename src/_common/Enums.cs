@@ -27,7 +27,7 @@ internal enum Act
 }
 
 /// <summary>
-/// Part or value of a quote candle.
+/// Component or composite value of an OHLCV quote aggregate (e.g., Close, High, HL2, and others).
 /// </summary>
 public enum CandlePart
 {

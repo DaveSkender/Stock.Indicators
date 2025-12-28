@@ -1,4 +1,4 @@
-namespace StreamHub;
+namespace StreamHubs;
 
 [TestClass]
 public class Chandelier : StreamHubTestBase, ITestQuoteObserver
@@ -6,15 +6,11 @@ public class Chandelier : StreamHubTestBase, ITestQuoteObserver
     [TestMethod]
     public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
-        List<Quote> quotesList = Quotes.ToList();
-
-        int length = quotesList.Count;
-
         // setup quote provider hub
         QuoteHub quoteHub = new();
 
         // prefill quotes at provider (batch)
-        quoteHub.Add(quotesList.Take(25));
+        quoteHub.Add(Quotes.Take(25));
 
         // initialize observer
         ChandelierHub observer = quoteHub
@@ -23,11 +19,11 @@ public class Chandelier : StreamHubTestBase, ITestQuoteObserver
         observer.Results.Should().HaveCount(25);
 
         // fetch initial results (early)
-        IReadOnlyList<ChandelierResult> streamList
+        IReadOnlyList<ChandelierResult> actuals
             = observer.Results;
 
         // emulate adding quotes to provider hub
-        for (int i = 25; i < length; i++)
+        for (int i = 25; i < quotesCount; i++)
         {
             // skip one (add later)
             if (i == 80)
@@ -35,7 +31,7 @@ public class Chandelier : StreamHubTestBase, ITestQuoteObserver
                 continue;
             }
 
-            Quote q = quotesList[i];
+            Quote q = Quotes[i];
             quoteHub.Add(q);
 
             // resend duplicate quotes
@@ -46,20 +42,17 @@ public class Chandelier : StreamHubTestBase, ITestQuoteObserver
         }
 
         // late arrival
-        quoteHub.Insert(quotesList[80]);
+        quoteHub.Insert(Quotes[80]);
 
         // delete
-        quoteHub.Remove(quotesList[400]);
-        quotesList.RemoveAt(400);
+        quoteHub.Remove(Quotes[removeAtIndex]);
 
         // time-series, for comparison
-        IReadOnlyList<ChandelierResult> seriesList
-           = quotesList
-            .ToChandelier(22, 3);
+        IReadOnlyList<ChandelierResult> expected = RevisedQuotes.ToChandelier(22, 3);
 
         // assert, should equal series
-        streamList.Should().HaveCount(length - 1);
-        streamList.Should().BeEquivalentTo(seriesList);
+        actuals.Should().HaveCount(quotesCount - 1);
+        actuals.IsExactly(expected);
 
         observer.Unsubscribe();
         quoteHub.EndTransmission();
@@ -91,7 +84,7 @@ public class Chandelier : StreamHubTestBase, ITestQuoteObserver
 
         // assert, should equal series
         streamList.Should().HaveCount(Quotes.Count);
-        streamList.Should().BeEquivalentTo(seriesList);
+        streamList.IsExactly(seriesList);
 
         observer.Unsubscribe();
         quoteHub.EndTransmission();

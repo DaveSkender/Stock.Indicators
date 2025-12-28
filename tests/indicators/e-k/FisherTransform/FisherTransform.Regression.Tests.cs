@@ -9,7 +9,7 @@ public class FisherTransformTests : RegressionTestBase<FisherTransformResult>
     public override void Series() => Quotes.ToFisherTransform(10).IsExactly(Expected);
 
     [TestMethod]
-    public override void Buffer() => new FisherTransformList(10) { Quotes }.IsExactly(Expected);
+    public override void Buffer() => Quotes.ToFisherTransformList(10).IsExactly(Expected);
 
     [TestMethod]
     public override void Stream() => QuoteHub.ToFisherTransformHub(10).Results.IsExactly(Expected);
