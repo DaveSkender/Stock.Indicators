@@ -1,21 +1,5 @@
 namespace Skender.Stock.Indicators;
 
-// USE / QUOTE CONVERTER (STREAM HUB)
-
-public static partial class QuoteParts
-{
-    /// <summary>
-    /// Converts the quote provider to a QuotePartHub.
-    /// </summary>
-    /// <param name="quoteProvider">The quote provider.</param>
-    /// <param name="candlePart">The <see cref="CandlePart" /> element.</param>
-    /// <returns>A QuotePartHub instance.</returns>
-    public static QuotePartHub ToQuotePartHub(
-    this IQuoteProvider<IQuote> quoteProvider,
-    CandlePart candlePart)
-    => new(quoteProvider, candlePart);
-}
-
 /// <summary>
 /// Streaming hub for managing quote parts.
 /// </summary>
@@ -60,4 +44,35 @@ public class QuotePartHub
     /// <inheritdoc/>
     public override string ToString()
         => $"QUOTE-PART({CandlePartSelection.ToString().ToUpperInvariant()})";
+}
+
+public static partial class QuoteParts
+{
+    /// <summary>
+    /// Creates an QuotePart streaming hub from a chain provider.
+    /// </summary>
+    /// <param name="quoteProvider">The quote provider.</param>
+    /// <param name="candlePart">The <see cref="CandlePart" /> element.</param>
+    /// <returns>An new <see cref="QuotePartHub"/> instance.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when the quote provider is null.</exception>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when the <paramref name="candlePart"/> invalid.</exception>
+    public static QuotePartHub ToQuotePartHub(
+        this IQuoteProvider<IQuote> quoteProvider,
+        CandlePart candlePart)
+        => new(quoteProvider, candlePart);
+
+    /// <summary>
+    /// Creates a QuotePart hub from a collection of quotes.
+    /// </summary>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="candlePart">The <see cref="CandlePart" /> element.</param>
+    /// <returns>An new <see cref="QuotePartHub"/> instance.</returns>
+    public static QuotePartHub ToQuotePartHub(
+        this IReadOnlyList<IQuote> quotes,
+        CandlePart candlePart)
+    {
+        QuoteHub quoteHub = new();
+        quoteHub.Add(quotes);
+        return quoteHub.ToQuotePartHub(candlePart);
+    }
 }
