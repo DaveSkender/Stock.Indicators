@@ -6,61 +6,46 @@ public class VolatilityStopHubTests : StreamHubTestBase, ITestQuoteObserver
     [TestMethod]
     public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
-        List<Quote> quotesList = Quotes.ToList();
-
-        int length = quotesList.Count;
-
         // setup quote provider hub
         QuoteHub quoteHub = new();
 
         // prefill quotes at provider (batch)
-        quoteHub.Add(quotesList.Take(20));
+        quoteHub.Add(Quotes.Take(20));
 
         // initialize observer
-        VolatilityStopHub observer = quoteHub
-            .ToVolatilityStopHub();
+        VolatilityStopHub observer = quoteHub.ToVolatilityStopHub();
 
         observer.Results.Should().HaveCount(20);
 
         // fetch initial results (early)
-        IReadOnlyList<VolatilityStopResult> streamList
-            = observer.Results;
+        IReadOnlyList<VolatilityStopResult> sut = observer.Results;
 
         // emulate adding quotes to provider hub
-        for (int i = 20; i < length; i++)
+        for (int i = 20; i < quotesCount; i++)
         {
             // skip one (add later)
-            if (i is 30 or 80)
-            {
-                continue;
-            }
+            if (i is 30 or 80) { continue; }
 
-            Quote q = quotesList[i];
+            Quote q = Quotes[i];
             quoteHub.Add(q);
 
             // resend duplicate quotes
-            if (i is > 100 and < 105)
-            {
-                quoteHub.Add(q);
-            }
+            if (i is > 100 and < 105) { quoteHub.Add(q); }
         }
 
         // late arrivals (test Insert functionality)
-        quoteHub.Insert(quotesList[30]);  // rebuilds complete series
-        quoteHub.Insert(quotesList[80]);  // rebuilds from insertion point
+        quoteHub.Insert(Quotes[30]);  // rebuilds complete series
+        quoteHub.Insert(Quotes[80]);  // rebuilds from insertion point
 
-        // delete (test Remove functionality)
-        quoteHub.Remove(quotesList[removeAtIndex]);
-        quotesList.RemoveAt(removeAtIndex);
+        IReadOnlyList<VolatilityStopResult> expectedOriginal = Quotes.ToVolatilityStop();
+        sut.IsExactly(expectedOriginal);
 
-        // time-series, for comparison
-        IReadOnlyList<VolatilityStopResult> seriesList
-           = quotesList
-            .ToVolatilityStop();
+        // delete (test Remove functionality), should equal series (revised)
+        quoteHub.Remove(Quotes[removeAtIndex]);
 
-        // assert, should equal series
-        streamList.Should().HaveCount(length - 1);
-        streamList.IsExactly(seriesList);
+        IReadOnlyList<VolatilityStopResult> expectedRevised = RevisedQuotes.ToVolatilityStop();
+        sut.IsExactly(expectedRevised);
+        sut.Should().HaveCount(quotesCount - 1);
 
         observer.Unsubscribe();
         quoteHub.EndTransmission();

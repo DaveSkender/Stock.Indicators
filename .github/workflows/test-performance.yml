@@ -15,6 +15,12 @@ on:
     paths:
       - ".github/workflows/test-performance.yml"
   workflow_dispatch:
+    inputs:
+      benchmark_filter:
+        description: "Benchmark filter pattern (e.g., *Ema* or *StyleComparison*)"
+        required: false
+        default: "*"
+        type: string
 
 permissions:
   contents: read
@@ -54,9 +60,28 @@ jobs:
           --configuration Release
           --property:ContinuousIntegrationBuild=true
 
-      - name: Test performance
+      # Run spot check (quick) benchmarks on PRs
+      - name: Test performance (spot check)
+        if: github.event_name == 'pull_request'
         working-directory: tools/performance
-        run: dotnet run -c Release
+        run: |
+          dotnet run -c Release -- \
+            --filter "*StyleComparison*" \
+            --job short \
+            --warmupCount 3 \
+            --iterationCount 5
+
+      # Run full benchmarks on push to main or manual dispatch
+      - name: Test performance (full)
+        if: github.event_name != 'pull_request'
+        working-directory: tools/performance
+        run: |
+          FILTER="${{ github.event.inputs.benchmark_filter || '*' }}"
+          if [ "$FILTER" = "*" ]; then
+            dotnet run -c Release
+          else
+            dotnet run -c Release -- --filter "$FILTER"
+          fi
 
       - name: Save test results
         uses: actions/upload-artifact@v4
@@ -64,27 +89,71 @@ jobs:
           name: test-summaries
           path: tools/performance/BenchmarkDotNet.Artifacts/results
 
-      - name: Publish summary
+      - name: Detect performance regressions (Q005)
+        if: github.event_name == 'pull_request'
+        working-directory: tools/performance
+        continue-on-error: true
+        run: |
+          # Compare StyleComparison results with baseline (15% threshold for PRs)
+          pwsh detect-regressions.ps1 \
+            -BaselineFile baselines/Performance.StyleComparison-report-full.json \
+            -CurrentFile BenchmarkDotNet.Artifacts/results/Performance.StyleComparison-report-full.json \
+            -ThresholdPercent 15 | tee regression-report.txt
+
+      - name: Add regression analysis to summary
+        if: github.event_name == 'pull_request'
+        working-directory: tools/performance
+        continue-on-error: true
+        run: |
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "## Performance Regression Analysis" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          if [ -f regression-report.txt ]; then
+            echo '```' >> $GITHUB_STEP_SUMMARY
+            cat regression-report.txt >> $GITHUB_STEP_SUMMARY
+            echo '```' >> $GITHUB_STEP_SUMMARY
+          else
+            echo "✅ No regression analysis output available" >> $GITHUB_STEP_SUMMARY
+          fi
+
+      - name: Publish summary (spot check)
+        if: github.event_name == 'pull_request'
+        working-directory: tools/performance/BenchmarkDotNet.Artifacts/results
+        continue-on-error: true
+        run: |
+          echo "## Performance Test Results (Spot Check)" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "> 💡 This is a quick spot check. Full benchmarks run on push to main." >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          if [ -f Performance.StyleComparison-report-github.md ]; then
+            echo "### Style comparison" >> $GITHUB_STEP_SUMMARY
+            cat Performance.StyleComparison-report-github.md >> $GITHUB_STEP_SUMMARY
+          fi
+
+      - name: Publish summary (full)
+        if: github.event_name != 'pull_request'
         working-directory: tools/performance/BenchmarkDotNet.Artifacts/results
         run: |
           echo "## Performance Test Results" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
 
           echo "### Series indicators" >> $GITHUB_STEP_SUMMARY
-          cat Performance.SeriesIndicators-report-github.md >> $GITHUB_STEP_SUMMARY
+          cat Performance.SeriesIndicators-report-github.md >> $GITHUB_STEP_SUMMARY 2>/dev/null || echo "No Series results" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
 
           echo "### Stream indicators" >> $GITHUB_STEP_SUMMARY
-          cat Performance.StreamIndicators-report-github.md >> $GITHUB_STEP_SUMMARY
+          cat Performance.StreamIndicators-report-github.md >> $GITHUB_STEP_SUMMARY 2>/dev/null || echo "No Stream results" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
 
           echo "### Buffer indicators" >> $GITHUB_STEP_SUMMARY
-          cat Performance.BufferIndicators-report-github.md >> $GITHUB_STEP_SUMMARY
+          cat Performance.BufferIndicators-report-github.md >> $GITHUB_STEP_SUMMARY 2>/dev/null || echo "No Buffer results" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
 
           echo "### Style comparison" >> $GITHUB_STEP_SUMMARY
-          cat Performance.StyleComparison-report-github.md >> $GITHUB_STEP_SUMMARY
+          cat Performance.StyleComparison-report-github.md >> $GITHUB_STEP_SUMMARY 2>/dev/null || echo "No StyleComparison results" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
 
           echo "### Utilities" >> $GITHUB_STEP_SUMMARY
-          cat Performance.Utility-report-github.md >> $GITHUB_STEP_SUMMARY
+          cat Performance.Utility-report-github.md >> $GITHUB_STEP_SUMMARY 2>/dev/null || echo "No Utility results" >> $GITHUB_STEP_SUMMARY

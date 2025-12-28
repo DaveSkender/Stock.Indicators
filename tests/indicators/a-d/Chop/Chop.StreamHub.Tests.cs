@@ -13,17 +13,13 @@ public class ChopHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPro
     [TestMethod]
     public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
-        List<Quote> quotesList = Quotes.ToList();
-
-        int length = quotesList.Count;
-
         // setup quote provider hub
         QuoteHub quoteHub = new();
 
         // prefill quotes at provider
         for (int i = 0; i < 25; i++)
         {
-            quoteHub.Add(quotesList[i]);
+            quoteHub.Add(Quotes[i]);
         }
 
         // initialize observer
@@ -31,11 +27,11 @@ public class ChopHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPro
             .ToChopHub(14);
 
         // fetch initial results (early)
-        IReadOnlyList<ChopResult> streamList
+        IReadOnlyList<ChopResult> actuals
             = observer.Results;
 
         // emulate adding quotes to provider hub
-        for (int i = 25; i < length; i++)
+        for (int i = 25; i < quotesCount; i++)
         {
             // skip one (add later)
             if (i == 80)
@@ -43,7 +39,7 @@ public class ChopHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPro
                 continue;
             }
 
-            Quote q = quotesList[i];
+            Quote q = Quotes[i];
             quoteHub.Add(q);
 
             // resend duplicate quotes
@@ -54,18 +50,17 @@ public class ChopHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPro
         }
 
         // late arrival
-        quoteHub.Insert(quotesList[80]);
+        quoteHub.Insert(Quotes[80]);
 
         // delete
-        quoteHub.Remove(quotesList[400]);
-        quotesList.RemoveAt(400);
+        quoteHub.Remove(Quotes[removeAtIndex]);
 
         // time-series, for comparison
-        IReadOnlyList<ChopResult> seriesList = quotesList.ToChop(14);
+        IReadOnlyList<ChopResult> expected = RevisedQuotes.ToChop(14);
 
         // assert, should equal series
-        streamList.Should().HaveCount(length - 1);
-        streamList.IsExactly(seriesList);
+        actuals.Should().HaveCount(quotesCount - 1);
+        actuals.IsExactly(expected);
 
         observer.Unsubscribe();
         quoteHub.EndTransmission();
@@ -77,10 +72,6 @@ public class ChopHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPro
         const int smaPeriods = 8;
         const int chopPeriods = 14;
 
-        List<Quote> quotesList = Quotes.ToList();
-
-        int length = quotesList.Count;
-
         // setup quote provider hub
         QuoteHub quoteHub = new();
 
@@ -90,24 +81,30 @@ public class ChopHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPro
             .ToSmaHub(smaPeriods);
 
         // emulate quote stream
-        for (int i = 0; i < length; i++)
+        for (int i = 0; i < quotesCount; i++)
         {
-            quoteHub.Add(quotesList[i]);
+            if (i == 80) { continue; }  // Skip for late arrival
+
+            Quote q = Quotes[i];
+            quoteHub.Add(q);
+
+            if (i is > 100 and < 105) { quoteHub.Add(q); }  // Duplicate quotes
         }
 
-        // final results
-        IReadOnlyList<SmaResult> streamList
-            = observer.Results;
+        quoteHub.Insert(Quotes[80]);  // Late arrival
+        quoteHub.Remove(Quotes[removeAtIndex]);  // Remove
 
-        // time-series, for comparison
-        IReadOnlyList<SmaResult> seriesList
-           = quotesList
+        // final results
+        IReadOnlyList<SmaResult> sut = observer.Results;
+
+        // time-series, for comparison (revised)
+        IReadOnlyList<SmaResult> expected = RevisedQuotes
             .ToChop(chopPeriods)
             .ToSma(smaPeriods);
 
         // assert, should equal series
-        streamList.Should().HaveCount(length);
-        streamList.IsExactly(seriesList);
+        sut.Should().HaveCount(quotesCount - 1);
+        sut.IsExactly(expected);
 
         observer.Unsubscribe();
         quoteHub.EndTransmission();

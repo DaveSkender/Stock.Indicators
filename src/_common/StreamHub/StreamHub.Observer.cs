@@ -35,7 +35,7 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamObserver<TIn>
     }
 
     /// <inheritdoc/>
-    public void OnRebuild(DateTime fromTimestamp)
+    public virtual void OnRebuild(DateTime fromTimestamp)
         => Rebuild(fromTimestamp);
 
     /// <inheritdoc/>

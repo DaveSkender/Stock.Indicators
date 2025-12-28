@@ -37,25 +37,29 @@ public static class TestAssert
     }
 
     /// <summary>
-    /// Asserts that two <see cref="IEnumerable{T}" /> series are equivalent with a precision profile.
+    /// Asserts that two <see cref="IEnumerable{T}" /> series are exactly the same.
     /// </summary>
-    /// <typeparam name="T">List elements must be <see cref="ISeries"/> interface types.</typeparam>
-    /// <param name="actual">The actual list of series to be compared.</param>
-    /// <param name="expected">The expected list of series to compare against.</param>
+    /// <typeparam name="T">List elements must be <see cref="ISeries"/> types.</typeparam>
+    /// <param name="actuals">The actual collection subject under test (sut).</param>
+    /// <param name="expected">The expected collection to match exactly.</param>
     /// <param name="because">
-    /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
-    /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+    /// Optional formatted phrase, supported by <see cref="string.Format(string,object[])" />,
+    /// explaining why the assertion is needed. If the phrase does not start with the word
+    /// <i>because</i>, it is prepended automatically.
     /// </param>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
+    /// <remarks>
+    /// Collections are compared using strict ordering and by comparing all members of <typeparamref name="T"/>.
+    /// </remarks>
     public static void IsExactly<T>(
-        this IEnumerable<T> actual,
+        this IEnumerable<T> actuals,
         IEnumerable<T> expected,
         string because = "",
         params object[] becauseArgs
     ) where T : ISeries
-        => actual.Should().BeEquivalentTo(
+        => actuals.Should().BeEquivalentTo(
             expectation: expected,
             config: static options => options
                 .WithStrictOrdering()     // require same sequence order

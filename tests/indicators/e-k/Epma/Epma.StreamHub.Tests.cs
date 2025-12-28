@@ -159,18 +159,27 @@ public class EpmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
             .ToEpmaHub(lookbackPeriods)
             .ToSmaHub(smaPeriods);
 
-        foreach (Quote quote in Quotes)
+        // emulate quote stream
+        for (int i = 0; i < quotesCount; i++)
         {
-            quoteHub.Add(quote);
+            if (i == 80) { continue; }  // Skip for late arrival
+
+            Quote q = Quotes[i];
+            quoteHub.Add(q);
+
+            if (i is > 100 and < 105) { quoteHub.Add(q); }  // Duplicate quotes
         }
 
-        IReadOnlyList<SmaResult> chainedResults = smaHub.Results;
-        IReadOnlyList<SmaResult> expectedChained = Quotes
+        quoteHub.Insert(Quotes[80]);  // Late arrival
+        quoteHub.Remove(Quotes[removeAtIndex]);  // Remove
+
+        IReadOnlyList<SmaResult> sut = smaHub.Results;
+        IReadOnlyList<SmaResult> expected = RevisedQuotes
             .ToEpma(lookbackPeriods)
             .ToSma(smaPeriods);
 
-        chainedResults.Should().HaveCount(Quotes.Count);
-        chainedResults.IsExactly(expectedChained);
+        sut.Should().HaveCount(quotesCount - 1);
+        sut.IsExactly(expected);
 
         smaHub.Unsubscribe();
         quoteHub.EndTransmission();
