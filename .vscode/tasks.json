@@ -498,14 +498,6 @@
       "problemMatcher": "$msCompile"
     },
     {
-      "label": "Run: Test simulation",
-      "detail": "Run streaming indicators simulation demo",
-      "type": "shell",
-      "command": "dotnet run --project tools/simulate/Test.Simulation.csproj",
-      "group": "none",
-      "problemMatcher": "$msCompile"
-    },
-    {
       "label": "Test: Website links (htmlproofer)",
       "detail": "Build docs and run htmlproofer link checks (parity with CI)",
       "type": "shell",
