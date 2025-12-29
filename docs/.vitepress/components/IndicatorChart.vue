@@ -176,9 +176,10 @@ function createChartInstance() {
     autoSize: true,
     height: props.height,
     layout: {
-      background: { type: ColorType.Solid, color: bgColor },
+      background: { type: 'none', color: bgColor }, // type: ColorType.Solid
       textColor: textColor,
       fontFamily: 'Inter, system-ui, -apple-system, sans-serif',
+      fontSize: 10
       attributionLogo: false  // Remove TradingView logo
     },
     grid: {
