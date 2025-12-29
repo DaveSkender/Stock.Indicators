@@ -8,7 +8,7 @@ description: Created by Oliver Seban, the SuperTrend indicator attempts to deter
 Created by Oliver Seban, the SuperTrend indicator attempts to determine the primary trend of prices by using [Average True Range (ATR)](/indicators/Atr) band thresholds around an HL2 midline.  It can indicate a buy/sell signal or a trailing stop when the trend changes.
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/235 "Community discussion about this indicator")
 
-<img src="/assets/charts/SuperTrend.png" alt="chart for SuperTrend" />
+<img src="/assets/charts/SuperTrend.png" alt="chart for SuperTrend indicator showing upper and lower trend bands" />
 
 ```csharp
 // C# usage syntax
