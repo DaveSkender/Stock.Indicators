@@ -8,7 +8,6 @@ namespace Skender.Stock.Indicators;
 public class VwmaHub
     : ChainProvider<IReusable, VwmaResult>, IVwma
 {
-    private readonly string hubName;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="VwmaHub"/> class.
@@ -21,7 +20,7 @@ public class VwmaHub
     {
         Vwma.Validate(lookbackPeriods);
         LookbackPeriods = lookbackPeriods;
-        hubName = $"VWMA({lookbackPeriods})";
+        Name = $"VWMA({lookbackPeriods})";
 
         Reinitialize();
     }
@@ -34,7 +33,7 @@ public class VwmaHub
     // METHODS
 
     /// <inheritdoc />
-    public override string ToString() => hubName;
+    public override string ToString() => Name;
 
     /// <inheritdoc />
     protected override (VwmaResult result, int index)

@@ -33,7 +33,6 @@ public static partial class MaEnvelopes
 public class MaEnvelopesHub
     : StreamHub<IReusable, MaEnvelopeResult>
 {
-    private readonly string hubName;
     private readonly double offsetRatio;
     private readonly MaType movingAverageType;
     /// <summary>
@@ -131,7 +130,7 @@ public class MaEnvelopesHub
         this.movingAverageType = movingAverageType;
         offsetRatio = percentOffset / 100d;
         k = 2d / (lookbackPeriods + 1); // for EMA-based types
-        hubName = $"MAENV({lookbackPeriods},{percentOffset},{Enum.GetName(movingAverageType)})";
+        Name = $"MAENV({lookbackPeriods},{percentOffset},{Enum.GetName(movingAverageType)})";
 
         Reinitialize();
     }
@@ -150,10 +149,6 @@ public class MaEnvelopesHub
     /// Gets the type of moving average used.
     /// </summary>
     public MaType MovingAverageType { get; init; }
-
-    /// <inheritdoc/>
-    public override string ToString() => hubName;
-
     /// <inheritdoc/>
     protected override (MaEnvelopeResult result, int index)
         ToIndicator(IReusable item, int? indexHint)

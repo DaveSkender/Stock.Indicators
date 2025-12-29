@@ -23,6 +23,7 @@ public class PrsList : BufferList<PrsResult>, IIncrementFromPairs, IPrs
         }
 
         LookbackPeriods = lookbackPeriods;
+        Name = $"PRS({lookbackPeriods})";
 
         // Only need buffer if lookbackPeriods is positive
         int bufferSize = lookbackPeriods > 0 ? lookbackPeriods + 1 : 1;

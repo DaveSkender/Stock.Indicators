@@ -6,7 +6,6 @@ namespace Skender.Stock.Indicators;
 public class UlcerIndexHub
     : ChainProvider<IReusable, UlcerIndexResult>, IUlcerIndex
 {
-    private readonly string hubName;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="UlcerIndexHub"/> class.
@@ -21,17 +20,13 @@ public class UlcerIndexHub
     {
         UlcerIndex.Validate(lookbackPeriods);
         LookbackPeriods = lookbackPeriods;
-        hubName = $"ULCER({lookbackPeriods})";
+        Name = $"ULCER({lookbackPeriods})";
 
         Reinitialize();
     }
 
     /// <inheritdoc/>
     public int LookbackPeriods { get; init; }
-
-    /// <inheritdoc/>
-    public override string ToString() => hubName;
-
     /// <inheritdoc/>
     protected override (UlcerIndexResult result, int index)
         ToIndicator(IReusable item, int? indexHint)

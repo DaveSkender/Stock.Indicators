@@ -9,7 +9,6 @@ public class EpmaHub
     : ChainProvider<IReusable, EpmaResult>, IEpma
 {
 
-    private readonly string hubName;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="EpmaHub"/> class.
@@ -22,7 +21,7 @@ public class EpmaHub
     {
         Epma.Validate(lookbackPeriods);
         LookbackPeriods = lookbackPeriods;
-        hubName = $"EPMA({lookbackPeriods})";
+        Name = $"EPMA({lookbackPeriods})";
 
         Reinitialize();
     }
@@ -33,10 +32,6 @@ public class EpmaHub
     public int LookbackPeriods { get; init; }
 
     // METHODS
-
-    /// <inheritdoc/>
-    public override string ToString() => hubName;
-
     /// <inheritdoc/>
     protected override (EpmaResult result, int index)
         ToIndicator(IReusable item, int? indexHint)

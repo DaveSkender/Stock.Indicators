@@ -8,7 +8,6 @@ namespace Skender.Stock.Indicators;
 public class GatorHub
    : StreamHub<AlligatorResult, GatorResult>
 {
-    private readonly string hubName;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GatorHub"/> class.
@@ -18,15 +17,11 @@ public class GatorHub
         : base(alligatorHub)
     {
         ArgumentNullException.ThrowIfNull(alligatorHub);
-        hubName = "GATOR()";
+        Name = "GATOR()";
         Reinitialize();
     }
 
     // METHODS
-
-    /// <inheritdoc/>
-    public override string ToString() => hubName;
-
     /// <inheritdoc/>
     protected override (GatorResult result, int index)
         ToIndicator(AlligatorResult item, int? indexHint)

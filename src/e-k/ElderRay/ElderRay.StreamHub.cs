@@ -9,7 +9,6 @@ public class ElderRayHub
     : StreamHub<IQuote, ElderRayResult>, IElderRay
 {
 
-    private readonly string hubName;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ElderRayHub"/> class.
@@ -26,7 +25,7 @@ public class ElderRayHub
 
         LookbackPeriods = lookbackPeriods;
         K = 2d / (lookbackPeriods + 1);
-        hubName = $"ELDER-RAY({lookbackPeriods})";
+        Name = $"ELDER-RAY({lookbackPeriods})";
 
         Reinitialize();
     }
@@ -42,10 +41,6 @@ public class ElderRayHub
     private double K { get; init; }
 
     // METHODS
-
-    /// <inheritdoc/>
-    public override string ToString() => hubName;
-
     /// <inheritdoc/>
     protected override (ElderRayResult result, int index)
         ToIndicator(IQuote item, int? indexHint)

@@ -9,7 +9,6 @@ public sealed class SmiHub
     : ChainProvider<IQuote, SmiResult>, ISmi
 {
 
-    private readonly string hubName;
 
     // Rolling windows for O(1) high/low tracking
     private readonly RollingWindowMax<double> _highWindow;
@@ -48,7 +47,7 @@ public sealed class SmiHub
         K2 = 2d / (secondSmoothPeriods + 1);
         KS = 2d / (signalPeriods + 1);
 
-        hubName = $"SMI({lookbackPeriods},{firstSmoothPeriods},{secondSmoothPeriods},{signalPeriods})";
+        Name = $"SMI({lookbackPeriods},{firstSmoothPeriods},{secondSmoothPeriods},{signalPeriods})";
 
         // Initialize rolling windows for O(1) amortized max/min tracking
         _highWindow = new RollingWindowMax<double>(lookbackPeriods);
@@ -83,10 +82,6 @@ public sealed class SmiHub
     /// Gets the smoothing factor for the signal line.
     /// </summary>
     public double KS { get; private init; }
-
-    /// <inheritdoc/>
-    public override string ToString() => hubName;
-
     /// <inheritdoc/>
     protected override (SmiResult result, int index)
         ToIndicator(IQuote item, int? indexHint)

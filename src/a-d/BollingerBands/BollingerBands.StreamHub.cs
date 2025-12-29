@@ -9,7 +9,6 @@ public class BollingerBandsHub
     : ChainProvider<IReusable, BollingerBandsResult>, IBollingerBands
 {
 
-    private readonly string hubName;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="BollingerBandsHub"/> class.
@@ -25,7 +24,7 @@ public class BollingerBandsHub
         BollingerBands.Validate(lookbackPeriods, standardDeviations);
         LookbackPeriods = lookbackPeriods;
         StandardDeviations = standardDeviations;
-        hubName = $"BB({lookbackPeriods},{standardDeviations})";
+        Name = $"BB({lookbackPeriods},{standardDeviations})";
 
         Reinitialize();
     }
@@ -39,10 +38,6 @@ public class BollingerBandsHub
     /// Gets the number of standard deviations.
     /// </summary>
     public double StandardDeviations { get; }
-
-    /// <inheritdoc/>
-    public override string ToString() => hubName;
-
     /// <inheritdoc/>
     protected override (BollingerBandsResult result, int index)
         ToIndicator(IReusable item, int? indexHint)

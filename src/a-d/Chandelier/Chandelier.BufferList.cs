@@ -23,6 +23,8 @@ public class ChandelierList : BufferList<ChandelierResult>, IIncrementFromQuote,
 
         _atrList = new AtrList(lookbackPeriods);
         _buffer = new Queue<(double, double)>(lookbackPeriods);
+
+        Name = $"CHANDELIER({22}, {3}, {Direction.Long})";
     }
 
     /// <summary>

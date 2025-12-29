@@ -23,6 +23,8 @@ public class RollingPivotsList : BufferList<RollingPivotsResult>, IIncrementFrom
         OffsetPeriods = offsetPeriods;
         PointType = pointType;
         _buffer = new Queue<IQuote>(windowPeriods + offsetPeriods + 1);
+
+        Name = $"ROLLINGPIVOTS({20}, {0}, {PivotPointType.Standard})";
     }
 
     /// <summary>

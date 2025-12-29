@@ -10,7 +10,11 @@ public class AdlHub : ChainProvider<IQuote, AdlResult>
     /// </summary>
     /// <param name="provider">The quote provider.</param>
     internal AdlHub(IQuoteProvider<IQuote> provider)
-        : base(provider) => Reinitialize();
+        : base(provider)
+    {
+        Name = "ADL";
+        Reinitialize();
+    }
 
     /// <inheritdoc/>
     protected override (AdlResult result, int index)

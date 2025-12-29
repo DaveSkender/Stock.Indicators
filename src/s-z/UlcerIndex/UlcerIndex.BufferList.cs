@@ -17,6 +17,8 @@ public class UlcerIndexList : BufferList<UlcerIndexResult>, IIncrementFromChain
         LookbackPeriods = lookbackPeriods;
 
         _buffer = new Queue<double>(lookbackPeriods);
+
+        Name = $"ULCERINDEX({lookbackPeriods})";
     }
 
     /// <summary>

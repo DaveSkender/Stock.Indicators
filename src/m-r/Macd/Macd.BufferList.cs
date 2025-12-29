@@ -43,6 +43,8 @@ public class MacdList : BufferList<MacdResult>, IIncrementFromChain, IMacd
         _fastBufferSum = 0;
         _slowBufferSum = 0;
         _macdBufferSum = 0;
+
+        Name = $"MACD({fastPeriods}, {slowPeriods}, {signalPeriods})";
     }
 
     /// <summary>

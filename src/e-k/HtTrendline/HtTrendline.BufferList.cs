@@ -288,7 +288,6 @@ public class HtTrendlineList : BufferList<HtlResult>, IIncrementFromChain
         sd.Clear();
         it.Clear();
     }
-
     private void RemoveStateRange(int count)
     {
         pr.RemoveRange(0, count);

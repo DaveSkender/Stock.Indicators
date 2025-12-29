@@ -6,7 +6,6 @@ namespace Skender.Stock.Indicators;
 public class ChandelierHub
     : StreamHub<IQuote, ChandelierResult>, IChandelier
 {
-    private readonly string hubName;
     private readonly AtrHub atrHub;
     private readonly RollingWindowMax<double> _highWindow;
     private readonly RollingWindowMin<double> _lowWindow;
@@ -31,7 +30,7 @@ public class ChandelierHub
         Type = type;
 
         string typeName = type.ToString().ToUpperInvariant();
-        hubName = FormattableString.Invariant(
+        Name = FormattableString.Invariant(
             $"CHEXIT({lookbackPeriods},{multiplier},{typeName})");
 
         // Initialize internal ATR hub to maintain streaming state
@@ -60,10 +59,6 @@ public class ChandelierHub
     public Direction Type { get; init; }
 
     // METHODS
-
-    /// <inheritdoc/>
-    public override string ToString() => hubName;
-
     /// <inheritdoc/>
     protected override (ChandelierResult result, int index)
         ToIndicator(IQuote item, int? indexHint)

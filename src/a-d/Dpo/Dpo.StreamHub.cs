@@ -15,7 +15,6 @@ namespace Skender.Stock.Indicators;
 public class DpoHub
     : ChainProvider<IReusable, DpoResult>, IDpo
 {
-    private readonly string hubName;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="DpoHub"/> class.
@@ -29,7 +28,7 @@ public class DpoHub
         Dpo.Validate(lookbackPeriods);
         LookbackPeriods = lookbackPeriods;
         Offset = (lookbackPeriods / 2) + 1;
-        hubName = $"DPO({lookbackPeriods})";
+        Name = $"DPO({lookbackPeriods})";
 
         Reinitialize();
     }
@@ -43,10 +42,6 @@ public class DpoHub
     /// Gets the offset for lookahead calculation.
     /// </summary>
     public int Offset { get; init; }
-
-    /// <inheritdoc/>
-    public override string ToString() => hubName;
-
     /// <remarks>
     /// DPO at any position requires an offset number of subsequent values for calculation.
     /// Emits results for all positions from Cache.Count to current index, calculating DPO when

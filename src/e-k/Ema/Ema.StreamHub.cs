@@ -6,7 +6,6 @@ namespace Skender.Stock.Indicators;
 public class EmaHub
     : ChainProvider<IReusable, EmaResult>, IEma
 {
-    private readonly string hubName;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="EmaHub"/> class.
@@ -22,7 +21,7 @@ public class EmaHub
         Ema.Validate(lookbackPeriods);
         LookbackPeriods = lookbackPeriods;
         K = 2d / (lookbackPeriods + 1);
-        hubName = $"EMA({lookbackPeriods})";
+        Name = $"EMA({lookbackPeriods})";
 
         Reinitialize();
     }
@@ -32,10 +31,6 @@ public class EmaHub
 
     /// <inheritdoc/>
     public double K { get; private init; }
-
-    /// <inheritdoc/>
-    public override string ToString() => hubName;
-
     /// <inheritdoc/>
     protected override (EmaResult result, int index)
         ToIndicator(IReusable item, int? indexHint)

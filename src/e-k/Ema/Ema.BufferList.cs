@@ -22,6 +22,8 @@ public class EmaList : BufferList<EmaResult>, IIncrementFromChain, IEma
 
         _buffer = new Queue<double>(lookbackPeriods);
         _bufferSum = 0;
+
+        Name = $"EMA({lookbackPeriods})";
     }
 
     /// <summary>

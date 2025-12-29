@@ -17,6 +17,8 @@ public class CciList : BufferList<CciResult>, IIncrementFromQuote, ICci
         LookbackPeriods = lookbackPeriods;
 
         _buffer = new Queue<double>(lookbackPeriods);
+
+        Name = $"CCI({lookbackPeriods})";
     }
 
     /// <summary>

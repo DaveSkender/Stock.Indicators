@@ -43,6 +43,8 @@ public class SlopeList : BufferList<SlopeResult>, IIncrementFromChain, ISlope
         // When X values are [x, x+1, ..., x+n-1], avgX = x + (n-1)/2
         // Sum of (Xi - avgX)^2 = n*(n^2 - 1)/12
         sumSqXConstant = lookbackPeriods * ((lookbackPeriods * lookbackPeriods) - 1) / 12.0;
+
+        Name = $"SLOPE({lookbackPeriods})";
     }
 
     /// <summary>
@@ -161,7 +163,6 @@ public class SlopeList : BufferList<SlopeResult>, IIncrementFromChain, ISlope
         _buffer.Clear();
         globalIndexOffset = 0;
     }
-
     /// <summary>
     /// Overrides list pruning to update the global index offset.
     /// </summary>

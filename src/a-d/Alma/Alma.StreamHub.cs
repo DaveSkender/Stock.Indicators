@@ -6,7 +6,6 @@ namespace Skender.Stock.Indicators;
 public class AlmaHub
     : ChainProvider<IReusable, AlmaResult>, IAlma
 {
-    private readonly string hubName;
     private readonly double[] weights;
     private readonly double normalizationFactor;
 
@@ -29,7 +28,7 @@ public class AlmaHub
         LookbackPeriods = lookbackPeriods;
         Offset = offset;
         Sigma = sigma;
-        hubName = $"ALMA({lookbackPeriods},{offset},{sigma})";
+        Name = $"ALMA({lookbackPeriods},{offset},{sigma})";
 
         // Pre-calculate weights once for O(1) application per quote
         double m = offset * (lookbackPeriods - 1);
@@ -58,10 +57,6 @@ public class AlmaHub
 
     /// <inheritdoc/>
     public double Sigma { get; init; }
-
-    /// <inheritdoc/>
-    public override string ToString() => hubName;
-
     /// <inheritdoc/>
     protected override (AlmaResult result, int index)
         ToIndicator(IReusable item, int? indexHint)
