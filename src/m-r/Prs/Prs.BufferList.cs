@@ -20,11 +20,10 @@ public class PrsList : BufferList<PrsResult>, IIncrementFromPairs, IPrs
             throw new ArgumentOutOfRangeException(
                 nameof(lookbackPeriods), lookbackPeriods,
                 "Lookback periods must be greater than 0 for Price Relative Strength.");
-
-            Name = $"PRS({int.MinValue})";
         }
 
         LookbackPeriods = lookbackPeriods;
+        Name = $"PRS({lookbackPeriods})";
 
         // Only need buffer if lookbackPeriods is positive
         int bufferSize = lookbackPeriods > 0 ? lookbackPeriods + 1 : 1;
