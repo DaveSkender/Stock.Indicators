@@ -44,119 +44,121 @@ This analysis evaluates five open performance-related issues and identifies addi
 - [x] CMO StreamHub - Verified already optimized (Queue buffer)
 - [x] Chandelier StreamHub - Verified already optimized (RollingWindowMax/Min)
 
-### Phase 1b: StreamHub Rollback/Rebuild Audit
+### Phase 1b: StreamHub Rollback/Rebuild Audit ✅ COMPLETE
 
-The following StreamHubs implement `RollbackState()` and should be reviewed for correctness and O(1) operations:
+All StreamHub implementations audited and verified with passing tests.
 
-**High Priority (Complex State):**
+**High Priority (Complex State) - 14 items audited:**
 
-- [ ] Adx.StreamHub - Complex Wilder smoothing state, verify proper rebuild
-- [ ] AtrStop.StreamHub - ATR + stop state, verify rollback logic
-- [ ] ConnorsRsi.StreamHub - Multiple RSI states, verify synchronization
-- [ ] FisherTransform.StreamHub - Transform state, verify precision
-- [ ] Ichimoku.StreamHub - Multiple windows, verify all rebuilt correctly
-- [ ] Kvo.StreamHub - Volume oscillator state, verify accumulator reset
-- [ ] Mama.StreamHub - Complex phase state, verify MAMA/FAMA sync
-- [ ] MaEnvelopes.StreamHub - MA state, verify envelope calculations
-- [ ] ParabolicSar.StreamHub - SAR state (AF, EP, trend), verify flip logic
-- [ ] Pmo.StreamHub - Double EMA smoothing, verify chain
-- [ ] RocWb.StreamHub - WilderMA + StdDev state, verify combination
-- [ ] Stoch.StreamHub - Multiple buffers (rawK, signal), verify prefill
-- [ ] Tsi.StreamHub - Double EMA smoothing, verify chain
-- [ ] VolatilityStop.StreamHub - ATR + stop state, verify trend logic
+- [x] Adx.StreamHub - Complex Wilder smoothing state with full replay in RollbackState
+- [x] AtrStop.StreamHub - Restores direction/bands from Cache, ATR uses Wilder smoothing
+- [x] ConnorsRsi.StreamHub - Uses embedded RsiHub, streak/rank state properly managed
+- [x] FisherTransform.StreamHub - Transform state with rolling window rebuild
+- [x] Ichimoku.StreamHub - Multiple windows with RollingWindowMax/Min utilities
+- [x] Kvo.StreamHub - Volume oscillator with EMA chain state
+- [x] Mama.StreamHub - Phase state with smooth array management
+- [x] MaEnvelopes.StreamHub - MA chain with internal hub delegation
+- [x] ParabolicSar.StreamHub - SAR state (AF, EP, trend) with flip logic rebuild
+- [x] Pmo.StreamHub - Double EMA smoothing via chained hubs
+- [x] RocWb.StreamHub - WilderMA + StdDev chain state
+- [x] Stoch.StreamHub - Multiple buffers with rawK prefill and signal smoothing
+- [x] Tsi.StreamHub - Double EMA smoothing via chained hubs
+- [x] VolatilityStop.StreamHub - ATR + stop state with trend logic (similar to AtrStop)
 
-**Medium Priority (Simple State):**
+**Medium Priority (Simple State) - 29 items audited:**
 
-- [ ] Beta.StreamHub - Rolling correlation state
-- [ ] Cci.StreamHub - Mean deviation state
-- [ ] Chop.StreamHub - ATR sum state
-- [ ] Cmo.StreamHub - Tick buffer state (already verified)
-- [ ] Dema.StreamHub - Double EMA chain
-- [ ] Donchian.StreamHub - Rolling windows
-- [ ] Dpo.StreamHub - SMA state with offset
-- [ ] Fcb.StreamHub - Fractal state
-- [ ] HeikinAshi.StreamHub - OHLC state
-- [ ] HtTrendline.StreamHub - Hilbert state
-- [ ] Hurst.StreamHub - Regression state
-- [ ] Mfi.StreamHub - Money flow buffer
-- [ ] PivotPoints.StreamHub - Pivot state
-- [ ] Pivots.StreamHub - High/low tracking
-- [ ] Pvo.StreamHub - Volume EMA chain
-- [ ] Renko.StreamHub - Brick state
-- [ ] RollingPivots.StreamHub - Rolling pivot windows
-- [ ] Slope.StreamHub - Linear regression state
-- [ ] Smi.StreamHub - Stochastic smoothing
-- [ ] Stc.StreamHub - Schaff trend cycle
-- [ ] StochRsi.StreamHub - RSI + Stoch combination (verified with RSI fix)
-- [ ] SuperTrend.StreamHub - ATR + trend state
-- [ ] T3.StreamHub - Multiple EMA chain
-- [ ] Tema.StreamHub - Triple EMA chain
-- [ ] Trix.StreamHub - Triple EMA chain
-- [ ] UlcerIndex.StreamHub - Drawdown buffer
-- [ ] Vortex.StreamHub - True range sums
-- [ ] Vwap.StreamHub - Volume-weighted sums
-- [ ] WilliamsR.StreamHub - Rolling high/low
+- [x] Beta.StreamHub - Rolling correlation with paired provider
+- [x] Cci.StreamHub - Mean deviation with rolling window
+- [x] Chop.StreamHub - ATR sum with rolling window
+- [x] Cmo.StreamHub - Tick buffer state (verified in Phase 1)
+- [x] Dema.StreamHub - Double EMA via chained hub
+- [x] Donchian.StreamHub - Rolling windows with RollingWindowMax/Min
+- [x] Dpo.StreamHub - SMA state with fixed offset
+- [x] Fcb.StreamHub - Fractal state with lookback
+- [x] HeikinAshi.StreamHub - OHLC state restoration
+- [x] HtTrendline.StreamHub - Hilbert transform state arrays
+- [x] Hurst.StreamHub - Regression state with rolling window
+- [x] Mfi.StreamHub - Money flow buffer
+- [x] PivotPoints.StreamHub - Pivot state with window tracking
+- [x] Pivots.StreamHub - High/low tracking with trend state
+- [x] Pvo.StreamHub - Volume EMA via chained hub
+- [x] Renko.StreamHub - Brick state with trend tracking
+- [x] RollingPivots.StreamHub - Rolling pivot windows
+- [x] Slope.StreamHub - Linear regression with rolling stats
+- [x] Smi.StreamHub - Stochastic smoothing with EMA chain
+- [x] Stc.StreamHub - Schaff trend cycle with nested state
+- [x] StochRsi.StreamHub - RSI + Stoch (verified with RSI fix)
+- [x] SuperTrend.StreamHub - ATR + trend state
+- [x] T3.StreamHub - Multiple EMA chain via nested hubs
+- [x] Tema.StreamHub - Triple EMA chain via nested hubs
+- [x] Trix.StreamHub - Triple EMA chain via nested hubs
+- [x] UlcerIndex.StreamHub - Drawdown buffer with rolling window
+- [x] Vortex.StreamHub - True range sums with rolling accumulation
+- [x] Vwap.StreamHub - Volume-weighted sums with reset logic
+- [x] WilliamsR.StreamHub - Rolling high/low with RollingWindowMax/Min
 
-**StreamHubs Without RollbackState (36 total) - Verify No State Needed:**
+**StreamHubs Without RollbackState (36 total) - Verified:**
 
-- [ ] Adl.StreamHub - Verify stateless (accumulation only)
-- [ ] Alligator.StreamHub - Verify SMMA chain handles rebuild
-- [ ] Alma.StreamHub - Verify weighted window is recalculated
-- [ ] Aroon.StreamHub - Verify high/low tracking rebuilt
-- [ ] Atr.StreamHub - Verify Wilder smoothing handles rebuild
-- [ ] Awesome.StreamHub - Verify SMA difference rebuilt
-- [ ] BollingerBands.StreamHub - Verify SMA + StdDev rebuilt
-- [ ] Bop.StreamHub - Verify stateless
-- [ ] ChaikinOsc.StreamHub - Verify ADL + EMA chain rebuilt
-- [ ] Cmf.StreamHub - Verify volume buffer rebuilt
-- [ ] Correlation.StreamHub - Verify rolling sums rebuilt
-- [ ] Doji.StreamHub - Verify stateless (pattern recognition)
-- [ ] Dynamic.StreamHub - Verify adaptive MA rebuilt
-- [ ] ElderRay.StreamHub - Verify EMA chain rebuilt
-- [ ] Ema.StreamHub - Verify EMA state (uses Cache lookup)
-- [ ] Epma.StreamHub - Verify SMA of endpoints rebuilt
-- [ ] Fractal.StreamHub - Verify lookback window rebuilt
-- [ ] Gator.StreamHub - Verify Alligator chain rebuilt
-- [ ] Hma.StreamHub - Verify WMA chain rebuilt
-- [ ] Kama.StreamHub - Verify adaptive MA rebuilt
-- [ ] Keltner.StreamHub - Verify EMA + ATR rebuilt
-- [ ] Macd.StreamHub - Verify EMA chain rebuilt
-- [ ] Marubozu.StreamHub - Verify stateless (pattern recognition)
-- [ ] Obv.StreamHub - Verify cumulative volume rebuilt
-- [ ] Prs.StreamHub - Verify ratio rebuilt
-- [ ] Quote.StreamHub - Verify passthrough
-- [ ] QuotePart.StreamHub - Verify passthrough
-- [ ] Roc.StreamHub - Verify lookback rebuilt
-- [ ] Sma.StreamHub - Verify rolling sum rebuilt
-- [ ] SmaAnalysis.StreamHub - Verify analysis rebuilt
-- [ ] Smma.StreamHub - Verify Wilder smoothing rebuilt
-- [ ] StdDev.StreamHub - Verify variance buffer rebuilt
-- [ ] Tr.StreamHub - Verify stateless (true range)
-- [ ] Ultimate.StreamHub - Verify pressure sums rebuilt
-- [ ] Vwma.StreamHub - Verify volume-weighted sum rebuilt
-- [ ] Wma.StreamHub - Verify weighted sum rebuilt
+These StreamHubs correctly delegate to internal hubs or use cache-based state:
 
-### Phase 1c: BufferList Cache Pruning Audit
+- [x] Adl.StreamHub - Cumulative, rebuilds from cache
+- [x] Alligator.StreamHub - SMMA chain via SmmaHub
+- [x] Alma.StreamHub - Weighted window recalculated per quote
+- [x] Aroon.StreamHub - High/low tracking rebuilt from cache
+- [x] Atr.StreamHub - Wilder smoothing via cache lookup
+- [x] Awesome.StreamHub - SMA difference via SmaHub chain
+- [x] BollingerBands.StreamHub - SMA + StdDev via chained hubs
+- [x] Bop.StreamHub - Stateless calculation per quote
+- [x] ChaikinOsc.StreamHub - ADL + EMA via chained hubs
+- [x] Cmf.StreamHub - Volume buffer rebuilt from cache
+- [x] Correlation.StreamHub - Rolling sums via PairsProvider
+- [x] Doji.StreamHub - Stateless pattern recognition
+- [x] Dynamic.StreamHub - Adaptive MA rebuilt from cache
+- [x] ElderRay.StreamHub - EMA via EmaHub chain
+- [x] Ema.StreamHub - EMA state from cache lookup
+- [x] Epma.StreamHub - SMA of endpoints via chain
+- [x] Fractal.StreamHub - Lookback window rebuilt
+- [x] Gator.StreamHub - Alligator chain via AlligatorHub
+- [x] Hma.StreamHub - WMA chain via nested hubs
+- [x] Kama.StreamHub - Adaptive MA rebuilt from cache
+- [x] Keltner.StreamHub - EMA + ATR via chained hubs
+- [x] Macd.StreamHub - EMA chain via nested EmaHubs
+- [x] Marubozu.StreamHub - Stateless pattern recognition
+- [x] Obv.StreamHub - Cumulative volume from cache
+- [x] Prs.StreamHub - Ratio via PairsProvider
+- [x] Quote.StreamHub - Passthrough
+- [x] QuotePart.StreamHub - Passthrough
+- [x] Roc.StreamHub - Lookback via cache
+- [x] Sma.StreamHub - Rolling sum from cache
+- [x] SmaAnalysis.StreamHub - Analysis via SmaHub
+- [x] Smma.StreamHub - Wilder smoothing via cache
+- [x] StdDev.StreamHub - Variance via SmaHub
+- [x] Tr.StreamHub - Stateless true range
+- [x] Ultimate.StreamHub - Pressure sums via chained hubs
+- [x] Vwma.StreamHub - Volume-weighted sum via cache
+- [x] Wma.StreamHub - Weighted sum from cache
 
-The following BufferLists override `PruneList()` with custom pruning logic - verify correctness:
+### Phase 1c: BufferList Cache Pruning Audit ✅ COMPLETE
 
-**Custom PruneList Implementations (11 total):**
+All BufferList implementations audited and verified with passing tests.
 
-- [ ] AtrStop.BufferList - Verify stop state array pruning
-- [ ] Dpo.BufferList - Verify SMA state array pruning
-- [ ] Fractal.BufferList - Verify lookback window pruning
-- [ ] HtTrendline.BufferList - Verify Hilbert state pruning
-- [ ] Ichimoku.BufferList - Verify multiple window pruning
-- [ ] Mama.BufferList - Verify phase state pruning
-- [ ] Pivots.BufferList - Verify high/low tracking pruning
-- [ ] Slope.BufferList - Verify regression state pruning
-- [ ] Stc.BufferList - Verify Schaff state pruning
-- [ ] Tsi.BufferList - Verify double EMA pruning
-- [ ] VolatilityStop.BufferList - Verify stop state pruning
+**Custom PruneList Implementations (11 total) - Verified:**
 
-**Standard BufferLists (71 total) - Use Default PruneList:**
+- [x] AtrStop.BufferList - Nested AtrList MaxListSize synchronized
+- [x] Dpo.BufferList - SMA state array pruning synchronized
+- [x] Fractal.BufferList - Lookback window state arrays pruned
+- [x] HtTrendline.BufferList - Hilbert state arrays pruned
+- [x] Ichimoku.BufferList - Historical buffers pruned in sync
+- [x] Mama.BufferList - Phase state arrays pruned
+- [x] Pivots.BufferList - High/low tracking buffers pruned
+- [x] Slope.BufferList - Regression state arrays pruned
+- [x] Stc.BufferList - Schaff state buffers pruned
+- [x] Tsi.BufferList - Double EMA chain buffers pruned
+- [x] VolatilityStop.BufferList - Stop state arrays pruned
 
-Default `PruneList()` removes oldest items when `Count > MaxListSize`. Verify internal buffers (Queue, List) are also pruned in the `Clear()` method.
+**Standard BufferLists (71 total) - Verified:**
+
+All use default `PruneList()` and properly clear internal buffers in `Clear()` method.
 
 ### Phase 2: Series Optimization (v3.1)
 
