@@ -46,119 +46,136 @@ This analysis evaluates five open performance-related issues and identifies addi
 
 ### Phase 1b: StreamHub Rollback/Rebuild Audit ✅ COMPLETE
 
-All StreamHub implementations audited and verified with passing tests.
+All StreamHub implementations audited for **correctness** and **performance optimization**.
 
-**High Priority (Complex State) - 14 items audited:**
+#### Audit Criteria
 
-- [x] Adx.StreamHub - Complex Wilder smoothing state with full replay in RollbackState
-- [x] AtrStop.StreamHub - Restores direction/bands from Cache, ATR uses Wilder smoothing
-- [x] ConnorsRsi.StreamHub - Uses embedded RsiHub, streak/rank state properly managed
-- [x] FisherTransform.StreamHub - Transform state with rolling window rebuild
-- [x] Ichimoku.StreamHub - Multiple windows with RollingWindowMax/Min utilities
-- [x] Kvo.StreamHub - Volume oscillator with EMA chain state
-- [x] Mama.StreamHub - Phase state with smooth array management
-- [x] MaEnvelopes.StreamHub - MA chain with internal hub delegation
-- [x] ParabolicSar.StreamHub - SAR state (AF, EP, trend) with flip logic rebuild
-- [x] Pmo.StreamHub - Double EMA smoothing via chained hubs
-- [x] RocWb.StreamHub - WilderMA + StdDev chain state
-- [x] Stoch.StreamHub - Multiple buffers with rawK prefill and signal smoothing
+Each StreamHub was evaluated for:
+
+1. **RollbackState correctness**: State properly restored to enable accurate recalculation
+2. **O(1) vs O(n) complexity**: Per-quote operations avoid nested loops or history scans
+3. **Memory efficiency**: Buffers sized appropriately, no unbounded growth
+4. **Cache access patterns**: Proper use of `Cache[]` vs `ProviderCache[]` lookups
+
+#### High Priority - Complex State (14 items audited)
+
+Pattern A - Full state replay in RollbackState (O(n) rebuild, O(1) per quote):
+
+- [x] Adx.StreamHub - Full replay rebuilds prevTrs, prevPdm, prevMdm, prevAdx, accumulators
+- [x] Kvo.StreamHub - Full replay rebuilds prevHlc, prevTrend, prevCm, VF EMA state, sumVf
+- [x] ParabolicSar.StreamHub - Full replay rebuilds AF, EP, priorSar, direction, buffer
+
+Pattern B - State restoration from Cache lookups (O(1) rebuild):
+
+- [x] AtrStop.StreamHub - Restores IsBullish/UpperBand/LowerBand from Cache[i-1]
+
+Pattern C - Rolling window utilities (O(lookback) rebuild):
+
+- [x] Stoch.StreamHub - RollingWindowMax/Min + rawK Queue prefill with boundary detection
+
+Pattern D - Chained hub delegation (no local state):
+
+- [x] ConnorsRsi.StreamHub - Delegates RSI to embedded RsiHub
+- [x] MaEnvelopes.StreamHub - Delegates MA calculation to internal hub
+- [x] Pmo.StreamHub - Uses EMA chain via chained hubs
 - [x] Tsi.StreamHub - Double EMA smoothing via chained hubs
-- [x] VolatilityStop.StreamHub - ATR + stop state with trend logic (similar to AtrStop)
 
-**Medium Priority (Simple State) - 29 items audited:**
+Pattern E - Array-based state with indexed access:
 
-- [x] Beta.StreamHub - Rolling correlation with paired provider
-- [x] Cci.StreamHub - Mean deviation with rolling window
-- [x] Chop.StreamHub - ATR sum with rolling window
-- [x] Cmo.StreamHub - Tick buffer state (verified in Phase 1)
-- [x] Dema.StreamHub - Double EMA via chained hub
-- [x] Donchian.StreamHub - Rolling windows with RollingWindowMax/Min
-- [x] Dpo.StreamHub - SMA state with fixed offset
-- [x] Fcb.StreamHub - Fractal state with lookback
-- [x] HeikinAshi.StreamHub - OHLC state restoration
-- [x] HtTrendline.StreamHub - Hilbert transform state arrays
-- [x] Hurst.StreamHub - Regression state with rolling window
-- [x] Mfi.StreamHub - Money flow buffer
+- [x] Mama.StreamHub - 11 parallel state arrays, RollbackState replays entire history
+- [x] FisherTransform.StreamHub - Transform arrays rebuilt on rollback
+- [x] Ichimoku.StreamHub - Multiple RollingWindowMax/Min with proper window sizing
+- [x] RocWb.StreamHub - WilderMA + StdDev chain with running statistics
+- [x] VolatilityStop.StreamHub - ATR + stop state with trend logic
+
+#### Medium Priority - Simple State (29 items audited)
+
+All verified to have O(1) amortized per-quote operations with proper state management:
+
+- [x] Beta.StreamHub - PairsProvider with rolling correlation sums
+- [x] Cci.StreamHub - Mean deviation via rolling window
+- [x] Chop.StreamHub - ATR sum with Queue buffer
+- [x] Cmo.StreamHub - Tick buffer state with Queue (verified in Phase 1)
+- [x] Dema.StreamHub - EMA chain via nested EmaHub
+- [x] Donchian.StreamHub - RollingWindowMax/Min utilities
+- [x] Dpo.StreamHub - SMA state with fixed offset lookback
+- [x] Fcb.StreamHub - Fractal state with lookback window
+- [x] HeikinAshi.StreamHub - Previous OHLC state restoration
+- [x] HtTrendline.StreamHub - Hilbert transform arrays with indexed access
+- [x] Hurst.StreamHub - Linear regression with rolling statistics
+- [x] Mfi.StreamHub - Money flow Queue buffer
 - [x] PivotPoints.StreamHub - Pivot state with window tracking
 - [x] Pivots.StreamHub - High/low tracking with trend state
-- [x] Pvo.StreamHub - Volume EMA via chained hub
+- [x] Pvo.StreamHub - Volume EMA via chained EmaHub
 - [x] Renko.StreamHub - Brick state with trend tracking
 - [x] RollingPivots.StreamHub - Rolling pivot windows
-- [x] Slope.StreamHub - Linear regression with rolling stats
+- [x] Slope.StreamHub - Linear regression with rolling window statistics
 - [x] Smi.StreamHub - Stochastic smoothing with EMA chain
-- [x] Stc.StreamHub - Schaff trend cycle with nested state
-- [x] StochRsi.StreamHub - RSI + Stoch (verified with RSI fix)
+- [x] Stc.StreamHub - Schaff trend cycle with nested state management
+- [x] StochRsi.StreamHub - RSI + Stoch (RsiHub dependency verified)
 - [x] SuperTrend.StreamHub - ATR + trend state
 - [x] T3.StreamHub - Multiple EMA chain via nested hubs
-- [x] Tema.StreamHub - Triple EMA chain via nested hubs
-- [x] Trix.StreamHub - Triple EMA chain via nested hubs
+- [x] Tema.StreamHub - Triple EMA via nested EmaHub
+- [x] Trix.StreamHub - Triple EMA via nested EmaHub
 - [x] UlcerIndex.StreamHub - Drawdown buffer with rolling window
 - [x] Vortex.StreamHub - True range sums with rolling accumulation
-- [x] Vwap.StreamHub - Volume-weighted sums with reset logic
-- [x] WilliamsR.StreamHub - Rolling high/low with RollingWindowMax/Min
+- [x] Vwap.StreamHub - Volume-weighted sums with period reset logic
+- [x] WilliamsR.StreamHub - RollingWindowMax/Min utilities
 
-**StreamHubs Without RollbackState (36 total) - Verified:**
+#### StreamHubs Without RollbackState - 36 total verified
 
-These StreamHubs correctly delegate to internal hubs or use cache-based state:
+`RollbackState()` is a protected override method that StreamHub implementations use to restore internal state when the provider history changes (e.g., quote insertion, removal, or replacement). Indicators that don't maintain private mutable state don't need this override because they either recalculate from scratch or delegate state management to nested hubs.
 
-- [x] Adl.StreamHub - Cumulative, rebuilds from cache
-- [x] Alligator.StreamHub - SMMA chain via SmmaHub
-- [x] Alma.StreamHub - Weighted window recalculated per quote
-- [x] Aroon.StreamHub - High/low tracking rebuilt from cache
-- [x] Atr.StreamHub - Wilder smoothing via cache lookup
-- [x] Awesome.StreamHub - SMA difference via SmaHub chain
-- [x] BollingerBands.StreamHub - SMA + StdDev via chained hubs
-- [x] Bop.StreamHub - Stateless calculation per quote
-- [x] ChaikinOsc.StreamHub - ADL + EMA via chained hubs
-- [x] Cmf.StreamHub - Volume buffer rebuilt from cache
-- [x] Correlation.StreamHub - Rolling sums via PairsProvider
-- [x] Doji.StreamHub - Stateless pattern recognition
-- [x] Dynamic.StreamHub - Adaptive MA rebuilt from cache
-- [x] ElderRay.StreamHub - EMA via EmaHub chain
-- [x] Ema.StreamHub - EMA state from cache lookup
-- [x] Epma.StreamHub - SMA of endpoints via chain
-- [x] Fractal.StreamHub - Lookback window rebuilt
-- [x] Gator.StreamHub - Alligator chain via AlligatorHub
-- [x] Hma.StreamHub - WMA chain via nested hubs
-- [x] Kama.StreamHub - Adaptive MA rebuilt from cache
-- [x] Keltner.StreamHub - EMA + ATR via chained hubs
-- [x] Macd.StreamHub - EMA chain via nested EmaHubs
-- [x] Marubozu.StreamHub - Stateless pattern recognition
-- [x] Obv.StreamHub - Cumulative volume from cache
-- [x] Prs.StreamHub - Ratio via PairsProvider
-- [x] Quote.StreamHub - Passthrough
-- [x] QuotePart.StreamHub - Passthrough
-- [x] Roc.StreamHub - Lookback via cache
-- [x] Sma.StreamHub - Rolling sum from cache
-- [x] SmaAnalysis.StreamHub - Analysis via SmaHub
-- [x] Smma.StreamHub - Wilder smoothing via cache
-- [x] StdDev.StreamHub - Variance via SmaHub
-- [x] Tr.StreamHub - Stateless true range
-- [x] Ultimate.StreamHub - Pressure sums via chained hubs
-- [x] Vwma.StreamHub - Volume-weighted sum via cache
-- [x] Wma.StreamHub - Weighted sum from cache
+These indicators fall into three categories:
+
+1. **No private state** - Recalculate from ProviderCache on each call
+2. **Self-healing Cache lookups** - Reinitialize if prior cache value is null
+3. **Chained hub delegation** - Internal hubs manage their own state
+
+| Category | Indicators | Pattern |
+| -------- | ---------- | ------- |
+| Stateless per-quote | Bop, Doji, Marubozu, Tr | Calculate directly from current quote |
+| Passthrough | Quote, QuotePart | No transformation applied |
+| Cache-based recalculation | Sma, Wma, Hma, Alma, Aroon, Roc | Iterate ProviderCache window per call |
+| Self-healing EMA | Ema, Smma, Atr | Check Cache[i-1], reinit as SMA if null |
+| Chained hub delegation | Macd, Keltner, BollingerBands, ChaikinOsc, ElderRay, Gator, Alligator, Awesome, Epma, SmaAnalysis, StdDev, Ultimate, Vwma | Internal hubs manage their own state |
+| Cumulative/lookback | Adl, Obv, Cmf, Dynamic, Fractal, Kama | Rebuild from cache or accumulate from history |
+| PairsProvider | Correlation, Prs | Dual-input with paired cache management |
 
 ### Phase 1c: BufferList Cache Pruning Audit ✅ COMPLETE
 
-All BufferList implementations audited and verified with passing tests.
+All BufferList implementations audited for **correctness** and **memory efficiency**.
 
-**Custom PruneList Implementations (11 total) - Verified:**
+#### BufferList Audit Criteria
 
-- [x] AtrStop.BufferList - Nested AtrList MaxListSize synchronized
-- [x] Dpo.BufferList - SMA state array pruning synchronized
-- [x] Fractal.BufferList - Lookback window state arrays pruned
-- [x] HtTrendline.BufferList - Hilbert state arrays pruned
-- [x] Ichimoku.BufferList - Historical buffers pruned in sync
-- [x] Mama.BufferList - Phase state arrays pruned
-- [x] Pivots.BufferList - High/low tracking buffers pruned
-- [x] Slope.BufferList - Regression state arrays pruned
-- [x] Stc.BufferList - Schaff state buffers pruned
-- [x] Tsi.BufferList - Double EMA chain buffers pruned
-- [x] VolatilityStop.BufferList - Stop state arrays pruned
+1. **Nested buffer synchronization**: Internal caches pruned in sync with result list
+2. **MinBufferSize preservation**: Sufficient history retained for calculations
+3. **Clear() completeness**: All internal state reset properly
+4. **Memory efficiency**: No unbounded growth patterns
 
-**Standard BufferLists (71 total) - Verified:**
+#### Custom PruneList Implementations - 11 total verified
 
-All use default `PruneList()` and properly clear internal buffers in `Clear()` method.
+| Indicator | Internal Buffers | Pruning Strategy |
+| --------- | ---------------- | ---------------- |
+| AtrStop | `_atrList` (nested BufferList) | Sync MaxListSize with parent + lookback margin |
+| Dpo | `_smaResults[]` state array | Sync with parent, preserve lookback window |
+| Fractal | `_highWindow[]`, `_lowWindow[]` | Prune to MinBufferSize when exceeds threshold |
+| HtTrendline | 11 Hilbert state arrays | Prune to MinBufferSize (7) when > 1000 |
+| Ichimoku | `_historicalResults`, `_historicalHighLow` | Remove oldest in sync with result list |
+| Mama | 11 MESA state arrays (pr, sm, dt, etc.) | Prune to MinBufferSize (7) when > 1000 |
+| Pivots | `_highBuffer`, `_lowBuffer` | Sync with parent, preserve lookback |
+| Slope | Regression state arrays | Prune in sync with result list |
+| Stc | Schaff state buffers | Sync nested buffers with result list |
+| Tsi | Nested EMA buffers | Sync chain buffers with result list |
+| VolatilityStop | `_atrList`, `_closePrices` | Sync MaxListSize with parent + lookback |
+
+#### Standard BufferLists - 71 total verified
+
+All use the base `PruneList()` and properly implement `Clear()`:
+
+- All internal Queue/List buffers are reset in `Clear()` method
+- No unbounded growth: Buffers are sized to lookback periods
+- No custom pruning needed: Internal buffers are naturally bounded by Queue capacity
 
 ### Phase 2: Series Optimization (v3.1)
 
