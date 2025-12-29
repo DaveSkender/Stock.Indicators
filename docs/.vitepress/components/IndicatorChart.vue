@@ -14,7 +14,7 @@ import {
 } from 'lightweight-charts'
 
 // Maximum number of bars to display (tail view)
-const MAX_BARS = 120
+const MAX_BARS = 100
 
 interface ThresholdLine {
   value: number
@@ -433,14 +433,14 @@ watch(() => props.src, () => {
 <style scoped>
 .indicator-chart-wrapper {
   width: 100%;
-  margin: 1rem 0;
+  margin: 0;
 }
 
 .chart-container {
   width: 100%;
   border-radius: 8px;
   overflow: hidden;
-  border: 1px solid var(--si-chart-border);
+  border: 0 solid var(--si-chart-border);
 }
 
 /* Hide the TradingView attribution link via CSS as backup */
