@@ -187,6 +187,9 @@ function createOverlayChart(container: HTMLDivElement, height: number): IChartAp
       borderVisible: false,
       scaleMargins: { top: 0.1, bottom: 0.2 }
     },
+    localization: {
+      priceFormatter: (price: number) => `$${Math.round(price)}`
+    },
     leftPriceScale: { visible: false },
     timeScale: {
       visible: false,
