@@ -109,8 +109,8 @@ reviews:
     - "!packages.lock.json"   # NuGet lock file
     - "!packages/"            # NuGet packages cache
     - "!.jekyll-cache/"       # Jekyll cache
-    - "!.vitepress/cache/"    # VitePress cache
-    - "!.vitepress/dist/"     # VitePress build output
+    - "!docs/.vitepress/cache/"    # VitePress cache
+    - "!docs/.vitepress/dist/"     # VitePress build output
     - "!bin/"                 # .NET build output
     - "!obj/"                 # .NET build intermediate files
     - "!*.csv"                # Test data
