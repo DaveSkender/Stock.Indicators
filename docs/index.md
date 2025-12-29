@@ -43,7 +43,12 @@ Explore more information:
 
 You'll get all of the industry standard indicators out-of-the-box. Additionally, you can create compatible [custom indicators](https://github.com/DaveSkender/Stock.Indicators/tree/main/docs/examples/CustomIndicatorsLibrary).
 
-<img src="/assets/examples.webp" alt="sample indicators shown in chart" />
+<ClientOnly>
+  <div class="home-charts">
+    <IndicatorChart src="/data/BollingerBands.json" :height="300" />
+    <IndicatorChart src="/data/Rsi.json" :height="300" />
+  </div>
+</ClientOnly>
 
 ## Easy to use in your application
 

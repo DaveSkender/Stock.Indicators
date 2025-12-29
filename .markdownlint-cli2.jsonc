@@ -45,6 +45,8 @@
         "abbr",
         "img",
         "br",
+        "div",
+        "p",
         "ClientOnly",
         "IndicatorChart",
         "clientonly",

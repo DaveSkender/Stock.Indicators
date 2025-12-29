@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted, watch, computed } from 'vue'
+import { useData } from 'vitepress'
 import {
   createChart,
   type IChartApi,
@@ -60,6 +61,9 @@ const props = withDefaults(defineProps<{
   height: 400
 })
 
+// Get VitePress theme state
+const { isDark } = useData()
+
 const overlayChartContainer = ref<HTMLDivElement | null>(null)
 const oscillatorChartContainer = ref<HTMLDivElement | null>(null)
 const isLoading = ref(true)
@@ -100,13 +104,24 @@ const indicatorColors = [
   ChartColors.StandardOrange
 ]
 
-// Chart theme colors
-const chartTheme = {
+// Dark theme colors (GitHub Primer dark-dimmed)
+const darkTheme = {
   bgColor: '#22272e',
   textColor: '#adbac7',
   gridColor: '#2d333b',
   borderColor: '#444c56'
 }
+
+// Light theme colors (GitHub Primer light)
+const lightTheme = {
+  bgColor: '#ffffff',
+  textColor: '#24292f',
+  gridColor: '#d0d7de',
+  borderColor: '#d0d7de'
+}
+
+// Reactive chart theme based on VitePress dark mode
+const chartTheme = computed(() => isDark.value ? darkTheme : lightTheme)
 
 // Computed heights based on chart type
 const overlayHeight = computed(() => {
@@ -163,19 +178,20 @@ async function loadChartData(): Promise<ChartData | null> {
 }
 
 function createOverlayChart(container: HTMLDivElement, height: number): IChartApi {
+  const theme = chartTheme.value
   return createChart(container, {
     autoSize: true,
     height: height,
     layout: {
-      background: { color: chartTheme.bgColor },
-      textColor: chartTheme.textColor,
+      background: { color: theme.bgColor },
+      textColor: theme.textColor,
       fontFamily: 'Inter, system-ui, -apple-system, sans-serif',
       fontSize: 11,
       attributionLogo: false
     },
     grid: {
-      vertLines: { color: chartTheme.gridColor },
-      horzLines: { color: chartTheme.gridColor }
+      vertLines: { color: theme.gridColor },
+      horzLines: { color: theme.gridColor }
     },
     crosshair: {
       mode: CrosshairMode.Normal,
@@ -183,7 +199,7 @@ function createOverlayChart(container: HTMLDivElement, height: number): IChartAp
       horzLine: { visible: false, labelVisible: false }
     },
     rightPriceScale: {
-      borderColor: chartTheme.borderColor,
+      borderColor: theme.borderColor,
       borderVisible: false,
       scaleMargins: { top: 0.1, bottom: 0.2 }
     },
@@ -204,19 +220,20 @@ function createOverlayChart(container: HTMLDivElement, height: number): IChartAp
 }
 
 function createOscillatorChart(container: HTMLDivElement, height: number): IChartApi {
+  const theme = chartTheme.value
   return createChart(container, {
     autoSize: true,
     height: height,
     layout: {
-      background: { color: chartTheme.bgColor },
-      textColor: chartTheme.textColor,
+      background: { color: theme.bgColor },
+      textColor: theme.textColor,
       fontFamily: 'Inter, system-ui, -apple-system, sans-serif',
       fontSize: 11,
       attributionLogo: false
     },
     grid: {
-      vertLines: { color: chartTheme.gridColor },
-      horzLines: { color: chartTheme.gridColor }
+      vertLines: { color: theme.gridColor },
+      horzLines: { color: theme.gridColor }
     },
     crosshair: {
       mode: CrosshairMode.Normal,
@@ -224,7 +241,7 @@ function createOscillatorChart(container: HTMLDivElement, height: number): IChar
       horzLine: { visible: false, labelVisible: false }
     },
     rightPriceScale: {
-      borderColor: chartTheme.borderColor,
+      borderColor: theme.borderColor,
       borderVisible: false,
       scaleMargins: { top: 0.1, bottom: 0.1 }
     },
@@ -466,6 +483,12 @@ onUnmounted(() => {
 })
 
 watch(() => props.src, () => {
+  destroyChart()
+  initChart()
+})
+
+// Watch for theme changes and reinitialize charts
+watch(isDark, () => {
   destroyChart()
   initChart()
 })

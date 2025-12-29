@@ -1,10 +1,29 @@
 /**
  * Custom CSS for Stock Indicators documentation
- * Using GitHub Primer dark-dimmed theme colors
+ * Supports both light and dark themes with dark as default
  */
 
-/* Force dark theme globally */
+/* ===== Dark Theme (default) ===== */
 :root {
+  /* Chart colors for dark theme */
+  --si-chart-bg: #22272e;
+  --si-chart-text: #adbac7;
+  --si-chart-grid: #2d333b;
+  --si-chart-border: #444c56;
+  --si-chart-crosshair: #768390;
+  --si-candle-up: #57ab5a;
+  --si-candle-down: #e5534b;
+  --si-volume-up: rgba(87, 171, 90, 0.3);
+  --si-volume-down: rgba(229, 83, 75, 0.3);
+  --si-indicator-1: #539bf5;
+  --si-indicator-2: #c69026;
+  --si-indicator-3: #986ee2;
+  --si-indicator-4: #57ab5a;
+  --si-indicator-5: #e5534b;
+}
+
+/* Dark theme colors (GitHub Primer dark-dimmed) */
+.dark {
   --vp-c-bg: #22272e;
   --vp-c-bg-alt: #2d333b;
   --vp-c-bg-elv: #2d333b;
@@ -62,28 +81,77 @@
   --vp-c-brand-light: #6cb6ff;
   --vp-c-brand-lighter: #96d0ff;
 
-  /* Chart colors (Stock Indicators theme) */
+  /* Chart colors for dark theme */
   --si-chart-bg: #22272e;
   --si-chart-text: #adbac7;
   --si-chart-grid: #2d333b;
   --si-chart-border: #444c56;
-  --si-chart-crosshair: #768390;
-  --si-candle-up: #57ab5a;
-  --si-candle-down: #e5534b;
-  --si-candle-wick-up: #57ab5a;
-  --si-candle-wick-down: #e5534b;
-  --si-volume-up: rgba(87, 171, 90, 0.3);
-  --si-volume-down: rgba(229, 83, 75, 0.3);
-  --si-indicator-1: #539bf5;
-  --si-indicator-2: #c69026;
-  --si-indicator-3: #986ee2;
-  --si-indicator-4: #57ab5a;
-  --si-indicator-5: #e5534b;
 }
 
-/* Ensure dark theme is always applied */
+/* ===== Light Theme ===== */
 html:not(.dark) {
-  color-scheme: dark;
+  --vp-c-bg: #ffffff;
+  --vp-c-bg-alt: #f6f8fa;
+  --vp-c-bg-elv: #ffffff;
+  --vp-c-bg-soft: #f6f8fa;
+
+  --vp-c-border: #d0d7de;
+  --vp-c-divider: #d0d7de;
+  --vp-c-gutter: #f6f8fa;
+
+  --vp-c-text-1: #24292f;
+  --vp-c-text-2: #57606a;
+  --vp-c-text-3: #6e7781;
+
+  --vp-c-brand-1: #0969da;
+  --vp-c-brand-2: #0550ae;
+  --vp-c-brand-3: #218bff;
+  --vp-c-brand-soft: rgba(9, 105, 218, 0.1);
+
+  --vp-c-tip-1: #1a7f37;
+  --vp-c-tip-2: #2da44e;
+  --vp-c-tip-3: #238636;
+  --vp-c-tip-soft: rgba(26, 127, 55, 0.1);
+
+  --vp-c-warning-1: #9a6700;
+  --vp-c-warning-2: #bf8700;
+  --vp-c-warning-3: #d4a72c;
+  --vp-c-warning-soft: rgba(154, 103, 0, 0.1);
+
+  --vp-c-danger-1: #cf222e;
+  --vp-c-danger-2: #fa4549;
+  --vp-c-danger-3: #ff8182;
+  --vp-c-danger-soft: rgba(207, 34, 46, 0.1);
+
+  /* Code block colors */
+  --vp-code-block-bg: #f6f8fa;
+  --vp-code-bg: #f6f8fa;
+  --vp-code-tab-divider: #d0d7de;
+
+  /* Sidebar colors */
+  --vp-sidebar-bg-color: #ffffff;
+
+  /* Navbar colors */
+  --vp-nav-bg-color: #ffffff;
+  --vp-nav-screen-bg-color: #ffffff;
+
+  /* Button colors */
+  --vp-button-brand-bg: #2e76d0;
+  --vp-button-brand-hover-bg: #3c82d6;
+  --vp-button-brand-active-bg: #245da6;
+
+  /* Link colors */
+  --vp-c-brand: #0969da;
+  --vp-c-brand-dark: #0550ae;
+  --vp-c-brand-darker: #033d8b;
+  --vp-c-brand-light: #218bff;
+  --vp-c-brand-lighter: #54aeff;
+
+  /* Chart colors for light theme */
+  --si-chart-bg: #ffffff;
+  --si-chart-text: #24292f;
+  --si-chart-grid: #d0d7de;
+  --si-chart-border: #d0d7de;
 }
 
 /* Custom styles for better readability */
@@ -101,12 +169,12 @@ html:not(.dark) {
   color: var(--vp-c-brand-2);
 }
 
-/* Table link contrast */
-.vp-doc table a {
+/* Table link contrast in dark mode */
+.dark .vp-doc table a {
   color: #8cc4ff;
 }
 
-.vp-doc table a:hover {
+.dark .vp-doc table a:hover {
   color: #a7d4ff;
 }
 
@@ -120,6 +188,10 @@ html:not(.dark) {
 .vp-doc code,
 .vp-doc pre code {
   background-color: var(--vp-code-bg);
+}
+
+.dark .vp-doc code,
+.dark .vp-doc pre code {
   color: #cdd9e5;
 }
 
@@ -148,4 +220,22 @@ html:not(.dark) {
 .VPButton.brand,
 .VPButton.medium.brand {
   color: #ffffff !important;
+}
+
+/* Home page charts layout */
+.home-charts {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin: 24px 0;
+}
+
+@media (min-width: 768px) {
+  .home-charts {
+    flex-direction: row;
+  }
+
+  .home-charts > * {
+    flex: 1;
+  }
 }
