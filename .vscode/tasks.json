@@ -527,8 +527,6 @@
     },
     {
       "label": "Test: Website links (htmlproofer)",
-    {
-      "label": "Test: Website links (htmlproofer)",
       "detail": "Build docs and run htmlproofer link checks (parity with CI)",
       "type": "shell",
       "command": "bash .vitepress/run-htmlproofer.sh",
