@@ -2,7 +2,20 @@
   "metadata": {
     "symbol": "S&P 500",
     "timeframe": "Daily",
-    "indicator": "Adx"
+    "indicator": "Adx",
+    "chartType": "oscillator",
+    "thresholds": [
+      {
+        "value": 40,
+        "color": "#42424280",
+        "style": "dash"
+      },
+      {
+        "value": 20,
+        "color": "#42424280",
+        "style": "dash"
+      }
+    ]
   },
   "candles": [
     {
@@ -6035,7 +6048,8 @@
           "timestamp": "2018-12-31T00:00:00",
           "value": 34.298699144618226
         }
-      ]
+      ],
+      "color": "#1E88E5"
     },
     {
       "name": "+DI",
@@ -8049,7 +8063,8 @@
           "timestamp": "2018-12-31T00:00:00",
           "value": 17.75652311356243
         }
-      ]
+      ],
+      "color": "#2E7D32"
     },
     {
       "name": "-DI",
@@ -10063,7 +10078,8 @@
           "timestamp": "2018-12-31T00:00:00",
           "value": 31.15096867463606
         }
-      ]
+      ],
+      "color": "#DD2C00"
     }
   ]
 }

@@ -19,168 +19,259 @@ const QUOTES_FILE = join(TEST_DATA_DIR, 'quotes', 'default.csv')
 const RESULTS_DIR = join(TEST_DATA_DIR, 'results')
 const OUTPUT_DIR = join(ROOT_DIR, '.vitepress', 'public', 'data')
 
+// Stock.Charts color scheme (Material Design M2)
+const ChartColors = {
+  StandardRed: '#DD2C00',
+  StandardOrange: '#EF6C00',
+  StandardGreen: '#2E7D32',
+  StandardBlue: '#1E88E5',
+  StandardPurple: '#8E24AA',
+  StandardGrayTransparent: '#9E9E9E50',
+  DarkGray: '#616161CC',
+  DarkGrayTransparent: '#61616110',
+  ThresholdGrayTransparent: '#42424280',
+  ThresholdRed: '#B71C1C70',
+  ThresholdRedTransparent: '#B71C1C20',
+  ThresholdGreen: '#1B5E2070',
+  ThresholdGreenTransparent: '#1B5E2020'
+}
+
 // Mapping from result file names to chart display names and value fields
-// Format: { resultFileName: { displayName, fields: [{ name, jsonKey, type? }] } }
+// Format: { resultFileName: { displayName, chartType, thresholds, fields: [{ name, jsonKey, type?, color? }] } }
 const INDICATOR_CONFIG = {
   'adl.standard.json': {
     displayName: 'Adl',
-    fields: [{ name: 'ADL', jsonKey: 'adl', type: 'line' }]
+    chartType: 'oscillator',
+    fields: [{ name: 'ADL', jsonKey: 'adl', type: 'line', color: ChartColors.StandardBlue }]
   },
   'adx.standard.json': {
     displayName: 'Adx',
+    chartType: 'oscillator',
+    thresholds: [
+      { value: 40, color: ChartColors.ThresholdGrayTransparent, style: 'dash' },
+      { value: 20, color: ChartColors.ThresholdGrayTransparent, style: 'dash' }
+    ],
     fields: [
-      { name: 'ADX', jsonKey: 'adx', type: 'line' },
-      { name: '+DI', jsonKey: 'pdi', type: 'line' },
-      { name: '-DI', jsonKey: 'mdi', type: 'line' }
+      { name: 'ADX', jsonKey: 'adx', type: 'line', color: ChartColors.StandardBlue },
+      { name: '+DI', jsonKey: 'pdi', type: 'line', color: ChartColors.StandardGreen },
+      { name: '-DI', jsonKey: 'mdi', type: 'line', color: ChartColors.StandardRed }
     ]
   },
   'alligator.standard.json': {
     displayName: 'Alligator',
+    chartType: 'overlay',
     fields: [
-      { name: 'Jaw', jsonKey: 'jaw', type: 'line' },
-      { name: 'Teeth', jsonKey: 'teeth', type: 'line' },
-      { name: 'Lips', jsonKey: 'lips', type: 'line' }
+      { name: 'Jaw', jsonKey: 'jaw', type: 'line', color: ChartColors.StandardBlue },
+      { name: 'Teeth', jsonKey: 'teeth', type: 'line', color: ChartColors.StandardRed },
+      { name: 'Lips', jsonKey: 'lips', type: 'line', color: ChartColors.StandardGreen }
     ]
   },
   'alma.standard.json': {
     displayName: 'Alma',
-    fields: [{ name: 'ALMA', jsonKey: 'alma', type: 'line' }]
+    chartType: 'overlay',
+    fields: [{ name: 'ALMA', jsonKey: 'alma', type: 'line', color: ChartColors.StandardBlue }]
   },
   'aroon.standard.json': {
     displayName: 'Aroon',
+    chartType: 'oscillator',
+    thresholds: [
+      { value: 70, color: ChartColors.ThresholdGrayTransparent, style: 'solid' },
+      { value: 50, color: ChartColors.ThresholdGrayTransparent, style: 'dash' },
+      { value: 30, color: ChartColors.ThresholdGrayTransparent, style: 'solid' }
+    ],
     fields: [
-      { name: 'Aroon Up', jsonKey: 'aroonUp', type: 'line' },
-      { name: 'Aroon Down', jsonKey: 'aroonDown', type: 'line' }
+      { name: 'Aroon Up', jsonKey: 'aroonUp', type: 'line', color: ChartColors.StandardGreen },
+      { name: 'Aroon Down', jsonKey: 'aroonDown', type: 'line', color: ChartColors.StandardRed }
     ]
   },
   'atr.standard.json': {
     displayName: 'Atr',
-    fields: [{ name: 'ATR', jsonKey: 'atr', type: 'line' }]
+    chartType: 'oscillator',
+    fields: [{ name: 'ATR', jsonKey: 'atr', type: 'line', color: ChartColors.StandardBlue }]
   },
   'atr-stop.standard.json': {
     displayName: 'AtrStop',
-    fields: [{ name: 'ATR Stop', jsonKey: 'atrStop', type: 'line' }]
+    chartType: 'overlay',
+    fields: [{ name: 'ATR Stop', jsonKey: 'atrStop', type: 'dots', color: ChartColors.StandardPurple }]
   },
   'awesome.standard.json': {
     displayName: 'Awesome',
-    fields: [{ name: 'Awesome', jsonKey: 'oscillator', type: 'histogram' }]
+    chartType: 'oscillator',
+    thresholds: [
+      { value: 0, color: ChartColors.ThresholdGrayTransparent, style: 'dash' }
+    ],
+    fields: [{ name: 'Awesome', jsonKey: 'oscillator', type: 'baseline', color: ChartColors.StandardBlue }]
   },
   'bb.standard.json': {
     displayName: 'BollingerBands',
+    chartType: 'overlay',
     fields: [
-      { name: 'Upper', jsonKey: 'upperBand', type: 'line' },
-      { name: 'Middle', jsonKey: 'sma', type: 'line' },
-      { name: 'Lower', jsonKey: 'lowerBand', type: 'line' }
+      { name: 'Upper', jsonKey: 'upperBand', type: 'line', color: ChartColors.DarkGray, lineWidth: 1 },
+      { name: 'Middle', jsonKey: 'sma', type: 'line', color: ChartColors.DarkGray, lineWidth: 1, lineStyle: 'dash' },
+      { name: 'Lower', jsonKey: 'lowerBand', type: 'line', color: ChartColors.DarkGray, lineWidth: 1 }
     ]
   },
   'beta.standard.json': {
     displayName: 'Beta',
-    fields: [{ name: 'Beta', jsonKey: 'beta', type: 'line' }]
+    chartType: 'oscillator',
+    thresholds: [
+      { value: 1, color: ChartColors.ThresholdGrayTransparent, style: 'dash' }
+    ],
+    fields: [{ name: 'Beta', jsonKey: 'beta', type: 'line', color: ChartColors.StandardBlue }]
   },
   'bop.standard.json': {
     displayName: 'Bop',
-    fields: [{ name: 'BOP', jsonKey: 'bop', type: 'histogram' }]
+    chartType: 'oscillator',
+    thresholds: [
+      { value: 0, color: ChartColors.ThresholdGrayTransparent, style: 'dash' }
+    ],
+    fields: [{ name: 'BOP', jsonKey: 'bop', type: 'baseline', color: ChartColors.StandardBlue }]
   },
   'cci.standard.json': {
     displayName: 'Cci',
-    fields: [{ name: 'CCI', jsonKey: 'cci', type: 'line' }]
+    chartType: 'oscillator',
+    thresholds: [
+      { value: 100, color: ChartColors.ThresholdRed, style: 'dash' },
+      { value: 0, color: ChartColors.DarkGrayTransparent, style: 'dash' },
+      { value: -100, color: ChartColors.ThresholdGreen, style: 'dash' }
+    ],
+    fields: [{ name: 'CCI', jsonKey: 'cci', type: 'line', color: ChartColors.StandardBlue }]
   },
   'chaikin-osc.standard.json': {
     displayName: 'ChaikinOsc',
-    fields: [{ name: 'Chaikin', jsonKey: 'oscillator', type: 'histogram' }]
+    chartType: 'oscillator',
+    thresholds: [
+      { value: 0, color: ChartColors.ThresholdGrayTransparent, style: 'dash' }
+    ],
+    fields: [{ name: 'Chaikin', jsonKey: 'oscillator', type: 'baseline', color: ChartColors.StandardBlue }]
   },
   'chexit.standard.json': {
     displayName: 'Chandelier',
+    chartType: 'overlay',
     fields: [
-      { name: 'Long', jsonKey: 'exitLong', type: 'line' },
-      { name: 'Short', jsonKey: 'exitShort', type: 'line' }
+      { name: 'Long', jsonKey: 'exitLong', type: 'line', color: ChartColors.StandardOrange },
+      { name: 'Short', jsonKey: 'exitShort', type: 'line', color: ChartColors.StandardOrange, lineStyle: 'dash' }
     ]
   },
   'chop.standard.json': {
     displayName: 'Chop',
-    fields: [{ name: 'CHOP', jsonKey: 'chop', type: 'line' }]
+    chartType: 'oscillator',
+    thresholds: [
+      { value: 61.8, color: ChartColors.DarkGrayTransparent, style: 'dash' },
+      { value: 38.2, color: ChartColors.DarkGrayTransparent, style: 'dash' }
+    ],
+    fields: [{ name: 'CHOP', jsonKey: 'chop', type: 'line', color: ChartColors.StandardBlue }]
   },
   'cmf.standard.json': {
     displayName: 'Cmf',
-    fields: [{ name: 'CMF', jsonKey: 'cmf', type: 'line' }]
+    chartType: 'oscillator',
+    thresholds: [
+      { value: 0, color: ChartColors.ThresholdGrayTransparent, style: 'dash' }
+    ],
+    fields: [{ name: 'CMF', jsonKey: 'cmf', type: 'line', color: ChartColors.StandardBlue }]
   },
   'cmo.standard.json': {
     displayName: 'Cmo',
-    fields: [{ name: 'CMO', jsonKey: 'cmo', type: 'line' }]
+    chartType: 'oscillator',
+    fields: [{ name: 'CMO', jsonKey: 'cmo', type: 'line', color: ChartColors.StandardBlue }]
   },
   'corr.standard.json': {
     displayName: 'Correlation',
-    fields: [{ name: 'Correlation', jsonKey: 'correlation', type: 'line' }]
+    chartType: 'oscillator',
+    fields: [{ name: 'Correlation', jsonKey: 'correlation', type: 'line', color: ChartColors.StandardBlue }]
   },
   'crsi.standard.json': {
     displayName: 'ConnorsRsi',
-    fields: [{ name: 'CRSI', jsonKey: 'connorsRsi', type: 'line' }]
+    chartType: 'oscillator',
+    thresholds: [
+      { value: 90, color: ChartColors.ThresholdRed, style: 'dash' },
+      { value: 10, color: ChartColors.ThresholdGreen, style: 'dash' }
+    ],
+    fields: [{ name: 'CRSI', jsonKey: 'connorsRsi', type: 'line', color: ChartColors.StandardBlue }]
   },
   'dema.standard.json': {
     displayName: 'Dema',
-    fields: [{ name: 'DEMA', jsonKey: 'dema', type: 'line' }]
+    chartType: 'overlay',
+    fields: [{ name: 'DEMA', jsonKey: 'dema', type: 'line', color: ChartColors.StandardBlue }]
   },
   'donchian.standard.json': {
     displayName: 'Donchian',
+    chartType: 'overlay',
     fields: [
-      { name: 'Upper', jsonKey: 'upperBand', type: 'line' },
-      { name: 'Center', jsonKey: 'centerline', type: 'line' },
-      { name: 'Lower', jsonKey: 'lowerBand', type: 'line' }
+      { name: 'Upper', jsonKey: 'upperBand', type: 'line', color: ChartColors.StandardOrange, lineWidth: 1 },
+      { name: 'Center', jsonKey: 'centerline', type: 'line', color: ChartColors.StandardOrange, lineWidth: 1, lineStyle: 'dash' },
+      { name: 'Lower', jsonKey: 'lowerBand', type: 'line', color: ChartColors.StandardOrange, lineWidth: 1 }
     ]
   },
   'dpo.standard.json': {
     displayName: 'Dpo',
-    fields: [{ name: 'DPO', jsonKey: 'dpo', type: 'line' }]
+    chartType: 'oscillator',
+    thresholds: [
+      { value: 0, color: ChartColors.ThresholdGrayTransparent, style: 'dash' }
+    ],
+    fields: [{ name: 'DPO', jsonKey: 'dpo', type: 'line', color: ChartColors.StandardBlue }]
   },
   'dynamic.standard.json': {
     displayName: 'Dynamic',
-    fields: [{ name: 'Dynamic', jsonKey: 'dynamic', type: 'line' }]
+    chartType: 'overlay',
+    fields: [{ name: 'Dynamic', jsonKey: 'dynamic', type: 'line', color: ChartColors.StandardBlue }]
   },
   'elder-ray.standard.json': {
     displayName: 'ElderRay',
+    chartType: 'oscillator',
     fields: [
-      { name: 'Bull Power', jsonKey: 'bullPower', type: 'histogram' },
-      { name: 'Bear Power', jsonKey: 'bearPower', type: 'histogram' }
+      { name: 'Bull Power', jsonKey: 'bullPower', type: 'histogram', color: ChartColors.StandardGreen },
+      { name: 'Bear Power', jsonKey: 'bearPower', type: 'histogram', color: ChartColors.StandardRed }
     ]
   },
   'ema.standard.json': {
     displayName: 'Ema',
-    fields: [{ name: 'EMA', jsonKey: 'ema', type: 'line' }]
+    chartType: 'overlay',
+    fields: [{ name: 'EMA', jsonKey: 'ema', type: 'line', color: ChartColors.StandardBlue }]
   },
   'epma.standard.json': {
     displayName: 'Epma',
-    fields: [{ name: 'EPMA', jsonKey: 'epma', type: 'line' }]
+    chartType: 'overlay',
+    fields: [{ name: 'EPMA', jsonKey: 'epma', type: 'line', color: ChartColors.StandardBlue }]
   },
   'fcb.standard.json': {
     displayName: 'Fcb',
+    chartType: 'overlay',
     fields: [
-      { name: 'Upper', jsonKey: 'upperBand', type: 'line' },
-      { name: 'Lower', jsonKey: 'lowerBand', type: 'line' }
+      { name: 'Upper', jsonKey: 'upperBand', type: 'line', color: ChartColors.StandardGreen },
+      { name: 'Lower', jsonKey: 'lowerBand', type: 'line', color: ChartColors.StandardRed }
     ]
   },
   'fisher.standard.json': {
     displayName: 'FisherTransform',
+    chartType: 'oscillator',
     fields: [
-      { name: 'Fisher', jsonKey: 'fisher', type: 'line' },
-      { name: 'Trigger', jsonKey: 'trigger', type: 'line' }
+      { name: 'Fisher', jsonKey: 'fisher', type: 'line', color: ChartColors.StandardBlue },
+      { name: 'Trigger', jsonKey: 'trigger', type: 'line', color: ChartColors.StandardRed }
     ]
   },
   'force.standard.json': {
     displayName: 'ForceIndex',
-    fields: [{ name: 'Force', jsonKey: 'forceIndex', type: 'histogram' }]
+    chartType: 'oscillator',
+    thresholds: [
+      { value: 0, color: ChartColors.ThresholdGrayTransparent, style: 'dash' }
+    ],
+    fields: [{ name: 'Force', jsonKey: 'forceIndex', type: 'baseline', color: ChartColors.StandardBlue }]
   },
   'fractal.standard.json': {
     displayName: 'Fractal',
+    chartType: 'overlay',
     fields: [
-      { name: 'Bull', jsonKey: 'fractalBull', type: 'line' },
-      { name: 'Bear', jsonKey: 'fractalBear', type: 'line' }
+      { name: 'Bull', jsonKey: 'fractalBull', type: 'dots', color: ChartColors.StandardRed, lineWidth: 3 },
+      { name: 'Bear', jsonKey: 'fractalBear', type: 'dots', color: ChartColors.StandardGreen, lineWidth: 3 }
     ]
   },
   'gator.standard.json': {
     displayName: 'Gator',
+    chartType: 'oscillator',
     fields: [
-      { name: 'Upper', jsonKey: 'upper', type: 'histogram' },
-      { name: 'Lower', jsonKey: 'lower', type: 'histogram' }
+      { name: 'Upper', jsonKey: 'upper', type: 'histogram', color: ChartColors.StandardGreen },
+      { name: 'Lower', jsonKey: 'lower', type: 'histogram', color: ChartColors.StandardRed }
     ]
   },
   'heikinashi.standard.json': {
@@ -189,105 +280,142 @@ const INDICATOR_CONFIG = {
   },
   'hma.standard.json': {
     displayName: 'Hma',
-    fields: [{ name: 'HMA', jsonKey: 'hma', type: 'line' }]
+    chartType: 'overlay',
+    fields: [{ name: 'HMA', jsonKey: 'hma', type: 'line', color: ChartColors.StandardBlue }]
   },
   'htl.standard.json': {
     displayName: 'HtTrendline',
+    chartType: 'overlay',
     fields: [
-      { name: 'Trendline', jsonKey: 'trendline', type: 'line' },
-      { name: 'SmoothPrice', jsonKey: 'smoothPrice', type: 'line' }
+      { name: 'Trendline', jsonKey: 'trendline', type: 'line', color: ChartColors.StandardBlue },
+      { name: 'SmoothPrice', jsonKey: 'smoothPrice', type: 'line', color: ChartColors.StandardOrange }
     ]
   },
   'hurst.standard.json': {
     displayName: 'Hurst',
-    fields: [{ name: 'Hurst', jsonKey: 'hurstExponent', type: 'line' }]
+    chartType: 'oscillator',
+    thresholds: [
+      { value: 0.5, color: ChartColors.ThresholdGrayTransparent, style: 'dash' }
+    ],
+    fields: [{ name: 'Hurst', jsonKey: 'hurstExponent', type: 'line', color: ChartColors.StandardBlue }]
   },
   'ichimoku.standard.json': {
     displayName: 'Ichimoku',
+    chartType: 'overlay',
     fields: [
-      { name: 'Tenkan', jsonKey: 'tenkanSen', type: 'line' },
-      { name: 'Kijun', jsonKey: 'kijunSen', type: 'line' },
-      { name: 'Senkou A', jsonKey: 'senkouSpanA', type: 'line' },
-      { name: 'Senkou B', jsonKey: 'senkouSpanB', type: 'line' }
+      { name: 'Tenkan', jsonKey: 'tenkanSen', type: 'line', color: ChartColors.StandardBlue, lineWidth: 2 },
+      { name: 'Kijun', jsonKey: 'kijunSen', type: 'line', color: ChartColors.StandardPurple, lineWidth: 2 },
+      { name: 'Senkou A', jsonKey: 'senkouSpanA', type: 'line', color: ChartColors.ThresholdGreen, lineWidth: 1.5 },
+      { name: 'Senkou B', jsonKey: 'senkouSpanB', type: 'line', color: ChartColors.ThresholdRed, lineWidth: 1.5 }
     ]
   },
   'kama.standard.json': {
     displayName: 'Kama',
-    fields: [{ name: 'KAMA', jsonKey: 'kama', type: 'line' }]
+    chartType: 'overlay',
+    fields: [{ name: 'KAMA', jsonKey: 'kama', type: 'line', color: ChartColors.StandardBlue }]
   },
   'keltner.standard.json': {
     displayName: 'Keltner',
+    chartType: 'overlay',
     fields: [
-      { name: 'Upper', jsonKey: 'upperBand', type: 'line' },
-      { name: 'Center', jsonKey: 'centerline', type: 'line' },
-      { name: 'Lower', jsonKey: 'lowerBand', type: 'line' }
+      { name: 'Upper', jsonKey: 'upperBand', type: 'line', color: ChartColors.StandardOrange, lineWidth: 1 },
+      { name: 'Center', jsonKey: 'centerline', type: 'line', color: ChartColors.StandardOrange, lineWidth: 1, lineStyle: 'dash' },
+      { name: 'Lower', jsonKey: 'lowerBand', type: 'line', color: ChartColors.StandardOrange, lineWidth: 1 }
     ]
   },
   'kvo.standard.json': {
     displayName: 'Kvo',
+    chartType: 'oscillator',
+    thresholds: [
+      { value: 0, color: ChartColors.ThresholdGrayTransparent, style: 'dash' }
+    ],
     fields: [
-      { name: 'KVO', jsonKey: 'oscillator', type: 'histogram' },
-      { name: 'Signal', jsonKey: 'signal', type: 'line' }
+      { name: 'KVO', jsonKey: 'oscillator', type: 'line', color: ChartColors.StandardBlue },
+      { name: 'Signal', jsonKey: 'signal', type: 'line', color: ChartColors.StandardRed }
     ]
   },
   'ma-env.standard.json': {
     displayName: 'MaEnvelopes',
+    chartType: 'overlay',
     fields: [
-      { name: 'Upper', jsonKey: 'upperEnvelope', type: 'line' },
-      { name: 'Center', jsonKey: 'centerline', type: 'line' },
-      { name: 'Lower', jsonKey: 'lowerEnvelope', type: 'line' }
+      { name: 'Upper', jsonKey: 'upperEnvelope', type: 'line', color: ChartColors.StandardOrange, lineWidth: 1 },
+      { name: 'Center', jsonKey: 'centerline', type: 'line', color: ChartColors.StandardOrange, lineWidth: 1, lineStyle: 'dash' },
+      { name: 'Lower', jsonKey: 'lowerEnvelope', type: 'line', color: ChartColors.StandardOrange, lineWidth: 1 }
     ]
   },
   'macd.standard.json': {
     displayName: 'Macd',
+    chartType: 'oscillator',
+    thresholds: [
+      { value: 0, color: ChartColors.DarkGrayTransparent, style: 'dash' }
+    ],
     fields: [
-      { name: 'MACD', jsonKey: 'macd', type: 'line' },
-      { name: 'Signal', jsonKey: 'signal', type: 'line' },
-      { name: 'Histogram', jsonKey: 'histogram', type: 'histogram' }
+      { name: 'MACD', jsonKey: 'macd', type: 'line', color: ChartColors.StandardBlue },
+      { name: 'Signal', jsonKey: 'signal', type: 'line', color: ChartColors.StandardRed },
+      { name: 'Histogram', jsonKey: 'histogram', type: 'baseline', color: ChartColors.StandardGrayTransparent }
     ]
   },
   'mama.standard.json': {
     displayName: 'Mama',
+    chartType: 'overlay',
     fields: [
-      { name: 'MAMA', jsonKey: 'mama', type: 'line' },
-      { name: 'FAMA', jsonKey: 'fama', type: 'line' }
+      { name: 'MAMA', jsonKey: 'mama', type: 'line', color: ChartColors.StandardBlue },
+      { name: 'FAMA', jsonKey: 'fama', type: 'line', color: ChartColors.StandardRed }
     ]
   },
   'mfi.standard.json': {
     displayName: 'Mfi',
-    fields: [{ name: 'MFI', jsonKey: 'mfi', type: 'line' }]
+    chartType: 'oscillator',
+    thresholds: [
+      { value: 80, color: ChartColors.ThresholdRed, style: 'dash' },
+      { value: 20, color: ChartColors.ThresholdGreen, style: 'dash' }
+    ],
+    fields: [{ name: 'MFI', jsonKey: 'mfi', type: 'line', color: ChartColors.StandardBlue }]
   },
   'obv.standard.json': {
     displayName: 'Obv',
-    fields: [{ name: 'OBV', jsonKey: 'obv', type: 'line' }]
+    chartType: 'oscillator',
+    fields: [{ name: 'OBV', jsonKey: 'obv', type: 'line', color: ChartColors.StandardBlue }]
   },
   'psar.standard.json': {
     displayName: 'ParabolicSar',
-    fields: [{ name: 'SAR', jsonKey: 'sar', type: 'line' }]
+    chartType: 'overlay',
+    fields: [{ name: 'SAR', jsonKey: 'sar', type: 'dots', color: ChartColors.StandardPurple, lineWidth: 2 }]
   },
   'pivots.standard.json': {
     displayName: 'Pivots',
+    chartType: 'overlay',
     fields: [
-      { name: 'High Point', jsonKey: 'highPoint', type: 'line' },
-      { name: 'Low Point', jsonKey: 'lowPoint', type: 'line' }
+      { name: 'High Point', jsonKey: 'highPoint', type: 'dots', color: ChartColors.StandardRed, lineWidth: 3 },
+      { name: 'Low Point', jsonKey: 'lowPoint', type: 'dots', color: ChartColors.StandardGreen, lineWidth: 3 }
     ]
   },
   'pmo.standard.json': {
     displayName: 'Pmo',
+    chartType: 'oscillator',
+    thresholds: [
+      { value: 0, color: ChartColors.ThresholdGrayTransparent, style: 'dash' }
+    ],
     fields: [
-      { name: 'PMO', jsonKey: 'pmo', type: 'line' },
-      { name: 'Signal', jsonKey: 'signal', type: 'line' }
+      { name: 'PMO', jsonKey: 'pmo', type: 'line', color: ChartColors.StandardBlue },
+      { name: 'Signal', jsonKey: 'signal', type: 'line', color: ChartColors.StandardRed }
     ]
   },
   'prs.standard.json': {
     displayName: 'Prs',
-    fields: [{ name: 'PRS', jsonKey: 'prs', type: 'line' }]
+    chartType: 'oscillator',
+    fields: [{ name: 'PRS', jsonKey: 'prs', type: 'line', color: ChartColors.StandardBlue }]
   },
   'pvo.standard.json': {
     displayName: 'Pvo',
+    chartType: 'oscillator',
+    thresholds: [
+      { value: 0, color: ChartColors.ThresholdGrayTransparent, style: 'dash' }
+    ],
     fields: [
-      { name: 'PVO', jsonKey: 'pvo', type: 'histogram' },
-      { name: 'Signal', jsonKey: 'signal', type: 'line' }
+      { name: 'PVO', jsonKey: 'pvo', type: 'line', color: ChartColors.StandardBlue },
+      { name: 'Signal', jsonKey: 'signal', type: 'line', color: ChartColors.StandardRed },
+      { name: 'Histogram', jsonKey: 'histogram', type: 'baseline', color: ChartColors.StandardGrayTransparent }
     ]
   },
   'renko.standard.json': {
@@ -296,149 +424,221 @@ const INDICATOR_CONFIG = {
   },
   'roc.standard.json': {
     displayName: 'Roc',
-    fields: [{ name: 'ROC', jsonKey: 'roc', type: 'line' }]
+    chartType: 'oscillator',
+    fields: [{ name: 'ROC', jsonKey: 'roc', type: 'line', color: ChartColors.StandardBlue }]
   },
   'roc-wb.standard.json': {
     displayName: 'RocWb',
+    chartType: 'oscillator',
+    thresholds: [
+      { value: 0, color: ChartColors.ThresholdGrayTransparent, style: 'dash' }
+    ],
     fields: [
-      { name: 'ROC', jsonKey: 'roc', type: 'line' },
-      { name: 'Upper', jsonKey: 'upperBand', type: 'line' },
-      { name: 'Lower', jsonKey: 'lowerBand', type: 'line' }
+      { name: 'ROC', jsonKey: 'roc', type: 'line', color: ChartColors.StandardBlue },
+      { name: 'Upper', jsonKey: 'upperBand', type: 'line', color: ChartColors.StandardRed, lineStyle: 'dash' },
+      { name: 'Lower', jsonKey: 'lowerBand', type: 'line', color: ChartColors.StandardGreen, lineStyle: 'dash' }
     ]
   },
   'rolling-pivots.standard.json': {
     displayName: 'RollingPivots',
+    chartType: 'overlay',
     fields: [
-      { name: 'PP', jsonKey: 'pp', type: 'line' },
-      { name: 'S1', jsonKey: 's1', type: 'line' },
-      { name: 'R1', jsonKey: 'r1', type: 'line' }
+      { name: 'PP', jsonKey: 'pp', type: 'line', color: ChartColors.StandardBlue },
+      { name: 'S1', jsonKey: 's1', type: 'line', color: ChartColors.StandardGreen },
+      { name: 'R1', jsonKey: 'r1', type: 'line', color: ChartColors.StandardRed }
     ]
   },
   'rsi.standard.json': {
     displayName: 'Rsi',
-    fields: [{ name: 'RSI', jsonKey: 'rsi', type: 'line' }]
+    chartType: 'oscillator',
+    thresholds: [
+      { value: 70, color: ChartColors.ThresholdRed, style: 'dash' },
+      { value: 30, color: ChartColors.ThresholdGreen, style: 'dash' }
+    ],
+    fields: [{ name: 'RSI', jsonKey: 'rsi', type: 'line', color: ChartColors.StandardBlue }]
   },
   'slope.standard.json': {
     displayName: 'Slope',
-    fields: [{ name: 'Slope', jsonKey: 'slope', type: 'line' }]
+    chartType: 'oscillator',
+    fields: [{ name: 'Slope', jsonKey: 'slope', type: 'line', color: ChartColors.StandardBlue }]
   },
   'sma.standard.json': {
     displayName: 'Sma',
-    fields: [{ name: 'SMA', jsonKey: 'sma', type: 'line' }]
+    chartType: 'overlay',
+    fields: [{ name: 'SMA', jsonKey: 'sma', type: 'line', color: ChartColors.StandardBlue }]
   },
   'smi.standard.json': {
     displayName: 'Smi',
+    chartType: 'oscillator',
+    thresholds: [
+      { value: 40, color: ChartColors.ThresholdRed, style: 'dash' },
+      { value: -40, color: ChartColors.ThresholdGreen, style: 'dash' }
+    ],
     fields: [
-      { name: 'SMI', jsonKey: 'smi', type: 'line' },
-      { name: 'Signal', jsonKey: 'signal', type: 'line' }
+      { name: 'SMI', jsonKey: 'smi', type: 'line', color: ChartColors.StandardBlue },
+      { name: 'Signal', jsonKey: 'signal', type: 'line', color: ChartColors.StandardRed }
     ]
   },
   'smma.standard.json': {
     displayName: 'Smma',
-    fields: [{ name: 'SMMA', jsonKey: 'smma', type: 'line' }]
+    chartType: 'overlay',
+    fields: [{ name: 'SMMA', jsonKey: 'smma', type: 'line', color: ChartColors.StandardBlue }]
   },
   'starc.standard.json': {
     displayName: 'StarcBands',
+    chartType: 'overlay',
     fields: [
-      { name: 'Upper', jsonKey: 'upperBand', type: 'line' },
-      { name: 'Center', jsonKey: 'centerline', type: 'line' },
-      { name: 'Lower', jsonKey: 'lowerBand', type: 'line' }
+      { name: 'Upper', jsonKey: 'upperBand', type: 'line', color: ChartColors.StandardOrange, lineWidth: 1 },
+      { name: 'Center', jsonKey: 'centerline', type: 'line', color: ChartColors.StandardOrange, lineWidth: 1, lineStyle: 'dash' },
+      { name: 'Lower', jsonKey: 'lowerBand', type: 'line', color: ChartColors.StandardOrange, lineWidth: 1 }
     ]
   },
   'stc.standard.json': {
     displayName: 'Stc',
-    fields: [{ name: 'STC', jsonKey: 'stc', type: 'line' }]
+    chartType: 'oscillator',
+    thresholds: [
+      { value: 75, color: ChartColors.ThresholdGreen, style: 'solid' },
+      { value: 25, color: ChartColors.ThresholdRed, style: 'solid' }
+    ],
+    fields: [{ name: 'STC', jsonKey: 'stc', type: 'line', color: ChartColors.StandardBlue }]
   },
   'stdev.standard.json': {
     displayName: 'StdDev',
-    fields: [{ name: 'StdDev', jsonKey: 'stdDev', type: 'line' }]
+    chartType: 'oscillator',
+    fields: [{ name: 'StdDev', jsonKey: 'stdDev', type: 'line', color: ChartColors.StandardBlue }]
   },
   'stdev-channels.standard.json': {
     displayName: 'StdDevChannels',
+    chartType: 'overlay',
     fields: [
-      { name: 'Upper', jsonKey: 'upperChannel', type: 'line' },
-      { name: 'Center', jsonKey: 'centerline', type: 'line' },
-      { name: 'Lower', jsonKey: 'lowerChannel', type: 'line' }
+      { name: 'Upper', jsonKey: 'upperChannel', type: 'line', color: ChartColors.StandardOrange, lineWidth: 1 },
+      { name: 'Center', jsonKey: 'centerline', type: 'line', color: ChartColors.StandardOrange, lineWidth: 1, lineStyle: 'dash' },
+      { name: 'Lower', jsonKey: 'lowerChannel', type: 'line', color: ChartColors.StandardOrange, lineWidth: 1 }
     ]
   },
   'stoch.standard.json': {
     displayName: 'Stoch',
+    chartType: 'oscillator',
+    thresholds: [
+      { value: 80, color: ChartColors.ThresholdRed, style: 'dash' },
+      { value: 20, color: ChartColors.ThresholdGreen, style: 'dash' }
+    ],
     fields: [
-      { name: '%K', jsonKey: 'k', type: 'line' },
-      { name: '%D', jsonKey: 'd', type: 'line' }
+      { name: '%K', jsonKey: 'k', type: 'line', color: ChartColors.StandardBlue },
+      { name: '%D', jsonKey: 'd', type: 'line', color: ChartColors.StandardRed }
     ]
   },
   'stoch-rsi.standard.json': {
     displayName: 'StochRsi',
+    chartType: 'oscillator',
+    thresholds: [
+      { value: 80, color: ChartColors.ThresholdRed, style: 'dash' },
+      { value: 20, color: ChartColors.ThresholdGreen, style: 'dash' }
+    ],
     fields: [
-      { name: 'StochRSI', jsonKey: 'stochRsi', type: 'line' },
-      { name: 'Signal', jsonKey: 'signal', type: 'line' }
+      { name: 'StochRSI', jsonKey: 'stochRsi', type: 'line', color: ChartColors.StandardBlue },
+      { name: 'Signal', jsonKey: 'signal', type: 'line', color: ChartColors.StandardRed }
     ]
   },
   'supertrend.standard.json': {
     displayName: 'SuperTrend',
-    fields: [{ name: 'SuperTrend', jsonKey: 'superTrend', type: 'line' }]
+    chartType: 'overlay',
+    fields: [
+      { name: 'Upper', jsonKey: 'upperBand', type: 'line', color: ChartColors.StandardRed },
+      { name: 'Lower', jsonKey: 'lowerBand', type: 'line', color: ChartColors.StandardGreen }
+    ]
   },
   't3.standard.json': {
     displayName: 'T3',
-    fields: [{ name: 'T3', jsonKey: 't3', type: 'line' }]
+    chartType: 'overlay',
+    fields: [{ name: 'T3', jsonKey: 't3', type: 'line', color: ChartColors.StandardBlue }]
   },
   'tema.standard.json': {
     displayName: 'Tema',
-    fields: [{ name: 'TEMA', jsonKey: 'tema', type: 'line' }]
+    chartType: 'overlay',
+    fields: [{ name: 'TEMA', jsonKey: 'tema', type: 'line', color: ChartColors.StandardBlue }]
   },
   'trix.standard.json': {
     displayName: 'Trix',
+    chartType: 'oscillator',
+    thresholds: [
+      { value: 0, color: ChartColors.ThresholdGrayTransparent, style: 'dash' }
+    ],
     fields: [
-      { name: 'TRIX', jsonKey: 'trix', type: 'line' },
-      { name: 'Signal', jsonKey: 'signal', type: 'line' }
+      { name: 'TRIX', jsonKey: 'trix', type: 'line', color: ChartColors.StandardBlue },
+      { name: 'Signal', jsonKey: 'signal', type: 'line', color: ChartColors.StandardRed }
     ]
   },
   'tsi.standard.json': {
     displayName: 'Tsi',
+    chartType: 'oscillator',
+    thresholds: [
+      { value: 25, color: ChartColors.ThresholdRed, style: 'dash' },
+      { value: -25, color: ChartColors.ThresholdGreen, style: 'dash' }
+    ],
     fields: [
-      { name: 'TSI', jsonKey: 'tsi', type: 'line' },
-      { name: 'Signal', jsonKey: 'signal', type: 'line' }
+      { name: 'TSI', jsonKey: 'tsi', type: 'line', color: ChartColors.StandardBlue },
+      { name: 'Signal', jsonKey: 'signal', type: 'line', color: ChartColors.StandardRed }
     ]
   },
   'ulcer.standard.json': {
     displayName: 'UlcerIndex',
-    fields: [{ name: 'Ulcer', jsonKey: 'ulcerIndex', type: 'line' }]
+    chartType: 'oscillator',
+    fields: [{ name: 'Ulcer', jsonKey: 'ulcerIndex', type: 'line', color: ChartColors.StandardBlue }]
   },
   'uo.standard.json': {
     displayName: 'Ultimate',
-    fields: [{ name: 'Ultimate', jsonKey: 'ultimate', type: 'line' }]
+    chartType: 'oscillator',
+    thresholds: [
+      { value: 70, color: ChartColors.ThresholdRed, style: 'dash' },
+      { value: 30, color: ChartColors.ThresholdGreen, style: 'dash' }
+    ],
+    fields: [{ name: 'Ultimate', jsonKey: 'ultimate', type: 'line', color: ChartColors.StandardBlue }]
   },
   'vol-stop.standard.json': {
     displayName: 'VolatilityStop',
-    fields: [{ name: 'Stop', jsonKey: 'stop', type: 'line' }]
+    chartType: 'overlay',
+    fields: [
+      { name: 'Upper', jsonKey: 'upperBand', type: 'dots', color: ChartColors.StandardRed, lineWidth: 2 },
+      { name: 'Lower', jsonKey: 'lowerBand', type: 'dots', color: ChartColors.StandardGreen, lineWidth: 2 }
+    ]
   },
   'vortex.standard.json': {
     displayName: 'Vortex',
+    chartType: 'oscillator',
     fields: [
-      { name: '+VI', jsonKey: 'pvi', type: 'line' },
-      { name: '-VI', jsonKey: 'nvi', type: 'line' }
+      { name: '+VI', jsonKey: 'pvi', type: 'line', color: ChartColors.StandardGreen },
+      { name: '-VI', jsonKey: 'nvi', type: 'line', color: ChartColors.StandardRed }
     ]
   },
   'vwap.standard.json': {
     displayName: 'Vwap',
-    fields: [{ name: 'VWAP', jsonKey: 'vwap', type: 'line' }]
+    chartType: 'overlay',
+    fields: [{ name: 'VWAP', jsonKey: 'vwap', type: 'line', color: ChartColors.StandardBlue }]
   },
   'vwma.standard.json': {
     displayName: 'Vwma',
-    fields: [{ name: 'VWMA', jsonKey: 'vwma', type: 'line' }]
+    chartType: 'overlay',
+    fields: [{ name: 'VWMA', jsonKey: 'vwma', type: 'line', color: ChartColors.StandardBlue }]
   },
   'willr.standard.json': {
     displayName: 'WilliamsR',
-    fields: [{ name: 'Williams %R', jsonKey: 'williamsR', type: 'line' }]
+    chartType: 'oscillator',
+    thresholds: [
+      { value: -20, color: ChartColors.ThresholdRed, style: 'dash' },
+      { value: -80, color: ChartColors.ThresholdGreen, style: 'dash' }
+    ],
+    fields: [{ name: 'Williams %R', jsonKey: 'williamsR', type: 'line', color: ChartColors.StandardBlue }]
   },
   'wma.standard.json': {
     displayName: 'Wma',
-    fields: [{ name: 'WMA', jsonKey: 'wma', type: 'line' }]
+    chartType: 'overlay',
+    fields: [{ name: 'WMA', jsonKey: 'wma', type: 'line', color: ChartColors.StandardBlue }]
   },
   'zigzag.standard.json': {
     displayName: 'ZigZag',
-    fields: [{ name: 'ZigZag', jsonKey: 'zigZag', type: 'line' }]
+    chartType: 'overlay',
+    fields: [{ name: 'ZigZag', jsonKey: 'zigZag', type: 'line', color: ChartColors.StandardBlue }]
   }
 }
 
@@ -483,9 +683,9 @@ function generateChartData(quotes, results, config) {
     }
   }
 
-  // Build series data
+  // Build series data with styling
   const series = config.fields.map(field => {
-    return {
+    const seriesData = {
       name: field.name,
       type: field.type || 'line',
       data: results.map(r => ({
@@ -493,14 +693,32 @@ function generateChartData(quotes, results, config) {
         value: r[field.jsonKey] ?? null
       }))
     }
+
+    // Add optional styling properties
+    if (field.color) seriesData.color = field.color
+    if (field.lineWidth) seriesData.lineWidth = field.lineWidth
+    if (field.lineStyle) seriesData.lineStyle = field.lineStyle
+
+    return seriesData
   })
 
+  // Build metadata with optional chartType and thresholds
+  const metadata = {
+    symbol: 'S&P 500',
+    timeframe: 'Daily',
+    indicator: config.displayName
+  }
+
+  if (config.chartType) {
+    metadata.chartType = config.chartType
+  }
+
+  if (config.thresholds && config.thresholds.length > 0) {
+    metadata.thresholds = config.thresholds
+  }
+
   return {
-    metadata: {
-      symbol: 'S&P 500',
-      timeframe: 'Daily',
-      indicator: config.displayName
-    },
+    metadata: metadata,
     candles: overlappingQuotes,
     series: series
   }

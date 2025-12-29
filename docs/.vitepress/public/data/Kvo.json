@@ -2,7 +2,15 @@
   "metadata": {
     "symbol": "S&P 500",
     "timeframe": "Daily",
-    "indicator": "Kvo"
+    "indicator": "Kvo",
+    "chartType": "oscillator",
+    "thresholds": [
+      {
+        "value": 0,
+        "color": "#42424280",
+        "style": "dash"
+      }
+    ]
   },
   "candles": [
     {
@@ -4025,7 +4033,7 @@
   "series": [
     {
       "name": "KVO",
-      "type": "histogram",
+      "type": "line",
       "data": [
         {
           "timestamp": "2017-01-03T00:00:00",
@@ -6035,7 +6043,8 @@
           "timestamp": "2018-12-31T00:00:00",
           "value": -539224047.3872576
         }
-      ]
+      ],
+      "color": "#1E88E5"
     },
     {
       "name": "Signal",
@@ -8049,7 +8058,8 @@
           "timestamp": "2018-12-31T00:00:00",
           "value": -1548306127.295346
         }
-      ]
+      ],
+      "color": "#DD2C00"
     }
   ]
 }

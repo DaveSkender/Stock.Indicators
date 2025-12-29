@@ -2,7 +2,15 @@
   "metadata": {
     "symbol": "S&P 500",
     "timeframe": "Daily",
-    "indicator": "Bop"
+    "indicator": "Bop",
+    "chartType": "oscillator",
+    "thresholds": [
+      {
+        "value": 0,
+        "color": "#42424280",
+        "style": "dash"
+      }
+    ]
   },
   "candles": [
     {
@@ -4025,7 +4033,7 @@
   "series": [
     {
       "name": "BOP",
-      "type": "histogram",
+      "type": "baseline",
       "data": [
         {
           "timestamp": "2017-01-03T00:00:00",
@@ -6035,7 +6043,8 @@
           "timestamp": "2018-12-31T00:00:00",
           "value": -0.2927877884936401
         }
-      ]
+      ],
+      "color": "#1E88E5"
     }
   ]
 }

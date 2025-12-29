@@ -2,7 +2,8 @@
   "metadata": {
     "symbol": "S&P 500",
     "timeframe": "Daily",
-    "indicator": "MaEnvelopes"
+    "indicator": "MaEnvelopes",
+    "chartType": "overlay"
   },
   "candles": [
     {
@@ -6035,7 +6036,9 @@
           "timestamp": "2018-12-31T00:00:00",
           "value": 258.15649999999994
         }
-      ]
+      ],
+      "color": "#EF6C00",
+      "lineWidth": 1
     },
     {
       "name": "Center",
@@ -8049,7 +8052,10 @@
           "timestamp": "2018-12-31T00:00:00",
           "value": 251.85999999999996
         }
-      ]
+      ],
+      "color": "#EF6C00",
+      "lineWidth": 1,
+      "lineStyle": "dash"
     },
     {
       "name": "Lower",
@@ -10063,7 +10069,9 @@
           "timestamp": "2018-12-31T00:00:00",
           "value": 245.56349999999995
         }
-      ]
+      ],
+      "color": "#EF6C00",
+      "lineWidth": 1
     }
   ]
 }

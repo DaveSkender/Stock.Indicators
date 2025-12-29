@@ -2,7 +2,8 @@
   "metadata": {
     "symbol": "S&P 500",
     "timeframe": "Daily",
-    "indicator": "Sma"
+    "indicator": "Sma",
+    "chartType": "overlay"
   },
   "candles": [
     {
@@ -6035,7 +6036,8 @@
           "timestamp": "2018-12-31T00:00:00",
           "value": 251.85999999999996
         }
-      ]
+      ],
+      "color": "#1E88E5"
     }
   ]
 }

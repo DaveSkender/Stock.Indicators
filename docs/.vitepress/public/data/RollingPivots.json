@@ -2,7 +2,8 @@
   "metadata": {
     "symbol": "S&P 500",
     "timeframe": "Daily",
-    "indicator": "RollingPivots"
+    "indicator": "RollingPivots",
+    "chartType": "overlay"
   },
   "candles": [
     {
@@ -6035,7 +6036,8 @@
           "timestamp": "2018-12-31T00:00:00",
           "value": 248.72
         }
-      ]
+      ],
+      "color": "#1E88E5"
     },
     {
       "name": "S1",
@@ -8049,7 +8051,8 @@
           "timestamp": "2018-12-31T00:00:00",
           "value": 223.85
         }
-      ]
+      ],
+      "color": "#2E7D32"
     },
     {
       "name": "R1",
@@ -10063,7 +10066,8 @@
           "timestamp": "2018-12-31T00:00:00",
           "value": 268.02
         }
-      ]
+      ],
+      "color": "#DD2C00"
     }
   ]
 }

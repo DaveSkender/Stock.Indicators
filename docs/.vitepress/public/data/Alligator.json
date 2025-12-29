@@ -2,7 +2,8 @@
   "metadata": {
     "symbol": "S&P 500",
     "timeframe": "Daily",
-    "indicator": "Alligator"
+    "indicator": "Alligator",
+    "chartType": "overlay"
   },
   "candles": [
     {
@@ -6035,7 +6036,8 @@
           "timestamp": "2018-12-31T00:00:00",
           "value": 260.98952669570815
         }
-      ]
+      ],
+      "color": "#1E88E5"
     },
     {
       "name": "Teeth",
@@ -8049,7 +8051,8 @@
           "timestamp": "2018-12-31T00:00:00",
           "value": 253.53576404781757
         }
-      ]
+      ],
+      "color": "#DD2C00"
     },
     {
       "name": "Lips",
@@ -10063,7 +10066,8 @@
           "timestamp": "2018-12-31T00:00:00",
           "value": 244.29591011967895
         }
-      ]
+      ],
+      "color": "#2E7D32"
     }
   ]
 }

@@ -2,7 +2,20 @@
   "metadata": {
     "symbol": "S&P 500",
     "timeframe": "Daily",
-    "indicator": "Stc"
+    "indicator": "Stc",
+    "chartType": "oscillator",
+    "thresholds": [
+      {
+        "value": 75,
+        "color": "#1B5E2070",
+        "style": "solid"
+      },
+      {
+        "value": 25,
+        "color": "#B71C1C70",
+        "style": "solid"
+      }
+    ]
   },
   "candles": [
     {
@@ -6035,7 +6048,8 @@
           "timestamp": "2018-12-31T00:00:00",
           "value": 0.40779059115020516
         }
-      ]
+      ],
+      "color": "#1E88E5"
     }
   ]
 }

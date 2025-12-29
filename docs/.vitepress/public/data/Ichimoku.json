@@ -2,7 +2,8 @@
   "metadata": {
     "symbol": "S&P 500",
     "timeframe": "Daily",
-    "indicator": "Ichimoku"
+    "indicator": "Ichimoku",
+    "chartType": "overlay"
   },
   "candles": [
     {
@@ -6035,7 +6036,9 @@
           "timestamp": "2018-12-31T00:00:00",
           "value": 241.26
         }
-      ]
+      ],
+      "color": "#1E88E5",
+      "lineWidth": 2
     },
     {
       "name": "Kijun",
@@ -8049,7 +8052,9 @@
           "timestamp": "2018-12-31T00:00:00",
           "value": 251.505
         }
-      ]
+      ],
+      "color": "#8E24AA",
+      "lineWidth": 2
     },
     {
       "name": "Senkou A",
@@ -10063,7 +10068,9 @@
           "timestamp": "2018-12-31T00:00:00",
           "value": 264.77
         }
-      ]
+      ],
+      "color": "#1B5E2070",
+      "lineWidth": 1.5
     },
     {
       "name": "Senkou B",
@@ -12077,7 +12084,9 @@
           "timestamp": "2018-12-31T00:00:00",
           "value": 269.82
         }
-      ]
+      ],
+      "color": "#B71C1C70",
+      "lineWidth": 1.5
     }
   ]
 }

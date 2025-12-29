@@ -2,7 +2,8 @@
   "metadata": {
     "symbol": "S&P 500",
     "timeframe": "Daily",
-    "indicator": "Pivots"
+    "indicator": "Pivots",
+    "chartType": "overlay"
   },
   "candles": [
     {
@@ -4025,7 +4026,7 @@
   "series": [
     {
       "name": "High Point",
-      "type": "line",
+      "type": "dots",
       "data": [
         {
           "timestamp": "2017-01-03T00:00:00",
@@ -6035,11 +6036,13 @@
           "timestamp": "2018-12-31T00:00:00",
           "value": null
         }
-      ]
+      ],
+      "color": "#DD2C00",
+      "lineWidth": 3
     },
     {
       "name": "Low Point",
-      "type": "line",
+      "type": "dots",
       "data": [
         {
           "timestamp": "2017-01-03T00:00:00",
@@ -8049,7 +8052,9 @@
           "timestamp": "2018-12-31T00:00:00",
           "value": null
         }
-      ]
+      ],
+      "color": "#2E7D32",
+      "lineWidth": 3
     }
   ]
 }

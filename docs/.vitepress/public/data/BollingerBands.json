@@ -2,7 +2,8 @@
   "metadata": {
     "symbol": "S&P 500",
     "timeframe": "Daily",
-    "indicator": "BollingerBands"
+    "indicator": "BollingerBands",
+    "chartType": "overlay"
   },
   "candles": [
     {
@@ -6035,7 +6036,9 @@
           "timestamp": "2018-12-31T00:00:00",
           "value": 273.7004230728253
         }
-      ]
+      ],
+      "color": "#616161CC",
+      "lineWidth": 1
     },
     {
       "name": "Middle",
@@ -8049,7 +8052,10 @@
           "timestamp": "2018-12-31T00:00:00",
           "value": 251.85999999999996
         }
-      ]
+      ],
+      "color": "#616161CC",
+      "lineWidth": 1,
+      "lineStyle": "dash"
     },
     {
       "name": "Lower",
@@ -10063,7 +10069,9 @@
           "timestamp": "2018-12-31T00:00:00",
           "value": 230.01957692717465
         }
-      ]
+      ],
+      "color": "#616161CC",
+      "lineWidth": 1
     }
   ]
 }

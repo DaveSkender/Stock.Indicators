@@ -1,20 +1,20 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted, watch } from 'vue'
+import { ref, onMounted, onUnmounted, watch, computed } from 'vue'
 import {
   createChart,
   type IChartApi,
   type ISeriesApi,
-  ColorType,
   CrosshairMode,
   CandlestickSeries,
   LineSeries,
   AreaSeries,
   HistogramSeries,
-  BaselineSeries
+  BaselineSeries,
+  LineStyle
 } from 'lightweight-charts'
 
 // Maximum number of bars to display (tail view)
-const MAX_BARS = 100
+const MAX_BARS = 120
 
 interface ThresholdLine {
   value: number
@@ -22,12 +22,23 @@ interface ThresholdLine {
   style?: 'solid' | 'dash'
 }
 
+interface SeriesStyle {
+  name: string
+  type?: 'line' | 'area' | 'histogram' | 'baseline' | 'dots'
+  color?: string
+  lineWidth?: number
+  lineStyle?: 'solid' | 'dash' | 'dots'
+  data: Array<{
+    timestamp: string
+    value: number | null
+  }>
+}
+
 interface ChartData {
   metadata?: {
     symbol?: string
     timeframe?: string
     indicator?: string
-    parameters?: Record<string, unknown>
     chartType?: 'overlay' | 'oscillator'
     thresholds?: ThresholdLine[]
   }
@@ -39,44 +50,37 @@ interface ChartData {
     close: number
     volume?: number
   }>
-  series: Array<{
-    name: string
-    type?: 'line' | 'area' | 'histogram' | 'baseline'
-    color?: string
-    lineWidth?: number
-    data: Array<{
-      timestamp: string
-      value: number | null
-    }>
-  }>
+  series: SeriesStyle[]
 }
 
 const props = withDefaults(defineProps<{
   src: string
   height?: number
-  showVolume?: boolean
 }>(), {
-  height: 360,
-  showVolume: false
+  height: 400
 })
 
-const chartContainer = ref<HTMLDivElement | null>(null)
+const overlayChartContainer = ref<HTMLDivElement | null>(null)
+const oscillatorChartContainer = ref<HTMLDivElement | null>(null)
 const isLoading = ref(true)
 const hasError = ref(false)
 const errorMessage = ref('')
+const chartType = ref<'overlay' | 'oscillator'>('overlay')
 
-let chart: IChartApi | null = null
+let overlayChart: IChartApi | null = null
+let oscillatorChart: IChartApi | null = null
 let candleSeries: ISeriesApi<'Candlestick'> | null = null
 let volumeSeries: ISeriesApi<'Histogram'> | null = null
-const indicatorSeries: (ISeriesApi<'Line'> | ISeriesApi<'Area'> | ISeriesApi<'Histogram'> | ISeriesApi<'Baseline'>)[] = []
+const overlaySeries: ISeriesApi<any>[] = []
+const oscillatorSeries: ISeriesApi<any>[] = []
 
 // Stock.Charts color scheme (Material Design M2)
 const ChartColors = {
-  StandardRed: '#DD2C00',           // deep orange A700
-  StandardOrange: '#EF6C00',        // orange 800
-  StandardGreen: '#2E7D32',         // green 800
-  StandardBlue: '#1E88E5',          // blue 600
-  StandardPurple: '#8E24AA',        // purple 600
+  StandardRed: '#DD2C00',
+  StandardOrange: '#EF6C00',
+  StandardGreen: '#2E7D32',
+  StandardBlue: '#1E88E5',
+  StandardPurple: '#8E24AA',
   StandardGrayTransparent: '#9E9E9E50',
   DarkGray: '#616161CC',
   DarkGrayTransparent: '#61616110',
@@ -96,39 +100,31 @@ const indicatorColors = [
   ChartColors.StandardOrange
 ]
 
-// Fallback colors for CSS variables
-const colorFallbacks: Record<string, string> = {
-  '--si-indicator-1': ChartColors.StandardBlue,
-  '--si-indicator-2': ChartColors.StandardGreen,
-  '--si-indicator-3': ChartColors.StandardRed,
-  '--si-indicator-4': ChartColors.StandardPurple,
-  '--si-indicator-5': ChartColors.StandardOrange,
-  '--si-chart-bg': '#22272e',
-  '--si-chart-text': '#adbac7',
-  '--si-chart-grid': '#2d333b',
-  '--si-chart-border': '#444c56',
-  '--si-chart-crosshair': '#768390'
+// Chart theme colors
+const chartTheme = {
+  bgColor: '#22272e',
+  textColor: '#adbac7',
+  gridColor: '#2d333b',
+  borderColor: '#444c56'
 }
 
-function getComputedColor(cssVar: string): string {
-  if (typeof window === 'undefined') return ChartColors.StandardBlue
-  const style = getComputedStyle(document.documentElement)
-  const varName = cssVar.replace('var(', '').replace(')', '')
-  const value = style.getPropertyValue(varName).trim()
-  return value || colorFallbacks[varName] || ChartColors.StandardBlue
-}
+// Computed heights based on chart type
+const overlayHeight = computed(() => {
+  return chartType.value === 'overlay' ? props.height : Math.floor(props.height * 0.65)
+})
+
+const oscillatorHeight = computed(() => {
+  return Math.floor(props.height * 0.35)
+})
 
 function parseTimestamp(timestamp: string): string {
-  // Convert ISO timestamp to lightweight-charts format (YYYY-MM-DD)
   try {
     const date = new Date(timestamp)
     if (isNaN(date.getTime())) {
-      console.warn('Invalid timestamp:', timestamp)
       return '1970-01-01'
     }
     return date.toISOString().split('T')[0]
   } catch {
-    console.warn('Error parsing timestamp:', timestamp)
     return '1970-01-01'
   }
 }
@@ -140,12 +136,12 @@ async function loadChartData(): Promise<ChartData | null> {
       throw new Error(`Failed to load chart data: ${response.status}`)
     }
     const data = await response.json() as ChartData
-    
+
     // Slice to show only the last MAX_BARS bars
     if (data.candles.length > MAX_BARS) {
       data.candles = data.candles.slice(-MAX_BARS)
     }
-    
+
     // Slice series data to match
     if (data.series) {
       data.series = data.series.map(s => ({
@@ -153,7 +149,10 @@ async function loadChartData(): Promise<ChartData | null> {
         data: s.data.slice(-MAX_BARS)
       }))
     }
-    
+
+    // Set chart type from metadata
+    chartType.value = data.metadata?.chartType || 'overlay'
+
     return data
   } catch (error) {
     console.error('Error loading chart data:', error)
@@ -163,73 +162,83 @@ async function loadChartData(): Promise<ChartData | null> {
   }
 }
 
-function createChartInstance() {
-  if (!chartContainer.value || typeof window === 'undefined') return
-
-  // Get computed CSS values for theming
-  const bgColor = getComputedColor('var(--si-chart-bg)') || '#22272e'
-  const textColor = getComputedColor('var(--si-chart-text)') || '#adbac7'
-  const gridColor = getComputedColor('var(--si-chart-grid)') || '#2d333b'
-  const borderColor = getComputedColor('var(--si-chart-border)') || '#444c56'
-
-  chart = createChart(chartContainer.value, {
+function createOverlayChart(container: HTMLDivElement, height: number): IChartApi {
+  return createChart(container, {
     autoSize: true,
-    height: props.height,
+    height: height,
     layout: {
-      background: { type: 'none', color: bgColor }, // type: ColorType.Solid
-      textColor: textColor,
+      background: { color: chartTheme.bgColor },
+      textColor: chartTheme.textColor,
       fontFamily: 'Inter, system-ui, -apple-system, sans-serif',
-      fontSize: 10
-      attributionLogo: false  // Remove TradingView logo
+      fontSize: 11,
+      attributionLogo: false
     },
     grid: {
-      vertLines: { color: gridColor },
-      horzLines: { color: gridColor }
+      vertLines: { color: chartTheme.gridColor },
+      horzLines: { color: chartTheme.gridColor }
     },
     crosshair: {
       mode: CrosshairMode.Normal,
-      vertLine: {
-        visible: false,
-        labelVisible: false
-      },
-      horzLine: {
-        visible: false,
-        labelVisible: false
-      }
+      vertLine: { visible: false, labelVisible: false },
+      horzLine: { visible: false, labelVisible: false }
     },
     rightPriceScale: {
-      borderColor: borderColor,
+      borderColor: chartTheme.borderColor,
       borderVisible: false,
-      // scaleMargins: {
-      //   top: 0.1,
-      //   bottom: props.showVolume ? 0.2 : 0.1
-      //}
+      scaleMargins: { top: 0.1, bottom: 0.2 }
     },
-    leftPriceScale: {
-      visible: false
-    },
+    leftPriceScale: { visible: false },
     timeScale: {
       visible: false,
-      borderColor: borderColor,
       borderVisible: false,
-      timeVisible: false,
-      secondsVisible: false,
       fixLeftEdge: true,
       fixRightEdge: true,
       lockVisibleTimeRangeOnResize: true
     },
-    // Disable all user interaction (scroll, pan, zoom)
     handleScroll: false,
     handleScale: false
   })
-
-  return chart
 }
 
-function setupCandlestickSeries(data: ChartData) {
-  if (!chart) return
+function createOscillatorChart(container: HTMLDivElement, height: number): IChartApi {
+  return createChart(container, {
+    autoSize: true,
+    height: height,
+    layout: {
+      background: { color: chartTheme.bgColor },
+      textColor: chartTheme.textColor,
+      fontFamily: 'Inter, system-ui, -apple-system, sans-serif',
+      fontSize: 11,
+      attributionLogo: false
+    },
+    grid: {
+      vertLines: { color: chartTheme.gridColor },
+      horzLines: { color: chartTheme.gridColor }
+    },
+    crosshair: {
+      mode: CrosshairMode.Normal,
+      vertLine: { visible: false, labelVisible: false },
+      horzLine: { visible: false, labelVisible: false }
+    },
+    rightPriceScale: {
+      borderColor: chartTheme.borderColor,
+      borderVisible: false,
+      scaleMargins: { top: 0.1, bottom: 0.1 }
+    },
+    leftPriceScale: { visible: false },
+    timeScale: {
+      visible: false,
+      borderVisible: false,
+      fixLeftEdge: true,
+      fixRightEdge: true,
+      lockVisibleTimeRangeOnResize: true
+    },
+    handleScroll: false,
+    handleScale: false
+  })
+}
 
-  // Use Stock.Charts color scheme for candles
+function setupCandlestickSeries(chart: IChartApi, data: ChartData) {
   const upColor = ChartColors.StandardGreen
   const downColor = ChartColors.StandardRed
 
@@ -240,8 +249,8 @@ function setupCandlestickSeries(data: ChartData) {
     borderDownColor: downColor,
     wickUpColor: upColor,
     wickDownColor: downColor,
-    priceLineVisible: false,      // Remove price line marker
-    lastValueVisible: false       // Remove last value label on axis
+    priceLineVisible: false,
+    lastValueVisible: false
   })
 
   const candleData = data.candles.map(c => ({
@@ -255,11 +264,9 @@ function setupCandlestickSeries(data: ChartData) {
   candleSeries.setData(candleData)
 }
 
-function setupVolumeSeries(data: ChartData) {
-  if (!chart || !props.showVolume) return
-
-  const upVolumeColor = 'rgba(46, 125, 50, 0.3)'   // StandardGreen with alpha
-  const downVolumeColor = 'rgba(221, 44, 0, 0.3)' // StandardRed with alpha
+function setupVolumeSeries(chart: IChartApi, data: ChartData) {
+  const upVolumeColor = 'rgba(46, 125, 50, 0.25)'
+  const downVolumeColor = 'rgba(221, 44, 0, 0.25)'
 
   volumeSeries = chart.addSeries(HistogramSeries, {
     priceFormat: { type: 'volume' },
@@ -269,10 +276,7 @@ function setupVolumeSeries(data: ChartData) {
   })
 
   chart.priceScale('volume').applyOptions({
-    scaleMargins: {
-      top: 0.85,
-      bottom: 0
-    }
+    scaleMargins: { top: 0.85, bottom: 0 }
   })
 
   const volumeData = data.candles.map(c => ({
@@ -284,23 +288,33 @@ function setupVolumeSeries(data: ChartData) {
   volumeSeries.setData(volumeData)
 }
 
-function setupIndicatorSeries(data: ChartData) {
-  if (!chart || !data.series || data.series.length === 0) return
+function getLineStyle(style?: string): LineStyle {
+  switch (style) {
+    case 'dash':
+      return LineStyle.Dashed
+    case 'dots':
+      return LineStyle.Dotted
+    default:
+      return LineStyle.Solid
+  }
+}
 
-  data.series.forEach((seriesConfig, index) => {
-    // Use the series color or fall back to the color palette
+function setupIndicatorSeries(chart: IChartApi, seriesData: SeriesStyle[], isOscillator: boolean) {
+  const targetArray = isOscillator ? oscillatorSeries : overlaySeries
+
+  seriesData.forEach((seriesConfig, index) => {
     const color = seriesConfig.color || indicatorColors[index % indicatorColors.length]
-    const resolvedColor = color.startsWith('var(') ? getComputedColor(color) : color
     const lineWidth = seriesConfig.lineWidth || 2
+    const lineStyle = getLineStyle(seriesConfig.lineStyle)
 
-    let series: ISeriesApi<'Line'> | ISeriesApi<'Area'> | ISeriesApi<'Histogram'> | ISeriesApi<'Baseline'>
+    let series: ISeriesApi<any>
 
     switch (seriesConfig.type) {
       case 'area':
-        series = chart!.addSeries(AreaSeries, {
-          lineColor: resolvedColor,
-          topColor: `${resolvedColor}40`,
-          bottomColor: `${resolvedColor}05`,
+        series = chart.addSeries(AreaSeries, {
+          lineColor: color,
+          topColor: `${color}40`,
+          bottomColor: `${color}05`,
           lineWidth: lineWidth,
           priceLineVisible: false,
           lastValueVisible: false,
@@ -308,21 +322,14 @@ function setupIndicatorSeries(data: ChartData) {
         })
         break
       case 'histogram':
-        series = chart!.addSeries(HistogramSeries, {
-          color: resolvedColor,
-          priceScaleId: 'indicator-histogram',
+        series = chart.addSeries(HistogramSeries, {
+          color: color,
           priceLineVisible: false,
           lastValueVisible: false
         })
-        chart!.priceScale('indicator-histogram').applyOptions({
-          scaleMargins: {
-            top: 0.8,
-            bottom: 0
-          }
-        })
         break
       case 'baseline':
-        series = chart!.addSeries(BaselineSeries, {
+        series = chart.addSeries(BaselineSeries, {
           baseValue: { type: 'price', price: 0 },
           topLineColor: ChartColors.StandardGreen,
           topFillColor1: ChartColors.ThresholdGreenTransparent,
@@ -336,25 +343,36 @@ function setupIndicatorSeries(data: ChartData) {
           crosshairMarkerVisible: false
         })
         break
-      default:
-        series = chart!.addSeries(LineSeries, {
-          color: resolvedColor,
+      case 'dots':
+        series = chart.addSeries(LineSeries, {
+          color: color,
           lineWidth: lineWidth,
+          lineStyle: LineStyle.Dotted,
+          priceLineVisible: false,
+          lastValueVisible: false,
+          crosshairMarkerVisible: false
+        })
+        break
+      default:
+        series = chart.addSeries(LineSeries, {
+          color: color,
+          lineWidth: lineWidth,
+          lineStyle: lineStyle,
           priceLineVisible: false,
           lastValueVisible: false,
           crosshairMarkerVisible: false
         })
     }
 
-    const seriesData = seriesConfig.data
+    const filteredData = seriesConfig.data
       .filter(d => d.value !== null && d.value !== undefined && !isNaN(d.value))
       .map(d => ({
         time: parseTimestamp(d.timestamp),
         value: d.value as number
       }))
 
-    series.setData(seriesData)
-    indicatorSeries.push(series)
+    series.setData(filteredData)
+    targetArray.push(series)
   })
 }
 
@@ -368,29 +386,69 @@ async function initChart() {
     return
   }
 
-  // Wait for next tick to ensure container is rendered
   await new Promise(resolve => requestAnimationFrame(resolve))
 
-  createChartInstance()
-  setupCandlestickSeries(data)
-  setupVolumeSeries(data)
-  setupIndicatorSeries(data)
+  const isOscillatorType = data.metadata?.chartType === 'oscillator'
 
-  // Fit content to view
-  if (chart) {
-    chart.timeScale().fitContent()
+  // Always create overlay chart with candlesticks
+  if (overlayChartContainer.value) {
+    overlayChart = createOverlayChart(overlayChartContainer.value, overlayHeight.value)
+    setupCandlestickSeries(overlayChart, data)
+    setupVolumeSeries(overlayChart, data)
+
+    // For overlay indicators, add series to overlay chart
+    if (!isOscillatorType && data.series.length > 0) {
+      setupIndicatorSeries(overlayChart, data.series, false)
+    }
+
+    overlayChart.timeScale().fitContent()
+  }
+
+  // For oscillator indicators, create separate oscillator chart
+  if (isOscillatorType && oscillatorChartContainer.value) {
+    oscillatorChart = createOscillatorChart(oscillatorChartContainer.value, oscillatorHeight.value)
+
+    // Add threshold lines first (behind the indicator)
+    if (data.metadata?.thresholds) {
+      for (const threshold of data.metadata.thresholds) {
+        const series = oscillatorChart.addSeries(LineSeries, {
+          color: threshold.color,
+          lineWidth: 1,
+          lineStyle: threshold.style === 'dash' ? LineStyle.Dashed : LineStyle.Solid,
+          priceLineVisible: false,
+          lastValueVisible: false,
+          crosshairMarkerVisible: false
+        })
+
+        // Create horizontal line across all candle timestamps
+        const thresholdData = data.candles.map(c => ({
+          time: parseTimestamp(c.timestamp),
+          value: threshold.value
+        }))
+        series.setData(thresholdData)
+      }
+    }
+
+    // Add oscillator series
+    setupIndicatorSeries(oscillatorChart, data.series, true)
+    oscillatorChart.timeScale().fitContent()
   }
 
   isLoading.value = false
 }
 
 function destroyChart() {
-  if (chart) {
-    chart.remove()
-    chart = null
+  if (overlayChart) {
+    overlayChart.remove()
+    overlayChart = null
     candleSeries = null
     volumeSeries = null
-    indicatorSeries.length = 0
+    overlaySeries.length = 0
+  }
+  if (oscillatorChart) {
+    oscillatorChart.remove()
+    oscillatorChart = null
+    oscillatorSeries.length = 0
   }
 }
 
@@ -421,8 +479,26 @@ watch(() => props.src, () => {
       <span>{{ errorMessage }}</span>
     </div>
 
-    <div v-show="!isLoading && !hasError" ref="chartContainer" class="chart-container"
-      :style="{ height: `${height}px` }" role="img" aria-label="Interactive indicator chart"></div>
+    <div v-show="!isLoading && !hasError" class="charts-container">
+      <!-- Overlay Chart (always shown) -->
+      <div
+        ref="overlayChartContainer"
+        class="chart-container overlay-chart"
+        :style="{ height: `${overlayHeight}px` }"
+        role="img"
+        aria-label="Price chart with indicator overlay"
+      ></div>
+
+      <!-- Oscillator Chart (shown only for oscillator type) -->
+      <div
+        v-if="chartType === 'oscillator'"
+        ref="oscillatorChartContainer"
+        class="chart-container oscillator-chart"
+        :style="{ height: `${oscillatorHeight}px` }"
+        role="img"
+        aria-label="Oscillator indicator chart"
+      ></div>
+    </div>
 
     <noscript>
       <div class="chart-noscript">
@@ -438,11 +514,25 @@ watch(() => props.src, () => {
   margin: 0;
 }
 
+.charts-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
 .chart-container {
   width: 100%;
-  border-radius: 8px;
+  border-radius: 4px;
   overflow: hidden;
-  border: 0 solid var(--si-chart-border);
+}
+
+.overlay-chart {
+  border-radius: 4px 4px 0 0;
+}
+
+.oscillator-chart {
+  border-radius: 0 0 4px 4px;
+  border-top: 1px solid var(--si-chart-border, #444c56);
 }
 
 /* Hide the TradingView attribution link via CSS as backup */
@@ -457,10 +547,10 @@ watch(() => props.src, () => {
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  background-color: var(--si-chart-bg);
-  border: 1px solid var(--si-chart-border);
-  border-radius: 8px;
-  color: var(--si-chart-text);
+  background-color: var(--si-chart-bg, #22272e);
+  border: 1px solid var(--si-chart-border, #444c56);
+  border-radius: 4px;
+  color: var(--si-chart-text, #adbac7);
 }
 
 .chart-error {
@@ -470,7 +560,7 @@ watch(() => props.src, () => {
 .loading-spinner {
   width: 24px;
   height: 24px;
-  border: 2px solid var(--si-chart-border);
+  border: 2px solid var(--si-chart-border, #444c56);
   border-top-color: var(--vp-c-brand-1);
   border-radius: 50%;
   animation: spin 1s linear infinite;
@@ -485,9 +575,9 @@ watch(() => props.src, () => {
 .chart-noscript {
   padding: 2rem;
   text-align: center;
-  background-color: var(--si-chart-bg);
-  border: 1px solid var(--si-chart-border);
-  border-radius: 8px;
-  color: var(--si-chart-text);
+  background-color: var(--si-chart-bg, #22272e);
+  border: 1px solid var(--si-chart-border, #444c56);
+  border-radius: 4px;
+  color: var(--si-chart-text, #adbac7);
 }
 </style>
