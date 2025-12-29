@@ -494,10 +494,10 @@ private int _head, _tail;
 
 | Task | Issue | Impact | Effort | Status |
 | ---- | ----- | ------ | ------ | ------ |
-| Fix RSI O(n²) StreamHub | - | 391x | M | Open |
-| Fix StochRSI O(n²) StreamHub | - | 284x | M | Open |
-| Fix CMO O(n²) StreamHub | - | 258x | M | Open |
-| Fix Chandelier O(n²) StreamHub | - | 122x | M | Open |
+| Fix RSI O(n²) StreamHub | - | 391x | M | ✅ Fixed |
+| Fix StochRSI O(n²) StreamHub | - | 284x | M | ✅ Fixed (uses RsiHub) |
+| Fix CMO O(n²) StreamHub | - | 258x | M | ✅ Already optimized |
+| Fix Chandelier O(n²) StreamHub | - | 122x | M | ✅ Already optimized |
 | Fix remaining O(n²) StreamHubs | - | Various | M | Open |
 
 ### Phase 2: Series Optimization (v3.1)
