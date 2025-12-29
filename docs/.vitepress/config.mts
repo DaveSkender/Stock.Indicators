@@ -302,7 +302,7 @@ export default defineConfig({
   rewrites: {
     // Legacy BasicQuote redirect
     'indicators/BasicQuote': 'indicators/QuotePart',
-    
+
     // Alternative indicator names (aliases)
     'indicators/AtrTrailingStop': 'indicators/AtrStop',
     'indicators/BullAndBearPower': 'indicators/ElderRay',
@@ -350,6 +350,23 @@ export default defineConfig({
           if (fs.existsSync(publicDirPath)) {
             fs.cpSync(publicDirPath, distDirPath, { recursive: true, dereference: true })
           }
+        }
+      },
+      {
+        // Serve public assets during development (JSON data files, etc.)
+        name: 'serve-public-assets',
+        configureServer(server) {
+          server.middlewares.use((req, res, next) => {
+            if (req.url && req.url.startsWith('/data/') && req.url.endsWith('.json')) {
+              const filePath = path.join(publicDirPath, req.url)
+              if (fs.existsSync(filePath)) {
+                res.setHeader('Content-Type', 'application/json')
+                res.end(fs.readFileSync(filePath, 'utf-8'))
+                return
+              }
+            }
+            next()
+          })
         }
       }
     ],
