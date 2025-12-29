@@ -48,6 +48,8 @@ public class KvoList : BufferList<KvoResult>, IIncrementFromQuote, IKvo
         _prevVfFastEma = 0;
         _prevVfSlowEma = 0;
         _sumVf = 0;
+
+        Name = $"KVO({fastPeriods}, {slowPeriods}, {signalPeriods})";
     }
 
     /// <summary>

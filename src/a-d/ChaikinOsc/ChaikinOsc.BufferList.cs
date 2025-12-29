@@ -23,6 +23,8 @@ public class ChaikinOscList : BufferList<ChaikinOscResult>, IIncrementFromQuote,
         _adlList = [];
         _fastEmaList = new EmaList(fastPeriods);
         _slowEmaList = new EmaList(slowPeriods);
+
+        Name = $"CHAIKINOSC({fastPeriods}, {slowPeriods})";
     }
 
     /// <summary>

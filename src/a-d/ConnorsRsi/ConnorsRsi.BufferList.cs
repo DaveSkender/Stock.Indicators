@@ -33,6 +33,8 @@ public class ConnorsRsiList : BufferList<ConnorsRsiResult>, IIncrementFromChain
         _rsiStreak = new RsiList(streakPeriods);
         _gainBuffer = new Queue<double>(rankPeriods + 1);
         _processedCount = 0;
+
+        Name = $"CONNORSRSI({rsiPeriods}, {streakPeriods}, {rankPeriods})";
     }
 
     /// <summary>

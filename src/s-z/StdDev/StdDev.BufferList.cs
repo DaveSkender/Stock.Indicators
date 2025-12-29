@@ -16,6 +16,8 @@ public class StdDevList : BufferList<StdDevResult>, IIncrementFromChain, IStdDev
         StdDev.Validate(lookbackPeriods);
         LookbackPeriods = lookbackPeriods;
         _buffer = new Queue<double>(lookbackPeriods);
+
+        Name = $"STDDEV({lookbackPeriods})";
     }
 
     /// <summary>

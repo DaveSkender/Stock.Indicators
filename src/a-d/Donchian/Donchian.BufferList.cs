@@ -17,6 +17,8 @@ public class DonchianList : BufferList<DonchianResult>, IIncrementFromQuote
         LookbackPeriods = lookbackPeriods;
 
         _buffer = new Queue<(decimal, decimal)>(lookbackPeriods);
+
+        Name = $"DONCHIAN({lookbackPeriods})";
     }
 
     /// <summary>

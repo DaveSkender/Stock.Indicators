@@ -21,6 +21,8 @@ public class VortexList : BufferList<VortexResult>, IIncrementFromQuote
         LookbackPeriods = lookbackPeriods;
         _buffer = new Queue<(double, double, double)>(lookbackPeriods);
         _isInitialized = false;
+
+        Name = $"VORTEX({lookbackPeriods})";
     }
 
     /// <summary>

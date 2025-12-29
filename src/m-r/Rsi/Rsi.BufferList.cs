@@ -21,6 +21,8 @@ public class RsiList : BufferList<RsiResult>, IIncrementFromChain, IRsi
         LookbackPeriods = lookbackPeriods;
 
         _buffer = new Queue<(double, double)>(lookbackPeriods);
+
+        Name = $"RSI({lookbackPeriods})";
     }
 
     /// <summary>

@@ -38,6 +38,8 @@ public class SmiList : BufferList<SmiResult>, IIncrementFromQuote, ISmi
 
         _lookbackBuffer = new Queue<(double, double, double)>(lookbackPeriods);
         _isInitialized = false;
+
+        Name = $"SMI({lookbackPeriods}, {firstSmoothPeriods}, {secondSmoothPeriods}, {signalPeriods})";
     }
 
     /// <summary>

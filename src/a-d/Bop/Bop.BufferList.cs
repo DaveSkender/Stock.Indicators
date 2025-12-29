@@ -16,6 +16,8 @@ public class BopList : BufferList<BopResult>, IIncrementFromQuote, IBop
         Bop.Validate(smoothPeriods);
         SmoothPeriods = smoothPeriods;
         _buffer = new Queue<double>(smoothPeriods);
+
+        Name = $"BOP({smoothPeriods})";
     }
 
     /// <summary>

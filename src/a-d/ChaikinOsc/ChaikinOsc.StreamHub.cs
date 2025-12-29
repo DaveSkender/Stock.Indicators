@@ -8,7 +8,6 @@ namespace Skender.Stock.Indicators;
 public class ChaikinOscHub
     : ChainProvider<IQuote, ChaikinOscResult>, IChaikinOsc
 {
-    private readonly string hubName;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ChaikinOscHub"/> class.
@@ -30,7 +29,7 @@ public class ChaikinOscHub
         FastK = 2d / (fastPeriods + 1);
         SlowK = 2d / (slowPeriods + 1);
 
-        hubName = $"CHAIKIN_OSC({fastPeriods},{slowPeriods})";
+        Name = $"CHAIKIN_OSC({fastPeriods},{slowPeriods})";
 
         Reinitialize();
     }
@@ -50,10 +49,6 @@ public class ChaikinOscHub
     /// Gets the smoothing factor for the slow EMA.
     /// </summary>
     public double SlowK { get; private init; }
-
-    /// <inheritdoc/>
-    public override string ToString() => hubName;
-
     /// <inheritdoc/>
     protected override (ChaikinOscResult result, int index)
         ToIndicator(IQuote item, int? indexHint)

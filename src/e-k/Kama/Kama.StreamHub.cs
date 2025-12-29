@@ -6,7 +6,6 @@ namespace Skender.Stock.Indicators;
 public class KamaHub
     : ChainProvider<IReusable, KamaResult>, IKama
 {
-    private readonly string hubName;
     private readonly double _scFast;
     private readonly double _scSlow;
 
@@ -33,7 +32,7 @@ public class KamaHub
         _scFast = 2d / (fastPeriods + 1);
         _scSlow = 2d / (slowPeriods + 1);
 
-        hubName = $"KAMA({erPeriods},{fastPeriods},{slowPeriods})";
+        Name = $"KAMA({erPeriods},{fastPeriods},{slowPeriods})";
 
         Reinitialize();
     }
@@ -46,10 +45,6 @@ public class KamaHub
 
     /// <inheritdoc/>
     public int SlowPeriods { get; init; }
-
-    /// <inheritdoc/>
-    public override string ToString() => hubName;
-
     /// <inheritdoc/>
     protected override (KamaResult result, int index)
         ToIndicator(IReusable item, int? indexHint)

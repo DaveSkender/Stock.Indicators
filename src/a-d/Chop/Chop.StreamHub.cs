@@ -6,7 +6,6 @@ namespace Skender.Stock.Indicators;
 public class ChopHub
     : ChainProvider<IQuote, ChopResult>, IChop
 {
-    private readonly string hubName;
     private readonly RollingWindowMax<double> _trueHighWindow;
     private readonly RollingWindowMin<double> _trueLowWindow;
     private readonly Queue<double> _trueRangeBuffer;
@@ -29,17 +28,13 @@ public class ChopHub
         _trueLowWindow = new RollingWindowMin<double>(lookbackPeriods);
         _trueRangeBuffer = new Queue<double>(lookbackPeriods);
         _sumTrueRange = 0;
-        hubName = $"CHOP({lookbackPeriods})";
+        Name = $"CHOP({lookbackPeriods})";
 
         Reinitialize();
     }
 
     /// <inheritdoc/>
     public int LookbackPeriods { get; init; }
-
-    /// <inheritdoc/>
-    public override string ToString() => hubName;
-
     /// <inheritdoc/>
     protected override (ChopResult result, int index)
         ToIndicator(IQuote item, int? indexHint)

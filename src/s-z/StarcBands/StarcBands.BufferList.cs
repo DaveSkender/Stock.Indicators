@@ -26,6 +26,8 @@ public class StarcBandsList : BufferList<StarcBandsResult>, IIncrementFromQuote,
 
         _smaList = new SmaList(smaPeriods);
         _atrList = new AtrList(atrPeriods);
+
+        Name = $"STARCBANDS({smaPeriods}, {multiplier}, {atrPeriods})";
     }
 
     /// <summary>

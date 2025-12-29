@@ -6,7 +6,6 @@ namespace Skender.Stock.Indicators;
 public class DemaHub
     : ChainProvider<IReusable, DemaResult>, IDema
 {
-    private readonly string hubName;
     private double lastEma1 = double.NaN;
     private double lastEma2 = double.NaN;
 
@@ -24,7 +23,7 @@ public class DemaHub
         Dema.Validate(lookbackPeriods);
         LookbackPeriods = lookbackPeriods;
         K = 2d / (lookbackPeriods + 1);
-        hubName = $"DEMA({lookbackPeriods})";
+        Name = $"DEMA({lookbackPeriods})";
 
         Reinitialize();
     }
@@ -34,10 +33,6 @@ public class DemaHub
 
     /// <inheritdoc/>
     public double K { get; private init; }
-
-    /// <inheritdoc/>
-    public override string ToString() => hubName;
-
     /// <inheritdoc/>
     protected override (DemaResult result, int index)
         ToIndicator(IReusable item, int? indexHint)

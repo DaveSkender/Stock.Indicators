@@ -6,7 +6,6 @@ namespace Skender.Stock.Indicators;
 public class TsiHub
     : ChainProvider<IReusable, TsiResult>, ITsi
 {
-    private readonly string hubName;
     private readonly double mult1;  // smoothing constant for first EMA (lookbackPeriods)
     private readonly double mult2;  // smoothing constant for second EMA (smoothPeriods)
     private readonly double multS;  // smoothing constant for signal EMA (signalPeriods)
@@ -48,7 +47,7 @@ public class TsiHub
         mult2 = 2d / (smoothPeriods + 1);
         multS = 2d / (signalPeriods + 1);
 
-        hubName = $"TSI({lookbackPeriods},{smoothPeriods},{signalPeriods})";
+        Name = $"TSI({lookbackPeriods},{smoothPeriods},{signalPeriods})";
 
         _isFirstPeriod = true;
         _prevValue = double.NaN;
@@ -72,10 +71,6 @@ public class TsiHub
 
     /// <inheritdoc/>
     public int SignalPeriods { get; init; }
-
-    /// <inheritdoc/>
-    public override string ToString() => hubName;
-
     /// <inheritdoc/>
     protected override (TsiResult result, int index)
         ToIndicator(IReusable item, int? indexHint)

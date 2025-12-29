@@ -7,7 +7,6 @@ namespace Skender.Stock.Indicators;
 public class AdxHub
     : ChainProvider<IQuote, AdxResult>, IAdx
 {
-    private readonly string hubName;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AdxHub"/> class.
@@ -22,7 +21,7 @@ public class AdxHub
         Adx.Validate(lookbackPeriods);
 
         LookbackPeriods = lookbackPeriods;
-        hubName = $"ADX({LookbackPeriods})";
+        Name = $"ADX({LookbackPeriods})";
 
         // Initialize state variables
         _isFirstPeriod = true;
@@ -72,8 +71,8 @@ public class AdxHub
 
     /// <inheritdoc/>
     public override string ToString() => Results.Count > 0
-        ? $"{hubName}({Results[0].Timestamp:d})"
-        : hubName;
+        ? $"{Name}({Results[0].Timestamp:d})"
+        : Name;
 
     /// <inheritdoc/>
     protected override (AdxResult result, int index)

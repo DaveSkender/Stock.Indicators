@@ -5,7 +5,6 @@ public class UltimateHub
     : ChainProvider<IReusable, UltimateResult>, IUltimate
 {
 
-    private readonly string hubName;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="UltimateHub"/> class.
@@ -25,7 +24,7 @@ public class UltimateHub
         ShortPeriods = shortPeriods;
         MiddlePeriods = middlePeriods;
         LongPeriods = longPeriods;
-        hubName = $"UO({shortPeriods},{middlePeriods},{longPeriods})";
+        Name = $"UO({shortPeriods},{middlePeriods},{longPeriods})";
 
         Reinitialize();
     }
@@ -46,10 +45,6 @@ public class UltimateHub
     public int LongPeriods { get; init; }
 
     // METHODS
-
-    /// <inheritdoc/>
-    public override string ToString() => hubName;
-
     /// <inheritdoc/>
     protected override (UltimateResult result, int index)
         ToIndicator(IReusable item, int? indexHint)

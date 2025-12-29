@@ -6,7 +6,6 @@ namespace Skender.Stock.Indicators;
 public class RocHub
     : ChainProvider<IReusable, RocResult>, IRoc
 {
-    private readonly string hubName;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="RocHub"/> class.
@@ -21,17 +20,13 @@ public class RocHub
     {
         Roc.Validate(lookbackPeriods);
         LookbackPeriods = lookbackPeriods;
-        hubName = $"ROC({lookbackPeriods})";
+        Name = $"ROC({lookbackPeriods})";
 
         Reinitialize();
     }
 
     /// <inheritdoc/>
     public int LookbackPeriods { get; init; }
-
-    /// <inheritdoc/>
-    public override string ToString() => hubName;
-
     /// <inheritdoc/>
     protected override (RocResult result, int index)
         ToIndicator(IReusable item, int? indexHint)

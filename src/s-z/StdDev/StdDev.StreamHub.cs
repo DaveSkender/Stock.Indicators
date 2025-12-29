@@ -8,7 +8,6 @@ namespace Skender.Stock.Indicators;
 public class StdDevHub
     : ChainProvider<IReusable, StdDevResult>, IStdDev
 {
-    private readonly string hubName;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="StdDevHub"/> class.
@@ -21,7 +20,7 @@ public class StdDevHub
     {
         StdDev.Validate(lookbackPeriods);
         LookbackPeriods = lookbackPeriods;
-        hubName = $"STDDEV({lookbackPeriods})";
+        Name = $"STDDEV({lookbackPeriods})";
 
         Reinitialize();
     }
@@ -30,10 +29,6 @@ public class StdDevHub
     /// Gets the number of lookback periods.
     /// </summary>
     public int LookbackPeriods { get; init; }
-
-    /// <inheritdoc/>
-    public override string ToString() => hubName;
-
     /// <inheritdoc/>
     protected override (StdDevResult result, int index)
         ToIndicator(IReusable item, int? indexHint)
