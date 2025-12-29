@@ -9,8 +9,18 @@ import {
   CandlestickSeries,
   LineSeries,
   AreaSeries,
-  HistogramSeries
+  HistogramSeries,
+  BaselineSeries
 } from 'lightweight-charts'
+
+// Maximum number of bars to display (tail view)
+const MAX_BARS = 120
+
+interface ThresholdLine {
+  value: number
+  color: string
+  style?: 'solid' | 'dash'
+}
 
 interface ChartData {
   metadata?: {
@@ -18,6 +28,8 @@ interface ChartData {
     timeframe?: string
     indicator?: string
     parameters?: Record<string, unknown>
+    chartType?: 'overlay' | 'oscillator'
+    thresholds?: ThresholdLine[]
   }
   candles: Array<{
     timestamp: string
@@ -29,8 +41,9 @@ interface ChartData {
   }>
   series: Array<{
     name: string
-    type?: 'line' | 'area' | 'histogram'
+    type?: 'line' | 'area' | 'histogram' | 'baseline'
     color?: string
+    lineWidth?: number
     data: Array<{
       timestamp: string
       value: number | null
@@ -55,24 +68,41 @@ const errorMessage = ref('')
 let chart: IChartApi | null = null
 let candleSeries: ISeriesApi<'Candlestick'> | null = null
 let volumeSeries: ISeriesApi<'Histogram'> | null = null
-const indicatorSeries: (ISeriesApi<'Line'> | ISeriesApi<'Area'> | ISeriesApi<'Histogram'>)[] = []
+const indicatorSeries: (ISeriesApi<'Line'> | ISeriesApi<'Area'> | ISeriesApi<'Histogram'> | ISeriesApi<'Baseline'>)[] = []
+
+// Stock.Charts color scheme (Material Design M2)
+const ChartColors = {
+  StandardRed: '#DD2C00',           // deep orange A700
+  StandardOrange: '#EF6C00',        // orange 800
+  StandardGreen: '#2E7D32',         // green 800
+  StandardBlue: '#1E88E5',          // blue 600
+  StandardPurple: '#8E24AA',        // purple 600
+  StandardGrayTransparent: '#9E9E9E50',
+  DarkGray: '#616161CC',
+  DarkGrayTransparent: '#61616110',
+  ThresholdGrayTransparent: '#42424280',
+  ThresholdRed: '#B71C1C70',
+  ThresholdRedTransparent: '#B71C1C20',
+  ThresholdGreen: '#1B5E2070',
+  ThresholdGreenTransparent: '#1B5E2020'
+}
 
 // Color palette for multiple indicator series
 const indicatorColors = [
-  'var(--si-indicator-1)',
-  'var(--si-indicator-2)',
-  'var(--si-indicator-3)',
-  'var(--si-indicator-4)',
-  'var(--si-indicator-5)'
+  ChartColors.StandardBlue,
+  ChartColors.StandardGreen,
+  ChartColors.StandardRed,
+  ChartColors.StandardPurple,
+  ChartColors.StandardOrange
 ]
 
 // Fallback colors for CSS variables
 const colorFallbacks: Record<string, string> = {
-  '--si-indicator-1': '#539bf5',
-  '--si-indicator-2': '#e6b450',
-  '--si-indicator-3': '#c678dd',
-  '--si-indicator-4': '#56b6c2',
-  '--si-indicator-5': '#e06c75',
+  '--si-indicator-1': ChartColors.StandardBlue,
+  '--si-indicator-2': ChartColors.StandardGreen,
+  '--si-indicator-3': ChartColors.StandardRed,
+  '--si-indicator-4': ChartColors.StandardPurple,
+  '--si-indicator-5': ChartColors.StandardOrange,
   '--si-chart-bg': '#22272e',
   '--si-chart-text': '#adbac7',
   '--si-chart-grid': '#2d333b',
@@ -81,11 +111,11 @@ const colorFallbacks: Record<string, string> = {
 }
 
 function getComputedColor(cssVar: string): string {
-  if (typeof window === 'undefined') return '#539bf5'
+  if (typeof window === 'undefined') return ChartColors.StandardBlue
   const style = getComputedStyle(document.documentElement)
   const varName = cssVar.replace('var(', '').replace(')', '')
   const value = style.getPropertyValue(varName).trim()
-  return value || colorFallbacks[varName] || '#539bf5'
+  return value || colorFallbacks[varName] || ChartColors.StandardBlue
 }
 
 function parseTimestamp(timestamp: string): string {
@@ -109,7 +139,22 @@ async function loadChartData(): Promise<ChartData | null> {
     if (!response.ok) {
       throw new Error(`Failed to load chart data: ${response.status}`)
     }
-    return await response.json()
+    const data = await response.json() as ChartData
+    
+    // Slice to show only the last MAX_BARS bars
+    if (data.candles.length > MAX_BARS) {
+      data.candles = data.candles.slice(-MAX_BARS)
+    }
+    
+    // Slice series data to match
+    if (data.series) {
+      data.series = data.series.map(s => ({
+        ...s,
+        data: s.data.slice(-MAX_BARS)
+      }))
+    }
+    
+    return data
   } catch (error) {
     console.error('Error loading chart data:', error)
     hasError.value = true
@@ -126,7 +171,6 @@ function createChartInstance() {
   const textColor = getComputedColor('var(--si-chart-text)') || '#adbac7'
   const gridColor = getComputedColor('var(--si-chart-grid)') || '#2d333b'
   const borderColor = getComputedColor('var(--si-chart-border)') || '#444c56'
-  const crosshairColor = getComputedColor('var(--si-chart-crosshair)') || '#768390'
 
   chart = createChart(chartContainer.value, {
     autoSize: true,
@@ -134,7 +178,8 @@ function createChartInstance() {
     layout: {
       background: { type: ColorType.Solid, color: bgColor },
       textColor: textColor,
-      fontFamily: 'Inter, system-ui, -apple-system, sans-serif'
+      fontFamily: 'Inter, system-ui, -apple-system, sans-serif',
+      attributionLogo: false  // Remove TradingView logo
     },
     grid: {
       vertLines: { color: gridColor },
@@ -143,41 +188,37 @@ function createChartInstance() {
     crosshair: {
       mode: CrosshairMode.Normal,
       vertLine: {
-        color: crosshairColor,
-        width: 1,
-        style: 2,
-        labelBackgroundColor: borderColor
+        visible: false,
+        labelVisible: false
       },
       horzLine: {
-        color: crosshairColor,
-        width: 1,
-        style: 2,
-        labelBackgroundColor: borderColor
+        visible: false,
+        labelVisible: false
       }
     },
     rightPriceScale: {
       borderColor: borderColor,
+      borderVisible: false,
       scaleMargins: {
         top: 0.1,
         bottom: props.showVolume ? 0.2 : 0.1
       }
     },
+    leftPriceScale: {
+      visible: false
+    },
     timeScale: {
       borderColor: borderColor,
+      borderVisible: false,
       timeVisible: false,
-      secondsVisible: false
+      secondsVisible: false,
+      fixLeftEdge: true,
+      fixRightEdge: true,
+      lockVisibleTimeRangeOnResize: true
     },
-    handleScroll: {
-      mouseWheel: true,
-      pressedMouseMove: true,
-      horzTouchDrag: true,
-      vertTouchDrag: false
-    },
-    handleScale: {
-      axisPressedMouseMove: true,
-      mouseWheel: true,
-      pinch: true
-    }
+    // Disable all user interaction (scroll, pan, zoom)
+    handleScroll: false,
+    handleScale: false
   })
 
   return chart
@@ -186,18 +227,19 @@ function createChartInstance() {
 function setupCandlestickSeries(data: ChartData) {
   if (!chart) return
 
-  const upColor = getComputedColor('var(--si-candle-up)') || '#57ab5a'
-  const downColor = getComputedColor('var(--si-candle-down)') || '#e5534b'
-  const upWickColor = getComputedColor('var(--si-candle-wick-up)') || '#57ab5a'
-  const downWickColor = getComputedColor('var(--si-candle-wick-down)') || '#e5534b'
+  // Use Stock.Charts color scheme for candles
+  const upColor = ChartColors.StandardGreen
+  const downColor = ChartColors.StandardRed
 
   candleSeries = chart.addSeries(CandlestickSeries, {
     upColor: upColor,
     downColor: downColor,
     borderUpColor: upColor,
     borderDownColor: downColor,
-    wickUpColor: upWickColor,
-    wickDownColor: downWickColor
+    wickUpColor: upColor,
+    wickDownColor: downColor,
+    priceLineVisible: false,      // Remove price line marker
+    lastValueVisible: false       // Remove last value label on axis
   })
 
   const candleData = data.candles.map(c => ({
@@ -214,12 +256,14 @@ function setupCandlestickSeries(data: ChartData) {
 function setupVolumeSeries(data: ChartData) {
   if (!chart || !props.showVolume) return
 
-  const upVolumeColor = getComputedColor('var(--si-volume-up)') || 'rgba(87, 171, 90, 0.3)'
-  const downVolumeColor = getComputedColor('var(--si-volume-down)') || 'rgba(229, 83, 75, 0.3)'
+  const upVolumeColor = 'rgba(46, 125, 50, 0.3)'   // StandardGreen with alpha
+  const downVolumeColor = 'rgba(221, 44, 0, 0.3)' // StandardRed with alpha
 
   volumeSeries = chart.addSeries(HistogramSeries, {
     priceFormat: { type: 'volume' },
-    priceScaleId: 'volume'
+    priceScaleId: 'volume',
+    priceLineVisible: false,
+    lastValueVisible: false
   })
 
   chart.priceScale('volume').applyOptions({
@@ -242,10 +286,12 @@ function setupIndicatorSeries(data: ChartData) {
   if (!chart || !data.series || data.series.length === 0) return
 
   data.series.forEach((seriesConfig, index) => {
+    // Use the series color or fall back to the color palette
     const color = seriesConfig.color || indicatorColors[index % indicatorColors.length]
     const resolvedColor = color.startsWith('var(') ? getComputedColor(color) : color
+    const lineWidth = seriesConfig.lineWidth || 2
 
-    let series: ISeriesApi<'Line'> | ISeriesApi<'Area'> | ISeriesApi<'Histogram'>
+    let series: ISeriesApi<'Line'> | ISeriesApi<'Area'> | ISeriesApi<'Histogram'> | ISeriesApi<'Baseline'>
 
     switch (seriesConfig.type) {
       case 'area':
@@ -253,13 +299,18 @@ function setupIndicatorSeries(data: ChartData) {
           lineColor: resolvedColor,
           topColor: `${resolvedColor}40`,
           bottomColor: `${resolvedColor}05`,
-          lineWidth: 2
+          lineWidth: lineWidth,
+          priceLineVisible: false,
+          lastValueVisible: false,
+          crosshairMarkerVisible: false
         })
         break
       case 'histogram':
         series = chart!.addSeries(HistogramSeries, {
           color: resolvedColor,
-          priceScaleId: 'indicator-histogram'
+          priceScaleId: 'indicator-histogram',
+          priceLineVisible: false,
+          lastValueVisible: false
         })
         chart!.priceScale('indicator-histogram').applyOptions({
           scaleMargins: {
@@ -268,12 +319,28 @@ function setupIndicatorSeries(data: ChartData) {
           }
         })
         break
+      case 'baseline':
+        series = chart!.addSeries(BaselineSeries, {
+          baseValue: { type: 'price', price: 0 },
+          topLineColor: ChartColors.StandardGreen,
+          topFillColor1: ChartColors.ThresholdGreenTransparent,
+          topFillColor2: ChartColors.ThresholdGreenTransparent,
+          bottomLineColor: ChartColors.StandardRed,
+          bottomFillColor1: ChartColors.ThresholdRedTransparent,
+          bottomFillColor2: ChartColors.ThresholdRedTransparent,
+          lineWidth: lineWidth,
+          priceLineVisible: false,
+          lastValueVisible: false,
+          crosshairMarkerVisible: false
+        })
+        break
       default:
         series = chart!.addSeries(LineSeries, {
           color: resolvedColor,
-          lineWidth: 2,
-          crosshairMarkerVisible: true,
-          crosshairMarkerRadius: 4
+          lineWidth: lineWidth,
+          priceLineVisible: false,
+          lastValueVisible: false,
+          crosshairMarkerVisible: false
         })
     }
 
@@ -374,6 +441,11 @@ watch(() => props.src, () => {
   border-radius: 8px;
   overflow: hidden;
   border: 1px solid var(--si-chart-border);
+}
+
+/* Hide the TradingView attribution link via CSS as backup */
+.chart-container :deep(a[href*="tradingview"]) {
+  display: none !important;
 }
 
 .chart-loading,
