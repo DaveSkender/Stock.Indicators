@@ -498,16 +498,16 @@
       "problemMatcher": "$msCompile"
     },
     {
-      "label": "Run: Generate test baseline data (all)",
-      "detail": "Generate all regression test baseline JSON files",
+      "label": "Run: Test simulation",
+      "detail": "Run streaming indicators simulation demo",
       "type": "shell",
-      "command": "dotnet run --project tools/baselining/Test.DataGenerator.csproj -- --all",
+      "command": "dotnet run --project tools/simulate/Test.Simulation.csproj",
       "group": "none",
       "problemMatcher": "$msCompile"
     },
     {
       "label": "Test: Website links (htmlproofer)",
-      "detail": "Build website and run htmlproofer link checks (parity with CI)",
+      "detail": "Build docs and run htmlproofer link checks (parity with CI)",
       "type": "shell",
       "command": "bash .vitepress/run-htmlproofer.sh",
       "options": {
