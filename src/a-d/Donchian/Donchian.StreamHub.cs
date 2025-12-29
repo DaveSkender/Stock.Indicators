@@ -25,7 +25,6 @@ public static partial class Donchian
 public class DonchianHub
     : StreamHub<IQuote, DonchianResult>, IDonchian
 {
-    private readonly string hubName;
     private readonly RollingWindowMax<decimal> _highWindow;
     private readonly RollingWindowMin<decimal> _lowWindow;
 
@@ -41,7 +40,7 @@ public class DonchianHub
         Donchian.Validate(lookbackPeriods);
 
         LookbackPeriods = lookbackPeriods;
-        hubName = $"DONCHIAN({lookbackPeriods})";
+        Name = $"DONCHIAN({lookbackPeriods})";
         _highWindow = new RollingWindowMax<decimal>(lookbackPeriods);
         _lowWindow = new RollingWindowMin<decimal>(lookbackPeriods);
 
@@ -52,10 +51,6 @@ public class DonchianHub
     /// Gets the number of periods to look back for the calculation.
     /// </summary>
     public int LookbackPeriods { get; init; }
-
-    /// <inheritdoc/>
-    public override string ToString() => hubName;
-
     /// <inheritdoc/>
     protected override (DonchianResult result, int index)
         ToIndicator(IQuote item, int? indexHint)

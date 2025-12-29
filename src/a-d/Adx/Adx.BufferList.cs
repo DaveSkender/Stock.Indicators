@@ -17,6 +17,8 @@ public class AdxList : BufferList<AdxResult>, IIncrementFromQuote, IAdx
         LookbackPeriods = lookbackPeriods;
 
         _buffer = new Queue<AdxBuffer>(lookbackPeriods);
+
+        Name = $"ADX({lookbackPeriods})";
     }
 
     /// <summary>
@@ -181,7 +183,6 @@ public class AdxList : BufferList<AdxResult>, IIncrementFromQuote, IAdx
         base.Clear();
         _buffer.Clear();
     }
-
     internal class AdxBuffer(
         double high,
         double low,

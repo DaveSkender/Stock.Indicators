@@ -19,6 +19,8 @@ public class ElderRayList : BufferList<ElderRayResult>, IIncrementFromQuote, IEl
         LookbackPeriods = lookbackPeriods;
 
         _emaList = new EmaList(lookbackPeriods);
+
+        Name = $"ELDERRAY({lookbackPeriods})";
     }
 
     /// <summary>

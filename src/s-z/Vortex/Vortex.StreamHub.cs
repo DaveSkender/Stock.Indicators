@@ -9,7 +9,6 @@ public class VortexHub
     : StreamHub<IQuote, VortexResult>, IVortex
 {
 
-    private readonly string hubName;
     private readonly Queue<(double Tr, double Pvm, double Nvm)> _buffer;
     private double _prevHigh;
     private double _prevLow;
@@ -27,7 +26,7 @@ public class VortexHub
     {
         Vortex.Validate(lookbackPeriods);
         LookbackPeriods = lookbackPeriods;
-        hubName = $"VORTEX({lookbackPeriods})";
+        Name = $"VORTEX({lookbackPeriods})";
 
         _buffer = new Queue<(double, double, double)>(lookbackPeriods);
         _isInitialized = false;
@@ -37,10 +36,6 @@ public class VortexHub
 
     /// <inheritdoc />
     public int LookbackPeriods { get; init; }
-
-    /// <inheritdoc/>
-    public override string ToString() => hubName;
-
     /// <inheritdoc/>
     protected override (VortexResult result, int index)
         ToIndicator(IQuote item, int? indexHint)

@@ -24,6 +24,8 @@ public class DemaList : BufferList<DemaResult>, IIncrementFromChain, IDema
 
         _buffer = new Queue<double>(lookbackPeriods);
         _bufferSum = 0;
+
+        Name = $"DEMA({lookbackPeriods})";
     }
 
     /// <summary>

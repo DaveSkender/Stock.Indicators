@@ -28,6 +28,8 @@ public class KeltnerList : BufferList<KeltnerResult>, IIncrementFromQuote
         _emaList = new EmaList(emaPeriods);
         _atrList = new AtrList(atrPeriods);
         _lookbackPeriods = Math.Max(emaPeriods, atrPeriods);
+
+        Name = $"KELTNER({emaPeriods}, {multiplier}, {atrPeriods})";
     }
 
     /// <summary>

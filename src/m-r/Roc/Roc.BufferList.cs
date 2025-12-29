@@ -16,6 +16,8 @@ public class RocList : BufferList<RocResult>, IIncrementFromChain, IRoc
         Roc.Validate(lookbackPeriods);
         LookbackPeriods = lookbackPeriods;
         buffer = new Queue<double>(lookbackPeriods + 1);
+
+        Name = $"ROC({lookbackPeriods})";
     }
 
     /// <summary>

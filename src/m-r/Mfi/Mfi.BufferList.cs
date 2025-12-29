@@ -19,6 +19,8 @@ public class MfiList : BufferList<MfiResult>, IIncrementFromQuote
         LookbackPeriods = lookbackPeriods;
         _buffer = new Queue<(double, double, int)>(lookbackPeriods);
         _quotesProcessed = 0;
+
+        Name = $"MFI({lookbackPeriods})";
     }
 
     /// <summary>

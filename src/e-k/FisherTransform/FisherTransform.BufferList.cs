@@ -21,6 +21,8 @@ public class FisherTransformList : BufferList<FisherTransformResult>, IIncrement
 
         _priceBuffer = new Queue<double>(lookbackPeriods);
         _previousXv = 0;
+
+        Name = $"FISHERTRANSFORM({lookbackPeriods})";
     }
 
     /// <summary>

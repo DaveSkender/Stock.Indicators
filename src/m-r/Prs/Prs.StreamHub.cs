@@ -8,7 +8,6 @@ namespace Skender.Stock.Indicators;
 public class PrsHub
     : PairsProvider<IReusable, PrsResult>
 {
-    private readonly string hubName;
     private readonly int lookbackPeriods;
 
     /// <summary>
@@ -37,16 +36,12 @@ public class PrsHub
         }
 
         this.lookbackPeriods = lookbackPeriods;
-        hubName = lookbackPeriods == int.MinValue
+        Name = lookbackPeriods == int.MinValue
             ? "PRS"
             : $"PRS({lookbackPeriods})";
 
         Reinitialize();
     }
-
-    /// <inheritdoc/>
-    public override string ToString() => hubName;
-
     /// <inheritdoc/>
     protected override (PrsResult result, int index)
         ToIndicator(IReusable item, int? indexHint)

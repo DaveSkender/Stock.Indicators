@@ -24,6 +24,7 @@ public class VwapHub : ChainProvider<IQuote, VwapResult>
     {
         StartDate = startDate;
         _autoAnchor = (startDate ?? default) == default;
+        Name = "VWAP";
         Reinitialize();
     }
 

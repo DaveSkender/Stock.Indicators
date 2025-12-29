@@ -51,6 +51,8 @@ public class ParabolicSarList : BufferList<ParabolicSarResult>, IIncrementFromQu
         _buffer = new Queue<(double, double)>(2);
         _isInitialized = false;
         _firstReversalFound = false;
+
+        Name = $"PARABOLICSAR({accelerationStep}, {maxAccelerationFactor})";
     }
 
     /// <summary>
@@ -235,7 +237,6 @@ public class ParabolicSarList : BufferList<ParabolicSarResult>, IIncrementFromQu
         _isInitialized = false;
         _firstReversalFound = false;
     }
-
     private void NullifyResultsBeforeFirstReversal()
     {
         // Only nullify if we found a reversal

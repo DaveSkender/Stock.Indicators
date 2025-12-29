@@ -6,7 +6,6 @@ namespace Skender.Stock.Indicators;
 public class FisherTransformHub
     : ChainProvider<IReusable, FisherTransformResult>, IFisherTransform
 {
-    private readonly string hubName;
 
     /// <summary>
     /// State arrays for Fisher Transform algorithm
@@ -35,17 +34,13 @@ public class FisherTransformHub
         LookbackPeriods = lookbackPeriods;
         _priceMaxWindow = new RollingWindowMax<double>(lookbackPeriods);
         _priceMinWindow = new RollingWindowMin<double>(lookbackPeriods);
-        hubName = $"FISHER({lookbackPeriods})";
+        Name = $"FISHER({lookbackPeriods})";
 
         Reinitialize();
     }
 
     /// <inheritdoc/>
     public int LookbackPeriods { get; init; }
-
-    /// <inheritdoc/>
-    public override string ToString() => hubName;
-
     /// <inheritdoc/>
     protected override (FisherTransformResult result, int index)
         ToIndicator(IReusable item, int? indexHint)

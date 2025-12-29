@@ -31,6 +31,8 @@ public class FractalList : BufferList<FractalResult>, IIncrementFromQuote, IFrac
         EndType = endType;
 
         _quotes = [];
+
+        Name = $"FRACTAL({2}, {EndType.HighLow})";
     }
 
     /// <summary>
@@ -149,7 +151,6 @@ public class FractalList : BufferList<FractalResult>, IIncrementFromQuote, IFrac
         base.Clear();
         _quotes.Clear();
     }
-
     /// <inheritdoc />
     protected override void PruneList()
     {

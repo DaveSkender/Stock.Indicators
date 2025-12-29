@@ -7,20 +7,18 @@ public class TrHub
     : ChainProvider<IQuote, TrResult>
 {
 
-    private const string hubName = "TRUE RANGE";
-
     /// <summary>
     /// Initializes a new instance of the <see cref="TrHub"/> class.
     /// </summary>
     /// <param name="provider">The quote provider.</param>
     internal TrHub(IQuoteProvider<IQuote> provider)
-        : base(provider) => Reinitialize();
+        : base(provider)
+    {
+        Name = "TRUE RANGE";
+        Reinitialize();
+    }
 
     // METHODS
-
-    /// <inheritdoc/>
-    public override string ToString() => hubName;
-
     /// <inheritdoc/>
     protected override (TrResult result, int index)
         ToIndicator(IQuote item, int? indexHint)

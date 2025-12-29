@@ -39,6 +39,8 @@ public class PvoList : BufferList<PvoResult>, IIncrementFromQuote, IPvo
 
         _fastBufferSum = 0;
         _slowBufferSum = 0;
+
+        Name = $"PVO({fastPeriods}, {slowPeriods}, {signalPeriods})";
     }
 
     /// <summary>

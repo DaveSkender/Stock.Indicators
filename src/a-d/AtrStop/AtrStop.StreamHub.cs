@@ -9,7 +9,6 @@ public class AtrStopHub
     : StreamHub<IQuote, AtrStopResult>, IAtrStop
 {
 
-    private readonly string hubName;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AtrStopHub"/> class.
@@ -29,7 +28,7 @@ public class AtrStopHub
         LookbackPeriods = lookbackPeriods;
         Multiplier = multiplier;
         EndType = endType;
-        hubName = $"ATR-STOP({lookbackPeriods},{multiplier},{endType.ToString().ToUpperInvariant()})";
+        Name = $"ATR-STOP({lookbackPeriods},{multiplier},{endType.ToString().ToUpperInvariant()})";
 
         Reinitialize();
     }
@@ -57,10 +56,6 @@ public class AtrStopHub
     private double LowerBand { get; set; } = double.MinValue;
 
     // METHODS
-
-    /// <inheritdoc/>
-    public override string ToString() => hubName;
-
     /// <inheritdoc/>
     protected override (AtrStopResult result, int index)
         ToIndicator(IQuote item, int? indexHint)

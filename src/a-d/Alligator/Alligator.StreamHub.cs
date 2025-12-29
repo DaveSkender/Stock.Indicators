@@ -9,7 +9,6 @@ namespace Skender.Stock.Indicators;
 public class AlligatorHub
    : StreamHub<IReusable, AlligatorResult>, IAlligator
 {
-    private readonly string hubName;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AlligatorHub"/> class.
@@ -40,7 +39,7 @@ public class AlligatorHub
         LipsPeriods = lipsPeriods;
         LipsOffset = lipsOffset;
 
-        hubName = $"ALLIGATOR({jawPeriods},{jawOffset},{teethPeriods},{teethOffset},{lipsPeriods},{lipsOffset})";
+        Name = $"ALLIGATOR({jawPeriods},{jawOffset},{teethPeriods},{teethOffset},{lipsPeriods},{lipsOffset})";
 
         Reinitialize();
     }
@@ -76,10 +75,6 @@ public class AlligatorHub
     public int LipsOffset { get; init; }
 
     // METHODS
-
-    /// <inheritdoc/>
-    public override string ToString() => hubName;
-
     /// <inheritdoc/>
     protected override (AlligatorResult result, int index)
         ToIndicator(IReusable item, int? indexHint)

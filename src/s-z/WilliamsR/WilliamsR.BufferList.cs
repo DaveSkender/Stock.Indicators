@@ -18,6 +18,8 @@ public class WilliamsRList : BufferList<WilliamsResult>, IIncrementFromQuote, IW
         LookbackPeriods = lookbackPeriods;
 
         _buffer = new Queue<(double, double)>(lookbackPeriods);
+
+        Name = $"WILLIAMSR({lookbackPeriods})";
     }
 
     /// <summary>

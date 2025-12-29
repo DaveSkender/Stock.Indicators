@@ -19,6 +19,8 @@ public class CmoList : BufferList<CmoResult>, IIncrementFromChain, ICmo
         LookbackPeriods = lookbackPeriods;
 
         _tickBuffer = new Queue<(bool? isUp, double value)>(lookbackPeriods);
+
+        Name = $"CMO({lookbackPeriods})";
     }
 
     /// <summary>

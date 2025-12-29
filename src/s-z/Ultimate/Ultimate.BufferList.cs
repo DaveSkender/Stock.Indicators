@@ -27,6 +27,8 @@ public class UltimateList : BufferList<UltimateResult>, IIncrementFromQuote, IUl
 
         _buffer = new Queue<(double, double)>(longPeriods);
         _isInitialized = false;
+
+        Name = $"ULTIMATE({shortPeriods}, {middlePeriods}, {longPeriods})";
     }
 
     /// <summary>

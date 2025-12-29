@@ -48,6 +48,8 @@ public class TsiList : BufferList<TsiResult>, IIncrementFromChain, ITsi
         _cs1History = [];
         _as1History = [];
         _tsiHistory = [];
+
+        Name = $"TSI({lookbackPeriods}, {smoothPeriods}, {signalPeriods})";
     }
 
     /// <summary>
@@ -270,7 +272,6 @@ public class TsiList : BufferList<TsiResult>, IIncrementFromChain, ITsi
         _prevAs2 = double.NaN;
         _prevSignal = double.NaN;
     }
-
     /// <inheritdoc />
     protected override void PruneList()
     {

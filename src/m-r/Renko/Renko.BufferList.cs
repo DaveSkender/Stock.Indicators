@@ -36,6 +36,8 @@ public class RenkoList : BufferList<RenkoResult>, IIncrementFromQuote, IRenko
             Close: default,
             Volume: default,
             IsUp: false);
+
+        Name = $"RENKO({brickSize}, {EndType.Close})";
     }
 
     /// <summary>

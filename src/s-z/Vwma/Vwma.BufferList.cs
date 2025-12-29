@@ -19,6 +19,8 @@ public class VwmaList : BufferList<VwmaResult>, IIncrementFromQuote, IVwma
         LookbackPeriods = lookbackPeriods;
 
         _buffer = new Queue<(double, double)>(lookbackPeriods);
+
+        Name = $"VWMA({lookbackPeriods})";
     }
 
     /// <summary>

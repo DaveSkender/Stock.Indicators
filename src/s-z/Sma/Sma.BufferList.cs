@@ -16,6 +16,8 @@ public class SmaList : BufferList<SmaResult>, IIncrementFromChain, ISma
         Sma.Validate(lookbackPeriods);
         LookbackPeriods = lookbackPeriods;
         buffer = new Queue<double>(lookbackPeriods);
+
+        Name = $"SMA({lookbackPeriods})";
     }
 
     /// <summary>

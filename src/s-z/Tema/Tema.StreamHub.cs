@@ -6,7 +6,6 @@ namespace Skender.Stock.Indicators;
 public class TemaHub
     : ChainProvider<IReusable, TemaResult>, ITema
 {
-    private readonly string hubName;
     private double lastEma1 = double.NaN;
     private double lastEma2 = double.NaN;
     private double lastEma3 = double.NaN;
@@ -18,7 +17,7 @@ public class TemaHub
         Tema.Validate(lookbackPeriods);
         LookbackPeriods = lookbackPeriods;
         K = 2d / (lookbackPeriods + 1);
-        hubName = $"TEMA({lookbackPeriods})";
+        Name = $"TEMA({lookbackPeriods})";
 
         Reinitialize();
     }
@@ -28,10 +27,6 @@ public class TemaHub
 
     /// <inheritdoc/>
     public double K { get; private init; }
-
-    /// <inheritdoc/>
-    public override string ToString() => hubName;
-
     /// <inheritdoc/>
     protected override (TemaResult result, int index)
         ToIndicator(IReusable item, int? indexHint)

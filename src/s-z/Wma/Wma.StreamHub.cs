@@ -8,7 +8,6 @@ namespace Skender.Stock.Indicators;
 public class WmaHub
     : ChainProvider<IReusable, WmaResult>, IWma
 {
-    private readonly string hubName;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="WmaHub"/> class.
@@ -21,7 +20,7 @@ public class WmaHub
     {
         Wma.Validate(lookbackPeriods);
         LookbackPeriods = lookbackPeriods;
-        hubName = $"WMA({lookbackPeriods})";
+        Name = $"WMA({lookbackPeriods})";
 
         Reinitialize();
     }
@@ -34,7 +33,7 @@ public class WmaHub
     // METHODS
 
     /// <inheritdoc />
-    public override string ToString() => hubName;
+    public override string ToString() => Name;
 
     /// <inheritdoc />
     protected override (WmaResult result, int index)

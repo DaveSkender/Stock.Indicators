@@ -67,6 +67,8 @@ public class AlligatorList : BufferList<AlligatorResult>, IIncrementFromChain, I
         _teethBufferSum = 0;
         _lipsBufferSum = 0;
         _count = 0;
+
+        Name = $"ALLIGATOR({jawPeriods}, {jawOffset}, {teethPeriods}, {teethOffset}, {lipsPeriods}, {lipsOffset})";
     }
 
     /// <summary>
