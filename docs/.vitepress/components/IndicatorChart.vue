@@ -200,15 +200,16 @@ function createChartInstance() {
     rightPriceScale: {
       borderColor: borderColor,
       borderVisible: false,
-      scaleMargins: {
-        top: 0.1,
-        bottom: props.showVolume ? 0.2 : 0.1
-      }
+      // scaleMargins: {
+      //   top: 0.1,
+      //   bottom: props.showVolume ? 0.2 : 0.1
+      //}
     },
     leftPriceScale: {
       visible: false
     },
     timeScale: {
+      visible: false,
       borderColor: borderColor,
       borderVisible: false,
       timeVisible: false,
