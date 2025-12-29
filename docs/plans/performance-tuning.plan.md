@@ -183,7 +183,7 @@ All use the base `PruneList()` and properly implement `Clear()`:
 
 - [ ] Rolling SMA calculation - O(n×k) → O(n)
 - [ ] SMA warmup optimization in EMA family - Avoid redundant sum
-- [ ] Reduce ToQuoteDList() overhead - Inline casting
+- [x] Reduce ToQuoteDList() overhead - Inline casting ✅ COMPLETE
 
 **Issue-Based Improvements:**
 
