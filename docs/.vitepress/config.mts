@@ -114,7 +114,7 @@ export default defineConfig({
           ]
         },
         {
-          text: 'Moving Averages',
+          text: 'Moving averages',
           collapsed: true,
           items: [
             { text: 'Arnaud Legoux Moving Average', link: '/indicators/Alma' },
@@ -161,7 +161,7 @@ export default defineConfig({
           ]
         },
         {
-          text: 'Price Channels',
+          text: 'Price channels',
           collapsed: true,
           items: [
             { text: 'Bollinger Bands', link: '/indicators/BollingerBands' },
@@ -175,10 +175,11 @@ export default defineConfig({
           ]
         },
         {
-          text: 'Price Trends',
+          text: 'Price trends',
           collapsed: true,
           items: [
             { text: 'Average Directional Index', link: '/indicators/Adx' },
+            { text: 'Directional Movement Index', link: '/indicators/Adx' },
             { text: 'Williams Alligator', link: '/indicators/Alligator' },
             { text: 'Aroon Indicator', link: '/indicators/Aroon' },
             { text: 'ATR Trailing Stop', link: '/indicators/AtrStop' },
@@ -187,7 +188,6 @@ export default defineConfig({
             { text: 'Ichimoku Cloud', link: '/indicators/Ichimoku' },
             { text: 'Moving Average Convergence Divergence', link: '/indicators/Macd' },
             { text: 'Pivot Points', link: '/indicators/PivotPoints' },
-            { text: 'Pivots', link: '/indicators/Pivots' },
             { text: 'Rate of Change with Bands', link: '/indicators/RocWb' },
             { text: 'Rolling Pivots', link: '/indicators/RollingPivots' },
             { text: 'SuperTrend', link: '/indicators/SuperTrend' },
@@ -195,7 +195,7 @@ export default defineConfig({
           ]
         },
         {
-          text: 'Stop & Reverse',
+          text: 'Stop and reverse',
           collapsed: true,
           items: [
             { text: 'Parabolic SAR', link: '/indicators/ParabolicSar' },
@@ -203,7 +203,7 @@ export default defineConfig({
           ]
         },
         {
-          text: 'Volume Based',
+          text: 'Volume based',
           collapsed: true,
           items: [
             { text: 'Accumulation Distribution Line', link: '/indicators/Adl' },
@@ -217,7 +217,7 @@ export default defineConfig({
           ]
         },
         {
-          text: 'Price Characteristics',
+          text: 'Price characteristics',
           collapsed: true,
           items: [
             { text: 'Average True Range', link: '/indicators/Atr' },
@@ -239,7 +239,15 @@ export default defineConfig({
           ]
         },
         {
-          text: 'Price Transforms',
+          text: 'Other price patterns',
+          collapsed: true,
+          items: [
+            { text: 'Pivots', link: '/indicators/Pivots' },
+            { text: 'Williams Fractal', link: '/indicators/Fractal' },
+          ]
+        },
+        {
+          text: 'Price transforms',
           collapsed: true,
           items: [
             { text: 'Ehlers Fisher Transform', link: '/indicators/FisherTransform' },
@@ -247,13 +255,6 @@ export default defineConfig({
             { text: 'Quote Part', link: '/indicators/QuotePart' },
             { text: 'Renko Charts', link: '/indicators/Renko' },
             { text: 'ZigZag', link: '/indicators/ZigZag' },
-          ]
-        },
-        {
-          text: 'Price Patterns',
-          collapsed: true,
-          items: [
-            { text: 'Williams Fractal', link: '/indicators/Fractal' },
           ]
         },
       ],
