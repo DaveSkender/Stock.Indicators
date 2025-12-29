@@ -6,7 +6,6 @@ namespace Skender.Stock.Indicators;
 public class MamaHub
     : ChainProvider<IReusable, MamaResult>, IMama
 {
-    private readonly string hubName;
 
     /// <summary>
     /// State arrays for MESA algorithm
@@ -44,7 +43,7 @@ public class MamaHub
         Mama.Validate(fastLimit, slowLimit);
         FastLimit = fastLimit;
         SlowLimit = slowLimit;
-        hubName = $"MAMA({fastLimit},{slowLimit})";
+        Name = $"MAMA({fastLimit},{slowLimit})";
 
         Reinitialize();
     }
@@ -54,10 +53,6 @@ public class MamaHub
 
     /// <inheritdoc/>
     public double SlowLimit { get; init; }
-
-    /// <inheritdoc/>
-    public override string ToString() => hubName;
-
     /// <inheritdoc/>
     protected override (MamaResult result, int index)
         ToIndicator(IReusable item, int? indexHint)

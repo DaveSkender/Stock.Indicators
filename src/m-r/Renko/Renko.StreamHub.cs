@@ -7,7 +7,6 @@ public class RenkoHub
     : QuoteProvider<IQuote, RenkoResult>, IRenko
 {
 
-    private readonly string hubName;
 
     private RenkoResult lastBrick
         = new(default, default, default,
@@ -27,7 +26,7 @@ public class RenkoHub
         Renko.Validate(brickSize);
         BrickSize = brickSize;
         EndType = endType;
-        hubName = $"RENKO({brickSize},{endType.ToString().ToUpperInvariant()})";
+        Name = $"RENKO({brickSize},{endType.ToString().ToUpperInvariant()})";
 
         Reinitialize();
     }
@@ -44,10 +43,6 @@ public class RenkoHub
 
     /// <inheritdoc/>
     public EndType EndType { get; }
-
-    /// <inheritdoc/>
-    public override string ToString() => hubName;
-
     /// <inheritdoc/>
     public override void OnAdd(IQuote item, bool notify, int? indexHint)
     {

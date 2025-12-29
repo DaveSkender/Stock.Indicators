@@ -30,6 +30,8 @@ public class StochRsiList : BufferList<StochRsiResult>, IIncrementFromChain
 
         _rsiList = new RsiList(rsiPeriods);
         _stochList = new StochList(stochPeriods, signalPeriods, smoothPeriods, 3, 2, MaType.SMA);
+
+        Name = $"STOCHRSI({rsiPeriods}, {stochPeriods}, {signalPeriods}, {1})";
     }
 
     /// <summary>

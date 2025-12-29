@@ -38,6 +38,8 @@ public class HmaList : BufferList<HmaResult>, IIncrementFromChain, IHma
         bufferN1 = new Queue<double>(wmaN1Periods);
         bufferN2 = new Queue<double>(wmaN2Periods);
         synthBuffer = new Queue<double>(sqrtPeriods);
+
+        Name = $"HMA({lookbackPeriods})";
     }
 
     /// <summary>

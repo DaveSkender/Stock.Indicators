@@ -22,6 +22,8 @@ public class WmaList : BufferList<WmaResult>, IIncrementFromChain, IWma
         _divisor = (double)lookbackPeriods * (lookbackPeriods + 1) / 2d;
 
         _buffer = new Queue<double>(lookbackPeriods);
+
+        Name = $"WMA({lookbackPeriods})";
     }
 
     /// <summary>

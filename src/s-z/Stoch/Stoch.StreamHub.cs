@@ -9,7 +9,6 @@ public class StochHub
     : StreamHub<IQuote, StochResult>, IStoch
 {
 
-    private readonly string hubName;
     private readonly RollingWindowMax<double> _highWindow;
     private readonly RollingWindowMin<double> _lowWindow;
     private readonly Queue<double> _rawKBuffer;
@@ -57,7 +56,7 @@ public class StochHub
         DFactor = dFactor;
         MovingAverageType = movingAverageType;
 
-        hubName = $"STOCH({lookbackPeriods},{signalPeriods},{smoothPeriods})";
+        Name = $"STOCH({lookbackPeriods},{signalPeriods},{smoothPeriods})";
 
         // Initialize rolling windows for O(1) amortized max/min tracking
         _highWindow = new RollingWindowMax<double>(lookbackPeriods);
@@ -86,10 +85,6 @@ public class StochHub
 
     /// <inheritdoc />
     public MaType MovingAverageType { get; init; }
-
-    /// <inheritdoc/>
-    public override string ToString() => hubName;
-
     /// <inheritdoc/>
     protected override (StochResult result, int index)
         ToIndicator(IQuote item, int? indexHint)

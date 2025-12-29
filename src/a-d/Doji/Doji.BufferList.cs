@@ -16,6 +16,8 @@ public class DojiList : BufferList<CandleResult>, IIncrementFromQuote, IDoji
         Doji.Validate(maxPriceChangePercent);
         MaxPriceChangePercent = maxPriceChangePercent;
         maxPriceChangeFraction = maxPriceChangePercent / 100;
+
+        Name = $"DOJI({maxPriceChangePercent})";
     }
 
     /// <summary>

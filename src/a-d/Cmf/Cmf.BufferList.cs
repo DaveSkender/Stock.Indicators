@@ -19,6 +19,8 @@ public class CmfList : BufferList<CmfResult>, IIncrementFromQuote, ICmf
 
         _adlList = [];
         _buffer = new Queue<(double, double?)>(lookbackPeriods);
+
+        Name = $"CMF({lookbackPeriods})";
     }
 
     /// <summary>

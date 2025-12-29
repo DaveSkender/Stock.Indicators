@@ -9,7 +9,6 @@ public class KeltnerHub
     : StreamHub<IQuote, KeltnerResult>, IKeltner
 {
 
-    private readonly string hubName;
     private readonly int _lookbackPeriods;
 
     /// <summary>
@@ -32,7 +31,7 @@ public class KeltnerHub
         AtrPeriods = atrPeriods;
         _lookbackPeriods = Math.Max(emaPeriods, atrPeriods);
         EmaK = 2d / (emaPeriods + 1);
-        hubName = $"KELTNER({emaPeriods},{multiplier},{atrPeriods})";
+        Name = $"KELTNER({emaPeriods},{multiplier},{atrPeriods})";
 
         Reinitialize();
     }
@@ -50,10 +49,6 @@ public class KeltnerHub
     /// Gets the smoothing factor for the EMA.
     /// </summary>
     public double EmaK { get; private init; }
-
-    /// <inheritdoc/>
-    public override string ToString() => hubName;
-
     /// <summary>
     /// Calculates the simple moving average of Close prices.
     /// </summary>

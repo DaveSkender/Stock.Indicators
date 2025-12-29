@@ -16,6 +16,8 @@ public class AroonList : BufferList<AroonResult>, IIncrementFromQuote, IAroon
         Aroon.Validate(lookbackPeriods);
         LookbackPeriods = lookbackPeriods;
         _buffer = new Queue<(DateTime, double, double)>(lookbackPeriods + 1);
+
+        Name = $"AROON({lookbackPeriods})";
     }
 
     /// <summary>

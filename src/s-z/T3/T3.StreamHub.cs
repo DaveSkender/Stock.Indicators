@@ -6,7 +6,6 @@ namespace Skender.Stock.Indicators;
 public class T3Hub
     : ChainProvider<IReusable, T3Result>, IT3
 {
-    private readonly string hubName;
     private double lastEma1 = double.NaN;
     private double lastEma2 = double.NaN;
     private double lastEma3 = double.NaN;
@@ -30,7 +29,7 @@ public class T3Hub
         C3 = (-6 * a * a) - (3 * a) - (3 * a * a * a);
         C4 = 1 + (3 * a) + (a * a * a) + (3 * a * a);
 
-        hubName = $"T3({lookbackPeriods},{volumeFactor:F1})";
+        Name = $"T3({lookbackPeriods},{volumeFactor:F1})";
 
         Reinitialize();
     }
@@ -55,10 +54,6 @@ public class T3Hub
 
     /// <inheritdoc/>
     public double C4 { get; private init; }
-
-    /// <inheritdoc/>
-    public override string ToString() => hubName;
-
     /// <inheritdoc/>
     protected override (T3Result result, int index)
         ToIndicator(IReusable item, int? indexHint)

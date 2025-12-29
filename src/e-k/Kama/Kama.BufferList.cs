@@ -34,6 +34,8 @@ public class KamaList : BufferList<KamaResult>, IIncrementFromChain, IKama
         _scSlow = 2d / (slowPeriods + 1);
 
         _buffer = new Queue<double>(erPeriods + 1);
+
+        Name = $"KAMA({erPeriods}, {fastPeriods}, {slowPeriods})";
     }
 
     /// <summary>

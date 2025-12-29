@@ -5,7 +5,6 @@ namespace Skender.Stock.Indicators;
 /// </summary>
 public class MfiHub : ChainProvider<IQuote, MfiResult>, IMfi
 {
-    private readonly string hubName;
     private readonly Queue<(double TruePrice, double MoneyFlow, int Direction)> _buffer;
     private double? _prevTruePrice;
 
@@ -22,7 +21,7 @@ public class MfiHub : ChainProvider<IQuote, MfiResult>, IMfi
         Mfi.Validate(lookbackPeriods);
 
         LookbackPeriods = lookbackPeriods;
-        hubName = $"MFI({lookbackPeriods})";
+        Name = $"MFI({lookbackPeriods})";
         _buffer = new Queue<(double, double, int)>(lookbackPeriods);
 
         Reinitialize();
@@ -30,10 +29,6 @@ public class MfiHub : ChainProvider<IQuote, MfiResult>, IMfi
 
     /// <inheritdoc/>
     public int LookbackPeriods { get; init; }
-
-    /// <inheritdoc/>
-    public override string ToString() => hubName;
-
     /// <inheritdoc/>
     protected override (MfiResult result, int index)
         ToIndicator(IQuote item, int? indexHint)

@@ -9,7 +9,6 @@ public class SmaHub
     : ChainProvider<IReusable, SmaResult>, ISma
 {
 
-    private readonly string hubName;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="SmaHub"/> class.
@@ -22,7 +21,7 @@ public class SmaHub
     {
         Sma.Validate(lookbackPeriods);
         LookbackPeriods = lookbackPeriods;
-        hubName = $"SMA({lookbackPeriods})";
+        Name = $"SMA({lookbackPeriods})";
 
         Reinitialize();
     }
@@ -31,10 +30,6 @@ public class SmaHub
     /// Gets the number of lookback periods.
     /// </summary>
     public int LookbackPeriods { get; init; }
-
-    /// <inheritdoc/>
-    public override string ToString() => hubName;
-
     /// <inheritdoc/>
     protected override (SmaResult result, int index)
         ToIndicator(IReusable item, int? indexHint)

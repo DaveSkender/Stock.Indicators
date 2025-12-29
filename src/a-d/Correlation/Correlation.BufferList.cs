@@ -18,6 +18,8 @@ public class CorrelationList : BufferList<CorrResult>, IIncrementFromPairs, ICor
         LookbackPeriods = lookbackPeriods;
 
         _buffer = new Queue<(double, double)>(lookbackPeriods);
+
+        Name = $"CORRELATION({lookbackPeriods})";
     }
 
     /// <summary>

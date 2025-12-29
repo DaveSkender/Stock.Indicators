@@ -19,6 +19,8 @@ public class AwesomeList : BufferList<AwesomeResult>, IIncrementFromChain, IAwes
         SlowPeriods = slowPeriods;
 
         _buffer = new Queue<double>(slowPeriods);
+
+        Name = $"AWESOME({fastPeriods}, {slowPeriods})";
     }
 
     /// <summary>

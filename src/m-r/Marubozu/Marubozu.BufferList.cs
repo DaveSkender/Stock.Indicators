@@ -16,6 +16,8 @@ public class MarubozuList : BufferList<CandleResult>, IIncrementFromQuote, IMaru
         Marubozu.Validate(minBodyPercent);
         MinBodyPercent = minBodyPercent;
         this.minBodyPercent = minBodyPercent / 100;
+
+        Name = $"MARUBOZU({minBodyPercent})";
     }
 
     /// <summary>

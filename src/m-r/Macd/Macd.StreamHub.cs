@@ -6,7 +6,6 @@ namespace Skender.Stock.Indicators;
 public class MacdHub
     : ChainProvider<IReusable, MacdResult>, IMacd
 {
-    private readonly string hubName;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="MacdHub"/> class.
@@ -32,7 +31,7 @@ public class MacdHub
         SlowK = 2d / (slowPeriods + 1);
         SignalK = 2d / (signalPeriods + 1);
 
-        hubName = $"MACD({fastPeriods},{slowPeriods},{signalPeriods})";
+        Name = $"MACD({fastPeriods},{slowPeriods},{signalPeriods})";
 
         Reinitialize();
     }
@@ -60,10 +59,6 @@ public class MacdHub
     /// Gets the smoothing factor for the signal line.
     /// </summary>
     public double SignalK { get; private init; }
-
-    /// <inheritdoc/>
-    public override string ToString() => hubName;
-
     /// <inheritdoc/>
     protected override (MacdResult result, int index)
         ToIndicator(IReusable item, int? indexHint)

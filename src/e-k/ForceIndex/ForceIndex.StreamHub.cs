@@ -8,7 +8,6 @@ namespace Skender.Stock.Indicators;
 public class ForceIndexHub
     : ChainProvider<IReusable, ForceIndexResult>, IForceIndex
 {
-    private readonly string hubName;
     private readonly double _k;
     private double _sumRawFi;
     private double? _prevFi;
@@ -25,7 +24,7 @@ public class ForceIndexHub
         ForceIndex.Validate(lookbackPeriods);
         LookbackPeriods = lookbackPeriods;
         _k = 2d / (lookbackPeriods + 1);
-        hubName = $"FORCE({lookbackPeriods})";
+        Name = $"FORCE({lookbackPeriods})";
 
         Reinitialize();
     }
@@ -38,7 +37,7 @@ public class ForceIndexHub
     // METHODS
 
     /// <inheritdoc />
-    public override string ToString() => hubName;
+    public override string ToString() => Name;
 
     /// <inheritdoc />
     protected override (ForceIndexResult result, int index)

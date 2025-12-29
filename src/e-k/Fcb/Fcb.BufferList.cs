@@ -25,6 +25,8 @@ public class FcbList : BufferList<FcbResult>, IIncrementFromQuote, IFcb
         _quoteBuffer = new Queue<Quote>((2 * windowSpan) + 1);
         _upperLine = null;
         _lowerLine = null;
+
+        Name = $"FCB({windowSpan})";
     }
 
     /// <summary>

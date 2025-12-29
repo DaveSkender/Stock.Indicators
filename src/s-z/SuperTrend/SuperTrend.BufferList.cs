@@ -26,6 +26,8 @@ public class SuperTrendList : BufferList<SuperTrendResult>, IIncrementFromQuote
 
         _multiplier = multiplier;
         _atrList = new AtrList(lookbackPeriods);
+
+        Name = $"SUPERTREND({lookbackPeriods}, {multiplier})";
     }
 
     /// <summary>

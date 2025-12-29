@@ -31,6 +31,8 @@ public class DpoList : BufferList<DpoResult>, IIncrementFromChain
         // Use List instead of Queue for O(1) indexing (needed for retroactive updates)
         int maxBufferSize = lookbackPeriods + offset;
         buffer = new List<(DateTime, double)>(maxBufferSize);
+
+        Name = $"DPO({lookbackPeriods})";
     }
 
     /// <summary>
@@ -135,7 +137,6 @@ public class DpoList : BufferList<DpoResult>, IIncrementFromChain
         smaList.Clear();
         buffer.Clear();
     }
-
     /// <summary>
     /// Synchronizes pruning of internal buffers with the parent list.
     /// </summary>

@@ -23,6 +23,8 @@ public class BetaList : BufferList<BetaResult>, IIncrementFromPairs, IBeta
         Type = type;
 
         _buffer = new Queue<(DateTime, double, double, double, double)>(lookbackPeriods + 1);
+
+        Name = $"BETA({50}, {BetaType.Standard})";
     }
 
     /// <summary>
@@ -176,7 +178,6 @@ public class BetaList : BufferList<BetaResult>, IIncrementFromPairs, IBeta
         _prevMrkt = 0;
         _isFirst = true;
     }
-
     /// <summary>
     /// Calculates the Beta value for the current window of data.
     /// </summary>

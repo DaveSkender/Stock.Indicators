@@ -42,6 +42,8 @@ public class PmoList : BufferList<PmoResult>, IIncrementFromChain, IPmo
         _rocHistory = [];
         _rocEmaHistory = [];
         _pmoHistory = [];
+
+        Name = $"PMO({timePeriods}, {smoothPeriods}, {signalPeriods})";
     }
 
     /// <summary>

@@ -9,7 +9,6 @@ public class FractalHub
     : StreamHub<IQuote, FractalResult>, IFractal
 {
 
-    private readonly string hubName;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="FractalHub"/> class.
@@ -44,7 +43,7 @@ public class FractalHub
         LeftSpan = leftSpan;
         RightSpan = rightSpan;
         EndType = endType;
-        hubName = $"FRACTAL({leftSpan},{rightSpan},{endType.ToString().ToUpperInvariant()})";
+        Name = $"FRACTAL({leftSpan},{rightSpan},{endType.ToString().ToUpperInvariant()})";
 
         Reinitialize();
     }
@@ -65,10 +64,6 @@ public class FractalHub
     public EndType EndType { get; init; }
 
     // METHODS
-
-    /// <inheritdoc/>
-    public override string ToString() => hubName;
-
     /// <inheritdoc/>
     protected override (FractalResult result, int index)
         ToIndicator(IQuote item, int? indexHint)

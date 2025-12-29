@@ -9,7 +9,6 @@ public class PivotPointsHub
     : StreamHub<IQuote, PivotPointsResult>
 {
 
-    private readonly string hubName;
     private int windowId;
     private bool firstWindow;
     private decimal windowHigh;
@@ -31,7 +30,7 @@ public class PivotPointsHub
     {
         WindowSize = windowSize;
         PointType = pointType;
-        hubName = $"PIVOT-POINTS({windowSize},{pointType})";
+        Name = $"PIVOT-POINTS({windowSize},{pointType})";
 
         // Initialize state
         windowId = 0;
@@ -54,10 +53,6 @@ public class PivotPointsHub
     /// Gets the type of pivot points to calculate.
     /// </summary>
     public PivotPointType PointType { get; init; }
-
-    /// <inheritdoc/>
-    public override string ToString() => hubName;
-
     /// <inheritdoc/>
     protected override void RollbackState(DateTime timestamp)
     {

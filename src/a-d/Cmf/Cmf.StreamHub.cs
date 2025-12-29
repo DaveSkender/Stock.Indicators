@@ -5,7 +5,6 @@ namespace Skender.Stock.Indicators;
 /// </summary>
 public class CmfHub : ChainProvider<IQuote, CmfResult>, ICmf
 {
-    private readonly string hubName;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="CmfHub"/> class.
@@ -20,7 +19,7 @@ public class CmfHub : ChainProvider<IQuote, CmfResult>, ICmf
         Cmf.Validate(lookbackPeriods);
 
         LookbackPeriods = lookbackPeriods;
-        hubName = $"CMF({lookbackPeriods})";
+        Name = $"CMF({lookbackPeriods})";
 
         Reinitialize();
     }
@@ -29,7 +28,7 @@ public class CmfHub : ChainProvider<IQuote, CmfResult>, ICmf
     public int LookbackPeriods { get; init; }
 
     /// <inheritdoc/>
-    public override string ToString() => Cache.Count == 0 ? hubName : $"{hubName}({Cache[0].Timestamp:d})";
+    public override string ToString() => Cache.Count == 0 ? Name : $"{Name}({Cache[0].Timestamp:d})";
 
     /// <inheritdoc/>
     protected override (CmfResult result, int index)
