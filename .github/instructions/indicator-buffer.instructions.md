@@ -44,7 +44,7 @@ When implementing or updating an indicator, you must complete:
   - [ ] Inherits `BufferListTestBase` (not `TestBase`) and implements the correct test interface(s)
   - [ ] Implements the 5 required tests from the base and covers reusable/quotes/pairs paths as applicable
   - [ ] Verifies equivalence with the corresponding Series results for the same inputs
-- [ ] Common items: Complete regression, performance, docs, and migration per `.github/copilot-instructions.md` (Common indicator requirements)
+- [ ] Common items: Complete regression, performance, docs, and migration per `AGENTS.md` (Common indicator requirements)
 
 ## Universal buffer utilities
 
@@ -245,7 +245,7 @@ public class {IndicatorName}BufferListTests : BufferListTestBase, ITestChainBuff
 }
 ```
 
-See also: Common indicator requirements and Series-as-canonical policy in `.github/copilot-instructions.md`.
+See also: Common indicator requirements and Series-as-canonical policy in `AGENTS.md`.
 
 ## Quality standards
 

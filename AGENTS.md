@@ -1,4 +1,4 @@
-# GitHub Copilot instructions for Stock Indicators for .NET
+# Stock Indicators for .NET
 
 This repository hosts **Stock Indicators for .NET**, the production source for the widely used <a href="https://www.nuget.org/packages/Skender.Stock.Indicators">Skender.Stock.Indicators</a> NuGet package. The library offers more than 200 technical analysis indicators with a focus on accuracy, performance, and ergonomics for financial analytics.
 
@@ -190,16 +190,40 @@ See the style-specific guides for implementation requirements and additional che
 - Validation for all user inputs
 - Consistent formatting using `.editorconfig`
 
+## Development workflow
+
+### Building and testing
+
+```bash
+# Build the solution
+dotnet build
+
+# Run all tests
+dotnet test
+
+# Format code
+dotnet format
+
+# Lint markdown files
+npx markdownlint-cli2 --fix
+```
+
+### Folder-specific instructions
+
+- **src/**: Follow .NET development instructions in .github/instructions/dotnet.instructions.md
+- **docs/**: Follow documentation instructions in .github/instructions/docs.instructions.md
+- **All markdown files**: Follow markdown instructions in .github/instructions/markdown.instructions.md
+
 ## MCP tools guidance
 
 ### When to use MCP tools
 
-The following MCP servers are configured in [`mcp.json`](../.vscode/mcp.json) and should be used in these scenarios:
+The following MCP servers are configured in .vscode/mcp.json and should be used in these scenarios:
 
 - `mslearn/*`: Research C# coding conventions, .NET best practices, performance optimization, and language features. Use when implementing indicators or utility functions that require knowledge of official Microsoft standards.
 - `context7/*`: Look up documentation for NuGet package dependencies or external libraries used in the project. Use when integrating third-party functionality.
 - `github/web_search`: Research indicator algorithms, financial calculations, and external technical analysis standards. Use for mathematical validation and algorithm research.
-- `github/*`: Get recently failed CI worklow job details, research recent library changes, pull requests, issues, and discussions. Use when updating documentation or implementing features that depend on understanding recent repository context.
+- `github/*`: Get recently failed CI workflow job details, research recent library changes, pull requests, issues, and discussions. Use when updating documentation or implementing features that depend on understanding recent repository context.
 
 Do NOT use MCP tools for:
 
@@ -224,4 +248,4 @@ Examples:
 - `docs: Update API documentation`
 
 ---
-Last updated: December 7, 2025
+Last updated: December 30, 2025
