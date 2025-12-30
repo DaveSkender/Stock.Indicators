@@ -20,18 +20,10 @@
   "githubPullRequests.ignoredPullRequestBranches": [
     "v3"
   ],
+  "search.useIgnoreFiles": true, // default: true
   "search.exclude": {
-    "**/_site/**": true,
-    "**/_testdata/**/*.csv": true,
-    "**/_testdata/**/*.json": true,
-    "**/.vs/**": true,
-    "**/bin/**": true,
-    "**/obj/**": true,
-    "**/node_modules/**": true,
-    "**/TestResults/**": true,
-    "**/vendor/**": true,
-    "**/*.csproj.user": true,
-    "**/*.log": true,
-    "**/*.tmp": true,
-  }
+    // not otherwise ignored
+    "**/*.json": true,
+    "**/*.csv": true
+  },
 }

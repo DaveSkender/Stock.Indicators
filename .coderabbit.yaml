@@ -109,8 +109,10 @@ reviews:
     - "!packages.lock.json"   # NuGet lock file
     - "!packages/"            # NuGet packages cache
     - "!.jekyll-cache/"       # Jekyll cache
-    - "!docs/.vitepress/cache/"    # VitePress cache
-    - "!docs/.vitepress/dist/"     # VitePress build output
+    - "!vendor/"              # Ruby vendor and gem files
+    - "!Gemfile.lock"         # Ruby dependencies lock
+    - "!docs/.vitepress/cache/"  # VitePress cache
+    - "!docs/.vitepress/dist/"   # VitePress build output
     - "!bin/"                 # .NET build output
     - "!obj/"                 # .NET build intermediate files
     - "!*.csv"                # Test data
@@ -126,7 +128,7 @@ reviews:
   path_instructions:
 
     # Indicator documentation pages must stay aligned with the current API surface
-    - path: "docs/indicators/*.md"
+    - path: "docs/*indicators/*.md"
       instructions: |
         Keep each indicator page synchronized with its public API:
         - Refresh the primary usage example (extension method and `Get{Indicator}` call) to match the latest signature and defaults
@@ -179,7 +181,7 @@ reviews:
         - **Mathematical formulas**: Verify calculation descriptions are correct
 
     # VitePress site files
-    - path: "docs/**/*.{html,vue,mts,ts,js,css}"
+    - path: "docs/**/*.{html,vue,mts,ts,js,css,scss}"
       instructions: |
         Focus on:
         - **Accessibility**: WCAG compliance, semantic HTML, proper ARIA labels
