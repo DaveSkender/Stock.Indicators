@@ -42,7 +42,7 @@ When implementing or updating an indicator, you must complete:
 - [ ] Unit testing: `tests/indicators/**/{IndicatorName}.StaticSeries.Tests.cs` file exists and adheres to these instructions
   - [ ] Covers happy path, boundary (min periods), bad data, insufficient data, and precision checks
   - [ ] Verifies alignment with manually calculated values, typically from a spreadsheet (`.xlsx`)
-- [ ] Common items: Complete catalog, regression, performance, docs, and migration per `.github/copilot-instructions.md` (Common indicator requirements)
+- [ ] Common items: Complete catalog, regression, performance, docs, and migration per `AGENTS.md` (Common indicator requirements)
 - [ ] Migration bridges updated: `src/Obsolete.V3.Indicators.cs`, `src/Obsolete.V3.Other.cs`; and `src/MigrationGuide.V3.md` as needed
 
 ## File naming conventions
@@ -155,7 +155,7 @@ public void SeriesIndicator{IndicatorName}()
 }
 ```
 
-See also: Common indicator requirements and Series-as-canonical policy in `.github/copilot-instructions.md`.
+See also: Common indicator requirements and Series-as-canonical policy in `AGENTS.md`.
 
 ## Quality standards
 

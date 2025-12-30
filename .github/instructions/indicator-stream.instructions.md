@@ -58,7 +58,7 @@ When implementing or updating an indicator, you must complete:
   - [ ] Verifies stateful processing, reset behavior, and consistency with Series results
   - [ ] For dual-stream hubs: covers timestamp sync validation and sufficient data checks
     - [ ] Require comprehensive rollback validation: warmup prefill, duplicate arrivals, provider history mutations (Insert and Remove), and strict Series parity checks; follow EMA hub test pattern
-- [ ] Common items: Complete regression, performance, docs, and migration per `.github/copilot-instructions.md` (Common indicator requirements)
+- [ ] Common items: Complete regression, performance, docs, and migration per `AGENTS.md` (Common indicator requirements)
 
 ## Stream Hub I/O Scenarios
 
@@ -168,7 +168,7 @@ public void Standard()
     foreach (IQuote q in Quotes)
         _ = sut.Add(q);
 
-    // Compare to canonical Series results (see copilot-instructions.md)
+    // Compare to canonical Series results (see AGENTS.md)
     var series = Quotes.To{IndicatorName}({seriesParams});
     sut.Results.IsExactly(series);
 }
@@ -442,7 +442,7 @@ public object EmaHub() => quoteHub.ToEmaHub(14).Results;
 - Memory usage should remain bounded during continuous operation
 - State updates should be O(1) complexity when possible
 
-See also: Common indicator requirements and Series-as-canonical policy in `.github/copilot-instructions.md`.
+See also: Common indicator requirements and Series-as-canonical policy in `AGENTS.md`.
 
 ## Quality standards
 
@@ -793,7 +793,7 @@ This repository provides specialized custom agents that can help with StreamHub 
 @streamhub-pairs How do I handle timestamp synchronization for dual-stream indicators?
 ```
 
-Agent definitions are in `.github/agents/`. For general guidance about custom agents, see `.github/copilot-instructions.md`.
+Agent definitions are in `.github/agents/`. For general guidance about custom agents, see `AGENTS.md`.
 
 ---
 Last updated: October 31, 2025
