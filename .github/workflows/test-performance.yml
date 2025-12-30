@@ -149,6 +149,7 @@ jobs:
       - name: Publish summary (full)
         if: github.event_name != 'pull_request'
         working-directory: tools/performance/BenchmarkDotNet.Artifacts/results
+        shell: bash
         run: |
           echo "## Performance Test Results" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
@@ -207,8 +208,8 @@ jobs:
           # Also check for any other reports not in the predefined list (O(1) lookup)
           for REPORT_FILE in *-report-github.md; do
             if [ -f "$REPORT_FILE" ]; then
-              # Extract base name
-              BASE_NAME=$(basename "$REPORT_FILE" "-report-github.md")
+              # Extract base name using parameter expansion
+              BASE_NAME="${REPORT_FILE%-report-github.md}"
               # Skip if already processed (O(1) associative array lookup)
               if [ -z "${PROCESSED_REPORTS[$BASE_NAME]}" ]; then
                 FOUND_REPORTS=true
