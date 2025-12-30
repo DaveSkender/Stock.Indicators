@@ -254,6 +254,45 @@ The following performance items are documented for future optimization. All are 
   - **Priority**: Low
   - **Effort**: 2-4 hours
 
+### Series Optimization Tasks (P2/P3)
+
+These algorithmic improvements apply to Series (batch) implementations. See [Issue #1259](https://github.com/DaveSkender/Stock.Indicators/issues/1259) and related performance issues for context.
+
+- [ ] **S001** - Rolling SMA optimization for Series
+  - **Current state**: O(n×k) where k=lookbackPeriods (nested loop)
+  - **Target state**: O(n) with rolling sum
+  - **Impact**: 2-5x improvement for SMA and dependent indicators
+  - **Priority**: Medium
+  - **Effort**: Low - straightforward refactor
+
+- [ ] **S002** - SMA warmup optimization in EMA family
+  - **Current state**: EMA initialization calculates SMA from scratch O(k)
+  - **Target state**: Maintain running sum during warmup O(1)
+  - **Impact**: 10-30% improvement for EMA, DEMA, TEMA, T3, MACD
+  - **Priority**: Medium
+  - **Effort**: Low
+
+- [ ] **S003** - Array allocation for applicable indicators ([Issue #1259](https://github.com/DaveSkender/Stock.Indicators/issues/1259))
+  - **Current state**: Many indicators use `List<T>.Add()` pattern
+  - **Target state**: Use `T[]` array allocation where beneficial
+  - **Impact**: 5-20% per-indicator improvement
+  - **Priority**: Low - requires per-indicator benchmarking
+  - **Effort**: Medium - 40+ candidates
+
+- [ ] **S004** - Span-based window operations (P3)
+  - **Current state**: Window calculations use indexed access or LINQ
+  - **Target state**: Use `ReadOnlySpan<T>` for cache-friendly access
+  - **Impact**: 5-15% improvement for windowed calculations
+  - **Priority**: Low
+  - **Effort**: Medium
+
+- [ ] **S005** - RollingWindowMax/Min array-based optimization (P3)
+  - **Current state**: Uses `LinkedList<T>` for monotonic deque
+  - **Target state**: Fixed-size circular array
+  - **Impact**: 10-20% improvement for Chandelier, Donchian, Stochastic
+  - **Priority**: Low
+  - **Effort**: Medium
+
 ### Feature Enhancements
 
 - [ ] **E001-E003** - ZigZag incremental implementation
