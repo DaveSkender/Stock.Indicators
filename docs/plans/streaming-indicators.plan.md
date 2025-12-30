@@ -1,4 +1,4 @@
-# Streaming Indicators - Remaining Work
+# Streaming Indicators implementation plan
 
 This document consolidates incomplete tasks from the streaming indicators development feature (originally tracked in .specify/specs/001-develop-streaming-indicators/).
 
@@ -228,6 +228,34 @@ The following were evaluated and intentionally excluded from streaming implement
 
 These items were identified as enhancements beyond the core framework:
 
+### Performance Optimization Tasks (P2 - Medium Priority)
+
+The following performance items are documented for future optimization. All are acceptable for current real-time streaming use cases but could benefit from framework-level improvements.  See [Performance Review](../../tools/performance/baselines/PERFORMANCE_REVIEW.md) for details; this review file should be updated accordingly after notable performance refactoring has been done.
+
+- [ ] **P001** - Moving Average Family Framework Overhead Investigation
+  - **Affected indicators**: Ema, Smma, Tema, Dema, T3, Trix, Pvo, Macd, Awesome
+  - **Current state**: 7-11x overhead due to StreamHub subscription/notification infrastructure
+  - **Context**: ~40,000 quotes/second throughput is adequate for real-time streaming
+  - **Potential approach**: Reduce framework overhead in hot paths, optimize observer pattern
+  - **Priority**: Low - Performance is acceptable for intended use cases
+  - **Effort**: Research required - framework-level changes
+
+- [ ] **P002** - Slope BufferList Performance (3.41x overhead)
+  - **Current state**: Linear regression inherently requires O(k) per quote where k=lookbackPeriods
+  - **Context**: StreamHub optimized from 7.5x to 5.75x in December 2025
+  - **Potential approach**: Research incremental linear regression algorithms
+  - **Priority**: Low - Mathematical constraint limits optimization potential
+  - **Effort**: Research required
+
+- [ ] **P003** - Alligator/Gator BufferList Performance (2.16x/1.73x overhead)
+  - **Current state**: Complex multi-line calculations with interdependencies
+  - **Context**: Already optimized; remaining overhead from algorithmic complexity
+  - **Potential approach**: Review for any redundant calculations
+  - **Priority**: Low
+  - **Effort**: 2-4 hours
+
+### Feature Enhancements
+
 - [ ] **E001-E003** - ZigZag incremental implementation
   - Analyze pivot detection logic for incrementalization
   - Complex algorithmic work requiring research
@@ -349,6 +377,4 @@ These items were identified as enhancements beyond the core framework:
 | PR ready | ✅ Done | Ready for merge |
 
 ---
-
-**Source**: Migrated from .specify/specs/001-develop-streaming-indicators/tasks.md  
-**Last updated**: December 29, 2025
+Last updated: December 30, 2025
