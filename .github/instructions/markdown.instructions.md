@@ -8,7 +8,7 @@ description: Markdown formatting guide
 Agents: follow these conventions when creating or modifying Markdown files. All rules align with GitHub Flavored Markdown (GFM) and VS Code Markdown language features while ensuring consistent automation and linting.
 
 > [!IMPORTANT]
-> **CRITICAL: context loading warning:** Entry point files (`AGENTS.md`, `copilot-instructions.md`, root instruction files) auto-load in many contexts. These files must NOT use `#file:` references as they cascade and cause exponential context bloat. Use plain-text file path mentions instead.
+> **CRITICAL: context loading warning:** Entry point files (`AGENTS.md`, root instruction files) auto-load in many contexts. These files must NOT use `#file:` references as they cascade and cause exponential context bloat. Use plain-text file path mentions instead.
 
 > [!NOTE]
 > **First time setup:** If configuring a new repository, see the Setup section at the end of this file for complete configuration requirements.
@@ -153,7 +153,7 @@ Use `#file:` when the agent **must read the file content** to complete the task:
 - Context files containing data required for the task
 
 ```markdown
-Follow conventions from #file:../copilot-instructions.md
+Follow conventions from #file:../AGENTS.md
 Apply the template in #file:adr-template.md
 ```
 
@@ -183,9 +183,9 @@ See the contributing guide in docs/contributing.md for details.
 
 ### Avoiding context window bloat
 
-Root entry points (AGENTS.md, copilot-instructions.md) are auto-loaded in many contexts. To prevent cascading file loads:
+Root entry points (AGENTS.md and subfolder AGENTS.md files) are auto-loaded in many contexts. To prevent cascading file loads:
 
-- **CRITICAL: Entry point files must NOT use `#file:` references.** Files like `AGENTS.md`, `copilot-instructions.md`, and root-level instruction files are auto-loaded and will cascade their `#file:` references into context, causing bloat. Use plain-text file path mentions instead.
+- **CRITICAL: Entry point files must NOT use `#file:` references.** Files like `AGENTS.md` (root and subfolders) and root-level instruction files are auto-loaded and will cascade their `#file:` references into context, causing bloat. Use plain-text file path mentions instead.
 - **Scoped instruction files may use `#file:` selectively.** Files in `.github/instructions/` with `applyTo` patterns are auto-attached only in their specific domains and can safely use `#file:` for on-demand fetching.
 - **Agent files should use targeted `#file:` references.** Agent files reference instruction files they need; this is intentional and domain-appropriate.
 - **Minimize cascading hierarchies.** Avoid chains like: AGENTS.md → instruction file → context file → another instruction file.
@@ -239,12 +239,14 @@ Example file tree:
 ```text
 my-repo/
 ├── .github/
-│   ├── copilot-instructions.md       # Meta-instructions (optional for downstream repos)
 │   ├── instructions/
 │   ├── prompts/
 │   └── workflows/
 ├── docs/
+│   └── AGENTS.md                     # Subfolder agent context (optional)
 ├── src/                              # Source code
+│   └── AGENTS.md                     # Subfolder agent context (optional)
+├── AGENTS.md                         # Root agent instructions
 └── README.md                         # Human-oriented overview
 ```
 

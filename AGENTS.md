@@ -30,6 +30,7 @@ docs/
 - Edge case handling (insufficient data, zero/negative values)
 - Mathematical accuracy vs reference implementations
 - Performance characteristics
+- Appropriate data types: `decimal` for public quote inputs, `double` for internal calculations, choose result type based on precision needs
 - XML documentation completeness
 - Consistent error messages and exception types
 
