@@ -1,21 +1,5 @@
 namespace Skender.Stock.Indicators;
 
-// STREAM (OBSERVABLE) INTERFACE
-
-/// <inheritdoc/>
-public interface IQuoteProvider<out T> : IChainProvider<T>
-   where T : IQuote
-{
-    /// <summary>
-    /// Gets the read-only list of quotes.
-    /// </summary>
-    IReadOnlyList<T> Quotes { get; }
-}
-
-/// <inheritdoc/>
-public interface IChainProvider<out T> : IStreamObservable<T>
-   where T : IReusable;
-
 /// <summary>
 /// Provider of data + management of and notification to observing subscribers.
 /// </summary>

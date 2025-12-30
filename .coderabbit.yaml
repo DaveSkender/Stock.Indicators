@@ -258,10 +258,10 @@ knowledge_base:
   code_guidelines:
     enabled: true
     filePatterns:
-      - ".github/copilot-instructions.md"
+      - "AGENTS.md"
+      - "**/AGENTS.md"
       - ".github/instructions/*.instructions.md"
       - ".github/instructions/**/*.instructions.md"
-      - "**/agents.md"
   learnings:
     scope: "auto"
   issues:

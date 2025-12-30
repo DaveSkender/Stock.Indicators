@@ -3,14 +3,12 @@ namespace Skender.Stock.Indicators;
 // FORCE INDEX (STREAM HUB)
 
 /// <summary>
-/// Provides methods for creating Force Index hubs.
+/// Provides streaming hub for Force Index calculations.
 /// </summary>
 public class ForceIndexHub
     : ChainProvider<IReusable, ForceIndexResult>, IForceIndex
 {
     private readonly double _k;
-    private double _sumRawFi;
-    private double? _prevFi;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ForceIndexHub"/> class.
@@ -29,12 +27,8 @@ public class ForceIndexHub
         Reinitialize();
     }
 
-    /// <summary>
-    /// Gets the number of lookback periods.
-    /// </summary>
+    /// <inheritdoc/>
     public int LookbackPeriods { get; init; }
-
-    // METHODS
 
     /// <inheritdoc />
     public override string ToString() => Name;
@@ -44,82 +38,59 @@ public class ForceIndexHub
         ToIndicator(IReusable item, int? indexHint)
     {
         ArgumentNullException.ThrowIfNull(item);
-        int index = indexHint ?? ProviderCache.IndexOf(item, true);
+        int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
-        double? fi = null;
+        double fi = double.NaN;
 
-        // skip first period
-        if (index > 0)
+        // skip first period (need prior quote for delta)
+        if (i > 0)
         {
             // get current and previous quotes
-            IQuote currentQuote = (IQuote)ProviderCache[index];
-            IQuote previousQuote = (IQuote)ProviderCache[index - 1];
+            IQuote currentQuote = (IQuote)ProviderCache[i];
+            IQuote previousQuote = (IQuote)ProviderCache[i - 1];
 
             // calculate raw Force Index
-            double rawFi = (double)currentQuote.Volume * ((double)currentQuote.Close - (double)previousQuote.Close);
+            double rawFi = (double)currentQuote.Volume
+                * ((double)currentQuote.Close - (double)previousQuote.Close);
 
-            // Check if we can use incremental update (sequential processing)
-            bool canIncrement = Cache.Count > index
-                && _prevFi.HasValue
-                && Cache[index - 1].ForceIndex.HasValue;
-
-            if (canIncrement && index > LookbackPeriods)
+            if (i >= LookbackPeriods)
             {
-                // Sequential processing - incremental O(1) EMA update
-                fi = _prevFi + (_k * (rawFi - _prevFi));
-                _prevFi = fi;
-            }
-            else
-            {
-                // Rebuild from ProviderCache (after rollback or non-sequential access)
-                _sumRawFi = 0;
-                _prevFi = null;
+                // Check if previous result has a valid ForceIndex for incremental update
+                fi = Cache[i - 1].ForceIndex is not null
 
-                // Recalculate sum and EMA from start
-                for (int j = 1; j <= index; j++)
-                {
-                    IQuote curr = (IQuote)ProviderCache[j];
-                    IQuote prev = (IQuote)ProviderCache[j - 1];
-                    double jRawFi = (double)curr.Volume * ((double)curr.Close - (double)prev.Close);
+                    // Incremental O(1) EMA update
+                    ? Ema.Increment(_k, Cache[i - 1].Value, rawFi)
 
-                    if (j <= LookbackPeriods)
-                    {
-                        // Accumulate sum for initialization
-                        _sumRawFi += jRawFi;
-
-                        // First EMA value - use SMA of raw FI
-                        if (j == LookbackPeriods)
-                        {
-                            fi = _sumRawFi / LookbackPeriods;
-                            _prevFi = fi;
-                        }
-                    }
-                    else
-                    {
-                        // Apply EMA updates
-                        if (_prevFi.HasValue)
-                        {
-                            fi = _prevFi + (_k * (jRawFi - _prevFi));
-                            _prevFi = fi;
-                        }
-                    }
-                }
+                    // First EMA value - calculate as SMA of raw Force Index values
+                    : CalcInitialSma(i);
             }
         }
 
         ForceIndexResult result = new(
             Timestamp: item.Timestamp,
-            ForceIndex: fi);
+            ForceIndex: fi.NaN2Null());
 
-        return (result, index);
+        return (result, i);
     }
 
-    /// <inheritdoc/>
-    protected override void RollbackState(DateTime timestamp)
+    /// <summary>
+    /// Calculates the initial SMA of raw Force Index values for EMA seeding.
+    /// </summary>
+    /// <param name="endIndex">The ending index for SMA calculation.</param>
+    /// <returns>The SMA value.</returns>
+    private double CalcInitialSma(int endIndex)
     {
-        // Reset state - will be recalculated during rebuild
-        _sumRawFi = double.NaN;
-        _prevFi = null;
+        double sum = 0;
+        int startIndex = endIndex - LookbackPeriods + 1;
+
+        for (int j = startIndex; j <= endIndex; j++)
+        {
+            IQuote curr = (IQuote)ProviderCache[j];
+            IQuote prev = (IQuote)ProviderCache[j - 1];
+            sum += (double)curr.Volume * ((double)curr.Close - (double)prev.Close);
+        }
+
+        return sum / LookbackPeriods;
     }
 }
 
