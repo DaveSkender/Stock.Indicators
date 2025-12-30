@@ -21,16 +21,34 @@ public static partial class Quotes
             .ToList();
 
     /// <summary>
-    /// Convert IQuote list to QuoteD type list.
+    /// Convert IQuote list to QuoteD type list with inline casting.
+    /// Uses direct loop instead of LINQ for better performance.
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <returns>A list of converted quotes in double precision.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when quotes is null.</exception>
     internal static List<QuoteD> ToQuoteDList(
         this IReadOnlyList<IQuote> quotes)
+    {
+        ArgumentNullException.ThrowIfNull(quotes);
 
-          => quotes
-            .Select(static x => x.ToQuoteD())
-            .ToList();
+        int length = quotes.Count;
+        List<QuoteD> result = new(length);
+
+        for (int i = 0; i < length; i++)
+        {
+            IQuote q = quotes[i];
+            result.Add(new QuoteD(
+                Timestamp: q.Timestamp,
+                Open: (double)q.Open,
+                High: (double)q.High,
+                Low: (double)q.Low,
+                Close: (double)q.Close,
+                Volume: (double)q.Volume));
+        }
+
+        return result;
+    }
 
     /* TYPES */
 
