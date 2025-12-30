@@ -1,9 +1,12 @@
 // modifications from base
 {
+  "gitignore": true,
   "ignores": [
+    // not otherwise in root .gitignore
     ".offline"
   ],
   "config": {
+    "MD028": false,
     "MD033": {
       "allowed_elements": [
         "code",

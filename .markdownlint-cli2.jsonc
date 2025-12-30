@@ -3,18 +3,13 @@
     "**/*.md",
     "**/*.markdown"
   ],
+  "gitignore": true,
   "ignores": [
-    "**/.angular/**",
+    // not otherwise in root .gitignore
     "**/.git/**",
     "**/.vs/**",
-    "**/BuildLog.*",
-    "**/node_modules/**",
-    "**/bin/**",
-    "**/obj/**",
     "**/BenchmarkDotNet.Artifacts/**",
-    "**/TestResults/**",
-    "**/*playwright*/**",
-    "**/vendor/**"
+    "**/*playwright*/**"
   ],
   "config": {
     "default": true,
@@ -29,6 +24,7 @@
     },
     "MD013": false,
     "MD025": false,
+    "MD028": false,
     "MD029": {
       "style": "ordered"
     },
