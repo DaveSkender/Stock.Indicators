@@ -241,26 +241,12 @@ my-repo/
 ├── .github/
 │   ├── copilot-instructions.md       # Meta-instructions (optional for downstream repos)
 │   ├── instructions/
-│   │   ├── adr.instructions.md       # ADR format standards
-│   │   ├── markdown.instructions.md  # Markdown formatting rules
-│   │   └── planning.instructions.md  # Planning principles
-│   ├── skills/
-│   │   ├── adr-author/
-│   │   │   └── SKILL.md             # ADR authoring skill
-│   │   └── playwright-planning/
-│   │       └── SKILL.md             # Planning skill
 │   ├── prompts/
-│   │   └── plan.prompt.md            # Planning session prompt
 │   └── workflows/
-│       └── lint-markdown.yml         # CI linting automation
 ├── docs/
-│   └── adr/                          # Architecture Decision Records
 ├── src/                              # Source code
-├── AGENTS.md                         # Agent-focused project context
 └── README.md                         # Human-oriented overview
 ```
-
-Prefer a central AGENTS.md file for AI agent context. See [agents.md specification](https://agents.md/) for cross-agent compatibility.
 
 ### End of file elements
 
