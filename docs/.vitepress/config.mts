@@ -1,7 +1,6 @@
 import fs from 'fs'
 import path from 'path'
 import { defineConfig } from 'vitepress'
-import handleAssetPaths from './plugins/handleAssetPaths.mts'
 
 const publicDirPath = path.resolve(__dirname, 'public')
 const distDirPath = path.resolve(__dirname, 'dist')
@@ -343,7 +342,6 @@ export default defineConfig({
 
   vite: {
     plugins: [
-      handleAssetPaths(),
       {
         // Ensure public assets (favicons, manifest, redirects) are copied to dist
         name: 'copy-public-assets',

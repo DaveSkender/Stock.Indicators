@@ -222,7 +222,16 @@ html:not(.dark) {
   color: #ffffff !important;
 }
 
-/* Home page charts layout */
+/* Home page charts layout - vertical stack */
+.home-charts-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin: 24px 0;
+  max-width: 800px;
+}
+
+/* Legacy horizontal layout - not used */
 .home-charts {
   display: flex;
   flex-direction: column;

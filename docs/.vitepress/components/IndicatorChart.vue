@@ -107,17 +107,17 @@ const indicatorColors = [
 // Dark theme colors (GitHub Primer dark-dimmed)
 const darkTheme = {
   bgColor: '#22272e',
-  textColor: '#adbac7',
-  gridColor: '#2d333b',
-  borderColor: '#444c56'
+  textColor: '#768390',
+  gridColor: 'transparent',
+  borderColor: 'transparent'
 }
 
 // Light theme colors (GitHub Primer light)
 const lightTheme = {
   bgColor: '#ffffff',
-  textColor: '#24292f',
-  gridColor: '#d0d7de',
-  borderColor: '#d0d7de'
+  textColor: '#57606a',
+  gridColor: 'transparent',
+  borderColor: 'transparent'
 }
 
 // Reactive chart theme based on VitePress dark mode
@@ -180,7 +180,7 @@ async function loadChartData(): Promise<ChartData | null> {
 function createOverlayChart(container: HTMLDivElement, height: number): IChartApi {
   const theme = chartTheme.value
   return createChart(container, {
-    autoSize: true,
+    width: container.clientWidth,
     height: height,
     layout: {
       background: { color: theme.bgColor },
@@ -190,8 +190,8 @@ function createOverlayChart(container: HTMLDivElement, height: number): IChartAp
       attributionLogo: false
     },
     grid: {
-      vertLines: { color: theme.gridColor },
-      horzLines: { color: theme.gridColor }
+      vertLines: { visible: false },
+      horzLines: { visible: false }
     },
     crosshair: {
       mode: CrosshairMode.Normal,
@@ -199,9 +199,10 @@ function createOverlayChart(container: HTMLDivElement, height: number): IChartAp
       horzLine: { visible: false, labelVisible: false }
     },
     rightPriceScale: {
-      borderColor: theme.borderColor,
+      visible: true,
       borderVisible: false,
-      scaleMargins: { top: 0.1, bottom: 0.2 }
+      scaleMargins: { top: 0.05, bottom: 0.15 },
+      autoScale: true
     },
     localization: {
       priceFormatter: (price: number) => `$${Math.round(price)}`
@@ -211,8 +212,7 @@ function createOverlayChart(container: HTMLDivElement, height: number): IChartAp
       visible: false,
       borderVisible: false,
       fixLeftEdge: true,
-      fixRightEdge: true,
-      lockVisibleTimeRangeOnResize: true
+      fixRightEdge: true
     },
     handleScroll: false,
     handleScale: false
@@ -222,7 +222,7 @@ function createOverlayChart(container: HTMLDivElement, height: number): IChartAp
 function createOscillatorChart(container: HTMLDivElement, height: number): IChartApi {
   const theme = chartTheme.value
   return createChart(container, {
-    autoSize: true,
+    width: container.clientWidth,
     height: height,
     layout: {
       background: { color: theme.bgColor },
@@ -232,8 +232,8 @@ function createOscillatorChart(container: HTMLDivElement, height: number): IChar
       attributionLogo: false
     },
     grid: {
-      vertLines: { color: theme.gridColor },
-      horzLines: { color: theme.gridColor }
+      vertLines: { visible: false },
+      horzLines: { visible: false }
     },
     crosshair: {
       mode: CrosshairMode.Normal,
@@ -241,17 +241,33 @@ function createOscillatorChart(container: HTMLDivElement, height: number): IChar
       horzLine: { visible: false, labelVisible: false }
     },
     rightPriceScale: {
-      borderColor: theme.borderColor,
+      visible: true,
       borderVisible: false,
-      scaleMargins: { top: 0.1, bottom: 0.1 }
+      scaleMargins: { top: 0.1, bottom: 0.1 },
+      autoScale: true
+    },
+    localization: {
+      priceFormatter: (price: number) => {
+        // Format based on value magnitude
+        if (Math.abs(price) >= 1000000) {
+          return `${(price / 1000000).toFixed(1)}M`
+        } else if (Math.abs(price) >= 1000) {
+          return `${(price / 1000).toFixed(1)}K`
+        } else if (Math.abs(price) >= 100 || Number.isInteger(price)) {
+          return Math.round(price).toString()
+        } else if (Math.abs(price) >= 1) {
+          return price.toFixed(1)
+        } else {
+          return price.toFixed(2)
+        }
+      }
     },
     leftPriceScale: { visible: false },
     timeScale: {
       visible: false,
       borderVisible: false,
       fixLeftEdge: true,
-      fixRightEdge: true,
-      lockVisibleTimeRangeOnResize: true
+      fixRightEdge: true
     },
     handleScroll: false,
     handleScale: false
@@ -285,8 +301,8 @@ function setupCandlestickSeries(chart: IChartApi, data: ChartData) {
 }
 
 function setupVolumeSeries(chart: IChartApi, data: ChartData) {
-  const upVolumeColor = 'rgba(46, 125, 50, 0.25)'
-  const downVolumeColor = 'rgba(221, 44, 0, 0.25)'
+  const upVolumeColor = 'rgba(46, 125, 50, 0.3)'
+  const downVolumeColor = 'rgba(221, 44, 0, 0.3)'
 
   volumeSeries = chart.addSeries(HistogramSeries, {
     priceFormat: { type: 'volume' },
@@ -295,8 +311,11 @@ function setupVolumeSeries(chart: IChartApi, data: ChartData) {
     lastValueVisible: false
   })
 
+  // Position volume at bottom 15% of the chart, hidden scale
   chart.priceScale('volume').applyOptions({
-    scaleMargins: { top: 0.85, bottom: 0 }
+    scaleMargins: { top: 0.85, bottom: 0 },
+    visible: false,
+    autoScale: true
   })
 
   const volumeData = data.candles.map(c => ({
@@ -543,22 +562,20 @@ watch(isDark, () => {
 .charts-container {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 0;
 }
 
 .chart-container {
   width: 100%;
-  border-radius: 4px;
   overflow: hidden;
 }
 
 .overlay-chart {
-  border-radius: 4px 4px 0 0;
+  /* No border radius for seamless look */
 }
 
 .oscillator-chart {
-  border-radius: 0 0 4px 4px;
-  border-top: 1px solid var(--si-chart-border, #444c56);
+  /* No border between charts */
 }
 
 /* Hide the TradingView attribution link via CSS as backup */
@@ -573,10 +590,9 @@ watch(isDark, () => {
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  background-color: var(--si-chart-bg, #22272e);
-  border: 1px solid var(--si-chart-border, #444c56);
-  border-radius: 4px;
-  color: var(--si-chart-text, #adbac7);
+  background-color: var(--vp-c-bg);
+  border: none;
+  color: var(--vp-c-text-2);
 }
 
 .chart-error {
@@ -586,7 +602,7 @@ watch(isDark, () => {
 .loading-spinner {
   width: 24px;
   height: 24px;
-  border: 2px solid var(--si-chart-border, #444c56);
+  border: 2px solid var(--vp-c-divider);
   border-top-color: var(--vp-c-brand-1);
   border-radius: 50%;
   animation: spin 1s linear infinite;
@@ -601,9 +617,8 @@ watch(isDark, () => {
 .chart-noscript {
   padding: 2rem;
   text-align: center;
-  background-color: var(--si-chart-bg, #22272e);
-  border: 1px solid var(--si-chart-border, #444c56);
-  border-radius: 4px;
-  color: var(--si-chart-text, #adbac7);
+  background-color: var(--vp-c-bg);
+  border: none;
+  color: var(--vp-c-text-2);
 }
 </style>
