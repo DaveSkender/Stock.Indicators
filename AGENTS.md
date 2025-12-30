@@ -6,6 +6,48 @@ This repository hosts **Stock Indicators for .NET**, the production source for t
 - Active development expands streaming indicator support—consult open specs before modifying stateful pipelines.
 - Documentation at <a href="https://dotnet.stockindicators.dev">dotnet.stockindicators.dev</a> is sourced from the `docs/` content in this repository.
 
+## AI-first development model
+
+**This repository is optimized for AI agent contributions, not human coding.**
+
+Guidance follows industry standards for AI configuration:
+
+- **Imperative, directive voice**: "Run the command" not "You should run"
+- **Present tense**: Avoid historical context; focus on current directives
+- **Autonomous decision-making**: Agents infer, proceed, and document assumptions
+- **Outcome-focused**: Define "what" (results) and "why" (rationale), not "how" (micro-steps)
+- **No approval loops**: Agents complete work (code + tests + docs) before yielding to humans
+- **Succinctness over verbosity**: Prefer compact, scannable directives; eliminate filler words and redundant explanations
+
+**AI agents contribute by:**
+
+1. Performing the vast majority of actual coding work
+2. Making educated guesses and documenting assumptions
+3. Following standards defined in guidance files
+4. Proceeding autonomously without human approval loops
+5. Generating changes, tests, and documentation in one pass
+6. Executing quality gates (build, test, lint) before yielding
+
+**Humans contribute by:**
+
+1. Setting strategic direction (what capabilities to build)
+2. Making architectural decisions and defining quality standards
+3. Reviewing agent-generated changes for alignment with project philosophy
+4. Correcting agent assumptions when they guess incorrectly
+5. Providing context agents cannot infer from repository artifacts
+6. Validating outcomes, not micromanaging implementation details
+
+**Human coding is an anti-pattern** in this workflow. If you are a human developer who wants to write code, you can—but recognize that this repository's instructions are optimized for AI agent consumption, not human procedural guidance.
+
+**For AI agents:**
+
+- Make reasonable inferences and proceed autonomously
+- Generate complete implementations (code + tests + docs) in one turn
+- Execute quality gates (build, test, lint) before yielding to humans
+- Document assumptions when making educated guesses
+- Follow established patterns and standards without seeking approval
+- Handle edge cases using documented principles and constitutional rules
+
 ## Repository layout
 
 ```text
@@ -83,7 +125,9 @@ See [src/_common/README.md](../src/_common/README.md#nan-handling-policy) for co
 
 ## Guiding principles
 
-This library follows the [guiding principles](https://github.com/DaveSkender/Stock.Indicators/discussions/648) that emphasize **Mathematical Precision**, **Performance First**, **Comprehensive Validation**, **Test-Driven Quality**, and **Documentation Excellence**. See the [Project Principles](../docs/PRINCIPLES.md) for complete details on these principles and the **[.NET development instructions](instructions/dotnet.instructions.md#key-references-and-standards)** for implementation-specific guidance.
+This library follows the [guiding principles](https://github.com/DaveSkender/Stock.Indicators/discussions/648) that balance usability, performance, precision, and security. The six core principles emphasize **Mathematical Precision** (non-negotiable), **Performance First** (critical), **Comprehensive Validation**, **Test-Driven Quality**, **Documentation Excellence**, and **Scope & Stewardship**.
+
+See [PRINCIPLES.md](../docs/PRINCIPLES.md) for complete constitutional details and the **[.NET development instructions](instructions/dotnet.instructions.md#key-references-and-standards)** for implementation-specific guidance.
 
 ## Scoped instruction files
 

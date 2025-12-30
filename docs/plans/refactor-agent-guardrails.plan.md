@@ -20,6 +20,7 @@ This plan provides a complete roadmap to modernize the Stock Indicators reposito
 
 | Decision | Rationale |
 | ---------- | ----------- |
+| **AI-first development model** | **All guidance optimized for AI agent consumption using industry-standard configuration practices: imperative voice, present tense, autonomous decision-making, outcome-focused directives.** |
 | Use `.github/skills/` for domain expertise | Skills are portable, auto-loaded when relevant, and follow the open Agent Skills specification |
 | Keep root `AGENTS.md` for build/test/setup | AGENTS.md provides universal compatibility across 60k+ repositories and all major coding agents |
 | Consolidate `src/AGENTS.md` and `tests/AGENTS.md` | Subfolder agents provide quick reference and link to skills; constitutional rules will be inline |
@@ -41,33 +42,40 @@ This plan provides a complete roadmap to modernize the Stock Indicators reposito
 | `tests/` | `AGENTS.md` | Test suite quick reference | 47 | ✅ Created |
 | `docs/` | `AGENTS.md` | Documentation development | 33 | ✅ Created |
 
-**📁 Instruction files (to be migrated to skills)**:
+**📁 Instruction files (Phase 2: migrate to skills, Phase 3: delete)**:
 
-| Location | File | Purpose | Lines | Action |
-| ---------- | ------ | --------- | ------- | -------- |
-| `.github/instructions/` | `dotnet.instructions.md` | .NET coding standards | ~400 | **MIGRATE** to skills |
-| `.github/instructions/` | `indicator-series.instructions.md` | Series indicator development | ~350 | **MIGRATE** to `indicator-series` skill |
-| `.github/instructions/` | `indicator-buffer.instructions.md` | BufferList development | ~450 | **MIGRATE** to `indicator-buffer` skill |
-| `.github/instructions/` | `indicator-stream.instructions.md` | StreamHub development | ~650 | **MIGRATE** to `indicator-stream` skill |
-| `.github/instructions/` | `catalog.instructions.md` | Catalog entry conventions | ~200 | **MIGRATE** to `indicator-catalog` skill |
-| `.github/instructions/` | `performance-testing.instructions.md` | BenchmarkDotNet guidelines | ~200 | **MIGRATE** to `performance-testing` skill |
-| `.github/instructions/` | `code-completion.instructions.md` | Pre-commit checklist | ~400 | **MIGRATE** to `quality-gates` skill |
-| `.github/instructions/` | `markdown.instructions.md` | Markdown authoring | ~500 | **KEEP** as path-specific instruction |
-| `.github/instructions/` | `docs.instructions.md` | Jekyll docs site | ~100 | **KEEP** as path-specific instruction |
-| `.github/instructions/` | `codacy.instructions.md` | Codacy MCP config | ~50 | **KEEP** as path-specific instruction |
+| File | Purpose | Action | Status |
+| ------ | --------- | -------- | -------- |
+| `dotnet.instructions.md` | .NET coding standards | **MIGRATE** to skills | [ ] |
+| `indicator-series.instructions.md` | Series indicator development | **MIGRATE** to `indicator-series` skill | [ ] |
+| `indicator-buffer.instructions.md` | BufferList development | **MIGRATE** to `indicator-buffer` skill | [ ] |
+| `indicator-stream.instructions.md` | StreamHub development | **MIGRATE** to `indicator-stream` skill | [ ] |
+| `catalog.instructions.md` | Catalog entry conventions | **MIGRATE** to `indicator-catalog` skill | [ ] |
+| `performance-testing.instructions.md` | BenchmarkDotNet guidelines | **MIGRATE** to `performance-testing` skill | [ ] |
+| `code-completion.instructions.md` | Pre-commit checklist | **MIGRATE** to `quality-gates` skill | [ ] |
+| `markdown.instructions.md` | Markdown authoring | **KEEP** | n/a |
+| `docs.instructions.md` | Jekyll docs site | **KEEP** | n/a |
+| `codacy.instructions.md` | Codacy MCP config | **KEEP** | n/a |
 
-**🤖 Custom agent profiles (to be consolidated)**:
+**📝 Docs checklists (Phase 2: content to skills, Phase 3: delete folder)**:
 
-| Location | File | Purpose | Lines | Action |
-| ---------- | ------ | --------- | ------- | -------- |
-| `.github/agents/` | `indicator-series.agent.md` | Series agent profile | 278 | **REMOVE** (content to skill) |
-| `.github/agents/` | `indicator-buffer.agent.md` | Buffer agent profile | 315 | **REMOVE** (content to skill) |
-| `.github/agents/` | `indicator-stream.agent.md` | Stream agent profile | 293 | **REMOVE** (content to skill) |
-| `.github/agents/` | `performance.agent.md` | Performance agent | 327 | **SIMPLIFY** or merge with skill |
-| `.github/agents/` | `streamhub-pairs.agent.md` | Pairs provider patterns | ~100 | **CONSOLIDATE** into stream skill |
-| `.github/agents/` | `streamhub-performance.agent.md` | StreamHub optimization | ~100 | **CONSOLIDATE** into stream skill |
-| `.github/agents/` | `streamhub-state.agent.md` | State management | ~100 | **CONSOLIDATE** into stream skill |
-| `.github/agents/` | `streamhub-testing.agent.md` | StreamHub testing | ~100 | **CONSOLIDATE** into stream skill |
+| File | Purpose | Action | Status |
+| ------ | --------- | -------- | -------- |
+| `docs/checklists/buffer-list-tests.md` | BufferList test requirements | **MIGRATE** to `testing-standards` skill | [ ] |
+| `docs/checklists/stream-hub-tests.md` | StreamHub test requirements | **MIGRATE** to `testing-standards` skill | [ ] |
+
+**🤖 Custom agent profiles (Phase 3: delete after content migrated to skills)**:
+
+| File | Purpose | Action | Status |
+| ------ | --------- | -------- | -------- |
+| `indicator-series.agent.md` | Series agent profile | **REMOVE** (content to skill) | [ ] |
+| `indicator-buffer.agent.md` | Buffer agent profile | **REMOVE** (content to skill) | [ ] |
+| `indicator-stream.agent.md` | Stream agent profile | **REMOVE** (content to skill) | [ ] |
+| `performance.agent.md` | Performance agent | **REMOVE** (merge with skill) | [ ] |
+| `streamhub-pairs.agent.md` | Pairs provider patterns | **REMOVE** (into stream skill) | [ ] |
+| `streamhub-performance.agent.md` | StreamHub optimization | **REMOVE** (into stream skill) | [ ] |
+| `streamhub-state.agent.md` | State management | **REMOVE** (into stream skill) | [ ] |
+| `streamhub-testing.agent.md` | StreamHub testing | **REMOVE** (into stream skill) | [ ] |
 
 **Current totals**:
 
@@ -121,6 +129,51 @@ This plan provides a complete roadmap to modernize the Stock Indicators reposito
 3. **Resources (on-demand)**: `references/`, `scripts/`, `assets/` loaded only when needed
 
 Keep SKILL.md focused on actionable instructions. Move decision trees, detailed patterns, and reference material to subdirectory files
+
+### 1.4 AI-first development philosophy
+
+**This repository is optimized for AI agent contributions, not human coding.**
+
+All guidance follows industry-standard AI configuration practices:
+
+**Writing style conventions:**
+
+- **Imperative, directive voice**: "Run the command" not "You should run" or "Consider running"
+- **Present tense**: Focus on current directives; exclude historical context and migration notes
+- **Action-oriented headers**: Use verb phrases ("Configure settings", "Validate inputs")
+- **Sentence case**: First word + proper nouns capitalized only
+- **Outcome-focused**: Define "what" (results) and "why" (rationale), not "how" (micro-steps)
+- **Autonomous phrasing**: Avoid "ask the user", "seek approval", "wait for confirmation"
+- **Succinctness over verbosity**: Prefer compact, scannable directives; eliminate filler words and redundant explanations
+
+**AI agent contribution model:**
+
+1. Perform vast majority of actual coding work
+2. Make educated guesses and document assumptions
+3. Follow standards defined in guidance files
+4. Proceed autonomously without human approval loops
+5. Generate changes, tests, and documentation in one pass
+6. Execute quality gates (build, test, lint) before yielding
+
+**Human contribution model:**
+
+1. Set strategic direction (what capabilities agents should build)
+2. Make architectural decisions and define quality standards
+3. Review agent-generated changes for alignment with project philosophy
+4. Correct agent assumptions when they guess incorrectly
+5. Provide context agents cannot infer from repository artifacts
+6. Validate outcomes, not micromanage implementation details
+
+**Human coding is an anti-pattern** in this workflow. Repository instructions are optimized for AI agent consumption, not human procedural guidance.
+
+**Skill authoring implications:**
+
+- Write in imperative voice for autonomous agents
+- Assume agents make reasonable inferences and proceed
+- Provide standards and rules, not step-by-step procedures
+- Include decision criteria, not decision trees requiring human input
+- Expect agents to handle edge cases using documented principles
+- Focus on constraints and acceptance criteria, not implementation minutiae
 
 ---
 
@@ -245,6 +298,8 @@ description: Implement Series-style batch indicators with mathematical precision
 4. Testing checklist (StaticSeriesTestBase inheritance, precision)
 5. Links to `src/agents.md` for formula rules
 
+**Authoring note**: Write for autonomous AI agents. Use imperative directives ("Validate parameters", "Initialize results"), not procedural steps ("First, you should..."). Assume agents will make reasonable inferences.
+
 #### indicator-buffer skill
 
 ```yaml
@@ -307,6 +362,8 @@ description: Pre-commit quality checklist for Stock Indicators development. Use 
 ---
 ```
 
+**Authoring note**: Agents should execute all quality gates autonomously before yielding to humans. No approval loops—agents verify, fix issues, and only report completion or blockers.
+
 #### testing-standards skill
 
 ```yaml
@@ -315,6 +372,8 @@ name: testing-standards
 description: Testing conventions for Stock Indicators. Use for test naming (MethodName_StateUnderTest_ExpectedBehavior), FluentAssertions patterns, precision requirements, and test base class selection.
 ---
 ```
+
+**Authoring note**: Agents generate comprehensive test coverage autonomously. Standards enable agents to write correct tests without human guidance.
 
 ### 3.3 AGENTS.md structure ✅ WITHIN LIMITS
 
@@ -408,14 +467,13 @@ After skills migration is complete, remove:
 
 | Task | Description | Status |
 | ------ | ------------- | -------- |
-| 1.1 | Create `.github/skills/` directory structure | ⏳ Pending (Phase 2) |
-| 1.2 | Create root `AGENTS.md` | ✅ Created (251 lines, 15,834 chars) |
-| 1.3 | Create `src/AGENTS.md` | ✅ Created (40 lines) |
-| 1.4 | Create `tests/AGENTS.md` | ✅ Created (47 lines) |
-| 1.5 | Create `docs/AGENTS.md` | ✅ Created (33 lines) |
-| 1.6 | Remove duplicate lowercase agents.md files | ✅ Complete |
-| 1.7 | Update all copilot-instructions.md references | ✅ Complete |
-| 1.8 | **Verify root AGENTS.md ≤ 30,000 chars** | ✅ Verified (15,834 chars) |
+| 1.1 | Create root `AGENTS.md` | ✅ Created (251 lines, 15,834 chars) |
+| 1.2 | Create `src/AGENTS.md` | ✅ Created (40 lines) |
+| 1.3 | Create `tests/AGENTS.md` | ✅ Created (47 lines) |
+| 1.4 | Create `docs/AGENTS.md` | ✅ Created (33 lines) |
+| 1.5 | Remove duplicate lowercase agents.md files | ✅ Complete |
+| 1.6 | Update all copilot-instructions.md references | ✅ Complete |
+| 1.7 | **Verify root AGENTS.md ≤ 30,000 chars** | ✅ Verified (15,834 chars) |
 
 **Notes on completed work**:
 
@@ -425,41 +483,53 @@ After skills migration is complete, remove:
 
 ### Phase 2: Core skills (Estimated: 4 hours)
 
-| Task | Description | Verification |
-| ------ | ------------- | -------------- |
-| 2.1 | Create `indicator-series` skill | `name` 1-64 chars, `description` ≤ 1024 chars, body < 500 lines |
-| 2.2 | Create `indicator-buffer` skill | `name` 1-64 chars, `description` ≤ 1024 chars, body < 500 lines |
-| 2.3 | Create `indicator-stream` skill | `name` 1-64 chars, `description` ≤ 1024 chars, body < 500 lines |
-| 2.4 | Create `indicator-catalog` skill | Valid YAML frontmatter, body < 500 lines |
-| 2.5 | Create `performance-testing` skill | Valid YAML frontmatter, body < 500 lines |
-| 2.6 | Create `quality-gates` skill | Valid YAML frontmatter, body < 500 lines |
-| 2.7 | Create `testing-standards` skill | Valid YAML frontmatter, body < 500 lines |
+| Task | Description | Status | Verification |
+| ------ | ------------- | -------- | -------------- |
+| 2.0 | Create `.github/skills/` directory structure | [ ] | Directory exists |
+| 2.1 | Create `indicator-series` skill | [ ] | `name` 1-64 chars, `description` ≤ 1024 chars, body < 500 lines |
+| 2.2 | Create `indicator-buffer` skill | [ ] | `name` 1-64 chars, `description` ≤ 1024 chars, body < 500 lines |
+| 2.3 | Create `indicator-stream` skill | [ ] | `name` 1-64 chars, `description` ≤ 1024 chars, body < 500 lines |
+| 2.4 | Create `indicator-catalog` skill | [ ] | Valid YAML frontmatter, body < 500 lines |
+| 2.5 | Create `performance-testing` skill | [ ] | Valid YAML frontmatter, body < 500 lines |
+| 2.6 | Create `quality-gates` skill | [ ] | Valid YAML frontmatter, body < 500 lines |
+| 2.7 | Create `testing-standards` skill | [ ] | Valid YAML frontmatter, body < 500 lines |
 
-**Skill validation checklist**:
+**Skill validation checklist** (apply to each skill):
 
-- [ ] `name` field: 1-64 chars, lowercase alphanumeric + hyphens, matches directory name
-- [ ] `description` field: 1-1024 chars, describes what AND when to use
-- [ ] Body content: < 500 lines, < 5,000 tokens recommended
-- [ ] Detailed content in `references/` subdirectory if needed
+- `name` field: 1-64 chars, lowercase alphanumeric + hyphens, matches directory name
+- `description` field: 1-1024 chars, describes what AND when to use
+- Body content: < 500 lines, < 5,000 tokens recommended
+- Detailed content in `references/` subdirectory if needed
+- **AI-first authoring**: Imperative voice, autonomous decision-making, no approval loops
 
 ### Phase 3: Cleanup (Estimated: 1 hour)
 
-| Task | Description | Verification |
-| ------ | ------------- | -------------- |
-| 3.1 | Delete obsolete instruction files | 8 files removed |
-| 3.2 | Delete custom agent profiles | 8 files removed |
-| 3.3 | Delete `copilot-instructions.md` | File removed |
-| 3.4 | Update any remaining references | Grep shows no dangling refs |
+| Task | Description | Status | Verification |
+| ------ | ------------- | -------- | -------------- |
+| 3.1 | Delete obsolete instruction files (7 files) | [ ] | Files removed from `.github/instructions/` |
+| 3.2 | Delete custom agent profiles (8 files) | [ ] | Files removed from `.github/agents/` |
+| 3.3 | Delete `docs/checklists/` folder (2 files) | [ ] | Folder removed |
+| 3.4 | Update dangling references in kept files | [ ] | See "Files requiring reference updates" below |
+| 3.5 | Verify no dangling refs remain | [ ] | Grep shows no broken links |
+
+**Files requiring reference updates** (Phase 3.4):
+
+| File | Reference to update | New target |
+| ------ | --------------------- | ------------ |
+| `src/_common/README.md` | Link to `indicator-stream.instructions.md` | Link to `indicator-stream` skill |
+| `docs/contributing.md` | Reference to `.github/instructions/` files | Reference to `.github/skills/` |
+| `.github/instructions/indicator-buffer.instructions.md` | Links to `docs/checklists/*.md` | *Already being deleted* |
+| `.github/instructions/indicator-stream.instructions.md` | Link to `docs/checklists/stream-hub-tests.md` | *Already being deleted* |
 
 ### Phase 4: Validation (Estimated: 1 hour)
 
-| Task | Description | Verification |
-| ------ | ------------- | -------------- |
-| 4.1 | Run `dotnet build` | Zero warnings |
-| 4.2 | Run `dotnet test` | All tests pass |
-| 4.3 | Run `npx markdownlint-cli2` | Zero errors |
-| 4.4 | Test skill loading in VS Code | Skills appear in Copilot context |
-| 4.5 | Verify AGENTS.md is recognized | Check in Copilot coding agent |
+| Task | Description | Status | Verification |
+| ------ | ------------- | -------- | -------------- |
+| 4.1 | Run `dotnet build` | [ ] | Zero warnings |
+| 4.2 | Run `dotnet test` | [ ] | All tests pass |
+| 4.3 | Run `npx markdownlint-cli2` | [ ] | Zero errors |
+| 4.4 | Test skill loading in VS Code | [ ] | Skills appear in Copilot context (may take 5-10 min) |
+| 4.5 | Verify AGENTS.md is recognized | [ ] | Check in Copilot coding agent |
 
 ---
 
@@ -678,58 +748,81 @@ See `references/performance-patterns.md` for O(1) optimization techniques.
 
 ---
 
-## Part 6: Migration checklist
+## Part 6: Quick status reference
 
-Create `docs/plans/ai-config-refactor.checklist.md`:
+**This section provides a consolidated view of all trackable items. Update status markers here AND in the source tables above.**
 
-```markdown
-# AI Configuration Refactor Checklist
+### Phase status summary
 
-## Phase 1: Foundation
-- [ ] Create `.github/skills/` directory
-- [ ] Create root `AGENTS.md`
-- [ ] Create `src/AGENTS.md`
-- [ ] Create `tests/AGENTS.md`
+| Phase | Status | Completed | Remaining |
+| ------- | -------- | ----------- | ----------- |
+| Phase 1: Foundation | ✅ Complete | 7/7 | 0 |
+| Phase 2: Core skills | ⏳ Pending | 0/8 | 8 |
+| Phase 3: Cleanup | ⏳ Pending | 0/5 | 5 |
+| Phase 4: Validation | ⏳ Pending | 0/5 | 5 |
 
-## Phase 2: Core Skills
-- [ ] Create `indicator-series` skill (SKILL.md + references/)
-- [ ] Create `indicator-buffer` skill (SKILL.md + references/)
-- [ ] Create `indicator-stream` skill (SKILL.md + references/)
-- [ ] Create `indicator-catalog` skill
-- [ ] Create `performance-testing` skill
-- [ ] Create `quality-gates` skill
-- [ ] Create `testing-standards` skill
+### Files to create (Phase 2)
 
-## Phase 3: Cleanup
-- [ ] Delete `.github/copilot-instructions.md`
-- [ ] Delete `.github/instructions/dotnet.instructions.md`
-- [ ] Delete `.github/instructions/indicator-series.instructions.md`
-- [ ] Delete `.github/instructions/indicator-buffer.instructions.md`
-- [ ] Delete `.github/instructions/indicator-stream.instructions.md`
-- [ ] Delete `.github/instructions/catalog.instructions.md`
-- [ ] Delete `.github/instructions/performance-testing.instructions.md`
-- [ ] Delete `.github/instructions/code-completion.instructions.md`
-- [ ] Delete `.github/agents/indicator-series.agent.md`
-- [ ] Delete `.github/agents/indicator-buffer.agent.md`
-- [ ] Delete `.github/agents/indicator-stream.agent.md`
-- [ ] Delete `.github/agents/performance.agent.md`
-- [ ] Delete `.github/agents/streamhub-pairs.agent.md`
-- [ ] Delete `.github/agents/streamhub-performance.agent.md`
-- [ ] Delete `.github/agents/streamhub-state.agent.md`
-- [ ] Delete `.github/agents/streamhub-testing.agent.md`
+| Skill | SKILL.md | references/ | Status |
+| ------- | ---------- | ------------- | -------- |
+| indicator-series | [ ] | [ ] decision-tree.md | [ ] |
+| indicator-buffer | [ ] | [ ] interface-selection.md | [ ] |
+| indicator-stream | [ ] | [ ] provider-selection.md, rollback-patterns.md, performance-patterns.md | [ ] |
+| indicator-catalog | [ ] | n/a | [ ] |
+| performance-testing | [ ] | [ ] benchmark-patterns.md | [ ] |
+| quality-gates | [ ] | n/a | [ ] |
+| testing-standards | [ ] | n/a | [ ] |
 
-## Phase 4: Validation
-- [ ] `dotnet build` succeeds with zero warnings
-- [ ] `dotnet test` passes all tests
-- [ ] `npx markdownlint-cli2` has zero errors
-- [ ] Skills load in VS Code Copilot
-- [ ] AGENTS.md recognized by coding agents
-- [ ] No dangling file references (grep verification)
+### Files to delete (Phase 3)
 
-## Phase 5: Commit
-- [ ] Commit with message: `refactor: migrate AI instructions to skills and AGENTS.md`
-- [ ] Update this checklist to mark complete
-```
+**Instructions** (7 files in `.github/instructions/`):
+
+| File | Migrated to skill | Deleted |
+| ------ | ------------------- | --------- |
+| dotnet.instructions.md | [ ] | [ ] |
+| indicator-series.instructions.md | [ ] | [ ] |
+| indicator-buffer.instructions.md | [ ] | [ ] |
+| indicator-stream.instructions.md | [ ] | [ ] |
+| catalog.instructions.md | [ ] | [ ] |
+| performance-testing.instructions.md | [ ] | [ ] |
+| code-completion.instructions.md | [ ] | [ ] |
+
+**Agent profiles** (8 files in `.github/agents/`):
+
+| File | Content migrated | Deleted |
+| ------ | ------------------ | --------- |
+| indicator-series.agent.md | [ ] | [ ] |
+| indicator-buffer.agent.md | [ ] | [ ] |
+| indicator-stream.agent.md | [ ] | [ ] |
+| performance.agent.md | [ ] | [ ] |
+| streamhub-pairs.agent.md | [ ] | [ ] |
+| streamhub-performance.agent.md | [ ] | [ ] |
+| streamhub-state.agent.md | [ ] | [ ] |
+| streamhub-testing.agent.md | [ ] | [ ] |
+
+**Docs checklists** (2 files in `docs/checklists/`):
+
+| File | Content migrated | Deleted |
+| ------ | ------------------ | --------- |
+| buffer-list-tests.md | [ ] | [ ] |
+| stream-hub-tests.md | [ ] | [ ] |
+
+**Reference updates** (files with dangling links after deletion):
+
+| File | Updated |
+| ------ | --------- |
+| src/_common/README.md | [ ] |
+| docs/contributing.md | [ ] |
+
+### Final validation (Phase 4)
+
+| Check | Command | Status |
+| ------- | --------- | -------- |
+| Build | `dotnet build -v minimal` | [ ] |
+| Tests | `dotnet test --settings tests/tests.unit.runsettings` | [ ] |
+| Markdown | `npx markdownlint-cli2` | [ ] |
+| Skills indexed | Refresh VS Code, wait 5-10 min | [ ] |
+| AGENTS.md recognized | Test in Copilot Chat | [ ] |
 
 ---
 
