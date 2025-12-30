@@ -9,3 +9,5 @@ node_modules/
 _site/
 vendor/
 .bundle/
+.vitepress/cache/
+.vitepress/dist/
