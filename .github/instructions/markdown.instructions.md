@@ -1,96 +1,141 @@
 ---
-applyTo: "**/*.md,.markdownlint-cli2.jsonc"
+applyTo: "**/*.md,.markdownlint*.{yaml,yml,json,jsonc}"
 description: Markdown formatting guide
 ---
 
 # Markdown authoring rules
 
-Keep Markdown contributions consistent with GitHub Flavored Markdown (GFM) and the VS Code Markdown language features documented at <https://github.github.com/gfm/> and <https://code.visualstudio.com/docs/languages/markdown> while aligning with repository automation and preview tooling.
+Agents: follow these conventions when creating or modifying Markdown files. All rules align with GitHub Flavored Markdown (GFM) and VS Code Markdown language features while ensuring consistent automation and linting.
 
-> [!CRITICAL]
-> **Context loading warning:** In some AI agent environments (GitHub Copilot in VS Code), `#file:` references in auto-loaded files automatically expand their targets into the context window. This can cause exponential context bloat and degrade agent performance. **Entry point files** like `AGENTS.md`, `copilot-instructions.md`, and root instruction files should **NEVER contain `#file:` references** to other instruction or context files. Use plain-text file path mentions instead and let agents fetch files on-demand.
+> [!IMPORTANT]
+> **CRITICAL: context loading warning:** Entry point files (`AGENTS.md`, `copilot-instructions.md`, root instruction files) auto-load in many contexts. These files must NOT use `#file:` references as they cascade and cause exponential context bloat. Use plain-text file path mentions instead.
+
+> [!NOTE]
+> **First time setup:** If configuring a new repository, see the Setup section at the end of this file for complete configuration requirements.
 
 ## Baseline workflow
 
-- Run `npx markdownlint-cli2 --no-globs {glob} --fix` in the terminal, fix any items not auto-fixed, followed by `npx markdownlint-cli2 --no-globs {glob}` to verify there are no remaining linting issues, before opening a pull request.
-  - **Important:** Always use `--no-globs` when specifying explicit file paths to prevent the tool from expanding globs defined in `.markdownlint-cli2.jsonc`.
-- For continuous linting during large edits, run with `--watch` to surface issues immediately.
-- Preview with VS Code's built-in Markdown preview (`Ctrl+Shift+V`).
-- Never bypass lint warnings; resolve or bracket narrow suppressions with `<!-- markdownlint-disable -->`.
+**Agent execution sequence for Markdown tasks:**
+
+1. Run `npx markdownlint-cli2 --no-globs {filepath} --fix` to auto-fix issues (e.g., `npx markdownlint-cli2 --no-globs path/to/file.md --fix`)
+   - **Critical:** Always use `--no-globs` with explicit file paths to prevent unintended glob expansion
+2. Manually fix remaining issues that cannot be auto-corrected
+3. Run `npx markdownlint-cli2 --no-globs {filepath}` to verify zero errors (e.g., `npx markdownlint-cli2 --no-globs path/to/file.md`)
+4. Never bypass lint warnings; resolve or add narrow suppressions with `<!-- markdownlint-disable MD### -->...<!-- markdownlint-enable MD### -->`
+
+**Optional tools:**
+
+- Add `--watch` flag during multi-file edits for continuous feedback
+- Preview with VS Code Markdown preview (`Ctrl+Shift+V`) when uncertain about rendering
+
+## Common errors and fixes
+
+**Agents: Detect and fix these patterns automatically:**
+
+| Error pattern | Fix |
+| ------------- | --- |
+| **Title case in headers** | Convert to sentence case: "How To Use" → "How to use" |
+| **Title case in bold labels** | Convert to sentence case: "**Next Steps:**" → "**Next steps:**" |
+| Asterisk bullets (`*`, `+`) | Replace with hyphens (`-`) |
+| Setext headers (`===`, `---`) | Convert to ATX (`#`, `##`) |
+| Missing blank lines around headers | Add blank line before and after |
+| Missing blank lines around code blocks | Add blank line before and after fence |
+| Backticks in `#file:` references | Remove backticks: `#file:path` not `` `#file:path` `` |
+| `#file:` in entry point files | Replace with plain-text path mention |
+| Ordered lists for non-sequential items | Convert to unordered hyphen lists |
+| Trailing punctuation after `#file:` | Remove punctuation or add space |
+| Missing language identifier in fenced blocks | Add language (or `plaintext`) |
+| Nested code blocks with equal fence length | Increase outer fence length |
 
 ## Formatting requirements
 
 ### Editorial style
 
-- Use present tense and imperative mood.
-- Exclude historical context and migration details.
-- Keep each rule as a current directive.
-- Headings and bold labels follow sentence case: first word + proper nouns only.
+- **Voice:** Present tense, imperative mood ("Run the command" not "You should run")
+- **Headers:** Sentence case only (first word + proper nouns capitalized)
+- **Focus:** Current directives only; exclude historical context and migration details
+- **Tone:** Direct and actionable for autonomous agent execution
 
 ### Content reuse and separation of concerns
 
-**Do not repeat yourself (DRY):**
+**Single source of truth:**
 
-- Maintain a single source of truth per concept.
-- Reference existing documents instead of duplicating content.
-- Consolidate overlapping content when possible.
-
-**Separation of concerns:**
-
-- Give each document a single purpose.
-- Keep conceptual, procedural, and configuration guidance distinct.
-- Separate different target audiences clearly.
+- Reference existing documents instead of duplicating content
+- Consolidate overlapping content when possible
+- Keep each document focused on one purpose
 
 **Acceptable limited duplication:**
 
-- Short orienting summaries (2–3 sentences).
-- Critical inline warnings.
-- Code examples for distinct use cases.
-- Cross-references for related but distinct documents.
+- Short orienting summaries (2–3 sentences)
+- Critical inline warnings requiring immediate visibility
+- Code examples demonstrating distinct use cases
+- Cross-references providing essential context
 
-### Headers and structure
+### Headers
 
-- Use ATX (`#`) headers.
-- Sentence case only.
-- Sequential hierarchy with blank lines around headers.
+- **Style:** ATX only (`#`, `##`, `###`); never Setext (`===`, `---`)
+- **Capitalization:** Sentence case only
+  - Capitalize: First word + proper nouns (GitHub, TypeScript, MADR)
+  - Lowercase: Articles (a, an, the), prepositions (of, to, for), conjunctions (and, but, or)
+- **Spacing:** Blank line before and after every header
+- **Hierarchy:** Sequential (no skipping levels: `#` → `##` → `###`)
+
+**Sentence case examples:**
+
+```markdown
+<!-- Correct -->
+## Agent authoring guidelines
+## How to use context files
+## Configuration for TypeScript projects
+
+<!-- Incorrect -->
+## Agent Authoring Guidelines
+## How To Use Context Files
+## Configuration For TypeScript Projects
+```
 
 ### Lists
 
-- Always use hyphens (`-`) for bullets.
-- Indent nested lists with two spaces.
-- Avoid ordered lists unless sequence matters.
+- **Bullets:** Always use hyphens (`-`); never asterisks (`*`) or plus signs (`+`)
+- **Nesting:** Indent nested lists with exactly two spaces
+- **Ordering:** Use ordered lists (1., 2., 3.) only when sequence matters
+- **Bold labels:** Use sentence case for bold labels that start list items
 
 ```markdown
-<!-- good -->
-- First item
+<!-- Correct -->
+- **Installation steps:** Run the following commands
+- **Next steps:** Configure the settings
   - Nested item
 
-<!-- bad -->
-* Wrong bullet
+<!-- Incorrect -->
+- **Installation Steps:** Run the following commands
+- **Next Steps:** Configure the settings
+* Wrong bullet character
++ Also wrong
 ```
 
 ### Code blocks
 
-- Use fenced code blocks with a language identifier (use `plaintext` if needed).
-- Include blank lines around fences.
-- Avoid inline comments in fences.
-- Increase fence length when nesting (outer fences need more backticks than inner).
+- **Fencing:** Always use fenced blocks (` ``` `); never indented code blocks
+- **Language identifier:** Required on all fences; use `plaintext` when language is unknown
+- **Spacing:** Blank line before and after fences
+- **Nesting:** Outer fences must have more backticks than inner fences
 
-Example of hierarchical fencing:
+**Nested fence example:**
 
 `````markdown
-## Header in markdown example
+## Outer document
 
-Other text **formatted** with markdown syntax. Inner code block:
+Text content. Inner code block:
 
 ```csharp
 int foo = 25;
 ```
 
-> [!IMPORTANT]
-> Outer fencing must have more backticks than inner ones for proper termination.
-
+More content.
 `````
+
+**Fence length rule:** 5 backticks contain 3-backtick blocks, 7 backticks contain 5-backtick blocks, etc.
 
 ---
 
@@ -218,38 +263,233 @@ my-repo/
 
 ### HTML elements
 
-Avoid inline HTML unless no Markdown equivalent exists. Allowed elements are defined in `.markdownlint-cli2.jsonc`. Use sparingly and ensure accessibility (e.g., alt text for images).
+**Agents: Avoid HTML unless no Markdown equivalent exists.**
+
+Allowed elements (defined in `.markdownlint-cli2.jsonc`):
+
+- `<details>`, `<summary>` (collapsible sections)
+- `<br>` (line breaks in tables)
+- `<sub>`, `<sup>`, `<kbd>`, `<abbr>` (semantic formatting)
+- `<a>`, `<img>` (links and images when Markdown syntax insufficient)
+
+**Accessibility requirements:**
+
+- All `<img>` must have `alt` text
+- All `<a>` must have descriptive link text
 
 ### GitHub features
 
-- Use `<details>` for collapsible sections (one of few valid HTML use cases).
-- Use GitHub alert blocks (`> [!NOTE]`, `> [!TIP]`, `> [!IMPORTANT]`, `> [!WARNING]`, `> [!CAUTION]`) sparingly.
-- Use pipe-delimited tables with header separators.
-  - Right-align numeric columns: `| ---: |`
-  - Center-align dates: `| :---: |` with ISO format `YYYY-MM-DD`
+**Alert blocks:** Use sparingly for critical execution warnings
+
+- `> [!NOTE]` — Informational highlights
+- `> [!TIP]` — Helpful suggestions
+- `> [!IMPORTANT]` — Critical information
+- `> [!WARNING]` — Caution required
+- `> [!CAUTION]` — Danger or risk
+
+**Tables:** Use pipe-delimited format with alignment:
+
+```markdown
+| Column | Number | Date |
+|--------|-------:|:----:|
+| Text   | 123    | 2025-01-15 |
+```
+
+- Left-align: `| --- |` (default)
+- Right-align: `| ---: |` (numbers)
+- Center-align: `| :---: |` (dates in ISO format `YYYY-MM-DD`)
 
 ## Mermaid diagrams
 
-- Use ` ```mermaid ` fences with a brief preceding description.
-- Quote node labels (e.g., `A["Start"]` not `A[Start]`).
-- Prefer stroke styling over filled colors for better theme compatibility.
-- Validate diagrams render legibly in both dark and light themes.
-- Validate diagrams before committing.
+- **Fence:** Use ` ```mermaid ` with language identifier
+- **Description:** Include brief plain-text description before diagram
+- **Node labels:** Always quote labels within square brackets for Mermaid syntax
+- **Styling:** Use stroke styling, not fill colors (better theme compatibility)
+- **Validation:** Test rendering in both dark and light themes before committing
 
-## Math and alerts
+## Validation and quality checks
 
-- Present LaTeX in fenced blocks (`plaintext` or `math`).
-- Use alert blocks sparingly for execution-critical details.
+**Agents: Execute these checks before committing Markdown changes:**
 
-## Tooling checklist
+1. **Linting:** Zero errors from `npx markdownlint-cli2 --no-globs {filepath}`
+2. **Links:** All internal links resolve to existing files
+3. **Code fences:** All fences have language identifiers
+4. **Headers:** Sentence case only, ATX style, sequential hierarchy
+5. **Bold labels:** Sentence case for all bold labels at start of list items
+6. **Lists:** Hyphen bullets only, proper indentation
+7. **End of file:** Blank line, separator, "Last updated" footer
+8. **Diagrams:** Mermaid diagrams render in preview
+9. **HTML:** Only allowed elements, all images have alt text
 
-- Keep `.markdownlint-cli2.jsonc`, `.editorconfig`, and `.vscode/settings.json` aligned.
-- Use the VS Code markdownlint extension.
-- Document exceptions in `.markdownlint-cli2.jsonc`.
+## Setup
 
-## About maintenance of this file
+**Agents: Complete these one-time configuration steps when setting up a new repository or when markdown tooling is missing.**
 
-- Align with official GitHub markdown documentation: <https://github.github.com/gfm/>
+### Step 1: Install VS Code extensions
+
+Add to `.vscode/extensions.json`:
+
+```jsonc
+{
+  "recommendations": [
+    "DavidAnson.vscode-markdownlint",  // REQUIRED: Markdown linting
+    "bierner.github-markdown-preview",  // Enhanced preview with GitHub styling
+    "EditorConfig.EditorConfig"         // Cross-editor consistency
+  ]
+}
+```
+
+**Extension purposes:**
+
+- `vscode-markdownlint`: Real-time linting, auto-fix on save, integrates with markdownlint-cli2
+- `github-markdown-preview`: Preview rendering matches GitHub's Markdown processor
+- `EditorConfig`: Ensures consistent indentation/line endings across editors
+
+### Step 2: Configure VS Code settings
+
+Add to `.vscode/settings.json`:
+
+```jsonc
+{
+  "[markdown]": {
+    "editor.defaultFormatter": "DavidAnson.vscode-markdownlint",
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+      "source.fixAll.markdownlint": "explicit"
+    }
+  },
+  "files.associations": {
+    "*.md": "markdown"
+  }
+}
+```
+
+**Settings effects:**
+
+- `defaultFormatter`: Uses markdownlint for formatting (aligns with CLI tool)
+- `formatOnSave`: Auto-formats on save (applies fixable rules automatically)
+- `codeActionsOnSave`: Runs markdownlint fixes explicitly on save
+- `files.associations`: Ensures `.md` files are recognized as markdown
+
+### Step 3: Create linting configuration
+
+Create `.markdownlint-cli2.jsonc` with baseline settings:
+
+```jsonc
+{
+  "globs": ["**/*.md"],
+  "gitignore": true,  // REQUIRED: Respect root-level .gitignore patterns
+  "ignores": [
+    // Customize based on project structure
+    "node_modules/**",
+    "**/node_modules/**",
+    "packages/*/dist/**",
+    "packages/*/lib/**"
+  ],
+  "config": {
+    "default": true,
+    "MD003": { "style": "atx" },
+    "MD004": { "style": "dash" },
+    "MD007": { "indent": 2 },
+    "MD013": false,
+    "MD024": { "siblings_only": true },
+    "MD028": false,
+    "MD033": {
+      "allowed_elements": ["details", "summary", "br", "sub", "sup", "kbd", "abbr", "a", "img", "workflow"]
+    },
+    "MD041": false,
+    "MD046": { "style": "fenced" },
+    "MD048": { "style": "backtick" }
+  }
+}
+```
+
+**Configuration requirements:**
+
+1. **MUST have:** `"gitignore": true` (prevents linting ignored files)
+2. **Customize:** `ignores` array based on project build outputs and structure
+3. **Remove:** Competing configuration files (e.g., `markdownlint.json`, `.markdownlintrc`) if present
+4. **Document exceptions:** Add rule overrides to `config` section, never use inline disables
+
+**Optional rule overrides:**
+
+- **MD060 (table-column-style)**: Enforces consistent table column formatting (aligned/compact/tight). Disabled by default as most projects don't require strict table formatting. Enable only if your project requires consistent table column styles.
+
+### Step 4: Add VS Code tasks (optional)
+
+Add markdown linting tasks to `.vscode/tasks.json` for integrated workflow:
+
+```jsonc
+{
+  "$schema": "vscode://schemas/tasks",
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Lint: Markdown",
+      "detail": "Verify formatting for all markdown files",
+      "type": "shell",
+      "command": "npx markdownlint-cli2",
+      "group": "test",
+      "problemMatcher": "$markdownlint",
+      "presentation": {
+        "revealProblems": "onProblem",
+        "clear": true
+      }
+    },
+    {
+      "label": "Lint: Markdown (auto-fix)",
+      "detail": "Auto-fix formatting for all markdown files",
+      "type": "shell",
+      "command": "npx markdownlint-cli2 --fix",
+      "problemMatcher": "$markdownlint",
+      "presentation": {
+        "revealProblems": "onProblem",
+        "clear": true
+      }
+    }
+  ]
+}
+```
+
+**Task benefits:**
+
+- Run linting from VS Code Tasks menu (`Ctrl+Shift+P` → Tasks: Run Task)
+- `$markdownlint` problem matcher integrates errors into Problems panel
+- `revealProblems: "onProblem"` shows output only when errors exist
+- Integrates with CI/CD workflows and package.json scripts
+
+### Step 5: Verify configuration alignment
+
+**Agents: Confirm consistency across all configuration files:**
+
+- `.markdownlint-cli2.jsonc` — Linting rules (see Step 3)
+- `.vscode/settings.json` — Editor settings match linting rules (see Step 2)
+- `.vscode/extensions.json` — Recommended extensions installed (see Step 1)
+- `.vscode/tasks.json` — Task definitions for linting workflow (see Step 4)
+- `.editorconfig` — Tab/space settings align (2 spaces for markdown)
+
+### Step 6: Test the setup
+
+```bash
+# Install npm/pnpm dependencies (if needed)
+npm install -g markdownlint-cli2
+
+# Test linting on all markdown files
+npx markdownlint-cli2
+
+# Test auto-fix
+npx markdownlint-cli2 --fix
+
+# Test specific file
+npx markdownlint-cli2 --no-globs "README.md"
+```
+
+**Expected results:**
+
+- Zero linting errors on existing markdown files (or known violations)
+- Auto-fix resolves formatting issues (bullets, headers, spacing)
+- VS Code shows inline warnings for markdown violations
+- Format-on-save applies fixes automatically
 
 ---
-Last updated: December 7, 2025
+Last updated: December 30, 2025
