@@ -111,6 +111,8 @@ reviews:
     - "!.jekyll-cache/"       # Jekyll cache
     - "!vendor/"              # Ruby vendor and gem files
     - "!Gemfile.lock"         # Ruby dependencies lock
+    - "!docs/.vitepress/cache/"  # VitePress cache
+    - "!docs/.vitepress/dist/"   # VitePress build output
     - "!bin/"                 # .NET build output
     - "!obj/"                 # .NET build intermediate files
     - "!*.csv"                # Test data
@@ -120,12 +122,13 @@ reviews:
     - "!*.pptx"               # Office PowerPoint
     - "!*.xlsx"               # Office Spreadsheets
     - "!*.bak"                # Backup files
+    - "!*.zip"                # Compressed files
 
   # Path-based configuration
   path_instructions:
 
     # Indicator documentation pages must stay aligned with the current API surface
-    - path: "docs/_indicators/*.md"
+    - path: "docs/*indicators/*.md"
       instructions: |
         Keep each indicator page synchronized with its public API:
         - Refresh the primary usage example (extension method and `Get{Indicator}` call) to match the latest signature and defaults
@@ -177,14 +180,15 @@ reviews:
         - **Link validity**: Check for broken internal/external links
         - **Mathematical formulas**: Verify calculation descriptions are correct
 
-    # Jekyll site files
-    - path: "docs/**/*.{html,liquid,scss,js}"
+    # VitePress site files
+    - path: "docs/**/*.{html,vue,mts,ts,js,css,scss}"
       instructions: |
         Focus on:
         - **Accessibility**: WCAG compliance, semantic HTML, proper ARIA labels
         - **Performance**: Optimize images, minimize CSS/JS, efficient loading
         - **Mobile responsiveness**: Ensure layouts work across devices
         - **SEO**: Check meta tags, structured data, semantic markup
+        - **VitePress patterns**: Follow VitePress conventions and Vue best practices
 
     # Configuration and workflow files
     - path: ".github/**/*.yml"
