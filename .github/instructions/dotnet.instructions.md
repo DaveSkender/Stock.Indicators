@@ -55,10 +55,14 @@ The `src/` folder is organized by indicator categories:
 
 ## Performance and optimization
 
-### Decimal precision
+### Data type selection
 
-- Use `decimal` instead of `double` for financial calculations
-- Never use `float` for indicator values
+- **Public API**: Use `decimal` for quote inputs (`IQuote` interface: Open, High, Low, Close, Volume)
+- **Internal calculations**: Use `double` for performance via `QuoteD` and `.ToQuoteD()` converter methods
+- **Result types**: Most indicators use `double?` implementing `IReusableResult.Value`, but use `decimal?` when precision is critical:
+  - `decimal?` examples: ZigZag, PivotPoints, HeikinAshi, Renko (preserves exact price levels)
+  - `double?` examples: Moving averages, oscillators, volume indicators (calculated values)
+- **Never use `float`** for indicator values
 - Document precision requirements in XML comments
 
 ### Collections and LINQ
@@ -152,14 +156,6 @@ For testing best practices, consult #tool:mslearn documentation.
 - Keep `.csproj` metadata accurate and up-to-date
 - Maintain version numbers per semantic versioning
 - Document breaking changes in release notes
-
-## Common pitfalls to avoid
-
-- **Off-by-one errors**: Double-check lookback period calculations
-- **Null reference exceptions**: Validate data before access
-- **Precision loss**: Use `decimal` for financial data
-- **Index out of bounds**: Verify collection sizes before indexing
-- **Performance regression**: Profile before and after optimization changes
 
 ## Referencing external standards
 
