@@ -331,7 +331,7 @@ Follow these conventions for all file naming:
     - `IEma.cs` → `interface IEma` (exact match for interfaces)
   - **Example directory structure after renaming**:
 
-    ```
+    ```text
     e-k/Ema/
     ├── EmaSeries.cs                 # partial class EmaSeries (MAIN - no extender)
     ├── EmaSeries.Utilities.cs       # partial class EmaSeries (IF keeping as partial fragment)
@@ -723,6 +723,7 @@ Analysis of "Dynamic" (McGinley Dynamic) and "ConnorsRsi" indicators reveals sys
 
 **Recommended**: Option C (Hybrid) - Matches existing successful patterns like EMA, SMA where directory name is short but class name can be slightly different.
 
+<!-- markdownlint-disable MD060 -->
 #### Test class naming patterns - current inconsistent state
 
 **Current observed patterns** (INCONSISTENT - needs standardization):
@@ -738,7 +739,7 @@ Analysis of "Dynamic" (McGinley Dynamic) and "ConnorsRsi" indicators reveals sys
 **Recommended consistent patterns** (ALL use descriptive suffixes mirroring source class suffixes):
 
 | Test type | Recommended pattern | Examples | Benefit |
-|-----------|---------------------|----------|----------|
+| --- | --- | --- | --- |
 | StaticSeries | `{Indicator}SeriesTests` | `EmaSeriesTests`, `RsiSeriesTests`, `ConnorsRsiSeriesTests` | Mirrors source class suffix (EmaSeries) |
 | BufferList | `{Indicator}BufferListTests` | `EmaBufferListTests`, `RsiBufferListTests` | Mirrors source class suffix (EmaList) |
 | StreamHub | `{Indicator}HubTests` | `EmaHubTests`, `RsiHubTests` | Mirrors source class suffix (EmaHub) |
@@ -748,13 +749,15 @@ Analysis of "Dynamic" (McGinley Dynamic) and "ConnorsRsi" indicators reveals sys
 **Dynamic indicator test fixes** (example applying recommended patterns):
 
 | File name | Current class | Recommended class | Action needed |
-|-----------|---------------|-------------------|---------------|
+| --- | --- | --- | --- |
 | `Dynamic.StaticSeries.Tests.cs` | `McGinleyDynamic` | `{FinalName}SeriesTests` | Rename + add "SeriesTests" suffix |
 | `Dynamic.BufferList.Tests.cs` | `MgDynamic` | `{FinalName}BufferListTests` | Rename + add "BufferListTests" suffix |
 | `Dynamic.StreamHub.Tests.cs` | `DynamicHubTests` | `{FinalName}HubTests` | Rename if Task 4.9 changes base name |
 | `Dynamic.Catalog.Tests.cs` | `DynamicTests` | `{FinalName}CatalogTests` | Add "Catalog" to disambiguate |
 
 Note: `{FinalName}` determined by Task 4.9 (likely `Dynamic`, `MgDynamic`, or `McGinleyDynamic`)
+
+<!-- markdownlint-enable MD060 -->
 
 **ConnorsRsi example** (shows what standardized pattern looks like):
 
@@ -829,4 +832,3 @@ After applying recommended patterns with Series suffix, ConnorsRsi would be:
 
 ---
 Last updated: December 28, 2025
-
