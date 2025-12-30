@@ -127,63 +127,58 @@ See [src/_common/README.md](../src/_common/README.md#nan-handling-policy) for co
 
 This library follows the [guiding principles](https://github.com/DaveSkender/Stock.Indicators/discussions/648) that balance usability, performance, precision, and security. The six core principles emphasize **Mathematical Precision** (non-negotiable), **Performance First** (critical), **Comprehensive Validation**, **Test-Driven Quality**, **Documentation Excellence**, and **Scope & Stewardship**.
 
-See [PRINCIPLES.md](docs/PRINCIPLES.md) for complete constitutional details and the **[.NET development instructions](.github/instructions/dotnet.instructions.md#key-references-and-standards)** for implementation-specific guidance.
+See [PRINCIPLES.md](docs/PRINCIPLES.md) for complete constitutional details.
 
-## Scoped instruction files
+## Skills for indicator development
 
-This repository uses scoped instruction files for specific development areas, automatically applied when working with files matching their patterns:
+This repository uses Agent Skills (`.github/skills/`) for domain-specific guidance. Skills are automatically loaded when relevant:
 
-| Pattern | File | Primary Focus |
-| ------- | ---- | ------------- |
-| `src/**` | [dotnet.instructions.md](instructions/dotnet.instructions.md) | C# coding standards, .NET best practices, project organization |
-| `src/**/*.*Series.cs,tests/**/*.*Series.Tests.cs` | [indicator-series.instructions.md](instructions/indicator-series.instructions.md) | Series-style indicator development and testing |
-| `src/**/*.StreamHub.cs,tests/**/*.StreamHub.Tests.cs` | [indicator-stream.instructions.md](instructions/indicator-stream.instructions.md) | Stream-style real-time indicator development |
-| `src/**/*.BufferList.cs,tests/**/*.BufferList.Tests.cs` | [indicator-buffer.instructions.md](instructions/indicator-buffer.instructions.md) | Buffer-style incremental indicator development |
-| `src/**` | [AGENTS.md](src/AGENTS.md) | **CRITICAL**: Formula change rules and mathematical precision requirements |
-| `**/src/**/*.Catalog.cs,**/tests/**/*.Catalog.Tests.cs` | [catalog.instructions.md](instructions/catalog.instructions.md) | Indicator catalog entry conventions |
-| `src/**,tests/**` | [code-completion.instructions.md](instructions/code-completion.instructions.md) | Testing, formatting, linting, and pre-commit checklist |
-| `**/*.md` | [markdown.instructions.md](instructions/markdown.instructions.md) | Markdown authoring and formatting standards |
-| `docs/**` | [docs.instructions.md](instructions/docs.instructions.md) | Documentation website (Jekyll) development |
-| `tools/performance/**` | [performance-testing.instructions.md](instructions/performance-testing.instructions.md) | Performance testing and BenchmarkDotNet guidelines |
+| Skill | Primary Focus |
+| ----- | ------------- |
+| `indicator-series` | Series-style batch indicator development and testing |
+| `indicator-buffer` | BufferList incremental indicator development |
+| `indicator-stream` | StreamHub real-time indicator development |
+| `indicator-catalog` | Catalog entry conventions and registration |
+| `performance-testing` | BenchmarkDotNet performance testing |
+| `quality-gates` | Pre-commit checklist and validation |
+| `testing-standards` | Test naming, FluentAssertions, and coverage |
 
-These scoped files are automatically applied when working with files matching their patterns.
+Additional path-specific instruction files:
 
-## Custom agents for focused assistance
+| Pattern | File | Purpose |
+| ------- | ---- | ------- |
+| `**/*.md` | `.github/instructions/markdown.instructions.md` | Markdown authoring standards |
+| `docs/**` | `.github/instructions/docs.instructions.md` | Jekyll documentation site |
+| `src/**` | `src/AGENTS.md` | Formula protection rules |
 
-This repository provides specialized custom agents that developers can invoke in GitHub Copilot Chat for expert guidance on specific development areas:
+## Skills for focused assistance
 
-| Agent | Description | When to Use |
+This repository provides Agent Skills in `.github/skills/` that are automatically loaded when relevant. Use skill invocations for expert guidance:
+
+| Skill | Description | When to Use |
 | ----- | ----------- | ----------- |
-| `@series` | Series indicator development - mathematical precision, validation patterns, test coverage | Implementing new Series indicators, validating calculations, structuring tests |
-| `@buffer` | BufferList indicator development - incremental processing, interface selection, buffer management | Implementing BufferList indicators, choosing interfaces, managing state efficiently |
-| `@streamhub` | StreamHub indicator development - implementation patterns, provider selection, state management | Implementing new StreamHub indicators, choosing provider base classes, optimizing real-time processing |
-| `@streamhub-state` | RollbackState patterns, cache replay strategies, window rebuilding | Implementing state management, handling provider history mutations (Insert/Remove) |
-| `@streamhub-performance` | O(1) optimization patterns, RollingWindow utilities, avoiding O(n²) anti-patterns | Performance optimization, achieving ≤1.5x Series benchmark, eliminating bottlenecks |
-| `@streamhub-testing` | Test interface selection, comprehensive rollback validation, Series parity checks | Writing StreamHub tests, selecting test interfaces, implementing rollback validation |
-| `@streamhub-pairs` | PairsProvider dual-stream patterns, timestamp synchronization, dual-cache coordination | Implementing dual-stream indicators (Correlation, Beta), managing synchronized inputs |
-| `@performance` | Performance optimization - algorithmic complexity, O(1) patterns, memory efficiency, benchmarking | Identifying bottlenecks, eliminating O(n²) anti-patterns, meeting performance targets across all styles |
+| `indicator-series` | Series indicator development - mathematical precision, validation patterns, test coverage | Implementing new Series indicators, validating calculations, structuring tests |
+| `indicator-buffer` | BufferList indicator development - incremental processing, interface selection, buffer management | Implementing BufferList indicators, choosing interfaces, managing state efficiently |
+| `indicator-stream` | StreamHub indicator development - implementation patterns, provider selection, state management | Implementing StreamHub indicators, choosing provider base classes, optimizing real-time processing |
+| `indicator-catalog` | Catalog entry creation and registration | Creating indicator catalog entries for automation |
+| `performance-testing` | Benchmarking with BenchmarkDotNet, regression detection | Adding performance tests, optimizing indicator performance |
+| `quality-gates` | Pre-commit validation checklist | Completing work, ensuring build/test/lint pass |
+| `testing-standards` | Test naming, FluentAssertions, Series parity | Writing comprehensive tests, debugging test failures |
 
-**Usage examples:**
+**Usage**: Skills are auto-loaded when working with matching file patterns. Reference the SKILL.md content when asking questions about that domain:
 
 ```text
-@series I need to implement a new momentum indicator (RSI-style)
+# When working on Series indicators, ask about patterns from that skill:
+"How do I validate parameters for a new Series indicator?"
 
-@buffer Which interface should I use for my indicator that needs OHLCV data?
+# When working on StreamHub files, ask about provider selection:
+"What provider base should I use for a new VWAP StreamHub?"
 
-@streamhub I need to implement a new VWAP StreamHub. What provider base should I use?
-
-@streamhub-state How do I rebuild RollingWindowMax state after a provider Insert?
-
-@streamhub-performance My StreamHub is 50x slower than Series. How do I optimize?
-
-@streamhub-testing Which test interfaces should I implement for a ChainProvider hub?
-
-@streamhub-pairs How do I handle timestamp synchronization for dual-stream indicators?
-
-@performance My indicator is 10x slower than expected. How do I identify the bottleneck?
+# When finishing work, ask about quality gates:
+"What's the pre-commit checklist?"
 ```
 
-Custom agent definitions are in `.github/agents/`. Official GitHub Copilot documentation: [Configure custom agents for Copilot Chat](https://docs.github.com/en/copilot/reference/custom-agents-configuration).
+Skills are defined in `.github/skills/` following the Agent Skills specification.
 
 ## Common indicator requirements (all styles)
 
@@ -203,11 +198,11 @@ Use these cross-cutting requirements for Series, Stream, and Buffer indicators. 
   - Update `src/MigrationGuide.V3.md`
   - Update migration bridges in `src/Obsolete.V3.Indicators.cs` and `src/Obsolete.V3.Other.cs` to reflect new/renamed APIs or deprecations
 
-See the style-specific guides for implementation requirements and additional checklist items:
+See the skills for implementation requirements and additional checklist items:
 
-- Series: [indicator-series.instructions.md](instructions/indicator-series.instructions.md)
-- Buffer: [indicator-buffer.instructions.md](instructions/indicator-buffer.instructions.md)
-- Stream: [indicator-stream.instructions.md](instructions/indicator-stream.instructions.md)
+- Series: `.github/skills/indicator-series/SKILL.md`
+- Buffer: `.github/skills/indicator-buffer/SKILL.md`
+- Stream: `.github/skills/indicator-stream/SKILL.md`
 
 ### Series as the canonical reference
 
@@ -252,11 +247,11 @@ dotnet format
 npx markdownlint-cli2 --fix
 ```
 
-### Folder-specific instructions
+### Folder-specific guidance
 
-- **src/**: Follow .NET development instructions in .github/instructions/dotnet.instructions.md
-- **docs/**: Follow documentation instructions in .github/instructions/docs.instructions.md
-- **All markdown files**: Follow markdown instructions in .github/instructions/markdown.instructions.md
+- **src/**: See `src/AGENTS.md` for numerical precision and formula protection rules
+- **docs/**: Follow documentation instructions in `.github/instructions/docs.instructions.md`
+- **All markdown files**: Follow markdown instructions in `.github/instructions/markdown.instructions.md`
 
 ## MCP tools guidance
 
