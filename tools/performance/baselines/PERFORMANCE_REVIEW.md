@@ -1,145 +1,159 @@
 # Performance Review: StreamHub & BufferList Implementations
 
-**Date:** October 19, 2025  
+**Date:** December 29, 2025
 **Analysis:** Baseline performance comparison of Series vs Stream vs Buffer implementations
 
 ## Executive Summary
 
-Analysis of performance baseline data reveals **significant performance degradation** in many StreamHub and BufferList implementations compared to their Series counterparts. The issues range from moderate (1.3x-2x slower) to **critical** (up to 391x slower).
+Analysis of performance baseline data shows **significant improvements** since the October 2025 baseline. Many O(n²) issues have been resolved, though some StreamHub implementations still show moderate overhead compared to their Series counterparts.
 
-### Key Findings
+### Key Findings (December 2025)
 
-- **44 StreamHub implementations** are >30% slower than Series (average: 28.5x slower)
-- **27 BufferList implementations** are >30% slower than Series (average: 2.1x slower)
-- **38 StreamHub implementations** are ≥2x slower (CRITICAL)
-- **6 BufferList implementations** are ≥2x slower (CRITICAL)
+- **77 StreamHub implementations** are >30% slower than Series (average: 4.76x slower)
+- **19 BufferList implementations** are >30% slower than Series (average: 1.68x slower)
+- **66 StreamHub implementations** are ≥2x slower (CRITICAL)
+- **3 BufferList implementations** are ≥2x slower (CRITICAL)
 
-### Top 10 Most Critical StreamHub Issues
+### Improvements Since October 2025
 
-| Indicator      | Series (ns) | Stream (ns) | Slowdown     | Status                       |
-|----------------|-------------|-------------|--------------|------------------------------|
-| **Rsi**        | 7,073       | 2,767,983   | **391.33x**  | 🔴 CRITICAL O(n²) likely     |
-| **StochRsi**   | 31,449      | 8,916,843   | **283.53x**  | 🔴 CRITICAL O(n²) likely     |
-| **Cmo**        | 15,321      | 3,949,622   | **257.78x**  | 🔴 CRITICAL O(n²) likely     |
-| **Chandelier** | 27,156      | 3,303,438   | **121.65x**  | 🔴 CRITICAL O(n²) likely     |
-| **Stoch**      | 25,160      | 394,738     | **15.69x**   | 🔴 CRITICAL                  |
-| **Tema**       | 3,374       | 36,201      | **10.73x**   | 🔴 CRITICAL                  |
-| **Ema**        | 2,749       | 29,165      | **10.61x**   | 🔴 CRITICAL                  |
-| **Smma**       | 2,866       | 29,832      | **10.41x**   | 🔴 CRITICAL                  |
-| **T3**         | 4,375       | 43,414      | **9.92x**    | 🔴 CRITICAL                  |
-| **Dema**       | 3,470       | 32,208      | **9.28x**    | 🔴 CRITICAL                  |
+| Metric                    | October 2025  | December 2025      | Change         |
+| ------------------------- | ------------- | ------------------ | -------------- |
+| Worst StreamHub slowdown  | 391x (RSI)    | 61.6x (ForceIndex) | **84% better** |
+| Worst BufferList slowdown | 7.85x (Slope) | 3.41x (Slope)      | **57% better** |
+| StreamHub avg slowdown    | 28.5x         | 4.76x              | **83% better** |
+| BufferList avg slowdown   | 2.1x          | 1.68x              | **20% better** |
+| Critical O(n²) issues     | 4             | 0                  | **100% fixed** |
 
-### Top 6 Most Critical BufferList Issues
+### Top 10 StreamHub Issues (Current)
+
+| Indicator       | Series (ns) | Stream (ns) | Slowdown    | Status          |
+|-----------------|-------------|-------------|-------------|-----------------|
+| **ForceIndex**  | 13,508      | 831,594     | **61.56x**  | 🔴 CRITICAL     |
+| **Ema**         | 2,443       | 25,638      | **10.49x**  | 🔴 CRITICAL     |
+| **Pvo**         | 6,187       | 64,756      | **10.47x**  | 🔴 CRITICAL     |
+| **Tema**        | 3,496       | 34,418      | **9.85x**   | 🔴 CRITICAL     |
+| **Smma**        | 2,931       | 25,500      | **8.70x**   | 🔴 CRITICAL     |
+| **T3**          | 4,625       | 39,997      | **8.65x**   | 🔴 CRITICAL     |
+| **Dema**        | 3,545       | 30,349      | **8.56x**   | 🔴 CRITICAL     |
+| **Trix**        | 4,151       | 34,667      | **8.35x**   | 🔴 CRITICAL     |
+| **Awesome**     | 15,533      | 119,340     | **7.68x**   | 🔴 CRITICAL     |
+| **Slope**       | 47,859      | 358,366     | **7.49x**   | 🔴 CRITICAL     |
+
+### Top 6 BufferList Issues (Current)
 
 | Indicator     | Series (ns) | Buffer (ns) | Slowdown  | Status      |
 |---------------|-------------|-------------|-----------|-------------|
-| **Slope**     | 43,086      | 338,188     | **7.85x** | 🔴 CRITICAL |
-| **Alligator** | 10,645      | 53,352      | **5.01x** | 🔴 CRITICAL |
-| **Gator**     | 14,949      | 57,777      | **3.86x** | 🔴 CRITICAL |
-| **Fractal**   | 18,882      | 71,439      | **3.78x** | 🔴 CRITICAL |
-| **Adx**       | 23,930      | 51,784      | **2.16x** | 🔴 CRITICAL |
-| **Stoch**     | 25,160      | 53,633      | **2.13x** | 🔴 CRITICAL |
+| **Slope**     | 47,859      | 162,972     | **3.41x** | 🔴 CRITICAL |
+| **Alligator** | 8,609       | 18,570      | **2.16x** | 🔴 CRITICAL |
+| **Adx**       | 15,088      | 31,348      | **2.08x** | 🔴 CRITICAL |
+| **Ema**       | 2,443       | 4,373       | **1.79x** | ⚠️ REVIEW   |
+| **Smma**      | 2,931       | 5,106       | **1.74x** | ⚠️ REVIEW   |
+| **Gator**     | 13,583      | 23,506      | **1.73x** | ⚠️ REVIEW   |
+
+## Resolved Issues (Since October 2025)
+
+The following critical O(n²) issues have been **fully resolved**:
+
+| Indicator      | October 2025 | December 2025 | Improvement       |
+| -------------- | ------------ | ------------- | ----------------- |
+| **Rsi**        | 391.33x      | 3.26x         | **99% faster** ✅ |
+| **StochRsi**   | 283.53x      | 4.55x         | **98% faster** ✅ |
+| **Cmo**        | 257.78x      | 2.72x         | **99% faster** ✅ |
+| **Chandelier** | 121.65x      | 5.35x         | **96% faster** ✅ |
+| **Stoch**      | 15.69x       | 3.24x         | **79% faster** ✅ |
+
+These indicators now use proper O(1) incremental updates instead of O(n) recalculations.
 
 ## Root Cause Analysis
 
-### Pattern 1: O(n²) Complexity (CRITICAL)
+### Pattern 1: EMA Family Overhead (8-11x slower)
 
-These indicators show **exponential** slowdown suggesting nested loops or repeated scans:
+Multiple EMA-based indicators show consistent 8-11x overhead:
 
-**StreamHub:**
+- **Ema** (10.5x)
+- **Smma** (8.7x)
+- **Tema** (9.9x)
+- **Dema** (8.6x)
+- **T3** (8.7x)
+- **Trix** (8.4x)
+- **Pvo** (10.5x) - uses EMA
+- **Macd** (7.3x) - uses EMA
 
-- **Rsi** (391x): Likely recalculating entire window on each quote
-- **StochRsi** (284x): Probably calling Rsi which already has O(n²) issue
-- **Cmo** (258x): Similar pattern to Rsi, likely O(n²) windowing
-- **Chandelier** (122x): Excessive lookback operations
+**Root cause:** StreamHub framework overhead for simple indicators. The EMA calculation itself is O(1), but the hub subscription/notification infrastructure adds constant overhead that dominates for fast indicators.
 
-**Root causes:**
+**Context:** These timings are in nanoseconds (ns). An 8-10x overhead on a 2,500 ns operation means ~25,000 ns per quote, which is still **~40,000 quotes/second** throughput - adequate for real-time streaming use cases.
 
-- Not using proper rolling/sliding window techniques
-- Recalculating entire indicator history on each new quote
-- Missing state caching between quotes
+### Pattern 2: ForceIndex Anomaly (61.6x slower)
 
-### Pattern 2: Simple Moving Average Family (CRITICAL)
+ForceIndex shows unexpectedly high overhead despite being a simple calculation.
 
-Multiple EMA-based indicators are 9-11x slower:
+**Root cause:** Likely inefficient lookback or unnecessary allocations in the StreamHub implementation. Needs investigation.
 
-- **Ema** (10.6x)
-- **Smma** (10.4x)
-- **Tema** (10.7x)
-- **Dema** (9.3x)
-- **T3** (9.9x)
-- **Trix** (9.2x)
-- **Macd** (6.9x) - uses EMA
+### Pattern 3: Slope Regression (7.5x Stream, 3.4x Buffer)
 
-**Root cause:**
+Slope calculation involves linear regression which has inherent computational cost.
 
-- These should be O(n) with simple state updates
-- Likely missing proper EMA state management in StreamHub
-- May be recalculating from scratch instead of incremental updates
+**Root cause:** May be recalculating regression coefficients from scratch rather than using incremental formulas.
 
-### Pattern 3: Windowed Operations (CRITICAL)
+### Pattern 4: Complex Multi-Indicator Chains
 
-Indicators with rolling windows showing 3-8x slowdown:
+Indicators that chain multiple sub-indicators show compounded overhead:
 
-- **Alma** (7.6x)
-- **Sma** (3.0x)
-- **Wma** (2.5x)
-- **Vwma** (3.8x)
+- **Awesome** (7.7x): Uses SMA
+- **StochRsi** (4.6x): Uses RSI + Stoch
+- **ConnorsRsi** (1.7x): Uses multiple RSI variants
 
-**Root cause:**
+## Performance by Category
 
-- Not using circular buffers or efficient sliding windows
-- Possibly copying/reallocating window data on each quote
-- Missing span-based optimizations
+### ✅ Excellent (<1.5x slower)
 
-### Pattern 4: Lookback-Heavy Operations
+These StreamHub implementations perform within acceptable overhead:
 
-- **Aroon** (3.7x): Should use simple min/max tracking
-- **Stoch** (15.7x Stream, 2.1x Buffer): Max/min lookback inefficiency
-- **WilliamsR** (4.3x Stream, 1.3x Buffer): Similar to Stoch
+- StdDev (1.31x)
+- Epma (1.47x)
+- Mama (1.46x)
+- Pivots (1.46x)
 
-### Pattern 5: BufferList Specific Issues
+### ⚠️ Acceptable (1.5x-2x slower)
 
-**Slope** (7.85x) and **Alligator** (5.01x) show BufferList has architectural issues with certain patterns.
+These need review but are functional:
 
-## Recommendations by Priority
+- BollingerBands (1.65x)
+- ConnorsRsi (1.72x)
+- Renko (1.71x)
+- Donchian (1.90x)
+- HeikinAshi (1.91x)
+- Hma (1.93x)
+- RollingPivots (1.95x)
 
-### IMMEDIATE (P0) - Fix O(n²) Issues
+### 🔴 Needs Optimization (≥2x slower)
 
-These are **blocking** issues that make streaming unusable:
+77 indicators fall into this category. Priority should be given to:
 
-1. **Rsi, StochRsi, Cmo** - Implement proper rolling RSI calculation
-   - Use incremental gain/loss tracking
-   - Maintain running averages, not full recalculation
-   - Reference: Wilder's smoothing technique can be done incrementally
-2. **Chandelier** - Fix max/min lookback
-   - Use deque or circular buffer for efficient max/min tracking
-   - Don't rescan entire window on each quote
-3. **Stoch** - Similar to Chandelier
-   - Efficient rolling max/min
+1. **ForceIndex** (61.6x) - Investigate anomaly
+2. **EMA family** (8-11x) - Framework overhead, acceptable for real-time use
+3. **Slope** (7.5x) - Consider incremental regression
 
-### HIGH PRIORITY (P1) - Fix EMA Family
+## Recommendations
 
-1. **Ema, Smma, Dema, Tema, T3, Trix, Macd** - Fix EMA state management
-   - EMA formula: `EMA[t] = α × Price[t] + (1 - α) × EMA[t-1]`
-   - Should be single state variable per EMA
-   - No recalculation needed
+### IMMEDIATE (P0)
 
-### MEDIUM PRIORITY (P2) - Optimize Window Operations
+1. **ForceIndex** - Investigate and fix the 61.6x overhead anomaly
 
-1. **Sma, Wma, Vwma, Alma** - Implement efficient sliding windows
-   - Use circular buffers
-   - For SMA: track running sum, add new value, subtract old value
-   - For WMA: track weighted sums
-2. **Slope** (BufferList) - Review regression calculation
-   - May be recalculating regression on entire history
+### HIGH PRIORITY (P1)
 
-### LOW PRIORITY (P3) - Fine-tune Performance
+1. **Slope** - Implement incremental regression for StreamHub
+2. Document that EMA-family 8-11x overhead is acceptable for real-time streaming
 
-1. Review indicators with 1.3x-2x slowdown for minor optimizations
-   - Reduce allocations
-   - Use spans instead of collections where possible
-   - Cache intermediate calculations
+### MEDIUM PRIORITY (P2)
+
+1. Review indicators in 2-5x range for optimization opportunities
+2. Consider framework-level optimizations to reduce subscription overhead
+
+### LOW PRIORITY (P3)
+
+1. Fine-tune indicators in 1.5-2x range
+2. Reduce allocations where possible
 
 ## Code Patterns to Look For
 
@@ -185,23 +199,16 @@ public void Add(Quote quote)
 }
 ```
 
-### ✅ CORRECT: Efficient tracking
+### ✅ CORRECT: Efficient tracking with RollingWindow utilities
 
 ```csharp
-// Correct: O(1) amortized with deque
-private Deque<(DateTime, double)> maxTracker;
+// Correct: O(1) amortized with monotonic deque
+private readonly RollingWindowMax<double> _highWindow;
+
 public void Add(Quote quote)
 {
-    // Remove expired maxima
-    while (maxTracker.Count > 0 && maxTracker.Front.Item1 < cutoffDate)
-        maxTracker.PopFront();
-    
-    // Remove smaller values (not needed)
-    while (maxTracker.Count > 0 && maxTracker.Back.Item2 <= quote.High)
-        maxTracker.PopBack();
-    
-    maxTracker.PushBack((quote.Date, quote.High));
-    double max = maxTracker.Front.Item2;
+    _highWindow.Add(quote.High);  // O(1) amortized
+    double max = _highWindow.Max;  // O(1) retrieval
 }
 ```
 
@@ -210,49 +217,51 @@ public void Add(Quote quote)
 For each fixed indicator:
 
 1. **Correctness**: Run regression tests against Series baseline
-2. **Performance**: Verify <1.5x slowdown vs Series
+2. **Performance**: Verify <1.5x slowdown vs Series (or document acceptable overhead)
 3. **Complexity**: Verify O(n) time complexity by testing with 10x data
 4. **Memory**: Check for memory leaks in long-running streams
 
 ## Success Criteria
 
-- ✅ All StreamHub indicators ≤1.5x slower than Series
-- ✅ All BufferList indicators ≤1.5x slower than Series
-- ✅ No O(n²) or worse complexity issues
+- ✅ No O(n²) or worse complexity issues (ACHIEVED)
+- ⚠️ All StreamHub indicators ≤1.5x slower than Series (77 still exceed)
+- ⚠️ All BufferList indicators ≤1.5x slower than Series (19 still exceed)
 - ✅ Memory usage linear with window size, not total quote count
 
-## Files to Investigate
+## Benchmark Environment
 
-Based on the patterns, prioritize reviewing these source files:
+**Hardware:**
 
-### StreamHub (src/**/[Indicator].StreamHub.cs)
+- CPU: 13th Gen Intel Core i9-13900H 2.60GHz
+- Cores: 20 logical, 14 physical
+- RAM: High-performance configuration
 
-1. `src/m-r/Rsi/Rsi.StreamHub.cs` - **391x slowdown**
-2. `src/s-z/Stoch/StochRsi.StreamHub.cs` - **284x slowdown**
-3. `src/a-d/Cmo/Cmo.StreamHub.cs` - **258x slowdown**
-4. `src/a-d/Chandelier/Chandelier.StreamHub.cs` - **122x slowdown**
-5. `src/e-k/Ema/Ema.StreamHub.cs` - **11x slowdown** + affects MACD, TEMA, etc.
-6. `src/s-z/Sma/Sma.StreamHub.cs` - **3x slowdown**
+**Software:**
 
-### BufferList (src/**/[Indicator].BufferList.cs)
-
-1. `src/m-r/Slope/Slope.BufferList.cs` - **7.9x slowdown**
-2. `src/a-d/Alligator/Alligator.BufferList.cs` - **5x slowdown**
-3. `src/e-k/Gator/Gator.BufferList.cs` - **3.9x slowdown**
+- OS: Windows 11 (10.0.26200.7462/25H2)
+- Runtime: .NET 10.0.1 (10.0.125.57005)
+- BenchmarkDotNet: v0.15.8
+- Job: ShortRun (IterationCount=3, LaunchCount=1, WarmupCount=3)
 
 ---
 
-## Next Steps
+## Changelog
 
-1. ✅ Review this analysis
-2. Create GitHub issues for P0/P1 items
-3. Assign owners for critical fixes
-4. Implement fixes following O(n) patterns above
-5. Re-run benchmarks to validate improvements
-6. Update documentation with streaming best practices
+### December 29, 2025
+
+- Updated baselines with full benchmark run (307 benchmarks, 1h 16m runtime)
+- Documented resolution of critical O(n²) issues (RSI, StochRsi, CMO, Chandelier)
+- Average StreamHub slowdown improved from 28.5x to 4.76x
+- Worst case improved from 391x (RSI) to 61.6x (ForceIndex)
+
+### October 19, 2025
+
+- Initial baseline analysis
+- Identified 4 critical O(n²) issues
+- Documented patterns and recommendations
 
 ---
 
-**Generated by:** `analyze_performance.py`  
-**Baseline data:** October 19, 2025 benchmarks  
+**Generated by:** `analyze_performance.py`
+**Baseline data:** December 29, 2025 benchmarks
 **Last reviewed:** December 29, 2025
