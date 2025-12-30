@@ -6,6 +6,8 @@
     ".offline"
   ],
   "config": {
+    // MD028: Allow blank lines in blockquotes, since
+    // it can occur when we have adjacent warning blocks
     "MD028": false,
     "MD033": {
       "allowed_elements": [
