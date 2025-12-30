@@ -1,151 +1,804 @@
 # Repository AI configuration and guardrails refactor plan
 
-## Overview and objectives
+> **Version**: 2.2 (December 30, 2025)
+> **Status**: Phase 1 complete, Phase 2-4 pending
 
-This document guides Copilot coding agents through a major refactoring of the repository’s AI configuration and guardrail files. Over time, the `Stock.Indicators` repository accumulated a mix of Copilot instructions, custom agent profiles, and bespoke guides scattered across `.github`, `src` and `tests` directories. With the **2025 Agent Skills and AGENTS.md standards** now widely adopted, it is time to modernize and simplify our agent‑facing guidance.
+## Executive summary
 
-Goals:
+This plan provides a complete roadmap to modernize the Stock Indicators repository's AI guidance ecosystem. The goal is to migrate from a fragmented set of custom Copilot instructions, agent profiles, and instruction files to the industry-standard **Agent Skills** and **AGENTS.md** frameworks, ensuring compatibility with GitHub Copilot, Claude, Cursor, Devin, and other major AI coding assistants.
 
-- **Map all indicator permutations** across styles, I/O variants, and repaint behaviours (see Appendix 1 of the user brief). This ensures our guidance covers every scenario.
-- **Restructure AI instructions** into modular **skills** and concise **AGENTS.md** files per the latest specifications. Use progressive disclosure to keep skills discoverable yet context‑efficient. Replace most `.github/instructions/*.md` and reduce custom agent profiles.
-- **Maintain constitutional rules** (e.g., never change formulas, maintain bit‑for‑bit parity) and testing standards as defined in `src/agents.md` and `tests/agents.md`.
-- **Produce a checklist** in `docs/plans` to track work phases and tasks, enabling self‑guided progress without user intervention.
+### Progress summary
 
-The plan below is organized into phases. Each phase contains tasks with short descriptions (avoiding long sentences in tables) and references to existing documentation. Follow tasks sequentially but feel free to parallelize where practical.
+| Phase | Status | Notes |
+| ------- | -------- | ------- |
+| Phase 1: Foundation | ✅ **COMPLETE** | AGENTS.md files created and within size limits |
+| Phase 2: Core skills | ⏳ Pending | Create `.github/skills/` structure |
+| Phase 3: Cleanup | ⏳ Pending | Delete obsolete instruction/agent files |
+| Phase 4: Validation | ⏳ Pending | Build, test, lint verification |
 
-## Phase 1 – assessment and enumeration
+### Key decisions
 
-### 1.1 Review existing AI instructions
+| Decision | Rationale |
+| ---------- | ----------- |
+| Use `.github/skills/` for domain expertise | Skills are portable, auto-loaded when relevant, and follow the open Agent Skills specification |
+| Keep root `AGENTS.md` for build/test/setup | AGENTS.md provides universal compatibility across 60k+ repositories and all major coding agents |
+| Consolidate `src/AGENTS.md` and `tests/AGENTS.md` | Subfolder agents provide quick reference and link to skills; constitutional rules will be inline |
+| Eliminate most `.github/instructions/` files | Content migrates to skills; path-specific instructions only for narrow glob-based cases (e.g., codacy.instructions.md) |
+| Reduce custom agent profiles to 2-3 maximum | Most orchestration moves to skills; keep agents only for multi-skill coordination |
 
-1. **Audit current files:** examine all `.github/agents/*.agent.md`, `.github/instructions/*.instructions.md`, `.github/copilot‑instructions.md`, `src/agents.md`, and any other instruction or guardrail files. Note their purpose, overlaps and pain points.
-2. **Understand specification differences:** read the Agent Skills specification and AGENTS.md guidelines to inform migration. The Agent Skills spec mandates a YAML front matter with `name` and `description` fields (lower‑case name, 1–64 chars; description up to 1024 chars) and optional fields like `allowed‑tools`. The `AGENTS.md` standard distinguishes agent guidance from human‑oriented README.md and suggests sections such as project overview, build/test commands, code style, testing instructions, and security considerations.
-3. **Compare with new ecosystem:** review the December 2025 announcement of Agent Skills (GitHub blog) and community articles. Agent Skills are automatically loaded when relevant and allow reuse across Copilot, CLI and VS Code. They encourage clear rules, working examples, context about project structure and templates. The AGENTS.md standard unifies instructions across coding assistants and centralizes build/test policies.
+---
 
-### 1.2 Enumerate indicator permutations (Appendix 1)
+## Part 1: Current state assessment
 
-1. **Define dimensions:** identify the three key dimensions of indicator implementations:
+### 1.1 Existing file inventory (as of December 30, 2025)
 
-   - **Style** – time‑series/batch (series), buffer list, stream hub, and any future style discovered during audit.
-   - **I/O variant** – seven variants (e.g., Quote In → Quote Out, Quote In → Reusable Out, Reusable In → Non‑reusable Out, Reusable pairs In → Reusable Out) as enumerated in Appendix 1.
-   - **Repainting behaviour** – whether the indicator updates prior values (repaint) and how the style handles it.
-2. **Script to classify indicators:** plan a small C# or PowerShell script that scans `src` for `*.StaticSeries.cs`, `*.BufferList.cs`, `*.StreamHub.cs` and analogous classes. Extract metadata (e.g., input/output types, state update patterns) to categorize each indicator across the three dimensions. The script should output a table or JSON file listing indicator name, style, I/O variant, repaint flag and notes. Use existing naming conventions from series agent guidelines and buffer/stream instructions to infer categories.
-3. **Document permutations:** summarise the unique combinations discovered by the script. This informs which skills and guidance are needed. If any variant is unsupported or unusual, note it for manual review.
+**✅ AGENTS.md files (created)**:
 
-## Phase 2 – migration design
+| Location | File | Purpose | Lines | Status |
+| ---------- | ------ | --------- | ------- | -------- |
+| Root | `AGENTS.md` | Comprehensive repository instructions | 252 | ✅ Created |
+| `src/` | `AGENTS.md` | Source code quick reference | 40 | ✅ Created |
+| `tests/` | `AGENTS.md` | Test suite quick reference | 47 | ✅ Created |
+| `docs/` | `AGENTS.md` | Documentation development | 33 | ✅ Created |
 
-### 2.1 Skill taxonomy and file structure
+**📁 Instruction files (to be migrated to skills)**:
 
-1. **Identify required skills:** group existing guidance into logical skills. Proposed skills include:
+| Location | File | Purpose | Lines | Action |
+| ---------- | ------ | --------- | ------- | -------- |
+| `.github/instructions/` | `dotnet.instructions.md` | .NET coding standards | ~400 | **MIGRATE** to skills |
+| `.github/instructions/` | `indicator-series.instructions.md` | Series indicator development | ~350 | **MIGRATE** to `indicator-series` skill |
+| `.github/instructions/` | `indicator-buffer.instructions.md` | BufferList development | ~450 | **MIGRATE** to `indicator-buffer` skill |
+| `.github/instructions/` | `indicator-stream.instructions.md` | StreamHub development | ~650 | **MIGRATE** to `indicator-stream` skill |
+| `.github/instructions/` | `catalog.instructions.md` | Catalog entry conventions | ~200 | **MIGRATE** to `indicator-catalog` skill |
+| `.github/instructions/` | `performance-testing.instructions.md` | BenchmarkDotNet guidelines | ~200 | **MIGRATE** to `performance-testing` skill |
+| `.github/instructions/` | `code-completion.instructions.md` | Pre-commit checklist | ~400 | **MIGRATE** to `quality-gates` skill |
+| `.github/instructions/` | `markdown.instructions.md` | Markdown authoring | ~500 | **KEEP** as path-specific instruction |
+| `.github/instructions/` | `docs.instructions.md` | Jekyll docs site | ~100 | **KEEP** as path-specific instruction |
+| `.github/instructions/` | `codacy.instructions.md` | Codacy MCP config | ~50 | **KEEP** as path-specific instruction |
 
-   - **indicator-series** – series/batch indicator implementation. Use content from `indicator-series.instructions.md` and the `series` agent profile. Migrate key patterns such as warmup calculations, validation patterns and performance optimization.
-   - **indicator-buffer** – incremental BufferList indicator development. Include interface selection guidelines (e.g., `IIncrementFromChain`, `IIncrementFromQuote`, `IIncrementFromPairs`) and base class patterns from `indicator-buffer.instructions.md`.
-   - **indicator-stream** – real‑time StreamHub indicator development. Cover provider selection, state management, O(1) update patterns versus O(n²) anti‑patterns.
-   - **indicator-catalog** – guidelines for `.Catalog.cs` files, builder patterns and registration conventions.
-   - **performance-testing** – benchmarking and optimization guidelines across styles, referencing `performance-testing.instructions.md`.
-   - **code-completion** – repository‑wide code completion checklist and quality gates.
-   - **dotnet guidelines integration** – instead of keeping a standalone `dotnet.instructions.md` file (which has led to confusion), migrate essential .NET coding standards, error‑handling patterns and performance guidelines into the root `AGENTS.md` and relevant skills. This ensures there is no ambiguity about whether the old dotnet instructions should be retained.
-   - **markdown-style** – Markdown authoring and documentation standards.
-2. **Create `.github/skills/` directory:** each skill resides in its own subfolder with a `SKILL.md` file. Follow the specification: YAML front matter with `name` and `description`, optional `allowed‑tools`, and a body with concise instructions and references. Use additional directories (`scripts/`, `references/`, `assets/`) sparingly for code samples or templates.
-3. **Progressive disclosure:** design skill bodies to prioritise critical instructions; provide links or `#file:` tokens to detailed content in existing files. Copilot will load the skill when the description matches the user’s request. Avoid embedding long instructions that bloat the context; rely on references to test files and catalog patterns.
+**🤖 Custom agent profiles (to be consolidated)**:
 
-### 2.2 AGENTS.md modernization
+| Location | File | Purpose | Lines | Action |
+| ---------- | ------ | --------- | ------- | -------- |
+| `.github/agents/` | `indicator-series.agent.md` | Series agent profile | 278 | **REMOVE** (content to skill) |
+| `.github/agents/` | `indicator-buffer.agent.md` | Buffer agent profile | 315 | **REMOVE** (content to skill) |
+| `.github/agents/` | `indicator-stream.agent.md` | Stream agent profile | 293 | **REMOVE** (content to skill) |
+| `.github/agents/` | `performance.agent.md` | Performance agent | 327 | **SIMPLIFY** or merge with skill |
+| `.github/agents/` | `streamhub-pairs.agent.md` | Pairs provider patterns | ~100 | **CONSOLIDATE** into stream skill |
+| `.github/agents/` | `streamhub-performance.agent.md` | StreamHub optimization | ~100 | **CONSOLIDATE** into stream skill |
+| `.github/agents/` | `streamhub-state.agent.md` | State management | ~100 | **CONSOLIDATE** into stream skill |
+| `.github/agents/` | `streamhub-testing.agent.md` | StreamHub testing | ~100 | **CONSOLIDATE** into stream skill |
 
-1. **Root `AGENTS.md`:** create or update `AGENTS.md` at the repository root. Summarise the project overview, environment setup, build/test commands (for both .NET and documentation), code style guidelines (citing `dotnet.instructions.md`), testing instructions and CI workflows. Emphasize the repository’s constitutional rules (do not alter formulas, maintain bit‑for‑bit parity) and test naming/precision standards.
-2. **Subproject `AGENTS.md` files:** for nested projects (e.g., indicators vs tests vs docs), place additional `AGENTS.md` files in subfolders if unique instructions are needed. According to the standard, agents automatically pick the closest `AGENTS.md`. Keep each file under 150 lines and link to detailed docs or skills rather than duplicating content.
-3. **Deprecate old instruction files:** rename or remove `.github/copilot‑instructions.md` and all legacy `.github/instructions/*.md` files once their content is migrated. In particular, delete `dotnet.instructions.md` (its guidelines will live in `AGENTS.md` and skills) and the specialized indicator instruction files (`indicator-series.instructions.md`, `indicator-buffer.instructions.md`, `indicator-stream.instructions.md`, etc.) after extracting their guidance into skills. Only narrowly scoped `applyTo` glob instructions should remain for targeted use cases. Keep redirect notes to the relevant skill or `AGENTS.md` section for backward compatibility. Maintain synergy with other coding assistants by using soft links or the `ruler` tool if necessary.
+**Current totals**:
 
-### 2.3 Custom agent profile cleanup
+- 10 instruction files (~3,300 lines)
+- 8 custom agent profiles (~1,800 lines)
+- 4 AGENTS.md files (~372 lines) ✅ Created
+- **Total: ~5,500 lines of AI guidance**
 
-1. **Determine necessity:** evaluate each `.github/agents/*.agent.md` profile. Series, BufferList, StreamHub and Performance profiles contain rich decision trees, patterns and examples. Much of this belongs in skills. Only keep a custom agent when multiple skills must be orchestrated or when complex decision logic cannot be encoded in a single skill file.
-2. **Migrate content:** extract decision trees, validation patterns and examples into the relevant skills. For example, the warmup calculation logic and test coverage matrix from `series` agent become sections in the `indicator-series` skill. Anti‑patterns and O(1) update patterns from `streamhub` agent migrate to `indicator-stream` skill.
-3. **Simplify agents:** rewrite remaining agent profiles to be short, focusing on dispatching tasks to appropriate skills and providing high‑level context. Aim for under 250 lines and avoid duplication of skill content. Include YAML front matter with `name` and `description` to maintain compatibility.
+### 1.2 Official specifications reference
 
-## Phase 3 – implementation and execution
+| Standard | URL | Version | Key requirements |
+| ---------- | ----- | --------- | ------------------ |
+| **Agent Skills** | [agentskills.io/specification](https://agentskills.io/specification) | 1.0 | YAML frontmatter with `name` and `description`; directory must match name; body < 500 lines |
+| **AGENTS.md** | [agents.md](https://agents.md) | 1.0 | Plain markdown, no required fields; sections for setup, build, test, code style; closest file wins |
+| **GitHub Copilot Custom Instructions** | [docs.github.com](https://docs.github.com/en/copilot/customizing-copilot/adding-repository-custom-instructions-for-github-copilot) | 2025 | Supports `*.instructions.md` with `applyTo` globs, and `AGENTS.md` files |
+| **Example Skills Repository** | [github.com/anthropics/skills](https://github.com/anthropics/skills) | Active | Reference implementations for skill structure |
 
-### 3.1 Create checklist in `docs/plans`
+### 1.3 Official limits and project guidelines
 
-Create a file `docs/plans/ai-config-refactor.checklist.md` with a bullet list of tasks. Use short phrases, one per line, with checkboxes (`- [ ]`) so progress can be marked. Suggested tasks include:
+**SKILL.md frontmatter (from Agent Skills specification):**
 
-| Phase              | Task                                                                                             |
-| ------------------ | ------------------------------------------------------------------------------------------------ |
-| **Assessment**     | `[ ]` Audit existing instruction and agent files                                                 |
-|                    | `[ ]` Review Agent Skills & `AGENTS.md` specifications                                           |
-|                    | `[ ]` Compile list of indicator implementations (series, buffer, stream)                         |
-| **Enumeration**    | `[ ]` Write script to classify indicators by style, I/O variant, repaint flag                    |
-|                    | `[ ]` Generate report of unique permutations                                                     |
-| **Design**         | `[ ]` Map existing guidance to new skills                                                        |
-|                    | `[ ]` Draft root and subfolder `AGENTS.md` outlines                                              |
-|                    | `[ ]` Plan migration of custom agent profiles                                                    |
-| **Implementation** | `[ ]` Create `.github/skills/` directory and scaffold `SKILL.md` files                           |
-|                    | `[ ]` Write `indicator-series` skill (front matter + core patterns)                              |
-|                    | `[ ]` Write `indicator-buffer` skill                                                             |
-|                    | `[ ]` Write `indicator-stream` skill                                                             |
-|                    | `[ ]` Write `indicator-catalog` skill                                                            |
-|                    | `[ ]` Write `performance-testing` skill                                                          |
-|                    | `[ ]` Write `code-completion` skill                                                              |
-|                    | `[ ]` Migrate `.github/instructions/dotnet.instructions.md` into `AGENTS.md` and relevant skills |
-|                    | `[ ]` Write `markdown-style` skill                                                               |
-|                    | `[ ]` Update/create root `AGENTS.md` with build/test instructions                                |
-|                    | `[ ]` Add subfolder `AGENTS.md` files if needed                                                  |
-|                    | `[ ]` Rewrite or remove `.github/copilot-instructions.md`                                        |
-|                    | `[ ]` Refactor or delete custom agent profiles                                                   |
-| **Validation**     | `[ ]` Run build, tests and benchmarks to verify no regressions                                   |
-|                    | `[ ]` Ensure skills load correctly via Copilot CLI or VS Code                                    |
-|                    | `[ ]` Remove obsolete instruction files                                                          |
-|                    | `[ ]` Delete `dotnet.instructions.md` and indicator-specific instruction files after migration   |
-|                    | `[ ]` Commit changes with descriptive message                                                    |
+| Field | Required | Limit | Notes |
+| ------- | ---------- | ------- | ------- |
+| `name` | Yes | 1-64 chars | Lowercase alphanumeric + hyphens; must match directory name; no leading/trailing/consecutive hyphens |
+| `description` | Yes | 1-1024 chars | Describe what skill does AND when to use it; include keywords for task matching |
+| `license` | No | — | License name or reference to bundled file |
+| `compatibility` | No | 1-500 chars | Environment requirements (products, packages, network access) |
+| `metadata` | No | — | Key-value pairs for custom properties |
+| `allowed-tools` | No | — | Space-delimited pre-approved tools (experimental) |
 
-### 3.2 Skill file creation
+**SKILL.md body (from Agent Skills specification):**
 
-For each skill identified in § 2.1:
+| Metric | Limit | Notes |
+| -------- | ------- | ------- |
+| Lines | < 500 | Official: "Keep your main SKILL.md under 500 lines" |
+| Tokens | < 5,000 | Official: "< 5000 tokens recommended" for instructions section |
+| Structure | Progressive | Detailed content goes in `references/`, `scripts/`, `assets/` subdirectories |
 
-1. **Define YAML front matter:** set the `name` (lower‑case, hyphenated if needed) and a concise `description` explaining when the skill applies (≤ 1024 chars). For example:
+**AGENTS.md (project guidelines - no official limits):**
 
-   ```yaml
-   ---
-   name: indicator-series
-   description: Guidance for implementing batch indicators with precise calculations, validation, warmup periods, testing and performance optimization.
-   allowed-tools: browser api_tool # optional if external calls needed
-   ---
-   ```
+| Metric | Target | Hard Limit | Notes |
+| -------- | -------- | ------------ | ------- |
+| Characters | 28,000 | 30,000 | Imposed by project; keeps context manageable |
+| Lines | ~400 | ~500 | Derived from character target |
+| Subfolder files | ~50 lines | ~75 lines | Quick reference with links to root/skills |
 
-2. **Write instruction body:** summarise essential patterns, decision trees and checklists using bullet points. Avoid duplicating long content; instead, reference existing files via `#file:` tokens. For example, to point at the original series instructions: “See `#file:.github/instructions/indicator-series.instructions.md` for full checklist.”
+**Progressive disclosure principle:**
 
-3. **Include examples:** provide small code snippets or “Golden Example” patterns to anchor Copilot’s suggestions. For StreamHub, show the correct O(1) incremental update pattern versus the O(n²) anti‑pattern. For BufferList, illustrate how to choose between `IIncrementFromChain` and other interfaces.
+1. **Metadata (~100 tokens)**: `name` + `description` loaded at startup for all skills
+2. **Instructions (< 5,000 tokens)**: Full SKILL.md body loaded when skill activates
+3. **Resources (on-demand)**: `references/`, `scripts/`, `assets/` loaded only when needed
 
-4. **Link to tests and reference implementations:** reference canonical implementations like SMA, EMA and ATRStop for Series and analogous examples for BufferList and StreamHub. Provide cross‑references to test patterns defined in `tests/agents.md`.
+Keep SKILL.md focused on actionable instructions. Move decision trees, detailed patterns, and reference material to subdirectory files
 
-5. **Mention prerequisites:** instruct the agent to follow the repository’s constitutional rules (no formula changes; maintain parity) and abide by test precision and naming conventions.
+---
 
-### 3.3 Write `AGENTS.md` files
+## Part 2: Indicator classification matrix
 
-1. **Root `AGENTS.md`:** include sections covering:
+### 2.1 Implementation style dimensions
 
-   - **Project overview:** description of the Stock Indicators library and its NuGet package.
-   - **Setup commands:** how to restore NuGet packages, build the solution, run tests and generate documentation.
-   - **Build & test instructions:** explicit commands to run the full test suite (e.g., `dotnet restore`, `dotnet build`, `dotnet test`), generate benchmarks, run the documentation site.
-   - **Code style guidelines:** summarise .NET coding style (PascalCase naming, single type per file) and performance practices. These details should be drawn from the old `dotnet.instructions.md` file and integrated here and in the relevant skills; do not keep a separate dotnet instructions file.
-   - **Testing instructions:** summarise test base classes (TestBase, BufferListTestBase, StreamHubTestBase), test types and precision rules.
-   - **Security considerations:** include any secrets usage, how to handle repository credentials, and caution around external calls. Mention that skills or agents must not modify formulas or default parameters without explicit authorisation.
-2. **Subfolder `AGENTS.md` (optional):** create targeted instructions for specific folders (e.g., `src/_common/Catalog` or `tests/performance`) if the scope is too specialized to reside in the root file. Keep them concise and link to relevant skills.
+The library implements indicators across three styles, each with unique considerations:
 
-### 3.4 Refactor custom agents and instructions
+| Style | File Pattern | Base Class | Count | Characteristics |
+| ------- | -------------- | ------------ | ------- | ----------------- |
+| **Series** | `*.StaticSeries.cs` | `IReadOnlyList<TResult>` | 85 | Batch processing, canonical mathematical reference |
+| **BufferList** | `*.BufferList.cs` | `BufferList<TResult>` | 82 | Incremental processing, memory-efficient |
+| **StreamHub** | `*.StreamHub.cs` | `ChainProvider/QuoteProvider/PairsProvider` | 83 | Real-time streaming, stateful, late-arrival handling |
 
-1. **Move content to skills:** systematically extract content from `indicator-series.agent.md`, `indicator-buffer.agent.md`, `indicator-stream.agent.md` and `performance.agent.md`. Keep the high‑level persona and dispatch logic in the agent files, but remove large sections of guidance that are now in skills.
-2. **Update invocation patterns:** instruct developers (via `AGENTS.md`) to reference skills directly rather than using custom agents. Provide examples of how to invoke skills from Copilot chat (e.g., “@indicator-series Implement a new momentum indicator”).
-3. **Remove obsolete instructions:** once skills and `AGENTS.md` are in place, delete `.github/instructions/*.md` that have been migrated. For any remaining content (e.g., docs guidelines or performance testing details), ensure it lives in skills or documentation under `docs/`.
+### 2.2 I/O variant classification
 
-## Phase 4 – verification and cleanup
+**StreamHub provider patterns (determines input/output types):**
 
-1. **Test the new setup:** after migration, run the full build and test suite (`dotnet test`) to ensure no regressions. Run benchmarks (`BenchmarkDotNet` projects) to confirm performance parity.
-2. **Validate skill loading:** use Copilot CLI or VS Code’s agent mode to trigger each skill. Ask questions like “How do I implement a stream indicator?” and verify that the corresponding `SKILL.md` content appears in the response. According to GitHub’s guidance, skills may take 5–10 minutes to index and require a refresh.
-3. **Review `AGENTS.md`:** check that `AGENTS.md` covers all necessary sections but remains under 150 lines. Ensure links to skills and docs are correct and there is no duplication.
-4. **Commit changes:** use clear commit messages (e.g., `refactor: migrate indicator instructions to skills and AGENTS.md`). Update `docs/plans/ai-config-refactor.checklist.md` to mark completed tasks.
+| Provider Base | Input | Output | Chainable | Count | Examples |
+| --------------- | ------- | -------- | ----------- | ------- | ---------- |
+| `ChainProvider<IReusable, TResult : IReusable>` | Single value | Single value | Yes | ~45 | EMA, SMA, RSI, MACD, Trix, TSI |
+| `ChainProvider<IQuote, TResult : IReusable>` | OHLCV quote | Single value | Yes | ~15 | ADX, ATR, Aroon, CCI, CMF, OBV |
+| `QuoteProvider<IQuote, TResult : IQuote>` | OHLCV quote | OHLCV quote | Yes (quote) | 3 | QuoteHub, HeikinAshi, Renko |
+| `PairsProvider<IReusable, TResult>` | Dual stream | Single value | Yes | 3 | Correlation, Beta, Prs |
+| `StreamHub<TIn, TResult : ISeries>` | Various | Multi-value | No | ~20 | Alligator, AtrStop, Ichimoku, Keltner |
 
-## Final notes
+**BufferList interface patterns (determines Add method signatures):**
 
-- **Security and governance:** treat `AGENTS.md` and skills as untrusted input when executed by external agents. Do not embed secrets or sensitive information. Use the MCP server’s allowlist features and sign configurations if available.
-- **Future evolution:** keep an eye on the Agents.md specification and skills ecosystem. The spec encourages adding version fields, human approval checkpoints and telemetry hooks. While not all features may apply now, adopting them incrementally will improve governance.
-- **Keep instructions concise:** as with README files, brevity improves agent performance. Use the new skills and `AGENTS.md` to centralize guidance and remove duplication.
+| Interface | Input Type | Count | Examples |
+| ----------- | ------------ | ------- | ---------- |
+| `IIncrementFromChain` | `IReusable` (single value) | 39 | SMA, EMA, RSI, MACD, Dema, Tema |
+| `IIncrementFromQuote` | `IQuote` (OHLCV) | 38 | Stoch, Chandelier, VWAP, ATR, ADX |
+| `IIncrementFromPairs` | Dual `IReusable` | 3 | Correlation, Beta, Prs |
 
-This plan equips the Copilot coding agent to independently assess, design, and implement the refactoring of AI configurations and guardrail documents. Follow the checklist and tasks in order, referencing the cited guidelines for authoritative guidance.
+### 2.3 Output type classification
+
+| Interface | Description | Can Chain? | Examples |
+| ----------- | ------------- | ------------ | ---------- |
+| `IReusable` (extends `ISeries`) | Single chainable `Value` property | Yes | EMA, SMA, RSI, ADX, MACD |
+| `ISeries` only | Multi-value output, no single chainable value | No | Alligator, AtrStop, Keltner, Ichimoku |
+
+### 2.4 Repainting indicators
+
+Some indicators legitimately update prior values:
+
+| Indicator | Behavior | Implementation Pattern |
+| ----------- | ---------- | ------------------------ |
+| DPO | Future-dependent calculation | Lookback adjustment |
+| Slope | Line repaint within window | `UpdateInternal()` |
+| Pivots | Trend line repaint | Pivot confirmation delay |
+| Fractal | Window-based confirmation | Forward data required |
+| ZigZag | Last segment repaint | Trend reversal detection |
+| VolatilityStop | Trailing stop repaint | New extrema arrival |
+
+### 2.5 State complexity classification (for StreamHub)
+
+| Complexity | RollbackState Required | Examples |
+| ------------ | ------------------------ | ---------- |
+| **Stateless** | No | Simple passthrough indicators |
+| **Simple state** | Yes | EMA (single prior value), SMA (running sum) |
+| **Rolling window** | Yes | Chandelier, Stoch, Donchian, Aroon (RollingWindowMax/Min) |
+| **Wilder's smoothing** | Yes | RSI, ADX, ATR (gain/loss averages) |
+| **Multi-EMA chains** | Yes | MACD, Trix, TSI, T3, DEMA, TEMA |
+| **Anchor tracking** | Yes | ParabolicSar, AtrStop, SuperTrend (trend reversal) |
+| **Dual-stream** | Yes | Correlation, Beta (synchronized caches) |
+
+---
+
+## Part 3: Target architecture
+
+### 3.1 Skills taxonomy
+
+Create `.github/skills/` with the following structure:
+
+```text
+.github/skills/
+├── indicator-series/
+│   ├── SKILL.md
+│   └── references/
+│       └── decision-tree.md
+├── indicator-buffer/
+│   ├── SKILL.md
+│   └── references/
+│       └── interface-selection.md
+├── indicator-stream/
+│   ├── SKILL.md
+│   ├── references/
+│   │   ├── provider-selection.md
+│   │   ├── rollback-patterns.md
+│   │   └── performance-patterns.md
+│   └── scripts/
+│       └── validate-hub.ps1
+├── indicator-catalog/
+│   └── SKILL.md
+├── performance-testing/
+│   ├── SKILL.md
+│   └── references/
+│       └── benchmark-patterns.md
+├── quality-gates/
+│   └── SKILL.md
+└── testing-standards/
+    └── SKILL.md
+```
+
+### 3.2 Skill specifications
+
+#### indicator-series skill
+
+```yaml
+---
+name: indicator-series
+description: Implement Series-style batch indicators with mathematical precision. Use for new StaticSeries implementations, warmup period calculations, validation patterns, and test coverage. Series results are the canonical reference—all other styles must match exactly.
+---
+```
+
+**Content structure** (< 500 lines):
+
+1. Core patterns (warmup, validation, result initialization)
+2. Decision tree for file structure
+3. Reference implementations (EMA, SMA, ATRStop, Alligator)
+4. Testing checklist (StaticSeriesTestBase inheritance, precision)
+5. Links to `src/agents.md` for formula rules
+
+#### indicator-buffer skill
+
+```yaml
+---
+name: indicator-buffer
+description: Implement BufferList incremental indicators with efficient state management. Use for IIncrementFromChain, IIncrementFromQuote, or IIncrementFromPairs implementations. Covers interface selection, constructor patterns, and BufferListTestBase testing requirements.
+---
+```
+
+**Content structure**:
+
+1. Interface selection decision tree
+2. Constructor patterns (primary + chaining)
+3. BufferListUtilities usage (Update, UpdateWithDequeue)
+4. State management (tuples vs fields)
+5. Series parity validation
+
+#### indicator-stream skill
+
+```yaml
+---
+name: indicator-stream
+description: Implement StreamHub real-time indicators with O(1) performance. Use for ChainProvider, QuoteProvider, or PairsProvider implementations. Covers provider selection, RollbackState patterns, performance anti-patterns, and comprehensive testing with StreamHubTestBase.
+---
+```
+
+**Content structure**:
+
+1. Provider base class selection guide
+2. I/O variant classification
+3. RollbackState implementation patterns
+4. Performance anti-patterns (O(n squared) vs O(1))
+5. Testing interfaces (ITestChainObserver, ITestQuoteObserver, ITestPairsObserver)
+6. Reference implementations (EMA, ADX, Correlation)
+
+#### indicator-catalog skill
+
+```yaml
+---
+name: indicator-catalog
+description: Create and register indicator catalog entries for automation. Use for Catalog.cs files, CatalogListingBuilder patterns, parameter/result definitions, and PopulateCatalog registration.
+---
+```
+
+#### performance-testing skill
+
+```yaml
+---
+name: performance-testing
+description: Benchmark indicator performance with BenchmarkDotNet. Use for Series/Buffer/Stream benchmarks, regression detection, and optimization patterns. Target 1.5x Series for StreamHub, 1.2x for BufferList.
+---
+```
+
+#### quality-gates skill
+
+```yaml
+---
+name: quality-gates
+description: Pre-commit quality checklist for Stock Indicators development. Use before completing work to ensure clean build, passing tests, documentation updates, and migration bridge requirements.
+---
+```
+
+#### testing-standards skill
+
+```yaml
+---
+name: testing-standards
+description: Testing conventions for Stock Indicators. Use for test naming (MethodName_StateUnderTest_ExpectedBehavior), FluentAssertions patterns, precision requirements, and test base class selection.
+---
+```
+
+### 3.3 AGENTS.md structure ✅ WITHIN LIMITS
+
+The AGENTS.md files have been created and verified against size limits from section 1.3.
+
+#### Root AGENTS.md (251 lines, 15,834 chars) ✅ WITHIN LIMITS
+
+**Status**: ✅ Well under 28,000 target / 30,000 limit
+
+Current structure includes:
+
+- **Project overview** - Repository description and target frameworks
+- **Repository layout** - Directory structure visualization
+- **Build and verification** - Commands and linting tasks
+- **Common pitfalls to avoid** - Numbered list of frequent issues
+- **NaN handling policy** - Core principles and implementation guidelines
+- **Guiding principles** - Links to project constitution
+- **Scoped instruction files** - Table of pattern → file mappings
+- **Custom agents** - Table of available agents with usage examples
+- **Common indicator requirements** - Cross-cutting checklist
+- **Series as canonical reference** - Parity rules
+- **Code review guidelines** - What to look for
+- **Development workflow** - Build/test commands
+- **MCP tools guidance** - When to use external tools
+- **Pull request guidelines** - Conventional Commits format
+
+#### Subfolder AGENTS.md files ✅ WITHIN LIMITS
+
+**`src/AGENTS.md`** (40 lines) ✅ Under 75-line limit:
+
+- Quick reference for numerical precision approach
+- Links to `.github/instructions/dotnet.instructions.md`
+- Common pitfalls specific to source code
+- Build commands
+
+**`tests/AGENTS.md`** (47 lines) ✅ Under 75-line limit:
+
+- Test organization overview
+- **Runsettings commands** for test isolation (unit, regression, integration)
+- Test category descriptions
+- Writing tests guidance
+
+**`docs/AGENTS.md`** (33 lines) ✅ Under 75-line limit:
+
+- Jekyll development quick reference
+- Links to docs and markdown instruction files
+- Adding indicator documentation guidance
+- Testing documentation changes
+
+### 3.4 Files to delete
+
+After skills migration is complete, remove:
+
+```text
+# Already deleted ✅
+.github/copilot-instructions.md                    # Migrated to AGENTS.md
+
+# To delete in Phase 3
+.github/instructions/dotnet.instructions.md        # Content to AGENTS.md + skills
+.github/instructions/indicator-series.instructions.md
+.github/instructions/indicator-buffer.instructions.md
+.github/instructions/indicator-stream.instructions.md
+.github/instructions/catalog.instructions.md
+.github/instructions/performance-testing.instructions.md
+.github/instructions/code-completion.instructions.md
+.github/agents/indicator-series.agent.md
+.github/agents/indicator-buffer.agent.md
+.github/agents/indicator-stream.agent.md
+.github/agents/performance.agent.md
+.github/agents/streamhub-pairs.agent.md
+.github/agents/streamhub-performance.agent.md
+.github/agents/streamhub-state.agent.md
+.github/agents/streamhub-testing.agent.md
+```
+
+### 3.5 Files to keep (path-specific instructions)
+
+```text
+.github/instructions/markdown.instructions.md    # applyTo: **/*.md
+.github/instructions/docs.instructions.md         # applyTo: docs/**
+.github/instructions/codacy.instructions.md       # applyTo: ** (MCP config)
+```
+
+**Note**: The original plan mentioned keeping `src/agents.md` and `tests/agents.md` for constitutional rules. However, the current implementation uses `src/AGENTS.md` and `tests/AGENTS.md` (uppercase) as the subfolder agent files. The lowercase files have been removed to avoid case-sensitivity issues on Windows.
+
+---
+
+## Part 4: Implementation phases
+
+### Phase 1: Foundation ✅ COMPLETE
+
+| Task | Description | Status |
+| ------ | ------------- | -------- |
+| 1.1 | Create `.github/skills/` directory structure | ⏳ Pending (Phase 2) |
+| 1.2 | Create root `AGENTS.md` | ✅ Created (251 lines, 15,834 chars) |
+| 1.3 | Create `src/AGENTS.md` | ✅ Created (40 lines) |
+| 1.4 | Create `tests/AGENTS.md` | ✅ Created (47 lines) |
+| 1.5 | Create `docs/AGENTS.md` | ✅ Created (33 lines) |
+| 1.6 | Remove duplicate lowercase agents.md files | ✅ Complete |
+| 1.7 | Update all copilot-instructions.md references | ✅ Complete |
+| 1.8 | **Verify root AGENTS.md ≤ 30,000 chars** | ✅ Verified (15,834 chars) |
+
+**Notes on completed work**:
+
+- Root AGENTS.md is 15,834 characters, well under 28,000 target / 30,000 limit
+- Subfolder AGENTS.md files are within 75-line limit
+- All references to `.github/copilot-instructions.md` have been updated to `AGENTS.md`
+
+### Phase 2: Core skills (Estimated: 4 hours)
+
+| Task | Description | Verification |
+| ------ | ------------- | -------------- |
+| 2.1 | Create `indicator-series` skill | `name` 1-64 chars, `description` ≤ 1024 chars, body < 500 lines |
+| 2.2 | Create `indicator-buffer` skill | `name` 1-64 chars, `description` ≤ 1024 chars, body < 500 lines |
+| 2.3 | Create `indicator-stream` skill | `name` 1-64 chars, `description` ≤ 1024 chars, body < 500 lines |
+| 2.4 | Create `indicator-catalog` skill | Valid YAML frontmatter, body < 500 lines |
+| 2.5 | Create `performance-testing` skill | Valid YAML frontmatter, body < 500 lines |
+| 2.6 | Create `quality-gates` skill | Valid YAML frontmatter, body < 500 lines |
+| 2.7 | Create `testing-standards` skill | Valid YAML frontmatter, body < 500 lines |
+
+**Skill validation checklist**:
+
+- [ ] `name` field: 1-64 chars, lowercase alphanumeric + hyphens, matches directory name
+- [ ] `description` field: 1-1024 chars, describes what AND when to use
+- [ ] Body content: < 500 lines, < 5,000 tokens recommended
+- [ ] Detailed content in `references/` subdirectory if needed
+
+### Phase 3: Cleanup (Estimated: 1 hour)
+
+| Task | Description | Verification |
+| ------ | ------------- | -------------- |
+| 3.1 | Delete obsolete instruction files | 8 files removed |
+| 3.2 | Delete custom agent profiles | 8 files removed |
+| 3.3 | Delete `copilot-instructions.md` | File removed |
+| 3.4 | Update any remaining references | Grep shows no dangling refs |
+
+### Phase 4: Validation (Estimated: 1 hour)
+
+| Task | Description | Verification |
+| ------ | ------------- | -------------- |
+| 4.1 | Run `dotnet build` | Zero warnings |
+| 4.2 | Run `dotnet test` | All tests pass |
+| 4.3 | Run `npx markdownlint-cli2` | Zero errors |
+| 4.4 | Test skill loading in VS Code | Skills appear in Copilot context |
+| 4.5 | Verify AGENTS.md is recognized | Check in Copilot coding agent |
+
+---
+
+## Part 5: Detailed skill content templates
+
+### 5.1 indicator-series SKILL.md template
+
+````markdown
+---
+name: indicator-series
+description: Implement Series-style batch indicators with mathematical precision. Use for new StaticSeries implementations, warmup period calculations, validation patterns, and test coverage. Series results are the canonical reference—all other styles must match exactly.
+---
+
+# Series Indicator Development
+
+Series indicators process complete datasets and return results all at once. They are the foundation style that establishes mathematical correctness.
+
+## File structure
+
+- Implementation: `src/{category}/{Indicator}/{Indicator}.StaticSeries.cs`
+- Test: `tests/indicators/{category}/{Indicator}/{Indicator}.StaticSeries.Tests.cs`
+- Categories: a-d, e-k, m-r, s-z (alphabetical)
+
+## Core pattern
+
+```csharp
+public static IReadOnlyList<TResult> ToIndicator(
+    this IReadOnlyList<IQuote> quotes,
+    int lookbackPeriods)
+{
+    // 1. Validate parameters
+    ArgumentOutOfRangeException.ThrowIfLessThan(lookbackPeriods, 1);
+    
+    // 2. Initialize results
+    int length = quotes.Count;
+    List<TResult> results = new(length);
+    
+    // 3. Calculate warmup period results (null values)
+    // 4. Calculate main results
+    // 5. Return results
+    return results;
+}
+```
+
+## Warmup period calculation
+
+| Indicator Type | Formula | Example |
+| ---------------- | --------- | --------- |
+| Simple MA | `lookback - 1` | SMA(20) -> 19 warmup |
+| Exponential | `lookback` | EMA(12) -> 12 warmup |
+| Multi-stage | Sum of stages | MACD(12,26,9) -> 34 warmup |
+
+## Validation patterns
+
+- Null quotes: `ArgumentNullException.ThrowIfNull(quotes)`
+- Invalid range: `ArgumentOutOfRangeException.ThrowIfLessThan(period, 1)`
+- Semantic error: `ArgumentException` for logical constraints
+
+## Testing requirements
+
+1. Inherit from `StaticSeriesTestBase`
+2. Implement Standard, Boundary, BadData, InsufficientData tests
+3. Verify against manually calculated reference values
+4. Use exact equality: `result.Value.Should().Be(expected)`
+
+## Reference implementations
+
+- Simple: `src/s-z/Sma/Sma.StaticSeries.cs`
+- Exponential: `src/e-k/Ema/Ema.StaticSeries.cs`
+- Complex: `src/a-d/Adx/Adx.StaticSeries.cs`
+
+## Constitutional rules
+
+**Warning**: See `src/agents.md` for formula protection rules.
+Series is the canonical source of mathematical truth.
+````
+
+### 5.2 indicator-buffer SKILL.md template
+
+````markdown
+---
+name: indicator-buffer
+description: Implement BufferList incremental indicators with efficient state management. Use for IIncrementFromChain, IIncrementFromQuote, or IIncrementFromPairs implementations. Covers interface selection, constructor patterns, and BufferListTestBase testing requirements.
+---
+
+# BufferList Indicator Development
+
+BufferList indicators process data incrementally with efficient buffering, matching Series results exactly.
+
+## Interface selection
+
+| Interface | Input Type | Use Case | Examples |
+| ----------- | ------------ | ---------- | ---------- |
+| `IIncrementFromChain` | IReusable | Chainable indicators | SMA, EMA, RSI |
+| `IIncrementFromQuote` | IQuote | Needs OHLCV properties | Stoch, ATR, VWAP |
+| `IIncrementFromPairs` | Dual IReusable | Two synchronized series | Correlation, Beta |
+
+## Constructor pattern
+
+```csharp
+public class MyIndicatorList : BufferList<MyResult>, IIncrementFromChain
+{
+    // Primary constructor (parameters only)
+    public MyIndicatorList(int lookbackPeriods)
+    {
+        ArgumentOutOfRangeException.ThrowIfLessThan(lookbackPeriods, 1);
+        LookbackPeriods = lookbackPeriods;
+        _buffer = new Queue<double>(lookbackPeriods);
+    }
+
+    // Chaining constructor (parameters + quotes)
+    public MyIndicatorList(int lookbackPeriods, IReadOnlyList<IQuote> quotes)
+        : this(lookbackPeriods) => Add(quotes);
+}
+```
+
+## Buffer management
+
+Always use `BufferListUtilities`:
+- `_buffer.Update(capacity, value)` - Standard rolling buffer
+- `_buffer.UpdateWithDequeue(capacity, value)` - Returns dequeued value for sum adjustment
+
+## State management
+
+- Prefer tuples: `private (double sum, int count) _state;`
+- Avoid custom structs for internal buffer state
+- Reset in Clear(): `_state = default; _buffer.Clear(); base.Clear();`
+
+## Testing requirements
+
+1. Inherit from `BufferListTestBase` (NOT TestBase)
+2. Implement test interface matching buffer interface
+3. Verify exact Series parity: `bufferResults.IsExactly(seriesResults)`
+
+## Reference implementations
+
+- Chain: `src/e-k/Ema/Ema.BufferList.cs`
+- Quote: `src/s-z/Stoch/Stoch.BufferList.cs`
+- Pairs: `src/a-d/Correlation/Correlation.BufferList.cs`
+````
+
+### 5.3 indicator-stream SKILL.md template
+
+````markdown
+---
+name: indicator-stream
+description: Implement StreamHub real-time indicators with O(1) performance. Use for ChainProvider, QuoteProvider, or PairsProvider implementations. Covers provider selection, RollbackState patterns, performance anti-patterns, and comprehensive testing with StreamHubTestBase.
+---
+
+# StreamHub Indicator Development
+
+StreamHub indicators support real-time data processing with stateful operations, achieving 1.5x Series performance or better.
+
+## Provider selection
+
+| Provider Base | Input | Output | Use Case |
+| --------------- | ------- | -------- | ---------- |
+| `ChainProvider<IReusable, TResult>` | Single value | IReusable | Chainable indicators |
+| `ChainProvider<IQuote, TResult>` | OHLCV | IReusable | Quote-driven, chainable output |
+| `QuoteProvider<IQuote, TResult>` | OHLCV | IQuote | Quote-to-quote transformation |
+| `PairsProvider<IReusable, TResult>` | Dual stream | IReusable | Synchronized dual inputs |
+
+## Performance anti-patterns
+
+### WRONG: O(n squared) recalculation (FORBIDDEN)
+
+```csharp
+// WRONG - Rebuilds entire history on each tick
+for (int k = 0; k <= i; k++) { subset.Add(cache[k]); }
+var result = subset.ToIndicator();
+```
+
+### CORRECT: O(1) incremental update
+
+```csharp
+// CORRECT - Maintain state, update incrementally
+_avgGain = ((_avgGain * (period - 1)) + gain) / period;
+```
+
+## RollbackState pattern
+
+Override when maintaining stateful fields:
+
+```csharp
+protected override void RollbackState(DateTime timestamp)
+{
+    _window.Clear();
+    int targetIndex = ProviderCache.IndexGte(timestamp) - 1;
+    int startIdx = Math.Max(0, targetIndex + 1 - LookbackPeriods);
+    
+    for (int p = startIdx; p <= targetIndex; p++)
+        _window.Add(ProviderCache[p].Value);
+}
+```
+
+## Testing requirements
+
+1. Inherit from `StreamHubTestBase`
+2. Implement exactly ONE observer interface:
+   - `ITestChainObserver` (most common)
+   - `ITestQuoteObserver` (quote-only providers)
+   - `ITestPairsObserver` (dual-stream)
+3. Test provider history mutations (Insert/Remove)
+4. Verify exact Series parity
+
+## Reference implementations
+
+- Chain: `src/e-k/Ema/Ema.StreamHub.cs`
+- Complex state: `src/a-d/Adx/Adx.StreamHub.cs`
+- Pairs: `src/a-d/Correlation/Correlation.StreamHub.cs`
+- Rolling window: `src/a-d/Chandelier/Chandelier.StreamHub.cs`
+
+See `references/rollback-patterns.md` for detailed RollbackState examples.
+See `references/performance-patterns.md` for O(1) optimization techniques.
+````
+
+---
+
+## Part 6: Migration checklist
+
+Create `docs/plans/ai-config-refactor.checklist.md`:
+
+```markdown
+# AI Configuration Refactor Checklist
+
+## Phase 1: Foundation
+- [ ] Create `.github/skills/` directory
+- [ ] Create root `AGENTS.md`
+- [ ] Create `src/AGENTS.md`
+- [ ] Create `tests/AGENTS.md`
+
+## Phase 2: Core Skills
+- [ ] Create `indicator-series` skill (SKILL.md + references/)
+- [ ] Create `indicator-buffer` skill (SKILL.md + references/)
+- [ ] Create `indicator-stream` skill (SKILL.md + references/)
+- [ ] Create `indicator-catalog` skill
+- [ ] Create `performance-testing` skill
+- [ ] Create `quality-gates` skill
+- [ ] Create `testing-standards` skill
+
+## Phase 3: Cleanup
+- [ ] Delete `.github/copilot-instructions.md`
+- [ ] Delete `.github/instructions/dotnet.instructions.md`
+- [ ] Delete `.github/instructions/indicator-series.instructions.md`
+- [ ] Delete `.github/instructions/indicator-buffer.instructions.md`
+- [ ] Delete `.github/instructions/indicator-stream.instructions.md`
+- [ ] Delete `.github/instructions/catalog.instructions.md`
+- [ ] Delete `.github/instructions/performance-testing.instructions.md`
+- [ ] Delete `.github/instructions/code-completion.instructions.md`
+- [ ] Delete `.github/agents/indicator-series.agent.md`
+- [ ] Delete `.github/agents/indicator-buffer.agent.md`
+- [ ] Delete `.github/agents/indicator-stream.agent.md`
+- [ ] Delete `.github/agents/performance.agent.md`
+- [ ] Delete `.github/agents/streamhub-pairs.agent.md`
+- [ ] Delete `.github/agents/streamhub-performance.agent.md`
+- [ ] Delete `.github/agents/streamhub-state.agent.md`
+- [ ] Delete `.github/agents/streamhub-testing.agent.md`
+
+## Phase 4: Validation
+- [ ] `dotnet build` succeeds with zero warnings
+- [ ] `dotnet test` passes all tests
+- [ ] `npx markdownlint-cli2` has zero errors
+- [ ] Skills load in VS Code Copilot
+- [ ] AGENTS.md recognized by coding agents
+- [ ] No dangling file references (grep verification)
+
+## Phase 5: Commit
+- [ ] Commit with message: `refactor: migrate AI instructions to skills and AGENTS.md`
+- [ ] Update this checklist to mark complete
+```
+
+---
+
+## Appendix A: Official documentation links
+
+| Resource | URL |
+| ---------- | ----- |
+| Agent Skills Specification | <https://agentskills.io/specification> |
+| Agent Skills Examples | <https://github.com/anthropics/skills> |
+| AGENTS.md Standard | <https://agents.md> |
+| GitHub Copilot Custom Instructions | <https://docs.github.com/en/copilot/customizing-copilot/adding-repository-custom-instructions-for-github-copilot> |
+| GitHub Copilot Agent Skills | <https://docs.github.com/en/copilot/concepts/agents/about-agent-skills> |
+| VS Code Agent Skills | <https://code.visualstudio.com/docs/copilot/customization/agent-skills> |
+| Best Practices for AGENTS.md | <https://github.blog/ai-and-ml/github-copilot/how-to-write-a-great-agents-md-lessons-from-over-2500-repositories/> |
+| Coding Agent Best Practices | <https://docs.github.com/en/copilot/tutorials/coding-agent/get-the-best-results> |
+
+## Appendix B: Key files in this repository
+
+| File | Purpose | Keep/Migrate |
+| ------ | --------- | -------------- |
+| `src/agents.md` | Formula protection rules | **KEEP** |
+| `tests/agents.md` | Test naming and precision | **KEEP** |
+| `docs/PRINCIPLES.md` | Project principles | **KEEP** |
+| `src/_common/README.md` | NaN handling policy | **KEEP** |
+| `.editorconfig` | Code formatting | **KEEP** |
+| `.markdownlint-cli2.jsonc` | Markdown linting | **KEEP** |
+
+## Appendix C: Compatibility notes
+
+| Tool | AGENTS.md | Skills | Custom Instructions |
+| ------ | ----------- | -------- | --------------------- |
+| GitHub Copilot (web) | Yes | Yes | Yes |
+| GitHub Copilot (VS Code) | Yes | Yes (Insiders) | Yes |
+| GitHub Copilot CLI | Yes | Yes | No |
+| Claude Code | Yes | Yes | No |
+| Cursor | Yes | No | Yes |
+| Devin | Yes | No | No |
+| Gemini CLI | Yes | No | No |
+
+## Appendix D: Security and governance
+
+**Security considerations:**
+
+- Treat `AGENTS.md` and skills as untrusted input when executed by external agents
+- Do not embed secrets, credentials, or sensitive information in any AI guidance files
+- Use MCP server allowlist features to restrict tool access where available
+- Agents must not modify formulas or default parameters without explicit user authorization
+- Caution around external API calls; validate all external data sources
+
+**Governance notes:**
+
+- Skills may take 5-10 minutes to index after creation; refresh VS Code if skills don't appear immediately
+- Keep instructions concise; brevity improves agent performance and reduces context bloat
+- Constitutional rules (no formula changes, maintain bit-for-bit parity) must be enforced across all styles
+
+**Future evolution:**
+
+- Monitor the AGENTS.md and Agent Skills specifications for updates
+- Consider adopting version fields, human approval checkpoints, and telemetry hooks as they mature
+- Periodically review and consolidate guidance to prevent fragmentation
+
+**Skill invocation examples:**
+
+```text
+@indicator-series Implement a new momentum indicator (RSI-style)
+@indicator-buffer Which interface should I use for my OHLCV indicator?
+@indicator-stream How do I implement RollbackState for a rolling window?
+@performance-testing Add benchmark for my new indicator
+```
+
+---
+Last updated: December 30, 2025
