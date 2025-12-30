@@ -153,14 +153,6 @@ For testing best practices, consult #tool:mslearn documentation.
 - Maintain version numbers per semantic versioning
 - Document breaking changes in release notes
 
-## Common pitfalls to avoid
-
-- **Off-by-one errors**: Double-check lookback period calculations
-- **Null reference exceptions**: Validate data before access
-- **Precision loss**: Use `decimal` for financial data
-- **Index out of bounds**: Verify collection sizes before indexing
-- **Performance regression**: Profile before and after optimization changes
-
 ## Referencing external standards
 
 For comprehensive C# and .NET best practices, use #tool:mslearn to research:
