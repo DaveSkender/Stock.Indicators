@@ -187,16 +187,14 @@ public class SlopeHub
         // Calculate the range of indices that should have Line values
         int startIndex = currentIndex - LookbackPeriods + 1;
 
-        // Nullify ALL Line values before the current window
-        for (int p = 0; p < startIndex; p++)
+        // Nullify the SINGLE Line value that just exited the window (if any)
+        int exitedIndex = startIndex - 1;
+        if (exitedIndex >= 0 && exitedIndex < Cache.Count)
         {
-            if (p < Cache.Count)
+            SlopeResult exited = Cache[exitedIndex];
+            if (exited.Line is not null)
             {
-                SlopeResult existing = Cache[p];
-                if (existing.Line is not null)
-                {
-                    Cache[p] = existing with { Line = null };
-                }
+                Cache[exitedIndex] = exited with { Line = null };
             }
         }
 

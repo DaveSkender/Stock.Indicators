@@ -56,7 +56,7 @@ For detailed implementation guidance, see the scoped instruction files:
   - Interface selection guide
 - Series development: [.github/instructions/indicator-series.instructions.md](../../.github/instructions/indicator-series.instructions.md)
   - Batch processing patterns (canonical reference implementations)
-- General requirements: [.github/copilot-instructions.md](../../.github/copilot-instructions.md)
+- General requirements: [AGENTS.md](../../AGENTS.md)
   - Catalog registration
   - Documentation standards
   - Migration guide updates

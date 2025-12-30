@@ -5,7 +5,7 @@ description: ".NET development and coding standards"
 
 # .NET development instructions
 
-These instructions apply to all C# source code in the `src/` folder and cover coding standards, project organization, and implementation best practices. For broader repository guidance, custom agents, and architectural principles, see the [main Copilot instructions](../copilot-instructions.md).
+These instructions apply to all C# source code in the `src/` folder and cover coding standards, project organization, and implementation best practices. For broader repository guidance, custom agents, and architectural principles, see the [main AGENTS.md](../../AGENTS.md).
 
 ## Code style and formatting
 
@@ -65,68 +65,11 @@ All files use the **single namespace** `Skender.Stock.Indicators` declared as `n
 
 ## Performance and optimization
 
-### Numeric precision
+### Decimal precision
 
-- **Use `double` by default** for performance and allocation efficiency
-- Use `decimal` ONLY when price-sensitive precision is required (see [Project Principles §1: Mathematical Precision](../../docs/PRINCIPLES.md#1-mathematical-precision-nonnegotiable))
+- Use `decimal` instead of `double` for financial calculations
 - Never use `float` for indicator values
-- Guard division by variable denominators with ternary checks (e.g., `denom != 0 ? num / denom : double.NaN`)
-- Document precision requirements and NaN handling in XML comments
-
-### Bounded indicator precision
-
-For indicators with mathematically guaranteed bounds (e.g., 0-100 range for RSI, Stochastic):
-
-#### Guardrails
-
-- **No clamping** - Never use `Math.Clamp()`; boundary violations indicate formula errors
-- **No epsilon tolerance** - Bound checks must use exact comparison (`<=`, `>=`, `==`)
-- **No forced rounding** - Cannot use rounding to hide precision issues
-- **Algorithm-level fixes** - Address root cause in formulas, not symptoms; use algebraically stable algorithms
-
-#### Recommended approach: Boundary detection
-
-For oscillator formulas where values can exactly equal boundaries:
-
-```csharp
-// Algebraically stable: detect boundary conditions first
-double oscillator;
-if (q.Close == highHigh)
-{
-    oscillator = 100d;  // Exact value, no calculation
-}
-else if (q.Close == lowLow)
-{
-    oscillator = 0d;    // Exact value, no calculation
-}
-else
-{
-    oscillator = 100d * (q.Close - lowLow) / (highHigh - lowLow);
-}
-```
-
-**Why this works**:
-
-- Eliminates floating-point division when result is exactly at boundary
-- Produces mathematically correct values without precision errors
-- Non-boundary calculations remain unchanged
-
-#### Alternative: Formula reformulation
-
-For ratio-based formulas like RSI `100 - 100/(1+rs)`:
-
-```csharp
-// Reformulated: Algebraically equivalent, inherently bounded
-double rsi = avgLoss > 0
-    ? 100d * avgGain / (avgGain + avgLoss)
-    : 100;
-```
-
-**Why this works**:
-
-- Single division instead of nested operations
-- Numerator always ≤ denominator by construction
-- Result cannot exceed bounds mathematically
+- Document precision requirements in XML comments
 
 ### Collections and LINQ
 
@@ -234,49 +177,25 @@ For testing best practices, consult #tool:mslearn documentation.
 
 - Keep `.csproj` metadata accurate and up-to-date
 - Maintain version numbers per semantic versioning
-- Update `docs/_indicators/{Indicator}.md` when indicator APIs change
-- Document breaking changes in `src/MigrationGuide.V3.md` and update deprecation bridges in `src/Obsolete.V3.*.cs`
+- Document breaking changes in release notes
 
 ## Common pitfalls to avoid
 
-- **Off-by-one errors in warmup/lookback**: Double-check period calculations against manually verified spreadsheets
-- **Null or empty quotes**: Always validate input sequences and handle insufficient data gracefully
-- **Precision loss in chained calculations**: Favor `double` for performance; use `decimal` only when necessary
-- **Index out of range in streaming**: Guard shared spans and validate cache indices before access
-- **Performance regressions from allocations**: Avoid LINQ in hot loops; profile before/after optimization
-- **NaN handling**: Use `double.NaN` internally; guard division by zero; convert to `null` only at result boundaries
-- **Documentation drift**: Keep `docs/_indicators/*.md` synchronized with code changes
-- **Stateful streaming issues**: Ensure buffer state is validated and reset properly; test Insert/Remove scenarios
+- **Off-by-one errors**: Double-check lookback period calculations
+- **Null reference exceptions**: Validate data before access
+- **Precision loss**: Use `decimal` for financial data
+- **Index out of bounds**: Verify collection sizes before indexing
+- **Performance regression**: Profile before and after optimization changes
 
-## Key references and standards
+## Referencing external standards
 
-### Governance and architecture
+For comprehensive C# and .NET best practices, use #tool:mslearn to research:
 
-- **[Project Principles](../../docs/PRINCIPLES.md)** - Project principles: Mathematical Precision, Performance First, Comprehensive Validation, Test-Driven Quality, Documentation Excellence, and Scope & Stewardship
-- **[NaN handling policy](../../src/_common/README.md#nan-handling-policy)** - Division-by-zero guards, internal NaN propagation, and result boundary conversion
-- **[Copilot instructions](../copilot-instructions.md)** - Entry-point guidance for all development areas and custom agents
-
-### Implementation style guides
-
-- **[Series indicators](indicator-series.instructions.md)** - Batch processing baseline implementation (canonical reference for mathematical correctness)
-- **[Stream indicators](indicator-stream.instructions.md)** - Real-time stateful StreamHub processing with O(1) optimization patterns
-- **[Buffer indicators](indicator-buffer.instructions.md)** - Incremental buffering with BufferList interface patterns
-- **[Catalog entries](catalog.instructions.md)** - Indicator metadata and automation configuration
-
-### Formula and validation
-
-- **[Agent instructions](../../src/agents.md)** - CRITICAL formula sourcing hierarchy and mathematical precision requirements for coding agents
-
-### Testing and quality
-
-- **[Source code completion](code-completion.instructions.md)** - Unit testing, code formatting, linting, and pre-commit checklist
-- **[Performance testing](performance-testing.instructions.md)** - BenchmarkDotNet guidelines and regression detection
-
-### Tools and research
-
-- #tool:mslearn for C# conventions, .NET best practices, and performance optimization
-- #tool:context7 for NuGet package dependencies and external library documentation
-- #tool:github/web_search for indicator algorithms and external technical analysis standards
+- Official C# coding conventions
+- Performance optimization techniques
+- Security best practices
+- Asynchronous programming patterns
+- Design patterns and principles
 
 ---
 Last updated: December 7, 2025

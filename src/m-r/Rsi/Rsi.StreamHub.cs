@@ -3,11 +3,16 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Provides methods for calculating the Relative Strength Index (RSI) indicator.
 /// </summary>
+/// <remarks>
+/// This implementation uses O(1) incremental updates per quote via Wilder's smoothing.
+/// State restoration after rollback is properly handled in RollbackState() to maintain O(1) complexity
+/// for normal streaming while allowing O(n) rebuild when needed.
+/// </remarks>
 public class RsiHub
     : ChainProvider<IReusable, RsiResult>, IRsi
 {
-    private double avgGain;
-    private double avgLoss;
+    private double _avgGain = double.NaN;
+    private double _avgLoss = double.NaN;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="RsiHub"/> class.
@@ -29,7 +34,12 @@ public class RsiHub
 
     /// <inheritdoc/>
     public int LookbackPeriods { get; init; }
+
     /// <inheritdoc/>
+    /// <remarks>
+    /// O(1) complexity per quote using Wilder's smoothing for incremental updates.
+    /// The initial SMA calculation at lookback period is O(k) where k = lookbackPeriods.
+    /// </remarks>
     protected override (RsiResult result, int index)
         ToIndicator(IReusable item, int? indexHint)
     {
@@ -43,7 +53,7 @@ public class RsiHub
         // Get previous value for gain/loss calculation
         double prevValue = i > 0 ? ProviderCache[i - 1].Value : double.NaN;
 
-        // Calculate current gain/loss
+        // Calculate current gain/loss - O(1)
         double gain;
         double loss;
         if (!double.IsNaN(currentValue) && !double.IsNaN(prevValue))
@@ -56,137 +66,35 @@ public class RsiHub
             gain = loss = double.NaN;
         }
 
-        // Restore state if needed (after rollback)
-        if (i > LookbackPeriods && (double.IsNaN(avgGain) || double.IsNaN(avgLoss)))
+        // Re/initialize average gain/loss when needed - O(k)
+        // This happens at first calculable position OR when state is NaN
+        if (i >= LookbackPeriods && (double.IsNaN(_avgGain) || double.IsNaN(_avgLoss)))
         {
-            // Recalculate state by replaying from the first calculable position
-            double tempAvgGain = double.NaN;
-            double tempAvgLoss = double.NaN;
+            (double sumGain, double sumLoss) = CalculateInitialSums(i);
 
-            for (int p = LookbackPeriods; p < i; p++)
-            {
-                double pPrevVal = ProviderCache[p - 1].Value;
-                double pCurrVal = ProviderCache[p].Value;
-                double pGain;
-                double pLoss;
-                if (!double.IsNaN(pCurrVal) && !double.IsNaN(pPrevVal))
-                {
-                    pGain = pCurrVal > pPrevVal ? pCurrVal - pPrevVal : 0;
-                    pLoss = pCurrVal < pPrevVal ? pPrevVal - pCurrVal : 0;
-                }
-                else
-                {
-                    pGain = pLoss = double.NaN;
-                }
+            _avgGain = sumGain / LookbackPeriods;
+            _avgLoss = sumLoss / LookbackPeriods;
 
-                // Initialize or update averages
-                if (p == LookbackPeriods && (double.IsNaN(tempAvgGain) || double.IsNaN(tempAvgLoss)))
-                {
-                    // Initial SMA calculation
-                    double sumGain = 0;
-                    double sumLoss = 0;
-
-                    for (int q = p - LookbackPeriods + 1; q <= p; q++)
-                    {
-                        double qPrevVal = ProviderCache[q - 1].Value;
-                        double qCurrVal = ProviderCache[q].Value;
-                        double qGain;
-                        double qLoss;
-                        if (!double.IsNaN(qCurrVal) && !double.IsNaN(qPrevVal))
-                        {
-                            qGain = qCurrVal > qPrevVal ? qCurrVal - qPrevVal : 0;
-                            qLoss = qCurrVal < qPrevVal ? qPrevVal - qCurrVal : 0;
-                        }
-                        else
-                        {
-                            qGain = qLoss = double.NaN;
-                        }
-
-                        sumGain += qGain;
-                        sumLoss += qLoss;
-                    }
-
-                    tempAvgGain = sumGain / LookbackPeriods;
-                    tempAvgLoss = sumLoss / LookbackPeriods;
-                }
-                else if (p > LookbackPeriods && !double.IsNaN(tempAvgGain) && !double.IsNaN(tempAvgLoss))
-                {
-                    if (!double.IsNaN(pGain))
-                    {
-                        // EMA-style update
-                        tempAvgGain = ((tempAvgGain * (LookbackPeriods - 1)) + pGain) / LookbackPeriods;
-                        tempAvgLoss = ((tempAvgLoss * (LookbackPeriods - 1)) + pLoss) / LookbackPeriods;
-                    }
-                    else
-                    {
-                        tempAvgGain = tempAvgLoss = double.NaN;
-                    }
-                }
-            }
-
-            avgGain = tempAvgGain;
-            avgLoss = tempAvgLoss;
+            rsi = CalculateRsi(_avgGain, _avgLoss);
         }
-
-        // Re/initialize average gain/loss when needed
-        if (i >= LookbackPeriods && (double.IsNaN(avgGain) || double.IsNaN(avgLoss)))
+        // Incremental update using Wilder's smoothing - O(1)
+        else if (i > LookbackPeriods)
         {
-            double sumGain = 0;
-            double sumLoss = 0;
-
-            // Sum gains and losses over lookback period
-            // Note: NaN values will contaminate the sum, as intended
-            for (int p = i - LookbackPeriods + 1; p <= i; p++)
+            if (!double.IsNaN(gain) && !double.IsNaN(_avgGain) && !double.IsNaN(_avgLoss))
             {
-                double pPrevVal = ProviderCache[p - 1].Value;
-                double pCurrVal = ProviderCache[p].Value;
-                double pGain;
-                double pLoss;
-                if (!double.IsNaN(pCurrVal) && !double.IsNaN(pPrevVal))
-                {
-                    pGain = pCurrVal > pPrevVal ? pCurrVal - pPrevVal : 0;
-                    pLoss = pCurrVal < pPrevVal ? pPrevVal - pCurrVal : 0;
-                }
-                else
-                {
-                    pGain = pLoss = double.NaN;
-                }
+                // Wilder's smoothing: avgGain = ((prevAvgGain * (n-1)) + currentGain) / n
+                _avgGain = ((_avgGain * (LookbackPeriods - 1)) + gain) / LookbackPeriods;
+                _avgLoss = ((_avgLoss * (LookbackPeriods - 1)) + loss) / LookbackPeriods;
 
-                sumGain += pGain;
-                sumLoss += pLoss;
+                rsi = CalculateRsi(_avgGain, _avgLoss);
             }
-
-            avgGain = sumGain / LookbackPeriods;
-            avgLoss = sumLoss / LookbackPeriods;
-
-            rsi = !double.IsNaN(avgGain / avgLoss)
-                  ? avgLoss > 0 ? 100 - (100 / (1 + (avgGain / avgLoss))) : 100
-                  : null;
-        }
-        // Calculate RSI incrementally
-        else if (i > LookbackPeriods && !double.IsNaN(avgGain) && !double.IsNaN(avgLoss))
-        {
-            if (!double.IsNaN(gain))
+            else if (double.IsNaN(gain))
             {
-                avgGain = ((avgGain * (LookbackPeriods - 1)) + gain) / LookbackPeriods;
-                avgLoss = ((avgLoss * (LookbackPeriods - 1)) + loss) / LookbackPeriods;
-
-                if (avgLoss > 0)
-                {
-                    double rs = avgGain / avgLoss;
-                    rsi = 100 - (100 / (1 + rs));
-                }
-                else
-                {
-                    rsi = 100;
-                }
+                // NaN input contaminates state
+                _avgGain = double.NaN;
+                _avgLoss = double.NaN;
             }
-            else
-            {
-                // Reset state if we hit NaN
-                avgGain = double.NaN;
-                avgLoss = double.NaN;
-            }
+            // else: state is NaN, will be re-initialized when valid data appears
         }
 
         // candidate result
@@ -197,12 +105,115 @@ public class RsiHub
         return (r, i);
     }
 
+    /// <summary>
+    /// Restores the RSI state (avgGain, avgLoss) up to the specified timestamp.
+    /// Called during Insert/Remove operations and explicit Rebuild() calls.
+    /// </summary>
+    /// <remarks>
+    /// This method rebuilds the state from the FIRST calculable position (LookbackPeriods)
+    /// up to the position just before the rollback timestamp. This ensures that when
+    /// ToIndicator is subsequently called during replay, the state is correct for
+    /// incremental updates.
+    /// </remarks>
     /// <inheritdoc/>
     protected override void RollbackState(DateTime timestamp)
     {
-        // Reset state - will be recalculated during rebuild
-        avgGain = double.NaN;
-        avgLoss = double.NaN;
+        // Reset state
+        _avgGain = double.NaN;
+        _avgLoss = double.NaN;
+
+        // Find target index in ProviderCache
+        int index = ProviderCache.IndexGte(timestamp);
+        if (index == -1)
+        {
+            index = ProviderCache.Count;
+        }
+
+        // Target is the position just before where rebuild will start
+        int targetIndex = index - 1;
+
+        // Not enough data to initialize state
+        if (targetIndex < LookbackPeriods)
+        {
+            return;
+        }
+
+        // Calculate initial averages at first calculable position (index = LookbackPeriods)
+        (double sumGain, double sumLoss) = CalculateInitialSums(LookbackPeriods);
+        _avgGain = sumGain / LookbackPeriods;
+        _avgLoss = sumLoss / LookbackPeriods;
+
+        // Apply Wilder's smoothing for subsequent positions up to targetIndex
+        for (int p = LookbackPeriods + 1; p <= targetIndex; p++)
+        {
+            double pPrevVal = ProviderCache[p - 1].Value;
+            double pCurrVal = ProviderCache[p].Value;
+
+            if (!double.IsNaN(pCurrVal) && !double.IsNaN(pPrevVal))
+            {
+                double pGain = pCurrVal > pPrevVal ? pCurrVal - pPrevVal : 0;
+                double pLoss = pCurrVal < pPrevVal ? pPrevVal - pCurrVal : 0;
+
+                _avgGain = ((_avgGain * (LookbackPeriods - 1)) + pGain) / LookbackPeriods;
+                _avgLoss = ((_avgLoss * (LookbackPeriods - 1)) + pLoss) / LookbackPeriods;
+            }
+            else
+            {
+                // NaN contaminates state - will be re-initialized in ToIndicator
+                _avgGain = double.NaN;
+                _avgLoss = double.NaN;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Calculates the initial sum of gains and losses over the lookback period.
+    /// </summary>
+    private (double sumGain, double sumLoss) CalculateInitialSums(int endIndex)
+    {
+        double sumGain = 0;
+        double sumLoss = 0;
+
+        for (int p = endIndex - LookbackPeriods + 1; p <= endIndex; p++)
+        {
+            double pPrevVal = ProviderCache[p - 1].Value;
+            double pCurrVal = ProviderCache[p].Value;
+
+            if (!double.IsNaN(pCurrVal) && !double.IsNaN(pPrevVal))
+            {
+                sumGain += pCurrVal > pPrevVal ? pCurrVal - pPrevVal : 0;
+                sumLoss += pCurrVal < pPrevVal ? pPrevVal - pCurrVal : 0;
+            }
+            else
+            {
+                // NaN contaminates the sum - exit early
+                return (double.NaN, double.NaN);
+            }
+        }
+
+        return (sumGain, sumLoss);
+    }
+
+    /// <summary>
+    /// Calculates RSI from average gain and loss.
+    /// Matches Series parity by checking division result for NaN.
+    /// </summary>
+    private static double? CalculateRsi(double avgGain, double avgLoss)
+    {
+        // Check if division would produce NaN (e.g., 0/0 case)
+        // This matches Series parity which checks !double.IsNaN(avgGain / avgLoss)
+        if (double.IsNaN(avgGain / avgLoss))
+        {
+            return null;
+        }
+
+        if (avgLoss > 0)
+        {
+            double rs = avgGain / avgLoss;
+            return 100 - (100 / (1 + rs));
+        }
+
+        return 100;
     }
 }
 
