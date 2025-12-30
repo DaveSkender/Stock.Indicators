@@ -56,8 +56,13 @@ _ReSharper*/
 # OS artifacts
 .DS_Store
 
-# Misc. caches
+# Misc. other
+.bundle/
 .config/
 .angular/
 .codacy/
 .ruby-lsp/
+.vitepress/cache/
+.vitepress/dist/
+_site/
+vendor/
