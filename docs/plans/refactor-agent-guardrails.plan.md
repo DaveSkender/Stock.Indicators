@@ -37,7 +37,7 @@ This plan provides a complete roadmap to modernize the Stock Indicators reposito
 
 | Location | File | Purpose | Lines | Status |
 | ---------- | ------ | --------- | ------- | -------- |
-| Root | `AGENTS.md` | Comprehensive repository instructions | 252 | ✅ Created |
+| Root | `AGENTS.md` | Comprehensive repository instructions | 296 | ✅ Created |
 | `src/` | `AGENTS.md` | Source code quick reference | 40 | ✅ Created |
 | `tests/` | `AGENTS.md` | Test suite quick reference | 47 | ✅ Created |
 | `docs/` | `AGENTS.md` | Documentation development | 33 | ✅ Created |
@@ -81,7 +81,7 @@ This plan provides a complete roadmap to modernize the Stock Indicators reposito
 
 - 10 instruction files (~3,300 lines)
 - 8 custom agent profiles (~1,800 lines)
-- 4 AGENTS.md files (~372 lines) ✅ Created
+- 4 AGENTS.md files (~372 lines)
 - **Total: ~5,500 lines of AI guidance**
 
 ### 1.2 Official specifications reference
@@ -89,7 +89,7 @@ This plan provides a complete roadmap to modernize the Stock Indicators reposito
 | Standard | URL | Version | Key requirements |
 | ---------- | ----- | --------- | ------------------ |
 | **Agent Skills** | [agentskills.io/specification](https://agentskills.io/specification) | 1.0 | YAML frontmatter with `name` and `description`; directory must match name; body < 500 lines |
-| **AGENTS.md** | [agents.md](https://agents.md) | 1.0 | Plain markdown, no required fields; sections for setup, build, test, code style; closest file wins |
+| **AGENTS.md** | [agents.md (website)](https://agents.md) | 1.0 | Plain markdown, no required fields; sections for setup, build, test, code style; closest file wins |
 | **GitHub Copilot Custom Instructions** | [docs.github.com](https://docs.github.com/en/copilot/customizing-copilot/adding-repository-custom-instructions-for-github-copilot) | 2025 | Supports `*.instructions.md` with `applyTo` globs, and `AGENTS.md` files |
 | **Example Skills Repository** | [github.com/anthropics/skills](https://github.com/anthropics/skills) | Active | Reference implementations for skill structure |
 
@@ -296,7 +296,7 @@ description: Implement Series-style batch indicators with mathematical precision
 2. Decision tree for file structure
 3. Reference implementations (EMA, SMA, ATRStop, Alligator)
 4. Testing checklist (StaticSeriesTestBase inheritance, precision)
-5. Links to `src/agents.md` for formula rules
+5. Links to `src/AGENTS.md` for formula rules
 
 **Authoring note**: Write for autonomous AI agents. Use imperative directives ("Validate parameters", "Initialize results"), not procedural steps ("First, you should..."). Assume agents will make reasonable inferences.
 
@@ -379,7 +379,7 @@ description: Testing conventions for Stock Indicators. Use for test naming (Meth
 
 The AGENTS.md files have been created and verified against size limits from section 1.3.
 
-#### Root AGENTS.md (251 lines, 15,834 chars) ✅ WITHIN LIMITS
+#### Root AGENTS.md (296 lines, 18,105 chars) ✅ WITHIN LIMITS
 
 **Status**: ✅ Well under 28,000 target / 30,000 limit
 
@@ -428,10 +428,6 @@ Current structure includes:
 After skills migration is complete, remove:
 
 ```text
-# Already deleted ✅
-.github/copilot-instructions.md                    # Migrated to AGENTS.md
-
-# To delete in Phase 3
 .github/instructions/dotnet.instructions.md        # Content to AGENTS.md + skills
 .github/instructions/indicator-series.instructions.md
 .github/instructions/indicator-buffer.instructions.md
@@ -453,11 +449,9 @@ After skills migration is complete, remove:
 
 ```text
 .github/instructions/markdown.instructions.md    # applyTo: **/*.md
-.github/instructions/docs.instructions.md         # applyTo: docs/**
-.github/instructions/codacy.instructions.md       # applyTo: ** (MCP config)
+.github/instructions/docs.instructions.md        # applyTo: docs/**
+.github/instructions/codacy.instructions.md      # applyTo: ** (MCP config)
 ```
-
-**Note**: The original plan mentioned keeping `src/agents.md` and `tests/agents.md` for constitutional rules. However, the current implementation uses `src/AGENTS.md` and `tests/AGENTS.md` (uppercase) as the subfolder agent files. The lowercase files have been removed to avoid case-sensitivity issues on Windows.
 
 ---
 
@@ -467,19 +461,13 @@ After skills migration is complete, remove:
 
 | Task | Description | Status |
 | ------ | ------------- | -------- |
-| 1.1 | Create root `AGENTS.md` | ✅ Created (251 lines, 15,834 chars) |
+| 1.1 | Create root `AGENTS.md` | ✅ Created (296 lines, 18,105 chars) |
 | 1.2 | Create `src/AGENTS.md` | ✅ Created (40 lines) |
 | 1.3 | Create `tests/AGENTS.md` | ✅ Created (47 lines) |
 | 1.4 | Create `docs/AGENTS.md` | ✅ Created (33 lines) |
 | 1.5 | Remove duplicate lowercase agents.md files | ✅ Complete |
 | 1.6 | Update all copilot-instructions.md references | ✅ Complete |
-| 1.7 | **Verify root AGENTS.md ≤ 30,000 chars** | ✅ Verified (15,834 chars) |
-
-**Notes on completed work**:
-
-- Root AGENTS.md is 15,834 characters, well under 28,000 target / 30,000 limit
-- Subfolder AGENTS.md files are within 75-line limit
-- All references to `.github/copilot-instructions.md` have been updated to `AGENTS.md`
+| 1.7 | **Verify root AGENTS.md ≤ 30,000 chars** | ✅ Verified (18,105 chars) |
 
 ### Phase 2: Core skills (Estimated: 4 hours)
 
@@ -603,7 +591,7 @@ public static IReadOnlyList<TResult> ToIndicator(
 
 ## Constitutional rules
 
-**Warning**: See `src/agents.md` for formula protection rules.
+**Warning**: See [src/AGENTS.md](../../../src/AGENTS.md) for formula protection rules.
 Series is the canonical source of mathematical truth.
 ````
 
@@ -832,19 +820,19 @@ See `references/performance-patterns.md` for O(1) optimization techniques.
 | ---------- | ----- |
 | Agent Skills Specification | <https://agentskills.io/specification> |
 | Agent Skills Examples | <https://github.com/anthropics/skills> |
-| AGENTS.md Standard | <https://agents.md> |
+| AGENTS.md Standard | <https://agents.md> (website) |
 | GitHub Copilot Custom Instructions | <https://docs.github.com/en/copilot/customizing-copilot/adding-repository-custom-instructions-for-github-copilot> |
 | GitHub Copilot Agent Skills | <https://docs.github.com/en/copilot/concepts/agents/about-agent-skills> |
 | VS Code Agent Skills | <https://code.visualstudio.com/docs/copilot/customization/agent-skills> |
-| Best Practices for AGENTS.md | <https://github.blog/ai-and-ml/github-copilot/how-to-write-a-great-agents-md-lessons-from-over-2500-repositories/> |
+| Best Practices for AGENTS.md | <https://github.blog/ai-and-ml/github-copilot/how-to-write-a-great-agents-md-lessons-from-over-2500-repositories/> (website) |
 | Coding Agent Best Practices | <https://docs.github.com/en/copilot/tutorials/coding-agent/get-the-best-results> |
 
 ## Appendix B: Key files in this repository
 
 | File | Purpose | Keep/Migrate |
 | ------ | --------- | -------------- |
-| `src/agents.md` | Formula protection rules | **KEEP** |
-| `tests/agents.md` | Test naming and precision | **KEEP** |
+| `src/AGENTS.md` | Formula protection rules | **KEEP** |
+| `tests/AGENTS.md` | Test naming and precision | **KEEP** |
 | `docs/PRINCIPLES.md` | Project principles | **KEEP** |
 | `src/_common/README.md` | NaN handling policy | **KEEP** |
 | `.editorconfig` | Code formatting | **KEEP** |

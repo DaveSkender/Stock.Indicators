@@ -145,7 +145,7 @@ Series indicators are the **canonical reference** for mathematical correctness. 
 3. Established technical analysis textbooks
 4. **Never use**: TradingView, uncited calculators
 
-**Reference**: [Formula sourcing hierarchy](../../src/agents.md#formula-change-authority)
+**Reference**: [Formula sourcing hierarchy](../../src/AGENTS.md#formula-change-authority)
 
 ### Member ordering
 

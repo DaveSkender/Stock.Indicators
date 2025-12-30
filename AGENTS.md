@@ -127,7 +127,7 @@ See [src/_common/README.md](../src/_common/README.md#nan-handling-policy) for co
 
 This library follows the [guiding principles](https://github.com/DaveSkender/Stock.Indicators/discussions/648) that balance usability, performance, precision, and security. The six core principles emphasize **Mathematical Precision** (non-negotiable), **Performance First** (critical), **Comprehensive Validation**, **Test-Driven Quality**, **Documentation Excellence**, and **Scope & Stewardship**.
 
-See [PRINCIPLES.md](../docs/PRINCIPLES.md) for complete constitutional details and the **[.NET development instructions](instructions/dotnet.instructions.md#key-references-and-standards)** for implementation-specific guidance.
+See [PRINCIPLES.md](docs/PRINCIPLES.md) for complete constitutional details and the **[.NET development instructions](.github/instructions/dotnet.instructions.md#key-references-and-standards)** for implementation-specific guidance.
 
 ## Scoped instruction files
 
@@ -139,7 +139,7 @@ This repository uses scoped instruction files for specific development areas, au
 | `src/**/*.*Series.cs,tests/**/*.*Series.Tests.cs` | [indicator-series.instructions.md](instructions/indicator-series.instructions.md) | Series-style indicator development and testing |
 | `src/**/*.StreamHub.cs,tests/**/*.StreamHub.Tests.cs` | [indicator-stream.instructions.md](instructions/indicator-stream.instructions.md) | Stream-style real-time indicator development |
 | `src/**/*.BufferList.cs,tests/**/*.BufferList.Tests.cs` | [indicator-buffer.instructions.md](instructions/indicator-buffer.instructions.md) | Buffer-style incremental indicator development |
-| `src/**` | [agents.md](../src/agents.md) | **CRITICAL**: Formula change rules and mathematical precision requirements |
+| `src/**` | [AGENTS.md](src/AGENTS.md) | **CRITICAL**: Formula change rules and mathematical precision requirements |
 | `**/src/**/*.Catalog.cs,**/tests/**/*.Catalog.Tests.cs` | [catalog.instructions.md](instructions/catalog.instructions.md) | Indicator catalog entry conventions |
 | `src/**,tests/**` | [code-completion.instructions.md](instructions/code-completion.instructions.md) | Testing, formatting, linting, and pre-commit checklist |
 | `**/*.md` | [markdown.instructions.md](instructions/markdown.instructions.md) | Markdown authoring and formatting standards |
