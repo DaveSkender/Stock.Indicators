@@ -196,10 +196,13 @@ public class RsiHub
 
     /// <summary>
     /// Calculates RSI from average gain and loss.
+    /// Matches Series parity by checking division result for NaN.
     /// </summary>
     private static double? CalculateRsi(double avgGain, double avgLoss)
     {
-        if (double.IsNaN(avgGain) || double.IsNaN(avgLoss))
+        // Check if division would produce NaN (e.g., 0/0 case)
+        // This matches Series parity which checks !double.IsNaN(avgGain / avgLoss)
+        if (double.IsNaN(avgGain / avgLoss))
         {
             return null;
         }

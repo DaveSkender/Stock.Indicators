@@ -26,9 +26,12 @@ public static partial class Quotes
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <returns>A list of converted quotes in double precision.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when quotes is null.</exception>
     internal static List<QuoteD> ToQuoteDList(
         this IReadOnlyList<IQuote> quotes)
     {
+        ArgumentNullException.ThrowIfNull(quotes);
+
         int length = quotes.Count;
         List<QuoteD> result = new(length);
 
