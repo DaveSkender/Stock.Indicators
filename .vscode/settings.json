@@ -5,28 +5,6 @@
   "chat.useNestedAgentsMdFiles": true,
   "chat.customAgentInSubagent.enabled": true,
   "dotnet.defaultSolution": "Stock.Indicators.sln",
-  "github.copilot.chat.githubMcpServer.enabled": true,
-  "github.copilot.chat.githubMcpServer.readonly": true,
-  "github.copilot.chat.githubMcpServer.toolsets": [
-    "default",
-    "context",
-    "orgs",
-    "users",
-    "repos",
-    "issues",
-    "pull_requests",
-    "labels",
-    "actions",
-    "workflows",
-    "discussions",
-    "experiments",
-    "projects",
-    "copilot",
-    "copilot_spaces",
-    "github_support_docs_search",
-    "web_search"
-  ],
-  "github.copilot.chat.tools.memory.enabled": true,  
   "files.associations": {
     "*.md": "markdown"
   },
