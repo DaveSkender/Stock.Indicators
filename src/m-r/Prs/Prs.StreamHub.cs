@@ -42,6 +42,7 @@ public class PrsHub
 
         Reinitialize();
     }
+
     /// <inheritdoc/>
     protected override (PrsResult result, int index)
         ToIndicator(IReusable item, int? indexHint)
@@ -109,14 +110,23 @@ public static partial class Prs
     /// </param>
     /// <returns>A PRS hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when either provider is null.</exception>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="lookbackPeriods"/> is invalid.</exception>
     public static PrsHub ToPrsHub(
         this IChainProvider<IReusable> providerEval,
         IChainProvider<IReusable> providerBase,
         int lookbackPeriods = int.MinValue)
-    {
-        ArgumentNullException.ThrowIfNull(providerEval);
-        ArgumentNullException.ThrowIfNull(providerBase);
-        return new PrsHub(providerEval, providerBase, lookbackPeriods);
-    }
+        => new(providerEval, providerBase, lookbackPeriods);
 
+    // for testing purposes only
+    // TODO: should this be public, like the other ToXHub methods?
+    internal static PrsHub ToPrsHub(
+        this IReadOnlyList<IQuote> quotesEval,
+        IReadOnlyList<IQuote> quotesBase,
+        int lookbackPeriods)
+    {
+        QuoteHub quoteHubEval = quotesEval.ToQuoteHub();
+        QuoteHub quoteHubBase = quotesBase.ToQuoteHub();
+
+        return quoteHubEval.ToPrsHub(quoteHubBase, lookbackPeriods);
+    }
 }

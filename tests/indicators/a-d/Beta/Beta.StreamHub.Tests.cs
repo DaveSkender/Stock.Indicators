@@ -200,4 +200,6 @@ public class BetaHubTests : StreamHubTestBase, ITestPairsObserver
         quoteHubEval.EndTransmission();
         quoteHubMrkt.EndTransmission();
     }
+
+    public void PairsObserver_WithSameProvider_HasFlatlineResults() => throw new NotImplementedException();
 }

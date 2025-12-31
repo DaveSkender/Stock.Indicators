@@ -3,12 +3,11 @@ namespace Skender.Stock.Indicators;
 // CORRELATION (STREAM HUB)
 
 /// <summary>
-/// Provides methods for calculating the correlation coefficient.
+/// Provides streaming hub calculations for correlation coefficient.
 /// </summary>
 public class CorrelationHub
     : PairsProvider<IReusable, CorrResult>, ICorrelation
 {
-
     /// <summary>
     /// Initializes a new instance of the <see cref="CorrelationHub"/> class.
     /// </summary>
@@ -33,6 +32,7 @@ public class CorrelationHub
 
     /// <inheritdoc/>
     public int LookbackPeriods { get; init; }
+
     /// <inheritdoc/>
     protected override (CorrResult result, int index)
         ToIndicator(IReusable item, int? indexHint)
@@ -73,21 +73,35 @@ public class CorrelationHub
 public static partial class Correlation
 {
     /// <summary>
-    /// Creates a Correlation hub from two synchronized chain providers.
+    /// Creates a Correlation hub with chain providers sources.
+    /// </summary>
+    /// <remarks>
     /// Note: This implementation requires both providers to be synchronized (same timestamps).
     /// Both providers must output the same result type.
-    /// For real-time correlation, consider using CorrelationList for more flexibility.
-    /// </summary>
+    /// <para>If providers contain historical data, this hub will fast-forward its cache.</para>
+    /// </remarks>
     /// <param name="providerA">The first chain provider.</param>
     /// <param name="providerB">The second chain provider.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <returns>A Correlation hub.</returns>
+    /// <returns>A chain-sourced instance of <see cref="CorrelationHub"/>.</returns>
     /// <exception cref="ArgumentNullException">Thrown when either provider is null.</exception>
-    /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when the <paramref name="lookbackPeriods"/> are invalid.</exception>
     public static CorrelationHub ToCorrelationHub(
         this IChainProvider<IReusable> providerA,
         IChainProvider<IReusable> providerB,
         int lookbackPeriods)
         => new(providerA, providerB, lookbackPeriods);
 
+    // for testing purposes only
+    // TODO: should this be public, like the other ToXHub methods?
+    internal static CorrelationHub ToCorrelationHub(
+        this IReadOnlyList<IQuote> quotesA,
+        IReadOnlyList<IQuote> quotesB,
+        int lookbackPeriods)
+    {
+        QuoteHub quoteHubEval = quotesA.ToQuoteHub();
+        QuoteHub quoteHubMrkt = quotesB.ToQuoteHub();
+
+        return quoteHubEval.ToCorrelationHub(quoteHubMrkt, lookbackPeriods);
+    }
 }

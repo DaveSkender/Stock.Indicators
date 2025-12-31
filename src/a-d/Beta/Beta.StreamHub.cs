@@ -73,6 +73,7 @@ public class BetaHub
 
     /// <inheritdoc/>
     public BetaType Type { get; init; }
+
     /// <inheritdoc/>
     protected override (BetaResult result, int index)
         ToIndicator(IReusable item, int? indexHint)
@@ -411,5 +412,18 @@ public static partial class Beta
         int lookbackPeriods,
         BetaType type = BetaType.Standard)
         => new(providerEval, providerMrkt, lookbackPeriods, type);
+
+    // for testing purposes only
+    // TODO: should this be public, like the other ToXHub methods?
+    internal static BetaHub ToBetaHub(
+        this IReadOnlyList<IQuote> quotesEval,
+        IReadOnlyList<IQuote> quotesMrkt,
+        int lookbackPeriods)
+    {
+        QuoteHub quoteHubEval = quotesEval.ToQuoteHub();
+        QuoteHub quoteHubMrkt = quotesMrkt.ToQuoteHub();
+
+        return quoteHubEval.ToBetaHub(quoteHubMrkt, lookbackPeriods);
+    }
 
 }

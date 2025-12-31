@@ -1,3 +1,4 @@
+
 namespace StreamHubs;
 
 [TestClass]
@@ -6,31 +7,75 @@ public class PrsHubTests : StreamHubTestBase, ITestPairsObserver
     [TestMethod]
     public void PairsObserver_SynchronizedProviders_MatchesSeriesExactly()
     {
-        // Test dual-provider pattern with direct providers
+        const int lookbackPeriods = 10;
+
+        IReadOnlyList<Quote> quotesEval = Quotes;
+        IReadOnlyList<Quote> quotesBase = OtherQuotes;
+
+        List<Quote> quotesEvalRevised = quotesEval.ToList(); quotesEvalRevised.RemoveAt(removeAtIndex);
+        List<Quote> quotesBaseRevised = quotesBase.ToList(); quotesBaseRevised.RemoveAt(removeAtIndex);
+
+        // setup quote provider hubs
         QuoteHub quoteHubEval = new();
         QuoteHub quoteHubBase = new();
 
-        // Add same quotes to both providers
-        quoteHubEval.Add(Quotes);
-        quoteHubBase.Add(Quotes);
+        // prefill quotes at providers
+        quoteHubEval.Add(quotesEval.Take(20));
+        quoteHubBase.Add(quotesBase.Take(20));
 
-        // Create PRS hub from two providers
-        PrsHub prsHub = quoteHubEval.ToPrsHub(quoteHubBase);
+        // initialize observer
+        PrsHub observer = quoteHubEval.ToPrsHub(quoteHubBase, lookbackPeriods);
 
-        // Verify results
-        prsHub.Results.Should().NotBeEmpty();
-        prsHub.Results.Count.Should().Be(Quotes.Count);
+        // fetch initial results (early)
+        IReadOnlyList<PrsResult> sut = observer.Results;
 
-        // Verify calculation works
-        PrsResult lastResult = prsHub.Results[^1];
-        lastResult.Should().NotBeNull();
-        lastResult.Prs.Should().NotBeNull();
+        // emulate adding quotes to provider hub
+        for (int i = 20; i < quotesCount; i++)
+        {
+            // skip one (add later)
+            if (i == 80) { continue; }
 
-        // When comparing identical series, PRS should be exactly 1.0
-        lastResult.Prs.Should().Be(1.0);
+            Quote qe = quotesEval[i];
+            Quote qb = quotesBase[i];
 
-        // Cleanup
-        prsHub.Unsubscribe();
+            quoteHubEval.Add(qe);
+            quoteHubBase.Add(qb);
+
+            // resend duplicate quotes for eval
+            if (i is > 95 and < 103) { quoteHubEval.Add(qe); }
+
+            // resend duplicate quotes for base, inconsistently
+            if (i is > 100 and < 105) { quoteHubEval.Add(qb); }
+        }
+
+        // late arrival, should equal series
+        quoteHubEval.Insert(quotesEval[80]);
+        quoteHubBase.Insert(quotesBase[80]);
+
+        IReadOnlyList<PrsResult> expectedOriginal = quotesEval.ToPrs(quotesBase, lookbackPeriods);
+        sut.IsExactly(expectedOriginal);
+
+        // delete, should equal series (revised)
+        quoteHubEval.Remove(quotesEval[removeAtIndex]);
+        quoteHubBase.Remove(quotesBase[removeAtIndex]);
+
+        // TODO: test and handle matching removals in paired observers
+        // Removing from one side should auto-remove from both sides; however, there's a challenging synchronization issue here overall.
+        // If there's a "fix" situation, where one side is then restored we'd need to remember and restore.
+        // Rules we really need:
+        // 1. Adding a quote to one side is "staged" but not finalized until matching quote is added to other side.
+        // 2. Removing a quote from one side automatically re-"stages" from other side (waiting)
+        // 3. It's likely okay to "skip" staged items and continue with the next matching pairs, which aligns with removing an old one that's now staged.
+
+        // also revise quotes for expected calculation
+        IReadOnlyList<PrsResult> expectedRevised
+            = quotesEvalRevised.ToPrs(quotesBaseRevised, lookbackPeriods);
+
+        sut.IsExactly(expectedRevised);
+        sut.Should().HaveCount(quotesCount - 1);
+
+        // cleanup
+        observer.Unsubscribe();
         quoteHubEval.EndTransmission();
         quoteHubBase.EndTransmission();
     }
@@ -131,33 +176,16 @@ public class PrsHubTests : StreamHubTestBase, ITestPairsObserver
     }
 
     [TestMethod]
-    public void ConsistentWithSeriesCalculation()
+    public void PairsObserver_WithSameProvider_HasFlatlineResults()
     {
-        QuoteHub quoteHubEval = new();
-        QuoteHub quoteHubBase = new();
+        PrsHub prsHub = Quotes.ToPrsHub(Quotes, 20);
+        IReadOnlyList<PrsResult> sut = prsHub.Results;
 
-        quoteHubEval.Add(Quotes);
-        quoteHubBase.Add(Quotes);
-
-        PrsHub prsHub = quoteHubEval.ToPrsHub(quoteHubBase, 20);
-
-        // Compare with series calculation
-        List<PrsResult> seriesResults = Quotes.ToPrs(Quotes, 20).ToList();
-
-        prsHub.Results.Should().HaveCount(seriesResults.Count);
-
-        // Hub and series should produce identical results
-        for (int i = 0; i < prsHub.Results.Count && i < 100; i++)
-        {
-            PrsResult hubResult = prsHub.Results[i];
-            PrsResult seriesResult = seriesResults[i];
-
-            hubResult.Prs.Should().Be(seriesResult.Prs, $"Prs at index {i}");
-            hubResult.PrsPercent.Should().Be(seriesResult.PrsPercent, $"PrsPercent at index {i}");
-        }
-
-        prsHub.Unsubscribe();
-        quoteHubEval.EndTransmission();
-        quoteHubBase.EndTransmission();
+        // all values should be flatlined
+        sut.TakeLast(quotesCount - 20)
+           .Should().AllSatisfy(r => {
+               r.Prs.Should().Be(1);
+               r.PrsPercent.Should().Be(0);
+           });
     }
 }

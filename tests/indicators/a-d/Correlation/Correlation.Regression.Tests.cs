@@ -5,33 +5,14 @@ public class CorrelationTests : RegressionTestBase<CorrResult>
 {
     public CorrelationTests() : base("corr.standard.json") { }
 
-    [TestMethod]
-    public override void Series()
-    {
-        // Correlation requires two IReusable series - use same quotes for both sourceEval and sourceMrkt
-        IReadOnlyList<IReusable> sourceEval = Quotes.Cast<IReusable>().ToList();
-        IReadOnlyList<IReusable> sourceMrkt = Quotes.Cast<IReusable>().ToList();
-        sourceEval.ToCorrelation(sourceMrkt, 50).IsExactly(Expected);
-    }
+    private const int n = 14;
 
     [TestMethod]
-    public override void Buffer()
-    {
-        IReadOnlyList<IReusable> sourceEval = Quotes.Cast<IReusable>().ToList();
-        IReadOnlyList<IReusable> sourceMrkt = Quotes.Cast<IReusable>().ToList();
-        sourceEval.ToCorrelationList(sourceMrkt, 50).IsExactly(Expected);
-    }
+    public override void Series() => Quotes.ToCorrelation(OtherQuotes, n).IsExactly(Expected);
 
     [TestMethod]
-    public override void Stream()
-    {
-        // Create two separate quote hubs for dual-provider pattern
-        QuoteHub quoteHubEval = new();
-        QuoteHub quoteHubMrkt = new();
+    public override void Buffer() => Quotes.ToCorrelationList(OtherQuotes, n).IsExactly(Expected);
 
-        quoteHubEval.Add(Quotes);
-        quoteHubMrkt.Add(Quotes);
-
-        quoteHubEval.ToCorrelationHub(quoteHubMrkt, 50).Results.IsExactly(Expected);
-    }
+    [TestMethod]
+    public override void Stream() => Quotes.ToCorrelationHub(OtherQuotes, n).Results.IsExactly(Expected);
 }

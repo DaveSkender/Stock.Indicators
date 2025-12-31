@@ -138,4 +138,6 @@ public class CorrelationHubTests : StreamHubTestBase, ITestPairsObserver
         quoteHubA.EndTransmission();
         quoteHubB.EndTransmission();
     }
+
+    public void PairsObserver_WithSameProvider_HasFlatlineResults() => throw new NotImplementedException();
 }
