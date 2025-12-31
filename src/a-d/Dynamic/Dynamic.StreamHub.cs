@@ -1,20 +1,11 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Provides methods for calculating the McGinley Dynamic indicator.
+/// Streaming hub for calculating McGinley Dynamic indicator.
 /// </summary>
 public class DynamicHub
     : ChainProvider<IReusable, DynamicResult>, IDynamic
 {
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="DynamicHub"/> class.
-    /// </summary>
-    /// <param name="provider">The chain provider.</param>
-    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <param name="kFactor">The smoothing factor for the calculation.</param>
-    /// <exception cref="ArgumentNullException">Thrown when the provider is null.</exception>
-    /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods or kFactor are invalid.</exception>
     internal DynamicHub(
         IChainProvider<IReusable> provider,
         int lookbackPeriods,

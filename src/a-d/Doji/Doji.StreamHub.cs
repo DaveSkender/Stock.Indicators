@@ -8,16 +8,7 @@ namespace Skender.Stock.Indicators;
 public class DojiHub
     : StreamHub<IQuote, CandleResult>, IDoji
 {
-    private readonly double _maxPriceChangePercentDecimal;
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="DojiHub"/> class.
-    /// </summary>
-    /// <param name="provider">The quote provider.</param>
-    /// <param name="maxPriceChangePercent">Maximum absolute percent difference in open and close price.</param>
-    /// <exception cref="ArgumentNullException">Thrown when the provider is null.</exception>
-    /// <exception cref="ArgumentOutOfRangeException">Thrown when the maxPriceChangePercent is invalid.</exception>
-    internal DojiHub(
+    private readonly double _maxPriceChangePercentDecimal; internal DojiHub(
         IStreamObservable<IQuote> provider,
         double maxPriceChangePercent) : base(provider)
     {

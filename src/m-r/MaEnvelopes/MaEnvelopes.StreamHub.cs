@@ -5,7 +5,7 @@ namespace Skender.Stock.Indicators;
 #pragma warning disable IDE0072 // Missing cases in switch statement
 
 /// <summary>
-/// Provides methods for calculating the Moving Average Envelopes indicator.
+/// Streaming hub for calculating Moving Average Envelopes indicator.
 /// </summary>
 public static partial class MaEnvelopes
 {
@@ -60,18 +60,7 @@ public class MaEnvelopesHub
     /// <summary>
     /// for TEMA
     /// </summary>
-    private double lastEma5 = double.NaN;
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="MaEnvelopesHub"/> class.
-    /// </summary>
-    /// <param name="provider">The chain provider.</param>
-    /// <param name="lookbackPeriods">The number of periods for the moving average.</param>
-    /// <param name="percentOffset">The percentage offset for the envelopes.</param>
-    /// <param name="movingAverageType">The type of moving average to use.</param>
-    /// <exception cref="ArgumentNullException">Thrown when the provider is null.</exception>
-    /// <exception cref="ArgumentOutOfRangeException">Thrown when parameters are invalid or the moving average type is not supported.</exception>
-    internal MaEnvelopesHub(
+    private double lastEma5 = double.NaN; internal MaEnvelopesHub(
         IChainProvider<IReusable> provider,
         int lookbackPeriods,
         double percentOffset,
@@ -135,19 +124,13 @@ public class MaEnvelopesHub
         Reinitialize();
     }
 
-    /// <summary>
-    /// Gets the number of periods for the moving average.
-    /// </summary>
+    /// <inheritdoc/>
     public int LookbackPeriods { get; init; }
 
-    /// <summary>
-    /// Gets the percentage offset for the envelopes.
-    /// </summary>
+    /// <inheritdoc/>
     public double PercentOffset { get; init; }
 
-    /// <summary>
-    /// Gets the type of moving average used.
-    /// </summary>
+    /// <inheritdoc/>
     public MaType MovingAverageType { get; init; }
     /// <inheritdoc/>
     protected override (MaEnvelopeResult result, int index)

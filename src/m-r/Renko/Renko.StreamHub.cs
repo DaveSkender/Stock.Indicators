@@ -10,15 +10,7 @@ public class RenkoHub
 
     private RenkoResult lastBrick
         = new(default, default, default,
-            default, default, default, default);
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="RenkoHub"/> class.
-    /// </summary>
-    /// <param name="provider">The quote provider.</param>
-    /// <param name="brickSize">The size of each Renko brick.</param>
-    /// <param name="endType">The type of price to use for the end of the brick.</param>
-    internal RenkoHub(
+            default, default, default, default); internal RenkoHub(
         IQuoteProvider<IQuote> provider,
         decimal brickSize,
         EndType endType) : base(provider)

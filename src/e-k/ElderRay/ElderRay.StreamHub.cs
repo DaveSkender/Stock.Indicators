@@ -3,20 +3,11 @@ namespace Skender.Stock.Indicators;
 // ELDER RAY (STREAM HUB)
 
 /// <summary>
-/// Provides methods for calculating the Elder Ray indicator using a stream hub.
+/// Streaming hub for calculating Elder Ray indicator using a stream hub.
 /// </summary>
 public class ElderRayHub
     : StreamHub<IQuote, ElderRayResult>, IElderRay
 {
-
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="ElderRayHub"/> class.
-    /// </summary>
-    /// <param name="provider">The quote provider.</param>
-    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <exception cref="ArgumentNullException">Thrown when the provider is null.</exception>
-    /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
     internal ElderRayHub(
         IQuoteProvider<IQuote> provider,
         int lookbackPeriods) : base(provider)
@@ -30,9 +21,7 @@ public class ElderRayHub
         Reinitialize();
     }
 
-    /// <summary>
-    /// Gets the number of periods to look back for the calculation.
-    /// </summary>
+    /// <inheritdoc/>
     public int LookbackPeriods { get; init; }
 
     /// <summary>
@@ -40,7 +29,6 @@ public class ElderRayHub
     /// </summary>
     private double K { get; init; }
 
-    // METHODS
     /// <inheritdoc/>
     protected override (ElderRayResult result, int index)
         ToIndicator(IQuote item, int? indexHint)

@@ -8,14 +8,6 @@ namespace Skender.Stock.Indicators;
 public class BollingerBandsHub
     : ChainProvider<IReusable, BollingerBandsResult>, IBollingerBands
 {
-
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="BollingerBandsHub"/> class.
-    /// </summary>
-    /// <param name="provider">The chain provider.</param>
-    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <param name="standardDeviations">The number of standard deviations.</param>
     internal BollingerBandsHub(
         IChainProvider<IReusable> provider,
         int lookbackPeriods,
@@ -29,14 +21,10 @@ public class BollingerBandsHub
         Reinitialize();
     }
 
-    /// <summary>
-    /// Gets the number of lookback periods.
-    /// </summary>
+    /// <inheritdoc/>
     public int LookbackPeriods { get; init; }
 
-    /// <summary>
-    /// Gets the number of standard deviations.
-    /// </summary>
+    /// <inheritdoc/>
     public double StandardDeviations { get; }
     /// <inheritdoc/>
     protected override (BollingerBandsResult result, int index)

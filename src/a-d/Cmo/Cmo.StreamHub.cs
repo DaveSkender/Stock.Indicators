@@ -6,16 +6,7 @@ namespace Skender.Stock.Indicators;
 public class CmoHub
     : ChainProvider<IReusable, CmoResult>, ICmo
 {
-    private readonly Queue<(bool? isUp, double value)> _tickBuffer;
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="CmoHub"/> class.
-    /// </summary>
-    /// <param name="provider">The chain provider.</param>
-    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <exception cref="ArgumentNullException">Thrown when the provider is null.</exception>
-    /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
-    internal CmoHub(
+    private readonly Queue<(bool? isUp, double value)> _tickBuffer; internal CmoHub(
         IChainProvider<IReusable> provider,
         int lookbackPeriods) : base(provider)
     {

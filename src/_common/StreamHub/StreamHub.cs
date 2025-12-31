@@ -8,11 +8,6 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
     where TIn : ISeries
     where TOut : ISeries
 {
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="StreamHub{TIn, TOut}"/> class.
-    /// </summary>
-    /// <param name="provider">Streaming data provider.</param>
     private protected StreamHub(IStreamObservable<TIn> provider)
     {
         // store provider reference
@@ -34,9 +29,7 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
     /// <inheritdoc/>
     public bool IsFaulted { get; private set; }
 
-    /// <summary>
-    /// Gets the name of the stream hub.
-    /// </summary>
+    /// <inheritdoc/>
     public string Name { get; private protected init; } = null!;
 
     /// <summary>

@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 // DETRENDED PRICE OSCILLATOR (STREAM HUB)
 
 /// <summary>
-/// Provides methods for calculating the Detrended Price Oscillator (DPO) using a stream hub.
+/// Streaming hub for calculating Detrended Price Oscillator (DPO) using a stream hub.
 /// </summary>
 /// <remarks>
 /// DPO calculation at any position relies on data values before and after it in the timeline.
@@ -15,12 +15,6 @@ namespace Skender.Stock.Indicators;
 public class DpoHub
     : ChainProvider<IReusable, DpoResult>, IDpo
 {
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="DpoHub"/> class.
-    /// </summary>
-    /// <param name="provider">The chain provider.</param>
-    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     internal DpoHub(
         IChainProvider<IReusable> provider,
         int lookbackPeriods) : base(provider)
@@ -33,14 +27,10 @@ public class DpoHub
         Reinitialize();
     }
 
-    /// <summary>
-    /// Gets the number of lookback periods.
-    /// </summary>
+    /// <inheritdoc/>
     public int LookbackPeriods { get; init; }
 
-    /// <summary>
-    /// Gets the offset for lookahead calculation.
-    /// </summary>
+    /// <inheritdoc/>
     public int Offset { get; init; }
     /// <remarks>
     /// DPO at any position requires an offset number of subsequent values for calculation.

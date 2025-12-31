@@ -1,18 +1,12 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Represents a stream hub for calculating the Average Directional Index (ADX).
+/// Streaming hub for calculating Average Directional Index (ADX).
 /// </summary>
 /// <inheritdoc cref="IAdx"/>
 public class AdxHub
     : ChainProvider<IQuote, AdxResult>, IAdx
 {
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="AdxHub"/> class.
-    /// </summary>
-    /// <param name="quoteProvider">The stream observable provider.</param>
-    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     internal AdxHub(
         IQuoteProvider<IQuote> quoteProvider,
         int lookbackPeriods)
@@ -37,9 +31,7 @@ public class AdxHub
         Reinitialize();
     }
 
-    /// <summary>
-    /// Gets the lookback periods.
-    /// </summary>
+    /// <inheritdoc/>
     public int LookbackPeriods { get; init; }
 
     /// <summary>
@@ -67,7 +59,6 @@ public class AdxHub
     private double _sumMdm;
     private double _sumDx;
 
-    // METHODS
 
     /// <inheritdoc/>
     public override string ToString() => Results.Count > 0

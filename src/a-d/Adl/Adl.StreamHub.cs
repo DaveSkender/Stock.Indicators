@@ -1,14 +1,10 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Streaming hub for the Accumulation/Distribution Line (ADL) indicator.
+/// Streaming hub for calculating Accumulation/Distribution Line (ADL).
 /// </summary>
 public class AdlHub : ChainProvider<IQuote, AdlResult>
 {
-    /// <summary>
-    /// Initializes a new instance of the <see cref="AdlHub"/> class.
-    /// </summary>
-    /// <param name="provider">The quote provider.</param>
     internal AdlHub(IQuoteProvider<IQuote> provider)
         : base(provider)
     {

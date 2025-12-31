@@ -1,19 +1,11 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Provides methods for calculating the Rate of Change (ROC) indicator.
+/// Streaming hub for calculating Rate of Change (ROC) indicator.
 /// </summary>
 public class RocHub
     : ChainProvider<IReusable, RocResult>, IRoc
 {
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="RocHub"/> class.
-    /// </summary>
-    /// <param name="provider">The chain provider.</param>
-    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <exception cref="ArgumentNullException">Thrown when the provider is null.</exception>
-    /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
     internal RocHub(
         IChainProvider<IReusable> provider,
         int lookbackPeriods) : base(provider)

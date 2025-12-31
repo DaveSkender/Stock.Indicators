@@ -1,24 +1,13 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Provides methods for calculating the PVO (Percentage Volume Oscillator) indicator.
+/// Streaming hub for calculating PVO (Percentage Volume Oscillator) indicator.
 /// </summary>
 public class PvoHub
     : ChainProvider<IReusable, PvoResult>, IPvo
 {
     private double _prevFastEma = double.NaN;
-    private double _prevSlowEma = double.NaN;
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="PvoHub"/> class.
-    /// </summary>
-    /// <param name="provider">The chain provider.</param>
-    /// <param name="fastPeriods">The number of periods for the fast EMA.</param>
-    /// <param name="slowPeriods">The number of periods for the slow EMA.</param>
-    /// <param name="signalPeriods">The number of periods for the signal line.</param>
-    /// <exception cref="ArgumentNullException">Thrown when the provider is null.</exception>
-    /// <exception cref="ArgumentOutOfRangeException">Thrown when any of the parameters are invalid.</exception>
-    internal PvoHub(
+    private double _prevSlowEma = double.NaN; internal PvoHub(
         IChainProvider<IReusable> provider,
         int fastPeriods,
         int slowPeriods,
@@ -47,19 +36,13 @@ public class PvoHub
     /// <inheritdoc/>
     public int SignalPeriods { get; init; }
 
-    /// <summary>
-    /// Gets the smoothing factor for the fast EMA.
-    /// </summary>
+    /// <inheritdoc/>
     public double FastK { get; private init; }
 
-    /// <summary>
-    /// Gets the smoothing factor for the slow EMA.
-    /// </summary>
+    /// <inheritdoc/>
     public double SlowK { get; private init; }
 
-    /// <summary>
-    /// Gets the smoothing factor for the signal line.
-    /// </summary>
+    /// <inheritdoc/>
     public double SignalK { get; private init; }
     /// <inheritdoc/>
     protected override (PvoResult result, int index)

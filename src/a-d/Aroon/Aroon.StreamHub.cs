@@ -8,14 +8,6 @@ namespace Skender.Stock.Indicators;
 public class AroonHub
     : ChainProvider<IQuote, AroonResult>, IAroon
 {
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="AroonHub"/> class.
-    /// </summary>
-    /// <param name="provider">The quote provider.</param>
-    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <exception cref="ArgumentNullException">Thrown when the provider is null.</exception>
-    /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
     internal AroonHub(
         IQuoteProvider<IQuote> provider,
         int lookbackPeriods) : base(provider)
@@ -82,7 +74,7 @@ public class AroonHub
 }
 
 /// <summary>
-/// Provides methods for calculating the Aroon Oscillator.
+/// Streaming hub for calculating Aroon Oscillator.
 /// </summary>
 public static partial class Aroon
 {

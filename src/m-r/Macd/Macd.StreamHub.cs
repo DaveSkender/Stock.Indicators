@@ -1,21 +1,11 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Provides methods for calculating the MACD (Moving Average Convergence Divergence) indicator.
+/// Streaming hub for calculating MACD (Moving Average Convergence Divergence) indicator.
 /// </summary>
 public class MacdHub
     : ChainProvider<IReusable, MacdResult>, IMacd
 {
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="MacdHub"/> class.
-    /// </summary>
-    /// <param name="provider">The chain provider.</param>
-    /// <param name="fastPeriods">The number of periods for the fast EMA.</param>
-    /// <param name="slowPeriods">The number of periods for the slow EMA.</param>
-    /// <param name="signalPeriods">The number of periods for the signal line.</param>
-    /// <exception cref="ArgumentNullException">Thrown when the provider is null.</exception>
-    /// <exception cref="ArgumentOutOfRangeException">Thrown when any of the parameters are invalid.</exception>
     internal MacdHub(
         IChainProvider<IReusable> provider,
         int fastPeriods,
@@ -45,19 +35,13 @@ public class MacdHub
     /// <inheritdoc/>
     public int SignalPeriods { get; init; }
 
-    /// <summary>
-    /// Gets the smoothing factor for the fast EMA.
-    /// </summary>
+    /// <inheritdoc/>
     public double FastK { get; private init; }
 
-    /// <summary>
-    /// Gets the smoothing factor for the slow EMA.
-    /// </summary>
+    /// <inheritdoc/>
     public double SlowK { get; private init; }
 
-    /// <summary>
-    /// Gets the smoothing factor for the signal line.
-    /// </summary>
+    /// <inheritdoc/>
     public double SignalK { get; private init; }
     /// <inheritdoc/>
     protected override (MacdResult result, int index)
