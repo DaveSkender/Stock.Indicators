@@ -9,8 +9,8 @@ public class RenkoAtrTests : RegressionTestBase<RenkoResult>
     public override void Series() => Quotes.ToRenkoAtr().IsExactly(Expected);
 
     [TestMethod]
-    public override void Buffer() => Assert.Inconclusive("Intentionally not implemented");
+    public override void Buffer() => Assert.Inconclusive("Test not yet implemented");
 
     [TestMethod]
-    public override void Stream() => Assert.Inconclusive("Intentionally not implemented");
+    public override void Stream() => Assert.Inconclusive("Test not yet implemented");
 }
