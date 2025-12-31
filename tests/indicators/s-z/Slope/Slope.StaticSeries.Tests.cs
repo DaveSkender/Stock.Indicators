@@ -6,14 +6,25 @@ public class Slope : StaticSeriesTestBase
     [TestMethod]
     public override void DefaultParameters_ReturnsExpectedResults()
     {
+        const int n = 20;
         IReadOnlyList<SlopeResult> sut = Quotes
-            .ToSlope(20);
+            .ToSlope(n);
 
         // proper quantities
         sut.Should().HaveCount(502);
         sut.Where(static x => x.Slope != null).Should().HaveCount(483);
         sut.Where(static x => x.StdDev != null).Should().HaveCount(483);
         sut.Where(static x => x.Line != null).Should().HaveCount(20);
+
+        // warmup periods should be null
+        sut.Take(n - 1).Should().AllSatisfy(
+            r => {
+                r.Slope.Should().BeNull();
+                r.Intercept.Should().BeNull();
+                r.StdDev.Should().BeNull();
+                r.RSquared.Should().BeNull();
+                r.Line.Should().BeNull();
+            });
 
         // sample values
         SlopeResult r1 = sut[249];
