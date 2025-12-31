@@ -9,11 +9,13 @@ BufferList indicators process data incrementally with efficient buffering, match
 
 ## Interface selection
 
-| Interface | Input Type | Use Case | Examples |
-| --------- | ---------- | -------- | -------- |
-| `IIncrementFromChain` | IReusable | Chainable indicators | SMA, EMA, RSI |
-| `IIncrementFromQuote` | IQuote | Needs OHLCV properties | Stoch, ATR, VWAP |
-| `IIncrementFromPairs` | Dual IReusable | Two synchronized series | Correlation, Beta |
+All BufferList implementations support `IQuote` inputs from the base class. The interface determines what *additional* input types are supported:
+
+| Interface | Additional Inputs | Use Case | Examples |
+| --------- | ----------------- | -------- | -------- |
+| `IIncrementFromChain` | `IReusable`, `(DateTime, double)` | Chainable single-value indicators | SMA, EMA, RSI |
+| `IIncrementFromQuote` | (none - only IQuote) | Requires OHLCV properties | Stoch, ATR, VWAP |
+| `IIncrementFromPairs` | Dual `IReusable` | Two synchronized series | Correlation, Beta |
 
 ## Constructor pattern
 
@@ -38,16 +40,25 @@ public class MyIndicatorList : BufferList<MyResult>, IIncrementFromChain
 
 ## Buffer management
 
-Always use `BufferListUtilities`:
+Use extension methods from `BufferListUtilities`:
 
 - `_buffer.Update(capacity, value)` - Standard rolling buffer
 - `_buffer.UpdateWithDequeue(capacity, value)` - Returns dequeued value for sum adjustment
 
+> **Note**: Future refactor planned to rename `BufferListUtilities` to `BufferListExtensions` for .NET idiomatic naming.
+
 ## State management
 
-- Prefer tuples: `private (double sum, int count) _state;`
-- Avoid custom structs for internal buffer state
-- Reset in Clear(): `_state = default; _buffer.Clear(); base.Clear();`
+Use `Clear()` to reset all internal state:
+
+```csharp
+public override void Clear()
+{
+    base.Clear();
+    _buffer.Clear();
+    _bufferSum = 0;
+}
+```
 
 ## Testing requirements
 

@@ -31,31 +31,27 @@ protected override (RsiResult result, int index) ToIndicator(IReusable item, int
 }
 ```
 
-**CORRECT**: Maintain incremental state:
+**CORRECT**: Maintain incremental state or reference cache:
 
 ```csharp
-// CORRECT - O(1) per tick
-private double _avgGain = double.NaN;
-private double _avgLoss = double.NaN;
-private double _prevValue = double.NaN;
-
-protected override (RsiResult result, int index) ToIndicator(IReusable item, int? indexHint)
+// CORRECT - O(1) per tick using cache reference
+protected override (EmaResult result, int index) ToIndicator(IReusable item, int? indexHint)
 {
-    double currentValue = item.Value;
+    int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
-    double gain = currentValue > _prevValue ? currentValue - _prevValue : 0;
-    double loss = currentValue < _prevValue ? _prevValue - currentValue : 0;
+    double ema = i >= LookbackPeriods - 1
+        ? Cache[i - 1].Ema is not null
+            // normal: reference previous result from cache
+            ? Ema.Increment(K, Cache[i - 1].Value, item.Value)
+            // re/initialize as SMA
+            : Sma.Increment(ProviderCache, LookbackPeriods, i)
+        : double.NaN;
 
-    // Wilder's smoothing - O(1) update
-    _avgGain = ((_avgGain * (LookbackPeriods - 1)) + gain) / LookbackPeriods;
-    _avgLoss = ((_avgLoss * (LookbackPeriods - 1)) + loss) / LookbackPeriods;
-
-    double rsi = _avgLoss > 0 ? 100 - (100 / (1 + (_avgGain / _avgLoss))) : 100;
-
-    _prevValue = currentValue;
-    return (new RsiResult(item.Timestamp, rsi), indexHint ?? 0);
+    return (new EmaResult(item.Timestamp, ema.NaN2Null()), i);
 }
 ```
+
+**Note**: Prefer referencing `Cache[i - 1]` instead of storing duplicate state when the previous result is available.
 
 ## Anti-pattern: O(n) window scans
 

@@ -517,6 +517,15 @@ After skills migration is complete, remove:
 | 4.4 | Test skill loading in VS Code | ⏭️ Deferred | Manual verification by maintainer |
 | 4.5 | Verify AGENTS.md is recognized | ⏭️ Deferred | Manual verification by maintainer |
 
+### Future refactoring tasks (deferred)
+
+These tasks were identified during skill file review but are out of scope for this PR:
+
+| Task | Description | Source |
+| ---- | ----------- | ------ |
+| Rename `BufferListUtilities` → `BufferListExtensions` | .NET idiomatic naming for extension method classes | PR review feedback |
+| Consider standard buffer in BufferList base class | Add `BufferSize` const and init-set `Queue<T>` where T can be double or tuple | PR review feedback |
+
 ---
 
 ## Part 5: Detailed skill content templates

@@ -2,15 +2,20 @@
 
 Use this reference to select the correct interface for BufferList implementations.
 
+## Interface overview
+
+All BufferList implementations support `IQuote` inputs from the abstract base class. The interface determines what *additional* input types are supported for chainable and paired scenarios.
+
 ## Interface decision tree
 
 ```text
-Does indicator need OHLCV data (High, Low, Open, Close, Volume)?
-├─ Yes → Does it need TWO synchronized series?
-│  ├─ Yes → IIncrementFromPairs (Correlation, Beta)
-│  └─ No → IIncrementFromQuote (Stoch, ATR, VWAP, ADX)
-└─ No → Can work with single chainable value?
-   └─ Yes → IIncrementFromChain (SMA, EMA, RSI, MACD)
+Does indicator need TWO synchronized series?
+├─ Yes → IIncrementFromPairs (Correlation, Beta)
+│        Uses IReusable pairs, NOT IQuote pairs
+└─ No → Can it work with single chainable IReusable values?
+   ├─ Yes → IIncrementFromChain (SMA, EMA, RSI, MACD)
+   └─ No → IIncrementFromQuote (Stoch, ATR, VWAP, ADX)
+           Only supports IQuote inputs
 ```
 
 ## IIncrementFromChain
@@ -28,8 +33,8 @@ void Add(IReadOnlyList<IReusable> values);
 - ✅ Constructor accepts `IReadOnlyList<IReusable>` (NOT `IQuote`)
 - ✅ Extension uses generic constraint with `IReusable`
 - ✅ Most indicators use `value.Value` directly
-- ✅ OHLC indicators use `value.Hl2OrValue()` for price
-- ❌ No `Add(IQuote)` methods
+- ✅ Some indicators use `value.Hl2OrValue()` for price (e.g., Alligator)
+- ❌ No `Add(IQuote)` methods in this interface
 
 **Examples**: SMA, EMA, RSI, MACD, TEMA, DEMA, Trix
 

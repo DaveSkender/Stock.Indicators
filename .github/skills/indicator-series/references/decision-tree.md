@@ -12,9 +12,11 @@ Use this reference to guide Series indicator implementation decisions.
 
 | Input Type | Output Type | Interface | Examples |
 | ---------- | ----------- | --------- | -------- |
-| `IQuote` | Single value | `IReusable` | EMA, SMA, RSI |
-| `IQuote` | Multi-value | `ISeries` | MACD, Alligator |
-| `IReusable` | Single value | `IReusable` | Chained indicators |
+| `IQuote` | Single chainable value | `IReusable` | EMA, SMA, RSI, ADX |
+| `IQuote` | Multiple values | `ISeries` | MACD, Alligator, Ichimoku |
+| `IReusable` | Single chainable value | `IReusable` | Chained indicators (EMA of RSI) |
+
+**Note**: Only `IReusable` results have a defined chainable `Value` property. `ISeries` results have multiple outputs without a single chainable value.
 
 ## Result model selection
 
@@ -38,38 +40,38 @@ public record MacdResult : ISeries
     public double? Macd { get; init; }
     public double? Signal { get; init; }
     public double? Histogram { get; init; }
+    // No single Value - cannot be chained
 }
 ```
 
-## Validation decision tree
+## Validation patterns
 
-```text
-Is parameter a period/lookback?
-├─ Yes → ArgumentOutOfRangeException.ThrowIfLessThan(value, minValue)
-├─ Is parameter nullable and null?
-│  └─ Check if required → throw ArgumentNullException
-└─ Is parameter a logical constraint (e.g., short < long)?
-   └─ Yes → throw ArgumentException with clear message
-```
+Use consistent exception handling:
+
+- **Null inputs**: `ArgumentNullException.ThrowIfNull(quotes)`
+- **Period ranges**: `ArgumentOutOfRangeException.ThrowIfLessThan(period, 1)`
+- **Logical constraints**: `ArgumentException` for relationships (e.g., short period < long period)
 
 ## Performance considerations
 
 | Scenario | Approach |
 | -------- | -------- |
-| Large datasets | Pre-allocate `List<T>(count)` |
+| Large datasets | Pre-allocate `List<T>(count)` or use arrays |
 | Hot loops | Avoid LINQ, use `for` loops |
-| Memory | Use `Span<T>` for slicing |
+| Memory | Use `Span<T>` for slicing when beneficial |
 | Precision | Use `double` internally, not `decimal` |
 
-## Common warmup period patterns
+## Warmup period patterns
 
-| Pattern | Warmup Formula |
-| ------- | -------------- |
-| Simple average | `lookback - 1` |
-| Exponential with seed | `lookback` |
-| Wilder's smoothing | `2 * lookback - 1` (recommended) |
-| Multi-stage (EMA chain) | Sum of all component warmups |
-| Compound indicator | Max of component warmups |
+Warmup periods are determined by the original indicator formula specification:
+
+| Pattern | Warmup Formula | Examples |
+| ------- | -------------- | -------- |
+| Simple average | `lookback - 1` | SMA |
+| Exponential with seed | `lookback` | EMA |
+| Wilder's smoothing | `2 * lookback - 1` | RSI, ATR, ADX |
+| Multi-stage (EMA chain) | Sum of component warmups | MACD, TEMA |
+| Compound indicator | Max of component warmups | Various |
 
 ---
 Last updated: December 30, 2025

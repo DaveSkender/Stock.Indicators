@@ -9,8 +9,8 @@ Series indicators process complete datasets and return results all at once. They
 
 ## File structure
 
-- Implementation: `src/{category}/{Indicator}/{Indicator}.StaticSeries.cs`
-- Test: `tests/indicators/{category}/{Indicator}/{Indicator}.StaticSeries.Tests.cs`
+- Implementation: `src/{category}/{Indicator}.StaticSeries.cs`
+- Test: `tests/indicators/{category}/{Indicator}.StaticSeries.Tests.cs`
 - Categories: a-d, e-k, m-r, s-z (alphabetical)
 
 ## Core pattern
@@ -51,7 +51,9 @@ public static IReadOnlyList<TResult> ToIndicator(
 ## Testing requirements
 
 1. Inherit from `StaticSeriesTestBase`
-2. Implement Standard, Boundary, BadData, InsufficientData tests
+2. Test categories (use `[TestCategory(...)]` attribute):
+   - `StaticSeries` for standard tests
+   - `Regression` for baseline regression tests
 3. Verify against manually calculated reference values
 4. Use exact equality: `result.Value.Should().Be(expected)`
 

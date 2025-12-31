@@ -1,20 +1,15 @@
 # StreamHub provider selection guide
 
-Use this reference to select the correct provider base class for StreamHub implementations.
+Provider selection is determined by the indicator specification—it's not a design choice.
 
-## Provider decision tree
+## Provider classification
 
-```text
-Does indicator produce chainable output (single Value)?
-├─ Yes → Does it need OHLCV data?
-│  ├─ Yes → Does it need TWO synchronized series?
-│  │  ├─ Yes → PairsProvider<IReusable, TResult>
-│  │  └─ No → ChainProvider<IQuote, TResult>
-│  └─ No → ChainProvider<IReusable, TResult>
-└─ No → Does output transform quote to quote?
-   ├─ Yes → QuoteProvider<IQuote, TResult>
-   └─ No → StreamHub<TIn, TResult> (ISeries output)
-```
+| Provider Base | Input | Output | Use Case | Examples |
+| ------------- | ----- | ------ | -------- | -------- |
+| `ChainProvider<IReusable, TResult>` | Single value | `IReusable` | Chainable indicators | EMA, SMA, RSI, MACD |
+| `ChainProvider<IQuote, TResult>` | OHLCV | `IReusable` | Quote-driven, chainable output | ADX, ATR, CCI, OBV |
+| `QuoteProvider<IQuote, TResult>` | OHLCV | `IResult` | Quote transformation | HeikinAshi, Renko |
+| `PairsProvider<IReusable, TResult>` | Dual `IReusable` | `IReusable` | Synchronized dual inputs | Correlation, Beta |
 
 ## ChainProvider<IReusable, TResult>
 
@@ -49,8 +44,8 @@ public class EmaHub : ChainProvider<IReusable, EmaResult>, IEma
 **Characteristics**:
 
 - Quote-driven input
-- Single chainable output (IReusable)
-- Cannot chain from other indicators
+- Single chainable output (`IReusable`)
+- Can be observed by other chain providers
 - ~15 indicators
 
 **Examples**: ADX, ATR, Aroon, CCI, CMF, OBV
@@ -58,25 +53,25 @@ public class EmaHub : ChainProvider<IReusable, EmaResult>, IEma
 ```csharp
 public class AdxHub : ChainProvider<IQuote, AdxResult>, IAdx
 {
-    // Requires quote data but produces chainable AdxResult
+    // Requires quote data, produces chainable AdxResult
 }
 ```
 
 ## QuoteProvider<IQuote, TResult>
 
-**Use when**: Quote input transforms to quote output
+**Use when**: Quote input transforms to quote-like output
 
 **Characteristics**:
 
 - Quote-to-quote transformation
-- Cannot observe chain providers
-- Output is IQuote type
+- Output implements `IResult` (not necessarily `IQuote`)
+- Used for quote preprocessing
 - ~3 indicators
 
-**Examples**: QuoteHub, HeikinAshi, Renko
+**Examples**: HeikinAshi, Renko, QuoteHub
 
 ```csharp
-public class RenkoHub : QuoteProvider<IQuote, RenkoResult>
+public class HeikinAshiHub : QuoteProvider<IQuote, HeikinAshiResult>
 {
     // Quote in, quote-like result out
 }
