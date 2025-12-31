@@ -98,15 +98,11 @@ Subscribe to a `QuoteHub` for advanced streaming scenarios:
 QuoteHub quoteHub = new();
 CmoHub observer = quoteHub.ToCmoHub(lookbackPeriods);
 
-// stream quotes into provider
-foreach (Quote quote in quotes)
+foreach (Quote quote in quotes)  // simulating stream
 {
   quoteHub.Add(quote);
 }
 
-provider.EndTransmission();
-
-// based on `ICollection<CmoResult>`
 IReadOnlyList<CmoResult> results = observer.Results;
 ```
 

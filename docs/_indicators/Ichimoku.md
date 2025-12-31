@@ -33,8 +33,8 @@ IReadOnlyList<IchimokuResult> results = buffer;
 
 // streaming usage (real-time)
 QuoteHub quoteHub = new();
-IchimokuHub hub = quoteHub.ToIchimokuHub(tenkanPeriods, kijunPeriods, senkouBPeriods);
-IReadOnlyList<IchimokuResult> results = hub.Results;
+IchimokuHub observer = quoteHub.ToIchimokuHub(tenkanPeriods, kijunPeriods, senkouBPeriods);
+IReadOnlyList<IchimokuResult> results = observer.Results;
 ```
 
 ## Parameters

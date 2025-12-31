@@ -21,7 +21,7 @@ IReadOnlyList<StdDevResult> results =
 
 // usage with streaming quotes
 QuoteHub quoteHub = new();
-StdDevHub hub = quoteHub.ToStdDevHub(lookbackPeriods);
+StdDevHub observer = quoteHub.ToStdDevHub(lookbackPeriods);
 ```
 
 ## Parameters
