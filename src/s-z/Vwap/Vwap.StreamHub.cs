@@ -22,6 +22,8 @@ public class VwapHub : ChainProvider<IQuote, VwapResult>
 
     /// <inheritdoc/>
     public DateTime? StartDate { get; private set; }
+
+    /// <inheritdoc/>
     protected override (VwapResult result, int index)
         ToIndicator(IQuote item, int? indexHint)
     {
