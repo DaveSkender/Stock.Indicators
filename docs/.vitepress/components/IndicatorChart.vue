@@ -498,15 +498,15 @@ async function initChart() {
         clearTimeout(resizeTimeout)
       }
       resizeTimeout = setTimeout(() => {
-        for (const entry of entries) {
-          const width = entry.contentRect.width
-          if (width > 0) {
-            if (overlayChart) {
-              overlayChart.resize(width, overlayHeight.value)
-            }
-            if (oscillatorChart) {
-              oscillatorChart.resize(width, oscillatorHeight.value)
-            }
+        // Use the last entry since ResizeObserver batches multiple changes
+        const entry = entries[entries.length - 1]
+        const width = entry.contentRect.width
+        if (width > 0) {
+          if (overlayChart) {
+            overlayChart.resize(width, overlayHeight.value)
+          }
+          if (oscillatorChart) {
+            oscillatorChart.resize(width, oscillatorHeight.value)
           }
         }
       }, RESIZE_DEBOUNCE_MS)
