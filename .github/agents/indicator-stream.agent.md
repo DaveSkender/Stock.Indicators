@@ -27,9 +27,6 @@ Guide developers to choose the correct base class:
 - `ChainProvider<IReusable, TResult>` - For chainable indicators (EMA, RSI, SMA)
 - `QuoteProvider<TIn, TResult>` - For quote-only indicators (Renko, volume-weighted)
 
-> Note: PairsProvider for dual-stream indicators (Correlation, Beta) has been removed.
-> See `docs/plans/pairhubs.plan.md` for synchronization challenges and future re-implementation guidance.
-
 ### Implementation patterns
 
 StreamHub indicators follow different patterns based on their calculation requirements:
@@ -277,8 +274,6 @@ For specialized topics, consult these expert agents:
 - `@performance` - General performance optimization patterns (O(1) algorithms, complexity analysis, benchmarking)
 - `@series` - Series indicator development guidance (canonical reference for mathematical correctness)
 - `@buffer` - BufferList indicator development guidance (incremental processing patterns)
-
-> Note: `@streamhub-pairs` has been deprecated. See `docs/plans/pairhubs.plan.md` for details.
 
 See also: `.github/instructions/indicator-stream.instructions.md` for comprehensive StreamHub development guidelines.
 

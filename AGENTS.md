@@ -118,9 +118,6 @@ This repository provides specialized custom agents that developers can invoke in
 | `@streamhub-testing` | Test interface selection, comprehensive rollback validation, Series parity checks | Writing StreamHub tests, selecting test interfaces, implementing rollback validation |
 | `@performance` | Performance optimization - algorithmic complexity, O(1) patterns, memory efficiency, benchmarking | Identifying bottlenecks, eliminating O(n²) anti-patterns, meeting performance targets across all styles |
 
-> Note: The `@streamhub-pairs` agent has been deprecated. PairsProvider for dual-stream indicators has been removed.
-> See `docs/plans/pairhubs.plan.md` for synchronization challenges and future re-implementation guidance.
-
 **Usage examples:**
 
 ```text

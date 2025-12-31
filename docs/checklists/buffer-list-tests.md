@@ -21,9 +21,6 @@ Use this checklist to verify BufferList tests meet project standards.
 - [ ] Edge cases covered (insufficient data, parameter bounds, reset)
 - [ ] Performance placeholder present in benchmarks project if applicable
 
-> Note: ITestPairsBufferList has been removed due to synchronization challenges.
-> See docs/plans/pairhubs.plan.md for future re-implementation guidance.
-
 ---
 
 **Source**: Migrated from .specify/specs/001-develop-streaming-indicators/checklists/buffer-list-tests.md  

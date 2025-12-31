@@ -5,12 +5,9 @@ This document consolidates incomplete tasks from the streaming indicators develo
 **Status**: 97% complete - Framework is production-ready with comprehensive BufferList (93%) and StreamHub (95%) coverage.
 
 - Total indicators: 85
-- With BufferList: 79 (93%) — excludes Beta, Correlation, PRS due to PairsProvider removal
-- With StreamHub: 80 (95%) — excludes Beta, Correlation, PRS due to PairsProvider removal
+- With BufferList: 79 (93%)
+- With StreamHub: 80 (95%)
 - With streaming documentation: 78 of 79 streamable (99%)
-
-> **Note**: PairsProvider support for dual-input indicators (Beta, Correlation, PRS) has been removed.
-> See `docs/plans/pairhubs.plan.md` for synchronization challenges and future re-implementation guidance.
 
 ## Recent Performance Fixes (December 2025)
 

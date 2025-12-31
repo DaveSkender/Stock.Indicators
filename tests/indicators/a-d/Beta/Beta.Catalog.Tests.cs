@@ -3,10 +3,6 @@ namespace Catalogging;
 /// <summary>
 /// Test class for Beta catalog functionality.
 /// </summary>
-/// <remarks>
-/// Note: BufferList and StreamHub listings were removed due to PairsProvider synchronization challenges.
-/// See docs/plans/pairhubs.plan.md for details.
-/// </remarks>
 [TestClass]
 public class BetaTests : TestBase
 {

@@ -107,5 +107,3 @@ var results = quotesEval
     .ToBeta(quotesMarket, ..)
     .ToSlope(..);
 ```
-
-> &#9432; **Note on streaming**: Streaming (BufferList and StreamHub) support for Beta has been temporarily removed due to synchronization challenges with dual-stream inputs. Use the Series-style method for batch processing. See [pairhubs.plan.md]({{site.github.repository_url}}/blob/main/docs/plans/pairhubs.plan.md) for future re-implementation plans.

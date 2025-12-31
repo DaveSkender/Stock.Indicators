@@ -18,9 +18,6 @@ You specialize in:
 - Constructor patterns and method chaining
 - Test structure with BufferListTestBase and Series equivalence validation
 
-> Note: IIncrementFromPairs for dual-input indicators has been removed.
-> See `docs/plans/pairhubs.plan.md` for synchronization challenges and future re-implementation guidance.
-
 ## Decision trees
 
 ### Decision 1: Interface selection (Chain/Quote)
@@ -277,9 +274,6 @@ Invoke `@buffer` when you need help with:
 - Writing BufferList tests with Series parity validation
 - Implementing proper constructor patterns
 - Debugging BufferList equivalence issues
-
-> Note: IIncrementFromPairs for dual-input indicators has been removed.
-> See `docs/plans/pairhubs.plan.md` for synchronization challenges and future re-implementation guidance.
 
 For comprehensive implementation details, continue reading `.github/instructions/indicator-buffer.instructions.md`.
 

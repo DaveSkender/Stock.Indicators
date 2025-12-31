@@ -21,10 +21,6 @@ public static partial class Prs
     /// <summary>
     /// Price Relative Strength Series Listing
     /// </summary>
-    /// <remarks>
-    /// Note: BufferList and StreamHub listings were removed due to PairsProvider synchronization challenges.
-    /// See docs/plans/pairhubs.plan.md for details.
-    /// </remarks>
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)

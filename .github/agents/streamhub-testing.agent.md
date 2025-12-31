@@ -18,9 +18,6 @@ You specialize in:
 - Edge case coverage (insufficient data, reset behavior)
 - Test structure and organization
 
-> Note: ITestPairsObserver for dual-stream indicators has been removed.
-> See `docs/plans/pairhubs.plan.md` for synchronization challenges and future re-implementation guidance.
-
 ## Test base class
 
 All StreamHub tests MUST inherit `StreamHubTestBase` and implement appropriate test interfaces.
@@ -345,8 +342,6 @@ For general StreamHub development, see `@streamhub`. For comprehensive guideline
 - `@streamhub` - General StreamHub development patterns and provider selection
 - `@streamhub-state` - State management and RollbackState patterns
 - `@streamhub-performance` - Performance optimization and O(1) patterns
-
-> Note: `@streamhub-pairs` has been deprecated. See `docs/plans/pairhubs.plan.md` for details.
 
 ## Example usage
 

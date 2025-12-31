@@ -19,9 +19,6 @@ Use this checklist to verify StreamHub tests meet project standards.
 - [ ] Bad/insufficient data and boundary period tests included
 - [ ] Performance placeholder present in benchmarks project if applicable
 
-> Note: PairsProvider (ITestPairsObserver) has been removed due to synchronization challenges.
-> See docs/plans/pairhubs.plan.md for future re-implementation guidance.
-
 ---
 
 **Source**: Migrated from .specify/specs/001-develop-streaming-indicators/checklists/stream-hub-tests.md  

@@ -27,9 +27,6 @@ For specialized topics, consult these expert sub-agents:
 - `@streamhub-performance` - Performance optimization, O(1) patterns, RollingWindow utilities, avoiding anti-patterns
 - `@streamhub-testing` - Comprehensive test coverage, test interface selection, rollback validation
 
-> Note: PairsProvider for dual-stream indicators (Correlation, Beta, PRS) has been removed due to synchronization challenges.
-> See `docs/plans/pairhubs.plan.md` for details and future re-implementation guidance.
-
 For quick decision guidance and pattern selection, use the main agent. For comprehensive implementation details and complete checklists, continue reading this document.
 
 ## Related agents
@@ -79,9 +76,6 @@ The codebase implements several types of stream hub I/O patterns:
 5. **IQuote → VolumeWeighted** (e.g., VWMA): Takes quote input, requires both price and volume data
    - Uses `IQuoteProvider<IQuote>` and extends `QuoteProvider<TIn, TResult>`
    - Generic constraint: `where TIn : IQuote`
-
-> Note: Dual-input (pairs) pattern for indicators like Correlation and Beta has been removed.
-> See `docs/plans/pairhubs.plan.md` for the synchronization challenges and future re-implementation guidance.
 
 **Provider Selection Guidelines**:
 
@@ -235,9 +229,6 @@ public static {IndicatorName}Hub To{IndicatorName}Hub(
 ```
 
 In both cases, `{defaultValue}` is only used for parity with Series `quotes.To{IndicatorName}()` extensions and may not always be implemented.
-
-> **Note**: The dual-stream hub pattern (PairsProvider) for indicators like Correlation and Beta has been removed
-> due to synchronization challenges. See `docs/plans/pairhubs.plan.md` for details and future re-implementation guidance.
 
 ## Testing requirements
 
@@ -674,9 +665,6 @@ This repository provides specialized custom agents that can help with StreamHub 
 | `@streamhub-state`       | RollbackState patterns, cache replay, state management                     | Implementing stateful indicators, handling Insert/Remove mutations       |
 | `@streamhub-performance` | O(1) optimization, avoiding O(n²) anti-patterns, RollingWindow utilities   | Performance optimization, meeting ≤1.5x Series target                    |
 | `@streamhub-testing`     | Test interface selection, rollback validation, Series parity               | Writing comprehensive tests, debugging test failures                     |
-
-> Note: The `@streamhub-pairs` agent has been deprecated. PairsProvider for dual-stream indicators has been removed.
-> See `docs/plans/pairhubs.plan.md` for synchronization challenges and future re-implementation guidance.
 
 **Usage examples:**
 

@@ -19,9 +19,6 @@ Invoke `@buffer` when you need help with:
 - Implementing proper constructor patterns (primary + chaining)
 - Debugging equivalence issues with Series results
 
-> Note: IIncrementFromPairs for dual-input indicators (Correlation, Beta, PRS) has been removed.
-> See `docs/plans/pairhubs.plan.md` for synchronization challenges and future re-implementation guidance.
-
 For quick decision guidance and pattern selection, use the agent. For comprehensive implementation details and complete checklists, continue reading this document.
 
 ## Related agents
@@ -65,9 +62,6 @@ BufferList implementations must implement ONE of the following interfaces based 
 
 - `IIncrementFromChain` - most common, for chainable indicators (SMA, EMA, RSI, MACD)
 - `IIncrementFromQuote` - requires multiple OHLC values (VWMA, Stoch, VWAP)
-
-> Note: IIncrementFromPairs for dual-input indicators (Correlation, Beta) has been removed.
-> See `docs/plans/pairhubs.plan.md` for synchronization challenges and future re-implementation guidance.
 
 ### Test interfaces
 
@@ -288,9 +282,6 @@ Study these exemplary buffer indicators that demonstrate proper use of universal
 - **ADX**: `src/a-d/Adx/Adx.BufferList.cs` - Complex object buffer management
 - **MAMA**: `src/m-r/Mama/Mama.BufferList.cs` - List-based state with separate state array pruning
 - **Volatility Stop (historical repaint)**: `src/s-z/VolatilityStop/VolatilityStop.BufferList.cs` — Demonstrates correct handling of trailing stop recalculation and repainting of historical values when new extrema arrive. Use this as the canonical pattern for indicators that legitimately revise past outputs based on future bars.
-
-> Note: Dual-input (pairs) BufferList implementations (Correlation, Beta) have been removed.
-> See `docs/plans/pairhubs.plan.md` for synchronization challenges and future re-implementation guidance.
 
 When implementing other complex or previously deferred indicators (for example: Fractal, HtTrendline, Hurst, Ichimoku, Slope), prefer adapting from the closest matching reference above rather than writing bespoke buffer logic. In particular:
 
