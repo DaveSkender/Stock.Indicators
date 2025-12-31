@@ -23,27 +23,13 @@ public static partial class Correlation
     /// <summary>
     /// CORR Series Listing
     /// </summary>
+    /// <remarks>
+    /// Note: BufferList and StreamHub listings were removed due to PairsProvider synchronization challenges.
+    /// See docs/plans/pairhubs.plan.md for details.
+    /// </remarks>
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
             .WithMethodName("ToCorrelation")
-            .Build();
-
-    /// <summary>
-    /// CORR Stream Listing
-    /// </summary>
-    internal static readonly IndicatorListing StreamListing =
-        new CatalogListingBuilder(CommonListing)
-            .WithStyle(Style.Stream)
-            .WithMethodName("ToCorrelationHub")
-            .Build();
-
-    /// <summary>
-    /// CORR Buffer Listing
-    /// </summary>
-    internal static readonly IndicatorListing BufferListing =
-        new CatalogListingBuilder(CommonListing)
-            .WithStyle(Style.Buffer)
-            .WithMethodName("ToCorrelationList")
             .Build();
 }

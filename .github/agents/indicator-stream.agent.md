@@ -26,7 +26,9 @@ Guide developers to choose the correct base class:
 
 - `ChainProvider<IReusable, TResult>` - For chainable indicators (EMA, RSI, SMA)
 - `QuoteProvider<TIn, TResult>` - For quote-only indicators (Renko, volume-weighted)
-- `PairsProvider<TIn, TResult>` - For dual-stream indicators (Correlation, Beta)
+
+> Note: PairsProvider for dual-stream indicators (Correlation, Beta) has been removed.
+> See `docs/plans/pairhubs.plan.md` for synchronization challenges and future re-implementation guidance.
 
 ### Implementation patterns
 
@@ -138,7 +140,7 @@ For detailed implementation guidance, see `.github/instructions/indicator-stream
 Tests must:
 
 - Inherit StreamHubTestBase
-- Implement appropriate test interfaces (ITestChainObserver, ITestQuoteObserver, ITestChainProvider, ITestPairsObserver)
+- Implement appropriate test interfaces (ITestChainObserver, ITestQuoteObserver, ITestChainProvider)
 - Include comprehensive rollback validation (warmup, duplicates, Insert/Remove)
 - Verify strict Series parity with BeEquivalentTo(series, o => o.WithStrictOrdering())
 
@@ -272,10 +274,11 @@ For specialized topics, consult these expert agents:
 - `@streamhub-state` - Deep dive into RollbackState patterns, cache replay strategies, and state restoration after provider history mutations (Insert/Remove)
 - `@streamhub-performance` - StreamHub-specific performance deep dive (RollingWindow utilities, Wilder's smoothing patterns)
 - `@streamhub-testing` - Comprehensive test coverage guidance, test interface selection, rollback validation, and Series parity checks
-- `@streamhub-pairs` - Dual-stream indicator patterns, PairsProvider usage, timestamp synchronization, and dual-cache coordination
 - `@performance` - General performance optimization patterns (O(1) algorithms, complexity analysis, benchmarking)
 - `@series` - Series indicator development guidance (canonical reference for mathematical correctness)
 - `@buffer` - BufferList indicator development guidance (incremental processing patterns)
+
+> Note: `@streamhub-pairs` has been deprecated. See `docs/plans/pairhubs.plan.md` for details.
 
 See also: `.github/instructions/indicator-stream.instructions.md` for comprehensive StreamHub development guidelines.
 

@@ -97,10 +97,8 @@ public static partial class Catalog
         _listings.Add(Awesome.SeriesListing);
         _listings.Add(Awesome.StreamListing);
 
-        // Beta
-        _listings.Add(Beta.BufferListing);
+        // Beta (Series only - PairsProvider streaming removed)
         _listings.Add(Beta.SeriesListing);
-        _listings.Add(Beta.StreamListing);
 
         // Bollinger Bands
         _listings.Add(BollingerBands.BufferListing);
@@ -147,10 +145,8 @@ public static partial class Catalog
         _listings.Add(ConnorsRsi.BufferListing);
         _listings.Add(ConnorsRsi.StreamListing);
 
-        // Correlation
-        _listings.Add(Correlation.BufferListing);
+        // Correlation (Series only - PairsProvider streaming removed)
         _listings.Add(Correlation.SeriesListing);
-        _listings.Add(Correlation.StreamListing);
 
         // DEMA (Double Exponential Moving Average)
         _listings.Add(Dema.BufferListing);
@@ -307,10 +303,8 @@ public static partial class Catalog
         _listings.Add(Pmo.SeriesListing);
         _listings.Add(Pmo.StreamListing);
 
-        // PRS (Price Relative Strength)
-        _listings.Add(Prs.BufferListing);
+        // PRS (Price Relative Strength - Series only, PairsProvider streaming removed)
         _listings.Add(Prs.SeriesListing);
-        _listings.Add(Prs.StreamListing);
 
         // PVO (Price Volume Oscillator)
         _listings.Add(Pvo.BufferListing);

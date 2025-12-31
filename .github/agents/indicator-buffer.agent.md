@@ -12,15 +12,18 @@ You are a BufferList indicator development expert for the Stock Indicators libra
 You specialize in:
 
 - BufferList architecture and incremental processing patterns
-- Interface selection (IIncrementFromChain, IIncrementFromQuote, IIncrementFromPairs)
+- Interface selection (IIncrementFromChain, IIncrementFromQuote)
 - Universal buffer utilities usage (BufferListUtilities)
 - State management with tuples and efficient caching
 - Constructor patterns and method chaining
 - Test structure with BufferListTestBase and Series equivalence validation
 
+> Note: IIncrementFromPairs for dual-input indicators has been removed.
+> See `docs/plans/pairhubs.plan.md` for synchronization challenges and future re-implementation guidance.
+
 ## Decision trees
 
-### Decision 1: Interface selection (Chain/Quote/Pairs)
+### Decision 1: Interface selection (Chain/Quote)
 
 **Scenario**: You need to choose the correct increment interface for your BufferList indicator
 
@@ -43,15 +46,6 @@ You specialize in:
      - Cannot chain from IReusable
      - Direct quote processing
    - **Test interface**: ITestQuoteBufferList
-
-3. **IIncrementFromPairs** - For dual-input indicators
-   - **When to use**: Requires two synchronized input streams
-   - **Examples**: Correlation, Beta, relative performance
-   - **Characteristics**:
-     - Dual-stream synchronization
-     - Timestamp coordination required
-     - More complex state management
-   - **Test interface**: ITestPairsBufferList
 
 **Reference**: [Interface selection](../instructions/indicator-buffer.instructions.md#interface-selection)
 
@@ -162,7 +156,6 @@ You specialize in:
 2. **Test interface**: Implement matching interface
    - `ITestChainBufferList` for IIncrementFromChain
    - `ITestQuoteBufferList` for IIncrementFromQuote
-   - `ITestPairsBufferList` for IIncrementFromPairs
 
 3. **Required tests**: Implement 5 test methods
    - Standard (happy path)
@@ -227,10 +220,6 @@ Point developers to these canonical BufferList patterns:
 
 - Multiple indicators use tuple pattern - check recent implementations
 
-**Pairs-based interface**:
-
-- `src/a-d/Correlation/Correlation.BufferList.cs` - IIncrementFromPairs, dual-stream handling
-
 For detailed implementation guidance, see `.github/instructions/indicator-buffer.instructions.md`.
 
 ## Testing guidance
@@ -238,7 +227,7 @@ For detailed implementation guidance, see `.github/instructions/indicator-buffer
 Tests must:
 
 - **MUST inherit** from `BufferListTestBase` (not TestBase)
-- Implement appropriate test interface (ITestChainBufferList, ITestQuoteBufferList, or ITestPairsBufferList)
+- Implement appropriate test interface (ITestChainBufferList or ITestQuoteBufferList)
 - Include SeriesParity test with strict ordering validation
 - Cover all 5 required test patterns
 - Verify equivalence with Series results using `.IsExactly(series)`
@@ -282,12 +271,15 @@ When helping with BufferList development, always emphasize universal buffer util
 Invoke `@buffer` when you need help with:
 
 - Implementing new BufferList indicators
-- Choosing the correct increment interface (Chain/Quote/Pairs)
+- Choosing the correct increment interface (Chain/Quote)
 - Using universal buffer utilities efficiently
 - Managing internal state with tuples or fields
 - Writing BufferList tests with Series parity validation
 - Implementing proper constructor patterns
 - Debugging BufferList equivalence issues
+
+> Note: IIncrementFromPairs for dual-input indicators has been removed.
+> See `docs/plans/pairhubs.plan.md` for synchronization challenges and future re-implementation guidance.
 
 For comprehensive implementation details, continue reading `.github/instructions/indicator-buffer.instructions.md`.
 

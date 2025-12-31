@@ -231,7 +231,7 @@ For general StreamHub development, see `@streamhub`. For comprehensive guideline
 - `@streamhub` - General StreamHub development patterns and provider selection
 - `@streamhub-state` - State management and RollbackState patterns
 - `@streamhub-testing` - Test coverage and validation
-- `@streamhub-pairs` - Dual-stream indicators with synchronized inputs
+- > Note: `@streamhub-pairs` has been deprecated - see docs/plans/pairhubs.plan.md
 
 ## Example usage
 

@@ -116,8 +116,10 @@ This repository provides specialized custom agents that developers can invoke in
 | `@streamhub-state` | RollbackState patterns, cache replay strategies, window rebuilding | Implementing state management, handling provider history mutations (Insert/Remove) |
 | `@streamhub-performance` | O(1) optimization patterns, RollingWindow utilities, avoiding O(n²) anti-patterns | Performance optimization, achieving ≤1.5x Series benchmark, eliminating bottlenecks |
 | `@streamhub-testing` | Test interface selection, comprehensive rollback validation, Series parity checks | Writing StreamHub tests, selecting test interfaces, implementing rollback validation |
-| `@streamhub-pairs` | PairsProvider dual-stream patterns, timestamp synchronization, dual-cache coordination | Implementing dual-stream indicators (Correlation, Beta), managing synchronized inputs |
 | `@performance` | Performance optimization - algorithmic complexity, O(1) patterns, memory efficiency, benchmarking | Identifying bottlenecks, eliminating O(n²) anti-patterns, meeting performance targets across all styles |
+
+> Note: The `@streamhub-pairs` agent has been deprecated. PairsProvider for dual-stream indicators has been removed.
+> See `docs/plans/pairhubs.plan.md` for synchronization challenges and future re-implementation guidance.
 
 **Usage examples:**
 
@@ -133,8 +135,6 @@ This repository provides specialized custom agents that developers can invoke in
 @streamhub-performance My StreamHub is 50x slower than Series. How do I optimize?
 
 @streamhub-testing Which test interfaces should I implement for a ChainProvider hub?
-
-@streamhub-pairs How do I handle timestamp synchronization for dual-stream indicators?
 
 @performance My indicator is 10x slower than expected. How do I identify the bottleneck?
 ```

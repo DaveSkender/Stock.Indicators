@@ -51,7 +51,8 @@ public class StreamIndicators
     [Benchmark] public object AtrHub() => quoteHub.ToAtrHub(n).Results;
     [Benchmark] public object AtrStopHub() => quoteHub.ToAtrStopHub().Results;
     [Benchmark] public object AwesomeHub() => quoteHub.ToAwesomeHub().Results;
-    [Benchmark] public object BetaHub() => quoteHub.ToBetaHub(quoteHubOther, 20);
+
+    // Note: BetaHub removed - PairsProvider synchronization issues
     [Benchmark] public object BollingerBandsHub() => quoteHub.ToBollingerBandsHub(20, 2).Results;
     [Benchmark] public object BopHub() => quoteHub.ToBopHub(n).Results;
     [Benchmark] public object CciHub() => quoteHub.ToCciHub(20).Results;
@@ -61,7 +62,8 @@ public class StreamIndicators
     [Benchmark] public object CmfHub() => quoteHub.ToCmfHub(20).Results;
     [Benchmark] public object CmoHub() => quoteHub.ToCmoHub(n).Results;
     [Benchmark] public object ConnorsRsiHub() => quoteHub.ToConnorsRsiHub(3, 2, 100).Results;
-    [Benchmark] public object CorrelationHub() => quoteHub.ToCorrelationHub(quoteHubOther, 20);
+
+    // Note: CorrelationHub removed - PairsProvider synchronization issues
     [Benchmark] public object DemaHub() => quoteHub.ToDemaHub(n).Results;
     [Benchmark] public object DojiHub() => quoteHub.ToDojiHub().Results;
     [Benchmark] public object DonchianHub() => quoteHub.ToDonchianHub(20).Results;
@@ -93,7 +95,8 @@ public class StreamIndicators
     [Benchmark] public object PivotPointsHub() => quoteHub.ToPivotPointsHub().Results;
     [Benchmark] public object PivotsHub() => quoteHub.ToPivotsHub().Results;
     [Benchmark] public object PmoHub() => quoteHub.ToPmoHub(35, 20, 10).Results;
-    [Benchmark] public object PrsHub() => quoteHub.ToPrsHub(quoteHubOther, 20);
+
+    // Note: PrsHub removed - PairsProvider synchronization issues
     [Benchmark] public object PvoHub() => quoteHub.ToPvoHub().Results;
     [Benchmark] public object QuoteHub() => quoteHub.ToQuoteHub().Results;
     [Benchmark] public object QuotePartHub() => quoteHub.ToQuotePartHub(CandlePart.OHL3).Results;

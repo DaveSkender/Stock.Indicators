@@ -21,27 +21,13 @@ public static partial class Prs
     /// <summary>
     /// Price Relative Strength Series Listing
     /// </summary>
+    /// <remarks>
+    /// Note: BufferList and StreamHub listings were removed due to PairsProvider synchronization challenges.
+    /// See docs/plans/pairhubs.plan.md for details.
+    /// </remarks>
     internal static readonly IndicatorListing SeriesListing =
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Series)
             .WithMethodName("ToPrs")
-            .Build();
-
-    /// <summary>
-    /// Price Relative Strength Stream Listing
-    /// </summary>
-    internal static readonly IndicatorListing StreamListing =
-        new CatalogListingBuilder(CommonListing)
-            .WithStyle(Style.Stream)
-            .WithMethodName("ToPrsHub")
-            .Build();
-
-    /// <summary>
-    /// Price Relative Strength Buffer Listing
-    /// </summary>
-    internal static readonly IndicatorListing BufferListing =
-        new CatalogListingBuilder(CommonListing)
-            .WithStyle(Style.Buffer)
-            .WithMethodName("ToPrsList")
             .Build();
 }
