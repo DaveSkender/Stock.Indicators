@@ -349,7 +349,6 @@ For general StreamHub development, see `@streamhub`. For comprehensive guideline
 - `@streamhub` - General StreamHub development patterns and provider selection
 - `@streamhub-performance` - Performance optimization and O(1) patterns
 - `@streamhub-testing` - Test coverage and rollback validation
-- `@streamhub-pairs` - Dual-stream indicators with synchronized inputs
 
 ## Example usage
 

@@ -2,12 +2,12 @@
 
 This document consolidates incomplete tasks from the streaming indicators development feature (originally tracked in .specify/specs/001-develop-streaming-indicators/).
 
-**Status**: 99% complete - Framework is production-ready with comprehensive BufferList (96%) and StreamHub (98%) coverage.
+**Status**: 97% complete - Framework is production-ready with comprehensive BufferList (93%) and StreamHub (95%) coverage.
 
 - Total indicators: 85
-- With BufferList: 82 (96%)
-- With StreamHub: 83 (98%)
-- With streaming documentation: 81 of 82 streamable (99%)
+- With BufferList: 79 (93%)
+- With StreamHub: 80 (95%)
+- With streaming documentation: 78 of 79 streamable (99%)
 
 ## Recent Performance Fixes (December 2025)
 
@@ -175,8 +175,8 @@ The following were evaluated and intentionally excluded from streaming implement
 
 - [x] **T175-T179** - StreamHub test interface compliance audits (5 tasks)
   - ✅ Audit script validates all tests implement correct interfaces
-  - ✅ Confirmed: ITestQuoteObserver, ITestChainObserver, ITestPairsObserver properly used
-  - ✅ All required test methods present (QuoteObserver, ChainObserver, ChainProvider, PairsObserver)
+  - ✅ Confirmed: ITestQuoteObserver, ITestChainObserver properly used (ITestPairsObserver removed)
+  - ✅ All required test methods present (QuoteObserver, ChainObserver, ChainProvider)
   - ✅ No interface compliance issues found
   - **Status**: COMPLETE
 

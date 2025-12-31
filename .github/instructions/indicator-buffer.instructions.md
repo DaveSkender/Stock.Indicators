@@ -12,7 +12,7 @@ These instructions apply to buffer-style indicators that process data incrementa
 Invoke `@buffer` when you need help with:
 
 - Implementing new BufferList indicators with incremental processing
-- Choosing the correct increment interface (IIncrementFromChain, IIncrementFromQuote, IIncrementFromPairs)
+- Choosing the correct increment interface (IIncrementFromChain, IIncrementFromQuote)
 - Using universal buffer utilities (BufferListUtilities.Update/UpdateWithDequeue)
 - Managing internal state efficiently with tuples or fields
 - Writing BufferList tests with Series parity validation
@@ -34,7 +34,7 @@ See also: `.github/agents/indicator-buffer.agent.md` for decision trees and quic
 When implementing or updating an indicator, you must complete:
 
 - [ ] Source code: `src/**/{IndicatorName}.BufferList.cs` file exists and adheres to these instructions
-  - [ ] Inherits `BufferList<TResult>` and implements the correct increment interface (`IIncrementFromChain` | `IIncrementFromQuote` | `IIncrementFromPairs`)
+  - [ ] Inherits `BufferList<TResult>` and implements the correct increment interface (`IIncrementFromChain` or `IIncrementFromQuote`)
   - [ ] Provides two constructors: primary parameters only, and parameters + `IReadOnlyList<IQuote> quotes` (chained via `: this(... ) => Add(quotes);`)
   - [ ] Implements required Add overloads for the chosen interface and uses `BufferListUtilities.Update()` or `UpdateWithDequeue()`
   - [ ] `Clear()` resets results and all internal buffers/caches
@@ -42,7 +42,7 @@ When implementing or updating an indicator, you must complete:
 - [ ] Catalog: `src/**/{IndicatorName}.Catalog.cs` exists, is accurate, and registered in `src\_common\Catalog\Catalog.Listings.cs` (`PopulateCatalog`)
 - [ ] Unit testing: `tests/indicators/**/{IndicatorName}.BufferList.Tests.cs` file exists and adheres to these instructions
   - [ ] Inherits `BufferListTestBase` (not `TestBase`) and implements the correct test interface(s)
-  - [ ] Implements the 5 required tests from the base and covers reusable/quotes/pairs paths as applicable
+  - [ ] Implements the 5 required tests from the base and covers reusable/quotes paths as applicable
   - [ ] Verifies equivalence with the corresponding Series results for the same inputs
 - [ ] Common items: Complete regression, performance, docs, and migration per `AGENTS.md` (Common indicator requirements)
 
@@ -58,11 +58,10 @@ All buffer indicators must use the common `BufferListUtilities` extension method
 
 ## Interface selection
 
-BufferList implementations must implement ONE of three interfaces based on the related buffer style indicator:
+BufferList implementations must implement ONE of the following interfaces based on the related buffer style indicator:
 
 - `IIncrementFromChain` - most common, for chainable indicators (SMA, EMA, RSI, MACD)
 - `IIncrementFromQuote` - requires multiple OHLC values (VWMA, Stoch, VWAP)
-- `IIncrementFromPairs` - dual-input indicators (Correlation, Beta)
 
 ### Test interfaces
 
@@ -70,7 +69,6 @@ All buffer test classes inherit from `BufferListTestBase` and implement the corr
 
 - `ITestChainBufferList` when implementing `IIncrementFromChain`
 - `ITestQuoteBufferList` when implementing `IIncrementFromQuote`
-- `ITestPairsBufferList` when implementing `IIncrementFromPairs`
 - `ITestCustomBufferListCache` when using custom non-`Queue<T>` caches (for example, `List<T>`)
 
 ## Implementation requirements
@@ -153,22 +151,6 @@ public class {IndicatorName}List : BufferList<{IndicatorName}Result>, I{Incremen
 
 - `Add(IQuote quote)`
 - `Add(IReadOnlyList<IQuote> quotes)`
-
-### `IIncrementFromPairs` - Dual-input indicators
-
-**Use for**: Indicators requiring two synchronized series (Correlation, Beta)
-
-**Required methods**:
-
-- `Add(DateTime timestamp, double valueA, double valueB)`
-- `Add(IReusable valueA, IReusable valueB)`
-- `Add(IReadOnlyList<IReusable> valuesA, IReadOnlyList<IReusable> valuesB)`
-
-**Critical rules**:
-
-- ✅ Constructor accepts two `IReadOnlyList<IReusable>` parameters
-- ✅ Must validate timestamp matching between pairs
-- ✅ Must validate equal list counts
 
 ## Buffer management patterns
 
@@ -300,16 +282,12 @@ Study these exemplary buffer indicators that demonstrate proper use of universal
 - **ADX**: `src/a-d/Adx/Adx.BufferList.cs` - Complex object buffer management
 - **MAMA**: `src/m-r/Mama/Mama.BufferList.cs` - List-based state with separate state array pruning
 - **Volatility Stop (historical repaint)**: `src/s-z/VolatilityStop/VolatilityStop.BufferList.cs` — Demonstrates correct handling of trailing stop recalculation and repainting of historical values when new extrema arrive. Use this as the canonical pattern for indicators that legitimately revise past outputs based on future bars.
-- **Dual-input (pairs)**:
-  - `src/a-d/Correlation/Correlation.BufferList.cs` — Pairwise rolling statistics with timestamp alignment requirements
-  - `src/a-d/Beta/Beta.BufferList.cs` — Dual-series regression/risk example built on the same pairs pattern
 
 When implementing other complex or previously deferred indicators (for example: Fractal, HtTrendline, Hurst, Ichimoku, Slope), prefer adapting from the closest matching reference above rather than writing bespoke buffer logic. In particular:
 
 - For multi-buffer pipelines, start from HMA.
 - For complex state objects, start from ADX.
 - For legitimate historical repaint behavior, start from Volatility Stop.
-- For synchronized dual-series inputs, start from Correlation/Beta.
 
 > [!NOTE]
 > For PRs, use the dev-facing Code completion checklist above, and the contributor-facing checklists:
@@ -318,4 +296,4 @@ When implementing other complex or previously deferred indicators (for example: 
 > - StreamHub tests: [stream-hub-tests.md](../../docs/checklists/stream-hub-tests.md)
 
 ---
-Last updated: October 28, 2025
+Last updated: December 31, 2025

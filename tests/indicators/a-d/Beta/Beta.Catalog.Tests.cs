@@ -58,33 +58,4 @@ public class BetaTests : TestBase
         returnsmrktResult6?.DisplayName.Should().Be("Returns Mrkt");
         returnsmrktResult6.IsReusable.Should().Be(false);
     }
-
-    [TestMethod]
-    public void BetaBufferListing()
-    {
-        // Act
-        IndicatorListing listing = Beta.BufferListing;
-
-        // Assert
-        listing.Should().NotBeNull();
-        listing.Name.Should().Be("Beta");
-        listing.Uiid.Should().Be("BETA");
-        listing.Style.Should().Be(Style.Buffer);
-        listing.Category.Should().Be(Category.PriceCharacteristic);
-        listing.MethodName.Should().Be("ToBetaList");
-
-        listing.Parameters.Should().NotBeNull();
-        listing.Parameters.Should().HaveCount(4);
-
-        IndicatorParam lookbackPeriodsParam = listing.Parameters.SingleOrDefault(static p => p.ParameterName == "lookbackPeriods");
-        lookbackPeriodsParam.Should().NotBeNull();
-
-        listing.Results.Should().NotBeNull();
-        listing.Results.Should().HaveCount(7);
-
-        IndicatorResult betaResult = listing.Results.SingleOrDefault(static r => r.DataName == "Beta");
-        betaResult.Should().NotBeNull();
-        betaResult?.DisplayName.Should().Be("Beta");
-        betaResult.IsReusable.Should().Be(true);
-    }
 }
