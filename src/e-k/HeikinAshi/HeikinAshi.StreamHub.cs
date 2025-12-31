@@ -1,7 +1,5 @@
 namespace Skender.Stock.Indicators;
 
-// HEIKIN-ASHI (STREAM HUB)
-
 /// <summary>
 /// Represents a hub for Heikin-Ashi quote transformation.
 /// </summary>

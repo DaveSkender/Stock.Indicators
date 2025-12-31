@@ -1,7 +1,5 @@
 namespace Skender.Stock.Indicators;
 
-// AWESOME OSCILLATOR (STREAM HUB)
-
 /// <summary>
 /// Streaming hub for Awesome Oscillator.
 /// </summary>

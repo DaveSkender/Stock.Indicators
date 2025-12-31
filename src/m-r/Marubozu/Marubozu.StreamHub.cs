@@ -1,7 +1,5 @@
 namespace Skender.Stock.Indicators;
 
-// MARUBOZU CANDLESTICK PATTERN (STREAM HUB)
-
 /// <summary>
 /// Represents a hub for Marubozu candlestick pattern detection.
 /// </summary>

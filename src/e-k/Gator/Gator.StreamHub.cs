@@ -1,7 +1,5 @@
 namespace Skender.Stock.Indicators;
 
-// GATOR OSCILLATOR (STREAM HUB)
-
 /// <summary>
 /// Streaming hub for Gator Oscillator indicator.
 /// </summary>

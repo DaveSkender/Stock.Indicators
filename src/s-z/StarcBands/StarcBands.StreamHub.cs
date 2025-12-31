@@ -1,7 +1,5 @@
 namespace Skender.Stock.Indicators;
 
-// STARC BANDS (STREAM HUB)
-
 /// <summary>
 /// Represents a stream hub for calculating STARC Bands.
 /// </summary>

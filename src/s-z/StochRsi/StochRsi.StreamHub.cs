@@ -1,7 +1,5 @@
 namespace Skender.Stock.Indicators;
 
-// STOCHASTIC RSI (STREAM HUB)
-
 /// <summary>
 /// Represents a Stochastic RSI stream hub that calculates Stochastic oscillator on RSI values.
 /// </summary>

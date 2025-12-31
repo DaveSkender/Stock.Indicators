@@ -1,7 +1,5 @@
 namespace Skender.Stock.Indicators;
 
-// BETA (STREAM HUB)
-
 /// <summary>
 /// Streaming hub for Beta coefficient.
 /// </summary>

@@ -1,7 +1,5 @@
 namespace Skender.Stock.Indicators;
 
-// DOJI CANDLESTICK PATTERN (STREAM HUB)
-
 /// <summary>
 /// Provides methods for identifying Doji candlestick patterns.
 /// </summary>

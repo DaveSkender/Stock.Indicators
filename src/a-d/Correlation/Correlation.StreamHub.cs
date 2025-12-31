@@ -1,7 +1,5 @@
 namespace Skender.Stock.Indicators;
 
-// CORRELATION (STREAM HUB)
-
 /// <summary>
 /// Streaming hub for correlation coefficient.
 /// </summary>

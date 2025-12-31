@@ -1,7 +1,5 @@
 namespace Skender.Stock.Indicators;
 
-// SCHAFF TREND CYCLE (STREAM HUB)
-
 /// <summary>
 /// Internal record for storing MACD intermediate values in STC calculation.
 /// </summary>

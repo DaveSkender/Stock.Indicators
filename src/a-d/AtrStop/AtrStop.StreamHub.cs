@@ -1,7 +1,5 @@
 namespace Skender.Stock.Indicators;
 
-// ATR TRAILING STOP (STREAM HUB)
-
 /// <summary>
 /// Streaming hub for ATR Trailing Stop using a stream hub.
 /// </summary>

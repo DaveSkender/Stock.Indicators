@@ -1,7 +1,5 @@
 namespace Skender.Stock.Indicators;
 
-// ENDPOINT MOVING AVERAGE (STREAM HUB)
-
 /// <summary>
 /// Provides methods for creating EPMA hubs.
 /// </summary>

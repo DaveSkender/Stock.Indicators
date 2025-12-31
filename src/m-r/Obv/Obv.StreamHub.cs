@@ -1,7 +1,5 @@
 namespace Skender.Stock.Indicators;
 
-// ON-BALANCE VOLUME (STREAM HUB)
-
 /// <summary>
 /// Provides methods for creating OBV hubs.
 /// </summary>

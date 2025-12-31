@@ -1,7 +1,5 @@
 namespace Skender.Stock.Indicators;
 
-// WILLIAMS FRACTAL (STREAM HUB)
-
 /// <summary>
 /// Provides methods for calculating the Williams Fractal indicator using a stream hub.
 /// </summary>

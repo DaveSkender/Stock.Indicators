@@ -1,7 +1,5 @@
 namespace Skender.Stock.Indicators;
 
-// ELDER RAY (STREAM HUB)
-
 /// <summary>
 /// Streaming hub for Elder Ray indicator using a stream hub.
 /// </summary>

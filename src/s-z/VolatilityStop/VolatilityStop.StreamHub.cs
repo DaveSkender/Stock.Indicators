@@ -1,7 +1,5 @@
 namespace Skender.Stock.Indicators;
 
-// VOLATILITY STOP (STREAM HUB)
-
 /// <summary>
 /// Provides methods for calculating the Volatility Stop using a stream hub.
 /// </summary>

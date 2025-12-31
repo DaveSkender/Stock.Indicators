@@ -1,7 +1,5 @@
 namespace Skender.Stock.Indicators;
 
-// SIMPLE MOVING AVERAGE ANALYSIS (STREAM HUB)
-
 /// <summary>
 /// Represents a Simple Moving Average (SMA) Analysis stream hub.
 /// </summary>

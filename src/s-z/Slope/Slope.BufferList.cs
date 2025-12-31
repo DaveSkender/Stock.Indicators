@@ -22,6 +22,11 @@ public class SlopeList : BufferList<SlopeResult>, IIncrementFromChain, ISlope
     // Formula: n*(n²-1)/12 where n = lookbackPeriods
     private readonly double sumSqXConstant;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="SlopeList"/> class.
+    /// </summary>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="lookbackPeriods"/> is invalid.</exception>
     public SlopeList(int lookbackPeriods)
     {
         Slope.Validate(lookbackPeriods);
@@ -38,6 +43,12 @@ public class SlopeList : BufferList<SlopeResult>, IIncrementFromChain, ISlope
         Name = $"SLOPE({lookbackPeriods})";
     }
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="SlopeList"/> class with initial values.
+    /// </summary>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
+    /// <param name="values">Initial reusable values to populate the list.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="lookbackPeriods"/> is invalid.</exception>
     public SlopeList(
         int lookbackPeriods,
         IReadOnlyList<IReusable> values)

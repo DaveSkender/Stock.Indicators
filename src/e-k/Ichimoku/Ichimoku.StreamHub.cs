@@ -1,11 +1,8 @@
 namespace Skender.Stock.Indicators;
 
-// ICHIMOKU CLOUD (STREAM HUB)
-
 /// <summary>
 /// Represents a stream hub for calculating the Ichimoku Cloud indicator.
 /// </summary>
-/// <inheritdoc cref="IIchimoku"/>
 public class IchimokuHub
     : StreamHub<IQuote, IchimokuResult>, IIchimoku
 {

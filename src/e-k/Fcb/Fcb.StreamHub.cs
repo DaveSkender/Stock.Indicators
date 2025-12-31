@@ -1,7 +1,5 @@
 namespace Skender.Stock.Indicators;
 
-// FCB (STREAM HUB)
-
 /// <summary>
 /// Provides methods for calculating the Fractal Chaos Bands (FCB) using a stream hub.
 /// </summary>

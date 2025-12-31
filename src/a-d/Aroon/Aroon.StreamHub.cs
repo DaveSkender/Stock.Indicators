@@ -1,7 +1,5 @@
 namespace Skender.Stock.Indicators;
 
-// AROON OSCILLATOR (STREAM HUB)
-
 /// <summary>
 /// Represents a hub for Aroon Oscillator calculations.
 /// </summary>

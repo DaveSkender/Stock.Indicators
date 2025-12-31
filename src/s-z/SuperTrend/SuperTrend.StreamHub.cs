@@ -1,7 +1,5 @@
 namespace Skender.Stock.Indicators;
 
-// SUPERTREND (STREAM HUB)
-
 /// <summary>
 /// Provides methods for calculating the SuperTrend using a stream hub.
 /// </summary>

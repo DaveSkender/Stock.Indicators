@@ -1,7 +1,5 @@
 namespace Skender.Stock.Indicators;
 
-// STOCHASTIC MOMENTUM INDEX (STREAM HUB)
-
 /// <summary>
 /// Represents a Stochastic Momentum Index (SMI) stream hub that calculates SMI with signal line.
 /// </summary>

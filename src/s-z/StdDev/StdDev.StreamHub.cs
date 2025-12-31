@@ -1,7 +1,5 @@
 namespace Skender.Stock.Indicators;
 
-// STANDARD DEVIATION (STREAM HUB)
-
 /// <summary>
 /// Represents a Standard Deviation stream hub.
 /// </summary>

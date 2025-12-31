@@ -1,7 +1,5 @@
 namespace Skender.Stock.Indicators;
 
-// ROLLING PIVOT POINTS (STREAM HUB)
-
 /// <summary>
 /// Streaming hub for Rolling Pivot Points using a stream hub.
 /// </summary>

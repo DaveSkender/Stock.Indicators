@@ -1,7 +1,5 @@
 namespace Skender.Stock.Indicators;
 
-// FORCE INDEX (STREAM HUB)
-
 /// <summary>
 /// Provides streaming hub for Force Index calculations.
 /// </summary>

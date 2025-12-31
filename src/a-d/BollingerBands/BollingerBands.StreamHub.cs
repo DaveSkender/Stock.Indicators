@@ -1,7 +1,5 @@
 namespace Skender.Stock.Indicators;
 
-// BOLLINGER BANDS (STREAM HUB)
-
 /// <summary>
 /// Provides methods for creating Bollinger Bands hubs.
 /// </summary>

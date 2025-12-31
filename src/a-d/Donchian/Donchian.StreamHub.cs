@@ -1,7 +1,5 @@
 namespace Skender.Stock.Indicators;
 
-// DONCHIAN CHANNELS (STREAM HUB)
-
 /// <summary>
 /// Streaming hub for Donchian Channels using a stream hub.
 /// </summary>

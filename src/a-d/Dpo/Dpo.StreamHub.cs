@@ -1,7 +1,5 @@
 namespace Skender.Stock.Indicators;
 
-// DETRENDED PRICE OSCILLATOR (STREAM HUB)
-
 /// <summary>
 /// Streaming hub for Detrended Price Oscillator (DPO) using a stream hub.
 /// </summary>

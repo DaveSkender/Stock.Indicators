@@ -1,7 +1,5 @@
 namespace Skender.Stock.Indicators;
 
-// CHAIKIN OSCILLATOR (STREAM HUB)
-
 /// <summary>
 /// Streaming hub for Chaikin Oscillator.
 /// </summary>

@@ -1,7 +1,5 @@
 namespace Skender.Stock.Indicators;
 
-// WEIGHTED MOVING AVERAGE (STREAM HUB)
-
 /// <summary>
 /// Provides methods for creating WMA hubs.
 /// </summary>

@@ -1,6 +1,5 @@
 namespace Skender.Stock.Indicators;
 
-
 /// <summary>
 /// Represents a Williams %R stream hub.
 /// </summary>

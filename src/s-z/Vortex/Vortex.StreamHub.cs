@@ -1,7 +1,5 @@
 namespace Skender.Stock.Indicators;
 
-// VORTEX INDICATOR (STREAM HUB)
-
 /// <summary>
 /// Provides methods for creating Vortex Indicator hubs.
 /// </summary>

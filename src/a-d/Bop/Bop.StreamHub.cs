@@ -1,7 +1,5 @@
 namespace Skender.Stock.Indicators;
 
-// BALANCE OF POWER (STREAM HUB)
-
 /// <summary>
 /// Streaming hub for Balance of Power (BOP).
 /// </summary>

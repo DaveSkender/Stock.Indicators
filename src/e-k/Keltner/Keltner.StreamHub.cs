@@ -1,7 +1,5 @@
 namespace Skender.Stock.Indicators;
 
-// KELTNER CHANNELS (STREAM HUB)
-
 /// <summary>
 /// Represents a stream hub for calculating Keltner Channels.
 /// </summary>

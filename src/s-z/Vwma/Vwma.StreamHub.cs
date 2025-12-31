@@ -1,7 +1,5 @@
 namespace Skender.Stock.Indicators;
 
-// VOLUME WEIGHTED MOVING AVERAGE (STREAM HUB)
-
 /// <summary>
 /// Provides methods for creating VWMA hubs.
 /// </summary>

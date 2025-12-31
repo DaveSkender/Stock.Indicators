@@ -8,6 +8,11 @@ public class EmaList : BufferList<EmaResult>, IIncrementFromChain, IEma
     private readonly Queue<double> _buffer;
     private double _bufferSum;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="EmaList"/> class.
+    /// </summary>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="lookbackPeriods"/> is invalid.</exception>
     public EmaList(int lookbackPeriods)
     {
         Ema.Validate(lookbackPeriods);
@@ -20,6 +25,12 @@ public class EmaList : BufferList<EmaResult>, IIncrementFromChain, IEma
         Name = $"EMA({lookbackPeriods})";
     }
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="EmaList"/> class with initial values.
+    /// </summary>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
+    /// <param name="values">Initial reusable values to populate the list.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="lookbackPeriods"/> is invalid.</exception>
     public EmaList(
         int lookbackPeriods,
         IReadOnlyList<IReusable> values)

@@ -1,7 +1,5 @@
 namespace Skender.Stock.Indicators;
 
-// PRS (STREAM HUB)
-
 /// <summary>
 /// Streaming hub for Price Relative Strength (PRS) series.
 /// </summary>
