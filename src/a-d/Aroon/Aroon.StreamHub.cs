@@ -98,15 +98,4 @@ public static partial class Aroon
         this IQuoteProvider<IQuote> provider,
         int lookbackPeriods = 25)
         => new(provider, lookbackPeriods);
-
-    /// <summary>
-    /// Creates an Aroon hub from a collection of quotes.
-    /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <returns>An instance of <see cref="AroonHub"/>.</returns>
-    public static AroonHub ToAroonHub(
-        this IReadOnlyList<IQuote> quotes,
-        int lookbackPeriods = 25)
-        => quotes.ToQuoteHub().ToAroonHub(lookbackPeriods);
 }

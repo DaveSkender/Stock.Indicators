@@ -136,16 +136,4 @@ public static partial class Quotes
     public static QuoteHub ToQuoteHub(
         this IQuoteProvider<IQuote> quoteProvider)
         => new(quoteProvider);
-
-    /// <summary>
-    /// Creates a new QuoteHub from an initiating collection of quotes.
-    /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    public static QuoteHub ToQuoteHub(
-        this IReadOnlyList<IQuote> quotes)
-    {
-        QuoteHub quoteHub = new();  // cannot dogfood ToQuoteHub() here
-        quoteHub.Add(quotes);
-        return quoteHub;
-    }
 }

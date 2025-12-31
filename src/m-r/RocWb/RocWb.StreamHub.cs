@@ -233,25 +233,4 @@ public static partial class RocWb
         int emaPeriods = 5,
         int stdDevPeriods = 5)
         => new(chainProvider, lookbackPeriods, emaPeriods, stdDevPeriods);
-
-    /// <summary>
-    /// Creates a RocWb hub from a collection of quotes.
-    /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="lookbackPeriods">Quantity of periods in lookback window for ROC.</param>
-    /// <param name="emaPeriods">Quantity of periods for EMA smoothing.</param>
-    /// <param name="stdDevPeriods">Quantity of periods for standard deviation bands.</param>
-    /// <returns>An instance of <see cref="RocWbHub"/>.</returns>
-    public static RocWbHub ToRocWbHub(
-        this IReadOnlyList<IQuote> quotes,
-        int lookbackPeriods = 20,
-        int emaPeriods = 5,
-        int stdDevPeriods = 5)
-    {
-        ArgumentNullException.ThrowIfNull(quotes);
-        QuoteHub quoteHub = new();
-        quoteHub.Add(quotes);
-        return quoteHub.ToRocWbHub(lookbackPeriods, emaPeriods, stdDevPeriods);
-    }
-
 }

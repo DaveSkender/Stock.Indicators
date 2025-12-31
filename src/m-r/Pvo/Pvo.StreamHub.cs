@@ -232,24 +232,4 @@ public static partial class Pvo
         => quoteProvider
             .ToQuotePartHub(CandlePart.Volume)
             .ToPvoHub(fastPeriods, slowPeriods, signalPeriods);
-
-    /// <summary>
-    /// Creates a Pvo hub from a collection of quotes.
-    /// </summary>
-    /// <param name="quotes">The collection of quotes.</param>
-    /// <param name="fastPeriods">Parameter for the calculation.</param>
-    /// <param name="slowPeriods">Parameter for the calculation.</param>
-    /// <param name="signalPeriods">Parameter for the calculation.</param>
-    /// <returns>An instance of <see cref="PvoHub"/>.</returns>
-    public static PvoHub ToPvoHub(
-        this IReadOnlyList<IQuote> quotes,
-        int fastPeriods = 12,
-        int slowPeriods = 26,
-        int signalPeriods = 9)
-    {
-        QuoteHub quoteHub = new();
-        quoteHub.Add(quotes);
-        return quoteHub.ToPvoHub(fastPeriods, slowPeriods, signalPeriods);
-    }
-
 }

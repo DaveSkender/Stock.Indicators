@@ -229,21 +229,4 @@ public static partial class Slope
         this IChainProvider<IReusable> chainProvider,
         int lookbackPeriods = 14)
         => new(chainProvider, lookbackPeriods);
-
-    /// <summary>
-    /// Creates a Slope hub from a collection of quotes.
-    /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <returns>An instance of <see cref="SlopeHub"/>.</returns>
-    public static SlopeHub ToSlopeHub(
-        this IReadOnlyList<IQuote> quotes,
-        int lookbackPeriods = 14)
-    {
-        QuoteHub quoteHub = new();
-        quoteHub.Add(quotes);
-        return quoteHub.ToSlopeHub(lookbackPeriods);
-
-        // reminder: can't be self-ref 'quotes.ToHub' syntax
-    }
 }

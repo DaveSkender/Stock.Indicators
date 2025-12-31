@@ -5,7 +5,6 @@ public class UltimateHub
     : ChainProvider<IReusable, UltimateResult>, IUltimate
 {
 
-
     /// <summary>
     /// Initializes a new instance of the <see cref="UltimateHub"/> class.
     /// </summary>
@@ -139,24 +138,4 @@ public static partial class Ultimate
         int middlePeriods = 14,
         int longPeriods = 28)
              => new(quoteProvider, shortPeriods, middlePeriods, longPeriods);
-
-    /// <summary>
-    /// Creates a Ultimate hub from a collection of quotes.
-    /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="shortPeriods">Parameter for the calculation.</param>
-    /// <param name="middlePeriods">Parameter for the calculation.</param>
-    /// <param name="longPeriods">Parameter for the calculation.</param>
-    /// <returns>An instance of <see cref="UltimateHub"/>.</returns>
-    public static UltimateHub ToUltimateHub(
-        this IReadOnlyList<IQuote> quotes,
-        int shortPeriods = 7,
-        int middlePeriods = 14,
-        int longPeriods = 28)
-    {
-        QuoteHub quoteHub = new();
-        quoteHub.Add(quotes);
-        return quoteHub.ToUltimateHub(shortPeriods, middlePeriods, longPeriods);
-    }
-
 }

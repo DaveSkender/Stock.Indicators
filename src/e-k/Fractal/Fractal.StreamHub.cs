@@ -9,7 +9,6 @@ public class FractalHub
     : StreamHub<IQuote, FractalResult>, IFractal
 {
 
-
     /// <summary>
     /// Initializes a new instance of the <see cref="FractalHub"/> class.
     /// </summary>
@@ -161,43 +160,4 @@ public static partial class Fractal
         ArgumentNullException.ThrowIfNull(quoteProvider);
         return new(quoteProvider, leftSpan, rightSpan, endType);
     }
-
-    /// <summary>
-    /// Creates a Fractal hub from a collection of quotes.
-    /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="windowSpan">Parameter for the calculation.</param>
-    /// <param name="endType">Parameter for the calculation.</param>
-    /// <returns>An instance of <see cref="FractalHub"/>.</returns>
-    public static FractalHub ToFractalHub(
-        this IReadOnlyList<IQuote> quotes,
-       int windowSpan = 2,
-       EndType endType = EndType.HighLow)
-    {
-        ArgumentNullException.ThrowIfNull(quotes);
-        QuoteHub quoteHub = new();
-        quoteHub.Add(quotes);
-        return quoteHub.ToFractalHub(windowSpan, endType);
-    }
-
-    /// <summary>
-    /// Creates a Fractal hub from a collection of quotes with different left and right spans.
-    /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="leftSpan">Parameter for the calculation.</param>
-    /// <param name="rightSpan">Parameter for the calculation.</param>
-    /// <param name="endType">Parameter for the calculation.</param>
-    /// <returns>An instance of <see cref="FractalHub"/>.</returns>
-    public static FractalHub ToFractalHub(
-        this IReadOnlyList<IQuote> quotes,
-       int leftSpan,
-       int rightSpan,
-       EndType endType = EndType.HighLow)
-    {
-        ArgumentNullException.ThrowIfNull(quotes);
-        QuoteHub quoteHub = new();
-        quoteHub.Add(quotes);
-        return quoteHub.ToFractalHub(leftSpan, rightSpan, endType);
-    }
-
 }

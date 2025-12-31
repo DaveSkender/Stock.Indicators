@@ -56,18 +56,4 @@ public static partial class Tr
     public static TrHub ToTrHub(
         this IQuoteProvider<IQuote> quoteProvider)
              => new(quoteProvider);
-
-    /// <summary>
-    /// Creates a Tr hub from a collection of quotes.
-    /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <returns>An instance of <see cref="TrHub"/>.</returns>
-    public static TrHub ToTrHub(
-        this IReadOnlyList<IQuote> quotes)
-    {
-        QuoteHub quoteHub = new();
-        quoteHub.Add(quotes);
-        return quoteHub.ToTrHub();
-    }
-
 }

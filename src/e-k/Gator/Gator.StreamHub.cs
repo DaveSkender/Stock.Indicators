@@ -75,17 +75,4 @@ public static partial class Gator
         AlligatorHub alligatorHub = chainProvider.ToAlligatorHub();
         return new GatorHub(alligatorHub);
     }
-
-    /// <summary>
-    /// Creates a Gator hub from a collection of quotes.
-    /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <returns>An instance of <see cref="GatorHub"/>.</returns>
-    public static GatorHub ToGatorHub(
-        this IReadOnlyList<IQuote> quotes)
-    {
-        QuoteHub quoteHub = new();
-        quoteHub.Add(quotes);
-        return quoteHub.ToGatorHub();
-    }
 }

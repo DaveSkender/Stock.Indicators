@@ -111,21 +111,4 @@ public static partial class ForceIndex
         ArgumentNullException.ThrowIfNull(quoteProvider);
         return new(quoteProvider, lookbackPeriods);
     }
-
-    /// <summary>
-    /// Creates a Force Index hub from a collection of quotes.
-    /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="lookbackPeriods">Parameter for the calculation.</param>
-    /// <returns>An instance of <see cref="ForceIndexHub"/>.</returns>
-    public static ForceIndexHub ToForceIndexHub(
-        this IReadOnlyList<IQuote> quotes,
-        int lookbackPeriods = 2)
-    {
-        ArgumentNullException.ThrowIfNull(quotes);
-        QuoteHub quoteHub = new();
-        quoteHub.Add(quotes);
-        return quoteHub.ToForceIndexHub(lookbackPeriods);
-    }
-
 }

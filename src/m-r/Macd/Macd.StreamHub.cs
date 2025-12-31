@@ -139,24 +139,4 @@ public static partial class Macd
         int slowPeriods = 26,
         int signalPeriods = 9)
         => new(chainProvider, fastPeriods, slowPeriods, signalPeriods);
-
-    /// <summary>
-    /// Creates a Macd hub from a collection of quotes.
-    /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="fastPeriods">Parameter for the calculation.</param>
-    /// <param name="slowPeriods">Parameter for the calculation.</param>
-    /// <param name="signalPeriods">Parameter for the calculation.</param>
-    /// <returns>An instance of <see cref="MacdHub"/>.</returns>
-    public static MacdHub ToMacdHub(
-        this IReadOnlyList<IQuote> quotes,
-        int fastPeriods = 12,
-        int slowPeriods = 26,
-        int signalPeriods = 9)
-    {
-        QuoteHub quoteHub = new();
-        quoteHub.Add(quotes);
-        return quoteHub.ToMacdHub(fastPeriods, slowPeriods, signalPeriods);
-    }
-
 }

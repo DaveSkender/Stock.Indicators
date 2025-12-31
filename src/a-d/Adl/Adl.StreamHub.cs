@@ -52,12 +52,4 @@ public static partial class Adl
     public static AdlHub ToAdlHub(
         this IQuoteProvider<IQuote> quoteProvider)
         => new(quoteProvider);
-
-    /// <summary>
-    /// Creates a standalone AdlHub from an initiating collection of quotes.
-    /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    public static AdlHub ToAdlHub(
-        this IReadOnlyList<IQuote> quotes)
-        => quotes.ToQuoteHub().ToAdlHub();
 }

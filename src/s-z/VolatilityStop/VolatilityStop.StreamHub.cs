@@ -9,7 +9,6 @@ public class VolatilityStopHub
     : StreamHub<IQuote, VolatilityStopResult>, IVolatilityStop
 {
 
-
     /// <summary>
     /// Initializes a new instance of the <see cref="VolatilityStopHub"/> class.
     /// </summary>
@@ -317,22 +316,4 @@ public static partial class VolatilityStop
        int lookbackPeriods = 7,
        double multiplier = 3)
            => new(quoteProvider, lookbackPeriods, multiplier);
-
-    /// <summary>
-    /// Creates a VolatilityStop hub from a collection of quotes.
-    /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <param name="multiplier">The multiplier for the ATR.</param>
-    /// <returns>An instance of <see cref="VolatilityStopHub"/>.</returns>
-    public static VolatilityStopHub ToVolatilityStopHub(
-       this IReadOnlyList<IQuote> quotes,
-       int lookbackPeriods = 7,
-       double multiplier = 3)
-    {
-        ArgumentNullException.ThrowIfNull(quotes);
-        QuoteHub quoteHub = new();
-        quoteHub.Add(quotes);
-        return quoteHub.ToVolatilityStopHub(lookbackPeriods, multiplier);
-    }
 }

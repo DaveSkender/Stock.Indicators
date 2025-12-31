@@ -131,24 +131,4 @@ public static partial class Kama
         int fastPeriods = 2,
         int slowPeriods = 30)
         => new(chainProvider, erPeriods, fastPeriods, slowPeriods);
-
-    /// <summary>
-    /// Creates a Kama hub from a collection of quotes.
-    /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="erPeriods">Parameter for the calculation.</param>
-    /// <param name="fastPeriods">Parameter for the calculation.</param>
-    /// <param name="slowPeriods">Parameter for the calculation.</param>
-    /// <returns>An instance of <see cref="KamaHub"/>.</returns>
-    public static KamaHub ToKamaHub(
-        this IReadOnlyList<IQuote> quotes,
-        int erPeriods = 10,
-        int fastPeriods = 2,
-        int slowPeriods = 30)
-    {
-        QuoteHub quoteHub = new();
-        quoteHub.Add(quotes);
-        return quoteHub.ToKamaHub(erPeriods, fastPeriods, slowPeriods);
-    }
-
 }

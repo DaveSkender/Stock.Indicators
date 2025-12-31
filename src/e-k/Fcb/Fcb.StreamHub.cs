@@ -9,7 +9,6 @@ public class FcbHub
     : StreamHub<IQuote, FcbResult>, IFcb
 {
 
-
     /// <summary>
     /// Initializes a new instance of the <see cref="FcbHub"/> class.
     /// </summary>
@@ -132,20 +131,4 @@ public static partial class Fcb
        this IQuoteProvider<IQuote> quoteProvider,
        int windowSpan = 2)
            => new(quoteProvider, windowSpan);
-
-    /// <summary>
-    /// Creates a Fcb hub from a collection of quotes.
-    /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="windowSpan">The window span for the calculation. Default is 2.</param>
-    /// <returns>An instance of <see cref="FcbHub"/>.</returns>
-    public static FcbHub ToFcbHub(
-        this IReadOnlyList<IQuote> quotes,
-        int windowSpan = 2)
-    {
-        ArgumentNullException.ThrowIfNull(quotes);
-        QuoteHub quoteHub = new();
-        quoteHub.Add(quotes);
-        return quoteHub.ToFcbHub(windowSpan);
-    }
 }

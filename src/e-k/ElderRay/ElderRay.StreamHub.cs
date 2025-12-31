@@ -9,7 +9,6 @@ public class ElderRayHub
     : StreamHub<IQuote, ElderRayResult>, IElderRay
 {
 
-
     /// <summary>
     /// Initializes a new instance of the <see cref="ElderRayHub"/> class.
     /// </summary>
@@ -86,19 +85,4 @@ public static partial class ElderRay
        this IQuoteProvider<IQuote> quoteProvider,
        int lookbackPeriods = 13)
            => new(quoteProvider, lookbackPeriods);
-
-    /// <summary>
-    /// Creates an Elder Ray hub from a collection of quotes.
-    /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="lookbackPeriods">The number of periods to look back for the calculation. Default is 13.</param>
-    /// <returns>An instance of <see cref="ElderRayHub"/>.</returns>
-    public static ElderRayHub ToElderRayHub(
-        this IReadOnlyList<IQuote> quotes,
-        int lookbackPeriods = 13)
-    {
-        QuoteHub quoteHub = new();
-        quoteHub.Add(quotes);
-        return quoteHub.ToElderRayHub(lookbackPeriods);
-    }
 }

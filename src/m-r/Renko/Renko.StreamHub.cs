@@ -7,7 +7,6 @@ public class RenkoHub
     : QuoteProvider<IQuote, RenkoResult>, IRenko
 {
 
-
     private RenkoResult lastBrick
         = new(default, default, default,
             default, default, default, default);
@@ -197,22 +196,4 @@ public static partial class Renko
         decimal brickSize,
         EndType endType = EndType.Close)
         => new(quoteProvider, brickSize, endType);
-
-    /// <summary>
-    /// Creates a Renko hub from a collection of quotes.
-    /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="brickSize">Parameter for the calculation.</param>
-    /// <param name="endType">Parameter for the calculation.</param>
-    /// <returns>An instance of <see cref="RenkoHub"/>.</returns>
-    public static RenkoHub ToRenkoHub(
-        this IReadOnlyList<IQuote> quotes,
-        decimal brickSize,
-        EndType endType = EndType.Close)
-    {
-        QuoteHub quoteHub = new();
-        quoteHub.Add(quotes);
-        return quoteHub.ToRenkoHub(brickSize, endType);
-    }
-
 }

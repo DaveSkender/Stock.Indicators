@@ -358,40 +358,4 @@ public static partial class ParabolicSar
         double maxAccelerationFactor,
         double initialFactor)
         => new(quoteProvider, accelerationStep, maxAccelerationFactor, initialFactor);
-
-    /// <summary>
-    /// Creates a Parabolic SAR hub from a collection of quotes.
-    /// </summary>
-    /// <param name="quotes">The collection of quotes.</param>
-    /// <param name="accelerationStep">The acceleration step for the SAR calculation. Default is 0.02.</param>
-    /// <param name="maxAccelerationFactor">The maximum acceleration factor for the SAR calculation. Default is 0.2.</param>
-    /// <returns>An instance of <see cref="ParabolicSarHub"/>.</returns>
-    public static ParabolicSarHub ToParabolicSarHub(
-        this IReadOnlyList<IQuote> quotes,
-        double accelerationStep = 0.02,
-        double maxAccelerationFactor = 0.2)
-    {
-        QuoteHub quoteHub = new();
-        quoteHub.Add(quotes);
-        return quoteHub.ToParabolicSarHub(accelerationStep, maxAccelerationFactor);
-    }
-
-    /// <summary>
-    /// Creates a Parabolic SAR hub from a collection of quotes with custom initial factor.
-    /// </summary>
-    /// <param name="quotes">The collection of quotes.</param>
-    /// <param name="accelerationStep">The acceleration step for the SAR calculation.</param>
-    /// <param name="maxAccelerationFactor">The maximum acceleration factor for the SAR calculation.</param>
-    /// <param name="initialFactor">The initial acceleration factor for the SAR calculation.</param>
-    /// <returns>An instance of <see cref="ParabolicSarHub"/>.</returns>
-    public static ParabolicSarHub ToParabolicSarHub(
-        this IReadOnlyList<IQuote> quotes,
-        double accelerationStep,
-        double maxAccelerationFactor,
-        double initialFactor)
-    {
-        QuoteHub quoteHub = new();
-        quoteHub.Add(quotes);
-        return quoteHub.ToParabolicSarHub(accelerationStep, maxAccelerationFactor, initialFactor);
-    }
 }

@@ -172,23 +172,4 @@ public static partial class Chandelier
         double multiplier = 3,
         Direction type = Direction.Long)
              => new(quoteProvider, lookbackPeriods, multiplier, type);
-
-    /// <summary>
-    /// Creates a Chandelier Exit hub from a collection of quotes.
-    /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <param name="multiplier">The multiplier to apply to the ATR.</param>
-    /// <param name="type">The type of Chandelier Exit to calculate (Long or Short).</param>
-    /// <returns>An instance of <see cref="ChandelierHub"/>.</returns>
-    public static ChandelierHub ToChandelierHub(
-        this IReadOnlyList<IQuote> quotes,
-        int lookbackPeriods = 22,
-        double multiplier = 3,
-        Direction type = Direction.Long)
-    {
-        QuoteHub quoteHub = new();
-        quoteHub.Add(quotes);
-        return quoteHub.ToChandelierHub(lookbackPeriods, multiplier, type);
-    }
 }

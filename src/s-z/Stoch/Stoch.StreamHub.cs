@@ -379,24 +379,4 @@ public static partial class Stoch
         double dFactor,
         MaType movingAverageType)
              => new(quoteProvider, lookbackPeriods, signalPeriods, smoothPeriods, kFactor, dFactor, movingAverageType);
-
-    /// <summary>
-    /// Creates a Stoch hub from a collection of quotes.
-    /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="lookbackPeriods">Parameter for the calculation.</param>
-    /// <param name="signalPeriods">Parameter for the calculation.</param>
-    /// <param name="smoothPeriods">Parameter for the calculation.</param>
-    /// <returns>An instance of <see cref="StochHub"/>.</returns>
-    public static StochHub ToStochHub(
-        this IReadOnlyList<IQuote> quotes,
-        int lookbackPeriods = 14,
-        int signalPeriods = 3,
-        int smoothPeriods = 3)
-    {
-        QuoteHub quoteHub = new();
-        quoteHub.Add(quotes);
-        return quoteHub.ToStochHub(lookbackPeriods, signalPeriods, smoothPeriods);
-    }
-
 }

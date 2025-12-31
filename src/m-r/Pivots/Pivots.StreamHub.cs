@@ -9,7 +9,6 @@ public class PivotsHub
     : StreamHub<IQuote, PivotsResult>, IPivots
 {
 
-
     /// <summary>
     /// Initializes a new instance of the <see cref="PivotsHub"/> class.
     /// </summary>
@@ -285,27 +284,5 @@ public static partial class Pivots
     {
         ArgumentNullException.ThrowIfNull(quoteProvider);
         return new(quoteProvider, leftSpan, rightSpan, maxTrendPeriods, endType);
-    }
-
-    /// <summary>
-    /// Creates a Pivots hub from a collection of quotes.
-    /// </summary>
-    /// <param name="quotes">The collection of quotes.</param>
-    /// <param name="leftSpan">The number of periods to the left of the pivot point. Default is 2.</param>
-    /// <param name="rightSpan">The number of periods to the right of the pivot point. Default is 2.</param>
-    /// <param name="maxTrendPeriods">The maximum number of periods for trend calculation. Default is 20.</param>
-    /// <param name="endType">The type of end point for the pivot calculation. Default is <see cref="EndType.HighLow"/>.</param>
-    /// <returns>An instance of <see cref="PivotsHub"/>.</returns>
-    public static PivotsHub ToPivotsHub(
-        this IReadOnlyList<IQuote> quotes,
-        int leftSpan = 2,
-        int rightSpan = 2,
-        int maxTrendPeriods = 20,
-        EndType endType = EndType.HighLow)
-    {
-        ArgumentNullException.ThrowIfNull(quotes);
-        QuoteHub quoteHub = new();
-        quoteHub.Add(quotes);
-        return quoteHub.ToPivotsHub(leftSpan, rightSpan, maxTrendPeriods, endType);
     }
 }

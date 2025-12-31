@@ -100,19 +100,4 @@ public static partial class Cci
         this IQuoteProvider<IQuote> quoteProvider,
         int lookbackPeriods = 20)
         => new(quoteProvider, lookbackPeriods);
-
-    /// <summary>
-    /// Creates a CCI hub from a collection of quotes.
-    /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <returns>An instance of <see cref="CciHub"/>.</returns>
-    public static CciHub ToCciHub(
-        this IReadOnlyList<IQuote> quotes,
-        int lookbackPeriods = 20)
-    {
-        QuoteHub quoteHub = new();
-        quoteHub.Add(quotes);
-        return quoteHub.ToCciHub(lookbackPeriods);
-    }
 }

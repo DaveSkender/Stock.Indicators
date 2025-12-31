@@ -149,19 +149,4 @@ public static partial class Vwap
         ArgumentNullException.ThrowIfNull(quoteProvider);
         return new VwapHub(quoteProvider, startDate);
     }
-
-    /// <summary>
-    /// Creates a VWAP hub from a collection of quotes.
-    /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="startDate">The start date for VWAP calculation. If null, auto-anchors to first quote.</param>
-    /// <returns>An instance of <see cref="VwapHub"/>.</returns>
-    public static VwapHub ToVwapHub(
-        this IReadOnlyList<IQuote> quotes,
-        DateTime? startDate = null)
-    {
-        QuoteHub quoteHub = new();
-        quoteHub.Add(quotes);
-        return quoteHub.ToVwapHub(startDate);
-    }
 }

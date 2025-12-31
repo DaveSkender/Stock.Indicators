@@ -155,20 +155,4 @@ public static partial class Chop
         this IQuoteProvider<IQuote> quoteProvider,
         int lookbackPeriods = 14)
              => new(quoteProvider, lookbackPeriods);
-
-    /// <summary>
-    /// Creates a Chop hub from a collection of quotes.
-    /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <returns>An instance of <see cref="ChopHub"/>.</returns>
-    public static ChopHub ToChopHub(
-        this IReadOnlyList<IQuote> quotes,
-        int lookbackPeriods = 14)
-    {
-        QuoteHub quoteHub = new();
-        quoteHub.Add(quotes);
-        return quoteHub.ToChopHub(lookbackPeriods);
-    }
-
 }

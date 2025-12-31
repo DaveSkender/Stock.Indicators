@@ -153,17 +153,4 @@ public static partial class HeikinAshi
     public static HeikinAshiHub ToHeikinAshiHub(
         this IQuoteProvider<IQuote> quoteProvider)
         => new(quoteProvider);
-
-    /// <summary>
-    /// Creates a Heikin-Ashi hub from a collection of quotes.
-    /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <returns>An instance of <see cref="HeikinAshiHub"/>.</returns>
-    public static HeikinAshiHub ToHeikinAshiHub(
-        this IReadOnlyList<IQuote> quotes)
-    {
-        QuoteHub quoteHub = new();
-        quoteHub.Add(quotes);
-        return quoteHub.ToHeikinAshiHub();
-    }
 }

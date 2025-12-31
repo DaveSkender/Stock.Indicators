@@ -9,7 +9,6 @@ public class AtrStopHub
     : StreamHub<IQuote, AtrStopResult>, IAtrStop
 {
 
-
     /// <summary>
     /// Initializes a new instance of the <see cref="AtrStopHub"/> class.
     /// </summary>
@@ -218,25 +217,4 @@ public static partial class AtrStop
        double multiplier = 3,
        EndType endType = EndType.Close)
            => new(quoteProvider, lookbackPeriods, multiplier, endType);
-
-    /// <summary>
-    /// Creates a AtrStop hub from a collection of quotes.
-    /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <param name="multiplier">Parameter for the calculation.</param>
-    /// <param name="endType">Parameter for the calculation.</param>
-    /// <returns>An instance of <see cref="AtrStopHub"/>.</returns>
-    public static AtrStopHub ToAtrStopHub(
-        this IReadOnlyList<IQuote> quotes,
-       int lookbackPeriods = 21,
-       double multiplier = 3,
-       EndType endType = EndType.Close)
-    {
-        ArgumentNullException.ThrowIfNull(quotes);
-        QuoteHub quoteHub = new();
-        quoteHub.Add(quotes);
-        return quoteHub.ToAtrStopHub(lookbackPeriods, multiplier, endType);
-    }
-
 }

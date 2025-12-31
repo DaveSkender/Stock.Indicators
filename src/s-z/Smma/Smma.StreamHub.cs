@@ -69,20 +69,4 @@ public static partial class Smma
         this IChainProvider<IReusable> chainProvider,
         int lookbackPeriods)
         => new(chainProvider, lookbackPeriods);
-
-    /// <summary>
-    /// Creates a Smma hub from a collection of quotes.
-    /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="lookbackPeriods">Parameter for the calculation.</param>
-    /// <returns>An instance of <see cref="SmmaHub"/>.</returns>
-    public static SmmaHub ToSmmaHub(
-        this IReadOnlyList<IQuote> quotes,
-        int lookbackPeriods)
-    {
-        QuoteHub quoteHub = new();
-        quoteHub.Add(quotes);
-        return quoteHub.ToSmmaHub(lookbackPeriods);
-    }
-
 }

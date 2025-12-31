@@ -91,20 +91,4 @@ public static partial class Bop
         this IQuoteProvider<IQuote> chainProvider,
         int smoothPeriods = 14)
         => new(chainProvider, smoothPeriods);
-
-    /// <summary>
-    /// Creates a Bop hub from a collection of quotes.
-    /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="smoothPeriods">Parameter for the calculation.</param>
-    /// <returns>An instance of <see cref="BopHub"/>.</returns>
-    public static BopHub ToBopHub(
-        this IReadOnlyList<IQuote> quotes,
-        int smoothPeriods = 14)
-    {
-        QuoteHub quoteHub = new();
-        quoteHub.Add(quotes);
-        return quoteHub.ToBopHub(smoothPeriods);
-    }
-
 }

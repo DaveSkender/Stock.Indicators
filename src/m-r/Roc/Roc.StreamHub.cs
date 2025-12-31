@@ -78,20 +78,4 @@ public static partial class Roc
         this IChainProvider<IReusable> chainProvider,
         int lookbackPeriods = 14)
              => new(chainProvider, lookbackPeriods);
-
-    /// <summary>
-    /// Creates a Roc hub from a collection of quotes.
-    /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="lookbackPeriods">Parameter for the calculation.</param>
-    /// <returns>An instance of <see cref="RocHub"/>.</returns>
-    public static RocHub ToRocHub(
-        this IReadOnlyList<IQuote> quotes,
-        int lookbackPeriods = 14)
-    {
-        QuoteHub quoteHub = new();
-        quoteHub.Add(quotes);
-        return quoteHub.ToRocHub(lookbackPeriods);
-    }
-
 }

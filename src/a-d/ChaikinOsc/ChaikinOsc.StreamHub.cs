@@ -154,22 +154,4 @@ public static partial class ChaikinOsc
         int fastPeriods = 3,
         int slowPeriods = 10)
         => new(chainProvider, fastPeriods, slowPeriods);
-
-    /// <summary>
-    /// Creates a ChaikinOsc hub from a collection of quotes.
-    /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="fastPeriods">Parameter for the calculation.</param>
-    /// <param name="slowPeriods">Parameter for the calculation.</param>
-    /// <returns>An instance of <see cref="ChaikinOscHub"/>.</returns>
-    public static ChaikinOscHub ToChaikinOscHub(
-        this IReadOnlyList<IQuote> quotes,
-        int fastPeriods = 3,
-        int slowPeriods = 10)
-    {
-        QuoteHub quoteHub = new();
-        quoteHub.Add(quotes);
-        return quoteHub.ToChaikinOscHub(fastPeriods, slowPeriods);
-    }
-
 }
