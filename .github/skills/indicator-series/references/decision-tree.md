@@ -12,11 +12,11 @@ Use this reference to guide Series indicator implementation decisions.
 
 | Input Type | Output Type | Interface | Examples |
 | ---------- | ----------- | --------- | -------- |
-| `IQuote` | Single chainable value | `IReusable` | EMA, SMA, RSI, ADX |
-| `IQuote` | Multiple values | `ISeries` | MACD, Alligator, Ichimoku |
+| `IQuote` | Single chainable value | `IReusable` | EMA, SMA, RSI, ADX, MACD |
+| `IQuote` | Multiple values (no single chainable) | `ISeries` | Alligator, Ichimoku, Keltner |
 | `IReusable` | Single chainable value | `IReusable` | Chained indicators (EMA of RSI) |
 
-**Note**: Only `IReusable` results have a defined chainable `Value` property. `ISeries` results have multiple outputs without a single chainable value.
+**Note**: `IReusable` results have a defined chainable `Value` property. `ISeries` results have multiple outputs without a single chainable value. MACD implements `IReusable` with `Value => Macd.Null2NaN()`.
 
 ## Result model selection
 

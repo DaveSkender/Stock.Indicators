@@ -9,8 +9,8 @@ Series indicators process complete datasets and return results all at once. They
 
 ## File structure
 
-- Implementation: `src/{category}/{Indicator}.StaticSeries.cs`
-- Test: `tests/indicators/{category}/{Indicator}.StaticSeries.Tests.cs`
+- Implementation: `src/{category}/{Indicator}/{Indicator}.StaticSeries.cs`
+- Test: `tests/indicators/{category}/{Indicator}/{Indicator}.StaticSeries.Tests.cs`
 - Categories: a-d, e-k, m-r, s-z (alphabetical)
 
 ## Core pattern
