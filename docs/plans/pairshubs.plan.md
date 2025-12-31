@@ -1,4 +1,4 @@
-# PairsProvider Re-implementation Plan
+# PairsHub implementation plan
 
 **Status**: Deferred  
 **Author**: Copilot Agent  
@@ -9,7 +9,7 @@
 
 ## Executive Summary
 
-The PairsProvider pattern for dual-stream indicators (Beta, Correlation, PRS) has been **removed** from the StreamHub and BufferList implementations due to fundamental synchronization challenges. This document captures the requirements, design challenges, and guidance for potential future re-implementation.
+The PairsHub pattern for dual-stream indicators (Beta, Correlation, PRS) has been **removed** from the StreamHub and BufferList implementations due to fundamental synchronization challenges. This document captures the requirements, design challenges, and guidance for potential future re-implementation.
 
 **Static Series implementations remain intact** - only the streaming/incremental variants were removed.
 
@@ -59,10 +59,10 @@ From `tests/indicators/m-r/Prs/Prs.StreamHub.Tests.cs`:
 
 ## Previous Implementation Architecture
 
-### PairsProvider Base Class
+### PairsHub Base Class
 
 ```csharp
-public abstract class PairsProvider<TIn, TOut>(
+public abstract class PairsHub<TIn, TOut>(
     IStreamObservable<TIn> providerA,
     IStreamObservable<TIn> providerB
 ) : StreamHub<TIn, TOut>(providerA), IChainProvider<TOut>, IPairsObserver<TIn>
@@ -182,7 +182,7 @@ public interface IPairsTransaction
 Allow temporary inconsistency with automatic reconciliation:
 
 ```csharp
-public class EventualPairsProvider<TIn, TOut> : PairsProvider<TIn, TOut>
+public class EventualPairsHub<TIn, TOut> : PairsHub<TIn, TOut>
 {
     private readonly TimeSpan _reconciliationWindow = TimeSpan.FromSeconds(5);
     
@@ -235,7 +235,7 @@ public class EventualPairsProvider<TIn, TOut> : PairsProvider<TIn, TOut>
 ### CorrelationHub (Removed)
 
 ```csharp
-public class CorrelationHub : PairsProvider<IReusable, CorrResult>, ICorrelation
+public class CorrelationHub : PairsHub<IReusable, CorrResult>, ICorrelation
 {
     protected override (CorrResult result, int index) ToIndicator(IReusable item, int? indexHint)
     {
@@ -305,7 +305,7 @@ public class CorrelationList : BufferList<CorrResult>, IIncrementFromPairs, ICor
 
 ### Source Files
 
-- `src/_common/StreamHub/Providers/PairsProvider.cs`
+- `src/_common/StreamHub/Providers/PairsHub.cs`
 - `src/_common/StreamHub/IPairsObserver.cs`
 - `src/_common/BufferLists/IIncrementFromPairs.cs`
 - `src/a-d/Beta/Beta.StreamHub.cs`

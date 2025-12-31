@@ -30,7 +30,6 @@ public class TestCompliance
         int validated = 0;
 
         // Define observer and provider interface types
-        // Note: ITestPairsObserver removed due to PairsProvider removal
         Type[] observerTypes = [
             typeof(ITestChainObserver),
             typeof(ITestQuoteObserver)
