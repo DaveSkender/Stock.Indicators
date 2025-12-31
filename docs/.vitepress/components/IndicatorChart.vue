@@ -434,7 +434,19 @@ async function initChart() {
     return
   }
 
-  // Wait for next frame and ensure container has width
+  // Determine chart type from data
+  const isOscillatorType = data.metadata?.chartType === 'oscillator'
+
+  // Hide loading BEFORE creating chart so container becomes visible.
+  // This is critical because v-show hides the container while loading,
+  // and clientWidth is 0 when the container is hidden.
+  isLoading.value = false
+  chartType.value = isOscillatorType ? 'oscillator' : 'overlay'
+
+  // Wait for Vue to update the DOM after state changes.
+  // Two requestAnimationFrame calls ensure: (1) Vue processes the reactive update,
+  // and (2) the browser completes layout/paint so clientWidth is accurate.
+  await new Promise(resolve => requestAnimationFrame(resolve))
   await new Promise(resolve => requestAnimationFrame(resolve))
   
   // Wait for container to have a valid width (may take a few frames)
@@ -443,8 +455,6 @@ async function initChart() {
     await new Promise(resolve => setTimeout(resolve, INIT_POLL_INTERVAL_MS))
     attempts++
   }
-
-  const isOscillatorType = data.metadata?.chartType === 'oscillator'
 
   // Always create overlay chart with candlesticks
   if (overlayChartContainer.value && overlayChartContainer.value.clientWidth > 0) {
@@ -513,8 +523,6 @@ async function initChart() {
     })
     resizeObserver.observe(overlayChartContainer.value)
   }
-
-  isLoading.value = false
 }
 
 function destroyChart() {
