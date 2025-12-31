@@ -1,7 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Streaming hub for MACD (Moving Average Convergence Divergence) indicator.
+/// Streaming hub for MACD (Moving Average Convergence Divergence).
 /// </summary>
 public class MacdHub
     : ChainProvider<IReusable, MacdResult>, IMacd

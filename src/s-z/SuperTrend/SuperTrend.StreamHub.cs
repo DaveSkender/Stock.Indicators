@@ -247,10 +247,11 @@ public class SuperTrendHub
 }
 
 public static partial class SuperTrend
-{    /// <summary>
-/// 
-/// </summary>
-/// <returns>An instance of <see cref="SuperTrendHub"/>.</returns>
+{
+    /// <summary>
+    /// Creates a SuperTrend hub.
+    /// </summary>
+    /// <returns>An instance of <see cref="SuperTrendHub"/>.</returns>
     public static SuperTrendHub ToSuperTrendHub(
        this IQuoteProvider<IQuote> quoteProvider,
        int lookbackPeriods = 10,

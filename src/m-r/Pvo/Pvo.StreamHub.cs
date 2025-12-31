@@ -1,7 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Streaming hub for PVO (Percentage Volume Oscillator) indicator.
+/// Streaming hub for PVO (Percentage Volume Oscillator).
 /// </summary>
 public class PvoHub
     : ChainProvider<IReusable, PvoResult>, IPvo

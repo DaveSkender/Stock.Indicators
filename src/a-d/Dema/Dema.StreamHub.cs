@@ -1,7 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Streaming hub for Double Exponential Moving Average (DEMA) indicator.
+/// Streaming hub for Double Exponential Moving Average (DEMA).
 /// </summary>
 public class DemaHub
     : ChainProvider<IReusable, DemaResult>, IDema

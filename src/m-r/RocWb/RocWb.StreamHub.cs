@@ -1,7 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Streaming hub for Rate of Change with Bands (RocWb) indicator.
+/// Streaming hub for Rate of Change with Bands (RocWb).
 /// </summary>
 public class RocWbHub
     : ChainProvider<IReusable, RocWbResult>, IRocWb

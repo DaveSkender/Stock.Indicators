@@ -185,10 +185,11 @@ public class AtrStopHub
 }
 
 public static partial class AtrStop
-{    /// <summary>
-/// 
-/// </summary>
-/// <returns>An instance of <see cref="AtrStopHub"/>.</returns>
+{
+    /// <summary>
+    /// Creates an ATR Stop hub.
+    /// </summary>
+    /// <returns>An instance of <see cref="AtrStopHub"/>.</returns>
     public static AtrStopHub ToAtrStopHub(
        this IQuoteProvider<IQuote> quoteProvider,
        int lookbackPeriods = 21,

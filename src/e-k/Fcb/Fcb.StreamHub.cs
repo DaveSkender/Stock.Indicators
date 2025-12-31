@@ -109,10 +109,11 @@ public class FcbHub
 }
 
 public static partial class Fcb
-{    /// <summary>
-/// 
-/// </summary>
-/// <returns>An instance of <see cref="FcbHub"/>.</returns>
+{
+    /// <summary>
+    /// Creates a Fractal Chaos Bands (FCB) hub.
+    /// </summary>
+    /// <returns>An instance of <see cref="FcbHub"/>.</returns>
     public static FcbHub ToFcbHub(
        this IQuoteProvider<IQuote> quoteProvider,
        int windowSpan = 2)

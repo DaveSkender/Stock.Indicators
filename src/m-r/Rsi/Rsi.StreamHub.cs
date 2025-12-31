@@ -1,7 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Streaming hub for Relative Strength Index (RSI) indicator.
+/// Streaming hub for Relative Strength Index (RSI).
 /// </summary>
 /// <remarks>
 /// This implementation uses O(1) incremental updates per quote via Wilder's smoothing.

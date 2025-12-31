@@ -1,7 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Streaming hub for Price Momentum Oscillator (PMO) indicator.
+/// Streaming hub for Price Momentum Oscillator (PMO).
 /// </summary>
 public class PmoHub
     : ChainProvider<IReusable, PmoResult>, IPmo

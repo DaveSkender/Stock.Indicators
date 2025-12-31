@@ -1,7 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Streaming hub for Alligator indicator.
+/// Streaming hub for Alligator.
 /// </summary>
 public class AlligatorHub
    : StreamHub<IReusable, AlligatorResult>, IAlligator

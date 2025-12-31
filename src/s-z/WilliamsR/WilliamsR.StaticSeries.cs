@@ -11,7 +11,7 @@ public static partial class WilliamsR
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>A list of WilliamsResult containing the Williams %R values.</returns>
-    /// <exception cref="ArgumentNullException">Thrown when <paramref name="source"/> is null.</exception>
+    /// <exception cref="ArgumentNullException">Thrown when <paramref name="quotes"/> is null.</exception>
     public static IReadOnlyList<WilliamsResult> ToWilliamsR(
         this IReadOnlyList<IQuote> quotes,
         int lookbackPeriods = 14)

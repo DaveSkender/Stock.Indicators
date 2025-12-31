@@ -77,7 +77,7 @@ public class CciHub
 }
 
 /// <summary>
-/// Streaming hub for Commodity Channel Index (CCI) indicator.
+/// Streaming hub for Commodity Channel Index (CCI).
 /// </summary>
 public static partial class Cci
 {

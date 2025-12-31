@@ -5,7 +5,7 @@ namespace Skender.Stock.Indicators;
 #pragma warning disable IDE0072 // Missing cases in switch statement
 
 /// <summary>
-/// Streaming hub for Moving Average Envelopes indicator.
+/// Streaming hub for Moving Average Envelopes.
 /// </summary>
 public static partial class MaEnvelopes
 {
