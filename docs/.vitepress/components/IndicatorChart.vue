@@ -434,15 +434,18 @@ async function initChart() {
     return
   }
 
+  // Determine chart type from data
   const isOscillatorType = data.metadata?.chartType === 'oscillator'
+
+  // Hide loading BEFORE creating chart so container becomes visible.
+  // This is critical because v-show hides the container while loading,
+  // and clientWidth is 0 when the container is hidden.
+  isLoading.value = false
   chartType.value = isOscillatorType ? 'oscillator' : 'overlay'
 
-  // Hide loading BEFORE creating chart so container becomes visible
-  // This is critical because v-show hides the container while loading,
-  // and clientWidth is 0 when the container is hidden
-  isLoading.value = false
-
-  // Wait for Vue to update the DOM after isLoading change
+  // Wait for Vue to update the DOM after state changes.
+  // Two requestAnimationFrame calls ensure: (1) Vue processes the reactive update,
+  // and (2) the browser completes layout/paint so clientWidth is accurate.
   await new Promise(resolve => requestAnimationFrame(resolve))
   await new Promise(resolve => requestAnimationFrame(resolve))
   
