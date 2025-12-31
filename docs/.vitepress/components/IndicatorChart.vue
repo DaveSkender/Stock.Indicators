@@ -77,6 +77,7 @@ let candleSeries: ISeriesApi<'Candlestick'> | null = null
 let volumeSeries: ISeriesApi<'Histogram'> | null = null
 const overlaySeries: ISeriesApi<any>[] = []
 const oscillatorSeries: ISeriesApi<any>[] = []
+let resizeObserver: ResizeObserver | null = null
 
 // Stock.Charts color scheme (Material Design M2)
 const ChartColors = {
@@ -425,12 +426,20 @@ async function initChart() {
     return
   }
 
+  // Wait for next frame and ensure container has width
   await new Promise(resolve => requestAnimationFrame(resolve))
+  
+  // Wait for container to have a valid width (may take a few frames)
+  let attempts = 0
+  while (overlayChartContainer.value && overlayChartContainer.value.clientWidth === 0 && attempts < 10) {
+    await new Promise(resolve => setTimeout(resolve, 50))
+    attempts++
+  }
 
   const isOscillatorType = data.metadata?.chartType === 'oscillator'
 
   // Always create overlay chart with candlesticks
-  if (overlayChartContainer.value) {
+  if (overlayChartContainer.value && overlayChartContainer.value.clientWidth > 0) {
     overlayChart = createOverlayChart(overlayChartContainer.value, overlayHeight.value)
     setupCandlestickSeries(overlayChart, data)
     setupVolumeSeries(overlayChart, data)
@@ -444,7 +453,7 @@ async function initChart() {
   }
 
   // For oscillator indicators, create separate oscillator chart
-  if (isOscillatorType && oscillatorChartContainer.value) {
+  if (isOscillatorType && oscillatorChartContainer.value && oscillatorChartContainer.value.clientWidth > 0) {
     oscillatorChart = createOscillatorChart(oscillatorChartContainer.value, oscillatorHeight.value)
 
     // Add threshold lines first (behind the indicator)
@@ -473,10 +482,32 @@ async function initChart() {
     oscillatorChart.timeScale().fitContent()
   }
 
+  // Setup resize observer to handle container resizing
+  if (overlayChartContainer.value) {
+    resizeObserver = new ResizeObserver(entries => {
+      for (const entry of entries) {
+        const width = entry.contentRect.width
+        if (width > 0) {
+          if (overlayChart) {
+            overlayChart.resize(width, overlayHeight.value)
+          }
+          if (oscillatorChart) {
+            oscillatorChart.resize(width, oscillatorHeight.value)
+          }
+        }
+      }
+    })
+    resizeObserver.observe(overlayChartContainer.value)
+  }
+
   isLoading.value = false
 }
 
 function destroyChart() {
+  if (resizeObserver) {
+    resizeObserver.disconnect()
+    resizeObserver = null
+  }
   if (overlayChart) {
     overlayChart.remove()
     overlayChart = null
