@@ -17,6 +17,13 @@ import {
 // Maximum number of bars to display (tail view)
 const MAX_BARS = 120
 
+// Container width initialization polling settings
+const INIT_POLL_MAX_ATTEMPTS = 10
+const INIT_POLL_INTERVAL_MS = 50
+
+// Debounce delay for resize events (ms)
+const RESIZE_DEBOUNCE_MS = 100
+
 interface ThresholdLine {
   value: number
   color: string
@@ -78,6 +85,7 @@ let volumeSeries: ISeriesApi<'Histogram'> | null = null
 const overlaySeries: ISeriesApi<any>[] = []
 const oscillatorSeries: ISeriesApi<any>[] = []
 let resizeObserver: ResizeObserver | null = null
+let resizeTimeout: ReturnType<typeof setTimeout> | null = null
 
 // Stock.Charts color scheme (Material Design M2)
 const ChartColors = {
@@ -431,8 +439,8 @@ async function initChart() {
   
   // Wait for container to have a valid width (may take a few frames)
   let attempts = 0
-  while (overlayChartContainer.value && overlayChartContainer.value.clientWidth === 0 && attempts < 10) {
-    await new Promise(resolve => setTimeout(resolve, 50))
+  while (overlayChartContainer.value && overlayChartContainer.value.clientWidth === 0 && attempts < INIT_POLL_MAX_ATTEMPTS) {
+    await new Promise(resolve => setTimeout(resolve, INIT_POLL_INTERVAL_MS))
     attempts++
   }
 
@@ -482,20 +490,26 @@ async function initChart() {
     oscillatorChart.timeScale().fitContent()
   }
 
-  // Setup resize observer to handle container resizing
+  // Setup resize observer with debouncing to handle container resizing
   if (overlayChartContainer.value) {
     resizeObserver = new ResizeObserver(entries => {
-      for (const entry of entries) {
-        const width = entry.contentRect.width
-        if (width > 0) {
-          if (overlayChart) {
-            overlayChart.resize(width, overlayHeight.value)
-          }
-          if (oscillatorChart) {
-            oscillatorChart.resize(width, oscillatorHeight.value)
+      // Debounce resize events to avoid excessive updates during rapid resizing
+      if (resizeTimeout) {
+        clearTimeout(resizeTimeout)
+      }
+      resizeTimeout = setTimeout(() => {
+        for (const entry of entries) {
+          const width = entry.contentRect.width
+          if (width > 0) {
+            if (overlayChart) {
+              overlayChart.resize(width, overlayHeight.value)
+            }
+            if (oscillatorChart) {
+              oscillatorChart.resize(width, oscillatorHeight.value)
+            }
           }
         }
-      }
+      }, RESIZE_DEBOUNCE_MS)
     })
     resizeObserver.observe(overlayChartContainer.value)
   }
@@ -504,6 +518,10 @@ async function initChart() {
 }
 
 function destroyChart() {
+  if (resizeTimeout) {
+    clearTimeout(resizeTimeout)
+    resizeTimeout = null
+  }
   if (resizeObserver) {
     resizeObserver.disconnect()
     resizeObserver = null
