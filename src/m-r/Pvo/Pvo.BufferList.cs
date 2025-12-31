@@ -66,19 +66,13 @@ public class PvoList : BufferList<PvoResult>, IIncrementFromQuote, IPvo
     /// <inheritdoc/>
     public int SignalPeriods { get; init; }
 
-    /// <summary>
-    /// Gets the fast EMA smoothing constant.
-    /// </summary>
+    /// <inheritdoc />
     private double FastK { get; init; }
 
-    /// <summary>
-    /// Gets the slow EMA smoothing constant.
-    /// </summary>
+    /// <inheritdoc />
     private double SlowK { get; init; }
 
-    /// <summary>
-    /// Gets the signal EMA smoothing constant.
-    /// </summary>
+    /// <inheritdoc />
     private double SignalK { get; init; }
 
     /// <inheritdoc />
@@ -213,7 +207,7 @@ public class PvoList : BufferList<PvoResult>, IIncrementFromQuote, IPvo
 
 public static partial class Pvo
 {
-    /// <summary>
+    /// <inheritdoc />
     /// Creates a buffer list for Percentage Volume Oscillator (PVO) calculations.
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>

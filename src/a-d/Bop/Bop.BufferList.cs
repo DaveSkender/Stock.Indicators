@@ -28,9 +28,7 @@ public class BopList : BufferList<BopResult>, IIncrementFromQuote, IBop
     public BopList(int smoothPeriods, IReadOnlyList<IQuote> quotes)
         : this(smoothPeriods) => Add(quotes);
 
-    /// <summary>
-    /// Gets the number of periods to use for smoothing.
-    /// </summary>
+    /// <inheritdoc />
     public int SmoothPeriods { get; init; }
 
     /// <inheritdoc />
@@ -80,7 +78,7 @@ public class BopList : BufferList<BopResult>, IIncrementFromQuote, IBop
 
 public static partial class Bop
 {
-    /// <summary>
+    /// <inheritdoc />
     /// Creates a buffer list for Balance of Power (BOP) calculations.
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>

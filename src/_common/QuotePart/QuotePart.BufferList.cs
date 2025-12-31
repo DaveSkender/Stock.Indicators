@@ -37,7 +37,7 @@ public class QuotePartList(CandlePart candlePart) : BufferList<QuotePart>, IIncr
         }
     }
 
-    /// <summary>
+    /// <inheritdoc />
     /// Clears the list and resets internal state so the instance can be reused.
     /// </summary>
     public override void Clear() => base.Clear();
@@ -45,7 +45,7 @@ public class QuotePartList(CandlePart candlePart) : BufferList<QuotePart>, IIncr
 
 public static partial class QuoteParts
 {
-    /// <summary>
+    /// <inheritdoc />
     /// Creates a buffer list for quote part selection.
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>

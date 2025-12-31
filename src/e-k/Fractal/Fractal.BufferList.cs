@@ -54,19 +54,13 @@ public class FractalList : BufferList<FractalResult>, IIncrementFromQuote, IFrac
     public FractalList(int leftSpan, int rightSpan, IReadOnlyList<IQuote> quotes, EndType endType = EndType.HighLow)
         : this(leftSpan, rightSpan, endType) => Add(quotes);
 
-    /// <summary>
-    /// Gets the number of periods to look back for the calculation.
-    /// </summary>
+    /// <inheritdoc />
     public int LeftSpan { get; init; }
 
-    /// <summary>
-    /// Gets the number of periods to look forward for the calculation.
-    /// </summary>
+    /// <inheritdoc />
     public int RightSpan { get; init; }
 
-    /// <summary>
-    /// Gets the type of price to use for the calculation.
-    /// </summary>
+    /// <inheritdoc />
     public EndType EndType { get; init; }
 
     /// <inheritdoc />
@@ -183,7 +177,7 @@ public class FractalList : BufferList<FractalResult>, IIncrementFromQuote, IFrac
 
 public static partial class Fractal
 {
-    /// <summary>
+    /// <inheritdoc />
     /// Creates a buffer list for Williams Fractal calculations.
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
@@ -196,7 +190,7 @@ public static partial class Fractal
         EndType endType = EndType.HighLow)
         => new(windowSpan, quotes, endType);
 
-    /// <summary>
+    /// <inheritdoc />
     /// Creates a buffer list for Williams Fractal calculations with different left and right spans.
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>

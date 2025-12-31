@@ -110,7 +110,10 @@ public class FractalHub
 }
 
 public static partial class Fractal
-{    /// <returns>An instance of <see cref="FractalHub"/>.</returns>
+{    /// <summary>
+/// 
+/// </summary>
+/// <returns>An instance of <see cref="FractalHub"/>.</returns>
     public static FractalHub ToFractalHub(
        this IQuoteProvider<IQuote> quoteProvider,
        int windowSpan = 2,

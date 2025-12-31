@@ -21,9 +21,7 @@ public class VwapList(DateTime? startDate = null) : BufferList<VwapResult>, IInc
     public VwapList(DateTime? startDate, IReadOnlyList<IQuote> quotes)
         : this(startDate) => Add(quotes);
 
-    /// <summary>
-    /// Gets the start date for the VWAP calculation.
-    /// </summary>
+    /// <inheritdoc />
     public DateTime? StartDate { get; private set; } = startDate;
 
     /// <inheritdoc />
@@ -89,7 +87,7 @@ public class VwapList(DateTime? startDate = null) : BufferList<VwapResult>, IInc
 
 public static partial class Vwap
 {
-    /// <summary>
+    /// <inheritdoc />
     /// Creates a buffer list for VWAP calculations.
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
@@ -99,7 +97,7 @@ public static partial class Vwap
         DateTime startDate)
         => new(startDate) { quotes };
 
-    /// <summary>
+    /// <inheritdoc />
     /// Creates a buffer list for VWAP calculations starting from the first quote.
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>

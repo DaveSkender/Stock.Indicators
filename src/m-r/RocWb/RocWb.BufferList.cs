@@ -41,19 +41,13 @@ public class RocWbList : BufferList<RocWbResult>, IIncrementFromChain, IRocWb
     public RocWbList(int lookbackPeriods, int emaPeriods, int stdDevPeriods, IReadOnlyList<IReusable> values)
         : this(lookbackPeriods, emaPeriods, stdDevPeriods) => Add(values);
 
-    /// <summary>
-    /// Gets the number of periods to look back for the ROC calculation.
-    /// </summary>
+    /// <inheritdoc />
     public int LookbackPeriods { get; init; }
 
-    /// <summary>
-    /// Gets the number of periods for the exponential moving average calculation.
-    /// </summary>
+    /// <inheritdoc />
     public int EmaPeriods { get; init; }
 
-    /// <summary>
-    /// Gets the number of periods for the standard deviation calculation.
-    /// </summary>
+    /// <inheritdoc />
     public int StdDevPeriods { get; init; }
 
     /// <inheritdoc />
@@ -124,7 +118,7 @@ public class RocWbList : BufferList<RocWbResult>, IIncrementFromChain, IRocWb
             LowerBand: rocDev.HasValue ? -rocDev.Value : null));
     }
 
-    /// <summary>
+    /// <inheritdoc />
     /// Adds a new reusable value to the RocWb list.
     /// </summary>
     /// <param name="value">The reusable value to add.</param>
@@ -135,7 +129,7 @@ public class RocWbList : BufferList<RocWbResult>, IIncrementFromChain, IRocWb
         Add(value.Timestamp, value.Value);
     }
 
-    /// <summary>
+    /// <inheritdoc />
     /// Adds a list of reusable values to the RocWb list.
     /// </summary>
     /// <param name="values">The list of reusable values to add.</param>
@@ -150,7 +144,7 @@ public class RocWbList : BufferList<RocWbResult>, IIncrementFromChain, IRocWb
         }
     }
 
-    /// <summary>
+    /// <inheritdoc />
     /// Clears the list and resets internal buffers so the instance can be reused.
     /// </summary>
     public override void Clear()
@@ -165,7 +159,7 @@ public class RocWbList : BufferList<RocWbResult>, IIncrementFromChain, IRocWb
 
 public static partial class RocWb
 {
-    /// <summary>
+    /// <inheritdoc />
     /// Creates a buffer list for Rate of Change with Bands (RocWb) calculations.
     /// </summary>
     /// <param name="source">Collection of input values, time sorted.</param>

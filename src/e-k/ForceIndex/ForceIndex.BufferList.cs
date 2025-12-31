@@ -42,9 +42,7 @@ public class ForceIndexList : BufferList<ForceIndexResult>, IIncrementFromQuote,
     )
         : this(lookbackPeriods) => Add(quotes);
 
-    /// <summary>
-    /// Gets the number of periods to look back for the calculation.
-    /// </summary>
+    /// <inheritdoc />
     public int LookbackPeriods { get; init; }
 
     /// <inheritdoc />
@@ -126,7 +124,7 @@ public class ForceIndexList : BufferList<ForceIndexResult>, IIncrementFromQuote,
 
 public static partial class ForceIndex
 {
-    /// <summary>
+    /// <inheritdoc />
     /// Creates a buffer list for Force Index calculations.
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>

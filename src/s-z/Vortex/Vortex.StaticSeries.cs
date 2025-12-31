@@ -1,7 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Provides methods for calculating the Vortex indicator.
+/// Vortex indicator.
 /// </summary>
 public static partial class Vortex
 {
@@ -11,7 +11,7 @@ public static partial class Vortex
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>A list of VortexResult containing the Vortex indicator values.</returns>
-    /// <exception cref="ArgumentNullException">Thrown when the source is null.</exception>
+    /// <exception cref="ArgumentNullException">Thrown when <paramref name="source"/> is null.</exception>
     public static IReadOnlyList<VortexResult> ToVortex(
         this IReadOnlyList<IQuote> quotes,
         int lookbackPeriods = 14)

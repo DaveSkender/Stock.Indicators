@@ -8,11 +8,11 @@ public class VolatilityStopList : BufferList<VolatilityStopResult>, IIncrementFr
     private readonly int _lookbackPeriods;
     private readonly double _multiplier;
     private readonly AtrList _atrList;
-    /// <summary>
+    /// <inheritdoc />
     /// Track close prices for initialization
     /// </summary>
     private readonly List<double> _closePrices;
-    /// <summary>
+    /// <inheritdoc />
     /// significant close
     /// </summary>
     private double _sic;
@@ -47,14 +47,10 @@ public class VolatilityStopList : BufferList<VolatilityStopResult>, IIncrementFr
     public VolatilityStopList(int lookbackPeriods, double multiplier, IReadOnlyList<IQuote> quotes)
         : this(lookbackPeriods, multiplier) => Add(quotes);
 
-    /// <summary>
-    /// Gets the number of periods for ATR calculation.
-    /// </summary>
+    /// <inheritdoc />
     public int LookbackPeriods { get; init; }
 
-    /// <summary>
-    /// Gets the multiplier for the Average True Range.
-    /// </summary>
+    /// <inheritdoc />
     public double Multiplier { get; init; }
 
     /// <inheritdoc />
@@ -164,7 +160,7 @@ public class VolatilityStopList : BufferList<VolatilityStopResult>, IIncrementFr
         _isLong = false;
         _firstStopFound = false;
     }
-    /// <summary>
+    /// <inheritdoc />
     /// Overrides list pruning to synchronize the nested ATR list.
     /// </summary>
     protected override void PruneList()
@@ -197,7 +193,7 @@ public class VolatilityStopList : BufferList<VolatilityStopResult>, IIncrementFr
 
 public static partial class VolatilityStop
 {
-    /// <summary>
+    /// <inheritdoc />
     /// Creates a buffer list for Volatility Stop calculations.
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>

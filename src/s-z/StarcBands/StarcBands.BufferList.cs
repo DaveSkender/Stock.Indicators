@@ -44,19 +44,13 @@ public class StarcBandsList : BufferList<StarcBandsResult>, IIncrementFromQuote,
         IReadOnlyList<IQuote> quotes)
         : this(smaPeriods, multiplier, atrPeriods) => Add(quotes);
 
-    /// <summary>
-    /// Gets the number of periods for the Simple Moving Average (SMA).
-    /// </summary>
+    /// <inheritdoc />
     public int SmaPeriods { get; init; }
 
-    /// <summary>
-    /// Gets the multiplier for the Average True Range (ATR).
-    /// </summary>
+    /// <inheritdoc />
     public double Multiplier { get; init; }
 
-    /// <summary>
-    /// Gets the number of periods for the ATR calculation.
-    /// </summary>
+    /// <inheritdoc />
     public int AtrPeriods { get; init; }
 
     /// <inheritdoc />
@@ -114,7 +108,7 @@ public class StarcBandsList : BufferList<StarcBandsResult>, IIncrementFromQuote,
 
 public static partial class StarcBands
 {
-    /// <summary>
+    /// <inheritdoc />
     /// Creates a buffer list for STARC Bands calculations.
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>

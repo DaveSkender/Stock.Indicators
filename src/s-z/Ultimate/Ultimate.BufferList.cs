@@ -45,19 +45,13 @@ public class UltimateList : BufferList<UltimateResult>, IIncrementFromQuote, IUl
         IReadOnlyList<IQuote> quotes)
         : this(shortPeriods, middlePeriods, longPeriods) => Add(quotes);
 
-    /// <summary>
-    /// Gets the number of short periods.
-    /// </summary>
+    /// <inheritdoc />
     public int ShortPeriods { get; init; }
 
-    /// <summary>
-    /// Gets the number of middle periods.
-    /// </summary>
+    /// <inheritdoc />
     public int MiddlePeriods { get; init; }
 
-    /// <summary>
-    /// Gets the number of long periods.
-    /// </summary>
+    /// <inheritdoc />
     public int LongPeriods { get; init; }
 
     /// <inheritdoc />
@@ -162,7 +156,7 @@ public class UltimateList : BufferList<UltimateResult>, IIncrementFromQuote, IUl
 
 public static partial class Ultimate
 {
-    /// <summary>
+    /// <inheritdoc />
     /// Creates a buffer list for Ultimate Oscillator calculations.
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>

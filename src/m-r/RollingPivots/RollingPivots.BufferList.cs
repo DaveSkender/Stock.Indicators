@@ -41,24 +41,16 @@ public class RollingPivotsList : BufferList<RollingPivotsResult>, IIncrementFrom
         IReadOnlyList<IQuote> quotes)
         : this(windowPeriods, offsetPeriods, pointType) => Add(quotes);
 
-    /// <summary>
-    /// Gets the number of periods in the rolling window.
-    /// </summary>
+    /// <inheritdoc />
     public int WindowPeriods { get; }
 
-    /// <summary>
-    /// Gets the number of periods to offset the window.
-    /// </summary>
+    /// <inheritdoc />
     public int OffsetPeriods { get; }
 
-    /// <summary>
-    /// Gets the type of pivot point calculation.
-    /// </summary>
+    /// <inheritdoc />
     public PivotPointType PointType { get; }
 
-    /// <summary>
-    /// Gets the minimum number of quotes required to generate results.
-    /// </summary>
+    /// <inheritdoc />
     public int LookbackPeriods => WindowPeriods + OffsetPeriods;
 
     /// <inheritdoc />
@@ -145,7 +137,7 @@ public class RollingPivotsList : BufferList<RollingPivotsResult>, IIncrementFrom
 
 public static partial class RollingPivots
 {
-    /// <summary>
+    /// <inheritdoc />
     /// Creates a buffer list for Rolling Pivot Points calculations.
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>

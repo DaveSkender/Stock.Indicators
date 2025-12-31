@@ -160,7 +160,7 @@ public class SlopeList : BufferList<SlopeResult>, IIncrementFromChain, ISlope
         _buffer.Clear();
         globalIndexOffset = 0;
     }
-    /// <summary>
+    /// <inheritdoc />
     /// Overrides list pruning to update the global index offset.
     /// </summary>
     protected override void PruneList()
@@ -173,7 +173,7 @@ public class SlopeList : BufferList<SlopeResult>, IIncrementFromChain, ISlope
         globalIndexOffset += countBeforePrune - countAfterPrune;
     }
 
-    /// <summary>
+    /// <inheritdoc />
     /// Updates Line values for the last lookbackPeriods results using the most recent slope/intercept.
     /// This is legitimate historical repaint behavior matching the Series implementation.
     /// Optimized: Only updates the necessary items to minimize overhead.
@@ -221,7 +221,7 @@ public class SlopeList : BufferList<SlopeResult>, IIncrementFromChain, ISlope
 
 public static partial class Slope
 {
-    /// <summary>
+    /// <inheritdoc />
     /// Creates a buffer list for Slope calculations.
     /// </summary>
     /// <param name="source">Collection of input values, time sorted.</param>

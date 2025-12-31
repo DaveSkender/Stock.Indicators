@@ -1,7 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Provides methods for calculating the Chaikin Money Flow (CMF) on a series of quotes.
+/// Chaikin Money Flow (CMF) on a series of quotes indicator.
 /// </summary>
 public static partial class Cmf
 {

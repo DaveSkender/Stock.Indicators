@@ -41,17 +41,13 @@ public class BetaList : BufferList<BetaResult>, IIncrementFromPairs, IBeta
         IReadOnlyList<IReusable> sourceMrkt)
         : this(lookbackPeriods, type) => Add(sourceEval, sourceMrkt);
 
-    /// <summary>
-    /// Gets the number of periods to look back.
-    /// </summary>
+    /// <inheritdoc />
     public int LookbackPeriods { get; init; }
 
-    /// <summary>
-    /// Gets the type of Beta calculation.
-    /// </summary>
+    /// <inheritdoc />
     public BetaType Type { get; init; }
 
-    /// <summary>
+    /// <inheritdoc />
     /// Adds a new pair of values to the Beta list.
     /// </summary>
     /// <param name="timestamp">The timestamp for both values.</param>
@@ -119,7 +115,7 @@ public class BetaList : BufferList<BetaResult>, IIncrementFromPairs, IBeta
             ReturnsMrkt: mrktReturn));
     }
 
-    /// <summary>
+    /// <inheritdoc />
     /// Adds a new pair of reusable values to the Beta list.
     /// </summary>
     /// <param name="valueA">The evaluated asset value.</param>
@@ -142,7 +138,7 @@ public class BetaList : BufferList<BetaResult>, IIncrementFromPairs, IBeta
         Add(valueA.Timestamp, valueA.Value, valueB.Value);
     }
 
-    /// <summary>
+    /// <inheritdoc />
     /// Adds lists of reusable values to the Beta list.
     /// </summary>
     /// <param name="valuesA">The list of evaluated asset values to add.</param>
@@ -167,7 +163,7 @@ public class BetaList : BufferList<BetaResult>, IIncrementFromPairs, IBeta
         }
     }
 
-    /// <summary>
+    /// <inheritdoc />
     /// Clears the list and resets internal buffers so the instance can be reused.
     /// </summary>
     public override void Clear()
@@ -178,7 +174,7 @@ public class BetaList : BufferList<BetaResult>, IIncrementFromPairs, IBeta
         _prevMrkt = 0;
         _isFirst = true;
     }
-    /// <summary>
+    /// <inheritdoc />
     /// Calculates the Beta value for the current window of data.
     /// </summary>
     /// <param name="type">The type of Beta calculation.</param>
@@ -238,7 +234,7 @@ public class BetaList : BufferList<BetaResult>, IIncrementFromPairs, IBeta
 /// </summary>
 public static partial class Beta
 {
-    /// <summary>
+    /// <inheritdoc />
     /// Creates a buffer list for Beta calculations.
     /// </summary>
     /// <param name="sourceEval">The evaluated asset values.</param>

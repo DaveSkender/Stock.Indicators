@@ -31,12 +31,11 @@ public class WmaList : BufferList<WmaResult>, IIncrementFromChain, IWma
     /// </summary>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <param name="values">Initial reusable values to populate the list.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="lookbackPeriods"/> is invalid.</exception>
     public WmaList(int lookbackPeriods, IReadOnlyList<IReusable> values)
         : this(lookbackPeriods) => Add(values);
 
-    /// <summary>
-    /// Gets the number of periods to look back for the calculation.
-    /// </summary>
+    /// <inheritdoc />
     public int LookbackPeriods { get; init; }
 
     /// <inheritdoc />
@@ -86,7 +85,7 @@ public class WmaList : BufferList<WmaResult>, IIncrementFromChain, IWma
 
 public static partial class Wma
 {
-    /// <summary>
+    /// <inheritdoc />
     /// Creates a buffer list for Weighted Moving Average (WMA) calculations.
     /// </summary>
     /// <param name="source">Collection of input values, time sorted.</param>

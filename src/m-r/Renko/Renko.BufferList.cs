@@ -5,7 +5,7 @@ namespace Skender.Stock.Indicators;
 /// </summary>
 public class RenkoList : BufferList<RenkoResult>, IIncrementFromQuote, IRenko
 {
-    /// <summary>
+    /// <inheritdoc />
     /// State tracking
     /// </summary>
     private RenkoResult _lastBrick;
@@ -158,7 +158,7 @@ public class RenkoList : BufferList<RenkoResult>, IIncrementFromQuote, IRenko
 
 public static partial class Renko
 {
-    /// <summary>
+    /// <inheritdoc />
     /// Creates a buffer list for Renko Chart calculations.
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>

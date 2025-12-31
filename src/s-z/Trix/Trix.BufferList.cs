@@ -8,7 +8,7 @@ public class TrixList : BufferList<TrixResult>, IIncrementFromChain, ITrix
     private readonly Queue<double> _buffer;
     private double _bufferSum;
 
-    /// <summary>
+    /// <inheritdoc />
     /// State for triple EMA calculations
     /// </summary>
     private double _lastEma1 = double.NaN;
@@ -137,7 +137,7 @@ public class TrixList : BufferList<TrixResult>, IIncrementFromChain, ITrix
 
 public static partial class Trix
 {
-    /// <summary>
+    /// <inheritdoc />
     /// Creates a buffer list for TRIX calculations.
     /// </summary>
     /// <param name="source">Collection of input values, time sorted.</param>

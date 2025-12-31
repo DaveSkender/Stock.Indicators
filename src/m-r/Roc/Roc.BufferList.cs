@@ -25,12 +25,11 @@ public class RocList : BufferList<RocResult>, IIncrementFromChain, IRoc
     /// </summary>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <param name="values">Initial reusable values to populate the list.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="lookbackPeriods"/> is invalid.</exception>
     public RocList(int lookbackPeriods, IReadOnlyList<IReusable> values)
         : this(lookbackPeriods) => Add(values);
 
-    /// <summary>
-    /// Gets the number of periods to look back for the calculation.
-    /// </summary>
+    /// <inheritdoc />
     public int LookbackPeriods { get; init; }
 
     /// <inheritdoc />
@@ -64,7 +63,7 @@ public class RocList : BufferList<RocResult>, IIncrementFromChain, IRoc
             Roc: roc.NaN2Null()));
     }
 
-    /// <summary>
+    /// <inheritdoc />
     /// Adds a new reusable value to the ROC list.
     /// </summary>
     /// <param name="value">The reusable value to add.</param>
@@ -75,7 +74,7 @@ public class RocList : BufferList<RocResult>, IIncrementFromChain, IRoc
         Add(value.Timestamp, value.Value);
     }
 
-    /// <summary>
+    /// <inheritdoc />
     /// Adds a list of reusable values to the ROC list.
     /// </summary>
     /// <param name="values">The list of reusable values to add.</param>
@@ -90,7 +89,7 @@ public class RocList : BufferList<RocResult>, IIncrementFromChain, IRoc
         }
     }
 
-    /// <summary>
+    /// <inheritdoc />
     /// Clears the list and resets internal buffers so the instance can be reused.
     /// </summary>
     public override void Clear()
@@ -102,7 +101,7 @@ public class RocList : BufferList<RocResult>, IIncrementFromChain, IRoc
 
 public static partial class Roc
 {
-    /// <summary>
+    /// <inheritdoc />
     /// Creates a buffer list for Rate of Change (ROC) calculations.
     /// </summary>
     /// <param name="source">Collection of input values, time sorted.</param>

@@ -32,9 +32,7 @@ public class WilliamsRList : BufferList<WilliamsResult>, IIncrementFromQuote, IW
         IReadOnlyList<IQuote> quotes)
         : this(lookbackPeriods) => Add(quotes);
 
-    /// <summary>
-    /// Gets the lookback periods for Williams %R calculation.
-    /// </summary>
+    /// <inheritdoc />
     public int LookbackPeriods { get; init; }
 
     /// <inheritdoc />
@@ -55,7 +53,7 @@ public class WilliamsRList : BufferList<WilliamsResult>, IIncrementFromQuote, IW
         }
     }
 
-    /// <summary>
+    /// <inheritdoc />
     /// Adds a new quote data point for Williams %R calculation.
     /// </summary>
     /// <param name="timestamp">The timestamp of the data point.</param>

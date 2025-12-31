@@ -62,7 +62,7 @@ public class AdlList : BufferList<AdlResult>, IIncrementFromQuote
 
 public static partial class Adl
 {
-    /// <summary>
+    /// <inheritdoc />
     /// Creates a buffer list for Accumulation/Distribution Line calculations.
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>

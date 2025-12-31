@@ -36,14 +36,10 @@ public class ChaikinOscList : BufferList<ChaikinOscResult>, IIncrementFromQuote,
     public ChaikinOscList(int fastPeriods, int slowPeriods, IReadOnlyList<IQuote> quotes)
         : this(fastPeriods, slowPeriods) => Add(quotes);
 
-    /// <summary>
-    /// Gets the number of periods to use for the fast EMA.
-    /// </summary>
+    /// <inheritdoc />
     public int FastPeriods { get; init; }
 
-    /// <summary>
-    /// Gets the number of periods to use for the slow EMA.
-    /// </summary>
+    /// <inheritdoc />
     public int SlowPeriods { get; init; }
 
     /// <inheritdoc />
@@ -100,7 +96,7 @@ public class ChaikinOscList : BufferList<ChaikinOscResult>, IIncrementFromQuote,
 
 public static partial class ChaikinOsc
 {
-    /// <summary>
+    /// <inheritdoc />
     /// Creates a buffer list for Chaikin Oscillator calculations.
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>

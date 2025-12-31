@@ -62,24 +62,16 @@ public class PivotsList : BufferList<PivotsResult>, IIncrementFromQuote
         IReadOnlyList<IQuote> quotes)
         : this(leftSpan, rightSpan, maxTrendPeriods, endType) => Add(quotes);
 
-    /// <summary>
-    /// Gets the number of periods to the left for pivot identification.
-    /// </summary>
+    /// <inheritdoc />
     public int LeftSpan { get; init; }
 
-    /// <summary>
-    /// Gets the number of periods to the right for pivot identification.
-    /// </summary>
+    /// <inheritdoc />
     public int RightSpan { get; init; }
 
-    /// <summary>
-    /// Gets the maximum number of periods to track trend.
-    /// </summary>
+    /// <inheritdoc />
     public int MaxTrendPeriods { get; init; }
 
-    /// <summary>
-    /// Gets the end type for price calculations.
-    /// </summary>
+    /// <inheritdoc />
     public EndType EndType { get; init; }
 
     /// <inheritdoc />
@@ -160,7 +152,7 @@ public class PivotsList : BufferList<PivotsResult>, IIncrementFromQuote
         _lastLowIndex = null;
         _lastLowValue = null;
     }
-    /// <summary>
+    /// <inheritdoc />
     /// Overrides list pruning to reset pivot tracking state when pruning occurs.
     /// </summary>
     protected override void PruneList()
@@ -349,7 +341,7 @@ public class PivotsList : BufferList<PivotsResult>, IIncrementFromQuote
 
 public static partial class Pivots
 {
-    /// <summary>
+    /// <inheritdoc />
     /// Creates a buffer list for Pivot Points calculations.
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>

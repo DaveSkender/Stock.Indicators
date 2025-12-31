@@ -39,14 +39,10 @@ public class SuperTrendList : BufferList<SuperTrendResult>, IIncrementFromQuote
     public SuperTrendList(int lookbackPeriods, double multiplier, IReadOnlyList<IQuote> quotes)
         : this(lookbackPeriods, multiplier) => Add(quotes);
 
-    /// <summary>
-    /// Gets the number of lookback periods.
-    /// </summary>
+    /// <inheritdoc />
     public int LookbackPeriods { get; init; }
 
-    /// <summary>
-    /// Gets the multiplier for the ATR.
-    /// </summary>
+    /// <inheritdoc />
     public double Multiplier { get; init; }
 
     /// <inheritdoc />
@@ -152,7 +148,7 @@ public class SuperTrendList : BufferList<SuperTrendResult>, IIncrementFromQuote
 
 public static partial class SuperTrend
 {
-    /// <summary>
+    /// <inheritdoc />
     /// Creates a buffer list for SuperTrend calculations.
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>

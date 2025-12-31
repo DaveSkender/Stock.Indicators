@@ -34,9 +34,7 @@ public class ElderRayList : BufferList<ElderRayResult>, IIncrementFromQuote, IEl
     )
         : this(lookbackPeriods) => Add(quotes);
 
-    /// <summary>
-    /// Gets the number of periods to look back for the calculation.
-    /// </summary>
+    /// <inheritdoc />
     public int LookbackPeriods { get; init; }
 
     /// <inheritdoc />
@@ -77,7 +75,7 @@ public class ElderRayList : BufferList<ElderRayResult>, IIncrementFromQuote, IEl
 
 public static partial class ElderRay
 {
-    /// <summary>
+    /// <inheritdoc />
     /// Creates a buffer list for Elder Ray calculations.
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>

@@ -70,19 +70,13 @@ public class MacdList : BufferList<MacdResult>, IIncrementFromChain, IMacd
     /// <inheritdoc/>
     public int SignalPeriods { get; init; }
 
-    /// <summary>
-    /// Gets the smoothing factor for the fast EMA.
-    /// </summary>
+    /// <inheritdoc />
     public double FastK { get; private init; }
 
-    /// <summary>
-    /// Gets the smoothing factor for the slow EMA.
-    /// </summary>
+    /// <inheritdoc />
     public double SlowK { get; private init; }
 
-    /// <summary>
-    /// Gets the smoothing factor for the signal line.
-    /// </summary>
+    /// <inheritdoc />
     public double SignalK { get; private init; }
 
     /// <inheritdoc />
@@ -241,7 +235,7 @@ public class MacdList : BufferList<MacdResult>, IIncrementFromChain, IMacd
 
 public static partial class Macd
 {
-    /// <summary>
+    /// <inheritdoc />
     /// Creates a MACD buffer list from reusable values.
     /// </summary>
     /// <param name="source">The list of source data.</param>

@@ -45,19 +45,13 @@ public class StcList : BufferList<StcResult>, IIncrementFromChain, IStc
         IReadOnlyList<IReusable> values)
         : this(cyclePeriods, fastPeriods, slowPeriods) => Add(values);
 
-    /// <summary>
-    /// Gets the number of periods for the cycle calculation.
-    /// </summary>
+    /// <inheritdoc />
     public int CyclePeriods { get; init; }
 
-    /// <summary>
-    /// Gets the number of periods for the fast MA.
-    /// </summary>
+    /// <inheritdoc />
     public int FastPeriods { get; init; }
 
-    /// <summary>
-    /// Gets the number of periods for the slow MA.
-    /// </summary>
+    /// <inheritdoc />
     public int SlowPeriods { get; init; }
 
     /// <inheritdoc />
@@ -119,7 +113,7 @@ public class StcList : BufferList<StcResult>, IIncrementFromChain, IStc
         _macdList.Clear();
         _stochList.Clear();
     }
-    /// <summary>
+    /// <inheritdoc />
     /// Overrides list pruning to synchronize the nested child lists.
     /// </summary>
     protected override void PruneList()
@@ -137,7 +131,7 @@ public class StcList : BufferList<StcResult>, IIncrementFromChain, IStc
 
 public static partial class Stc
 {
-    /// <summary>
+    /// <inheritdoc />
     /// Creates a buffer list for Schaff Trend Cycle calculations.
     /// </summary>
     /// <param name="source">The source list of reusable values.</param>

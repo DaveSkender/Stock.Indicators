@@ -53,19 +53,13 @@ public class KamaList : BufferList<KamaResult>, IIncrementFromChain, IKama
     )
         : this(erPeriods, fastPeriods, slowPeriods) => Add(values);
 
-    /// <summary>
-    /// Gets the number of periods for the Efficiency Ratio (ER).
-    /// </summary>
+    /// <inheritdoc />
     public int ErPeriods { get; init; }
 
-    /// <summary>
-    /// Gets the number of periods for the fast EMA.
-    /// </summary>
+    /// <inheritdoc />
     public int FastPeriods { get; init; }
 
-    /// <summary>
-    /// Gets the number of periods for the slow EMA.
-    /// </summary>
+    /// <inheritdoc />
     public int SlowPeriods { get; init; }
 
     /// <inheritdoc />
@@ -172,7 +166,7 @@ public class KamaList : BufferList<KamaResult>, IIncrementFromChain, IKama
 
 public static partial class Kama
 {
-    /// <summary>
+    /// <inheritdoc />
     /// Creates a buffer list for Kaufman's Adaptive Moving Average (KAMA) calculations.
     /// </summary>
     /// <param name="source">Collection of input values, time sorted.</param>

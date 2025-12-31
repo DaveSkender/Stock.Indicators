@@ -25,12 +25,11 @@ public class HurstList : BufferList<HurstResult>, IIncrementFromChain, IHurst
     /// </summary>
     /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
     /// <param name="values">Initial reusable values to populate the list.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="lookbackPeriods"/> is invalid.</exception>
     public HurstList(int lookbackPeriods, IReadOnlyList<IReusable> values)
         : this(lookbackPeriods) => Add(values);
 
-    /// <summary>
-    /// Gets the number of periods to look back for the calculation.
-    /// </summary>
+    /// <inheritdoc />
     public int LookbackPeriods { get; init; }
 
     /// <inheritdoc />
@@ -97,7 +96,7 @@ public class HurstList : BufferList<HurstResult>, IIncrementFromChain, IHurst
 
 public static partial class Hurst
 {
-    /// <summary>
+    /// <inheritdoc />
     /// Creates a buffer list for Hurst Exponent calculations.
     /// </summary>
     /// <param name="source">Historical reusable values.</param>

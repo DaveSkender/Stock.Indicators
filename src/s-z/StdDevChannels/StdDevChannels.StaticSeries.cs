@@ -1,7 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Provides methods for calculating Standard Deviation Channels.
+/// Standard Deviation Channels indicator.
 /// </summary>
 public static partial class StdDevChannels
 {

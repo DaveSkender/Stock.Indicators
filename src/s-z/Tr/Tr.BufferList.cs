@@ -70,7 +70,7 @@ public class TrList : BufferList<TrResult>, IIncrementFromQuote  // TR has no in
 
 public static partial class Tr
 {
-    /// <summary>
+    /// <inheritdoc />
     /// Creates a buffer list for True Range calculations.
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>

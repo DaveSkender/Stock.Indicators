@@ -31,17 +31,13 @@ public class BollingerBandsList : BufferList<BollingerBandsResult>, IIncrementFr
     public BollingerBandsList(int lookbackPeriods, double standardDeviations, IReadOnlyList<IReusable> values)
         : this(lookbackPeriods, standardDeviations) => Add(values);
 
-    /// <summary>
-    /// Gets the number of periods to look back for the calculation.
-    /// </summary>
+    /// <inheritdoc />
     public int LookbackPeriods { get; init; }
 
-    /// <summary>
-    /// Gets the number of standard deviations for the bands.
-    /// </summary>
+    /// <inheritdoc />
     public double StandardDeviations { get; }
 
-    /// <summary>
+    /// <inheritdoc />
     /// Adds a new value to the Bollinger Bands list.
     /// </summary>
     /// <param name="timestamp">The timestamp of the value.</param>
@@ -89,7 +85,7 @@ public class BollingerBandsList : BufferList<BollingerBandsResult>, IIncrementFr
         }
     }
 
-    /// <summary>
+    /// <inheritdoc />
     /// Adds a new reusable value to the Bollinger Bands list.
     /// </summary>
     /// <param name="value">The reusable value to add.</param>
@@ -100,7 +96,7 @@ public class BollingerBandsList : BufferList<BollingerBandsResult>, IIncrementFr
         Add(value.Timestamp, value.Value);
     }
 
-    /// <summary>
+    /// <inheritdoc />
     /// Adds a list of reusable values to the Bollinger Bands list.
     /// </summary>
     /// <param name="values">The list of reusable values to add.</param>
@@ -115,7 +111,7 @@ public class BollingerBandsList : BufferList<BollingerBandsResult>, IIncrementFr
         }
     }
 
-    /// <summary>
+    /// <inheritdoc />
     /// Clears the list and resets internal buffers so the instance can be reused.
     /// </summary>
     public override void Clear()
@@ -130,7 +126,7 @@ public class BollingerBandsList : BufferList<BollingerBandsResult>, IIncrementFr
 /// </summary>
 public static partial class BollingerBands
 {
-    /// <summary>
+    /// <inheritdoc />
     /// Creates a buffer list for Bollinger Bands calculations
     /// </summary>
     /// <param name="source">Time-series values</param>

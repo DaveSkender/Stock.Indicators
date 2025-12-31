@@ -41,14 +41,10 @@ public class DynamicList : BufferList<DynamicResult>, IIncrementFromChain, IDyna
     )
         : this(lookbackPeriods, kFactor) => Add(values);
 
-    /// <summary>
-    /// Gets the number of periods to look back for the calculation.
-    /// </summary>
+    /// <inheritdoc />
     public int LookbackPeriods { get; init; }
 
-    /// <summary>
-    /// Gets the smoothing factor for the calculation.
-    /// </summary>
+    /// <inheritdoc />
     public double KFactor { get; init; }
 
     /// <inheritdoc />
@@ -106,7 +102,7 @@ public class DynamicList : BufferList<DynamicResult>, IIncrementFromChain, IDyna
 
 public static partial class MgDynamic
 {
-    /// <summary>
+    /// <inheritdoc />
     /// Creates a buffer list for McGinley Dynamic calculations.
     /// </summary>
     /// <param name="source">Collection of input values, time sorted.</param>

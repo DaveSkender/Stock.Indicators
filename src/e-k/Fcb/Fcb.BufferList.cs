@@ -40,9 +40,7 @@ public class FcbList : BufferList<FcbResult>, IIncrementFromQuote, IFcb
     )
         : this(windowSpan) => Add(quotes);
 
-    /// <summary>
-    /// Gets the window span for the calculation.
-    /// </summary>
+    /// <inheritdoc />
     public int WindowSpan { get; init; }
 
     /// <inheritdoc />
@@ -137,7 +135,7 @@ public class FcbList : BufferList<FcbResult>, IIncrementFromQuote, IFcb
 
 public static partial class Fcb
 {
-    /// <summary>
+    /// <inheritdoc />
     /// Creates a buffer list for Fractal Chaos Bands (FCB) calculations.
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>

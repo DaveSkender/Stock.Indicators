@@ -111,7 +111,7 @@ public class EmaList : BufferList<EmaResult>, IIncrementFromChain, IEma
 
 public static partial class Ema
 {
-    /// <summary>
+    /// <inheritdoc />
     /// Creates a buffer list for Exponential Moving Average (EMA) calculations.
     /// </summary>
     /// <param name="source">Collection of input values, time sorted.</param>

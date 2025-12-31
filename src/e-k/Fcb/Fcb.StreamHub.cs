@@ -109,7 +109,10 @@ public class FcbHub
 }
 
 public static partial class Fcb
-{    /// <returns>An instance of <see cref="FcbHub"/>.</returns>
+{    /// <summary>
+/// 
+/// </summary>
+/// <returns>An instance of <see cref="FcbHub"/>.</returns>
     public static FcbHub ToFcbHub(
        this IQuoteProvider<IQuote> quoteProvider,
        int windowSpan = 2)

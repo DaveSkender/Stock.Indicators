@@ -37,19 +37,13 @@ public class ChandelierList : BufferList<ChandelierResult>, IIncrementFromQuote,
     public ChandelierList(int lookbackPeriods, double multiplier, Direction type, IReadOnlyList<IQuote> quotes)
         : this(lookbackPeriods, multiplier, type) => Add(quotes);
 
-    /// <summary>
-    /// Gets the number of periods to use for the lookback window.
-    /// </summary>
+    /// <inheritdoc />
     public int LookbackPeriods { get; init; }
 
-    /// <summary>
-    /// Gets the ATR multiplier.
-    /// </summary>
+    /// <inheritdoc />
     public double Multiplier { get; init; }
 
-    /// <summary>
-    /// Gets the direction type (Long or Short).
-    /// </summary>
+    /// <inheritdoc />
     public Direction Type { get; init; }
 
     /// <inheritdoc />
@@ -133,7 +127,7 @@ public class ChandelierList : BufferList<ChandelierResult>, IIncrementFromQuote,
 
 public static partial class Chandelier
 {
-    /// <summary>
+    /// <inheritdoc />
     /// Creates a buffer list for Chandelier Exit calculations.
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>

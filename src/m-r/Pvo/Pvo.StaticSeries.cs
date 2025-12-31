@@ -1,7 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Provides methods for calculating the Percentage Volume Oscillator (PVO) series.
+/// Percentage Volume Oscillator (PVO) series indicator.
 /// </summary>
 public static partial class Pvo
 {

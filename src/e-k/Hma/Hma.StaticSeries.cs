@@ -1,7 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Provides methods for calculating the Hull Moving Average (HMA) indicator.
+/// Hull Moving Average (HMA) indicator.
 /// </summary>
 public static partial class Hma
 {
@@ -11,7 +11,7 @@ public static partial class Hma
     /// <param name="source">The list of time-series values to transform.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>A list of HMA results.</returns>
-    /// <exception cref="ArgumentNullException">Thrown when the source list is null.</exception>
+    /// <exception cref="ArgumentNullException">Thrown when <paramref name="source"/> is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are less than 2.</exception>
     public static IReadOnlyList<HmaResult> ToHma(
         this IReadOnlyList<IReusable> source,

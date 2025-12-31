@@ -50,24 +50,16 @@ public class StochRsiList : BufferList<StochRsiResult>, IIncrementFromChain
         IReadOnlyList<IReusable> values)
         : this(rsiPeriods, stochPeriods, signalPeriods, smoothPeriods) => Add(values);
 
-    /// <summary>
-    /// Gets the number of periods for the RSI calculation.
-    /// </summary>
+    /// <inheritdoc />
     public int RsiPeriods { get; init; }
 
-    /// <summary>
-    /// Gets the number of periods for the Stochastic calculation.
-    /// </summary>
+    /// <inheritdoc />
     public int StochPeriods { get; init; }
 
-    /// <summary>
-    /// Gets the number of periods for the signal line.
-    /// </summary>
+    /// <inheritdoc />
     public int SignalPeriods { get; init; }
 
-    /// <summary>
-    /// Gets the number of periods for smoothing.
-    /// </summary>
+    /// <inheritdoc />
     public int SmoothPeriods { get; init; }
 
     /// <inheritdoc />
@@ -133,7 +125,7 @@ public class StochRsiList : BufferList<StochRsiResult>, IIncrementFromChain
 
 public static partial class StochRsi
 {
-    /// <summary>
+    /// <inheritdoc />
     /// Creates a buffer list for Stochastic RSI calculations.
     /// </summary>
     /// <param name="source">The source list of reusable values.</param>

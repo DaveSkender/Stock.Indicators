@@ -218,7 +218,7 @@ public class KvoList : BufferList<KvoResult>, IIncrementFromQuote, IKvo
 
 public static partial class Kvo
 {
-    /// <summary>
+    /// <inheritdoc />
     /// Creates a buffer list for Klinger Volume Oscillator (KVO) calculations.
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>

@@ -58,39 +58,25 @@ public class SmiList : BufferList<SmiResult>, IIncrementFromQuote, ISmi
         IReadOnlyList<IQuote> quotes)
         : this(lookbackPeriods, firstSmoothPeriods, secondSmoothPeriods, signalPeriods) => Add(quotes);
 
-    /// <summary>
-    /// Gets the number of periods for the lookback window.
-    /// </summary>
+    /// <inheritdoc />
     public int LookbackPeriods { get; init; }
 
-    /// <summary>
-    /// Gets the number of periods for the first smoothing.
-    /// </summary>
+    /// <inheritdoc />
     public int FirstSmoothPeriods { get; init; }
 
-    /// <summary>
-    /// Gets the number of periods for the second smoothing.
-    /// </summary>
+    /// <inheritdoc />
     public int SecondSmoothPeriods { get; init; }
 
-    /// <summary>
-    /// Gets the number of periods for the signal line smoothing.
-    /// </summary>
+    /// <inheritdoc />
     public int SignalPeriods { get; init; }
 
-    /// <summary>
-    /// Gets the smoothing factor for the first EMA.
-    /// </summary>
+    /// <inheritdoc />
     public double K1 { get; private init; }
 
-    /// <summary>
-    /// Gets the smoothing factor for the second EMA.
-    /// </summary>
+    /// <inheritdoc />
     public double K2 { get; private init; }
 
-    /// <summary>
-    /// Gets the smoothing factor for the signal line.
-    /// </summary>
+    /// <inheritdoc />
     public double KS { get; private init; }
 
     /// <inheritdoc />
@@ -203,7 +189,7 @@ public class SmiList : BufferList<SmiResult>, IIncrementFromQuote, ISmi
 
 public static partial class Smi
 {
-    /// <summary>
+    /// <inheritdoc />
     /// Creates a buffer list for Stochastic Momentum Index (SMI) calculations.
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>

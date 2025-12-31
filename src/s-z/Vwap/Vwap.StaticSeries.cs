@@ -1,7 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Provides methods for calculating the VWAP (Volume Weighted Average Price) indicator.
+/// VWAP (Volume Weighted Average Price) indicator.
 /// </summary>
 public static partial class Vwap
 {
@@ -11,7 +11,7 @@ public static partial class Vwap
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <param name="startDate">The start date for the VWAP calculation.</param>
     /// <returns>A list of VwapResult containing the VWAP values.</returns>
-    /// <exception cref="ArgumentNullException">Thrown when the source is null.</exception>
+    /// <exception cref="ArgumentNullException">Thrown when <paramref name="source"/> is null.</exception>
     public static IReadOnlyList<VwapResult> ToVwap(
         this IReadOnlyList<IQuote> quotes,
         DateTime startDate)
@@ -24,7 +24,7 @@ public static partial class Vwap
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <returns>A list of VwapResult containing the VWAP values.</returns>
-    /// <exception cref="ArgumentNullException">Thrown when the source is null.</exception>
+    /// <exception cref="ArgumentNullException">Thrown when <paramref name="source"/> is null.</exception>
     public static IReadOnlyList<VwapResult> ToVwap(
         this IReadOnlyList<IQuote> quotes)
         => quotes?.Count is null or 0

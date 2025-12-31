@@ -35,7 +35,7 @@ namespace Skender.Stock.Indicators;
 /// </remarks>
 public class MamaList : BufferList<MamaResult>, IIncrementFromChain, IMama
 {
-    /// <summary>
+    /// <inheritdoc />
     /// State arrays for MESA algorithm
     /// These arrays grow with each added value to support indexed lookback access
     /// </summary>
@@ -58,11 +58,11 @@ public class MamaList : BufferList<MamaResult>, IIncrementFromChain, IMama
     private double prevMama = double.NaN;
     private double prevFama = double.NaN;
 
-    /// <summary>
+    /// <inheritdoc />
     /// Minimum required for 6-period lookback
     /// </summary>
     private const int MinBufferSize = 7;
-    /// <summary>
+    /// <inheritdoc />
     /// Trigger point to prune buffers to MinBufferSize
     /// </summary>
     private const int MaxBufferSize = 1000;
@@ -201,7 +201,7 @@ public class MamaList : BufferList<MamaResult>, IIncrementFromChain, IMama
         PruneStateArrays();
     }
 
-    /// <summary>
+    /// <inheritdoc />
     /// Prunes the internal state arrays to prevent unbounded memory growth.
     /// Removes older data while preserving the minimum required periods for calculations.
     /// </summary>
@@ -296,7 +296,7 @@ public class MamaList : BufferList<MamaResult>, IIncrementFromChain, IMama
 
 public static partial class Mama
 {
-    /// <summary>
+    /// <inheritdoc />
     /// Creates a buffer list for MESA Adaptive Moving Average (MAMA) calculations.
     /// </summary>
     /// <param name="source">Collection of input values, time sorted.</param>

@@ -60,7 +60,7 @@ public class AtrStopList : BufferList<AtrStopResult>, IIncrementFromQuote, IAtrS
     /// <inheritdoc/>
     public EndType EndType { get; init; }
 
-    /// <summary>
+    /// <inheritdoc />
     /// Adds a new quote to the AtrStop list.
     /// </summary>
     /// <param name="quote">The quote to add.</param>
@@ -153,7 +153,7 @@ public class AtrStopList : BufferList<AtrStopResult>, IIncrementFromQuote, IAtrS
         AddInternal(result);
     }
 
-    /// <summary>
+    /// <inheritdoc />
     /// Adds a list of quotes to the AtrStop list.
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
@@ -168,7 +168,7 @@ public class AtrStopList : BufferList<AtrStopResult>, IIncrementFromQuote, IAtrS
         }
     }
 
-    /// <summary>
+    /// <inheritdoc />
     /// Clears the list and resets internal buffers so the instance can be reused.
     /// </summary>
     public override void Clear()
@@ -181,7 +181,7 @@ public class AtrStopList : BufferList<AtrStopResult>, IIncrementFromQuote, IAtrS
         _previousClose = 0;
         _isInitialized = false;
     }
-    /// <summary>
+    /// <inheritdoc />
     /// Removes oldest results from both the outer list and the nested ATR list
     /// when the list exceeds <see cref="BufferList{TResult}.MaxListSize"/>.
     /// This prevents unbounded growth of the auxiliary ATR cache.
@@ -204,7 +204,7 @@ public class AtrStopList : BufferList<AtrStopResult>, IIncrementFromQuote, IAtrS
 /// </summary>
 public static partial class AtrStop
 {
-    /// <summary>
+    /// <inheritdoc />
     /// Creates a buffer list for ATR Trailing Stop calculations.
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>

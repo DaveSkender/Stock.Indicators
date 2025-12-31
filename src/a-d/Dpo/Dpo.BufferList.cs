@@ -40,12 +40,11 @@ public class DpoList : BufferList<DpoResult>, IIncrementFromChain
     /// </summary>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <param name="values">Initial reusable values to populate the list.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="lookbackPeriods"/> is invalid.</exception>
     public DpoList(int lookbackPeriods, IReadOnlyList<IReusable> values)
         : this(lookbackPeriods) => Add(values);
 
-    /// <summary>
-    /// Gets the number of periods to look back for the calculation.
-    /// </summary>
+    /// <inheritdoc />
     public int LookbackPeriods { get; init; }
 
     /// <remarks>
@@ -102,7 +101,7 @@ public class DpoList : BufferList<DpoResult>, IIncrementFromChain
         }
     }
 
-    /// <summary>
+    /// <inheritdoc />
     /// Adds a new reusable value to the DPO list.
     /// </summary>
     /// <param name="value">The reusable value to add.</param>
@@ -113,7 +112,7 @@ public class DpoList : BufferList<DpoResult>, IIncrementFromChain
         Add(value.Timestamp, value.Value);
     }
 
-    /// <summary>
+    /// <inheritdoc />
     /// Adds a list of reusable values to the DPO list.
     /// </summary>
     /// <param name="values">The list of reusable values to add.</param>
@@ -128,7 +127,7 @@ public class DpoList : BufferList<DpoResult>, IIncrementFromChain
         }
     }
 
-    /// <summary>
+    /// <inheritdoc />
     /// Clears the list and resets internal buffers so the instance can be reused.
     /// </summary>
     public override void Clear()
@@ -137,7 +136,7 @@ public class DpoList : BufferList<DpoResult>, IIncrementFromChain
         smaList.Clear();
         buffer.Clear();
     }
-    /// <summary>
+    /// <inheritdoc />
     /// Synchronizes pruning of internal buffers with the parent list.
     /// </summary>
     protected override void PruneList()
@@ -168,7 +167,7 @@ public class DpoList : BufferList<DpoResult>, IIncrementFromChain
 
 public static partial class Dpo
 {
-    /// <summary>
+    /// <inheritdoc />
     /// Creates a buffer list for Detrended Price Oscillator (DPO) calculations.
     /// </summary>
     /// <param name="source">Collection of input values, time sorted.</param>

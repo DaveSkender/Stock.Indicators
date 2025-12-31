@@ -69,22 +69,16 @@ public class MaEnvelopesList : BufferList<MaEnvelopeResult>, IIncrementFromChain
         IReadOnlyList<IReusable> values)
         : this(lookbackPeriods, percentOffset, movingAverageType) => Add(values);
 
-    /// <summary>
-    /// Gets the number of periods for the moving average.
-    /// </summary>
+    /// <inheritdoc />
     public int LookbackPeriods { get; init; }
 
-    /// <summary>
-    /// Gets the percentage offset for the envelopes.
-    /// </summary>
+    /// <inheritdoc />
     public double PercentOffset { get; init; }
 
-    /// <summary>
-    /// Gets the type of moving average used.
-    /// </summary>
+    /// <inheritdoc />
     public MaType MovingAverageType { get; init; }
 
-    /// <summary>
+    /// <inheritdoc />
     /// Gets or sets the maximum number of results to retain in the list.
     /// When the list exceeds this value, the oldest items are pruned.
     /// Also propagates to the inner MA buffer list.
@@ -195,7 +189,7 @@ public class MaEnvelopesList : BufferList<MaEnvelopeResult>, IIncrementFromChain
 
 public static partial class MaEnvelopes
 {
-    /// <summary>
+    /// <inheritdoc />
     /// Creates a buffer list for Moving Average Envelopes calculations.
     /// </summary>
     /// <param name="source">The source list of reusable values.</param>

@@ -1,7 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Provides methods for calculating the Keltner Channels for a series of quotes.
+/// Keltner Channels for a series of quotes indicator.
 /// </summary>
 public static partial class Keltner
 {

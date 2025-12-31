@@ -36,9 +36,7 @@ public class FisherTransformList : BufferList<FisherTransformResult>, IIncrement
     )
         : this(lookbackPeriods) => Add(values);
 
-    /// <summary>
-    /// Gets the number of periods to look back for the calculation.
-    /// </summary>
+    /// <inheritdoc />
     public int LookbackPeriods { get; init; }
 
     /// <inheritdoc />
@@ -129,7 +127,7 @@ public class FisherTransformList : BufferList<FisherTransformResult>, IIncrement
 
 public static partial class FisherTransform
 {
-    /// <summary>
+    /// <inheritdoc />
     /// Creates a buffer list for Fisher Transform calculations.
     /// </summary>
     /// <param name="source">Collection of input values, time sorted.</param>

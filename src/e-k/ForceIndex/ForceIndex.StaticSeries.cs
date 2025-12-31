@@ -1,7 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Provides methods for calculating the Force Index indicator.
+/// Force Index indicator.
 /// </summary>
 public static partial class ForceIndex
 {
@@ -12,7 +12,7 @@ public static partial class ForceIndex
     /// <param name="lookbackPeriods">The number of periods to look back for the calculation. Default is 2.</param>
     /// <returns>A list of Force Index results.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the quotes list is null.</exception>
-    /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="lookbackPeriods"/> is invalid.</exception>
     public static IReadOnlyList<ForceIndexResult> ToForceIndex(
         this IReadOnlyList<IQuote> quotes,
         int lookbackPeriods = 2)
@@ -26,8 +26,8 @@ public static partial class ForceIndex
     /// <param name="quotes">The source list of quotes.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>A list of Force Index results.</returns>
-    /// <exception cref="ArgumentNullException">Thrown when the source list is null.</exception>
-    /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
+    /// <exception cref="ArgumentNullException">Thrown when <paramref name="source"/> is null.</exception>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="lookbackPeriods"/> is invalid.</exception>
     private static List<ForceIndexResult> CalcForceIndex(
         this List<QuoteD> quotes,
         int lookbackPeriods)

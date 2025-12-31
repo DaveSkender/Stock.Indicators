@@ -32,14 +32,10 @@ public class PivotPointsList(
         IReadOnlyList<IQuote> quotes)
         : this(windowSize, pointType) => Add(quotes);
 
-    /// <summary>
-    /// Gets the size of the window for pivot point calculation.
-    /// </summary>
+    /// <inheritdoc />
     public PeriodSize WindowSize { get; init; } = windowSize;
 
-    /// <summary>
-    /// Gets the type of pivot point calculation to use.
-    /// </summary>
+    /// <inheritdoc />
     public PivotPointType PointType { get; init; } = pointType;
 
     /// <inheritdoc />
@@ -142,7 +138,7 @@ public class PivotPointsList(
 
 public static partial class PivotPoints
 {
-    /// <summary>
+    /// <inheritdoc />
     /// Creates a buffer list for Pivot Points calculations.
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>

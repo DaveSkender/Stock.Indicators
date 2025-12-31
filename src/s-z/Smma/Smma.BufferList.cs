@@ -38,9 +38,7 @@ public class SmmaList : BufferList<SmmaResult>, IIncrementFromChain, ISmma
     )
         : this(lookbackPeriods) => Add(values);
 
-    /// <summary>
-    /// Gets the number of periods to look back for the calculation.
-    /// </summary>
+    /// <inheritdoc />
     public int LookbackPeriods { get; init; }
 
     /// <inheritdoc />
@@ -108,7 +106,7 @@ public class SmmaList : BufferList<SmmaResult>, IIncrementFromChain, ISmma
 
 public static partial class Smma
 {
-    /// <summary>
+    /// <inheritdoc />
     /// Creates a buffer list for Smoothed Moving Average (SMMA) calculations.
     /// </summary>
     /// <param name="source">Collection of input values, time sorted.</param>

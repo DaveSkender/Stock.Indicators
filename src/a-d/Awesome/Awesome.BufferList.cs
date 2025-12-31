@@ -32,17 +32,13 @@ public class AwesomeList : BufferList<AwesomeResult>, IIncrementFromChain, IAwes
     public AwesomeList(int fastPeriods, int slowPeriods, IReadOnlyList<IReusable> values)
         : this(fastPeriods, slowPeriods) => Add(values);
 
-    /// <summary>
-    /// Gets the number of periods for the fast moving average.
-    /// </summary>
+    /// <inheritdoc />
     public int FastPeriods { get; init; }
 
-    /// <summary>
-    /// Gets the number of periods for the slow moving average.
-    /// </summary>
+    /// <inheritdoc />
     public int SlowPeriods { get; init; }
 
-    /// <summary>
+    /// <inheritdoc />
     /// Adds a new value to the Awesome list.
     /// </summary>
     /// <param name="timestamp">The timestamp of the value.</param>
@@ -123,7 +119,7 @@ public class AwesomeList : BufferList<AwesomeResult>, IIncrementFromChain, IAwes
 /// </summary>
 public static partial class Awesome
 {
-    /// <summary>
+    /// <inheritdoc />
     /// Creates a buffer list for Awesome Oscillator calculations.
     /// </summary>
     /// <param name="source">Time-series values to transform.</param>

@@ -289,7 +289,10 @@ public class VolatilityStopHub
 }
 
 public static partial class VolatilityStop
-{    /// <returns>An instance of <see cref="VolatilityStopHub"/>.</returns>
+{    /// <summary>
+/// 
+/// </summary>
+/// <returns>An instance of <see cref="VolatilityStopHub"/>.</returns>
     public static VolatilityStopHub ToVolatilityStopHub(
        this IQuoteProvider<IQuote> quoteProvider,
        int lookbackPeriods = 7,

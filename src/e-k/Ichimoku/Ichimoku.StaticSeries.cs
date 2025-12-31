@@ -1,7 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Provides methods for calculating the Ichimoku Cloud indicator.
+/// Ichimoku Cloud indicator.
 /// </summary>
 public static partial class Ichimoku
 {

@@ -69,19 +69,13 @@ public class ParabolicSarList : BufferList<ParabolicSarResult>, IIncrementFromQu
         IReadOnlyList<IQuote> quotes)
         : this(accelerationStep, maxAccelerationFactor, initialFactor) => Add(quotes);
 
-    /// <summary>
-    /// Gets the acceleration step for the SAR calculation.
-    /// </summary>
+    /// <inheritdoc />
     public double AccelerationStep { get; init; }
 
-    /// <summary>
-    /// Gets the maximum acceleration factor for the SAR calculation.
-    /// </summary>
+    /// <inheritdoc />
     public double MaxAccelerationFactor { get; init; }
 
-    /// <summary>
-    /// Gets the initial acceleration factor for the SAR calculation.
-    /// </summary>
+    /// <inheritdoc />
     public double InitialFactor { get; init; }
 
     /// <inheritdoc />
@@ -280,25 +274,19 @@ public class ParabolicSarList : BufferList<ParabolicSarResult>, IIncrementFromQu
 /// </summary>
 public interface IParabolicSar
 {
-    /// <summary>
-    /// Gets the acceleration step for the SAR calculation.
-    /// </summary>
+    /// <inheritdoc />
     double AccelerationStep { get; }
 
-    /// <summary>
-    /// Gets the maximum acceleration factor for the SAR calculation.
-    /// </summary>
+    /// <inheritdoc />
     double MaxAccelerationFactor { get; }
 
-    /// <summary>
-    /// Gets the initial acceleration factor for the SAR calculation.
-    /// </summary>
+    /// <inheritdoc />
     double InitialFactor { get; }
 }
 
 public static partial class ParabolicSar
 {
-    /// <summary>
+    /// <inheritdoc />
     /// Creates a buffer list for Parabolic SAR calculations.
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
@@ -310,7 +298,7 @@ public static partial class ParabolicSar
         double maxAccelerationFactor = 0.2)
         => new(accelerationStep, maxAccelerationFactor) { quotes };
 
-    /// <summary>
+    /// <inheritdoc />
     /// Creates a buffer list for Parabolic SAR calculations with custom initial factor.
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>

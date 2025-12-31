@@ -26,12 +26,11 @@ public class DonchianList : BufferList<DonchianResult>, IIncrementFromQuote
     /// </summary>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="lookbackPeriods"/> is invalid.</exception>
     public DonchianList(int lookbackPeriods, IReadOnlyList<IQuote> quotes)
         : this(lookbackPeriods) => Add(quotes);
 
-    /// <summary>
-    /// Gets the number of periods to look back for the calculation.
-    /// </summary>
+    /// <inheritdoc />
     public int LookbackPeriods { get; init; }
 
     /// <inheritdoc />
@@ -95,7 +94,7 @@ public class DonchianList : BufferList<DonchianResult>, IIncrementFromQuote
         }
     }
 
-    /// <summary>
+    /// <inheritdoc />
     /// Clears the list and resets internal buffers so the instance can be reused.
     /// </summary>
     public override void Clear()
@@ -107,7 +106,7 @@ public class DonchianList : BufferList<DonchianResult>, IIncrementFromQuote
 
 public static partial class Donchian
 {
-    /// <summary>
+    /// <inheritdoc />
     /// Creates a buffer list for Donchian Channels calculations.
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>

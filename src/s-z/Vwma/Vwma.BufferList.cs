@@ -34,9 +34,7 @@ public class VwmaList : BufferList<VwmaResult>, IIncrementFromQuote, IVwma
     )
         : this(lookbackPeriods) => Add(quotes);
 
-    /// <summary>
-    /// Gets the number of periods to look back for the calculation.
-    /// </summary>
+    /// <inheritdoc />
     public int LookbackPeriods { get; init; }
 
     /// <inheritdoc />
@@ -57,7 +55,7 @@ public class VwmaList : BufferList<VwmaResult>, IIncrementFromQuote, IVwma
         }
     }
 
-    /// <summary>
+    /// <inheritdoc />
     /// Apply new price and volume values for calculating incremental VWMA values.
     /// </summary>
     /// <param name="timestamp">The date context.</param>
@@ -99,7 +97,7 @@ public class VwmaList : BufferList<VwmaResult>, IIncrementFromQuote, IVwma
 
 public static partial class Vwma
 {
-    /// <summary>
+    /// <inheritdoc />
     /// Creates a buffer list for Volume Weighted Moving Average (VWMA) calculations.
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
