@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 // ROLLING PIVOT POINTS (STREAM HUB)
 
 /// <summary>
-/// Streaming hub for calculating Rolling Pivot Points using a stream hub.
+/// Streaming hub for Rolling Pivot Points using a stream hub.
 /// </summary>
 public static partial class RollingPivots
 {
@@ -24,14 +24,16 @@ public static partial class RollingPivots
 }
 
 /// <summary>
-/// Streaming hub for calculating Rolling Pivot Points.
+/// Streaming hub for Rolling Pivot Points.
 /// </summary>
 public class RollingPivotsHub
     : StreamHub<IQuote, RollingPivotsResult>
 {
     private readonly RollingWindowMax<decimal> _highWindow;
     private readonly RollingWindowMin<decimal> _lowWindow;
-    private readonly Queue<IQuote> _offsetBuffer; internal RollingPivotsHub(
+    private readonly Queue<IQuote> _offsetBuffer;
+
+    internal RollingPivotsHub(
         IQuoteProvider<IQuote> provider,
         int windowPeriods,
         int offsetPeriods,

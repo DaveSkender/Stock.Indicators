@@ -8,12 +8,6 @@ namespace Skender.Stock.Indicators;
 public class StdDevHub
     : ChainProvider<IReusable, StdDevResult>, IStdDev
 {
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="StdDevHub"/> class.
-    /// </summary>
-    /// <param name="provider">The chain provider.</param>
-    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     internal StdDevHub(
         IChainProvider<IReusable> provider,
         int lookbackPeriods) : base(provider)
@@ -25,9 +19,7 @@ public class StdDevHub
         Reinitialize();
     }
 
-    /// <summary>
-    /// Gets the number of lookback periods.
-    /// </summary>
+    /// <inheritdoc/>
     public int LookbackPeriods { get; init; }
     /// <inheritdoc/>
     protected override (StdDevResult result, int index)

@@ -1,7 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Streaming hub for calculating Fisher Transform indicator using a stream hub.
+/// Streaming hub for Fisher Transform indicator using a stream hub.
 /// </summary>
 public class FisherTransformHub
     : ChainProvider<IReusable, FisherTransformResult>, IFisherTransform
@@ -17,7 +17,9 @@ public class FisherTransformHub
     /// Rolling windows for O(1) price min/max tracking
     /// </summary>
     private readonly RollingWindowMax<double> _priceMaxWindow;
-    private readonly RollingWindowMin<double> _priceMinWindow; internal FisherTransformHub(
+    private readonly RollingWindowMin<double> _priceMinWindow;
+
+    internal FisherTransformHub(
         IChainProvider<IReusable> provider,
         int lookbackPeriods = 10) : base(provider)
     {

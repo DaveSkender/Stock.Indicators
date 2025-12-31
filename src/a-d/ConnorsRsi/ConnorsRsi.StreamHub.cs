@@ -1,7 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Streaming hub for calculating Connors RSI indicator in a streaming context.
+/// Streaming hub for Connors RSI indicator in a streaming context.
 /// </summary>
 public class ConnorsRsiHub
     : ChainProvider<IReusable, ConnorsRsiResult>, IConnorsRsi
@@ -12,7 +12,9 @@ public class ConnorsRsiHub
     private double streak;
     private double prevValue;
     private double streakAvgGain;
-    private double streakAvgLoss; internal ConnorsRsiHub(
+    private double streakAvgLoss;
+
+    internal ConnorsRsiHub(
         IChainProvider<IReusable> provider,
         int rsiPeriods,
         int streakPeriods,

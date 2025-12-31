@@ -6,11 +6,6 @@ namespace Skender.Stock.Indicators;
 public class TrHub
     : ChainProvider<IQuote, TrResult>
 {
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="TrHub"/> class.
-    /// </summary>
-    /// <param name="provider">The quote provider.</param>
     internal TrHub(IQuoteProvider<IQuote> provider)
         : base(provider)
     {
@@ -18,7 +13,6 @@ public class TrHub
         Reinitialize();
     }
 
-    // METHODS
     /// <inheritdoc/>
     protected override (TrResult result, int index)
         ToIndicator(IQuote item, int? indexHint)

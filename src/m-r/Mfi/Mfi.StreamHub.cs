@@ -1,12 +1,14 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Streaming hub for calculating Money Flow Index (MFI).
+/// Streaming hub for Money Flow Index (MFI).
 /// </summary>
 public class MfiHub : ChainProvider<IQuote, MfiResult>, IMfi
 {
     private readonly Queue<(double TruePrice, double MoneyFlow, int Direction)> _buffer;
-    private double? _prevTruePrice; internal MfiHub(
+    private double? _prevTruePrice;
+
+    internal MfiHub(
         IQuoteProvider<IQuote> provider,
         int lookbackPeriods)
         : base(provider)

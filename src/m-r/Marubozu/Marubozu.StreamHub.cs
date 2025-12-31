@@ -8,7 +8,9 @@ namespace Skender.Stock.Indicators;
 public class MarubozuHub
     : StreamHub<IQuote, CandleResult>, IMarubozu
 {
-    private readonly double _minBodyPercentDecimal; internal MarubozuHub(
+    private readonly double _minBodyPercentDecimal;
+
+    internal MarubozuHub(
         IStreamObservable<IQuote> provider,
         double minBodyPercent) : base(provider)
     {

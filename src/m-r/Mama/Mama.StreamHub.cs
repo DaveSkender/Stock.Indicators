@@ -1,7 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Streaming hub for calculating MAMA.
+/// Streaming hub for MAMA.
 /// </summary>
 public class MamaHub
     : ChainProvider<IReusable, MamaResult>, IMama

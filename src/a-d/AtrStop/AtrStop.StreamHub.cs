@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 // ATR TRAILING STOP (STREAM HUB)
 
 /// <summary>
-/// Streaming hub for calculating ATR Trailing Stop using a stream hub.
+/// Streaming hub for ATR Trailing Stop using a stream hub.
 /// </summary>
 public class AtrStopHub
     : StreamHub<IQuote, AtrStopResult>, IAtrStop

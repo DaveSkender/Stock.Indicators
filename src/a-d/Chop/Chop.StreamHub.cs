@@ -1,7 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Streaming hub for calculating Choppiness Index (CHOP) on a series of quotes.
+/// Streaming hub for Choppiness Index (CHOP) on a series of quotes.
 /// </summary>
 public class ChopHub
     : ChainProvider<IQuote, ChopResult>, IChop
@@ -9,7 +9,9 @@ public class ChopHub
     private readonly RollingWindowMax<double> _trueHighWindow;
     private readonly RollingWindowMin<double> _trueLowWindow;
     private readonly Queue<double> _trueRangeBuffer;
-    private double _sumTrueRange; internal ChopHub(
+    private double _sumTrueRange;
+
+    internal ChopHub(
         IQuoteProvider<IQuote> provider,
         int lookbackPeriods) : base(provider)
     {

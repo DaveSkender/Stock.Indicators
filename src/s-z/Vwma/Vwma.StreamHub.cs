@@ -8,12 +8,6 @@ namespace Skender.Stock.Indicators;
 public class VwmaHub
     : ChainProvider<IReusable, VwmaResult>, IVwma
 {
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="VwmaHub"/> class.
-    /// </summary>
-    /// <param name="provider">The quote provider.</param>
-    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     internal VwmaHub(
         IQuoteProvider<IQuote> provider,
         int lookbackPeriods) : base(provider)
@@ -25,12 +19,9 @@ public class VwmaHub
         Reinitialize();
     }
 
-    /// <summary>
-    /// Gets the number of lookback periods.
-    /// </summary>
+    /// <inheritdoc/>
     public int LookbackPeriods { get; init; }
 
-    // METHODS
 
     /// <inheritdoc />
     public override string ToString() => Name;

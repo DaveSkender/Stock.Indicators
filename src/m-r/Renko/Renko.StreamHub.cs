@@ -10,7 +10,9 @@ public class RenkoHub
 
     private RenkoResult lastBrick
         = new(default, default, default,
-            default, default, default, default); internal RenkoHub(
+            default, default, default, default);
+
+    internal RenkoHub(
         IQuoteProvider<IQuote> provider,
         decimal brickSize,
         EndType endType) : base(provider)

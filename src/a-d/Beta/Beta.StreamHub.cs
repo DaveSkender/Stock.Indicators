@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 // BETA (STREAM HUB)
 
 /// <summary>
-/// Streaming hub for calculating Beta coefficient.
+/// Streaming hub for Beta coefficient.
 /// </summary>
 public class BetaHub
     : PairsProvider<IReusable, BetaResult>, IBeta
@@ -32,7 +32,9 @@ public class BetaHub
     /// <summary>
     /// Rolling window state for Down beta
     /// </summary>
-    private RollingWindowState _stateDn; internal BetaHub(
+    private RollingWindowState _stateDn;
+
+    internal BetaHub(
         IChainProvider<IReusable> providerEval,
         IChainProvider<IReusable> providerMrkt,
         int lookbackPeriods,

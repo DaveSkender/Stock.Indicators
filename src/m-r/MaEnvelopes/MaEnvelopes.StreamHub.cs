@@ -5,7 +5,7 @@ namespace Skender.Stock.Indicators;
 #pragma warning disable IDE0072 // Missing cases in switch statement
 
 /// <summary>
-/// Streaming hub for calculating Moving Average Envelopes indicator.
+/// Streaming hub for Moving Average Envelopes indicator.
 /// </summary>
 public static partial class MaEnvelopes
 {
@@ -60,7 +60,9 @@ public class MaEnvelopesHub
     /// <summary>
     /// for TEMA
     /// </summary>
-    private double lastEma5 = double.NaN; internal MaEnvelopesHub(
+    private double lastEma5 = double.NaN;
+
+    internal MaEnvelopesHub(
         IChainProvider<IReusable> provider,
         int lookbackPeriods,
         double percentOffset,

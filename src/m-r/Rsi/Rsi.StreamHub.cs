@@ -1,7 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Streaming hub for calculating Relative Strength Index (RSI) indicator.
+/// Streaming hub for Relative Strength Index (RSI) indicator.
 /// </summary>
 /// <remarks>
 /// This implementation uses O(1) incremental updates per quote via Wilder's smoothing.
@@ -12,7 +12,9 @@ public class RsiHub
     : ChainProvider<IReusable, RsiResult>, IRsi
 {
     private double _avgGain = double.NaN;
-    private double _avgLoss = double.NaN; internal RsiHub(
+    private double _avgLoss = double.NaN;
+
+    internal RsiHub(
         IChainProvider<IReusable> provider,
         int lookbackPeriods) : base(provider)
     {

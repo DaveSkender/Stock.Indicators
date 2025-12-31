@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 // BALANCE OF POWER (STREAM HUB)
 
 /// <summary>
-/// Streaming hub for calculating Balance of Power (BOP).
+/// Streaming hub for Balance of Power (BOP).
 /// </summary>
 public class BopHub
     : ChainProvider<IQuote, BopResult>, IBop

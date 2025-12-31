@@ -11,13 +11,6 @@ public class StarcBandsHub
 
     private double _prevAtr = double.NaN;
 
-    /// <summary>
-    /// Initializes a new instance of the <see cref="StarcBandsHub"/> class.
-    /// </summary>
-    /// <param name="provider">The quote provider.</param>
-    /// <param name="smaPeriods">The number of periods for the SMA.</param>
-    /// <param name="multiplier">The multiplier for the ATR.</param>
-    /// <param name="atrPeriods">The number of periods for the ATR.</param>
     internal StarcBandsHub(
         IQuoteProvider<IQuote> provider,
         int smaPeriods,

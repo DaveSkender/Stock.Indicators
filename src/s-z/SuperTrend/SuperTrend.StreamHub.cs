@@ -8,14 +8,6 @@ namespace Skender.Stock.Indicators;
 public class SuperTrendHub
     : StreamHub<IQuote, SuperTrendResult>, ISuperTrend
 {
-
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="SuperTrendHub"/> class.
-    /// </summary>
-    /// <param name="provider">The quote provider.</param>
-    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <param name="multiplier">The multiplier for the ATR.</param>
     internal SuperTrendHub(
         IQuoteProvider<IQuote> provider,
         int lookbackPeriods,
@@ -30,14 +22,10 @@ public class SuperTrendHub
         Reinitialize();
     }
 
-    /// <summary>
-    /// Gets the number of periods to look back.
-    /// </summary>
+    /// <inheritdoc/>
     public int LookbackPeriods { get; init; }
 
-    /// <summary>
-    /// Gets the multiplier for the ATR.
-    /// </summary>
+    /// <inheritdoc/>
     public double Multiplier { get; init; }
 
     /// <summary>
@@ -48,7 +36,6 @@ public class SuperTrendHub
     private double LowerBand { get; set; } = double.MinValue;
     private double PrevAtr { get; set; } = double.NaN;
 
-    // METHODS
     /// <inheritdoc/>
     protected override (SuperTrendResult result, int index)
         ToIndicator(IQuote item, int? indexHint)
@@ -262,14 +249,7 @@ public class SuperTrendHub
 }
 
 public static partial class SuperTrend
-{
-    /// <summary>
-    /// Initializes a new instance of the <see cref="SuperTrendHub"/> class.
-    /// </summary>
-    /// <param name="quoteProvider">The quote provider.</param>
-    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <param name="multiplier">The multiplier for the ATR.</param>
-    /// <returns>An instance of <see cref="SuperTrendHub"/>.</returns>
+{    /// <returns>An instance of <see cref="SuperTrendHub"/>.</returns>
     public static SuperTrendHub ToSuperTrendHub(
        this IQuoteProvider<IQuote> quoteProvider,
        int lookbackPeriods = 10,

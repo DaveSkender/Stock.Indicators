@@ -1,22 +1,22 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Streaming hub for calculating Parabolic SAR in a streaming manner.
+/// Streaming hub for Parabolic SAR.
 /// </summary>
 public class ParabolicSarHub
     : ChainProvider<IQuote, ParabolicSarResult>, IParabolicSar
 {
     private readonly Queue<(double High, double Low)> _buffer;
 
-    /// <summary>
-    /// State variables
-    /// </summary>
+    // State variables
     private double _accelerationFactor;
     private double _extremePoint;
     private double _priorSar;
     private bool _isRising;
     private bool _isInitialized;
-    private bool _firstReversalFound; internal ParabolicSarHub(
+    private bool _firstReversalFound;
+
+    internal ParabolicSarHub(
         IQuoteProvider<IQuote> provider,
         double accelerationStep = 0.02,
         double maxAccelerationFactor = 0.2)

@@ -8,12 +8,6 @@ namespace Skender.Stock.Indicators;
 public class WmaHub
     : ChainProvider<IReusable, WmaResult>, IWma
 {
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="WmaHub"/> class.
-    /// </summary>
-    /// <param name="provider">The chain provider.</param>
-    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     internal WmaHub(
         IChainProvider<IReusable> provider,
         int lookbackPeriods) : base(provider)
@@ -25,12 +19,9 @@ public class WmaHub
         Reinitialize();
     }
 
-    /// <summary>
-    /// Gets the number of lookback periods.
-    /// </summary>
+    /// <inheritdoc/>
     public int LookbackPeriods { get; init; }
 
-    // METHODS
 
     /// <inheritdoc />
     public override string ToString() => Name;

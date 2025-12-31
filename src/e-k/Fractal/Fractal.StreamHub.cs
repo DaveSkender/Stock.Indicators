@@ -8,14 +8,6 @@ namespace Skender.Stock.Indicators;
 public class FractalHub
     : StreamHub<IQuote, FractalResult>, IFractal
 {
-
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="FractalHub"/> class.
-    /// </summary>
-    /// <param name="provider">The quote provider.</param>
-    /// <param name="windowSpan">The number of periods to look back and forward for the calculation.</param>
-    /// <param name="endType">The type of price to use for the calculation.</param>
     internal FractalHub(
         IQuoteProvider<IQuote> provider,
         int windowSpan,
@@ -48,22 +40,15 @@ public class FractalHub
         Reinitialize();
     }
 
-    /// <summary>
-    /// Gets the number of periods to look back for the calculation.
-    /// </summary>
+    /// <inheritdoc/>
     public int LeftSpan { get; init; }
 
-    /// <summary>
-    /// Gets the number of periods to look forward for the calculation.
-    /// </summary>
+    /// <inheritdoc/>
     public int RightSpan { get; init; }
 
-    /// <summary>
-    /// Gets the type of price to use for the calculation.
-    /// </summary>
+    /// <inheritdoc/>
     public EndType EndType { get; init; }
 
-    // METHODS
     /// <inheritdoc/>
     protected override (FractalResult result, int index)
         ToIndicator(IQuote item, int? indexHint)
@@ -127,14 +112,7 @@ public class FractalHub
 }
 
 public static partial class Fractal
-{
-    /// <summary>
-    /// Initializes a new instance of the <see cref="FractalHub"/> class.
-    /// </summary>
-    /// <param name="quoteProvider">The quote provider.</param>
-    /// <param name="windowSpan">The number of periods to look back and forward for the calculation. Default is 2.</param>
-    /// <param name="endType">The type of price to use for the calculation. Default is <see cref="EndType.HighLow"/>.</param>
-    /// <returns>An instance of <see cref="FractalHub"/>.</returns>
+{    /// <returns>An instance of <see cref="FractalHub"/>.</returns>
     public static FractalHub ToFractalHub(
        this IQuoteProvider<IQuote> quoteProvider,
        int windowSpan = 2,

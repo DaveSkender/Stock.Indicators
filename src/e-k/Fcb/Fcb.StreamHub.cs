@@ -8,13 +8,6 @@ namespace Skender.Stock.Indicators;
 public class FcbHub
     : StreamHub<IQuote, FcbResult>, IFcb
 {
-
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="FcbHub"/> class.
-    /// </summary>
-    /// <param name="provider">The quote provider.</param>
-    /// <param name="windowSpan">The window span for the calculation.</param>
     internal FcbHub(
         IQuoteProvider<IQuote> provider,
         int windowSpan) : base(provider)
@@ -26,9 +19,7 @@ public class FcbHub
         Reinitialize();
     }
 
-    /// <summary>
-    /// Gets the window span for the calculation.
-    /// </summary>
+    /// <inheritdoc/>
     public int WindowSpan { get; init; }
 
     /// <summary>
@@ -37,7 +28,6 @@ public class FcbHub
     private decimal? UpperLine { get; set; }
     private decimal? LowerLine { get; set; }
 
-    // METHODS
     /// <inheritdoc/>
     protected override (FcbResult result, int index)
         ToIndicator(IQuote item, int? indexHint)
@@ -121,13 +111,7 @@ public class FcbHub
 }
 
 public static partial class Fcb
-{
-    /// <summary>
-    /// Initializes a new instance of the <see cref="FcbHub"/> class.
-    /// </summary>
-    /// <param name="quoteProvider">The quote provider.</param>
-    /// <param name="windowSpan">The window span for the calculation. Default is 2.</param>
-    /// <returns>An instance of <see cref="FcbHub"/>.</returns>
+{    /// <returns>An instance of <see cref="FcbHub"/>.</returns>
     public static FcbHub ToFcbHub(
        this IQuoteProvider<IQuote> quoteProvider,
        int windowSpan = 2)

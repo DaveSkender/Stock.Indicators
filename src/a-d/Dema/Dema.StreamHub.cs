@@ -1,13 +1,15 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Streaming hub for calculating Double Exponential Moving Average (DEMA) indicator.
+/// Streaming hub for Double Exponential Moving Average (DEMA) indicator.
 /// </summary>
 public class DemaHub
     : ChainProvider<IReusable, DemaResult>, IDema
 {
     private double lastEma1 = double.NaN;
-    private double lastEma2 = double.NaN; internal DemaHub(
+    private double lastEma2 = double.NaN;
+
+    internal DemaHub(
         IChainProvider<IReusable> provider,
         int lookbackPeriods) : base(provider)
     {

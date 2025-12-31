@@ -6,7 +6,9 @@ namespace Skender.Stock.Indicators;
 public class CciHub
     : ChainProvider<IQuote, CciResult>, ICci
 {
-    private readonly CciList _cciList; internal CciHub(
+    private readonly CciList _cciList;
+
+    internal CciHub(
         IQuoteProvider<IQuote> provider,
         int lookbackPeriods) : base(provider)
     {
@@ -75,7 +77,7 @@ public class CciHub
 }
 
 /// <summary>
-/// Streaming hub for calculating Commodity Channel Index (CCI) indicator.
+/// Streaming hub for Commodity Channel Index (CCI) indicator.
 /// </summary>
 public static partial class Cci
 {

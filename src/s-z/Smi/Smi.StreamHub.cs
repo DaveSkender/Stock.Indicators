@@ -21,14 +21,6 @@ public sealed class SmiHub
     private double _lastHlEma2 = double.NaN;
     private double _lastSignal = double.NaN;
 
-    /// <summary>
-    /// Initializes a new instance of the <see cref="SmiHub"/> class.
-    /// </summary>
-    /// <param name="provider">The quote provider.</param>
-    /// <param name="lookbackPeriods">The number of periods for the lookback window.</param>
-    /// <param name="firstSmoothPeriods">The number of periods for the first smoothing.</param>
-    /// <param name="secondSmoothPeriods">The number of periods for the second smoothing.</param>
-    /// <param name="signalPeriods">The number of periods for the signal line smoothing.</param>
     internal SmiHub(
         IStreamObservable<IQuote> provider,
         int lookbackPeriods = 13,
@@ -68,19 +60,13 @@ public sealed class SmiHub
     /// <inheritdoc/>
     public int SignalPeriods { get; init; }
 
-    /// <summary>
-    /// Gets the smoothing factor for the first EMA.
-    /// </summary>
+    /// <inheritdoc/>
     public double K1 { get; private init; }
 
-    /// <summary>
-    /// Gets the smoothing factor for the second EMA.
-    /// </summary>
+    /// <inheritdoc/>
     public double K2 { get; private init; }
 
-    /// <summary>
-    /// Gets the smoothing factor for the signal line.
-    /// </summary>
+    /// <inheritdoc/>
     public double KS { get; private init; }
     /// <inheritdoc/>
     protected override (SmiResult result, int index)

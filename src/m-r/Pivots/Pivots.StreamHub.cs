@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 // PIVOT POINTS (STREAM HUB)
 
 /// <summary>
-/// Streaming hub for calculating Pivot Points using a stream hub.
+/// Streaming hub for Pivot Points using a stream hub.
 /// </summary>
 public class PivotsHub
     : StreamHub<IQuote, PivotsResult>, IPivots

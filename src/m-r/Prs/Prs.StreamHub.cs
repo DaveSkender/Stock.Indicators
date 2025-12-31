@@ -3,15 +3,15 @@ namespace Skender.Stock.Indicators;
 // PRS (STREAM HUB)
 
 /// <summary>
-/// Streaming hub for calculating Price Relative Strength (PRS) series.
+/// Streaming hub for Price Relative Strength (PRS) series.
 /// </summary>
 public class PrsHub
     : PairsProvider<IReusable, PrsResult>
 {
     private readonly int lookbackPeriods;    /// <summary>
-    /// 
-    /// </summary>
-    /// The number of periods for the PRS% lookback calculation.
+                                             /// 
+                                             /// </summary>
+                                             /// The number of periods for the PRS% lookback calculation.
                                              /// Use int.MinValue to disable PrsPercent calculation.
                                              /// </param>
                                              /// <exception cref="ArgumentNullException">Thrown when either provider is null.</exception>

@@ -1,7 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Provides methods for calculating the Kaufman's Adaptive Moving Average (KAMA) indicator.
+/// Streaming hub for Kaufman's Adaptive Moving Average (KAMA).
 /// </summary>
 public class KamaHub
     : ChainProvider<IReusable, KamaResult>, IKama
@@ -9,15 +9,6 @@ public class KamaHub
     private readonly double _scFast;
     private readonly double _scSlow;
 
-    /// <summary>
-    /// Initializes a new instance of the <see cref="KamaHub"/> class.
-    /// </summary>
-    /// <param name="provider">The chain provider.</param>
-    /// <param name="erPeriods">The number of periods for the Efficiency Ratio (ER).</param>
-    /// <param name="fastPeriods">The number of periods for the fast EMA.</param>
-    /// <param name="slowPeriods">The number of periods for the slow EMA.</param>
-    /// <exception cref="ArgumentNullException">Thrown when the provider is null.</exception>
-    /// <exception cref="ArgumentOutOfRangeException">Thrown when any of the parameters are out of their valid range.</exception>
     internal KamaHub(
         IChainProvider<IReusable> provider,
         int erPeriods,

@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 // CORRELATION (STREAM HUB)
 
 /// <summary>
-/// Streaming hub for calculating correlation coefficient.
+/// Streaming hub for correlation coefficient.
 /// </summary>
 public class CorrelationHub
     : PairsProvider<IReusable, CorrResult>, ICorrelation

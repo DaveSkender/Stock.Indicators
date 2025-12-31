@@ -74,7 +74,7 @@ public class AroonHub
 }
 
 /// <summary>
-/// Streaming hub for calculating Aroon Oscillator.
+/// Streaming hub for Aroon Oscillator.
 /// </summary>
 public static partial class Aroon
 {

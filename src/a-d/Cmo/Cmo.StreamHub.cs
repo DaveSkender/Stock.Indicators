@@ -6,7 +6,9 @@ namespace Skender.Stock.Indicators;
 public class CmoHub
     : ChainProvider<IReusable, CmoResult>, ICmo
 {
-    private readonly Queue<(bool? isUp, double value)> _tickBuffer; internal CmoHub(
+    private readonly Queue<(bool? isUp, double value)> _tickBuffer;
+
+    internal CmoHub(
         IChainProvider<IReusable> provider,
         int lookbackPeriods) : base(provider)
     {

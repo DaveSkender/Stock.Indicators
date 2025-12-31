@@ -8,7 +8,9 @@ namespace Skender.Stock.Indicators;
 public class DojiHub
     : StreamHub<IQuote, CandleResult>, IDoji
 {
-    private readonly double _maxPriceChangePercentDecimal; internal DojiHub(
+    private readonly double _maxPriceChangePercentDecimal;
+
+    internal DojiHub(
         IStreamObservable<IQuote> provider,
         double maxPriceChangePercent) : base(provider)
     {

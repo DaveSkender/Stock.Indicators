@@ -10,11 +10,6 @@ public class ForceIndexHub
 {
     private readonly double _k;
 
-    /// <summary>
-    /// Initializes a new instance of the <see cref="ForceIndexHub"/> class.
-    /// </summary>
-    /// <param name="provider">The quote provider.</param>
-    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     internal ForceIndexHub(
         IQuoteProvider<IQuote> provider,
         int lookbackPeriods) : base(provider)

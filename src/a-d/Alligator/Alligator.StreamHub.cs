@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 // WILLIAMS ALLIGATOR (STREAM HUB)
 
 /// <summary>
-/// Streaming hub for calculating Alligator indicator.
+/// Streaming hub for Alligator indicator.
 /// </summary>
 /// <inheritdoc cref="IAlligator"/>
 public class AlligatorHub

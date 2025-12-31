@@ -8,14 +8,6 @@ namespace Skender.Stock.Indicators;
 public class VolatilityStopHub
     : StreamHub<IQuote, VolatilityStopResult>, IVolatilityStop
 {
-
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="VolatilityStopHub"/> class.
-    /// </summary>
-    /// <param name="provider">The quote provider.</param>
-    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <param name="multiplier">The multiplier for the Average True Range.</param>
     internal VolatilityStopHub(
         IQuoteProvider<IQuote> provider,
         int lookbackPeriods,
@@ -30,14 +22,10 @@ public class VolatilityStopHub
         Reinitialize();
     }
 
-    /// <summary>
-    /// Gets the number of periods to look back.
-    /// </summary>
+    /// <inheritdoc/>
     public int LookbackPeriods { get; init; }
 
-    /// <summary>
-    /// Gets the multiplier for the ATR.
-    /// </summary>
+    /// <inheritdoc/>
     public double Multiplier { get; init; }
 
     /// <summary>
@@ -65,7 +53,6 @@ public class VolatilityStopHub
     /// </summary>
     private double? PrevAtr { get; set; }
 
-    // METHODS
     /// <inheritdoc/>
     protected override (VolatilityStopResult result, int index)
         ToIndicator(IQuote item, int? indexHint)
@@ -304,14 +291,7 @@ public class VolatilityStopHub
 }
 
 public static partial class VolatilityStop
-{
-    /// <summary>
-    /// Initializes a new instance of the <see cref="VolatilityStopHub"/> class.
-    /// </summary>
-    /// <param name="quoteProvider">The quote provider.</param>
-    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <param name="multiplier">The multiplier for the ATR.</param>
-    /// <returns>An instance of <see cref="VolatilityStopHub"/>.</returns>
+{    /// <returns>An instance of <see cref="VolatilityStopHub"/>.</returns>
     public static VolatilityStopHub ToVolatilityStopHub(
        this IQuoteProvider<IQuote> quoteProvider,
        int lookbackPeriods = 7,

@@ -6,7 +6,9 @@ namespace Skender.Stock.Indicators;
 public class HurstHub
     : ChainProvider<IReusable, HurstResult>, IHurst
 {
-    private readonly Queue<double> _buffer; internal HurstHub(
+    private readonly Queue<double> _buffer;
+
+    internal HurstHub(
         IChainProvider<IReusable> provider,
         int lookbackPeriods) : base(provider)
     {

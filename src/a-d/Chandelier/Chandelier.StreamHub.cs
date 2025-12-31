@@ -1,14 +1,16 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Streaming hub for calculating Chandelier Exit.
+/// Streaming hub for Chandelier Exit.
 /// </summary>
 public class ChandelierHub
     : StreamHub<IQuote, ChandelierResult>, IChandelier
 {
     private readonly AtrHub atrHub;
     private readonly RollingWindowMax<double> _highWindow;
-    private readonly RollingWindowMin<double> _lowWindow; internal ChandelierHub(
+    private readonly RollingWindowMin<double> _lowWindow;
+
+    internal ChandelierHub(
         IQuoteProvider<IQuote> provider,
         int lookbackPeriods,
         double multiplier,
@@ -138,7 +140,7 @@ public class ChandelierHub
 }
 
 /// <summary>
-/// Streaming hub for calculating Chandelier Exit using a stream hub.
+/// Streaming hub for Chandelier Exit using a stream hub.
 /// </summary>
 public static partial class Chandelier
 {

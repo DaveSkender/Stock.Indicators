@@ -1,7 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Streaming hub for calculating Arnaud Legoux Moving Average (ALMA).
+/// Streaming hub for Arnaud Legoux Moving Average (ALMA).
 /// </summary>
 public class AlmaHub
     : ChainProvider<IReusable, AlmaResult>, IAlma

@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 // DONCHIAN CHANNELS (STREAM HUB)
 
 /// <summary>
-/// Streaming hub for calculating Donchian Channels using a stream hub.
+/// Streaming hub for Donchian Channels using a stream hub.
 /// </summary>
 public static partial class Donchian
 {
@@ -20,13 +20,15 @@ public static partial class Donchian
 }
 
 /// <summary>
-/// Streaming hub for calculating Donchian Channels.
+/// Streaming hub for Donchian Channels.
 /// </summary>
 public class DonchianHub
     : StreamHub<IQuote, DonchianResult>, IDonchian
 {
     private readonly RollingWindowMax<decimal> _highWindow;
-    private readonly RollingWindowMin<decimal> _lowWindow; internal DonchianHub(
+    private readonly RollingWindowMin<decimal> _lowWindow;
+
+    internal DonchianHub(
         IQuoteProvider<IQuote> provider,
         int lookbackPeriods) : base(provider)
     {

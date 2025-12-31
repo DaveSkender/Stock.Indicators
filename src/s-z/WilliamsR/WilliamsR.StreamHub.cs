@@ -12,11 +12,6 @@ public class WilliamsRHub
     private readonly RollingWindowMax<decimal> _highWindow;
     private readonly RollingWindowMin<decimal> _lowWindow;
 
-    /// <summary>
-    /// Initializes a new instance of the <see cref="WilliamsRHub"/> class.
-    /// </summary>
-    /// <param name="provider">The quote provider.</param>
-    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     internal WilliamsRHub(
         IStreamObservable<IQuote> provider,
         int lookbackPeriods) : base(provider)
@@ -36,9 +31,7 @@ public class WilliamsRHub
 
     #region properties
 
-    /// <summary>
-    /// Gets the lookback periods for Williams %R calculation.
-    /// </summary>
+    /// <inheritdoc/>
     public int LookbackPeriods { get; init; }
 
     #endregion properties

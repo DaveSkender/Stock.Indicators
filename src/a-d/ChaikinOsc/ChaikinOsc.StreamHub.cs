@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 // CHAIKIN OSCILLATOR (STREAM HUB)
 
 /// <summary>
-/// Streaming hub for calculating Chaikin Oscillator.
+/// Streaming hub for Chaikin Oscillator.
 /// </summary>
 public class ChaikinOscHub
     : ChainProvider<IQuote, ChaikinOscResult>, IChaikinOsc
