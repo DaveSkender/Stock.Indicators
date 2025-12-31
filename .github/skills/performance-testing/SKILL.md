@@ -118,4 +118,4 @@ cp BenchmarkDotNet.Artifacts/results/Performance.*-report-full.json \
 See `references/benchmark-patterns.md` for detailed patterns.
 
 ---
-Last updated: December 30, 2025
+Last updated: December 31, 2025

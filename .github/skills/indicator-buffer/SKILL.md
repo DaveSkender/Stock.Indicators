@@ -1,6 +1,6 @@
 ---
 name: indicator-buffer
-description: Implement BufferList incremental indicators with efficient state management. Use for IIncrementFromChain, IIncrementFromQuote, or IIncrementFromPairs implementations. Covers interface selection, constructor patterns, and BufferListTestBase testing requirements.
+description: Implement BufferList incremental indicators with efficient state management. Use for IIncrementFromChain or IIncrementFromQuote implementations. Covers interface selection, constructor patterns, and BufferListTestBase testing requirements.
 ---
 
 # BufferList indicator development
@@ -15,7 +15,6 @@ All BufferList implementations support `IQuote` inputs from the base class. The 
 | --------- | ----------------- | -------- | -------- |
 | `IIncrementFromChain` | `IReusable`, `(DateTime, double)` | Chainable single-value indicators | SMA, EMA, RSI |
 | `IIncrementFromQuote` | (none - only IQuote) | Requires OHLCV properties | Stoch, ATR, VWAP |
-| `IIncrementFromPairs` | Dual `IReusable` | Two synchronized series | Correlation, Beta |
 
 ## Constructor pattern
 
@@ -66,7 +65,6 @@ public override void Clear()
 2. Implement test interface matching buffer interface:
    - `ITestChainBufferList` for `IIncrementFromChain`
    - `ITestQuoteBufferList` for `IIncrementFromQuote`
-   - `ITestPairsBufferList` for `IIncrementFromPairs`
 3. Verify exact Series parity: `bufferResults.IsExactly(seriesResults)`
 
 ## Required test methods
@@ -110,10 +108,9 @@ _buffer.Update(capacity, value);
 
 - Chain: `src/e-k/Ema/Ema.BufferList.cs`
 - Quote: `src/s-z/Stoch/Stoch.BufferList.cs`
-- Pairs: `src/a-d/Correlation/Correlation.BufferList.cs`
 - Complex: `src/a-d/Adx/Adx.BufferList.cs`
 
 See `references/interface-selection.md` for detailed interface guidance.
 
 ---
-Last updated: December 30, 2025
+Last updated: December 31, 2025

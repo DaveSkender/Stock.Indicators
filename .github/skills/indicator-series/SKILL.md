@@ -52,7 +52,6 @@ public static IReadOnlyList<TResult> ToIndicator(
 
 1. Inherit from `StaticSeriesTestBase`
 2. Test categories (use `[TestCategory(...)]` attribute):
-   - `StaticSeries` for standard tests
    - `Regression` for baseline regression tests
 3. Verify against manually calculated reference values
 4. Use exact equality: `result.Value.Should().Be(expected)`
@@ -93,4 +92,4 @@ Series is the canonical source of mathematical truth. All other styles (BufferLi
 See `references/decision-tree.md` for implementation guidance.
 
 ---
-Last updated: December 30, 2025
+Last updated: December 31, 2025

@@ -151,4 +151,4 @@ Add `[MemoryDiagnoser]` to see allocations:
 5. Investigate any > 10% regressions
 
 ---
-Last updated: December 30, 2025
+Last updated: December 31, 2025

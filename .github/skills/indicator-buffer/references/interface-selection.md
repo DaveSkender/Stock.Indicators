@@ -4,18 +4,15 @@ Use this reference to select the correct interface for BufferList implementation
 
 ## Interface overview
 
-All BufferList implementations support `IQuote` inputs from the abstract base class. The interface determines what *additional* input types are supported for chainable and paired scenarios.
+All BufferList implementations support `IQuote` inputs from the abstract base class. The interface determines what *additional* input types are supported for chainable scenarios.
 
 ## Interface decision tree
 
 ```text
-Does indicator need TWO synchronized series?
-├─ Yes → IIncrementFromPairs (Correlation, Beta)
-│        Uses IReusable pairs, NOT IQuote pairs
-└─ No → Can it work with single chainable IReusable values?
-   ├─ Yes → IIncrementFromChain (SMA, EMA, RSI, MACD)
-   └─ No → IIncrementFromQuote (Stoch, ATR, VWAP, ADX)
-           Only supports IQuote inputs
+Can indicator work with single chainable IReusable values?
+├─ Yes → IIncrementFromChain (SMA, EMA, RSI, MACD)
+└─ No → IIncrementFromQuote (Stoch, ATR, VWAP, ADX)
+         Only supports IQuote inputs
 ```
 
 ## IIncrementFromChain
@@ -55,32 +52,12 @@ void Add(IReadOnlyList<IQuote> quotes);
 
 **Examples**: Stochastic, ATR, ADX, VWAP, Chandelier, Aroon
 
-## IIncrementFromPairs
-
-**Required methods**:
-
-```csharp
-void Add(DateTime timestamp, double valueA, double valueB);
-void Add(IReusable valueA, IReusable valueB);
-void Add(IReadOnlyList<IReusable> valuesA, IReadOnlyList<IReusable> valuesB);
-```
-
-**Critical rules**:
-
-- ✅ Constructor accepts TWO `IReadOnlyList<IReusable>` parameters
-- ✅ Must validate timestamp matching between pairs
-- ✅ Must validate equal list counts
-- ✅ Both inputs must be synchronized
-
-**Examples**: Correlation, Beta, PRS
-
 ## Test interface mapping
 
 | Buffer Interface | Test Interface |
 | ---------------- | -------------- |
 | `IIncrementFromChain` | `ITestChainBufferList` |
 | `IIncrementFromQuote` | `ITestQuoteBufferList` |
-| `IIncrementFromPairs` | `ITestPairsBufferList` |
 
 Additional test interface for custom caches:
 
@@ -113,4 +90,4 @@ public void Add(IQuote quote)
 ```
 
 ---
-Last updated: December 30, 2025
+Last updated: December 31, 2025

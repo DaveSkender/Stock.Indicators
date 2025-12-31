@@ -9,7 +9,6 @@ Provider selection is determined by the indicator specification—it's not a des
 | `ChainProvider<IReusable, TResult>` | Single value | `IReusable` | Chainable indicators | EMA, SMA, RSI, MACD |
 | `ChainProvider<IQuote, TResult>` | OHLCV | `IReusable` | Quote-driven, chainable output | ADX, ATR, CCI, OBV |
 | `QuoteProvider<IQuote, TResult>` | OHLCV | `IResult` | Quote transformation | HeikinAshi, Renko |
-| `PairsProvider<IReusable, TResult>` | Dual `IReusable` | `IReusable` | Synchronized dual inputs | Correlation, Beta |
 
 ## ChainProvider<IReusable, TResult>
 
@@ -77,34 +76,6 @@ public class HeikinAshiHub : QuoteProvider<IQuote, HeikinAshiResult>
 }
 ```
 
-## PairsProvider<IReusable, TResult>
-
-**Use when**: Needs synchronized dual inputs
-
-**Characteristics**:
-
-- Two synchronized reusable inputs
-- Single chainable output
-- Must validate timestamp matching
-- ~3 indicators
-
-**Examples**: Correlation, Beta, PRS
-
-```csharp
-public class CorrelationHub : PairsProvider<IReusable, CorrelationResult>
-{
-    internal CorrelationHub(
-        IChainProvider<IReusable> providerA,
-        IChainProvider<IReusable> providerB,
-        int lookbackPeriods) : base(providerA, providerB)
-    {
-        ArgumentNullException.ThrowIfNull(providerB);
-        Correlation.Validate(lookbackPeriods);
-        Reinitialize();
-    }
-}
-```
-
 ## Test interface mapping
 
 | Provider Base | Observer Interface | Provider Interface |
@@ -112,7 +83,6 @@ public class CorrelationHub : PairsProvider<IReusable, CorrelationResult>
 | `ChainProvider<IReusable, T>` | `ITestChainObserver` | `ITestChainProvider` |
 | `ChainProvider<IQuote, T>` | `ITestChainObserver` | `ITestChainProvider` |
 | `QuoteProvider<IQuote, T>` | `ITestQuoteObserver` | `ITestChainProvider` |
-| `PairsProvider<IReusable, T>` | `ITestPairsObserver` | — |
 
 ---
-Last updated: December 30, 2025
+Last updated: December 31, 2025

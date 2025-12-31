@@ -74,4 +74,4 @@ Warmup periods are determined by the original indicator formula specification:
 | Compound indicator | Max of component warmups | Various |
 
 ---
-Last updated: December 30, 2025
+Last updated: December 31, 2025

@@ -1,6 +1,6 @@
 ---
 name: indicator-stream
-description: Implement StreamHub real-time indicators with O(1) performance. Use for ChainProvider, QuoteProvider, or PairsProvider implementations. Covers provider selection, RollbackState patterns, performance anti-patterns, and comprehensive testing with StreamHubTestBase.
+description: Implement StreamHub real-time indicators with O(1) performance. Use for ChainProvider or QuoteProvider implementations. Covers provider selection, RollbackState patterns, performance anti-patterns, and comprehensive testing with StreamHubTestBase.
 ---
 
 # StreamHub indicator development
@@ -14,7 +14,6 @@ StreamHub indicators support real-time data processing with stateful operations,
 | `ChainProvider<IReusable, TResult>` | Single value | IReusable | Chainable indicators |
 | `ChainProvider<IQuote, TResult>` | OHLCV | IReusable | Quote-driven, chainable output |
 | `QuoteProvider<IQuote, TResult>` | OHLCV | IQuote | Quote-to-quote transformation |
-| `PairsProvider<IReusable, TResult>` | Dual stream | IReusable | Synchronized dual inputs |
 
 ## Performance requirements
 
@@ -61,7 +60,6 @@ protected override void RollbackState(DateTime timestamp)
 2. Implement exactly ONE observer interface:
    - `ITestChainObserver` (most common)
    - `ITestQuoteObserver` (quote-only providers)
-   - `ITestPairsObserver` (dual-stream)
 3. Implement at most ONE provider interface: `ITestChainProvider`
 4. Comprehensive rollback validation (required):
    - Prefill warmup window before subscribing
@@ -73,7 +71,7 @@ protected override void RollbackState(DateTime timestamp)
 ## Code completion checklist
 
 - [ ] Source code: `src/**/{IndicatorName}.StreamHub.cs` file exists
-  - [ ] Uses appropriate provider base (`ChainProvider`, `QuoteProvider`, or `PairsProvider`)
+  - [ ] Uses appropriate provider base (`ChainProvider` or `QuoteProvider`)
   - [ ] Validates parameters in constructor; calls `Reinitialize()` as needed
   - [ ] Implements O(1) state updates; avoids O(n²) recalculation
   - [ ] Overrides `RollbackState()` when maintaining stateful fields
@@ -87,7 +85,6 @@ protected override void RollbackState(DateTime timestamp)
 
 - Chain: `src/e-k/Ema/Ema.StreamHub.cs`
 - Complex state: `src/a-d/Adx/Adx.StreamHub.cs`
-- Pairs: `src/a-d/Correlation/Correlation.StreamHub.cs`
 - Rolling window: `src/a-d/Chandelier/Chandelier.StreamHub.cs`
 
 See `references/` for detailed patterns:
@@ -97,4 +94,4 @@ See `references/` for detailed patterns:
 - `performance-patterns.md` - O(1) optimization techniques
 
 ---
-Last updated: December 30, 2025
+Last updated: December 31, 2025

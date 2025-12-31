@@ -180,4 +180,4 @@ dotnet run -c Release --filter *.MyIndicatorHub
 ```
 
 ---
-Last updated: December 30, 2025
+Last updated: December 31, 2025

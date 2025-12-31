@@ -176,4 +176,4 @@ Use standard test data from `Data.GetDefault()`:
 - Excel reference file: `tests/_common/Data.Quotes.xlsx`
 
 ---
-Last updated: December 30, 2025
+Last updated: December 31, 2025

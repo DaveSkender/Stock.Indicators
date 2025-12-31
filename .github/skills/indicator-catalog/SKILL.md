@@ -98,7 +98,7 @@ public static partial class Ema
 
 ## Registration
 
-Add to `src/_common/Catalog/Catalog.cs` in `PopulateCatalog()`:
+Add to `src/_common/Catalog/Catalog.Listings.cs` in `PopulateCatalog()`:
 
 ```csharp
 _catalog.Add(Ema.SeriesListing);
@@ -135,4 +135,4 @@ public class EmaCatalogTests : TestBase
 - ❌ Multiple `isReusable: true` results
 
 ---
-Last updated: December 30, 2025
+Last updated: December 31, 2025
