@@ -206,7 +206,6 @@ public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     // (See canonical pattern above)
 }
 ```
-```
 
 ## Performance testing
 
