@@ -4,13 +4,13 @@ This folder contains the Stock Indicators library source code.
 
 ## Quick reference
 
-- Follow .NET development instructions in .github/instructions/dotnet.instructions.md
+- See `.github/skills/` for indicator development guidance (Series, Buffer, Stream)
 - **Numerical precision**: This library prioritizes performance while maintaining mathematical accuracy:
   - Public API quote inputs use `decimal` for user convenience (Open, High, Low, Close, Volume)
   - Internal calculations use non-nullable `double` for performance (via `QuoteD` converters)
   - Result types use `double` internally with `.NaN2Null()` conversion at API boundaries
   - Use `double.NaN` for undefined/uncalculable values; never use sentinel values like `0` or `-1`
-  - See the NaN handling policy in the root [AGENTS.md](../AGENTS.md) for complete guidance
+  - See the NaN handling policy in the root `AGENTS.md` for complete guidance
 - Validate all public method parameters
 - Document all public APIs with XML comments
 - Write unit tests for all code paths
