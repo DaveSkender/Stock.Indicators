@@ -87,7 +87,7 @@ public class VwapList(DateTime? startDate = null) : BufferList<VwapResult>, IInc
 
 public static partial class Vwap
 {
-    /// <inheritdoc />
+    /// <summary>
     /// Creates a buffer list for VWAP calculations.
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
@@ -97,7 +97,7 @@ public static partial class Vwap
         DateTime startDate)
         => new(startDate) { quotes };
 
-    /// <inheritdoc />
+    /// <summary>
     /// Creates a buffer list for VWAP calculations starting from the first quote.
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>

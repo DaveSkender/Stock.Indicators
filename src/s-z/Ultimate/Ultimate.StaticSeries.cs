@@ -13,7 +13,7 @@ public static partial class Ultimate
     /// <param name="middlePeriods">The number of middle lookback periods.</param>
     /// <param name="longPeriods">The number of long lookback periods.</param>
     /// <returns>A list of UltimateResult containing the Ultimate Oscillator values.</returns>
-    /// <exception cref="ArgumentNullException">Thrown when <paramref name="source"/> is null.</exception>
+    /// <exception cref="ArgumentNullException">Thrown when <paramref name="quotes"/> is null.</exception>
     public static IReadOnlyList<UltimateResult> ToUltimate(
         this IReadOnlyList<IQuote> quotes,
         int shortPeriods = 7,

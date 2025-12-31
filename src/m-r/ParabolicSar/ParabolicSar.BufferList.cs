@@ -287,7 +287,7 @@ public interface IParabolicSar
 
 public static partial class ParabolicSar
 {
-    /// <inheritdoc />
+    /// <summary>
     /// Creates a buffer list for Parabolic SAR calculations.
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
@@ -299,7 +299,7 @@ public static partial class ParabolicSar
         double maxAccelerationFactor = 0.2)
         => new(accelerationStep, maxAccelerationFactor) { quotes };
 
-    /// <inheritdoc />
+    /// <summary>
     /// Creates a buffer list for Parabolic SAR calculations with custom initial factor.
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>

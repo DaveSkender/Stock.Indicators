@@ -118,7 +118,7 @@ public class MfiList : BufferList<MfiResult>, IIncrementFromQuote
 
 public static partial class Mfi
 {
-    /// <inheritdoc />
+    /// <summary>
     /// Creates a buffer list for Money Flow Index (MFI) calculations.
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>

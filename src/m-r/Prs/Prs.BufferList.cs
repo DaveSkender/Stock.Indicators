@@ -46,7 +46,7 @@ public class PrsList : BufferList<PrsResult>, IIncrementFromPairs, IPrs
     /// <inheritdoc />
     public int LookbackPeriods { get; init; }
 
-    /// <inheritdoc />
+    /// <summary>
     /// Adds a pair of values from two synchronized series.
     /// </summary>
     /// <param name="timestamp">The timestamp for this pair of values.</param>
@@ -86,7 +86,7 @@ public class PrsList : BufferList<PrsResult>, IIncrementFromPairs, IPrs
         AddInternal(result);
     }
 
-    /// <inheritdoc />
+    /// <summary>
     /// Adds a pair of reusable values from two synchronized series.
     /// </summary>
     /// <param name="valueA">The item from evaluation series.</param>
@@ -109,7 +109,7 @@ public class PrsList : BufferList<PrsResult>, IIncrementFromPairs, IPrs
         Add(valueA.Timestamp, valueA.Value, valueB.Value);
     }
 
-    /// <inheritdoc />
+    /// <summary>
     /// Adds two synchronized lists of reusable values.
     /// </summary>
     /// <param name="valuesA">The evaluation series.</param>
@@ -134,7 +134,7 @@ public class PrsList : BufferList<PrsResult>, IIncrementFromPairs, IPrs
         }
     }
 
-    /// <inheritdoc />
+    /// <summary>
     /// Clears the list and resets internal buffers so the instance can be reused.
     /// </summary>
     public override void Clear()
@@ -146,7 +146,7 @@ public class PrsList : BufferList<PrsResult>, IIncrementFromPairs, IPrs
 
 public static partial class Prs
 {
-    /// <inheritdoc />
+    /// <summary>
     /// Creates a buffer list for PRS calculations from two synchronized series.
     /// </summary>
     /// <param name="sourceEval">Eval quote series</param>

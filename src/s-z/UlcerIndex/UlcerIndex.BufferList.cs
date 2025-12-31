@@ -109,7 +109,7 @@ public class UlcerIndexList : BufferList<UlcerIndexResult>, IIncrementFromChain
 
 public static partial class UlcerIndex
 {
-    /// <inheritdoc />
+    /// <summary>
     /// Creates a buffer list for Ulcer Index calculations.
     /// </summary>
     /// <param name="source">Collection of input values, time sorted.</param>

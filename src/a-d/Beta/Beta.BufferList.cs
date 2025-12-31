@@ -47,7 +47,7 @@ public class BetaList : BufferList<BetaResult>, IIncrementFromPairs, IBeta
     /// <inheritdoc />
     public BetaType Type { get; init; }
 
-    /// <inheritdoc />
+    /// <summary>
     /// Adds a new pair of values to the Beta list.
     /// </summary>
     /// <param name="timestamp">The timestamp for both values.</param>
@@ -115,7 +115,7 @@ public class BetaList : BufferList<BetaResult>, IIncrementFromPairs, IBeta
             ReturnsMrkt: mrktReturn));
     }
 
-    /// <inheritdoc />
+    /// <summary>
     /// Adds a new pair of reusable values to the Beta list.
     /// </summary>
     /// <param name="valueA">The evaluated asset value.</param>
@@ -138,7 +138,7 @@ public class BetaList : BufferList<BetaResult>, IIncrementFromPairs, IBeta
         Add(valueA.Timestamp, valueA.Value, valueB.Value);
     }
 
-    /// <inheritdoc />
+    /// <summary>
     /// Adds lists of reusable values to the Beta list.
     /// </summary>
     /// <param name="valuesA">The list of evaluated asset values to add.</param>
@@ -163,7 +163,7 @@ public class BetaList : BufferList<BetaResult>, IIncrementFromPairs, IBeta
         }
     }
 
-    /// <inheritdoc />
+    /// <summary>
     /// Clears the list and resets internal buffers so the instance can be reused.
     /// </summary>
     public override void Clear()
@@ -174,7 +174,7 @@ public class BetaList : BufferList<BetaResult>, IIncrementFromPairs, IBeta
         _prevMrkt = 0;
         _isFirst = true;
     }
-    /// <inheritdoc />
+    /// <summary>
     /// Calculates the Beta value for the current window of data.
     /// </summary>
     /// <param name="type">The type of Beta calculation.</param>
@@ -234,7 +234,7 @@ public class BetaList : BufferList<BetaResult>, IIncrementFromPairs, IBeta
 /// </summary>
 public static partial class Beta
 {
-    /// <inheritdoc />
+    /// <summary>
     /// Creates a buffer list for Beta calculations.
     /// </summary>
     /// <param name="sourceEval">The evaluated asset values.</param>

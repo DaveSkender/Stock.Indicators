@@ -39,7 +39,7 @@ public class AwesomeList : BufferList<AwesomeResult>, IIncrementFromChain, IAwes
     /// <inheritdoc />
     public int SlowPeriods { get; init; }
 
-    /// <inheritdoc />
+    /// <summary>
     /// Adds a new value to the Awesome list.
     /// </summary>
     /// <param name="timestamp">The timestamp of the value.</param>
@@ -120,7 +120,7 @@ public class AwesomeList : BufferList<AwesomeResult>, IIncrementFromChain, IAwes
 /// </summary>
 public static partial class Awesome
 {
-    /// <inheritdoc />
+    /// <summary>
     /// Creates a buffer list for Awesome Oscillator calculations.
     /// </summary>
     /// <param name="source">Time-series values to transform.</param>

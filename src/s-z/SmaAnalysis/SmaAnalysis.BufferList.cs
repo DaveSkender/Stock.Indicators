@@ -105,7 +105,7 @@ public class SmaAnalysisList : BufferList<SmaAnalysisResult>, IIncrementFromChai
 
 public static partial class SmaAnalysis
 {
-    /// <inheritdoc />
+    /// <summary>
     /// Creates a buffer list for Simple Moving Average (SMA) with extended analysis calculations.
     /// </summary>
     /// <param name="source">Collection of input values, time sorted.</param>

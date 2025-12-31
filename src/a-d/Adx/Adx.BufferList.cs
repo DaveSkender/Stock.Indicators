@@ -207,7 +207,7 @@ public class AdxList : BufferList<AdxResult>, IIncrementFromQuote, IAdx
 
 public static partial class Adx
 {
-    /// <inheritdoc />
+    /// <summary>
     /// Creates a buffer list for Average Directional Index (ADX) calculations.
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>

@@ -123,7 +123,7 @@ public class HmaList : BufferList<HmaResult>, IIncrementFromChain, IHma
 
 public static partial class Hma
 {
-    /// <inheritdoc />
+    /// <summary>
     /// Creates a buffer list for Hull Moving Average (HMA) calculations.
     /// </summary>
     /// <param name="source">Collection of input values, time sorted.</param>

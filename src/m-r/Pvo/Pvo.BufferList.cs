@@ -208,7 +208,7 @@ public class PvoList : BufferList<PvoResult>, IIncrementFromQuote, IPvo
 
 public static partial class Pvo
 {
-    /// <inheritdoc />
+    /// <summary>
     /// Creates a buffer list for Percentage Volume Oscillator (PVO) calculations.
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>

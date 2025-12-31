@@ -82,7 +82,7 @@ public class HeikinAshiList : BufferList<HeikinAshiResult>, IIncrementFromQuote
 
 public static partial class HeikinAshi
 {
-    /// <inheritdoc />
+    /// <summary>
     /// Creates a buffer list for Heikin-Ashi calculations.
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>

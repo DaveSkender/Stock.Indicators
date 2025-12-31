@@ -103,7 +103,7 @@ public class DynamicList : BufferList<DynamicResult>, IIncrementFromChain, IDyna
 
 public static partial class MgDynamic
 {
-    /// <inheritdoc />
+    /// <summary>
     /// Creates a buffer list for McGinley Dynamic calculations.
     /// </summary>
     /// <param name="source">Collection of input values, time sorted.</param>

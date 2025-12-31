@@ -102,7 +102,7 @@ public class StochList : BufferList<StochResult>, IIncrementFromQuote, IStoch
         }
     }
 
-    /// <inheritdoc />
+    /// <summary>
     /// Adds a new quote data point for Stochastic calculation.
     /// </summary>
     /// <param name="timestamp">The timestamp of the data point.</param>

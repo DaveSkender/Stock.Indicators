@@ -153,7 +153,7 @@ public class PivotsList : BufferList<PivotsResult>, IIncrementFromQuote
         _lastLowIndex = null;
         _lastLowValue = null;
     }
-    /// <inheritdoc />
+    /// <summary>
     /// Overrides list pruning to reset pivot tracking state when pruning occurs.
     /// </summary>
     protected override void PruneList()
@@ -342,7 +342,7 @@ public class PivotsList : BufferList<PivotsResult>, IIncrementFromQuote
 
 public static partial class Pivots
 {
-    /// <inheritdoc />
+    /// <summary>
     /// Creates a buffer list for Pivot Points calculations.
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>

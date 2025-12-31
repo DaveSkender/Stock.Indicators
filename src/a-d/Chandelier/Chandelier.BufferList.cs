@@ -128,7 +128,7 @@ public class ChandelierList : BufferList<ChandelierResult>, IIncrementFromQuote,
 
 public static partial class Chandelier
 {
-    /// <inheritdoc />
+    /// <summary>
     /// Creates a buffer list for Chandelier Exit calculations.
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>

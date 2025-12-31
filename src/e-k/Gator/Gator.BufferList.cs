@@ -80,7 +80,7 @@ public class GatorList : BufferList<GatorResult>, IIncrementFromChain
 
 public static partial class Gator
 {
-    /// <inheritdoc />
+    /// <summary>
     /// Creates a buffer list for Gator Oscillator calculations.
     /// </summary>
     /// <param name="source">Collection of input values, time sorted.</param>

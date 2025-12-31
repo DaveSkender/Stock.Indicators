@@ -15,12 +15,12 @@ public class EpmaList : BufferList<EpmaResult>, IIncrementFromChain, IEpma
 {
     private readonly Queue<double> _buffer;
     private readonly List<IReusable> _cache;
-    /// <inheritdoc />
+    /// <summary>
     /// Tracks how many items have been pruned from cache
     /// </summary>
     private int _cacheOffset;
 
-    /// <inheritdoc />
+    /// <summary>
     /// Trigger point to prune cache
     /// </summary>
     private const int MaxCacheSize = 1000;
@@ -100,7 +100,7 @@ public class EpmaList : BufferList<EpmaResult>, IIncrementFromChain, IEpma
         _cacheOffset = 0;
         base.Clear();
     }
-    /// <inheritdoc />
+    /// <summary>
     /// Prunes the internal cache to prevent unbounded memory growth.
     /// Removes older data while preserving the minimum required periods for calculations.
     /// </summary>
@@ -125,7 +125,7 @@ public class EpmaList : BufferList<EpmaResult>, IIncrementFromChain, IEpma
 
 public static partial class Epma
 {
-    /// <inheritdoc />
+    /// <summary>
     /// Creates a buffer list for Endpoint Moving Average (EPMA) calculations.
     /// </summary>
     /// <param name="source">Collection of input values, time sorted.</param>

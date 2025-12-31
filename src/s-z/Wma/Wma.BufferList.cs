@@ -86,7 +86,7 @@ public class WmaList : BufferList<WmaResult>, IIncrementFromChain, IWma
 
 public static partial class Wma
 {
-    /// <inheritdoc />
+    /// <summary>
     /// Creates a buffer list for Weighted Moving Average (WMA) calculations.
     /// </summary>
     /// <param name="source">Collection of input values, time sorted.</param>

@@ -128,7 +128,7 @@ public class FisherTransformList : BufferList<FisherTransformResult>, IIncrement
 
 public static partial class FisherTransform
 {
-    /// <inheritdoc />
+    /// <summary>
     /// Creates a buffer list for Fisher Transform calculations.
     /// </summary>
     /// <param name="source">Collection of input values, time sorted.</param>

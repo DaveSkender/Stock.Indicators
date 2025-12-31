@@ -12,7 +12,7 @@ public static partial class VolatilityStop
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <param name="multiplier">The multiplier for the Average True Range.</param>
     /// <returns>A list of VolatilityStopResult containing the Volatility Stop values.</returns>
-    /// <exception cref="ArgumentNullException">Thrown when <paramref name="source"/> is null.</exception>
+    /// <exception cref="ArgumentNullException">Thrown when <paramref name="quotes"/> is null.</exception>
     public static IReadOnlyList<VolatilityStopResult> ToVolatilityStop(
         this IReadOnlyList<IQuote> quotes,
         int lookbackPeriods = 7,

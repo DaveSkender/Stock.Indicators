@@ -50,12 +50,12 @@ public class HtTrendlineList : BufferList<HtlResult>, IIncrementFromChain
     private readonly List<double> sd;  // smooth period
     private readonly List<double> it;  // instantaneous trend (raw)
 
-    /// <inheritdoc />
+    /// <summary>
     /// Minimum required for 11-period lookback (12th bar calculation)
     /// </summary>
     private const int MinBufferSize = 12;
 
-    /// <inheritdoc />
+    /// <summary>
     /// Trigger point to prune buffers to MinBufferSize
     /// </summary>
     private const int MaxBufferSize = 1000;
@@ -212,7 +212,7 @@ public class HtTrendlineList : BufferList<HtlResult>, IIncrementFromChain
         PruneStateArrays();
     }
 
-    /// <inheritdoc />
+    /// <summary>
     /// Prunes the internal state arrays to prevent unbounded memory growth.
     /// Removes older data while preserving the minimum required periods for calculations.
     /// </summary>
@@ -307,7 +307,7 @@ public class HtTrendlineList : BufferList<HtlResult>, IIncrementFromChain
 
 public static partial class HtTrendline
 {
-    /// <inheritdoc />
+    /// <summary>
     /// Creates a buffer list for Hilbert Transform Instantaneous Trendline (HTL) calculations.
     /// </summary>
     /// <param name="source">The source reusable values.</param>

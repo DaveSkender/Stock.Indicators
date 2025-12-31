@@ -5,7 +5,7 @@ namespace Skender.Stock.Indicators;
 /// </summary>
 public class AlligatorList : BufferList<AlligatorResult>, IIncrementFromChain, IAlligator
 {
-    /// <inheritdoc />
+    /// <summary>
     /// Use List for O(1) indexing instead of Queue which requires O(n) ElementAt()
     /// </summary>
     private readonly List<double> _inputBuffer;
@@ -21,7 +21,7 @@ public class AlligatorList : BufferList<AlligatorResult>, IIncrementFromChain, I
     private double? _lastTeeth;
     private double? _lastLips;
 
-    /// <inheritdoc />
+    /// <summary>
     /// Track how many total values we've seen
     /// </summary>
     private int _count;
@@ -110,7 +110,7 @@ public class AlligatorList : BufferList<AlligatorResult>, IIncrementFromChain, I
     /// <inheritdoc/>
     public int LipsOffset { get; init; }
 
-    /// <inheritdoc />
+    /// <summary>
     /// Adds a new value to the Alligator list.
     /// </summary>
     /// <param name="timestamp">The timestamp of the value.</param>
@@ -249,7 +249,7 @@ public class AlligatorList : BufferList<AlligatorResult>, IIncrementFromChain, I
         }
     }
 
-    /// <inheritdoc />
+    /// <summary>
     /// Clears the list and resets internal buffers so the instance can be reused.
     /// </summary>
     public override void Clear()
@@ -278,7 +278,7 @@ public class AlligatorList : BufferList<AlligatorResult>, IIncrementFromChain, I
 /// </summary>
 public static partial class Alligator
 {
-    /// <inheritdoc />
+    /// <summary>
     /// Creates a buffer list for Alligator calculations.
     /// </summary>
     /// <param name="source">Time-series values to transform.</param>

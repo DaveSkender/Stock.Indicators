@@ -167,7 +167,7 @@ public class KamaList : BufferList<KamaResult>, IIncrementFromChain, IKama
 
 public static partial class Kama
 {
-    /// <inheritdoc />
+    /// <summary>
     /// Creates a buffer list for Kaufman's Adaptive Moving Average (KAMA) calculations.
     /// </summary>
     /// <param name="source">Collection of input values, time sorted.</param>

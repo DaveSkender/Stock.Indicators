@@ -180,7 +180,7 @@ public class PmoList : BufferList<PmoResult>, IIncrementFromChain, IPmo
 
 public static partial class Pmo
 {
-    /// <inheritdoc />
+    /// <summary>
     /// Creates a buffer list for Price Momentum Oscillator (PMO) calculations.
     /// </summary>
     /// <param name="source">Collection of input values, time sorted.</param>

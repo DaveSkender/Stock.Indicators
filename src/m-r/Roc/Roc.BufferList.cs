@@ -64,7 +64,7 @@ public class RocList : BufferList<RocResult>, IIncrementFromChain, IRoc
             Roc: roc.NaN2Null()));
     }
 
-    /// <inheritdoc />
+    /// <summary>
     /// Adds a new reusable value to the ROC list.
     /// </summary>
     /// <param name="value">The reusable value to add.</param>
@@ -75,7 +75,7 @@ public class RocList : BufferList<RocResult>, IIncrementFromChain, IRoc
         Add(value.Timestamp, value.Value);
     }
 
-    /// <inheritdoc />
+    /// <summary>
     /// Adds a list of reusable values to the ROC list.
     /// </summary>
     /// <param name="values">The list of reusable values to add.</param>
@@ -90,7 +90,7 @@ public class RocList : BufferList<RocResult>, IIncrementFromChain, IRoc
         }
     }
 
-    /// <inheritdoc />
+    /// <summary>
     /// Clears the list and resets internal buffers so the instance can be reused.
     /// </summary>
     public override void Clear()
@@ -102,7 +102,7 @@ public class RocList : BufferList<RocResult>, IIncrementFromChain, IRoc
 
 public static partial class Roc
 {
-    /// <inheritdoc />
+    /// <summary>
     /// Creates a buffer list for Rate of Change (ROC) calculations.
     /// </summary>
     /// <param name="source">Collection of input values, time sorted.</param>

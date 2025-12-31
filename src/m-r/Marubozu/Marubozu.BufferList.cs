@@ -76,7 +76,7 @@ public class MarubozuList : BufferList<CandleResult>, IIncrementFromQuote, IMaru
 
 public static partial class Marubozu
 {
-    /// <inheritdoc />
+    /// <summary>
     /// Creates a buffer list for Marubozu candlestick pattern calculations.
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>

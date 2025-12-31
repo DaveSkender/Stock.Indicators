@@ -190,7 +190,7 @@ public class SmiList : BufferList<SmiResult>, IIncrementFromQuote, ISmi
 
 public static partial class Smi
 {
-    /// <inheritdoc />
+    /// <summary>
     /// Creates a buffer list for Stochastic Momentum Index (SMI) calculations.
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>

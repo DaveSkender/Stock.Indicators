@@ -97,7 +97,7 @@ public class HurstList : BufferList<HurstResult>, IIncrementFromChain, IHurst
 
 public static partial class Hurst
 {
-    /// <inheritdoc />
+    /// <summary>
     /// Creates a buffer list for Hurst Exponent calculations.
     /// </summary>
     /// <param name="source">Historical reusable values.</param>

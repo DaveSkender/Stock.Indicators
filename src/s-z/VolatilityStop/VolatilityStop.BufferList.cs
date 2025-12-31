@@ -8,11 +8,11 @@ public class VolatilityStopList : BufferList<VolatilityStopResult>, IIncrementFr
     private readonly int _lookbackPeriods;
     private readonly double _multiplier;
     private readonly AtrList _atrList;
-    /// <inheritdoc />
+    /// <summary>
     /// Track close prices for initialization
     /// </summary>
     private readonly List<double> _closePrices;
-    /// <inheritdoc />
+    /// <summary>
     /// significant close
     /// </summary>
     private double _sic;
@@ -161,7 +161,7 @@ public class VolatilityStopList : BufferList<VolatilityStopResult>, IIncrementFr
         _isLong = false;
         _firstStopFound = false;
     }
-    /// <inheritdoc />
+    /// <summary>
     /// Overrides list pruning to synchronize the nested ATR list.
     /// </summary>
     protected override void PruneList()
@@ -194,7 +194,7 @@ public class VolatilityStopList : BufferList<VolatilityStopResult>, IIncrementFr
 
 public static partial class VolatilityStop
 {
-    /// <inheritdoc />
+    /// <summary>
     /// Creates a buffer list for Volatility Stop calculations.
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>

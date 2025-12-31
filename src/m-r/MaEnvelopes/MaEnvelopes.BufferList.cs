@@ -79,7 +79,7 @@ public class MaEnvelopesList : BufferList<MaEnvelopeResult>, IIncrementFromChain
     /// <inheritdoc />
     public MaType MovingAverageType { get; init; }
 
-    /// <inheritdoc />
+    /// <summary>
     /// Gets or sets the maximum number of results to retain in the list.
     /// When the list exceeds this value, the oldest items are pruned.
     /// Also propagates to the inner MA buffer list.
@@ -190,7 +190,7 @@ public class MaEnvelopesList : BufferList<MaEnvelopeResult>, IIncrementFromChain
 
 public static partial class MaEnvelopes
 {
-    /// <inheritdoc />
+    /// <summary>
     /// Creates a buffer list for Moving Average Envelopes calculations.
     /// </summary>
     /// <param name="source">The source list of reusable values.</param>

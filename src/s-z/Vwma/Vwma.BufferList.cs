@@ -56,7 +56,7 @@ public class VwmaList : BufferList<VwmaResult>, IIncrementFromQuote, IVwma
         }
     }
 
-    /// <inheritdoc />
+    /// <summary>
     /// Apply new price and volume values for calculating incremental VWMA values.
     /// </summary>
     /// <param name="timestamp">The date context.</param>
@@ -98,7 +98,7 @@ public class VwmaList : BufferList<VwmaResult>, IIncrementFromQuote, IVwma
 
 public static partial class Vwma
 {
-    /// <inheritdoc />
+    /// <summary>
     /// Creates a buffer list for Volume Weighted Moving Average (VWMA) calculations.
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>

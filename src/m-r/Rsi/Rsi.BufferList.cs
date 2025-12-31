@@ -141,7 +141,7 @@ public class RsiList : BufferList<RsiResult>, IIncrementFromChain, IRsi
 
 public static partial class Rsi
 {
-    /// <inheritdoc />
+    /// <summary>
     /// Creates a buffer list for Relative Strength Index (RSI) calculations.
     /// </summary>
     /// <param name="source">Collection of input values, time sorted.</param>

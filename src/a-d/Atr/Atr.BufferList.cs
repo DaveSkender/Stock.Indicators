@@ -124,7 +124,7 @@ public class AtrList : BufferList<AtrResult>, IIncrementFromQuote, IAtr
 
 public static partial class Atr
 {
-    /// <inheritdoc />
+    /// <summary>
     /// Creates a buffer list for Average True Range calculations.
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>

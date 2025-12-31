@@ -236,7 +236,7 @@ public class MacdList : BufferList<MacdResult>, IIncrementFromChain, IMacd
 
 public static partial class Macd
 {
-    /// <inheritdoc />
+    /// <summary>
     /// Creates a MACD buffer list from reusable values.
     /// </summary>
     /// <param name="source">The list of source data.</param>

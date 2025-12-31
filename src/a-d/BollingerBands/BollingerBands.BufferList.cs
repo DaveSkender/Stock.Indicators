@@ -38,7 +38,7 @@ public class BollingerBandsList : BufferList<BollingerBandsResult>, IIncrementFr
     /// <inheritdoc />
     public double StandardDeviations { get; }
 
-    /// <inheritdoc />
+    /// <summary>
     /// Adds a new value to the Bollinger Bands list.
     /// </summary>
     /// <param name="timestamp">The timestamp of the value.</param>
@@ -86,7 +86,7 @@ public class BollingerBandsList : BufferList<BollingerBandsResult>, IIncrementFr
         }
     }
 
-    /// <inheritdoc />
+    /// <summary>
     /// Adds a new reusable value to the Bollinger Bands list.
     /// </summary>
     /// <param name="value">The reusable value to add.</param>
@@ -97,7 +97,7 @@ public class BollingerBandsList : BufferList<BollingerBandsResult>, IIncrementFr
         Add(value.Timestamp, value.Value);
     }
 
-    /// <inheritdoc />
+    /// <summary>
     /// Adds a list of reusable values to the Bollinger Bands list.
     /// </summary>
     /// <param name="values">The list of reusable values to add.</param>
@@ -112,7 +112,7 @@ public class BollingerBandsList : BufferList<BollingerBandsResult>, IIncrementFr
         }
     }
 
-    /// <inheritdoc />
+    /// <summary>
     /// Clears the list and resets internal buffers so the instance can be reused.
     /// </summary>
     public override void Clear()
@@ -127,7 +127,7 @@ public class BollingerBandsList : BufferList<BollingerBandsResult>, IIncrementFr
 /// </summary>
 public static partial class BollingerBands
 {
-    /// <inheritdoc />
+    /// <summary>
     /// Creates a buffer list for Bollinger Bands calculations
     /// </summary>
     /// <param name="source">Time-series values</param>

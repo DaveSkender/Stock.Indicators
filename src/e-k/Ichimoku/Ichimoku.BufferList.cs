@@ -81,7 +81,7 @@ public class IchimokuList : BufferList<IchimokuResult>, IIncrementFromQuote, IIc
     /// <inheritdoc/>
     public int ChikouOffset { get; init; }
 
-    /// <inheritdoc />
+    /// <summary>
     /// Adds a new quote to the Ichimoku list.
     /// </summary>
     /// <param name="quote">The quote to add.</param>
@@ -165,7 +165,7 @@ public class IchimokuList : BufferList<IchimokuResult>, IIncrementFromQuote, IIc
         }
     }
 
-    /// <inheritdoc />
+    /// <summary>
     /// Adds a list of quotes to the Ichimoku list.
     /// </summary>
     /// <param name="quotes">The list of quotes to add.</param>
@@ -258,7 +258,7 @@ public class IchimokuList : BufferList<IchimokuResult>, IIncrementFromQuote, IIc
         }
     }
 
-    /// <inheritdoc />
+    /// <summary>
     /// Clears the list and resets internal buffers so the instance can be reused.
     /// </summary>
     public override void Clear()
@@ -270,7 +270,7 @@ public class IchimokuList : BufferList<IchimokuResult>, IIncrementFromQuote, IIc
         _tenkanBuffer.Clear();
         _kijunBuffer.Clear();
     }
-    /// <inheritdoc />
+    /// <summary>
     /// Calculates the midpoint (average of high and low) for a rolling window.
     /// </summary>
     /// <param name="buffer">The buffer containing high/low tuples.</param>
@@ -296,7 +296,7 @@ public class IchimokuList : BufferList<IchimokuResult>, IIncrementFromQuote, IIc
         return (max + min) / 2;
     }
 
-    /// <inheritdoc />
+    /// <summary>
     /// Calculates the Senkou Span B value for the current position.
     /// Uses historical data from range [currentIndex - senkouOffset - senkouBPeriods + 1, currentIndex - senkouOffset].
     /// </summary>
@@ -337,7 +337,7 @@ public class IchimokuList : BufferList<IchimokuResult>, IIncrementFromQuote, IIc
         return (max + min) / 2;
     }
 
-    /// <inheritdoc />
+    /// <summary>
     /// Removes oldest results from both the outer list and the nested historical buffers
     /// when the list exceeds <see cref="BufferList{TResult}.MaxListSize"/>.
     /// This prevents unbounded growth of the auxiliary historical caches.
@@ -369,7 +369,7 @@ public class IchimokuList : BufferList<IchimokuResult>, IIncrementFromQuote, IIc
 /// </summary>
 public static partial class Ichimoku
 {
-    /// <inheritdoc />
+    /// <summary>
     /// Creates a buffer list for Ichimoku Cloud calculations.
     /// </summary>
     /// <param name="quotes">Historical price quotes.</param>

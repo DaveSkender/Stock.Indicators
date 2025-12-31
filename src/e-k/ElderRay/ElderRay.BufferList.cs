@@ -76,7 +76,7 @@ public class ElderRayList : BufferList<ElderRayResult>, IIncrementFromQuote, IEl
 
 public static partial class ElderRay
 {
-    /// <inheritdoc />
+    /// <summary>
     /// Creates a buffer list for Elder Ray calculations.
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>

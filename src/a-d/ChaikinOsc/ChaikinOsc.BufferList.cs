@@ -97,7 +97,7 @@ public class ChaikinOscList : BufferList<ChaikinOscResult>, IIncrementFromQuote,
 
 public static partial class ChaikinOsc
 {
-    /// <inheritdoc />
+    /// <summary>
     /// Creates a buffer list for Chaikin Oscillator calculations.
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>

@@ -129,7 +129,7 @@ public class VortexList : BufferList<VortexResult>, IIncrementFromQuote
 
 public static partial class Vortex
 {
-    /// <inheritdoc />
+    /// <summary>
     /// Creates a buffer list for Vortex calculations.
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>

@@ -8,7 +8,7 @@ public class TemaList : BufferList<TemaResult>, IIncrementFromChain, ITema
     private readonly Queue<double> _buffer;
     private double _bufferSum;
 
-    /// <inheritdoc />
+    /// <summary>
     /// State for triple EMA calculations
     /// </summary>
     private double _lastEma1 = double.NaN;
@@ -140,7 +140,7 @@ public class TemaList : BufferList<TemaResult>, IIncrementFromChain, ITema
 
 public static partial class Tema
 {
-    /// <inheritdoc />
+    /// <summary>
     /// Creates a buffer list for TEMA calculations.
     /// </summary>
     /// <param name="source">Collection of input values, time sorted.</param>

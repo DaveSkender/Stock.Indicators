@@ -122,7 +122,7 @@ public class ChopList : BufferList<ChopResult>, IIncrementFromQuote, IChop
 
 public static partial class Chop
 {
-    /// <inheritdoc />
+    /// <summary>
     /// Creates a buffer list for Choppiness Index (CHOP) calculations.
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>

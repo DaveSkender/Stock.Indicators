@@ -26,7 +26,7 @@ public static partial class ForceIndex
     /// <param name="quotes">The source list of quotes.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>A list of Force Index results.</returns>
-    /// <exception cref="ArgumentNullException">Thrown when <paramref name="source"/> is null.</exception>
+    /// <exception cref="ArgumentNullException">Thrown when <paramref name="quotes"/> is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="lookbackPeriods"/> is invalid.</exception>
     private static List<ForceIndexResult> CalcForceIndex(
         this List<QuoteD> quotes,

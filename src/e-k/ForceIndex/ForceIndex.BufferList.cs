@@ -125,7 +125,7 @@ public class ForceIndexList : BufferList<ForceIndexResult>, IIncrementFromQuote,
 
 public static partial class ForceIndex
 {
-    /// <inheritdoc />
+    /// <summary>
     /// Creates a buffer list for Force Index calculations.
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>

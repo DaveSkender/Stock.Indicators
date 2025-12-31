@@ -54,7 +54,7 @@ public class WilliamsRList : BufferList<WilliamsResult>, IIncrementFromQuote, IW
         }
     }
 
-    /// <inheritdoc />
+    /// <summary>
     /// Adds a new quote data point for Williams %R calculation.
     /// </summary>
     /// <param name="timestamp">The timestamp of the data point.</param>

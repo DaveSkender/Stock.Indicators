@@ -103,7 +103,7 @@ public class CmfList : BufferList<CmfResult>, IIncrementFromQuote, ICmf
 
 public static partial class Cmf
 {
-    /// <inheritdoc />
+    /// <summary>
     /// Creates a buffer list for Chaikin Money Flow (CMF) calculations.
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>

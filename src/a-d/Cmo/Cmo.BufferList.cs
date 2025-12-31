@@ -101,7 +101,7 @@ public class CmoList : BufferList<CmoResult>, IIncrementFromChain, ICmo
 
 public static partial class Cmo
 {
-    /// <inheritdoc />
+    /// <summary>
     /// Creates a buffer list for Chande Momentum Oscillator (CMO) calculations.
     /// </summary>
     /// <param name="source">Collection of input values, time sorted.</param>

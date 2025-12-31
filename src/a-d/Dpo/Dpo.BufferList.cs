@@ -102,7 +102,7 @@ public class DpoList : BufferList<DpoResult>, IIncrementFromChain
         }
     }
 
-    /// <inheritdoc />
+    /// <summary>
     /// Adds a new reusable value to the DPO list.
     /// </summary>
     /// <param name="value">The reusable value to add.</param>
@@ -113,7 +113,7 @@ public class DpoList : BufferList<DpoResult>, IIncrementFromChain
         Add(value.Timestamp, value.Value);
     }
 
-    /// <inheritdoc />
+    /// <summary>
     /// Adds a list of reusable values to the DPO list.
     /// </summary>
     /// <param name="values">The list of reusable values to add.</param>
@@ -128,7 +128,7 @@ public class DpoList : BufferList<DpoResult>, IIncrementFromChain
         }
     }
 
-    /// <inheritdoc />
+    /// <summary>
     /// Clears the list and resets internal buffers so the instance can be reused.
     /// </summary>
     public override void Clear()
@@ -137,7 +137,7 @@ public class DpoList : BufferList<DpoResult>, IIncrementFromChain
         smaList.Clear();
         buffer.Clear();
     }
-    /// <inheritdoc />
+    /// <summary>
     /// Synchronizes pruning of internal buffers with the parent list.
     /// </summary>
     protected override void PruneList()
@@ -168,7 +168,7 @@ public class DpoList : BufferList<DpoResult>, IIncrementFromChain
 
 public static partial class Dpo
 {
-    /// <inheritdoc />
+    /// <summary>
     /// Creates a buffer list for Detrended Price Oscillator (DPO) calculations.
     /// </summary>
     /// <param name="source">Collection of input values, time sorted.</param>

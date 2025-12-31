@@ -138,7 +138,7 @@ public class PivotPointsList(
 
 public static partial class PivotPoints
 {
-    /// <inheritdoc />
+    /// <summary>
     /// Creates a buffer list for Pivot Points calculations.
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>

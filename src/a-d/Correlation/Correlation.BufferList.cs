@@ -38,7 +38,7 @@ public class CorrelationList : BufferList<CorrResult>, IIncrementFromPairs, ICor
     /// <inheritdoc />
     public int LookbackPeriods { get; init; }
 
-    /// <inheritdoc />
+    /// <summary>
     /// Adds a pair of values from two synchronized series.
     /// </summary>
     /// <param name="timestamp">The timestamp for this pair of values.</param>
@@ -74,7 +74,7 @@ public class CorrelationList : BufferList<CorrResult>, IIncrementFromPairs, ICor
         AddInternal(result);
     }
 
-    /// <inheritdoc />
+    /// <summary>
     /// Adds a pair of reusable values from two synchronized series.
     /// </summary>
     /// <param name="valueA">The item from series A.</param>
@@ -97,7 +97,7 @@ public class CorrelationList : BufferList<CorrResult>, IIncrementFromPairs, ICor
         Add(valueA.Timestamp, valueA.Value, valueB.Value);
     }
 
-    /// <inheritdoc />
+    /// <summary>
     /// Adds two synchronized lists of reusable values.
     /// </summary>
     /// <param name="valuesA">The first series.</param>
@@ -122,7 +122,7 @@ public class CorrelationList : BufferList<CorrResult>, IIncrementFromPairs, ICor
         }
     }
 
-    /// <inheritdoc />
+    /// <summary>
     /// Clears the list and resets internal buffers so the instance can be reused.
     /// </summary>
     public override void Clear()
@@ -134,7 +134,7 @@ public class CorrelationList : BufferList<CorrResult>, IIncrementFromPairs, ICor
 
 public static partial class Correlation
 {
-    /// <inheritdoc />
+    /// <summary>
     /// Creates a buffer list for Correlation calculations from two synchronized series.
     /// </summary>
     /// <param name="valuesA">First series of values</param>
@@ -146,7 +146,7 @@ public static partial class Correlation
         int lookbackPeriods)
         => new(lookbackPeriods, valuesA, valuesB);
 
-    /// <inheritdoc />
+    /// <summary>
     /// Validates the parameters for correlation calculations.
     /// </summary>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>

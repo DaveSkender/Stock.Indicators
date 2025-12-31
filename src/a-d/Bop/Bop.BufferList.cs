@@ -79,7 +79,7 @@ public class BopList : BufferList<BopResult>, IIncrementFromQuote, IBop
 
 public static partial class Bop
 {
-    /// <inheritdoc />
+    /// <summary>
     /// Creates a buffer list for Balance of Power (BOP) calculations.
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>

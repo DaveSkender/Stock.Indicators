@@ -5,7 +5,7 @@ namespace Skender.Stock.Indicators;
 /// </summary>
 public class T3List : BufferList<T3Result>, IIncrementFromChain, IT3
 {
-    /// <inheritdoc />
+    /// <summary>
     /// State for six-layer EMA calculations
     /// </summary>
     private double _lastEma1 = double.NaN;
@@ -156,7 +156,7 @@ public class T3List : BufferList<T3Result>, IIncrementFromChain, IT3
 
 public static partial class T3
 {
-    /// <inheritdoc />
+    /// <summary>
     /// Creates a buffer list for T3 calculations.
     /// </summary>
     /// <param name="source">The source list of reusable values.</param>

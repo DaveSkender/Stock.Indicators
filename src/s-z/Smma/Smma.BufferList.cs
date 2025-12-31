@@ -107,7 +107,7 @@ public class SmmaList : BufferList<SmmaResult>, IIncrementFromChain, ISmma
 
 public static partial class Smma
 {
-    /// <inheritdoc />
+    /// <summary>
     /// Creates a buffer list for Smoothed Moving Average (SMMA) calculations.
     /// </summary>
     /// <param name="source">Collection of input values, time sorted.</param>

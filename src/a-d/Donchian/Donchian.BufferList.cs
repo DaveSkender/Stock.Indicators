@@ -95,7 +95,7 @@ public class DonchianList : BufferList<DonchianResult>, IIncrementFromQuote
         }
     }
 
-    /// <inheritdoc />
+    /// <summary>
     /// Clears the list and resets internal buffers so the instance can be reused.
     /// </summary>
     public override void Clear()
@@ -107,7 +107,7 @@ public class DonchianList : BufferList<DonchianResult>, IIncrementFromQuote
 
 public static partial class Donchian
 {
-    /// <inheritdoc />
+    /// <summary>
     /// Creates a buffer list for Donchian Channels calculations.
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>

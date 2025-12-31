@@ -107,7 +107,7 @@ public class KeltnerList : BufferList<KeltnerResult>, IIncrementFromQuote
 
 public static partial class Keltner
 {
-    /// <inheritdoc />
+    /// <summary>
     /// Creates a buffer list for Keltner Channels calculations.
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>

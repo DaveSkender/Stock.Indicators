@@ -21,7 +21,7 @@ public static partial class Prs
     /// The number of periods for the PRS% lookback calculation.  Optional.
     /// </param>
     /// <returns>A list of PRS results.</returns>
-    /// <exception cref="ArgumentNullException">Thrown when <paramref name="source"/> is null.</exception>
+    /// <exception cref="ArgumentNullException">Thrown when <paramref name="sourceEval"/> is null.</exception>
     /// <exception cref="InvalidQuotesException">Thrown when the timestamp sequence does not match.</exception>
     public static IReadOnlyList<PrsResult> ToPrs(
         this IReadOnlyList<IReusable> sourceEval,

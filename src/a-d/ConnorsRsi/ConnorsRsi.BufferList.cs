@@ -61,7 +61,7 @@ public class ConnorsRsiList : BufferList<ConnorsRsiResult>, IIncrementFromChain
     /// <inheritdoc />
     public int RankPeriods { get; init; }
 
-    /// <inheritdoc />
+    /// <summary>
     /// Gets or sets the maximum number of results to retain in the list.
     /// When the list exceeds this value, the oldest items are pruned.
     /// Also propagates to the inner RSI buffer lists.
@@ -204,7 +204,7 @@ public class ConnorsRsiList : BufferList<ConnorsRsiResult>, IIncrementFromChain
 
 public static partial class ConnorsRsi
 {
-    /// <inheritdoc />
+    /// <summary>
     /// Creates a buffer list for Connors RSI calculations.
     /// </summary>
     /// <param name="source">The source list of reusable values.</param>

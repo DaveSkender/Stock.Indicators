@@ -33,7 +33,7 @@ public class AroonList : BufferList<AroonResult>, IIncrementFromQuote, IAroon
     /// <inheritdoc />
     public int LookbackPeriods { get; init; }
 
-    /// <inheritdoc />
+    /// <summary>
     /// Adds a new quote to the Aroon list.
     /// </summary>
     /// <param name="quote">The quote to add.</param>
@@ -92,7 +92,7 @@ public class AroonList : BufferList<AroonResult>, IIncrementFromQuote, IAroon
         ));
     }
 
-    /// <inheritdoc />
+    /// <summary>
     /// Adds a list of quotes to the Aroon list.
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
@@ -107,7 +107,7 @@ public class AroonList : BufferList<AroonResult>, IIncrementFromQuote, IAroon
         }
     }
 
-    /// <inheritdoc />
+    /// <summary>
     /// Clears the list and resets internal buffers so the instance can be reused.
     /// </summary>
     public override void Clear()
@@ -122,7 +122,7 @@ public class AroonList : BufferList<AroonResult>, IIncrementFromQuote, IAroon
 /// </summary>
 public static partial class Aroon
 {
-    /// <inheritdoc />
+    /// <summary>
     /// Creates a buffer list for Aroon calculations.
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>

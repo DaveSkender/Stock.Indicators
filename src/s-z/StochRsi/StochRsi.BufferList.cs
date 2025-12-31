@@ -126,7 +126,7 @@ public class StochRsiList : BufferList<StochRsiResult>, IIncrementFromChain
 
 public static partial class StochRsi
 {
-    /// <inheritdoc />
+    /// <summary>
     /// Creates a buffer list for Stochastic RSI calculations.
     /// </summary>
     /// <param name="source">The source list of reusable values.</param>

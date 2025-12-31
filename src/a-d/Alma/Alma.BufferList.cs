@@ -126,7 +126,7 @@ public class AlmaList : BufferList<AlmaResult>, IIncrementFromChain, IAlma
 
 public static partial class Alma
 {
-    /// <inheritdoc />
+    /// <summary>
     /// Creates a buffer list for Arnaud Legoux Moving Average (ALMA) calculations.
     /// </summary>
     /// <param name="source">Collection of input values, time sorted.</param>

@@ -70,7 +70,7 @@ public class ObvList : BufferList<ObvResult>, IIncrementFromQuote
 
 public static partial class Obv
 {
-    /// <inheritdoc />
+    /// <summary>
     /// Creates a buffer list for On-Balance Volume (OBV) calculations.
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>

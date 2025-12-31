@@ -98,7 +98,7 @@ public class StdDevList : BufferList<StdDevResult>, IIncrementFromChain, IStdDev
 
 public static partial class StdDev
 {
-    /// <inheritdoc />
+    /// <summary>
     /// Creates a buffer list for Standard Deviation calculations.
     /// </summary>
     /// <param name="source">Collection of input values, time sorted.</param>

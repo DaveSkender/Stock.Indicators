@@ -149,7 +149,7 @@ public class SuperTrendList : BufferList<SuperTrendResult>, IIncrementFromQuote
 
 public static partial class SuperTrend
 {
-    /// <inheritdoc />
+    /// <summary>
     /// Creates a buffer list for SuperTrend calculations.
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>

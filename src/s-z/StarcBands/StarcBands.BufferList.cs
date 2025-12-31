@@ -109,7 +109,7 @@ public class StarcBandsList : BufferList<StarcBandsResult>, IIncrementFromQuote,
 
 public static partial class StarcBands
 {
-    /// <inheritdoc />
+    /// <summary>
     /// Creates a buffer list for STARC Bands calculations.
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>

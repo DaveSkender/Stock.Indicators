@@ -157,7 +157,7 @@ public class UltimateList : BufferList<UltimateResult>, IIncrementFromQuote, IUl
 
 public static partial class Ultimate
 {
-    /// <inheritdoc />
+    /// <summary>
     /// Creates a buffer list for Ultimate Oscillator calculations.
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>

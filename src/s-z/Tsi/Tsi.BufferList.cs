@@ -299,7 +299,7 @@ public class TsiList : BufferList<TsiResult>, IIncrementFromChain, ITsi
 
 public static partial class Tsi
 {
-    /// <inheritdoc />
+    /// <summary>
     /// Creates a buffer list for True Strength Index (TSI) calculations.
     /// </summary>
     /// <param name="source">Collection of input values, time sorted.</param>

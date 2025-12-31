@@ -114,7 +114,7 @@ public class StcList : BufferList<StcResult>, IIncrementFromChain, IStc
         _macdList.Clear();
         _stochList.Clear();
     }
-    /// <inheritdoc />
+    /// <summary>
     /// Overrides list pruning to synchronize the nested child lists.
     /// </summary>
     protected override void PruneList()
@@ -132,7 +132,7 @@ public class StcList : BufferList<StcResult>, IIncrementFromChain, IStc
 
 public static partial class Stc
 {
-    /// <inheritdoc />
+    /// <summary>
     /// Creates a buffer list for Schaff Trend Cycle calculations.
     /// </summary>
     /// <param name="source">The source list of reusable values.</param>

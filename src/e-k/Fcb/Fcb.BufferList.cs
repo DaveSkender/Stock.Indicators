@@ -136,7 +136,7 @@ public class FcbList : BufferList<FcbResult>, IIncrementFromQuote, IFcb
 
 public static partial class Fcb
 {
-    /// <inheritdoc />
+    /// <summary>
     /// Creates a buffer list for Fractal Chaos Bands (FCB) calculations.
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>

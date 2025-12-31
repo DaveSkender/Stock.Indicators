@@ -178,7 +178,7 @@ public class FractalList : BufferList<FractalResult>, IIncrementFromQuote, IFrac
 
 public static partial class Fractal
 {
-    /// <inheritdoc />
+    /// <summary>
     /// Creates a buffer list for Williams Fractal calculations.
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
@@ -191,7 +191,7 @@ public static partial class Fractal
         EndType endType = EndType.HighLow)
         => new(windowSpan, quotes, endType);
 
-    /// <inheritdoc />
+    /// <summary>
     /// Creates a buffer list for Williams Fractal calculations with different left and right spans.
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>

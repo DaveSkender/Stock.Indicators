@@ -67,7 +67,7 @@ public class DojiList : BufferList<CandleResult>, IIncrementFromQuote, IDoji
         }
     }
 
-    /// <inheritdoc />
+    /// <summary>
     /// Clears the list and resets internal state so the instance can be reused.
     /// </summary>
     public override void Clear() => base.Clear();
@@ -75,7 +75,7 @@ public class DojiList : BufferList<CandleResult>, IIncrementFromQuote, IDoji
 
 public static partial class Doji
 {
-    /// <inheritdoc />
+    /// <summary>
     /// Creates a buffer list for Doji candlestick pattern detection.
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>

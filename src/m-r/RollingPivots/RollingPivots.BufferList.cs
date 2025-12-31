@@ -138,7 +138,7 @@ public class RollingPivotsList : BufferList<RollingPivotsResult>, IIncrementFrom
 
 public static partial class RollingPivots
 {
-    /// <inheritdoc />
+    /// <summary>
     /// Creates a buffer list for Rolling Pivot Points calculations.
     /// </summary>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
