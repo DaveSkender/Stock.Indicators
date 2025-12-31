@@ -11,6 +11,7 @@ public class StdDevList : BufferList<StdDevResult>, IIncrementFromChain, IStdDev
     /// Initializes a new instance of the <see cref="StdDevList"/> class.
     /// </summary>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="lookbackPeriods"/> is invalid.</exception>
     public StdDevList(int lookbackPeriods = 14)
     {
         StdDev.Validate(lookbackPeriods);

@@ -35,6 +35,7 @@ public class ParabolicSarList : BufferList<ParabolicSarResult>, IIncrementFromQu
     /// <param name="accelerationStep">The acceleration step for the SAR calculation.</param>
     /// <param name="maxAccelerationFactor">The maximum acceleration factor for the SAR calculation.</param>
     /// <param name="initialFactor">The initial acceleration factor for the SAR calculation.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="initialFactor"/> is invalid.</exception>
     public ParabolicSarList(
         double accelerationStep,
         double maxAccelerationFactor,

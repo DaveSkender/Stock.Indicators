@@ -13,6 +13,7 @@ public class WmaList : BufferList<WmaResult>, IIncrementFromChain, IWma
     /// Initializes a new instance of the <see cref="WmaList"/> class.
     /// </summary>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="lookbackPeriods"/> is invalid.</exception>
     public WmaList(int lookbackPeriods)
     {
         Wma.Validate(lookbackPeriods);

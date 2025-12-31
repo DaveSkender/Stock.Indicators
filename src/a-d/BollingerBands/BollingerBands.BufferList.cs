@@ -12,6 +12,7 @@ public class BollingerBandsList : BufferList<BollingerBandsResult>, IIncrementFr
     /// </summary>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <param name="standardDeviations">The number of standard deviations to use for the bands.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="standardDeviations"/> is invalid.</exception>
     public BollingerBandsList(int lookbackPeriods, double standardDeviations = 2)
     {
         BollingerBands.Validate(lookbackPeriods, standardDeviations);

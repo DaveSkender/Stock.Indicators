@@ -11,6 +11,7 @@ public class DojiList : BufferList<CandleResult>, IIncrementFromQuote, IDoji
     /// Initializes a new instance of the <see cref="DojiList"/> class.
     /// </summary>
     /// <param name="maxPriceChangePercent">Maximum absolute percent difference in open and close price.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="maxPriceChangePercent"/> is invalid.</exception>
     public DojiList(double maxPriceChangePercent = 0.1)
     {
         Doji.Validate(maxPriceChangePercent);

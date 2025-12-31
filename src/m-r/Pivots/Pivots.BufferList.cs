@@ -23,6 +23,7 @@ public class PivotsList : BufferList<PivotsResult>, IIncrementFromQuote
     /// <param name="rightSpan">The number of periods to the right of the pivot point.</param>
     /// <param name="maxTrendPeriods">The maximum number of periods for trend calculation.</param>
     /// <param name="endType">The type of end point for the pivot calculation.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="endType"/> is invalid.</exception>
     public PivotsList(
         int leftSpan = 2,
         int rightSpan = 2,

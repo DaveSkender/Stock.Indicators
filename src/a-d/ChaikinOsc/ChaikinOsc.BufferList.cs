@@ -14,6 +14,7 @@ public class ChaikinOscList : BufferList<ChaikinOscResult>, IIncrementFromQuote,
     /// </summary>
     /// <param name="fastPeriods">The number of periods to use for the fast EMA.</param>
     /// <param name="slowPeriods">The number of periods to use for the slow EMA.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="slowPeriods"/> is invalid.</exception>
     public ChaikinOscList(int fastPeriods = 3, int slowPeriods = 10)
     {
         ChaikinOsc.Validate(fastPeriods, slowPeriods);

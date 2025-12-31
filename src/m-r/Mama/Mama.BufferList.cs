@@ -71,6 +71,7 @@ public class MamaList : BufferList<MamaResult>, IIncrementFromChain, IMama
     /// </summary>
     /// <param name="fastLimit">The fast limit for the MAMA calculation.</param>
     /// <param name="slowLimit">The slow limit for the MAMA calculation.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="slowLimit"/> is invalid.</exception>
     public MamaList(
         double fastLimit = 0.5,
         double slowLimit = 0.05)

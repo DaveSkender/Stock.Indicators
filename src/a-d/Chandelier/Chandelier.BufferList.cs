@@ -14,6 +14,7 @@ public class ChandelierList : BufferList<ChandelierResult>, IIncrementFromQuote,
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <param name="multiplier">The multiplier to apply to the ATR.</param>
     /// <param name="type">The type of Chandelier Exit to calculate (Long or Short).</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="type"/> is invalid.</exception>
     public ChandelierList(int lookbackPeriods = 22, double multiplier = 3, Direction type = Direction.Long)
     {
         Chandelier.Validate(lookbackPeriods, multiplier);

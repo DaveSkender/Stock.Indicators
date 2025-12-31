@@ -12,6 +12,7 @@ public class AwesomeList : BufferList<AwesomeResult>, IIncrementFromChain, IAwes
     /// </summary>
     /// <param name="fastPeriods">The number of periods for the fast moving average.</param>
     /// <param name="slowPeriods">The number of periods for the slow moving average.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="slowPeriods"/> is invalid.</exception>
     public AwesomeList(int fastPeriods = 5, int slowPeriods = 34)
     {
         Awesome.Validate(fastPeriods, slowPeriods);

@@ -11,6 +11,7 @@ public class CciList : BufferList<CciResult>, IIncrementFromQuote, ICci
     /// Initializes a new instance of the <see cref="CciList"/> class.
     /// </summary>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="lookbackPeriods"/> is invalid.</exception>
     public CciList(int lookbackPeriods)
     {
         Cci.Validate(lookbackPeriods);

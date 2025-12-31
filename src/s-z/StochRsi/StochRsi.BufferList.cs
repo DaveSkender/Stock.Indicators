@@ -15,6 +15,7 @@ public class StochRsiList : BufferList<StochRsiResult>, IIncrementFromChain
     /// <param name="stochPeriods">The number of periods for the Stochastic calculation.</param>
     /// <param name="signalPeriods">The number of periods for the signal line.</param>
     /// <param name="smoothPeriods">The number of periods for smoothing.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="smoothPeriods"/> is invalid.</exception>
     public StochRsiList(
         int rsiPeriods,
         int stochPeriods,

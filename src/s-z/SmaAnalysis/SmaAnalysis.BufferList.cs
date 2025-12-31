@@ -12,6 +12,7 @@ public class SmaAnalysisList : BufferList<SmaAnalysisResult>, IIncrementFromChai
     /// Initializes a new instance of the <see cref="SmaAnalysisList"/> class.
     /// </summary>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="lookbackPeriods"/> is invalid.</exception>
     public SmaAnalysisList(int lookbackPeriods)
     {
         Sma.Validate(lookbackPeriods);

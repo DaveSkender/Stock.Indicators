@@ -14,6 +14,7 @@ public class StarcBandsList : BufferList<StarcBandsResult>, IIncrementFromQuote,
     /// <param name="smaPeriods">The number of periods for the Simple Moving Average (SMA).</param>
     /// <param name="multiplier">The multiplier for the Average True Range (ATR).</param>
     /// <param name="atrPeriods">The number of periods for the ATR calculation.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="atrPeriods"/> is invalid.</exception>
     public StarcBandsList(
         int smaPeriods = 5,
         double multiplier = 2,

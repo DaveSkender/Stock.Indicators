@@ -23,6 +23,7 @@ public class FractalList : BufferList<FractalResult>, IIncrementFromQuote, IFrac
     /// <param name="leftSpan">The number of periods to look back for the calculation.</param>
     /// <param name="rightSpan">The number of periods to look forward for the calculation.</param>
     /// <param name="endType">The type of price to use for the calculation.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="endType"/> is invalid.</exception>
     public FractalList(int leftSpan, int rightSpan, EndType endType = EndType.HighLow)
     {
         Fractal.Validate(Math.Min(leftSpan, rightSpan));

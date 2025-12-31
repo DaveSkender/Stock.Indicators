@@ -13,6 +13,7 @@ public class SmmaList : BufferList<SmmaResult>, IIncrementFromChain, ISmma
     /// Initializes a new instance of the <see cref="SmmaList"/> class.
     /// </summary>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="lookbackPeriods"/> is invalid.</exception>
     public SmmaList(
         int lookbackPeriods
     )

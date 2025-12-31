@@ -25,6 +25,7 @@ public class KvoList : BufferList<KvoResult>, IIncrementFromQuote, IKvo
     /// <param name="fastPeriods">The number of periods for the fast EMA.</param>
     /// <param name="slowPeriods">The number of periods for the slow EMA.</param>
     /// <param name="signalPeriods">The number of periods for the signal line.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="signalPeriods"/> is invalid.</exception>
     public KvoList(
         int fastPeriods = 34,
         int slowPeriods = 55,

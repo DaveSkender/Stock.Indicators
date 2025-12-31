@@ -15,6 +15,7 @@ public class ForceIndexList : BufferList<ForceIndexResult>, IIncrementFromQuote,
     /// Initializes a new instance of the <see cref="ForceIndexList"/> class.
     /// </summary>
     /// <param name="lookbackPeriods">The number of periods to look back for the calculation. Default is 2.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="lookbackPeriods"/> is invalid.</exception>
     public ForceIndexList(
         int lookbackPeriods = 2
     )

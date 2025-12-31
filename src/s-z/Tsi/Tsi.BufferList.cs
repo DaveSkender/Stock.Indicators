@@ -28,6 +28,7 @@ public class TsiList : BufferList<TsiResult>, IIncrementFromChain, ITsi
     /// <param name="lookbackPeriods">The number of periods for the lookback calculation.</param>
     /// <param name="smoothPeriods">The number of periods for the smoothing calculation.</param>
     /// <param name="signalPeriods">The number of periods for the signal calculation.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="signalPeriods"/> is invalid.</exception>
     public TsiList(
         int lookbackPeriods = 25,
         int smoothPeriods = 13,

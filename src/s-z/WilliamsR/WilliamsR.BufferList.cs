@@ -11,6 +11,7 @@ public class WilliamsRList : BufferList<WilliamsResult>, IIncrementFromQuote, IW
     /// Initializes a new instance of the <see cref="WilliamsRList"/> class.
     /// </summary>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="lookbackPeriods"/> is invalid.</exception>
     public WilliamsRList(
         int lookbackPeriods = 14)
     {

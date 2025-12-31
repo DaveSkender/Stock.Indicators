@@ -35,6 +35,7 @@ public class AlligatorList : BufferList<AlligatorResult>, IIncrementFromChain, I
     /// <param name="teethOffset">Offset periods for the Teeth line.</param>
     /// <param name="lipsPeriods">Lookback periods for the Lips line.</param>
     /// <param name="lipsOffset">Offset periods for the Lips line.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="lipsOffset"/> is invalid.</exception>
     public AlligatorList(
         int jawPeriods = 13,
         int jawOffset = 8,

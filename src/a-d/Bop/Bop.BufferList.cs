@@ -11,6 +11,7 @@ public class BopList : BufferList<BopResult>, IIncrementFromQuote, IBop
     /// Initializes a new instance of the <see cref="BopList"/> class.
     /// </summary>
     /// <param name="smoothPeriods">The number of periods to use for smoothing.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="smoothPeriods"/> is invalid.</exception>
     public BopList(int smoothPeriods)
     {
         Bop.Validate(smoothPeriods);

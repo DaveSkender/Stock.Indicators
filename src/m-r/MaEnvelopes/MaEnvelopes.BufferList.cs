@@ -19,6 +19,7 @@ public class MaEnvelopesList : BufferList<MaEnvelopeResult>, IIncrementFromChain
     /// <param name="lookbackPeriods">The number of periods for the moving average.</param>
     /// <param name="percentOffset">The percentage offset for the envelopes.</param>
     /// <param name="movingAverageType">The type of moving average to use.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="movingAverageType"/> is invalid.</exception>
     public MaEnvelopesList(
         int lookbackPeriods,
         double percentOffset = 2.5,

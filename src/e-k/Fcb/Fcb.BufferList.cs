@@ -14,6 +14,7 @@ public class FcbList : BufferList<FcbResult>, IIncrementFromQuote, IFcb
     /// Initializes a new instance of the <see cref="FcbList"/> class.
     /// </summary>
     /// <param name="windowSpan">The window span for the calculation. Default is 2.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="windowSpan"/> is invalid.</exception>
     public FcbList(
         int windowSpan = 2
     )

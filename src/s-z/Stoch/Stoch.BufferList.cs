@@ -21,6 +21,7 @@ public class StochList : BufferList<StochResult>, IIncrementFromQuote, IStoch
     /// <param name="kFactor">The K factor for the Stochastic calculation.</param>
     /// <param name="dFactor">The D factor for the Stochastic calculation.</param>
     /// <param name="movingAverageType">The type of moving average to use.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="movingAverageType"/> is invalid.</exception>
     public StochList(
         int lookbackPeriods = 14,
         int signalPeriods = 3,

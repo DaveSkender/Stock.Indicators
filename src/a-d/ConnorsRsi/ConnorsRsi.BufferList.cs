@@ -18,6 +18,7 @@ public class ConnorsRsiList : BufferList<ConnorsRsiResult>, IIncrementFromChain
     /// <param name="rsiPeriods">The number of periods for the RSI calculation on close prices.</param>
     /// <param name="streakPeriods">The number of periods for the RSI calculation on streak.</param>
     /// <param name="rankPeriods">The number of periods for the percent rank calculation.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="rankPeriods"/> is invalid.</exception>
     public ConnorsRsiList(
         int rsiPeriods = 3,
         int streakPeriods = 2,

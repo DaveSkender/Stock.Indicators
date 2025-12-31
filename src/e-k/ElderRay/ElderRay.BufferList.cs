@@ -11,6 +11,7 @@ public class ElderRayList : BufferList<ElderRayResult>, IIncrementFromQuote, IEl
     /// Initializes a new instance of the <see cref="ElderRayList"/> class.
     /// </summary>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="lookbackPeriods"/> is invalid.</exception>
     public ElderRayList(
         int lookbackPeriods = 13
     )

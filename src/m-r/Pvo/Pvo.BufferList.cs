@@ -20,6 +20,7 @@ public class PvoList : BufferList<PvoResult>, IIncrementFromQuote, IPvo
     /// <param name="fastPeriods">The number of periods for the fast EMA.</param>
     /// <param name="slowPeriods">The number of periods for the slow EMA.</param>
     /// <param name="signalPeriods">The number of periods for the signal line.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="signalPeriods"/> is invalid.</exception>
     public PvoList(
         int fastPeriods = 12,
         int slowPeriods = 26,

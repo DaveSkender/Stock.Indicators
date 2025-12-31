@@ -11,6 +11,7 @@ public class DonchianList : BufferList<DonchianResult>, IIncrementFromQuote
     /// Initializes a new instance of the <see cref="DonchianList"/> class.
     /// </summary>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="lookbackPeriods"/> is invalid.</exception>
     public DonchianList(int lookbackPeriods = 20)
     {
         Donchian.Validate(lookbackPeriods);

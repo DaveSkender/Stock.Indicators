@@ -11,6 +11,7 @@ public class UlcerIndexList : BufferList<UlcerIndexResult>, IIncrementFromChain
     /// Initializes a new instance of the <see cref="UlcerIndexList"/> class.
     /// </summary>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="lookbackPeriods"/> is invalid.</exception>
     public UlcerIndexList(int lookbackPeriods = 14)
     {
         UlcerIndex.Validate(lookbackPeriods);

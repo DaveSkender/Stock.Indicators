@@ -20,6 +20,7 @@ public class T3List : BufferList<T3Result>, IIncrementFromChain, IT3
     /// </summary>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <param name="volumeFactor">The volume factor for the calculation.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="volumeFactor"/> is invalid.</exception>
     public T3List(
         int lookbackPeriods = 5,
         double volumeFactor = 0.7

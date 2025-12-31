@@ -15,6 +15,7 @@ public class AlmaList : BufferList<AlmaResult>, IIncrementFromChain, IAlma
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <param name="offset">The offset for the ALMA calculation.</param>
     /// <param name="sigma">The sigma for the ALMA calculation.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="sigma"/> is invalid.</exception>
     public AlmaList(
         int lookbackPeriods,
         double offset = 0.85,

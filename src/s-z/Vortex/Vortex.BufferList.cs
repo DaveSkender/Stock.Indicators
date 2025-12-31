@@ -15,6 +15,7 @@ public class VortexList : BufferList<VortexResult>, IIncrementFromQuote
     /// Initializes a new instance of the <see cref="VortexList"/> class.
     /// </summary>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="lookbackPeriods"/> is invalid.</exception>
     public VortexList(int lookbackPeriods = 14)
     {
         Vortex.Validate(lookbackPeriods);

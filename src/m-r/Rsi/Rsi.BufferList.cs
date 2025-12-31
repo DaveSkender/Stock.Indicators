@@ -15,6 +15,7 @@ public class RsiList : BufferList<RsiResult>, IIncrementFromChain, IRsi
     /// Initializes a new instance of the <see cref="RsiList"/> class.
     /// </summary>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="lookbackPeriods"/> is invalid.</exception>
     public RsiList(int lookbackPeriods)
     {
         Rsi.Validate(lookbackPeriods);

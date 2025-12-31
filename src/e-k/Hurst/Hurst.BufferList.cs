@@ -11,6 +11,7 @@ public class HurstList : BufferList<HurstResult>, IIncrementFromChain, IHurst
     /// Initializes a new instance of the <see cref="HurstList"/> class.
     /// </summary>
     /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="lookbackPeriods"/> is invalid.</exception>
     public HurstList(int lookbackPeriods)
     {
         Hurst.Validate(lookbackPeriods);

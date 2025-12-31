@@ -24,6 +24,7 @@ public class VolatilityStopList : BufferList<VolatilityStopResult>, IIncrementFr
     /// </summary>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <param name="multiplier">The multiplier for the Average True Range.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="multiplier"/> is invalid.</exception>
     public VolatilityStopList(int lookbackPeriods = 7, double multiplier = 3)
     {
         VolatilityStop.Validate(lookbackPeriods, multiplier);

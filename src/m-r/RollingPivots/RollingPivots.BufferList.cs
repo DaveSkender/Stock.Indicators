@@ -13,6 +13,7 @@ public class RollingPivotsList : BufferList<RollingPivotsResult>, IIncrementFrom
     /// <param name="windowPeriods">The number of periods in the rolling window.</param>
     /// <param name="offsetPeriods">The number of periods to offset the window.</param>
     /// <param name="pointType">The type of pivot point calculation to use.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="pointType"/> is invalid.</exception>
     public RollingPivotsList(
         int windowPeriods = 20,
         int offsetPeriods = 0,

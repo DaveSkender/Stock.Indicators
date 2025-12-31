@@ -19,6 +19,7 @@ public class TemaList : BufferList<TemaResult>, IIncrementFromChain, ITema
     /// Initializes a new instance of the <see cref="TemaList"/> class.
     /// </summary>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="lookbackPeriods"/> is invalid.</exception>
     public TemaList(
         int lookbackPeriods
     )

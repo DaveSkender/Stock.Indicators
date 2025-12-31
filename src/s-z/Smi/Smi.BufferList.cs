@@ -20,6 +20,7 @@ public class SmiList : BufferList<SmiResult>, IIncrementFromQuote, ISmi
     /// <param name="firstSmoothPeriods">The number of periods for the first smoothing.</param>
     /// <param name="secondSmoothPeriods">The number of periods for the second smoothing.</param>
     /// <param name="signalPeriods">The number of periods for the signal line smoothing.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="signalPeriods"/> is invalid.</exception>
     public SmiList(
         int lookbackPeriods = 13,
         int firstSmoothPeriods = 25,
