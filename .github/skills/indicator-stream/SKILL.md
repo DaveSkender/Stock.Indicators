@@ -5,8 +5,6 @@ description: Implement StreamHub real-time indicators with O(1) performance. Use
 
 # StreamHub indicator development
 
-StreamHub indicators support real-time data processing with stateful operations, achieving ≤1.5x Series performance.
-
 ## Provider selection
 
 | Provider Base | Input | Output | Use Case |
@@ -68,7 +66,7 @@ protected override void RollbackState(DateTime timestamp)
    - Remove a historical quote → verify recalculation
    - Compare results to Series with strict ordering
 
-## Code completion checklist
+## Required implementation
 
 - [ ] Source code: `src/**/{IndicatorName}.StreamHub.cs` file exists
   - [ ] Uses appropriate provider base (`ChainProvider` or `QuoteProvider`)
@@ -81,7 +79,7 @@ protected override void RollbackState(DateTime timestamp)
   - [ ] Comprehensive rollback validation present
   - [ ] Verifies Series parity
 
-## Reference implementations
+## Examples
 
 - Chain: `src/e-k/Ema/Ema.StreamHub.cs`
 - Complex state: `src/a-d/Adx/Adx.StreamHub.cs`

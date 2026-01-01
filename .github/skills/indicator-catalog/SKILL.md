@@ -5,8 +5,6 @@ description: Create and register indicator catalog entries for automation. Use f
 
 # Indicator catalog development
 
-Create catalog entries that enable automation and UI discovery of indicators.
-
 ## File structure
 
 - Catalog: `src/{category}/{Indicator}/{Indicator}.Catalog.cs`
@@ -70,20 +68,20 @@ public static partial class Ema
 
 **Critical**: `.WithMethodName()` must be in style-specific listings, NOT in CommonListing.
 
-## Parameter guidelines
+## Required parameter patterns
 
 - Use `AddParameter<T>()` for basic types (int, double, bool)
 - Use `AddEnumParameter<T>()` for enum types
 - Use `AddDateParameter()` for DateTime parameters
 - Use `AddSeriesParameter()` for `IReadOnlyList<T> where T : IReusable`
-- Always set `minimum` and `maximum` for numeric parameters
+- MUST set `minimum` and `maximum` for all numeric parameters
 
-## Result guidelines
+## Required result patterns
 
-- `dataName` must match property name in Models file exactly
+- `dataName` MUST match property name in Models file exactly
 - Set `isReusable: true` ONLY for property mapping to `IReusable.Value`
-- `ISeries` models: ALL results must have `isReusable: false`
-- Exactly one result with `isReusable: true` per `IReusable` indicator
+- `ISeries` models: ALL results MUST have `isReusable: false`
+- Exactly ONE result with `isReusable: true` per `IReusable` indicator
 
 ## Categories
 
@@ -127,12 +125,12 @@ public class EmaCatalogTests : TestBase
 }
 ```
 
-## Anti-patterns
+## Prohibited patterns
 
-- ❌ `.WithMethodName()` in CommonListing
-- ❌ Wrong indicator method name
-- ❌ `isReusable: true` for `ISeries` models
-- ❌ Multiple `isReusable: true` results
+- ❌ `.WithMethodName()` in CommonListing (MUST be in style-specific listings)
+- ❌ Wrong indicator method name (breaks extension method discovery)
+- ❌ `isReusable: true` for `ISeries` models (violates interface contract)
+- ❌ Multiple `isReusable: true` results (ambiguous Value mapping)
 
 ---
 Last updated: December 31, 2025

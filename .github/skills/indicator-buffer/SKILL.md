@@ -5,8 +5,6 @@ description: Implement BufferList incremental indicators with efficient state ma
 
 # BufferList indicator development
 
-BufferList indicators process data incrementally with efficient buffering, matching Series results exactly.
-
 ## Interface selection
 
 All BufferList implementations support `IQuote` inputs from the base class. The interface determines what *additional* input types are supported:
@@ -59,25 +57,16 @@ public override void Clear()
 }
 ```
 
-## Testing requirements
+## Testing constraints
 
-1. Inherit from `BufferListTestBase` (NOT TestBase)
-2. Implement test interface matching buffer interface:
-   - `ITestChainBufferList` for `IIncrementFromChain`
-   - `ITestQuoteBufferList` for `IIncrementFromQuote`
-3. Verify exact Series parity: `bufferResults.IsExactly(seriesResults)`
+- Inherit `BufferListTestBase` (NOT `TestBase`)
+- Implement test interface matching increment interface:
+  - `IIncrementFromChain` → `ITestChainBufferList`
+  - `IIncrementFromQuote` → `ITestQuoteBufferList`
+- Verify exact Series parity with `bufferResults.IsExactly(seriesResults)` (NOT `Should().Be()`)
+- All 5 base class tests pass (incremental adds, batching, constructor chaining, Clear(), auto-pruning)
 
-## Required test methods
-
-All BufferList tests must pass these 5 base tests:
-
-1. `AddQuote_IncrementsResults()`
-2. `AddQuotesBatch_IncrementsResults()`
-3. `QuotesCtor_OnInstantiation_IncrementsResults()`
-4. `Clear_WithState_ResetsState()`
-5. `PruneList_OverMaxListSize_AutoAdjustsListAndBuffers()`
-
-## Code completion checklist
+## Required implementation
 
 - [ ] Source code: `src/**/{IndicatorName}.BufferList.cs` file exists
   - [ ] Inherits `BufferList<TResult>` and implements correct increment interface
@@ -104,13 +93,13 @@ _buffer.Enqueue(value);
 _buffer.Update(capacity, value);
 ```
 
-## Reference implementations
+## Examples
 
 - Chain: `src/e-k/Ema/Ema.BufferList.cs`
 - Quote: `src/s-z/Stoch/Stoch.BufferList.cs`
 - Complex: `src/a-d/Adx/Adx.BufferList.cs`
 
-See `references/interface-selection.md` for detailed interface guidance.
+See `references/interface-selection.md` for interface decision guidance.
 
 ---
 Last updated: December 31, 2025

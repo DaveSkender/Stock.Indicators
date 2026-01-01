@@ -1,9 +1,5 @@
 # Result interface selection
 
-## Interface selection
-
-Choose the output interface based on indicator structure:
-
 **Single chainable output** → Implement `IReusable`:
 
 ```csharp

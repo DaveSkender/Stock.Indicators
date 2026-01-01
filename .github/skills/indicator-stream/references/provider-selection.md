@@ -1,6 +1,4 @@
-# StreamHub provider selection guide
-
-Provider selection is determined by the indicator specification—it's not a design choice.
+# Provider selection
 
 ## Provider classification
 
@@ -12,14 +10,7 @@ Provider selection is determined by the indicator specification—it's not a des
 
 ## ChainProvider<IReusable, TResult>
 
-**Use when**: Indicator can work with single reusable values
-
-**Characteristics**:
-
-- Most common pattern (~45 indicators)
-- Chainable input and output
-- Supports EMA → RSI → SMA chains
-- Implements `IChainProvider<IReusable>`
+**Most common pattern** (~45 indicators): Chainable input and output, supports EMA → RSI → SMA chains
 
 **Examples**: EMA, SMA, RSI, MACD, Trix, TSI, TEMA, DEMA
 
@@ -38,14 +29,7 @@ public class EmaHub : ChainProvider<IReusable, EmaResult>, IEma
 
 ## ChainProvider<IQuote, TResult>
 
-**Use when**: Needs OHLCV data but produces chainable output
-
-**Characteristics**:
-
-- Quote-driven input
-- Single chainable output (`IReusable`)
-- Can be observed by other chain providers
-- ~15 indicators
+**Quote-driven input, chainable output** (~15 indicators): Requires OHLCV data, produces single chainable `IReusable` output
 
 **Examples**: ADX, ATR, Aroon, CCI, CMF, OBV
 
@@ -58,14 +42,7 @@ public class AdxHub : ChainProvider<IQuote, AdxResult>, IAdx
 
 ## QuoteProvider<IQuote, TResult>
 
-**Use when**: Quote input transforms to quote-like output
-
-**Characteristics**:
-
-- Quote-to-quote transformation
-- Output implements `IResult` (not necessarily `IQuote`)
-- Used for quote preprocessing
-- ~3 indicators
+**Quote transformation** (~3 indicators): Quote input transforms to quote-like output (`IResult`, not necessarily `IQuote`)
 
 **Examples**: HeikinAshi, Renko, QuoteHub
 

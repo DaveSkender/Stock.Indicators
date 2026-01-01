@@ -5,8 +5,6 @@ description: Implement Series-style batch indicators with mathematical precision
 
 # Series indicator development
 
-Series indicators are the canonical mathematical reference. This skill covers cross-cutting requirements and optimization decisions not obvious from reading existing implementations.
-
 ## File structure
 
 - Implementation: `src/{category}/{Indicator}/{Indicator}.StaticSeries.cs`
@@ -35,7 +33,7 @@ return new List<TResult>(results);  // NOT results.ToList()
 3. Benchmark again
 4. Revert if no improvement or regression
 
-## Code completion checklist
+## Required implementation
 
 Beyond the .StaticSeries.cs file, ensure:
 
@@ -56,26 +54,24 @@ Beyond the .StaticSeries.cs file, ensure:
 - **Longer datasets**: May require lower precision (e.g., Money10 for 15k quotes) due to accumulated floating-point error
 - **Document degradation**: When precision must be lowered, explain why in test comments
 
-## Reference implementations
-
-Learn patterns by reading existing code:
+## Examples
 
 - **Simple single-value**: `src/s-z/Sma/Sma.StaticSeries.cs`
 - **Exponential smoothing**: `src/e-k/Ema/Ema.StaticSeries.cs`
 - **Complex multi-stage**: `src/a-d/Adx/Adx.StaticSeries.cs`
 - **Multi-line results**: `src/a-d/Alligator/Alligator.StaticSeries.cs`
 
-See `references/decision-tree.md` for interface selection guidance (IReusable vs ISeries).
+See `references/decision-tree.md` for result interface selection guidance.
 
-## Constitutional rules
+## Constitutional constraints
 
-- **Series is truth**: All other styles (BufferList, StreamHub) must match Series results exactly
-- **Verify against authoritative sources**: Use reference publications, not other libraries
+- **Series is truth**: All other styles (BufferList, StreamHub) MUST match Series results exactly
+- **Verify against authoritative sources**: NEVER trust other libraries—use reference publications only
 - **Algebraic stability**: Prefer boundary detection over clamping
-- **Real-world testing**: Synthetic boundary data may not expose precision edge cases
+- **Real-world testing**: Synthetic boundary data may miss precision edge cases
 - **Fix formulas, not symptoms**: When all styles fail identically, fix the core algorithm
 
-See `src/AGENTS.md` for formula protection rules. Never modify formulas without verification against authoritative mathematical references.
+NEVER modify formulas without verification against authoritative mathematical references. See `src/AGENTS.md` for formula protection rules.
 
 ---
 Last updated: December 31, 2025

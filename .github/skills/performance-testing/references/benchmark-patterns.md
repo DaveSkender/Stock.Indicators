@@ -1,7 +1,5 @@
 # Benchmark patterns
 
-Use this reference for implementing performance benchmarks.
-
 ## File organization
 
 | File | Purpose |

@@ -1,6 +1,4 @@
-# StreamHub RollbackState patterns
-
-Use this reference for implementing RollbackState in StreamHub indicators.
+# RollbackState patterns
 
 ## When to override RollbackState
 

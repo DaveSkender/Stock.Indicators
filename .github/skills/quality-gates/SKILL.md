@@ -5,20 +5,18 @@ description: Pre-commit quality checklist for Stock Indicators development. Use 
 
 # Quality gates
 
-Execute all quality gates before completing work and yielding to human review.
-
 ## Preparation
 
 ### Remove dead code
 
-- Delete obsolete or commented-out code
-- Remove unused imports, variables, helper methods
-- Strip debugging aids (`Console.WriteLine`, breakpoints)
-- Remove scratch files (`.bak`, `.new`, `.debug.*`)
+- MUST delete obsolete or commented-out code
+- MUST remove unused imports, variables, helper methods
+- MUST strip debugging aids (`Console.WriteLine`, breakpoints)
+- MUST remove scratch files (`.bak`, `.new`, `.debug.*`)
 
 ## Validation sequence
 
-Execute in order; fix issues before proceeding.
+Execute in order. Fix issues before proceeding to next step.
 
 ### Step 1: Prerequisites
 
@@ -35,7 +33,7 @@ dotnet format --verify-no-changes
 dotnet build "Stock.Indicators.sln" -v minimal --nologo
 ```
 
-Resolve all warnings. Do not introduce suppressions without approval.
+MUST resolve all warnings. NEVER introduce suppressions without approval.
 
 ### Step 3: Testing
 
@@ -69,34 +67,36 @@ npx markdownlint-cli2
 
 All commands must complete successfully.
 
-## Sign-off checklist
+## Required gates
 
-- [ ] All dead/debugging code removed
-- [ ] `dotnet format --verify-no-changes` passes
-- [ ] `dotnet build` succeeds with zero warnings
-- [ ] All tests pass
-- [ ] Coverage ≥ 98%
-- [ ] Documentation updated
-- [ ] Markdown linting succeeds
+All MUST pass before completing work:
 
-## Indicator implementation checklist
+- Dead/debugging code removed
+- `dotnet format --verify-no-changes` passes
+- `dotnet build` succeeds with zero warnings
+- All tests pass
+- Coverage ≥ 98% (validated in CI/CD)
+- Documentation updated
+- Markdown linting succeeds
 
-For new or updated indicators:
+## Required indicator components
 
-- [ ] Series implementation exists (`*.StaticSeries.cs`)
-- [ ] Catalog entry exists and registered (`*.Catalog.cs`)
-- [ ] Unit tests exist with full coverage (`*.Tests.cs`)
-- [ ] Documentation exists (`docs/_indicators/{Name}.md`)
-- [ ] Regression test baseline updated if algorithm changed
-- [ ] Performance benchmark added for complex indicators
+For new or updated indicators, MUST include:
 
-## Migration bridge requirements
+- Series implementation (`*.StaticSeries.cs`)
+- Catalog entry and registration (`*.Catalog.cs`)
+- Unit tests with full coverage (`*.Tests.cs`)
+- Documentation (`docs/_indicators/{Name}.md`)
+- Regression test baseline (if algorithm changed)
+- Performance benchmark (for complex indicators)
 
-When changing public APIs:
+## Required migration bridge
 
-- [ ] Add `[Obsolete]` attribute with migration message
-- [ ] Update `src/MigrationGuide.V3.md`
-- [ ] Update bridge files:
+When changing public APIs, MUST:
+
+- Add `[Obsolete]` attribute with migration message
+- Update `src/MigrationGuide.V3.md`
+- Update bridge files:
   - `src/Obsolete.V3.Indicators.cs`
   - `src/Obsolete.V3.Other.cs`
 

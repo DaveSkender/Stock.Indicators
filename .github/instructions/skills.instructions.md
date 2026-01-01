@@ -67,6 +67,39 @@ Don't use skills for:
 - Quick reference data (use `.context.md` files)
 - Interactive user guidance (use `.prompt.md` files)
 
+## AI-optimization principles
+
+Skills are written for AI agent consumption, not human reading. Follow these principles:
+
+**Content focus:**
+
+- Depict unique requirements for specific code patterns (syntax constraints, required/prohibited patterns, interface implementations)
+- Point to reference examples with contextual notes about syntax and sequences
+- NEVER teach what's already in code (e.g., "EMA needs X lookback periods")
+- Steer agents away from incorrect patterns toward proven/forward-looking approaches
+
+**Language:**
+
+- Imperative current tense ("MUST do X", "NEVER do Y")
+- No historical/temporary references (e.g., "PR #1234 will remove...")
+- No descriptive framing (e.g., "Use this reference for...", "This section explains...")
+- Start sections with actionable content, not introductions
+
+**Structure:**
+
+- Use "Required" and "Prohibited" section headings
+- MUST/NEVER constraint language throughout
+- Remove checkbox format (agents don't need interactive checklists)
+- Consolidate related constraints into single sections
+- Include code examples showing preferred syntax only
+
+**Examples and references:**
+
+- Label examples with context (e.g., "Simple single-value", "Complex multi-stage")
+- Show WRONG and CORRECT patterns for anti-patterns
+- Use backticks for file paths: `src/path/file.cs` (not markdown links from skills)
+- Point to specific implementations, not categories
+
 ## Skill file structure
 
 ### Front matter
@@ -89,66 +122,28 @@ description: Brief description of skill purpose and capabilities
 
 ### Workflow sections
 
-Structure all skills with these sections in order:
+Structure varies by skill type. Common sections for implementation pattern skills:
 
-1. **Title and introduction** (H1 heading, brief description of purpose)
-2. **When to use this skill** (specific scenarios where skill applies)
-3. **Required tools** (tools needed: MCP, GitHub CLI, etc.)
-4. **Workflow** (numbered sequential steps with substeps)
-5. **Completion criteria or quality standards** (requirements for success)
-6. **Self-healing (for maintenance skills)** (Step 0 before other steps)
-7. **About maintenance** (source of truth, maintenance triggers)
+1. **Title** (H1 heading, no descriptive introduction)
+2. **Required implementation** or **Required patterns** (MUST constraints)
+3. **Prohibited patterns** (NEVER/❌ anti-patterns with consequences)
+4. **Testing constraints** (required test patterns, base classes)
+5. **Examples** (reference implementations with context labels)
+6. **Performance targets** or **Quality standards** (optimization goals)
 
-### Example structure
+For workflow skills (e.g., quality gates, ADR authoring):
 
-```markdown
----
-name: example-skill
-description: Example skill demonstrating Agent Skills specification
----
+1. **Title** (H1 heading)
+2. **Preparation** or **Prerequisites** (setup requirements)
+3. **Workflow** or **Validation sequence** (ordered steps)
+4. **Required gates** or **Completion criteria** (MUST pass checklist)
+5. **Recovery** (failure handling)
 
-# Skill Name
+For maintenance/automation skills:
 
-Brief description of purpose and capabilities.
-
-## When to use this skill
-
-Use this skill when:
-
-- Specific scenario 1
-- Specific scenario 2
-- Specific scenario 3
-
-## Required tools
-
-- #tool:example-tool - Description of what this tool does
-- #tool:another-tool - Description of what this tool does
-
-## Workflow
-
-### Step 1: Initialize
-
-- Gather context
-- Validate prerequisites
-- Set up environment
-
-### Step 2: Execute main task
-
-- Perform primary operations
-- Track progress
-- Handle errors
-
-### Step 3: Validate results
-
-- Check outputs
-- Fix issues
-- Verify success
-
-## Quality standards
-
-- Standard 1
-- Standard 2
-- Standard 3
+1. **Self-healing** (Step 0 verification)
+2. **Workflow** (execution steps)
+3. **About maintenance** (source of truth, triggers)
 
 ## About maintenance of this file
 
@@ -159,7 +154,6 @@ Use this skill when:
 
 ---
 Last updated: YYYY-MM-DD
-```
 
 ## Naming conventions
 

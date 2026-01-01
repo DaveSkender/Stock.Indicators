@@ -1,12 +1,6 @@
-# BufferList interface selection guide
+# Interface selection
 
-Use this reference to select the correct interface for BufferList implementations.
-
-## Interface overview
-
-All BufferList implementations support `IQuote` inputs from the abstract base class. The interface determines what *additional* input types are supported for chainable scenarios.
-
-## Interface decision tree
+## Decision tree
 
 ```text
 Can indicator work with single chainable IReusable values?
@@ -16,14 +10,6 @@ Can indicator work with single chainable IReusable values?
 ```
 
 ## IIncrementFromChain
-
-**Required methods**:
-
-```csharp
-void Add(DateTime timestamp, double value);
-void Add(IReusable value);
-void Add(IReadOnlyList<IReusable> values);
-```
 
 **Critical rules**:
 
@@ -37,18 +23,11 @@ void Add(IReadOnlyList<IReusable> values);
 
 ## IIncrementFromQuote
 
-**Required methods**:
+**Critical rules**:
 
-```csharp
-void Add(IQuote quote);
-void Add(IReadOnlyList<IQuote> quotes);
-```
-
-**When to use**:
-
-- Needs multiple OHLC values in calculation
-- Cannot work with single `Value` property
-- Volume-weighted indicators
+- ✅ Constructor accepts `IReadOnlyList<IQuote>` (standard pattern)
+- ✅ Extension uses `IQuote` constraint only
+- ✅ No chainable `Add(IReusable)` methods
 
 **Examples**: Stochastic, ATR, ADX, VWAP, Chandelier, Aroon
 
@@ -62,34 +41,6 @@ void Add(IReadOnlyList<IQuote> quotes);
 Additional test interface for custom caches:
 
 - `ITestCustomBufferListCache` - When using `List<T>` instead of `Queue<T>`
-
-**Note**: `IIncrementFromPairs` and `ITestPairsBufferList` are being removed in PR #1821 for future reintroduction with improved design.
-
-## Buffer state patterns
-
-**Simple running sum**:
-
-```csharp
-private double _sum;
-private readonly Queue<double> _buffer;
-
-public void Add(DateTime timestamp, double value)
-{
-    double? dequeued = _buffer.UpdateWithDequeue(LookbackPeriods, value);
-    _sum = dequeued.HasValue ? _sum - dequeued.Value + value : _sum + value;
-}
-```
-
-**Tuple-based state**:
-
-```csharp
-private readonly Queue<(double High, double Low, double Close)> _buffer;
-
-public void Add(IQuote quote)
-{
-    _buffer.Update(LookbackPeriods, (quote.High, quote.Low, quote.Close));
-}
-```
 
 ---
 Last updated: December 31, 2025

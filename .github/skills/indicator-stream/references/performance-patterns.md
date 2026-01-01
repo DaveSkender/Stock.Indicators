@@ -1,6 +1,4 @@
-# StreamHub performance patterns
-
-Use this reference to achieve O(1) performance in StreamHub indicators.
+# Performance patterns
 
 ## Performance target
 

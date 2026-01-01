@@ -5,8 +5,6 @@ description: Testing conventions for Stock Indicators. Use for test naming (Meth
 
 # Testing standards
 
-Conventions for unit, regression, and integration testing.
-
 ## Test base class selection
 
 | Style | Base Class | Purpose |
@@ -31,7 +29,9 @@ public void ToRsi_WithInsufficientData_ReturnsEmpty() { }
 public void AddQuote_WithNullInput_ThrowsArgumentNull() { }
 ```
 
-## Required test categories
+## Required test coverage
+
+MUST include these test types:
 
 ### Standard tests
 
@@ -147,9 +147,9 @@ public void MatchesSeries()
 }
 ```
 
-## BufferList required tests
+## BufferList constraints
 
-All BufferList tests must include these 5 base tests:
+MUST implement these 5 base class tests:
 
 1. `AddQuote_IncrementsResults()`
 2. `AddQuotesBatch_IncrementsResults()`
@@ -157,7 +157,7 @@ All BufferList tests must include these 5 base tests:
 4. `Clear_WithState_ResetsState()`
 5. `PruneList_OverMaxListSize_AutoAdjustsListAndBuffers()`
 
-## StreamHub rollback validation
+## StreamHub constraints
 
 All StreamHub tests must validate rollback scenarios:
 

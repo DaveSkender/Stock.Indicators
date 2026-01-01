@@ -5,8 +5,6 @@ description: Benchmark indicator performance with BenchmarkDotNet. Use for Serie
 
 # Performance testing
 
-Benchmark indicator performance using BenchmarkDotNet.
-
 ## Running benchmarks
 
 ```bash
@@ -103,15 +101,15 @@ cp BenchmarkDotNet.Artifacts/results/Performance.*-report-full.json \
    baselines/baseline-v3.0.0.json
 ```
 
-## Optimization checklist
+## Required optimization patterns
 
-- [ ] Minimize allocations in hot paths
-- [ ] Avoid LINQ in performance-critical loops
-- [ ] Use `Span<T>` for zero-copy operations
-- [ ] Cache calculations when possible
-- [ ] Test with realistic data sizes (502 periods)
+- Minimize allocations in hot paths
+- Avoid LINQ in performance-critical loops
+- Use `Span<T>` for zero-copy operations
+- Cache calculations when possible
+- Test with realistic data sizes (502 periods)
 
-## Common pitfalls
+## Prohibited patterns
 
 - Excessive LINQ in hot paths
 - Boxing/unboxing of value types
