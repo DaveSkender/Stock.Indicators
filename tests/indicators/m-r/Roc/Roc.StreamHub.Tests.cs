@@ -10,51 +10,40 @@ public class RocHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
         QuoteHub quoteHub = new();
 
         // prefill quotes at provider
-        for (int i = 0; i < 25; i++)
-        {
-            quoteHub.Add(Quotes[i]);
-        }
+        quoteHub.Add(Quotes.Take(20));
 
         // initialize observer
-        RocHub observer = quoteHub
-            .ToRocHub(20);
+        RocHub observer = quoteHub.ToRocHub(20);
 
         // fetch initial results (early)
-        IReadOnlyList<RocResult> actuals
-            = observer.Results;
+        IReadOnlyList<RocResult> sut = observer.Results;
 
         // emulate adding quotes to provider hub
-        for (int i = 25; i < quotesCount; i++)
+        for (int i = 20; i < quotesCount; i++)
         {
             // skip one (add later)
-            if (i == 80)
-            {
-                continue;
-            }
+            if (i == 80) { continue; }
 
             Quote q = Quotes[i];
             quoteHub.Add(q);
 
             // resend duplicate quotes
-            if (i is > 100 and < 105)
-            {
-                quoteHub.Add(q);
-            }
+            if (i is > 100 and < 105) { quoteHub.Add(q); }
         }
 
-        // late arrival
+        // late arrival, should equal series
         quoteHub.Insert(Quotes[80]);
 
-        // delete
+        IReadOnlyList<RocResult> expectedOriginal = Quotes.ToRoc(20);
+        sut.IsExactly(expectedOriginal);
+
+        // delete, should equal series (revised)
         quoteHub.Remove(Quotes[removeAtIndex]);
+        IReadOnlyList<RocResult> expectedRevised = RevisedQuotes.ToRoc(20);
+        sut.IsExactly(expectedRevised);
+        sut.Should().HaveCount(quotesCount - 1);
 
-        // time-series, for comparison
-        IReadOnlyList<RocResult> expected = RevisedQuotes.ToRoc(20);
-
-        // assert, should equal series
-        actuals.Should().HaveCount(quotesCount - 1);
-        actuals.IsExactly(expected);
-
+        // cleanup
         observer.Unsubscribe();
         quoteHub.EndTransmission();
     }
@@ -65,10 +54,6 @@ public class RocHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
         const int emaPeriods = 12;
         const int rocPeriods = 20;
 
-        List<Quote> quotesList = Quotes.ToList();
-
-        int length = quotesList.Count;
-
         // setup quote provider hub
         QuoteHub quoteHub = new();
 
@@ -78,25 +63,21 @@ public class RocHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
             .ToRocHub(rocPeriods);
 
         // emulate quote stream
-        for (int i = 0; i < length; i++)
-        {
-            quoteHub.Add(quotesList[i]);
-        }
+        for (int i = 0; i < quotesCount; i++) { quoteHub.Add(Quotes[i]); }
 
         // final results
-        IReadOnlyList<RocResult> streamList
-            = observer.Results;
+        IReadOnlyList<RocResult> sut = observer.Results;
 
         // time-series, for comparison
-        IReadOnlyList<RocResult> seriesList
-           = quotesList
+        IReadOnlyList<RocResult> expected = Quotes
             .ToEma(emaPeriods)
             .ToRoc(rocPeriods);
 
         // assert, should equal series
-        streamList.Should().HaveCount(length);
-        streamList.IsExactly(seriesList);
+        sut.IsExactly(expected);
+        sut.Should().HaveCount(quotesCount);
 
+        // cleanup
         observer.Unsubscribe();
         quoteHub.EndTransmission();
     }
@@ -104,8 +85,8 @@ public class RocHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
     [TestMethod]
     public void ChainProvider_MatchesSeriesExactly()
     {
-        const int emaPeriods = 12;
         const int rocPeriods = 20;
+        const int emaPeriods = 12;
 
         // setup quote provider hub
         QuoteHub quoteHub = new();
@@ -115,19 +96,24 @@ public class RocHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
             .ToRocHub(rocPeriods)
             .ToEmaHub(emaPeriods);
 
-        // emulate quote stream
+        // emulate adding quotes to provider hub
         for (int i = 0; i < quotesCount; i++)
         {
-            if (i == 80) { continue; }  // Skip for late arrival
+            // skip one (add later)
+            if (i == 80) { continue; }
 
             Quote q = Quotes[i];
             quoteHub.Add(q);
 
-            if (i is > 100 and < 105) { quoteHub.Add(q); }  // Duplicate quotes
+            // resend duplicate quotes
+            if (i is > 100 and < 105) { quoteHub.Add(q); }
         }
 
-        quoteHub.Insert(Quotes[80]);  // Late arrival
-        quoteHub.Remove(Quotes[removeAtIndex]);  // Remove
+        // late arrival
+        quoteHub.Insert(Quotes[80]);
+
+        // delete
+        quoteHub.Remove(Quotes[removeAtIndex]);
 
         // final results
         IReadOnlyList<EmaResult> sut = observer.Results;
@@ -141,6 +127,7 @@ public class RocHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
         sut.Should().HaveCount(quotesCount - 1);
         sut.IsExactly(expected);
 
+        // cleanup
         observer.Unsubscribe();
         quoteHub.EndTransmission();
     }
@@ -148,12 +135,7 @@ public class RocHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
     [TestMethod]
     public override void ToStringOverride_ReturnsExpectedName()
     {
-        QuoteHub quoteHub = new();
-        RocHub observer = quoteHub.ToRocHub(20);
-
-        observer.ToString().Should().Be("ROC(20)");
-
-        observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        RocHub hub = new(new QuoteHub(), 20);
+        hub.ToString().Should().Be("ROC(20)");
     }
 }

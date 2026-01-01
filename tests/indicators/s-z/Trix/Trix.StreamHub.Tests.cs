@@ -44,6 +44,7 @@ public class TrixHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
         sut.IsExactly(expectedRevised);
         sut.Should().HaveCount(quotesCount - 1);
 
+        // cleanup
         observer.Unsubscribe();
         quoteHub.EndTransmission();
     }
@@ -86,6 +87,7 @@ public class TrixHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
         streamList.Should().HaveCount(length);
         streamList.IsExactly(seriesList);
 
+        // cleanup
         observer.Unsubscribe();
         quoteHub.EndTransmission();
     }

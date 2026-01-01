@@ -52,6 +52,7 @@ public class ObvHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProv
         actuals.Should().HaveCount(quotesCount - 1);
         actuals.IsExactly(expected);
 
+        // cleanup
         observer.Unsubscribe();
         quoteHub.EndTransmission();
     }
@@ -95,6 +96,7 @@ public class ObvHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProv
         sut.Should().HaveCount(quotesCount - 1);
         sut.IsExactly(expected);
 
+        // cleanup
         observer.Unsubscribe();
         quoteHub.EndTransmission();
     }

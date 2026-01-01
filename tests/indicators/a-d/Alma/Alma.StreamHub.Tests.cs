@@ -44,6 +44,7 @@ public class AlmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
         sut.IsExactly(expectedRevised);
         sut.Should().HaveCount(quotesCount - 1);
 
+        // cleanup
         observer.Unsubscribe();
         quoteHub.EndTransmission();
     }
@@ -86,6 +87,7 @@ public class AlmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
         streamList.Should().HaveCount(length);
         streamList.IsExactly(seriesList);
 
+        // cleanup
         observer.Unsubscribe();
         quoteHub.EndTransmission();
     }
@@ -188,6 +190,7 @@ public class AlmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
             streamList.IsExactly(seriesList,
                 $"Results mismatch for parameters: lookback={lookback}, offset={offset}, sigma={sigma}");
 
+            // cleanup
             observer.Unsubscribe();
             quoteHub.EndTransmission();
         }
@@ -219,6 +222,7 @@ public class AlmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
         observer.Results.Should().HaveCount(50);
 
         // Now test with a completely fresh setup after unsubscribing
+        // cleanup
         observer.Unsubscribe();
         quoteHub.EndTransmission();
 

@@ -62,6 +62,7 @@ public class CmoHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
         actuals.Should().HaveCount(quotesCount - 1);
         actuals.IsExactly(expected);
 
+        // cleanup
         observer.Unsubscribe();
         quoteHub.EndTransmission();
     }
@@ -104,6 +105,7 @@ public class CmoHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
         streamList.Should().HaveCount(length);
         streamList.IsExactly(seriesList);
 
+        // cleanup
         observer.Unsubscribe();
         quoteHub.EndTransmission();
     }
@@ -148,6 +150,7 @@ public class CmoHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
         sut.Should().HaveCount(quotesCount - 1);
         sut.IsExactly(expected);
 
+        // cleanup
         observer.Unsubscribe();
         quoteHub.EndTransmission();
     }
@@ -160,6 +163,7 @@ public class CmoHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
 
         observer.ToString().Should().Be("CMO(14)");
 
+        // cleanup
         observer.Unsubscribe();
         quoteHub.EndTransmission();
     }

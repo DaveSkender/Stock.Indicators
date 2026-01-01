@@ -55,6 +55,7 @@ public class CciHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProv
         actuals.Should().HaveCount(quotesCount - 1);
         actuals.IsExactly(expected);
 
+        // cleanup
         observer.Unsubscribe();
         quoteHub.EndTransmission();
     }
@@ -106,6 +107,7 @@ public class CciHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProv
 
         observer.ToString().Should().Be("CCI(20)");
 
+        // cleanup
         observer.Unsubscribe();
         quoteHub.EndTransmission();
     }
