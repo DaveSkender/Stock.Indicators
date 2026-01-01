@@ -133,9 +133,9 @@ quoteHubA.Add(quotesA);
 quoteHubB.Add(quotesB);
 
 // Create correlation hub from two providers
-CorrelationHub correlationHub = quoteHubA.ToCorrelationHub(quoteHubB, lookbackPeriods);
+CorrelationHub observer = quoteHubA.ToCorrelationHub(quoteHubB, lookbackPeriods);
 
-IReadOnlyList<CorrResult> results = correlationHub.Results;
+IReadOnlyList<CorrResult> results = observer.Results;
 ```
 
 > &#9432; **Note**: Correlation requires synchronized dual inputs (series A and series B). Both input series must have matching timestamps and element counts.

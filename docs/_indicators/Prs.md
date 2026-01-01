@@ -126,9 +126,9 @@ quoteHubEval.Add(quotesEval);
 quoteHubBase.Add(quotesBase);
 
 // Create PRS hub from two providers
-PrsHub prsHub = quoteHubEval.ToPrsHub(quoteHubBase, lookbackPeriods);
+PrsHub observer = quoteHubEval.ToPrsHub(quoteHubBase, lookbackPeriods);
 
-IReadOnlyList<PrsResult> results = prsHub.Results;
+IReadOnlyList<PrsResult> results = observer.Results;
 ```
 
 > &#9432; **Note**: Price Relative Strength requires synchronized dual inputs (evaluated asset and base/market). Both input series must have matching timestamps and element counts.
