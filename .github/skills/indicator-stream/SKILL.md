@@ -1,6 +1,6 @@
 ---
 name: indicator-stream
-description: Implement StreamHub real-time indicators with O(1) performance. Use for ChainProvider or QuoteProvider implementations. Covers provider selection, RollbackState patterns, performance anti-patterns, and comprehensive testing with StreamHubTestBase.
+description: Implement StreamHub real-time indicators with O(1) performance. Use for ChainHub or QuoteProvider implementations. Covers provider selection, RollbackState patterns, performance anti-patterns, and comprehensive testing with StreamHubTestBase.
 ---
 
 # StreamHub indicator development
@@ -9,8 +9,8 @@ description: Implement StreamHub real-time indicators with O(1) performance. Use
 
 | Provider Base | Input | Output | Use Case |
 | ------------- | ----- | ------ | -------- |
-| `ChainProvider<IReusable, TResult>` | Single value | IReusable | Chainable indicators |
-| `ChainProvider<IQuote, TResult>` | OHLCV | IReusable | Quote-driven, chainable output |
+| `ChainHub<IReusable, TResult>` | Single value | IReusable | Chainable indicators |
+| `ChainHub<IQuote, TResult>` | OHLCV | IReusable | Quote-driven, chainable output |
 | `QuoteProvider<IQuote, TResult>` | OHLCV | IQuote | Quote-to-quote transformation |
 
 ## Performance requirements
@@ -69,7 +69,7 @@ protected override void RollbackState(DateTime timestamp)
 ## Required implementation
 
 - [ ] Source code: `src/**/{IndicatorName}.StreamHub.cs` file exists
-  - [ ] Uses appropriate provider base (`ChainProvider` or `QuoteProvider`)
+  - [ ] Uses appropriate provider base (`ChainHub` or `QuoteProvider`)
   - [ ] Validates parameters in constructor; calls `Reinitialize()` as needed
   - [ ] Implements O(1) state updates; avoids O(n²) recalculation
   - [ ] Overrides `RollbackState()` when maintaining stateful fields

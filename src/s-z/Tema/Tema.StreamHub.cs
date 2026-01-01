@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 /// Provides methods for calculating the Triple Exponential Moving Average (TEMA) indicator.
 /// </summary>
 public class TemaHub
-    : ChainProvider<IReusable, TemaResult>, ITema
+    : ChainHub<IReusable, TemaResult>, ITema
 {
     private double lastEma1 = double.NaN;
     private double lastEma2 = double.NaN;

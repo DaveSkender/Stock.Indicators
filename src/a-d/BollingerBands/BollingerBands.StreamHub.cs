@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 /// Provides methods for creating Bollinger Bands hubs.
 /// </summary>
 public class BollingerBandsHub
-    : ChainProvider<IReusable, BollingerBandsResult>, IBollingerBands
+    : ChainHub<IReusable, BollingerBandsResult>, IBollingerBands
 {
     internal BollingerBandsHub(
         IChainProvider<IReusable> provider,

@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 /// Provides streaming calculation of the Hurst Exponent indicator.
 /// </summary>
 public class HurstHub
-    : ChainProvider<IReusable, HurstResult>, IHurst
+    : ChainHub<IReusable, HurstResult>, IHurst
 {
     private readonly Queue<double> _buffer;
 

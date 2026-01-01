@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 /// Represents a Stochastic RSI stream hub that calculates Stochastic oscillator on RSI values.
 /// </summary>
 public sealed class StochRsiHub
-    : ChainProvider<IReusable, StochRsiResult>
+    : ChainHub<IReusable, StochRsiResult>
 {
     /// <summary>
     /// Internal RSI hub for incremental RSI calculation

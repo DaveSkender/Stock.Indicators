@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Streaming hub for Volume Weighted Average Price (VWAP).
 /// </summary>
-public class VwapHub : ChainProvider<IQuote, VwapResult>
+public class VwapHub : ChainHub<IQuote, VwapResult>
 {
     private readonly bool _autoAnchor;
     private double _cumVolume;

@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 /// Streaming hub for PVO (Percentage Volume Oscillator).
 /// </summary>
 public class PvoHub
-    : ChainProvider<IReusable, PvoResult>, IPvo
+    : ChainHub<IReusable, PvoResult>, IPvo
 {
     private double _prevFastEma = double.NaN;
     private double _prevSlowEma = double.NaN;

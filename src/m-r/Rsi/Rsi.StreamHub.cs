@@ -9,7 +9,7 @@ namespace Skender.Stock.Indicators;
 /// for normal streaming while allowing O(n) rebuild when needed.
 /// </remarks>
 public class RsiHub
-    : ChainProvider<IReusable, RsiResult>, IRsi
+    : ChainHub<IReusable, RsiResult>, IRsi
 {
     private double _avgGain = double.NaN;
     private double _avgLoss = double.NaN;

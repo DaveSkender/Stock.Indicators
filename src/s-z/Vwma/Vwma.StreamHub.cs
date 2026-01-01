@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 /// Provides methods for creating VWMA hubs.
 /// </summary>
 public class VwmaHub
-    : ChainProvider<IReusable, VwmaResult>, IVwma
+    : ChainHub<IReusable, VwmaResult>, IVwma
 {
     internal VwmaHub(
         IQuoteProvider<IQuote> provider,

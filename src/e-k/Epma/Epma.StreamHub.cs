@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 /// Streaming hub for Endpoint Moving Average (EPMA)
 /// </summary>
 public class EpmaHub
-    : ChainProvider<IReusable, EpmaResult>, IEpma
+    : ChainHub<IReusable, EpmaResult>, IEpma
 {
     internal EpmaHub(
         IChainProvider<IReusable> provider,

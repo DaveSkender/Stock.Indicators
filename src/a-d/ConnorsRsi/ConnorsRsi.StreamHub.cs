@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 /// Streaming hub for Connors RSI indicator in a streaming context.
 /// </summary>
 public class ConnorsRsiHub
-    : ChainProvider<IReusable, ConnorsRsiResult>, IConnorsRsi
+    : ChainHub<IReusable, ConnorsRsiResult>, IConnorsRsi
 {
     private readonly RsiHub rsiHub;
     private readonly List<double> streakBuffer;

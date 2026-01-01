@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 /// Streaming hub for Average Directional Index (ADX).
 /// </summary>
 public class AdxHub
-    : ChainProvider<IQuote, AdxResult>, IAdx
+    : ChainHub<IQuote, AdxResult>, IAdx
 {
     internal AdxHub(
         IQuoteProvider<IQuote> quoteProvider,

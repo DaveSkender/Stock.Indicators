@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 /// Provides methods for calculating the Smoothed Moving Average (SMMA) indicator.
 /// </summary>
 public class SmmaHub
-    : ChainProvider<IReusable, SmmaResult>, ISmma
+    : ChainHub<IReusable, SmmaResult>, ISmma
 {
     internal SmmaHub(
         IChainProvider<IReusable> provider,

@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 /// Provides methods for calculating the True Strength Index (TSI) indicator.
 /// </summary>
 public class TsiHub
-    : ChainProvider<IReusable, TsiResult>, ITsi
+    : ChainHub<IReusable, TsiResult>, ITsi
 {
     private readonly double mult1;  // smoothing constant for first EMA (lookbackPeriods)
     private readonly double mult2;  // smoothing constant for second EMA (smoothPeriods)

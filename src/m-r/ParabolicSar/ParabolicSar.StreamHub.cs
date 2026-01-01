@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 /// Streaming hub for Parabolic SAR.
 /// </summary>
 public class ParabolicSarHub
-    : ChainProvider<IQuote, ParabolicSarResult>, IParabolicSar
+    : ChainHub<IQuote, ParabolicSarResult>, IParabolicSar
 {
     private readonly Queue<(double High, double Low)> _buffer;
 

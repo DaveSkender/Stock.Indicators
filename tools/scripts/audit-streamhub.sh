@@ -132,7 +132,7 @@ for test_file in "${test_files[@]}"; do
 
         if [[ $has_chain_provider -eq 1 ]]; then
             if ! grep -q "ChainProvider_MatchesSeriesExactly" "$test_file"; then
-                test_method_issues_list+=("$indicator_name: Missing ChainProvider test method")
+                test_method_issues_list+=("$indicator_name: Missing ChainHub test method")
                 test_method_issues=$((test_method_issues + 1))
             fi
         fi
@@ -182,7 +182,7 @@ for test_file in "${test_files[@]}"; do
             fi
         fi
 
-        # Check ChainProvider method for provider history testing
+        # Check ChainHub method for provider history testing
         has_chain_provider_method=$(grep -c "ChainProvider_MatchesSeriesExactly" "$test_file" || true)
 
         if [[ $has_chain_provider_method -gt 0 ]]; then
@@ -190,7 +190,7 @@ for test_file in "${test_files[@]}"; do
             has_remove=$(grep -A 50 "ChainProvider_MatchesSeriesExactly" "$test_file" | grep -c "\.Remove(" || true)
 
             if [[ $has_insert -eq 0 ]] || [[ $has_remove -eq 0 ]]; then
-                provider_history_issues+=("$indicator_name: ChainProvider test missing Insert/Remove operations")
+                provider_history_issues+=("$indicator_name: ChainHub test missing Insert/Remove operations")
                 provider_history_missing=$((provider_history_missing + 1))
             fi
         fi

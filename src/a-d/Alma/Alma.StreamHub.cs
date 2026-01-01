@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 /// Streaming hub for Arnaud Legoux Moving Average (ALMA).
 /// </summary>
 public class AlmaHub
-    : ChainProvider<IReusable, AlmaResult>, IAlma
+    : ChainHub<IReusable, AlmaResult>, IAlma
 {
     private readonly double[] weights;
     private readonly double normalizationFactor;

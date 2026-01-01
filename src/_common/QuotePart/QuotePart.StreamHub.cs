@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 /// Streaming hub for managing quote parts.
 /// </summary>
 public class QuotePartHub
-    : ChainProvider<IQuote, QuotePart>, IQuotePart
+    : ChainHub<IQuote, QuotePart>, IQuotePart
 {
     internal QuotePartHub(
         IQuoteProvider<IQuote> provider,

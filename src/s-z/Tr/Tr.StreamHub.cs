@@ -2,7 +2,7 @@ namespace Skender.Stock.Indicators;
 
 /// <inheritdoc />
 public class TrHub
-    : ChainProvider<IQuote, TrResult>
+    : ChainHub<IQuote, TrResult>
 {
     internal TrHub(IQuoteProvider<IQuote> provider)
         : base(provider)

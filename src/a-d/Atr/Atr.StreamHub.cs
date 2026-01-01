@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 /// Provides functionality to calculate the Average True Range (ATR) for a series of quotes.
 /// </summary>
 public class AtrHub
-    : ChainProvider<IQuote, AtrResult>, IAtr
+    : ChainHub<IQuote, AtrResult>, IAtr
 {
     internal AtrHub(IQuoteProvider<IQuote> provider,
         int lookbackPeriods)

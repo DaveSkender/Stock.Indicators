@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 /// Streaming hub for Kaufman's Adaptive Moving Average (KAMA).
 /// </summary>
 public class KamaHub
-    : ChainProvider<IReusable, KamaResult>, IKama
+    : ChainHub<IReusable, KamaResult>, IKama
 {
     private readonly double _scFast;
     private readonly double _scSlow;

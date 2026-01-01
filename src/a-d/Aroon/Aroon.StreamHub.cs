@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 /// Represents a hub for Aroon Oscillator calculations.
 /// </summary>
 public class AroonHub
-    : ChainProvider<IQuote, AroonResult>, IAroon
+    : ChainHub<IQuote, AroonResult>, IAroon
 {
     internal AroonHub(
         IQuoteProvider<IQuote> provider,

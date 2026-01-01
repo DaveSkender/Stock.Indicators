@@ -9,7 +9,7 @@ namespace Skender.Stock.Indicators;
 /// This matches the Series implementation's behavior.
 /// </remarks>
 public class SlopeHub
-    : ChainProvider<IReusable, SlopeResult>, ISlope
+    : ChainHub<IReusable, SlopeResult>, ISlope
 {
     private readonly Queue<double> buffer;
 

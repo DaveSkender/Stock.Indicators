@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 /// Provides methods for calculating the T3 Moving Average indicator.
 /// </summary>
 public class T3Hub
-    : ChainProvider<IReusable, T3Result>, IT3
+    : ChainHub<IReusable, T3Result>, IT3
 {
     private double lastEma1 = double.NaN;
     private double lastEma2 = double.NaN;
