@@ -13,7 +13,7 @@ public class T3HubTests : StreamHubTestBase, ITestChainObserver, ITestChainProvi
         QuoteHub quoteHub = new();
 
         // prefill quotes at provider
-        quoteHub.Add(Quotes.Take(50));
+        quoteHub.Add(Quotes.Take(20));
 
         // initialize observer
         T3Hub observer = quoteHub.ToT3Hub(lookbackPeriods, volumeFactor);
@@ -22,7 +22,7 @@ public class T3HubTests : StreamHubTestBase, ITestChainObserver, ITestChainProvi
         IReadOnlyList<T3Result> sut = observer.Results;
 
         // emulate adding quotes to provider hub
-        for (int i = 50; i < quotesCount; i++)
+        for (int i = 20; i < quotesCount; i++)
         {
             // skip one (add later)
             if (i == 80) { continue; }
@@ -42,11 +42,11 @@ public class T3HubTests : StreamHubTestBase, ITestChainObserver, ITestChainProvi
 
         // delete, should equal series (revised)
         quoteHub.Remove(Quotes[removeAtIndex]);
-
         IReadOnlyList<T3Result> expectedRevised = RevisedQuotes.ToT3(lookbackPeriods, volumeFactor);
         sut.IsExactly(expectedRevised);
         sut.Should().HaveCount(quotesCount - 1);
 
+        // cleanup
         observer.Unsubscribe();
         quoteHub.EndTransmission();
     }
@@ -54,37 +54,34 @@ public class T3HubTests : StreamHubTestBase, ITestChainObserver, ITestChainProvi
     [TestMethod]
     public void ChainObserver_ChainedProvider_MatchesSeriesExactly()
     {
+        const int smaPeriods = 10;
         const int t3Periods = 5;
         const double volumeFactor = 0.7;
-        const int smaPeriods = 10;
-        int length = Quotes.Count;
 
         // setup quote provider hub
         QuoteHub quoteHub = new();
 
-        // initialize observer - chain SMA to T3
+        // initialize observer
         T3Hub observer = quoteHub
             .ToSmaHub(smaPeriods)
             .ToT3Hub(t3Periods, volumeFactor);
 
         // emulate quote stream
-        for (int i = 0; i < length; i++)
-        {
-            quoteHub.Add(Quotes[i]);
-        }
+        for (int i = 0; i < quotesCount; i++) { quoteHub.Add(Quotes[i]); }
 
         // final results
-        IReadOnlyList<T3Result> streamList = observer.Results;
+        IReadOnlyList<T3Result> sut = observer.Results;
 
         // time-series, for comparison
-        IReadOnlyList<T3Result> seriesList = Quotes
+        IReadOnlyList<T3Result> expected = Quotes
             .ToSma(smaPeriods)
             .ToT3(t3Periods, volumeFactor);
 
         // assert, should equal series
-        streamList.Should().HaveCount(length);
-        streamList.IsExactly(seriesList);
+        sut.IsExactly(expected);
+        sut.Should().HaveCount(quotesCount);
 
+        // cleanup
         observer.Unsubscribe();
         quoteHub.EndTransmission();
     }
@@ -104,19 +101,24 @@ public class T3HubTests : StreamHubTestBase, ITestChainObserver, ITestChainProvi
             .ToT3Hub(t3Periods, volumeFactor)
             .ToSmaHub(smaPeriods);
 
-        // emulate quote stream
+        // emulate adding quotes to provider hub
         for (int i = 0; i < quotesCount; i++)
         {
-            if (i == 80) { continue; }  // Skip for late arrival
+            // skip one (add later)
+            if (i == 80) { continue; }
 
             Quote q = Quotes[i];
             quoteHub.Add(q);
 
-            if (i is > 100 and < 105) { quoteHub.Add(q); }  // Duplicate quotes
+            // resend duplicate quotes
+            if (i is > 100 and < 105) { quoteHub.Add(q); }
         }
 
-        quoteHub.Insert(Quotes[80]);  // Late arrival
-        quoteHub.Remove(Quotes[removeAtIndex]);  // Remove
+        // late arrival
+        quoteHub.Insert(Quotes[80]);
+
+        // delete
+        quoteHub.Remove(Quotes[removeAtIndex]);
 
         // final results
         IReadOnlyList<SmaResult> sut = observer.Results;
@@ -127,9 +129,10 @@ public class T3HubTests : StreamHubTestBase, ITestChainObserver, ITestChainProvi
             .ToSma(smaPeriods);
 
         // assert, should equal series
+        sut.Should().HaveCount(quotesCount - 1);
         sut.IsExactly(expected);
-        sut.Should().HaveCount(501);
 
+        // cleanup
         observer.Unsubscribe();
         quoteHub.EndTransmission();
     }
