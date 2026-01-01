@@ -28,17 +28,7 @@ All indicators MUST be mathematically correct, deterministic, and reproducible a
 
 `docs/_indicators/*.md` SHOULD link to creator's original publication and reputable secondary sources.
 
-**NaN handling:**
-
-Use non-nullable `double` with IEEE 754 NaN propagation:
-
-- **Internal calculations**: Use `double.NaN` to represent undefined/incalculable values; allow natural propagation through operations
-- **Division by zero**: MUST guard variable denominators with ternary checks (e.g., `denom != 0 ? num / denom : double.NaN`) to prevent Infinity; choose appropriate fallback (NaN, 0, or null) based on mathematical meaning
-- **Result boundaries**: Convert NaN to `null` via `.NaN2Null()` ONLY when returning final results to users
-- **Input validation**: Never reject NaN inputs; allow them to flow through calculations naturally
-- **State initialization**: Use `double.NaN` for uninitialized state (not 0 or -1)
-
-See [`src/_common/README.md#nan-handling-policy`](../src/_common/README.md#nan-handling-policy).
+**NaN handling**: Use non-nullable `double` with IEEE 754 NaN propagation. See [AGENTS.md NaN handling policy](../AGENTS.md#nan-handling-policy) for implementation guidelines.
 
 **Reputation criteria** ([#1024](https://github.com/DaveSkender/Stock.Indicators/discussions/1024)):
 
@@ -99,25 +89,6 @@ Source: [Discussion #648](https://github.com/DaveSkender/Stock.Indicators/discus
 - **Simplicity**: Decline features diluting core purpose
 - **Community**: Reviewable, traceable, standards-aligned; fast bug/security resolution
 
-## Additional constraints
-
-### Performance & compatibility
-
-- Targets: net10.0, net9.0, net8.0 (all build & pass tests)
-- Complexity: Single-pass O(n) (justify exceptions in PR)
-- Warmup: Provide deterministic `WarmupPeriod` helper or documented rule
-- Precision: `double` for speed; `decimal` only when rounding affects financial correctness (>0.5 tick at 4 decimals)
-- Allocation: Result list + minimal buffers; no per-step `List<T>` or LINQ in loops
-- Thread safety: Stateless calcs thread-safe; streaming hubs isolate instance state (no static mutable fields)
-- Backward compatibility: Renaming public members or altering defaults requires MAJOR version bump
-
-### Error conventions
-
-- `ArgumentOutOfRangeException` for invalid numeric ranges
-- `ArgumentException` for semantic misuse
-- Never swallow exceptions; wrap only to add context
-- Messages include parameter name and offending value
-
 ## Pull request requirements
 
 - Title: Conventional Commits format; link spec/issue
@@ -126,12 +97,7 @@ Source: [Discussion #648](https://github.com/DaveSkender/Stock.Indicators/discus
 - Performance changes: benchmark delta summary (mean, alloc)
 - Streaming indicators: prove batch vs streaming parity in tests
 
-## Quality gates
-
-- Build: zero warnings
-- Tests: all pass; new tests cover modified logic
-- Performance: no increase >2% mean for unchanged indicators
-- Docs: updated for behavior changes
+Quality gates are enforced via `.github/skills/quality-gates/SKILL.md` - agents execute all gates before yielding.
 
 ## Governance
 

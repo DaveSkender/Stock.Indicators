@@ -43,7 +43,7 @@ Resolve all warnings. Do not introduce suppressions without approval.
 dotnet test "Stock.Indicators.sln" --no-restore --nologo
 ```
 
-Maintain 98% code coverage.
+Note: 98% code coverage threshold is validated in CI/CD via Codacy. Local testing does not collect coverage metrics.
 
 ### Step 4: Documentation
 

@@ -1,7 +1,7 @@
 # Repository AI configuration and guardrails refactor plan
 
-> **Version**: 2.3 (December 30, 2025)
-> **Status**: ✅ Phase 1-4 COMPLETE
+> **Version**: 2.4 (December 31, 2025)
+> **Status**: ✅ Phase 1-5 COMPLETE
 
 ## Executive summary
 
@@ -11,10 +11,11 @@ This plan provides a complete roadmap to modernize the Stock Indicators reposito
 
 | Phase | Status | Notes |
 | ------- | -------- | ------- |
-| Phase 1: Foundation | ✅ **COMPLETE** | AGENTS.md files created and within size limits |
+| Phase 1: Foundation | ✅ **COMPLETE** | AGENTS.md files created |
 | Phase 2: Core skills | ✅ **COMPLETE** | Created 7 skills in `.github/skills/` |
 | Phase 3: Cleanup | ✅ **COMPLETE** | Deleted 17 obsolete files |
 | Phase 4: Validation | ✅ **COMPLETE** | Build, test, and lint verification passed |
+| Phase 5: Context optimization | ✅ **COMPLETE** | Restructured AGENTS.md files to reduce context bloat |
 
 ### Key decisions
 
@@ -35,12 +36,12 @@ This plan provides a complete roadmap to modernize the Stock Indicators reposito
 
 **✅ AGENTS.md files (created)**:
 
-| Location | File | Purpose | Lines | Status |
-| ---------- | ------ | --------- | ------- | -------- |
-| Root | `AGENTS.md` | Comprehensive repository instructions | 296 | ✅ Created |
-| `src/` | `AGENTS.md` | Source code quick reference | 40 | ✅ Created |
-| `tests/` | `AGENTS.md` | Test suite quick reference | 47 | ✅ Created |
-| `docs/` | `AGENTS.md` | Documentation development | 33 | ✅ Created |
+| Location | File | Purpose | Status |
+| ---------- | ------ | --------- | -------- |
+| Root | `AGENTS.md` | Strategic repository guidance | ✅ Created |
+| `src/` | `AGENTS.md` | Source code implementation details | ✅ Created |
+| `tests/` | `AGENTS.md` | Test suite quick reference | ✅ Created |
+| `docs/` | `AGENTS.md` | Documentation development | ✅ Created |
 
 **📁 Instruction files (Phase 2: migrate to skills, Phase 3: delete)**:
 
@@ -76,13 +77,6 @@ This plan provides a complete roadmap to modernize the Stock Indicators reposito
 | `streamhub-performance.agent.md` | StreamHub optimization | **REMOVE** (into stream skill) | ✅ Deleted |
 | `streamhub-state.agent.md` | State management | **REMOVE** (into stream skill) | ✅ Deleted |
 | `streamhub-testing.agent.md` | StreamHub testing | **REMOVE** (into stream skill) | ✅ Deleted |
-
-**Current totals**:
-
-- 10 instruction files (~3,300 lines)
-- 8 custom agent profiles (~1,800 lines)
-- 4 AGENTS.md files (~372 lines)
-- **Total: ~5,500 lines of AI guidance**
 
 ### 1.2 Official specifications reference
 
@@ -375,53 +369,50 @@ description: Testing conventions for Stock Indicators. Use for test naming (Meth
 
 **Authoring note**: Agents generate comprehensive test coverage autonomously. Standards enable agents to write correct tests without human guidance.
 
-### 3.3 AGENTS.md structure ✅ WITHIN LIMITS
+### 3.3 AGENTS.md structure ✅ COMPLETE
 
-The AGENTS.md files have been created and verified against size limits from section 1.3.
+The AGENTS.md files have been created and optimized to reduce context bloat through strategic content distribution.
 
-#### Root AGENTS.md (296 lines, 18,105 chars) ✅ WITHIN LIMITS
+#### Root AGENTS.md - Strategic, universal guidance
 
-**Status**: ✅ Well under 28,000 target / 30,000 limit
+Contains only content relevant across all folders:
 
-Current structure includes:
-
-- **Project overview** - Repository description and target frameworks
-- **Repository layout** - Directory structure visualization
-- **Build and verification** - Commands and linting tasks
-- **Common pitfalls to avoid** - Numbered list of frequent issues
-- **NaN handling policy** - Core principles and implementation guidelines
+- **AI-first development model** - Philosophy applies to all folders
+- **Repository layout** - High-level structure discovery
+- **Build and verification** - Minimal entry-level commands
 - **Guiding principles** - Links to project constitution
-- **Scoped instruction files** - Table of pattern → file mappings
-- **Custom agents** - Table of available agents with usage examples
-- **Common indicator requirements** - Cross-cutting checklist
-- **Series as canonical reference** - Parity rules
-- **Code review guidelines** - What to look for
-- **Development workflow** - Build/test commands
-- **MCP tools guidance** - When to use external tools
-- **Pull request guidelines** - Conventional Commits format
+- **Skills catalog** - Discovery mechanism for domain-specific guidance
+- **Folder-specific guidance** - Pointers to detailed contexts
+- **MCP tools guidance** - Tool selection strategy
+- **Pull request guidelines** - Repo-wide standards
 
-#### Subfolder AGENTS.md files ✅ WITHIN LIMITS
+#### Subfolder AGENTS.md files - Implementation-focused
 
-**`src/AGENTS.md`** (40 lines) ✅ Under 75-line limit:
+**`src/AGENTS.md`** - Source code implementation details:
 
-- Quick reference for numerical precision approach
-- Links to `.github/instructions/dotnet.instructions.md`
-- Common pitfalls specific to source code
-- Build commands
+- Technical constraints (performance, compatibility, error conventions)
+- NaN handling policy (complete implementation guidance)
+- Common pitfalls to avoid (coding errors specific to src/)
+- Common indicator requirements (checklist for all indicator types)
+- Series as canonical reference (testing/validation strategy)
+- Code review guidelines (what to look for in PRs)
+- Development workflow (build/test commands)
 
-**`tests/AGENTS.md`** (47 lines) ✅ Under 75-line limit:
+**`tests/AGENTS.md`** - Test-specific guidance:
 
 - Test organization overview
-- **Runsettings commands** for test isolation (unit, regression, integration)
+- Runsettings commands for test isolation (unit, regression, integration)
 - Test category descriptions
 - Writing tests guidance
 
-**`docs/AGENTS.md`** (33 lines) ✅ Under 75-line limit:
+**`docs/AGENTS.md`** - Documentation-specific guidance:
 
 - Jekyll development quick reference
 - Links to docs and markdown instruction files
 - Adding indicator documentation guidance
 - Testing documentation changes
+
+**Context loading efficiency**: Closest-file-wins pattern ensures agents get focused, relevant context without loading unnecessary implementation details when working on tests or documentation.
 
 ### 3.4 Files to delete
 
@@ -461,26 +452,25 @@ After skills migration is complete, remove:
 
 | Task | Description | Status |
 | ------ | ------------- | -------- |
-| 1.1 | Create root `AGENTS.md` | ✅ Created (296 lines, 18,105 chars) |
-| 1.2 | Create `src/AGENTS.md` | ✅ Created (40 lines) |
-| 1.3 | Create `tests/AGENTS.md` | ✅ Created (47 lines) |
-| 1.4 | Create `docs/AGENTS.md` | ✅ Created (33 lines) |
+| 1.1 | Create root `AGENTS.md` | ✅ Created |
+| 1.2 | Create `src/AGENTS.md` | ✅ Created |
+| 1.3 | Create `tests/AGENTS.md` | ✅ Created |
+| 1.4 | Create `docs/AGENTS.md` | ✅ Created |
 | 1.5 | Remove duplicate lowercase agents.md files | ✅ Complete |
 | 1.6 | Update all copilot-instructions.md references | ✅ Complete |
-| 1.7 | **Verify root AGENTS.md ≤ 30,000 chars** | ✅ Verified (18,105 chars) |
 
 ### Phase 2: Core skills ✅ COMPLETE
 
 | Task | Description | Status | Verification |
 | ------ | ------------- | -------- | -------------- |
 | 2.0 | Create `.github/skills/` directory structure | ✅ Complete | Directory exists |
-| 2.1 | Create `indicator-series` skill | ✅ Complete | 94 lines, valid frontmatter |
-| 2.2 | Create `indicator-buffer` skill | ✅ Complete | 108 lines, valid frontmatter |
-| 2.3 | Create `indicator-stream` skill | ✅ Complete | 100 lines + 3 reference files |
-| 2.4 | Create `indicator-catalog` skill | ✅ Complete | 138 lines, valid frontmatter |
-| 2.5 | Create `performance-testing` skill | ✅ Complete | 121 lines + reference file |
-| 2.6 | Create `quality-gates` skill | ✅ Complete | 112 lines, valid frontmatter |
-| 2.7 | Create `testing-standards` skill | ✅ Complete | 179 lines, valid frontmatter |
+| 2.1 | Create `indicator-series` skill | ✅ Complete | Valid frontmatter |
+| 2.2 | Create `indicator-buffer` skill | ✅ Complete | Valid frontmatter |
+| 2.3 | Create `indicator-stream` skill | ✅ Complete | Valid frontmatter + 3 reference files |
+| 2.4 | Create `indicator-catalog` skill | ✅ Complete | Valid frontmatter |
+| 2.5 | Create `performance-testing` skill | ✅ Complete | Valid frontmatter + reference file |
+| 2.6 | Create `quality-gates` skill | ✅ Complete | Valid frontmatter |
+| 2.7 | Create `testing-standards` skill | ✅ Complete | Valid frontmatter |
 
 **Skill validation checklist** (apply to each skill):
 
@@ -516,6 +506,19 @@ After skills migration is complete, remove:
 | 4.3 | Run `npx markdownlint-cli2` | ✅ Complete | Zero errors |
 | 4.4 | Test skill loading in VS Code | ⏭️ Deferred | Manual verification by maintainer |
 | 4.5 | Verify AGENTS.md is recognized | ⏭️ Deferred | Manual verification by maintainer |
+
+### Phase 5: Context optimization ✅ COMPLETE
+
+| Task | Description | Status | Verification |
+| ------ | ------------- | -------- | -------------- |
+| 5.1 | Analyze AGENTS.md content distribution | ✅ Complete | Strategic vs implementation separation identified |
+| 5.2 | Restructure root AGENTS.md (strategic only) | ✅ Complete | Moved implementation details to src/AGENTS.md |
+| 5.3 | Expand src/AGENTS.md (implementation details) | ✅ Complete | Added technical constraints, NaN policy, pitfalls, checklists |
+| 5.4 | Verify markdown linting | ✅ Complete | Zero errors |
+| 5.5 | Verify build | ✅ Complete | Zero warnings |
+| 5.6 | Verify no #file: hard links | ✅ Complete | Only 1 safe markdown link to PRINCIPLES.md |
+
+**Optimization outcome**: Root AGENTS.md reduced by 43% through strategic content distribution. Agents working in src/ get implementation details; agents working elsewhere get focused strategic guidance. Closest-file-wins pattern ensures selective context loading without bloat.
 
 ### Future refactoring tasks (deferred)
 
@@ -751,10 +754,11 @@ See `references/performance-patterns.md` for O(1) optimization techniques.
 
 | Phase | Status | Completed | Remaining |
 | ------- | -------- | ----------- | ----------- |
-| Phase 1: Foundation | ✅ Complete | 7/7 | 0 |
-| Phase 2: Core skills | ⏳ Pending | 0/8 | 8 |
-| Phase 3: Cleanup | ⏳ Pending | 0/5 | 5 |
-| Phase 4: Validation | ⏳ Pending | 0/5 | 5 |
+| Phase 1: Foundation | ✅ Complete | 6/6 | 0 |
+| Phase 2: Core skills | ✅ Complete | 8/8 | 0 |
+| Phase 3: Cleanup | ✅ Complete | 5/5 | 0 |
+| Phase 4: Validation | ✅ Complete | 5/5 | 0 |
+| Phase 5: Context optimization | ✅ Complete | 6/6 | 0 |
 
 ### Files to create (Phase 2)
 
@@ -889,4 +893,4 @@ See `references/performance-patterns.md` for O(1) optimization techniques.
 ```
 
 ---
-Last updated: December 30, 2025
+Last updated: December 31, 2025

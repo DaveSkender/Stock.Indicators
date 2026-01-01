@@ -63,6 +63,8 @@ Additional test interface for custom caches:
 
 - `ITestCustomBufferListCache` - When using `List<T>` instead of `Queue<T>`
 
+**Note**: `IIncrementFromPairs` and `ITestPairsBufferList` are being removed in PR #1821 for future reintroduction with improved design.
+
 ## Buffer state patterns
 
 **Simple running sum**:

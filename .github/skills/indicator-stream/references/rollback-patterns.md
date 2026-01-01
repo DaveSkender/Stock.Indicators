@@ -128,7 +128,7 @@ private double _prevEma = double.NaN;
 protected override void RollbackState(DateTime timestamp)
 {
     int index = ProviderCache.IndexGte(timestamp);
-    if (index <= 1)
+    if (index <= 0)
     {
         _prevEma = double.NaN;
         return;

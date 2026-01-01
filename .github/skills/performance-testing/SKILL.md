@@ -62,6 +62,8 @@ public IReadOnlyList<MyResult> MyIndicatorStream() => quoteHub.ToMyIndicator(14)
 
 ## Performance targets
 
+**Note**: These are optimization goals for future v3.1+ effort. Current implementations vary—see `baselines/PERFORMANCE_REVIEW.md` for actual measured performance. Some indicator families (e.g., EMA) have inherent framework overhead due to simple operation costs.
+
 | Style | Target vs Series | Use Case |
 | ----- | ---------------- | -------- |
 | Series | Baseline | Batch processing |
@@ -69,6 +71,8 @@ public IReadOnlyList<MyResult> MyIndicatorStream() => quoteHub.ToMyIndicator(14)
 | StreamHub | ≤ 1.5x | Real-time feeds |
 
 ## Expected execution times (502 periods)
+
+**Note**: These are optimization targets. Actual execution times vary by indicator complexity and current implementation.
 
 | Complexity | Time | Examples |
 | ---------- | ---- | -------- |

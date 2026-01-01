@@ -81,79 +81,15 @@ VS Code tasks are organized for speed vs. completeness:
 
 Individual tools available: `Lint: .NET format`, `Lint: .NET Roslynator (analyze)`, `Lint: Markdown` and their `(fix)` variants.
 
-## Common pitfalls to avoid
-
-1. **Off-by-one windows** when calculating lookback or warmup periods.
-2. **Null or empty quotes** causing stateful streaming regressions—always validate input sequences.
-3. **Precision loss** in chained calculations. Favor `double` for performance, switching to `decimal` only when business accuracy demands it.
-4. **Index out of range** and buffer reuse issues in streaming indicators—guard shared spans and caches.
-5. **Performance regressions** from unnecessary allocations or LINQ. Prefer span-friendly loops and avoid boxing.
-6. **Documentation drift** between code comments, XML docs, and the published docs site.
-7. **Improper NaN handling** - Do not reject NaN inputs; however, always guard against division by zero when denominators can be zero. See NaN handling policy below.
-
-## NaN handling policy
-
-This library uses non-nullable `double` types internally for performance, with intentional NaN propagation through calculations:
-
-### Core principles
-
-1. **Natural propagation** - NaN values propagate naturally through calculations (any operation with NaN produces NaN)
-2. **Internal representation** - Use `double.NaN` internally when a value cannot be calculated
-3. **External representation** - Convert NaN to `null` (via `.NaN2Null()`) **only at the final result boundary** when returning to users
-4. **No rejection** - Never reject NaN inputs with validation; allow them to flow through the system
-5. **Performance first** - Non-nullable `double` provides significant performance gains over `double?`
-
-### Implementation guidelines
-
-- **Division by zero** - MUST guard variable denominators with ternary checks (e.g., `denom != 0 ? num / denom : double.NaN`); choose fallback (NaN, 0, null) based on mathematical meaning
-- **No epsilon comparisons** - NEVER use epsilon values (e.g., `1e-8`, `1e-9`) for zero checks in division guards. Use exact zero comparison (`!= 0` or `== 0`). Epsilon comparisons assume floating-point precision issues that don't exist in our calculations and cause incorrect results by treating near-zero values as zero.
-- **NaN propagation** - Accept NaN inputs and allow natural propagation through calculations; never reject or filter NaN values
-- **RollingWindow utilities** - Accept NaN values and return NaN for Min/Max when NaN is present in the window
-- **Quote validation** - Only validate for null/missing quotes, not for NaN values in quote properties (High/Low/Close/etc.)
-- **State initialization** - Use `double.NaN` to represent uninitialized state instead of sentinel values like `0` or `-1`
-
-### Rationale
-
-This approach aligns with **Constitution §1: Mathematical Precision** and **Constitution §2: Performance First**:
-
-- Maintains numerical correctness (NaN is mathematically correct for undefined values)
-- Prevents silent data corruption from substituting invalid placeholders
-- Follows established IEEE 754 standard
-- Achieves performance gains from non-nullable types while maintaining mathematical integrity
-
-See [src/_common/README.md](../src/_common/README.md#nan-handling-policy) for complete policy documentation.
-
 ## Guiding principles
 
-This library follows the [guiding principles](https://github.com/DaveSkender/Stock.Indicators/discussions/648) that balance usability, performance, precision, and security. The six core principles emphasize **Mathematical Precision** (non-negotiable), **Performance First** (critical), **Comprehensive Validation**, **Test-Driven Quality**, **Documentation Excellence**, and **Scope & Stewardship**.
+This library follows six core principles that balance usability, performance, precision, and security: **Mathematical Precision** (non-negotiable), **Performance First** (critical), **Comprehensive Validation**, **Test-Driven Quality**, **Documentation Excellence**, and **Scope & Stewardship**.
 
-See [PRINCIPLES.md](docs/PRINCIPLES.md) for complete constitutional details.
+See [PRINCIPLES.md](docs/PRINCIPLES.md) for constitutional philosophy and rationale. This file (AGENTS.md) provides operational implementation guidance.
 
 ## Skills for indicator development
 
 This repository uses Agent Skills (`.github/skills/`) for domain-specific guidance. Skills are automatically loaded when relevant:
-
-| Skill | Primary Focus |
-| ----- | ------------- |
-| `indicator-series` | Series-style batch indicator development and testing |
-| `indicator-buffer` | BufferList incremental indicator development |
-| `indicator-stream` | StreamHub real-time indicator development |
-| `indicator-catalog` | Catalog entry conventions and registration |
-| `performance-testing` | BenchmarkDotNet performance testing |
-| `quality-gates` | Pre-commit checklist and validation |
-| `testing-standards` | Test naming, FluentAssertions, and coverage |
-
-Additional path-specific instruction files:
-
-| Pattern | File | Purpose |
-| ------- | ---- | ------- |
-| `**/*.md` | `.github/instructions/markdown.instructions.md` | Markdown authoring standards |
-| `docs/**` | `.github/instructions/docs.instructions.md` | Jekyll documentation site |
-| `src/**` | `src/AGENTS.md` | Formula protection rules |
-
-## Skills for focused assistance
-
-This repository provides Agent Skills in `.github/skills/` that are automatically loaded when relevant. Use skill invocations for expert guidance:
 
 | Skill | Description | When to Use |
 | ----- | ----------- | ----------- |
@@ -164,6 +100,14 @@ This repository provides Agent Skills in `.github/skills/` that are automaticall
 | `performance-testing` | Benchmarking with BenchmarkDotNet, regression detection | Adding performance tests, optimizing indicator performance |
 | `quality-gates` | Pre-commit validation checklist | Completing work, ensuring build/test/lint pass |
 | `testing-standards` | Test naming, FluentAssertions, Series parity | Writing comprehensive tests, debugging test failures |
+
+Additional path-specific instruction files:
+
+| Pattern | File | Purpose |
+| ------- | ---- | ------- |
+| `**/*.md` | `.github/instructions/markdown.instructions.md` | Markdown authoring standards |
+| `docs/**` | `.github/instructions/docs.instructions.md` | Jekyll documentation site |
+| `src/**` | `src/AGENTS.md` | Formula protection rules |
 
 **Usage**: Skills are auto-loaded when working with matching file patterns. Reference the SKILL.md content when asking questions about that domain:
 
@@ -180,78 +124,11 @@ This repository provides Agent Skills in `.github/skills/` that are automaticall
 
 Skills are defined in `.github/skills/` following the Agent Skills specification.
 
-## Common indicator requirements (all styles)
+## Folder-specific guidance
 
-Use these cross-cutting requirements for Series, Stream, and Buffer indicators. Each style guide adds its own specifics, but these apply to all:
-
-### Code completion checklist for indicator implementations
-
-- [ ] **Catalog entry exists and is registered**:
-  - Create `src/**/{IndicatorName}.Catalog.cs` and register in `src/_common/Catalog/Catalog.Listings.cs` (PopulateCatalog)
-- [ ] **Regression tests include the indicator type**:
-  - Add to `tests/indicators/**/{IndicatorName}.Regression.Tests.cs`
-- [ ] **Performance benchmarks include a default case**:
-  - Add to the appropriate file in `tools/performance` (Series/Stream/Buffer)
-- [ ] **Public documentation is accurate**:
-  - Update `docs/_indicators/{IndicatorName}.md` (usage, parameters, warmup, outputs)
-- [ ] **Migration notes and bridges when behavior changes**:
-  - Update `src/MigrationGuide.V3.md`
-  - Update migration bridges in `src/Obsolete.V3.Indicators.cs` and `src/Obsolete.V3.Other.cs` to reflect new/renamed APIs or deprecations
-
-See the skills for implementation requirements and additional checklist items:
-
-- Series: `.github/skills/indicator-series/SKILL.md`
-- Buffer: `.github/skills/indicator-buffer/SKILL.md`
-- Stream: `.github/skills/indicator-stream/SKILL.md`
-
-### Series as the canonical reference
-
-- Series indicators are the canonical source of truth for numerical correctness across styles.
-- Series results are based on authoritative author publications and manually verified calculations.
-- Stream and Buffer implementations must match the Series results for the same inputs once warmed up.
-- For discrepancies, fix Stream/Buffer unless there is a verified issue with Series and the reference data.
-
-## Code review guidelines
-
-### What to look for
-
-- Comprehensive validation of periods, warmup requirements, and null checks.
-- Accurate math across both batch and streaming paths; compare against reference data.
-- Performance characteristics, especially allocations within hot loops.
-- XML documentation completeness and clarity for public APIs.
-- Consistent error messages and exception types that match established patterns.
-
-### Code quality standards
-
-- All public methods must have XML documentation
-- Unit test coverage for all code paths
-- Performance tests for computationally intensive indicators
-- Validation for all user inputs
-- Consistent formatting using `.editorconfig`
-
-## Development workflow
-
-### Building and testing
-
-```bash
-# Build the solution
-dotnet build
-
-# Run all tests
-dotnet test
-
-# Format code
-dotnet format
-
-# Lint markdown files
-npx markdownlint-cli2 --fix
-```
-
-### Folder-specific guidance
-
-- **src/**: See `src/AGENTS.md` for numerical precision and formula protection rules
-- **docs/**: Follow documentation instructions in `.github/instructions/docs.instructions.md`
-- **All markdown files**: Follow markdown instructions in `.github/instructions/markdown.instructions.md`
+- **src/**: See `src/AGENTS.md` for implementation details, technical constraints, and code quality standards
+- **tests/**: See `tests/AGENTS.md` for test organization and writing guidance
+- **docs/**: See `docs/AGENTS.md` for documentation site development
 
 ## MCP tools guidance
 
