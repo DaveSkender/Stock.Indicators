@@ -19,6 +19,7 @@ public class RenkoList : BufferList<RenkoResult>, IIncrementFromQuote, IRenko
     /// </summary>
     /// <param name="brickSize">The size of each Renko brick.</param>
     /// <param name="endType">The price candle end type to use as the brick threshold.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="endType"/> is invalid.</exception>
     public RenkoList(
         decimal brickSize,
         EndType endType = EndType.Close

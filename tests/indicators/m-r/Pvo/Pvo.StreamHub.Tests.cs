@@ -14,6 +14,7 @@ public class PvoHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
         // test string output
         observer.ToString().Should().Be("PVO(12,26,9)");
 
+        // cleanup
         observer.Unsubscribe();
         quoteHub.EndTransmission();
     }
@@ -70,6 +71,7 @@ public class PvoHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
         actuals.Should().HaveCount(quotesCount - 1);
         actuals.IsExactly(expected);
 
+        // cleanup
         observer.Unsubscribe();
         quoteHub.EndTransmission();
     }
@@ -112,6 +114,7 @@ public class PvoHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
         streamList.Should().HaveCount(length);
         streamList.IsExactly(seriesList);
 
+        // cleanup
         observer.Unsubscribe();
         quoteHub.EndTransmission();
     }
@@ -158,6 +161,7 @@ public class PvoHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
         sut.Should().HaveCount(quotesCount - 1);
         sut.IsExactly(expected);
 
+        // cleanup
         observer.Unsubscribe();
         pvoHub.EndTransmission();
         quoteProvider.EndTransmission();
@@ -199,6 +203,7 @@ public class PvoHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
         streamResult.Signal.Should().Be(seriesResult.Signal);
         streamResult.Histogram.Should().Be(seriesResult.Histogram);
 
+        // cleanup
         observer.Unsubscribe();
         quoteHub.EndTransmission();
     }
@@ -232,6 +237,7 @@ public class PvoHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
 
         streamResults.IsExactly(seriesResults);
 
+        // cleanup
         observer.Unsubscribe();
         quoteHub.EndTransmission();
     }

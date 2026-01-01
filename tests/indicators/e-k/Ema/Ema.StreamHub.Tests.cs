@@ -3,7 +3,7 @@ namespace StreamHubs;
 [TestClass]
 public class EmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProvider
 {
-    private const int lookbackPeriods = 5;
+    private const int lookbackPeriods = 14;
 
     [TestMethod]
     public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
@@ -54,8 +54,8 @@ public class EmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
     [TestMethod]
     public void ChainObserver_ChainedProvider_MatchesSeriesExactly()
     {
-        const int emaPeriods = 12;
         const int smaPeriods = 8;
+        const int emaPeriods = 12;
 
         // setup quote provider hub
         QuoteHub quoteHub = new();

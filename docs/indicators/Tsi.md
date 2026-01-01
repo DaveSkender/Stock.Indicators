@@ -71,7 +71,7 @@ This indicator can be used with the buffer style for incremental streaming scena
 // buffer-style streaming
 TsiList buffer = new(lookbackPeriods, smoothPeriods, signalPeriods);
 
-foreach (Quote quote in quotes)
+foreach (IQuote quote in quotes)  // simulating stream
 {
     buffer.Add(quote);
     TsiResult result = buffer[^1];

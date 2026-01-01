@@ -1,7 +1,5 @@
 namespace Skender.Stock.Indicators;
 
-// VORTEX INDICATOR (STREAM HUB)
-
 /// <summary>
 /// Provides methods for creating Vortex Indicator hubs.
 /// </summary>
@@ -15,11 +13,6 @@ public class VortexHub
     private double _prevClose;
     private bool _isInitialized;
 
-    /// <summary>
-    /// Initializes a new instance of the <see cref="VortexHub"/> class.
-    /// </summary>
-    /// <param name="provider">The quote provider.</param>
-    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     internal VortexHub(
         IStreamObservable<IQuote> provider,
         int lookbackPeriods) : base(provider)
@@ -192,19 +185,4 @@ public static partial class Vortex
         this IStreamObservable<IQuote> quoteProvider,
         int lookbackPeriods = 14)
              => new(quoteProvider, lookbackPeriods);
-
-    /// <summary>
-    /// Creates a Vortex hub from a collection of quotes.
-    /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <returns>An instance of <see cref="VortexHub"/>.</returns>
-    public static VortexHub ToVortexHub(
-        this IReadOnlyList<IQuote> quotes,
-        int lookbackPeriods = 14)
-    {
-        QuoteHub quoteHub = new();
-        quoteHub.Add(quotes);
-        return quoteHub.ToVortexHub(lookbackPeriods);
-    }
 }

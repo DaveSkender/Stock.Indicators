@@ -1,10 +1,10 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Provides methods for calculating the Price Momentum Oscillator (PMO) indicator.
+/// Streaming hub for Price Momentum Oscillator (PMO).
 /// </summary>
 public class PmoHub
-    : ChainProvider<IReusable, PmoResult>, IPmo
+    : ChainHub<IReusable, PmoResult>, IPmo
 {
     private readonly double smoothingConstant1;
     private readonly double smoothingConstant2;
@@ -13,15 +13,6 @@ public class PmoHub
     private double prevRocEma;
     private double prevPmo;
 
-    /// <summary>
-    /// Initializes a new instance of the <see cref="PmoHub"/> class.
-    /// </summary>
-    /// <param name="provider">The chain provider.</param>
-    /// <param name="timePeriods">The number of periods for the time span.</param>
-    /// <param name="smoothPeriods">The number of periods for smoothing.</param>
-    /// <param name="signalPeriods">The number of periods for the signal line.</param>
-    /// <exception cref="ArgumentNullException">Thrown when the provider is null.</exception>
-    /// <exception cref="ArgumentOutOfRangeException">Thrown when any of the parameters are invalid.</exception>
     internal PmoHub(
         IChainProvider<IReusable> provider,
         int timePeriods,
@@ -312,23 +303,4 @@ public static partial class Pmo
         int smoothPeriods = 20,
         int signalPeriods = 10)
         => new(chainProvider, timePeriods, smoothPeriods, signalPeriods);
-
-    /// <summary>
-    /// Creates a PMO hub from a collection of quotes.
-    /// </summary>
-    /// <param name="quotes">The collection of quotes.</param>
-    /// <param name="timePeriods">The number of periods for the time span.</param>
-    /// <param name="smoothPeriods">The number of periods for smoothing.</param>
-    /// <param name="signalPeriods">The number of periods for the signal line.</param>
-    /// <returns>An instance of <see cref="PmoHub"/>.</returns>
-    public static PmoHub ToPmoHub(
-        this IReadOnlyList<IQuote> quotes,
-        int timePeriods = 35,
-        int smoothPeriods = 20,
-        int signalPeriods = 10)
-    {
-        QuoteHub quoteHub = new();
-        quoteHub.Add(quotes);
-        return quoteHub.ToPmoHub(timePeriods, smoothPeriods, signalPeriods);
-    }
 }

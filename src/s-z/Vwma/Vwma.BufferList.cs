@@ -11,6 +11,7 @@ public class VwmaList : BufferList<VwmaResult>, IIncrementFromQuote, IVwma
     /// Initializes a new instance of the <see cref="VwmaList"/> class.
     /// </summary>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="lookbackPeriods"/> is invalid.</exception>
     public VwmaList(
         int lookbackPeriods
     )
@@ -34,9 +35,7 @@ public class VwmaList : BufferList<VwmaResult>, IIncrementFromQuote, IVwma
     )
         : this(lookbackPeriods) => Add(quotes);
 
-    /// <summary>
-    /// Gets the number of periods to look back for the calculation.
-    /// </summary>
+    /// <inheritdoc />
     public int LookbackPeriods { get; init; }
 
     /// <inheritdoc />

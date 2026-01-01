@@ -1,18 +1,11 @@
 namespace Skender.Stock.Indicators;
 
-// GATOR OSCILLATOR (STREAM HUB)
-
 /// <summary>
-/// Represents a stream hub for calculating the Gator Oscillator indicator.
+/// Streaming hub for Gator Oscillator.
 /// </summary>
 public class GatorHub
    : StreamHub<AlligatorResult, GatorResult>
 {
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="GatorHub"/> class.
-    /// </summary>
-    /// <param name="alligatorHub">The alligator hub.</param>
     internal GatorHub(AlligatorHub alligatorHub)
         : base(alligatorHub)
     {
@@ -21,7 +14,6 @@ public class GatorHub
         Reinitialize();
     }
 
-    // METHODS
     /// <inheritdoc/>
     protected override (GatorResult result, int index)
         ToIndicator(AlligatorResult item, int? indexHint)
@@ -74,18 +66,5 @@ public static partial class Gator
     {
         AlligatorHub alligatorHub = chainProvider.ToAlligatorHub();
         return new GatorHub(alligatorHub);
-    }
-
-    /// <summary>
-    /// Creates a Gator hub from a collection of quotes.
-    /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <returns>An instance of <see cref="GatorHub"/>.</returns>
-    public static GatorHub ToGatorHub(
-        this IReadOnlyList<IQuote> quotes)
-    {
-        QuoteHub quoteHub = new();
-        quoteHub.Add(quotes);
-        return quoteHub.ToGatorHub();
     }
 }

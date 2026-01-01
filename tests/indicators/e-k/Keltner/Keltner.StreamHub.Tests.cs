@@ -53,6 +53,7 @@ public class KeltnerHubTests : StreamHubTestBase, ITestQuoteObserver
         actuals.Should().HaveCount(quotesCount - 1);
         actuals.IsExactly(expected);
 
+        // cleanup
         observer.Unsubscribe();
         quoteHub.EndTransmission();
     }
@@ -95,6 +96,7 @@ public class KeltnerHubTests : StreamHubTestBase, ITestQuoteObserver
 
         observer.Results.IsExactly(quotes.ToKeltner(5, 1, 3));
 
+        // cleanup
         observer.Unsubscribe();
         quoteHub.EndTransmission();
     }

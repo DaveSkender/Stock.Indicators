@@ -108,7 +108,7 @@ Subscribe to a `QuoteHub` for advanced streaming scenarios:
 QuoteHub quoteHub = new();
 BollingerBandsHub observer = quoteHub.ToBollingerBandsHub(lookbackPeriods, standardDeviations);
 
-foreach (Quote quote in quotes)  // simulating stream
+foreach (IQuote quote in quotes)  // simulating stream
 {
   quoteHub.Add(quote);
 }

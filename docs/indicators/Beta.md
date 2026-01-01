@@ -105,39 +105,3 @@ var results = quotesEval
     .ToBeta(quotesMarket, ..)
     .ToSlope(..);
 ```
-
-## Streaming
-
-Use the buffer-style `List<T>` when you need incremental calculations for Beta:
-
-```csharp
-BetaList betaList = new(lookbackPeriods, type);
-
-// simulating dual-stream inputs
-for (int i = 0; i < quotesEval.Count; i++)
-{
-  betaList.Add(quotesEval[i], quotesMarket[i]);
-}
-
-// based on `ICollection<BetaResult>`
-IReadOnlyList<BetaResult> results = betaList;
-```
-
-For reusable values from chainable indicators:
-
-```csharp
-IReadOnlyList<IReusable> evalValues = quotesEval.Use(CandlePart.Close);
-IReadOnlyList<IReusable> mrktValues = quotesMarket.Use(CandlePart.Close);
-
-BetaList betaList = new(lookbackPeriods, type);
-
-// incremental addition
-for (int i = 0; i < evalValues.Count; i++)
-{
-  betaList.Add(evalValues[i], mrktValues[i]);
-}
-
-IReadOnlyList<BetaResult> results = betaList;
-```
-
-> &#9432; **Note**: Beta requires synchronized dual inputs (evaluated asset and market benchmark). Both input series must have matching timestamps and element counts. StreamHub is not available for Beta due to the dual-input requirement.

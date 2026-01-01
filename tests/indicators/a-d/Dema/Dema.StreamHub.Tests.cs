@@ -10,51 +10,40 @@ public class DemaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
         QuoteHub quoteHub = new();
 
         // prefill quotes at provider
-        for (int i = 0; i < 20; i++)
-        {
-            quoteHub.Add(Quotes[i]);
-        }
+        quoteHub.Add(Quotes.Take(20));
 
         // initialize observer
-        DemaHub observer = quoteHub
-            .ToDemaHub(5);
+        DemaHub observer = quoteHub.ToDemaHub(5);
 
         // fetch initial results (early)
-        IReadOnlyList<DemaResult> sut
-            = observer.Results;
+        IReadOnlyList<DemaResult> sut = observer.Results;
 
         // emulate adding quotes to provider hub
         for (int i = 20; i < quotesCount; i++)
         {
             // skip one (add later)
-            if (i == 80)
-            {
-                continue;
-            }
+            if (i == 80) { continue; }
 
             Quote q = Quotes[i];
             quoteHub.Add(q);
 
             // resend duplicate quotes
-            if (i is > 100 and < 105)
-            {
-                quoteHub.Add(q);
-            }
+            if (i is > 100 and < 105) { quoteHub.Add(q); }
         }
 
-        // late arrival
+        // late arrival, should equal series
         quoteHub.Insert(Quotes[80]);
 
-        // delete
+        IReadOnlyList<DemaResult> expectedOriginal = Quotes.ToDema(5);
+        sut.IsExactly(expectedOriginal);
+
+        // delete, should equal series (revised)
         quoteHub.Remove(Quotes[removeAtIndex]);
-
-        // time-series, for comparison
-        IReadOnlyList<DemaResult> expected = RevisedQuotes.ToDema(5);
-
-        // assert, should equal series
+        IReadOnlyList<DemaResult> expectedRevised = RevisedQuotes.ToDema(5);
+        sut.IsExactly(expectedRevised);
         sut.Should().HaveCount(quotesCount - 1);
-        sut.IsExactly(expected);
 
+        // cleanup
         observer.Unsubscribe();
         quoteHub.EndTransmission();
     }
@@ -62,12 +51,8 @@ public class DemaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
     [TestMethod]
     public void ChainObserver_ChainedProvider_MatchesSeriesExactly()
     {
-        const int demaPeriods = 12;
         const int smaPeriods = 8;
-
-        List<Quote> quotesList = Quotes.ToList();
-
-        int length = quotesList.Count;
+        const int demaPeriods = 12;
 
         // setup quote provider hub
         QuoteHub quoteHub = new();
@@ -78,25 +63,21 @@ public class DemaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
             .ToDemaHub(demaPeriods);
 
         // emulate quote stream
-        for (int i = 0; i < length; i++)
-        {
-            quoteHub.Add(quotesList[i]);
-        }
+        for (int i = 0; i < quotesCount; i++) { quoteHub.Add(Quotes[i]); }
 
         // final results
-        IReadOnlyList<DemaResult> streamList
-            = observer.Results;
+        IReadOnlyList<DemaResult> sut = observer.Results;
 
         // time-series, for comparison
-        IReadOnlyList<DemaResult> seriesList
-           = quotesList
+        IReadOnlyList<DemaResult> expected = Quotes
             .ToSma(smaPeriods)
             .ToDema(demaPeriods);
 
         // assert, should equal series
-        streamList.Should().HaveCount(length);
-        streamList.IsExactly(seriesList);
+        sut.IsExactly(expected);
+        sut.Should().HaveCount(quotesCount);
 
+        // cleanup
         observer.Unsubscribe();
         quoteHub.EndTransmission();
     }
@@ -119,19 +100,13 @@ public class DemaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
         for (int i = 0; i < quotesCount; i++)
         {
             // skip one (add later)
-            if (i == 80)
-            {
-                continue;
-            }
+            if (i == 80) { continue; }
 
             Quote q = Quotes[i];
             quoteHub.Add(q);
 
             // resend duplicate quotes
-            if (i is > 100 and < 105)
-            {
-                quoteHub.Add(q);
-            }
+            if (i is > 100 and < 105) { quoteHub.Add(q); }
         }
 
         // late arrival
@@ -141,18 +116,18 @@ public class DemaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
         quoteHub.Remove(Quotes[removeAtIndex]);
 
         // final results
-        IReadOnlyList<SmaResult> sut
-            = observer.Results;
+        IReadOnlyList<SmaResult> sut = observer.Results;
 
-        // time-series, for comparison
-        IReadOnlyList<SmaResult> expected
-           = RevisedQuotes.ToDema(demaPeriods)
+        // time-series, for comparison (revised)
+        IReadOnlyList<SmaResult> expected = RevisedQuotes
+            .ToDema(demaPeriods)
             .ToSma(smaPeriods);
 
         // assert, should equal series
         sut.Should().HaveCount(quotesCount - 1);
         sut.IsExactly(expected);
 
+        // cleanup
         observer.Unsubscribe();
         quoteHub.EndTransmission();
     }

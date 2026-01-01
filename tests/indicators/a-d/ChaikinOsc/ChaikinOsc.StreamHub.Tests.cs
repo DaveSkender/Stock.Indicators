@@ -148,12 +148,7 @@ public class ChaikinOscHubTests : StreamHubTestBase, ITestQuoteObserver, ITestCh
     [TestMethod]
     public override void ToStringOverride_ReturnsExpectedName()
     {
-        QuoteHub quoteHub = new();
-        ChaikinOscHub chaikinOscHub = quoteHub.ToChaikinOscHub(3, 10);
-
-        chaikinOscHub.ToString().Should().Be("CHAIKIN_OSC(3,10)");
-
-        chaikinOscHub.Unsubscribe();
-        quoteHub.EndTransmission();
+        ChaikinOscHub hub = new(new QuoteHub(), 3, 10);
+        hub.ToString().Should().Be("CHAIKIN_OSC(3,10)");
     }
 }

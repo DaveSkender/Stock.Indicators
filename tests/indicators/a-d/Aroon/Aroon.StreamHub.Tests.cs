@@ -71,13 +71,8 @@ public class AroonHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPr
     [TestMethod]
     public override void ToStringOverride_ReturnsExpectedName()
     {
-        QuoteHub quoteHub = new();
-        AroonHub aroonHub = quoteHub.ToAroonHub(25);
-
-        aroonHub.ToString().Should().Be("AROON(25)");
-
-        aroonHub.Unsubscribe();
-        quoteHub.EndTransmission();
+        AroonHub hub = new(new QuoteHub(), 25);
+        hub.ToString().Should().Be("AROON(25)");
     }
 
     [TestMethod]

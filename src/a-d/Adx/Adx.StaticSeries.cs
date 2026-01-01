@@ -1,7 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Provides methods for calculating the Average Directional Index (ADX).
+/// Average Directional Index (ADX) indicator.
 /// </summary>
 public static partial class Adx
 {

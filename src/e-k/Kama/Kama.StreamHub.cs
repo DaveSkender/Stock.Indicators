@@ -1,23 +1,14 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Provides methods for calculating the Kaufman's Adaptive Moving Average (KAMA) indicator.
+/// Streaming hub for Kaufman's Adaptive Moving Average (KAMA).
 /// </summary>
 public class KamaHub
-    : ChainProvider<IReusable, KamaResult>, IKama
+    : ChainHub<IReusable, KamaResult>, IKama
 {
     private readonly double _scFast;
     private readonly double _scSlow;
 
-    /// <summary>
-    /// Initializes a new instance of the <see cref="KamaHub"/> class.
-    /// </summary>
-    /// <param name="provider">The chain provider.</param>
-    /// <param name="erPeriods">The number of periods for the Efficiency Ratio (ER).</param>
-    /// <param name="fastPeriods">The number of periods for the fast EMA.</param>
-    /// <param name="slowPeriods">The number of periods for the slow EMA.</param>
-    /// <exception cref="ArgumentNullException">Thrown when the provider is null.</exception>
-    /// <exception cref="ArgumentOutOfRangeException">Thrown when any of the parameters are out of their valid range.</exception>
     internal KamaHub(
         IChainProvider<IReusable> provider,
         int erPeriods,
@@ -131,24 +122,4 @@ public static partial class Kama
         int fastPeriods = 2,
         int slowPeriods = 30)
         => new(chainProvider, erPeriods, fastPeriods, slowPeriods);
-
-    /// <summary>
-    /// Creates a Kama hub from a collection of quotes.
-    /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="erPeriods">Parameter for the calculation.</param>
-    /// <param name="fastPeriods">Parameter for the calculation.</param>
-    /// <param name="slowPeriods">Parameter for the calculation.</param>
-    /// <returns>An instance of <see cref="KamaHub"/>.</returns>
-    public static KamaHub ToKamaHub(
-        this IReadOnlyList<IQuote> quotes,
-        int erPeriods = 10,
-        int fastPeriods = 2,
-        int slowPeriods = 30)
-    {
-        QuoteHub quoteHub = new();
-        quoteHub.Add(quotes);
-        return quoteHub.ToKamaHub(erPeriods, fastPeriods, slowPeriods);
-    }
-
 }

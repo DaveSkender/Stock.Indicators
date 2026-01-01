@@ -19,6 +19,7 @@ public class HmaList : BufferList<HmaResult>, IIncrementFromChain, IHma
     /// Initializes a new instance of the <see cref="HmaList"/> class.
     /// </summary>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="lookbackPeriods"/> is invalid.</exception>
     public HmaList(int lookbackPeriods)
     {
         Hma.Validate(lookbackPeriods);
@@ -47,12 +48,11 @@ public class HmaList : BufferList<HmaResult>, IIncrementFromChain, IHma
     /// </summary>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <param name="values">Initial reusable values to populate the list.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="lookbackPeriods"/> is invalid.</exception>
     public HmaList(int lookbackPeriods, IReadOnlyList<IReusable> values)
         : this(lookbackPeriods) => Add(values);
 
-    /// <summary>
-    /// Gets the number of periods to look back for the calculation.
-    /// </summary>
+    /// <inheritdoc />
     public int LookbackPeriods { get; init; }
 
     /// <inheritdoc />

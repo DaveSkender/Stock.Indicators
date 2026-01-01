@@ -1,18 +1,13 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Streaming hub for the Money Flow Index (MFI) indicator.
+/// Streaming hub for Money Flow Index (MFI).
 /// </summary>
-public class MfiHub : ChainProvider<IQuote, MfiResult>, IMfi
+public class MfiHub : ChainHub<IQuote, MfiResult>, IMfi
 {
     private readonly Queue<(double TruePrice, double MoneyFlow, int Direction)> _buffer;
     private double? _prevTruePrice;
 
-    /// <summary>
-    /// Initializes a new instance of the <see cref="MfiHub"/> class.
-    /// </summary>
-    /// <param name="provider">The quote provider.</param>
-    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     internal MfiHub(
         IQuoteProvider<IQuote> provider,
         int lookbackPeriods)
@@ -170,20 +165,5 @@ public static partial class Mfi
     {
         ArgumentNullException.ThrowIfNull(quoteProvider);
         return new(quoteProvider, lookbackPeriods);
-    }
-
-    /// <summary>
-    /// Creates an Mfi hub from a collection of quotes.
-    /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="lookbackPeriods">The number of lookback periods. Default is 14.</param>
-    /// <returns>An instance of <see cref="MfiHub"/>.</returns>
-    public static MfiHub ToMfiHub(
-        this IReadOnlyList<IQuote> quotes,
-        int lookbackPeriods = 14)
-    {
-        QuoteHub quoteHub = new();
-        quoteHub.Add(quotes);
-        return quoteHub.ToMfiHub(lookbackPeriods);
     }
 }

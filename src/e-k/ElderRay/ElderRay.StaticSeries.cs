@@ -1,7 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Provides methods for calculating the Elder Ray indicator.
+/// Elder Ray indicator.
 /// </summary>
 public static partial class ElderRay
 {
@@ -12,7 +12,7 @@ public static partial class ElderRay
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>A list of Elder Ray results.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the quotes list is null.</exception>
-    /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="lookbackPeriods"/> is invalid.</exception>
     public static IReadOnlyList<ElderRayResult> ToElderRay(
         this IReadOnlyList<IQuote> quotes,
         int lookbackPeriods = 13)

@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 /// Streaming hub for Triple Exponential Moving Average Oscillator (TRIX) calculations.
 /// </summary>
 public class TrixHub
-    : ChainProvider<IReusable, TrixResult>, ITrix
+    : ChainHub<IReusable, TrixResult>, ITrix
 {
     private double lastEma1 = double.NaN;
     private double lastEma2 = double.NaN;
@@ -142,18 +142,4 @@ public static partial class Trix
         this IChainProvider<IReusable> chainProvider,
         int lookbackPeriods = 14)
         => new(chainProvider, lookbackPeriods);
-
-    /// <summary>
-    /// Creates a Trix hub from a collection of quotes.
-    /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <returns>An instance of <see cref="TrixHub"/>.</returns>
-    public static TrixHub ToTrixHub(
-        this IReadOnlyList<IQuote> quotes, int lookbackPeriods = 14)
-    {
-        QuoteHub quoteHub = new();
-        quoteHub.Add(quotes);
-        return quoteHub.ToTrixHub(lookbackPeriods);
-    }
 }

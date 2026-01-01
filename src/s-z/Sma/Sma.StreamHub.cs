@@ -1,20 +1,12 @@
 namespace Skender.Stock.Indicators;
 
-// SIMPLE MOVING AVERAGE (STREAM HUB)
-
 /// <summary>
-/// Represents a Simple Moving Average (SMA) stream hub.
+/// Streaming hub for Simple Moving Average (SMA).
 /// </summary>
 public class SmaHub
-    : ChainProvider<IReusable, SmaResult>, ISma
+    : ChainHub<IReusable, SmaResult>, ISma
 {
 
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="SmaHub"/> class.
-    /// </summary>
-    /// <param name="provider">The chain provider.</param>
-    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     internal SmaHub(
         IChainProvider<IReusable> provider,
         int lookbackPeriods) : base(provider)
@@ -26,9 +18,7 @@ public class SmaHub
         Reinitialize();
     }
 
-    /// <summary>
-    /// Gets the number of lookback periods.
-    /// </summary>
+    /// <inheritdoc/>
     public int LookbackPeriods { get; init; }
     /// <inheritdoc/>
     protected override (SmaResult result, int index)
@@ -53,36 +43,19 @@ public class SmaHub
 
 }
 
-/// <summary>
-/// Provides methods for creating SMA hubs.
-/// </summary>
 public static partial class Sma
 {
     /// <summary>
-    /// Converts the chain provider to an SMA hub.
+    /// Creates an SMA streaming hub with a chain provider source.
     /// </summary>
+    /// <remarks>If providers contain historical data, this hub will fast-forward its cache.</remarks>
     /// <param name="chainProvider">The chain provider.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <returns>An SMA hub.</returns>
-    /// <exception cref="ArgumentNullException">Thrown when the chain provider is null.</exception>
-    /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
+    /// <returns>A chain-sourced instance of <see cref="SmaHub"/>.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when <paramref name="chainProvider"/> is null.</exception>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="lookbackPeriods"/> is invalid.</exception>
     public static SmaHub ToSmaHub(
         this IChainProvider<IReusable> chainProvider,
         int lookbackPeriods)
              => new(chainProvider, lookbackPeriods);
-
-    /// <summary>
-    /// Creates an SMA hub from a collection of quotes.
-    /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <returns>An instance of <see cref="SmaHub"/>.</returns>
-    public static SmaHub ToSmaHub(
-        this IReadOnlyList<IQuote> quotes,
-        int lookbackPeriods)
-    {
-        QuoteHub quoteHub = new();
-        quoteHub.Add(quotes);
-        return quoteHub.ToSmaHub(lookbackPeriods);
-    }
 }

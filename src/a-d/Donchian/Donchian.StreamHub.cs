@@ -1,9 +1,7 @@
 namespace Skender.Stock.Indicators;
 
-// DONCHIAN CHANNELS (STREAM HUB)
-
 /// <summary>
-/// Provides methods for calculating the Donchian Channels using a stream hub.
+/// Streaming hub for Donchian Channels using a stream hub.
 /// </summary>
 public static partial class Donchian
 {
@@ -20,7 +18,7 @@ public static partial class Donchian
 }
 
 /// <summary>
-/// Represents a stream hub for calculating the Donchian Channels.
+/// Streaming hub for Donchian Channels.
 /// </summary>
 public class DonchianHub
     : StreamHub<IQuote, DonchianResult>, IDonchian
@@ -28,11 +26,6 @@ public class DonchianHub
     private readonly RollingWindowMax<decimal> _highWindow;
     private readonly RollingWindowMin<decimal> _lowWindow;
 
-    /// <summary>
-    /// Initializes a new instance of the <see cref="DonchianHub"/> class.
-    /// </summary>
-    /// <param name="provider">The quote provider.</param>
-    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     internal DonchianHub(
         IQuoteProvider<IQuote> provider,
         int lookbackPeriods) : base(provider)
@@ -47,9 +40,7 @@ public class DonchianHub
         Reinitialize();
     }
 
-    /// <summary>
-    /// Gets the number of periods to look back for the calculation.
-    /// </summary>
+    /// <inheritdoc/>
     public int LookbackPeriods { get; init; }
     /// <inheritdoc/>
     protected override (DonchianResult result, int index)

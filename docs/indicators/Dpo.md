@@ -77,25 +77,32 @@ var results = quotes
 
 ## Streaming
 
-This indicator is available for streaming with `QuoteHub` for real-time processing.
+Use the buffer-style `List<T>` when you need incremental calculations without a hub:
 
 ```csharp
-// example: initialize stream
-QuoteHub quoteHub = new();
-DpoHub dpoHub = quoteHub.ToDpoHub(14);
+DpoList dpoList = new(lookbackPeriods);
 
-// stream quotes
-foreach (Quote q in quotes)
+foreach (IQuote quote in quotes)  // simulating stream
 {
-    quoteHub.Add(q);
+  dpoList.Add(quote);
 }
 
-// access results
-var results = dpoHub.Results;
+// based on `ICollection<DpoResult>`
+IReadOnlyList<DpoResult> results = dpoList;
+```
 
-// cleanup
-dpoHub.Unsubscribe();
-quoteHub.EndTransmission();
+Subscribe to a `QuoteHub` for advanced streaming scenarios:
+
+```csharp
+QuoteHub quoteHub = new();
+DpoHub observer = quoteHub.ToDpoHub(lookbackPeriods);
+
+foreach (IQuote quote in quotes)  // simulating stream  // simulating stream
+{
+  quoteHub.Add(quote);
+}
+
+IReadOnlyList<DpoResult> results = observer.Results;
 ```
 
 **Note**: DPO has a lookahead requirement (offset = N/2+1 periods), which means results are calculated when sufficient future data becomes available. This introduces a delay in real-time scenarios but maintains mathematical accuracy with the series implementation.

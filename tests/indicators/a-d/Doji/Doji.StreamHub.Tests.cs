@@ -62,12 +62,7 @@ public class DojiHubTests : StreamHubTestBase, ITestQuoteObserver
     [TestMethod]
     public override void ToStringOverride_ReturnsExpectedName()
     {
-        QuoteHub quoteHub = new();
-        DojiHub dojiHub = quoteHub.ToDojiHub(0.1);
-
-        dojiHub.ToString().Should().Be("DOJI(0.1)");
-
-        dojiHub.Unsubscribe();
-        quoteHub.EndTransmission();
+        DojiHub hub = new(new QuoteHub(), 0.1);
+        hub.ToString().Should().Be("DOJI(0.1)");
     }
 }

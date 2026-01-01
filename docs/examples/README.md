@@ -1,22 +1,19 @@
 ---
 title: Example usage code
 description: The Stock Indicators for .NET library is a simple yet flexible tool to help you build your financial market systems.  Here's a few complete working examples that you can download and try yourself.
-permalink: /examples/
-relative_path: examples/README.md
-layout: page
 ---
 
-# {{ page.title }}
+# {{ $frontmatter.title }}
 
 To help you get started, here are a few minimalist [.NET](https://dotnet.microsoft.com/download) C# projects that you can review.  They are complete working examples.
 
 - `ConsoleApp` is a minimalist example of how to use the library (start here)
 - `Backtest` is a slightly more complicated example of how to analyze results
-- `CustomIndicatorsLibrary` shows how you can [create your own custom indicators]({{site.baseurl}}/custom-indicators/#content)
+- `CustomIndicatorsLibrary` shows how you can [create your own custom indicators](/custom-indicators)
 - `CustomIndicatorsUsage` shows how you'd use custom indicators just like any other in the main library
 - `UseQuoteApi` shows how you'd get quotes from an API quote source, using the Alpaca SDK for .NET
 
-For more information on how to use this library overall, see the [Guide and Pro Tips]({{site.baseurl}}/guide/#content).
+For more information on how to use this library overall, see the [Guide and Pro Tips](/guide).
 
 ## Getting started with our sample projects
 

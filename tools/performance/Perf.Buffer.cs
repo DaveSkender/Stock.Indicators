@@ -6,7 +6,6 @@ namespace Performance;
 public class BufferIndicators
 {
     private static readonly IReadOnlyList<Quote> q = Data.GetDefault();
-    private static readonly IReadOnlyList<Quote> o = Data.GetCompare();
     private const int n = 14;
 
     /* Parameter arguments should match the Perf.Series.cs equivalents */
@@ -19,7 +18,6 @@ public class BufferIndicators
     [Benchmark] public AtrList AtrList() => q.ToAtrList(n);
     [Benchmark] public AtrStopList AtrStopList() => q.ToAtrStopList();
     [Benchmark] public AwesomeList AwesomeList() => q.ToAwesomeList();
-    [Benchmark] public BetaList BetaList() => q.ToBetaList(o, 20, BetaType.Standard);
     [Benchmark] public BollingerBandsList BollingerBandsList() => q.ToBollingerBandsList(20, 2);
     [Benchmark] public BopList BopList() => q.ToBopList(n);
     [Benchmark] public CciList CciList() => new(20) { q };
@@ -29,7 +27,6 @@ public class BufferIndicators
     [Benchmark] public CmfList CmfList() => q.ToCmfList();
     [Benchmark] public CmoList CmoList() => q.ToCmoList(n);
     [Benchmark] public ConnorsRsiList ConnorsRsiList() => q.ToConnorsRsiList();
-    [Benchmark] public CorrelationList CorrelationList() => q.ToCorrelationList(o, 20);
     [Benchmark] public DemaList DemaList() => q.ToDemaList(n);
     [Benchmark] public DojiList DojiList() => q.ToDojiList();
     [Benchmark] public DonchianList DonchianList() => q.ToDonchianList(20);
@@ -62,7 +59,6 @@ public class BufferIndicators
     [Benchmark] public PivotsList PivotsList() => q.ToPivotsList(2, 2, 20);
     [Benchmark] public PmoList PmoList() => q.ToPmoList();
     [Benchmark] public QuotePartList QuotePartList() => q.ToQuotePartList(CandlePart.OHL3);
-    [Benchmark] public PrsList PrsList() => q.ToPrsList(o);
     [Benchmark] public PvoList PvoList() => q.ToPvoList();
     [Benchmark] public RenkoList RenkoList() => q.ToRenkoList(2.5m);
     [Benchmark] public RocList RocList() => q.ToRocList(20);

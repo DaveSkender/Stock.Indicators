@@ -1,22 +1,11 @@
 namespace Skender.Stock.Indicators;
 
-// AWESOME OSCILLATOR (STREAM HUB)
-
 /// <summary>
-/// Provides methods for calculating the Awesome Oscillator.
+/// Streaming hub for Awesome Oscillator.
 /// </summary>
 public class AwesomeHub
-    : ChainProvider<IReusable, AwesomeResult>, IAwesome
+    : ChainHub<IReusable, AwesomeResult>, IAwesome
 {
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="AwesomeHub"/> class.
-    /// </summary>
-    /// <param name="provider">The chain provider.</param>
-    /// <param name="fastPeriods">The number of periods for the fast moving average.</param>
-    /// <param name="slowPeriods">The number of periods for the slow moving average.</param>
-    /// <exception cref="ArgumentNullException">Thrown when the provider is null.</exception>
-    /// <exception cref="ArgumentOutOfRangeException">Thrown when the periods are invalid.</exception>
     internal AwesomeHub(
         IChainProvider<IReusable> provider,
         int fastPeriods,
@@ -97,22 +86,4 @@ public static partial class Awesome
         int fastPeriods = 5,
         int slowPeriods = 34)
         => new(chainProvider, fastPeriods, slowPeriods);
-
-    /// <summary>
-    /// Creates an Awesome hub from a collection of quotes.
-    /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="fastPeriods">The number of periods for the fast moving average.</param>
-    /// <param name="slowPeriods">The number of periods for the slow moving average.</param>
-    /// <returns>An instance of <see cref="AwesomeHub"/>.</returns>
-    public static AwesomeHub ToAwesomeHub(
-        this IReadOnlyList<IQuote> quotes,
-        int fastPeriods = 5,
-        int slowPeriods = 34)
-    {
-        QuoteHub quoteHub = new();
-        quoteHub.Add(quotes);
-        return quoteHub.ToAwesomeHub(fastPeriods, slowPeriods);
-    }
-
 }

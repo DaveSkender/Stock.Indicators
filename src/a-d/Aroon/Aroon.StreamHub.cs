@@ -1,21 +1,11 @@
 namespace Skender.Stock.Indicators;
 
-// AROON OSCILLATOR (STREAM HUB)
-
 /// <summary>
 /// Represents a hub for Aroon Oscillator calculations.
 /// </summary>
 public class AroonHub
-    : ChainProvider<IQuote, AroonResult>, IAroon
+    : ChainHub<IQuote, AroonResult>, IAroon
 {
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="AroonHub"/> class.
-    /// </summary>
-    /// <param name="provider">The quote provider.</param>
-    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <exception cref="ArgumentNullException">Thrown when the provider is null.</exception>
-    /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
     internal AroonHub(
         IQuoteProvider<IQuote> provider,
         int lookbackPeriods) : base(provider)
@@ -82,7 +72,7 @@ public class AroonHub
 }
 
 /// <summary>
-/// Provides methods for calculating the Aroon Oscillator.
+/// Streaming hub for Aroon Oscillator.
 /// </summary>
 public static partial class Aroon
 {
@@ -98,15 +88,4 @@ public static partial class Aroon
         this IQuoteProvider<IQuote> provider,
         int lookbackPeriods = 25)
         => new(provider, lookbackPeriods);
-
-    /// <summary>
-    /// Creates an Aroon hub from a collection of quotes.
-    /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <returns>An instance of <see cref="AroonHub"/>.</returns>
-    public static AroonHub ToAroonHub(
-        this IReadOnlyList<IQuote> quotes,
-        int lookbackPeriods = 25)
-        => quotes.ToQuoteHub().ToAroonHub(lookbackPeriods);
 }

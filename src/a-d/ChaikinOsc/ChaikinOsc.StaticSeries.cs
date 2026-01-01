@@ -1,7 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Provides methods for calculating the Chaikin Oscillator on a series of quotes.
+/// Chaikin Oscillator on a series of quotes indicator.
 /// </summary>
 public static partial class ChaikinOsc
 {

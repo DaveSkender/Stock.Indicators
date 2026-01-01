@@ -128,7 +128,7 @@ using Skender.Stock.Indicators;
 SmaList smaList = new(20);
 
 // add quotes incrementally (from your data source)
-foreach (Quote quote in quotes)
+foreach (IQuote quote in quotes)  // simulating stream
 {
     smaList.Add(quote);
 }

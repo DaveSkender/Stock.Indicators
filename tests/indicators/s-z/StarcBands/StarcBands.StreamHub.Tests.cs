@@ -44,6 +44,7 @@ public class StarcBandsHubTests : StreamHubTestBase, ITestQuoteObserver
         sut.IsExactly(expectedRevised);
         sut.Should().HaveCount(quotesCount - 1);
 
+        // cleanup
         observer.Unsubscribe();
         quoteHub.EndTransmission();
     }
@@ -86,6 +87,7 @@ public class StarcBandsHubTests : StreamHubTestBase, ITestQuoteObserver
 
         observer.Results.IsExactly(quotes.ToStarcBands(5, 2, 3));
 
+        // cleanup
         observer.Unsubscribe();
         quoteHub.EndTransmission();
     }

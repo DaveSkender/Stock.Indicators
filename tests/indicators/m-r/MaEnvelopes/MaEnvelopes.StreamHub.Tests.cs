@@ -90,39 +90,6 @@ public class MaEnvelopesHubTests : StreamHubTestBase, ITestChainObserver
     }
 
     [TestMethod]
-    public void ChainProvider()
-    {
-        const int maPeriods = 20;
-        int length = Quotes.Count;
-
-        // setup quote provider hub
-        QuoteHub quoteHub = new();
-
-        // setup observer
-        MaEnvelopesHub maEnvHub = quoteHub.ToMaEnvelopesHub(maPeriods, percentOffset);
-
-        // MaEnvelopeResult doesn't implement IReusable, so it cannot be used as a provider for other indicators
-        // This test verifies the hub works correctly but doesn't chain to another indicator
-
-        // emulate quote stream
-        for (int i = 0; i < length; i++) { quoteHub.Add(Quotes[i]); }
-
-        // final results
-        IReadOnlyList<MaEnvelopeResult> actuals = maEnvHub.Results;
-
-        // time-series, for comparison
-        IReadOnlyList<MaEnvelopeResult> expected = Quotes.ToMaEnvelopes(maPeriods, percentOffset);
-
-        // assert, should equal series
-        actuals.Should().HaveCount(length);
-        actuals.IsExactly(expected);
-
-        // cleanup
-        maEnvHub.Unsubscribe();
-        quoteHub.EndTransmission();
-    }
-
-    [TestMethod]
     public void WithDemaType()
     {
         int length = Quotes.Count;

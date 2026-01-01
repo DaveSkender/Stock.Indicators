@@ -4,17 +4,10 @@ namespace Skender.Stock.Indicators;
 /// Streaming hub for Commodity Channel Index (CCI) calculations.
 /// </summary>
 public class CciHub
-    : ChainProvider<IQuote, CciResult>, ICci
+    : ChainHub<IQuote, CciResult>, ICci
 {
     private readonly CciList _cciList;
 
-    /// <summary>
-    /// Initializes a new instance of the <see cref="CciHub"/> class.
-    /// </summary>
-    /// <param name="provider">The quote provider.</param>
-    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <exception cref="ArgumentNullException">Thrown when the provider is null.</exception>
-    /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
     internal CciHub(
         IQuoteProvider<IQuote> provider,
         int lookbackPeriods) : base(provider)
@@ -84,7 +77,7 @@ public class CciHub
 }
 
 /// <summary>
-/// Provides methods for calculating the Commodity Channel Index (CCI) indicator.
+/// Streaming hub for Commodity Channel Index (CCI).
 /// </summary>
 public static partial class Cci
 {
@@ -100,19 +93,4 @@ public static partial class Cci
         this IQuoteProvider<IQuote> quoteProvider,
         int lookbackPeriods = 20)
         => new(quoteProvider, lookbackPeriods);
-
-    /// <summary>
-    /// Creates a CCI hub from a collection of quotes.
-    /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <returns>An instance of <see cref="CciHub"/>.</returns>
-    public static CciHub ToCciHub(
-        this IReadOnlyList<IQuote> quotes,
-        int lookbackPeriods = 20)
-    {
-        QuoteHub quoteHub = new();
-        quoteHub.Add(quotes);
-        return quoteHub.ToCciHub(lookbackPeriods);
-    }
 }
