@@ -145,7 +145,7 @@ public static partial class Catalog
         _listings.Add(ConnorsRsi.BufferListing);
         _listings.Add(ConnorsRsi.StreamListing);
 
-        // Correlation (Series only - PairsHub streaming removed)
+        // Correlation
         _listings.Add(Correlation.SeriesListing);
 
         // DEMA (Double Exponential Moving Average)
@@ -303,7 +303,7 @@ public static partial class Catalog
         _listings.Add(Pmo.SeriesListing);
         _listings.Add(Pmo.StreamListing);
 
-        // PRS (Price Relative Strength - Series only, PairsHub streaming removed)
+        // PRS (Price Relative Strength)
         _listings.Add(Prs.SeriesListing);
 
         // PVO (Price Volume Oscillator)
