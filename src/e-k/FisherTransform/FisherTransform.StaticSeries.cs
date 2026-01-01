@@ -1,7 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Provides methods for calculating the Fisher Transform indicator.
+/// Fisher Transform indicator.
 /// </summary>
 public static partial class FisherTransform
 {
@@ -11,8 +11,8 @@ public static partial class FisherTransform
     /// <param name="source">The list of source data.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>A list of Fisher Transform results.</returns>
-    /// <exception cref="ArgumentNullException">Thrown when the source list is null.</exception>
-    /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
+    /// <exception cref="ArgumentNullException">Thrown when <paramref name="source"/> is null.</exception>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="lookbackPeriods"/> is invalid.</exception>
     public static IReadOnlyList<FisherTransformResult> ToFisherTransform(
         this IReadOnlyList<IReusable> source,
         int lookbackPeriods = 10)

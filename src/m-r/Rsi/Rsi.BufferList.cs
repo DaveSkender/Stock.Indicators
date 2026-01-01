@@ -15,6 +15,7 @@ public class RsiList : BufferList<RsiResult>, IIncrementFromChain, IRsi
     /// Initializes a new instance of the <see cref="RsiList"/> class.
     /// </summary>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="lookbackPeriods"/> is invalid.</exception>
     public RsiList(int lookbackPeriods)
     {
         Rsi.Validate(lookbackPeriods);
@@ -30,12 +31,11 @@ public class RsiList : BufferList<RsiResult>, IIncrementFromChain, IRsi
     /// </summary>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <param name="values">Initial reusable values to populate the list.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="lookbackPeriods"/> is invalid.</exception>
     public RsiList(int lookbackPeriods, IReadOnlyList<IReusable> values)
         : this(lookbackPeriods) => Add(values);
 
-    /// <summary>
-    /// Gets the number of periods to look back for the calculation.
-    /// </summary>
+    /// <inheritdoc />
     public int LookbackPeriods { get; init; }
 
     /// <inheritdoc />

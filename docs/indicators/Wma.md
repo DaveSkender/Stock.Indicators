@@ -81,7 +81,7 @@ WmaList wmaList = new(lookbackPeriods);
 
 foreach (IQuote quote in quotes)  // simulating stream
 {
-  quoteHub.Add(quote);
+  wmaList.Add(quote);
 }
 
 // based on `ICollection<WmaResult>`
@@ -94,7 +94,7 @@ Subscribe to a `QuoteHub` for advanced streaming scenarios:
 QuoteHub quoteHub = new();
 WmaHub observer = quoteHub.ToWmaHub(lookbackPeriods);
 
-foreach (Quote quote in quotes)  // simulating stream
+foreach (IQuote quote in quotes)  // simulating stream
 {
   quoteHub.Add(quote);
 }

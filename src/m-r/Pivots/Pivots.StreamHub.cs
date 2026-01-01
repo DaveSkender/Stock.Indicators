@@ -1,23 +1,11 @@
 namespace Skender.Stock.Indicators;
 
-// PIVOT POINTS (STREAM HUB)
-
 /// <summary>
-/// Provides methods for calculating Pivot Points using a stream hub.
+/// Streaming hub for Pivot Points using a stream hub.
 /// </summary>
 public class PivotsHub
     : StreamHub<IQuote, PivotsResult>, IPivots
 {
-
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="PivotsHub"/> class.
-    /// </summary>
-    /// <param name="provider">The quote provider.</param>
-    /// <param name="leftSpan">The number of periods to the left of the pivot point.</param>
-    /// <param name="rightSpan">The number of periods to the right of the pivot point.</param>
-    /// <param name="maxTrendPeriods">The maximum number of periods for trend calculation.</param>
-    /// <param name="endType">The type of end point for the pivot calculation.</param>
     internal PivotsHub(
         IQuoteProvider<IQuote> provider,
         int leftSpan,
@@ -36,24 +24,16 @@ public class PivotsHub
         Reinitialize();
     }
 
-    /// <summary>
-    /// Gets the number of periods to the left for pivot identification.
-    /// </summary>
+    /// <inheritdoc/>
     public int LeftSpan { get; init; }
 
-    /// <summary>
-    /// Gets the number of periods to the right for pivot identification.
-    /// </summary>
+    /// <inheritdoc/>
     public int RightSpan { get; init; }
 
-    /// <summary>
-    /// Gets the maximum number of periods to track trend.
-    /// </summary>
+    /// <inheritdoc/>
     public int MaxTrendPeriods { get; init; }
 
-    /// <summary>
-    /// Gets the end type for price calculations.
-    /// </summary>
+    /// <inheritdoc/>
     public EndType EndType { get; init; }
     /// <summary>
     /// Rebuilds the hub from the beginning, including trend line calculations.
@@ -285,27 +265,5 @@ public static partial class Pivots
     {
         ArgumentNullException.ThrowIfNull(quoteProvider);
         return new(quoteProvider, leftSpan, rightSpan, maxTrendPeriods, endType);
-    }
-
-    /// <summary>
-    /// Creates a Pivots hub from a collection of quotes.
-    /// </summary>
-    /// <param name="quotes">The collection of quotes.</param>
-    /// <param name="leftSpan">The number of periods to the left of the pivot point. Default is 2.</param>
-    /// <param name="rightSpan">The number of periods to the right of the pivot point. Default is 2.</param>
-    /// <param name="maxTrendPeriods">The maximum number of periods for trend calculation. Default is 20.</param>
-    /// <param name="endType">The type of end point for the pivot calculation. Default is <see cref="EndType.HighLow"/>.</param>
-    /// <returns>An instance of <see cref="PivotsHub"/>.</returns>
-    public static PivotsHub ToPivotsHub(
-        this IReadOnlyList<IQuote> quotes,
-        int leftSpan = 2,
-        int rightSpan = 2,
-        int maxTrendPeriods = 20,
-        EndType endType = EndType.HighLow)
-    {
-        ArgumentNullException.ThrowIfNull(quotes);
-        QuoteHub quoteHub = new();
-        quoteHub.Add(quotes);
-        return quoteHub.ToPivotsHub(leftSpan, rightSpan, maxTrendPeriods, endType);
     }
 }

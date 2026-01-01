@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 /// Provides methods for calculating the T3 Moving Average indicator.
 /// </summary>
 public class T3Hub
-    : ChainProvider<IReusable, T3Result>, IT3
+    : ChainHub<IReusable, T3Result>, IT3
 {
     private double lastEma1 = double.NaN;
     private double lastEma2 = double.NaN;
@@ -145,22 +145,4 @@ public static partial class T3
         int lookbackPeriods = 5,
         double volumeFactor = 0.7)
         => new(chainProvider, lookbackPeriods, volumeFactor);
-
-    /// <summary>
-    /// Creates a T3 hub from a collection of quotes.
-    /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="lookbackPeriods">Parameter for the calculation.</param>
-    /// <param name="volumeFactor">Parameter for the calculation.</param>
-    /// <returns>An instance of <see cref="T3Hub"/>.</returns>
-    public static T3Hub ToT3Hub(
-        this IReadOnlyList<IQuote> quotes,
-        int lookbackPeriods = 5,
-        double volumeFactor = 0.7)
-    {
-        QuoteHub quoteHub = new();
-        quoteHub.Add(quotes);
-        return quoteHub.ToT3Hub(lookbackPeriods, volumeFactor);
-    }
-
 }

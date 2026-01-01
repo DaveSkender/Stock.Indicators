@@ -1,7 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Provides methods for calculating pivot points series.
+/// pivot points series indicator.
 /// </summary>
 public static partial class Pivots
 {

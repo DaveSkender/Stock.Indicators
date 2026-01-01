@@ -1,7 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Provides methods for calculating the Rolling Pivot Points series.
+/// Rolling Pivot Points indicator.
 /// </summary>
 public static partial class RollingPivots
 {

@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 /// Provides methods for calculating the Hilbert Transform Instantaneous Trendline (HTL) indicator.
 /// </summary>
 public class HtTrendlineHub
-    : ChainProvider<IReusable, HtlResult>, IHtTrendline
+    : ChainHub<IReusable, HtlResult>, IHtTrendline
 {
 
     private readonly List<double> pr = [];   // price
@@ -24,11 +24,6 @@ public class HtTrendlineHub
     private readonly List<double> sd = [];   // smooth period
     private readonly List<double> it = [];   // instantaneous trend (raw)
 
-    /// <summary>
-    /// Initializes a new instance of the <see cref="HtTrendlineHub"/> class.
-    /// </summary>
-    /// <param name="provider">The chain provider.</param>
-    /// <exception cref="ArgumentNullException">Thrown when the provider is null.</exception>
     internal HtTrendlineHub(
         IChainProvider<IReusable> provider) : base(provider)
     {
@@ -204,18 +199,5 @@ public static partial class HtTrendline
     {
         ArgumentNullException.ThrowIfNull(chainProvider);
         return new(chainProvider);
-    }
-
-    /// <summary>
-    /// Creates an HtTrendline hub from a collection of quotes.
-    /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <returns>An instance of <see cref="HtTrendlineHub"/>.</returns>
-    public static HtTrendlineHub ToHtTrendlineHub(
-        this IReadOnlyList<IQuote> quotes)
-    {
-        QuoteHub quoteHub = new();
-        quoteHub.Add(quotes);
-        return quoteHub.ToHtTrendlineHub();
     }
 }

@@ -93,7 +93,7 @@ Subscribe to a `QuoteHub` for advanced streaming scenarios:
 QuoteHub quoteHub = new();
 ElderRayHub observer = quoteHub.ToElderRayHub(lookbackPeriods);
 
-foreach (IQuote quote in quotes)  // simulating stream
+foreach (IQuote quote in quotes)  // simulating stream  // simulating stream
 {
   quoteHub.Add(quote);
 }

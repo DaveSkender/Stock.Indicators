@@ -100,11 +100,10 @@ for test_file in "${test_files[@]}"; do
         # Check which interfaces are implemented
         has_quote_observer=$(echo "$class_line" | grep -c "ITestQuoteObserver" || true)
         has_chain_observer=$(echo "$class_line" | grep -c "ITestChainObserver" || true)
-        has_pairs_observer=$(echo "$class_line" | grep -c "ITestPairsObserver" || true)
         has_chain_provider=$(echo "$class_line" | grep -c "ITestChainProvider" || true)
 
         # Validation: Should implement exactly one observer interface
-        observer_count=$((has_quote_observer + has_chain_observer + has_pairs_observer))
+        observer_count=$((has_quote_observer + has_chain_observer))
 
         # Note: ITestChainObserver inherits ITestQuoteObserver, so if both appear, that's valid
         if [[ $has_chain_observer -eq 1 ]] && [[ $has_quote_observer -eq 1 ]]; then
@@ -113,10 +112,6 @@ for test_file in "${test_files[@]}"; do
 
         if [[ $observer_count -eq 0 ]]; then
             interface_compliance_issues+=("$indicator_name: No observer interface implemented")
-            interface_issues=$((interface_issues + 1))
-        elif [[ $observer_count -gt 1 ]] && [[ $has_pairs_observer -eq 1 ]]; then
-            # PairsObserver shouldn't be combined with other observers
-            interface_compliance_issues+=("$indicator_name: PairsObserver should not be combined with other observer interfaces")
             interface_issues=$((interface_issues + 1))
         fi
 
@@ -137,18 +132,7 @@ for test_file in "${test_files[@]}"; do
 
         if [[ $has_chain_provider -eq 1 ]]; then
             if ! grep -q "ChainProvider_MatchesSeriesExactly" "$test_file"; then
-                test_method_issues_list+=("$indicator_name: Missing ChainProvider test method")
-                test_method_issues=$((test_method_issues + 1))
-            fi
-        fi
-
-        if [[ $has_pairs_observer -eq 1 ]]; then
-            if ! grep -q "PairsObserver_SynchronizedProviders_MatchesSeriesExactly" "$test_file"; then
-                test_method_issues_list+=("$indicator_name: Missing PairsObserver test method")
-                test_method_issues=$((test_method_issues + 1))
-            fi
-            if ! grep -q "PairsObserver_TimestampMismatch_ThrowsInvalidQuotesException" "$test_file"; then
-                test_method_issues_list+=("$indicator_name: Missing PairsObserver timestamp mismatch test")
+                test_method_issues_list+=("$indicator_name: Missing ChainHub test method")
                 test_method_issues=$((test_method_issues + 1))
             fi
         fi
@@ -198,7 +182,7 @@ for test_file in "${test_files[@]}"; do
             fi
         fi
 
-        # Check ChainProvider method for provider history testing
+        # Check ChainHub method for provider history testing
         has_chain_provider_method=$(grep -c "ChainProvider_MatchesSeriesExactly" "$test_file" || true)
 
         if [[ $has_chain_provider_method -gt 0 ]]; then
@@ -206,7 +190,7 @@ for test_file in "${test_files[@]}"; do
             has_remove=$(grep -A 50 "ChainProvider_MatchesSeriesExactly" "$test_file" | grep -c "\.Remove(" || true)
 
             if [[ $has_insert -eq 0 ]] || [[ $has_remove -eq 0 ]]; then
-                provider_history_issues+=("$indicator_name: ChainProvider test missing Insert/Remove operations")
+                provider_history_issues+=("$indicator_name: ChainHub test missing Insert/Remove operations")
                 provider_history_missing=$((provider_history_missing + 1))
             fi
         fi

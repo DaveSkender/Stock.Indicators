@@ -1,19 +1,11 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Provides methods for calculating the Rate of Change (ROC) indicator.
+/// Streaming hub for Rate of Change (ROC).
 /// </summary>
 public class RocHub
-    : ChainProvider<IReusable, RocResult>, IRoc
+    : ChainHub<IReusable, RocResult>, IRoc
 {
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="RocHub"/> class.
-    /// </summary>
-    /// <param name="provider">The chain provider.</param>
-    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <exception cref="ArgumentNullException">Thrown when the provider is null.</exception>
-    /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
     internal RocHub(
         IChainProvider<IReusable> provider,
         int lookbackPeriods) : base(provider)
@@ -78,20 +70,4 @@ public static partial class Roc
         this IChainProvider<IReusable> chainProvider,
         int lookbackPeriods = 14)
              => new(chainProvider, lookbackPeriods);
-
-    /// <summary>
-    /// Creates a Roc hub from a collection of quotes.
-    /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="lookbackPeriods">Parameter for the calculation.</param>
-    /// <returns>An instance of <see cref="RocHub"/>.</returns>
-    public static RocHub ToRocHub(
-        this IReadOnlyList<IQuote> quotes,
-        int lookbackPeriods = 14)
-    {
-        QuoteHub quoteHub = new();
-        quoteHub.Add(quotes);
-        return quoteHub.ToRocHub(lookbackPeriods);
-    }
-
 }

@@ -54,20 +54,32 @@ See [Utilities and helpers](/utilities#utilities-for-indicator-results) for more
 
 ## Streaming
 
-This indicator can be used with the buffer style for incremental streaming scenarios.  See [Streaming guide](/guide) for more information.
+Use the buffer-style `List<T>` when you need incremental calculations without a hub:
 
 ```csharp
-// buffer-style streaming
-RocWbList buffer = new(lookbackPeriods, emaPeriods, stdDevPeriods);
+RocWbList rocWbList = new(lookbackPeriods, emaPeriods, stdDevPeriods);
 
-foreach (Quote quote in quotes)
+foreach (IQuote quote in quotes)  // simulating stream
 {
-    buffer.Add(quote);
-    RocWbResult result = buffer[^1];
+  rocWbList.Add(quote);
 }
 
-// or initialize with historical quotes
-RocWbList buffer = quotes.ToRocWbList(lookbackPeriods, emaPeriods, stdDevPeriods);
+// based on `ICollection<RocWbResult>`
+IReadOnlyList<RocWbResult> results = rocWbList;
+```
+
+Subscribe to a `QuoteHub` for advanced streaming scenarios:
+
+```csharp
+QuoteHub quoteHub = new();
+RocWbHub observer = quoteHub.ToRocWbHub(lookbackPeriods, emaPeriods, stdDevPeriods);
+
+foreach (IQuote quote in quotes)  // simulating stream  // simulating stream
+{
+  quoteHub.Add(quote);
+}
+
+IReadOnlyList<RocWbResult> results = observer.Results;
 ```
 
 ## Chaining

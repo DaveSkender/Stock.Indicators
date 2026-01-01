@@ -53,6 +53,7 @@ public class BollingerBandsHubTests : StreamHubTestBase, ITestQuoteObserver, ITe
         actuals.Should().HaveCount(quotesCount - 1);
         actuals.IsExactly(expected);
 
+        // cleanup
         observer.Unsubscribe();
         quoteHub.EndTransmission();
     }
@@ -109,6 +110,7 @@ public class BollingerBandsHubTests : StreamHubTestBase, ITestQuoteObserver, ITe
         sut.Should().HaveCount(quotesCount - 1);
         sut.IsExactly(expected);
 
+        // cleanup
         observer.Unsubscribe();
         quoteHub.EndTransmission();
     }
@@ -141,6 +143,7 @@ public class BollingerBandsHubTests : StreamHubTestBase, ITestQuoteObserver, ITe
 
         observer.Results.IsExactly(quotes.ToBollingerBands(5, 2));
 
+        // cleanup
         observer.Unsubscribe();
         quoteHub.EndTransmission();
     }

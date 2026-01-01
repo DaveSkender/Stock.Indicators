@@ -41,11 +41,11 @@ public class WmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
 
         // delete, should equal series (revised)
         quoteHub.Remove(Quotes[removeAtIndex]);
-
         IReadOnlyList<WmaResult> expectedRevised = RevisedQuotes.ToWma(LookbackPeriods);
         sut.IsExactly(expectedRevised);
         sut.Should().HaveCount(quotesCount - 1);
 
+        // cleanup
         observer.Unsubscribe();
         quoteHub.EndTransmission();
     }
@@ -53,28 +53,30 @@ public class WmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
     [TestMethod]
     public void ChainObserver_ChainedProvider_MatchesSeriesExactly()
     {
-        List<Quote> quotesList = Quotes.ToList();
-        int length = quotesList.Count;
-
+        // setup quote provider hub
         QuoteHub quoteHub = new();
 
+        // initialize observer
         WmaHub observer = quoteHub
             .ToQuotePartHub(CandlePart.HL2)
             .ToWmaHub(LookbackPeriods);
 
-        for (int i = 0; i < length; i++)
-        {
-            quoteHub.Add(quotesList[i]);
-        }
+        // emulate quote stream
+        for (int i = 0; i < quotesCount; i++) { quoteHub.Add(Quotes[i]); }
 
-        IReadOnlyList<WmaResult> streamList = observer.Results;
-        IReadOnlyList<WmaResult> seriesList = quotesList
+        // final results
+        IReadOnlyList<WmaResult> sut = observer.Results;
+
+        // time-series, for comparison
+        IReadOnlyList<WmaResult> expected = Quotes
             .Use(CandlePart.HL2)
             .ToWma(LookbackPeriods);
 
-        streamList.Should().HaveCount(length);
-        streamList.IsExactly(seriesList);
+        // assert, should equal series
+        sut.IsExactly(expected);
+        sut.Should().HaveCount(quotesCount);
 
+        // cleanup
         observer.Unsubscribe();
         quoteHub.EndTransmission();
     }
@@ -82,45 +84,49 @@ public class WmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
     [TestMethod]
     public void ChainProvider_MatchesSeriesExactly()
     {
+        const int wmaPeriods = LookbackPeriods;
         const int emaPeriods = 10;
 
-        List<Quote> quotesList = Quotes.ToList();
-        int length = quotesList.Count;
-
+        // setup quote provider hub
         QuoteHub quoteHub = new();
 
+        // initialize observer
         EmaHub observer = quoteHub
-            .ToWmaHub(LookbackPeriods)
+            .ToWmaHub(wmaPeriods)
             .ToEmaHub(emaPeriods);
 
+        // emulate adding quotes to provider hub
         for (int i = 0; i < quotesCount; i++)
         {
-            if (i == 80)
-            {
-                continue;
-            }
+            // skip one (add later)
+            if (i == 80) { continue; }
 
             Quote q = Quotes[i];
             quoteHub.Add(q);
 
-            if (i is > 100 and < 105)
-            {
-                quoteHub.Add(q);
-            }
+            // resend duplicate quotes
+            if (i is > 100 and < 105) { quoteHub.Add(q); }
         }
 
+        // late arrival
         quoteHub.Insert(Quotes[80]);
 
+        // delete
         quoteHub.Remove(Quotes[removeAtIndex]);
 
+        // final results
         IReadOnlyList<EmaResult> sut = observer.Results;
+
+        // time-series, for comparison (revised)
         IReadOnlyList<EmaResult> expected = RevisedQuotes
-            .ToWma(LookbackPeriods)
+            .ToWma(wmaPeriods)
             .ToEma(emaPeriods);
 
+        // assert, should equal series
         sut.Should().HaveCount(quotesCount - 1);
         sut.IsExactly(expected);
 
+        // cleanup
         observer.Unsubscribe();
         quoteHub.EndTransmission();
     }

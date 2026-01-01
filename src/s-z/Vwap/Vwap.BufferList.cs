@@ -21,9 +21,7 @@ public class VwapList(DateTime? startDate = null) : BufferList<VwapResult>, IInc
     public VwapList(DateTime? startDate, IReadOnlyList<IQuote> quotes)
         : this(startDate) => Add(quotes);
 
-    /// <summary>
-    /// Gets the start date for the VWAP calculation.
-    /// </summary>
+    /// <inheritdoc />
     public DateTime? StartDate { get; private set; } = startDate;
 
     /// <inheritdoc />

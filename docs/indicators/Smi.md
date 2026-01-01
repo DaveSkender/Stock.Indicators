@@ -100,7 +100,7 @@ QuoteHub quoteHub = new();
 SmiHub observer = quoteHub.ToSmiHub(lookbackPeriods, firstSmoothPeriods,
                  secondSmoothPeriods, signalPeriods);
 
-foreach (Quote quote in quotes)  // simulating stream
+foreach (IQuote quote in quotes)  // simulating stream
 {
   quoteHub.Add(quote);
 }

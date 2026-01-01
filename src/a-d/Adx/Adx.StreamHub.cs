@@ -1,18 +1,11 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Represents a stream hub for calculating the Average Directional Index (ADX).
+/// Streaming hub for Average Directional Index (ADX).
 /// </summary>
-/// <inheritdoc cref="IAdx"/>
 public class AdxHub
-    : ChainProvider<IQuote, AdxResult>, IAdx
+    : ChainHub<IQuote, AdxResult>, IAdx
 {
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="AdxHub"/> class.
-    /// </summary>
-    /// <param name="quoteProvider">The stream observable provider.</param>
-    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     internal AdxHub(
         IQuoteProvider<IQuote> quoteProvider,
         int lookbackPeriods)
@@ -37,9 +30,7 @@ public class AdxHub
         Reinitialize();
     }
 
-    /// <summary>
-    /// Gets the lookback periods.
-    /// </summary>
+    /// <inheritdoc/>
     public int LookbackPeriods { get; init; }
 
     /// <summary>
@@ -67,7 +58,6 @@ public class AdxHub
     private double _sumMdm;
     private double _sumDx;
 
-    // METHODS
 
     /// <inheritdoc/>
     public override string ToString() => Results.Count > 0
@@ -348,19 +338,4 @@ public static partial class Adx
         this IQuoteProvider<IQuote> quoteProvider,
         int lookbackPeriods = 14)
              => new(quoteProvider, lookbackPeriods);
-
-    /// <summary>
-    /// Creates an ADX hub from a collection of quotes.
-    /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <returns>An instance of <see cref="AdxHub"/>.</returns>
-    public static AdxHub ToAdxHub(
-        this IReadOnlyList<IQuote> quotes,
-        int lookbackPeriods = 14)
-    {
-        QuoteHub quoteHub = new();
-        quoteHub.Add(quotes);
-        return quoteHub.ToAdxHub(lookbackPeriods);
-    }
 }

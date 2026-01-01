@@ -1,7 +1,5 @@
 namespace Skender.Stock.Indicators;
 
-// HEIKIN-ASHI (STREAM HUB)
-
 /// <summary>
 /// Represents a hub for Heikin-Ashi quote transformation.
 /// </summary>
@@ -11,11 +9,6 @@ public class HeikinAshiHub
     private decimal _prevOpen = decimal.MinValue;
     private decimal _prevClose = decimal.MinValue;
 
-    /// <summary>
-    /// Initializes a new instance of the <see cref="HeikinAshiHub"/> class.
-    /// </summary>
-    /// <param name="provider">The quote provider.</param>
-    /// <exception cref="ArgumentNullException">Thrown when the provider is null.</exception>
     internal HeikinAshiHub(
         IQuoteProvider<IQuote> provider) : base(provider)
     {
@@ -153,17 +146,4 @@ public static partial class HeikinAshi
     public static HeikinAshiHub ToHeikinAshiHub(
         this IQuoteProvider<IQuote> quoteProvider)
         => new(quoteProvider);
-
-    /// <summary>
-    /// Creates a Heikin-Ashi hub from a collection of quotes.
-    /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <returns>An instance of <see cref="HeikinAshiHub"/>.</returns>
-    public static HeikinAshiHub ToHeikinAshiHub(
-        this IReadOnlyList<IQuote> quotes)
-    {
-        QuoteHub quoteHub = new();
-        quoteHub.Add(quotes);
-        return quoteHub.ToHeikinAshiHub();
-    }
 }

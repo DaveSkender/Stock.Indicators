@@ -8,41 +8,44 @@ public class HmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
     [TestMethod]
     public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
     {
+        // setup quote provider hub
         QuoteHub quoteHub = new();
 
-        for (int i = 0; i < LookbackPeriods; i++)
-        {
-            quoteHub.Add(Quotes[i]);
-        }
+        // prefill quotes at provider
+        quoteHub.Add(Quotes.Take(20));
 
+        // initialize observer
         HmaHub observer = quoteHub.ToHmaHub(LookbackPeriods);
 
-        for (int i = LookbackPeriods; i < quotesCount; i++)
+        // fetch initial results (early)
+        IReadOnlyList<HmaResult> sut = observer.Results;
+
+        // emulate adding quotes to provider hub
+        for (int i = 20; i < quotesCount; i++)
         {
-            if (i == 80)
-            {
-                continue;
-            }
+            // skip one (add later)
+            if (i == 80) { continue; }
 
-            Quote quote = Quotes[i];
-            quoteHub.Add(quote);
+            Quote q = Quotes[i];
+            quoteHub.Add(q);
 
-            if (i is > 120 and < 126)
-            {
-                quoteHub.Add(quote);
-            }
+            // resend duplicate quotes
+            if (i is > 100 and < 105) { quoteHub.Add(q); }
         }
 
+        // late arrival, should equal series
         quoteHub.Insert(Quotes[80]);
 
+        IReadOnlyList<HmaResult> expectedOriginal = Quotes.ToHma(LookbackPeriods);
+        sut.IsExactly(expectedOriginal);
+
+        // delete, should equal series (revised)
         quoteHub.Remove(Quotes[removeAtIndex]);
+        IReadOnlyList<HmaResult> expectedRevised = RevisedQuotes.ToHma(LookbackPeriods);
+        sut.IsExactly(expectedRevised);
+        sut.Should().HaveCount(quotesCount - 1);
 
-        IReadOnlyList<HmaResult> actuals = observer.Results;
-        IReadOnlyList<HmaResult> expected = RevisedQuotes.ToHma(LookbackPeriods);
-
-        actuals.Should().HaveCount(quotesCount - 1);
-        actuals.IsExactly(expected);
-
+        // cleanup
         observer.Unsubscribe();
         quoteHub.EndTransmission();
     }
@@ -52,28 +55,30 @@ public class HmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
     {
         const int smaPeriods = 10;
 
-        List<Quote> quotesList = Quotes.ToList();
-        int length = quotesList.Count;
-
+        // setup quote provider hub
         QuoteHub quoteHub = new();
 
+        // initialize observer
         HmaHub observer = quoteHub
             .ToSmaHub(smaPeriods)
             .ToHmaHub(LookbackPeriods);
 
-        for (int i = 0; i < length; i++)
-        {
-            quoteHub.Add(quotesList[i]);
-        }
+        // emulate quote stream
+        for (int i = 0; i < quotesCount; i++) { quoteHub.Add(Quotes[i]); }
 
-        IReadOnlyList<HmaResult> streamList = observer.Results;
-        IReadOnlyList<HmaResult> seriesList = quotesList
+        // final results
+        IReadOnlyList<HmaResult> sut = observer.Results;
+
+        // time-series, for comparison
+        IReadOnlyList<HmaResult> expected = Quotes
             .ToSma(smaPeriods)
             .ToHma(LookbackPeriods);
 
-        streamList.Should().HaveCount(seriesList.Count);
-        streamList.IsExactly(seriesList);
+        // assert, should equal series
+        sut.IsExactly(expected);
+        sut.Should().HaveCount(quotesCount);
 
+        // cleanup
         observer.Unsubscribe();
         quoteHub.EndTransmission();
     }
@@ -81,45 +86,49 @@ public class HmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
     [TestMethod]
     public void ChainProvider_MatchesSeriesExactly()
     {
+        const int hmaPeriods = LookbackPeriods;
         const int smaPeriods = 10;
 
-        List<Quote> quotesList = Quotes.ToList();
-        int length = quotesList.Count;
-
+        // setup quote provider hub
         QuoteHub quoteHub = new();
 
+        // initialize observer
         SmaHub observer = quoteHub
-            .ToHmaHub(LookbackPeriods)
+            .ToHmaHub(hmaPeriods)
             .ToSmaHub(smaPeriods);
 
+        // emulate adding quotes to provider hub
         for (int i = 0; i < quotesCount; i++)
         {
-            if (i == 80)
-            {
-                continue;
-            }
+            // skip one (add later)
+            if (i == 80) { continue; }
 
             Quote q = Quotes[i];
             quoteHub.Add(q);
 
-            if (i is > 100 and < 105)
-            {
-                quoteHub.Add(q);
-            }
+            // resend duplicate quotes
+            if (i is > 100 and < 105) { quoteHub.Add(q); }
         }
 
+        // late arrival
         quoteHub.Insert(Quotes[80]);
 
+        // delete
         quoteHub.Remove(Quotes[removeAtIndex]);
 
+        // final results
         IReadOnlyList<SmaResult> sut = observer.Results;
+
+        // time-series, for comparison (revised)
         IReadOnlyList<SmaResult> expected = RevisedQuotes
-            .ToHma(LookbackPeriods)
+            .ToHma(hmaPeriods)
             .ToSma(smaPeriods);
 
+        // assert, should equal series
         sut.Should().HaveCount(quotesCount - 1);
         sut.IsExactly(expected);
 
+        // cleanup
         observer.Unsubscribe();
         quoteHub.EndTransmission();
     }

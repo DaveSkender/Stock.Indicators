@@ -1,7 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Provides methods for calculating the Schaff Trend Cycle (STC) indicator.
+/// Schaff Trend Cycle (STC) indicator.
 /// </summary>
 public static partial class Stc
 {

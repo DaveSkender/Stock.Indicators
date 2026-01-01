@@ -172,15 +172,15 @@ If you want to contribute administratively, do code reviews, or provide general 
 
 This repository is optimized for GitHub Copilot and coding agents with:
 
-- **Custom agent instructions** in `AGENTS.md` files (root and subdirectories) providing repository context, coding patterns, and domain knowledge
-- **Scoped instruction files** in `.github/instructions/` for targeted guidance by file type and folder
+- **AGENTS.md files** (root and subdirectories) providing repository context, coding patterns, and domain knowledge
+- **Agent Skills** in `.github/skills/` with domain-specific expertise for indicator development, testing, and performance
 - **Enhanced VS Code settings** in `.vscode/settings.json` with Copilot-specific configurations for optimal suggestions
 - **Development container** in `.devcontainer/devcontainer.json` for consistent development environment setup
 - **MCP server configurations** in `.vscode/mcp.json` for extended AI tools for developing capabilities with financial mathematics and .NET performance analysis
 
 When using GitHub Copilot:
 
-- Follow the established patterns documented in the AGENTS.md files and instruction files
+- Follow the established patterns documented in the AGENTS.md files and skills
 - Understand the numerical precision approach: `decimal` for public quote inputs, `double` internally for performance, and `double.NaN` for undefined values (see NaN handling policy in AGENTS.md)
 - Include comprehensive unit tests for any new indicators
 - Validate mathematical accuracy against reference implementations

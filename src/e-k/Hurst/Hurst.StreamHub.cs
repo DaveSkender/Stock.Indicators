@@ -4,17 +4,10 @@ namespace Skender.Stock.Indicators;
 /// Provides streaming calculation of the Hurst Exponent indicator.
 /// </summary>
 public class HurstHub
-    : ChainProvider<IReusable, HurstResult>, IHurst
+    : ChainHub<IReusable, HurstResult>, IHurst
 {
     private readonly Queue<double> _buffer;
 
-    /// <summary>
-    /// Initializes a new instance of the <see cref="HurstHub"/> class.
-    /// </summary>
-    /// <param name="provider">The chain provider.</param>
-    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
-    /// <exception cref="ArgumentNullException">Thrown when the provider is null.</exception>
-    /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
     internal HurstHub(
         IChainProvider<IReusable> provider,
         int lookbackPeriods) : base(provider)
@@ -128,19 +121,4 @@ public static partial class Hurst
         this IChainProvider<IReusable> chainProvider,
         int lookbackPeriods = 100)
              => new(chainProvider, lookbackPeriods);
-
-    /// <summary>
-    /// Creates a Hurst hub from a collection of quotes.
-    /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="lookbackPeriods">Parameter for the calculation.</param>
-    /// <returns>An instance of <see cref="HurstHub"/>.</returns>
-    public static HurstHub ToHurstHub(
-        this IReadOnlyList<IQuote> quotes,
-        int lookbackPeriods = 100)
-    {
-        QuoteHub quoteHub = new();
-        quoteHub.Add(quotes);
-        return quoteHub.ToHurstHub(lookbackPeriods);
-    }
 }

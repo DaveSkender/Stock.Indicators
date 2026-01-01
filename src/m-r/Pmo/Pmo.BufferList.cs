@@ -24,6 +24,7 @@ public class PmoList : BufferList<PmoResult>, IIncrementFromChain, IPmo
     /// <param name="timePeriods">The number of periods for the time span.</param>
     /// <param name="smoothPeriods">The number of periods for smoothing.</param>
     /// <param name="signalPeriods">The number of periods for the signal line.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="signalPeriods"/> is invalid.</exception>
     public PmoList(
         int timePeriods = 35,
         int smoothPeriods = 20,
@@ -60,19 +61,13 @@ public class PmoList : BufferList<PmoResult>, IIncrementFromChain, IPmo
         IReadOnlyList<IReusable> values)
         : this(timePeriods, smoothPeriods, signalPeriods) => Add(values);
 
-    /// <summary>
-    /// Gets the number of periods for the time span.
-    /// </summary>
+    /// <inheritdoc />
     public int TimePeriods { get; }
 
-    /// <summary>
-    /// Gets the number of periods for smoothing.
-    /// </summary>
+    /// <inheritdoc />
     public int SmoothPeriods { get; }
 
-    /// <summary>
-    /// Gets the number of periods for the signal line.
-    /// </summary>
+    /// <inheritdoc />
     public int SignalPeriods { get; }
 
     /// <inheritdoc />

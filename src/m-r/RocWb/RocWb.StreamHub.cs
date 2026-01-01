@@ -1,25 +1,16 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Provides methods for calculating the Rate of Change with Bands (RocWb) indicator.
+/// Streaming hub for Rate of Change with Bands (RocWb).
 /// </summary>
 public class RocWbHub
-    : ChainProvider<IReusable, RocWbResult>, IRocWb
+    : ChainHub<IReusable, RocWbResult>, IRocWb
 {
     private readonly double k;
     private double prevEma = double.NaN;
     private readonly Queue<double> rocSqBuffer;
     private readonly Queue<double> rocEmaInitBuffer;
 
-    /// <summary>
-    /// Initializes a new instance of the <see cref="RocWbHub"/> class.
-    /// </summary>
-    /// <param name="provider">The chain provider.</param>
-    /// <param name="lookbackPeriods">Quantity of periods in lookback window for ROC.</param>
-    /// <param name="emaPeriods">Quantity of periods for EMA smoothing.</param>
-    /// <param name="stdDevPeriods">Quantity of periods for standard deviation bands.</param>
-    /// <exception cref="ArgumentNullException">Thrown when the provider is null.</exception>
-    /// <exception cref="ArgumentOutOfRangeException">Thrown when the parameters are invalid.</exception>
     internal RocWbHub(
         IChainProvider<IReusable> provider,
         int lookbackPeriods,
@@ -233,25 +224,4 @@ public static partial class RocWb
         int emaPeriods = 5,
         int stdDevPeriods = 5)
         => new(chainProvider, lookbackPeriods, emaPeriods, stdDevPeriods);
-
-    /// <summary>
-    /// Creates a RocWb hub from a collection of quotes.
-    /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="lookbackPeriods">Quantity of periods in lookback window for ROC.</param>
-    /// <param name="emaPeriods">Quantity of periods for EMA smoothing.</param>
-    /// <param name="stdDevPeriods">Quantity of periods for standard deviation bands.</param>
-    /// <returns>An instance of <see cref="RocWbHub"/>.</returns>
-    public static RocWbHub ToRocWbHub(
-        this IReadOnlyList<IQuote> quotes,
-        int lookbackPeriods = 20,
-        int emaPeriods = 5,
-        int stdDevPeriods = 5)
-    {
-        ArgumentNullException.ThrowIfNull(quotes);
-        QuoteHub quoteHub = new();
-        quoteHub.Add(quotes);
-        return quoteHub.ToRocWbHub(lookbackPeriods, emaPeriods, stdDevPeriods);
-    }
-
 }

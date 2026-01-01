@@ -15,6 +15,7 @@ public class AlmaList : BufferList<AlmaResult>, IIncrementFromChain, IAlma
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <param name="offset">The offset for the ALMA calculation.</param>
     /// <param name="sigma">The sigma for the ALMA calculation.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="sigma"/> is invalid.</exception>
     public AlmaList(
         int lookbackPeriods,
         double offset = 0.85,
@@ -61,19 +62,13 @@ public class AlmaList : BufferList<AlmaResult>, IIncrementFromChain, IAlma
         IReadOnlyList<IReusable> values)
         : this(lookbackPeriods, offset, sigma) => Add(values);
 
-    /// <summary>
-    /// Gets the number of periods to look back for the calculation.
-    /// </summary>
+    /// <inheritdoc />
     public int LookbackPeriods { get; init; }
 
-    /// <summary>
-    /// Gets the offset parameter for the ALMA calculation.
-    /// </summary>
+    /// <inheritdoc />
     public double Offset { get; init; }
 
-    /// <summary>
-    /// Gets the sigma parameter for the ALMA calculation.
-    /// </summary>
+    /// <inheritdoc />
     public double Sigma { get; init; }
 
     /// <inheritdoc />

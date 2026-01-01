@@ -23,6 +23,7 @@ public class IchimokuList : BufferList<IchimokuResult>, IIncrementFromQuote, IIc
     /// <param name="senkouBPeriods">The number of periods for the Senkou Span B (leading span B).</param>
     /// <param name="senkouOffset">The number of periods for the Senkou offset.</param>
     /// <param name="chikouOffset">The number of periods for the Chikou offset.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="chikouOffset"/> is invalid.</exception>
     public IchimokuList(
         int tenkanPeriods = 9,
         int kijunPeriods = 26,

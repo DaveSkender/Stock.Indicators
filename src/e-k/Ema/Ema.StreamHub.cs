@@ -1,19 +1,11 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Provides methods for calculating the Exponential Moving Average (EMA) indicator.
+/// Streaming hub for Exponential Moving Average (EMA).
 /// </summary>
 public class EmaHub
-    : ChainProvider<IReusable, EmaResult>, IEma
+    : ChainHub<IReusable, EmaResult>, IEma
 {
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="EmaHub"/> class.
-    /// </summary>
-    /// <param name="provider">The chain provider.</param>
-    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <exception cref="ArgumentNullException">Thrown when the provider is null.</exception>
-    /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
     internal EmaHub(
         IChainProvider<IReusable> provider,
         int lookbackPeriods) : base(provider)
@@ -63,31 +55,16 @@ public class EmaHub
 public static partial class Ema
 {
     /// <summary>
-    /// Creates an EMA streaming hub from a chain provider.
+    /// Creates an EMA streaming hub with a chain provider source.
     /// </summary>
+    /// <remarks>If providers contain historical data, this hub will fast-forward its cache.</remarks>
     /// <param name="chainProvider">The chain provider.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <returns>An EMA hub.</returns>
-    /// <exception cref="ArgumentNullException">Thrown when the chain provider is null.</exception>
-    /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
+    /// <returns>A chain-sourced instance of <see cref="EmaHub"/>.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when <paramref name="chainProvider"/> is null.</exception>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="lookbackPeriods"/> is invalid.</exception>
     public static EmaHub ToEmaHub(
         this IChainProvider<IReusable> chainProvider,
         int lookbackPeriods)
         => new(chainProvider, lookbackPeriods);
-
-    /// <summary>
-    /// Creates a Ema hub from a collection of quotes.
-    /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="lookbackPeriods">Parameter for the calculation.</param>
-    /// <returns>An instance of <see cref="EmaHub"/>.</returns>
-    public static EmaHub ToEmaHub(
-        this IReadOnlyList<IQuote> quotes,
-        int lookbackPeriods)
-    {
-        QuoteHub quoteHub = new();
-        quoteHub.Add(quotes);
-        return quoteHub.ToEmaHub(lookbackPeriods);
-    }
-
 }

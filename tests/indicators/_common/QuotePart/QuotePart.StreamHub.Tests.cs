@@ -48,6 +48,7 @@ public class QuotePartHubTests : StreamHubTestBase, ITestQuoteObserver, ITestCha
         sut.Should().HaveCount(quotesCount - 1);
         sut.IsExactly(expectedRevised);
 
+        // cleanup
         observer.Unsubscribe();
         quoteHub.EndTransmission();
     }
@@ -92,6 +93,7 @@ public class QuotePartHubTests : StreamHubTestBase, ITestQuoteObserver, ITestCha
         sut.Should().HaveCount(quotesCount - 1);
         sut.IsExactly(expected);
 
+        // cleanup
         observer.Unsubscribe();
         quoteHub.EndTransmission();
     }

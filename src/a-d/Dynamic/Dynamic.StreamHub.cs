@@ -1,20 +1,11 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Provides methods for calculating the McGinley Dynamic indicator.
+/// Streaming hub for McGinley Dynamic.
 /// </summary>
 public class DynamicHub
-    : ChainProvider<IReusable, DynamicResult>, IDynamic
+    : ChainHub<IReusable, DynamicResult>, IDynamic
 {
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="DynamicHub"/> class.
-    /// </summary>
-    /// <param name="provider">The chain provider.</param>
-    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <param name="kFactor">The smoothing factor for the calculation.</param>
-    /// <exception cref="ArgumentNullException">Thrown when the provider is null.</exception>
-    /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods or kFactor are invalid.</exception>
     internal DynamicHub(
         IChainProvider<IReusable> provider,
         int lookbackPeriods,
@@ -84,22 +75,4 @@ public static partial class MgDynamic
         int lookbackPeriods,
         double kFactor = 0.6)
              => new(chainProvider, lookbackPeriods, kFactor);
-
-    /// <summary>
-    /// Creates a Dynamic hub from a collection of quotes.
-    /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <param name="kFactor">The smoothing factor for the calculation.</param>
-    /// <returns>An instance of <see cref="DynamicHub"/>.</returns>
-    public static DynamicHub ToDynamicHub(
-        this IReadOnlyList<IQuote> quotes,
-        int lookbackPeriods,
-        double kFactor = 0.6)
-    {
-        QuoteHub quoteHub = new();
-        quoteHub.Add(quotes);
-        return quoteHub.ToDynamicHub(lookbackPeriods, kFactor);
-    }
-
 }

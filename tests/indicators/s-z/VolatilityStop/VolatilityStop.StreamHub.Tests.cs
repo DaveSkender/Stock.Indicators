@@ -47,6 +47,7 @@ public class VolatilityStopHubTests : StreamHubTestBase, ITestQuoteObserver
         sut.IsExactly(expectedRevised);
         sut.Should().HaveCount(quotesCount - 1);
 
+        // cleanup
         observer.Unsubscribe();
         quoteHub.EndTransmission();
     }
@@ -79,6 +80,7 @@ public class VolatilityStopHubTests : StreamHubTestBase, ITestQuoteObserver
         streamList.Should().HaveCount(Quotes.Count);
         streamList.IsExactly(seriesList);
 
+        // cleanup
         observer.Unsubscribe();
         quoteHub.EndTransmission();
     }

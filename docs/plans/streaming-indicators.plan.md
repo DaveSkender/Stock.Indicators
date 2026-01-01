@@ -2,12 +2,12 @@
 
 This document consolidates incomplete tasks from the streaming indicators development feature (originally tracked in .specify/specs/001-develop-streaming-indicators/).
 
-**Status**: 99% complete - Framework is production-ready with comprehensive BufferList (96%) and StreamHub (98%) coverage.
+**Status**: 97% complete - Framework is production-ready with comprehensive BufferList (93%) and StreamHub (95%) coverage.
 
 - Total indicators: 85
-- With BufferList: 82 (96%)
-- With StreamHub: 83 (98%)
-- With streaming documentation: 81 of 82 streamable (99%)
+- With BufferList: 79 (93%)
+- With StreamHub: 80 (95%)
+- With streaming documentation: 78 of 79 streamable (99%)
 
 ## Recent Performance Fixes (December 2025)
 
@@ -103,7 +103,7 @@ DPO (Detrended Price Oscillator) required a framework enhancement to support cha
   - ✅ Implemented with lookahead offset pattern
   - ✅ Framework fix: Made `StreamHub.Rebuild()` and `OnRebuild()` virtual (PR #1802/#1800)
   - ✅ DPO override adjusts rebuild timestamp backward by offset for chained observers
-  - ✅ ChainProvider test now passes (removed `[Ignore]` attribute)
+  - ✅ ChainHub test now passes (removed `[Ignore]` attribute)
   - Has both BufferList and StreamHub
 
 - [x] **T145** - Slope StreamHub in `src/s-z/Slope/Slope.StreamHub.cs`
@@ -175,8 +175,8 @@ The following were evaluated and intentionally excluded from streaming implement
 
 - [x] **T175-T179** - StreamHub test interface compliance audits (5 tasks)
   - ✅ Audit script validates all tests implement correct interfaces
-  - ✅ Confirmed: ITestQuoteObserver, ITestChainObserver, ITestPairsObserver properly used
-  - ✅ All required test methods present (QuoteObserver, ChainObserver, ChainProvider, PairsObserver)
+  - ✅ Confirmed: ITestQuoteObserver, ITestChainObserver properly used
+  - ✅ All required test methods present (QuoteObserver, ChainObserver, ChainHub)
   - ✅ No interface compliance issues found
   - **Status**: COMPLETE
 
@@ -345,7 +345,7 @@ These algorithmic improvements apply to Series (batch) implementations. See [Iss
   - [x] Test interface compliance ✅ (T175-T179 - all tests validated)
   - [x] Test base class review ✅ (T184-T185 - validated, no updates needed)
   - [x] Provider history testing ✅ (T180-T183 - 40/42 applicable complete, 2 excluded)
-  - [x] DPO ChainProvider testing ✅ (now unblocked and passing)
+  - [x] DPO ChainHub testing ✅ (now unblocked and passing)
   - [x] Performance benchmarks ✅ (December 2025 baseline run)
   - [x] Memory validation ✅ (infrastructure ready)
 - **Low** (Polish + enhancements): 2-4 hours

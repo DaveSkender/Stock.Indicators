@@ -1,7 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Provides methods for calculating Simple Moving Average (SMA).
+/// Simple Moving Average (SMA) indicator.
 /// </summary>
 public static partial class Sma
 {
@@ -11,7 +11,7 @@ public static partial class Sma
     /// <param name="source">The source list to analyze.</param>
     /// <param name="lookbackPeriods">The number of periods to look back for the SMA calculation.</param>
     /// <returns>A read-only list of SMA results.</returns>
-    /// <exception cref="ArgumentNullException">Thrown when the source list is null.</exception>
+    /// <exception cref="ArgumentNullException">Thrown when <paramref name="source"/> is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback period is less than 1.</exception>
     public static IReadOnlyList<SmaResult> ToSma(
         this IReadOnlyList<IReusable> source,

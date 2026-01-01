@@ -1,16 +1,14 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Provides methods for calculating the MESA Adaptive Moving Average (MAMA) indicator.
+/// Streaming hub for MAMA.
 /// </summary>
 public class MamaHub
-    : ChainProvider<IReusable, MamaResult>, IMama
+    : ChainHub<IReusable, MamaResult>, IMama
 {
 
-    /// <summary>
-    /// State arrays for MESA algorithm
-    /// These arrays grow with each added value to support indexed lookback access
-    /// </summary>
+    // State arrays for MESA algorithm
+    // These arrays grow with each added value to support indexed lookback access
     private readonly List<double> pr = []; // price
     private readonly List<double> sm = []; // smooth
     private readonly List<double> dt = []; // detrender
@@ -27,14 +25,6 @@ public class MamaHub
 
     private readonly List<double> ph = []; // phase
 
-    /// <summary>
-    /// Initializes a new instance of the <see cref="MamaHub"/> class.
-    /// </summary>
-    /// <param name="provider">The chain provider.</param>
-    /// <param name="fastLimit">The fast limit for the MAMA calculation.</param>
-    /// <param name="slowLimit">The slow limit for the MAMA calculation.</param>
-    /// <exception cref="ArgumentNullException">Thrown when the provider is null.</exception>
-    /// <exception cref="ArgumentOutOfRangeException">Thrown when the limits are invalid.</exception>
     internal MamaHub(
         IChainProvider<IReusable> provider,
         double fastLimit,
@@ -259,22 +249,4 @@ public static partial class Mama
         double fastLimit = 0.5,
         double slowLimit = 0.05)
         => new(chainProvider, fastLimit, slowLimit);
-
-    /// <summary>
-    /// Creates a MAMA hub from a collection of quotes.
-    /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="fastLimit">Parameter for the calculation.</param>
-    /// <param name="slowLimit">Parameter for the calculation.</param>
-    /// <returns>An instance of <see cref="MamaHub"/>.</returns>
-    public static MamaHub ToMamaHub(
-        this IReadOnlyList<IQuote> quotes,
-        double fastLimit = 0.5,
-        double slowLimit = 0.05)
-    {
-        QuoteHub quoteHub = new();
-        quoteHub.Add(quotes);
-        return quoteHub.ToMamaHub(fastLimit, slowLimit);
-    }
-
 }

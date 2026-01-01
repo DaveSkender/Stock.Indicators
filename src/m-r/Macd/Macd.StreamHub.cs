@@ -1,21 +1,11 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Provides methods for calculating the MACD (Moving Average Convergence Divergence) indicator.
+/// Streaming hub for MACD (Moving Average Convergence Divergence).
 /// </summary>
 public class MacdHub
-    : ChainProvider<IReusable, MacdResult>, IMacd
+    : ChainHub<IReusable, MacdResult>, IMacd
 {
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="MacdHub"/> class.
-    /// </summary>
-    /// <param name="provider">The chain provider.</param>
-    /// <param name="fastPeriods">The number of periods for the fast EMA.</param>
-    /// <param name="slowPeriods">The number of periods for the slow EMA.</param>
-    /// <param name="signalPeriods">The number of periods for the signal line.</param>
-    /// <exception cref="ArgumentNullException">Thrown when the provider is null.</exception>
-    /// <exception cref="ArgumentOutOfRangeException">Thrown when any of the parameters are invalid.</exception>
     internal MacdHub(
         IChainProvider<IReusable> provider,
         int fastPeriods,
@@ -45,19 +35,13 @@ public class MacdHub
     /// <inheritdoc/>
     public int SignalPeriods { get; init; }
 
-    /// <summary>
-    /// Gets the smoothing factor for the fast EMA.
-    /// </summary>
+    /// <inheritdoc/>
     public double FastK { get; private init; }
 
-    /// <summary>
-    /// Gets the smoothing factor for the slow EMA.
-    /// </summary>
+    /// <inheritdoc/>
     public double SlowK { get; private init; }
 
-    /// <summary>
-    /// Gets the smoothing factor for the signal line.
-    /// </summary>
+    /// <inheritdoc/>
     public double SignalK { get; private init; }
     /// <inheritdoc/>
     protected override (MacdResult result, int index)
@@ -139,24 +123,4 @@ public static partial class Macd
         int slowPeriods = 26,
         int signalPeriods = 9)
         => new(chainProvider, fastPeriods, slowPeriods, signalPeriods);
-
-    /// <summary>
-    /// Creates a Macd hub from a collection of quotes.
-    /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="fastPeriods">Parameter for the calculation.</param>
-    /// <param name="slowPeriods">Parameter for the calculation.</param>
-    /// <param name="signalPeriods">Parameter for the calculation.</param>
-    /// <returns>An instance of <see cref="MacdHub"/>.</returns>
-    public static MacdHub ToMacdHub(
-        this IReadOnlyList<IQuote> quotes,
-        int fastPeriods = 12,
-        int slowPeriods = 26,
-        int signalPeriods = 9)
-    {
-        QuoteHub quoteHub = new();
-        quoteHub.Add(quotes);
-        return quoteHub.ToMacdHub(fastPeriods, slowPeriods, signalPeriods);
-    }
-
 }

@@ -60,10 +60,8 @@ public class EpmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
     [TestMethod]
     public override void ToStringOverride_ReturnsExpectedName()
     {
-        QuoteHub quoteHub = new();
-        EpmaHub epmaHub = quoteHub.ToEpmaHub(lookbackPeriods);
-
-        epmaHub.ToString().Should().Be($"EPMA({lookbackPeriods})");
+        EpmaHub hub = new(new QuoteHub(), lookbackPeriods);
+        hub.ToString().Should().Be($"EPMA({lookbackPeriods})");
     }
 
     [TestMethod]
@@ -143,9 +141,6 @@ public class EpmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
 
         streamResults.Should().HaveCount(Quotes.Count);
         streamResults.IsExactly(seriesResults);
-
-        epmaHub.Unsubscribe();
-        quoteHub.EndTransmission();
     }
 
     [TestMethod]

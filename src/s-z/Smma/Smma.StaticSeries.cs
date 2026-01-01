@@ -1,7 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Provides methods for calculating the Smoothed Moving Average (SMMA) for a series of data.
+/// Smoothed Moving Average (SMMA) for a series of data indicator.
 /// </summary>
 public static partial class Smma
 {
@@ -11,7 +11,7 @@ public static partial class Smma
     /// <param name="source">The source list of data.</param>
     /// <param name="lookbackPeriods">The number of periods to look back for the SMMA calculation.</param>
     /// <returns>A list of <see cref="SmmaResult"/> containing the SMMA values.</returns>
-    /// <exception cref="ArgumentNullException">Thrown when the source list is null.</exception>
+    /// <exception cref="ArgumentNullException">Thrown when <paramref name="source"/> is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are less than 1.</exception>
     public static IReadOnlyList<SmmaResult> ToSmma(
         this IReadOnlyList<IReusable> source,

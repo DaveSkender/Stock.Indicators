@@ -55,6 +55,7 @@ public class GatorHubTests : StreamHubTestBase, ITestChainObserver
         actuals.Should().HaveCount(quotesCount - 1);
         actuals.IsExactly(expected);
 
+        // cleanup
         observer.Unsubscribe();
         quoteHub.EndTransmission();
     }
@@ -114,6 +115,7 @@ public class GatorHubTests : StreamHubTestBase, ITestChainObserver
         sut.Should().HaveCount(quotesCount - 1);
         sut.IsExactly(expected);
 
+        // cleanup
         observer.Unsubscribe();
         quoteHub.EndTransmission();
     }
@@ -149,6 +151,7 @@ public class GatorHubTests : StreamHubTestBase, ITestChainObserver
         observer.Results[^1].Lower.Should().NotBeNull();
 
         // Now test with a completely fresh setup after unsubscribing
+        // cleanup
         observer.Unsubscribe();
         quoteHub.EndTransmission();
 

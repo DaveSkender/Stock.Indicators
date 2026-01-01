@@ -12,7 +12,7 @@ public class TemaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
         QuoteHub quoteHub = new();
 
         // prefill quotes at provider
-        quoteHub.Add(Quotes.Take(50));
+        quoteHub.Add(Quotes.Take(20));
 
         // initialize observer
         TemaHub observer = quoteHub.ToTemaHub(lookbackPeriods);
@@ -21,7 +21,7 @@ public class TemaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
         IReadOnlyList<TemaResult> sut = observer.Results;
 
         // emulate adding quotes to provider hub
-        for (int i = 50; i < quotesCount; i++)
+        for (int i = 20; i < quotesCount; i++)
         {
             // skip one (add later)
             if (i == 80) { continue; }
@@ -41,11 +41,11 @@ public class TemaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
 
         // delete, should equal series (revised)
         quoteHub.Remove(Quotes[removeAtIndex]);
-
         IReadOnlyList<TemaResult> expectedRevised = RevisedQuotes.ToTema(lookbackPeriods);
         sut.IsExactly(expectedRevised);
         sut.Should().HaveCount(quotesCount - 1);
 
+        // cleanup
         observer.Unsubscribe();
         quoteHub.EndTransmission();
     }
@@ -53,36 +53,33 @@ public class TemaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
     [TestMethod]
     public void ChainObserver_ChainedProvider_MatchesSeriesExactly()
     {
-        const int temaPeriods = 20;
         const int smaPeriods = 10;
-        int length = Quotes.Count;
+        const int temaPeriods = 20;
 
         // setup quote provider hub
         QuoteHub quoteHub = new();
 
-        // initialize observer - chain SMA to TEMA
+        // initialize observer
         TemaHub observer = quoteHub
             .ToSmaHub(smaPeriods)
             .ToTemaHub(temaPeriods);
 
         // emulate quote stream
-        for (int i = 0; i < length; i++)
-        {
-            quoteHub.Add(Quotes[i]);
-        }
+        for (int i = 0; i < quotesCount; i++) { quoteHub.Add(Quotes[i]); }
 
         // final results
-        IReadOnlyList<TemaResult> streamList = observer.Results;
+        IReadOnlyList<TemaResult> sut = observer.Results;
 
         // time-series, for comparison
-        IReadOnlyList<TemaResult> seriesList = Quotes
+        IReadOnlyList<TemaResult> expected = Quotes
             .ToSma(smaPeriods)
             .ToTema(temaPeriods);
 
         // assert, should equal series
-        streamList.Should().HaveCount(length);
-        streamList.IsExactly(seriesList);
+        sut.IsExactly(expected);
+        sut.Should().HaveCount(quotesCount);
 
+        // cleanup
         observer.Unsubscribe();
         quoteHub.EndTransmission();
     }
@@ -101,19 +98,24 @@ public class TemaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
             .ToTemaHub(temaPeriods)
             .ToSmaHub(smaPeriods);
 
-        // emulate quote stream
+        // emulate adding quotes to provider hub
         for (int i = 0; i < quotesCount; i++)
         {
-            if (i == 80) { continue; }  // Skip for late arrival
+            // skip one (add later)
+            if (i == 80) { continue; }
 
             Quote q = Quotes[i];
             quoteHub.Add(q);
 
-            if (i is > 100 and < 105) { quoteHub.Add(q); }  // Duplicate quotes
+            // resend duplicate quotes
+            if (i is > 100 and < 105) { quoteHub.Add(q); }
         }
 
-        quoteHub.Insert(Quotes[80]);  // Late arrival
-        quoteHub.Remove(Quotes[removeAtIndex]);  // Remove
+        // late arrival
+        quoteHub.Insert(Quotes[80]);
+
+        // delete
+        quoteHub.Remove(Quotes[removeAtIndex]);
 
         // final results
         IReadOnlyList<SmaResult> sut = observer.Results;
@@ -124,9 +126,10 @@ public class TemaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
             .ToSma(smaPeriods);
 
         // assert, should equal series
+        sut.Should().HaveCount(quotesCount - 1);
         sut.IsExactly(expected);
-        sut.Should().HaveCount(501);
 
+        // cleanup
         observer.Unsubscribe();
         quoteHub.EndTransmission();
     }

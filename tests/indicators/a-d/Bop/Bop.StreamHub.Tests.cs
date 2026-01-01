@@ -154,12 +154,7 @@ public class BopHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProv
     [TestMethod]
     public override void ToStringOverride_ReturnsExpectedName()
     {
-        QuoteHub quoteHub = new();
-        BopHub bopHub = quoteHub.ToBopHub(14);
-
-        bopHub.ToString().Should().Be("BOP(14)");
-
-        bopHub.Unsubscribe();
-        quoteHub.EndTransmission();
+        BopHub hub = new(new QuoteHub(), 14);
+        hub.ToString().Should().Be("BOP(14)");
     }
 }

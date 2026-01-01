@@ -14,7 +14,7 @@
     "default", // default: context, repos, issues, pull_requests, users
     "actions",
     // "projects",
-    // "discussions",
+    "discussions",
     "copilot",
     "github_support_docs_search",
     "web_search"

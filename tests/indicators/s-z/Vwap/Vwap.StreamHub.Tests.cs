@@ -44,6 +44,7 @@ public class VwapHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPro
         sut.IsExactly(expectedRevised);
         sut.Should().HaveCount(quotesCount - 1);
 
+        // cleanup
         observer.Unsubscribe();
         quoteHub.EndTransmission();
     }
@@ -101,6 +102,7 @@ public class VwapHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPro
         observer.Results.Should().HaveCount(length - 1);
         observer.Results.IsExactly(seriesList);
 
+        // cleanup
         observer.Unsubscribe();
         quoteHub.EndTransmission();
     }
@@ -145,6 +147,7 @@ public class VwapHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPro
         sut.Should().HaveCount(quotesCount - 1);
         sut.IsExactly(expected);
 
+        // cleanup
         observer.Unsubscribe();
         quoteHub.EndTransmission();
     }

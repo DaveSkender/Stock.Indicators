@@ -69,6 +69,7 @@ public class RenkoHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPr
         streamList.IsExactly(seriesList);
         streamList.Should().HaveCount(159);
 
+        // cleanup
         observer.Unsubscribe();
         quoteHub.EndTransmission();
     }
@@ -106,6 +107,7 @@ public class RenkoHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPr
         sut.IsExactly(expected);
         sut.Should().HaveCount(112);
 
+        // cleanup
         observer.Unsubscribe();
         quoteHub.EndTransmission();
     }

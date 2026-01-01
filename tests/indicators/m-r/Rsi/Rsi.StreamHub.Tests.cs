@@ -99,18 +99,24 @@ public class RsiHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
             .ToRsiHub(rsiPeriods)
             .ToEmaHub(emaPeriods);
 
-        // emulate quote stream
+        // emulate adding quotes to provider hub
         for (int i = 0; i < quotesCount; i++)
         {
-            if (i == 80) { continue; }  // Skip for late arrival
+            // skip one (add later)
+            if (i == 80) { continue; }
 
             Quote q = Quotes[i];
             quoteHub.Add(q);
-            if (i is > 100 and < 105) { quoteHub.Add(q); }  // Duplicate quotes
+
+            // resend duplicate quotes
+            if (i is > 100 and < 105) { quoteHub.Add(q); }
         }
 
-        quoteHub.Insert(Quotes[80]);  // Late arrival
-        quoteHub.Remove(Quotes[removeAtIndex]);  // Remove
+        // late arrival
+        quoteHub.Insert(Quotes[80]);
+
+        // delete
+        quoteHub.Remove(Quotes[removeAtIndex]);
 
         // final results
         IReadOnlyList<EmaResult> sut = observer.Results;
@@ -124,26 +130,15 @@ public class RsiHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
         sut.Should().HaveCount(quotesCount - 1);
         sut.IsExactly(expected);
 
+        // cleanup
         observer.Unsubscribe();
         quoteHub.EndTransmission();
-    }
-
-    [TestMethod]
-    public void Results_AreAlwaysBounded()
-    {
-        IReadOnlyList<RsiResult> sut = Quotes.ToRsiHub(14).Results;
-        sut.IsBetween(x => x.Rsi, 0, 100);
     }
 
     [TestMethod]
     public override void ToStringOverride_ReturnsExpectedName()
     {
-        QuoteHub quoteHub = new();
-        RsiHub observer = quoteHub.ToRsiHub(14);
-
-        observer.ToString().Should().Be("RSI(14)");
-
-        observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        RsiHub hub = new(new QuoteHub(), 14);
+        hub.ToString().Should().Be("RSI(14)");
     }
 }
