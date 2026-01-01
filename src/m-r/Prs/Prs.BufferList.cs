@@ -12,6 +12,7 @@ public class PrsList : BufferList<PrsResult>, IIncrementFromPairs, IPrs
     /// Initializes a new instance of the <see cref="PrsList"/> class.
     /// </summary>
     /// <param name="lookbackPeriods">The number of periods for the PRS% lookback calculation. Use int.MinValue for no lookback calculation.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="lookbackPeriods"/> is invalid.</exception>
     public PrsList(int lookbackPeriods = int.MinValue)
     {
         // Validate lookback periods
@@ -42,9 +43,7 @@ public class PrsList : BufferList<PrsResult>, IIncrementFromPairs, IPrs
         IReadOnlyList<IReusable> sourceBase)
         : this(lookbackPeriods) => Add(sourceEval, sourceBase);
 
-    /// <summary>
-    /// Gets the number of periods for the PRS% lookback calculation.
-    /// </summary>
+    /// <inheritdoc />
     public int LookbackPeriods { get; init; }
 
     /// <summary>

@@ -6,12 +6,6 @@ namespace Skender.Stock.Indicators;
 public class AtrHub
     : ChainProvider<IQuote, AtrResult>, IAtr
 {
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="AtrHub"/> class.
-    /// </summary>
-    /// <param name="provider">The quote provider.</param>
-    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     internal AtrHub(IQuoteProvider<IQuote> provider,
         int lookbackPeriods)
         : base(provider)
@@ -23,12 +17,9 @@ public class AtrHub
         Reinitialize();
     }
 
-    /// <summary>
-    /// Gets the number of lookback periods for ATR calculation.
-    /// </summary>
+    /// <inheritdoc/>
     public int LookbackPeriods { get; init; }
 
-    // METHODS
     /// <inheritdoc/>
     protected override (AtrResult result, int index)
         ToIndicator(IQuote item, int? indexHint)

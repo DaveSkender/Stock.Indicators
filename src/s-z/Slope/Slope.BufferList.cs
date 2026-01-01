@@ -2,7 +2,6 @@ namespace Skender.Stock.Indicators;
 
 /// <summary>
 /// Slope and Linear Regression from incremental reusable values.
-/// Optimized for streaming/buffering scenarios with improved performance.
 /// </summary>
 /// <remarks>
 /// Performance optimizations:
@@ -16,21 +15,18 @@ public class SlopeList : BufferList<SlopeResult>, IIncrementFromChain, ISlope
     private readonly Queue<double> _buffer;
     private readonly int lookbackPeriods;
 
-    /// <summary>
-    /// Tracks how many items have been removed from the beginning
-    /// </summary>
+    // Tracks how many items have been removed from the beginning
     private int globalIndexOffset;
 
-    /// <summary>
-    /// Pre-calculated constant for X variance (sequential integers).
-    /// Formula: n*(n²-1)/12 where n = lookbackPeriods
-    /// </summary>
+    // Pre-calculated constant for X variance (sequential integers).
+    // Formula: n*(n²-1)/12 where n = lookbackPeriods
     private readonly double sumSqXConstant;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="SlopeList"/> class.
     /// </summary>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="lookbackPeriods"/> is invalid.</exception>
     public SlopeList(int lookbackPeriods)
     {
         Slope.Validate(lookbackPeriods);
@@ -48,16 +44,17 @@ public class SlopeList : BufferList<SlopeResult>, IIncrementFromChain, ISlope
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="SlopeList"/> class with initial reusable values.
+    /// Initializes a new instance of the <see cref="SlopeList"/> class with initial values.
     /// </summary>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <param name="values">Initial reusable values to populate the list.</param>
-    public SlopeList(int lookbackPeriods, IReadOnlyList<IReusable> values)
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="lookbackPeriods"/> is invalid.</exception>
+    public SlopeList(
+        int lookbackPeriods,
+        IReadOnlyList<IReusable> values)
         : this(lookbackPeriods) => Add(values);
 
-    /// <summary>
-    /// Gets the number of periods to look back for the calculation.
-    /// </summary>
+    /// <inheritdoc/>
     public int LookbackPeriods { get; init; }
 
     /// <inheritdoc />

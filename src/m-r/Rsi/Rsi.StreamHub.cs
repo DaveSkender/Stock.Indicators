@@ -1,7 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Provides methods for calculating the Relative Strength Index (RSI) indicator.
+/// Streaming hub for Relative Strength Index (RSI).
 /// </summary>
 /// <remarks>
 /// This implementation uses O(1) incremental updates per quote via Wilder's smoothing.
@@ -14,13 +14,6 @@ public class RsiHub
     private double _avgGain = double.NaN;
     private double _avgLoss = double.NaN;
 
-    /// <summary>
-    /// Initializes a new instance of the <see cref="RsiHub"/> class.
-    /// </summary>
-    /// <param name="provider">The chain provider.</param>
-    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <exception cref="ArgumentNullException">Thrown when the provider is null.</exception>
-    /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
     internal RsiHub(
         IChainProvider<IReusable> provider,
         int lookbackPeriods) : base(provider)

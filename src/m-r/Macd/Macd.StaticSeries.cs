@@ -1,7 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Provides methods for calculating the MACD (Moving Average Convergence Divergence) indicator.
+/// MACD (Moving Average Convergence Divergence) indicator.
 /// </summary>
 public static partial class Macd
 {
@@ -13,7 +13,7 @@ public static partial class Macd
     /// <param name="slowPeriods">The number of periods for the slow EMA. Default is 26.</param>
     /// <param name="signalPeriods">The number of periods for the signal line. Default is 9.</param>
     /// <returns>A list of MACD results.</returns>
-    /// <exception cref="ArgumentNullException">Thrown when the source list is null.</exception>
+    /// <exception cref="ArgumentNullException">Thrown when <paramref name="source"/> is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when any of the parameters are out of their valid range.</exception>
     public static IReadOnlyList<MacdResult> ToMacd(
         this IReadOnlyList<IReusable> source,

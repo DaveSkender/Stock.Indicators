@@ -1,7 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Provides methods for calculating the correlation coefficient on a series of quotes.
+/// the correlation coefficient on a series of quotes indicator.
 /// </summary>
 public static partial class Correlation
 {

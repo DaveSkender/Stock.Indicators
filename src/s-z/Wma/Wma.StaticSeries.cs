@@ -1,7 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Provides methods for calculating the WMA (Weighted Moving Average) indicator.
+/// WMA (Weighted Moving Average) indicator.
 /// </summary>
 public static partial class Wma
 {
@@ -11,7 +11,7 @@ public static partial class Wma
     /// <param name="source">The source list of reusable data.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>A list of WmaResult containing the WMA values.</returns>
-    /// <exception cref="ArgumentNullException">Thrown when the source is null.</exception>
+    /// <exception cref="ArgumentNullException">Thrown when <paramref name="source"/> is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are less than or equal to 0.</exception>
     public static IReadOnlyList<WmaResult> ToWma(
         this IReadOnlyList<IReusable> source,

@@ -14,6 +14,7 @@ public class DemaList : BufferList<DemaResult>, IIncrementFromChain, IDema
     /// Initializes a new instance of the <see cref="DemaList"/> class.
     /// </summary>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="lookbackPeriods"/> is invalid.</exception>
     public DemaList(
         int lookbackPeriods
     )
@@ -39,14 +40,10 @@ public class DemaList : BufferList<DemaResult>, IIncrementFromChain, IDema
     )
         : this(lookbackPeriods) => Add(values);
 
-    /// <summary>
-    /// Gets the number of periods to look back for the calculation.
-    /// </summary>
+    /// <inheritdoc />
     public int LookbackPeriods { get; init; }
 
-    /// <summary>
-    /// Gets the smoothing factor for the calculation.
-    /// </summary>
+    /// <inheritdoc />
     public double K { get; private init; }
 
     /// <inheritdoc />

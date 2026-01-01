@@ -1,25 +1,11 @@
 namespace Skender.Stock.Indicators;
 
-// WILLIAMS ALLIGATOR (STREAM HUB)
-
 /// <summary>
-/// Represents a stream hub for calculating the Alligator indicator.
+/// Streaming hub for Alligator.
 /// </summary>
-/// <inheritdoc cref="IAlligator"/>
 public class AlligatorHub
    : StreamHub<IReusable, AlligatorResult>, IAlligator
 {
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="AlligatorHub"/> class.
-    /// </summary>
-    /// <param name="provider">The chain provider.</param>
-    /// <param name="jawPeriods">The number of periods for the jaw.</param>
-    /// <param name="jawOffset">The offset for the jaw.</param>
-    /// <param name="teethPeriods">The number of periods for the teeth.</param>
-    /// <param name="teethOffset">The offset for the teeth.</param>
-    /// <param name="lipsPeriods">The number of periods for the lips.</param>
-    /// <param name="lipsOffset">The offset for the lips.</param>
     internal AlligatorHub(
         IChainProvider<IReusable> provider,
         int jawPeriods, int jawOffset,
@@ -44,37 +30,24 @@ public class AlligatorHub
         Reinitialize();
     }
 
-    /// <summary>
-    /// Gets the number of periods for the jaw.
-    /// </summary>
+    /// <inheritdoc/>
     public int JawPeriods { get; init; }
 
-    /// <summary>
-    /// Gets the offset for the jaw.
-    /// </summary>
+    /// <inheritdoc/>
     public int JawOffset { get; init; }
 
-    /// <summary>
-    /// Gets the number of periods for the teeth.
-    /// </summary>
+    /// <inheritdoc/>
     public int TeethPeriods { get; init; }
 
-    /// <summary>
-    /// Gets the offset for the teeth.
-    /// </summary>
+    /// <inheritdoc/>
     public int TeethOffset { get; init; }
 
-    /// <summary>
-    /// Gets the number of periods for the lips.
-    /// </summary>
+    /// <inheritdoc/>
     public int LipsPeriods { get; init; }
 
-    /// <summary>
-    /// Gets the offset for the lips.
-    /// </summary>
+    /// <inheritdoc/>
     public int LipsOffset { get; init; }
 
-    // METHODS
     /// <inheritdoc/>
     protected override (AlligatorResult result, int index)
         ToIndicator(IReusable item, int? indexHint)

@@ -1,21 +1,11 @@
 namespace Skender.Stock.Indicators;
 
-// BALANCE OF POWER (STREAM HUB)
-
 /// <summary>
-/// Provides methods for calculating the Balance of Power (BOP).
+/// Streaming hub for Balance of Power (BOP).
 /// </summary>
 public class BopHub
     : ChainProvider<IQuote, BopResult>, IBop
 {
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="BopHub"/> class.
-    /// </summary>
-    /// <param name="provider">The chain provider.</param>
-    /// <param name="smoothPeriods">The number of periods for smoothing.</param>
-    /// <exception cref="ArgumentNullException">Thrown when the provider is null.</exception>
-    /// <exception cref="ArgumentOutOfRangeException">Thrown when the smooth periods are invalid.</exception>
     internal BopHub(
         IQuoteProvider<IQuote> provider,
         int smoothPeriods) : base(provider)

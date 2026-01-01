@@ -1,13 +1,14 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Provides methods for calculating the Beta coefficient.
+/// Beta coefficient indicator.
 /// </summary>
 public static partial class Beta
 {
     /// <summary>
     /// Calculates the Beta coefficient for a series of data.
-    /// </summary>    /// <param name="sourceEval">The source data for the evaluated asset.</param>
+    /// </summary>
+    /// <param name="sourceEval">The source data for the evaluated asset.</param>
     /// <param name="sourceMrkt">The source data for the market.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <param name="type">The type of Beta calculation. Default is <see cref="BetaType.Standard"/>.</param>

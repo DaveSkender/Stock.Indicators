@@ -47,15 +47,6 @@ public class KvoHub
     private double _prevVfSlowEma;
     private double _sumVf;
 
-    /// <summary>
-    /// Initializes a new instance of the <see cref="KvoHub"/> class.
-    /// </summary>
-    /// <param name="provider">The quote provider.</param>
-    /// <param name="fastPeriods">The number of periods for the fast EMA.</param>
-    /// <param name="slowPeriods">The number of periods for the slow EMA.</param>
-    /// <param name="signalPeriods">The number of periods for the signal line.</param>
-    /// <exception cref="ArgumentNullException">Thrown when the provider is null.</exception>
-    /// <exception cref="ArgumentOutOfRangeException">Thrown when any of the parameters are invalid.</exception>
     internal KvoHub(
         IQuoteProvider<IQuote> provider,
         int fastPeriods,
@@ -80,19 +71,13 @@ public class KvoHub
         Reinitialize();
     }
 
-    /// <summary>
-    /// Gets the fast periods.
-    /// </summary>
+    /// <inheritdoc/>
     public int FastPeriods { get; init; }
 
-    /// <summary>
-    /// Gets the slow periods.
-    /// </summary>
+    /// <inheritdoc/>
     public int SlowPeriods { get; init; }
 
-    /// <summary>
-    /// Gets the signal periods.
-    /// </summary>
+    /// <inheritdoc/>
     public int SignalPeriods { get; init; }
     /// <inheritdoc/>
     protected override (KvoResult result, int index)

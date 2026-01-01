@@ -1,22 +1,11 @@
 namespace Skender.Stock.Indicators;
 
-// CHAIKIN OSCILLATOR (STREAM HUB)
-
 /// <summary>
-/// Provides methods for calculating the Chaikin Oscillator.
+/// Streaming hub for Chaikin Oscillator.
 /// </summary>
 public class ChaikinOscHub
     : ChainProvider<IQuote, ChaikinOscResult>, IChaikinOsc
 {
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="ChaikinOscHub"/> class.
-    /// </summary>
-    /// <param name="provider">The chain provider.</param>
-    /// <param name="fastPeriods">The number of periods for the fast EMA.</param>
-    /// <param name="slowPeriods">The number of periods for the slow EMA.</param>
-    /// <exception cref="ArgumentNullException">Thrown when the provider is null.</exception>
-    /// <exception cref="ArgumentOutOfRangeException">Thrown when the periods are invalid.</exception>
     internal ChaikinOscHub(
         IQuoteProvider<IQuote> provider,
         int fastPeriods,
@@ -40,14 +29,10 @@ public class ChaikinOscHub
     /// <inheritdoc/>
     public int SlowPeriods { get; init; }
 
-    /// <summary>
-    /// Gets the smoothing factor for the fast EMA.
-    /// </summary>
+    /// <inheritdoc/>
     public double FastK { get; private init; }
 
-    /// <summary>
-    /// Gets the smoothing factor for the slow EMA.
-    /// </summary>
+    /// <inheritdoc/>
     public double SlowK { get; private init; }
     /// <inheritdoc/>
     protected override (ChaikinOscResult result, int index)

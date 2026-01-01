@@ -1,20 +1,11 @@
 namespace Skender.Stock.Indicators;
 
-// ENDPOINT MOVING AVERAGE (STREAM HUB)
-
 /// <summary>
 /// Provides methods for creating EPMA hubs.
 /// </summary>
 public class EpmaHub
     : ChainProvider<IReusable, EpmaResult>, IEpma
 {
-
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="EpmaHub"/> class.
-    /// </summary>
-    /// <param name="provider">The chain provider.</param>
-    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     internal EpmaHub(
         IChainProvider<IReusable> provider,
         int lookbackPeriods) : base(provider)
@@ -26,12 +17,9 @@ public class EpmaHub
         Reinitialize();
     }
 
-    /// <summary>
-    /// Gets the number of lookback periods.
-    /// </summary>
+    /// <inheritdoc/>
     public int LookbackPeriods { get; init; }
 
-    // METHODS
     /// <inheritdoc/>
     protected override (EpmaResult result, int index)
         ToIndicator(IReusable item, int? indexHint)

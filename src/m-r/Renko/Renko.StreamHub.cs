@@ -12,12 +12,6 @@ public class RenkoHub
         = new(default, default, default,
             default, default, default, default);
 
-    /// <summary>
-    /// Initializes a new instance of the <see cref="RenkoHub"/> class.
-    /// </summary>
-    /// <param name="provider">The quote provider.</param>
-    /// <param name="brickSize">The size of each Renko brick.</param>
-    /// <param name="endType">The type of price to use for the end of the brick.</param>
     internal RenkoHub(
         IQuoteProvider<IQuote> provider,
         decimal brickSize,

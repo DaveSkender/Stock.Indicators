@@ -11,6 +11,7 @@ public class AdxList : BufferList<AdxResult>, IIncrementFromQuote, IAdx
     /// Initializes a new instance of the <see cref="AdxList"/> class.
     /// </summary>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="lookbackPeriods"/> is invalid.</exception>
     public AdxList(int lookbackPeriods)
     {
         Adx.Validate(lookbackPeriods);
@@ -26,12 +27,11 @@ public class AdxList : BufferList<AdxResult>, IIncrementFromQuote, IAdx
     /// </summary>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="lookbackPeriods"/> is invalid.</exception>
     public AdxList(int lookbackPeriods, IReadOnlyList<IQuote> quotes)
         : this(lookbackPeriods) => Add(quotes);
 
-    /// <summary>
-    /// Gets the number of periods to look back for the calculation.
-    /// </summary>
+    /// <inheritdoc />
     public int LookbackPeriods { get; private init; }
 
     /// <inheritdoc />

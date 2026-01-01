@@ -1,16 +1,14 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Provides methods for calculating Parabolic SAR in a streaming manner.
+/// Streaming hub for Parabolic SAR.
 /// </summary>
 public class ParabolicSarHub
     : ChainProvider<IQuote, ParabolicSarResult>, IParabolicSar
 {
     private readonly Queue<(double High, double Low)> _buffer;
 
-    /// <summary>
-    /// State variables
-    /// </summary>
+    // State variables
     private double _accelerationFactor;
     private double _extremePoint;
     private double _priorSar;
@@ -18,12 +16,6 @@ public class ParabolicSarHub
     private bool _isInitialized;
     private bool _firstReversalFound;
 
-    /// <summary>
-    /// Initializes a new instance of the <see cref="ParabolicSarHub"/> class.
-    /// </summary>
-    /// <param name="provider">The quote provider.</param>
-    /// <param name="accelerationStep">The acceleration step for the SAR calculation. Default is 0.02.</param>
-    /// <param name="maxAccelerationFactor">The maximum acceleration factor for the SAR calculation. Default is 0.2.</param>
     internal ParabolicSarHub(
         IQuoteProvider<IQuote> provider,
         double accelerationStep = 0.02,
@@ -31,14 +23,6 @@ public class ParabolicSarHub
         : this(provider, accelerationStep, maxAccelerationFactor, accelerationStep)
     {
     }
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="ParabolicSarHub"/> class.
-    /// </summary>
-    /// <param name="provider">The quote provider.</param>
-    /// <param name="accelerationStep">The acceleration step for the SAR calculation.</param>
-    /// <param name="maxAccelerationFactor">The maximum acceleration factor for the SAR calculation.</param>
-    /// <param name="initialFactor">The initial acceleration factor for the SAR calculation.</param>
     internal ParabolicSarHub(
         IQuoteProvider<IQuote> provider,
         double accelerationStep,

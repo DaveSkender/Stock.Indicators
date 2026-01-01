@@ -12,6 +12,7 @@ public class CorrelationList : BufferList<CorrResult>, IIncrementFromPairs, ICor
     /// Initializes a new instance of the <see cref="CorrelationList"/> class.
     /// </summary>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="lookbackPeriods"/> is invalid.</exception>
     public CorrelationList(int lookbackPeriods)
     {
         Correlation.Validate(lookbackPeriods);
@@ -34,9 +35,7 @@ public class CorrelationList : BufferList<CorrResult>, IIncrementFromPairs, ICor
         IReadOnlyList<IReusable> valuesB)
         : this(lookbackPeriods) => Add(valuesA, valuesB);
 
-    /// <summary>
-    /// Gets the number of periods to look back for the calculation.
-    /// </summary>
+    /// <inheritdoc />
     public int LookbackPeriods { get; init; }
 
     /// <summary>

@@ -1,16 +1,17 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Provides methods for calculating the Double Exponential Moving Average (DEMA) on a series of data.
+/// Double Exponential Moving Average (DEMA) on a series of data indicator.
 /// </summary>
 public static partial class Dema
 {
     /// <summary>
     /// Calculates the Double Exponential Moving Average (DEMA) for a series of data.
-    /// </summary>    /// <param name="source">The source list of data points.</param>
+    /// </summary>
+    /// <param name="source">The source list of data points.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>A list of <see cref="DemaResult"/> containing the DEMA values.</returns>
-    /// <exception cref="ArgumentNullException">Thrown when the source list is null.</exception>
+    /// <exception cref="ArgumentNullException">Thrown when <paramref name="source"/> is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are not valid.</exception>
     public static IReadOnlyList<DemaResult> ToDema(
         this IReadOnlyList<IReusable> source,
@@ -80,7 +81,7 @@ public static partial class Dema
     /// <param name="source">The source list of data points.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>A <see cref="DemaList"/> containing the DEMA calculations.</returns>
-    /// <exception cref="ArgumentNullException">Thrown when the source list is null.</exception>
+    /// <exception cref="ArgumentNullException">Thrown when <paramref name="source"/> is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are not valid.</exception>
     public static DemaList ToDemaList(
         this IReadOnlyList<IReusable> source,

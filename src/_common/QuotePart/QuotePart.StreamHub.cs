@@ -6,11 +6,6 @@ namespace Skender.Stock.Indicators;
 public class QuotePartHub
     : ChainProvider<IQuote, QuotePart>, IQuotePart
 {
-    /// <summary>
-    /// Initializes a new instance of the <see cref="QuotePartHub"/> class.
-    /// </summary>
-    /// <param name="provider">The quote provider.</param>
-    /// <param name="candlePart">The <see cref="CandlePart" /> element.</param>
     internal QuotePartHub(
         IQuoteProvider<IQuote> provider,
         CandlePart candlePart
@@ -21,12 +16,9 @@ public class QuotePartHub
         Reinitialize();
     }
 
-    /// <summary>
-    /// Gets the selected candle part.
-    /// </summary>
+    /// <inheritdoc/>
     public CandlePart CandlePartSelection { get; init; }
 
-    // METHODS
 
     /// <inheritdoc/>
     protected override (QuotePart result, int index)

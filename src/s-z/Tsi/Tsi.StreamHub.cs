@@ -23,15 +23,6 @@ public class TsiHub
     private readonly List<double> _cs1History;
     private readonly List<double> _as1History;
 
-    /// <summary>
-    /// Initializes a new instance of the <see cref="TsiHub"/> class.
-    /// </summary>
-    /// <param name="provider">The chain provider.</param>
-    /// <param name="lookbackPeriods">The number of periods for the lookback calculation.</param>
-    /// <param name="smoothPeriods">The number of periods for the smoothing calculation.</param>
-    /// <param name="signalPeriods">The number of periods for the signal calculation.</param>
-    /// <exception cref="ArgumentNullException">Thrown when the provider is null.</exception>
-    /// <exception cref="ArgumentOutOfRangeException">Thrown when any of the parameters are invalid.</exception>
     internal TsiHub(
         IChainProvider<IReusable> provider,
         int lookbackPeriods,

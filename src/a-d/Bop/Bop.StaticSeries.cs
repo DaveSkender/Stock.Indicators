@@ -1,7 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Provides methods for calculating the Balance of Power (BOP) on a series of quotes.
+/// Balance of Power (BOP) on a series of quotes indicator.
 /// </summary>
 public static partial class Bop
 {

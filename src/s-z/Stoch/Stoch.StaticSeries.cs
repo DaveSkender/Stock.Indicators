@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 #pragma warning disable IDE0010 // Missing cases in switch expression
 
 /// <summary>
-/// Provides methods for calculating the Stochastic Oscillator.
+/// Stochastic Oscillator indicator.
 /// </summary>
 public static partial class Stoch
 {

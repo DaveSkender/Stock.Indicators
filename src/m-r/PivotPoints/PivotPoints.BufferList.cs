@@ -32,14 +32,10 @@ public class PivotPointsList(
         IReadOnlyList<IQuote> quotes)
         : this(windowSize, pointType) => Add(quotes);
 
-    /// <summary>
-    /// Gets the size of the window for pivot point calculation.
-    /// </summary>
+    /// <inheritdoc />
     public PeriodSize WindowSize { get; init; } = windowSize;
 
-    /// <summary>
-    /// Gets the type of pivot point calculation to use.
-    /// </summary>
+    /// <inheritdoc />
     public PivotPointType PointType { get; init; } = pointType;
 
     /// <inheritdoc />
