@@ -32,8 +32,9 @@ IchimokuList buffer = quotes.ToIchimokuList(tenkanPeriods, kijunPeriods, senkouB
 IReadOnlyList<IchimokuResult> results = buffer;
 
 // streaming usage (real-time)
-IchimokuHub hub = quotes.ToIchimokuHub(tenkanPeriods, kijunPeriods, senkouBPeriods);
-IReadOnlyList<IchimokuResult> results = hub.Results;
+QuoteHub quoteHub = new();
+IchimokuHub observer = quoteHub.ToIchimokuHub(tenkanPeriods, kijunPeriods, senkouBPeriods);
+IReadOnlyList<IchimokuResult> results = observer.Results;
 ```
 
 ## Parameters
@@ -125,8 +126,8 @@ Subscribe to a `QuoteHub` for advanced streaming scenarios:
 ```csharp
 QuoteHub quoteHub = new();
 IchimokuHub observer = quoteHub.ToIchimokuHub(tenkanPeriods, kijunPeriods, senkouBPeriods);
-
-foreach (Quote quote in quotes)  // simulating stream
+foreach (IQuote quote in quotes)  // simulating stream
+foreach (IQuote quote in quotes)  // simulating stream  // simulating stream
 {
   quoteHub.Add(quote);
 }

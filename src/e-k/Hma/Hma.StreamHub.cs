@@ -1,7 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Provides methods for calculating the Hull Moving Average (HMA) indicator.
+/// Streaming hub for Hull Moving Average (HMA).
 /// </summary>
 public class HmaHub
     : ChainProvider<IReusable, HmaResult>, IHma
@@ -14,13 +14,6 @@ public class HmaHub
     private readonly double divisorSqrt;
     private readonly int shiftQty;
 
-    /// <summary>
-    /// Initializes a new instance of the <see cref="HmaHub"/> class.
-    /// </summary>
-    /// <param name="provider">The chain provider.</param>
-    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <exception cref="ArgumentNullException">Thrown when the provider is null.</exception>
-    /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
     internal HmaHub(
         IChainProvider<IReusable> provider,
         int lookbackPeriods) : base(provider)
@@ -132,20 +125,4 @@ public static partial class Hma
         ArgumentNullException.ThrowIfNull(chainProvider);
         return new(chainProvider, lookbackPeriods);
     }
-
-    /// <summary>
-    /// Creates a Hma hub from a collection of quotes.
-    /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="lookbackPeriods">Parameter for the calculation.</param>
-    /// <returns>An instance of <see cref="HmaHub"/>.</returns>
-    public static HmaHub ToHmaHub(
-        this IReadOnlyList<IQuote> quotes,
-        int lookbackPeriods)
-    {
-        QuoteHub quoteHub = new();
-        quoteHub.Add(quotes);
-        return quoteHub.ToHmaHub(lookbackPeriods);
-    }
-
 }

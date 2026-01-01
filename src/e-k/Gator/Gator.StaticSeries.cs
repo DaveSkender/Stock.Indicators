@@ -1,7 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Provides methods for calculating the Gator Oscillator indicator.
+/// Gator Oscillator indicator.
 /// </summary>
 public static partial class Gator
 {

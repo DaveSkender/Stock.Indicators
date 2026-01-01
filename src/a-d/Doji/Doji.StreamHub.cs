@@ -1,7 +1,5 @@
 namespace Skender.Stock.Indicators;
 
-// DOJI CANDLESTICK PATTERN (STREAM HUB)
-
 /// <summary>
 /// Provides methods for identifying Doji candlestick patterns.
 /// </summary>
@@ -10,13 +8,6 @@ public class DojiHub
 {
     private readonly double _maxPriceChangePercentDecimal;
 
-    /// <summary>
-    /// Initializes a new instance of the <see cref="DojiHub"/> class.
-    /// </summary>
-    /// <param name="provider">The quote provider.</param>
-    /// <param name="maxPriceChangePercent">Maximum absolute percent difference in open and close price.</param>
-    /// <exception cref="ArgumentNullException">Thrown when the provider is null.</exception>
-    /// <exception cref="ArgumentOutOfRangeException">Thrown when the maxPriceChangePercent is invalid.</exception>
     internal DojiHub(
         IStreamObservable<IQuote> provider,
         double maxPriceChangePercent) : base(provider)
@@ -74,20 +65,4 @@ public static partial class Doji
         this IStreamObservable<IQuote> provider,
         double maxPriceChangePercent = 0.1)
         => new(provider, maxPriceChangePercent);
-
-    /// <summary>
-    /// Creates a Doji hub from a collection of quotes.
-    /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="maxPriceChangePercent">Parameter for the calculation.</param>
-    /// <returns>An instance of <see cref="DojiHub"/>.</returns>
-    public static DojiHub ToDojiHub(
-        this IReadOnlyList<IQuote> quotes,
-        double maxPriceChangePercent = 0.1)
-    {
-        QuoteHub quoteHub = new();
-        quoteHub.Add(quotes);
-        return quoteHub.ToDojiHub(maxPriceChangePercent);
-    }
-
 }

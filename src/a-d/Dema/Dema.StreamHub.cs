@@ -1,7 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Provides methods for calculating the Double Exponential Moving Average (DEMA) indicator.
+/// Streaming hub for Double Exponential Moving Average (DEMA).
 /// </summary>
 public class DemaHub
     : ChainProvider<IReusable, DemaResult>, IDema
@@ -9,13 +9,6 @@ public class DemaHub
     private double lastEma1 = double.NaN;
     private double lastEma2 = double.NaN;
 
-    /// <summary>
-    /// Initializes a new instance of the <see cref="DemaHub"/> class.
-    /// </summary>
-    /// <param name="provider">The chain provider.</param>
-    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <exception cref="ArgumentNullException">Thrown when the provider is null.</exception>
-    /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
     internal DemaHub(
         IChainProvider<IReusable> provider,
         int lookbackPeriods) : base(provider)
@@ -124,20 +117,4 @@ public static partial class Dema
         this IChainProvider<IReusable> chainProvider,
         int lookbackPeriods = 14)
         => new(chainProvider, lookbackPeriods);
-
-    /// <summary>
-    /// Creates a Dema hub from a collection of quotes.
-    /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <returns>An instance of <see cref="DemaHub"/>.</returns>
-    public static DemaHub ToDemaHub(
-        this IReadOnlyList<IQuote> quotes,
-        int lookbackPeriods = 14)
-    {
-        QuoteHub quoteHub = new();
-        quoteHub.Add(quotes);
-        return quoteHub.ToDemaHub(lookbackPeriods);
-    }
-
 }

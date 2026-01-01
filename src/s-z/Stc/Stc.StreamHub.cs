@@ -1,7 +1,5 @@
 namespace Skender.Stock.Indicators;
 
-// SCHAFF TREND CYCLE (STREAM HUB)
-
 /// <summary>
 /// Internal record for storing MACD intermediate values in STC calculation.
 /// </summary>
@@ -24,13 +22,6 @@ public class StcHub
     private readonly double _fastK;
     private readonly double _slowK;
 
-    /// <summary>
-    /// Initializes a new instance of the <see cref="StcHub"/> class.
-    /// </summary>
-    /// <param name="provider">The chain provider.</param>
-    /// <param name="cyclePeriods">The number of periods for the cycle.</param>
-    /// <param name="fastPeriods">The number of fast periods for the MACD calculation.</param>
-    /// <param name="slowPeriods">The number of slow periods for the MACD calculation.</param>
     internal StcHub(
         IChainProvider<IReusable> provider,
         int cyclePeriods,
@@ -270,23 +261,4 @@ public static partial class Stc
         int fastPeriods = 23,
         int slowPeriods = 50)
         => new(chainProvider, cyclePeriods, fastPeriods, slowPeriods);
-
-    /// <summary>
-    /// Creates a Schaff Trend Cycle (STC) hub from a collection of quotes.
-    /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="cyclePeriods">Parameter for the calculation.</param>
-    /// <param name="fastPeriods">Parameter for the calculation.</param>
-    /// <param name="slowPeriods">Parameter for the calculation.</param>
-    /// <returns>An instance of <see cref="StcHub"/> representing the STC indicator.</returns>
-    public static StcHub ToStcHub(
-        this IReadOnlyList<IQuote> quotes,
-        int cyclePeriods = 10,
-        int fastPeriods = 23,
-        int slowPeriods = 50)
-    {
-        QuoteHub quoteHub = new();
-        quoteHub.Add(quotes);
-        return quoteHub.ToStcHub(cyclePeriods, fastPeriods, slowPeriods);
-    }
 }

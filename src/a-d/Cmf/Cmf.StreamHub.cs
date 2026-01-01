@@ -5,12 +5,6 @@ namespace Skender.Stock.Indicators;
 /// </summary>
 public class CmfHub : ChainProvider<IQuote, CmfResult>, ICmf
 {
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="CmfHub"/> class.
-    /// </summary>
-    /// <param name="provider">The quote provider.</param>
-    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     internal CmfHub(
         IQuoteProvider<IQuote> provider,
         int lookbackPeriods)
@@ -109,20 +103,4 @@ public static partial class Cmf
         ArgumentNullException.ThrowIfNull(quoteProvider);
         return new(quoteProvider, lookbackPeriods);
     }
-
-    /// <summary>
-    /// Creates a Cmf hub from a collection of quotes.
-    /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <returns>An instance of <see cref="CmfHub"/>.</returns>
-    public static CmfHub ToCmfHub(
-        this IReadOnlyList<IQuote> quotes,
-        int lookbackPeriods = 20)
-    {
-        QuoteHub quoteHub = new();
-        quoteHub.Add(quotes);
-        return quoteHub.ToCmfHub(lookbackPeriods);
-    }
-
 }

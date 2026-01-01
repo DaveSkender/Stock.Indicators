@@ -91,7 +91,7 @@ Subscribe to a `QuoteHub` for advanced streaming scenarios:
 QuoteHub quoteHub = new();
 BopHub observer = quoteHub.ToBopHub(smoothPeriods);
 
-foreach (Quote quote in quotes)  // simulating stream
+foreach (IQuote quote in quotes)  // simulating stream
 {
   quoteHub.Add(quote);
 }

@@ -1,20 +1,11 @@
 namespace Skender.Stock.Indicators;
 
-// SIMPLE MOVING AVERAGE ANALYSIS (STREAM HUB)
-
 /// <summary>
 /// Represents a Simple Moving Average (SMA) Analysis stream hub.
 /// </summary>
 public class SmaAnalysisHub
     : ChainProvider<IReusable, SmaAnalysisResult>, ISma
 {
-
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="SmaAnalysisHub"/> class.
-    /// </summary>
-    /// <param name="provider">The chain provider.</param>
-    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     internal SmaAnalysisHub(
         IChainProvider<IReusable> provider,
         int lookbackPeriods) : base(provider)
@@ -26,9 +17,7 @@ public class SmaAnalysisHub
         Reinitialize();
     }
 
-    /// <summary>
-    /// Gets the number of lookback periods.
-    /// </summary>
+    /// <inheritdoc/>
     public int LookbackPeriods { get; init; }
     /// <inheritdoc/>
     protected override (SmaAnalysisResult result, int index)
@@ -104,19 +93,4 @@ public static partial class SmaAnalysis
         this IChainProvider<IReusable> chainProvider,
         int lookbackPeriods)
              => new(chainProvider, lookbackPeriods);
-
-    /// <summary>
-    /// Creates an SMA Analysis hub from a collection of quotes.
-    /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <returns>An instance of <see cref="SmaAnalysisHub"/>.</returns>
-    public static SmaAnalysisHub ToSmaAnalysisHub(
-        this IReadOnlyList<IQuote> quotes,
-        int lookbackPeriods)
-    {
-        QuoteHub quoteHub = new();
-        quoteHub.Add(quotes);
-        return quoteHub.ToSmaAnalysisHub(lookbackPeriods);
-    }
 }

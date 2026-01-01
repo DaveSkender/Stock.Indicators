@@ -4,15 +4,6 @@ namespace Skender.Stock.Indicators;
 public class UltimateHub
     : ChainProvider<IReusable, UltimateResult>, IUltimate
 {
-
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="UltimateHub"/> class.
-    /// </summary>
-    /// <param name="provider">The quote provider.</param>
-    /// <param name="shortPeriods">The number of short lookback periods.</param>
-    /// <param name="middlePeriods">The number of middle lookback periods.</param>
-    /// <param name="longPeriods">The number of long lookback periods.</param>
     internal UltimateHub(
         IQuoteProvider<IQuote> provider,
         int shortPeriods,
@@ -29,22 +20,15 @@ public class UltimateHub
         Reinitialize();
     }
 
-    /// <summary>
-    /// Gets the number of short lookback periods.
-    /// </summary>
+    /// <inheritdoc/>
     public int ShortPeriods { get; init; }
 
-    /// <summary>
-    /// Gets the number of middle lookback periods.
-    /// </summary>
+    /// <inheritdoc/>
     public int MiddlePeriods { get; init; }
 
-    /// <summary>
-    /// Gets the number of long lookback periods.
-    /// </summary>
+    /// <inheritdoc/>
     public int LongPeriods { get; init; }
 
-    // METHODS
     /// <inheritdoc/>
     protected override (UltimateResult result, int index)
         ToIndicator(IReusable item, int? indexHint)
@@ -139,24 +123,4 @@ public static partial class Ultimate
         int middlePeriods = 14,
         int longPeriods = 28)
              => new(quoteProvider, shortPeriods, middlePeriods, longPeriods);
-
-    /// <summary>
-    /// Creates a Ultimate hub from a collection of quotes.
-    /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="shortPeriods">Parameter for the calculation.</param>
-    /// <param name="middlePeriods">Parameter for the calculation.</param>
-    /// <param name="longPeriods">Parameter for the calculation.</param>
-    /// <returns>An instance of <see cref="UltimateHub"/>.</returns>
-    public static UltimateHub ToUltimateHub(
-        this IReadOnlyList<IQuote> quotes,
-        int shortPeriods = 7,
-        int middlePeriods = 14,
-        int longPeriods = 28)
-    {
-        QuoteHub quoteHub = new();
-        quoteHub.Add(quotes);
-        return quoteHub.ToUltimateHub(shortPeriods, middlePeriods, longPeriods);
-    }
-
 }

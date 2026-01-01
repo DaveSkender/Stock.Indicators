@@ -1,18 +1,18 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Provides methods for calculating the Slope and Linear Regression for a given source list and lookback period.
+/// Slope and Linear Regression indicator.
 /// </summary>
 public static partial class Slope
 {
     /// <summary>
-    /// Calculates the Slope and Linear Regression for a given source list and lookback period.
+    /// Calculates Slope and Linear Regression for a given source list and lookback period.
     /// </summary>
     /// <param name="source">The source list to analyze.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>A read-only list of Slope results.</returns>
-    /// <exception cref="ArgumentNullException">Thrown when the source list is null.</exception>
-    /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback period is less than 1.</exception>
+    /// <exception cref="ArgumentNullException">Thrown when <paramref name="source"/> is null.</exception>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="lookbackPeriods"/> is invalid.</exception>
     public static IReadOnlyList<SlopeResult> ToSlope(
         this IReadOnlyList<IReusable> source,
         int lookbackPeriods = 14)

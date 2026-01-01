@@ -22,6 +22,7 @@ public class MacdList : BufferList<MacdResult>, IIncrementFromChain, IMacd
     /// <param name="fastPeriods">The number of periods for the fast EMA.</param>
     /// <param name="slowPeriods">The number of periods for the slow EMA.</param>
     /// <param name="signalPeriods">The number of periods for the signal line.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="signalPeriods"/> is invalid.</exception>
     public MacdList(
         int fastPeriods = 12,
         int slowPeriods = 26,
@@ -70,19 +71,13 @@ public class MacdList : BufferList<MacdResult>, IIncrementFromChain, IMacd
     /// <inheritdoc/>
     public int SignalPeriods { get; init; }
 
-    /// <summary>
-    /// Gets the smoothing factor for the fast EMA.
-    /// </summary>
+    /// <inheritdoc />
     public double FastK { get; private init; }
 
-    /// <summary>
-    /// Gets the smoothing factor for the slow EMA.
-    /// </summary>
+    /// <inheritdoc />
     public double SlowK { get; private init; }
 
-    /// <summary>
-    /// Gets the smoothing factor for the signal line.
-    /// </summary>
+    /// <inheritdoc />
     public double SignalK { get; private init; }
 
     /// <inheritdoc />

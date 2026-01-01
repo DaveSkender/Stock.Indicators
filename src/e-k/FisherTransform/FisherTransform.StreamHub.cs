@@ -1,7 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Provides methods for calculating the Fisher Transform indicator using a stream hub.
+/// Streaming hub for Fisher Transform indicator using a stream hub.
 /// </summary>
 public class FisherTransformHub
     : ChainProvider<IReusable, FisherTransformResult>, IFisherTransform
@@ -19,13 +19,6 @@ public class FisherTransformHub
     private readonly RollingWindowMax<double> _priceMaxWindow;
     private readonly RollingWindowMin<double> _priceMinWindow;
 
-    /// <summary>
-    /// Initializes a new instance of the <see cref="FisherTransformHub"/> class.
-    /// </summary>
-    /// <param name="provider">The chain provider.</param>
-    /// <param name="lookbackPeriods">The number of periods to look back for the calculation. Default is 10.</param>
-    /// <exception cref="ArgumentNullException">Thrown when the provider is null.</exception>
-    /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
     internal FisherTransformHub(
         IChainProvider<IReusable> provider,
         int lookbackPeriods = 10) : base(provider)
@@ -177,19 +170,4 @@ public static partial class FisherTransform
         this IChainProvider<IReusable> chainProvider,
         int lookbackPeriods = 10)
              => new(chainProvider, lookbackPeriods);
-
-    /// <summary>
-    /// Creates a Fisher Transform hub from a collection of quotes.
-    /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="lookbackPeriods">Parameter for the calculation. Default is 10.</param>
-    /// <returns>An instance of <see cref="FisherTransformHub"/>.</returns>
-    public static FisherTransformHub ToFisherTransformHub(
-        this IReadOnlyList<IQuote> quotes,
-        int lookbackPeriods = 10)
-    {
-        QuoteHub quoteHub = new();
-        quoteHub.Add(quotes);
-        return quoteHub.ToFisherTransformHub(lookbackPeriods);
-    }
 }

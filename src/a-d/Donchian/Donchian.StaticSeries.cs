@@ -1,7 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Provides methods for calculating Donchian Channels.
+/// Donchian Channels indicator.
 /// </summary>
 public static partial class Donchian
 {
@@ -12,7 +12,7 @@ public static partial class Donchian
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>A list of Donchian Channel results.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the quotes list is null.</exception>
-    /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="lookbackPeriods"/> is invalid.</exception>
     public static IReadOnlyList<DonchianResult> ToDonchian(
         this IReadOnlyList<IQuote> quotes,
         int lookbackPeriods = 20)

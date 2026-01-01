@@ -1,7 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Provides methods for calculating the Klinger Volume Oscillator (KVO) for a series of quotes.
+/// Klinger Volume Oscillator (KVO) for a series of quotes indicator.
 /// </summary>
 public static partial class Kvo
 {

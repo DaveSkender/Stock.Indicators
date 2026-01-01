@@ -1,7 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Provides methods for calculating the EPMA (Endpoint Moving Average) indicator.
+/// EPMA (Endpoint Moving Average) indicator.
 /// </summary>
 public static partial class Epma
 {
@@ -11,8 +11,8 @@ public static partial class Epma
     /// <param name="source">The list of source data.</param>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <returns>A list of EPMA results.</returns>
-    /// <exception cref="ArgumentNullException">Thrown when the source list is null.</exception>
-    /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
+    /// <exception cref="ArgumentNullException">Thrown when <paramref name="source"/> is null.</exception>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="lookbackPeriods"/> is invalid.</exception>
     public static IReadOnlyList<EpmaResult> ToEpma(
         this IReadOnlyList<IReusable> source,
         int lookbackPeriods = 10)

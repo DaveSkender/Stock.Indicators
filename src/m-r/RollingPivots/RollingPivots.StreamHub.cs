@@ -1,9 +1,7 @@
 namespace Skender.Stock.Indicators;
 
-// ROLLING PIVOT POINTS (STREAM HUB)
-
 /// <summary>
-/// Provides methods for calculating Rolling Pivot Points using a stream hub.
+/// Streaming hub for Rolling Pivot Points using a stream hub.
 /// </summary>
 public static partial class RollingPivots
 {
@@ -24,7 +22,7 @@ public static partial class RollingPivots
 }
 
 /// <summary>
-/// Represents a stream hub for calculating Rolling Pivot Points.
+/// Streaming hub for Rolling Pivot Points.
 /// </summary>
 public class RollingPivotsHub
     : StreamHub<IQuote, RollingPivotsResult>
@@ -33,13 +31,6 @@ public class RollingPivotsHub
     private readonly RollingWindowMin<decimal> _lowWindow;
     private readonly Queue<IQuote> _offsetBuffer;
 
-    /// <summary>
-    /// Initializes a new instance of the <see cref="RollingPivotsHub"/> class.
-    /// </summary>
-    /// <param name="provider">The quote provider.</param>
-    /// <param name="windowPeriods">The number of periods in the rolling window.</param>
-    /// <param name="offsetPeriods">The number of periods to offset the window.</param>
-    /// <param name="pointType">The type of pivot point calculation to use.</param>
     internal RollingPivotsHub(
         IQuoteProvider<IQuote> provider,
         int windowPeriods,
@@ -59,19 +50,13 @@ public class RollingPivotsHub
         Reinitialize();
     }
 
-    /// <summary>
-    /// Gets the number of periods in the rolling window.
-    /// </summary>
+    /// <inheritdoc/>
     public int WindowPeriods { get; init; }
 
-    /// <summary>
-    /// Gets the number of periods to offset the window.
-    /// </summary>
+    /// <inheritdoc/>
     public int OffsetPeriods { get; init; }
 
-    /// <summary>
-    /// Gets the type of pivot point calculation.
-    /// </summary>
+    /// <inheritdoc/>
     public PivotPointType PointType { get; init; }
     /// <inheritdoc/>
     protected override (RollingPivotsResult result, int index)

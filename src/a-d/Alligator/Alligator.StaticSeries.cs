@@ -1,7 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Provides methods for calculating the Williams Alligator indicator.
+/// Williams Alligator indicator.
 /// </summary>
 public static partial class Alligator
 {

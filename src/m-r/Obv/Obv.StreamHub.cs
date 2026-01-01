@@ -1,16 +1,10 @@
 namespace Skender.Stock.Indicators;
 
-// ON-BALANCE VOLUME (STREAM HUB)
-
 /// <summary>
 /// Provides methods for creating OBV hubs.
 /// </summary>
 public class ObvHub : ChainProvider<IQuote, ObvResult>
 {
-    /// <summary>
-    /// Initializes a new instance of the <see cref="ObvHub"/> class.
-    /// </summary>
-    /// <param name="provider">The quote provider.</param>
     internal ObvHub(
         IQuoteProvider<IQuote> provider) : base(provider)
     {
@@ -55,18 +49,4 @@ public static partial class Obv
         ArgumentNullException.ThrowIfNull(quoteProvider);
         return new(quoteProvider);
     }
-
-    /// <summary>
-    /// Creates an Obv hub from a collection of quotes.
-    /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <returns>An instance of <see cref="ObvHub"/>.</returns>
-    public static ObvHub ToObvHub(
-        this IReadOnlyList<IQuote> quotes)
-    {
-        QuoteHub quoteHub = new();
-        quoteHub.Add(quotes);
-        return quoteHub.ToObvHub();
-    }
-
 }

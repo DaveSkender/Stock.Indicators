@@ -1,22 +1,14 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Streaming hub for Volume Weighted Average Price (VWAP) calculations.
+/// Streaming hub for Volume Weighted Average Price (VWAP).
 /// </summary>
 public class VwapHub : ChainProvider<IQuote, VwapResult>
 {
-    // Fields
     private readonly bool _autoAnchor;
     private double _cumVolume;
     private double _cumVolumeTp;
 
-    // Constructors
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="VwapHub"/> class.
-    /// </summary>
-    /// <param name="provider">The quote provider.</param>
-    /// <param name="startDate">The start date for VWAP calculation. If null, auto-anchors to first quote.</param>
     internal VwapHub(
         IQuoteProvider<IQuote> provider,
         DateTime? startDate = null)
@@ -28,14 +20,8 @@ public class VwapHub : ChainProvider<IQuote, VwapResult>
         Reinitialize();
     }
 
-    // Properties
-
-    /// <summary>
-    /// Gets the start date for the VWAP calculation.
-    /// </summary>
+    /// <inheritdoc/>
     public DateTime? StartDate { get; private set; }
-
-    // Protected overrides
 
     /// <inheritdoc/>
     protected override (VwapResult result, int index)
@@ -148,20 +134,5 @@ public static partial class Vwap
     {
         ArgumentNullException.ThrowIfNull(quoteProvider);
         return new VwapHub(quoteProvider, startDate);
-    }
-
-    /// <summary>
-    /// Creates a VWAP hub from a collection of quotes.
-    /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="startDate">The start date for VWAP calculation. If null, auto-anchors to first quote.</param>
-    /// <returns>An instance of <see cref="VwapHub"/>.</returns>
-    public static VwapHub ToVwapHub(
-        this IReadOnlyList<IQuote> quotes,
-        DateTime? startDate = null)
-    {
-        QuoteHub quoteHub = new();
-        quoteHub.Add(quotes);
-        return quoteHub.ToVwapHub(startDate);
     }
 }

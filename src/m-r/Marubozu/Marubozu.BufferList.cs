@@ -11,6 +11,7 @@ public class MarubozuList : BufferList<CandleResult>, IIncrementFromQuote, IMaru
     /// Initializes a new instance of the <see cref="MarubozuList"/> class.
     /// </summary>
     /// <param name="minBodyPercent">The minimum body percentage to qualify as a Marubozu. Default is 95.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="minBodyPercent"/> is invalid.</exception>
     public MarubozuList(double minBodyPercent = 95)
     {
         Marubozu.Validate(minBodyPercent);
@@ -28,9 +29,7 @@ public class MarubozuList : BufferList<CandleResult>, IIncrementFromQuote, IMaru
     public MarubozuList(double minBodyPercent, IReadOnlyList<IQuote> quotes)
         : this(minBodyPercent) => Add(quotes);
 
-    /// <summary>
-    /// Gets the minimum body percentage to qualify as a Marubozu.
-    /// </summary>
+    /// <inheritdoc />
     public double MinBodyPercent { get; }
 
     /// <inheritdoc />

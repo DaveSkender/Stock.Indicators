@@ -15,6 +15,7 @@ public class KeltnerList : BufferList<KeltnerResult>, IIncrementFromQuote
     /// <param name="emaPeriods">The number of periods for the EMA.</param>
     /// <param name="multiplier">The multiplier for the ATR.</param>
     /// <param name="atrPeriods">The number of periods for the ATR.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="atrPeriods"/> is invalid.</exception>
     public KeltnerList(
         int emaPeriods = 20,
         double multiplier = 2,

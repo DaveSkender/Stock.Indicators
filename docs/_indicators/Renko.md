@@ -100,7 +100,7 @@ Subscribe to a `QuoteHub` for streaming scenarios:
 QuoteHub quoteHub = new();
 RenkoHub observer = quoteHub.ToRenkoHub(brickSize);
 
-foreach (Quote quote in quotes)  // simulating stream
+foreach (IQuote quote in quotes)  // simulating stream
 {
   quoteHub.Add(quote);
 }
@@ -113,7 +113,7 @@ Use a `BufferList` for incremental processing:
 ```csharp
 RenkoList buffer = new(brickSize, endType);
 
-foreach (Quote quote in quotes)  // simulating incremental data
+foreach (IQuote quote in quotes)  // simulating stream  // simulating incremental data
 {
   buffer.Add(quote);
 }

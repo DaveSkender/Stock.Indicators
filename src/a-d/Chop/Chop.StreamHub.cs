@@ -1,7 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Provides methods for calculating the Choppiness Index (CHOP) on a series of quotes.
+/// Streaming hub for Choppiness Index (CHOP) on a series of quotes.
 /// </summary>
 public class ChopHub
     : ChainProvider<IQuote, ChopResult>, IChop
@@ -11,13 +11,6 @@ public class ChopHub
     private readonly Queue<double> _trueRangeBuffer;
     private double _sumTrueRange;
 
-    /// <summary>
-    /// Initializes a new instance of the <see cref="ChopHub"/> class.
-    /// </summary>
-    /// <param name="provider">The quote provider.</param>
-    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <exception cref="ArgumentNullException">Thrown when the provider is null.</exception>
-    /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
     internal ChopHub(
         IQuoteProvider<IQuote> provider,
         int lookbackPeriods) : base(provider)
@@ -155,20 +148,4 @@ public static partial class Chop
         this IQuoteProvider<IQuote> quoteProvider,
         int lookbackPeriods = 14)
              => new(quoteProvider, lookbackPeriods);
-
-    /// <summary>
-    /// Creates a Chop hub from a collection of quotes.
-    /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <returns>An instance of <see cref="ChopHub"/>.</returns>
-    public static ChopHub ToChopHub(
-        this IReadOnlyList<IQuote> quotes,
-        int lookbackPeriods = 14)
-    {
-        QuoteHub quoteHub = new();
-        quoteHub.Add(quotes);
-        return quoteHub.ToChopHub(lookbackPeriods);
-    }
-
 }

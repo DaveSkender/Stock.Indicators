@@ -18,6 +18,7 @@ public class SuperTrendList : BufferList<SuperTrendResult>, IIncrementFromQuote
     /// </summary>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <param name="multiplier">The multiplier for the ATR.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="multiplier"/> is invalid.</exception>
     public SuperTrendList(int lookbackPeriods = 10, double multiplier = 3)
     {
         SuperTrend.Validate(lookbackPeriods, multiplier);
@@ -39,14 +40,10 @@ public class SuperTrendList : BufferList<SuperTrendResult>, IIncrementFromQuote
     public SuperTrendList(int lookbackPeriods, double multiplier, IReadOnlyList<IQuote> quotes)
         : this(lookbackPeriods, multiplier) => Add(quotes);
 
-    /// <summary>
-    /// Gets the number of lookback periods.
-    /// </summary>
+    /// <inheritdoc />
     public int LookbackPeriods { get; init; }
 
-    /// <summary>
-    /// Gets the multiplier for the ATR.
-    /// </summary>
+    /// <inheritdoc />
     public double Multiplier { get; init; }
 
     /// <inheritdoc />

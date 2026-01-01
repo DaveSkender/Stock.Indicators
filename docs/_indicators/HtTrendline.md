@@ -67,14 +67,14 @@ Use the streaming hub for real-time incremental calculations:
 
 ```csharp
 QuoteHub quoteHub = new();
-HtTrendlineHub htlHub = quoteHub.ToHtTrendlineHub();
+HtTrendlineHub observer = quoteHub.ToHtTrendlineHub();
 
-foreach (IQuote quote in quotes)  // simulating stream
+foreach (IQuote quote in quotes)  // simulating stream  // simulating stream
 {
   quoteHub.Add(quote);
 }
 
-IReadOnlyList<HtlResult> results = htlHub.Results;
+IReadOnlyList<HtlResult> results = observer.Results;
 ```
 
 ### Buffer-style streaming

@@ -15,6 +15,7 @@ public class UltimateList : BufferList<UltimateResult>, IIncrementFromQuote, IUl
     /// <param name="shortPeriods">The number of short periods.</param>
     /// <param name="middlePeriods">The number of middle periods.</param>
     /// <param name="longPeriods">The number of long periods.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="longPeriods"/> is invalid.</exception>
     public UltimateList(
         int shortPeriods = 7,
         int middlePeriods = 14,
@@ -45,19 +46,13 @@ public class UltimateList : BufferList<UltimateResult>, IIncrementFromQuote, IUl
         IReadOnlyList<IQuote> quotes)
         : this(shortPeriods, middlePeriods, longPeriods) => Add(quotes);
 
-    /// <summary>
-    /// Gets the number of short periods.
-    /// </summary>
+    /// <inheritdoc />
     public int ShortPeriods { get; init; }
 
-    /// <summary>
-    /// Gets the number of middle periods.
-    /// </summary>
+    /// <inheritdoc />
     public int MiddlePeriods { get; init; }
 
-    /// <summary>
-    /// Gets the number of long periods.
-    /// </summary>
+    /// <inheritdoc />
     public int LongPeriods { get; init; }
 
     /// <inheritdoc />

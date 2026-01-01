@@ -5,12 +5,14 @@ public class SlopeTests : RegressionTestBase<SlopeResult>
 {
     public SlopeTests() : base("slope.standard.json") { }
 
-    [TestMethod]
-    public override void Series() => Quotes.ToSlope().IsExactly(Expected);
+    private const int n = 14;
 
     [TestMethod]
-    public override void Buffer() => Quotes.ToSlopeList(14).IsExactly(Expected);
+    public override void Series() => Quotes.ToSlope(n).IsExactly(Expected);
 
     [TestMethod]
-    public override void Stream() => Assert.Inconclusive("Stream implementation not yet available");
+    public override void Buffer() => Quotes.ToSlopeList(n).IsExactly(Expected);
+
+    [TestMethod]
+    public override void Stream() => Quotes.ToSlopeHub(n).Results.IsExactly(Expected);
 }

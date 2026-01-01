@@ -1,7 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Provides methods for calculating the Parabolic SAR for a series of quotes.
+/// Parabolic SAR for a series of quotes indicator.
 /// </summary>
 public static partial class ParabolicSar
 {

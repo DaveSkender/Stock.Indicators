@@ -17,6 +17,7 @@ public class RocWbList : BufferList<RocWbResult>, IIncrementFromChain, IRocWb
     /// <param name="lookbackPeriods">The number of periods to look back for the ROC calculation.</param>
     /// <param name="emaPeriods">The number of periods for the exponential moving average calculation.</param>
     /// <param name="stdDevPeriods">The number of periods for the standard deviation calculation.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="stdDevPeriods"/> is invalid.</exception>
     public RocWbList(int lookbackPeriods, int emaPeriods, int stdDevPeriods)
     {
         RocWb.Validate(lookbackPeriods, emaPeriods, stdDevPeriods);
@@ -41,19 +42,13 @@ public class RocWbList : BufferList<RocWbResult>, IIncrementFromChain, IRocWb
     public RocWbList(int lookbackPeriods, int emaPeriods, int stdDevPeriods, IReadOnlyList<IReusable> values)
         : this(lookbackPeriods, emaPeriods, stdDevPeriods) => Add(values);
 
-    /// <summary>
-    /// Gets the number of periods to look back for the ROC calculation.
-    /// </summary>
+    /// <inheritdoc />
     public int LookbackPeriods { get; init; }
 
-    /// <summary>
-    /// Gets the number of periods for the exponential moving average calculation.
-    /// </summary>
+    /// <inheritdoc />
     public int EmaPeriods { get; init; }
 
-    /// <summary>
-    /// Gets the number of periods for the standard deviation calculation.
-    /// </summary>
+    /// <inheritdoc />
     public int StdDevPeriods { get; init; }
 
     /// <inheritdoc />

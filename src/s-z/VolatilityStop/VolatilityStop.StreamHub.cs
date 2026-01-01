@@ -1,21 +1,11 @@
 namespace Skender.Stock.Indicators;
 
-// VOLATILITY STOP (STREAM HUB)
-
 /// <summary>
 /// Provides methods for calculating the Volatility Stop using a stream hub.
 /// </summary>
 public class VolatilityStopHub
     : StreamHub<IQuote, VolatilityStopResult>, IVolatilityStop
 {
-
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="VolatilityStopHub"/> class.
-    /// </summary>
-    /// <param name="provider">The quote provider.</param>
-    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <param name="multiplier">The multiplier for the Average True Range.</param>
     internal VolatilityStopHub(
         IQuoteProvider<IQuote> provider,
         int lookbackPeriods,
@@ -30,14 +20,10 @@ public class VolatilityStopHub
         Reinitialize();
     }
 
-    /// <summary>
-    /// Gets the number of periods to look back.
-    /// </summary>
+    /// <inheritdoc/>
     public int LookbackPeriods { get; init; }
 
-    /// <summary>
-    /// Gets the multiplier for the ATR.
-    /// </summary>
+    /// <inheritdoc/>
     public double Multiplier { get; init; }
 
     /// <summary>
@@ -65,7 +51,6 @@ public class VolatilityStopHub
     /// </summary>
     private double? PrevAtr { get; set; }
 
-    // METHODS
     /// <inheritdoc/>
     protected override (VolatilityStopResult result, int index)
         ToIndicator(IQuote item, int? indexHint)
@@ -306,33 +291,12 @@ public class VolatilityStopHub
 public static partial class VolatilityStop
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="VolatilityStopHub"/> class.
+    /// Creates a Volatility Stop hub.
     /// </summary>
-    /// <param name="quoteProvider">The quote provider.</param>
-    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <param name="multiplier">The multiplier for the ATR.</param>
     /// <returns>An instance of <see cref="VolatilityStopHub"/>.</returns>
     public static VolatilityStopHub ToVolatilityStopHub(
        this IQuoteProvider<IQuote> quoteProvider,
        int lookbackPeriods = 7,
        double multiplier = 3)
            => new(quoteProvider, lookbackPeriods, multiplier);
-
-    /// <summary>
-    /// Creates a VolatilityStop hub from a collection of quotes.
-    /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <param name="multiplier">The multiplier for the ATR.</param>
-    /// <returns>An instance of <see cref="VolatilityStopHub"/>.</returns>
-    public static VolatilityStopHub ToVolatilityStopHub(
-       this IReadOnlyList<IQuote> quotes,
-       int lookbackPeriods = 7,
-       double multiplier = 3)
-    {
-        ArgumentNullException.ThrowIfNull(quotes);
-        QuoteHub quoteHub = new();
-        quoteHub.Add(quotes);
-        return quoteHub.ToVolatilityStopHub(lookbackPeriods, multiplier);
-    }
 }

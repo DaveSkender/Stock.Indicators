@@ -12,9 +12,8 @@ public class EmaList : BufferList<EmaResult>, IIncrementFromChain, IEma
     /// Initializes a new instance of the <see cref="EmaList"/> class.
     /// </summary>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    public EmaList(
-        int lookbackPeriods
-    )
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="lookbackPeriods"/> is invalid.</exception>
+    public EmaList(int lookbackPeriods)
     {
         Ema.Validate(lookbackPeriods);
         LookbackPeriods = lookbackPeriods;
@@ -27,14 +26,14 @@ public class EmaList : BufferList<EmaResult>, IIncrementFromChain, IEma
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="EmaList"/> class with initial reusable values.
+    /// Initializes a new instance of the <see cref="EmaList"/> class with initial values.
     /// </summary>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <param name="values">Initial reusable values to populate the list.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="lookbackPeriods"/> is invalid.</exception>
     public EmaList(
         int lookbackPeriods,
-        IReadOnlyList<IReusable> values
-    )
+        IReadOnlyList<IReusable> values)
         : this(lookbackPeriods) => Add(values);
 
     /// <inheritdoc />

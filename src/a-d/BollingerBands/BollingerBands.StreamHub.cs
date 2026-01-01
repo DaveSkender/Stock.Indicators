@@ -1,21 +1,11 @@
 namespace Skender.Stock.Indicators;
 
-// BOLLINGER BANDS (STREAM HUB)
-
 /// <summary>
 /// Provides methods for creating Bollinger Bands hubs.
 /// </summary>
 public class BollingerBandsHub
     : ChainProvider<IReusable, BollingerBandsResult>, IBollingerBands
 {
-
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="BollingerBandsHub"/> class.
-    /// </summary>
-    /// <param name="provider">The chain provider.</param>
-    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <param name="standardDeviations">The number of standard deviations.</param>
     internal BollingerBandsHub(
         IChainProvider<IReusable> provider,
         int lookbackPeriods,
@@ -29,14 +19,10 @@ public class BollingerBandsHub
         Reinitialize();
     }
 
-    /// <summary>
-    /// Gets the number of lookback periods.
-    /// </summary>
+    /// <inheritdoc/>
     public int LookbackPeriods { get; init; }
 
-    /// <summary>
-    /// Gets the number of standard deviations.
-    /// </summary>
+    /// <inheritdoc/>
     public double StandardDeviations { get; }
     /// <inheritdoc/>
     protected override (BollingerBandsResult result, int index)
@@ -73,22 +59,4 @@ public static partial class BollingerBands
         int lookbackPeriods = 20,
         double standardDeviations = 2)
              => new(chainProvider, lookbackPeriods, standardDeviations);
-
-    /// <summary>
-    /// Creates a BollingerBands hub from a collection of quotes.
-    /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <param name="standardDeviations">Parameter for the calculation.</param>
-    /// <returns>An instance of <see cref="BollingerBandsHub"/>.</returns>
-    public static BollingerBandsHub ToBollingerBandsHub(
-        this IReadOnlyList<IQuote> quotes,
-        int lookbackPeriods = 20,
-        double standardDeviations = 2)
-    {
-        QuoteHub quoteHub = new();
-        quoteHub.Add(quotes);
-        return quoteHub.ToBollingerBandsHub(lookbackPeriods, standardDeviations);
-    }
-
 }

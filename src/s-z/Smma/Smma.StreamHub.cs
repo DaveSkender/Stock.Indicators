@@ -6,14 +6,6 @@ namespace Skender.Stock.Indicators;
 public class SmmaHub
     : ChainProvider<IReusable, SmmaResult>, ISmma
 {
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="SmmaHub"/> class.
-    /// </summary>
-    /// <param name="provider">The chain provider.</param>
-    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <exception cref="ArgumentNullException">Thrown when the provider is null.</exception>
-    /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
     internal SmmaHub(
         IChainProvider<IReusable> provider,
         int lookbackPeriods) : base(provider)
@@ -69,20 +61,4 @@ public static partial class Smma
         this IChainProvider<IReusable> chainProvider,
         int lookbackPeriods)
         => new(chainProvider, lookbackPeriods);
-
-    /// <summary>
-    /// Creates a Smma hub from a collection of quotes.
-    /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="lookbackPeriods">Parameter for the calculation.</param>
-    /// <returns>An instance of <see cref="SmmaHub"/>.</returns>
-    public static SmmaHub ToSmmaHub(
-        this IReadOnlyList<IQuote> quotes,
-        int lookbackPeriods)
-    {
-        QuoteHub quoteHub = new();
-        quoteHub.Add(quotes);
-        return quoteHub.ToSmmaHub(lookbackPeriods);
-    }
-
 }

@@ -23,15 +23,6 @@ public class TsiHub
     private readonly List<double> _cs1History;
     private readonly List<double> _as1History;
 
-    /// <summary>
-    /// Initializes a new instance of the <see cref="TsiHub"/> class.
-    /// </summary>
-    /// <param name="provider">The chain provider.</param>
-    /// <param name="lookbackPeriods">The number of periods for the lookback calculation.</param>
-    /// <param name="smoothPeriods">The number of periods for the smoothing calculation.</param>
-    /// <param name="signalPeriods">The number of periods for the signal calculation.</param>
-    /// <exception cref="ArgumentNullException">Thrown when the provider is null.</exception>
-    /// <exception cref="ArgumentOutOfRangeException">Thrown when any of the parameters are invalid.</exception>
     internal TsiHub(
         IChainProvider<IReusable> provider,
         int lookbackPeriods,
@@ -405,23 +396,4 @@ public static partial class Tsi
         int smoothPeriods = 13,
         int signalPeriods = 7)
         => new(chainProvider, lookbackPeriods, smoothPeriods, signalPeriods);
-
-    /// <summary>
-    /// Creates a TSI hub from a collection of quotes.
-    /// </summary>
-    /// <param name="quotes">The collection of quotes.</param>
-    /// <param name="lookbackPeriods">The number of periods for the lookback calculation.</param>
-    /// <param name="smoothPeriods">The number of periods for the smoothing calculation.</param>
-    /// <param name="signalPeriods">The number of periods for the signal calculation.</param>
-    /// <returns>An instance of <see cref="TsiHub"/>.</returns>
-    public static TsiHub ToTsiHub(
-        this IReadOnlyList<IQuote> quotes,
-        int lookbackPeriods = 25,
-        int smoothPeriods = 13,
-        int signalPeriods = 7)
-    {
-        QuoteHub quoteHub = new();
-        quoteHub.Add(quotes);
-        return quoteHub.ToTsiHub(lookbackPeriods, smoothPeriods, signalPeriods);
-    }
 }

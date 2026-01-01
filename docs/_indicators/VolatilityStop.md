@@ -19,9 +19,9 @@ Created by J. Welles Wilder, [Volatility Stop](https://archive.org/details/newco
 IReadOnlyList<VolatilityStopResult> results =
   quotes.ToVolatilityStop(lookbackPeriods, multiplier);
 
-// Usage with quote provider (streaming)
-VolatilityStopHub hub =
-  quoteProvider.ToVolatilityStopHub(lookbackPeriods, multiplier);
+// Usage with QuoteHub (streaming)
+QuoteHub quoteHub = new();
+VolatilityStopHub observer = quoteHub.ToVolatilityStopHub(lookbackPeriods, multiplier);
 ```
 
 ## Parameters
@@ -107,7 +107,7 @@ Subscribe to a `QuoteHub` for advanced streaming scenarios:
 QuoteHub quoteHub = new();
 VolatilityStopHub observer = quoteHub.ToVolatilityStopHub(lookbackPeriods, multiplier);
 
-foreach (Quote quote in quotes)  // simulating stream
+foreach (IQuote quote in quotes)  // simulating stream
 {
   quoteHub.Add(quote);
 }

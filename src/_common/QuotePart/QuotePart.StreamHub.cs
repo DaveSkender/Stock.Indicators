@@ -6,11 +6,6 @@ namespace Skender.Stock.Indicators;
 public class QuotePartHub
     : ChainProvider<IQuote, QuotePart>, IQuotePart
 {
-    /// <summary>
-    /// Initializes a new instance of the <see cref="QuotePartHub"/> class.
-    /// </summary>
-    /// <param name="provider">The quote provider.</param>
-    /// <param name="candlePart">The <see cref="CandlePart" /> element.</param>
     internal QuotePartHub(
         IQuoteProvider<IQuote> provider,
         CandlePart candlePart
@@ -21,12 +16,9 @@ public class QuotePartHub
         Reinitialize();
     }
 
-    /// <summary>
-    /// Gets the selected candle part.
-    /// </summary>
+    /// <inheritdoc/>
     public CandlePart CandlePartSelection { get; init; }
 
-    // METHODS
 
     /// <inheritdoc/>
     protected override (QuotePart result, int index)
@@ -60,19 +52,4 @@ public static partial class QuoteParts
         this IQuoteProvider<IQuote> quoteProvider,
         CandlePart candlePart)
         => new(quoteProvider, candlePart);
-
-    /// <summary>
-    /// Creates a QuotePart hub from a collection of quotes.
-    /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="candlePart">The <see cref="CandlePart" /> element.</param>
-    /// <returns>An new <see cref="QuotePartHub"/> instance.</returns>
-    public static QuotePartHub ToQuotePartHub(
-        this IReadOnlyList<IQuote> quotes,
-        CandlePart candlePart)
-    {
-        QuoteHub quoteHub = new();
-        quoteHub.Add(quotes);
-        return quoteHub.ToQuotePartHub(candlePart);
-    }
 }

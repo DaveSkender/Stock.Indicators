@@ -1,7 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Provides methods for calculating the Hilbert Transform Instantaneous Trendline (HTL) indicator.
+/// Hilbert Transform Instantaneous Trendline (HTL) indicator.
 /// </summary>
 public static partial class HtTrendline
 {
@@ -10,7 +10,7 @@ public static partial class HtTrendline
     /// </summary>
     /// <param name="source">The list of time-series values to transform.</param>
     /// <returns>A list of HTL results and smoothed price.</returns>
-    /// <exception cref="ArgumentNullException">Thrown when the source list is null.</exception>
+    /// <exception cref="ArgumentNullException">Thrown when <paramref name="source"/> is null.</exception>
     public static IReadOnlyList<HtlResult> ToHtTrendline(
         this IReadOnlyList<IReusable> source)
     {

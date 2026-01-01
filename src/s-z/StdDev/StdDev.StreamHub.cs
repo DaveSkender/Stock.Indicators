@@ -1,19 +1,11 @@
 namespace Skender.Stock.Indicators;
 
-// STANDARD DEVIATION (STREAM HUB)
-
 /// <summary>
 /// Represents a Standard Deviation stream hub.
 /// </summary>
 public class StdDevHub
     : ChainProvider<IReusable, StdDevResult>, IStdDev
 {
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="StdDevHub"/> class.
-    /// </summary>
-    /// <param name="provider">The chain provider.</param>
-    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     internal StdDevHub(
         IChainProvider<IReusable> provider,
         int lookbackPeriods) : base(provider)
@@ -25,9 +17,7 @@ public class StdDevHub
         Reinitialize();
     }
 
-    /// <summary>
-    /// Gets the number of lookback periods.
-    /// </summary>
+    /// <inheritdoc/>
     public int LookbackPeriods { get; init; }
     /// <inheritdoc/>
     protected override (StdDevResult result, int index)
@@ -99,19 +89,4 @@ public static partial class StdDev
         this IChainProvider<IReusable> chainProvider,
         int lookbackPeriods = 14)
              => new(chainProvider, lookbackPeriods);
-
-    /// <summary>
-    /// Creates a StdDev hub from a collection of quotes.
-    /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <returns>An instance of <see cref="StdDevHub"/>.</returns>
-    public static StdDevHub ToStdDevHub(
-        this IReadOnlyList<IQuote> quotes,
-        int lookbackPeriods = 14)
-    {
-        QuoteHub quoteHub = new();
-        quoteHub.Add(quotes);
-        return quoteHub.ToStdDevHub(lookbackPeriods);
-    }
 }

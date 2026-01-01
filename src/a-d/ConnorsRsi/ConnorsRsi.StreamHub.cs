@@ -1,7 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Provides methods for calculating the Connors RSI indicator in a streaming context.
+/// Streaming hub for Connors RSI indicator in a streaming context.
 /// </summary>
 public class ConnorsRsiHub
     : ChainProvider<IReusable, ConnorsRsiResult>, IConnorsRsi
@@ -14,15 +14,6 @@ public class ConnorsRsiHub
     private double streakAvgGain;
     private double streakAvgLoss;
 
-    /// <summary>
-    /// Initializes a new instance of the <see cref="ConnorsRsiHub"/> class.
-    /// </summary>
-    /// <param name="provider">The chain provider.</param>
-    /// <param name="rsiPeriods">The number of periods to use for the RSI calculation. Default is 3.</param>
-    /// <param name="streakPeriods">The number of periods to use for the streak calculation. Default is 2.</param>
-    /// <param name="rankPeriods">The number of periods to use for the percent rank calculation. Default is 100.</param>
-    /// <exception cref="ArgumentNullException">Thrown when the provider is null.</exception>
-    /// <exception cref="ArgumentOutOfRangeException">Thrown when any of the parameters are invalid.</exception>
     internal ConnorsRsiHub(
         IChainProvider<IReusable> provider,
         int rsiPeriods,
@@ -400,23 +391,4 @@ public static partial class ConnorsRsi
         int streakPeriods = 2,
         int rankPeriods = 100)
         => new(chainProvider, rsiPeriods, streakPeriods, rankPeriods);
-
-    /// <summary>
-    /// Creates a ConnorsRsi hub from a collection of quotes.
-    /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="rsiPeriods">The number of periods to use for the RSI calculation. Default is 3.</param>
-    /// <param name="streakPeriods">The number of periods to use for the streak calculation. Default is 2.</param>
-    /// <param name="rankPeriods">The number of periods to use for the percent rank calculation. Default is 100.</param>
-    /// <returns>An instance of <see cref="ConnorsRsiHub"/>.</returns>
-    public static ConnorsRsiHub ToConnorsRsiHub(
-        this IReadOnlyList<IQuote> quotes,
-        int rsiPeriods = 3,
-        int streakPeriods = 2,
-        int rankPeriods = 100)
-    {
-        QuoteHub quoteHub = new();
-        quoteHub.Add(quotes);
-        return quoteHub.ToConnorsRsiHub(rsiPeriods, streakPeriods, rankPeriods);
-    }
 }

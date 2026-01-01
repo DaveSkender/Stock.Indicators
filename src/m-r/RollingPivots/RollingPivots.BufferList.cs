@@ -13,6 +13,7 @@ public class RollingPivotsList : BufferList<RollingPivotsResult>, IIncrementFrom
     /// <param name="windowPeriods">The number of periods in the rolling window.</param>
     /// <param name="offsetPeriods">The number of periods to offset the window.</param>
     /// <param name="pointType">The type of pivot point calculation to use.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="pointType"/> is invalid.</exception>
     public RollingPivotsList(
         int windowPeriods = 20,
         int offsetPeriods = 0,
@@ -41,24 +42,16 @@ public class RollingPivotsList : BufferList<RollingPivotsResult>, IIncrementFrom
         IReadOnlyList<IQuote> quotes)
         : this(windowPeriods, offsetPeriods, pointType) => Add(quotes);
 
-    /// <summary>
-    /// Gets the number of periods in the rolling window.
-    /// </summary>
+    /// <inheritdoc />
     public int WindowPeriods { get; }
 
-    /// <summary>
-    /// Gets the number of periods to offset the window.
-    /// </summary>
+    /// <inheritdoc />
     public int OffsetPeriods { get; }
 
-    /// <summary>
-    /// Gets the type of pivot point calculation.
-    /// </summary>
+    /// <inheritdoc />
     public PivotPointType PointType { get; }
 
-    /// <summary>
-    /// Gets the minimum number of quotes required to generate results.
-    /// </summary>
+    /// <inheritdoc />
     public int LookbackPeriods => WindowPeriods + OffsetPeriods;
 
     /// <inheritdoc />

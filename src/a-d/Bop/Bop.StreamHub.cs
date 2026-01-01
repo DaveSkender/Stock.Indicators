@@ -1,21 +1,11 @@
 namespace Skender.Stock.Indicators;
 
-// BALANCE OF POWER (STREAM HUB)
-
 /// <summary>
-/// Provides methods for calculating the Balance of Power (BOP).
+/// Streaming hub for Balance of Power (BOP).
 /// </summary>
 public class BopHub
     : ChainProvider<IQuote, BopResult>, IBop
 {
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="BopHub"/> class.
-    /// </summary>
-    /// <param name="provider">The chain provider.</param>
-    /// <param name="smoothPeriods">The number of periods for smoothing.</param>
-    /// <exception cref="ArgumentNullException">Thrown when the provider is null.</exception>
-    /// <exception cref="ArgumentOutOfRangeException">Thrown when the smooth periods are invalid.</exception>
     internal BopHub(
         IQuoteProvider<IQuote> provider,
         int smoothPeriods) : base(provider)
@@ -91,20 +81,4 @@ public static partial class Bop
         this IQuoteProvider<IQuote> chainProvider,
         int smoothPeriods = 14)
         => new(chainProvider, smoothPeriods);
-
-    /// <summary>
-    /// Creates a Bop hub from a collection of quotes.
-    /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="smoothPeriods">Parameter for the calculation.</param>
-    /// <returns>An instance of <see cref="BopHub"/>.</returns>
-    public static BopHub ToBopHub(
-        this IReadOnlyList<IQuote> quotes,
-        int smoothPeriods = 14)
-    {
-        QuoteHub quoteHub = new();
-        quoteHub.Add(quotes);
-        return quoteHub.ToBopHub(smoothPeriods);
-    }
-
 }

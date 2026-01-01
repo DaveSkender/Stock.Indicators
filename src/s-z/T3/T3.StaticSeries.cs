@@ -1,7 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Provides methods for calculating the T3 moving average indicator.
+/// T3 moving average indicator.
 /// </summary>
 public static partial class T3
 {
@@ -12,7 +12,7 @@ public static partial class T3
     /// <param name="lookbackPeriods">The number of lookback periods.</param>
     /// <param name="volumeFactor">The volume factor.</param>
     /// <returns>A list of T3Result containing the T3 moving average values.</returns>
-    /// <exception cref="ArgumentNullException">Thrown when the source is null.</exception>
+    /// <exception cref="ArgumentNullException">Thrown when <paramref name="source"/> is null.</exception>
     public static IReadOnlyList<T3Result> ToT3(
         this IReadOnlyList<IReusable> source,
         int lookbackPeriods = 5,

@@ -1,9 +1,7 @@
 namespace Skender.Stock.Indicators;
 
-// STOCHASTIC OSCILLATOR (STREAM HUB)
-
 /// <summary>
-/// Provides methods for creating Stochastic Oscillator hubs.
+/// Streaming hub for Stochastic Oscillator.
 /// </summary>
 public class StochHub
     : StreamHub<IQuote, StochResult>, IStoch
@@ -13,13 +11,6 @@ public class StochHub
     private readonly RollingWindowMin<double> _lowWindow;
     private readonly Queue<double> _rawKBuffer;
 
-    /// <summary>
-    /// Initializes a new instance of the <see cref="StochHub"/> class.
-    /// </summary>
-    /// <param name="provider">The quote provider.</param>
-    /// <param name="lookbackPeriods">The lookback period for the oscillator.</param>
-    /// <param name="signalPeriods">The signal period for the oscillator.</param>
-    /// <param name="smoothPeriods">The smoothing period for the oscillator.</param>
     internal StochHub(
         IStreamObservable<IQuote> provider,
         int lookbackPeriods,
@@ -379,24 +370,4 @@ public static partial class Stoch
         double dFactor,
         MaType movingAverageType)
              => new(quoteProvider, lookbackPeriods, signalPeriods, smoothPeriods, kFactor, dFactor, movingAverageType);
-
-    /// <summary>
-    /// Creates a Stoch hub from a collection of quotes.
-    /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="lookbackPeriods">Parameter for the calculation.</param>
-    /// <param name="signalPeriods">Parameter for the calculation.</param>
-    /// <param name="smoothPeriods">Parameter for the calculation.</param>
-    /// <returns>An instance of <see cref="StochHub"/>.</returns>
-    public static StochHub ToStochHub(
-        this IReadOnlyList<IQuote> quotes,
-        int lookbackPeriods = 14,
-        int signalPeriods = 3,
-        int smoothPeriods = 3)
-    {
-        QuoteHub quoteHub = new();
-        quoteHub.Add(quotes);
-        return quoteHub.ToStochHub(lookbackPeriods, signalPeriods, smoothPeriods);
-    }
-
 }
