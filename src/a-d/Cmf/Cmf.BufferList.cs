@@ -12,6 +12,7 @@ public class CmfList : BufferList<CmfResult>, IIncrementFromQuote, ICmf
     /// Initializes a new instance of the <see cref="CmfList"/> class.
     /// </summary>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="lookbackPeriods"/> is invalid.</exception>
     public CmfList(int lookbackPeriods = 20)
     {
         Cmf.Validate(lookbackPeriods);
@@ -28,12 +29,11 @@ public class CmfList : BufferList<CmfResult>, IIncrementFromQuote, ICmf
     /// </summary>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="lookbackPeriods"/> is invalid.</exception>
     public CmfList(int lookbackPeriods, IReadOnlyList<IQuote> quotes)
         : this(lookbackPeriods) => Add(quotes);
 
-    /// <summary>
-    /// Gets the number of periods to use for the lookback window.
-    /// </summary>
+    /// <inheritdoc />
     public int LookbackPeriods { get; init; }
 
     /// <inheritdoc />

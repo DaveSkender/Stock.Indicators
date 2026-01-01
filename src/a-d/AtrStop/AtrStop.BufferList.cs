@@ -18,6 +18,7 @@ public class AtrStopList : BufferList<AtrStopResult>, IIncrementFromQuote, IAtrS
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <param name="multiplier">The multiplier for the ATR.</param>
     /// <param name="endType">The candle threshold point to use for reversals.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="endType"/> is invalid.</exception>
     public AtrStopList(
         int lookbackPeriods = 21,
         double multiplier = 3,

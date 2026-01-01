@@ -1,7 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Provides methods for calculating the McGinley Dynamic indicator.
+/// McGinley Dynamic indicator.
 /// </summary>
 public static partial class MgDynamic
 {
@@ -12,7 +12,7 @@ public static partial class MgDynamic
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <param name="kFactor">The smoothing factor for the calculation.</param>
     /// <returns>A list of McGinley Dynamic results.</returns>
-    /// <exception cref="ArgumentNullException">Thrown when the source list is null.</exception>
+    /// <exception cref="ArgumentNullException">Thrown when <paramref name="source"/> is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods or kFactor are invalid.</exception>
     public static IReadOnlyList<DynamicResult> ToDynamic(
         this IReadOnlyList<IReusable> source,

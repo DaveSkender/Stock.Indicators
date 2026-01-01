@@ -1,7 +1,5 @@
 namespace Skender.Stock.Indicators;
 
-// STOCHASTIC RSI (STREAM HUB)
-
 /// <summary>
 /// Represents a Stochastic RSI stream hub that calculates Stochastic oscillator on RSI values.
 /// </summary>
@@ -28,14 +26,6 @@ public sealed class StochRsiHub
     /// </summary>
     private readonly Queue<double> signalBuffer;
 
-    /// <summary>
-    /// Initializes a new instance of the <see cref="StochRsiHub"/> class.
-    /// </summary>
-    /// <param name="provider">The chain provider.</param>
-    /// <param name="rsiPeriods">The number of periods for the RSI calculation.</param>
-    /// <param name="stochPeriods">The number of periods for the Stochastic calculation.</param>
-    /// <param name="signalPeriods">The number of periods for the signal line.</param>
-    /// <param name="smoothPeriods">The number of periods for smoothing.</param>
     internal StochRsiHub(
         IChainProvider<IReusable> provider,
         int rsiPeriods = 14,
@@ -66,24 +56,16 @@ public sealed class StochRsiHub
         Reinitialize();
     }
 
-    /// <summary>
-    /// Gets the number of periods for the RSI calculation.
-    /// </summary>
+    /// <inheritdoc/>
     public int RsiPeriods { get; init; }
 
-    /// <summary>
-    /// Gets the number of periods for the Stochastic calculation.
-    /// </summary>
+    /// <inheritdoc/>
     public int StochPeriods { get; init; }
 
-    /// <summary>
-    /// Gets the number of periods for the signal line.
-    /// </summary>
+    /// <inheritdoc/>
     public int SignalPeriods { get; init; }
 
-    /// <summary>
-    /// Gets the number of periods for smoothing.
-    /// </summary>
+    /// <inheritdoc/>
     public int SmoothPeriods { get; init; }
     /// <inheritdoc/>
     protected override (StochRsiResult result, int index)

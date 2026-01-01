@@ -1,20 +1,11 @@
 namespace Skender.Stock.Indicators;
 
-// SIMPLE MOVING AVERAGE ANALYSIS (STREAM HUB)
-
 /// <summary>
 /// Represents a Simple Moving Average (SMA) Analysis stream hub.
 /// </summary>
 public class SmaAnalysisHub
     : ChainProvider<IReusable, SmaAnalysisResult>, ISma
 {
-
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="SmaAnalysisHub"/> class.
-    /// </summary>
-    /// <param name="provider">The chain provider.</param>
-    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     internal SmaAnalysisHub(
         IChainProvider<IReusable> provider,
         int lookbackPeriods) : base(provider)
@@ -26,9 +17,7 @@ public class SmaAnalysisHub
         Reinitialize();
     }
 
-    /// <summary>
-    /// Gets the number of lookback periods.
-    /// </summary>
+    /// <inheritdoc/>
     public int LookbackPeriods { get; init; }
     /// <inheritdoc/>
     protected override (SmaAnalysisResult result, int index)

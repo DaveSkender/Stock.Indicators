@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 #pragma warning disable IDE0072 // Missing cases in switch statement
 
 /// <summary>
-/// Provides methods for calculating pivot points from a series of quotes.
+/// pivot points from a series of quotes indicator.
 /// </summary>
 public static partial class PivotPoints
 {

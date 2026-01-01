@@ -1,7 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Provides methods for calculating the Hurst Exponent indicator.
+/// Hurst Exponent indicator.
 /// </summary>
 public static partial class Hurst
 {
@@ -11,7 +11,7 @@ public static partial class Hurst
     /// <param name="source">The list of time-series values to transform.</param>
     /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
     /// <returns>A list of Hurst Exponent results.</returns>
-    /// <exception cref="ArgumentNullException">Thrown when the source list is null.</exception>
+    /// <exception cref="ArgumentNullException">Thrown when <paramref name="source"/> is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are less than or equal to 1.</exception>
     public static IReadOnlyList<HurstResult> ToHurst(
         this IReadOnlyList<IReusable> source,

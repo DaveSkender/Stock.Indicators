@@ -1,7 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Provides methods for calculating the Triple Exponential Moving Average (TEMA) series.
+/// Triple Exponential Moving Average (TEMA) series indicator.
 /// </summary>
 public static partial class Tema
 {

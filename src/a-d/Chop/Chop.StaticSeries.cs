@@ -1,7 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Provides methods for calculating the Choppiness Index (CHOP) on a series of quotes.
+/// Choppiness Index (CHOP) on a series of quotes indicator.
 /// </summary>
 public static partial class Chop
 {

@@ -20,6 +20,7 @@ public class PvoList : BufferList<PvoResult>, IIncrementFromQuote, IPvo
     /// <param name="fastPeriods">The number of periods for the fast EMA.</param>
     /// <param name="slowPeriods">The number of periods for the slow EMA.</param>
     /// <param name="signalPeriods">The number of periods for the signal line.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="signalPeriods"/> is invalid.</exception>
     public PvoList(
         int fastPeriods = 12,
         int slowPeriods = 26,
@@ -66,19 +67,13 @@ public class PvoList : BufferList<PvoResult>, IIncrementFromQuote, IPvo
     /// <inheritdoc/>
     public int SignalPeriods { get; init; }
 
-    /// <summary>
-    /// Gets the fast EMA smoothing constant.
-    /// </summary>
+    /// <inheritdoc />
     private double FastK { get; init; }
 
-    /// <summary>
-    /// Gets the slow EMA smoothing constant.
-    /// </summary>
+    /// <inheritdoc />
     private double SlowK { get; init; }
 
-    /// <summary>
-    /// Gets the signal EMA smoothing constant.
-    /// </summary>
+    /// <inheritdoc />
     private double SignalK { get; init; }
 
     /// <inheritdoc />

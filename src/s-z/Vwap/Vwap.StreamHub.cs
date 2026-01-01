@@ -1,22 +1,14 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Streaming hub for Volume Weighted Average Price (VWAP) calculations.
+/// Streaming hub for Volume Weighted Average Price (VWAP).
 /// </summary>
 public class VwapHub : ChainProvider<IQuote, VwapResult>
 {
-    // Fields
     private readonly bool _autoAnchor;
     private double _cumVolume;
     private double _cumVolumeTp;
 
-    // Constructors
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="VwapHub"/> class.
-    /// </summary>
-    /// <param name="provider">The quote provider.</param>
-    /// <param name="startDate">The start date for VWAP calculation. If null, auto-anchors to first quote.</param>
     internal VwapHub(
         IQuoteProvider<IQuote> provider,
         DateTime? startDate = null)
@@ -28,14 +20,8 @@ public class VwapHub : ChainProvider<IQuote, VwapResult>
         Reinitialize();
     }
 
-    // Properties
-
-    /// <summary>
-    /// Gets the start date for the VWAP calculation.
-    /// </summary>
+    /// <inheritdoc/>
     public DateTime? StartDate { get; private set; }
-
-    // Protected overrides
 
     /// <inheritdoc/>
     protected override (VwapResult result, int index)

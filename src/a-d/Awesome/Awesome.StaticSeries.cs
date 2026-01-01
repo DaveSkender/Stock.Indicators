@@ -1,7 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Provides methods for calculating the Awesome Oscillator.
+/// Awesome Oscillator indicator.
 /// </summary>
 public static partial class Awesome
 {

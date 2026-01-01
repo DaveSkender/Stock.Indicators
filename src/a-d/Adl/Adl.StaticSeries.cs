@@ -1,7 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Provides methods for calculating the Accumulation/Distribution Line (ADL).
+/// Accumulation/Distribution Line (ADL) indicator.
 /// </summary>
 public static partial class Adl
 {
@@ -10,7 +10,7 @@ public static partial class Adl
     /// </summary>
     /// <param name="source">The source list of quotes.</param>
     /// <returns>A read-only list of ADL results.</returns>
-    /// <exception cref="ArgumentNullException">Thrown when the source is null.</exception>
+    /// <exception cref="ArgumentNullException">Thrown when <paramref name="source"/> is null.</exception>
     public static IReadOnlyList<AdlResult> ToAdl(this IReadOnlyList<IQuote> source)
     {
         ArgumentNullException.ThrowIfNull(source);

@@ -1,7 +1,5 @@
 namespace Skender.Stock.Indicators;
 
-// SCHAFF TREND CYCLE (STREAM HUB)
-
 /// <summary>
 /// Internal record for storing MACD intermediate values in STC calculation.
 /// </summary>
@@ -24,13 +22,6 @@ public class StcHub
     private readonly double _fastK;
     private readonly double _slowK;
 
-    /// <summary>
-    /// Initializes a new instance of the <see cref="StcHub"/> class.
-    /// </summary>
-    /// <param name="provider">The chain provider.</param>
-    /// <param name="cyclePeriods">The number of periods for the cycle.</param>
-    /// <param name="fastPeriods">The number of fast periods for the MACD calculation.</param>
-    /// <param name="slowPeriods">The number of slow periods for the MACD calculation.</param>
     internal StcHub(
         IChainProvider<IReusable> provider,
         int cyclePeriods,

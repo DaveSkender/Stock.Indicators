@@ -5,12 +5,6 @@ namespace Skender.Stock.Indicators;
 /// </summary>
 public class CmfHub : ChainProvider<IQuote, CmfResult>, ICmf
 {
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="CmfHub"/> class.
-    /// </summary>
-    /// <param name="provider">The quote provider.</param>
-    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     internal CmfHub(
         IQuoteProvider<IQuote> provider,
         int lookbackPeriods)

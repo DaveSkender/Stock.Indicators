@@ -35,6 +35,7 @@ public class SlopeHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPr
 
         // late arrival, should equal series
         quoteHub.Insert(Quotes[80]);
+
         IReadOnlyList<SlopeResult> expectedOriginal = Quotes.ToSlope(lookbackPeriods);
         sut.IsExactly(expectedOriginal);
 
@@ -65,8 +66,8 @@ public class SlopeHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPr
     [TestMethod]
     public void ChainObserver_ChainedProvider_MatchesSeriesExactly()
     {
-        const int slopePeriods = 14;
         const int smaPeriods = 8;
+        const int slopePeriods = 12;
 
         // setup quote provider hub
         QuoteHub quoteHub = new();
@@ -88,8 +89,8 @@ public class SlopeHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPr
             .ToSlope(slopePeriods);
 
         // assert, should equal series
-        sut.Should().HaveCount(quotesCount);
         sut.IsExactly(expected);
+        sut.Should().HaveCount(quotesCount);
 
         // cleanup
         observer.Unsubscribe();

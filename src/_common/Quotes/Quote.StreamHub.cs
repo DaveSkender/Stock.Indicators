@@ -36,7 +36,6 @@ public class QuoteHub
         IQuoteProvider<IQuote> provider)
         : base(provider) => Reinitialize();
 
-    // METHODS
 
     /// <inheritdoc/>
     protected override (IQuote result, int index)

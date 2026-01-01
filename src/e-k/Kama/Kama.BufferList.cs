@@ -17,6 +17,7 @@ public class KamaList : BufferList<KamaResult>, IIncrementFromChain, IKama
     /// <param name="erPeriods">The number of periods for the Efficiency Ratio (ER).</param>
     /// <param name="fastPeriods">The number of periods for the fast EMA.</param>
     /// <param name="slowPeriods">The number of periods for the slow EMA.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="slowPeriods"/> is invalid.</exception>
     public KamaList(
         int erPeriods = 10,
         int fastPeriods = 2,
@@ -53,19 +54,13 @@ public class KamaList : BufferList<KamaResult>, IIncrementFromChain, IKama
     )
         : this(erPeriods, fastPeriods, slowPeriods) => Add(values);
 
-    /// <summary>
-    /// Gets the number of periods for the Efficiency Ratio (ER).
-    /// </summary>
+    /// <inheritdoc />
     public int ErPeriods { get; init; }
 
-    /// <summary>
-    /// Gets the number of periods for the fast EMA.
-    /// </summary>
+    /// <inheritdoc />
     public int FastPeriods { get; init; }
 
-    /// <summary>
-    /// Gets the number of periods for the slow EMA.
-    /// </summary>
+    /// <inheritdoc />
     public int SlowPeriods { get; init; }
 
     /// <inheritdoc />

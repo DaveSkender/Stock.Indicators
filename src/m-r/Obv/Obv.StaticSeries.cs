@@ -1,7 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Provides methods for calculating the On-Balance Volume (OBV) indicator.
+/// On-Balance Volume (OBV) indicator.
 /// </summary>
 public static partial class Obv
 {
