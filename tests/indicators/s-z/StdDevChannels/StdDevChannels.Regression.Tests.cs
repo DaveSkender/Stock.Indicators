@@ -1,9 +1,9 @@
 namespace Regression;
 
 [TestClass, TestCategory("Regression")]
-public class StddevchannelsTests : RegressionTestBase<StdDevChannelsResult>
+public class StdDevChannelsTests : RegressionTestBase<StdDevChannelsResult>
 {
-    public StddevchannelsTests() : base("stdev-channels.standard.json") { }
+    public StdDevChannelsTests() : base("stdev-channels.standard.json") { }
 
     [TestMethod]
     public override void Series() => Quotes.ToStdDevChannels(20).IsExactly(Expected);
