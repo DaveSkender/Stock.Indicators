@@ -219,8 +219,36 @@ public class CacheManagement : TestBase
     }
 
     [TestMethod]
-    public void PrunedAsymmetric() =>
-        // TODO: asymetric results (e.g. Renko)
-        // pruned to correct date, instead of count
-        Assert.Inconclusive("not implemented");
+    public void PrunedAsymmetric()
+    {
+        const int maxCacheSize = 30;
+        const decimal brickSize = 2.5m;
+        const EndType endType = EndType.Close;
+
+        // initialize
+        QuoteHub quoteHub = new(maxCacheSize);
+        RenkoHub observer = quoteHub.ToRenkoHub(brickSize, endType);
+        IReadOnlyList<RenkoResult> seriesList = Quotes.ToRenko(brickSize, endType);
+
+        // add quotes (Renko produces asymmetric results - can be 0 or many bricks per quote)
+        quoteHub.Add(Quotes.Take(maxCacheSize));
+
+        // assert: cache size is at or under max (Renko may produce fewer results than quotes)
+        quoteHub.Quotes.Should().HaveCount(maxCacheSize);
+        observer.Results.Should().HaveCountLessThanOrEqualTo(maxCacheSize);
+
+        // add more quotes to exceed max cache size
+        quoteHub.Add(Quotes.Skip(maxCacheSize).Take(10));
+
+        // assert: quote cache is pruned to max size
+        quoteHub.Results.Should().HaveCount(maxCacheSize);
+
+        // assert: Renko cache is pruned by date, not count
+        // (should contain all Renko bricks from the most recent maxCacheSize quotes)
+        DateTime oldestQuoteDate = quoteHub.Quotes[0].Timestamp;
+        observer.Results.Should().OnlyContain(r => r.Timestamp >= oldestQuoteDate,
+            "Renko bricks should be pruned by date to match the oldest quote in cache");
+
+        quoteHub.EndTransmission();
+    }
 }

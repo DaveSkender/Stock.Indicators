@@ -9,8 +9,8 @@ public class ZigZagTests : RegressionTestBase<ZigZagResult>
     public override void Series() => Quotes.ToZigZag().IsExactly(Expected);
 
     [TestMethod]
-    public override void Buffer() => Assert.Inconclusive("Buffer implementation not yet available");
+    public override void Buffer() => Assert.Inconclusive("BufferList implementation not available for ZigZag");
 
     [TestMethod]
-    public override void Stream() => Assert.Inconclusive("Stream implementation not yet available");
+    public override void Stream() => Assert.Inconclusive("StreamHub implementation not available for ZigZag");
 }
