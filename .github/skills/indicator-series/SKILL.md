@@ -1,95 +1,81 @@
 ---
 name: indicator-series
-description: Implement Series-style batch indicators with mathematical precision. Use for new StaticSeries implementations, warmup period calculations, validation patterns, and test coverage. Series results are the canonical reference—all other styles must match exactly.
+description: Implement Series-style batch indicators with mathematical precision. Use for new StaticSeries implementations or optimization. Series results are the canonical reference—all other styles must match exactly. Focus on cross-cutting requirements and performance optimization decisions.
 ---
 
 # Series indicator development
 
-Series indicators process complete datasets and return results all at once. They are the foundation style that establishes mathematical correctness.
+Series indicators are the canonical mathematical reference. This skill covers cross-cutting requirements and optimization decisions not obvious from reading existing implementations.
 
 ## File structure
 
 - Implementation: `src/{category}/{Indicator}/{Indicator}.StaticSeries.cs`
 - Test: `tests/indicators/{category}/{Indicator}/{Indicator}.StaticSeries.Tests.cs`
+- Catalog: `src/{category}/{Indicator}/{Indicator}.Catalog.cs`
 - Categories: a-d, e-k, m-r, s-z (alphabetical)
 
-## Core pattern
+## Performance optimization
+
+**Array allocation pattern** (recommended for new implementations):
 
 ```csharp
-public static IReadOnlyList<TResult> ToIndicator(
-    this IReadOnlyList<IQuote> quotes,
-    int lookbackPeriods)
-{
-    // 1. Validate parameters
-    ArgumentOutOfRangeException.ThrowIfLessThan(lookbackPeriods, 1);
-
-    // 2. Initialize results
-    int length = quotes.Count;
-    List<TResult> results = new(length);
-
-    // 3. Calculate warmup period results (null values)
-    // 4. Calculate main results
-    // 5. Return results
-    return results;
-}
+TResult[] results = new TResult[length];
+// ... assign results[i] = new TResult(...);
+return new List<TResult>(results);  // NOT results.ToList()
 ```
 
-## Warmup period calculation
+**When to use**: Indicators with predictable result counts show ~2x improvement (Issue #1259)
 
-| Indicator Type | Formula | Example |
-| -------------- | ------- | ------- |
-| Simple MA | `lookback - 1` | SMA(20) → 19 warmup |
-| Exponential | `lookback` | EMA(12) → 12 warmup |
-| Multi-stage | Sum of stages | MACD(12,26,9) → 34 warmup |
+**When NOT to use**: Benchmark first. Some indicators (ADL) remain faster with `List.Add()`
 
-## Validation patterns
+**Conversion strategy**:
 
-- Null quotes: `ArgumentNullException.ThrowIfNull(quotes)`
-- Invalid range: `ArgumentOutOfRangeException.ThrowIfLessThan(period, 1)`
-- Semantic error: `ArgumentException` for logical constraints
-
-## Testing requirements
-
-1. Inherit from `StaticSeriesTestBase`
-2. Test categories (use `[TestCategory(...)]` attribute):
-   - `Regression` for baseline regression tests
-3. Verify against manually calculated reference values
-4. Use exact equality: `result.Value.Should().Be(expected)`
+1. Benchmark existing List-based implementation
+2. Convert to array pattern
+3. Benchmark again
+4. Revert if no improvement or regression
 
 ## Code completion checklist
 
-- [ ] Source code: `src/**/{IndicatorName}.StaticSeries.cs` file exists
-  - [ ] Validates parameters up front; throws consistent exceptions/messages
-  - [ ] Uses efficient loops; avoids unnecessary allocations and LINQ in hot paths
-  - [ ] Implements warmup logic and returns results with correct timestamps
-- [ ] Catalog: `src/**/{IndicatorName}.Catalog.cs` exists and registered
-- [ ] Unit testing: `tests/indicators/**/{IndicatorName}.StaticSeries.Tests.cs` exists
-  - [ ] Covers happy path, boundary, bad data, insufficient data, and precision checks
-  - [ ] Verifies alignment with manually calculated values
+Beyond the .StaticSeries.cs file, ensure:
 
-## Mathematical accuracy
+- [ ] **Catalog registration**: Create `src/**/{IndicatorName}.Catalog.cs` and register in `src/_common/Catalog/Catalog.Listings.cs`
+- [ ] **Unit tests**: Create `tests/indicators/**/{IndicatorName}.StaticSeries.Tests.cs`
+  - Inherit from `StaticSeriesTestBase`
+  - Include `[TestCategory("Regression")]` for baseline validation
+  - Verify against manually calculated reference values
+- [ ] **Performance benchmark**: Add to `tools/performance/SeriesIndicators.cs`
+- [ ] **Public documentation**: Update `docs/_indicators/{IndicatorName}.md`
 
-- Verify calculations against reference implementations
-- Include Excel/manual calculation files in test folders when applicable
-- Handle floating-point precision appropriately (typically 6 decimal places)
-- Document known precision limitations
-- Use algebraically stable formulas—prefer boundary detection over clamping
-- Test with real-world data—synthetic boundary data may not expose precision edge cases
-- Fix formulas, not symptoms—when all styles fail identically, fix the core algorithm
+## Precision testing patterns
+
+- **Store reference data separately**: Create `{Indicator}.Data.cs` files with arrays of expected values at maximum precision
+- **Excel manual calculations**: Export at highest precision available (~14 decimal places for `default.csv` values ~200)
+- **Baseline regression validation**: Compare full dataset against reference arrays using Money10-Money12 precision
+- **Spot check assertions**: Use Money4 for individual sample value readability (sanity checks, not proofs)
+- **Longer datasets**: May require lower precision (e.g., Money10 for 15k quotes) due to accumulated floating-point error
+- **Document degradation**: When precision must be lowered, explain why in test comments
 
 ## Reference implementations
 
-- Simple: `src/s-z/Sma/Sma.StaticSeries.cs`
-- Exponential: `src/e-k/Ema/Ema.StaticSeries.cs`
-- Complex: `src/a-d/Adx/Adx.StaticSeries.cs`
-- Multi-line: `src/a-d/Alligator/Alligator.StaticSeries.cs`
+Learn patterns by reading existing code:
+
+- **Simple single-value**: `src/s-z/Sma/Sma.StaticSeries.cs`
+- **Exponential smoothing**: `src/e-k/Ema/Ema.StaticSeries.cs`
+- **Complex multi-stage**: `src/a-d/Adx/Adx.StaticSeries.cs`
+- **Multi-line results**: `src/a-d/Alligator/Alligator.StaticSeries.cs`
+
+See `references/decision-tree.md` for interface selection guidance (IReusable vs ISeries).
 
 ## Constitutional rules
 
-**Warning**: See `src/AGENTS.md` for formula protection rules.
-Series is the canonical source of mathematical truth. All other styles (BufferList, StreamHub) must match Series results exactly.
+- **Series is truth**: All other styles (BufferList, StreamHub) must match Series results exactly
+- **Verify against authoritative sources**: Use reference publications, not other libraries
+- **Algebraic stability**: Prefer boundary detection over clamping
+- **Real-world testing**: Synthetic boundary data may not expose precision edge cases
+- **Fix formulas, not symptoms**: When all styles fail identically, fix the core algorithm
 
-See `references/decision-tree.md` for implementation guidance.
+See `src/AGENTS.md` for formula protection rules. Never modify formulas without verification against authoritative mathematical references.
 
 ---
 Last updated: December 31, 2025
