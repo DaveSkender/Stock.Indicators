@@ -41,13 +41,22 @@ public class SlopeHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPr
 
         // delete, should equal series (revised)
         quoteHub.Remove(Quotes[removeAtIndex]);
-
         IReadOnlyList<SlopeResult> expectedRevised = RevisedQuotes.ToSlope(lookbackPeriods);
         sut.IsExactly(expectedRevised);
         sut.Should().HaveCount(quotesCount - 1);
 
         // note: removed index is at position 495 within the lookback window,
         // so it will test the repainting logic in the last periods as well
+
+        // warmup periods should be null
+        sut.Take(lookbackPeriods - 1).Should().AllSatisfy(
+            r => {
+                r.Slope.Should().BeNull();
+                r.Intercept.Should().BeNull();
+                r.StdDev.Should().BeNull();
+                r.RSquared.Should().BeNull();
+                r.Line.Should().BeNull();
+            });
 
         // cleanup
         observer.Unsubscribe();

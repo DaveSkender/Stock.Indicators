@@ -31,22 +31,4 @@ public static partial class Beta
             .WithStyle(Style.Series)
             .WithMethodName("ToBeta")
             .Build();
-
-    /// <summary>
-    /// BETA Buffer Listing
-    /// </summary>
-    internal static readonly IndicatorListing BufferListing =
-        new CatalogListingBuilder(CommonListing)
-            .WithStyle(Style.Buffer)
-            .WithMethodName("ToBetaList")
-            .Build();
-
-    /// <summary>
-    /// BETA Stream Listing
-    /// </summary>
-    internal static readonly IndicatorListing StreamListing =
-        new CatalogListingBuilder(CommonListing)
-            .WithStyle(Style.Stream)
-            .WithMethodName("ToBetaHub")
-            .Build();
 }

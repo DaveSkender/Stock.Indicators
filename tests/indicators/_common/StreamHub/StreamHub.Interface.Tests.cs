@@ -32,8 +32,7 @@ public class TestCompliance
         // Define observer and provider interface types
         Type[] observerTypes = [
             typeof(ITestChainObserver),
-            typeof(ITestQuoteObserver),
-            typeof(ITestPairsObserver)
+            typeof(ITestQuoteObserver)
         ];
 
         // Add more provider interfaces here if needed
@@ -56,19 +55,6 @@ public class TestCompliance
             if (implementedObservers.Count == 0)
             {
                 violations.Add($"{className}: Does not implement any observer interface");
-            }
-
-            // PairsObserver must not implement any provider
-            if (implementedObservers.Any(i => i == typeof(ITestPairsObserver)) && implementedProviders.Count > 0)
-            {
-                violations.Add($"{className}: PairsObserver should not implement provider interfaces");
-            }
-
-            // PairsObserver must not implement other observer types
-            if (implementedObservers.Contains(typeof(ITestPairsObserver)) &&
-                (implementedObservers.Contains(typeof(ITestChainObserver)) || implementedObservers.Contains(typeof(ITestQuoteObserver))))
-            {
-                violations.Add($"{className}: PairsObserver should not be combined with other observer interfaces");
             }
 
             // Warn if both ITestChainObserver and ITestQuoteObserver are implemented (redundant)
@@ -132,33 +118,5 @@ public class TestCompliance
                 Console.WriteLine($"  - {t.Name}");
             }
         }
-    }
-
-    [TestMethod]
-    public void PairsObserver_DoesNotImplementQuoteObserver()
-    {
-        // PairsProvider tests should NOT implement ITestQuoteObserver or ITestChainObserver
-        // They are dual-stream and have different synchronization requirements
-
-        Assembly testAssembly = typeof(StreamHubTestBase).Assembly;
-        Type[] allTypes = testAssembly.GetTypes();
-
-        List<Type> violations = allTypes
-            .Where(t => t.IsClass
-                     && !t.IsAbstract
-                     && typeof(ITestPairsObserver).IsAssignableFrom(t)
-                     && (typeof(ITestQuoteObserver).IsAssignableFrom(t)
-                      || typeof(ITestChainObserver).IsAssignableFrom(t)))
-            .ToList();
-
-        if (violations.Count > 0)
-        {
-            string message = $"Found {violations.Count} PairsObserver tests incorrectly "
-                           + "implementing QuoteObserver or ChainObserver:\n"
-                           + string.Join("\n", violations.Select(t => $"  - {t.Name}"));
-            Assert.Fail(message);
-        }
-
-        Console.WriteLine("✅ All PairsObserver tests correctly avoid QuoteObserver/ChainObserver interfaces");
     }
 }
