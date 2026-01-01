@@ -241,7 +241,7 @@ public class CacheManagement : TestBase
         quoteHub.Add(Quotes.Skip(maxCacheSize).Take(10));
 
         // assert: quote cache is pruned to max size
-        quoteHub.Results.Should().HaveCount(maxCacheSize);
+        quoteHub.Quotes.Should().HaveCount(maxCacheSize);
 
         // assert: Renko cache is pruned by date, not count
         // (should contain all Renko bricks from the most recent maxCacheSize quotes)
