@@ -66,27 +66,6 @@ public interface ITestChainBufferList : ITestQuoteBufferList
 }
 
 /// <summary>
-/// Add this to buffer list tests for <see cref="IIncrementFromPairs" /> types that require paired inputs.
-/// </summary>
-public interface ITestPairsBufferList
-{
-    /// <summary>
-    /// Tests adding paired IReusable type values one-at-a-time
-    /// </summary>
-    void AddReusablePair_IncrementsResults();
-
-    /// <summary>
-    /// Tests adding a batch of paired IReusable type values
-    /// </summary>
-    void AddReusablePairBatch_IncrementsResults();
-
-    /// <summary>
-    /// Tests adding raw date/value pairs
-    /// </summary>
-    void AddDiscretePairs_IncrementsResults();
-}
-
-/// <summary>
 /// Defines a contract for a custom buffer list cache that supports pruning operations.
 /// </summary>
 public interface ITestCustomBufferListCache

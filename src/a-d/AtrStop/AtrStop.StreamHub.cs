@@ -1,21 +1,11 @@
 namespace Skender.Stock.Indicators;
 
-// ATR TRAILING STOP (STREAM HUB)
-
 /// <summary>
-/// Provides methods for calculating the ATR Trailing Stop using a stream hub.
+/// Streaming hub for ATR Trailing Stop using a stream hub.
 /// </summary>
 public class AtrStopHub
     : StreamHub<IQuote, AtrStopResult>, IAtrStop
 {
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="AtrStopHub"/> class.
-    /// </summary>
-    /// <param name="provider">The quote provider.</param>
-    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <param name="multiplier">The multiplier for the ATR.</param>
-    /// <param name="endType">The type of price to use for the calculation.</param>
     internal AtrStopHub(
         IQuoteProvider<IQuote> provider,
         int lookbackPeriods,
@@ -32,19 +22,13 @@ public class AtrStopHub
         Reinitialize();
     }
 
-    /// <summary>
-    /// Gets the number of periods to look back.
-    /// </summary>
+    /// <inheritdoc/>
     public int LookbackPeriods { get; init; }
 
-    /// <summary>
-    /// Gets the multiplier for the ATR.
-    /// </summary>
+    /// <inheritdoc/>
     public double Multiplier { get; init; }
 
-    /// <summary>
-    /// Gets the type of price to use for the calculation.
-    /// </summary>
+    /// <inheritdoc/>
     public EndType EndType { get; init; }
 
     /// <summary>
@@ -54,7 +38,6 @@ public class AtrStopHub
     private double UpperBand { get; set; } = double.MaxValue;
     private double LowerBand { get; set; } = double.MinValue;
 
-    // METHODS
     /// <inheritdoc/>
     protected override (AtrStopResult result, int index)
         ToIndicator(IQuote item, int? indexHint)
@@ -204,12 +187,8 @@ public class AtrStopHub
 public static partial class AtrStop
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="AtrStopHub"/> class.
+    /// Creates an ATR Stop hub.
     /// </summary>
-    /// <param name="quoteProvider">The quote provider.</param>
-    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <param name="multiplier">The multiplier for the ATR.</param>
-    /// <param name="endType">The type of price to use for the calculation.</param>
     /// <returns>An instance of <see cref="AtrStopHub"/>.</returns>
     public static AtrStopHub ToAtrStopHub(
        this IQuoteProvider<IQuote> quoteProvider,

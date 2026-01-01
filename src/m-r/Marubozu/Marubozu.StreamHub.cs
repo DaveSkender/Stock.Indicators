@@ -1,7 +1,5 @@
 namespace Skender.Stock.Indicators;
 
-// MARUBOZU CANDLESTICK PATTERN (STREAM HUB)
-
 /// <summary>
 /// Represents a hub for Marubozu candlestick pattern detection.
 /// </summary>
@@ -10,13 +8,6 @@ public class MarubozuHub
 {
     private readonly double _minBodyPercentDecimal;
 
-    /// <summary>
-    /// Initializes a new instance of the <see cref="MarubozuHub"/> class.
-    /// </summary>
-    /// <param name="provider">The quote provider.</param>
-    /// <param name="minBodyPercent">The minimum body percentage to qualify as a Marubozu.</param>
-    /// <exception cref="ArgumentNullException">Thrown when the provider is null.</exception>
-    /// <exception cref="ArgumentOutOfRangeException">Thrown when the minBodyPercent is invalid.</exception>
     internal MarubozuHub(
         IStreamObservable<IQuote> provider,
         double minBodyPercent) : base(provider)

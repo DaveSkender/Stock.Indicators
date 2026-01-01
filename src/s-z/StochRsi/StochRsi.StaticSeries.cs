@@ -14,7 +14,7 @@ public static partial class StochRsi
     /// <param name="signalPeriods">The number of periods for the signal line.</param>
     /// <param name="smoothPeriods">The number of periods for smoothing.</param>
     /// <returns>A list of StochRsiResult.</returns>
-    /// <exception cref="ArgumentNullException">Thrown when the source list is null.</exception>
+    /// <exception cref="ArgumentNullException">Thrown when <paramref name="source"/> is null.</exception>
     public static IReadOnlyList<StochRsiResult> ToStochRsi(
         this IReadOnlyList<IReusable> source,
         int rsiPeriods = 14,

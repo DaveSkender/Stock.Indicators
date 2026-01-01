@@ -1,7 +1,5 @@
 namespace Skender.Stock.Indicators;
 
-// VORTEX INDICATOR (STREAM HUB)
-
 /// <summary>
 /// Provides methods for creating Vortex Indicator hubs.
 /// </summary>
@@ -15,11 +13,6 @@ public class VortexHub
     private double _prevClose;
     private bool _isInitialized;
 
-    /// <summary>
-    /// Initializes a new instance of the <see cref="VortexHub"/> class.
-    /// </summary>
-    /// <param name="provider">The quote provider.</param>
-    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     internal VortexHub(
         IStreamObservable<IQuote> provider,
         int lookbackPeriods) : base(provider)

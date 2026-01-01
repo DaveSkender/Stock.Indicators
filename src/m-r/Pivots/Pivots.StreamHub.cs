@@ -1,22 +1,11 @@
 namespace Skender.Stock.Indicators;
 
-// PIVOT POINTS (STREAM HUB)
-
 /// <summary>
-/// Provides methods for calculating Pivot Points using a stream hub.
+/// Streaming hub for Pivot Points using a stream hub.
 /// </summary>
 public class PivotsHub
     : StreamHub<IQuote, PivotsResult>, IPivots
 {
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="PivotsHub"/> class.
-    /// </summary>
-    /// <param name="provider">The quote provider.</param>
-    /// <param name="leftSpan">The number of periods to the left of the pivot point.</param>
-    /// <param name="rightSpan">The number of periods to the right of the pivot point.</param>
-    /// <param name="maxTrendPeriods">The maximum number of periods for trend calculation.</param>
-    /// <param name="endType">The type of end point for the pivot calculation.</param>
     internal PivotsHub(
         IQuoteProvider<IQuote> provider,
         int leftSpan,
@@ -35,24 +24,16 @@ public class PivotsHub
         Reinitialize();
     }
 
-    /// <summary>
-    /// Gets the number of periods to the left for pivot identification.
-    /// </summary>
+    /// <inheritdoc/>
     public int LeftSpan { get; init; }
 
-    /// <summary>
-    /// Gets the number of periods to the right for pivot identification.
-    /// </summary>
+    /// <inheritdoc/>
     public int RightSpan { get; init; }
 
-    /// <summary>
-    /// Gets the maximum number of periods to track trend.
-    /// </summary>
+    /// <inheritdoc/>
     public int MaxTrendPeriods { get; init; }
 
-    /// <summary>
-    /// Gets the end type for price calculations.
-    /// </summary>
+    /// <inheritdoc/>
     public EndType EndType { get; init; }
     /// <summary>
     /// Rebuilds the hub from the beginning, including trend line calculations.

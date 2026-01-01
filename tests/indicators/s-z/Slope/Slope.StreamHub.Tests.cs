@@ -41,7 +41,6 @@ public class SlopeHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPr
 
         // delete, should equal series (revised)
         quoteHub.Remove(Quotes[removeAtIndex]);
-
         IReadOnlyList<SlopeResult> expectedRevised = RevisedQuotes.ToSlope(lookbackPeriods);
         sut.IsExactly(expectedRevised);
         sut.Should().HaveCount(quotesCount - 1);

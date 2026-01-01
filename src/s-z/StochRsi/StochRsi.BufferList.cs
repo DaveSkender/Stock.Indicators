@@ -15,6 +15,7 @@ public class StochRsiList : BufferList<StochRsiResult>, IIncrementFromChain
     /// <param name="stochPeriods">The number of periods for the Stochastic calculation.</param>
     /// <param name="signalPeriods">The number of periods for the signal line.</param>
     /// <param name="smoothPeriods">The number of periods for smoothing.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="smoothPeriods"/> is invalid.</exception>
     public StochRsiList(
         int rsiPeriods,
         int stochPeriods,
@@ -50,24 +51,16 @@ public class StochRsiList : BufferList<StochRsiResult>, IIncrementFromChain
         IReadOnlyList<IReusable> values)
         : this(rsiPeriods, stochPeriods, signalPeriods, smoothPeriods) => Add(values);
 
-    /// <summary>
-    /// Gets the number of periods for the RSI calculation.
-    /// </summary>
+    /// <inheritdoc />
     public int RsiPeriods { get; init; }
 
-    /// <summary>
-    /// Gets the number of periods for the Stochastic calculation.
-    /// </summary>
+    /// <inheritdoc />
     public int StochPeriods { get; init; }
 
-    /// <summary>
-    /// Gets the number of periods for the signal line.
-    /// </summary>
+    /// <inheritdoc />
     public int SignalPeriods { get; init; }
 
-    /// <summary>
-    /// Gets the number of periods for smoothing.
-    /// </summary>
+    /// <inheritdoc />
     public int SmoothPeriods { get; init; }
 
     /// <inheritdoc />

@@ -13,6 +13,7 @@ public class ChopList : BufferList<ChopResult>, IIncrementFromQuote, IChop
     /// Initializes a new instance of the <see cref="ChopList"/> class.
     /// </summary>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="lookbackPeriods"/> is invalid.</exception>
     public ChopList(int lookbackPeriods = 14)
     {
         Chop.Validate(lookbackPeriods);
@@ -29,12 +30,11 @@ public class ChopList : BufferList<ChopResult>, IIncrementFromQuote, IChop
     /// </summary>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="lookbackPeriods"/> is invalid.</exception>
     public ChopList(int lookbackPeriods, IReadOnlyList<IQuote> quotes)
         : this(lookbackPeriods) => Add(quotes);
 
-    /// <summary>
-    /// Gets the number of periods to use for the lookback window.
-    /// </summary>
+    /// <inheritdoc />
     public int LookbackPeriods { get; init; }
 
     /// <inheritdoc />

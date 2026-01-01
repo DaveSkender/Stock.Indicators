@@ -1,9 +1,7 @@
 namespace Skender.Stock.Indicators;
 
-// STOCHASTIC OSCILLATOR (STREAM HUB)
-
 /// <summary>
-/// Provides methods for creating Stochastic Oscillator hubs.
+/// Streaming hub for Stochastic Oscillator.
 /// </summary>
 public class StochHub
     : StreamHub<IQuote, StochResult>, IStoch
@@ -13,13 +11,6 @@ public class StochHub
     private readonly RollingWindowMin<double> _lowWindow;
     private readonly Queue<double> _rawKBuffer;
 
-    /// <summary>
-    /// Initializes a new instance of the <see cref="StochHub"/> class.
-    /// </summary>
-    /// <param name="provider">The quote provider.</param>
-    /// <param name="lookbackPeriods">The lookback period for the oscillator.</param>
-    /// <param name="signalPeriods">The signal period for the oscillator.</param>
-    /// <param name="smoothPeriods">The smoothing period for the oscillator.</param>
     internal StochHub(
         IStreamObservable<IQuote> provider,
         int lookbackPeriods,

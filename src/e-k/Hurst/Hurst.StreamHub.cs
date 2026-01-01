@@ -8,13 +8,6 @@ public class HurstHub
 {
     private readonly Queue<double> _buffer;
 
-    /// <summary>
-    /// Initializes a new instance of the <see cref="HurstHub"/> class.
-    /// </summary>
-    /// <param name="provider">The chain provider.</param>
-    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
-    /// <exception cref="ArgumentNullException">Thrown when the provider is null.</exception>
-    /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
     internal HurstHub(
         IChainProvider<IReusable> provider,
         int lookbackPeriods) : base(provider)

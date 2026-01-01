@@ -24,11 +24,6 @@ public class HtTrendlineHub
     private readonly List<double> sd = [];   // smooth period
     private readonly List<double> it = [];   // instantaneous trend (raw)
 
-    /// <summary>
-    /// Initializes a new instance of the <see cref="HtTrendlineHub"/> class.
-    /// </summary>
-    /// <param name="provider">The chain provider.</param>
-    /// <exception cref="ArgumentNullException">Thrown when the provider is null.</exception>
     internal HtTrendlineHub(
         IChainProvider<IReusable> provider) : base(provider)
     {

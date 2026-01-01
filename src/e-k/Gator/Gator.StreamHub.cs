@@ -1,18 +1,11 @@
 namespace Skender.Stock.Indicators;
 
-// GATOR OSCILLATOR (STREAM HUB)
-
 /// <summary>
-/// Represents a stream hub for calculating the Gator Oscillator indicator.
+/// Streaming hub for Gator Oscillator.
 /// </summary>
 public class GatorHub
    : StreamHub<AlligatorResult, GatorResult>
 {
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="GatorHub"/> class.
-    /// </summary>
-    /// <param name="alligatorHub">The alligator hub.</param>
     internal GatorHub(AlligatorHub alligatorHub)
         : base(alligatorHub)
     {
@@ -21,7 +14,6 @@ public class GatorHub
         Reinitialize();
     }
 
-    // METHODS
     /// <inheritdoc/>
     protected override (GatorResult result, int index)
         ToIndicator(AlligatorResult item, int? indexHint)

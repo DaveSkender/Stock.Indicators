@@ -1,7 +1,5 @@
 namespace Skender.Stock.Indicators;
 
-// KELTNER CHANNELS (STREAM HUB)
-
 /// <summary>
 /// Represents a stream hub for calculating Keltner Channels.
 /// </summary>
@@ -11,13 +9,6 @@ public class KeltnerHub
 
     private readonly int _lookbackPeriods;
 
-    /// <summary>
-    /// Initializes a new instance of the <see cref="KeltnerHub"/> class.
-    /// </summary>
-    /// <param name="provider">The quote provider.</param>
-    /// <param name="emaPeriods">The number of periods for the EMA.</param>
-    /// <param name="multiplier">The multiplier for the ATR.</param>
-    /// <param name="atrPeriods">The number of periods for the ATR.</param>
     internal KeltnerHub(
         IQuoteProvider<IQuote> provider,
         int emaPeriods,
@@ -45,9 +36,7 @@ public class KeltnerHub
     /// <inheritdoc/>
     public int AtrPeriods { get; init; }
 
-    /// <summary>
-    /// Gets the smoothing factor for the EMA.
-    /// </summary>
+    /// <inheritdoc/>
     public double EmaK { get; private init; }
     /// <summary>
     /// Calculates the simple moving average of Close prices.

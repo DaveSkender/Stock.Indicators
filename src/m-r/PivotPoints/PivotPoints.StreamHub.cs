@@ -1,9 +1,7 @@
 namespace Skender.Stock.Indicators;
 
-// PIVOT POINTS (STREAM HUB)
-
 /// <summary>
-/// Provides methods for calculating Pivot Points using a stream hub.
+/// Streaming hub for Pivot Points using a stream hub.
 /// </summary>
 public class PivotPointsHub
     : StreamHub<IQuote, PivotPointsResult>
@@ -17,12 +15,6 @@ public class PivotPointsHub
     private decimal windowClose;
     private WindowPoint windowPoint;
 
-    /// <summary>
-    /// Initializes a new instance of the <see cref="PivotPointsHub"/> class.
-    /// </summary>
-    /// <param name="provider">The quote provider.</param>
-    /// <param name="windowSize">The size of the window for pivot calculation.</param>
-    /// <param name="pointType">The type of pivot points to calculate.</param>
     internal PivotPointsHub(
         IQuoteProvider<IQuote> provider,
         PeriodSize windowSize,
@@ -44,14 +36,10 @@ public class PivotPointsHub
         Reinitialize();
     }
 
-    /// <summary>
-    /// Gets the window size for pivot calculation.
-    /// </summary>
+    /// <inheritdoc/>
     public PeriodSize WindowSize { get; init; }
 
-    /// <summary>
-    /// Gets the type of pivot points to calculate.
-    /// </summary>
+    /// <inheritdoc/>
     public PivotPointType PointType { get; init; }
     /// <inheritdoc/>
     protected override void RollbackState(DateTime timestamp)

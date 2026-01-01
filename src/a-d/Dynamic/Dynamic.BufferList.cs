@@ -13,6 +13,7 @@ public class DynamicList : BufferList<DynamicResult>, IIncrementFromChain, IDyna
     /// </summary>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
     /// <param name="kFactor">The smoothing factor for the calculation.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="kFactor"/> is invalid.</exception>
     public DynamicList(
         int lookbackPeriods,
         double kFactor = 0.6
@@ -41,14 +42,10 @@ public class DynamicList : BufferList<DynamicResult>, IIncrementFromChain, IDyna
     )
         : this(lookbackPeriods, kFactor) => Add(values);
 
-    /// <summary>
-    /// Gets the number of periods to look back for the calculation.
-    /// </summary>
+    /// <inheritdoc />
     public int LookbackPeriods { get; init; }
 
-    /// <summary>
-    /// Gets the smoothing factor for the calculation.
-    /// </summary>
+    /// <inheritdoc />
     public double KFactor { get; init; }
 
     /// <inheritdoc />

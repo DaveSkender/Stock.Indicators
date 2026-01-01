@@ -14,6 +14,7 @@ public class StcList : BufferList<StcResult>, IIncrementFromChain, IStc
     /// <param name="cyclePeriods">The number of periods for the cycle calculation.</param>
     /// <param name="fastPeriods">The number of periods for the fast MA.</param>
     /// <param name="slowPeriods">The number of periods for the slow MA.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="slowPeriods"/> is invalid.</exception>
     public StcList(
         int cyclePeriods = 10,
         int fastPeriods = 23,
@@ -45,19 +46,13 @@ public class StcList : BufferList<StcResult>, IIncrementFromChain, IStc
         IReadOnlyList<IReusable> values)
         : this(cyclePeriods, fastPeriods, slowPeriods) => Add(values);
 
-    /// <summary>
-    /// Gets the number of periods for the cycle calculation.
-    /// </summary>
+    /// <inheritdoc />
     public int CyclePeriods { get; init; }
 
-    /// <summary>
-    /// Gets the number of periods for the fast MA.
-    /// </summary>
+    /// <inheritdoc />
     public int FastPeriods { get; init; }
 
-    /// <summary>
-    /// Gets the number of periods for the slow MA.
-    /// </summary>
+    /// <inheritdoc />
     public int SlowPeriods { get; init; }
 
     /// <inheritdoc />

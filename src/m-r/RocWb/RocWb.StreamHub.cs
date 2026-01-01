@@ -1,7 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Provides methods for calculating the Rate of Change with Bands (RocWb) indicator.
+/// Streaming hub for Rate of Change with Bands (RocWb).
 /// </summary>
 public class RocWbHub
     : ChainProvider<IReusable, RocWbResult>, IRocWb
@@ -11,15 +11,6 @@ public class RocWbHub
     private readonly Queue<double> rocSqBuffer;
     private readonly Queue<double> rocEmaInitBuffer;
 
-    /// <summary>
-    /// Initializes a new instance of the <see cref="RocWbHub"/> class.
-    /// </summary>
-    /// <param name="provider">The chain provider.</param>
-    /// <param name="lookbackPeriods">Quantity of periods in lookback window for ROC.</param>
-    /// <param name="emaPeriods">Quantity of periods for EMA smoothing.</param>
-    /// <param name="stdDevPeriods">Quantity of periods for standard deviation bands.</param>
-    /// <exception cref="ArgumentNullException">Thrown when the provider is null.</exception>
-    /// <exception cref="ArgumentOutOfRangeException">Thrown when the parameters are invalid.</exception>
     internal RocWbHub(
         IChainProvider<IReusable> provider,
         int lookbackPeriods,

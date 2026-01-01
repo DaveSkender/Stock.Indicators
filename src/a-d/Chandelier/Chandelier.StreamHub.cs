@@ -1,7 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Represents a stream hub for calculating the Chandelier Exit.
+/// Streaming hub for Chandelier Exit.
 /// </summary>
 public class ChandelierHub
     : StreamHub<IQuote, ChandelierResult>, IChandelier
@@ -10,13 +10,6 @@ public class ChandelierHub
     private readonly RollingWindowMax<double> _highWindow;
     private readonly RollingWindowMin<double> _lowWindow;
 
-    /// <summary>
-    /// Initializes a new instance of the <see cref="ChandelierHub"/> class.
-    /// </summary>
-    /// <param name="provider">The quote provider.</param>
-    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <param name="multiplier">The multiplier to apply to the ATR.</param>
-    /// <param name="type">The type of Chandelier Exit to calculate (Long or Short).</param>
     internal ChandelierHub(
         IQuoteProvider<IQuote> provider,
         int lookbackPeriods,
@@ -43,22 +36,15 @@ public class ChandelierHub
         Reinitialize();
     }
 
-    /// <summary>
-    /// Gets the number of periods to use for the lookback window.
-    /// </summary>
+    /// <inheritdoc/>
     public int LookbackPeriods { get; init; }
 
-    /// <summary>
-    /// Gets the ATR multiplier.
-    /// </summary>
+    /// <inheritdoc/>
     public double Multiplier { get; init; }
 
-    /// <summary>
-    /// Gets the direction type (Long or Short).
-    /// </summary>
+    /// <inheritdoc/>
     public Direction Type { get; init; }
 
-    // METHODS
     /// <inheritdoc/>
     protected override (ChandelierResult result, int index)
         ToIndicator(IQuote item, int? indexHint)
@@ -154,7 +140,7 @@ public class ChandelierHub
 }
 
 /// <summary>
-/// Provides methods for calculating the Chandelier Exit using a stream hub.
+/// Streaming hub for Chandelier Exit using a stream hub.
 /// </summary>
 public static partial class Chandelier
 {

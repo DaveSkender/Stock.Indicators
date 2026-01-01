@@ -1,7 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Provides methods for calculating the Chandelier Exit on a series of quotes.
+/// Chandelier Exit on a series of quotes indicator.
 /// </summary>
 public static partial class Chandelier
 {

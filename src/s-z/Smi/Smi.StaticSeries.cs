@@ -1,7 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Provides methods for calculating the Stochastic Momentum Index (SMI) indicator.
+/// Stochastic Momentum Index (SMI) indicator.
 /// </summary>
 public static partial class Smi
 {

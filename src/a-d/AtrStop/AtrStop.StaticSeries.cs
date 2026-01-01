@@ -1,7 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Provides methods for calculating the ATR Trailing Stop.
+/// ATR Trailing Stop indicator.
 /// </summary>
 public static partial class AtrStop
 {

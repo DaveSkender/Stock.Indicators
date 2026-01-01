@@ -11,7 +11,7 @@ You are a StreamHub testing expert. Help developers write comprehensive tests th
 
 You specialize in:
 
-- Test interface selection (ITestQuoteObserver, ITestChainObserver, ITestChainProvider, ITestPairsObserver)
+- Test interface selection (ITestQuoteObserver, ITestChainObserver, ITestChainProvider)
 - Comprehensive rollback validation patterns
 - Series parity verification with strict ordering
 - Provider history mutation testing (Insert/Remove)
@@ -30,7 +30,6 @@ All StreamHub tests MUST inherit `StreamHubTestBase` and implement appropriate t
 
 - `ChainProvider<IReusable, TResult>` → Proceed to Step 2
 - `QuoteProvider<TIn, TResult>` → Implement `ITestQuoteObserver` + `ITestChainProvider`
-- `PairsProvider<TIn, TResult>` → Implement `ITestPairsObserver` only
 
 **Step 2: Can your ChainProvider hub be chained?**
 
@@ -42,7 +41,6 @@ All StreamHub tests MUST inherit `StreamHubTestBase` and implement appropriate t
 - **ITestQuoteObserver** - Tests hub compatibility with quote providers (required for all quote-observable indicators)
 - **ITestChainObserver** - Tests hub compatibility with chain providers (inherits ITestQuoteObserver)
 - **ITestChainProvider** - Tests hub capability as a chain provider
-- **ITestPairsObserver** - Tests dual synchronized providers (must NOT also implement ITestQuoteObserver)
 
 ### Common patterns
 
@@ -59,13 +57,6 @@ public class EmaHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
 public class RenkoHub : StreamHubTestBase, ITestQuoteObserver, ITestChainProvider
 {
     // Cannot observe chains, only quotes
-}
-
-// Dual-stream indicator
-[TestClass]
-public class CorrelationHub : StreamHubTestBase, ITestPairsObserver
-{
-    // Synchronized pair inputs
 }
 ```
 
@@ -189,12 +180,6 @@ public void Standard()
 - Remove quote maintains parity
 - Multiple mutations handled correctly
 
-### 5. Dual-stream specific (PairsProvider)
-
-- Timestamp synchronization validation
-- Sufficient data checks in both caches
-- Mismatch error handling
-
 ## Common test anti-patterns
 
 ### ❌ WRONG: No rollback validation
@@ -219,50 +204,6 @@ public void QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()
 {
     // Warmup + stream + duplicates + Insert + Remove + parity check
     // (See canonical pattern above)
-}
-```
-
-## Dual-stream testing (PairsProvider)
-
-```csharp
-[TestMethod]
-public void PairsObserver()
-{
-    // Setup synchronized providers
-    IQuoteProvider<IQuote> quotesA = GetQuotesProvider();
-    IQuoteProvider<IQuote> quotesB = GetQuotesProvider();
-    
-    var providerA = quotesA.ToValueHub();
-    var providerB = quotesB.ToValueHub();
-    
-    var sut = providerA.ToCorrelationHub(providerB, 20);
-    
-    // Stream synchronized quotes
-    for (int i = 0; i < Quotes.Count; i++)
-    {
-        quotesA.Enqueue(Quotes[i]);
-        quotesB.Enqueue(QuotesB[i]);
-    }
-    
-    // Verify parity
-    var series = Quotes.ToCorrelation(QuotesB, 20);
-    sut.Results
-        .Should()
-        .BeEquivalentTo(series, o => o.WithStrictOrdering());
-}
-
-[TestMethod]
-public void TimestampMismatch()
-{
-    // Setup with mismatched timestamps
-    var sut = providerA.ToCorrelationHub(providerB, 20);
-    
-    quotesA.Enqueue(Quotes[0]);
-    quotesB.Enqueue(QuotesB[1]); // Different timestamp
-    
-    // Should throw InvalidQuotesException
-    Action act = () => sut.Add(Quotes[0]);
-    act.Should().Throw<InvalidQuotesException>();
 }
 ```
 
@@ -301,8 +242,6 @@ public void CustomToString()
 - `QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()` - If implementing ITestQuoteObserver
 - `ChainObserver()` - If implementing ITestChainObserver
 - `ChainProvider()` - If implementing ITestChainProvider
-- `PairsObserver()` - If implementing ITestPairsObserver
-- `TimestampMismatch()` - If implementing ITestPairsObserver
 
 ## Documentation testing requirements
 
@@ -382,21 +321,6 @@ Ensure `docs/_indicators/{IndicatorName}.md` includes:
 3. Ensure ALL state cleared before rebuild
 4. Test RollbackState in isolation
 
-### Timestamp mismatch (PairsProvider)
-
-**Symptom**: InvalidQuotesException not thrown when expected
-**Causes**:
-
-1. Missing ValidateTimestampSync() call
-2. Called before HasSufficientData() check
-3. Wrong cache index used
-
-**Debug approach**:
-
-1. Verify ValidateTimestampSync(i, item) in ToIndicator
-2. Ensure called after HasSufficientData() check
-3. Confirm index matches between caches
-
 When helping with StreamHub testing, always emphasize comprehensive rollback validation, Series parity with strict ordering, appropriate test interface selection, and the REQUIRED CustomToString test method. Guide developers through debugging test failures systematically.
 
 ## When to use this agent
@@ -408,7 +332,6 @@ Invoke `@streamhub-testing` when you need help with:
 - Verifying Series parity with strict ordering
 - Testing provider history mutations (Insert/Remove)
 - Structuring test classes and methods
-- Testing dual-stream (PairsProvider) indicators
 - Debugging test failures
 
 For general StreamHub development, see `@streamhub`. For comprehensive guidelines, see `.github/instructions/indicator-stream.instructions.md`.
@@ -418,7 +341,6 @@ For general StreamHub development, see `@streamhub`. For comprehensive guideline
 - `@streamhub` - General StreamHub development patterns and provider selection
 - `@streamhub-state` - State management and RollbackState patterns
 - `@streamhub-performance` - Performance optimization and O(1) patterns
-- `@streamhub-pairs` - Dual-stream indicators with synchronized inputs
 
 ## Example usage
 
@@ -428,6 +350,4 @@ For general StreamHub development, see `@streamhub`. For comprehensive guideline
 @streamhub-testing How do I test RollbackState for rolling window indicators?
 
 @streamhub-testing My Series parity test is failing. What should I check?
-
-@streamhub-testing How do I test timestamp synchronization for PairsProvider?
 ```

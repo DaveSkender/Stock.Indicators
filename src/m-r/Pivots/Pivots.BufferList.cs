@@ -23,6 +23,7 @@ public class PivotsList : BufferList<PivotsResult>, IIncrementFromQuote
     /// <param name="rightSpan">The number of periods to the right of the pivot point.</param>
     /// <param name="maxTrendPeriods">The maximum number of periods for trend calculation.</param>
     /// <param name="endType">The type of end point for the pivot calculation.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="endType"/> is invalid.</exception>
     public PivotsList(
         int leftSpan = 2,
         int rightSpan = 2,
@@ -62,24 +63,16 @@ public class PivotsList : BufferList<PivotsResult>, IIncrementFromQuote
         IReadOnlyList<IQuote> quotes)
         : this(leftSpan, rightSpan, maxTrendPeriods, endType) => Add(quotes);
 
-    /// <summary>
-    /// Gets the number of periods to the left for pivot identification.
-    /// </summary>
+    /// <inheritdoc />
     public int LeftSpan { get; init; }
 
-    /// <summary>
-    /// Gets the number of periods to the right for pivot identification.
-    /// </summary>
+    /// <inheritdoc />
     public int RightSpan { get; init; }
 
-    /// <summary>
-    /// Gets the maximum number of periods to track trend.
-    /// </summary>
+    /// <inheritdoc />
     public int MaxTrendPeriods { get; init; }
 
-    /// <summary>
-    /// Gets the end type for price calculations.
-    /// </summary>
+    /// <inheritdoc />
     public EndType EndType { get; init; }
 
     /// <inheritdoc />

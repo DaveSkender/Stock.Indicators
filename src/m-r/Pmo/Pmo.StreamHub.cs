@@ -1,7 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Provides methods for calculating the Price Momentum Oscillator (PMO) indicator.
+/// Streaming hub for Price Momentum Oscillator (PMO).
 /// </summary>
 public class PmoHub
     : ChainProvider<IReusable, PmoResult>, IPmo
@@ -13,15 +13,6 @@ public class PmoHub
     private double prevRocEma;
     private double prevPmo;
 
-    /// <summary>
-    /// Initializes a new instance of the <see cref="PmoHub"/> class.
-    /// </summary>
-    /// <param name="provider">The chain provider.</param>
-    /// <param name="timePeriods">The number of periods for the time span.</param>
-    /// <param name="smoothPeriods">The number of periods for smoothing.</param>
-    /// <param name="signalPeriods">The number of periods for the signal line.</param>
-    /// <exception cref="ArgumentNullException">Thrown when the provider is null.</exception>
-    /// <exception cref="ArgumentOutOfRangeException">Thrown when any of the parameters are invalid.</exception>
     internal PmoHub(
         IChainProvider<IReusable> provider,
         int timePeriods,

@@ -164,7 +164,6 @@ Follow these conventions for all file naming:
 
 - [ ] Task 1.2: Split `IIncrementFrom.cs` into individual interface files
   - Create `Common/BufferLists/IIncrementFromChain.cs`
-  - Create `Common/BufferLists/IIncrementFromPairs.cs`
   - Create `Common/BufferLists/IIncrementFromQuote.cs`
   - Delete `IIncrementFrom.cs`
 
@@ -174,12 +173,7 @@ Follow these conventions for all file naming:
   - Create `Common/StreamHub/IStreamObservable.cs` (keep as single interface)
   - Delete original multi-interface file
 
-- [ ] Task 1.4: Split `IStreamObserver.cs` into individual interface files
-  - Create `Common/StreamHub/IStreamObserver.cs`
-  - Create `Common/StreamHub/IPairsObserver.cs`
-  - Delete original multi-interface file
-
-- [ ] Task 1.5: Reorganize model files with multiple types
+- [ ] Task 1.4: Reorganize model files with multiple types
   - Split `Quote.Models.cs` → `IQuote.cs` and `Quote.cs`
   - Split `Candles.Models.cs` → `CandleProperties.cs` and `CandleResult.cs`
   - Review all other `*.Models.cs` files for multi-type violations
