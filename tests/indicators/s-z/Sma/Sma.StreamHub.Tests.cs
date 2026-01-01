@@ -39,11 +39,11 @@ public class SmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
 
         // delete, should equal series (revised)
         quoteHub.Remove(Quotes[removeAtIndex]);
-
         IReadOnlyList<SmaResult> expectedRevised = RevisedQuotes.ToSma(5);
         sut.IsExactly(expectedRevised);
         sut.Should().HaveCount(quotesCount - 1);
 
+        // cleanup
         observer.Unsubscribe();
         quoteHub.EndTransmission();
     }
@@ -51,43 +51,32 @@ public class SmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
     [TestMethod]
     public void ChainObserver_ChainedProvider_MatchesSeriesExactly()
     {
-        List<Quote> quotesList = Quotes.ToList();
-
-        int length = quotesList.Count;
+        const int smaPeriods = 11;
 
         // setup quote provider hub
         QuoteHub quoteHub = new();
 
-        // prefill quotes at provider
-        for (int i = 0; i < 50; i++)
-        {
-            quoteHub.Add(quotesList[i]);
-        }
-
         // initialize observer
         SmaHub observer = quoteHub
             .ToQuotePartHub(CandlePart.OC2)
-            .ToSmaHub(11);
+            .ToSmaHub(smaPeriods);
 
         // emulate quote stream
-        for (int i = 50; i < length; i++)
-        {
-            quoteHub.Add(quotesList[i]);
-        }
+        for (int i = 0; i < quotesCount; i++) { quoteHub.Add(Quotes[i]); }
 
-        IReadOnlyList<SmaResult> streamList =
-            observer.Results;
+        // final results
+        IReadOnlyList<SmaResult> sut = observer.Results;
 
         // time-series, for comparison
-        IReadOnlyList<SmaResult> seriesList
-           = quotesList
+        IReadOnlyList<SmaResult> expected = Quotes
             .Use(CandlePart.OC2)
-            .ToSma(11);
+            .ToSma(smaPeriods);
 
         // assert, should equal series
-        streamList.Should().HaveCount(length);
-        streamList.IsExactly(seriesList);
+        sut.IsExactly(expected);
+        sut.Should().HaveCount(quotesCount);
 
+        // cleanup
         observer.Unsubscribe();
         quoteHub.EndTransmission();
     }
@@ -95,8 +84,8 @@ public class SmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
     [TestMethod]
     public void ChainProvider_MatchesSeriesExactly()
     {
-        const int emaPeriods = 12;
         const int smaPeriods = 8;
+        const int emaPeriods = 12;
 
         // setup quote provider hub
         QuoteHub quoteHub = new();
@@ -106,19 +95,24 @@ public class SmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
             .ToSmaHub(smaPeriods)
             .ToEmaHub(emaPeriods);
 
-        // emulate quote stream
+        // emulate adding quotes to provider hub
         for (int i = 0; i < quotesCount; i++)
         {
-            if (i == 80) { continue; }  // Skip for late arrival
+            // skip one (add later)
+            if (i == 80) { continue; }
 
             Quote q = Quotes[i];
             quoteHub.Add(q);
 
-            if (i is > 100 and < 105) { quoteHub.Add(q); }  // Duplicate quotes
+            // resend duplicate quotes
+            if (i is > 100 and < 105) { quoteHub.Add(q); }
         }
 
-        quoteHub.Insert(Quotes[80]);  // Late arrival
-        quoteHub.Remove(Quotes[removeAtIndex]);  // Remove
+        // late arrival
+        quoteHub.Insert(Quotes[80]);
+
+        // delete
+        quoteHub.Remove(Quotes[removeAtIndex]);
 
         // final results
         IReadOnlyList<EmaResult> sut = observer.Results;
@@ -132,6 +126,7 @@ public class SmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
         sut.Should().HaveCount(quotesCount - 1);
         sut.IsExactly(expected);
 
+        // cleanup
         observer.Unsubscribe();
         quoteHub.EndTransmission();
     }
