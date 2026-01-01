@@ -59,22 +59,4 @@ public static partial class BollingerBands
         int lookbackPeriods = 20,
         double standardDeviations = 2)
              => new(chainProvider, lookbackPeriods, standardDeviations);
-
-    /// <summary>
-    /// Creates a BollingerBands hub from a collection of quotes.
-    /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <param name="standardDeviations">Parameter for the calculation.</param>
-    /// <returns>An instance of <see cref="BollingerBandsHub"/>.</returns>
-    public static BollingerBandsHub ToBollingerBandsHub(
-        this IReadOnlyList<IQuote> quotes,
-        int lookbackPeriods = 20,
-        double standardDeviations = 2)
-    {
-        QuoteHub quoteHub = new();
-        quoteHub.Add(quotes);
-        return quoteHub.ToBollingerBandsHub(lookbackPeriods, standardDeviations);
-    }
-
 }

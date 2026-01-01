@@ -295,46 +295,4 @@ public static partial class Ichimoku
         int senkouBPeriods,
         int offsetPeriods)
         => new(quoteProvider, tenkanPeriods, kijunPeriods, senkouBPeriods, offsetPeriods, offsetPeriods);
-
-    /// <summary>
-    /// Creates an Ichimoku hub from a collection of quotes.
-    /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="tenkanPeriods">The number of periods for the Tenkan-sen (conversion line).</param>
-    /// <param name="kijunPeriods">The number of periods for the Kijun-sen (base line).</param>
-    /// <param name="senkouBPeriods">The number of periods for the Senkou Span B (leading span B).</param>
-    /// <returns>An instance of <see cref="IchimokuHub"/>.</returns>
-    public static IchimokuHub ToIchimokuHub(
-        this IReadOnlyList<IQuote> quotes,
-        int tenkanPeriods = 9,
-        int kijunPeriods = 26,
-        int senkouBPeriods = 52)
-    {
-        ArgumentNullException.ThrowIfNull(quotes);
-        QuoteHub quoteHub = new();
-        quoteHub.Add(quotes);
-        return quoteHub.ToIchimokuHub(tenkanPeriods, kijunPeriods, senkouBPeriods);
-    }
-
-    /// <summary>
-    /// Creates an Ichimoku hub from a collection of quotes with specified parameters.
-    /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="tenkanPeriods">The number of periods for the Tenkan-sen (conversion line).</param>
-    /// <param name="kijunPeriods">The number of periods for the Kijun-sen (base line).</param>
-    /// <param name="senkouBPeriods">The number of periods for the Senkou Span B (leading span B).</param>
-    /// <param name="offsetPeriods">The number of periods for the offset.</param>
-    /// <returns>An instance of <see cref="IchimokuHub"/>.</returns>
-    public static IchimokuHub ToIchimokuHub(
-        this IReadOnlyList<IQuote> quotes,
-        int tenkanPeriods,
-        int kijunPeriods,
-        int senkouBPeriods,
-        int offsetPeriods)
-    {
-        ArgumentNullException.ThrowIfNull(quotes);
-        QuoteHub quoteHub = new();
-        quoteHub.Add(quotes);
-        return quoteHub.ToIchimokuHub(tenkanPeriods, kijunPeriods, senkouBPeriods, offsetPeriods);
-    }
 }

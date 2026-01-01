@@ -95,7 +95,7 @@ Subscribe to a `QuoteHub` for advanced streaming scenarios:
 QuoteHub quoteHub = new();
 FractalHub observer = quoteHub.ToFractalHub(windowSpan);
 
-foreach (Quote quote in quotes)  // simulating stream
+foreach (IQuote quote in quotes)  // simulating stream
 {
   quoteHub.Add(quote);
 }

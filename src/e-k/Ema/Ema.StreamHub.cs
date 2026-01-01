@@ -67,24 +67,4 @@ public static partial class Ema
         this IChainProvider<IReusable> chainProvider,
         int lookbackPeriods)
         => new(chainProvider, lookbackPeriods);
-
-    /// <summary>
-    /// Creates a standalone EMA hub with an internal <see cref="IQuote"/> cache
-    /// based on an initial set of provided quotes.
-    /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <returns>A standalone instance of <see cref="EmaHub"/>.</returns>
-    /// <exception cref="ArgumentNullException">Thrown when <paramref name="quotes"/> is null.</exception>
-    /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="lookbackPeriods"/> is invalid.</exception>
-    public static EmaHub ToEmaHub(
-        this IReadOnlyList<IQuote> quotes,
-        int lookbackPeriods)
-    {
-        QuoteHub quoteHub = new();
-        quoteHub.Add(quotes);
-        return quoteHub.ToEmaHub(lookbackPeriods);
-
-        // reminder: can't be self-ref 'quotes.ToHub' syntax
-    }
 }

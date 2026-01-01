@@ -174,29 +174,4 @@ public static partial class Alligator
             teethOffset,
             lipsPeriods,
             lipsOffset);
-
-    /// <summary>
-    /// Creates an Alligator hub from a collection of quotes.
-    /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="jawPeriods">The number of periods for the jaw.</param>
-    /// <param name="jawOffset">The offset for the jaw.</param>
-    /// <param name="teethPeriods">The number of periods for the teeth.</param>
-    /// <param name="teethOffset">The offset for the teeth.</param>
-    /// <param name="lipsPeriods">The number of periods for the lips.</param>
-    /// <param name="lipsOffset">The offset for the lips.</param>
-    /// <returns>An instance of <see cref="AlligatorHub"/>.</returns>
-    public static AlligatorHub ToAlligatorHub(
-        this IReadOnlyList<IQuote> quotes,
-        int jawPeriods = 13,
-        int jawOffset = 8,
-        int teethPeriods = 8,
-        int teethOffset = 5,
-        int lipsPeriods = 5,
-        int lipsOffset = 3)
-    {
-        QuoteHub quoteHub = new();
-        quoteHub.Add(quotes);
-        return quoteHub.ToAlligatorHub(jawPeriods, jawOffset, teethPeriods, teethOffset, lipsPeriods, lipsOffset);
-    }
 }

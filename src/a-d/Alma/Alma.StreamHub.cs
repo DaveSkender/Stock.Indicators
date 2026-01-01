@@ -111,26 +111,4 @@ public static partial class Alma
         double offset = 0.85,
         double sigma = 6)
         => new(chainProvider, lookbackPeriods, offset, sigma);
-
-    /// <summary>
-    /// Creates a standalone ALMA hub with an internal <see cref="IQuote"/> cache
-    /// based on an initial set of provided quotes.
-    /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <param name="offset">The offset for the ALMA calculation. Default is 0.85.</param>
-    /// <param name="sigma">The sigma for the ALMA calculation. Default is 6.</param>
-    /// <returns>A standalone instance of <see cref="AlmaHub"/>.</returns>
-    /// <exception cref="ArgumentNullException">Thrown when <paramref name="quotes"/> is null.</exception>
-    /// <exception cref="ArgumentOutOfRangeException">Thrown when parameters are invalid.</exception>
-    public static AlmaHub ToAlmaHub(
-        this IReadOnlyList<IQuote> quotes,
-        int lookbackPeriods = 9,
-        double offset = 0.85,
-        double sigma = 6)
-    {
-        QuoteHub quoteHub = new();
-        quoteHub.Add(quotes);
-        return quoteHub.ToAlmaHub(lookbackPeriods, offset, sigma);
-    }
 }

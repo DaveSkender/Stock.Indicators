@@ -200,17 +200,4 @@ public static partial class HtTrendline
         ArgumentNullException.ThrowIfNull(chainProvider);
         return new(chainProvider);
     }
-
-    /// <summary>
-    /// Creates an HtTrendline hub from a collection of quotes.
-    /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <returns>An instance of <see cref="HtTrendlineHub"/>.</returns>
-    public static HtTrendlineHub ToHtTrendlineHub(
-        this IReadOnlyList<IQuote> quotes)
-    {
-        QuoteHub quoteHub = new();
-        quoteHub.Add(quotes);
-        return quoteHub.ToHtTrendlineHub();
-    }
 }

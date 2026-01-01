@@ -52,19 +52,4 @@ public static partial class QuoteParts
         this IQuoteProvider<IQuote> quoteProvider,
         CandlePart candlePart)
         => new(quoteProvider, candlePart);
-
-    /// <summary>
-    /// Creates a QuotePart hub from a collection of quotes.
-    /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="candlePart">The <see cref="CandlePart" /> element.</param>
-    /// <returns>An new <see cref="QuotePartHub"/> instance.</returns>
-    public static QuotePartHub ToQuotePartHub(
-        this IReadOnlyList<IQuote> quotes,
-        CandlePart candlePart)
-    {
-        QuoteHub quoteHub = new();
-        quoteHub.Add(quotes);
-        return quoteHub.ToQuotePartHub(candlePart);
-    }
 }

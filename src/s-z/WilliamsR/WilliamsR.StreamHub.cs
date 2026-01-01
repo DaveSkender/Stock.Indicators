@@ -121,7 +121,6 @@ public class WilliamsRHub
 
 }
 
-
 public static partial class WilliamsR
 {
     /// <summary>
@@ -136,19 +135,4 @@ public static partial class WilliamsR
         this IStreamObservable<IQuote> quoteProvider,
         int lookbackPeriods = 14)
              => new(quoteProvider, lookbackPeriods);
-
-    /// <summary>
-    /// Creates a WilliamsR hub from a collection of quotes.
-    /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <returns>An instance of <see cref="WilliamsRHub"/>.</returns>
-    public static WilliamsRHub ToWilliamsRHub(
-        this IReadOnlyList<IQuote> quotes, int lookbackPeriods = 14)
-    {
-        QuoteHub quoteHub = new();
-        quoteHub.Add(quotes);
-        return quoteHub.ToWilliamsRHub(lookbackPeriods);
-    }
 }
-

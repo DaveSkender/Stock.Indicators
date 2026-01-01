@@ -1,7 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Provides methods for creating EPMA hubs.
+/// Streaming hub for Endpoint Moving Average (EPMA)
 /// </summary>
 public class EpmaHub
     : ChainProvider<IReusable, EpmaResult>, IEpma
@@ -50,20 +50,4 @@ public static partial class Epma
         this IChainProvider<IReusable> chainProvider,
         int lookbackPeriods)
              => new(chainProvider, lookbackPeriods);
-
-    /// <summary>
-    /// Creates a Epma hub from a collection of quotes.
-    /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="lookbackPeriods">Parameter for the calculation.</param>
-    /// <returns>An instance of <see cref="EpmaHub"/>.</returns>
-    public static EpmaHub ToEpmaHub(
-        this IReadOnlyList<IQuote> quotes,
-        int lookbackPeriods)
-    {
-        QuoteHub quoteHub = new();
-        quoteHub.Add(quotes);
-        return quoteHub.ToEpmaHub(lookbackPeriods);
-    }
-
 }

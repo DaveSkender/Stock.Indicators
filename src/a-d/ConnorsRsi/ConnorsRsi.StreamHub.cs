@@ -391,23 +391,4 @@ public static partial class ConnorsRsi
         int streakPeriods = 2,
         int rankPeriods = 100)
         => new(chainProvider, rsiPeriods, streakPeriods, rankPeriods);
-
-    /// <summary>
-    /// Creates a ConnorsRsi hub from a collection of quotes.
-    /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="rsiPeriods">The number of periods to use for the RSI calculation. Default is 3.</param>
-    /// <param name="streakPeriods">The number of periods to use for the streak calculation. Default is 2.</param>
-    /// <param name="rankPeriods">The number of periods to use for the percent rank calculation. Default is 100.</param>
-    /// <returns>An instance of <see cref="ConnorsRsiHub"/>.</returns>
-    public static ConnorsRsiHub ToConnorsRsiHub(
-        this IReadOnlyList<IQuote> quotes,
-        int rsiPeriods = 3,
-        int streakPeriods = 2,
-        int rankPeriods = 100)
-    {
-        QuoteHub quoteHub = new();
-        quoteHub.Add(quotes);
-        return quoteHub.ToConnorsRsiHub(rsiPeriods, streakPeriods, rankPeriods);
-    }
 }

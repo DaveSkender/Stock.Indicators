@@ -303,23 +303,4 @@ public static partial class Pmo
         int smoothPeriods = 20,
         int signalPeriods = 10)
         => new(chainProvider, timePeriods, smoothPeriods, signalPeriods);
-
-    /// <summary>
-    /// Creates a PMO hub from a collection of quotes.
-    /// </summary>
-    /// <param name="quotes">The collection of quotes.</param>
-    /// <param name="timePeriods">The number of periods for the time span.</param>
-    /// <param name="smoothPeriods">The number of periods for smoothing.</param>
-    /// <param name="signalPeriods">The number of periods for the signal line.</param>
-    /// <returns>An instance of <see cref="PmoHub"/>.</returns>
-    public static PmoHub ToPmoHub(
-        this IReadOnlyList<IQuote> quotes,
-        int timePeriods = 35,
-        int smoothPeriods = 20,
-        int signalPeriods = 10)
-    {
-        QuoteHub quoteHub = new();
-        quoteHub.Add(quotes);
-        return quoteHub.ToPmoHub(timePeriods, smoothPeriods, signalPeriods);
-    }
 }

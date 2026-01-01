@@ -65,19 +65,4 @@ public static partial class Marubozu
         this IStreamObservable<IQuote> provider,
         double minBodyPercent = 95)
         => new(provider, minBodyPercent);
-
-    /// <summary>
-    /// Creates a Marubozu hub from a collection of quotes.
-    /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="minBodyPercent">Parameter for the calculation.</param>
-    /// <returns>An instance of <see cref="MarubozuHub"/>.</returns>
-    public static MarubozuHub ToMarubozuHub(
-        this IReadOnlyList<IQuote> quotes,
-        double minBodyPercent = 95)
-    {
-        QuoteHub quoteHub = new();
-        quoteHub.Add(quotes);
-        return quoteHub.ToMarubozuHub(minBodyPercent);
-    }
 }

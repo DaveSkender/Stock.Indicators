@@ -170,19 +170,4 @@ public static partial class FisherTransform
         this IChainProvider<IReusable> chainProvider,
         int lookbackPeriods = 10)
              => new(chainProvider, lookbackPeriods);
-
-    /// <summary>
-    /// Creates a Fisher Transform hub from a collection of quotes.
-    /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="lookbackPeriods">Parameter for the calculation. Default is 10.</param>
-    /// <returns>An instance of <see cref="FisherTransformHub"/>.</returns>
-    public static FisherTransformHub ToFisherTransformHub(
-        this IReadOnlyList<IQuote> quotes,
-        int lookbackPeriods = 10)
-    {
-        QuoteHub quoteHub = new();
-        quoteHub.Add(quotes);
-        return quoteHub.ToFisherTransformHub(lookbackPeriods);
-    }
 }

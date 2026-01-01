@@ -49,18 +49,4 @@ public static partial class Obv
         ArgumentNullException.ThrowIfNull(quoteProvider);
         return new(quoteProvider);
     }
-
-    /// <summary>
-    /// Creates an Obv hub from a collection of quotes.
-    /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <returns>An instance of <see cref="ObvHub"/>.</returns>
-    public static ObvHub ToObvHub(
-        this IReadOnlyList<IQuote> quotes)
-    {
-        QuoteHub quoteHub = new();
-        quoteHub.Add(quotes);
-        return quoteHub.ToObvHub();
-    }
-
 }

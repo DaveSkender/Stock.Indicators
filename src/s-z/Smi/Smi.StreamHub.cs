@@ -7,7 +7,6 @@ public sealed class SmiHub
     : ChainProvider<IQuote, SmiResult>, ISmi
 {
 
-
     // Rolling windows for O(1) high/low tracking
     private readonly RollingWindowMax<double> _highWindow;
     private readonly RollingWindowMin<double> _lowWindow;
@@ -216,25 +215,4 @@ public static partial class Smi
         int secondSmoothPeriods = 2,
         int signalPeriods = 3)
         => new(quoteProvider, lookbackPeriods, firstSmoothPeriods, secondSmoothPeriods, signalPeriods);
-
-    /// <summary>
-    /// Creates a Stochastic Momentum Index (SMI) hub from a collection of quotes.
-    /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="lookbackPeriods">The number of periods for the lookback window.</param>
-    /// <param name="firstSmoothPeriods">The number of periods for the first smoothing.</param>
-    /// <param name="secondSmoothPeriods">The number of periods for the second smoothing.</param>
-    /// <param name="signalPeriods">The number of periods for the signal line smoothing.</param>
-    /// <returns>An instance of <see cref="SmiHub"/>.</returns>
-    public static SmiHub ToSmiHub(
-        this IReadOnlyList<IQuote> quotes,
-        int lookbackPeriods = 13,
-        int firstSmoothPeriods = 25,
-        int secondSmoothPeriods = 2,
-        int signalPeriods = 3)
-    {
-        QuoteHub quoteHub = new();
-        quoteHub.Add(quotes);
-        return quoteHub.ToSmiHub(lookbackPeriods, firstSmoothPeriods, secondSmoothPeriods, signalPeriods);
-    }
 }

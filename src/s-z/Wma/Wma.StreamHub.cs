@@ -86,20 +86,4 @@ public static partial class Wma
         ArgumentNullException.ThrowIfNull(chainProvider);
         return new(chainProvider, lookbackPeriods);
     }
-
-    /// <summary>
-    /// Creates a Wma hub from a collection of quotes.
-    /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
-    /// <returns>An instance of <see cref="WmaHub"/>.</returns>
-    public static WmaHub ToWmaHub(
-        this IReadOnlyList<IQuote> quotes,
-        int lookbackPeriods)
-    {
-        QuoteHub quoteHub = new();
-        quoteHub.Add(quotes);
-        return quoteHub.ToWmaHub(lookbackPeriods);
-    }
-
 }

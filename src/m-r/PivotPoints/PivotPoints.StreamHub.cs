@@ -175,22 +175,4 @@ public static partial class PivotPoints
         ArgumentNullException.ThrowIfNull(quoteProvider);
         return new(quoteProvider, windowSize, pointType);
     }
-
-    /// <summary>
-    /// Creates a PivotPoints hub from a collection of quotes.
-    /// </summary>
-    /// <param name="quotes">The collection of quotes.</param>
-    /// <param name="windowSize">The size of the window for pivot calculation. Default is <see cref="PeriodSize.Month"/>.</param>
-    /// <param name="pointType">The type of pivot points to calculate. Default is <see cref="PivotPointType.Standard"/>.</param>
-    /// <returns>An instance of <see cref="PivotPointsHub"/>.</returns>
-    public static PivotPointsHub ToPivotPointsHub(
-        this IReadOnlyList<IQuote> quotes,
-        PeriodSize windowSize = PeriodSize.Month,
-        PivotPointType pointType = PivotPointType.Standard)
-    {
-        ArgumentNullException.ThrowIfNull(quotes);
-        QuoteHub quoteHub = new();
-        quoteHub.Add(quotes);
-        return quoteHub.ToPivotPointsHub(windowSize, pointType);
-    }
 }

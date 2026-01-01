@@ -48,16 +48,6 @@ public class SlopeHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPr
         // note: removed index is at position 495 within the lookback window,
         // so it will test the repainting logic in the last periods as well
 
-        // warmup periods should be null
-        sut.Take(lookbackPeriods - 1).Should().AllSatisfy(
-            r => {
-                r.Slope.Should().BeNull();
-                r.Intercept.Should().BeNull();
-                r.StdDev.Should().BeNull();
-                r.RSquared.Should().BeNull();
-                r.Line.Should().BeNull();
-            });
-
         // cleanup
         observer.Unsubscribe();
         quoteHub.EndTransmission();

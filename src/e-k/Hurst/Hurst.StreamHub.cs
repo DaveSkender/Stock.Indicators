@@ -121,19 +121,4 @@ public static partial class Hurst
         this IChainProvider<IReusable> chainProvider,
         int lookbackPeriods = 100)
              => new(chainProvider, lookbackPeriods);
-
-    /// <summary>
-    /// Creates a Hurst hub from a collection of quotes.
-    /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="lookbackPeriods">Parameter for the calculation.</param>
-    /// <returns>An instance of <see cref="HurstHub"/>.</returns>
-    public static HurstHub ToHurstHub(
-        this IReadOnlyList<IQuote> quotes,
-        int lookbackPeriods = 100)
-    {
-        QuoteHub quoteHub = new();
-        quoteHub.Add(quotes);
-        return quoteHub.ToHurstHub(lookbackPeriods);
-    }
 }

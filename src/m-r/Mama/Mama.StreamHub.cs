@@ -249,22 +249,4 @@ public static partial class Mama
         double fastLimit = 0.5,
         double slowLimit = 0.05)
         => new(chainProvider, fastLimit, slowLimit);
-
-    /// <summary>
-    /// Creates a MAMA hub from a collection of quotes.
-    /// </summary>
-    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
-    /// <param name="fastLimit">Parameter for the calculation.</param>
-    /// <param name="slowLimit">Parameter for the calculation.</param>
-    /// <returns>An instance of <see cref="MamaHub"/>.</returns>
-    public static MamaHub ToMamaHub(
-        this IReadOnlyList<IQuote> quotes,
-        double fastLimit = 0.5,
-        double slowLimit = 0.05)
-    {
-        QuoteHub quoteHub = new();
-        quoteHub.Add(quotes);
-        return quoteHub.ToMamaHub(fastLimit, slowLimit);
-    }
-
 }
