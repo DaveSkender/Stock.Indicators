@@ -153,7 +153,7 @@ Use `#file:` when the agent **must read the file content** to complete the task:
 - Context files containing data required for the task
 
 ```markdown
-Follow conventions from #file:../AGENTS.md
+Follow conventions from #file:../../AGENTS.md
 Apply the template in #file:adr-template.md
 ```
 
@@ -183,9 +183,9 @@ See the contributing guide in docs/contributing.md for details.
 
 ### Avoiding context window bloat
 
-Root entry points (AGENTS.md and subfolder AGENTS.md files) are auto-loaded in many contexts. To prevent cascading file loads:
+Root entry points (AGENTS.md) are auto-loaded in many contexts. To prevent cascading file loads:
 
-- **CRITICAL: Entry point files must NOT use `#file:` references.** Files like `AGENTS.md` (root and subfolders) and root-level instruction files are auto-loaded and will cascade their `#file:` references into context, causing bloat. Use plain-text file path mentions instead.
+- **CRITICAL: Entry point files must NOT use `#file:` references.** Files like `AGENTS.md` and root-level instruction files are auto-loaded and will cascade their `#file:` references into context, causing bloat. Use plain-text file path mentions instead.
 - **Scoped instruction files may use `#file:` selectively.** Files in `.github/instructions/` with `applyTo` patterns are auto-attached only in their specific domains and can safely use `#file:` for on-demand fetching.
 - **Agent files should use targeted `#file:` references.** Agent files reference instruction files they need; this is intentional and domain-appropriate.
 - **Minimize cascading hierarchies.** Avoid chains like: AGENTS.md → instruction file → context file → another instruction file.
@@ -197,8 +197,43 @@ Root entry points (AGENTS.md and subfolder AGENTS.md files) are auto-loaded in m
 
 Use `#tool:name` format for tool references. Do not wrap in backticks.
 
+**When to use `#tool:` syntax:**
+
+The `#tool:` syntax is ONLY applicable for:
+
+- **VS Code Copilot Chat built-in tools**: `search`, `edit`, `read`, `runCommands`, `runTasks`, etc.
+- **MCP server tools**: Tools from MCP servers using `server/tool` format
+
+**Do NOT use `#tool:` syntax for:**
+
+- Generic tool categories (e.g., "Build system tools", "Linting tools")
+- Executable commands (e.g., `npm`, `dotnet`, `eslint`)
+- General software or frameworks
+
+**Examples:**
+
 ```markdown
 Use #tool:search for locating information
+```
+
+**MCP server tools use `server/tool` format:**
+
+```markdown
+#tool:mslearn/microsoft_docs_search
+#tool:github/pull_request_read
+#tool:github/web_search
+```
+
+**Common error - Do NOT use internal MCP function names:**
+
+```markdown
+❌ BAD: mcp_mslearn_microsoft_docs_search
+❌ BAD: `mcp_github_pull_request_read`
+❌ BAD: fetch_webpage
+
+✅ GOOD: #tool:mslearn/microsoft_docs_search
+✅ GOOD: #tool:github/pull_request_read
+✅ GOOD: #tool:fetch
 ```
 
 ### Agent references (`@AgentName`)
@@ -249,6 +284,8 @@ my-repo/
 ├── AGENTS.md                         # Root agent instructions
 └── README.md                         # Human-oriented overview
 ```
+
+Prefer a central AGENTS.md file for AI agent context. See [agents.md specification](https://agents.md/) for cross-agent compatibility.
 
 ### End of file elements
 
@@ -494,4 +531,4 @@ npx markdownlint-cli2 --no-globs "README.md"
 - Format-on-save applies fixes automatically
 
 ---
-Last updated: December 30, 2025
+Last updated: December 31, 2025

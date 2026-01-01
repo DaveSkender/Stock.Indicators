@@ -1,13 +1,12 @@
-# Stock Indicators Project Principles
+# Stock Indicators project principles
 
-This document outlines the core principles that govern engineering decisions for the Stock Indicators project.
+Six core principles govern engineering decisions ([Discussion #648](https://github.com/DaveSkender/Stock.Indicators/discussions/648)).
 
-## Core Principles
+## Core principles
 
-### 1. Mathematical Precision (NON‑NEGOTIABLE)
+### 1. Mathematical precision (NON‑NEGOTIABLE)
 
-All indicator calculations MUST be mathematically correct, deterministic, and reproducible across
-supported target frameworks (.NET 8, .NET 9, and .NET 10).
+All indicators MUST be mathematically correct, deterministic, and reproducible across net8.0, net9.0, net10.0.
 
 **Rules:**
 
@@ -18,177 +17,93 @@ supported target frameworks (.NET 8, .NET 9, and .NET 10).
 - Any new indicator requires a written spec (math definition + parameter constraints) before implementation.
 - Breaking mathematical behavior changes require a MAJOR library version bump and release note callout.
 
-**Formula Sourcing Hierarchy:**
+**Formula sourcing hierarchy:**
 
-When implementing or validating indicator formulas, developers MUST follow this sourcing hierarchy:
+1. **Primary**: Manual calculation spreadsheets in `tests/indicators/` (all implementations MUST match exactly)
+2. **Authoritative**: Original creator publications, expert textbooks, reputable institutional specs, cited Wikipedia
+3. **Acceptable**: Third-party implementations citing authoritative sources, community-validated calculators
+4. **Prohibited**: TradingView ([#801](https://github.com/DaveSkender/Stock.Indicators/discussions/801)), uncited calculators, sources without formula references
 
-1. **Primary Source of Truth**: Manual calculation spreadsheets in `tests/indicators/` directory serve as the project's validated ground truth. All implementations MUST match these reference calculations exactly.
+**Documentation requirements:**
 
-2. **Authoritative Sources** (for initial implementation and documentation):
-   - Original publications by indicator creators (books, white papers, academic papers)
-   - Established technical analysis textbooks by recognized experts
-   - Published specifications from reputable financial institutions or exchanges
-   - Wikipedia entries with proper citations to primary sources
+`docs/_indicators/*.md` SHOULD link to creator's original publication and reputable secondary sources.
 
-3. **Acceptable Validation Sources**:
-   - Third-party implementations that cite authoritative sources
-   - Community-validated calculators with verifiable methodology (e.g., Quantified Strategies)
-   - Published analysis from recognized quantitative trading firms
+**NaN handling**: Use non-nullable `double` with IEEE 754 NaN propagation. See [AGENTS.md NaN handling policy](../AGENTS.md#nan-handling-policy) for implementation guidelines.
 
-4. **Prohibited Sources**:
-   - TradingView and similar charting platforms ([Discussion #801](https://github.com/DaveSkender/Stock.Indicators/discussions/801): "TradingView is usually not a good source of truth")
-   - Uncited online calculators or implementations without verifiable methodology
-   - Sources that do not reference original formulas or established publications
+**Reputation criteria** ([#1024](https://github.com/DaveSkender/Stock.Indicators/discussions/1024)):
 
-**Documentation Requirements:**
+Indicators MUST be created by recognized experts, published in established venues, and time-tested in the financial industry.
 
-Indicator documentation pages (`docs/_indicators/*.md`) SHOULD include links to authoritative sources:
+### 2. Performance first (CRITICAL)
 
-- Link to the creator's original publication or specification when available
-- Link to reputable secondary sources (e.g., Wikipedia with citations, established textbooks)
-- Creator attribution with time period when known
-
-**NaN/Infinity Handling Policy:**
-
-The library uses non-nullable `double` types internally for performance, with intentional IEEE 754 NaN/Infinity propagation:
-
-- **Internal calculations**: Use `double.NaN` to represent undefined/incalculable values; allow natural propagation through operations
-- **Division by zero**: MUST guard variable denominators with ternary checks (e.g., `denom != 0 ? num / denom : double.NaN`) to prevent Infinity; choose appropriate fallback (NaN, 0, or null) based on mathematical meaning
-- **Result boundaries**: Convert NaN to `null` via `.NaN2Null()` ONLY when returning final results to users
-- **Input validation**: Never reject NaN inputs; allow them to flow through calculations naturally
-- **State initialization**: Use `double.NaN` for uninitialized state rather than sentinel values (0, -1)
-
-Rationale: This approach achieves significant performance gains from non-nullable types while maintaining mathematical correctness per IEEE 754 standard. NaN is the mathematically correct representation for undefined values.
-
-Detailed implementation guidance: [`src/_common/README.md#nan-handling-policy`](../src/_common/README.md#nan-handling-policy)
-
-**Reputation Criteria:**
-
-Indicators added to the library MUST meet reputation criteria ([Discussion #1024](https://github.com/DaveSkender/Stock.Indicators/discussions/1024)):
-
-- Created by recognized experts in technical analysis or quantitative finance
-- Published in established books, periodicals, or academic journals
-- Time-tested with documented usage in the financial industry
-
-### 2. Performance First
-
-The library prioritizes low allocation, cache-friendly, single-pass (O(n)) computations.
+Low allocation, cache-friendly, single-pass O(n) computations.
 
 **Rules:**
 
-- No per-iteration heap allocations in hot loops (avoid LINQ in inner loops; prefer for loops and Span/ReadOnlySpan when possible).
-- Performance benchmarks MUST accompany substantial algorithmic changes; regressions >2% mean or >5% p95 MUST be justified or reverted.
-- Avoid premature micro-optimizations; prove via BenchmarkDotNet before merging.
-- Memory growth MUST be bounded by input length; no unbounded collections or hidden caches.
-- Streaming indicators MUST not exceed batch baseline complexity or add >5% overhead steady-state.
+- No per-iteration heap allocations in hot loops; avoid LINQ, prefer `for` loops and `Span<T>`/`ReadOnlySpan<T>`
+- Benchmarks MUST accompany algorithmic changes; regressions >2% mean or >5% p95 require justification or revert
+- Prove optimizations via BenchmarkDotNet before merging
+- Memory growth bounded by input length; no unbounded collections
+- Streaming MUST not exceed batch complexity or add >5% overhead
 
-### 3. Comprehensive Validation
-
-Input and state validation prevents undefined behavior.
+### 3. Comprehensive validation
 
 **Rules:**
 
-- Public APIs MUST guard against null inputs, empty sequences, and insufficient history length with clear ArgumentException messages.
-- Parameter constraints (min periods, non-negative lengths, etc.) MUST be enforced uniformly and documented.
-- Streaming state MUST NOT leak or mutate shared buffers across independent consumers.
-- Invariants (e.g., WarmupPeriod >= LookbackPeriod) documented in XML comments and tests.
-- Fail fast: detect invalid conditions before allocating large result buffers.
+- Guard against null inputs, empty sequences, insufficient history with clear `ArgumentException` messages
+- Enforce and document parameter constraints (min periods, non-negative lengths)
+- Streaming state MUST NOT leak or mutate shared buffers
+- Document invariants in XML comments and tests
+- Fail fast before allocating result buffers
 
-### 4. Test‑Driven Quality
-
-Quality is enforced through disciplined test-first development.
+### 4. Test‑driven quality
 
 **Rules:**
 
-- New indicators: write unit + edge + streaming parity tests before implementation (initially failing).
-- Bug fixes MUST add a regression test proving the defect then verifying the fix.
-- Public surface behavior (parameters, defaults, warmup length) MUST be covered; changes require test updates.
-- Performance baselines updated only when intentional; accidental deltas investigated.
-- CI MUST run unit, integration (where applicable), and performance smoke benchmarks before release tagging.
+- New indicators: write unit + edge + streaming parity tests before implementation (TDD)
+- Bug fixes MUST add regression test proving defect and fix
+- Cover public surface behavior (parameters, defaults, warmup); update tests when changed
+- Performance baselines updated only when intentional
+- CI runs unit, integration, performance benchmarks before release
 
-### 5. Documentation Excellence & Transparency
-
-Documentation is a first-class deliverable.
+### 5. Documentation excellence
 
 **Rules:**
 
-- Every public type/member has XML docs (use `inheritdoc` when inheriting unchanged semantics).
-- Indicator doc pages (docs/_indicators/*.md) MUST be updated when parameters, formulas, warmup, or examples change.
-- Release notes MUST enumerate breaking changes and notable deprecations with migration guidance.
-- Examples MUST compile and reflect current API; stale examples are treated as defects.
-- Governance, versioning policy, and amendment history remain visible in project documentation.
+- Every public type/member has XML docs (`inheritdoc` for inherited semantics)
+- Update `docs/_indicators/*.md` when parameters, formulas, warmup, or examples change
+- Release notes enumerate breaking changes with migration guidance
+- Examples MUST compile and reflect current API
 
-### 6. Scope & Stewardship
+### 6. Scope & stewardship
 
-Defines the boundaries and community ethos ensuring longevity and focused value delivery.
+Source: [Discussion #648](https://github.com/DaveSkender/Stock.Indicators/discussions/648)
 
 **Rules:**
 
-- Ease of Use: Public APIs favor clarity over convenience abstractions; zero hidden magic.
-- Unopinionated Implementation: Indicators implement reputable, published formulas without reinterpretation or secret tweaks.
-- Single Responsibility: Library ONLY transforms historical quotes + parameters → indicator results; no signal engines, data fetchers, trading logic, or storage layers.
-- Encapsulation & Purity: No runtime calls to external services or third‑party packages; caller owns data acquisition and persistence.
-- Broad Instrument Support: Maintain correctness for equities, commodities, forex, crypto (including extreme price scales & fractional volumes).
-- Simplicity over Feature Creep: Decline features that dilute core purpose ("Could we?" is not "Should we?")—reassess via governance if disputed.
-- Community & Openness: Keep contributions reviewable, traceable, and standards-aligned; fast, transparent handling of bug and security reports.
+- **Ease of use**: Clarity over convenience; zero hidden magic
+- **Unopinionated**: Implement reputable formulas without reinterpretation
+- **Single responsibility**: quotes + parameters → results; no signals, data fetching, trading logic, or storage
+- **Encapsulation**: No external service calls or third-party packages
+- **Broad instruments**: Support equities, commodities, forex, crypto (extreme scales, fractional volume)
+- **Simplicity**: Decline features diluting core purpose
+- **Community**: Reviewable, traceable, standards-aligned; fast bug/security resolution
 
-Rationale: Consolidates long‑standing design tenets (Discussion #648) that were implicit but not yet enforceable as a formal principle.
+## Pull request requirements
 
-## Additional Constraints
+- Title: Conventional Commits format; link spec/issue
+- Resolve all analyzer warnings or suppress with justification
+- New/changed indicators: warmup guidance, parameter constraints, example snippet
+- Performance changes: benchmark delta summary (mean, alloc)
+- Streaming indicators: prove batch vs streaming parity in tests
 
-### Performance & Compatibility Standards
-
-- Supported Targets: net10.0, net9.0, net8.0 (all must build & pass tests).
-- Baseline Complexity: Single pass O(n) unless mathematically impossible (justify exceptions in PR).
-- Warmup Guidance: Provide a deterministic WarmupPeriod helper or documented rule for each indicator.
-- Precision Policy: Use double for speed; escalate to decimal only when rounding materially affects financial correctness (> 0.5 tick at 4-decimal pricing).
-- Allocation Budget: Result list + minimal working buffers only; no temporary per-step Lists or LINQ projections inside loops.
-- Thread Safety: Stateless calculations are thread-safe; streaming hubs must isolate instance state—do not use static mutable fields.
-- Backward Compatibility: Renaming public members or altering default parameter values requires MAJOR version bump.
-
-### Error & Exception Conventions
-
-- Use ArgumentOutOfRangeException for invalid numeric parameter ranges.
-- Use ArgumentException for semantic misuse (e.g., insufficient history).
-- Never swallow exceptions; wrap only to add domain context.
-- Messages MUST include parameter name and offending value when relevant.
-
-## Pull Request Requirements
-
-- PR title uses Conventional Commits; link to spec or issue.
-- All analyzer warnings resolved or explicitly suppressed with justification.
-- Added/changed indicator: include warmup guidance, parameter constraints, example snippet.
-- Performance-sensitive changes: attach benchmark delta summary (mean, alloc).
-- Streaming indicators: prove batch vs streaming value parity for representative sample in tests.
-
-## Quality Gates (Must Pass)
-
-- Build succeeds with zero warnings treated as errors.
-- Unit test suite green; new tests cover modified logic branches.
-- No net increase in benchmark mean >2% for unchanged indicators.
-- Docs pages updated for any public behavior change.
+Quality gates are enforced via `.github/skills/quality-gates/SKILL.md` - agents execute all gates before yielding.
 
 ## Governance
 
-### Authority & Scope
-
-These principles govern engineering decisions for the Stock Indicators project. Where conflicts arise,
-these directives supersede ad-hoc conventions.
-
-### Compliance & Review Cadence
-
-- Quarterly review (January/April/July/October) to assess relevance of performance targets & principles.
-- Any deviation longer than one release cycle MUST be escalated or removed.
-
-### Enforcement
-
-- PR reviewers MUST cite specific principle(s) when requesting changes.
-- Merging code that violates a principle without documented exception is grounds for immediate follow-up issue.
+- **Authority**: Supersedes ad-hoc conventions
+- **Review**: Quarterly (Jan/Apr/Jul/Oct); deviations >1 release require escalation
+- **Enforcement**: PR reviewers cite specific principles; violations require immediate follow-up
 
 ---
-
-**Based on**: Constitution version 1.3.0 | Originally ratified: 2025-10-02 | Last amended: 2025-11-02  
-**Document created**: 2025-12-24 (migrated from .specify/memory/constitution.md)
-
----
-Last updated: December 24, 2025
+Last updated: December 30, 2025

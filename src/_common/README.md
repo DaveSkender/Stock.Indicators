@@ -44,19 +44,19 @@ This directory provides foundational infrastructure for all indicator implementa
 
 ## Development guidelines
 
-For detailed implementation guidance, see the scoped instruction files:
+For detailed implementation guidance, see the skills:
 
-- StreamHub development: [.github/instructions/indicator-stream.instructions.md](../../.github/instructions/indicator-stream.instructions.md)
+- StreamHub development: `.github/skills/indicator-stream/SKILL.md`
   - Performance patterns (O(1) state updates, avoiding O(n²) recalculation)
   - State management best practices
   - Testing requirements and regression validation
-- BufferList development: [.github/instructions/indicator-buffer.instructions.md](../../.github/instructions/indicator-buffer.instructions.md)
+- BufferList development: `.github/skills/indicator-buffer/SKILL.md`
   - Buffer management patterns
   - Incremental processing techniques
   - Interface selection guide
-- Series development: [.github/instructions/indicator-series.instructions.md](../../.github/instructions/indicator-series.instructions.md)
+- Series development: `.github/skills/indicator-series/SKILL.md`
   - Batch processing patterns (canonical reference implementations)
-- General requirements: [AGENTS.md](../../AGENTS.md)
+- General requirements: `AGENTS.md`
   - Catalog registration
   - Documentation standards
   - Migration guide updates
