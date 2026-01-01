@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Provides methods for creating CMF stream hubs.
 /// </summary>
-public class CmfHub : ChainProvider<IQuote, CmfResult>, ICmf
+public class CmfHub : ChainHub<IQuote, CmfResult>, ICmf
 {
     internal CmfHub(
         IQuoteProvider<IQuote> provider,

@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 /// Streaming hub for Awesome Oscillator.
 /// </summary>
 public class AwesomeHub
-    : ChainProvider<IReusable, AwesomeResult>, IAwesome
+    : ChainHub<IReusable, AwesomeResult>, IAwesome
 {
     internal AwesomeHub(
         IChainProvider<IReusable> provider,

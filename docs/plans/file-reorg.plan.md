@@ -124,7 +124,7 @@ Follow these conventions for all file naming:
 ### 8. PascalCase for file names
 
 - **Rule**: All file names use PascalCase (UpperCamelCase)
-- **Example**: `ChainProvider.cs`, `RollingWindowMax.cs`, `StringOutExtensions.cs`
+- **Example**: `ChainHub.cs`, `RollingWindowMax.cs`, `StringOutExtensions.cs`
 
 ### 9. Avoid generic terms
 

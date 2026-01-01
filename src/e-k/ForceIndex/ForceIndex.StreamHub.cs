@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 /// Provides streaming hub for Force Index calculations.
 /// </summary>
 public class ForceIndexHub
-    : ChainProvider<IReusable, ForceIndexResult>, IForceIndex
+    : ChainHub<IReusable, ForceIndexResult>, IForceIndex
 {
     private readonly double _k;
 

@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 /// Streaming hub for Commodity Channel Index (CCI) calculations.
 /// </summary>
 public class CciHub
-    : ChainProvider<IQuote, CciResult>, ICci
+    : ChainHub<IQuote, CciResult>, ICci
 {
     private readonly CciList _cciList;
 

@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 /// Streaming hub for Rate of Change (ROC).
 /// </summary>
 public class RocHub
-    : ChainProvider<IReusable, RocResult>, IRoc
+    : ChainHub<IReusable, RocResult>, IRoc
 {
     internal RocHub(
         IChainProvider<IReusable> provider,

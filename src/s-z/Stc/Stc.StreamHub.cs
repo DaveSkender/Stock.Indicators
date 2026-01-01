@@ -12,7 +12,7 @@ internal record StcMacdState(double FastEma, double SlowEma, double Macd);
 /// Provides methods for creating Schaff Trend Cycle (STC) streaming hubs.
 /// </summary>
 public class StcHub
-    : ChainProvider<IReusable, StcResult>, IStc
+    : ChainHub<IReusable, StcResult>, IStc
 {
 
     private readonly RollingWindowMax<double> _macdHighWindow;

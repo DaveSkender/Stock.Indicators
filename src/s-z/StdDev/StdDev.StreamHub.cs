@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 /// Represents a Standard Deviation stream hub.
 /// </summary>
 public class StdDevHub
-    : ChainProvider<IReusable, StdDevResult>, IStdDev
+    : ChainHub<IReusable, StdDevResult>, IStdDev
 {
     internal StdDevHub(
         IChainProvider<IReusable> provider,

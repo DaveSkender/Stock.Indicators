@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 /// Streaming hub for MAMA.
 /// </summary>
 public class MamaHub
-    : ChainProvider<IReusable, MamaResult>, IMama
+    : ChainHub<IReusable, MamaResult>, IMama
 {
 
     // State arrays for MESA algorithm

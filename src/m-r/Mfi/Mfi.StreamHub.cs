@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Streaming hub for Money Flow Index (MFI).
 /// </summary>
-public class MfiHub : ChainProvider<IQuote, MfiResult>, IMfi
+public class MfiHub : ChainHub<IQuote, MfiResult>, IMfi
 {
     private readonly Queue<(double TruePrice, double MoneyFlow, int Direction)> _buffer;
     private double? _prevTruePrice;

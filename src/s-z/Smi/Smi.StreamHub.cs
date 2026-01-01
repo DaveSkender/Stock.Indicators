@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 /// Represents a Stochastic Momentum Index (SMI) stream hub that calculates SMI with signal line.
 /// </summary>
 public sealed class SmiHub
-    : ChainProvider<IQuote, SmiResult>, ISmi
+    : ChainHub<IQuote, SmiResult>, ISmi
 {
 
     // Rolling windows for O(1) high/low tracking

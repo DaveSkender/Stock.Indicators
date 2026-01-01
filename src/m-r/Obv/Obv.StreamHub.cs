@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Provides methods for creating OBV hubs.
 /// </summary>
-public class ObvHub : ChainProvider<IQuote, ObvResult>
+public class ObvHub : ChainHub<IQuote, ObvResult>
 {
     internal ObvHub(
         IQuoteProvider<IQuote> provider) : base(provider)

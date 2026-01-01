@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 /// Streaming hub for Chande Momentum Oscillator (CMO) calculations.
 /// </summary>
 public class CmoHub
-    : ChainProvider<IReusable, CmoResult>, ICmo
+    : ChainHub<IReusable, CmoResult>, ICmo
 {
     private readonly Queue<(bool? isUp, double value)> _tickBuffer;
 

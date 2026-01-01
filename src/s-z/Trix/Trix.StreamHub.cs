@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 /// Streaming hub for Triple Exponential Moving Average Oscillator (TRIX) calculations.
 /// </summary>
 public class TrixHub
-    : ChainProvider<IReusable, TrixResult>, ITrix
+    : ChainHub<IReusable, TrixResult>, ITrix
 {
     private double lastEma1 = double.NaN;
     private double lastEma2 = double.NaN;

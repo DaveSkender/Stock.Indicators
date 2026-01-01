@@ -103,7 +103,7 @@ DPO (Detrended Price Oscillator) required a framework enhancement to support cha
   - ✅ Implemented with lookahead offset pattern
   - ✅ Framework fix: Made `StreamHub.Rebuild()` and `OnRebuild()` virtual (PR #1802/#1800)
   - ✅ DPO override adjusts rebuild timestamp backward by offset for chained observers
-  - ✅ ChainProvider test now passes (removed `[Ignore]` attribute)
+  - ✅ ChainHub test now passes (removed `[Ignore]` attribute)
   - Has both BufferList and StreamHub
 
 - [x] **T145** - Slope StreamHub in `src/s-z/Slope/Slope.StreamHub.cs`
@@ -176,7 +176,7 @@ The following were evaluated and intentionally excluded from streaming implement
 - [x] **T175-T179** - StreamHub test interface compliance audits (5 tasks)
   - ✅ Audit script validates all tests implement correct interfaces
   - ✅ Confirmed: ITestQuoteObserver, ITestChainObserver properly used
-  - ✅ All required test methods present (QuoteObserver, ChainObserver, ChainProvider)
+  - ✅ All required test methods present (QuoteObserver, ChainObserver, ChainHub)
   - ✅ No interface compliance issues found
   - **Status**: COMPLETE
 
@@ -345,7 +345,7 @@ These algorithmic improvements apply to Series (batch) implementations. See [Iss
   - [x] Test interface compliance ✅ (T175-T179 - all tests validated)
   - [x] Test base class review ✅ (T184-T185 - validated, no updates needed)
   - [x] Provider history testing ✅ (T180-T183 - 40/42 applicable complete, 2 excluded)
-  - [x] DPO ChainProvider testing ✅ (now unblocked and passing)
+  - [x] DPO ChainHub testing ✅ (now unblocked and passing)
   - [x] Performance benchmarks ✅ (December 2025 baseline run)
   - [x] Memory validation ✅ (infrastructure ready)
 - **Low** (Polish + enhancements): 2-4 hours

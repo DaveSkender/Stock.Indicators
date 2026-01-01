@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 /// Streaming hub for McGinley Dynamic.
 /// </summary>
 public class DynamicHub
-    : ChainProvider<IReusable, DynamicResult>, IDynamic
+    : ChainHub<IReusable, DynamicResult>, IDynamic
 {
     internal DynamicHub(
         IChainProvider<IReusable> provider,

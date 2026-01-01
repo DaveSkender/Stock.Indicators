@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 /// Streaming hub for Price Momentum Oscillator (PMO).
 /// </summary>
 public class PmoHub
-    : ChainProvider<IReusable, PmoResult>, IPmo
+    : ChainHub<IReusable, PmoResult>, IPmo
 {
     private readonly double smoothingConstant1;
     private readonly double smoothingConstant2;

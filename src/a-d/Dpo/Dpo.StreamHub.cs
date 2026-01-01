@@ -11,7 +11,7 @@ namespace Skender.Stock.Indicators;
 /// Results maintain 1:1 correspondence with inputs.
 /// </remarks>
 public class DpoHub
-    : ChainProvider<IReusable, DpoResult>, IDpo
+    : ChainHub<IReusable, DpoResult>, IDpo
 {
     internal DpoHub(
         IChainProvider<IReusable> provider,

@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 /// Provides methods for calculating the Hilbert Transform Instantaneous Trendline (HTL) indicator.
 /// </summary>
 public class HtTrendlineHub
-    : ChainProvider<IReusable, HtlResult>, IHtTrendline
+    : ChainHub<IReusable, HtlResult>, IHtTrendline
 {
 
     private readonly List<double> pr = [];   // price

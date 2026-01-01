@@ -2,7 +2,7 @@ namespace Skender.Stock.Indicators;
 
 /// <inheritdoc />
 public class UltimateHub
-    : ChainProvider<IReusable, UltimateResult>, IUltimate
+    : ChainHub<IReusable, UltimateResult>, IUltimate
 {
     internal UltimateHub(
         IQuoteProvider<IQuote> provider,

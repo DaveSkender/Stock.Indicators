@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 /// Streaming hub for Exponential Moving Average (EMA).
 /// </summary>
 public class EmaHub
-    : ChainProvider<IReusable, EmaResult>, IEma
+    : ChainHub<IReusable, EmaResult>, IEma
 {
     internal EmaHub(
         IChainProvider<IReusable> provider,

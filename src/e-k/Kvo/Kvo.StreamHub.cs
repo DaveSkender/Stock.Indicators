@@ -27,7 +27,7 @@ public static partial class Kvo
 /// Streaming hub for Klinger Volume Oscillator (KVO) calculations.
 /// </summary>
 public class KvoHub
-    : ChainProvider<IQuote, KvoResult>, IKvo
+    : ChainHub<IQuote, KvoResult>, IKvo
 {
     private readonly int _fastPeriods;
     private readonly int _slowPeriods;

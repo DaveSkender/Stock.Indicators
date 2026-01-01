@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 /// Streaming hub for Fisher Transform indicator using a stream hub.
 /// </summary>
 public class FisherTransformHub
-    : ChainProvider<IReusable, FisherTransformResult>, IFisherTransform
+    : ChainHub<IReusable, FisherTransformResult>, IFisherTransform
 {
 
     /// <summary>

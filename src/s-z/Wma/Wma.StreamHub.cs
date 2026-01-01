@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 /// Provides methods for creating WMA hubs.
 /// </summary>
 public class WmaHub
-    : ChainProvider<IReusable, WmaResult>, IWma
+    : ChainHub<IReusable, WmaResult>, IWma
 {
     internal WmaHub(
         IChainProvider<IReusable> provider,

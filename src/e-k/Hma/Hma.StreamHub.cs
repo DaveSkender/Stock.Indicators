@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 /// Streaming hub for Hull Moving Average (HMA).
 /// </summary>
 public class HmaHub
-    : ChainProvider<IReusable, HmaResult>, IHma
+    : ChainHub<IReusable, HmaResult>, IHma
 {
     private readonly int wmaN1Periods;
     private readonly int wmaN2Periods;

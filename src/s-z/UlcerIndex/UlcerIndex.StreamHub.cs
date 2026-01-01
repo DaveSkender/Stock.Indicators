@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 /// Provides streaming hub for calculating the Ulcer Index indicator.
 /// </summary>
 public class UlcerIndexHub
-    : ChainProvider<IReusable, UlcerIndexResult>, IUlcerIndex
+    : ChainHub<IReusable, UlcerIndexResult>, IUlcerIndex
 {
     internal UlcerIndexHub(
         IChainProvider<IReusable> provider,

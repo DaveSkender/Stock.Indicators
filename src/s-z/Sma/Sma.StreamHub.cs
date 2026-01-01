@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 /// Streaming hub for Simple Moving Average (SMA).
 /// </summary>
 public class SmaHub
-    : ChainProvider<IReusable, SmaResult>, ISma
+    : ChainHub<IReusable, SmaResult>, ISma
 {
 
     internal SmaHub(
