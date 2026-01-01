@@ -9,6 +9,7 @@ namespace Test.DataGenerator;
 internal static class IndicatorExecutor
 {
     private static readonly IReadOnlyList<Quote> TestData = Test.Data.Data.GetDefault();
+    private static readonly IReadOnlyList<Quote> OtherData = Test.Data.Data.GetCompare();
 
     /// <summary>
     /// Executes an indicator and returns its results.
@@ -26,14 +27,41 @@ internal static class IndicatorExecutor
             throw new InvalidOperationException($"Method name not specified for indicator '{listing.Uiid}'");
         }
 
-        // Check if this indicator uses SeriesParameter (requires IReusable lists) - not supported yet
-        if (listing.Parameters?.Any(p => p.DataType == "IReadOnlyList<T> where T : IReusable") == true)
-        {
-            throw new NotSupportedException($"Indicator '{listing.Uiid}' uses SeriesParameter which is not yet supported for baseline generation");
-        }
+        // Check if this indicator uses SeriesParameter (requires dual quote lists)
+        bool isDualInput = listing.Parameters?.Any(p => p.DataType == "IReadOnlyList<T> where T : IReusable") == true;
 
         // Find all types in the indicators assembly
         Assembly indicatorsAssembly = typeof(Quote).Assembly;
+
+        // Calculate expected parameter count for method lookup
+        // Extension source (this) counts as parameter 1
+        // For dual-input: first series param is extension, second series param is explicit
+        int expectedParamCount = 1; // Extension source
+        bool firstSeriesParamSeen = false;
+        if (listing.Parameters?.Count > 0)
+        {
+            foreach (IndicatorParam param in listing.Parameters)
+            {
+                if (param.DataType == "IReadOnlyList<T> where T : IReusable")
+                {
+                    if (!firstSeriesParamSeen)
+                    {
+                        // First series param is the extension source, already counted
+                        firstSeriesParamSeen = true;
+                    }
+                    else
+                    {
+                        // Second series param is an explicit parameter
+                        expectedParamCount++;
+                    }
+                }
+                else
+                {
+                    // Non-series parameters are explicit
+                    expectedParamCount++;
+                }
+            }
+        }
 
         // Look for extension methods across all types
         MethodInfo? method = null;
@@ -41,7 +69,7 @@ internal static class IndicatorExecutor
         {
             method = type
                 .GetMethods(BindingFlags.Public | BindingFlags.Static)
-                .FirstOrDefault(m => m.Name == methodName && m.IsGenericMethod);
+                .FirstOrDefault(m => m.Name == methodName && m.IsGenericMethod && m.GetParameters().Length == expectedParamCount);
 
             if (method != null)
             {
@@ -49,14 +77,30 @@ internal static class IndicatorExecutor
             }
         }
 
-        // If no generic method found, try to find a non-generic method
+        // If no generic method found, try to find a non-generic method with correct parameter count
         if (method == null)
         {
             foreach (Type type in indicatorsAssembly.GetTypes())
             {
                 method = type
                     .GetMethods(BindingFlags.Public | BindingFlags.Static)
-                    .FirstOrDefault(m => m.Name == methodName && !m.IsGenericMethod);
+                    .FirstOrDefault(m => m.Name == methodName && !m.IsGenericMethod && m.GetParameters().Length == expectedParamCount);
+
+                if (method != null)
+                {
+                    break;
+                }
+            }
+        }
+
+        // Fallback: try any matching method if exact match not found
+        if (method == null)
+        {
+            foreach (Type type in indicatorsAssembly.GetTypes())
+            {
+                method = type
+                    .GetMethods(BindingFlags.Public | BindingFlags.Static)
+                    .FirstOrDefault(m => m.Name == methodName);
 
                 if (method != null)
                 {
@@ -76,7 +120,7 @@ internal static class IndicatorExecutor
             : method;
 
         // Prepare parameters
-        object?[] parameters = PrepareParameters(listing, targetMethod);
+        object?[] parameters = PrepareParameters(listing, targetMethod, isDualInput);
 
         // Invoke the method
         try
@@ -123,19 +167,41 @@ internal static class IndicatorExecutor
         return Path.GetFullPath(Path.Combine(resultsDir, fileName));
     }
 
-    private static object?[] PrepareParameters(IndicatorListing listing, MethodInfo method)
+    private static object?[] PrepareParameters(IndicatorListing listing, MethodInfo method, bool isDualInput)
     {
         ParameterInfo[] methodParams = method.GetParameters();
 
-        // First parameter is always the quotes collection
-        List<object?> parameters = [TestData];
+        // For dual-input indicators, first parameter is OtherData (extension source)
+        // For single-input indicators, first parameter is TestData
+        List<object?> parameters = isDualInput ? [OtherData] : [TestData];
 
         // Add additional parameters from the listing with their default values
         if (listing.Parameters?.Count > 0)
         {
-            int paramIndex = 1; // Start at 1 because first param is quotes
+            bool firstSeriesParamSkipped = false;
+            int paramIndex = 1; // Start at 1 because first param is quotes (extension source)
+
             foreach (IndicatorParam param in listing.Parameters)
             {
+                // For dual-input indicators, the first series parameter is the extension source (already added)
+                // The second series parameter is the comparison source
+                if (param.DataType == "IReadOnlyList<T> where T : IReusable")
+                {
+                    if (isDualInput && !firstSeriesParamSkipped)
+                    {
+                        // Skip the first series parameter (it's the extension source already added)
+                        firstSeriesParamSkipped = true;
+                        continue;
+                    }
+                    else
+                    {
+                        // Add the second series parameter (the comparison source)
+                        parameters.Add(TestData);
+                        paramIndex++;
+                        continue;
+                    }
+                }
+
                 object? value = param.DefaultValue;
 
                 // Special handling for required parameters with no default

@@ -7,14 +7,14 @@ description: "Stream-style indicator development and testing guidelines"
 
 These instructions apply to stream-style indicators that support real-time data processing with stateful operations. Stream indicators maintain internal state and can process individual quotes as they arrive.
 
-**Important test rule**: Each StreamHub test class must implement exactly one observer interface (ITestQuoteObserver OR ITestChainObserver OR ITestPairsObserver) and at most one provider interface (ITestChainProvider).
+**Important test rule**: Each StreamHub test class must implement exactly one observer interface (ITestQuoteObserver OR ITestChainObserver) and at most one provider interface (ITestChainProvider).
 
 ## When to use this agent
 
 Invoke `@streamhub` when you need help with:
 
 - Implementing new StreamHub indicators with real-time processing
-- Choosing the correct provider base class (ChainProvider, QuoteProvider, PairsProvider)
+- Choosing the correct provider base class (ChainProvider, QuoteProvider)
 - Deciding between implementation patterns (incremental state, repaint from anchor, full rebuild)
 - Optimizing real-time processing performance (O(1) updates, avoiding O(n²) anti-patterns)
 - Implementing state management and RollbackState override logic
@@ -26,7 +26,6 @@ For specialized topics, consult these expert sub-agents:
 - `@streamhub-state` - Deep dive into RollbackState patterns, cache replay strategies, and state restoration
 - `@streamhub-performance` - Performance optimization, O(1) patterns, RollingWindow utilities, avoiding anti-patterns
 - `@streamhub-testing` - Comprehensive test coverage, test interface selection, rollback validation
-- `@streamhub-pairs` - Dual-stream indicators, PairsProvider usage, timestamp synchronization
 
 For quick decision guidance and pattern selection, use the main agent. For comprehensive implementation details and complete checklists, continue reading this document.
 
@@ -37,7 +36,6 @@ For quick decision guidance and pattern selection, use the main agent. For compr
 - `@streamhub-state` - RollbackState patterns and cache replay strategies
 - `@streamhub-performance` - StreamHub-specific performance deep dive (RollingWindow utilities, Wilder's smoothing)
 - `@streamhub-testing` - Test interface selection and comprehensive rollback validation
-- `@streamhub-pairs` - PairsProvider dual-stream patterns and timestamp synchronization
 - `@performance` - General performance optimization guidance (algorithmic complexity, benchmarking)
 
 See also: `.github/agents/indicator-stream.agent.md` for decision trees and quick reference patterns.
@@ -47,7 +45,7 @@ See also: `.github/agents/indicator-stream.agent.md` for decision trees and quic
 When implementing or updating an indicator, you must complete:
 
 - [ ] Source code: `src/**/{IndicatorName}.StreamHub.cs` file exists and adheres to these instructions
-  - [ ] Uses the appropriate provider base (`ChainProvider`, `QuoteProvider`, or `PairsProvider`) for the I/O scenario
+  - [ ] Uses the appropriate provider base (`ChainProvider` or `QuoteProvider`) for the I/O scenario
   - [ ] Validates parameters in constructor and calls `Reinitialize()` as needed
   - [ ] Implements required `Add(...)` or conversion methods per provider base; maintains O(1) state updates where possible
   - [ ] Overrides `ToString()` with concise hub name; implements `Reset()`/state reinit patterns as applicable
@@ -56,8 +54,7 @@ When implementing or updating an indicator, you must complete:
 - [ ] Unit testing: `tests/indicators/**/{IndicatorName}.StreamHub.Tests.cs` file exists and adheres to these instructions
   - [ ] Inherits `StreamHubTestBase` and implements test interfaces based on provider pattern (see test interface selection guide)
   - [ ] Verifies stateful processing, reset behavior, and consistency with Series results
-  - [ ] For dual-stream hubs: covers timestamp sync validation and sufficient data checks
-    - [ ] Require comprehensive rollback validation: warmup prefill, duplicate arrivals, provider history mutations (Insert and Remove), and strict Series parity checks; follow EMA hub test pattern
+  - [ ] Require comprehensive rollback validation: warmup prefill, duplicate arrivals, provider history mutations (Insert and Remove), and strict Series parity checks; follow EMA hub test pattern
 - [ ] Common items: Complete regression, performance, docs, and migration per `AGENTS.md` (Common indicator requirements)
 
 ## Stream Hub I/O Scenarios
@@ -79,15 +76,11 @@ The codebase implements several types of stream hub I/O patterns:
 5. **IQuote → VolumeWeighted** (e.g., VWMA): Takes quote input, requires both price and volume data
    - Uses `IQuoteProvider<IQuote>` and extends `QuoteProvider<TIn, TResult>`
    - Generic constraint: `where TIn : IQuote`
-6. **Dual IReusable → IReusable** (e.g., Correlation, Beta): Takes two synchronized reusable inputs, produces reusable output
-   - Extends `PairsProvider<TIn, TResult>` which implements `IChainProvider<TOut>` and `IPairsObserver<TIn>`
-   - Generic constraint: `where TIn : IReusable`
 
 **Provider Selection Guidelines**:
 
 - Use `IQuoteProvider<IQuote>` and `QuoteProvider<TIn, TResult>` when the indicator requires multiple quote properties (e.g., OHLCV data)
 - Use `IChainProvider<IReusable>` and `ChainProvider<IReusable, TResult>` when the indicator can work with single reusable values. Heuristic: if the result type implements `IReusable` and exposes a chainable `Value` property, the hub should act as a chain provider (for example, `AdxResult : IReusable` with `Value => Adx`).
-- Use `PairsProvider<TIn, TResult>` when the indicator requires synchronized dual inputs (e.g., Correlation, Beta). PairsProvider implements both `IChainProvider<TOut>` (for output chaining) and `IPairsObserver<TIn>` (for observing paired inputs), and extends `StreamHub<TIn, TOut>`.
 
 Note: IQuote → QuotePart selectors exist but are rarely used for new indicators.
 
@@ -117,14 +110,10 @@ Use these concrete hubs and tests as canonical patterns when implementing new st
 - Complex state management:
   - `src/a-d/Adx/Adx.StreamHub.cs` — Wilder's smoothing state, comprehensive RollbackState with full warmup replay
 
-- Dual-input (pairs) hubs:
-  - `src/a-d/Correlation/Correlation.StreamHub.cs` — synchronized pairs with `PairsProvider`
-  - `src/a-d/Beta/Beta.StreamHub.cs` — regression/risk variant on pairs pattern
-
 - Quote-only provider:
   - `src/m-r/Renko/Renko.StreamHub.cs` — quote provider pattern that cannot observe chains
 
-Previously deferred indicators (Fractal, HtTrendline, Hurst, Ichimoku, Slope) are complex but not blocked. Choose the closest reference above (multi-series, multi-buffer, or pairs) and follow the member ordering, provider selection, and test coverage rules in this file.
+Previously deferred indicators (Fractal, HtTrendline, Hurst, Ichimoku, Slope) are complex but not blocked. Choose the closest reference above (multi-series, multi-buffer) and follow the member ordering, provider selection, and test coverage rules in this file.
 
 ## Canonical stream hub member order
 
@@ -241,98 +230,6 @@ public static {IndicatorName}Hub To{IndicatorName}Hub(
 
 In both cases, `{defaultValue}` is only used for parity with Series `quotes.To{IndicatorName}()` extensions and may not always be implemented.
 
-### Dual-stream hub structure (NEW)
-
-For indicators requiring synchronized pairs of inputs (e.g., Correlation, Beta), use the `PairsProvider` base class:
-
-```csharp
-/// <summary>
-/// Streaming hub for {IndicatorName} calculations between two synchronized series.
-/// </summary>
-public class {IndicatorName}Hub
-    : PairsProvider<IReusable, {IndicatorName}Result>, I{IndicatorName}
- {
-    private readonly string hubName;
-
-    internal {IndicatorName}Hub(
-        IChainProvider<IReusable> providerA,
-        IChainProvider<IReusable> providerB,
-        int lookbackPeriods) : base(providerA, providerB)
-    {
-        ArgumentNullException.ThrowIfNull(providerB);
-        {IndicatorName}.Validate(lookbackPeriods);
-
-        LookbackPeriods = lookbackPeriods;
-        hubName = $"{IndicatorUiid}({lookbackPeriods})";
-
-        Reinitialize();
-    }
-
-    /// <inheritdoc/>
-    public int LookbackPeriods { get; init; }
-
-    /// <inheritdoc/>
-    public override string ToString() => hubName;
-
-    /// <inheritdoc/>
-    protected override ({IndicatorName}Result result, int index)
-        ToIndicator(IReusable item, int? indexHint)
-    {
-        int i = indexHint ?? ProviderCache.IndexOf(item, true);
-
-        // Check if we have enough data in both caches
-        if (HasSufficientData(i, LookbackPeriods))
-        {
-            // Validate timestamps match
-            ValidateTimestampSync(i, item);
-
-            // Extract data from both caches (ProviderCache and ProviderCacheB)
-            // ... perform calculations ...
-
-            // Use existing period calculation
-            {IndicatorName}Result r = {IndicatorName}.PeriodCalculation(...);
-            return (r, i);
-        }
-        else
-        {
-            // Not enough data yet
-            {IndicatorName}Result r = new(Timestamp: item.Timestamp);
-            return (r, i);
-        }
-    }
-}
-```
-
-**Key utilities provided by `PairsProvider` base class**:
-
-- `ProviderCache` - Cache reference for first provider (from `StreamHub` base)
-- `ProviderCacheB` - Cache reference for second provider (from `PairsProvider`)
-- `HasSufficientData(index, minimumPeriods)` - Checks both caches have sufficient data
-- `ValidateTimestampSync(index, item)` - Validates timestamps match between both caches
-
-**Dual-stream extension method pattern**:
-
-```csharp
-/// <summary>
-/// Creates a {IndicatorName} hub from two synchronized chain providers.
-/// Note: Both providers must be synchronized (same timestamps).
-/// </summary>
-public static {IndicatorName}Hub To{IndicatorName}Hub(
-    this IChainProvider<IReusable> providerA,
-    IChainProvider<IReusable> providerB,
-    int lookbackPeriods)
-     => new(providerA, providerB, lookbackPeriods);
-```
-
-**Important considerations for dual-stream hubs**:
-
-1. Both input providers must be synchronized (matching timestamps)
-2. `ValidateTimestampSync()` throws `InvalidQuotesException` on mismatch
-3. `HasSufficientData()` ensures both caches have adequate data
-4. Cannot be used with observer pattern (requires architectural changes for multi-provider synchronization)
-5. Use `CorrelationHub` as reference implementation (see `src/a-d/Correlation/Correlation.StreamHub.cs`)
-6. Test class must implement `ITestPairsObserver` interface for dual-stream validation
-
 ## Testing requirements
 
 ### Test coverage expectations
@@ -361,7 +258,6 @@ Use `StreamHubTestBase` as the base for all stream hub test classes, and impleme
 | `ChainProvider<TIn, TResult>`  | `ITestChainProvider`                       | Always required for chainable indicators                                          |
 | `ChainProvider<TIn, TResult>`  | `ITestChainProvider`, `ITestChainObserver` | Most indicators support both providing and observing                              |
 | `QuoteProvider<TIn, TResult>`  | `ITestQuoteObserver`, `ITestChainProvider` | Quote providers require quote observer and chain provider tests                   |
-| `PairsProvider<TIn, TResult>`  | `ITestPairsObserver`                       | Dual-stream indicators with synchronized inputs (cannot use `ITestQuoteObserver`) |
 
 Note: `ITestChainObserver` inherits `ITestQuoteObserver`. Do not redundantly implement both on the same class.
 
@@ -384,13 +280,6 @@ public class RenkoHub : StreamHubTestBase, ITestQuoteObserver, ITestChainProvide
     /* Quote provider pattern */
 }
 
-// Dual-stream indicator
-[TestClass]
-public class CorrelationHub : StreamHubTestBase, ITestPairsObserver
-{
-    /* Dual-stream pattern */
-}
-
 ```
 
 #### ITestQuoteObserver interface
@@ -400,7 +289,6 @@ The `ITestQuoteObserver` interface is required for all indicators that support d
 **When to use:**
 
 - All indicators that can be observed directly from a quote provider (e.g., EMA, SMA, Renko, etc.)
-- Not required for dual-stream (pairs) indicators
 
 **Do not override `QuoteObserver_WithWarmupLateArrivalAndRemoval_MatchesSeriesExactly()` in the test class; implement `ITestQuoteObserver` instead.**
 
@@ -777,7 +665,6 @@ This repository provides specialized custom agents that can help with StreamHub 
 | `@streamhub-state`       | RollbackState patterns, cache replay, state management                     | Implementing stateful indicators, handling Insert/Remove mutations       |
 | `@streamhub-performance` | O(1) optimization, avoiding O(n²) anti-patterns, RollingWindow utilities   | Performance optimization, meeting ≤1.5x Series target                    |
 | `@streamhub-testing`     | Test interface selection, rollback validation, Series parity               | Writing comprehensive tests, debugging test failures                     |
-| `@streamhub-pairs`       | Dual-stream patterns, timestamp synchronization, PairsProvider             | Implementing Correlation, Beta, or other dual-input indicators           |
 
 **Usage examples:**
 
@@ -789,11 +676,9 @@ This repository provides specialized custom agents that can help with StreamHub 
 @streamhub-performance My StreamHub is 50x slower than Series. How do I optimize?
 
 @streamhub-testing Which test interfaces should I implement for a ChainProvider hub?
-
-@streamhub-pairs How do I handle timestamp synchronization for dual-stream indicators?
 ```
 
 Agent definitions are in `.github/agents/`. For general guidance about custom agents, see `AGENTS.md`.
 
 ---
-Last updated: October 31, 2025
+Last updated: December 31, 2025

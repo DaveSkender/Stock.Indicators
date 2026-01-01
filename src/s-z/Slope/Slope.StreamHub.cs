@@ -228,7 +228,7 @@ public static partial class Slope
     public static SlopeHub ToSlopeHub(
         this IChainProvider<IReusable> chainProvider,
         int lookbackPeriods = 14)
-             => new(chainProvider, lookbackPeriods);
+        => new(chainProvider, lookbackPeriods);
 
     /// <summary>
     /// Creates a Slope hub from a collection of quotes.
@@ -243,5 +243,7 @@ public static partial class Slope
         QuoteHub quoteHub = new();
         quoteHub.Add(quotes);
         return quoteHub.ToSlopeHub(lookbackPeriods);
+
+        // reminder: can't be self-ref 'quotes.ToHub' syntax
     }
 }
