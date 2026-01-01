@@ -88,7 +88,7 @@ Subscribe to a `QuoteHub` for streaming scenarios:
 QuoteHub quoteHub = new();
 AtrStopHub observer = quoteHub.ToAtrStopHub(lookbackPeriods, multiplier: 3.0, endType: EndType.Close);
 
-foreach (Quote quote in quotes)  // simulating stream
+foreach (IQuote quote in quotes)  // simulating stream
 {
   quoteHub.Add(quote);
 }

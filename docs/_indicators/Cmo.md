@@ -98,7 +98,7 @@ Subscribe to a `QuoteHub` for advanced streaming scenarios:
 QuoteHub quoteHub = new();
 CmoHub observer = quoteHub.ToCmoHub(lookbackPeriods);
 
-foreach (Quote quote in quotes)  // simulating stream
+foreach (IQuote quote in quotes)  // simulating stream  // simulating stream
 {
   quoteHub.Add(quote);
 }

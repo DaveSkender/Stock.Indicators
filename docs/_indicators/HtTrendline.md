@@ -69,7 +69,7 @@ Use the streaming hub for real-time incremental calculations:
 QuoteHub quoteHub = new();
 HtTrendlineHub observer = quoteHub.ToHtTrendlineHub();
 
-foreach (Quote quote in quotes)  // simulating stream
+foreach (IQuote quote in quotes)  // simulating stream  // simulating stream
 {
   quoteHub.Add(quote);
 }
