@@ -764,13 +764,13 @@ See `references/performance-patterns.md` for O(1) optimization techniques.
 
 | Skill | SKILL.md | references/ | Status |
 | ------- | ---------- | ------------- | -------- |
-| indicator-series | [ ] | [ ] decision-tree.md | [ ] |
-| indicator-buffer | [ ] | [ ] interface-selection.md | [ ] |
-| indicator-stream | [ ] | [ ] provider-selection.md, rollback-patterns.md, performance-patterns.md | [ ] |
-| indicator-catalog | [ ] | n/a | [ ] |
-| performance-testing | [ ] | [ ] benchmark-patterns.md | [ ] |
-| quality-gates | [ ] | n/a | [ ] |
-| testing-standards | [ ] | n/a | [ ] |
+| indicator-series | ☑️ | ☑️ decision-tree.md | ☑️ |
+| indicator-buffer | ☑️ | ☑️ interface-selection.md | ☑️ |
+| indicator-stream | ☑️ | ☑️ provider-selection.md, rollback-patterns.md, performance-patterns.md | ☑️ |
+| indicator-catalog | ☑️ | n/a | ☑️ |
+| performance-testing | ☑️ | ☑️ benchmark-patterns.md | ☑️ |
+| quality-gates | ☑️ | n/a | ☑️ |
+| testing-standards | ☑️ | n/a | ☑️ |
 
 ### Files to delete (Phase 3)
 
@@ -778,50 +778,50 @@ See `references/performance-patterns.md` for O(1) optimization techniques.
 
 | File | Migrated to skill | Deleted |
 | ------ | ------------------- | --------- |
-| dotnet.instructions.md | [ ] | [ ] |
-| indicator-series.instructions.md | [ ] | [ ] |
-| indicator-buffer.instructions.md | [ ] | [ ] |
-| indicator-stream.instructions.md | [ ] | [ ] |
-| catalog.instructions.md | [ ] | [ ] |
-| performance-testing.instructions.md | [ ] | [ ] |
-| code-completion.instructions.md | [ ] | [ ] |
+| dotnet.instructions.md | ☑️ | ☑️ |
+| indicator-series.instructions.md | ☑️ | ☑️ |
+| indicator-buffer.instructions.md | ☑️ | ☑️ |
+| indicator-stream.instructions.md | ☑️ | ☑️ |
+| catalog.instructions.md | ☑️ | ☑️ |
+| performance-testing.instructions.md | ☑️ | ☑️ |
+| code-completion.instructions.md | ☑️ | ☑️ |
 
 **Agent profiles** (8 files in `.github/agents/`):
 
 | File | Content migrated | Deleted |
 | ------ | ------------------ | --------- |
-| indicator-series.agent.md | [ ] | [ ] |
-| indicator-buffer.agent.md | [ ] | [ ] |
-| indicator-stream.agent.md | [ ] | [ ] |
-| performance.agent.md | [ ] | [ ] |
-| streamhub-pairs.agent.md | [ ] | [ ] |
-| streamhub-performance.agent.md | [ ] | [ ] |
-| streamhub-state.agent.md | [ ] | [ ] |
-| streamhub-testing.agent.md | [ ] | [ ] |
+| indicator-series.agent.md | ☑️ | ☑️ |
+| indicator-buffer.agent.md | ☑️ | ☑️ |
+| indicator-stream.agent.md | ☑️ | ☑️ |
+| performance.agent.md | ☑️ | ☑️ |
+| streamhub-pairs.agent.md | ☑️ | ☑️ |
+| streamhub-performance.agent.md | ☑️ | ☑️ |
+| streamhub-state.agent.md | ☑️ | ☑️ |
+| streamhub-testing.agent.md | ☑️ | ☑️ |
 
 **Docs checklists** (2 files in `docs/checklists/`):
 
 | File | Content migrated | Deleted |
 | ------ | ------------------ | --------- |
-| buffer-list-tests.md | [ ] | [ ] |
-| stream-hub-tests.md | [ ] | [ ] |
+| buffer-list-tests.md | ☑️ | ☑️ |
+| stream-hub-tests.md | ☑️ | ☑️ |
 
 **Reference updates** (files with dangling links after deletion):
 
 | File | Updated |
 | ------ | --------- |
-| src/_common/README.md | [ ] |
-| docs/contributing.md | [ ] |
+| src/_common/README.md | ☑️ |
+| docs/contributing.md | ☑️ |
 
 ### Final validation (Phase 4)
 
 | Check | Command | Status |
 | ------- | --------- | -------- |
-| Build | `dotnet build -v minimal` | [ ] |
-| Tests | `dotnet test --settings tests/tests.unit.runsettings` | [ ] |
-| Markdown | `npx markdownlint-cli2` | [ ] |
-| Skills indexed | Refresh VS Code, wait 5-10 min | [ ] |
-| AGENTS.md recognized | Test in Copilot Chat | [ ] |
+| Build | `dotnet build -v minimal` | ☑️ |
+| Tests | `dotnet test --settings tests/tests.unit.runsettings` | ☑️ |
+| Markdown | `npx markdownlint-cli2` | ☑️ |
+| Skills indexed | Refresh VS Code, wait 5-10 min | ☑️ |
+| AGENTS.md recognized | Test in Copilot Chat | ☑️ |
 
 ---
 
