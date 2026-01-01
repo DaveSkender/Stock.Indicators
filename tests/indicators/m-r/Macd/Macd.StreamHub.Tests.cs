@@ -23,6 +23,7 @@ public class MacdHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
         // test string output
         observer.ToString().Should().Be("MACD(12,26,9)");
 
+        // cleanup
         observer.Unsubscribe();
         quoteHub.EndTransmission();
     }
@@ -78,6 +79,7 @@ public class MacdHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
         actuals.Should().HaveCount(quotesCount - 1);
         actuals.IsExactly(expected);
 
+        // cleanup
         observer.Unsubscribe();
         quoteHub.EndTransmission();
     }
@@ -122,6 +124,7 @@ public class MacdHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
         streamList.Should().HaveCount(length);
         streamList.IsExactly(seriesList);
 
+        // cleanup
         observer.Unsubscribe();
         quoteHub.EndTransmission();
     }
@@ -168,6 +171,7 @@ public class MacdHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
         sut.Should().HaveCount(quotesCount - 1);
         sut.IsExactly(expected);
 
+        // cleanup
         observer.Unsubscribe();
         quoteHub.EndTransmission();
         quoteProvider.EndTransmission();
@@ -211,6 +215,7 @@ public class MacdHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
         streamResult.FastEma.Should().Be(seriesResult.FastEma);
         streamResult.SlowEma.Should().Be(seriesResult.SlowEma);
 
+        // cleanup
         observer.Unsubscribe();
         quoteHub.EndTransmission();
     }
@@ -244,6 +249,7 @@ public class MacdHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
 
         streamResults.IsExactly(seriesResults);
 
+        // cleanup
         observer.Unsubscribe();
         quoteHub.EndTransmission();
     }

@@ -55,6 +55,7 @@ public class KamaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
         actuals.Should().HaveCount(quotesCount - 1);
         actuals.IsExactly(expected);
 
+        // cleanup
         observer.Unsubscribe();
         quoteHub.EndTransmission();
     }
@@ -99,6 +100,7 @@ public class KamaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
         streamList.Should().HaveCount(length);
         streamList.IsExactly(seriesList);
 
+        // cleanup
         observer.Unsubscribe();
         quoteHub.EndTransmission();
     }
@@ -162,6 +164,7 @@ public class KamaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPro
         streamList.Should().HaveCount(length - 1);
         streamList.IsExactly(seriesList);
 
+        // cleanup
         observer.Unsubscribe();
         quoteHub.EndTransmission();
     }

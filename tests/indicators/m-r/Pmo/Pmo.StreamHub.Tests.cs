@@ -18,6 +18,7 @@ public class PmoHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
         // test string output
         observer.ToString().Should().Be("PMO(35,20,10)");
 
+        // cleanup
         observer.Unsubscribe();
         quoteHub.EndTransmission();
     }
@@ -74,6 +75,7 @@ public class PmoHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
         actuals.Should().HaveCount(quotesCount - 1);
         actuals.IsExactly(expected);
 
+        // cleanup
         observer.Unsubscribe();
         quoteHub.EndTransmission();
     }
@@ -118,6 +120,7 @@ public class PmoHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
         streamList.Should().HaveCount(length);
         streamList.IsExactly(seriesList);
 
+        // cleanup
         observer.Unsubscribe();
         quoteHub.EndTransmission();
     }
@@ -166,6 +169,7 @@ public class PmoHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
         sut.Should().HaveCount(quotesCount - 1);
         sut.IsExactly(expected);
 
+        // cleanup
         observer.Unsubscribe();
         quoteHub.Unsubscribe();
         quoteProvider.EndTransmission();

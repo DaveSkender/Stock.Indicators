@@ -44,6 +44,7 @@ public class AdlHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProv
         sut.IsExactly(expectedRevised);
         sut.Should().HaveCount(quotesCount - 1);
 
+        // cleanup
         observer.Unsubscribe();
         quoteHub.EndTransmission();
     }
@@ -88,6 +89,7 @@ public class AdlHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainProv
         sut.Should().HaveCount(quotesCount - 1);
         sut.IsExactly(expected);
 
+        // cleanup
         observer.Unsubscribe();
         quoteHub.EndTransmission();
     }

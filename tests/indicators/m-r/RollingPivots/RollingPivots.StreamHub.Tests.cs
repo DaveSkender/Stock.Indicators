@@ -54,6 +54,7 @@ public class RollingPivots : StreamHubTestBase, ITestQuoteObserver
         actuals.Should().HaveCount(quotesCount - 1);
         actuals.IsExactly(expected);
 
+        // cleanup
         observer.Unsubscribe();
         quoteHub.EndTransmission();
     }

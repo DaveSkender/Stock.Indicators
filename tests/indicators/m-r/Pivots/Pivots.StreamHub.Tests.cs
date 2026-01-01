@@ -58,6 +58,7 @@ public class PivotsHubTests : StreamHubTestBase, ITestQuoteObserver
         actuals.Should().HaveCount(quotesCount - 1);
         actuals.IsExactly(expected);
 
+        // cleanup
         observer.Unsubscribe();
         quoteHub.EndTransmission();
     }
@@ -93,6 +94,7 @@ public class PivotsHubTests : StreamHubTestBase, ITestQuoteObserver
         streamList.Should().HaveCount(Quotes.Count);
         streamList.IsExactly(seriesList);
 
+        // cleanup
         observer.Unsubscribe();
         quoteHub.EndTransmission();
     }
@@ -128,6 +130,7 @@ public class PivotsHubTests : StreamHubTestBase, ITestQuoteObserver
         streamList.Should().HaveCount(Quotes.Count);
         streamList.IsExactly(seriesList);
 
+        // cleanup
         observer.Unsubscribe();
         quoteHub.EndTransmission();
     }
