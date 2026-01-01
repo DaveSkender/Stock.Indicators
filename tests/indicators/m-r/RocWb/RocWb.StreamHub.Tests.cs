@@ -140,12 +140,7 @@ public class RocWbHubTests : StreamHubTestBase, ITestChainObserver, ITestChainPr
     [TestMethod]
     public override void ToStringOverride_ReturnsExpectedName()
     {
-        QuoteHub quoteHub = new();
-        RocWbHub observer = quoteHub.ToRocWbHub(lookbackPeriods, emaPeriods, stdDevPeriods);
-
-        observer.ToString().Should().Be($"ROCWB({lookbackPeriods},{emaPeriods},{stdDevPeriods})");
-
-        observer.Unsubscribe();
-        quoteHub.EndTransmission();
+        RocWbHub hub = new(new QuoteHub(), lookbackPeriods, emaPeriods, stdDevPeriods);
+        hub.ToString().Should().Be($"ROCWB({lookbackPeriods},{emaPeriods},{stdDevPeriods})");
     }
 }
