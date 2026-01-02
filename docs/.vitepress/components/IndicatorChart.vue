@@ -205,7 +205,7 @@ function createOverlayChart(container: HTMLDivElement, height: number): IChartAp
     },
     grid: {
       vertLines: { visible: false },
-      horzLines: { color: theme.gridColor, style: 1, visible: true }
+      horzLines: { color: theme.gridColor, style: LineStyle.Dotted, visible: true }
     },
     crosshair: {
       mode: CrosshairMode.Normal,
@@ -250,7 +250,7 @@ function createOscillatorChart(container: HTMLDivElement, height: number): IChar
     },
     grid: {
       vertLines: { visible: false },
-      horzLines: { color: theme.gridColor, style: 1, visible: true }
+      horzLines: { color: theme.gridColor, style: LineStyle.Dotted, visible: true }
     },
     crosshair: {
       mode: CrosshairMode.Normal,
@@ -260,7 +260,7 @@ function createOscillatorChart(container: HTMLDivElement, height: number): IChar
     rightPriceScale: {
       visible: true,
       borderVisible: false,
-      scaleMargins: { top: 0.1, bottom: 0.1 },
+      scaleMargins: { top: 0.05, bottom: 0.05 },
       autoScale: true,
       minimumWidth: PRICE_SCALE_WIDTH
     },
@@ -484,45 +484,59 @@ async function initChart() {
   if (isOscillatorType && oscillatorChartContainer.value && oscillatorChartContainer.value.clientWidth > 0) {
     oscillatorChart = createOscillatorChart(oscillatorChartContainer.value, oscillatorHeight.value)
 
-    // Add threshold zone fills first (behind everything)
-    if (data.metadata?.thresholds) {
-      for (const threshold of data.metadata.thresholds) {
-        // Add zone fill if specified
+    // Store thresholds info for later use with indicator data
+    const thresholds = data.metadata?.thresholds || []
+
+    // Add threshold lines first (behind indicator data)
+    for (const threshold of thresholds) {
+      // Add threshold line
+      const series = oscillatorChart.addSeries(LineSeries, {
+        color: threshold.color,
+        lineWidth: 1,
+        lineStyle: threshold.style === 'dash' ? LineStyle.Dashed : LineStyle.Solid,
+        priceLineVisible: false,
+        lastValueVisible: false,
+        crosshairMarkerVisible: false
+      })
+
+      // Create horizontal line across all candle timestamps
+      const thresholdData = data.candles.map(c => ({
+        time: parseTimestamp(c.timestamp),
+        value: threshold.value
+      }))
+      series.setData(thresholdData)
+    }
+
+    // Add threshold zone fills using baseline series with indicator data
+    // This creates colored fills when indicator exceeds threshold values
+    if (data.series.length > 0) {
+      const indicatorData = data.series[0].data
+        .filter(d => d.value !== null && d.value !== undefined && !isNaN(d.value))
+        .map(d => ({
+          time: parseTimestamp(d.timestamp),
+          value: d.value as number
+        }))
+
+      // Create fills for each threshold using BaselineSeries
+      for (const threshold of thresholds) {
         if (threshold.fill && threshold.fillColor) {
-          const fillSeries = oscillatorChart.addSeries(AreaSeries, {
+          const baselineSeries = oscillatorChart.addSeries(BaselineSeries, {
+            baseValue: { type: 'price', price: threshold.value },
+            // For 'above' fill: show fill above threshold (top fill), hide below
+            // For 'below' fill: show fill below threshold (bottom fill), hide above
+            topLineColor: 'transparent',
+            topFillColor1: threshold.fill === 'above' ? threshold.fillColor : 'transparent',
+            topFillColor2: threshold.fill === 'above' ? threshold.fillColor : 'transparent',
+            bottomLineColor: 'transparent',
+            bottomFillColor1: threshold.fill === 'below' ? threshold.fillColor : 'transparent',
+            bottomFillColor2: threshold.fill === 'below' ? threshold.fillColor : 'transparent',
             lineWidth: 0,
-            lineColor: 'transparent',
-            topColor: threshold.fill === 'above' ? threshold.fillColor : 'transparent',
-            bottomColor: threshold.fill === 'below' ? threshold.fillColor : 'transparent',
             priceLineVisible: false,
             lastValueVisible: false,
             crosshairMarkerVisible: false
           })
-
-          // Create horizontal line at threshold value
-          const fillData = data.candles.map(c => ({
-            time: parseTimestamp(c.timestamp),
-            value: threshold.value
-          }))
-          fillSeries.setData(fillData)
+          baselineSeries.setData(indicatorData)
         }
-
-        // Add threshold line
-        const series = oscillatorChart.addSeries(LineSeries, {
-          color: threshold.color,
-          lineWidth: 1,
-          lineStyle: threshold.style === 'dash' ? LineStyle.Dashed : LineStyle.Solid,
-          priceLineVisible: false,
-          lastValueVisible: false,
-          crosshairMarkerVisible: false
-        })
-
-        // Create horizontal line across all candle timestamps
-        const thresholdData = data.candles.map(c => ({
-          time: parseTimestamp(c.timestamp),
-          value: threshold.value
-        }))
-        series.setData(thresholdData)
       }
     }
 
