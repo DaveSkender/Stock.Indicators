@@ -1,6 +1,6 @@
-# Stock Indicators for .NET
+# Stock Indicators for .NET v2
 
-This is **Stock Indicators for .NET** - a comprehensive C# library providing 200+ technical analysis indicators for financial data analysis. The library focuses on performance, accuracy, and ease of use for .NET developers working with financial data.
+This repository hosts **Stock Indicators for .NET**, the production source for the <a href="https://www.nuget.org/packages/Skender.Stock.Indicators">Skender.Stock.Indicators</a> NuGet package. The library offers financial market technical analysis indicators with a focus on accuracy, performance, and ergonomics for financial analytics.
 
 ## Project structure
 
@@ -84,5 +84,20 @@ Do NOT use MCP tools for:
 - Markdown linting (use `markdownlint-cli2`)
 - Running local build tests (use `dotnet build` and `dotnet test`)
 
+## Pull request guidelines
+
+- PR titles must follow <a href="https://www.conventionalcommits.org">Conventional Commits</a> format: `type: Subject` (subject starts uppercase, ≤ 65 characters).
+- Supported types: feat, fix, docs, style, refactor, perf, test, build, ci, chore, revert, plan.
+- Link or reference the governing spec/task thread when applicable.
+- Ensure `dotnet test --no-restore` passes and the docs site builds when content changes.
+- Provide before/after validation notes or benchmarks when touching performance-critical code.
+
+Examples:
+
+- `feat: Add RSI indicator`
+- `fix: Resolve MACD calculation error`
+- `plan: Define streaming indicators approach`
+- `docs: Update API documentation`
+
 ---
-Last updated: December 30, 2025
+Last updated: January 2, 2025
