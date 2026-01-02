@@ -10,7 +10,9 @@ public class RenkoAtrTests : RegressionTestBase<RenkoResult>
 
     [TestMethod]
     public override void Buffer() => Assert.Inconclusive("Test not yet implemented");
+    // TODO: BufferList implementation not available for RenkoAtr
 
     [TestMethod]
     public override void Stream() => Assert.Inconclusive("Test not yet implemented");
+    // TODO: StreamHub implementation not available for RenkoAtr
 }
