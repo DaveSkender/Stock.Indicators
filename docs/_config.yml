@@ -44,25 +44,27 @@ plugins:
   - jekyll-minifier
 
 exclude:
-  [
-    "*.cs",
-    "*.csproj",
-    "*.lock",
-    "*.yml",
-    "*.pptx",
-    "*.sln",
-    ".offline",
-    "docs/README.md",
-    "examples/Backtest",
-    "examples/ConsoleApp",
-    "Gemfile",
-    "node_modules",
-    "vendor",
-    ".devcontainer"
-  ]
+  - ".offline"
+  - ".vitepress"
+  - "**/bin/*"
+  - "**/obj/*"
+  - "examples/Backtest/"
+  - "examples/ConsoleApp/"
+  - "node_modules"
+  - "vendor"
+  - "*.cs"
+  - "*.csproj"
+  - "*.json*"
+  - "*.lock"
+  - "*.yml"
+  - "*.pptx"
+  - "*.sln"
+  - "AGENTS.md"
+  - "README.md"
+  - "Gemfile"
 
 include:
-  - _headers
+  - "_headers"
 
 permalink: pretty
 
