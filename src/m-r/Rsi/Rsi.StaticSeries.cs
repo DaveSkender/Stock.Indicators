@@ -25,13 +25,13 @@ public static partial class Rsi
         double avgGain = double.NaN;
         double avgLoss = double.NaN;
 
-        List<RsiResult> results = new(length);
+        RsiResult[] results = new RsiResult[length];
         double[] gain = new double[length]; // gain
         double[] loss = new double[length]; // loss
 
         if (length == 0)
         {
-            return results;
+            return new List<RsiResult>(results);
         }
 
         double prevValue = source[0].Value;
@@ -91,13 +91,11 @@ public static partial class Rsi
                 }
             }
 
-            RsiResult r = new(
+            results[i] = new RsiResult(
                 Timestamp: s.Timestamp,
                 Rsi: rsi);
-
-            results.Add(r);
         }
 
-        return results;
+        return new List<RsiResult>(results);
     }
 }
