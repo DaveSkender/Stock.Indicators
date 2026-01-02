@@ -18,7 +18,7 @@ public static partial class HeikinAshi
 
         // initialize
         int length = quotes.Count;
-        List<HeikinAshiResult> results = new(length);
+        HeikinAshiResult[] results = new HeikinAshiResult[length];
 
         decimal prevOpen = decimal.MinValue;
         decimal prevClose = decimal.MinValue;
@@ -49,19 +49,19 @@ public static partial class HeikinAshi
             decimal[] arrL = [q.Low, open, close];
             decimal low = arrL.Min();
 
-            results.Add(new HeikinAshiResult(
+            results[i] = new HeikinAshiResult(
                 Timestamp: q.Timestamp,
                 Open: open,
                 High: high,
                 Low: low,
                 Close: close,
-                Volume: q.Volume));
+                Volume: q.Volume);
 
             // save for next iteration
             prevOpen = open;
             prevClose = close;
         }
 
-        return results;
+        return new List<HeikinAshiResult>(results);
     }
 }
