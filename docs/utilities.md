@@ -61,7 +61,8 @@ IReadOnlyList<Quote> dayBarQuotes =
 - `PeriodSize.TwoMinutes`
 - `PeriodSize.OneMinute`
 
-> &#128681; **Warning**: Partially populated period windows at the beginning, end, and market open/close points in `quotes` can be misleading when aggregated. For example, if you are aggregating intraday minute bars into 15 minute bars and there is a single 4:00pm minute bar at the end, the resulting 4:00pm 15-minute bar will only have one minute of data in it whereas the previous 3:45pm bar will have all 15 minutes of bars aggregated (3:45-3:59pm).
+> [!WARNING]
+> &#128681; Partially populated period windows at the beginning, end, and market open/close points in `quotes` can be misleading when aggregated. For example, if you are aggregating intraday minute bars into 15 minute bars and there is a single 4:00pm minute bar at the end, the resulting 4:00pm 15-minute bar will only have one minute of data in it whereas the previous 3:45pm bar will have all 15 minutes of bars aggregated (3:45-3:59pm).
 
 ### Extended candle properties
 
