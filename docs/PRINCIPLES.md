@@ -97,7 +97,7 @@ Source: [Discussion #648](https://github.com/DaveSkender/Stock.Indicators/discus
 - Performance changes: benchmark delta summary (mean, alloc)
 - Streaming indicators: prove batch vs streaming parity in tests
 
-Quality gates are enforced via `.github/skills/quality-gates/SKILL.md` - agents execute all gates before yielding.
+Quality gates are enforced via `.github/skills/code-completion/SKILL.md` - agents execute all gates before yielding.
 
 ## Governance
 
