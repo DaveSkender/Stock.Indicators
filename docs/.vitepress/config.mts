@@ -403,6 +403,8 @@ export default defineConfig({
     '.pa11yci',
     '.offline/**',
     '_headers',
-    'README.md'
+    'README.md',
+    'AGENTS.md',
+    'PRINCIPLES.md'
    ]
 })
