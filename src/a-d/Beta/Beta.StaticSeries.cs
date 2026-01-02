@@ -108,7 +108,7 @@ public static partial class Beta
                 convexity = (betaUp - betaDown) * (betaUp - betaDown);
             }
 
-            results[i] = 
+            results[i] =
             new(Timestamp: eval.Timestamp,
                 Beta: beta,
                 BetaUp: betaUp,

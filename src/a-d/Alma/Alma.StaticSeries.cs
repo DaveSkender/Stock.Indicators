@@ -62,7 +62,7 @@ public static partial class Alma
                 alma = weightedSum / norm;
             }
 
-            results[i] = 
+            results[i] =
             new(Timestamp: source[i].Timestamp,
                 Alma: alma.NaN2Null());
         }
