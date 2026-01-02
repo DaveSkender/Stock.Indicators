@@ -131,9 +131,9 @@ const INDICATOR_CONFIG = {
     displayName: 'Cci',
     chartType: 'oscillator',
     thresholds: [
-      { value: 100, color: ChartColors.ThresholdRed, style: 'dash' },
+      { value: 100, color: ChartColors.ThresholdRed, style: 'dash', fill: 'above', fillColor: ChartColors.ThresholdRedTransparent },
       { value: 0, color: ChartColors.DarkGrayTransparent, style: 'dash' },
-      { value: -100, color: ChartColors.ThresholdGreen, style: 'dash' }
+      { value: -100, color: ChartColors.ThresholdGreen, style: 'dash', fill: 'below', fillColor: ChartColors.ThresholdGreenTransparent }
     ],
     fields: [{ name: 'CCI', jsonKey: 'cci', type: 'line', color: ChartColors.StandardBlue }]
   },
@@ -184,8 +184,8 @@ const INDICATOR_CONFIG = {
     displayName: 'ConnorsRsi',
     chartType: 'oscillator',
     thresholds: [
-      { value: 90, color: ChartColors.ThresholdRed, style: 'dash' },
-      { value: 10, color: ChartColors.ThresholdGreen, style: 'dash' }
+      { value: 90, color: ChartColors.ThresholdRed, style: 'dash', fill: 'above', fillColor: ChartColors.ThresholdRedTransparent },
+      { value: 10, color: ChartColors.ThresholdGreen, style: 'dash', fill: 'below', fillColor: ChartColors.ThresholdGreenTransparent }
     ],
     fields: [{ name: 'CRSI', jsonKey: 'connorsRsi', type: 'line', color: ChartColors.StandardBlue }]
   },

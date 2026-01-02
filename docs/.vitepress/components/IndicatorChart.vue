@@ -196,6 +196,7 @@ function createOverlayChart(container: HTMLDivElement, height: number): IChartAp
   return createChart(container, {
     width: container.clientWidth,
     height: height,
+    autoSize: false,
     layout: {
       background: { color: theme.bgColor },
       textColor: theme.textColor,
@@ -222,7 +223,7 @@ function createOverlayChart(container: HTMLDivElement, height: number): IChartAp
     localization: {
       priceFormatter: (price: number) => `$${Math.round(price)}`
     },
-    leftPriceScale: { visible: false },
+    leftPriceScale: { visible: false, borderVisible: false },
     timeScale: {
       visible: false,
       borderVisible: false,
@@ -241,6 +242,7 @@ function createOscillatorChart(container: HTMLDivElement, height: number): IChar
   return createChart(container, {
     width: container.clientWidth,
     height: height,
+    autoSize: false,
     layout: {
       background: { color: theme.bgColor },
       textColor: theme.textColor,
@@ -260,7 +262,7 @@ function createOscillatorChart(container: HTMLDivElement, height: number): IChar
     rightPriceScale: {
       visible: true,
       borderVisible: false,
-      scaleMargins: { top: 0.05, bottom: 0.05 },
+      scaleMargins: { top: 0.10, bottom: 0.10 },
       autoScale: true,
       minimumWidth: PRICE_SCALE_WIDTH
     },
@@ -279,7 +281,7 @@ function createOscillatorChart(container: HTMLDivElement, height: number): IChar
         }
       }
     },
-    leftPriceScale: { visible: false },
+    leftPriceScale: { visible: false, borderVisible: false },
     timeScale: {
       visible: false,
       borderVisible: false,

@@ -398,6 +398,7 @@ export default defineConfig({
     'pages/**',
     '_indicators/**',
     'examples/**',
+    'plans/**',
     'Gemfile*',
     '.pa11yci',
     '.offline/**',
