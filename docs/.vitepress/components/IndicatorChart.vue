@@ -28,6 +28,8 @@ interface ThresholdLine {
   value: number
   color: string
   style?: 'solid' | 'dash'
+  fill?: 'above' | 'below'  // Fill area above or below the threshold
+  fillColor?: string
 }
 
 interface SeriesStyle {
@@ -482,9 +484,30 @@ async function initChart() {
   if (isOscillatorType && oscillatorChartContainer.value && oscillatorChartContainer.value.clientWidth > 0) {
     oscillatorChart = createOscillatorChart(oscillatorChartContainer.value, oscillatorHeight.value)
 
-    // Add threshold lines first (behind the indicator)
+    // Add threshold zone fills first (behind everything)
     if (data.metadata?.thresholds) {
       for (const threshold of data.metadata.thresholds) {
+        // Add zone fill if specified
+        if (threshold.fill && threshold.fillColor) {
+          const fillSeries = oscillatorChart.addSeries(AreaSeries, {
+            lineWidth: 0,
+            lineColor: 'transparent',
+            topColor: threshold.fill === 'above' ? threshold.fillColor : 'transparent',
+            bottomColor: threshold.fill === 'below' ? threshold.fillColor : 'transparent',
+            priceLineVisible: false,
+            lastValueVisible: false,
+            crosshairMarkerVisible: false
+          })
+
+          // Create horizontal line at threshold value
+          const fillData = data.candles.map(c => ({
+            time: parseTimestamp(c.timestamp),
+            value: threshold.value
+          }))
+          fillSeries.setData(fillData)
+        }
+
+        // Add threshold line
         const series = oscillatorChart.addSeries(LineSeries, {
           color: threshold.color,
           lineWidth: 1,

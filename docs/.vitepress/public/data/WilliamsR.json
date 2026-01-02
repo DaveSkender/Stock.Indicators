@@ -8,12 +8,16 @@
       {
         "value": -20,
         "color": "#B71C1C70",
-        "style": "dash"
+        "style": "dash",
+        "fill": "above",
+        "fillColor": "#B71C1C20"
       },
       {
         "value": -80,
         "color": "#1B5E2070",
-        "style": "dash"
+        "style": "dash",
+        "fill": "below",
+        "fillColor": "#1B5E2020"
       }
     ]
   },

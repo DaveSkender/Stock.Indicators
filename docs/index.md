@@ -7,9 +7,6 @@ hero:
   name: Stock Indicators
   text: for .NET
   tagline: Transform price quotes into trading insights
-  image:
-    src: /favicon.svg
-    alt: Stock Indicators Logo
   actions:
     - theme: brand
       text: Get Started

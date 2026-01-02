@@ -367,8 +367,8 @@ const INDICATOR_CONFIG = {
     displayName: 'Mfi',
     chartType: 'oscillator',
     thresholds: [
-      { value: 80, color: ChartColors.ThresholdRed, style: 'dash' },
-      { value: 20, color: ChartColors.ThresholdGreen, style: 'dash' }
+      { value: 80, color: ChartColors.ThresholdRed, style: 'dash', fill: 'above', fillColor: ChartColors.ThresholdRedTransparent },
+      { value: 20, color: ChartColors.ThresholdGreen, style: 'dash', fill: 'below', fillColor: ChartColors.ThresholdGreenTransparent }
     ],
     fields: [{ name: 'MFI', jsonKey: 'mfi', type: 'line', color: ChartColors.StandardBlue }]
   },
@@ -452,8 +452,8 @@ const INDICATOR_CONFIG = {
     displayName: 'Rsi',
     chartType: 'oscillator',
     thresholds: [
-      { value: 70, color: ChartColors.ThresholdRed, style: 'dash' },
-      { value: 30, color: ChartColors.ThresholdGreen, style: 'dash' }
+      { value: 70, color: ChartColors.ThresholdRed, style: 'dash', fill: 'above', fillColor: ChartColors.ThresholdRedTransparent },
+      { value: 30, color: ChartColors.ThresholdGreen, style: 'dash', fill: 'below', fillColor: ChartColors.ThresholdGreenTransparent }
     ],
     fields: [{ name: 'RSI', jsonKey: 'rsi', type: 'line', color: ChartColors.StandardBlue }]
   },
@@ -520,8 +520,8 @@ const INDICATOR_CONFIG = {
     displayName: 'Stoch',
     chartType: 'oscillator',
     thresholds: [
-      { value: 80, color: ChartColors.ThresholdRed, style: 'dash' },
-      { value: 20, color: ChartColors.ThresholdGreen, style: 'dash' }
+      { value: 80, color: ChartColors.ThresholdRed, style: 'dash', fill: 'above', fillColor: ChartColors.ThresholdRedTransparent },
+      { value: 20, color: ChartColors.ThresholdGreen, style: 'dash', fill: 'below', fillColor: ChartColors.ThresholdGreenTransparent }
     ],
     fields: [
       { name: '%K', jsonKey: 'k', type: 'line', color: ChartColors.StandardBlue },
@@ -532,8 +532,8 @@ const INDICATOR_CONFIG = {
     displayName: 'StochRsi',
     chartType: 'oscillator',
     thresholds: [
-      { value: 80, color: ChartColors.ThresholdRed, style: 'dash' },
-      { value: 20, color: ChartColors.ThresholdGreen, style: 'dash' }
+      { value: 80, color: ChartColors.ThresholdRed, style: 'dash', fill: 'above', fillColor: ChartColors.ThresholdRedTransparent },
+      { value: 20, color: ChartColors.ThresholdGreen, style: 'dash', fill: 'below', fillColor: ChartColors.ThresholdGreenTransparent }
     ],
     fields: [
       { name: 'StochRSI', jsonKey: 'stochRsi', type: 'line', color: ChartColors.StandardBlue },
@@ -590,8 +590,8 @@ const INDICATOR_CONFIG = {
     displayName: 'Ultimate',
     chartType: 'oscillator',
     thresholds: [
-      { value: 70, color: ChartColors.ThresholdRed, style: 'dash' },
-      { value: 30, color: ChartColors.ThresholdGreen, style: 'dash' }
+      { value: 70, color: ChartColors.ThresholdRed, style: 'dash', fill: 'above', fillColor: ChartColors.ThresholdRedTransparent },
+      { value: 30, color: ChartColors.ThresholdGreen, style: 'dash', fill: 'below', fillColor: ChartColors.ThresholdGreenTransparent }
     ],
     fields: [{ name: 'Ultimate', jsonKey: 'ultimate', type: 'line', color: ChartColors.StandardBlue }]
   },
@@ -625,8 +625,8 @@ const INDICATOR_CONFIG = {
     displayName: 'WilliamsR',
     chartType: 'oscillator',
     thresholds: [
-      { value: -20, color: ChartColors.ThresholdRed, style: 'dash' },
-      { value: -80, color: ChartColors.ThresholdGreen, style: 'dash' }
+      { value: -20, color: ChartColors.ThresholdRed, style: 'dash', fill: 'above', fillColor: ChartColors.ThresholdRedTransparent },
+      { value: -80, color: ChartColors.ThresholdGreen, style: 'dash', fill: 'below', fillColor: ChartColors.ThresholdGreenTransparent }
     ],
     fields: [{ name: 'Williams %R', jsonKey: 'williamsR', type: 'line', color: ChartColors.StandardBlue }]
   },
