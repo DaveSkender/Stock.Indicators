@@ -687,6 +687,15 @@ watch(isDark, () => {
   display: none !important;
 }
 
+/* Remove all borders from lightweight-charts internal table cells */
+.chart-container :deep(.tv-lightweight-charts),
+.chart-container :deep(.tv-lightweight-charts table),
+.chart-container :deep(.tv-lightweight-charts td),
+.chart-container :deep(.tv-lightweight-charts tr) {
+  border: none !important;
+  border-collapse: collapse !important;
+}
+
 .chart-loading,
 .chart-error {
   display: flex;
