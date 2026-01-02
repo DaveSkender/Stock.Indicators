@@ -33,7 +33,7 @@ public static partial class Bop
 
         // initialize
         int length = quotes.Count;
-        List<BopResult> results = new(length);
+        BopResult[] results = new BopResult[length];
 
         double[] raw = quotes
             .Select(static x => x.High - x.Low != 0 ?
@@ -56,11 +56,11 @@ public static partial class Bop
                 bop = sum / smoothPeriods;
             }
 
-            results.Add(new(
+            results[i] = new BopResult(
                 Timestamp: quotes[i].Timestamp,
-                Bop: bop.NaN2Null()));
+                Bop: bop.NaN2Null());
         }
 
-        return results;
+        return new List<BopResult>(results);
     }
 }

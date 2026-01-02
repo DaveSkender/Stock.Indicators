@@ -23,7 +23,7 @@ public static partial class Slope
 
         // initialize
         int length = source.Count;
-        List<SlopeResult> results = new(length);
+        SlopeResult[] results = new SlopeResult[length];
 
         // roll through source values
         for (int i = 0; i < length; i++)
@@ -33,7 +33,7 @@ public static partial class Slope
             // skip initialization period
             if (i < lookbackPeriods - 1)
             {
-                results.Add(new(s.Timestamp));
+                results[i] = new SlopeResult(s.Timestamp);
                 continue;
             }
 
@@ -85,21 +85,19 @@ public static partial class Slope
             }
 
             // write results
-            SlopeResult r = new(
+            results[i] = new SlopeResult(
                 Timestamp: s.Timestamp,
                 Slope: slope,
                 Intercept: intercept,
                 StdDev: stdDevY.NaN2Null(),
                 RSquared: rSquared,
                 Line: null); // re-written below
-
-            results.Add(r);
         }
 
         // insufficient length for last line
         if (length < lookbackPeriods)
         {
-            return results;
+            return new List<SlopeResult>(results);
         }
 
         // add last Line (y = mx + b)
@@ -114,6 +112,6 @@ public static partial class Slope
             };
         }
 
-        return results;
+        return new List<SlopeResult>(results);
     }
 }

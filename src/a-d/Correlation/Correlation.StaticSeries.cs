@@ -26,7 +26,7 @@ public static partial class Correlation
 
         // initialize
         int length = sourceA.Count;
-        List<CorrResult> results = new(length);
+        CorrResult[] results = new CorrResult[length];
 
         // roll through source values
         for (int i = 0; i < length; i++)
@@ -66,10 +66,10 @@ public static partial class Correlation
                 r = new(Timestamp: a.Timestamp);
             }
 
-            results.Add(r);
+            results[i] = r;
         }
 
-        return results;
+        return new List<CorrResult>(results);
     }
 
     /// <summary>
