@@ -43,11 +43,11 @@ public static partial class VolatilityStop
 
         // initialize
         int length = quotes.Count;
-        List<VolatilityStopResult> results = new(length);
+        VolatilityStopResult[] results = new VolatilityStopResult[length];
 
         if (length == 0)
         {
-            return results;
+            return new List<VolatilityStopResult>(results);
         }
 
         List<AtrResult> atrList = quotes.CalcAtr(lookbackPeriods);
@@ -61,7 +61,7 @@ public static partial class VolatilityStop
         {
             IReusable init = reList[i];
             sic = isLong ? Math.Max(sic, init.Value) : Math.Min(sic, init.Value);
-            results.Add(new(init.Timestamp));
+            results[i] = new VolatilityStopResult(init.Timestamp);
         }
 
         // roll through source values
@@ -107,16 +107,16 @@ public static partial class VolatilityStop
                 sic = isLong ? Math.Max(sic, s.Value) : Math.Min(sic, s.Value);
             }
 
-            results.Add(new VolatilityStopResult(
+            results[i] = new VolatilityStopResult(
                 Timestamp: s.Timestamp,
                 Sar: sar,
                 IsStop: isStop,
                 UpperBand: upperBand,
-                LowerBand: lowerBand));
+                LowerBand: lowerBand);
         }
 
         // remove trend to first stop, since it is a guess
-        int cutIndex = results.FindIndex(static x => x.IsStop ?? false);
+        int cutIndex = Array.FindIndex(results, static x => x.IsStop ?? false);
 
         for (int d = 0; d <= cutIndex; d++)
         {
@@ -130,6 +130,6 @@ public static partial class VolatilityStop
             };
         }
 
-        return results;
+        return new List<VolatilityStopResult>(results);
     }
 }
