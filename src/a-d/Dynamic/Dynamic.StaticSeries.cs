@@ -25,12 +25,12 @@ public static partial class MgDynamic
 
         // initialize
         int length = source.Count;
-        List<DynamicResult> results = new(length);
+        DynamicResult[] results = new DynamicResult[length];
 
         // skip first period
         if (length > 0)
         {
-            results.Add(new(source[0].Timestamp, null));
+            results[0] = new DynamicResult(source[0].Timestamp, null);
         }
 
         // roll through source values
@@ -43,11 +43,11 @@ public static partial class MgDynamic
                 prevDyn: results[i - 1].Dynamic ?? source[i - 1].Value
                 ).NaN2Null();
 
-            results.Add(new DynamicResult(
+            results[i] = new DynamicResult(
                 Timestamp: source[i].Timestamp,
-                Dynamic: dyn));
+                Dynamic: dyn);
         }
 
-        return results;
+        return new List<DynamicResult>(results);
     }
 }
