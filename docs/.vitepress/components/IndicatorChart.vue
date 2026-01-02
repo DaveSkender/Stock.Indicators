@@ -113,11 +113,14 @@ const indicatorColors = [
   ChartColors.StandardOrange
 ]
 
+// Fixed price scale width for alignment between charts
+const PRICE_SCALE_WIDTH = 55
+
 // Dark theme colors (GitHub Primer dark-dimmed)
 const darkTheme = {
   bgColor: '#22272e',
   textColor: '#768390',
-  gridColor: 'transparent',
+  gridColor: '#30363d',
   borderColor: 'transparent'
 }
 
@@ -125,7 +128,7 @@ const darkTheme = {
 const lightTheme = {
   bgColor: '#ffffff',
   textColor: '#57606a',
-  gridColor: 'transparent',
+  gridColor: '#d0d7de',
   borderColor: 'transparent'
 }
 
@@ -200,7 +203,7 @@ function createOverlayChart(container: HTMLDivElement, height: number): IChartAp
     },
     grid: {
       vertLines: { visible: false },
-      horzLines: { visible: false }
+      horzLines: { color: theme.gridColor, style: 1, visible: true }
     },
     crosshair: {
       mode: CrosshairMode.Normal,
@@ -210,8 +213,9 @@ function createOverlayChart(container: HTMLDivElement, height: number): IChartAp
     rightPriceScale: {
       visible: true,
       borderVisible: false,
-      scaleMargins: { top: 0.05, bottom: 0.15 },
-      autoScale: true
+      scaleMargins: { top: 0.05, bottom: 0.20 },
+      autoScale: true,
+      minimumWidth: PRICE_SCALE_WIDTH
     },
     localization: {
       priceFormatter: (price: number) => `$${Math.round(price)}`
@@ -224,7 +228,9 @@ function createOverlayChart(container: HTMLDivElement, height: number): IChartAp
       fixRightEdge: true
     },
     handleScroll: false,
-    handleScale: false
+    handleScale: false,
+    kineticScroll: { touch: false, mouse: false },
+    trackingMode: { exitMode: 0 }
   })
 }
 
@@ -242,7 +248,7 @@ function createOscillatorChart(container: HTMLDivElement, height: number): IChar
     },
     grid: {
       vertLines: { visible: false },
-      horzLines: { visible: false }
+      horzLines: { color: theme.gridColor, style: 1, visible: true }
     },
     crosshair: {
       mode: CrosshairMode.Normal,
@@ -253,11 +259,11 @@ function createOscillatorChart(container: HTMLDivElement, height: number): IChar
       visible: true,
       borderVisible: false,
       scaleMargins: { top: 0.1, bottom: 0.1 },
-      autoScale: true
+      autoScale: true,
+      minimumWidth: PRICE_SCALE_WIDTH
     },
     localization: {
       priceFormatter: (price: number) => {
-        // Format based on value magnitude
         if (Math.abs(price) >= 1000000) {
           return `${(price / 1000000).toFixed(1)}M`
         } else if (Math.abs(price) >= 1000) {
@@ -279,7 +285,9 @@ function createOscillatorChart(container: HTMLDivElement, height: number): IChar
       fixRightEdge: true
     },
     handleScroll: false,
-    handleScale: false
+    handleScale: false,
+    kineticScroll: { touch: false, mouse: false },
+    trackingMode: { exitMode: 0 }
   })
 }
 
@@ -310,8 +318,8 @@ function setupCandlestickSeries(chart: IChartApi, data: ChartData) {
 }
 
 function setupVolumeSeries(chart: IChartApi, data: ChartData) {
-  const upVolumeColor = 'rgba(46, 125, 50, 0.3)'
-  const downVolumeColor = 'rgba(221, 44, 0, 0.3)'
+  const upVolumeColor = 'rgba(46, 125, 50, 0.4)'
+  const downVolumeColor = 'rgba(221, 44, 0, 0.4)'
 
   volumeSeries = chart.addSeries(HistogramSeries, {
     priceFormat: { type: 'volume' },
@@ -320,9 +328,9 @@ function setupVolumeSeries(chart: IChartApi, data: ChartData) {
     lastValueVisible: false
   })
 
-  // Position volume at bottom 15% of the chart, hidden scale
+  // Position volume at bottom 20% of the chart, hidden scale
   chart.priceScale('volume').applyOptions({
-    scaleMargins: { top: 0.85, bottom: 0 },
+    scaleMargins: { top: 0.80, bottom: 0 },
     visible: false,
     autoScale: true
   })

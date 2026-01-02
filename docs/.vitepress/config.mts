@@ -177,8 +177,7 @@ export default defineConfig({
           text: 'Price trends',
           collapsed: true,
           items: [
-            { text: 'Average Directional Index', link: '/indicators/Adx' },
-            { text: 'Directional Movement Index', link: '/indicators/DirectionalMovementIndex' },
+            { text: 'Average Directional Index (ADX/DMI)', link: '/indicators/Adx' },
             { text: 'Williams Alligator', link: '/indicators/Alligator' },
             { text: 'Aroon Indicator', link: '/indicators/Aroon' },
             { text: 'ATR Trailing Stop', link: '/indicators/AtrStop' },
