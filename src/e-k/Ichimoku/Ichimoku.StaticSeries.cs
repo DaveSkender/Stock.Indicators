@@ -80,7 +80,7 @@ public static partial class Ichimoku
 
         // initialize
         int length = quotes.Count;
-        List<IchimokuResult> results = new(length);
+        IchimokuResult[] results = new IchimokuResult[length];
 
         int senkouStartPeriod = Math.Max(
             2 * senkouOffset,
@@ -127,16 +127,16 @@ public static partial class Ichimoku
                 chikouSpan = quotes[i + chikouOffset].Close;
             }
 
-            results.Add(new(
+            results[i] = new(
                 Timestamp: q.Timestamp,
                 TenkanSen: tenkanSen,
                 KijunSen: kijunSen,
                 SenkouSpanA: senkouSpanA,
                 SenkouSpanB: senkouSpanB,
-                ChikouSpan: chikouSpan));
+                ChikouSpan: chikouSpan);
         }
 
-        return results;
+        return new List<IchimokuResult>(results);
     }
 
     /// <summary>

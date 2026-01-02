@@ -20,7 +20,7 @@ public static partial class HtTrendline
 
         // initialize
         int length = values.Count;
-        List<HtlResult> results = new(length);
+        HtlResult[] results = new HtlResult[length];
 
         double[] pr = new double[length]; // price
         double[] sp = new double[length]; // smooth price
@@ -110,7 +110,7 @@ public static partial class HtTrendline
                 it[i] = dcPeriods > 0 ? sumPr / dcPeriods : pr[i];
 
                 // final indicators
-                results.Add(new(
+                results[i] = new(
 
                     Timestamp: s.Timestamp,
                     DcPeriods: dcPeriods > 0 ? dcPeriods : null,
@@ -119,17 +119,17 @@ public static partial class HtTrendline
                       ? (((4 * it[i]) + (3 * it[i - 1]) + (2 * it[i - 2]) + it[i - 3]) / 10d).NaN2Null()
                       : pr[i].NaN2Null(),
 
-                    SmoothPrice: sp[i].NaN2Null()));
+                    SmoothPrice: sp[i].NaN2Null());
             }
 
             // initialization period
             else
             {
-                results.Add(new(
+                results[i] = new(
                     Timestamp: s.Timestamp,
                     DcPeriods: null,
                     Trendline: pr[i].NaN2Null(),
-                    SmoothPrice: null));
+                    SmoothPrice: null);
 
                 pd[i] = 0;
                 sp[i] = 0;
@@ -147,6 +147,6 @@ public static partial class HtTrendline
             }
         }
 
-        return results;
+        return new List<HtlResult>(results);
     }
 }

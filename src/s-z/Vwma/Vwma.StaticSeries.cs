@@ -34,7 +34,7 @@ public static partial class Vwma
 
         // initialize
         int length = quotes.Count;
-        List<VwmaResult> results = new(length);
+        VwmaResult[] results = new VwmaResult[length];
 
         // roll through source values
         for (int i = 0; i < length; i++)
@@ -64,11 +64,11 @@ public static partial class Vwma
                 vwma = double.NaN;
             }
 
-            results.Add(new(
+            results[i] = new(
                 Timestamp: q.Timestamp,
-                Vwma: vwma.NaN2Null()));
+                Vwma: vwma.NaN2Null());
         }
 
-        return results;
+        return new List<VwmaResult>(results);
     }
 }

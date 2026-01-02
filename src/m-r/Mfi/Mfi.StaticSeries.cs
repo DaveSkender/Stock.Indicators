@@ -35,7 +35,7 @@ public static partial class Mfi
 
         // initialize
         int length = quotes.Count;
-        List<MfiResult> results = new(length);
+        MfiResult[] results = new MfiResult[length];
 
         double[] tp = new double[length];  // true price
         double[] mf = new double[length];  // raw MF value
@@ -105,13 +105,13 @@ public static partial class Mfi
                 mfi = double.NaN;
             }
 
-            results.Add(new(
+            results[i] = new(
                 Timestamp: q.Timestamp,
-                Mfi: mfi.NaN2Null()));
+                Mfi: mfi.NaN2Null());
 
             prevTp = tp[i];
         }
 
-        return results;
+        return new List<MfiResult>(results);
     }
 }

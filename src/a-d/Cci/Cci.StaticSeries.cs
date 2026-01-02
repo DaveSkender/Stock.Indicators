@@ -33,7 +33,7 @@ public static partial class Cci
 
         // initialize
         int length = quotes.Count;
-        List<CciResult> results = new(length);
+        CciResult[] results = new CciResult[length];
         double[] tp = new double[length];
 
         // roll through source values
@@ -68,11 +68,11 @@ public static partial class Cci
                     : ((tp[i] - avgTp) / (0.015 * avgDv)).NaN2Null();
             }
 
-            results.Add(new(
+            results[i] = new(
                 Timestamp: q.Timestamp,
-                Cci: cci));
+                Cci: cci);
         }
 
-        return results;
+        return new List<CciResult>(results);
     }
 }

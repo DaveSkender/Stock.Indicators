@@ -42,7 +42,7 @@ public static partial class Keltner
 
         // initialize
         int length = quotes.Count;
-        List<KeltnerResult> results = new(length);
+        KeltnerResult[] results = new KeltnerResult[length];
 
         IReadOnlyList<EmaResult> emaResults
             = quotes.ToEma(emaPeriods);
@@ -63,21 +63,21 @@ public static partial class Keltner
                 AtrResult atr = atrResults[i];
                 double? atrSpan = atr.Atr * multiplier;
 
-                results.Add(new KeltnerResult(
+                results[i] = new KeltnerResult(
                     Timestamp: q.Timestamp,
                     UpperBand: ema.Ema + atrSpan,
                     Centerline: ema.Ema,
                     LowerBand: ema.Ema - atrSpan,
                     Width: ema.Ema == 0 ? null : 2 * atrSpan / ema.Ema) {
                     Atr = atr.Atr
-                });
+                };
             }
             else
             {
-                results.Add(new(q.Timestamp));
+                results[i] = new(q.Timestamp);
             }
         }
 
-        return results;
+        return new List<KeltnerResult>(results);
     }
 }

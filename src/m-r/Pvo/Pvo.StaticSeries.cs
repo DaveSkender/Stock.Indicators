@@ -43,7 +43,7 @@ public static partial class Pvo
 
         // initialize
         int length = source.Count;
-        List<PvoResult> results = new(length);
+        PvoResult[] results = new PvoResult[length];
 
         double lastEmaFast = double.NaN;
         double lastEmaSlow = double.NaN;
@@ -118,18 +118,18 @@ public static partial class Pvo
             }
 
             // write results
-            results.Add(new(
+            results[i] = new(
                 Timestamp: s.Timestamp,
                 Pvo: pvo.NaN2Null(),
                 Signal: signal.NaN2Null(),
-                Histogram: (pvo - signal).NaN2Null()));
+                Histogram: (pvo - signal).NaN2Null());
 
             lastEmaPvo = signal;
             lastEmaFast = emaFast;
             lastEmaSlow = emaSlow;
         }
 
-        return results;
+        return new List<PvoResult>(results);
     }
 
     /* DESIGN NOTE: this is exactly like MACD, except for:

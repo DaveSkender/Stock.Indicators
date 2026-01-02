@@ -33,7 +33,7 @@ public static partial class AtrStop
 
         // initialize
         int length = quotes.Count;
-        List<AtrStopResult> results = new(length);
+        AtrStopResult[] results = new AtrStopResult[length];
         List<AtrResult> atrResults = quotes.CalcAtr(lookbackPeriods);
 
         // prevailing direction and bands
@@ -47,7 +47,7 @@ public static partial class AtrStop
             // handle warmup periods
             if (i < lookbackPeriods)
             {
-                results.Add(new(Timestamp: quotes[i].Timestamp));
+                results[i] = new(Timestamp: quotes[i].Timestamp);
                 continue;
             }
 
@@ -123,9 +123,9 @@ public static partial class AtrStop
                     Atr: atr);
             }
 
-            results.Add(r);
+            results[i] = r;
         }
 
-        return results;
+        return new List<AtrStopResult>(results);
     }
 }

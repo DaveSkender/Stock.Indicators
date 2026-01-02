@@ -37,7 +37,7 @@ public static partial class SuperTrend
 
         // initialize
         int length = quotes.Count;
-        List<SuperTrendResult> results = new(length);
+        SuperTrendResult[] results = new SuperTrendResult[length];
         List<AtrResult> atrResults = quotes.CalcAtr(lookbackPeriods);
 
         bool isBullish = true;
@@ -107,13 +107,13 @@ public static partial class SuperTrend
                 lowerOnly = null;
             }
 
-            results.Add(new(
+            results[i] = new(
                 Timestamp: q.Timestamp,
                 SuperTrend: (decimal?)superTrend,
                 UpperBand: (decimal?)upperOnly,
-                LowerBand: (decimal?)lowerOnly));
+                LowerBand: (decimal?)lowerOnly);
         }
 
-        return results;
+        return new List<SuperTrendResult>(results);
     }
 }

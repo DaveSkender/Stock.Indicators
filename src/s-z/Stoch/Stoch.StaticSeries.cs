@@ -120,7 +120,7 @@ public static partial class Stoch
 
         // initialize
         int length = quotes.Count;
-        List<StochResult> results = new(length);
+        StochResult[] results = new StochResult[length];
 
         double[] o = new double[length]; // %K oscillator (initial)
         double[] k = new double[length]; // %K oscillator (final)
@@ -285,13 +285,13 @@ public static partial class Stoch
                 signal = double.NaN;
             }
 
-            results.Add(new(
+            results[i] = new(
                 Timestamp: q.Timestamp,
                 Oscillator: oscillator.NaN2Null(),
                 Signal: signal.NaN2Null(),
-                PercentJ: ((kFactor * oscillator) - (dFactor * signal)).NaN2Null()));
+                PercentJ: ((kFactor * oscillator) - (dFactor * signal)).NaN2Null());
         }
 
-        return results;
+        return new List<StochResult>(results);
     }
 }
