@@ -33,7 +33,7 @@ public static partial class Adx
 
         // initialize
         int length = quotes.Count;
-        List<AdxResult> results = new(length);
+        AdxResult[] results = new AdxResult[length];
 
         double prevHigh = 0;
         double prevLow = 0;
@@ -60,7 +60,7 @@ public static partial class Adx
                 prevLow = q.Low;
                 prevClose = q.Close;
 
-                results.Add(new(Timestamp: q.Timestamp));
+                results[i] = new(Timestamp: q.Timestamp);
                 continue;
             }
 
@@ -89,7 +89,7 @@ public static partial class Adx
             // skip DM initialization period
             if (i < lookbackPeriods)
             {
-                results.Add(new(Timestamp: q.Timestamp));
+                results[i] = new(Timestamp: q.Timestamp);
                 continue;
             }
 
@@ -118,7 +118,7 @@ public static partial class Adx
 
             if (trs == 0)
             {
-                results.Add(new(Timestamp: q.Timestamp));
+                results[i] = new(Timestamp: q.Timestamp);
                 continue;
             }
 
@@ -177,9 +177,9 @@ public static partial class Adx
                 Adx: adx.NaN2Null(),
                 Adxr: adxr.NaN2Null());
 
-            results.Add(r);
+            results[i] = r;
         }
 
-        return results;
+        return new List<AdxResult>(results);
     }
 }

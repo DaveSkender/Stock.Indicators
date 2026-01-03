@@ -23,7 +23,7 @@ public static partial class Hurst
 
         // initialize
         int length = source.Count;
-        List<HurstResult> results = new(length);
+        HurstResult[] results = new HurstResult[length];
 
         // roll through source values
         for (int i = 0; i < length; i++)
@@ -54,12 +54,12 @@ public static partial class Hurst
                 h = CalcHurstWindow(values).NaN2Null();
             }
 
-            results.Add(new(
+            results[i] = new(
                 Timestamp: s.Timestamp,
-                HurstExponent: h));
+                HurstExponent: h);
         }
 
-        return results;
+        return new List<HurstResult>(results);
     }
 
     /// <summary>

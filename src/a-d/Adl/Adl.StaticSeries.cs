@@ -17,7 +17,7 @@ public static partial class Adl
 
         // initialize
         int length = source.Count;
-        List<AdlResult> results = new(length);
+        AdlResult[] results = new AdlResult[length];
 
         // roll through source values
         for (int i = 0; i < length; i++)
@@ -30,9 +30,9 @@ public static partial class Adl
                 source[i].Volume,
                 i > 0 ? results[i - 1].Adl : 0);
 
-            results.Add(r);
+            results[i] = r;
         }
 
-        return results;
+        return new List<AdlResult>(results);
     }
 }

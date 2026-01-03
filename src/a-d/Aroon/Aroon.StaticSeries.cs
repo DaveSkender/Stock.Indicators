@@ -33,7 +33,7 @@ public static partial class Aroon
 
         // initialize
         int length = quotes.Count;
-        List<AroonResult> results = new(length);
+        AroonResult[] results = new AroonResult[length];
 
         // roll through source values
         for (int i = 0; i < length; i++)
@@ -77,10 +77,10 @@ public static partial class Aroon
                 AroonDown: aroonDown,
                 Oscillator: aroonUp - aroonDown);
 
-            results.Add(r);
+            results[i] = r;
 
         }
 
-        return results;
+        return new List<AroonResult>(results);
     }
 }

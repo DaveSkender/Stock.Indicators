@@ -23,7 +23,7 @@ public static partial class Fcb
 
         // initialize
         int length = quotes.Count;
-        List<FcbResult> results = new(length);
+        FcbResult[] results = new FcbResult[length];
 
         IReadOnlyList<FractalResult> fractals = quotes
             .ToFractal(windowSpan, windowSpan, EndType.HighLow);
@@ -44,12 +44,12 @@ public static partial class Fcb
                 lowerLine = fp.FractalBull ?? lowerLine;
             }
 
-            results.Add(new(
+            results[i] = new(
                 Timestamp: f.Timestamp,
                 UpperBand: upperLine,
-                LowerBand: lowerLine));
+                LowerBand: lowerLine);
         }
 
-        return results;
+        return new List<FcbResult>(results);
     }
 }

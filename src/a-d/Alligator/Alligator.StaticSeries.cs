@@ -43,7 +43,7 @@ public static partial class Alligator
 
         // initialize
         int length = values.Count;
-        List<AlligatorResult> results = new(length);
+        AlligatorResult[] results = new AlligatorResult[length];
 
         // roll through source values
         for (int i = 0; i < length; i++)
@@ -125,13 +125,13 @@ public static partial class Alligator
             }
 
             // result
-            results.Add(new AlligatorResult(
+            results[i] = new AlligatorResult(
                 values[i].Timestamp,
                 jaw.NaN2Null(),
                 teeth.NaN2Null(),
-                lips.NaN2Null()));
+                lips.NaN2Null());
         }
 
-        return results;
+        return new List<AlligatorResult>(results);
     }
 }

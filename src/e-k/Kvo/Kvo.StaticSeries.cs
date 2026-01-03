@@ -42,7 +42,7 @@ public static partial class Kvo
 
         // initialize
         int length = quotes.Count;
-        List<KvoResult> results = new(length);
+        KvoResult[] results = new KvoResult[length];
 
         double[] t = new double[length];          // trend direction
         double[] hlc = new double[length];        // trend basis
@@ -73,7 +73,7 @@ public static partial class Kvo
 
             if (i <= 0)
             {
-                results.Add(new(q.Timestamp));
+                results[i] = new(q.Timestamp);
                 continue;
             }
 
@@ -83,7 +83,7 @@ public static partial class Kvo
             if (i <= 1)
             {
                 cm[i] = 0;
-                results.Add(new(q.Timestamp));
+                results[i] = new(q.Timestamp);
                 continue;
             }
 
@@ -155,12 +155,12 @@ public static partial class Kvo
                 }
             }
 
-            results.Add(new KvoResult(
+            results[i] = new KvoResult(
                 Timestamp: q.Timestamp,
                 Oscillator: kvo,
-                Signal: sig));
+                Signal: sig);
         }
 
-        return results;
+        return new List<KvoResult>(results);
     }
 }

@@ -26,7 +26,7 @@ public static partial class Obv
     {
         // initialize
         int length = quotes.Count;
-        List<ObvResult> results = new(length);
+        ObvResult[] results = new ObvResult[length];
 
         double prevClose = double.NaN;
 
@@ -35,17 +35,16 @@ public static partial class Obv
         {
             QuoteD q = quotes[i];
 
-            ObvResult r = Obv.Increment(
+            results[i] = Obv.Increment(
                 q.Timestamp,
                 q.Close,
                 q.Volume,
                 prevClose,
                 i > 0 ? results[i - 1].Obv : 0);
 
-            results.Add(r);
             prevClose = q.Close;
         }
 
-        return results;
+        return new List<ObvResult>(results);
     }
 }

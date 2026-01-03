@@ -26,7 +26,7 @@ public static partial class Awesome
 
         // initialize
         int length = values.Count;
-        List<AwesomeResult> results = new(length);
+        AwesomeResult[] results = new AwesomeResult[length];
         double[] pr = new double[length];
 
         // roll through source values
@@ -57,14 +57,12 @@ public static partial class Awesome
                 normalized = pr[i] != 0 ? 100 * oscillator / pr[i] : null;
             }
 
-            AwesomeResult r = new(
+            results[i] = new AwesomeResult(
                 Timestamp: s.Timestamp,
                 Oscillator: oscillator,
                 Normalized: normalized);
-
-            results.Add(r);
         }
 
-        return results;
+        return new List<AwesomeResult>(results);
     }
 }

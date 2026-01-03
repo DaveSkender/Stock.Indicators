@@ -37,7 +37,7 @@ public static partial class ForceIndex
 
         // initialize
         int length = quotes.Count;
-        List<ForceIndexResult> results = new(length);
+        ForceIndexResult[] results = new ForceIndexResult[length];
         double? prevFi = null;
         double? sumRawFi = 0;
         double k = 2d / (lookbackPeriods + 1);
@@ -45,7 +45,7 @@ public static partial class ForceIndex
         // skip first period
         if (length > 0)
         {
-            results.Add(new(quotes[0].Timestamp));
+            results[0] = new ForceIndexResult(quotes[0].Timestamp);
         }
 
         // roll through source values
@@ -78,13 +78,13 @@ public static partial class ForceIndex
                 sumRawFi += rawFi;
             }
 
-            results.Add(new ForceIndexResult(
+            results[i] = new ForceIndexResult(
                 Timestamp: q.Timestamp,
-                ForceIndex: fi));
+                ForceIndex: fi);
 
             prevFi = fi;
         }
 
-        return results;
+        return new List<ForceIndexResult>(results);
     }
 }

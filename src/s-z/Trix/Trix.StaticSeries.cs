@@ -22,7 +22,7 @@ public static partial class Trix
 
         // initialize
         int length = source.Count;
-        List<TrixResult> results = new(length);
+        TrixResult[] results = new TrixResult[length];
 
         double k = 2d / (lookbackPeriods + 1);
         double lastEma1 = double.NaN;
@@ -37,7 +37,7 @@ public static partial class Trix
             // skip incalculable periods
             if (i < lookbackPeriods - 1)
             {
-                results.Add(new(s.Timestamp));
+                results[i] = new(s.Timestamp);
                 continue;
             }
 
@@ -57,7 +57,7 @@ public static partial class Trix
 
                 ema1 = ema2 = ema3 = sum / lookbackPeriods;
 
-                results.Add(new(s.Timestamp));
+                results[i] = new(s.Timestamp);
             }
 
             // normal TRIX
@@ -69,10 +69,10 @@ public static partial class Trix
 
                 double trix = 100 * (ema3 - lastEma3) / lastEma3;
 
-                results.Add(new TrixResult(
+                results[i] = new TrixResult(
                     Timestamp: s.Timestamp,
                     Ema3: ema3.NaN2Null(),
-                    Trix: trix.NaN2Null()));
+                    Trix: trix.NaN2Null());
             }
 
             lastEma1 = ema1;
@@ -80,6 +80,6 @@ public static partial class Trix
             lastEma3 = ema3;
         }
 
-        return results;
+        return new List<TrixResult>(results);
     }
 }

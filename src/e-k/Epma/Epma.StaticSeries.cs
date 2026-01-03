@@ -23,7 +23,7 @@ public static partial class Epma
 
         // initialize
         int length = source.Count;
-        List<EpmaResult> results = new(length);
+        EpmaResult[] results = new EpmaResult[length];
 
         IReadOnlyList<SlopeResult> slope
             = source.ToSlope(lookbackPeriods);
@@ -31,11 +31,11 @@ public static partial class Epma
         // roll through source values
         for (int i = 0; i < length; i++)
         {
-            results.Add(new EpmaResult(
+            results[i] = new EpmaResult(
                 Timestamp: slope[i].Timestamp,
-                Epma: ((slope[i].Slope * (i + 1)) + slope[i].Intercept).NaN2Null()));
+                Epma: ((slope[i].Slope * (i + 1)) + slope[i].Intercept).NaN2Null());
         }
 
-        return results;
+        return new List<EpmaResult>(results);
     }
 }

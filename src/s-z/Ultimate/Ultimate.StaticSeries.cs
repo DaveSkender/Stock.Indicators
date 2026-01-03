@@ -42,7 +42,7 @@ public static partial class Ultimate
 
         // initialize
         int length = quotes.Count;
-        List<UltimateResult> results = new(length);
+        UltimateResult[] results = new UltimateResult[length];
         double[] bp = new double[length]; // buying pressure
         double[] tr = new double[length]; // true range
 
@@ -104,13 +104,13 @@ public static partial class Ultimate
                 ultimate = null;
             }
 
-            results.Add(new(
+            results[i] = new(
                 Timestamp: q.Timestamp,
-                Ultimate: ultimate));
+                Ultimate: ultimate);
 
             priorClose = q.Close;
         }
 
-        return results;
+        return new List<UltimateResult>(results);
     }
 }

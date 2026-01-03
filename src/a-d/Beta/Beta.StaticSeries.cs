@@ -28,7 +28,7 @@ public static partial class Beta
 
         // initialize
         int length = sourceEval.Count;
-        List<BetaResult> results = new(length);
+        BetaResult[] results = new BetaResult[length];
 
         bool calcSd = type is BetaType.All or BetaType.Standard;
         bool calcUp = type is BetaType.All or BetaType.Up;
@@ -68,10 +68,10 @@ public static partial class Beta
             // skip warmup periods
             if (i < lookbackPeriods)
             {
-                results.Add(new(
+                results[i] = new(
                     Timestamp: eval.Timestamp,
                     ReturnsEval: evalReturns[i],
-                    ReturnsMrkt: mrktReturns[i]));
+                    ReturnsMrkt: mrktReturns[i]);
 
                 continue;
             }
@@ -108,18 +108,18 @@ public static partial class Beta
                 convexity = (betaUp - betaDown) * (betaUp - betaDown);
             }
 
-            results.Add(
-            new(Timestamp: eval.Timestamp,
+            results[i] = new(
+                Timestamp: eval.Timestamp,
                 Beta: beta,
                 BetaUp: betaUp,
                 BetaDown: betaDown,
                 Ratio: ratio,
                 Convexity: convexity,
                 ReturnsEval: evalReturns[i],
-                ReturnsMrkt: mrktReturns[i]));
+                ReturnsMrkt: mrktReturns[i]);
         }
 
-        return results;
+        return new List<BetaResult>(results);
     }
 
     /// <summary>

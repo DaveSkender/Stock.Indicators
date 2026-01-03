@@ -34,7 +34,7 @@ public static partial class Atr
 
         // initialize
         int length = quotes.Count;
-        List<AtrResult> results = new(length);
+        AtrResult[] results = new AtrResult[length];
         double prevAtr = double.NaN;
         double prevClose = double.NaN;
         double sumTr = 0;
@@ -43,7 +43,7 @@ public static partial class Atr
         if (length > 0)
         {
             QuoteD q = quotes[0];
-            results.Add(new(Timestamp: q.Timestamp));
+            results[0] = new AtrResult(Timestamp: q.Timestamp);
             prevClose = q.Close;
         }
 
@@ -87,17 +87,15 @@ public static partial class Atr
                 atrp = null;
             }
 
-            AtrResult r = new(
+            results[i] = new AtrResult(
                 Timestamp: q.Timestamp,
                 Tr: tr.NaN2Null(),
                 Atr: atr.NaN2Null(),
                 Atrp: atrp);
 
-            results.Add(r);
-
             prevClose = q.Close;
         }
 
-        return results;
+        return new List<AtrResult>(results);
     }
 }

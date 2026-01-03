@@ -25,7 +25,7 @@ public static partial class ConnorsRsi
 
         // initialize
         int length = source.Count;
-        List<ConnorsRsiResult> results = new(length);
+        ConnorsRsiResult[] results = new ConnorsRsiResult[length];
 
         int startPeriod
             = Math.Max(rsiPeriods, Math.Max(streakPeriods, rankPeriods)) + 2;
@@ -53,21 +53,21 @@ public static partial class ConnorsRsi
                     crsi = (sInfo.Rsi + sRsi.Rsi + sInfo.PercentRank) / 3;
                 }
 
-                results.Add(sInfo with {
+                results[i] = sInfo with {
                     ConnorsRsi = crsi,
                     RsiStreak = sRsi.Rsi
-                });
+                };
             }
 
             // warmup periods
             else
             {
                 ConnorsRsiResult sInfo = streakInfo[i];
-                results.Add(sInfo);
+                results[i] = sInfo;
             }
         }
 
-        return results;
+        return new List<ConnorsRsiResult>(results);
     }
 
     /// <summary>
@@ -86,7 +86,7 @@ public static partial class ConnorsRsi
         IReadOnlyList<RsiResult> rsiResults = source.ToRsi(rsiPeriods);
 
         int length = source.Count;
-        List<ConnorsRsiResult> results = new(length);
+        ConnorsRsiResult[] results = new ConnorsRsiResult[length];
         double[] gain = new double[length];
 
         double streak = 0;
@@ -102,7 +102,7 @@ public static partial class ConnorsRsi
             if (i == 0)
             {
                 prevPrice = s.Value;
-                results.Add(new(s.Timestamp, 0));
+                results[i] = new(s.Timestamp, 0);
                 continue;
             }
 
@@ -166,15 +166,15 @@ public static partial class ConnorsRsi
                 percentRank = isViableRank ? 100 * qty / rankPeriods : null;
             }
 
-            results.Add(new ConnorsRsiResult(
+            results[i] = new ConnorsRsiResult(
                 Timestamp: s.Timestamp,
                 Streak: streak,
                 Rsi: rsiResults[i].Rsi,
-                PercentRank: percentRank));
+                PercentRank: percentRank);
 
             prevPrice = s.Value;
         }
 
-        return results;
+        return new List<ConnorsRsiResult>(results);
     }
 }

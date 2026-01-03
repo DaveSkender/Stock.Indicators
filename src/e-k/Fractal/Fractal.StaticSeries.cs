@@ -43,7 +43,7 @@ public static partial class Fractal
 
         // initialize
         int length = quotes.Count;
-        List<FractalResult> results = new(length);
+        FractalResult[] results = new FractalResult[length];
 
         // roll through source values
         for (int i = 0; i < length; i++)
@@ -105,12 +105,12 @@ public static partial class Fractal
                 }
             }
 
-            results.Add(new(
+            results[i] = new(
                 Timestamp: q.Timestamp,
                 FractalBear: fractalBear,
-                FractalBull: fractalBull));
+                FractalBull: fractalBull);
         }
 
-        return results;
+        return new List<FractalResult>(results);
     }
 }

@@ -41,7 +41,7 @@ public static partial class StarcBands
 
         // initialize
         int length = quotes.Count;
-        List<StarcBandsResult> results = new(length);
+        StarcBandsResult[] results = new StarcBandsResult[length];
         List<AtrResult> atrResults = quotes.CalcAtr(atrPeriods);
         IReadOnlyList<SmaResult> smaResults = quotes.ToSma(smaPeriods);
 
@@ -51,13 +51,13 @@ public static partial class StarcBands
             SmaResult s = smaResults[i];
             AtrResult a = atrResults[i];
 
-            results.Add(new(
+            results[i] = new(
                 Timestamp: s.Timestamp,
                 UpperBand: s.Sma + (multiplier * a.Atr),
                 Centerline: s.Sma,
-                LowerBand: s.Sma - (multiplier * a.Atr)));
+                LowerBand: s.Sma - (multiplier * a.Atr));
         }
 
-        return results;
+        return new List<StarcBandsResult>(results);
     }
 }

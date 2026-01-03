@@ -23,7 +23,7 @@ public static partial class Donchian
 
         // initialize
         int length = quotes.Count;
-        List<DonchianResult> results = new(length);
+        DonchianResult[] results = new DonchianResult[length];
 
         // roll through source values
         for (int i = 0; i < length; i++)
@@ -55,19 +55,19 @@ public static partial class Donchian
                 decimal l = lowLow;
                 decimal c = (u + l) / 2m;
 
-                results.Add(new DonchianResult(
+                results[i] = new DonchianResult(
                     Timestamp: q.Timestamp,
                     UpperBand: u,
                     Centerline: c,
                     LowerBand: l,
-                    Width: c == 0 ? null : (u - l) / c));
+                    Width: c == 0 ? null : (u - l) / c);
             }
             else
             {
-                results.Add(new(q.Timestamp));
+                results[i] = new(q.Timestamp);
             }
         }
 
-        return results;
+        return new List<DonchianResult>(results);
     }
 }

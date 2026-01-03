@@ -26,7 +26,7 @@ public static partial class RocWb
 
         // initialize
         int length = source.Count;
-        List<RocWbResult> results = new(length);
+        RocWbResult[] results = new RocWbResult[length];
 
         double k = 2d / (emaPeriods + 1);
         double prevEma = double.NaN;
@@ -79,14 +79,14 @@ public static partial class RocWb
                 rocDev = Math.Sqrt(sum / stdDevPeriods).NaN2Null();
             }
 
-            results.Add(new(
+            results[i] = new(
                 Timestamp: roc.Timestamp,
                 Roc: roc.Value.NaN2Null(),
                 RocEma: ema[i].NaN2Null(),
                 UpperBand: rocDev,
-                LowerBand: -rocDev));
+                LowerBand: -rocDev);
         }
 
-        return results;
+        return new List<RocWbResult>(results);
     }
 }

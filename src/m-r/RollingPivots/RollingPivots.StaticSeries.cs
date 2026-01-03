@@ -26,7 +26,7 @@ public static partial class RollingPivots
 
         // initialize
         int length = quotes.Count;
-        List<RollingPivotsResult> results = new(length);
+        RollingPivotsResult[] results = new RollingPivotsResult[length];
 
         // roll through source values
         for (int i = 0; i < length; i++)
@@ -81,9 +81,9 @@ public static partial class RollingPivots
                 r = new() { Timestamp = q.Timestamp };
             }
 
-            results.Add(r);
+            results[i] = r;
         }
 
-        return results;
+        return new List<RollingPivotsResult>(results);
     }
 }

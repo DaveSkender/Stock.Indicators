@@ -23,7 +23,7 @@ public static partial class Wma
 
         // initialize
         int length = source.Count;
-        List<WmaResult> results = new(length);
+        WmaResult[] results = new WmaResult[length];
 
         double divisor = (double)lookbackPeriods * (lookbackPeriods + 1) / 2d;
 
@@ -48,11 +48,11 @@ public static partial class Wma
                 wma = double.NaN;
             }
 
-            results.Add(new(
+            results[i] = new WmaResult(
                 Timestamp: s.Timestamp,
-                Wma: wma.NaN2Null()));
+                Wma: wma.NaN2Null());
         }
 
-        return results;
+        return new List<WmaResult>(results);
     }
 }

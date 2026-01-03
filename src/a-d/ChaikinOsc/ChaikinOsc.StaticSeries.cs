@@ -23,7 +23,7 @@ public static partial class ChaikinOsc
 
         // initialize
         int length = quotes.Count;
-        List<ChaikinOscResult> results = new(length);
+        ChaikinOscResult[] results = new ChaikinOscResult[length];
 
         // money flow
         IReadOnlyList<AdlResult> adlResults = quotes.ToAdl();
@@ -39,7 +39,7 @@ public static partial class ChaikinOsc
             EmaResult f = adlEmaFast[i];
             EmaResult s = adlEmaSlow[i];
 
-            results.Add(new(
+            results[i] = new(
                  Timestamp: a.Timestamp,
                  MoneyFlowMultiplier: a.MoneyFlowMultiplier,
                  MoneyFlowVolume: a.MoneyFlowVolume,
@@ -47,9 +47,9 @@ public static partial class ChaikinOsc
                  Oscillator: f.Ema - s.Ema,
                  FastEma: f.Ema,
                  SlowEma: s.Ema
-             ));
+             );
         }
 
-        return results;
+        return new List<ChaikinOscResult>(results);
     }
 }

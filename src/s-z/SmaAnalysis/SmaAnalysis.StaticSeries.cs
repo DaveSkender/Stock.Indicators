@@ -21,7 +21,7 @@ public static partial class SmaAnalysis
 
         // initialize
         int length = source.Count;
-        List<SmaAnalysisResult> results = new(length);
+        SmaAnalysisResult[] results = new SmaAnalysisResult[length];
 
         // roll through source values
         for (int i = 0; i < length; i++)
@@ -44,24 +44,24 @@ public static partial class SmaAnalysis
                         : Math.Abs(s.Value - sma) / s.Value;
                 }
 
-                results.Add(new SmaAnalysisResult(
+                results[i] = new SmaAnalysisResult(
                     Timestamp: source[i].Timestamp,
                     Sma: sma.NaN2Null(),
                     Mad: (sumMad / lookbackPeriods).NaN2Null(),
                     Mse: (sumMse / lookbackPeriods).NaN2Null(),
-                    Mape: (sumMape / lookbackPeriods).NaN2Null()));
+                    Mape: (sumMape / lookbackPeriods).NaN2Null());
             }
             else
             {
-                results.Add(new SmaAnalysisResult(
+                results[i] = new SmaAnalysisResult(
                     Timestamp: source[i].Timestamp,
                     Sma: null,
                     Mad: null,
                     Mse: null,
-                    Mape: null));
+                    Mape: null);
             }
         }
 
-        return results;
+        return new List<SmaAnalysisResult>(results);
     }
 }

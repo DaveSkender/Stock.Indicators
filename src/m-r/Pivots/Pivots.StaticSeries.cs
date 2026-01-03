@@ -124,7 +124,7 @@ public static partial class Pivots
         // TODO: this may need to be re-writes (with) for streaming
         // or even here, since it still may be better than 2 full passes
 
-        List<PivotsResult> results = new(length);
+        PivotsResult[] results = new PivotsResult[length];
 
         for (int i = 0; i < length; i++)
         {
@@ -136,16 +136,16 @@ public static partial class Pivots
             PivotTrend? ht = highTrend[i];
             PivotTrend? lt = lowTrend[i];
 
-            results.Add(new(
+            results[i] = new(
                 Timestamp: q.Timestamp,
                 HighPoint: highPoint,
                 LowPoint: lowPoint,
                 HighLine: hl,
                 LowLine: ll,
                 HighTrend: ht,
-                LowTrend: lt));
+                LowTrend: lt);
         }
 
-        return results;
+        return new List<PivotsResult>(results);
     }
 }
