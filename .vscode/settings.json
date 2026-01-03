@@ -2,8 +2,12 @@
   "[markdown]": {
     "editor.defaultFormatter": "DavidAnson.vscode-markdownlint",
   },
+  "chat.useAgentsMdFile": true,
   "chat.useNestedAgentsMdFiles": true,
   "chat.customAgentInSubagent.enabled": true,
+  "codacy.cli.devMode": true,
+  "codacy.guardrails.analyzeGeneratedCode": "disabled",
+  "codacy.guardrails.instructionsFile": "manual",
   "dotnet.defaultSolution": "Stock.Indicators.sln",
   "files.associations": {
     "*.md": "markdown"

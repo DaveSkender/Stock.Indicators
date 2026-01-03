@@ -35,6 +35,6 @@
         "indicatorchart"
       ]
     },
-    "MD041": false
+    "MD041": false  // accomodate Jekyll markdown
   }
 }

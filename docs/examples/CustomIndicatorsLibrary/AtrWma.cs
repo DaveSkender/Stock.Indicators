@@ -21,15 +21,16 @@ public static class CustomIndicators
         this IReadOnlyList<IQuote> quotes,
         int lookbackPeriods)
     {
-        // sort quotes and convert to collection or list
-        IReadOnlyList<IQuote> quotesList = quotes
-            .ToSortedCollection();
+        // sort quotes and convert to list
+        List<IQuote> quotesList = quotes
+            .OrderBy(x => x.Date)
+            .ToList();
 
         // initialize results
         List<AtrWmaResult> results = new(quotesList.Count);
 
         // perform pre-requisite calculations to get ATR values
-        IReadOnlyList<AtrResult> atrResults = quotes
+        List<AtrResult> atrResults = quotes
             .GetAtr(lookbackPeriods)
             .ToList();
 
