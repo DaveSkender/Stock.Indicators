@@ -116,10 +116,7 @@
       "options": {
         "cwd": "${workspaceFolder}/docs"
       },
-      "problemMatcher": [],
-      "presentation": {
-        "group": "install"
-      }
+      "problemMatcher": []
     },
     {
       "label": "Update: NPM (pnpm) packages",
@@ -128,9 +125,16 @@
       "command": "pnpm update",
       "options": {
         "cwd": "${workspaceFolder}/docs"
-      },
-      "problemMatcher": [],
-      "presentation": { "group": "install" }
+      }
+    },
+    {
+      "label": "Clean: Website build cache",
+      "detail": "Delete the _site build outputs cache.",
+      "type": "shell",
+      "command": "rm -rf _site",
+      "options": {
+        "cwd": "${workspaceFolder}/docs"
+      }
     },
     {
       "label": "Clean: .NET Solution (dotnet clean)",
@@ -185,18 +189,14 @@
     },
     {
       "label": "Build: Website",
-      "detail": "Build the Jekyll website dist package in docs/_site folder",
+      "detail": "Build the VitePress website dist package in docs/_site folder",
       "type": "shell",
-      "command": "bundle exec jekyll build && echo '✓ Build complete!'",
+      "command": "pnpm docs:build",
       "group": "build",
-      "dependsOn": "Install: Ruby packages",
+      "dependsOn": "Install: NPM (pnpm) packages",
       "dependsOrder": "sequence",
       "options": {
-        "cwd": "${workspaceFolder}/docs",
-        "env": {
-          "BUNDLE_GEMFILE": "${workspaceFolder}/docs/Gemfile",
-          "BUNDLE_PATH": "${workspaceFolder}/docs/vendor/bundle"
-        }
+        "cwd": "${workspaceFolder}/docs"
       }
     },
     {
@@ -236,8 +236,7 @@
       "type": "shell",
       "command": "roslynator fix --properties TargetFramework=net10.0 --severity-level info --verbosity normal",
       "group": "test",
-      "problemMatcher": "$msCompile",
-      "presentation": { "group": "analysis" }
+      "problemMatcher": "$msCompile"
     },
     {
       "label": "Lint: .NET code",
@@ -298,7 +297,6 @@
         "Lint: Markdown (fix)"
       ],
       "dependsOrder": "sequence",
-      "group": "none",
       "problemMatcher": [
         "$msCompile",
         "$markdownlint"
@@ -329,7 +327,6 @@
         "Lint: Markdown (fix)"
       ],
       "dependsOrder": "sequence",
-      "group": "none",
       "problemMatcher": [
         "$msCompile",
         "$markdownlint"
@@ -440,7 +437,7 @@
       "problemMatcher": "$msCompile"
     },
     {
-      "label": "Run: Website with LiveReload",
+      "label": "Run: Website (and open browser)",
       "detail": "Serve VitePress docs site with hot reload (port 5173, opens browser)",
       "type": "shell",
       "command": "pnpm run docs:dev",
@@ -452,11 +449,10 @@
       },
       "options": {
         "cwd": "${workspaceFolder}/docs"
-      },
-      "problemMatcher": []
+      }
     },
     {
-      "label": "Run: Doc site with LiveReload (Simple Browser)",
+      "label": "Run: Website (in Simple Browser)",
       "detail": "Serve VitePress docs site on port 5174 with hot reload (VS Code Simple Browser)",
       "type": "shell",
       "command": "pnpm run docs:dev -- --port 5174",
@@ -467,11 +463,10 @@
       },
       "options": {
         "cwd": "${workspaceFolder}/docs"
-      },
-      "problemMatcher": []
+      }
     },
     {
-      "label": "Run: Website (serve)",
+      "label": "Run: Website (serve only)",
       "detail": "Serve VitePress docs site (background, port 5173, no browser open)",
       "type": "shell",
       "command": "pnpm run docs:dev",
@@ -483,8 +478,7 @@
       },
       "options": {
         "cwd": "${workspaceFolder}/docs"
-      },
-      "problemMatcher": []
+      }
     },
     {
       "label": "Build: Documentation site",
@@ -494,8 +488,7 @@
       "dependsOn": "Install: NPM (pnpm) packages",
       "options": {
         "cwd": "${workspaceFolder}/docs"
-      },
-      "problemMatcher": []
+      }
     },
     {
       "label": "Preview: Documentation site",
@@ -506,8 +499,7 @@
       "isBackground": true,
       "options": {
         "cwd": "${workspaceFolder}/docs"
-      },
-      "problemMatcher": []
+      }
     },
     {
       "label": "Run: Test application",
@@ -532,8 +524,7 @@
       "command": "bash .vitepress/run-htmlproofer.sh",
       "options": {
         "cwd": "${workspaceFolder}/docs"
-      },
-      "problemMatcher": []
+      }
     },
     {
       "label": "Test: Website a11y (pa11y)",
@@ -542,8 +533,7 @@
       "command": "bash .vitepress/run-pa11y.sh",
       "options": {
         "cwd": "${workspaceFolder}/docs"
-      },
-      "problemMatcher": []
+      }
     },
     {
       "label": "Stop: All hosted servers",
@@ -556,8 +546,6 @@
       "osx": {
         "command": "pkill -f \"vitepress|docs:dev|docs:preview|5173|5174\" || true"
       },
-      "group": "none",
-      "problemMatcher": [],
       "presentation": {
         "reveal": "silent",
         "panel": "shared"
