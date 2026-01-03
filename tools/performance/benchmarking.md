@@ -39,7 +39,9 @@ dotnet run -c Release --filter *Series*
 dotnet run -c Release --filter *StyleComparison*
 
 # Specific indicator
-dotnet run -c Release --filter *.ToEma
+dotnet run -c Release --filter *.ToEmaBatch
+dotnet run -c Release --filter *.ToEmaList
+dotnet run -c Release --filter *.ToEmaHub
 ```
 
 ### Run manual performance test with custom data size
