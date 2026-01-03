@@ -2,6 +2,8 @@
 
 This document describes the performance testing infrastructure for Stock Indicators for .NET, including how to run benchmarks, interpret results, and detect performance regressions.
 
+For comprehensive performance analysis and results, see `PERFORMANCE_ANALYSIS.md`.
+
 ## Overview
 
 The Stock Indicators library uses [BenchmarkDotNet](https://benchmarkdotnet.org/) for comprehensive performance testing. Benchmarks cover:
@@ -318,10 +320,11 @@ When contributing performance improvements:
 
 ## Resources
 
+- [PERFORMANCE_ANALYSIS.md](PERFORMANCE_ANALYSIS.md) - Comprehensive performance analysis and results
 - [BenchmarkDotNet Documentation](https://benchmarkdotnet.org/)
 - [Performance Best Practices for .NET](https://learn.microsoft.com/dotnet/core/performance/)
 - [Repository Performance Page](https://dotnet.stockindicators.dev/performance/)
 
 ---
 
-Last updated: December 19, 2025
+Last updated: January 3, 2026
