@@ -1,28 +1,17 @@
 # Performance Analysis: Streaming Indicators
 
 **Last Updated:** January 3, 2026
-**Analysis:** Comprehensive performance review of Series, BufferList, and StreamHub implementations
+**Baseline Data:** tools/performance/baselines/
 
 ## Executive Summary
 
-Analysis of baseline performance data demonstrates **significant improvements** since October 2025. All O(n²) complexity issues have been resolved, and streaming indicators now achieve acceptable real-time performance for intended use cases.
+Performance analysis comparing Series, BufferList, and StreamHub implementations across all indicators in the library. Analysis identifies performance characteristics and indicators requiring optimization.
 
-### Current Performance Status (January 2026)
+### Current Performance Status
 
-- **BufferList implementations**: 93% meet acceptable performance targets (<2x overhead)
-- **StreamHub implementations**: 53% meet target or acceptable ranges (<3x overhead)
-- **Critical O(n²) issues**: 0 remaining (100% fixed)
-- **Memory profiling**: Infrastructure ready, compliance validation pending
-
-### Key Improvements Since October 2025
-
-| Metric                    | October 2025  | January 2026   | Improvement    |
-| ------------------------- | ------------- | -------------- | -------------- |
-| Worst StreamHub slowdown  | 391x (RSI)    | 10.5x (Ema)    | **97% better** |
-| Worst BufferList slowdown | 7.85x (Slope) | 3.41x (Slope)  | **57% better** |
-| StreamHub avg slowdown    | 28.5x         | ~4.0x          | **86% better** |
-| BufferList avg slowdown   | 2.1x          | 1.65x          | **21% better** |
-| Critical O(n²) issues     | 4             | 0              | **100% fixed** |
+- **BufferList implementations**: 77% within acceptable range (<2x overhead), 3 critical issues
+- **StreamHub implementations**: 12% within acceptable range (<2x overhead), 64 critical issues
+- **Memory profiling**: MemoryDiagnoser enabled with GC columns, baseline data collection in progress
 
 ### Performance Targets (NFR-002)
 
@@ -36,362 +25,230 @@ Analysis of baseline performance data demonstrates **significant improvements** 
 
 - Target: <1.5x overhead (within 50% of Series)
 - Acceptable: <3x overhead
-- Framework overhead context: 7-11x for EMA/SMA family (~40,000 quotes/second throughput)
-- Critical: ≥10x overhead indicates algorithmic issues
+- Critical: ≥2x overhead requires investigation
 
 **Memory:**
 
 - StreamHub: <10KB overhead per instance
 - BufferList: <5KB overhead per instance
 
-## BufferList Performance Analysis
-
-### Methodology
+## Measurement Methodology
 
 - **Dataset**: 502 periods of historical OHLCV data
-- **Benchmark Tool**: BenchmarkDotNet with Release configuration
-- **Metrics**: Mean execution time (nanoseconds), Error, StdDev, Memory allocations
-- **Comparison**: Direct side-by-side execution of Series vs BufferList
+- **Benchmark Tool**: BenchmarkDotNet v0.15.8 with Release configuration
+- **Runtime**: .NET 10.0.1, X64 RyuJIT x86-64-v3
+- **Job**: ShortRun (3 iterations, 1 launch, 3 warmup)
+- **Metrics**: Mean execution time (nanoseconds), Error, StdDev, Memory allocations, Gen0/Gen1/Gen2 GC collections
+- **Sorting**: Results ranked fastest to slowest
 
-### Performance Distribution
+## BufferList Performance Results
 
-**Excellent (<1.3x)**: 55 indicators (~67%)
+### Distribution Summary
 
-- Examples: Rsi, Roc, Pmo, Tsi, ChopIndex
+**Within target (<1.3x)**: 60 indicators (~77%)
+
 - Overhead: <30%
 - Status: ✅ Meets target
 
-**Good (1.3x-2x)**: 21 indicators (~26%)
+**Acceptable (1.3x-2x)**: 16 indicators (~20%)
 
-- Examples: Vortex, Prs, Keltner, Obv
 - Overhead: 30%-100%
 - Status: ✅ Acceptable
 
-**Needs Investigation (≥2x)**: 6 indicators (~7%)
+**Critical (≥2x)**: 3 indicators (~3%)
 
 - Status: 🔴 Requires optimization
+
+### Critical BufferList Issues (≥2x Slower)
 
 | Indicator     | Series (ns) | Buffer (ns) | Slowdown  | Priority   |
 | ------------- | ----------- | ----------- | --------- | ---------- |
 | **Slope**     | 47,859      | 162,972     | **3.41x** | 🔴 HIGH    |
 | **Alligator** | 8,609       | 18,570      | **2.16x** | 🔴 MEDIUM  |
 | **Adx**       | 15,088      | 31,348      | **2.08x** | 🔴 MEDIUM  |
-| **Ema**       | 2,443       | 4,373       | **1.79x** | ⚠️ REVIEW  |
-| **Smma**      | 2,931       | 5,106       | **1.74x** | ⚠️ REVIEW  |
-| **Gator**     | 13,583      | 23,506      | **1.73x** | ⚠️ REVIEW  |
 
-### BufferList Recommendations
+### BufferList Review Candidates (1.3x-2x Slower)
 
-1. **93% of implementations meet performance targets**
-2. Focus optimization on 3 critical indicators: Slope, Alligator, Adx
-3. Review EMA/SMMA family for potential micro-optimizations
-4. All BufferList indicators achieve O(1) incremental updates
+| Indicator      | Slowdown | Status     |
+| -------------- | -------- | ---------- |
+| Ema            | 1.79x    | ⚠️ REVIEW  |
+| Smma           | 1.74x    | ⚠️ REVIEW  |
+| Gator          | 1.73x    | ⚠️ REVIEW  |
+| Macd           | 1.65x    | ⚠️ REVIEW  |
+| Fractal        | 1.59x    | ⚠️ REVIEW  |
+| Pivots         | 1.54x    | ⚠️ REVIEW  |
+| Tr             | 1.52x    | ⚠️ REVIEW  |
+| ChaikinOsc     | 1.50x    | ⚠️ REVIEW  |
+| Awesome        | 1.50x    | ⚠️ REVIEW  |
+| Trix           | 1.45x    | ⚠️ REVIEW  |
+| Pmo            | 1.43x    | ⚠️ REVIEW  |
+| Tema           | 1.42x    | ⚠️ REVIEW  |
+| Epma           | 1.39x    | ⚠️ REVIEW  |
+| Chandelier     | 1.37x    | ⚠️ REVIEW  |
+| Beta           | 1.31x    | ⚠️ REVIEW  |
+| Dema           | 1.30x    | ⚠️ REVIEW  |
 
-## StreamHub Performance Analysis
+## StreamHub Performance Results
 
-### Methodology
+### Distribution Summary
 
-Same as BufferList analysis:
+**Within target (<1.5x)**: 6 indicators (~7%)
 
-- **Dataset**: 502 periods fed sequentially through QuoteHub
-- **Benchmark Tool**: BenchmarkDotNet with Release configuration
-- **Metrics**: Mean execution time (nanoseconds), Error, StdDev, Memory allocations
-- **Comparison**: Series batch processing vs StreamHub incremental processing
-
-### Performance Distribution
-
-**Excellent (<1.5x)**: 39 indicators (~47%)
-
-- Examples: Fcb, Prs, Pmo, Tsi, Vortex
 - Overhead: <50%
 - Status: ✅ Meets target
 
-**Good (1.5x-3x)**: 6 indicators (~7%)
+**Acceptable (1.5x-2x)**: 4 indicators (~5%)
 
-- Examples: Alma, Sma, WilliamsR
-- Overhead: 50%-200%
+- Overhead: 50%-100%
 - Status: ✅ Acceptable
 
-**Needs Review (3x-10x)**: 11 indicators (~13%)
+**Critical (≥2x)**: 64 indicators (~78%)
 
-- Overhead: 200%-900%
-- Status: ⚠️ Monitor
+- Status: 🔴 Requires optimization
 
-**Framework Overhead (7-11x)**: 27 indicators (~33%)
+### Top 20 Critical StreamHub Issues (≥2x Slower)
 
-- EMA/SMA family with consistent overhead pattern
-- Status: ℹ️ Acceptable for intended use cases
+| Indicator      | Series (ns) | Stream (ns) | Slowdown    | Status           |
+| -------------- | ----------- | ----------- | ----------- | ---------------- |
+| **ForceIndex** | 13,508      | 831,594     | **61.56x**  | 🔴 O(n²) issue   |
+| **Ema**        | 2,443       | 25,638      | **10.49x**  | 🔴 Framework OH  |
+| **Pvo**        | 6,187       | 64,756      | **10.47x**  | 🔴 Framework OH  |
+| **Tema**       | 3,496       | 34,418      | **9.85x**   | 🔴 Framework OH  |
+| **Smma**       | 2,931       | 25,500      | **8.70x**   | 🔴 Framework OH  |
+| **T3**         | 4,625       | 39,997      | **8.65x**   | 🔴 Framework OH  |
+| **Dema**       | 3,545       | 30,349      | **8.56x**   | 🔴 Framework OH  |
+| **Trix**       | 4,151       | 34,667      | **8.35x**   | 🔴 Framework OH  |
+| **Awesome**    | 15,533      | 119,340     | **7.68x**   | 🔴 Framework OH  |
+| **Slope**      | 47,859      | 358,366     | **7.49x**   | 🔴 Optimize      |
+| **Prs**        | 4,694       | 35,070      | **7.47x**   | 🔴 Optimize      |
+| **Macd**       | 6,196       | 45,313      | **7.31x**   | 🔴 Framework OH  |
+| **Roc**        | 4,322       | 30,153      | **6.98x**   | 🔴 Optimize      |
+| **PivotPoints**| 12,753      | 79,268      | **6.22x**   | 🔴 Optimize      |
+| **Gator**      | 13,583      | 84,161      | **6.20x**   | 🔴 Optimize      |
+| **Ultimate**   | 27,426      | 161,480     | **5.89x**   | 🔴 Optimize      |
+| **Adl**        | 5,534       | 32,493      | **5.87x**   | 🔴 Optimize      |
+| **Pmo**        | 5,760       | 33,445      | **5.81x**   | 🔴 Optimize      |
+| **Smi**        | 13,939      | 76,236      | **5.47x**   | 🔴 Optimize      |
+| **Chandelier** | 22,454      | 120,072     | **5.35x**   | 🔴 Optimize      |
 
-### Top StreamHub Issues
+### StreamHub Review Candidates (1.3x-2x Slower)
 
-| Indicator      | Series (ns) | Stream (ns) | Slowdown    | Category          |
-| -------------- | ----------- | ----------- | ----------- | ----------------- |
-| **Ema**        | 2,443       | 25,638      | **10.49x**  | EMA overhead      |
-| **Pvo**        | 6,187       | 64,756      | **10.47x**  | EMA overhead      |
-| **Tema**       | 3,496       | 34,418      | **9.85x**   | EMA overhead      |
-| **Smma**       | 2,931       | 25,500      | **8.70x**   | EMA overhead      |
-| **T3**         | 4,625       | 39,997      | **8.65x**   | EMA overhead      |
-| **Dema**       | 3,545       | 30,349      | **8.56x**   | EMA overhead      |
-| **Trix**       | 4,151       | 34,667      | **8.35x**   | EMA overhead      |
-| **Awesome**    | 15,533      | 119,340     | **7.68x**   | SMA overhead      |
-| **Slope**      | 47,859      | 275,337     | **5.75x**   | Optimized         |
-| **Chandelier** | 10,150      | 54,300      | **5.35x**   | Window overhead   |
+| Indicator       | Slowdown | Status     |
+| --------------- | -------- | ---------- |
+| RollingPivots   | 1.95x    | ⚠️ REVIEW  |
+| Hma             | 1.93x    | ⚠️ REVIEW  |
+| HeikinAshi      | 1.91x    | ⚠️ REVIEW  |
+| Donchian        | 1.90x    | ⚠️ REVIEW  |
+| ConnorsRsi      | 1.72x    | ⚠️ REVIEW  |
+| Renko           | 1.71x    | ⚠️ REVIEW  |
+| BollingerBands  | 1.65x    | ⚠️ REVIEW  |
+| Epma            | 1.47x    | ⚠️ REVIEW  |
+| Pivots          | 1.46x    | ⚠️ REVIEW  |
+| Mama            | 1.46x    | ⚠️ REVIEW  |
+| StdDev          | 1.31x    | ⚠️ REVIEW  |
 
-### Root Cause Analysis
+## Performance Issue Patterns
 
-#### Pattern 1: Moving Average Family Framework Overhead (7-11x)
+### Pattern 1: ForceIndex O(n²) Complexity (61.56x)
 
-**Affected indicators:**
+**Root cause:** Nested loop recalculating entire history on each quote
 
-- EMA-based: Ema, Smma, Tema, Dema, T3, Trix, Pvo, Macd (10.5x, 8.7x, 9.9x, 8.6x, 8.7x, 8.4x, 10.5x, 7.3x)
-- SMA-based: Awesome (7.7x)
+**Impact:** Severe performance degradation, unusable for real-time streaming
 
-**Root cause:** StreamHub framework overhead for simple indicators. The EMA/SMA calculation itself is O(1), but the hub subscription/notification infrastructure adds constant overhead that dominates for fast indicators.
+**Solution:** Implement O(1) incremental update with rolling state
 
-**Performance context:** These timings are in nanoseconds. An 8-10x overhead on a 2,500 ns operation equals ~25,000 ns per quote, achieving **~40,000 quotes/second** throughput - adequate for real-time streaming use cases.
+### Pattern 2: EMA/SMA Family Framework Overhead (7-11x)
 
-**Status:** ℹ️ Acceptable performance for intended use cases. Framework overhead investigation task P001 identified but deferred (see streaming-indicators.plan.md).
+**Affected indicators:** Ema, Smma, Tema, Dema, T3, Trix, Pvo, Macd, Awesome
 
-#### Pattern 2: Resolved O(n²) Issues
+**Root cause:** StreamHub subscription/notification infrastructure overhead dominates simple operations
 
-The following critical issues have been **fully resolved**:
+**Performance context:** These timings are in nanoseconds. An 8-10x overhead on a 2,500 ns operation equals ~25,000 ns per quote, achieving **~40,000 quotes/second** throughput
 
-| Indicator      | October 2025 | January 2026 | Improvement       |
-| -------------- | ------------ | ------------ | ----------------- |
-| **Rsi**        | 391.33x      | 3.26x        | **99% faster** ✅ |
-| **StochRsi**   | 283.53x      | 4.55x        | **98% faster** ✅ |
-| **Cmo**        | 257.78x      | 2.72x        | **99% faster** ✅ |
-| **Chandelier** | 121.65x      | 5.35x        | **96% faster** ✅ |
-| **Stoch**      | 15.69x       | 3.24x        | **79% faster** ✅ |
-| **ForceIndex** | 61.56x       | 2.49x        | **96% faster** ✅ |
-| **Slope**      | 7.49x        | 5.75x        | **23% faster** ✅ |
+**Status:** Acceptable for real-time streaming use cases, framework optimization deferred
 
-These indicators now use proper O(1) incremental updates instead of O(n) recalculations.
+### Pattern 3: Window Operation Inefficiencies (3-8x)
 
-### StreamHub Recommendations
+**Affected indicators:** Slope, Prs, Roc, PivotPoints, Gator, Ultimate, Adl, Pmo, Smi, Chandelier
 
-1. **53% of implementations meet target or acceptable ranges**
-2. **All O(n²) complexity issues resolved**
-3. **EMA/SMA family overhead acceptable** for real-time use cases (~40,000 quotes/sec)
-4. Monitor indicators in 3x-10x range for optimization opportunities
-5. Framework overhead investigation (P001) deferred to future work
+**Root cause:** Inefficient lookback operations, unnecessary allocations, or improper state management
 
-## Memory Overhead Analysis
+**Solution:** Investigate each indicator for:
 
-### Memory Validation Status
+- O(n²) nested loops
+- Unnecessary collection copies
+- Missing circular buffer optimizations
+- Redundant calculations not cached
 
-Infrastructure ready, baseline data collection pending execution.
+## Memory Profiling
 
-### Memory Profiling Infrastructure
+### MemoryDiagnoser Configuration
 
-**BenchmarkDotNet Configuration:**
+- Enabled with generational GC columns (Gen0/Gen1/Gen2 per 1,000 operations)
+- Tracks allocated bytes per operation
+- Results ranked by performance (fastest to slowest)
 
-- MemoryDiagnoser enabled with generational GC columns in PerformanceConfig
-- Tracks allocated bytes, Gen0/Gen1/Gen2 collections per 1,000 operations
-- Results sorted from fastest to slowest with rank column
-- Measurements include instance overhead, internal state, result storage
+### Memory Validation
 
-**Measurement Scope:**
-
-- Instance creation overhead
-- Internal state storage (buffers, caches, windows)
-- Result collection overhead
-- Input quote data excluded (shared across all indicators)
-
-**Test Scenarios:**
-
-- 502 periods (standard dataset)
-- Multiple indicator types (simple, complex, multi-series)
-- All three styles for comparison
-
-### Expected Memory Patterns
-
-**Series Indicators (Baseline):**
-
-- Result collection: ~40 bytes per period
-- For 502 periods: ~20KB total
-- No persistent state
-
-**BufferList Indicators:**
-
-- Internal buffer: Depends on lookback period
-  - 14-period SMA: ~112 bytes
-  - 20-period EMA: ~160 bytes
-- Expected overhead: <5KB beyond result storage
-- Target: ✅ Should meet <5KB easily
-
-**StreamHub Indicators:**
-
-- Provider cache: ~8 bytes per period for references
-- State variables:
-  - Simple: <1KB
-  - Complex: 2-5KB
-  - Multi-series: <3KB
-- Expected overhead: <10KB for most indicators
-- Target: ✅ Should meet <10KB for properly implemented indicators
-
-### Memory Profiling Execution
-
-Generate memory baseline data:
+Baseline data collection in progress. Run benchmarks to generate memory allocation reports:
 
 ```bash
 cd tools/performance
-
-# Run with memory diagnostics enabled
 dotnet run -c Release
-
-# Extract memory data
-cat BenchmarkDotNet.Artifacts/results/Performance.StyleComparison-report-full.json | \
-  jq '.Benchmarks[] | {
-    Method: .Method,
-    Mean: .Statistics.Mean,
-    Allocated: .Memory.BytesAllocatedPerOperation,
-    Gen0: .Memory.Gen0Collections,
-    Gen1: .Memory.Gen1Collections,
-    Gen2: .Memory.Gen2Collections
-  }'
 ```
 
-### Memory Compliance Validation
-
-Check compliance against NFR-002 targets:
-
-```bash
-# Check StreamHub compliance (<10KB overhead)
-cat BenchmarkDotNet.Artifacts/results/Performance.StreamIndicators-report-full.json | \
-  jq '.Benchmarks[] | select(.Memory.BytesAllocatedPerOperation > 10240) | 
-    {method: .Method, allocated: .Memory.BytesAllocatedPerOperation}'
-
-# Check BufferList compliance (<5KB overhead)
-cat BenchmarkDotNet.Artifacts/results/Performance.BufferIndicators-report-full.json | \
-  jq '.Benchmarks[] | select(.Memory.BytesAllocatedPerOperation > 5120) | 
-    {method: .Method, allocated: .Memory.BytesAllocatedPerOperation}'
-```
-
-## Performance Regression Detection
-
-### Automated Regression Detection
-
-The `detect-regressions.ps1` script provides automated performance regression detection:
-
-```bash
-# Compare with specific baseline
-pwsh tools/performance/detect-regressions.ps1 \
-  -BaselineFile baselines/baseline-v3.0.0.json \
-  -ThresholdPercent 10
-
-# Auto-detect latest baseline and results
-pwsh tools/performance/detect-regressions.ps1
-```
-
-### Regression Detection Criteria
-
-By default, a performance regression is flagged when:
-
-- Mean execution time increases by more than 10% compared to baseline
-- Threshold configurable via `-ThresholdPercent` parameter
-
-### CI/CD Integration
-
-The `test-performance.yml` GitHub Actions workflow provides:
-
-- Manual trigger for full benchmark suite execution
-- Automated result publishing to GitHub Summary
-- Artifact upload for historical tracking
+Check compliance against NFR-002 targets using result JSON files in `BenchmarkDotNet.Artifacts/results/`.
 
 ## Analysis Tools
 
 ### Performance Analysis Script
 
-Use the Python analysis script to generate detailed comparisons:
+Generate detailed comparison reports:
 
 ```bash
 cd tools/performance/baselines
 python3 analyze_performance.py
 ```
 
-This script:
+The script:
 
 - Loads baseline JSON for Series, Stream, and Buffer styles
 - Calculates performance ratios (Stream/Series, Buffer/Series)
-- Flags indicators exceeding thresholds (>30% slower)
-- Prints summary with optimization recommendations
-- Identifies O(n²) loops, unnecessary allocations, inefficient look-back operations
+- Flags indicators exceeding thresholds (>30% slower for warning, >100% for critical)
+- Identifies potential causes: O(n²) loops, unnecessary allocations, inefficient operations
 
 ### Baseline Management
 
-**Creating baselines:**
+**Update baselines after performance improvements:**
 
 ```bash
-# After running benchmarks
+# Run full benchmark suite
 cd tools/performance
+dotnet run -c Release
 
 # Copy results to baselines
-cp BenchmarkDotNet.Artifacts/results/Performance.StyleComparison-report-full.json \
-   baselines/baseline-v3.1.0.json
+cp BenchmarkDotNet.Artifacts/results/Performance.*-report-full.json baselines/
 
-# Update latest baseline
-cp baselines/baseline-v3.1.0.json baselines/baseline-latest.json
-
-# Commit to repository
-git add baselines/
-git commit -m "perf: Update performance baselines for v3.1.0"
+# Document changes in streaming-indicators.plan.md
 ```
 
-**Baseline management best practices:**
+**Baseline files:**
 
-- Create baselines for each major/minor release
-- Update baselines when intentional performance changes are made
-- Keep at least the last 3 version baselines for historical comparison
-- Document significant performance changes in release notes
-
-## Quality Gates Status (Q002-Q006)
-
-### Completed Tasks
-
-- ✅ **Q002**: BufferList vs Series benchmarks exist and analyzed
-  - StyleComparison benchmarks cover representative indicators
-  - Baseline data available in `baselines/` directory
-  - 93% meet acceptable performance targets
-
-- ✅ **Q003**: StreamHub vs Series benchmarks exist and analyzed
-  - StyleComparison benchmarks cover representative indicators
-  - Baseline data available in `baselines/` directory
-  - All O(n²) issues resolved, 53% meet targets
-
-- ✅ **Q004**: Memory overhead validation infrastructure ready
-  - MemoryDiagnoser added to BenchmarkConfig
-  - Ready for execution to generate memory baselines
-  - Validation scripts documented
-
-- ✅ **Q005**: Regression detection script operational
-  - `detect-regressions.ps1` provides automated detection
-  - Configurable thresholds
-  - Ready for CI/CD integration
-
-- ✅ **Q006**: Memory baseline structure defined
-  - Documentation framework created in `baselines/memory/`
-  - Collection methodology established
-  - Compliance validation approach defined
-
-### Next Steps
-
-1. Execute benchmarks with memory diagnostics to populate memory baseline data
-2. Create memory baseline files following structure in `baselines/memory/`
-3. Validate memory compliance against NFR-002 targets
-4. Document memory profiling findings
-5. Consider optimization work for BufferList critical cases (Slope, Alligator, Adx)
+- `Performance.SeriesIndicators-report-full.json` - Series batch processing baseline
+- `Performance.BufferIndicators-report-full.json` - BufferList incremental processing baseline
+- `Performance.StreamIndicators-report-full.json` - StreamHub real-time streaming baseline
+- `Performance.StyleComparison-report-full.json` - Direct style-to-style comparison baseline
 
 ## References
 
-- Main benchmarking guide: `benchmarking.md`
-- Streaming plan: `docs/plans/streaming-indicators.plan.md`
+- Benchmarking guide: `benchmarking.md`
 - Baseline management: `baselines/README.md`
-- Memory baselines: `baselines/memory/README.md`
+- Memory baseline guidelines: `baselines/memory/README.md`
 - Regression detection: `detect-regressions.ps1`
 - Performance analysis: `baselines/analyze_performance.py`
 - GitHub Actions workflow: `.github/workflows/test-performance.yml`
 - NFR-002: Performance and memory requirements for streaming indicators
+- Streaming plan: `docs/plans/streaming-indicators.plan.md`
 
 ---
 
