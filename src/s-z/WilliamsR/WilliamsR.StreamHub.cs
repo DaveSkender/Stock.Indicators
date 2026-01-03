@@ -62,10 +62,24 @@ public class WilliamsRHub
             decimal highHigh = _highWindow.GetMax();
             decimal lowLow = _lowWindow.GetMin();
 
-            // Return NaN when range is zero (undefined %R)
-            williamsR = highHigh == lowLow
-                ? double.NaN
-                : (100 * ((double)item.Close - (double)lowLow) / ((double)highHigh - (double)lowLow)) - 100;
+            // Apply boundary clamping to ensure -100 ≤ WilliamsR ≤ 0
+            // This prevents floating-point precision errors at boundaries
+            if (highHigh == lowLow)
+            {
+                williamsR = -100.0;
+            }
+            else if (item.Close >= highHigh)
+            {
+                williamsR = 0.0;
+            }
+            else if (item.Close <= lowLow)
+            {
+                williamsR = -100.0;
+            }
+            else
+            {
+                williamsR = (100 * ((double)item.Close - (double)lowLow) / ((double)highHigh - (double)lowLow)) - 100;
+            }
         }
 
         WilliamsResult result = new(
