@@ -11,7 +11,8 @@ import {
   AreaSeries,
   HistogramSeries,
   BaselineSeries,
-  LineStyle
+  LineStyle,
+  LineWidth
 } from 'lightweight-charts'
 
 // Maximum number of bars to display (tail view)
@@ -36,7 +37,7 @@ interface SeriesStyle {
   name: string
   type?: 'line' | 'area' | 'histogram' | 'baseline' | 'dots'
   color?: string
-  lineWidth?: number
+  lineWidth?: LineWidth
   lineStyle?: 'solid' | 'dash' | 'dots'
   data: Array<{
     timestamp: string
@@ -65,10 +66,7 @@ interface ChartData {
 
 const props = withDefaults(defineProps<{
   src: string
-  height?: number
-}>(), {
-  height: 400
-})
+}>(), {})
 
 // Get VitePress theme state
 const { isDark } = useData()
@@ -116,7 +114,7 @@ const indicatorColors = [
 ]
 
 // Fixed price scale width for alignment between charts
-const PRICE_SCALE_WIDTH = 55
+const PRICE_SCALE_WIDTH = 50
 
 // Dark theme colors (GitHub Primer dark-dimmed)
 const darkTheme = {
@@ -136,15 +134,6 @@ const lightTheme = {
 
 // Reactive chart theme based on VitePress dark mode
 const chartTheme = computed(() => isDark.value ? darkTheme : lightTheme)
-
-// Computed heights based on chart type
-const overlayHeight = computed(() => {
-  return chartType.value === 'overlay' ? props.height : Math.floor(props.height * 0.65)
-})
-
-const oscillatorHeight = computed(() => {
-  return Math.floor(props.height * 0.35)
-})
 
 function parseTimestamp(timestamp: string): string {
   try {
@@ -191,12 +180,12 @@ async function loadChartData(): Promise<ChartData | null> {
   }
 }
 
-function createOverlayChart(container: HTMLDivElement, height: number): IChartApi {
+function createOverlayChart(container: HTMLDivElement): IChartApi {
   const theme = chartTheme.value
   return createChart(container, {
-    width: container.clientWidth,
-    height: height,
-    autoSize: false,
+    // width: container.clientWidth,
+    // height: container.clientHeight,
+    autoSize: true,
     layout: {
       background: { color: theme.bgColor },
       textColor: theme.textColor,
@@ -216,7 +205,7 @@ function createOverlayChart(container: HTMLDivElement, height: number): IChartAp
     rightPriceScale: {
       visible: true,
       borderVisible: false,
-      scaleMargins: { top: 0.05, bottom: 0.20 },
+      scaleMargins: { top: 0.05, bottom: 0.05 },
       autoScale: true,
       minimumWidth: PRICE_SCALE_WIDTH
     },
@@ -237,12 +226,12 @@ function createOverlayChart(container: HTMLDivElement, height: number): IChartAp
   })
 }
 
-function createOscillatorChart(container: HTMLDivElement, height: number): IChartApi {
+function createOscillatorChart(container: HTMLDivElement): IChartApi {
   const theme = chartTheme.value
   return createChart(container, {
-    width: container.clientWidth,
-    height: height,
-    autoSize: false,
+    // width: container.clientWidth,
+    // height: container.clientHeight,
+    autoSize: true,
     layout: {
       background: { color: theme.bgColor },
       textColor: theme.textColor,
@@ -262,7 +251,7 @@ function createOscillatorChart(container: HTMLDivElement, height: number): IChar
     rightPriceScale: {
       visible: true,
       borderVisible: false,
-      scaleMargins: { top: 0.10, bottom: 0.10 },
+      scaleMargins: { top: 0.075, bottom: 0.075 },
       autoScale: true,
       minimumWidth: PRICE_SCALE_WIDTH
     },
@@ -327,16 +316,14 @@ function setupVolumeSeries(chart: IChartApi, data: ChartData) {
 
   volumeSeries = chart.addSeries(HistogramSeries, {
     priceFormat: { type: 'volume' },
-    priceScaleId: 'volume',
+    priceScaleId: '',
     priceLineVisible: false,
     lastValueVisible: false
   })
 
-  // Position volume at bottom 20% of the chart, hidden scale
-  chart.priceScale('volume').applyOptions({
-    scaleMargins: { top: 0.80, bottom: 0 },
-    visible: false,
-    autoScale: true
+  // Position volume at bottom 30% of the chart (top: 0.7 means 70% from top, leaving bottom 30%)
+  volumeSeries.priceScale().applyOptions({
+    scaleMargins: { top: 0.8, bottom: 0 },
   })
 
   const volumeData = data.candles.map(c => ({
@@ -460,7 +447,7 @@ async function initChart() {
   // and (2) the browser completes layout/paint so clientWidth is accurate.
   await new Promise(resolve => requestAnimationFrame(resolve))
   await new Promise(resolve => requestAnimationFrame(resolve))
-  
+
   // Wait for container to have a valid width (may take a few frames)
   let attempts = 0
   while (overlayChartContainer.value && overlayChartContainer.value.clientWidth === 0 && attempts < INIT_POLL_MAX_ATTEMPTS) {
@@ -470,7 +457,7 @@ async function initChart() {
 
   // Always create overlay chart with candlesticks
   if (overlayChartContainer.value && overlayChartContainer.value.clientWidth > 0) {
-    overlayChart = createOverlayChart(overlayChartContainer.value, overlayHeight.value)
+    overlayChart = createOverlayChart(overlayChartContainer.value)
     setupCandlestickSeries(overlayChart, data)
     setupVolumeSeries(overlayChart, data)
 
@@ -484,7 +471,7 @@ async function initChart() {
 
   // For oscillator indicators, create separate oscillator chart
   if (isOscillatorType && oscillatorChartContainer.value && oscillatorChartContainer.value.clientWidth > 0) {
-    oscillatorChart = createOscillatorChart(oscillatorChartContainer.value, oscillatorHeight.value)
+    oscillatorChart = createOscillatorChart(oscillatorChartContainer.value)
 
     // Store thresholds info for later use with indicator data
     const thresholds = data.metadata?.thresholds || []
@@ -532,7 +519,7 @@ async function initChart() {
             bottomLineColor: 'transparent',
             bottomFillColor1: threshold.fill === 'below' ? threshold.fillColor : 'transparent',
             bottomFillColor2: threshold.fill === 'below' ? threshold.fillColor : 'transparent',
-            lineWidth: 0,
+            lineWidth: 0 as LineWidth,
             priceLineVisible: false,
             lastValueVisible: false,
             crosshairMarkerVisible: false
@@ -559,11 +546,11 @@ async function initChart() {
         const entry = entries[entries.length - 1]
         const width = entry.contentRect.width
         if (width > 0) {
-          if (overlayChart) {
-            overlayChart.resize(width, overlayHeight.value)
+          if (overlayChart && overlayChartContainer.value) {
+            overlayChart.resize(width, overlayChartContainer.value.clientHeight)
           }
-          if (oscillatorChart) {
-            oscillatorChart.resize(width, oscillatorHeight.value)
+          if (oscillatorChart && oscillatorChartContainer.value) {
+            oscillatorChart.resize(width, oscillatorChartContainer.value.clientHeight)
           }
         }
       }, RESIZE_DEBOUNCE_MS)
@@ -619,34 +606,23 @@ watch(isDark, () => {
 
 <template>
   <div class="indicator-chart-wrapper">
-    <div v-if="isLoading" class="chart-loading" :style="{ height: `${height}px` }">
+    <div v-if="isLoading" class="chart-loading">
       <span class="loading-spinner"></span>
       <span>Loading chart...</span>
     </div>
 
-    <div v-else-if="hasError" class="chart-error" :style="{ height: `${height}px` }">
+    <div v-else-if="hasError" class="chart-error">
       <span>{{ errorMessage }}</span>
     </div>
 
     <div v-show="!isLoading && !hasError" class="charts-container">
       <!-- Overlay Chart (always shown) -->
-      <div
-        ref="overlayChartContainer"
-        class="chart-container overlay-chart"
-        :style="{ height: `${overlayHeight}px` }"
-        role="img"
-        aria-label="Price chart with indicator overlay"
-      ></div>
+      <div ref="overlayChartContainer" class="chart-container overlay-chart" role="img"
+        aria-label="Price chart with indicator overlay"></div>
 
       <!-- Oscillator Chart (shown only for oscillator type) -->
-      <div
-        v-if="chartType === 'oscillator'"
-        ref="oscillatorChartContainer"
-        class="chart-container oscillator-chart"
-        :style="{ height: `${oscillatorHeight}px` }"
-        role="img"
-        aria-label="Oscillator indicator chart"
-      ></div>
+      <div v-if="chartType === 'oscillator'" ref="oscillatorChartContainer" class="chart-container oscillator-chart"
+        role="img" aria-label="Oscillator indicator chart"></div>
     </div>
 
     <noscript>
@@ -660,7 +636,6 @@ watch(isDark, () => {
 <style scoped>
 .indicator-chart-wrapper {
   width: 100%;
-  margin: 0;
 }
 
 .charts-container {
@@ -675,25 +650,63 @@ watch(isDark, () => {
 }
 
 .overlay-chart {
-  /* No border radius for seamless look */
+  aspect-ratio: 2.5;
 }
 
 .oscillator-chart {
-  /* No border between charts */
+  aspect-ratio: 10;
+}
+
+/* Tablet breakpoint */
+@media (max-width: 880px) {
+  .overlay-chart {
+    aspect-ratio: 2;
+  }
+
+  .oscillator-chart {
+    aspect-ratio: 8;
+  }
+}
+
+/* Mobile breakpoint */
+@media (max-width: 600px) {
+  .overlay-chart {
+    aspect-ratio: 5/4;
+  }
+}
+
+/* Landscape optimizations */
+@media (max-height: 400px) and (orientation: landscape) {
+  .overlay-chart {
+    aspect-ratio: unset;
+    height: 100vh;
+  }
+}
+
+@media (max-width: 880px) and (orientation: landscape) {
+  .oscillator-chart {
+    aspect-ratio: unset;
+    height: 25vh;
+  }
+}
+
+@media (max-height: 600px) and (orientation: landscape) {
+  .oscillator-chart {
+    aspect-ratio: unset;
+    height: 33.33vh;
+  }
+}
+
+@media (max-height: 400px) {
+  .oscillator-chart {
+    aspect-ratio: unset;
+    height: 50vh;
+  }
 }
 
 /* Hide the TradingView attribution link via CSS as backup */
 .chart-container :deep(a[href*="tradingview"]) {
   display: none !important;
-}
-
-/* Remove all borders from lightweight-charts internal table cells */
-.chart-container :deep(.tv-lightweight-charts),
-.chart-container :deep(.tv-lightweight-charts table),
-.chart-container :deep(.tv-lightweight-charts td),
-.chart-container :deep(.tv-lightweight-charts tr) {
-  border: none !important;
-  border-collapse: collapse !important;
 }
 
 .chart-loading,

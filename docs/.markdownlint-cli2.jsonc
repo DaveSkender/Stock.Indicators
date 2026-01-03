@@ -31,8 +31,10 @@
         "nav",
         "ClientOnly",
         "IndicatorChart",
+        "Contributors",
         "clientonly",
-        "indicatorchart"
+        "indicatorchart",
+        "contributors"
       ]
     },
     "MD041": false  // accomodate Jekyll markdown

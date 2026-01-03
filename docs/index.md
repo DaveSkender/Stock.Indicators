@@ -41,9 +41,9 @@ You'll get all of the industry standard indicators out-of-the-box. Additionally,
 
 <ClientOnly>
   <div class="home-charts-stack">
-    <IndicatorChart src="/data/BollingerBands.json" :height="280" />
-    <IndicatorChart src="/data/Stoch.json" :height="180" />
-    <IndicatorChart src="/data/Macd.json" :height="180" />
+    <IndicatorChart src="/data/BollingerBands.json" />
+    <IndicatorChart src="/data/Stoch.json" />
+    <IndicatorChart src="/data/Macd.json" />
   </div>
 </ClientOnly>
 
@@ -104,6 +104,10 @@ If you want to buy me a beer or are interested in ongoing support as a patron, [
 
 This NuGet package is an open-source project [on GitHub](https://github.com/DaveSkender/Stock.Indicators). If you want to report bugs or contribute fixes, new indicators, or new features, please review our [contributing guidelines](/contributing) and [the backlog](https://github.com/users/DaveSkender/projects/1).
 
-Special thanks to all of our community code contributors! Visit our [GitHub repository](https://github.com/DaveSkender/Stock.Indicators) to see the full list.
+Special thanks to all of our community code contributors!
+
+<Contributors />
+
+Visit our [GitHub repository](https://github.com/DaveSkender/Stock.Indicators) to see the full list.
 
 » see our [full list of indicators and overlays](/indicators)

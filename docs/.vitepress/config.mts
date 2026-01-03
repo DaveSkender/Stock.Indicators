@@ -42,8 +42,7 @@ export default defineConfig({
       { text: 'Guide', link: '/guide' },
       { text: 'Indicators', link: '/indicators' },
       { text: 'Utilities', link: '/utilities' },
-      // TODO: Examples page needs VitePress conversion - currently excluded in srcExclude
-      // { text: 'Examples', link: '/examples/' },
+      { text: 'Examples', link: '/examples/' },
     ],
 
     sidebar: {
@@ -54,6 +53,7 @@ export default defineConfig({
             { text: 'Indicators', link: '/indicators' },
             { text: 'Getting Started', link: '/guide' },
             { text: 'Utilities', link: '/utilities' },
+            { text: 'Examples', link: '/examples/' },
             { text: 'Performance', link: '/performance' },
             { text: 'Contributing', link: '/contributing' },
           ]
@@ -66,8 +66,29 @@ export default defineConfig({
             { text: 'Indicators', link: '/indicators' },
             { text: 'Getting Started', link: '/guide' },
             { text: 'Utilities', link: '/utilities' },
+            { text: 'Examples', link: '/examples/' },
             { text: 'Performance', link: '/performance' },
             { text: 'Contributing', link: '/contributing' },
+          ]
+        }
+      ],
+      '/examples': [
+        {
+          text: 'Documentation',
+          items: [
+            { text: 'Indicators', link: '/indicators' },
+            { text: 'Getting Started', link: '/guide' },
+            { text: 'Utilities', link: '/utilities' },
+            { text: 'Examples', link: '/examples/' },
+            { text: 'Performance', link: '/performance' },
+            { text: 'Contributing', link: '/contributing' },
+          ]
+        },
+        {
+          text: 'Examples',
+          items: [
+            { text: 'Getting Started', link: '/examples/' },
+            { text: 'Custom Indicators', link: '/examples/CustomIndicatorsLibrary/' },
           ]
         }
       ],
@@ -397,7 +418,11 @@ export default defineConfig({
     '_data/**',
     'pages/**',
     '_indicators/**',
-    'examples/**',
+    'examples/Backtest/**',
+    'examples/ConsoleApp/**',
+    'examples/CustomIndicatorsUsage/**',
+    'examples/UseQuoteApi/**',
+    'examples/**/*.{sln,csproj,cs,json,png,zip,editorconfig}',
     'plans/**',
     'Gemfile*',
     '.pa11yci',

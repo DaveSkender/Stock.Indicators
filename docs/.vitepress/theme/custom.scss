@@ -202,18 +202,30 @@ html:not(.dark) {
 /* Home page hero */
 .VPHero {
   background-color: var(--vp-c-bg);
-}
 
-.VPHero .name {
-  color: var(--vp-c-text-1);
-}
+  .name {
+    color: var(--vp-c-text-1);
+    max-width: 100% !important;
+    font-size: 2.5em !important;
+    line-height: 1.0 !important;
+  }
 
-.VPHero .text {
-  color: var(--vp-c-brand-1);
-}
+  small {
+    font-size: 75% !important;
+  }
 
-.VPHero .tagline {
-  color: var(--vp-c-text-2);
+  .text {
+    color: var(--vp-c-brand-1);
+    max-width: 100% !important;
+  }
+
+  .tagline {
+    color: var(--vp-c-text-2);
+    font-size: 1.25em !important;
+    line-height: 1.0 !important;
+  }
+
+
 }
 
 /* Ensure brand buttons keep high-contrast text */
@@ -227,24 +239,20 @@ html:not(.dark) {
   display: flex;
   flex-direction: column;
   gap: 0;
-  margin: 24px 0;
-  max-width: 800px;
+  margin: 0 auto;
+  padding: 8px 0;
+  max-width: 1024px;
 }
 
-/* Legacy horizontal layout - not used */
-.home-charts {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  margin: 24px 0;
-}
+/* Chart overrides (unset VitePress styles) */
+.tv-lightweight-charts {
 
-@media (min-width: 768px) {
-  .home-charts {
-    flex-direction: row;
-  }
-
-  .home-charts > * {
-    flex: 1;
+  table,
+  tr,
+  td,
+  th {
+    border: none;
+    margin: 0;
+    overflow: unset;
   }
 }
