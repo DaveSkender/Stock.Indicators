@@ -4,7 +4,7 @@
 
 This document summarizes performance benchmarks for StreamHub indicators under rapid same-candle update scenarios—a critical pattern in live trading where the latest candle updates frequently before the next candle arrives.
 
-**Key Finding**: The StreamHubState pattern provides **2.17x faster performance** for complex stateful indicators (RSI) while adding minimal overhead for simple window-based indicators (SMA, StdDev). This optimization specifically targets the rapid same-candle update scenario common in live streaming data.
+**Key Finding**: The StreamHubState pattern provides **2.04x to 2.65x faster performance** for complex stateful indicators (RSI: 2.04x, PMO: 2.65x) while adding overhead for simple window-based indicators (SMA: 1.26x slower, StdDev: 1.21x slower). This optimization specifically targets the rapid same-candle update scenario common in live streaming data.
 
 ## Benchmark Methodology
 
@@ -33,7 +33,7 @@ This simulates real-world live trading where tick data arrives continuously, upd
 | **ChaikinOscillator** | TBD μs | TBD μs | Not implemented | 🔶 Candidate (dual EMA) |
 | **Chop** | TBD μs | TBD μs | Not implemented | ⚪ Window-based |
 | **CMF** | TBD μs | TBD μs | Not implemented | ⚪ Window-based |
-| **ConnorsRSI** | TBD μs | TBD μs | Expected faster | ✅ Complex stateful (implemented) |
+| **ConnorsRSI** | 666.6 μs | N/A | ⚠️ HubState benchmark failed | ✅ Complex stateful (implemented) |
 | **DEMA** | TBD μs | TBD μs | Not implemented | 🔶 Candidate (double EMA) |
 | **Doji** | TBD μs | TBD μs | Not implemented | ⚪ Pattern recognition |
 | **EMA** | TBD μs | TBD μs | Not implemented | 🔶 Candidate (exponential smoothing) |
@@ -52,23 +52,23 @@ This simulates real-world live trading where tick data arrives continuously, upd
 | **MFI** | TBD μs | TBD μs | Not implemented | ⚪ Window-based |
 | **OBV** | TBD μs | TBD μs | Not implemented | ⚪ Simple accumulator |
 | **ParabolicSAR** | TBD μs | TBD μs | Not implemented | 🔶 Candidate (trend tracking) |
-| **PMO** | TBD μs | TBD μs | Expected faster | ✅ Complex stateful (implemented) |
+| **PMO** | 563.1 μs | 212.5 μs | **2.65x faster** | ✅ Complex stateful (implemented) |
 | **PRS** | TBD μs | TBD μs | Not implemented | ⚪ Simple ratio |
 | **PVO** | TBD μs | TBD μs | Not implemented | 🔶 Candidate (dual EMA) |
 | **ROC** | TBD μs | TBD μs | Not implemented | ⚪ Simple calculation |
 | **ROC with Band** | TBD μs | TBD μs | Not implemented | ⚪ ROC + SMA |
-| **RSI** | 420.6 μs | 193.7 μs | **2.17x faster** | ✅ Significant win (implemented) |
+| **RSI** | 445.2 μs | 218.2 μs | **2.04x faster** | ✅ Significant win (implemented) |
 | **Slope** | TBD μs | TBD μs | Not implemented | ⚪ Linear regression |
-| **SMA** | 215.7 μs | 261.2 μs | 1.21x slower | ⚠️ Overhead exceeds benefit (implemented) |
+| **SMA** | 219.8 μs | 276.4 μs | 1.26x slower | ⚠️ Overhead exceeds benefit (implemented) |
 | **SMMA** | TBD μs | TBD μs | Not implemented | 🔶 Candidate (Wilder smoothing) |
 | **STC** | TBD μs | TBD μs | Not implemented | 🔶 Candidate (MACD + smoothing) |
-| **StdDev** | 308.8 μs | 357.6 μs | 1.16x slower | ⚠️ Overhead exceeds benefit (implemented) |
+| **StdDev** | 265.0 μs | 319.8 μs | 1.21x slower | ⚠️ Overhead exceeds benefit (implemented) |
 | **StochRSI** | TBD μs | TBD μs | Not implemented | 🔶 Candidate (RSI + Stochastic) |
 | **SuperTrend** | TBD μs | TBD μs | Not implemented | 🔶 Candidate (ATR + trend) |
 | **T3** | TBD μs | TBD μs | Not implemented | 🔶 Candidate (6-stage EMA) |
 | **TEMA** | TBD μs | TBD μs | Not implemented | 🔶 Candidate (triple EMA) |
 | **TRIX** | TBD μs | TBD μs | Not implemented | 🔶 Candidate (triple EMA) |
-| **TSI** | TBD μs | TBD μs | Expected faster | ✅ Complex stateful (implemented) |
+| **TSI** | 207.4 μs | 205.1 μs | **1.01x faster** | ✅ Complex stateful (implemented) |
 | **Ulcer Index** | TBD μs | TBD μs | Not implemented | ⚪ Window-based |
 | **Ultimate** | TBD μs | TBD μs | Not implemented | ⚪ Multi-period average |
 | **Volume Profile** | TBD μs | TBD μs | Not implemented | ⚪ Distribution analysis |
@@ -185,11 +185,12 @@ Based on architectural analysis:
 
 **High Priority (Compute-Intensive + Complex State):**
 
-1. ✅ **ConnorsRSI** (172k ns baseline) - Dual RSI + streak tracking
-2. ✅ **TSI** (40k ns baseline) - Double EMA with history lists
-3. ✅ **PMO** (33k ns baseline) - Double EMA smoothing
-4. **MACD** - Triple EMA (MACD line, signal line, histogram)
-5. **Stochastic** - Multiple smoothing stages with %K/%D
+1. ✅ **PMO** (563.1 μs baseline) - Double EMA smoothing - **2.65x faster with HubState**
+2. ✅ **ConnorsRSI** (666.6 μs baseline) - Dual RSI + streak tracking - **benchmark needs fix**
+3. ✅ **RSI** (445.2 μs baseline) - Wilder's smoothing - **2.04x faster with HubState**
+4. ✅ **TSI** (207.4 μs baseline) - Double EMA with history - **1.01x faster with HubState (marginal)**
+5. **MACD** - Triple EMA (MACD line, signal line, histogram)
+6. **Stochastic** - Multiple smoothing stages with %K/%D
 
 **Medium Priority (Moderate Complexity):**
 
@@ -267,15 +268,15 @@ All StreamHubState implementations include comprehensive test coverage:
 
 **Winners (StreamHubState faster):**
 
-- RSI: **2.17x faster** (420.6 μs → 193.7 μs, -54% time)
-- PMO: Expected significant improvement (TBD)
-- TSI: Expected significant improvement (TBD)
-- ConnorsRSI: Expected significant improvement (TBD)
+- PMO: **2.65x faster** (563.1 μs → 212.5 μs, -62% time)
+- RSI: **2.04x faster** (445.2 μs → 218.2 μs, -51% time)
+- TSI: **1.01x faster** (207.4 μs → 205.1 μs, -1% time) - marginal improvement
+- ConnorsRSI: Benchmark failed (needs investigation)
 
 **Overhead Cases (Original Hub faster):**
 
-- SMA: 1.21x slower (+21% overhead)
-- StdDev: 1.16x slower (+16% overhead)
+- SMA: 1.26x slower (+26% overhead)
+- StdDev: 1.21x slower (+21% overhead)
 
 ### Key Insights
 
@@ -301,11 +302,13 @@ dotnet run --project tools/performance -c Release --filter *StreamAllRapidUpdate
 
 ## Future Work
 
-1. **Complete benchmark runs**: Collect full performance data for PMO, TSI, ConnorsRSI comparisons
-2. **Identify additional candidates**: Use StreamAllRapidUpdates data to prioritize conversions
-3. **Optimize overhead**: Investigate ways to reduce state caching overhead for simple indicators
-4. **CI/CD integration**: Add performance regression detection to build pipeline
-5. **Documentation**: Create StreamHubState implementation guide with patterns and best practices
+1. **Fix ConnorsRsiHubState benchmark**: Investigate why benchmark failed to complete
+2. **Complete baseline runs**: Execute StreamAllRapidUpdates to collect performance data for all 73 indicators
+3. **Identify additional candidates**: Use baseline data to prioritize future StreamHubState conversions
+4. **Analyze TSI result**: Investigate why TSI shows only marginal improvement (1.01x) despite complex state
+5. **Optimize overhead**: Investigate ways to reduce state caching overhead for simple indicators
+6. **CI/CD integration**: Add performance regression detection to build pipeline
+7. **Documentation**: Create StreamHubState implementation guide with patterns and best practices
 
 ---
 
