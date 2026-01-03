@@ -3,7 +3,7 @@ namespace Performance;
 // INTERNAL UTILITIES
 
 [Config(typeof(MicrotestConfig))]
-[ShortRunJob, WarmupCount(5), IterationCount(10), IterationTime(1000)]
+[WarmupCount(5), IterationCount(10), IterationTime(1000)]
 public class UtilityStdDev
 {
     private const int OpsQty = 8;
