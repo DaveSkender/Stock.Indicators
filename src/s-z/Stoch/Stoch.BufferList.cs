@@ -179,14 +179,23 @@ public class StochList : BufferList<StochResult>, IIncrementFromQuote, IStoch
                     break;
 
                 case MaType.SMMA:
-                    // Re/initialize with first oscillator value (matches StaticSeries)
+                    // Re/initialize with SMA when _prevSmoothK is NaN
+                    // (happens at start or after NaN input values)
+                    // This matches standard SMMA pattern (see Alligator, SMMA indicators)
                     if (double.IsNaN(_prevSmoothK))
                     {
-                        _prevSmoothK = rawK;
+                        if (_rawKBuffer.Count == SmoothPeriods)
+                        {
+                            _prevSmoothK = _rawKBuffer.Average();
+                        }
                     }
 
-                    smoothK = ((_prevSmoothK * (SmoothPeriods - 1)) + rawK) / SmoothPeriods;
-                    _prevSmoothK = smoothK;
+                    if (!double.IsNaN(_prevSmoothK))
+                    {
+                        smoothK = ((_prevSmoothK * (SmoothPeriods - 1)) + rawK) / SmoothPeriods;
+                        _prevSmoothK = smoothK;
+                    }
+
                     break;
 
                 default:
@@ -216,14 +225,23 @@ public class StochList : BufferList<StochResult>, IIncrementFromQuote, IStoch
                     break;
 
                 case MaType.SMMA:
-                    // Re/initialize with first smoothK value (matches StaticSeries)
+                    // Re/initialize with SMA when _prevSignal is NaN
+                    // (happens at start or after NaN input values)
+                    // This matches standard SMMA pattern (see Alligator, SMMA indicators)
                     if (double.IsNaN(_prevSignal))
                     {
-                        _prevSignal = smoothK;
+                        if (_smoothKBuffer.Count == SignalPeriods)
+                        {
+                            _prevSignal = _smoothKBuffer.Average();
+                        }
                     }
 
-                    signal = ((_prevSignal * (SignalPeriods - 1)) + smoothK) / SignalPeriods;
-                    _prevSignal = signal;
+                    if (!double.IsNaN(_prevSignal))
+                    {
+                        signal = ((_prevSignal * (SignalPeriods - 1)) + smoothK) / SignalPeriods;
+                        _prevSignal = signal;
+                    }
+
                     break;
 
                 default:

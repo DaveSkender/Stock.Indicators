@@ -51,7 +51,7 @@ public static partial class StringOut
     public static string ToConsole<T>(
         this IReadOnlyList<T> source,
         IDictionary<string, string>? args = null)
-        where T : ISeries => source.ToConsole(filter: _ => true, args: args);
+        where T : ISeries => source.ToConsole(filter: static _ => true, args: args);
 
     /// <summary>
     /// Writes the contents of the series to the console and returns the output as a string.
@@ -63,7 +63,7 @@ public static partial class StringOut
     public static string ToConsole<T>(
         this IReadOnlyList<T> source,
         params (string key, string value)[] args)
-    where T : ISeries => source.ToConsole(filter: _ => true, args: args);
+    where T : ISeries => source.ToConsole(filter: static _ => true, args: args);
 
     /// <summary>
     /// Converts a list of ISeries to a fixed-width formatted string and writes it to the console.
@@ -104,8 +104,8 @@ public static partial class StringOut
     {
         Dictionary<string, string>? argsDict = args?.Length > 0
             ? args
-                .GroupBy(x => x.key)
-                .ToDictionary(g => g.Key, g => g.Last().value)
+                .GroupBy(static x => x.key)
+                .ToDictionary(static g => g.Key, static g => g.Last().value)
             : null;
 
         return source.ToConsole(filter, argsDict);
@@ -172,8 +172,8 @@ public static partial class StringOut
 
         Dictionary<string, string>? argsDict = args?.Length > 0
             ? args
-                .GroupBy(x => x.key)
-                .ToDictionary(g => g.Key, g => g.Last().value)
+                .GroupBy(static x => x.key)
+                .ToDictionary(static g => g.Key, static g => g.Last().value)
             : null;
 
         string? output = source.ToStringOut(filter, limitQty, argsDict);

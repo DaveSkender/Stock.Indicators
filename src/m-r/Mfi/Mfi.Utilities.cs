@@ -6,21 +6,6 @@ namespace Skender.Stock.Indicators;
 public static partial class Mfi
 {
     /// <summary>
-    /// Removes the recommended warmup periods from the MFI results.
-    /// </summary>
-    /// <inheritdoc cref="Reusable.RemoveWarmupPeriods{T}(IReadOnlyList{T})"/>
-    public static IReadOnlyList<MfiResult> RemoveWarmupPeriods(
-        this IReadOnlyList<MfiResult> results)
-    {
-        ArgumentNullException.ThrowIfNull(results);
-
-        int removePeriods = results
-            .FindIndex(static x => x.Mfi != null);
-
-        return results.Remove(removePeriods);
-    }
-
-    /// <summary>
     /// Validates the parameters for the MFI calculation.
     /// </summary>
     /// <param name="lookbackPeriods">The number of periods to use for the MFI calculation.</param>

@@ -9,7 +9,7 @@ public abstract class QuoteProvider<TIn, TOut>(
      where TOut : IQuote
 {
     /// <summary>
-    /// Gets the quotes.
+    /// Gets the quotes as a read-only wrapper.
     /// </summary>
-    public IReadOnlyList<TOut> Quotes => Cache;
+    public IReadOnlyList<TOut> Quotes => Cache.AsReadOnly();
 }

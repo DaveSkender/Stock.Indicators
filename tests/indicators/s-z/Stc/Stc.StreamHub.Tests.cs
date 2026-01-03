@@ -143,7 +143,7 @@ public class StcHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
     public void Results_AreAlwaysBounded()
     {
         IReadOnlyList<StcResult> sut = Quotes.ToStcHub(9, 12, 26).Results;
-        sut.IsBetween(x => x.Stc, 0, 100);
+        sut.IsBetween(static x => x.Stc, 0, 100);
     }
 
     [TestMethod]

@@ -84,7 +84,7 @@ public static class ListingExecutionBuilderExtensions
         this IndicatorListing listing,
         IEnumerable<IQuote> quotes)
         where TResult : class
-        => ListingExecutor.Execute<IQuote, TResult>(quotes, listing);
+        => ListingExecutor.Execute<TResult>(quotes, listing);
 
     /// <summary>
     /// Alternative syntax: Execute an indicator from quotes using a custom indicator builder.

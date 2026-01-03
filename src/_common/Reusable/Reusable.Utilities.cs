@@ -51,17 +51,10 @@ public static class Reusable
         this IReadOnlyList<T> results)
         where T : IReusable
     {
-        // this is the default implementation, it will
-        // be overridden in the specific indicator class
-
         int removePeriods = results
             .FindIndex(static x => !double.IsNaN(x.Value));
 
         return results.Remove(removePeriods);
-
-        // TODO: remove specific indicator 'RemoveWarmupPeriods()' methods
-        // that are now redundant to this generic method (not all are).
-        // Note: Some or all of these may already be removed.
     }
 
     /// <summary>

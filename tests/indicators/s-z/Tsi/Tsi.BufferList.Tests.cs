@@ -17,8 +17,8 @@ public class Tsi : BufferListTestBase, ITestChainBufferList
     public void Results_AreAlwaysBounded()
     {
         TsiList sut = new(25, 13, 7, Quotes);
-        sut.IsBetween(x => x.Tsi, -100, 100);
-        sut.IsBetween(x => x.Signal, -100, 100);
+        sut.IsBetween(static x => x.Tsi, -100, 100);
+        sut.IsBetween(static x => x.Signal, -100, 100);
     }
 
     [TestMethod]

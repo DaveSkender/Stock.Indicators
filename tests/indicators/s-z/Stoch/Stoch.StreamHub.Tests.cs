@@ -67,8 +67,8 @@ public class StochHubTests : StreamHubTestBase, ITestQuoteObserver
     public void Results_AreAlwaysBounded()
     {
         IReadOnlyList<StochResult> sut = Quotes.ToStochHub(14, 3, 3).Results;
-        sut.IsBetween(x => x.Oscillator, 0, 100);
-        sut.IsBetween(x => x.Signal, 0, 100);
+        sut.IsBetween(static x => x.Oscillator, 0, 100);
+        sut.IsBetween(static x => x.Signal, 0, 100);
     }
 
     [TestMethod]

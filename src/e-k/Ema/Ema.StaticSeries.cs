@@ -43,7 +43,7 @@ public static partial class Ema
             double ema = !double.IsNaN(lastEma)
 
                 // calculate EMA (normally)
-                ? Ema.Increment(k, lastEma, s.Value)
+                ? Increment(k, lastEma, s.Value)
 
                 // when no prior EMA, reset as SMA
                 : Sma.Increment(source, lookbackPeriods, i);

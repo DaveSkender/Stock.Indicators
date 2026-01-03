@@ -14,7 +14,7 @@ public class Ultimate : BufferListTestBase
     public void Results_AreAlwaysBounded()
     {
         UltimateList sut = new(7, 14, 28, Quotes);
-        sut.IsBetween(x => x.Ultimate, 0, 100);
+        sut.IsBetween(static x => x.Ultimate, 0, 100);
     }
 
     [TestMethod]

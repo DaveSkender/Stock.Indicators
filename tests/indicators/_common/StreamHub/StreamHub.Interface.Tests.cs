@@ -99,7 +99,7 @@ public class TestCompliance
         Type[] allTypes = testAssembly.GetTypes();
 
         List<Type> redundantImplementations = allTypes
-            .Where(t => t.IsClass
+            .Where(static t => t.IsClass
                      && !t.IsAbstract
                      && typeof(ITestChainObserver).IsAssignableFrom(t)
                      && t.GetInterfaces().Contains(typeof(ITestQuoteObserver)))

@@ -52,8 +52,8 @@ public class Stoch : StaticSeriesTestBase
     public void Results_AreAlwaysBounded()
     {
         IReadOnlyList<StochResult> sut = Quotes.ToStoch(14, 3, 3);
-        sut.IsBetween(x => x.Oscillator, 0, 100);
-        sut.IsBetween(x => x.Signal, 0, 100);
+        sut.IsBetween(static x => x.Oscillator, 0, 100);
+        sut.IsBetween(static x => x.Signal, 0, 100);
     }
 
     /// <summary>
@@ -67,24 +67,24 @@ public class Stoch : StaticSeriesTestBase
 
         // proper quantities
         sut.Should().HaveCount(502);
-        sut.Where(static x => x.K != null).Should().HaveCount(494);
-        sut.Where(static x => x.D != null).Should().HaveCount(494);
+        sut.Where(static x => x.K != null).Should().HaveCount(492);
+        sut.Where(static x => x.D != null).Should().HaveCount(490);
 
         // sample values
-        StochResult r7 = sut[7];
-        r7.K.Should().BeNull();
-        r7.D.Should().BeNull();
-        r7.J.Should().BeNull();
+        StochResult r9 = sut[9];
+        r9.K.Should().BeNull();
+        r9.D.Should().BeNull();
+        r9.J.Should().BeNull();
 
-        StochResult r8 = sut[8];
-        r8.K.Should().BeApproximately(81.9178, Money4);
-        r8.D.Should().BeApproximately(81.9178, Money4);
-        r8.J.Should().BeApproximately(81.9178, Money4);
+        StochResult r12 = sut[12];
+        r12.K.Should().BeApproximately(59.7656, Money4);
+        r12.D.Should().BeApproximately(59.4459, Money4);
+        r12.J.Should().BeApproximately(61.0445, Money4);
 
         StochResult r17 = sut[17];
-        r17.K.Should().BeApproximately(82.5181, Money4);
-        r17.D.Should().BeApproximately(76.2603, Money4);
-        r17.J.Should().BeApproximately(107.5491, Money4);
+        r17.K.Should().BeApproximately(82.2852, Money4);
+        r17.D.Should().BeApproximately(74.9715, Money4);
+        r17.J.Should().BeApproximately(111.5401, Money4);
 
         StochResult r149 = sut[149];
         r149.K.Should().BeApproximately(77.1571, Money4);
@@ -245,6 +245,26 @@ public class Stoch : StaticSeriesTestBase
         sut.Should().HaveCountGreaterThan(0);
         sut.IsBetween(static x => x.Oscillator, 0d, 100d);
         sut.IsBetween(static x => x.Signal, 0d, 100d);
+    }
+
+    [TestMethod]
+    public void SmmaReinitialization_WithNanValues()
+    {
+        // Test SMMA re-initialization logic when NaN values are encountered
+        // This verifies that SMMA correctly initializes with SMA (not just current value)
+        // when prevK or prevD becomes NaN during processing
+
+        IReadOnlyList<StochResult> sut = BadQuotes
+            .ToStoch(14, 3, 3, 3, 2, MaType.SMMA);
+
+        // Should produce valid results without NaN propagation
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Oscillator is double v && double.IsNaN(v)).Should().BeEmpty();
+        sut.Where(static x => x.Signal is double v && double.IsNaN(v)).Should().BeEmpty();
+
+        // Verify some results are calculated (not all null)
+        sut.Where(static x => x.Oscillator != null).Should().NotBeEmpty();
+        sut.Where(static x => x.Signal != null).Should().NotBeEmpty();
     }
 
     [TestMethod]
