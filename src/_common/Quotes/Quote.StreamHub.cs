@@ -83,10 +83,10 @@ public class QuoteHub
         if (Cache.Count > 0 && index < Cache.Count && Cache[index].Timestamp == result.Timestamp)
         {
             // check if this is an exact duplicate (same values)
-            // if so, defer to base behavior for overflow tracking
+            // if so, defer to AppendCache for overflow tracking
             if (Cache[index].Equals(result))
             {
-                base.OnAdd(item, notify, indexHint);
+                AppendCache(result, notify);
                 return;
             }
 
