@@ -18,7 +18,6 @@ public class CacheManagement : TestBase
         // Verify StreamHub matches Series for same input
         IReadOnlyList<SmaResult> seriesBeforeRemove = quotes.ToSma(20);
         observer.Results[19].Sma.Should().Be(seriesBeforeRemove[19].Sma);
-        // TODO: observer.Results[19].Sma.Should().Be(214.5250);
 
         // Create new quote list with the removed item (more efficient than LINQ Where)
         List<Quote> quotesAfterRemove = [.. quotes];
@@ -33,7 +32,6 @@ public class CacheManagement : TestBase
         // StreamHub result at index 19 should match Series result at index 19 (last element)
         IReadOnlyList<SmaResult> seriesAfterRemove = quotesAfterRemove.ToSma(20);
         observer.Results[19].Sma.Should().Be(seriesAfterRemove[19].Sma);
-        // TODO: observer.Results[19].Sma.Should().Be(214.5260);
     }
 
     /// <summary>
@@ -248,6 +246,74 @@ public class CacheManagement : TestBase
         DateTime oldestQuoteDate = quoteHub.Quotes[0].Timestamp;
         observer.Results.Should().OnlyContain(r => r.Timestamp >= oldestQuoteDate,
             "Renko bricks should be pruned by date to match the oldest quote in cache");
+
+        quoteHub.EndTransmission();
+    }
+
+    /// <summary>
+    /// Verifies that exposed cache references cannot be cast to mutable lists.
+    /// This prevents users from bypassing safe StreamHub methods.
+    /// </summary>
+    [TestMethod]
+    public void CacheReferencesAreImmutable()
+    {
+        QuoteHub quoteHub = new();
+        SmaHub observer = quoteHub.ToSmaHub(20);
+
+        List<Quote> quotes = Quotes.Take(25).ToList();
+        quoteHub.Add(quotes);
+
+        // verify Results cannot be cast to mutable list
+        IReadOnlyList<SmaResult> results = observer.Results;
+        bool canCastResults = results is List<SmaResult>;
+        canCastResults.Should().BeFalse("Results should not be castable to List<T>");
+
+        // verify GetCacheRef cannot be cast to mutable list
+        IReadOnlyList<SmaResult> cacheRef = observer.GetCacheRef();
+        bool canCastCacheRef = cacheRef is List<SmaResult>;
+        canCastCacheRef.Should().BeFalse("GetCacheRef() should not be castable to List<T>");
+
+        // verify QuoteHub.Quotes cannot be cast to mutable list
+        IReadOnlyList<IQuote> quotesRef = quoteHub.Quotes;
+        bool canCastQuotes = quotesRef is List<IQuote>;
+        canCastQuotes.Should().BeFalse("Quotes should not be castable to List<T>");
+
+        quoteHub.EndTransmission();
+    }
+
+    /// <summary>
+    /// Verifies that adding a quote with the same timestamp replaces the existing quote
+    /// instead of clearing the cache (standalone QuoteHub vulnerability fix).
+    /// </summary>
+    [TestMethod]
+    public void UpdateQuoteWithSameTimestamp()
+    {
+        QuoteHub quoteHub = new();
+        QuotePartHub observer = quoteHub.ToQuotePartHub(CandlePart.Close);
+
+        DateTime timestamp = new(2020, 1, 1, 10, 0, 0);
+
+        // add initial quote
+        Quote q1 = new(timestamp, 100m, 105m, 95m, 102m, 1000);
+        quoteHub.Add(q1);
+
+        quoteHub.Quotes.Should().HaveCount(1);
+        quoteHub.Quotes[0].Close.Should().Be(102m);
+        observer.Results.Should().HaveCount(1);
+        observer.Results[0].Value.Should().Be(102);
+
+        // add updated quote with same timestamp but different values
+        // should replace the existing quote and notify observers to rebuild
+        Quote q2 = new(timestamp, 100m, 110m, 90m, 108m, 1500);
+        quoteHub.Add(q2);
+
+        // QuoteHub should still have 1 quote with updated values
+        quoteHub.Quotes.Should().HaveCount(1);
+        quoteHub.Quotes[0].Close.Should().Be(108m);
+
+        // observer should rebuild from QuoteHub's cache with updated values
+        observer.Results.Should().HaveCount(1);
+        observer.Results[0].Value.Should().Be(108);
 
         quoteHub.EndTransmission();
     }

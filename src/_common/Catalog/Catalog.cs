@@ -263,7 +263,7 @@ public static partial class Catalog
             ?? throw new InvalidOperationException($"Indicator '{id}' with style '{style}' not found in catalog.");
 
         // Execute using typed executor
-        return ListingExecutor.Execute<IQuote, TResult>(quotes, listing, parameters);
+        return ListingExecutor.Execute<TResult>(quotes, listing, parameters);
     }
 
     /// <summary>
@@ -349,6 +349,9 @@ public static partial class Catalog
     /// <returns>The converted value, or null for null JsonElements.</returns>
     /// <exception cref="NotImplementedException">Thrown when the feature is not yet implemented</exception>
     private static object? ConvertJsonElement(JsonElement element)
+
+        // TODO: find alternative without using NotImplementedException
+        // due to it triggering IDE3000 code analysis findings
         => element.ValueKind switch {
             JsonValueKind.String => element.GetString() ?? string.Empty,
             JsonValueKind.Number when element.TryGetInt32(out int intValue) => intValue,

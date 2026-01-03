@@ -107,7 +107,7 @@ public class RenkoAtr : StaticSeriesTestBase
     [TestMethod]
     public void NullHistory_ThrowsException()
         => FluentActions
-            .Invoking(() => ((IReadOnlyList<IQuote>)null!).ToRenkoAtr())
+            .Invoking(static () => ((IReadOnlyList<IQuote>)null!).ToRenkoAtr())
             .Should()
             .ThrowExactly<ArgumentNullException>();
 

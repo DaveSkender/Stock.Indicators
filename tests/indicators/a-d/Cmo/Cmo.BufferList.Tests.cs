@@ -17,7 +17,7 @@ public class Cmo : BufferListTestBase, ITestChainBufferList
     public void Results_AreAlwaysBounded()
     {
         CmoList sut = new(14, Quotes);
-        sut.IsBetween(x => x.Cmo, -100, 100);
+        sut.IsBetween(static x => x.Cmo, -100, 100);
     }
 
     [TestMethod]

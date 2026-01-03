@@ -6,21 +6,6 @@ namespace Skender.Stock.Indicators;
 public static partial class Hurst
 {
     /// <summary>
-    /// Removes the recommended warmup periods from the Hurst Exponent results.
-    /// </summary>
-    /// <inheritdoc cref="Reusable.RemoveWarmupPeriods{T}(IReadOnlyList{T})"/>
-    public static IReadOnlyList<HurstResult> RemoveWarmupPeriods(
-        this IReadOnlyList<HurstResult> results)
-    {
-        ArgumentNullException.ThrowIfNull(results);
-
-        int removePeriods = results
-          .FindIndex(static x => x.HurstExponent != null);
-
-        return results.Remove(removePeriods);
-    }
-
-    /// <summary>
     /// Validates the lookback periods for Hurst Exponent calculations.
     /// </summary>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>

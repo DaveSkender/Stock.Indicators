@@ -44,7 +44,7 @@ public class Bop : BufferListTestBase
     public void Results_AreAlwaysBounded()
     {
         BopList sut = new(14, Quotes);
-        sut.IsBetween(x => x.Bop, -1, 1);
+        sut.IsBetween(static x => x.Bop, -1, 1);
     }
 
     [TestMethod]

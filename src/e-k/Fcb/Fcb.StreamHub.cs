@@ -113,6 +113,8 @@ public static partial class Fcb
     /// <summary>
     /// Creates a Fractal Chaos Bands (FCB) hub.
     /// </summary>
+    /// <param name="quoteProvider">The quote provider.</param>
+    /// <param name="windowSpan">The window span used for fractal detection.</param>
     /// <returns>An instance of <see cref="FcbHub"/>.</returns>
     public static FcbHub ToFcbHub(
        this IQuoteProvider<IQuote> quoteProvider,

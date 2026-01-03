@@ -44,7 +44,7 @@ public class Cmf : BufferListTestBase
     public void Results_AreAlwaysBounded()
     {
         CmfList sut = new(20, Quotes);
-        sut.IsBetween(x => x.Cmf, -1, 1);
+        sut.IsBetween(static x => x.Cmf, -1, 1);
     }
 
     [TestMethod]
