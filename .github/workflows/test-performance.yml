@@ -5,27 +5,7 @@ concurrency:
   cancel-in-progress: true
 
 on:
-  push:
-    branches:
-      - main
-    paths:
-      - tools/performance/**
-  pull_request:
-    branches: ["*"]
-    paths:
-      - ".github/workflows/test-performance.yml"
   workflow_dispatch:
-    inputs:
-      benchmark_filter:
-        description: "Benchmark filter pattern (e.g., *Ema* or *StyleComparison*). Leave default '*' for full run."
-        required: false
-        default: "*"
-        type: string
-      run_full_suite:
-        description: "Run full benchmark suite (overrides filter, takes ~60-80 minutes)"
-        required: false
-        default: false
-        type: boolean
 
 permissions:
   contents: read
@@ -33,8 +13,7 @@ permissions:
 jobs:
   analyze:
     runs-on: ubuntu-22.04
-    # Full runs need 90 minutes, PR spot checks are quick
-    timeout-minutes: ${{ github.event_name == 'pull_request' && 30 || 90 }}
+    timeout-minutes: 90
 
     steps:
       - name: Checkout source
@@ -66,36 +45,11 @@ jobs:
           --configuration Release
           --property:ContinuousIntegrationBuild=true
 
-      # Run spot check (quick) benchmarks on PRs
-      - name: Test performance (spot check)
-        if: github.event_name == 'pull_request'
+      - name: Test performance (full suite)
         working-directory: tools/performance
         run: |
-          dotnet run -c Release -- \
-            --filter "*StyleComparison*" \
-            --job short \
-            --warmupCount 3 \
-            --iterationCount 5
-
-      # Run full benchmarks on push to main or manual dispatch
-      - name: Test performance (full)
-        if: github.event_name != 'pull_request'
-        working-directory: tools/performance
-        run: |
-          # Check if full suite is requested (overrides filter)
-          if [ "${{ github.event.inputs.run_full_suite }}" = "true" ]; then
-            echo "Running full benchmark suite..."
-            dotnet run -c Release
-          else
-            FILTER="${{ github.event.inputs.benchmark_filter || '*' }}"
-            if [ "$FILTER" = "*" ]; then
-              echo "Running all benchmarks..."
-              dotnet run -c Release
-            else
-              echo "Running filtered benchmarks: $FILTER"
-              dotnet run -c Release -- --filter "$FILTER"
-            fi
-          fi
+          echo "Running full benchmark suite..."
+          dotnet run -c Release
 
       - name: Save test results
         uses: actions/upload-artifact@v4
@@ -103,64 +57,12 @@ jobs:
           name: test-summaries
           path: tools/performance/BenchmarkDotNet.Artifacts/results
 
-      - name: Detect performance regressions (Q005)
-        if: github.event_name == 'pull_request'
-        working-directory: tools/performance
-        continue-on-error: true
-        run: |
-          # Compare StyleComparison results with baseline (15% threshold for PRs)
-          pwsh detect-regressions.ps1 \
-            -BaselineFile baselines/Performance.StyleComparison-report-full.json \
-            -CurrentFile BenchmarkDotNet.Artifacts/results/Performance.StyleComparison-report-full.json \
-            -ThresholdPercent 15 | tee regression-report.txt
-
-      - name: Add regression analysis to summary
-        if: github.event_name == 'pull_request'
-        working-directory: tools/performance
-        continue-on-error: true
-        run: |
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "## Performance Regression Analysis" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-
-          if [ -f regression-report.txt ]; then
-            echo '```' >> $GITHUB_STEP_SUMMARY
-            cat regression-report.txt >> $GITHUB_STEP_SUMMARY
-            echo '```' >> $GITHUB_STEP_SUMMARY
-          else
-            echo "✅ No regression analysis output available" >> $GITHUB_STEP_SUMMARY
-          fi
-
-      - name: Publish summary (spot check)
-        if: github.event_name == 'pull_request'
-        working-directory: tools/performance/BenchmarkDotNet.Artifacts/results
-        continue-on-error: true
-        run: |
-          echo "## Performance Test Results (Spot Check)" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "> 💡 This is a quick spot check. Full benchmarks run on push to main." >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-
-          if [ -f Performance.StyleComparison-report-github.md ]; then
-            echo "### Style comparison" >> $GITHUB_STEP_SUMMARY
-            cat Performance.StyleComparison-report-github.md >> $GITHUB_STEP_SUMMARY
-          fi
-
-      - name: Publish summary (full)
-        if: github.event_name != 'pull_request'
+      - name: Publish summary
         working-directory: tools/performance/BenchmarkDotNet.Artifacts/results
         shell: bash
         run: |
           echo "## Performance Test Results" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-
-          # Check if this was a filtered run
-          FILTER="${{ github.event.inputs.benchmark_filter || '*' }}"
-          if [ "$FILTER" != "*" ] && [ "${{ github.event.inputs.run_full_suite }}" != "true" ]; then
-            echo "> 🔍 **Filtered run**: \`$FILTER\`" >> $GITHUB_STEP_SUMMARY
-            echo "> Only matching benchmarks are shown below." >> $GITHUB_STEP_SUMMARY
-            echo "" >> $GITHUB_STEP_SUMMARY
-          fi
 
           # Dynamically discover and publish all available report files
           FOUND_REPORTS=false

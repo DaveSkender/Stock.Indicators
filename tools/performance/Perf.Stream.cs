@@ -2,7 +2,7 @@ namespace Performance;
 
 // STREAM-STYLE INDICATORS
 
-[ShortRunJob]
+[ShortRunJob, WarmupCount(5), IterationCount(5)]
 public class StreamIndicators
 {
     private static readonly IReadOnlyList<Quote> q = Data.GetDefault();

@@ -2,7 +2,7 @@ namespace Performance;
 
 // SERIES-STYLE INDICATORS
 
-[ShortRunJob]
+[ShortRunJob, WarmupCount(5), IterationCount(5)]
 public class SeriesIndicators
 {
     private static readonly IReadOnlyList<Quote> q = Data.GetDefault();

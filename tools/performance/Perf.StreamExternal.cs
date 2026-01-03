@@ -5,8 +5,8 @@ namespace Performance;
 [ShortRunJob]
 public class StreamExternal
 {
-    private static readonly IReadOnlyList<Quote> quotes
-        = Data.GetDefault();
+    private static readonly IReadOnlyList<Quote> quotes = Data.GetDefault();
+    private const int n = 14;
 
     private readonly QuoteHub quoteHub = new();
 
@@ -35,8 +35,8 @@ public class StreamExternal
     // TODO: replace with external data cache model, when available
 
     [Benchmark(Baseline = true)]
-    public object EmaSeries() => quotes.ToEma(14);
+    public object EmaSeries() => quotes.ToEma(n);
 
     [Benchmark]
-    public object EmaStream() => quoteHub.ToEmaHub(14).Results;
+    public object EmaStream() => quoteHub.ToEmaHub(n).Results;
 }

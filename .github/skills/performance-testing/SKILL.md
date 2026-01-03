@@ -60,7 +60,7 @@ public IReadOnlyList<MyResult> MyIndicatorStream() => quoteHub.ToMyIndicator(14)
 
 ## Performance targets
 
-**Note**: These are optimization goals for future v3.1+ effort. Current implementations vary—see `baselines/PERFORMANCE_REVIEW.md` for actual measured performance. Some indicator families (e.g., EMA) have inherent framework overhead due to simple operation costs.
+**Note**: These are optimization goals for future v3.1+ effort. Current implementations vary—see `PERFORMANCE_ANALYSIS.md` for actual measured performance. Some indicator families (e.g., EMA) have inherent framework overhead due to simple operation costs.
 
 | Style | Target vs Series | Use Case |
 | ----- | ---------------- | -------- |

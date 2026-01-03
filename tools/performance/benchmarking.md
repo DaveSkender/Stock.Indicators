@@ -2,6 +2,8 @@
 
 This document describes the performance testing infrastructure for Stock Indicators for .NET, including how to run benchmarks, interpret results, and detect performance regressions.
 
+For comprehensive performance analysis and results, see `PERFORMANCE_ANALYSIS.md`.
+
 ## Overview
 
 The Stock Indicators library uses [BenchmarkDotNet](https://benchmarkdotnet.org/) for comprehensive performance testing. Benchmarks cover:
@@ -75,7 +77,7 @@ For dynamic indicator discovery (with catalog/reflection overhead), use `Perform
 
 ```bash
 # Single method
-dotnet run -c Release --filter *.EmaHub
+dotnet run -c Release --filter *.ToEmaHub
 ```
 
 ## Understanding results
@@ -92,6 +94,8 @@ BenchmarkDotNet generates multiple output formats in `BenchmarkDotNet.Artifacts/
 - **Mean** - Average execution time (most important for typical usage)
 - **Error** - Standard error of the mean
 - **StdDev** - Standard deviation (variability indicator)
+- **Allocated** - Total bytes allocated per operation
+- **Gen0/Gen1/Gen2** - Garbage collection counts per 1,000 operations
 
 ### Interpreting performance
 
@@ -110,17 +114,17 @@ Typical execution times (for 502 periods of historical data):
 - Optimized for: Throughput and memory efficiency
 - Typical use: Historical analysis, backtesting
 
-**Stream style** (real-time):
-
-- Best for: Live data feeds, WebSocket integration
-- Optimized for: Low latency per quote
-- Typical use: Trading applications, live dashboards
-
 **Buffer style** (incremental):
 
 - Best for: Growing datasets with frequent appends
 - Optimized for: Balance between memory and performance
 - Typical use: Accumulating historical data, hybrid scenarios
+
+**Stream style** (real-time):
+
+- Best for: Live data feeds, WebSocket integration
+- Optimized for: Low latency per quote
+- Typical use: Trading applications, live dashboards
 
 ## Performance regression detection
 
@@ -318,10 +322,11 @@ When contributing performance improvements:
 
 ## Resources
 
+- [PERFORMANCE_ANALYSIS.md](PERFORMANCE_ANALYSIS.md) - Comprehensive performance analysis and results
 - [BenchmarkDotNet Documentation](https://benchmarkdotnet.org/)
 - [Performance Best Practices for .NET](https://learn.microsoft.com/dotnet/core/performance/)
 - [Repository Performance Page](https://dotnet.stockindicators.dev/performance/)
 
 ---
 
-Last updated: December 19, 2025
+Last updated: January 3, 2026

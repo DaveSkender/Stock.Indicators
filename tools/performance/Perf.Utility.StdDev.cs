@@ -2,9 +2,12 @@ namespace Performance;
 
 // INTERNAL UTILITIES
 
-[ShortRunJob]
+[Config(typeof(MicrotestConfig))]
+[ShortRunJob, WarmupCount(5), IterationCount(10), IterationTime(1000)]
 public class UtilityStdDev
 {
+    private const int OpsQty = 8;
+
     [Params(20, 50, 250, 1000)]
     public int Periods;
 
@@ -17,6 +20,6 @@ public class UtilityStdDev
             .Select(static x => (double)x.Close)
             .ToArray();
 
-    [Benchmark]
+    [Benchmark(OperationsPerInvoke = OpsQty)]
     public object StdDev() => _values.StdDev();
 }

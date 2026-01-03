@@ -177,11 +177,12 @@ The following items are deferred to v3.1 or later releases. These are enhancemen
   - **Action**: Make reinitialization abstract for optimized subclass implementations
   - **Rationale**: Framework change with risk; defer for careful v3.1 implementation
 
-- [ ] **T213** - Performance review documentation cleanup and reorganization (6-8 hours)
-  - **Files**: `tools/performance/STREAMING_PERFORMANCE_ANALYSIS.md`, `tools/performance/baselines/PERFORMANCE_REVIEW.md`, etc.
+- [x] **T213** - Performance review documentation cleanup and reorganization (6-8 hours)
+  - **Files**: `tools/performance/PERFORMANCE_ANALYSIS.md` (consolidated from STREAMING_PERFORMANCE_ANALYSIS.md and baselines/PERFORMANCE_REVIEW.md)
   - **Problem**: Performance documentation fragmented, inconsistent, poorly organized
   - **Action**: Consolidate and reorganize performance documentation
   - **Rationale**: Documentation quality improvement, not user-facing
+  - **Status**: Completed - Documentation consolidated into single comprehensive PERFORMANCE_ANALYSIS.md file
 
 - [ ] **P001** - Moving Average family framework overhead investigation (Research required)
   - **Current**: 7-11x overhead due to StreamHub subscription/notification infrastructure
@@ -194,6 +195,96 @@ The following items are deferred to v3.1 or later releases. These are enhancemen
 - [ ] **P003** - Alligator/Gator BufferList performance (2-4 hours)
   - **Current**: Complex multi-line calculations (2.16x/1.73x overhead)
   - **Rationale**: Already optimized; remaining overhead from algorithmic complexity
+
+### Critical StreamHub Performance Issues (v3.1)
+
+Based on performance analysis (January 3, 2026), the following indicators have critical performance issues requiring investigation:
+
+- [ ] **P004** - ForceIndex StreamHub O(n²) complexity fix (4-6 hours)
+  - **Current**: 61.56x slower than Series (831,594 ns vs 13,508 ns)
+  - **Problem**: Nested loop recalculating entire history on each quote
+  - **Action**: Implement O(1) incremental update with rolling state
+  - **Priority**: 🔴 CRITICAL - Unusable for real-time streaming
+
+- [ ] **P005** - Slope StreamHub performance optimization (4-6 hours)
+  - **Current**: 7.49x slower than Series (358,366 ns vs 47,859 ns)
+  - **Problem**: Inefficient lookback operations or unnecessary allocations
+  - **Action**: Investigate for O(n²) loops, unnecessary copies, missing circular buffer
+  - **Priority**: 🔴 HIGH
+
+- [ ] **P006** - Prs StreamHub performance optimization (3-4 hours)
+  - **Current**: 7.47x slower than Series (35,070 ns vs 4,694 ns)
+  - **Problem**: Potential state management or allocation inefficiencies
+  - **Action**: Review implementation for unnecessary recalculations
+  - **Priority**: 🔴 HIGH
+
+- [ ] **P007** - Roc StreamHub performance optimization (3-4 hours)
+  - **Current**: 6.98x slower than Series (30,153 ns vs 4,322 ns)
+  - **Problem**: Simple calculation showing excessive overhead
+  - **Action**: Investigate state caching and lookback efficiency
+  - **Priority**: 🔴 HIGH
+
+- [ ] **P008** - PivotPoints StreamHub performance optimization (4-6 hours)
+  - **Current**: 6.22x slower than Series (79,268 ns vs 12,753 ns)
+  - **Problem**: Complex multi-level calculations with state management
+  - **Action**: Review for redundant calculations and allocation patterns
+  - **Priority**: 🔴 HIGH
+
+- [ ] **P009** - Gator StreamHub performance optimization (4-6 hours)
+  - **Current**: 6.20x slower than Series (84,161 ns vs 13,583 ns)
+  - **Problem**: Multi-line indicator with Alligator dependency
+  - **Action**: Optimize provider subscription and state updates
+  - **Priority**: 🔴 HIGH
+
+- [ ] **P010** - Ultimate (UO) StreamHub performance optimization (4-6 hours)
+  - **Current**: 5.89x slower than Series (161,480 ns vs 27,426 ns)
+  - **Problem**: Complex weighted sum calculations
+  - **Action**: Review for calculation caching opportunities
+  - **Priority**: 🔴 HIGH
+
+- [ ] **P011** - Adl StreamHub performance optimization (3-4 hours)
+  - **Current**: 5.87x slower than Series (32,493 ns vs 5,534 ns)
+  - **Problem**: Running sum calculation with inefficiencies
+  - **Action**: Optimize state management for rolling totals
+  - **Priority**: 🔴 HIGH
+
+- [ ] **P012** - Pmo StreamHub performance optimization (3-4 hours)
+  - **Current**: 5.81x slower than Series (33,445 ns vs 5,760 ns)
+  - **Problem**: EMA-based calculations with additional overhead
+  - **Action**: Review layered EMA state management
+  - **Priority**: 🔴 HIGH
+
+- [ ] **P013** - Smi StreamHub performance optimization (4-6 hours)
+  - **Current**: 5.47x slower than Series (76,236 ns vs 13,939 ns)
+  - **Problem**: Stochastic with EMA smoothing
+  - **Action**: Optimize window operations and EMA layering
+  - **Priority**: 🔴 HIGH
+
+- [ ] **P014** - Chandelier StreamHub performance optimization (3-4 hours)
+  - **Current**: 5.35x slower than Series (120,072 ns vs 22,454 ns)
+  - **Problem**: ATR-based trailing stop calculations
+  - **Action**: Review ATR provider subscription efficiency
+  - **Priority**: 🔴 HIGH
+
+### Critical BufferList Performance Issues (v3.1)
+
+- [ ] **P015** - Slope BufferList O(n) optimization (4-6 hours)
+  - **Current**: 3.41x slower than Series (162,972 ns vs 47,859 ns)
+  - **Problem**: Linear regression recalculation on each add
+  - **Action**: Implement incremental Welford-style updates if mathematically feasible
+  - **Priority**: 🔴 CRITICAL
+
+- [ ] **P016** - Alligator BufferList performance optimization (2-4 hours)
+  - **Current**: 2.16x slower than Series (18,570 ns vs 8,609 ns)
+  - **Problem**: Triple SMMA calculations with lookback
+  - **Action**: Review buffer management and calculation sequencing
+  - **Priority**: 🔴 MEDIUM
+
+- [ ] **P017** - Adx BufferList performance optimization (3-4 hours)
+  - **Current**: 2.08x slower than Series (31,348 ns vs 15,088 ns)
+  - **Problem**: Complex DI+/DI-/ATR/DX/ADX calculation chain
+  - **Action**: Optimize intermediate value caching
+  - **Priority**: 🔴 MEDIUM
 
 ### Series Batch Processing Optimizations (v3.1+)
 

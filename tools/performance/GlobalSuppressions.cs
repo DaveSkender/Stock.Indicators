@@ -12,5 +12,10 @@ using System.Diagnostics.CodeAnalysis;
 
 [assembly: SuppressMessage(
     "Performance",
+    "CA1805:Do not initialize unnecessarily",
+    Justification = "Initialized null values required for tests.")]
+
+[assembly: SuppressMessage(
+    "Performance",
     "CA1822:Mark members as static",
     Justification = "Required for BenchmarkDotNet")]
