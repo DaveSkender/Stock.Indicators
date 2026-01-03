@@ -166,6 +166,96 @@ public class StochRsi : StaticSeriesTestBase
     }
 
     [TestMethod]
+    public void AutoHealing_WorksWithoutExplicitRemove()
+    {
+        // Test that auto-healing handles RSI warmup periods correctly
+        // without explicit Remove() call
+        const int rsiPeriods = 14;
+        const int stochPeriods = 14;
+        const int signalPeriods = 3;
+        const int smoothPeriods = 1;
+
+        // Get results with current implementation (with Remove)
+        IReadOnlyList<StochRsiResult> withRemove =
+            Quotes.ToStochRsi(rsiPeriods, stochPeriods, signalPeriods, smoothPeriods);
+
+        // Manually implement version WITHOUT Remove() to test auto-healing
+        IReadOnlyList<RsiResult> rsiResults = Quotes.ToRsi(rsiPeriods);
+
+        // Convert RSI to QuoteD without Remove()
+        List<QuoteD> quotesFromRsi = rsiResults
+            .Select(static x => new QuoteD(
+                Timestamp: x.Timestamp,
+                Open: 0,
+                High: x.Rsi.Null2NaN(),
+                Low: x.Rsi.Null2NaN(),
+                Close: x.Rsi.Null2NaN(),
+                Volume: 0))
+            .ToList();
+
+        // Calculate Stoch on RSI values (will have NaN for first rsiPeriods)
+        List<StochResult> stoResults = quotesFromRsi
+            .CalcStoch(stochPeriods, signalPeriods, smoothPeriods, 3, 2, MaType.SMA);
+
+        // Build results the same way as ToStochRsi
+        int length = Quotes.Count;
+        int initPeriods = Math.Min(rsiPeriods + stochPeriods - 1, length);
+        List<StochRsiResult> withoutRemove = new(length);
+
+        // Add back auto-pruned results
+        for (int i = 0; i < initPeriods; i++)
+        {
+            withoutRemove.Add(new(Quotes[i].Timestamp));
+        }
+
+        // Add stoch results - key difference: no offset needed
+        for (int i = rsiPeriods + stochPeriods - 1; i < length; i++)
+        {
+            StochResult r = stoResults[i]; // Direct indexing, not i - rsiPeriods
+
+            withoutRemove.Add(new StochRsiResult(
+                Timestamp: r.Timestamp,
+                StochRsi: r.Oscillator,
+                Signal: r.Signal));
+        }
+
+        // Compare results
+        withRemove.Should().HaveCount(withoutRemove.Count);
+
+        // Check same non-null counts
+        int withRemoveNonNull = withRemove.Count(x => x.StochRsi != null);
+        int withoutRemoveNonNull = withoutRemove.Count(x => x.StochRsi != null);
+        withRemoveNonNull.Should().Be(withoutRemoveNonNull);
+
+        // Compare specific values
+        for (int i = 0; i < withRemove.Count; i++)
+        {
+            StochRsiResult expected = withRemove[i];
+            StochRsiResult actual = withoutRemove[i];
+
+            actual.Timestamp.Should().Be(expected.Timestamp);
+
+            if (expected.StochRsi == null)
+            {
+                actual.StochRsi.Should().BeNull();
+            }
+            else
+            {
+                actual.StochRsi.Should().BeApproximately(expected.StochRsi.Value, Money4);
+            }
+
+            if (expected.Signal == null)
+            {
+                actual.Signal.Should().BeNull();
+            }
+            else
+            {
+                actual.Signal.Should().BeApproximately(expected.Signal.Value, Money4);
+            }
+        }
+    }
+
+    [TestMethod]
     public void Exceptions()
     {
         // bad RSI period
