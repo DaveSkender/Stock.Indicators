@@ -35,7 +35,7 @@ public class PmoHubState
         smoothingConstant2 = 2d / timePeriods;
         smoothingConstant3 = 2d / (signalPeriods + 1);
 
-        Name = $"PMO-State({timePeriods},{smoothPeriods},{signalPeriods})";
+        Name = $"PMO({timePeriods},{smoothPeriods},{signalPeriods})";
 
         prevRocEma = double.NaN;
         prevPmo = double.NaN;
@@ -104,6 +104,37 @@ public class PmoHubState
             // Fast restore from cached state
             prevRocEma = previousState.PrevRocEma;
             prevPmo = previousState.PrevPmo;
+        }
+    }
+
+    /// <inheritdoc/>
+    protected override void RollbackState(DateTime timestamp)
+    {
+        // Let base handle cache management and fast-path detection
+        base.RollbackState(timestamp);
+
+        // If base called RestorePreviousState with non-null, we're done (fast path)
+        // Otherwise, we need to do full reconstruction (slow path after reset to NaN)
+        if (double.IsNaN(prevRocEma) || double.IsNaN(prevPmo))
+        {
+            // Full reconstruction needed - find target index in ProviderCache
+            int index = ProviderCache.IndexGte(timestamp);
+            if (index == -1)
+            {
+                index = ProviderCache.Count;
+            }
+
+            // Target is the position just before where rebuild will start
+            int targetIndex = index - 1;
+
+            // Not enough data to initialize state
+            if (targetIndex < TimePeriods)
+            {
+                return;
+            }
+
+            // Replay history to reconstruct state
+            RestoreStateIfNeeded(targetIndex + 1);
         }
     }
 
