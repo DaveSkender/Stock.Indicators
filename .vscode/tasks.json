@@ -85,7 +85,7 @@
       "detail": "Restore .NET packages and Ruby gems",
       "dependsOn": [
         "Install: .NET packages",
-        "Install: Ruby packages"
+        "Install: Website Ruby packages"
       ],
       "dependsOrder": "parallel"
     },
@@ -109,7 +109,7 @@
       "command": "dotnet outdated --upgrade --exclude FluentAssertions && dotnet outdated --upgrade docs/Examples"
     },
     {
-      "label": "Install: Ruby packages",
+      "label": "Install: Website Ruby packages",
       "detail": "Install Ruby gems for docs site (Jekyll)",
       "type": "shell",
       "command": "bundle install --jobs 4 && bundle clean --force && echo '✓ Install complete!'",
@@ -132,10 +132,23 @@
       }
     },
     {
-      "label": "Update: Ruby packages",
+      "label": "Update: Website Ruby packages",
       "detail": "Install then update Ruby gems conservatively and clean",
       "type": "shell",
       "command": "bundle lock --add-platform x86_64-linux x64-mingw-ucrt && bundle install && bundle update --conservative && bundle clean --force && echo '✓ Update complete!'",
+      "options": {
+        "cwd": "${workspaceFolder}/docs",
+        "env": {
+          "BUNDLE_GEMFILE": "${workspaceFolder}/docs/Gemfile",
+          "BUNDLE_PATH": "${workspaceFolder}/docs/vendor/bundle"
+        }
+      }
+    },
+    {
+      "label": "Clean: Website Jekyll build cache",
+      "detail": "Delete the _site build outputs cache.",
+      "type": "shell",
+      "command": "bundle exec jekyll clean",
       "options": {
         "cwd": "${workspaceFolder}/docs",
         "env": {
@@ -201,7 +214,7 @@
       "type": "shell",
       "command": "bundle exec jekyll build && echo '✓ Build complete!'",
       "group": "build",
-      "dependsOn": "Install: Ruby packages",
+      "dependsOn": "Install: Website Ruby packages",
       "dependsOrder": "sequence",
       "options": {
         "cwd": "${workspaceFolder}/docs",
@@ -451,11 +464,11 @@
       "problemMatcher": "$msCompile"
     },
     {
-      "label": "Run: Website with LiveReload",
-      "detail": "Serve Jekyll docs site with livereload",
+      "label": "Run: Website (and open)",
+      "detail": "Serve Jekyll docs website with LiveReload and open browser",
       "type": "shell",
       "command": "bundle exec jekyll serve --livereload --open-url",
-      "dependsOn": "Install: Ruby packages",
+      "dependsOn": "Install: Website Ruby packages",
       "dependsOrder": "sequence",
       "isBackground": true,
       "options": {
@@ -466,13 +479,9 @@
         }
       },
       "problemMatcher": {
-        "owner": "jekyll",
+        "owner": "website",
         "pattern": {
-          "regexp": ".*",
-          "file": 0,
-          "line": 0,
-          "column": 0,
-          "message": 0
+          "regexp": "^$"
         },
         "background": {
           "activeOnStart": true,
@@ -482,11 +491,11 @@
       }
     },
     {
-      "label": "Run: Website (serve)",
-      "detail": "Alias: run docs site (background) with simple readiness matcher",
+      "label": "Run: Website",
+      "detail": "Serve Jekyll docs website with LiveReload",
       "type": "shell",
       "command": "bundle exec jekyll serve --livereload",
-      "dependsOn": "Install: Ruby packages",
+      "dependsOn": "Install: Website Ruby packages",
       "dependsOrder": "sequence",
       "isBackground": true,
       "options": {
@@ -497,13 +506,9 @@
         }
       },
       "problemMatcher": {
-        "owner": "jekyll",
+        "owner": "website",
         "pattern": {
-          "regexp": ".*",
-          "file": 0,
-          "line": 0,
-          "column": 0,
-          "message": 0
+          "regexp": "^$"
         },
         "background": {
           "activeOnStart": true,

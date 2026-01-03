@@ -412,7 +412,8 @@ Add to `.vscode/settings.json`:
 
 ### Step 3: Create linting configuration
 
-Create `.markdownlint-cli2.jsonc` with baseline settings:
+Create `.markdownlint-cli2.jsonc` with baseline settings.
+Use this example as a starting point if no configuration exists.
 
 ```jsonc
 {
@@ -436,7 +437,6 @@ Create `.markdownlint-cli2.jsonc` with baseline settings:
     "MD033": {
       "allowed_elements": ["details", "summary", "br", "sub", "sup", "kbd", "abbr", "a", "img", "workflow"]
     },
-    "MD041": false,
     "MD046": { "style": "fenced" },
     "MD048": { "style": "backtick" }
   }
@@ -453,6 +453,8 @@ Create `.markdownlint-cli2.jsonc` with baseline settings:
 **Optional rule overrides:**
 
 - **MD060 (table-column-style)**: Enforces consistent table column formatting (aligned/compact/tight). Disabled by default as most projects don't require strict table formatting. Enable only if your project requires consistent table column styles.
+- **MD041 (top-level header)**: May require RegExp customization when front-matter replaces it.
+  Example: `"MD041": { "front_matter_title": "^\\s*(?:[Tt]itle|[Dd]escription|[Nn]ame)\\s*" },`
 
 ### Step 4: Add VS Code tasks (optional)
 
