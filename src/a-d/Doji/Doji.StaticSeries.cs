@@ -27,7 +27,7 @@ public static partial class Doji
 
         // initialize
         int length = quotes.Count;
-        List<CandleResult> results = new(length);
+        CandleResult[] results = new CandleResult[length];
 
         maxPriceChangePercent /= 100;
 
@@ -46,13 +46,13 @@ public static partial class Doji
                 matchType = Match.Neutral;
             }
 
-            results.Add(new CandleResult(
+            results[i] = new CandleResult(
                 timestamp: q.Timestamp,
                 quote: q,
                 match: matchType,
-                price: matchPrice));
+                price: matchPrice);
         }
 
-        return results;
+        return new List<CandleResult>(results);
     }
 }

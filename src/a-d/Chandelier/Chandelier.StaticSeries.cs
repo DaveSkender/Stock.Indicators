@@ -42,7 +42,7 @@ public static partial class Chandelier
 
         // initialize
         int length = quotes.Count;
-        List<ChandelierResult> results = new(length);
+        ChandelierResult[] results = new ChandelierResult[length];
 
         List<AtrResult> atrResult
             = quotes.CalcAtr(lookbackPeriods);
@@ -96,11 +96,11 @@ public static partial class Chandelier
                 }
             }
 
-            results.Add(new(
+            results[i] = new(
                 Timestamp: q.Timestamp,
-                ChandelierExit: exit));
+                ChandelierExit: exit);
         }
 
-        return results;
+        return new List<ChandelierResult>(results);
     }
 }

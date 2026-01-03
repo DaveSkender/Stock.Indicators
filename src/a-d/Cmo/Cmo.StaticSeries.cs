@@ -21,19 +21,19 @@ public static partial class Cmo
 
         // initialize
         int length = source.Count;
-        List<CmoResult> results = new(length);
+        CmoResult[] results = new CmoResult[length];
         List<(bool? isUp, double value)> ticks = new(length);
 
         // discontinue of empty
         if (length == 0)
         {
-            return results;
+            return new List<CmoResult>(results);
         }
 
         // initialize, add first records
         double prevValue = source[0].Value;
 
-        results.Add(new(source[0].Timestamp));
+        results[0] = new CmoResult(source[0].Timestamp);
         ticks.Add((null, double.NaN));
 
         // roll through remaining values
@@ -87,13 +87,13 @@ public static partial class Cmo
                     : 0d;
             }
 
-            results.Add(new(
+            results[i] = new CmoResult(
                 Timestamp: s.Timestamp,
-                Cmo: cmo));
+                Cmo: cmo);
 
             prevValue = s.Value;
         }
 
-        return results;
+        return new List<CmoResult>(results);
     }
 }

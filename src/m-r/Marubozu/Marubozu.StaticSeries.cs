@@ -23,7 +23,7 @@ public static partial class Marubozu
 
         // initialize
         int length = quotes.Count;
-        List<CandleResult> results = new(length);
+        CandleResult[] results = new CandleResult[length];
 
         minBodyPercent /= 100;
 
@@ -42,13 +42,13 @@ public static partial class Marubozu
                 matchType = candle.IsBullish ? Match.BullSignal : Match.BearSignal;
             }
 
-            results.Add(new(
+            results[i] = new(
                 timestamp: q.Timestamp,
                 candle: candle,
                 match: matchType,
-                price: matchPrice));
+                price: matchPrice);
         }
 
-        return results;
+        return new List<CandleResult>(results);
     }
 }

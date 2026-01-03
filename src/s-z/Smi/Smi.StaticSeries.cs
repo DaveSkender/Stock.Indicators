@@ -53,7 +53,7 @@ public static partial class Smi
 
         // initialize
         int length = quotes.Count;
-        List<SmiResult> results = new(length);
+        SmiResult[] results = new SmiResult[length];
 
         double k1 = 2d / (firstSmoothPeriods + 1);
         double k2 = 2d / (secondSmoothPeriods + 1);
@@ -138,12 +138,12 @@ public static partial class Smi
                 signal = double.NaN;
             }
 
-            results.Add(new(
+            results[i] = new(
                 Timestamp: q.Timestamp,
                 Smi: smi.NaN2Null(),
-                Signal: signal.NaN2Null()));
+                Signal: signal.NaN2Null());
         }
 
-        return results;
+        return new List<SmiResult>(results);
     }
 }

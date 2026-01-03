@@ -23,7 +23,7 @@ public static partial class Dema
 
         // initialize
         int length = source.Count;
-        List<DemaResult> results = new(length);
+        DemaResult[] results = new DemaResult[length];
 
         double k = 2d / (lookbackPeriods + 1);
         double lastEma1 = double.NaN;
@@ -37,7 +37,7 @@ public static partial class Dema
             // skip incalculable periods
             if (i < lookbackPeriods - 1)
             {
-                results.Add(new(s.Timestamp));
+                results[i] = new(s.Timestamp);
                 continue;
             }
 
@@ -64,15 +64,15 @@ public static partial class Dema
                 ema2 = lastEma2 + (k * (ema1 - lastEma2));
             }
 
-            results.Add(new DemaResult(
+            results[i] = new DemaResult(
                 Timestamp: s.Timestamp,
-                Dema: ((2d * ema1) - ema2).NaN2Null()));
+                Dema: ((2d * ema1) - ema2).NaN2Null());
 
             lastEma1 = ema1;
             lastEma2 = ema2;
         }
 
-        return results;
+        return new List<DemaResult>(results);
     }
 
     /// <summary>

@@ -29,7 +29,7 @@ public static partial class Tsi
         double mult1 = 2d / (lookbackPeriods + 1);
         double mult2 = 2d / (smoothPeriods + 1);
         double multS = 2d / (signalPeriods + 1);
-        List<TsiResult> results = new(length);
+        TsiResult[] results = new TsiResult[length];
 
         double[] c = new double[length]; // price change
         double[] cs1 = new double[length]; // smooth 1
@@ -56,7 +56,7 @@ public static partial class Tsi
                 cs2[i] = double.NaN;
                 as2[i] = double.NaN;
 
-                results.Add(new(s.Timestamp));
+                results[i] = new(s.Timestamp);
                 continue;
             }
 
@@ -145,14 +145,14 @@ public static partial class Tsi
                     : double.NaN;
             }
 
-            results.Add(new TsiResult(
+            results[i] = new TsiResult(
                 Timestamp: s.Timestamp,
                 Tsi: tsi.NaN2Null(),
-                Signal: signal.NaN2Null()));
+                Signal: signal.NaN2Null());
 
             prevSignal = signal;
         }
 
-        return results;
+        return new List<TsiResult>(results);
     }
 }

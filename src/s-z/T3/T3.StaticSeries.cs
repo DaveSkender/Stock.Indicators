@@ -24,7 +24,7 @@ public static partial class T3
 
         // initialize
         int length = source.Count;
-        List<T3Result> results = new(length);
+        T3Result[] results = new T3Result[length];
 
         double k = 2d / (lookbackPeriods + 1);
         double a = volumeFactor;
@@ -61,11 +61,11 @@ public static partial class T3
             e6 += k * (e5 - e6);
 
             // T3 moving average
-            results.Add(new(
+            results[i] = new(
                 Timestamp: s.Timestamp,
-                T3: ((c1 * e6) + (c2 * e5) + (c3 * e4) + (c4 * e3)).NaN2Null()));
+                T3: ((c1 * e6) + (c2 * e5) + (c3 * e4) + (c4 * e3)).NaN2Null());
         }
 
-        return results;
+        return new List<T3Result>(results);
     }
 }

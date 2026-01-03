@@ -23,7 +23,7 @@ public static partial class Smma
 
         // initialize
         int length = source.Count;
-        List<SmmaResult> results = new(length);
+        SmmaResult[] results = new SmmaResult[length];
         double prevSmma = double.NaN;
 
         // roll through source values
@@ -34,7 +34,7 @@ public static partial class Smma
             // skip incalculable periods
             if (i < lookbackPeriods - 1)
             {
-                results.Add(new(s.Timestamp));
+                results[i] = new(s.Timestamp);
                 continue;
             }
 
@@ -59,13 +59,13 @@ public static partial class Smma
                 smma = ((prevSmma * (lookbackPeriods - 1)) + s.Value) / lookbackPeriods;
             }
 
-            results.Add(new SmmaResult(
+            results[i] = new SmmaResult(
                 Timestamp: s.Timestamp,
-                Smma: smma.NaN2Null()));
+                Smma: smma.NaN2Null());
 
             prevSmma = smma;
         }
 
-        return results;
+        return new List<SmmaResult>(results);
     }
 }

@@ -29,7 +29,7 @@ public static partial class FisherTransform
         int length = values.Count;
         double[] pr = new double[length]; // median price
         double[] xv = new double[length]; // price transform "value"
-        List<FisherTransformResult> results = new(length);
+        FisherTransformResult[] results = new FisherTransformResult[length];
 
         // roll through source values
         for (int i = 0; i < length; i++)
@@ -70,12 +70,12 @@ public static partial class FisherTransform
                 fisher = 0;
             }
 
-            results.Add(new(
+            results[i] = new(
                 Timestamp: s.Timestamp,
                 Fisher: fisher,
-                Trigger: trigger));
+                Trigger: trigger);
         }
 
-        return results;
+        return new List<FisherTransformResult>(results);
     }
 }

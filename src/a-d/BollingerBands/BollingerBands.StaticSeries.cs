@@ -24,7 +24,7 @@ public static partial class BollingerBands
 
         // initialize
         int length = source.Count;
-        List<BollingerBandsResult> results = new(length);
+        BollingerBandsResult[] results = new BollingerBandsResult[length];
 
         // roll through source values
         for (int i = 0; i < length; i++)
@@ -51,7 +51,7 @@ public static partial class BollingerBands
                 double? upperBand = sma + (standardDeviations * stdDev);
                 double? lowerBand = sma - (standardDeviations * stdDev);
 
-                results.Add(new BollingerBandsResult(
+                results[i] = new BollingerBandsResult(
 
                     Timestamp: s.Timestamp,
 
@@ -64,16 +64,16 @@ public static partial class BollingerBands
 
                     ZScore: stdDev == 0 ? null : (s.Value - sma) / stdDev,
                     Width: sma == 0 ? null : (upperBand - lowerBand) / sma
-                ));
+                );
             }
 
             // initization period
             else
             {
-                results.Add(new(s.Timestamp));
+                results[i] = new(s.Timestamp);
             }
         }
 
-        return results;
+        return new List<BollingerBandsResult>(results);
     }
 }

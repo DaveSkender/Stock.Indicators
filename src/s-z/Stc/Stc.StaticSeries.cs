@@ -27,7 +27,7 @@ public static partial class Stc
 
         // initialize results
         int length = source.Count;
-        List<StcResult> results = new(length);
+        StcResult[] results = new StcResult[length];
 
         // get stochastic of macd
         List<StochResult> stochMacd = source
@@ -45,11 +45,11 @@ public static partial class Stc
         {
             StochResult r = stochMacd[i];
 
-            results.Add(new StcResult(
+            results[i] = new StcResult(
                 Timestamp: r.Timestamp,
-                Stc: r.Oscillator));
+                Stc: r.Oscillator);
         }
 
-        return results;
+        return new List<StcResult>(results);
     }
 }

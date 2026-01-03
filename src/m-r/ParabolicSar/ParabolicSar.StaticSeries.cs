@@ -68,11 +68,11 @@ public static partial class ParabolicSar
 
         // initialize
         int length = quotes.Count;
-        List<ParabolicSarResult> results = new(length);
+        ParabolicSarResult[] results = new ParabolicSarResult[length];
 
         if (length == 0)
         {
-            return results;
+            return new List<ParabolicSarResult>(results);
         }
 
         QuoteD q0 = quotes[0];
@@ -93,7 +93,7 @@ public static partial class ParabolicSar
             // skip first one
             if (i == 0)
             {
-                results.Add(new(q.Timestamp));
+                results[0] = new ParabolicSarResult(q.Timestamp);
                 continue;
             }
 
@@ -188,16 +188,16 @@ public static partial class ParabolicSar
                 }
             }
 
-            results.Add(new ParabolicSarResult(
+            results[i] = new ParabolicSarResult(
                 Timestamp: q.Timestamp,
                 Sar: psar.NaN2Null(),
-                IsReversal: isReversal));
+                IsReversal: isReversal);
 
             priorSar = psar;
         }
 
         // remove first trendline since it is an invalid guess
-        int cutIndex = results.FindIndex(static x => x.IsReversal ?? false);
+        int cutIndex = Array.FindIndex(results, static x => x.IsReversal ?? false);
 
         cutIndex = cutIndex < 0 ? length - 1 : cutIndex;
 
@@ -209,6 +209,6 @@ public static partial class ParabolicSar
             });
         }
 
-        return results;
+        return new List<ParabolicSarResult>(results);
     }
 }

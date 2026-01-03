@@ -35,7 +35,7 @@ public static partial class ElderRay
 
         // initialize
         int length = quotes.Count;
-        List<ElderRayResult> results = new(length);
+        ElderRayResult[] results = new ElderRayResult[length];
 
         // EMA
         IReadOnlyList<EmaResult> emaResults
@@ -47,13 +47,13 @@ public static partial class ElderRay
             QuoteD q = quotes[i];
             EmaResult e = emaResults[i];
 
-            results.Add(new(
+            results[i] = new(
                 Timestamp: e.Timestamp,
                 Ema: e.Ema,
                 BullPower: q.High - e.Ema,
-                BearPower: q.Low - e.Ema));
+                BearPower: q.Low - e.Ema);
         }
 
-        return results;
+        return new List<ElderRayResult>(results);
     }
 }

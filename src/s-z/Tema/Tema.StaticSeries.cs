@@ -22,7 +22,7 @@ public static partial class Tema
 
         // initialize
         int length = source.Count;
-        List<TemaResult> results = new(length);
+        TemaResult[] results = new TemaResult[length];
 
         double k = 2d / (lookbackPeriods + 1);
         double lastEma1 = double.NaN;
@@ -37,7 +37,7 @@ public static partial class Tema
             // skip incalculable periods
             if (i < lookbackPeriods - 1)
             {
-                results.Add(new(s.Timestamp));
+                results[i] = new(s.Timestamp);
                 continue;
             }
 
@@ -66,19 +66,19 @@ public static partial class Tema
                 ema3 = lastEma3 + (k * (ema2 - lastEma3));
             }
 
-            results.Add(new TemaResult(
+            results[i] = new TemaResult(
                 Timestamp: s.Timestamp,
                 Tema: ((3 * ema1) - (3 * ema2) + ema3).NaN2Null()) {
                 Ema1 = ema1,
                 Ema2 = ema2,
                 Ema3 = ema3
-            });
+            };
 
             lastEma1 = ema1;
             lastEma2 = ema2;
             lastEma3 = ema3;
         }
 
-        return results;
+        return new List<TemaResult>(results);
     }
 }

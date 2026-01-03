@@ -37,7 +37,7 @@ public static partial class Cmf
 
         // initialize
         int length = volume.Length;
-        List<CmfResult> results = new(length);
+        CmfResult[] results = new CmfResult[length];
         IReadOnlyList<AdlResult> adlResults = source.ToAdl();
 
         // roll through source values
@@ -68,13 +68,13 @@ public static partial class Cmf
                 }
             }
 
-            results.Add(new(
+            results[i] = new CmfResult(
                 Timestamp: adl.Timestamp,
                 MoneyFlowMultiplier: adl.MoneyFlowMultiplier,
                 MoneyFlowVolume: adl.MoneyFlowVolume,
-                Cmf: cmf));
+                Cmf: cmf);
         }
 
-        return results;
+        return new List<CmfResult>(results);
     }
 }

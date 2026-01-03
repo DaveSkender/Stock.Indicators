@@ -23,7 +23,7 @@ public static partial class PivotPoints
 
         // initialize
         int length = quotes.Count;
-        List<PivotPointsResult> results = new(length);
+        PivotPointsResult[] results = new PivotPointsResult[length];
 
         WindowPoint windowPoint = new();
 
@@ -97,7 +97,7 @@ public static partial class PivotPoints
                     Timestamp = q.Timestamp
                 };
 
-            results.Add(r);
+            results[i] = r;
 
             // capture window threholds (for next iteration)
             windowHigh = q.High > windowHigh ? q.High : windowHigh;
@@ -105,7 +105,7 @@ public static partial class PivotPoints
             windowClose = q.Close;
         }
 
-        return results;
+        return new List<PivotPointsResult>(results);
     }
 
     /// <summary>

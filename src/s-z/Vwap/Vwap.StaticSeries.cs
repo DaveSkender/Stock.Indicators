@@ -54,11 +54,11 @@ public static partial class Vwap
 
         // initialize
         int length = quotes.Count;
-        List<VwapResult> results = new(length);
+        VwapResult[] results = new VwapResult[length];
 
         if (length == 0)
         {
-            return results;
+            return new List<VwapResult>(results);
         }
 
         double? cumVolume = 0;
@@ -88,11 +88,11 @@ public static partial class Vwap
                 vwap = null;
             }
 
-            results.Add(new(
+            results[i] = new VwapResult(
                 Timestamp: q.Timestamp,
-                Vwap: vwap));
+                Vwap: vwap);
         }
 
-        return results;
+        return new List<VwapResult>(results);
     }
 }

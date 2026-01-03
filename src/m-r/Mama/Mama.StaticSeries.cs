@@ -27,7 +27,7 @@ public static partial class Mama
 
         // initialize
         int length = values.Count;
-        List<MamaResult> results = new(length);
+        MamaResult[] results = new MamaResult[length];
 
         double prevMama = double.NaN;
         double prevFama = double.NaN;
@@ -57,7 +57,7 @@ public static partial class Mama
             // skip incalculable periods
             if (i < 5)
             {
-                results.Add(new(s.Timestamp));
+                results[i] = new(s.Timestamp);
                 continue;
             }
 
@@ -149,15 +149,15 @@ public static partial class Mama
                 fama = (0.5 * alpha * mama) + ((1d - (0.5 * alpha)) * prevFama);
             }
 
-            results.Add(new MamaResult(
+            results[i] = new MamaResult(
                 Timestamp: s.Timestamp,
                 Mama: mama.NaN2Null(),
-                Fama: fama.NaN2Null()));
+                Fama: fama.NaN2Null());
 
             prevMama = mama;
             prevFama = fama;
         }
 
-        return results;
+        return new List<MamaResult>(results);
     }
 }

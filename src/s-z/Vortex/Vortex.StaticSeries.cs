@@ -34,7 +34,7 @@ public static partial class Vortex
 
         // initialize
         int length = quotes.Count;
-        List<VortexResult> results = new(length);
+        VortexResult[] results = new VortexResult[length];
 
         double[] tr = new double[length];
         double[] pvm = new double[length];
@@ -56,7 +56,7 @@ public static partial class Vortex
                 prevLow = q.Low;
                 prevClose = q.Close;
 
-                results.Add(new(q.Timestamp));
+                results[i] = new(q.Timestamp);
                 continue;
             }
 
@@ -96,12 +96,12 @@ public static partial class Vortex
                 }
             }
 
-            results.Add(new VortexResult(
+            results[i] = new VortexResult(
                 Timestamp: q.Timestamp,
                 Pvi: pvi.NaN2Null(),
-                Nvi: nvi.NaN2Null()));
+                Nvi: nvi.NaN2Null());
         }
 
-        return results;
+        return new List<VortexResult>(results);
     }
 }

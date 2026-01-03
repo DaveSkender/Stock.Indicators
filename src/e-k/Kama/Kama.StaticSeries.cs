@@ -27,7 +27,7 @@ public static partial class Kama
 
         // initialize
         int length = source.Count;
-        List<KamaResult> results = new(length);
+        KamaResult[] results = new KamaResult[length];
 
         double scFast = 2d / (fastPeriods + 1);
         double scSlow = 2d / (slowPeriods + 1);
@@ -40,7 +40,7 @@ public static partial class Kama
             // skip incalculable periods
             if (i < erPeriods - 1)
             {
-                results.Add(new(source[i].Timestamp));
+                results[i] = new(source[i].Timestamp);
                 continue;
             }
 
@@ -88,14 +88,14 @@ public static partial class Kama
                 kama = source[i].Value;
             }
 
-            results.Add(new KamaResult(
+            results[i] = new KamaResult(
                 Timestamp: source[i].Timestamp,
                 Er: er.NaN2Null(),
-                Kama: kama.NaN2Null()));
+                Kama: kama.NaN2Null());
 
             prevKama = kama;
         }
 
-        return results;
+        return new List<KamaResult>(results);
     }
 }

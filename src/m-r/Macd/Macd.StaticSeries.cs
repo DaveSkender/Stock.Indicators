@@ -27,7 +27,7 @@ public static partial class Macd
 
         // initialize
         int length = source.Count;
-        List<MacdResult> results = new(length);
+        MacdResult[] results = new MacdResult[length];
 
         double lastEmaFast = double.NaN;
         double lastEmaSlow = double.NaN;
@@ -74,19 +74,19 @@ public static partial class Macd
             }
 
             // results
-            results.Add(new MacdResult(
+            results[i] = new MacdResult(
                 Timestamp: source[i].Timestamp,
                 Macd: macd.NaN2Null(),
                 Signal: signal.NaN2Null(),
                 Histogram: (macd - signal).NaN2Null(),
                 FastEma: emaFast.NaN2Null(),
-                SlowEma: emaSlow.NaN2Null()));
+                SlowEma: emaSlow.NaN2Null());
 
             lastEmaMacd = signal;
             lastEmaFast = emaFast;
             lastEmaSlow = emaSlow;
         }
 
-        return results;
+        return new List<MacdResult>(results);
     }
 }

@@ -33,7 +33,7 @@ public static partial class Chop
 
         // initialize
         int length = quotes.Count;
-        List<ChopResult> results = new(length);
+        ChopResult[] results = new ChopResult[length];
         double[] trueHigh = new double[length];
         double[] trueLow = new double[length];
         double[] trueRange = new double[length];
@@ -76,11 +76,11 @@ public static partial class Chop
                 }
             }
 
-            results.Add(new(
+            results[i] = new(
                 Timestamp: quotes[i].Timestamp,
-                Chop: chop));
+                Chop: chop);
         }
 
-        return results;
+        return new List<ChopResult>(results);
     }
 }

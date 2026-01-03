@@ -29,13 +29,13 @@ public static partial class StochRsi
         // initialize results
         int length = source.Count;
         int initPeriods = Math.Min(rsiPeriods + stochPeriods - 1, length);
-        List<StochRsiResult> results = new(length);
+        StochRsiResult[] results = new StochRsiResult[length];
 
         // add back auto-pruned results
         for (int i = 0; i < initPeriods; i++)
         {
             IReusable s = source[i];
-            results.Add(new(s.Timestamp));
+            results[i] = new(s.Timestamp);
         }
 
         // get Stochastic of RSI
@@ -62,12 +62,12 @@ public static partial class StochRsi
         {
             StochResult r = stoResults[i - rsiPeriods];
 
-            results.Add(new StochRsiResult(
+            results[i] = new StochRsiResult(
                 Timestamp: r.Timestamp,
                 StochRsi: r.Oscillator,
-                Signal: r.Signal));
+                Signal: r.Signal);
         }
 
-        return results;
+        return new List<StochRsiResult>(results);
     }
 }

@@ -35,7 +35,7 @@ public static partial class Prs
 
         // initialize
         int length = sourceEval.Count;
-        List<PrsResult> results = new(length);
+        PrsResult[] results = new PrsResult[length];
 
         // roll through source values
         for (int i = 0; i < length; i++)
@@ -67,7 +67,7 @@ public static partial class Prs
                 }
             }
 
-            PrsResult r = new(
+            results[i] = new PrsResult(
                 Timestamp: e.Timestamp,
 
                 Prs: b.Value == 0
@@ -75,10 +75,8 @@ public static partial class Prs
                     : (e.Value / b.Value).NaN2Null(), // relative strength ratio
 
                 PrsPercent: prsPercent);
-
-            results.Add(r);
         }
 
-        return results;
+        return new List<PrsResult>(results);
     }
 }

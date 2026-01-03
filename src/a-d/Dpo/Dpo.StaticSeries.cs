@@ -31,7 +31,7 @@ public static partial class Dpo
 
         // initialize
         int length = source.Count;
-        List<DpoResult> results = new(length);
+        DpoResult[] results = new DpoResult[length];
 
         int offset = (lookbackPeriods / 2) + 1;
 
@@ -53,14 +53,12 @@ public static partial class Dpo
                 dpoVal = s.Sma is null ? null : src.Value - s.Sma;
             }
 
-            DpoResult r = new(
+            results[i] = new DpoResult(
                 Timestamp: src.Timestamp,
                 Dpo: dpoVal,
                 Sma: dpoSma);
-
-            results.Add(r);
         }
 
-        return results;
+        return new List<DpoResult>(results);
     }
 }

@@ -23,7 +23,7 @@ public static partial class StdDev
 
         // initialize
         int length = source.Count;
-        List<StdDevResult> results = new(length);
+        StdDevResult[] results = new StdDevResult[length];
 
         // roll through source values
         for (int i = 0; i < length; i++)
@@ -62,15 +62,13 @@ public static partial class StdDev
                 zScore = double.NaN;
             }
 
-            StdDevResult r = new(
+            results[i] = new StdDevResult(
                 Timestamp: s.Timestamp,
                 StdDev: stdDev.NaN2Null(),
                 Mean: mean.NaN2Null(),
                 ZScore: zScore.NaN2Null());
-
-            results.Add(r);
         }
 
-        return results;
+        return new List<StdDevResult>(results);
     }
 }

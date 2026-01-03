@@ -22,7 +22,7 @@ public static partial class Roc
 
         // initialize
         int length = source.Count;
-        List<RocResult> results = new(length);
+        RocResult[] results = new RocResult[length];
 
         // roll through source values
         for (int i = 0; i < length; i++)
@@ -48,14 +48,12 @@ public static partial class Roc
                 roc = double.NaN;
             }
 
-            RocResult r = new(
+            results[i] = new RocResult(
                 Timestamp: s.Timestamp,
                 Momentum: momentum.NaN2Null(),
                 Roc: roc.NaN2Null());
-
-            results.Add(r);
         }
 
-        return results;
+        return new List<RocResult>(results);
     }
 }

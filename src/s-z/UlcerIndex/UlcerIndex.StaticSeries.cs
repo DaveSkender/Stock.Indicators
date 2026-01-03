@@ -22,7 +22,7 @@ public static partial class UlcerIndex
 
         // initialize
         int length = source.Count;
-        List<UlcerIndexResult> results = new(length);
+        UlcerIndexResult[] results = new UlcerIndexResult[length];
 
         // roll through source values
         for (int i = 0; i < length; i++)
@@ -65,9 +65,9 @@ public static partial class UlcerIndex
             UlcerIndexResult r = new(
                 Timestamp: s.Timestamp,
                 UlcerIndex: ui);
-            results.Add(r);
+            results[i] = r;
         }
 
-        return results;
+        return new List<UlcerIndexResult>(results);
     }
 }
