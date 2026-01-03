@@ -376,11 +376,11 @@ public class StyleComparison
 
     [BenchmarkCategory("ForceIndex")]
     [Benchmark(Baseline = true)]
-    public IReadOnlyList<ForceIndexResult> ForceIndexSeries() => quotes.ToForceIndex(13);
+    public IReadOnlyList<ForceIndexResult> ForceIndexSeries() => quotes.ToForceIndex(2);
 
     [BenchmarkCategory("ForceIndex")]
     [Benchmark]
-    public IReadOnlyList<ForceIndexResult> ForceIndexBuffer() => quotes.ToForceIndexList(13);
+    public IReadOnlyList<ForceIndexResult> ForceIndexBuffer() => quotes.ToForceIndexList(2);
 
     [BenchmarkCategory("ForceIndex")]
     [Benchmark]
