@@ -424,4 +424,6 @@ public abstract class StreamHub<TIn, TState, TOut> : StreamHub<TIn, TOut>
     }
 
     internal List<TState> StateCache { get; } = [];
+
+    protected abstract (TOut result, TState state, int index) ToIndicatorState(TIn item, int? indexHint);
 }
