@@ -9,11 +9,11 @@ using BenchmarkDotNet.Order;
 namespace Performance;
 
 /// <summary>
-/// BenchmarkDotNet configuration for performance testing.
+/// BenchmarkDotNet configuration for performance testing (default).
 /// </summary>
-public class PerformanceConfig : ManualConfig
+public class DefaultConfig : ManualConfig
 {
-    public PerformanceConfig()
+    public DefaultConfig()
     {
         // Add standard exporters for different formats
         AddExporter(MarkdownExporter.GitHub);
@@ -25,11 +25,11 @@ public class PerformanceConfig : ManualConfig
         AddColumn(StatisticColumn.Error);
         AddColumn(StatisticColumn.StdDev);
 
-        // Add memory diagnostics with GC collection columns for Q004 and Q006
+        // Add memory diagnostics with GC collection columns
         AddDiagnoser(new MemoryDiagnoser(new MemoryDiagnoserConfig(displayGenColumns: true)));
 
-        // Sort results from fastest to slowest
-        WithOrderer(new DefaultOrderer(SummaryOrderPolicy.FastestToSlowest));
+        // Sort results by method name
+        WithOrderer(new DefaultOrderer(SummaryOrderPolicy.Method));
 
         // Add logger
         AddLogger(ConsoleLogger.Default);

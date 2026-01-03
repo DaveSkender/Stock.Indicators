@@ -2,7 +2,7 @@ namespace Performance;
 
 // BUFFER-STYLE INDICATORS
 
-[ShortRunJob]
+[ShortRunJob, WarmupCount(5), IterationCount(5)]
 public class BufferIndicators
 {
     private static readonly IReadOnlyList<Quote> q = Data.GetDefault();

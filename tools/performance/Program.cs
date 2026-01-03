@@ -1,39 +1,26 @@
 using BenchmarkDotNet.Running;
 
-[assembly: CLSCompliant(false)]
-
 namespace Performance;
 
 public static class Program
 {
     public static void Main(string[] args)
     {
-        PerformanceConfig config = new();
+        DefaultConfig config = new();
 
         if (args?.Length == 0)
         {
-            // run all with custom config
+            // with no filter, only run these test classes
             // example: dotnet run -c Release
-            BenchmarkRunner.Run(typeof(Program).Assembly, config);
+            BenchmarkRunner.Run<SeriesIndicators>(config);
+            BenchmarkRunner.Run<BufferIndicators>(config);
+            BenchmarkRunner.Run<StreamIndicators>(config);
         }
         else
         {
-            // run based on arguments (e.g. filter)
+            // with filter, run based on arguments (e.g. filter)
             // example: dotnet run -c Release --filter *.GetAdx
             BenchmarkSwitcher.FromAssembly(typeof(Program).Assembly).Run(args, config);
         }
     }
-
-    /* USAGE
-     * 
-     * dotnet build -c Release
-     * 
-     * Examples, to run cohorts:
-     * dotnet run -c Release --filter *Stream*
-     * dotnet run -c Release --filter *External.Ema*
-     * 
-     * Performance results are exported to:
-     * - BenchmarkDotNet.Artifacts/results/*.md (GitHub markdown)
-     * - BenchmarkDotNet.Artifacts/results/*.json (JSON for analysis)
-     */
 }

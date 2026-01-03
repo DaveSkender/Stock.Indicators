@@ -10,9 +10,9 @@
       },
       "Skender.Stock.Indicators": {
         "type": "Direct",
-        "requested": "[2.7.0, )",
-        "resolved": "2.7.0",
-        "contentHash": "pWTlrvoWgDa8OW0tfjrM5Ffw4IRzl8dVWGFcFDlAbcpX7qklbJzSJR8hv8Dt9c9tMeEn+DjrOqs8wNqbxz8XWg=="
+        "requested": "[2.7.1, )",
+        "resolved": "2.7.1",
+        "contentHash": "HsHVlg9Tcb1gUV50dpazlUh2Qy1F9NtG7Fe4pYcxgnnloW4Fdh8TQTA7IB5M7rWubEvtFgzx+1U1vI2LzJPWXg=="
       }
     }
   }

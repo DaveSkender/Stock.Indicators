@@ -4,15 +4,20 @@ VisualStudioVersion = 18.0.11205.157
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Configuration", "Configuration", "{89F97043-8E6C-4953-95AA-ACAC19C3B164}"
 	ProjectSection(SolutionItems) = preProject
+		.coderabbit.yaml = .coderabbit.yaml
 		.gitattributes = .gitattributes
 		.gitignore = .gitignore
+		AGENTS.md = AGENTS.md
 		src\gitversion.yml = src\gitversion.yml
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Configuration.Tests", "Configuration.Tests", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
 	ProjectSection(SolutionItems) = preProject
+		tests\AGENTS.md = tests\AGENTS.md
+		tests\Directory.Build.props = tests\Directory.Build.props
 		tests\Directory.Packages.props = tests\Directory.Packages.props
 		tests\tests.integration.runsettings = tests\tests.integration.runsettings
+		tests\tests.regression.runsettings = tests\tests.regression.runsettings
 		tests\tests.unit.runsettings = tests\tests.unit.runsettings
 	EndProjectSection
 EndProject
@@ -36,6 +41,20 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{990C3D8F
 	ProjectSection(SolutionItems) = preProject
 		tools\Directory.Build.props = tools\Directory.Build.props
 		tools\Directory.Packages.props = tools\Directory.Packages.props
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tools", "tools", "{8DD4224C-178C-4B9B-ADD3-4ED98F40E257}"
+	ProjectSection(SolutionItems) = preProject
+		tools\Directory.Build.props = tools\Directory.Build.props
+		tools\Directory.Packages.props = tools\Directory.Packages.props
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{CB53FAB6-62FA-405F-886B-258A5921F13E}"
+	ProjectSection(SolutionItems) = preProject
+		src\AGENTS.md = src\AGENTS.md
+		src\Directory.Build.props = src\Directory.Build.props
+		src\Directory.Packages.props = src\Directory.Packages.props
+		src\gitversion.yml = src\gitversion.yml
 	EndProjectSection
 EndProject
 Global
@@ -141,9 +160,12 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{02EA681E-C7D8-13C7-8484-4AC65E1B71E8} = {89F97043-8E6C-4953-95AA-ACAC19C3B164}
 		{9C9045D2-9928-41F8-97FC-ECCBDD3B9868} = {990C3D8F-0F57-4FD3-AF4B-57D6AE2EDBB1}
 		{F98B09DA-0E0B-41D1-B7B6-3A40EE6C1DBE} = {990C3D8F-0F57-4FD3-AF4B-57D6AE2EDBB1}
 		{F449BEB0-5A04-6992-4A1F-DE3FFE72A1C6} = {990C3D8F-0F57-4FD3-AF4B-57D6AE2EDBB1}
+		{8DD4224C-178C-4B9B-ADD3-4ED98F40E257} = {89F97043-8E6C-4953-95AA-ACAC19C3B164}
+		{CB53FAB6-62FA-405F-886B-258A5921F13E} = {89F97043-8E6C-4953-95AA-ACAC19C3B164}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8BDD5593-A28F-4DC3-859F-1E267864898D}

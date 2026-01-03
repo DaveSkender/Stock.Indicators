@@ -77,7 +77,7 @@ For dynamic indicator discovery (with catalog/reflection overhead), use `Perform
 
 ```bash
 # Single method
-dotnet run -c Release --filter *.EmaHub
+dotnet run -c Release --filter *.ToEmaHub
 ```
 
 ## Understanding results
@@ -114,17 +114,17 @@ Typical execution times (for 502 periods of historical data):
 - Optimized for: Throughput and memory efficiency
 - Typical use: Historical analysis, backtesting
 
-**Stream style** (real-time):
-
-- Best for: Live data feeds, WebSocket integration
-- Optimized for: Low latency per quote
-- Typical use: Trading applications, live dashboards
-
 **Buffer style** (incremental):
 
 - Best for: Growing datasets with frequent appends
 - Optimized for: Balance between memory and performance
 - Typical use: Accumulating historical data, hybrid scenarios
+
+**Stream style** (real-time):
+
+- Best for: Live data feeds, WebSocket integration
+- Optimized for: Low latency per quote
+- Typical use: Trading applications, live dashboards
 
 ## Performance regression detection
 

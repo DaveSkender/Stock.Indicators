@@ -6,12 +6,11 @@ namespace Performance;
 [ShortRunJob]
 public class StyleComparison
 {
-    private static readonly IReadOnlyList<Quote> quotes
-       = Data.GetDefault();
+    private static readonly IReadOnlyList<Quote> quotes = Data.GetDefault();
+    private const int n = 14;
 
     private readonly QuoteHub quoteHub = new();
 
-    private const int n = 14;
 
     [GlobalSetup]
     public void Setup() => quoteHub.Add(quotes);
