@@ -1,5 +1,6 @@
 using System.Reflection;
 using Skender.Stock.Indicators;
+using TestData = Test.Data.Data;
 
 namespace Test.DataGenerator;
 
@@ -8,8 +9,8 @@ namespace Test.DataGenerator;
 /// </summary>
 internal static class IndicatorExecutor
 {
-    private static readonly IReadOnlyList<Quote> TestData = Data.Data.GetDefault();
-    private static readonly IReadOnlyList<Quote> OtherData = Data.Data.GetCompare();
+    private static readonly IReadOnlyList<Quote> Quotes = TestData.GetDefault();
+    private static readonly IReadOnlyList<Quote> OtherQuotes = TestData.GetCompare();
 
     /// <summary>
     /// Executes an indicator and returns its results.
@@ -170,9 +171,9 @@ internal static class IndicatorExecutor
     {
         ParameterInfo[] methodParams = method.GetParameters();
 
-        // For dual-input indicators, first parameter is OtherData (extension source)
-        // For single-input indicators, first parameter is TestData
-        List<object?> parameters = isDualInput ? new List<object?>() { OtherData } : new List<object?>() { TestData };
+        // For dual-input indicators, first parameter is OtherQuotes (extension source)
+        // For single-input indicators, first parameter is Quotes
+        List<object?> parameters = isDualInput ? new List<object?>() { OtherQuotes } : new List<object?>() { Quotes };
 
         // Add additional parameters from the listing with their default values
         if (listing.Parameters?.Count > 0)
@@ -204,7 +205,7 @@ internal static class IndicatorExecutor
                     }
 
                     // Dual-input indicator: add the comparison source and advance index
-                    parameters.Add(TestData);
+                    parameters.Add(Quotes);
                     paramIndex++;
 
                     continue;
@@ -220,7 +221,7 @@ internal static class IndicatorExecutor
                     // For DateTime parameters (like VWAP startDate), use the first quote date
                     if (methodParam.ParameterType == typeof(DateTime))
                     {
-                        value = TestData[0].Timestamp;
+                        value = Quotes[0].Timestamp;
                     }
                 }
 
