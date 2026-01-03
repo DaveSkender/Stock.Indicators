@@ -1,6 +1,6 @@
 # Stock Indicators for .NET
 
-This repository hosts **Stock Indicators for .NET**, the production source for the widely used <a href="https://www.nuget.org/packages/Skender.Stock.Indicators">Skender.Stock.Indicators</a> NuGet package. The library offers more than 200 technical analysis indicators with a focus on accuracy, performance, and ergonomics for financial analytics.
+This repository hosts **Stock Indicators for .NET**, the production source for the <a href="https://www.nuget.org/packages/Skender.Stock.Indicators">Skender.Stock.Indicators</a> NuGet package. The library offers financial market technical analysis indicators with a focus on accuracy, performance, and ergonomics for financial analytics.
 
 - Multi-targets `net10.0`, `net9.0`, and `net8.0` with analyzers enabled for strict code quality.
 - Active development expands streaming indicator support—consult open specs before modifying stateful pipelines.
@@ -118,7 +118,7 @@ See the [Code Completion skill](.github/skills/code-completion/SKILL.md) for det
 
 This repository uses Agent Skills (`.github/skills/`) for domain-specific guidance. Skills are automatically loaded when relevant:
 
-| Skill | Description | When to Use |
+| Skill | Description | When to use |
 | ----- | ----------- | ----------- |
 | `indicator-series` | Series indicator development - mathematical precision, validation patterns, test coverage | Implementing new Series indicators, validating calculations, structuring tests |
 | `indicator-buffer` | BufferList indicator development - incremental processing, interface selection, buffer management | Implementing BufferList indicators, choosing interfaces, managing state efficiently |
