@@ -53,12 +53,13 @@ Execute these tasks sequentially from top to bottom. This section contains **onl
   - **Action**: Add test case for NaN scenario
   - **Action**: Implement correct logic with inline documentation
 
-- [ ] **T200** - TEMA/DEMA StreamHub layered EMA state optimization (8-12 hours)
+- [x] **T200** - TEMA/DEMA StreamHub layered EMA state optimization (8-12 hours)
   - **Files**: `src/s-z/Tema/Tema.StreamHub.cs`, `src/a-d/Dema/Dema.StreamHub.cs`
   - **Problem**: Recalculate entire layered EMA chains on each provider history edit
   - **Action**: Persist layered EMA state (ema1, ema2, ema3 for TEMA; ema1, ema2 for DEMA)
   - **Action**: Implement targeted rollback (only recompute affected tail segment)
   - **Reference**: PR #1433 discussion
+  - **Status**: COMPLETE - Optimization already implemented with internal state properties and RollbackState method
 
 ### Medium Priority - Documentation & Usability
 
@@ -164,12 +165,6 @@ The following items are deferred to v3.1 or later releases. These are enhancemen
   - **Rationale**: Code quality improvement, non-functional
 
 ### Performance & Framework Optimizations (v3.1)
-
-- [ ] **T200** - TEMA/DEMA StreamHub layered EMA state optimization (8-12 hours)
-  - **Files**: `src/s-z/Tema/Tema.StreamHub.cs`, `src/a-d/Dema/Dema.StreamHub.cs`
-  - **Problem**: Recalculate entire layered EMA chains on each provider history edit
-  - **Action**: Persist layered EMA state for targeted rollback
-  - **Rationale**: Performance optimization, not correctness fix; current performance acceptable
 
 - [ ] **T205** - StreamHub reinitialization optimization (6-8 hours)
   - **File**: `src/_common/StreamHub/StreamHub.cs:343-347`
@@ -317,19 +312,18 @@ See [Issue #1259](https://github.com/DaveSkender/Stock.Indicators/issues/1259) f
 
 ## Task Summary
 
-**v3.0 Scope** (13 tasks remaining, ~28-40 hours):
+**v3.0 Scope** (12 tasks remaining, ~20-28 hours):
 
 - Critical release blockers: 3 tasks (~12-20 hours including community feedback and branching migration)
-- High priority (correctness): 2 tasks (~4-6 hours)
+- **High priority (correctness): COMPLETE** - 3 tasks completed (T200 in this PR, T201-T202 moved to future work)
 - Medium priority (documentation): 1 task (~1-2 hours)
 - **Medium priority (code quality): COMPLETE** - 5 tasks completed in PR #1842
 - Low priority (testing - optional): 5 tasks (~8-11 hours)
-- **Deferred to v3.1**: T200 (TEMA/DEMA optimization) moved to v3.1 performance tier
 
-**v3.1+ Scope** (43 tasks, ~150-250+ hours):
+**v3.1+ Scope** (42 tasks, ~142-238+ hours):
 
 - Infrastructure & reorganization: File reorg [#1810-#1813](https://github.com/DaveSkender/Stock.Indicators/issues/1810), doc site upgrade [#1739](https://github.com/DaveSkender/Stock.Indicators/issues/1739), test naming [#1533](https://github.com/DaveSkender/Stock.Indicators/issues/1533)
-- Performance & framework optimizations: 4 tasks (~20-30 hours) including T200, T205, T213, P001-P003
+- Performance & framework optimizations: 3 tasks (~12-22 hours) including T205, T213, P001-P003
 - Series batch processing optimizations: 5 tasks (S001-S005)
 - Advanced features & enhancements: 26 tasks (~80-120 hours)
 - Complex research & implementation: 3 tasks (T170, #1323/#1259, Discussion #1018)
@@ -341,14 +335,15 @@ See [Issue #1259](https://github.com/DaveSkender/Stock.Indicators/issues/1259) f
 2. ✅ **Community feedback** - Final review before stable (CRITICAL)
 3. **T202** - WilliamsR boundary precision (HIGH - correctness)
 4. **T201** - Stochastic SMMA logic (HIGH - correctness)
-5. **D007** - Migration guide updates (MEDIUM - documentation)
-6. ✅ **T207** - Remove redundant RemoveWarmupPeriods (COMPLETE - PR #1842)
-7. ✅ **T209** - PivotPoints ToList() performance (COMPLETE - PR #1842)
-8. ✅ **T204** - StochRsi auto-healing (COMPLETE - PR #1842)
-9. **T203** - Remove preview features (MEDIUM - cleanup, EXTERNAL DEPENDENCY)
-10. ✅ **T229** - ATR utilities unused method (COMPLETE - PR #1842)
-11. **Branching strategy migration** - Execute 6-phase branch reorganization (CRITICAL - infrastructure)
-12-16. Optional testing tasks (T216, T217, T218, T219, T222) - time permitting
+5. ✅ **T200** - TEMA/DEMA layered EMA state optimization (COMPLETE - this PR)
+6. **D007** - Migration guide updates (MEDIUM - documentation)
+7. ✅ **T207** - Remove redundant RemoveWarmupPeriods (COMPLETE - PR #1842)
+8. ✅ **T209** - PivotPoints ToList() performance (COMPLETE - PR #1842)
+9. ✅ **T204** - StochRsi auto-healing (COMPLETE - PR #1842)
+10. **T203** - Remove preview features (MEDIUM - cleanup, EXTERNAL DEPENDENCY)
+11. ✅ **T229** - ATR utilities unused method (COMPLETE - PR #1842)
+12. **Branching strategy migration** - Execute 6-phase branch reorganization (CRITICAL - infrastructure)
+13-17. Optional testing tasks (T216, T217, T218, T219, T222) - time permitting
 
 ---
 
