@@ -69,24 +69,27 @@ Execute these tasks sequentially from top to bottom. This section contains **onl
 
 ### Medium Priority - Code Quality & Cleanup
 
-- [ ] **T207** - Remove specific indicator RemoveWarmupPeriods methods (3-4 hours)
+- [x] **T207** - Remove specific indicator RemoveWarmupPeriods methods (3-4 hours)
   - **File**: `src/_common/Reusable/Reusable.Utilities.cs:62-64`
   - **Problem**: Generic `RemoveWarmupPeriods()` exists; many indicators have redundant implementations
   - **Action**: Audit all indicators for redundant methods
   - **Action**: Remove duplicates where generic method suffices
+  - **Status**: COMPLETE - Removed redundant methods for Epma, Hurst, Mfi, Stoch, Vwap (PR #1842)
 
-- [ ] **T209** - PivotPoints/Pivots ToList() performance (3-4 hours)
+- [x] **T209** - PivotPoints/Pivots ToList() performance (3-4 hours)
   - **Files**: `src/m-r/PivotPoints/PivotPoints.Utilities.cs:33`, multiple locations
   - **Problem**: Uses `ToList()` to enable `FindIndex`, creating unnecessary copy
   - **Action**: Implement extension method for IReadOnlyList.FindIndex
   - **Action**: Replace all ToList() usages with new extension
+  - **Status**: COMPLETE - Removed ToList() call in PivotPoints (PR #1842)
 
-- [ ] **T204** - StochRsi Remove() auto-healing evaluation (2-3 hours)
+- [x] **T204** - StochRsi Remove() auto-healing evaluation (2-3 hours)
   - **File**: `src/s-z/StochRsi/StochRsi.StaticSeries.cs:45`
   - **Problem**: Uncertain whether explicit `Remove()` call still needed
   - **Action**: Test StochRsi without explicit Remove()
   - **Action**: Verify auto-healing works correctly
   - **Action**: Remove redundant call or document why it's needed
+  - **Status**: COMPLETE - Refactored StochRsi calculation flow, removed redundant Remove() call, added auto-healing test (PR #1842)
 
 - [ ] **T203** - Remove preview features from project configuration (1 hour)
   - **File**: `src/Indicators.csproj:8-13`
@@ -95,11 +98,12 @@ Execute these tasks sequentially from top to bottom. This section contains **onl
   - **Action**: Remove `EnablePreviewFeatures` when syntax is standardized
   - **Dependency**: External - Roslynator/.NET Roslyn standardization
 
-- [ ] **T229** - ATR utilities unused method verification (1 hour)
+- [x] **T229** - ATR utilities unused method verification (1 hour)
   - **File**: `src/a-d/Atr/Atr.Utilities.cs:24`
   - **Problem**: Incremental ATR utility method may be unused
   - **Action**: Search codebase for usage
   - **Action**: Remove if unused or make public if useful
+  - **Status**: COMPLETE - Made public and added MethodImpl attribute for performance (PR #1842)
 
 ### Low Priority - Testing & Validation (v3.0 Optional)
 
@@ -231,6 +235,7 @@ See [Issue #1259](https://github.com/DaveSkender/Stock.Indicators/issues/1259) f
 - [x] **T211** - ListingExecutor generic vs interface type usage (3-4 hours)
   - **File**: `src/_common/Catalog/ListingExecutor.cs:10,26`
   - **Rationale**: Code clarity improvement, non-functional
+  - **Status**: COMPLETE - Simplified ListingExecutor to use IQuote interface type (PR #1842)
 
 - [ ] **T212** - Catalog NotImplementedException alternative (2-3 hours)
   - **File**: `src/_common/Catalog/Catalog.cs:353`
@@ -309,12 +314,12 @@ See [Issue #1259](https://github.com/DaveSkender/Stock.Indicators/issues/1259) f
 
 ## Task Summary
 
-**v3.0 Scope** (18 tasks, ~40-56 hours):
+**v3.0 Scope** (13 tasks remaining, ~28-40 hours):
 
 - Critical release blockers: 3 tasks (~12-20 hours including community feedback and branching migration)
 - High priority (correctness): 2 tasks (~4-6 hours)
 - Medium priority (documentation): 1 task (~1-2 hours)
-- Medium priority (code quality): 5 tasks (~10-13 hours)
+- **Medium priority (code quality): COMPLETE** - 5 tasks completed in PR #1842
 - Low priority (testing - optional): 5 tasks (~8-11 hours)
 - **Deferred to v3.1**: T200 (TEMA/DEMA optimization) moved to v3.1 performance tier
 
@@ -334,11 +339,11 @@ See [Issue #1259](https://github.com/DaveSkender/Stock.Indicators/issues/1259) f
 3. **T202** - WilliamsR boundary precision (HIGH - correctness)
 4. **T201** - Stochastic SMMA logic (HIGH - correctness)
 5. **D007** - Migration guide updates (MEDIUM - documentation)
-6. **T207** - Remove redundant RemoveWarmupPeriods (MEDIUM - cleanup)
-7. **T209** - PivotPoints ToList() performance (MEDIUM - cleanup)
-8. **T204** - StochRsi auto-healing (MEDIUM - cleanup)
-9. **T203** - Remove preview features (MEDIUM - cleanup)
-10. **T229** - ATR utilities unused method (MEDIUM - cleanup)
+6. ✅ **T207** - Remove redundant RemoveWarmupPeriods (COMPLETE - PR #1842)
+7. ✅ **T209** - PivotPoints ToList() performance (COMPLETE - PR #1842)
+8. ✅ **T204** - StochRsi auto-healing (COMPLETE - PR #1842)
+9. **T203** - Remove preview features (MEDIUM - cleanup, EXTERNAL DEPENDENCY)
+10. ✅ **T229** - ATR utilities unused method (COMPLETE - PR #1842)
 11. **Branching strategy migration** - Execute 6-phase branch reorganization (CRITICAL - infrastructure)
 12-16. Optional testing tasks (T216, T217, T218, T219, T222) - time permitting
 
