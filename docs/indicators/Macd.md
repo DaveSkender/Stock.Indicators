@@ -51,7 +51,7 @@ IReadOnlyList<MacdResult>
 
 **`Macd`** _`double`_ - The MACD line is the difference between slow and fast moving averages (`MACD = FastEma - SlowEma`)
 
-**`Signal`**_`double`_ - Moving average of the`MACD`line
+**`Signal`** _`double`_ - Moving average of the `MACD` line
 
 **`Histogram`** _`double`_ - Gap between of the `MACD` and `Signal` line
 

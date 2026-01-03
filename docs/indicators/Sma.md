@@ -60,15 +60,15 @@ This indicator has an extended version with more analysis.
 
 ```csharp
 // C# usage syntax
-IEnumberable<SmaAnalysis> analysis =
-  results.ToSmaAnalysis();
+IReadOnlyList<SmaAnalysisResult> analysis =
+  quotes.ToSmaAnalysis(lookbackPeriods);
 ```
 
-### SmaAnalysis
+### SmaAnalysisResult
 
 **`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
-**`Sma`** _`decimal`_ - Simple moving average
+**`Sma`** _`double`_ - Simple moving average
 
 **`Mad`** _`double`_ - Mean absolute deviation
 

@@ -45,9 +45,9 @@ IReadOnlyList<TrixResult>
 
 **`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
-**`Ema3`** _`decimal`_ - 3 EMAs of the price
+**`Ema3`** _`double`_ - 3 EMAs of the price
 
-**`Trix`** _`decimal`_ - Rate of Change of 3 EMAs
+**`Trix`** _`double`_ - Rate of Change of 3 EMAs
 
 ### Utilities
 

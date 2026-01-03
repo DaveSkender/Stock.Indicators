@@ -43,7 +43,7 @@ IReadOnlyList<MfiResult>
 
 **`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
-**`Mfi`** _`decimal`_ - Money Flow Index
+**`Mfi`** _`double`_ - Money Flow Index
 
 ### Utilities
 
