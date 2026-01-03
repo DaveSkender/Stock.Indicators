@@ -19,7 +19,7 @@ public class TdiGmList : BufferList<TdiGmResult>, IIncrementFromChain, ITdiGm
     /// <param name="fastLength">The fast length.</param>
     /// <param name="slowLength">The slow length.</param>
     public TdiGmList(
-         int rsiPeriod = 21,
+        int rsiPeriod = 21,
         int bandLength = 34,
         int fastLength = 2,
         int slowLength = 7
@@ -111,7 +111,7 @@ public class TdiGmList : BufferList<TdiGmResult>, IIncrementFromChain, ITdiGm
 
             upper = ma + offset;
             lower = ma - offset;
-            middle = (upper + lower) / 2;
+            middle = ma;
         }
 
         // Create and add the result

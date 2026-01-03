@@ -22,10 +22,22 @@ public static partial class TdiGm
                 "RSI period must be greater than 0.");
         }
 
+        if (rsiPeriod > 250)
+        {
+            throw new ArgumentOutOfRangeException(nameof(rsiPeriod), rsiPeriod,
+                "RSI period must not exceed 250.");
+        }
+        
         if (bandLength <= 0)
         {
             throw new ArgumentOutOfRangeException(nameof(bandLength), bandLength,
                 "Band length must be greater than 0.");
+        }
+
+        if (bandLength > 250)
+        {
+            throw new ArgumentOutOfRangeException(nameof(bandLength), bandLength,
+                "Band length must not exceed 250.");
         }
 
         if (fastLength <= 0)
@@ -34,10 +46,22 @@ public static partial class TdiGm
                 "Fast length must be greater than 0.");
         }
 
+        if (fastLength > 250)
+        {
+            throw new ArgumentOutOfRangeException(nameof(fastLength), fastLength,
+                "Fast length must not exceed 250.");
+        }
+
         if (slowLength <= 0)
         {
             throw new ArgumentOutOfRangeException(nameof(slowLength), slowLength,
                 "Slow length must be greater than 0.");
+        }
+
+        if (slowLength > 250)
+        {
+            throw new ArgumentOutOfRangeException(nameof(slowLength), slowLength,
+                "Slow length must not exceed 250.");
         }
     }
 }
