@@ -1,7 +1,11 @@
 namespace Skender.Stock.Indicators;
 #pragma warning disable IDE0010 // Missing cases in switch expression
+#pragma warning disable CA1040 // Avoid empty interfaces
 
 // STREAM HUB (BASE/CACHE)
+/// <summary>
+/// Marker interface for hub state objects.
+/// </summary>
 public interface IHubState { }
 
 /// <inheritdoc cref="IStreamHub{TIn, TOut}"/>
@@ -274,7 +278,7 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
     /// Removes a range of cached items from a specific timestamp.
     /// </summary>
     /// <inheritdoc/>
-    public void RemoveRange(DateTime fromTimestamp, bool notify)
+    public virtual void RemoveRange(DateTime fromTimestamp, bool notify)
     {
         // rollback internal state
         RollbackState(fromTimestamp);
@@ -312,7 +316,7 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
     /// <summary>
     /// Prunes the cache to the maximum size.
     /// </summary>
-    protected void PruneCache()
+    protected virtual void PruneCache()
     {
         if (Cache.Count < MaxCacheSize)
         {
@@ -411,19 +415,4 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
         // see AtrStopHub() for example
     }
 
-}
-public abstract class StreamHub<TIn, TState, TOut> : StreamHub<TIn, TOut>
-    where TIn : ISeries
-    where TOut : ISeries
-    where TState : IHubState
-{
-    protected StreamHub(IStreamObservable<TIn> provider)
-        : base(provider)
-    {
-
-    }
-
-    internal List<TState> StateCache { get; } = [];
-
-    protected abstract (TOut result, TState state, int index) ToIndicatorState(TIn item, int? indexHint);
 }
