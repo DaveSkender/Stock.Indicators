@@ -28,10 +28,10 @@ This simulates real-world live trading where tick data arrives continuously, upd
 | **Alma** | 226.9 | — | Not implemented | ⚪ Adaptive moving average |
 | **Aroon** | 308.9 | — | Not implemented | ⚪ Window-based |
 | **ATR** | 192.8 | — | Not implemented | 🔶 Candidate (Wilder smoothing) |
-| **AwesomeOscillator** | TBD | — | Not implemented | ⚪ Simple SMA difference |
+| **AwesomeOscillator** | 356.6 | — | Not implemented | ⚪ Simple SMA difference |
 | **BollingerBands** | 312.9 | — | Not implemented | ⚪ SMA + StdDev |
 | **CCI** | 254.8 | — | Not implemented | ⚪ Window-based |
-| **ChaikinOscillator** | TBD | — | Not implemented | 🔶 Candidate (dual EMA) |
+| **ChaikinOscillator** | 164.0 | — | Not implemented | 🔶 Candidate (dual EMA) |
 | **Chop** | 322.0 | — | Not implemented | ⚪ Window-based |
 | **CMF** | 306.2 | — | Not implemented | ⚪ Window-based |
 | **ConnorsRSI** | 666.6 | ⚠️ Benchmark failed | HubState benchmark requires investigation | ✅ Complex stateful (implemented) |
@@ -40,11 +40,11 @@ This simulates real-world live trading where tick data arrives continuously, upd
 | **EMA** | 175.9 | — | Not implemented | 🔶 Candidate (exponential smoothing) |
 | **EPMA** | 265.8 | — | Not implemented | 🔶 Candidate (endpoint weighted) |
 | **FCB** | 214.1 | — | Not implemented | ⚪ Fractal detection |
-| **Fisher** | TBD | — | Not implemented | 🔶 Candidate (EMA smoothing) |
+| **Fisher** | 328.5 | — | Not implemented | 🔶 Candidate (EMA smoothing) |
 | **ForceIndex** | 173.1 | — | Not implemented | 🔶 Candidate (EMA smoothing) |
 | **Gator** | 206.3 | — | Not implemented | 🔶 Candidate (SMMA chains) |
 | **HMA** | 361.2 | — | Not implemented | 🔶 Candidate (WMA chains) |
-| **HTTrendline** | TBD | — | Not implemented | 🔶 Candidate (Hilbert transform) |
+| **HTTrendline** | 11,110 | — | Not implemented | 🔶 Candidate (Hilbert transform) |
 | **Ichimoku** | 644.3 | — | Not implemented | 🔶 Candidate (multiple periods) |
 | **KAMA** | 227.9 | — | Not implemented | 🔶 Candidate (adaptive EMA) |
 | **Keltner** | 206.4 | — | Not implemented | 🔶 Candidate (EMA + ATR) |
@@ -56,7 +56,7 @@ This simulates real-world live trading where tick data arrives continuously, upd
 | **PMO** | 563.1 | 212.5 | **2.65x faster** | ✅ Complex stateful (implemented) |
 | **PRS** | TBD | — | Not implemented | ⚪ Simple ratio |
 | **PVO** | 383.3 | — | Not implemented | 🔶 Candidate (dual EMA) |
-| **ROC** | TBD | — | Not implemented | ⚪ Simple calculation |
+| **ROC** | 146.4 | — | Not implemented | ⚪ Simple calculation |
 | **ROC with Band** | 263.2 | — | Not implemented | ⚪ ROC + SMA |
 | **RSI** | 445.2 | 218.2 | **2.04x faster** | ✅ Significant win (implemented) |
 | **Slope** | 208.6 | — | Not implemented | ⚪ Linear regression |
