@@ -166,93 +166,33 @@ public class StochRsi : StaticSeriesTestBase
     }
 
     [TestMethod]
-    public void AutoHealing_WorksWithoutExplicitRemove()
+    public void AutoHealing_HandlesRsiWarmupPeriodsCorrectly()
     {
-        // Test that auto-healing handles RSI warmup periods correctly
-        // without explicit Remove() call
+        // Regression test for T204: Verify that StochRsi auto-healing works correctly
+        // without explicit Remove() call on RSI results. CalcStoch handles NaN values
+        // gracefully, making Remove() unnecessary and avoiding extra list allocation.
         const int rsiPeriods = 14;
         const int stochPeriods = 14;
         const int signalPeriods = 3;
         const int smoothPeriods = 1;
 
-        // Get results with current implementation (with Remove)
-        IReadOnlyList<StochRsiResult> withRemove =
+        // Get results using current auto-healing implementation
+        IReadOnlyList<StochRsiResult> results =
             Quotes.ToStochRsi(rsiPeriods, stochPeriods, signalPeriods, smoothPeriods);
 
-        // Manually implement version WITHOUT Remove() to test auto-healing
-        IReadOnlyList<RsiResult> rsiResults = Quotes.ToRsi(rsiPeriods);
+        // Verify correct behavior
+        results.Should().HaveCount(502);
+        Assert.HasCount(475, results.Where(static x => x.StochRsi != null));
+        Assert.HasCount(473, results.Where(static x => x.Signal != null));
 
-        // Convert RSI to QuoteD without Remove()
-        List<QuoteD> quotesFromRsi = rsiResults
-            .Select(static x => new QuoteD(
-                Timestamp: x.Timestamp,
-                Open: 0,
-                High: x.Rsi.Null2NaN(),
-                Low: x.Rsi.Null2NaN(),
-                Close: x.Rsi.Null2NaN(),
-                Volume: 0))
-            .ToList();
+        // Verify specific values match expected
+        StochRsiResult r1 = results[31];
+        r1.StochRsi.Should().BeApproximately(93.3333, Money4);
+        r1.Signal.Should().BeApproximately(97.7778, Money4);
 
-        // Calculate Stoch on RSI values (will have NaN for first rsiPeriods)
-        List<StochResult> stoResults = quotesFromRsi
-            .CalcStoch(stochPeriods, signalPeriods, smoothPeriods, 3, 2, MaType.SMA);
-
-        // Build results the same way as ToStochRsi
-        int length = Quotes.Count;
-        int initPeriods = Math.Min(rsiPeriods + stochPeriods - 1, length);
-        List<StochRsiResult> withoutRemove = new(length);
-
-        // Add back auto-pruned results
-        for (int i = 0; i < initPeriods; i++)
-        {
-            withoutRemove.Add(new(Quotes[i].Timestamp));
-        }
-
-        // Add stoch results - key difference: no offset needed
-        for (int i = rsiPeriods + stochPeriods - 1; i < length; i++)
-        {
-            StochResult r = stoResults[i]; // Direct indexing, not i - rsiPeriods
-
-            withoutRemove.Add(new StochRsiResult(
-                Timestamp: r.Timestamp,
-                StochRsi: r.Oscillator,
-                Signal: r.Signal));
-        }
-
-        // Compare results
-        withRemove.Should().HaveCount(withoutRemove.Count);
-
-        // Check same non-null counts
-        int withRemoveNonNull = withRemove.Count(x => x.StochRsi != null);
-        int withoutRemoveNonNull = withoutRemove.Count(x => x.StochRsi != null);
-        withRemoveNonNull.Should().Be(withoutRemoveNonNull);
-
-        // Compare specific values
-        for (int i = 0; i < withRemove.Count; i++)
-        {
-            StochRsiResult expected = withRemove[i];
-            StochRsiResult actual = withoutRemove[i];
-
-            actual.Timestamp.Should().Be(expected.Timestamp);
-
-            if (expected.StochRsi == null)
-            {
-                actual.StochRsi.Should().BeNull();
-            }
-            else
-            {
-                actual.StochRsi.Should().BeApproximately(expected.StochRsi.Value, Money4);
-            }
-
-            if (expected.Signal == null)
-            {
-                actual.Signal.Should().BeNull();
-            }
-            else
-            {
-                actual.Signal.Should().BeApproximately(expected.Signal.Value, Money4);
-            }
-        }
+        StochRsiResult r2 = results[501];
+        r2.StochRsi.Should().BeApproximately(97.5244, Money4);
+        r2.Signal.Should().BeApproximately(89.8385, Money4);
     }
 
     [TestMethod]
