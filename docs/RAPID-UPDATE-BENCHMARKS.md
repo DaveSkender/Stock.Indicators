@@ -64,7 +64,7 @@ This simulates real-world live trading where tick data arrives continuously, upd
 | **SMMA** | 232.0 | — | Not implemented | 🔶 Candidate (Wilder smoothing) |
 | **STC** | 282.3 | — | Not implemented | 🔶 Candidate (MACD + smoothing) |
 | **StdDev** | 265.0 | 319.8 | 1.21x slower | ⚠️ Overhead exceeds benefit (implemented) |
-| **StochRSI** | 319.0 | — | Not implemented | 🔶 Candidate (RSI + Stochastic) |
+| **StochRSI** | 4,956 | 4,795 | **1.03x faster** | ✅ Complex stateful (implemented) |
 | **SuperTrend** | 203.6 | — | Not implemented | 🔶 Candidate (ATR + trend) |
 | **T3** | 192.8 | — | Not implemented | 🔶 Candidate (6-stage EMA) |
 | **TEMA** | 182.4 | — | Not implemented | 🔶 Candidate (triple EMA) |

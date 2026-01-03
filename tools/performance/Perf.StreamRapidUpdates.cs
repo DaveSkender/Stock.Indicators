@@ -423,4 +423,68 @@ public class StreamRapidUpdates
 
         return results;
     }
+
+    // StochRSI - Hub rapid updates
+    [Benchmark]
+    public IReadOnlyList<StochRsiResult> StochRsi_Hub_RapidUpdates()
+    {
+        QuoteHub quoteHub = new();
+        quoteHub.Add(quotes);
+
+        StochRsiHub observer = quoteHub.ToStochRsiHub();
+
+        Quote lastQuote = quotes[^1];
+        for (int i = 0; i < rapidUpdates; i++)
+        {
+            Quote updatedQuote = new() {
+                Timestamp = lastQuote.Timestamp,
+                Open = lastQuote.Open,
+                High = lastQuote.High + (i * 0.01m),
+                Low = lastQuote.Low,
+                Close = lastQuote.Close + (i * 0.01m),
+                Volume = lastQuote.Volume
+            };
+
+            quoteHub.Add(updatedQuote);
+        }
+
+        IReadOnlyList<StochRsiResult> results = observer.Results;
+
+        observer.Unsubscribe();
+        quoteHub.EndTransmission();
+
+        return results;
+    }
+
+    // StochRSI - HubState rapid updates
+    [Benchmark]
+    public IReadOnlyList<StochRsiResult> StochRsi_HubState_RapidUpdates()
+    {
+        QuoteHub quoteHub = new();
+        quoteHub.Add(quotes);
+
+        StochRsiHubState observer = quoteHub.ToStochRsiHubState();
+
+        Quote lastQuote = quotes[^1];
+        for (int i = 0; i < rapidUpdates; i++)
+        {
+            Quote updatedQuote = new() {
+                Timestamp = lastQuote.Timestamp,
+                Open = lastQuote.Open,
+                High = lastQuote.High + (i * 0.01m),
+                Low = lastQuote.Low,
+                Close = lastQuote.Close + (i * 0.01m),
+                Volume = lastQuote.Volume
+            };
+
+            quoteHub.Add(updatedQuote);
+        }
+
+        IReadOnlyList<StochRsiResult> results = observer.Results;
+
+        observer.Unsubscribe();
+        quoteHub.EndTransmission();
+
+        return results;
+    }
 }
