@@ -1,6 +1,6 @@
 # Stock Indicators for .NET
 
-This repository hosts **Stock Indicators for .NET**, the production source for the widely used <a href="https://www.nuget.org/packages/Skender.Stock.Indicators">Skender.Stock.Indicators</a> NuGet package. The library offers more than 200 technical analysis indicators with a focus on accuracy, performance, and ergonomics for financial analytics.
+This repository hosts **Stock Indicators for .NET**, the production source for the <a href="https://www.nuget.org/packages/Skender.Stock.Indicators">Skender.Stock.Indicators</a> NuGet package. The library offers financial market technical analysis indicators with a focus on accuracy, performance, and ergonomics for financial analytics.
 
 - Multi-targets `net10.0`, `net9.0`, and `net8.0` with analyzers enabled for strict code quality.
 - Active development expands streaming indicator support—consult open specs before modifying stateful pipelines.
@@ -48,6 +48,12 @@ Guidance follows industry standards for AI configuration:
 - Follow established patterns and standards without seeking approval
 - Handle edge cases using documented principles and constitutional rules
 
+## Guiding principles
+
+This library follows six core principles that balance usability, performance, precision, and security: **Mathematical Precision** (non-negotiable), **Performance First** (critical), **Comprehensive Validation**, **Test-Driven Quality**, **Documentation Excellence**, and **Scope & Stewardship**.
+
+See [PRINCIPLES.md](docs/PRINCIPLES.md) for constitutional philosophy and rationale. This file (AGENTS.md) provides operational implementation guidance.
+
 ## Repository layout
 
 ```text
@@ -67,12 +73,22 @@ Guidance follows industry standards for AI configuration:
 
 ## Build and verification
 
-- Use the solution tasks (`Restore`, `Build`, `Test`) or run `dotnet restore`, `dotnet build`, and `dotnet test --no-restore` from the repository root.
-- Keep analyzers clean; treat warnings as build failures.
-- Update documentation and samples when indicators change behavior, especially for streaming scenarios.
-- Update the matching `docs/_indicators/<Indicator>.md` file whenever an indicator changes. Keep the primary public API example, parameter details, warmup guidance, and outputs in sync with the implementation.
+- Use the solution tasks (`Restore`, `Build`, `Test`) or run `dotnet restore`, `dotnet build`, and `dotnet test --no-restore` from the repository root
+- Keep analyzers clean; **treat all warnings and errors as failures that must be fixed**
+- Do not accept or ignore warnings regardless of scope or reason
+- Do not suppress issues as a way to remove warnings or errors—you must fix the underlying problem
+- Update documentation as needed and in accordance with markdown instructions
+- Update the matching `docs/_indicators/<Indicator>.md` file whenever an indicator changes. Keep the primary public API example, parameter details, warmup guidance, and outputs in sync with the implementation
 
-### Linting tasks
+See subfolder AGENTS.md files for detailed domain-specific guidance.
+
+### Linting and testing
+
+- **Markdown**: `npx markdownlint-cli2` (auto-fix with `npx markdownlint-cli2 --fix`)
+- **Roslynator**: `roslynator fix --properties TargetFramework=net10.0 --severity-level info` (fast for dev loop)
+- **All linters**: `dotnet format && npx markdownlint-cli2` (auto-fix with both `--fix` flags)
+- **Build**: `dotnet build "Stock.Indicators.sln" -v minimal --nologo`
+- **Test**: `dotnet test "Stock.Indicators.sln" --no-restore --nologo`
 
 VS Code tasks are organized for speed vs. completeness:
 
@@ -81,24 +97,35 @@ VS Code tasks are organized for speed vs. completeness:
 
 Individual tools available: `Lint: .NET format`, `Lint: .NET Roslynator (analyze)`, `Lint: Markdown` and their `(fix)` variants.
 
-## Guiding principles
+### Code completion checklist
 
-This library follows six core principles that balance usability, performance, precision, and security: **Mathematical Precision** (non-negotiable), **Performance First** (critical), **Comprehensive Validation**, **Test-Driven Quality**, **Documentation Excellence**, and **Scope & Stewardship**.
+**Before finishing any code work, execute these quality gates**:
 
-See [PRINCIPLES.md](docs/PRINCIPLES.md) for constitutional philosophy and rationale. This file (AGENTS.md) provides operational implementation guidance.
+```bash
+dotnet format --no-restore && dotnet build && dotnet test --no-restore && npx markdownlint-cli2
+```
 
-## Skills for indicator development
+This ensures:
+
+1. All code passes linting (markdown + .NET) with **zero warnings and zero errors**
+2. All projects build successfully with **zero warnings and zero errors**
+3. All tests pass
+4. **All warnings must be fixed**—do not ignore or defer warnings
+
+See the [Code Completion skill](.github/skills/code-completion/SKILL.md) for detailed checklist and troubleshooting.
+
+## Skills for development
 
 This repository uses Agent Skills (`.github/skills/`) for domain-specific guidance. Skills are automatically loaded when relevant:
 
-| Skill | Description | When to Use |
+| Skill | Description | When to use |
 | ----- | ----------- | ----------- |
 | `indicator-series` | Series indicator development - mathematical precision, validation patterns, test coverage | Implementing new Series indicators, validating calculations, structuring tests |
 | `indicator-buffer` | BufferList indicator development - incremental processing, interface selection, buffer management | Implementing BufferList indicators, choosing interfaces, managing state efficiently |
 | `indicator-stream` | StreamHub indicator development - implementation patterns, provider selection, state management | Implementing StreamHub indicators, choosing provider base classes, optimizing real-time processing |
 | `indicator-catalog` | Catalog entry creation and registration | Creating indicator catalog entries for automation |
 | `performance-testing` | Benchmarking with BenchmarkDotNet, regression detection | Adding performance tests, optimizing indicator performance |
-| `quality-gates` | Pre-commit validation checklist | Completing work, ensuring build/test/lint pass |
+| [code-completion](.github/skills/code-completion/SKILL.md) | Quality gates checklist for completing code work | Before finishing any implementation, bug fix, or refactoring |
 | `testing-standards` | Test naming, FluentAssertions, Series parity | Writing comprehensive tests, debugging test failures |
 
 Additional path-specific instruction files:
@@ -122,7 +149,7 @@ Additional path-specific instruction files:
 "What's the pre-commit checklist?"
 ```
 
-Skills are defined in `.github/skills/` following the Agent Skills specification.
+Skills are defined in `.github/skills/` following the Agent Skills specification.  Refer to our skills instruction when developing new skills.
 
 ## Folder-specific guidance
 
@@ -153,10 +180,9 @@ Do NOT use MCP tools for:
 - PR titles must follow <a href="https://www.conventionalcommits.org">Conventional Commits</a> format: `type: Subject` (subject starts uppercase, ≤ 65 characters).
 - Supported types: feat, fix, docs, style, refactor, perf, test, build, ci, chore, revert, plan.
 - Link or reference the governing spec/task thread when applicable.
-- Ensure `dotnet test --no-restore` passes and the docs site builds when content changes.
-- Provide before/after validation notes or benchmarks when touching performance-critical code.
+- Ensure lint, build, and tests pass before finishing changes or requesting reviews
 
-Examples:
+Examples of PR titles:
 
 - `feat: Add RSI indicator`
 - `fix: Resolve MACD calculation error`
@@ -164,4 +190,4 @@ Examples:
 - `docs: Update API documentation`
 
 ---
-Last updated: December 30, 2025
+Last updated: January 2, 2025

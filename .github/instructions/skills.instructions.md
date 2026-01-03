@@ -24,21 +24,18 @@ Per the Agent Skills specification:
 
 ## Skill directory structure
 
-Per the [agentskills.io specification](https://agentskills.io/specification), skill directories use these optional subdirectories:
+Per the [agentskills.io specification](https://agentskills.io/specification), skill directories use these optional subdirectories (example):
 
 ```text
 .github/skills/
-├── adr-author/
+├── example-skill/
 │   ├── SKILL.md              # Skill definition (required)
 │   ├── scripts/              # Optional: executable code or utilities
 │   ├── references/           # Optional: technical documentation
 │   └── assets/               # Optional: templates, example files, resources
-├── planning/
-│   ├── SKILL.md
-│   ├── references/           # Prioritization formulas, style guides
-│   └── assets/               # Issue templates, plan templates
-└── maintain-skills/
-    └── SKILL.md
+└── other-skill/
+    ├── SKILL.md
+    └── ...
 ```
 
 **Requirements:**
@@ -54,6 +51,7 @@ Per the [agentskills.io specification](https://agentskills.io/specification), sk
 
 Use skills for:
 
+- **Code pattern implementation**: Depict unique requirements for specific code patterns (syntax constraints, required/prohibited patterns, interface requirements, mandatory tests)
 - **Multi-step workflows**: Complex processes requiring sequential steps (ADR creation, maintenance)
 - **Repeatable processes**: Standardized workflows executed regularly (biweekly maintenance)
 - **Quality validation**: Workflows with built-in validation and error correction
@@ -66,39 +64,20 @@ Don't use skills for:
 - Reference documentation (use `.instructions.md` files)
 - Quick reference data (use `.context.md` files)
 - Interactive user guidance (use `.prompt.md` files)
+- Documenting what is already evident in code
 
-## AI-optimization principles
+## Skill content principles
 
-Skills are written for AI agent consumption, not human reading. Follow these principles:
+Skills prevent agents from reinventing incorrect patterns and steer toward proven approaches:
 
-**Content focus:**
-
-- Depict unique requirements for specific code patterns (syntax constraints, required/prohibited patterns, interface implementations)
-- Point to reference examples with contextual notes about syntax and sequences
-- NEVER teach what's already in code (e.g., "EMA needs X lookback periods")
-- Steer agents away from incorrect patterns toward proven/forward-looking approaches
-
-**Language:**
-
-- Imperative current tense ("MUST do X", "NEVER do Y")
-- No historical/temporary references (e.g., "PR #1234 will remove...")
-- No descriptive framing (e.g., "Use this reference for...", "This section explains...")
-- Start sections with actionable content, not introductions
-
-**Structure:**
-
-- Use "Required" and "Prohibited" section headings
-- MUST/NEVER constraint language throughout
-- Remove checkbox format (agents don't need interactive checklists)
-- Consolidate related constraints into single sections
-- Include code examples showing preferred syntax only
-
-**Examples and references:**
-
-- Label examples with context (e.g., "Simple single-value", "Complex multi-stage")
-- Show WRONG and CORRECT patterns for anti-patterns
-- Use backticks for file paths: `src/path/file.cs` (not markdown links from skills)
-- Point to specific implementations, not categories
+- **Depict unique requirements**: Document syntax constraints, required patterns, prohibited patterns, mandatory tests specific to the code pattern
+- **Point to reference examples**: Link to specific working examples with contextual notes about syntax and sequences
+- **Avoid restating the obvious**: Do not document what is already clear from reading the code
+- **Prevent unwanted patterns**: Explicitly call out patterns we have learned are incorrect or problematic
+- **Steer toward proven patterns**: Document patterns that work exceptionally well or align to forward-looking goals
+- **Use preferred syntax**: Use organization's preferred code syntax in examples unless there is a specific reason to change course
+- **AI-optimized writing**: Write for AI consumption, not human readability—be succinct, direct, imperative
+- **Present tense only**: No historical context or temporary situations—only current imperatives
 
 ## Skill file structure
 
@@ -113,7 +92,7 @@ description: Brief description of skill purpose and capabilities
 ---
 ```
 
-- `name`: Skill identifier name.
+- `name`: Skill identifier name (must be kebab-case).
   - Kebab case only (lowercase letters and hyphens only, must not start or end with a hyphen).
   - Max 64 characters.
 - `description`: Describes what the skill does and when to use it.
@@ -122,38 +101,74 @@ description: Brief description of skill purpose and capabilities
 
 ### Workflow sections
 
-Structure varies by skill type. Common sections for implementation pattern skills:
+Structure all skills with these sections in order:
 
-1. **Title** (H1 heading, no descriptive introduction)
-2. **Required implementation** or **Required patterns** (MUST constraints)
-3. **Prohibited patterns** (NEVER/❌ anti-patterns with consequences)
-4. **Testing constraints** (required test patterns, base classes)
-5. **Examples** (reference implementations with context labels)
-6. **Performance targets** or **Quality standards** (optimization goals)
+1. **Title and introduction** (H1 heading, brief description of purpose)
+2. **When to use this skill** (specific scenarios where skill applies)
+3. **Required tools** (tools needed: MCP, GitHub CLI, etc.)
+4. **Workflow** (numbered sequential steps with substeps)
+5. **Completion criteria or quality standards** (requirements for success)
+6. **Self-healing (for maintenance skills)** (Step 0 before other steps)
+7. **About maintenance** (source of truth, maintenance triggers)
 
-For workflow skills (e.g., quality gates, ADR authoring):
+### Example structure
 
-1. **Title** (H1 heading)
-2. **Preparation** or **Prerequisites** (setup requirements)
-3. **Workflow** or **Validation sequence** (ordered steps)
-4. **Required gates** or **Completion criteria** (MUST pass checklist)
-5. **Recovery** (failure handling)
+`````markdown
+---
+name: example-skill
+description: Example skill demonstrating Agent Skills specification
+---
 
-For maintenance/automation skills:
+# Skill Name
 
-1. **Self-healing** (Step 0 verification)
-2. **Workflow** (execution steps)
-3. **About maintenance** (source of truth, triggers)
+Brief description of purpose and capabilities.
+
+## When to use this skill
+
+Use this skill when:
+
+- Specific scenario 1
+- Specific scenario 2
+- Specific scenario 3
+
+## Required tools
+
+- #tool:example-tool - Description of what this tool does
+- #tool:another-tool - Description of what this tool does
+
+## Workflow
+
+### Step 1: Initialize
+
+- Gather context
+- Validate prerequisites
+- Set up environment
+
+### Step 2: Execute main task
+
+- Perform primary operations
+- Track progress
+- Handle errors
+
+### Step 3: Validate results
+
+- Check outputs
+- Fix issues
+- Verify success
+
+## Quality standards
+
+- Standard 1
+- Standard 2
+- Standard 3
 
 ## About maintenance of this file
 
 - Official documentation: <https://example.com/docs>
-- Gold copy: #githubRepo `org/repo` file `.github/skills/example-skill/SKILL.md`
-- Maintenance: Use `org` MCP server to update from org-level repo
-- Customization: Guidance on whether downstream repos can modify
 
 ---
 Last updated: YYYY-MM-DD
+`````
 
 ## Naming conventions
 
@@ -198,7 +213,7 @@ This organization follows the Agent Skills specification from agentskills.io (ma
 
 ## File and tool references
 
-Skills use `#file:` and `#tool:` syntax for references. See <markdown.instructions.md> for complete syntax rules and guidelines.
+Skills use `#file:` and `#tool:` syntax for references. See [markdown.instructions.md](markdown.instructions.md) for complete syntax rules and guidelines.
 
 ## Skill invocation
 
@@ -221,9 +236,9 @@ Before finalizing a new skill:
 
 ## References
 
+- Agent Skills documentation: <https://agentskills.io>
 - Agent Skills specification: <https://agentskills.io/specification>
 - Example skills: <https://github.com/anthropics/skills>
-- Agent Skills documentation: <https://agentskills.io>
 
 ---
-Last updated: December 31, 2025
+Last updated: January 1, 2026
