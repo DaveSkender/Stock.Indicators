@@ -209,7 +209,7 @@ public class CatalogExecutionTests : TestBase
     [TestMethod]
     public void ExecuteFromJsonInvalidParameterTypesThrows()
     {
-        const string json = """
+        const string json = /*lang=json,strict*/ """
         {
           "Id": "RSI",
           "Style": 0,
@@ -226,7 +226,7 @@ public class CatalogExecutionTests : TestBase
     [TestMethod]
     public void ExecuteFromJsonInvalidIdThrows()
     {
-        const string json = """
+        const string json = /*lang=json,strict*/ """
         {
           "Id": "NONEXISTENT",
           "Style": 0

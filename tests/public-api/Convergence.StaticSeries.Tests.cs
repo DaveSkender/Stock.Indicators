@@ -288,7 +288,7 @@ public class ConvergenceStaticSeries : TestBase
     [TestMethod]
     public void StochRsi()
     {
-        foreach (int qty in QuotesQuantities.Where(x => x <= 502))
+        foreach (int qty in QuotesQuantities.Where(static x => x <= 502))
         {
             IReadOnlyList<Quote> qts = Data.GetLongish(qty);
             IReadOnlyList<StochRsiResult> r = qts.ToStochRsi(14, 14, 3);

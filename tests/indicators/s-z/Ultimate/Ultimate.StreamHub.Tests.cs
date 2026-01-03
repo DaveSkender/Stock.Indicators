@@ -7,7 +7,7 @@ public class UltimateHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChai
     public void Results_AreAlwaysBounded()
     {
         IReadOnlyList<UltimateResult> sut = Quotes.ToUltimateHub(7, 14, 28).Results;
-        sut.IsBetween(x => x.Ultimate, 0, 100);
+        sut.IsBetween(static x => x.Ultimate, 0, 100);
     }
 
     [TestMethod]

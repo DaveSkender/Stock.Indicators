@@ -293,6 +293,9 @@ public static partial class VolatilityStop
     /// <summary>
     /// Creates a Volatility Stop hub.
     /// </summary>
+    /// <param name="quoteProvider">The quote provider.</param>
+    /// <param name="lookbackPeriods">Number of lookback periods.</param>
+    /// <param name="multiplier">Multiplier used to scale ATR for SAR.</param>
     /// <returns>An instance of <see cref="VolatilityStopHub"/>.</returns>
     public static VolatilityStopHub ToVolatilityStopHub(
        this IQuoteProvider<IQuote> quoteProvider,

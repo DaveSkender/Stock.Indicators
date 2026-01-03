@@ -6,22 +6,6 @@ namespace Skender.Stock.Indicators;
 public static partial class Stoch
 {
     /// <summary>
-    /// Removes the recommended warmup periods from the results.
-    /// </summary>
-    /// <param name="results">The list of Stochastic Oscillator results.</param>
-    /// <returns>A list of Stochastic Oscillator results with warmup periods removed.</returns>
-    public static IReadOnlyList<StochResult> RemoveWarmupPeriods(
-        this IReadOnlyList<StochResult> results)
-    {
-        ArgumentNullException.ThrowIfNull(results);
-
-        int removePeriods = results
-            .FindIndex(static x => x.Oscillator != null);
-
-        return results.Remove(removePeriods);
-    }
-
-    /// <summary>
     /// Validates the parameters for Stochastic Oscillator calculation.
     /// </summary>
     /// <param name="lookbackPeriods">The number of periods for the lookback.</param>

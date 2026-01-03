@@ -30,7 +30,6 @@ public static partial class PivotPoints
         ArgumentNullException.ThrowIfNull(results);
 
         int removePeriods = results
-            .ToList()  // TODO: is there a no-copy way to do this?  Many places.
             .FindIndex(static x => x.PP != null);
 
         return results.Remove(removePeriods);

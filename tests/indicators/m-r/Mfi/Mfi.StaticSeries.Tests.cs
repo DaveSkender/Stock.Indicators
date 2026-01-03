@@ -25,7 +25,7 @@ public class Mfi : StaticSeriesTestBase
     public void Results_AreAlwaysBounded()
     {
         IReadOnlyList<MfiResult> sut = Quotes.ToMfi(14);
-        sut.IsBetween(x => x.Mfi, 0, 100);
+        sut.IsBetween(static x => x.Mfi, 0, 100);
     }
 
     [TestMethod]
