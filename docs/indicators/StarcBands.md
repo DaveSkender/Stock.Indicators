@@ -49,11 +49,11 @@ IReadOnlyList<StarcBandsResult>
 
 **`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
-**`UpperBand`** _`decimal`_ - Upper STARC band
+**`UpperBand`** _`double`_ - Upper STARC band
 
-**`Centerline`** _`decimal`_ - SMA of price
+**`Centerline`** _`double`_ - SMA of price
 
-**`LowerBand`** _`decimal`_ - Lower STARC band
+**`LowerBand`** _`double`_ - Lower STARC band
 
 ### Utilities
 

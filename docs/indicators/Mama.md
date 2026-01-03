@@ -47,9 +47,9 @@ IReadOnlyList<MamaResult>
 
 **`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
-**`Mama`** _`decimal`_ - MESA adaptive moving average (MAMA)
+**`Mama`** _`double`_ - MESA adaptive moving average (MAMA)
 
-**`Fama`** _`decimal`_ - Following adaptive moving average (FAMA)
+**`Fama`** _`double`_ - Following adaptive moving average (FAMA)
 
 ### Utilities
 
