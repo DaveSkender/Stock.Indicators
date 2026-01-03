@@ -46,12 +46,13 @@ Execute these tasks sequentially from top to bottom. This section contains **onl
   - **Related**: #1692
   - **Status**: COMPLETE - Added boundary clamping to BufferList and StreamHub implementations; precision tests already exist in BoundaryTests
 
-- [ ] **T201** - Stochastic SMMA re-initialization logic (2-3 hours)
+- [x] **T201** - Stochastic SMMA re-initialization logic (2-3 hours)
   - **File**: `src/s-z/Stoch/Stoch.StaticSeries.cs:255`
   - **Problem**: Unclear whether SMMA signal line should re-initialize when `prevD` is NaN
   - **Action**: Research SMMA behavior on NaN values
   - **Action**: Add test case for NaN scenario
   - **Action**: Implement correct logic with inline documentation
+  - Implemented in PR #1852
 
 - [ ] **T200** - TEMA/DEMA StreamHub layered EMA state optimization (8-12 hours)
   - **Files**: `src/s-z/Tema/Tema.StreamHub.cs`, `src/a-d/Dema/Dema.StreamHub.cs`
