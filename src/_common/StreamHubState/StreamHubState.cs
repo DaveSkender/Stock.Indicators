@@ -36,6 +36,12 @@ public abstract class StreamHubState<TIn, TState, TOut> : StreamHub<TIn, TOut>
     private DateTime? _lastTimestamp;
 
     /// <summary>
+    /// The last timestamp where we successfully cached state.
+    /// Used to detect when we've moved past a rebuild point.
+    /// </summary>
+    private DateTime? _lastCachedTimestamp;
+
+    /// <summary>
     /// Converts incremental value into an indicator candidate, state, and cache position.
     /// </summary>
     /// <param name="item">New item from provider.</param>
@@ -63,7 +69,7 @@ public abstract class StreamHubState<TIn, TState, TOut> : StreamHub<TIn, TOut>
         ArgumentNullException.ThrowIfNull(item);
 
         // Check if this is an update to the same candle (rapid update scenario)
-        bool isSameCandleUpdate = _lastTimestamp.HasValue 
+        bool isSameCandleUpdate = _lastTimestamp.HasValue
             && item.Timestamp == _lastTimestamp.Value
             && _cachedPreviousState is not null;
 
@@ -78,13 +84,22 @@ public abstract class StreamHubState<TIn, TState, TOut> : StreamHub<TIn, TOut>
 
         // Update cache for next iteration
         // Cache current state as "previous" for potential same-candle updates
-        if (item.Timestamp != _lastTimestamp)
+        // Only cache if this is genuinely new data (not a rebuild/replay)
+        bool isNewTimestamp = !_lastCachedTimestamp.HasValue || item.Timestamp > _lastCachedTimestamp.Value;
+
+        if (isNewTimestamp && item.Timestamp != _lastTimestamp)
         {
-            // New candle - current state becomes previous state for next update
+            // New candle with never-seen-before timestamp - safe to cache
             _cachedPreviousState = state;
             _lastTimestamp = item.Timestamp;
+            _lastCachedTimestamp = item.Timestamp;
         }
-        // If same candle update, keep the same _cachedPreviousState (from before this candle)
+        else if (isNewTimestamp && item.Timestamp == _lastTimestamp)
+        {
+            // Same timestamp but new data (rapid update) - update last cached timestamp
+            _lastCachedTimestamp = item.Timestamp;
+        }
+        // If not a new timestamp, we're in a rebuild - don't cache
 
         return (result, index);
     }
@@ -97,11 +112,11 @@ public abstract class StreamHubState<TIn, TState, TOut> : StreamHub<TIn, TOut>
     protected override void AppendCache(TOut result, bool notify)
     {
         int prevCacheCount = Cache.Count;
-        
+
         // Check if this will be a complex operation (rebuild needed)
         // If cache will NOT grow, a complex operation will occur
         bool willRebuild = Cache.Count > 0 && result.Timestamp <= Cache[^1].Timestamp;
-        
+
         if (willRebuild)
         {
             // Invalidate cache BEFORE the rebuild happens
@@ -130,7 +145,7 @@ public abstract class StreamHubState<TIn, TState, TOut> : StreamHub<TIn, TOut>
         }
 
         // Check if this is a same-candle rollback (updating latest candle)
-        bool isSameCandleRollback = cacheIndex == Cache.Count - 1 
+        bool isSameCandleRollback = cacheIndex == Cache.Count - 1
             && Cache.Count > 0
             && Cache[^1].Timestamp == timestamp
             && _cachedPreviousState is not null;
@@ -143,6 +158,7 @@ public abstract class StreamHubState<TIn, TState, TOut> : StreamHub<TIn, TOut>
         else
         {
             // Complex rollback (insert/remove) - invalidate cache and reset state
+            // This ensures the indicator recalculates from scratch during rebuild
             InvalidateStateCache();
             RestorePreviousState(default);
         }
@@ -159,6 +175,7 @@ public abstract class StreamHubState<TIn, TState, TOut> : StreamHub<TIn, TOut>
     {
         _cachedPreviousState = default;
         _lastTimestamp = null;
+        // Don't reset _lastCachedTimestamp - it tracks historical max timestamp
     }
 
     /// <summary>

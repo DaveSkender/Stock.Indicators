@@ -10,7 +10,7 @@ public class RsiHubStateTests : StreamHubTestBase
     {
         QuoteHub quoteHub = new();
         quoteHub.Add(Quotes.Take(20));
-        
+
         RsiHubState observer = quoteHub.ToRsiHubState(lookbackPeriods);
 
         observer.ToString().Should().Be($"RSI({lookbackPeriods})");
@@ -71,7 +71,7 @@ public class RsiHubStateTests : StreamHubTestBase
         // Setup both hub types
         QuoteHub quoteHub1 = new();
         QuoteHub quoteHub2 = new();
-        
+
         quoteHub1.Add(Quotes);
         quoteHub2.Add(Quotes);
 

@@ -128,6 +128,64 @@ public class RsiHubState
     }
 
     /// <summary>
+    /// Rollback state with proper reconstruction for complex operations.
+    /// Overrides base to provide full state reconstruction when needed.
+    /// </summary>
+    protected override void RollbackState(DateTime timestamp)
+    {
+        // Let base handle cache management and fast-path detection
+        base.RollbackState(timestamp);
+
+        // If base called RestorePreviousState with non-null, we're done (fast path)
+        // Otherwise, we need to do full reconstruction (slow path after reset to NaN)
+        if (double.IsNaN(_avgGain) || double.IsNaN(_avgLoss))
+        {
+            // Full reconstruction needed - find target index in ProviderCache
+            int index = ProviderCache.IndexGte(timestamp);
+            if (index == -1)
+            {
+                index = ProviderCache.Count;
+            }
+
+            // Target is the position just before where rebuild will start
+            int targetIndex = index - 1;
+
+            // Not enough data to initialize state
+            if (targetIndex < LookbackPeriods)
+            {
+                return;
+            }
+
+            // Calculate initial averages at first calculable position
+            (double sumGain, double sumLoss) = CalculateInitialSums(LookbackPeriods);
+            _avgGain = sumGain / LookbackPeriods;
+            _avgLoss = sumLoss / LookbackPeriods;
+
+            // Apply Wilder's smoothing for subsequent positions up to targetIndex
+            for (int p = LookbackPeriods + 1; p <= targetIndex; p++)
+            {
+                double pPrevVal = ProviderCache[p - 1].Value;
+                double pCurrVal = ProviderCache[p].Value;
+
+                if (!double.IsNaN(pCurrVal) && !double.IsNaN(pPrevVal))
+                {
+                    double pGain = pCurrVal > pPrevVal ? pCurrVal - pPrevVal : 0;
+                    double pLoss = pCurrVal < pPrevVal ? pPrevVal - pCurrVal : 0;
+
+                    _avgGain = ((_avgGain * (LookbackPeriods - 1)) + pGain) / LookbackPeriods;
+                    _avgLoss = ((_avgLoss * (LookbackPeriods - 1)) + pLoss) / LookbackPeriods;
+                }
+                else
+                {
+                    // NaN contaminates state - will be re-initialized in ToIndicator
+                    _avgGain = double.NaN;
+                    _avgLoss = double.NaN;
+                }
+            }
+        }
+    }
+
+    /// <summary>
     /// Calculates the initial sum of gains and losses over the lookback period.
     /// </summary>
     private (double sumGain, double sumLoss) CalculateInitialSums(int endIndex)
