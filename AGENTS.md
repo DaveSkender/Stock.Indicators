@@ -2,7 +2,7 @@
 
 This repository hosts **Stock Indicators for .NET**, the production source for the <a href="https://www.nuget.org/packages/Skender.Stock.Indicators">Skender.Stock.Indicators</a> NuGet package. The library offers financial market technical analysis indicators with a focus on accuracy, performance, and ergonomics for financial analytics.
 
-## Project structure
+## Repository layout
 
 ```text
 src/
@@ -22,49 +22,72 @@ docs/
 └── [Jekyll-based documentation website]
 ```
 
-## Code review guidelines
+## Build and verification
 
-### What to look for
+- Use the solution tasks (`Restore`, `Build`, `Test`) or run `dotnet restore`, `dotnet build`, and `dotnet test --no-restore` from the repository root
+- Keep analyzers clean; **treat all warnings and errors as failures that must be fixed**
+- Do not accept or ignore warnings regardless of scope or reason
+- Do not suppress issues as a way to remove warnings or errors—you must fix the underlying problem
+- Update documentation as needed and in accordance with markdown instructions
+- Update the matching `docs/_indicators/<Indicator>.md` file whenever an indicator changes. Keep the primary public API example, parameter details, warmup guidance, and outputs in sync with the implementation
 
-- Input validation completeness
-- Edge case handling (insufficient data, zero/negative values)
-- Mathematical accuracy vs reference implementations
-- Performance characteristics
-- Appropriate data types: `decimal` for public quote inputs, `double` for internal calculations, choose result type based on precision needs
-- XML documentation completeness
-- Consistent error messages and exception types
+See subfolder AGENTS.md files for detailed domain-specific guidance.
 
-### Code quality standards
+### Linting and testing
 
-- All public methods must have XML documentation
-- Unit test coverage for all code paths
-- Performance tests for computationally intensive indicators
-- Validation for all user inputs
-- Consistent formatting using `.editorconfig`
+- **Markdown**: `npx markdownlint-cli2` (auto-fix with `npx markdownlint-cli2 --fix`)
+- **Roslynator**: `roslynator fix --properties TargetFramework=net10.0 --severity-level info` (fast for dev loop)
+- **All linters**: `dotnet format && npx markdownlint-cli2` (auto-fix with both `--fix` flags)
+- **Build**: `dotnet build "Stock.Indicators.sln" -v minimal --nologo`
+- **Test**: `dotnet test "Stock.Indicators.sln" --no-restore --nologo`
 
-## Development workflow
+VS Code tasks are organized for speed vs. completeness:
 
-### Building and testing
+- **Fast development** (Roslynator only, ~seconds): Use `Lint: .NET code & markdown files (fix)` for regular development
+- **Comprehensive** (Roslynator + dotnet format, slower): Use `Lint: All (fix)` before committing to ensure CI compliance
+
+Individual tools available: `Lint: .NET format`, `Lint: .NET Roslynator (analyze)`, `Lint: Markdown` and their `(fix)` variants.
+
+### Code completion checklist
+
+**Before finishing any code work, execute these quality gates**:
 
 ```bash
-# Build the solution
-dotnet build
-
-# Run all tests
-dotnet test
-
-# Format code
-dotnet format
-
-# Lint markdown files
-npx markdownlint-cli2 --fix
+dotnet format --no-restore && dotnet build && dotnet test --no-restore && npx markdownlint-cli2
 ```
 
-### Folder-specific instructions
+This ensures:
 
-- **src/**: Follow .NET development instructions in .github/instructions/dotnet.instructions.md
-- **docs/**: Follow documentation instructions in .github/instructions/docs.instructions.md
-- **All markdown files**: Follow markdown instructions in .github/instructions/markdown.instructions.md
+1. All code passes linting (markdown + .NET) with **zero warnings and zero errors**
+2. All projects build successfully with **zero warnings and zero errors**
+3. All tests pass
+4. **All warnings must be fixed**—do not ignore or defer warnings
+
+See the [Code Completion skill](.github/skills/code-completion/SKILL.md) for detailed checklist and troubleshooting.
+
+## Skills for development
+
+This repository uses Agent Skills (`.github/skills/`) for domain-specific guidance. Skills are automatically loaded when relevant:
+
+| Skill | Description | When to use |
+| ----- | ----------- | ----------- |
+| [code-completion](.github/skills/code-completion/SKILL.md) | Quality gates checklist for completing code work | Before finishing any implementation, bug fix, or refactoring |
+
+Additional path-specific instruction files:
+
+| Pattern | File | Purpose |
+| ------- | ---- | ------- |
+| `**/*.md` | `.github/instructions/markdown.instructions.md` | Markdown authoring standards |
+| `docs/**` | `.github/instructions/docs.instructions.md` | Jekyll documentation site |
+| `src/**` | `src/AGENTS.md` | Formula protection rules |
+
+Skills are defined in `.github/skills/` following the Agent Skills specification.  
+
+## Folder-specific guidance
+
+- **src/**: See `src/AGENTS.md` for implementation details, technical constraints, and code quality standards
+- **tests/**: See `tests/AGENTS.md` for test organization and writing guidance
+- **docs/**: See `docs/AGENTS.md` for documentation site development
 
 ## MCP tools guidance
 
@@ -89,10 +112,9 @@ Do NOT use MCP tools for:
 - PR titles must follow <a href="https://www.conventionalcommits.org">Conventional Commits</a> format: `type: Subject` (subject starts uppercase, ≤ 65 characters).
 - Supported types: feat, fix, docs, style, refactor, perf, test, build, ci, chore, revert, plan.
 - Link or reference the governing spec/task thread when applicable.
-- Ensure `dotnet test --no-restore` passes and the docs site builds when content changes.
-- Provide before/after validation notes or benchmarks when touching performance-critical code.
+- Ensure lint, build, and tests pass before finishing changes or requesting reviews
 
-Examples:
+Examples of PR titles:
 
 - `feat: Add RSI indicator`
 - `fix: Resolve MACD calculation error`
