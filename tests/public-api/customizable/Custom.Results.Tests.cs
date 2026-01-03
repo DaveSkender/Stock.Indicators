@@ -35,8 +35,8 @@ public class CustomResults
         // can use a derive Indicator class using Linq
 
         IEnumerable<CustomSeries> myIndicatorResults = emaResults
-            .Where(x => x.Ema != null)
-            .Select(x => new CustomSeries {
+            .Where(static x => x.Ema != null)
+            .Select(static x => new CustomSeries {
                 Timestamp = x.Timestamp,
                 Ema = x.Ema,
                 MyProperty = false
@@ -54,8 +54,8 @@ public class CustomResults
         // can use a derive Indicator class using Linq
 
         List<CustomSeries> myIndicatorResults = emaResults
-            .Where(x => x.Ema != null)
-            .Select(x => new CustomSeries {
+            .Where(static x => x.Ema != null)
+            .Select(static x => new CustomSeries {
                 Id = 12345,
                 Timestamp = x.Timestamp,
                 Ema = x.Ema,

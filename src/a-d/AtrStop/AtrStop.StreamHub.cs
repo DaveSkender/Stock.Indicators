@@ -189,6 +189,10 @@ public static partial class AtrStop
     /// <summary>
     /// Creates an ATR Stop hub.
     /// </summary>
+    /// <param name="quoteProvider">The quote provider.</param>
+    /// <param name="lookbackPeriods">Number of lookback periods.</param>
+    /// <param name="multiplier">ATR multiplier.</param>
+    /// <param name="endType">The price end type to use.</param>
     /// <returns>An instance of <see cref="AtrStopHub"/>.</returns>
     public static AtrStopHub ToAtrStopHub(
        this IQuoteProvider<IQuote> quoteProvider,

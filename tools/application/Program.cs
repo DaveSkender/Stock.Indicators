@@ -73,7 +73,7 @@ public static class Program
         }
 
         IEnumerable<Quote> quotes = quotesList;
-        IEnumerable<(DateTime, double)> tuples = quotes.Select(x => (x.Date, (double)x.Close));
+        IEnumerable<(DateTime, double)> tuples = quotes.Select(static x => (x.Date, (double)x.Close));
 
         Console.WriteLine($"Generated {quotesList.Count} quotes for testing\n");
 

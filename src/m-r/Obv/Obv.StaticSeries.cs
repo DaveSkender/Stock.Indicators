@@ -35,7 +35,7 @@ public static partial class Obv
         {
             QuoteD q = quotes[i];
 
-            ObvResult r = Obv.Increment(
+            ObvResult r = Increment(
                 q.Timestamp,
                 q.Close,
                 q.Volume,

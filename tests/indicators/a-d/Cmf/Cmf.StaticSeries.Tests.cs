@@ -34,7 +34,7 @@ public class Cmf : StaticSeriesTestBase
     public void Results_AreAlwaysBounded()
     {
         IReadOnlyList<CmfResult> sut = Quotes.ToCmf(20);
-        sut.IsBetween(x => x.Cmf, -1, 1);
+        sut.IsBetween(static x => x.Cmf, -1, 1);
     }
 
     [TestMethod]

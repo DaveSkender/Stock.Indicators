@@ -13,7 +13,7 @@ internal static class Data
         => File.ReadAllLines("_testdata/quotes/default.csv")
             .Skip(1)
             .Select(Utilities.QuoteFromCsv)
-            .OrderBy(x => x.Timestamp)
+            .OrderBy(static x => x.Timestamp)
             .Take(days)
             .ToList();
 
@@ -22,7 +22,7 @@ internal static class Data
         => File.ReadAllLines("_testdata/quotes/compare.csv")
             .Skip(1)
             .Select(Utilities.QuoteFromCsv)
-            .OrderBy(x => x.Timestamp)
+            .OrderBy(static x => x.Timestamp)
             .Take(days)
             .ToList();
 
@@ -31,7 +31,7 @@ internal static class Data
         => File.ReadAllLines("_testdata/quotes/intraday.csv")
             .Skip(1)
             .Select(Utilities.QuoteFromCsv)
-            .OrderBy(x => x.Timestamp)
+            .OrderBy(static x => x.Timestamp)
             .Take(days)
             .ToList();
 
@@ -40,7 +40,7 @@ internal static class Data
         => File.ReadAllLines("_testdata/quotes/longest.csv")
             .Skip(1)
             .Select(Utilities.QuoteFromCsv)
-            .OrderBy(x => x.Timestamp)
+            .OrderBy(static x => x.Timestamp)
             .ToList();
 
     // LONGISH DATA ~20 years of SnP 500 daily data
@@ -48,7 +48,7 @@ internal static class Data
         => File.ReadAllLines("_testdata/quotes/longish.csv")
             .Skip(1)
             .Select(Utilities.QuoteFromCsv)
-            .OrderBy(x => x.Timestamp)
+            .OrderBy(static x => x.Timestamp)
             .Take(days)
             .ToList();
 }

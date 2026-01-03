@@ -251,7 +251,7 @@ public class SmiHubTest : StreamHubTestBase, ITestQuoteObserver, ITestChainProvi
     public void Results_AreAlwaysBounded()
     {
         IReadOnlyList<SmiResult> sut = Quotes.ToSmiHub(14, 20, 5, 3).Results;
-        sut.IsBetween(x => x.Smi, -100, 100);
-        sut.IsBetween(x => x.Signal, -100, 100);
+        sut.IsBetween(static x => x.Smi, -100, 100);
+        sut.IsBetween(static x => x.Signal, -100, 100);
     }
 }

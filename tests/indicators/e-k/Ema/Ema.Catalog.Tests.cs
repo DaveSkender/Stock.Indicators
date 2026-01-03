@@ -36,7 +36,7 @@ public class EmaTests : TestBase
         // Arrange
         IReadOnlyList<Quote> quotes = Quotes;
 
-        const string json = """
+        const string json = /*lang=json,strict*/ """
             {
                 "id" : "EMA",
                 "style" : "Series",
