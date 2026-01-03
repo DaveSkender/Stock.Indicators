@@ -263,7 +263,7 @@ public static partial class Catalog
             ?? throw new InvalidOperationException($"Indicator '{id}' with style '{style}' not found in catalog.");
 
         // Execute using typed executor
-        return ListingExecutor.Execute<IQuote, TResult>(quotes, listing, parameters);
+        return ListingExecutor.Execute<TResult>(quotes, listing, parameters);
     }
 
     /// <summary>

@@ -83,7 +83,7 @@ public class EmaTests : TestBase
         int lookbackValue = (int)lookbackParam.DefaultValue;
 
         // Act - Use catalog utility to dynamically execute the indicator
-        IReadOnlyList<EmaResult> catalogResults = ListingExecutor.Execute<IQuote, EmaResult>(quotes, listing);
+        IReadOnlyList<EmaResult> catalogResults = ListingExecutor.Execute<EmaResult>(quotes, listing);
 
         // Act - Direct call for comparison using catalog's default parameter value
         IReadOnlyList<EmaResult> directResults = quotes.ToEma(lookbackValue);

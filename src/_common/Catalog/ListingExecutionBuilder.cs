@@ -116,7 +116,7 @@ public class ListingExecutionBuilder
     public IReadOnlyList<TResult> Execute<TResult>()
         where TResult : class => _quotes == null
             ? throw new InvalidOperationException("Quotes must be set using From() before calling Execute()")
-            : ListingExecutor.Execute<IQuote, TResult>(_quotes, BaseListing, _parameterOverrides);
+            : ListingExecutor.Execute<TResult>(_quotes, BaseListing, _parameterOverrides);
 
     /// <summary>
     /// Validates that a parameter value is compatible with the expected parameter type.
