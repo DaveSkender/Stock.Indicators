@@ -5,6 +5,12 @@ namespace Skender.Stock.Indicators;
 /// </summary>
 public class TdiGmList : BufferList<TdiGmResult>, IIncrementFromChain, ITdiGm
 {
+    private readonly RsiList _rsiList;
+    private readonly SmaList _middleBandList;
+    private readonly StdDevList _stdDevList;
+    private readonly SmaList _fastMaList;
+    private readonly SmaList _slowMaList;
+
     /// <summary>
     /// Initializes a new instance of the <see cref="TdiGmList"/> class.
     /// </summary>
@@ -25,7 +31,14 @@ public class TdiGmList : BufferList<TdiGmResult>, IIncrementFromChain, ITdiGm
         FastLength = fastLength;
         SlowLength = slowLength;
 
-        Name = $"TdiGm({21}, {34}, {2}, {7})";
+        // Initialize internal buffer lists for incremental processing
+        _rsiList = new RsiList(rsiPeriod);
+        _middleBandList = new SmaList(bandLength);
+        _stdDevList = new StdDevList(bandLength);
+        _fastMaList = new SmaList(fastLength);
+        _slowMaList = new SmaList(slowLength);
+
+        Name = $"TdiGm({rsiPeriod}, {bandLength}, {fastLength}, {slowLength})";
     }
 
     /// <summary>
@@ -53,7 +66,64 @@ public class TdiGmList : BufferList<TdiGmResult>, IIncrementFromChain, ITdiGm
     /// <inheritdoc />
     public void Add(DateTime timestamp, double value)
     {
+        // Add value to RSI calculation
+        _rsiList.Add(timestamp, value);
 
+        // Get the latest RSI result
+        RsiResult rsiResult = _rsiList[^1];
+
+        // If RSI is available, feed it through the other indicators
+        if (rsiResult.Rsi.HasValue)
+        {
+            double rsiValue = rsiResult.Rsi.Value;
+
+            // Add RSI value to all the downstream calculations
+            _middleBandList.Add(timestamp, rsiValue);
+            _stdDevList.Add(timestamp, rsiValue);
+            _fastMaList.Add(timestamp, rsiValue);
+            _slowMaList.Add(timestamp, rsiValue);
+        }
+        else
+        {
+            // Add NaN to maintain alignment
+            _middleBandList.Add(timestamp, double.NaN);
+            _stdDevList.Add(timestamp, double.NaN);
+            _fastMaList.Add(timestamp, double.NaN);
+            _slowMaList.Add(timestamp, double.NaN);
+        }
+
+        // Get the latest results from each list
+        SmaResult middleBandResult = _middleBandList[^1];
+        StdDevResult stdDevResult = _stdDevList[^1];
+        SmaResult fastMaResult = _fastMaList[^1];
+        SmaResult slowMaResult = _slowMaList[^1];
+
+        // Calculate bands
+        double? upper = null;
+        double? lower = null;
+        double? middle = null;
+
+        if (middleBandResult.Sma != null && stdDevResult.StdDev != null)
+        {
+            double ma = middleBandResult.Sma.Value;
+            double stdDev = stdDevResult.StdDev.Value;
+            double offset = 1.6185 * stdDev;
+
+            upper = ma + offset;
+            lower = ma - offset;
+            middle = (upper + lower) / 2;
+        }
+
+        // Create and add the result
+        AddInternal(
+            new TdiGmResult {
+                Timestamp = timestamp,
+                Upper = upper,
+                Lower = lower,
+                Middle = middle,
+                Fast = fastMaResult.Sma,
+                Slow = slowMaResult.Sma
+            });
     }
 
     /// <inheritdoc />
@@ -78,6 +148,11 @@ public class TdiGmList : BufferList<TdiGmResult>, IIncrementFromChain, ITdiGm
     public override void Clear()
     {
         base.Clear();
+        _rsiList.Clear();
+        _middleBandList.Clear();
+        _stdDevList.Clear();
+        _fastMaList.Clear();
+        _slowMaList.Clear();
     }
 }
 
