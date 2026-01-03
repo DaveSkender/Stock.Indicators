@@ -30,6 +30,44 @@ public static partial class TdiGm
         int length = source.Count;
         List<TdiGmResult> results = new(length);
 
+        // calculate RSI on the source data (RsiResult implements IReusable)
+        IReadOnlyList<RsiResult> rsiResults = source.ToRsi(rsiPeriod);
+
+        // calculate components on RSI values
+        IReadOnlyList<SmaResult> middleBandResults = rsiResults.ToSma(bandLength);
+        IReadOnlyList<StdDevResult> stdDevResults = rsiResults.ToStdDev(bandLength);
+        IReadOnlyList<SmaResult> fastMaResults = rsiResults.ToSma(fastLength);
+        IReadOnlyList<SmaResult> slowMaResults = rsiResults.ToSma(slowLength);
+
+        // combine results
+        for (int i = 0; i < length; i++)
+        {
+            double? upper = null;
+            double? lower = null;
+            double? middle = null;
+
+            double? middleBand = middleBandResults[i].Sma;
+            double? stdDev = stdDevResults[i].StdDev;
+
+            if (middleBand != null && stdDev != null)
+            {
+                double offset = 1.6185 * stdDev.Value;
+                upper = middleBand.Value + offset;
+                lower = middleBand.Value - offset;
+                middle = (upper + lower) / 2;
+            }
+
+            results.Add(
+                new TdiGmResult {
+                    Timestamp = source[i].Timestamp,
+                    Upper = upper,
+                    Lower = lower,
+                    Middle = middle,
+                    Fast = fastMaResults[i].Sma,
+                    Slow = slowMaResults[i].Sma
+                });
+        }
+
         return results;
     }
 }

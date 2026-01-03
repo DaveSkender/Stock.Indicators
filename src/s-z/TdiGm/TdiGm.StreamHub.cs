@@ -73,10 +73,10 @@ public sealed class TdiGmHub
 
         // Get the latest results from each chained hub
         // Each hub has already computed its value for this index
-        var middleBandResult = _middleBandHub.Results.LastOrDefault();
-        var stdDevResult = _stdDevHub.Results.LastOrDefault();
-        var fastMaResult = _fastMaHub.Results.LastOrDefault();
-        var slowMaResult = _slowMaHub.Results.LastOrDefault();
+        var middleBandResult = _middleBandHub.Results[^1];
+        var stdDevResult = _stdDevHub.Results[^1];
+        var fastMaResult = _fastMaHub.Results[^1];
+        var slowMaResult = _slowMaHub.Results[^1];
 
         // Calculate TDIGM bands using the hub results
         double? upper = null;
