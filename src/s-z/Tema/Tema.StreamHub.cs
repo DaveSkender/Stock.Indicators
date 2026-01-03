@@ -31,10 +31,6 @@ public class TemaHub
     protected override (TemaResult result, int index)
         ToIndicator(IReusable item, int? indexHint)
     {
-        // TODO: Optimize by persisting layered EMA state (ema1, ema2, ema3)
-        // and implementing a targeted rollback that only recomputes the
-        // affected tail segment after edits. See discussion in PR #1433.
-
         ArgumentNullException.ThrowIfNull(item);
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
