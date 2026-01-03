@@ -75,24 +75,21 @@ public class SmaHubState
     }
 
     /// <summary>
-    /// Restores the SMA state (rolling sum, count) from StateCache.
+    /// Restores the SMA state from previous cached state.
     /// </summary>
-    /// <inheritdoc/>
-    protected override void RollbackState(DateTime timestamp)
+    /// <param name="previousState">The cached state from one bar ago, or null to reset.</param>
+    protected override void RestorePreviousState(SmaState? previousState)
     {
-        // First, manage StateCache removal via base implementation
-        base.RollbackState(timestamp);
-
-        // Reset state variables
-        _rollingSum = 0;
-        _count = 0;
-
-        // Restore from last StateCache entry if available
-        if (StateCache.Count > 0)
+        if (previousState is null)
         {
-            SmaState lastState = StateCache[^1];
-            _rollingSum = lastState.RollingSum;
-            _count = lastState.Count;
+            // Reset to initial state
+            _rollingSum = 0;
+            _count = 0;
+        }
+        else
+        {
+            _rollingSum = previousState.RollingSum;
+            _count = previousState.Count;
         }
     }
 }

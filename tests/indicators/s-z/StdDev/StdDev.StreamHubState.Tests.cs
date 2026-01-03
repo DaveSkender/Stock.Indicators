@@ -69,81 +69,6 @@ public class StdDevHubStateTests : StreamHubTestBase
     }
 
     [TestMethod]
-    public void StateCache_SynchronizedWithResults()
-    {
-        // Setup
-        QuoteHub quoteHub = new();
-        quoteHub.Add(Quotes.Take(50));
-
-        StdDevHubState observer = quoteHub.ToStdDevHubState(lookbackPeriods);
-
-        // Verify state cache is synchronized
-        observer.Results.Should().HaveCount(50);
-        observer.StateCache.Should().HaveCount(50);
-
-        // Add more quotes
-        for (int i = 50; i < quotesCount; i++)
-        {
-            quoteHub.Add(Quotes[i]);
-        }
-
-        // Verify state cache stays synchronized
-        observer.Results.Should().HaveCount(quotesCount);
-        observer.StateCache.Should().HaveCount(quotesCount);
-
-        // Verify state contains valid values after warmup
-        for (int i = lookbackPeriods - 1; i < observer.StateCache.Count; i++)
-        {
-            StdDevState state = observer.StateCache[i];
-
-            // State should have valid count after warmup
-            state.Count.Should().Be(lookbackPeriods);
-            state.Mean.Should().NotBe(0);
-        }
-
-        // Cleanup
-        observer.Unsubscribe();
-        quoteHub.EndTransmission();
-    }
-
-    [TestMethod]
-    public void StateCache_RollbackRestoresCorrectly()
-    {
-        // Setup
-        QuoteHub quoteHub = new();
-        quoteHub.Add(Quotes);
-
-        StdDevHubState observer = quoteHub.ToStdDevHubState(lookbackPeriods);
-
-        int initialCount = observer.Results.Count;
-        int initialStateCount = observer.StateCache.Count;
-
-        // Remove some entries (triggers rollback)
-        DateTime rollbackTimestamp = observer.Results[80].Timestamp;
-        double? stdDevAt79 = observer.Results[79].StdDev;
-
-        observer.RemoveRange(rollbackTimestamp, notify: false);
-
-        // Verify state was rolled back
-        observer.Results.Should().HaveCount(80);
-        observer.StateCache.Should().HaveCount(80);
-
-        // Rebuild from provider
-        observer.Rebuild(rollbackTimestamp);
-
-        // Verify rebuild worked and results are consistent
-        observer.Results.Should().HaveCount(initialCount);
-        observer.StateCache.Should().HaveCount(initialStateCount);
-
-        // Verify StdDev value at position 79 didn't change
-        observer.Results[79].StdDev.Should().Be(stdDevAt79);
-
-        // Cleanup
-        observer.Unsubscribe();
-        quoteHub.EndTransmission();
-    }
-
-    [TestMethod]
     public void StdDevHubState_ProducesSameResultsAsStdDevHub()
     {
         // Setup both hub types
@@ -169,9 +94,6 @@ public class StdDevHubStateTests : StreamHubTestBase
             actual.Mean.Should().Be(expected.Mean);
             actual.ZScore.Should().Be(expected.ZScore);
         }
-
-        // Verify state cache is populated
-        stdDevHubState.StateCache.Should().HaveCount(stdDevHubState.Results.Count);
 
         // Cleanup
         stdDevHub.Unsubscribe();

@@ -109,34 +109,22 @@ public class RsiHubState
     }
 
     /// <summary>
-    /// Restores the RSI state (avgGain, avgLoss) from StateCache.
-    /// Called during Insert/Remove operations and explicit Rebuild() calls.
+    /// Restores the RSI state from previous cached state.
     /// </summary>
-    /// <remarks>
-    /// This implementation simply restores state from the last StateCache entry,
-    /// eliminating the need to recalculate from scratch. This is the key benefit
-    /// of using StreamHubState.
-    /// </remarks>
-    /// <inheritdoc/>
-    protected override void RollbackState(DateTime timestamp)
+    /// <param name="previousState">The cached state from one bar ago, or null to reset.</param>
+    protected override void RestorePreviousState(RsiState? previousState)
     {
-        // First, manage StateCache removal via base implementation
-        base.RollbackState(timestamp);
-
-        // Reset state variables
-        _avgGain = double.NaN;
-        _avgLoss = double.NaN;
-
-        // Restore from last StateCache entry if available
-        if (StateCache.Count > 0)
+        if (previousState is null)
         {
-            RsiState lastState = StateCache[^1];
-            _avgGain = lastState.AvgGain;
-            _avgLoss = lastState.AvgLoss;
+            // Reset to initial state
+            _avgGain = double.NaN;
+            _avgLoss = double.NaN;
         }
-
-        // That's it! No need to recalculate from scratch.
-        // The StateCache already has the correct state at the rollback point.
+        else
+        {
+            _avgGain = previousState.AvgGain;
+            _avgLoss = previousState.AvgLoss;
+        }
     }
 
     /// <summary>
