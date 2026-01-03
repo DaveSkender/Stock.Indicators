@@ -39,6 +39,8 @@ public class PmoHubState
 
         prevRocEma = double.NaN;
         prevPmo = double.NaN;
+
+        Reinitialize();
     }
 
     /// <inheritdoc/>
