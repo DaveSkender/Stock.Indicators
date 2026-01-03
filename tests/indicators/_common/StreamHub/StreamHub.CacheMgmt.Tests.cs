@@ -18,7 +18,6 @@ public class CacheManagement : TestBase
         // Verify StreamHub matches Series for same input
         IReadOnlyList<SmaResult> seriesBeforeRemove = quotes.ToSma(20);
         observer.Results[19].Sma.Should().Be(seriesBeforeRemove[19].Sma);
-        // TODO: observer.Results[19].Sma.Should().Be(214.5250);
 
         // Create new quote list with the removed item (more efficient than LINQ Where)
         List<Quote> quotesAfterRemove = [.. quotes];
@@ -33,7 +32,6 @@ public class CacheManagement : TestBase
         // StreamHub result at index 19 should match Series result at index 19 (last element)
         IReadOnlyList<SmaResult> seriesAfterRemove = quotesAfterRemove.ToSma(20);
         observer.Results[19].Sma.Should().Be(seriesAfterRemove[19].Sma);
-        // TODO: observer.Results[19].Sma.Should().Be(214.5260);
     }
 
     /// <summary>
