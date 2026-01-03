@@ -114,6 +114,9 @@ public static partial class Fractal
     /// <summary>
     /// Creates a Fractal hub.
     /// </summary>
+    /// <param name="quoteProvider">The quote provider.</param>
+    /// <param name="windowSpan">The window span used for both left and right spans.</param>
+    /// <param name="endType">The price end type to use.</param>
     /// <returns>An instance of <see cref="FractalHub"/>.</returns>
     public static FractalHub ToFractalHub(
        this IQuoteProvider<IQuote> quoteProvider,

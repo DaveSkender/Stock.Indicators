@@ -48,12 +48,11 @@ internal static class IndicatorExecutor
                     {
                         // First series param is the extension source, already counted
                         firstSeriesParamSeen = true;
+                        continue;
                     }
-                    else
-                    {
-                        // Second series param is an explicit parameter
-                        expectedParamCount++;
-                    }
+
+                    // Second series param is an explicit parameter
+                    expectedParamCount++;
                 }
                 else
                 {
@@ -173,7 +172,7 @@ internal static class IndicatorExecutor
 
         // For dual-input indicators, first parameter is OtherData (extension source)
         // For single-input indicators, first parameter is TestData
-        List<object?> parameters = isDualInput ? [OtherData] : [TestData];
+        List<object?> parameters = isDualInput ? new List<object?>() { OtherData } : new List<object?>() { TestData };
 
         // Add additional parameters from the listing with their default values
         if (listing.Parameters?.Count > 0)
@@ -193,13 +192,11 @@ internal static class IndicatorExecutor
                         firstSeriesParamSkipped = true;
                         continue;
                     }
-                    else
-                    {
-                        // Add the second series parameter (the comparison source)
-                        parameters.Add(TestData);
-                        paramIndex++;
-                        continue;
-                    }
+                    // Add the second series parameter (the comparison source)
+                    parameters.Add(TestData);
+                    paramIndex++;
+
+                    continue;
                 }
 
                 object? value = param.DefaultValue;
