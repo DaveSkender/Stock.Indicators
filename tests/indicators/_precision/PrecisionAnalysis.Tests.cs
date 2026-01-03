@@ -1,12 +1,13 @@
 namespace Precision;
 
-// TODO: this Boundary Test class may be obsolete
-// since we've added Results_AreAlwaysBounded to indicator test classes.
-
 /// <summary>
-/// Phase 1: Precision analysis tests to document exactly which indicators
-/// fail boundary checks and by how much when using boundary test data.
-/// These tests are designed to expose precision vulnerabilities, not to pass.
+/// Precision analysis tests using synthetic boundary data designed to expose
+/// floating-point precision issues at mathematical limits.
+/// These tests complement Results_AreAlwaysBounded tests by using pathological
+/// edge cases (monotonic sequences, exact boundary conditions) rather than
+/// normal market data. Both test types serve distinct purposes:
+/// - BoundaryTests: Exposes precision vulnerabilities using extreme synthetic data
+/// - Results_AreAlwaysBounded: Validates bounds using realistic market data
 /// </summary>
 [TestClass]
 public class BoundaryTests : TestBase
