@@ -22,60 +22,61 @@ This simulates real-world live trading where tick data arrives continuously, upd
 
 | Indicator | Original Hub (μs) | HubState (μs) | Improvement | Status |
 |-----------|------------------|--------------|-------------|---------|
-| **ADL** | *Baseline needed* | — | Not implemented | ⚪ Simple accumulator |
-| **ADX** | *Baseline needed* | — | Not implemented | 🔶 Candidate (DI smoothing) |
-| **Alligator** | *Baseline needed* | — | Not implemented | 🔶 Candidate (triple SMMA) |
-| **Aroon** | *Baseline needed* | — | Not implemented | ⚪ Window-based |
-| **ATR** | *Baseline needed* | — | Not implemented | 🔶 Candidate (Wilder smoothing) |
-| **AwesomeOscillator** | *Baseline needed* | — | Not implemented | ⚪ Simple SMA difference |
-| **BollingerBands** | *Baseline needed* | — | Not implemented | ⚪ SMA + StdDev |
-| **CCI** | *Baseline needed* | — | Not implemented | ⚪ Window-based |
-| **ChaikinOscillator** | *Baseline needed* | — | Not implemented | 🔶 Candidate (dual EMA) |
-| **Chop** | *Baseline needed* | — | Not implemented | ⚪ Window-based |
-| **CMF** | *Baseline needed* | — | Not implemented | ⚪ Window-based |
+| **ADL** | 177.0 | — | Not implemented | ⚪ Simple accumulator |
+| **ADX** | 216.3 | — | Not implemented | 🔶 Candidate (DI smoothing) |
+| **Alligator** | 219.5 | — | Not implemented | 🔶 Candidate (triple SMMA) |
+| **Alma** | 226.9 | — | Not implemented | ⚪ Adaptive moving average |
+| **Aroon** | 308.9 | — | Not implemented | ⚪ Window-based |
+| **ATR** | 192.8 | — | Not implemented | 🔶 Candidate (Wilder smoothing) |
+| **AwesomeOscillator** | TBD | — | Not implemented | ⚪ Simple SMA difference |
+| **BollingerBands** | 312.9 | — | Not implemented | ⚪ SMA + StdDev |
+| **CCI** | 254.8 | — | Not implemented | ⚪ Window-based |
+| **ChaikinOscillator** | TBD | — | Not implemented | 🔶 Candidate (dual EMA) |
+| **Chop** | 322.0 | — | Not implemented | ⚪ Window-based |
+| **CMF** | 306.2 | — | Not implemented | ⚪ Window-based |
 | **ConnorsRSI** | 666.6 | ⚠️ Benchmark failed | HubState benchmark requires investigation | ✅ Complex stateful (implemented) |
-| **DEMA** | *Baseline needed* | — | Not implemented | 🔶 Candidate (double EMA) |
-| **Doji** | *Baseline needed* | — | Not implemented | ⚪ Pattern recognition |
-| **EMA** | *Baseline needed* | — | Not implemented | 🔶 Candidate (exponential smoothing) |
-| **EPMA** | *Baseline needed* | — | Not implemented | 🔶 Candidate (endpoint weighted) |
-| **FCB** | *Baseline needed* | — | Not implemented | ⚪ Fractal detection |
-| **Fisher** | *Baseline needed* | — | Not implemented | 🔶 Candidate (EMA smoothing) |
-| **ForceIndex** | *Baseline needed* | — | Not implemented | 🔶 Candidate (EMA smoothing) |
-| **Gator** | *Baseline needed* | — | Not implemented | 🔶 Candidate (SMMA chains) |
-| **HMA** | *Baseline needed* | — | Not implemented | 🔶 Candidate (WMA chains) |
-| **HTTrendline** | *Baseline needed* | — | Not implemented | 🔶 Candidate (Hilbert transform) |
-| **Ichimoku** | *Baseline needed* | — | Not implemented | 🔶 Candidate (multiple periods) |
-| **KAMA** | *Baseline needed* | — | Not implemented | 🔶 Candidate (adaptive EMA) |
-| **Keltner** | *Baseline needed* | — | Not implemented | 🔶 Candidate (EMA + ATR) |
-| **KVO** | *Baseline needed* | — | Not implemented | 🔶 Candidate (dual EMA) |
-| **MACD** | *Baseline needed* | — | Not implemented | 🔶 Candidate (triple EMA) |
-| **MFI** | *Baseline needed* | — | Not implemented | ⚪ Window-based |
-| **OBV** | *Baseline needed* | — | Not implemented | ⚪ Simple accumulator |
-| **ParabolicSAR** | *Baseline needed* | — | Not implemented | 🔶 Candidate (trend tracking) |
+| **DEMA** | 167.4 | — | Not implemented | 🔶 Candidate (double EMA) |
+| **Doji** | 239.5 | — | Not implemented | ⚪ Pattern recognition |
+| **EMA** | 175.9 | — | Not implemented | 🔶 Candidate (exponential smoothing) |
+| **EPMA** | 265.8 | — | Not implemented | 🔶 Candidate (endpoint weighted) |
+| **FCB** | 214.1 | — | Not implemented | ⚪ Fractal detection |
+| **Fisher** | TBD | — | Not implemented | 🔶 Candidate (EMA smoothing) |
+| **ForceIndex** | 173.1 | — | Not implemented | 🔶 Candidate (EMA smoothing) |
+| **Gator** | 206.3 | — | Not implemented | 🔶 Candidate (SMMA chains) |
+| **HMA** | 361.2 | — | Not implemented | 🔶 Candidate (WMA chains) |
+| **HTTrendline** | TBD | — | Not implemented | 🔶 Candidate (Hilbert transform) |
+| **Ichimoku** | 644.3 | — | Not implemented | 🔶 Candidate (multiple periods) |
+| **KAMA** | 227.9 | — | Not implemented | 🔶 Candidate (adaptive EMA) |
+| **Keltner** | 206.4 | — | Not implemented | 🔶 Candidate (EMA + ATR) |
+| **KVO** | 184.3 | — | Not implemented | 🔶 Candidate (dual EMA) |
+| **MACD** | 199.1 | — | Not implemented | 🔶 Candidate (triple EMA) |
+| **MFI** | 206.5 | — | Not implemented | ⚪ Window-based |
+| **OBV** | 181.7 | — | Not implemented | ⚪ Simple accumulator |
+| **ParabolicSAR** | 194.3 | — | Not implemented | 🔶 Candidate (trend tracking) |
 | **PMO** | 563.1 | 212.5 | **2.65x faster** | ✅ Complex stateful (implemented) |
-| **PRS** | *Baseline needed* | — | Not implemented | ⚪ Simple ratio |
-| **PVO** | *Baseline needed* | — | Not implemented | 🔶 Candidate (dual EMA) |
-| **ROC** | *Baseline needed* | — | Not implemented | ⚪ Simple calculation |
-| **ROC with Band** | *Baseline needed* | — | Not implemented | ⚪ ROC + SMA |
+| **PRS** | TBD | — | Not implemented | ⚪ Simple ratio |
+| **PVO** | TBD | — | Not implemented | 🔶 Candidate (dual EMA) |
+| **ROC** | TBD | — | Not implemented | ⚪ Simple calculation |
+| **ROC with Band** | TBD | — | Not implemented | ⚪ ROC + SMA |
 | **RSI** | 445.2 | 218.2 | **2.04x faster** | ✅ Significant win (implemented) |
-| **Slope** | *Baseline needed* | — | Not implemented | ⚪ Linear regression |
+| **Slope** | TBD | — | Not implemented | ⚪ Linear regression |
 | **SMA** | 219.8 | 276.4 | 1.26x slower | ⚠️ Overhead exceeds benefit (implemented) |
-| **SMMA** | *Baseline needed* | — | Not implemented | 🔶 Candidate (Wilder smoothing) |
-| **STC** | *Baseline needed* | — | Not implemented | 🔶 Candidate (MACD + smoothing) |
+| **SMMA** | TBD | — | Not implemented | 🔶 Candidate (Wilder smoothing) |
+| **STC** | TBD | — | Not implemented | 🔶 Candidate (MACD + smoothing) |
 | **StdDev** | 265.0 | 319.8 | 1.21x slower | ⚠️ Overhead exceeds benefit (implemented) |
-| **StochRSI** | *Baseline needed* | — | Not implemented | 🔶 Candidate (RSI + Stochastic) |
-| **SuperTrend** | *Baseline needed* | — | Not implemented | 🔶 Candidate (ATR + trend) |
-| **T3** | *Baseline needed* | — | Not implemented | 🔶 Candidate (6-stage EMA) |
-| **TEMA** | *Baseline needed* | — | Not implemented | 🔶 Candidate (triple EMA) |
-| **TRIX** | *Baseline needed* | — | Not implemented | 🔶 Candidate (triple EMA) |
+| **StochRSI** | TBD | — | Not implemented | 🔶 Candidate (RSI + Stochastic) |
+| **SuperTrend** | TBD | — | Not implemented | 🔶 Candidate (ATR + trend) |
+| **T3** | TBD | — | Not implemented | 🔶 Candidate (6-stage EMA) |
+| **TEMA** | TBD | — | Not implemented | 🔶 Candidate (triple EMA) |
+| **TRIX** | TBD | — | Not implemented | 🔶 Candidate (triple EMA) |
 | **TSI** | 207.4 | 205.1 | **1.01x faster** | ✅ Complex stateful (implemented) |
-| **Ulcer Index** | *Baseline needed* | — | Not implemented | ⚪ Window-based |
-| **Ultimate** | *Baseline needed* | — | Not implemented | ⚪ Multi-period average |
-| **Volume Profile** | *Baseline needed* | — | Not implemented | ⚪ Distribution analysis |
-| **VWAP** | *Baseline needed* | — | Not implemented | 🔶 Candidate (cumulative calc) |
-| **VWMA** | *Baseline needed* | — | Not implemented | ⚪ Window-based |
-| **Williams %R** | *Baseline needed* | — | Not implemented | ⚪ Window-based |
-| **WMA** | *Baseline needed* | — | Not implemented | ⚪ Window-based |
+| **Ulcer Index** | TBD | — | Not implemented | ⚪ Window-based |
+| **Ultimate** | TBD | — | Not implemented | ⚪ Multi-period average |
+| **Volume Profile** | TBD | — | Not implemented | ⚪ Distribution analysis |
+| **VWAP** | TBD | — | Not implemented | 🔶 Candidate (cumulative calc) |
+| **VWMA** | TBD | — | Not implemented | ⚪ Window-based |
+| **Williams %R** | TBD | — | Not implemented | ⚪ Window-based |
+| **WMA** | TBD | — | Not implemented | ⚪ Window-based |
 
 **Note**: Baseline measurements for indicators without HubState implementations can be generated by running:
 ```bash
