@@ -36,8 +36,8 @@ public class Correlation : StaticSeriesTestBase
     public void Results_AreAlwaysBounded()
     {
         IReadOnlyList<CorrResult> sut = Quotes.ToCorrelation(OtherQuotes, 20);
-        sut.IsBetween(x => x.Correlation, -1, 1);
-        sut.IsBetween(x => x.RSquared, 0, 1);
+        sut.IsBetween(static x => x.Correlation, -1, 1);
+        sut.IsBetween(static x => x.RSquared, 0, 1);
     }
 
     [TestMethod]

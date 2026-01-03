@@ -24,7 +24,7 @@ public class Hurst : StaticSeriesTestBase
     public void Results_AreAlwaysBounded()
     {
         IReadOnlyList<HurstResult> sut = Quotes.ToHurst(100);
-        sut.IsBetween(x => x.HurstExponent, 0, 1);
+        sut.IsBetween(static x => x.HurstExponent, 0, 1);
     }
 
     [TestMethod]

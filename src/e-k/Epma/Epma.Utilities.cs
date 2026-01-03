@@ -6,21 +6,6 @@ namespace Skender.Stock.Indicators;
 public static partial class Epma
 {
     /// <summary>
-    /// Removes the recommended warmup periods from the EPMA results.
-    /// </summary>
-    /// <inheritdoc cref="Reusable.RemoveWarmupPeriods{T}(IReadOnlyList{T})"/>
-    public static IReadOnlyList<EpmaResult> RemoveWarmupPeriods(
-        this IReadOnlyList<EpmaResult> results)
-    {
-        ArgumentNullException.ThrowIfNull(results);
-
-        int removePeriods = results
-          .FindIndex(static x => x.Epma != null);
-
-        return results.Remove(removePeriods);
-    }
-
-    /// <summary>
     /// Validates the lookback periods for EPMA calculations.
     /// </summary>
     /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>

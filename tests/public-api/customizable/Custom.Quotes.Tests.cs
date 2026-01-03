@@ -22,7 +22,7 @@ public class CustomQuotes
     public void CustomQuoteSeries()
     {
         List<CustomQuote> myGenericHistory = quotes
-            .Select(x => new CustomQuote {
+            .Select(static x => new CustomQuote {
                 CloseDate = x.Timestamp,
                 Open = x.Open,
                 High = x.High,
@@ -37,7 +37,7 @@ public class CustomQuotes
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.HasCount(483, results.Where(x => x.Ema != null));
+        Assert.HasCount(483, results.Where(static x => x.Ema != null));
 
         // sample values
         EmaResult r1 = results[501];
@@ -97,7 +97,7 @@ public class CustomQuotes
     public void CustomQuoteAggregate()
     {
         List<CustomQuote> myGenericHistory = intraday
-            .Select(x => new CustomQuote {
+            .Select(static x => new CustomQuote {
                 CloseDate = x.Timestamp,
                 Open = x.Open,
                 High = x.High,
@@ -123,7 +123,7 @@ public class CustomQuotes
     public void CustomQuoteAggregateTimeSpan()
     {
         List<CustomQuote> myGenericHistory = intraday
-            .Select(x => new CustomQuote {
+            .Select(static x => new CustomQuote {
                 CloseDate = x.Timestamp,
                 Open = x.Open,
                 High = x.High,
@@ -149,7 +149,7 @@ public class CustomQuotes
     public void CustomQuoteInheritedSeries()
     {
         List<CustomQuoteInherited> myGenericHistory = quotes
-            .Select(x => new CustomQuoteInherited(
+            .Select(static x => new CustomQuoteInherited(
                 CloseDate: x.Timestamp,
                 Open: x.Open,
                 High: x.High,
@@ -163,7 +163,7 @@ public class CustomQuotes
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.HasCount(483, results.Where(x => x.Ema != null));
+        Assert.HasCount(483, results.Where(static x => x.Ema != null));
 
         // sample values
         EmaResult r1 = results[501];

@@ -12,6 +12,7 @@ public static partial class Tr
     /// <param name="low">The low price.</param>
     /// <param name="prevClose">The previous close price.</param>
     /// <returns>The True Range increment.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double Increment(
         double high,
         double low,

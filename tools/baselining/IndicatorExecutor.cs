@@ -1,5 +1,6 @@
 using System.Reflection;
 using Skender.Stock.Indicators;
+using TestData = Test.Data.Data;
 
 namespace Test.DataGenerator;
 
@@ -8,8 +9,8 @@ namespace Test.DataGenerator;
 /// </summary>
 internal static class IndicatorExecutor
 {
-    private static readonly IReadOnlyList<Quote> TestData = Test.Data.Data.GetDefault();
-    private static readonly IReadOnlyList<Quote> OtherData = Test.Data.Data.GetCompare();
+    private static readonly IReadOnlyList<Quote> Quotes = TestData.GetDefault();
+    private static readonly IReadOnlyList<Quote> OtherQuotes = TestData.GetCompare();
 
     /// <summary>
     /// Executes an indicator and returns its results.
@@ -48,12 +49,11 @@ internal static class IndicatorExecutor
                     {
                         // First series param is the extension source, already counted
                         firstSeriesParamSeen = true;
+                        continue;
                     }
-                    else
-                    {
-                        // Second series param is an explicit parameter
-                        expectedParamCount++;
-                    }
+
+                    // Second series param is an explicit parameter
+                    expectedParamCount++;
                 }
                 else
                 {
@@ -171,9 +171,9 @@ internal static class IndicatorExecutor
     {
         ParameterInfo[] methodParams = method.GetParameters();
 
-        // For dual-input indicators, first parameter is OtherData (extension source)
-        // For single-input indicators, first parameter is TestData
-        List<object?> parameters = isDualInput ? [OtherData] : [TestData];
+        // For dual-input indicators, first parameter is OtherQuotes (extension source)
+        // For single-input indicators, first parameter is Quotes
+        List<object?> parameters = isDualInput ? new List<object?>() { OtherQuotes } : new List<object?>() { Quotes };
 
         // Add additional parameters from the listing with their default values
         if (listing.Parameters?.Count > 0)
@@ -187,19 +187,28 @@ internal static class IndicatorExecutor
                 // The second series parameter is the comparison source
                 if (param.DataType == "IReadOnlyList<T> where T : IReusable")
                 {
-                    if (isDualInput && !firstSeriesParamSkipped)
+                    // The first series parameter corresponds to the extension source
+                    // which we already added to `parameters` above. Always skip it.
+                    if (!firstSeriesParamSkipped)
                     {
-                        // Skip the first series parameter (it's the extension source already added)
                         firstSeriesParamSkipped = true;
                         continue;
                     }
-                    else
+
+                    // This is the second series parameter. Only for dual-input
+                    // indicators do we add an explicit second series argument.
+                    if (!isDualInput)
                     {
-                        // Add the second series parameter (the comparison source)
-                        parameters.Add(TestData);
-                        paramIndex++;
+                        // Single-input indicator: no explicit second series parameter
+                        // in the method signature — skip without advancing paramIndex.
                         continue;
                     }
+
+                    // Dual-input indicator: add the comparison source and advance index
+                    parameters.Add(Quotes);
+                    paramIndex++;
+
+                    continue;
                 }
 
                 object? value = param.DefaultValue;
@@ -212,7 +221,7 @@ internal static class IndicatorExecutor
                     // For DateTime parameters (like VWAP startDate), use the first quote date
                     if (methodParam.ParameterType == typeof(DateTime))
                     {
-                        value = TestData[0].Timestamp;
+                        value = Quotes[0].Timestamp;
                     }
                 }
 

@@ -18,7 +18,7 @@ public class Slope : StaticSeriesTestBase
 
         // warmup periods should be null
         sut.Take(n - 1).Should().AllSatisfy(
-            r => {
+            static r => {
                 r.Slope.Should().BeNull();
                 r.Intercept.Should().BeNull();
                 r.StdDev.Should().BeNull();
