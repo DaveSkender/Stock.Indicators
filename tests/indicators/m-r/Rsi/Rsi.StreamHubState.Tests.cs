@@ -16,6 +16,7 @@ public class RsiHubStateTests : StreamHubTestBase
         observer.ToString().Should().Be($"RSI({lookbackPeriods})");
 
         observer.Unsubscribe();
+        quoteHub.EndTransmission();
     }
 
     [TestMethod]
@@ -61,6 +62,7 @@ public class RsiHubStateTests : StreamHubTestBase
 
         // Cleanup
         observer.Unsubscribe();
+        quoteHub.EndTransmission();
     }
 
     [TestMethod]
@@ -100,6 +102,7 @@ public class RsiHubStateTests : StreamHubTestBase
 
         // Cleanup
         observer.Unsubscribe();
+        quoteHub.EndTransmission();
     }
 
     [TestMethod]
@@ -136,6 +139,7 @@ public class RsiHubStateTests : StreamHubTestBase
 
         // Cleanup
         observer.Unsubscribe();
+        quoteHub.EndTransmission();
     }
 
     [TestMethod]
@@ -169,5 +173,7 @@ public class RsiHubStateTests : StreamHubTestBase
         // Cleanup
         rsiHub.Unsubscribe();
         rsiHubState.Unsubscribe();
+        quoteHub1.EndTransmission();
+        quoteHub2.EndTransmission();
     }
 }
