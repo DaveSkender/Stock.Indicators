@@ -93,7 +93,7 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamObservable<TOut>
     /// Sends rebuilds point in time to all subscribers.
     /// </summary>
     /// <param name="fromTimestamp">Rebuild starting date.</param>
-    private void NotifyObserversOnRebuild(DateTime fromTimestamp)
+    protected void NotifyObserversOnRebuild(DateTime fromTimestamp)
     {
         foreach (IStreamObserver<TOut> o in _observers.ToArray())
         {

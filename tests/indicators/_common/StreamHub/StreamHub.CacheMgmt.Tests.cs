@@ -282,4 +282,41 @@ public class CacheManagement : TestBase
 
         quoteHub.EndTransmission();
     }
+
+    /// <summary>
+    /// Verifies that adding a quote with the same timestamp replaces the existing quote
+    /// instead of clearing the cache (standalone QuoteHub vulnerability fix).
+    /// </summary>
+    [TestMethod]
+    public void UpdateQuoteWithSameTimestamp()
+    {
+        QuoteHub quoteHub = new();
+        QuotePartHub observer = quoteHub.ToQuotePartHub(CandlePart.Close);
+
+        DateTime timestamp = new(2020, 1, 1, 10, 0, 0);
+
+        // add initial quote
+        Quote q1 = new(timestamp, 100m, 105m, 95m, 102m, 1000);
+        quoteHub.Add(q1);
+
+        quoteHub.Quotes.Should().HaveCount(1);
+        quoteHub.Quotes[0].Close.Should().Be(102m);
+        observer.Results.Should().HaveCount(1);
+        observer.Results[0].Value.Should().Be(102);
+
+        // add updated quote with same timestamp but different values
+        // should replace the existing quote and notify observers to rebuild
+        Quote q2 = new(timestamp, 100m, 110m, 90m, 108m, 1500);
+        quoteHub.Add(q2);
+
+        // QuoteHub should still have 1 quote with updated values
+        quoteHub.Quotes.Should().HaveCount(1);
+        quoteHub.Quotes[0].Close.Should().Be(108m);
+
+        // observer should rebuild from QuoteHub's cache with updated values
+        observer.Results.Should().HaveCount(1);
+        observer.Results[0].Value.Should().Be(108);
+
+        quoteHub.EndTransmission();
+    }
 }
