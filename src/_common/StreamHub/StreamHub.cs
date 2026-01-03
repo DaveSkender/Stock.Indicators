@@ -142,7 +142,7 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
     /// <param name="result">Item to cache.</param>
     /// <param name="notify">Notify subscribers of change (send to observers). This is disabled for bulk operations like rebuild.</param>
     /// <exception cref="InvalidOperationException">Thrown when the operation is invalid for the current state</exception>
-    protected void AppendCache(TOut result, bool notify)
+    protected virtual void AppendCache(TOut result, bool notify)
     {
         // check overflow/duplicates
         if (IsOverflowing(result))

@@ -29,6 +29,11 @@ public abstract class StreamHubState<TIn, TState, TOut> : StreamHub<TIn, TOut>
     internal List<TState> StateCache { get; } = [];
 
     /// <summary>
+    /// Temporarily stores the state from the last ToIndicatorState call.
+    /// </summary>
+    private TState? _pendingState;
+
+    /// <summary>
     /// Converts incremental value into an indicator candidate, state, and cache position.
     /// </summary>
     /// <param name="item">New item from provider.</param>
@@ -38,7 +43,7 @@ public abstract class StreamHubState<TIn, TState, TOut> : StreamHub<TIn, TOut>
 
     /// <summary>
     /// Converts incremental value into an indicator candidate and cache position.
-    /// This implementation calls ToIndicatorState and manages the StateCache.
+    /// This implementation calls ToIndicatorState and temporarily stores the state.
     /// </summary>
     /// <param name="item">New item from provider.</param>
     /// <param name="indexHint">Provider index hint.</param>
@@ -48,20 +53,33 @@ public abstract class StreamHubState<TIn, TState, TOut> : StreamHub<TIn, TOut>
         // Call the state-aware method
         (TOut result, TState state, int index) = ToIndicatorState(item, indexHint);
 
-        // Manage state cache in sync with result cache
-        // State cache should match the result cache size and order
-        if (index >= 0 && index < StateCache.Count)
-        {
-            // Update existing state (during rebuild or late arrival)
-            StateCache[index] = state;
-        }
-        else
-        {
-            // Append new state (normal case for streaming)
-            StateCache.Add(state);
-        }
+        // Store state temporarily - it will be committed in AppendCache
+        _pendingState = state;
 
         return (result, index);
+    }
+
+    /// <summary>
+    /// Adds an item to cache and stores corresponding state.
+    /// </summary>
+    /// <param name="result">Item to cache.</param>
+    /// <param name="notify">Notify subscribers of change.</param>
+    protected override void AppendCache(TOut result, bool notify)
+    {
+        int prevCacheCount = Cache.Count;
+        
+        // Call base implementation to handle cache logic
+        base.AppendCache(result, notify);
+
+        // If cache actually grew, add the pending state
+        if (Cache.Count > prevCacheCount && _pendingState is not null)
+        {
+            StateCache.Add(_pendingState);
+        }
+        // If cache didn't grow, item was either duplicate or triggered rebuild
+        // In rebuild case, StateCache is managed by RollbackState
+
+        _pendingState = default;
     }
 
     /// <summary>
@@ -116,5 +134,4 @@ public abstract class StreamHubState<TIn, TState, TOut> : StreamHub<TIn, TOut>
         // Call base implementation to handle result cache and notifications
         base.PruneCache();
     }
-
 }
