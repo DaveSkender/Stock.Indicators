@@ -3,12 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 18.0.11205.157
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Configs", "Configs", "{89F97043-8E6C-4953-95AA-ACAC19C3B164}"
-	ProjectSection(SolutionItems) = preProject
-		.coderabbit.yaml = .coderabbit.yaml
-		.gitattributes = .gitattributes
-		.gitignore = .gitignore
-		AGENTS.md = AGENTS.md
-	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Indicators", "src\Indicators.csproj", "{8D0F1781-EDA3-4C51-B05D-D33FF1156E49}"
 EndProject
@@ -44,12 +38,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests (other)", "Tests (oth
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{F4DC4349-B08A-4557-BAD9-EB3A8111C98A}"
-	ProjectSection(SolutionItems) = preProject
-		src\AGENTS.md = src\AGENTS.md
-		src\Directory.Build.props = src\Directory.Build.props
-		src\Directory.Packages.props = src\Directory.Packages.props
-		src\gitversion.yml = src\gitversion.yml
-	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -154,7 +142,7 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{3BD4837B-D197-41FD-A286-A3256D0770E1} = {2137B81B-5620-4225-8CF4-7FE72E81DF23}
+		{3BD4837B-D197-41FD-A286-A3256D0770E1} = {990C3D8F-0F57-4FD3-AF4B-57D6AE2EDBB1}
 		{9C9045D2-9928-41F8-97FC-ECCBDD3B9868} = {990C3D8F-0F57-4FD3-AF4B-57D6AE2EDBB1}
 		{F98B09DA-0E0B-41D1-B7B6-3A40EE6C1DBE} = {990C3D8F-0F57-4FD3-AF4B-57D6AE2EDBB1}
 		{88C59340-F6C6-497B-A7F3-08ACCC8873EE} = {2137B81B-5620-4225-8CF4-7FE72E81DF23}
