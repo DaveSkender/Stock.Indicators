@@ -228,7 +228,7 @@ See [Issue #1259](https://github.com/DaveSkender/Stock.Indicators/issues/1259) f
   - **File**: `src/m-r/Pivots/Pivots.StaticSeries.cs:124-125`
   - **Rationale**: Enhancement, not correctness fix
 
-- [ ] **T211** - ListingExecutor generic vs interface type usage (3-4 hours)
+- [x] **T211** - ListingExecutor generic vs interface type usage (3-4 hours)
   - **File**: `src/_common/Catalog/ListingExecutor.cs:10,26`
   - **Rationale**: Code clarity improvement, non-functional
 
