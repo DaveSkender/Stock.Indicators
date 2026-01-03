@@ -67,7 +67,7 @@ public abstract class StreamHubState<TIn, TState, TOut> : StreamHub<TIn, TOut>
     protected override void AppendCache(TOut result, bool notify)
     {
         int prevCacheCount = Cache.Count;
-        
+
         // Call base implementation to handle cache logic
         base.AppendCache(result, notify);
 
