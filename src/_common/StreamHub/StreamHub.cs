@@ -2,6 +2,7 @@ namespace Skender.Stock.Indicators;
 #pragma warning disable IDE0010 // Missing cases in switch expression
 
 // STREAM HUB (BASE/CACHE)
+public interface IHubState { }
 
 /// <inheritdoc cref="IStreamHub{TIn, TOut}"/>
 public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
@@ -410,4 +411,17 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
         // see AtrStopHub() for example
     }
 
+}
+public abstract class StreamHub<TIn, TState, TOut> : StreamHub<TIn, TOut>
+    where TIn : ISeries
+    where TOut : ISeries
+    where TState : IHubState
+{
+    protected StreamHub(IStreamObservable<TIn> provider)
+        : base(provider)
+    {
+
+    }
+
+    internal List<TState> StateCache { get; } = [];
 }
