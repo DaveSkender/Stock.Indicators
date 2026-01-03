@@ -1,7 +1,6 @@
 import fs from 'fs'
 import path from 'path'
 import { defineConfig } from 'vitepress'
-import handleAssetPaths from './plugins/handleAssetPaths.mts'
 
 const publicDirPath = path.resolve(__dirname, 'public')
 const distDirPath = path.resolve(__dirname, 'dist')
@@ -114,7 +113,7 @@ export default defineConfig({
           ]
         },
         {
-          text: 'Moving Averages',
+          text: 'Moving averages',
           collapsed: true,
           items: [
             { text: 'Arnaud Legoux Moving Average', link: '/indicators/Alma' },
@@ -161,7 +160,7 @@ export default defineConfig({
           ]
         },
         {
-          text: 'Price Channels',
+          text: 'Price channels',
           collapsed: true,
           items: [
             { text: 'Bollinger Bands', link: '/indicators/BollingerBands' },
@@ -175,10 +174,10 @@ export default defineConfig({
           ]
         },
         {
-          text: 'Price Trends',
+          text: 'Price trends',
           collapsed: true,
           items: [
-            { text: 'Average Directional Index', link: '/indicators/Adx' },
+            { text: 'Average Directional Index (ADX/DMI)', link: '/indicators/Adx' },
             { text: 'Williams Alligator', link: '/indicators/Alligator' },
             { text: 'Aroon Indicator', link: '/indicators/Aroon' },
             { text: 'ATR Trailing Stop', link: '/indicators/AtrStop' },
@@ -187,7 +186,6 @@ export default defineConfig({
             { text: 'Ichimoku Cloud', link: '/indicators/Ichimoku' },
             { text: 'Moving Average Convergence Divergence', link: '/indicators/Macd' },
             { text: 'Pivot Points', link: '/indicators/PivotPoints' },
-            { text: 'Pivots', link: '/indicators/Pivots' },
             { text: 'Rate of Change with Bands', link: '/indicators/RocWb' },
             { text: 'Rolling Pivots', link: '/indicators/RollingPivots' },
             { text: 'SuperTrend', link: '/indicators/SuperTrend' },
@@ -195,7 +193,7 @@ export default defineConfig({
           ]
         },
         {
-          text: 'Stop & Reverse',
+          text: 'Stop and reverse',
           collapsed: true,
           items: [
             { text: 'Parabolic SAR', link: '/indicators/ParabolicSar' },
@@ -203,7 +201,7 @@ export default defineConfig({
           ]
         },
         {
-          text: 'Volume Based',
+          text: 'Volume based',
           collapsed: true,
           items: [
             { text: 'Accumulation Distribution Line', link: '/indicators/Adl' },
@@ -217,7 +215,7 @@ export default defineConfig({
           ]
         },
         {
-          text: 'Price Characteristics',
+          text: 'Price characteristics',
           collapsed: true,
           items: [
             { text: 'Average True Range', link: '/indicators/Atr' },
@@ -239,7 +237,15 @@ export default defineConfig({
           ]
         },
         {
-          text: 'Price Transforms',
+          text: 'Other price patterns',
+          collapsed: true,
+          items: [
+            { text: 'Pivots', link: '/indicators/Pivots' },
+            { text: 'Williams Fractal', link: '/indicators/Fractal' },
+          ]
+        },
+        {
+          text: 'Price transforms',
           collapsed: true,
           items: [
             { text: 'Ehlers Fisher Transform', link: '/indicators/FisherTransform' },
@@ -247,13 +253,6 @@ export default defineConfig({
             { text: 'Quote Part', link: '/indicators/QuotePart' },
             { text: 'Renko Charts', link: '/indicators/Renko' },
             { text: 'ZigZag', link: '/indicators/ZigZag' },
-          ]
-        },
-        {
-          text: 'Price Patterns',
-          collapsed: true,
-          items: [
-            { text: 'Williams Fractal', link: '/indicators/Fractal' },
           ]
         },
       ],
@@ -292,13 +291,18 @@ export default defineConfig({
 
   cleanUrls: true,
 
-  ignoreDeadLinks: false,
+  // Allow specific dead links that are expected (legacy Jekyll templates, etc.)
+  ignoreDeadLinks: [
+    /\.\.\/src\/_common\/README/,
+    /%7B%7Bsite\.github\.repository_url%7D%7D/,
+    /\.\.\/\.\.\/tools\/performance\/baselines\/PERFORMANCE_REVIEW/
+  ],
 
   // Redirect old URLs to new locations (including aliases from legacy Jekyll site)
   rewrites: {
     // Legacy BasicQuote redirect
     'indicators/BasicQuote': 'indicators/QuotePart',
-    
+
     // Alternative indicator names (aliases)
     'indicators/AtrTrailingStop': 'indicators/AtrStop',
     'indicators/BullAndBearPower': 'indicators/ElderRay',
@@ -338,7 +342,6 @@ export default defineConfig({
 
   vite: {
     plugins: [
-      handleAssetPaths(),
       {
         // Ensure public assets (favicons, manifest, redirects) are copied to dist
         name: 'copy-public-assets',
@@ -346,6 +349,23 @@ export default defineConfig({
           if (fs.existsSync(publicDirPath)) {
             fs.cpSync(publicDirPath, distDirPath, { recursive: true, dereference: true })
           }
+        }
+      },
+      {
+        // Serve public assets during development (JSON data files, etc.)
+        name: 'serve-public-assets',
+        configureServer(server) {
+          server.middlewares.use((req, res, next) => {
+            if (req.url && req.url.startsWith('/data/') && req.url.endsWith('.json')) {
+              const filePath = path.join(publicDirPath, req.url)
+              if (fs.existsSync(filePath)) {
+                res.setHeader('Content-Type', 'application/json')
+                res.end(fs.readFileSync(filePath, 'utf-8'))
+                return
+              }
+            }
+            next()
+          })
         }
       }
     ],
@@ -378,10 +398,13 @@ export default defineConfig({
     'pages/**',
     '_indicators/**',
     'examples/**',
+    'plans/**',
     'Gemfile*',
     '.pa11yci',
     '.offline/**',
     '_headers',
-    'README.md'
+    'README.md',
+    'AGENTS.md',
+    'PRINCIPLES.md'
    ]
 })

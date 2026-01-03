@@ -6,26 +6,33 @@
     ".offline"
   ],
   "config": {
+    "MD013": false,
+    "MD025": false,
     // MD028: Allow blank lines in blockquotes, since
     // it can occur when we have adjacent warning blocks
     "MD028": false,
     "MD033": {
       "allowed_elements": [
+        "a",
         "code",
         "details",
         "summary",
-        "br",
         "sub",
         "sup",
         "kbd",
         "abbr",
-        "a",
         "img",
+        "br",
+        "div",
         "p",
         "h1",
         "ul",
         "li",
-        "nav"
+        "nav",
+        "ClientOnly",
+        "IndicatorChart",
+        "clientonly",
+        "indicatorchart"
       ]
     },
     "MD041": false  // accomodate Jekyll markdown

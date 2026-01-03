@@ -8,7 +8,9 @@ description: Created by Larry Williams, the Ultimate Oscillator uses several mov
 Created by Larry Williams, the [Ultimate Oscillator](https://en.wikipedia.org/wiki/Ultimate_oscillator) uses several moving averages to weigh buying power against true range price to produce on oversold / overbought oscillator.
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/231 "Community discussion about this indicator")
 
-<img src="/assets/charts/Ultimate.png" alt="chart for Ultimate Oscillator" />
+<ClientOnly>
+  <IndicatorChart src="/data/Ultimate.json" :height="360" />
+</ClientOnly>
 
 ```csharp
 // C# usage syntax

@@ -7,9 +7,6 @@ hero:
   name: Stock Indicators
   text: for .NET
   tagline: Transform price quotes into trading insights
-  image:
-    src: /favicon.svg
-    alt: Stock Indicators Logo
   actions:
     - theme: brand
       text: Get Started
@@ -43,7 +40,13 @@ Explore more information:
 
 You'll get all of the industry standard indicators out-of-the-box. Additionally, you can create compatible [custom indicators](https://github.com/DaveSkender/Stock.Indicators/tree/main/docs/examples/CustomIndicatorsLibrary).
 
-<img src="/assets/examples.webp" alt="sample indicators shown in chart" />
+<ClientOnly>
+  <div class="home-charts-stack">
+    <IndicatorChart src="/data/BollingerBands.json" :height="280" />
+    <IndicatorChart src="/data/Stoch.json" :height="180" />
+    <IndicatorChart src="/data/Macd.json" :height="180" />
+  </div>
+</ClientOnly>
 
 ## Easy to use in your application
 
