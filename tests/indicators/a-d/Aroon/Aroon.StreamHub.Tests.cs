@@ -7,9 +7,9 @@ public class AroonHubTests : StreamHubTestBase, ITestQuoteObserver, ITestChainPr
     public void Results_AreAlwaysBounded()
     {
         IReadOnlyList<AroonResult> sut = Quotes.ToAroonHub(25).Results;
-        sut.IsBetween(x => x.AroonUp, 0, 100);
-        sut.IsBetween(x => x.AroonDown, 0, 100);
-        sut.IsBetween(x => x.Oscillator, -100, 100);
+        sut.IsBetween(static x => x.AroonUp, 0, 100);
+        sut.IsBetween(static x => x.AroonDown, 0, 100);
+        sut.IsBetween(static x => x.Oscillator, -100, 100);
     }
 
     [TestMethod]

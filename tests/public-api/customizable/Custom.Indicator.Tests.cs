@@ -23,7 +23,7 @@ public class CustomIndicators
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.HasCount(483, results.Where(x => x.Sma != null));
+        Assert.HasCount(483, results.Where(static x => x.Sma != null));
 
         // sample values
         Assert.IsNull(results[18].Sma);
@@ -42,7 +42,7 @@ public class CustomIndicators
             .GetIndicator(20);
 
         Assert.HasCount(502, results);
-        Assert.HasCount(483, results.Where(x => x.Sma != null));
+        Assert.HasCount(483, results.Where(static x => x.Sma != null));
 
         // sample values
         Assert.IsNull(results[18].Sma);
@@ -61,7 +61,7 @@ public class CustomIndicators
             .GetIndicator(20);
 
         Assert.HasCount(502, results);
-        Assert.HasCount(483, results.Where(x => x.Sma != null));
+        Assert.HasCount(483, results.Where(static x => x.Sma != null));
 
         // sample values
         CustomReusable r24 = results[24];
@@ -83,7 +83,7 @@ public class CustomIndicators
             .ToEma(10);
 
         Assert.HasCount(502, results);
-        Assert.HasCount(484, results.Where(x => x.Ema != null));
+        Assert.HasCount(484, results.Where(static x => x.Ema != null));
     }
 
     [TestMethod]
@@ -115,7 +115,7 @@ public class CustomIndicators
         IReadOnlyList<CustomReusable> r = Data.GetBtcUsdNan()
             .GetIndicator(50);
 
-        Assert.IsEmpty(r.Where(x => x.Sma is double.NaN));
+        Assert.IsEmpty(r.Where(static x => x.Sma is double.NaN));
     }
 
     [TestMethod]
@@ -125,7 +125,7 @@ public class CustomIndicators
             .GetIndicator(15);
 
         Assert.HasCount(502, r);
-        Assert.HasCount(0, r.Where(x => x.Sma is double.NaN));
+        Assert.HasCount(0, r.Where(static x => x.Sma is double.NaN));
     }
 
     [TestMethod]
@@ -157,5 +157,5 @@ public class CustomIndicators
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => quotes.GetIndicator(0));
+            static () => quotes.GetIndicator(0));
 }

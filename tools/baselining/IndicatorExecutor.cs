@@ -8,8 +8,8 @@ namespace Test.DataGenerator;
 /// </summary>
 internal static class IndicatorExecutor
 {
-    private static readonly IReadOnlyList<Quote> TestData = Test.Data.Data.GetDefault();
-    private static readonly IReadOnlyList<Quote> OtherData = Test.Data.Data.GetCompare();
+    private static readonly IReadOnlyList<Quote> TestData = Data.Data.GetDefault();
+    private static readonly IReadOnlyList<Quote> OtherData = Data.Data.GetCompare();
 
     /// <summary>
     /// Executes an indicator and returns its results.
@@ -186,13 +186,24 @@ internal static class IndicatorExecutor
                 // The second series parameter is the comparison source
                 if (param.DataType == "IReadOnlyList<T> where T : IReusable")
                 {
-                    if (isDualInput && !firstSeriesParamSkipped)
+                    // The first series parameter corresponds to the extension source
+                    // which we already added to `parameters` above. Always skip it.
+                    if (!firstSeriesParamSkipped)
                     {
-                        // Skip the first series parameter (it's the extension source already added)
                         firstSeriesParamSkipped = true;
                         continue;
                     }
-                    // Add the second series parameter (the comparison source)
+
+                    // This is the second series parameter. Only for dual-input
+                    // indicators do we add an explicit second series argument.
+                    if (!isDualInput)
+                    {
+                        // Single-input indicator: no explicit second series parameter
+                        // in the method signature — skip without advancing paramIndex.
+                        continue;
+                    }
+
+                    // Dual-input indicator: add the comparison source and advance index
                     parameters.Add(TestData);
                     paramIndex++;
 
