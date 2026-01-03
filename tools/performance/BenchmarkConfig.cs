@@ -24,7 +24,6 @@ public class PerformanceConfig : ManualConfig
         AddColumn(StatisticColumn.Mean);
         AddColumn(StatisticColumn.Error);
         AddColumn(StatisticColumn.StdDev);
-        AddColumn(RankColumn.Arabic);
 
         // Add memory diagnostics with GC collection columns for Q004 and Q006
         AddDiagnoser(new MemoryDiagnoser(new MemoryDiagnoserConfig(displayGenColumns: true)));

@@ -39,7 +39,7 @@ Performance analysis comparing Series, BufferList, and StreamHub implementations
 - **Runtime**: .NET 10.0.1, X64 RyuJIT x86-64-v3
 - **Job**: ShortRun (3 iterations, 1 launch, 3 warmup)
 - **Metrics**: Mean execution time (nanoseconds), Error, StdDev, Memory allocations, Gen0/Gen1/Gen2 GC collections
-- **Sorting**: Results ranked fastest to slowest
+- **Sorting**: Results sorted fastest to slowest
 
 ## BufferList Performance Results
 
@@ -186,7 +186,7 @@ Performance analysis comparing Series, BufferList, and StreamHub implementations
 
 - Enabled with generational GC columns (Gen0/Gen1/Gen2 per 1,000 operations)
 - Tracks allocated bytes per operation
-- Results ranked by performance (fastest to slowest)
+- Results sorted by performance (fastest to slowest)
 
 ### Memory Validation
 
