@@ -4,8 +4,7 @@ title: Stock Indicators for .NET
 titleTemplate: Transform price quotes into trading insights
 
 hero:
-  name: Stock Indicators
-  text: for .NET
+  name: Stock Indicators <small>for .NET</small>
   tagline: Transform price quotes into trading insights
   actions:
     - theme: brand
@@ -17,8 +16,8 @@ hero:
 ---
 
 <p style="display:flex; justify-content:left; gap:1rem; margin-top: 2rem; flex-wrap:wrap;">
-<a href="https://www.nuget.org/packages/Skender.Stock.Indicators" aria-label="Get the NuGet package."><img src="https://img.shields.io/nuget/v/skender.stock.indicators?logo=NuGet&label=NuGet%20Package&color=blue&cacheSeconds=259200" alt="NuGet Package" width="170" height="20" /></a>
-<a href="https://www.nuget.org/packages/Skender.Stock.Indicators" aria-label="Read more about package downloads."><img src="https://img.shields.io/nuget/dt/skender.stock.indicators?logo=NuGet&label=Downloads&cacheSeconds=259200" alt="Downloads" width="130" height="20" /></a>
+<a href="https://www.nuget.org/packages/Skender.Stock.Indicators" aria-label="Get the NuGet package."><img src="https://img.shields.io/nuget/v/skender.stock.indicators?logo=NuGet&label=NuGet&color=blue&cacheSeconds=259200" alt="NuGet Package" /></a>
+<a href="https://www.nuget.org/packages/Skender.Stock.Indicators" aria-label="Read more about package downloads."><img src="https://img.shields.io/nuget/dt/skender.stock.indicators?logo=NuGet&label=Downloads&cacheSeconds=259200" alt="Downloads" /></a>
 </p>
 
 **Stock Indicators for .NET** is a C# [library package](https://www.nuget.org/packages/Skender.Stock.Indicators) that produces financial market technical indicators. Send in historical price quotes and get back desired indicators such as moving averages, Relative Strength Index, Stochastic Oscillator, Parabolic SAR, etc. Nothing more.
