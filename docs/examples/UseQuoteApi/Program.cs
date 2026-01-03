@@ -3,11 +3,11 @@ using Skender.Stock.Indicators;
 
 namespace UseQuoteApi;
 
-internal class Program
+internal static class Program
 {
     private static async Task Main()
     {
-        string symbol = "AAPL";
+        const string symbol = "AAPL";
 
         // fetch historical quotes from data provider
         IEnumerable<Quote> quotes = await GetQuotesFromFeed(symbol);
@@ -87,14 +87,14 @@ internal class Program
         {
             throw new ArgumentNullException(
                 ALPACA_KEY,
-                $"API KEY missing, use `setx ALPACA_KEY \"MY-ALPACA-KEY\"` to set.");
+                "API KEY missing, use `setx ALPACA_KEY \"MY-ALPACA-KEY\"` to set.");
         }
 
         if (string.IsNullOrEmpty(ALPACA_SECRET))
         {
             throw new ArgumentNullException(
                 ALPACA_SECRET,
-                $"API SECRET missing, use `setx AlpacaApiSecret \"MY-ALPACA-SECRET\"` to set.");
+                "API SECRET missing, use `setx AlpacaApiSecret \"MY-ALPACA-SECRET\"` to set.");
         }
 
         // connect to Alpaca REST API
