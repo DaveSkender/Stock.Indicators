@@ -85,16 +85,16 @@ internal static class Program
 
         if (string.IsNullOrEmpty(ALPACA_KEY))
         {
-            throw new ArgumentNullException(
-                ALPACA_KEY,
-                "API KEY missing, use `setx ALPACA_KEY \"MY-ALPACA-KEY\"` to set.");
+            throw new InvalidOperationException(
+                "Environment variable 'ALPACA_KEY' is not set. "
+              + "Use `setx ALPACA_KEY \"MY-ALPACA-KEY\"` to set.");
         }
 
         if (string.IsNullOrEmpty(ALPACA_SECRET))
         {
-            throw new ArgumentNullException(
-                ALPACA_SECRET,
-                "API SECRET missing, use `setx AlpacaApiSecret \"MY-ALPACA-SECRET\"` to set.");
+            throw new InvalidOperationException(
+                "Environment variable 'ALPACA_SECRET' is not set. "
+              + "Use `setx ALPACA_SECRET \"MY-ALPACA-SECRET\"` to set.");
         }
 
         // connect to Alpaca REST API
