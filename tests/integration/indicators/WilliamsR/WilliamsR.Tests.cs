@@ -21,7 +21,6 @@ public class WilliamsRTests
 
         results.ToConsole(static r => r.WilliamsR is > 0d or < -100d, (nameof(WilliamsResult.WilliamsR), "F20"));
 
-        // TODO: address rounding at boundaries (only)
         results.IsBetween(static results => results.WilliamsR, -100d, 0d);
     }
 }
