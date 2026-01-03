@@ -5,22 +5,6 @@ namespace Skender.Stock.Indicators;
 /// </summary>
 public static partial class Vwap
 {
-    // remove recommended periods
-    /// <summary>
-    /// Removes the warmup periods from the VWAP results.
-    /// </summary>
-    /// <inheritdoc cref="Reusable.RemoveWarmupPeriods{T}(IReadOnlyList{T})"/>
-    public static IReadOnlyList<VwapResult> RemoveWarmupPeriods(
-        this IReadOnlyList<VwapResult> results)
-    {
-        ArgumentNullException.ThrowIfNull(results);
-
-        int removePeriods = results
-            .FindIndex(static x => x.Vwap != null);
-
-        return results.Remove(removePeriods);
-    }
-
     // parameter validation
     /// <summary>
     /// Validates the parameters for the VWAP calculation.
