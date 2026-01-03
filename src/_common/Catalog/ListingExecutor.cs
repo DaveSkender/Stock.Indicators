@@ -7,23 +7,25 @@ namespace Skender.Stock.Indicators;
 /// </summary>
 internal static class ListingExecutor
 {
-    // TODO: address proper use of generic vs interface TQuote and TResult
-
     /// <summary>
     /// Executes an indicator method dynamically using catalog metadata.
     /// </summary>
-    /// <typeparam name="TQuote">The quote type implementing IQuote.</typeparam>
     /// <typeparam name="TResult">The expected result type.</typeparam>
     /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
     /// <param name="listing">The indicator listing containing metadata.</param>
-    /// <param name="parameters">Optional parameter overrides. If not provided, uses catalog default values.</param>
+    /// <param name="parameters">
+    /// Optional parameter value overrides. This dictionary provides user-specified values
+    /// that override the default values defined in <paramref name="listing"/>.Parameters.
+    /// The listing.Parameters metadata defines the schema (names, types, defaults),
+    /// while this dictionary provides runtime override values.
+    /// </param>
     /// <returns>The indicator results.</returns>
     /// <exception cref="InvalidOperationException">Thrown when the indicator cannot be executed.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="quotes"/> is <c>null</c>.</exception>
-    internal static IReadOnlyList<TResult> Execute<TQuote, TResult>(
+    internal static IReadOnlyList<TResult> Execute<TResult>(
         IEnumerable<IQuote> quotes,
         IndicatorListing listing,
-        Dictionary<string, object>? parameters = null)  // TODO: is this redundant to listing.Parameters?
+        Dictionary<string, object>? parameters = null)
         where TResult : class
     {
         // Validate inputs
@@ -103,13 +105,14 @@ internal static class ListingExecutor
         // Find the method that matches our parameter count
         MethodInfo? targetMethod = methods.FirstOrDefault(m => m.GetParameters().Length == parameterList.Count) ?? throw new InvalidOperationException($"No {methodName} method found with {parameterList.Count} parameters");
 
-        // If the method is generic, make it specific for the quote type
+        // If the method is generic, make it specific for the IQuote interface type.
+        // Indicator methods that are generic use IQuote as the constraint.
         if (targetMethod.IsGenericMethodDefinition)
         {
             Type[] genericArguments = targetMethod.GetGenericArguments();
             if (genericArguments.Length == 1)
             {
-                targetMethod = targetMethod.MakeGenericMethod(typeof(TQuote));
+                targetMethod = targetMethod.MakeGenericMethod(typeof(IQuote));
             }
         }
 
@@ -167,6 +170,6 @@ internal static class ListingExecutor
             }
         }
 
-        return Execute<IQuote, TResult>(quotes, listing, parameters);
+        return Execute<TResult>(quotes, listing, parameters);
     }
 }
