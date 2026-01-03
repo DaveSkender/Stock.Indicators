@@ -80,6 +80,20 @@ For dynamic indicator discovery (with catalog/reflection overhead), use `Perform
 dotnet run -c Release --filter *.ToEmaHub
 ```
 
+### Run style comparison benchmarks
+
+StyleComparison provides comprehensive comparison across all indicators:
+
+```bash
+# All indicators, all styles (grouped by indicator)
+dotnet run -c Release -- --filter 'Performance.StyleComparison*'
+
+# Specific indicator across all styles
+dotnet run -c Release -- --filter '*StyleComparison.Ema*'
+```
+
+**Output format**: BenchmarkDotNet groups results by indicator category, showing Series (baseline), Buffer, and Stream implementations with automatic ratio columns. Ratio values show performance relative to Series (1.00 = same speed, 2.00 = 2x slower, 0.50 = 2x faster).
+
 ## Understanding results
 
 ### Result artifacts
@@ -94,8 +108,17 @@ BenchmarkDotNet generates multiple output formats in `BenchmarkDotNet.Artifacts/
 - **Mean** - Average execution time (most important for typical usage)
 - **Error** - Standard error of the mean
 - **StdDev** - Standard deviation (variability indicator)
+- **Ratio** - Performance relative to baseline (only in grouped benchmarks with baseline set)
+- **RatioSD** - Standard deviation of the ratio (only in grouped benchmarks)
 - **Allocated** - Total bytes allocated per operation
 - **Gen0/Gen1/Gen2** - Garbage collection counts per 1,000 operations
+
+**Ratio interpretation** (StyleComparison benchmarks):
+
+- **1.00** - Same speed as Series baseline
+- **2.00** - 2x slower than Series (takes twice as long)
+- **0.50** - 2x faster than Series (takes half the time)
+- Values closer to 1.00 indicate better performance relative to baseline
 
 ### Interpreting performance
 
