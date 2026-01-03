@@ -22,12 +22,67 @@ This simulates real-world live trading where tick data arrives continuously, upd
 
 | Indicator | Original Hub | HubState | Improvement | Status |
 |-----------|-------------|----------|-------------|---------|
-| **RSI** | 420.6 μs | 193.7 μs | **2.17x faster** | ✅ Significant win |
-| **SMA** | 215.7 μs | 261.2 μs | 1.21x slower | ⚠️ Overhead exceeds benefit |
-| **StdDev** | 308.8 μs | 357.6 μs | 1.16x slower | ⚠️ Overhead exceeds benefit |
-| **PMO** | ~TBD μs | ~TBD μs | Expected faster | ✅ Complex stateful |
-| **TSI** | ~TBD μs | ~TBD μs | Expected faster | ✅ Complex stateful |
-| **ConnorsRSI** | ~TBD μs | ~TBD μs | Expected faster | ✅ Complex stateful |
+| **ADL** | TBD μs | TBD μs | Not implemented | ⚪ Simple accumulator |
+| **ADX** | TBD μs | TBD μs | Not implemented | 🔶 Candidate (DI smoothing) |
+| **Alligator** | TBD μs | TBD μs | Not implemented | 🔶 Candidate (triple SMMA) |
+| **Aroon** | TBD μs | TBD μs | Not implemented | ⚪ Window-based |
+| **ATR** | TBD μs | TBD μs | Not implemented | 🔶 Candidate (Wilder smoothing) |
+| **AwesomeOscillator** | TBD μs | TBD μs | Not implemented | ⚪ Simple SMA difference |
+| **BollingerBands** | TBD μs | TBD μs | Not implemented | ⚪ SMA + StdDev |
+| **CCI** | TBD μs | TBD μs | Not implemented | ⚪ Window-based |
+| **ChaikinOscillator** | TBD μs | TBD μs | Not implemented | 🔶 Candidate (dual EMA) |
+| **Chop** | TBD μs | TBD μs | Not implemented | ⚪ Window-based |
+| **CMF** | TBD μs | TBD μs | Not implemented | ⚪ Window-based |
+| **ConnorsRSI** | TBD μs | TBD μs | Expected faster | ✅ Complex stateful (implemented) |
+| **DEMA** | TBD μs | TBD μs | Not implemented | 🔶 Candidate (double EMA) |
+| **Doji** | TBD μs | TBD μs | Not implemented | ⚪ Pattern recognition |
+| **EMA** | TBD μs | TBD μs | Not implemented | 🔶 Candidate (exponential smoothing) |
+| **EPMA** | TBD μs | TBD μs | Not implemented | 🔶 Candidate (endpoint weighted) |
+| **FCB** | TBD μs | TBD μs | Not implemented | ⚪ Fractal detection |
+| **Fisher** | TBD μs | TBD μs | Not implemented | 🔶 Candidate (EMA smoothing) |
+| **ForceIndex** | TBD μs | TBD μs | Not implemented | 🔶 Candidate (EMA smoothing) |
+| **Gator** | TBD μs | TBD μs | Not implemented | 🔶 Candidate (SMMA chains) |
+| **HMA** | TBD μs | TBD μs | Not implemented | 🔶 Candidate (WMA chains) |
+| **HTTrendline** | TBD μs | TBD μs | Not implemented | 🔶 Candidate (Hilbert transform) |
+| **Ichimoku** | TBD μs | TBD μs | Not implemented | 🔶 Candidate (multiple periods) |
+| **KAMA** | TBD μs | TBD μs | Not implemented | 🔶 Candidate (adaptive EMA) |
+| **Keltner** | TBD μs | TBD μs | Not implemented | 🔶 Candidate (EMA + ATR) |
+| **KVO** | TBD μs | TBD μs | Not implemented | 🔶 Candidate (dual EMA) |
+| **MACD** | TBD μs | TBD μs | Not implemented | 🔶 Candidate (triple EMA) |
+| **MFI** | TBD μs | TBD μs | Not implemented | ⚪ Window-based |
+| **OBV** | TBD μs | TBD μs | Not implemented | ⚪ Simple accumulator |
+| **ParabolicSAR** | TBD μs | TBD μs | Not implemented | 🔶 Candidate (trend tracking) |
+| **PMO** | TBD μs | TBD μs | Expected faster | ✅ Complex stateful (implemented) |
+| **PRS** | TBD μs | TBD μs | Not implemented | ⚪ Simple ratio |
+| **PVO** | TBD μs | TBD μs | Not implemented | 🔶 Candidate (dual EMA) |
+| **ROC** | TBD μs | TBD μs | Not implemented | ⚪ Simple calculation |
+| **ROC with Band** | TBD μs | TBD μs | Not implemented | ⚪ ROC + SMA |
+| **RSI** | 420.6 μs | 193.7 μs | **2.17x faster** | ✅ Significant win (implemented) |
+| **Slope** | TBD μs | TBD μs | Not implemented | ⚪ Linear regression |
+| **SMA** | 215.7 μs | 261.2 μs | 1.21x slower | ⚠️ Overhead exceeds benefit (implemented) |
+| **SMMA** | TBD μs | TBD μs | Not implemented | 🔶 Candidate (Wilder smoothing) |
+| **STC** | TBD μs | TBD μs | Not implemented | 🔶 Candidate (MACD + smoothing) |
+| **StdDev** | 308.8 μs | 357.6 μs | 1.16x slower | ⚠️ Overhead exceeds benefit (implemented) |
+| **StochRSI** | TBD μs | TBD μs | Not implemented | 🔶 Candidate (RSI + Stochastic) |
+| **SuperTrend** | TBD μs | TBD μs | Not implemented | 🔶 Candidate (ATR + trend) |
+| **T3** | TBD μs | TBD μs | Not implemented | 🔶 Candidate (6-stage EMA) |
+| **TEMA** | TBD μs | TBD μs | Not implemented | 🔶 Candidate (triple EMA) |
+| **TRIX** | TBD μs | TBD μs | Not implemented | 🔶 Candidate (triple EMA) |
+| **TSI** | TBD μs | TBD μs | Expected faster | ✅ Complex stateful (implemented) |
+| **Ulcer Index** | TBD μs | TBD μs | Not implemented | ⚪ Window-based |
+| **Ultimate** | TBD μs | TBD μs | Not implemented | ⚪ Multi-period average |
+| **Volume Profile** | TBD μs | TBD μs | Not implemented | ⚪ Distribution analysis |
+| **VWAP** | TBD μs | TBD μs | Not implemented | 🔶 Candidate (cumulative calc) |
+| **VWMA** | TBD μs | TBD μs | Not implemented | ⚪ Window-based |
+| **Williams %R** | TBD μs | TBD μs | Not implemented | ⚪ Window-based |
+| **WMA** | TBD μs | TBD μs | Not implemented | ⚪ Window-based |
+
+**Legend:**
+
+- ✅ **Implemented with HubState** - Actual benchmark results available
+- 🔶 **Candidate for HubState** - Complex state or multi-stage smoothing (expected benefit)
+- ⚪ **Low priority** - Simple window-based or calculations (overhead likely exceeds benefit)
+- ⚠️ **Overhead exceeds benefit** - Implemented but original Hub performs better
 
 ### Analysis
 
