@@ -61,7 +61,7 @@ This indicator has an extended version with more analysis.
 ```csharp
 // C# usage syntax
 IReadOnlyList<SmaAnalysisResult> analysis =
-  results.ToSmaAnalysis();
+  quotes.ToSmaAnalysis(lookbackPeriods);
 ```
 
 ### SmaAnalysisResult
