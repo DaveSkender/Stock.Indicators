@@ -12,9 +12,9 @@ public class BetaTests : TestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.AreEqual(482, results.Count(x => x.Beta != null));
-        Assert.AreEqual(482, results.Count(x => x.BetaUp != null));
-        Assert.AreEqual(482, results.Count(x => x.BetaDown != null));
+        Assert.AreEqual(482, results.Count(static x => x.Beta != null));
+        Assert.AreEqual(482, results.Count(static x => x.BetaUp != null));
+        Assert.AreEqual(482, results.Count(static x => x.BetaDown != null));
 
         // sample values
         BetaResult r19 = results[19];
@@ -57,7 +57,7 @@ public class BetaTests : TestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.AreEqual(482, results.Count(x => x.Beta != null));
+        Assert.AreEqual(482, results.Count(static x => x.Beta != null));
 
         // sample value
         BetaResult r = results[501];
@@ -73,7 +73,7 @@ public class BetaTests : TestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.AreEqual(482, results.Count(x => x.BetaUp != null));
+        Assert.AreEqual(482, results.Count(static x => x.BetaUp != null));
 
         // sample value
         BetaResult r = results[501];
@@ -89,7 +89,7 @@ public class BetaTests : TestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.AreEqual(482, results.Count(x => x.BetaDown != null));
+        Assert.AreEqual(482, results.Count(static x => x.BetaDown != null));
 
         // sample value
         BetaResult r = results[501];
@@ -105,7 +105,7 @@ public class BetaTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(482, results.Count(x => x.Beta != null));
+        Assert.AreEqual(482, results.Count(static x => x.Beta != null));
     }
 
     [TestMethod]
@@ -116,7 +116,7 @@ public class BetaTests : TestBase
             .ToList();
 
         Assert.HasCount(200, r);
-        Assert.IsEmpty(r.Where(x => x.Beta is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.Beta is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -128,7 +128,7 @@ public class BetaTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(473, results.Count(x => x.Sma != null));
+        Assert.AreEqual(473, results.Count(static x => x.Sma != null));
     }
 
     [TestMethod]
@@ -140,8 +140,8 @@ public class BetaTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(481, results.Count(x => x.Beta != null));
-        Assert.IsEmpty(results.Where(x => x.Beta is double v && double.IsNaN(v)));
+        Assert.AreEqual(481, results.Count(static x => x.Beta != null));
+        Assert.IsEmpty(results.Where(static x => x.Beta is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -152,21 +152,21 @@ public class BetaTests : TestBase
             .ToList();
 
         Assert.HasCount(502, r1);
-        Assert.IsEmpty(r1.Where(x => x.Beta is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r1.Where(static x => x.Beta is double v && double.IsNaN(v)));
 
         List<BetaResult> r2 = badQuotes
             .GetBeta(badQuotes, 15, BetaType.Up)
             .ToList();
 
         Assert.HasCount(502, r2);
-        Assert.IsEmpty(r2.Where(x => x.BetaUp is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r2.Where(static x => x.BetaUp is double v && double.IsNaN(v)));
 
         List<BetaResult> r3 = badQuotes
             .GetBeta(badQuotes, 15, BetaType.Down)
             .ToList();
 
         Assert.HasCount(502, r3);
-        Assert.IsEmpty(r3.Where(x => x.BetaDown is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r3.Where(static x => x.BetaDown is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -228,7 +228,7 @@ public class BetaTests : TestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.AreEqual(482, results.Count(x => x.Beta != null));
+        Assert.AreEqual(482, results.Count(static x => x.Beta != null));
 
         // sample value
         BetaResult r = results[501];

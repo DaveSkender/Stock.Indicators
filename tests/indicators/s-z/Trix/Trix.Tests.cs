@@ -12,9 +12,9 @@ public class TrixTests : TestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.HasCount(482, results.Where(x => x.Ema3 != null));
-        Assert.HasCount(482, results.Where(x => x.Trix != null));
-        Assert.HasCount(478, results.Where(x => x.Signal != null));
+        Assert.HasCount(482, results.Where(static x => x.Ema3 != null));
+        Assert.HasCount(482, results.Where(static x => x.Trix != null));
+        Assert.HasCount(478, results.Where(static x => x.Signal != null));
 
         // sample values
         TrixResult r24 = results[24];
@@ -47,7 +47,7 @@ public class TrixTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.HasCount(482, results.Where(x => x.Trix != null));
+        Assert.HasCount(482, results.Where(static x => x.Trix != null));
     }
 
     [TestMethod]
@@ -58,7 +58,7 @@ public class TrixTests : TestBase
             .ToList();
 
         Assert.HasCount(200, r);
-        Assert.IsEmpty(r.Where(x => x.Trix is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.Trix is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -70,7 +70,7 @@ public class TrixTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.HasCount(481, results.Where(x => x.Trix != null));
+        Assert.HasCount(481, results.Where(static x => x.Trix != null));
     }
 
     [TestMethod]
@@ -82,7 +82,7 @@ public class TrixTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.HasCount(473, results.Where(x => x.Sma != null));
+        Assert.HasCount(473, results.Where(static x => x.Sma != null));
     }
 
     [TestMethod]
@@ -93,7 +93,7 @@ public class TrixTests : TestBase
             .ToList();
 
         Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(x => x.Trix is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.Trix is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -133,5 +133,5 @@ public class TrixTests : TestBase
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => quotes.GetTrix(0));
+            static () => quotes.GetTrix(0));
 }

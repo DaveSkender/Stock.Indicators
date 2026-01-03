@@ -12,9 +12,9 @@ public class Aroon : TestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.AreEqual(477, results.Count(x => x.AroonUp != null));
-        Assert.AreEqual(477, results.Count(x => x.AroonDown != null));
-        Assert.AreEqual(477, results.Count(x => x.Oscillator != null));
+        Assert.AreEqual(477, results.Count(static x => x.AroonUp != null));
+        Assert.AreEqual(477, results.Count(static x => x.AroonDown != null));
+        Assert.AreEqual(477, results.Count(static x => x.Oscillator != null));
 
         // sample values
         AroonResult r1 = results[210];
@@ -52,7 +52,7 @@ public class Aroon : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(468, results.Count(x => x.Sma != null));
+        Assert.AreEqual(468, results.Count(static x => x.Sma != null));
     }
 
     [TestMethod]
@@ -63,7 +63,7 @@ public class Aroon : TestBase
             .ToList();
 
         Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(x => x.Oscillator is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.Oscillator is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -103,5 +103,5 @@ public class Aroon : TestBase
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => quotes.GetAroon(0));
+            static () => quotes.GetAroon(0));
 }

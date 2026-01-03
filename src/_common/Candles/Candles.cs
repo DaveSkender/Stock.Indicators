@@ -4,7 +4,7 @@ public static class Candlesticks
 {
     public static IEnumerable<CandleResult> Condense(
         this IEnumerable<CandleResult> candleResults) => candleResults
-            .Where(candle => candle.Match != Match.None)
+            .Where(static candle => candle.Match != Match.None)
             .ToList();
 
     public static CandleProperties ToCandle<TQuote>(
@@ -24,8 +24,8 @@ public static class Candlesticks
         where TQuote : IQuote
     {
         List<CandleProperties> candlesList = quotes
-            .Select(x => x.ToCandle())
-            .OrderBy(x => x.Date)
+            .Select(static x => x.ToCandle())
+            .OrderBy(static x => x.Date)
             .ToList();
 
         // validate
@@ -38,11 +38,11 @@ public static class Candlesticks
         where TQuote : IQuote
     {
         List<CandleResult> candlesList = quotes
-            .Select(x => new CandleResult(x.Date) {
+            .Select(static x => new CandleResult(x.Date) {
                 Match = Match.None,
                 Candle = x.ToCandle()
             })
-            .OrderBy(x => x.Date)
+            .OrderBy(static x => x.Date)
             .ToList();
 
         // validate

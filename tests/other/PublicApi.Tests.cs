@@ -78,7 +78,7 @@ public class PublicClasses
         // can use a derive Quote class using Linq
 
         IEnumerable<MyQuote> myHistory = quotes
-            .Select(x => new MyQuote {
+            .Select(static x => new MyQuote {
                 Date = x.Date,
                 MyClose = x.Close,
                 MyProperty = false
@@ -91,7 +91,7 @@ public class PublicClasses
     public void CustomQuoteClass()
     {
         List<MyGenericQuote> myGenericHistory = TestData.GetDefault()
-            .Select(x => new MyGenericQuote {
+            .Select(static x => new MyGenericQuote {
                 CloseDate = x.Date,
                 Open = x.Open,
                 High = x.High,
@@ -107,7 +107,7 @@ public class PublicClasses
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.HasCount(483, results.Where(x => x.Ema != null));
+        Assert.HasCount(483, results.Where(static x => x.Ema != null));
 
         // sample values
         EmaResult r1 = results[501];
@@ -124,7 +124,7 @@ public class PublicClasses
     public void CustomQuoteAggregate()
     {
         List<MyGenericQuote> myGenericHistory = TestData.GetIntraday()
-            .Select(x => new MyGenericQuote {
+            .Select(static x => new MyGenericQuote {
                 CloseDate = x.Date,
                 Open = x.Open,
                 High = x.High,
@@ -151,7 +151,7 @@ public class PublicClasses
     public void CustomQuoteAggregateTimeSpan()
     {
         List<MyGenericQuote> myGenericHistory = TestData.GetIntraday()
-            .Select(x => new MyGenericQuote {
+            .Select(static x => new MyGenericQuote {
                 CloseDate = x.Date,
                 Open = x.Open,
                 High = x.High,
@@ -196,8 +196,8 @@ public class PublicClasses
         // can use a derive Indicator class using Linq
 
         IEnumerable<MyEma> myIndicatorResults = emaResults
-            .Where(x => x.Ema != null)
-            .Select(x => new MyEma {
+            .Where(static x => x.Ema != null)
+            .Select(static x => new MyEma {
                 Date = x.Date,
                 Ema = x.Ema,
                 MyProperty = false
@@ -215,8 +215,8 @@ public class PublicClasses
         // can use a derive Indicator class using Linq
 
         IEnumerable<MyEma> myIndicatorResults = emaResults
-            .Where(x => x.Ema != null)
-            .Select(x => new MyEma {
+            .Where(static x => x.Ema != null)
+            .Select(static x => new MyEma {
                 Id = 12345,
                 Date = x.Date,
                 Ema = x.Ema,

@@ -12,12 +12,12 @@ public class BollingerBandsTests : TestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.AreEqual(483, results.Count(x => x.Sma != null));
-        Assert.AreEqual(483, results.Count(x => x.UpperBand != null));
-        Assert.AreEqual(483, results.Count(x => x.LowerBand != null));
-        Assert.AreEqual(483, results.Count(x => x.PercentB != null));
-        Assert.AreEqual(483, results.Count(x => x.ZScore != null));
-        Assert.AreEqual(483, results.Count(x => x.Width != null));
+        Assert.AreEqual(483, results.Count(static x => x.Sma != null));
+        Assert.AreEqual(483, results.Count(static x => x.UpperBand != null));
+        Assert.AreEqual(483, results.Count(static x => x.LowerBand != null));
+        Assert.AreEqual(483, results.Count(static x => x.PercentB != null));
+        Assert.AreEqual(483, results.Count(static x => x.ZScore != null));
+        Assert.AreEqual(483, results.Count(static x => x.Width != null));
 
         // sample values
         BollingerBandsResult r1 = results[249];
@@ -46,7 +46,7 @@ public class BollingerBandsTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(483, results.Count(x => x.Sma != null));
+        Assert.AreEqual(483, results.Count(static x => x.Sma != null));
     }
 
     [TestMethod]
@@ -57,7 +57,7 @@ public class BollingerBandsTests : TestBase
             .ToList();
 
         Assert.HasCount(200, r);
-        Assert.IsEmpty(r.Where(x => x.UpperBand is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.UpperBand is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -69,7 +69,7 @@ public class BollingerBandsTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(482, results.Count(x => x.UpperBand != null));
+        Assert.AreEqual(482, results.Count(static x => x.UpperBand != null));
     }
 
     [TestMethod]
@@ -81,7 +81,7 @@ public class BollingerBandsTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(474, results.Count(x => x.Sma != null));
+        Assert.AreEqual(474, results.Count(static x => x.Sma != null));
     }
 
     [TestMethod]
@@ -92,7 +92,7 @@ public class BollingerBandsTests : TestBase
             .ToList();
 
         Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(x => x.UpperBand is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.UpperBand is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -136,10 +136,10 @@ public class BollingerBandsTests : TestBase
     {
         // bad lookback period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => quotes.GetBollingerBands(1));
+            static () => quotes.GetBollingerBands(1));
 
         // bad standard deviation
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => quotes.GetBollingerBands(2, 0));
+            static () => quotes.GetBollingerBands(2, 0));
     }
 }

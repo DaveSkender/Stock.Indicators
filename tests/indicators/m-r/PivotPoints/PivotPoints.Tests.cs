@@ -15,7 +15,7 @@ public class PivotPointsTests : TestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.HasCount(482, results.Where(x => x.PP != null));
+        Assert.HasCount(482, results.Where(static x => x.PP != null));
 
         // sample values
         PivotPointsResult r1 = results[19];
@@ -97,7 +97,7 @@ public class PivotPointsTests : TestBase
 
         // proper quantities
         Assert.HasCount(38, results);
-        Assert.HasCount(33, results.Where(x => x.PP != null));
+        Assert.HasCount(33, results.Where(static x => x.PP != null));
 
         // sample values
         PivotPointsResult r2 = results[4];
@@ -168,7 +168,7 @@ public class PivotPointsTests : TestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.HasCount(482, results.Where(x => x.PP != null));
+        Assert.HasCount(482, results.Where(static x => x.PP != null));
 
         // sample values
         PivotPointsResult r1 = results[19];
@@ -254,7 +254,7 @@ public class PivotPointsTests : TestBase
 
         // proper quantities
         Assert.HasCount(300, results);
-        Assert.HasCount(241, results.Where(x => x.PP != null));
+        Assert.HasCount(241, results.Where(static x => x.PP != null));
 
         // sample values
         PivotPointsResult r1 = results[58];
@@ -326,7 +326,7 @@ public class PivotPointsTests : TestBase
 
         // proper quantities
         Assert.HasCount(1564, results);
-        Assert.HasCount(1173, results.Where(x => x.PP != null));
+        Assert.HasCount(1173, results.Where(static x => x.PP != null));
 
         // sample values
         PivotPointsResult r2 = results[390];
@@ -434,12 +434,12 @@ public class PivotPointsTests : TestBase
     {
         // bad pointtype size
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => quotes
+            static () => quotes
                 .GetPivotPoints(PeriodSize.Week, (PivotPointType)999));
 
         // bad window size
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => quotes
+            static () => quotes
                 .GetPivotPoints(PeriodSize.ThreeMinutes));
     }
 }

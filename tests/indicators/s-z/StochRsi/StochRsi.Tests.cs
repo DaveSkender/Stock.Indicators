@@ -19,8 +19,8 @@ public class StochRsiTests : TestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.HasCount(475, results.Where(x => x.StochRsi != null));
-        Assert.HasCount(473, results.Where(x => x.Signal != null));
+        Assert.HasCount(475, results.Where(static x => x.StochRsi != null));
+        Assert.HasCount(473, results.Where(static x => x.Signal != null));
 
         // sample values
         StochRsiResult r1 = results[31];
@@ -56,8 +56,8 @@ public class StochRsiTests : TestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.HasCount(473, results.Where(x => x.StochRsi != null));
-        Assert.HasCount(471, results.Where(x => x.Signal != null));
+        Assert.HasCount(473, results.Where(static x => x.StochRsi != null));
+        Assert.HasCount(471, results.Where(static x => x.Signal != null));
 
         // sample values
         StochRsiResult r1 = results[31];
@@ -86,8 +86,8 @@ public class StochRsiTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.HasCount(475, results.Where(x => x.StochRsi != null));
-        Assert.IsEmpty(results.Where(x => x.StochRsi is double v && double.IsNaN(v)));
+        Assert.HasCount(475, results.Where(static x => x.StochRsi != null));
+        Assert.IsEmpty(results.Where(static x => x.StochRsi is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -98,7 +98,7 @@ public class StochRsiTests : TestBase
             .ToList();
 
         Assert.HasCount(200, r);
-        Assert.IsEmpty(r.Where(x => x.StochRsi is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.StochRsi is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -110,7 +110,7 @@ public class StochRsiTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.HasCount(474, results.Where(x => x.StochRsi != null));
+        Assert.HasCount(474, results.Where(static x => x.StochRsi != null));
     }
 
     [TestMethod]
@@ -122,7 +122,7 @@ public class StochRsiTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.HasCount(464, results.Where(x => x.Sma != null));
+        Assert.HasCount(464, results.Where(static x => x.Sma != null));
     }
 
     [TestMethod]
@@ -133,7 +133,7 @@ public class StochRsiTests : TestBase
             .ToList();
 
         Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(x => x.StochRsi is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.StochRsi is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -179,18 +179,18 @@ public class StochRsiTests : TestBase
     {
         // bad RSI period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => quotes.GetStochRsi(0, 14, 3, 1));
+            static () => quotes.GetStochRsi(0, 14, 3, 1));
 
         // bad STO period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => quotes.GetStochRsi(14, 0, 3, 3));
+            static () => quotes.GetStochRsi(14, 0, 3, 3));
 
         // bad STO signal period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => quotes.GetStochRsi(14, 14, 0));
+            static () => quotes.GetStochRsi(14, 14, 0));
 
         // bad STO smoothing period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => quotes.GetStochRsi(14, 14, 3, 0));
+            static () => quotes.GetStochRsi(14, 14, 3, 0));
     }
 }

@@ -14,7 +14,7 @@ public class HurstTests : TestBase
 
         // proper quantities
         Assert.HasCount(15821, results);
-        Assert.AreEqual(1, results.Count(x => x.HurstExponent != null));
+        Assert.AreEqual(1, results.Count(static x => x.HurstExponent != null));
 
         // sample value
         HurstResult r15820 = results[15820];
@@ -30,7 +30,7 @@ public class HurstTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(402, results.Count(x => x.HurstExponent != null));
+        Assert.AreEqual(402, results.Count(static x => x.HurstExponent != null));
     }
 
     [TestMethod]
@@ -41,7 +41,7 @@ public class HurstTests : TestBase
             .ToList();
 
         Assert.HasCount(200, r);
-        Assert.IsEmpty(r.Where(x => x.HurstExponent is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.HurstExponent is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -53,7 +53,7 @@ public class HurstTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(393, results.Count(x => x.Sma != null));
+        Assert.AreEqual(393, results.Count(static x => x.Sma != null));
     }
 
     [TestMethod]
@@ -65,7 +65,7 @@ public class HurstTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(393, results.Count(x => x.HurstExponent != null));
+        Assert.AreEqual(393, results.Count(static x => x.HurstExponent != null));
     }
 
     [TestMethod]
@@ -76,7 +76,7 @@ public class HurstTests : TestBase
             .ToList();
 
         Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(x => x.HurstExponent is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.HurstExponent is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -113,5 +113,5 @@ public class HurstTests : TestBase
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => quotes.GetHurst(19));
+            static () => quotes.GetHurst(19));
 }

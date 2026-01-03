@@ -12,7 +12,7 @@ public class AdlTests : TestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.AreEqual(502, results.Count(x => x.AdlSma == null));
+        Assert.AreEqual(502, results.Count(static x => x.AdlSma == null));
 
         // sample values
         AdlResult r1 = results[249];
@@ -37,7 +37,7 @@ public class AdlTests : TestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.AreEqual(483, results.Count(x => x.AdlSma != null));
+        Assert.AreEqual(483, results.Count(static x => x.AdlSma != null));
 
         // sample value
         AdlResult r = results[501];
@@ -59,7 +59,7 @@ public class AdlTests : TestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.AreEqual(493, results.Count(x => x.Sma != null));
+        Assert.AreEqual(493, results.Count(static x => x.Sma != null));
     }
 
     [TestMethod]
@@ -70,7 +70,7 @@ public class AdlTests : TestBase
             .ToList();
 
         Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(x => double.IsNaN(x.Adl)));
+        Assert.IsEmpty(r.Where(static x => double.IsNaN(x.Adl)));
     }
 
     [TestMethod]
@@ -113,5 +113,5 @@ public class AdlTests : TestBase
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => quotes.GetAdl(0));
+            static () => quotes.GetAdl(0));
 }

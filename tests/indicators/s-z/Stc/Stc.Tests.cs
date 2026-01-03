@@ -21,7 +21,7 @@ public class StcTests : TestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.HasCount(467, results.Where(x => x.Stc != null));
+        Assert.HasCount(467, results.Where(static x => x.Stc != null));
 
         // sample values
         StcResult r34 = results[34];
@@ -49,7 +49,7 @@ public class StcTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.HasCount(467, results.Where(x => x.Stc != null));
+        Assert.HasCount(467, results.Where(static x => x.Stc != null));
     }
 
     [TestMethod]
@@ -60,7 +60,7 @@ public class StcTests : TestBase
             .ToList();
 
         Assert.HasCount(200, r);
-        Assert.IsEmpty(r.Where(x => x.Stc is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.Stc is double v && double.IsNaN(v)));
 
         // Additional assertions can be added here if needed
     }
@@ -74,7 +74,7 @@ public class StcTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.HasCount(466, results.Where(x => x.Stc != null));
+        Assert.HasCount(466, results.Where(static x => x.Stc != null));
     }
 
     [TestMethod]
@@ -86,7 +86,7 @@ public class StcTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.HasCount(458, results.Where(x => x.Sma != null));
+        Assert.HasCount(458, results.Where(static x => x.Sma != null));
     }
 
     [TestMethod]
@@ -97,7 +97,7 @@ public class StcTests : TestBase
             .ToList();
 
         Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(x => x.Stc is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.Stc is double v && double.IsNaN(v)));
 
         // Additional assertions can be added here if needed
     }
@@ -156,14 +156,14 @@ public class StcTests : TestBase
     {
         // bad fast period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => quotes.GetStc(9, 0, 26));
+            static () => quotes.GetStc(9, 0, 26));
 
         // bad slow periods must be larger than faster period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => quotes.GetStc(9, 12, 12));
+            static () => quotes.GetStc(9, 12, 12));
 
         // bad signal period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => quotes.GetStc(-1, 12, 26));
+            static () => quotes.GetStc(-1, 12, 26));
     }
 }

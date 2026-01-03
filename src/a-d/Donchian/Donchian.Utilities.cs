@@ -13,7 +13,7 @@ public static partial class Indicator
 
         resultsList
             .RemoveAll(match:
-                x => x.UpperBand is null && x.LowerBand is null && x.Centerline is null);
+                static x => x.UpperBand is null && x.LowerBand is null && x.Centerline is null);
 
         return resultsList.ToSortedList();
     }
@@ -26,7 +26,7 @@ public static partial class Indicator
     {
         int removePeriods = results
           .ToList()
-          .FindIndex(x => x.Width != null);
+          .FindIndex(static x => x.Width != null);
 
         return results.Remove(removePeriods);
     }

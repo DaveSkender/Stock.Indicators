@@ -82,8 +82,8 @@ public static partial class Indicator
 
         // remove first trend to stop, since it is a guess
         VolatilityStopResult? firstStop = results
-            .Where(x => x.IsStop == true)
-            .OrderBy(x => x.Date)
+            .Where(static x => x.IsStop == true)
+            .OrderBy(static x => x.Date)
             .FirstOrDefault();
 
         if (firstStop != null)

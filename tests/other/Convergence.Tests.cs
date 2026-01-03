@@ -324,7 +324,7 @@ public class Convergences : TestBase
     [TestMethod]
     public void StochRsi()
     {
-        foreach (int qty in QuotesQuantities.Where(x => x <= 502))
+        foreach (int qty in QuotesQuantities.Where(static x => x <= 502))
         {
             IEnumerable<Quote> quotes = TestData.GetDefault(qty);
             IEnumerable<StochRsiResult> r = quotes.GetStochRsi(14, 14, 3, 1);

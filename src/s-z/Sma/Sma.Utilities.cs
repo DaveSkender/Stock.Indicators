@@ -10,7 +10,7 @@ public static partial class Indicator
     {
         int removePeriods = results
             .ToList()
-            .FindIndex(x => x.Sma != null);
+            .FindIndex(static x => x.Sma != null);
 
         return results.Remove(removePeriods);
     }
@@ -23,7 +23,7 @@ public static partial class Indicator
     {
         int removePeriods = results
             .ToList()
-            .FindIndex(x => x.Sma != null);
+            .FindIndex(static x => x.Sma != null);
 
         return results.Remove(removePeriods);
     }

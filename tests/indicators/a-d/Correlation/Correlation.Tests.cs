@@ -13,7 +13,7 @@ public class CorrelationTests : TestBase
         // proper quantities
         // should always be the same number of results as there is quotes
         Assert.HasCount(502, results);
-        Assert.AreEqual(483, results.Count(x => x.Correlation != null));
+        Assert.AreEqual(483, results.Count(static x => x.Correlation != null));
 
         // sample values
         CorrResult r18 = results[18];
@@ -42,7 +42,7 @@ public class CorrelationTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(483, results.Count(x => x.Correlation != null));
+        Assert.AreEqual(483, results.Count(static x => x.Correlation != null));
     }
 
     [TestMethod]
@@ -53,7 +53,7 @@ public class CorrelationTests : TestBase
             .ToList();
 
         Assert.HasCount(200, r);
-        Assert.IsEmpty(r.Where(x => x.Correlation is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.Correlation is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -65,7 +65,7 @@ public class CorrelationTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(474, results.Count(x => x.Sma != null));
+        Assert.AreEqual(474, results.Count(static x => x.Sma != null));
     }
 
     [TestMethod]
@@ -77,8 +77,8 @@ public class CorrelationTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(482, results.Count(x => x.Correlation != null));
-        Assert.IsEmpty(results.Where(x => x.Correlation is double v && double.IsNaN(v)));
+        Assert.AreEqual(482, results.Count(static x => x.Correlation != null));
+        Assert.IsEmpty(results.Where(static x => x.Correlation is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -89,7 +89,7 @@ public class CorrelationTests : TestBase
             .ToList();
 
         Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(x => x.Correlation is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.Correlation is double v && double.IsNaN(v)));
     }
 
     [TestMethod]

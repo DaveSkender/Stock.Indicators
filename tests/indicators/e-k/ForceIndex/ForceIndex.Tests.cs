@@ -10,7 +10,7 @@ public class ForceIndexTests : TestBase
 
         // proper quantities
         Assert.HasCount(502, r);
-        Assert.AreEqual(489, r.Count(x => x.ForceIndex != null));
+        Assert.AreEqual(489, r.Count(static x => x.ForceIndex != null));
 
         // sample values
         Assert.IsNull(r[12].ForceIndex);
@@ -31,7 +31,7 @@ public class ForceIndexTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(480, results.Count(x => x.Sma != null));
+        Assert.AreEqual(480, results.Count(static x => x.Sma != null));
     }
 
     [TestMethod]
@@ -42,7 +42,7 @@ public class ForceIndexTests : TestBase
             .ToList();
 
         Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(x => x.ForceIndex is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.ForceIndex is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -80,5 +80,5 @@ public class ForceIndexTests : TestBase
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => quotes.GetForceIndex(0));
+            static () => quotes.GetForceIndex(0));
 }

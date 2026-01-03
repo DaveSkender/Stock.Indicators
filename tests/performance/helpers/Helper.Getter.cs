@@ -8,7 +8,7 @@ internal static class TestData
         => File.ReadAllLines("helpers/data/default.csv")
             .Skip(1)
             .Select(Importer.QuoteFromCsv)
-            .OrderByDescending(x => x.Date)
+            .OrderByDescending(static x => x.Date)
             .Take(days)
             .ToList();
 
@@ -17,7 +17,7 @@ internal static class TestData
         => File.ReadAllLines("helpers/data/compare.csv")
             .Skip(1)
             .Select(Importer.QuoteFromCsv)
-            .OrderByDescending(x => x.Date)
+            .OrderByDescending(static x => x.Date)
             .Take(days)
             .ToList();
 
@@ -26,7 +26,7 @@ internal static class TestData
         => File.ReadAllLines("helpers/data/intraday.csv")
             .Skip(1)
             .Select(Importer.QuoteFromCsv)
-            .OrderByDescending(x => x.Date)
+            .OrderByDescending(static x => x.Date)
             .Take(days)
             .ToList();
 
@@ -35,7 +35,7 @@ internal static class TestData
         => File.ReadAllLines("helpers/data/longish.csv")
             .Skip(1)
             .Select(Importer.QuoteFromCsv)
-            .OrderByDescending(x => x.Date)
+            .OrderByDescending(static x => x.Date)
             .Take(days)
             .ToList();
 }

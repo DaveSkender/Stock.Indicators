@@ -12,7 +12,7 @@ public class TrTests : TestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.HasCount(501, results.Where(x => x.Tr != null));
+        Assert.HasCount(501, results.Where(static x => x.Tr != null));
 
         // sample values
         TrResult r0 = results[0];
@@ -68,7 +68,7 @@ public class TrTests : TestBase
             .ToList();
 
         Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(x => x.Tr is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.Tr is double v && double.IsNaN(v)));
     }
 
     [TestMethod]

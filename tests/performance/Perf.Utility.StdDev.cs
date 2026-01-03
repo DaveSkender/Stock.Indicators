@@ -14,7 +14,7 @@ public class UtilityStdDev
     [GlobalSetup(Targets = [nameof(StdDev)])]
     public void Setup()
         => _values = TestData.GetLongish(Periods)
-            .Select(x => (double)x.Close)
+            .Select(static x => (double)x.Close)
             .ToArray();
 
     [Benchmark]

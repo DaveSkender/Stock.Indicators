@@ -17,7 +17,7 @@ public class CmoTests : TestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.AreEqual(488, results.Count(x => x.Cmo != null));
+        Assert.AreEqual(488, results.Count(static x => x.Cmo != null));
 
         // sample values
         CmoResult r13 = results[13];
@@ -42,7 +42,7 @@ public class CmoTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(488, results.Count(x => x.Cmo != null));
+        Assert.AreEqual(488, results.Count(static x => x.Cmo != null));
     }
 
     [TestMethod]
@@ -53,7 +53,7 @@ public class CmoTests : TestBase
             .ToList();
 
         Assert.HasCount(200, r);
-        Assert.IsEmpty(r.Where(x => x.Cmo is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.Cmo is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -65,7 +65,7 @@ public class CmoTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(481, results.Count(x => x.Cmo != null));
+        Assert.AreEqual(481, results.Count(static x => x.Cmo != null));
     }
 
     [TestMethod]
@@ -77,7 +77,7 @@ public class CmoTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(473, results.Count(x => x.Sma != null));
+        Assert.AreEqual(473, results.Count(static x => x.Sma != null));
     }
 
     [TestMethod]
@@ -88,7 +88,7 @@ public class CmoTests : TestBase
             .ToList();
 
         Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(x => x.Cmo is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.Cmo is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -126,5 +126,5 @@ public class CmoTests : TestBase
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => quotes.GetCmo(0));
+            static () => quotes.GetCmo(0));
 }

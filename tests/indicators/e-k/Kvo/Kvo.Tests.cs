@@ -12,8 +12,8 @@ public class KlingerTests : TestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.HasCount(446, results.Where(x => x.Oscillator != null));
-        Assert.HasCount(434, results.Where(x => x.Signal != null));
+        Assert.HasCount(446, results.Where(static x => x.Oscillator != null));
+        Assert.HasCount(434, results.Where(static x => x.Signal != null));
 
         // sample values
         KvoResult r55 = results[55];
@@ -54,7 +54,7 @@ public class KlingerTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.HasCount(437, results.Where(x => x.Sma != null));
+        Assert.HasCount(437, results.Where(static x => x.Sma != null));
     }
 
     [TestMethod]
@@ -65,7 +65,7 @@ public class KlingerTests : TestBase
             .ToList();
 
         Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(x => x.Oscillator is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.Oscillator is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -105,14 +105,14 @@ public class KlingerTests : TestBase
     {
         // bad fast period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => quotes.GetKvo(2));
+            static () => quotes.GetKvo(2));
 
         // bad slow period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => quotes.GetKvo(20, 20));
+            static () => quotes.GetKvo(20, 20));
 
         // bad signal period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => quotes.GetKvo(34, 55, 0));
+            static () => quotes.GetKvo(34, 55, 0));
     }
 }

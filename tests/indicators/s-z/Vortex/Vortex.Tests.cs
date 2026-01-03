@@ -12,7 +12,7 @@ public class VortexTests : TestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.AreEqual(488, results.Count(x => x.Pvi != null));
+        Assert.AreEqual(488, results.Count(static x => x.Pvi != null));
 
         // sample values
         VortexResult r1 = results[13];
@@ -44,7 +44,7 @@ public class VortexTests : TestBase
             .ToList();
 
         Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(x => x.Pvi is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.Pvi is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -99,5 +99,5 @@ public class VortexTests : TestBase
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => quotes.GetVortex(1));
+            static () => quotes.GetVortex(1));
 }

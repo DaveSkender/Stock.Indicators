@@ -13,7 +13,7 @@ public static partial class Indicator
 
         resultsList
             .RemoveAll(match:
-                x => x.HighPoint is null && x.LowPoint is null);
+                static x => x.HighPoint is null && x.LowPoint is null);
 
         return resultsList.ToSortedList();
     }

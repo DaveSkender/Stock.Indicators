@@ -14,10 +14,10 @@ public class ZigZagTests : TestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.HasCount(234, results.Where(x => x.ZigZag != null));
-        Assert.HasCount(234, results.Where(x => x.RetraceHigh != null));
-        Assert.HasCount(221, results.Where(x => x.RetraceLow != null));
-        Assert.HasCount(14, results.Where(x => x.PointType != null));
+        Assert.HasCount(234, results.Where(static x => x.ZigZag != null));
+        Assert.HasCount(234, results.Where(static x => x.RetraceHigh != null));
+        Assert.HasCount(221, results.Where(static x => x.RetraceLow != null));
+        Assert.HasCount(14, results.Where(static x => x.PointType != null));
 
         // sample values
         ZigZagResult r0 = results[249];
@@ -66,10 +66,10 @@ public class ZigZagTests : TestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.HasCount(463, results.Where(x => x.ZigZag != null));
-        Assert.HasCount(463, results.Where(x => x.RetraceHigh != null));
-        Assert.HasCount(442, results.Where(x => x.RetraceLow != null));
-        Assert.HasCount(30, results.Where(x => x.PointType != null));
+        Assert.HasCount(463, results.Where(static x => x.ZigZag != null));
+        Assert.HasCount(463, results.Where(static x => x.RetraceHigh != null));
+        Assert.HasCount(442, results.Where(static x => x.RetraceLow != null));
+        Assert.HasCount(30, results.Where(static x => x.PointType != null));
 
         // sample values
         ZigZagResult r38 = results[38];
@@ -118,7 +118,7 @@ public class ZigZagTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.HasCount(225, results.Where(x => x.Sma != null));
+        Assert.HasCount(225, results.Where(static x => x.Sma != null));
     }
 
     [TestMethod]
@@ -134,7 +134,7 @@ public class ZigZagTests : TestBase
             .GetZigZag(EndType.Close, 5m)
             .ToList();
 
-        Assert.IsEmpty(results.Where(x => x.PointType != null));
+        Assert.IsEmpty(results.Where(static x => x.PointType != null));
     }
 
     [TestMethod]
@@ -205,7 +205,7 @@ public class ZigZagTests : TestBase
 
         List<Quote> h = JsonConvert
             .DeserializeObject<IReadOnlyCollection<Quote>>(json)
-            .OrderBy(x => x.Date)
+            .OrderBy(static x => x.Date)
             .ToList();
 
         List<ZigZagResult> r1 = h.GetZigZag(EndType.Close, 0.25m).ToList();
@@ -222,10 +222,10 @@ public class ZigZagTests : TestBase
     {
         // bad lookback period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => quotes.GetZigZag(EndType.Close, 0));
+            static () => quotes.GetZigZag(EndType.Close, 0));
 
         // bad end type
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => quotes.GetZigZag((EndType)int.MaxValue, 2));
+            static () => quotes.GetZigZag((EndType)int.MaxValue, 2));
     }
 }

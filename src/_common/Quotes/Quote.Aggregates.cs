@@ -23,15 +23,15 @@ public static partial class QuoteUtility
         else // month
         {
             return quotes
-            .OrderBy(x => x.Date)
-            .GroupBy(x => new DateTime(x.Date.Year, x.Date.Month, 1))
-            .Select(x => new Quote {
+            .OrderBy(static x => x.Date)
+            .GroupBy(static x => new DateTime(x.Date.Year, x.Date.Month, 1))
+            .Select(static x => new Quote {
                 Date = x.Key,
                 Open = x.First().Open,
-                High = x.Max(t => t.High),
-                Low = x.Min(t => t.Low),
+                High = x.Max(static t => t.High),
+                Low = x.Min(static t => t.Low),
                 Close = x.Last().Close,
-                Volume = x.Sum(t => t.Volume)
+                Volume = x.Sum(static t => t.Volume)
             });
         }
     }

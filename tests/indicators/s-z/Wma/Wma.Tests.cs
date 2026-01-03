@@ -12,7 +12,7 @@ public class WmaTests : TestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.HasCount(483, results.Where(x => x.Wma != null));
+        Assert.HasCount(483, results.Where(static x => x.Wma != null));
 
         // sample values
         WmaResult r1 = results[149];
@@ -31,7 +31,7 @@ public class WmaTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.HasCount(483, results.Where(x => x.Wma != null));
+        Assert.HasCount(483, results.Where(static x => x.Wma != null));
     }
 
     [TestMethod]
@@ -42,7 +42,7 @@ public class WmaTests : TestBase
             .ToList();
 
         Assert.HasCount(200, r);
-        Assert.IsEmpty(r.Where(x => x.Wma is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.Wma is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -54,7 +54,7 @@ public class WmaTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.HasCount(482, results.Where(x => x.Wma != null));
+        Assert.HasCount(482, results.Where(static x => x.Wma != null));
     }
 
     [TestMethod]
@@ -66,7 +66,7 @@ public class WmaTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.HasCount(474, results.Where(x => x.Sma != null));
+        Assert.HasCount(474, results.Where(static x => x.Sma != null));
     }
 
     [TestMethod]
@@ -100,7 +100,7 @@ public class WmaTests : TestBase
             .ToList();
 
         Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(x => x.Wma is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.Wma is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -138,5 +138,5 @@ public class WmaTests : TestBase
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => quotes.GetWma(0));
+            static () => quotes.GetWma(0));
 }

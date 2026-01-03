@@ -12,7 +12,7 @@ public class DemaTests : TestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.AreEqual(483, results.Count(x => x.Dema != null));
+        Assert.AreEqual(483, results.Count(static x => x.Dema != null));
 
         // sample values
         DemaResult r25 = results[25];
@@ -37,7 +37,7 @@ public class DemaTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(483, results.Count(x => x.Dema != null));
+        Assert.AreEqual(483, results.Count(static x => x.Dema != null));
     }
 
     [TestMethod]
@@ -48,7 +48,7 @@ public class DemaTests : TestBase
             .ToList();
 
         Assert.HasCount(200, r);
-        Assert.IsEmpty(r.Where(x => x.Dema is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.Dema is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -60,7 +60,7 @@ public class DemaTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(482, results.Count(x => x.Dema != null));
+        Assert.AreEqual(482, results.Count(static x => x.Dema != null));
     }
 
     [TestMethod]
@@ -72,7 +72,7 @@ public class DemaTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(474, results.Count(x => x.Sma != null));
+        Assert.AreEqual(474, results.Count(static x => x.Sma != null));
     }
 
     [TestMethod]
@@ -83,7 +83,7 @@ public class DemaTests : TestBase
             .ToList();
 
         Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(x => x.Dema is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.Dema is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -121,5 +121,5 @@ public class DemaTests : TestBase
     [TestMethod]
     public void Exceptions() =>
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => quotes.GetDema(0));
+            static () => quotes.GetDema(0));
 }

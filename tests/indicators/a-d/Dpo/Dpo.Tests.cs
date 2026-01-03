@@ -58,7 +58,7 @@ public class DpoTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.HasCount(489, results.Where(x => x.Dpo != null));
+        Assert.HasCount(489, results.Where(static x => x.Dpo != null));
     }
 
     [TestMethod]
@@ -69,7 +69,7 @@ public class DpoTests : TestBase
             .ToList();
 
         Assert.HasCount(200, r);
-        Assert.IsEmpty(r.Where(x => x.Dpo is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.Dpo is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -81,7 +81,7 @@ public class DpoTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.HasCount(488, results.Where(x => x.Dpo != null));
+        Assert.HasCount(488, results.Where(static x => x.Dpo != null));
     }
 
     [TestMethod]
@@ -93,7 +93,7 @@ public class DpoTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.HasCount(480, results.Where(x => x.Sma is not null and not double.NaN));
+        Assert.HasCount(480, results.Where(static x => x.Sma is not null and not double.NaN));
     }
 
     [TestMethod]
@@ -104,7 +104,7 @@ public class DpoTests : TestBase
             .ToList();
 
         Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(x => x.Dpo is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.Dpo is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -127,5 +127,5 @@ public class DpoTests : TestBase
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => quotes.GetDpo(0));
+            static () => quotes.GetDpo(0));
 }

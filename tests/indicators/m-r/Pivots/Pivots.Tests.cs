@@ -12,12 +12,12 @@ public class PivotsTests : TestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.HasCount(35, results.Where(x => x.HighPoint != null));
-        Assert.HasCount(333, results.Where(x => x.HighTrend != null));
-        Assert.HasCount(338, results.Where(x => x.HighLine != null));
-        Assert.HasCount(34, results.Where(x => x.LowPoint != null));
-        Assert.HasCount(328, results.Where(x => x.LowTrend != null));
-        Assert.HasCount(333, results.Where(x => x.LowLine != null));
+        Assert.HasCount(35, results.Where(static x => x.HighPoint != null));
+        Assert.HasCount(333, results.Where(static x => x.HighTrend != null));
+        Assert.HasCount(338, results.Where(static x => x.HighLine != null));
+        Assert.HasCount(34, results.Where(static x => x.LowPoint != null));
+        Assert.HasCount(328, results.Where(static x => x.LowTrend != null));
+        Assert.HasCount(333, results.Where(static x => x.LowLine != null));
 
         // sample values
         PivotsResult r3 = results[3];
@@ -127,14 +127,14 @@ public class PivotsTests : TestBase
     {
         // bad left span
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => quotes.GetPivots(1));
+            static () => quotes.GetPivots(1));
 
         // bad right span
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => quotes.GetPivots(2, 1));
+            static () => quotes.GetPivots(2, 1));
 
         // bad lookback window
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => quotes.GetPivots(20, 10, 20, EndType.Close));
+            static () => quotes.GetPivots(20, 10, 20, EndType.Close));
     }
 }

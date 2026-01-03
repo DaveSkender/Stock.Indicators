@@ -12,7 +12,7 @@ public class DojiTests : TestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.AreEqual(112, results.Count(x => x.Match != Match.None));
+        Assert.AreEqual(112, results.Count(static x => x.Match != Match.None));
 
         // sample values
         CandleResult r1 = results[1];
@@ -82,9 +82,9 @@ public class DojiTests : TestBase
     {
         // bad maximum change value
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => quotes.GetDoji(-0.00001));
+            static () => quotes.GetDoji(-0.00001));
 
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => quotes.GetDoji(0.50001));
+            static () => quotes.GetDoji(0.50001));
     }
 }

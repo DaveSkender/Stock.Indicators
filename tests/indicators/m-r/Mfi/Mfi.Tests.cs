@@ -12,7 +12,7 @@ public class MfiTests : TestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.HasCount(488, results.Where(x => x.Mfi != null));
+        Assert.HasCount(488, results.Where(static x => x.Mfi != null));
 
         // sample values
         MfiResult r1 = results[439];
@@ -31,7 +31,7 @@ public class MfiTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.HasCount(479, results.Where(x => x.Sma != null));
+        Assert.HasCount(479, results.Where(static x => x.Sma != null));
     }
 
     [TestMethod]
@@ -45,7 +45,7 @@ public class MfiTests : TestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.HasCount(498, results.Where(x => x.Mfi != null));
+        Assert.HasCount(498, results.Where(static x => x.Mfi != null));
 
         // sample values
         MfiResult r1 = results[31];
@@ -63,7 +63,7 @@ public class MfiTests : TestBase
             .ToList();
 
         Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(x => x.Mfi is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.Mfi is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -103,5 +103,5 @@ public class MfiTests : TestBase
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => quotes.GetMfi(1));
+            static () => quotes.GetMfi(1));
 }

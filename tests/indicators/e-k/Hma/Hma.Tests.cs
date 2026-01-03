@@ -12,7 +12,7 @@ public class HmaTests : TestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.AreEqual(480, results.Count(x => x.Hma != null));
+        Assert.AreEqual(480, results.Count(static x => x.Hma != null));
 
         // sample values
         HmaResult r1 = results[149];
@@ -31,7 +31,7 @@ public class HmaTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(480, results.Count(x => x.Hma != null));
+        Assert.AreEqual(480, results.Count(static x => x.Hma != null));
     }
 
     [TestMethod]
@@ -42,7 +42,7 @@ public class HmaTests : TestBase
             .ToList();
 
         Assert.HasCount(200, r);
-        Assert.IsEmpty(r.Where(x => x.Hma is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.Hma is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -54,7 +54,7 @@ public class HmaTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(480, results.Count(x => x.Hma != null));
+        Assert.AreEqual(480, results.Count(static x => x.Hma != null));
     }
 
     [TestMethod]
@@ -66,7 +66,7 @@ public class HmaTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(471, results.Count(x => x.Sma != null));
+        Assert.AreEqual(471, results.Count(static x => x.Sma != null));
     }
 
     [TestMethod]
@@ -77,7 +77,7 @@ public class HmaTests : TestBase
             .ToList();
 
         Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(x => x.Hma is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.Hma is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -115,5 +115,5 @@ public class HmaTests : TestBase
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => quotes.GetHma(1));
+            static () => quotes.GetHma(1));
 }

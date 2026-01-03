@@ -12,7 +12,7 @@ public class WilliamsRTests : TestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.HasCount(489, results.Where(x => x.WilliamsR != null));
+        Assert.HasCount(489, results.Where(static x => x.WilliamsR != null));
 
         // sample values
         WilliamsResult r1 = results[343];
@@ -39,7 +39,7 @@ public class WilliamsRTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.HasCount(480, results.Where(x => x.Sma != null));
+        Assert.HasCount(480, results.Where(static x => x.Sma != null));
     }
 
     [TestMethod]
@@ -53,7 +53,7 @@ public class WilliamsRTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.IsEmpty(results.Where(x => x.WilliamsR is double v && double.IsNaN(v)));
+        Assert.IsEmpty(results.Where(static x => x.WilliamsR is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -111,7 +111,7 @@ public class WilliamsRTests : TestBase
         IOrderedEnumerable<Quote> test1127 = File.ReadAllLines("s-z/WilliamsR/issue1127quotes.csv")
             .Skip(1)
             .Select(Importer.QuoteFromCsv)
-            .OrderByDescending(x => x.Date);
+            .OrderByDescending(static x => x.Date);
 
         List<Quote> quotesList = test1127.ToList();
         int length = quotesList.Count;
@@ -139,5 +139,5 @@ public class WilliamsRTests : TestBase
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => quotes.GetWilliamsR(0));
+            static () => quotes.GetWilliamsR(0));
 }

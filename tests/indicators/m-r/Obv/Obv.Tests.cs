@@ -12,7 +12,7 @@ public class ObvTests : TestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.HasCount(502, results.Where(x => x.ObvSma == null));
+        Assert.HasCount(502, results.Where(static x => x.ObvSma == null));
 
         // sample values
         ObvResult r1 = results[249];
@@ -33,7 +33,7 @@ public class ObvTests : TestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.HasCount(482, results.Where(x => x.ObvSma != null));
+        Assert.HasCount(482, results.Where(static x => x.ObvSma != null));
 
         // sample values
         ObvResult r1 = results[501];
@@ -50,7 +50,7 @@ public class ObvTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.HasCount(493, results.Where(x => x.Sma != null));
+        Assert.HasCount(493, results.Where(static x => x.Sma != null));
     }
 
     [TestMethod]
@@ -61,7 +61,7 @@ public class ObvTests : TestBase
             .ToList();
 
         Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(x => double.IsNaN(x.Obv)));
+        Assert.IsEmpty(r.Where(static x => double.IsNaN(x.Obv)));
     }
 
     [TestMethod]
@@ -94,5 +94,5 @@ public class ObvTests : TestBase
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => quotes.GetObv(0));
+            static () => quotes.GetObv(0));
 }

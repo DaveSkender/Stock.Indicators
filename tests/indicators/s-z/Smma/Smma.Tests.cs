@@ -12,7 +12,7 @@ public class SmmaTests : TestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.HasCount(483, results.Where(x => x.Smma != null));
+        Assert.HasCount(483, results.Where(static x => x.Smma != null));
 
         // starting calculations at proper index
         Assert.IsNull(results[18].Smma);
@@ -35,7 +35,7 @@ public class SmmaTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.HasCount(483, results.Where(x => x.Smma != null));
+        Assert.HasCount(483, results.Where(static x => x.Smma != null));
     }
 
     [TestMethod]
@@ -46,7 +46,7 @@ public class SmmaTests : TestBase
             .ToList();
 
         Assert.HasCount(200, r);
-        Assert.IsEmpty(r.Where(x => x.Smma is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.Smma is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -58,7 +58,7 @@ public class SmmaTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.HasCount(482, results.Where(x => x.Smma != null));
+        Assert.HasCount(482, results.Where(static x => x.Smma != null));
     }
 
     [TestMethod]
@@ -70,7 +70,7 @@ public class SmmaTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.HasCount(474, results.Where(x => x.Sma != null));
+        Assert.HasCount(474, results.Where(static x => x.Sma != null));
     }
 
     [TestMethod]
@@ -81,7 +81,7 @@ public class SmmaTests : TestBase
             .ToList();
 
         Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(x => x.Smma is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.Smma is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -117,5 +117,5 @@ public class SmmaTests : TestBase
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => quotes.GetSmma(0));
+            static () => quotes.GetSmma(0));
 }

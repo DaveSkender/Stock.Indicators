@@ -12,7 +12,7 @@ public static partial class Indicator
             .ToList();
 
         resultsList
-            .RemoveAll(match: x =>
+            .RemoveAll(match: static x =>
                x.UpperChannel is null
             && x.LowerChannel is null
             && x.Centerline is null
@@ -29,7 +29,7 @@ public static partial class Indicator
     {
         int removePeriods = results
             .ToList()
-            .FindIndex(x => x.UpperChannel != null || x.LowerChannel != null);
+            .FindIndex(static x => x.UpperChannel != null || x.LowerChannel != null);
 
         return results.Remove(removePeriods);
     }

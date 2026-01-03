@@ -40,12 +40,12 @@ public static partial class Indicator
 
         List<HmaResult> results = tpList
             .Take(shiftQty)
-            .Select(x => new HmaResult(x.Item1))
+            .Select(static x => new HmaResult(x.Item1))
             .ToList();
 
         // calculate final HMA = WMA with period SQRT(n)
         List<HmaResult> hmaResults = synthHistory.CalcWma(sqN)
-            .Select(x => new HmaResult(x.Date) {
+            .Select(static x => new HmaResult(x.Date) {
                 Hma = x.Wma
             })
             .ToList();

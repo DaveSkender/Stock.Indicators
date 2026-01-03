@@ -12,7 +12,7 @@ public class UltimateTests : TestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.HasCount(474, results.Where(x => x.Ultimate != null));
+        Assert.HasCount(474, results.Where(static x => x.Ultimate != null));
 
         // sample values
         UltimateResult r1 = results[74];
@@ -34,7 +34,7 @@ public class UltimateTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.HasCount(465, results.Where(x => x.Sma != null));
+        Assert.HasCount(465, results.Where(static x => x.Sma != null));
     }
 
     [TestMethod]
@@ -45,7 +45,7 @@ public class UltimateTests : TestBase
             .ToList();
 
         Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(x => x.Ultimate is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.Ultimate is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -84,14 +84,14 @@ public class UltimateTests : TestBase
     {
         // bad short period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => quotes.GetUltimate(0));
+            static () => quotes.GetUltimate(0));
 
         // bad middle period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => quotes.GetUltimate(7, 6));
+            static () => quotes.GetUltimate(7, 6));
 
         // bad long period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => quotes.GetUltimate(7, 14, 11));
+            static () => quotes.GetUltimate(7, 14, 11));
     }
 }

@@ -12,10 +12,10 @@ public class RocWbTests : TestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.HasCount(482, results.Where(x => x.Roc != null));
-        Assert.HasCount(480, results.Where(x => x.RocEma != null));
-        Assert.HasCount(463, results.Where(x => x.UpperBand != null));
-        Assert.HasCount(463, results.Where(x => x.LowerBand != null));
+        Assert.HasCount(482, results.Where(static x => x.Roc != null));
+        Assert.HasCount(480, results.Where(static x => x.RocEma != null));
+        Assert.HasCount(463, results.Where(static x => x.UpperBand != null));
+        Assert.HasCount(463, results.Where(static x => x.LowerBand != null));
 
         // sample values
         RocWbResult r19 = results[19];
@@ -76,7 +76,7 @@ public class RocWbTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.HasCount(482, results.Where(x => x.Roc != null));
+        Assert.HasCount(482, results.Where(static x => x.Roc != null));
     }
 
     [TestMethod]
@@ -87,7 +87,7 @@ public class RocWbTests : TestBase
             .ToList();
 
         Assert.HasCount(200, r);
-        Assert.IsEmpty(r.Where(x => x.UpperBand is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.UpperBand is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -99,7 +99,7 @@ public class RocWbTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.HasCount(481, results.Where(x => x.Roc != null));
+        Assert.HasCount(481, results.Where(static x => x.Roc != null));
     }
 
     [TestMethod]
@@ -111,7 +111,7 @@ public class RocWbTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.HasCount(473, results.Where(x => x.Sma != null));
+        Assert.HasCount(473, results.Where(static x => x.Sma != null));
     }
 
     [TestMethod]
@@ -122,7 +122,7 @@ public class RocWbTests : TestBase
             .ToList();
 
         Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(x => x.Roc is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.Roc is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -164,14 +164,14 @@ public class RocWbTests : TestBase
     {
         // bad lookback period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => quotes.GetRocWb(0, 3, 12));
+            static () => quotes.GetRocWb(0, 3, 12));
 
         // bad EMA period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => quotes.GetRocWb(14, 0, 14));
+            static () => quotes.GetRocWb(14, 0, 14));
 
         // bad STDDEV period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => quotes.GetRocWb(15, 3, 16));
+            static () => quotes.GetRocWb(15, 3, 16));
     }
 }

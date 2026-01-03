@@ -12,9 +12,9 @@ public class SlopeTests : TestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.HasCount(483, results.Where(x => x.Slope != null));
-        Assert.HasCount(483, results.Where(x => x.StdDev != null));
-        Assert.HasCount(20, results.Where(x => x.Line != null));
+        Assert.HasCount(483, results.Where(static x => x.Slope != null));
+        Assert.HasCount(483, results.Where(static x => x.StdDev != null));
+        Assert.HasCount(20, results.Where(static x => x.Line != null));
 
         // sample values
         SlopeResult r1 = results[249];
@@ -48,7 +48,7 @@ public class SlopeTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.HasCount(483, results.Where(x => x.Slope != null));
+        Assert.HasCount(483, results.Where(static x => x.Slope != null));
     }
 
     [TestMethod]
@@ -59,7 +59,7 @@ public class SlopeTests : TestBase
             .ToList();
 
         Assert.HasCount(200, r);
-        Assert.IsEmpty(r.Where(x => x.Slope is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.Slope is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -71,7 +71,7 @@ public class SlopeTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.HasCount(482, results.Where(x => x.Slope != null));
+        Assert.HasCount(482, results.Where(static x => x.Slope != null));
     }
 
     [TestMethod]
@@ -83,7 +83,7 @@ public class SlopeTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.HasCount(474, results.Where(x => x.Sma != null));
+        Assert.HasCount(474, results.Where(static x => x.Sma != null));
     }
 
     [TestMethod]
@@ -94,7 +94,7 @@ public class SlopeTests : TestBase
             .ToList();
 
         Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(x => x.Slope is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.Slope is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -146,5 +146,5 @@ public class SlopeTests : TestBase
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => quotes.GetSlope(1));
+            static () => quotes.GetSlope(1));
 }

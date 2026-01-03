@@ -23,13 +23,11 @@ public static class Program
          */
 
         // fetch historical quotes from data provider
-        List<Quote> quotesList = [.. GetQuotesFromFeed()];
+        List<Quote> quotesList = GetQuotesFromFeed().ToList();
 
         // calculate Stochastic RSI
         List<StochRsiResult> resultsList =
-            quotesList
-                .GetStochRsi(14, 14, 3)
-                .ToList();
+            quotesList.GetStochRsi(14, 14, 3).ToList();
 
         // initialize
         decimal trdPrice = 0;

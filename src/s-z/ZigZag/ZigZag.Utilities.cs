@@ -13,7 +13,7 @@ public static partial class Indicator
 
         resultsList
             .RemoveAll(match:
-                x => x.PointType is null);
+                static x => x.PointType is null);
 
         return resultsList.ToSortedList();
     }

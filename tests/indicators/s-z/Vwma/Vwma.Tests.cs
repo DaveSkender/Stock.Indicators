@@ -12,7 +12,7 @@ public class VwmaTests : TestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.HasCount(493, results.Where(x => x.Vwma != null));
+        Assert.HasCount(493, results.Where(static x => x.Vwma != null));
 
         // sample values
         VwmaResult r8 = results[8];
@@ -34,7 +34,7 @@ public class VwmaTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.HasCount(484, results.Where(x => x.Sma != null));
+        Assert.HasCount(484, results.Where(static x => x.Sma != null));
     }
 
     [TestMethod]
@@ -45,7 +45,7 @@ public class VwmaTests : TestBase
             .ToList();
 
         Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(x => x.Vwma is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.Vwma is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -83,5 +83,5 @@ public class VwmaTests : TestBase
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => quotes.GetVwma(0));
+            static () => quotes.GetVwma(0));
 }

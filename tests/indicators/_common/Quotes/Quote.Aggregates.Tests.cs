@@ -132,5 +132,5 @@ public class QuoteHistory : TestBase
     public void BadAggregationSize() =>
 
     // bad period size
-    Assert.ThrowsExactly<ArgumentOutOfRangeException>(() => quotes.Aggregate(TimeSpan.Zero));
+    Assert.ThrowsExactly<ArgumentOutOfRangeException>(static () => quotes.Aggregate(TimeSpan.Zero));
 }

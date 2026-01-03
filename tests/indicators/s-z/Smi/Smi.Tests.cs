@@ -12,8 +12,8 @@ public class SmiTests : TestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.AreEqual(489, results.Count(x => x.Smi != null));
-        Assert.AreEqual(489, results.Count(x => x.Signal != null));
+        Assert.AreEqual(489, results.Count(static x => x.Smi != null));
+        Assert.AreEqual(489, results.Count(static x => x.Signal != null));
 
         // sample values
         SmiResult r12 = results[12];
@@ -54,7 +54,7 @@ public class SmiTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(480, results.Count(x => x.Sma != null));
+        Assert.AreEqual(480, results.Count(static x => x.Sma != null));
     }
 
     [TestMethod]
@@ -101,7 +101,7 @@ public class SmiTests : TestBase
             .ToList();
 
         Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(x => x.Smi is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.Smi is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -141,18 +141,18 @@ public class SmiTests : TestBase
     {
         // bad lookback period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => quotes.GetSmi(0, 5, 5, 5));
+            static () => quotes.GetSmi(0, 5, 5, 5));
 
         // bad first smooth period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => quotes.GetSmi(14, 0, 5, 5));
+            static () => quotes.GetSmi(14, 0, 5, 5));
 
         // bad second smooth period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => quotes.GetSmi(14, 3, 0, 5));
+            static () => quotes.GetSmi(14, 3, 0, 5));
 
         // bad signal
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => quotes.GetSmi(9, 3, 1, 0));
+            static () => quotes.GetSmi(9, 3, 1, 0));
     }
 }

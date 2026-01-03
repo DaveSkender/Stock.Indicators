@@ -137,6 +137,8 @@ dotnet_style_predefined_type_for_locals_parameters_members = true:suggestion
 # Diagnostic analyzer suppressions
 dotnet_diagnostic.IDE0058.severity = none        # Unused expression value, use _ discard variable
 dotnet_diagnostic.IDE0230.severity = suggestion  # Use raw string literal when beneficial
+dotnet_diagnostic.IDE0305.severity = none        # Use collection expression for fluent, foo.ToList→[..foo]
+dotnet_diagnostic.IDE0306.severity = none        # Use collection expression for new, new(foo)→[..foo]
 
 # remove this when no-longer supporting pre-9.0 frameworks
 dotnet_diagnostic.IDE0330.severity = none        # Prefer 'System.Threading.Lock'
@@ -150,7 +152,6 @@ dotnet_diagnostic.IDE0046.severity = none        # Use conditional expression fo
 dotnet_diagnostic.IDE0047.severity = none        # Remove unnecessary parentheses
 dotnet_diagnostic.IDE0054.severity = none        # Use '++' operator
 dotnet_diagnostic.IDE0055.severity = warning     # Fix formatting
-dotnet_diagnostic.IDE0320.severity = none        # Make anonymous function static (minimal benefit)
 dotnet_diagnostic.IDE2003.severity = suggestion  # Blank line required between block and subsequent statement
 
 dotnet_diagnostic.RCS1181.severity = none        # Convert comment to documentation comment (superflous, inconsistent need)
