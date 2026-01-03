@@ -4,7 +4,7 @@ namespace Tests.Indicators;
 public class VwapTests : TestBase
 {
     private readonly IEnumerable<Quote> intraday = TestData.GetIntraday()
-        .OrderBy(x => x.Date)
+        .OrderBy(static x => x.Date)
         .Take(391);
 
     [TestMethod]
@@ -15,7 +15,7 @@ public class VwapTests : TestBase
 
         // proper quantities
         Assert.HasCount(391, results);
-        Assert.HasCount(391, results.Where(x => x.Vwap != null));
+        Assert.HasCount(391, results.Where(static x => x.Vwap != null));
 
         // sample values
         VwapResult r1 = results[0];
@@ -43,7 +43,7 @@ public class VwapTests : TestBase
 
         // proper quantities
         Assert.HasCount(391, results);
-        Assert.HasCount(361, results.Where(x => x.Vwap != null));
+        Assert.HasCount(361, results.Where(static x => x.Vwap != null));
 
         // sample values
         VwapResult r1 = results[29];
@@ -68,7 +68,7 @@ public class VwapTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.HasCount(493, results.Where(x => x.Sma != null));
+        Assert.HasCount(493, results.Where(static x => x.Sma != null));
     }
 
     [TestMethod]
@@ -79,7 +79,7 @@ public class VwapTests : TestBase
             .ToList();
 
         Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(x => x.Vwap is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.Vwap is double v && double.IsNaN(v)));
     }
 
     [TestMethod]

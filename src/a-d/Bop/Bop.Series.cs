@@ -15,7 +15,7 @@ public static partial class Indicator
         List<BopResult> results = new(length);
 
         double[] raw = qdList
-            .Select(x => (x.High != x.Low) ?
+            .Select(static x => (x.High != x.Low) ?
                 ((x.Close - x.Open) / (x.High - x.Low)) : double.NaN)
             .ToArray();
 

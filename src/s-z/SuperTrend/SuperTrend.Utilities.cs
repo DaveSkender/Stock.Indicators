@@ -13,7 +13,7 @@ public static partial class Indicator
 
         resultsList
             .RemoveAll(match:
-                x => x.SuperTrend is null);
+                static x => x.SuperTrend is null);
 
         return resultsList.ToSortedList();
     }
@@ -26,7 +26,7 @@ public static partial class Indicator
     {
         int removePeriods = results
             .ToList()
-            .FindIndex(x => x.SuperTrend != null);
+            .FindIndex(static x => x.SuperTrend != null);
 
         return results.Remove(removePeriods);
     }

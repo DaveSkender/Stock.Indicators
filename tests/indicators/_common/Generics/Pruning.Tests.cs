@@ -15,7 +15,7 @@ public class Pruning : TestBase
 
         // bad remove period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => quotes.GetAdx(14).RemoveWarmupPeriods(-1));
+            static () => quotes.GetAdx(14).RemoveWarmupPeriods(-1));
     }
 
     [TestMethod]

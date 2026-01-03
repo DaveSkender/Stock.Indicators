@@ -12,7 +12,7 @@ public class RsiTests : TestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.HasCount(488, results.Where(x => x.Rsi != null));
+        Assert.HasCount(488, results.Where(static x => x.Rsi != null));
 
         // sample values
         RsiResult r1 = results[13];
@@ -38,7 +38,7 @@ public class RsiTests : TestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.HasCount(501, results.Where(x => x.Rsi != null));
+        Assert.HasCount(501, results.Where(static x => x.Rsi != null));
 
         // sample values
         RsiResult r1 = results[28];
@@ -69,7 +69,7 @@ public class RsiTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.HasCount(488, results.Where(x => x.Rsi != null));
+        Assert.HasCount(488, results.Where(static x => x.Rsi != null));
     }
 
     [TestMethod]
@@ -80,7 +80,7 @@ public class RsiTests : TestBase
             .ToList();
 
         Assert.HasCount(200, r);
-        Assert.IsEmpty(r.Where(x => x.Rsi is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.Rsi is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -92,7 +92,7 @@ public class RsiTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.HasCount(487, results.Where(x => x.Rsi != null));
+        Assert.HasCount(487, results.Where(static x => x.Rsi != null));
     }
 
     [TestMethod]
@@ -104,7 +104,7 @@ public class RsiTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.HasCount(479, results.Where(x => x.Sma != null));
+        Assert.HasCount(479, results.Where(static x => x.Sma != null));
     }
 
     [TestMethod]
@@ -113,7 +113,7 @@ public class RsiTests : TestBase
         IEnumerable<RsiResult> r = TestData.GetBtcUsdNan()
             .GetRsi(14);
 
-        Assert.IsEmpty(r.Where(x => x.Rsi is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.Rsi is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -124,7 +124,7 @@ public class RsiTests : TestBase
             .ToList();
 
         Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(x => x.Rsi is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.Rsi is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -162,5 +162,5 @@ public class RsiTests : TestBase
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => quotes.GetRsi(0));
+            static () => quotes.GetRsi(0));
 }

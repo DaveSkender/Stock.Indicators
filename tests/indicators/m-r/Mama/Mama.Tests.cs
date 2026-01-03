@@ -15,7 +15,7 @@ public class MamaTests : TestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.HasCount(497, results.Where(x => x.Mama != null));
+        Assert.HasCount(497, results.Where(static x => x.Mama != null));
 
         // sample values
         MamaResult r1 = results[4];
@@ -56,7 +56,7 @@ public class MamaTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.HasCount(497, results.Where(x => x.Mama != null));
+        Assert.HasCount(497, results.Where(static x => x.Mama != null));
     }
 
     [TestMethod]
@@ -67,7 +67,7 @@ public class MamaTests : TestBase
             .ToList();
 
         Assert.HasCount(200, r);
-        Assert.IsEmpty(r.Where(x => x.Mama is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.Mama is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -79,7 +79,7 @@ public class MamaTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.HasCount(496, results.Where(x => x.Mama != null));
+        Assert.HasCount(496, results.Where(static x => x.Mama != null));
     }
 
     [TestMethod]
@@ -91,7 +91,7 @@ public class MamaTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.HasCount(488, results.Where(x => x.Sma != null));
+        Assert.HasCount(488, results.Where(static x => x.Sma != null));
     }
 
     [TestMethod]
@@ -102,7 +102,7 @@ public class MamaTests : TestBase
             .ToList();
 
         Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(x => x.Mama is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.Mama is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -145,14 +145,14 @@ public class MamaTests : TestBase
     {
         // bad fast period (same as slow period)
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => quotes.GetMama(0.5, 0.5));
+            static () => quotes.GetMama(0.5, 0.5));
 
         // bad fast period (cannot be 1 or more)
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => quotes.GetMama(1, 0.5));
+            static () => quotes.GetMama(1, 0.5));
 
         // bad slow period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => quotes.GetMama(0.5, 0));
+            static () => quotes.GetMama(0.5, 0));
     }
 }

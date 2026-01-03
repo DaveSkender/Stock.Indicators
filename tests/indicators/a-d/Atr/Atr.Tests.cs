@@ -12,7 +12,7 @@ public class AtrTests : TestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.AreEqual(488, results.Count(x => x.Atr != null));
+        Assert.AreEqual(488, results.Count(static x => x.Atr != null));
 
         // sample values
         AtrResult r13 = results[13];
@@ -50,7 +50,7 @@ public class AtrTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(502 - 19, results.Count(x => x.Sma != null));
+        Assert.AreEqual(502 - 19, results.Count(static x => x.Sma != null));
     }
 
     [TestMethod]
@@ -61,7 +61,7 @@ public class AtrTests : TestBase
             .ToList();
 
         Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(x => x.Atr is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.Atr is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -101,5 +101,5 @@ public class AtrTests : TestBase
     [TestMethod]
     public void Exceptions() =>
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => quotes.GetAtr(1));
+            static () => quotes.GetAtr(1));
 }

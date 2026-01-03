@@ -10,7 +10,7 @@ public static partial class Indicator
     {
         int n = results
           .ToList()
-          .FindIndex(x => x.Dema != null) + 1;
+          .FindIndex(static x => x.Dema != null) + 1;
 
         return results.Remove((2 * n) + 100);
     }

@@ -15,7 +15,7 @@ public static partial class Indicator
         // initialize
         List<RocWbResult> results = tpList
             .CalcRoc(lookbackPeriods, null)
-            .Select(x => new RocWbResult(x.Date) {
+            .Select(static x => new RocWbResult(x.Date) {
                 Roc = x.Roc
             })
             .ToList();
@@ -38,7 +38,7 @@ public static partial class Indicator
         }
 
         double?[] rocSq = results
-            .Select(x => x.Roc * x.Roc)
+            .Select(static x => x.Roc * x.Roc)
             .ToArray();
 
         // roll through quotes

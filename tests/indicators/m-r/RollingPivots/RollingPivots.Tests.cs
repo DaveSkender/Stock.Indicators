@@ -16,7 +16,7 @@ public class RollingPivotsTests : TestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.HasCount(482, results.Where(x => x.PP != null));
+        Assert.HasCount(482, results.Where(static x => x.PP != null));
 
         // sample values
         RollingPivotsResult r1 = results[19];
@@ -90,7 +90,7 @@ public class RollingPivotsTests : TestBase
 
         // proper quantities
         Assert.HasCount(38, results);
-        Assert.HasCount(28, results.Where(x => x.PP != null));
+        Assert.HasCount(28, results.Where(static x => x.PP != null));
 
         // sample values
         RollingPivotsResult r1 = results[9];
@@ -162,7 +162,7 @@ public class RollingPivotsTests : TestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.HasCount(482, results.Where(x => x.PP != null));
+        Assert.HasCount(482, results.Where(static x => x.PP != null));
 
         // sample values
         RollingPivotsResult r1 = results[19];
@@ -247,7 +247,7 @@ public class RollingPivotsTests : TestBase
 
         // proper quantities
         Assert.HasCount(300, results);
-        Assert.HasCount(241, results.Where(x => x.PP != null));
+        Assert.HasCount(241, results.Where(static x => x.PP != null));
 
         // sample values
         RollingPivotsResult r1 = results[58];
@@ -322,7 +322,7 @@ public class RollingPivotsTests : TestBase
 
         // proper quantities
         Assert.HasCount(1564, results);
-        Assert.HasCount(1173, results.Where(x => x.PP != null));
+        Assert.HasCount(1173, results.Where(static x => x.PP != null));
 
         // sample values
         RollingPivotsResult r2 = results[390];
@@ -431,10 +431,10 @@ public class RollingPivotsTests : TestBase
     {
         // bad window period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => quotes.GetRollingPivots(0, 10));
+            static () => quotes.GetRollingPivots(0, 10));
 
         // bad offset period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => quotes.GetRollingPivots(10, -1));
+            static () => quotes.GetRollingPivots(10, -1));
     }
 }

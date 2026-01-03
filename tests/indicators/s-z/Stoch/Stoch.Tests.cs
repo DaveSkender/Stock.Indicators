@@ -16,8 +16,8 @@ public class StochTests : TestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.HasCount(487, results.Where(x => x.Oscillator != null));
-        Assert.HasCount(485, results.Where(x => x.Signal != null));
+        Assert.HasCount(487, results.Where(static x => x.Oscillator != null));
+        Assert.HasCount(485, results.Where(static x => x.Signal != null));
 
         // sample values
         StochResult r15 = results[15];
@@ -65,8 +65,8 @@ public class StochTests : TestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.HasCount(494, results.Where(x => x.K != null));
-        Assert.HasCount(494, results.Where(x => x.D != null));
+        Assert.HasCount(494, results.Where(static x => x.K != null));
+        Assert.HasCount(494, results.Where(static x => x.D != null));
 
         // sample values
         StochResult r7 = results[7];
@@ -109,7 +109,7 @@ public class StochTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.HasCount(478, results.Where(x => x.Sma != null));
+        Assert.HasCount(478, results.Where(static x => x.Sma != null));
     }
 
     [TestMethod]
@@ -179,7 +179,7 @@ public class StochTests : TestBase
             .ToList();
 
         Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(x => x.Oscillator is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.Oscillator is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -247,26 +247,26 @@ public class StochTests : TestBase
     {
         // bad lookback period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => quotes.GetStoch(0));
+            static () => quotes.GetStoch(0));
 
         // bad signal period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => quotes.GetStoch(14, 0));
+            static () => quotes.GetStoch(14, 0));
 
         // bad smoothing period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => quotes.GetStoch(14, 3, 0));
+            static () => quotes.GetStoch(14, 3, 0));
 
         // bad kFactor
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => quotes.GetStoch(9, 3, 1, 0, 2, MaType.SMA));
+            static () => quotes.GetStoch(9, 3, 1, 0, 2, MaType.SMA));
 
         // bad dFactor
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => quotes.GetStoch(9, 3, 1, 3, 0, MaType.SMA));
+            static () => quotes.GetStoch(9, 3, 1, 3, 0, MaType.SMA));
 
         // bad MA type
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => quotes.GetStoch(9, 3, 3, 3, 2, MaType.ALMA));
+            static () => quotes.GetStoch(9, 3, 3, 3, 2, MaType.ALMA));
     }
 }

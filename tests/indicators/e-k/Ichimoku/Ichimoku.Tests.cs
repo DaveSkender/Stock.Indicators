@@ -16,11 +16,11 @@ public class IchimokuTests : TestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.AreEqual(494, results.Count(x => x.TenkanSen != null));
-        Assert.AreEqual(477, results.Count(x => x.KijunSen != null));
-        Assert.AreEqual(451, results.Count(x => x.SenkouSpanA != null));
-        Assert.AreEqual(425, results.Count(x => x.SenkouSpanB != null));
-        Assert.AreEqual(476, results.Count(x => x.ChikouSpan != null));
+        Assert.AreEqual(494, results.Count(static x => x.TenkanSen != null));
+        Assert.AreEqual(477, results.Count(static x => x.KijunSen != null));
+        Assert.AreEqual(451, results.Count(static x => x.SenkouSpanA != null));
+        Assert.AreEqual(425, results.Count(static x => x.SenkouSpanB != null));
+        Assert.AreEqual(476, results.Count(static x => x.ChikouSpan != null));
 
         // sample values
         IchimokuResult r1 = results[51];
@@ -104,24 +104,24 @@ public class IchimokuTests : TestBase
     {
         // bad signal period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => quotes.GetIchimoku(0));
+            static () => quotes.GetIchimoku(0));
 
         // bad short span period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => quotes.GetIchimoku(9, 0, 52));
+            static () => quotes.GetIchimoku(9, 0, 52));
 
         // bad long span period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => quotes.GetIchimoku(9, 26, 26));
+            static () => quotes.GetIchimoku(9, 26, 26));
 
         // invalid offsets
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => quotes.GetIchimoku(9, 26, 52, -1));
+            static () => quotes.GetIchimoku(9, 26, 52, -1));
 
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => quotes.GetIchimoku(9, 26, 52, -1, 12));
+            static () => quotes.GetIchimoku(9, 26, 52, -1, 12));
 
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => quotes.GetIchimoku(9, 26, 52, 12, -1));
+            static () => quotes.GetIchimoku(9, 26, 52, 12, -1));
     }
 }

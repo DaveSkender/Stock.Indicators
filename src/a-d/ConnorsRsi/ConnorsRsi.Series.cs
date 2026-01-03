@@ -20,7 +20,7 @@ public static partial class Indicator
         // RSI of streak
         List<(DateTime Date, double Streak)> bdStreak = results
             .Remove(Math.Min(length, 1))
-            .Select(x => (x.Date, (double)x.Streak))
+            .Select(static x => (x.Date, (double)x.Streak))
             .ToList();
 
         List<RsiResult> rsiStreak = CalcRsi(bdStreak, streakPeriods);

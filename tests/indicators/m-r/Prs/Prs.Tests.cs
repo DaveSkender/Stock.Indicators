@@ -15,8 +15,8 @@ public class PrsTests : TestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.HasCount(502, results.Where(x => x.Prs != null));
-        Assert.HasCount(493, results.Where(x => x.PrsSma != null));
+        Assert.HasCount(502, results.Where(static x => x.Prs != null));
+        Assert.HasCount(493, results.Where(static x => x.PrsSma != null));
 
         // sample values
         PrsResult r1 = results[8];
@@ -44,7 +44,7 @@ public class PrsTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.HasCount(502, results.Where(x => x.Prs != null));
+        Assert.HasCount(502, results.Where(static x => x.Prs != null));
     }
 
     [TestMethod]
@@ -55,7 +55,7 @@ public class PrsTests : TestBase
             .ToList();
 
         Assert.HasCount(200, r);
-        Assert.IsEmpty(r.Where(x => x.Prs is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.Prs is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -67,7 +67,7 @@ public class PrsTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.HasCount(493, results.Where(x => x.Sma != null));
+        Assert.HasCount(493, results.Where(static x => x.Sma != null));
     }
 
     [TestMethod]
@@ -79,8 +79,8 @@ public class PrsTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.HasCount(501, results.Where(x => x.Prs != null));
-        Assert.IsEmpty(results.Where(x => x.Prs is double v && double.IsNaN(v)));
+        Assert.HasCount(501, results.Where(static x => x.Prs != null));
+        Assert.IsEmpty(results.Where(static x => x.Prs is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -91,7 +91,7 @@ public class PrsTests : TestBase
             .ToList();
 
         Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(x => x.Prs is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.Prs is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -115,22 +115,22 @@ public class PrsTests : TestBase
     {
         // bad lookback period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => otherQuotes.GetPrs(quotes, 0));
+            static () => otherQuotes.GetPrs(quotes, 0));
 
         // bad SMA period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => otherQuotes.GetPrs(quotes, 14, 0));
+            static () => otherQuotes.GetPrs(quotes, 14, 0));
 
         // insufficient quotes
         Assert.ThrowsExactly<InvalidQuotesException>(
-            () => TestData.GetCompare(13).GetPrs(quotes, 14));
+            static () => TestData.GetCompare(13).GetPrs(quotes, 14));
 
         // insufficient eval quotes
         Assert.ThrowsExactly<InvalidQuotesException>(
-            () => TestData.GetCompare(300).GetPrs(quotes, 14));
+            static () => TestData.GetCompare(300).GetPrs(quotes, 14));
 
         // mismatch quotes
         Assert.ThrowsExactly<InvalidQuotesException>(
-            () => otherQuotes.GetPrs(mismatchQuotes, 14));
+            static () => otherQuotes.GetPrs(mismatchQuotes, 14));
     }
 }

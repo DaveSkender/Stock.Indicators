@@ -12,7 +12,7 @@ public class CmfTests : TestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.AreEqual(483, results.Count(x => x.Cmf != null));
+        Assert.AreEqual(483, results.Count(static x => x.Cmf != null));
 
         // sample values
         CmfResult r1 = results[49];
@@ -40,7 +40,7 @@ public class CmfTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(474, results.Count(x => x.Sma != null));
+        Assert.AreEqual(474, results.Count(static x => x.Sma != null));
     }
 
     [TestMethod]
@@ -51,7 +51,7 @@ public class CmfTests : TestBase
             .ToList();
 
         Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(x => x.Cmf is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.Cmf is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -101,5 +101,5 @@ public class CmfTests : TestBase
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => quotes.GetCmf(0));
+            static () => quotes.GetCmf(0));
 }

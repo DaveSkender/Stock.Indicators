@@ -18,10 +18,10 @@ public class KeltnerTests : TestBase
         Assert.HasCount(502, results);
 
         int warmupPeriod = 502 - Math.Max(emaPeriods, atrPeriods) + 1;
-        Assert.HasCount(warmupPeriod, results.Where(x => x.Centerline != null));
-        Assert.HasCount(warmupPeriod, results.Where(x => x.UpperBand != null));
-        Assert.HasCount(warmupPeriod, results.Where(x => x.LowerBand != null));
-        Assert.HasCount(warmupPeriod, results.Where(x => x.Width != null));
+        Assert.HasCount(warmupPeriod, results.Where(static x => x.Centerline != null));
+        Assert.HasCount(warmupPeriod, results.Where(static x => x.UpperBand != null));
+        Assert.HasCount(warmupPeriod, results.Where(static x => x.LowerBand != null));
+        Assert.HasCount(warmupPeriod, results.Where(static x => x.Width != null));
 
         // sample value
         KeltnerResult r1 = results[485];
@@ -45,7 +45,7 @@ public class KeltnerTests : TestBase
             .ToList();
 
         Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(x => x.UpperBand is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.UpperBand is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -114,14 +114,14 @@ public class KeltnerTests : TestBase
     {
         // bad EMA period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => quotes.GetKeltner(1, 2, 10));
+            static () => quotes.GetKeltner(1, 2, 10));
 
         // bad ATR period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => quotes.GetKeltner(20, 2, 1));
+            static () => quotes.GetKeltner(20, 2, 1));
 
         // bad multiplier
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => quotes.GetKeltner(20, 0, 10));
+            static () => quotes.GetKeltner(20, 0, 10));
     }
 }

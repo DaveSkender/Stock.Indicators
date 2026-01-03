@@ -30,7 +30,7 @@ public static partial class Indicator
             tpList
             .CalcRsi(rsiPeriods)
             .Remove(Math.Min(rsiPeriods, length))
-            .Select(x => new QuoteD {
+            .Select(static x => new QuoteD {
                 Date = x.Date,
                 High = x.Rsi.Null2NaN(),
                 Low = x.Rsi.Null2NaN(),

@@ -120,7 +120,7 @@ public class QuoteUtility : TestBase
     public void ToTupleCollection()
     {
         Collection<(DateTime, double)> collection = quotes
-            .OrderBy(x => x.Date)
+            .OrderBy(static x => x.Date)
             .ToTupleCollection(CandlePart.Close);
 
         Assert.IsNotNull(collection);
@@ -132,7 +132,7 @@ public class QuoteUtility : TestBase
     public void ToSortedList()
     {
         Collection<(DateTime, double)> collection = quotes
-            .OrderBy(x => x.Date)
+            .OrderBy(static x => x.Date)
             .ToTuple(CandlePart.Close)
             .ToSortedCollection();
 

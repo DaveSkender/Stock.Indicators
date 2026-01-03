@@ -13,7 +13,7 @@ public static partial class Indicator
 
         resultsList
             .RemoveAll(match:
-                x => x.Jaw is null && x.Teeth is null && x.Lips is null);
+                static x => x.Jaw is null && x.Teeth is null && x.Lips is null);
 
         return resultsList.ToSortedList();
     }
@@ -26,7 +26,7 @@ public static partial class Indicator
     {
         int removePeriods = results
           .ToList()
-          .FindIndex(x => x.Jaw != null) + 251;
+          .FindIndex(static x => x.Jaw != null) + 251;
 
         return results.Remove(removePeriods);
     }

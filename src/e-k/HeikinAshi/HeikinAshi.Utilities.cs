@@ -6,7 +6,7 @@ public static partial class Indicator
     public static IEnumerable<Quote> ToQuotes(
     this IEnumerable<HeikinAshiResult> results)
       => results
-        .Select(x => new Quote {
+        .Select(static x => new Quote {
             Date = x.Date,
             Open = x.Open,
             High = x.High,
@@ -14,6 +14,6 @@ public static partial class Indicator
             Close = x.Close,
             Volume = x.Volume
         })
-        .OrderBy(x => x.Date)
+        .OrderBy(static x => x.Date)
         .ToList();
 }

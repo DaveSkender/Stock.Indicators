@@ -12,8 +12,8 @@ public class FractalTests : TestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.AreEqual(63, results.Count(x => x.FractalBear != null));
-        Assert.AreEqual(71, results.Count(x => x.FractalBull != null));
+        Assert.AreEqual(63, results.Count(static x => x.FractalBear != null));
+        Assert.AreEqual(71, results.Count(static x => x.FractalBull != null));
 
         // sample values
         FractalResult r1 = results[1];
@@ -50,8 +50,8 @@ public class FractalTests : TestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.AreEqual(35, results.Count(x => x.FractalBear != null));
-        Assert.AreEqual(34, results.Count(x => x.FractalBull != null));
+        Assert.AreEqual(35, results.Count(static x => x.FractalBear != null));
+        Assert.AreEqual(34, results.Count(static x => x.FractalBull != null));
 
         // sample values
         FractalResult r1 = results[3];
@@ -120,5 +120,5 @@ public class FractalTests : TestBase
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => quotes.GetFractal(1));
+            static () => quotes.GetFractal(1));
 }

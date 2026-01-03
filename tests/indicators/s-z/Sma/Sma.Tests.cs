@@ -12,7 +12,7 @@ public class SmaTests : TestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.HasCount(483, results.Where(x => x.Sma != null));
+        Assert.HasCount(483, results.Where(static x => x.Sma != null));
 
         // sample values
         Assert.IsNull(results[18].Sma);
@@ -32,7 +32,7 @@ public class SmaTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.HasCount(483, results.Where(x => x.Sma != null));
+        Assert.HasCount(483, results.Where(static x => x.Sma != null));
 
         // sample values
         Assert.IsNull(results[18].Sma);
@@ -52,7 +52,7 @@ public class SmaTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.HasCount(483, results.Where(x => x.Sma != null));
+        Assert.HasCount(483, results.Where(static x => x.Sma != null));
 
         // sample values
         SmaResult r24 = results[24];
@@ -75,7 +75,7 @@ public class SmaTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.HasCount(484, results.Where(x => x.Ema != null));
+        Assert.HasCount(484, results.Where(static x => x.Ema != null));
     }
 
     [TestMethod]
@@ -86,7 +86,7 @@ public class SmaTests : TestBase
             .ToList();
 
         Assert.HasCount(200, r);
-        Assert.IsEmpty(r.Where(x => x.Sma is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.Sma is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -96,7 +96,7 @@ public class SmaTests : TestBase
             .GetSma(50)
             .ToList();
 
-        Assert.IsEmpty(r.Where(x => x.Sma is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.Sma is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -107,7 +107,7 @@ public class SmaTests : TestBase
             .ToList();
 
         Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(x => x.Sma is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.Sma is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -143,5 +143,5 @@ public class SmaTests : TestBase
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => quotes.GetSma(0));
+            static () => quotes.GetSma(0));
 }

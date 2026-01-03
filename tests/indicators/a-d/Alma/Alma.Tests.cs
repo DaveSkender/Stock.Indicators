@@ -16,7 +16,7 @@ public class Alma : TestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.AreEqual(493, results.Count(x => x.Alma != null));
+        Assert.AreEqual(493, results.Count(static x => x.Alma != null));
 
         // sample values
         AlmaResult r1 = results[8];
@@ -47,7 +47,7 @@ public class Alma : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(493, results.Count(x => x.Alma != null));
+        Assert.AreEqual(493, results.Count(static x => x.Alma != null));
 
         AlmaResult last = results.LastOrDefault();
         Assert.AreEqual(242.1871, last.Alma.Round(4));
@@ -61,7 +61,7 @@ public class Alma : TestBase
             .ToList();
 
         Assert.HasCount(200, r);
-        Assert.IsEmpty(r.Where(x => x.Alma is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.Alma is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -73,7 +73,7 @@ public class Alma : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(492, results.Count(x => x.Alma != null));
+        Assert.AreEqual(492, results.Count(static x => x.Alma != null));
     }
 
     [TestMethod]
@@ -89,7 +89,7 @@ public class Alma : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(484, results.Count(x => x.Sma != null));
+        Assert.AreEqual(484, results.Count(static x => x.Sma != null));
     }
 
     [TestMethod]
@@ -97,11 +97,11 @@ public class Alma : TestBase
     {
         List<AlmaResult> r1 = TestData.GetBtcUsdNan().GetAlma(9, 0.85, 6).ToList();
 
-        Assert.IsEmpty(r1.Where(x => x.Alma is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r1.Where(static x => x.Alma is double v && double.IsNaN(v)));
 
         List<AlmaResult> r2 = TestData.GetBtcUsdNan().GetAlma(20, 0.85, 6).ToList();
 
-        Assert.IsEmpty(r2.Where(x => x.Alma is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r2.Where(static x => x.Alma is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -112,7 +112,7 @@ public class Alma : TestBase
             .ToList();
 
         Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(x => x.Alma is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.Alma is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -151,14 +151,14 @@ public class Alma : TestBase
     {
         // bad lookback period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => quotes.GetAlma(0, 1, 5));
+            static () => quotes.GetAlma(0, 1, 5));
 
         // bad offset
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => quotes.GetAlma(15, 1.1, 3));
+            static () => quotes.GetAlma(15, 1.1, 3));
 
         // bad sigma
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => quotes.GetAlma(10, 0.5, 0));
+            static () => quotes.GetAlma(10, 0.5, 0));
     }
 }

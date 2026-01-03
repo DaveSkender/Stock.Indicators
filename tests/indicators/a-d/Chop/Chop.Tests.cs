@@ -12,7 +12,7 @@ public class ChopTests : TestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.AreEqual(488, results.Count(x => x.Chop != null));
+        Assert.AreEqual(488, results.Count(static x => x.Chop != null));
 
         // sample values
         ChopResult r1 = results[13];
@@ -37,7 +37,7 @@ public class ChopTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(479, results.Count(x => x.Sma != null));
+        Assert.AreEqual(479, results.Count(static x => x.Sma != null));
     }
 
     [TestMethod]
@@ -50,7 +50,7 @@ public class ChopTests : TestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.AreEqual(500, results.Count(x => x.Chop != null));
+        Assert.AreEqual(500, results.Count(static x => x.Chop != null));
     }
 
     [TestMethod]
@@ -61,7 +61,7 @@ public class ChopTests : TestBase
             .ToList();
 
         Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(x => x.Chop is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.Chop is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -99,5 +99,5 @@ public class ChopTests : TestBase
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => quotes.GetChop(1));
+            static () => quotes.GetChop(1));
 }

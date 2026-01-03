@@ -12,7 +12,7 @@ public class McGinleyDynamicTests : TestBase
 
         // assertions
         Assert.HasCount(502, results);
-        Assert.HasCount(501, results.Where(x => x.Dynamic != null));
+        Assert.HasCount(501, results.Where(static x => x.Dynamic != null));
 
         // sample values
         DynamicResult r1 = results[1];
@@ -37,8 +37,8 @@ public class McGinleyDynamicTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.HasCount(501, results.Where(x => x.Dynamic != null));
-        Assert.IsEmpty(results.Where(x => x.Dynamic is double v && double.IsNaN(v)));
+        Assert.HasCount(501, results.Where(static x => x.Dynamic != null));
+        Assert.IsEmpty(results.Where(static x => x.Dynamic is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -49,7 +49,7 @@ public class McGinleyDynamicTests : TestBase
             .ToList();
 
         Assert.HasCount(200, r);
-        Assert.IsEmpty(r.Where(x => x.Dynamic is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.Dynamic is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -61,7 +61,7 @@ public class McGinleyDynamicTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(492, results.Count(x => x.Dynamic != null));
+        Assert.AreEqual(492, results.Count(static x => x.Dynamic != null));
     }
 
     [TestMethod]
@@ -73,7 +73,7 @@ public class McGinleyDynamicTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(492, results.Count(x => x.Sma != null));
+        Assert.AreEqual(492, results.Count(static x => x.Sma != null));
     }
 
     [TestMethod]
@@ -84,7 +84,7 @@ public class McGinleyDynamicTests : TestBase
             .ToList();
 
         Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(x => x.Dynamic is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.Dynamic is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -108,10 +108,10 @@ public class McGinleyDynamicTests : TestBase
     {
         // bad lookback period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => quotes.GetDynamic(0));
+            static () => quotes.GetDynamic(0));
 
         // bad k-factor
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => quotes.GetDynamic(14, 0));
+            static () => quotes.GetDynamic(14, 0));
     }
 }

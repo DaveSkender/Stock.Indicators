@@ -12,7 +12,7 @@ public class MarubozuTests : TestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.AreEqual(6, results.Count(x => x.Match != Match.None));
+        Assert.AreEqual(6, results.Count(static x => x.Match != Match.None));
 
         // sample values
         CandleResult r31 = results[31];
@@ -82,9 +82,9 @@ public class MarubozuTests : TestBase
     {
         // bad minimum body percent values
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => quotes.GetMarubozu(79.9));
+            static () => quotes.GetMarubozu(79.9));
 
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => quotes.GetMarubozu(100.1));
+            static () => quotes.GetMarubozu(100.1));
     }
 }

@@ -4,7 +4,7 @@ namespace Tests.Common;
 public class Numerixs : TestBase
 {
     private readonly double[] closePrice = longishQuotes
-        .Select(x => (double)x.Close)
+        .Select(static x => (double)x.Close)
         .ToArray();
 
     private readonly double[] x = [1, 2, 3, 4, 5];
@@ -19,7 +19,7 @@ public class Numerixs : TestBase
     }
 
     [TestMethod]
-    public void StdDevNull() => Assert.ThrowsExactly<ArgumentNullException>(() => Numerix.StdDev(null));
+    public void StdDevNull() => Assert.ThrowsExactly<ArgumentNullException>(static () => Numerix.StdDev(null));
 
     [TestMethod]
     public void Slope()

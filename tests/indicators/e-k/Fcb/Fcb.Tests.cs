@@ -12,8 +12,8 @@ public class FcbTests : TestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.HasCount(497, results.Where(x => x.UpperBand != null));
-        Assert.HasCount(493, results.Where(x => x.LowerBand != null));
+        Assert.HasCount(497, results.Where(static x => x.UpperBand != null));
+        Assert.HasCount(493, results.Where(static x => x.LowerBand != null));
 
         // sample values
         FcbResult r1 = results[4];
@@ -103,5 +103,5 @@ public class FcbTests : TestBase
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => quotes.GetFcb(1));
+            static () => quotes.GetFcb(1));
 }

@@ -16,9 +16,9 @@ public class StarcBandsTests : TestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.HasCount(483, results.Where(x => x.Centerline != null));
-        Assert.HasCount(483, results.Where(x => x.UpperBand != null));
-        Assert.HasCount(483, results.Where(x => x.LowerBand != null));
+        Assert.HasCount(483, results.Where(static x => x.Centerline != null));
+        Assert.HasCount(483, results.Where(static x => x.UpperBand != null));
+        Assert.HasCount(483, results.Where(static x => x.LowerBand != null));
 
         // sample value
         StarcBandsResult r1 = results[18];
@@ -55,7 +55,7 @@ public class StarcBandsTests : TestBase
             .ToList();
 
         Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(x => x.UpperBand is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.UpperBand is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -123,14 +123,14 @@ public class StarcBandsTests : TestBase
     {
         // bad EMA period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => quotes.GetStarcBands(1, 2, 10));
+            static () => quotes.GetStarcBands(1, 2, 10));
 
         // bad ATR period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => quotes.GetStarcBands(20, 2, 1));
+            static () => quotes.GetStarcBands(20, 2, 1));
 
         // bad multiplier
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => quotes.GetStarcBands(20, 0, 10));
+            static () => quotes.GetStarcBands(20, 0, 10));
     }
 }

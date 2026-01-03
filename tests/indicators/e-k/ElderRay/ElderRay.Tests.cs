@@ -12,8 +12,8 @@ public class ElderRayTests : TestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.AreEqual(490, results.Count(x => x.BullPower != null));
-        Assert.AreEqual(490, results.Count(x => x.BearPower != null));
+        Assert.AreEqual(490, results.Count(static x => x.BullPower != null));
+        Assert.AreEqual(490, results.Count(static x => x.BearPower != null));
 
         // sample values
         ElderRayResult r1 = results[11];
@@ -56,7 +56,7 @@ public class ElderRayTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(481, results.Count(x => x.Sma != null));
+        Assert.AreEqual(481, results.Count(static x => x.Sma != null));
     }
 
     [TestMethod]
@@ -67,7 +67,7 @@ public class ElderRayTests : TestBase
             .ToList();
 
         Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(x => x.BullPower is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.BullPower is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -107,5 +107,5 @@ public class ElderRayTests : TestBase
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => quotes.GetElderRay(0));
+            static () => quotes.GetElderRay(0));
 }

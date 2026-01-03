@@ -10,7 +10,7 @@ public static partial class Indicator
     {
         int n = results
             .ToList()
-            .FindIndex(x => x.RocEma != null) + 1;
+            .FindIndex(static x => x.RocEma != null) + 1;
 
         return results.Remove(n + 100);
     }

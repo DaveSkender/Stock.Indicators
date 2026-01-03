@@ -12,10 +12,10 @@ public class GatorTests : TestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.AreEqual(482, results.Count(x => x.Upper != null));
-        Assert.AreEqual(490, results.Count(x => x.Lower != null));
-        Assert.AreEqual(481, results.Count(x => x.UpperIsExpanding != null));
-        Assert.AreEqual(489, results.Count(x => x.LowerIsExpanding != null));
+        Assert.AreEqual(482, results.Count(static x => x.Upper != null));
+        Assert.AreEqual(490, results.Count(static x => x.Lower != null));
+        Assert.AreEqual(481, results.Count(static x => x.UpperIsExpanding != null));
+        Assert.AreEqual(489, results.Count(static x => x.LowerIsExpanding != null));
 
         // sample values
         GatorResult r11 = results[11];
@@ -83,10 +83,10 @@ public class GatorTests : TestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.AreEqual(482, results.Count(x => x.Upper != null));
-        Assert.AreEqual(490, results.Count(x => x.Lower != null));
-        Assert.AreEqual(481, results.Count(x => x.UpperIsExpanding != null));
-        Assert.AreEqual(489, results.Count(x => x.LowerIsExpanding != null));
+        Assert.AreEqual(482, results.Count(static x => x.Upper != null));
+        Assert.AreEqual(490, results.Count(static x => x.Lower != null));
+        Assert.AreEqual(481, results.Count(static x => x.UpperIsExpanding != null));
+        Assert.AreEqual(489, results.Count(static x => x.LowerIsExpanding != null));
 
         // sample values
         GatorResult r11 = results[11];
@@ -153,7 +153,7 @@ public class GatorTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(482, results.Count(x => x.Upper != null));
+        Assert.AreEqual(482, results.Count(static x => x.Upper != null));
     }
 
     [TestMethod]
@@ -164,7 +164,7 @@ public class GatorTests : TestBase
             .ToList();
 
         Assert.HasCount(200, r);
-        Assert.IsEmpty(r.Where(x => x.Upper is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.Upper is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -176,7 +176,7 @@ public class GatorTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(481, results.Count(x => x.Upper != null));
+        Assert.AreEqual(481, results.Count(static x => x.Upper != null));
     }
 
     [TestMethod]
@@ -187,7 +187,7 @@ public class GatorTests : TestBase
             .ToList();
 
         Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(x => x.Upper is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.Upper is double v && double.IsNaN(v)));
     }
 
     [TestMethod]

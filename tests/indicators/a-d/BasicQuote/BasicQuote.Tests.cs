@@ -69,6 +69,6 @@ public class BaseQuoteTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(493, results.Count(x => x.Sma != null));
+        Assert.AreEqual(493, results.Count(static x => x.Sma != null));
     }
 }

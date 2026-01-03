@@ -27,7 +27,7 @@ public class HeikinAshiTests : TestBase
     {
         IEnumerable<HeikinAshiResult> haQuotes = quotes.GetHeikinAshi();
         IEnumerable<SmaResult> haSma = haQuotes.GetSma(5);
-        Assert.AreEqual(498, haSma.Count(x => x.Sma != null));
+        Assert.AreEqual(498, haSma.Count(static x => x.Sma != null));
     }
 
     [TestMethod]

@@ -12,7 +12,7 @@ public class BopTests : TestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.AreEqual(489, results.Count(x => x.Bop != null));
+        Assert.AreEqual(489, results.Count(static x => x.Bop != null));
 
         // sample values
         BopResult r1 = results[12];
@@ -40,7 +40,7 @@ public class BopTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(480, results.Count(x => x.Sma != null));
+        Assert.AreEqual(480, results.Count(static x => x.Sma != null));
     }
 
     [TestMethod]
@@ -49,7 +49,7 @@ public class BopTests : TestBase
         IEnumerable<BopResult> r = TestData.GetBtcUsdNan()
             .GetBop(50);
 
-        Assert.IsEmpty(r.Where(x => x.Bop is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.Bop is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -60,7 +60,7 @@ public class BopTests : TestBase
             .ToList();
 
         Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(x => x.Bop is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.Bop is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -96,5 +96,5 @@ public class BopTests : TestBase
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => quotes.GetBop(0));
+            static () => quotes.GetBop(0));
 }

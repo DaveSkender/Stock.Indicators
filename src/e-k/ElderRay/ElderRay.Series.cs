@@ -14,7 +14,7 @@ public static partial class Indicator
         List<ElderRayResult> results = qdList
             .ToTuple(CandlePart.Close)
             .CalcEma(lookbackPeriods)
-            .Select(x => new ElderRayResult(x.Date) {
+            .Select(static x => new ElderRayResult(x.Date) {
                 Ema = x.Ema
             })
             .ToList();

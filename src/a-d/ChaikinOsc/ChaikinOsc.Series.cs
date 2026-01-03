@@ -13,7 +13,7 @@ public static partial class Indicator
 
         // money flow
         List<ChaikinOscResult> results = qdList.CalcAdl(null)
-            .Select(r => new ChaikinOscResult(r.Date) {
+            .Select(static r => new ChaikinOscResult(r.Date) {
                 MoneyFlowMultiplier = r.MoneyFlowMultiplier,
                 MoneyFlowVolume = r.MoneyFlowVolume,
                 Adl = r.Adl
@@ -22,7 +22,7 @@ public static partial class Indicator
 
         // EMA of ADL
         List<(DateTime Date, double)> tpAdl = results
-            .Select(x => (
+            .Select(static x => (
                 x.Date, (double)(x.Adl ?? double.NaN)))
             .ToList();
 

@@ -12,7 +12,7 @@ public class AwesomeTests : TestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.AreEqual(469, results.Count(x => x.Oscillator != null));
+        Assert.AreEqual(469, results.Count(static x => x.Oscillator != null));
 
         // sample values
         AwesomeResult r1 = results[32];
@@ -41,7 +41,7 @@ public class AwesomeTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(469, results.Count(x => x.Oscillator != null));
+        Assert.AreEqual(469, results.Count(static x => x.Oscillator != null));
     }
 
     [TestMethod]
@@ -52,7 +52,7 @@ public class AwesomeTests : TestBase
             .ToList();
 
         Assert.HasCount(200, r);
-        Assert.IsEmpty(r.Where(x => x.Oscillator is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.Oscillator is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -64,7 +64,7 @@ public class AwesomeTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(468, results.Count(x => x.Oscillator != null));
+        Assert.AreEqual(468, results.Count(static x => x.Oscillator != null));
     }
 
     [TestMethod]
@@ -76,7 +76,7 @@ public class AwesomeTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(460, results.Count(x => x.Sma != null));
+        Assert.AreEqual(460, results.Count(static x => x.Sma != null));
     }
 
     [TestMethod]
@@ -87,7 +87,7 @@ public class AwesomeTests : TestBase
             .ToList();
 
         Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(x => x.Oscillator is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.Oscillator is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -127,10 +127,10 @@ public class AwesomeTests : TestBase
     {
         // bad fast period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => quotes.GetAwesome(0, 34));
+            static () => quotes.GetAwesome(0, 34));
 
         // bad slow period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => quotes.GetAwesome(25, 25));
+            static () => quotes.GetAwesome(25, 25));
     }
 }

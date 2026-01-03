@@ -12,7 +12,7 @@ public class CciTests : TestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.AreEqual(483, results.Count(x => x.Cci != null));
+        Assert.AreEqual(483, results.Count(static x => x.Cci != null));
 
         // sample value
         CciResult r = results[501];
@@ -28,7 +28,7 @@ public class CciTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(474, results.Count(x => x.Sma != null));
+        Assert.AreEqual(474, results.Count(static x => x.Sma != null));
     }
 
     [TestMethod]
@@ -39,7 +39,7 @@ public class CciTests : TestBase
             .ToList();
 
         Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(x => x.Cci is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.Cci is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -77,5 +77,5 @@ public class CciTests : TestBase
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => quotes.GetCci(0));
+            static () => quotes.GetCci(0));
 }

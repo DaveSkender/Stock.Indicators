@@ -15,7 +15,7 @@ public class AtrStopTests : TestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.AreEqual(481, results.Count(x => x.AtrStop != null));
+        Assert.AreEqual(481, results.Count(static x => x.AtrStop != null));
 
         // sample values
         AtrStopResult r20 = results[20];
@@ -61,7 +61,7 @@ public class AtrStopTests : TestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.AreEqual(481, results.Count(x => x.AtrStop != null));
+        Assert.AreEqual(481, results.Count(static x => x.AtrStop != null));
 
         // sample values
         AtrStopResult r20 = results[20];
@@ -166,10 +166,10 @@ public class AtrStopTests : TestBase
     {
         // bad lookback period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => quotes.GetAtrStop(1));
+            static () => quotes.GetAtrStop(1));
 
         // bad multiplier
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => quotes.GetAtrStop(7, 0));
+            static () => quotes.GetAtrStop(7, 0));
     }
 }

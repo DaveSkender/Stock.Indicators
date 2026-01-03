@@ -17,7 +17,7 @@ public class ConnorsRsiTests : TestBase
 
         // proper quantities
         Assert.HasCount(502, results1);
-        Assert.AreEqual(502 - startPeriod + 1, results1.Count(x => x.ConnorsRsi != null));
+        Assert.AreEqual(502 - startPeriod + 1, results1.Count(static x => x.ConnorsRsi != null));
 
         // sample value
         ConnorsRsiResult r1 = results1[501];
@@ -44,7 +44,7 @@ public class ConnorsRsiTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(401, results.Count(x => x.ConnorsRsi != null));
+        Assert.AreEqual(401, results.Count(static x => x.ConnorsRsi != null));
     }
 
     [TestMethod]
@@ -55,7 +55,7 @@ public class ConnorsRsiTests : TestBase
             .ToList();
 
         Assert.HasCount(200, r);
-        Assert.IsEmpty(r.Where(x => x.ConnorsRsi is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.ConnorsRsi is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -67,7 +67,7 @@ public class ConnorsRsiTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(400, results.Count(x => x.ConnorsRsi != null));
+        Assert.AreEqual(400, results.Count(static x => x.ConnorsRsi != null));
     }
 
     [TestMethod]
@@ -79,7 +79,7 @@ public class ConnorsRsiTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(392, results.Count(x => x.Sma != null));
+        Assert.AreEqual(392, results.Count(static x => x.Sma != null));
     }
 
     [TestMethod]
@@ -90,7 +90,7 @@ public class ConnorsRsiTests : TestBase
             .ToList();
 
         Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(x => x.Rsi is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.Rsi is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -139,14 +139,14 @@ public class ConnorsRsiTests : TestBase
     {
         // bad RSI period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => quotes.GetConnorsRsi(1, 2, 100));
+            static () => quotes.GetConnorsRsi(1, 2, 100));
 
         // bad Streak period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => quotes.GetConnorsRsi(3, 1, 100));
+            static () => quotes.GetConnorsRsi(3, 1, 100));
 
         // bad Rank period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => quotes.GetConnorsRsi(3, 2, 1));
+            static () => quotes.GetConnorsRsi(3, 2, 1));
     }
 }

@@ -12,7 +12,7 @@ public class UlcerIndexTests : TestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.AreEqual(489, results.Count(x => x.UI != null));
+        Assert.AreEqual(489, results.Count(static x => x.UI != null));
 
         // sample value
         UlcerIndexResult r = results[501];
@@ -28,7 +28,7 @@ public class UlcerIndexTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(489, results.Count(x => x.UI != null));
+        Assert.AreEqual(489, results.Count(static x => x.UI != null));
     }
 
     [TestMethod]
@@ -39,7 +39,7 @@ public class UlcerIndexTests : TestBase
             .ToList();
 
         Assert.HasCount(200, r);
-        Assert.IsEmpty(r.Where(x => x.UI is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.UI is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -51,7 +51,7 @@ public class UlcerIndexTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(488, results.Count(x => x.UI != null));
+        Assert.AreEqual(488, results.Count(static x => x.UI != null));
     }
 
     [TestMethod]
@@ -63,7 +63,7 @@ public class UlcerIndexTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(480, results.Count(x => x.Sma != null));
+        Assert.AreEqual(480, results.Count(static x => x.Sma != null));
     }
 
     [TestMethod]
@@ -74,7 +74,7 @@ public class UlcerIndexTests : TestBase
             .ToList();
 
         Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(x => x.UI is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.UI is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -112,5 +112,5 @@ public class UlcerIndexTests : TestBase
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => quotes.GetUlcerIndex(0));
+            static () => quotes.GetUlcerIndex(0));
 }

@@ -15,9 +15,9 @@ public class StdDevChannelsTests : TestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.HasCount(500, results.Where(x => x.Centerline != null));
-        Assert.HasCount(500, results.Where(x => x.UpperChannel != null));
-        Assert.HasCount(500, results.Where(x => x.LowerChannel != null));
+        Assert.HasCount(500, results.Where(static x => x.Centerline != null));
+        Assert.HasCount(500, results.Where(static x => x.UpperChannel != null));
+        Assert.HasCount(500, results.Where(static x => x.LowerChannel != null));
 
         // sample value
         StdDevChannelsResult r1 = results[1];
@@ -74,10 +74,10 @@ public class StdDevChannelsTests : TestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.HasCount(502, results.Where(x => x.Centerline != null));
-        Assert.HasCount(502, results.Where(x => x.UpperChannel != null));
-        Assert.HasCount(502, results.Where(x => x.LowerChannel != null));
-        Assert.HasCount(501, results.Where(x => !x.BreakPoint));
+        Assert.HasCount(502, results.Where(static x => x.Centerline != null));
+        Assert.HasCount(502, results.Where(static x => x.UpperChannel != null));
+        Assert.HasCount(502, results.Where(static x => x.LowerChannel != null));
+        Assert.HasCount(501, results.Where(static x => !x.BreakPoint));
 
         // sample value
         StdDevChannelsResult r1 = results[0];
@@ -106,7 +106,7 @@ public class StdDevChannelsTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.HasCount(500, results.Where(x => x.Centerline != null));
+        Assert.HasCount(500, results.Where(static x => x.Centerline != null));
     }
 
     [TestMethod]
@@ -117,7 +117,7 @@ public class StdDevChannelsTests : TestBase
             .ToList();
 
         Assert.HasCount(200, r);
-        Assert.IsEmpty(r.Where(x => x.UpperChannel is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.UpperChannel is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -129,7 +129,7 @@ public class StdDevChannelsTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.HasCount(500, results.Where(x => x.Centerline != null));
+        Assert.HasCount(500, results.Where(static x => x.Centerline != null));
     }
 
     [TestMethod]
@@ -140,7 +140,7 @@ public class StdDevChannelsTests : TestBase
             .ToList();
 
         Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(x => x.UpperChannel is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.UpperChannel is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -204,10 +204,10 @@ public class StdDevChannelsTests : TestBase
     {
         // bad lookback period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => quotes.GetStdDevChannels(0));
+            static () => quotes.GetStdDevChannels(0));
 
         // bad standard deviations
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => quotes.GetStdDevChannels(20, 0));
+            static () => quotes.GetStdDevChannels(20, 0));
     }
 }

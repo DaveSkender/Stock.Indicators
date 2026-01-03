@@ -12,7 +12,7 @@ public class EmaTests : TestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.AreEqual(483, results.Count(x => x.Ema != null));
+        Assert.AreEqual(483, results.Count(static x => x.Ema != null));
 
         // sample values
         EmaResult r29 = results[29];
@@ -34,8 +34,8 @@ public class EmaTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(483, results.Count(x => x.Ema != null));
-        Assert.IsEmpty(results.Where(x => x.Ema is double v && double.IsNaN(v)));
+        Assert.AreEqual(483, results.Count(static x => x.Ema != null));
+        Assert.IsEmpty(results.Where(static x => x.Ema is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -46,7 +46,7 @@ public class EmaTests : TestBase
             .ToList();
 
         Assert.HasCount(200, r);
-        Assert.IsEmpty(r.Where(x => x.Ema is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.Ema is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -58,8 +58,8 @@ public class EmaTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(482, results.Count(x => x.Ema != null));
-        Assert.IsEmpty(results.Where(x => x.Ema is double v && double.IsNaN(v)));
+        Assert.AreEqual(482, results.Count(static x => x.Ema != null));
+        Assert.IsEmpty(results.Where(static x => x.Ema is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -71,15 +71,15 @@ public class EmaTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(474, results.Count(x => x.Sma != null));
-        Assert.IsEmpty(results.Where(x => x.Sma is double v && double.IsNaN(v)));
+        Assert.AreEqual(474, results.Count(static x => x.Sma != null));
+        Assert.IsEmpty(results.Where(static x => x.Sma is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
     public void Stream()
     {
         List<Quote> quotesList = quotes
-            .OrderBy(x => x.Date)
+            .OrderBy(static x => x.Date)
             .ToList();
 
         // time-series
@@ -118,8 +118,8 @@ public class EmaTests : TestBase
 
         // assertions
         Assert.HasCount(502, results);
-        Assert.AreEqual(469, results.Count(x => x.Ema != null));
-        Assert.IsEmpty(results.Where(x => x.Ema is double v && double.IsNaN(v)));
+        Assert.AreEqual(469, results.Count(static x => x.Ema != null));
+        Assert.IsEmpty(results.Where(static x => x.Ema is double v && double.IsNaN(v)));
 
         // sample values
         EmaResult r32 = results[32];
@@ -145,7 +145,7 @@ public class EmaTests : TestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.AreEqual(483, results.Count(x => x.Ema != null));
+        Assert.AreEqual(483, results.Count(static x => x.Ema != null));
 
         // sample values
         EmaResult r29 = results[29];
@@ -166,7 +166,7 @@ public class EmaTests : TestBase
             .ToList();
 
         Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(x => x.Ema is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.Ema is double v && double.IsNaN(v)));
     }
 
     [TestMethod]

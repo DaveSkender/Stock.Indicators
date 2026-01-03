@@ -13,9 +13,9 @@ public class HtTrendlineTests : TestBase
         // proper quantities
         // should always be the same number of results as there is quotes
         Assert.HasCount(502, results);
-        Assert.AreEqual(495, results.Count(x => x.DcPeriods != null));
-        Assert.AreEqual(502, results.Count(x => x.Trendline != null));
-        Assert.AreEqual(496, results.Count(x => x.SmoothPrice != null));
+        Assert.AreEqual(495, results.Count(static x => x.DcPeriods != null));
+        Assert.AreEqual(502, results.Count(static x => x.Trendline != null));
+        Assert.AreEqual(496, results.Count(static x => x.SmoothPrice != null));
 
         // sample values
         HtlResult r5 = results[5];
@@ -66,7 +66,7 @@ public class HtTrendlineTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(502, results.Count(x => x.Trendline != null));
+        Assert.AreEqual(502, results.Count(static x => x.Trendline != null));
     }
 
     [TestMethod]
@@ -77,7 +77,7 @@ public class HtTrendlineTests : TestBase
             .ToList();
 
         Assert.HasCount(200, r);
-        Assert.IsEmpty(r.Where(x => x.Trendline is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.Trendline is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -89,7 +89,7 @@ public class HtTrendlineTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(501, results.Count(x => x.Trendline != null));
+        Assert.AreEqual(501, results.Count(static x => x.Trendline != null));
     }
 
     [TestMethod]
@@ -101,7 +101,7 @@ public class HtTrendlineTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(493, results.Count(x => x.Sma != null));
+        Assert.AreEqual(493, results.Count(static x => x.Sma != null));
     }
 
     [TestMethod]
@@ -112,7 +112,7 @@ public class HtTrendlineTests : TestBase
             .ToList();
 
         Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(x => x.Trendline is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.Trendline is double v && double.IsNaN(v)));
     }
 
     [TestMethod]

@@ -12,8 +12,8 @@ public class PmoTests : TestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.HasCount(448, results.Where(x => x.Pmo != null));
-        Assert.HasCount(439, results.Where(x => x.Signal != null));
+        Assert.HasCount(448, results.Where(static x => x.Pmo != null));
+        Assert.HasCount(439, results.Where(static x => x.Signal != null));
 
         // sample values
         PmoResult r1 = results[92];
@@ -34,7 +34,7 @@ public class PmoTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.HasCount(448, results.Where(x => x.Pmo != null));
+        Assert.HasCount(448, results.Where(static x => x.Pmo != null));
     }
 
     [TestMethod]
@@ -45,7 +45,7 @@ public class PmoTests : TestBase
             .ToList();
 
         Assert.HasCount(200, r);
-        Assert.IsEmpty(r.Where(x => x.Pmo is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.Pmo is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -57,7 +57,7 @@ public class PmoTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.HasCount(447, results.Where(x => x.Pmo != null));
+        Assert.HasCount(447, results.Where(static x => x.Pmo != null));
     }
 
     [TestMethod]
@@ -69,7 +69,7 @@ public class PmoTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.HasCount(439, results.Where(x => x.Sma != null));
+        Assert.HasCount(439, results.Where(static x => x.Sma != null));
     }
 
     [TestMethod]
@@ -80,7 +80,7 @@ public class PmoTests : TestBase
             .ToList();
 
         Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(x => x.Pmo is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.Pmo is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -120,14 +120,14 @@ public class PmoTests : TestBase
     {
         // bad time period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => quotes.GetPmo(1));
+            static () => quotes.GetPmo(1));
 
         // bad smoothing period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => quotes.GetPmo(5, 0));
+            static () => quotes.GetPmo(5, 0));
 
         // bad signal period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => quotes.GetPmo(5, 5, 0));
+            static () => quotes.GetPmo(5, 5, 0));
     }
 }

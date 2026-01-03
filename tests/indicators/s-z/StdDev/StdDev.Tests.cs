@@ -12,9 +12,9 @@ public class StdDevTests : TestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.HasCount(493, results.Where(x => x.StdDev != null));
-        Assert.HasCount(493, results.Where(x => x.ZScore != null));
-        Assert.IsFalse(results.Any(x => x.StdDevSma != null));
+        Assert.HasCount(493, results.Where(static x => x.StdDev != null));
+        Assert.HasCount(493, results.Where(static x => x.ZScore != null));
+        Assert.IsFalse(results.Any(static x => x.StdDevSma != null));
 
         // sample values
         StdDevResult r1 = results[8];
@@ -51,7 +51,7 @@ public class StdDevTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.HasCount(493, results.Where(x => x.StdDev != null));
+        Assert.HasCount(493, results.Where(static x => x.StdDev != null));
     }
 
     [TestMethod]
@@ -62,7 +62,7 @@ public class StdDevTests : TestBase
             .ToList();
 
         Assert.HasCount(200, r);
-        Assert.IsEmpty(r.Where(x => x.StdDev is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.StdDev is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -74,7 +74,7 @@ public class StdDevTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.HasCount(492, results.Where(x => x.StdDev != null));
+        Assert.HasCount(492, results.Where(static x => x.StdDev != null));
     }
 
     [TestMethod]
@@ -86,7 +86,7 @@ public class StdDevTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.HasCount(484, results.Where(x => x.Sma != null));
+        Assert.HasCount(484, results.Where(static x => x.Sma != null));
     }
 
     [TestMethod]
@@ -100,9 +100,9 @@ public class StdDevTests : TestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.HasCount(493, results.Where(x => x.StdDev != null));
-        Assert.HasCount(493, results.Where(x => x.ZScore != null));
-        Assert.HasCount(489, results.Where(x => x.StdDevSma != null));
+        Assert.HasCount(493, results.Where(static x => x.StdDev != null));
+        Assert.HasCount(493, results.Where(static x => x.ZScore != null));
+        Assert.HasCount(489, results.Where(static x => x.StdDevSma != null));
 
         // sample values
         StdDevResult r1 = results[19];
@@ -124,7 +124,7 @@ public class StdDevTests : TestBase
             .ToList();
 
         Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(x => x.StdDev is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.StdDev is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -176,10 +176,10 @@ public class StdDevTests : TestBase
     {
         // bad lookback period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => quotes.GetStdDev(1));
+            static () => quotes.GetStdDev(1));
 
         // bad SMA period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => quotes.GetStdDev(14, 0));
+            static () => quotes.GetStdDev(14, 0));
     }
 }

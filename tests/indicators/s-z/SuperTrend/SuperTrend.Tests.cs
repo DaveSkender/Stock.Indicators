@@ -15,7 +15,7 @@ public class SuperTrendTests : TestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.HasCount(488, results.Where(x => x.SuperTrend != null));
+        Assert.HasCount(488, results.Where(static x => x.SuperTrend != null));
 
         // sample values
         SuperTrendResult r13 = results[13];
@@ -135,10 +135,10 @@ public class SuperTrendTests : TestBase
     {
         // bad lookback period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => quotes.GetSuperTrend(1));
+            static () => quotes.GetSuperTrend(1));
 
         // bad multiplier
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => quotes.GetSuperTrend(7, 0));
+            static () => quotes.GetSuperTrend(7, 0));
     }
 }

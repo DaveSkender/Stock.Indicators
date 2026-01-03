@@ -80,7 +80,7 @@ public class AdxTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(466, results.Count(x => x.Sma != null));
+        Assert.AreEqual(466, results.Count(static x => x.Sma != null));
     }
 
     [TestMethod]
@@ -91,7 +91,7 @@ public class AdxTests : TestBase
             .ToList();
 
         Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(x => x.Adx is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.Adx is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -126,11 +126,11 @@ public class AdxTests : TestBase
         IOrderedEnumerable<Quote> test859 = File.ReadAllLines("a-d/Adx/issue859quotes.csv")
             .Skip(1)
             .Select(Importer.QuoteFromCsv)
-            .OrderByDescending(x => x.Date);
+            .OrderByDescending(static x => x.Date);
 
         List<AdxResult> r = test859.GetAdx(14).ToList();
 
-        Assert.IsEmpty(r.Where(x => x.Adx is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.Adx is double v && double.IsNaN(v)));
         Assert.HasCount(595, r);
     }
 
@@ -139,7 +139,7 @@ public class AdxTests : TestBase
     {
         List<AdxResult> r = zeroesQuotes.GetAdx(14).ToList();
 
-        Assert.IsEmpty(r.Where(x => x.Adx is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.Adx is double v && double.IsNaN(v)));
         Assert.HasCount(200, r);
     }
 
@@ -163,5 +163,5 @@ public class AdxTests : TestBase
     [TestMethod] // bad lookback period
     public void Exceptions()
         => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => quotes.GetAdx(1));
+            static () => quotes.GetAdx(1));
 }

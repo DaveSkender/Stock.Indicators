@@ -12,8 +12,8 @@ public class TsiTests : TestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.HasCount(465, results.Where(x => x.Tsi != null));
-        Assert.HasCount(459, results.Where(x => x.Signal != null));
+        Assert.HasCount(465, results.Where(static x => x.Tsi != null));
+        Assert.HasCount(459, results.Where(static x => x.Signal != null));
 
         // sample values
         TsiResult r2 = results[37];
@@ -50,7 +50,7 @@ public class TsiTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.HasCount(465, results.Where(x => x.Tsi != null));
+        Assert.HasCount(465, results.Where(static x => x.Tsi != null));
     }
 
     [TestMethod]
@@ -61,7 +61,7 @@ public class TsiTests : TestBase
             .ToList();
 
         Assert.HasCount(200, r);
-        Assert.IsEmpty(r.Where(x => x.Tsi is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.Tsi is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -73,7 +73,7 @@ public class TsiTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.HasCount(464, results.Where(x => x.Tsi != null));
+        Assert.HasCount(464, results.Where(static x => x.Tsi != null));
     }
 
     [TestMethod]
@@ -85,7 +85,7 @@ public class TsiTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.HasCount(456, results.Where(x => x.Sma != null));
+        Assert.HasCount(456, results.Where(static x => x.Sma != null));
     }
 
     [TestMethod]
@@ -96,7 +96,7 @@ public class TsiTests : TestBase
             .ToList();
 
         Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(x => x.Tsi is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.Tsi is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -146,14 +146,14 @@ public class TsiTests : TestBase
     {
         // bad lookback period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => quotes.GetTsi(0));
+            static () => quotes.GetTsi(0));
 
         // bad smoothing period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => quotes.GetTsi(25, 0));
+            static () => quotes.GetTsi(25, 0));
 
         // bad signal period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => quotes.GetTsi(25, 13, -1));
+            static () => quotes.GetTsi(25, 13, -1));
     }
 }

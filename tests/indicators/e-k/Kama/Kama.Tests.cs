@@ -16,8 +16,8 @@ public class KamaTests : TestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.HasCount(492, results.Where(x => x.ER != null));
-        Assert.AreEqual(493, results.Count(x => x.Kama != null));
+        Assert.HasCount(492, results.Where(static x => x.ER != null));
+        Assert.AreEqual(493, results.Count(static x => x.Kama != null));
 
         // sample values
         KamaResult r1 = results[8];
@@ -58,7 +58,7 @@ public class KamaTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(493, results.Count(x => x.Kama != null));
+        Assert.AreEqual(493, results.Count(static x => x.Kama != null));
     }
 
     [TestMethod]
@@ -69,7 +69,7 @@ public class KamaTests : TestBase
             .ToList();
 
         Assert.HasCount(200, r);
-        Assert.IsEmpty(r.Where(x => x.Kama is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.Kama is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -81,7 +81,7 @@ public class KamaTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(492, results.Count(x => x.Kama != null));
+        Assert.AreEqual(492, results.Count(static x => x.Kama != null));
     }
 
     [TestMethod]
@@ -93,7 +93,7 @@ public class KamaTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(484, results.Count(x => x.Sma != null));
+        Assert.AreEqual(484, results.Count(static x => x.Sma != null));
     }
 
     [TestMethod]
@@ -104,7 +104,7 @@ public class KamaTests : TestBase
             .ToList();
 
         Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(x => x.Kama is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.Kama is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -148,14 +148,14 @@ public class KamaTests : TestBase
     {
         // bad ER period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => quotes.GetKama(0, 2, 30));
+            static () => quotes.GetKama(0, 2, 30));
 
         // bad fast period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => quotes.GetKama(10, 0, 30));
+            static () => quotes.GetKama(10, 0, 30));
 
         // bad slow period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => quotes.GetKama(10, 5, 5));
+            static () => quotes.GetKama(10, 5, 5));
     }
 }

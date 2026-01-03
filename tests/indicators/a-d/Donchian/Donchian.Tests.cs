@@ -12,10 +12,10 @@ public class DonchianTests : TestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.AreEqual(482, results.Count(x => x.Centerline != null));
-        Assert.AreEqual(482, results.Count(x => x.UpperBand != null));
-        Assert.AreEqual(482, results.Count(x => x.LowerBand != null));
-        Assert.AreEqual(482, results.Count(x => x.Width != null));
+        Assert.AreEqual(482, results.Count(static x => x.Centerline != null));
+        Assert.AreEqual(482, results.Count(static x => x.UpperBand != null));
+        Assert.AreEqual(482, results.Count(static x => x.LowerBand != null));
+        Assert.AreEqual(482, results.Count(static x => x.Width != null));
 
         // sample values
         DonchianResult r1 = results[19];
@@ -115,5 +115,5 @@ public class DonchianTests : TestBase
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => quotes.GetDonchian(0));
+            static () => quotes.GetDonchian(0));
 }

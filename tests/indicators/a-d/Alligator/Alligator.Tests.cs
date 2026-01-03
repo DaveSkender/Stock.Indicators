@@ -12,9 +12,9 @@ public class AlligatorTests : TestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.AreEqual(482, results.Count(x => x.Jaw != null));
-        Assert.AreEqual(490, results.Count(x => x.Teeth != null));
-        Assert.AreEqual(495, results.Count(x => x.Lips != null));
+        Assert.AreEqual(482, results.Count(static x => x.Jaw != null));
+        Assert.AreEqual(490, results.Count(static x => x.Teeth != null));
+        Assert.AreEqual(495, results.Count(static x => x.Lips != null));
 
         // starting calculations at proper index
         Assert.IsNull(results[19].Jaw);
@@ -52,7 +52,7 @@ public class AlligatorTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(482, results.Count(x => x.Jaw != null));
+        Assert.AreEqual(482, results.Count(static x => x.Jaw != null));
 
         AlligatorResult last = results.LastOrDefault();
         Assert.AreEqual(244.29591, last.Lips.Round(5));
@@ -66,7 +66,7 @@ public class AlligatorTests : TestBase
             .ToList();
 
         Assert.HasCount(200, r);
-        Assert.IsEmpty(r.Where(x => x.Lips is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.Lips is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -78,7 +78,7 @@ public class AlligatorTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(481, results.Count(x => x.Jaw != null));
+        Assert.AreEqual(481, results.Count(static x => x.Jaw != null));
     }
 
     [TestMethod]
@@ -90,7 +90,7 @@ public class AlligatorTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(480, results.Count(x => x.Jaw != null));
+        Assert.AreEqual(480, results.Count(static x => x.Jaw != null));
     }
 
     [TestMethod]
@@ -101,7 +101,7 @@ public class AlligatorTests : TestBase
             .ToList();
 
         Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(x => x.Jaw is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.Jaw is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -157,34 +157,34 @@ public class AlligatorTests : TestBase
     {
         // bad jaw lookback periods
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => quotes.GetAlligator(13, 8, 13, 5, 5, 3));
+            static () => quotes.GetAlligator(13, 8, 13, 5, 5, 3));
 
         // bad teeth lookback periods
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => quotes.GetAlligator(13, 8, 8, 5, 8, 3));
+            static () => quotes.GetAlligator(13, 8, 8, 5, 8, 3));
 
         // bad lips lookback periods
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => quotes.GetAlligator(13, 8, 8, 5, 0, 3));
+            static () => quotes.GetAlligator(13, 8, 8, 5, 0, 3));
 
         // bad jaw offset periods
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => quotes.GetAlligator(13, 0, 8, 5, 5, 3));
+            static () => quotes.GetAlligator(13, 0, 8, 5, 5, 3));
 
         // bad teeth offset periods
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => quotes.GetAlligator(13, 8, 8, 0, 5, 3));
+            static () => quotes.GetAlligator(13, 8, 8, 0, 5, 3));
 
         // bad lips offset periods
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => quotes.GetAlligator(13, 8, 8, 5, 5, 0));
+            static () => quotes.GetAlligator(13, 8, 8, 5, 5, 0));
 
         // bad jaw + offset periods
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => quotes.GetAlligator(13, 8, 12, 11, 5, 3));
+            static () => quotes.GetAlligator(13, 8, 12, 11, 5, 3));
 
         // bad teeth + offset periods
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => quotes.GetAlligator(13, 8, 8, 5, 7, 7));
+            static () => quotes.GetAlligator(13, 8, 8, 5, 7, 7));
     }
 }

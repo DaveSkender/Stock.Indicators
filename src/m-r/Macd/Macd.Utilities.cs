@@ -10,7 +10,7 @@ public static partial class Indicator
     {
         int n = results
             .ToList()
-            .FindIndex(x => x.Signal != null) + 2;
+            .FindIndex(static x => x.Signal != null) + 2;
 
         return results.Remove(n + 250);
     }

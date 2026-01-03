@@ -18,7 +18,7 @@ public static partial class ResultUtility
 
         resultsList
             .RemoveAll(match:
-                x => x.Value is null or (not null and double.NaN));
+                static x => x.Value is null or (not null and double.NaN));
 
         return resultsList.ToSortedList();
     }
@@ -39,7 +39,7 @@ public static partial class ResultUtility
         List<IReusableResult> reList = reusable.ToList();
 
         // find first non-nulled
-        int first = reList.FindIndex(x => x.Value != null);
+        int first = reList.FindIndex(static x => x.Value != null);
 
         for (int i = first; i < reList.Count; i++)
         {
@@ -47,7 +47,7 @@ public static partial class ResultUtility
             prices.Add(new(r.Date, r.Value.Null2NaN()));
         }
 
-        return prices.OrderBy(x => x.date).ToList();
+        return prices.OrderBy(static x => x.date).ToList();
     }
 
     // CONVERT TO TUPLE with non-nullable NaN value option and no pruning

@@ -12,7 +12,7 @@ public class T3Tests : TestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.HasCount(502, results.Where(x => x.T3 != null));
+        Assert.HasCount(502, results.Where(static x => x.T3 != null));
 
         // sample values
         T3Result r5 = results[5];
@@ -43,7 +43,7 @@ public class T3Tests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.HasCount(502, results.Where(x => x.T3 != null));
+        Assert.HasCount(502, results.Where(static x => x.T3 != null));
     }
 
     [TestMethod]
@@ -54,7 +54,7 @@ public class T3Tests : TestBase
             .ToList();
 
         Assert.HasCount(200, r);
-        Assert.IsEmpty(r.Where(x => x.T3 is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.T3 is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -66,7 +66,7 @@ public class T3Tests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.HasCount(501, results.Where(x => x.T3 != null));
+        Assert.HasCount(501, results.Where(static x => x.T3 != null));
     }
 
     [TestMethod]
@@ -88,7 +88,7 @@ public class T3Tests : TestBase
             .ToList();
 
         Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(x => x.T3 is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.T3 is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -112,10 +112,10 @@ public class T3Tests : TestBase
     {
         // bad lookback period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => quotes.GetT3(0));
+            static () => quotes.GetT3(0));
 
         // bad volume factor
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => quotes.GetT3(25, 0));
+            static () => quotes.GetT3(25, 0));
     }
 }

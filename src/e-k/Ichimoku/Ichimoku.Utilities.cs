@@ -12,7 +12,7 @@ public static partial class Indicator
             .ToList();
 
         resultsList
-            .RemoveAll(match: x =>
+            .RemoveAll(match: static x =>
                    x.TenkanSen is null
                 && x.KijunSen is null
                 && x.SenkouSpanA is null

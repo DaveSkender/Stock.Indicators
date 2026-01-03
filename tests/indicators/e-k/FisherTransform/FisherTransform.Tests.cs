@@ -12,7 +12,7 @@ public class FisherTransformTests : TestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.AreEqual(501, results.Count(x => x.Fisher != 0));
+        Assert.AreEqual(501, results.Count(static x => x.Fisher != 0));
 
         // sample values
         Assert.AreEqual(0, results[0].Fisher);
@@ -55,7 +55,7 @@ public class FisherTransformTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(501, results.Count(x => x.Fisher != 0));
+        Assert.AreEqual(501, results.Count(static x => x.Fisher != 0));
     }
 
     [TestMethod]
@@ -66,7 +66,7 @@ public class FisherTransformTests : TestBase
             .ToList();
 
         Assert.HasCount(200, r);
-        Assert.IsEmpty(r.Where(x => x.Fisher is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.Fisher is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -78,7 +78,7 @@ public class FisherTransformTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(501, results.Count(x => x.Fisher != 0));
+        Assert.AreEqual(501, results.Count(static x => x.Fisher != 0));
     }
 
     [TestMethod]
@@ -90,7 +90,7 @@ public class FisherTransformTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(493, results.Count(x => x.Sma != null));
+        Assert.AreEqual(493, results.Count(static x => x.Sma != null));
     }
 
     [TestMethod]
@@ -101,7 +101,7 @@ public class FisherTransformTests : TestBase
             .ToList();
 
         Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(x => x.Fisher is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(static x => x.Fisher is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -124,5 +124,5 @@ public class FisherTransformTests : TestBase
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => quotes.GetFisherTransform(0));
+            static () => quotes.GetFisherTransform(0));
 }
