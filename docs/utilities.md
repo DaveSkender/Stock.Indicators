@@ -28,7 +28,7 @@ var results = quotes
 
 ### Sort quotes
 
-`quotes.ToSortedList()` sorts any collection of `TQuote` or `ISeries` and returns it as an `IReadOnlyList` sorted by ascending `Timestamp`. You **do need to sort quotes** before using library indicators.
+`quotes.ToSortedList()` sorts any collection of `TQuote` or `ISeries` and returns it as an `IReadOnlyList` sorted by ascending `Timestamp`. Quotes should be in chronological order before using library indicators; use this utility to sort them if needed.
 
 ### Resize quote history
 
