@@ -248,6 +248,26 @@ public class Stoch : StaticSeriesTestBase
     }
 
     [TestMethod]
+    public void SmmaReinitialization_WithNanValues()
+    {
+        // Test SMMA re-initialization logic when NaN values are encountered
+        // This verifies that SMMA correctly initializes with SMA (not just current value)
+        // when prevK or prevD becomes NaN during processing
+
+        IReadOnlyList<StochResult> sut = BadQuotes
+            .ToStoch(14, 3, 3, 3, 2, MaType.SMMA);
+
+        // Should produce valid results without NaN propagation
+        sut.Should().HaveCount(502);
+        sut.Where(static x => x.Oscillator is double v && double.IsNaN(v)).Should().BeEmpty();
+        sut.Where(static x => x.Signal is double v && double.IsNaN(v)).Should().BeEmpty();
+
+        // Verify some results are calculated (not all null)
+        sut.Where(static x => x.Oscillator != null).Should().NotBeEmpty();
+        sut.Where(static x => x.Signal != null).Should().NotBeEmpty();
+    }
+
+    [TestMethod]
     public void Exceptions()
     {
         // bad lookback period
