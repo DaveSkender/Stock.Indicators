@@ -1,4 +1,7 @@
 namespace Skender.Stock.Indicators;
+#pragma warning disable IDE0010 // Missing cases in switch expression
+
+// STREAM HUB (BASE/CACHE)
 
 /// <inheritdoc cref="IStreamHub{TIn, TOut}"/>
 public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
