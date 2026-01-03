@@ -166,6 +166,36 @@ public class StochRsi : StaticSeriesTestBase
     }
 
     [TestMethod]
+    public void AutoHealing_HandlesRsiWarmupPeriodsCorrectly()
+    {
+        // Regression test for T204: Verify that StochRsi auto-healing works correctly
+        // without explicit Remove() call on RSI results. CalcStoch handles NaN values
+        // gracefully, making Remove() unnecessary and avoiding extra list allocation.
+        const int rsiPeriods = 14;
+        const int stochPeriods = 14;
+        const int signalPeriods = 3;
+        const int smoothPeriods = 1;
+
+        // Get results using current auto-healing implementation
+        IReadOnlyList<StochRsiResult> results =
+            Quotes.ToStochRsi(rsiPeriods, stochPeriods, signalPeriods, smoothPeriods);
+
+        // Verify correct behavior
+        results.Should().HaveCount(502);
+        Assert.HasCount(475, results.Where(static x => x.StochRsi != null));
+        Assert.HasCount(473, results.Where(static x => x.Signal != null));
+
+        // Verify specific values match expected
+        StochRsiResult r1 = results[31];
+        r1.StochRsi.Should().BeApproximately(93.3333, Money4);
+        r1.Signal.Should().BeApproximately(97.7778, Money4);
+
+        StochRsiResult r2 = results[501];
+        r2.StochRsi.Should().BeApproximately(97.5244, Money4);
+        r2.Signal.Should().BeApproximately(89.8385, Money4);
+    }
+
+    [TestMethod]
     public void Exceptions()
     {
         // bad RSI period
