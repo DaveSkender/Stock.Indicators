@@ -48,7 +48,7 @@ public class StyleComparison
 
     [BenchmarkCategory("Adx")]
     [Benchmark(Baseline = true)]
-    public IReadOnlyList<AdxResult> AdxSeries() => quotes.ToAdx();
+    public IReadOnlyList<AdxResult> AdxSeries() => quotes.ToAdx(n);
 
     [BenchmarkCategory("Adx")]
     [Benchmark]
@@ -96,7 +96,7 @@ public class StyleComparison
 
     [BenchmarkCategory("Atr")]
     [Benchmark(Baseline = true)]
-    public IReadOnlyList<AtrResult> AtrSeries() => quotes.ToAtr();
+    public IReadOnlyList<AtrResult> AtrSeries() => quotes.ToAtr(n);
 
     [BenchmarkCategory("Atr")]
     [Benchmark]
@@ -134,21 +134,9 @@ public class StyleComparison
     [Benchmark(Baseline = true)]
     public IReadOnlyList<BetaResult> BetaSeries() => quotes.ToBeta(o, 20, BetaType.Standard);
 
-    [BenchmarkCategory("BetaAll")]
-    [Benchmark(Baseline = true)]
-    public IReadOnlyList<BetaResult> BetaAllSeries() => quotes.ToBeta(o, 20, BetaType.All);
-
-    [BenchmarkCategory("BetaDown")]
-    [Benchmark(Baseline = true)]
-    public IReadOnlyList<BetaResult> BetaDownSeries() => quotes.ToBeta(o, 20, BetaType.Down);
-
-    [BenchmarkCategory("BetaUp")]
-    [Benchmark(Baseline = true)]
-    public IReadOnlyList<BetaResult> BetaUpSeries() => quotes.ToBeta(o, 20, BetaType.Up);
-
     [BenchmarkCategory("BollingerBands")]
     [Benchmark(Baseline = true)]
-    public IReadOnlyList<BollingerBandsResult> BollingerBandsSeries() => quotes.ToBollingerBands();
+    public IReadOnlyList<BollingerBandsResult> BollingerBandsSeries() => quotes.ToBollingerBands(20, 2);
 
     [BenchmarkCategory("BollingerBands")]
     [Benchmark]
@@ -160,7 +148,7 @@ public class StyleComparison
 
     [BenchmarkCategory("Bop")]
     [Benchmark(Baseline = true)]
-    public IReadOnlyList<BopResult> BopSeries() => quotes.ToBop();
+    public IReadOnlyList<BopResult> BopSeries() => quotes.ToBop(n);
 
     [BenchmarkCategory("Bop")]
     [Benchmark]
@@ -172,11 +160,15 @@ public class StyleComparison
 
     [BenchmarkCategory("Cci")]
     [Benchmark(Baseline = true)]
-    public IReadOnlyList<CciResult> CciSeries() => quotes.ToCci();
+    public IReadOnlyList<CciResult> CciSeries() => quotes.ToCci(n);
 
     [BenchmarkCategory("Cci")]
     [Benchmark]
-    public IReadOnlyList<CciResult> CciStream() => quoteHub.ToCciHub(20).Results;
+    public IReadOnlyList<CciResult> CciBuffer() => quotes.ToCciList(n);
+
+    [BenchmarkCategory("Cci")]
+    [Benchmark]
+    public IReadOnlyList<CciResult> CciStream() => quoteHub.ToCciHub(n).Results;
 
     [BenchmarkCategory("ChaikinOsc")]
     [Benchmark(Baseline = true)]
@@ -204,7 +196,7 @@ public class StyleComparison
 
     [BenchmarkCategory("Chop")]
     [Benchmark(Baseline = true)]
-    public IReadOnlyList<ChopResult> ChopSeries() => quotes.ToChop();
+    public IReadOnlyList<ChopResult> ChopSeries() => quotes.ToChop(n);
 
     [BenchmarkCategory("Chop")]
     [Benchmark]
@@ -216,15 +208,15 @@ public class StyleComparison
 
     [BenchmarkCategory("Cmf")]
     [Benchmark(Baseline = true)]
-    public IReadOnlyList<CmfResult> CmfSeries() => quotes.ToCmf();
+    public IReadOnlyList<CmfResult> CmfSeries() => quotes.ToCmf(n);
 
     [BenchmarkCategory("Cmf")]
     [Benchmark]
-    public IReadOnlyList<CmfResult> CmfBuffer() => quotes.ToCmfList();
+    public IReadOnlyList<CmfResult> CmfBuffer() => quotes.ToCmfList(n);
 
     [BenchmarkCategory("Cmf")]
     [Benchmark]
-    public IReadOnlyList<CmfResult> CmfStream() => quoteHub.ToCmfHub(20).Results;
+    public IReadOnlyList<CmfResult> CmfStream() => quoteHub.ToCmfHub(n).Results;
 
     [BenchmarkCategory("Cmo")]
     [Benchmark(Baseline = true)]
@@ -240,11 +232,11 @@ public class StyleComparison
 
     [BenchmarkCategory("ConnorsRsi")]
     [Benchmark(Baseline = true)]
-    public IReadOnlyList<ConnorsRsiResult> ConnorsRsiSeries() => quotes.ToConnorsRsi();
+    public IReadOnlyList<ConnorsRsiResult> ConnorsRsiSeries() => quotes.ToConnorsRsi(3, 2, 100);
 
     [BenchmarkCategory("ConnorsRsi")]
     [Benchmark]
-    public IReadOnlyList<ConnorsRsiResult> ConnorsRsiBuffer() => quotes.ToConnorsRsiList();
+    public IReadOnlyList<ConnorsRsiResult> ConnorsRsiBuffer() => quotes.ToConnorsRsiList(3, 2, 100);
 
     [BenchmarkCategory("ConnorsRsi")]
     [Benchmark]
@@ -280,7 +272,7 @@ public class StyleComparison
 
     [BenchmarkCategory("Donchian")]
     [Benchmark(Baseline = true)]
-    public IReadOnlyList<DonchianResult> DonchianSeries() => quotes.ToDonchian();
+    public IReadOnlyList<DonchianResult> DonchianSeries() => quotes.ToDonchian(20);
 
     [BenchmarkCategory("Donchian")]
     [Benchmark]
@@ -304,23 +296,23 @@ public class StyleComparison
 
     [BenchmarkCategory("Dynamic")]
     [Benchmark(Baseline = true)]
-    public IReadOnlyList<DynamicResult> DynamicSeries() => quotes.ToDynamic(20);
+    public IReadOnlyList<DynamicResult> DynamicSeries() => quotes.ToDynamic(n);
 
     [BenchmarkCategory("Dynamic")]
     [Benchmark]
-    public IReadOnlyList<DynamicResult> DynamicBuffer() => quotes.ToDynamicList(20);
+    public IReadOnlyList<DynamicResult> DynamicBuffer() => quotes.ToDynamicList(n);
 
     [BenchmarkCategory("Dynamic")]
     [Benchmark]
-    public IReadOnlyList<DynamicResult> DynamicStream() => quoteHub.ToDynamicHub(n, 0.6).Results;
+    public IReadOnlyList<DynamicResult> DynamicStream() => quoteHub.ToDynamicHub(n).Results;
 
     [BenchmarkCategory("ElderRay")]
     [Benchmark(Baseline = true)]
-    public IReadOnlyList<ElderRayResult> ElderRaySeries() => quotes.ToElderRay();
+    public IReadOnlyList<ElderRayResult> ElderRaySeries() => quotes.ToElderRay(13);
 
     [BenchmarkCategory("ElderRay")]
     [Benchmark]
-    public IReadOnlyList<ElderRayResult> ElderRayBuffer() => quotes.ToElderRayList();
+    public IReadOnlyList<ElderRayResult> ElderRayBuffer() => quotes.ToElderRayList(13);
 
     [BenchmarkCategory("ElderRay")]
     [Benchmark]
@@ -352,11 +344,11 @@ public class StyleComparison
 
     [BenchmarkCategory("Fcb")]
     [Benchmark(Baseline = true)]
-    public IReadOnlyList<FcbResult> FcbSeries() => quotes.ToFcb(n);
+    public IReadOnlyList<FcbResult> FcbSeries() => quotes.ToFcb(2);
 
     [BenchmarkCategory("Fcb")]
     [Benchmark]
-    public IReadOnlyList<FcbResult> FcbBuffer() => quotes.ToFcbList(n);
+    public IReadOnlyList<FcbResult> FcbBuffer() => quotes.ToFcbList(2);
 
     [BenchmarkCategory("Fcb")]
     [Benchmark]
@@ -448,7 +440,7 @@ public class StyleComparison
 
     [BenchmarkCategory("Hurst")]
     [Benchmark(Baseline = true)]
-    public IReadOnlyList<HurstResult> HurstSeries() => quotes.ToHurst();
+    public IReadOnlyList<HurstResult> HurstSeries() => quotes.ToHurst(100);
 
     [BenchmarkCategory("Hurst")]
     [Benchmark]
@@ -472,7 +464,7 @@ public class StyleComparison
 
     [BenchmarkCategory("Kama")]
     [Benchmark(Baseline = true)]
-    public IReadOnlyList<KamaResult> KamaSeries() => quotes.ToKama();
+    public IReadOnlyList<KamaResult> KamaSeries() => quotes.ToKama(10, 2, 30);
 
     [BenchmarkCategory("Kama")]
     [Benchmark]
@@ -484,11 +476,11 @@ public class StyleComparison
 
     [BenchmarkCategory("Keltner")]
     [Benchmark(Baseline = true)]
-    public IReadOnlyList<KeltnerResult> KeltnerSeries() => quotes.ToKeltner();
+    public IReadOnlyList<KeltnerResult> KeltnerSeries() => quotes.ToKeltner(20, 2, 10);
 
     [BenchmarkCategory("Keltner")]
     [Benchmark]
-    public IReadOnlyList<KeltnerResult> KeltnerBuffer() => quotes.ToKeltnerList();
+    public IReadOnlyList<KeltnerResult> KeltnerBuffer() => quotes.ToKeltnerList(20, 2, 10);
 
     [BenchmarkCategory("Keltner")]
     [Benchmark]
@@ -496,11 +488,11 @@ public class StyleComparison
 
     [BenchmarkCategory("Kvo")]
     [Benchmark(Baseline = true)]
-    public IReadOnlyList<KvoResult> KvoSeries() => quotes.ToKvo();
+    public IReadOnlyList<KvoResult> KvoSeries() => quotes.ToKvo(34, 55, 13);
 
     [BenchmarkCategory("Kvo")]
     [Benchmark]
-    public IReadOnlyList<KvoResult> KvoBuffer() => quotes.ToKvoList();
+    public IReadOnlyList<KvoResult> KvoBuffer() => quotes.ToKvoList(34, 55, 13);
 
     [BenchmarkCategory("Kvo")]
     [Benchmark]
@@ -520,7 +512,7 @@ public class StyleComparison
 
     [BenchmarkCategory("Macd")]
     [Benchmark(Baseline = true)]
-    public IReadOnlyList<MacdResult> MacdSeries() => quotes.ToMacd();
+    public IReadOnlyList<MacdResult> MacdSeries() => quotes.ToMacd(12, 26, 9);
 
     [BenchmarkCategory("Macd")]
     [Benchmark]
@@ -532,7 +524,7 @@ public class StyleComparison
 
     [BenchmarkCategory("Mama")]
     [Benchmark(Baseline = true)]
-    public IReadOnlyList<MamaResult> MamaSeries() => quotes.ToMama();
+    public IReadOnlyList<MamaResult> MamaSeries() => quotes.ToMama(0.5, 0.05);
 
     [BenchmarkCategory("Mama")]
     [Benchmark]
@@ -544,11 +536,11 @@ public class StyleComparison
 
     [BenchmarkCategory("Marubozu")]
     [Benchmark(Baseline = true)]
-    public IReadOnlyList<CandleResult> MarubozuSeries() => quotes.ToMarubozu();
+    public IReadOnlyList<CandleResult> MarubozuSeries() => quotes.ToMarubozu(95);
 
     [BenchmarkCategory("Marubozu")]
     [Benchmark]
-    public IReadOnlyList<CandleResult> MarubozuBuffer() => quotes.ToMarubozuList();
+    public IReadOnlyList<CandleResult> MarubozuBuffer() => quotes.ToMarubozuList(95);
 
     [BenchmarkCategory("Marubozu")]
     [Benchmark]
@@ -556,15 +548,15 @@ public class StyleComparison
 
     [BenchmarkCategory("Mfi")]
     [Benchmark(Baseline = true)]
-    public IReadOnlyList<MfiResult> MfiSeries() => quotes.ToMfi();
+    public IReadOnlyList<MfiResult> MfiSeries() => quotes.ToMfi(n);
 
     [BenchmarkCategory("Mfi")]
     [Benchmark]
-    public IReadOnlyList<MfiResult> MfiBuffer() => quotes.ToMfiList();
+    public IReadOnlyList<MfiResult> MfiBuffer() => quotes.ToMfiList(n);
 
     [BenchmarkCategory("Mfi")]
     [Benchmark]
-    public IReadOnlyList<MfiResult> MfiStream() => quoteHub.ToMfiHub(14).Results;
+    public IReadOnlyList<MfiResult> MfiStream() => quoteHub.ToMfiHub(n).Results;
 
     [BenchmarkCategory("Obv")]
     [Benchmark(Baseline = true)]
@@ -600,11 +592,11 @@ public class StyleComparison
 
     [BenchmarkCategory("PivotPoints")]
     [Benchmark]
-    public IReadOnlyList<PivotPointsResult> PivotPointsStream() => quoteHub.ToPivotPointsHub().Results;
+    public IReadOnlyList<PivotPointsResult> PivotPointsStream() => quoteHub.ToPivotPointsHub(PeriodSize.Month, PivotPointType.Standard).Results;
 
     [BenchmarkCategory("Pivots")]
     [Benchmark(Baseline = true)]
-    public IReadOnlyList<PivotsResult> PivotsSeries() => quotes.ToPivots();
+    public IReadOnlyList<PivotsResult> PivotsSeries() => quotes.ToPivots(2, 2, 20);
 
     [BenchmarkCategory("Pivots")]
     [Benchmark]
@@ -612,15 +604,15 @@ public class StyleComparison
 
     [BenchmarkCategory("Pivots")]
     [Benchmark]
-    public IReadOnlyList<PivotsResult> PivotsStream() => quoteHub.ToPivotsHub().Results;
+    public IReadOnlyList<PivotsResult> PivotsStream() => quoteHub.ToPivotsHub(2, 2, 20).Results;
 
     [BenchmarkCategory("Pmo")]
     [Benchmark(Baseline = true)]
-    public IReadOnlyList<PmoResult> PmoSeries() => quotes.ToPmo();
+    public IReadOnlyList<PmoResult> PmoSeries() => quotes.ToPmo(35, 20, 10);
 
     [BenchmarkCategory("Pmo")]
     [Benchmark]
-    public IReadOnlyList<PmoResult> PmoBuffer() => quotes.ToPmoList();
+    public IReadOnlyList<PmoResult> PmoBuffer() => quotes.ToPmoList(35, 20, 10);
 
     [BenchmarkCategory("Pmo")]
     [Benchmark]
@@ -668,15 +660,7 @@ public class StyleComparison
 
     [BenchmarkCategory("RenkoAtr")]
     [Benchmark(Baseline = true)]
-    public IReadOnlyList<RenkoResult> RenkoAtrSeries() => quotes.ToRenko(n);
-
-    [BenchmarkCategory("RenkoAtr")]
-    [Benchmark]
-    public IReadOnlyList<RenkoResult> RenkoAtrBuffer() => quotes.ToRenkoList(2.5m);
-
-    [BenchmarkCategory("RenkoAtr")]
-    [Benchmark]
-    public IReadOnlyList<RenkoResult> RenkoAtrStream() => quoteHub.ToRenkoHub(2.5m).Results;
+    public IReadOnlyList<RenkoResult> RenkoAtrSeries() => quotes.ToRenkoAtr(n);
 
     [BenchmarkCategory("Roc")]
     [Benchmark(Baseline = true)]
@@ -692,7 +676,7 @@ public class StyleComparison
 
     [BenchmarkCategory("RocWb")]
     [Benchmark(Baseline = true)]
-    public IReadOnlyList<RocWbResult> RocWbSeries() => quotes.ToRocWb(12, 3, 12);
+    public IReadOnlyList<RocWbResult> RocWbSeries() => quotes.ToRocWb(20, 5, 5);
 
     [BenchmarkCategory("RocWb")]
     [Benchmark]
@@ -716,7 +700,7 @@ public class StyleComparison
 
     [BenchmarkCategory("Rsi")]
     [Benchmark(Baseline = true)]
-    public IReadOnlyList<RsiResult> RsiSeries() => quotes.ToRsi();
+    public IReadOnlyList<RsiResult> RsiSeries() => quotes.ToRsi(n);
 
     [BenchmarkCategory("Rsi")]
     [Benchmark]
@@ -728,7 +712,7 @@ public class StyleComparison
 
     [BenchmarkCategory("Slope")]
     [Benchmark(Baseline = true)]
-    public IReadOnlyList<SlopeResult> SlopeSeries() => quotes.ToSlope(20);
+    public IReadOnlyList<SlopeResult> SlopeSeries() => quotes.ToSlope(n);
 
     [BenchmarkCategory("Slope")]
     [Benchmark]
@@ -736,11 +720,11 @@ public class StyleComparison
 
     [BenchmarkCategory("Slope")]
     [Benchmark]
-    public IReadOnlyList<SlopeResult> SlopeStream() => quoteHub.ToSlopeHub(20).Results;
+    public IReadOnlyList<SlopeResult> SlopeStream() => quoteHub.ToSlopeHub(n).Results;
 
     [BenchmarkCategory("Sma")]
     [Benchmark(Baseline = true)]
-    public IReadOnlyList<SmaResult> SmaSeries() => quotes.ToSma(10);
+    public IReadOnlyList<SmaResult> SmaSeries() => quotes.ToSma(n);
 
     [BenchmarkCategory("Sma")]
     [Benchmark]
@@ -748,23 +732,23 @@ public class StyleComparison
 
     [BenchmarkCategory("Sma")]
     [Benchmark]
-    public IReadOnlyList<SmaResult> SmaStream() => quoteHub.ToSmaHub(10).Results;
+    public IReadOnlyList<SmaResult> SmaStream() => quoteHub.ToSmaHub(n).Results;
 
     [BenchmarkCategory("SmaAnalysis")]
     [Benchmark(Baseline = true)]
-    public IReadOnlyList<SmaAnalysisResult> SmaAnalysisSeries() => quotes.ToSmaAnalysis(10);
+    public IReadOnlyList<SmaAnalysisResult> SmaAnalysisSeries() => quotes.ToSmaAnalysis(n);
 
     [BenchmarkCategory("SmaAnalysis")]
     [Benchmark]
-    public IReadOnlyList<SmaAnalysisResult> SmaAnalysisBuffer() => quotes.ToSmaAnalysisList(10);
+    public IReadOnlyList<SmaAnalysisResult> SmaAnalysisBuffer() => quotes.ToSmaAnalysisList(n);
 
     [BenchmarkCategory("SmaAnalysis")]
     [Benchmark]
-    public IReadOnlyList<SmaAnalysisResult> SmaAnalysisStream() => quoteHub.ToSmaAnalysisHub(20).Results;
+    public IReadOnlyList<SmaAnalysisResult> SmaAnalysisStream() => quoteHub.ToSmaAnalysisHub(n).Results;
 
     [BenchmarkCategory("Smi")]
     [Benchmark(Baseline = true)]
-    public IReadOnlyList<SmiResult> SmiSeries() => quotes.ToSmi(5, 20, 5, 3);
+    public IReadOnlyList<SmiResult> SmiSeries() => quotes.ToSmi(13, 25, 2, 3);
 
     [BenchmarkCategory("Smi")]
     [Benchmark]
@@ -776,7 +760,7 @@ public class StyleComparison
 
     [BenchmarkCategory("Smma")]
     [Benchmark(Baseline = true)]
-    public IReadOnlyList<SmmaResult> SmmaSeries() => quotes.ToSmma(10);
+    public IReadOnlyList<SmmaResult> SmmaSeries() => quotes.ToSmma(n);
 
     [BenchmarkCategory("Smma")]
     [Benchmark]
@@ -788,7 +772,7 @@ public class StyleComparison
 
     [BenchmarkCategory("StarcBands")]
     [Benchmark(Baseline = true)]
-    public IReadOnlyList<StarcBandsResult> StarcBandsSeries() => quotes.ToStarcBands(10);
+    public IReadOnlyList<StarcBandsResult> StarcBandsSeries() => quotes.ToStarcBands(5, 2, 10);
 
     [BenchmarkCategory("StarcBands")]
     [Benchmark]
@@ -800,7 +784,7 @@ public class StyleComparison
 
     [BenchmarkCategory("Stc")]
     [Benchmark(Baseline = true)]
-    public IReadOnlyList<StcResult> StcSeries() => quotes.ToStc();
+    public IReadOnlyList<StcResult> StcSeries() => quotes.ToStc(10, 23, 50);
 
     [BenchmarkCategory("Stc")]
     [Benchmark]
@@ -812,11 +796,11 @@ public class StyleComparison
 
     [BenchmarkCategory("StdDev")]
     [Benchmark(Baseline = true)]
-    public IReadOnlyList<StdDevResult> StdDevSeries() => quotes.ToStdDev(20);
+    public IReadOnlyList<StdDevResult> StdDevSeries() => quotes.ToStdDev(n);
 
     [BenchmarkCategory("StdDev")]
     [Benchmark]
-    public IReadOnlyList<StdDevResult> StdDevBuffer() => quotes.ToStdDevList(20);
+    public IReadOnlyList<StdDevResult> StdDevBuffer() => quotes.ToStdDevList(n);
 
     [BenchmarkCategory("StdDev")]
     [Benchmark]
@@ -828,7 +812,7 @@ public class StyleComparison
 
     [BenchmarkCategory("Stoch")]
     [Benchmark(Baseline = true)]
-    public IReadOnlyList<StochResult> StochSeries() => quotes.ToStoch();
+    public IReadOnlyList<StochResult> StochSeries() => quotes.ToStoch(14, 3, 3);
 
     [BenchmarkCategory("Stoch")]
     [Benchmark]
@@ -836,11 +820,11 @@ public class StyleComparison
 
     [BenchmarkCategory("Stoch")]
     [Benchmark]
-    public IReadOnlyList<StochResult> StochStream() => quoteHub.ToStochHub(n, 3, 3).Results;
+    public IReadOnlyList<StochResult> StochStream() => quoteHub.ToStochHub(14, 3, 3).Results;
 
     [BenchmarkCategory("StochRsi")]
     [Benchmark(Baseline = true)]
-    public IReadOnlyList<StochRsiResult> StochRsiSeries() => quotes.ToStochRsi(n, n, 3);
+    public IReadOnlyList<StochRsiResult> StochRsiSeries() => quotes.ToStochRsi(14, 14, 3, 1);
 
     [BenchmarkCategory("StochRsi")]
     [Benchmark]
@@ -848,11 +832,11 @@ public class StyleComparison
 
     [BenchmarkCategory("StochRsi")]
     [Benchmark]
-    public IReadOnlyList<StochRsiResult> StochRsiStream() => quoteHub.ToStochRsiHub(n, n, 3, 1).Results;
+    public IReadOnlyList<StochRsiResult> StochRsiStream() => quoteHub.ToStochRsiHub(14, 14, 3, 1).Results;
 
     [BenchmarkCategory("StochSmma")]
     [Benchmark(Baseline = true)]
-    public IReadOnlyList<StochResult> StochSmmaSeries() => quotes.ToStoch(9, 3, 3, 3, 2, MaType.SMMA);
+    public IReadOnlyList<StochResult> StochSmmaSeries() => quotes.ToStoch(14, 3, 3);
 
     [BenchmarkCategory("StochSmma")]
     [Benchmark]
@@ -860,15 +844,15 @@ public class StyleComparison
 
     [BenchmarkCategory("StochSmma")]
     [Benchmark]
-    public IReadOnlyList<StochResult> StochSmmaStream() => quoteHub.ToStochHub(n, 3, 3).Results;
+    public IReadOnlyList<StochResult> StochSmmaStream() => quoteHub.ToStochHub(14, 3, 3).Results;
 
     [BenchmarkCategory("SuperTrend")]
     [Benchmark(Baseline = true)]
-    public IReadOnlyList<SuperTrendResult> SuperTrendSeries() => quotes.ToSuperTrend();
+    public IReadOnlyList<SuperTrendResult> SuperTrendSeries() => quotes.ToSuperTrend(10, 3);
 
     [BenchmarkCategory("SuperTrend")]
     [Benchmark]
-    public IReadOnlyList<SuperTrendResult> SuperTrendBuffer() => quotes.ToSuperTrendList();
+    public IReadOnlyList<SuperTrendResult> SuperTrendBuffer() => quotes.ToSuperTrendList(10, 3);
 
     [BenchmarkCategory("SuperTrend")]
     [Benchmark]
@@ -876,7 +860,7 @@ public class StyleComparison
 
     [BenchmarkCategory("T3")]
     [Benchmark(Baseline = true)]
-    public IReadOnlyList<T3Result> T3Series() => quotes.ToT3();
+    public IReadOnlyList<T3Result> T3Series() => quotes.ToT3(5, 0.7);
 
     [BenchmarkCategory("T3")]
     [Benchmark]
@@ -888,15 +872,15 @@ public class StyleComparison
 
     [BenchmarkCategory("Tema")]
     [Benchmark(Baseline = true)]
-    public IReadOnlyList<TemaResult> TemaSeries() => quotes.ToTema(20);
+    public IReadOnlyList<TemaResult> TemaSeries() => quotes.ToTema(n);
 
     [BenchmarkCategory("Tema")]
     [Benchmark]
-    public IReadOnlyList<TemaResult> TemaBuffer() => quotes.ToTemaList(20);
+    public IReadOnlyList<TemaResult> TemaBuffer() => quotes.ToTemaList(n);
 
     [BenchmarkCategory("Tema")]
     [Benchmark]
-    public IReadOnlyList<TemaResult> TemaStream() => quoteHub.ToTemaHub(20).Results;
+    public IReadOnlyList<TemaResult> TemaStream() => quoteHub.ToTemaHub(n).Results;
 
     [BenchmarkCategory("Tr")]
     [Benchmark(Baseline = true)]
@@ -924,7 +908,7 @@ public class StyleComparison
 
     [BenchmarkCategory("Tsi")]
     [Benchmark(Baseline = true)]
-    public IReadOnlyList<TsiResult> TsiSeries() => quotes.ToTsi();
+    public IReadOnlyList<TsiResult> TsiSeries() => quotes.ToTsi(25, 13, 7);
 
     [BenchmarkCategory("Tsi")]
     [Benchmark]
@@ -936,7 +920,7 @@ public class StyleComparison
 
     [BenchmarkCategory("UlcerIndex")]
     [Benchmark(Baseline = true)]
-    public IReadOnlyList<UlcerIndexResult> UlcerIndexSeries() => quotes.ToUlcerIndex();
+    public IReadOnlyList<UlcerIndexResult> UlcerIndexSeries() => quotes.ToUlcerIndex(n);
 
     [BenchmarkCategory("UlcerIndex")]
     [Benchmark]
@@ -948,7 +932,7 @@ public class StyleComparison
 
     [BenchmarkCategory("Ultimate")]
     [Benchmark(Baseline = true)]
-    public IReadOnlyList<UltimateResult> UltimateSeries() => quotes.ToUltimate();
+    public IReadOnlyList<UltimateResult> UltimateSeries() => quotes.ToUltimate(7, 14, 28);
 
     [BenchmarkCategory("Ultimate")]
     [Benchmark]
@@ -956,11 +940,11 @@ public class StyleComparison
 
     [BenchmarkCategory("Ultimate")]
     [Benchmark]
-    public IReadOnlyList<UltimateResult> UltimateStream() => quoteHub.ToUltimateHub(7, n, 28).Results;
+    public IReadOnlyList<UltimateResult> UltimateStream() => quoteHub.ToUltimateHub(7, 14, 28).Results;
 
     [BenchmarkCategory("VolatilityStop")]
     [Benchmark(Baseline = true)]
-    public IReadOnlyList<VolatilityStopResult> VolatilityStopSeries() => quotes.ToVolatilityStop();
+    public IReadOnlyList<VolatilityStopResult> VolatilityStopSeries() => quotes.ToVolatilityStop(7, 3);
 
     [BenchmarkCategory("VolatilityStop")]
     [Benchmark]
@@ -968,7 +952,7 @@ public class StyleComparison
 
     [BenchmarkCategory("VolatilityStop")]
     [Benchmark]
-    public IReadOnlyList<VolatilityStopResult> VolatilityStopStream() => quoteHub.ToVolatilityStopHub().Results;
+    public IReadOnlyList<VolatilityStopResult> VolatilityStopStream() => quoteHub.ToVolatilityStopHub(7, 3).Results;
 
     [BenchmarkCategory("Vortex")]
     [Benchmark(Baseline = true)]
@@ -988,7 +972,7 @@ public class StyleComparison
 
     [BenchmarkCategory("Vwap")]
     [Benchmark]
-    public IReadOnlyList<VwapResult> VwapBuffer() => quotes.ToVwapList(quotes[0].Timestamp);
+    public IReadOnlyList<VwapResult> VwapBuffer() => quotes.ToVwapList();
 
     [BenchmarkCategory("Vwap")]
     [Benchmark]
