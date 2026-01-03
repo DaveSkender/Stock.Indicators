@@ -38,12 +38,13 @@ Execute these tasks sequentially from top to bottom. This section contains **onl
 
 ### High Priority - Correctness & Performance
 
-- [ ] **T202** - WilliamsR boundary rounding precision (2-3 hours)
+- [x] **T202** - WilliamsR boundary rounding precision (2-3 hours)
   - **File**: `tests/integration/indicators/WilliamsR/WilliamsR.Tests.cs:24`
   - **Problem**: Values occasionally outside theoretical \[-100, 0\] range
   - **Action**: Apply boundary clamping to ensure -100 ≤ WilliamsR ≤ 0
   - **Action**: Add precision tests for boundary cases
   - **Related**: #1692
+  - **Status**: COMPLETE - Added boundary clamping to BufferList and StreamHub implementations; precision tests already exist in BoundaryTests
 
 - [ ] **T201** - Stochastic SMMA re-initialization logic (2-3 hours)
   - **File**: `src/s-z/Stoch/Stoch.StaticSeries.cs:255`
@@ -120,21 +121,23 @@ Execute these tasks sequentially from top to bottom. This section contains **onl
   - **Action**: Add test with zero price change scenario
   - **Action**: Verify CMO handles correctly
 
-- [ ] **T218** - Precision analysis test obsolescence review (2-3 hours)
+- [x] **T218** - Precision analysis test obsolescence review (2-3 hours)
   - **File**: `tests/indicators/_precision/PrecisionAnalysis.Tests.cs:3-4`
   - **Problem**: Boundary test class may be obsolete since `Results_AreAlwaysBounded` tests added
   - **Action**: Review PrecisionAnalysis test value
   - **Action**: Remove if redundant or refocus on unique precision scenarios
+  - **Status**: COMPLETE - Clarified unique value of BoundaryTests (synthetic pathological data vs normal market data), removed TODO comment and added explanatory documentation
 
 - [ ] **T219** - Catalog metrics final count verification (1 hour)
   - **File**: `tests/indicators/_common/Catalog/Catalog.Metrics.Tests.cs:31-32`
   - **Problem**: Test uses placeholder count
   - **Action**: Lock final catalog counts once streaming indicators complete
 
-- [ ] **T222** - StreamHub cache management exact value verification (1-2 hours)
+- [x] **T222** - StreamHub cache management exact value verification (1-2 hours)
   - **File**: `tests/indicators/_common/StreamHub/StreamHub.CacheMgmt.Tests.cs:21,36`
   - **Problem**: Exact SMA values commented out (214.5250, 214.5260)
   - **Action**: Verify if exact value assertions needed or if Series parity sufficient
+  - **Status**: COMPLETE - Removed TODO comments; Series parity is the canonical correctness standard and is sufficient
 
 ---
 
