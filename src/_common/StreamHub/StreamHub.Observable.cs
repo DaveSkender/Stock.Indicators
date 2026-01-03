@@ -13,7 +13,7 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamObservable<TOut>
     public int ObserverCount => _observers.Count;
 
     /// <inheritdoc/>
-    public IReadOnlyList<TOut> ReadCache => Cache;
+    public IReadOnlyList<TOut> ReadCache => Cache.AsReadOnly();
 
     /// <inheritdoc/>
     public int MaxCacheSize { get; init; }

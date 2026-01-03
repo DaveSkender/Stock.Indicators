@@ -17,11 +17,11 @@ Execute these tasks sequentially from top to bottom. This section contains **onl
 
 ### Critical - v3.0 Release Blockers
 
-- [ ] **#1585** - QuoteHub self-healing limitation investigation (2-4 hours)
+- [x] **#1585** - QuoteHub self-healing limitation investigation (2-4 hours)
   - **Problem**: User-reported index out of range with late-arriving quote updates
-  - **Action**: Clarify semantics of updating live quotes vs Insert/Remove operations
-  - **Related**: E004-E006 (QuoteHub update semantics), Discussion #1018
-  - **Blocking**: v3.0 stable release
+  - **Fix**: Wrapped cache exposures in `AsReadOnly()` to prevent deviant list manipulation
+  - **Status**: COMPLETE - Implemented immutable cache wrappers to prevent users from bypassing safe StreamHub methods
+  - **Related**: E004-E006 (QuoteHub update semantics deferred to v3.1+), Discussion #1018
 
 - [ ] **Get and incorporate final feedback** (Ongoing)
   - **Action**: Community review period before stable v3 release

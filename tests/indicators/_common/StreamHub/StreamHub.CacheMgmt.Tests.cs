@@ -251,4 +251,35 @@ public class CacheManagement : TestBase
 
         quoteHub.EndTransmission();
     }
+
+    /// <summary>
+    /// Verifies that exposed cache references cannot be cast to mutable lists.
+    /// This prevents users from bypassing safe StreamHub methods.
+    /// </summary>
+    [TestMethod]
+    public void CacheReferencesAreImmutable()
+    {
+        QuoteHub quoteHub = new();
+        SmaHub observer = quoteHub.ToSmaHub(20);
+
+        List<Quote> quotes = Quotes.Take(25).ToList();
+        quoteHub.Add(quotes);
+
+        // verify Results cannot be cast to mutable list
+        IReadOnlyList<SmaResult> results = observer.Results;
+        bool canCastResults = results is List<SmaResult>;
+        canCastResults.Should().BeFalse("Results should not be castable to List<T>");
+
+        // verify GetCacheRef cannot be cast to mutable list
+        IReadOnlyList<SmaResult> cacheRef = observer.GetCacheRef();
+        bool canCastCacheRef = cacheRef is List<SmaResult>;
+        canCastCacheRef.Should().BeFalse("GetCacheRef() should not be castable to List<T>");
+
+        // verify QuoteHub.Quotes cannot be cast to mutable list
+        IReadOnlyList<IQuote> quotesRef = quoteHub.Quotes;
+        bool canCastQuotes = quotesRef is List<IQuote>;
+        canCastQuotes.Should().BeFalse("Quotes should not be castable to List<T>");
+
+        quoteHub.EndTransmission();
+    }
 }
