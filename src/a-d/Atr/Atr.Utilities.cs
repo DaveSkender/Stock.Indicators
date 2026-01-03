@@ -11,7 +11,7 @@ public static partial class Atr
     /// <param name="prevClose">The close price of the previous period.</param>
     /// <param name="prevAtr">The ATR value of the previous period.</param>
     /// <returns>The ATR value for the current period.</returns>
-    internal static double Increment(
+    public static double Increment(
         int lookbackPeriods,
         double high,
         double low,
@@ -20,8 +20,6 @@ public static partial class Atr
     {
         double tr = Tr.Increment(high, low, prevClose);
         return ((prevAtr * (lookbackPeriods - 1)) + tr) / lookbackPeriods;
-
-        // TODO: this may be unused, verify before making public
     }
 
     /// <summary>
