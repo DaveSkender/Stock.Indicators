@@ -1,7 +1,7 @@
 namespace Performance;
 
 [Config(typeof(MicrotestConfig))]
-[ShortRunJob, WarmupCount(5), IterationCount(10), IterationTime(1000)]
+[WarmupCount(5), IterationCount(10), IterationTime(1000)]
 public class UtilityNullMath
 {
     private static readonly double? dblVal = 54321.0123456789d;
