@@ -93,10 +93,11 @@ public abstract class StreamHubState<TIn, TState, TOut> : StreamHub<TIn, TOut>
 
         if (cacheIndex == -1)
         {
-            // Timestamp is after all cache entries, clear everything
-            StateCache.Clear();
+            // Timestamp is after all cache entries, no rollback needed
+            return;
         }
-        else if (cacheIndex > 0)
+
+        if (cacheIndex > 0)
         {
             // Remove state entries from the rollback point onwards
             StateCache.RemoveRange(cacheIndex, StateCache.Count - cacheIndex);
@@ -126,9 +127,9 @@ public abstract class StreamHubState<TIn, TState, TOut> : StreamHub<TIn, TOut>
         // Synchronize state cache removal with result cache
         int itemsToRemove = Cache.Count - MaxCacheSize + 1;
 
-        for (int i = 0; i < itemsToRemove && StateCache.Count > 0; i++)
+        if (itemsToRemove > 0 && itemsToRemove <= StateCache.Count)
         {
-            StateCache.RemoveAt(0);
+            StateCache.RemoveRange(0, itemsToRemove);
         }
 
         // Call base implementation to handle result cache and notifications
