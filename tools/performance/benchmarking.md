@@ -94,6 +94,9 @@ BenchmarkDotNet generates multiple output formats in `BenchmarkDotNet.Artifacts/
 - **Mean** - Average execution time (most important for typical usage)
 - **Error** - Standard error of the mean
 - **StdDev** - Standard deviation (variability indicator)
+- **Rank** - Performance ranking (1 = fastest)
+- **Allocated** - Total bytes allocated per operation
+- **Gen0/Gen1/Gen2** - Garbage collection counts per 1,000 operations
 
 ### Interpreting performance
 

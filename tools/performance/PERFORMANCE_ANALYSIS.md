@@ -186,8 +186,9 @@ Infrastructure ready, baseline data collection pending execution.
 
 **BenchmarkDotNet Configuration:**
 
-- MemoryDiagnoser enabled in PerformanceConfig
-- Tracks allocated bytes, Gen0/Gen1/Gen2 collections
+- MemoryDiagnoser enabled with generational GC columns in PerformanceConfig
+- Tracks allocated bytes, Gen0/Gen1/Gen2 collections per 1,000 operations
+- Results sorted from fastest to slowest with rank column
 - Measurements include instance overhead, internal state, result storage
 
 **Measurement Scope:**
