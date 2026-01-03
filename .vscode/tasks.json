@@ -129,9 +129,9 @@
     },
     {
       "label": "Clean: Website build cache",
-      "detail": "Delete the _site build outputs cache.",
+      "detail": "Delete the dist build outputs cache.",
       "type": "shell",
-      "command": "rm -rf _site",
+      "command": "rm -rf dist",
       "options": {
         "cwd": "${workspaceFolder}/docs"
       }
