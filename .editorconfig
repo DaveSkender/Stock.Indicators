@@ -152,7 +152,6 @@ dotnet_diagnostic.IDE0046.severity = none        # Use conditional expression fo
 dotnet_diagnostic.IDE0047.severity = none        # Remove unnecessary parentheses
 dotnet_diagnostic.IDE0054.severity = none        # Use '++' operator
 dotnet_diagnostic.IDE0055.severity = warning     # Fix formatting
-dotnet_diagnostic.IDE0320.severity = none        # Make anonymous function static (minimal benefit)
 dotnet_diagnostic.IDE2003.severity = suggestion  # Blank line required between block and subsequent statement
 
 dotnet_diagnostic.RCS1181.severity = none        # Convert comment to documentation comment (superflous, inconsistent need)

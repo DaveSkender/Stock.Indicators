@@ -28,7 +28,7 @@ Collection<Quote> quotes = JsonSerializer
     .ToSortedCollection();
 
 // Calculate Stochastic RSI
-IReadOnlyList<StochRsiResult> resultsList =
+List<StochRsiResult> resultsList =
     quotes
         .GetStochRsi(14, 14, 3)
         .ToList();
