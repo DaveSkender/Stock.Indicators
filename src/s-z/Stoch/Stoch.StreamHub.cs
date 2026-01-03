@@ -160,11 +160,29 @@ public class StochHub
                     }
                     else
                     {
-                        // Re/initialize with current raw K
-                        prevSmoothK = rawK;
+                        // Re/initialize with SMA of raw K buffer
+                        // This matches standard SMMA pattern (see Alligator, SMMA indicators)
+                        if (_rawKBuffer.Count == SmoothPeriods)
+                        {
+                            double initSum = 0;
+                            foreach (double rawKValue in _rawKBuffer)
+                            {
+                                initSum += rawKValue;
+                            }
+
+                            prevSmoothK = initSum / SmoothPeriods;
+                        }
+                        else
+                        {
+                            prevSmoothK = double.NaN;
+                        }
                     }
 
-                    oscillator = ((prevSmoothK * (SmoothPeriods - 1)) + rawK) / SmoothPeriods;
+                    if (!double.IsNaN(prevSmoothK))
+                    {
+                        oscillator = ((prevSmoothK * (SmoothPeriods - 1)) + rawK) / SmoothPeriods;
+                    }
+
                     break;
 
                 default:
@@ -214,11 +232,40 @@ public class StochHub
                     }
                     else
                     {
-                        // Re/initialize with current oscillator
-                        prevSignal = oscillator;
+                        // Re/initialize with SMA of smoothed K from cache
+                        // This matches standard SMMA pattern (see Alligator, SMMA indicators)
+                        double initSum = 0;
+                        bool canCalculate = true;
+
+                        for (int p = i - SignalPeriods + 1; p <= i; p++)
+                        {
+                            double smoothKAtP = double.NaN;
+                            if (p < i && Cache.Count > p && Cache[p].Oscillator.HasValue)
+                            {
+                                smoothKAtP = Cache[p].Oscillator!.Value;
+                            }
+                            else if (p == i)
+                            {
+                                smoothKAtP = oscillator;
+                            }
+
+                            if (double.IsNaN(smoothKAtP))
+                            {
+                                canCalculate = false;
+                                break;
+                            }
+
+                            initSum += smoothKAtP;
+                        }
+
+                        prevSignal = canCalculate ? initSum / SignalPeriods : double.NaN;
                     }
 
-                    signal = ((prevSignal * (SignalPeriods - 1)) + oscillator) / SignalPeriods;
+                    if (!double.IsNaN(prevSignal))
+                    {
+                        signal = ((prevSignal * (SignalPeriods - 1)) + oscillator) / SignalPeriods;
+                    }
+
                     break;
 
                 default:
