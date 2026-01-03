@@ -159,9 +159,7 @@ public class RsiHub
         }
     }
 
-    /// <summary>
-    /// Calculates the initial sum of gains and losses over the lookback period.
-    /// </summary>
+    // Calculates the initial sum of gains and losses over the lookback period.
     private (double sumGain, double sumLoss) CalculateInitialSums(int endIndex)
     {
         double sumGain = 0;
@@ -187,10 +185,8 @@ public class RsiHub
         return (sumGain, sumLoss);
     }
 
-    /// <summary>
-    /// Calculates RSI from average gain and loss.
-    /// Matches Series parity by checking division result for NaN.
-    /// </summary>
+    // Calculates RSI from average gain and loss.
+    // Matches Series parity by checking division result for NaN.
     private static double? CalculateRsi(double avgGain, double avgLoss)
     {
         // Check if division would produce NaN (e.g., 0/0 case)

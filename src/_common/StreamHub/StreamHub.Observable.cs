@@ -13,7 +13,7 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamObservable<TOut>
     public int ObserverCount => _observers.Count;
 
     /// <inheritdoc/>
-    public IReadOnlyList<TOut> ReadCache => Cache;
+    public IReadOnlyList<TOut> ReadCache => Cache.AsReadOnly();
 
     /// <inheritdoc/>
     public int MaxCacheSize { get; init; }
@@ -93,7 +93,7 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamObservable<TOut>
     /// Sends rebuilds point in time to all subscribers.
     /// </summary>
     /// <param name="fromTimestamp">Rebuild starting date.</param>
-    private void NotifyObserversOnRebuild(DateTime fromTimestamp)
+    protected void NotifyObserversOnRebuild(DateTime fromTimestamp)
     {
         foreach (IStreamObserver<TOut> o in _observers.ToArray())
         {

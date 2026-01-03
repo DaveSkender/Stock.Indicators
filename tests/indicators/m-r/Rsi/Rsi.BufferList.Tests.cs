@@ -86,7 +86,7 @@ public class Rsi : BufferListTestBase, ITestChainBufferList
     public void Results_AreAlwaysBounded()
     {
         RsiList sut = new(14, Quotes);
-        sut.IsBetween(x => x.Rsi, 0, 100);
+        sut.IsBetween(static x => x.Rsi, 0, 100);
     }
 
     [TestMethod]

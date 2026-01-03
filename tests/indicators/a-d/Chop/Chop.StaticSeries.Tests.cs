@@ -54,7 +54,7 @@ public class Chop : StaticSeriesTestBase
     public void Results_AreAlwaysBounded()
     {
         IReadOnlyList<ChopResult> sut = Quotes.ToChop(14);
-        sut.IsBetween(x => x.Chop, 0, 100);
+        sut.IsBetween(static x => x.Chop, 0, 100);
     }
 
     [TestMethod]

@@ -24,7 +24,7 @@ public class Rsi : StaticSeriesTestBase
     public void Results_AreAlwaysBounded()
     {
         IReadOnlyList<RsiResult> sut = Quotes.ToRsi(14);
-        sut.IsBetween(x => x.Rsi, 0, 100);
+        sut.IsBetween(static x => x.Rsi, 0, 100);
     }
 
     [TestMethod]

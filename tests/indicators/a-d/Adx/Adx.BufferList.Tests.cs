@@ -12,11 +12,11 @@ public class Adx : BufferListTestBase
     public void Results_AreAlwaysBounded()
     {
         AdxList sut = new(14, Quotes);
-        sut.IsBetween(x => x.Pdi, 0, 100);
-        sut.IsBetween(x => x.Mdi, 0, 100);
-        sut.IsBetween(x => x.Dx, 0, 100);
-        sut.IsBetween(x => x.Adx, 0, 100);
-        sut.IsBetween(x => x.Adxr, 0, 100);
+        sut.IsBetween(static x => x.Pdi, 0, 100);
+        sut.IsBetween(static x => x.Mdi, 0, 100);
+        sut.IsBetween(static x => x.Dx, 0, 100);
+        sut.IsBetween(static x => x.Adx, 0, 100);
+        sut.IsBetween(static x => x.Adxr, 0, 100);
     }
 
     [TestMethod]

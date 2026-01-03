@@ -105,7 +105,7 @@ public class MfiTests : TestBase
         int lookbackValue = (int)lookbackParam.DefaultValue!;
 
         // Act - Call using catalog metadata (via ListingExecutor)
-        IReadOnlyList<MfiResult> catalogResults = ListingExecutor.Execute<IQuote, MfiResult>(quotes, listing);
+        IReadOnlyList<MfiResult> catalogResults = ListingExecutor.Execute<MfiResult>(quotes, listing);
 
         // Act - Direct call
         IReadOnlyList<MfiResult> directResults = quotes.ToMfi(lookbackValue);

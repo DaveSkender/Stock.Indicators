@@ -16,15 +16,15 @@ public partial class Quotes : TestBase
         h.Should().HaveCount(502);
 
         // check first date
-        DateTime firstDate = DateTime.ParseExact("01/18/2016", "MM/dd/yyyy", TestBase.invariantCulture);
+        DateTime firstDate = DateTime.ParseExact("01/18/2016", "MM/dd/yyyy", invariantCulture);
         h[0].Timestamp.Should().Be(firstDate);
 
         // check last date
-        DateTime lastDate = DateTime.ParseExact("12/31/2018", "MM/dd/yyyy", TestBase.invariantCulture);
+        DateTime lastDate = DateTime.ParseExact("12/31/2018", "MM/dd/yyyy", invariantCulture);
         h[^1].Timestamp.Should().Be(lastDate);
 
         // spot check an out of sequence date
-        DateTime spotDate = DateTime.ParseExact("03/16/2017", "MM/dd/yyyy", TestBase.invariantCulture);
+        DateTime spotDate = DateTime.ParseExact("03/16/2017", "MM/dd/yyyy", invariantCulture);
         h[50].Timestamp.Should().Be(spotDate);
     }
 

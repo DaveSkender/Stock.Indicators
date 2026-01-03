@@ -219,10 +219,18 @@ public static partial class Stoch
 
                     // SMMA case
                     case MaType.SMMA:
-                        // re/initialize
+                        // re/initialize with SMA when prevK is NaN
+                        // (happens at start or after NaN input values)
+                        // This matches standard SMMA pattern (see Alligator, SMMA indicators)
                         if (double.IsNaN(prevK))
                         {
-                            prevK = o[i];
+                            double initSum = 0;
+                            for (int p = i - smoothPeriods + 1; p <= i; p++)
+                            {
+                                initSum += o[p];
+                            }
+
+                            prevK = initSum / smoothPeriods;
                         }
 
                         k[i] = ((prevK * (smoothPeriods - 1)) + o[i]) / smoothPeriods;
@@ -252,7 +260,6 @@ public static partial class Stoch
                 switch (movingAverageType)
                 {
                     // SMA case
-                    // TODO: || double.IsNaN(prevD) to re/initialize SMMA?
                     case MaType.SMA:
                         double sum = 0;
                         for (int p = i - signalPeriods + 1; p <= i; p++)
@@ -265,10 +272,18 @@ public static partial class Stoch
 
                     // SMMA case
                     case MaType.SMMA:
-                        // re/initialize
+                        // re/initialize with SMA when prevD is NaN
+                        // (happens at start or after NaN input values)
+                        // This matches standard SMMA pattern (see Alligator, SMMA indicators)
                         if (double.IsNaN(prevD))
                         {
-                            prevD = k[i];
+                            double initSum = 0;
+                            for (int p = i - signalPeriods + 1; p <= i; p++)
+                            {
+                                initSum += k[p];
+                            }
+
+                            prevD = initSum / signalPeriods;
                         }
 
                         double d = ((prevD * (signalPeriods - 1)) + k[i]) / signalPeriods;

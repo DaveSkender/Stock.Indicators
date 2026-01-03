@@ -74,6 +74,8 @@ public class MaEnvelopesHub
         // Validate lookbackPeriods based on MA type
         switch (movingAverageType)
         {
+            // TODO: implement remaining moving average types
+
             case MaType.ALMA:
                 throw new NotImplementedException(
                     "ALMA-based Moving Average Envelopes are not yet supported in streaming mode. " +

@@ -24,7 +24,7 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
     }
 
     /// <inheritdoc/>
-    public IReadOnlyList<TOut> Results => Cache;
+    public IReadOnlyList<TOut> Results => Cache.AsReadOnly();
 
     /// <inheritdoc/>
     public bool IsFaulted { get; private set; }
@@ -64,10 +64,13 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
     }
 
     /// <summary>
-    /// Fetches the cache reference.
+    /// Fetches the cache reference as a read-only wrapper.
     /// </summary>
-    /// <returns>The cache reference.</returns>
-    public IReadOnlyList<TOut> GetCacheRef() => Cache;
+    /// <remarks>
+    /// This method returns an immutable read-only wrapper that prevents modification.
+    /// </remarks>
+    /// <returns>The read-only cache reference.</returns>
+    public IReadOnlyList<TOut> GetCacheRef() => Cache.AsReadOnly();
 
     /// <inheritdoc/>
     public override string ToString() => Name;
