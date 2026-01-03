@@ -48,7 +48,7 @@ Console.WriteLine("SMA Analysis --------------------------");
   with the same ordinal position.
  ************************************************************/
 
-IReadOnlyList<SmaResult> resultsList
+List<SmaResult> resultsList
     = results.ToList();
 
 for (int i = quotes.Count - 25; i < quotes.Count; i++)
