@@ -4,7 +4,7 @@
 
 This document summarizes performance benchmarks for StreamHub indicators under rapid same-candle update scenarios—a critical pattern in live trading where the latest candle updates frequently before the next candle arrives.
 
-**Key Finding**: The StreamHubState pattern provides **2.04x to 2.65x faster performance** for complex stateful indicators (RSI: 2.04x, PMO: 2.65x) while adding overhead for simple window-based indicators (SMA: 1.26x slower, StdDev: 1.21x slower). This optimization specifically targets the rapid same-candle update scenario common in live streaming data.
+**Key Finding**: The StreamHubState pattern provides **1.03x to 2.65x faster performance** for complex stateful indicators (PMO: 2.65x, RSI: 2.04x, Ichimoku: 1.06x, StochRSI: 1.03x) while adding overhead for simple window-based indicators (SMA: 1.26x slower, StdDev: 1.21x slower). This optimization specifically targets the rapid same-candle update scenario common in live streaming data.
 
 ## Benchmark Methodology
 
@@ -45,7 +45,7 @@ This simulates real-world live trading where tick data arrives continuously, upd
 | **Gator** | 206.3 | — | Not implemented | 🔶 Candidate (SMMA chains) |
 | **HMA** | 361.2 | — | Not implemented | 🔶 Candidate (WMA chains) |
 | **HTTrendline** | 11,110 | — | Not implemented | 🔶 Candidate (Hilbert transform) |
-| **Ichimoku** | 644.3 | — | Not implemented | 🔶 Candidate (multiple periods) |
+| **Ichimoku** | 1,012 | 958.0 | **1.06x faster** (-5.4% time) | Multiple rolling windows |
 | **KAMA** | 227.9 | — | Not implemented | 🔶 Candidate (adaptive EMA) |
 | **Keltner** | 206.4 | — | Not implemented | 🔶 Candidate (EMA + ATR) |
 | **KVO** | 184.3 | — | Not implemented | 🔶 Candidate (dual EMA) |

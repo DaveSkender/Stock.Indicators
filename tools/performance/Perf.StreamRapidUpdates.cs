@@ -487,4 +487,68 @@ public class StreamRapidUpdates
 
         return results;
     }
+
+    // Ichimoku - Hub rapid updates
+    [Benchmark]
+    public IReadOnlyList<IchimokuResult> Ichimoku_Hub_RapidUpdates()
+    {
+        QuoteHub quoteHub = new();
+        quoteHub.Add(quotes);
+
+        IchimokuHub observer = quoteHub.ToIchimokuHub();
+
+        Quote lastQuote = quotes[^1];
+        for (int i = 0; i < rapidUpdates; i++)
+        {
+            Quote updatedQuote = new() {
+                Timestamp = lastQuote.Timestamp,
+                Open = lastQuote.Open,
+                High = lastQuote.High + (i * 0.01m),
+                Low = lastQuote.Low,
+                Close = lastQuote.Close + (i * 0.01m),
+                Volume = lastQuote.Volume
+            };
+
+            quoteHub.Add(updatedQuote);
+        }
+
+        IReadOnlyList<IchimokuResult> results = observer.Results;
+
+        observer.Unsubscribe();
+        quoteHub.EndTransmission();
+
+        return results;
+    }
+
+    // Ichimoku - HubState rapid updates
+    [Benchmark]
+    public IReadOnlyList<IchimokuResult> Ichimoku_HubState_RapidUpdates()
+    {
+        QuoteHub quoteHub = new();
+        quoteHub.Add(quotes);
+
+        IchimokuHubState observer = quoteHub.ToIchimokuHubState();
+
+        Quote lastQuote = quotes[^1];
+        for (int i = 0; i < rapidUpdates; i++)
+        {
+            Quote updatedQuote = new() {
+                Timestamp = lastQuote.Timestamp,
+                Open = lastQuote.Open,
+                High = lastQuote.High + (i * 0.01m),
+                Low = lastQuote.Low,
+                Close = lastQuote.Close + (i * 0.01m),
+                Volume = lastQuote.Volume
+            };
+
+            quoteHub.Add(updatedQuote);
+        }
+
+        IReadOnlyList<IchimokuResult> results = observer.Results;
+
+        observer.Unsubscribe();
+        quoteHub.EndTransmission();
+
+        return results;
+    }
 }
