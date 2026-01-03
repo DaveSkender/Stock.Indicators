@@ -41,6 +41,19 @@ Performance analysis comparing Series, BufferList, and StreamHub implementations
 - **Metrics**: Mean execution time (nanoseconds), Error, StdDev, Memory allocations, Gen0/Gen1/Gen2 GC collections
 - **Sorting**: Results sorted fastest to slowest
 
+## Style Comparison Benchmarks
+
+Run comprehensive comparison across all indicators:
+
+```bash
+cd tools/performance
+dotnet run -c Release -- --filter 'Performance.StyleComparison*'
+```
+
+BenchmarkDotNet groups results by indicator with automatic ratio columns comparing Buffer and Stream to Series baseline. This provides quick visual identification of performance differences.
+
+**GitHub Actions**: Manual workflow available at `.github/workflows/test-performance-comparison.yml`
+
 ## BufferList Performance Results
 
 ### Distribution Summary
