@@ -1,222 +1,44 @@
 # Streaming Indicators implementation plan
 
-This document consolidates incomplete tasks from the streaming indicators development feature (originally tracked in .specify/specs/001-develop-streaming-indicators/).
+This document tracks remaining work and enhancement opportunities for the streaming indicators feature.
 
-**Status**: 97% complete - Framework is production-ready with comprehensive BufferList (93%) and StreamHub (95%) coverage.
+**Status**: 98% complete - Framework is production-ready with comprehensive BufferList (96%) and StreamHub (98%) coverage.
 
 - Total indicators: 85
-- With BufferList: 79 (93%)
-- With StreamHub: 80 (95%)
-- With streaming documentation: 78 of 79 streamable (99%)
+- With BufferList: 82/85 (96%) - 3 excluded (RenkoAtr, StdDevChannels, ZigZag)
+- With StreamHub: 83/85 (98%) - 2 excluded (RenkoAtr, StdDevChannels), 1 deferred (ZigZag)
+- With streaming documentation: 81/82 (99%) - Only ZigZag missing (Series-only)
 
-## Recent Performance Fixes (December 2025)
+## Completed Work Summary
 
-### ForceIndex StreamHub O(n²) Bug - FIXED ✅
+### Core Implementation (100% Complete ✅)
 
-**Problem**: ForceIndex StreamHub had a critical O(n²) bug causing 61.6x slower performance than Series.
-The `canIncrement` condition failed during initial population, falling through to a full O(n) recalculation for every quote.
+All 83 implementable indicators have streaming support:
 
-**Fix**: Refactored to use the EMA pattern (accessing `Cache[i-1]` directly) instead of maintaining separate state variables.
+- **BufferList**: 82/85 (96%) - Excluded: RenkoAtr, StdDevChannels, ZigZag
+- **StreamHub**: 83/85 (98%) - Excluded: RenkoAtr, StdDevChannels; Deferred: ZigZag
+- **Documentation**: 81/82 (99%) - All streaming indicators documented except ZigZag (Series-only)
+- **Catalog entries**: Complete (PR #1784)
 
-| Before | After | Improvement |
-| ------ | ----- | ----------- |
-| 831,594 ns (61.6x) | 29,820 ns (2.49x) | **96% faster** |
+### Infrastructure & Testing (100% Complete ✅)
 
-### Slope StreamHub O(n) Optimization - FIXED ✅
+- ✅ StreamHub audit script (`tools/scripts/audit-streamhub.sh`) validates test coverage and compliance
+- ✅ Provider history testing: 40/42 applicable indicators (95%) - Excluded: Quote (utility), Renko (transformation)
+- ✅ Performance baselines established (December 2025 full benchmark run)
+- ✅ Memory validation infrastructure ready
+- ✅ Performance regression detection script (`detect-regressions.ps1`) integrated into CI/CD
 
-**Problem**: `UpdateLineValues` looped from 0 to nullify ALL previous Line values, creating O(n) per add.
+### Critical Performance Fixes (December 2025 ✅)
 
-**Fix**: Changed to nullify only the SINGLE value that exited the window (O(1) instead of O(n)).
+- ✅ **ForceIndex StreamHub O(n²) bug**: Fixed 96% performance regression (61.6x → 2.49x overhead)
+- ✅ **Slope StreamHub optimization**: 24% faster (7.5x → 5.7x overhead) via O(1) window updates
 
-| Before | After | Improvement |
-| ------ | ----- | ----------- |
-| 361,931 ns (7.5x) | 275,337 ns (~5.7x) | **24% faster** |
+### Framework Enhancements (100% Complete ✅)
 
-Note: Remaining Slope overhead is inherent (must recalculate `lookbackPeriods` Line values on each quote for repaint behavior).
+- ✅ **DPO Virtual Rebuild() Pattern**: Framework support for chained observers with lookahead offset dependencies (PR #1802/#1800)
+- ✅ **Catalog entries**: All streaming indicators registered (PR #1784)
 
-## Audit Infrastructure (T173-T185) ✅
-
-**StreamHub Audit Script**: `tools/scripts/audit-streamhub.sh`
-
-Validates StreamHub test coverage, interface compliance, and provider history testing completeness.
-
-**Usage**: `bash tools/scripts/audit-streamhub.sh`
-
-**Results**:
-
-- 81/81 StreamHub implementations have tests (100% coverage)
-- Interface compliance: PASS
-- Required test methods: PASS  
-- Provider history testing: 40/42 applicable (95%) ✅ **Dpo now included**
-- 2 intentional exclusions: Quote (utility), Renko (transformation)
-
-**Canonical Test Pattern**: `tests/indicators/e-k/Ema/Ema.StreamHub.Tests.cs` demonstrates comprehensive provider history testing with Insert/Remove operations.
-
-For script documentation, see `tools/scripts/README.md`
-
-## Phase 1: Infrastructure & Compliance
-
-### Documentation Updates
-
-- [x] **T174** - Update indicator documentation pages for all streaming-enabled indicators
-  - ✅ Streaming documentation added to 81 of 82 streamable indicators (PR #1785)
-  - Only ZigZag missing docs (excluded from streaming, Series-only)
-  - SMA/EMA documentation patterns used as template
-  - **Status**: COMPLETE
-
-### Quality Validation
-
-- [x] **T173** - Validate remediation completeness by re-running StreamHub audit
-  - ✅ Created comprehensive audit script (`tools/scripts/audit-streamhub.sh`)
-  - ✅ Confirmed all 81 StreamHub implementations have corresponding tests (100% coverage)
-  - ✅ Verified test patterns match instruction file requirements
-  - ✅ Validated interface compliance (all tests implement correct observer/provider interfaces)
-  - ✅ Enhanced 39 of 42 applicable indicators with provider history testing
-  - **Status**: COMPLETE
-
-## Phase 3: StreamHub Implementations
-
-### Lookahead Indicator Analysis (Framework Fix)
-
-**DPO Virtual Rebuild() Pattern** - Completed via PR #1802/#1800
-
-DPO (Detrended Price Oscillator) required a framework enhancement to support chained observers:
-
-- **Problem**: DPO has backward offset dependency: `DPO[i] = Value[i] - SMA[i + offset]`
-  - When provider history mutates (Insert/Remove), positions BEFORE the mutation are affected
-  - Without virtual `Rebuild()`, couldn't notify downstream observers (e.g., SmaHub) of actual affected range
-  
-- **Solution**: Made `StreamHub.Rebuild()` and `OnRebuild()` virtual
-  - DPO overrides `Rebuild()` to adjust timestamp backward by offset
-  - Ensures downstream observers recalculate from correct starting position
-  
-- **Analysis of Other Indicators**:
-  - ✅ **Ichimoku** - Has `ChikouOffset` (forward-looking) but implements `ISeries` → Cannot be chained, no fix needed
-  - ✅ **RollingPivots** - Has `OffsetPeriods` but implements `ISeries` → Cannot be chained, no fix needed  
-  - ✅ **All other IReusable indicators** - No lookahead/offset dependencies found
-  
-- **Conclusion**: DPO is the **only indicator** requiring virtual `Rebuild()` override for chained observer support
-
-### Completed StreamHub Implementations
-
-- [x] **T108** - Dpo StreamHub in `src/a-d/Dpo/Dpo.StreamHub.cs`
-  - ✅ Implemented with lookahead offset pattern
-  - ✅ Framework fix: Made `StreamHub.Rebuild()` and `OnRebuild()` virtual (PR #1802/#1800)
-  - ✅ DPO override adjusts rebuild timestamp backward by offset for chained observers
-  - ✅ ChainHub test now passes (removed `[Ignore]` attribute)
-  - Has both BufferList and StreamHub
-
-- [x] **T145** - Slope StreamHub in `src/s-z/Slope/Slope.StreamHub.cs`
-  - ✅ Implemented via PR #1779
-  - Repaint-friendly logic modeled after VolatilityStop
-  - Has both BufferList and StreamHub
-
-### Excluded StreamHub Implementations (Not Implementing)
-
-The following were evaluated and intentionally excluded from streaming implementations:
-
-- [x] **T140** - RenkoAtr StreamHub (NOT IMPLEMENTING)
-  - Reason: ATR calculation requires full dataset to determine final brick size
-  - Real-time streaming would require buffering all history and recalculating entire Renko series on each new quote
-  - Defeats incremental processing purpose
-  - Series-only implementation maintained
-
-- [x] **T153** - StdDevChannels StreamHub (NOT IMPLEMENTING)
-  - Reason: Repaint-by-design algorithm recalculates entire dataset (O(n²)) on each new data point
-  - Makes real-time streaming impractical
-  - Series-only implementation maintained
-
-### Human-Only Implementation (Deferred)
-
-- [ ] **T170** - ZigZag StreamHub
-  - Complex logic requiring human implementation
-  - Deferred for manual implementation
-  - **Priority**: Low
-  - **Effort**: TBD - requires algorithmic research
-
-## Phase 4: Test Infrastructure & Quality Assurance
-
-### Performance & Quality Gates
-
-- [x] **Q002** - Run performance benchmarks comparing BufferList vs Series
-  - ✅ StyleComparison benchmarks executed and baselines established
-  - ✅ Baseline performance metrics documented in STREAMING_PERFORMANCE_ANALYSIS.md
-  - ✅ Analysis shows 67% of BufferList implementations meet <30% overhead target
-  - **Status**: COMPLETE (PR #1790)
-
-- [x] **Q003** - Run performance benchmarks comparing StreamHub vs Series
-  - ✅ StyleComparison benchmarks executed and baselines established
-  - ✅ Baseline performance metrics documented in STREAMING_PERFORMANCE_ANALYSIS.md
-  - ✅ Analysis identifies 47% meeting targets, 39% requiring optimization
-  - **Status**: COMPLETE (PR #1790)
-
-- [x] **Q004** - Validate memory overhead stays within <10KB per instance target (NFR-002)
-  - ✅ MemoryDiagnoser added to BenchmarkConfig
-  - ✅ Memory profiling infrastructure ready for data collection
-  - ✅ Analysis methodology documented in STREAMING_PERFORMANCE_ANALYSIS.md
-  - ✅ Memory baseline structure created in baselines/memory/
-  - **Status**: COMPLETE - Infrastructure ready (PR #1790)
-
-- [x] **Q005** - Create automated performance regression detection for streaming indicators
-  - ✅ detect-regressions.ps1 script integrated into CI/CD workflow
-  - ✅ GitHub Actions workflow enhanced with regression detection for PRs
-  - ✅ 15% threshold configured for pull request checks
-  - ✅ Automated summary reporting to GitHub Actions
-  - **Status**: COMPLETE (PR #1790)
-
-- [x] **Q006** - Establish memory baseline measurements for all streaming indicator types
-  - ✅ Memory baseline structure defined in baselines/memory/
-  - ✅ Documentation created for baseline collection and validation
-  - ✅ Categorization by indicator type (simple, complex, multi-series, windowed)
-  - ✅ Compliance validation methodology documented
-  - **Status**: COMPLETE - Framework established (PR #1790)
-
-### StreamHub Test Infrastructure
-
-- [x] **T175-T179** - StreamHub test interface compliance audits (5 tasks)
-  - ✅ Audit script validates all tests implement correct interfaces
-  - ✅ Confirmed: ITestQuoteObserver, ITestChainObserver properly used
-  - ✅ All required test methods present (QuoteObserver, ChainObserver, ChainHub)
-  - ✅ No interface compliance issues found
-  - **Status**: COMPLETE
-
-- [x] **T180-T183** - Provider history testing additions (4 tasks)
-  - ✅ Audit script identifies tests missing comprehensive provider history coverage
-  - ✅ Documented proper pattern (EMA hub test as canonical reference)
-  - ✅ Updated 39 of 42 applicable indicators with comprehensive provider history testing
-  - ✅ Intentional exclusions documented (3): Quote (utility), Dpo (~~future-looking~~ **FIXED** ✅), Renko (transformation)
-  - **Status**: COMPLETE (93% of applicable indicators updated, Dpo now unblocked)
-  - **Updated indicators**: Adl, Adx, Alma, Aroon, Atr, Awesome, BollingerBands, Bop, Cci, ChaikinOsc, Chop, Cmf, Cmo, ConnorsRsi, Epma, HeikinAshi, Kvo, Macd, Mfi, Obv, Pmo, Pvo, Roc, RocWb, Rsi, Sma, SmaAnalysis, Smi, StochRsi, T3, Tema, Tr, Trix, Ultimate, Vwap, Vortex, Wma, Williams (39 total)
-  - **Excluded indicators**: Quote (utility hub, no calculation logic), Dpo (~~future-looking with lookahead~~ **NOW SUPPORTS CHAINING** ✅), Renko (quote transformation, non-1:1 timestamps)
-
-- [x] **T184-T185** - Test base class updates (2 tasks)
-  - ✅ StreamHubTestBase structure reviewed and validated
-  - ✅ Four test interfaces properly defined
-  - ✅ Helper methods available (AssertProviderHistoryIntegrity)
-  - ✅ Documentation is clear and comprehensive
-  - **Status**: COMPLETE (no updates needed)
-
-## Phase 5: Documentation & Polish
-
-- [x] **D003** - RSI documentation updates
-  - ✅ Streaming examples added (PR #1785)
-  - Parameter descriptions updated
-  - **Status**: COMPLETE
-
-- [x] **D004** - MACD documentation updates
-  - ✅ Streaming examples added (PR #1785)
-  - Parameter descriptions updated
-  - **Status**: COMPLETE
-
-- [x] **D005** - BollingerBands documentation updates
-  - ✅ Streaming examples added (PR #1785)
-  - Parameter descriptions updated
-  - **Status**: COMPLETE
-
-- [x] **D006** - README overview updates
-  - ✅ Streaming indicators section exists
-  - Quick start examples included
-  - **Status**: COMPLETE
+## Remaining Documentation Work
 
 - [ ] **D007** - Migration guide updates
   - Document migration path from Series to streaming
@@ -226,7 +48,7 @@ The following were evaluated and intentionally excluded from streaming implement
 
 ## Enhancement Backlog (Future Work)
 
-These items were identified as enhancements beyond the core framework:
+These items were identified as enhancements beyond the core framework. See [Performance Review](../../tools/performance/baselines/PERFORMANCE_REVIEW.md) for performance-related details.
 
 ### Performance Optimization Tasks (P2 - Medium Priority)
 
@@ -272,12 +94,13 @@ These algorithmic improvements apply to Series (batch) implementations. See [Iss
   - **Priority**: Medium
   - **Effort**: Low
 
-- [ ] **S003** - Array allocation for applicable indicators ([Issue #1259](https://github.com/DaveSkender/Stock.Indicators/issues/1259))
+- [x] **S003** - Array allocation for applicable indicators ([Issue #1259](https://github.com/DaveSkender/Stock.Indicators/issues/1259))
   - **Current state**: Many indicators use `List<T>.Add()` pattern
   - **Target state**: Use `T[]` array allocation where beneficial
   - **Impact**: 5-20% per-indicator improvement
   - **Priority**: Low - requires per-indicator benchmarking
   - **Effort**: Medium - 40+ candidates
+  - PR #1838 is showing unmeasurable improvement - ON HOLD indefinitely
 
 - [ ] **S004** - Span-based window operations (P3)
   - **Current state**: Window calculations use indexed access or LINQ
@@ -421,287 +244,328 @@ The following tasks are derived from TODO comments found in the codebase. They a
 
 ### P1 - High Priority (Performance & Correctness)
 
-#### T200 - TEMA/DEMA StreamHub Layered EMA State Optimization
+- [ ] T200 - TEMA/DEMA StreamHub Layered EMA State Optimization
 
-- **Files**: `src/s-z/Tema/Tema.StreamHub.cs`, `src/a-d/Dema/Dema.StreamHub.cs`
-- **Problem**: TEMA and DEMA StreamHub implementations recalculate entire layered EMA chains on each provider history edit instead of persisting intermediate state
-- **Impact**: Performance degradation on Insert/Remove operations
-- **Solution**: Persist layered EMA state (ema1, ema2, ema3 for TEMA; ema1, ema2 for DEMA) and implement targeted rollback that only recomputes the affected tail segment after edits
-- **Reference**: PR #1433 discussion
-- **Effort**: 4-6 hours per indicator
-- **Dependencies**: None
-- **Priority**: High - performance optimization for frequently-used indicators
+  - **Files**: `src/s-z/Tema/Tema.StreamHub.cs`, `src/a-d/Dema/Dema.StreamHub.cs`
+  - **Problem**: TEMA and DEMA StreamHub implementations recalculate entire layered EMA chains on each provider history edit instead of persisting intermediate state
+  - **Impact**: Performance degradation on Insert/Remove operations
+  - **Solution**: Persist layered EMA state (ema1, ema2, ema3 for TEMA; ema1, ema2 for DEMA) and implement targeted rollback that only recomputes the affected tail segment after edits
+  - **Reference**: PR #1433 discussion
+  - **Effort**: 4-6 hours per indicator
+  - **Dependencies**: None
+  - **Priority**: High - performance optimization for frequently-used indicators
 
-#### T201 - Stochastic SMMA Re-initialization Logic
+- [ ] T201 - Stochastic SMMA Re-initialization Logic
 
-- **File**: `src/s-z/Stoch/Stoch.StaticSeries.cs:255`
-- **Problem**: Unclear whether SMMA signal line should re-initialize when `prevD` is NaN
-- **Current state**: Comment indicates uncertainty about re-initialization condition
-- **Solution**: Research SMMA behavior on NaN values, add test case for NaN scenario, implement correct logic with inline documentation
-- **Effort**: 2-3 hours
-- **Dependencies**: None
-- **Priority**: High - correctness issue affecting Stochastic indicator accuracy
+  - **File**: `src/s-z/Stoch/Stoch.StaticSeries.cs:255`
+  - **Problem**: Unclear whether SMMA signal line should re-initialize when `prevD` is NaN
+  - **Current state**: Comment indicates uncertainty about re-initialization condition
+  - **Solution**: Research SMMA behavior on NaN values, add test case for NaN scenario, implement correct logic with inline documentation
+  - **Effort**: 2-3 hours
+  - **Dependencies**: None
+  - **Priority**: High - correctness issue affecting Stochastic indicator accuracy
 
-#### T202 - WilliamsR Boundary Rounding Precision
+- [ ] T202 - WilliamsR Boundary Rounding Precision
 
-- **File**: `tests/integration/indicators/WilliamsR/WilliamsR.Tests.cs:24`
-- **Problem**: WilliamsR occasionally produces values slightly outside the theoretical [-100, 0] range due to floating-point rounding at boundaries
-- **Current state**: Integration test uses `IsBetween` but notes precision issues
-- **Solution**: Apply boundary clamping to ensure -100 ≤ WilliamsR ≤ 0, add precision tests for boundary cases
-- **Effort**: 2-3 hours
-- **Dependencies**: None
-- **Priority**: High - correctness issue affecting indicator bounds
+  - **File**: `tests/integration/indicators/WilliamsR/WilliamsR.Tests.cs:24`
+  - **Problem**: WilliamsR occasionally produces values slightly outside the theoretical `[-100, 0]` range due to floating-point rounding at boundaries
+  - **Current state**: Integration test uses `IsBetween` but notes precision issues
+  - **Solution**: Apply boundary clamping to ensure -100 ≤ WilliamsR ≤ 0, add precision tests for boundary cases
+  - **Effort**: 2-3 hours
+  - **Dependencies**: None
+  - **Priority**: High - correctness issue affecting indicator bounds
 
 ### P2 - Medium Priority (Technical Debt & Framework)
 
-#### T203 - Remove Preview Features from Project Configuration
+- [ ] T203 - Remove Preview Features from Project Configuration
 
-- **File**: `src/Indicators.csproj:8-13`
-- **Problem**: Project uses preview features workaround for BufferList.cs syntax compatibility
-- **Current state**: Waiting for Roslynator/.NET Roslyn agreement on syntax
-- **Solution**: Monitor Roslynator/Roslyn updates, remove `EnablePreviewFeatures` when syntax is standardized
-- **Effort**: 1 hour (monitoring + removal)
-- **Dependencies**: External - Roslynator/.NET Roslyn standardization
-- **Priority**: Medium - technical debt, no functional impact
+  - **File**: `src/Indicators.csproj:8-13`
+  - **Problem**: Project uses preview features workaround for BufferList.cs syntax compatibility
+  - **Current state**: Waiting for Roslynator/.NET Roslyn agreement on syntax
+  - **Solution**: Monitor Roslynator/Roslyn updates, remove `EnablePreviewFeatures` when syntax is standardized
+  - **Effort**: 1 hour (monitoring + removal)
+  - **Dependencies**: External - Roslynator/.NET Roslyn standardization
+  - **Priority**: Medium - technical debt, no functional impact
 
-#### T204 - StochRsi Remove() Auto-Healing Evaluation
+- [ ] T204 - StochRsi Remove() Auto-Healing Evaluation
 
-- **File**: `src/s-z/StochRsi/StochRsi.StaticSeries.cs:45`
-- **Problem**: Uncertain whether explicit `Remove()` call is still needed or if auto-healing handles warmup removal
-- **Current state**: Uses `Remove(Math.Min(rsiPeriods, length))` defensively
-- **Solution**: Test StochRsi without explicit Remove(), verify warmup handling works correctly, remove redundant call or document why it's needed
-- **Effort**: 2-3 hours
-- **Dependencies**: Auto-healing framework behavior
-- **Priority**: Medium - code cleanliness and framework consistency
+  - **File**: `src/s-z/StochRsi/StochRsi.StaticSeries.cs:45`
+  - **Problem**: Uncertain whether explicit `Remove()` call is still needed or if auto-healing handles warmup removal
+  - **Current state**: Uses `Remove(Math.Min(rsiPeriods, length))` defensively
+  - **Solution**: Test StochRsi without explicit Remove(), verify warmup handling works correctly, remove redundant call or document why it's needed
+  - **Effort**: 2-3 hours
+  - **Dependencies**: Auto-healing framework behavior
+  - **Priority**: Medium - code cleanliness and framework consistency
 
-#### T205 - StreamHub Reinitialization Optimization
+- [ ] T205 - StreamHub Reinitialization Optimization
 
-- **File**: `src/_common/StreamHub/StreamHub.cs:343-347`
-- **Problem**: StreamHub reinitializes by rebuilding from scratch instead of using faster static methods. Potential race condition between rebuild and subscribe in high-frequency scenarios
-- **Current state**: Full rebuild on reinitialization; subscription happens after rebuild completes
-- **Solution**: Make reinitialization abstract, allow subclasses to build initial cache from optimized static methods. Evaluate race condition risk and add synchronization if needed
-- **Effort**: 6-8 hours (framework change affecting all StreamHub implementations)
-- **Dependencies**: Requires careful testing across all StreamHub indicators
-- **Priority**: Medium - performance optimization with some risk
+  - **File**: `src/_common/StreamHub/StreamHub.cs:343-347`
+  - **Problem**: StreamHub reinitializes by rebuilding from scratch instead of using faster static methods. Potential race condition between rebuild and subscribe in high-frequency scenarios
+  - **Current state**: Full rebuild on reinitialization; subscription happens after rebuild completes
+  - **Solution**: Make reinitialization abstract, allow subclasses to build initial cache from optimized static methods. Evaluate race condition risk and add synchronization if needed
+  - **Effort**: 6-8 hours (framework change affecting all StreamHub implementations)
+  - **Dependencies**: Requires careful testing across all StreamHub indicators
+  - **Priority**: Medium - performance optimization with some risk
 
-#### T206 - StreamHub OnAdd Array Return Pattern
+- [ ] T206 - StreamHub OnAdd Array Return Pattern
 
-- **File**: `src/_common/StreamHub/StreamHub.Observer.cs:33`
-- **Problem**: OnAdd currently returns single result; some indicators might benefit from array return for batch operations
-- **Current state**: Single-item append pattern
-- **Solution**: Evaluate if any indicators need array return (e.g., quote transformations), add array variant if justified
-- **Effort**: 4-6 hours
-- **Dependencies**: None
-- **Priority**: Medium - potential performance optimization
+  - **File**: `src/_common/StreamHub/StreamHub.Observer.cs:33`
+  - **Problem**: OnAdd currently returns single result; some indicators might benefit from array return for batch operations
+  - **Current state**: Single-item append pattern
+  - **Solution**: Evaluate if any indicators need array return (e.g., quote transformations), add array variant if justified
+  - **Effort**: 4-6 hours
+  - **Dependencies**: None
+  - **Priority**: Medium - potential performance optimization
 
-#### T207 - Remove Specific Indicator RemoveWarmupPeriods Methods
+- [ ] T207 - Remove Specific Indicator RemoveWarmupPeriods Methods
 
-- **File**: `src/_common/Reusable/Reusable.Utilities.cs:62-64`
-- **Problem**: Generic `RemoveWarmupPeriods()` method now exists; many indicators still have redundant specific implementations
-- **Current state**: Some specific methods may already be removed
-- **Solution**: Audit all indicators for redundant `RemoveWarmupPeriods()` methods, remove duplicates where generic method suffices
-- **Effort**: 3-4 hours
-- **Dependencies**: None
-- **Priority**: Medium - code cleanup and maintainability
+  - **File**: `src/_common/Reusable/Reusable.Utilities.cs:62-64`
+  - **Problem**: Generic `RemoveWarmupPeriods()` method now exists; many indicators still have redundant specific implementations
+  - **Current state**: Some specific methods may already be removed
+  - **Solution**: Audit all indicators for redundant `RemoveWarmupPeriods()` methods, remove duplicates where generic method suffices
+  - **Effort**: 3-4 hours
+  - **Dependencies**: None
+  - **Priority**: Medium - code cleanup and maintainability
 
-#### T208 - Quote.Date Property Removal
+- [ ] T208 - Quote.Date Property Removal
 
-- **File**: `src/_common/Quotes/Quote.cs:48-49`
-- **Problem**: Legacy `Date` property exists for backward compatibility with old initialization syntax
-- **Current state**: Kept for `new Quote { Date: ... }` compatibility
-- **Solution**: Evaluate if `Date` property can be removed in next major version, update migration guide if deprecated
-- **Effort**: 2-3 hours (+ breaking change coordination)
-- **Dependencies**: Major version release
-- **Priority**: Medium - technical debt cleanup
+  - **File**: `src/_common/Quotes/Quote.cs:48-49`
+  - **Problem**: Legacy `Date` property exists for backward compatibility with old initialization syntax
+  - **Current state**: Kept for `new Quote { Date: ... }` compatibility
+  - **Solution**: Evaluate if `Date` property can be removed in next major version, update migration guide if deprecated
+  - **Effort**: 2-3 hours (+ breaking change coordination)
+  - **Dependencies**: Major version release
+  - **Priority**: Medium - technical debt cleanup
 
-#### T209 - PivotPoints/Pivots ToList() Performance
+- [ ] T209 - PivotPoints/Pivots ToList() Performance
 
-- **Files**: `src/m-r/PivotPoints/PivotPoints.Utilities.cs:33`, multiple other locations
-- **Problem**: Uses `ToList()` to enable `FindIndex` on IReadOnlyList, creating unnecessary copy
-- **Current state**: Defensively copies to List for index searching
-- **Solution**: Implement extension method for IReadOnlyList.FindIndex or use loop-based search to avoid allocation
-- **Effort**: 3-4 hours (create utility method, replace all usages)
-- **Dependencies**: None
-- **Priority**: Medium - performance optimization (memory allocation reduction)
+  - **Files**: `src/m-r/PivotPoints/PivotPoints.Utilities.cs:33`, multiple other locations
+  - **Problem**: Uses `ToList()` to enable `FindIndex` on IReadOnlyList, creating unnecessary copy
+  - **Current state**: Defensively copies to List for index searching
+  - **Solution**: Implement extension method for IReadOnlyList.FindIndex or use loop-based search to avoid allocation
+  - **Effort**: 3-4 hours (create utility method, replace all usages)
+  - **Dependencies**: None
+  - **Priority**: Medium - performance optimization (memory allocation reduction)
 
-#### T210 - Pivots Streaming Rewrite Evaluation
+- [ ] T210 - Pivots Streaming Rewrite Evaluation
 
-- **File**: `src/m-r/Pivots/Pivots.StaticSeries.cs:124-125`
-- **Problem**: Current implementation uses two-pass algorithm; may need rewrite for streaming (or benefit Series too)
-- **Current state**: Two full passes over data
-- **Solution**: Evaluate single-pass algorithm feasibility, implement if beneficial for both Series and streaming
-- **Effort**: 6-8 hours
-- **Dependencies**: None
-- **Priority**: Medium - potential performance improvement
+  - **File**: `src/m-r/Pivots/Pivots.StaticSeries.cs:124-125`
+  - **Problem**: Current implementation uses two-pass algorithm; may need rewrite for streaming (or benefit Series too)
+  - **Current state**: Two full passes over data
+  - **Solution**: Evaluate single-pass algorithm feasibility, implement if beneficial for both Series and streaming
+  - **Effort**: 6-8 hours
+  - **Dependencies**: None
+  - **Priority**: Medium - potential performance improvement
 
-#### T211 - ListingExecutor Generic vs Interface Type Usage
+- [ ] T211 - ListingExecutor Generic vs Interface Type Usage
 
-- **File**: `src/_common/Catalog/ListingExecutor.cs:10,26`
-- **Problem**: Unclear if generic TQuote/TResult vs interface types are used consistently; parameters dictionary may be redundant to listing.Parameters
-- **Current state**: Mixed usage pattern
-- **Solution**: Audit ListingExecutor usage patterns, standardize on generic or interface types consistently, remove redundant parameter passing
-- **Effort**: 3-4 hours
-- **Dependencies**: Catalog system design
-- **Priority**: Medium - code clarity and maintainability
+  - **File**: `src/_common/Catalog/ListingExecutor.cs:10,26`
+  - **Problem**: Unclear if generic TQuote/TResult vs interface types are used consistently; parameters dictionary may be redundant to listing.Parameters
+  - **Current state**: Mixed usage pattern
+  - **Solution**: Audit ListingExecutor usage patterns, standardize on generic or interface types consistently, remove redundant parameter passing
+  - **Effort**: 3-4 hours
+  - **Dependencies**: Catalog system design
+  - **Priority**: Medium - code clarity and maintainability
+
+- [ ] T212 - Catalog NotImplementedException Alternative
+
+  - **File**: `src/_common/Catalog/Catalog.cs:353`
+  - **Problem**: ConvertJsonElement uses NotImplementedException for JsonValueKind.Undefined/Object/Array cases
+  - **Current state**: Intentional limitation with pragma suppression (IDE3000) documenting unsupported types
+  - **Solution**: Research alternative error handling patterns (Result type, Option type, custom exception), implement if cleaner approach exists
+  - **Effort**: 2-3 hours
+  - **Dependencies**: None
+  - **Priority**: Medium - current implementation acceptable but could be improved
+
+- [ ] T213 - Performance Review Documentation Cleanup and Reorganization
+
+  - **Files**: `tools/performance/STREAMING_PERFORMANCE_ANALYSIS.md`, `tools/performance/baselines/PERFORMANCE_REVIEW.md`, `tools/performance/baselines/README.md`, `tools/performance/benchmarking.md`, `.github/workflows/test-performance.yml`
+  - **Problem**: Performance documentation is fragmented, inconsistent, and poorly organized across multiple files with overlapping content
+  - **Current state**:
+    - Multiple markdown files with unclear separation of concerns
+    - Recent workflow changes to test-performance.yml appear wonky
+    - Baseline structure unclear
+    - Memory baseline documentation scattered
+    - No clear entry point or navigation structure
+  - **Solution**:
+    - Consolidate and reorganize performance documentation with clear hierarchy
+    - Create single entry point (README.md) with links to specialized docs
+    - Separate concerns: benchmarking guide, baseline maintenance, regression detection, analysis methodology
+    - Review and clean up test-performance.yml workflow for clarity
+    - Standardize format and structure across all performance docs
+    - Add navigation links between related documents
+  - **Effort**: 6-8 hours
+  - **Dependencies**: None
+  - **Priority**: Medium - affects developer workflow and documentation quality
 
 ### P3 - Low Priority (Documentation & Testing)
 
-#### T212 - Hurst Anis-Lloyd Corrected R/S Implementation
+- [ ] T213 - MaEnvelopes Remaining MA Types Implementation
 
-- **File**: `src/e-k/Hurst/Hurst.StaticSeries.cs:155`
-- **Problem**: Current Hurst implementation uses basic R/S method; Anis-Lloyd correction may improve accuracy
-- **Current state**: Standard R/S Hurst calculation
-- **Solution**: Research Anis-Lloyd corrected R/S Hurst method, evaluate if improvement justifies complexity, implement if beneficial
-- **Effort**: 8-12 hours (research + implementation + validation)
-- **Dependencies**: Mathematical research
-- **Priority**: Low - enhancement, not a defect
+  - **File**: `src/m-r/MaEnvelopes/MaEnvelopes.StreamHub.cs:77`
+  - **Problem**: ALMA, EPMA, and HMA moving average types not implemented in StreamHub (intentionally excluded)
+  - **Current state**: NotImplementedException with pragma suppression (IDE3000) explains streaming complexity
+  - **Solution**: Research streaming algorithms for ALMA (complex windowing), EPMA (proprietary calculations), HMA (nested WMA); implement if feasible
+  - **Effort**: 8-12 hours (complex windowing and calculation requirements)
+  - **Dependencies**: None
+  - **Priority**: Low - intentional limitation for streaming mode, users can use Series-style calculation
 
-#### T213 - ConnorsRsi RemoveWarmupPeriods Calculation Review
+- [ ] T212 - Hurst Anis-Lloyd Corrected R/S Implementation
 
-- **File**: `tests/indicators/a-d/ConnorsRsi/ConnorsRsi.StaticSeries.Tests.cs:108-109`
-- **Problem**: Test comment indicates uncertainty about RemoveWarmupPeriods calculation being correct
-- **Current state**: Uses `Max(rsiPeriods, Max(streakPeriods, rankPeriods)) + 2`
-- **Solution**: Verify ConnorsRsi warmup period calculation is mathematically correct, update formula or remove comment
-- **Effort**: 2-3 hours
-- **Dependencies**: None
-- **Priority**: Low - test quality improvement
+  - **File**: `src/e-k/Hurst/Hurst.StaticSeries.cs:155`
+  - **Problem**: Current Hurst implementation uses basic R/S method; Anis-Lloyd correction may improve accuracy
+  - **Current state**: Standard R/S Hurst calculation
+  - **Solution**: Research Anis-Lloyd corrected R/S Hurst method, evaluate if improvement justifies complexity, implement if beneficial
+  - **Effort**: 8-12 hours (research + implementation + validation)
+  - **Dependencies**: Mathematical research
+  - **Priority**: Low - enhancement, not a defect
 
-#### T214 - CMO Zero Price Change Test
+- [ ] T213 - ConnorsRsi RemoveWarmupPeriods Calculation Review
 
-- **File**: `tests/indicators/a-d/Cmo/Cmo.StaticSeries.Tests.cs:6-7`
-- **Problem**: No test for CMO behavior when `isUp` is undefined due to zero price change
-- **Current state**: Missing edge case test
-- **Solution**: Add test with zero price change scenario, verify CMO handles correctly
-- **Effort**: 1-2 hours
-- **Dependencies**: None
-- **Priority**: Low - test coverage improvement
+  - **File**: `tests/indicators/a-d/ConnorsRsi/ConnorsRsi.StaticSeries.Tests.cs:108-109`
+  - **Problem**: Test comment indicates uncertainty about RemoveWarmupPeriods calculation being correct
+  - **Current state**: Uses `Max(rsiPeriods, Max(streakPeriods, rankPeriods)) + 2`
+  - **Solution**: Verify ConnorsRsi warmup period calculation is mathematically correct, update formula or remove comment
+  - **Effort**: 2-3 hours
+  - **Dependencies**: None
+  - **Priority**: Low - test quality improvement
 
-#### T215 - Precision Analysis Test Obsolescence Review
+- [ ] T214 - CMO Zero Price Change Test
 
-- **File**: `tests/indicators/_precision/PrecisionAnalysis.Tests.cs:3-4`
-- **Problem**: Boundary test class may be obsolete since `Results_AreAlwaysBounded` tests were added to indicator classes
-- **Current state**: Duplicate boundary testing infrastructure
-- **Solution**: Review PrecisionAnalysis test value, remove if redundant or refocus on unique precision scenarios
-- **Effort**: 2-3 hours
-- **Dependencies**: None
-- **Priority**: Low - test cleanup
+  - **File**: `tests/indicators/a-d/Cmo/Cmo.StaticSeries.Tests.cs:6-7`
+  - **Problem**: No test for CMO behavior when `isUp` is undefined due to zero price change
+  - **Current state**: Missing edge case test
+  - **Solution**: Add test with zero price change scenario, verify CMO handles correctly
+  - **Effort**: 1-2 hours
+  - **Dependencies**: None
+  - **Priority**: Low - test coverage improvement
 
-#### T216 - Catalog Metrics Final Count Verification
+- [ ] T215 - Precision Analysis Test Obsolescence Review
 
-- **File**: `tests/indicators/_common/Catalog/Catalog.Metrics.Tests.cs:31-32`
-- **Problem**: Test uses placeholder count; final catalog counts should be locked
-- **Current state**: Series=85 hardcoded, Buffer/Stream use greater-than assertions
-- **Solution**: Lock final catalog counts once streaming indicators are complete
-- **Effort**: 1 hour
-- **Dependencies**: Streaming indicators completion
-- **Priority**: Low - test precision
+  - **File**: `tests/indicators/_precision/PrecisionAnalysis.Tests.cs:3-4`
+  - **Problem**: Boundary test class may be obsolete since `Results_AreAlwaysBounded` tests were added to indicator classes
+  - **Current state**: Duplicate boundary testing infrastructure
+  - **Solution**: Review PrecisionAnalysis test value, remove if redundant or refocus on unique precision scenarios
+  - **Effort**: 2-3 hours
+  - **Dependencies**: None
+  - **Priority**: Low - test cleanup
 
-#### T217 - StringOut Index Range Support
+- [ ] T216 - Catalog Metrics Final Count Verification
 
-- **Files**: `tests/indicators/_common/Generics/StringOut.Tests.cs:277,315`
-- **Problem**: ToStringOut tests need updates after index range feature is added
-- **Current state**: Tests commented as needing fixes
-- **Solution**: Add index range support to StringOut, update tests
-- **Effort**: 3-4 hours
-- **Dependencies**: StringOut feature enhancement
-- **Priority**: Low - test utility improvement
+  - **File**: `tests/indicators/_common/Catalog/Catalog.Metrics.Tests.cs:31-32`
+  - **Problem**: Test uses placeholder count; final catalog counts should be locked
+  - **Current state**: Series=85 hardcoded, Buffer/Stream use greater-than assertions
+  - **Solution**: Lock final catalog counts once streaming indicators are complete
+  - **Effort**: 1 hour
+  - **Dependencies**: Streaming indicators completion
+  - **Priority**: Low - test precision
 
-#### T218 - StreamHub Stackoverflow Test Coverage Expansion
+- [ ] T217 - StringOut Index Range Support
 
-- **File**: `tests/indicators/_common/StreamHub/StreamHub.Stackoverflow.Tests.cs:182`
-- **Problem**: Test needs expansion as more StreamHub implementations come online
-- **Current state**: Limited Hub coverage
-- **Solution**: Add new StreamHub implementations to stackoverflow test as they're created
-- **Effort**: Ongoing (15 min per new Hub)
-- **Dependencies**: New StreamHub implementations
-- **Priority**: Low - incremental test improvement
+  - **Files**: `tests/indicators/_common/Generics/StringOut.Tests.cs:277,315`
+  - **Problem**: ToStringOut tests need updates after index range feature is added
+  - **Current state**: Tests commented as needing fixes
+  - **Solution**: Add index range support to StringOut, update tests
+  - **Effort**: 3-4 hours
+  - **Dependencies**: StringOut feature enhancement
+  - **Priority**: Low - test utility improvement
 
-#### T219 - StreamHub Cache Management Exact Value Verification
+- [ ] T218 - StreamHub Stackoverflow Test Coverage Expansion
 
-- **File**: `tests/indicators/_common/StreamHub/StreamHub.CacheMgmt.Tests.cs:21,36`
-- **Problem**: Commented exact value assertions; tests currently use Series comparison
-- **Current state**: Exact SMA values commented out (214.5250, 214.5260)
-- **Solution**: Verify if exact value assertions are needed or if Series parity is sufficient
-- **Effort**: 1-2 hours
-- **Dependencies**: None
-- **Priority**: Low - test precision decision
+  - **File**: `tests/indicators/_common/StreamHub/StreamHub.Stackoverflow.Tests.cs:182`
+  - **Problem**: Test needs expansion as more StreamHub implementations come online
+  - **Current state**: Limited Hub coverage
+  - **Solution**: Add new StreamHub implementations to stackoverflow test as they're created
+  - **Effort**: Ongoing (15 min per new Hub)
+  - **Dependencies**: New StreamHub implementations
+  - **Priority**: Low - incremental test improvement
 
-#### T220 - Renko StreamHub Alternative Testing Approach
+- [ ] T219 - StreamHub Cache Management Exact Value Verification
 
-- **File**: `tests/indicators/m-r/Renko/Renko.StreamHub.Tests.cs:9`
-- **Problem**: Renko transforms quotes to variable brick counts (non-1:1 timestamps), excluded from provider history testing
-- **Current state**: Basic QuoteObserver test only
-- **Solution**: Research alternative testing strategies for quote transformation indicators
-- **Effort**: 4-6 hours (research + implementation)
-- **Dependencies**: Quote transformation testing framework
-- **Priority**: Low - test coverage for edge case
+  - **File**: `tests/indicators/_common/StreamHub/StreamHub.CacheMgmt.Tests.cs:21,36`
+  - **Problem**: Commented exact value assertions; tests currently use Series comparison
+  - **Current state**: Exact SMA values commented out (214.5250, 214.5260)
+  - **Solution**: Verify if exact value assertions are needed or if Series parity is sufficient
+  - **Effort**: 1-2 hours
+  - **Dependencies**: None
+  - **Priority**: Low - test precision decision
 
-#### T221 - Performance Benchmark External Data Cache Model
+- [ ] T220 - Renko StreamHub Alternative Testing Approach
 
-- **File**: `tools/performance/Perf.StreamExternal.cs:35`
-- **Problem**: Placeholder for external data cache model in benchmarks
-- **Current state**: No external data cache
-- **Solution**: Implement external data cache model for realistic streaming performance benchmarks
-- **Effort**: 6-8 hours
-- **Dependencies**: External data cache design
-- **Priority**: Low - benchmark infrastructure enhancement
+  - **File**: `tests/indicators/m-r/Renko/Renko.StreamHub.Tests.cs:9`
+  - **Problem**: Renko transforms quotes to variable brick counts (non-1:1 timestamps), excluded from provider history testing
+  - **Current state**: Basic QuoteObserver test only
+  - **Solution**: Research alternative testing strategies for quote transformation indicators
+  - **Effort**: 4-6 hours (research + implementation)
+  - **Dependencies**: Quote transformation testing framework
+  - **Priority**: Low - test coverage for edge case
 
-#### T222 - Style Comparison Benchmark Representative Indicators
+- [ ] T221 - Performance Benchmark External Data Cache Model
 
-- **File**: `tools/performance/Perf.StyleComparison.cs:26`
-- **Problem**: StyleComparison should contain only representative indicators of each style
-- **Current state**: May include more indicators than necessary
-- **Solution**: Audit StyleComparison benchmarks, reduce to representative set for faster benchmark runs
-- **Effort**: 2-3 hours
-- **Dependencies**: None
-- **Priority**: Low - benchmark efficiency
+  - **File**: `tools/performance/Perf.StreamExternal.cs:35`
+  - **Problem**: Placeholder for external data cache model in benchmarks
+  - **Current state**: No external data cache
+  - **Solution**: Implement external data cache model for realistic streaming performance benchmarks
+  - **Effort**: 6-8 hours
+  - **Dependencies**: External data cache design
+  - **Priority**: Low - benchmark infrastructure enhancement
 
-#### T223 - ISeries UnixDate Property Addition
+- [ ] T222 - Style Comparison Benchmark Representative Indicators
 
-- **File**: `src/_common/ISeries.cs:20`
-- **Problem**: ISeries could benefit from UnixDate (long seconds) property for some scenarios
-- **Current state**: Only DateTime Timestamp property
-- **Solution**: Evaluate use cases for UnixDate, add property if justified
-- **Effort**: 3-4 hours
-- **Dependencies**: Interface change (breaking in some scenarios)
-- **Priority**: Low - potential enhancement
+  - **File**: `tools/performance/Perf.StyleComparison.cs:26`
+  - **Problem**: StyleComparison should contain only representative indicators of each style
+  - **Current state**: May include more indicators than necessary
+  - **Solution**: Audit StyleComparison benchmarks, reduce to representative set for faster benchmark runs
+  - **Effort**: 2-3 hours
+  - **Dependencies**: None
+  - **Priority**: Low - benchmark efficiency
 
-#### T224 - QuotePart Use vs ToQuotePart Deprecation Decision
+- [ ] T223 - ISeries UnixDate Property Addition
 
-- **File**: `src/_common/QuotePart/QuotePart.StaticSeries.cs:41-42`
-- **Problem**: Uncertain whether to deprecate `Use()` alias in favor of `ToQuotePart()`
-- **Current state**: Both methods exist
-- **Solution**: Decide on naming convention consistency, deprecate one if appropriate
-- **Effort**: 1-2 hours (decision + optional deprecation)
-- **Dependencies**: API consistency decision
-- **Priority**: Low - API cleanup
+  - **File**: `src/_common/ISeries.cs:20`
+  - **Problem**: ISeries could benefit from UnixDate (long seconds) property for some scenarios
+  - **Current state**: Only DateTime Timestamp property
+  - **Solution**: Evaluate use cases for UnixDate, add property if justified
+  - **Effort**: 3-4 hours
+  - **Dependencies**: Interface change (breaking in some scenarios)
+  - **Priority**: Low - potential enhancement
 
-#### T225 - IQuotePart Rename to IBarPartHub Evaluation
+- [ ] T224 - QuotePart Use vs ToQuotePart Deprecation Decision
 
-- **File**: `src/_common/QuotePart/IQuotePart.cs:13`
-- **Problem**: Consider renaming IQuotePart to IBarPartHub for consistency with IQuote to IBar renaming
-- **Current state**: Current naming
-- **Solution**: Evaluate if renaming provides clarity, coordinate with any IQuote→IBar migration
-- **Effort**: 2-3 hours (if part of larger renaming effort)
-- **Dependencies**: Broader naming convention decisions
-- **Priority**: Low - naming consistency
+  - **File**: `src/_common/QuotePart/QuotePart.StaticSeries.cs:41-42`
+  - **Problem**: Uncertain whether to deprecate `Use()` alias in favor of `ToQuotePart()`
+  - **Current state**: Both methods exist
+  - **Solution**: Decide on naming convention consistency, deprecate one if appropriate
+  - **Effort**: 1-2 hours (decision + optional deprecation)
+  - **Dependencies**: API consistency decision
+  - **Priority**: Low - API cleanup
 
-#### T226 - ATR Utilities Unused Method Verification
+- [ ] T225 - IQuotePart Rename to IBarPartHub Evaluation
 
-- **File**: `src/a-d/Atr/Atr.Utilities.cs:24`
-- **Problem**: Incremental ATR utility method may be unused
-- **Current state**: Method exists but unclear if called
-- **Solution**: Search codebase for usage, remove if unused or make public if useful
-- **Effort**: 1 hour
-- **Dependencies**: None
-- **Priority**: Low - code cleanup
+  - **File**: `src/_common/QuotePart/IQuotePart.cs:13`
+  - **Problem**: Consider renaming IQuotePart to IBarPartHub for consistency with IQuote to IBar renaming
+  - **Current state**: Current naming
+  - **Solution**: Evaluate if renaming provides clarity, coordinate with any IQuote→IBar migration
+  - **Effort**: 2-3 hours (if part of larger renaming effort)
+  - **Dependencies**: Broader naming convention decisions
+  - **Priority**: Low - naming consistency
+
+- [ ] T226 - ATR Utilities Unused Method Verification
+
+  - **File**: `src/a-d/Atr/Atr.Utilities.cs:24`
+  - **Problem**: Incremental ATR utility method may be unused
+  - **Current state**: Method exists but unclear if called
+  - **Solution**: Search codebase for usage, remove if unused or make public if useful
+  - **Effort**: 1 hour
+  - **Dependencies**: None
+  - **Priority**: Low - code cleanup
 
 ### Summary Statistics
 
-- **Total tasks**: 27
+- **Total tasks**: 30
 - **P1 (High)**: 3 tasks (~8-12 hours)
-- **P2 (Medium)**: 10 tasks (~40-55 hours)
-- **P3 (Low)**: 14 tasks (~40-65 hours)
+- **P2 (Medium)**: 12 tasks (~49-66 hours)
+- **P3 (Low)**: 15 tasks (~48-77 hours)
 
 ### Recommended Order
 
