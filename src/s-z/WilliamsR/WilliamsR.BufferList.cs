@@ -86,15 +86,23 @@ public class WilliamsRList : BufferList<WilliamsResult>, IIncrementFromQuote, IW
                 }
             }
 
-            if (highHigh - lowLow != 0)
+            // Apply boundary clamping to ensure -100 ≤ WilliamsR ≤ 0
+            // This prevents floating-point precision errors at boundaries
+            if (highHigh == lowLow)
             {
-                // Match the calculation order in StaticSeries (via Stochastic)
-                // which is: 100 * (close - lowLow) / (highHigh - lowLow) - 100
-                williamsR = (100.0 * (close - lowLow) / (highHigh - lowLow)) - 100.0;
+                williamsR = -100.0;
+            }
+            else if (close >= highHigh)
+            {
+                williamsR = 0.0;
+            }
+            else if (close <= lowLow)
+            {
+                williamsR = -100.0;
             }
             else
             {
-                williamsR = 0;
+                williamsR = (100.0 * (close - lowLow) / (highHigh - lowLow)) - 100.0;
             }
         }
 
