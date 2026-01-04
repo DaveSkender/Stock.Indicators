@@ -8063,7 +8063,7 @@
     },
     {
       "name": "Histogram",
-      "type": "baseline",
+      "type": "histogram",
       "data": [
         {
           "timestamp": "2017-01-03T00:00:00",
