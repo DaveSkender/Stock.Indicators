@@ -79,34 +79,30 @@ IReadOnlyList<EmaResult> results
 For scenarios where quotes arrive one at a time, buffer lists provide efficient incremental processing without recalculating the entire history.
 
 ```csharp
-// initialize buffer
-ICollection<Quote> quotesList = quotes.ToList();
-BufferList<SmaResult> smaBuffer = quotesList.ToSmaBuffer(20);
+// create list
+SmaList<SmaResult> smaList = new(lookbackPeriods: 20);
 
 // add new quotes incrementally
-quotesList.Add(newQuote);
-smaBuffer.Add(newQuote);  // only calculates for new quote
+smaList.Add(newQuote);
 ```
 
-Buffer lists maintain internal state and automatically manage the warmup period, making them ideal for live data feeds and incremental updates.
+Buffer lists maintain internal state and automatically manage the warmup period, making them ideal for basic live data feeds and incremental updates.
 
-## Stream real-time data with observer pattern
+## Streaming hubs with observer patterns
 
-StreamHub provides a reactive, subscription-based pattern for streaming market data with automatic cascading calculations.
+Hubs provides a reactive, subscription-based pattern for streaming market data with automatic cascading calculations for advances scenarios.
 
 ```csharp
 // create provider with chain of indicators
-StreamHub<Quote> provider = new QuoteProvider();
-StreamHub<SmaResult> sma = provider.ToSma(20);
-StreamHub<RsiResult> rsi = sma.ToRsi(14);  // RSI of SMA
-
-// subscribe to results
-rsi.Subscribe(result => {
-  Console.WriteLine($"RSI: {result.Rsi}");
-});
+QuoteHub provider = new QuoteHub();
+StreamHub smaHub = provider.ToSmaHub(20);
+StreamHub rsiHub = sma.ToRsiHub(14);  // RSI of SMA
 
 // publish quotes - observers auto-update in cascade
 provider.Add(newQuote);
+
+// consume downstream hubs indicators
+IReadOnlyList<RsiResult> = rsiHub.Results;
 ```
 
 The observer cascade ensures that when a new quote arrives, all chained indicators update automatically in the correct sequence.
