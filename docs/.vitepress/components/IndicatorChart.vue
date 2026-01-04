@@ -646,7 +646,13 @@ watch(isDark, () => {
   </div>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
+// Breakpoints
+$tablet-width: 880px;
+$mobile-width: 600px;
+$landscape-height-sm: 400px;
+$landscape-height-md: 600px;
+
 .indicator-chart-wrapper {
   width: 100%;
 }
@@ -664,54 +670,44 @@ watch(isDark, () => {
 
 .overlay-chart {
   aspect-ratio: 2.5;
-}
 
-.oscillator-chart {
-  aspect-ratio: 10;
-}
-
-/* Tablet breakpoint */
-@media (max-width: 880px) {
-  .overlay-chart {
+  /* Tablet breakpoint */
+  @media (max-width: $tablet-width) {
     aspect-ratio: 2;
   }
 
-  .oscillator-chart {
-    aspect-ratio: 8;
-  }
-}
-
-/* Mobile breakpoint */
-@media (max-width: 600px) {
-  .overlay-chart {
+  /* Mobile breakpoint */
+  @media (max-width: $mobile-width) {
     aspect-ratio: 5/4;
   }
-}
 
-/* Landscape optimizations */
-@media (max-height: 400px) and (orientation: landscape) {
-  .overlay-chart {
+  /* Landscape optimizations */
+  @media (max-height: $landscape-height-sm) and (orientation: landscape) {
     aspect-ratio: unset;
     height: 100vh;
   }
 }
 
-@media (max-width: 880px) and (orientation: landscape) {
-  .oscillator-chart {
+.oscillator-chart {
+  aspect-ratio: 10;
+
+  /* Tablet breakpoint */
+  @media (max-width: $tablet-width) {
+    aspect-ratio: 8;
+  }
+
+  /* Landscape optimizations */
+  @media (max-width: $tablet-width) and (orientation: landscape) {
     aspect-ratio: unset;
     height: 25vh;
   }
-}
 
-@media (max-height: 600px) and (orientation: landscape) {
-  .oscillator-chart {
+  @media (max-height: $landscape-height-md) and (orientation: landscape) {
     aspect-ratio: unset;
     height: 33.33vh;
   }
-}
 
-@media (max-height: 400px) {
-  .oscillator-chart {
+  @media (max-height: $landscape-height-sm) {
     aspect-ratio: unset;
     height: 50vh;
   }
