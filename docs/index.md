@@ -20,11 +20,11 @@ features:
     details: Reference documentation
   - title: Guide and Pro tips
     link: /guide
-    details:
-  - Utilities
+    details: Getting stated usage guide
+  - title: Utilities
     link: /utilities
     details: and helper functions
-  - Demo site
+  - title: Demo site
     link: https:/charts.stockindicators.dev
     details: An interactive stock chart
   - title: Examples
