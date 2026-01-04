@@ -8,8 +8,10 @@ description: >-
 
 # Contributing guidelines
 
-[![Codacy quality grade](https://app.codacy.com/project/badge/Grade/012497adc00847eca9ee91a58d00cc4f)](https://app.codacy.com/gh/DaveSkender/Stock.Indicators/dashboard)
-[![Codacy code coverage](https://app.codacy.com/project/badge/Coverage/012497adc00847eca9ee91a58d00cc4f)](https://app.codacy.com/gh/DaveSkender/Stock.Indicators/dashboard)
+<p style="display:flex; justify-content:left; gap:1rem; flex-wrap:wrap;">
+<a href="https://app.codacy.com/gh/DaveSkender/Stock.Indicators/dashboard" aria-label="View Codacy quality grade."><img src="https://app.codacy.com/project/badge/Grade/012497adc00847eca9ee91a58d00cc4f" alt="Codacy quality grade" /></a>
+<a href="https://app.codacy.com/gh/DaveSkender/Stock.Indicators/dashboard" aria-label="View Codacy code coverage."><img src="https://app.codacy.com/project/badge/Coverage/012497adc00847eca9ee91a58d00cc4f" alt="Codacy code coverage" /></a>
+</p>
 
 **Thanks for taking the time to contribute!**
 

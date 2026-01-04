@@ -191,7 +191,7 @@ See [individual indicator pages](/indicators) for specific usage guidance.
 
 More examples available:
 
-- [Example usage code](https://github.com/DaveSkender/Stock.Indicators/tree/main/docs/examples) on GitHub
+- [Example usage code](/examples/) on GitHub
 - [Demo site](https://charts.stockindicators.dev) (a stock chart)
 
 ## Historical quotes

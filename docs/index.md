@@ -30,14 +30,14 @@ Explore more information:
 - [Guide and Pro tips](/guide)
 - [Utilities and helper functions](/utilities)
 - [Demo site](https://charts.stockindicators.dev/) (a stock chart)
-- [Example usage code](/examples)
+- [Example usage code](/examples/)
 - [Release notes](https://github.com/DaveSkender/Stock.Indicators/releases)
 - [Discussions](https://github.com/DaveSkender/Stock.Indicators/discussions)
 - [Contributing guidelines](/contributing)
 
 ## Reputable and extensible indicators
 
-You'll get all of the industry standard indicators out-of-the-box. Additionally, you can create compatible [custom indicators](https://github.com/DaveSkender/Stock.Indicators/tree/main/docs/examples/CustomIndicatorsLibrary).
+You'll get all of the industry standard indicators out-of-the-box. Additionally, you can create compatible [custom indicators](/examples/CustomIndicatorsLibrary/).
 
 <ClientOnly>
   <div class="home-charts-stack">
