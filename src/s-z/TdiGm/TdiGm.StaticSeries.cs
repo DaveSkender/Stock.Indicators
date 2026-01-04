@@ -54,7 +54,7 @@ public static partial class TdiGm
                 double offset = 1.6185 * stdDev.Value;
                 upper = middleBand.Value + offset;
                 lower = middleBand.Value - offset;
-                middle = (upper + lower) / 2;
+                middle = middleBand.Value;
             }
 
             results.Add(

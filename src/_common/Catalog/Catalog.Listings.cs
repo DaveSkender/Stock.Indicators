@@ -412,6 +412,11 @@ public static partial class Catalog
         _listings.Add(Tema.SeriesListing);
         _listings.Add(Tema.StreamListing);
 
+        // TDI GM (Traders Dynamic Index Goldminds)
+        _listings.Add(TdiGm.BufferListing);
+        _listings.Add(TdiGm.SeriesListing);
+        _listings.Add(TdiGm.StreamListing);
+
         // TR (True Range)
         _listings.Add(Tr.BufferListing);
         _listings.Add(Tr.SeriesListing);

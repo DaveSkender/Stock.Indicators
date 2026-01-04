@@ -14,10 +14,10 @@ namespace Skender.Stock.Indicators;
 public sealed class TdiGmHub
     : ChainHub<IReusable, TdiGmResult>, ITdiGm
 {
-    public int RsiPeriod { get; private set; }
-    public int BandLength { get; private set; }
-    public int FastLength { get; private set; }
-    public int SlowLength { get; private set; }
+    public int RsiPeriod { get; init; }
+    public int BandLength { get; init; }
+    public int FastLength { get; init; }
+    public int SlowLength { get; init; }
 
     // Chained hubs for efficient computation
     private readonly RsiHub _rsiHub;
@@ -42,6 +42,7 @@ public sealed class TdiGmHub
         int slowLength)
         : base(provider)
     {
+        TdiGm.Validate(rsiPeriod, bandLength, fastLength, slowLength);
         RsiPeriod = rsiPeriod;
         BandLength = bandLength;
         FastLength = fastLength;
@@ -91,7 +92,7 @@ public sealed class TdiGmHub
 
             upper = ma + offset;
             lower = ma - offset;
-            middle = (upper + lower) / 2;
+            middle = ma;
         }
 
         // Create the result
