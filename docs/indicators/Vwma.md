@@ -108,4 +108,4 @@ VwmaList vwmaList = new(lookbackPeriods);
 vwmaList.Add(DateTime.Now, price: 100.50, volume: 1000);
 ```
 
-**Note**: VWMA requires both price and volume data, so it only supports methods that accept `IQuote` or direct price/volume parameters.
+**Note:** VWMA requires both price and volume data, so it only supports methods that accept `IQuote` or direct price/volume parameters.

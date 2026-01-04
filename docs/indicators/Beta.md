@@ -40,7 +40,8 @@ You must have at least `N` periods of `quotesEval` to cover the warmup periods. 
 
 **`All`** - Returns all of the above.  Use this option if you want `Ratio` and `Convexity` values returned.  Note: 3× slower to calculate.
 
-> &#128161; **Pro tip**
+> [!NOTE]
+> **Pro tip**
 >
 > Financial institutions often depict a single number for Beta on their sites.  To get that same long-term Beta value, use 5 years of monthly bars for `quotes` and a value of 60 for `lookbackPeriods`.  If you only have smaller bars, use the [Aggregate()](/utilities#resize-quote-history) utility to convert it.
 >
@@ -95,7 +96,8 @@ var results = quotesEval
     .ToBeta(quotesMarket.Use(CandlePart.HL2), ..);
 ```
 
-> &#128681; **Warning!** Both eval and market arguments must contain the same number of elements and be the results of a chainable indicator or `.Use()` method.
+> [!WARNING]
+> **Warning!** Both eval and market arguments must contain the same number of elements and be the results of a chainable indicator or `.Use()` method.
 
 Results can be further processed on `Beta` with additional chain-enabled indicators.
 

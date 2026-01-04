@@ -39,7 +39,8 @@ IReadOnlyList<ForceIndexResult>
 - It does not return a single incremental indicator value.
 - The first `N` periods for will be `null` since they cannot be calculated.
 
->&#9886; **Convergence warning**: The first `N+100` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
+> [!CAUTION]
+> **Convergence warning** The first `N+100` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
 
 ### ForceIndexResult
 

@@ -126,7 +126,7 @@ This document outlines the migration from the current dual-branch model to a pro
 
 **Objective**: Merge `v3` branch into `main` branch using standard merge workflow.
 
-**Note**: PR #1014 (v3 → main) shows clean merge state with no conflicts, so standard merge is preferred over force-push to preserve complete history.
+**Note:** PR #1014 (v3 → main) shows clean merge state with no conflicts, so standard merge is preferred over force-push to preserve complete history.
 
 **Steps:**
 

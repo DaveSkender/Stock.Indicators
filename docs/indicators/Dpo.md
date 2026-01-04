@@ -105,4 +105,4 @@ foreach (IQuote quote in quotes)  // simulating stream  // simulating stream
 IReadOnlyList<DpoResult> results = observer.Results;
 ```
 
-**Note**: DPO has a lookahead requirement (offset = N/2+1 periods), which means results are calculated when sufficient future data becomes available. This introduces a delay in real-time scenarios but maintains mathematical accuracy with the series implementation.
+**Note:** DPO has a lookahead requirement (offset = N/2+1 periods), which means results are calculated when sufficient future data becomes available. This introduces a delay in real-time scenarios but maintains mathematical accuracy with the series implementation.
