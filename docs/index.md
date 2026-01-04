@@ -30,7 +30,7 @@ Explore more information:
 - [Guide and Pro tips](/guide)
 - [Utilities and helper functions](/utilities)
 - [Demo site](https://charts.stockindicators.dev/) (a stock chart)
-- [Example usage code](https://github.com/DaveSkender/Stock.Indicators/tree/main/docs/examples)
+- [Example usage code](/examples)
 - [Release notes](https://github.com/DaveSkender/Stock.Indicators/releases)
 - [Discussions](https://github.com/DaveSkender/Stock.Indicators/discussions)
 - [Contributing guidelines](/contributing)
@@ -86,7 +86,7 @@ The compiled library package is [Common Language Specification (CLS) compliant](
 
 ## Licensed for everyone
 
-<a href="https://opensource.org/licenses/Apache-2.0"><img src="https://img.shields.io/badge/License-Apache%202.0-blue.svg?style=flat-square&cacheSeconds=259200" alt="Apache 2.0 license badge" width="124" height="20" /></a>
+<a href="https://opensource.org/licenses/Apache-2.0"><img src="https://img.shields.io/badge/License-Apache%202.0-blue.svg?style=flat-square&cacheSeconds=259200" alt="Apache 2.0 license badge" /></a>
 
 This repository uses the standard Apache 2.0 open-source license. Please review the [license](https://opensource.org/licenses/Apache-2.0) before using or contributing to the software.
 
