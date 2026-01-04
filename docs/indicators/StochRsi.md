@@ -3,7 +3,7 @@ title: Stochastic RSI
 description: Created by by Tushar Chande and Stanley Kroll, Stochastic RSI is a Stochastic Oscillator interpretation of the Relative Strength Index.  It is different from, and often confused with the more traditional Stochastic Oscillator.
 ---
 
-# {{ $frontmatter.title }}
+# Stochastic RSI
 
 Created by Tushar Chande and Stanley Kroll, [Stochastic RSI](https://school.stockcharts.com/doku.php?id=technical_indicators:stochrsi) is a Stochastic interpretation of the Relative Strength Index.  It is different from, and often confused with the more traditional [Stochastic Oscillator](/indicators/Stoch).
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/236 "Community discussion about this indicator")
@@ -47,8 +47,9 @@ IReadOnlyList<StochRsiResult>
 - It does not return a single incremental indicator value.
 - The first `R+S+M` periods will have `null` values for `StochRsi` since there's not enough data to calculate.
 
-> [!CAUTION]
-> **Convergence warning** The first `10×R` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.  We recommend pruning at least `R+S+M+100` initial values.
+::: warning Convergence warning
+The first `10×R` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.  We recommend pruning at least `R+S+M+100` initial values.
+:::
 
 ### StochRsiResult
 

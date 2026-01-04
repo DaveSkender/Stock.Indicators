@@ -5,7 +5,7 @@ redirect_from:
  - /indicators/DoubleEma/
 ---
 
-# {{ $frontmatter.title }}
+# Double Exponential Moving Average (DEMA)
 
 Created by Patrick G. Mulloy, the [Double exponential moving average](https://en.wikipedia.org/wiki/Double_exponential_moving_average) is a faster smoothed EMA of the price over a lookback window.
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/807 "Community discussion about this indicator")
@@ -41,8 +41,9 @@ IReadOnlyList<DemaResult>
 - It does not return a single incremental indicator value.
 - The first `N-1` periods will have `null` values since there's not enough data to calculate.
 
-> [!CAUTION]
-> **Convergence warning** The first `2×N+100` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
+::: warning Convergence warning
+The first `2×N+100` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
+:::
 
 ### DemaResult
 

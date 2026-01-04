@@ -3,7 +3,7 @@ title: Exponential Moving Average (EMA)
 description: Exponentially [weighted] Moving Average is a rolling moving average that puts more weight on current price.
 ---
 
-# {{ $frontmatter.title }}
+# Exponential Moving Average (EMA)
 
 [Exponentially weighted moving average](https://en.wikipedia.org/wiki/Moving_average#Exponential_moving_average) is a rolling moving average that puts more weight on current price.
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/256 "Community discussion about this indicator")
@@ -39,8 +39,9 @@ IReadOnlyList<EmaResult>
 - It does not return a single incremental indicator value.
 - The first `N-1` periods will have `null` values since there's not enough data to calculate.
 
-> [!CAUTION]
-> **Convergence warning** The first `N+100` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
+::: warning Convergence warning
+The first `N+100` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
+:::
 
 ### EmaResult
 

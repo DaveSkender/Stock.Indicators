@@ -3,7 +3,7 @@ title: Elder-ray Index
 description: Created by Alexander Elder, the Elder-ray Index, also known as Bull and Bear Power, is an oscillator that depicts buying and selling pressure.  It compares current high/low prices against an Exponential Moving Average.
 ---
 
-# {{ $frontmatter.title }}
+# Elder-ray Index
 
 Created by Alexander Elder, the [Elder-ray Index](https://www.investopedia.com/terms/e/elderray.asp), also known as Bull and Bear Power, is an oscillator that depicts buying and selling pressure.  It compares current high/low prices against an Exponential Moving Average.
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/378 "Community discussion about this indicator")
@@ -39,8 +39,9 @@ IReadOnlyList<ElderRayResult>
 - It does not return a single incremental indicator value.
 - The first `N-1` periods will have `null` indicator values since there's not enough data to calculate.
 
-> [!CAUTION]
-> **Convergence warning** The first `N+100` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
+::: warning Convergence warning
+The first `N+100` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
+:::
 
 ### ElderRayResult
 

@@ -3,7 +3,7 @@ title: Average Directional Index (ADX)
 description: Created by J. Welles Wilder, the Average Directional Index (ADX) is part of the Directional Movement system (commonly referred to as DMI). This system includes the Positive and Negative Directional Indicators (+DI and −DI), the Directional Index (DX), and ADX, and is used to measure the strength of price trends.
 ---
 
-# {{ $frontmatter.title }}
+# Average Directional Index (ADX)
 
 Created by J. Welles Wilder, the [Average Directional Movement Index](https://en.wikipedia.org/wiki/Average_directional_movement_index) (ADX) is part of the Directional Movement system (commonly referred to as DMI). This system includes the Positive and Negative Directional Indicators (+DI and −DI), the Directional Index (DX), and ADX, and is used to measure the strength of price trends.
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/270 "Community discussion about this indicator")
@@ -39,8 +39,9 @@ IReadOnlyList<AdxResult>
 - It does not return a single incremental indicator value.
 - The first `2×N-1` periods will have `null` values for `Adx` since there's not enough data to calculate.
 
-> [!CAUTION]
-> **Convergence warning** The first `2×N+100` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
+::: warning Convergence warning
+The first `2×N+100` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
+:::
 
 ### AdxResult
 

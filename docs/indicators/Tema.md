@@ -5,7 +5,7 @@ redirect_from:
  - /indicators/TripleEma/
 ---
 
-# {{ $frontmatter.title }}
+# Triple Exponential Moving Average (TEMA)
 
 Created by Patrick G. Mulloy, the [Triple exponential moving average](https://en.wikipedia.org/wiki/Triple_exponential_moving_average) is a faster multi-smoothed EMA of the price over a lookback window.
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/808 "Community discussion about this indicator")
@@ -51,8 +51,9 @@ Period 160+:  fully converged, reliable values
 
 >&#9432; **Incalculable periods**: The first `N-1` periods will have `null` values since there's not enough data to calculate.
 >
-> [!CAUTION]
-> **Convergence warning** The first `3×N+100` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.  Use the `.RemoveWarmupPeriods()` method to remove these potentially unreliable values.
+::: warning Convergence warning
+The first `3×N+100` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.  Use the `.RemoveWarmupPeriods()` method to remove these potentially unreliable values.
+:::
 
 ### TemaResult
 

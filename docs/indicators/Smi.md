@@ -3,7 +3,7 @@ title: Stochastic Momentum Index (SMI)
 description: Created by William Blau, the Stochastic Momentum Index (SMI) oscillator is a double-smoothed variant of the traditional Stochastic Oscillator, depicted on a scale from -100 to 100.
 ---
 
-# {{ $frontmatter.title }}
+# Stochastic Momentum Index (SMI)
 
 Created by William Blau, the Stochastic Momentum Index (SMI) oscillator is a double-smoothed variant of the [Stochastic Oscillator](/indicators/Stoch), depicted on a scale from -100 to 100.
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/625 "Community discussion about this indicator")
@@ -46,8 +46,9 @@ IReadOnlyList<SmiResult>
 - It does not return a single incremental indicator value.
 - The first `N-1` periods will have `null` SMI values since there's not enough data to calculate.
 
-> [!CAUTION]
-> **Convergence warning** The first `N+100` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
+::: warning Convergence warning
+The first `N+100` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
+:::
 
 ### SmiResult
 

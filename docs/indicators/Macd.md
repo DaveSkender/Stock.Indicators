@@ -3,7 +3,7 @@ title: Moving Average Convergence / Divergence (MACD)
 description: Created by Gerald Appel, MACD is a simple oscillator view of two converging / diverging exponential moving averages and their differences.
 ---
 
-# {{ $frontmatter.title }}
+# Moving Average Convergence / Divergence (MACD)
 
 Created by Gerald Appel, [MACD](https://en.wikipedia.org/wiki/MACD) is a simple oscillator view of two converging / diverging exponential moving averages and their differences.
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/248 "Community discussion about this indicator")
@@ -43,8 +43,9 @@ IReadOnlyList<MacdResult>
 - It does not return a single incremental indicator value.
 - The first `S-1` slow periods will have `null` values since there's not enough data to calculate.
 
-> [!CAUTION]
-> **Convergence warning** The first `S+P+250` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
+::: warning Convergence warning
+The first `S+P+250` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
+:::
 
 ### MacdResult
 

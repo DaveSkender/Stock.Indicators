@@ -38,10 +38,11 @@
     }
   },
   "forwardPorts": [
-    4000
+    5173,
+    5174
   ],
   "portsAttributes": {
-    "4000": {
+    "5173": {
       "label": "VitePress Doc Site",
       "onAutoForward": "notify"
     }

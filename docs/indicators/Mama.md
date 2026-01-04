@@ -3,7 +3,7 @@ title: MESA Adaptive Moving Average (MAMA)
 description: Created by John Ehlers, the MAMA indicator is a 5-period adaptive moving average of high/low price that uses classic electrical radio-frequency signal processing algorithms to reduce noise.
 ---
 
-# {{ $frontmatter.title }}
+# MESA Adaptive Moving Average (MAMA)
 
 Created by John Ehlers, the [MAMA](https://mesasoftware.com/papers/MAMA.pdf) indicator is a 5-period adaptive moving average of high/low price that uses classic electrical radio-frequency signal processing algorithms to reduce noise.
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/211 "Community discussion about this indicator")
@@ -41,8 +41,9 @@ IReadOnlyList<MamaResult>
 - It does not return a single incremental indicator value.
 - The first `5` periods will have `null` values for `Mama` since there's not enough data to calculate.
 
-> [!CAUTION]
-> **Convergence warning** The first `50` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
+::: warning Convergence warning
+The first `50` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
+:::
 
 ### MamaResult
 

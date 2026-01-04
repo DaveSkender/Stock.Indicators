@@ -1,5 +1,6 @@
 ---
 layout: home
+isHome: true
 title: Stock Indicators for .NET
 titleTemplate: Transform price quotes into trading insights
 
@@ -13,6 +14,31 @@ hero:
     - theme: alt
       text: Indicators
       link: /indicators/
+features:
+  - title: Indicators and overlays
+    link: /indicators
+    details: Reference documentation
+  - title: Guide and Pro tips
+    link: /guide
+    details: Getting stated usage guide
+  - title: Utilities
+    link: /utilities
+    details: and helper functions
+  - title: Demo site
+    link: https://charts.stockindicators.dev
+    details: An interactive stock chart
+  - title: Examples
+    link: /examples
+    details: Runnable code samples
+  - title: Release notes
+    link: https://github.com/DaveSkender/Stock.Indicators/releases
+    details: Version changelog
+  - title: Discussions
+    link: https://github.com/DaveSkender/Stock.Indicators/discussions
+    details: Community conversations
+  - title: Contributing guidelines
+    link: /contributing
+    details: Developer guide for this repo
 ---
 
 <p style="display:flex; justify-content:left; gap:1rem; margin-top: 2rem; flex-wrap:wrap;">
@@ -24,20 +50,9 @@ hero:
 
 Build your technical analysis, trading algorithms, machine learning, charting, or other intelligent market software with this library and your own [OHLCV](/guide#historical-quotes) price quotes sources for equities, commodities, forex, cryptocurrencies, and others. [Stock Indicators for Python](https://python.stockindicators.dev/) is also available.
 
-Explore more information:
-
-- [Indicators and overlays](/indicators)
-- [Guide and Pro tips](/guide)
-- [Utilities and helper functions](/utilities)
-- [Demo site](https://charts.stockindicators.dev/) (a stock chart)
-- [Example usage code](/examples)
-- [Release notes](https://github.com/DaveSkender/Stock.Indicators/releases)
-- [Discussions](https://github.com/DaveSkender/Stock.Indicators/discussions)
-- [Contributing guidelines](/contributing)
-
 ## Reputable and extensible indicators
 
-You'll get all of the industry standard indicators out-of-the-box. Additionally, you can create compatible [custom indicators](https://github.com/DaveSkender/Stock.Indicators/tree/main/docs/examples/CustomIndicatorsLibrary).
+You'll get all of the industry standard indicators out-of-the-box. Additionally, you can create compatible [custom indicators](/examples/CustomIndicatorsLibrary/).
 
 <ClientOnly>
   <div class="home-charts-stack">
@@ -73,6 +88,39 @@ IReadOnlyList<EmaResult> results
     .Use(CandlePart.HL2)
     .ToEma(20);
 ```
+
+## Incrementally add data with buffer lists
+
+For scenarios where quotes arrive one at a time, buffer lists provide efficient incremental processing without recalculating the entire history.
+
+```csharp
+// create list
+SmaList<SmaResult> smaList = new(lookbackPeriods: 20);
+
+// add new quotes incrementally
+smaList.Add(newQuote);
+```
+
+Buffer lists maintain internal state and automatically manage the warmup period, making them ideal for basic live data feeds and incremental updates.
+
+## Streaming hubs with observer patterns
+
+Hubs provides a reactive, subscription-based pattern for streaming market data with automatic cascading calculations for advances scenarios.
+
+```csharp
+// create provider with chain of indicators
+QuoteHub provider = new QuoteHub();
+StreamHub smaHub = provider.ToSmaHub(20);
+StreamHub rsiHub = sma.ToRsiHub(14);  // RSI of SMA
+
+// publish quotes - observers auto-update in cascade
+provider.Add(newQuote);
+
+// consume downstream hubs indicators
+IReadOnlyList<RsiResult> = rsiHub.Results;
+```
+
+The observer cascade ensures that when a new quote arrives, all chained indicators update automatically in the correct sequence.
 
 See the [guide](/guide) and the [full list of indicators and overlays](/indicators) for more information.
 

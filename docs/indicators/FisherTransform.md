@@ -3,7 +3,7 @@ title: Ehlers Fisher Transform
 description: Created by John Ehlers, the Fisher Transform converts financial market prices into a Gaussian normal distribution.
 ---
 
-# {{ $frontmatter.title }}
+# Ehlers Fisher Transform
 
 Created by John Ehlers, the [Fisher Transform](https://www.investopedia.com/terms/f/fisher-transform.asp) converts prices into a Gaussian normal distribution.
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/409 "Community discussion about this indicator")
@@ -38,8 +38,9 @@ IReadOnlyList<FisherTransformResult>
 - It always returns the same number of elements as there are in the historical quotes.
 - It does not return a single incremental indicator value.
 
-> [!CAUTION]
-> **Convergence warning** The first `N+15` warmup periods will have unusable decreasing magnitude, convergence-related precision errors that can be as high as ~25% deviation in earlier indicator values.
+::: warning Convergence warning
+The first `N+15` warmup periods will have unusable decreasing magnitude, convergence-related precision errors that can be as high as ~25% deviation in earlier indicator values.
+:::
 
 ### FisherTransformResult
 

@@ -370,7 +370,7 @@ function setupIndicatorSeries(chart: IChartApi, seriesData: SeriesStyle[], isOsc
         break
       case 'histogram':
         series = chart.addSeries(HistogramSeries, {
-          color: color,
+          color: ChartColors.DarkGray,
           priceLineVisible: false,
           lastValueVisible: false
         })
@@ -449,20 +449,22 @@ async function initChart() {
   await new Promise(resolve => requestAnimationFrame(resolve))
 
   // Wait for container to have a valid width (may take a few frames)
+  // Check the appropriate container based on chart type
+  const containerToCheck = isOscillatorType ? oscillatorChartContainer.value : overlayChartContainer.value
   let attempts = 0
-  while (overlayChartContainer.value && overlayChartContainer.value.clientWidth === 0 && attempts < INIT_POLL_MAX_ATTEMPTS) {
+  while (containerToCheck && containerToCheck.clientWidth === 0 && attempts < INIT_POLL_MAX_ATTEMPTS) {
     await new Promise(resolve => setTimeout(resolve, INIT_POLL_INTERVAL_MS))
     attempts++
   }
 
-  // Always create overlay chart with candlesticks
-  if (overlayChartContainer.value && overlayChartContainer.value.clientWidth > 0) {
+  // For overlay indicators, create overlay chart with candlesticks
+  if (!isOscillatorType && overlayChartContainer.value && overlayChartContainer.value.clientWidth > 0) {
     overlayChart = createOverlayChart(overlayChartContainer.value)
     setupCandlestickSeries(overlayChart, data)
     setupVolumeSeries(overlayChart, data)
 
     // For overlay indicators, add series to overlay chart
-    if (!isOscillatorType && data.series.length > 0) {
+    if (data.series.length > 0) {
       setupIndicatorSeries(overlayChart, data.series, false)
     }
 
@@ -535,7 +537,8 @@ async function initChart() {
   }
 
   // Setup resize observer with debouncing to handle container resizing
-  if (overlayChartContainer.value) {
+  const observerContainer = isOscillatorType ? oscillatorChartContainer.value : overlayChartContainer.value
+  if (observerContainer) {
     resizeObserver = new ResizeObserver(entries => {
       // Debounce resize events to avoid excessive updates during rapid resizing
       if (resizeTimeout) {
@@ -555,7 +558,7 @@ async function initChart() {
         }
       }, RESIZE_DEBOUNCE_MS)
     })
-    resizeObserver.observe(overlayChartContainer.value)
+    resizeObserver.observe(observerContainer)
   }
 }
 
@@ -616,8 +619,8 @@ watch(isDark, () => {
     </div>
 
     <div v-show="!isLoading && !hasError" class="charts-container">
-      <!-- Overlay Chart (always shown) -->
-      <div ref="overlayChartContainer" class="chart-container overlay-chart" role="img"
+      <!-- Overlay Chart (shown for overlay type indicators) -->
+      <div v-if="chartType === 'overlay'" ref="overlayChartContainer" class="chart-container overlay-chart" role="img"
         aria-label="Price chart with indicator overlay"></div>
 
       <!-- Oscillator Chart (shown only for oscillator type) -->
@@ -633,7 +636,13 @@ watch(isDark, () => {
   </div>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
+// Breakpoints
+$tablet-width: 880px;
+$mobile-width: 600px;
+$landscape-height-sm: 400px;
+$landscape-height-md: 600px;
+
 .indicator-chart-wrapper {
   width: 100%;
 }
@@ -651,54 +660,44 @@ watch(isDark, () => {
 
 .overlay-chart {
   aspect-ratio: 2.5;
-}
 
-.oscillator-chart {
-  aspect-ratio: 10;
-}
-
-/* Tablet breakpoint */
-@media (max-width: 880px) {
-  .overlay-chart {
+  /* Tablet breakpoint */
+  @media (max-width: $tablet-width) {
     aspect-ratio: 2;
   }
 
-  .oscillator-chart {
-    aspect-ratio: 8;
-  }
-}
-
-/* Mobile breakpoint */
-@media (max-width: 600px) {
-  .overlay-chart {
+  /* Mobile breakpoint */
+  @media (max-width: $mobile-width) {
     aspect-ratio: 5/4;
   }
-}
 
-/* Landscape optimizations */
-@media (max-height: 400px) and (orientation: landscape) {
-  .overlay-chart {
+  /* Landscape optimizations */
+  @media (max-height: $landscape-height-sm) and (orientation: landscape) {
     aspect-ratio: unset;
     height: 100vh;
   }
 }
 
-@media (max-width: 880px) and (orientation: landscape) {
-  .oscillator-chart {
+.oscillator-chart {
+  aspect-ratio: 10;
+
+  /* Tablet breakpoint */
+  @media (max-width: $tablet-width) {
+    aspect-ratio: 8;
+  }
+
+  /* Landscape optimizations */
+  @media (max-width: $tablet-width) and (orientation: landscape) {
     aspect-ratio: unset;
     height: 25vh;
   }
-}
 
-@media (max-height: 600px) and (orientation: landscape) {
-  .oscillator-chart {
+  @media (max-height: $landscape-height-md) and (orientation: landscape) {
     aspect-ratio: unset;
     height: 33.33vh;
   }
-}
 
-@media (max-height: 400px) {
-  .oscillator-chart {
+  @media (max-height: $landscape-height-sm) {
     aspect-ratio: unset;
     height: 50vh;
   }

@@ -3,7 +3,7 @@ title: Percentage Volume Oscillator (PVO)
 description: The Percentage Volume Oscillator is a simple oscillator view of the rate of change between two converging / diverging exponential moving averages of Volume.  It is presented similarly to MACD.
 ---
 
-# {{ $frontmatter.title }}
+# Percentage Volume Oscillator (PVO)
 
 The [Percentage Volume Oscillator](https://school.stockcharts.com/doku.php?id=technical_indicators:percentage_volume_oscillator_pvo) is a simple oscillator view of the rate of change between two converging / diverging exponential moving averages of Volume.
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/305 "Community discussion about this indicator")
@@ -43,8 +43,9 @@ IReadOnlyList<PvoResult>
 - It does not return a single incremental indicator value.
 - The first `S-1` slow periods will have `null` values since there's not enough data to calculate.
 
-> [!CAUTION]
-> **Convergence warning** The first `S+P+250` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
+::: warning Convergence warning
+The first `S+P+250` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
+:::
 
 ### PvoResult
 

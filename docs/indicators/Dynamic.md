@@ -3,7 +3,7 @@ title: McGinley Dynamic
 description: Created by John R. McGinley, the McGinley Dynamic is a more responsive variant of exponential moving average.
 ---
 
-# {{ $frontmatter.title }}
+# McGinley Dynamic
 
 Created by John R. McGinley, the [McGinley Dynamic](https://www.investopedia.com/terms/m/mcginley-dynamic.asp) is a more responsive variant of exponential moving average.
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/866 "Community discussion about this indicator")
@@ -47,8 +47,9 @@ IReadOnlyList<DynamicResult>
 - It does not return a single incremental indicator value.
 - The first period will have a `null` value since there's not enough data to calculate.
 
-> [!CAUTION]
-> **Convergence warning** The first `4×N` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
+::: warning Convergence warning
+The first `4×N` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
+:::
 
 ### DynamicResult
 

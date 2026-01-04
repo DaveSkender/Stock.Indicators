@@ -1,5 +1,9 @@
+---
+title: Average True Range (ATR) / True Range (TR)
+description: Created by J. Welles Wilder, True Range and Average True Range is a measure of volatility that captures gaps and limits between periods.
+---
 
-# {{ $frontmatter.title }}
+# Average True Range (ATR) / True Range (TR)
 
 Created by J. Welles Wilder, True Range and [Average True Range](https://en.wikipedia.org/wiki/Average_true_range) is a measure of volatility that captures gaps and limits between periods.
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/269 "Community discussion about this indicator")
@@ -43,8 +47,9 @@ IReadOnlyList<AtrResult>
 - It does not return a single incremental indicator value.
 - The first `N` periods will have `null` values for ATR since there's not enough data to calculate.
 
-> [!CAUTION]
-> **Convergence warning** The first `N+100` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
+::: warning Convergence warning
+The first `N+100` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
+:::
 
 ### AtrResult
 

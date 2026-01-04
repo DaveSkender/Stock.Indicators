@@ -3,7 +3,7 @@ title: Force Index
 description: Created by Alexander Elder, the Force Index depicts volume-based buying and selling pressure based on the change in price.
 ---
 
-# {{ $frontmatter.title }}
+# Force Index
 
 Created by Alexander Elder, the [Force Index](https://en.wikipedia.org/wiki/Force_index) depicts volume-based buying and selling pressure based on the change in price.
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/382 "Community discussion about this indicator")
@@ -39,8 +39,9 @@ IReadOnlyList<ForceIndexResult>
 - It does not return a single incremental indicator value.
 - The first `N` periods for will be `null` since they cannot be calculated.
 
-> [!CAUTION]
-> **Convergence warning** The first `N+100` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
+::: warning Convergence warning
+The first `N+100` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
+:::
 
 ### ForceIndexResult
 

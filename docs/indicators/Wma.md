@@ -3,7 +3,7 @@ title: Weighted Moving Average (WMA)
 description: Weighted Moving Average is the linear weighted average of financial market prices over a lookback window.  This also called Linear Weighted Moving Average (LWMA).
 ---
 
-# {{ $frontmatter.title }}
+# Weighted Moving Average (WMA)
 
 [Weighted Moving Average](https://en.wikipedia.org/wiki/Moving_average#Weighted_moving_average) is the linear weighted average of price over a lookback window.  This also called Linear Weighted Moving Average (LWMA).
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/227 "Community discussion about this indicator")

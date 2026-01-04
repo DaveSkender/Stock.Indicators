@@ -3,7 +3,7 @@ title: Volatility Stop
 description: Created by J. Welles Wilder, Volatility Stop, also known his Volatility System, is an ATR based indicator used to determine trend direction, stops, and reversals.  It is similar to Wilder's Parabolic SAR, SuperTrend, and more contemporary ATR Trailing Stop.
 ---
 
-# {{ $frontmatter.title }}
+# Volatility Stop
 
 Created by J. Welles Wilder, [Volatility Stop](https://archive.org/details/newconceptsintec00wild), also known his Volatility System, is an [ATR](/indicators/Atr) based indicator used to determine trend direction, stops, and reversals.  It is similar to Wilder's [Parabolic SAR](/indicators/ParabolicSar) and [SuperTrend](/indicators/SuperTrend).
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/564 "Community discussion about this indicator")
@@ -45,8 +45,9 @@ IReadOnlyList<VolatilityStopResult>
 - It does not return a single incremental indicator value.
 - The first trend will have `null` values since it is not accurate and based on an initial guess.
 
-> [!CAUTION]
-> **Convergence warning** The first `N+100` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
+::: warning Convergence warning
+The first `N+100` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
+:::
 
 ### VolatilityStopResult
 

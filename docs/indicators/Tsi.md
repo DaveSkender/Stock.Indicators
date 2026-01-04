@@ -3,7 +3,7 @@ title: True Strength Index (TSI)
 description: Created by William Blau, the True Strength Index is a momentum oscillator that uses a series of exponential moving averages to depicts trends in price changes.
 ---
 
-# {{ $frontmatter.title }}
+# True Strength Index (TSI)
 
 Created by William Blau, the [True Strength Index](https://en.wikipedia.org/wiki/True_strength_index) is a momentum oscillator that uses a series of exponential moving averages to depicts trends in price changes.
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/300 "Community discussion about this indicator")
@@ -44,8 +44,9 @@ IReadOnlyList<TsiResult>
 - The first `N+M-1` periods will have `null` values since there's not enough data to calculate.
 - `Signal` will be `null` for all periods if `signalPeriods=0`.
 
-> [!CAUTION]
-> **Convergence warning** The first `N+M+250` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
+::: warning Convergence warning
+The first `N+M+250` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
+:::
 
 ### TsiResult
 

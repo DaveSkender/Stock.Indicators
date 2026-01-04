@@ -3,7 +3,7 @@ title: Stochastic Oscillator
 description: Created by George Lane, the Stochastic Oscillator, also known as KDJ Index, is a momentum oscillator that compares current financial market price with recent highs and lows and is presented on a scale of 0 to 100.  %J is also included for the KDJ Index extension.
 ---
 
-# {{ $frontmatter.title }}
+# Stochastic Oscillator
 
 Created by George Lane, the [Stochastic Oscillator](https://en.wikipedia.org/wiki/Stochastic_oscillator), also known as KDJ Index, is a momentum oscillator that compares current price with recent highs and lows and is presented on a scale of 0 to 100.
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/237 "Community discussion about this indicator")
@@ -62,8 +62,9 @@ IReadOnlyList<StochResult>
 - It does not return a single incremental indicator value.
 - The first `N+S-2` periods will have `null` Oscillator values since there's not enough data to calculate.
 
-> [!CAUTION]
-> **Convergence warning** The first `N+100` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods when using `MaType.SMMA`.  Standard use of `MaType.SMA` does not have convergence-related precision errors.
+::: warning Convergence warning
+The first `N+100` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods when using `MaType.SMMA`.  Standard use of `MaType.SMA` does not have convergence-related precision errors.
+:::
 
 ### StochResult
 

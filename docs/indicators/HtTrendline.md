@@ -3,7 +3,7 @@ title: Hilbert Transform Instantaneous Trendline
 description: Created by John Ehlers, the Hilbert Transform Instantaneous Trendline is a 5-period trendline of high/low price that that uses classic electrical radio-frequency signal processing algorithms reduce noise.
 ---
 
-# {{ $frontmatter.title }}
+# Hilbert Transform Instantaneous Trendline
 
 Created by John Ehlers, the Hilbert Transform Instantaneous Trendline is a 5-period trendline of high/low price that that uses classic electrical radio-frequency signal processing algorithms reduce noise.  Dominant Cycle Periods information is also provided.
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/363 "Community discussion about this indicator")
@@ -36,8 +36,9 @@ IReadOnlyList<HtlResult>
 - The first `6` periods will have `null` values for `SmoothPrice` since there's not enough data to calculate.
 - The first `7` periods will have `null` values for `DcPeriods` since there is not enough data to calculate; and are generally unreliable for the first ~25 periods.
 
-> [!CAUTION]
-> **Convergence warning** The first `100` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
+::: warning Convergence warning
+The first `100` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
+:::
 
 ### HtlResult
 

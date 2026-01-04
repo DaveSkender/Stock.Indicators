@@ -3,7 +3,7 @@ title: Moving Average Envelopes
 description:  Moving Average Envelopes is a price band channel overlay that is offset from the moving average of price.
 ---
 
-# {{ $frontmatter.title }}
+# Moving Average Envelopes
 
 [Moving Average Envelopes](https://en.wikipedia.org/wiki/Moving_average_envelope) is a price band channel overlay that is offset from the moving average of price.
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/288 "Community discussion about this indicator")
@@ -68,8 +68,9 @@ IReadOnlyList<MaEnvelopeResult>
 - It does not return a single incremental indicator value.
 - The first periods will have `null` values since there's not enough data to calculate; the quantity will vary based on the `movingAverageType` specified.
 
-> [!CAUTION]
-> **Convergence warning** Some moving average variants have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.  See links in the supported [MaType options](#matype-options) section above for more information.
+::: warning Convergence warning
+Some moving average variants have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.  See links in the supported [MaType options](#matype-options) section above for more information.
+:::
 
 ### MaEnvelopeResult
 
@@ -121,8 +122,9 @@ foreach (IQuote quote in quotes)  // simulating stream
 IReadOnlyList<MaEnvelopeResult> results = observer.Results;
 ```
 
-> [!WARNING]
-> **Note** In streaming mode, only certain moving average types are supported. ALMA, EPMA, and HMA are not yet supported in streaming mode and will throw a `NotImplementedException`.
+:::Note
+In streaming mode, only certain moving average types are supported. ALMA, EPMA, and HMA are not yet supported in streaming mode and will throw a `NotImplementedException`.
+:::
 
 ## Chaining
 

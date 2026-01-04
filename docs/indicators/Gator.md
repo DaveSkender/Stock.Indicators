@@ -3,7 +3,7 @@ title: Gator Oscillator
 description: Created by Bill Williams, the Gator Oscillator is an expanded oscillator view of Williams Alligator's three moving averages.
 ---
 
-# {{ $frontmatter.title }}
+# Gator Oscillator
 
 Created by Bill Williams, the Gator Oscillator is an expanded oscillator view of [Williams Alligator](/indicators/Alligator)'s three moving averages.
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/385 "Community discussion about this indicator")
@@ -40,8 +40,9 @@ IReadOnlyList<GatorResult>
 - It does not return a single incremental indicator value.
 - The first 10-20 periods will have `null` values since there's not enough data to calculate.
 
-> [!CAUTION]
-> **Convergence warning** The first 150 periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
+::: warning Convergence warning
+The first 150 periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
+:::
 
 ### GatorResult
 

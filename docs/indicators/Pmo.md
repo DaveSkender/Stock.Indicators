@@ -3,7 +3,7 @@ title: Price Momentum Oscillator (PMO)
 description: Created by Carl Swenlin, the DecisionPoint Price Momentum Oscillator is double-smoothed momentum indicator, based on Rate of Change (ROC).
 ---
 
-# {{ $frontmatter.title }}
+# Price Momentum Oscillator (PMO)
 
 Created by Carl Swenlin, the DecisionPoint [Price Momentum Oscillator](https://school.stockcharts.com/doku.php?id=technical_indicators:dppmo) is double-smoothed momentum indicator based on Rate of Change (ROC).
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/244 "Community discussion about this indicator")
@@ -43,8 +43,9 @@ IReadOnlyList<PmoResult>
 - It does not return a single incremental indicator value.
 - The first `T+S-1` periods will have `null` values for PMO since there's not enough data to calculate.
 
-> [!CAUTION]
-> **Convergence warning** The first `T+S+250` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
+::: warning Convergence warning
+The first `T+S+250` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
+:::
 
 ### PmoResult
 
