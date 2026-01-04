@@ -1,5 +1,6 @@
 ---
 layout: home
+isHome: true
 title: Stock Indicators for .NET
 titleTemplate: Transform price quotes into trading insights
 

@@ -11,7 +11,7 @@
     "lib": ["ESNext", "DOM"],
     "types": ["vitepress/client"],
     "paths": {
-      "@/*": [".vitepress/*"]
+      "@/*": ["./.vitepress/*"]
     }
   },
   "include": [
