@@ -49,7 +49,8 @@ IReadOnlyList<CmfResult>
 
 **`Cmf`** _`double`_ - Chaikin Money Flow = SMA of MFV
 
-> &#128681; **Warning**: absolute values in MFV and CMF are somewhat meaningless.  Use with caution.
+> [!WARNING]
+> **Warning** absolute values in MFV and CMF are somewhat meaningless.  Use with caution.
 
 ### Utilities
 

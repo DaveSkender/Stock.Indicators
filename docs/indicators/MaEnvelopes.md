@@ -54,7 +54,8 @@ These are the supported moving average types:
 
 **`MaType.WMA`** - [Weighted Moving Average](/indicators/Wma)
 
-> &#128681;  **Warning**: For ALMA, default values are used for `offset` and `sigma`.
+> [!WARNING]
+> For ALMA, default values are used for `offset` and `sigma`.
 
 ## Response
 
@@ -67,7 +68,8 @@ IReadOnlyList<MaEnvelopeResult>
 - It does not return a single incremental indicator value.
 - The first periods will have `null` values since there's not enough data to calculate; the quantity will vary based on the `movingAverageType` specified.
 
->&#9886; **Convergence warning**: Some moving average variants have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.  See links in the supported [MaType options](#matype-options) section above for more information.
+> [!CAUTION]
+> **Convergence warning** Some moving average variants have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.  See links in the supported [MaType options](#matype-options) section above for more information.
 
 ### MaEnvelopeResult
 
@@ -119,7 +121,8 @@ foreach (IQuote quote in quotes)  // simulating stream
 IReadOnlyList<MaEnvelopeResult> results = observer.Results;
 ```
 
-> &#128681; **Note**: In streaming mode, only certain moving average types are supported. ALMA, EPMA, and HMA are not yet supported in streaming mode and will throw a `NotImplementedException`.
+> [!WARNING]
+> **Note** In streaming mode, only certain moving average types are supported. ALMA, EPMA, and HMA are not yet supported in streaming mode and will throw a `NotImplementedException`.
 
 ## Chaining
 

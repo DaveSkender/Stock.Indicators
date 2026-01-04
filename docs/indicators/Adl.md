@@ -44,7 +44,8 @@ IReadOnlyList<AdlResult>
 
 **`Adl`** _`double`_ - Accumulation Distribution Line (ADL)
 
-> &#128681; **Warning**: absolute values in ADL and MFV are somewhat meaningless.  Use with caution.
+> [!WARNING]
+> **Warning** absolute values in ADL and MFV are somewhat meaningless.  Use with caution.
 
 ### Utilities
 

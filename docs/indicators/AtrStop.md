@@ -49,7 +49,8 @@ IReadOnlyList<AtrStopResult>
 - It does not return a single incremental indicator value.
 - The first `N` periods will have `null` AtrStop values since there's not enough data to calculate.
 
->&#9886; **Convergence warning**: the line segment before the first reversal and the first `N+100` periods are unreliable due to an initial guess of trend direction and precision convergence for the underlying ATR values.
+> [!CAUTION]
+> **Convergence warning** the line segment before the first reversal and the first `N+100` periods are unreliable due to an initial guess of trend direction and precision convergence for the underlying ATR values.
 
 ### AtrStopResult
 
