@@ -2,9 +2,19 @@ namespace Skender.Stock.Indicators;
 #pragma warning disable IDE0010 // Missing cases in switch expression
 
 // STREAM HUB (BASE/CACHE)
+public abstract class StreamHubBase
+{
+    /// <inheritdoc/>
+    public string Name { get; private protected init; } = null!;
+
+    public object? LastItem { get; set; }
+
+    /// <inheritdoc/>
+    public override string ToString() => Name;
+}
 
 /// <inheritdoc cref="IStreamHub{TIn, TOut}"/>
-public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
+public abstract partial class StreamHub<TIn, TOut> : StreamHubBase, IStreamHub<TIn, TOut>
     where TIn : ISeries
     where TOut : ISeries
 {
@@ -29,9 +39,6 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
     /// <inheritdoc/>
     public bool IsFaulted { get; private set; }
 
-    /// <inheritdoc/>
-    public string Name { get; private protected init; } = null!;
-
     /// <summary>
     /// Gets the cache of stored values (base).
     /// </summary>
@@ -51,7 +58,17 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
     /// <summary>
     /// Gets or sets the most recent item saved to cache.
     /// </summary>
-    private TOut? LastItem { get; set; }
+    private TOut? _lastItem;
+    public new TOut? LastItem
+    {
+        get {
+            return _lastItem;
+        }
+        set {
+            base.LastItem = value;
+            _lastItem = value;
+        }
+    }
 
     /// <summary>
     /// Resets the fault flag and condition.
@@ -71,9 +88,6 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
     /// </remarks>
     /// <returns>The read-only cache reference.</returns>
     public IReadOnlyList<TOut> GetCacheRef() => Cache.AsReadOnly();
-
-    /// <inheritdoc/>
-    public override string ToString() => Name;
 
     /// <summary>
     /// Converts incremental value into an indicator candidate and cache position.
