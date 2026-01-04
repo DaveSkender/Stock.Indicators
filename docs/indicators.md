@@ -19,7 +19,7 @@ features:
     link: /indicators#price-trends
     details: Trend identification
   - title: Stop & reverse
-    link: /indicators#stop-and-reverse
+    link: /indicators#stop--reverse
     details: Pivots and redirection
   - title: Volume based
     link: /indicators#volume-based
