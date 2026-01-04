@@ -4,15 +4,16 @@ using BenchmarkDotNet.Diagnosers;
 using BenchmarkDotNet.Exporters;
 using BenchmarkDotNet.Exporters.Json;
 using BenchmarkDotNet.Loggers;
+using BenchmarkDotNet.Order;
 
 namespace Performance;
 
 /// <summary>
-/// BenchmarkDotNet configuration for performance testing.
+/// BenchmarkDotNet configuration for performance testing (default).
 /// </summary>
-public class PerformanceConfig : ManualConfig
+public class DefaultConfig : ManualConfig
 {
-    public PerformanceConfig()
+    public DefaultConfig()
     {
         // Add standard exporters for different formats
         AddExporter(MarkdownExporter.GitHub);
@@ -24,8 +25,11 @@ public class PerformanceConfig : ManualConfig
         AddColumn(StatisticColumn.Error);
         AddColumn(StatisticColumn.StdDev);
 
-        // Add memory diagnostics for Q004 and Q006 (memory profiling)
-        AddDiagnoser(MemoryDiagnoser.Default);
+        // Add memory diagnostics with GC collection columns
+        AddDiagnoser(new MemoryDiagnoser(new MemoryDiagnoserConfig(displayGenColumns: true)));
+
+        // Sort results by method name
+        WithOrderer(new DefaultOrderer(SummaryOrderPolicy.Method));
 
         // Add logger
         AddLogger(ConsoleLogger.Default);

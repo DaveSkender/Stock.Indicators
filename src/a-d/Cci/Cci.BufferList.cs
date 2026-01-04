@@ -88,3 +88,17 @@ public class CciList : BufferList<CciResult>, IIncrementFromQuote, ICci
         _buffer.Clear();
     }
 }
+
+public static partial class Cci
+{
+    /// <summary>
+    /// Creates a buffer list for Commodity Channel Index (CCI).
+    /// </summary>
+    /// <param name="quotes">Aggregate OHLCV quote bars, time sorted.</param>
+    /// <param name="lookbackPeriods">Quantity of periods in lookback window.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="lookbackPeriods"/> is invalid.</exception>
+    public static CciList ToCciList(
+        this IReadOnlyList<IQuote> quotes,
+        int lookbackPeriods = 20)
+        => new(lookbackPeriods) { quotes };
+}

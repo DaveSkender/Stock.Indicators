@@ -7,10 +7,96 @@ concurrency:
 on:
   workflow_dispatch:
     inputs:
-      keyword:
-        description: Indicator keyword (case-insensitive, e.g., "sma", "ema", "rsi")
-        type: string
+      indicator:
+        description: Select indicator to benchmark
+        type: choice
         required: true
+        options:
+          - ADL
+          - ADX
+          - ALLIGATOR
+          - ALMA
+          - AROON
+          - ATR
+          - ATR-STOP
+          - AWESOME
+          - BB
+          - BETA
+          - BOP
+          - CCI
+          - CHAIKIN-OSC
+          - CHEXIT
+          - CHOP
+          - CMF
+          - CMO
+          - CORR
+          - CRSI
+          - DEMA
+          - DOJI
+          - DONCHIAN
+          - DPO
+          - DYNAMIC
+          - ELDER-RAY
+          - EMA
+          - EPMA
+          - FCB
+          - FISHER
+          - FORCE
+          - FRACTAL
+          - GATOR
+          - HEIKINASHI
+          - HMA
+          - HTL
+          - HURST
+          - ICHIMOKU
+          - KAMA
+          - KELTNER
+          - KVO
+          - MA-ENV
+          - MACD
+          - MAMA
+          - MARUBOZU
+          - MFI
+          - OBV
+          - PIVOT-POINTS
+          - PIVOTS
+          - PMO
+          - PRS
+          - PSAR
+          - PVO
+          - QUOTEPART
+          - RENKO
+          - RENKO-ATR
+          - ROC
+          - ROC-WB
+          - ROLLING-PIVOTS
+          - RSI
+          - SLOPE
+          - SMA
+          - SMA-ANALYSIS
+          - SMI
+          - SMMA
+          - STARC
+          - STC
+          - STDEV
+          - STDEV-CHANNELS
+          - STOCH
+          - STOCH-RSI
+          - SUPERTREND
+          - T3
+          - TEMA
+          - TR
+          - TRIX
+          - TSI
+          - ULCER
+          - UO
+          - VOL-STOP
+          - VORTEX
+          - VWAP
+          - VWMA
+          - WILLR
+          - WMA
+          - ZIGZAG
       periods:
         description: Number of randomly generated quote periods
         type: number
@@ -60,7 +146,7 @@ jobs:
         run: |
           dotnet run -c Release -- --filter "Performance.ManualTestDirect*" --job short --exporters json markdown
         env:
-          PERF_TEST_KEYWORD: ${{ inputs.keyword }}
+          PERF_TEST_KEYWORD: ${{ inputs.indicator }}
           PERF_TEST_PERIODS: ${{ inputs.periods }}
 
       - name: Save test results
@@ -72,8 +158,9 @@ jobs:
 
       - name: Publish summary
         working-directory: tools/performance/BenchmarkDotNet.Artifacts/results
+        if: always()
         env:
-          INDICATOR_KEYWORD: ${{ inputs.keyword }}
+          INDICATOR_KEYWORD: ${{ inputs.indicator }}
           INDICATOR_PERIODS: ${{ inputs.periods }}
         run: |
           echo "## Manual Performance Test Results" >> $GITHUB_STEP_SUMMARY

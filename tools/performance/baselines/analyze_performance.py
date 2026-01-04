@@ -44,6 +44,8 @@ def parse_benchmark_file(filepath: Path) -> Dict[str, float]:
                 indicator_name = method[:-3]  # Remove "Hub" suffix
             elif method.endswith('List'):
                 indicator_name = method[:-4]  # Remove "List" suffix
+            elif method.endswith('Batch'):
+                indicator_name = method[:-5]  # Remove "Batch" suffix
             elif method.endswith('Series'):
                 indicator_name = method[:-6]  # Remove "Series" suffix
             elif method.endswith('Stream'):
