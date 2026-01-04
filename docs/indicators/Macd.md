@@ -43,8 +43,9 @@ IReadOnlyList<MacdResult>
 - It does not return a single incremental indicator value.
 - The first `S-1` slow periods will have `null` values since there's not enough data to calculate.
 
-> [!CAUTION]
-> **Convergence warning** The first `S+P+250` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
+:::Convergence warning
+The first `S+P+250` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
+:::
 
 ### MacdResult
 

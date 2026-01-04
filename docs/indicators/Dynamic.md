@@ -47,8 +47,9 @@ IReadOnlyList<DynamicResult>
 - It does not return a single incremental indicator value.
 - The first period will have a `null` value since there's not enough data to calculate.
 
-> [!CAUTION]
-> **Convergence warning** The first `4×N` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
+:::Convergence warning
+The first `4×N` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
+:::
 
 ### DynamicResult
 

@@ -47,8 +47,9 @@ IReadOnlyList<StochRsiResult>
 - It does not return a single incremental indicator value.
 - The first `R+S+M` periods will have `null` values for `StochRsi` since there's not enough data to calculate.
 
-> [!CAUTION]
-> **Convergence warning** The first `10×R` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.  We recommend pruning at least `R+S+M+100` initial values.
+:::Convergence warning
+The first `10×R` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.  We recommend pruning at least `R+S+M+100` initial values.
+:::
 
 ### StochRsiResult
 

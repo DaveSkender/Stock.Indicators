@@ -62,8 +62,9 @@ IReadOnlyList<StochResult>
 - It does not return a single incremental indicator value.
 - The first `N+S-2` periods will have `null` Oscillator values since there's not enough data to calculate.
 
-> [!CAUTION]
-> **Convergence warning** The first `N+100` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods when using `MaType.SMMA`.  Standard use of `MaType.SMA` does not have convergence-related precision errors.
+:::Convergence warning
+The first `N+100` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods when using `MaType.SMMA`.  Standard use of `MaType.SMA` does not have convergence-related precision errors.
+:::
 
 ### StochResult
 

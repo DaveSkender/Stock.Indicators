@@ -41,8 +41,9 @@ IReadOnlyList<ChaikinOscResult>
 - It does not return a single incremental indicator value.
 - The first `S-1` periods will have `null` values for `Oscillator` since there's not enough data to calculate.
 
-> [!CAUTION]
-> **Convergence warning** The first `S+100` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
+:::Convergence warning
+The first `S+100` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
+:::
 
 ### ChaikinOscResult
 
@@ -56,8 +57,9 @@ IReadOnlyList<ChaikinOscResult>
 
 **`Oscillator`** _`double`_ - Chaikin Oscillator
 
-> [!WARNING]
-> **Warning** absolute values in MFV, ADL, and Oscillator are somewhat meaningless.  Use with caution.
+:::Warning
+absolute values in MFV, ADL, and Oscillator are somewhat meaningless.  Use with caution.
+:::
 
 ### Utilities
 
