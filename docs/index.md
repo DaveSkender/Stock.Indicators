@@ -25,7 +25,7 @@ features:
     link: /utilities
     details: and helper functions
   - title: Demo site
-    link: https:/charts.stockindicators.dev
+    link: https://charts.stockindicators.dev
     details: An interactive stock chart
   - title: Examples
     link: /examples
