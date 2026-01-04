@@ -7,6 +7,8 @@ public class Utility
 {
     private static readonly IReadOnlyList<Quote> quotes = Data.GetDefault();
     private static readonly IReadOnlyList<Quote> intraday = Data.GetIntraday();
+    private const int n = 14;
+
     private static readonly Quote quote = quotes[0];
 
     [Benchmark]
@@ -39,7 +41,7 @@ public class Utility
     [Benchmark]
     public object RemoveWarmupPeriods()
     {
-        IReadOnlyList<RsiResult> results = quotes.ToRsi(14);
+        IReadOnlyList<RsiResult> results = quotes.ToRsi(n);
         return results.RemoveWarmupPeriods();
     }
 }

@@ -1,0 +1,73 @@
+name: Test performance comparison
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  analyze:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 90
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: "10.x"
+          dotnet-quality: "ga"
+          cache: true
+          cache-dependency-path: "**/packages.lock.json"
+
+      - name: Setup GitVersion Tool
+        run: dotnet tool install --global GitVersion.Tool
+
+      - name: Determine version
+        id: gitversion
+        run: |
+          dotnet gitversion -config src/gitversion.yml -updateassemblyinfo
+          # Export GitVersion variables to environment
+          dotnet gitversion -config src/gitversion.yml | jq -r 'to_entries[] | "\(.key)=\(.value)"' >> $GITHUB_ENV
+
+      - name: Build library
+        run: >
+          dotnet build
+          --configuration Release
+          --property:ContinuousIntegrationBuild=true
+
+      - name: Test performance (style comparison)
+        working-directory: tools/performance
+        run: |
+          echo "Running style comparison benchmarks..."
+          dotnet run -c Release -- --filter 'Performance.StyleComparison*'
+
+      - name: Save test results
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-summaries
+          path: tools/performance/BenchmarkDotNet.Artifacts/results
+
+      - name: Publish summary
+        working-directory: tools/performance/BenchmarkDotNet.Artifacts/results
+        shell: bash
+        run: |
+          echo "## Style Comparison Performance Results" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          REPORT_FILE="Performance.StyleComparison-report-github.md"
+          if [ -f "$REPORT_FILE" ]; then
+            cat "$REPORT_FILE" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "⚠️ No style comparison benchmark reports were generated." >> $GITHUB_STEP_SUMMARY
+          fi

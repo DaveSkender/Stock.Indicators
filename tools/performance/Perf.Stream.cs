@@ -2,7 +2,7 @@ namespace Performance;
 
 // STREAM-STYLE INDICATORS
 
-[ShortRunJob]
+[ShortRunJob, WarmupCount(5), IterationCount(5)]
 public class StreamIndicators
 {
     private static readonly IReadOnlyList<Quote> q = Data.GetDefault();
@@ -53,18 +53,18 @@ public class StreamIndicators
     [Benchmark] public object AwesomeHub() => quoteHub.ToAwesomeHub().Results;
     [Benchmark] public object BollingerBandsHub() => quoteHub.ToBollingerBandsHub(20, 2).Results;
     [Benchmark] public object BopHub() => quoteHub.ToBopHub(n).Results;
-    [Benchmark] public object CciHub() => quoteHub.ToCciHub(20).Results;
+    [Benchmark] public object CciHub() => quoteHub.ToCciHub(n).Results;
     [Benchmark] public object ChaikinOscHub() => quoteHub.ToChaikinOscHub().Results;
     [Benchmark] public object ChandelierHub() => quoteHub.ToChandelierHub().Results;
     [Benchmark] public object ChopHub() => quoteHub.ToChopHub(n).Results;
-    [Benchmark] public object CmfHub() => quoteHub.ToCmfHub(20).Results;
+    [Benchmark] public object CmfHub() => quoteHub.ToCmfHub(n).Results;
     [Benchmark] public object CmoHub() => quoteHub.ToCmoHub(n).Results;
     [Benchmark] public object ConnorsRsiHub() => quoteHub.ToConnorsRsiHub(3, 2, 100).Results;
     [Benchmark] public object DemaHub() => quoteHub.ToDemaHub(n).Results;
     [Benchmark] public object DojiHub() => quoteHub.ToDojiHub().Results;
     [Benchmark] public object DonchianHub() => quoteHub.ToDonchianHub(20).Results;
     [Benchmark] public object DpoHub() => quoteHub.ToDpoHub(n).Results;
-    [Benchmark] public object DynamicHub() => quoteHub.ToDynamicHub(n, 0.6).Results;
+    [Benchmark] public object DynamicHub() => quoteHub.ToDynamicHub(n).Results;
     [Benchmark] public object ElderRayHub() => quoteHub.ToElderRayHub(13).Results;
     [Benchmark] public object EmaHub() => quoteHub.ToEmaHub(20).Results;
     [Benchmark] public object EpmaHub() => quoteHub.ToEpmaHub(n).Results;
@@ -88,8 +88,8 @@ public class StreamIndicators
     [Benchmark] public object MarubozuHub() => quoteHub.ToMarubozuHub(95).Results;
     [Benchmark] public object ObvHub() => quoteHub.ToObvHub().Results;
     [Benchmark] public object ParabolicSarHub() => quoteHub.ToParabolicSarHub().Results;
-    [Benchmark] public object PivotPointsHub() => quoteHub.ToPivotPointsHub().Results;
-    [Benchmark] public object PivotsHub() => quoteHub.ToPivotsHub().Results;
+    [Benchmark] public object PivotPointsHub() => quoteHub.ToPivotPointsHub(PeriodSize.Month, PivotPointType.Standard).Results;
+    [Benchmark] public object PivotsHub() => quoteHub.ToPivotsHub(2, 2, 20).Results;
     [Benchmark] public object PmoHub() => quoteHub.ToPmoHub(35, 20, 10).Results;
     [Benchmark] public object PvoHub() => quoteHub.ToPvoHub().Results;
     [Benchmark] public object QuoteHub() => quoteHub.ToQuoteHub().Results;
@@ -103,8 +103,10 @@ public class StreamIndicators
     [Benchmark] public object SlopeHub() => quoteHub.ToSlopeHub(20).Results;
     [Benchmark] public object SmaHub() => quoteHub.ToSmaHub(10).Results;
     [Benchmark] public object SmaHubState() => quoteHub.ToSmaHubState(10).Results;
+    [Benchmark] public object SlopeHub() => quoteHub.ToSlopeHub(n).Results;
+    [Benchmark] public object SmaHub() => quoteHub.ToSmaHub(n).Results;
     [Benchmark] public object SmiHub() => quoteHub.ToSmiHub(13, 25, 2, 3).Results;
-    [Benchmark] public object SmaAnalysisHub() => quoteHub.ToSmaAnalysisHub(20).Results;
+    [Benchmark] public object SmaAnalysisHub() => quoteHub.ToSmaAnalysisHub(n).Results;
     [Benchmark] public object SmmaHub() => quoteHub.ToSmmaHub(n).Results;
     [Benchmark] public object StarcBandsHub() => quoteHub.ToStarcBandsHub(5, 2, 10).Results;
     [Benchmark] public object StcHub() => quoteHub.ToStcHub(10, 23, 50).Results;
@@ -114,13 +116,13 @@ public class StreamIndicators
     [Benchmark] public object StochRsiHub() => quoteHub.ToStochRsiHub(n, n, 3, 1).Results;
     [Benchmark] public object SuperTrendHub() => quoteHub.ToSuperTrendHub(10, 3).Results;
     [Benchmark] public object T3Hub() => quoteHub.ToT3Hub(5, 0.7).Results;
-    [Benchmark] public object TemaHub() => quoteHub.ToTemaHub(20).Results;
+    [Benchmark] public object TemaHub() => quoteHub.ToTemaHub(n).Results;
     [Benchmark] public object TrHub() => quoteHub.ToTrHub().Results;
     [Benchmark] public object TrixHub() => quoteHub.ToTrixHub(n).Results;
     [Benchmark] public object TsiHub() => quoteHub.ToTsiHub(25, 13, 7).Results;
     [Benchmark] public object UlcerIndexHub() => quoteHub.ToUlcerIndexHub(n).Results;
     [Benchmark] public object UltimateHub() => quoteHub.ToUltimateHub(7, n, 28).Results;
-    [Benchmark] public object VolatilityStopHub() => quoteHub.ToVolatilityStopHub().Results;
+    [Benchmark] public object VolatilityStopHub() => quoteHub.ToVolatilityStopHub(7, 3).Results;
     [Benchmark] public object VortexHub() => quoteHub.ToVortexHub(n).Results;
     [Benchmark] public object VwapHub() => quoteHub.ToVwapHub().Results;
     [Benchmark] public object VwmaHub() => quoteHub.ToVwmaHub(n).Results;
