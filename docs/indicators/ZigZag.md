@@ -49,7 +49,7 @@ IReadOnlyList<ZigZagResult>
 - The first line segment starts after the first confirmed point; ZigZag values before the first confirmed point will be `null`.
 - The last line segment is an approximation as the direction is indeterminate.
 
-:::Warning
+::: warning
 depending on the specified `endType`, the indicator cannot be initialized if the first `Quote` in `quotes` has a `High`,`Low`, or `Close` value of 0 (zero).
 :::
 >

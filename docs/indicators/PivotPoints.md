@@ -60,7 +60,7 @@ IReadOnlyList<PivotPointsResult>
 - It does not return a single incremental indicator value.
 - The first window will have `null` values since there's not enough data to calculate.
 
-:::Warning
+::: warning
 The second window may be inaccurate if the first window contains incomplete data.  For example, this can occur if you specify a `Month` window size and only provide 45 calendar days (1.5 months) of `quotes`.
 :::
 >

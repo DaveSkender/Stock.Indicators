@@ -68,7 +68,7 @@ var results = quotesEval
     .ToPrs(quotesBase, ..);
 ```
 
-:::Warning!
+::: warning
 Both `quotesEval` and `quotesBase` arguments must contain the same number of elements and be the results of a chainable indicator or `.Use()` method.
 :::
 

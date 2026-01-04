@@ -41,7 +41,7 @@ IReadOnlyList<ObvResult>
 
 **`Obv`** _`double`_ - On-balance Volume
 
-:::Warning
+::: warning
 absolute values in OBV are somewhat meaningless. Use with caution.
 :::
 

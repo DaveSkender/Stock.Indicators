@@ -41,7 +41,7 @@ IReadOnlyList<SuperTrendResult>
 - It does not return a single incremental indicator value.
 - The first `N` periods will have `null` SuperTrend values since there's not enough data to calculate.
 
-:::Convergence warning
+::: warning Convergence warning
 the line segment before the first reversal and the first `N+100` periods are unreliable due to an initial guess of trend direction and precision convergence for the underlying ATR values.
 :::
 

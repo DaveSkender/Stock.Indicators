@@ -43,7 +43,7 @@ IReadOnlyList<ConnorsRsiResult>
 - It does not return a single incremental indicator value.
 - The first `MAX(R,S,P)-1` periods will have `null` values since there's not enough data to calculate.
 
-:::Convergence warning
+::: warning Convergence warning
 The first `N` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
 :::
 

@@ -96,7 +96,7 @@ var results = quotesEval
     .ToBeta(quotesMarket.Use(CandlePart.HL2), ..);
 ```
 
-:::Warning!
+::: warning
 Both eval and market arguments must contain the same number of elements and be the results of a chainable indicator or `.Use()` method.
 :::
 

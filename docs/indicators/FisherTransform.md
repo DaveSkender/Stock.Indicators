@@ -38,7 +38,7 @@ IReadOnlyList<FisherTransformResult>
 - It always returns the same number of elements as there are in the historical quotes.
 - It does not return a single incremental indicator value.
 
-:::Convergence warning
+::: warning Convergence warning
 The first `N+15` warmup periods will have unusable decreasing magnitude, convergence-related precision errors that can be as high as ~25% deviation in earlier indicator values.
 :::
 
