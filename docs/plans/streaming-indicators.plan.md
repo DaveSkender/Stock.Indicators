@@ -62,6 +62,96 @@ Execute these tasks sequentially from top to bottom. This section contains **onl
   - **Reference**: PR #1433 discussion
   - **Status**: COMPLETE - Optimization already implemented with internal state properties and RollbackState method
 
+### Critical StreamHub Performance Issues
+
+Based on performance analysis (January 3, 2026), the following indicators have critical performance issues requiring investigation:
+
+- [ ] **P004** - ForceIndex StreamHub O(n²) complexity fix (4-6 hours)
+  - **Current**: 61.56x slower than Series (831,594 ns vs 13,508 ns)
+  - **Problem**: Nested loop recalculating entire history on each quote
+  - **Action**: Implement O(1) incremental update with rolling state
+  - **Priority**: 🔴 CRITICAL - Unusable for real-time streaming
+
+- [ ] **P005** - Slope StreamHub performance optimization (4-6 hours)
+  - **Current**: 7.49x slower than Series (358,366 ns vs 47,859 ns)
+  - **Problem**: Inefficient lookback operations or unnecessary allocations
+  - **Action**: Investigate for O(n²) loops, unnecessary copies, missing circular buffer
+  - **Priority**: 🔴 HIGH
+
+- [ ] **P006** - Prs StreamHub performance optimization (3-4 hours)
+  - **Current**: 7.47x slower than Series (35,070 ns vs 4,694 ns)
+  - **Problem**: Potential state management or allocation inefficiencies
+  - **Action**: Review implementation for unnecessary recalculations
+  - **Priority**: 🔴 HIGH
+
+- [ ] **P007** - Roc StreamHub performance optimization (3-4 hours)
+  - **Current**: 6.98x slower than Series (30,153 ns vs 4,322 ns)
+  - **Problem**: Simple calculation showing excessive overhead
+  - **Action**: Investigate state caching and lookback efficiency
+  - **Priority**: 🔴 HIGH
+
+- [ ] **P008** - PivotPoints StreamHub performance optimization (4-6 hours)
+  - **Current**: 6.22x slower than Series (79,268 ns vs 12,753 ns)
+  - **Problem**: Complex multi-level calculations with state management
+  - **Action**: Review for redundant calculations and allocation patterns
+  - **Priority**: 🔴 HIGH
+
+- [ ] **P009** - Gator StreamHub performance optimization (4-6 hours)
+  - **Current**: 6.20x slower than Series (84,161 ns vs 13,583 ns)
+  - **Problem**: Multi-line indicator with Alligator dependency
+  - **Action**: Optimize provider subscription and state updates
+  - **Priority**: 🔴 HIGH
+
+- [ ] **P010** - Ultimate (UO) StreamHub performance optimization (4-6 hours)
+  - **Current**: 5.89x slower than Series (161,480 ns vs 27,426 ns)
+  - **Problem**: Complex weighted sum calculations
+  - **Action**: Review for calculation caching opportunities
+  - **Priority**: 🔴 HIGH
+
+- [ ] **P011** - Adl StreamHub performance optimization (3-4 hours)
+  - **Current**: 5.87x slower than Series (32,493 ns vs 5,534 ns)
+  - **Problem**: Running sum calculation with inefficiencies
+  - **Action**: Optimize state management for rolling totals
+  - **Priority**: 🔴 HIGH
+
+- [ ] **P012** - Pmo StreamHub performance optimization (3-4 hours)
+  - **Current**: 5.81x slower than Series (33,445 ns vs 5,760 ns)
+  - **Problem**: EMA-based calculations with additional overhead
+  - **Action**: Review layered EMA state management
+  - **Priority**: 🔴 HIGH
+
+- [ ] **P013** - Smi StreamHub performance optimization (4-6 hours)
+  - **Current**: 5.47x slower than Series (76,236 ns vs 13,939 ns)
+  - **Problem**: Stochastic with EMA smoothing
+  - **Action**: Optimize window operations and EMA layering
+  - **Priority**: 🔴 HIGH
+
+- [ ] **P014** - Chandelier StreamHub performance optimization (3-4 hours)
+  - **Current**: 5.35x slower than Series (120,072 ns vs 22,454 ns)
+  - **Problem**: ATR-based trailing stop calculations
+  - **Action**: Review ATR provider subscription efficiency
+  - **Priority**: 🔴 HIGH
+
+### Critical BufferList Performance Issues
+
+- [ ] **P015** - Slope BufferList O(n) optimization (4-6 hours)
+  - **Current**: 3.41x slower than Series (162,972 ns vs 47,859 ns)
+  - **Problem**: Linear regression recalculation on each add
+  - **Action**: Implement incremental Welford-style updates if mathematically feasible
+  - **Priority**: 🔴 CRITICAL
+
+- [ ] **P016** - Alligator BufferList performance optimization (2-4 hours)
+  - **Current**: 2.16x slower than Series (18,570 ns vs 8,609 ns)
+  - **Problem**: Triple SMMA calculations with lookback
+  - **Action**: Review buffer management and calculation sequencing
+  - **Priority**: 🔴 MEDIUM
+
+- [ ] **P017** - Adx BufferList performance optimization (3-4 hours)
+  - **Current**: 2.08x slower than Series (31,348 ns vs 15,088 ns)
+  - **Problem**: Complex DI+/DI-/ATR/DX/ADX calculation chain
+  - **Action**: Optimize intermediate value caching
+  - **Priority**: 🔴 MEDIUM
+
 ### Medium Priority - Documentation & Usability
 
 - [ ] **D007** - Migration guide updates (1-2 hours)
@@ -108,6 +198,19 @@ Execute these tasks sequentially from top to bottom. This section contains **onl
   - **Action**: Remove if unused or make public if useful
   - **Status**: COMPLETE - Made public and added MethodImpl attribute for performance (PR #1842)
 
+### Infrastructure & Reorganization
+
+- [ ] **File reorganization for .NET naming conventions** - [#1810](https://github.com/DaveSkender/Stock.Indicators/issues/1810)
+  - **Detailed plan**: See [file-reorg.plan.md](file-reorg.plan.md) for comprehensive analysis
+  - **Phases**: [#1811](https://github.com/DaveSkender/Stock.Indicators/issues/1811) (Directory structure), [#1812](https://github.com/DaveSkender/Stock.Indicators/issues/1812) (Class/file renaming), [#1813](https://github.com/DaveSkender/Stock.Indicators/issues/1813) (Final cleanup)
+  - **Scope**: ~500 file renames across 8 phases, 55-87 hours estimated
+  - **Rationale**: Does not affect functionality; safe to defer
+
+- [ ] **#1739** - Add upgraded doc site (VitePress migration) (Large scope)
+  - **Status**: PR #1739 in progress (experimental VitePress framework)
+  - **Alternatives**: Issue #1320 (Docusaurus), Issue #1298 (MkDocs)
+  - **Rationale**: Current Jekyll site is functional
+
 ### Low Priority - Testing & Validation (v3.0 Optional)
 
 - [ ] **T216** - ConnorsRsi RemoveWarmupPeriods calculation review (2-3 hours)
@@ -147,25 +250,14 @@ Execute these tasks sequentially from top to bottom. This section contains **onl
 
 The following items are deferred to v3.1 or later releases. These are enhancements, optimizations, and infrastructure improvements that are not critical for v3.0 stable.
 
-### Infrastructure & Reorganization (v3.1)
-
-- [ ] **File reorganization for .NET naming conventions** - [#1810](https://github.com/DaveSkender/Stock.Indicators/issues/1810)
-  - **Detailed plan**: See [file-reorg.plan.md](file-reorg.plan.md) for comprehensive analysis
-  - **Phases**: [#1811](https://github.com/DaveSkender/Stock.Indicators/issues/1811) (Directory structure), [#1812](https://github.com/DaveSkender/Stock.Indicators/issues/1812) (Class/file renaming), [#1813](https://github.com/DaveSkender/Stock.Indicators/issues/1813) (Final cleanup)
-  - **Scope**: ~500 file renames across 8 phases, 55-87 hours estimated
-  - **Rationale**: Does not affect functionality; safe to defer
-
-- [ ] **#1739** - Add upgraded doc site (VitePress migration) (Large scope)
-  - **Status**: PR #1739 in progress (experimental VitePress framework)
-  - **Alternatives**: Issue #1320 (Docusaurus), Issue #1298 (MkDocs)
-  - **Rationale**: Current Jekyll site is functional
+### Infrastructure & Reorganization
 
 - [ ] **#1533** - Implement consistent test method naming conventions (Large scope)
   - **Action**: Standardize test naming: `MethodName_StateUnderTest_ExpectedBehavior`
   - **Scope**: ~280 test classes
   - **Rationale**: Code quality improvement, non-functional
 
-### Performance & Framework Optimizations (v3.1)
+### Performance & Framework Optimizations
 
 - [ ] **T205** - StreamHub reinitialization optimization (6-8 hours)
   - **File**: `src/_common/StreamHub/StreamHub.cs:343-347`
@@ -173,11 +265,12 @@ The following items are deferred to v3.1 or later releases. These are enhancemen
   - **Action**: Make reinitialization abstract for optimized subclass implementations
   - **Rationale**: Framework change with risk; defer for careful v3.1 implementation
 
-- [ ] **T213** - Performance review documentation cleanup and reorganization (6-8 hours)
-  - **Files**: `tools/performance/STREAMING_PERFORMANCE_ANALYSIS.md`, `tools/performance/baselines/PERFORMANCE_REVIEW.md`, etc.
+- [x] **T213** - Performance review documentation cleanup and reorganization (6-8 hours)
+  - **Files**: `tools/performance/PERFORMANCE_ANALYSIS.md` (consolidated from STREAMING_PERFORMANCE_ANALYSIS.md and baselines/PERFORMANCE_REVIEW.md)
   - **Problem**: Performance documentation fragmented, inconsistent, poorly organized
   - **Action**: Consolidate and reorganize performance documentation
   - **Rationale**: Documentation quality improvement, not user-facing
+  - **Status**: Completed - Documentation consolidated into single comprehensive PERFORMANCE_ANALYSIS.md file
 
 - [ ] **P001** - Moving Average family framework overhead investigation (Research required)
   - **Current**: 7-11x overhead due to StreamHub subscription/notification infrastructure
@@ -191,7 +284,7 @@ The following items are deferred to v3.1 or later releases. These are enhancemen
   - **Current**: Complex multi-line calculations (2.16x/1.73x overhead)
   - **Rationale**: Already optimized; remaining overhead from algorithmic complexity
 
-### Series Batch Processing Optimizations (v3.1+)
+### Series Batch Processing Optimizations
 
 See [Issue #1259](https://github.com/DaveSkender/Stock.Indicators/issues/1259) for context.
 
@@ -310,147 +403,6 @@ See [Issue #1259](https://github.com/DaveSkender/Stock.Indicators/issues/1259) f
 
 - [ ] **E010** - Composite naming for chained indicators (TBD)
   - **Action**: Implement naming conventions for chained indicator workflows
-
-## Task Summary
-
-**v3.0 Scope** (12 tasks remaining, ~20-28 hours):
-
-- Critical release blockers: 3 tasks (~12-20 hours including community feedback and branching migration)
-- **High priority (correctness): COMPLETE** - 3 tasks completed (T200 in this PR, T201-T202 moved to future work)
-- Medium priority (documentation): 1 task (~1-2 hours)
-- **Medium priority (code quality): COMPLETE** - 5 tasks completed in PR #1842
-- Low priority (testing - optional): 5 tasks (~8-11 hours)
-
-**v3.1+ Scope** (42 tasks, ~142-238+ hours):
-
-- Infrastructure & reorganization: File reorg [#1810-#1813](https://github.com/DaveSkender/Stock.Indicators/issues/1810), doc site upgrade [#1739](https://github.com/DaveSkender/Stock.Indicators/issues/1739), test naming [#1533](https://github.com/DaveSkender/Stock.Indicators/issues/1533)
-- Performance & framework optimizations: 3 tasks (~12-22 hours) including T205, T213, P001-P003
-- Series batch processing optimizations: 5 tasks (S001-S005)
-- Advanced features & enhancements: 26 tasks (~80-120 hours)
-- Complex research & implementation: 3 tasks (T170, #1323/#1259, Discussion #1018)
-- Future feature enhancements: 5 tasks (E001-E010)
-
-**v3.0 Execution Order** (sequential):
-
-1. ✅ **#1585** - QuoteHub self-healing limitation (CRITICAL)
-2. ✅ **Community feedback** - Final review before stable (CRITICAL)
-3. **T202** - WilliamsR boundary precision (HIGH - correctness)
-4. **T201** - Stochastic SMMA logic (HIGH - correctness)
-5. ✅ **T200** - TEMA/DEMA layered EMA state optimization (COMPLETE - this PR)
-6. **D007** - Migration guide updates (MEDIUM - documentation)
-7. ✅ **T207** - Remove redundant RemoveWarmupPeriods (COMPLETE - PR #1842)
-8. ✅ **T209** - PivotPoints ToList() performance (COMPLETE - PR #1842)
-9. ✅ **T204** - StochRsi auto-healing (COMPLETE - PR #1842)
-10. **T203** - Remove preview features (MEDIUM - cleanup, EXTERNAL DEPENDENCY)
-11. ✅ **T229** - ATR utilities unused method (COMPLETE - PR #1842)
-12. **Branching strategy migration** - Execute 6-phase branch reorganization (CRITICAL - infrastructure)
-13-17. Optional testing tasks (T216, T217, T218, T219, T222) - time permitting
-
----
-
-## Appendix: Completed Work & Historical Context
-
-This section preserves historical context and completed work for reference.
-
-### Recent Completions (December 2025 - January 2026)
-
-#### Critical Performance Fixes ✅
-
-- **ForceIndex StreamHub O(n²) Bug** - Fixed via PR #1806
-  - Performance improved from 831,594 ns (61.6x) to 29,820 ns (2.49x) - **96% faster**
-  
-- **Slope StreamHub O(n) Optimization** - Fixed via PR #1806
-  - Performance improved from 361,931 ns (7.5x) to 275,337 ns (~5.7x) - **24% faster**
-
-#### Framework & Infrastructure ✅
-
-- **DPO Lookahead Support** - Completed via PR #1802/#1800
-  - Made `StreamHub.Rebuild()` and `OnRebuild()` virtual
-  - DPO now supports chained observers with proper offset handling
-  - Only indicator requiring virtual Rebuild() override
-
-- **Test Infrastructure (T173-T185)** - All Complete
-  - StreamHub audit script created and validated (100% test coverage)
-  - Provider history testing: 40/42 applicable indicators complete (95%)
-  - Interface compliance validated across all implementations
-
-- **Performance & Quality Gates (Q002-Q006)** - All Complete via PR #1790
-  - Performance baselines established (December 29, 2025 - 307 benchmarks)
-  - Memory profiling infrastructure ready
-  - Regression detection automated (detect-regressions.ps1)
-
-#### Implementations Completed ✅
-
-- **T108** - Dpo StreamHub (PR #1802/#1800)
-- **T145** - Slope StreamHub (PR #1779/#1780)
-- **T174** - Streaming documentation (PR #1785) - 81/82 indicators documented
-
-#### Completed Issues (Can Close) ✅
-
-- #1678 - Slope StreamHub (PR #1780)
-- #1724 - Ichimoku rollback tests (PR #1727)
-- #1725 - WilliamsR rollback tests (PR #1726)
-- #1062 - ADX increment approach (PR #1440)
-- #1094 - Out-of-sequence late-arrival quotes (PR #1014)
-- #1096 - Stream through full chains (PR #1014)
-- #1548 - PairsProvider refactor (PR #1731)
-
-### Excluded Implementations (Not Implementing)
-
-The following were intentionally excluded from streaming:
-
-- **T140** - RenkoAtr StreamHub - ATR requires full dataset for brick size
-- **T153** - StdDevChannels StreamHub - Repaint-by-design O(n²) algorithm
-- **T170** - ZigZag StreamHub - Deferred for manual implementation (complex algorithmic work)
-
-### Performance Fixes - Historical Details
-
-#### ForceIndex StreamHub O(n²) Bug - FIXED ✅
-
-**Problem**: ForceIndex StreamHub had a critical O(n²) bug causing 61.6x slower performance than Series. The `canIncrement` condition failed during initial population, falling through to a full O(n) recalculation for every quote.
-
-**Fix**: Refactored to use the EMA pattern (accessing `Cache[i-1]` directly) instead of maintaining separate state variables.
-
-| Before | After | Improvement |
-| ------ | ----- | ----------- |
-| 831,594 ns (61.6x) | 29,820 ns (2.49x) | **96% faster** |
-
-#### Slope StreamHub O(n) Optimization - FIXED ✅
-
-**Problem**: `UpdateLineValues` looped from 0 to nullify ALL previous Line values, creating O(n) per add.
-
-**Fix**: Changed to nullify only the SINGLE value that exited the window (O(1) instead of O(n)).
-
-| Before | After | Improvement |
-| ------ | ----- | ----------- |
-| 361,931 ns (7.5x) | 275,337 ns (~5.7x) | **24% faster** |
-
-Note: Remaining Slope overhead is inherent (must recalculate `lookbackPeriods` Line values on each quote for repaint behavior).
-
-### Implementation Status Summary
-
-**Total remaining implementable work**: ~2-4 hours
-
-**Implementation status**:
-
-- BufferList implementations: 82/85 (96%) - 3 excluded (RenkoAtr, StdDevChannels, ZigZag)
-- StreamHub implementations: 83/85 (98%) - 2 excluded (RenkoAtr, StdDevChannels), 1 deferred (ZigZag)
-- Streaming documentation: 81/82 (99%) - Only ZigZag missing (Series-only, excluded from streaming)
-- **Catalog entries**: ✅ Added via PR #1784
-- **DPO framework fix**: ✅ Virtual Rebuild() support complete (PR #1802/#1800, merged to #1789)
-- **Performance baselines**: ✅ Full benchmark run December 29, 2025 (PR #1808)
-- **Performance fixes**: ✅ ForceIndex O(n²) bug fixed (96% faster), Slope optimized (24% faster)
-
-**Recommendation**:
-
-1. ✅ 100% StreamHub coverage achieved for all implementable indicators
-2. ✅ 99% documentation coverage achieved (only ZigZag excluded)
-3. ✅ Test infrastructure audit complete (T173-T185 fully complete)
-4. ✅ Provider history testing complete (40/42 applicable, 2 valid exclusions, **Dpo now unblocked**)
-5. ✅ DPO lookahead framework fix complete (virtual Rebuild() pattern)
-6. ✅ Performance baselines regenerated with critical O(n²) fixes
-7. ✅ ForceIndex and Slope performance issues resolved
-8. Enhancement backlog items should be evaluated as separate features
 
 ---
 Last updated: January 3, 2026

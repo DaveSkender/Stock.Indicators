@@ -2,19 +2,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 18
 VisualStudioVersion = 18.0.11205.157
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Configuration", "Configuration", "{89F97043-8E6C-4953-95AA-ACAC19C3B164}"
-	ProjectSection(SolutionItems) = preProject
-		.gitattributes = .gitattributes
-		.gitignore = .gitignore
-		src\gitversion.yml = src\gitversion.yml
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Configuration.Tests", "Configuration.Tests", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
-	ProjectSection(SolutionItems) = preProject
-		tests\Directory.Packages.props = tests\Directory.Packages.props
-		tests\tests.integration.runsettings = tests\tests.integration.runsettings
-		tests\tests.unit.runsettings = tests\tests.unit.runsettings
-	EndProjectSection
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Configs", "Configs", "{89F97043-8E6C-4953-95AA-ACAC19C3B164}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Indicators", "src\Indicators.csproj", "{8D0F1781-EDA3-4C51-B05D-D33FF1156E49}"
 EndProject
@@ -37,6 +25,19 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{990C3D8F
 		tools\Directory.Build.props = tools\Directory.Build.props
 		tools\Directory.Packages.props = tools\Directory.Packages.props
 	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests (other)", "Tests (other)", "{2137B81B-5620-4225-8CF4-7FE72E81DF23}"
+	ProjectSection(SolutionItems) = preProject
+		tests\AGENTS.md = tests\AGENTS.md
+		tests\Directory.Build.props = tests\Directory.Build.props
+		tests\Directory.Packages.props = tests\Directory.Packages.props
+		tests\README.md = tests\README.md
+		tests\tests.integration.runsettings = tests\tests.integration.runsettings
+		tests\tests.regression.runsettings = tests\tests.regression.runsettings
+		tests\tests.unit.runsettings = tests\tests.unit.runsettings
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{F4DC4349-B08A-4557-BAD9-EB3A8111C98A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -141,9 +142,13 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{3BD4837B-D197-41FD-A286-A3256D0770E1} = {990C3D8F-0F57-4FD3-AF4B-57D6AE2EDBB1}
 		{9C9045D2-9928-41F8-97FC-ECCBDD3B9868} = {990C3D8F-0F57-4FD3-AF4B-57D6AE2EDBB1}
 		{F98B09DA-0E0B-41D1-B7B6-3A40EE6C1DBE} = {990C3D8F-0F57-4FD3-AF4B-57D6AE2EDBB1}
+		{88C59340-F6C6-497B-A7F3-08ACCC8873EE} = {2137B81B-5620-4225-8CF4-7FE72E81DF23}
+		{D6CF664F-8232-4EE9-B044-CA34A0BA522E} = {2137B81B-5620-4225-8CF4-7FE72E81DF23}
 		{F449BEB0-5A04-6992-4A1F-DE3FFE72A1C6} = {990C3D8F-0F57-4FD3-AF4B-57D6AE2EDBB1}
+		{F4DC4349-B08A-4557-BAD9-EB3A8111C98A} = {89F97043-8E6C-4953-95AA-ACAC19C3B164}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8BDD5593-A28F-4DC3-859F-1E267864898D}

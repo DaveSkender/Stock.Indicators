@@ -2,6 +2,8 @@
 
 This directory contains baseline performance metrics for regression detection.
 
+For comprehensive performance analysis and findings, see `../PERFORMANCE_ANALYSIS.md`.
+
 ## Overview
 
 Baseline files are JSON exports from BenchmarkDotNet that capture performance metrics for comparison with current test runs. These enable automated detection of performance regressions during development and CI/CD.
@@ -54,9 +56,10 @@ By default, a performance regression is flagged when:
 
 ## Integration with CI/CD
 
-The GitHub Actions workflow (`test-performance.yml`) can be configured to:
+The GitHub Actions workflow (`test-performance.yml`) runs:
 
-1. Run performance tests on every PR
-2. Compare results with the baseline
-3. Fail the build if regressions exceed threshold
-4. Generate performance reports in PR summaries
+1. Full benchmark suite on manual trigger
+2. Publishes results to GitHub Summary
+3. Uploads artifacts for historical tracking
+
+For regression detection integration, see `../PERFORMANCE_ANALYSIS.md`.
