@@ -14,6 +14,31 @@ hero:
     - theme: alt
       text: Indicators
       link: /indicators/
+features:
+  - title: Indicators and overlays
+    link: /indicators
+    details: Reference documentation
+  - title: Guide and Pro tips
+    link: /guide
+    details:
+  - Utilities
+    link: /utilities
+    details: and helper functions
+  - Demo site
+    link: https:/charts.stockindicators.dev
+    details: An interactive stock chart
+  - title: Examples
+    link: /examples
+    details: Runnable code samples
+  - title: Release notes
+    link: https://github.com/DaveSkender/Stock.Indicators/releases
+    details: Version changelog
+  - title: Discussions
+    link: https://github.com/DaveSkender/Stock.Indicators/discussions
+    detailed: Community conversations
+  - title: Contributing guidelines
+    link: /contributing
+    details: Developer guide for this repo
 ---
 
 <p style="display:flex; justify-content:left; gap:1rem; margin-top: 2rem; flex-wrap:wrap;">
