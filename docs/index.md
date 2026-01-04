@@ -35,7 +35,7 @@ features:
     details: Version changelog
   - title: Discussions
     link: https://github.com/DaveSkender/Stock.Indicators/discussions
-    detailed: Community conversations
+    details: Community conversations
   - title: Contributing guidelines
     link: /contributing
     details: Developer guide for this repo
