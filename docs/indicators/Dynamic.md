@@ -3,7 +3,7 @@ title: McGinley Dynamic
 description: Created by John R. McGinley, the McGinley Dynamic is a more responsive variant of exponential moving average.
 ---
 
-# {{ $frontmatter.title }}
+# McGinley Dynamic
 
 Created by John R. McGinley, the [McGinley Dynamic](https://www.investopedia.com/terms/m/mcginley-dynamic.asp) is a more responsive variant of exponential moving average.
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/866 "Community discussion about this indicator")

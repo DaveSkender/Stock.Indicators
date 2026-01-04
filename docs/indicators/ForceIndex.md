@@ -3,7 +3,7 @@ title: Force Index
 description: Created by Alexander Elder, the Force Index depicts volume-based buying and selling pressure based on the change in price.
 ---
 
-# {{ $frontmatter.title }}
+# Force Index
 
 Created by Alexander Elder, the [Force Index](https://en.wikipedia.org/wiki/Force_index) depicts volume-based buying and selling pressure based on the change in price.
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/382 "Community discussion about this indicator")

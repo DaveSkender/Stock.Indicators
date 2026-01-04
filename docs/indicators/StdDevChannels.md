@@ -3,7 +3,7 @@ title: Standard Deviation Channels
 description: Standard Deviation Channels are price ranges based on an linear regression centerline and standard deviations band widths.
 ---
 
-# {{ $frontmatter.title }}
+# Standard Deviation Channels
 
 Standard Deviation Channels are prices ranges based on an linear regression centerline and standard deviations band widths.
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/368 "Community discussion about this indicator")

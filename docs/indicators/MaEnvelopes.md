@@ -3,7 +3,7 @@ title: Moving Average Envelopes
 description:  Moving Average Envelopes is a price band channel overlay that is offset from the moving average of price.
 ---
 
-# {{ $frontmatter.title }}
+# Moving Average Envelopes
 
 [Moving Average Envelopes](https://en.wikipedia.org/wiki/Moving_average_envelope) is a price band channel overlay that is offset from the moving average of price.
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/288 "Community discussion about this indicator")
