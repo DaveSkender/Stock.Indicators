@@ -18,4 +18,3 @@ public record MaEnvelopeResult
 {
     public double Value => double.NaN;
 }
-
