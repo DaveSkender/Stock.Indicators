@@ -51,7 +51,9 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
     /// <summary>
     /// Gets or sets the most recent item saved to cache.
     /// </summary>
-    private TOut? LastItem { get; set; }
+    private TOut? LastItemInternal { get; set; }
+
+    public IReusable? LastItem => LastItemInternal;
 
     /// <summary>
     /// Resets the fault flag and condition.
@@ -207,14 +209,14 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
     private bool IsOverflowing(TOut item)
     {
         // skip first arrival
-        if (LastItem is null)
+        if (LastItemInternal is null)
         {
-            LastItem = item;
+            LastItemInternal = item;
             return false;
         }
 
         // track/check for overflow condition
-        if (item.Timestamp == LastItem.Timestamp && item.Equals(LastItem))
+        if (item.Timestamp == LastItemInternal.Timestamp && item.Equals(LastItemInternal))
         {
             // ^^ using progressive check to avoid Equals() on every item
 
@@ -247,7 +249,7 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
 
         // not repeating
         OverflowCount = 0;
-        LastItem = item;
+        LastItemInternal = item;
         return false;
     }
 

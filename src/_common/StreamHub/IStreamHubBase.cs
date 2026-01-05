@@ -14,4 +14,6 @@ public interface IStreamHubBase<out TOut>
     /// Read-only list of the stored cache values.
     /// </summary>
     IReadOnlyList<TOut> Results { get; }
+
+    IReusable? LastItem { get; }
 }
