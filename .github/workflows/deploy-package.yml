@@ -174,17 +174,23 @@ jobs:
           # base version
           base="${{ env.MajorMinorPatch }}"
 
-          # conditional suffix
+          # conditional suffix based on workflow inputs only
           if [[ "${{ steps.settings.outputs.preview }}" == "true" ]]; then
-            # CI pushes use only -dev.X suffix
+            # CI pushes use -dev.X suffix
             if [[ "${{ steps.settings.outputs.is_ci_push }}" == "true" ]]; then
               suffix="-dev.${{ env.CommitsSinceVersionSource }}"
-            elif [[ -n "${{ env.PreReleaseTag }}" ]]; then
-              suffix="-${{ env.PreReleaseTag }}.${{ env.PreReleaseNumber }}"
             else
-              suffix="-preview.${{ env.CommitsSinceVersionSource }}"
+              # Manual dispatch with preview=true uses -preview.X suffix
+              # Use PreReleaseNumber if available (auto-increments), otherwise default to 1
+              if [[ -n "${{ env.PreReleaseNumber }}" ]] && [[ "${{ env.PreReleaseNumber }}" != "0" ]]; then
+                preview_num="${{ env.PreReleaseNumber }}"
+              else
+                preview_num="1"
+              fi
+              suffix="-preview.${preview_num}"
             fi
           else
+            # No suffix for production versions (preview=false)
             suffix=""
           fi
 
@@ -251,6 +257,7 @@ jobs:
             echo "| Version No.       | Component                                        |"
             echo "| :---------------- | :----------------------------------------------- |"
             echo "| Version           | ${{ steps.version_info.outputs.version }}        |"
+            echo "| Environment       | ${{ steps.settings.outputs.environ }}            |"
             echo "| Mode              | ${MODE}                                          |"
             echo "| Status            | ${{ job.status == 'success' && '✅ Success' || '❌ Failed' }} |"
             echo "| Package URL       | ${{ steps.package_info.outputs.url }}            |"
