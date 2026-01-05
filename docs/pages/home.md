@@ -15,9 +15,9 @@ lazy-images: true
 
 <h1 style="display:none;">{{ page.title }}</h1>
 
-**Stock Indicators for .NET** is a C# [library package](https://www.nuget.org/packages/Skender.Stock.Indicators) that produces financial market technical indicators.  Send in historical price quotes and get back desired indicators such as moving averages, Relative Strength Index, Stochastic Oscillator, Parabolic SAR, etc.  Nothing more.
+**Stock Indicators for .NET** is a C# [library package](https://www.nuget.org/packages/Skender.Stock.Indicators) that transforms historical price quotes into technical indicators.  Get moving averages, Relative Strength Index, Stochastic Oscillator, Parabolic SAR, and [160+ indicators]({{site.baseurl}}/indicators/#content).
 
-Build your technical analysis, trading algorithms, machine learning, charting, or other intelligent market software with this library and your own [OHLCV]({{site.baseurl}}/guide/#historical-quotes) price quotes sources for equities, commodities, forex, cryptocurrencies, and others.  [Stock Indicators for Python](https://python.stockindicators.dev/) is also available.
+Build trading algorithms, charting applications, machine learning models, or market analysis tools with your own [OHLCV]({{site.baseurl}}/guide/#historical-quotes) price quotes from any market: equities, commodities, forex, or cryptocurrencies.  A [Python version](https://python.stockindicators.dev/) is also available.
 
 Explore more information:
 
@@ -30,40 +30,40 @@ Explore more information:
 - [Discussions]({{site.github.repository_url}}/discussions)
 - [Contributing guidelines]({{site.baseurl}}/contributing/#content)
 
-## Reputable and extensible indicators
+## Industry-standard indicators with extensibility
 
-You'll get all of the industry standard indicators out-of-the-box.  Additionally, you can create compatible [custom indicators]({{site.baseurl}}/custom-indicators/#content).
+Access a comprehensive library of battle-tested technical indicators used by traders worldwide.  Extend functionality by creating your own [custom indicators]({{site.baseurl}}/custom-indicators/#content) that integrate seamlessly with the library.
 
 ![sample indicators shown in chart](examples.webp)
 
-## Easy to use in your application
+## Simple, intuitive API
 
 ```csharp
-// example: get 20-period simple moving average
+// example: calculate 20-period simple moving average
 IReadOnlyList<SmaResult> results = quotes.ToSma(20);
 ```
 
 See more [usage examples]({{site.baseurl}}/guide/#example-usage).
 
-## Use chaining for unique insights
+## Powerful chaining for advanced analysis
 
-Optional chaining enables advanced uses cases; such as, indicator of indicators, [slope]({{site.baseurl}}/indicators/Slope/#content) (direction) of any result, or [moving average]({{site.baseurl}}/indicators/#moving-average) of an indicator.
+Chain indicators together for sophisticated technical analysis: create indicators of indicators, calculate [slope]({{site.baseurl}}/indicators/Slope/#content) (direction) of any result, or apply [moving averages]({{site.baseurl}}/indicators/#moving-average) to indicator outputs.
 
 ```csharp
-// example: advanced chaining (RSI of OBV)
+// example: calculate RSI of On-Balance Volume
 IReadOnlyList<RsiResult> results
   = quotes
     .ToObv()
     .ToRsi(14);
 
-// example: use any candle variant
+// example: use custom candle price variants
 IReadOnlyList<EmaResult> results
   = quotes
     .Use(CandlePart.HL2)
     .ToEma(20);
 ```
 
-See the [guide]({{site.baseurl}}/guide/#content) and the [full list of indicators and overlays]({{site.baseurl}}/indicators/#content) for more information.
+See the [guide]({{site.baseurl}}/guide/#content) and [full list of indicators]({{site.baseurl}}/indicators/#content) for more information.
 
 ## Optimized for modern .NET frameworks
 

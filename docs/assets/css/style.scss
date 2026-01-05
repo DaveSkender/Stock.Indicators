@@ -105,6 +105,12 @@ a {
 
   img {
     max-width: 100%;
+
+    // optimize chart sizing for medium viewports (768px-1024px)
+    @include medium {
+      max-width: 90%;
+      height: auto;
+    }
   }
 
   // emoji
@@ -545,4 +551,19 @@ a {
     overflow: hidden;
     text-overflow: ellipsis;
   }
+}
+
+// PREVIEW BADGE
+.preview-badge {
+  display: inline-block;
+  background-color: #ff6b35;
+  color: white;
+  font-size: 0.6rem;
+  font-weight: bold;
+  padding: 0.2rem 0.5rem;
+  border-radius: 0.3rem;
+  margin-left: 0.5rem;
+  vertical-align: middle;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }

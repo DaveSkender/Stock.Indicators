@@ -4,6 +4,9 @@
     <a href="{{ '/' | absolute_url }}">
       stock indicators <small>for .NET</small>
     </a>
+    {%- if jekyll.environment != 'production' -%}
+    <span class="preview-badge">PREVIEW</span>
+    {%- endif -%}
   </div>
 
   <div class="project-tagline">
