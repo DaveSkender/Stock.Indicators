@@ -8,7 +8,7 @@ description: Learn how to create your own custom technical indicators using the 
 At some point in your journey, you may want to create your own custom indicators. The following guide shows you how to create custom indicators that work seamlessly with this library.
 
 ::: tip
-This example is also included in our [example usage code](/examples/CustomIndicatorsLibrary/).
+Working example code is available in the [CustomIndicatorsLibrary](https://github.com/DaveSkender/Stock.Indicators/tree/main/docs/examples/CustomIndicatorsLibrary) project.
 :::
 
 ## Creating a custom indicator

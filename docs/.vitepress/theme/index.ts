@@ -11,6 +11,7 @@ export default {
   Layout: () => {
     return h(DefaultTheme.Layout, null, {
       // https://vitepress.dev/guide/extending-default-theme#layout-slots
+      'nav-bar-title-after': () => h('span', { class: 'nav-title-below' }, 'for .NET')
     })
   },
   enhanceApp({ app }) {

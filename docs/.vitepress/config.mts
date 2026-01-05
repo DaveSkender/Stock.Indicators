@@ -7,7 +7,7 @@ const distDirPath = path.resolve(__dirname, 'dist')
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
-  title: "Stock Indicators for .NET",
+  title: "Stock Indicators",
   description: "Transform price quotes into trading insights.",
 
   // Default to dark theme (toggle still available)
@@ -35,7 +35,10 @@ export default defineConfig({
 
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
-    logo: '/favicon.svg',
+    logo: {
+      src: '/favicon.svg',
+      alt: 'Stock Indicators for .NET'
+    },
 
     nav: [
       { text: 'Home', link: '/' },
@@ -88,7 +91,6 @@ export default defineConfig({
           text: 'Examples',
           items: [
             { text: 'Getting Started', link: '/examples/' },
-            { text: 'Custom Indicators', link: '/examples/CustomIndicatorsLibrary/' },
           ]
         }
       ],
@@ -275,7 +277,7 @@ export default defineConfig({
             { text: 'Renko Charts', link: '/indicators/Renko' },
             { text: 'ZigZag', link: '/indicators/ZigZag' },
           ]
-        },
+        }
       ],
     },
 
