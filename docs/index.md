@@ -46,7 +46,7 @@ features:
 <a href="https://www.nuget.org/packages/Skender.Stock.Indicators" aria-label="Read more about package downloads."><img src="https://img.shields.io/nuget/dt/skender.stock.indicators?logo=NuGet&label=Downloads&cacheSeconds=259200" alt="Downloads" /></a>
 </p>
 
-**Stock Indicators for .NET** is a C# [library package](https://www.nuget.org/packages/Skender.Stock.Indicators) that transforms historical price quotes into technical indicators. Get moving averages, Relative Strength Index, Stochastic Oscillator, Parabolic SAR, and [160+ indicators](/indicators).
+**Stock Indicators for .NET** is a C# [library package](https://www.nuget.org/packages/Skender.Stock.Indicators) that transforms historical price quotes into technical indicators. Get moving averages, Relative Strength Index, Stochastic Oscillator, Parabolic SAR, and [more](/indicators).
 
 Build trading algorithms, charting applications, machine learning models, or market analysis tools with your own [OHLCV](/guide#historical-quotes) price quotes from any market: equities, commodities, forex, or cryptocurrencies. A [Python version](https://python.stockindicators.dev/) is also available.
 

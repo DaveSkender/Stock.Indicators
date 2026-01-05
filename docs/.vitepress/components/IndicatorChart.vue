@@ -16,7 +16,8 @@ import {
 } from 'lightweight-charts'
 
 // Maximum number of bars to display (tail view)
-const MAX_BARS = 120
+const MAX_BARS_WIDE = 120
+const MAX_BARS_MOBILE = 100
 
 // Container width initialization polling settings
 const INIT_POLL_MAX_ATTEMPTS = 10
@@ -135,6 +136,14 @@ const lightTheme = {
 // Reactive chart theme based on VitePress dark mode
 const chartTheme = computed(() => isDark.value ? darkTheme : lightTheme)
 
+// Track viewport width for responsive behavior
+const viewportWidth = ref(0)
+// Use standard mobile breakpoint (480px) - aligns with project breakpoints in style.scss
+const isMobileViewport = computed(() => viewportWidth.value > 0 && viewportWidth.value < 480)
+
+// Responsive bar count based on viewport width
+const maxBars = computed(() => isMobileViewport.value ? MAX_BARS_MOBILE : MAX_BARS_WIDE)
+
 function parseTimestamp(timestamp: string): string {
   try {
     const date = new Date(timestamp)
@@ -155,16 +164,17 @@ async function loadChartData(): Promise<ChartData | null> {
     }
     const data = await response.json() as ChartData
 
-    // Slice to show only the last MAX_BARS bars
-    if (data.candles.length > MAX_BARS) {
-      data.candles = data.candles.slice(-MAX_BARS)
+    // Slice to show only the last maxBars bars
+    const barCount = maxBars.value
+    if (data.candles.length > barCount) {
+      data.candles = data.candles.slice(-barCount)
     }
 
     // Slice series data to match
     if (data.series) {
       data.series = data.series.map(s => ({
         ...s,
-        data: s.data.slice(-MAX_BARS)
+        data: s.data.slice(-barCount)
       }))
     }
 
@@ -203,11 +213,11 @@ function createOverlayChart(container: HTMLDivElement): IChartApi {
       horzLine: { visible: false, labelVisible: false }
     },
     rightPriceScale: {
-      visible: true,
+      visible: !isMobileViewport.value,
       borderVisible: false,
       scaleMargins: { top: 0.05, bottom: 0.05 },
       autoScale: true,
-      minimumWidth: PRICE_SCALE_WIDTH
+      minimumWidth: isMobileViewport.value ? 0 : PRICE_SCALE_WIDTH
     },
     localization: {
       priceFormatter: (price: number) => `$${Math.round(price)}`
@@ -249,11 +259,11 @@ function createOscillatorChart(container: HTMLDivElement): IChartApi {
       horzLine: { visible: false, labelVisible: false }
     },
     rightPriceScale: {
-      visible: true,
+      visible: !isMobileViewport.value,
       borderVisible: false,
       scaleMargins: { top: 0.075, bottom: 0.075 },
       autoScale: true,
-      minimumWidth: PRICE_SCALE_WIDTH
+      minimumWidth: isMobileViewport.value ? 0 : PRICE_SCALE_WIDTH
     },
     localization: {
       priceFormatter: (price: number) => {
@@ -423,6 +433,22 @@ function setupIndicatorSeries(chart: IChartApi, seriesData: SeriesStyle[], isOsc
   })
 }
 
+function updateViewportWidth() {
+  if (typeof window !== 'undefined') {
+    viewportWidth.value = window.innerWidth
+  }
+}
+
+function updatePriceScaleVisibility() {
+  const visible = !isMobileViewport.value
+  if (overlayChart) {
+    overlayChart.priceScale('right').applyOptions({ visible })
+  }
+  if (oscillatorChart) {
+    oscillatorChart.priceScale('right').applyOptions({ visible })
+  }
+}
+
 async function initChart() {
   isLoading.value = true
   hasError.value = false
@@ -587,11 +613,16 @@ function destroyChart() {
 
 onMounted(() => {
   if (typeof window !== 'undefined') {
+    updateViewportWidth()
+    window.addEventListener('resize', updateViewportWidth)
     initChart()
   }
 })
 
 onUnmounted(() => {
+  if (typeof window !== 'undefined') {
+    window.removeEventListener('resize', updateViewportWidth)
+  }
   destroyChart()
 })
 
@@ -602,6 +633,14 @@ watch(() => props.src, () => {
 
 // Watch for theme changes and reinitialize charts
 watch(isDark, () => {
+  destroyChart()
+  initChart()
+})
+
+// Watch for viewport width changes and update price scale visibility
+watch(isMobileViewport, () => {
+  updatePriceScaleVisibility()
+  // Reload chart data to adjust number of bars shown
   destroyChart()
   initChart()
 })
@@ -637,9 +676,11 @@ watch(isDark, () => {
 </template>
 
 <style scoped lang="scss">
-// Breakpoints
-$tablet-width: 880px;
-$mobile-width: 600px;
+// Breakpoints aligned with project standards
+// See: docs/.vitepress/public/assets/css/style.scss
+$large-breakpoint: 1024px;
+$medium-breakpoint: 768px;
+$small-breakpoint: 480px;   // Mobile breakpoint
 $landscape-height-sm: 400px;
 $landscape-height-md: 600px;
 
@@ -661,13 +702,13 @@ $landscape-height-md: 600px;
 .overlay-chart {
   aspect-ratio: 2.5;
 
-  /* Tablet breakpoint */
-  @media (max-width: $tablet-width) {
+  /* Medium breakpoint (768px-1024px) */
+  @media (max-width: $large-breakpoint) {
     aspect-ratio: 2;
   }
 
-  /* Mobile breakpoint */
-  @media (max-width: $mobile-width) {
+  /* Mobile breakpoint (<480px) - matches JavaScript isMobileViewport */
+  @media (max-width: $small-breakpoint) {
     aspect-ratio: 5/4;
   }
 
@@ -681,13 +722,13 @@ $landscape-height-md: 600px;
 .oscillator-chart {
   aspect-ratio: 10;
 
-  /* Tablet breakpoint */
-  @media (max-width: $tablet-width) {
+  /* Medium breakpoint (768px-1024px) */
+  @media (max-width: $large-breakpoint) {
     aspect-ratio: 8;
   }
 
   /* Landscape optimizations */
-  @media (max-width: $tablet-width) and (orientation: landscape) {
+  @media (max-width: $large-breakpoint) and (orientation: landscape) {
     aspect-ratio: unset;
     height: 25vh;
   }
