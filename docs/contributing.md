@@ -3,15 +3,15 @@ title: Contributing guidelines
 description: >-
   This NuGet package is an open-source project.
   Learn how to contribute issues, fixes, new indicators, new features, or to our discussions.
-permalink: /contributing/
-relative_path: pages/contributing.md
-layout: page
 ---
+
 
 # Contributing guidelines
 
-[![Codacy quality grade](https://app.codacy.com/project/badge/Grade/012497adc00847eca9ee91a58d00cc4f)](https://app.codacy.com/gh/DaveSkender/Stock.Indicators/dashboard)
-[![Codacy code coverage](https://app.codacy.com/project/badge/Coverage/012497adc00847eca9ee91a58d00cc4f)](https://app.codacy.com/gh/DaveSkender/Stock.Indicators/dashboard)
+<p style="display:flex; justify-content:left; gap:1rem; flex-wrap:wrap;">
+<a href="https://app.codacy.com/gh/DaveSkender/Stock.Indicators/dashboard" aria-label="View Codacy quality grade."><img src="https://app.codacy.com/project/badge/Grade/012497adc00847eca9ee91a58d00cc4f" alt="Codacy quality grade" /></a>
+<a href="https://app.codacy.com/gh/DaveSkender/Stock.Indicators/dashboard" aria-label="View Codacy code coverage."><img src="https://app.codacy.com/project/badge/Coverage/012497adc00847eca9ee91a58d00cc4f" alt="Codacy code coverage" /></a>
+</p>
 
 **Thanks for taking the time to contribute!**
 
@@ -62,7 +62,7 @@ Use the [Discussions](https://github.com/DaveSkender/Stock.Indicators/discussion
 Running the performance benchmark application in `Release` mode will produce [benchmark performance data](https://dotnet.stockindicators.dev/performance/) that we include on our documentation site.
 
 ```bash
-# from /tests/performance folder
+# from /tools/performance folder
 # run all performance benchmarks (~15-20 minutes)
 dotnet run -c Release
 
@@ -114,23 +114,22 @@ When reviewing PRs with baseline changes, verify the reason is documented, revie
 
 ## Documentation
 
-This site uses [Jekyll](https://jekyllrb.com) construction with _Front Matter_.
+This site uses [VitePress](https://vitepress.dev) with Vue components and Markdown.
 Our documentation site code is in the `docs` folder.
 Build the site locally to test that it works properly.
-See [Ruby Jekyll documentation](https://jekyllrb.com/docs) for initial setup.
 
 ```bash
 # from /docs folder
-bundle install
-bundle exec jekyll serve --livereload
-```
+pnpm install
+pnpm run docs:dev
 
-The site will be available at `http://127.0.0.1:4000`.
+# the site will open at http://localhost:5173/
+```
 
 When adding or updating indicators:
 
-- Add or update the `/docs/_indicators/` documentation files.
-- Page image assets go here: `/docs/assets/` and can be optimized to `webp` format using [ImageMagick](https://imagemagick.org) or the [cwebp Encoder CLI](https://developers.google.com/speed/webp/docs/cwebp) and a command like `cwebp -resize 832 0 -q 100 examples.png -o examples-832.webp`
+- Add or update the `/docs/indicators/` documentation files.
+- Page image assets go in `/docs/.vitepress/public/assets/` and can be optimized to `webp` format using [ImageMagick](https://imagemagick.org) or the [cwebp Encoder CLI](https://developers.google.com/speed/webp/docs/cwebp) and a command like `cwebp -resize 832 0 -q 100 examples.png -o examples-832.webp`
 
 ### Accessibility testing
 
@@ -138,11 +137,7 @@ When adding or updating indicators:
 - build the site locally (see above), then:
 
 ```bash
-# from /docs folder
-npx pa11y-ci \
-  --yes
-  --sitemap http://127.0.0.1:4000/sitemap.xml \
-  --config ./.pa11yci
+npx pa11y-ci --sitemap http://localhost:5173/sitemap.xml
 ```
 
 ## Submitting changes
