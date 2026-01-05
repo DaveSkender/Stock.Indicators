@@ -91,7 +91,6 @@ export default defineConfig({
           text: 'Examples',
           items: [
             { text: 'Getting Started', link: '/examples/' },
-            { text: 'Custom Indicators', link: '/examples/CustomIndicatorsLibrary/' },
           ]
         }
       ],
