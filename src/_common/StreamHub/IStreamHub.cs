@@ -20,7 +20,7 @@ public interface IStreamHubBase<out TOut>
 /// Type of outbound indicator data.
 /// </typeparam>
 public interface IStreamHub<in TIn, TOut> : IStreamHubBase<TOut>
-    where TIn : ISeries
+    where TIn : IReusable
     where TOut : IReusable
 {
     /// <summary>
