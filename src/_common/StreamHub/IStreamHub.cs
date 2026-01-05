@@ -10,14 +10,10 @@ namespace Skender.Stock.Indicators;
 /// <typeparam name="TOut">
 /// Type of outbound indicator data.
 /// </typeparam>
-public interface IStreamHub<in TIn, TOut>
-    where TIn : ISeries
+public interface IStreamHub<in TIn, TOut> : IStreamHubBase<TOut>
+    where TIn : IReusable
+    where TOut : IReusable
 {
-    /// <summary>
-    /// Read-only list of the stored cache values.
-    /// </summary>
-    IReadOnlyList<TOut> Results { get; }
-
     /// <summary>
     /// The cache and provider failed and is no longer operational.
     /// </summary>

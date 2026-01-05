@@ -16,8 +16,10 @@ public record KeltnerResult
     double? Centerline = null,
     double? LowerBand = null,
     double? Width = null
-) : ISeries
+) : IReusable
 {
+    public double Value => double.NaN;
+
     /// <summary>
     /// Gets the Average True Range value (interim data for internal streaming calculations).
     /// </summary>
