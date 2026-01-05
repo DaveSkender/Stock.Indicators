@@ -21,7 +21,7 @@ public class ManualTestDirect
     [GlobalSetup]
     public void Setup()
     {
-        Console.WriteLine($"Manual Test Configuration:");
+        Console.WriteLine("Manual Test Configuration:");
         Console.WriteLine($"  Keyword: {Keyword}");
         Console.WriteLine($"  Periods: {Periods:N0}");
         Console.WriteLine($"  Generated {Quotes.Count:N0} quotes");
@@ -303,723 +303,465 @@ public class ManualTestDirect
         switch (Keyword)
         {
             case "ADL":
-            {
-                AdlList list = new();
-                foreach (Quote q in Quotes) list.Add(q);
-                break;
-            }
+                {
+                    AdlList list = new();
+                    foreach (Quote q in Quotes) list.Add(q);
+                    break;
+                }
             case "ADX":
-            {
-                AdxList list = new(14);
-                foreach (Quote q in Quotes) list.Add(q);
-                break;
-            }
+                {
+                    AdxList list = new(14);
+                    foreach (Quote q in Quotes) list.Add(q);
+                    break;
+                }
             case "ALLIGATOR":
-            {
-                AlligatorList list = new();
-                foreach (Quote q in Quotes) list.Add(q);
-                break;
-            }
+                {
+                    AlligatorList list = new();
+                    foreach (Quote q in Quotes) list.Add(q);
+                    break;
+                }
             case "ALMA":
-            {
-                AlmaList list = new(9, 0.85, 6);
-                foreach (Quote q in Quotes) list.Add(q);
-                break;
-            }
+                {
+                    AlmaList list = new(9, 0.85, 6);
+                    foreach (Quote q in Quotes) list.Add(q);
+                    break;
+                }
             case "AROON":
-            {
-                AroonList list = new();
-                foreach (Quote q in Quotes) list.Add(q);
-                break;
-            }
+                {
+                    AroonList list = new();
+                    foreach (Quote q in Quotes) list.Add(q);
+                    break;
+                }
             case "ATR":
-            {
-                AtrList list = new(14);
-                foreach (Quote q in Quotes) list.Add(q);
-                break;
-            }
+                {
+                    AtrList list = new(14);
+                    foreach (Quote q in Quotes) list.Add(q);
+                    break;
+                }
             case "ATR-STOP":
-            {
-                AtrStopList list = new();
-                foreach (Quote q in Quotes) list.Add(q);
-                break;
-            }
+                {
+                    AtrStopList list = new();
+                    foreach (Quote q in Quotes) list.Add(q);
+                    break;
+                }
             case "AWESOME":
-            {
-                AwesomeList list = new();
-                foreach (Quote q in Quotes) list.Add(q);
-                break;
-            }
+                {
+                    AwesomeList list = new();
+                    foreach (Quote q in Quotes) list.Add(q);
+                    break;
+                }
             case "BB":
-            {
-                BollingerBandsList list = new(20, 2);
-                foreach (Quote q in Quotes) list.Add(q);
-                break;
-            }
+                {
+                    BollingerBandsList list = new(20, 2);
+                    foreach (Quote q in Quotes) list.Add(q);
+                    break;
+                }
             case "BOP":
-            {
-                BopList list = new(14);
-                foreach (Quote q in Quotes) list.Add(q);
-                break;
-            }
+                {
+                    BopList list = new(14);
+                    foreach (Quote q in Quotes) list.Add(q);
+                    break;
+                }
             case "CCI":
-            {
-                CciList list = new(14);
-                foreach (Quote q in Quotes) list.Add(q);
-                break;
-            }
+                {
+                    CciList list = new(14);
+                    foreach (Quote q in Quotes) list.Add(q);
+                    break;
+                }
             case "CHAIKIN-OSC":
-            {
-                ChaikinOscList list = new();
-                foreach (Quote q in Quotes) list.Add(q);
-                break;
-            }
+                {
+                    ChaikinOscList list = new();
+                    foreach (Quote q in Quotes) list.Add(q);
+                    break;
+                }
             case "CHANDELIER":
             case "CHEXIT":
-            {
-                ChandelierList list = new();
-                foreach (Quote q in Quotes) list.Add(q);
-                break;
-            }
+                {
+                    ChandelierList list = new();
+                    foreach (Quote q in Quotes) list.Add(q);
+                    break;
+                }
             case "CHOP":
-            {
-                ChopList list = new(14);
-                foreach (Quote q in Quotes) list.Add(q);
-                break;
-            }
+                {
+                    ChopList list = new(14);
+                    foreach (Quote q in Quotes) list.Add(q);
+                    break;
+                }
             case "CMF":
-            {
-                CmfList list = new(14);
-                foreach (Quote q in Quotes) list.Add(q);
-                break;
-            }
+                {
+                    CmfList list = new(14);
+                    foreach (Quote q in Quotes) list.Add(q);
+                    break;
+                }
             case "CMO":
-            {
-                CmoList list = new(14);
-                foreach (Quote q in Quotes) list.Add(q);
-                break;
-            }
+                {
+                    CmoList list = new(14);
+                    foreach (Quote q in Quotes) list.Add(q);
+                    break;
+                }
             case "CRSI":
-            {
-                ConnorsRsiList list = new(3, 2, 100);
-                foreach (Quote q in Quotes) list.Add(q);
-                break;
-            }
+                {
+                    ConnorsRsiList list = new(3, 2, 100);
+                    foreach (Quote q in Quotes) list.Add(q);
+                    break;
+                }
             case "DEMA":
-            {
-                DemaList list = new(14);
-                foreach (Quote q in Quotes) list.Add(q);
-                break;
-            }
+                {
+                    DemaList list = new(14);
+                    foreach (Quote q in Quotes) list.Add(q);
+                    break;
+                }
             case "DOJI":
-            {
-                DojiList list = new();
-                foreach (Quote q in Quotes) list.Add(q);
-                break;
-            }
+                {
+                    DojiList list = new();
+                    foreach (Quote q in Quotes) list.Add(q);
+                    break;
+                }
             case "DONCHIAN":
-            {
-                DonchianList list = new();
-                foreach (Quote q in Quotes) list.Add(q);
-                break;
-            }
+                {
+                    DonchianList list = new();
+                    foreach (Quote q in Quotes) list.Add(q);
+                    break;
+                }
             case "DPO":
-            {
-                DpoList list = new(14);
-                foreach (Quote q in Quotes) list.Add(q);
-                break;
-            }
+                {
+                    DpoList list = new(14);
+                    foreach (Quote q in Quotes) list.Add(q);
+                    break;
+                }
             case "DYNAMIC":
-            {
-                DynamicList list = new(14);
-                foreach (Quote q in Quotes) list.Add(q);
-                break;
-            }
+                {
+                    DynamicList list = new(14);
+                    foreach (Quote q in Quotes) list.Add(q);
+                    break;
+                }
             case "ELDER-RAY":
-            {
-                ElderRayList list = new(13);
-                foreach (Quote q in Quotes) list.Add(q);
-                break;
-            }
+                {
+                    ElderRayList list = new(13);
+                    foreach (Quote q in Quotes) list.Add(q);
+                    break;
+                }
             case "EMA":
-            {
-                EmaList list = new(20);
-                foreach (Quote q in Quotes) list.Add(q);
-                break;
-            }
+                {
+                    EmaList list = new(20);
+                    foreach (Quote q in Quotes) list.Add(q);
+                    break;
+                }
             case "EPMA":
-            {
-                EpmaList list = new(14);
-                foreach (Quote q in Quotes) list.Add(q);
-                break;
-            }
+                {
+                    EpmaList list = new(14);
+                    foreach (Quote q in Quotes) list.Add(q);
+                    break;
+                }
             case "FCB":
-            {
-                FcbList list = new(2);
-                foreach (Quote q in Quotes) list.Add(q);
-                break;
-            }
+                {
+                    FcbList list = new(2);
+                    foreach (Quote q in Quotes) list.Add(q);
+                    break;
+                }
             case "FISHER":
-            {
-                FisherTransformList list = new(10);
-                foreach (Quote q in Quotes) list.Add(q);
-                break;
-            }
+                {
+                    FisherTransformList list = new(10);
+                    foreach (Quote q in Quotes) list.Add(q);
+                    break;
+                }
             case "FORCE":
-            {
-                ForceIndexList list = new(2);
-                foreach (Quote q in Quotes) list.Add(q);
-                break;
-            }
+                {
+                    ForceIndexList list = new(2);
+                    foreach (Quote q in Quotes) list.Add(q);
+                    break;
+                }
             case "FRACTAL":
-            {
-                FractalList list = new();
-                foreach (Quote q in Quotes) list.Add(q);
-                break;
-            }
+                {
+                    FractalList list = new();
+                    foreach (Quote q in Quotes) list.Add(q);
+                    break;
+                }
             case "GATOR":
-            {
-                GatorList list = new();
-                foreach (Quote q in Quotes) list.Add(q);
-                break;
-            }
+                {
+                    GatorList list = new();
+                    foreach (Quote q in Quotes) list.Add(q);
+                    break;
+                }
             case "HEIKINASHI":
-            {
-                HeikinAshiList list = new();
-                foreach (Quote q in Quotes) list.Add(q);
-                break;
-            }
+                {
+                    HeikinAshiList list = new();
+                    foreach (Quote q in Quotes) list.Add(q);
+                    break;
+                }
             case "HMA":
-            {
-                HmaList list = new(14);
-                foreach (Quote q in Quotes) list.Add(q);
-                break;
-            }
+                {
+                    HmaList list = new(14);
+                    foreach (Quote q in Quotes) list.Add(q);
+                    break;
+                }
             case "HTL":
-            {
-                HtTrendlineList list = new();
-                foreach (Quote q in Quotes) list.Add(q);
-                break;
-            }
+                {
+                    HtTrendlineList list = new();
+                    foreach (Quote q in Quotes) list.Add(q);
+                    break;
+                }
             case "HURST":
-            {
-                HurstList list = new(100);
-                foreach (Quote q in Quotes) list.Add(q);
-                break;
-            }
+                {
+                    HurstList list = new(100);
+                    foreach (Quote q in Quotes) list.Add(q);
+                    break;
+                }
             case "ICHIMOKU":
-            {
-                IchimokuList list = new();
-                foreach (Quote q in Quotes) list.Add(q);
-                break;
-            }
+                {
+                    IchimokuList list = new();
+                    foreach (Quote q in Quotes) list.Add(q);
+                    break;
+                }
             case "KAMA":
-            {
-                KamaList list = new(10, 2, 30);
-                foreach (Quote q in Quotes) list.Add(q);
-                break;
-            }
+                {
+                    KamaList list = new(10, 2, 30);
+                    foreach (Quote q in Quotes) list.Add(q);
+                    break;
+                }
             case "KELTNER":
-            {
-                KeltnerList list = new(20, 2, 10);
-                foreach (Quote q in Quotes) list.Add(q);
-                break;
-            }
+                {
+                    KeltnerList list = new(20, 2, 10);
+                    foreach (Quote q in Quotes) list.Add(q);
+                    break;
+                }
             case "KVO":
-            {
-                KvoList list = new(34, 55, 13);
-                foreach (Quote q in Quotes) list.Add(q);
-                break;
-            }
+                {
+                    KvoList list = new(34, 55, 13);
+                    foreach (Quote q in Quotes) list.Add(q);
+                    break;
+                }
             case "MA-ENV":
-            {
-                MaEnvelopesList list = new(20, 2.5, MaType.SMA);
-                foreach (Quote q in Quotes) list.Add(q);
-                break;
-            }
+                {
+                    MaEnvelopesList list = new(20, 2.5, MaType.SMA);
+                    foreach (Quote q in Quotes) list.Add(q);
+                    break;
+                }
             case "MACD":
-            {
-                MacdList list = new(12, 26, 9);
-                foreach (Quote q in Quotes) list.Add(q);
-                break;
-            }
+                {
+                    MacdList list = new(12, 26, 9);
+                    foreach (Quote q in Quotes) list.Add(q);
+                    break;
+                }
             case "MAMA":
-            {
-                MamaList list = new(0.5, 0.05);
-                foreach (Quote q in Quotes) list.Add(q);
-                break;
-            }
+                {
+                    MamaList list = new(0.5, 0.05);
+                    foreach (Quote q in Quotes) list.Add(q);
+                    break;
+                }
             case "MARUBOZU":
-            {
-                MarubozuList list = new(95);
-                foreach (Quote q in Quotes) list.Add(q);
-                break;
-            }
+                {
+                    MarubozuList list = new(95);
+                    foreach (Quote q in Quotes) list.Add(q);
+                    break;
+                }
             case "MFI":
-            {
-                MfiList list = new(14);
-                foreach (Quote q in Quotes) list.Add(q);
-                break;
-            }
+                {
+                    MfiList list = new(14);
+                    foreach (Quote q in Quotes) list.Add(q);
+                    break;
+                }
             case "OBV":
-            {
-                ObvList list = new();
-                foreach (Quote q in Quotes) list.Add(q);
-                break;
-            }
+                {
+                    ObvList list = new();
+                    foreach (Quote q in Quotes) list.Add(q);
+                    break;
+                }
             case "PMO":
-            {
-                PmoList list = new(35, 20, 10);
-                foreach (Quote q in Quotes) list.Add(q);
-                break;
-            }
+                {
+                    PmoList list = new(35, 20, 10);
+                    foreach (Quote q in Quotes) list.Add(q);
+                    break;
+                }
             case "PSAR":
-            {
-                ParabolicSarList list = new();
-                foreach (Quote q in Quotes) list.Add(q);
-                break;
-            }
+                {
+                    ParabolicSarList list = new();
+                    foreach (Quote q in Quotes) list.Add(q);
+                    break;
+                }
             case "PVO":
-            {
-                PvoList list = new();
-                foreach (Quote q in Quotes) list.Add(q);
-                break;
-            }
+                {
+                    PvoList list = new();
+                    foreach (Quote q in Quotes) list.Add(q);
+                    break;
+                }
             case "RENKO":
-            {
-                RenkoList list = new(2.5m);
-                foreach (Quote q in Quotes) list.Add(q);
-                break;
-            }
+                {
+                    RenkoList list = new(2.5m);
+                    foreach (Quote q in Quotes) list.Add(q);
+                    break;
+                }
             case "RENKO-ATR":
-            {
-                RenkoList list = new(Quotes, 14);
-                foreach (Quote q in Quotes) list.Add(q);
-                break;
-            }
+                {
+                    RenkoList list = new(14m);
+                    foreach (Quote q in Quotes) list.Add(q);
+                    break;
+                }
             case "ROC":
-            {
-                RocList list = new(20);
-                foreach (Quote q in Quotes) list.Add(q);
-                break;
-            }
+                {
+                    RocList list = new(20);
+                    foreach (Quote q in Quotes) list.Add(q);
+                    break;
+                }
             case "ROC-WB":
-            {
-                RocWbList list = new(20, 5, 5);
-                foreach (Quote q in Quotes) list.Add(q);
-                break;
-            }
+                {
+                    RocWbList list = new(20, 5, 5);
+                    foreach (Quote q in Quotes) list.Add(q);
+                    break;
+                }
             case "RSI":
-            {
-                RsiList list = new(14);
-                foreach (Quote q in Quotes) list.Add(q);
-                break;
-            }
+                {
+                    RsiList list = new(14);
+                    foreach (Quote q in Quotes) list.Add(q);
+                    break;
+                }
             case "SLOPE":
-            {
-                SlopeList list = new(14);
-                foreach (Quote q in Quotes) list.Add(q);
-                break;
-            }
+                {
+                    SlopeList list = new(14);
+                    foreach (Quote q in Quotes) list.Add(q);
+                    break;
+                }
             case "SMA":
-            {
-                SmaList list = new(14);
-                foreach (Quote q in Quotes) list.Add(q);
-                break;
-            }
+                {
+                    SmaList list = new(14);
+                    foreach (Quote q in Quotes) list.Add(q);
+                    break;
+                }
             case "SMA-ANALYSIS":
-            {
-                SmaAnalysisList list = new(14);
-                foreach (Quote q in Quotes) list.Add(q);
-                break;
-            }
+                {
+                    SmaAnalysisList list = new(14);
+                    foreach (Quote q in Quotes) list.Add(q);
+                    break;
+                }
             case "SMI":
-            {
-                SmiList list = new(13, 25, 2, 3);
-                foreach (Quote q in Quotes) list.Add(q);
-                break;
-            }
+                {
+                    SmiList list = new(13, 25, 2, 3);
+                    foreach (Quote q in Quotes) list.Add(q);
+                    break;
+                }
             case "SMMA":
-            {
-                SmmaList list = new(14);
-                foreach (Quote q in Quotes) list.Add(q);
-                break;
-            }
+                {
+                    SmmaList list = new(14);
+                    foreach (Quote q in Quotes) list.Add(q);
+                    break;
+                }
             case "STARC":
-            {
-                StarcBandsList list = new(5, 2, 10);
-                foreach (Quote q in Quotes) list.Add(q);
-                break;
-            }
+                {
+                    StarcBandsList list = new(5, 2, 10);
+                    foreach (Quote q in Quotes) list.Add(q);
+                    break;
+                }
             case "STC":
-            {
-                StcList list = new(10, 23, 50);
-                foreach (Quote q in Quotes) list.Add(q);
-                break;
-            }
+                {
+                    StcList list = new(10, 23, 50);
+                    foreach (Quote q in Quotes) list.Add(q);
+                    break;
+                }
             case "STDEV":
-            {
-                StdDevList list = new(14);
-                foreach (Quote q in Quotes) list.Add(q);
-                break;
-            }
-            case "STDEV-CHANNELS":
-            {
-                StdDevChannelsList list = new();
-                foreach (Quote q in Quotes) list.Add(q);
-                break;
-            }
+                {
+                    StdDevList list = new(14);
+                    foreach (Quote q in Quotes) list.Add(q);
+                    break;
+                }
             case "STOCH":
-            {
-                StochList list = new(14, 3, 3);
-                foreach (Quote q in Quotes) list.Add(q);
-                break;
-            }
+                {
+                    StochList list = new(14, 3, 3);
+                    foreach (Quote q in Quotes) list.Add(q);
+                    break;
+                }
             case "STOCH-RSI":
-            {
-                StochRsiList list = new(14, 14, 3, 1);
-                foreach (Quote q in Quotes) list.Add(q);
-                break;
-            }
+                {
+                    StochRsiList list = new(14, 14, 3, 1);
+                    foreach (Quote q in Quotes) list.Add(q);
+                    break;
+                }
             case "SUPERTREND":
-            {
-                SuperTrendList list = new(10, 3);
-                foreach (Quote q in Quotes) list.Add(q);
-                break;
-            }
+                {
+                    SuperTrendList list = new(10, 3);
+                    foreach (Quote q in Quotes) list.Add(q);
+                    break;
+                }
             case "T3":
-            {
-                T3List list = new(5, 0.7);
-                foreach (Quote q in Quotes) list.Add(q);
-                break;
-            }
+                {
+                    T3List list = new(5, 0.7);
+                    foreach (Quote q in Quotes) list.Add(q);
+                    break;
+                }
             case "TEMA":
-            {
-                TemaList list = new(14);
-                foreach (Quote q in Quotes) list.Add(q);
-                break;
-            }
+                {
+                    TemaList list = new(14);
+                    foreach (Quote q in Quotes) list.Add(q);
+                    break;
+                }
             case "TR":
-            {
-                TrList list = new();
-                foreach (Quote q in Quotes) list.Add(q);
-                break;
-            }
+                {
+                    TrList list = new();
+                    foreach (Quote q in Quotes) list.Add(q);
+                    break;
+                }
             case "TRIX":
-            {
-                TrixList list = new(14);
-                foreach (Quote q in Quotes) list.Add(q);
-                break;
-            }
+                {
+                    TrixList list = new(14);
+                    foreach (Quote q in Quotes) list.Add(q);
+                    break;
+                }
             case "TSI":
-            {
-                TsiList list = new(25, 13, 7);
-                foreach (Quote q in Quotes) list.Add(q);
-                break;
-            }
+                {
+                    TsiList list = new(25, 13, 7);
+                    foreach (Quote q in Quotes) list.Add(q);
+                    break;
+                }
             case "ULCER":
-            {
-                UlcerIndexList list = new(14);
-                foreach (Quote q in Quotes) list.Add(q);
-                break;
-            }
+                {
+                    UlcerIndexList list = new(14);
+                    foreach (Quote q in Quotes) list.Add(q);
+                    break;
+                }
             case "UO":
-            {
-                UltimateList list = new(7, 14, 28);
-                foreach (Quote q in Quotes) list.Add(q);
-                break;
-            }
+                {
+                    UltimateList list = new(7, 14, 28);
+                    foreach (Quote q in Quotes) list.Add(q);
+                    break;
+                }
             case "VOL-STOP":
-            {
-                VolatilityStopList list = new(7, 3);
-                foreach (Quote q in Quotes) list.Add(q);
-                break;
-            }
+                {
+                    VolatilityStopList list = new(7, 3);
+                    foreach (Quote q in Quotes) list.Add(q);
+                    break;
+                }
             case "VORTEX":
-            {
-                VortexList list = new(14);
-                foreach (Quote q in Quotes) list.Add(q);
-                break;
-            }
+                {
+                    VortexList list = new(14);
+                    foreach (Quote q in Quotes) list.Add(q);
+                    break;
+                }
             case "VWAP":
-            {
-                VwapList list = new();
-                foreach (Quote q in Quotes) list.Add(q);
-                break;
-            }
+                {
+                    VwapList list = new();
+                    foreach (Quote q in Quotes) list.Add(q);
+                    break;
+                }
             case "VWMA":
-            {
-                VwmaList list = new(14);
-                foreach (Quote q in Quotes) list.Add(q);
-                break;
-            }
+                {
+                    VwmaList list = new(14);
+                    foreach (Quote q in Quotes) list.Add(q);
+                    break;
+                }
             case "WILLR":
-            {
-                WilliamsRList list = new();
-                foreach (Quote q in Quotes) list.Add(q);
-                break;
-            }
+                {
+                    WilliamsRList list = new();
+                    foreach (Quote q in Quotes) list.Add(q);
+                    break;
+                }
             case "WMA":
-            {
-                WmaList list = new(14);
-                foreach (Quote q in Quotes) list.Add(q);
-                break;
-            }
-            case "ZIGZAG":
-            {
-                ZigZagList list = new();
-                foreach (Quote q in Quotes) list.Add(q);
-                break;
-            }
+                {
+                    WmaList list = new(14);
+                    foreach (Quote q in Quotes) list.Add(q);
+                    break;
+                }
             default:
                 throw new NotSupportedException($"Indicator '{Keyword}' is not supported in ManualTestDirect.");
         }
     }
 
-    /* STREAM BENCHMARKS */
-
-    [Benchmark]
-    public void Stream()
-    {
-        switch (Keyword)
-        {
-            case "ADL":
-            {
-                AdlHub hub = new();
-                foreach (Quote q in Quotes) hub.Add(q);
-                break;
-            }
-            case "ADX":
-            {
-                AdxHub hub = new(14);
-                foreach (Quote q in Quotes) hub.Add(q);
-                break;
-            }
-            case "ALMA":
-            {
-                AlmaHub hub = new(9, 0.85, 6);
-                foreach (Quote q in Quotes) hub.Add(q);
-                break;
-            }
-            case "AROON":
-            {
-                AroonHub hub = new();
-                foreach (Quote q in Quotes) hub.Add(q);
-                break;
-            }
-            case "ATR":
-            {
-                AtrHub hub = new(14);
-                foreach (Quote q in Quotes) hub.Add(q);
-                break;
-            }
-            case "ATR-STOP":
-            {
-                AtrStopHub hub = new();
-                foreach (Quote q in Quotes) hub.Add(q);
-                break;
-            }
-            case "BB":
-            {
-                BollingerBandsHub hub = new(20, 2);
-                foreach (Quote q in Quotes) hub.Add(q);
-                break;
-            }
-            case "BOP":
-            {
-                BopHub hub = new(14);
-                foreach (Quote q in Quotes) hub.Add(q);
-                break;
-            }
-            case "CCI":
-            {
-                CciHub hub = new(14);
-                foreach (Quote q in Quotes) hub.Add(q);
-                break;
-            }
-            case "CHANDELIER":
-            case "CHEXIT":
-            {
-                ChandelierHub hub = new();
-                foreach (Quote q in Quotes) hub.Add(q);
-                break;
-            }
-            case "CMF":
-            {
-                CmfHub hub = new(14);
-                foreach (Quote q in Quotes) hub.Add(q);
-                break;
-            }
-            case "CMO":
-            {
-                CmoHub hub = new(14);
-                foreach (Quote q in Quotes) hub.Add(q);
-                break;
-            }
-            case "DEMA":
-            {
-                DemaHub hub = new(14);
-                foreach (Quote q in Quotes) hub.Add(q);
-                break;
-            }
-            case "DONCHIAN":
-            {
-                DonchianHub hub = new();
-                foreach (Quote q in Quotes) hub.Add(q);
-                break;
-            }
-            case "DPO":
-            {
-                DpoHub hub = new(14);
-                foreach (Quote q in Quotes) hub.Add(q);
-                break;
-            }
-            case "EMA":
-            {
-                EmaHub hub = new(20);
-                foreach (Quote q in Quotes) hub.Add(q);
-                break;
-            }
-            case "EPMA":
-            {
-                EpmaHub hub = new(14);
-                foreach (Quote q in Quotes) hub.Add(q);
-                break;
-            }
-            case "HMA":
-            {
-                HmaHub hub = new(14);
-                foreach (Quote q in Quotes) hub.Add(q);
-                break;
-            }
-            case "KAMA":
-            {
-                KamaHub hub = new(10, 2, 30);
-                foreach (Quote q in Quotes) hub.Add(q);
-                break;
-            }
-            case "KELTNER":
-            {
-                KeltnerHub hub = new(20, 2, 10);
-                foreach (Quote q in Quotes) hub.Add(q);
-                break;
-            }
-            case "MACD":
-            {
-                MacdHub hub = new(12, 26, 9);
-                foreach (Quote q in Quotes) hub.Add(q);
-                break;
-            }
-            case "MFI":
-            {
-                MfiHub hub = new(14);
-                foreach (Quote q in Quotes) hub.Add(q);
-                break;
-            }
-            case "OBV":
-            {
-                ObvHub hub = new();
-                foreach (Quote q in Quotes) hub.Add(q);
-                break;
-            }
-            case "PSAR":
-            {
-                ParabolicSarHub hub = new();
-                foreach (Quote q in Quotes) hub.Add(q);
-                break;
-            }
-            case "ROC":
-            {
-                RocHub hub = new(20);
-                foreach (Quote q in Quotes) hub.Add(q);
-                break;
-            }
-            case "RSI":
-            {
-                RsiHub hub = new(14);
-                foreach (Quote q in Quotes) hub.Add(q);
-                break;
-            }
-            case "SMA":
-            {
-                SmaHub hub = new(14);
-                foreach (Quote q in Quotes) hub.Add(q);
-                break;
-            }
-            case "SMMA":
-            {
-                SmmaHub hub = new(14);
-                foreach (Quote q in Quotes) hub.Add(q);
-                break;
-            }
-            case "STDEV":
-            {
-                StdDevHub hub = new(14);
-                foreach (Quote q in Quotes) hub.Add(q);
-                break;
-            }
-            case "STOCH":
-            {
-                StochHub hub = new(14, 3, 3);
-                foreach (Quote q in Quotes) hub.Add(q);
-                break;
-            }
-            case "STOCH-RSI":
-            {
-                StochRsiHub hub = new(14, 14, 3, 1);
-                foreach (Quote q in Quotes) hub.Add(q);
-                break;
-            }
-            case "SUPERTREND":
-            {
-                SuperTrendHub hub = new(10, 3);
-                foreach (Quote q in Quotes) hub.Add(q);
-                break;
-            }
-            case "T3":
-            {
-                T3Hub hub = new(5, 0.7);
-                foreach (Quote q in Quotes) hub.Add(q);
-                break;
-            }
-            case "TEMA":
-            {
-                TemaHub hub = new(14);
-                foreach (Quote q in Quotes) hub.Add(q);
-                break;
-            }
-            case "TR":
-            {
-                TrHub hub = new();
-                foreach (Quote q in Quotes) hub.Add(q);
-                break;
-            }
-            case "TRIX":
-            {
-                TrixHub hub = new(14);
-                foreach (Quote q in Quotes) hub.Add(q);
-                break;
-            }
-            case "VWAP":
-            {
-                VwapHub hub = new();
-                foreach (Quote q in Quotes) hub.Add(q);
-                break;
-            }
-            case "VWMA":
-            {
-                VwmaHub hub = new(14);
-                foreach (Quote q in Quotes) hub.Add(q);
-                break;
-            }
-            case "WMA":
-            {
-                WmaHub hub = new(14);
-                foreach (Quote q in Quotes) hub.Add(q);
-                break;
-            }
-            default:
-                throw new NotSupportedException($"Indicator '{Keyword}' is not supported for Stream style in ManualTestDirect.");
-        }
-    }
 }
