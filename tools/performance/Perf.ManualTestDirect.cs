@@ -356,12 +356,6 @@ public class ManualTestDirect
                 foreach (Quote q in Quotes) list.Add(q);
                 break;
             }
-            case "BETA":
-            {
-                BetaList list = new(CompareQuotes, 20, BetaType.Standard);
-                foreach (Quote q in Quotes) list.Add(q);
-                break;
-            }
             case "BOP":
             {
                 BopList list = new(14);
@@ -402,12 +396,6 @@ public class ManualTestDirect
             case "CMO":
             {
                 CmoList list = new(14);
-                foreach (Quote q in Quotes) list.Add(q);
-                break;
-            }
-            case "CORR":
-            {
-                CorrelationList list = new(CompareQuotes, 20);
                 foreach (Quote q in Quotes) list.Add(q);
                 break;
             }
@@ -582,12 +570,6 @@ public class ManualTestDirect
             case "PMO":
             {
                 PmoList list = new(35, 20, 10);
-                foreach (Quote q in Quotes) list.Add(q);
-                break;
-            }
-            case "PRS":
-            {
-                PrsList list = new(CompareQuotes);
                 foreach (Quote q in Quotes) list.Add(q);
                 break;
             }
