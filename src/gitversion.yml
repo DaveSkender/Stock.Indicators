@@ -20,7 +20,7 @@ branches:
     regex: ^v[0-9]+\.*
     increment: Patch
     source-branches: [main]
-    label: ''
+    label: preview
 
   feature:
     regex: ^feature/.*
