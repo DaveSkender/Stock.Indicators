@@ -180,7 +180,7 @@ jobs:
             if [[ "${{ steps.settings.outputs.is_ci_push }}" == "true" ]]; then
               suffix="-dev.${{ env.CommitsSinceVersionSource }}"
             elif [[ -n "${{ env.PreReleaseTag }}" ]]; then
-              suffix="-${{ env.PreReleaseTag }}.${{ env.PreReleaseNumber }}"
+              suffix="-${{ env.PreReleaseTag }}"
             else
               suffix="-preview.${{ env.CommitsSinceVersionSource }}"
             fi
