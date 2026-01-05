@@ -3,7 +3,7 @@ Previous / Next functions
 Assign variables from the entire indicators collection
 {% endcomment %}
 {% assign items_raw = site.indicators %}
-{% assign items = items_raw | sort: 'title' | reverse %}
+{% assign items = items_raw | sort: 'title' %}
 
 {% if items.size > 1 %}
     {% comment %}
@@ -15,18 +15,18 @@ Assign variables from the entire indicators collection
         {% endif %}
     {% endfor %}
 
-    {% assign prev_index = item_index | plus: 1 %}
-    {% assign next_index = item_index | minus: 1 %}
+    {% assign prev_index = item_index | minus: 1 %}
+    {% assign next_index = item_index | plus: 1 %}
     {% assign last_index = items.size %}
 
     {% comment %}
     Handle end of range scenarios
     {% endcomment %}
-    {% if prev_index > last_index %}
-        {% assign prev_index = 1 %}
+    {% if prev_index <= 0 %}
+        {% assign prev_index = last_index %}
     {% endif %}
-    {% if next_index <= 0 %}
-        {% assign next_index = last_index %}
+    {% if next_index > last_index %}
+        {% assign next_index = 1 %}
     {% endif %} 
 
     {% comment %}
