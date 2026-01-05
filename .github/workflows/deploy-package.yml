@@ -179,7 +179,7 @@ jobs:
             # CI pushes use only -dev.X suffix
             if [[ "${{ steps.settings.outputs.is_ci_push }}" == "true" ]]; then
               suffix="-dev.${{ env.CommitsSinceVersionSource }}"
-            elif [[ -n "${{ env.PreReleaseTag }}" ]]; then
+            elif [[ -n "${{ env.PreReleaseTag }}" ]] && [[ -n "${{ env.PreReleaseNumber }}" ]]; then
               suffix="-${{ env.PreReleaseTag }}.${{ env.PreReleaseNumber }}"
             else
               suffix="-preview.${{ env.CommitsSinceVersionSource }}"
