@@ -6,14 +6,14 @@ namespace Skender.Stock.Indicators;
 public enum StarcBandsField
 {
     /// <summary>
-    /// Upper band.
-    /// </summary>
-    UpperBand = 0,
-
-    /// <summary>
     /// Centerline (moving average).
     /// </summary>
-    Centerline = 1,
+    Centerline = 0,
+
+    /// <summary>
+    /// Upper band.
+    /// </summary>
+    UpperBand = 1,
 
     /// <summary>
     /// Lower band.

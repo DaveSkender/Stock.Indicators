@@ -6,21 +6,21 @@ namespace Skender.Stock.Indicators;
 public enum DonchianField
 {
     /// <summary>
-    /// Upper band.
-    /// </summary>
-    UpperBand = 1,
-
-    /// <summary>
     /// Centerline (middle band).
     /// </summary>
     Centerline = 0,
+
+    /// <summary>
+    /// Upper band.
+    /// </summary>
+    UpperBand = 1,
 
     /// <summary>
     /// Lower band.
     /// </summary>
     LowerBand = 2,
 
-    /// <summaryr>
+    /// <summary>
     /// Width (difference between upper and lower bands).
     /// </summary>
     Width = 3
