@@ -7,7 +7,7 @@ const distDirPath = path.resolve(__dirname, 'dist')
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
-  title: "Stock Indicators for .NET",
+  title: "Stock Indicators",
   description: "Transform price quotes into trading insights.",
 
   // Default to dark theme (toggle still available)
