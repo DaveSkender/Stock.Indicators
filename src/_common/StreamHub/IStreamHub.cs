@@ -1,5 +1,14 @@
 namespace Skender.Stock.Indicators;
 
+public interface IStreamHubBase<out TOut>
+    where TOut : ISeries
+{
+    /// <summary>
+    /// Read-only list of the stored cache values.
+    /// </summary>
+    IReadOnlyList<TOut> Results { get; }
+}
+
 /// <summary>
 /// Streaming hub: management of observer
 /// and observable indicator data
@@ -10,14 +19,10 @@ namespace Skender.Stock.Indicators;
 /// <typeparam name="TOut">
 /// Type of outbound indicator data.
 /// </typeparam>
-public interface IStreamHub<in TIn, TOut>
+public interface IStreamHub<in TIn, TOut> : IStreamHubBase<TOut>
     where TIn : ISeries
+    where TOut : ISeries
 {
-    /// <summary>
-    /// Read-only list of the stored cache values.
-    /// </summary>
-    IReadOnlyList<TOut> Results { get; }
-
     /// <summary>
     /// The cache and provider failed and is no longer operational.
     /// </summary>
