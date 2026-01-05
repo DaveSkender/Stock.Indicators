@@ -6,6 +6,38 @@ namespace Skender.Stock.Indicators;
 public static partial class Keltner
 {
     /// <summary>
+    /// Converts Keltner Channel results to a chainable list using the specified field.
+    /// </summary>
+    /// <param name="results">The list of Keltner Channel results.</param>
+    /// <param name="field">The field to use for chaining.</param>
+    /// <returns>A list of chainable values.</returns>
+    public static IReadOnlyList<QuotePart> Use(
+        this IReadOnlyList<KeltnerResult> results,
+        KeltnerField field = KeltnerField.Centerline)
+    {
+        ArgumentNullException.ThrowIfNull(results);
+        int length = results.Count;
+        List<QuotePart> list = new(length);
+
+        for (int i = 0; i < length; i++)
+        {
+            KeltnerResult r = results[i];
+
+            double value = field switch {
+                KeltnerField.UpperBand => r.UpperBand.Null2NaN(),
+                KeltnerField.Centerline => r.Centerline.Null2NaN(),
+                KeltnerField.LowerBand => r.LowerBand.Null2NaN(),
+                KeltnerField.Width => r.Width.Null2NaN(),
+                _ => throw new ArgumentOutOfRangeException(nameof(field), field, "Invalid field provided.")
+            };
+
+            list.Add(new QuotePart(r.Timestamp, value));
+        }
+
+        return list;
+    }
+
+    /// <summary>
     /// Removes empty (null) periods from the Keltner Channel results.
     /// </summary>
     /// <param name="results">The list of Keltner Channel results to condense.</param>

@@ -6,6 +6,28 @@ namespace Skender.Stock.Indicators;
 public static class Candlesticks
 {
     /// <summary>
+    /// Converts Candle results to a chainable list using the Price field.
+    /// </summary>
+    /// <param name="results">The list of Candle results.</param>
+    /// <returns>A list of chainable values.</returns>
+    public static IReadOnlyList<QuotePart> Use(
+        this IReadOnlyList<CandleResult> results)
+    {
+        ArgumentNullException.ThrowIfNull(results);
+        int length = results.Count;
+        List<QuotePart> list = new(length);
+
+        for (int i = 0; i < length; i++)
+        {
+            CandleResult r = results[i];
+            double value = (double?)r.Price ?? double.NaN;
+            list.Add(new QuotePart(r.Timestamp, value));
+        }
+
+        return list;
+    }
+
+    /// <summary>
     /// Condenses the list of candle results by filtering out those with no match.
     /// </summary>
     /// <param name="candleResults">The list of candle results to condense.</param>
