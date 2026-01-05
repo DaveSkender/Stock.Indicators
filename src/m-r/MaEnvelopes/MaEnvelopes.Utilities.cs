@@ -6,6 +6,37 @@ namespace Skender.Stock.Indicators;
 public static partial class MaEnvelopes
 {
     /// <summary>
+    /// Converts Moving Average Envelope results to a chainable list using the specified field.
+    /// </summary>
+    /// <param name="results">The list of Moving Average Envelope results.</param>
+    /// <param name="field">The field to use for chaining.</param>
+    /// <returns>A list of chainable values.</returns>
+    public static IReadOnlyList<QuotePart> Use(
+        this IReadOnlyList<MaEnvelopeResult> results,
+        MaEnvelopeField field = MaEnvelopeField.Centerline)
+    {
+        ArgumentNullException.ThrowIfNull(results);
+        int length = results.Count;
+        List<QuotePart> list = new(length);
+
+        for (int i = 0; i < length; i++)
+        {
+            MaEnvelopeResult r = results[i];
+
+            double value = field switch {
+                MaEnvelopeField.Centerline => r.Centerline.Null2NaN(),
+                MaEnvelopeField.UpperEnvelope => r.UpperEnvelope.Null2NaN(),
+                MaEnvelopeField.LowerEnvelope => r.LowerEnvelope.Null2NaN(),
+                _ => throw new ArgumentOutOfRangeException(nameof(field), field, "Invalid field provided.")
+            };
+
+            list.Add(new QuotePart(r.Timestamp, value));
+        }
+
+        return list;
+    }
+
+    /// <summary>
     /// Removes empty (null) periods from the Moving Average Envelope results.
     /// </summary>
     /// <param name="results">The list of Moving Average Envelope results.</param>

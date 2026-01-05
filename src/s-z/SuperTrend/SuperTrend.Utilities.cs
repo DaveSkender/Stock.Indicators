@@ -6,6 +6,37 @@ namespace Skender.Stock.Indicators;
 public static partial class SuperTrend
 {
     /// <summary>
+    /// Converts SuperTrend results to a chainable list using the specified field.
+    /// </summary>
+    /// <param name="results">The list of SuperTrend results.</param>
+    /// <param name="field">The field to use for chaining.</param>
+    /// <returns>A list of chainable values.</returns>
+    public static IReadOnlyList<QuotePart> Use(
+        this IReadOnlyList<SuperTrendResult> results,
+        SuperTrendField field = SuperTrendField.SuperTrend)
+    {
+        ArgumentNullException.ThrowIfNull(results);
+        int length = results.Count;
+        List<QuotePart> list = new(length);
+
+        for (int i = 0; i < length; i++)
+        {
+            SuperTrendResult r = results[i];
+
+            double value = field switch {
+                SuperTrendField.SuperTrend => (double?)r.SuperTrend ?? double.NaN,
+                SuperTrendField.UpperBand => (double?)r.UpperBand ?? double.NaN,
+                SuperTrendField.LowerBand => (double?)r.LowerBand ?? double.NaN,
+                _ => throw new ArgumentOutOfRangeException(nameof(field), field, "Invalid field provided.")
+            };
+
+            list.Add(new QuotePart(r.Timestamp, value));
+        }
+
+        return list;
+    }
+
+    /// <summary>
     /// Removes empty (null) periods from the results.
     /// </summary>
     /// <param name="results">The list of SuperTrend results.</param>

@@ -6,6 +6,38 @@ namespace Skender.Stock.Indicators;
 public static partial class Pivots
 {
     /// <summary>
+    /// Converts Pivots results to a chainable list using the specified field.
+    /// </summary>
+    /// <param name="results">The list of Pivots results.</param>
+    /// <param name="field">The field to use for chaining.</param>
+    /// <returns>A list of chainable values.</returns>
+    public static IReadOnlyList<QuotePart> Use(
+        this IReadOnlyList<PivotsResult> results,
+        PivotPointField field = PivotPointField.HighPoint)
+    {
+        ArgumentNullException.ThrowIfNull(results);
+        int length = results.Count;
+        List<QuotePart> list = new(length);
+
+        for (int i = 0; i < length; i++)
+        {
+            PivotsResult r = results[i];
+
+            double value = field switch {
+                PivotPointField.HighPoint => (double?)r.HighPoint ?? double.NaN,
+                PivotPointField.LowPoint => (double?)r.LowPoint ?? double.NaN,
+                PivotPointField.HighLine => (double?)r.HighLine ?? double.NaN,
+                PivotPointField.LowLine => (double?)r.LowLine ?? double.NaN,
+                _ => throw new ArgumentOutOfRangeException(nameof(field), field, "Invalid field provided.")
+            };
+
+            list.Add(new QuotePart(r.Timestamp, value));
+        }
+
+        return list;
+    }
+
+    /// <summary>
     /// Removes empty (null) periods from the pivot points results.
     /// </summary>
     /// <inheritdoc cref="Reusable.Condense{T}(IReadOnlyList{T})"/>

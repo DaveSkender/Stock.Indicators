@@ -6,6 +6,39 @@ namespace Skender.Stock.Indicators;
 public static partial class Ichimoku
 {
     /// <summary>
+    /// Converts Ichimoku Cloud results to a chainable list using the specified line.
+    /// </summary>
+    /// <param name="results">The list of Ichimoku Cloud results.</param>
+    /// <param name="line">The Ichimoku line to use for chaining.</param>
+    /// <returns>A list of chainable values.</returns>
+    public static IReadOnlyList<QuotePart> Use(
+        this IReadOnlyList<IchimokuResult> results,
+        IchimokuLine line = IchimokuLine.TenkanSen)
+    {
+        ArgumentNullException.ThrowIfNull(results);
+        int length = results.Count;
+        List<QuotePart> list = new(length);
+
+        for (int i = 0; i < length; i++)
+        {
+            IchimokuResult r = results[i];
+
+            double value = line switch {
+                IchimokuLine.TenkanSen => (double?)r.TenkanSen ?? double.NaN,
+                IchimokuLine.KijunSen => (double?)r.KijunSen ?? double.NaN,
+                IchimokuLine.SenkouSpanA => (double?)r.SenkouSpanA ?? double.NaN,
+                IchimokuLine.SenkouSpanB => (double?)r.SenkouSpanB ?? double.NaN,
+                IchimokuLine.ChikouSpan => (double?)r.ChikouSpan ?? double.NaN,
+                _ => throw new ArgumentOutOfRangeException(nameof(line), line, "Invalid line provided.")
+            };
+
+            list.Add(new QuotePart(r.Timestamp, value));
+        }
+
+        return list;
+    }
+
+    /// <summary>
     /// Removes empty (null) periods from the Ichimoku Cloud results.
     /// </summary>
     /// <param name="results">The list of Ichimoku Cloud results to condense.</param>

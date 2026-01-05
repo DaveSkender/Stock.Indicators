@@ -6,6 +6,36 @@ namespace Skender.Stock.Indicators;
 public static partial class Fcb
 {
     /// <summary>
+    /// Converts FCB results to a chainable list using the specified field.
+    /// </summary>
+    /// <param name="results">The list of FCB results.</param>
+    /// <param name="field">The field to use for chaining.</param>
+    /// <returns>A list of chainable values.</returns>
+    public static IReadOnlyList<QuotePart> Use(
+        this IReadOnlyList<FcbResult> results,
+        FcbField field = FcbField.UpperBand)
+    {
+        ArgumentNullException.ThrowIfNull(results);
+        int length = results.Count;
+        List<QuotePart> list = new(length);
+
+        for (int i = 0; i < length; i++)
+        {
+            FcbResult r = results[i];
+
+            double value = field switch {
+                FcbField.UpperBand => (double?)r.UpperBand ?? double.NaN,
+                FcbField.LowerBand => (double?)r.LowerBand ?? double.NaN,
+                _ => throw new ArgumentOutOfRangeException(nameof(field), field, "Invalid field provided.")
+            };
+
+            list.Add(new QuotePart(r.Timestamp, value));
+        }
+
+        return list;
+    }
+
+    /// <summary>
     /// Removes empty (null) periods from the FCB results.
     /// </summary>
     /// <inheritdoc cref="Reusable.Condense{T}(IReadOnlyList{T})"/>
