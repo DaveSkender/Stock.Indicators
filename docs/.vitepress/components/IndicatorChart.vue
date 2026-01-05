@@ -118,7 +118,7 @@ const PRICE_SCALE_WIDTH = 50
 
 // Dark theme colors (GitHub Primer dark-dimmed)
 const darkTheme = {
-  bgColor: '#22272e',
+  bgColor: 'transparent',
   textColor: '#768390',
   gridColor: '#30363d',
   borderColor: 'transparent'
@@ -126,7 +126,7 @@ const darkTheme = {
 
 // Light theme colors (GitHub Primer light)
 const lightTheme = {
-  bgColor: '#ffffff',
+  bgColor: 'transparent',
   textColor: '#57606a',
   gridColor: '#d0d7de',
   borderColor: 'transparent'
