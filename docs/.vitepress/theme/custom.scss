@@ -246,12 +246,13 @@ html:not(.dark) {
 
 /* Optimize chart sizing for medium viewports (768px-1024px) */
 @media (min-width: 768px) and (max-width: 1024px) {
+
   .home-charts-stack,
   .tv-lightweight-charts {
     max-width: 90%;
     height: auto;
   }
-  
+
   /* Ensure indicator charts scale appropriately */
   .vp-doc img {
     max-width: 90%;
