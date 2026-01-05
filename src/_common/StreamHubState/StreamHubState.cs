@@ -11,8 +11,8 @@ namespace Skender.Stock.Indicators;
 /// <typeparam name="TState">Type of state object for inter-candle computation state.</typeparam>
 /// <typeparam name="TOut">Type of outbound indicator data.</typeparam>
 public abstract class StreamHubState<TIn, TState, TOut> : StreamHub<TIn, TOut>
-    where TIn : ISeries
-    where TOut : ISeries
+    where TIn : IReusable
+    where TOut : IReusable
     where TState : IHubState
 {
     /// <summary>
