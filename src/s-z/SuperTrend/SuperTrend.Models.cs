@@ -14,4 +14,7 @@ public record SuperTrendResult
     decimal? SuperTrend,
     decimal? UpperBand,
     decimal? LowerBand
-) : ISeries;
+) : IReusable
+{
+    public double Value => double.NaN;
+}

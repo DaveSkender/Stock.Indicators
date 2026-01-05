@@ -1,7 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 public interface IStreamHubBase<out TOut>
-    where TOut : ISeries
+    where TOut : IReusable
 {
     /// <summary>
     /// Read-only list of the stored cache values.
@@ -21,7 +21,7 @@ public interface IStreamHubBase<out TOut>
 /// </typeparam>
 public interface IStreamHub<in TIn, TOut> : IStreamHubBase<TOut>
     where TIn : ISeries
-    where TOut : ISeries
+    where TOut : IReusable
 {
     /// <summary>
     /// The cache and provider failed and is no longer operational.

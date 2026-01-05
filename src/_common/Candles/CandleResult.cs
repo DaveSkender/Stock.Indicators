@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 /// Represents the result of a candlestick analysis.
 /// </summary>
 [Serializable]
-public record CandleResult : ISeries
+public record CandleResult : IReusable
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="CandleResult"/> record.
@@ -64,4 +64,6 @@ public record CandleResult : ISeries
     /// Gets the candlestick properties.
     /// </summary>
     public CandleProperties Candle { get; init; }
+
+    public double Value => double.NaN;
 }

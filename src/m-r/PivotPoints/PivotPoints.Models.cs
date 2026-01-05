@@ -55,7 +55,7 @@ internal interface IPivotPoint
 /// Represents the result of pivot points calculation.
 /// </summary>
 [Serializable]
-public record PivotPointsResult : IPivotPoint, ISeries
+public record PivotPointsResult : IPivotPoint, IReusable
 {
     /// <summary>
     /// Gets the timestamp of the result.
@@ -82,6 +82,8 @@ public record PivotPointsResult : IPivotPoint, ISeries
     public decimal? R3 { get; init; }
     /// <inheritdoc/>
     public decimal? R4 { get; init; }
+
+    public double Value => double.NaN;
 }
 
 /// <summary>

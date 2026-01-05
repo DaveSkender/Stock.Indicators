@@ -18,4 +18,7 @@ public record IchimokuResult
    decimal? SenkouSpanA, // leading span A
    decimal? SenkouSpanB, // leading span B
    decimal? ChikouSpan   // lagging span
-) : ISeries;
+) : IReusable
+{
+    public double Value => double.NaN;
+}

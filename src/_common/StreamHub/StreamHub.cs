@@ -6,7 +6,7 @@ namespace Skender.Stock.Indicators;
 /// <inheritdoc cref="IStreamHub{TIn, TOut}"/>
 public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
     where TIn : ISeries
-    where TOut : ISeries
+    where TOut : IReusable
 {
     private protected StreamHub(IStreamObservable<TIn> provider)
     {
