@@ -181,7 +181,13 @@ jobs:
               suffix="-dev.${{ env.CommitsSinceVersionSource }}"
             else
               # Manual dispatch with preview=true uses -preview.X suffix
-              suffix="-preview.${{ env.CommitsSinceVersionSource }}"
+              # Use PreReleaseNumber if available (auto-increments), otherwise default to 1
+              if [[ -n "${{ env.PreReleaseNumber }}" ]] && [[ "${{ env.PreReleaseNumber }}" != "0" ]]; then
+                preview_num="${{ env.PreReleaseNumber }}"
+              else
+                preview_num="1"
+              fi
+              suffix="-preview.${preview_num}"
             fi
           else
             # No suffix for production versions (preview=false)
