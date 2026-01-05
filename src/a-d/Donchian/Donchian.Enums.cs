@@ -8,19 +8,19 @@ public enum DonchianField
     /// <summary>
     /// Upper band.
     /// </summary>
-    UpperBand = 0,
+    UpperBand = 1,
 
     /// <summary>
     /// Centerline (middle band).
     /// </summary>
-    Centerline = 1,
+    Centerline = 0,
 
     /// <summary>
     /// Lower band.
     /// </summary>
     LowerBand = 2,
 
-    /// <summary>
+    /// <summaryr>
     /// Width (difference between upper and lower bands).
     /// </summary>
     Width = 3
