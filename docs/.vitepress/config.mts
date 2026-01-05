@@ -7,7 +7,7 @@ const distDirPath = path.resolve(__dirname, 'dist')
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
-  title: "Stock Indicators",
+  title: "stock indicators",
   description: "Transform price quotes into trading insights.",
 
   // Default to dark theme (toggle still available)
@@ -361,7 +361,7 @@ export default defineConfig({
   rewrites: {
     // Legacy routes
     'customization': 'custom-indicators',
-    
+
     // Legacy BasicQuote redirect
     'indicators/BasicQuote': 'indicators/QuotePart',
 

@@ -5,8 +5,8 @@ title: Stock Indicators for .NET
 titleTemplate: Transform price quotes into trading insights
 
 hero:
-  name: Stock Indicators <small>for .NET</small> <Badge type="warning" text="PREVIEW" />
-  tagline: Transform price quotes into trading insights
+  name: stock indicators <small>for .NET</small> <Badge type="warning" text="PREVIEW" />
+  tagline: Transform price quotes into trade indicators and market insights.
   actions:
     - theme: brand
       text: Get Started
@@ -20,7 +20,7 @@ features:
     details: Reference documentation
   - title: Guide and Pro tips
     link: /guide
-    details: Getting stated usage guide
+    details: Getting started usage guide
   - title: Utilities
     link: /utilities
     details: and helper functions
@@ -36,9 +36,9 @@ features:
   - title: Discussions
     link: https://github.com/DaveSkender/Stock.Indicators/discussions
     details: Community conversations
-  - title: Contributing guidelines
+  - title: Contributing guide
     link: /contributing
-    details: Developer guide for this repo
+    details: Repo developer guide
 ---
 
 <p style="display:flex; justify-content:left; gap:1rem; margin-top: 2rem; flex-wrap:wrap;">
