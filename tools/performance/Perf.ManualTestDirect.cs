@@ -18,6 +18,9 @@ public class ManualTestDirect
     private static readonly IReadOnlyList<Quote> Quotes = Data.GetRandom(Periods);
     private static readonly IReadOnlyList<Quote> CompareQuotes = Data.GetRandom(Periods);
 
+    private readonly QuoteHub quoteHub = new();
+    private readonly QuoteHub quoteHubOther = new();
+
     [GlobalSetup]
     public void Setup()
     {
@@ -25,6 +28,19 @@ public class ManualTestDirect
         Console.WriteLine($"  Keyword: {Keyword}");
         Console.WriteLine($"  Periods: {Periods:N0}");
         Console.WriteLine($"  Generated {Quotes.Count:N0} quotes");
+
+        quoteHub.Add(Quotes);
+        quoteHubOther.Add(CompareQuotes);
+    }
+
+    [GlobalCleanup]
+    public void Cleanup()
+    {
+        quoteHub.EndTransmission();
+        quoteHub.Cache.Clear();
+
+        quoteHubOther.EndTransmission();
+        quoteHubOther.Cache.Clear();
     }
 
     /* SERIES BENCHMARKS */
@@ -683,6 +699,259 @@ public class ManualTestDirect
                     Quotes.ToWmaList(14);
                     break;
                 }
+            default:
+                throw new NotSupportedException($"Indicator '{Keyword}' is not supported in ManualTestDirect.");
+        }
+    }
+
+    /* STREAM HUB BENCHMARKS */
+
+    [Benchmark]
+    public void StreamHub()
+    {
+        switch (Keyword)
+        {
+            case "ADL":
+                _ = quoteHub.ToAdlHub().Results;
+                break;
+            case "ADX":
+                _ = quoteHub.ToAdxHub(14).Results;
+                break;
+            case "ALLIGATOR":
+                _ = quoteHub.ToAlligatorHub().Results;
+                break;
+            case "ALMA":
+                _ = quoteHub.ToAlmaHub(9, 0.85, 6).Results;
+                break;
+            case "AROON":
+                _ = quoteHub.ToAroonHub().Results;
+                break;
+            case "ATR":
+                _ = quoteHub.ToAtrHub(14).Results;
+                break;
+            case "ATR-STOP":
+                _ = quoteHub.ToAtrStopHub().Results;
+                break;
+            case "AWESOME":
+                _ = quoteHub.ToAwesomeHub().Results;
+                break;
+            case "BB":
+                _ = quoteHub.ToBollingerBandsHub(20, 2).Results;
+                break;
+            case "BOP":
+                _ = quoteHub.ToBopHub(14).Results;
+                break;
+            case "CCI":
+                _ = quoteHub.ToCciHub(14).Results;
+                break;
+            case "CHAIKIN-OSC":
+                _ = quoteHub.ToChaikinOscHub().Results;
+                break;
+            case "CHANDELIER":
+            case "CHEXIT":
+                _ = quoteHub.ToChandelierHub().Results;
+                break;
+            case "CHOP":
+                _ = quoteHub.ToChopHub(14).Results;
+                break;
+            case "CMF":
+                _ = quoteHub.ToCmfHub(14).Results;
+                break;
+            case "CMO":
+                _ = quoteHub.ToCmoHub(14).Results;
+                break;
+            case "CRSI":
+                _ = quoteHub.ToConnorsRsiHub(3, 2, 100).Results;
+                break;
+            case "DEMA":
+                _ = quoteHub.ToDemaHub(14).Results;
+                break;
+            case "DOJI":
+                _ = quoteHub.ToDojiHub().Results;
+                break;
+            case "DONCHIAN":
+                _ = quoteHub.ToDonchianHub(20).Results;
+                break;
+            case "DPO":
+                _ = quoteHub.ToDpoHub(14).Results;
+                break;
+            case "DYNAMIC":
+                _ = quoteHub.ToDynamicHub(14).Results;
+                break;
+            case "ELDER-RAY":
+                _ = quoteHub.ToElderRayHub(13).Results;
+                break;
+            case "EMA":
+                _ = quoteHub.ToEmaHub(20).Results;
+                break;
+            case "EPMA":
+                _ = quoteHub.ToEpmaHub(14).Results;
+                break;
+            case "FCB":
+                _ = quoteHub.ToFcbHub(2).Results;
+                break;
+            case "FISHER":
+                _ = quoteHub.ToFisherTransformHub(10).Results;
+                break;
+            case "FORCE":
+                _ = quoteHub.ToForceIndexHub(2).Results;
+                break;
+            case "FRACTAL":
+                _ = quoteHub.ToFractalHub().Results;
+                break;
+            case "GATOR":
+                _ = quoteHub.ToGatorHub().Results;
+                break;
+            case "HEIKINASHI":
+                _ = quoteHub.ToHeikinAshiHub().Results;
+                break;
+            case "HMA":
+                _ = quoteHub.ToHmaHub(14).Results;
+                break;
+            case "HTL":
+                _ = quoteHub.ToHtTrendlineHub().Results;
+                break;
+            case "HURST":
+                _ = quoteHub.ToHurstHub(100).Results;
+                break;
+            case "ICHIMOKU":
+                _ = quoteHub.ToIchimokuHub().Results;
+                break;
+            case "KAMA":
+                _ = quoteHub.ToKamaHub(10, 2, 30).Results;
+                break;
+            case "KELTNER":
+                _ = quoteHub.ToKeltnerHub(20, 2, 10).Results;
+                break;
+            case "KVO":
+                _ = quoteHub.ToKvoHub(34, 55, 13).Results;
+                break;
+            case "MA-ENV":
+                _ = quoteHub.ToMaEnvelopesHub(20, 2.5, MaType.SMA).Results;
+                break;
+            case "MACD":
+                _ = quoteHub.ToMacdHub(12, 26, 9).Results;
+                break;
+            case "MAMA":
+                _ = quoteHub.ToMamaHub(0.5, 0.05).Results;
+                break;
+            case "MARUBOZU":
+                _ = quoteHub.ToMarubozuHub(95).Results;
+                break;
+            case "MFI":
+                _ = quoteHub.ToMfiHub(14).Results;
+                break;
+            case "OBV":
+                _ = quoteHub.ToObvHub().Results;
+                break;
+            case "PIVOT-POINTS":
+                _ = quoteHub.ToPivotPointsHub(PeriodSize.Month, PivotPointType.Standard).Results;
+                break;
+            case "PIVOTS":
+                _ = quoteHub.ToPivotsHub(2, 2, 20).Results;
+                break;
+            case "PMO":
+                _ = quoteHub.ToPmoHub(35, 20, 10).Results;
+                break;
+            case "PSAR":
+                _ = quoteHub.ToParabolicSarHub().Results;
+                break;
+            case "PVO":
+                _ = quoteHub.ToPvoHub().Results;
+                break;
+            case "QUOTEPART":
+                _ = quoteHub.ToQuotePartHub(CandlePart.OHL3).Results;
+                break;
+            case "RENKO":
+                _ = quoteHub.ToRenkoHub(2.5m).Results;
+                break;
+            case "RENKO-ATR":
+                _ = quoteHub.ToRenkoHub(14).Results;
+                break;
+            case "ROC":
+                _ = quoteHub.ToRocHub(20).Results;
+                break;
+            case "ROC-WB":
+                _ = quoteHub.ToRocWbHub(20, 5, 5).Results;
+                break;
+            case "ROLLING-PIVOTS":
+                _ = quoteHub.ToRollingPivotsHub(20, 0, PivotPointType.Standard).Results;
+                break;
+            case "RSI":
+                _ = quoteHub.ToRsiHub(14).Results;
+                break;
+            case "SLOPE":
+                _ = quoteHub.ToSlopeHub(14).Results;
+                break;
+            case "SMA":
+                _ = quoteHub.ToSmaHub(14).Results;
+                break;
+            case "SMA-ANALYSIS":
+                _ = quoteHub.ToSmaAnalysisHub(14).Results;
+                break;
+            case "SMI":
+                _ = quoteHub.ToSmiHub(13, 25, 2, 3).Results;
+                break;
+            case "SMMA":
+                _ = quoteHub.ToSmmaHub(14).Results;
+                break;
+            case "STARC":
+                _ = quoteHub.ToStarcBandsHub(5, 2, 10).Results;
+                break;
+            case "STC":
+                _ = quoteHub.ToStcHub(10, 23, 50).Results;
+                break;
+            case "STDEV":
+                _ = quoteHub.ToStdDevHub(14).Results;
+                break;
+            case "STOCH":
+                _ = quoteHub.ToStochHub(14, 3, 3).Results;
+                break;
+            case "STOCH-RSI":
+                _ = quoteHub.ToStochRsiHub(14, 14, 3, 1).Results;
+                break;
+            case "SUPERTREND":
+                _ = quoteHub.ToSuperTrendHub(10, 3).Results;
+                break;
+            case "T3":
+                _ = quoteHub.ToT3Hub(5, 0.7).Results;
+                break;
+            case "TEMA":
+                _ = quoteHub.ToTemaHub(14).Results;
+                break;
+            case "TR":
+                _ = quoteHub.ToTrHub().Results;
+                break;
+            case "TRIX":
+                _ = quoteHub.ToTrixHub(14).Results;
+                break;
+            case "TSI":
+                _ = quoteHub.ToTsiHub(25, 13, 7).Results;
+                break;
+            case "ULCER":
+                _ = quoteHub.ToUlcerIndexHub(14).Results;
+                break;
+            case "UO":
+                _ = quoteHub.ToUltimateHub(7, 14, 28).Results;
+                break;
+            case "VOL-STOP":
+                _ = quoteHub.ToVolatilityStopHub(7, 3).Results;
+                break;
+            case "VORTEX":
+                _ = quoteHub.ToVortexHub(14).Results;
+                break;
+            case "VWAP":
+                _ = quoteHub.ToVwapHub().Results;
+                break;
+            case "VWMA":
+                _ = quoteHub.ToVwmaHub(14).Results;
+                break;
+            case "WILLR":
+                _ = quoteHub.ToWilliamsRHub().Results;
+                break;
+            case "WMA":
+                _ = quoteHub.ToWmaHub(14).Results;
+                break;
             default:
                 throw new NotSupportedException($"Indicator '{Keyword}' is not supported in ManualTestDirect.");
         }
