@@ -74,6 +74,7 @@ public class ManualTestDirect
                 Quotes.ToChaikinOsc();
                 break;
             case "CHANDELIER":
+            case "CHEXIT":
                 Quotes.ToChandelier();
                 break;
             case "CHOP":
@@ -380,6 +381,7 @@ public class ManualTestDirect
                 break;
             }
             case "CHANDELIER":
+            case "CHEXIT":
             {
                 ChandelierList list = new();
                 foreach (Quote q in Quotes) list.Add(q);
@@ -854,6 +856,7 @@ public class ManualTestDirect
                 break;
             }
             case "CHANDELIER":
+            case "CHEXIT":
             {
                 ChandelierHub hub = new();
                 foreach (Quote q in Quotes) hub.Add(q);

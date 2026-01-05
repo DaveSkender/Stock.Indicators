@@ -157,7 +157,6 @@ jobs:
           path: tools/performance/BenchmarkDotNet.Artifacts/results
 
       - name: Publish summary
-        working-directory: tools/performance/BenchmarkDotNet.Artifacts/results
         if: always()
         env:
           INDICATOR_KEYWORD: ${{ inputs.indicator }}
@@ -169,8 +168,9 @@ jobs:
           echo "**Periods:** $INDICATOR_PERIODS" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
 
-          if [ -f Performance.ManualTestDirect-report-github.md ]; then
-            cat Performance.ManualTestDirect-report-github.md >> $GITHUB_STEP_SUMMARY
+          RESULTS_FILE="tools/performance/BenchmarkDotNet.Artifacts/results/Performance.ManualTestDirect-report-github.md"
+          if [ -f "$RESULTS_FILE" ]; then
+            cat "$RESULTS_FILE" >> $GITHUB_STEP_SUMMARY
           else
             echo "⚠️ No results generated. Check if the indicator keyword is supported in ManualTestDirect.cs." >> $GITHUB_STEP_SUMMARY
           fi
