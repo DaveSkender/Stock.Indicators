@@ -2,5 +2,10 @@ namespace Skender.Stock.Indicators;
 
 public static class UseExtensions
 {
-  // move QuotePart o
+    /// <inheritdoc cref="ToQuotePart(IReadOnlyList{IQuote}, CandlePart)"/>
+    /// <remarks>This is an alias of <see cref="ToQuotePartList(IReadOnlyList{IQuote}, CandlePart)"/></remarks>
+    public static IReadOnlyList<QuotePart> Use(
+        this IReadOnlyList<IQuote> quotes,
+        CandlePart candlePart)
+        => quotes.ToQuotePart(candlePart);
 }
