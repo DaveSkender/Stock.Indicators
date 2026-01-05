@@ -30,14 +30,4 @@ public static partial class QuoteParts
 
         return result;
     }
-
-    /// <inheritdoc cref="ToQuotePart(IReadOnlyList{IQuote}, CandlePart)"/>
-    /// <remarks>This is an alias of <see cref="ToQuotePartList(IReadOnlyList{IQuote}, CandlePart)"/></remarks>
-    public static IReadOnlyList<QuotePart> Use(
-        this IReadOnlyList<IQuote> quotes,
-        CandlePart candlePart)
-        => quotes.ToQuotePart(candlePart);
-
-    // TODO: should we deprecate Use in favor of "ToQuotePart"?
-    // Probably not, this is a fairly simple alias.
 }
