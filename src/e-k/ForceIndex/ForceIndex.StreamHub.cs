@@ -7,6 +7,7 @@ public class ForceIndexHub
     : ChainHub<IReusable, ForceIndexResult>, IForceIndex
 {
     private readonly double _k;
+    private double _sumRawFi;
 
     internal ForceIndexHub(
         IQuoteProvider<IQuote> provider,
@@ -49,13 +50,22 @@ public class ForceIndexHub
             if (i >= LookbackPeriods)
             {
                 // Check if previous result has a valid ForceIndex for incremental update
-                fi = Cache[i - 1].ForceIndex is not null
-
+                if (Cache[i - 1].ForceIndex is not null)
+                {
                     // Incremental O(1) EMA update
-                    ? Ema.Increment(_k, Cache[i - 1].Value, rawFi)
-
-                    // First EMA value - calculate as SMA of raw Force Index values
-                    : CalcInitialSma(i);
+                    fi = Ema.Increment(_k, Cache[i - 1].Value, rawFi);
+                }
+                else
+                {
+                    // First EMA value - use accumulated sum for O(1) SMA calculation
+                    _sumRawFi += rawFi;
+                    fi = _sumRawFi / LookbackPeriods;
+                }
+            }
+            else
+            {
+                // Warmup period - accumulate raw Force Index values
+                _sumRawFi += rawFi;
             }
         }
 
@@ -66,24 +76,28 @@ public class ForceIndexHub
         return (result, i);
     }
 
-    /// <summary>
-    /// Calculates the initial SMA of raw Force Index values for EMA seeding.
-    /// </summary>
-    /// <param name="endIndex">The ending index for SMA calculation.</param>
-    /// <returns>The SMA value.</returns>
-    private double CalcInitialSma(int endIndex)
+    /// <inheritdoc/>
+    protected override void RollbackState(DateTime timestamp)
     {
-        double sum = 0;
-        int startIndex = endIndex - LookbackPeriods + 1;
+        // Reset sum - will be recalculated during rebuild
+        _sumRawFi = 0;
 
-        for (int j = startIndex; j <= endIndex; j++)
+        // Rebuild the rolling sum from cache
+        int lastIndex = Cache.Count - 1;
+        if (lastIndex < 0)
         {
-            IQuote curr = (IQuote)ProviderCache[j];
-            IQuote prev = (IQuote)ProviderCache[j - 1];
-            sum += (double)curr.Volume * ((double)curr.Close - (double)prev.Close);
+            return;
         }
 
-        return sum / LookbackPeriods;
+        // Determine how many values to sum based on where we are
+        int endWarmup = Math.Min(LookbackPeriods - 1, lastIndex);
+
+        for (int i = 1; i <= endWarmup; i++)
+        {
+            IQuote curr = (IQuote)ProviderCache[i];
+            IQuote prev = (IQuote)ProviderCache[i - 1];
+            _sumRawFi += (double)curr.Volume * ((double)curr.Close - (double)prev.Close);
+        }
     }
 }
 
