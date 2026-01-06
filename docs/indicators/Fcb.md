@@ -43,6 +43,10 @@ IReadOnlyList<FcbResult>
 - It does not return a single incremental indicator value.
 - The periods before the first fractal are `null` since they cannot be calculated.
 
+::: warning 🖌️ Repaint warning
+Fractal Chaos Bands are based on [Williams Fractal](/indicators/Fractal), which uses future bars.  This indicator will never identify bands in the last `S` periods of `quotes` since fractals are retroactively identified.
+:::
+
 ### `FcbResult`
 
 | property | type | description |

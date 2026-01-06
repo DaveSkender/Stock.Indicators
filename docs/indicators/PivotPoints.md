@@ -64,8 +64,10 @@ IReadOnlyList<PivotPointsResult>
 ::: warning
 The second window may be inaccurate if the first window contains incomplete data.  For example, this can occur if you specify a `Month` window size and only provide 45 calendar days (1.5 months) of `quotes`.
 :::
->
-> &#128073; **Repaint warning**: the last window will be repainted if it does not contain a full window of data.
+
+::: warning 🖌️ Repaint warning
+The last window will be repainted if it does not contain a full window of data.
+:::
 
 ### `PivotPointsResult`
 

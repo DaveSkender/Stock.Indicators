@@ -57,6 +57,10 @@ IReadOnlyList<RollingPivotsResult>
 - It does not return a single incremental indicator value.
 - The first `W+F-1` periods will have `null` values since there's not enough data to calculate.
 
+::: warning 🖌️ Repaint warning
+Historical results are a function of the rolling window position and will shift as new quotes are added.  Each new period causes the window to move forward, recalculating pivot points based on the new window data.
+:::
+
 ### `RollingPivotsResult`
 
 | property | type | description |

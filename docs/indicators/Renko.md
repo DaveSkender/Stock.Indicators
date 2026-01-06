@@ -150,7 +150,9 @@ IReadOnlyList<RenkoResult>
 - It does not return a single incremental indicator value.
 - See [RenkoResult](#renkoresult) above for detailed response structure.
 
-> &#128073; **Repaint warning**: When using the `ToRenkoAtr()` variant, the last [Average True Range (ATR)](/indicators/Atr) value is used to set `brickSize`.  Since the ATR changes over time, historical bricks will be repainted as new periods are added or updated in `quotes`.
+::: warning 🖌️ Repaint warning
+When using the `ToRenkoAtr()` variant, the last [Average True Range (ATR)](/indicators/Atr) value is used to set `brickSize`.  Since the ATR changes over time, historical bricks will be repainted as new periods are added or updated in `quotes`.
+:::
 
 ### Streaming limitations for ATR
 
