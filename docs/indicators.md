@@ -7,31 +7,49 @@ hero:
   tagline: Price trends, channels, oscillator, and more.
 features:
   - title: Moving averages
-    link: /indicators#moving-averages
+    icon:
+      src: /assets/thumbs/moving-average.png
+    link: /indicators/Ema
     details: Price smoothing
   - title: Oscillators
-    link: /indicators#oscillators
+    icon:
+      src: /assets/thumbs/oscillator.png
+    link: /indicators/StochRsi
     details: Momentum and strength
   - title: Price channels
-    link: /indicators#price-channels
+    icon:
+      src: /assets/thumbs/price-channel.png
+    link: /indicators/BollingerBands
     details: Price range boundaries
   - title: Price trends
+    icon:
+      src: /assets/thumbs/price-trend.png
     link: /indicators#price-trends
     details: Trend identification
   - title: Stop and reverse
-    link: /indicators#stop-and-reverse
+    icon:
+      src: /assets/thumbs/stop-and-reverse.png
+    link: /indicators/Adx
     details: Pivots and redirection
   - title: Volume based
-    link: /indicators#volume-based
+    icon:
+      src: /assets/thumbs/volume-based.png
+    link: /indicators/ConnorsRsi
     details: Volume weighted measures
   - title: Price characteristics
-    link: /indicators#price-characteristics
+    icon:
+      src: /assets/thumbs/price-characteristic.png
+    link: /indicators/Cmf
     details: Traits and numerical analysis
   - title: Candlestick patterns
-    link: /indicators/#candlestick-patterns
+    icon:
+      src: /assets/thumbs/candlestick-pattern.png
+    link: /indicators/Slope
     details: Price shapes and forms
   - title: Price transforms
-    link: /indicators#price-transforms
+    icon:
+      src: /assets/thumbs/price-transform.png
+    link: /indicators/Marubozu
     details: Conversions of form
 ---
 
@@ -40,116 +58,3 @@ features:
 The Stock Indicators for .NET library contains financial market technical analysis methods to view price patterns or to develop your own trading strategies in Microsoft .NET programming languages and developer platforms.
 
 Categories include price trends, price channels, oscillators, stop and reverse, candlestick patterns, volume and momentum, moving averages, price transforms, price characteristics, and many classic numerical methods.
-
-### Moving averages
-
-- [Arnaud Legoux Moving Average](/indicators/Alma)
-- [Double Exponential Moving Average](/indicators/Dema)
-- [McGinley Dynamic](/indicators/Dynamic)
-- [Exponential Moving Average](/indicators/Ema)
-- [Endpoint Moving Average](/indicators/Epma) (LSMA)
-- [Hull Moving Average](/indicators/Hma)
-- [Hilbert Transform Instantaneous Trendline](/indicators/HtTrendline)
-- [Kaufman's Adaptive Moving Average](/indicators/Kama)
-- [MESA Adaptive Moving Average](/indicators/Mama)
-- [Simple Moving Average](/indicators/Sma)
-- [Smoothed Moving Average](/indicators/Smma) (MMA, RMA)
-- [T3 Moving Average](/indicators/T3)
-- [Triple Exponential Moving Average](/indicators/Tema)
-- [Volume Weighted Moving Average](/indicators/Vwma)
-- [Weighted Moving Average](/indicators/Wma)
-
-### Oscillators
-
-- [Awesome Oscillator](/indicators/Awesome)
-- [Balance of Power](/indicators/Bop)
-- [Commodity Channel Index](/indicators/Cci)
-- [Choppiness Index](/indicators/Chop)
-- [Chande Momentum Oscillator](/indicators/Cmo)
-- [ConnorsRSI](/indicators/ConnorsRsi)
-- [Correlation Coefficient](/indicators/Correlation) (R-Squared)
-- [Detrended Price Oscillator](/indicators/Dpo)
-- [Gator Oscillator](/indicators/Gator)
-- [Price Momentum Oscillator](/indicators/Pmo)
-- [Rate of Change](/indicators/Roc) (Momentum)
-- [Relative Strength Index](/indicators/Rsi)
-- [Stochastic Momentum Index](/indicators/Smi)
-- [Schaff Trend Cycle](/indicators/Stc)
-- [Simple Moving Average (Sma)](/indicators/Sma)
-- [Stochastic Oscillator](/indicators/Stoch) (KDJ Index)
-- [Stochastic RSI](/indicators/StochRsi)
-- [TRIX](/indicators/Trix)
-- [True Strength Index](/indicators/Tsi)
-- [Ultimate Oscillator](/indicators/Ultimate)
-- [Williams Percent Range](/indicators/WilliamsR)
-
-### Price channels
-
-- [Bollinger Bands](/indicators/BollingerBands)
-- [Donchian Channels](/indicators/Donchian) (Price Channels)
-- [Fractal Chaos Bands](/indicators/Fcb)
-- [Keltner Channels](/indicators/Keltner)
-- [Moving Average Envelopes](/indicators/MaEnvelopes)
-- [STARC Bands](/indicators/StarcBands)
-- [Standard Deviation Channels](/indicators/StdDevChannels)
-- [Volume Weighted Average Price](/indicators/Vwap)
-
-### Price trends
-
-- [Average Directional Index](/indicators/Adx) (DMI)
-- [Williams Alligator](/indicators/Alligator)
-- [Aroon Indicator](/indicators/Aroon)
-- [ATR Trailing Stop](/indicators/AtrStop)
-- [Chandelier Exit](/indicators/Chandelier)
-- [Elder-ray Index](/indicators/ElderRay) (Bull and Bear Power)
-- [Hurst Exponent](/indicators/Hurst) (Rescaled Range Analysis)
-- [Ichimoku Cloud](/indicators/Ichimoku)
-- [Moving Average Convergence Divergence](/indicators/Macd)
-- [Pivot Points](/indicators/PivotPoints)
-- [Rate of Change with Bands](/indicators/RocWb)
-- [Rolling Pivots](/indicators/RollingPivots)
-- [SuperTrend](/indicators/SuperTrend)
-- [Vortex Indicator](/indicators/Vortex)
-
-### Stop and reverse
-
-- [Parabolic SAR](/indicators/ParabolicSar)
-- [Volatility Stop](/indicators/VolatilityStop)
-
-### Volume based
-
-- [Accumulation Distribution Line](/indicators/Adl)
-- [Chaikin Oscillator](/indicators/ChaikinOsc)
-- [Chaikin Money Flow](/indicators/Cmf)
-- [Force Index](/indicators/ForceIndex)
-- [Klinger Volume Oscillator](/indicators/Kvo)
-- [Money Flow Index](/indicators/Mfi)
-- [On-Balance Volume](/indicators/Obv)
-- [Price Volume Oscillator](/indicators/Pvo)
-
-### Price characteristics
-
-- [Average True Range](/indicators/Atr) (NATR, TR)
-- [Beta](/indicators/Beta)
-- [Price Relative Strength](/indicators/Prs)
-- [Linear Regression Slope](/indicators/Slope) (best-fit line)
-- [Standard Deviation](/indicators/StdDev) (HV, Z-Score)
-- [Ulcer Index](/indicators/UlcerIndex)
-
-### Candlestick patterns
-
-- [Doji](/indicators/Doji)
-- [Marubozu](/indicators/Marubozu)
-
-#### Other price patterns
-
-- [Williams Fractal](/indicators/Fractal)
-- [Pivots](/indicators/Pivots)
-
-### Price transforms
-
-- [Ehlers Fisher Transform](/indicators/FisherTransform)
-- [Heikin Ashi](/indicators/HeikinAshi)
-- [Quote Part](/indicators/QuotePart) (HL2, HLC3, OC2, OHL3, OHLC4)
-- [Renko Charts](/indicators/Renko)
-- [ZigZag](/indicators/ZigZag)
