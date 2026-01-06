@@ -99,7 +99,7 @@ Subscribe to a `QuoteHub` for advanced streaming scenarios:
 QuoteHub quoteHub = new();
 DpoHub observer = quoteHub.ToDpoHub(lookbackPeriods);
 
-foreach (IQuote quote in quotes)  // simulating stream  // simulating stream
+foreach (IQuote quote in quotes)  // simulating stream
 {
   quoteHub.Add(quote);
 }

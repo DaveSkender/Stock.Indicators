@@ -65,7 +65,7 @@ This indicator may be generated from any chain-enabled indicator or method.
 // example
 var results = quotes
     .Use(CandlePart.HL2)
-    .ToAlma(..);
+    .ToUlcerIndex(..);
 ```
 
 Results can be further processed on `UI` with additional chain-enabled indicators.
@@ -73,7 +73,7 @@ Results can be further processed on `UI` with additional chain-enabled indicator
 ```csharp
 // example
 var results = quotes
-    .ToAlma(..)
+    .ToUlcerIndex(..)
     .ToRsi(..);
 ```
 

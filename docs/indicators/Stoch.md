@@ -68,12 +68,9 @@ The first `N+100` periods will have decreasing magnitude, convergence-related pr
 | property | type | description |
 | -------- | ---- | ----------- |
 | `Timestamp` | DateTime | Date from evaluated `TQuote` |
-
-**`Oscillator` or `K`** _`double`_ - %K Oscillator
-
-**`Signal` or `D`** _`double`_ - %D Simple moving average of Oscillator
-
-**`PercentJ` or `J`** _`double`_ - %J is the weighted divergence of %K and %D: `%J = kFactor × %K - dFactor × %D`
+| `Oscillator` or `K` | double | %K Oscillator |
+| `Signal` or `D` | double | %D Simple moving average of Oscillator |
+| `PercentJ` or `J` | double | %J is the weighted divergence of %K and %D: `%J = kFactor × %K - dFactor × %D` |
 
 Note: aliases of `K`, `D`, and `J` are also provided.  They can be used interchangeably with the standard outputs.
 

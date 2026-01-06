@@ -44,9 +44,10 @@ IReadOnlyList<QuotePart>
 
 ### `QuotePart` type
 
-**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
-
-**`Value`** _`double`_ - Price of `CandlePart` option
+| property | type | description |
+| -------- | ---- | ----------- |
+| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `Value` | double | Price of `CandlePart` option |
 
 ### Utilities
 

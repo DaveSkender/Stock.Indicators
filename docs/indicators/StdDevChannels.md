@@ -42,7 +42,9 @@ IReadOnlyList<StdDevChannelsResult>
 - It does not return a single incremental indicator value.
 - Up to `N-1` periods will have `null` values since there's not enough data to calculate.
 
-> &#128073; **Repaint warning**: Historical results are a function of the current period window position and will fluctuate over time.  Recommended for visualization; not recommended for backtesting.
+::: warning 🖌️ Repaint warning
+Historical results are a function of the current period window position and will fluctuate over time.  Recommended for visualization; not recommended for backtesting.
+:::
 
 ### `StdDevChannelsResult`
 
