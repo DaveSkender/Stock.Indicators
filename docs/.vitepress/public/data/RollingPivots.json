@@ -4027,6 +4027,7 @@
     {
       "name": "PP",
       "type": "line",
+      "color": "#1E88E5",
       "data": [
         {
           "timestamp": "2017-01-03T00:00:00",
@@ -6036,12 +6037,12 @@
           "timestamp": "2018-12-31T00:00:00",
           "value": 248.72
         }
-      ],
-      "color": "#1E88E5"
+      ]
     },
     {
       "name": "S1",
       "type": "line",
+      "color": "#2E7D32",
       "data": [
         {
           "timestamp": "2017-01-03T00:00:00",
@@ -8051,12 +8052,12 @@
           "timestamp": "2018-12-31T00:00:00",
           "value": 223.85
         }
-      ],
-      "color": "#2E7D32"
+      ]
     },
     {
       "name": "R1",
       "type": "line",
+      "color": "#DD2C00",
       "data": [
         {
           "timestamp": "2017-01-03T00:00:00",
@@ -10066,8 +10067,7 @@
           "timestamp": "2018-12-31T00:00:00",
           "value": 268.02
         }
-      ],
-      "color": "#DD2C00"
+      ]
     }
   ]
 }

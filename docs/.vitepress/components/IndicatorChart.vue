@@ -30,7 +30,7 @@ interface ThresholdLine {
   value: number
   color: string
   style?: 'solid' | 'dash'
-  fill?: 'above' | 'below'  // Fill area above or below the threshold
+  fill?: 'above' | 'below'
   fillColor?: string
 }
 
@@ -526,6 +526,7 @@ async function initChart() {
 
     // Add threshold zone fills using baseline series with indicator data
     // This creates colored fills when indicator exceeds threshold values
+    // Supports bidirectional fills (fillAbove/fillBelow) for richer visualizations
     if (data.series.length > 0) {
       const indicatorData = data.series[0].data
         .filter(d => d.value !== null && d.value !== undefined && !isNaN(d.value))
@@ -539,8 +540,6 @@ async function initChart() {
         if (threshold.fill && threshold.fillColor) {
           const baselineSeries = oscillatorChart.addSeries(BaselineSeries, {
             baseValue: { type: 'price', price: threshold.value },
-            // For 'above' fill: show fill above threshold (top fill), hide below
-            // For 'below' fill: show fill below threshold (bottom fill), hide above
             topLineColor: 'transparent',
             topFillColor1: threshold.fill === 'above' ? threshold.fillColor : 'transparent',
             topFillColor2: threshold.fill === 'above' ? threshold.fillColor : 'transparent',
