@@ -19,19 +19,15 @@ description: Information about Stock Indicators for .NET, sources, and attributi
 
 ### Python version
 
-A Python port of this library is also available at [python.stockindicators.dev](https://python.stockindicators.dev).
+An alternate Python variant of this library is available at [python.stockindicators.dev](https://python.stockindicators.dev).
 
-## Chart generation
+## Chart visualizations generation
 
 The indicator charts displayed throughout this documentation are generated using the following tools:
 
-- **Chart library:** [Apache ECharts](https://echarts.apache.org/) - A powerful, interactive charting and visualization library
+- **Chart library:** [`lightweight-charts`](https://tradingview.github.io/lightweight-charts)
 - **Chart data:** Generated from actual indicator calculations using this library
-- **License:** Apache ECharts is licensed under the [Apache License 2.0](https://github.com/apache/echarts/blob/master/LICENSE)
-
-### Attribution
-
-We extend our gratitude to the Apache ECharts team for creating such an excellent open-source charting library that helps visualize technical indicators effectively.
+- **License:** `lightweight-charts` is licensed under the Apache License 2.0
 
 ## Community and support
 
