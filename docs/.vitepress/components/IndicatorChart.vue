@@ -380,6 +380,7 @@ function setupIndicatorSeries(chart: IChartApi, seriesData: SeriesStyle[], isOsc
         break
       case 'histogram':
         series = chart.addSeries(HistogramSeries, {
+          color: color,
           priceLineVisible: false,
           lastValueVisible: false
         })
@@ -679,7 +680,7 @@ watch(isMobileViewport, () => {
 // See: docs/.vitepress/public/assets/css/style.scss
 $large-breakpoint: 1024px;
 $medium-breakpoint: 768px;
-$small-breakpoint: 480px;   // Mobile breakpoint
+$small-breakpoint: 480px; // Mobile breakpoint
 $landscape-height-sm: 400px;
 $landscape-height-md: 600px;
 
@@ -690,6 +691,7 @@ $landscape-height-md: 600px;
     display: flex;
     flex-direction: column;
     gap: 0;
+    text-align: center;
   }
 
   .chart-container {
@@ -723,11 +725,11 @@ $landscape-height-md: 600px;
   }
 
   .oscillator-chart {
-    aspect-ratio: 10;
+    aspect-ratio: 7;
 
     /* Medium breakpoint (768px-1024px) */
     @media (max-width: $large-breakpoint) {
-      aspect-ratio: 8;
+      aspect-ratio: 7;
     }
 
     /* Landscape optimizations */
@@ -789,6 +791,7 @@ $landscape-height-md: 600px;
 
 /* Chart library overrides (unset VitePress table styles) */
 :deep(.tv-lightweight-charts) {
+
   table,
   tr,
   td,
