@@ -180,6 +180,14 @@ html:not(.dark) {
   }
 }
 
+/* Light theme specific overrides */
+html:not(.dark) .vp-doc {
+  code,
+  pre code {
+    color: var(--vp-c-text-1);
+  }
+}
+
 /* Dark theme specific overrides */
 .dark .vp-doc {
   table a {
@@ -192,7 +200,7 @@ html:not(.dark) {
 
   code,
   pre code {
-    color: #cdd9e5;
+    color: var(--vp-c-text-1);
   }
 }
 
