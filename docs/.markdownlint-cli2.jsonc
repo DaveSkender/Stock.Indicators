@@ -29,13 +29,14 @@
         "ul",
         "li",
         "nav",
+        "script",
         "Badge",
         "ClientOnly",
         "IndicatorChart",
-        "Contributors",
+        "VPTeamMembers",
+        "TQuote",
         "clientonly",
-        "indicatorchart",
-        "contributors"
+        "indicatorchart"
       ]
     },
     "MD041": false,  // accomodate Jekyll markdown
