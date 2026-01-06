@@ -76,7 +76,7 @@ See more [usage examples](/guide#example-usage).
 
 ## Powerful chaining for advanced analysis
 
-Chain indicators together for sophisticated technical analysis: create indicators of indicators, calculate [slope](/indicators/Slope) (direction) of any result, or apply [moving averages](/indicators#moving-averages) to indicator outputs.
+Chain indicators together for sophisticated technical analysis: create indicators of indicators, calculate [slope](/indicators/Slope) (direction) of any result, or apply [moving averages](/indicators/Sma) to indicator outputs.
 
 ```csharp
 // example: calculate RSI of On-Balance Volume

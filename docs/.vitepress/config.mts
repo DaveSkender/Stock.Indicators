@@ -43,7 +43,7 @@ export default defineConfig({
       {
         text: 'v3',
         items: [
-          { text: 'v2', link: 'https://dotnet.stockindicators.dev/v2/' }
+          { text: 'v2', link: 'https://dotnet.stockindicators.dev' }
         ]
       }
     ],
@@ -207,7 +207,7 @@ export default defineConfig({
             { text: 'Keltner Channels', link: '/indicators/Keltner' },
             { text: 'Moving Average Envelopes', link: '/indicators/MaEnvelopes' },
             { text: 'Pivots Points', link: '/indicators/PivotPoints' },
-            { text: 'Price Channels', link: '/indicators/PriceChannels' },
+            { text: 'Price Channels', link: '/indicators/Donchian' },
             { text: 'Rolling Pivot Points', link: '/indicators/RollingPivots' },
             { text: 'STARC Bands', link: '/indicators/StarcBands' },
             { text: 'Standard Deviation Channels', link: '/indicators/StdDevChannels' },
@@ -347,9 +347,9 @@ export default defineConfig({
             { text: 'Beta', link: '/indicators/Beta' },
             { text: 'Correlation Coefficient', link: '/indicators/Correlation' },
             { text: 'Linear regression (best-fit line)', link: '/indicators/Slope' },
-            { text: 'Mean absolute deviation', link: '/indicators/SmaAnalysis' },
-            { text: 'Mean absolute percentage error', link: '/indicators/SmaAnalysis' },
-            { text: 'Mean squared error (R²)', link: '/indicators/SmaAnalysis' },
+            { text: 'Mean absolute deviation', link: '/indicators/Sma#analysis' },
+            { text: 'Mean absolute percentage error', link: '/indicators/Sma#analysis' },
+            { text: 'Mean squared error', link: '/indicators/Sma#analysis' },
             { text: 'R squared (R²) (coefficient of determination)', link: '/indicators/Correlation' },
             { text: 'Slope and linear regression', link: '/indicators/Slope' },
             { text: 'Standard Deviation', link: '/indicators/StdDev' },

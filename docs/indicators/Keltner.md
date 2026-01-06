@@ -68,7 +68,7 @@ See [Utilities and helpers](/utilities#utilities-for-indicator-results) for more
 
 ## Chaining
 
-Results can be further processed on `Centerline` with other [chained indicators](/guide#generating-indicator-of-indicators).
+Results can be further processed on `Centerline` with other [chained indicators](/guide#chaining-indicator-of-indicators).
 
 This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.
 
