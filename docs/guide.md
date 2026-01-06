@@ -242,7 +242,7 @@ IReadOnlyList<MyCustomQuote> myQuotes = GetQuotesFromFeed("MSFT");
 IReadOnlyList<SmaResult> results = myQuotes.ToSma(20);
 ```
 
-::: important Custom quotes must have value based equality
+::: warning Custom quotes must have value based equality
 When implementing your custom quote type, it must be either `record` class or implement `IEquality` to be compatible with streaming hubs
 :::
 
