@@ -1,9 +1,5 @@
-import fs from 'fs'
 import path from 'path'
 import { defineConfig } from 'vitepress'
-
-const publicDirPath = path.resolve(__dirname, 'public')
-const distDirPath = path.resolve(__dirname, 'dist')
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
@@ -24,7 +20,7 @@ export default defineConfig({
     ['link', { rel: 'icon', type: 'image/png', sizes: '32x32', href: '/assets/icons/favicon-32x32.png' }],
     ['link', { rel: 'icon', type: 'image/png', sizes: '16x16', href: '/assets/icons/favicon-16x16.png' }],
     ['link', { rel: 'manifest', href: '/assets/manifest.json' }],
-    ['meta', { name: 'theme-color', content: '#159957' }],
+    ['meta', { name: 'theme-color', content: '#22272e' }],
     ['meta', { property: 'og:type', content: 'website' }],
     ['meta', { property: 'og:title', content: 'Stock Indicators for .NET' }],
     ['meta', { property: 'og:description', content: 'Transform price quotes into trading insights.' }],
@@ -44,6 +40,12 @@ export default defineConfig({
       { text: 'Home', link: '/' },
       { text: 'Indicators', link: '/indicators' },
       { text: 'Guide', link: '/guide' },
+      {
+        text: 'v3',
+        items: [
+          { text: 'v2', link: 'https://dotnet.stockindicators.dev/v2/' }
+        ]
+      }
     ],
 
     sidebar: {
@@ -346,7 +348,6 @@ export default defineConfig({
 
   srcDir: '.',
   outDir: '.vitepress/dist',
-  publicDir: path.resolve(__dirname, 'public'),
 
   cleanUrls: true,
 
@@ -403,34 +404,7 @@ export default defineConfig({
   },
 
   vite: {
-    plugins: [
-      {
-        // Ensure public assets (favicons, manifest, redirects) are copied to dist
-        name: 'copy-public-assets',
-        closeBundle() {
-          if (fs.existsSync(publicDirPath)) {
-            fs.cpSync(publicDirPath, distDirPath, { recursive: true, dereference: true })
-          }
-        }
-      },
-      {
-        // Serve public assets during development (JSON data files, etc.)
-        name: 'serve-public-assets',
-        configureServer(server) {
-          server.middlewares.use((req, res, next) => {
-            if (req.url && req.url.startsWith('/data/') && req.url.endsWith('.json')) {
-              const filePath = path.join(publicDirPath, req.url)
-              if (fs.existsSync(filePath)) {
-                res.setHeader('Content-Type', 'application/json')
-                res.end(fs.readFileSync(filePath, 'utf-8'))
-                return
-              }
-            }
-            next()
-          })
-        }
-      }
-    ],
+    publicDir: path.resolve(__dirname, 'public'),
     server: {
       fs: {
         allow: ['..']
@@ -440,7 +414,6 @@ export default defineConfig({
       noExternal: ['**']
     },
     build: {
-      copyPublicDir: true,
       rollupOptions: {
         output: {
           assetFileNames: 'assets/[name].[hash][extname]'
