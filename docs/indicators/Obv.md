@@ -37,9 +37,10 @@ IReadOnlyList<ObvResult>
 
 ### ObvResult
 
-**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
-
-**`Obv`** _`double`_ - On-balance Volume
+| Property | Type | Description |
+| -------- | ---- | ----------- |
+| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `Obv` | double | On-balance Volume |
 
 ::: warning
 absolute values in OBV are somewhat meaningless. Use with caution.

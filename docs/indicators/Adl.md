@@ -36,13 +36,12 @@ IReadOnlyList<AdlResult>
 
 ### AdlResult
 
-**`Timestamp`** _`DateTime`_ - Date from evaluated `TQuote`
-
-**`MoneyFlowMultiplier`** _`double`_ - Money Flow Multiplier
-
-**`MoneyFlowVolume`** _`double`_ - Money Flow Volume
-
-**`Adl`** _`double`_ - Accumulation Distribution Line (ADL)
+| Property | Type | Description |
+| -------- | ---- | ----------- |
+| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `MoneyFlowMultiplier` | double | Money Flow Multiplier |
+| `MoneyFlowVolume` | double | Money Flow Volume |
+| `Adl` | double | Accumulation Distribution Line (ADL) |
 
 ::: warning
 absolute values in ADL and MFV are somewhat meaningless.  Use with caution.

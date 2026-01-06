@@ -17,9 +17,10 @@ IReadOnlyList<PivotPointsResult> results =
 
 ## Parameters
 
-**`windowSize`** _`PeriodSize`_ - Size of the lookback window
-
-**`pointType`** _`PivotPointType`_ - Type of Pivot Point.  Default is `PivotPointType.Standard`
+| Parameter | Type | Description |
+| --------- | ---- | ----------- |
+| `windowSize` | PeriodSize | Size of the lookback window |
+| `pointType` | PivotPointType | Type of Pivot Point.  Default is `PivotPointType.Standard` |
 
 ### Historical quotes requirements
 
@@ -68,21 +69,16 @@ The second window may be inaccurate if the first window contains incomplete data
 
 ### PivotPointsResult
 
-**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
-
-**`R3`** _`decimal`_ - Resistance level 3
-
-**`R2`** _`decimal`_ - Resistance level 2
-
-**`R1`** _`decimal`_ - Resistance level 1
-
-**`PP`** _`decimal`_ - Pivot Point
-
-**`S1`** _`decimal`_ - Support level 1
-
-**`S2`** _`decimal`_ - Support level 2
-
-**`S3`** _`decimal`_ - Support level 3
+| Property | Type | Description |
+| -------- | ---- | ----------- |
+| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `R3` | decimal | Resistance level 3 |
+| `R2` | decimal | Resistance level 2 |
+| `R1` | decimal | Resistance level 1 |
+| `PP` | decimal | Pivot Point |
+| `S1` | decimal | Support level 1 |
+| `S2` | decimal | Support level 2 |
+| `S3` | decimal | Support level 3 |
 
 ### Utilities
 

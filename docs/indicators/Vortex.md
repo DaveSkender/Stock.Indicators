@@ -20,7 +20,9 @@ IReadOnlyList<VortexResult> results =
 
 ## Parameters
 
-**`lookbackPeriods`** _`int`_ - Number of periods (`N`) to consider.  Must be greater than 1 and is usually between 14 and 30.
+| Parameter | Type | Description |
+| --------- | ---- | ----------- |
+| `lookbackPeriods` | int | Number of periods (`N`) to consider.  Must be greater than 1 and is usually between 14 and 30. |
 
 ### Historical quotes requirements
 
@@ -41,11 +43,11 @@ IReadOnlyList<VortexResult>
 
 ### VortexResult
 
-**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
-
-**`Pvi`** _`double`_ - Positive Vortex Indicator (VI+)
-
-**`Nvi`** _`double`_ - Negative Vortex Indicator (VI-)
+| Property | Type | Description |
+| -------- | ---- | ----------- |
+| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `Pvi` | double | Positive Vortex Indicator (VI+) |
+| `Nvi` | double | Negative Vortex Indicator (VI-) |
 
 ### Utilities
 

@@ -20,9 +20,10 @@ IReadOnlyList<SuperTrendResult> results =
 
 ## Parameters
 
-**`lookbackPeriods`** _`int`_ - Number of periods (`N`) for the ATR evaluation.  Must be greater than 1 and is usually set between 7 and 14.  Default is 10.
-
-**`multiplier`** _`double`_ - Multiplier sets the ATR band width.  Must be greater than 0 and is usually set around 2 to 3.  Default is 3.
+| Parameter | Type | Description |
+| --------- | ---- | ----------- |
+| `lookbackPeriods` | int | Number of periods (`N`) for the ATR evaluation.  Must be greater than 1 and is usually set between 7 and 14.  Default is 10. |
+| `multiplier` | double | Multiplier sets the ATR band width.  Must be greater than 0 and is usually set around 2 to 3.  Default is 3. |
 
 ### Historical quotes requirements
 
@@ -47,13 +48,12 @@ the line segment before the first reversal and the first `N+100` periods are unr
 
 ### SuperTrendResult
 
-**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
-
-**`SuperTrend`** _`decimal`_ - SuperTrend line contains both Upper and Lower segments
-
-**`UpperBand`** _`decimal`_ - Upper band only (bearish/red)
-
-**`LowerBand`** _`decimal`_ - Lower band only (bullish/green)
+| Property | Type | Description |
+| -------- | ---- | ----------- |
+| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `SuperTrend` | decimal | SuperTrend line contains both Upper and Lower segments |
+| `UpperBand` | decimal | Upper band only (bearish/red) |
+| `LowerBand` | decimal | Lower band only (bullish/green) |
 
 `UpperBand` and `LowerBand` values are provided to differentiate bullish vs bearish trends and to clearly demark trend reversal.  `SuperTrend` is the contiguous combination of both upper and lower line data.
 

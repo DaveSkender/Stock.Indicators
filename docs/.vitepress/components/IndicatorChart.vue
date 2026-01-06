@@ -380,7 +380,6 @@ function setupIndicatorSeries(chart: IChartApi, seriesData: SeriesStyle[], isOsc
         break
       case 'histogram':
         series = chart.addSeries(HistogramSeries, {
-          color: ChartColors.DarkGray,
           priceLineVisible: false,
           lastValueVisible: false
         })
@@ -423,10 +422,19 @@ function setupIndicatorSeries(chart: IChartApi, seriesData: SeriesStyle[], isOsc
 
     const filteredData = seriesConfig.data
       .filter(d => d.value !== null && d.value !== undefined && !isNaN(d.value))
-      .map(d => ({
-        time: parseTimestamp(d.timestamp),
-        value: d.value as number
-      }))
+      .map(d => {
+        const dataPoint: any = {
+          time: parseTimestamp(d.timestamp),
+          value: d.value as number
+        }
+        
+        // For histogram type, add color based on positive/negative values
+        if (seriesConfig.type === 'histogram') {
+          dataPoint.color = (d.value as number) >= 0 ? ChartColors.StandardGreen : ChartColors.StandardRed
+        }
+        
+        return dataPoint
+      })
 
     series.setData(filteredData)
     targetArray.push(series)

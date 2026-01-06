@@ -20,7 +20,9 @@ IReadOnlyList<CmoResult> results =
 
 ## Parameters
 
-**`lookbackPeriods`** _`int`_ - Number of periods (`N`) in the lookback window.  Must be greater than 0.
+| Parameter | Type | Description |
+| --------- | ---- | ----------- |
+| `lookbackPeriods` | int | Number of periods (`N`) in the lookback window.  Must be greater than 0. |
 
 ### Historical quotes requirements
 
@@ -41,9 +43,10 @@ IReadOnlyList<CmoResult>
 
 ### CmoResult
 
-**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
-
-**`Cmo`** _`double`_ - Chande Momentum Oscillator
+| Property | Type | Description |
+| -------- | ---- | ----------- |
+| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `Cmo` | double | Chande Momentum Oscillator |
 
 ### Utilities
 

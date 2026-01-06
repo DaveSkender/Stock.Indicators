@@ -1,10 +1,10 @@
 import { Octokit } from '@octokit/rest'
 
 export interface Contributor {
-  login: string
   avatar: string
-  url: string
-  contributions: number
+  name: string
+  title?: string
+  links?: Array<{ icon: string; link: string }>
 }
 
 declare const data: Contributor[]
@@ -24,10 +24,12 @@ export default {
       })
 
       return data.map(contributor => ({
-        login: contributor.login || 'unknown',
-        avatar: `${contributor.avatar_url}&s=75`,
-        url: contributor.html_url || '#',
-        contributions: contributor.contributions || 0
+        avatar: `${contributor.avatar_url}&s=128`,
+        name: contributor.login || 'unknown',
+        title: `${contributor.contributions || 0} contributions`,
+        links: [
+          { icon: 'github', link: contributor.html_url || '#' }
+        ]
       }))
     } catch (error) {
       console.error('Error fetching contributors:', error)

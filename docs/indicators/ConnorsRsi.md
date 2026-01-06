@@ -20,11 +20,11 @@ IReadOnlyList<ConnorsRsiResult> results =
 
 ## Parameters
 
-**`rsiPeriods`** _`int`_ - Lookback period (`R`) for the price RSI.  Must be greater than 1.  Default is 3.
-
-**`streakPeriods`** _`int`_ - Lookback period (`S`) for the streak RSI.  Must be greater than 1.  Default is 2.
-
-**`rankPeriods`** _`int`_ - Lookback period (`P`) for the Percentile Rank.  Must be greater than 1.  Default is 100.
+| Parameter | Type | Description |
+| --------- | ---- | ----------- |
+| `rsiPeriods` | int | Lookback period (`R`) for the price RSI.  Must be greater than 1.  Default is 3. |
+| `streakPeriods` | int | Lookback period (`S`) for the streak RSI.  Must be greater than 1.  Default is 2. |
+| `rankPeriods` | int | Lookback period (`P`) for the Percentile Rank.  Must be greater than 1.  Default is 100. |
 
 ### Historical quotes requirements
 
@@ -49,15 +49,13 @@ The first `N` periods will have decreasing magnitude, convergence-related precis
 
 ### ConnorsRsiResult
 
-**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
-
-**`Rsi`** _`double`_ - `RSI(R)` of the price.
-
-**`RsiStreak`** _`double`_ - `RSI(S)` of the Streak.
-
-**`PercentRank`** _`double`_ - Percentile rank of the period gain value.
-
-**`ConnorsRsi`** _`double`_ - ConnorsRSI
+| Property | Type | Description |
+| -------- | ---- | ----------- |
+| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `Rsi` | double | `RSI(R)` of the price. |
+| `RsiStreak` | double | `RSI(S)` of the Streak. |
+| `PercentRank` | double | Percentile rank of the period gain value. |
+| `ConnorsRsi` | double | ConnorsRSI |
 
 ### Utilities
 

@@ -22,7 +22,9 @@ IReadOnlyList<DemaResult> results =
 
 ## Parameters
 
-**`lookbackPeriods`** _`int`_ - Number of periods (`N`) in the moving average.  Must be greater than 0.
+| Parameter | Type | Description |
+| --------- | ---- | ----------- |
+| `lookbackPeriods` | int | Number of periods (`N`) in the moving average.  Must be greater than 0. |
 
 ### Historical quotes requirements
 
@@ -47,9 +49,10 @@ The first `2×N+100` periods will have decreasing magnitude, convergence-related
 
 ### DemaResult
 
-**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
-
-**`Dema`** _`double`_ - Double exponential moving average
+| Property | Type | Description |
+| -------- | ---- | ----------- |
+| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `Dema` | double | Double exponential moving average |
 
 ### Utilities
 

@@ -20,9 +20,10 @@ IReadOnlyList<CorrResult> results =
 
 ## Parameters
 
-**`quotesB`** _`IReadOnlyList<TQuote>`_ - [Historical quotes](/guide#historical-quotes) (B) must have at least the same matching date elements of `quotesA`.
-
-**`lookbackPeriods`** _`int`_ - Number of periods (`N`) in the lookback period.  Must be greater than 0 to calculate; however we suggest a larger period for statistically appropriate sample size.
+| Parameter | Type | Description |
+| --------- | ---- | ----------- |
+| `quotesB` | IReadOnlyList<TQuote> | [Historical quotes](/guide#historical-quotes) (B) must have at least the same matching date elements of `quotesA`. |
+| `lookbackPeriods` | int | Number of periods (`N`) in the lookback period.  Must be greater than 0 to calculate; however we suggest a larger period for statistically appropriate sample size. |
 
 ### Historical quotes requirements
 
@@ -43,17 +44,14 @@ IReadOnlyList<CorrResult>
 
 ### CorrResult
 
-**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
-
-**`VarianceA`** _`double`_ - Variance of A
-
-**`VarianceB`** _`double`_ - Variance of B
-
-**`Covariance`** _`double`_ - Covariance of A+B
-
-**`Correlation`** _`double`_ - Correlation `R`
-
-**`RSquared`** _`double`_ - R-Squared (R&sup2;), aka Coefficient of Determination.  Simple linear regression models is used (square of Correlation).
+| Property | Type | Description |
+| -------- | ---- | ----------- |
+| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `VarianceA` | double | Variance of A |
+| `VarianceB` | double | Variance of B |
+| `Covariance` | double | Covariance of A+B |
+| `Correlation` | double | Correlation `R` |
+| `RSquared` | double | R-Squared (R&sup2;), aka Coefficient of Determination.  Simple linear regression models is used (square of Correlation). |
 
 ### Utilities
 

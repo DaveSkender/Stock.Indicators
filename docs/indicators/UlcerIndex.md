@@ -20,7 +20,9 @@ IReadOnlyList<UlcerIndexResult> results =
 
 ## Parameters
 
-**`lookbackPeriods`** _`int`_ - Number of periods (`N`) for review.  Must be greater than 0.  Default is 14.
+| Parameter | Type | Description |
+| --------- | ---- | ----------- |
+| `lookbackPeriods` | int | Number of periods (`N`) for review.  Must be greater than 0.  Default is 14. |
 
 ### Historical quotes requirements
 
@@ -41,9 +43,10 @@ IReadOnlyList<UlcerIndexResult>
 
 ### UlcerIndexResult
 
-**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
-
-**`UI`** _`double`_ - Ulcer Index
+| Property | Type | Description |
+| -------- | ---- | ----------- |
+| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `UI` | double | Ulcer Index |
 
 ### Utilities
 

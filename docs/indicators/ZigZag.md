@@ -20,9 +20,10 @@ IReadOnlyList<ZigZagResult> results =
 
 ## Parameters
 
-**`endType`** _`EndType`_ - Determines whether `Close` or `High/Low` are used to measure percent change.  See [EndType options](#endtype-options) below.  Default is `EndType.Close`.
-
-**`percentChange`** _`decimal`_ - Percent change required to establish a line endpoint.  Example: 3.5% would be entered as 3.5 (not 0.035).  Must be greater than 0.  Typical values range from 3 to 10.  Default is 5.
+| Parameter | Type | Description |
+| --------- | ---- | ----------- |
+| `endType` | EndType | Determines whether `Close` or `High/Low` are used to measure percent change.  See [EndType options](#endtype-options) below.  Default is `EndType.Close`. |
+| `percentChange` | decimal | Percent change required to establish a line endpoint.  Example: 3.5% would be entered as 3.5 (not 0.035).  Must be greater than 0.  Typical values range from 3 to 10.  Default is 5. |
 
 ### Historical quotes requirements
 
@@ -57,15 +58,13 @@ depending on the specified `endType`, the indicator cannot be initialized if the
 
 ### ZigZagResult
 
-**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
-
-**`ZigZag`** _`decimal`_ - Zig Zag line for `percentChange`
-
-**`PointType`** _`string`_ - Zig Zag endpoint type (`H` for high point, `L` for low point)
-
-**`RetraceHigh`** _`decimal`_ - Retrace line for high points
-
-**`RetraceLow`** _`decimal`_ - Retrace line for low points
+| Property | Type | Description |
+| -------- | ---- | ----------- |
+| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `ZigZag` | decimal | Zig Zag line for `percentChange` |
+| `PointType` | string | Zig Zag endpoint type (`H` for high point, `L` for low point) |
+| `RetraceHigh` | decimal | Retrace line for high points |
+| `RetraceLow` | decimal | Retrace line for low points |
 
 ### Utilities
 

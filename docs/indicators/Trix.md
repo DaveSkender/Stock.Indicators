@@ -20,7 +20,9 @@ IReadOnlyList<TrixResult> results =
 
 ## Parameters
 
-**`lookbackPeriods`** _`int`_ - Number of periods (`N`) in each of the the exponential moving averages.  Must be greater than 0.
+| Parameter | Type | Description |
+| --------- | ---- | ----------- |
+| `lookbackPeriods` | int | Number of periods (`N`) in each of the the exponential moving averages.  Must be greater than 0. |
 
 ### Historical quotes requirements
 
@@ -45,11 +47,11 @@ The first `3×N+250` periods will have decreasing magnitude, convergence-related
 
 ### TrixResult
 
-**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
-
-**`Ema3`** _`double`_ - 3 EMAs of the price
-
-**`Trix`** _`double`_ - Rate of Change of 3 EMAs
+| Property | Type | Description |
+| -------- | ---- | ----------- |
+| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `Ema3` | double | 3 EMAs of the price |
+| `Trix` | double | Rate of Change of 3 EMAs |
 
 ### Utilities
 

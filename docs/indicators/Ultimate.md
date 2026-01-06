@@ -20,11 +20,11 @@ IReadOnlyList<UltimateResult> results =
 
 ## Parameters
 
-**`shortPeriods`** _`int`_ - Number of periods (`S`) in the short lookback.  Must be greater than 0.  Default is 7.
-
-**`middlePeriods`** _`int`_ - Number of periods (`M`) in the middle lookback.  Must be greater than `S`.  Default is 14.
-
-**`longPeriods`** _`int`_ - Number of periods (`L`) in the long lookback.  Must be greater than `M`.  Default is 28.
+| Parameter | Type | Description |
+| --------- | ---- | ----------- |
+| `shortPeriods` | int | Number of periods (`S`) in the short lookback.  Must be greater than 0.  Default is 7. |
+| `middlePeriods` | int | Number of periods (`M`) in the middle lookback.  Must be greater than `S`.  Default is 14. |
+| `longPeriods` | int | Number of periods (`L`) in the long lookback.  Must be greater than `M`.  Default is 28. |
 
 ### Historical quotes requirements
 
@@ -45,9 +45,10 @@ IReadOnlyList<UltimateResult>
 
 ### UltimateResult
 
-**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
-
-**`Ultimate`** _`double`_ - Ultimate Oscillator
+| Property | Type | Description |
+| -------- | ---- | ----------- |
+| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `Ultimate` | double | Ultimate Oscillator |
 
 ### Utilities
 

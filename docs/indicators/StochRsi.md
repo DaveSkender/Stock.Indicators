@@ -20,13 +20,12 @@ IReadOnlyList<StochRsiResult> results =
 
 ## Parameters
 
-**`rsiPeriods`** _`int`_ - Number of periods (`R`) in the lookback period.  Must be greater than 0.  Standard is 14.
-
-**`stochPeriods`** _`int`_ - Number of periods (`S`) in the lookback period.  Must be greater than 0.  Typically the same value as `rsiPeriods`.
-
-**`signalPeriods`** _`int`_ - Number of periods (`G`) in the signal line (SMA of the StochRSI).  Must be greater than 0.  Typically 3-5.
-
-**`smoothPeriods`** _`int`_ - Smoothing periods (`M`) for the Stochastic.  Must be greater than 0.  Default is 1 (Fast variant).
+| Parameter | Type | Description |
+| --------- | ---- | ----------- |
+| `rsiPeriods` | int | Number of periods (`R`) in the lookback period.  Must be greater than 0.  Standard is 14. |
+| `stochPeriods` | int | Number of periods (`S`) in the lookback period.  Must be greater than 0.  Typically the same value as `rsiPeriods`. |
+| `signalPeriods` | int | Number of periods (`G`) in the signal line (SMA of the StochRSI).  Must be greater than 0.  Typically 3-5. |
+| `smoothPeriods` | int | Smoothing periods (`M`) for the Stochastic.  Must be greater than 0.  Default is 1 (Fast variant). |
 
 The original Stochastic RSI formula uses a the Fast variant of the Stochastic calculation (`smoothPeriods=1`).  For a standard period of 14, the original formula would be `quotes.ToStochRSI(14,14,3,1)`.  The "3" here is just for the Signal (%D), which is not present in the original formula, but useful for additional smoothing and analysis.
 
@@ -53,11 +52,11 @@ The first `10×R` periods will have decreasing magnitude, convergence-related pr
 
 ### StochRsiResult
 
-**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
-
-**`StochRsi`** _`double`_ - %K Oscillator = Stochastic RSI = Stoch(`S`,`G`,`M`) of RSI(`R`) of price
-
-**`Signal`** _`double`_ - %D Signal Line = Simple moving average of %K based on `G` periods
+| Property | Type | Description |
+| -------- | ---- | ----------- |
+| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `StochRsi` | double | %K Oscillator = Stochastic RSI = Stoch(`S`,`G`,`M`) of RSI(`R`) of price |
+| `Signal` | double | %D Signal Line = Simple moving average of %K based on `G` periods |
 
 ### Utilities
 

@@ -20,11 +20,11 @@ IReadOnlyList<TsiResult> results =
 
 ## Parameters
 
-**`lookbackPeriods`** _`int`_ - Number of periods (`N`) for the first EMA.  Must be greater than 0.  Default is 25.
-
-**`smoothPeriods`** _`int`_ - Number of periods (`M`) for the second smoothing.  Must be greater than 0.  Default is 13.
-
-**`signalPeriods`** _`int`_ - Number of periods (`S`) in the TSI moving average.  Must be greater than or equal to 0.  Default is 7.
+| Parameter | Type | Description |
+| --------- | ---- | ----------- |
+| `lookbackPeriods` | int | Number of periods (`N`) for the first EMA.  Must be greater than 0.  Default is 25. |
+| `smoothPeriods` | int | Number of periods (`M`) for the second smoothing.  Must be greater than 0.  Default is 13. |
+| `signalPeriods` | int | Number of periods (`S`) in the TSI moving average.  Must be greater than or equal to 0.  Default is 7. |
 
 ### Historical quotes requirements
 
@@ -50,11 +50,11 @@ The first `N+M+250` periods will have decreasing magnitude, convergence-related 
 
 ### TsiResult
 
-**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
-
-**`Tsi`** _`double`_ - True Strength Index
-
-**`Signal`** _`double`_ - Signal line (EMA of TSI)
+| Property | Type | Description |
+| -------- | ---- | ----------- |
+| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `Tsi` | double | True Strength Index |
+| `Signal` | double | Signal line (EMA of TSI) |
 
 ### Utilities
 

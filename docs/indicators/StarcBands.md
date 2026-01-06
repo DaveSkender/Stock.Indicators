@@ -20,11 +20,11 @@ IReadOnlyList<StarcBandsResult> results =
 
 ## Parameters
 
-**`smaPeriods`** _`int`_ - Number of lookback periods (`S`) for the center line moving average.  Must be greater than 1 to calculate and is typically between 5 and 10.
-
-**`multiplier`** _`double`_ - ATR Multiplier. Must be greater than 0.  Default is 2.
-
-**`atrPeriods`** _`int`_ - Number of lookback periods (`A`) for the Average True Range.  Must be greater than 1 to calculate and is typically the same value as `smaPeriods`.  Default is 10.
+| Parameter | Type | Description |
+| --------- | ---- | ----------- |
+| `smaPeriods` | int | Number of lookback periods (`S`) for the center line moving average.  Must be greater than 1 to calculate and is typically between 5 and 10. |
+| `multiplier` | double | ATR Multiplier. Must be greater than 0.  Default is 2. |
+| `atrPeriods` | int | Number of lookback periods (`A`) for the Average True Range.  Must be greater than 1 to calculate and is typically the same value as `smaPeriods`.  Default is 10. |
 
 ### Historical quotes requirements
 
@@ -49,13 +49,12 @@ The first `A+150` periods will have decreasing magnitude, convergence-related pr
 
 ### StarcBandsResult
 
-**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
-
-**`UpperBand`** _`double`_ - Upper STARC band
-
-**`Centerline`** _`double`_ - SMA of price
-
-**`LowerBand`** _`double`_ - Lower STARC band
+| Property | Type | Description |
+| -------- | ---- | ----------- |
+| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `UpperBand` | double | Upper STARC band |
+| `Centerline` | double | SMA of price |
+| `LowerBand` | double | Lower STARC band |
 
 ### Utilities
 

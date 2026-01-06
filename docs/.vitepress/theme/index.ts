@@ -4,7 +4,6 @@ import type { Theme } from 'vitepress'
 import DefaultTheme from 'vitepress/theme'
 import './custom.scss'
 import IndicatorChart from '../components/IndicatorChart.vue'
-import Contributors from '../components/Contributors.vue'
 
 export default {
   extends: DefaultTheme,
@@ -17,6 +16,5 @@ export default {
   enhanceApp({ app }) {
     // Register global components
     app.component('IndicatorChart', IndicatorChart)
-    app.component('Contributors', Contributors)
   }
 } satisfies Theme

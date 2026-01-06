@@ -20,9 +20,10 @@ IReadOnlyList<MamaResult> results =
 
 ## Parameters
 
-**`fastLimit`** _`double`_ - Fast limit threshold.  Must be greater than `slowLimit` and less than 1.  Default is 0.5.
-
-**`slowLimit`** _`double`_ - Slow limit threshold.  Must be greater than 0.  Default is 0.05.
+| Parameter | Type | Description |
+| --------- | ---- | ----------- |
+| `fastLimit` | double | Fast limit threshold.  Must be greater than `slowLimit` and less than 1.  Default is 0.5. |
+| `slowLimit` | double | Slow limit threshold.  Must be greater than 0.  Default is 0.05. |
 
 ### Historical quotes requirements
 
@@ -47,11 +48,11 @@ The first `50` periods will have decreasing magnitude, convergence-related preci
 
 ### MamaResult
 
-**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
-
-**`Mama`** _`double`_ - MESA adaptive moving average (MAMA)
-
-**`Fama`** _`double`_ - Following adaptive moving average (FAMA)
+| Property | Type | Description |
+| -------- | ---- | ----------- |
+| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `Mama` | double | MESA adaptive moving average (MAMA) |
+| `Fama` | double | Following adaptive moving average (FAMA) |
 
 ### Utilities
 

@@ -33,17 +33,14 @@ IReadOnlyList<HeikinAshiResult>
 
 ### HeikinAshiResult
 
-**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
-
-**`Open`** _`decimal`_ - Modified open price
-
-**`High`** _`decimal`_ - Modified high price
-
-**`Low`** _`decimal`_ - Modified low price
-
-**`Close`** _`decimal`_ - Modified close price
-
-**`Volume`** _`decimal`_ - Volume (same as `quotes`)
+| Property | Type | Description |
+| -------- | ---- | ----------- |
+| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `Open` | decimal | Modified open price |
+| `High` | decimal | Modified high price |
+| `Low` | decimal | Modified low price |
+| `Close` | decimal | Modified close price |
+| `Volume` | decimal | Volume (same as `quotes`) |
 
 ### Utilities
 

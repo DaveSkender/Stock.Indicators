@@ -20,9 +20,10 @@ IReadOnlyList<AwesomeResult> results =
 
 ## Parameters
 
-**`fastPeriods`** _`int`_ - Number of periods (`F`) for the faster moving average.  Must be greater than 0.  Default is 5.
-
-**`slowPeriods`** _`int`_ - Number of periods (`S`) for the slower moving average.  Must be greater than `fastPeriods`.  Default is 34.
+| Parameter | Type | Description |
+| --------- | ---- | ----------- |
+| `fastPeriods` | int | Number of periods (`F`) for the faster moving average.  Must be greater than 0.  Default is 5. |
+| `slowPeriods` | int | Number of periods (`S`) for the slower moving average.  Must be greater than `fastPeriods`.  Default is 34. |
 
 ### Historical quotes requirements
 
@@ -43,11 +44,11 @@ IReadOnlyList<AwesomeResult>
 
 ### AwesomeResult
 
-**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
-
-**`Oscillator`** _`double`_ - Awesome Oscillator
-
-**`Normalized`** _`double`_ - `100 × Oscillator ÷ (median price)`
+| Property | Type | Description |
+| -------- | ---- | ----------- |
+| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `Oscillator` | double | Awesome Oscillator |
+| `Normalized` | double | `100 × Oscillator ÷ (median price)` |
 
 ### Utilities
 

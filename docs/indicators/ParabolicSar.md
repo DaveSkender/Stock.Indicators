@@ -24,11 +24,11 @@ IReadOnlyList<ParabolicSarResult> results =
 
 ## Parameters
 
-**`accelerationStep`** _`double`_ - Incremental step size for the Acceleration Factor.  Must be greater than 0.  Default is 0.02
-
-**`maxAccelerationFactor`** _`double`_ - Maximum factor limit.  Must be greater than `accelerationStep`.  Default is 0.2
-
-**`initialFactor`** _`double`_ - Optional.  Initial Acceleration Factor.  Must be greater than 0 and not larger than `maxAccelerationFactor`.  Default is `accelerationStep`.
+| Parameter | Type | Description |
+| --------- | ---- | ----------- |
+| `accelerationStep` | double | Incremental step size for the Acceleration Factor.  Must be greater than 0.  Default is 0.02 |
+| `maxAccelerationFactor` | double | Maximum factor limit.  Must be greater than `accelerationStep`.  Default is 0.2 |
+| `initialFactor` | double | Optional.  Initial Acceleration Factor.  Must be greater than 0 and not larger than `maxAccelerationFactor`.  Default is `accelerationStep`. |
 
 ### Historical quotes requirements
 
@@ -49,11 +49,11 @@ IReadOnlyList<ParabolicSarResult>
 
 ### ParabolicSarResult
 
-**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
-
-**`Sar`** _`double`_ - Stop and Reverse value
-
-**`IsReversal`** _`bool`_ - Indicates a trend reversal
+| Property | Type | Description |
+| -------- | ---- | ----------- |
+| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `Sar` | double | Stop and Reverse value |
+| `IsReversal` | bool | Indicates a trend reversal |
 
 ### Utilities
 

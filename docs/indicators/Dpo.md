@@ -20,7 +20,9 @@ IReadOnlyList<DpoResult> results =
 
 ## Parameters
 
-**`lookbackPeriods`** _`int`_ - Number of periods (`N`) in the moving average.  Must be greater than 0.
+| Parameter | Type | Description |
+| --------- | ---- | ----------- |
+| `lookbackPeriods` | int | Number of periods (`N`) in the moving average.  Must be greater than 0. |
 
 ### Historical quotes requirements
 
@@ -41,11 +43,11 @@ IReadOnlyList<DpoResult>
 
 ### DpoResult
 
-**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
-
-**`Sma`** _`double`_ - Simple moving average offset by `N/2+1` periods
-
-**`Dpo`** _`double`_ - Detrended Price Oscillator (DPO)
+| Property | Type | Description |
+| -------- | ---- | ----------- |
+| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `Sma` | double | Simple moving average offset by `N/2+1` periods |
+| `Dpo` | double | Detrended Price Oscillator (DPO) |
 
 ### Utilities
 

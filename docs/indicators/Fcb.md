@@ -20,7 +20,9 @@ IReadOnlyList<FcbResult> results =
 
 ## Parameters
 
-**`windowSpan`** _`int`_ - Fractal evaluation window span width (`S`).  Must be at least 2.  Default is 2.
+| Parameter | Type | Description |
+| --------- | ---- | ----------- |
+| `windowSpan` | int | Fractal evaluation window span width (`S`).  Must be at least 2.  Default is 2. |
 
 The total evaluation window size is `2×S+1`, representing `±S` from the evaluation date.  See [Williams Fractal](/indicators/Fractal) for more information about Fractals and `windowSpan`.
 
@@ -43,11 +45,11 @@ IReadOnlyList<FcbResult>
 
 ### FcbResult
 
-**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
-
-**`UpperBand`** _`decimal`_ - FCB upper band
-
-**`LowerBand`** _`decimal`_ - FCB lower band
+| Property | Type | Description |
+| -------- | ---- | ----------- |
+| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `UpperBand` | decimal | FCB upper band |
+| `LowerBand` | decimal | FCB lower band |
 
 ### Utilities
 

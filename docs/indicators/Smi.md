@@ -21,13 +21,12 @@ IReadOnlyList<SmiResult> results =
 
 ## Parameters
 
-**`lookbackPeriods`** _`int`_ - Lookback period (`N`) for the stochastic.  Must be greater than 0.  Default is 13.
-
-**`firstSmoothPeriods`** _`int`_ - First smoothing factor lookback.  Must be greater than 0.  Default is 25.
-
-**`secondSmoothPeriods`** _`int`_ - Second smoothing factor lookback.  Must be greater than 0.  Default is 2.
-
-**`signalPeriods`** _`int`_ - EMA of SMI lookback periods.  Must be greater than 0. Default is 3.
+| Parameter | Type | Description |
+| --------- | ---- | ----------- |
+| `lookbackPeriods` | int | Lookback period (`N`) for the stochastic.  Must be greater than 0.  Default is 13. |
+| `firstSmoothPeriods` | int | First smoothing factor lookback.  Must be greater than 0.  Default is 25. |
+| `secondSmoothPeriods` | int | Second smoothing factor lookback.  Must be greater than 0.  Default is 2. |
+| `signalPeriods` | int | EMA of SMI lookback periods.  Must be greater than 0. Default is 3. |
 
 ### Historical quotes requirements
 
@@ -52,11 +51,11 @@ The first `N+100` periods will have decreasing magnitude, convergence-related pr
 
 ### SmiResult
 
-**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
-
-**`Smi`** _`double`_ - Stochastic Momentum Index (SMI)
-
-**`Signal`** _`double`_ - Signal line: an Exponential Moving Average (EMA) of SMI
+| Property | Type | Description |
+| -------- | ---- | ----------- |
+| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `Smi` | double | Stochastic Momentum Index (SMI) |
+| `Signal` | double | Signal line: an Exponential Moving Average (EMA) of SMI |
 
 ### Utilities
 

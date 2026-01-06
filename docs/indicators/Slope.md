@@ -23,7 +23,9 @@ IReadOnlyList<SlopeResult> results =
 
 ## Parameters
 
-**`lookbackPeriods`** _`int`_ - Number of periods (`N`) for the linear regression.  Must be greater than 1.
+| Parameter | Type | Description |
+| --------- | ---- | ----------- |
+| `lookbackPeriods` | int | Number of periods (`N`) for the linear regression.  Must be greater than 1. |
 
 ### Historical quotes requirements
 
@@ -47,17 +49,14 @@ IReadOnlyList<SlopeResult>
 
 ### SlopeResult
 
-**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
-
-**`Slope`** _`double`_ - Slope `m` of the best-fit line of price
-
-**`Intercept`** _`double`_ - Y-Intercept `b` of the best-fit line
-
-**`StdDev`** _`double`_ - Standard Deviation of price over `N` lookback periods
-
-**`RSquared`** _`double`_ - R-Squared (R&sup2;), aka Coefficient of Determination
-
-**`Line`** _`decimal`_ - Best-fit line `y` over the last `N` periods (i.e. `y=mx+b` using last period values)
+| Property | Type | Description |
+| -------- | ---- | ----------- |
+| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `Slope` | double | Slope `m` of the best-fit line of price |
+| `Intercept` | double | Y-Intercept `b` of the best-fit line |
+| `StdDev` | double | Standard Deviation of price over `N` lookback periods |
+| `RSquared` | double | R-Squared (R&sup2;), aka Coefficient of Determination |
+| `Line` | decimal | Best-fit line `y` over the last `N` periods (i.e. `y=mx+b` using last period values) |
 
 ### Utilities
 

@@ -20,7 +20,9 @@ IReadOnlyList<ElderRayResult> results =
 
 ## Parameters
 
-**`lookbackPeriods`** _`int`_ - Number of periods (`N`) for the underlying EMA evaluation.  Must be greater than 0.  Default is 13.
+| Parameter | Type | Description |
+| --------- | ---- | ----------- |
+| `lookbackPeriods` | int | Number of periods (`N`) for the underlying EMA evaluation.  Must be greater than 0.  Default is 13. |
 
 ### Historical quotes requirements
 
@@ -45,13 +47,12 @@ The first `N+100` periods will have decreasing magnitude, convergence-related pr
 
 ### ElderRayResult
 
-**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
-
-**`Ema`** _`double`_ - Exponential moving average
-
-**`BullPower`** _`double`_ - Bull Power
-
-**`BearPower`** _`double`_ - Bear Power
+| Property | Type | Description |
+| -------- | ---- | ----------- |
+| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `Ema` | double | Exponential moving average |
+| `BullPower` | double | Bull Power |
+| `BearPower` | double | Bear Power |
 
 ### Utilities
 

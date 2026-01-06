@@ -20,17 +20,14 @@ IReadOnlyList<AlligatorResult> results =
 
 ## Parameters
 
-**`jawPeriods`** _`int`_ - Number of periods (`JP`) for the Jaw moving average.  Must be greater than `teethPeriods`.  Default is 13.
-
-**`jawOffset`** _`int`_ - Number of periods (`JO`) for the Jaw offset.  Must be greater than 0.  Default is 8.
-
-**`teethPeriods`** _`int`_ - Number of periods (`TP`) for the Teeth moving average.  Must be greater than `lipsPeriods`.  Default is 8.
-
-**`teethOffset`** _`int`_ - Number of periods (`TO`) for the Teeth offset.  Must be greater than 0.  Default is 5.
-
-**`lipsPeriods`** _`int`_ - Number of periods (`LP`) for the Lips moving average.  Must be greater than 0.  Default is 5.
-
-**`lipsOffset`** _`int`_ - Number of periods (`LO`) for the Lips offset.  Must be greater than 0.  Default is 3.
+| Parameter | Type | Description |
+| --------- | ---- | ----------- |
+| `jawPeriods` | int | Number of periods (`JP`) for the Jaw moving average.  Must be greater than `teethPeriods`.  Default is 13. |
+| `jawOffset` | int | Number of periods (`JO`) for the Jaw offset.  Must be greater than 0.  Default is 8. |
+| `teethPeriods` | int | Number of periods (`TP`) for the Teeth moving average.  Must be greater than `lipsPeriods`.  Default is 8. |
+| `teethOffset` | int | Number of periods (`TO`) for the Teeth offset.  Must be greater than 0.  Default is 5. |
+| `lipsPeriods` | int | Number of periods (`LP`) for the Lips moving average.  Must be greater than 0.  Default is 5. |
+| `lipsOffset` | int | Number of periods (`LO`) for the Lips offset.  Must be greater than 0.  Default is 3. |
 
 ### Historical quotes requirements
 
@@ -55,13 +52,12 @@ The first `JP+JO+100` periods will have decreasing magnitude, convergence-relate
 
 ### AlligatorResult
 
-**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
-
-**`Jaw`** _`double`_ - Alligator's Jaw
-
-**`Teeth`** _`double`_ - Alligator's Teeth
-
-**`Lips`** _`double`_ - Alligator's Lips
+| Property | Type | Description |
+| -------- | ---- | ----------- |
+| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `Jaw` | double | Alligator's Jaw |
+| `Teeth` | double | Alligator's Teeth |
+| `Lips` | double | Alligator's Lips |
 
 ### Utilities
 

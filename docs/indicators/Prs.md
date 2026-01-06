@@ -20,9 +20,10 @@ IReadOnlyList<PrsResult> results =
 
 ## Parameters
 
-**`quotesBase`** _`IReadOnlyList<TQuote>`_ - [Historical quotes](/guide#historical-quotes) used as the basis for comparison.  This is usually market index data.  You must have the same number of periods as `quotesEval`.
-
-**`lookbackPeriods`** _`int`_ - Optional.  Number of periods (`N`) to lookback to compute % difference.  Must be greater than 0 if specified or `null`.
+| Parameter | Type | Description |
+| --------- | ---- | ----------- |
+| `quotesBase` | IReadOnlyList<TQuote> | [Historical quotes](/guide#historical-quotes) used as the basis for comparison.  This is usually market index data.  You must have the same number of periods as `quotesEval`. |
+| `lookbackPeriods` | int | Optional.  Number of periods (`N`) to lookback to compute % difference.  Must be greater than 0 if specified or `null`. |
 
 ### Historical quotes requirements
 
@@ -43,11 +44,11 @@ IReadOnlyList<PrsResult>
 
 ### PrsResult
 
-**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
-
-**`Prs`** _`double`_ - Price Relative Strength compares `Eval` to `Base` histories
-
-**`PrsPercent`** _`double`_ - Percent change difference between `Eval` and `Base` over `N` periods
+| Property | Type | Description |
+| -------- | ---- | ----------- |
+| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `Prs` | double | Price Relative Strength compares `Eval` to `Base` histories |
+| `PrsPercent` | double | Percent change difference between `Eval` and `Base` over `N` periods |
 
 ### Utilities
 

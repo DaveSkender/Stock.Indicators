@@ -42,13 +42,12 @@ The first `100` periods will have decreasing magnitude, convergence-related prec
 
 ### HtlResult
 
-**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
-
-**`DcPeriods`** _`int`_ - Dominant cycle periods (smoothed)
-
-**`Trendline`** _`double`_ - HT Trendline
-
-**`SmoothPrice`** _`double`_ - Weighted moving average of `(H+L)/2` price
+| Property | Type | Description |
+| -------- | ---- | ----------- |
+| `Timestamp` | DateTime | Date from evaluated `TQuote` |
+| `DcPeriods` | int | Dominant cycle periods (smoothed) |
+| `Trendline` | double | HT Trendline |
+| `SmoothPrice` | double | Weighted moving average of `(H+L)/2` price |
 
 ### Utilities
 
