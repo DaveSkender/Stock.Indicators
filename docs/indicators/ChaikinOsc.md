@@ -23,7 +23,7 @@ IReadOnlyList<ChaikinOscResult> results =
 | param | type | description |
 | ----- | ---- | ----------- |
 | `fastPeriods` | int | Number of periods (`F`) in the ADL fast EMA.  Must be greater than 0 and smaller than `S`.  Default is 3. |
-| `slowPeriods` | int | Number of periods (`S`) in the ADL slow EMA.  Must be greater `F`.  Default is 10. |
+| `slowPeriods` | int | Number of periods (`S`) in the ADL slow EMA.  Must be greater than `F`.  Default is 10. |
 
 ### Historical quotes requirements
 

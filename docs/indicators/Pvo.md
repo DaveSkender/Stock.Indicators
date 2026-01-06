@@ -54,7 +54,7 @@ The first `S+P+250` periods will have decreasing magnitude, convergence-related 
 | `Timestamp` | DateTime | Date from evaluated `TQuote` |
 | `Pvo` | double | Normalized difference between two Volume moving averages |
 | `Signal` | double | Moving average of the `Pvo` line |
-| `Histogram` | double | Gap between of the `Pvo` and `Signal` line |
+| `Histogram` | double | Gap between the `Pvo` and `Signal` line |
 
 ### Utilities
 

@@ -54,7 +54,7 @@ The first `S+P+250` periods will have decreasing magnitude, convergence-related 
 | `Timestamp` | DateTime | Date from evaluated `TQuote` |
 | `Macd` | double | The MACD line is the difference between slow and fast moving averages (`MACD = FastEma - SlowEma`) |
 | `Signal` | double | Moving average of the `MACD` line |
-| `Histogram` | double | Gap between of the `MACD` and `Signal` line |
+| `Histogram` | double | Gap between the `MACD` and `Signal` line |
 | `FastEma` | double | Fast Exponential Moving Average |
 | `SlowEma` | double | Slow Exponential Moving Average |
 

@@ -22,7 +22,7 @@ IReadOnlyList<TrixResult> results =
 
 | param | type | description |
 | ----- | ---- | ----------- |
-| `lookbackPeriods` | int | Number of periods (`N`) in each of the the exponential moving averages.  Must be greater than 0. |
+| `lookbackPeriods` | int | Number of periods (`N`) in each of the exponential moving averages.  Must be greater than 0. |
 
 ### Historical quotes requirements
 
