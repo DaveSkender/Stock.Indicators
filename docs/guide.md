@@ -3,24 +3,9 @@ title: Guide and Pro tips
 description: Learn how to use the Stock Indicators for .NET Nuget library in your own software tools and platforms.  Whether you're just getting started or an advanced professional, this guide explains how to get setup, example usage code, and instructions on how to use historical price quotes, make custom quote classes, chain indicators of indicators, and create custom technical indicators.
 ---
 
-<nav role="navigation" aria-label="guide page menu">
-<ul class="pipe-list">
-  <li><a href="#installation-and-setup">Installation and setup</a></li>
-  <li><a href="#prerequisite-data">Prerequisite data</a></li>
-  <li><a href="#example-usage">Example usage</a></li>
-  <li><a href="#historical-quotes">Historical quotes</a></li>
-  <li><a href="#using-custom-quote-classes">Using custom quote classes</a></li>
-  <li><a href="#generating-indicator-of-indicators">Generating indicator of indicators</a></li>
-  <li><a href="#candlestick-patterns">Candlestick patterns</a></li>
-  <li><a href="/custom-indicators/">Creating custom indicators</a></li>
-  <li><a href="/utilities/">Utilities and helper functions</a></li>
-  <li><a href="/contributing/">Contributing guidelines</a></li>
-</ul>
-</nav>
+# Getting started
 
-## Getting started
-
-### Installation and setup
+## Installation and setup
 
 Find and install the [Skender.Stock.Indicators](https://www.nuget.org/packages/Skender.Stock.Indicators) NuGet package into your Project.  See more [help for installing packages](https://www.google.com/search?q=install+nuget+package).
 
@@ -32,7 +17,7 @@ dotnet add package Skender.Stock.Indicators
 Install-Package Skender.Stock.Indicators
 ```
 
-### Prerequisite data
+## Prerequisite data
 
 Most indicators require that you provide historical quote data and additional configuration parameters.
 
@@ -42,7 +27,7 @@ Historical price data can be provided as a `List`, `IReadOnlyList`, or `ICollect
 
 For additional configuration parameters, default values are provided when there is an industry standard.  You can, of course, override these and provide your own values.
 
-### Implementation pattern
+## Implementation pattern
 
 Each [indicator style](#indicator-styles-and-features) available (series, buffer list, and stream hub) will have a slightly different [implementation syntax](#example-usage); however, all will follow a common overall pattern.
 
@@ -67,7 +52,7 @@ This library has three indicator styles available to support different uses case
 | Buffer lists | Standalone incrementing `ICollection` lists  | Self-managed incrementing data |
 | Stream hub   | Subscription based hub-observer pattern      | Streaming or live data sources |
 
-### Feature comparison
+### Style comparison
 
 | Feature        | Series batch    | Buffer lists  | Stream hub   |
 | -------------- | --------------- | ------------- | ------------ |
@@ -82,9 +67,9 @@ This library has three indicator styles available to support different uses case
 
 <!-- TODO: deduplicate from Features page -->
 
-### Example usage
+## Example usage
 
-#### Series (batch) style usage example
+### Series (batch) style usage example
 
 All series-style indicators will produce all possible results for the provided historical quotes as a time series dataset -- it is not just a single data point returned.  For example, if you provide 3 years worth of historical quotes for the SMA method, you'll get 3 years of SMA result values.
 
@@ -117,7 +102,7 @@ SMA on 4/26/2018 was $255.9705
 ..
 ```
 
-#### Buffer list style usage example
+### Buffer list style usage example
 
 Buffer list style indicators maintain incremental state as you add new data points. This is ideal for scenarios where you're building up historical data over time or processing data incrementally without needing a full hub infrastructure.
 
@@ -150,7 +135,7 @@ SmaResult latest = smaList.LastOrDefault();
 - Auto-prunes results when exceeding `MaxListSize` (default ~1.9B elements)
 - Can be cleared and reused with `.Clear()`
 
-#### Stream hub style usage example
+### Stream hub style usage example
 
 Stream hub style uses the observer pattern where multiple indicators can subscribe to a central `QuoteHub`. This provides coordinated real-time updates for live data feeds and WebSocket integration.
 
