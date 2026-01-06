@@ -29,6 +29,7 @@
         "ul",
         "li",
         "nav",
+        "Badge",
         "ClientOnly",
         "IndicatorChart",
         "Contributors",

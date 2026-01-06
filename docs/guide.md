@@ -61,24 +61,26 @@ See [usage examples](#example-usage) for additional details.
 
 This library has three indicator styles available to support different uses cases.
 
-| style        | use case                                     | best for                       |
+| Style        | Use case                                     | Best for                       |
 | ------------ | -------------------------------------------- | ------------------------------ |
-| Series batch | convert full quote collections to indicators | once-and-done bulk conversions |
-| Buffer lists | standalone incrementing `ICollection` lists  | self-managed incrementing data |
-| Stream hub   | subscription based hub-observer pattern      | streaming or live data sources |
+| Series batch | Convert full quote collections to indicators | Once-and-done bulk conversions |
+| Buffer lists | Standalone incrementing `ICollection` lists  | Self-managed incrementing data |
+| Stream hub   | Subscription based hub-observer pattern      | Streaming or live data sources |
 
 ### Feature comparison
 
-| feature        | Series batch    | Buffer lists  | Stream hub   |
+| Feature        | Series batch    | Buffer lists  | Stream hub   |
 | -------------- | --------------- | ------------- | ------------ |
-| incrementing   | no              | yes           | yes          |
-| batch speed    | fastest         | faster        | fast         |
-| scaling        | low             | moderate      | high         |
-| class type     | static          | instance      | instance     |
-| base interface | `IReadOnlyList` | `ICollection` | `IStreamHub` |
-| complexity     | lowest          | moderate      | highest      |
-| chainable      | yes             | yes           | yes          |
-| pruning        | with utility    | auto-preset   | auto-preset  |
+| Incrementing   | no              | yes           | yes          |
+| Batch speed    | fastest         | faster        | fast         |
+| Scaling        | low             | moderate      | high         |
+| Class type     | static          | instance      | instance     |
+| Base interface | `IReadOnlyList` | `ICollection` | `IStreamHub` |
+| Complexity     | lowest          | moderate      | highest      |
+| Chainable      | yes             | yes           | yes          |
+| Pruning        | with utility    | auto-preset   | auto-preset  |
+
+<!-- TODO: deduplicate from Features page -->
 
 ### Example usage
 
